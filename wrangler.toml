@@ -2,9 +2,9 @@ name = "arabic-vocabulary"
 compatibility_date = "2025-01-01"
 
 # Serve this folder as the site root
-pages_build_output_dir = "vocab-ui/dist"
+pages_build_output_dir = "quran-ui/dist/Quran-ui/browser"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "arabic_vocabulary"
-database_id = "099db9e2-eaf6-425d-86e7-d65a62f82131"
+database_id = 
