@@ -1,4 +1,212 @@
+FOR CORRECT FAMILY USE BELOW
+(one word only)
+نصر
+ضرب
+فتح
+سمع
+حسب
+كرم
+
+
+مزيد فيه
+(one word only)
+تفعيل
+مفاعلة
+إفعال
+افتعال
+استفعال
 {
-    "front": "فعل: قَلَبَ | الجذر: قلب | الصرف: قَلَبَ-يَقْلِبُ-قَلْبًا",
-    "back": "to turn, flip, transform\n• قَلَبَ الصفحة.\n• قَلَبَ رأيه بعد النصيحة.\n• قَلَبَتِ الريحُ السفينة."
+    "cards": [
+        {
+            "front": "زَهِدَ — يَزْهَدُ — زُهْدًا (في) /n وَكَانُوا۟ فِيهِ مِنَ ٱلزَّٰهِدِينَ",
+            "back": "to be indifferent to; to attach little value",
+            "tag": "Quran/hadith/;literatue"
+        }
+    ]
 }
+
+sample data insert 
+INSERT INTO roots (root, family, cards, status, extract_date)
+VALUES
+(
+  'كرم',
+  'إفعال',
+  json('[{
+    "front":"أَكْرَمَ — أَكْرَمَ-يُكْرِمُ-إِكْرَامًا\nأكرمي مثواه (12:21)",
+    "back":"to honor; to treat generously\nHonor his dwelling.",
+    "tag":"S12"
+  }]'),
+  'PENDING',
+  datetime('now')
+);
+
+
+convert all these to obove 
+
+NEW TABLE STRUCTURE 
+-- =========================================
+-- TABLE: roots
+-- =========================================
+
+CREATE TABLE IF NOT EXISTS roots (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  root         TEXT NOT NULL,                      -- e.g. زهد
+  family       TEXT NOT NULL,                      -- وزن / family (e.g. فَعِلَ)
+
+  cards        JSON NOT NULL,                      -- cards array only
+
+  status       TEXT NOT NULL DEFAULT 'active',     -- active | draft | reviewed | archived
+  difficulty   INTEGER,                            -- 1–5
+  frequency    TEXT,                               -- high | medium | low
+
+  create_date  TEXT NOT NULL DEFAULT (datetime('now')),
+  update_date  TEXT,
+  extract_date TEXT,
+
+  UNIQUE (root, family)
+);
+
+CREATE INDEX IF NOT EXISTS idx_roots_root       ON roots(root);
+CREATE INDEX IF NOT EXISTS idx_roots_family     ON roots(family);
+CREATE INDEX IF NOT EXISTS idx_roots_status     ON roots(status);
+CREATE INDEX IF NOT EXISTS idx_roots_frequency  ON roots(frequency);
+
+
+MAP BELOW  INSERT TO NEW FORMAT
+
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('زهد','زَاهِد','اسم','detachment; indifference; renunciation; little desire or value given','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:20", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "زَاهِد / زُهَّاد", "verb": "زَهِدَ-يَزْهَدُ-زُهْدًا", "text": "وَكَانُوا۟ فِيهِ مِنَ ٱلزَّٰهِدِينَ", "card": {"front": "زَاهِد — زَاهِد / زُهَّاد\nوكانوا فيه من الزاهدين (12:20)", "back": "detachment; indifference; renunciation; little desire or value given\nThey were among those who were indifferent about him.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('سير','سَيَّارَة','اسم','a caravan; group of travelers moving together','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:19", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "سَيَّارَة / سَيَّارَات", "text": "سَيَّارَةٌ", "card": {"front": "سَيَّارَة — سَيَّارَة / سَيَّارَات\nوجاءت سيارة (12:19)", "back": "a caravan; group of travelers moving together\nA caravan came.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('دلو','دَلْو','اسم','bucket; vessel for drawing water from a well','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:19", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "دَلْو / دِلَاء", "text": "دَلْوَهُ", "card": {"front": "دَلْو — دَلْو / دِلَاء\nفأدلى دلوه (12:19)", "back": "bucket; vessel for drawing water from a well\nHe lowered his bucket.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('بشر','بُشْرَى','اسم','glad tidings; joyful announcement','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:19", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "text": "يَا بُشْرَى هَٰذَا غُلَامٌ", "card": {"front": "بُشْرَى — بُشْرَى\nقال يا بشرى هذا غلام (12:19)", "back": "glad tidings; joyful announcement\nHe said, \"Oh good news! This is a boy.\"", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('غلم','غُلَام','اسم','male child or youth; young servant','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:19", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "غُلَام / غِلْمَان", "text": "هَٰذَا غُلَامٌ", "card": {"front": "غُلَام — غُلَام / غِلْمَان\nقال يا بشرى هذا غلام (12:19)", "back": "male child or youth; young servant\nHe said, \"Oh good news! This is a boy.\"", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('بضع','بِضَاعَة','اسم','merchandise; goods for trade','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:19", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "بِضَاعَة / بِضَاعَات", "text": "بِضَاعَةً", "card": {"front": "بِضَاعَة — بِضَاعَة / بِضَاعَات\nوأسروه بضاعة والله عليم بما يعملون (12:19)", "back": "merchandise; goods for trade\nThey hid him as goods, and Allah is All-Knowing of what they do.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('ثوي','مَثْوًى','اسم','dwelling; place of stay; abode','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "مَثْوًى / مَثَاوٍ", "text": "مَثْوَاهُ", "card": {"front": "مَثْوًى — مَثْوًى / مَثَاوٍ\nأكرمي مثواه (12:21)", "back": "dwelling; place of stay; abode\nHonor his dwelling.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('امر','اِمْرَأَة','اسم','woman; wife','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "اِمْرَأَة / نِسَاء", "text": "لِامْرَأَتِهِ", "card": {"front": "اِمْرَأَة — اِمْرَأَة / نِسَاء\nوقال الذي اشتراه من مصر لامرأته أكرمي مثواه عسى أن ينفعنا أو نتخذه ولدا (12:21)", "back": "woman; wife\nAnd the one who bought him in Egypt said to his wife: Honor his dwelling; perhaps he will benefit us or we may adopt him as a son.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('ارض','الأرض','اسم','land; earth; territory','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "أَرْض / أَرَاضٍ", "text": "فِي الْأَرْضِ", "card": {"front": "الأرض — أَرْض / أَرَاضٍ\nوكذلك مكنا ليوسف في الأرض (12:21)", "back": "land; earth; territory\nThus We established Joseph in the land.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('اول','تَأْوِيل','اسم','interpretation; uncovering deeper meaning','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "تَأْوِيل / تَأْوِيلَات", "text": "تَأْوِيلِ الْأَحَادِيثِ", "card": {"front": "تَأْوِيل — تَأْوِيل / تَأْوِيلَات\nولنعلمه من تأويل الأحاديث (12:21)", "back": "interpretation; uncovering deeper meaning\nAnd to teach him the interpretation of sayings.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('حدث','الأحاديث','اسم','reports; narratives; accounts','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "حَدِيث / أَحَادِيث", "text": "الْأَحَادِيثِ", "card": {"front": "الأحاديث — حَدِيث / أَحَادِيث\nولنعلمه من تأويل الأحاديث (12:21)", "back": "reports; narratives; accounts\nAnd to teach him the interpretation of sayings.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('امر','أمر','اسم','matter; affair; divine decree','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "أَمْر / أُمُور", "text": "عَلَىٰ أَمْرِهِ", "card": {"front": "أمر — أَمْر / أُمُور\nوالله غالب على أمره (12:21)", "back": "matter; affair; divine decree\nAnd Allah prevails over His affair.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('شدد','أشده','اسم','full strength; mature stage of life','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:22", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "أَشُدّ", "text": "أَشُدَّهُ", "card": {"front": "أشده — أَشُدّ\nولما بلغ أشده آتيناه حكما وعلما (12:22)", "back": "full strength; mature stage of life\nWhen he reached maturity, We gave him wisdom and knowledge.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('حكم','حكمًا','اسم','judgment; authority; wise decision','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:22", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "حُكْم / أَحْكَام", "text": "حُكْمًا", "card": {"front": "حكمًا — حُكْم / أَحْكَام\nآتيناه حكما وعلما (12:22)", "back": "judgment; authority; wise decision\nWe gave him wisdom and knowledge.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('علم','علمًا','اسم','knowledge; understanding','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:22", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "عِلْم / عُلُوم", "text": "وَعِلْمًا", "card": {"front": "علمًا — عِلْم / عُلُوم\nآتيناه حكما وعلما (12:22)", "back": "knowledge; understanding\nWe gave him wisdom and knowledge.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('حسن','المحسنين','اسم','doers of good; people of excellence','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:22", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "مُحْسِن / مُحْسِنُون", "text": "الْمُحْسِنِينَ", "card": {"front": "المحسنين — مُحْسِن / مُحْسِنُون\nكذلك نجزي المحسنين (12:22)", "back": "doers of good; people of excellence\nThus We reward the doers of good.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('بيت','بيت','اسم','house; dwelling','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:23", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "بَيْت / بُيُوت", "text": "فِي بَيْتِهَا", "card": {"front": "بيت — بَيْت / بُيُوت\nوراودته التي هو في بيتها عن نفسه (12:23)", "back": "house; dwelling\nAnd she, in whose house he was, sought to seduce him.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('نفس','نَفْس','اسم','self; inner self; moral agency','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:23", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "نَفْس / أَنْفُس", "text": "عَنْ نَفْسِهِ", "card": {"front": "نَفْس — نَفْس / أَنْفُس\nوراودته التي هو في بيتها عن نفسه (12:23)", "back": "self; inner self; moral agency\nAnd she, in whose house he was, sought to seduce him.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('بوب','الأبواب','اسم','doors; entrances','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:23", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "بَاب / أَبْوَاب", "text": "الْأَبْوَابَ", "card": {"front": "الأبواب — بَاب / أَبْوَاب\nوغلقت الأبواب (12:23)", "back": "doors; entrances\nShe locked the doors.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('ظلم','الظالمون','اسم','wrongdoers; unjust people','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:23", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "ظَالِم / ظَالِمُون", "text": "الظَّالِمُونَ", "card": {"front": "الظالمون — ظَالِم / ظَالِمُون\nإنه لا يفلح الظالمون (12:23)", "back": "wrongdoers; unjust people\nSurely the wrongdoers do not succeed.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('برهن','بُرْهَان','اسم','decisive proof; clear evidence','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:24", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "بُرْهَان / بَرَاهِين", "text": "بُرْهَانَ رَبِّهِ", "card": {"front": "بُرْهَان — بُرْهَان / بَرَاهِين\nلولا أن رأى برهان ربه (12:24)", "back": "decisive proof; clear evidence\nHad he not seen the proof of his Lord.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('سوء','السوء','اسم','evil; harm; wrongdoing','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:24", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "text": "السُّوءَ", "card": {"front": "السوء — السوء\nلنصرف عنه السوء والفحشاء (12:24)", "back": "evil; harm; wrongdoing\nThus We might avert from him evil and indecency.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('فحش','الفحشاء','اسم','grave immorality; indecency','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:24", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "فَاحِشَة / فَوَاحِش", "text": "الْفَحْشَاءَ", "card": {"front": "الفحشاء — فَاحِشَة / فَوَاحِش\nلنصرف عنه السوء والفحشاء (12:24)", "back": "grave immorality; indecency\nThus We might avert from him evil and indecency.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('عبد','عِبَاد','اسم','servants; devoted worshippers','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:24", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "عَبْد / عِبَاد", "text": "عِبَادِنَا", "card": {"front": "عِبَاد — عَبْد / عِبَاد\nإنه من عبادنا المخلصين (12:24)", "back": "servants; devoted worshippers\nIndeed he is one of Our sincere servants.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('خلص','المخلصين','اسم','chosen; purified; sincere ones','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:24", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "مُخْلَص / مُخْلَصُون", "text": "الْمُخْلَصِينَ", "card": {"front": "المخلصين — مُخْلَص / مُخْلَصُون\nإنه من عبادنا المخلصين (12:24)", "back": "chosen; purified; sincere ones\nIndeed he is one of Our sincere servants.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('بوب','الباب','اسم','door; entrance','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "بَاب / أَبْوَاب", "text": "الْبَاب", "card": {"front": "الباب — بَاب / أَبْوَاب\nاستبقا الباب (12:25)", "back": "door; entrance\nThey both raced to the door.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('قميص','قَمِيص','اسم','shirt; garment','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "قَمِيص / قُمُص", "text": "قَمِيصَهُ", "card": {"front": "قَمِيص — قَمِيص / قُمُص\nقدت قميصه من دبر (12:25)", "back": "shirt; garment\nShe tore his shirt from the back.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('دبر','دُبُر','اسم','back; rear side','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "دُبُر / أَدْبَار", "text": "مِنْ دُبُرٍ", "card": {"front": "دُبُر — دُبُر / أَدْبَار\nمن دبر (12:25)", "back": "back; rear side\nfrom the back.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('سود','سَيِّد','اسم','master; husband; authority figure','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "سَيِّد / سَادَة", "text": "سَيِّدَهَا", "card": {"front": "سَيِّد — سَيِّد / سَادَة\nألفيا سيدها لدى الباب (12:25)", "back": "master; husband; authority figure\nThey found her master at the door.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('جزي','جَزَاء','اسم','recompense; reward or punishment','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "جَزَاء / أَجْزِيَة", "text": "جَزَاءُ", "card": {"front": "جَزَاء — جَزَاء / أَجْزِيَة\nما جزاء من أراد بأهلك سوءا (12:25)", "back": "recompense; reward or punishment\nWhat is the recompense of one who intended evil for your family.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('اهل','أَهْل','اسم','family; household','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "أَهْل / أَهَالٍ", "text": "بِأَهْلِكَ", "card": {"front": "أَهْل — أَهْل / أَهَالٍ\nمن أراد بأهلك سوءا (12:25)", "back": "family; household\nwho intended evil for your family.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('عذب','عَذَاب','اسم','punishment; torment','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "عَذَاب / أَعْذِبَة", "text": "عَذَابٌ أَلِيمٌ", "card": {"front": "عَذَاب — عَذَاب / أَعْذِبَة\nإلا أن يسجن أو عذاب أليم (12:25)", "back": "punishment; torment\nunless he be imprisoned or a painful punishment.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('شهد','شَاهِد','اسم','witness; testifier','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:26", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "شَاهِد / شُهُود", "text": "شَاهِدٌ", "card": {"front": "شَاهِد — شَاهِد / شُهُود\nشاهد من أهلها (12:26)", "back": "witness; testifier\nA witness from her family.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('قبل','قُبُل','اسم','front; from the front side','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:26", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "text": "مِنْ قُبُلٍ", "card": {"front": "قُبُل — قُبُل\nمن قبل (12:26)", "back": "front; from the front side\nfrom the front.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('كذب','الكاذبين','اسم','liars; false claimants','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:26", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "كَاذِب / كُذَّب", "text": "الْكَاذِبِينَ", "card": {"front": "الكاذبين — كَاذِب / كُذَّب\nمن الكاذبين (12:26)", "back": "liars; false claimants\nof the liars.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('صدق','الصادقين','اسم','truthful ones','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:27", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "صَادِق / صَادِقُون", "text": "الصَّادِقِينَ", "card": {"front": "الصادقين — صَادِق / صَادِقُون\nمن الصادقين (12:27)", "back": "truthful ones\nof the truthful.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('كيد','كيد','اسم','plot; scheme; cunning plan','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:28", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "كَيْد / كُيُود", "text": "كَيْدِكُنَّ", "card": {"front": "كيد — كَيْد / كُيُود\nإنه من كيدكن إن كيدكن عظيم (12:28)", "back": "plot; scheme; cunning plan\nIndeed this is of your women’s plot; your plot is great.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('ذنب','ذَنْب','اسم','sin; fault; wrongdoing','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:29", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "ذَنْب / ذُنُوب", "text": "ذَنْبِكِ", "card": {"front": "ذَنْب — ذَنْب / ذُنُوب\nاستغفري لذنبك (12:29)", "back": "sin; fault; wrongdoing\nSeek forgiveness for your sin.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('خطا','الخاطئين','اسم','sinners; those who err','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:29", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "forms": "خَاطِئ / خَاطِئُون", "text": "الْخَاطِئِينَ", "card": {"front": "الخاطئين — خَاطِئ / خَاطِئُون\nإنك كنت من الخاطئين (12:29)", "back": "sinners; those who err\nYou were among the sinners.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('جيء','جَاءَ','فعل','to come; to arrive; to appear','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:19", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "جَاءَ-يَجِيءُ-مَجِيئًا", "text": "جَاءَتْ سَيَّارَةٌ", "card": {"front": "جَاءَ — جَاءَ-يَجِيءُ-مَجِيئًا\nوجاءت سيارة (12:19)", "back": "to come; to arrive; to appear\nA caravan came.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('دلو','أَدْلَى','فعل','to lower; to let down','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:19", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "أَدْلَى-يُدْلِي-إِدْلَاءً", "text": "أَدْلَى دَلْوَهُ", "card": {"front": "أَدْلَى — أَدْلَى-يُدْلِي-إِدْلَاءً\nفأدلى دلوه (12:19)", "back": "to lower; to let down\nHe lowered his bucket.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('سرر','أَسَرَّ','فعل','to hide; to keep secret','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:19", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "أَسَرَّ-يُسِرُّ-إِسْرَارًا", "text": "أَسَرُّوهُ بِضَاعَةً", "card": {"front": "أَسَرَّ — أَسَرَّ-يُسِرُّ-إِسْرَارًا\nوأسروه بضاعة والله عليم بما يعملون (12:19)", "back": "to hide; to keep secret\nThey hid him as goods, and Allah is All-Knowing of what they do.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('عمل','عَمِلَ','فعل','to work; to act','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:19", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "عَمِلَ-يَعْمَلُ-عَمَلًا", "text": "وَاللَّهُ عَلِيمٌ بِمَا يَعْمَلُونَ", "card": {"front": "عَمِلَ — عَمِلَ-يَعْمَلُ-عَمَلًا\nوالله عليم بما يعملون (12:19)", "back": "to work; to act\nAllah is All-Knowing of what they do.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('شري','شَرَى','فعل','to sell; to trade','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:20", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "شَرَى-يَشْرِي-شِرَاءً", "text": "شَرَوْهُ", "card": {"front": "شَرَى — شَرَى-يَشْرِي-شِرَاءً\nوشروه بثمن بخس دراهم معدودة (12:20)", "back": "to sell; to trade\nThey sold him for a paltry price, a few counted coins.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('شري','اِشْتَرَى','فعل','to buy; to purchase','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "اِشْتَرَى-يَشْتَرِي-اِشْتِرَاءً", "text": "اشْتَرَاهُ", "card": {"front": "اِشْتَرَى — اِشْتَرَى-يَشْتَرِي-اِشْتِرَاءً\nوقال الذي اشتراه من مصر لامرأته أكرمي مثواه عسى أن ينفعنا أو نتخذه ولدا (12:21)", "back": "to buy; to purchase\nAnd the one who bought him in Egypt said to his wife: Honor his dwelling; perhaps he will benefit us or we may adopt him as a son.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('كرم','أَكْرَمَ','فعل','to honor; to treat generously','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "أَكْرَمَ-يُكْرِمُ-إِكْرَامًا", "text": "أَكْرِمِي مَثْوَاهُ", "card": {"front": "أَكْرَمَ — أَكْرَمَ-يُكْرِمُ-إِكْرَامًا\nأكرمي مثواه (12:21)", "back": "to honor; to treat generously\nHonor his dwelling.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('نفع','نَفَعَ','فعل','to benefit; to be useful','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "نَفَعَ-يَنْفَعُ-نَفْعًا", "text": "يَنْفَعَنَا", "card": {"front": "نَفَعَ — نَفَعَ-يَنْفَعُ-نَفْعًا\nعسى أن ينفعنا (12:21)", "back": "to benefit; to be useful\nMaybe he will benefit us.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('اخذ','اِتَّخَذَ','فعل','to take; to adopt','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "اِتَّخَذَ-يَتَّخِذُ-اِتِّخَاذًا", "text": "نَتَّخِذَهُ", "card": {"front": "اِتَّخَذَ — اِتَّخَذَ-يَتَّخِذُ-اِتِّخَاذًا\nنتخذه ولدا (12:21)", "back": "to take; to adopt\nWe may adopt him as a son.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('مكن','مَكَّنَ','فعل','to establish; to empower','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:21", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "مَكَّنَ-يُمَكِّنُ-تَمْكِينًا", "text": "مَكَّنَّا لِيُوسُفَ", "card": {"front": "مَكَّنَ — مَكَّنَ-يُمَكِّنُ-تَمْكِينًا\nوكذلك مكنا ليوسف في الأرض (12:21)", "back": "to establish; to empower\nThus We established Joseph in the land.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('بلغ','بَلَغَ','فعل','to reach; to attain','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:22", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "بَلَغَ-يَبْلُغُ-بُلُوغًا", "text": "بَلَغَ أَشُدَّهُ", "card": {"front": "بَلَغَ — بَلَغَ-يَبْلُغُ-بُلُوغًا\nولما بلغ أشده (12:22)", "back": "to reach; to attain\nWhen he reached his maturity.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('اتي','آتَى','فعل','to give; to grant','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:22", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "آتَى-يُؤْتِي-إِيتَاءً", "text": "آتَيْنَاهُ", "card": {"front": "آتَى — آتَى-يُؤْتِي-إِيتَاءً\nآتَيْنَاهُ (12:22)", "back": "to give; to grant\nto give; to grant", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('جزي','جَزَى','فعل','to reward; to recompense','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:22", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "جَزَى-يَجْزِي-جَزَاءً", "text": "نَجْزِي الْمُحْسِنِينَ", "card": {"front": "جَزَى — جَزَى-يَجْزِي-جَزَاءً\nوكذلك نجزي المحسنين (12:22)", "back": "to reward; to recompense\nThus We reward the doers of good.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('رود','رَاوَدَ','فعل','to entice; to seduce','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:23", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "رَاوَدَ-يُرَاوِدُ-مُرَاوَدَةً", "text": "رَاوَدَتْهُ", "card": {"front": "رَاوَدَ — رَاوَدَ-يُرَاوِدُ-مُرَاوَدَةً\nوراودته التي هو في بيتها عن نفسه (12:23)", "back": "to entice; to seduce\nAnd she, in whose house he was, sought to seduce him.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('غلق','غَلَّقَ','فعل','to lock firmly','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:23", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "غَلَّقَ-يُغَلِّقُ-تَغْلِيقًا", "text": "غَلَّقَتِ الْأَبْوَابَ", "card": {"front": "غَلَّقَ — غَلَّقَ-يُغَلِّقُ-تَغْلِيقًا\nوغلقت الأبواب (12:23)", "back": "to lock firmly\nAnd she locked the doors.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('فلح','أَفْلَحَ','فعل','to succeed; to prosper','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:23", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "أَفْلَحَ-يُفْلِحُ-فَلَاحًا", "text": "لَا يُفْلِحُ", "card": {"front": "أَفْلَحَ — أَفْلَحَ-يُفْلِحُ-فَلَاحًا\nإنه لا يفلح الظالمون (12:23)", "back": "to succeed; to prosper\nSurely the wrongdoers do not succeed.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('همم','هَمَّ','فعل','to intend; to desire','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:24", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "هَمَّ-يَهُمُّ-هَمًّا", "text": "هَمَّتْ بِهِ", "card": {"front": "هَمَّ — هَمَّ-يَهُمُّ-هَمًّا\nولقد همت به وهم بها (12:24)", "back": "to intend; to desire\nIndeed she desired him, and he would have desired her.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('رءي','رَأَى','فعل','to see; to perceive','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:24", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "رَأَى-يَرَى-رُؤْيَةً", "text": "رَأَى بُرْهَانَ", "card": {"front": "رَأَى — رَأَى-يَرَى-رُؤْيَةً\nلولا أن رأى برهان ربه (12:24)", "back": "to see; to perceive\nHad he not seen the proof of his Lord.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('صرف','صَرَفَ','فعل','to turn away; to avert','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:24", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "صَرَفَ-يَصْرِفُ-صَرْفًا", "text": "نَصْرِفَ عَنْهُ", "card": {"front": "صَرَفَ — صَرَفَ-يَصْرِفُ-صَرْفًا\nلنصرف عنه السوء والفحشاء (12:24)", "back": "to turn away; to avert\nThus We might avert from him evil and indecency.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('سبق','اِسْتَبَقَ','فعل','to race; to compete','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "اِسْتَبَقَ-يَسْتَبِقُ-اِسْتِبَاقًا", "text": "اسْتَبَقَا", "card": {"front": "اِسْتَبَقَ — اِسْتَبَقَ-يَسْتَبِقُ-اِسْتِبَاقًا\nاستبقا الباب (12:25)", "back": "to race; to compete\nThey raced to the door.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('قدد','قَدَّ','فعل','to tear; to rip','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "قَدَّ-يَقُدُّ-قَدًّا", "text": "قَدَّتْ قَمِيصَهُ", "card": {"front": "قَدَّ — قَدَّ-يَقُدُّ-قَدًّا\nقدت قميصه من دبر (12:25)", "back": "to tear; to rip\nShe tore his shirt from the back.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('لفي','أَلْفَى','فعل','to find; to encounter','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "أَلْفَى-يُلْفِي-إِلْفَاءً", "text": "أَلْفَيَا", "card": {"front": "أَلْفَى — أَلْفَى-يُلْفِي-إِلْفَاءً\nألفيا سيدها لدى الباب (12:25)", "back": "to find; to encounter\nThey found her master at the door.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('رود','أَرَادَ','فعل','to want; to intend','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "أَرَادَ-يُرِيدُ-إِرَادَةً", "text": "أَرَادَ سُوءًا", "card": {"front": "أَرَادَ — أَرَادَ-يُرِيدُ-إِرَادَةً\nمن أراد بأهلك سوءا (12:25)", "back": "to want; to intend\nWhoever intended evil for your family.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('سجن','سَجَنَ','فعل','to imprison','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:25", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "سَجَنَ-يَسْجُنُ-سَجْنًا", "text": "يُسْجَنَ", "card": {"front": "سَجَنَ — سَجَنَ-يَسْجُنُ-سَجْنًا\nإلا أن يسجن أو عذاب أليم (12:25)", "back": "to imprison\nUnless he is imprisoned or painful punishment.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('شهد','شَهِدَ','فعل','to testify; to witness','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:26", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "شَهِدَ-يَشْهَدُ-شَهَادَةً", "text": "شَهِدَ شَاهِدٌ", "card": {"front": "شَهِدَ — شَهِدَ-يَشْهَدُ-شَهَادَةً\nشاهد من أهلها (12:26)", "back": "to testify; to witness\nA witness from her family.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('صدق','صَدَقَ','فعل','to speak the truth','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:26", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "صَدَقَ-يَصْدُقُ-صِدْقًا", "text": "صَدَقَتْ", "card": {"front": "صَدَقَ — صَدَقَ-يَصْدُقُ-صِدْقًا\nفصدقت وهو من الكاذبين (12:26)", "back": "to speak the truth\nShe told the truth and he is among the liars.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('كذب','كَذَبَ','فعل','to lie; to deny falsely','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:27", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "كَذَبَ-يَكْذِبُ-كَذِبًا", "text": "كَذَبَتْ", "card": {"front": "كَذَبَ — كَذَبَ-يَكْذِبُ-كَذِبًا\nفكذبت وهو من الصادقين (12:27)", "back": "to lie; to deny falsely\nShe lied and he is among the truthful.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('عرض','أَعْرَضَ','فعل','to turn away; to ignore','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:29", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "أَعْرَضَ-يُعْرِضُ-إِعْرَاضًا", "text": "أَعْرِضْ", "card": {"front": "أَعْرَضَ — أَعْرَضَ-يُعْرِضُ-إِعْرَاضًا\nيوسف أعرض عن هذا (12:29)", "back": "to turn away; to ignore\nJoseph, turn away from this.", "tag": "S12"}}');
+INSERT INTO vocab (root, lemma, pos, meanings, tags, deck, notes, data_json) VALUES
+('غفر','اِسْتَغْفَرَ','فعل','to seek forgiveness','Todo','S12','S12 Passage 3 cards','{"surah": "12", "ayah": "12:29", "passage_id": "S12_p03_019-029", "passage_range": "12:19-12:29", "verb": "اِسْتَغْفَرَ-يَسْتَغْفِرُ-اِسْتِغْفَارًا", "text": "اسْتَغْفِرِي", "card": {"front": "اِسْتَغْفَرَ — اِسْتَغْفَرَ-يَسْتَغْفِرُ-اِسْتِغْفَارًا\nاستغفري لذنبك (12:29)", "back": "to seek forgiveness\nSeek forgiveness for your sin.", "tag": "S12"}}');

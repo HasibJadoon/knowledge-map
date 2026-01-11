@@ -1,0 +1,7 @@
+npx wrangler pages deploy quran-ui/dist/coreui-free-angular-admin-template/browser
+
+
+Builld and deploy
+cd quran-ui
+npm ci
+npm run build
