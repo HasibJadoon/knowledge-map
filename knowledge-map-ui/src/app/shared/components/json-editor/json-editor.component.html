@@ -1,0 +1,11 @@
+    <div class="mb-3">
+      <label class="form-label">{{ label }}</label>
+      <textarea
+        class="form-control json-editor"
+        [rows]="rows"
+        [(ngModel)]="value"
+        (ngModelChange)="valueChange.emit($event)"
+        [readonly]="readonly"
+      ></textarea>
+    </div>
+  

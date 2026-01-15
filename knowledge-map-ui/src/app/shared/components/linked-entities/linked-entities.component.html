@@ -1,0 +1,11 @@
+    <div class="d-flex flex-wrap gap-2">
+      <a
+        class="btn btn-outline-secondary btn-sm"
+        *ngFor="let link of links"
+        [href]="link.href"
+      >
+        {{ link.label }}
+      </a>
+      <span *ngIf="links.length === 0" class="text-muted">No links yet.</span>
+    </div>
+  

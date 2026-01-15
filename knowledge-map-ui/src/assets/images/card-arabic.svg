@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-label="Arabic lessons card background">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#1b2540"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7aa2ff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.35"/>
+    </linearGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#94a3b8" stroke-opacity="0.12" stroke-width="2"/>
+    </pattern>
+  </defs>
+
+  <rect width="900" height="900" fill="url(#bg)"/>
+  <rect width="900" height="900" fill="url(#grid)"/>
+
+  <circle cx="180" cy="200" r="150" fill="url(#accent)"/>
+  <circle cx="740" cy="160" r="180" fill="#60a5fa" fill-opacity="0.12"/>
+  <circle cx="720" cy="720" r="220" fill="#22d3ee" fill-opacity="0.14"/>
+
+  <path d="M130 520h360l40 50H170z" fill="#3b82f6" fill-opacity="0.18"/>
+  <path d="M180 560h300l30 38H210z" fill="#60a5fa" fill-opacity="0.22"/>
+
+  <path d="M520 360h210v220H520z" fill="#0b1220" fill-opacity="0.35"/>
+  <path d="M540 380h170v180H540z" fill="none" stroke="#93c5fd" stroke-opacity="0.35" stroke-width="6"/>
+  <path d="M560 420h120" stroke="#e2e8f0" stroke-opacity="0.45" stroke-width="6"/>
+  <path d="M560 460h140" stroke="#e2e8f0" stroke-opacity="0.28" stroke-width="6"/>
+  <path d="M560 500h110" stroke="#e2e8f0" stroke-opacity="0.25" stroke-width="6"/>
+</svg>

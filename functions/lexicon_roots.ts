@@ -145,3 +145,75 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     );
   }
 };
+
+export const onRequestPost: PagesFunction<Env> = async (ctx) => {
+  try {
+    const user = await requireAuth(ctx);
+    if (!user) {
+      return new Response(
+        JSON.stringify({ ok: false, error: 'Unauthorized' }),
+        { status: 401, headers: jsonHeaders }
+      );
+    }
+
+    let body: any;
+    try {
+      body = await ctx.request.json();
+    } catch {
+      return new Response(
+        JSON.stringify({ ok: false, error: 'Invalid JSON body' }),
+        { status: 400, headers: jsonHeaders }
+      );
+    }
+
+    const root = typeof body?.root === 'string' ? body.root.trim() : '';
+    const family = typeof body?.family === 'string' ? body.family.trim() : '';
+    const status = typeof body?.status === 'string' ? body.status.trim() : 'active';
+    const frequency = typeof body?.frequency === 'string' ? body.frequency.trim() : null;
+    const difficulty = body?.difficulty === null || body?.difficulty === undefined
+      ? null
+      : Number(body.difficulty);
+
+    if (!root || !family) {
+      return new Response(
+        JSON.stringify({ ok: false, error: 'root and family are required' }),
+        { status: 400, headers: jsonHeaders }
+      );
+    }
+
+    if (difficulty !== null && !Number.isFinite(difficulty)) {
+      return new Response(
+        JSON.stringify({ ok: false, error: 'difficulty must be a number' }),
+        { status: 400, headers: jsonHeaders }
+      );
+    }
+
+    const cards = Array.isArray(body?.cards) ? body.cards : [];
+    const cardsJson = JSON.stringify(cards, null, 2);
+
+    const res = await ctx.env.DB
+      .prepare(
+        `
+        INSERT INTO roots (root, family, cards, status, difficulty, frequency, create_date)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, datetime('now'))
+      `
+      )
+      .bind(root, family, cardsJson, status, difficulty, frequency)
+      .run();
+
+    // @ts-ignore
+    const id = Number(res?.meta?.last_row_id ?? 0);
+
+    return new Response(
+      JSON.stringify({ ok: true, id }),
+      { headers: jsonHeaders }
+    );
+  } catch (err: any) {
+    const msg = err?.message ?? String(err);
+    const status = msg.includes('UNIQUE') ? 409 : 500;
+    return new Response(
+      JSON.stringify({ ok: false, error: msg }),
+      { status, headers: jsonHeaders }
+    );
+  }
+};

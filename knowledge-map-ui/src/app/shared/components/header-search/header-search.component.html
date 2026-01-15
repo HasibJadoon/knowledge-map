@@ -1,0 +1,25 @@
+<div class="header-search">
+  <input
+    class="form-control form-control-sm header-search-input"
+    type="search"
+    [placeholder]="placeholder"
+    [value]="value"
+    (input)="onInput($event)"
+  />
+  <button
+    *ngIf="secondaryLabel"
+    class="btn btn-sm btn-outline-secondary"
+    type="button"
+    (click)="secondary.emit()"
+  >
+    {{ secondaryLabel }}
+  </button>
+  <button
+    *ngIf="primaryLabel"
+    class="btn btn-sm btn-primary"
+    type="button"
+    (click)="primary.emit()"
+  >
+    {{ primaryLabel }}
+  </button>
+</div>

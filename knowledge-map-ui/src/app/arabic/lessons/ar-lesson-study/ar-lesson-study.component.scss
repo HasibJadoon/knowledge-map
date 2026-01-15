@@ -1,0 +1,257 @@
+.arabic-title,
+.arabic-text,
+.arabic-inline,
+.arabic-question {
+  font-family: 'UthmanicHafs', 'Amiri', 'Noto Naskh Arabic', serif;
+  font-size: var(--app-ar-font-size, 1em);
+  direction: rtl;
+  text-align: right;
+}
+
+.study-page {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+}
+
+.study-page .study-body {
+  padding: 0.9rem;
+  overflow: visible;
+}
+
+.video-column {
+  align-self: flex-start;
+}
+
+.video-sticky {
+  position: sticky;
+  top: 1rem;
+}
+
+.status-line {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.status-badge {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.6rem;
+  letter-spacing: 0.2px;
+}
+
+.study-card,
+.video-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--cui-border-radius);
+  padding: 1rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.04));
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.study-card {
+  min-height: 520px;
+}
+
+.video-card {
+  min-height: 250px;
+}
+
+.study-title,
+.memory-label,
+.question-list {
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.study-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #ffd400;
+  margin-bottom: 0.5rem;
+}
+
+.study-page .memory-label {
+  font-size: 35px;
+  line-height: 1.1;
+}
+
+.arabic-text {
+  line-height: 1.9;
+  white-space: normal;
+  outline: none;
+  font-size: calc(var(--app-ar-font-size, 1em) * 1.2);
+  padding-bottom: 1rem;
+}
+
+.arabic-sentence-line {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.arabic-sentence-line:last-child {
+  margin-bottom: 0;
+}
+
+.translation-text {
+  outline: none;
+  font-size: calc(var(--app-font-size, 16px) * 1.15);
+  padding-bottom: 1rem;
+}
+
+.translation-number {
+  color: #ffd400;
+  font-weight: 700;
+  margin-inline-end: 0.35rem;
+  text-shadow: 0 0 6px rgba(255, 212, 0, 0.35);
+}
+
+:is(.arabic-segment, .translation-segment, .word-segment, .question-item) {
+  cursor: pointer;
+  border-radius: 0.35rem;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  white-space: normal;
+}
+
+:is(.arabic-segment, .word-segment) {
+  padding: 0.1rem 0.2rem;
+}
+
+
+
+.translation-segment {
+  padding: 0.05rem 0.15rem;
+}
+
+.translation-segment {
+  display: inline-block;
+}
+
+.question-item {
+  display: inline-block;
+  padding: 0.2rem 0.35rem;
+}
+
+:is(.arabic-segment, .translation-segment, .word-segment, .question-item).is-highlighted {
+  background: rgba(66, 135, 245, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(66, 135, 245, 0.35),
+    0 6px 12px rgba(66, 135, 245, 0.18);
+}
+
+:is(.arabic-segment, .translation-segment, .word-segment, .question-item).is-selected {
+  background: rgba(255, 213, 0, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(255, 213, 0, 0.55),
+    0 8px 16px rgba(255, 213, 0, 0.2);
+}
+
+:is(.arabic-segment, .translation-segment, .word-segment, .question-item).is-hovered {
+  background: rgba(80, 180, 255, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(80, 180, 255, 0.4),
+    0 6px 12px rgba(80, 180, 255, 0.18);
+}
+
+.arabic-segment.is-verse-marker {
+  color: #ff9b9b;
+  text-shadow: 0 0 8px rgba(255, 120, 120, 0.5);
+  pointer-events: none;
+  user-select: none;
+}
+
+.arabic-segment.is-verse-marker.is-highlighted,
+.arabic-segment.is-verse-marker.is-selected,
+.arabic-segment.is-verse-marker.is-hovered {
+  background: transparent;
+  box-shadow: none;
+}
+.arabic-inline {
+  line-height: 1.8;
+}
+
+.arabic-question {
+  line-height: 1.8;
+  list-style-position: inside;
+  padding-inline-end: 1rem;
+}
+
+.question-list {
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+  outline: none;
+}
+
+.passage-questions {
+  gap: 0.75rem;
+}
+
+.passage-questions .question-item {
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: var(--app-font-size, 16px);
+  line-height: 1.6;
+}
+
+.passage-questions .arabic-question {
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: var(--app-font-size, 16px);
+}
+
+.memory-label {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #ffd400;
+}
+
+.section-divider {
+  border: 0;
+  border-top: 3px solid #20c8ff;
+  box-shadow: 0 0 8px rgba(32, 200, 255, 0.55);
+  margin: 0.5rem 0 1rem;
+}
+
+.mini-neon-divider {
+  border: 0;
+  border-top: 2px solid #20c8ff;
+  box-shadow: 0 0 8px rgba(32, 200, 255, 0.6);
+  margin: 0.4rem 0 0.6rem;
+}
+
+.neon-divider {
+  border: 0;
+  border-top: 3px solid #ffd400;
+  box-shadow: 0 0 10px rgba(255, 212, 0, 0.7);
+  margin: 0.9rem 0;
+}
+
+.video-title {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .study-page {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  .video-column {
+    position: static;
+  }
+  .video-sticky {
+    position: static;
+  }
+}
+
+.video-placeholder {
+  min-height: 160px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: var(--cui-border-radius);
+  padding: 2rem 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}

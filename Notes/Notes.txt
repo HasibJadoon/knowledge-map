@@ -1,12 +1,12 @@
 npx wrangler d1 execute DB \
   --remote \
-  --file Database/schema2.sql
+  --file Database/schema.sql
 
 
-npx wrangler pages deploy quran-ui/dist/coreui-free-angular-admin-template/browser
+npx wrangler pages deploy knowledge-map-ui/dist/knowledge-map-ui/browser
 
 
 Builld and deploy
-cd quran-ui
+cd knowledge-map-ui
 npm ci
 npm run build

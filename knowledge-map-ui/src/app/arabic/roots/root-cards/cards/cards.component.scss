@@ -1,0 +1,131 @@
+:host {
+  display: block;
+}
+
+/* =========================
+   Backdrop
+   ========================= */
+.cards-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1040;
+}
+
+/* =========================
+   Modal
+   ========================= */
+.cards-modal {
+  position: fixed;
+  top: 6vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(920px, 94vw);
+  max-height: 88vh;
+  overflow: auto;
+
+  z-index: 1050;
+  padding: 1rem;
+
+  background: var(--cui-body-bg);
+  color: var(--cui-body-color);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--cui-border-radius-lg);
+
+  /* soft modal depth */
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* =========================
+   Unified card content
+   ========================= */
+.cards-unified {
+  padding: 0;
+}
+
+/* Header Arabic font */
+.cards-root,
+.cards-family {
+  font-family: 'UthmanicHafs', 'Amiri', 'Noto Naskh Arabic', serif;
+  letter-spacing: 0.2px;
+  font-size: var(--app-ar-font-size, 1em);
+}
+
+/* Card shell depth */
+.cards-modal .card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.025),
+    rgba(0, 0, 0, 0.02)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--cui-border-radius);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Optional hover lift (very subtle) */
+.cards-modal .card:hover {
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* =========================
+   Card text (Front + Back)
+   ========================= */
+.card-pre {
+  margin: 0;
+  padding: 0.9rem 1rem;
+
+  font-family: inherit;
+  font-size: 1em;
+  line-height: 1.6;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+
+  background: transparent;
+  color: var(--cui-body-color);
+  border: none;
+}
+
+/* Arabic front text */
+.card-pre-front {
+  font-family: 'UthmanicHafs', 'Amiri', 'Noto Naskh Arabic', serif;
+  font-size: var(--app-ar-font-size, 1em);
+  letter-spacing: 0.2px;
+  line-height: 1.9;
+  word-spacing: 0.08em;
+}
+
+/* Divider between Front and Back */
+.cards-divider {
+  border: 0;
+  border-top: 3px solid #ffd400;
+  margin: 0;
+}
+
+/* =========================
+   Tabs polish
+   ========================= */
+.nav-tabs .nav-link {
+  cursor: pointer;
+}
+
+/* =========================
+   Small screens
+   ========================= */
+@media (max-width: 576px) {
+  .cards-modal {
+    top: 4vh;
+    padding: 0.75rem;
+  }
+
+  .card-pre {
+    padding: 0.8rem 0.9rem;
+  }
+}

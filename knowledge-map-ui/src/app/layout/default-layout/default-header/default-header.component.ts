@@ -1,0 +1,269 @@
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { Component, inject, input } from '@angular/core';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
+import {
+  AvatarComponent,
+  BadgeComponent,
+  BreadcrumbRouterComponent,
+  ContainerComponent,
+  DropdownComponent,
+  DropdownDividerDirective,
+  DropdownItemDirective,
+  DropdownMenuDirective,
+  DropdownToggleDirective,
+  HeaderComponent,
+  HeaderNavComponent,
+  HeaderTogglerDirective,
+  SidebarToggleDirective
+} from '@coreui/angular';
+
+import { IconDirective } from '@coreui/icons-angular';
+import { AuthService } from '../../../../services/AuthService';
+import { HeaderSearchComponent } from '../../../shared/components/header-search/header-search.component';
+
+@Component({
+  selector: 'app-default-header',
+  templateUrl: './default-header.component.html',
+  styleUrls: ['./default-header.component.scss'],
+  imports: [
+    ContainerComponent,
+    HeaderTogglerDirective,
+    SidebarToggleDirective,
+    IconDirective,
+    HeaderNavComponent,
+    NgTemplateOutlet,
+    NgIf,
+    RouterLink,
+    BreadcrumbRouterComponent,
+    DropdownComponent,
+    DropdownToggleDirective,
+    DropdownMenuDirective,
+    DropdownItemDirective,
+    DropdownDividerDirective,
+    HeaderSearchComponent
+  ]
+})
+export class DefaultHeaderComponent extends HeaderComponent {
+  private auth = inject(AuthService);
+  private router = inject(Router);
+
+  sidebarId = input('sidebar1');
+
+  fontSize = 16;
+  arabicFontSize = 20;
+  currentUrl = '';
+  showHeaderSearch = false;
+  headerQuery = '';
+  headerPlaceholder = 'Search';
+  headerActionLabel = '';
+  headerActionKind: 'lesson-new' | 'roots-refresh' | 'roots-new' | 'lesson-edit' | 'lesson-study' | '' = '';
+  headerSecondaryLabel = '';
+  headerSecondaryKind: 'refresh' | '' = '';
+  private currentPath = '';
+
+  constructor() {
+    super();
+    this.loadFontSize();
+    this.loadArabicFontSize();
+    this.currentUrl = this.router.url;
+    this.updateHeaderContext();
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
+      this.currentUrl = (event as NavigationEnd).urlAfterRedirects;
+      this.updateHeaderContext();
+    });
+  }
+
+  onFontSizeInput(event: Event) {
+    const value = Number((event.target as HTMLInputElement).value);
+    if (!Number.isFinite(value)) return;
+    this.fontSize = value;
+    this.applyFontSize(value);
+  }
+
+  onArabicFontSizeInput(event: Event) {
+    const value = Number((event.target as HTMLInputElement).value);
+    if (!Number.isFinite(value)) return;
+    this.arabicFontSize = value;
+    this.applyArabicFontSize(value);
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
+
+  onHeaderSearchInput(value: string) {
+    this.headerQuery = value;
+    this.router.navigate([], {
+      queryParams: { q: value || null },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  onHeaderActionClick() {
+    if (this.headerActionKind === 'lesson-new') {
+      this.router.navigate(['/arabic/lessons/new']);
+      return;
+    }
+    if (this.headerActionKind === 'roots-refresh') {
+      this.triggerRefresh();
+      return;
+    }
+    if (this.headerActionKind === 'roots-new') {
+      this.router.navigate(['/arabic/roots'], {
+        queryParams: { new: Date.now() },
+        queryParamsHandling: 'merge',
+      });
+      return;
+    }
+    if (this.headerActionKind === 'lesson-edit') {
+      const id = this.currentPath.split('/arabic/lessons/')[1]?.split('/')[0];
+      if (id) {
+        this.router.navigate(['/arabic/lessons', id, 'edit']);
+      }
+      return;
+    }
+    if (this.headerActionKind === 'lesson-study') {
+      const id = this.currentPath.split('/arabic/lessons/')[1]?.split('/')[0];
+      if (id) {
+        this.router.navigate(['/arabic/lessons', id, 'study']);
+      }
+    }
+  }
+
+  onHeaderSecondaryClick() {
+    if (this.headerSecondaryKind === 'refresh') {
+      this.triggerRefresh();
+    }
+  }
+
+  isStudyRoute() {
+    return this.currentUrl.includes('/arabic/lessons/') && this.currentUrl.includes('/study');
+  }
+
+  studyTabIsActive(tab: 'reading' | 'memory' | 'mcq' | 'passage') {
+    const url = this.currentUrl;
+    return url.includes(`tab=${tab}`);
+  }
+
+  private updateHeaderContext() {
+    const url = this.router.parseUrl(this.currentUrl);
+    const path = url.root.children['primary']?.segments.map((s) => s.path).join('/') ?? '';
+    this.currentPath = `/${path}`;
+    this.headerQuery = String(url.queryParams['q'] ?? '');
+
+    if (this.currentPath === '/arabic/lessons') {
+      this.showHeaderSearch = true;
+      this.headerPlaceholder = 'Search title or source';
+      this.headerActionLabel = 'New';
+      this.headerActionKind = 'lesson-new';
+      this.headerSecondaryLabel = 'Refresh';
+      this.headerSecondaryKind = 'refresh';
+      return;
+    }
+
+    if (this.currentPath.startsWith('/arabic/lessons/') && !this.currentPath.endsWith('/edit')) {
+      this.showHeaderSearch = false;
+      this.headerActionLabel = 'Edit';
+      this.headerActionKind = 'lesson-edit';
+      this.headerSecondaryLabel = '';
+      this.headerSecondaryKind = '';
+      return;
+    }
+
+    if (this.currentPath.endsWith('/edit')) {
+      this.showHeaderSearch = false;
+      this.headerActionLabel = 'Back to Study';
+      this.headerActionKind = 'lesson-study';
+      this.headerSecondaryLabel = '';
+      this.headerSecondaryKind = '';
+      return;
+    }
+
+    if (this.currentPath === '/arabic/roots') {
+      this.showHeaderSearch = true;
+      this.headerPlaceholder = 'Search root or family';
+      this.headerActionLabel = 'New Root';
+      this.headerActionKind = 'roots-new';
+      this.headerSecondaryLabel = 'Refresh';
+      this.headerSecondaryKind = 'refresh';
+      return;
+    }
+
+    this.showHeaderSearch = false;
+    this.headerPlaceholder = 'Search';
+    this.headerActionLabel = '';
+    this.headerActionKind = '';
+    this.headerSecondaryLabel = '';
+    this.headerSecondaryKind = '';
+  }
+
+  private triggerRefresh() {
+    this.router.navigate([], {
+      queryParams: { refresh: Date.now() },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  private applyFontSize(value: number) {
+    const doc = (globalThis as any)?.document as any;
+    if (!doc?.documentElement) return;
+    doc.documentElement.style.setProperty('--app-font-size', `${value}px`);
+    try {
+      (globalThis as any)?.localStorage?.setItem('app_font_size', String(value));
+    } catch {
+      // ignore storage errors
+    }
+  }
+
+  private applyArabicFontSize(value: number) {
+    const doc = (globalThis as any)?.document as any;
+    if (!doc?.documentElement) return;
+    doc.documentElement.style.setProperty('--app-ar-font-size', `${value}px`);
+    try {
+      (globalThis as any)?.localStorage?.setItem('app_ar_font_size', String(value));
+    } catch {
+      // ignore storage errors
+    }
+  }
+
+  private loadFontSize() {
+    const doc = (globalThis as any)?.document as any;
+    if (!doc?.documentElement) return;
+    let value = 16;
+    try {
+      const stored = Number((globalThis as any)?.localStorage?.getItem('app_font_size'));
+      if (Number.isFinite(stored)) {
+        value = stored <= 0 ? 20 : Math.min(74, Math.max(12, stored));
+      }
+    } catch {
+      // ignore storage errors
+    }
+    this.fontSize = value;
+    this.applyFontSize(value);
+    try {
+      if (value === 20) {
+        (globalThis as any)?.localStorage?.setItem('app_font_size', String(value));
+      }
+    } catch {
+      // ignore storage errors
+    }
+  }
+
+  private loadArabicFontSize() {
+    const doc = (globalThis as any)?.document as any;
+    if (!doc?.documentElement) return;
+    let value = 20;
+    try {
+      const stored = Number((globalThis as any)?.localStorage?.getItem('app_ar_font_size'));
+      if (Number.isFinite(stored)) value = Math.min(74, Math.max(14, stored));
+    } catch {
+      // ignore storage errors
+    }
+    this.arabicFontSize = value;
+    this.applyArabicFontSize(value);
+  }
+
+}

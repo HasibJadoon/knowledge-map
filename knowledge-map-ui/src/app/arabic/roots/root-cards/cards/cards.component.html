@@ -1,0 +1,133 @@
+<!-- backdrop -->
+<div class="cards-backdrop" (click)="close.emit()"></div>
+
+<!-- modal -->
+<div class="cards-modal" (click)="$event.stopPropagation()">
+
+  <!-- header -->
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h5 class="mb-0">
+      Cards —
+      <strong class="cards-root">{{ root }}</strong>
+      <span class="text-body-secondary cards-family">({{ family }})</span>
+    </h5>
+
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-secondary"
+      (click)="close.emit()">
+      Close
+    </button>
+  </div>
+
+  <!-- tabs -->
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+      <button
+        type="button"
+        class="nav-link"
+        [class.active]="tab === 'preview'"
+        (click)="tab = 'preview'">
+        Preview
+      </button>
+    </li>
+
+    <li class="nav-item">
+      <button
+        type="button"
+        class="nav-link"
+        [class.active]="tab === 'json'"
+        (click)="tab = 'json'">
+        JSON
+      </button>
+    </li>
+  </ul>
+
+  <!-- error (external) -->
+  <div *ngIf="error" class="text-danger small mb-2">
+    {{ error }}
+  </div>
+
+  <!-- error (local JSON parse) -->
+  <div *ngIf="jsonParseError" class="text-danger small mb-2">
+    {{ jsonParseError }}
+  </div>
+
+  <!-- =========================
+       PREVIEW TAB
+       ========================= -->
+  <ng-container *ngIf="tab === 'preview'">
+    <ng-container *ngIf="previewCards?.length">
+      <div class="card mb-3" *ngFor="let c of previewCards">
+        <!-- ONE unified card (no title) -->
+        <div class="card-body p-0 cards-unified">
+          <pre class="card-pre card-pre-front">{{ c.front }}</pre>
+          <hr class="cards-divider" />
+          <pre class="card-pre card-pre-back">{{ c.back }}</pre>
+        </div>
+      </div>
+    </ng-container>
+
+    <div *ngIf="!previewCards?.length" class="text-body-secondary">
+      No cards found.
+    </div>
+  </ng-container>
+
+  <!-- =========================
+       JSON TAB
+       ========================= -->
+  <ng-container *ngIf="tab === 'json'">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+      <label class="form-label small text-body-secondary mb-0">
+        Cards JSON (array)
+      </label>
+
+      <button
+        *ngIf="jsonMode === 'view'"
+        type="button"
+        class="btn btn-outline-secondary btn-sm"
+        (click)="setJsonMode('edit')">
+        Edit
+      </button>
+    </div>
+
+    <pre
+      *ngIf="jsonMode === 'view'"
+      class="json-preview json-colored"
+      [innerHTML]="coloredJson"></pre>
+
+    <textarea
+      *ngIf="jsonMode === 'edit'"
+      class="form-control json-editor"
+      rows="14"
+      [(ngModel)]="cardsJson"
+      (blur)="onJsonBlur()"
+      spellcheck="false"></textarea>
+
+    <div *ngIf="jsonMode === 'edit'" class="d-flex justify-content-end gap-2 mt-3">
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-sm"
+        (click)="resetJson()"
+        [disabled]="saving">
+        Reset
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-sm"
+        (click)="setJsonMode('view')"
+        [disabled]="saving">
+        Done
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        (click)="onSaveClicked()"
+        [disabled]="saving || !!jsonParseError">
+        Save
+      </button>
+    </div>
+  </ng-container>
+</div>

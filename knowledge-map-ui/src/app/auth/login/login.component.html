@@ -1,0 +1,85 @@
+<div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
+  <c-container breakpoint="md">
+    <c-row class="justify-content-center">
+      <c-col md="8" lg="6" xl="5">
+        <c-card class="p-4">
+          <c-card-body>
+            <form cForm [formGroup]="form" (ngSubmit)="submit()">
+              <h1>Login</h1>
+              <p class="text-body-secondary">Sign in to your account</p>
+
+              <div *ngIf="error" class="alert alert-danger py-2 my-3">
+                {{ error }}
+              </div>
+
+              <!-- Email -->
+              <c-input-group class="mb-2">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+
+                <input
+                  cFormControl
+                  type="email"
+                  placeholder="Email"
+                  autocomplete="username"
+                  formControlName="email"
+                  [class.is-invalid]="f.email.touched && f.email.invalid"
+                />
+              </c-input-group>
+
+              <div *ngIf="f.email.touched && f.email.invalid" class="text-danger small mb-3">
+                <span *ngIf="f.email.errors?.['required']">Email is required.</span>
+                <span *ngIf="f.email.errors?.['email']">Enter a valid email.</span>
+              </div>
+
+              <!-- Password -->
+              <c-input-group class="mb-2">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+
+                <input
+                  cFormControl
+                  type="password"
+                  placeholder="Password"
+                  autocomplete="current-password"
+                  formControlName="password"
+                  [class.is-invalid]="f.password.touched && f.password.invalid"
+                />
+              </c-input-group>
+
+              <div *ngIf="f.password.touched && f.password.invalid" class="text-danger small mb-4">
+                <span *ngIf="f.password.errors?.['required']">Password is required.</span>
+                <span *ngIf="f.password.errors?.['minlength']">
+                  Password must be at least 6 characters.
+                </span>
+              </div>
+
+              <c-row class="align-items-center">
+                <c-col xs="12">
+                  <button
+                    cButton
+                    color="primary"
+                    type="submit"
+                    class="w-100"
+                    [disabled]="loading"
+                  >
+                    {{ loading ? 'Logging in…' : 'Login' }}
+                  </button>
+                </c-col>
+
+                <!-- optional: keep if you actually have a reset flow -->
+                <c-col xs="12" class="text-end mt-2">
+                  <button cButton class="px-0" color="link" type="button">
+                    Forgot password?
+                  </button>
+                </c-col>
+              </c-row>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

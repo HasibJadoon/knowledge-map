@@ -1,0 +1,150 @@
+<!--<c-header class="mb-4 d-print-none" position="sticky">-->
+<ng-container>
+  <c-container [fluid]="true" class="border-bottom px-4">
+    <button
+      [cSidebarToggle]="sidebarId()"
+      cHeaderToggler
+      class="btn"
+      toggle="visible"
+      style="margin-inline-start: -14px;"
+      aria-label="Toggle sidebar navigation"
+    >
+      <svg cIcon name="cilMenu" size="lg"></svg>
+    </button>
+    <div class="header-app-title">KnowledgeMap</div>
+    <c-header-nav class="ms-auto">
+      <ng-container *ngTemplateOutlet="userDropdown" />
+    </c-header-nav>
+
+  </c-container>
+  <c-container [fluid]="true" class="px-4">
+    <ng-container *ngIf="isStudyRoute(); else defaultBreadcrumb">
+      <div class="study-tabs-row">
+        <ul class="nav nav-tabs header-tabs">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="studyTabIsActive('reading') || !currentUrl.includes('tab=')"
+              [routerLink]="[]"
+              [queryParams]="{ tab: 'reading' }"
+              queryParamsHandling="merge"
+            >
+              Reading
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="studyTabIsActive('memory')"
+              [routerLink]="[]"
+              [queryParams]="{ tab: 'memory' }"
+              queryParamsHandling="merge"
+            >
+              Memory Recall
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="studyTabIsActive('mcq')"
+              [routerLink]="[]"
+              [queryParams]="{ tab: 'mcq' }"
+              queryParamsHandling="merge"
+            >
+              MCQs (Verbs/Nouns)
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              [class.active]="studyTabIsActive('passage')"
+              [routerLink]="[]"
+              [queryParams]="{ tab: 'passage' }"
+              queryParamsHandling="merge"
+            >
+              Passage Questions
+            </a>
+          </li>
+        </ul>
+        <button class="btn btn-sm btn-outline-secondary study-edit-btn" (click)="onHeaderActionClick()">
+          Edit Lesson
+        </button>
+      </div>
+    </ng-container>
+    <ng-template #defaultBreadcrumb>
+      <div class="header-breadcrumb">
+        <div class="breadcrumb-row">
+          <c-breadcrumb-router />
+        </div>
+        <div class="header-breadcrumb-search" *ngIf="showHeaderSearch">
+          <app-header-search
+            [placeholder]="headerPlaceholder"
+            [value]="headerQuery"
+            [primaryLabel]="headerActionLabel"
+            [secondaryLabel]="headerSecondaryLabel"
+            (search)="onHeaderSearchInput($event)"
+            (primary)="onHeaderActionClick()"
+            (secondary)="onHeaderSecondaryClick()"
+          />
+        </div>
+      </div>
+    </ng-template>
+  </c-container>
+</ng-container>
+<!--</c-header>-->
+
+<ng-template #userDropdown>
+  <c-dropdown [popperOptions]="{ placement: 'bottom-start' }" variant="nav-item">
+    <button [caret]="false" cDropdownToggle class="py-0 pe-0" aria-label="Open user menu">
+      <span class="settings-avatar">
+        <svg cIcon name="cilSettings" size="lg"></svg>
+      </span>
+    </button>
+    <ul cDropdownMenu class="pt-0 w-auto">
+      <li class="px-3 py-2">
+        <div class="size-group">
+          <div class="size-title">Font sizes</div>
+          <div class="size-block">
+            <div class="size-row">
+              <span>Text</span>
+              <span class="size-value">{{ fontSize }}px</span>
+            </div>
+            <input
+              type="range"
+              min="12"
+              max="74"
+              step="1"
+              [value]="fontSize"
+              (input)="onFontSizeInput($event)"
+              class="form-range size-range"
+            />
+          </div>
+          <div class="size-block">
+            <div class="size-row">
+              <span>Arabic</span>
+              <span class="size-value">{{ arabicFontSize }}px</span>
+            </div>
+            <input
+              type="range"
+              min="14"
+              max="74"
+              step="1"
+              [value]="arabicFontSize"
+              (input)="onArabicFontSizeInput($event)"
+              class="form-range size-range"
+            />
+          </div>
+        </div>
+      </li>
+      <li>
+        <hr cDropdownDivider />
+      </li>
+      <li>
+        <button cDropdownItem type="button" (click)="logout()">
+          <svg cIcon class="me-2" name="cilAccountLogout"></svg>
+          Logout
+        </button>
+      </li>
+    </ul>
+  </c-dropdown>
+</ng-template>

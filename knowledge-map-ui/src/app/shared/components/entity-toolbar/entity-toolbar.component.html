@@ -1,0 +1,17 @@
+    <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+      <div class="me-auto">
+        <h4 class="mb-0">{{ title }}</h4>
+        <small class="text-muted" *ngIf="subtitle">{{ subtitle }}</small>
+      </div>
+      <input
+        class="form-control w-auto"
+        [placeholder]="searchPlaceholder"
+        type="text"
+        [(ngModel)]="q"
+        (ngModelChange)="search.emit(q)"
+      />
+      <button class="btn btn-primary" type="button" (click)="add.emit()" *ngIf="!hideAdd">
+        {{ addLabel }}
+      </button>
+    </div>
+  

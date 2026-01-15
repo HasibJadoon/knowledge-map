@@ -1,0 +1,29 @@
+.header-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.header-search-input {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 300px;
+}
+
+.header-search button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .header-search {
+    width: 100%;
+  }
+
+  .header-search-input {
+    min-width: 0;
+    width: 100%;
+  }
+}

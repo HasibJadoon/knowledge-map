@@ -1,0 +1,128 @@
+<div class="dashboard-grid">
+  <div class="section-title">Arabic</div>
+  <c-row class="g-3 mb-4">
+    <c-col lg="3" md="6" sm="12">
+      <c-card class="dashboard-card cursor-pointer theme-arabic" (click)="go('/arabic/lessons')">
+        <c-card-body class="dashboard-card-body">
+          <div class="icon-badge">
+            <c-icon name="cilBookmark" size="xl" class="card-icon"></c-icon>
+          </div>
+          <div>
+            <div class="fw-semibold">Lessons</div>
+            <div class="text-body-secondary small">Lesson editor + view</div>
+          </div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+
+    <c-col lg="3" md="6" sm="12">
+      <c-card class="dashboard-card cursor-pointer theme-roots" (click)="go('/arabic/roots')">
+        <c-card-body class="dashboard-card-body">
+          <div class="icon-badge">
+            <c-icon name="cilList" size="xl" class="card-icon"></c-icon>
+          </div>
+          <div>
+            <div class="fw-semibold">Roots</div>
+            <div class="text-body-secondary small">Quranic roots + cards</div>
+          </div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+
+    <c-col lg="3" md="6" sm="12">
+      <c-card class="dashboard-card cursor-pointer theme-lexicon" (click)="go('/arabic/lexicon')">
+        <c-card-body class="dashboard-card-body">
+          <div class="icon-badge">
+            <c-icon name="cilDescription" size="xl" class="card-icon"></c-icon>
+          </div>
+          <div>
+            <div class="fw-semibold">Lexicon</div>
+            <div class="text-body-secondary small">Idioms, poetry, concepts</div>
+          </div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+
+    <c-col lg="3" md="6" sm="12">
+      <c-card class="dashboard-card cursor-pointer theme-memory" (click)="go('/arabic/memory')">
+        <c-card-body class="dashboard-card-body">
+          <div class="icon-badge">
+            <c-icon name="cilTask" size="xl" class="card-icon"></c-icon>
+          </div>
+          <div>
+            <div class="fw-semibold">Memory</div>
+            <div class="text-body-secondary small">Spaced review sessions</div>
+          </div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+
+  <div class="section-title">Worldview</div>
+  <c-row class="g-3 mb-4">
+    <c-col lg="3" md="6" sm="12">
+      <c-card class="dashboard-card cursor-pointer theme-worldview" (click)="go('/worldview/lessons')">
+        <c-card-body class="dashboard-card-body">
+          <div class="icon-badge">
+            <c-icon name="cilMap" size="xl" class="card-icon"></c-icon>
+          </div>
+          <div>
+            <div class="fw-semibold">Worldview Lessons</div>
+            <div class="text-body-secondary small">Lessons + sources</div>
+          </div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+
+  <div class="section-title">Cross-Reference</div>
+  <c-row class="g-3 mb-4">
+    <c-col lg="3" md="6" sm="12">
+      <c-card class="dashboard-card cursor-pointer theme-crossref" (click)="go('/crossref')">
+        <c-card-body class="dashboard-card-body">
+          <div class="icon-badge">
+            <c-icon name="cilShareAll" size="xl" class="card-icon"></c-icon>
+          </div>
+          <div>
+            <div class="fw-semibold">Cross References</div>
+            <div class="text-body-secondary small">Quran vs other sources</div>
+          </div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+
+  <div class="section-title">Podcast</div>
+  <c-row class="g-3 mb-4">
+    <c-col lg="3" md="6" sm="12">
+      <c-card class="dashboard-card cursor-pointer theme-podcast" (click)="go('/podcast')">
+        <c-card-body class="dashboard-card-body">
+          <div class="icon-badge">
+            <c-icon name="cilMediaPlay" size="xl" class="card-icon"></c-icon>
+          </div>
+          <div>
+            <div class="fw-semibold">Podcast</div>
+            <div class="text-body-secondary small">Episodes + outlines</div>
+          </div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+
+  <div class="section-title">Planner</div>
+  <c-row class="g-3">
+    <c-col lg="3" md="6" sm="12">
+      <c-card class="dashboard-card cursor-pointer theme-planner" (click)="go('/planner')">
+        <c-card-body class="dashboard-card-body">
+          <div class="icon-badge">
+            <c-icon name="cilCalendar" size="xl" class="card-icon"></c-icon>
+          </div>
+          <div>
+            <div class="fw-semibold">Weekly Planner</div>
+            <div class="text-body-secondary small">Plans + tasks</div>
+          </div>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+</div>

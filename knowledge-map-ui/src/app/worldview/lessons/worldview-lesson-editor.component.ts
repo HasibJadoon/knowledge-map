@@ -1,0 +1,38 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-worldview-lesson-editor',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+<div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Worldview Lesson Editor</h5>
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input class="form-control" type="text" [(ngModel)]="titleValue" />
+        </div>
+        <div class="mb-0">
+          <label class="form-label">JSON</label>
+          <textarea
+            class="form-control json-editor"
+            rows="12"
+            [(ngModel)]="jsonValue"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Sections</h6>
+        <p class="text-muted mb-0">Drop in section components here.</p>
+      </div>
+    </div>
+  `
+})
+export class WorldviewLessonEditorComponent {
+  titleValue = '';
+  jsonValue = '{\n  "notes": ""\n}';
+}

@@ -1,0 +1,12 @@
+    <div class="d-flex flex-column gap-2">
+      <label class="form-check" *ngFor="let item of items; let i = index">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          [checked]="item.done"
+          (change)="toggle(i)"
+        />
+        <span class="form-check-label">{{ item.label }}</span>
+      </label>
+    </div>
+  

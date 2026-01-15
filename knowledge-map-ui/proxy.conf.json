@@ -1,0 +1,77 @@
+{
+  "/login": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/logout": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/lexicon_roots": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/lexicon_roots_update": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/lexicon-roots": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/lexicon-roots-update": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/health": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/ar_lessons": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/vocabulary": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/worldview_lessons": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/worldview_cards": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/cross_references": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/podcast_episodes": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/weekly_plans": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/weekly_tasks": {
+    "target": "https://main.arabic-vocabulary.pages.dev",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

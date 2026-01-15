@@ -1,0 +1,160 @@
+<div class="roots-page">
+  <div *ngIf="error" class="alert alert-danger py-2 my-3">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="text-body-secondary my-3">Loading…</div>
+
+  <div class="table-responsive roots-table-wrap" *ngIf="!loading && rows?.length">
+    <table class="table table-hover align-middle roots-table mb-0">
+      <thead class="roots-thead">
+        <tr>
+          <th class="col-eye sticky-col-1">
+            <span class="visually-hidden">View</span>
+          </th>
+          <th class="col-root sticky-col-2">Root</th>
+          <th>Family</th>
+          <th>Status</th>
+          <th>Frequency</th>
+          <th>Difficulty</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (r of rows; track trackByKey($index, r)) {
+          <tr>
+            <td class="sticky-col-1">
+              <button
+                type="button"
+                class="btn btn-sm btn-ghost-primary roots-eye-btn"
+                (click)="openCards(r)"
+                title="View cards"
+                aria-label="View cards"
+              >
+                👁
+              </button>
+            </td>
+
+            <td class="sticky-col-2">
+              <span class="fw-semibold roots-root">{{ r.root }}</span>
+            </td>
+
+            <td class="roots-family">{{ r.family }}</td>
+            <td>
+              <span class="badge" [ngClass]="statusBadgeClass(r.status)">
+                {{ r.status ?? '—' }}
+              </span>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="frequencyBadgeClass(r.frequency)">
+                {{ r.frequency ?? '—' }}
+              </span>
+            </td>
+            <td>
+              <span class="difficulty-light" [attr.data-level]="difficultyLevel(r.difficulty)"></span>
+            </td>
+            <td class="text-end">
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+                (click)="openCards(r, 'edit')"
+              >
+                Edit
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!loading && (!rows || !rows.length)" class="text-body-secondary my-3">
+    No roots found.
+  </div>
+
+  <!-- Cards Modal -->
+  <app-cards
+    *ngIf="showCards"
+    [id]="selectedRoot?.id"
+    [root]="selectedRoot?.root ?? ''"
+    [family]="selectedRoot?.family ?? ''"
+    [cards]="selectedCards"
+    [cardsJson]="selectedCardsJson"
+    [error]="cardsError"
+    [saving]="savingCards"
+    [initialTab]="cardsTab"
+    [initialJsonMode]="cardsJsonMode"
+    (close)="closeCards()"
+    (saveJson)="saveCardsJson($event)"
+  />
+
+  <!-- Create Root Modal -->
+  <div *ngIf="showCreate" class="roots-modal-backdrop" (click)="closeCreate()"></div>
+  <div *ngIf="showCreate" class="roots-modal" (click)="$event.stopPropagation()">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h5 class="mb-0">New Root</h5>
+      <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closeCreate()">
+        Close
+      </button>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Root</label>
+      <input type="text" class="form-control" [(ngModel)]="newRoot" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Family</label>
+      <input type="text" class="form-control" [(ngModel)]="newFamily" />
+    </div>
+    <div class="roots-divider"></div>
+    <div class="mb-2 fw-semibold">Cards</div>
+    <div class="roots-card-grid">
+      <div>
+        <label class="form-label">Surf</label>
+        <input type="text" class="form-control" [(ngModel)]="newCardSurf" />
+      </div>
+      <div>
+        <label class="form-label">Example</label>
+        <input type="text" class="form-control" [(ngModel)]="newCardExample" />
+      </div>
+      <div>
+        <label class="form-label">Meaning</label>
+        <input type="text" class="form-control" [(ngModel)]="newCardMeaning" />
+      </div>
+      <div>
+        <label class="form-label">Tag</label>
+        <input type="text" class="form-control" [(ngModel)]="newCardTag" />
+      </div>
+    </div>
+    <div class="d-flex justify-content-end mt-2">
+      <button type="button" class="btn btn-outline-secondary btn-sm" (click)="addNewCard()">
+        Add Card
+      </button>
+    </div>
+    <div class="roots-cards-list" *ngIf="newCards.length">
+      <div class="roots-cards-item" *ngFor="let c of newCards; let i = index">
+        <div>
+          <div class="fw-semibold">{{ c.front }}</div>
+          <div class="text-body-secondary">{{ c.back }}</div>
+          <div class="text-body-secondary small" *ngIf="c.tag">Tag: {{ c.tag }}</div>
+        </div>
+        <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeNewCard(i)">
+          Remove
+        </button>
+      </div>
+    </div>
+    <div class="mt-3">
+      <label class="form-label">Cards JSON</label>
+      <textarea class="form-control roots-json" rows="6" [value]="newCardsJson" readonly></textarea>
+    </div>
+    <div class="d-flex justify-content-end gap-2">
+      <button type="button" class="btn btn-outline-secondary" (click)="closeCreate()">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-primary" (click)="createNew()" [disabled]="creating">
+        {{ creating ? 'Creating…' : 'Create' }}
+      </button>
+    </div>
+  </div>
+
+</div>

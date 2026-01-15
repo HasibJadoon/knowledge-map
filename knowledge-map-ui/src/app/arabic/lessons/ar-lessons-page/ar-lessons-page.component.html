@@ -1,0 +1,44 @@
+  <div class="card">
+    <div class="card-body">
+      <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
+      <div *ngIf="loading" class="text-muted">Loading…</div>
+
+      <div *ngIf="!loading && rows.length === 0" class="text-muted">No lessons yet.</div>
+
+      <div *ngIf="!loading && rows.length" class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of rows">
+              <td [ngClass]="isArabicText(row.title) ? 'arabic-title' : ''">{{ row.title }}</td>
+              <td>{{ row.lesson_type }}</td>
+              <td>
+                <span class="badge" [ngClass]="statusBadgeClass(row.status)">
+                  {{ row.status }}
+                </span>
+              </td>
+              <td class="text-end">
+                <button class="btn btn-outline-info btn-sm me-1" (click)="study(row.id)">
+                  Study
+                </button>
+                <button class="btn btn-outline-secondary btn-sm me-1" (click)="view(row.id)">
+                  View
+                </button>
+                <button class="btn btn-primary btn-sm" (click)="edit(row.id)">
+                  Edit
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,10 @@
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">{{ title }}</h5>
+        <p class="text-muted">{{ message }}</p>
+        <button class="btn btn-primary" type="button" (click)="action.emit()" *ngIf="actionLabel">
+          {{ actionLabel }}
+        </button>
+      </div>
+    </div>
+  
