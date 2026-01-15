@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { isTokenValid } from '../auth/auth.utils';
 
 type LoginResponse = {
   ok?: boolean;
@@ -18,6 +19,7 @@ type LoginResponse = {
 })
 export class LoginPage {
   private readonly apiBase = 'https://api-kmap.com';
+  private readonly tokenKey = 'auth_token';
   errorMessage = '';
   loading = false;
 
@@ -31,6 +33,18 @@ export class LoginPage {
     private readonly http: HttpClient,
     private readonly router: Router
   ) {}
+
+  ionViewWillEnter(): void {
+    const token = localStorage.getItem(this.tokenKey);
+    if (isTokenValid(token)) {
+      this.router.navigateByUrl('/tabs', { replaceUrl: true });
+      return;
+    }
+
+    if (token) {
+      localStorage.removeItem(this.tokenKey);
+    }
+  }
 
   onSubmit(): void {
     if (this.form.invalid) {
@@ -49,7 +63,7 @@ export class LoginPage {
     this.http.post<LoginResponse>(`${this.apiBase}/login`, payload).subscribe({
       next: (response) => {
         if (response.ok && response.token) {
-          localStorage.setItem('auth_token', response.token);
+          localStorage.setItem(this.tokenKey, response.token);
           this.router.navigateByUrl('/tabs', { replaceUrl: true });
           return;
         }
@@ -58,6 +72,10 @@ export class LoginPage {
         this.loading = false;
       },
       error: (error) => {
+        if (error?.status === 401) {
+          localStorage.removeItem(this.tokenKey);
+        }
+
         const apiError = error?.error?.message || error?.error?.error;
         this.errorMessage = apiError || 'Login failed';
         this.loading = false;
