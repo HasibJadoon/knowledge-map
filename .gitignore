@@ -21,6 +21,8 @@ coverage/
 .wrangler/
 .worker/
 *.wrangler/state*/
+# Generated Pages Functions (synced from api/)
+functions/
 # D1 exports/dumps
 *.sqlite
 *.db

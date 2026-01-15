@@ -25,6 +25,11 @@ jobs:
           npm install --legacy-peer-deps --workspace apps/knowledge-map-ui
           npm run build -w apps/knowledge-map-ui
 
+      - name: Sync Functions
+        run: |
+          rm -rf functions
+          cp -R api functions
+
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy apps/knowledge-map-ui/dist/knowledge-map-ui/browser --project-name knowledge-map --branch main
         env:
