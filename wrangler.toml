@@ -2,7 +2,7 @@ name = "arabic-vocabulary"
 compatibility_date = "2025-01-01"
 
 # Serve this folder as the site root
-pages_build_output_dir = "knowledge-map-ui/dist/knowledge-map-ui/browser"
+pages_build_output_dir = "apps/knowledge-map-ui/dist/knowledge-map-ui/browser"
 
 [[d1_databases]]
 binding = "DB"
