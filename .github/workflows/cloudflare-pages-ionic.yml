@@ -24,9 +24,8 @@ jobs:
 
       - name: Install and build
         run: |
-          cd apps/app-knowledge-map
-          npm ci
-          npm run build
+          npm install --workspace apps/app-knowledge-map
+          npm run build -w apps/app-knowledge-map
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy apps/app-knowledge-map/www --project-name app-k-maps --branch main

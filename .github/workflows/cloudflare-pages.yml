@@ -22,9 +22,8 @@ jobs:
 
       - name: Install and build
         run: |
-          cd apps/knowledge-map-ui
-          npm install --legacy-peer-deps
-          npm run build
+          npm install --legacy-peer-deps --workspace apps/knowledge-map-ui
+          npm run build -w apps/knowledge-map-ui
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy apps/knowledge-map-ui/dist/knowledge-map-ui/browser --project-name knowledge-map --branch main
