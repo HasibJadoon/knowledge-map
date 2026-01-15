@@ -19,6 +19,8 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
   if (
     url.pathname === '/' ||
     url.pathname.startsWith('/login') ||
+    url.pathname.startsWith('/docs') ||
+    url.pathname.startsWith('/openapi') ||
     url.pathname.startsWith('/assets') ||
     url.pathname.startsWith('/favicon')
   ) {
