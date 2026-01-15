@@ -6,7 +6,8 @@
   ],
   "scripts": {
     "sync:functions": "rm -rf functions && cp -R api functions",
-    "deploy:pages": "npm run sync:functions && npm run build -w apps/knowledge-map-ui && npx wrangler pages deploy apps/knowledge-map-ui/dist/knowledge-map-ui/browser --project-name knowledge-map --branch main"
+    "deploy:pages": "npm run sync:functions && npm run build -w apps/knowledge-map-ui && npx wrangler pages deploy apps/knowledge-map-ui/dist/knowledge-map-ui/browser --project-name knowledge-map --branch main",
+    "deploy:ionic": "npm run build -w apps/app-knowledge-map && npx wrangler pages deploy apps/app-knowledge-map/www --project-name app-k-maps --branch main"
   },
   "dependencies": {
     "primeflex": "^4.0.0",
