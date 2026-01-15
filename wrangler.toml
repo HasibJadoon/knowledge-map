@@ -1,5 +1,6 @@
 name = "arabic-vocabulary"
 compatibility_date = "2025-01-01"
+account_id = "722a276f61c1955a2fc6a75b6437d74c"
 
 # Serve this folder as the site root
 pages_build_output_dir = "knowledge-map-ui/dist/knowledge-map-ui/browser"
