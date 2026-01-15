@@ -19,12 +19,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20.19.0"
-          cache: "npm"
 
       - name: Install and build
         run: |
           cd knowledge-map-ui
-          npm ci
+          npm install
           npm run build
 
       - name: Deploy to Cloudflare Pages
