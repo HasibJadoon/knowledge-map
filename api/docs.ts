@@ -23,8 +23,9 @@ const swaggerHtml = `<!DOCTYPE html>
     <script src="https://unpkg.com/swagger-ui-dist@5.17.14/swagger-ui-bundle.js"></script>
     <script>
       window.onload = () => {
+        const baseUrl = window.location.origin;
         window.ui = SwaggerUIBundle({
-          url: '/openapi',
+          url: baseUrl + '/openapi',
           dom_id: '#swagger-ui',
           deepLinking: true,
           presets: [SwaggerUIBundle.presets.apis],
