@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, MenuController } from '@ionic/angular';
-import { Router, RouterModule } from '@angular/router';
-
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
+import { addIcons } from 'ionicons';
+import { chevronForwardOutline } from 'ionicons/icons';
 @Component({
   selector: 'app-menu',
   templateUrl: './app-menu.component.html',
@@ -13,16 +14,8 @@ import { Router, RouterModule } from '@angular/router';
 export class AppMenuComponent {
   private openSections = new Set<string>(['arabic']);
 
-  constructor(
-    private readonly router: Router, 
-    private readonly menu: MenuController
-  ) {}
-
-  async go(url: string) {
-    // 1. Close menu first to ensure smooth transition
-    await this.menu.close('main-menu');
-    // 2. Then navigate
-    await this.router.navigateByUrl(url);
+  constructor() {
+    addIcons({ chevronForwardOutline });
   }
 
   toggle(section: string) {
