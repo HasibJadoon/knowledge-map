@@ -39,3 +39,21 @@ ion-accordion.accordion-expanded::part(indicator),
 ion-accordion.ion-accordion-expanded::part(indicator) {
   transform: rotate(0deg);
 }
+
+ion-accordion::part(indicator) {
+  opacity: 0 !important;
+  width: 0;
+}
+
+.accordion-icon {
+  color: #7ad7ff;
+  font-size: 18px;
+  transform: rotate(0deg);
+  transition: transform 0.2s ease;
+}
+
+ion-accordion[aria-expanded='true'] .accordion-icon,
+ion-accordion.accordion-expanded .accordion-icon,
+ion-accordion.ion-accordion-expanded .accordion-icon {
+  transform: rotate(90deg);
+}

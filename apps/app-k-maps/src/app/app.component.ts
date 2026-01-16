@@ -10,6 +10,7 @@ import {
   libraryOutline,
   micOutline,
   sparklesOutline,
+  chevronForward,
 } from 'ionicons/icons';
 
 @Component({
@@ -30,6 +31,7 @@ export class AppComponent {
       gitCompareOutline,
       micOutline,
       calendarOutline,
+      chevronForward,
     });
   }
 }
