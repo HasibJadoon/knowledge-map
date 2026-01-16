@@ -12,6 +12,7 @@ import {
   micOutline,
   sparklesOutline,
   chevronForward,
+  settingsOutline,
 } from 'ionicons/icons';
 
 @Component({
@@ -33,6 +34,7 @@ export class AppComponent {
       micOutline,
       calendarOutline,
       chevronForward,
+      settingsOutline,
     });
   }
 

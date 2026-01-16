@@ -1,0 +1,164 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <section class="settings-section">
+    <div class="section-title">Account</div>
+    <div class="account-card">
+      <ion-item detail="true" lines="none">
+        <ion-avatar slot="start" class="account-avatar">
+          <ion-icon name="person-circle-outline"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h2>Turn On Sync</h2>
+          <p>Sync collections, pins and notes with your account.</p>
+        </ion-label>
+      </ion-item>
+    </div>
+  </section>
+
+  <section class="settings-section">
+    <div class="section-title">Content</div>
+    <ion-list class="settings-list">
+      <ion-item detail="true" lines="none">
+        <ion-icon slot="start" name="library-outline"></ion-icon>
+        <ion-label>
+          <h2>Mushaf</h2>
+          <p>Mushaf Unicode Text</p>
+        </ion-label>
+      </ion-item>
+        </ion-list>
+  </section>
+
+
+  <section class="settings-section">
+    <div class="section-title">Fonts</div>
+    <ion-list class="settings-list">
+      <ion-item button detail="true" lines="none" (click)="openFontSheet('english')">
+        <ion-icon slot="start" name="text-outline"></ion-icon>
+        <ion-label>
+          <h2>English Font</h2>
+          <p>{{ getSelectedEnglishLabel() }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item button detail="true" lines="none" (click)="openFontSheet('arabic')">
+        <ion-icon slot="start" name="language-outline"></ion-icon>
+        <ion-label>
+          <h2>Arabic Font</h2>
+          <p>{{ getSelectedArabicLabel() }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </section>
+
+  <section class="settings-section">
+    <div class="section-title">System</div>
+    <ion-list class="settings-list">
+      <ion-item detail="true" lines="none">
+        <ion-icon slot="start" name="globe-outline"></ion-icon>
+        <ion-label>
+          <h2>Language</h2>
+          <p>English</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </section>
+
+
+  <ion-modal
+    [isOpen]="fontSheetOpen"
+    cssClass="font-sheet-modal"
+    (didDismiss)="closeFontSheet()"
+  >
+    <ng-template>
+      <ion-content>
+        <ion-header collapse="fade">
+          <ion-toolbar>
+            <ion-title>Fonts</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="closeFontSheet()">Done</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ng-container *ngIf="activeFontTarget === 'arabic'; else englishSheet">
+
+          <ion-radio-group
+            [value]="selectedArabicFont"
+            (ionChange)="onArabicFontChange($event.detail.value)"
+          >
+            <ion-list>
+              <ion-item lines="none" *ngFor="let font of arabicFonts">
+                <ion-label>
+                  <p>{{ getFontPreview(font) }}</p>
+                </ion-label>
+                <ion-radio slot="end" [value]="font.id"></ion-radio>
+              </ion-item>
+            </ion-list>
+          </ion-radio-group>
+
+          <div class="font-preview arabic-preview"
+            [style.fontFamily]="getSelectedArabicStack()"
+            [style.fontSize.px]="arabicFontSize"
+          >
+            بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+          </div>
+
+          <ion-list class="sheet-size">
+            <ion-item lines="none" class="range-item">
+              <ion-range
+                min="12"
+                max="54"
+                step="1"
+                [value]="arabicFontSize"
+                (ionChange)="onArabicFontSizeChange($event.detail.value)"
+              ></ion-range>
+            </ion-item>
+          </ion-list>
+        </ng-container>
+
+        <ng-template #englishSheet>
+          <ion-radio-group
+            [value]="selectedEnglishFont"
+            (ionChange)="onEnglishFontChange($event.detail.value)"
+          >
+            <ion-list>
+              <ion-item lines="none" *ngFor="let font of englishFonts">
+                <ion-label>
+                  <h2>{{ font.label }}</h2>
+                  <p>{{ getFontPreview(font) }}</p>
+                </ion-label>
+                <ion-radio slot="end" [value]="font.id"></ion-radio>
+              </ion-item>
+            </ion-list>
+          </ion-radio-group>
+
+          <div class="font-preview"
+            [style.fontFamily]="getSelectedEnglishStack()"
+            [style.fontSize.px]="englishFontSize"
+          >
+            God is one.
+          </div>
+
+          <ion-list class="sheet-size">
+            <ion-item lines="none" class="range-item">
+              <ion-range
+                min="12"
+                max="54"
+                step="1"
+                [value]="englishFontSize"
+                (ionChange)="onEnglishFontSizeChange($event.detail.value)"
+              ></ion-range>
+            </ion-item>
+          </ion-list>
+        </ng-template>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

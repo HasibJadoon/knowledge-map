@@ -53,6 +53,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'settings',
+    loadComponent: () => import('./features/settings/settings.page').then(m => m.SettingsPage),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'planner',
     loadChildren: () => import('./features/planner/weekly-plan/weekly-plan.module').then(m => m.WeeklyPlanPageModule),
     canActivate: [AuthGuard]
