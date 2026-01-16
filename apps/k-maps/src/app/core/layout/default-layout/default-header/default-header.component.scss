@@ -1,6 +1,6 @@
 .header-tabs {
   margin: 0;
-  --study-tab-icon-filter: brightness(0) saturate(100%) invert(74%) sepia(10%) saturate(210%) hue-rotate(196deg) brightness(96%) contrast(92%);
+  --study-tab-icon-filter: brightness(0) saturate(100%) invert(64%) sepia(77%) saturate(1949%) hue-rotate(176deg) brightness(105%) contrast(103%);
   --study-tab-icon-filter-active: drop-shadow(0 0 6px rgba(0, 187, 255, 0.85)) drop-shadow(0 0 16px rgba(0, 187, 255, 0.55)) drop-shadow(0 0 32px rgba(0, 187, 255, 0.3));
   --study-tab-active-bg: rgba(0, 187, 255, 0.18);
   --study-tab-active-color: #8fe6ff;
@@ -25,12 +25,12 @@
   height: 35px;
   display: block;
   opacity: 0.9;
-  filter: var(--study-tab-icon-filter, none);
+  filter: var(--study-tab-icon-filter, none) !important;
 }
 
 .header-tabs .nav-link.active .header-tab-icon {
   opacity: 1;
-  filter: var(--study-tab-icon-filter-active, drop-shadow(0 0 6px rgba(124, 106, 255, 0.45)));
+  filter: var(--study-tab-icon-filter-active, drop-shadow(0 0 6px rgba(124, 106, 255, 0.45))) !important;
 }
 
 .header-tabs .nav-link.active {
@@ -40,7 +40,7 @@
 }
 
 :host-context(.dark-theme) {
-  --study-tab-icon-filter: brightness(0) saturate(100%) invert(78%) sepia(8%) saturate(210%) hue-rotate(196deg) brightness(96%) contrast(92%);
+  --study-tab-icon-filter: brightness(0) saturate(100%) invert(64%) sepia(77%) saturate(1949%) hue-rotate(176deg) brightness(105%) contrast(103%);
   --study-tab-active-bg: rgba(0, 187, 255, 0.18);
   --study-tab-active-color: #8fe6ff;
   --study-tab-active-border: rgba(0, 187, 255, 0.55);
@@ -48,7 +48,7 @@
 }
 
 :host-context(.light-theme) {
-  --study-tab-icon-filter: brightness(0) saturate(100%) invert(29%) sepia(22%) saturate(1264%) hue-rotate(204deg) brightness(92%) contrast(93%);
+  --study-tab-icon-filter: brightness(0) saturate(100%) invert(54%) sepia(94%) saturate(1850%) hue-rotate(174deg) brightness(105%) contrast(103%);
   --study-tab-active-bg: rgba(86, 120, 214, 0.12);
   --study-tab-active-color: #3a4a7a;
   --study-tab-active-border: rgba(86, 120, 214, 0.35);
@@ -168,7 +168,7 @@
 .header-tabs .nav-link:hover .header-tab-icon,
 .header-tabs .nav-link:focus-visible .header-tab-icon {
   opacity: 1;
-  filter: var(--study-tab-icon-filter-active, drop-shadow(0 0 6px rgba(124, 106, 255, 0.45)));
+  filter: var(--study-tab-icon-filter-active, drop-shadow(0 0 6px rgba(124, 106, 255, 0.45))) !important;
   animation: tabIconPop 0.35s ease;
 }
 
