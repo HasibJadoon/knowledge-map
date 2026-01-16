@@ -22,14 +22,14 @@ jobs:
 
       - name: Install and build
         run: |
-          npm install --legacy-peer-deps --workspace apps/k-map
-          npm run build -w apps/k-map
+          npm install --legacy-peer-deps --workspace apps/k-maps
+          npm run build -w apps/k-maps
 
       - name: Sync Functions
         run: npm run sync:functions
 
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy apps/k-map/dist/k-map/browser --project-name k-map --branch main
+        run: npx wrangler pages deploy apps/k-maps/dist/k-maps/browser --project-name k-maps --branch main
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

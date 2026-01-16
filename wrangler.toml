@@ -2,7 +2,7 @@ name = "arabic-vocabulary"
 compatibility_date = "2025-01-01"
 
 # Serve this folder as the site root
-pages_build_output_dir = "apps/k-map/dist/k-map/browser"
+pages_build_output_dir = "apps/k-maps/dist/k-maps/browser"
 
 [[d1_databases]]
 binding = "DB"

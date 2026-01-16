@@ -3,10 +3,10 @@ npx wrangler d1 execute DB \
   --file Database/schema.sql
 
 
-npx wrangler pages deploy apps/k-map/dist/k-map/browser
+npx wrangler pages deploy apps/k-maps/dist/k-maps/browser
 
 
 Builld and deploy
-cd apps/k-map
+cd apps/k-maps
 npm ci
 npm run build

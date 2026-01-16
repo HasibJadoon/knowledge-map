@@ -17,7 +17,7 @@ type Theme = 'dark' | 'light' | 'auto';
   imports: [RouterOutlet],
 })
 export class AppComponent implements OnInit {
-  title = 'K-Map';
+  title = 'k-maps';
 
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
   readonly #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
     // Persist CoreUI theme selection
     this.#colorModeService.localStorageItemName.set(
-      'k-map-theme-default'
+      'k-maps-theme-default'
     );
     this.#colorModeService.eventName.set('ColorSchemeChange');
   }
