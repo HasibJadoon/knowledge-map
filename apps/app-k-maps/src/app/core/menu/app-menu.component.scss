@@ -1,0 +1,29 @@
+ion-menu {
+  --width: 280px;
+}
+
+ion-menu ion-item[slot="header"],
+ion-menu ion-item {
+  --color: #e2e8f8;
+  --background: transparent;
+}
+
+ion-menu ion-item::part(native) {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+ion-menu ion-accordion-group {
+  --background: transparent;
+}
+
+.menu-icon {
+  color: #7ad7ff;
+  font-size: 20px;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 6px rgba(122, 215, 255, 0.6)) drop-shadow(0 0 14px rgba(122, 215, 255, 0.4));
+}
+
+ion-menu ion-item[slot="header"] .menu-icon {
+  font-size: 22px;
+  filter: drop-shadow(0 0 6px rgba(122, 215, 255, 0.75)) drop-shadow(0 0 16px rgba(122, 215, 255, 0.45));
+}
