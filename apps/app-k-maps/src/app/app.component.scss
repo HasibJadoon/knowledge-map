@@ -35,7 +35,7 @@ ion-accordion ion-item[slot="header"] ion-icon {
 
 .global-home-button {
   position: fixed;
-  top: calc(env(safe-area-inset-top, 0px) + 2px); // ⬆️ was +8px
+  top: calc(env(safe-area-inset-top, 0px) - 6px); /* ⬆️ move ABOVE header padding */
   right: calc(env(safe-area-inset-right, 0px) + 16px);
   z-index: 1001;
 
