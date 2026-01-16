@@ -34,7 +34,41 @@ export const navItems: INavData[] = [
 
   {
     title: true,
-    name: 'Theme'
+    name: 'Worldview'
   },
-  // ...rest unchanged
+  {
+    name: 'Lessons',
+    url: '/worldview/lessons',
+    iconComponent: { name: 'cilMap' },
+  },
+
+  {
+    title: true,
+    name: 'Crossref'
+  },
+  {
+    name: 'Cross References',
+    url: '/crossref',
+    iconComponent: { name: 'cilShareAll' },
+  },
+
+  {
+    title: true,
+    name: 'Podcast'
+  },
+  {
+    name: 'Episodes',
+    url: '/podcast',
+    iconComponent: { name: 'cilMediaPlay' },
+  },
+
+  {
+    title: true,
+    name: 'Planner'
+  },
+  {
+    name: 'Weekly Plan',
+    url: '/planner',
+    iconComponent: { name: 'cilCalendar' },
+  },
 ];
