@@ -38,12 +38,14 @@ ion-accordion ion-item[slot="header"] ion-icon {
   top: calc(env(safe-area-inset-top, 0px) + 8px);
   right: calc(env(safe-area-inset-right, 0px) + 16px);
   z-index: 1001;
+
   --background: rgba(10, 14, 24, 0.72);
   --box-shadow: 0 0 12px rgba(122, 215, 255, 0.35);
   --color: #7ad7ff;
   --border-radius: 10px;
   --padding-start: 6px;
   --padding-end: 6px;
+
   height: 32px;
   width: 32px;
   border: 1px solid rgba(122, 215, 255, 0.3);
