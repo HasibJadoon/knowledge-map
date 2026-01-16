@@ -49,13 +49,20 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
   }
 
   // ✅ Public routes
+  const isStaticAsset =
+    request.method === 'GET' &&
+    /\.(?:css|js|map|ico|png|jpg|jpeg|svg|webp|woff2?|ttf|eot)$/.test(
+      url.pathname
+    );
+
   if (
     url.pathname === '/' ||
     url.pathname.startsWith('/login') ||
     url.pathname.startsWith('/docs') ||
     url.pathname.startsWith('/openapi') ||
     url.pathname.startsWith('/assets') ||
-    url.pathname.startsWith('/favicon')
+    url.pathname.startsWith('/favicon') ||
+    isStaticAsset
   ) {
     return withCors(await ctx.next(), origin);
   }
