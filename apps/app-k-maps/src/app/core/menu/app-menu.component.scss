@@ -43,6 +43,7 @@ ion-accordion.ion-accordion-expanded::part(indicator) {
 ion-accordion::part(indicator) {
   opacity: 0 !important;
   width: 0;
+  display: none;
 }
 
 .accordion-icon {
