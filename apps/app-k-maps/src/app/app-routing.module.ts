@@ -13,10 +13,51 @@ const routes: Routes = [
     loadChildren: () => import('./core/login/login.module').then(m => m.LoginPageModule)
   },
   {
-    path: 'tabs',
-    loadChildren: () => import('./core/tabs/tabs.module').then(m => m.TabsPageModule),
+    path: 'dashboard',
+    loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'arabic/lessons',
+    loadChildren: () => import('./features/arabic/lessons/arabic-lessons.module').then(m => m.ArabicLessonsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'arabic/roots',
+    loadChildren: () => import('./features/arabic/roots/arabic-roots.module').then(m => m.ArabicRootsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'arabic/lexicon',
+    loadChildren: () => import('./features/arabic/lexicon/arabic-lexicon.module').then(m => m.ArabicLexiconPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'arabic/memory',
+    loadChildren: () => import('./features/arabic/memory/arabic-memory.module').then(m => m.ArabicMemoryPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'worldview/lessons',
+    loadChildren: () => import('./features/worldview/lessons/worldview-lessons.module').then(m => m.WorldviewLessonsPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'crossref',
+    loadChildren: () => import('./features/crossref/crossref.module').then(m => m.CrossrefPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'podcast',
+    loadChildren: () => import('./features/podcast/episodes/podcast-episodes.module').then(m => m.PodcastEpisodesPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'planner',
+    loadChildren: () => import('./features/planner/weekly-plan/weekly-plan.module').then(m => m.WeeklyPlanPageModule),
+    canActivate: [AuthGuard]
+  },
+  { path: '**', redirectTo: 'dashboard' }
 ];
 @NgModule({
   imports: [

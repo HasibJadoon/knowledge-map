@@ -8,25 +8,25 @@
     <ion-content>
       <ion-list>
         <ion-item-divider>Dashboard</ion-item-divider>
-        <ion-item routerLink="/tabs/tab1" routerDirection="root">Home</ion-item>
+        <ion-item routerLink="/dashboard" routerDirection="root">Home</ion-item>
 
         <ion-item-divider>Arabic</ion-item-divider>
-        <ion-item disabled="true">Lessons</ion-item>
-        <ion-item routerLink="/tabs/arabic-roots" routerDirection="forward">Roots</ion-item>
-        <ion-item disabled="true">Lexicon</ion-item>
-        <ion-item disabled="true">Memory</ion-item>
+        <ion-item routerLink="/arabic/lessons" routerDirection="forward">Lessons</ion-item>
+        <ion-item routerLink="/arabic/roots" routerDirection="forward">Roots</ion-item>
+        <ion-item routerLink="/arabic/lexicon" routerDirection="forward">Lexicon</ion-item>
+        <ion-item routerLink="/arabic/memory" routerDirection="forward">Memory</ion-item>
 
         <ion-item-divider>Worldview</ion-item-divider>
-        <ion-item disabled="true">Lessons</ion-item>
+        <ion-item routerLink="/worldview/lessons" routerDirection="forward">Lessons</ion-item>
 
         <ion-item-divider>Crossref</ion-item-divider>
-        <ion-item disabled="true">Cross References</ion-item>
+        <ion-item routerLink="/crossref" routerDirection="forward">Cross References</ion-item>
 
         <ion-item-divider>Podcast</ion-item-divider>
-        <ion-item disabled="true">Episodes</ion-item>
+        <ion-item routerLink="/podcast" routerDirection="forward">Episodes</ion-item>
 
         <ion-item-divider>Planner</ion-item-divider>
-        <ion-item disabled="true">Weekly Plan</ion-item>
+        <ion-item routerLink="/planner" routerDirection="forward">Weekly Plan</ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>
