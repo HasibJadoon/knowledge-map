@@ -24,8 +24,36 @@
   width: 35px;
   height: 35px;
   display: block;
-  opacity: 0.9;
+  background-color: var(--study-tab-icon-color, #8fe6ff);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
   filter: var(--study-tab-icon-filter, none) !important;
+  transform: translateY(0) scale(1);
+  transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.header-tab-icon.icon-reading {
+  -webkit-mask-image: url('assets/images/app-icons/reading.svg');
+  mask-image: url('assets/images/app-icons/reading.svg');
+}
+
+.header-tab-icon.icon-memory {
+  -webkit-mask-image: url('assets/images/app-icons/memory-recall.svg');
+  mask-image: url('assets/images/app-icons/memory-recall.svg');
+}
+
+.header-tab-icon.icon-mcqs {
+  -webkit-mask-image: url('assets/images/app-icons/mcqs.svg');
+  mask-image: url('assets/images/app-icons/mcqs.svg');
+}
+
+.header-tab-icon.icon-passage {
+  -webkit-mask-image: url('assets/images/app-icons/passage-questions.svg');
+  mask-image: url('assets/images/app-icons/passage-questions.svg');
 }
 
 .header-tabs .nav-link.active .header-tab-icon {
@@ -34,9 +62,10 @@
 }
 
 .header-tabs .nav-link.active {
-  background: var(--study-tab-active-bg, rgba(124, 106, 255, 0.16));
-  color: var(--study-tab-active-color, #cfd3ff);
-  border-color: var(--study-tab-active-border, rgba(124, 106, 255, 0.4));
+  background: var(--study-tab-active-bg, rgba(0, 187, 255, 0.18));
+  color: var(--study-tab-active-color, #8fe6ff);
+  border-color: var(--study-tab-active-border, rgba(0, 187, 255, 0.55));
+  --study-tab-icon-color: var(--study-tab-active-color, #8fe6ff);
 }
 
 :host-context(.dark-theme) {
@@ -174,7 +203,8 @@
 
 .header-tabs .nav-link:hover,
 .header-tabs .nav-link:focus-visible {
-  background: var(--study-tab-active-bg, rgba(124, 106, 255, 0.12));
-  color: var(--study-tab-active-color, #cfd3ff);
-  border-color: var(--study-tab-active-border, rgba(124, 106, 255, 0.35));
+  background: var(--study-tab-active-bg, rgba(0, 187, 255, 0.12));
+  color: var(--study-tab-active-color, #8fe6ff);
+  border-color: var(--study-tab-active-border, rgba(0, 187, 255, 0.35));
+  --study-tab-icon-color: var(--study-tab-active-color, #8fe6ff);
 }
