@@ -7,6 +7,25 @@
   font-weight: 600;
 }
 
+.header-tabs .nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.header-tab-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+  opacity: 0.8;
+}
+
+.header-tabs .nav-link.active .header-tab-icon {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(124, 106, 255, 0.45));
+}
+
 .study-tabs-row {
   display: flex;
   align-items: center;
