@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: () => import('../../features/tab3/tab3.module').then(m => m.Tab3PageModule)
       },
       {
+        path: 'arabic-roots',
+        loadChildren: () => import('../../features/arabic/roots/arabic-roots.module').then(m => m.ArabicRootsPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'

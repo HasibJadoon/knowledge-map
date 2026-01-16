@@ -6,69 +6,66 @@ export const navItems: INavData[] = [
     url: '/dashboard',
     iconComponent: { name: 'cilHome' }
   },
-
   {
-    title: true,
-    name: 'Arabic'
-  },
-  {
-    name: 'Lessons',
-    url: '/arabic/lessons',
+    name: 'Arabic',
     iconComponent: { name: 'cilBookmark' },
+    children: [
+      {
+        name: 'Lessons',
+        url: '/arabic/lessons'
+      },
+      {
+        name: 'Roots',
+        url: '/arabic/roots'
+      },
+      {
+        name: 'Lexicon',
+        url: '/arabic/lexicon'
+      },
+      {
+        name: 'Memory',
+        url: '/arabic/memory'
+      }
+    ]
   },
   {
-    name: 'Roots',
-    url: '/arabic/roots',
-    iconComponent: { name: 'cilList' },
-  },
-  {
-    name: 'Lexicon',
-    url: '/arabic/lexicon',
-    iconComponent: { name: 'cilDescription' },
-  },
-  {
-    name: 'Memory',
-    url: '/arabic/memory',
-    iconComponent: { name: 'cilTask' },
-  },
-
-  {
-    title: true,
-    name: 'Worldview'
-  },
-  {
-    name: 'Lessons',
-    url: '/worldview/lessons',
+    name: 'Worldview',
     iconComponent: { name: 'cilMap' },
+    children: [
+      {
+        name: 'Lessons',
+        url: '/worldview/lessons'
+      }
+    ]
   },
-
   {
-    title: true,
-    name: 'Crossref'
-  },
-  {
-    name: 'Cross References',
-    url: '/crossref',
+    name: 'Crossref',
     iconComponent: { name: 'cilShareAll' },
+    children: [
+      {
+        name: 'Cross References',
+        url: '/crossref'
+      }
+    ]
   },
-
   {
-    title: true,
-    name: 'Podcast'
-  },
-  {
-    name: 'Episodes',
-    url: '/podcast',
+    name: 'Podcast',
     iconComponent: { name: 'cilMediaPlay' },
+    children: [
+      {
+        name: 'Episodes',
+        url: '/podcast'
+      }
+    ]
   },
-
   {
-    title: true,
-    name: 'Planner'
-  },
-  {
-    name: 'Weekly Plan',
-    url: '/planner',
+    name: 'Planner',
     iconComponent: { name: 'cilCalendar' },
-  },
+    children: [
+      {
+        name: 'Weekly Plan',
+        url: '/planner'
+      }
+    ]
+  }
 ];

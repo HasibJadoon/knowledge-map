@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Arabic Roots</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      placeholder="Search by root or family"
+      [value]="searchTerm"
+      (ionInput)="onSearchChange($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="loadRoots($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="state" *ngIf="loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading roots...</p>
+  </div>
+
+  <div class="state error" *ngIf="!loading && error">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>{{ error }}</p>
+    <ion-button fill="outline" size="small" (click)="loadRoots()">Retry</ion-button>
+  </div>
+
+  <ion-list *ngIf="!loading && !error && filtered.length">
+    <ion-item *ngFor="let item of filtered">
+      <ion-label>
+        <h2>{{ item.root }} <span *ngIf="item.family">({{ item.family }})</span></h2>
+        <p>
+          <span *ngIf="item.status">Status: {{ item.status }}</span>
+          <span *ngIf="item.frequency"> • Frequency: {{ item.frequency }}</span>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div class="state empty" *ngIf="!loading && !error && !filtered.length">
+    <ion-icon name="search-outline"></ion-icon>
+    <p>No roots found.</p>
+  </div>
+</ion-content>

@@ -1,0 +1,21 @@
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2.5rem 1.5rem;
+  color: var(--ion-color-medium);
+  text-align: center;
+}
+
+.state ion-icon {
+  font-size: 1.75rem;
+}
+
+.state.error {
+  color: var(--ion-color-danger);
+}
+
+.state.empty {
+  color: var(--ion-color-medium);
+}
