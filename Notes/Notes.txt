@@ -3,10 +3,10 @@ npx wrangler d1 execute DB \
   --file Database/schema.sql
 
 
-npx wrangler pages deploy knowledge-map-ui/dist/knowledge-map-ui/browser
+npx wrangler pages deploy apps/k-map/dist/k-map/browser
 
 
 Builld and deploy
-cd knowledge-map-ui
+cd apps/k-map
 npm ci
 npm run build

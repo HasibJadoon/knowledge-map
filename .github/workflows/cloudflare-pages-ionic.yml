@@ -22,11 +22,11 @@ jobs:
 
       - name: Install and build
         run: |
-          npm install --legacy-peer-deps --workspace apps/app-knowledge-map --include-workspace-root=false
-          npm run build -w apps/app-knowledge-map
+          npm install --legacy-peer-deps --workspace apps/app-k-map --include-workspace-root=false
+          npm run build -w apps/app-k-map
 
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy apps/app-knowledge-map/www --project-name app-k-maps --branch main
+        run: npx wrangler pages deploy apps/app-k-map/www --project-name app-k-map --branch main
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

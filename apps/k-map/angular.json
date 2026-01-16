@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "knowledge-map-ui": {
+    "k-map": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/knowledge-map-ui",
+            "outputPath": "dist/k-map",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -85,10 +85,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "knowledge-map-ui:build:production"
+              "buildTarget": "k-map:build:production"
             },
             "development": {
-              "buildTarget": "knowledge-map-ui:build:development"
+              "buildTarget": "k-map:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -96,7 +96,7 @@
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n",
           "options": {
-            "buildTarget": "knowledge-map-ui:build"
+            "buildTarget": "k-map:build"
           }
         },
         "test": {
