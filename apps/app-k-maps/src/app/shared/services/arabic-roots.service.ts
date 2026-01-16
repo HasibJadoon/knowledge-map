@@ -38,7 +38,7 @@ export class ArabicRootsService {
       'content-type': 'application/json',
     };
     if (token) {
-      headers.authorization = `Bearer ${token}`;
+      headers['authorization'] = `Bearer ${token}`;
     }
     return new HttpHeaders(headers);
   }
