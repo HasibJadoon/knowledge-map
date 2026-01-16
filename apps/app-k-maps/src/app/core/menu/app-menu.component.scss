@@ -27,3 +27,15 @@ ion-menu ion-item[slot="header"] .menu-icon {
   font-size: 22px;
   filter: drop-shadow(0 0 6px rgba(122, 215, 255, 0.75)) drop-shadow(0 0 16px rgba(122, 215, 255, 0.45));
 }
+
+ion-accordion::part(indicator) {
+  color: #7ad7ff;
+  transform: rotate(-90deg);
+  transition: transform 0.2s ease;
+}
+
+ion-accordion[aria-expanded='true']::part(indicator),
+ion-accordion.accordion-expanded::part(indicator),
+ion-accordion.ion-accordion-expanded::part(indicator) {
+  transform: rotate(0deg);
+}
