@@ -20,11 +20,13 @@ ion-menu ion-accordion-group {
 .menu-icon {
   color: #7ad7ff;
   font-size: 20px;
-  opacity: 0.9;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 6px rgba(122, 215, 255, 0.6)) drop-shadow(0 0 14px rgba(122, 215, 255, 0.4));
 }
 
 ion-menu ion-item[slot="header"] .menu-icon {
   font-size: 22px;
+  filter: drop-shadow(0 0 6px rgba(122, 215, 255, 0.75)) drop-shadow(0 0 16px rgba(122, 215, 255, 0.45));
 }
 
 ion-accordion ion-item[slot="header"] ion-icon {
