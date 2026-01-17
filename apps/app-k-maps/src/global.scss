@@ -295,6 +295,13 @@ app-ar-lesson-study {
     line-height: 1.6;
   }
 
+  .mini-neon-divider {
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0, 255, 255, 0), rgba(0, 255, 255, 0.6), rgba(0, 255, 255, 0));
+    border: 0;
+    margin: 0.5rem 0 1rem;
+  }
+
   .study-tabs {
     --background: transparent;
     --indicator-color: transparent;
