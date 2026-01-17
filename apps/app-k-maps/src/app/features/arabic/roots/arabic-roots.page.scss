@@ -1,10 +1,54 @@
-:host {
-  --root-font: var(--app-font-ar);
-  --root-font-size: var(--app-font-ar-size, 32px);
+ion-content {
+  --overflow: auto;
 }
 
-ion-list h2 {
-  font-family: var(--root-font);
-  font-size: var(--root-font-size);
-  letter-spacing: 0.3px;
+ion-content::part(scroll) {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+ion-item h2,
+ion-item h2 span {
+  font-family: var(--app-font-ar);
+  font-size: var(--app-font-ar-size);
+}
+
+.root-badges {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+ion-badge.badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  text-transform: lowercase;
+}
+
+ion-badge.status-edited {
+  background: #ff5fa2;
+  color: #0b0d12;
+}
+
+ion-badge.status-pending {
+  background: #f6c453;
+  color: #1a1402;
+}
+
+ion-badge.freq-high {
+  background: #37d693;
+  color: #052017;
+}
+
+ion-badge.freq-medium {
+  background: #ffd34d;
+  color: #3b2a00;
+}
+
+ion-badge.freq-low {
+  background: #4fc3ff;
+  color: #03121f;
 }

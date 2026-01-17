@@ -92,3 +92,40 @@ body {
 html {
   font-size: var(--app-font-size, 16px);
 }
+
+ion-content {
+  --background: #0b0d12;
+}
+
+ion-card {
+  --background: #1c2230;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+ion-card:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45), 0 0 18px rgba(122, 215, 255, 0.18);
+}
+
+ion-modal::part(content) {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--app-font-sans);
+  font-weight: 800;
+}
+
+ion-menu h2 {
+  font-family: var(--app-font-sans);
+}
+
+h1[lang="ar"], h2[lang="ar"], h3[lang="ar"], h4[lang="ar"], h5[lang="ar"], h6[lang="ar"],
+.arabic h1, .arabic h2, .arabic h3, .arabic h4, .arabic h5, .arabic h6 {
+  font-family: var(--app-font-ar);
+}
+
+ion-content::part(scroll) {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}

@@ -1,1 +1,22 @@
-/* Use default Ionic card styles. */
+.root-card-front {
+  font-family: var(--app-font-ar);
+  font-size: var(--app-font-ar-size);
+  color: #ff7ad9;
+  white-space: pre-line;
+  text-shadow: 0 0 10px rgba(255, 122, 217, 0.45);
+}
+
+.root-card-divider {
+  height: 2px;
+  background: linear-gradient(90deg, rgba(122, 215, 255, 0.6), rgba(122, 215, 255, 0.1));
+  box-shadow: 0 0 12px rgba(122, 215, 255, 0.45);
+  margin: 12px 0 16px;
+}
+
+.root-card-back {
+  font-family: var(--app-font-sans);
+  font-weight: 700;
+  font-size: var(--app-font-size);
+  color: #ffd34d;
+  white-space: pre-line;
+}

@@ -34,10 +34,10 @@
     <ion-item *ngFor="let item of filtered" button detail="true" (click)="openRootModal(item)">
       <ion-label>
         <h2>{{ item.root }} <span *ngIf="item.family">({{ item.family }})</span></h2>
-        <p>
-          <span *ngIf="item.status">Status: {{ item.status }}</span>
-          <span *ngIf="item.frequency"> • Frequency: {{ item.frequency }}</span>
-        </p>
+        <div class="root-badges">
+          <ion-badge *ngIf="item.status" [class]="'badge status-' + (item.status | lowercase)">{{ item.status }}</ion-badge>
+          <ion-badge *ngIf="item.frequency" [class]="'badge freq-' + (item.frequency | lowercase)">{{ item.frequency }}</ion-badge>
+        </div>
       </ion-label>
     </ion-item>
   </ion-list>

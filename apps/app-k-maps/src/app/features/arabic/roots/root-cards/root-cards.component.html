@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Cards — {{ root }} <span *ngIf="family">({{ family }})</span></ion-title>
+    <ion-title>{{ root }} <span *ngIf="family">({{ family }})</span></ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">Close</ion-button>
     </ion-buttons>
@@ -13,7 +13,7 @@
 
   <ion-card *ngFor="let card of cards">
     <ion-card-content>
-      <div class="root-card-front">{{ card.front }}</div>
+      <div class="root-card-front" lang="ar">{{ card.front }}</div>
       <div class="root-card-divider"></div>
       <div class="root-card-back">{{ card.back }}</div>
     </ion-card-content>
