@@ -1,6 +1,9 @@
 <ion-app>
   <app-menu></app-menu>
   <ion-router-outlet id="main" (activate)="onRouteChange()"></ion-router-outlet>
+  <ion-button class="global-settings-button" routerLink="/settings" fill="solid" size="small">
+    <ion-icon name="settings-outline" slot="icon-only"></ion-icon>
+  </ion-button>
   <ion-button class="global-home-button" routerLink="/dashboard" fill="solid" size="small">
     <ion-icon name="home-outline" slot="icon-only"></ion-icon>
   </ion-button>

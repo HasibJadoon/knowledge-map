@@ -23,6 +23,8 @@ import {
 })
 export class AppComponent {
   constructor(private readonly menu: MenuController) {
+    this.applyFontSettings();
+    this.applyLanguage();
     addIcons({
       homeOutline,
       bookOutline,
@@ -36,6 +38,31 @@ export class AppComponent {
       chevronForward,
       settingsOutline,
     });
+  }
+
+  private applyFontSettings() {
+    const arabic = localStorage.getItem('arabicFont') || 'uthmanic';
+    const english = localStorage.getItem('englishFont') || 'poppins';
+    const arabicSize = localStorage.getItem('arabicFontSize') || '32';
+    const englishSize = localStorage.getItem('englishFontSize') || '18';
+
+    const arabicStack = arabic === 'uthmanic'
+      ? 'Uthmanic Hafs, Scheherazade New, serif'
+      : 'Uthmanic Hafs, Scheherazade New, serif';
+    const englishStack = english === 'poppins'
+      ? 'Poppins, Helvetica Neue, Arial, sans-serif'
+      : 'Poppins, Helvetica Neue, Arial, sans-serif';
+
+    document.documentElement.style.setProperty('--app-font-ar', arabicStack);
+    document.documentElement.style.setProperty('--app-font-sans', englishStack);
+    document.documentElement.style.setProperty('--app-font-ar-size', `${arabicSize}px`);
+    document.documentElement.style.setProperty('--app-font-size', `${englishSize}px`);
+  }
+
+  private applyLanguage() {
+    const saved = localStorage.getItem('appLanguage');
+    const lang = saved == 'ar' ? 'ar' : 'en';
+    document.documentElement.setAttribute('data-lang', lang);
   }
 
   async onRouteChange() {

@@ -17,19 +17,23 @@ export class SettingsPage implements OnInit {
   englishFontSize = 18;
   selectedArabicFont = "uthmanic";
   selectedEnglishFont = "poppins";
+  language = "en";
   readonly arabicFonts = [
     { id: "uthmanic", label: "Uthmani/Madani", stack: ["Uthmanic Hafs", "Scheherazade New", "serif"] },
-    { id: "system", label: "System Arabic", stack: ["Geeza Pro", "Arial", "serif"] },
   ];
 
   readonly englishFonts = [
     { id: "poppins", label: "Poppins", stack: ["Poppins", "Helvetica Neue", "Arial", "sans-serif"] },
-    { id: "system", label: "System", stack: ["-apple-system", "Helvetica Neue", "Arial", "sans-serif"] },
   ];
 
 
 
   ngOnInit(): void {
+    const savedLanguage = localStorage.getItem('appLanguage');
+    if (savedLanguage === "ar" || savedLanguage === "en") {
+      this.language = savedLanguage;
+    }
+
     const savedArabicSize = Number(localStorage.getItem('arabicFontSize'));
     if (!Number.isNaN(savedArabicSize) && savedArabicSize > 0) {
       this.arabicFontSize = savedArabicSize;
@@ -51,6 +55,7 @@ export class SettingsPage implements OnInit {
     }
 
     this.applyFontSettings();
+    this.applyLanguage();
   }
 
   onArabicFontSizeChange(value: number | { lower: number; upper: number }): void {
@@ -58,6 +63,7 @@ export class SettingsPage implements OnInit {
     this.arabicFontSize = next;
     localStorage.setItem('arabicFontSize', String(next));
     this.applyFontSettings();
+    this.applyLanguage();
   }
 
   onEnglishFontSizeChange(value: number | { lower: number; upper: number }): void {
@@ -65,20 +71,30 @@ export class SettingsPage implements OnInit {
     this.englishFontSize = next;
     localStorage.setItem('englishFontSize', String(next));
     this.applyFontSettings();
+    this.applyLanguage();
   }
 
   onArabicFontChange(value: string): void {
     this.selectedArabicFont = value;
     localStorage.setItem('arabicFont', value);
     this.applyFontSettings();
+    this.applyLanguage();
   }
 
   onEnglishFontChange(value: string): void {
     this.selectedEnglishFont = value;
     localStorage.setItem('englishFont', value);
     this.applyFontSettings();
+    this.applyLanguage();
   }
 
+
+  onLanguageChange(value: unknown): void {
+    const next = typeof value === 'string' ? value : String(value ?? 'en');
+    this.language = next === 'ar' ? 'ar' : 'en';
+    localStorage.setItem('appLanguage', this.language);
+    this.applyLanguage();
+  }
 
   getSelectedArabicLabel(): string {
     return this.arabicFonts.find(font => font.id === this.selectedArabicFont)?.label ?? 'Arabic';
@@ -110,6 +126,10 @@ export class SettingsPage implements OnInit {
     document.documentElement.style.setProperty('--app-font-sans', english.stack.join(', '));
     document.documentElement.style.setProperty('--app-font-ar-size', `${this.arabicFontSize}px`);
     document.documentElement.style.setProperty('--app-font-size', `${this.englishFontSize}px`);
+  }
+
+  private applyLanguage(): void {
+    document.documentElement.setAttribute('data-lang', this.language);
   }
 
   openFontSheet(target: "arabic" | "english"): void {

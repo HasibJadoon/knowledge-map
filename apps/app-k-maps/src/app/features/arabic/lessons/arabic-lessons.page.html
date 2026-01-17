@@ -7,8 +7,41 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-text color="medium">
-    <p>Arabic Lessons is coming soon.</p>
-  </ion-text>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="loadLessons($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="state" *ngIf="loading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading lessons...</p>
+  </div>
+
+  <div class="state error" *ngIf="!loading && error">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <p>{{ error }}</p>
+    <ion-button fill="outline" size="small" (click)="loadLessons()">Retry</ion-button>
+  </div>
+
+  <ion-list *ngIf="!loading && !error && lessons.length">
+    <ion-item *ngFor="let lesson of lessons" [routerLink]="['/arabic/lessons', lesson.id, 'study']" detail="false">
+      <ion-label>
+        <h2 class="lesson-title" [ngClass]="{ 'lesson-title-ar': isArabicTitle(lesson.title) }" [attr.lang]="isArabicTitle(lesson.title) ? 'ar' : null">
+          {{ lesson.title || 'Untitled Lesson' }}
+        </h2>
+        <p *ngIf="getSource(lesson) && isUrl(getSource(lesson))">
+          <a [href]="getSource(lesson)" target="_blank" rel="noopener noreferrer" (click)="$event.stopPropagation()">{{ getSource(lesson) }}</a>
+        </p>
+      </ion-label>
+      <div slot="end" class="lesson-badges">
+        <ion-chip *ngIf="getSubtype(lesson)" class="subtype-chip"><ion-label>{{ getSubtype(lesson) }}</ion-label></ion-chip>
+        <ion-badge *ngIf="lesson.status" [ngClass]="statusClass(lesson.status)">{{ lesson.status }}</ion-badge>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <div class="state empty" *ngIf="!loading && !error && !lessons.length">
+    <ion-icon name="book-outline"></ion-icon>
+    <p>No lessons found.</p>
+  </div>
 </ion-content>

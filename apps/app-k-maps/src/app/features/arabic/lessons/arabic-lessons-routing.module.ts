@@ -7,6 +7,11 @@ const routes: Routes = [
     path: '',
     component: ArabicLessonsPage,
   },
+  {
+    path: ':id/study',
+    loadComponent: () =>
+      import('./ar-lesson-study/ar-lesson-study.page').then((m) => m.ArLessonStudyPage),
+  },
 ];
 
 @NgModule({

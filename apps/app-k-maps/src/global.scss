@@ -129,3 +129,25 @@ ion-content::part(scroll) {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+
+
+:root[data-lang='ar'] ion-header ion-title {
+  font-family: var(--app-font-ar);
+}
+
+:root[data-lang='ar'] ion-header ion-title,
+:root[data-lang='ar'] ion-header ion-title * {
+  font-weight: 700;
+}
+
+
+.app-text-select,
+.app-text-select * {
+  user-select: text;
+}
+
+
+ion-content,
+ion-content * {
+  user-select: text;
+}

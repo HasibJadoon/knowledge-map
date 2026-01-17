@@ -1,4 +1,104 @@
-ion-text p {
-  margin-top: 1rem;
+.state {
+  display: grid;
+  place-items: center;
+  gap: 0.5rem;
+  padding: 2rem 1rem;
   text-align: center;
+}
+
+.state.error {
+  color: var(--ion-color-danger);
+}
+
+.state.empty {
+  color: var(--ion-color-medium);
+}
+
+
+ion-item h2 {
+  font-family: var(--app-font-sans);
+  font-weight: 800;
+}
+
+.lesson-title-ar {
+  font-family: var(--app-font-ar);
+  font-size: var(--app-font-ar-size);
+}
+
+ion-badge {
+  text-transform: capitalize;
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+.status-draft {
+  --background: rgba(255, 170, 0, 0.2);
+  --color: #ffb300;
+  border: 1px solid rgba(255, 179, 0, 0.35);
+}
+
+.status-done {
+  --background: rgba(0, 200, 120, 0.2);
+  --color: #2bff9a;
+  border: 1px solid rgba(43, 255, 154, 0.35);
+}
+
+.status-published {
+  --background: rgba(86, 204, 255, 0.2);
+  --color: #56ccff;
+  border: 1px solid rgba(86, 204, 255, 0.35);
+}
+
+.status-default {
+  --background: rgba(180, 190, 210, 0.2);
+  --color: #c9d1e0;
+  border: 1px solid rgba(201, 209, 224, 0.35);
+}
+
+
+ion-label .lesson-title {
+  font-family: var(--app-font-sans);
+  font-weight: 800;
+}
+
+ion-label .lesson-title-ar {
+  font-family: var(--app-font-ar) !important;
+  font-size: var(--app-font-ar-size);
+}
+
+
+.subtype-chip {
+  --background: rgba(86, 204, 255, 0.18);
+  --color: #56ccff;
+  border: 1px solid rgba(86, 204, 255, 0.35);
+  box-shadow: 0 0 8px rgba(86, 204, 255, 0.35);
+}
+
+
+.lesson-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+
+.subtype-chip {
+  --background: rgba(86, 204, 255, 0.16);
+  border: 1px solid rgba(86, 204, 255, 0.35);
+}
+
+.subtype-chip ion-label {
+  color: #56ccff;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+
+.status-draft,
+.status-done,
+.status-published,
+.status-default {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
 }
