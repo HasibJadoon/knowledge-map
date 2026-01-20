@@ -78,6 +78,10 @@ export class ArLessonEditorComponent implements OnInit {
   grammarNotesItems: GrammarNoteItem[] = [];
   grammarNotesError = '';
 
+  get hasArabicText() {
+    return !!this.lessonJson.text?.arabic?.trim();
+  }
+
   ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
     const id = idParam ? Number(idParam) : null;
@@ -221,7 +225,7 @@ export class ArLessonEditorComponent implements OnInit {
   }
 
   async generateModelSuggestion() {
-    if (!this.modelPrompt.trim()) {
+    if (!this.hasArabicText) {
       this.modelError = 'Add Arabic text to generate a Claude preview.';
       return;
     }

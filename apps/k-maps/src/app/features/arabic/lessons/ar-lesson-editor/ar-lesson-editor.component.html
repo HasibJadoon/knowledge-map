@@ -98,7 +98,7 @@
                 class="btn btn-outline-primary btn-sm"
                 type="button"
                 (click)="generateModelSuggestion()"
-                [disabled]="modelLoading || !modelPrompt"
+                [disabled]="modelLoading || !hasArabicText"
               >
                 {{ modelLoading ? 'Generating…' : 'Generate' }}
               </button>
