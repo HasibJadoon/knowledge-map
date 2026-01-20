@@ -43,19 +43,33 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   try {
-    const generatedLesson = await generateLessonWithClaude(
+    const generationResult = await generateLessonWithClaude(
       {
         lesson: lessonInput,
         options: typeof body?.options === "object" ? body.options : undefined,
       },
       env
     );
+    if (!generationResult.ok) {
+      return toWorkerResponse(
+        new Response(
+          JSON.stringify({
+            ok: false,
+            error: generationResult.error,
+            raw_output: generationResult.raw_output,
+            generated_at: new Date().toISOString(),
+            input: lessonInput,
+          }),
+          { headers: jsonHeaders }
+        )
+      );
+    }
 
     return toWorkerResponse(
       new Response(
         JSON.stringify({
           ok: true,
-          generated_lesson: generatedLesson,
+          generated_lesson: generationResult.lesson,
           generated_at: new Date().toISOString(),
           input: lessonInput,
         }),

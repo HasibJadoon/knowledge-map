@@ -2,6 +2,11 @@ import { inject, Injectable } from '@angular/core';
 import { API_BASE } from '../api-base';
 import { AuthService } from '../../../services/AuthService';
 
+export interface LessonGeneratorServiceResult {
+  raw: string;
+  data: unknown;
+}
+
 @Injectable({ providedIn: 'root' })
 export class LessonGeneratorService {
   private auth = inject(AuthService);
@@ -27,7 +32,10 @@ export class LessonGeneratorService {
       throw new Error(message);
     }
 
-    return data ?? raw;
+    return {
+      raw,
+      data: data ?? raw,
+    } satisfies LessonGeneratorServiceResult;
   }
 
   private safeJsonParse(text: string) {

@@ -61,7 +61,7 @@ export class ArLessonEditorComponent implements OnInit {
   source = '';
   status = 'draft';
 
-  tab: 'text' | 'vocab' | 'comprehension' | 'grammar' | 'json' = 'text';
+  tab: 'text' | 'vocab' | 'comprehension' | 'grammar' | 'json' | 'response' = 'text';
 
   lessonJson: LessonJson = this.defaultLessonJson();
   jsonText = JSON.stringify(this.lessonJson, null, 2);
@@ -71,6 +71,7 @@ export class ArLessonEditorComponent implements OnInit {
   modelLoading = false;
   modelError = '';
   generatedLessonJson = '';
+  rawResponseText = '';
   generatedLesson: any = null;
 
   compMemoryVerbsText = '';
@@ -202,6 +203,14 @@ export class ArLessonEditorComponent implements OnInit {
     }
   }
 
+  loadResponseIntoJson() {
+    if (!this.rawResponseText) {
+      return;
+    }
+    this.tab = 'json';
+    this.jsonText = this.rawResponseText;
+  }
+
   private hydrateComprehensionUI() {
     const comp = Array.isArray(this.lessonJson.comprehension) ? this.lessonJson.comprehension : [];
     const memory = comp.find((c: any) => c?.type === 'memory_recall') ?? {};
@@ -235,6 +244,7 @@ export class ArLessonEditorComponent implements OnInit {
     this.modelError = '';
     this.modelResponse = '';
     this.generatedLessonJson = '';
+    this.rawResponseText = '';
     this.generatedLesson = null;
     try {
       const payload = {
@@ -249,7 +259,21 @@ export class ArLessonEditorComponent implements OnInit {
         comprehension: this.lessonJson.comprehension,
       };
       const response = await this.lessonGenerator.generate(payload);
-      const generatedLesson = (response as any)?.generated_lesson ?? response;
+      this.rawResponseText = response.raw ?? '';
+      const responseData = response.data;
+
+      if (responseData && typeof responseData === 'object' && (responseData as any).ok === false) {
+        this.modelError = (responseData as any).error ?? 'Claude did not return a lesson payload.';
+        const fallback = (responseData as any).lesson ?? (responseData as any).raw_output ?? this.rawResponseText;
+        this.generatedLesson = null;
+        this.generatedLessonJson = formatResponseFallback(fallback);
+        return;
+      }
+
+      const generatedLesson =
+        responseData && typeof responseData === 'object'
+          ? (responseData as any).generated_lesson ?? (responseData as any).lesson ?? responseData
+          : responseData;
       if (!generatedLesson) {
         throw new Error('Claude did not return a lesson payload.');
       }
@@ -500,4 +524,14 @@ export class ArLessonEditorComponent implements OnInit {
 
     await this.grammarNotes.replaceForLesson(id, notes);
   }
+}
+
+function formatResponseFallback(value: any) {
+  if (typeof value === 'string') {
+    return value;
+  }
+  if (value == null) {
+    return '';
+  }
+  return JSON.stringify(value, null, 2);
 }

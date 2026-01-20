@@ -61,6 +61,9 @@
         <li class="nav-item">
           <button class="nav-link" [class.active]="tab==='json'" (click)="tab='json'">JSON</button>
         </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="tab==='response'" (click)="tab='response'">Claude Response</button>
+        </li>
       </ul>
 
       <div *ngIf="tab === 'text'">
@@ -265,6 +268,49 @@
           </div>
         </div>
         <div *ngIf="grammarNotesError" class="text-danger small mt-2">{{ grammarNotesError }}</div>
+      </div>
+
+      <div *ngIf="tab === 'response'">
+        <div class="card mb-3 border-primary">
+          <div class="card-body">
+            <h6 class="card-title">Claude API response</h6>
+            <div class="mb-3">
+              <label class="form-label small mb-1">Prompt (auto-generated)</label>
+              <textarea class="form-control form-control-sm" rows="3" [value]="modelPrompt" readonly></textarea>
+            </div>
+            <div *ngIf="generatedLessonJson" class="mb-3">
+              <label class="form-label small mb-1">Parsed lesson JSON</label>
+              <textarea
+                class="form-control form-control-sm"
+                rows="6"
+                [value]="generatedLessonJson"
+                spellcheck="false"
+                readonly
+              ></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label small mb-1">Raw response (use to reconstruct if parsing failed)</label>
+              <textarea
+                class="form-control form-control-sm"
+                rows="8"
+                [value]="rawResponseText"
+                spellcheck="false"
+                readonly
+              ></textarea>
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+              <button
+                class="btn btn-outline-secondary btn-sm"
+                type="button"
+                (click)="loadResponseIntoJson()"
+                [disabled]="!rawResponseText"
+              >
+                Copy raw response to JSON tab
+              </button>
+              <span *ngIf="!rawResponseText" class="text-muted small mb-0">No Claude response captured yet.</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div *ngIf="tab === 'json'">

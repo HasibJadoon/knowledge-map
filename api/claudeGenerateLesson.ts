@@ -13,6 +13,10 @@ type ClaudeEnv = {
   CLAUDE_API_KEY?: string;
 };
 
+type ClaudeLessonResponse =
+  | { ok: true; lesson: any }
+  | { ok: false; error: string; raw_output: string };
+
 export async function generateLessonWithClaude(
   payload: GenerateLessonRequest,
   env: ClaudeEnv
@@ -76,42 +80,44 @@ Return ONLY valid JSON that matches the schema; do not wrap the JSON in markdown
     throw new Error("No structured JSON returned in content[0].text");
   }
 
-  return parseClaudeLessonJson(outputText);
+  const parseResult = parseClaudeLessonJson(outputText);
+  if (!parseResult.ok) {
+    return parseResult;
+  }
+  return { ok: true, lesson: parseResult.lesson };
 }
 // Claude occasionally emits JSON that is missing quotes around property names,
 // so try a sanitized pass before giving up.
-function parseClaudeLessonJson(outputText: string) {
-  try {
-    return JSON.parse(outputText);
-  } catch (primaryError: any) {
-    const sanitizedText = sanitizeJsonLikeString(outputText);
-    if (sanitizedText === outputText) {
-      const snippet = getSnippet(outputText);
-      throw new Error(
-        `Failed to parse Claude output JSON: ${primaryError.message}. Output snippet: ${snippet}`
-      );
-    }
+type ClaudeLessonParseResult =
+  | { ok: true; lesson: any }
+  | { ok: false; error: string; raw_output: string };
 
+function parseClaudeLessonJson(outputText: string): ClaudeLessonParseResult {
+  const attempts: { text: string; label: string }[] = [{ text: outputText, label: "raw" }];
+  const sanitizedText = sanitizeJsonLikeString(outputText);
+  if (sanitizedText !== outputText) {
+    attempts.push({ text: sanitizedText, label: "sanitized" });
+  }
+  const recoveredText = recoverJsonStructure(sanitizedText);
+  if (recoveredText !== sanitizedText) {
+    attempts.push({ text: recoveredText, label: "recovered" });
+  }
+
+  let lastError: Error | null = null;
+  for (const attempt of attempts) {
     try {
-      return JSON.parse(sanitizedText);
-    } catch (secondaryError: any) {
-      const recoveredText = recoverJsonStructure(sanitizedText);
-      if (recoveredText !== sanitizedText) {
-        try {
-          return JSON.parse(recoveredText);
-        } catch (tertiaryError: any) {
-          const snippet = getSnippet(outputText);
-          throw new Error(
-            `Failed to parse Claude output JSON after sanitizing and recovery: ${tertiaryError.message}. Output snippet: ${snippet}`
-          );
-        }
-      }
-      const snippet = getSnippet(outputText);
-      throw new Error(
-        `Failed to parse Claude output JSON after sanitizing: ${secondaryError.message}. Output snippet: ${snippet}`
-      );
+      return { ok: true, lesson: JSON.parse(attempt.text) };
+    } catch (error: any) {
+      lastError = error;
     }
   }
+
+  const snippet = getSnippet(outputText);
+  return {
+    ok: false,
+    error: `Failed to parse Claude output JSON after attempts (last error: ${lastError?.message ?? "unknown"}). Output snippet: ${snippet}`,
+    raw_output: outputText,
+  };
 }
 
 // Walk the text and quote keys that are not already wrapped, while respecting string literals.
