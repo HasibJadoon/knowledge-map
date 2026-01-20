@@ -13,10 +13,12 @@ export class HeaderSearchComponent {
   @Input() value = '';
   @Input() primaryLabel = '';
   @Input() secondaryLabel = '';
+  @Input() tertiaryLabel = '';
 
   @Output() search = new EventEmitter<string>();
   @Output() primary = new EventEmitter<void>();
   @Output() secondary = new EventEmitter<void>();
+  @Output() tertiary = new EventEmitter<void>();
 
   onInput(event: Event) {
     const value = String((event.target as HTMLInputElement).value ?? '');

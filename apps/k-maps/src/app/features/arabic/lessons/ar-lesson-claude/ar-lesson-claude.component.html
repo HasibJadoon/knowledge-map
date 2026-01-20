@@ -1,0 +1,91 @@
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+      <div>
+        <h5 class="card-title mb-0">Generate lesson</h5>
+        <p class="card-subtitle text-muted small mb-0">Paste Arabic text, trigger Claude, and inspect the formatted JSON.</p>
+      </div>
+      <button
+        class="btn btn-primary btn-sm"
+        type="button"
+        (click)="generate()"
+        [disabled]="loading || !canSubmit"
+      >
+        {{ loading ? 'Generating…' : 'Generate lesson' }}
+      </button>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label class="form-label">Arabic text</label>
+          <textarea
+            class="form-control arabic-textarea"
+            rows="6"
+            [(ngModel)]="arabicText"
+            placeholder="Paste the Arabic passage you want Claude to expand"
+          ></textarea>
+        </div>
+        <div class="row g-3 mb-3">
+          <div class="col-6">
+            <label class="form-label">Surah</label>
+            <input class="form-control" type="number" [(ngModel)]="surah" min="1" />
+          </div>
+          <div class="col-6">
+            <label class="form-label">Mode</label>
+            <select class="form-select" [(ngModel)]="mode">
+              <option value="ayah">Ayah markers (﴿١﴾)</option>
+              <option value="sentence">Sentence fallback</option>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="error" class="alert alert-danger py-2 mb-0">{{ error }}</div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="response-card">
+          <div class="response-header">
+            <span class="response-label">Claude output</span>
+            <span *ngIf="attempts" class="text-muted small">Attempts: {{ attempts }}</span>
+          </div>
+          <ul class="nav nav-tabs response-tabs">
+            <li class="nav-item">
+              <button
+                type="button"
+                class="nav-link"
+                [class.active]="responseTab === 'formatted'"
+                (click)="responseTab = 'formatted'"
+              >
+                Formatted JSON
+              </button>
+            </li>
+            <li class="nav-item">
+              <button
+                type="button"
+                class="nav-link"
+                [class.active]="responseTab === 'raw'"
+                (click)="responseTab = 'raw'"
+              >
+                Raw Claude response
+              </button>
+            </li>
+          </ul>
+          <pre
+            class="json-output"
+            [textContent]="
+              responseTab === 'formatted'
+                ? resultJson || 'Waiting for Claude response…'
+                : rawResponse || 'Raw output will appear here.'
+            "
+          ></pre>
+        </div>
+        <div *ngIf="warnings.length" class="mt-2">
+          <label class="form-label small mb-1">Warnings</label>
+          <ul class="mb-0 small">
+            <li *ngFor="let warning of warnings">{{ warning }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

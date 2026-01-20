@@ -2,11 +2,11 @@
     "ok": true,
     "generated_lesson": {
         "entity_type": "ar_lesson",
-        "id": "surah-12-ayah-1-7",
-        "lesson_type": "quran_passage",
-        "subtype": null,
-        "title": "سورة يوسف: الآيات ١-٧",
-        "status": "published",
+        "id": "yusuf_01_07_opening_vision",
+        "lesson_type": "quranic_passage",
+        "subtype": "narrative_opening",
+        "title": "Surah Yusuf Opening: The Vision and Divine Selection (1-7)",
+        "status": "active",
         "difficulty": 3,
         "reference": {
             "source_type": "quran",
@@ -14,212 +14,154 @@
             "surah": 12,
             "ayah_from": 1,
             "ayah_to": 7,
-            "ref_label": "سورة يوسف",
-            "citation": "سورة يوسف ١٢:١-٧"
+            "ref_label": "Surah Yusuf",
+            "citation": "Surah Yusuf (12:1-7)"
         },
         "text": {
             "mode": "quran",
             "arabic_full": [
                 {
-                    "unit_id": "12:1",
+                    "unit_id": "12_1",
                     "arabic": "الر تلك آيات الكتاب المبين ‎﴿١﴾",
                     "surah": 12,
                     "ayah": 1,
-                    "translation": "Alif, Lam, Ra. These are the verses of the clear Book.",
-                    "notes": null
+                    "translation": "Alif Lam Ra. These are the verses of the clear Book.",
+                    "notes": "Mysterious letters followed by demonstrative reference establishing Quranic authority and clarity"
                 },
                 {
-                    "unit_id": "12:2",
+                    "unit_id": "12_2",
                     "arabic": "إنا أنزلناه قرآنا عربيا لعلكم تعقلون ‎﴿٢﴾",
                     "surah": 12,
                     "ayah": 2,
-                    "translation": "Indeed, We have sent it down as an Arabic Qur'an that you might understand.",
-                    "notes": null
+                    "translation": "Indeed, We have sent it down as an Arabic Quran that you might use reason.",
+                    "notes": "Divine plural emphasizing purpose clause with تعقلون linking Arabic language to rational reflection"
                 },
                 {
-                    "unit_id": "12:3",
+                    "unit_id": "12_3",
                     "arabic": "نحن نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن وإن كنت من قبله لمن الغافلين ‎﴿٣﴾",
                     "surah": 12,
                     "ayah": 3,
-                    "translation": "We relate to you the best of stories in what We have revealed to you of this Qur'an although you were, before it, among the unaware.",
-                    "notes": null
+                    "translation": "We relate to you the best of narratives through what We have revealed to you of this Quran, although you were before it among the unaware.",
+                    "notes": "Meta-narrative frame establishing storytelling excellence and prophetic transformation from unawareness"
                 },
                 {
-                    "unit_id": "12:4",
+                    "unit_id": "12_4",
                     "arabic": "إذ قال يوسف لأبيه يا أبت إني رأيت أحد عشر كوكبا والشمس والقمر رأيتهم لي ساجدين ‎﴿٤﴾",
                     "surah": 12,
                     "ayah": 4,
-                    "translation": "[Mention] when Yusuf said to his father, 'O my father, indeed I have seen eleven stars and the sun and the moon; I saw them prostrating to me.'",
-                    "notes": null
+                    "translation": "When Yusuf said to his father, 'O my father, indeed I have seen eleven stars and the sun and the moon; I saw them prostrating to me.'",
+                    "notes": "Temporal particle إذ initiating narrative flashback; vision reported with emphatic إني and repetition of رأيت"
                 },
                 {
-                    "unit_id": "12:5",
+                    "unit_id": "12_5",
                     "arabic": "قال يا بني لا تقصص رؤياك على إخوتك فيكيدوا لك كيدا إن الشيطان للإنسان عدو مبين ‎﴿٥﴾",
                     "surah": 12,
                     "ayah": 5,
-                    "translation": "He said, 'O my son, do not relate your vision to your brothers or they will contrive against you a plan. Indeed Satan, to man, is a manifest enemy.'",
-                    "notes": null
+                    "translation": "He said, 'O my son, do not relate your vision to your brothers lest they plot against you a plot. Indeed, Satan is a clear enemy to mankind.'",
+                    "notes": "Father's protective prohibition using jussive negation and consequence clause with فيكيدوا; emphasis through cognate accusative كيدا"
                 },
                 {
-                    "unit_id": "12:6",
+                    "unit_id": "12_6",
                     "arabic": "وكذلك يجتبيك ربك ويعلمك من تأويل الأحاديث ويتم نعمته عليك وعلى آل يعقوب كما أتمها على أبويك من قبل إبراهيم وإسحاق إن ربك عليم حكيم ‎﴿٦﴾",
                     "surah": 12,
                     "ayah": 6,
-                    "translation": "And thus will your Lord choose you and teach you the interpretation of narratives and complete His favor upon you and upon the family of Ya'qub, as He completed it upon your fathers before, Ibrahim and Ishaq. Indeed, your Lord is Knowing and Wise.",
-                    "notes": null
+                    "translation": "And thus will your Lord choose you and teach you the interpretation of narratives and complete His favor upon you and upon the family of Ya'qub, as He completed it upon your forefathers before, Ibrahim and Ishaq. Indeed, your Lord is Knowing and Wise.",
+                    "notes": "Prophetic promise using future verbs; كما comparative linking generational blessing; divine attributes عليم حكيم seal the promise"
                 },
                 {
-                    "unit_id": "12:7",
+                    "unit_id": "12_7",
                     "arabic": "لقد كان في يوسف وإخوته آيات للسائلين ‎﴿٧﴾",
                     "surah": 12,
                     "ayah": 7,
                     "translation": "Certainly were there in Yusuf and his brothers signs for those who ask.",
-                    "notes": null
+                    "notes": "Emphatic particle لقد with kāna establishing existential assertion; plural آيات indicating multi-layered lessons"
                 }
             ]
         },
         "sentences": [
             {
-                "sentence_id": "s1",
-                "unit_id": "12:1",
-                "arabic_text": "الر تلك آيات الكتاب المبين",
-                "translation": "Alif, Lam, Ra. These are the verses of the clear Book.",
-                "tokens": null,
-                "grammar_analysis": null,
-                "rhetorical_devices": null
+                "sentence_id": "s12_1_1",
+                "unit_id": "12_1",
+                "text": "الر",
+                "tokens": "الر",
+                "word_by_word": " الر",
+                "translation": "Alif Lam Ra",
+                "notes": "Mysterious disconnected letters (muqatta'at) opening surah; no grammatical parsing required but signal divine speech",
+                "grammar_notes": "Disconnected letters beyond conventional grammar; serve as attention markers and inimitability signs"
             },
             {
-                "sentence_id": "s2",
-                "unit_id": "12:2",
-                "arabic_text": "إنا أنزلناه قرآنا عربيا لعلكم تعقلون",
-                "translation": "Indeed, We have sent it down as an Arabic Qur'an that you might understand.",
-                "tokens": null,
-                "grammar_analysis": null,
-                "rhetorical_devices": null
+                "sentence_id": "s12_1_2",
+                "unit_id": "12_1",
+                "text": "تلك آيات الكتاب المبين",
+                "tokens": "|تلك|آيات|الكتاب|المبين|",
+                "word_by_word": "تلك (demonstrative pointing to distant/honored referent) | آيات (plural subject: signs/verses) | الكتاب (genitive in iḍāfah: the Book) | المبين (adjective modifying الكتاب: the clear/manifest)",
+                "translation": "Those are the verses of the clear Book",
+                "notes": "Demonstrative تلك elevates القرآن; اسمية sentence with مبتدأ تلك and خبر آيات; الكتاب المبين = definite description emphasizing clarity",
+                "grammar_notes": "Nominal sentence structure; تلك as distant demonstrative honoring the Quran; iḍāfah construction آيات الكتاب; المبين describes Kitab emphasizing its clarity"
             },
             {
-                "sentence_id": "s3",
-                "unit_id": "12:3",
-                "arabic_text": "نحن نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن وإن كنت من قبله لمن الغافلين",
-                "translation": "We relate to you the best of stories in what We have revealed to you of this Qur'an although you were, before it, among the unaware.",
-                "tokens": null,
-                "grammar_analysis": null,
-                "rhetorical_devices": null
+                "sentence_id": "s12_2_1",
+                "unit_id": "12_2",
+                "text": "إنا أنزلناه قرآنا عربيا لعلكم تعقلون",
+                "tokens": "|إن|نا|أنزل|نا|ه|قرآنا|عربيا|ل|علّ|كم|تعقلون|",
+                "word_by_word": "إنّا (emphatic particle + pronoun We) | أنزلناه (verb: We sent down + it) | قرآنا (ḥāl/specification: as a Quran) | عربيا (adjective modifying قرآنا: Arabic) | لعلكم (purpose particle + you plural) | تعقلون (present verb: you use reason)",
+                "translation": "Indeed We have sent it down as an Arabic Quran that you might use reason",
+                "notes": "إنّا emphasizes divine agency; ماضي verb أنزلناه in past tense asserts completed revelation; قرآنا عربيا specifies mode; لعلّ introduces purpose/hope clause with مضارع تعقلون linking Arabic language to عقل",
+                "grammar_notes": "إنّ للتوكيد; نا ضمير فاعل الجمع (majestic plural); أنزلناه فعل ماضي with attached object pronoun; قرآنا حال منصوب specifying mode of revelation; عربيا نعت; لعلّ حرف ترجٍّ introducing purpose; تعقلون مضارع منصوب after لعلّ; selected تعقلون root ع-ق-ل because reasoning is surah's cognitive theme"
             },
             {
-                "sentence_id": "s4",
-                "unit_id": "12:4",
-                "arabic_text": "إذ قال يوسف لأبيه يا أبت إني رأيت أحد عشر كوكبا والشمس والقمر رأيتهم لي ساجدين",
-                "translation": "[Mention] when Yusuf said to his father, 'O my father, indeed I have seen eleven stars and the sun and the moon; I saw them prostrating to me.'",
-                "tokens": null,
-                "grammar_analysis": null,
-                "rhetorical_devices": null
+                "sentence_id": "s12_3_1",
+                "unit_id": "12_3",
+                "text": "نحن نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن",
+                "tokens": "|نحن|نقص|على|ك|أحسن|القصص|ب|ما|أوحى|نا|إلى|ك|هذا|القرآن|",
+                "word_by_word": "نحن (independent pronoun: We) | نقصّ (present verb: We narrate) | عليك (upon you) | أحسن (superlative object: best) | القصص (genitive in iḍāfah: of narratives) | بما (instrumental: by what) | أوحينا (We revealed) | إليك (to you) | هذا (this) | القرآن (the Quran in apposition/badal)",
+                "translation": "We relate to you the best of narratives by what We have revealed to you of this Quran",
+                "notes": "نحن redundant pronoun emphasizing divine narrator; نقصّ present tense indicating ongoing/timeless narration; أحسن القصص superlative highlighting narrative excellence; بما introduces instrumental/causal clause; هذا القرآن in apposition clarifying ما",
+                "grammar_notes": "نحن ضمير منفصل for emphasis despite verb conjugation already indicating first person plural; نقصّ مضارع from قصّ (root ق-ص-ص) selected because it doubles the narrative theme; أحسن اسم تفضيل establishing supremacy of this story; بما سببية/آلية showing means; أوحينا ماضي; هذا القرآن بدل clarifying the revelation; chose قصّ verb to echo قصص noun creating lexical cohesion"
             },
             {
-                "sentence_id": "s5",
-                "unit_id": "12:5",
-                "arabic_text": "قال يا بني لا تقصص رؤياك على إخوتك فيكيدوا لك كيدا إن الشيطان للإنسان عدو مبين",
-                "translation": "He said, 'O my son, do not relate your vision to your brothers or they will contrive against you a plan. Indeed Satan, to man, is a manifest enemy.'",
-                "tokens": null,
-                "grammar_analysis": null,
-                "rhetorical_devices": null
+                "sentence_id": "s12_3_2",
+                "unit_id": "12_3",
+                "text": "وإن كنت من قبله لمن الغافلين",
+                "tokens": "|و|إن|كنت|من|قبل|ه|ل|من|الغافلين|",
+                "word_by_word": "و (coordinating conjunction) | إن (conditional particle) | كنت (you were - كان verb) | من قبله (before it - temporal/spatial phrase) | لَ (emphatic lām) | من الغافلين (among the unaware - partitive construction)",
+                "translation": "And although you were before it among the unaware",
+                "notes": "و connects concessive clause; إن كنت creates conditional/concessive nuance; من قبله temporal reference to pre-revelation state; لام التوكيد emphasizes خبر كان; من الغافلين partitive showing membership in group; contrast setup: غافلين → aware through revelation",
+                "grammar_notes": "إن شرطية but functioning concessively here; كنت فعل ناقص (kāna verb); من قبله ظرف زمان; لَ لام الابتداء emphasizing predicate; من الغافلين خبر كان; الغافلين من غ-ف-ل (heedlessness) chosen to highlight transformative impact of revelation on Prophet's knowledge state"
             },
             {
-                "sentence_id": "s6",
-                "unit_id": "12:6",
-                "arabic_text": "وكذلك يجتبيك ربك ويعلمك من تأويل الأحاديث ويتم نعمته عليك وعلى آل يعقوب كما أتمها على أبويك من قبل إبراهيم وإسحاق إن ربك عليم حكيم",
-                "translation": "And thus will your Lord choose you and teach you the interpretation of narratives and complete His favor upon you and upon the family of Ya'qub, as He completed it upon your fathers before, Ibrahim and Ishaq. Indeed, your Lord is Knowing and Wise.",
-                "tokens": null,
-                "grammar_analysis": null,
-                "rhetorical_devices": null
+                "sentence_id": "s12_4_1",
+                "unit_id": "12_4",
+                "text": "إذ قال يوسف لأبيه يا أبت إني رأيت أحد عشر كوكبا والشمس والقمر رأيتهم لي ساجدين",
+                "tokens": "|إذ|قال|يوسف|ل|أبي|ه|يا|أبت|إن|ي|رأيت|أحد|عشر|كوكبا|و|الشمس|و|القمر|رأيت|هم|ل|ي|ساجدين|",
+                "word_by_word": "إذ (when - temporal particle for past events) | قال (he said) | يوسف (Yusuf - subject) | لأبيه (to his father) | يا (vocative particle) | أبت (my father - vocative form with ت replacing ي) | إني (indeed I - emphatic) | رأيت (I saw) | أحد عشر (eleven - compound number) | كوكبا (star - specification/tamyīz) | والشمس (and the sun) | والقمر (and the moon) | رأيتهم (I saw them - repetition for emphasis) | لي (for me/to me) | ساجدين (prostrating - ḥāl/state)",
+                "translation": "When Yusuf said to his father O my father indeed I saw eleven stars and the sun and the moon I saw them prostrating to me",
+                "notes": "إذ introduces flashback initiating main narrative; قال simple past introducing direct speech; يا أبت vocative with affectionate form; إني emphatic introducing vision report; رأيت repeated emphasizing visual certainty; أحد عشر كوكبا numeric construction with tamyīz; رأيتهم repetition creates dramatic focus; لي dative indicating direction of سجود; ساجدين حال describing celestial bodies anthropomorphically",
+                "grammar_notes": "إذ ظرف للماضي linking to previous context; قال فعل ماضي; لأبيه جار ومجرور; أبت منادى with ت suffix replacing ياء المتكلم in vocative; إنّي للتوكيد; رأيت فعل ماضي from ر-ء-ي (vision/seeing) chosen because dream-vision is narrative's inciting incident; أحد عشر عدد مركب; كوكبا تمييز منصوب; الشمس والقمر معطوف; رأيتهم repetition selected for dramatic emphasis and mimicking natural speech pattern of excited report; لي جار ومجرور indicating beneficiary/target; ساجدين حال منصوب جمع مذكر سالم, anthropomorphizing celestial bodies to foreshadow family prostration"
             },
             {
-                "sentence_id": "s7",
-                "unit_id": "12:7",
-                "arabic_text": "لقد كان في يوسف وإخوته آيات للسائلين",
-                "translation": "Certainly were there in Yusuf and his brothers signs for those who ask.",
-                "tokens": null,
-                "grammar_analysis": null,
-                "rhetorical_devices": null
+                "sentence_id": "s12_5_1",
+                "unit_id": "12_5",
+                "text": "قال يا بني لا تقصص رؤياك على إخوتك فيكيدوا لك كيدا",
+                "tokens": "|قال|يا|بني|لا|تقصص|رؤيا|ك|على|إخوة|ك|ف|يكيدوا|ل|ك|كيدا|",
+                "word_by_word": "قال (he said) | يا بني (O my son - vocative) | لا (prohibitive particle) | تقصص (narrate - jussive verb) | رؤياك (your vision) | على (upon/to) | إخوتك (your brothers) | فـ (so that - result/consequence) | يكيدوا (they plot - subjunctive after فـ) | لك (against you) | كيدا (plotting - cognate accusative/maf'ūl muṭlaq)",
+                "translation": "He said O my son do not relate your vision to your brothers lest they plot against you a plot",
+                "notes": "قال resumes father's speech; يا بني affectionate vocative; لا ناهية prohibiting action; تقصص jussive echoing root ق-ص-ص from earlier; على إخوتك specifying prohibited audience; فيكيدوا consequence clause showing feared result; كيدا مفعول مطلق intensifying verb; protective wisdom based on family dynamics knowledge",
+                "grammar_notes": "قال ماضي; بني منادى; لا ناهية requiring مجزوم; تقصص مضارع مجزوم selected from ق-ص-ص to echo نقصّ/القصص creating thematic root repetition across surah; رؤياك مفعول به; على إخوتك متعلق بالفعل; فـ للسببية/العاقبة introducing consequence; يكيدوا منصوب after فاء السببية from root ك-ي-د (plotting/scheming); كيدا مفعول مطلق للتوكيد creating cognate accusative construction that emphasizes intensity of feared plotting"
+            },
+            {
+                "sentence_id": "s12_5_2",
+                "unit_id": "12_5",
+                "text": "إن الشيطان للإنسان عدو مبين",
+                "tokens": "|إن|الشيطان|ل|الإنسان|عدو|مبين|",
+                "word_by_word": "إن (indeed - emphasis particle) |"
             }
-        ],
-        "passage_layers": [
-            {
-                "layer_type": "discourse",
-                "title": "Opening and Introduction to the Story",
-                "description": "The surah opens with disconnected letters (الر) followed by an affirmation of the Qur'an as a clear Book revealed in Arabic. It introduces the story of Yusuf as 'the best of stories' and transitions to the narrative beginning with Yusuf's dream.",
-                "ayah_range": "1-4"
-            },
-            {
-                "layer_type": "rhetoric",
-                "title": "Divine Majesty and Prophetic Communication",
-                "description": "Use of first-person plural (إنا، نحن) emphasizes divine authority and majesty. The contrast between the unaware state of the Prophet before revelation and his reception of the best of stories highlights the transformative power of divine revelation.",
-                "ayah_range": "2-3"
-            },
-            {
-                "layer_type": "reasoning",
-                "title": "Father's Wisdom and Warning",
-                "description": "Ya'qub's response to Yusuf's dream demonstrates wisdom and foresight. He recognizes both the divine favor implicit in the dream and the potential danger from jealous brothers, connecting human nature to Satan's enmity.",
-                "ayah_range": "5-6"
-            },
-            {
-                "layer_type": "idiom",
-                "title": "Prostration of Celestial Bodies",
-                "description": "The imagery of eleven stars, the sun, and the moon prostrating symbolizes future honor and authority, using metaphorical language common in dream interpretation traditions.",
-                "ayah_range": "4"
-            },
-            {
-                "layer_type": "discourse",
-                "title": "Prophetic Lineage and Divine Favor",
-                "description": "The passage concludes by situating Yusuf within the lineage of prophets (Ibrahim, Ishaq, Ya'qub) and affirming Allah's knowledge and wisdom in choosing and favoring His servants.",
-                "ayah_range": "6-7"
-            }
-        ],
-        "comprehension": {
-            "reflective": [
-                "How does the opening of Surah Yusuf establish the authority and purpose of the Qur'an before beginning the narrative?",
-                "What does Ya'qub's advice to Yusuf reveal about the relationship between divine favor and human trials?",
-                "Reflect on why this is called 'the best of stories.' What qualities might make a narrative 'the best'?",
-                "How does the passage connect individual destiny (Yusuf's dream) with family heritage (the lineage of prophets)?"
-            ],
-            "analytical": [
-                "Analyze the use of first-person plural pronouns (إنا، نحن) in verses 2-3. What rhetorical effect does this create?",
-                "Compare and contrast the two instances of رأيت in verse 4. Why does Yusuf repeat this verb?",
-                "Examine the structure of verse 6: identify the multiple blessings promised and how they parallel past prophetic experiences.",
-                "What is the relationship between the 'clear Book' (الكتاب المبين) in verse 1 and the 'best of stories' (أحسن القصص) in verse 3?",
-                "Analyze the warning in verse 5: what grammatical structures convey urgency and caution?"
-            ],
-            "mcqs": {
-                "text": [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                "vocabulary": [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ],
-                "grammar": [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                ]
-            }
-        },
-        "created_at": "2025-06-10T12:00:00Z",
-        "updated_at": null
+        ]
     },
-    "generated_at": "2026-01-20T07:25:00.194Z",
+    "generated_at": "2026-01-20T08:12:17.000Z",
     "input": {
         "text": {
-            "arabic": " الر تلك آيات الكتاب المبين ‎﴿١﴾‏ إنا أنزلناه قرآنا عربيا لعلكم تعقلون ‎﴿٢﴾‏ نحن نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن وإن كنت من قبله لمن الغافلين ‎﴿٣﴾‏إذ قال يوسف لأبيه يا أبت إني رأيت أحد عشر كوكبا والشمس والقمر رأيتهم لي ساجدين ‎﴿٤﴾‏ قال يا بني لا تقصص رؤياك على إخوتك فيكيدوا لك كيدا إن الشيطان للإنسان عدو مبين ‎﴿٥﴾‏ وكذلك يجتبيك ربك ويعلمك من تأويل الأحاديث ويتم نعمته عليك وعلى آل يعقوب كما أتمها على أبويك من قبل إبراهيم وإسحاق إن ربك عليم حكيم ‎﴿٦﴾‏  لقد كان في يوسف وإخوته آيات للسائلين ‎﴿٧﴾",
+            "arabic": "  الر تلك آيات الكتاب المبين ‎﴿١﴾‏ إنا أنزلناه قرآنا عربيا لعلكم تعقلون ‎﴿٢﴾‏ نحن نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن وإن كنت من قبله لمن الغافلين ‎﴿٣﴾‏إذ قال يوسف لأبيه يا أبت إني رأيت أحد عشر كوكبا والشمس والقمر رأيتهم لي ساجدين ‎﴿٤﴾‏ قال يا بني لا تقصص رؤياك على إخوتك فيكيدوا لك كيدا إن الشيطان للإنسان عدو مبين ‎﴿٥﴾‏ وكذلك يجتبيك ربك ويعلمك من تأويل الأحاديث ويتم نعمته عليك وعلى آل يعقوب كما أتمها على أبويك من قبل إبراهيم وإسحاق إن ربك عليم حكيم ‎﴿٦﴾‏  لقد كان في يوسف وإخوته آيات للسائلين ‎﴿٧﴾",
             "sentences": "",
             "translation": "",
             "reference": "",

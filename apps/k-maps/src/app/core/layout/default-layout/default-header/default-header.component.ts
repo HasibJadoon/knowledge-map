@@ -69,6 +69,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
     | '' = '';
   headerSecondaryLabel = '';
   headerSecondaryKind: 'refresh' | '' = '';
+  headerTertiaryLabel = '';
+  headerTertiaryKind: 'lesson-claude' | '' = '';
   showDiscourseFilters = false;
   discourseFilters = [
     { key: 'Epistemology', label: 'Epistemology' },
@@ -161,6 +163,12 @@ export class DefaultHeaderComponent extends HeaderComponent {
     }
   }
 
+  onHeaderTertiaryClick() {
+    if (this.headerTertiaryKind === 'lesson-claude') {
+      this.router.navigate(['/arabic/lessons/claude']);
+    }
+  }
+
   toggleDiscourseFilter(key: string) {
     if (this.activeDiscourseFilters.has(key)) {
       this.activeDiscourseFilters.delete(key);
@@ -192,6 +200,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
     const path = url.root.children['primary']?.segments.map((s) => s.path).join('/') ?? '';
     this.currentPath = `/${path}`;
     this.headerQuery = String(url.queryParams['q'] ?? '');
+    this.headerTertiaryLabel = '';
+    this.headerTertiaryKind = '';
 
     if (this.currentPath === '/arabic/lessons') {
       this.showHeaderSearch = true;
@@ -200,6 +210,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
       this.headerActionKind = 'lesson-new';
       this.headerSecondaryLabel = 'Refresh';
       this.headerSecondaryKind = 'refresh';
+      this.headerTertiaryLabel = 'Claude console';
+      this.headerTertiaryKind = 'lesson-claude';
       return;
     }
 

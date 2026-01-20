@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ArLessonsService } from '../../../../shared/services/ar-lessons.service';
 import { GrammarNotesService } from '../../../../shared/services/grammar-notes.service';
-import { LessonGeneratorService } from '../../../../shared/services/lesson-generator.service';
 
 type VocabItem = {
   word: string;
@@ -45,7 +44,6 @@ type GrammarNoteItem = {
 export class ArLessonEditorComponent implements OnInit {
   private lessons = inject(ArLessonsService);
   private grammarNotes = inject(GrammarNotesService);
-  private lessonGenerator = inject(LessonGeneratorService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -61,18 +59,10 @@ export class ArLessonEditorComponent implements OnInit {
   source = '';
   status = 'draft';
 
-  tab: 'text' | 'vocab' | 'comprehension' | 'grammar' | 'json' | 'response' = 'text';
+  tab: 'text' | 'vocab' | 'comprehension' | 'grammar' | 'json' = 'text';
 
   lessonJson: LessonJson = this.defaultLessonJson();
   jsonText = JSON.stringify(this.lessonJson, null, 2);
-
-  modelPrompt = '';
-  modelResponse = '';
-  modelLoading = false;
-  modelError = '';
-  generatedLessonJson = '';
-  rawResponseText = '';
-  generatedLesson: any = null;
 
   compMemoryVerbsText = '';
   compMemoryNounsText = '';
@@ -80,10 +70,6 @@ export class ArLessonEditorComponent implements OnInit {
   compPassageQuestionsText = '';
   grammarNotesItems: GrammarNoteItem[] = [];
   grammarNotesError = '';
-
-  get hasArabicText() {
-    return !!this.lessonJson.text?.arabic?.trim();
-  }
 
   ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -190,7 +176,6 @@ export class ArLessonEditorComponent implements OnInit {
 
   syncJsonText() {
     this.jsonText = JSON.stringify(this.lessonJson, null, 2);
-    this.updateModelPrompt();
   }
 
   applyJsonText() {
@@ -201,14 +186,6 @@ export class ArLessonEditorComponent implements OnInit {
     } catch (err: any) {
       this.jsonError = err?.message ?? 'Invalid JSON';
     }
-  }
-
-  loadResponseIntoJson() {
-    if (!this.rawResponseText) {
-      return;
-    }
-    this.tab = 'json';
-    this.jsonText = this.rawResponseText;
   }
 
   private hydrateComprehensionUI() {
@@ -224,146 +201,6 @@ export class ArLessonEditorComponent implements OnInit {
     this.compPassageQuestionsText = Array.isArray(passage?.questions)
       ? passage.questions.map((q: any) => q?.question ?? '').join('\n')
       : '';
-  }
-
-  private updateModelPrompt() {
-    const snippet = this.lessonJson.text?.arabic?.trim();
-    if (snippet) {
-      this.modelPrompt = `Summarize and capture vocabulary/MCQ ideas for this Arabic text:\n${snippet.slice(0, 320)}`;
-    } else {
-      this.modelPrompt = '';
-    }
-  }
-
-  async generateModelSuggestion() {
-    if (!this.hasArabicText) {
-      this.modelError = 'Add Arabic text to generate a Claude preview.';
-      return;
-    }
-    this.modelLoading = true;
-    this.modelError = '';
-    this.modelResponse = '';
-    this.generatedLessonJson = '';
-    this.rawResponseText = '';
-    this.generatedLesson = null;
-    try {
-      const payload = {
-        text: {
-          arabic: this.lessonJson.text?.arabic ?? '',
-          sentences: this.lessonJson.text?.sentences ?? '',
-          translation: this.lessonJson.text?.translation ?? '',
-          reference: this.lessonJson.text?.reference ?? '',
-          mode: this.lessonJson.text?.mode,
-        },
-        vocabulary: this.lessonJson.vocabulary,
-        comprehension: this.lessonJson.comprehension,
-      };
-      const response = await this.lessonGenerator.generate(payload);
-      this.rawResponseText = response.raw ?? '';
-      const responseData = response.data;
-
-      if (responseData && typeof responseData === 'object' && (responseData as any).ok === false) {
-        this.modelError = (responseData as any).error ?? 'Claude did not return a lesson payload.';
-        const fallback = (responseData as any).lesson ?? (responseData as any).raw_output ?? this.rawResponseText;
-        this.generatedLesson = null;
-        this.generatedLessonJson = formatResponseFallback(fallback);
-        return;
-      }
-
-      const generatedLesson =
-        responseData && typeof responseData === 'object'
-          ? (responseData as any).generated_lesson ?? (responseData as any).lesson ?? responseData
-          : responseData;
-      if (!generatedLesson) {
-        throw new Error('Claude did not return a lesson payload.');
-      }
-      this.modelResponse = this.formatLessonPreview(generatedLesson);
-      this.generatedLessonJson = JSON.stringify(generatedLesson, null, 2);
-      this.generatedLesson = generatedLesson;
-    } catch (err: any) {
-      this.modelError = err?.message ?? 'Failed to generate preview.';
-    } finally {
-      this.modelLoading = false;
-    }
-  }
-
-  applyGeneratedLessonToEditor() {
-    const lesson = this.generatedLesson;
-    if (!lesson) {
-      return;
-    }
-
-    const arabicUnits = Array.isArray(lesson?.text?.arabic_full) ? lesson.text.arabic_full : [];
-    const concatenatedArabic = arabicUnits
-      .map((unit: any) => unit?.arabic ?? '')
-      .filter(Boolean)
-      .join(' ');
-    const sentencesList = Array.isArray(lesson?.sentences)
-      ? lesson.sentences.map((sentence: any) => sentence?.arabic_text ?? '').filter(Boolean)
-      : [];
-    const translations = arabicUnits.map((unit: any) => unit?.translation).filter(Boolean);
-    const normalized: LessonJson = {
-      text: {
-        arabic: concatenatedArabic || this.lessonJson.text.arabic,
-        sentences: sentencesList.length ? sentencesList.join('\n') : this.lessonJson.text.sentences,
-        translation: translations.length ? translations.join('\n') : this.lessonJson.text.translation,
-        reference: lesson?.reference?.citation ?? this.lessonJson.text.reference ?? '',
-        mode: lesson?.text?.mode === 'text' ? 'text' : this.lessonJson.text.mode === 'text' ? 'text' : 'quran'
-      },
-      vocabulary: Array.isArray(lesson?.vocabulary) ? lesson.vocabulary : this.lessonJson.vocabulary,
-      comprehension: this.lessonJson.comprehension
-    };
-
-    this.setLessonJson(normalized);
-  }
-
-  private formatLessonPreview(lesson: any): string {
-    const parts: string[] = [];
-
-    const arabicUnits = Array.isArray(lesson?.text?.arabic_full)
-      ? lesson.text.arabic_full.map((unit: any) => unit.arabic).filter(Boolean)
-      : [];
-    if (arabicUnits.length) {
-      parts.push(`Arabic units:\n${arabicUnits.join('\n')}`);
-    }
-
-    const sentences = Array.isArray(lesson?.sentences)
-      ? lesson.sentences.map((sentence: any) => sentence.arabic).filter(Boolean)
-      : [];
-    if (sentences.length) {
-      parts.push(`Sentences (first ${Math.min(4, sentences.length)}):\n${sentences.slice(0, 4).join('\n')}`);
-    }
-
-    const reflective = Array.isArray(lesson?.comprehension?.reflective)
-      ? lesson.comprehension.reflective.map((q: any) => q?.question).filter(Boolean)
-      : [];
-    if (reflective.length) {
-      parts.push(`Reflective questions:\n${reflective
-        .slice(0, 3)
-        .map((q: string) => `- ${q}`)
-        .join('\n')}`);
-    }
-
-    const analytical = Array.isArray(lesson?.comprehension?.analytical)
-      ? lesson.comprehension.analytical.map((q: any) => q?.question).filter(Boolean)
-      : [];
-    if (analytical.length) {
-      parts.push(`Analytical questions:\n${analytical
-        .slice(0, 3)
-        .map((q: string) => `- ${q}`)
-        .join('\n')}`);
-    }
-
-    const mcqs = Array.isArray(lesson?.comprehension?.mcqs?.text)
-      ? lesson.comprehension.mcqs.text
-      : [];
-    if (mcqs.length) {
-      parts.push(
-        `Sample MCQs:\n${mcqs.slice(0, 2).map((mcq: any) => `- ${mcq?.question ?? mcq?.text ?? 'Unnamed question'}`).join('\n')}`
-      );
-    }
-
-    return parts.length ? parts.join('\n\n') : JSON.stringify(lesson, null, 2);
   }
 
 
@@ -524,14 +361,4 @@ export class ArLessonEditorComponent implements OnInit {
 
     await this.grammarNotes.replaceForLesson(id, notes);
   }
-}
-
-function formatResponseFallback(value: any) {
-  if (typeof value === 'string') {
-    return value;
-  }
-  if (value == null) {
-    return '';
-  }
-  return JSON.stringify(value, null, 2);
 }

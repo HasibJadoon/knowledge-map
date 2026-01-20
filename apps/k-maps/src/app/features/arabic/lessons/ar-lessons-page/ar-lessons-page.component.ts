@@ -61,6 +61,10 @@ export class ArLessonsPageComponent implements OnInit {
     this.router.navigate(['/arabic/lessons/new']);
   }
 
+  openClaudeConsole() {
+    this.router.navigate(['/arabic/lessons/claude']);
+  }
+
   view(id: number) {
     this.router.navigate(['/arabic/lessons', id]);
   }

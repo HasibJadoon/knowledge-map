@@ -14,7 +14,7 @@ type ClaudeEnv = {
 };
 
 type ClaudeLessonResponse =
-  | { ok: true; lesson: any }
+  | { ok: true; lesson: any; raw_output: string }
   | { ok: false; error: string; raw_output: string };
 
 export async function generateLessonWithClaude(
@@ -84,12 +84,12 @@ Return ONLY valid JSON that matches the schema; do not wrap the JSON in markdown
   if (!parseResult.ok) {
     return parseResult;
   }
-  return { ok: true, lesson: parseResult.lesson };
+  return { ok: true, lesson: parseResult.lesson, raw_output: parseResult.raw_output };
 }
 // Claude occasionally emits JSON that is missing quotes around property names,
 // so try a sanitized pass before giving up.
 type ClaudeLessonParseResult =
-  | { ok: true; lesson: any }
+  | { ok: true; lesson: any; raw_output: string }
   | { ok: false; error: string; raw_output: string };
 
 function parseClaudeLessonJson(outputText: string): ClaudeLessonParseResult {
@@ -106,7 +106,7 @@ function parseClaudeLessonJson(outputText: string): ClaudeLessonParseResult {
   let lastError: Error | null = null;
   for (const attempt of attempts) {
     try {
-      return { ok: true, lesson: JSON.parse(attempt.text) };
+      return { ok: true, lesson: JSON.parse(attempt.text), raw_output: attempt.text };
     } catch (error: any) {
       lastError = error;
     }

@@ -15,6 +15,14 @@
     {{ secondaryLabel }}
   </button>
   <button
+    *ngIf="tertiaryLabel"
+    class="btn btn-sm btn-outline-info"
+    type="button"
+    (click)="tertiary.emit()"
+  >
+    {{ tertiaryLabel }}
+  </button>
+  <button
     *ngIf="primaryLabel"
     class="btn btn-sm btn-primary"
     type="button"

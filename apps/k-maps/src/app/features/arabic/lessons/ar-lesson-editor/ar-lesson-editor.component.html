@@ -1,13 +1,12 @@
   <div class="card mb-3">
-    <div class="card-body">
-      <div class="d-flex align-items-center mb-3">
-        <h5 class="card-title mb-0">Arabic Lesson Editor</h5>
-        <div class="ms-auto d-flex gap-2">
-          <button class="btn btn-outline-secondary btn-sm" type="button" (click)="goBack()">Back</button>
-          <button class="btn btn-primary btn-sm" type="button" (click)="save()" [disabled]="saving">Save</button>
-        </div>
+    <div class="card-header d-flex align-items-center">
+      <h5 class="card-title mb-0">Arabic Lesson Editor</h5>
+      <div class="ms-auto d-flex gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" (click)="goBack()">Back</button>
+        <button class="btn btn-primary btn-sm" type="button" (click)="save()" [disabled]="saving">Save</button>
       </div>
-
+    </div>
+    <div class="card-body">
       <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
 
       <div class="row g-3">
@@ -61,9 +60,6 @@
         <li class="nav-item">
           <button class="nav-link" [class.active]="tab==='json'" (click)="tab='json'">JSON</button>
         </li>
-        <li class="nav-item">
-          <button class="nav-link" [class.active]="tab==='response'" (click)="tab='response'">Claude Response</button>
-        </li>
       </ul>
 
       <div *ngIf="tab === 'text'">
@@ -89,58 +85,6 @@
         <div class="mb-0">
           <label class="form-label">Reference</label>
           <input class="form-control" type="text" [(ngModel)]="lessonJson.text.reference" (input)="syncJsonText()" />
-        </div>
-        <div class="card mt-4 border-primary">
-          <div class="card-body">
-            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
-              <div>
-                <h6 class="card-title mb-1">Claude preview</h6>
-                <p class="card-subtitle text-muted small mb-0">Generate vocabulary/comprehension suggestions for this passage.</p>
-              </div>
-              <div class="ms-auto d-flex gap-2">
-                <button
-                  class="btn btn-outline-primary btn-sm"
-                  type="button"
-                  (click)="generateModelSuggestion()"
-                  [disabled]="modelLoading || !hasArabicText"
-                >
-                  {{ modelLoading ? 'Generating…' : 'Generate' }}
-                </button>
-                <button
-                  class="btn btn-outline-success btn-sm"
-                  type="button"
-                  (click)="applyGeneratedLessonToEditor()"
-                  [disabled]="!generatedLesson"
-                >
-                  Use suggestion
-                </button>
-              </div>
-            </div>
-            <label class="form-label small mb-1">Prompt</label>
-            <textarea
-              class="form-control form-control-sm mb-2"
-              rows="4"
-              [(ngModel)]="modelPrompt"
-              placeholder="Add Arabic text to craft the prompt"
-            ></textarea>
-            <div *ngIf="modelError" class="text-danger small mb-2">{{ modelError }}</div>
-            <div *ngIf="modelResponse" class="bg-light rounded p-2 small lh-sm">
-              <pre class="mb-0 small" [textContent]="modelResponse"></pre>
-            </div>
-            <div *ngIf="generatedLessonJson" class="mt-2">
-              <label class="form-label small mb-1">Generated lesson JSON</label>
-              <textarea
-                class="form-control form-control-sm"
-                rows="6"
-                [value]="generatedLessonJson"
-                spellcheck="false"
-                readonly
-              ></textarea>
-            </div>
-            <div *ngIf="!modelResponse && !modelError" class="text-muted small">
-              The preview will appear here after you generate it.
-            </div>
-          </div>
         </div>
       </div>
 
@@ -268,49 +212,6 @@
           </div>
         </div>
         <div *ngIf="grammarNotesError" class="text-danger small mt-2">{{ grammarNotesError }}</div>
-      </div>
-
-      <div *ngIf="tab === 'response'">
-        <div class="card mb-3 border-primary">
-          <div class="card-body">
-            <h6 class="card-title">Claude API response</h6>
-            <div class="mb-3">
-              <label class="form-label small mb-1">Prompt (auto-generated)</label>
-              <textarea class="form-control form-control-sm" rows="3" [value]="modelPrompt" readonly></textarea>
-            </div>
-            <div *ngIf="generatedLessonJson" class="mb-3">
-              <label class="form-label small mb-1">Parsed lesson JSON</label>
-              <textarea
-                class="form-control form-control-sm"
-                rows="6"
-                [value]="generatedLessonJson"
-                spellcheck="false"
-                readonly
-              ></textarea>
-            </div>
-            <div class="mb-3">
-              <label class="form-label small mb-1">Raw response (use to reconstruct if parsing failed)</label>
-              <textarea
-                class="form-control form-control-sm"
-                rows="8"
-                [value]="rawResponseText"
-                spellcheck="false"
-                readonly
-              ></textarea>
-            </div>
-            <div class="d-flex gap-2 align-items-center">
-              <button
-                class="btn btn-outline-secondary btn-sm"
-                type="button"
-                (click)="loadResponseIntoJson()"
-                [disabled]="!rawResponseText"
-              >
-                Copy raw response to JSON tab
-              </button>
-              <span *ngIf="!rawResponseText" class="text-muted small mb-0">No Claude response captured yet.</span>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div *ngIf="tab === 'json'">
