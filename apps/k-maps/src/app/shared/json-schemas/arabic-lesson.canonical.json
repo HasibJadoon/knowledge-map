@@ -1,0 +1,741 @@
+{
+  "name": "arabic-lesson.canonical.v1",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "entity_type",
+      "id",
+      "lesson_type",
+      "subtype",
+      "title",
+      "title_ar",
+      "status",
+      "difficulty",
+      "reference",
+      "text",
+      "sentences",
+      "passage_layers",
+      "comprehension",
+      "created_at",
+      "updated_at"
+    ],
+    "properties": {
+      "entity_type": {
+        "type": "string",
+        "const": "ar_lesson"
+      },
+      "id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "lesson_type": {
+        "type": "string",
+        "enum": [
+          "quran",
+          "classical_text",
+          "hadith",
+          "poetry",
+          "grammar_example",
+          "modern_arabic"
+        ]
+      },
+      "subtype": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          "discourse",
+          "narrative",
+          "legal",
+          "theology",
+          "rhetoric",
+          "grammar",
+          "vocabulary",
+          "reflection",
+          null
+        ]
+      },
+      "title": {
+        "type": "string",
+        "minLength": 1
+      },
+      "title_ar": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "reviewed",
+          "active",
+          "archived"
+        ]
+      },
+      "difficulty": {
+        "type": "integer",
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "reference": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_type",
+          "source_ref_id",
+          "surah",
+          "ayah_from",
+          "ayah_to",
+          "ref_label",
+          "citation"
+        ],
+        "properties": {
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "quran",
+              "classical_text",
+              "hadith",
+              "poetry",
+              "grammar_example",
+              "modern_arabic"
+            ]
+          },
+          "source_ref_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "surah": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 114
+          },
+          "ayah_from": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "ayah_to": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "ref_label": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "citation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "text": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "arabic_full",
+          "mode"
+        ],
+        "properties": {
+          "arabic_full": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/LessonAyahUnit"
+            }
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "original",
+              "edited",
+              "mixed"
+            ]
+          }
+        }
+      },
+      "sentences": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/LessonSentence"
+        }
+      },
+      "passage_layers": {
+        "type": "array",
+        "items": {
+          "$ref": "#/$defs/PassageLayer"
+        }
+      },
+      "comprehension": {
+        "$ref": "#/$defs/LessonComprehension"
+      },
+      "created_at": {
+        "type": "string",
+        "minLength": 1,
+        "description": "ISO-8601 datetime string"
+      },
+      "updated_at": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "ISO-8601 datetime string or null"
+      }
+    },
+    "$defs": {
+      "LessonAyahUnit": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unit_id",
+          "unit_type",
+          "arabic",
+          "translation",
+          "surah",
+          "ayah",
+          "notes"
+        ],
+        "properties": {
+          "unit_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unit_type": {
+            "type": "string",
+            "const": "ayah"
+          },
+          "arabic": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Keep exactly as stored (e.g., non-diacritic with ayah marker if you use it)."
+          },
+          "translation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "surah": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 114
+          },
+          "ayah": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "LessonToken": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "token_id",
+          "surface_ar",
+          "lemma_ar",
+          "root",
+          "root_id",
+          "pos"
+        ],
+        "properties": {
+          "token_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "surface_ar": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Surface token. MUST split harf (و/ف/ب/ك/ل/س) as its own token."
+          },
+          "lemma_ar": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "root": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Triliteral root without spaces when present (e.g., جبي)."
+          },
+          "root_id": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "pos": {
+            "type": "string",
+            "enum": [
+              "verb",
+              "noun",
+              "adj",
+              "particle",
+              "phrase",
+              "other"
+            ]
+          },
+          "morph_ref": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "required": [
+              "root_id",
+              "lexicon_entry_id"
+            ],
+            "properties": {
+              "root_id": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "lexicon_entry_id": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              }
+            }
+          },
+          "features": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true
+          }
+        }
+      },
+      "LessonSentence": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sentence_id",
+          "unit_id",
+          "arabic",
+          "translation",
+          "notes",
+          "tokens",
+          "roots",
+          "root_ids",
+          "grammar_concept_refs"
+        ],
+        "properties": {
+          "sentence_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unit_id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Points to a unit_id in text.arabic_full"
+          },
+          "arabic": {
+            "type": "string",
+            "minLength": 1
+          },
+          "translation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "roots": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "root_ids": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "integer"
+            }
+          },
+          "tokens": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/LessonToken"
+            }
+          },
+          "grammar_concept_refs": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "description": "References grammar_concepts table IDs (e.g., GRAM_NAHW_001)."
+            }
+          }
+        }
+      },
+      "PassageLayer": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "layer_id",
+          "layer_type",
+          "label",
+          "label_ar",
+          "linked_unit_ids",
+          "linked_sentence_ids",
+          "linked_token_ids",
+          "notes",
+          "data"
+        ],
+        "properties": {
+          "layer_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "layer_type": {
+            "type": "string",
+            "enum": [
+              "discourse",
+              "rhetoric",
+              "reasoning",
+              "idiom",
+              "argument",
+              "narrative_move",
+              "conclusion",
+              "other"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label_ar": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "linked_unit_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "linked_sentence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "linked_token_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "data": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true
+          }
+        }
+      },
+      "MCQOption": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "option",
+          "is_correct"
+        ],
+        "properties": {
+          "option": {
+            "type": "string",
+            "minLength": 1
+          },
+          "is_correct": {
+            "type": "boolean"
+          }
+        }
+      },
+      "LessonMCQ": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mcq_id",
+          "linked_unit_ids",
+          "question",
+          "question_ar",
+          "options",
+          "explanation",
+          "tags"
+        ],
+        "properties": {
+          "mcq_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "linked_unit_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question_ar": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "options": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "$ref": "#/$defs/MCQOption"
+            }
+          },
+          "explanation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "LessonMCQGroups": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text",
+          "vocabulary",
+          "grammar"
+        ],
+        "properties": {
+          "text": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/LessonMCQ"
+            }
+          },
+          "vocabulary": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/LessonMCQ"
+            }
+          },
+          "grammar": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/LessonMCQ"
+            }
+          }
+        }
+      },
+      "ReflectiveQuestion": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "question_id",
+          "linked_unit_ids",
+          "question",
+          "question_ar",
+          "answer_hint",
+          "tags",
+          "quranic_ref"
+        ],
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "linked_unit_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question_ar": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "answer_hint": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "quranic_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "AnalyticalQuestion": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "question_id",
+          "linked_unit_ids",
+          "question",
+          "question_ar",
+          "answer_hint",
+          "tags",
+          "quranic_ref"
+        ],
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "linked_unit_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question_ar": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "answer_hint": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "quranic_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "LessonComprehension": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reflective",
+          "analytical",
+          "mcqs"
+        ],
+        "properties": {
+          "reflective": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/ReflectiveQuestion"
+            }
+          },
+          "analytical": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/AnalyticalQuestion"
+            }
+          },
+          "mcqs": {
+            "$ref": "#/$defs/LessonMCQGroups"
+          }
+        }
+      }
+    }
+  }
+}

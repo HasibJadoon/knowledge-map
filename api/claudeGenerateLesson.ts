@@ -6,6 +6,8 @@ type GenerateLessonRequest = {
     model?: string;
     max_tokens?: number;
   };
+  schema?: object;
+  systemInstructions?: string;
 };
 
 type ClaudeEnv = {
@@ -29,7 +31,7 @@ export async function generateLessonWithClaude(
   const model = payload.options?.model ?? "claude-sonnet-4-5";
   const max_tokens = payload.options?.max_tokens ?? 4096;
 
-const systemInstructions = `
+const defaultSystemInstructions = `
 You are generating a structured Arabic lesson JSON object with a strong emphasis on documenting HOW and WHY you selected each teaching artifact.
 HARD RULES:
 - Do NOT alter the Arabic ayah strings. Keep EXACT, including markers like ﴿١﴾.
@@ -59,11 +61,11 @@ Return ONLY valid JSON that matches the schema; do not wrap the JSON in markdown
     body: JSON.stringify({
       model,
       max_tokens,
-      system: systemInstructions,
+      system: payload.systemInstructions ?? defaultSystemInstructions,
       messages: [{ role: "user", content: JSON.stringify(payload.lesson) }],
       output_format: {
         type: "json_schema",
-        schema: ArabicLessonSchema,
+        schema: payload.schema ?? ArabicLessonSchema,
       },
     }),
   });
