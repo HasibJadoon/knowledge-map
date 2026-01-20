@@ -9,7 +9,3 @@ binding = "DB"
 database_name = "knowledgemap"
 database_id = "ef164d27-6e98-41c5-beca-03903d658976"
 
-
-name = "knowledge-map-api"
-main = "src/worker.ts"
-compatibility_date = "2025-01-01"
