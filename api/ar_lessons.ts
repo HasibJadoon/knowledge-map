@@ -80,7 +80,8 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       `${selectSql}
          ${whereClause}
          ORDER BY created_at DESC
-         LIMIT ?1 OFFSET ?2`
+         LIMIT ?
+         OFFSET ?`
     );
     const dataParams = [...queryParams, limit, offset];
     dataStmt.bind(...dataParams);
