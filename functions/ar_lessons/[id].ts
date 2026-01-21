@@ -85,9 +85,12 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
     const parsed = safeJsonParse((row.lesson_json as string | null) ?? null);
 
-    return new Response(JSON.stringify({ ok: true, result: { ...row, lesson_json: parsed ?? row.lesson_json } }), {
-      headers: jsonHeaders,
-    });
+    const headers = { ...jsonHeaders, 'x-hit': 'ID /ar_lessons/:id' };
+
+    return new Response(
+      JSON.stringify({ ok: true, result: { ...row, lesson_json: parsed ?? row.lesson_json } }),
+      { headers }
+    );
   } catch (err: any) {
     return new Response(JSON.stringify({ ok: false, error: err?.message ?? String(err) }), {
       status: 500,

@@ -100,9 +100,12 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
     const dataRes = (await dataStmt.all()) as { results?: any[] };
 
-    return new Response(JSON.stringify({ ok: true, total, limit, offset, results: dataRes?.results ?? [] }), {
-      headers: jsonHeaders,
-    });
+    const headers = { ...jsonHeaders, 'x-hit': 'INDEX /ar_lessons' };
+
+    return new Response(
+      JSON.stringify({ ok: true, total, limit, offset, results: dataRes?.results ?? [] }),
+      { headers }
+    );
   } catch (err: any) {
     return new Response(JSON.stringify({ ok: false, error: err?.message ?? String(err) }), {
       status: 500,
