@@ -10,3 +10,5 @@ Builld and deploy
 cd apps/k-maps
 npm ci
 npm run build
+
+Test
