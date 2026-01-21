@@ -8,6 +8,14 @@ export const routes: Routes = [
     data: { title: 'Arabic Lessons' }
   },
   {
+    path: 'quran',
+    loadChildren: () => import('../../quran-lessons/routes').then(m => m.quranLessonRoutes)
+  },
+  {
+    path: 'literature',
+    loadChildren: () => import('../../literature-lessons/routes').then(m => m.literatureLessonRoutes)
+  },
+  {
     path: 'new',
     loadComponent: () =>
       import('./ar-lesson-editor/ar-lesson-editor.component').then(m => m.ArLessonEditorComponent),

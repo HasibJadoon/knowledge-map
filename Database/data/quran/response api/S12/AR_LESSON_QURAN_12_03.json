@@ -1,0 +1,4352 @@
+{
+    "ok": true,
+    "result": {
+        "id": 3,
+        "user_id": 1,
+        "title": "Surah Yusuf 12:19–29",
+        "title_ar": "سورة يوسف (١٩–٢٩)",
+        "lesson_type": "quran",
+        "subtype": "narrative",
+        "source": "Yusuf 12:19–29",
+        "status": "active",
+        "difficulty": 3,
+        "created_at": "2026-01-21 07:40:52",
+        "updated_at": null,
+        "lesson_json": {
+            "entity_type": "ar_lesson",
+            "id": "AR_LESSON_QURAN_12_019_029",
+            "lesson_type": "quran",
+            "subtype": "narrative",
+            "title": "Surah Yusuf 12:19–29",
+            "title_ar": "سورة يوسف (١٩–٢٩)",
+            "status": "active",
+            "difficulty": 3,
+            "reference": {
+                "source_type": "quran",
+                "source_ref_id": "12:19-29",
+                "surah": 12,
+                "ayah_from": 19,
+                "ayah_to": 29,
+                "ref_label": "Yusuf 12:19–29",
+                "citation": "Surah Yusuf (12:19–29)"
+            },
+            "text": {
+                "arabic_full": [
+                    {
+                        "unit_id": "U_12_19",
+                        "unit_type": "ayah",
+                        "arabic": "وجاءت سيارة فأرسلوا واردهم فأدلى دلوه قال يا بشرى هذا غلام وأسروه بضاعة والله عليم بما يعملون ﴿١٩﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 19,
+                        "notes": "تتابع الفاءات للفورية (فأرسلوا/فأدلى) + نداء التعجب (يا بشرى) + إظهار خلاف الحقيقة في (أسروه) + جملة ختم علم الله."
+                    },
+                    {
+                        "unit_id": "U_12_20",
+                        "unit_type": "ayah",
+                        "arabic": "وشروه بثمن بخس دراهم معدودة وكانوا فيه من الزاهدين ﴿٢٠﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 20,
+                        "notes": "وصف الثمن بالبَخس + تقليل (دراهم معدودة) + (من الزاهدين) تعليل لحالهم."
+                    },
+                    {
+                        "unit_id": "U_12_21",
+                        "unit_type": "ayah",
+                        "arabic": "وقال الذي اشتراه من مصر لامرأته أكرمي مثواه عسى أن ينفعنا أو نتخذه ولدا وكذلك مكنا ليوسف في الأرض ولنعلمه من تأويل الأحاديث والله غالب على أمره ولكن أكثر الناس لا يعلمون ﴿٢١﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 21,
+                        "notes": "توجيه (أكرمي) + ترجّي (عسى) + أو للتخيير + انتقال من فعل البشر إلى تدبير الله (وكذلك مكنا/ولنعلمه) + ختم بقاعدة كلية."
+                    },
+                    {
+                        "unit_id": "U_12_22",
+                        "unit_type": "ayah",
+                        "arabic": "ولما بلغ أشده آتيناه حكما وعلما وكذلك نجزي المحسنين ﴿٢٢﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 22,
+                        "notes": "لما الظرفية + بلوغ الأشد + عطاء (حكما وعلما) + سنة الجزاء للمحسنين."
+                    },
+                    {
+                        "unit_id": "U_12_23",
+                        "unit_type": "ayah",
+                        "arabic": "وراودته التي هو في بيتها عن نفسه وغلقت الأبواب وقالت هيت لك قال معاذ الله إنه ربي أحسن مثواي إنه لا يفلح الظالمون ﴿٢٣﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 23,
+                        "notes": "مراودة + إحكام الإغلاق + دعوة صريحة (هيت لك) + استعصام (معاذ الله) + تعليل أخلاقي وعقدي."
+                    },
+                    {
+                        "unit_id": "U_12_24",
+                        "unit_type": "ayah",
+                        "arabic": "ولقد همت به وهم بها لولا أن رأى برهان ربه كذلك لنصرف عنه السوء والفحشاء إنه من عبادنا المخلصين ﴿٢٤﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 24,
+                        "notes": "تحقيق (ولقد) + جملة شرط امتناع (لولا) + تعليل صرف السوء + وصف (المخلصين)."
+                    },
+                    {
+                        "unit_id": "U_12_25",
+                        "unit_type": "ayah",
+                        "arabic": "واستبقا الباب وقدت قميصه من دبر وألفيا سيدها لدى الباب قالت ما جزاء من أراد بأهلك سوءا إلا أن يسجن أو عذاب أليم ﴿٢٥﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 25,
+                        "notes": "مشهد حركة (استبقا) + علامة مادية (قدت…من دبر) + مفاجأة اللقاء (ألفيا) + صياغة اتهام بعقوبة."
+                    },
+                    {
+                        "unit_id": "U_12_26",
+                        "unit_type": "ayah",
+                        "arabic": "قال هي راودتني عن نفسي وشهد شاهد من أهلها إن كان قميصه قد من قبل فصدقت وهو من الكاذبين ﴿٢٦﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 26,
+                        "notes": "دفع التهمة + شاهد قرينة + شرط (إن كان) + فاء جواب الشرط."
+                    },
+                    {
+                        "unit_id": "U_12_27",
+                        "unit_type": "ayah",
+                        "arabic": "وإن كان قميصه قد من دبر فكذبت وهو من الصادقين ﴿٢٧﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 27,
+                        "notes": "مقابلة شرطية ثانية + علامة الخلف (من دبر) + فاء جواب الشرط."
+                    },
+                    {
+                        "unit_id": "U_12_28",
+                        "unit_type": "ayah",
+                        "arabic": "فلما رأى قميصه قد من دبر قال إنه من كيدكن إن كيدكن عظيم ﴿٢٨﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 28,
+                        "notes": "لما الزمنية + الحكم بعد رؤية القرينة + تعميم (كيدكن) مع توكيد (إن)."
+                    },
+                    {
+                        "unit_id": "U_12_29",
+                        "unit_type": "ayah",
+                        "arabic": "يوسف أعرض عن هذا واستغفري لذنبك إنك كنت من الخاطئين ﴿٢٩﴾",
+                        "translation": null,
+                        "surah": 12,
+                        "ayah": 29,
+                        "notes": "أمر بالإعراض لحفظ السمعة وإطفاء الفتنة + أمر بالاستغفار + تعليل (إنك كنت)."
+                    }
+                ],
+                "mode": "original"
+            },
+            "sentences": [
+                {
+                    "sentence_id": "SENT_12_19_A",
+                    "unit_id": "U_12_19",
+                    "arabic": "وجاءت سيارة",
+                    "translation": null,
+                    "notes": "افتتاح المشهد بوصول القافلة.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_19_A_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_A_2",
+                            "surface_ar": "جاءت",
+                            "lemma_ar": "جاء",
+                            "root": "جيء",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "gender": "f",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_A_3",
+                            "surface_ar": "سيارة",
+                            "lemma_ar": "سيارة",
+                            "root": "سير",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "raf_or_nasb_contextual"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "جيء",
+                        "سير"
+                    ],
+                    "root_ids": [
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_19_B",
+                    "unit_id": "U_12_19",
+                    "arabic": "فأرسلوا واردهم",
+                    "translation": null,
+                    "notes": "فاء التعقيب + إرسال الوارد للسقي.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_19_B_1",
+                            "surface_ar": "ف",
+                            "lemma_ar": "ف",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "fa_taqeeb"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_B_2",
+                            "surface_ar": "أرسلوا",
+                            "lemma_ar": "أرسل",
+                            "root": "رسل",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_B_3",
+                            "surface_ar": "وارد",
+                            "lemma_ar": "وارد",
+                            "root": "ورد",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "role": "mafool_bihi"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_B_4",
+                            "surface_ar": "هم",
+                            "lemma_ar": "هم",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "number": "pl"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "رسل",
+                        "ورد"
+                    ],
+                    "root_ids": [
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_19_C",
+                    "unit_id": "U_12_19",
+                    "arabic": "فأدلى دلوه",
+                    "translation": null,
+                    "notes": "فعل حركة: إنزال الدلو.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_19_C_1",
+                            "surface_ar": "ف",
+                            "lemma_ar": "ف",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "fa_taqeeb"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_C_2",
+                            "surface_ar": "أدلى",
+                            "lemma_ar": "أدلى",
+                            "root": "دلو",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_C_3",
+                            "surface_ar": "دلو",
+                            "lemma_ar": "دلو",
+                            "root": "دلو",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "role": "mafool_bihi"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_C_4",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "دلو"
+                    ],
+                    "root_ids": [
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_19_D",
+                    "unit_id": "U_12_19",
+                    "arabic": "قال يا بشرى هذا غلام",
+                    "translation": null,
+                    "notes": "نداء التعجب/الفرح + الإشارة.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_19_D_1",
+                            "surface_ar": "قال",
+                            "lemma_ar": "قال",
+                            "root": "قول",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_D_2",
+                            "surface_ar": "يا",
+                            "lemma_ar": "يا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "vocative"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_D_3",
+                            "surface_ar": "بشرى",
+                            "lemma_ar": "بشرى",
+                            "root": "بشر",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "nidā_al_taʿajjub"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_D_4",
+                            "surface_ar": "هذا",
+                            "lemma_ar": "هذا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "demonstrative"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_D_5",
+                            "surface_ar": "غلام",
+                            "lemma_ar": "غلام",
+                            "root": "غلم",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "role": "khabar_or_badl_contextual"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "قول",
+                        "بشر",
+                        "غلم"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_19_E",
+                    "unit_id": "U_12_19",
+                    "arabic": "وأسروه بضاعة والله عليم بما يعملون",
+                    "translation": null,
+                    "notes": "ستروا أمره كبضاعة + ختم بعلم الله.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_19_E_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_E_2",
+                            "surface_ar": "أسروا",
+                            "lemma_ar": "أسر",
+                            "root": "سرر",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_E_3",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_E_4",
+                            "surface_ar": "بضاعة",
+                            "lemma_ar": "بضاعة",
+                            "root": "بضع",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "role": "hal_or_tamyiz_contextual"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_E_5",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "isti'naf"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_E_6",
+                            "surface_ar": "الله",
+                            "lemma_ar": "الله",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "proper": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_E_7",
+                            "surface_ar": "عليم",
+                            "lemma_ar": "عليم",
+                            "root": "علم",
+                            "root_id": null,
+                            "pos": "adj",
+                            "morph_ref": null,
+                            "features": {
+                                "pattern": "فعيل"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_E_8",
+                            "surface_ar": "ب",
+                            "lemma_ar": "ب",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_E_9",
+                            "surface_ar": "ما",
+                            "lemma_ar": "ما",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "ma_mawsula_or_masdariya"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_19_E_10",
+                            "surface_ar": "يعملون",
+                            "lemma_ar": "عمل",
+                            "root": "عمل",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "present",
+                                "person": "3",
+                                "number": "pl"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "سرر",
+                        "بضع",
+                        "علم",
+                        "عمل"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_20_A",
+                    "unit_id": "U_12_20",
+                    "arabic": "وشروه بثمن بخس دراهم معدودة",
+                    "translation": null,
+                    "notes": "بيع بثمن قليل + تقليل العدد.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_20_A_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_20_A_2",
+                            "surface_ar": "شرو",
+                            "lemma_ar": "شرى",
+                            "root": "شري",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_20_A_3",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_20_A_4",
+                            "surface_ar": "ب",
+                            "lemma_ar": "ب",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_20_A_5",
+                            "surface_ar": "ثمن",
+                            "lemma_ar": "ثمن",
+                            "root": "ثمن",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {}
+                        },
+                        {
+                            "token_id": "TOK_12_20_A_6",
+                            "surface_ar": "بخس",
+                            "lemma_ar": "بخس",
+                            "root": "بخس",
+                            "root_id": null,
+                            "pos": "adj",
+                            "morph_ref": null,
+                            "features": {}
+                        },
+                        {
+                            "token_id": "TOK_12_20_A_7",
+                            "surface_ar": "دراهم",
+                            "lemma_ar": "درهم",
+                            "root": "درهم",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_20_A_8",
+                            "surface_ar": "معدودة",
+                            "lemma_ar": "معدود",
+                            "root": "عدد",
+                            "root_id": null,
+                            "pos": "adj",
+                            "morph_ref": null,
+                            "features": {
+                                "gender": "f"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "شري",
+                        "ثمن",
+                        "بخس",
+                        "عدد"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_20_B",
+                    "unit_id": "U_12_20",
+                    "arabic": "وكانوا فيه من الزاهدين",
+                    "translation": null,
+                    "notes": "كان الناقصة + جار ومجرور (فيه) + (من) للتبعيض/البيان.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_20_B_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_20_B_2",
+                            "surface_ar": "كانوا",
+                            "lemma_ar": "كان",
+                            "root": "كون",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "kana",
+                                "person": "3",
+                                "number": "pl",
+                                "tense": "past"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_20_B_3",
+                            "surface_ar": "في",
+                            "lemma_ar": "في",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_20_B_4",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_20_B_5",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_20_B_6",
+                            "surface_ar": "الزاهدين",
+                            "lemma_ar": "زاهد",
+                            "root": "زهد",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "pl",
+                                "type": "active_participle"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "كون",
+                        "زهد"
+                    ],
+                    "root_ids": [
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_21_A",
+                    "unit_id": "U_12_21",
+                    "arabic": "وقال الذي اشتراه من مصر لامرأته أكرمي مثواه عسى أن ينفعنا أو نتخذه ولدا",
+                    "translation": null,
+                    "notes": "قول + صلة الموصول + أمر للمرأة + (عسى) ترجّي + (أو) للتخيير.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_21_A_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_2",
+                            "surface_ar": "قال",
+                            "lemma_ar": "قال",
+                            "root": "قول",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_3",
+                            "surface_ar": "الذي",
+                            "lemma_ar": "الذي",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "relative_pronoun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_4",
+                            "surface_ar": "اشتراه",
+                            "lemma_ar": "اشترى",
+                            "root": "شري",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_5",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_6",
+                            "surface_ar": "مصر",
+                            "lemma_ar": "مصر",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "proper": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_7",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_8",
+                            "surface_ar": "امرأته",
+                            "lemma_ar": "امرأة",
+                            "root": "مرء",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "role": "majrur_bilam"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_9",
+                            "surface_ar": "أكرمي",
+                            "lemma_ar": "أكرم",
+                            "root": "كرم",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "mood": "imperative",
+                                "gender": "f"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_10",
+                            "surface_ar": "مثوى",
+                            "lemma_ar": "مثوى",
+                            "root": "ثوي",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {}
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_11",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_12",
+                            "surface_ar": "عسى",
+                            "lemma_ar": "عسى",
+                            "root": "عسو",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "tarajji"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_13",
+                            "surface_ar": "أن",
+                            "lemma_ar": "أن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "subordinator"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_14",
+                            "surface_ar": "ينفع",
+                            "lemma_ar": "نفع",
+                            "root": "نفع",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "present"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_15",
+                            "surface_ar": "نا",
+                            "lemma_ar": "نا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "1",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_16",
+                            "surface_ar": "أو",
+                            "lemma_ar": "أو",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "or"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_17",
+                            "surface_ar": "نتخذه",
+                            "lemma_ar": "اتخذ",
+                            "root": "ءخذ",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "present"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_A_18",
+                            "surface_ar": "ولدا",
+                            "lemma_ar": "ولد",
+                            "root": "ولد",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "nasb"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "قول",
+                        "شري",
+                        "مرء",
+                        "كرم",
+                        "ثوي",
+                        "نفع",
+                        "ءخذ",
+                        "ولد"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_21_B",
+                    "unit_id": "U_12_21",
+                    "arabic": "وكذلك مكنا ليوسف في الأرض",
+                    "translation": null,
+                    "notes": "وكذلك: ربط بما سبق + تمكين إلهي.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_21_B_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_B_2",
+                            "surface_ar": "كذلك",
+                            "lemma_ar": "كذلك",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "linker"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_B_3",
+                            "surface_ar": "مكنا",
+                            "lemma_ar": "مكن",
+                            "root": "مكن",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "1",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_B_4",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_B_5",
+                            "surface_ar": "يوسف",
+                            "lemma_ar": "يوسف",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "proper": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_B_6",
+                            "surface_ar": "في",
+                            "lemma_ar": "في",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_B_7",
+                            "surface_ar": "الأرض",
+                            "lemma_ar": "أرض",
+                            "root": "ءرض",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {}
+                        }
+                    ],
+                    "roots": [
+                        "مكن",
+                        "ءرض"
+                    ],
+                    "root_ids": [
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_21_C",
+                    "unit_id": "U_12_21",
+                    "arabic": "ولنعلمه من تأويل الأحاديث",
+                    "translation": null,
+                    "notes": "لام التعليل + تعليم التأويل.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_21_C_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_C_2",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "lam_ta'leel"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_C_3",
+                            "surface_ar": "نعلمه",
+                            "lemma_ar": "علم",
+                            "root": "علم",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "present",
+                                "person": "1",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_C_4",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_C_5",
+                            "surface_ar": "تأويل",
+                            "lemma_ar": "تأويل",
+                            "root": "ءول",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {}
+                        },
+                        {
+                            "token_id": "TOK_12_21_C_6",
+                            "surface_ar": "الأحاديث",
+                            "lemma_ar": "حديث",
+                            "root": "حدث",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "pl"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "علم",
+                        "ءول",
+                        "حدث"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_21_D",
+                    "unit_id": "U_12_21",
+                    "arabic": "والله غالب على أمره ولكن أكثر الناس لا يعلمون",
+                    "translation": null,
+                    "notes": "جملة كلية: غلبة أمر الله + استدراك (لكن) + نفي العلم عن الأكثر.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_21_D_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "isti'naf"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_2",
+                            "surface_ar": "الله",
+                            "lemma_ar": "الله",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "proper": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_3",
+                            "surface_ar": "غالب",
+                            "lemma_ar": "غالب",
+                            "root": "غلب",
+                            "root_id": null,
+                            "pos": "adj",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "active_participle"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_4",
+                            "surface_ar": "على",
+                            "lemma_ar": "على",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_5",
+                            "surface_ar": "أمر",
+                            "lemma_ar": "أمر",
+                            "root": "ءمر",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {}
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_6",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_7",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_8",
+                            "surface_ar": "لكن",
+                            "lemma_ar": "لكن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "istidrak"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_9",
+                            "surface_ar": "أكثر",
+                            "lemma_ar": "أكثر",
+                            "root": "كثر",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "ism_tafdeel"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_10",
+                            "surface_ar": "الناس",
+                            "lemma_ar": "ناس",
+                            "root": "ءنس",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {}
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_11",
+                            "surface_ar": "لا",
+                            "lemma_ar": "لا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "negation"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_21_D_12",
+                            "surface_ar": "يعلمون",
+                            "lemma_ar": "علم",
+                            "root": "علم",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "present",
+                                "person": "3",
+                                "number": "pl"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "غلب",
+                        "ءمر",
+                        "كثر",
+                        "ءنس",
+                        "علم"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_22_A",
+                    "unit_id": "U_12_22",
+                    "arabic": "ولما بلغ أشده آتيناه حكما وعلما",
+                    "translation": null,
+                    "notes": "لما الظرفية + بلوغ الأشد + إيتاء الحكم والعلم.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_22_A_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_A_2",
+                            "surface_ar": "لما",
+                            "lemma_ar": "لما",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "temporal"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_A_3",
+                            "surface_ar": "بلغ",
+                            "lemma_ar": "بلغ",
+                            "root": "بلغ",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_A_4",
+                            "surface_ar": "أشد",
+                            "lemma_ar": "أشد",
+                            "root": "شدد",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "plural_or_collective"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_A_5",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_A_6",
+                            "surface_ar": "آتينا",
+                            "lemma_ar": "آتى",
+                            "root": "ءتي",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "1",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_A_7",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_A_8",
+                            "surface_ar": "حكما",
+                            "lemma_ar": "حكم",
+                            "root": "حكم",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "nasb"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_A_9",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_A_10",
+                            "surface_ar": "علما",
+                            "lemma_ar": "علم",
+                            "root": "علم",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "nasb"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "بلغ",
+                        "شدد",
+                        "ءتي",
+                        "حكم",
+                        "علم"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_22_B",
+                    "unit_id": "U_12_22",
+                    "arabic": "وكذلك نجزي المحسنين",
+                    "translation": null,
+                    "notes": "سنة الجزاء.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_22_B_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_B_2",
+                            "surface_ar": "كذلك",
+                            "lemma_ar": "كذلك",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "linker"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_B_3",
+                            "surface_ar": "نجزي",
+                            "lemma_ar": "جزى",
+                            "root": "جزي",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "present",
+                                "person": "1",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_22_B_4",
+                            "surface_ar": "المحسنين",
+                            "lemma_ar": "محسن",
+                            "root": "حسن",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "pl",
+                                "type": "active_participle"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "جزي",
+                        "حسن"
+                    ],
+                    "root_ids": [
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_23_A",
+                    "unit_id": "U_12_23",
+                    "arabic": "وراودته التي هو في بيتها عن نفسه",
+                    "translation": null,
+                    "notes": "مراودة: محاولة إغواء متكررة/مراودة.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_23_A_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_A_2",
+                            "surface_ar": "راودت",
+                            "lemma_ar": "راود",
+                            "root": "رود",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "gender": "f"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_A_3",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_A_4",
+                            "surface_ar": "التي",
+                            "lemma_ar": "التي",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "relative_pronoun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_A_5",
+                            "surface_ar": "هو",
+                            "lemma_ar": "هو",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_A_6",
+                            "surface_ar": "في",
+                            "lemma_ar": "في",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_A_7",
+                            "surface_ar": "بيت",
+                            "lemma_ar": "بيت",
+                            "root": "بيت",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {}
+                        },
+                        {
+                            "token_id": "TOK_12_23_A_8",
+                            "surface_ar": "ها",
+                            "lemma_ar": "ها",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_A_9",
+                            "surface_ar": "عن",
+                            "lemma_ar": "عن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_A_10",
+                            "surface_ar": "نفس",
+                            "lemma_ar": "نفس",
+                            "root": "نفس",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {}
+                        },
+                        {
+                            "token_id": "TOK_12_23_A_11",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "رود",
+                        "بيت",
+                        "نفس"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_23_B",
+                    "unit_id": "U_12_23",
+                    "arabic": "وغلقت الأبواب",
+                    "translation": null,
+                    "notes": "تشديد الإغلاق (صيغة مبالغة في الفعل).",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_23_B_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_B_2",
+                            "surface_ar": "غلقت",
+                            "lemma_ar": "غلق",
+                            "root": "غلق",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "gender": "f"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_B_3",
+                            "surface_ar": "الأبواب",
+                            "lemma_ar": "باب",
+                            "root": "بوب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "pl"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "غلق",
+                        "بوب"
+                    ],
+                    "root_ids": [
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": []
+                },
+                {
+                    "sentence_id": "SENT_12_23_C",
+                    "unit_id": "U_12_23",
+                    "arabic": "وقالت هيت لك قال معاذ الله إنه ربي أحسن مثواي إنه لا يفلح الظالمون",
+                    "translation": null,
+                    "notes": "حوار + استعاذة + تعليل: الإحسان والأمانة + قاعدة (لا يفلح الظالمون).",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_23_C_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_2",
+                            "surface_ar": "قالت",
+                            "lemma_ar": "قال",
+                            "root": "قول",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "gender": "f",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_3",
+                            "surface_ar": "هيت",
+                            "lemma_ar": "هيت",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "phrase",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "invitation"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_4",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_5",
+                            "surface_ar": "ك",
+                            "lemma_ar": "ك",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "2",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_6",
+                            "surface_ar": "قال",
+                            "lemma_ar": "قال",
+                            "root": "قول",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_7",
+                            "surface_ar": "معاذ",
+                            "lemma_ar": "معاذ",
+                            "root": "عوذ",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "isti'adhah",
+                                "case": "nasb_or_raf_contextual"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_8",
+                            "surface_ar": "الله",
+                            "lemma_ar": "الله",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "proper": true,
+                                "case": "majrur_idafa_or_mansub_contextual"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_9",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "inna"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_10",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_11",
+                            "surface_ar": "ربي",
+                            "lemma_ar": "رب",
+                            "root": "ربب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "role": "khabar_inna_or_mubtada_contextual",
+                                "case": "raf",
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_12",
+                            "surface_ar": "أحسن",
+                            "lemma_ar": "أحسن",
+                            "root": "حسن",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_13",
+                            "surface_ar": "مثوى",
+                            "lemma_ar": "مثوى",
+                            "root": "ثوي",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "role": "mafool_bihi",
+                                "case": "nasb"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_14",
+                            "surface_ar": "ي",
+                            "lemma_ar": "ي",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "1",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_15",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "inna"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_16",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_17",
+                            "surface_ar": "لا",
+                            "lemma_ar": "لا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "negation"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_18",
+                            "surface_ar": "يفلح",
+                            "lemma_ar": "فلح",
+                            "root": "فلح",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "present",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg",
+                                "mood": "indicative"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_23_C_19",
+                            "surface_ar": "الظالمون",
+                            "lemma_ar": "ظالم",
+                            "root": "ظلم",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "plural",
+                                "definite": true,
+                                "case": "nominative"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "قول",
+                        "عوذ",
+                        "ربب",
+                        "حسن",
+                        "ثوي",
+                        "فلح",
+                        "ظلم"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_NAHW_INNA",
+                        "GRAM_BALAGHA_ISTIADHAH",
+                        "GRAM_QAWAID_NEGATION",
+                        "GRAM_QAWAID_GENERAL_RULE"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_24_A",
+                    "unit_id": "U_12_24",
+                    "arabic": "ولقد همت به وهم بها لولا أن رأى برهان ربه",
+                    "translation": null,
+                    "notes": "تحقيق بـ(ولقد) + همٌّ متقابل مع قيد الامتناع بـ(لولا) المعلَّق على رؤية البرهان.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_24_A_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_2",
+                            "surface_ar": "لقد",
+                            "lemma_ar": "لقد",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "tahqiq"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_3",
+                            "surface_ar": "همت",
+                            "lemma_ar": "همّ",
+                            "root": "همم",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "gender": "f",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_4",
+                            "surface_ar": "ب",
+                            "lemma_ar": "ب",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_5",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_6",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_7",
+                            "surface_ar": "هم",
+                            "lemma_ar": "همّ",
+                            "root": "همم",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "gender": "m",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_8",
+                            "surface_ar": "ب",
+                            "lemma_ar": "ب",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_9",
+                            "surface_ar": "ها",
+                            "lemma_ar": "ها",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "gender": "f",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_10",
+                            "surface_ar": "لولا",
+                            "lemma_ar": "لولا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conditional_imtina"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_11",
+                            "surface_ar": "أن",
+                            "lemma_ar": "أن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "subordinator"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_12",
+                            "surface_ar": "رأى",
+                            "lemma_ar": "رأى",
+                            "root": "رأي",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_13",
+                            "surface_ar": "برهان",
+                            "lemma_ar": "برهان",
+                            "root": "برهن",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "nasb",
+                                "role": "mafool_bihi"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_14",
+                            "surface_ar": "رب",
+                            "lemma_ar": "رب",
+                            "root": "ربب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_A_15",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "همم",
+                        "رأي",
+                        "برهن",
+                        "ربب"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_BALAGHA_TAHQIQ",
+                        "GRAM_NAHW_LAWLA"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_24_B",
+                    "unit_id": "U_12_24",
+                    "arabic": "كذلك لنصرف عنه السوء والفحشاء إنه من عبادنا المخلصين",
+                    "translation": null,
+                    "notes": "كذلك: ربط وتعليل لما سبق + لام التعليل (لنصرف) + تعميم السوء والفحشاء + توكيد الاصطفاء بـ(إنه) ووصف (المخلصين).",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_24_B_1",
+                            "surface_ar": "كذلك",
+                            "lemma_ar": "كذلك",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "linker_reasoning"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_2",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "lam_ta'leel"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_3",
+                            "surface_ar": "نصرف",
+                            "lemma_ar": "صرف",
+                            "root": "صرف",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "present",
+                                "person": "1",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_4",
+                            "surface_ar": "عن",
+                            "lemma_ar": "عن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_5",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_6",
+                            "surface_ar": "ال",
+                            "lemma_ar": "ال",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "definite_article"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_7",
+                            "surface_ar": "سوء",
+                            "lemma_ar": "سوء",
+                            "root": "سوء",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "nasb",
+                                "role": "mafool_bihi"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_8",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_9",
+                            "surface_ar": "ال",
+                            "lemma_ar": "ال",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "definite_article"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_10",
+                            "surface_ar": "فحشاء",
+                            "lemma_ar": "فحشاء",
+                            "root": "فحش",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "nasb",
+                                "role": "mafool_bihi"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_11",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "inna"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_12",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_13",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_14",
+                            "surface_ar": "عباد",
+                            "lemma_ar": "عبد",
+                            "root": "عبد",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "pl",
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_15",
+                            "surface_ar": "نا",
+                            "lemma_ar": "نا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "1",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_16",
+                            "surface_ar": "ال",
+                            "lemma_ar": "ال",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "definite_article"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_24_B_17",
+                            "surface_ar": "مخلصين",
+                            "lemma_ar": "مخلص",
+                            "root": "خلص",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "pl",
+                                "type": "passive_participle_or_adj"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "صرف",
+                        "سوء",
+                        "فحش",
+                        "عبد",
+                        "خلص"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_NAHW_LAM_TA'LIL",
+                        "GRAM_NAHW_INNA",
+                        "GRAM_THEOLOGY_ISMAH_CONTEXT"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_25_A",
+                    "unit_id": "U_12_25",
+                    "arabic": "واستبقا الباب وقدت قميصه من دبر وألفيا سيدها لدى الباب",
+                    "translation": null,
+                    "notes": "مشهد حركة وسرعة (استبقا) + قرينة مادية حاسمة (قدّ القميص من دبر) + مفاجأة اللقاء (ألفيا سيدها).",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_25_A_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_2",
+                            "surface_ar": "استبقا",
+                            "lemma_ar": "استبق",
+                            "root": "سبق",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "number": "dual",
+                                "pattern": "استفعل",
+                                "meaning": "mutual_race"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_3",
+                            "surface_ar": "ال",
+                            "lemma_ar": "ال",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "definite_article"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_4",
+                            "surface_ar": "باب",
+                            "lemma_ar": "باب",
+                            "root": "بوب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "nasb",
+                                "role": "mafool_bihi"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_5",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_6",
+                            "surface_ar": "قدت",
+                            "lemma_ar": "قدّ",
+                            "root": "قدد",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "gender": "f",
+                                "number": "sg",
+                                "intensity": "shadda"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_7",
+                            "surface_ar": "قميص",
+                            "lemma_ar": "قميص",
+                            "root": "قمص",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "role": "mafool_bihi",
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_8",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_9",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_10",
+                            "surface_ar": "دبر",
+                            "lemma_ar": "دبر",
+                            "root": "دبر",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "direction",
+                                "case": "jarr"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_11",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_12",
+                            "surface_ar": "ألفيا",
+                            "lemma_ar": "ألفى",
+                            "root": "لفي",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "number": "dual"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_13",
+                            "surface_ar": "سيد",
+                            "lemma_ar": "سيد",
+                            "root": "سود",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_14",
+                            "surface_ar": "ها",
+                            "lemma_ar": "ها",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "gender": "f"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_15",
+                            "surface_ar": "لدى",
+                            "lemma_ar": "لدى",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "adverb_place"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_16",
+                            "surface_ar": "ال",
+                            "lemma_ar": "ال",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "definite_article"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_A_17",
+                            "surface_ar": "باب",
+                            "lemma_ar": "باب",
+                            "root": "بوب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "jarr",
+                                "role": "zarf_makan"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "سبق",
+                        "قدد",
+                        "قمص",
+                        "دبر",
+                        "لفي",
+                        "سود",
+                        "بوب"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_BALAGHA_SCENE_MOVEMENT",
+                        "GRAM_NAHW_DUAL_VERB",
+                        "GRAM_QARINA_MADIYYA"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_25_B",
+                    "unit_id": "U_12_25",
+                    "arabic": "قالت ما جزاء من أراد بأهلك سوءا إلا أن يسجن أو عذاب أليم",
+                    "translation": null,
+                    "notes": "مبادرة بالاتهام + استفهام تقريري (ما جزاء) + حصر بالعقوبة (إلا) + تخيير ظاهري بين السجن والعذاب.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_25_B_1",
+                            "surface_ar": "قالت",
+                            "lemma_ar": "قال",
+                            "root": "قول",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "gender": "f",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_2",
+                            "surface_ar": "ما",
+                            "lemma_ar": "ما",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "interrogative_rhetorical"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_3",
+                            "surface_ar": "جزاء",
+                            "lemma_ar": "جزاء",
+                            "root": "جزي",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "raf",
+                                "role": "khabar_or_mubtada_contextual"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_4",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "relative_pronoun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_5",
+                            "surface_ar": "أراد",
+                            "lemma_ar": "أراد",
+                            "root": "رود",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_6",
+                            "surface_ar": "ب",
+                            "lemma_ar": "ب",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_7",
+                            "surface_ar": "أهل",
+                            "lemma_ar": "أهل",
+                            "root": "أهل",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_8",
+                            "surface_ar": "ك",
+                            "lemma_ar": "ك",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "2",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_9",
+                            "surface_ar": "سوءا",
+                            "lemma_ar": "سوء",
+                            "root": "سوء",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "nasb",
+                                "role": "mafool_bihi"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_10",
+                            "surface_ar": "إلا",
+                            "lemma_ar": "إلا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "hasr_exception"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_11",
+                            "surface_ar": "أن",
+                            "lemma_ar": "أن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "subordinator"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_12",
+                            "surface_ar": "يسجن",
+                            "lemma_ar": "سجن",
+                            "root": "سجن",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "present",
+                                "voice": "passive",
+                                "mood": "subjunctive"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_13",
+                            "surface_ar": "أو",
+                            "lemma_ar": "أو",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "or"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_14",
+                            "surface_ar": "عذاب",
+                            "lemma_ar": "عذاب",
+                            "root": "عذب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "case": "raf_or_nasb_contextual"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_25_B_15",
+                            "surface_ar": "أليم",
+                            "lemma_ar": "أليم",
+                            "root": "ألم",
+                            "root_id": null,
+                            "pos": "adj",
+                            "morph_ref": null,
+                            "features": {
+                                "pattern": "فعيل"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "قول",
+                        "جزي",
+                        "رود",
+                        "أهل",
+                        "سوء",
+                        "سجن",
+                        "عذب",
+                        "ألم"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_BALAGHA_HASR",
+                        "GRAM_NAHW_INTERROGATIVE",
+                        "GRAM_NAHW_PASSIVE"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_26_A",
+                    "unit_id": "U_12_26",
+                    "arabic": "قال هي راودتني عن نفسي",
+                    "translation": null,
+                    "notes": "ردّ مباشر لدفع التهمة + قصر الاتهام بالفعل (هي) + إعادة استعمال فعل المراودة.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_26_A_1",
+                            "surface_ar": "قال",
+                            "lemma_ar": "قال",
+                            "root": "قول",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_A_2",
+                            "surface_ar": "هي",
+                            "lemma_ar": "هي",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun",
+                                "person": "3",
+                                "gender": "f",
+                                "number": "sg",
+                                "role": "mubtada"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_A_3",
+                            "surface_ar": "راودت",
+                            "lemma_ar": "راود",
+                            "root": "رود",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "gender": "f",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_A_4",
+                            "surface_ar": "ني",
+                            "lemma_ar": "ني",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "1",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_A_5",
+                            "surface_ar": "عن",
+                            "lemma_ar": "عن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_A_6",
+                            "surface_ar": "نفس",
+                            "lemma_ar": "نفس",
+                            "root": "نفس",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_A_7",
+                            "surface_ar": "ي",
+                            "lemma_ar": "ي",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "1",
+                                "number": "sg"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "قول",
+                        "رود",
+                        "نفس"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_BALAGHA_DEFENCE_SPEECH",
+                        "GRAM_NAHW_PRONOUN_EMPHASIS"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_26_B",
+                    "unit_id": "U_12_26",
+                    "arabic": "وشهد شاهد من أهلها إن كان قميصه قد من قبل فصدقت وهو من الكاذبين",
+                    "translation": null,
+                    "notes": "إدخال شاهد محايد + قرينة مادية (القميص) + شرط (إن) مع فاء جواب الشرط + حكم صدق/كذب.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_26_B_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_2",
+                            "surface_ar": "شهد",
+                            "lemma_ar": "شهد",
+                            "root": "شهد",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_3",
+                            "surface_ar": "شاهد",
+                            "lemma_ar": "شاهد",
+                            "root": "شهد",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "role": "fa'il",
+                                "type": "active_participle"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_4",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_5",
+                            "surface_ar": "أهل",
+                            "lemma_ar": "أهل",
+                            "root": "أهل",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_6",
+                            "surface_ar": "ها",
+                            "lemma_ar": "ها",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "gender": "f",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_7",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conditional"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_8",
+                            "surface_ar": "كان",
+                            "lemma_ar": "كان",
+                            "root": "كون",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "kana",
+                                "tense": "past",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_9",
+                            "surface_ar": "قميص",
+                            "lemma_ar": "قميص",
+                            "root": "قمص",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_10",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_11",
+                            "surface_ar": "قد",
+                            "lemma_ar": "قد",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "tahqiq"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_12",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_13",
+                            "surface_ar": "قبل",
+                            "lemma_ar": "قبل",
+                            "root": "قبل",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "zarf_makan"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_14",
+                            "surface_ar": "ف",
+                            "lemma_ar": "ف",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "fa_jawab_shart"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_15",
+                            "surface_ar": "صدقت",
+                            "lemma_ar": "صدق",
+                            "root": "صدق",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "gender": "f",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_16",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_17",
+                            "surface_ar": "هو",
+                            "lemma_ar": "هو",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_18",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_26_B_19",
+                            "surface_ar": "الكاذبين",
+                            "lemma_ar": "كاذب",
+                            "root": "كذب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "pl",
+                                "type": "active_participle"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "شهد",
+                        "أهل",
+                        "كون",
+                        "قمص",
+                        "قبل",
+                        "صدق",
+                        "كذب"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_NAHW_SHART",
+                        "GRAM_BALAGHA_QARINA"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_27_A",
+                    "unit_id": "U_12_27",
+                    "arabic": "وإن كان قميصه قد من دبر فكذبت وهو من الصادقين",
+                    "translation": null,
+                    "notes": "شرط مقابل للشرط السابق + قرينة الخلف (من دبر) + فاء جواب الشرط + قلب الحكم إلى الصدق.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_27_A_1",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_2",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conditional"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_3",
+                            "surface_ar": "كان",
+                            "lemma_ar": "كان",
+                            "root": "كون",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "kana",
+                                "tense": "past",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_4",
+                            "surface_ar": "قميص",
+                            "lemma_ar": "قميص",
+                            "root": "قمص",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_5",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_6",
+                            "surface_ar": "قد",
+                            "lemma_ar": "قد",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "tahqiq"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_7",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_8",
+                            "surface_ar": "دبر",
+                            "lemma_ar": "دبر",
+                            "root": "دبر",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "zarf_makan"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_9",
+                            "surface_ar": "ف",
+                            "lemma_ar": "ف",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "fa_jawab_shart"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_10",
+                            "surface_ar": "كذبت",
+                            "lemma_ar": "كذب",
+                            "root": "كذب",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "gender": "f",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_11",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_12",
+                            "surface_ar": "هو",
+                            "lemma_ar": "هو",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_13",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_27_A_14",
+                            "surface_ar": "الصادقين",
+                            "lemma_ar": "صادق",
+                            "root": "صدق",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "pl",
+                                "type": "active_participle"
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "كون",
+                        "قمص",
+                        "دبر",
+                        "كذب",
+                        "صدق"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_NAHW_SHART",
+                        "GRAM_BALAGHA_MUQABALA"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_28_A",
+                    "unit_id": "U_12_28",
+                    "arabic": "فلما رأى قميصه قد من دبر قال إنه من كيدكن إن كيدكن عظيم",
+                    "translation": null,
+                    "notes": "لما الزمنية بعد تحقق القرينة + انتقال إلى الحكم + تعميم مع توكيد مزدوج (إن…إن).",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_28_A_1",
+                            "surface_ar": "ف",
+                            "lemma_ar": "ف",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "fa_taqeeb"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_2",
+                            "surface_ar": "لما",
+                            "lemma_ar": "لما",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "temporal"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_3",
+                            "surface_ar": "رأى",
+                            "lemma_ar": "رأى",
+                            "root": "رءي",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past",
+                                "person": "3",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_4",
+                            "surface_ar": "قميص",
+                            "lemma_ar": "قميص",
+                            "root": "قمص",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_5",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "3",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_6",
+                            "surface_ar": "قد",
+                            "lemma_ar": "قد",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "tahqiq"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_7",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_8",
+                            "surface_ar": "دبر",
+                            "lemma_ar": "دبر",
+                            "root": "دبر",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "zarf_makan"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_9",
+                            "surface_ar": "قال",
+                            "lemma_ar": "قال",
+                            "root": "قول",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "tense": "past"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_10",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "inna"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_11",
+                            "surface_ar": "ه",
+                            "lemma_ar": "ه",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_12",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_13",
+                            "surface_ar": "كيد",
+                            "lemma_ar": "كيد",
+                            "root": "كيد",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_14",
+                            "surface_ar": "كن",
+                            "lemma_ar": "كن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "2",
+                                "gender": "f",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_15",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "inna"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_16",
+                            "surface_ar": "كيد",
+                            "lemma_ar": "كيد",
+                            "root": "كيد",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_17",
+                            "surface_ar": "كن",
+                            "lemma_ar": "كن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "2",
+                                "gender": "f",
+                                "number": "pl"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_28_A_18",
+                            "surface_ar": "عظيم",
+                            "lemma_ar": "عظيم",
+                            "root": "عظم",
+                            "root_id": null,
+                            "pos": "adj",
+                            "morph_ref": null,
+                            "features": {}
+                        }
+                    ],
+                    "roots": [
+                        "رءي",
+                        "قمص",
+                        "دبر",
+                        "قول",
+                        "كيد",
+                        "عظم"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_NAHW_LAMMA",
+                        "GRAM_BALAGHA_TAWKID",
+                        "GRAM_BALAGHA_TAAMIM"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_29_A",
+                    "unit_id": "U_12_29",
+                    "arabic": "يوسف أعرض عن هذا واستغفري لذنبك إنك كنت من الخاطئين",
+                    "translation": null,
+                    "notes": "أمر بالإعراض لطيّ القضية + أمر بالاستغفار لتحمّل المسؤولية + تعليل بإنّ وكان.",
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_29_A_1",
+                            "surface_ar": "يوسف",
+                            "lemma_ar": "يوسف",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "proper": true,
+                                "case": "vocative_or_mansub_contextual"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_2",
+                            "surface_ar": "أعرض",
+                            "lemma_ar": "أعرض",
+                            "root": "عرض",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "mood": "imperative",
+                                "person": "2",
+                                "gender": "m",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_3",
+                            "surface_ar": "عن",
+                            "lemma_ar": "عن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_4",
+                            "surface_ar": "هذا",
+                            "lemma_ar": "هذا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "demonstrative"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_5",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "conjunction"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_6",
+                            "surface_ar": "استغفري",
+                            "lemma_ar": "استغفر",
+                            "root": "غفر",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "mood": "imperative",
+                                "person": "2",
+                                "gender": "f",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_7",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_8",
+                            "surface_ar": "ذنب",
+                            "lemma_ar": "ذنب",
+                            "root": "ذنب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "idafa": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_9",
+                            "surface_ar": "ك",
+                            "lemma_ar": "ك",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun_suffix",
+                                "person": "2",
+                                "gender": "f",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_10",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "inna"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_11",
+                            "surface_ar": "ك",
+                            "lemma_ar": "ك",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "pronoun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_12",
+                            "surface_ar": "كنت",
+                            "lemma_ar": "كان",
+                            "root": "كون",
+                            "root_id": null,
+                            "pos": "verb",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "kana",
+                                "tense": "past",
+                                "person": "2",
+                                "gender": "f",
+                                "number": "sg"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_13",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "morph_ref": null,
+                            "features": {
+                                "type": "preposition"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_29_A_14",
+                            "surface_ar": "الخاطئين",
+                            "lemma_ar": "خاطئ",
+                            "root": "خطء",
+                            "root_id": null,
+                            "pos": "noun",
+                            "morph_ref": null,
+                            "features": {
+                                "number": "plural",
+                                "definite": true
+                            }
+                        }
+                    ],
+                    "roots": [
+                        "عرض",
+                        "غفر",
+                        "ذنب",
+                        "كون",
+                        "خطء"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_NAHW_AMR",
+                        "GRAM_NAHW_INNA",
+                        "GRAM_NAHW_KANA",
+                        "GRAM_BALAGHA_ITFA_AL_FITNA"
+                    ]
+                }
+            ],
+            "comprehension": {
+                "reflective": [
+                    {
+                        "question_id": "RQ_12_23_1",
+                        "linked_unit_ids": [
+                            "U_12_23"
+                        ],
+                        "question": "What inner values guide Yusuf’s immediate response to temptation?",
+                        "question_ar": "ما القيم الداخلية التي وجّهت ردّ يوسف الفوري أمام الفتنة؟",
+                        "answer_hint": "Note the appeal to Allah, loyalty, and the universal moral rule stated.",
+                        "tags": [
+                            "ethics",
+                            "character"
+                        ],
+                        "quranic_ref": "12:23"
+                    }
+                ],
+                "analytical": [
+                    {
+                        "question_id": "AQ_12_26_1",
+                        "linked_unit_ids": [
+                            "U_12_26",
+                            "U_12_27"
+                        ],
+                        "question": "How does the passage establish truth through conditional reasoning?",
+                        "question_ar": "كيف يُثبِت المقطع الحقيقة عبر الاستدلال الشرطي؟",
+                        "answer_hint": "Compare the two conditional clauses and their outcomes.",
+                        "tags": [
+                            "reasoning",
+                            "rhetoric"
+                        ],
+                        "quranic_ref": "12:26–27"
+                    }
+                ],
+                "mcqs": {
+                    "text": [
+                        {
+                            "mcq_id": "MCQ_TXT_12_19_1",
+                            "linked_unit_ids": [
+                                "U_12_19"
+                            ],
+                            "question": "What action immediately follows the arrival of the caravan?",
+                            "question_ar": "ما الفعل الذي جاء مباشرة بعد وصول السيارة؟",
+                            "options": [
+                                {
+                                    "option": "They sold Yusuf immediately",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "They sent their water-drawer",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "They argued among themselves",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "They returned to Egypt",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "The verse states: «فأرسلوا واردهم» indicating immediate action.",
+                            "tags": [
+                                "narrative",
+                                "sequence"
+                            ]
+                        },
+                        {
+                            "mcq_id": "MCQ_TXT_12_23_1",
+                            "linked_unit_ids": [
+                                "U_12_23"
+                            ],
+                            "question": "What is the primary basis Yusuf gives for refusing the invitation?",
+                            "question_ar": "ما الأساس الرئيسي الذي ذكره يوسف لرفض الدعوة؟",
+                            "options": [
+                                {
+                                    "option": "Fear of punishment",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "Lack of desire",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "Loyalty and fear of Allah",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "Presence of witnesses",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "He begins with «معاذ الله» and mentions trust and moral accountability.",
+                            "tags": [
+                                "ethics",
+                                "character"
+                            ]
+                        }
+                    ],
+                    "vocabulary": [
+                        {
+                            "mcq_id": "MCQ_VOC_12_20_1",
+                            "linked_unit_ids": [
+                                "U_12_20"
+                            ],
+                            "question": "What does the phrase «ثمن بخس» most closely mean?",
+                            "question_ar": "ما المعنى الأدق لعبارة «ثمن بخس»؟",
+                            "options": [
+                                {
+                                    "option": "A delayed price",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "A fair market price",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "A very low and unjust price",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "A symbolic gift",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "بخس يدل على النقص والظلم في التقدير.",
+                            "tags": [
+                                "vocabulary",
+                                "lexicon"
+                            ]
+                        },
+                        {
+                            "mcq_id": "MCQ_VOC_12_23_1",
+                            "linked_unit_ids": [
+                                "U_12_23"
+                            ],
+                            "question": "The word «هيت» in this context functions as:",
+                            "question_ar": "تُستعمل كلمة «هيت» هنا بوصفها:",
+                            "options": [
+                                {
+                                    "option": "A warning",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "A command to leave",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "An invitation or call",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "A form of mockery",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "هيت لك هي صيغة دعوة صريحة في سياق الإغواء.",
+                            "tags": [
+                                "vocabulary",
+                                "semantics"
+                            ]
+                        }
+                    ],
+                    "grammar": [
+                        {
+                            "mcq_id": "MCQ_GRAM_12_21_1",
+                            "linked_unit_ids": [
+                                "U_12_21"
+                            ],
+                            "question": "What is the grammatical function of «عسى» in the verse?",
+                            "question_ar": "ما الوظيفة النحوية لـ«عسى» في الآية؟",
+                            "options": [
+                                {
+                                    "option": "Definite command",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "Expression of certainty",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "Expression of hope or expectation",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "Negation",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "عسى من أفعال الرجاء وتفيد التوقع.",
+                            "tags": [
+                                "grammar",
+                                "nahw"
+                            ]
+                        },
+                        {
+                            "mcq_id": "MCQ_GRAM_12_26_1",
+                            "linked_unit_ids": [
+                                "U_12_26",
+                                "U_12_27"
+                            ],
+                            "question": "The structure «إن كان… فـ…» is an example of:",
+                            "question_ar": "التركيب «إن كان… فـ…» مثال على:",
+                            "options": [
+                                {
+                                    "option": "Oath construction",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "Conditional sentence",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "Relative clause",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "Exception structure",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "إن شرطية، والفاء لجواب الشرط.",
+                            "tags": [
+                                "grammar",
+                                "conditional"
+                            ]
+                        }
+                    ]
+                },
+                "created_at": "2026-01-21T00:00:00Z",
+                "updated_at": null
+            }
+        }
+    }
+}

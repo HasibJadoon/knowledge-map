@@ -20,7 +20,9 @@ type LessonJson = {
     translation?: string;
     reference?: string;
     mode?: 'quran' | 'text';
+    arabic_full?: Array<{ arabic?: string }>;
   };
+  sentences?: Array<{ arabic?: string; translation?: string }>;
   comprehension?: Array<any>;
 };
 
@@ -44,6 +46,9 @@ export class ArLessonStudyPage implements OnInit {
 
   lessonJson: LessonJson = {};
   activeTab: 'reading' | 'memory' | 'mcq' | 'passage' = 'reading';
+  readingText = '';
+  sentencesText = '';
+  translationText = '';
 
   memoryBlock: any = null;
   passageBlock: any = null;
@@ -126,10 +131,11 @@ export class ArLessonStudyPage implements OnInit {
       this.source = result.source ?? '';
 
       this.lessonJson = result.lesson_json ?? {};
-      const arabicText = (this.lessonJson.text?.arabic ?? '').replace(/\s*\r?\n\s*/g, ' ');
+      this.refreshDerivedText();
+      const arabicText = (this.readingText ?? '').replace(/\s*\r?\n\s*/g, ' ');
       this.readingSegments = this.buildReadingSegments(arabicText);
-      this.translationSegments = this.buildTranslationSegments(this.lessonJson.text?.translation ?? '');
-      this.sentenceSegments = this.buildSentenceLines(this.lessonJson.text?.sentences ?? '');
+      this.translationSegments = this.buildTranslationSegments(this.translationText);
+      this.sentenceSegments = this.buildSentenceLines(this.sentencesText);
       this.sentenceLineSegments = this.sentenceSegments.map((line) => this.splitLineByMarkers(line));
       this.hoverIndex = null;
       this.selectedIndex = null;
@@ -461,6 +467,46 @@ export class ArLessonStudyPage implements OnInit {
   isPassageQuestionHighlighted(index: number) {
     const active = this.passageQuestionHoverIndex ?? this.passageQuestionSelectedIndex;
     return active === index;
+  }
+
+  private refreshDerivedText() {
+    this.readingText = this.buildReadingText();
+    this.sentencesText = this.buildSentencesText();
+    this.translationText = this.buildTranslationText();
+  }
+
+  private buildReadingText() {
+    const textBlock = this.lessonJson.text ?? {};
+    const direct = this.normalizeString(textBlock.arabic);
+    if (direct) return direct;
+    const units = Array.isArray(textBlock.arabic_full) ? textBlock.arabic_full : [];
+    return this.joinStrings(units.map((unit) => unit?.arabic));
+  }
+
+  private buildSentencesText() {
+    const direct = this.normalizeString(this.lessonJson.text?.sentences);
+    if (direct) return direct;
+    const sentences = Array.isArray(this.lessonJson.sentences) ? this.lessonJson.sentences : [];
+    return this.joinStrings(sentences.map((sentence) => sentence?.arabic));
+  }
+
+  private buildTranslationText() {
+    const direct = this.normalizeString(this.lessonJson.text?.translation);
+    if (direct) return direct;
+    const sentences = Array.isArray(this.lessonJson.sentences) ? this.lessonJson.sentences : [];
+    return this.joinStrings(sentences.map((sentence) => sentence?.translation));
+  }
+
+  private joinStrings(values: Array<string | undefined | null>, separator = '\n') {
+    const normalized = values
+      .map((value) => this.normalizeString(value))
+      .filter((value) => value.length > 0);
+    return normalized.join(separator);
+  }
+
+  private normalizeString(value?: string) {
+    if (!value) return '';
+    return value.trim();
   }
 
   private buildReadingSegments(text: string) {

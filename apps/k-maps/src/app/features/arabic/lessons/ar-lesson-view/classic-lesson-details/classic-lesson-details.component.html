@@ -2,9 +2,9 @@
   <h6 class="card-title section-heading">Arabic Text</h6>
   <hr class="section-divider" />
   <div class="section-card">
-    <div class="arabic-text" *ngIf="text.arabic">{{ text.arabic }}</div>
-    <hr *ngIf="text.arabic && text.translation" class="neon-divider" />
-    <div class="text-muted" *ngIf="text.translation">{{ text.translation }}</div>
+    <div class="arabic-text" *ngIf="derivedArabicText">{{ derivedArabicText }}</div>
+    <hr *ngIf="derivedArabicText && derivedTranslationText" class="neon-divider" />
+    <div class="text-muted" *ngIf="derivedTranslationText">{{ derivedTranslationText }}</div>
     <hr *ngIf="text.translation && text.reference" class="neon-divider" />
     <div class="small text-body-secondary" *ngIf="text.reference">{{ text.reference }}</div>
   </div>
@@ -41,15 +41,15 @@
   <hr class="section-divider" />
   <ng-container *ngIf="compBlocks.length; else noComp">
     <div class="mb-3" *ngFor="let block of compBlocks; let i = index">
-      <div class="section-card">
-        <div class="comp-block-title">{{ formatType(block?.type) }}</div>
+    <div class="section-card">
+      <div class="comp-block-title">{{ formatType(block?.['type']) }}</div>
 
-        <div *ngIf="block?.type === 'memory_recall'">
+      <div *ngIf="block?.['type'] === 'memory_recall'">
           <div class="mb-2">
             <div class="memory-label">Verbs</div>
             <hr class="mini-neon-divider" />
-            <div class="arabic-inline" *ngIf="block?.verbs?.length; else emptyVerbs">
-              {{ formatList(block?.verbs) }}
+            <div class="arabic-inline" *ngIf="block?.['verbs']?.length; else emptyVerbs">
+              {{ formatList(block?.['verbs']) }}
             </div>
             <ng-template #emptyVerbs>
               <div class="text-muted">—</div>
@@ -58,19 +58,19 @@
           <div class="mb-2">
             <div class="memory-label">Nouns</div>
             <hr class="mini-neon-divider" />
-            <div class="arabic-inline" *ngIf="block?.nouns?.length; else emptyNouns">
-              {{ formatList(block?.nouns) }}
+            <div class="arabic-inline" *ngIf="block?.['nouns']?.length; else emptyNouns">
+              {{ formatList(block?.['nouns']) }}
             </div>
             <ng-template #emptyNouns>
               <div class="text-muted">—</div>
             </ng-template>
           </div>
-          <div *ngIf="block?.questions?.length">
+          <div *ngIf="block?.['questions']?.length">
             <div class="memory-label">Questions</div>
             <hr class="mini-neon-divider" />
             <ul class="list-unstyled question-list">
-              <ng-container *ngFor="let q of block.questions; let qi = index">
-                <li *ngIf="shouldInsertBreak(block.questions, qi)" class="question-break">
+              <ng-container *ngFor="let q of block['questions']; let qi = index">
+                <li *ngIf="shouldInsertBreak(block['questions'], qi)" class="question-break">
                   <hr class="neon-divider" />
                 </li>
                 <li [ngClass]="questionClass(q)">
@@ -81,12 +81,12 @@
           </div>
         </div>
 
-        <div *ngIf="block?.type === 'passage_questions'">
+      <div *ngIf="block?.['type'] === 'passage_questions'">
           <div class="memory-label">Questions</div>
           <hr class="mini-neon-divider" />
-          <ul class="list-unstyled question-list" *ngIf="block?.questions?.length; else emptyQuestions">
-            <ng-container *ngFor="let q of block.questions; let qi = index">
-              <li *ngIf="shouldInsertBreak(block.questions, qi)" class="question-break">
+          <ul class="list-unstyled question-list" *ngIf="block?.['questions']?.length; else emptyQuestions">
+            <ng-container *ngFor="let q of block['questions']; let qi = index">
+              <li *ngIf="shouldInsertBreak(block['questions'], qi)" class="question-break">
                 <hr class="neon-divider" />
               </li>
               <li [ngClass]="questionClass(q)">
@@ -99,7 +99,7 @@
           </ng-template>
         </div>
 
-        <div *ngIf="block?.type !== 'memory_recall' && block?.type !== 'passage_questions'">
+        <div *ngIf="block?.['type'] !== 'memory_recall' && block?.['type'] !== 'passage_questions'">
           <pre class="json-preview">{{ block | json }}</pre>
         </div>
       </div>

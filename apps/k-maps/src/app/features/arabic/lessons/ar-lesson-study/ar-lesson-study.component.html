@@ -9,7 +9,7 @@
           <hr class="mini-neon-divider" />
           <div
             class="arabic-text"
-            *ngIf="lessonJson.text?.arabic"
+            *ngIf="readingText"
             tabindex="0"
             (keydown)="onReadingKeydown($event)"
           >
@@ -28,7 +28,7 @@
             </span>
           </div>
 
-          <ng-container *ngIf="lessonJson.text?.sentences">
+          <ng-container *ngIf="sentencesText">
             <div class="memory-label mt-3">Arabic Sentences</div>
             <hr class="mini-neon-divider" />
             <div
@@ -54,7 +54,7 @@
             </div>
           </ng-container>
 
-          <ng-container *ngIf="lessonJson.text?.translation">
+          <ng-container *ngIf="translationText">
             <div class="memory-label mt-3">Translation</div>
             <hr class="mini-neon-divider" />
             <div

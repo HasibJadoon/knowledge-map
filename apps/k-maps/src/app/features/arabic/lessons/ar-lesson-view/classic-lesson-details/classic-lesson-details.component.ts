@@ -6,6 +6,8 @@ type LessonJson = {
     arabic?: string;
     translation?: string;
     reference?: string;
+    arabic_full?: Array<{ arabic?: string }>;
+    sentences?: string;
   };
   vocabulary?: Array<{
     word?: string;
@@ -13,6 +15,7 @@ type LessonJson = {
     type?: string;
     meaning?: string;
   }>;
+  sentences?: Array<{ arabic?: string; translation?: string }>;
   comprehension?: Array<Record<string, any>>;
 };
 
@@ -79,5 +82,33 @@ export class ClassicLessonDetailsComponent {
     const prev = this.extractQuestionNumber(this.formatQuestion(questions[index - 1]));
     if (current == null || prev == null) return false;
     return current < prev;
+  }
+
+  get derivedArabicText() {
+    const direct = this.normalizeString(this.text?.arabic);
+    if (direct) return direct;
+    const units = Array.isArray(this.text?.arabic_full) ? this.text.arabic_full : [];
+    return this.joinStrings(units.map((unit) => unit?.arabic));
+  }
+
+  get derivedTranslationText() {
+    const direct = this.normalizeString(this.text?.translation);
+    if (direct) return direct;
+    const translations = Array.isArray(this.lessonJson.sentences)
+      ? this.lessonJson.sentences.map((sentence) => sentence?.translation)
+      : [];
+    return this.joinStrings(translations);
+  }
+
+  private joinStrings(values: Array<string | undefined | null>, separator = '\n') {
+    const normalized = values
+      .map((value) => this.normalizeString(value))
+      .filter((value) => value.length > 0);
+    return normalized.join(separator);
+  }
+
+  private normalizeString(value?: string | null) {
+    if (!value) return '';
+    return value.trim();
   }
 }

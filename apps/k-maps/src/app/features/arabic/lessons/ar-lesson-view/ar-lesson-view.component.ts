@@ -77,6 +77,16 @@ export class ArLessonViewComponent implements OnInit {
     return /[\u0600-\u06FF]/.test(text ?? '');
   }
 
+  isValidUrl(value?: string) {
+    if (!value) return false;
+    try {
+      const parsed = new URL(value);
+      return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  }
+
   statusBadgeClass(status: string) {
     const normalized = (status ?? '').toLowerCase();
     switch (normalized) {

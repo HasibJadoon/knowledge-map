@@ -17,9 +17,12 @@
     </div>
     <div class="text-body-secondary small" *ngIf="source">
       Source:
-      <a class="source-link" [href]="source" target="_blank" rel="noopener noreferrer">
-        {{ source }}
-      </a>
+      <ng-container *ngIf="isValidUrl(source); else plainSource">
+        <a class="source-link" [href]="source" target="_blank" rel="noopener noreferrer">
+          {{ source }}
+        </a>
+      </ng-container>
+      <ng-template #plainSource>{{ source }}</ng-template>
     </div>
   </div>
 </div>
@@ -55,8 +58,8 @@
     <div *ngIf="activeTab === 'details'">
       <app-quran-lesson-details
         *ngIf="isQuranLesson"
-        [text]="lessonJson.text"
-        [comprehension]="lessonJson.comprehension"
+        [text]="lessonJson['text']"
+        [comprehension]="lessonJson['comprehension']"
       ></app-quran-lesson-details>
       <app-classic-lesson-details *ngIf="!isQuranLesson" [lessonJson]="lessonJson"></app-classic-lesson-details>
     </div>
