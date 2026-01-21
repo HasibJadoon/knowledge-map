@@ -131,9 +131,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         status,
         difficulty,
         frequency,
-        create_date,
-        update_date,
-        extract_date
+        created_at,
+        updated_at,
+        extracted_at
       FROM roots
     `;
 
@@ -296,9 +296,10 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
           status,
           difficulty,
           frequency,
-          create_date
+          created_at,
+          updated_at
         )
-        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, datetime('now'))
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, datetime('now'), datetime('now'))
       `
       )
       .bind(

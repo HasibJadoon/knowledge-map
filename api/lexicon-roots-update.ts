@@ -81,9 +81,9 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
         `
         UPDATE roots
         SET
-          cards = ?,
+          cards_json = ?,
           status = 'PENDING',
-          update_date = datetime('now')
+          updated_at = datetime('now')
         WHERE id = ?
       `
       )
