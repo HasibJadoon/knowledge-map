@@ -1,175 +1,68 @@
-  <div class="card mb-3">
-    <div class="card-body">
-      <div class="d-flex align-items-center">
-        <h5 class="card-title mb-0" [ngClass]="isArabicText(title) ? 'arabic-inline' : ''">
-          {{ title }}
-        </h5>
-        <div class="ms-auto d-flex gap-2">
-          <button class="btn btn-outline-secondary btn-sm" type="button" (click)="back()">Back</button>
-          <button class="btn btn-primary btn-sm" type="button" (click)="edit()">Edit</button>
-        </div>
-      </div>
-      <div class="text-body-secondary mt-1 status-line">
-        {{ lessonType }} •
-        <span class="badge status-badge" [ngClass]="statusBadgeClass(status)">
-          {{ status }}
-        </span>
-      </div>
-      <div class="text-body-secondary small" *ngIf="source">
-        Source:
-        <a class="source-link" [href]="source" target="_blank" rel="noopener noreferrer">
-          {{ source }}
-        </a>
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+      <h5 class="card-title mb-0" [ngClass]="isArabicText(title) ? 'arabic-inline' : ''">
+        {{ title }}
+      </h5>
+      <div class="ms-auto d-flex gap-2">
+        <button class="btn btn-outline-secondary btn-sm" type="button" (click)="back()">Back</button>
+        <button class="btn btn-primary btn-sm" type="button" (click)="edit()">Edit</button>
       </div>
     </div>
-  </div>
-
-  <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
-  <div *ngIf="loading" class="text-muted">Loading…</div>
-
-  <div *ngIf="!loading" class="card">
-    <div class="card-body">
-      <ul class="nav nav-tabs mb-3">
-        <li class="nav-item">
-          <button
-            class="nav-link"
-            type="button"
-            [class.active]="activeTab === 'details'"
-            (click)="activeTab = 'details'"
-          >
-            Details
-          </button>
-        </li>
-        <li class="nav-item">
-          <button
-            class="nav-link"
-            type="button"
-            [class.active]="activeTab === 'json'"
-            (click)="activeTab = 'json'"
-          >
-            JSON
-          </button>
-        </li>
-      </ul>
-
-      <div *ngIf="activeTab === 'details'">
-        <div class="mb-4">
-          <h6 class="card-title section-heading">Arabic Text</h6>
-          <hr class="section-divider" />
-          <div class="section-card">
-            <div class="arabic-text" *ngIf="lessonJson.text?.arabic">{{ lessonJson.text?.arabic }}</div>
-            <hr *ngIf="lessonJson.text?.arabic && lessonJson.text?.translation" class="neon-divider" />
-            <div class="text-muted" *ngIf="lessonJson.text?.translation">{{ lessonJson.text?.translation }}</div>
-            <hr *ngIf="lessonJson.text?.translation && lessonJson.text?.reference" class="neon-divider" />
-            <div class="small text-body-secondary" *ngIf="lessonJson.text?.reference">{{ lessonJson.text?.reference }}</div>
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <h6 class="card-title section-heading">Vocabulary</h6>
-          <hr class="section-divider" />
-          <div *ngIf="!lessonJson.vocabulary?.length" class="text-muted">No vocabulary.</div>
-          <div class="table-responsive" *ngIf="lessonJson.vocabulary?.length">
-            <table class="table table-sm align-middle">
-              <thead>
-                <tr>
-                  <th>Word</th>
-                  <th>Root</th>
-                  <th>Type</th>
-                  <th>Meaning</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let v of lessonJson.vocabulary">
-                  <td>{{ v.word }}</td>
-                  <td>{{ v.root }}</td>
-                  <td>{{ v.type }}</td>
-                  <td>{{ v.meaning }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div>
-          <h6 class="card-title section-heading">Comprehension</h6>
-          <hr class="section-divider" />
-          <ng-container *ngIf="compBlocks.length; else noComp">
-            <div class="mb-3" *ngFor="let block of compBlocks; let i = index">
-              <div class="section-card">
-                <div class="comp-block-title">{{ formatType(block?.type) }}</div>
-
-              <div *ngIf="block?.type === 'memory_recall'">
-                <div class="mb-2">
-                  <div class="memory-label">Verbs</div>
-                  <hr class="mini-neon-divider" />
-                  <div class="arabic-inline" *ngIf="block?.verbs?.length; else emptyVerbs">
-                    {{ formatList(block?.verbs) }}
-                  </div>
-                  <ng-template #emptyVerbs>
-                    <div class="text-muted">—</div>
-                  </ng-template>
-                </div>
-                <div class="mb-2">
-                  <div class="memory-label">Nouns</div>
-                  <hr class="mini-neon-divider" />
-                  <div class="arabic-inline" *ngIf="block?.nouns?.length; else emptyNouns">
-                    {{ formatList(block?.nouns) }}
-                  </div>
-                  <ng-template #emptyNouns>
-                    <div class="text-muted">—</div>
-                  </ng-template>
-                </div>
-                <div *ngIf="block?.questions?.length">
-                  <div class="memory-label">Questions</div>
-                  <hr class="mini-neon-divider" />
-                  <ul class="list-unstyled question-list">
-                    <ng-container *ngFor="let q of block.questions; let qi = index">
-                      <li *ngIf="shouldInsertBreak(block.questions, qi)" class="question-break">
-                        <hr class="neon-divider" />
-                      </li>
-                      <li [ngClass]="questionClass(q)">
-                        {{ formatQuestionDisplay(q) }}
-                      </li>
-                    </ng-container>
-                  </ul>
-                </div>
-              </div>
-
-              <div *ngIf="block?.type === 'passage_questions'">
-                <div class="memory-label">Questions</div>
-                <hr class="mini-neon-divider" />
-                <ul class="list-unstyled question-list" *ngIf="block?.questions?.length; else emptyQuestions">
-                  <ng-container *ngFor="let q of block.questions; let qi = index">
-                    <li *ngIf="shouldInsertBreak(block.questions, qi)" class="question-break">
-                      <hr class="neon-divider" />
-                    </li>
-                    <li [ngClass]="questionClass(q)">
-                      {{ formatQuestionDisplay(q) }}
-                    </li>
-                  </ng-container>
-                </ul>
-                <ng-template #emptyQuestions>
-                  <div class="text-muted">No questions.</div>
-                </ng-template>
-              </div>
-
-                <div *ngIf="block?.type !== 'memory_recall' && block?.type !== 'passage_questions'">
-                  <pre class="json-preview">{{ block | json }}</pre>
-                </div>
-              </div>
-              <hr *ngIf="i < compBlocks.length - 1" class="comp-divider" />
-            </div>
-          </ng-container>
-          <ng-template #noComp>
-            <div class="text-muted">No comprehension notes.</div>
-          </ng-template>
-        </div>
-      </div>
-
-      <div *ngIf="activeTab === 'json'">
-        <pre class="json-preview">{{ jsonText }}</pre>
-      </div>
+    <div class="text-body-secondary mt-1 status-line">
+      {{ lessonType }} •
+      <span class="badge status-badge" [ngClass]="statusBadgeClass(status)">
+        {{ status }}
+      </span>
+    </div>
+    <div class="text-body-secondary small" *ngIf="source">
+      Source:
+      <a class="source-link" [href]="source" target="_blank" rel="noopener noreferrer">
+        {{ source }}
+      </a>
     </div>
   </div>
-  
+</div>
+
+<div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
+<div *ngIf="loading" class="text-muted">Loading…</div>
+
+<div *ngIf="!loading" class="card">
+  <div class="card-body">
+    <ul class="nav nav-tabs mb-3">
+      <li class="nav-item">
+        <button
+          class="nav-link"
+          type="button"
+          [class.active]="activeTab === 'details'"
+          (click)="activeTab = 'details'"
+        >
+          Details
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          class="nav-link"
+          type="button"
+          [class.active]="activeTab === 'json'"
+          (click)="activeTab = 'json'"
+        >
+          JSON
+        </button>
+      </li>
+    </ul>
+
+    <div *ngIf="activeTab === 'details'">
+      <app-quran-lesson-details
+        *ngIf="isQuranLesson"
+        [text]="lessonJson.text"
+        [comprehension]="lessonJson.comprehension"
+      ></app-quran-lesson-details>
+      <app-classic-lesson-details *ngIf="!isQuranLesson" [lessonJson]="lessonJson"></app-classic-lesson-details>
+    </div>
+
+    <div *ngIf="activeTab === 'json'">
+      <pre class="json-preview">{{ jsonText }}</pre>
+    </div>
+  </div>
+</div>

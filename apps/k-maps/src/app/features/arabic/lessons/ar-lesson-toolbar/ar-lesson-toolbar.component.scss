@@ -1,0 +1,11 @@
+.toolbar-wrapper {
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.toolbar-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}

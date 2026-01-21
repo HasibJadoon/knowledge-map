@@ -1,0 +1,106 @@
+.section-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.section-divider {
+  border: 0;
+  border-top: 3px solid #20c8ff;
+  box-shadow: 0 0 8px rgba(32, 200, 255, 0.55);
+  margin: 0.5rem 0 1rem;
+}
+
+.mini-neon-divider {
+  border: 0;
+  border-top: 2px solid #20c8ff;
+  box-shadow: 0 0 8px rgba(32, 200, 255, 0.6);
+  margin: 0.4rem 0 0.6rem;
+}
+
+.arabic-text {
+  font-family: 'UthmanicHafs', 'Amiri', 'Noto Naskh Arabic', serif;
+  font-size: var(--app-ar-font-size, 1em);
+  line-height: 1.9;
+  white-space: pre-wrap;
+  text-align: right;
+  direction: rtl;
+}
+
+.arabic-inline {
+  font-family: 'UthmanicHafs', 'Amiri', 'Noto Naskh Arabic', serif;
+  font-size: var(--app-ar-font-size, 1em);
+  line-height: 1.8;
+  direction: rtl;
+  text-align: right;
+}
+
+.quran-section,
+.sentences-section,
+.comprehension-section,
+.mcq-section {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--cui-border-radius);
+  padding: 1rem 1.1rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.05));
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.unit-card {
+  margin-bottom: 1rem;
+}
+
+.unit-meta {
+  font-size: 0.9rem;
+  letter-spacing: 0.1rem;
+  color: rgba(158, 226, 255, 0.85);
+}
+
+.comp-card {
+  padding: 0.8rem;
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 0.9rem;
+}
+
+.question-text,
+.tags,
+.mcq-options li {
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.question-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.tags {
+  font-size: 0.85rem;
+  color: #9cdcfe;
+  margin-bottom: 0.25rem;
+}
+
+.mcq-options {
+  padding-left: 1rem;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.mcq-options li {
+  padding: 0.1rem 0;
+}
+
+.mcq-options li.correct {
+  font-weight: 700;
+  color: #80ffad;
+}
+
+.arabic-question {
+  margin-bottom: 0.15rem;
+  font-family: 'UthmanicHafs', 'Amiri', 'Noto Naskh Arabic', serif;
+  font-size: var(--app-ar-font-size, 1em);
+  direction: rtl;
+  text-align: right;
+}

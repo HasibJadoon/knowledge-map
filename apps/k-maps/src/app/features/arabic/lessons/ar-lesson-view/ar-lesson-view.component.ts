@@ -3,23 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ArLessonsService } from '../../../../shared/services/ar-lessons.service';
-
-type LessonJson = {
-  text?: {
-    arabic?: string;
-    translation?: string;
-    reference?: string;
-  };
-  vocabulary?: Array<{ word?: string; root?: string; type?: string; meaning?: string }>;
-  comprehension?: Array<any>;
-};
+import { ClassicLessonDetailsComponent } from './classic-lesson-details/classic-lesson-details.component';
+import { QuranLessonDetailsComponent } from './quran-lesson-details/quran-lesson-details.component';
 
 @Component({
   selector: 'app-ar-lesson-view',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './ar-lesson-view.component.html',
-  styleUrls: ['./ar-lesson-view.component.scss']
+  imports: [CommonModule, ClassicLessonDetailsComponent, QuranLessonDetailsComponent],
+  templateUrl: './ar-lesson-view.component.html'
 })
 export class ArLessonViewComponent implements OnInit {
   private lessons = inject(ArLessonsService);
@@ -35,9 +26,8 @@ export class ArLessonViewComponent implements OnInit {
   status = '';
   source = '';
 
-  lessonJson: LessonJson = {};
+  lessonJson: Record<string, any> = {};
   jsonText = '{}';
-  compBlocks: Array<any> = [];
   activeTab: 'details' | 'json' = 'details';
 
   ngOnInit() {
@@ -64,9 +54,6 @@ export class ArLessonViewComponent implements OnInit {
 
       this.lessonJson = result.lesson_json ?? {};
       this.jsonText = JSON.stringify(this.lessonJson ?? {}, null, 2);
-      this.compBlocks = Array.isArray(this.lessonJson?.comprehension)
-        ? this.lessonJson.comprehension
-        : [];
     } catch (err: any) {
       this.error = err?.message ?? 'Failed to load lesson';
     } finally {
@@ -80,6 +67,14 @@ export class ArLessonViewComponent implements OnInit {
 
   edit() {
     if (this.id) this.router.navigate(['/arabic/lessons', this.id, 'edit']);
+  }
+
+  get isQuranLesson() {
+    return (this.lessonType ?? '').toLowerCase() === 'quran';
+  }
+
+  isArabicText(text: string) {
+    return /[\u0600-\u06FF]/.test(text ?? '');
   }
 
   statusBadgeClass(status: string) {
@@ -100,46 +95,4 @@ export class ArLessonViewComponent implements OnInit {
     }
   }
 
-  formatType(type?: string) {
-    return String(type ?? 'section').replace(/_/g, ' ');
-  }
-
-  formatList(list?: Array<any>) {
-    if (!Array.isArray(list) || list.length === 0) return '—';
-    return list.map(item => String(item)).join(' ');
-  }
-
-  formatQuestion(q: any) {
-    if (!q) return '';
-    if (typeof q === 'string') return q;
-    if (typeof q === 'object') return String(q.question ?? q.text ?? '');
-    return String(q);
-  }
-
-  formatQuestionDisplay(q: any) {
-    const text = this.formatQuestion(q);
-    return text.replace(/^\s*\d+\.\s*/, '');
-  }
-
-  isArabicText(text: string) {
-    return /[\u0600-\u06FF]/.test(text);
-  }
-
-  questionClass(q: any) {
-    const text = this.formatQuestionDisplay(q);
-    return this.isArabicText(text) ? 'arabic-question' : '';
-  }
-
-  extractQuestionNumber(text: string) {
-    const match = /^\s*(\d+)\./.exec(text);
-    return match ? Number(match[1]) : null;
-  }
-
-  shouldInsertBreak(questions: Array<any>, index: number) {
-    if (!Array.isArray(questions) || index <= 0) return false;
-    const current = this.extractQuestionNumber(this.formatQuestion(questions[index]));
-    const prev = this.extractQuestionNumber(this.formatQuestion(questions[index - 1]));
-    if (current == null || prev == null) return false;
-    return current < prev;
-  }
 }

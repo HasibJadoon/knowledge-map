@@ -5,7 +5,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-ar-lesson-toolbar',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './ar-lesson-toolbar.component.html'
+  templateUrl: './ar-lesson-toolbar.component.html',
+  styleUrls: ['./ar-lesson-toolbar.component.scss']
 })
 export class ArLessonToolbarComponent {
 
