@@ -1,0 +1,134 @@
+{
+  "concepts": [
+    {
+      "slug": "revelation",
+      "label_ar": "الوحي",
+      "label_en": "Revelation",
+      "category": "Epistemology",
+      "anchors": 12,
+      "definition": "Divine communication initiating guidance and authority beyond human construction.",
+      "quranEvidence": [
+        { "ref": "12:2", "snippet": "إِنَّا أَنْزَلْنَاهُ قُرْآنًا عَرَبِيًّا", "note": "مصدر المعرفة والهداية" },
+        { "ref": "42:51", "snippet": "وَمَا كَانَ لِبَشَرٍ أَنْ يُكَلِّمَهُ اللَّهُ", "note": "طبيعة الوحي وحدوده" },
+        { "ref": "26:192", "snippet": "وَإِنَّهُ لَتَنْزِيلُ رَبِّ الْعَالَمِينَ", "note": "مصدر إلهي خالص" }
+      ],
+      "flow": ["الوحي", "اللغة (عربي)", "التعقّل", "المسؤولية"],
+      "otherDiscourses": [
+        { "name": "Biblical", "bullets": ["Covenant revelation → Law → Land"] },
+        { "name": "Modern Secular", "bullets": ["Reason → Human Authority → Law"] },
+        { "name": "Psychology", "bullets": ["Cognition → Meaning → Behavior"] }
+      ],
+      "relations": [
+        {
+          "id": "biblical-revelation",
+          "concept": { "slug": "revelation", "label_ar": "الوحي", "label_en": "Revelation" },
+          "source": "Biblical",
+          "status": "partial",
+          "summary": "Covenant revelation framed by lineage and land.",
+          "evidence": [
+            { "ref": "12:2", "snippet": "إِنَّا أَنْزَلْنَاهُ قُرْآنًا عَرَبِيًّا", "note": "الوحي أصل الخطاب" }
+          ],
+          "reasoning": "Biblical discourse parallels revelation but binds authority to covenant and land; Qur’an grounds authority in universal accountability."
+        },
+        {
+          "id": "modern-secular-law",
+          "concept": { "slug": "revelation", "label_ar": "الوحي", "label_en": "Revelation" },
+          "source": "Modern Secular",
+          "status": "contradicts",
+          "summary": "Authority grounded in human will and consensus.",
+          "evidence": [
+            { "ref": "12:40", "snippet": "إِنِ الْحُكْمُ إِلَّا لِلَّهِ", "note": "الحكم أصل إلهي" },
+            { "ref": "45:18", "snippet": "ثُمَّ جَعَلْنَاكَ عَلَىٰ شَرِيعَةٍ", "note": "الشريعة وحي لا اختراع" }
+          ],
+          "reasoning": "Modern secular discourse grounds authority in human will and consensus, while the Qur’an grounds authority in divine revelation."
+        },
+        {
+          "id": "psychology-cognition",
+          "concept": { "slug": "revelation", "label_ar": "الوحي", "label_en": "Revelation" },
+          "source": "Psychology",
+          "status": "partial",
+          "summary": "Meaning arises from cognition and behavior.",
+          "evidence": [
+            { "ref": "16:78", "snippet": "وَجَعَلَ لَكُمُ السَّمْعَ وَالْأَبْصَارَ", "note": "الإدراك نعمة موجّهة" }
+          ],
+          "reasoning": "Psychology emphasizes cognition; Qur’an situates cognition under revelation and accountability."
+        }
+      ],
+      "crossRefs": [
+        "Yusuf 12 opening discourse",
+        "Al-Baqarah legislation passages",
+        "Modern law positivism lesson"
+      ]
+    },
+    {
+      "slug": "reason",
+      "label_ar": "العقل / التعقّل",
+      "label_en": "Reason & Understanding",
+      "category": "Epistemology",
+      "anchors": 9,
+      "definition": "Disciplined cognition that receives revelation and produces accountable action.",
+      "quranEvidence": [
+        { "ref": "2:44", "snippet": "أَفَلَا تَعْقِلُونَ", "note": "نداء للتعقّل" },
+        { "ref": "10:100", "snippet": "وَيَجْعَلُ الرِّجْسَ عَلَى الَّذِينَ لَا يَعْقِلُونَ", "note": "مسؤولية العقل" }
+      ],
+      "flow": ["الوحي", "التعقّل", "الهداية", "العمل"],
+      "otherDiscourses": [
+        { "name": "Modern Secular", "bullets": ["Reason → Autonomy → Law"] }
+      ],
+      "relations": [],
+      "crossRefs": ["Reason in Yusuf 12 narrative"]
+    },
+    {
+      "slug": "law",
+      "label_ar": "الحكم / التشريع",
+      "label_en": "Authority & Law",
+      "category": "Law",
+      "anchors": 15,
+      "definition": "Divine authority that structures justice, ethics, and social order.",
+      "quranEvidence": [
+        { "ref": "12:40", "snippet": "إِنِ الْحُكْمُ إِلَّا لِلَّهِ", "note": "مصدر التشريع" },
+        { "ref": "5:48", "snippet": "لِكُلٍّ جَعَلْنَا مِنْكُمْ شِرْعَةً", "note": "تنظيم التشريع" }
+      ],
+      "flow": ["الوحي", "الشريعة", "العدل", "العمران"],
+      "otherDiscourses": [
+        { "name": "Modern Secular", "bullets": ["Human authority → Positive law"] }
+      ],
+      "relations": [],
+      "crossRefs": ["Al-Baqarah legislation passages"]
+    },
+    {
+      "slug": "blessing",
+      "label_ar": "النعمة",
+      "label_en": "Blessing / Favor",
+      "category": "Morality",
+      "anchors": 7,
+      "definition": "Divine favor that calls for gratitude and ethical response.",
+      "quranEvidence": [
+        { "ref": "14:7", "snippet": "لَئِنْ شَكَرْتُمْ لَأَزِيدَنَّكُمْ", "note": "الشكر أساس النعمة" }
+      ],
+      "flow": ["النعمة", "الشكر", "العمل الصالح"],
+      "otherDiscourses": [
+        { "name": "Psychology", "bullets": ["Gratitude → Wellbeing"] }
+      ],
+      "relations": [],
+      "crossRefs": ["Blessing theme across Yusuf 12"]
+    },
+    {
+      "slug": "narrative",
+      "label_ar": "القصة / القصص",
+      "label_en": "Narrative & Meaning",
+      "category": "Narrative",
+      "anchors": 6,
+      "definition": "Meaningful narrative that forms memory, ethics, and worldview.",
+      "quranEvidence": [
+        { "ref": "12:111", "snippet": "لَقَدْ كَانَ فِي قَصَصِهِمْ عِبْرَةٌ", "note": "العبرة والهدى" }
+      ],
+      "flow": ["القصص", "العبرة", "الهداية"],
+      "otherDiscourses": [
+        { "name": "Literature", "bullets": ["Narrative → Identity → Ethics"] }
+      ],
+      "relations": [],
+      "crossRefs": ["Yusuf 12 narrative arc"]
+    }
+  ]
+}

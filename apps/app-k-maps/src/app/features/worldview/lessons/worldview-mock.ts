@@ -1,4 +1,4 @@
-import worldviewData from '../../../../../../../database/mockups/worldview.json';
+import worldviewData from '../../../../assets/mockups/worldview.json';
 
 export type WorldviewEntry = {
   id: number;

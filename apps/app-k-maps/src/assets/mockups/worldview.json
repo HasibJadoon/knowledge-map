@@ -1,0 +1,124 @@
+{
+  "worldview_lesson_sample_data": {
+    "entity_type": "worldview_lesson",
+    "id": "WV_LESSON_IMPOSSIBLE_STATE_SOVEREIGNTY_001",
+    "lesson_type": "worldview",
+    "subtype": "book_notes",
+    "title": "Sovereignty as a Modern Structure (Hallaq, Ch.2)",
+    "status": "active",
+    "difficulty": 4,
+    "reference": {
+      "source_ref_ids": [
+        "LIB_BOOK_IMPOSSIBLE_STATE_2013",
+        "LIB_CH_IMPOSSIBLE_STATE_CH02"
+      ],
+      "primary_source_ref_id": "LIB_CH_IMPOSSIBLE_STATE_CH02",
+      "date": "2026-01-19"
+    },
+    "text": {
+      "mode": "summary",
+      "content_blocks": [
+        {
+          "block_id": "BLK_1",
+          "type": "paragraph",
+          "lang": "en",
+          "text": "Sovereignty is treated as a structural feature of the modern state, defining law as the state’s exclusive domain.",
+          "source_ref_id": "LIB_CH_IMPOSSIBLE_STATE_CH02",
+          "citation": "pp. 26–60 (general)"
+        },
+        {
+          "block_id": "BLK_2",
+          "type": "bullet",
+          "lang": "en",
+          "text": "Implication: moral authority is displaced by institutional authority; legality becomes state-defined.",
+          "source_ref_id": "LIB_BOOK_IMPOSSIBLE_STATE_2013",
+          "citation": "theme summary"
+        }
+      ]
+    },
+    "claims": [
+      {
+        "claim_id": "CLM_1",
+        "claim_type": "analytical",
+        "text": "Modern sovereignty centralizes moral and legal authority into the state, reshaping the meaning of law itself.",
+        "stance": "agree",
+        "confidence": 4,
+        "evidence_ref_blocks": [
+          "BLK_1",
+          "BLK_2"
+        ],
+        "notes": "Bridge to legal positivism concept."
+      }
+    ],
+    "concepts": [
+      {
+        "concept_ref_id": "CONCEPT_SOVEREIGNTY_MODERN_STATE",
+        "role": "core"
+      },
+      {
+        "concept_ref_id": "CONCEPT_LEGAL_POSITIVISM",
+        "role": "supporting"
+      }
+    ],
+    "comparison": {
+      "quran_relation": "contrasts",
+      "summary": "Qur’anic moral authority is judged by divine معيار, not by institutional monopoly.",
+      "quran_refs": [
+        "24:17"
+      ],
+      "notes": "Add concept anchors from Qur’an later."
+    },
+    "mcqs": [
+      {
+        "mcq_id": "MCQ_001",
+        "type": "worldview",
+        "difficulty": 3,
+        "question": "What is the core claim about sovereignty in this lesson?",
+        "options": [
+          {
+            "id": "A",
+            "text": "Sovereignty turns law into a state monopoly",
+            "is_correct": true
+          },
+          {
+            "id": "B",
+            "text": "Sovereignty eliminates all institutions",
+            "is_correct": false
+          },
+          {
+            "id": "C",
+            "text": "Sovereignty is only a religious doctrine",
+            "is_correct": false
+          },
+          {
+            "id": "D",
+            "text": "Sovereignty is irrelevant to legality",
+            "is_correct": false
+          }
+        ],
+        "explanation": "The lesson frames sovereignty as a structural feature that defines legality through state authority.",
+        "tags": [
+          "sovereignty",
+          "law",
+          "modern_state"
+        ]
+      }
+    ],
+    "links": {
+      "library_refs": [
+        "LIB_BOOK_IMPOSSIBLE_STATE_2013",
+        "LIB_CH_IMPOSSIBLE_STATE_CH02"
+      ],
+      "cross_refs": [],
+      "publishable_content_refs": []
+    },
+    "tags": [
+      "hallaq",
+      "sovereignty",
+      "modern_state"
+    ],
+    "notes": "Next: add anchors + cross refs.",
+    "created_at": "2026-01-19T16:30:00Z",
+    "updated_at": null
+  }
+}

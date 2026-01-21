@@ -1,4 +1,4 @@
-import discourseData from '../../../../../../database/mockups/discourse.json';
+import discourseData from '../../../assets/mockups/discourse.json';
 
 export type DiscourseEvidence = {
   ref: string;
