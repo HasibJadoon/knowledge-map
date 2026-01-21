@@ -46,34 +46,37 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const limit = Math.min(200, Math.max(1, toInt(url.searchParams.get('limit'), 50)));
     const offset = Math.max(0, toInt(url.searchParams.get('offset'), 0));
 
-    let dataStmt;
-    let countStmt;
-
     const selectSql = `
       SELECT id, title, lesson_type, subtype, source, status, created_at, updated_at
       FROM ar_lessons
     `;
 
-    if (q) {
-      const like = `%${q}%`;
-      countStmt = ctx.env.DB.prepare(
-        `SELECT COUNT(*) AS total FROM ar_lessons WHERE title LIKE ?1 OR source LIKE ?2`
-      ).bind(like, like);
+    const like = `%${q}%`;
 
-      dataStmt = ctx.env.DB.prepare(
-        `${selectSql}
+    const countStmt =
+      q
+        ? ctx.env.DB
+            .prepare(`SELECT COUNT(*) AS total FROM ar_lessons WHERE title LIKE ?1 OR source LIKE ?2`)
+            .bind(like, like)
+        : ctx.env.DB.prepare(`SELECT COUNT(*) AS total FROM ar_lessons`);
+
+    const dataStmt =
+      q
+        ? ctx.env.DB
+            .prepare(
+              `${selectSql}
          WHERE title LIKE ?1 OR source LIKE ?2
          ORDER BY created_at DESC
          LIMIT ?3 OFFSET ?4`
-      ).bind(like, like, limit, offset);
-    } else {
-      countStmt = ctx.env.DB.prepare(`SELECT COUNT(*) AS total FROM ar_lessons`);
-      dataStmt = ctx.env.DB.prepare(
-        `${selectSql}
+            )
+            .bind(like, like, limit, offset)
+        : ctx.env.DB
+            .prepare(
+              `${selectSql}
          ORDER BY created_at DESC
          LIMIT ?1 OFFSET ?2`
-      ).bind(limit, offset);
-    }
+            )
+            .bind(limit, offset);
 
     const countRes = await countStmt.first<{ total: number }>();
     const total = Number(countRes?.total ?? 0);
