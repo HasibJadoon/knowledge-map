@@ -66,24 +66,14 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       .prepare(
         `
         SELECT
-          id,
-          user_id,
-          title,
-          title_ar,
-          lesson_type,
-          subtype,
-          source,
-          status,
-          difficulty,
-          created_at,
-          updated_at,
-          lesson_json
+          id, user_id, title, title_ar, lesson_type, subtype, source, status, difficulty,
+          created_at, updated_at, lesson_json
         FROM ar_lessons
-        WHERE id = ?1
+        WHERE id = ?1 AND user_id = ?2
         LIMIT 1
         `
       )
-      .bind(id)
+      .bind(id, user.id)
       .first<any>();
 
     if (!row) {
@@ -95,13 +85,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
     const parsed = safeJsonParse((row.lesson_json as string | null) ?? null);
 
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        result: { ...row, lesson_json: parsed ?? row.lesson_json },
-      }),
-      { headers: jsonHeaders }
-    );
+    return new Response(JSON.stringify({ ok: true, result: { ...row, lesson_json: parsed ?? row.lesson_json } }), {
+      headers: jsonHeaders,
+    });
   } catch (err: any) {
     return new Response(JSON.stringify({ ok: false, error: err?.message ?? String(err) }), {
       status: 500,
@@ -122,6 +108,13 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
       });
     }
 
+    if (user.role !== 'admin') {
+      return new Response(JSON.stringify({ ok: false, error: 'Admin role required' }), {
+        status: 403,
+        headers: jsonHeaders,
+      });
+    }
+
     const id = Number(ctx.params?.id);
     if (!Number.isInteger(id) || id <= 0) {
       return new Response(JSON.stringify({ ok: false, error: 'Invalid id' }), {
@@ -136,13 +129,6 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
     } catch {
       return new Response(JSON.stringify({ ok: false, error: 'Invalid JSON body' }), {
         status: 400,
-        headers: jsonHeaders,
-      });
-    }
-
-    if (user.role !== 'admin') {
-      return new Response(JSON.stringify({ ok: false, error: 'Admin role required' }), {
-        status: 403,
         headers: jsonHeaders,
       });
     }
@@ -181,32 +167,11 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
           updated_at = datetime('now')
         WHERE id = ?9 AND user_id = ?10
         RETURNING
-          id,
-          user_id,
-          title,
-          title_ar,
-          lesson_type,
-          subtype,
-          source,
-          status,
-          difficulty,
-          created_at,
-          updated_at,
-          lesson_json
+          id, user_id, title, title_ar, lesson_type, subtype, source, status, difficulty,
+          created_at, updated_at, lesson_json
         `
       )
-      .bind(
-        title,
-        title_ar,
-        lesson_type,
-        subtype,
-        source,
-        status,
-        difficulty,
-        lesson_json,
-        id,
-        user.id
-      )
+      .bind(title, title_ar, lesson_type, subtype, source, status, difficulty, lesson_json, id, user.id)
       .first<any>();
 
     if (!res) {
@@ -218,13 +183,9 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
 
     const parsed = safeJsonParse((res.lesson_json as string | null) ?? null);
 
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        result: { ...res, lesson_json: parsed ?? res.lesson_json },
-      }),
-      { headers: jsonHeaders }
-    );
+    return new Response(JSON.stringify({ ok: true, result: { ...res, lesson_json: parsed ?? res.lesson_json } }), {
+      headers: jsonHeaders,
+    });
   } catch (err: any) {
     return new Response(JSON.stringify({ ok: false, error: err?.message ?? String(err) }), {
       status: 500,

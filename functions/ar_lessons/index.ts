@@ -60,8 +60,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const limit = Math.min(200, Math.max(1, toInt(url.searchParams.get('limit'), 50)));
     const offset = Math.max(0, toInt(url.searchParams.get('offset'), 0));
 
-    const where: string[] = [];
-    const params: (string | number)[] = [];
+    // IMPORTANT: filter by owner
+    const where: string[] = ['user_id = ?'];
+    const params: (string | number)[] = [user.id];
 
     if (q) {
       const like = `%${q}%`;
@@ -74,7 +75,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       params.push('quran');
     }
 
-    const whereClause = where.length ? `WHERE ${where.join(' AND ')}` : '';
+    const whereClause = `WHERE ${where.join(' AND ')}`;
 
     const countStmt = ctx.env.DB
       .prepare(`SELECT COUNT(*) AS total FROM ar_lessons ${whereClause}`)
@@ -83,22 +84,13 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const dataStmt = ctx.env.DB
       .prepare(
         `
-          SELECT
-            id,
-            title,
-            title_ar,
-            lesson_type,
-            subtype,
-            source,
-            status,
-            difficulty,
-            created_at,
-            updated_at
-          FROM ar_lessons
-          ${whereClause}
-          ORDER BY created_at DESC
-          LIMIT ?
-          OFFSET ?
+        SELECT
+          id, title, title_ar, lesson_type, subtype, source, status, difficulty, created_at, updated_at
+        FROM ar_lessons
+        ${whereClause}
+        ORDER BY created_at DESC
+        LIMIT ?
+        OFFSET ?
         `
       )
       .bind(...params, limit, offset);
@@ -108,21 +100,14 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
     const dataRes = (await dataStmt.all()) as { results?: any[] };
 
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        total,
-        limit,
-        offset,
-        results: dataRes?.results ?? [],
-      }),
-      { headers: jsonHeaders }
-    );
+    return new Response(JSON.stringify({ ok: true, total, limit, offset, results: dataRes?.results ?? [] }), {
+      headers: jsonHeaders,
+    });
   } catch (err: any) {
-    return new Response(
-      JSON.stringify({ ok: false, error: err?.message ?? String(err) }),
-      { status: 500, headers: jsonHeaders }
-    );
+    return new Response(JSON.stringify({ ok: false, error: err?.message ?? String(err) }), {
+      status: 500,
+      headers: jsonHeaders,
+    });
   }
 };
 
@@ -161,11 +146,8 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     const subtype = normStr(body?.subtype);
     const source = normStr(body?.source);
     const status = normLower(body?.status, 'draft');
-
     const difficulty =
-      typeof body?.difficulty === 'number' && Number.isFinite(body.difficulty)
-        ? Math.trunc(body.difficulty)
-        : null;
+      typeof body?.difficulty === 'number' && Number.isFinite(body.difficulty) ? Math.trunc(body.difficulty) : null;
 
     const lessonJsonObj = normalizeLessonJson(body?.lesson_json ?? body?.lessonJson);
     const lesson_json = JSON.stringify(lessonJsonObj ?? {});
@@ -173,51 +155,26 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     const row = await ctx.env.DB
       .prepare(
         `
-          INSERT INTO ar_lessons
-            (user_id, title, title_ar, lesson_type, subtype, source, status, difficulty, lesson_json)
-          VALUES
-            (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)
-          RETURNING
-            id,
-            user_id,
-            title,
-            title_ar,
-            lesson_type,
-            subtype,
-            source,
-            status,
-            difficulty,
-            created_at,
-            updated_at,
-            lesson_json
+        INSERT INTO ar_lessons
+          (user_id, title, title_ar, lesson_type, subtype, source, status, difficulty, lesson_json)
+        VALUES
+          (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)
+        RETURNING
+          id, user_id, title, title_ar, lesson_type, subtype, source, status, difficulty, created_at, updated_at, lesson_json
         `
       )
-      .bind(
-        user.id,
-        title,
-        title_ar,
-        lesson_type,
-        subtype,
-        source,
-        status,
-        difficulty,
-        lesson_json
-      )
+      .bind(user.id, title, title_ar, lesson_type, subtype, source, status, difficulty, lesson_json)
       .first<any>();
 
-    const parsed = safeJsonParse(row?.lesson_json ?? null);
+    const parsed = safeJsonParse((row?.lesson_json as string | null) ?? null);
 
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        result: { ...row, lesson_json: parsed ?? row?.lesson_json },
-      }),
-      { headers: jsonHeaders }
-    );
+    return new Response(JSON.stringify({ ok: true, result: { ...row, lesson_json: parsed ?? row?.lesson_json } }), {
+      headers: jsonHeaders,
+    });
   } catch (err: any) {
-    return new Response(
-      JSON.stringify({ ok: false, error: err?.message ?? String(err) }),
-      { status: 500, headers: jsonHeaders }
-    );
+    return new Response(JSON.stringify({ ok: false, error: err?.message ?? String(err) }), {
+      status: 500,
+      headers: jsonHeaders,
+    });
   }
 };
