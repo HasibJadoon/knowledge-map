@@ -16,7 +16,7 @@
     "primereact": "^10.9.7"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260109.0",
+    "@cloudflare/workers-types": "^4.20260120.0",
     "typescript": "^5.9.3",
     "wrangler": "^4.42.2"
   }

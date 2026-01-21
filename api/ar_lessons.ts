@@ -1,4 +1,3 @@
-import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
 import { requireAuth } from './_utils/auth';
 
 interface Env {
@@ -6,7 +5,7 @@ interface Env {
   JWT_SECRET: string;
 }
 
-const jsonHeaders = {
+const jsonHeaders: Record<string, string> = {
   'content-type': 'application/json; charset=utf-8',
   'access-control-allow-origin': '*',
   'cache-control': 'no-store',
@@ -27,9 +26,27 @@ function safeJsonParse(text: string | null) {
 }
 
 function normalizeLessonJson(input: unknown) {
+  // keep it safe but don’t crash
   if (!input || typeof input !== 'object') return {};
-  return input;
+  return input as Record<string, unknown>;
 }
+
+interface ArLessonListItem {
+  id: number;
+  title: string;
+  lesson_type: string;
+  subtype: string | null;
+  source: string | null;
+  status: string;
+  created_at: string;
+  updated_at: string | null;
+}
+
+interface CountResult {
+  total: number;
+}
+
+/* ========================= GET /ar_lessons ========================= */
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   try {
@@ -54,7 +71,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     `;
 
     const whereClauses: string[] = [];
-    const queryParams: any[] = [];
+    const queryParams: (string | number)[] = [];
 
     if (q) {
       const like = `%${q}%`;
@@ -66,46 +83,44 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       whereClauses.push('lesson_type = ?');
       queryParams.push('quran');
     } else if (lessonTypeParam === 'other') {
-      whereClauses.push("lesson_type != 'quran'");
+      // include NULL and anything not 'quran'
+      whereClauses.push("(lesson_type IS NULL OR lesson_type != 'quran')");
     }
 
     const whereClause = whereClauses.length ? `WHERE ${whereClauses.join(' AND ')}` : '';
 
-    const countStmt = ctx.env.DB.prepare(`SELECT COUNT(*) AS total FROM ar_lessons ${whereClause}`).bind(
-      ...queryParams
-    );
+    const countStmt = ctx.env.DB
+      .prepare(`SELECT COUNT(*) AS total FROM ar_lessons ${whereClause}`)
+      .bind(...queryParams);
 
-    const dataStmt = ctx.env.DB.prepare(
-      `${selectSql}
+    const dataStmt = ctx.env.DB
+      .prepare(
+        `${selectSql}
          ${whereClause}
          ORDER BY created_at DESC
          LIMIT ?
          OFFSET ?`
-    );
-    const dataParams = [...queryParams, limit, offset];
-    dataStmt.bind(...dataParams);
+      )
+      .bind(...queryParams, limit, offset);
 
-    const countRes = await countStmt.first<{ total: number }>();
+    const countRes = (await countStmt.first()) as CountResult | null;
     const total = Number(countRes?.total ?? 0);
-    const { results } = await dataStmt.all();
 
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        total,
-        limit,
-        offset,
-        results: results ?? [],
-      }),
-      { headers: jsonHeaders }
-    );
+    const dataAll = (await dataStmt.all()) as { results?: ArLessonListItem[] };
+    const results = dataAll?.results ?? [];
+
+    return new Response(JSON.stringify({ ok: true, total, limit, offset, results }), {
+      headers: jsonHeaders,
+    });
   } catch (err: any) {
-    return new Response(
-      JSON.stringify({ ok: false, error: err?.message ?? String(err) }),
-      { status: 500, headers: jsonHeaders }
-    );
+    return new Response(JSON.stringify({ ok: false, error: err?.message ?? String(err) }), {
+      status: 500,
+      headers: jsonHeaders,
+    });
   }
 };
+
+/* ========================= POST /ar_lessons ========================= */
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   try {
@@ -128,10 +143,17 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     }
 
     const title = typeof body?.title === 'string' ? body.title.trim() : '';
-    const lesson_type = typeof body?.lesson_type === 'string' ? body.lesson_type.trim() : 'Quran';
+    const title_ar = typeof body?.title_ar === 'string' ? body.title_ar.trim() : null;
+
+    // keep DB consistent: lowercase 'quran'
+    const lesson_type_raw = typeof body?.lesson_type === 'string' ? body.lesson_type.trim() : 'quran';
+    const lesson_type = lesson_type_raw.toLowerCase();
+
     const subtype = typeof body?.subtype === 'string' ? body.subtype.trim() : null;
     const source = typeof body?.source === 'string' ? body.source.trim() : null;
     const status = typeof body?.status === 'string' ? body.status.trim() : 'draft';
+    const difficulty =
+      typeof body?.difficulty === 'number' && Number.isFinite(body.difficulty) ? body.difficulty : null;
 
     const lessonJsonObj = normalizeLessonJson(body?.lesson_json ?? body?.lessonJson);
     const lesson_json = JSON.stringify(lessonJsonObj ?? {});
@@ -143,26 +165,29 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       });
     }
 
-    const res = await ctx.env.DB.prepare(
-      `
-      INSERT INTO ar_lessons (title, lesson_type, subtype, source, status, lesson_json)
-      VALUES (?1, ?2, ?3, ?4, ?5, ?6)
-      RETURNING id, title, lesson_type, subtype, source, status, created_at, updated_at, lesson_json
-      `
-    )
-      .bind(title, lesson_type, subtype, source, status, lesson_json)
-      .first<any>();
+    // NOTE: include columns that exist in your DB schema (you showed title_ar + difficulty exist)
+    const inserted = await ctx.env.DB
+      .prepare(
+        `
+        INSERT INTO ar_lessons (title, title_ar, lesson_type, subtype, status, difficulty, source, lesson_json)
+        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)
+        RETURNING id, title, title_ar, lesson_type, subtype, status, difficulty, source, created_at, updated_at, lesson_json
+        `
+      )
+      .bind(title, title_ar, lesson_type, subtype, status, difficulty, source, lesson_json)
+      .first();
 
-    const parsed = safeJsonParse(res?.lesson_json ?? null);
+    const row = inserted as Record<string, any> | null;
 
-    return new Response(
-      JSON.stringify({ ok: true, result: { ...res, lesson_json: parsed ?? res?.lesson_json } }),
-      { headers: jsonHeaders }
-    );
+    const parsed = safeJsonParse((row?.lesson_json as string | null) ?? null);
+
+    return new Response(JSON.stringify({ ok: true, result: { ...row, lesson_json: parsed ?? row?.lesson_json } }), {
+      headers: jsonHeaders,
+    });
   } catch (err: any) {
-    return new Response(
-      JSON.stringify({ ok: false, error: err?.message ?? String(err) }),
-      { status: 500, headers: jsonHeaders }
-    );
+    return new Response(JSON.stringify({ ok: false, error: err?.message ?? String(err) }), {
+      status: 500,
+      headers: jsonHeaders,
+    });
   }
 };
