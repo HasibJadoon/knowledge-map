@@ -20,6 +20,29 @@
         <p class="text-muted">Arabic text is not available for this lesson yet.</p>
       </ng-template>
     </article>
+    <article class="study-card sentences-card">
+      <div class="study-card-heading">
+        <h4>Sentences</h4>
+        <h4 class="study-card-mode">{{ sentenceGroups.length }} verse groups</h4>
+      </div>
+      <hr class="study-card-divider" />
+      <ng-container *ngIf="sentenceGroups.length > 0; else noSentences">
+        <div class="sentence-group" *ngFor="let group of sentenceGroups">
+          <p class="verse-heading"> 
+            <span class="verse-text">{{ group.verseArabic }}</span>
+          </p>
+          <hr class="verse-divider" />
+          <div class="sentence-list">
+            <p class="arabic-sentence" *ngFor="let sentence of group.sentences">
+              {{ sentence.arabic }}
+            </p>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noSentences>
+        <p class="text-muted">Sentence segmentation is not available yet.</p>
+      </ng-template>
+    </article>
   </div>
 </section>
 

@@ -1,0 +1,1927 @@
+{
+    "ok": true,
+    "result": {
+        "id": 1,
+        "user_id": 1,
+        "title": "Surah Yusuf 12:1–7",
+        "title_ar": "سورة يوسف (١–٧)",
+        "lesson_type": "quran",
+        "subtype": "narrative",
+        "source": "Yusuf 12:1–7",
+        "status": "active",
+        "difficulty": 3,
+        "created_at": "2026-01-21 07:40:26",
+        "updated_at": null,
+        "lesson_json": {
+            "entity_type": "ar_lesson",
+            "id": "AR_LESSON_QURAN_12_001_007",
+            "lesson_type": "quran",
+            "subtype": "narrative",
+            "title": "Surah Yusuf 12:1–7",
+            "title_ar": "سورة يوسف (١–٧)",
+            "status": "active",
+            "difficulty": 3,
+            "reference": {
+                "source_type": "quran",
+                "source_ref_id": null,
+                "surah": 12,
+                "ayah_from": 1,
+                "ayah_to": 7,
+                "ref_label": "Yusuf 12:1–7",
+                "citation": null
+            },
+            "text": {
+                "arabic_full": [
+                    {
+                        "unit_id": "U_12_1",
+                        "unit_type": "ayah",
+                        "arabic": "الر تلك آيات الكتاب المبين ‎﴿١﴾‏",
+                        "translation": "Alif, Lam, Ra. These are the Verses of the Clear Book.",
+                        "surah": 12,
+                        "ayah": 1,
+                        "notes": "افتتاح بالحروف المقطّعة ثم الإشارة إلى وضوح الكتاب."
+                    },
+                    {
+                        "unit_id": "U_12_2",
+                        "unit_type": "ayah",
+                        "arabic": "إنا أنزلناه قرآنا عربيا لعلكم تعقلون ‎﴿٢﴾‏",
+                        "translation": "We have revealed it an Arabic Quran, so that you may understand.",
+                        "surah": 12,
+                        "ayah": 2,
+                        "notes": "تعليل/غاية: لعلكم تعقلون."
+                    },
+                    {
+                        "unit_id": "U_12_3",
+                        "unit_type": "ayah",
+                        "arabic": "نحن نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن وإن كنت من قبله لمن الغافلين ‎﴿٣﴾‏",
+                        "translation": "We narrate to you the most accurate history, by revealing to you this Quran. Although, prior to it, you were of the unaware.",
+                        "surah": 12,
+                        "ayah": 3,
+                        "notes": "تأكيد المتكلم (نحن) + بيان سبب القصص: بما أوحينا."
+                    },
+                    {
+                        "unit_id": "U_12_4",
+                        "unit_type": "ayah",
+                        "arabic": "إذ قال يوسف لأبيه يا أبت إني رأيت أحد عشر كوكبا والشمس والقمر رأيتهم لي ساجدين ‎﴿٤﴾‏",
+                        "translation": "When Joseph said to his father, “O my father, I saw eleven planets, and the sun, and the moon; I saw them bowing down to me.”",
+                        "surah": 12,
+                        "ayah": 4,
+                        "notes": "بداية المشهد القصصي: الرؤيا."
+                    },
+                    {
+                        "unit_id": "U_12_5",
+                        "unit_type": "ayah",
+                        "arabic": "قال يا بني لا تقصص رؤياك على إخوتك فيكيدوا لك كيدا إن الشيطان للإنسان عدو مبين ‎﴿٥﴾‏",
+                        "translation": "He said, “O my son, do not relate your vision to your brothers, lest they plot and scheme against you. Satan is man's sworn enemy.”",
+                        "surah": 12,
+                        "ayah": 5,
+                        "notes": "نهي + تعليل: إن الشيطان للإنسان عدو مبين."
+                    },
+                    {
+                        "unit_id": "U_12_6",
+                        "unit_type": "ayah",
+                        "arabic": "وكذلك يجتبيك ربك ويعلمك من تأويل الأحاديث ويتم نعمته عليك وعلى آل يعقوب كما أتمها على أبويك من قبل إبراهيم وإسحاق إن ربك عليم حكيم ‎﴿٦﴾‏",
+                        "translation": "And thus your Lord will choose you, and will teach you the interpretation of events, and will complete His blessing upon you and upon the family of Jacob, as He has completed it before upon your forefathers Abraham and Isaac. Your Lord is Knowing and Wise.",
+                        "surah": 12,
+                        "ayah": 6,
+                        "notes": "وعد/بشارة + ختام بأسماء الله: عليم حكيم."
+                    },
+                    {
+                        "unit_id": "U_12_7",
+                        "unit_type": "ayah",
+                        "arabic": "لقد كان في يوسف وإخوته آيات للسائلين ‎﴿٧﴾",
+                        "translation": "In Joseph and his brothers are lessons for the seekers.",
+                        "surah": 12,
+                        "ayah": 7,
+                        "notes": "خلاصة تمهيدية: آيات للسائلين."
+                    }
+                ],
+                "mode": "original"
+            },
+            "sentences": [
+                {
+                    "sentence_id": "SENT_12_1_A",
+                    "unit_id": "U_12_1",
+                    "arabic": "الر تلك آيات الكتاب المبين",
+                    "translation": "Alif, Lam, Ra. These are the Verses of the Clear Book.",
+                    "notes": "جملة ابتدائية بعد الحروف المقطعة: إشارة + خبر.",
+                    "roots": [
+                        "ءيي",
+                        "كتب",
+                        "بين"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null
+                    ],
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_1_001",
+                            "surface_ar": "الر",
+                            "lemma_ar": null,
+                            "root": null,
+                            "root_id": null,
+                            "pos": "phrase",
+                            "features": {
+                                "type": "muqattaat"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_1_002",
+                            "surface_ar": "تلك",
+                            "lemma_ar": "تلك",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "ism_ishara"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_1_003",
+                            "surface_ar": "آيات",
+                            "lemma_ar": "آية",
+                            "root": "ءيي",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_1_004",
+                            "surface_ar": "الكتاب",
+                            "lemma_ar": "كتاب",
+                            "root": "كتب",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_1_005",
+                            "surface_ar": "المبين",
+                            "lemma_ar": "مبين",
+                            "root": "بين",
+                            "root_id": null,
+                            "pos": "adj"
+                        }
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_ISM_ISHARA",
+                        "GRAM_KHABAR_MUBTADA"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_2_A",
+                    "unit_id": "U_12_2",
+                    "arabic": "إنا أنزلناه قرآنا عربيا لعلكم تعقلون",
+                    "translation": "We have revealed it an Arabic Quran, so that you may understand.",
+                    "notes": "إنّ للتوكيد + تعليل/غاية (لعلّ).",
+                    "roots": [
+                        "نزل",
+                        "قرء",
+                        "عرب",
+                        "عقل"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_2_001",
+                            "surface_ar": "إنا",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "tawkid",
+                                "pronoun": "نا"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_2_002",
+                            "surface_ar": "أنزلناه",
+                            "lemma_ar": "أنزل",
+                            "root": "نزل",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "form": "afala",
+                                "object_pronoun": "ه"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_2_003",
+                            "surface_ar": "قرآنا",
+                            "lemma_ar": "قرآن",
+                            "root": "قرء",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_2_004",
+                            "surface_ar": "عربيا",
+                            "lemma_ar": "عربي",
+                            "root": "عرب",
+                            "root_id": null,
+                            "pos": "adj"
+                        },
+                        {
+                            "token_id": "TOK_12_2_005",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "harf_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_2_006",
+                            "surface_ar": "علكم",
+                            "lemma_ar": "لعل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "tarajji_ta3lil",
+                                "attached_pronoun": "كم"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_2_007",
+                            "surface_ar": "تعقلون",
+                            "lemma_ar": "عقل",
+                            "root": "عقل",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "tense": "mudari",
+                                "person": "2mp"
+                            }
+                        }
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_INNA_TAWKID",
+                        "GRAM_LAALLA_TARJI_TA3LIL"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_3_A",
+                    "unit_id": "U_12_3",
+                    "arabic": "نحن نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن وإن كنت من قبله لمن الغافلين",
+                    "translation": "We narrate to you the most accurate history, by revealing to you this Quran. Although, prior to it, you were of the unaware.",
+                    "notes": "تصعيد تمهيدي: (نحن) + (أحسن القصص) + (بما أوحينا) + استدراك/حال: وإن كنت...",
+                    "roots": [
+                        "قصص",
+                        "وحي",
+                        "كون",
+                        "غفل",
+                        "قرء",
+                        "قبل"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_3_001",
+                            "surface_ar": "نحن",
+                            "lemma_ar": "نحن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "type": "pronoun_detached"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_002",
+                            "surface_ar": "نقص",
+                            "lemma_ar": "قص",
+                            "root": "قصص",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "tense": "mudari",
+                                "person": "1p"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_003",
+                            "surface_ar": "عليك",
+                            "lemma_ar": "على",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "phrase",
+                            "features": {
+                                "prep": "على",
+                                "attached_pronoun": "ك"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_004",
+                            "surface_ar": "أحسن",
+                            "lemma_ar": "أحسن",
+                            "root": "حسن",
+                            "root_id": null,
+                            "pos": "adj"
+                        },
+                        {
+                            "token_id": "TOK_12_3_005",
+                            "surface_ar": "القصص",
+                            "lemma_ar": "قصص",
+                            "root": "قصص",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_3_006",
+                            "surface_ar": "ب",
+                            "lemma_ar": "ب",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "harf_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_007",
+                            "surface_ar": "ما",
+                            "lemma_ar": "ما",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "ma_mawsula"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_008",
+                            "surface_ar": "أوحينا",
+                            "lemma_ar": "أوحى",
+                            "root": "وحي",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "tense": "madi",
+                                "person": "1p"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_009",
+                            "surface_ar": "إليك",
+                            "lemma_ar": "إلى",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "phrase",
+                            "features": {
+                                "prep": "إلى",
+                                "attached_pronoun": "ك"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_010",
+                            "surface_ar": "هذا",
+                            "lemma_ar": "هذا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "ism_ishara"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_011",
+                            "surface_ar": "القرآن",
+                            "lemma_ar": "قرآن",
+                            "root": "قرء",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_3_012",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "waw_atf_or_isti'naf"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_013",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "tawkid"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_014",
+                            "surface_ar": "كنت",
+                            "lemma_ar": "كان",
+                            "root": "كون",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "type": "kana",
+                                "tense": "madi",
+                                "person": "2ms"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_015",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle"
+                        },
+                        {
+                            "token_id": "TOK_12_3_016",
+                            "surface_ar": "قبله",
+                            "lemma_ar": "قبل",
+                            "root": "قبل",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "attached_pronoun": "ه"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_017",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "lam_ibtida_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_3_018",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle"
+                        },
+                        {
+                            "token_id": "TOK_12_3_019",
+                            "surface_ar": "الغافلين",
+                            "lemma_ar": "غافل",
+                            "root": "غفل",
+                            "root_id": null,
+                            "pos": "noun"
+                        }
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_MA_MAWSULA",
+                        "GRAM_LAM_IBTIDA",
+                        "GRAM_WAW_ISTI_NAF"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_4_A",
+                    "unit_id": "U_12_4",
+                    "arabic": "إذ قال يوسف لأبيه يا أبت إني رأيت أحد عشر كوكبا والشمس والقمر رأيتهم لي ساجدين",
+                    "translation": "When Joseph said to his father, “O my father, I saw eleven planets, and the sun, and the moon; I saw them bowing down to me.”",
+                    "notes": "إذ ظرف/مفتاح للمشهد، ثم قول يوسف ورؤياه.",
+                    "roots": [
+                        "قول",
+                        "رأي",
+                        "سجد"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null
+                    ],
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_4_001",
+                            "surface_ar": "إذ",
+                            "lemma_ar": "إذ",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "zarf"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_4_002",
+                            "surface_ar": "قال",
+                            "lemma_ar": "قال",
+                            "root": "قول",
+                            "root_id": null,
+                            "pos": "verb"
+                        },
+                        {
+                            "token_id": "TOK_12_4_003",
+                            "surface_ar": "يوسف",
+                            "lemma_ar": "يوسف",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "type": "proper_noun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_4_004",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "harf_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_4_005",
+                            "surface_ar": "أبيه",
+                            "lemma_ar": "أب",
+                            "root": "ءب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "attached_pronoun": "ه"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_4_006",
+                            "surface_ar": "يا",
+                            "lemma_ar": "يا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "nida"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_4_007",
+                            "surface_ar": "أبت",
+                            "lemma_ar": "أب",
+                            "root": "ءب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "vocative": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_4_008",
+                            "surface_ar": "إني",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "tawkid",
+                                "attached_pronoun": "ي"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_4_009",
+                            "surface_ar": "رأيت",
+                            "lemma_ar": "رأى",
+                            "root": "رأي",
+                            "root_id": null,
+                            "pos": "verb"
+                        },
+                        {
+                            "token_id": "TOK_12_4_010",
+                            "surface_ar": "أحد",
+                            "lemma_ar": "أحد",
+                            "root": "ءحد",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_4_011",
+                            "surface_ar": "عشر",
+                            "lemma_ar": "عشر",
+                            "root": "عشر",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_4_012",
+                            "surface_ar": "كوكبا",
+                            "lemma_ar": "كوكب",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_4_013",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle"
+                        },
+                        {
+                            "token_id": "TOK_12_4_014",
+                            "surface_ar": "الشمس",
+                            "lemma_ar": "شمس",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_4_015",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle"
+                        },
+                        {
+                            "token_id": "TOK_12_4_016",
+                            "surface_ar": "القمر",
+                            "lemma_ar": "قمر",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_4_017",
+                            "surface_ar": "رأيتهم",
+                            "lemma_ar": "رأى",
+                            "root": "رأي",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "object_pronoun": "هم"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_4_018",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "harf_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_4_019",
+                            "surface_ar": "ي",
+                            "lemma_ar": "ي",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "features": {
+                                "type": "pronoun_attached_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_4_020",
+                            "surface_ar": "ساجدين",
+                            "lemma_ar": "ساجد",
+                            "root": "سجد",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "type": "ism_fa3il_plural"
+                            }
+                        }
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_IDH_ZARF",
+                        "GRAM_NIDA_YA",
+                        "GRAM_INNA_TAWKID"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_5_A",
+                    "unit_id": "U_12_5",
+                    "arabic": "قال يا بني لا تقصص رؤياك على إخوتك فيكيدوا لك كيدا إن الشيطان للإنسان عدو مبين",
+                    "translation": "He said, “O my son, do not relate your vision to your brothers, lest they plot and scheme against you. Satan is man's sworn enemy.”",
+                    "notes": "نهي (لا) + فاء السببية: فيكيدوا + تعليل بـ إنّ.",
+                    "roots": [
+                        "قول",
+                        "قصص",
+                        "رأي",
+                        "ءخو",
+                        "كيد",
+                        "بين"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_5_001",
+                            "surface_ar": "قال",
+                            "lemma_ar": "قال",
+                            "root": "قول",
+                            "root_id": null,
+                            "pos": "verb"
+                        },
+                        {
+                            "token_id": "TOK_12_5_002",
+                            "surface_ar": "يا",
+                            "lemma_ar": "يا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "nida"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_003",
+                            "surface_ar": "بني",
+                            "lemma_ar": "ابن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "vocative": true,
+                                "attached_pronoun": "ي"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_004",
+                            "surface_ar": "لا",
+                            "lemma_ar": "لا",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "nahy"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_005",
+                            "surface_ar": "تقصص",
+                            "lemma_ar": "قص",
+                            "root": "قصص",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "tense": "mudari",
+                                "person": "2ms"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_006",
+                            "surface_ar": "رؤياك",
+                            "lemma_ar": "رؤيا",
+                            "root": "رأي",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "attached_pronoun": "ك"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_007",
+                            "surface_ar": "على",
+                            "lemma_ar": "على",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle"
+                        },
+                        {
+                            "token_id": "TOK_12_5_008",
+                            "surface_ar": "إخوتك",
+                            "lemma_ar": "إخوة",
+                            "root": "ءخو",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "attached_pronoun": "ك"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_009",
+                            "surface_ar": "ف",
+                            "lemma_ar": "ف",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "fa_sababiya_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_010",
+                            "surface_ar": "يكيدوا",
+                            "lemma_ar": "كاد",
+                            "root": "كيد",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "tense": "mudari",
+                                "jussive": true
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_011",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "harf_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_012",
+                            "surface_ar": "ك",
+                            "lemma_ar": "ك",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "other",
+                            "features": {
+                                "type": "pronoun_attached_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_013",
+                            "surface_ar": "كيدا",
+                            "lemma_ar": "كيد",
+                            "root": "كيد",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_5_014",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "tawkid"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_015",
+                            "surface_ar": "الشيطان",
+                            "lemma_ar": "شيطان",
+                            "root": "شيطن",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_5_016",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "harf_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_5_017",
+                            "surface_ar": "الإنسان",
+                            "lemma_ar": "إنسان",
+                            "root": "ءنس",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_5_018",
+                            "surface_ar": "عدو",
+                            "lemma_ar": "عدو",
+                            "root": "عدو",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_5_019",
+                            "surface_ar": "مبين",
+                            "lemma_ar": "مبين",
+                            "root": "بين",
+                            "root_id": null,
+                            "pos": "adj"
+                        }
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_LA_NAHY",
+                        "GRAM_FA_SABIYA",
+                        "GRAM_INNA_TAWKID"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_6_A",
+                    "unit_id": "U_12_6",
+                    "arabic": "وكذلك يجتبيك ربك ويعلمك من تأويل الأحاديث ويتم نعمته عليك وعلى آل يعقوب كما أتمها على أبويك من قبل إبراهيم وإسحاق إن ربك عليم حكيم",
+                    "translation": "And thus your Lord will choose you, and will teach you the interpretation of events, and will complete His blessing upon you and upon the family of Jacob, as He has completed it before upon your forefathers Abraham and Isaac. Your Lord is Knowing and Wise.",
+                    "notes": "وكذلك = ربط بالمشهد/بالسياق. سلسلة أفعال/وعد: يجتبيك، يعلمك، يتم. ثم (كما) للقياس التاريخي. ختم: إن ربك عليم حكيم.",
+                    "roots": [
+                        "جبي",
+                        "علم",
+                        "ءول",
+                        "حدث",
+                        "تمم",
+                        "نعم",
+                        "ءب",
+                        "قبل",
+                        "حكم"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_6_001",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "waw_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_002",
+                            "surface_ar": "كذلك",
+                            "lemma_ar": "كذلك",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "phrase"
+                        },
+                        {
+                            "token_id": "TOK_12_6_003",
+                            "surface_ar": "يجتبيك",
+                            "lemma_ar": "اجتبى",
+                            "root": "جبي",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "form": "iftiala",
+                                "object_pronoun": "ك"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_004",
+                            "surface_ar": "ربك",
+                            "lemma_ar": "رب",
+                            "root": "ربب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "attached_pronoun": "ك"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_005",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "waw_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_006",
+                            "surface_ar": "يعلمك",
+                            "lemma_ar": "علم",
+                            "root": "علم",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "object_pronoun": "ك"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_007",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle"
+                        },
+                        {
+                            "token_id": "TOK_12_6_008",
+                            "surface_ar": "تأويل",
+                            "lemma_ar": "تأويل",
+                            "root": "ءول",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_6_009",
+                            "surface_ar": "الأحاديث",
+                            "lemma_ar": "أحاديث",
+                            "root": "حدث",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_6_010",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "waw_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_011",
+                            "surface_ar": "يتم",
+                            "lemma_ar": "أتم",
+                            "root": "تمم",
+                            "root_id": null,
+                            "pos": "verb"
+                        },
+                        {
+                            "token_id": "TOK_12_6_012",
+                            "surface_ar": "نعمته",
+                            "lemma_ar": "نعمة",
+                            "root": "نعم",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "attached_pronoun": "ه"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_013",
+                            "surface_ar": "عليك",
+                            "lemma_ar": "على",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "phrase",
+                            "features": {
+                                "prep": "على",
+                                "attached_pronoun": "ك"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_014",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "waw_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_015",
+                            "surface_ar": "على",
+                            "lemma_ar": "على",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle"
+                        },
+                        {
+                            "token_id": "TOK_12_6_016",
+                            "surface_ar": "آل",
+                            "lemma_ar": "آل",
+                            "root": "ءول",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_6_017",
+                            "surface_ar": "يعقوب",
+                            "lemma_ar": "يعقوب",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "type": "proper_noun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_018",
+                            "surface_ar": "كما",
+                            "lemma_ar": "كما",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "kama_tashbih"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_019",
+                            "surface_ar": "أتمها",
+                            "lemma_ar": "أتم",
+                            "root": "تمم",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "object_pronoun": "ها"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_020",
+                            "surface_ar": "على",
+                            "lemma_ar": "على",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle"
+                        },
+                        {
+                            "token_id": "TOK_12_6_021",
+                            "surface_ar": "أبويك",
+                            "lemma_ar": "أبوان",
+                            "root": "ءب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "attached_pronoun": "ك"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_022",
+                            "surface_ar": "من",
+                            "lemma_ar": "من",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle"
+                        },
+                        {
+                            "token_id": "TOK_12_6_023",
+                            "surface_ar": "قبل",
+                            "lemma_ar": "قبل",
+                            "root": "قبل",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_6_024",
+                            "surface_ar": "إبراهيم",
+                            "lemma_ar": "إبراهيم",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "type": "proper_noun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_025",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "waw_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_026",
+                            "surface_ar": "إسحاق",
+                            "lemma_ar": "إسحاق",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "type": "proper_noun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_027",
+                            "surface_ar": "إن",
+                            "lemma_ar": "إن",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "tawkid"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_028",
+                            "surface_ar": "ربك",
+                            "lemma_ar": "رب",
+                            "root": "ربب",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "attached_pronoun": "ك"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_6_029",
+                            "surface_ar": "عليم",
+                            "lemma_ar": "عليم",
+                            "root": "علم",
+                            "root_id": null,
+                            "pos": "adj"
+                        },
+                        {
+                            "token_id": "TOK_12_6_030",
+                            "surface_ar": "حكيم",
+                            "lemma_ar": "حكيم",
+                            "root": "حكم",
+                            "root_id": null,
+                            "pos": "adj"
+                        }
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_WAW_ATF",
+                        "GRAM_KAMA_TASHBIH",
+                        "GRAM_INNA_TAWKID"
+                    ]
+                },
+                {
+                    "sentence_id": "SENT_12_7_A",
+                    "unit_id": "U_12_7",
+                    "arabic": "لقد كان في يوسف وإخوته آيات للسائلين",
+                    "translation": "In Joseph and his brothers are lessons for the seekers.",
+                    "notes": "توكيد بـ (لقد) + كان الناقصة + جار ومجرور (في يوسف...) + خبر: آيات للسائلين.",
+                    "roots": [
+                        "كون",
+                        "ءخو",
+                        "ءيي",
+                        "سءل"
+                    ],
+                    "root_ids": [
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "tokens": [
+                        {
+                            "token_id": "TOK_12_7_001",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "lam_tawkid_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_7_002",
+                            "surface_ar": "قد",
+                            "lemma_ar": "قد",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "qad_tahqiq"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_7_003",
+                            "surface_ar": "كان",
+                            "lemma_ar": "كان",
+                            "root": "كون",
+                            "root_id": null,
+                            "pos": "verb",
+                            "features": {
+                                "type": "kana"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_7_004",
+                            "surface_ar": "في",
+                            "lemma_ar": "في",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle"
+                        },
+                        {
+                            "token_id": "TOK_12_7_005",
+                            "surface_ar": "يوسف",
+                            "lemma_ar": "يوسف",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "type": "proper_noun"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_7_006",
+                            "surface_ar": "و",
+                            "lemma_ar": "و",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "waw_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_7_007",
+                            "surface_ar": "إخوته",
+                            "lemma_ar": "إخوة",
+                            "root": "ءخو",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "attached_pronoun": "ه"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_7_008",
+                            "surface_ar": "آيات",
+                            "lemma_ar": "آية",
+                            "root": "ءيي",
+                            "root_id": null,
+                            "pos": "noun"
+                        },
+                        {
+                            "token_id": "TOK_12_7_009",
+                            "surface_ar": "ل",
+                            "lemma_ar": "ل",
+                            "root": null,
+                            "root_id": null,
+                            "pos": "particle",
+                            "features": {
+                                "type": "harf_prefix_split"
+                            }
+                        },
+                        {
+                            "token_id": "TOK_12_7_010",
+                            "surface_ar": "لسائلين",
+                            "lemma_ar": "سائل",
+                            "root": "سءل",
+                            "root_id": null,
+                            "pos": "noun",
+                            "features": {
+                                "plural": "sound_masc"
+                            }
+                        }
+                    ],
+                    "grammar_concept_refs": [
+                        "GRAM_LAQAD_TAWKID",
+                        "GRAM_KANA_NAQISA",
+                        "GRAM_JAR_MAJRUR_KHABAR"
+                    ]
+                }
+            ],
+            "passage_layers": [
+                {
+                    "layer_id": "LAYER_12_001",
+                    "layer_type": "discourse",
+                    "label": "Opening: muqattaʿāt + pointer to the clarity of the Book",
+                    "label_ar": "افتتاح: الحروف المقطعة ثم الإشارة إلى وضوح الكتاب",
+                    "linked_unit_ids": [
+                        "U_12_1"
+                    ],
+                    "linked_sentence_ids": [
+                        "SENT_12_1_A"
+                    ],
+                    "linked_token_ids": [
+                        "TOK_12_1_001",
+                        "TOK_12_1_002",
+                        "TOK_12_1_003",
+                        "TOK_12_1_004",
+                        "TOK_12_1_005"
+                    ],
+                    "notes": "تمهيد يثبت مصدر النص ووصفه بالمبين.",
+                    "data": {
+                        "moves": [
+                            "opening_marker",
+                            "deictic_pointing",
+                            "clarity_claim"
+                        ]
+                    }
+                },
+                {
+                    "layer_id": "LAYER_12_002",
+                    "layer_type": "reasoning",
+                    "label": "Revelation in Arabic as a purpose for understanding",
+                    "label_ar": "تعليل: إنزال القرآن عربيًا لغاية الفهم",
+                    "linked_unit_ids": [
+                        "U_12_2"
+                    ],
+                    "linked_sentence_ids": [
+                        "SENT_12_2_A"
+                    ],
+                    "linked_token_ids": [
+                        "TOK_12_2_001",
+                        "TOK_12_2_002",
+                        "TOK_12_2_003",
+                        "TOK_12_2_004",
+                        "TOK_12_2_005",
+                        "TOK_12_2_006",
+                        "TOK_12_2_007"
+                    ],
+                    "notes": "تعليل/غاية (لعل) يربط اللغة بالفهم.",
+                    "data": {
+                        "structure": {
+                            "claim": "إنا أنزلناه قرآنا عربيا",
+                            "purpose": "لعلكم تعقلون"
+                        }
+                    }
+                },
+                {
+                    "layer_id": "LAYER_12_003",
+                    "layer_type": "discourse",
+                    "label": "Authoritative narration: 'We relate to you the best of stories'",
+                    "label_ar": "ترسيخ سلطة القصص: نحن نقص عليك أحسن القصص",
+                    "linked_unit_ids": [
+                        "U_12_3"
+                    ],
+                    "linked_sentence_ids": [
+                        "SENT_12_3_A"
+                    ],
+                    "linked_token_ids": [
+                        "TOK_12_3_001",
+                        "TOK_12_3_002",
+                        "TOK_12_3_004",
+                        "TOK_12_3_005",
+                        "TOK_12_3_006",
+                        "TOK_12_3_007",
+                        "TOK_12_3_008",
+                        "TOK_12_3_010",
+                        "TOK_12_3_011"
+                    ],
+                    "notes": "يبني الثقة بالمصدر: الوحي هو مصدر القصة، والرسول قبلها لم يكن يعلم تفاصيلها.",
+                    "data": {
+                        "moves": [
+                            "speaker_emphasis",
+                            "superlative_claim",
+                            "revelation_basis",
+                            "prior_unawareness"
+                        ]
+                    }
+                },
+                {
+                    "layer_id": "LAYER_12_004",
+                    "layer_type": "narrative_move",
+                    "label": "Scene 1: Yusuf’s dream (vision)",
+                    "label_ar": "المشهد الأول: رؤيا يوسف",
+                    "linked_unit_ids": [
+                        "U_12_4"
+                    ],
+                    "linked_sentence_ids": [
+                        "SENT_12_4_A"
+                    ],
+                    "linked_token_ids": [
+                        "TOK_12_4_001",
+                        "TOK_12_4_002",
+                        "TOK_12_4_003",
+                        "TOK_12_4_009",
+                        "TOK_12_4_012",
+                        "TOK_12_4_014",
+                        "TOK_12_4_016",
+                        "TOK_12_4_020"
+                    ],
+                    "notes": "الرؤيا تفتح خطّ القدر/المصير داخل القصة.",
+                    "data": {
+                        "scene": {
+                            "speaker": "يوسف",
+                            "listener": "أبيه",
+                            "vision_elements": [
+                                "أحد عشر كوكبا",
+                                "الشمس",
+                                "القمر"
+                            ],
+                            "action": "ساجدين"
+                        }
+                    }
+                },
+                {
+                    "layer_id": "LAYER_12_005",
+                    "layer_type": "argument",
+                    "label": "Advice + warning: do not tell the brothers (fear of plotting)",
+                    "label_ar": "نصيحة وتحذير: لا تقصص رؤياك (خشية الكيد)",
+                    "linked_unit_ids": [
+                        "U_12_5"
+                    ],
+                    "linked_sentence_ids": [
+                        "SENT_12_5_A"
+                    ],
+                    "linked_token_ids": [
+                        "TOK_12_5_004",
+                        "TOK_12_5_005",
+                        "TOK_12_5_006",
+                        "TOK_12_5_008",
+                        "TOK_12_5_009",
+                        "TOK_12_5_010",
+                        "TOK_12_5_015",
+                        "TOK_12_5_018",
+                        "TOK_12_5_019"
+                    ],
+                    "notes": "نهي + تعليل: الشرّ يمكن أن يُستثار بالحسد، والشيطان عدو مبين.",
+                    "data": {
+                        "structure": {
+                            "prohibition": "لا تقصص رؤياك",
+                            "risk": "فيكيدوا لك كيدا",
+                            "reason": "إن الشيطان للإنسان عدو مبين"
+                        }
+                    }
+                },
+                {
+                    "layer_id": "LAYER_12_006",
+                    "layer_type": "conclusion",
+                    "label": "Promise: chosen, taught interpretation, blessing completed",
+                    "label_ar": "بشارة ووعد: الاجتباء والتعليم وإتمام النعمة",
+                    "linked_unit_ids": [
+                        "U_12_6"
+                    ],
+                    "linked_sentence_ids": [
+                        "SENT_12_6_A"
+                    ],
+                    "linked_token_ids": [
+                        "TOK_12_6_003",
+                        "TOK_12_6_004",
+                        "TOK_12_6_006",
+                        "TOK_12_6_008",
+                        "TOK_12_6_011",
+                        "TOK_12_6_012",
+                        "TOK_12_6_016",
+                        "TOK_12_6_017",
+                        "TOK_12_6_018",
+                        "TOK_12_6_019",
+                        "TOK_12_6_024",
+                        "TOK_12_6_026",
+                        "TOK_12_6_029",
+                        "TOK_12_6_030"
+                    ],
+                    "notes": "إطار نبوي ممتدّ عبر السلالة الإبراهيمية مع ختم عليم حكيم.",
+                    "data": {
+                        "promises": [
+                            "يجتبيك",
+                            "يعلمك",
+                            "يتم نعمته"
+                        ],
+                        "lineage": [
+                            "آل يعقوب",
+                            "إبراهيم",
+                            "إسحاق"
+                        ],
+                        "divine_names": [
+                            "عليم",
+                            "حكيم"
+                        ]
+                    }
+                },
+                {
+                    "layer_id": "LAYER_12_007",
+                    "layer_type": "discourse",
+                    "label": "Thesis line: Signs for seekers",
+                    "label_ar": "خلاصة تمهيدية: آيات للسائلين",
+                    "linked_unit_ids": [
+                        "U_12_7"
+                    ],
+                    "linked_sentence_ids": [
+                        "SENT_12_7_A"
+                    ],
+                    "linked_token_ids": [
+                        "TOK_12_7_001",
+                        "TOK_12_7_002",
+                        "TOK_12_7_003",
+                        "TOK_12_7_008",
+                        "TOK_12_7_010"
+                    ],
+                    "notes": "جملة جامعة تُوجّه المتلقي للبحث والسؤال.",
+                    "data": {
+                        "focus": "السؤال/الطلب"
+                    }
+                }
+            ],
+            "comprehension": {
+                "reflective": [
+                    {
+                        "question_id": "RQ_12_001",
+                        "linked_unit_ids": [
+                            "U_12_2"
+                        ],
+                        "question": "What does it change in your relationship with the Qur’an when you read that it was revealed in Arabic 'so that you may understand'?",
+                        "question_ar": "كيف يؤثر في علاقتك بالقرآن قولُه: «قرآنا عربيا لعلكم تعقلون»؟",
+                        "answer_hint": "Reflect on language, clarity, effort, and responsibility to seek understanding.",
+                        "tags": [
+                            "reflection",
+                            "purpose",
+                            "language"
+                        ],
+                        "quranic_ref": "12:2"
+                    },
+                    {
+                        "question_id": "RQ_12_002",
+                        "linked_unit_ids": [
+                            "U_12_5"
+                        ],
+                        "question": "Why might sharing a blessing too early sometimes invite harm, and how do you balance trust with wisdom?",
+                        "question_ar": "لماذا قد يجلب كشفُ النعمة مبكرًا ضررًا أحيانًا؟ وكيف توازن بين الثقة والحكمة؟",
+                        "answer_hint": "Link to 'do not relate your vision' and the idea of jealousy/plotting; apply to modern life.",
+                        "tags": [
+                            "reflection",
+                            "wisdom",
+                            "jealousy"
+                        ],
+                        "quranic_ref": "12:5"
+                    },
+                    {
+                        "question_id": "RQ_12_003",
+                        "linked_unit_ids": [
+                            "U_12_7"
+                        ],
+                        "question": "What kind of 'seeking' do these opening verses invite: curiosity, faith, patience, or all of them?",
+                        "question_ar": "أيُّ نوعٍ من «السؤال/الطلب» تدعو إليه هذه الآيات: الفضول، الإيمان، الصبر، أم كلها؟",
+                        "answer_hint": "Consider the phrase 'آيات للسائلين' and what it expects from the reader.",
+                        "tags": [
+                            "reflection",
+                            "seeking",
+                            "signs"
+                        ],
+                        "quranic_ref": "12:7"
+                    }
+                ],
+                "analytical": [
+                    {
+                        "question_id": "AQ_12_001",
+                        "linked_unit_ids": [
+                            "U_12_1",
+                            "U_12_2",
+                            "U_12_3"
+                        ],
+                        "question": "How do verses 1–3 establish authority for the story before the narrative begins?",
+                        "question_ar": "كيف تُؤسِّس الآيات (١–٣) سلطةَ القصة قبل بدء المشهد السردي؟",
+                        "answer_hint": "Track: muqattaʿat → clear book → revealed in Arabic → we narrate by revelation → prior unawareness.",
+                        "tags": [
+                            "analysis",
+                            "discourse",
+                            "authority"
+                        ],
+                        "quranic_ref": "12:1-3"
+                    },
+                    {
+                        "question_id": "AQ_12_002",
+                        "linked_unit_ids": [
+                            "U_12_5",
+                            "U_12_6"
+                        ],
+                        "question": "In what way do the warning (plotting) and the promise (chosen/ taught/ blessed) work together to shape expectations for the story?",
+                        "question_ar": "كيف يعمل التحذير (الكيد) مع الوعد (الاجتباء/التعليم/النعمة) معًا لصناعة توقعات القصة؟",
+                        "answer_hint": "Contrast danger vs divine care; set tension and trajectory.",
+                        "tags": [
+                            "analysis",
+                            "narrative",
+                            "tension"
+                        ],
+                        "quranic_ref": "12:5-6"
+                    },
+                    {
+                        "question_id": "AQ_12_003",
+                        "linked_unit_ids": [
+                            "U_12_4",
+                            "U_12_6"
+                        ],
+                        "question": "What is the logical link between the dream imagery (v.4) and 'teaching interpretation of events' (v.6)?",
+                        "question_ar": "ما العلاقة المنطقية بين رمزية الرؤيا (٤) و«تعليم تأويل الأحاديث» (٦)؟",
+                        "answer_hint": "Dreams need interpretation; Yusuf’s gift is framed early as divine teaching.",
+                        "tags": [
+                            "analysis",
+                            "reasoning",
+                            "dreams"
+                        ],
+                        "quranic_ref": "12:4-6"
+                    }
+                ],
+                "mcqs": {
+                    "text": [
+                        {
+                            "mcq_id": "MCQ_T_12_001",
+                            "linked_unit_ids": [
+                                "U_12_2"
+                            ],
+                            "question": "What is presented as the purpose of revealing the Qur’an in Arabic in verse 12:2?",
+                            "question_ar": "ما الغاية المذكورة لإنزال القرآن عربيًا في (١٢:٢)؟",
+                            "options": [
+                                {
+                                    "option": "To confuse the audience with difficult language",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "So that you may understand / use reason (تعقلون)",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "Only for poetry and rhyme",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "Only for a single tribe",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "The verse ends with «لعلكم تعقلون» indicating understanding/reason.",
+                            "tags": [
+                                "mcq",
+                                "text",
+                                "purpose"
+                            ]
+                        },
+                        {
+                            "mcq_id": "MCQ_T_12_002",
+                            "linked_unit_ids": [
+                                "U_12_5"
+                            ],
+                            "question": "Why does Yaʿqūb advise Yusuf not to tell his dream to his brothers?",
+                            "question_ar": "لماذا نصح يعقوبُ يوسفَ ألا يقص رؤياه على إخوته؟",
+                            "options": [
+                                {
+                                    "option": "Because dreams are always meaningless",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "So the brothers do not plot against him",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "Because his father was uninterested",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "Because it was forbidden to speak at night",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "The verse says «فيكيدوا لك كيدا» and adds a warning about Satan’s enmity.",
+                            "tags": [
+                                "mcq",
+                                "text",
+                                "warning"
+                            ]
+                        }
+                    ],
+                    "vocabulary": [
+                        {
+                            "mcq_id": "MCQ_V_12_001",
+                            "linked_unit_ids": [
+                                "U_12_6"
+                            ],
+                            "question": "In verse 12:6, what does «يجتبيك» most closely mean?",
+                            "question_ar": "ما أقرب معنى لـ «يجتبيك» في (١٢:٦)؟",
+                            "options": [
+                                {
+                                    "option": "To abandon you",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "To choose you specially / select and draw close",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "To punish you immediately",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "To hide you from everyone",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "اجتبى يدل على اختيار خاص مقرون بالقرب والعناية.",
+                            "tags": [
+                                "mcq",
+                                "vocab",
+                                "root:جبي"
+                            ]
+                        },
+                        {
+                            "mcq_id": "MCQ_V_12_002",
+                            "linked_unit_ids": [
+                                "U_12_3"
+                            ],
+                            "question": "What does «أوحينا» mean in this context (12:3)?",
+                            "question_ar": "ما معنى «أوحينا» هنا (١٢:٣)؟",
+                            "options": [
+                                {
+                                    "option": "We guessed",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "We revealed / communicated by revelation",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "We forgot",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "We translated",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "الوحي: إبلاغ خفي سريع من الله إلى نبيه.",
+                            "tags": [
+                                "mcq",
+                                "vocab",
+                                "root:وحي"
+                            ]
+                        }
+                    ],
+                    "grammar": [
+                        {
+                            "mcq_id": "MCQ_G_12_001",
+                            "linked_unit_ids": [
+                                "U_12_2"
+                            ],
+                            "question": "Which particle in 12:2 introduces a hoped-for purpose/expected outcome?",
+                            "question_ar": "أيُّ أداةٍ في (١٢:٢) تفيد الترجي/الغاية؟",
+                            "options": [
+                                {
+                                    "option": "إنّ",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "لعلّ",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "قد",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "هل",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "«لعلّ» تأتي للترجي وقد تُستعمل للتعليل/الغاية في السياق.",
+                            "tags": [
+                                "mcq",
+                                "grammar",
+                                "particle"
+                            ]
+                        },
+                        {
+                            "mcq_id": "MCQ_G_12_002",
+                            "linked_unit_ids": [
+                                "U_12_7"
+                            ],
+                            "question": "What is the function of «لقد» at the start of 12:7?",
+                            "question_ar": "ما وظيفة «لقد» في بداية (١٢:٧)؟",
+                            "options": [
+                                {
+                                    "option": "Negation",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "Emphasis/confirmation (tawkīd)",
+                                    "is_correct": true
+                                },
+                                {
+                                    "option": "Question",
+                                    "is_correct": false
+                                },
+                                {
+                                    "option": "Conditional",
+                                    "is_correct": false
+                                }
+                            ],
+                            "explanation": "اللام + قد مع الماضي تفيد التوكيد والتحقيق.",
+                            "tags": [
+                                "mcq",
+                                "grammar",
+                                "tawkid"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "created_at": "2026-01-20T00:00:00Z",
+            "updated_at": null
+        }
+    }
+}

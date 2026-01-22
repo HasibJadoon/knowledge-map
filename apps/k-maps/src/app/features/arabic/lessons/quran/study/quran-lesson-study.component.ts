@@ -22,11 +22,59 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
   lesson: QuranLesson | null = null;
 
   get arabicParagraph(): string {
-    const units = this.lesson?.text?.arabic_full ?? [];
-    const cleaned = units
-      .map((unit) => unit.arabic?.trim())
+    const sentences = (this.lesson?.sentences ?? [])
+      .map((sentence) => sentence.arabic?.trim())
       .filter(Boolean) as string[];
-    return cleaned.join(' ');
+    return sentences.join(' ');
+  }
+
+  get sentenceGroups() {
+    const sentences = this.lesson?.sentences ?? [];
+    if (!sentences.length) return [];
+    const verseMap = new Map(
+      (this.lesson?.text.arabic_full ?? []).map((verse) => [
+        verse.unit_id,
+        { arabic: verse.arabic, surah: verse.surah, ayah: verse.ayah },
+      ])
+    );
+
+    const groups: Array<{
+      unitId: string;
+      verseArabic: string;
+      surah?: number;
+      ayah?: number;
+      sentences: Array<{ arabic?: string; translation?: string | null }>;
+    }> = [];
+
+    for (const sentence of sentences) {
+      const existing = groups.find((group) => group.unitId === sentence.unit_id);
+      if (existing) {
+        existing.sentences.push({
+          arabic: sentence.arabic,
+          translation: sentence.translation,
+        });
+        continue;
+      }
+      const verseInfo = verseMap.get(sentence.unit_id);
+      groups.push({
+        unitId: sentence.unit_id,
+        verseArabic: verseInfo?.arabic ?? '',
+        surah: verseInfo?.surah,
+        ayah: verseInfo?.ayah,
+        sentences: [
+          {
+            arabic: sentence.arabic,
+            translation: sentence.translation,
+          },
+        ],
+      });
+    }
+
+    return groups;
+  }
+
+  get sentenceList() {
+    return this.lesson?.sentences ?? [];
   }
 
   ngOnInit() {
