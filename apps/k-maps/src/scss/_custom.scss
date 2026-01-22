@@ -30,6 +30,11 @@ body {
 :root {
   --app-font-ar: 'Uthmanic Hafs', 'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', 'Cairo', serif;
   --app-font-ar-size: 1.35rem;
+  --app-gold: #ffd800;
+}
+
+.text-gold {
+  color: var(--app-gold);
 }
 
 /* Global card hover lift */

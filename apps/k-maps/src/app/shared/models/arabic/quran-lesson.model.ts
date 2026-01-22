@@ -21,10 +21,33 @@ export interface QuranLessonSentence {
   notes: string | null;
 }
 
+export interface QuranLessonComprehensionQuestion {
+  question_id: string;
+  question: string;
+  question_ar?: string;
+  quranic_ref?: string;
+  answer_hint?: string;
+  tags?: string[];
+  linked_unit_ids?: string[];
+  data?: Record<string, unknown>;
+}
+
+export interface QuranLessonMcqOption {
+  option: string;
+  is_correct: boolean;
+}
+
+export interface QuranLessonMcq {
+  mcq_id: string;
+  question: string;
+  question_ar?: string;
+  options: QuranLessonMcqOption[];
+}
+
 export interface QuranLessonComprehension {
-  reflective?: Array<{ question_id: string; question: string; question_ar?: string; quranic_ref?: string }>;
-  analytical?: Array<{ question_id: string; question: string; question_ar?: string; quranic_ref?: string }>;
-  mcqs?: Array<{ mcq_id: string; question: string; options: Array<{ option: string; is_correct: boolean }> }>;
+  reflective?: QuranLessonComprehensionQuestion[];
+  analytical?: QuranLessonComprehensionQuestion[];
+  mcqs?: QuranLessonMcq[] | { text?: QuranLessonMcq[] };
 }
 
 export interface QuranLesson {

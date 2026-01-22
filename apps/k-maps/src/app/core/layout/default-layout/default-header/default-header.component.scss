@@ -104,13 +104,51 @@
   min-width: 0;
 }
 
-.settings-dropdown {
-  width: 350px;
-  background: transparent;
+/* ================================
+   FIXED WIDTH + FULL HEIGHT MENU
+================================== */
+
+/* (Optional) make sure dropdown host doesn't constrain */
+.settings-dropdown-host {
+  position: relative;
 }
 
+/* This is the <ul cDropdownMenu> */
+.settings-dropdown-menu {
+  /* lock width */
+  width: 350px !important;
+  min-width: 350px !important;
+  max-width: 350px !important;
+
+  /* lock full height */
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: hidden !important; /* never resize; inner scroll handles */
+}
+
+/* remove default list spacing */
+.settings-shell {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================================
+   PANEL LAYOUT (header/body/footer)
+================================== */
+
 .settings-panel {
-  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
   border-radius: 1rem;
   background: linear-gradient(180deg, rgba(12, 15, 19, 0.95), rgba(6, 9, 14, 0.95));
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -118,43 +156,55 @@
     0 24px 55px rgba(0, 0, 0, 0.55),
     0 0 40px rgba(64, 213, 214, 0.25),
     inset 0 0 1px rgba(255, 255, 255, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 1rem 1.2rem 1.2rem;
-  font-size: 14px;
+
+  padding: 1rem 1.2rem;
+  gap: 0.85rem;
+  overflow: hidden; /* keep fixed; body will scroll */
 }
 
-.settings-panel-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-
+/* Tabs row (fixed) */
 .settings-panel-tabs {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.75rem;
+  gap: 0.5rem;
 }
 
 .settings-tab {
   flex: 1;
   background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.6);
-  padding: 0.5rem;
-  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.65);
+  padding: 0.55rem 0.6rem;
+  font-weight: 700;
   cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
-  font-size: 13px;
+  border-radius: 0.85rem;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 
 .settings-tab.active {
   color: #40d5d6;
   border-color: rgba(64, 213, 214, 0.8);
+  background: rgba(64, 213, 214, 0.08);
 }
 
+/* Scrollable middle */
+.settings-panel-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+}
+
+.settings-panel-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.settings-panel-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 99px;
+}
+
+/* Header */
 .settings-panel-label {
   text-transform: uppercase;
   font-size: 11px;
@@ -167,12 +217,14 @@
   margin: 0;
   font-size: 16px;
   letter-spacing: 0.03em;
+  color: #fff;
 }
 
 .settings-preview-section {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  margin-top: 0.75rem;
 }
 
 .settings-section-title {
@@ -181,6 +233,7 @@
   color: rgba(255, 255, 255, 0.65);
 }
 
+/* Preview card */
 .preview-card {
   border-radius: 1rem;
   padding: 0.75rem 1rem;
@@ -191,25 +244,42 @@
     0 20px 50px rgba(0, 0, 0, 0.5),
     0 0 25px rgba(64, 213, 214, 0.4),
     inset 0 0 18px rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.preview-arabic {
-  margin: 0;
-  font-size: 23px;
+.preview-box {
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  padding: 0.75rem 0.85rem;
   line-height: 1.8;
-  text-align: right;
-  font-family: 'Uthmanic Hafs', var(--app-font-ar, 'Scheherazade New', 'Amiri', serif);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow: visible;
 }
 
-.preview-translation {
-  margin: 0;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.7);
-  font-family: var(--app-font-sans, 'Poppins', system-ui);
+.preview-box--arabic {
+  direction: rtl;
+  text-align: right;
+}
+
+.preview-box--english {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Settings blocks */
+.setting-group {
+  margin-top: 0.9rem;
 }
 
 .setting-title {
-  margin: 0;
+  margin: 0 0 0.45rem;
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -227,19 +297,10 @@
   border: 1px solid transparent;
   background: rgba(255, 255, 255, 0.05);
   color: #fff;
-  padding: 0.35rem 0.6rem;
+  padding: 0.4rem 0.6rem;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: background 0.2s ease, border 0.2s ease;
-}
-
-.font-style-chip {
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.85rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-  font-size: 0.95rem;
-  text-align: center;
+  transition: background 0.2s ease, border 0.2s ease, color 0.2s ease;
 }
 
 .script-btn.active {
@@ -248,94 +309,43 @@
   color: #8fe6ff;
 }
 
-.font-style-select {
-  width: 100%;
-  border-radius: 0.65rem;
+.font-style-chip {
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.85rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.95rem;
+  text-align: center;
   color: #fff;
-  padding: 0.3rem 0.6rem;
-}
-
-.translation-card {
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.85rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.translation-slider-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.35rem 0.45rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 0.85rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.translation-slider-block .size-value {
-  font-size: 0.85rem;
-}
-
-.more-text {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.85rem;
-}
-
-.fonts-range-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 0.75rem;
 }
 
 .range-block {
   background: rgba(255, 255, 255, 0.02);
   border-radius: 0.75rem;
-  padding: 0.4rem 0.5rem;
+  padding: 0.5rem 0.6rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 }
 
-.range-block .size-value {
+.size-value {
   font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.reciter-card {
-  border-radius: 1rem;
-  padding: 0.85rem 1rem;
-  background: rgba(12, 16, 24, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.reciter-name {
-  margin: 0;
-  font-size: 0.95rem;
   font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.reciter-detail {
-  margin: 0;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
+.size-range {
+  accent-color: #7ad7ff;
 }
 
-.reciter-arrow {
-  font-size: 1.4rem;
-  color: rgba(255, 255, 255, 0.35);
-}
-
+/* Footer actions fixed */
 .settings-actions {
+  flex: 0 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: 0.25rem;
 }
 
 .link-btn {
@@ -349,14 +359,35 @@
 .primary-btn {
   border-radius: 0.85rem;
   border: none;
-  padding: 0.4rem 1.2rem;
+  padding: 0.45rem 1.25rem;
   background: #fff;
   color: #0b111c;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-.size-range {
-  accent-color: #7ad7ff;
+/* Divider + logout */
+.settings-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0.25rem 0 0.5rem;
+}
+
+.logout-btn {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 0.85rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: #fff;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
 }

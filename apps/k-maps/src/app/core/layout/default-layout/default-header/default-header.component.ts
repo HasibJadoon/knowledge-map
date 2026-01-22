@@ -9,8 +9,6 @@ import {
   BreadcrumbRouterComponent,
   ContainerComponent,
   DropdownComponent,
-  DropdownDividerDirective,
-  DropdownItemDirective,
   DropdownMenuDirective,
   DropdownToggleDirective,
   HeaderComponent,
@@ -43,8 +41,6 @@ import { HeaderSearchComponent } from '../../../../shared/components/header-sear
     DropdownComponent,
     DropdownToggleDirective,
     DropdownMenuDirective,
-    DropdownItemDirective,
-    DropdownDividerDirective,
     HeaderSearchComponent
   ]
 })
@@ -97,8 +93,6 @@ export class DefaultHeaderComponent extends HeaderComponent {
   selectedFontStyle = this.fontStyles[0];
   selectedReciter = this.reciters[0];
   activePreviewTab: 'arabic' | 'english' | 'more' = 'arabic';
-  englishTranslations = ['Dr. Mustafa Khattab, The Clear Quran', 'Saheeh International', 'Yusuf Ali'];
-  selectedTranslation = this.englishTranslations[0];
   englishFontSize = 22;
 
   constructor() {
@@ -385,8 +379,9 @@ export class DefaultHeaderComponent extends HeaderComponent {
   }
 
   selectFontStyle(event: Event) {
-    const value = (event.target as HTMLSelectElement).value;
-    this.selectedFontStyle = value;
+    const target = event.target as { value?: string } | null;
+    if (!target?.value) return;
+    this.selectedFontStyle = target.value;
   }
 
   resetAppearance() {
@@ -396,7 +391,6 @@ export class DefaultHeaderComponent extends HeaderComponent {
     this.loadFontSize();
     this.loadArabicFontSize();
     this.activePreviewTab = 'arabic';
-    this.selectedTranslation = this.englishTranslations[0];
     this.englishFontSize = 22;
   }
 

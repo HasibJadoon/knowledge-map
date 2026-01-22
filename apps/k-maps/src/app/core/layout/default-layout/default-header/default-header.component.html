@@ -7,8 +7,7 @@
       class="btn"
       toggle="visible"
       style="margin-inline-start: -14px;"
-      aria-label="Toggle sidebar navigation"
-    >
+      aria-label="Toggle sidebar navigation">
       <svg cIcon name="cilMenu" size="lg"></svg>
     </button>
     <div class="header-app-title">k-maps</div>
@@ -27,9 +26,9 @@
               [class.active]="studyTabIsActive('reading') || !currentUrl.includes('tab=')"
               [routerLink]="[]"
               [queryParams]="{ tab: 'reading' }"
-              queryParamsHandling="merge"
-            >
-              <span class="header-tab-icon icon-reading" aria-hidden="true"></span>
+              queryParamsHandling="merge">
+              <span class="header-tab-icon icon-reading"
+                aria-hidden="true"></span>
             </a>
           </li>
           <li class="nav-item">
@@ -38,9 +37,9 @@
               [class.active]="studyTabIsActive('memory')"
               [routerLink]="[]"
               [queryParams]="{ tab: 'memory' }"
-              queryParamsHandling="merge"
-            >
-              <span class="header-tab-icon icon-memory" aria-hidden="true"></span>
+              queryParamsHandling="merge">
+              <span class="header-tab-icon icon-memory"
+                aria-hidden="true"></span>
             </a>
           </li>
           <li class="nav-item">
@@ -49,8 +48,7 @@
               [class.active]="studyTabIsActive('mcq')"
               [routerLink]="[]"
               [queryParams]="{ tab: 'mcq' }"
-              queryParamsHandling="merge"
-            >
+              queryParamsHandling="merge">
               <span class="header-tab-icon icon-mcqs" aria-hidden="true"></span>
             </a>
           </li>
@@ -60,13 +58,14 @@
               [class.active]="studyTabIsActive('passage')"
               [routerLink]="[]"
               [queryParams]="{ tab: 'passage' }"
-              queryParamsHandling="merge"
-            >
-              <span class="header-tab-icon icon-passage" aria-hidden="true"></span>
+              queryParamsHandling="merge">
+              <span class="header-tab-icon icon-passage"
+                aria-hidden="true"></span>
             </a>
           </li>
         </ul>
-        <button class="btn btn-sm btn-outline-secondary study-edit-btn" (click)="onHeaderActionClick()">
+        <button class="btn btn-sm btn-outline-secondary study-edit-btn"
+          (click)="onHeaderActionClick()">
           Edit Lesson
         </button>
       </div>
@@ -76,7 +75,8 @@
         <div class="breadcrumb-row">
           <c-breadcrumb-router />
         </div>
-        <div class="header-breadcrumb-search" *ngIf="showHeaderSearch || showDiscourseFilters">
+        <div class="header-breadcrumb-search"
+          *ngIf="showHeaderSearch || showDiscourseFilters">
           <app-header-search
             *ngIf="showHeaderSearch"
             [placeholder]="headerPlaceholder"
@@ -87,8 +87,7 @@
             (primary)="onHeaderActionClick()"
             (secondary)="onHeaderSecondaryClick()"
             [tertiaryLabel]="headerTertiaryLabel"
-            (tertiary)="onHeaderTertiaryClick()"
-          />
+            (tertiary)="onHeaderTertiaryClick()" />
           <div class="header-filter-row" *ngIf="showDiscourseFilters">
             <button
               class="btn btn-sm header-filter-pill"
@@ -96,8 +95,7 @@
               [class.btn-secondary]="discourseFilterActive(filter.key)"
               type="button"
               *ngFor="let filter of discourseFilters"
-              (click)="toggleDiscourseFilter(filter.key)"
-            >
+              (click)="toggleDiscourseFilter(filter.key)">
               {{ filter.label }}
             </button>
           </div>
@@ -108,164 +106,151 @@
 </ng-container>
 <!--</c-header>-->
 
+<!-- HEADER SETTINGS DROPDOWN (Fixed width + full height) -->
 <ng-template #userDropdown>
-  <c-dropdown [popperOptions]="{ placement: 'bottom-start' }" variant="nav-item" autoClose="outside">
-    <button [caret]="false" cDropdownToggle class="py-0 pe-0" aria-label="Open user menu">
+  <c-dropdown
+    [popperOptions]="{ placement: 'bottom-start', strategy: 'fixed' }"
+    variant="nav-item"
+    autoClose="outside"
+    class="settings-dropdown-host">
+    <button [caret]="false" cDropdownToggle class="py-0 pe-0"
+      aria-label="Open user menu">
       <span class="settings-avatar">
         <svg cIcon name="cilSettings" size="lg"></svg>
       </span>
     </button>
-    <ul cDropdownMenu class="pt-0 w-auto settings-dropdown">
-      <li class="px-3 py-3">
+
+    <!-- IMPORTANT: removed w-auto -->
+    <ul cDropdownMenu class="pt-0 settings-dropdown-menu">
+      <li class="settings-shell">
         <div class="settings-panel">
-          <div class="settings-panel-tabs">
+          <!-- TOP: tabs (fixed) -->
+          <div class="settings-panel-tabs" role="tablist"
+            aria-label="Appearance tabs">
             <button
               type="button"
               class="settings-tab"
               [class.active]="activePreviewTab === 'arabic'"
-              (click)="setPreviewTab('arabic')"
-            >
+              (click)="setPreviewTab('arabic')">
               Arabic
             </button>
             <button
               type="button"
               class="settings-tab"
               [class.active]="activePreviewTab === 'english'"
-              (click)="setPreviewTab('english')"
-            >
+              (click)="setPreviewTab('english')">
               English
             </button>
-            <button
-              type="button"
-              class="settings-tab"
-              [class.active]="activePreviewTab === 'more'"
-              (click)="setPreviewTab('more')"
-            >
-              More
-            </button>
           </div>
-          <div class="settings-panel-header">
-            <div>
-              <p class="settings-panel-label">Preview</p>
-              <h3>Arabic appearance</h3>
+
+          <!-- BODY: scrollable -->
+          <div class="settings-panel-body">
+            <div class="settings-panel-header">
+              <div>
+                <p class="settings-panel-label">Preview</p>
+                <h3>
+                  {{ activePreviewTab === 'english' ? 'English appearance' :
+                  'Arabic appearance' }}
+                </h3>
+              </div>
             </div>
-          </div>
-          <div class="settings-preview-section">
-            <p class="settings-section-title">Preview:</p>
-            <article class="preview-card" aria-live="polite">
-              <p
-                *ngIf="activePreviewTab === 'arabic'"
-                class="preview-arabic"
-                [style.fontFamily]="selectedFontStyle"
-                [style.fontSize.px]="arabicFontSize"
-              >
-                {{ previewArabicText }}
-              </p>
-              <p
-                *ngIf="activePreviewTab === 'english'"
-                class="preview-translation"
-                [style.fontSize.px]="previewTranslationFontSize"
-              >
-                {{ previewTranslationText }}
-              </p>
-            </article>
-          </div>
-          <ng-container [ngSwitch]="activePreviewTab">
-            <div *ngSwitchCase="'arabic'">
-              <div class="setting-group">
-                <p class="setting-title">Script type</p>
-                <div class="script-toggle">
-                  <button
-                    type="button"
-                    *ngFor="let script of scriptModes"
-                    class="script-btn"
-                    [class.active]="selectedScriptMode === script"
-                    (click)="selectScriptMode(script)"
-                  >
-                    {{ script }}
-                  </button>
+
+            <div class="settings-preview-section">
+              <p class="settings-section-title">Preview:</p>
+
+              <article class="preview-card" aria-live="polite">
+                <div
+                  *ngIf="activePreviewTab === 'arabic'"
+                  class="preview-box preview-box--arabic"
+                  [style.fontFamily]="selectedFontStyle"
+                  [style.fontSize.px]="arabicFontSize"
+                >
+                  {{ previewArabicText }}
                 </div>
-              </div>
-              <div class="setting-group">
-                <p class="setting-title">Font style</p>
-                <div class="font-style-chip">{{ selectedFontStyle }}</div>
-              </div>
-              <div class="setting-group">
-                <p class="setting-title">Arabic size</p>
-                <div class="range-block">
-                  <span class="size-value">{{ arabicFontSize }}px</span>
-                  <input
-                    type="range"
-                    min="14"
-                    max="74"
-                    step="1"
-                    [value]="arabicFontSize"
-                    (input)="onArabicFontSizeInput($event)"
-                    class="form-range size-range"
-                  />
+
+                <div
+                  *ngIf="activePreviewTab === 'english'"
+                  class="preview-box preview-box--english"
+                  [style.fontSize.px]="previewTranslationFontSize"
+                >
+                  {{ previewTranslationText }}
                 </div>
-              </div>
-              <div class="setting-group reciter-section">
-                <p class="setting-title">Selected Reciter</p>
-                <div class="reciter-card">
-                  <div>
-                    <p class="reciter-name">{{ selectedReciter.name }}</p>
-                    <p class="reciter-detail">{{ selectedReciter.detail }}</p>
+              </article>
+            </div>
+
+            <ng-container [ngSwitch]="activePreviewTab">
+              <!-- ARABIC TAB -->
+              <div *ngSwitchCase="'arabic'">
+                <div class="setting-group">
+                  <p class="setting-title">Script type</p>
+                  <div class="script-toggle">
+                    <button
+                      type="button"
+                      *ngFor="let script of scriptModes"
+                      class="script-btn"
+                      [class.active]="selectedScriptMode === script"
+                      (click)="selectScriptMode(script)">
+                      {{ script }}
+                    </button>
                   </div>
-                  <span aria-hidden="true" class="reciter-arrow">›</span>
                 </div>
-              </div>
-            </div>
-            <div *ngSwitchCase="'english'">
-              <div class="setting-group">
-                <p class="setting-title">Selected English translation</p>
-                <div class="reciter-card translation-card">
-                  <div>
-                    <p class="reciter-name">{{ selectedTranslation }}</p>
-                    <p class="reciter-detail">Select one for the preview</p>
+
+                <div class="setting-group">
+                  <p class="setting-title">Font style</p>
+                  <div class="font-style-chip">{{ selectedFontStyle }}</div>
+                </div>
+
+                <div class="setting-group">
+                  <p class="setting-title">Arabic size</p>
+                  <div class="range-block">
+                    <span class="size-value">{{ arabicFontSize }}px</span>
+                    <input
+                      type="range"
+                      min="14"
+                      max="74"
+                      step="1"
+                      [value]="arabicFontSize"
+                      (input)="onArabicFontSizeInput($event)"
+                      class="form-range size-range" />
                   </div>
                 </div>
               </div>
-              <div class="setting-group">
-                <p class="setting-title">English size</p>
-                <div class="range-block translation-slider-block">
-                  <span class="size-value">{{ englishFontSize }}px</span>
-                  <input
-                    type="range"
-                    min="12"
-                    max="74"
-                    step="1"
-                    [value]="englishFontSize"
-                    (input)="onEnglishFontSizeInput($event)"
-                    class="form-range size-range"
-                  />
+
+              <!-- ENGLISH TAB -->
+              <div *ngSwitchCase="'english'">
+                <div class="setting-group">
+                  <p class="setting-title">English size</p>
+                  <div class="range-block">
+                    <span class="size-value">{{ englishFontSize }}px</span>
+                    <input
+                      type="range"
+                      min="12"
+                      max="74"
+                      step="1"
+                      [value]="englishFontSize"
+                      (input)="onEnglishFontSizeInput($event)"
+                      class="form-range size-range" />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div *ngSwitchCase="'more'">
-              <div class="setting-group">
-                <p class="setting-title">More coming soon</p>
-                <p class="more-text">
-                  Adjust tajweed marks, chapter colors, and audio cues from this area in the next
-                  update.
-                </p>
-              </div>
-            </div>
-          </ng-container>
+            </ng-container>
+          </div>
+
+          <!-- FOOTER: actions (fixed) -->
           <div class="settings-actions">
-            <button type="button" class="link-btn" (click)="resetAppearance()">Reset</button>
-            <button type="button" class="primary-btn" cDropdownToggle>Done</button>
+            <button type="button" class="link-btn"
+              (click)="resetAppearance()">Reset</button>
+            <button type="button" class="primary-btn"
+              cDropdownToggle>Done</button>
           </div>
+
+          <div class="settings-divider"></div>
+
+          <button class="logout-btn" type="button" (click)="logout()">
+            <svg cIcon class="me-2" name="cilAccountLogout"></svg>
+            Logout
+          </button>
         </div>
-      </li>
-      <li>
-        <hr cDropdownDivider />
-      </li>
-      <li>
-        <button cDropdownItem type="button" (click)="logout()">
-          <svg cIcon class="me-2" name="cilAccountLogout"></svg>
-          Logout
-        </button>
       </li>
     </ul>
   </c-dropdown>
