@@ -27,12 +27,29 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
   activeTab: 'study' | 'mcq' | 'passage' = 'study';
   mcqSelections: Record<string, { selectedIndex: number; isCorrect: boolean }> = {};
   private audioContext?: AudioContext;
+  selectedVerseId: string | null = null;
+  selectedQuestionId: string | null = null;
 
   get arabicParagraph(): string {
+    const arabicFull = (this.lesson?.text.arabic_full ?? [])
+      .map((verse) => verse.arabic?.trim())
+      .filter(Boolean) as string[];
+    if (arabicFull.length) {
+      return arabicFull.join(' ');
+    }
     const sentences = (this.lesson?.sentences ?? [])
       .map((sentence) => sentence.arabic?.trim())
       .filter(Boolean) as string[];
     return sentences.join(' ');
+  }
+
+  get verseList() {
+    return (this.lesson?.text.arabic_full ?? [])
+      .map((verse) => ({
+        id: verse.unit_id,
+        text: verse.arabic?.trim() ?? '',
+      }))
+      .filter((verse) => verse.text);
   }
 
   get sentenceGroups() {
@@ -78,6 +95,16 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     }
 
     return groups;
+  }
+
+  selectVerse(unitId: string) {
+    this.selectedVerseId = this.selectedVerseId === unitId ? null : unitId;
+  }
+
+  selectQuestion(question: QuranLessonComprehensionQuestion) {
+    const id = question.question_id ?? question.question;
+    if (!id) return;
+    this.selectedQuestionId = this.selectedQuestionId === id ? null : id;
   }
 
   get sentenceList() {

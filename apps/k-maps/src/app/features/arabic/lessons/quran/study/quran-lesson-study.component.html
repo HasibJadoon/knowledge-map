@@ -17,8 +17,15 @@
             </h4>
           </div>
           <hr class="study-card-divider" />
-          <div class="arabic-text" *ngIf="lesson.text.arabic_full.length; else noArabic">
-            <p class="arabic passage-paragraph">{{ arabicParagraph }}</p>
+          <div class="arabic-text" *ngIf="verseList.length; else noArabic">
+            <div
+              *ngFor="let verse of verseList"
+              class="arabic-verse"
+              [class.active]="selectedVerseId === verse.id"
+              (click)="selectVerse(verse.id)"
+            >
+              {{ verse.text }}
+            </div>
           </div>
           <ng-template #noArabic>
             <p class="text-muted">Arabic text is not available for this lesson yet.</p>
@@ -31,8 +38,12 @@
           </div>
           <hr class="study-card-divider" />
           <ng-container *ngIf="sentenceGroups.length > 0; else noSentences">
-            <div class="sentence-group" *ngFor="let group of sentenceGroups">
-              <p class="verse-heading">
+            <div
+              class="sentence-group"
+              *ngFor="let group of sentenceGroups"
+              [class.selected]="selectedVerseId === group.unitId"
+            >
+              <p class="verse-heading" (click)="selectVerse(group.unitId)">
                 <span class="verse-text">{{ group.verseArabic }}</span>
               </p>
               <hr class="verse-divider" />
@@ -109,7 +120,12 @@
                 <span>Reflective</span>
                 <small>Spend time thinking through the passage.</small>
               </div>
-              <article class="comp-item" *ngFor="let question of reflectiveQuestions">
+              <article
+                class="comp-item"
+                *ngFor="let question of reflectiveQuestions"
+                (click)="selectQuestion(question)"
+                [class.active]="selectedQuestionId === (question.question_id ?? question.question)"
+              >
                 <p class="comp-question text-gold">{{ question.question }}</p>
                 <!-- <p class="comp-question-ar" *ngIf="question.question_ar">{{ question.question_ar }}</p> -->
                 <p class="comp-hint" *ngIf="question.answer_hint">Hint: {{ question.answer_hint }}</p>
@@ -120,7 +136,14 @@
                 <span>Analytical</span>
                 <small>Trace how the story is constructed.</small>
               </div>
-              <article class="comp-item" *ngFor="let question of analyticalQuestions">
+              <article
+                class="comp-item"
+                *ngFor="let question of analyticalQuestions"
+                (click)="selectQuestion(question)"
+                [class.active]="
+                  selectedQuestionId === (question.question_id ?? question.question)
+                "
+              >
                 <p class="comp-question text-gold">{{ question.question }}</p>
                 <!-- <p class="comp-question-ar" *ngIf="question.question_ar">{{ question.question_ar }}</p> -->
                 <p class="comp-hint" *ngIf="question.answer_hint">Hint: {{ question.answer_hint }}</p>
