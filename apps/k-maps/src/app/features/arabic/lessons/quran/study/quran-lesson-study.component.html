@@ -17,11 +17,11 @@
             </h4>
           </div>
           <hr class="study-card-divider" />
-          <div class="arabic-text" *ngIf="verseList.length; else noArabic">
+          <div class="arabic-text glow-card" *ngIf="verseList.length; else noArabic">
             <div
               *ngFor="let verse of verseList"
-              class="arabic-verse"
-              [class.active]="selectedVerseId === verse.id"
+              class="arabic-verse glow-card"
+              [class.glow-card--active]="selectedVerseId === verse.id"
               (click)="selectVerse(verse.id)"
             >
               {{ verse.text }}
@@ -39,8 +39,9 @@
           <hr class="study-card-divider" />
           <ng-container *ngIf="sentenceGroups.length > 0; else noSentences">
             <div
-              class="sentence-group"
+              class="sentence-group glow-card"
               *ngFor="let group of sentenceGroups"
+              [class.glow-card--active]="selectedVerseId === group.unitId"
               [class.selected]="selectedVerseId === group.unitId"
             >
               <p class="verse-heading" (click)="selectVerse(group.unitId)">
@@ -62,7 +63,7 @@
     </ng-container>
     <ng-container *ngSwitchCase="'mcq'">
       <div class="study-grid study-grid--mcq">
-        <article class="study-card mcq-card" *ngIf="mcqQuestions.length; else noMcqs">
+        <article class="study-card mcq-card glow-card" *ngIf="mcqQuestions.length; else noMcqs">
           <div class="study-card-heading">
             <h4>Comprehension MCQs</h4>
             <h4 class="study-card-mode">{{ mcqQuestions.length }} questions</h4>
@@ -120,8 +121,8 @@
                 <span>Reflective</span>
                 <small>Spend time thinking through the passage.</small>
               </div>
-                <article
-                  class="comp-item"
+              <article
+                class="comp-item glow-card"
                   *ngFor="let question of reflectiveQuestions"
                   (click)="selectQuestion(question)"
                   [class.active]="selectedQuestionId === getQuestionKey(question)"
@@ -137,7 +138,7 @@
                 <small>Trace how the story is constructed.</small>
               </div>
               <article
-                class="comp-item"
+                class="comp-item glow-card"
                 *ngFor="let question of analyticalQuestions"
                 (click)="selectQuestion(question)"
                 [class.active]="selectedQuestionId === getQuestionKey(question)"

@@ -31,6 +31,33 @@ body {
   --app-font-ar: 'Uthmanic Hafs', 'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', 'Cairo', serif;
   --app-font-ar-size: 1.35rem;
   --app-gold: #ffd800;
+  --app-gold-rgb: 255, 216, 0;
+}
+
+.glow-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(var(--app-gold-rgb), 0.25);
+  background: rgba(0, 0, 0, 0.75);
+  box-shadow:
+    0 0 20px rgba(var(--app-gold-rgb), 0.25),
+    inset 0 0 10px rgba(255, 255, 255, 0.08);
+  transition: box-shadow 0.28s ease, transform 0.28s ease;
+  position: relative;
+}
+
+.glow-card:hover,
+.glow-card:focus-within {
+  box-shadow:
+    0 0 35px rgba(var(--app-gold-rgb), 0.35),
+    inset 0 0 12px rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.glow-card--active {
+  box-shadow:
+    0 0 45px rgba(var(--app-gold-rgb), 0.45),
+    inset 0 0 15px rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
 }
 
 .text-gold {
