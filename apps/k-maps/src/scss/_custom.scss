@@ -60,6 +60,105 @@ body {
   transform: translateY(-3px);
 }
 
+/* Arabic text styles begin */
+.arabic-text-container {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  background: rgba(4, 7, 16, 0.85);
+  box-shadow:
+    inset 0 0 8px rgba(255, 255, 255, 0.05);
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+  overflow: visible;
+}
+
+.arabic-text-container:hover {
+  box-shadow:
+    inset 0 0 8px rgba(255, 255, 255, 0.05),
+    0 0 40px rgba(255, 216, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.arabic-text {
+  margin: 0.35rem 0;
+  font-size: calc(var(--app-ar-font-size, 1.3rem) * 1.05);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  text-align: right;
+  direction: rtl;
+  font-family: var(--app-font-ar, 'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', 'Cairo', serif);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.8rem;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.arabic-text:hover {
+  box-shadow:
+    0 0 20px rgba(255, 216, 0, 0.25),
+    0 0 35px rgba(255, 216, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.arabic-text-selected {
+  background: #12203c73;
+  color: var(--app-gold);
+  box-shadow:
+    0 0 18px rgba(15, 110, 255, 0.45),
+    inset 0 0 8px rgba(67, 156, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.arabic-text.active {
+  box-shadow:
+    0 0 32px rgba(255, 216, 0, 0.35),
+    inset 0 0 10px rgba(255, 216, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.arabic-text-heading {
+  margin: 0 0 0.35rem;
+  font-size: calc(var(--app-ar-font-size, 1.3rem) * 1.05);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  display: flex;
+  gap: 0.35rem;
+  font-family: var(--app-font-ar, 'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', 'Cairo', serif);
+  text-align: right;
+  direction: rtl;
+  width: 100%;
+  padding-inline: 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.arabic-text-heading span {
+  color: #ffd800;
+}
+
+.arabic-text-heading:hover {
+  color: #fff;
+}
+
+.arabic-text-heading::after {
+  content: '';
+  position: absolute;
+  inset: -0.35rem 0.3rem -0.35rem;
+  border-radius: 1rem;
+  pointer-events: none;
+  box-shadow:
+    0 0 20px rgba(255, 216, 0, 0.3),
+    0 0 35px rgba(255, 216, 0, 0.25),
+    inset 0 0 10px rgba(255, 216, 0, 0.15);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.arabic-text-group.selected .arabic-text-heading::after {
+  opacity: 1;
+}
+
+/* Arabic text styles end */
+
 .text-gold {
   color: var(--app-gold);
 }
@@ -74,6 +173,15 @@ body {
   box-shadow:
     0 18px 36px rgba(0, 0, 0, 0.45),
     0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+/* Utility spacing helpers */
+.pl-20 {
+  padding-left: 20px;
+}
+
+.pr-20 {
+  padding-right: 20px;
 }
 
 /* Tabs hover lift */

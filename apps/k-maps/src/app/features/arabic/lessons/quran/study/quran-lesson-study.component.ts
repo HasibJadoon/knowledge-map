@@ -28,6 +28,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
   mcqSelections: Record<string, { selectedIndex: number; isCorrect: boolean }> = {};
   private audioContext?: AudioContext;
   selectedVerseId: string | null = null;
+  selectedSentenceKey: string | null = null;
   selectedQuestionId: string | null = null;
 
   get arabicParagraph(): string {
@@ -98,7 +99,22 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
   }
 
   selectVerse(unitId: string) {
-    this.selectedVerseId = this.selectedVerseId === unitId ? null : unitId;
+    const newSelection = this.selectedVerseId === unitId ? null : unitId;
+    this.selectedVerseId = newSelection;
+    if (!newSelection) {
+      this.selectedSentenceKey = null;
+    }
+  }
+
+  selectSentence(unitId: string, index: number) {
+    const key = `${unitId}-${index}`;
+    if (this.selectedSentenceKey === key) {
+      this.selectedSentenceKey = null;
+      this.selectedVerseId = null;
+      return;
+    }
+    this.selectedSentenceKey = key;
+    this.selectedVerseId = unitId;
   }
 
   getQuestionKey(question: QuranLessonComprehensionQuestion) {

@@ -17,11 +17,12 @@
             </h4>
           </div>
           <hr class="study-card-divider" />
-          <div class="arabic-text glow-card" *ngIf="verseList.length; else noArabic">
+          <div class="arabic-text-container" *ngIf="verseList.length; else noArabic">
             <div
               *ngFor="let verse of verseList"
-              class="arabic-verse glow-card"
+              class="arabic-text glow-card"
               [class.glow-card--active]="selectedVerseId === verse.id"
+              [class.arabic-text-selected]="selectedVerseId === verse.id"
               (click)="selectVerse(verse.id)"
             >
               {{ verse.text }}
@@ -37,24 +38,25 @@
             <h4 class="study-card-mode">{{ sentenceGroups.length }} verse groups</h4>
           </div>
           <hr class="study-card-divider" />
-          <ng-container *ngIf="sentenceGroups.length > 0; else noSentences">
+          <div class="arabic-text-container glow-card" *ngIf="sentenceGroups.length > 0; else noSentences">
             <div
-              class="sentence-group glow-card"
+              class="arabic-text-group arabic-text glow-card"
               *ngFor="let group of sentenceGroups"
-              [class.glow-card--active]="selectedVerseId === group.unitId"
-              [class.selected]="selectedVerseId === group.unitId"
             >
-              <p class="verse-heading" (click)="selectVerse(group.unitId)">
-                <span class="verse-text">{{ group.verseArabic }}</span>
+              <p class="arabic-text-heading glow-card">
+                <span class="arabic-heading-text pr-20">{{ group.verseArabic }}</span>
               </p>
-              <hr class="verse-divider" />
-              <div class="sentence-list">
-                <p class="arabic-sentence" *ngFor="let sentence of group.sentences">
-                  {{ sentence.arabic }}
-                </p>
-              </div>
+              <hr class="arabic-text-divider" />
+              <p
+                class="arabic-text"
+                *ngFor="let sentence of group.sentences; let idx = index"
+                [class.arabic-text-selected]="selectedSentenceKey === `${group.unitId}-${idx}`"
+                (click)="selectSentence(group.unitId, idx); $event.stopPropagation()"
+              >
+                {{ sentence.arabic }}
+              </p>
             </div>
-          </ng-container>
+          </div>
           <ng-template #noSentences>
             <p class="text-muted">Sentence segmentation is not available yet.</p>
           </ng-template>
