@@ -1,40 +1,95 @@
 /* =========================
    Sass uses (MUST be first)
    ========================= */
-
 @use "charts";
 @use "scrollbar";
-
 
 /* =========================
    Fonts
    ========================= */
-
-/* Qur’anic Arabic — Hafs (Uthmani) */
 @font-face {
-  font-family: 'Uthmanic Hafs';
-  src: url('/assets/fonts/UthmanicHafs_V22.woff2') format('woff2');
+  font-family: "Uthmanic Hafs";
+  src: url("/assets/fonts/UthmanicHafs_V22.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-/* English — Poppins (loaded via CSS import) */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
-/* Default English typography */
 body {
-  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 :root {
-  --app-font-ar: 'Uthmanic Hafs', 'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', 'Cairo', serif;
+  --app-font-ar: "Uthmanic Hafs", "Scheherazade New", "Amiri", "Noto Naskh Arabic", "Cairo", serif;
   --app-font-ar-size: 1.35rem;
+
   --app-gold: #ffd800;
   --app-gold-rgb: 255, 216, 0;
 }
 
+/* =========================
+   Layout: Study page
+   ========================= */
+.lesson-study {
+  padding: 0.75rem 0.75rem 2rem;
+}
+
+.study-header.single-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.study-title h2 {
+  margin: 0;
+  font-weight: 700;
+}
+
+.study-divider {
+  margin: 0.75rem 0 1rem;
+  opacity: 0.25;
+}
+
+/* =========================
+   Study cards
+   ========================= */
+.study-card {
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.study-card-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.study-card-heading h4 {
+  margin: 0;
+  font-weight: 700;
+}
+
+.study-card-mode {
+  margin: 0;
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.study-card-divider {
+  margin: 0.75rem 0 0.9rem;
+  opacity: 0.2;
+}
+
+/* =========================
+   Shared glow card
+   ========================= */
 .glow-card {
+  position: relative;
   border-radius: 1rem;
   border: 1px solid rgba(var(--app-gold-rgb), 0.25);
   background: rgba(0, 0, 0, 0.75);
@@ -42,7 +97,6 @@ body {
     0 0 20px rgba(var(--app-gold-rgb), 0.25),
     inset 0 0 10px rgba(255, 255, 255, 0.08);
   transition: box-shadow 0.28s ease, transform 0.28s ease;
-  position: relative;
 }
 
 .glow-card:hover,
@@ -60,14 +114,15 @@ body {
   transform: translateY(-3px);
 }
 
-/* Arabic text styles begin */
+/* =========================
+   Arabic: container
+   ========================= */
 .arabic-text-container {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   padding: 1rem 1.2rem;
   border-radius: 1rem;
   background: rgba(4, 7, 16, 0.85);
-  box-shadow:
-    inset 0 0 8px rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.05);
   transition: box-shadow 0.4s ease, transform 0.4s ease;
   overflow: visible;
 }
@@ -79,247 +134,210 @@ body {
   transform: translateY(-2px);
 }
 
+/* =========================
+   Arabic: BASE typography (use everywhere)
+   ========================= */
 .arabic-text {
-  margin: 0.35rem 0;
+  font-family: var(--app-font-ar);
   font-size: calc(var(--app-ar-font-size, 1.3rem) * 1.05);
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.6;
+  line-height: 1.75;
+
   text-align: right;
   direction: rtl;
-  font-family: var(--app-font-ar, 'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', 'Cairo', serif);
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.8rem;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.arabic-text:hover {
-  box-shadow:
-    0 0 20px rgba(255, 216, 0, 0.25),
-    0 0 35px rgba(255, 216, 0, 0.2);
-  transform: translateY(-1px);
-}
-
-.arabic-text-selected {
-  background: #12203c73;
-  color: var(--app-gold);
-  box-shadow:
-    0 0 18px rgba(15, 110, 255, 0.45),
-    inset 0 0 8px rgba(67, 156, 255, 0.25);
-  transform: translateY(-2px);
-}
-
-.arabic-text.active {
-  box-shadow:
-    0 0 32px rgba(255, 216, 0, 0.35),
-    inset 0 0 10px rgba(255, 216, 0, 0.3);
-  transform: translateY(-2px);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .arabic-text-heading {
   margin: 0 0 0.35rem;
-  font-size: calc(var(--app-ar-font-size, 1.3rem) * 1.05);
-  color: rgba(255, 255, 255, 0.85);
+  padding-inline: 20px; /* RTL-safe spacing */
+  cursor: pointer;
+
+  font-family: var(--app-font-ar);
+  font-size: calc(var(--app-font-ar-size) * 1.6); /* +20% */
   font-weight: 600;
-  display: flex;
-  gap: 0.35rem;
-  font-family: var(--app-font-ar, 'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', 'Cairo', serif);
+  line-height: 1.8;
+
   text-align: right;
   direction: rtl;
-  width: 100%;
-  padding-inline: 0;
-  position: relative;
-  cursor: pointer;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.arabic-text-heading span {
-  color: #ffd800;
-}
-
-.arabic-text-heading:hover {
-  color: #fff;
-}
-
-.arabic-text-heading::after {
-  content: '';
-  position: absolute;
-  inset: -0.35rem 0.3rem -0.35rem;
-  border-radius: 1rem;
-  pointer-events: none;
-  box-shadow:
-    0 0 20px rgba(255, 216, 0, 0.3),
-    0 0 35px rgba(255, 216, 0, 0.25),
-    inset 0 0 10px rgba(255, 216, 0, 0.15);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.arabic-text-group.selected .arabic-text-heading::after {
-  opacity: 1;
-}
-
-/* Arabic text styles end */
-
-.text-gold {
+.arabic-heading-text {
   color: var(--app-gold);
 }
 
-/* Global card hover lift */
-.card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow:
-    0 18px 36px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.12);
-}
-
-/* Utility spacing helpers */
-.pl-20 {
-  padding-left: 20px;
-}
-
-.pr-20 {
-  padding-right: 20px;
-}
-
-/* Tabs hover lift */
-.nav-tabs .nav-link {
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.nav-tabs .nav-link:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.12);
-}
-
-/* App content font sizing (exclude header/sidebar) */
-.body {
-  font-size: var(--app-font-size, 16px);
-}
-
-/* Form fields depth */
-textarea.form-control,
-input.form-control,
-select.form-control,
-select.form-select {
-  background: rgba(18, 22, 30, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 6px 14px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
-  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-}
-
-textarea.form-control:hover,
-input.form-control:hover,
-select.form-control:hover,
-select.form-select:hover {
-  box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-textarea.form-control:focus,
-input.form-control:focus,
-select.form-control:focus,
-select.form-select:focus {
-  box-shadow:
-    0 12px 26px rgba(0, 0, 0, 0.4),
-    0 0 0 2px rgba(42, 163, 199, 0.35);
-  border-color: rgba(42, 163, 199, 0.5);
-}
-
-/* Dashboard section heading divider (global fallback) */
-.section-title {
-  position: relative;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
-  font-size: 1.35rem;
-  font-weight: 700;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 4px;
-  background: #2aa3c7;
-  border-radius: 2px;
-}
-
-/* Dashboard hover fallback (global) */
-c-card.dashboard-card,
-c-card.dashboard-card .card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-c-card.dashboard-card:hover,
-c-card.dashboard-card:hover .card {
-  transform: translateY(-10px) scale(1.04);
-  box-shadow:
-    0 3rem 4.5rem rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.16),
-    0 0 24px rgba(122, 162, 255, 0.12);
-}
-
-/* JSON editor/preview typography (no custom coloring) */
-.json-editor,
-.json-preview {
-  font-family: 'Poppins', 'UthmanicHafs', 'Amiri', 'Noto Naskh Arabic', sans-serif !important;
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-.json-preview {
-  padding: 0.75rem 0.85rem;
-  white-space: pre-wrap;
-  word-break: break-word;
-  margin: 0;
-}
-
-/* JSON syntax colors (VS Code inspired, minimal) */
-.json-colored {
-  background: var(--cui-body-bg);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-}
-
-.json-colored .json-key {
-  color: #9cdcfe;
-}
-
-.json-colored .json-string {
-  color: #ce9178;
-}
-
-.json-colored .json-number {
-  color: #b5cea8;
-}
-
-.json-colored .json-boolean {
-  color: #569cd6;
-}
-
-.json-colored .json-null {
-  color: #c586c0;
-}
 
 
 /* =========================
-   Calendar tweaks
+   Arabic: rows (verses/sentences)
    ========================= */
-
-.calendar-cell.today {
-  --cui-calendar-cell-today-color: var(--cui-info) !important;
+.arabic-text-row {
+  padding: 0.6rem 0.75rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  margin: 0.45rem 0;
 }
 
-.select-week .calendar-row.current {
+/* Text-only highlight pill */
+.arabic-text-run {
+  display: inline-block; /* hugs content */
+  max-width: 100%;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.8rem;
+  transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+}
+
+/* Hover affects only text span (not whole row/card) */
+.arabic-text-row:hover .arabic-text-run {
+  box-shadow:
+    0 0 20px rgba(255, 216, 0, 0.25),
+    0 0 35px rgba(255, 216, 0, 0.2);
+}
+
+/* Selected affects only text span */
+.arabic-text-row.arabic-text-selected .arabic-text-run {
+  background: #12203c73;
+  color: #b39ddb;
+  box-shadow:
+    0 0 18px rgba(165, 219, 248, 0.975),
+    inset 0 0 8px rgba(248, 219, 1, 0.25);
+}
+
+/* =========================
+   Utilities
+   ========================= */
+.text-gold {
+  color: var(--app-gold);
+}
+.text-muted {
+  opacity: 0.75;
+}
+.pl-20 { padding-left: 20px; }
+.pr-20 { padding-right: 20px; }
+
+/* =========================
+   Grids (mcq / comprehension)
+   ========================= */
+.study-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.study-grid--mcq {
+  grid-template-columns: 1fr;
+}
+
+.comprehension-grid {
+  grid-template-columns: 1fr;
+}
+
+/* =========================
+   MCQ
+   ========================= */
+.mcq-list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.mcq-question-card {
+  padding: 0.9rem;
+  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mcq-question-text {
+  margin: 0 0 0.65rem;
+  font-weight: 600;
+}
+
+.mcq-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.mcq-option {
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.75rem;
+  background: rgba(18, 22, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.mcq-option:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.mcq-option--correct {
+  border-color: rgba(60, 255, 170, 0.55);
+  box-shadow: 0 0 0 2px rgba(60, 255, 170, 0.15);
+}
+
+.mcq-option--incorrect {
+  border-color: rgba(255, 80, 80, 0.6);
+  box-shadow: 0 0 0 2px rgba(255, 80, 80, 0.15);
+}
+
+.mcq-feedback {
+  margin: 0.65rem 0 0;
+}
+
+.mcq-feedback-text--correct { color: rgba(60, 255, 170, 0.95); }
+.mcq-feedback-text--incorrect { color: rgba(255, 120, 120, 0.95); }
+
+/* =========================
+   Comprehension questions
+   ========================= */
+.comprehension-sections {
+  display: grid;
+  gap: 1rem;
+}
+
+.comp-section-heading {
+  display: grid;
+  gap: 0.1rem;
+  margin-bottom: 0.6rem;
+}
+
+.comp-section-heading span {
+  font-weight: 700;
+}
+
+.comp-section-heading small {
+  opacity: 0.75;
+}
+
+.comp-item {
+  padding: 0.85rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.comp-question {
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+}
+
+.comp-hint {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.comp-item.active {
+  box-shadow:
+    0 0 25px rgba(var(--app-gold-rgb), 0.25),
+    inset 0 0 10px rgba(255, 255, 255, 0.08);
+}
+
+/* =========================
+   Loading
+   ========================= */
+.loading {
+  padding: 1rem;
 }
