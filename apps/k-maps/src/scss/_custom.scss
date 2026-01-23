@@ -17,16 +17,22 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
-body {
-  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
-}
-
 :root {
+  --app-font-size: 16px;
+  --app-font-sans: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
   --app-font-ar: "Uthmanic Hafs", "Scheherazade New", "Amiri", "Noto Naskh Arabic", "Cairo", serif;
   --app-font-ar-size: 1.35rem;
 
   --app-gold: #ffd800;
   --app-gold-rgb: 255, 216, 0;
+}
+
+html {
+  font-size: var(--app-font-size, 16px);
+}
+
+body {
+  font-family: var(--app-font-sans, "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif);
 }
 
 /* =========================

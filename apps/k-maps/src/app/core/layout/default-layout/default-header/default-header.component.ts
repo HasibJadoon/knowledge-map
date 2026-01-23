@@ -338,6 +338,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
       // ignore storage errors
     }
     this.fontSize = value;
+    this.englishFontSize = value;
     this.applyFontSize(value);
     try {
       if (value === 20) {
@@ -391,7 +392,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     this.loadFontSize();
     this.loadArabicFontSize();
     this.activePreviewTab = 'arabic';
-    this.englishFontSize = 22;
+    this.englishFontSize = this.fontSize;
   }
 
   private syncArabicSizeWithText(textSize: number) {
@@ -410,6 +411,9 @@ export class DefaultHeaderComponent extends HeaderComponent {
     const value = Number(target.value);
     if (!Number.isFinite(value)) return;
     this.englishFontSize = value;
+    this.fontSize = value;
+    this.applyFontSize(value);
+    this.syncArabicSizeWithText(value);
   }
 
 }
