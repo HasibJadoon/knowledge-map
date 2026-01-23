@@ -44,6 +44,11 @@ export const navItems: INavData[] = [
     ]
   },
   {
+    name: 'Docs',
+    url: '/docs',
+    iconComponent: { name: 'cilBook' }
+  },
+  {
     name: 'Discourse',
     iconComponent: { name: 'cilSpeech' },
     children: [

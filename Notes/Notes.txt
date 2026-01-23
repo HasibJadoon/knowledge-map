@@ -11,4 +11,6 @@ cd apps/k-maps
 npm ci
 npm run build
 
-Test
+Document Seed
+node scripts/seed-docs.mjs
+npx wrangler d1 execute DB --remote --file database/migrations/seed-docs.sql

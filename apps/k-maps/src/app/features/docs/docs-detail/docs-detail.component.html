@@ -1,0 +1,19 @@
+<div class="doc-detail">
+  <a routerLink="/docs" class="doc-back">← Back to docs</a>
+
+  <div *ngIf="loading" class="doc-loading">Loading document…</div>
+  <p *ngIf="error" class="doc-error">{{ error }}</p>
+
+  <article *ngIf="doc" class="doc-article">
+    <header>
+      <p class="doc-status">{{ doc.status }}</p>
+      <h1>{{ doc.title }}</h1>
+      <p class="doc-meta">
+        <span *ngIf="doc.tags?.length">{{ doc.tags.join(', ') }}</span>
+        <span *ngIf="doc.updated_at">· Updated {{ doc.updated_at | date: 'medium' }}</span>
+      </p>
+    </header>
+
+    <section class="doc-body" [innerHTML]="html"></section>
+  </article>
+</div>

@@ -44,6 +44,11 @@ export const routes: Routes = [
           import('./features/worldview/routes').then(m => m.routes),
       },
       {
+        path: 'docs',
+        loadChildren: () =>
+          import('./features/docs/routes').then((m) => m.routes),
+      },
+      {
         path: 'crossref',
         loadChildren: () =>
           import('./features/crossref/routes').then(m => m.routes),

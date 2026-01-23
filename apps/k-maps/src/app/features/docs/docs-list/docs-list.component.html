@@ -1,0 +1,23 @@
+<div class="docs-list">
+  <header class="docs-header">
+    <h1>Docs</h1>
+    <p class="docs-subtitle">Reference pages seeded from the markdown wiki.</p>
+  </header>
+
+  <div *ngIf="loading" class="docs-loading">Loading docs…</div>
+  <p *ngIf="!loading && error" class="docs-error">{{ error }}</p>
+
+  <ul *ngIf="!loading && !error" class="doc-items">
+    <li *ngFor="let doc of docs" class="doc-item">
+      <a [routerLink]="['/docs', doc.slug]" class="doc-link">
+        <h3>{{ doc.title }}</h3>
+      </a>
+      <p class="doc-meta">
+        <span class="doc-status">{{ doc.status }}</span>
+        <span *ngIf="doc.tags?.length">· {{ doc.tags.join(', ') }}</span>
+      </p>
+    </li>
+  </ul>
+
+  <p *ngIf="!loading && !error && !docs.length" class="docs-empty">No docs available yet.</p>
+</div>
