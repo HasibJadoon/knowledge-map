@@ -8,14 +8,41 @@
 }
 
 .docs-link {
-  padding: 0.35rem 0.75rem;
-  border-color: rgba(15, 23, 42, 0.2);
-  color: rgba(15, 23, 42, 0.8);
-  transition: border-color 0.2s ease, color 0.2s ease;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.docs-link .docs-icon {
+  width: 26px;
+  height: 26px;
+  display: block;
+  background-image: url('/assets/images/app-icons/docs.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .docs-link:hover,
+.docs-link:focus-visible {
+  border-color: rgba(249, 177, 21, 0.8);
+  background: rgba(249, 177, 21, 0.16);
+  transform: translateY(-1px);
+}
+
+.docs-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
 .docs-link.active {
-  color: #0f172a;
-  border-color: rgba(15, 23, 42, 0.4);
+  border-color: rgba(249, 177, 21, 0.8);
+  background: rgba(249, 177, 21, 0.22);
 }

@@ -21,7 +21,7 @@ Result:
 
 ---
 
-## The 6 Core Tables (Very Simple)
+## The 6 Core Tables 
 
 ### 1. `quran_sentences`
 Stores one study sentence (ayah or clause).

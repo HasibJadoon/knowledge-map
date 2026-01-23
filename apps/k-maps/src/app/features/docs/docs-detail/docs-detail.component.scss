@@ -44,6 +44,8 @@
   line-height: 1.6;
   margin-top: 1.5rem;
   color: #e2e8f0;
+  font-family: var(--app-font-ar, "Uthmanic Hafs", "Scheherazade New", "Amiri", "Noto Naskh Arabic", "Cairo", serif),
+    var(--app-font-sans, "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif);
 }
 
 .doc-body h2,
