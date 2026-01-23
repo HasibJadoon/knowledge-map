@@ -1,6 +1,6 @@
 import { NgFor, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 import {
@@ -37,6 +37,7 @@ import { HeaderSearchComponent } from '../../../../shared/components/header-sear
     NgSwitch,
     NgSwitchCase,
     RouterLink,
+    RouterLinkActive,
     BreadcrumbRouterComponent,
     DropdownComponent,
     DropdownToggleDirective,

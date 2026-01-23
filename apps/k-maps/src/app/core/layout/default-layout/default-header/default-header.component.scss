@@ -1,3 +1,21 @@
 :host {
   display: block;
 }
+
+.header-docs-nav {
+  display: flex;
+  align-items: center;
+}
+
+.docs-link {
+  padding: 0.35rem 0.75rem;
+  border-color: rgba(15, 23, 42, 0.2);
+  color: rgba(15, 23, 42, 0.8);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.docs-link:hover,
+.docs-link.active {
+  color: #0f172a;
+  border-color: rgba(15, 23, 42, 0.4);
+}

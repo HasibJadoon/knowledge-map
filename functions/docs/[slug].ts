@@ -1,4 +1,4 @@
-import { requireAuth } from '../../_utils/auth';
+import { requireAuth } from '../_utils/auth';
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
 
 interface Env {
