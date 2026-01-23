@@ -13,6 +13,7 @@ const allowedOrigins = new Set([
   'https://app-k-maps.pages.dev',
   'http://localhost:8100',
   'http://localhost:5173',
+  'http://localhost:4200',
 ]);
 
 const corsHeaders = (origin: string | null) => {
