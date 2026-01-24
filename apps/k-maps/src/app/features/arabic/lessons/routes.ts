@@ -14,29 +14,5 @@ export const routes: Routes = [
   {
     path: 'literature',
     loadChildren: () => import('./literature/routes').then(m => m.literatureLessonRoutes)
-  },
-  {
-    path: 'new',
-    loadComponent: () =>
-      import('./ar-lesson-editor/ar-lesson-editor.component').then(m => m.ArLessonEditorComponent),
-    data: { title: 'New Arabic Lesson' }
-  },
-  {
-    path: ':id/edit',
-    loadComponent: () =>
-      import('./ar-lesson-editor/ar-lesson-editor.component').then(m => m.ArLessonEditorComponent),
-    data: { title: 'Edit Arabic Lesson' }
-  },
-  {
-    path: ':id/study',
-    loadComponent: () =>
-      import('./ar-lesson-study/ar-lesson-study.component').then(m => m.ArLessonStudyComponent),
-    data: { title: 'Study Arabic Lesson' }
-  },
-  {
-    path: ':id',
-    loadComponent: () =>
-      import('./ar-lesson-view/ar-lesson-view.component').then(m => m.ArLessonViewComponent),
-    data: { title: 'Arabic Lesson' }
   }
 ];

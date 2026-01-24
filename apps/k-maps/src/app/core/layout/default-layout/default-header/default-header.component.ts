@@ -64,18 +64,9 @@ export class DefaultHeaderComponent extends HeaderComponent {
   headerQuery = '';
   headerPlaceholder = 'Search';
   headerActionLabel = '';
-  headerActionKind:
-    | 'lesson-new'
-    | 'roots-refresh'
-    | 'roots-new'
-    | 'lesson-edit'
-    | 'lesson-study'
-    | 'worldview-new'
-    | '' = '';
+  headerActionKind: 'roots-new' | 'worldview-new' | '' = '';
   headerSecondaryLabel = '';
   headerSecondaryKind: 'refresh' | '' = '';
-  headerTertiaryLabel = '';
-  headerTertiaryKind: 'lesson-claude' | '' = '';
   showDiscourseFilters = false;
   discourseFilters = [
     { key: 'Epistemology', label: 'Epistemology' },
@@ -149,33 +140,11 @@ export class DefaultHeaderComponent extends HeaderComponent {
   }
 
   onHeaderActionClick() {
-    if (this.headerActionKind === 'lesson-new') {
-      this.router.navigate(['/arabic/lessons/new']);
-      return;
-    }
-    if (this.headerActionKind === 'roots-refresh') {
-      this.triggerRefresh();
-      return;
-    }
     if (this.headerActionKind === 'roots-new') {
       this.router.navigate(['/arabic/roots'], {
         queryParams: { new: Date.now() },
         queryParamsHandling: 'merge',
       });
-      return;
-    }
-    if (this.headerActionKind === 'lesson-edit') {
-      const id = this.currentPath.split('/arabic/lessons/')[1]?.split('/')[0];
-      if (id) {
-        this.router.navigate(['/arabic/lessons', id, 'edit']);
-      }
-      return;
-    }
-    if (this.headerActionKind === 'lesson-study') {
-      const id = this.currentPath.split('/arabic/lessons/')[1]?.split('/')[0];
-      if (id) {
-        this.router.navigate(['/arabic/lessons', id, 'study']);
-      }
       return;
     }
     if (this.headerActionKind === 'worldview-new') {
@@ -186,12 +155,6 @@ export class DefaultHeaderComponent extends HeaderComponent {
   onHeaderSecondaryClick() {
     if (this.headerSecondaryKind === 'refresh') {
       this.triggerRefresh();
-    }
-  }
-
-  onHeaderTertiaryClick() {
-    if (this.headerTertiaryKind === 'lesson-claude') {
-      this.router.navigate(['/arabic/lessons/claude']);
     }
   }
 
@@ -230,18 +193,16 @@ export class DefaultHeaderComponent extends HeaderComponent {
     this.headerTitle =
       this.resolveActiveTitle(this.router.routerState.snapshot.root) || 'k-maps';
     this.headerQuery = String(url.queryParams['q'] ?? '');
-    this.headerTertiaryLabel = '';
-    this.headerTertiaryKind = '';
+
+    this.showHeaderSearch = false;
+    this.headerPlaceholder = 'Search';
+    this.headerActionLabel = '';
+    this.headerActionKind = '';
+    this.headerSecondaryLabel = '';
+    this.headerSecondaryKind = '';
+    this.showDiscourseFilters = false;
 
     if (this.currentPath === '/arabic/lessons') {
-      this.showHeaderSearch = true;
-      this.headerPlaceholder = 'Search title or source';
-      this.headerActionLabel = 'New';
-      this.headerActionKind = 'lesson-new';
-      this.headerSecondaryLabel = 'Refresh';
-      this.headerSecondaryKind = 'refresh';
-      this.headerTertiaryLabel = 'Claude console';
-      this.headerTertiaryKind = 'lesson-claude';
       return;
     }
 
@@ -250,27 +211,10 @@ export class DefaultHeaderComponent extends HeaderComponent {
       this.headerPlaceholder = 'Search title, creator, or summary';
       this.headerActionLabel = 'Log Source';
       this.headerActionKind = 'worldview-new';
-      this.headerSecondaryLabel = '';
-      this.headerSecondaryKind = '';
-      this.showDiscourseFilters = false;
       return;
     }
 
-    if (this.currentPath.startsWith('/arabic/lessons/') && !this.currentPath.endsWith('/edit')) {
-      this.showHeaderSearch = false;
-      this.headerActionLabel = 'Edit';
-      this.headerActionKind = 'lesson-edit';
-      this.headerSecondaryLabel = '';
-      this.headerSecondaryKind = '';
-      return;
-    }
-
-    if (this.currentPath.endsWith('/edit')) {
-      this.showHeaderSearch = false;
-      this.headerActionLabel = 'Back to Study';
-      this.headerActionKind = 'lesson-study';
-      this.headerSecondaryLabel = '';
-      this.headerSecondaryKind = '';
+    if (this.currentPath.startsWith('/arabic/lessons/') && this.currentPath !== '/arabic/lessons') {
       return;
     }
 
@@ -281,17 +225,12 @@ export class DefaultHeaderComponent extends HeaderComponent {
       this.headerActionKind = 'roots-new';
       this.headerSecondaryLabel = 'Refresh';
       this.headerSecondaryKind = 'refresh';
-      this.showDiscourseFilters = false;
       return;
     }
 
     if (this.currentPath === '/discourse/concepts') {
       this.showHeaderSearch = true;
       this.headerPlaceholder = 'Search concepts';
-      this.headerActionLabel = '';
-      this.headerActionKind = '';
-      this.headerSecondaryLabel = '';
-      this.headerSecondaryKind = '';
       this.showDiscourseFilters = true;
       const categoriesParam = String(url.queryParams['categories'] ?? '').trim();
       this.activeDiscourseFilters = new Set(
@@ -303,21 +242,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     if (this.currentPath === '/docs' || this.currentPath.startsWith('/docs/')) {
       this.showHeaderSearch = true;
       this.headerPlaceholder = 'Search docs, tags, or keywords';
-      this.headerActionLabel = '';
-      this.headerActionKind = '';
-      this.headerSecondaryLabel = '';
-      this.headerSecondaryKind = '';
-      this.showDiscourseFilters = false;
-      return;
     }
-
-    this.showHeaderSearch = false;
-    this.headerPlaceholder = 'Search';
-    this.headerActionLabel = '';
-    this.headerActionKind = '';
-    this.headerSecondaryLabel = '';
-    this.headerSecondaryKind = '';
-    this.showDiscourseFilters = false;
   }
 
   private resolveActiveTitle(snapshot: ActivatedRouteSnapshot | null): string {

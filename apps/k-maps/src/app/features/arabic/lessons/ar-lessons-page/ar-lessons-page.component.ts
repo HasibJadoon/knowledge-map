@@ -69,7 +69,8 @@ export class ArLessonsPageComponent implements OnInit {
   }
 
   createNew() {
-    this.router.navigate(['/arabic/lessons/new']);
+    const target = this.lessonTypeFilter === 'other' ? 'literature' : 'quran';
+    this.router.navigate(['/arabic/lessons', target, 'new']);
   }
 
   selectLessonType(type: 'all' | 'quran' | 'other') {
@@ -81,26 +82,23 @@ export class ArLessonsPageComponent implements OnInit {
     });
   }
 
-  view(id: number) {
-    this.router.navigate(['/arabic/lessons', id]);
+  view(id: number, type: string) {
+    const prefix = this.getLessonPrefix(type);
+    this.router.navigate(['/arabic/lessons', prefix, id, 'view']);
   }
 
   study(row: { id: number; lesson_type: string }) {
-    const pathForQuran = ['/arabic/lessons/quran', row.id, 'study'];
-    const pathForLiterature = ['/arabic/lessons/literature', row.id, 'study'];
-    if (row.lesson_type === 'quran') {
-      this.router.navigate(pathForQuran);
-    } else {
-      this.router.navigate(pathForLiterature);
-    }
+    const prefix = this.getLessonPrefix(row.lesson_type);
+    this.router.navigate(['/arabic/lessons', prefix, row.id, 'study']);
   }
 
   edit(row: { id: number; lesson_type: string }) {
-    if (row.lesson_type === 'quran') {
-      this.router.navigate(['/arabic/lessons/quran', row.id, 'edit']);
-    } else {
-      this.router.navigate(['/arabic/lessons', row.id, 'edit']);
-    }
+    const prefix = this.getLessonPrefix(row.lesson_type);
+    this.router.navigate(['/arabic/lessons', prefix, row.id, 'edit']);
+  }
+
+  private getLessonPrefix(type?: string): 'quran' | 'literature' {
+    return type?.toLowerCase() === 'quran' ? 'quran' : 'literature';
   }
 
   statusBadgeClass(status: string) {
