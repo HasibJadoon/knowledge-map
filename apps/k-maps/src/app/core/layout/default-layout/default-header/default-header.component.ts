@@ -288,6 +288,17 @@ export class DefaultHeaderComponent extends HeaderComponent {
       return;
     }
 
+    if (this.currentPath === '/docs' || this.currentPath.startsWith('/docs/')) {
+      this.showHeaderSearch = true;
+      this.headerPlaceholder = 'Search docs, tags, or keywords';
+      this.headerActionLabel = '';
+      this.headerActionKind = '';
+      this.headerSecondaryLabel = '';
+      this.headerSecondaryKind = '';
+      this.showDiscourseFilters = false;
+      return;
+    }
+
     this.showHeaderSearch = false;
     this.headerPlaceholder = 'Search';
     this.headerActionLabel = '';

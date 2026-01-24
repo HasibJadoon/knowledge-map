@@ -515,3 +515,61 @@ body {
 .loading {
   padding: 1rem;
 }
+
+/* =====================================================
+   GLOBAL MARKDOWN SAFETY (DB + R2 IMAGES)
+   ===================================================== */
+
+.md-body {
+  min-width: 0;              /* critical for flex/grid parents */
+  max-width: 100%;
+  overflow-x: hidden;        /* stop image bleed */
+  line-height: 1.65;
+  color: #e2e8f0;
+}
+
+.md-body img {
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  display: block;
+}
+
+.md-body pre,
+.md-body code {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.md-body p {
+  margin: 0.75rem 0;
+}
+
+.md-body h1,
+.md-body h2,
+.md-body h3,
+.md-body h4 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.md-body table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+  display: block;
+}
+
+.md-body th,
+.md-body td {
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.md-body blockquote {
+  border-left: 4px solid rgba(255, 255, 255, 0.2);
+  padding-left: 1rem;
+  color: rgba(226, 232, 240, 0.85);
+  margin: 1rem 0;
+}

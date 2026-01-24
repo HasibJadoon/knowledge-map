@@ -1,18 +1,8 @@
 .docs-list {
   max-width: 860px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0;
   color: #f8fafc;
-}
-
-.docs-header h1 {
-  margin: 0;
-  font-size: 2rem;
-}
-
-.docs-subtitle {
-  margin: 0;
-  color: rgba(248, 250, 252, 0.7);
 }
 
 .docs-loading,
@@ -24,17 +14,18 @@
 
 .doc-items {
   list-style: none;
-  margin: 1.5rem 0 0;
+  margin: 0;
   padding: 0;
 }
 
 .doc-item {
-  padding: 1.1rem 0;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 0.2rem 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.15);
 }
 
 .doc-link {
   color: #f8fafc;
+  display: block;
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -44,18 +35,14 @@
   color: #f9b115;
 }
 
-.doc-link h3 {
+.doc-link h6 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .doc-meta {
-  margin: 0.35rem 0 0;
-  font-size: 0.9rem;
-  color: rgba(248, 250, 252, 0.65);
-}
-
-.doc-status {
-  text-transform: capitalize;
-  font-weight: 600;
+  font-size: 0.8rem;
+  color: rgba(248, 250, 252, 0.6);
+  margin-top: 0.2rem;
 }
