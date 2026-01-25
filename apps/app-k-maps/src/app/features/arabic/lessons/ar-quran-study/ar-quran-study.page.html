@@ -63,7 +63,7 @@
 
               <div class="arabic-text-container">
                 <div class="arabic-text-group " *ngFor="let group of sentenceGroups">
-                  <p class="arabic-text-heading glow-card arabic-text">
+                  <p class="arabic-text-heading glow-card">
                     <span class="arabic-heading-text">{{ group.verseArabic }}</span>
                   </p>
 
@@ -93,9 +93,9 @@
 
         <ng-container *ngSwitchCase="'mcq'">
           <div class="study-grid study-grid--mcq">
-            <article class="study-card mcq-card glow-card" *ngIf="mcqQuestions.length; else noMcqs">
+            <article class="study-card mcq-card " *ngIf="mcqQuestions.length; else noMcqs">
               <div class="study-card-heading">
-                <h4>Comprehension MCQs</h4>
+                <h4>MCQs</h4>
                 <h4 class="study-card-mode">{{ mcqQuestions.length }} questions</h4>
               </div>
 
@@ -149,7 +149,7 @@
           <div class="study-grid comprehension-grid">
             <article class="study-card comprehension-card" *ngIf="hasComprehensionQuestions; else noComprehension">
               <div class="study-card-heading">
-                <h4>Comprehension questions</h4>
+                <h4>Comprehension</h4>
                 <h4 class="study-card-mode">
                   {{ reflectiveQuestions.length + analyticalQuestions.length }} questions
                 </h4>
@@ -161,7 +161,6 @@
                 <section class="comp-section" *ngIf="reflectiveQuestions.length">
                   <div class="comp-section-heading">
                     <span>Reflective</span>
-                    <small>Spend time thinking through the passage.</small>
                   </div>
 
                   <article
@@ -178,7 +177,6 @@
                 <section class="comp-section" *ngIf="analyticalQuestions.length">
                   <div class="comp-section-heading">
                     <span>Analytical</span>
-                    <small>Trace how the story is constructed.</small>
                   </div>
 
                   <article

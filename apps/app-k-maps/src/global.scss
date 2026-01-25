@@ -76,6 +76,7 @@
   --app-font-ar: "Uthmanic Hafs", "Scheherazade New", serif;
   --app-gold: #ffd800;
   --app-gold-rgb: 255, 216, 0;
+  --app-heading-blue: #9ef0ff;
   --app-card-bg: rgba(3, 9, 31, 0.92);
   --app-card-border: rgba(255, 255, 255, 0.12);
 }
@@ -451,10 +452,12 @@ ion-content {
     transform: translateY(-2px);
   }
 
-  .arabic-text-selected {
-    background: rgba(255, 216, 0, 0.08);
-    border-radius: 0.75rem;
-    padding: 0.1rem 0.5rem;
+  .arabic-text-row.arabic-text-selected .arabic-text-run {
+    background: #12203c73;
+    color: #b39ddb;
+    box-shadow:
+      0 0 18px rgba(165, 219, 248, 0.975),
+      inset 0 0 8px rgba(248, 219, 1, 0.25);
   }
 
   .arabic-text-run {
@@ -545,12 +548,13 @@ ion-content {
   .comprehension-sections {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
+    padding-inline: 0.35rem;
   }
 
   .comprehension-card {
     border-radius: 1rem;
-    padding: 1.25rem;
+    padding: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(0, 0, 0, 0.25);
   }
@@ -575,7 +579,7 @@ ion-content {
   }
 
   .comp-item {
-    padding: 1rem;
+    padding: 1.25rem;
     border-radius: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(0, 0, 0, 0.35);
@@ -619,11 +623,14 @@ ion-content {
 
   .arabic-text-heading {
     margin: 0;
+    text-align: right;
+    direction: rtl;
+    font-family: var(--app-font-ar);
   }
 
   .arabic-heading-text {
     font-size: calc(var(--app-font-ar-size, 32px) * 0.75);
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--app-heading-blue);
     direction: rtl;
     text-align: right;
   }

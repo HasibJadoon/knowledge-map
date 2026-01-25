@@ -25,6 +25,7 @@
 
   --app-gold: #ffd800;
   --app-gold-rgb: 255, 216, 0;
+  --app-heading-blue: #9ef0ff;
 }
 
 html {
@@ -396,11 +397,11 @@ body {
 
   text-align: right;
   direction: rtl;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--app-heading-blue);
 }
 
 .arabic-heading-text {
-  color: var(--app-gold);
+  color: var(--app-heading-blue);
 }
 
 
