@@ -11,7 +11,9 @@
     <h2>Arabic Text</h2>
     <div class="arabic-text">
       <ng-container *ngFor="let unit of lesson.text.arabic_full">
-        <p class="ayah">{{ unit.arabic }}</p>
+        <div class="arabic-text-row">
+          <span class="arabic-text-run">{{ unit.arabic }}</span>
+        </div>
         <p class="translation" *ngIf="unit.translation">{{ unit.translation }}</p>
       </ng-container>
     </div>

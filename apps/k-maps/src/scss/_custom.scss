@@ -414,6 +414,9 @@ body {
   border-radius: 1rem;
   cursor: pointer;
   margin: 0.45rem 0;
+  text-align: right;
+  direction: rtl;
+  align-items: flex-end;
 }
 
 /* Text-only highlight pill */
@@ -434,11 +437,21 @@ body {
 
 /* Selected affects only text span */
 .arabic-text-row.arabic-text-selected .arabic-text-run {
+  display: inline;
   background: #12203c73;
   color: #b39ddb;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0.75rem;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
   box-shadow:
     0 0 18px rgba(165, 219, 248, 0.975),
     inset 0 0 8px rgba(248, 219, 1, 0.25);
+}
+
+.arabic-text-selected {
+  background: transparent !important;
+  padding: 0 !important;
 }
 
 /* =========================
