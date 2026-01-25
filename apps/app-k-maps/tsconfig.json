@@ -20,6 +20,10 @@
     "importHelpers": true,
     "target": "es2022",
     "module": "es2020",
+    "paths": {
+      "@babel/runtime": ["../node_modules/@babel/runtime"],
+      "@babel/runtime/*": ["../node_modules/@babel/runtime/*"]
+    },
     "lib": [
       "es2018",
       "dom"

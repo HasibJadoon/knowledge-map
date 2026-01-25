@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: ':id/study',
     loadComponent: () =>
-      import('./ar-lesson-study/ar-lesson-study.page').then((m) => m.ArLessonStudyPage),
+      import('./ar-quran-study/ar-quran-study.page').then((m) => m.ArQuranStudyPage),
   },
 ];
 
