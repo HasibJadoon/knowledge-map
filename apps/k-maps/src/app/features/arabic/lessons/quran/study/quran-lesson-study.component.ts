@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription, window } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { QuranLessonService } from '../../../../../shared/services/quran-lesson.service';
 import {

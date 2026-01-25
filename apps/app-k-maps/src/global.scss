@@ -648,7 +648,7 @@ ion-content {
   }
 
   .arabic-heading-text {
-    font-size: calc(var(--app-font-ar-size, 32px) * 0.75);
+    font-size: calc(var(--app-font-ar-size, 32px) * 1.2);
     color: var(--app-heading-blue);
     direction: rtl;
     text-align: right;
