@@ -82,11 +82,8 @@
         <div class="header-breadcrumb-row">
           <div class="header-breadcrumb-left">
             <div class="breadcrumb-row">
-              <c-breadcrumb-router />
+              <c-breadcrumb-router [items]="filteredBreadcrumbs()" />
             </div>
-          <div class="header-breadcrumb-title" *ngIf="showHeaderTitle && headerTitle">
-            <h1>{{ headerTitle }}</h1>
-          </div>
           </div>
           <div class="header-breadcrumb-search"
             *ngIf="showHeaderSearch || showDiscourseFilters">

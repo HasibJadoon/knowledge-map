@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { QuranLessonCreatorComponent } from './new/quran-lesson-creator.component';
+import { LessonCreatorComponent } from './lesson/lesson-creator.component';
 import { QuranLessonEditorComponent } from './edit/quran-lesson-editor.component';
 import { QuranLessonStudyComponent } from './study/quran-lesson-study.component';
 import { QuranLessonViewComponent } from './view/quran-lesson-view.component';
@@ -13,7 +13,11 @@ export const quranLessonRoutes: Routes = [
     path: '',
     data: { title: 'Quran Lessons' },
     children: [
-      { path: 'new', component: QuranLessonCreatorComponent, data: { title: 'New Quran Lesson' } },
+      {
+        path: 'new',
+        component: LessonCreatorComponent,
+        data: { title: 'New Quran Lesson', lessonType: 'quran' },
+      },
       { path: ':id/view', component: QuranLessonViewComponent, data: { title: 'Quran Lesson' } },
       { path: ':id/edit', component: QuranLessonEditorComponent, data: { title: 'Edit Quran Lesson' } },
       { path: ':id/study', component: QuranLessonStudyComponent, data: { title: 'Study Quran Lesson' } },

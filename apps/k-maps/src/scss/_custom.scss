@@ -169,6 +169,69 @@ body {
   gap: 1.25rem;
 }
 
+.tab-panel.study-card {
+  background: rgba(3, 9, 31, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 0 15px rgba(255, 255, 255, 0.03),
+    0 0 45px rgba(var(--app-gold-rgb), 0.1);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tab-panel.study-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 18px rgba(255, 255, 255, 0.05),
+    0 0 55px rgba(var(--app-gold-rgb), 0.18);
+}
+
+.tab-panel.study-card h2 {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--app-gold);
+}
+
+.tab-panel.study-card .study-card-mode {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.04em;
+}
+
+.tab-panel.study-card .study-card-divider {
+  margin: 0.65rem 0 1rem;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.json-textarea {
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(180deg, rgba(2, 5, 22, 0.95), rgba(5, 9, 28, 0.9));
+  color: #fff;
+  font-family: 'Fira Code', 'Source Code Pro', Menlo, monospace;
+  font-size: 1rem;
+  padding: 0.95rem 1rem;
+  line-height: 1.4;
+  resize: vertical;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.tab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.85rem;
+}
+
+.tab-panel .error {
+  margin-top: 0.6rem;
+  color: #ff8b8b;
+  font-size: 0.9rem;
+}
+
 .json-label {
   display: block;
   margin: 1rem 0 0.35rem;
@@ -650,38 +713,5 @@ body {
   .card-actions .btn {
     flex: 1;
     font-weight: 600;
-  }
-}
-
-.lesson-creator {
-  padding: 3rem 1.25rem;
-  max-width: 760px;
-  margin: 0 auto;
-
-  header {
-    margin-bottom: 1.5rem;
-
-    .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 0.3em;
-      font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    h1 {
-      margin: 0.5rem 0;
-      font-weight: 600;
-    }
-
-    p {
-      color: rgba(255, 255, 255, 0.75);
-      margin: 0;
-    }
-  }
-
-  .actions {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
   }
 }

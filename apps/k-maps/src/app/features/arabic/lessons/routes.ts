@@ -4,8 +4,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./ar-lessons-page/ar-lessons-page.component').then(m => m.ArLessonsPageComponent),
-    data: { title: 'Arabic Lessons' }
+      import('./ar-lessons-page/ar-lessons-page.component').then(m => m.ArLessonsPageComponent)
   },
   {
     path: 'quran',

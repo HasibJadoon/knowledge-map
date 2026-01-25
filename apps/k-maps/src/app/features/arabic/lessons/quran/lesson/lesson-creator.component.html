@@ -1,0 +1,214 @@
+<section class="lesson-editor">
+  <header class="lesson-editor-header">
+    <div></div>
+    <div class="lesson-editor-actions">
+      <button type="button" class="btn btn-ghost" (click)="clearLesson()">Reset</button>
+      <button type="button" class="btn btn-primary">Save</button>
+    </div>
+  </header>
+
+  <div class="editor-meta-panel glow-card">
+    <div class="meta-row">
+      <label>Title</label>
+      <input
+        class="meta-input"
+        [(ngModel)]="lessonMeta.title"
+        (ngModelChange)="onMetaInputChange()"
+        name="lessonTitle"
+        placeholder="Lesson title"
+      />
+    </div>
+    <div class="meta-grid">
+      <div class="meta-row">
+        <label>Type</label>
+        <input
+          class="meta-input"
+          [(ngModel)]="lessonMeta.lesson_type"
+          (ngModelChange)="onMetaInputChange()"
+          name="lessonType"
+        />
+      </div>
+      <div class="meta-row">
+        <label>Status</label>
+        <input
+          class="meta-input"
+          [(ngModel)]="lessonMeta.status"
+          (ngModelChange)="onMetaInputChange()"
+          name="lessonStatus"
+        />
+      </div>
+      <div class="meta-row">
+        <label>Subtype</label>
+        <input
+          class="meta-input"
+          [(ngModel)]="lessonMeta.subtype"
+          (ngModelChange)="onMetaInputChange()"
+          name="lessonSubtype"
+        />
+      </div>
+      <div class="meta-row">
+        <label>Source</label>
+        <input
+          class="meta-input"
+          [(ngModel)]="lessonMeta.referenceLabel"
+          (ngModelChange)="onMetaInputChange()"
+          name="lessonSource"
+        />
+      </div>
+      <div class="meta-row">
+        <label>Title (Arabic)</label>
+        <input
+          class="meta-input"
+          [(ngModel)]="lessonMeta.title_ar"
+          (ngModelChange)="onMetaInputChange()"
+          name="lessonTitleAr"
+        />
+      </div>
+      <div class="meta-row">
+        <label>Difficulty</label>
+        <input
+          class="meta-input"
+          type="number"
+          min="1"
+          [(ngModel)]="lessonMeta.difficulty"
+          (ngModelChange)="onMetaInputChange()"
+          name="lessonDifficulty"
+        />
+      </div>
+    </div>
+  </div>
+
+  <nav class="lesson-editor-tabs">
+    <button
+      *ngFor="let tab of tabs"
+      class="tab-btn"
+      [class.active]="selectedTab === tab.key"
+      (click)="selectTab(tab.key)"
+    >
+      {{ tab.label }}
+    </button>
+  </nav>
+
+  <p class="lesson-editor-note">
+    Paste each node's JSON (reference, text, sentences, discourse layers, comprehension) in its tab so the final payload includes every section.
+  </p>
+
+  <section class="tab-panel study-card" *ngIf="selectedTab === 'reference'">
+    <div class="study-card-heading">
+      <h2>Reference node</h2>
+      <h4 class="study-card-mode">Node JSON</h4>
+    </div>
+    <hr class="study-card-divider" />
+    <textarea
+      class="json-textarea"
+      rows="8"
+      [(ngModel)]="nodeJsonTexts.reference"
+    ></textarea>
+    <div class="tab-actions">
+      <button class="btn btn-outline-light" type="button" (click)="applyNodeJson('reference')">
+        Apply Reference JSON
+      </button>
+    </div>
+    <p class="error" *ngIf="nodeErrors.reference">{{ nodeErrors.reference }}</p>
+  </section>
+
+  <section class="tab-panel study-card" *ngIf="selectedTab === 'text'">
+    <div class="study-card-heading">
+      <h2>Text node</h2>
+      <h4 class="study-card-mode">Node JSON</h4>
+    </div>
+    <hr class="study-card-divider" />
+    <textarea
+      class="json-textarea"
+      rows="10"
+      [(ngModel)]="nodeJsonTexts.text"
+    ></textarea>
+    <div class="tab-actions">
+      <button class="btn btn-outline-light" type="button" (click)="applyNodeJson('text')">
+        Apply Text JSON
+      </button>
+    </div>
+    <p class="error" *ngIf="nodeErrors.text">{{ nodeErrors.text }}</p>
+  </section>
+
+  <section class="tab-panel study-card" *ngIf="selectedTab === 'sentences'">
+    <div class="study-card-heading">
+      <h2>Sentence segment nodes</h2>
+      <h4 class="study-card-mode">Node JSON</h4>
+    </div>
+    <hr class="study-card-divider" />
+    <textarea
+      class="json-textarea"
+      rows="10"
+      [(ngModel)]="nodeJsonTexts.sentences"
+    ></textarea>
+    <div class="tab-actions">
+      <button class="btn btn-outline-light" type="button" (click)="applyNodeJson('sentences')">
+        Apply Sentences JSON
+      </button>
+    </div>
+    <p class="error" *ngIf="nodeErrors.sentences">{{ nodeErrors.sentences }}</p>
+  </section>
+
+  <section class="tab-panel study-card" *ngIf="selectedTab === 'passage_layers'">
+    <div class="study-card-heading">
+      <h2>Discourse layers</h2>
+      <h4 class="study-card-mode">Node JSON</h4>
+    </div>
+    <hr class="study-card-divider" />
+    <textarea
+      class="json-textarea"
+      rows="10"
+      [(ngModel)]="nodeJsonTexts.passage_layers"
+    ></textarea>
+    <div class="tab-actions">
+      <button class="btn btn-outline-light" type="button" (click)="applyNodeJson('passage_layers')">
+        Apply Discourse Layers JSON
+      </button>
+    </div>
+    <p class="error" *ngIf="nodeErrors.passage_layers">{{ nodeErrors.passage_layers }}</p>
+  </section>
+
+  <section class="tab-panel study-card" *ngIf="selectedTab === 'comprehension'">
+    <div class="study-card-heading">
+      <h2>Comprehension node</h2>
+      <h4 class="study-card-mode">Node JSON</h4>
+    </div>
+    <hr class="study-card-divider" />
+    <textarea
+      class="json-textarea"
+      rows="10"
+      [(ngModel)]="nodeJsonTexts.comprehension"
+    ></textarea>
+    <div class="tab-actions">
+      <button
+        class="btn btn-outline-light"
+        type="button"
+        (click)="applyNodeJson('comprehension')"
+      >
+        Apply Comprehension JSON
+      </button>
+    </div>
+    <p class="error" *ngIf="nodeErrors.comprehension">{{ nodeErrors.comprehension }}</p>
+  </section>
+
+  <section class="tab-panel study-card" *ngIf="selectedTab === 'json'">
+    <div class="study-card-heading">
+      <h2>Full lesson JSON</h2>
+      <h4 class="study-card-mode">Editable JSON</h4>
+    </div>
+    <hr class="study-card-divider" />
+    <textarea
+      class="json-textarea"
+      rows="16"
+      [(ngModel)]="jsonText"
+    ></textarea>
+    <div class="tab-actions">
+      <button class="btn btn-outline-light" type="button" (click)="applyFullJson()">
+        Apply Entire JSON
+      </button>
+      <button class="btn btn-link" type="button" (click)="clearLesson()">Reset</button>
+    </div>
+    <p class="error" *ngIf="jsonError">{{ jsonError }}</p>
+  </section>
+</section>

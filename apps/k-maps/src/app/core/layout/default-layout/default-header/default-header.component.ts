@@ -1,5 +1,5 @@
 import { NgFor, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   NavigationEnd,
@@ -13,6 +13,7 @@ import {
   AvatarComponent,
   BadgeComponent,
   BreadcrumbRouterComponent,
+  BreadcrumbRouterService,
   ContainerComponent,
   DropdownComponent,
   DropdownMenuDirective,
@@ -20,12 +21,16 @@ import {
   HeaderComponent,
   HeaderNavComponent,
   HeaderTogglerDirective,
+  IBreadcrumbItem,
   SidebarToggleDirective
 } from '@coreui/angular';
 
 import { IconDirective } from '@coreui/icons-angular';
 import { AuthService } from '../../../../shared/services/AuthService';
 import { HeaderSearchComponent } from '../../../../shared/components/header-search/header-search.component';
+import { toSignal } from '@angular/core/rxjs-interop';
+
+const SKIPPED_BREADCRUMB_LABELS = new Set(['Arabic Lessons', 'Quran Lessons']);
 
 @Component({
   selector: 'app-default-header',
@@ -54,6 +59,10 @@ import { HeaderSearchComponent } from '../../../../shared/components/header-sear
 export class DefaultHeaderComponent extends HeaderComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
+  private breadcrumbService = inject(BreadcrumbRouterService);
+  private breadcrumbsSignal = toSignal(this.breadcrumbService.breadcrumbs$, {
+    initialValue: [],
+  });
 
   sidebarId = input('sidebar1');
 
@@ -64,7 +73,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
   headerQuery = '';
   headerPlaceholder = 'Search';
   headerActionLabel = '';
-  headerActionKind: 'roots-new' | 'worldview-new' | '' = '';
+  headerActionKind: 'lesson-new' | 'roots-new' | 'worldview-new' | '' = '';
   headerSecondaryLabel = '';
   headerSecondaryKind: 'refresh' | '' = '';
   showDiscourseFilters = false;
@@ -80,6 +89,10 @@ export class DefaultHeaderComponent extends HeaderComponent {
   private currentPath = '';
   headerTitle = 'k-maps';
   showHeaderTitle = false;
+  filteredBreadcrumbs = computed<IBreadcrumbItem[]>(() =>
+    this.breadcrumbsSignal().filter((item) => !SKIPPED_BREADCRUMB_LABELS.has(item?.label ?? ''))
+  );
+  lessonHeaderTarget: 'quran' | 'literature' = 'quran';
 
   readonly scriptModes = ['Uthmani', 'IndoPak', 'Tajweed'];
   readonly fontStyles = ['Uthmanic Hafs'];
@@ -140,6 +153,10 @@ export class DefaultHeaderComponent extends HeaderComponent {
   }
 
   onHeaderActionClick() {
+    if (this.headerActionKind === 'lesson-new') {
+      this.router.navigate(['/arabic/lessons', this.lessonHeaderTarget, 'new']);
+      return;
+    }
     if (this.headerActionKind === 'roots-new') {
       this.router.navigate(['/arabic/roots'], {
         queryParams: { new: Date.now() },
@@ -203,6 +220,14 @@ export class DefaultHeaderComponent extends HeaderComponent {
     this.showDiscourseFilters = false;
 
     if (this.currentPath === '/arabic/lessons') {
+      this.showHeaderSearch = true;
+      this.headerPlaceholder = 'Search title or source';
+      this.headerActionLabel = 'New';
+      this.headerActionKind = 'lesson-new';
+      this.headerSecondaryLabel = 'Refresh';
+      this.headerSecondaryKind = 'refresh';
+      const typeParam = String(url.queryParams['lesson_type'] ?? '').toLowerCase();
+      this.lessonHeaderTarget = typeParam === 'other' ? 'literature' : 'quran';
       return;
     }
 

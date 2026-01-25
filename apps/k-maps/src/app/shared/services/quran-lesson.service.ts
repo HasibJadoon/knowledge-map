@@ -48,4 +48,15 @@ export class QuranLessonService {
       { headers }
     );
   }
+
+  createLesson(payload: Omit<QuranLesson, 'id'>) {
+    const headers = new HttpHeaders({
+      'content-type': 'application/json',
+      ...this.auth.authHeaders(),
+    });
+
+    return this.http
+      .post<{ ok: boolean; result: QuranLesson }>(this.baseUrl, payload, { headers })
+      .pipe(map((res) => res.result));
+  }
 }

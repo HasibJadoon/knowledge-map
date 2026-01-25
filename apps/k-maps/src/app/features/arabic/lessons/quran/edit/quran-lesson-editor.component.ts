@@ -26,27 +26,50 @@ export class QuranLessonEditorComponent implements OnInit {
   lessonJson = '';
   activeTab: 'arabic' | 'sentences' | 'mcq' | 'comprehension' | 'json' = 'arabic';
   isSaving = false;
+  isNewLesson = false;
 
   ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (!isNaN(id)) {
-      this.service.getLesson(id).subscribe((lesson: QuranLesson) => {
-        const loadedLesson = lesson;
-        this.lesson = loadedLesson;
-        this.ensureDefaults();
-        this.lessonJson = JSON.stringify(this.lesson, null, 2);
-      });
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam !== null) {
+      const parsedId = Number(idParam);
+      if (!Number.isNaN(parsedId)) {
+        this.loadLesson(parsedId);
+        return;
+      }
     }
+    this.initializeNewLesson();
   }
 
   save() {
     if (!this.lesson) return;
     this.applyJsonFields();
     this.isSaving = true;
+
+    if (this.isNewLesson) {
+      const payload = this.buildCreatePayload();
+      this.service.createLesson(payload).subscribe({
+        next: (createdLesson) => {
+          this.isNewLesson = false;
+          this.lesson = createdLesson;
+          this.ensureDefaults();
+          this.lessonJson = JSON.stringify(this.lesson, null, 2);
+          this.isSaving = false;
+          this.navigateToView(createdLesson.id);
+        },
+        error: () => {
+          this.isSaving = false;
+        },
+      });
+      return;
+    }
+
     this.service.updateLesson(this.lesson.id, this.lesson).subscribe({
       next: () => {
         this.isSaving = false;
-        this.router.navigate(['../view'], { relativeTo: this.route });
+        const lessonId = this.lesson?.id;
+        if (lessonId) {
+          this.navigateToView(lessonId);
+        }
       },
       error: () => {
         this.isSaving = false;
@@ -58,6 +81,8 @@ export class QuranLessonEditorComponent implements OnInit {
     if (!this.lesson) return;
     try {
       const parsedLesson = JSON.parse(this.lessonJson) as QuranLesson;
+      parsedLesson.id = parsedLesson.id || this.lesson.id || 'new';
+      parsedLesson.lesson_type = parsedLesson.lesson_type || 'quran';
       this.lesson = parsedLesson;
       this.ensureDefaults();
       this.lessonJson = JSON.stringify(this.lesson, null, 2);
@@ -89,6 +114,12 @@ export class QuranLessonEditorComponent implements OnInit {
     if (!Array.isArray(this.lesson.comprehension.analytical)) {
       this.lesson.comprehension.analytical = [];
     }
+    if (!this.lesson.lesson_type) {
+      this.lesson.lesson_type = 'quran';
+    }
+    if (!this.lesson.id) {
+      this.lesson.id = this.isNewLesson ? 'new' : '';
+    }
   }
 
   private normalizeMcqs(
@@ -113,7 +144,60 @@ export class QuranLessonEditorComponent implements OnInit {
     return [];
   }
 
+  private loadLesson(id: number) {
+    this.service.getLesson(id).subscribe((lesson: QuranLesson) => {
+      this.isNewLesson = false;
+      this.lesson = lesson;
+      this.ensureDefaults();
+      this.lessonJson = JSON.stringify(this.lesson, null, 2);
+    });
+  }
+
+  private initializeNewLesson() {
+    this.isNewLesson = true;
+    this.lesson = this.buildBlankLesson();
+    this.ensureDefaults();
+    this.lessonJson = JSON.stringify(this.lesson, null, 2);
+  }
+
+  private buildBlankLesson(): QuranLesson {
+    return {
+      id: 'new',
+      title: '',
+      lesson_type: 'quran',
+      status: 'draft',
+      text: {
+        arabic_full: [],
+        mode: 'original',
+      },
+      sentences: [],
+      comprehension: {
+        mcqs: [],
+      },
+      reference: {},
+    };
+  }
+
+  private buildCreatePayload(): Omit<QuranLesson, 'id'> {
+    if (!this.lesson) {
+      const blank = this.buildBlankLesson();
+      const { id, ...rest } = blank;
+      return rest;
+    }
+    const { id, ...rest } = this.lesson;
+    return rest;
+  }
+
+  private navigateToView(lessonId: string) {
+    if (!lessonId) return;
+    this.router.navigate(['/arabic/lessons/quran', lessonId, 'view']);
+  }
+
   back() {
+    if (this.isNewLesson) {
+      this.router.navigate(['/arabic/lessons/quran']);
+      return;
+    }
     this.router.navigate(['../study'], { relativeTo: this.route });
   }
 
