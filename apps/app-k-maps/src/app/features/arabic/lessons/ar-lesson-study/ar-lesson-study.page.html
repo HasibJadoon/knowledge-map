@@ -1,0 +1,286 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="back-icon" fill="clear" (click)="back()">
+        <ion-icon [icon]="icons.arrowBackOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ title || 'Arabic Lesson Study' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="study-page ion-padding app-text-select">
+    <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
+    <div *ngIf="loading" class="text-muted">Loading…</div>
+
+    <div *ngIf="!loading && !error" class="lesson-study">
+      <section class="lesson-meta-panel glow-card">
+        <div class="lesson-meta-heading">
+          <p class="lesson-editor-subtitle">{{ lessonTypeLabel }}</p>
+          <h1>{{ title || 'Arabic Lesson Study' }}</h1>
+          <p *ngIf="titleAr" class="lesson-meta-ar">{{ titleAr }}</p>
+        </div>
+        <div class="meta-grid">
+          <div class="meta-row">
+            <span class="meta-label">Type</span>
+            <span class="meta-pill">{{ lessonType || 'quran' }}</span>
+          </div>
+          <div class="meta-row" *ngIf="status">
+            <span class="meta-label">Status</span>
+            <span class="meta-pill">{{ status }}</span>
+          </div>
+          <div class="meta-row" *ngIf="subtype">
+            <span class="meta-label">Subtype</span>
+            <span class="meta-pill">{{ subtype }}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Difficulty</span>
+            <span class="meta-pill">{{ difficultyLabel }}</span>
+          </div>
+          <div class="meta-row" *ngIf="source">
+            <span class="meta-label">Source</span>
+            <span class="meta-value">
+              <a
+                *ngIf="hasSourceLink; else sourceText"
+                class="link"
+                [href]="source"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ source }}
+              </a>
+              <ng-template #sourceText>{{ source }}</ng-template>
+            </span>
+          </div>
+          <div class="meta-row" *ngIf="lessonReference">
+            <span class="meta-label">Reference</span>
+            <span class="meta-value">{{ lessonReference }}</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="lesson-editor-tabs">
+        <button
+          type="button"
+          *ngFor="let tab of studyTabs"
+          class="tab-btn"
+          [class.active]="activeTab === tab.key"
+          (click)="setActiveTab(tab.key)"
+        >
+          {{ tab.label }}
+        </button>
+      </div>
+
+      <div class="study-content">
+        <ng-container *ngIf="activeTab === 'reading'">
+          <article class="study-card">
+            <div class="study-card-heading">
+              <h2>Arabic text</h2>
+              <h4 class="study-card-mode">{{ readingSegments.length }} segments</h4>
+            </div>
+            <hr class="study-card-divider" />
+
+            <div *ngIf="readingText; else noArabic" class="arabic-text" tabindex="0" (keydown)="onReadingKeydown($event)">
+              <span
+                class="arabic-segment"
+                *ngFor="let segment of readingSegments; let i = index"
+                [class.is-highlighted]="isReadingHighlighted(i)"
+                [class.is-selected]="selectedIndex === i"
+                [class.is-hovered]="hoverIndex === i"
+                [class.is-verse-marker]="isVerseMarker(segment)"
+                (mouseenter)="onReadingHover(i)"
+                (mouseleave)="onReadingLeave()"
+                (click)="onReadingSelect(i)"
+              >
+                {{ getArabicDisplay(segment) }}
+              </span>
+            </div>
+            <ng-template #noArabic>
+              <p class="text-muted">Arabic text is not available yet.</p>
+            </ng-template>
+
+            <ng-container *ngIf="sentencesText">
+              <div class="memory-label mt-3">Arabic sentences</div>
+              <hr class="mini-neon-divider" />
+              <div class="arabic-text arabic-sentences" tabindex="0" (keydown)="onSentenceKeydown($event)">
+                <div class="arabic-sentence-line" *ngFor="let line of sentenceLineSegments; let i = index">
+                  <span
+                    class="arabic-segment"
+                    *ngFor="let segment of line"
+                    [class.is-highlighted]="isSentenceHighlighted(i)"
+                    [class.is-selected]="sentenceSelectedIndex === i"
+                    [class.is-hovered]="sentenceHoverIndex === i"
+                    [class.is-verse-marker]="isVerseMarker(segment)"
+                    (mouseenter)="onSentenceHover(i)"
+                    (mouseleave)="onSentenceLeave()"
+                    (click)="onSentenceSelect(i)"
+                  >
+                    {{ getArabicDisplay(segment) }}
+                  </span>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="translationText">
+              <div class="memory-label mt-3">Translation</div>
+              <hr class="mini-neon-divider" />
+              <div class="translation-text text-muted" tabindex="0" (keydown)="onTranslationKeydown($event)">
+                <span
+                  class="translation-segment"
+                  *ngFor="let segment of translationSegments; let i = index"
+                  [class.is-highlighted]="isTranslationHighlighted(i)"
+                  [class.is-selected]="translationSelectedIndex === i"
+                  [class.is-hovered]="translationHoverIndex === i"
+                  (mouseenter)="onTranslationHover(i)"
+                  (mouseleave)="onTranslationLeave()"
+                  (click)="onTranslationSelect(i)"
+                >
+                  <span class="translation-number" *ngIf="getTranslationNumber(segment) as number">
+                    {{ number }}
+                  </span>
+                  {{ getTranslationText(segment) }}
+                </span>
+              </div>
+            </ng-container>
+          </article>
+        </ng-container>
+
+        <ng-container *ngIf="activeTab === 'memory'">
+          <article class="study-card">
+            <div class="study-card-heading">
+              <h2>Memory practice</h2>
+            </div>
+            <hr class="study-card-divider" />
+            <div class="memory-label">Verbs</div>
+            <hr class="mini-neon-divider" />
+            <div class="arabic-inline">
+              <span
+                class="word-segment"
+                *ngFor="let word of verbSegments; let i = index"
+                [class.is-highlighted]="isVerbHighlighted(i)"
+                [class.is-selected]="verbSelectedIndex === i"
+                [class.is-hovered]="verbHoverIndex === i"
+                (mouseenter)="onVerbHover(i)"
+                (mouseleave)="onVerbLeave()"
+                (click)="onVerbSelect(i)"
+              >
+                {{ word }}
+              </span>
+            </div>
+
+            <div class="memory-label mt-3">Nouns</div>
+            <hr class="mini-neon-divider" />
+            <div class="arabic-inline">
+              <span
+                class="word-segment"
+                *ngFor="let word of nounSegments; let i = index"
+                [class.is-highlighted]="isNounHighlighted(i)"
+                [class.is-selected]="nounSelectedIndex === i"
+                [class.is-hovered]="nounHoverIndex === i"
+                (mouseenter)="onNounHover(i)"
+                (mouseleave)="onNounLeave()"
+                (click)="onNounSelect(i)"
+              >
+                {{ word }}
+              </span>
+            </div>
+
+            <div class="memory-label mt-3">Questions</div>
+            <hr class="mini-neon-divider" />
+            <ul class="list-unstyled question-list memory-list" tabindex="0" (keydown)="onMemoryQuestionKeydown($event)">
+              <li
+                *ngFor="let q of memoryQuestions; let i = index"
+                [ngClass]="isArabicText(q) ? 'arabic-question' : ''"
+                (mouseenter)="onMemoryQuestionHover(i)"
+                (mouseleave)="onMemoryQuestionLeave()"
+                (click)="onMemoryQuestionSelect(i)"
+              >
+                <span
+                  class="question-item"
+                  [class.is-highlighted]="isMemoryQuestionHighlighted(i)"
+                  [class.is-selected]="memoryQuestionSelectedIndex === i"
+                  [class.is-hovered]="memoryQuestionHoverIndex === i"
+                >
+                  {{ q }}
+                </span>
+              </li>
+            </ul>
+          </article>
+        </ng-container>
+
+        <ng-container *ngIf="activeTab === 'mcq'">
+          <article class="study-card">
+            <div class="study-card-heading">
+              <h2>Comprehension MCQs</h2>
+              <h4 class="study-card-mode">{{ mcqQuestions.length }} questions</h4>
+            </div>
+            <hr class="study-card-divider" />
+            <ul class="list-unstyled question-list mcq-list" tabindex="0" (keydown)="onMcqQuestionKeydown($event)">
+              <li
+                *ngFor="let q of mcqQuestions; let i = index"
+                [ngClass]="isArabicText(q) ? 'arabic-question' : ''"
+                (mouseenter)="onMcqQuestionHover(i)"
+                (mouseleave)="onMcqQuestionLeave()"
+                (click)="onMcqQuestionSelect(i)"
+              >
+                <span
+                  class="question-item"
+                  [class.is-highlighted]="isMcqQuestionHighlighted(i)"
+                  [class.is-selected]="mcqQuestionSelectedIndex === i"
+                  [class.is-hovered]="mcqQuestionHoverIndex === i"
+                >
+                  {{ q }}
+                </span>
+              </li>
+            </ul>
+            <div *ngIf="mcqQuestions.length === 0" class="text-muted">Comprehension MCQs are not available for this lesson yet.</div>
+          </article>
+        </ng-container>
+
+        <ng-container *ngIf="activeTab === 'passage'">
+          <article class="study-card">
+            <div class="study-card-heading">
+              <h2>Passage questions</h2>
+            </div>
+            <hr class="study-card-divider" />
+            <ul class="list-unstyled question-list passage-questions" tabindex="0" (keydown)="onPassageQuestionKeydown($event)">
+              <li
+                *ngFor="let q of passageQuestions; let i = index"
+                [ngClass]="isArabicText(q) ? 'arabic-question' : ''"
+                (mouseenter)="onPassageQuestionHover(i)"
+                (mouseleave)="onPassageQuestionLeave()"
+                (click)="onPassageQuestionSelect(i)"
+              >
+                <span
+                  class="question-item"
+                  [class.is-highlighted]="isPassageQuestionHighlighted(i)"
+                  [class.is-selected]="passageQuestionSelectedIndex === i"
+                  [class.is-hovered]="passageQuestionHoverIndex === i"
+                >
+                  {{ q }}
+                </span>
+              </li>
+            </ul>
+            <div *ngIf="passageQuestions.length === 0" class="text-muted">No questions.</div>
+            <ng-container *ngIf="grammarNotes.length">
+              <div class="memory-label mt-4">Grammar notes</div>
+              <hr class="mini-neon-divider" />
+              <ul class="list-unstyled question-list">
+                <li *ngFor="let note of grammarNotes">
+                  <span class="question-item">
+                    <span *ngIf="note.label" class="fw-semibold">{{ note.label }}:</span>
+                    {{ note.note }}
+                  </span>
+                  <div *ngIf="note.examples" class="small text-body-secondary mt-1">
+                    {{ formatGrammarExamples(note.examples) }}
+                  </div>
+                </li>
+              </ul>
+            </ng-container>
+          </article>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ion-content>
