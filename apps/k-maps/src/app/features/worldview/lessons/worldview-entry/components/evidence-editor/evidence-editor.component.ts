@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-type Evidence = { kind: string; ref: string; snippet: string };
+import { WorldviewEvidence } from '../../../../../../shared/models/worldview/worldview-entry.model';
 
 @Component({
   selector: 'app-evidence-editor',
@@ -11,5 +10,5 @@ type Evidence = { kind: string; ref: string; snippet: string };
   styleUrls: ['./evidence-editor.component.scss'],
 })
 export class EvidenceEditorComponent {
-  @Input() evidence: Evidence[] = [];
+  @Input() evidence: WorldviewEvidence[] = [];
 }

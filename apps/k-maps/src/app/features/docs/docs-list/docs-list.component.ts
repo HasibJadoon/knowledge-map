@@ -2,14 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { DocsService, DocSummary } from '../../../shared/services/docs.service';
-
-interface DocTreeNode {
-  slug: string;
-  label: string;
-  doc?: DocSummary;
-  children: DocTreeNode[];
-  sortIndex: number;
-}
+import { DocTreeNode } from '../../../shared/models/docs/doc-tree-node.model';
 
 @Component({
   selector: 'app-docs-list',

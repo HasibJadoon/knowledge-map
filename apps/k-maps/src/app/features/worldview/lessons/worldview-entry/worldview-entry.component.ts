@@ -5,9 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { UnitEditorComponent } from './components/unit-editor/unit-editor.component';
 import { ConceptPickerModalComponent } from './components/concept-picker-modal/concept-picker-modal.component';
 import { LibraryLinkModalComponent } from './components/library-link-modal/library-link-modal.component';
-import { worldviewEntries, WorldviewEntry } from '../worldview-mock';
-
-type Mode = 'view' | 'edit' | 'capture';
+import { worldviewEntries } from '../worldview-mock';
+import {
+  WorldviewEntry,
+  WorldviewMode,
+} from '../../../../shared/models/worldview/worldview-entry.model';
 
 @Component({
   selector: 'app-worldview-entry',
@@ -24,7 +26,7 @@ type Mode = 'view' | 'edit' | 'capture';
 })
 export class WorldviewEntryComponent {
   entry: WorldviewEntry | null = null;
-  mode: Mode = 'view';
+  mode: WorldviewMode = 'view';
   showConceptPicker = false;
   showLibraryLink = false;
 
@@ -45,12 +47,12 @@ export class WorldviewEntryComponent {
     });
 
     this.route.queryParamMap.subscribe((params) => {
-      const next = (params.get('mode') ?? 'view') as Mode;
+      const next = (params.get('mode') ?? 'view') as WorldviewMode;
       this.mode = next === 'edit' || next === 'capture' ? next : 'view';
     });
   }
 
-  setMode(mode: Mode) {
+  setMode(mode: WorldviewMode) {
     this.router.navigate([], {
       queryParams: { mode },
       queryParamsHandling: 'merge',

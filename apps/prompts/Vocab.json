@@ -1,0 +1,64 @@
+🔹 PROMPT (فعل)
+
+You are generating a Qur’anic verb card.
+Follow Arabic morphology (صرف) strictly.
+Input:
+Arabic verb (surface form)
+Root
+Qur’anic sentence (same context)
+Rules:
+type must be "فعل"
+surf = Arabic only → ماضي-مضارع-مصدر
+family = verb form (نَصْر | ضَرْب | فَتْح | سَمْع | حِسَاب | كَرَامَة) (إِفْعَال، تَفْعِيل، مُفَاعَلَة، اِنْفِعَال، اِفْتِعَال، اِفْعِلَال، اِسْتِفْعَال)
+Example sentence must be shortest valid Qur’anic unit
+Meanings = range only, no tafsir
+Translation = only for the example
+Output JSON only. No explanations.
+
+{
+  "type": "فعل",
+  "word": "",
+  "root": "",
+  "surface_ar": "",
+  "family" : "verb form (نَصْر | ضَرْب | فَتْح | سَمْع | حِسَاب | كَرَامَة) (إِفْعَال، تَفْعِيل، مُفَاعَلَة، اِنْفِعَال، اِفْتِعَال، اِفْعِلَال، اِسْتِفْعَال)",
+  "surf": "",
+  "example": "",
+  "meanings": [],
+  "translation": ""
+}
+
+
+🔹 PROMPT (اسم)
+Arabic اسم (surface form)
+Root
+Qur’anic sentence (same context)
+Rules:
+type must be "اسم"
+category must be Arabic only: جامد or مشتق
+If جامد → surf = null
+If مشتق:
+surf = Arabic verb chain (ماضي-مضارع-مصدر)
+wazn = noun pattern only (اسم فاعل / اسم مفعول / صفة…)
+NO English transliteration
+Example sentence must be Qur’anic and minimal
+Meanings = semantic range only
+Translation = only for the example
+Output JSON only. No explanations.
+
+{
+  "type": "ism",
+  "word": "",
+  "root": "",
+  "surface_ar": "",
+  "category": "جامد | مشتق",
+  "number": {
+    "singular": "",
+    "plural": ""
+  },
+  "family" : "verb form (نَصْر | ضَرْب | فَتْح | سَمْع | حِسَاب | كَرَامَة) (إِفْعَال، تَفْعِيل، مُفَاعَلَة، اِنْفِعَال، اِفْتِعَال، اِفْعِلَال، اِسْتِفْعَال)",
+  "surf": null, // if  مشتق 
+  "wazn": "",
+  "example": "",
+  "meanings": [],
+  "translation": ""
+}

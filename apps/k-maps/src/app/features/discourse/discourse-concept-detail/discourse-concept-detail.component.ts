@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IconDirective } from '@coreui/icons-angular';
-import { discourseConcepts, DiscourseConcept } from '../discourse-mock';
+import { discourseConcepts } from '../discourse-mock';
+import { DiscourseConcept } from '../../../shared/models/discourse/discourse-concept.model';
 
 type ConceptTab = 'definition' | 'evidence' | 'flow' | 'discourses' | 'relations' | 'crossrefs';
 

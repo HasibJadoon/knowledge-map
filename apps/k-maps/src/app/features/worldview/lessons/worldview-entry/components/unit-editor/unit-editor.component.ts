@@ -1,16 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EvidenceEditorComponent } from '../evidence-editor/evidence-editor.component';
-
-type Unit = {
-  id: string;
-  type: string;
-  text: string;
-  stance: string;
-  evidence: Array<{ kind: string; ref: string; snippet: string }>;
-  notes: string;
-  concept_refs: string[];
-};
+import { WorldviewUnit } from '../../../../../../shared/models/worldview/worldview-entry.model';
 
 @Component({
   selector: 'app-unit-editor',
@@ -20,6 +11,6 @@ type Unit = {
   styleUrls: ['./unit-editor.component.scss'],
 })
 export class UnitEditorComponent {
-  @Input() unit!: Unit;
+  @Input() unit!: WorldviewUnit;
   @Output() linkConcept = new EventEmitter<void>();
 }

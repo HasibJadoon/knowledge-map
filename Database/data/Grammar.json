@@ -1,0 +1,126 @@
+{
+  "unit_catalog": [
+    { "id": "UNIT_WORD", "ar": "كلمة" },
+    { "id": "UNIT_COMPOUND", "ar": "مركب" },
+    { "id": "UNIT_CLAUSE", "ar": "جملة صغرى / شبه جملة" },
+    { "id": "UNIT_SENTENCE", "ar": "جملة" }
+  ],
+
+  "word_type_catalog": [
+    { "id": "WORD_NOUN", "ar": "اسم" },
+    { "id": "WORD_VERB", "ar": "فعل" },
+    { "id": "WORD_PARTICLE", "ar": "حرف" },
+    { "id": "WORD_INTERJECTION", "ar": "أداة تعبير / صوت" }
+  ],
+
+  "compound_catalog": [
+    { "id": "COMP_IDAFI", "ar": "مركب إضافي" },
+    { "id": "COMP_WASFI", "ar": "مركب وصفي" },
+    { "id": "COMP_MAZJI", "ar": "مركب مزجي" },
+    { "id": "COMP_ISNADI", "ar": "مركب إسنادي" },
+    { "id": "COMP_ADADI", "ar": "مركب عددي" },
+    { "id": "COMP_HARFI", "ar": "مركب حرفي" },
+    { "id": "COMP_JAR_MAJRUR", "ar": "مركب جار ومجرور" },
+    { "id": "COMP_ZARF", "ar": "مركب ظرفي" }
+  ],
+
+  "grammar_catalog": [
+    { "id": "GRAM_JUMLA_ISMIYYA", "ar": "جملة اسمية" },
+    { "id": "GRAM_JUMLA_FIILIYYA", "ar": "جملة فعلية" },
+    { "id": "GRAM_JUMLA_SHIBH", "ar": "شبه جملة" },
+    { "id": "GRAM_JUMLA_KHABARIYYA", "ar": "جملة خبرية" },
+    { "id": "GRAM_JUMLA_INSHAIYYA", "ar": "جملة إنشائية" },
+
+    { "id": "GRAM_MUBTADA", "ar": "مبتدأ" },
+    { "id": "GRAM_KHABAR", "ar": "خبر" },
+    { "id": "GRAM_KHABAR_JUMLA", "ar": "خبر جملة" },
+
+    { "id": "GRAM_FIIL", "ar": "فعل" },
+    { "id": "GRAM_FAIL", "ar": "فاعل" },
+    { "id": "GRAM_NAIB_FAIL", "ar": "نائب فاعل" },
+    { "id": "GRAM_MAFOOL_BIH", "ar": "مفعول به" },
+    { "id": "GRAM_MAFOOL_MUTLAQ", "ar": "مفعول مطلق" },
+    { "id": "GRAM_MAFOOL_FIH", "ar": "مفعول فيه" },
+    { "id": "GRAM_MAFOOL_LIAJLIH", "ar": "مفعول لأجله" },
+    { "id": "GRAM_MAFOOL_MAAH", "ar": "مفعول معه" },
+
+    { "id": "GRAM_NAAT", "ar": "نعت" },
+    { "id": "GRAM_BADAL", "ar": "بدل" },
+    { "id": "GRAM_ATF", "ar": "عطف" },
+    { "id": "GRAM_MAATOOF_ALAYH", "ar": "معطوف عليه" },
+
+    { "id": "GRAM_MUDAF", "ar": "مضاف" },
+    { "id": "GRAM_MUDAF_ILAYH", "ar": "مضاف إليه" },
+    { "id": "GRAM_HARF_JARR", "ar": "حرف جر" },
+    { "id": "GRAM_MAJROOR", "ar": "اسم مجرور" },
+
+    { "id": "GRAM_KANA", "ar": "كان وأخواتها" },
+    { "id": "GRAM_ISM_KANA", "ar": "اسم كان" },
+    { "id": "GRAM_KHABAR_KANA", "ar": "خبر كان" },
+
+    { "id": "GRAM_INNA", "ar": "إنّ وأخواتها" },
+    { "id": "GRAM_IN_TAWKID", "ar": "إنّ التوكيد" },
+    { "id": "GRAM_ISM_INNA", "ar": "اسم إنّ" },
+    { "id": "GRAM_KHABAR_INNA", "ar": "خبر إنّ" },
+
+    { "id": "GRAM_MUDARI_MARFOO", "ar": "فعل مضارع مرفوع" },
+    { "id": "GRAM_MUDARI_MANSOOB", "ar": "فعل مضارع منصوب" },
+    { "id": "GRAM_MUDARI_MAJZOOM", "ar": "فعل مضارع مجزوم" },
+
+    { "id": "GRAM_FIIL_SHART", "ar": "فعل الشرط" },
+    { "id": "GRAM_JAWAB_SHART", "ar": "جواب الشرط" },
+
+    { "id": "GRAM_TALAB", "ar": "طلب" },
+    { "id": "GRAM_JAWAB_TALAB", "ar": "جواب الطلب" },
+
+    { "id": "GRAM_AMR", "ar": "أمر" },
+    { "id": "GRAM_NAHY", "ar": "نهي" },
+    { "id": "GRAM_ISTIFHAM", "ar": "استفهام" },
+    { "id": "GRAM_TAMANNI", "ar": "تمنّي" },
+    { "id": "GRAM_TARJJI", "ar": "ترجّي" },
+    { "id": "GRAM_NIDA", "ar": "نداء" },
+
+    { "id": "GRAM_MASDAR_MUAWAL", "ar": "مصدر مؤول" },
+    { "id": "GRAM_HAAL", "ar": "حال" },
+    { "id": "GRAM_TAMYIZ", "ar": "تمييز" },
+
+    { "id": "GRAM_TAALIL", "ar": "تعليل" },
+    { "id": "GRAM_SABAB", "ar": "سبب / لأن" },
+    { "id": "GRAM_GHAYA", "ar": "غاية" },
+    { "id": "GRAM_SABABIYYA", "ar": "سببية" },
+    { "id": "GRAM_LAM_TAALIL", "ar": "لام التعليل" },
+
+    { "id": "GRAM_TAWKID", "ar": "توكيد" },
+    { "id": "GRAM_QASR", "ar": "قصر" },
+    { "id": "GRAM_ISTIDRAK", "ar": "استدراك" },
+    { "id": "GRAM_KAF_TASHBIH", "ar": "كاف التشبيه" },
+    { "id": "GRAM_TASHBIH", "ar": "تشبيه" },
+    { "id": "GRAM_ISTIARA", "ar": "استعارة" },
+    { "id": "GRAM_KINAYA", "ar": "كناية" },
+    { "id": "GRAM_HAQIQA", "ar": "حقيقة" },
+    { "id": "GRAM_MAJAZ", "ar": "مجاز" },
+    { "id": "GRAM_IJAZ", "ar": "إيجاز" },
+    { "id": "GRAM_ITNAB", "ar": "إطناب" },
+    { "id": "GRAM_TAQDIM_TAKHIR", "ar": "تقديم وتأخير" },
+    { "id": "GRAM_JINAS", "ar": "جناس" },
+    { "id": "GRAM_SAJ", "ar": "سجع" },
+    { "id": "GRAM_TIBAQ", "ar": "طباق" },
+    { "id": "GRAM_MUQABALA", "ar": "مقابلة" },
+    { "id": "GRAM_USLOOB_HAKIM", "ar": "أسلوب الحكيم" },
+    { "id": "GRAM_TAHKUM", "ar": "تهكم" },
+
+    { "id": "GRAM_QAWL", "ar": "قول" },
+    { "id": "GRAM_MAQOOL_QAWL", "ar": "مقول القول" },
+    { "id": "GRAM_ISTINAF", "ar": "استئناف" },
+    { "id": "GRAM_QASAM", "ar": "قسم" }
+  ],
+    "validation": {
+        "all_sentence_ids_unique": true,
+        "all_clause_ids_unique": true,
+        "each_sentence_has_single_root_clause": true,
+        "token_span_integrity_expected": true,
+        "subtypes_used_are_in_catalog": true
+    }
+}
+
+

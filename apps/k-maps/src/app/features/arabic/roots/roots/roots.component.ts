@@ -3,33 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { CardsComponent, Card } from '../root-cards/cards/cards.component';
+import { CardsComponent } from '../root-cards/cards/cards.component';
 import { AuthService } from '../../../../shared/services/AuthService';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { API_BASE } from '../../../../shared/api-base';
+import { RootCard } from '../../../../shared/models/arabic/root-card.model';
+import { RootRow, RootsApiResponse } from '../../../../shared/models/arabic/root-row.model';
 
-
-export type RootRow = {
-  id?: number;
-  root: string;
-  family: string;
-  cards?: string | Card[];
-  status?: string;
-  frequency?: string;
-  difficulty?: number | null;
-  extract_date?: string | null;
-  root_latn?: string | null;
-  root_norm?: string | null;
-  alt_latn_json?: string[] | null;
-  romanization_sources_json?: Record<string, unknown> | null;
-  search_keys_norm?: string | null;
-};
-
-type RootsApiResponse = {
-  ok?: boolean;
-  results?: RootRow[];
-  error?: string;
-};
 
 @Component({
   selector: 'app-roots',
@@ -57,7 +37,7 @@ export class RootsComponent implements OnInit, OnDestroy {
   // ---------------- cards modal ----------------
   showCards = false;
   selectedRoot: RootRow | null = null;
-  selectedCards: Card[] = [];
+  selectedCards: RootCard[] = [];
   selectedCardsJson = '[]';
   cardsError = '';
   savingCards = false;
@@ -72,7 +52,7 @@ export class RootsComponent implements OnInit, OnDestroy {
   newCardExample = '';
   newCardMeaning = '';
   newCardTag = '';
-  newCards: Card[] = [];
+  newCards: RootCard[] = [];
   newRootLatn = '';
   newRootNorm = '';
   newAltLatn = '';
@@ -235,7 +215,7 @@ export class RootsComponent implements OnInit, OnDestroy {
         : JSON.stringify(r.cards ?? [], null, 2);
 
     try {
-      this.selectedCards = this.parseCards(this.selectedCardsJson);
+    this.selectedCards = this.parseCards(this.selectedCardsJson);
     } catch (e: any) {
       this.selectedCards = [];
       this.cardsError = e?.message ?? 'Invalid cards JSON';
@@ -453,7 +433,7 @@ export class RootsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private parseCards(cards: string | Card[] | undefined): Card[] {
+  private parseCards(cards: string | RootCard[] | undefined): RootCard[] {
     if (!cards) return [];
     if (Array.isArray(cards)) return cards;
 

@@ -1,32 +1,8 @@
-export type DiscourseEvidence = {
-  ref: string;
-  snippet: string;
-  note: string;
-};
-
-export type DiscourseRelation = {
-  id: string;
-  concept: { slug: string; label_ar: string; label_en: string };
-  source: string;
-  status: 'align' | 'partial' | 'contradicts' | 'unknown';
-  summary: string;
-  evidence: DiscourseEvidence[];
-  reasoning: string;
-};
-
-export type DiscourseConcept = {
-  slug: string;
-  label_ar: string;
-  label_en: string;
-  category: string;
-  anchors: number;
-  definition: string;
-  quranEvidence: DiscourseEvidence[];
-  flow: string[];
-  otherDiscourses: Array<{ name: string; bullets: string[] }>;
-  relations: DiscourseRelation[];
-  crossRefs: string[];
-};
+import {
+  DiscourseConcept,
+  DiscourseEvidence,
+  DiscourseRelation,
+} from '../../shared/models/discourse/discourse-concept.model';
 
 import discourseData from '../../../assets/mockups/discourse.json';
 
@@ -46,3 +22,5 @@ export const discourseRelations = allRelations.reduce<Record<string, DiscourseRe
   },
   {}
 );
+
+export type { DiscourseConcept, DiscourseEvidence, DiscourseRelation };

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { worldviewEntries, WorldviewEntrySummary } from '../worldview-mock';
+import { worldviewEntries } from '../worldview-mock';
+import { WorldviewEntrySummary } from '../../../../shared/models/worldview/worldview-entry.model';
 
 @Component({
   selector: 'app-worldview-lessons-page',

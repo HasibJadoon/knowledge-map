@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ArLessonsService } from '../../../../shared/services/ar-lessons.service';
+import { ArLessonRow } from '../../../../shared/models/arabic/lesson-row.model';
 
 @Component({
   selector: 'app-ar-lessons-page',
@@ -18,14 +19,7 @@ export class ArLessonsPageComponent implements OnInit {
   private lessons = inject(ArLessonsService);
 
   q = '';
-  rows: Array<{
-    id: number;
-    title: string;
-    lesson_type: string;
-    status: string;
-    created_at?: string;
-    updated_at?: string;
-  }> = [];
+  rows: ArLessonRow[] = [];
 
   loading = false;
   error = '';

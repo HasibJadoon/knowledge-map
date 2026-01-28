@@ -2,12 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-export type Card = {
-  front?: string;
-  back?: string;
-  tag?: string;
-};
+import { RootCard } from '../../../../../../shared/models/arabic/root-card.model';
 
 @Component({
   selector: 'app-cards',
@@ -21,7 +16,7 @@ export class CardsComponent implements OnChanges {
   @Input() root = '';
   @Input() family = '';
 
-  @Input() cards: Card[] = [];
+  @Input() cards: RootCard[] = [];
   @Input() cardsJson = '[]';
 
   @Input() error = '';
@@ -46,7 +41,7 @@ export class CardsComponent implements OnChanges {
   }
 
   /** Preview uses JSON if valid, otherwise falls back to @Input cards */
-  get previewCards(): Card[] {
+  get previewCards(): RootCard[] {
     const parsed = this.parseCardsNoSideEffects(this.cardsJson);
     return parsed ?? (this.cards ?? []);
   }
@@ -153,7 +148,7 @@ export class CardsComponent implements OnChanges {
    * Like tryParseCards but DOES NOT set jsonParseError.
    * Used from getters so we don't mutate state during change detection.
    */
-  private parseCardsNoSideEffects(jsonStr: string): Card[] | null {
+  private parseCardsNoSideEffects(jsonStr: string): RootCard[] | null {
     try {
       const parsed = JSON.parse(jsonStr);
 
@@ -163,11 +158,11 @@ export class CardsComponent implements OnChanges {
 
       if (!arr) return null;
 
-      return arr.map((x: any) => ({
-        front: typeof x?.front === 'string' ? x.front : '',
-        back: typeof x?.back === 'string' ? x.back : '',
-        tag: typeof x?.tag === 'string' ? x.tag : '',
-      }));
+    return arr.map((x: any) => ({
+      front: typeof x?.front === 'string' ? x.front : '',
+      back: typeof x?.back === 'string' ? x.back : '',
+      tag: typeof x?.tag === 'string' ? x.tag : '',
+    }));
     } catch {
       return null;
     }
@@ -178,7 +173,7 @@ export class CardsComponent implements OnChanges {
    * - [ {front, back, tag}, ... ]
    * - { cards: [ ... ] }
    */
-  private tryParseCards(jsonStr: string): Card[] | null {
+  private tryParseCards(jsonStr: string): RootCard[] | null {
     try {
       const parsed = JSON.parse(jsonStr);
 

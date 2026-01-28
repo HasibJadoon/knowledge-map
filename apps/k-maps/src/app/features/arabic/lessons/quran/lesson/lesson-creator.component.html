@@ -102,14 +102,14 @@
     <textarea
       class="json-textarea"
       rows="8"
-      [(ngModel)]="nodeJsonTexts.reference"
+      [(ngModel)]="nodeJsonTexts['reference']"
     ></textarea>
     <div class="tab-actions">
       <button class="btn btn-outline-light" type="button" (click)="applyNodeJson('reference')">
         Apply Reference JSON
       </button>
     </div>
-    <p class="error" *ngIf="nodeErrors.reference">{{ nodeErrors.reference }}</p>
+    <p class="error" *ngIf="nodeErrors['reference']">{{ nodeErrors['reference'] }}</p>
   </section>
 
   <section class="tab-panel study-card" *ngIf="selectedTab === 'text'">
@@ -121,14 +121,14 @@
     <textarea
       class="json-textarea"
       rows="10"
-      [(ngModel)]="nodeJsonTexts.text"
+      [(ngModel)]="nodeJsonTexts['text']"
     ></textarea>
     <div class="tab-actions">
       <button class="btn btn-outline-light" type="button" (click)="applyNodeJson('text')">
         Apply Text JSON
       </button>
     </div>
-    <p class="error" *ngIf="nodeErrors.text">{{ nodeErrors.text }}</p>
+    <p class="error" *ngIf="nodeErrors['text']">{{ nodeErrors['text'] }}</p>
   </section>
 
   <section class="tab-panel study-card" *ngIf="selectedTab === 'sentences'">
@@ -140,14 +140,14 @@
     <textarea
       class="json-textarea"
       rows="10"
-      [(ngModel)]="nodeJsonTexts.sentences"
+      [(ngModel)]="nodeJsonTexts['sentences']"
     ></textarea>
     <div class="tab-actions">
       <button class="btn btn-outline-light" type="button" (click)="applyNodeJson('sentences')">
         Apply Sentences JSON
       </button>
     </div>
-    <p class="error" *ngIf="nodeErrors.sentences">{{ nodeErrors.sentences }}</p>
+    <p class="error" *ngIf="nodeErrors['sentences']">{{ nodeErrors['sentences'] }}</p>
   </section>
 
   <section class="tab-panel study-card" *ngIf="selectedTab === 'passage_layers'">
@@ -159,14 +159,14 @@
     <textarea
       class="json-textarea"
       rows="10"
-      [(ngModel)]="nodeJsonTexts.passage_layers"
+      [(ngModel)]="nodeJsonTexts['passage_layers']"
     ></textarea>
     <div class="tab-actions">
       <button class="btn btn-outline-light" type="button" (click)="applyNodeJson('passage_layers')">
         Apply Discourse Layers JSON
       </button>
     </div>
-    <p class="error" *ngIf="nodeErrors.passage_layers">{{ nodeErrors.passage_layers }}</p>
+    <p class="error" *ngIf="nodeErrors['passage_layers']">{{ nodeErrors['passage_layers'] }}</p>
   </section>
 
   <section class="tab-panel study-card" *ngIf="selectedTab === 'comprehension'">
@@ -178,7 +178,7 @@
     <textarea
       class="json-textarea"
       rows="10"
-      [(ngModel)]="nodeJsonTexts.comprehension"
+      [(ngModel)]="nodeJsonTexts['comprehension']"
     ></textarea>
     <div class="tab-actions">
       <button
@@ -189,7 +189,7 @@
         Apply Comprehension JSON
       </button>
     </div>
-    <p class="error" *ngIf="nodeErrors.comprehension">{{ nodeErrors.comprehension }}</p>
+    <p class="error" *ngIf="nodeErrors['comprehension']">{{ nodeErrors['comprehension'] }}</p>
   </section>
 
   <section class="tab-panel study-card" *ngIf="selectedTab === 'json'">

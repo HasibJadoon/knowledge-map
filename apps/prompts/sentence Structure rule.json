@@ -1,0 +1,223 @@
+{
+  "entity_type": "arabic_clause_subtype_catalog_v1",
+  "scope": "classical_arabic_quranic_and_literary",
+
+  "allowed_subtypes": [
+
+    /* =========================
+       CONDITIONAL STRUCTURES
+       ========================= */
+
+    {
+      "key": "shartiyya",
+      "ar": "جملة شرطية",
+      "definition": "Conditional clause introduced by a particle of condition.",
+      "triggers": ["إن", "إذا", "لو", "من", "ما"]
+    },
+    {
+      "key": "jawab_shart",
+      "ar": "جواب الشرط",
+      "definition": "The result/apodosis of a conditional clause.",
+      "triggers": ["فـ", "(implicit)"]
+    },
+
+    /* =========================
+       RELATIVE / SOURCE
+       ========================= */
+
+    {
+      "key": "silat_alladhi",
+      "ar": "صلة الموصول",
+      "definition": "Relative clause attached to الذي / التي / من / ما.",
+      "triggers": ["الذي", "التي", "من", "ما"]
+    },
+    {
+      "key": "silat_ma_mawsula",
+      "ar": "صلة ما الموصولة",
+      "definition": "Relative clause specifically for ما الموصولة.",
+      "triggers": ["ما"]
+    },
+    {
+      "key": "masdar_muawwal",
+      "ar": "مصدر مؤول",
+      "definition": "أن / إن + فعل functioning as a verbal noun.",
+      "triggers": ["أن", "إن"]
+    },
+
+    /* =========================
+       CIRCUMSTANTIAL / DESCRIPTIVE
+       ========================= */
+
+    {
+      "key": "hal",
+      "ar": "حال",
+      "definition": "Circumstantial clause describing the state during the action.",
+      "triggers": ["و", "(implicit pronoun)", "اسم فاعل"]
+    },
+    {
+      "key": "tamyeez",
+      "ar": "تمييز",
+      "definition": "Specification removing ambiguity from quantity or meaning.",
+      "triggers": ["نفسا", "علما", "كيدا"]
+    },
+    {
+      "key": "badal",
+      "ar": "بدل",
+      "definition": "Substitutive noun or clause replacing another.",
+      "triggers": ["(apposition)"]
+    },
+    {
+      "key": "naat_sifa",
+      "ar": "نعت / صفة",
+      "definition": "Adjectival modifier (phrase or clause).",
+      "triggers": ["اسم فاعل", "اسم مفعول", "جملة بعد نكرة"]
+    },
+
+    /* =========================
+       COORDINATION & LINKING
+       ========================= */
+
+    {
+      "key": "atf",
+      "ar": "عطف",
+      "definition": "Coordination of words or clauses at same syntactic level.",
+      "triggers": ["و", "ف", "ثم", "أو"]
+    },
+    {
+      "key": "atf_bayaan",
+      "ar": "عطف بيان",
+      "definition": "Clarifying apposition without intent of substitution.",
+      "triggers": ["(noun + clarifier)"]
+    },
+
+    /* =========================
+       CAUSATION / PURPOSE
+       ========================= */
+
+    {
+      "key": "ta3lil_ghaya",
+      "ar": "تعليل / غاية",
+      "definition": "Purpose or intended outcome.",
+      "triggers": ["لعل", "كي", "لـ"]
+    },
+    {
+      "key": "sababiyya",
+      "ar": "سببية",
+      "definition": "Cause–effect or resulting consequence.",
+      "triggers": ["فـ", "بسبب", "لأن"]
+    },
+    {
+      "key": "maf3ul_li_ajlih",
+      "ar": "مفعول لأجله",
+      "definition": "Reason noun explaining why an action occurred.",
+      "triggers": ["خوفا", "ابتغاء", "حذرا"]
+    },
+
+    /* =========================
+       DISCOURSE & RHETORIC
+       ========================= */
+
+    {
+      "key": "qasam",
+      "ar": "قسم",
+      "definition": "Oath structure.",
+      "triggers": ["والله", "تالله", "والشمس"]
+    },
+    {
+      "key": "qawl_quoted",
+      "ar": "مقول القول",
+      "definition": "Quoted or reported speech content.",
+      "triggers": ["قال", "قالوا"]
+    },
+    {
+      "key": "nida",
+      "ar": "نداء",
+      "definition": "Vocative address.",
+      "triggers": ["يا"]
+    },
+    {
+      "key": "istithna",
+      "ar": "استثناء",
+      "definition": "Exception clause.",
+      "triggers": ["إلا", "غير", "سوى"]
+    },
+    {
+      "key": "istidrak",
+      "ar": "استدراك",
+      "definition": "Corrective or concessive contrast.",
+      "triggers": ["لكن", "بل", "وإن"]
+    },
+    {
+      "key": "istinaf",
+      "ar": "استئناف",
+      "definition": "Discourse resumption, not syntactic coordination.",
+      "triggers": ["و", "ثم", "بل"]
+    },
+
+    /* =========================
+       TIME / SCENE / LOCATION
+       ========================= */
+
+    {
+      "key": "idha_zarf_scene",
+      "ar": "ظرف مشهدي (إذ / إذا)",
+      "definition": "Scene-setting temporal clause.",
+      "triggers": ["إذ", "إذا"]
+    },
+    {
+      "key": "zarf",
+      "ar": "ظرف زمان أو مكان",
+      "definition": "General temporal or spatial adverbial attachment.",
+      "triggers": ["يوم", "حين", "عند", "حيث"]
+    },
+    {
+      "key": "jar_majrur",
+      "ar": "جار ومجرور",
+      "definition": "Prepositional phrase attached to verb or predicate.",
+      "triggers": ["في", "على", "إلى", "من"]
+    },
+
+    /* =========================
+       EXPLANATION & CLARIFICATION
+       ========================= */
+
+    {
+      "key": "bayaan",
+      "ar": "بيان",
+      "definition": "Clarifying explanation of previous element.",
+      "triggers": ["أي", "هذا", "ذلك"]
+    },
+    {
+      "key": "tahdid",
+      "ar": "تحديد",
+      "definition": "Restricting or specifying the intended referent.",
+      "triggers": ["هذا", "ذلك", "من"]
+    },
+
+    /* =========================
+       OPENING MARKERS
+       ========================= */
+
+    {
+      "key": "tahjiid",
+      "ar": "التهجي (الحروف المقطعة)",
+      "definition": "Muqattaʿāt letter-openings.",
+      "triggers": ["الم", "الر", "كهيعص"],
+      "notes": "Discourse marker, not syntactic clause"
+    }
+  ],
+
+  "normalization_rules": {
+    "preferred_precision": [
+      "sababiyya ≠ ta3lil_ghaya (cause vs purpose)",
+      "istinaf ≠ atf (discourse vs syntax)",
+      "bayaan ≠ badal (clarification vs substitution)"
+    ],
+    "minimal_mapping_option": {
+      "sababiyya": "ta3lil_ghaya",
+      "istinaf": "atf",
+      "bayaan": "badal",
+      "tahjiid": "qawl_quoted"
+    }
+  }
+}

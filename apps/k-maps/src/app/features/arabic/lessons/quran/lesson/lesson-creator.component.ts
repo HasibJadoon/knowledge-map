@@ -2,43 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-type LessonNodeKey = 'reference' | 'text' | 'sentences' | 'passage_layers' | 'comprehension';
-type LessonTab = LessonNodeKey | 'json';
-type LessonReference = Record<string, unknown> & {
-  ref_label?: string;
-};
-type LessonJson = {
-  entity_type: string;
-  id: string;
-  lesson_type: string;
-  subtype: string;
-  title: string;
-  title_ar: string;
-  status: string;
-  difficulty: number;
-  reference: LessonReference;
-  text: {
-    arabic_full: Array<Record<string, unknown>>;
-    mode: string;
-  };
-  sentences: Array<Record<string, unknown>>;
-  passage_layers: Array<Record<string, unknown>>;
-  comprehension: {
-    reflective: unknown[];
-    analytical: unknown[];
-    mcqs: unknown;
-  };
-};
-type LessonMeta = {
-  title: string;
-  title_ar: string;
-  lesson_type: string;
-  status: string;
-  subtype: string;
-  difficulty: number;
-  referenceLabel: string;
-};
+import {
+  LessonJson,
+  LessonMeta,
+  LessonNodeErrorMap,
+  LessonNodeKey,
+  LessonNodeTextMap,
+  LessonReference,
+  LessonTab,
+} from '../../../../../shared/models/arabic/lesson-creator.model';
 
 @Component({
   selector: 'app-lesson-creator',
@@ -70,14 +42,14 @@ export class LessonCreatorComponent implements OnInit {
   lessonMeta: LessonMeta = this.buildLessonMeta(this.lessonJson);
   jsonText = '';
   jsonError = '';
-  nodeJsonTexts: Record<LessonNodeKey, string> = {
+  nodeJsonTexts: LessonNodeTextMap = {
     reference: '',
     text: '',
     sentences: '',
     passage_layers: '',
     comprehension: '',
   };
-  nodeErrors: Record<LessonNodeKey, string> = {
+  nodeErrors: LessonNodeErrorMap = {
     reference: '',
     text: '',
     sentences: '',
@@ -224,6 +196,8 @@ export class LessonCreatorComponent implements OnInit {
         return [];
       case 'comprehension':
         return { reflective: [], analytical: [], mcqs: [] };
+      default:
+        return {};
     }
   }
 }
