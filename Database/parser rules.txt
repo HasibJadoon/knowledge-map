@@ -1,0 +1,89 @@
+{
+  "entity_type": "universal_id_rules",
+  "model_id": "UID_RULES_V1",
+  "normalization": {
+    "arabic_norm": "remove_diacritics; normalize_alef; normalize_ya; normalize_ta_marbuta; remove_tatweel; collapse_spaces",
+    "token_norm": "same_as_arabic_norm"
+  },
+  "hashing": {
+    "algo": "sha256",
+    "encoding": "hex",
+    "prefixes": {
+      "token": "TU_TOK_",
+      "compound": "TU_COMP_",
+      "clause": "TU_CL_",
+      "sentence": "TU_SENT_",
+      "span": "TU_SPAN_"
+    }
+  },
+  "canonical_strings": {
+    "token": "TOK|surface_norm|lemma_norm|word_type",
+    "compound": "COMP|compound_type|child_uids_in_order",
+    "clause": "CL|role_or_subtype|sequence_signature(child_uids+owned_token_uids)",
+    "sentence": "SENT|grammar_ids_sorted|sequence_signature(child_uids+owned_token_uids)",
+    "span": "SPAN|span_kind|grammar_ids_sorted|target_child_uid_or_owned_range_signature"
+  },
+  "sequence_signature": {
+    "rule": "serialize sequence as: T:<token_uid> or C:<child_uid> in slot order joined by ';'"
+  }
+}
+
+{
+  "entity_type": "universal_id_rules",
+  "model_id": "UID_RULES_V1",
+  "normalization": {
+    "arabic_norm": "remove_diacritics; normalize_alef; normalize_ya; normalize_ta_marbuta; remove_tatweel; collapse_spaces",
+    "token_norm": "same_as_arabic_norm"
+  },
+  "hashing": {
+    "algo": "sha256",
+    "encoding": "hex",
+    "prefixes": {
+      "token": "TU_TOK_",
+      "compound": "TU_COMP_",
+      "clause": "TU_CL_",
+      "sentence": "TU_SENT_",
+      "span": "TU_SPAN_"
+    }
+  },
+  "canonical_strings": {
+    "token": "TOK|surface_norm|lemma_norm|word_type",
+    "compound": "COMP|compound_type|child_uids_in_order",
+    "clause": "CL|role_or_subtype|sequence_signature(child_uids+owned_token_uids)",
+    "sentence": "SENT|grammar_ids_sorted|sequence_signature(child_uids+owned_token_uids)",
+    "span": "SPAN|span_kind|grammar_ids_sorted|target_child_uid_or_owned_range_signature"
+  },
+  "sequence_signature": {
+    "rule": "serialize sequence as: T:<token_uid> or C:<child_uid> in slot order joined by ';'"
+  }
+}
+
+You are an Arabic recursive parser. Output ONLY valid JSON.
+
+CONSTRAINTS:
+- Use ONLY these catalogs: unit_catalog, word_type_catalog, compound_catalog, grammar_catalog.
+- Bottom-up parsing only: TOKEN -> UNIT_WORD -> UNIT_COMPOUND -> UNIT_CLAUSE -> UNIT_SENTENCE.
+- No token duplication across nodes.
+- Parent owns only tokens not owned by children.
+- Every node must include text_ar and text_ar_norm.
+- Connectors (و/ف/إن/كان...) stay in the parent, and the introduced clause is a child.
+- Compounds are never sentences.
+- Promotion rules A/B/C must be enforced exactly.
+- Include spans on any node if helpful, but spans must not reuse child-owned tokens.
+
+INPUT:
+- verse_ref: {surah:X, ayah:Y, unit_id:"..."}
+- text_ar: "..."
+- translation: "..."
+
+OUTPUT:
+- entity_type: sentence_tree_occurrence
+- model_id: SENT_TREE_V2_NO_DUP
+- status: draft
+- ref, text_ar, text_ar_norm, translation
+- tree root node + nodes[] (children)
+- tokens must include: surface_ar, lemma_ar, word_type, t_u (nullable)
+- universal ids placeholders allowed (null) but structure must be correct.
+
+Now parse.
+
