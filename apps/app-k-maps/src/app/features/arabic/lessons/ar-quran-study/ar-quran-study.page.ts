@@ -141,13 +141,13 @@ export class ArQuranStudyPage implements OnInit {
     for (const sentence of sentences) {
       const existing = groups.find((group) => group.unitId === sentence.unit_id);
       if (existing) {
-        existing.sentences.push({ arabic: sentence.arabic });
+      existing.sentences.push({ arabic: sentence.arabic ?? undefined });
         continue;
       }
       groups.push({
         unitId: sentence.unit_id,
         verseArabic: verseMap.get(sentence.unit_id) ?? '',
-        sentences: [{ arabic: sentence.arabic }],
+        sentences: [{ arabic: sentence.arabic ?? undefined }],
       });
     }
 

@@ -75,7 +75,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
       const existing = groups.find((group) => group.unitId === sentence.unit_id);
       if (existing) {
         existing.sentences.push({
-          arabic: sentence.arabic,
+          arabic: sentence.arabic ?? undefined,
           translation: sentence.translation,
         });
         continue;
@@ -88,7 +88,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
         ayah: verseInfo?.ayah,
         sentences: [
           {
-            arabic: sentence.arabic,
+            arabic: sentence.arabic ?? undefined,
             translation: sentence.translation,
           },
         ],

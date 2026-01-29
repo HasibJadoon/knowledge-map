@@ -122,2101 +122,1422 @@
     },
     "sentences": [
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_8_A",
-            "unit_id": "U_12_8",
-            "arabic": "إِذْ قَالُوا لَيُوسُفُ وَأَخُوهُ أَحَبُّ إِلَىٰ أَبِينَا مِنَّا وَنَحْنُ عُصْبَةٌ ۖ إِنَّ أَبَانَا لَفِي ضَلَالٍ مُّبِينٍ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 8,
+                "ayah_to": 8,
+                "unit_id": "U_12_8",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "إِذْ قَالُوا لَيُوسُفُ وَأَخُوهُ أَحَبُّ إِلَىٰ أَبِينَا مِنَّا وَنَحْنُ عُصْبَةٌ ۖ إِنَّ أَبَانَا لَفِي ضَلَالٍ مُّبِينٍ",
+                "translation": "When they said, “Yusuf and his brother are more beloved to our father than us, while we are a strong group. Indeed, our father is in clear error.”"
+            },
+            "anchors": { "from_token_id": "TOK_12_8_001", "to_token_id": "TOK_12_8_019" },
+            "notes": "جملة ظرفية (إذ) تمهِّد لمقول القول، ثم مقول مركّب: مقارنة (أحبّ...) + اعتراض/تبرير (ونحن عصبة) + حكم تقويمي مؤكَّد بـ(إنّ) واللام.",
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "verbal_with_embedded_nominal",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "temporal_marker",
+                    "quoted_speech",
+                    "comparative_structure",
+                    "inna_lam_emphasis"
+                ]
+            },
+            "main_spine": {
+                "kind": "verbal",
+                "preface_marker": {
                     "token_id": "TOK_12_8_001",
-                    "surface_ar": "إذ",
-                    "lemma_ar": null,
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
+                    "text": "إذ",
+                    "role": "ظرف زمان تمهيدي للمشهد",
+                    "grammar_refs": [ "GRAM_IDH_ZARFIYYA" ]
                 },
-                {
+                "verb": {
                     "token_id": "TOK_12_8_002",
-                    "surface_ar": "قالوا",
-                    "lemma_ar": null,
-                    "root": "قول",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
+                    "text": "قالوا",
+                    "grammar_refs": [ "GRAM_QAWL", "GRAM_FI3L_MADI" ]
                 },
-                {
-                    "token_id": "TOK_12_8_003",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
+                "subject": { "implicit": true, "ref": "هم" },
+                "object": { "kind": "quoted_speech", "clause_id": "CL_12_8_QAWL" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_8_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_8_ROOT",
+                        "level": 0,
+                        "kind": "verbal",
+                        "type": "main",
+                        "subtype": "idha_zarf_scene",
+                        "span": { "from": "TOK_12_8_001", "to": "TOK_12_8_019" },
+                        "trigger": "إذ قالوا",
+                        "contribution": "افتتاح المشهد النفسي بنقل قول الإخوة."
+                    },
+                    {
+                        "clause_id": "CL_12_8_QAWL",
+                        "level": 1,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "qawl_quoted",
+                        "span": { "from": "TOK_12_8_004", "to": "TOK_12_8_019" },
+                        "trigger": "لَيُوسُفُ",
+                        "relation_to_parent": "مقول القول",
+                        "parent_clause_id": "CL_12_8_ROOT",
+                        "contribution": "تفجير الحسد عبر مقارنةٍ ثم تبريرٍ ثم حكمٍ أخلاقي."
+                    },
+                    {
+                        "clause_id": "CL_12_8_COMPARISON",
+                        "level": 2,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "comparative",
+                        "span": { "from": "TOK_12_8_004", "to": "TOK_12_8_013" },
+                        "trigger": "أحب",
+                        "parent_clause_id": "CL_12_8_QAWL",
+                        "contribution": "صياغة المقارنة: محبوبية يوسف وأخيه مقابلهم."
+                    },
+                    {
+                        "clause_id": "CL_12_8_JUSTIFY",
+                        "level": 2,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "interjection_justification",
+                        "span": { "from": "TOK_12_8_011", "to": "TOK_12_8_013" },
+                        "trigger": "ونحن عصبة",
+                        "parent_clause_id": "CL_12_8_QAWL",
+                        "contribution": "تبرير شعوري: نحن أهل قوة/عدد، فلماذا تُصرف المحبة لغيرنا؟"
+                    },
+                    {
+                        "clause_id": "CL_12_8_JUDGMENT",
+                        "level": 2,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "inna_emphatic",
+                        "span": { "from": "TOK_12_8_014", "to": "TOK_12_8_019" },
+                        "trigger": "إن",
+                        "parent_clause_id": "CL_12_8_QAWL",
+                        "contribution": "حكم تقويمي مُشدَّد: اتهام الأب بالضلال المبين."
                     }
-                },
-                {
-                    "token_id": "TOK_12_8_004",
-                    "surface_ar": "يوسف",
-                    "lemma_ar": "يوسف",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_8_005",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_8_006",
-                    "surface_ar": "أخوه",
-                    "lemma_ar": "أخ",
-                    "root": "أخو",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_8_007",
-                    "surface_ar": "أحب",
-                    "lemma_ar": "أحب",
-                    "root": "حبب",
-                    "root_id": null,
-                    "pos": "adj",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم تفضيل"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_8_008",
-                    "surface_ar": "إلى",
-                    "lemma_ar": "إلى",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_8_009",
-                    "surface_ar": "أبينا",
-                    "lemma_ar": "أب",
-                    "root": "أب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_8_010",
-                    "surface_ar": "منا",
-                    "lemma_ar": null,
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_8_011",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_8_012",
-                    "surface_ar": "نحن",
-                    "lemma_ar": "نحن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_8_013",
-                    "surface_ar": "عصبة",
-                    "lemma_ar": "عصبة",
-                    "root": "عصب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_8_014",
-                    "surface_ar": "إن",
-                    "lemma_ar": "إنَّ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_8_015",
-                    "surface_ar": "أبانا",
-                    "lemma_ar": "أب",
-                    "root": "أب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_8_016",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لَـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf",
-                        "role": "لام الابتداء"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_8_017",
-                    "surface_ar": "في",
-                    "lemma_ar": "في",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_8_018",
-                    "surface_ar": "ضلال",
-                    "lemma_ar": "ضلال",
-                    "root": "ضلل",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "مصدر"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_8_019",
-                    "surface_ar": "مبين",
-                    "lemma_ar": "مبين",
-                    "root": "بين",
-                    "root_id": null,
-                    "pos": "adj",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم فاعل"
-                    }
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_8_001", "surface": "إذ", "kind": "temporal_marker", "function": "scene_setup" },
+                { "token_id": "TOK_12_8_014", "surface": "إن", "kind": "emphasis", "function": "affirmation" },
+                { "token_id": "TOK_12_8_016", "surface": "لَ", "kind": "emphasis", "function": "lam_al_ibtida" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [
+                "GRAM_IDH_ZARFIYYA",
+                "GRAM_QAWL",
+                "GRAM_QAWL_QUOTED",
+                "GRAM_JUMLA_ISMIYYA",
+                "GRAM_ISM_TAFDIL",
+                "GRAM_ATF",
+                "GRAM_INNA",
+                "GRAM_LAM_TAWKID"
+            ],
+            "sentence_translation_progressive": {
+                "macro_view": {
+                    "logic": "تمهيد زمني → نقل خطاب → مقارنة → تبرير → حكم",
+                    "semantic_axis": "محبة → حرمان → غيرة → إدانة"
+                },
+                "steps": [
+                    { "order": 1, "arabic_focus": "إذ قالوا", "english": "When they said…", "note": "إدخال المشهد بظرف زمان." },
+                    { "order": 2, "arabic_focus": "ليوسف وأخوه أحب", "english": "Yusuf and his brother are more beloved…", "note": "لبّ المقارنة المحرِّكة للحسد." },
+                    { "order": 3, "arabic_focus": "ونحن عصبة", "english": "while we are a strong group", "note": "تبرير ذاتي قائم على الاستحقاق." },
+                    { "order": 4, "arabic_focus": "إن أبانا لفي ضلال مبين", "english": "Indeed, our father is in clear error.", "note": "حكم تقويمي مؤكَّد بـ(إنّ) واللام." }
+                ],
+                "final_synthesis": "When they said, “Yusuf and his brother are more beloved to our father than us, while we are a strong group. Indeed, our father is in clear error.”"
+            }
         },
+
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_9_A",
-            "unit_id": "U_12_9",
-            "arabic": "اقْتُلُوا يُوسُفَ أَوِ اطْرَحُوهُ أَرْضًا يَخْلُ لَكُمْ وَجْهُ أَبِيكُمْ وَتَكُونُوا مِن بَعْدِهِ قَوْمًا صَالِحِينَ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 9,
+                "ayah_to": 9,
+                "unit_id": "U_12_9",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "اقْتُلُوا يُوسُفَ أَوِ اطْرَحُوهُ أَرْضًا يَخْلُ لَكُمْ وَجْهُ أَبِيكُمْ وَتَكُونُوا مِن بَعْدِهِ قَوْمًا صَالِحِينَ",
+                "translation": "Kill Yusuf, or cast him away to some land; your father’s attention will be for you, and after him you will become a righteous people."
+            },
+            "anchors": { "from_token_id": "TOK_12_9_001", "to_token_id": "TOK_12_9_016" },
+            "notes": "مقولٌ اقتراحي بصيغتي أمر بديلتين: (اقتلوا) أو (اطرحوه)، يتلوهما تعليل/غاية (يخل لكم وجه أبيكم) ثم نتيجة ادعائية/تزيينية (وتكونوا… صالحين).",
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "imperatives_with_purpose_and_result",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "imperative",
+                    "alternative_choice",
+                    "purpose_clause",
+                    "result_clause"
+                ]
+            },
+            "main_spine": {
+                "kind": "verbal",
+                "verb": {
                     "token_id": "TOK_12_9_001",
-                    "surface_ar": "اقتلوا",
-                    "lemma_ar": "قتل",
-                    "root": "قتل",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
+                    "text": "اقتلوا",
+                    "grammar_refs": [ "GRAM_AMR" ]
                 },
-                {
-                    "token_id": "TOK_12_9_002",
-                    "surface_ar": "يوسف",
-                    "lemma_ar": "يوسف",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
+                "object": { "token_id": "TOK_12_9_002", "text": "يوسف" },
+                "alternative": {
+                    "choice_marker": { "token_id": "TOK_12_9_003", "text": "أو", "grammar_refs": [ "GRAM_ATF_AW" ] },
+                    "alt_verb": { "token_id": "TOK_12_9_004", "text": "اطرحوه", "grammar_refs": [ "GRAM_AMR" ] },
+                    "alt_complement": { "token_id": "TOK_12_9_005", "text": "أرضًا", "role": "مفعول فيه/جهة مبهمة" }
                 },
-                {
-                    "token_id": "TOK_12_9_003",
-                    "surface_ar": "أو",
-                    "lemma_ar": "أو",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_9_004",
-                    "surface_ar": "اطرحوه",
-                    "lemma_ar": "طرح",
-                    "root": "طرح",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_9_005",
-                    "surface_ar": "أرضا",
-                    "lemma_ar": "أرض",
-                    "root": "أرض",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_9_006",
-                    "surface_ar": "يخل",
-                    "lemma_ar": "خلا",
-                    "root": "خلو",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_9_007",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
+                "purpose": { "clause_id": "CL_12_9_PURPOSE" },
+                "result": { "clause_id": "CL_12_9_RESULT" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_9_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_9_ROOT",
+                        "level": 0,
+                        "kind": "verbal",
+                        "type": "main",
+                        "span": { "from": "TOK_12_9_001", "to": "TOK_12_9_016" },
+                        "trigger": "اقتلوا",
+                        "contribution": "اقتراح الفعل الجذري مع بديل يُخفِّف صورة الجريمة."
+                    },
+                    {
+                        "clause_id": "CL_12_9_ALT",
+                        "level": 1,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "choice",
+                        "span": { "from": "TOK_12_9_003", "to": "TOK_12_9_005" },
+                        "trigger": "أو",
+                        "parent_clause_id": "CL_12_9_ROOT",
+                        "contribution": "بديل: الإبعاد بدل القتل."
+                    },
+                    {
+                        "clause_id": "CL_12_9_PURPOSE",
+                        "level": 1,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "ta3lil_ghaya",
+                        "span": { "from": "TOK_12_9_006", "to": "TOK_12_9_010" },
+                        "trigger": "يخل",
+                        "parent_clause_id": "CL_12_9_ROOT",
+                        "contribution": "غاية الحسد: إفراد وجه الأب/انتباهه لهم."
+                    },
+                    {
+                        "clause_id": "CL_12_9_RESULT",
+                        "level": 1,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "result_claim",
+                        "span": { "from": "TOK_12_9_011", "to": "TOK_12_9_016" },
+                        "trigger": "وتكونوا",
+                        "parent_clause_id": "CL_12_9_ROOT",
+                        "contribution": "تسويغ لاحق: ادعاء الإصلاح بعد ارتكاب الجناية."
                     }
-                },
-                {
-                    "token_id": "TOK_12_9_008",
-                    "surface_ar": "كم",
-                    "lemma_ar": "كم",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "ضمير"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_9_009",
-                    "surface_ar": "وجه",
-                    "lemma_ar": "وجه",
-                    "root": "وجه",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_9_010",
-                    "surface_ar": "أبيكم",
-                    "lemma_ar": "أب",
-                    "root": "أب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_9_011",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_9_012",
-                    "surface_ar": "تكونوا",
-                    "lemma_ar": "كان",
-                    "root": "كون",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_9_013",
-                    "surface_ar": "من",
-                    "lemma_ar": "من",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_9_014",
-                    "surface_ar": "بعده",
-                    "lemma_ar": "بعد",
-                    "root": "بعد",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_9_015",
-                    "surface_ar": "قوما",
-                    "lemma_ar": "قوم",
-                    "root": "قوم",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_9_016",
-                    "surface_ar": "صالحين",
-                    "lemma_ar": "صالح",
-                    "root": "صلح",
-                    "root_id": null,
-                    "pos": "adj",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم فاعل"
-                    }
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_9_001", "surface": "اقتلوا", "kind": "imperative", "function": "proposal_action" },
+                { "token_id": "TOK_12_9_003", "surface": "أو", "kind": "choice", "function": "alternative" },
+                { "token_id": "TOK_12_9_006", "surface": "يخل", "kind": "purpose", "function": "goal" },
+                { "token_id": "TOK_12_9_011", "surface": "و", "kind": "connector", "function": "result_flow" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [
+                "GRAM_AMR",
+                "GRAM_ATF_AW",
+                "GRAM_TA3LIL_GHAYA",
+                "GRAM_JUMAL_MUTA3AQIBA"
+            ],
+            "sentence_translation_progressive": {
+                "macro_view": {
+                    "logic": "أمر/اقتراح → بديل → غاية → نتيجة مُتخيَّلة",
+                    "semantic_axis": "غيرة → إقصاء → استحواذ → تبرير"
+                },
+                "steps": [
+                    { "order": 1, "arabic_focus": "اقتلوا يوسف", "english": "Kill Yusuf…", "note": "صيغة أمر جماعي مباشر." },
+                    { "order": 2, "arabic_focus": "أو اطرحوه أرضًا", "english": "or cast him away to some land…", "note": "بديل أقل صراحة من القتل." },
+                    { "order": 3, "arabic_focus": "يخل لكم وجه أبيكم", "english": "your father’s attention will be for you…", "note": "تعليل/غاية: احتكار قلب الأب." },
+                    { "order": 4, "arabic_focus": "وتكونوا… صالحين", "english": "and afterward you will become righteous…", "note": "تزيين نفسي: تبرير ما بعد الجريمة." }
+                ],
+                "final_synthesis": "Kill Yusuf, or cast him away to some land; your father’s attention will be for you, and after him you will become a righteous people."
+            }
         },
+
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_10_A",
-            "unit_id": "U_12_10",
-            "arabic": "قَالَ قَائِلٌ مِّنْهُمْ لَا تَقْتُلُوا يُوسُفَ وَأَلْقُوهُ فِي غَيَابَتِ الْجُبِّ يَلْتَقِطْهُ بَعْضُ السَّيَّارَةِ إِن كُنتُمْ فَاعِلِينَ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
-                    "token_id": "TOK_12_10_001",
-                    "surface_ar": "قال",
-                    "lemma_ar": "قال",
-                    "root": "قول",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 10,
+                "ayah_to": 10,
+                "unit_id": "U_12_10",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "قَالَ قَائِلٌ مِّنْهُمْ لَا تَقْتُلُوا يُوسُفَ وَأَلْقُوهُ فِي غَيَابَتِ الْجُبِّ يَلْتَقِطْهُ بَعْضُ السَّيَّارَةِ إِن كُنتُمْ فَاعِلِينَ",
+                "translation": "A speaker among them said: Do not kill Yusuf; throw him into the depths of the well—so that some travelers may pick him up—if you are going to do anything."
+            },
+            "anchors": { "from_token_id": "TOK_12_10_001", "to_token_id": "TOK_12_10_017" },
+            "notes": "جملة فعلية (قال) بفاعل مذكور (قائلٌ منهم) ثم مقول قول مركب: نهي (لا تقتلوا) + أمر بديل (وألقوه) + جواب الطلب/تعليل عملي (يلتقطه بعض السيارة) + شرط تقييدي (إن كنتم فاعلين).",
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "verbal_with_quoted_multi_clauses",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "reported_speech",
+                    "prohibition",
+                    "imperative",
+                    "jawab_talab_like_effect",
+                    "conditional_clause"
+                ]
+            },
+            "main_spine": {
+                "kind": "verbal",
+                "verb": { "token_id": "TOK_12_10_001", "text": "قال", "grammar_refs": [ "GRAM_QAWL", "GRAM_FI3L_MADI" ] },
+                "subject": {
+                    "explicit": true,
                     "token_id": "TOK_12_10_002",
-                    "surface_ar": "قائل",
-                    "lemma_ar": "قائل",
-                    "root": "قول",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم فاعل"
+                    "text": "قائل",
+                    "descriptor": { "token_id": "TOK_12_10_003", "text": "منهم", "role": "جار ومجرور للتبعيض" }
+                },
+                "object": { "kind": "quoted_speech", "clause_id": "CL_12_10_QAWL" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_10_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_10_ROOT",
+                        "level": 0,
+                        "kind": "verbal",
+                        "type": "main",
+                        "span": { "from": "TOK_12_10_001", "to": "TOK_12_10_017" },
+                        "trigger": "قال",
+                        "contribution": "إدخال صوتٍ داخليّ يقترح مسارًا أقل مباشرة."
+                    },
+                    {
+                        "clause_id": "CL_12_10_QAWL",
+                        "level": 1,
+                        "kind": "mixed",
+                        "type": "subordinate",
+                        "subtype": "qawl_quoted",
+                        "span": { "from": "TOK_12_10_004", "to": "TOK_12_10_017" },
+                        "trigger": "لا",
+                        "parent_clause_id": "CL_12_10_ROOT",
+                        "relation_to_parent": "مقول القول",
+                        "contribution": "سلسلة توجيهات: نهي → بديل → مخرج عملي → تقييد بالشرط."
+                    },
+                    {
+                        "clause_id": "CL_12_10_PROHIB",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "nahy",
+                        "span": { "from": "TOK_12_10_004", "to": "TOK_12_10_006" },
+                        "trigger": "لا",
+                        "parent_clause_id": "CL_12_10_QAWL",
+                        "contribution": "منع خيار القتل صراحة."
+                    },
+                    {
+                        "clause_id": "CL_12_10_COMMAND",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "amr",
+                        "span": { "from": "TOK_12_10_007", "to": "TOK_12_10_011" },
+                        "trigger": "وألقوه",
+                        "parent_clause_id": "CL_12_10_QAWL",
+                        "contribution": "اقتراح البديل: الإلقاء في غيابة الجب."
+                    },
+                    {
+                        "clause_id": "CL_12_10_EFFECT",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "jawab_talab",
+                        "span": { "from": "TOK_12_10_012", "to": "TOK_12_10_014" },
+                        "trigger": "يلتقطه",
+                        "parent_clause_id": "CL_12_10_QAWL",
+                        "contribution": "مخرج عملي متوقع: التقاطه من بعض السيارة (قافلة/مسافرين)."
+                    },
+                    {
+                        "clause_id": "CL_12_10_COND",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "shartiyya",
+                        "span": { "from": "TOK_12_10_015", "to": "TOK_12_10_017" },
+                        "trigger": "إن",
+                        "parent_clause_id": "CL_12_10_QAWL",
+                        "contribution": "شرط تقييدي: إن كنتم مصممين على فعل شيء."
                     }
-                },
-                {
-                    "token_id": "TOK_12_10_003",
-                    "surface_ar": "منهم",
-                    "lemma_ar": null,
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_004",
-                    "surface_ar": "لا",
-                    "lemma_ar": "لا",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_005",
-                    "surface_ar": "تقتلوا",
-                    "lemma_ar": "قتل",
-                    "root": "قتل",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_006",
-                    "surface_ar": "يوسف",
-                    "lemma_ar": "يوسف",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_007",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_10_008",
-                    "surface_ar": "ألقوه",
-                    "lemma_ar": "ألقى",
-                    "root": "لقي",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_009",
-                    "surface_ar": "في",
-                    "lemma_ar": "في",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_010",
-                    "surface_ar": "غيابة",
-                    "lemma_ar": "غيابة",
-                    "root": "غيب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_011",
-                    "surface_ar": "الجب",
-                    "lemma_ar": "جب",
-                    "root": "جبب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_012",
-                    "surface_ar": "يلتقطه",
-                    "lemma_ar": "التقط",
-                    "root": "لقط",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_013",
-                    "surface_ar": "بعض",
-                    "lemma_ar": "بعض",
-                    "root": "بعض",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_014",
-                    "surface_ar": "السيارة",
-                    "lemma_ar": "سيارة",
-                    "root": "سير",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_015",
-                    "surface_ar": "إن",
-                    "lemma_ar": "إن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_016",
-                    "surface_ar": "كنتم",
-                    "lemma_ar": "كان",
-                    "root": "كون",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_10_017",
-                    "surface_ar": "فاعلين",
-                    "lemma_ar": "فاعل",
-                    "root": "فعل",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم فاعل"
-                    }
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_10_001", "surface": "قال", "kind": "reporting_verb", "function": "speech_frame" },
+                { "token_id": "TOK_12_10_004", "surface": "لا", "kind": "prohibition", "function": "nahy" },
+                { "token_id": "TOK_12_10_007", "surface": "و", "kind": "connector", "function": "move_to_alternative" },
+                { "token_id": "TOK_12_10_015", "surface": "إن", "kind": "conditional", "function": "constraint" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [
+                "GRAM_QAWL",
+                "GRAM_QAWL_QUOTED",
+                "GRAM_NAHY",
+                "GRAM_AMR",
+                "GRAM_JAWAB_TALAB",
+                "GRAM_SHARTIYYA"
+            ],
+            "sentence_translation_progressive": {
+                "macro_view": {
+                    "logic": "إطار قول → نهي → بديل → نتيجة متوقعة → شرط",
+                    "semantic_axis": "تقليل الجريمة → هندسة الخلاص → تبرير عملي"
+                },
+                "steps": [
+                    { "order": 1, "arabic_focus": "قال قائل منهم", "english": "A speaker among them said…", "note": "تحديد مصدر رأي داخل الجماعة." },
+                    { "order": 2, "arabic_focus": "لا تقتلوا يوسف", "english": "Do not kill Yusuf…", "note": "نهي صريح عن أشد الخيارات." },
+                    { "order": 3, "arabic_focus": "وألقوه في غيابة الجب", "english": "throw him into the depths of the well…", "note": "بديل: إبعاد مع بقاء احتمال النجاة." },
+                    { "order": 4, "arabic_focus": "يلتقطه بعض السيارة", "english": "so that some travelers may pick him up…", "note": "جواب طلب/نتيجة مرجوة." },
+                    { "order": 5, "arabic_focus": "إن كنتم فاعلين", "english": "if you are going to do anything.", "note": "تقييد: إن كنتم مصرّين على الفعل." }
+                ],
+                "final_synthesis": "A speaker among them said: Do not kill Yusuf; throw him into the depths of the well—so that some travelers may pick him up—if you are going to do anything."
+            }
         },
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_11_A",
-            "unit_id": "U_12_11",
-            "arabic": "قَالُوا يَا أَبَانَا مَا لَكَ لَا تَأْمَنَّا عَلَىٰ يُوسُفَ وَإِنَّا لَهُ لَنَاصِحُونَ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
-                    "token_id": "TOK_12_11_001",
-                    "surface_ar": "قالوا",
-                    "lemma_ar": "قال",
-                    "root": "قول",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_11_002",
-                    "surface_ar": "يا",
-                    "lemma_ar": "يا",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_11_003",
-                    "surface_ar": "أبانا",
-                    "lemma_ar": "أب",
-                    "root": "أب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_11_004",
-                    "surface_ar": "ما",
-                    "lemma_ar": "ما",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_11_005",
-                    "surface_ar": "لك",
-                    "lemma_ar": null,
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_11_006",
-                    "surface_ar": "لا",
-                    "lemma_ar": "لا",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_11_007",
-                    "surface_ar": "تأمنا",
-                    "lemma_ar": "أمن",
-                    "root": "أمن",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_11_008",
-                    "surface_ar": "على",
-                    "lemma_ar": "على",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_11_009",
-                    "surface_ar": "يوسف",
-                    "lemma_ar": "يوسف",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_11_010",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 11,
+                "ayah_to": 11,
+                "unit_id": "U_12_11",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "قَالُوا يَا أَبَانَا مَا لَكَ لَا تَأْمَنَّا عَلَىٰ يُوسُفَ وَإِنَّا لَهُ لَنَاصِحُونَ",
+                "translation": "They said: O our father, why do you not trust us with Yusuf, when indeed we are sincere toward him?"
+            },
+            "anchors": { "from_token_id": "TOK_12_11_001", "to_token_id": "TOK_12_11_015" },
+            "notes": "إطار قول (قالوا) + نداء (يا أبانا) ثم استفهام إنكاري (ما لك لا تأمنا…) للتأثير، يتلوه توكيد بالصدق عبر (وإنّا له لناصحون) مع إنّ واللام.",
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "verbal_with_vocative_and_emphasis",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "reported_speech",
+                    "vocative",
+                    "rhetorical_question",
+                    "inna_lam_emphasis"
+                ]
+            },
+            "main_spine": {
+                "kind": "verbal",
+                "verb": { "token_id": "TOK_12_11_001", "text": "قالوا", "grammar_refs": [ "GRAM_QAWL" ] },
+                "object": { "kind": "quoted_speech", "clause_id": "CL_12_11_QAWL" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_11_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_11_ROOT",
+                        "level": 0,
+                        "kind": "verbal",
+                        "type": "main",
+                        "span": { "from": "TOK_12_11_001", "to": "TOK_12_11_015" },
+                        "trigger": "قالوا",
+                        "contribution": "بدء الضغط النفسي على الأب عبر خطاب مباشر."
+                    },
+                    {
+                        "clause_id": "CL_12_11_QAWL",
+                        "level": 1,
+                        "kind": "mixed",
+                        "type": "subordinate",
+                        "subtype": "qawl_quoted",
+                        "span": { "from": "TOK_12_11_002", "to": "TOK_12_11_015" },
+                        "trigger": "يا",
+                        "parent_clause_id": "CL_12_11_ROOT",
+                        "relation_to_parent": "مقول القول",
+                        "contribution": "نداء + سؤال إنكاري + تزكية مؤكدة."
+                    },
+                    {
+                        "clause_id": "CL_12_11_VOC",
+                        "level": 2,
+                        "kind": "particle",
+                        "type": "subordinate",
+                        "subtype": "nida",
+                        "span": { "from": "TOK_12_11_002", "to": "TOK_12_11_003" },
+                        "trigger": "يا",
+                        "parent_clause_id": "CL_12_11_QAWL",
+                        "contribution": "استجلاب العاطفة: يا أبانا."
+                    },
+                    {
+                        "clause_id": "CL_12_11_Q",
+                        "level": 2,
+                        "kind": "mixed",
+                        "type": "subordinate",
+                        "subtype": "istifham_inkari",
+                        "span": { "from": "TOK_12_11_004", "to": "TOK_12_11_009" },
+                        "trigger": "ما",
+                        "parent_clause_id": "CL_12_11_QAWL",
+                        "contribution": "سؤال إنكاري/لوم: لماذا لا تأمَنّا عليه؟"
+                    },
+                    {
+                        "clause_id": "CL_12_11_EMPH",
+                        "level": 2,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "inna_emphatic",
+                        "span": { "from": "TOK_12_11_010", "to": "TOK_12_11_015" },
+                        "trigger": "وإنا",
+                        "parent_clause_id": "CL_12_11_QAWL",
+                        "contribution": "تزكية مؤكدة بالصدق/النصح (إنّ + لام)."
                     }
-                },
-                {
-                    "token_id": "TOK_12_11_011",
-                    "surface_ar": "إنا",
-                    "lemma_ar": "إن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_11_012",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_11_013",
-                    "surface_ar": "ه",
-                    "lemma_ar": "هو",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "ضمير"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_11_014",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لَـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_11_015",
-                    "surface_ar": "ناصحون",
-                    "lemma_ar": "ناصح",
-                    "root": "نصح",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم فاعل"
-                    }
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_11_002", "surface": "يا", "kind": "vocative", "function": "emotional_hook" },
+                { "token_id": "TOK_12_11_004", "surface": "ما", "kind": "interrogative", "function": "rhetorical_pressure" },
+                { "token_id": "TOK_12_11_011", "surface": "إنا", "kind": "emphasis", "function": "self_attestation" },
+                { "token_id": "TOK_12_11_014", "surface": "ل", "kind": "emphasis", "function": "lam_al_ibtida" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [
+                "GRAM_QAWL",
+                "GRAM_QAWL_QUOTED",
+                "GRAM_NIDA",
+                "GRAM_ISTIFHAM",
+                "GRAM_INNA",
+                "GRAM_LAM_TAWKID"
+            ],
+            "sentence_translation_progressive": {
+                "macro_view": { "logic": "قول → نداء → سؤال إنكاري → تزكية مؤكدة", "semantic_axis": "استعطاف → ضغط → تبرير" },
+                "steps": [
+                    { "order": 1, "arabic_focus": "قالوا", "english": "They said…", "note": "افتتاح خطاب الإخوة." },
+                    { "order": 2, "arabic_focus": "يا أبانا", "english": "O our father…", "note": "نداء يستدرّ العاطفة." },
+                    { "order": 3, "arabic_focus": "ما لك لا تأمنا على يوسف", "english": "why do you not trust us with Yusuf…", "note": "استفهام إنكاري للتأثير." },
+                    { "order": 4, "arabic_focus": "وإنا له لناصحون", "english": "when indeed we are sincere toward him.", "note": "توكيد بالإنّ واللام." }
+                ],
+                "final_synthesis": "They said: O our father, why do you not trust us with Yusuf, when indeed we are sincere toward him?"
+            }
         },
+
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_12_A",
-            "unit_id": "U_12_12",
-            "arabic": "أَرْسِلْهُ مَعَنَا غَدًا يَرْتَعْ وَيَلْعَبْ وَإِنَّا لَهُ لَحَافِظُونَ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
-                    "token_id": "TOK_12_12_001",
-                    "surface_ar": "أرسله",
-                    "lemma_ar": "أرسل",
-                    "root": "رسل",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_12_002",
-                    "surface_ar": "معنا",
-                    "lemma_ar": "مع",
-                    "root": "مع",
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_12_003",
-                    "surface_ar": "غدا",
-                    "lemma_ar": "غد",
-                    "root": "غد",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_12_004",
-                    "surface_ar": "يرتع",
-                    "lemma_ar": null,
-                    "root": null,
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_12_005",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 12,
+                "ayah_to": 12,
+                "unit_id": "U_12_12",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "أَرْسِلْهُ مَعَنَا غَدًا يَرْتَعْ وَيَلْعَبْ وَإِنَّا لَهُ لَحَافِظُونَ",
+                "translation": "Send him with us tomorrow; he will enjoy himself and play, and indeed we will protect him."
+            },
+            "anchors": { "from_token_id": "TOK_12_12_001", "to_token_id": "TOK_12_12_012" },
+            "notes": "أمرٌ مباشر للأب (أرسله) مع ظرف زمان (غدًا) ثم تصوير منفعة (يرتع ويلعب) ثم ضمان مؤكد (وإنّا له لحافظون) بإنّ واللام.",
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "imperative_with_promises_and_emphasis",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "imperative",
+                    "temporal_adverb",
+                    "coordination",
+                    "inna_lam_emphasis"
+                ]
+            },
+            "main_spine": {
+                "kind": "verbal",
+                "verb": { "token_id": "TOK_12_12_001", "text": "أرسله", "grammar_refs": [ "GRAM_AMR" ] },
+                "with": { "token_id": "TOK_12_12_002", "text": "معنا", "role": "جار ومجرور" },
+                "time": { "token_id": "TOK_12_12_003", "text": "غدًا", "role": "ظرف زمان" },
+                "promise_activity": { "clause_id": "CL_12_12_ACTIVITY" },
+                "promise_protection": { "clause_id": "CL_12_12_PROTECT" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_12_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_12_ROOT",
+                        "level": 0,
+                        "kind": "verbal",
+                        "type": "main",
+                        "span": { "from": "TOK_12_12_001", "to": "TOK_12_12_012" },
+                        "trigger": "أرسله",
+                        "contribution": "طلب الإرسال مع تزيين الفائدة والضمان."
+                    },
+                    {
+                        "clause_id": "CL_12_12_ACTIVITY",
+                        "level": 1,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "purpose_benefit",
+                        "span": { "from": "TOK_12_12_004", "to": "TOK_12_12_006" },
+                        "trigger": "يرتع",
+                        "parent_clause_id": "CL_12_12_ROOT",
+                        "contribution": "تزيين الغاية: يرتع ويلعب."
+                    },
+                    {
+                        "clause_id": "CL_12_12_PROTECT",
+                        "level": 1,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "inna_emphatic",
+                        "span": { "from": "TOK_12_12_007", "to": "TOK_12_12_012" },
+                        "trigger": "وإنا",
+                        "parent_clause_id": "CL_12_12_ROOT",
+                        "contribution": "توكيد الحماية: إنّ + لام."
                     }
-                },
-                {
-                    "token_id": "TOK_12_12_006",
-                    "surface_ar": "يلعب",
-                    "lemma_ar": "لعب",
-                    "root": "لعب",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_12_007",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_12_008",
-                    "surface_ar": "إنا",
-                    "lemma_ar": "إن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_12_009",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_12_010",
-                    "surface_ar": "ه",
-                    "lemma_ar": "هو",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "ضمير"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_12_011",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لَـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_12_012",
-                    "surface_ar": "حافظون",
-                    "lemma_ar": "حافظ",
-                    "root": "حفظ",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم فاعل"
-                    }
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_12_001", "surface": "أرسله", "kind": "imperative", "function": "request" },
+                { "token_id": "TOK_12_12_003", "surface": "غدًا", "kind": "time", "function": "schedule" },
+                { "token_id": "TOK_12_12_008", "surface": "إنا", "kind": "emphasis", "function": "assurance" },
+                { "token_id": "TOK_12_12_011", "surface": "ل", "kind": "emphasis", "function": "lam_al_ibtida" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [
+                "GRAM_AMR",
+                "GRAM_ZARF",
+                "GRAM_ATF",
+                "GRAM_INNA",
+                "GRAM_LAM_TAWKID"
+            ],
+            "sentence_translation_progressive": {
+                "macro_view": { "logic": "طلب → زمن → تزيين منفعة → ضمان مؤكد", "semantic_axis": "إقناع → تطمين" },
+                "steps": [
+                    { "order": 1, "arabic_focus": "أرسله معنا", "english": "Send him with us…", "note": "طلب مباشر." },
+                    { "order": 2, "arabic_focus": "غدًا", "english": "tomorrow…", "note": "تحديد زمن." },
+                    { "order": 3, "arabic_focus": "يرتع ويلعب", "english": "he will enjoy himself and play…", "note": "تزيين المنفعة." },
+                    { "order": 4, "arabic_focus": "وإنا له لحافظون", "english": "and indeed we will protect him.", "note": "ضمان مؤكد." }
+                ],
+                "final_synthesis": "Send him with us tomorrow; he will enjoy himself and play, and indeed we will protect him."
+            }
         },
+
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_13_A",
-            "unit_id": "U_12_13",
-            "arabic": "قَالَ إِنِّي لَيَحْزُنُنِي أَن تَذْهَبُوا بِهِ وَأَخَافُ أَن يَأْكُلَهُ الذِّئْبُ وَأَنتُمْ عَنْهُ غَافِلُونَ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
-                    "token_id": "TOK_12_13_001",
-                    "surface_ar": "قال",
-                    "lemma_ar": "قال",
-                    "root": "قول",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_002",
-                    "surface_ar": "إني",
-                    "lemma_ar": "إن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_003",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لَـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 13,
+                "ayah_to": 13,
+                "unit_id": "U_12_13",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "قَالَ إِنِّي لَيَحْزُنُنِي أَن تَذْهَبُوا بِهِ وَأَخَافُ أَن يَأْكُلَهُ الذِّئْبُ وَأَنتُمْ عَنْهُ غَافِلُونَ",
+                "translation": "He said: Indeed, it grieves me that you take him away, and I fear that a wolf may eat him while you are heedless of him."
+            },
+            "anchors": { "from_token_id": "TOK_12_13_001", "to_token_id": "TOK_12_13_018" },
+            "notes": "إطار قول (قال) ثم جملة مؤكدة بـ(إنّ) واللام: (ليحزنني) وسبب الحزن مصدر مؤول (أن تذهبوا به)، ثم جملة ثانية (وأخاف) وسبب الخوف مصدر مؤول (أن يأكله الذئب)، ثم حال: (وأنتم عنه غافلون).",
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "verbal_with_masdar_muawwal_and_hal",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "reported_speech",
+                    "inna_lam_emphasis",
+                    "masdar_muawwal",
+                    "hal_clause"
+                ]
+            },
+            "main_spine": {
+                "kind": "verbal",
+                "verb": { "token_id": "TOK_12_13_001", "text": "قال", "grammar_refs": [ "GRAM_QAWL" ] },
+                "object": { "kind": "quoted_speech", "clause_id": "CL_12_13_QAWL" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_13_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_13_ROOT",
+                        "level": 0,
+                        "kind": "verbal",
+                        "type": "main",
+                        "span": { "from": "TOK_12_13_001", "to": "TOK_12_13_018" },
+                        "trigger": "قال",
+                        "contribution": "استجابة الأب بعاطفة وخوف."
+                    },
+                    {
+                        "clause_id": "CL_12_13_QAWL",
+                        "level": 1,
+                        "kind": "mixed",
+                        "type": "subordinate",
+                        "subtype": "qawl_quoted",
+                        "span": { "from": "TOK_12_13_002", "to": "TOK_12_13_018" },
+                        "trigger": "إني",
+                        "parent_clause_id": "CL_12_13_ROOT",
+                        "relation_to_parent": "مقول القول",
+                        "contribution": "حزن مؤكد + خوف + حال الغفلة."
+                    },
+                    {
+                        "clause_id": "CL_12_13_SORROW",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "inna_emphatic",
+                        "span": { "from": "TOK_12_13_002", "to": "TOK_12_13_008" },
+                        "trigger": "إني",
+                        "parent_clause_id": "CL_12_13_QAWL",
+                        "contribution": "توكيد الحزن: إنّ + لام."
+                    },
+                    {
+                        "clause_id": "CL_12_13_MASDAR1",
+                        "level": 3,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "masdar_muawwal",
+                        "span": { "from": "TOK_12_13_005", "to": "TOK_12_13_008" },
+                        "trigger": "أن",
+                        "parent_clause_id": "CL_12_13_SORROW",
+                        "contribution": "سبب الحزن: أن تذهبوا به."
+                    },
+                    {
+                        "clause_id": "CL_12_13_FEAR",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "atf_new_clause",
+                        "span": { "from": "TOK_12_13_009", "to": "TOK_12_13_013" },
+                        "trigger": "وأخاف",
+                        "parent_clause_id": "CL_12_13_QAWL",
+                        "contribution": "انتقال إلى الخوف كتعليل ثان."
+                    },
+                    {
+                        "clause_id": "CL_12_13_MASDAR2",
+                        "level": 3,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "masdar_muawwal",
+                        "span": { "from": "TOK_12_13_011", "to": "TOK_12_13_013" },
+                        "trigger": "أن",
+                        "parent_clause_id": "CL_12_13_FEAR",
+                        "contribution": "سبب الخوف: أن يأكله الذئب."
+                    },
+                    {
+                        "clause_id": "CL_12_13_HAL",
+                        "level": 2,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "hal",
+                        "span": { "from": "TOK_12_13_014", "to": "TOK_12_13_018" },
+                        "trigger": "وأنتم",
+                        "parent_clause_id": "CL_12_13_QAWL",
+                        "contribution": "حالٌ مفسِّر للخطر: غفلة الحُماة."
                     }
-                },
-                {
-                    "token_id": "TOK_12_13_004",
-                    "surface_ar": "يحزنني",
-                    "lemma_ar": "حزن",
-                    "root": "حزن",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_005",
-                    "surface_ar": "أن",
-                    "lemma_ar": "أن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_006",
-                    "surface_ar": "تذهبوا",
-                    "lemma_ar": "ذهب",
-                    "root": "ذهب",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_007",
-                    "surface_ar": "ب",
-                    "lemma_ar": "بِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_13_008",
-                    "surface_ar": "ه",
-                    "lemma_ar": "هو",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "ضمير"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_13_009",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_13_010",
-                    "surface_ar": "أخاف",
-                    "lemma_ar": "خاف",
-                    "root": "خوف",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_011",
-                    "surface_ar": "أن",
-                    "lemma_ar": "أن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_012",
-                    "surface_ar": "يأكله",
-                    "lemma_ar": "أكل",
-                    "root": "أكل",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_013",
-                    "surface_ar": "الذئب",
-                    "lemma_ar": "ذئب",
-                    "root": "ذأب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_014",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_13_015",
-                    "surface_ar": "أنتم",
-                    "lemma_ar": "أنتم",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_016",
-                    "surface_ar": "عن",
-                    "lemma_ar": "عن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_13_017",
-                    "surface_ar": "ه",
-                    "lemma_ar": "هو",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "ضمير"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_13_018",
-                    "surface_ar": "غافلون",
-                    "lemma_ar": "غافل",
-                    "root": "غفل",
-                    "root_id": null,
-                    "pos": "adj",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم فاعل"
-                    }
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_13_002", "surface": "إني", "kind": "emphasis", "function": "certainty" },
+                { "token_id": "TOK_12_13_003", "surface": "ل", "kind": "emphasis", "function": "lam_al_ibtida" },
+                { "token_id": "TOK_12_13_005", "surface": "أن", "kind": "masdar_muawwal", "function": "cause" },
+                { "token_id": "TOK_12_13_014", "surface": "و", "kind": "hal_marker", "function": "state_description" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [
+                "GRAM_QAWL",
+                "GRAM_INNA",
+                "GRAM_LAM_TAWKID",
+                "GRAM_MASDAR_MUAWWAL",
+                "GRAM_HAL",
+                "GRAM_ATF"
+            ],
+            "sentence_translation_progressive": {
+                "macro_view": { "logic": "قول → حزن مؤكد وسببه → خوف وسببه → حال الغفلة", "semantic_axis": "عاطفة الأب → توقع خطر" },
+                "steps": [
+                    { "order": 1, "arabic_focus": "قال", "english": "He said…", "note": "إطار الاستجابة." },
+                    { "order": 2, "arabic_focus": "إني ليحزنني", "english": "Indeed, it grieves me…", "note": "توكيد بالحرف واللام." },
+                    { "order": 3, "arabic_focus": "أن تذهبوا به", "english": "that you take him away…", "note": "مصدر مؤول سبب الحزن." },
+                    { "order": 4, "arabic_focus": "وأخاف أن يأكله الذئب", "english": "and I fear a wolf may eat him…", "note": "خوف + مصدر مؤول." },
+                    { "order": 5, "arabic_focus": "وأنتم عنه غافلون", "english": "while you are heedless of him.", "note": "حال يشرح موضع الخطر." }
+                ],
+                "final_synthesis": "He said: Indeed, it grieves me that you take him away, and I fear that a wolf may eat him while you are heedless of him."
+            }
         },
+
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_14_A",
-            "unit_id": "U_12_14",
-            "arabic": "قَالُوا لَئِنْ أَكَلَهُ الذِّئْبُ وَنَحْنُ عُصْبَةٌ إِنَّا إِذًا لَّخَاسِرُونَ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
-                    "token_id": "TOK_12_14_001",
-                    "surface_ar": "قالوا",
-                    "lemma_ar": "قال",
-                    "root": "قول",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_14_002",
-                    "surface_ar": "لئن",
-                    "lemma_ar": "لئن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_14_003",
-                    "surface_ar": "أكله",
-                    "lemma_ar": "أكل",
-                    "root": "أكل",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_14_004",
-                    "surface_ar": "الذئب",
-                    "lemma_ar": "ذئب",
-                    "root": "ذأب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_14_005",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 14,
+                "ayah_to": 14,
+                "unit_id": "U_12_14",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "قَالُوا لَئِنْ أَكَلَهُ الذِّئْبُ وَنَحْنُ عُصْبَةٌ إِنَّا إِذًا لَّخَاسِرُونَ",
+                "translation": "They said: If the wolf were to eat him while we are a strong group, then indeed we would surely be losers."
+            },
+            "anchors": { "from_token_id": "TOK_12_14_001", "to_token_id": "TOK_12_14_011" },
+            "notes": "إطار قول ثم شرط مؤكَّد بـ(لَئِن) (لام موطئة + إن الشرطية): فعل الشرط (أكله الذئب) مع جملة حال/اعتراض (ونحن عصبة)، ثم جواب الشرط مؤكد: (إنا إذاً لخاسرون) بإنّ واللام.",
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "conditional_with_emphatic_answer",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "conditional_particle",
+                    "interjected_state_clause",
+                    "inna_lam_emphasis"
+                ]
+            },
+            "main_spine": {
+                "kind": "verbal",
+                "verb": { "token_id": "TOK_12_14_001", "text": "قالوا", "grammar_refs": [ "GRAM_QAWL" ] },
+                "object": { "kind": "quoted_speech", "clause_id": "CL_12_14_QAWL" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_14_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_14_ROOT",
+                        "level": 0,
+                        "kind": "verbal",
+                        "type": "main",
+                        "span": { "from": "TOK_12_14_001", "to": "TOK_12_14_011" },
+                        "trigger": "قالوا",
+                        "contribution": "دفعُ شبهة الخوف بتحدٍّ منطقي."
+                    },
+                    {
+                        "clause_id": "CL_12_14_QAWL",
+                        "level": 1,
+                        "kind": "conditional",
+                        "type": "subordinate",
+                        "subtype": "qawl_quoted",
+                        "span": { "from": "TOK_12_14_002", "to": "TOK_12_14_011" },
+                        "trigger": "لئن",
+                        "parent_clause_id": "CL_12_14_ROOT",
+                        "relation_to_parent": "مقول القول",
+                        "contribution": "صياغة شرطية تُثبت زعم الكفاءة الجماعية."
+                    },
+                    {
+                        "clause_id": "CL_12_14_COND",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "shartiyya",
+                        "span": { "from": "TOK_12_14_002", "to": "TOK_12_14_004" },
+                        "trigger": "لئن",
+                        "parent_clause_id": "CL_12_14_QAWL",
+                        "contribution": "فعل الشرط: أكله الذئب."
+                    },
+                    {
+                        "clause_id": "CL_12_14_HAL",
+                        "level": 2,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "hal",
+                        "span": { "from": "TOK_12_14_005", "to": "TOK_12_14_007" },
+                        "trigger": "ونحن",
+                        "parent_clause_id": "CL_12_14_QAWL",
+                        "contribution": "حال/اعتراض: مع كوننا عصبة (تعظيم الذات)."
+                    },
+                    {
+                        "clause_id": "CL_12_14_JAWAB",
+                        "level": 2,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "jawab_shart_emphatic",
+                        "span": { "from": "TOK_12_14_008", "to": "TOK_12_14_011" },
+                        "trigger": "إنا",
+                        "parent_clause_id": "CL_12_14_QAWL",
+                        "contribution": "جواب الشرط المؤكد: إذًا لخاسرون."
                     }
-                },
-                {
-                    "token_id": "TOK_12_14_006",
-                    "surface_ar": "نحن",
-                    "lemma_ar": "نحن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_14_007",
-                    "surface_ar": "عصبة",
-                    "lemma_ar": "عصبة",
-                    "root": "عصب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_14_008",
-                    "surface_ar": "إنا",
-                    "lemma_ar": "إن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_14_009",
-                    "surface_ar": "إذا",
-                    "lemma_ar": "إذا",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_14_010",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لَـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_14_011",
-                    "surface_ar": "خاسرون",
-                    "lemma_ar": "خاسر",
-                    "root": "خسر",
-                    "root_id": null,
-                    "pos": "adj",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم فاعل"
-                    }
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_14_002", "surface": "لئن", "kind": "conditional", "function": "if_emphatic" },
+                { "token_id": "TOK_12_14_005", "surface": "و", "kind": "interjection", "function": "state_insert" },
+                { "token_id": "TOK_12_14_008", "surface": "إنا", "kind": "emphasis", "function": "affirmation" },
+                { "token_id": "TOK_12_14_010", "surface": "ل", "kind": "emphasis", "function": "lam_al_ibtida" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [
+                "GRAM_QAWL",
+                "GRAM_SHARTIYYA",
+                "GRAM_JAWAB_SHART",
+                "GRAM_HAL",
+                "GRAM_INNA",
+                "GRAM_LAM_TAWKID"
+            ],
+            "sentence_translation_progressive": {
+                "macro_view": { "logic": "قول → شرط → حال → جواب شرط مؤكد", "semantic_axis": "تحدٍّ → تبرير القوة → تهوين الخطر" },
+                "steps": [
+                    { "order": 1, "arabic_focus": "قالوا", "english": "They said…", "note": "بداية الرد." },
+                    { "order": 2, "arabic_focus": "لئن أكله الذئب", "english": "If the wolf were to eat him…", "note": "شرط مؤكّد بـ(لئن)." },
+                    { "order": 3, "arabic_focus": "ونحن عصبة", "english": "while we are a strong group…", "note": "حال/اعتراض لتعظيم القدرة." },
+                    { "order": 4, "arabic_focus": "إنا إذًا لخاسرون", "english": "then indeed we would surely be losers.", "note": "جواب الشرط مع إنّ واللام." }
+                ],
+                "final_synthesis": "They said: If the wolf were to eat him while we are a strong group, then indeed we would surely be losers."
+            }
         },
+
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_15_A",
-            "unit_id": "U_12_15",
-            "arabic": "فَلَمَّا ذَهَبُوا بِهِ وَأَجْمَعُوا أَن يَجْعَلُوهُ فِي غَيَابَتِ الْجُبِّ وَأَوْحَيْنَا إِلَيْهِ لَتُنَبِّئَنَّهُم بِأَمْرِهِمْ هَٰذَا وَهُمْ لَا يَشْعُرُونَ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
-                    "token_id": "TOK_12_15_001",
-                    "surface_ar": "ف",
-                    "lemma_ar": "فَـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 15,
+                "ayah_to": 15,
+                "unit_id": "U_12_15",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "فَلَمَّا ذَهَبُوا بِهِ وَأَجْمَعُوا أَن يَجْعَلُوهُ فِي غَيَابَتِ الْجُبِّ وَأَوْحَيْنَا إِلَيْهِ لَتُنَبِّئَنَّهُم بِأَمْرِهِمْ هَٰذَا وَهُمْ لَا يَشْعُرُونَ",
+                "translation": "So when they took him away and agreed to put him into the depths of the well, We revealed to him: you will surely inform them of this matter of theirs while they are unaware."
+            },
+            "anchors": { "from_token_id": "TOK_12_15_001", "to_token_id": "TOK_12_15_024" },
+            "notes": "فاء تفريع ثم (لمّا) ظرفية تربط حدثين: (ذهبوا به) + (وأجمعوا أن يجعلوه…) وفي اللحظة نفسها يتحول السرد إلى تدخل إلهي: (وأوحينا إليه) ثم جواب/مضمون الوحي مؤكَّد باللام ونون التوكيد (لتنبئنهم)، ويُختم بحال: (وهم لا يشعرون).",
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "narrative_temporal_pivot_with_wahy",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "lamma_temporal",
+                    "two_actions_chain",
+                    "masdar_muawwal",
+                    "divine_revelation",
+                    "emphatic_future",
+                    "hal_clause"
+                ]
+            },
+            "main_spine": {
+                "kind": "verbal",
+                "connector": { "token_id": "TOK_12_15_001", "text": "ف", "role": "تفريع/تعقيب" },
+                "temporal_marker": { "token_id": "TOK_12_15_002", "text": "لمّا", "role": "ظرف زمان رابط" },
+                "event_chain": [
+                    { "token_id": "TOK_12_15_003", "text": "ذهبوا", "object_span": [ "TOK_12_15_004", "TOK_12_15_005" ] },
+                    { "token_id": "TOK_12_15_007", "text": "أجمعوا", "complement_clause_id": "CL_12_15_MASDAR" }
+                ],
+                "divine_action": { "token_id": "TOK_12_15_014", "text": "أوحينا", "to": "TOK_12_15_015", "content_clause_id": "CL_12_15_WAHY_CONTENT" },
+                "closing_state": { "clause_id": "CL_12_15_HAL" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_15_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_15_ROOT",
+                        "level": 0,
+                        "kind": "mixed",
+                        "type": "main",
+                        "subtype": "lamma_scene",
+                        "span": { "from": "TOK_12_15_001", "to": "TOK_12_15_024" },
+                        "trigger": "فلما",
+                        "contribution": "مفصل سردي: اكتمال التدبير البشري يقابله الوحي الإلهي."
+                    },
+                    {
+                        "clause_id": "CL_12_15_EVENT1",
+                        "level": 1,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "lamma_event",
+                        "span": { "from": "TOK_12_15_003", "to": "TOK_12_15_005" },
+                        "trigger": "ذهبوا",
+                        "parent_clause_id": "CL_12_15_ROOT",
+                        "contribution": "الحدث الأول: أخذوه وانطلقوا به."
+                    },
+                    {
+                        "clause_id": "CL_12_15_EVENT2",
+                        "level": 1,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "lamma_event",
+                        "span": { "from": "TOK_12_15_006", "to": "TOK_12_15_012" },
+                        "trigger": "وأجمعوا",
+                        "parent_clause_id": "CL_12_15_ROOT",
+                        "contribution": "الحدث الثاني: اتفقوا/عزموا على الإلقاء."
+                    },
+                    {
+                        "clause_id": "CL_12_15_MASDAR",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "masdar_muawwal",
+                        "span": { "from": "TOK_12_15_008", "to": "TOK_12_15_012" },
+                        "trigger": "أن",
+                        "parent_clause_id": "CL_12_15_EVENT2",
+                        "contribution": "مضمون الإجماع: أن يجعلوه في غيابة الجب."
+                    },
+                    {
+                        "clause_id": "CL_12_15_WAHY",
+                        "level": 1,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "divine_intervention",
+                        "span": { "from": "TOK_12_15_013", "to": "TOK_12_15_020" },
+                        "trigger": "وأوحينا",
+                        "parent_clause_id": "CL_12_15_ROOT",
+                        "contribution": "التدخل الإلهي: الوحي ليوسف لتثبيت المصير القادم."
+                    },
+                    {
+                        "clause_id": "CL_12_15_WAHY_CONTENT",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "emphatic_future",
+                        "span": { "from": "TOK_12_15_016", "to": "TOK_12_15_020" },
+                        "trigger": "لَ",
+                        "parent_clause_id": "CL_12_15_WAHY",
+                        "contribution": "مضمون الوحي: إخبار حتمي مستقبلي (لتنبئنهم…)."
+                    },
+                    {
+                        "clause_id": "CL_12_15_HAL",
+                        "level": 1,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "hal",
+                        "span": { "from": "TOK_12_15_021", "to": "TOK_12_15_024" },
+                        "trigger": "وهم",
+                        "parent_clause_id": "CL_12_15_ROOT",
+                        "contribution": "حال: غفلتهم عن حقيقة ما يجري وعن مستقبل انكشافه."
                     }
-                },
-                {
-                    "token_id": "TOK_12_15_002",
-                    "surface_ar": "لما",
-                    "lemma_ar": "لمّا",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_003",
-                    "surface_ar": "ذهبوا",
-                    "lemma_ar": "ذهب",
-                    "root": "ذهب",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_004",
-                    "surface_ar": "ب",
-                    "lemma_ar": "بِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_15_005",
-                    "surface_ar": "ه",
-                    "lemma_ar": "هو",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "ضمير"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_15_006",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_15_007",
-                    "surface_ar": "أجمعوا",
-                    "lemma_ar": "أجمع",
-                    "root": "جمع",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_008",
-                    "surface_ar": "أن",
-                    "lemma_ar": "أن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_009",
-                    "surface_ar": "يجعلوه",
-                    "lemma_ar": "جعل",
-                    "root": "جعل",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_010",
-                    "surface_ar": "في",
-                    "lemma_ar": "في",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_011",
-                    "surface_ar": "غيابة",
-                    "lemma_ar": "غيابة",
-                    "root": "غيب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_012",
-                    "surface_ar": "الجب",
-                    "lemma_ar": "جب",
-                    "root": "جبب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_013",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_15_014",
-                    "surface_ar": "أوحينا",
-                    "lemma_ar": "أوحى",
-                    "root": "وحي",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_015",
-                    "surface_ar": "إليه",
-                    "lemma_ar": null,
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_016",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لَـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_15_017",
-                    "surface_ar": "تنبئنهم",
-                    "lemma_ar": "نبأ",
-                    "root": "نبأ",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_018",
-                    "surface_ar": "ب",
-                    "lemma_ar": "بِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_15_019",
-                    "surface_ar": "أمرهم",
-                    "lemma_ar": "أمر",
-                    "root": "أمر",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_020",
-                    "surface_ar": "هذا",
-                    "lemma_ar": "هذا",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_021",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_15_022",
-                    "surface_ar": "هم",
-                    "lemma_ar": "هم",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "ضمير"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_15_023",
-                    "surface_ar": "لا",
-                    "lemma_ar": "لا",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_15_024",
-                    "surface_ar": "يشعرون",
-                    "lemma_ar": "شعر",
-                    "root": "شعر",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_15_001", "surface": "ف", "kind": "connector", "function": "narrative_flow" },
+                { "token_id": "TOK_12_15_002", "surface": "لمّا", "kind": "temporal_marker", "function": "scene_trigger" },
+                { "token_id": "TOK_12_15_014", "surface": "أوحينا", "kind": "revelation", "function": "divine_pivot" },
+                { "token_id": "TOK_12_15_016", "surface": "ل", "kind": "emphasis", "function": "certainty_of_future" },
+                { "token_id": "TOK_12_15_021", "surface": "وهم", "kind": "hal_marker", "function": "state_closure" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [
+                "GRAM_FA_TAFRI3",
+                "GRAM_LAMMA",
+                "GRAM_ATF",
+                "GRAM_MASDAR_MUAWWAL",
+                "GRAM_WAHY",
+                "GRAM_TAWKID_NUN",
+                "GRAM_HAL"
+            ],
+            "sentence_translation_progressive": {
+                "macro_view": {
+                    "logic": "تعقيب → لمّا/حدثان → وحي → مضمون مؤكد → حال",
+                    "semantic_axis": "تآمر → تنفيذ → عناية إلهية → وعد بالانكشاف"
+                },
+                "steps": [
+                    { "order": 1, "arabic_focus": "فلما ذهبوا به", "english": "So when they took him away…", "note": "افتتاح بالفاء ثم ظرف (لمّا)." },
+                    { "order": 2, "arabic_focus": "وأجمعوا أن يجعلوه في غيابة الجب", "english": "and agreed to put him into the depths of the well…", "note": "عزم + مصدر مؤول يشرح القرار." },
+                    { "order": 3, "arabic_focus": "وأوحينا إليه", "english": "We revealed to him…", "note": "انعطاف إلى التدخل الإلهي." },
+                    { "order": 4, "arabic_focus": "لتنبئنهم بأمرهم هذا", "english": "you will surely inform them of this matter of theirs…", "note": "توكيد باللام ونون التوكيد في الأصل القرآني." },
+                    { "order": 5, "arabic_focus": "وهم لا يشعرون", "english": "while they are unaware.", "note": "حال يصف غفلتهم." }
+                ],
+                "final_synthesis": "So when they took him away and agreed to put him into the depths of the well, We revealed to him: you will surely inform them of this matter of theirs while they are unaware."
+            }
         },
+
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_16_A",
-            "unit_id": "U_12_16",
-            "arabic": "وَجَاءُوا أَبَاهُمْ عِشَاءً يَبْكُونَ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
-                    "token_id": "TOK_12_16_001",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 16,
+                "ayah_to": 16,
+                "unit_id": "U_12_16",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "وَجَاءُوا أَبَاهُمْ عِشَاءً يَبْكُونَ",
+                "translation": "And they came to their father at night, weeping."
+            },
+            "anchors": { "from_token_id": "TOK_12_16_001", "to_token_id": "TOK_12_16_005" },
+            "notes": "جملة فعلية سردية قصيرة: (وجاءوا) ثم مفعول (أباهم) ثم ظرف زمان (عشاءً) ثم حال (يبكون) لتصوير المشهد التمثيلي.",
+            "classification": {
+                "simplicity": "simple",
+                "main_sentence_kind": "verbal_with_hal",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [ "hal_clause" ]
+            },
+            "main_spine": {
+                "kind": "verbal",
+                "connector": { "token_id": "TOK_12_16_001", "text": "و", "role": "عطف سردي" },
+                "verb": { "token_id": "TOK_12_16_002", "text": "جاءوا", "grammar_refs": [ "GRAM_FI3L_MADI" ] },
+                "object": { "token_id": "TOK_12_16_003", "text": "أباهم" },
+                "time": { "token_id": "TOK_12_16_004", "text": "عشاءً", "role": "ظرف زمان" },
+                "hal": { "token_id": "TOK_12_16_005", "text": "يبكون", "role": "حال" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_16_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_16_ROOT",
+                        "level": 0,
+                        "kind": "verbal",
+                        "type": "main",
+                        "span": { "from": "TOK_12_16_001", "to": "TOK_12_16_005" },
+                        "trigger": "وجاءوا",
+                        "contribution": "نقل دخولهم على الأب مع هيئة بكاء مصطنعة."
+                    },
+                    {
+                        "clause_id": "CL_12_16_HAL",
+                        "level": 1,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "hal",
+                        "span": { "from": "TOK_12_16_005", "to": "TOK_12_16_005" },
+                        "trigger": "يبكون",
+                        "parent_clause_id": "CL_12_16_ROOT",
+                        "contribution": "حالٌ يصنع الانطباع ويهيّئ الكذبة القادمة."
                     }
-                },
-                {
-                    "token_id": "TOK_12_16_002",
-                    "surface_ar": "جاءوا",
-                    "lemma_ar": "جاء",
-                    "root": "جيء",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_16_003",
-                    "surface_ar": "أباهم",
-                    "lemma_ar": "أب",
-                    "root": "أب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_16_004",
-                    "surface_ar": "عشاء",
-                    "lemma_ar": "عشاء",
-                    "root": "عشو",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_16_005",
-                    "surface_ar": "يبكون",
-                    "lemma_ar": "بكى",
-                    "root": "بكي",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_16_001", "surface": "و", "kind": "connector", "function": "sequence" },
+                { "token_id": "TOK_12_16_004", "surface": "عشاءً", "kind": "time", "function": "scene_time" },
+                { "token_id": "TOK_12_16_005", "surface": "يبكون", "kind": "hal", "function": "state" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [ "GRAM_ATF", "GRAM_ZARF", "GRAM_HAL" ],
+            "sentence_translation_progressive": {
+                "macro_view": { "logic": "تعاقب سردي → فعل مجيء → ظرف → حال", "semantic_axis": "تجهيز المسرحية" },
+                "steps": [
+                    { "order": 1, "arabic_focus": "وجاءوا أباهم", "english": "And they came to their father…", "note": "نقل الحدث." },
+                    { "order": 2, "arabic_focus": "عشاءً", "english": "at night…", "note": "تحديد زمن المشهد." },
+                    { "order": 3, "arabic_focus": "يبكون", "english": "weeping.", "note": "حال لتوجيه الانطباع." }
+                ],
+                "final_synthesis": "And they came to their father at night, weeping."
+            }
         },
+
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_17_A",
-            "unit_id": "U_12_17",
-            "arabic": "قَالُوا يَا أَبَانَا إِنَّا ذَهَبْنَا نَسْتَبِقُ وَتَرَكْنَا يُوسُفَ عِندَ مَتَاعِنَا فَأَكَلَهُ الذِّئْبُ وَمَا أَنتَ بِمُؤْمِنٍ لَّنَا وَلَوْ كُنَّا صَادِقِينَ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
-                    "token_id": "TOK_12_17_001",
-                    "surface_ar": "قالوا",
-                    "lemma_ar": "قال",
-                    "root": "قول",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_002",
-                    "surface_ar": "يا",
-                    "lemma_ar": "يا",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_003",
-                    "surface_ar": "أبانا",
-                    "lemma_ar": "أب",
-                    "root": "أب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_004",
-                    "surface_ar": "إنا",
-                    "lemma_ar": "إن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_005",
-                    "surface_ar": "ذهبنا",
-                    "lemma_ar": "ذهب",
-                    "root": "ذهب",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_006",
-                    "surface_ar": "نستبق",
-                    "lemma_ar": "استبق",
-                    "root": "سبق",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_007",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 17,
+                "ayah_to": 17,
+                "unit_id": "U_12_17",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "قَالُوا يَا أَبَانَا إِنَّا ذَهَبْنَا نَسْتَبِقُ وَتَرَكْنَا يُوسُفَ عِندَ مَتَاعِنَا فَأَكَلَهُ الذِّئْبُ وَمَا أَنتَ بِمُؤْمِنٍ لَّنَا وَلَوْ كُنَّا صَادِقِينَ",
+                "translation": "They said: O our father, indeed we went racing, and we left Yusuf by our belongings, then the wolf ate him; and you will not believe us even if we were truthful."
+            },
+            "anchors": { "from_token_id": "TOK_12_17_001", "to_token_id": "TOK_12_17_024" },
+            "notes": "مقول قول طويل: نداء ثم (إنّا ذهبنا) مع حال/غرض (نستبق) ثم فعل ثان (وتركنا يوسف عند متاعنا) ثم نتيجة بفاء التعقيب (فأكله الذئب) ثم اعتراض ضغط نفسي: نفيُ التصديق (وما أنت بمؤمن لنا) ثم تنازل/استدراك (ولو كنا صادقين).",
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "verbal_with_multiple_coordinated_clauses_and_concession",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "reported_speech",
+                    "vocative",
+                    "inna_emphasis",
+                    "event_chain",
+                    "fa_result",
+                    "negation_nominal",
+                    "concessive_clause"
+                ]
+            },
+            "main_spine": {
+                "kind": "verbal",
+                "verb": { "token_id": "TOK_12_17_001", "text": "قالوا", "grammar_refs": [ "GRAM_QAWL" ] },
+                "object": { "kind": "quoted_speech", "clause_id": "CL_12_17_QAWL" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_17_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_17_ROOT",
+                        "level": 0,
+                        "kind": "verbal",
+                        "type": "main",
+                        "span": { "from": "TOK_12_17_001", "to": "TOK_12_17_024" },
+                        "trigger": "قالوا",
+                        "contribution": "تقديم الرواية الملفقة للأب."
+                    },
+                    {
+                        "clause_id": "CL_12_17_QAWL",
+                        "level": 1,
+                        "kind": "mixed",
+                        "type": "subordinate",
+                        "subtype": "qawl_quoted",
+                        "span": { "from": "TOK_12_17_002", "to": "TOK_12_17_024" },
+                        "trigger": "يا",
+                        "parent_clause_id": "CL_12_17_ROOT",
+                        "relation_to_parent": "مقول القول",
+                        "contribution": "سرد مُبرمج: تمهيد → سرد أحداث → نتيجة → ضغط نفسي."
+                    },
+                    {
+                        "clause_id": "CL_12_17_VOC",
+                        "level": 2,
+                        "kind": "particle",
+                        "type": "subordinate",
+                        "subtype": "nida",
+                        "span": { "from": "TOK_12_17_002", "to": "TOK_12_17_003" },
+                        "trigger": "يا",
+                        "parent_clause_id": "CL_12_17_QAWL",
+                        "contribution": "نداء لاستمالة الأب."
+                    },
+                    {
+                        "clause_id": "CL_12_17_EVENT1",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "inna_emphatic",
+                        "span": { "from": "TOK_12_17_004", "to": "TOK_12_17_006" },
+                        "trigger": "إنا",
+                        "parent_clause_id": "CL_12_17_QAWL",
+                        "contribution": "توكيد رواية البداية: ذهبنا نستبق."
+                    },
+                    {
+                        "clause_id": "CL_12_17_EVENT2",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "atf_event",
+                        "span": { "from": "TOK_12_17_007", "to": "TOK_12_17_011" },
+                        "trigger": "وتركنا",
+                        "parent_clause_id": "CL_12_17_QAWL",
+                        "contribution": "تفصيل: تركناه عند متاعنا."
+                    },
+                    {
+                        "clause_id": "CL_12_17_RESULT",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "fa_result",
+                        "span": { "from": "TOK_12_17_012", "to": "TOK_12_17_014" },
+                        "trigger": "ف",
+                        "parent_clause_id": "CL_12_17_QAWL",
+                        "contribution": "النتيجة المدعاة: فأكله الذئب."
+                    },
+                    {
+                        "clause_id": "CL_12_17_PRESSURE",
+                        "level": 2,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "negation_nominal",
+                        "span": { "from": "TOK_12_17_015", "to": "TOK_12_17_021" },
+                        "trigger": "وما",
+                        "parent_clause_id": "CL_12_17_QAWL",
+                        "contribution": "ضغط مسبق على موقف الأب: لن تُصدقنا."
+                    },
+                    {
+                        "clause_id": "CL_12_17_CONCESSION",
+                        "level": 2,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "concessive",
+                        "span": { "from": "TOK_12_17_022", "to": "TOK_12_17_024" },
+                        "trigger": "ولو",
+                        "parent_clause_id": "CL_12_17_QAWL",
+                        "contribution": "تنازل: حتى لو كنا صادقين (قطع طريق الاعتراض)."
                     }
-                },
-                {
-                    "token_id": "TOK_12_17_008",
-                    "surface_ar": "تركنا",
-                    "lemma_ar": "ترك",
-                    "root": "ترك",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_009",
-                    "surface_ar": "يوسف",
-                    "lemma_ar": "يوسف",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_010",
-                    "surface_ar": "عند",
-                    "lemma_ar": "عند",
-                    "root": "عند",
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_011",
-                    "surface_ar": "متاعنا",
-                    "lemma_ar": "متاع",
-                    "root": "متع",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_012",
-                    "surface_ar": "ف",
-                    "lemma_ar": "فَـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_17_013",
-                    "surface_ar": "أكله",
-                    "lemma_ar": "أكل",
-                    "root": "أكل",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_014",
-                    "surface_ar": "الذئب",
-                    "lemma_ar": "ذئب",
-                    "root": "ذأب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_015",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_17_016",
-                    "surface_ar": "ما",
-                    "lemma_ar": "ما",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_017",
-                    "surface_ar": "أنت",
-                    "lemma_ar": "أنت",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_018",
-                    "surface_ar": "ب",
-                    "lemma_ar": "بِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_17_019",
-                    "surface_ar": "مؤمن",
-                    "lemma_ar": "مؤمن",
-                    "root": "أمن",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم فاعل"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_17_020",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_17_021",
-                    "surface_ar": "نا",
-                    "lemma_ar": "نحن",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "ضمير"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_17_022",
-                    "surface_ar": "ولو",
-                    "lemma_ar": "ولو",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_023",
-                    "surface_ar": "كنا",
-                    "lemma_ar": "كان",
-                    "root": "كون",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_17_024",
-                    "surface_ar": "صادقين",
-                    "lemma_ar": "صادق",
-                    "root": "صدق",
-                    "root_id": null,
-                    "pos": "adj",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم فاعل"
-                    }
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_17_002", "surface": "يا", "kind": "vocative", "function": "appeal" },
+                { "token_id": "TOK_12_17_004", "surface": "إنا", "kind": "emphasis", "function": "assertion" },
+                { "token_id": "TOK_12_17_012", "surface": "ف", "kind": "result_connector", "function": "claimed_outcome" },
+                { "token_id": "TOK_12_17_015", "surface": "وما", "kind": "negation", "function": "preemptive_defense" },
+                { "token_id": "TOK_12_17_022", "surface": "ولو", "kind": "concession", "function": "even_if" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [
+                "GRAM_QAWL",
+                "GRAM_QAWL_QUOTED",
+                "GRAM_NIDA",
+                "GRAM_INNA",
+                "GRAM_ATF",
+                "GRAM_FA_TAFRI3",
+                "GRAM_NAFY",
+                "GRAM_BA_ZAIDA",
+                "GRAM_LAW_CONCESSIVE"
+            ],
+            "sentence_translation_progressive": {
+                "macro_view": {
+                    "logic": "نداء → توكيد بداية → تفصيل → نتيجة → نفي تصديق → تنازل",
+                    "semantic_axis": "اختلاق → تسلسل → إحكام الحجة"
+                },
+                "steps": [
+                    { "order": 1, "arabic_focus": "قالوا يا أبانا", "english": "They said: O our father…", "note": "استعطاف افتتاحي." },
+                    { "order": 2, "arabic_focus": "إنا ذهبنا نستبق", "english": "indeed we went racing…", "note": "توكيد لبداية القصة." },
+                    { "order": 3, "arabic_focus": "وتركنا يوسف عند متاعنا", "english": "and we left Yusuf by our belongings…", "note": "تفصيل يهيّئ سبب الغياب." },
+                    { "order": 4, "arabic_focus": "فأكله الذئب", "english": "then the wolf ate him…", "note": "نتيجة مدعاة بفاء التعقيب." },
+                    { "order": 5, "arabic_focus": "وما أنت بمؤمن لنا", "english": "and you will not believe us…", "note": "دفاع استباقي عن عدم التصديق." },
+                    { "order": 6, "arabic_focus": "ولو كنا صادقين", "english": "even if we were truthful.", "note": "تنازل يقفل باب الاعتراض." }
+                ],
+                "final_synthesis": "They said: O our father, indeed we went racing, and we left Yusuf by our belongings, then the wolf ate him; and you will not believe us even if we were truthful."
+            }
         },
+
         {
+            "entity_type": "quran_sentence_structure",
             "sentence_id": "SENT_12_18_A",
-            "unit_id": "U_12_18",
-            "arabic": "وَجَاءُوا عَلَىٰ قَمِيصِهِ بِدَمٍ كَذِبٍ ۚ قَالَ بَلْ سَوَّلَتْ لَكُمْ أَنفُسُكُمْ أَمْرًا ۖ فَصَبْرٌ جَمِيلٌ ۖ وَاللَّهُ الْمُسْتَعَانُ عَلَىٰ مَا تَصِفُونَ",
-            "translation": null,
-            "notes": null,
-            "tokens": [
-                {
-                    "token_id": "TOK_12_18_001",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 18,
+                "ayah_to": 18,
+                "unit_id": "U_12_18",
+                "sentence_order_in_unit": 1
+            },
+            "text": {
+                "arabic": "وَجَاءُوا عَلَىٰ قَمِيصِهِ بِدَمٍ كَذِبٍ ۚ قَالَ بَلْ سَوَّلَتْ لَكُمْ أَنفُسُكُمْ أَمْرًا ۖ فَصَبْرٌ جَمِيلٌ ۖ وَاللَّهُ الْمُسْتَعَانُ عَلَىٰ مَا تَصِفُونَ",
+                "translation": "And they brought his shirt with false blood upon it. He said: Rather, your souls have enticed you to something. So patience is beautiful; and Allah is the One sought for help against what you describe."
+            },
+            "anchors": { "from_token_id": "TOK_12_18_001", "to_token_id": "TOK_12_18_023" },
+            "notes": "جملتان سرديتان متتاليتان: (وجاءوا… بدم كذب) ثم (قال…) وتحتها ثلاث وحدات معنوية: إضراب (بل) يكشف التشخيص، ثم تعليل نفسي (سولت لكم أنفسكم) ثم خلاصة إيمانية: (فصبر جميل) ثم توكل: (والله المستعان على ما تصفون).",
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "narrative_then_speech_with_diagnosis_and_resolution",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "two_sentence_chain",
+                    "reported_speech",
+                    "bal_disjunction",
+                    "nominal_resolution",
+                    "relative_clause_ma"
+                ]
+            },
+            "main_spine": {
+                "kind": "mixed",
+                "event": {
+                    "connector": { "token_id": "TOK_12_18_001", "text": "و", "role": "عطف سردي" },
+                    "verb": { "token_id": "TOK_12_18_002", "text": "جاءوا" },
+                    "prepositional": { "token_id": "TOK_12_18_003", "text": "على" },
+                    "object": { "token_id": "TOK_12_18_004", "text": "قميصه" },
+                    "with_blood": { "span": { "from": "TOK_12_18_005", "to": "TOK_12_18_007" }, "note": "بدمٍ كذبٍ = دم موصوف بالكذب/مزيف" }
+                },
+                "speech_frame": { "token_id": "TOK_12_18_008", "text": "قال", "content_clause_id": "CL_12_18_QAWL" }
+            },
+            "clause_tree": {
+                "root_clause_id": "CL_12_18_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_18_ROOT",
+                        "level": 0,
+                        "kind": "mixed",
+                        "type": "main",
+                        "span": { "from": "TOK_12_18_001", "to": "TOK_12_18_023" },
+                        "trigger": "وجاءوا… قال",
+                        "contribution": "إبراز الدليل المصطنع ثم ردّ يعقوب التشخيصي والإيماني."
+                    },
+                    {
+                        "clause_id": "CL_12_18_EVENT",
+                        "level": 1,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "narrative_event",
+                        "span": { "from": "TOK_12_18_001", "to": "TOK_12_18_007" },
+                        "trigger": "وجاءوا",
+                        "parent_clause_id": "CL_12_18_ROOT",
+                        "contribution": "جلب القميص بدم كذب لإسناد القصة."
+                    },
+                    {
+                        "clause_id": "CL_12_18_SPEECH",
+                        "level": 1,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "speech_frame",
+                        "span": { "from": "TOK_12_18_008", "to": "TOK_12_18_023" },
+                        "trigger": "قال",
+                        "parent_clause_id": "CL_12_18_ROOT",
+                        "contribution": "انتقال إلى قول يعقوب: تشخيص ثم صبر ثم توكل."
+                    },
+                    {
+                        "clause_id": "CL_12_18_QAWL",
+                        "level": 2,
+                        "kind": "mixed",
+                        "type": "subordinate",
+                        "subtype": "qawl_quoted",
+                        "span": { "from": "TOK_12_18_009", "to": "TOK_12_18_023" },
+                        "trigger": "بل",
+                        "parent_clause_id": "CL_12_18_SPEECH",
+                        "relation_to_parent": "مقول القول",
+                        "contribution": "إضراب عن روايتهم إلى تشخيص الدافع ثم الموقف الشرعي."
+                    },
+                    {
+                        "clause_id": "CL_12_18_DIAG",
+                        "level": 3,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "istidrak_bal",
+                        "span": { "from": "TOK_12_18_009", "to": "TOK_12_18_014" },
+                        "trigger": "بل",
+                        "parent_clause_id": "CL_12_18_QAWL",
+                        "contribution": "كشف الحقيقة: سوّلت لكم أنفسكم أمرًا."
+                    },
+                    {
+                        "clause_id": "CL_12_18_RESOLVE",
+                        "level": 3,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "resolution_nominal",
+                        "span": { "from": "TOK_12_18_015", "to": "TOK_12_18_017" },
+                        "trigger": "فصبر",
+                        "parent_clause_id": "CL_12_18_QAWL",
+                        "contribution": "قرار روحي: صبر جميل (تسليم دون جزع)."
+                    },
+                    {
+                        "clause_id": "CL_12_18_TAWAKKUL",
+                        "level": 3,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "tawakkul",
+                        "span": { "from": "TOK_12_18_018", "to": "TOK_12_18_023" },
+                        "trigger": "والله",
+                        "parent_clause_id": "CL_12_18_QAWL",
+                        "contribution": "توكّل: الله المستعان على ما تصفون."
+                    },
+                    {
+                        "clause_id": "CL_12_18_SILA_MA",
+                        "level": 4,
+                        "kind": "verbal",
+                        "type": "subordinate",
+                        "subtype": "silat_ma_mawsula",
+                        "span": { "from": "TOK_12_18_022", "to": "TOK_12_18_023" },
+                        "trigger": "ما",
+                        "parent_clause_id": "CL_12_18_TAWAKKUL",
+                        "contribution": "صلة (ما) الموصولة: ما تصفون = ما تذكرونه وتصفونه."
                     }
-                },
-                {
-                    "token_id": "TOK_12_18_002",
-                    "surface_ar": "جاءوا",
-                    "lemma_ar": "جاء",
-                    "root": "جيء",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_003",
-                    "surface_ar": "على",
-                    "lemma_ar": "على",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_004",
-                    "surface_ar": "قميصه",
-                    "lemma_ar": "قميص",
-                    "root": "قمص",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_005",
-                    "surface_ar": "ب",
-                    "lemma_ar": "بِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_18_006",
-                    "surface_ar": "دم",
-                    "lemma_ar": "دم",
-                    "root": "دم",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_007",
-                    "surface_ar": "كذب",
-                    "lemma_ar": "كذب",
-                    "root": "كذب",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "مصدر"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_18_008",
-                    "surface_ar": "قال",
-                    "lemma_ar": "قال",
-                    "root": "قول",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_009",
-                    "surface_ar": "بل",
-                    "lemma_ar": "بل",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_010",
-                    "surface_ar": "سولت",
-                    "lemma_ar": "سوّل",
-                    "root": "سول",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_011",
-                    "surface_ar": "ل",
-                    "lemma_ar": "لِـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_18_012",
-                    "surface_ar": "كم",
-                    "lemma_ar": "كم",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "other",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "ضمير"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_18_013",
-                    "surface_ar": "أنفسكم",
-                    "lemma_ar": "نفس",
-                    "root": "نفس",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_014",
-                    "surface_ar": "أمرا",
-                    "lemma_ar": "أمر",
-                    "root": "أمر",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_015",
-                    "surface_ar": "ف",
-                    "lemma_ar": "فَـ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_18_016",
-                    "surface_ar": "صبر",
-                    "lemma_ar": "صبر",
-                    "root": "صبر",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "مصدر"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_18_017",
-                    "surface_ar": "جميل",
-                    "lemma_ar": "جميل",
-                    "root": "جمل",
-                    "root_id": null,
-                    "pos": "adj",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_018",
-                    "surface_ar": "و",
-                    "lemma_ar": "وَ",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": {
-                        "type": "harf"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_18_019",
-                    "surface_ar": "الله",
-                    "lemma_ar": "الله",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_020",
-                    "surface_ar": "المستعان",
-                    "lemma_ar": "مستعان",
-                    "root": "عون",
-                    "root_id": null,
-                    "pos": "noun",
-                    "morph_ref": null,
-                    "features": {
-                        "kind": "اسم مفعول"
-                    }
-                },
-                {
-                    "token_id": "TOK_12_18_021",
-                    "surface_ar": "على",
-                    "lemma_ar": "على",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_022",
-                    "surface_ar": "ما",
-                    "lemma_ar": "ما",
-                    "root": null,
-                    "root_id": null,
-                    "pos": "particle",
-                    "morph_ref": null,
-                    "features": null
-                },
-                {
-                    "token_id": "TOK_12_18_023",
-                    "surface_ar": "تصفون",
-                    "lemma_ar": "وصف",
-                    "root": "وصف",
-                    "root_id": null,
-                    "pos": "verb",
-                    "morph_ref": null,
-                    "features": null
-                }
+                ]
+            },
+            "markers": [
+                { "token_id": "TOK_12_18_001", "surface": "و", "kind": "connector", "function": "sequence" },
+                { "token_id": "TOK_12_18_008", "surface": "قال", "kind": "speech_frame", "function": "response" },
+                { "token_id": "TOK_12_18_009", "surface": "بل", "kind": "disjunction", "function": "reject_claim" },
+                { "token_id": "TOK_12_18_015", "surface": "ف", "kind": "conclusion_connector", "function": "therefore" },
+                { "token_id": "TOK_12_18_022", "surface": "ما", "kind": "relative", "function": "ma_mawsula" }
             ],
-            "roots": null,
-            "root_ids": null,
-            "grammar_concept_refs": null
+            "grammar_concept_refs": [
+                "GRAM_ATF",
+                "GRAM_JAR_MAJRUR",
+                "GRAM_QAWL",
+                "GRAM_ISTIDRAK_BAL",
+                "GRAM_TASWIL_NAFS",
+                "GRAM_JUMLA_ISMIYYA",
+                "GRAM_SABR",
+                "GRAM_TAWAKKUL",
+                "GRAM_SILAT_MA_MAWSULA"
+            ],
+            "sentence_translation_progressive": {
+                "macro_view": {
+                    "logic": "حدث (دليل مصطنع) → قول → إضراب وتشخيص → صبر → توكل مع (ما) الموصولة",
+                    "semantic_axis": "خدعة → كشف → ثبات"
+                },
+                "steps": [
+                    { "order": 1, "arabic_focus": "وجاءوا على قميصه بدم كذب", "english": "They brought his shirt with false blood upon it.", "note": "تقديم قرينة مزيفة." },
+                    { "order": 2, "arabic_focus": "قال بل سولت لكم أنفسكم أمرًا", "english": "He said: Rather, your souls have enticed you to something.", "note": "إضراب يكشف الدافع." },
+                    { "order": 3, "arabic_focus": "فصبر جميل", "english": "So patience is beautiful.", "note": "قرار روحي مختصر قوي." },
+                    { "order": 4, "arabic_focus": "والله المستعان على ما تصفون", "english": "And Allah is the One sought for help against what you describe.", "note": "توكل مع صلة (ما) الموصولة." }
+                ],
+                "final_synthesis": "And they brought his shirt with false blood upon it. He said: Rather, your souls have enticed you to something. So patience is beautiful; and Allah is the One sought for help against what you describe."
+            }
         }
     ],
     "passage_layers": [
