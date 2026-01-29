@@ -1,0 +1,642 @@
+{
+  "entity_type": "sentence_tree_occurrence",
+  "model_id": "SENT_TREE_V2_NO_DUP",
+  "status": "draft",
+  "ref": {
+    "source_type": "quran",
+    "surah": 12,
+    "ayah": 3,
+    "unit_id": "U_12_3",
+    "local_sentence_id": "S_L_12_3_001"
+  },
+
+  "text_ar": "نَحْنُ نَقُصُّ عَلَيْكَ أَحْسَنَ الْقَصَصِ بِمَا أَوْحَيْنَا إِلَيْكَ هَٰذَا الْقُرْآنَ وَإِن كُنتَ مِن قَبْلِهِ لَمِنَ الْغَافِلِينَ",
+  "text_ar_norm": "نحن نقص عليك احسن القصص بما اوحينا اليك هذا القران وان كنت من قبله لمن الغافلين",
+  "translation": "We narrate to you the best of stories by what We revealed to you—this Qur’an—though before it you were among the unaware.",
+
+  "universal_sentence_id": null,
+
+  "tree": {
+    "node_id": "N_L_12_3_ROOT",
+    "node_kind": "sentence",
+    "unit_level": "UNIT_SENTENCE",
+    "sentence_form": "complex",
+    "grammar_ids": [
+      "GRAM_JUMLA_ISMIYYA",
+      "GRAM_MUBTADA",
+      "GRAM_KHABAR_JUMLA",
+      "GRAM_JUMLA_KHABARIYYA"
+    ],
+    "status": "draft",
+    "universal_node_sentence_id": null,
+
+    "text_ar": "نحن نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن وإن كنت من قبله لمن الغافلين",
+    "text_ar_norm": "نحن نقص عليك احسن القصص بما اوحينا اليك هذا القران وان كنت من قبله لمن الغافلين",
+
+    "sequence": [
+      {
+        "slot": 1,
+        "type": "token",
+        "token": {
+          "ord": 1,
+          "t_u": null,
+          "surface_ar": "نحن",
+          "surface_ar_norm": "نحن",
+          "lemma_ar": "نحن",
+          "lemma_ar_norm": "نحن",
+          "word_type": "WORD_NOUN",
+          "grammar_ids": ["GRAM_MUBTADA"]
+        }
+      },
+      {
+        "slot": 2,
+        "type": "child",
+        "child_node_id": "N_L_12_3_MAIN_PRED"
+      },
+      {
+        "slot": 3,
+        "type": "token",
+        "token": {
+          "ord": 14,
+          "t_u": null,
+          "surface_ar": "و",
+          "surface_ar_norm": "و",
+          "lemma_ar": "و",
+          "lemma_ar_norm": "و",
+          "word_type": "WORD_PARTICLE",
+          "grammar_ids": ["GRAM_ISTINAF", "GRAM_ATF"]
+        }
+      },
+      {
+        "slot": 4,
+        "type": "child",
+        "child_node_id": "N_L_12_3_HAL"
+      }
+    ],
+
+    "spans": [
+      {
+        "span_id_u": null,
+        "span_kind": "khabar_jملة",
+        "grammar_ids": ["GRAM_KHABAR_JUMLA"],
+        "text_ar": "نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن",
+        "text_ar_norm": "نقص عليك احسن القصص بما اوحينا اليك هذا القران",
+        "target_child_node_id": "N_L_12_3_MAIN_PRED"
+      },
+      {
+        "span_id_u": null,
+        "span_kind": "hal",
+        "grammar_ids": ["GRAM_HAAL"],
+        "text_ar": "وإن كنت من قبله لمن الغافلين",
+        "text_ar_norm": "وان كنت من قبله لمن الغافلين",
+        "target_child_node_id": "N_L_12_3_HAL"
+      }
+    ]
+  },
+
+  "nodes": [
+    {
+      "node_id": "N_L_12_3_MAIN_PRED",
+      "node_kind": "sentence",
+      "unit_level": "UNIT_SENTENCE",
+      "sentence_form": "complex",
+      "grammar_ids": ["GRAM_JUMLA_FIILIYYA", "GRAM_JUMLA_KHABARIYYA"],
+      "status": "draft",
+      "universal_node_sentence_id": null,
+
+      "text_ar": "نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن",
+      "text_ar_norm": "نقص عليك احسن القصص بما اوحينا اليك هذا القران",
+
+      "sequence": [
+        {
+          "slot": 1,
+          "type": "token",
+          "token": {
+            "ord": 2,
+            "t_u": null,
+            "surface_ar": "نقص",
+            "surface_ar_norm": "نقص",
+            "lemma_ar": "قص",
+            "lemma_ar_norm": "قص",
+            "word_type": "WORD_VERB",
+            "grammar_ids": ["GRAM_FIIL", "GRAM_MUDARI_MARFOO"]
+          }
+        },
+        {
+          "slot": 2,
+          "type": "child",
+          "child_node_id": "N_L_12_3_JARMAJRUR_ALAYK"
+        },
+        {
+          "slot": 3,
+          "type": "child",
+          "child_node_id": "N_L_12_3_MAF3UL_IDAFA"
+        },
+        {
+          "slot": 4,
+          "type": "child",
+          "child_node_id": "N_L_12_3_TA3LIL"
+        }
+      ],
+
+      "spans": [
+        {
+          "span_id_u": null,
+          "span_kind": "jar_majrur",
+          "grammar_ids": ["GRAM_HARF_JARR", "GRAM_MAJROOR"],
+          "text_ar": "عليك",
+          "text_ar_norm": "عليك",
+          "target_child_node_id": "N_L_12_3_JARMAJRUR_ALAYK"
+        },
+        {
+          "span_id_u": null,
+          "span_kind": "maf3ul_bih_idafa",
+          "grammar_ids": ["GRAM_MAFOOL_BIH", "GRAM_MUDAF", "GRAM_MUDAF_ILAYH"],
+          "text_ar": "أحسن القصص",
+          "text_ar_norm": "احسن القصص",
+          "target_child_node_id": "N_L_12_3_MAF3UL_IDAFA"
+        },
+        {
+          "span_id_u": null,
+          "span_kind": "ta3lil",
+          "grammar_ids": ["GRAM_TAALIL", "GRAM_MASDAR_MUAWAL"],
+          "text_ar": "بما أوحينا إليك هذا القرآن",
+          "text_ar_norm": "بما اوحينا اليك هذا القران",
+          "target_child_node_id": "N_L_12_3_TA3LIL"
+        }
+      ]
+    },
+
+    {
+      "node_id": "N_L_12_3_JARMAJRUR_ALAYK",
+      "node_kind": "compound",
+      "unit_level": "UNIT_COMPOUND",
+      "compound_type": "COMP_JAR_MAJRUR",
+      "grammar_ids": ["GRAM_HARF_JARR", "GRAM_MAJROOR"],
+      "status": "draft",
+      "universal_node_sentence_id": null,
+
+      "text_ar": "عليك",
+      "text_ar_norm": "عليك",
+
+      "sequence": [
+        {
+          "slot": 1,
+          "type": "token",
+          "token": {
+            "ord": 3,
+            "t_u": null,
+            "surface_ar": "على",
+            "surface_ar_norm": "على",
+            "lemma_ar": "على",
+            "lemma_ar_norm": "على",
+            "word_type": "WORD_PARTICLE",
+            "grammar_ids": ["GRAM_HARF_JARR"]
+          }
+        },
+        {
+          "slot": 2,
+          "type": "token",
+          "token": {
+            "ord": 4,
+            "t_u": null,
+            "surface_ar": "ك",
+            "surface_ar_norm": "ك",
+            "lemma_ar": "ك",
+            "lemma_ar_norm": "ك",
+            "word_type": "WORD_NOUN",
+            "grammar_ids": ["GRAM_MAJROOR"]
+          }
+        }
+      ]
+    },
+
+    {
+      "node_id": "N_L_12_3_MAF3UL_IDAFA",
+      "node_kind": "compound",
+      "unit_level": "UNIT_COMPOUND",
+      "compound_type": "COMP_IDAFI",
+      "grammar_ids": ["GRAM_MAFOOL_BIH", "GRAM_MUDAF", "GRAM_MUDAF_ILAYH"],
+      "status": "draft",
+      "universal_node_sentence_id": null,
+
+      "text_ar": "أحسن القصص",
+      "text_ar_norm": "احسن القصص",
+
+      "sequence": [
+        {
+          "slot": 1,
+          "type": "token",
+          "token": {
+            "ord": 5,
+            "t_u": null,
+            "surface_ar": "أحسن",
+            "surface_ar_norm": "احسن",
+            "lemma_ar": "أحسن",
+            "lemma_ar_norm": "احسن",
+            "word_type": "WORD_NOUN",
+            "grammar_ids": ["GRAM_MUDAF", "GRAM_MAFOOL_BIH"]
+          }
+        },
+        {
+          "slot": 2,
+          "type": "token",
+          "token": {
+            "ord": 6,
+            "t_u": null,
+            "surface_ar": "القصص",
+            "surface_ar_norm": "القصص",
+            "lemma_ar": "قصص",
+            "lemma_ar_norm": "قصص",
+            "word_type": "WORD_NOUN",
+            "grammar_ids": ["GRAM_MUDAF_ILAYH"]
+          }
+        }
+      ]
+    },
+
+    {
+      "node_id": "N_L_12_3_TA3LIL",
+      "node_kind": "clause",
+      "unit_level": "UNIT_CLAUSE",
+      "sentence_form": "subordinate",
+      "grammar_ids": ["GRAM_TAALIL", "GRAM_MASDAR_MUAWAL"],
+      "status": "draft",
+      "universal_node_sentence_id": null,
+
+      "text_ar": "بما أوحينا إليك هذا القرآن",
+      "text_ar_norm": "بما اوحينا اليك هذا القران",
+
+      "sequence": [
+        {
+          "slot": 1,
+          "type": "token",
+          "token": {
+            "ord": 7,
+            "t_u": null,
+            "surface_ar": "ب",
+            "surface_ar_norm": "ب",
+            "lemma_ar": "ب",
+            "lemma_ar_norm": "ب",
+            "word_type": "WORD_PARTICLE",
+            "grammar_ids": ["GRAM_HARF_JARR", "GRAM_TAALIL"]
+          }
+        },
+        {
+          "slot": 2,
+          "type": "token",
+          "token": {
+            "ord": 8,
+            "t_u": null,
+            "surface_ar": "ما",
+            "surface_ar_norm": "ما",
+            "lemma_ar": "ما",
+            "lemma_ar_norm": "ما",
+            "word_type": "WORD_PARTICLE",
+            "grammar_ids": ["GRAM_MASDAR_MUAWAL"]
+          }
+        },
+        {
+          "slot": 3,
+          "type": "child",
+          "child_node_id": "N_L_12_3_AWHAYNA"
+        }
+      ]
+    },
+
+    {
+      "node_id": "N_L_12_3_AWHAYNA",
+      "node_kind": "sentence",
+      "unit_level": "UNIT_SENTENCE",
+      "sentence_form": "simple",
+      "grammar_ids": ["GRAM_JUMLA_FIILIYYA", "GRAM_JUMLA_KHABARIYYA"],
+      "status": "draft",
+      "universal_node_sentence_id": null,
+
+      "text_ar": "أوحينا إليك هذا القرآن",
+      "text_ar_norm": "اوحينا اليك هذا القران",
+
+      "sequence": [
+        {
+          "slot": 1,
+          "type": "token",
+          "token": {
+            "ord": 9,
+            "t_u": null,
+            "surface_ar": "أوحينا",
+            "surface_ar_norm": "اوحينا",
+            "lemma_ar": "أوحى",
+            "lemma_ar_norm": "اوحى",
+            "word_type": "WORD_VERB",
+            "grammar_ids": ["GRAM_FIIL"]
+          }
+        },
+        {
+          "slot": 2,
+          "type": "child",
+          "child_node_id": "N_L_12_3_JARMAJRUR_ILAYK"
+        },
+        {
+          "slot": 3,
+          "type": "child",
+          "child_node_id": "N_L_12_3_HADHA_QURAN"
+        }
+      ],
+
+      "spans": [
+        {
+          "span_id_u": null,
+          "span_kind": "jar_majrur",
+          "grammar_ids": ["GRAM_HARF_JARR", "GRAM_MAJROOR"],
+          "text_ar": "إليك",
+          "text_ar_norm": "اليك",
+          "target_child_node_id": "N_L_12_3_JARMAJRUR_ILAYK"
+        }
+      ]
+    },
+
+    {
+      "node_id": "N_L_12_3_JARMAJRUR_ILAYK",
+      "node_kind": "compound",
+      "unit_level": "UNIT_COMPOUND",
+      "compound_type": "COMP_JAR_MAJRUR",
+      "grammar_ids": ["GRAM_HARF_JARR", "GRAM_MAJROOR"],
+      "status": "draft",
+      "universal_node_sentence_id": null,
+
+      "text_ar": "إليك",
+      "text_ar_norm": "اليك",
+
+      "sequence": [
+        {
+          "slot": 1,
+          "type": "token",
+          "token": {
+            "ord": 10,
+            "t_u": null,
+            "surface_ar": "إلى",
+            "surface_ar_norm": "الى",
+            "lemma_ar": "إلى",
+            "lemma_ar_norm": "الى",
+            "word_type": "WORD_PARTICLE",
+            "grammar_ids": ["GRAM_HARF_JARR"]
+          }
+        },
+        {
+          "slot": 2,
+          "type": "token",
+          "token": {
+            "ord": 11,
+            "t_u": null,
+            "surface_ar": "ك",
+            "surface_ar_norm": "ك",
+            "lemma_ar": "ك",
+            "lemma_ar_norm": "ك",
+            "word_type": "WORD_NOUN",
+            "grammar_ids": ["GRAM_MAJROOR"]
+          }
+        }
+      ]
+    },
+
+    {
+      "node_id": "N_L_12_3_HADHA_QURAN",
+      "node_kind": "compound",
+      "unit_level": "UNIT_COMPOUND",
+      "compound_type": "COMP_ISNADI",
+      "grammar_ids": ["GRAM_BADAL"],
+      "status": "draft",
+      "universal_node_sentence_id": null,
+
+      "text_ar": "هذا القرآن",
+      "text_ar_norm": "هذا القران",
+
+      "sequence": [
+        {
+          "slot": 1,
+          "type": "token",
+          "token": {
+            "ord": 12,
+            "t_u": null,
+            "surface_ar": "هذا",
+            "surface_ar_norm": "هذا",
+            "lemma_ar": "هذا",
+            "lemma_ar_norm": "هذا",
+            "word_type": "WORD_NOUN",
+            "grammar_ids": ["GRAM_BADAL"]
+          }
+        },
+        {
+          "slot": 2,
+          "type": "token",
+          "token": {
+            "ord": 13,
+            "t_u": null,
+            "surface_ar": "القرآن",
+            "surface_ar_norm": "القران",
+            "lemma_ar": "قرآن",
+            "lemma_ar_norm": "قران",
+            "word_type": "WORD_NOUN",
+            "grammar_ids": ["GRAM_BADAL"]
+          }
+        }
+      ]
+    },
+
+    {
+      "node_id": "N_L_12_3_HAL",
+      "node_kind": "sentence",
+      "unit_level": "UNIT_SENTENCE",
+      "sentence_form": "complex",
+      "grammar_ids": ["GRAM_HAAL", "GRAM_INNA", "GRAM_KANA", "GRAM_JUMLA_KHABARIYYA"],
+      "status": "draft",
+      "universal_node_sentence_id": null,
+
+      "text_ar": "إن كنت من قبله لمن الغافلين",
+      "text_ar_norm": "ان كنت من قبله لمن الغافلين",
+
+      "sequence": [
+        {
+          "slot": 1,
+          "type": "token",
+          "token": {
+            "ord": 15,
+            "t_u": null,
+            "surface_ar": "إن",
+            "surface_ar_norm": "ان",
+            "lemma_ar": "إن",
+            "lemma_ar_norm": "ان",
+            "word_type": "WORD_PARTICLE",
+            "grammar_ids": ["GRAM_INNA", "GRAM_IN_TAWKID"]
+          }
+        },
+        {
+          "slot": 2,
+          "type": "child",
+          "child_node_id": "N_L_12_3_KUNTA"
+        }
+      ]
+    },
+
+    {
+      "node_id": "N_L_12_3_KUNTA",
+      "node_kind": "sentence",
+      "unit_level": "UNIT_SENTENCE",
+      "sentence_form": "simple",
+      "grammar_ids": ["GRAM_KANA", "GRAM_JUMLA_KHABARIYYA"],
+      "status": "draft",
+      "universal_node_sentence_id": null,
+
+      "text_ar": "كنت من قبله لمن الغافلين",
+      "text_ar_norm": "كنت من قبله لمن الغافلين",
+
+      "sequence": [
+        {
+          "slot": 1,
+          "type": "token",
+          "token": {
+            "ord": 16,
+            "t_u": null,
+            "surface_ar": "كنت",
+            "surface_ar_norm": "كنت",
+            "lemma_ar": "كان",
+            "lemma_ar_norm": "كان",
+            "word_type": "WORD_VERB",
+            "grammar_ids": ["GRAM_KANA"]
+          }
+        },
+        {
+          "slot": 2,
+          "type": "token",
+          "token": {
+            "ord": 17,
+            "t_u": null,
+            "surface_ar": "من",
+            "surface_ar_norm": "من",
+            "lemma_ar": "من",
+            "lemma_ar_norm": "من",
+            "word_type": "WORD_PARTICLE",
+            "grammar_ids": ["GRAM_HARF_JARR"]
+          }
+        },
+        {
+          "slot": 3,
+          "type": "child",
+          "child_node_id": "N_L_12_3_QABL_HI"
+        },
+        {
+          "slot": 4,
+          "type": "token",
+          "token": {
+            "ord": 20,
+            "t_u": null,
+            "surface_ar": "ل",
+            "surface_ar_norm": "ل",
+            "lemma_ar": "ل",
+            "lemma_ar_norm": "ل",
+            "word_type": "WORD_PARTICLE",
+            "grammar_ids": ["GRAM_TAWKID"]
+          }
+        },
+        {
+          "slot": 5,
+          "type": "token",
+          "token": {
+            "ord": 21,
+            "t_u": null,
+            "surface_ar": "من",
+            "surface_ar_norm": "من",
+            "lemma_ar": "من",
+            "lemma_ar_norm": "من",
+            "word_type": "WORD_PARTICLE",
+            "grammar_ids": ["GRAM_MAJROOR"]
+          }
+        },
+        {
+          "slot": 6,
+          "type": "token",
+          "token": {
+            "ord": 22,
+            "t_u": null,
+            "surface_ar": "الغافلين",
+            "surface_ar_norm": "الغافلين",
+            "lemma_ar": "غافل",
+            "lemma_ar_norm": "غافل",
+            "word_type": "WORD_NOUN",
+            "grammar_ids": ["GRAM_KHABAR_KANA"]
+          }
+        }
+      ],
+
+      "spans": [
+        {
+          "span_id_u": null,
+          "span_kind": "jar_majrur",
+          "grammar_ids": ["GRAM_HARF_JARR", "GRAM_MAJROOR"],
+          "text_ar": "من قبله",
+          "text_ar_norm": "من قبله",
+          "target_child_node_id": "N_L_12_3_QABL_HI"
+        },
+        {
+          "span_id_u": null,
+          "span_kind": "qabl+pron",
+          "grammar_ids": ["GRAM_MUDAF", "GRAM_MUDAF_ILAYH"],
+          "text_ar": "قبله",
+          "text_ar_norm": "قبله",
+          "target_child_node_id": "N_L_12_3_QABL_HI"
+        }
+      ]
+    },
+
+    {
+      "node_id": "N_L_12_3_QABL_HI",
+      "node_kind": "compound",
+      "unit_level": "UNIT_COMPOUND",
+      "compound_type": "COMP_IDAFI",
+      "grammar_ids": ["GRAM_MUDAF", "GRAM_MUDAF_ILAYH"],
+      "status": "draft",
+      "universal_node_sentence_id": null,
+
+      "text_ar": "قبله",
+      "text_ar_norm": "قبله",
+
+      "sequence": [
+        {
+          "slot": 1,
+          "type": "token",
+          "token": {
+            "ord": 18,
+            "t_u": null,
+            "surface_ar": "قبل",
+            "surface_ar_norm": "قبل",
+            "lemma_ar": "قبل",
+            "lemma_ar_norm": "قبل",
+            "word_type": "WORD_NOUN",
+            "grammar_ids": ["GRAM_MUDAF"]
+          }
+        },
+        {
+          "slot": 2,
+          "type": "token",
+          "token": {
+            "ord": 19,
+            "t_u": null,
+            "surface_ar": "ه",
+            "surface_ar_norm": "ه",
+            "lemma_ar": "ه",
+            "lemma_ar_norm": "ه",
+            "word_type": "WORD_NOUN",
+            "grammar_ids": ["GRAM_MUDAF_ILAYH"]
+          }
+        }
+      ]
+    }
+  ],
+
+  "validation": {
+    "no_token_duplication_across_nodes_expected": true,
+    "each_node_has_text_ar": true,
+    "connectors_live_on_the_edge_layer_expected": true,
+    "bottom_up_persist_recommended": true
+  }
+}
