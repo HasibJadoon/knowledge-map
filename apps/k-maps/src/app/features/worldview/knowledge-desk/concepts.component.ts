@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-concepts',
+  selector: 'app-wv_concepts',
   standalone: true,
   imports: [CommonModule],
   template: `

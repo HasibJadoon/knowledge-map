@@ -54,7 +54,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Concepts',
-        url: '/discourse/concepts',
+        url: '/discourse/wv_concepts',
         iconComponent: { name: 'cilTags' }
       },
       {

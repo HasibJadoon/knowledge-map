@@ -174,7 +174,7 @@
     "links.concept_refs": {
       "label": "Concepts",
       "type": "picker_multi",
-      "picker_source": "concepts"
+      "picker_source": "wv_concepts"
     },
     "links.library_refs": {
       "label": "Library",
@@ -184,7 +184,7 @@
     "links.cross_refs": {
       "label": "Cross Refs",
       "type": "picker_multi",
-      "picker_source": "cross_references"
+      "picker_source": "wv_cross_references"
     },
     "tags": {
       "label": "Tags",

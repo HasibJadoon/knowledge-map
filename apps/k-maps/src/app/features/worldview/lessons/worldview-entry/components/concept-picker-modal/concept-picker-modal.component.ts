@@ -10,5 +10,5 @@ import { CommonModule } from '@angular/common';
 })
 export class ConceptPickerModalComponent {
   @Output() close = new EventEmitter<void>();
-  concepts = ['C_REVELATION', 'C_SOVEREIGNTY', 'C_LAW', 'C_REASON', 'C_NARRATIVE'];
+  wv_concepts = ['C_REVELATION', 'C_SOVEREIGNTY', 'C_LAW', 'C_REASON', 'C_NARRATIVE'];
 }

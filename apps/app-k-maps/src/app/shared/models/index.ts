@@ -58,8 +58,5 @@ export type { User } from './user.model';
 export { WeeklyTaskModel } from './weekly-task.model';
 export type { WeeklyTask } from './weekly-task.model';
 
-export { WorldviewCardModel } from './worldview-card.model';
-export type { WorldviewCard } from './worldview-card.model';
-
 export { WorldviewClaimModel } from './worldview-claim.model';
 export type { WorldviewClaim } from './worldview-claim.model';

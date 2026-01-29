@@ -3,7 +3,7 @@
 // - text.arabic_full is Ayah-units array (NOT a single string)
 // - sentences are separate array at lesson-level (NOT inside text)
 // - tokens MUST split harf (و/ف/ب/ك/ل/س) from word (e.g., و + كذلك)
-// - grammar concepts live in separate table; lesson only references them
+// - grammar wv_concepts live in separate table; lesson only references them
 // - passage_layers captures discourse / rhetoric / reasoning / idiom layers
 // - comprehension is populated
 // =======================================================

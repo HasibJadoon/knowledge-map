@@ -1,5 +1,5 @@
 {
-  "table": "weekly_tasks",
+  "table": "sp_weekly_tasks",
   "columns": [
     "id",
     "week_start",

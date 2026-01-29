@@ -169,7 +169,7 @@ HARD RULES:
 - Do NOT alter the Arabic units. Keep each ayah string EXACT as provided (including ﴿١﴾ markers).
 - Tokenize by splitting attached harf when present: و / ف / ب / ك / ل / س must be their own tokens if attached (e.g., "وكذلك" => ["و","كذلك"]).
 - Sentences are analysis chunks that reference unit_id.
-- grammar_concept_refs: only reference concept IDs (strings). Do not define concepts here.
+- grammar_concept_refs: only reference concept IDs (strings). Do not define wv_concepts here.
 - Provide discourse/rhetoric/reasoning layers in passage_layers.
 - Populate comprehension with reflective + analytical + MCQs.
 Return ONLY JSON matching the schema.
@@ -390,7 +390,7 @@ HARD RULES:
 - Do NOT alter the Arabic units. Keep each ayah string EXACT as provided (including ﴿١﴾ markers).
 - Tokenize by splitting attached harf when present: و / ف / ب / ك / ل / س must be their own tokens if attached (e.g., "وكذلك" => ["و","كذلك"]).
 - Sentences are analysis chunks that reference unit_id.
-- grammar_concept_refs: only reference concept IDs (strings). Do not define concepts here.
+- grammar_concept_refs: only reference concept IDs (strings). Do not define wv_concepts here.
 - Provide discourse/rhetoric/reasoning layers in passage_layers.
 - Populate comprehension with reflective + analytical + MCQs.
 Return ONLY JSON matching the schema.

@@ -16,7 +16,7 @@ export class DiscourseConceptsPageComponent {
   query = '';
   activeFilters = new Set<string>();
 
-  concepts = discourseConcepts;
+  wv_concepts = discourseConcepts;
   filtered: DiscourseConcept[] = discourseConcepts;
 
   constructor(private readonly router: Router, private readonly route: ActivatedRoute) {
@@ -33,7 +33,7 @@ export class DiscourseConceptsPageComponent {
   applyFilters() {
     const q = this.query.trim().toLowerCase();
     const active = this.activeFilters;
-    this.filtered = this.concepts.filter((concept) => {
+    this.filtered = this.wv_concepts.filter((concept) => {
       const matchesQuery =
         !q ||
         concept.label_ar.toLowerCase().includes(q) ||
@@ -44,6 +44,6 @@ export class DiscourseConceptsPageComponent {
   }
 
   openConcept(slug: string) {
-    this.router.navigate(['/discourse/concepts', slug]);
+    this.router.navigate(['/discourse/wv_concepts', slug]);
   }
 }

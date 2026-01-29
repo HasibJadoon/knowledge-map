@@ -37,7 +37,7 @@ HARD RULES:
 - Do NOT alter the Arabic ayah strings. Keep EXACT, including markers like ﴿١﴾.
 - Tokenize by splitting attached harf when present: و / ف / ب / ك / ل / س must be their own tokens if attached (e.g., "وكذلك" => ["و","كذلك"]).
 - sentences must reference their parent unit_id from text.arabic_full.
-- grammar_concept_refs: only reference concept IDs (strings). Do NOT define new grammar concepts here.
+- grammar_concept_refs: only reference concept IDs (strings). Do NOT define new grammar wv_concepts here.
 - passage_layers must capture discourse / rhetoric / reasoning / idiom layers and include 1–2 sentences that explain the contextual/methodological reason for pointing at each layer (e.g., “Selected because the verb form ... shows ... in response to ...”).
 - comprehension must include reflective + analytical + MCQs in 3 groups: text/vocabulary/grammar. Each question group should be prefaced (in a short descriptive field) with how verbs/nouns/vocab/grammar choices were inferred—mention the lexical forms, root connections, or narrative purpose that led to each prompt.
 - When you list verbs, nouns, vocabulary fixes, grammar notes, or root-level observations, include why they matter: describe the methodological criterion (e.g., “chose this verb because it repeats the plural pronoun, highlighting ...”, “root ر-و-ح illustrates ... so we emphasize ...”). Capture that commentary either as additional descriptive text in comprehension/reflections or embedded inside the relevant passage layer description.

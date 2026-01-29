@@ -31,7 +31,7 @@ export interface WorldviewLesson {
   evidence_ref_blocks: unknown[];
   notes: string;
 }[];
-  concepts: {
+  wv_concepts: {
   concept_ref_id: string;
   role: string;
 }[];

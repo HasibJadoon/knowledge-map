@@ -15,7 +15,8 @@
     "start": "ng serve -o",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "tsc --noEmit -p tsconfig.app.json"
   },
   "private": true,
   "dependencies": {

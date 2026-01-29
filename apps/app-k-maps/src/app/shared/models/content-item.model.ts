@@ -1,6 +1,6 @@
 /**
  * CANONICAL CONTENT ITEM
- * Matches `content_items` table exactly.
+ * Matches `wv_content_items` table exactly.
  * Purpose: your publishing/production layer (podcast/youtube/article/slides/script/etc.)
  * Can be linked to any knowledge object via related_type + related_id.
  */

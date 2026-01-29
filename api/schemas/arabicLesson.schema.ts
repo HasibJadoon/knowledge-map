@@ -93,7 +93,7 @@ const lessonSentenceDefinition = {
       items: {
         type: "string",
         minLength: 1,
-        description: "References grammar_concepts table IDs (e.g., GRAM_NAHW_001).",
+        description: "References grammar_wv_concepts table IDs (e.g., GRAM_NAHW_001).",
       },
     },
   },

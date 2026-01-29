@@ -3,7 +3,7 @@
  * Purpose:
  * - Links any knowledge/content object to a library entry
  * - Supports Q&A / justification / extraction notes via link_qa_json
- * - Mirrors content_library_links table exactly
+ * - Mirrors wv_content_library_links table exactly
  */
 
 export interface ContentLibraryLink {

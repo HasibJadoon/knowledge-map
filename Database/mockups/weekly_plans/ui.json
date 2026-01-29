@@ -1,5 +1,5 @@
 {
-  "table": "weekly_plans",
+  "table": "sp_weekly_plans",
   "columns": [
     "week_start",
     "created_at",

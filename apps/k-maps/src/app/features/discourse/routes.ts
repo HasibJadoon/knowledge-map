@@ -16,11 +16,11 @@ export const routes: Routes = [
     data: { title: "Qur'anic Discourse", subtitle: 'Coming soon.' },
   },
   {
-    path: 'concepts',
+    path: 'wv_concepts',
     component: DiscourseConceptsPageComponent,
   },
   {
-    path: 'concepts/:slug',
+    path: 'wv_concepts/:slug',
     component: DiscourseConceptDetailComponent,
   },
   {

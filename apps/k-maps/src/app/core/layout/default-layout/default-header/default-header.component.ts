@@ -253,9 +253,9 @@ export class DefaultHeaderComponent extends HeaderComponent {
       return;
     }
 
-    if (this.currentPath === '/discourse/concepts') {
+    if (this.currentPath === '/discourse/wv_concepts') {
       this.showHeaderSearch = true;
-      this.headerPlaceholder = 'Search concepts';
+      this.headerPlaceholder = 'Search wv_concepts';
       this.showDiscourseFilters = true;
       const categoriesParam = String(url.queryParams['categories'] ?? '').trim();
       this.activeDiscourseFilters = new Set(

@@ -70,13 +70,13 @@ const routes: Routes = [
     data: { title: "Qur'anic Discourse", subtitle: 'Coming soon.' }
   },
   {
-    path: 'discourse/concepts',
+    path: 'discourse/wv_concepts',
     loadComponent: () =>
       import('./features/discourse/discourse-concepts/discourse-concepts.page').then(m => m.DiscourseConceptsPage),
     canActivate: [AuthGuard]
   },
   {
-    path: 'discourse/concepts/:slug',
+    path: 'discourse/wv_concepts/:slug',
     loadComponent: () =>
       import('./features/discourse/discourse-concept-detail/discourse-concept-detail.page').then(m => m.DiscourseConceptDetailPage),
     canActivate: [AuthGuard]

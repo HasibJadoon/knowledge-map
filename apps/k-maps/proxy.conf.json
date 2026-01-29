@@ -59,17 +59,12 @@
     "secure": false,
     "changeOrigin": true
   },
-  "/worldview_lessons": {
+  "/wv_claims": {
     "target": "https://api.k-maps.com",
     "secure": false,
     "changeOrigin": true
   },
-  "/worldview_cards": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/cross_references": {
+  "/wv_cross_references": {
     "target": "https://api.k-maps.com",
     "secure": false,
     "changeOrigin": true
@@ -79,12 +74,12 @@
     "secure": false,
     "changeOrigin": true
   },
-  "/weekly_plans": {
+  "/sp_weekly_plans": {
     "target": "https://api.k-maps.com",
     "secure": false,
     "changeOrigin": true
   },
-  "/weekly_tasks": {
+  "/sp_weekly_tasks": {
     "target": "https://api.k-maps.com",
     "secure": false,
     "changeOrigin": true

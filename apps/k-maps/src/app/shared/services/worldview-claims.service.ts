@@ -3,9 +3,9 @@ import { AuthService } from './AuthService';
 import { API_BASE } from '../api-base';
 
 @Injectable({ providedIn: 'root' })
-export class WorldviewLessonsService {
+export class WorldviewClaimsService {
   private auth = inject(AuthService);
-  private readonly baseUrl = `${API_BASE}/worldview_lessons`;
+  private readonly baseUrl = `${API_BASE}/wv_claims`;
 
   async list(params: Record<string, string> = {}) {
     const query = new URLSearchParams(params).toString();
@@ -14,7 +14,7 @@ export class WorldviewLessonsService {
   }
 
   async get(id: number | string) {
-    return this.request(`/worldview_lessons/${id}`);
+    return this.request(`/wv_claims/${id}`);
   }
 
   async create(payload: unknown) {
@@ -22,11 +22,11 @@ export class WorldviewLessonsService {
   }
 
   async update(id: number | string, payload: unknown) {
-    return this.request(`/worldview_lessons/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+    return this.request(`/wv_claims/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
   }
 
   async remove(id: number | string) {
-    return this.request(`/worldview_lessons/${id}`, { method: 'DELETE' });
+    return this.request(`/wv_claims/${id}`, { method: 'DELETE' });
   }
 
   private async request(url: string, init: RequestInit = {}) {

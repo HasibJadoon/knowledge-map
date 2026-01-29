@@ -308,12 +308,11 @@ export type BrainstormPromotionTargetType =
   | 'other';
 
 export interface BrainstormPromotions {
-  worldview_claims?: BrainstormPromotion[];
-  concept_anchors?: BrainstormPromotion[];
-  cross_references?: BrainstormPromotion[];
-  quran_relations?: BrainstormPromotion[];
-  content_items?: BrainstormPromotion[];
-  worldview_lessons?: BrainstormPromotion[];
+  wv_claims?: BrainstormPromotion[];
+  wv_concept_anchors?: BrainstormPromotion[];
+  wv_cross_references?: BrainstormPromotion[];
+  ar_quran_relations?: BrainstormPromotion[];
+  wv_content_items?: BrainstormPromotion[];
 }
 
 export interface BrainstormPromotion {

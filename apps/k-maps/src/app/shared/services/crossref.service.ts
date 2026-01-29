@@ -5,7 +5,7 @@ import { API_BASE } from '../api-base';
 @Injectable({ providedIn: 'root' })
 export class CrossrefService {
   private auth = inject(AuthService);
-  private readonly baseUrl = `${API_BASE}/cross_references`;
+  private readonly baseUrl = `${API_BASE}/wv_cross_references`;
 
   async list(params: Record<string, string> = {}) {
     const query = new URLSearchParams(params).toString();
@@ -14,7 +14,7 @@ export class CrossrefService {
   }
 
   async get(id: number | string) {
-    return this.request(`/cross_references/${id}`);
+    return this.request(`/wv_cross_references/${id}`);
   }
 
   async create(payload: unknown) {
@@ -22,11 +22,11 @@ export class CrossrefService {
   }
 
   async update(id: number | string, payload: unknown) {
-    return this.request(`/cross_references/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+    return this.request(`/wv_cross_references/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
   }
 
   async remove(id: number | string) {
-    return this.request(`/cross_references/${id}`, { method: 'DELETE' });
+    return this.request(`/wv_cross_references/${id}`, { method: 'DELETE' });
   }
 
   private async request(url: string, init: RequestInit = {}) {

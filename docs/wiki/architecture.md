@@ -43,7 +43,7 @@ Everything is designed to be:
 ## 2) Core design principles
 
 ### A) JSON is the canonical content format
-Tables like `ar_lessons`, `worldview_claims`, `content_items`, `brainstorm_sessions` store **canonical JSON payloads** for maximum flexibility.
+Tables like `ar_lessons`, `wv_claims`, `wv_content_items`, `brainstorm_sessions` store **canonical JSON payloads** for maximum flexibility.
 
 ### B) Relational tables provide the “spine”
 Relational tables give you:
@@ -67,29 +67,28 @@ Relational tables give you:
 
 **Arabic / Qur'an learning**
 - `ar_lessons` (canonical JSON lesson)
-- `roots` + `root_words`
-- `lexicon`
+- `ar_roots` + `ar_root_words`
+- `ar_lexicon`
 - `ar_grammatical_concepts`
 
 **Worldview + library + production**
 - `brainstorm_sessions`
 - `library_entries`
-- `worldview_claims`
-- `worldview_cards`
-- `content_items`
-- `content_library_links`
+- `wv_claims`
+- `wv_content_items`
+- `wv_content_library_links`
 
 **Cross-linking graph**
-- `concepts`
-- `concept_anchors`
-- `cross_references`
-- `discourse_edges`
+- `wv_concepts`
+- `wv_concept_anchors`
+- `wv_cross_references`
+- `wv_discourse_edges`
 
 **Planning / execution**
-- `weekly_plans`
-- `weekly_tasks`
-- `sprint_reviews`
-- `reviews`
+- `sp_weekly_plans`
+- `sp_weekly_tasks`
+- `sp_sprint_reviews`
+- `ar_reviews`
 
 **Source-agnostic text backbone**
 - `text_documents`
@@ -131,21 +130,21 @@ Append-only activity timeline:
 
 ### 4.2 Arabic study (roots → lexicon → lessons)
 
-#### `roots`
+#### `ar_roots`
 Master table for Arabic roots and card generation.
 Key ideas:
 - keep multiple romanization/search forms (`root_latn`, `root_norm`, `alt_latn_json`)
 - keep study metadata (`difficulty`, `frequency`, `status`)
 - `cards_json` is the Anki/SRS payloads per root
 
-#### `root_words`
+#### `ar_root_words`
 Maps a root to locations (lightweight):
 - `word_location` is your flexible locator (e.g. `DOC_QURAN_HAFS:12:23:TOK_05` or `12:23:5`)
 This is optional once you have full token backbone, but still useful for quick root-to-occurrence mapping.
 
-#### `lexicon`
+#### `ar_lexicon`
 Derived forms / headwords linked to roots.
-- `root_id` FK to `roots`
+- `root_id` FK to `ar_roots`
 - `morphology_json` holds wazn/masdars/features
 - `cards_json` stores one or more SRS cards per entry
 
@@ -176,23 +175,18 @@ Everything you read/watch/listen to:
 - `entry_json` can store canonical library payload
 - `qa_json` stores your Q/A notes
 
-#### `worldview_claims`
+#### `wv_claims`
 Renamed from worldview_lessons: these are **meaning nodes**.
 - `claim` JSON is the canonical object (assertion + qualifiers + evidence + counterpoints, etc.)
 This is the “stable thesis/claim inventory.”
 
-#### `worldview_cards`
-SRS cards derived from worldview_claims:
-- `card` JSON holds Q/A, cloze, prompts, etc.
-- linked by `claim_id` (stored as TEXT for flexibility)
-
-#### `content_items`
+#### `wv_content_items`
 Actual outputs you publish:
 - types: podcast/youtube/article/newsletter/short/slides/script/note/…
 - `refs_json` tracks where content is sourced from (anchors, units, timestamps)
 - `content_json` contains outlines, scripts, shotlists, render instructions
 
-#### `content_library_links`
+#### `wv_content_library_links`
 A generic link table:
 - link a library entry to an Arabic lesson / worldview claim / content item
 - store `note` and optional `link_qa_json`
@@ -201,42 +195,42 @@ A generic link table:
 
 ### 4.4 Planning + reviews
 
-#### `weekly_plans`
+#### `sp_weekly_plans`
 Container for a week (board metadata).
 
-#### `weekly_tasks`
+#### `sp_weekly_tasks`
 Kanban tasks:
 - `task_type`: arabic | worldview | content | crossref | admin
 - `kanban_state`: backlog | planned | doing | blocked | done
-- optional links to `ar_lessons`, `worldview_claims`, `content_items`
+- optional links to `ar_lessons`, `wv_claims`, `wv_content_items`
 
-#### `sprint_reviews`
+#### `sp_sprint_reviews`
 Monthly retrospective (JSON).
 
-#### `reviews`
-Lightweight rating/notes on any target:
+#### `ar_reviews`
+Lightweight rating/notes stored in `ar_reviews`:
 - `target_type` + `target_id` pattern
 
 ---
 
 ### 4.5 Cross-linking and graph layer
 
-#### `concepts`
+#### `wv_concepts`
 Your universal concept inventory (Qur’an-centered spine):
 - `slug` is stable unique key (COVENANT, TAWHID, REVELATION, SOVEREIGNTY…)
 
-#### `concept_anchors`
-Evidence nodes: anchors concepts to places in any target stream:
+#### `wv_concept_anchors`
+Evidence nodes: anchors wv_concepts to places in any target stream:
 - `target_type/target_id` points to lesson/claim/library/content/etc
 - `unit_id` + `ref` help locate inside JSON or source
 - `evidence` is the excerpt/snippet
 - (recommended) add optional `span_id` to anchor to exact token spans
 
-#### `cross_references`
+#### `wv_cross_references`
 Generic cross reference objects as JSON:
 - use for “Qur’an ↔ Bible”, “claim ↔ claim”, “concept ↔ concept”, etc.
 
-#### `discourse_edges`
+#### `wv_discourse_edges`
 Graph edges describing relationships:
 - `edge_type`: sentence_flow | concept_flow | argument_flow
 - `relation`: استئناف | تعليل | support | contrast | …
@@ -300,17 +294,17 @@ This enables:
 4) Link tokens to lexicon (`token_lexicon_links`)
 5) Create spans for idioms/grammar (`token_spans`)
 6) Apply idioms/grammar (`idiom_instances`, `grammar_instances`)
-7) Extract concepts from the lesson and anchor them (`concepts`, `concept_anchors`)
+7) Extract wv_concepts from the lesson and anchor them (`wv_concepts`, `wv_concept_anchors`)
 8) Log activity (`user_activity_logs`)
 
 ### Flow B — Worldview extraction
 1) Add a source in `library_entries`
 2) Run a `brainstorm_sessions` capture (raw → structured)
-3) Stabilize into `worldview_claims` (meaning nodes)
-4) Create SRS in `worldview_cards`
-5) Anchor claims to concepts via `concept_anchors`
-6) Connect claims to Qur’an via `cross_references` and `discourse_edges`
-7) Produce output via `content_items` referencing anchors/units
+3) Stabilize into `wv_claims` (meaning nodes)
+4) Create SRS through `wv_claims` (meaning nodes now host the canonical cards)
+5) Anchor claims to wv_concepts via `wv_concept_anchors`
+6) Connect claims to Qur’an via `wv_cross_references` and `wv_discourse_edges`
+7) Produce output via `wv_content_items` referencing anchors/units
 
 ---
 

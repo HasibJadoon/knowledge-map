@@ -130,10 +130,10 @@
       }
     },
 
-    "links.concept_refs": { "label": "Concepts", "type": "picker_multi", "picker_source": "concepts" },
+    "links.concept_refs": { "label": "Concepts", "type": "picker_multi", "picker_source": "wv_concepts" },
     "links.library_refs": { "label": "Library References", "type": "picker_multi", "picker_source": "library" },
     "links.worldview_refs": { "label": "Worldview Links", "type": "picker_multi", "picker_source": "worldview" },
-    "links.cross_refs": { "label": "Cross References", "type": "picker_multi", "picker_source": "cross_references" },
+    "links.cross_refs": { "label": "Cross References", "type": "picker_multi", "picker_source": "wv_cross_references" },
 
     "teaching_notes.child_friendly": { "label": "Child-Friendly", "type": "textarea" },
     "teaching_notes.advanced": { "label": "Advanced Notes", "type": "textarea" },

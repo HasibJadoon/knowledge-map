@@ -1,8 +1,8 @@
 /**
  * CANONICAL WEEKLY TASK
- * Matches `weekly_tasks` table.
+ * Matches `sp_weekly_tasks` table.
  * - Kanban-first workflow + optional reporting status
- * - Links to weekly_plans via week_start
+ * - Links to sp_weekly_plans via week_start
  * - Optional direct FKs to ar_lesson / worldview_claim / content_item
  * - task_json is structured wrapper (kind + data) for future-proofing
  */

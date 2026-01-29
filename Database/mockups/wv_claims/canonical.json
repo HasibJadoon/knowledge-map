@@ -35,7 +35,7 @@
         "notes": "string|null"
       }
     ],
-    "concepts": [
+    "wv_concepts": [
       {
         "concept_ref_id": "CONCEPT_...",
         "role": "core | supporting | contrasted"

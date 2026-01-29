@@ -85,7 +85,7 @@ const entry: WorldviewEntry = {
       },
     ],
     notes: block.citation ?? '',
-    concept_refs: sampleLesson?.concepts?.map((concept) => concept.concept_ref_id) ?? [],
+    concept_refs: sampleLesson?.wv_concepts?.map((concept) => concept.concept_ref_id) ?? [],
   })),
   flow: {
     argument_edges: [],

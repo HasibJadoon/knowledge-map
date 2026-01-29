@@ -30,9 +30,9 @@ export type DiscourseConcept = {
   crossRefs: string[];
 };
 
-const typedDiscourse = discourseData as { concepts: DiscourseConcept[] };
+const typedDiscourse = discourseData as { wv_concepts: DiscourseConcept[] };
 
-export const discourseConcepts = typedDiscourse.concepts;
+export const discourseConcepts = typedDiscourse.wv_concepts;
 
 const allRelations = discourseConcepts.reduce<DiscourseRelation[]>(
   (acc, concept) => acc.concat(concept.relations),

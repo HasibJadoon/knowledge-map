@@ -10,7 +10,7 @@ This document explains **what exists**, **why it exists**, and **how it works**,
 
 ![SentenceTokens architecture](https://assests.k-maps.com/wiki/sentence-tokens-sm.png)
 
-The diagram above is the core architecture for Sentence Tokens and shows how sentences, tokens, spans, and concepts interconnect through the lexicon and grammar layers; treat it as the primary visual reference for the text model described below.
+The diagram above is the core architecture for Sentence Tokens and shows how sentences, tokens, spans, and wv_concepts interconnect through the lexicon and grammar layers; treat it as the primary visual reference for the text model described below.
 
 ## What Problem This Solves
 

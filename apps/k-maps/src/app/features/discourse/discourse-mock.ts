@@ -6,9 +6,9 @@ import {
 
 import discourseData from '../../../assets/mockups/discourse.json';
 
-const typedDiscourse = discourseData as { concepts: DiscourseConcept[] };
+const typedDiscourse = discourseData as { wv_concepts: DiscourseConcept[] };
 
-export const discourseConcepts: DiscourseConcept[] = typedDiscourse.concepts;
+export const discourseConcepts: DiscourseConcept[] = typedDiscourse.wv_concepts;
 
 const allRelations = discourseConcepts.reduce<DiscourseRelation[]>(
   (acc, concept) => acc.concat(concept.relations),

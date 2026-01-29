@@ -32,7 +32,7 @@ export interface WorldviewLessonWorldview {
   evidence_ref_blocks: string[];
   notes: string;
 }[];
-  concepts: {
+  wv_concepts: {
   concept_ref_id: string;
   role: string;
 }[];

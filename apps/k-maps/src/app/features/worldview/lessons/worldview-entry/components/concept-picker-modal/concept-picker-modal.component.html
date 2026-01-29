@@ -5,7 +5,7 @@
     <button class="btn btn-sm btn-outline-secondary" type="button" (click)="close.emit()">Close</button>
   </div>
   <div class="modal-body">
-    <div class="concept-row" *ngFor="let concept of concepts">
+    <div class="concept-row" *ngFor="let concept of wv_concepts">
       <span class="badge concept-badge">{{ concept }}</span>
       <button class="btn btn-sm btn-outline-secondary" type="button">Select</button>
     </div>

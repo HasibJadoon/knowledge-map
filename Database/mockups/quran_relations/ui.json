@@ -1,5 +1,5 @@
 {
-  "table": "quran_relations",
+  "table": "ar_quran_relations",
   "columns": [
     "id",
     "concept_id",

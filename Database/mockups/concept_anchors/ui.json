@@ -5,7 +5,7 @@
     "concept_id": {
       "label": "Concept",
       "type": "picker",
-      "picker_source": "concepts",
+      "picker_source": "wv_concepts",
       "required": true
     },
 

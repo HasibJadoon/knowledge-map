@@ -50,7 +50,7 @@
         "notes": "Bridge to legal positivism concept."
       }
     ],
-    "concepts": [
+    "wv_concepts": [
       {
         "concept_ref_id": "CONCEPT_SOVEREIGNTY_MODERN_STATE",
         "role": "core"

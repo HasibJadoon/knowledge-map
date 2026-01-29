@@ -3,7 +3,7 @@
 // - text.arabic_full is Ayah-units array (NOT a single string)
 // - sentences are separate array at lesson-level (NOT inside text)
 // - tokens MUST split harf (و/ف/ب/ك/ل/س) from word (e.g., و + كذلك)
-// - grammar concepts live in separate table; lesson only references them
+// - grammar wv_concepts live in separate table; lesson only references them
 // - passage_layers captures discourse / rhetoric / reasoning / idiom layers
 // - comprehension is populated
 // =======================================================
@@ -95,7 +95,7 @@ export interface LessonSentence {
   // tokenization is the main “word-map”
   tokens: LessonToken[];
 
-  // grammar concepts are stored elsewhere; lesson references them
+  // grammar wv_concepts are stored elsewhere; lesson references them
   grammar_concept_refs?: string[] | null; // e.g., ["GRAM_NAHW_001"]
 }
 

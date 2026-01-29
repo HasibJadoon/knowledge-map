@@ -1,61 +1,4 @@
 {
-  "vocab_layer": {
-    "vocabulary_index": {
-      "أفعال": [
-        { "word": "قَالَ", "root": "قول", "token_ids": [ "TOK_12_8_002", "TOK_12_10_001", "TOK_12_11_001", "TOK_12_13_001", "TOK_12_14_001", "TOK_12_15_001", "TOK_12_17_001", "TOK_12_18_001" ] },
-        { "word": "اقْتُلُوا", "root": "قتل", "token_ids": [ "TOK_12_9_001" ] },
-        { "word": "اطْرَحُوا", "root": "طرح", "token_ids": [ "TOK_12_9_003" ] },
-        { "word": "يَخْلُ", "root": "خلو", "token_ids": [ "TOK_12_9_006" ] },
-        { "word": "تَكُونُوا", "root": "كون", "token_ids": [ "TOK_12_9_010" ] },
-        { "word": "تَقْتُلُوا", "root": "قتل", "token_ids": [ "TOK_12_10_004" ] },
-        { "word": "أَلْقُوا", "root": "لقي", "token_ids": [ "TOK_12_10_006" ] },
-        { "word": "يَلْتَقِطْ", "root": "لقط", "token_ids": [ "TOK_12_10_010" ] },
-        { "word": "تَأْمَنَّا", "root": "أمن", "token_ids": [ "TOK_12_11_006" ] },
-        { "word": "أَرْسِلْ", "root": "رسل", "token_ids": [ "TOK_12_12_001" ] },
-        { "word": "يَرْتَعْ", "root": "رتع", "token_ids": [ "TOK_12_12_004" ] },
-        { "word": "يَلْعَبْ", "root": "لعب", "token_ids": [ "TOK_12_12_006" ] },
-        { "word": "لَيَحْزُنُنِي", "root": "حزن", "token_ids": [ "TOK_12_13_003" ] },
-        { "word": "أَخَافُ", "root": "خوف", "token_ids": [ "TOK_12_13_007" ] },
-        { "word": "يَأْكُلَهُ", "root": "أكل", "token_ids": [ "TOK_12_13_010", "TOK_12_14_003", "TOK_12_17_010" ] },
-        { "word": "ذَهَبُوا", "root": "ذهب", "token_ids": [ "TOK_12_15_002", "TOK_12_17_004" ] },
-        { "word": "أَجْمَعُوا", "root": "جمع", "token_ids": [ "TOK_12_15_005" ] },
-        { "word": "جَعَلُوهُ", "root": "جعل", "token_ids": [ "TOK_12_15_008" ] },
-        { "word": "أَوْحَيْنَا", "root": "وحي", "token_ids": [ "TOK_12_15_011" ] },
-        { "word": "جَاءُوا", "root": "جيء", "token_ids": [ "TOK_12_16_001" ] },
-        { "word": "يَبْكُونَ", "root": "بكي", "token_ids": [ "TOK_12_16_004" ] },
-        { "word": "ذَهَبْنَا", "root": "ذهب", "token_ids": [ "TOK_12_17_003" ] },
-        { "word": "نَسْتَبِقُ", "root": "سبق", "token_ids": [ "TOK_12_17_005" ] },
-        { "word": "تَرَكْنَا", "root": "ترك", "token_ids": [ "TOK_12_17_007" ] },
-        { "word": "سَوَّلَتْ", "root": "سول", "token_ids": [ "TOK_12_18_003" ] }
-      ],
-
-      "أسماء": [
-        { "word": "يُوسُف", "root": null, "token_ids": [ "TOK_12_8_004", "TOK_12_9_002", "TOK_12_10_005", "TOK_12_11_008", "TOK_12_12_003", "TOK_12_13_005", "TOK_12_15_003", "TOK_12_17_008" ] },
-        { "word": "أَخ", "root": "ءخو", "token_ids": [ "TOK_12_8_006" ] },
-        { "word": "أَب", "root": "ءب", "token_ids": [ "TOK_12_8_010", "TOK_12_11_003", "TOK_12_16_003", "TOK_12_17_002" ] },
-        { "word": "عُصْبَة", "root": "عصب", "token_ids": [ "TOK_12_8_013", "TOK_12_14_005" ] },
-        { "word": "ضَلَال", "root": "ضلل", "token_ids": [ "TOK_12_8_017" ] },
-        { "word": "أَرْض", "root": "ءرض", "token_ids": [ "TOK_12_9_004" ] },
-        { "word": "وَجْه", "root": "وجه", "token_ids": [ "TOK_12_9_007" ] },
-        { "word": "قَوْم", "root": "قوم", "token_ids": [ "TOK_12_9_011" ] },
-        { "word": "غَيَابَة", "root": "غيب", "token_ids": [ "TOK_12_10_008" ] },
-        { "word": "جُبّ", "root": "جبب", "token_ids": [ "TOK_12_10_009" ] },
-        { "word": "سَيَّارَة", "root": "سير", "token_ids": [ "TOK_12_10_012" ] },
-        { "word": "نَاصِح", "root": "نصح", "token_ids": [ "TOK_12_11_011" ] },
-        { "word": "ذِئْب", "root": "ذءب", "token_ids": [ "TOK_12_13_009", "TOK_12_14_002", "TOK_12_17_009" ] },
-        { "word": "جُبّ", "root": "جبب", "token_ids": [ "TOK_12_15_009" ] },
-        { "word": "عِشَاء", "root": "عشو", "token_ids": [ "TOK_12_16_002" ] },
-        { "word": "دَم", "root": "دمم", "token_ids": [ "TOK_12_18_007" ] },
-        { "word": "قَمِيص", "root": "قمص", "token_ids": [ "TOK_12_18_006" ] },
-        { "word": "صَبْر", "root": "صبر", "token_ids": [ "TOK_12_18_010" ] },
-        { "word": "اللَّه", "root": "ءله", "token_ids": [ "TOK_12_18_013" ] }
-      ]
-    }
-  }
-}
-
-
-{
     "entity_type": "ar_lesson",
     "id": "AR_LESSON_QURAN_12_001_007",
     "lesson_type": "quran",
@@ -145,10 +88,9 @@
         "vocabulary_index": {
             "أفعال": [
                 { "word": "أَنْزَلَ", "root": "نزل", "token_ids": [ "TOK_12_2_002" ] },
-             ],
-            "أسماء": [
-                { "word": "آيَة", "root": "ءيي", "token_ids": [ "TOK_12_1_003", "TOK_12_7_008" ] },
-             
+                { "word": "تَعْقِلُ", "root": "عقل", "token_ids": [ "TOK_12_2_007" ] },
+                { "word": "قَصَّ", "root": "قصص", "token_ids": [ "TOK_12_3_002", "TOK_12_5_005" ] },
+            
             ]
         },
         "cards": {
@@ -177,7 +119,58 @@
                     },
                     "translation": "We have revealed it an Arabic Quran.",
                     "token_ids": [ "TOK_12_2_002" ]
-                }            ],
+                },
+                {
+                    "type": "فعل",
+                    "word": "عَقَلَ",
+                    "root": "عقل",
+                    "surface_ar": "تَعْقِلُونَ",
+                    "family": "ضَرْب",
+                    "family_arabic_awzan": [ "فَعَلَ-يَفْعِلُ" ],
+                    "surf": "عَقَلَ-يَعْقِلُ-عَقْلًا",
+                    "example": "لَعَلَّكُمْ تَعْقِلُونَ",
+                    "meanings": [ "فَهِمَ", "أَدْرَكَ", "تَدَبَّرَ", "مَنَعَ وَرَبَطَ" ],
+                    "meanings_eng": [ "to understand", "to perceive / grasp", "to reflect / think deeply", "to restrain / bind (original sense)" ],
+                    "meanings_urdu": [ "سمجھنا", "ادراک کرنا / پانا", "غور و فکر کرنا", "روکنا / باندھنا (اصل معنی)" ],
+                    "root_range_meanings_eng": [ "intellect / reason", "to understand / comprehend", "to restrain / keep in check", "to tie / bind (etymological core)" ],
+                    "root_range_meanings_urdu": [ "عقل / سمجھ", "سمجھنا / جاننا", "قابو میں رکھنا / روکنا", "باندھنا (اصل بنیاد)" ],
+                    "derivations": {
+                        "ism_fa3il": [ "عَاقِل" ],
+                        "ism_maf3ul": [ "مَعْقُول" ],
+                        "sighat_mubalaghah": [ ],
+                        "sifa_mushabbaha": [ ],
+                        "masadir": [ "عَقْل" ],
+                        "other_derivatives": [ "عُقُول", "عَقْلَة" ]
+                    },
+                    "translation": "So that you may understand.",
+                    "token_ids": [ "TOK_12_2_007" ]
+                },
+                {
+                    "type": "فعل",
+                    "word": "قَصَّ",
+                    "root": "قصص",
+                    "surface_ar": "نَقُصُّ",
+                    "family": "نَصْر",
+                    "family_arabic_awzan": [ "فَعَلَ-يَفْعُلُ (مُضَعَّف)" ],
+                    "surf": "قَصَّ-يَقُصُّ-قَصَصًا",
+                    "example": "نَحْنُ نَقُصُّ عَلَيْكَ",
+                    "meanings": [ "حَكَى", "سَرَدَ", "تَتَبَّعَ الأَثَر", "أَخْبَرَ" ],
+                    "meanings_eng": [ "to narrate", "to recount / relate", "to follow the trace", "to inform / tell" ],
+                    "meanings_urdu": [ "قصہ سنانا", "بیان کرنا / روایت کرنا", "نشانِ قدم کی پیروی کرنا", "خبر دینا / بتانا" ],
+                    "root_range_meanings_eng": [ "story / narration", "to relate sequentially", "to track / follow (a trail)", "account / report" ],
+                    "root_range_meanings_urdu": [ "قصہ / حکایت", "ترتیب سے بیان کرنا", "پیچھا کرنا / نشان کی پیروی", "خبر / روایت" ],
+                    "derivations": {
+                        "ism_fa3il": [ "قَاصّ" ],
+                        "ism_maf3ul": [ "مَقْصُوص" ],
+                        "sighat_mubalaghah": [ ],
+                        "sifa_mushabbaha": [ ],
+                        "masadir": [ "قَصَص", "قِصَّة" ],
+                        "other_derivatives": [ "قَصَصْتُ", "يَقُصُّ" ]
+                    },
+                    "translation": "We narrate to you.",
+                    "token_ids": [ "TOK_12_3_002", "TOK_12_5_005" ]
+                }
+            ],
             "أسماء": [
                 {
                     "type": "اسم",
@@ -205,8 +198,8 @@
                     },
                     "translation": "These are the Verses of the Book.",
                     "token_ids": [ "TOK_12_1_003", "TOK_12_7_008" ]
-                }
-    },
+                }]
+            },
     "sentences": [
         {
             "entity_type": "quran_sentence_structure",
@@ -454,8 +447,9 @@
                 ],
                 "final_synthesis": "Alif–Lam–Ra. Those are the verses of the Clear Book."
             }
-        },
-
+        }
+       
+        
     ],
     "passage_layers": [
         {
@@ -1316,7 +1310,3 @@
     "created_at": "2026-01-20T00:00:00Z",
     "updated_at": null
 }
-
-
-
-

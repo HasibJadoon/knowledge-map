@@ -5,7 +5,7 @@ import { API_BASE } from '../api-base';
 @Injectable({ providedIn: 'root' })
 export class WeeklyTasksService {
   private auth = inject(AuthService);
-  private readonly baseUrl = `${API_BASE}/weekly_tasks`;
+  private readonly baseUrl = `${API_BASE}/sp_weekly_tasks`;
 
   async list(params: Record<string, string> = {}) {
     const query = new URLSearchParams(params).toString();
@@ -14,7 +14,7 @@ export class WeeklyTasksService {
   }
 
   async get(id: number | string) {
-    return this.request(`/weekly_tasks/${id}`);
+    return this.request(`/sp_weekly_tasks/${id}`);
   }
 
   async create(payload: unknown) {
@@ -22,11 +22,11 @@ export class WeeklyTasksService {
   }
 
   async update(id: number | string, payload: unknown) {
-    return this.request(`/weekly_tasks/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+    return this.request(`/sp_weekly_tasks/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
   }
 
   async remove(id: number | string) {
-    return this.request(`/weekly_tasks/${id}`, { method: 'DELETE' });
+    return this.request(`/sp_weekly_tasks/${id}`, { method: 'DELETE' });
   }
 
   private async request(url: string, init: RequestInit = {}) {

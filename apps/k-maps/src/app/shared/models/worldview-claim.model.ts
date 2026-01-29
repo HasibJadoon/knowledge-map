@@ -1,6 +1,6 @@
 /**
  * CANONICAL WORLDVIEW CLAIM (DB-BACKED)
- * Matches `worldview_claims` table exactly.
+ * Matches `wv_claims` table exactly.
  * - Table is intentionally thin
  * - Full semantic structure lives in claim_json
  * - This is the authoritative store for claims
@@ -33,7 +33,7 @@ export interface WorldviewClaimPayload {
   claim_text: string;
   claim_text_short?: string | null;
   units?: WorldviewClaimUnit[];
-  session_concepts?: WorldviewClaimConceptItem[];
+  session_wv_concepts?: WorldviewClaimConceptItem[];
   session_counterclaims?: WorldviewCounterClaimItem[];
   evaluation?: WorldviewClaimEvaluation;
   tags?: string[];
