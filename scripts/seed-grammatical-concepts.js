@@ -174,7 +174,7 @@ for (const record of records) {
     `datetime('now')`,
     'NULL',
   ];
-  statements.push(`INSERT OR REPLACE INTO grammatical_concepts
+  statements.push(`INSERT OR REPLACE INTO ar_grammatical_concepts
     (id, user_id, category, title, title_ar, difficulty, status, definition, definition_ar, signals_json, mistakes_json, examples_json, capture_refs_json, cards_json, created_at, updated_at)
     VALUES (${row.join(', ')});`);
 }

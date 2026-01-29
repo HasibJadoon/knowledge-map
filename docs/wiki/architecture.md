@@ -65,11 +65,11 @@ Relational tables give you:
 - `user_state`
 - `user_activity_logs`
 
-**Arabic / Qur’an learning**
+**Arabic / Qur'an learning**
 - `ar_lessons` (canonical JSON lesson)
 - `roots` + `root_words`
 - `lexicon`
-- `grammatical_concepts`
+- `ar_grammatical_concepts`
 
 **Worldview + library + production**
 - `brainstorm_sessions`
@@ -149,7 +149,7 @@ Derived forms / headwords linked to roots.
 - `morphology_json` holds wazn/masdars/features
 - `cards_json` stores one or more SRS cards per entry
 
-#### `grammatical_concepts`
+#### `ar_grammatical_concepts`
 Your Arabic grammar KB:
 - stable string IDs (`GRAM_NAHW_001`)
 - categories: syntax/morphology/particle/rhetoric/discourse/semantics

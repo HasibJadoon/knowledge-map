@@ -1,6 +1,6 @@
 /**
  * CANONICAL GRAMMATICAL CONCEPT
- * Matches `grammatical_concepts` table.
+ * Matches `ar_grammatical_concepts` table.
  * - Stable string id (e.g., GRAM_NAHW_001)
  * - Bilingual definitions
  * - JSON fields are shaped but flexible

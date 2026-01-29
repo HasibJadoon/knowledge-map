@@ -53,3 +53,1270 @@
     }
   }
 }
+
+
+{
+    "entity_type": "ar_lesson",
+    "id": "AR_LESSON_QURAN_12_001_007",
+    "lesson_type": "quran",
+    "subtype": "narrative",
+    "title": "Surah Yusuf 12:1–7",
+    "title_ar": "سورة يوسف (١–٧)",
+    "status": "active",
+    "difficulty": 3,
+    "reference": {
+        "source_type": "quran",
+        "source_ref_id": null,
+        "surah": 12,
+        "ayah_from": 1,
+        "ayah_to": 7,
+        "ref_label": "Yusuf 12:1–7",
+        "citation": null
+    },
+    "text": {
+        "arabic_full": [
+            {
+                "unit_id": "U_12_1",
+                "unit_type": "ayah",
+                "arabic": "الر تلك آيات الكتاب المبين ‎﴿١﴾‏",
+                "translation": "Alif, Lam, Ra. These are the Verses of the Clear Book.",
+                "surah": 12,
+                "ayah": 1,
+                "notes": "افتتاح بالحروف المقطّعة ثم الإشارة إلى وضوح الكتاب."
+            },
+            {
+                "unit_id": "U_12_2",
+                "unit_type": "ayah",
+                "arabic": "إنا أنزلناه قرآنا عربيا لعلكم تعقلون ‎﴿٢﴾‏",
+                "translation": "We have revealed it an Arabic Quran, so that you may understand.",
+                "surah": 12,
+                "ayah": 2,
+                "notes": "تعليل/غاية: لعلكم تعقلون."
+            },
+            {
+                "unit_id": "U_12_3",
+                "unit_type": "ayah",
+                "arabic": "نحن نقص عليك أحسن القصص بما أوحينا إليك هذا القرآن وإن كنت من قبله لمن الغافلين ‎﴿٣﴾‏",
+                "translation": "We narrate to you the most accurate history, by revealing to you this Quran. Although, prior to it, you were of the unaware.",
+                "surah": 12,
+                "ayah": 3,
+                "notes": "تأكيد المتكلم (نحن) + بيان سبب القصص: بما أوحينا."
+            },
+            {
+                "unit_id": "U_12_4",
+                "unit_type": "ayah",
+                "arabic": "إذ قال يوسف لأبيه يا أبت إني رأيت أحد عشر كوكبا والشمس والقمر رأيتهم لي ساجدين ‎﴿٤﴾‏",
+                "translation": "When Joseph said to his father, “O my father, I saw eleven planets, and the sun, and the moon; I saw them bowing down to me.”",
+                "surah": 12,
+                "ayah": 4,
+                "notes": "بداية المشهد القصصي: الرؤيا."
+            },
+            {
+                "unit_id": "U_12_5",
+                "unit_type": "ayah",
+                "arabic": "قال يا بني لا تقصص رؤياك على إخوتك فيكيدوا لك كيدا إن الشيطان للإنسان عدو مبين ‎﴿٥﴾‏",
+                "translation": "He said, “O my son, do not relate your vision to your brothers, lest they plot and scheme against you. Satan is man's sworn enemy.”",
+                "surah": 12,
+                "ayah": 5,
+                "notes": "نهي + تعليل: إن الشيطان للإنسان عدو مبين."
+            },
+            {
+                "unit_id": "U_12_6",
+                "unit_type": "ayah",
+                "arabic": "وكذلك يجتبيك ربك ويعلمك من تأويل الأحاديث ويتم نعمته عليك وعلى آل يعقوب كما أتمها على أبويك من قبل إبراهيم وإسحاق إن ربك عليم حكيم ‎﴿٦﴾‏",
+                "translation": "And thus your Lord will choose you, and will teach you the interpretation of events, and will complete His blessing upon you and upon the family of Jacob, as He has completed it before upon your forefathers Abraham and Isaac. Your Lord is Knowing and Wise.",
+                "surah": 12,
+                "ayah": 6,
+                "notes": "وعد/بشارة + ختام بأسماء الله: عليم حكيم."
+            },
+            {
+                "unit_id": "U_12_7",
+                "unit_type": "ayah",
+                "arabic": "لقد كان في يوسف وإخوته آيات للسائلين ‎﴿٧﴾",
+                "translation": "In Joseph and his brothers are lessons for the seekers.",
+                "surah": 12,
+                "ayah": 7,
+                "notes": "خلاصة تمهيدية: آيات للسائلين."
+            }
+        ],
+        "mode": "original"
+    },
+    "vocab_layer": {
+        "vocabulary_index": {
+            "أفعال": [
+                { "word": "أَنْزَلَ", "root": "نزل", "token_ids": [ "TOK_12_2_002" ] },
+             ],
+            "أسماء": [
+                { "word": "آيَة", "root": "ءيي", "token_ids": [ "TOK_12_1_003", "TOK_12_7_008" ] },
+             
+            ]
+        },
+        "cards": {
+            "أفعال": [
+                {
+                    "type": "فعل",
+                    "word": "أَنْزَلَ",
+                    "root": "نزل",
+                    "surface_ar": "أَنْزَلْنَاهُ",
+                    "family": "إِفْعَال",
+                    "family_arabic_awzan": [ "إِفْعَال" ],
+                    "surf": "أَنْزَلَ-يُنْزِلُ-إِنْزَالًا",
+                    "example": "إِنَّا أَنْزَلْنَاهُ قُرْآنًا عَرَبِيًّا",
+                    "meanings": [ "أَنْزَلَ", "نَزَّلَ", "أَوْقَعَ مِنْ عُلُوّ", "أَحْدَثَ الإِنْزَال" ],
+                    "meanings_eng": [ "to send down", "to reveal / to cause to descend", "to make fall from above", "to bring about a sending-down" ],
+                    "meanings_urdu": [ "نازل کرنا", "اتارنا / وحی نازل کرنا", "اوپر سے گرانا", "نزول کا سبب بنانا / نازل ہونے کا عمل پیدا کرنا" ],
+                    "root_range_meanings_eng": [ "to descend / come down", "to cause to descend / send down", "to alight (arrive, settle)", "revelation being sent down (Qur’anic usage)" ],
+                    "root_range_meanings_urdu": [ "اترنا / نیچے آنا", "نازل کرنا / اتارنا", "اتر جانا / ٹھہر جانا", "وحی کا نازل ہونا (قرآنی سیاق)" ],
+                    "derivations": {
+                        "ism_fa3il": [ "مُنْزِل" ],
+                        "ism_maf3ul": [ "مُنْزَل" ],
+                        "sighat_mubalaghah": [ ],
+                        "sifa_mushabbaha": [ ],
+                        "masadir": [ "إِنْزَال", "نُزُول" ],
+                        "other_derivatives": [ "تَنْزِيل" ]
+                    },
+                    "translation": "We have revealed it an Arabic Quran.",
+                    "token_ids": [ "TOK_12_2_002" ]
+                }            ],
+            "أسماء": [
+                {
+                    "type": "اسم",
+                    "word": "آيَة",
+                    "root": "ءيي",
+                    "surface_ar": "آيَات",
+                    "category": "جامد",
+                    "number": { "singular": "آية", "plural": "آيات" },
+                    "surf": null,
+                    "wazn": "",
+                    "wazn_arabic": [ ],
+                    "example": "تِلْكَ آيَاتُ الْكِتَابِ",
+                    "meanings": [ "عَلَامَة", "دَلِيل", "بُرْهَان", "عِبْرَة" ],
+                    "meanings_eng": [ "sign", "evidence / indication", "proof", "lesson / admonition" ],
+                    "meanings_urdu": [ "نشانی", "دلیل", "برہان", "عبرت" ],
+                    "root_range_meanings_eng": [ "sign / mark", "manifest indication", "token / evidence", "Qur’anic verse as a sign" ],
+                    "root_range_meanings_urdu": [ "علامت / نشانی", "واضح اشارہ", "دلیل / نشاں", "آیت بمعنی قرآنی نشانی/فقرہ" ],
+                    "derivations": {
+                        "ism_fa3il": [ ],
+                        "ism_maf3ul": [ ],
+                        "sighat_mubalaghah": [ ],
+                        "sifa_mushabbaha": [ ],
+                        "masadir": [ ],
+                        "other_derivatives": [ ]
+                    },
+                    "translation": "These are the Verses of the Book.",
+                    "token_ids": [ "TOK_12_1_003", "TOK_12_7_008" ]
+                }
+    },
+    "sentences": [
+        {
+            "entity_type": "quran_sentence_structure",
+            "sentence_id": "SENT_12_1_A",
+
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 1,
+                "ayah_to": 1,
+                "unit_id": "U_12_1",
+                "sentence_order_in_unit": 1
+            },
+
+            "text": {
+                "arabic": "الر تلك آيات الكتاب المبين",
+                "translation": "Alif, Lam, Ra. Those are the verses of the Clear Book."
+            },
+
+            "anchors": {
+                "from_token_id": "TOK_12_1_001",
+                "to_token_id": "TOK_12_1_005"
+            },
+
+            "notes": "افتتاح بالحروف المقطعة، يتلوه استئناف بجملة اسمية خبرية: مبتدأ (اسم إشارة) + خبر مركب إضافي، يتضمن نعتًا تابعًا للمضاف إليه.",
+
+            "roots": [ "ءيي", "كتب", "بين" ],
+            "root_ids": [ null, null, null ],
+
+            "tokens": [
+                {
+                    "token_id": "TOK_12_1_001",
+                    "surface_ar": "الر",
+                    "pos": "phrase",
+                    "features": {
+                        "type": "muqattaat",
+                        "function": "tahjiid_opening"
+                    }
+                },
+                {
+                    "token_id": "TOK_12_1_002",
+                    "surface_ar": "تلك",
+                    "lemma_ar": "تلك",
+                    "pos": "particle",
+                    "features": {
+                        "type": "ism_ishara",
+                        "syntactic_role": "mubtada"
+                    }
+                },
+                {
+                    "token_id": "TOK_12_1_003",
+                    "surface_ar": "آيات",
+                    "lemma_ar": "آية",
+                    "root": "ءيي",
+                    "pos": "noun",
+                    "features": {
+                        "syntactic_role": "khabar",
+                        "number": "plural",
+                        "case": "marfoo"
+                    }
+                },
+                {
+                    "token_id": "TOK_12_1_004",
+                    "surface_ar": "الكتاب",
+                    "lemma_ar": "كتاب",
+                    "root": "كتب",
+                    "pos": "noun",
+                    "features": {
+                        "syntactic_role": "mudaf_ilayh",
+                        "case": "majroor"
+                    }
+                },
+                {
+                    "token_id": "TOK_12_1_005",
+                    "surface_ar": "المبين",
+                    "lemma_ar": "مبين",
+                    "root": "بين",
+                    "pos": "adj",
+                    "features": {
+                        "syntactic_role": "naat",
+                        "agreement_with": "الكتاب",
+                        "case": "majroor"
+                    }
+                }
+            ],
+
+            "classification": {
+                "simplicity": "complex",
+                "main_sentence_kind": "nominal",
+                "sentence_mode": "khabariyya",
+                "complexity_reasons": [
+                    "opening_marker",
+                    "deictic_mubtada",
+                    "khabar_idafa",
+                    "embedded_naat"
+                ]
+            },
+
+            "main_spine": {
+                "kind": "nominal",
+                "mubtada": {
+                    "token_id": "TOK_12_1_002",
+                    "text": "تلك",
+                    "grammar_refs": [ "GRAM_MUBTADA", "GRAM_ISM_ISHARA" ]
+                },
+                "khabar": {
+                    "text": "آيات الكتاب",
+                    "kind": "idafa_compound",
+                    "token_ids": [ "TOK_12_1_003", "TOK_12_1_004" ],
+                    "grammar_refs": [ "GRAM_KHABAR", "GRAM_MUDAF", "GRAM_MUDAF_ILAYH" ]
+                },
+                "modifiers": [
+                    {
+                        "role": "نعت تابع للمضاف إليه",
+                        "token_ids": [ "TOK_12_1_005" ],
+                        "text": "المبين",
+                        "grammar_refs": [ "GRAM_NAAT" ]
+                    }
+                ],
+                "preface_marker": {
+                    "token_id": "TOK_12_1_001",
+                    "text": "الر",
+                    "role": "افتتاح وتمهيد",
+                    "grammar_refs": [ "GRAM_ISTINAF" ]
+                }
+            },
+
+            "clause_tree": {
+                "root_clause_id": "CL_12_1_ROOT",
+                "clauses": [
+                    {
+                        "clause_id": "CL_12_1_PREFACE",
+                        "level": 0,
+                        "kind": "marker",
+                        "type": "subordinate",
+                        "subtype": "tahjiid",
+                        "span": { "from": "TOK_12_1_001", "to": "TOK_12_1_001" },
+                        "trigger": "الر",
+                        "relation_to_parent": "افتتاح",
+                        "parent_clause_id": "CL_12_1_ROOT",
+                        "contribution": "افتتاح قرآني مستقل لا يدخل في الإسناد."
+                    },
+                    {
+                        "clause_id": "CL_12_1_ROOT",
+                        "level": 0,
+                        "kind": "nominal",
+                        "type": "main",
+                        "span": { "from": "TOK_12_1_002", "to": "TOK_12_1_005" },
+                        "trigger": "تلك",
+                        "syntactic_roles": {
+                            "mubtada": "TOK_12_1_002",
+                            "khabar": "CL_12_1_KHABAR_IDAFA"
+                        },
+                        "contribution": "تعريف المشار إليه وبيان هويته."
+                    },
+                    {
+                        "clause_id": "CL_12_1_KHABAR_IDAFA",
+                        "level": 1,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "khabar",
+                        "span": { "from": "TOK_12_1_003", "to": "TOK_12_1_004" },
+                        "trigger": "(idafa)",
+                        "relation_to_parent": "خبر",
+                        "parent_clause_id": "CL_12_1_ROOT",
+                        "contribution": "تعيين الخبر كمركب إضافي."
+                    },
+                    {
+                        "clause_id": "CL_12_1_NAAT",
+                        "level": 2,
+                        "kind": "nominal",
+                        "type": "subordinate",
+                        "subtype": "naat_sifa",
+                        "span": { "from": "TOK_12_1_005", "to": "TOK_12_1_005" },
+                        "trigger": "(implicit)",
+                        "relation_to_parent": "صفة",
+                        "parent_clause_id": "CL_12_1_KHABAR_IDAFA",
+                        "contribution": "توصيف المضاف إليه بصفة الإبانة والوضوح."
+                    }
+                ]
+            },
+
+            "markers": [
+                {
+                    "token_id": "TOK_12_1_001",
+                    "surface": "الر",
+                    "kind": "opening_marker",
+                    "function": "tahjiid"
+                },
+                {
+                    "token_id": "TOK_12_1_002",
+                    "surface": "تلك",
+                    "kind": "deictic",
+                    "function": "ism_ishara"
+                }
+            ],
+
+            "grammar_concept_refs": [
+                "GRAM_JUMLA_ISMIYYA",
+                "GRAM_JUMLA_KHABARIYYA",
+                "GRAM_MUBTADA",
+                "GRAM_KHABAR",
+                "GRAM_MUDAF",
+                "GRAM_MUDAF_ILAYH",
+                "GRAM_NAAT",
+                "GRAM_ISTINAF"
+            ],
+
+            "sentence_translation_progressive": {
+                "macro_view": {
+                    "logic": "افتتاح → إشارة → تعريف → تخصيص",
+                    "semantic_axis": "آيات ← كتاب ← بيان"
+                },
+                "steps": [
+                    {
+                        "order": 1,
+                        "arabic_focus": "الر",
+                        "english": "Alif–Lam–Ra.",
+                        "note": "افتتاح قرآني بالحروف المقطعة."
+                    },
+                    {
+                        "order": 2,
+                        "arabic_focus": "تلك",
+                        "english": "Those …",
+                        "note": "اسم إشارة يلفت الانتباه إلى ما سيُعرَّف."
+                    },
+                    {
+                        "order": 3,
+                        "arabic_focus": "آيات",
+                        "english": "Those are the verses …",
+                        "note": "الإخبار عن المشار إليه."
+                    },
+                    {
+                        "order": 4,
+                        "arabic_focus": "آيات الكتاب",
+                        "english": "Those are the verses of the Book …",
+                        "note": "إضافة لتخصيص الآيات."
+                    },
+                    {
+                        "order": 5,
+                        "arabic_focus": "المبين",
+                        "english": "Those are the verses of the Clear Book.",
+                        "note": "نعت يبرز صفة البيان والوضوح."
+                    }
+                ],
+                "final_synthesis": "Alif–Lam–Ra. Those are the verses of the Clear Book."
+            }
+        },
+
+    ],
+    "passage_layers": [
+        {
+            "entity_type": "passage_ring",
+            "model_id": "PASSAGE_RING_V1",
+            "ring_id": "RING_12_001",
+            "scope": "Surah_Yusuf_12_1_to_7",
+
+            "ref": {
+                "source_type": "quran",
+                "surah": 12,
+                "ayah_from": 1,
+                "ayah_to": 7,
+                "passage_id": "PASSAGE_12_001_007"
+            },
+
+            "title": "Prologue Ring: Authority → Destiny Seed → Reader as Seeker",
+            "title_ar": "حلقة التمهيد: سلطة النص → بذرة القدر → توجيه السائلين",
+
+            "boundaries": {
+                "start": { "unit_id": "U_12_1", "sentence_id": "SENT_12_1_A" },
+                "end": { "unit_id": "U_12_7", "sentence_id": "SENT_12_7_A" },
+                "linked_unit_ids": [ "U_12_1", "U_12_2", "U_12_3", "U_12_4", "U_12_5", "U_12_6", "U_12_7" ],
+                "linked_layer_ids": [ "LAYER_12_001", "LAYER_12_002", "LAYER_12_003", "LAYER_12_004", "LAYER_12_005", "LAYER_12_006", "LAYER_12_007" ]
+            },
+
+            "purpose": {
+                "ring_job": [
+                    "Legitimizes the source (authority + clarity)",
+                    "Explains accessibility (Arabic → understanding)",
+                    "Secures narrative trust (best story via revelation)",
+                    "Plants the destiny motif (dream)",
+                    "Frames danger (jealousy/plotting + spiritual enemy)",
+                    "Announces promise (election + interpretation knowledge + blessing continuity)",
+                    "Directs reader posture (seeking/questioning for signs)"
+                ],
+                "reader_posture": "Read the coming narrative as guidance-signs; become a seeker (سائل)."
+            },
+
+            "ring_moves": [
+                {
+                    "move_id": "RM_01",
+                    "label": "Authority + clarity opening",
+                    "label_ar": "سلطة النص ووضوحه",
+                    "maps_to_layer_id": "LAYER_12_001",
+                    "linked_unit_ids": [ "U_12_1" ]
+                },
+                {
+                    "move_id": "RM_02",
+                    "label": "Accessibility logic: Arabic → understanding",
+                    "label_ar": "تعليل الوصول: عربي → تعقلون",
+                    "maps_to_layer_id": "LAYER_12_002",
+                    "linked_unit_ids": [ "U_12_2" ]
+                },
+                {
+                    "move_id": "RM_03",
+                    "label": "Narrative legitimacy: 'We relate the best story'",
+                    "label_ar": "شرعية القصص: نحن نقص عليك أحسن القصص",
+                    "maps_to_layer_id": "LAYER_12_003",
+                    "linked_unit_ids": [ "U_12_3" ]
+                },
+                {
+                    "move_id": "RM_04",
+                    "label": "Destiny seed: the dream scene",
+                    "label_ar": "بذرة القدر: مشهد الرؤيا",
+                    "maps_to_layer_id": "LAYER_12_004",
+                    "linked_unit_ids": [ "U_12_4" ],
+                    "ring_center": true
+                },
+                {
+                    "move_id": "RM_05",
+                    "label": "Threat frame: plotting + enemy framing",
+                    "label_ar": "إطار التهديد: كيد + عدو مبين",
+                    "maps_to_layer_id": "LAYER_12_005",
+                    "linked_unit_ids": [ "U_12_5" ]
+                },
+                {
+                    "move_id": "RM_06",
+                    "label": "Promise frame: election + interpretation + blessing continuity",
+                    "label_ar": "إطار الوعد: اجتباء + تأويل + إتمام النعمة",
+                    "maps_to_layer_id": "LAYER_12_006",
+                    "linked_unit_ids": [ "U_12_6" ]
+                },
+                {
+                    "move_id": "RM_07",
+                    "label": "Reader orientation: signs for seekers",
+                    "label_ar": "توجيه المتلقي: آيات للسائلين",
+                    "maps_to_layer_id": "LAYER_12_007",
+                    "linked_unit_ids": [ "U_12_7" ]
+                }
+            ],
+
+            "symmetry": {
+                "enabled": true,
+                "pattern": "A-B-C-D-C'-B'-A'",
+                "center_move_id": "RM_04",
+
+                "pairs": [
+                    {
+                        "pair_id": "PAIR_A_A_PRIME",
+                        "left": {
+                            "label": "A",
+                            "move_id": "RM_01",
+                            "layer_id": "LAYER_12_001",
+                            "theme": "Text identity: authority/clarity"
+                        },
+                        "right": {
+                            "label": "A'",
+                            "move_id": "RM_07",
+                            "layer_id": "LAYER_12_007",
+                            "theme": "Reader identity: seeker of signs"
+                        },
+                        "how_they_mirror": [
+                            "A establishes the Book as clear and authoritative",
+                            "A' turns that clarity into an invitation: seek and question to see the signs",
+                            "Both are discourse-facing (outside the story-action), framing how to receive the passage"
+                        ],
+                        "ui_hint": { "mirror_color_group": "frame" }
+                    },
+                    {
+                        "pair_id": "PAIR_B_B_PRIME",
+                        "left": {
+                            "label": "B",
+                            "move_id": "RM_02",
+                            "layer_id": "LAYER_12_002",
+                            "theme": "Comprehension pathway (Arabic → عقل)"
+                        },
+                        "right": {
+                            "label": "B'",
+                            "move_id": "RM_06",
+                            "layer_id": "LAYER_12_006",
+                            "theme": "Comprehension gift (teaching interpretation)"
+                        },
+                        "how_they_mirror": [
+                            "B: the message is made accessible to human understanding",
+                            "B': a chosen recipient is granted deeper interpretive understanding (تأويل)",
+                            "Together: understanding is both offered broadly (language) and deepened specially (teaching)"
+                        ],
+                        "ui_hint": { "mirror_color_group": "understanding" }
+                    },
+                    {
+                        "pair_id": "PAIR_C_C_PRIME",
+                        "left": {
+                            "label": "C",
+                            "move_id": "RM_03",
+                            "layer_id": "LAYER_12_003",
+                            "theme": "Narration authority (We tell you)"
+                        },
+                        "right": {
+                            "label": "C'",
+                            "move_id": "RM_05",
+                            "layer_id": "LAYER_12_005",
+                            "theme": "Human conflict authority-frame (danger explained)"
+                        },
+                        "how_they_mirror": [
+                            "C: divine voice establishes trustworthy narration",
+                            "C': divine framing explains the moral/spiritual mechanics of conflict (envy + shaytan)",
+                            "Both secure interpretation: one for the story's source, one for the story's threat logic"
+                        ],
+                        "ui_hint": { "mirror_color_group": "authority_frame" }
+                    }
+                ],
+
+                "notes": [
+                    "D (RM_04) is the hinge: the dream is the destiny seed that the warning (C') protects and the promise (B') fulfills.",
+                    "A/A' is the cleanest outer symmetry: opening frame (Book clarity) ↔ closing frame (signs for seekers)."
+                ]
+            },
+
+            "ui_hints": {
+                "render_as": "halo_ring",
+                "default_open": {
+                    "mode": "symmetry_view",
+                    "center_move_id": "RM_04",
+                    "show_pairs": true
+                },
+                "interaction": {
+                    "click_pair_highlights_moves": true,
+                    "click_move_opens_layer": true,
+                    "breadcrumbs": [ "ring", "symmetry_pair", "move", "layer", "bead" ]
+                }
+            }
+        },
+        {
+            "entity_type": "passage_layers_linear",
+            "model_id": "PASSAGE_LAYERS_LINEAR_V1",
+            "scope": "Surah_Yusuf_12_1_to_7",
+
+            "layers": [
+                {
+                    "order": 1,
+                    "layer_id": "LAYER_12_001",
+                    "layer_type": "discourse",
+                    "label": "Opening: authority and clarity of the Book",
+                    "label_ar": "افتتاح: سلطة النص ووضوح الكتاب",
+                    "linked_unit_ids": [ "U_12_1" ],
+                    "linked_sentence_ids": [ "SENT_12_1_A" ],
+                    "notes": "تهيئة المتلقي عبر إعلان مصدر النص ووضوحه."
+                },
+
+                {
+                    "order": 2,
+                    "layer_id": "LAYER_12_002",
+                    "layer_type": "reasoning",
+                    "label": "Reason: revelation in Arabic for understanding",
+                    "label_ar": "تعليل: إنزال القرآن عربيًا لغاية الفهم",
+                    "linked_unit_ids": [ "U_12_2" ],
+                    "linked_sentence_ids": [ "SENT_12_2_A" ],
+                    "notes": "ربط اللغة بالقدرة على التعقل والفهم."
+                },
+
+                {
+                    "order": 3,
+                    "layer_id": "LAYER_12_003",
+                    "layer_type": "discourse",
+                    "label": "Narrative authority: the best story by revelation",
+                    "label_ar": "ترسيخ سلطة القصص: أحسن القصص بوحي",
+                    "linked_unit_ids": [ "U_12_3" ],
+                    "linked_sentence_ids": [ "SENT_12_3_A" ],
+                    "notes": "إثبات أن مصدر القصة وحي إلهي وليس معرفة بشرية."
+                },
+
+                {
+                    "order": 4,
+                    "layer_id": "LAYER_12_004",
+                    "layer_type": "narrative_move",
+                    "label": "Scene 1: Yusuf’s dream (destiny signal)",
+                    "label_ar": "المشهد الأول: رؤيا يوسف (إشارة المصير)",
+                    "linked_unit_ids": [ "U_12_4" ],
+                    "linked_sentence_ids": [ "SENT_12_4_A" ],
+                    "notes": "زرع بذرة القدر التي ستقود مسار القصة."
+                },
+
+                {
+                    "order": 5,
+                    "layer_id": "LAYER_12_005",
+                    "layer_type": "argument",
+                    "label": "Advice and warning: conceal the dream",
+                    "label_ar": "نصيحة وتحذير: كتمان الرؤيا",
+                    "linked_unit_ids": [ "U_12_5" ],
+                    "linked_sentence_ids": [ "SENT_12_5_A" ],
+                    "notes": "تحذير من الحسد والكيد بوصفهما خطرًا واقعيًا وأخلاقيًا."
+                },
+
+                {
+                    "order": 6,
+                    "layer_id": "LAYER_12_006",
+                    "layer_type": "conclusion",
+                    "label": "Promise: election, knowledge, and completion of blessing",
+                    "label_ar": "وعد: الاجتباء والتعليم وإتمام النعمة",
+                    "linked_unit_ids": [ "U_12_6" ],
+                    "linked_sentence_ids": [ "SENT_12_6_A" ],
+                    "notes": "تثبيت الإطار النبوي واستمرارية العهد الإلهي."
+                },
+
+                {
+                    "order": 7,
+                    "layer_id": "LAYER_12_007",
+                    "layer_type": "discourse",
+                    "label": "Thesis line: signs for seekers",
+                    "label_ar": "خلاصة: آيات للسائلين",
+                    "linked_unit_ids": [ "U_12_7" ],
+                    "linked_sentence_ids": [ "SENT_12_7_A" ],
+                    "notes": "توجيه القارئ إلى موقف البحث والسؤال."
+                }
+            ]
+        },
+        {
+            "entity_type": "passage_beads",
+            "model_id": "PASSAGE_BEADS_V1",
+            "scope": "Surah_Yusuf_12_1_to_7",
+
+            "beads": [
+                {
+                    "bead_id": "BEAD_12_001_A",
+                    "layer_id": "LAYER_12_001",
+                    "bead_type": "opening_marker",
+                    "label": "Muqattaʿāt opener",
+                    "label_ar": "افتتاح بالحروف المقطعة",
+                    "linked_unit_ids": [ "U_12_1" ],
+                    "linked_sentence_ids": [ "SENT_12_1_A" ],
+                    "linked_token_ids": [ "TOK_12_1_001" ],
+                    "notes": "بداية تُشير إلى طابعٍ إلهيٍّ مميّز للنص."
+                },
+                {
+                    "bead_id": "BEAD_12_001_B",
+                    "layer_id": "LAYER_12_001",
+                    "bead_type": "deictic_pointing",
+                    "label": "Pointer: 'These are…'",
+                    "label_ar": "إشارة: تلك…",
+                    "linked_unit_ids": [ "U_12_1" ],
+                    "linked_sentence_ids": [ "SENT_12_1_A" ],
+                    "linked_token_ids": [ "TOK_12_1_002" ],
+                    "notes": "نقلة من العلامة الافتتاحية إلى مضمونٍ مُشارٍ إليه."
+                },
+                {
+                    "bead_id": "BEAD_12_001_C",
+                    "layer_id": "LAYER_12_001",
+                    "bead_type": "signs_claim",
+                    "label": "Claim: verses/signs of the Book",
+                    "label_ar": "إثبات: آيات الكتاب",
+                    "linked_unit_ids": [ "U_12_1" ],
+                    "linked_sentence_ids": [ "SENT_12_1_A" ],
+                    "linked_token_ids": [ "TOK_12_1_003", "TOK_12_1_004" ],
+                    "notes": "تسمية المحتوى بوصفه آيات/علامات مرتبطة بالكتاب."
+                },
+                {
+                    "bead_id": "BEAD_12_001_D",
+                    "layer_id": "LAYER_12_001",
+                    "bead_type": "clarity_claim",
+                    "label": "Descriptor: clear / manifest",
+                    "label_ar": "وصف: المبين",
+                    "linked_unit_ids": [ "U_12_1" ],
+                    "linked_sentence_ids": [ "SENT_12_1_A" ],
+                    "linked_token_ids": [ "TOK_12_1_005" ],
+                    "notes": "ختم افتتاحي يثبت الوضوح والبيان."
+                },
+
+                {
+                    "bead_id": "BEAD_12_002_A",
+                    "layer_id": "LAYER_12_002",
+                    "bead_type": "divine_assertion",
+                    "label": "Speaker asserts deliberate sending",
+                    "label_ar": "تأكيد: إنا أنزلناه",
+                    "linked_unit_ids": [ "U_12_2" ],
+                    "linked_sentence_ids": [ "SENT_12_2_A" ],
+                    "linked_token_ids": [ "TOK_12_2_001", "TOK_12_2_002" ],
+                    "notes": "تثبيت الفاعلية الإلهية المقصودة في الإرسال."
+                },
+                {
+                    "bead_id": "BEAD_12_002_B",
+                    "layer_id": "LAYER_12_002",
+                    "bead_type": "message_identity",
+                    "label": "Message named: Qur’an",
+                    "label_ar": "تعريف الرسالة: قرآنًا",
+                    "linked_unit_ids": [ "U_12_2" ],
+                    "linked_sentence_ids": [ "SENT_12_2_A" ],
+                    "linked_token_ids": [ "TOK_12_2_003", "TOK_12_2_004" ],
+                    "notes": "تحديد ماهية النص المرسل."
+                },
+                {
+                    "bead_id": "BEAD_12_002_C",
+                    "layer_id": "LAYER_12_002",
+                    "bead_type": "language_choice",
+                    "label": "Language: Arabic",
+                    "label_ar": "اختيار اللغة: عربيًا",
+                    "linked_unit_ids": [ "U_12_2" ],
+                    "linked_sentence_ids": [ "SENT_12_2_A" ],
+                    "linked_token_ids": [ "TOK_12_2_005" ],
+                    "notes": "توجيه إلى قابلية الفهم عبر لغة المخاطبين."
+                },
+                {
+                    "bead_id": "BEAD_12_002_D",
+                    "layer_id": "LAYER_12_002",
+                    "bead_type": "purpose_goal",
+                    "label": "Goal: understanding / reasoning",
+                    "label_ar": "غاية: لعلكم تعقلون",
+                    "linked_unit_ids": [ "U_12_2" ],
+                    "linked_sentence_ids": [ "SENT_12_2_A" ],
+                    "linked_token_ids": [ "TOK_12_2_006", "TOK_12_2_007" ],
+                    "notes": "تثبيت أن المقصود من البيان توليد الفهم."
+                },
+
+                {
+                    "bead_id": "BEAD_12_003_A",
+                    "layer_id": "LAYER_12_003",
+                    "bead_type": "narration_act",
+                    "label": "Narration act: 'We relate to you'",
+                    "label_ar": "فعل القص: نحن نقص عليك",
+                    "linked_unit_ids": [ "U_12_3" ],
+                    "linked_sentence_ids": [ "SENT_12_3_A" ],
+                    "linked_token_ids": [ "TOK_12_3_001", "TOK_12_3_002", "TOK_12_3_004" ],
+                    "notes": "نسبة السرد إلى المتكلم الإلهي."
+                },
+                {
+                    "bead_id": "BEAD_12_003_B",
+                    "layer_id": "LAYER_12_003",
+                    "bead_type": "quality_claim",
+                    "label": "Quality: the best story",
+                    "label_ar": "وصف الجودة: أحسن القصص",
+                    "linked_unit_ids": [ "U_12_3" ],
+                    "linked_sentence_ids": [ "SENT_12_3_A" ],
+                    "linked_token_ids": [ "TOK_12_3_005", "TOK_12_3_006" ],
+                    "notes": "تقديم القصة كمنهج هداية بأعلى مرتبة."
+                },
+                {
+                    "bead_id": "BEAD_12_003_C",
+                    "layer_id": "LAYER_12_003",
+                    "bead_type": "revelation_basis",
+                    "label": "Basis: by revelation of this Qur’an",
+                    "label_ar": "أساس: بما أوحينا…",
+                    "linked_unit_ids": [ "U_12_3" ],
+                    "linked_sentence_ids": [ "SENT_12_3_A" ],
+                    "linked_token_ids": [ "TOK_12_3_007", "TOK_12_3_008", "TOK_12_3_010" ],
+                    "notes": "تأسيس مصدر المعرفة: الوحي."
+                },
+                {
+                    "bead_id": "BEAD_12_003_D",
+                    "layer_id": "LAYER_12_003",
+                    "bead_type": "prior_unawareness",
+                    "label": "Before this: you were unaware",
+                    "label_ar": "قبل الوحي: لمن الغافلين",
+                    "linked_unit_ids": [ "U_12_3" ],
+                    "linked_sentence_ids": [ "SENT_12_3_A" ],
+                    "linked_token_ids": [ "TOK_12_3_011" ],
+                    "notes": "وظيفة تربوية: نفي المصدر البشري للقصة."
+                },
+
+                {
+                    "bead_id": "BEAD_12_004_A",
+                    "layer_id": "LAYER_12_004",
+                    "bead_type": "scene_open",
+                    "label": "Scene opens: Yusuf addresses his father",
+                    "label_ar": "افتتاح مشهد: قال يوسف لأبيه",
+                    "linked_unit_ids": [ "U_12_4" ],
+                    "linked_sentence_ids": [ "SENT_12_4_A" ],
+                    "linked_token_ids": [ "TOK_12_4_001", "TOK_12_4_002", "TOK_12_4_003" ],
+                    "notes": "نقل من التمهيد إلى الحدث القصصي الأول."
+                },
+                {
+                    "bead_id": "BEAD_12_004_B",
+                    "layer_id": "LAYER_12_004",
+                    "bead_type": "vision_report",
+                    "label": "Vision report: 'I saw…'",
+                    "label_ar": "سرد الرؤيا: إني رأيت…",
+                    "linked_unit_ids": [ "U_12_4" ],
+                    "linked_sentence_ids": [ "SENT_12_4_A" ],
+                    "linked_token_ids": [ "TOK_12_4_009" ],
+                    "notes": "إطلاق محور القدر عبر الرؤيا."
+                },
+                {
+                    "bead_id": "BEAD_12_004_C",
+                    "layer_id": "LAYER_12_004",
+                    "bead_type": "vision_elements",
+                    "label": "Vision elements: stars + sun + moon",
+                    "label_ar": "عناصر الرؤيا: كواكب + شمس + قمر",
+                    "linked_unit_ids": [ "U_12_4" ],
+                    "linked_sentence_ids": [ "SENT_12_4_A" ],
+                    "linked_token_ids": [ "TOK_12_4_012", "TOK_12_4_014", "TOK_12_4_016" ],
+                    "notes": "رموز مستقبلية تُبنى عليها القراءة."
+                },
+                {
+                    "bead_id": "BEAD_12_004_D",
+                    "layer_id": "LAYER_12_004",
+                    "bead_type": "symbolic_action",
+                    "label": "Action: prostrating",
+                    "label_ar": "فعل رمزي: ساجدين",
+                    "linked_unit_ids": [ "U_12_4" ],
+                    "linked_sentence_ids": [ "SENT_12_4_A" ],
+                    "linked_token_ids": [ "TOK_12_4_020" ],
+                    "notes": "إشارة انقلاب منزلة/اصطفاء."
+                },
+
+                {
+                    "bead_id": "BEAD_12_005_A",
+                    "layer_id": "LAYER_12_005",
+                    "bead_type": "protective_prohibition",
+                    "label": "Protective advice: do not narrate the dream",
+                    "label_ar": "نصيحة وقائية: لا تقصص رؤياك",
+                    "linked_unit_ids": [ "U_12_5" ],
+                    "linked_sentence_ids": [ "SENT_12_5_A" ],
+                    "linked_token_ids": [ "TOK_12_5_004", "TOK_12_5_005", "TOK_12_5_006" ],
+                    "notes": "إدارة المعلومة كحماية من الشر."
+                },
+                {
+                    "bead_id": "BEAD_12_005_B",
+                    "layer_id": "LAYER_12_005",
+                    "bead_type": "risk_of_plot",
+                    "label": "Risk: they may plot against you",
+                    "label_ar": "خطر: فيكيدوا لك كيدًا",
+                    "linked_unit_ids": [ "U_12_5" ],
+                    "linked_sentence_ids": [ "SENT_12_5_A" ],
+                    "linked_token_ids": [ "TOK_12_5_008", "TOK_12_5_009", "TOK_12_5_010" ],
+                    "notes": "تحويل الرؤيا إلى محفّز صراع."
+                },
+                {
+                    "bead_id": "BEAD_12_005_C",
+                    "layer_id": "LAYER_12_005",
+                    "bead_type": "enemy_frame",
+                    "label": "Frame: Shaytan is a clear enemy to humans",
+                    "label_ar": "إطار: إن الشيطان للإنسان عدو مبين",
+                    "linked_unit_ids": [ "U_12_5" ],
+                    "linked_sentence_ids": [ "SENT_12_5_A" ],
+                    "linked_token_ids": [ "TOK_12_5_015", "TOK_12_5_018", "TOK_12_5_019" ],
+                    "notes": "تأطير الصراع أخلاقيًا/روحيًا لا نفسيًا فقط."
+                },
+
+                {
+                    "bead_id": "BEAD_12_006_A",
+                    "layer_id": "LAYER_12_006",
+                    "bead_type": "divine_choice",
+                    "label": "Promise: you will be chosen",
+                    "label_ar": "وعد: يجتبيك",
+                    "linked_unit_ids": [ "U_12_6" ],
+                    "linked_sentence_ids": [ "SENT_12_6_A" ],
+                    "linked_token_ids": [ "TOK_12_6_003", "TOK_12_6_004" ],
+                    "notes": "ترسيخ الاصطفاء كقدر موجَّه."
+                },
+                {
+                    "bead_id": "BEAD_12_006_B",
+                    "layer_id": "LAYER_12_006",
+                    "bead_type": "teaching_gift",
+                    "label": "Gift: taught interpretation of events",
+                    "label_ar": "عطاء: يعلمك من تأويل الأحاديث",
+                    "linked_unit_ids": [ "U_12_6" ],
+                    "linked_sentence_ids": [ "SENT_12_6_A" ],
+                    "linked_token_ids": [ "TOK_12_6_006", "TOK_12_6_008" ],
+                    "notes": "منح قدرة قراءة المعنى خلف الظاهر."
+                },
+                {
+                    "bead_id": "BEAD_12_006_C",
+                    "layer_id": "LAYER_12_006",
+                    "bead_type": "blessing_completion",
+                    "label": "Completion: blessing perfected",
+                    "label_ar": "إتمام: يتم نعمته عليك",
+                    "linked_unit_ids": [ "U_12_6" ],
+                    "linked_sentence_ids": [ "SENT_12_6_A" ],
+                    "linked_token_ids": [ "TOK_12_6_011", "TOK_12_6_012" ],
+                    "notes": "الوعد ليس لحظةً فقط بل مسارٌ يكتمل."
+                },
+                {
+                    "bead_id": "BEAD_12_006_D",
+                    "layer_id": "LAYER_12_006",
+                    "bead_type": "lineage_anchor",
+                    "label": "Lineage: continuity with Ibrahim and Ishaq",
+                    "label_ar": "سلسلة: إبراهيم وإسحاق وآل يعقوب",
+                    "linked_unit_ids": [ "U_12_6" ],
+                    "linked_sentence_ids": [ "SENT_12_6_A" ],
+                    "linked_token_ids": [ "TOK_12_6_016", "TOK_12_6_017", "TOK_12_6_018", "TOK_12_6_019" ],
+                    "notes": "تأطير يوسف داخل عهد تاريخي ممتد."
+                },
+                {
+                    "bead_id": "BEAD_12_006_E",
+                    "layer_id": "LAYER_12_006",
+                    "bead_type": "divine_seal",
+                    "label": "Seal: All-Knowing, All-Wise",
+                    "label_ar": "ختم: عليم حكيم",
+                    "linked_unit_ids": [ "U_12_6" ],
+                    "linked_sentence_ids": [ "SENT_12_6_A" ],
+                    "linked_token_ids": [ "TOK_12_6_029", "TOK_12_6_030" ],
+                    "notes": "إغلاق الوعد بضمان العلم والحكمة."
+                },
+
+                {
+                    "bead_id": "BEAD_12_007_A",
+                    "layer_id": "LAYER_12_007",
+                    "bead_type": "thesis_marker",
+                    "label": "Thesis: signs for seekers",
+                    "label_ar": "خلاصة: آيات للسائلين",
+                    "linked_unit_ids": [ "U_12_7" ],
+                    "linked_sentence_ids": [ "SENT_12_7_A" ],
+                    "linked_token_ids": [ "TOK_12_7_001", "TOK_12_7_002", "TOK_12_7_003", "TOK_12_7_008", "TOK_12_7_010" ],
+                    "notes": "توجيه المتلقي: من أراد المعنى فليطلبه."
+                }
+            ]
+        }
+    ],
+    "comprehension": {
+        "reflective": [
+            {
+                "question_id": "RQ_12_001",
+                "linked_unit_ids": [
+                    "U_12_2"
+                ],
+                "question": "What does it change in your relationship with the Qur’an when you read that it was revealed in Arabic 'so that you may understand'?",
+                "question_ar": "كيف يؤثر في علاقتك بالقرآن قولُه: «قرآنا عربيا لعلكم تعقلون»؟",
+                "answer_hint": "Reflect on language, clarity, effort, and responsibility to seek understanding.",
+                "tags": [
+                    "reflection",
+                    "purpose",
+                    "language"
+                ],
+                "quranic_ref": "12:2"
+            },
+            {
+                "question_id": "RQ_12_002",
+                "linked_unit_ids": [
+                    "U_12_5"
+                ],
+                "question": "Why might sharing a blessing too early sometimes invite harm, and how do you balance trust with wisdom?",
+                "question_ar": "لماذا قد يجلب كشفُ النعمة مبكرًا ضررًا أحيانًا؟ وكيف توازن بين الثقة والحكمة؟",
+                "answer_hint": "Link to 'do not relate your vision' and the idea of jealousy/plotting; apply to modern life.",
+                "tags": [
+                    "reflection",
+                    "wisdom",
+                    "jealousy"
+                ],
+                "quranic_ref": "12:5"
+            },
+            {
+                "question_id": "RQ_12_003",
+                "linked_unit_ids": [
+                    "U_12_7"
+                ],
+                "question": "What kind of 'seeking' do these opening verses invite: curiosity, faith, patience, or all of them?",
+                "question_ar": "أيُّ نوعٍ من «السؤال/الطلب» تدعو إليه هذه الآيات: الفضول، الإيمان، الصبر، أم كلها؟",
+                "answer_hint": "Consider the phrase 'آيات للسائلين' and what it expects from the reader.",
+                "tags": [
+                    "reflection",
+                    "seeking",
+                    "signs"
+                ],
+                "quranic_ref": "12:7"
+            }
+        ],
+        "analytical": [
+            {
+                "question_id": "AQ_12_001",
+                "linked_unit_ids": [
+                    "U_12_1",
+                    "U_12_2",
+                    "U_12_3"
+                ],
+                "question": "How do verses 1–3 establish authority for the story before the narrative begins?",
+                "question_ar": "كيف تُؤسِّس الآيات (١–٣) سلطةَ القصة قبل بدء المشهد السردي؟",
+                "answer_hint": "Track: muqattaʿat → clear book → revealed in Arabic → we narrate by revelation → prior unawareness.",
+                "tags": [
+                    "analysis",
+                    "discourse",
+                    "authority"
+                ],
+                "quranic_ref": "12:1-3"
+            },
+            {
+                "question_id": "AQ_12_002",
+                "linked_unit_ids": [
+                    "U_12_5",
+                    "U_12_6"
+                ],
+                "question": "In what way do the warning (plotting) and the promise (chosen/ taught/ blessed) work together to shape expectations for the story?",
+                "question_ar": "كيف يعمل التحذير (الكيد) مع الوعد (الاجتباء/التعليم/النعمة) معًا لصناعة توقعات القصة؟",
+                "answer_hint": "Contrast danger vs divine care; set tension and trajectory.",
+                "tags": [
+                    "analysis",
+                    "narrative",
+                    "tension"
+                ],
+                "quranic_ref": "12:5-6"
+            },
+            {
+                "question_id": "AQ_12_003",
+                "linked_unit_ids": [
+                    "U_12_4",
+                    "U_12_6"
+                ],
+                "question": "What is the logical link between the dream imagery (v.4) and 'teaching interpretation of events' (v.6)?",
+                "question_ar": "ما العلاقة المنطقية بين رمزية الرؤيا (٤) و«تعليم تأويل الأحاديث» (٦)؟",
+                "answer_hint": "Dreams need interpretation; Yusuf’s gift is framed early as divine teaching.",
+                "tags": [
+                    "analysis",
+                    "reasoning",
+                    "dreams"
+                ],
+                "quranic_ref": "12:4-6"
+            }
+        ],
+        "mcqs": {
+            "text": [
+                {
+                    "mcq_id": "MCQ_T_12_001",
+                    "linked_unit_ids": [
+                        "U_12_2"
+                    ],
+                    "question": "What is presented as the purpose of revealing the Qur’an in Arabic in verse 12:2?",
+                    "question_ar": "ما الغاية المذكورة لإنزال القرآن عربيًا في (١٢:٢)؟",
+                    "options": [
+                        {
+                            "option": "To confuse the audience with difficult language",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "So that you may understand / use reason (تعقلون)",
+                            "is_correct": true
+                        },
+                        {
+                            "option": "Only for poetry and rhyme",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "Only for a single tribe",
+                            "is_correct": false
+                        }
+                    ],
+                    "explanation": "The verse ends with «لعلكم تعقلون» indicating understanding/reason.",
+                    "tags": [
+                        "mcq",
+                        "text",
+                        "purpose"
+                    ]
+                },
+                {
+                    "mcq_id": "MCQ_T_12_002",
+                    "linked_unit_ids": [
+                        "U_12_5"
+                    ],
+                    "question": "Why does Yaʿqūb advise Yusuf not to tell his dream to his brothers?",
+                    "question_ar": "لماذا نصح يعقوبُ يوسفَ ألا يقص رؤياه على إخوته؟",
+                    "options": [
+                        {
+                            "option": "Because dreams are always meaningless",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "So the brothers do not plot against him",
+                            "is_correct": true
+                        },
+                        {
+                            "option": "Because his father was uninterested",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "Because it was forbidden to speak at night",
+                            "is_correct": false
+                        }
+                    ],
+                    "explanation": "The verse says «فيكيدوا لك كيدا» and adds a warning about Satan’s enmity.",
+                    "tags": [
+                        "mcq",
+                        "text",
+                        "warning"
+                    ]
+                }
+            ],
+            "vocabulary": [
+                {
+                    "mcq_id": "MCQ_V_12_001",
+                    "linked_unit_ids": [
+                        "U_12_6"
+                    ],
+                    "question": "In verse 12:6, what does «يجتبيك» most closely mean?",
+                    "question_ar": "ما أقرب معنى لـ «يجتبيك» في (١٢:٦)؟",
+                    "options": [
+                        {
+                            "option": "To abandon you",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "To choose you specially / select and draw close",
+                            "is_correct": true
+                        },
+                        {
+                            "option": "To punish you immediately",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "To hide you from everyone",
+                            "is_correct": false
+                        }
+                    ],
+                    "explanation": "اجتبى يدل على اختيار خاص مقرون بالقرب والعناية.",
+                    "tags": [
+                        "mcq",
+                        "vocab",
+                        "root:جبي"
+                    ]
+                },
+                {
+                    "mcq_id": "MCQ_V_12_002",
+                    "linked_unit_ids": [
+                        "U_12_3"
+                    ],
+                    "question": "What does «أوحينا» mean in this context (12:3)?",
+                    "question_ar": "ما معنى «أوحينا» هنا (١٢:٣)؟",
+                    "options": [
+                        {
+                            "option": "We guessed",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "We revealed / communicated by revelation",
+                            "is_correct": true
+                        },
+                        {
+                            "option": "We forgot",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "We translated",
+                            "is_correct": false
+                        }
+                    ],
+                    "explanation": "الوحي: إبلاغ خفي سريع من الله إلى نبيه.",
+                    "tags": [
+                        "mcq",
+                        "vocab",
+                        "root:وحي"
+                    ]
+                }
+            ],
+            "grammar": [
+                {
+                    "mcq_id": "MCQ_G_12_001",
+                    "linked_unit_ids": [
+                        "U_12_2"
+                    ],
+                    "question": "Which particle in 12:2 introduces a hoped-for purpose/expected outcome?",
+                    "question_ar": "أيُّ أداةٍ في (١٢:٢) تفيد الترجي/الغاية؟",
+                    "options": [
+                        {
+                            "option": "إنّ",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "لعلّ",
+                            "is_correct": true
+                        },
+                        {
+                            "option": "قد",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "هل",
+                            "is_correct": false
+                        }
+                    ],
+                    "explanation": "«لعلّ» تأتي للترجي وقد تُستعمل للتعليل/الغاية في السياق.",
+                    "tags": [
+                        "mcq",
+                        "grammar",
+                        "particle"
+                    ]
+                },
+                {
+                    "mcq_id": "MCQ_G_12_002",
+                    "linked_unit_ids": [
+                        "U_12_7"
+                    ],
+                    "question": "What is the function of «لقد» at the start of 12:7?",
+                    "question_ar": "ما وظيفة «لقد» في بداية (١٢:٧)؟",
+                    "options": [
+                        {
+                            "option": "Negation",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "Emphasis/confirmation (tawkīd)",
+                            "is_correct": true
+                        },
+                        {
+                            "option": "Question",
+                            "is_correct": false
+                        },
+                        {
+                            "option": "Conditional",
+                            "is_correct": false
+                        }
+                    ],
+                    "explanation": "اللام + قد مع الماضي تفيد التوكيد والتحقيق.",
+                    "tags": [
+                        "mcq",
+                        "grammar",
+                        "tawkid"
+                    ]
+                }
+            ]
+        }
+    },
+    "created_at": "2026-01-20T00:00:00Z",
+    "updated_at": null
+}
+
+
+
+
