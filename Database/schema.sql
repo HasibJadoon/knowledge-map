@@ -13,6 +13,9 @@
 -- Universal PK columns are TEXT(64 hex). canonical_input is UNIQUE.
 --------------------------------------------------------------------------------
 
+PRAGMA foreign_keys = ON;
+
+
 --------------------------------------------------------------------------------
 -- 0) USERS / CORE
 --------------------------------------------------------------------------------
@@ -75,7 +78,6 @@ DROP TABLE IF EXISTS wiki_docs;
 
 DROP TABLE IF EXISTS ar_doc_surah_link;
 DROP TABLE IF EXISTS ar_lesson_surah_link;
-DROP TABLE IF EXISTS ar_container_units;
 DROP TABLE IF EXISTS ar_containers;
 DROP TABLE IF EXISTS ar_surahs;
 
@@ -84,7 +86,7 @@ CREATE TABLE ar_quran_text (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,
   sura            INTEGER NOT NULL,
   aya             INTEGER NOT NULL,
-  surah_ayah      INTEGER NOT NULL,     -- e.g. sura*1000+aya (or your encoding)
+  surah_ayah      INTEGER NOT NULL,
   page            INTEGER,
   juz             INTEGER,
   hizb            INTEGER,
@@ -113,9 +115,9 @@ CREATE TABLE ar_lessons (
 
   title       TEXT NOT NULL,
   title_ar    TEXT,
-  lesson_type TEXT NOT NULL,                 -- quran | literature | linguistics
+  lesson_type TEXT NOT NULL,
   subtype     TEXT,
-  status      TEXT NOT NULL DEFAULT 'draft', -- draft | active | published | archived
+  status      TEXT NOT NULL DEFAULT 'draft',
   difficulty  INTEGER,
   source      TEXT,
 
@@ -135,13 +137,14 @@ CREATE TABLE ar_docs (
   body_md     TEXT NOT NULL,
   body_json   JSON,
   tags_json   JSON,
-  status      TEXT NOT NULL DEFAULT 'published', -- draft|published
+  status      TEXT NOT NULL DEFAULT 'published',
   created_at  TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at  TEXT,
   parent_slug TEXT,
   sort_order  INTEGER NOT NULL DEFAULT 0
 );
 
+-- Wiki docs (markdown-based docs mirrored from legacy .md files)
 CREATE TABLE wiki_docs (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
   slug        TEXT NOT NULL UNIQUE,
@@ -149,7 +152,7 @@ CREATE TABLE wiki_docs (
   body_md     TEXT NOT NULL,
   body_json   JSON,
   tags_json   JSON,
-  status      TEXT NOT NULL DEFAULT 'published', -- draft|published
+  status      TEXT NOT NULL DEFAULT 'published',
   created_at  TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at  TEXT,
   parent_slug TEXT,
@@ -168,12 +171,11 @@ CREATE TABLE ar_surahs (
   updated_at   TEXT
 );
 
--- Container registry (single source of truth for container identity)
--- id is stable, human-readable key (NOT sha).
+-- Container registry
 CREATE TABLE ar_containers (
-  id             TEXT PRIMARY KEY,       -- "quran:12:7" | "surah:12" | "doc:<slug>" | "lesson:<id>"
-  container_type TEXT NOT NULL,          -- quran_ayah | surah | doc | ar_lesson
-  container_key  TEXT NOT NULL,          -- "12:7" | "12" | "<slug>" | "<id>"
+  id             TEXT PRIMARY KEY,
+  container_type TEXT NOT NULL,
+  container_key  TEXT NOT NULL,
   title          TEXT,
   meta_json      JSON,
 
@@ -183,11 +185,11 @@ CREATE TABLE ar_containers (
   UNIQUE(container_type, container_key)
 );
 
--- Units inside a container (ayah/passage/sentence_block/paragraph etc.)
+-- Units inside a container
 CREATE TABLE ar_container_units (
-  id             TEXT PRIMARY KEY,     -- "U_12_7" | "U_DOC_<slug>_003" | "U_LESSON_<id>_002"
+  id             TEXT PRIMARY KEY,
   container_id   TEXT NOT NULL,
-  unit_type      TEXT NOT NULL,        -- ayah | passage | sentence_block | paragraph
+  unit_type      TEXT NOT NULL,
   order_index    INTEGER NOT NULL DEFAULT 0,
 
   ayah_from      INTEGER,
@@ -227,7 +229,7 @@ CREATE TABLE ar_lesson_surah_link (
 );
 
 --------------------------------------------------------------------------------
--- 2) UNIVERSAL LAYER (ar_u_*)  <-- ALL SHA IDs (TEXT PK)
+-- 2) UNIVERSAL LAYER (ar_u_*)
 --------------------------------------------------------------------------------
 DROP TABLE IF EXISTS ar_u_grammar;
 DROP TABLE IF EXISTS ar_u_valency;
@@ -238,26 +240,25 @@ DROP TABLE IF EXISTS ar_u_spans;
 DROP TABLE IF EXISTS ar_u_tokens;
 DROP TABLE IF EXISTS ar_u_roots;
 
--- Roots (universal)
 CREATE TABLE ar_u_roots (
-  ar_u_root        TEXT PRIMARY KEY,         -- sha256 hex(64)
-  canonical_input  TEXT NOT NULL UNIQUE,     -- "ROOT|<root_norm>"
+  ar_u_root        TEXT PRIMARY KEY,
+  canonical_input  TEXT NOT NULL UNIQUE,
 
-  root             TEXT NOT NULL,            -- display root (no spaces)
-  root_norm        TEXT NOT NULL UNIQUE,     -- normalized key
+  root             TEXT NOT NULL,
+  root_norm        TEXT NOT NULL UNIQUE,
 
-  family            TEXT,                    -- optional legacy bucket
-  arabic_trilateral TEXT,                    -- "د ع و" (optional)
-  english_trilateral TEXT,                   -- "d-e-w" (optional)
-  root_latn         TEXT,                    -- "D-E-W" (optional)
+  family            TEXT,
+  arabic_trilateral TEXT,
+  english_trilateral TEXT,
+  root_latn         TEXT,
 
   alt_latn_json     JSON CHECK (alt_latn_json IS NULL OR json_valid(alt_latn_json)),
   search_keys_norm  TEXT,
 
   cards_json        JSON CHECK (cards_json IS NULL OR json_valid(cards_json)),
-  status            TEXT NOT NULL DEFAULT 'active', -- active|draft|reviewed|archived
+  status            TEXT NOT NULL DEFAULT 'active',
   difficulty        INTEGER,
-  frequency         TEXT,                    -- high|medium|low
+  frequency         TEXT,
 
   created_at        TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at        TEXT,
@@ -265,17 +266,16 @@ CREATE TABLE ar_u_roots (
   meta_json         JSON CHECK (meta_json IS NULL OR json_valid(meta_json))
 );
 
--- Tokens (universal)
 CREATE TABLE ar_u_tokens (
-  ar_u_token       TEXT PRIMARY KEY,         -- sha256 hex(64)
-  canonical_input  TEXT NOT NULL UNIQUE,     -- "TOK|<lemma_norm>|<pos>|<root_norm_or_empty>"
+  ar_u_token       TEXT PRIMARY KEY,
+  canonical_input  TEXT NOT NULL UNIQUE,
 
   lemma_ar         TEXT NOT NULL,
   lemma_norm       TEXT NOT NULL,
-  pos              TEXT NOT NULL,            -- verb|noun|adj|particle|phrase
+  pos              TEXT NOT NULL,
 
-  root_norm        TEXT,                     -- nullable (particles etc.)
-  ar_u_root        TEXT,                     -- nullable FK
+  root_norm        TEXT,
+  ar_u_root        TEXT,
 
   features_json    JSON CHECK (features_json IS NULL OR json_valid(features_json)),
   meta_json        JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
@@ -286,38 +286,35 @@ CREATE TABLE ar_u_tokens (
   FOREIGN KEY (ar_u_root) REFERENCES ar_u_roots(ar_u_root) ON DELETE SET NULL
 );
 
--- Spans (universal) (noun-based phrase spans only)
 CREATE TABLE ar_u_spans (
-  ar_u_span        TEXT PRIMARY KEY,         -- sha256 hex(64)
-  canonical_input  TEXT NOT NULL UNIQUE,     -- "SPAN|<span_type>|<ar_u_token,...>"
+  ar_u_span        TEXT PRIMARY KEY,
+  canonical_input  TEXT NOT NULL UNIQUE,
 
-  span_type        TEXT NOT NULL,            -- COMP_JAR_MAJRUR | COMP_IDAFI | COMP_WASFI | ...
-  token_ids_csv    TEXT NOT NULL,            -- ordered ar_u_token CSV
+  span_type        TEXT NOT NULL,
+  token_ids_csv    TEXT NOT NULL,
 
   meta_json        JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
   created_at       TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at       TEXT
 );
 
--- Sentences (universal)
 CREATE TABLE ar_u_sentences (
-  ar_u_sentence    TEXT PRIMARY KEY,         -- sha256 hex(64)
-  canonical_input  TEXT NOT NULL UNIQUE,     -- "SENT|<sentence_kind>|<sequence_hash_basis>"
+  ar_u_sentence    TEXT PRIMARY KEY,
+  canonical_input  TEXT NOT NULL UNIQUE,
 
-  sentence_kind    TEXT NOT NULL,            -- SIMPLE|COMPLEX|CLAUSE|PHRASE_NODE
-  sequence_json    JSON NOT NULL CHECK (json_valid(sequence_json)), -- ["T:<ar_u_token>","S:<ar_u_span>",...]
+  sentence_kind    TEXT NOT NULL,
+  sequence_json    JSON NOT NULL CHECK (json_valid(sequence_json)),
 
-  text_ar          TEXT,                     -- optional cached display
+  text_ar          TEXT,
   meta_json        JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
 
   created_at       TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at       TEXT
 );
 
--- Expressions (universal) idioms/phrases (can overlap with sentence sequences)
 CREATE TABLE ar_u_expressions (
-  ar_u_expression  TEXT PRIMARY KEY,         -- sha256 hex(64)
-  canonical_input  TEXT NOT NULL UNIQUE,     -- "EXPR|<label_or_empty>|<sequence_hash_basis>"
+  ar_u_expression  TEXT PRIMARY KEY,
+  canonical_input  TEXT NOT NULL UNIQUE,
 
   label            TEXT,
   text_ar          TEXT,
@@ -328,10 +325,9 @@ CREATE TABLE ar_u_expressions (
   updated_at       TEXT
 );
 
--- Lexicon senses (universal) “shade of meaning bundle”
 CREATE TABLE ar_u_lexicon (
-  ar_u_lexicon     TEXT PRIMARY KEY,         -- sha256 hex(64)
-  canonical_input  TEXT NOT NULL UNIQUE,     -- "LEX|<lemma_norm>|<pos>|<root_norm>|<valency_or_empty>|<sense_key>"
+  ar_u_lexicon     TEXT PRIMARY KEY,
+  canonical_input  TEXT NOT NULL UNIQUE,
 
   lemma_ar         TEXT NOT NULL,
   lemma_norm       TEXT NOT NULL,
@@ -339,8 +335,8 @@ CREATE TABLE ar_u_lexicon (
   root_norm        TEXT,
   ar_u_root        TEXT,
 
-  valency_id       TEXT,                     -- optional (ar_u_valency)
-  sense_key        TEXT NOT NULL,            -- stable key
+  valency_id       TEXT,
+  sense_key        TEXT NOT NULL,
 
   gloss_primary    TEXT,
   gloss_secondary_json JSON CHECK (gloss_secondary_json IS NULL OR json_valid(gloss_secondary_json)),
@@ -356,16 +352,15 @@ CREATE TABLE ar_u_lexicon (
   FOREIGN KEY (ar_u_root) REFERENCES ar_u_roots(ar_u_root) ON DELETE SET NULL
 );
 
--- Verb+Prep semantic unit (universal) (NOT a span)
 CREATE TABLE ar_u_valency (
-  ar_u_valency     TEXT PRIMARY KEY,         -- sha256 hex(64)
-  canonical_input  TEXT NOT NULL UNIQUE,     -- "VAL|<verb_lemma_norm>|<prep_ar_u_token>|<frame_type>"
+  ar_u_valency     TEXT PRIMARY KEY,
+  canonical_input  TEXT NOT NULL UNIQUE,
 
   verb_lemma_ar    TEXT NOT NULL,
   verb_lemma_norm  TEXT NOT NULL,
 
-  prep_ar_u_token  TEXT NOT NULL,            -- ar_u_tokens.ar_u_token (prep particle)
-  frame_type       TEXT NOT NULL,            -- REQ_PREP|ALT_PREP|OPTIONAL_PREP
+  prep_ar_u_token  TEXT NOT NULL,
+  frame_type       TEXT NOT NULL,
 
   meta_json        JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
   created_at       TEXT NOT NULL DEFAULT (datetime('now')),
@@ -374,13 +369,12 @@ CREATE TABLE ar_u_valency (
   FOREIGN KEY (prep_ar_u_token) REFERENCES ar_u_tokens(ar_u_token) ON DELETE RESTRICT
 );
 
--- Grammar concepts (universal) (THIS REPLACES any duplicate non-universal grammar catalog table)
 CREATE TABLE ar_u_grammar (
-  ar_u_grammar     TEXT PRIMARY KEY,         -- sha256 hex(64)
-  canonical_input  TEXT NOT NULL UNIQUE,     -- "GRAM|<grammar_id>"
+  ar_u_grammar     TEXT PRIMARY KEY,
+  canonical_input  TEXT NOT NULL UNIQUE,
 
-  grammar_id       TEXT NOT NULL UNIQUE,     -- e.g. GRAM_NAHW_001 (catalog key)
-  category         TEXT,                     -- syntax|morphology|rhetoric|...
+  grammar_id       TEXT NOT NULL UNIQUE,
+  category         TEXT,
   title            TEXT,
   title_ar         TEXT,
   definition       TEXT,
@@ -393,8 +387,6 @@ CREATE TABLE ar_u_grammar (
 
 --------------------------------------------------------------------------------
 -- 3) OCCURRENCE LAYER (Arabic transactional)
--- Redundancy removed: occurrences point to ar_containers.id (container_id).
--- No duplicate container_type/container_key columns inside occurrences.
 --------------------------------------------------------------------------------
 DROP TABLE IF EXISTS ar_token_pair_links;
 DROP TABLE IF EXISTS ar_token_valency_link;
@@ -405,22 +397,21 @@ DROP TABLE IF EXISTS ar_occ_sentence;
 DROP TABLE IF EXISTS ar_occ_span;
 DROP TABLE IF EXISTS ar_occ_token;
 
- -- Token occurrences inside a container unit
 CREATE TABLE ar_occ_token (
-  ar_token_occ_id  TEXT PRIMARY KEY,        -- random UUID (transactional)
+  ar_token_occ_id  TEXT PRIMARY KEY,
   user_id          INTEGER,
 
-  container_id     TEXT NOT NULL,           -- FK ar_containers.id
-  unit_id          TEXT,                    -- FK ar_container_units.id (nullable)
+  container_id     TEXT NOT NULL,
+  unit_id          TEXT,
 
-  pos_index        INTEGER NOT NULL,        -- order in unit
+  pos_index        INTEGER NOT NULL,
   surface_ar       TEXT NOT NULL,
   norm_ar          TEXT,
   lemma_ar         TEXT,
-  pos              TEXT,                    -- cached; truth is ar_u_tokens.pos
+  pos              TEXT,
 
-  ar_u_token       TEXT NOT NULL,           -- FK universal token
-  ar_u_root        TEXT,                    -- optional shortcut
+  ar_u_token       TEXT NOT NULL,
+  ar_u_root        TEXT,
 
   features_json    JSON CHECK (features_json IS NULL OR json_valid(features_json)),
 
@@ -436,16 +427,15 @@ CREATE TABLE ar_occ_token (
   UNIQUE(container_id, unit_id, pos_index)
 );
 
--- Span occurrences (noun-based phrase spans)
 CREATE TABLE ar_occ_span (
-  ar_span_occ_id   TEXT PRIMARY KEY,        -- random UUID
+  ar_span_occ_id   TEXT PRIMARY KEY,
   user_id          INTEGER,
 
   container_id     TEXT NOT NULL,
   unit_id          TEXT,
 
   start_index      INTEGER NOT NULL,
-  end_index        INTEGER NOT NULL,        -- inclusive
+  end_index        INTEGER NOT NULL,
   text_cache       TEXT,
 
   ar_u_span        TEXT NOT NULL,
@@ -459,15 +449,14 @@ CREATE TABLE ar_occ_span (
   FOREIGN KEY (ar_u_span)    REFERENCES ar_u_spans(ar_u_span) ON DELETE RESTRICT
 );
 
--- Sentence occurrences linked to a container unit
 CREATE TABLE ar_occ_sentence (
-  ar_sentence_occ_id TEXT PRIMARY KEY,      -- random UUID
+  ar_sentence_occ_id TEXT PRIMARY KEY,
   user_id            INTEGER,
 
   container_id       TEXT NOT NULL,
   unit_id            TEXT,
 
-  sentence_order     INTEGER,               -- within unit
+  sentence_order     INTEGER,
   text_ar            TEXT,
   translation        TEXT,
   notes              TEXT,
@@ -485,9 +474,8 @@ CREATE TABLE ar_occ_sentence (
   UNIQUE(container_id, unit_id, sentence_order)
 );
 
--- Expression occurrences (idioms/phrases) in a container unit
 CREATE TABLE ar_occ_expression (
-  ar_expression_occ_id TEXT PRIMARY KEY,    -- random UUID
+  ar_expression_occ_id TEXT PRIMARY KEY,
   user_id              INTEGER,
 
   container_id         TEXT NOT NULL,
@@ -511,9 +499,8 @@ CREATE TABLE ar_occ_expression (
   FOREIGN KEY (ar_u_expression) REFERENCES ar_u_expressions(ar_u_expression) ON DELETE RESTRICT
 );
 
--- Grammar occurrence attaches a universal grammar concept to a token/span/sentence occurrence
 CREATE TABLE ar_occ_grammar (
-  id               TEXT PRIMARY KEY,       -- random UUID
+  id               TEXT PRIMARY KEY,
   user_id          INTEGER,
 
   container_id     TEXT NOT NULL,
@@ -521,8 +508,8 @@ CREATE TABLE ar_occ_grammar (
 
   ar_u_grammar     TEXT NOT NULL,
 
-  target_type      TEXT NOT NULL,          -- token|span|sentence|expression
-  target_id        TEXT NOT NULL,          -- ar_token_occ_id | ar_span_occ_id | ar_sentence_occ_id | ar_expression_occ_id
+  target_type      TEXT NOT NULL,
+  target_id        TEXT NOT NULL,
 
   note             TEXT,
   meta_json        JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
@@ -535,14 +522,13 @@ CREATE TABLE ar_occ_grammar (
   FOREIGN KEY (ar_u_grammar) REFERENCES ar_u_grammar(ar_u_grammar) ON DELETE RESTRICT
 );
 
--- Token occurrence -> Lexicon universal mapping
 CREATE TABLE ar_token_lexicon_link (
   ar_token_occ_id  TEXT NOT NULL,
   ar_u_lexicon     TEXT NOT NULL,
 
   confidence       REAL,
-  is_primary       INTEGER NOT NULL DEFAULT 1, -- 0/1
-  source           TEXT,                       -- manual|auto|import
+  is_primary       INTEGER NOT NULL DEFAULT 1,
+  source           TEXT,
   note             TEXT,
 
   created_at       TEXT NOT NULL DEFAULT (datetime('now')),
@@ -552,12 +538,11 @@ CREATE TABLE ar_token_lexicon_link (
   FOREIGN KEY (ar_u_lexicon)    REFERENCES ar_u_lexicon(ar_u_lexicon) ON DELETE RESTRICT
 );
 
--- Token occurrence -> Valency universal mapping
 CREATE TABLE ar_token_valency_link (
   ar_token_occ_id  TEXT NOT NULL,
   ar_u_valency     TEXT NOT NULL,
 
-  role             TEXT,      -- verb_head|prep_partner|object_slot ... (optional)
+  role             TEXT,
   note             TEXT,
 
   created_at       TEXT NOT NULL DEFAULT (datetime('now')),
@@ -567,19 +552,18 @@ CREATE TABLE ar_token_valency_link (
   FOREIGN KEY (ar_u_valency)    REFERENCES ar_u_valency(ar_u_valency) ON DELETE RESTRICT
 );
 
--- Generic token-token links (e.g., verb↔prep pair, attachment, etc.)
 CREATE TABLE ar_token_pair_links (
-  id              TEXT PRIMARY KEY,          -- random UUID
+  id              TEXT PRIMARY KEY,
   user_id         INTEGER,
 
   container_id    TEXT NOT NULL,
   unit_id         TEXT,
 
-  link_type       TEXT NOT NULL,             -- e.g. VERB_PREP | GOVERNING | COREF | etc
+  link_type       TEXT NOT NULL,
   from_token_occ  TEXT NOT NULL,
   to_token_occ    TEXT NOT NULL,
 
-  ar_u_valency    TEXT,                      -- optional: link to universal frame
+  ar_u_valency    TEXT,
   note            TEXT,
   meta_json       JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
 
@@ -595,18 +579,18 @@ CREATE TABLE ar_token_pair_links (
 
 --------------------------------------------------------------------------------
 -- 4) WORLDVIEW (wv_) + PLANNER (sp_)
--- (Fixed naming: brainstorm/library now wv_*)
+-- WV knowledge tables use SHA IDs + canonical_input
 --------------------------------------------------------------------------------
 DROP TABLE IF EXISTS wv_quran_relations;
-
 DROP TABLE IF EXISTS wv_discourse_edges;
+DROP TABLE IF EXISTS wv_concept_sources;
 DROP TABLE IF EXISTS wv_concept_anchors;
 DROP TABLE IF EXISTS wv_concepts;
 DROP TABLE IF EXISTS wv_cross_references;
-DROP TABLE IF EXISTS wv_content_library_links;
 DROP TABLE IF EXISTS wv_content_items;
 DROP TABLE IF EXISTS wv_claims;
 DROP TABLE IF EXISTS wv_library_entries;
+DROP TABLE IF EXISTS wv_content_library_links;
 DROP TABLE IF EXISTS wv_brainstorm_sessions;
 
 DROP TABLE IF EXISTS sp_sprint_reviews;
@@ -616,7 +600,7 @@ DROP TABLE IF EXISTS sp_weekly_plans;
 DROP TABLE IF EXISTS ar_reviews;
 
 CREATE TABLE wv_brainstorm_sessions (
-  id             TEXT PRIMARY KEY,           -- random UUID
+  id             TEXT PRIMARY KEY,
   user_id        INTEGER,
 
   topic          TEXT NOT NULL,
@@ -633,181 +617,168 @@ CREATE TABLE wv_brainstorm_sessions (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
-CREATE TABLE wv_library_entries (
-  id           INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id      INTEGER,
+CREATE TABLE wv_concepts (
+  id              TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
 
-  entry_type   TEXT NOT NULL,
-  category     TEXT,
+  slug            TEXT NOT NULL UNIQUE,
+  label_ar        TEXT,
+  label_en        TEXT,
+  category        TEXT,
+  notes           TEXT,
+  status          TEXT NOT NULL DEFAULT 'active',
 
-  title        TEXT NOT NULL,
-  title_ar     TEXT,
-  summary      TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT
+);
 
-  url          TEXT,
-  language     TEXT,
-  format       TEXT,
+CREATE TABLE wv_concept_anchors (
+  id              TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
 
-  topics_json  JSON,
-  qa_json      JSON,
-  entry_json   JSON,
+  user_id         INTEGER,
+  concept_id      TEXT NOT NULL,
 
-  status       TEXT NOT NULL DEFAULT 'active',
+  target_type     TEXT NOT NULL,
+  target_id       TEXT NOT NULL,
+  unit_id         TEXT,
+  ref             TEXT,
+  evidence        TEXT NOT NULL,
+  note            TEXT,
 
-  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at   TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT,
 
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+  FOREIGN KEY (user_id)   REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (concept_id) REFERENCES wv_concepts(id) ON DELETE CASCADE
+);
+
+CREATE TABLE wv_concept_sources (
+  id              TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
+
+  user_id         INTEGER,
+  concept_id      TEXT NOT NULL,
+
+  scholar_name    TEXT NOT NULL,
+  work_title      TEXT NOT NULL,
+  work_type       TEXT,
+  publisher       TEXT,
+  year            INTEGER,
+
+  locator         TEXT,
+  lens            TEXT,
+  claim_summary   TEXT NOT NULL,
+
+  quote_short     TEXT,
+  url             TEXT,
+  note            TEXT,
+  meta_json       JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT,
+
+  FOREIGN KEY (user_id)   REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (concept_id) REFERENCES wv_concepts(id) ON DELETE CASCADE
 );
 
 CREATE TABLE wv_claims (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id     INTEGER,
+  id              TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
 
-  title       TEXT NOT NULL,
-  status      TEXT NOT NULL DEFAULT 'draft',
-  claim       JSON NOT NULL CHECK (json_valid(claim)),
+  user_id         INTEGER,
+  title           TEXT NOT NULL,
+  status          TEXT NOT NULL DEFAULT 'draft',
+  claim           JSON NOT NULL CHECK (json_valid(claim)),
 
-  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at  TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT,
 
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
 CREATE TABLE wv_content_items (
-  id           INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id      INTEGER,
+  id              TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
 
-  title        TEXT NOT NULL,
-  content_type TEXT NOT NULL,
-  status       TEXT NOT NULL DEFAULT 'draft',
+  user_id         INTEGER,
+  title           TEXT NOT NULL,
+  content_type    TEXT NOT NULL,
+  status          TEXT NOT NULL DEFAULT 'draft',
 
-  related_type TEXT,
-  related_id   TEXT,
+  related_type    TEXT,
+  related_id      TEXT,
 
-  refs_json    JSON NOT NULL CHECK (json_valid(refs_json)),
-  content_json JSON NOT NULL CHECK (json_valid(content_json)),
+  refs_json       JSON NOT NULL CHECK (json_valid(refs_json)),
+  content_json    JSON NOT NULL CHECK (json_valid(content_json)),
 
-  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at   TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT,
 
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
-);
-
-CREATE TABLE wv_content_library_links (
-  id           INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id      INTEGER,
-
-  library_id   INTEGER NOT NULL,
-  target_type  TEXT NOT NULL,          -- ar_lesson | wv_claim | wv_content_item
-  target_id    TEXT NOT NULL,
-
-  note         TEXT,
-  link_qa_json JSON,
-
-  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at   TEXT,
-
-  FOREIGN KEY (user_id)    REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (library_id) REFERENCES wv_library_entries(id) ON DELETE CASCADE
 );
 
 CREATE TABLE wv_cross_references (
-  id         INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id    INTEGER,
+  id              TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
 
-  status     TEXT NOT NULL DEFAULT 'active',
-  ref_json   JSON NOT NULL CHECK (json_valid(ref_json)),
+  user_id         INTEGER,
+  status          TEXT NOT NULL DEFAULT 'active',
+  ref_json        JSON NOT NULL CHECK (json_valid(ref_json)),
 
-  created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT,
-
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
-);
-
-CREATE TABLE wv_concepts (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id     INTEGER,
-
-  slug        TEXT NOT NULL UNIQUE,
-  label_ar    TEXT,
-  label_en    TEXT,
-  category    TEXT,
-  notes       TEXT,
-  status      TEXT NOT NULL DEFAULT 'active',
-
-  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at  TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT,
 
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
-);
-
-CREATE TABLE wv_concept_anchors (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id     INTEGER,
-
-  concept_id  INTEGER NOT NULL,
-
-  target_type TEXT NOT NULL,
-  target_id   TEXT NOT NULL,
-  unit_id     TEXT,
-  ref         TEXT,
-  evidence    TEXT NOT NULL,
-  note        TEXT,
-
-  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at  TEXT,
-
-  FOREIGN KEY (user_id)    REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (concept_id) REFERENCES wv_concepts(id) ON DELETE CASCADE
 );
 
 CREATE TABLE wv_discourse_edges (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id     INTEGER,
+  id              TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
 
-  edge_type   TEXT NOT NULL,
-  relation    TEXT NOT NULL,
-  strength    REAL,
+  user_id         INTEGER,
 
-  from_type   TEXT NOT NULL,
-  from_id     TEXT NOT NULL,
-  from_unit   TEXT,
+  edge_type       TEXT NOT NULL,
+  relation        TEXT NOT NULL,
+  strength        REAL,
 
-  to_type     TEXT NOT NULL,
-  to_id       TEXT NOT NULL,
-  to_unit     TEXT,
+  from_type       TEXT NOT NULL,
+  from_id         TEXT NOT NULL,
+  from_unit       TEXT,
 
-  note        TEXT,
-  meta_json   JSON,
+  to_type         TEXT NOT NULL,
+  to_id           TEXT NOT NULL,
+  to_unit         TEXT,
 
-  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at  TEXT,
+  note            TEXT,
+  meta_json       JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT,
 
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Worldview ↔ Quran evidence relations
 CREATE TABLE wv_quran_relations (
-  id                  INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id             INTEGER,
+  id              TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
 
-  concept_id          INTEGER NOT NULL,       -- wv_concepts.id
-  target_type         TEXT NOT NULL,          -- wv_claim | wv_library_entry | wv_content_item
-  target_id           TEXT NOT NULL,
+  user_id         INTEGER,
+  concept_id      TEXT NOT NULL,
+  target_type     TEXT NOT NULL,
+  target_id       TEXT NOT NULL,
 
-  relation            TEXT NOT NULL,          -- align | partial | contradict | unknown
-  quran_evidence_json JSON,
-  note                TEXT,
+  relation        TEXT NOT NULL,
+  quran_evidence_json JSON CHECK (quran_evidence_json IS NULL OR json_valid(quran_evidence_json)),
+  note            TEXT,
 
-  created_at          TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at          TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT,
 
-  FOREIGN KEY (user_id)    REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_id)   REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (concept_id) REFERENCES wv_concepts(id) ON DELETE CASCADE
 );
 
--- Planner
 CREATE TABLE sp_weekly_plans (
   week_start    TEXT PRIMARY KEY,
   user_id       INTEGER,
@@ -841,17 +812,15 @@ CREATE TABLE sp_weekly_tasks (
   task_json          JSON NOT NULL CHECK (json_valid(task_json)),
 
   ar_lesson_id       INTEGER,
-  wv_claim_id        INTEGER,
-  wv_content_item_id INTEGER,
+  wv_claim_id        TEXT,
+  wv_content_item_id TEXT,
 
   created_at         TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at         TEXT,
 
   FOREIGN KEY (user_id)            REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (week_start)         REFERENCES sp_weekly_plans(week_start) ON DELETE CASCADE,
-  FOREIGN KEY (ar_lesson_id)       REFERENCES ar_lessons(id) ON DELETE SET NULL,
-  FOREIGN KEY (wv_claim_id)        REFERENCES wv_claims(id) ON DELETE SET NULL,
-  FOREIGN KEY (wv_content_item_id) REFERENCES wv_content_items(id) ON DELETE SET NULL
+  FOREIGN KEY (ar_lesson_id)       REFERENCES ar_lessons(id) ON DELETE SET NULL
 );
 
 CREATE TABLE sp_sprint_reviews (
@@ -870,7 +839,6 @@ CREATE TABLE sp_sprint_reviews (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Reviews (generic)
 CREATE TABLE ar_reviews (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id     INTEGER,
@@ -890,7 +858,6 @@ CREATE TABLE ar_reviews (
 --------------------------------------------------------------------------------
 -- INDEXES (minimal + useful)
 --------------------------------------------------------------------------------
--- core
 CREATE INDEX idx_users_email            ON users(email);
 CREATE INDEX idx_users_role             ON users(role);
 CREATE INDEX idx_user_state_current     ON user_state(current_type, current_id);
@@ -899,7 +866,6 @@ CREATE INDEX idx_user_logs_type         ON user_activity_logs(event_type);
 CREATE INDEX idx_user_logs_target       ON user_activity_logs(target_type, target_id);
 CREATE INDEX idx_user_logs_created      ON user_activity_logs(created_at);
 
--- container
 CREATE INDEX idx_ar_quran_text_surah_ayah ON ar_quran_text(sura, aya);
 CREATE INDEX idx_ar_quran_text_page       ON ar_quran_text(page);
 
@@ -907,6 +873,7 @@ CREATE INDEX idx_ar_docs_slug        ON ar_docs(slug);
 CREATE INDEX idx_ar_docs_status      ON ar_docs(status);
 CREATE INDEX idx_ar_docs_parent      ON ar_docs(parent_slug);
 CREATE INDEX idx_ar_docs_sort        ON ar_docs(sort_order);
+
 CREATE INDEX idx_wiki_docs_slug      ON wiki_docs(slug);
 CREATE INDEX idx_wiki_docs_status    ON wiki_docs(status);
 CREATE INDEX idx_wiki_docs_parent    ON wiki_docs(parent_slug);
@@ -919,7 +886,6 @@ CREATE INDEX idx_ar_lessons_type     ON ar_lessons(lesson_type);
 CREATE INDEX idx_ar_containers_type_key ON ar_containers(container_type, container_key);
 CREATE INDEX idx_ar_units_container_order ON ar_container_units(container_id, order_index);
 
--- universal
 CREATE INDEX idx_ar_u_roots_root_norm  ON ar_u_roots(root_norm);
 CREATE INDEX idx_ar_u_roots_root       ON ar_u_roots(root);
 CREATE INDEX idx_ar_u_roots_root_latn  ON ar_u_roots(root_latn);
@@ -945,7 +911,6 @@ CREATE INDEX idx_ar_u_valency_frame     ON ar_u_valency(frame_type);
 
 CREATE INDEX idx_ar_u_grammar_grammar_id ON ar_u_grammar(grammar_id);
 
--- occurrence
 CREATE INDEX idx_ar_occ_token_container_unit ON ar_occ_token(container_id, unit_id);
 CREATE INDEX idx_ar_occ_token_order          ON ar_occ_token(container_id, unit_id, pos_index);
 CREATE INDEX idx_ar_occ_token_u_token        ON ar_occ_token(ar_u_token);
@@ -970,56 +935,40 @@ CREATE INDEX idx_ar_token_valency_link_val     ON ar_token_valency_link(ar_u_val
 CREATE INDEX idx_ar_pair_links_container_unit  ON ar_token_pair_links(container_id, unit_id);
 CREATE INDEX idx_ar_pair_links_type            ON ar_token_pair_links(link_type);
 
--- worldview
 CREATE INDEX idx_wv_brainstorm_user_id ON wv_brainstorm_sessions(user_id);
 CREATE INDEX idx_wv_brainstorm_topic   ON wv_brainstorm_sessions(topic);
 CREATE INDEX idx_wv_brainstorm_status  ON wv_brainstorm_sessions(status);
 CREATE INDEX idx_wv_brainstorm_stage   ON wv_brainstorm_sessions(stage);
 
-CREATE INDEX idx_wv_library_user_id    ON wv_library_entries(user_id);
-CREATE INDEX idx_wv_library_entry_type ON wv_library_entries(entry_type);
-CREATE INDEX idx_wv_library_category   ON wv_library_entries(category);
-CREATE INDEX idx_wv_library_title      ON wv_library_entries(title);
-CREATE INDEX idx_wv_library_status     ON wv_library_entries(status);
+CREATE INDEX idx_wv_concepts_slug        ON wv_concepts(slug);
+CREATE INDEX idx_wv_concepts_category    ON wv_concepts(category);
+CREATE INDEX idx_wv_concepts_status      ON wv_concepts(status);
 
-CREATE INDEX idx_wv_claims_user_id     ON wv_claims(user_id);
-CREATE INDEX idx_wv_claims_status      ON wv_claims(status);
-
-CREATE INDEX idx_wv_concepts_user_id   ON wv_concepts(user_id);
-CREATE INDEX idx_wv_concepts_category  ON wv_concepts(category);
-CREATE INDEX idx_wv_concepts_status    ON wv_concepts(status);
-CREATE INDEX idx_wv_concepts_slug      ON wv_concepts(slug);
-
-CREATE INDEX idx_wv_concept_anchors_user_id ON wv_concept_anchors(user_id);
 CREATE INDEX idx_wv_concept_anchors_concept ON wv_concept_anchors(concept_id);
 CREATE INDEX idx_wv_concept_anchors_target  ON wv_concept_anchors(target_type, target_id);
-CREATE INDEX idx_wv_concept_anchors_ref     ON wv_concept_anchors(ref);
-CREATE INDEX idx_wv_concept_anchors_unit_id ON wv_concept_anchors(unit_id);
+CREATE INDEX idx_wv_concept_anchors_unit    ON wv_concept_anchors(unit_id);
 
-CREATE INDEX idx_wv_content_items_user_id   ON wv_content_items(user_id);
-CREATE INDEX idx_wv_content_items_type      ON wv_content_items(content_type);
-CREATE INDEX idx_wv_content_items_status    ON wv_content_items(status);
-CREATE INDEX idx_wv_content_items_related   ON wv_content_items(related_type, related_id);
+CREATE INDEX idx_wv_concept_sources_concept ON wv_concept_sources(concept_id);
+CREATE INDEX idx_wv_concept_sources_scholar ON wv_concept_sources(scholar_name);
+CREATE INDEX idx_wv_concept_sources_lens    ON wv_concept_sources(lens);
 
-CREATE INDEX idx_wv_content_library_links_user_id    ON wv_content_library_links(user_id);
-CREATE INDEX idx_wv_content_library_links_library_id ON wv_content_library_links(library_id);
-CREATE INDEX idx_wv_content_library_links_target     ON wv_content_library_links(target_type, target_id);
+CREATE INDEX idx_wv_claims_status        ON wv_claims(status);
 
-CREATE INDEX idx_wv_cross_references_user_id ON wv_cross_references(user_id);
-CREATE INDEX idx_wv_cross_references_status  ON wv_cross_references(status);
+CREATE INDEX idx_wv_content_items_type   ON wv_content_items(content_type);
+CREATE INDEX idx_wv_content_items_status ON wv_content_items(status);
+CREATE INDEX idx_wv_content_items_related ON wv_content_items(related_type, related_id);
 
-CREATE INDEX idx_wv_discourse_edges_user_id  ON wv_discourse_edges(user_id);
+CREATE INDEX idx_wv_cross_references_status ON wv_cross_references(status);
+
 CREATE INDEX idx_wv_discourse_edges_type     ON wv_discourse_edges(edge_type);
 CREATE INDEX idx_wv_discourse_edges_relation ON wv_discourse_edges(relation);
 CREATE INDEX idx_wv_discourse_edges_from     ON wv_discourse_edges(from_type, from_id);
 CREATE INDEX idx_wv_discourse_edges_to       ON wv_discourse_edges(to_type, to_id);
 
-CREATE INDEX idx_wv_quran_relations_user_id  ON wv_quran_relations(user_id);
 CREATE INDEX idx_wv_quran_relations_concept  ON wv_quran_relations(concept_id);
 CREATE INDEX idx_wv_quran_relations_target   ON wv_quran_relations(target_type, target_id);
 CREATE INDEX idx_wv_quran_relations_relation ON wv_quran_relations(relation);
 
--- planner
 CREATE INDEX idx_sp_weekly_plans_user_id        ON sp_weekly_plans(user_id);
 
 CREATE INDEX idx_sp_weekly_tasks_user_id        ON sp_weekly_tasks(user_id);
@@ -1033,3 +982,4 @@ CREATE INDEX idx_sp_sprint_reviews_user_id      ON sp_sprint_reviews(user_id);
 CREATE INDEX idx_sp_sprint_reviews_period       ON sp_sprint_reviews(period_start, period_end);
 CREATE INDEX idx_sp_sprint_reviews_status       ON sp_sprint_reviews(status);
 
+COMMIT;
