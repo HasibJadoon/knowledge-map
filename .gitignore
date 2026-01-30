@@ -27,7 +27,9 @@ coverage/
 # D1 exports/dumps
 *.sqlite
 *.db
+# track the canonical schema even though other SQL dumps stay ignored
 *.sql
+!database/schema.sql
 
 # Env & secrets
 .env
