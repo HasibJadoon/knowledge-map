@@ -13,10 +13,6 @@
 -- Universal PK columns are TEXT(64 hex). canonical_input is UNIQUE.
 --------------------------------------------------------------------------------
 
-PRAGMA foreign_keys = ON;
-
-BEGIN;
-
 --------------------------------------------------------------------------------
 -- 0) USERS / CORE
 --------------------------------------------------------------------------------
@@ -1037,4 +1033,3 @@ CREATE INDEX idx_sp_sprint_reviews_user_id      ON sp_sprint_reviews(user_id);
 CREATE INDEX idx_sp_sprint_reviews_period       ON sp_sprint_reviews(period_start, period_end);
 CREATE INDEX idx_sp_sprint_reviews_status       ON sp_sprint_reviews(status);
 
-COMMIT;
