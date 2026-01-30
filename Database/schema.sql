@@ -133,6 +133,81 @@ CREATE TABLE docs (
 );
 
 --------------------------------------------------------------------------------
+-- CONTAINER REGISTRY / SURAH LAYER
+--------------------------------------------------------------------------------
+DROP TABLE IF EXISTS ar_surahs;
+DROP TABLE IF EXISTS ar_containers;
+DROP TABLE IF EXISTS ar_doc_surah_link;
+DROP TABLE IF EXISTS ar_lesson_surah_link;
+DROP TABLE IF EXISTS ar_container_units;
+
+CREATE TABLE ar_surahs (
+  surah        INTEGER PRIMARY KEY,
+  name_ar      TEXT,
+  name_en      TEXT,
+  ayah_count   INTEGER,
+  meta_json    JSON,
+
+  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at   TEXT
+);
+
+CREATE TABLE ar_containers (
+  id             TEXT PRIMARY KEY,       -- e.g. "quran:12:7" | "surah:12" | "doc:<slug>" | "lesson:<id>"
+  container_type TEXT NOT NULL,          -- quran_ayah | surah | doc | ar_lesson
+  container_key  TEXT NOT NULL,          -- "12:7" | "12" | "<slug>" | "<id>"
+  title          TEXT,
+  meta_json      JSON,
+
+  created_at     TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at     TEXT
+);
+
+CREATE INDEX idx_ar_containers_type_key ON ar_containers(container_type, container_key);
+
+CREATE TABLE ar_doc_surah_link (
+  doc_id   INTEGER NOT NULL,
+  surah    INTEGER NOT NULL,
+  note     TEXT,
+
+  PRIMARY KEY (doc_id, surah),
+  FOREIGN KEY (doc_id) REFERENCES docs(id) ON DELETE CASCADE,
+  FOREIGN KEY (surah) REFERENCES ar_surahs(surah) ON DELETE CASCADE
+);
+
+CREATE TABLE ar_lesson_surah_link (
+  lesson_id INTEGER NOT NULL,
+  surah     INTEGER NOT NULL,
+  note      TEXT,
+
+  PRIMARY KEY (lesson_id, surah),
+  FOREIGN KEY (lesson_id) REFERENCES ar_lessons(id) ON DELETE CASCADE,
+  FOREIGN KEY (surah) REFERENCES ar_surahs(surah) ON DELETE CASCADE
+);
+
+CREATE TABLE ar_container_units (
+  id             TEXT PRIMARY KEY,     -- e.g. "U_12_7" | "U_DOC_xxx_003" | "U_LESSON_14_002"
+  container_id   TEXT NOT NULL,        -- FK to ar_containers.id
+  unit_type      TEXT NOT NULL,        -- ayah | passage | sentence_block | paragraph
+  order_index    INTEGER NOT NULL DEFAULT 0,
+
+  ayah_from      INTEGER,
+  ayah_to        INTEGER,
+  start_ref      TEXT,
+  end_ref        TEXT,
+
+  text_cache     TEXT,
+  meta_json      JSON,
+
+  created_at     TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at     TEXT,
+
+  FOREIGN KEY (container_id) REFERENCES ar_containers(id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_ar_units_container_order ON ar_container_units(container_id, order_index);
+
+--------------------------------------------------------------------------------
 -- 2) ARABIC UNIVERSAL LAYER (ar_u_*)  <-- SHA IDs
 --------------------------------------------------------------------------------
 DROP TABLE IF EXISTS ar_u_grammar;
@@ -222,6 +297,20 @@ CREATE TABLE ar_u_sentences (
   updated_at       TEXT
 );
 
+-- Expression hashed (universal, idioms/phrases)
+CREATE TABLE ar_u_expressions (
+  ar_u_expression TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
+
+  label           TEXT,
+  text_ar         TEXT,
+  sequence_json   JSON NOT NULL CHECK (json_valid(sequence_json)),
+  meta_json       JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT
+);
+
 -- Lexicon hashed (universal): “shade of meaning” bundle
 CREATE TABLE ar_u_lexicon (
   ar_u_lexicon     TEXT PRIMARY KEY,         -- sha256 hex
@@ -291,6 +380,8 @@ CREATE TABLE ar_u_grammar (
 --------------------------------------------------------------------------------
 DROP TABLE IF EXISTS ar_token_valency_link;
 DROP TABLE IF EXISTS ar_token_lexicon_link;
+DROP TABLE IF EXISTS ar_expression_occ;
+DROP TABLE IF EXISTS ar_token_pair_links;
 DROP TABLE IF EXISTS ar_grammar_occ;
 DROP TABLE IF EXISTS ar_sentence_occ;
 DROP TABLE IF EXISTS ar_span_occ;
@@ -304,6 +395,7 @@ CREATE TABLE ar_token_occ (
   container_type    TEXT NOT NULL,             -- quran_ayah | ar_lesson | doc
   container_id      TEXT NOT NULL,             -- e.g. "12:7" OR lesson id OR doc slug
   unit_id           TEXT,                      -- optional: U_12_7 etc
+  container_ref_id  TEXT,                      -- references ar_containers.id (optional)
 
   pos_index         INTEGER NOT NULL,          -- order in container unit
   surface_ar        TEXT NOT NULL,
@@ -321,7 +413,8 @@ CREATE TABLE ar_token_occ (
 
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
   FOREIGN KEY (ar_u_token) REFERENCES ar_u_tokens(ar_u_token) ON DELETE RESTRICT,
-  FOREIGN KEY (ar_u_root)  REFERENCES ar_u_roots(ar_u_root)   ON DELETE SET NULL
+  FOREIGN KEY (ar_u_root)  REFERENCES ar_u_roots(ar_u_root)   ON DELETE SET NULL,
+  FOREIGN KEY (container_ref_id) REFERENCES ar_containers(id) ON DELETE SET NULL
 );
 
 -- Span occurrences (only noun-based phrase spans)
@@ -339,11 +432,14 @@ CREATE TABLE ar_span_occ (
 
   ar_u_span         TEXT NOT NULL,             -- universal span UUID
 
+  container_ref_id  TEXT,
+
   created_at        TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at        TEXT,
 
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (ar_u_span) REFERENCES ar_u_spans(ar_u_span) ON DELETE RESTRICT
+  FOREIGN KEY (ar_u_span) REFERENCES ar_u_spans(ar_u_span) ON DELETE RESTRICT,
+  FOREIGN KEY (container_ref_id) REFERENCES ar_containers(id) ON DELETE SET NULL
 );
 
 -- Sentence occurrences (tree nodes linked to container)
@@ -361,12 +457,14 @@ CREATE TABLE ar_sentence_occ (
   notes               TEXT,
 
   ar_u_sentence       TEXT NOT NULL,
+  container_ref_id    TEXT,
 
   created_at          TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at          TEXT,
 
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
-  FOREIGN KEY (ar_u_sentence) REFERENCES ar_u_sentences(ar_u_sentence) ON DELETE RESTRICT
+  FOREIGN KEY (ar_u_sentence) REFERENCES ar_u_sentences(ar_u_sentence) ON DELETE RESTRICT,
+  FOREIGN KEY (container_ref_id) REFERENCES ar_containers(id) ON DELETE SET NULL
 );
 
 -- Grammar occurrence attaches grammar concept to a span_occ or sentence_occ
@@ -424,6 +522,61 @@ CREATE TABLE ar_token_valency_link (
 
   FOREIGN KEY (ar_token_occ_id) REFERENCES ar_token_occ(ar_token_occ_id) ON DELETE CASCADE,
   FOREIGN KEY (ar_u_valency)    REFERENCES ar_u_valency(ar_u_valency)     ON DELETE RESTRICT
+);
+
+CREATE TABLE ar_expression_occ (
+  ar_expression_occ_id TEXT PRIMARY KEY,
+  user_id             INTEGER,
+
+  container_type      TEXT NOT NULL,
+  container_id        TEXT NOT NULL,
+  unit_id             TEXT,
+
+  start_index         INTEGER,
+  end_index           INTEGER,
+  text_cache          TEXT,
+
+  ar_u_expression     TEXT NOT NULL,
+
+  note                TEXT,
+  meta_json           JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+
+  container_ref_id    TEXT,
+
+  created_at          TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at          TEXT,
+
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (ar_u_expression) REFERENCES ar_u_expressions(ar_u_expression) ON DELETE RESTRICT,
+  FOREIGN KEY (unit_id) REFERENCES ar_container_units(id) ON DELETE SET NULL,
+  FOREIGN KEY (container_ref_id) REFERENCES ar_containers(id) ON DELETE SET NULL
+);
+
+CREATE TABLE ar_token_pair_links (
+  id               TEXT PRIMARY KEY,
+  user_id          INTEGER,
+
+  container_type   TEXT,
+  container_id     TEXT NOT NULL,
+  container_ref_id TEXT,
+  unit_id          TEXT,
+
+  link_type        TEXT NOT NULL,
+  from_token_occ   TEXT NOT NULL,
+  to_token_occ     TEXT NOT NULL,
+
+  ar_u_valency     TEXT,
+  note             TEXT,
+  meta_json        JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+
+  created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+
+  FOREIGN KEY (user_id)        REFERENCES users(id) ON DELETE SET NULL,
+  FOREIGN KEY (from_token_occ) REFERENCES ar_token_occ(ar_token_occ_id) ON DELETE CASCADE,
+  FOREIGN KEY (to_token_occ)   REFERENCES ar_token_occ(ar_token_occ_id) ON DELETE CASCADE,
+  FOREIGN KEY (unit_id)        REFERENCES ar_container_units(id) ON DELETE SET NULL,
+  FOREIGN KEY (ar_u_valency)   REFERENCES ar_u_valency(ar_u_valency) ON DELETE SET NULL,
+  FOREIGN KEY (container_ref_id) REFERENCES ar_containers(id) ON DELETE CASCADE
 );
 
 --------------------------------------------------------------------------------
@@ -818,6 +971,12 @@ CREATE INDEX idx_ar_grammar_occ_target     ON ar_grammar_occ(target_type, target
 
 CREATE INDEX idx_ar_token_lexicon_link_lex ON ar_token_lexicon_link(ar_u_lexicon);
 CREATE INDEX idx_ar_token_valency_link_val ON ar_token_valency_link(ar_u_valency);
+
+CREATE INDEX idx_ar_expression_occ_container ON ar_expression_occ(container_type, container_id, unit_id);
+CREATE INDEX idx_ar_expression_occ_expression ON ar_expression_occ(ar_u_expression);
+
+CREATE INDEX idx_ar_pair_links_container ON ar_token_pair_links(container_id, unit_id);
+CREATE INDEX idx_ar_pair_links_type ON ar_token_pair_links(link_type);
 
 -- worldview
 CREATE INDEX idx_brainstorm_user_id ON brainstorm_sessions(user_id);
