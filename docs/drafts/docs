@@ -1,0 +1,295 @@
+Below is a canonical, authoritative Markdown document you can drop straight into your repo as
+CANONICAL_RULES.md.
+
+It encodes everything we agreed — bottom-up, no duplication, SHA-based universals, and complex/clausal spans — in a way that humans and AI workers can follow deterministically.
+
+⸻
+
+
+# CANONICAL RULES — Quran / Arabic Knowledge Engine
+Version: v1.0  
+Status: AUTHORITATIVE  
+Direction: STRICTLY BOTTOM-UP  
+
+---
+
+## 0. CORE PRINCIPLES (NON-NEGOTIABLE)
+
+1. **Bottom-Up Only**
+   - Universal → Occurrence → Container/Lesson
+   - Never top-down
+   - Containers NEVER define meaning
+
+2. **Universal = Identity**
+   - Every universal entity is:
+     - SHA-256 based
+     - Globally unique
+     - Content-addressed
+   - No semantic duplicates allowed
+
+3. **Occurrence = Location**
+   - Occurrences never redefine meaning
+   - They only anchor universals to places
+
+4. **No Duplication**
+   - No repeated analysis
+   - No nested truth
+   - Everything links by reference
+
+---
+
+## 1. UNIVERSAL LAYER (ar_u_*) — CREATED FIRST
+
+### 1.1 Roots (ar_u_roots)
+
+**Purpose**: Lexical origin identity.
+
+- Created once globally
+- Never context-specific
+
+**Canonical Input**
+
+ROOT|<root_norm>
+
+**Rules**
+- root_norm is normalized (no tashkeel, no spaces)
+- One root_norm → one ar_u_root
+- Never created from occurrences
+
+---
+
+### 1.2 Tokens (ar_u_tokens)
+
+**Purpose**: Atomic lexical unit.
+
+**Canonical Input**
+
+TOK|<lemma_norm>||<root_norm_or_empty>
+
+**Rules**
+- Tokens are global
+- POS is mandatory
+- root_norm is optional (particles allowed)
+- Same lemma+pos+root = same token forever
+
+---
+
+## 2. SPANS (ar_u_spans) — GROUPINGS ONLY
+
+Spans are **structural groupings**, not meanings, not assertions.
+
+### 2.1 Span Categories
+
+#### A) Nominal / Phrase Spans
+Non-predicative, noun-centered.
+
+Examples:
+- جار ومجرور
+- إضافة
+- موصوف + صفة
+
+**Types**
+
+COMP_JAR_MAJRUR
+COMP_IDAFI
+COMP_WASFI
+NOMINAL_COORD
+
+---
+
+#### B) Clausal / Complex Spans (IMPORTANT)
+
+Contain **verbs or clauses**, but are still NOT sentences.
+
+Examples:
+- بِمَا أَوْحَيْنَا إِلَيْكَ
+- الَّذِي أَنْعَمْتَ عَلَيْهِم
+- إِنْ كُنتُمْ تَعْلَمُونَ
+
+**Types**
+
+CLAUSE_MASDARIYYA
+CLAUSE_RELATIVE
+CLAUSE_CONDITIONAL
+CLAUSE_TEMPORAL
+CLAUSE_CAUSAL
+
+---
+
+### 2.2 Span Canonical Input
+
+SPAN|<span_type>|<ar_u_token_id,ar_u_token_id,…>
+
+**Rules**
+- token order MUST be stable
+- spans may include verbs
+- spans do NOT assert truth
+- spans may overlap with sentences
+- spans never contain sentence IDs, only token IDs
+
+---
+
+## 3. SENTENCES (ar_u_sentences)
+
+Sentences represent **predication / assertion structure**.
+
+### 3.1 Sentence Purpose
+
+- Where truth, negation, condition, emphasis live
+- Grammar and logic attach here
+
+### 3.2 Sentence Canonical Input
+
+SENT|<sentence_kind>|<normalized_sequence>
+
+Where sequence is:
+```json
+[
+  "T:<ar_u_token>",
+  "S:<ar_u_span>",
+  "T:<ar_u_token>"
+]
+
+3.3 Sentence Kinds
+
+SIMPLE
+COMPLEX
+CLAUSE
+PHRASE_NODE
+
+Rules
+	•	Sentences may include spans
+	•	Sentences never include occurrences
+	•	Sentence structure is reusable globally
+
+⸻
+
+4. OCCURRENCE LAYER (ar_*)
+
+Occurrences bind universals to location only.
+
+⸻
+
+4.1 Token Occurrence (ar_token_occ)
+
+Purpose
+	•	Ordered appearance of tokens in a container unit
+
+Rules
+	•	One row per appearance
+	•	References ar_u_token
+	•	pos_index is mandatory
+	•	No semantic data added
+
+⸻
+
+4.2 Span Occurrence (ar_span_occ)
+
+Purpose
+	•	Marks where a span appears
+
+Rules
+	•	start_index / end_index required
+	•	ar_u_span required
+	•	No re-analysis
+
+⸻
+
+4.3 Sentence Occurrence (ar_sentence_occ)
+
+Purpose
+	•	Anchors sentence structure to a unit
+
+Rules
+	•	sentence_order within unit
+	•	ar_u_sentence required
+	•	Translation/notes are optional caches
+
+⸻
+
+5. SEMANTIC LINKS (OPTIONAL, AFTER STRUCTURE)
+
+5.1 Lexicon Links
+	•	ar_token_lexicon_link
+	•	Meaning shades only
+	•	Never redefine tokens
+
+5.2 Valency (Verb + Prep)
+	•	ar_u_valency
+	•	ar_token_valency_link
+	•	Verb+prep is NEVER a span
+
+5.3 Grammar
+	•	ar_u_grammar (universal)
+	•	ar_grammar_occ (occurrence)
+	•	Grammar attaches to token/span/sentence
+
+⸻
+
+6. CONTAINER & LESSON LAYER (LAST)
+
+Containers are hosts, not sources of truth.
+
+6.1 Containers
+	•	Quran ayah
+	•	Surah
+	•	Lesson
+	•	Doc
+
+6.2 Units
+	•	ayah
+	•	passage
+	•	sentence_block
+	•	paragraph
+
+6.3 Lessons
+	•	Lessons only package:
+	•	units
+	•	occurrences
+	•	references
+	•	Lessons NEVER define universals
+
+⸻
+
+7. ORDER OF EXECUTION (MANDATORY)
+	1.	ar_u_roots
+	2.	ar_u_tokens
+	3.	ar_u_spans
+	4.	ar_u_sentences
+	5.	ar_token_occ
+	6.	ar_span_occ
+	7.	ar_sentence_occ
+	8.	semantic links (optional)
+	9.	containers / lessons
+
+⸻
+
+8. FINAL LAW
+
+Universals are eternal.
+Occurrences are local.
+Containers are presentation only.
+
+Violating this breaks:
+	•	Reuse
+	•	Cross-lesson consistency
+	•	Worldview integration
+
+⸻
+
+END OF CANONICAL RULES
+
+---
+
+### ✅ This document is now:
+- **Implementation-safe**
+- **AI-passable**
+- **Future-proof (Worldview-ready)**
+- **Consistent with your schema**
+
+If you want next, I can:
+- Add **example blocks** for S12:3 (tokens → span → sentence)
+- Or generate a **machine-readable JSON version** of these rules
+- Or version this as `v1.1` with validation checks
+
+Just say the next move.
