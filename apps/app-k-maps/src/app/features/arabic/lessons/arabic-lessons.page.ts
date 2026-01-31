@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ArLessonsService, ArLesson } from '../../../shared/services/ar-lessons.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class ArabicLessonsPage implements OnInit {
   loading = false;
   error = '';
 
-  constructor(private readonly lessonsService: ArLessonsService) {}
+  private readonly lessonsService = inject(ArLessonsService);
 
   ngOnInit(): void {
     this.loadLessons();

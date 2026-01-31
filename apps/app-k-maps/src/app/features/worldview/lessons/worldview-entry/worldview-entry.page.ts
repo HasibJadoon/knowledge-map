@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,7 @@ type Mode = 'view' | 'edit' | 'capture';
   templateUrl: './worldview-entry.page.html',
   styleUrls: ['./worldview-entry.page.scss'],
 })
-export class WorldviewEntryPage {
+export class WorldviewEntryPage implements OnInit {
   entry: WorldviewEntry | null = null;
   mode: Mode = 'view';
 
@@ -28,7 +28,10 @@ export class WorldviewEntryPage {
     unitText: '',
   };
 
-  constructor(private readonly route: ActivatedRoute, private readonly router: Router) {
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+
+  ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       this.entry = id ? worldviewEntries.find((item) => String(item.id) === id) ?? null : null;

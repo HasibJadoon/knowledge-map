@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { isTokenValid } from '../auth/auth.utils';
@@ -20,6 +20,10 @@ type LoginResponse = {
   standalone: false,
 })
 export class LoginPage {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
+
   private readonly apiBase = environment.apiBase;
   private readonly tokenKey = 'auth_token';
   errorMessage = '';
@@ -29,12 +33,6 @@ export class LoginPage {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
-
-  constructor(
-    private readonly formBuilder: FormBuilder,
-    private readonly http: HttpClient,
-    private readonly router: Router
-  ) {}
 
   ionViewWillEnter(): void {
     const token = localStorage.getItem(this.tokenKey);

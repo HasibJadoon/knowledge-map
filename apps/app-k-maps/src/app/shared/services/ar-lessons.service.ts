@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -23,10 +23,9 @@ type ApiResponse = {
 
 @Injectable({ providedIn: 'root' })
 export class ArLessonsService {
+  private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiBase}/arabic/lessons`;
   private readonly tokenKey = 'auth_token';
-
-  constructor(private readonly http: HttpClient) {}
 
   list(params: Record<string, string> = {}) {
     const httpParams = new HttpParams({ fromObject: params });

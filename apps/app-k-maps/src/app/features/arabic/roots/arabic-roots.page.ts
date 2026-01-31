@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ArabicRootsService, ArabicRoot } from '../../../shared/services/arabic-roots.service';
 import { RootCardsComponent } from './root-cards/root-cards.component';
@@ -22,10 +22,8 @@ export class ArabicRootsPage implements OnInit {
   error = '';
   searchTerm = '';
 
-  constructor(
-    private readonly rootsService: ArabicRootsService,
-    private readonly modalCtrl: ModalController
-  ) {}
+  private readonly rootsService = inject(ArabicRootsService);
+  private readonly modalCtrl = inject(ModalController);
 
   ngOnInit(): void {
     this.loadRoots();

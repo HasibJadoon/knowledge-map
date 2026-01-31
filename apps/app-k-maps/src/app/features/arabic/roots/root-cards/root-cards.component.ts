@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
 
@@ -20,7 +20,7 @@ export class RootCardsComponent {
   @Input() family = '';
   @Input() cards: RootCard[] = [];
 
-  constructor(private readonly modalCtrl: ModalController) {}
+  private readonly modalCtrl = inject(ModalController);
 
   close(): void {
     this.modalCtrl.dismiss();

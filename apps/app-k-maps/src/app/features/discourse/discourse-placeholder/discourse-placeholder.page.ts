@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -11,12 +11,7 @@ import { IonicModule } from '@ionic/angular';
   styleUrls: ['./discourse-placeholder.page.scss'],
 })
 export class DiscoursePlaceholderPage {
-  title = 'Discourse';
-  subtitle = 'Coming soon.';
-
-  constructor(private readonly route: ActivatedRoute) {
-    const data = this.route.snapshot.data;
-    this.title = data['title'] ?? this.title;
-    this.subtitle = data['subtitle'] ?? this.subtitle;
-  }
+  private readonly route = inject(ActivatedRoute);
+  title = this.route.snapshot.data['title'] ?? 'Discourse';
+  subtitle = this.route.snapshot.data['subtitle'] ?? 'Coming soon.';
 }

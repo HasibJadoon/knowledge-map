@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { worldviewEntries, worldviewKinds } from './worldview-mock';
 
@@ -14,7 +14,7 @@ export class WorldviewLessonsPage {
   kinds = ['All', ...worldviewKinds];
   rows = worldviewEntries;
 
-  constructor(private readonly router: Router) {}
+  private readonly router = inject(Router);
 
   setKind(kind: string) {
     this.activeKind = kind;

@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
 export type ArabicRoot = {
@@ -25,10 +25,9 @@ type ApiResponse = {
 
 @Injectable({ providedIn: 'root' })
 export class ArabicRootsService {
+  private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiBase}/arabic/lexicon_roots`;
   private readonly tokenKey = 'auth_token';
-
-  constructor(private readonly http: HttpClient) {}
 
   list(params: Record<string, string> = {}) {
     const httpParams = new HttpParams({ fromObject: params });

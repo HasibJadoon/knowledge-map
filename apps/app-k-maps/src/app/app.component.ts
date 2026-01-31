@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
@@ -28,7 +28,9 @@ import {
   standalone: false,
 })
 export class AppComponent {
-  constructor(private readonly menu: MenuController) {
+  private readonly menu = inject(MenuController);
+
+  constructor() {
     this.applyFontSettings();
     this.applyLanguage();
     addIcons({

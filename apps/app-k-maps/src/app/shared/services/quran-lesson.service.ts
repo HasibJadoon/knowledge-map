@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
@@ -33,10 +33,9 @@ type LessonResponse = { ok: boolean; result: RawQuranLesson };
   providedIn: 'root',
 })
 export class QuranLessonService {
+  private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiBase}/arabic/lessons/quran`;
   private readonly tokenKey = 'auth_token';
-
-  constructor(private readonly http: HttpClient) {}
 
   getLesson(id: number | string) {
     return this.http.get<LessonResponse>(`${this.baseUrl}/${id}`, {

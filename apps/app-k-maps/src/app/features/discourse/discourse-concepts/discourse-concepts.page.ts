@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -31,7 +31,7 @@ export class DiscourseConceptsPage {
   wv_concepts = discourseConcepts;
   filtered: DiscourseConcept[] = discourseConcepts;
 
-  constructor(private readonly router: Router) {}
+  private readonly router = inject(Router);
 
   onSearch(event: Event) {
     const target = event.target as HTMLIonSearchbarElement | null;

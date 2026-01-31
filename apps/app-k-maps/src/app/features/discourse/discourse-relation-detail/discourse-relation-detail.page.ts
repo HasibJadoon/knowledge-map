@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -12,14 +12,13 @@ import { discourseRelations } from '../discourse-mock';
   styleUrls: ['./discourse-relation-detail.page.scss'],
 })
 export class DiscourseRelationDetailPage {
+  private readonly route = inject(ActivatedRoute);
   relation = this.loadRelation();
 
   private loadRelation() {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     return discourseRelations[id];
   }
-
-  constructor(private readonly route: ActivatedRoute) {}
 
   relationLabel(status: 'align' | 'partial' | 'contradicts' | 'unknown') {
     switch (status) {

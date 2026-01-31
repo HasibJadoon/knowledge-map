@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -12,10 +12,9 @@ type ApiResponse = {
 
 @Injectable({ providedIn: 'root' })
 export class GrammarNotesService {
+  private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiBase}/arabic/grammar_notes`;
   private readonly tokenKey = 'auth_token';
-
-  constructor(private readonly http: HttpClient) {}
 
   async list(lessonId: number | string) {
     return firstValueFrom(

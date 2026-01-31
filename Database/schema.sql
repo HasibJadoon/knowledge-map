@@ -79,6 +79,7 @@ DROP TABLE IF EXISTS wiki_docs;
 DROP TABLE IF EXISTS ar_doc_surah_link;
 DROP TABLE IF EXISTS ar_lesson_surah_link;
 DROP TABLE IF EXISTS ar_containers;
+DROP TABLE IF EXISTS ar_container_units;
 DROP TABLE IF EXISTS ar_surahs;
 
 -- Quran text (container content)
@@ -981,5 +982,3 @@ CREATE INDEX idx_sp_weekly_tasks_order          ON sp_weekly_tasks(week_start, k
 CREATE INDEX idx_sp_sprint_reviews_user_id      ON sp_sprint_reviews(user_id);
 CREATE INDEX idx_sp_sprint_reviews_period       ON sp_sprint_reviews(period_start, period_end);
 CREATE INDEX idx_sp_sprint_reviews_status       ON sp_sprint_reviews(status);
-
-COMMIT;

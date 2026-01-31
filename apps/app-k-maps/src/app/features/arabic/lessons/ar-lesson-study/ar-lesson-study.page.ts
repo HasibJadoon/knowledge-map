@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -92,12 +92,10 @@ export class ArLessonStudyPage implements OnInit {
     arrowBackOutline,
   };
 
-  constructor(
-    private readonly lessons: ArLessonsService,
-    private readonly grammarNotesService: GrammarNotesService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router
-  ) {}
+  private readonly lessons = inject(ArLessonsService);
+  private readonly grammarNotesService = inject(GrammarNotesService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
