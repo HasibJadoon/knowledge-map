@@ -12,6 +12,15 @@ type Body = {
   status?: string;
 };
 
+function safeJsonParse<T>(value: string | null | undefined): T | null {
+  if (!value) return null;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
 export const onRequestPut: PagesFunction<Env> = async (ctx) => {
   try {
     // ---------------- AUTH ----------------
@@ -84,23 +93,37 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
       cardsArray = parsed;
     }
 
-    const cardsToStore = JSON.stringify(cardsArray, null, 2);
-
     // ---------------- UPDATE ----------------
     const status = typeof body.status === 'string' ? body.status.trim() : 'Edited';
+
+    const row = await ctx.env.DB
+      .prepare(`SELECT meta_json FROM ar_u_roots WHERE ar_u_root = ?`)
+      .bind(id)
+      .first<{ meta_json: string | null }>();
+
+    if (!row) {
+      return Response.json(
+        { ok: false, error: 'Row not found' },
+        { status: 404 }
+      );
+    }
+
+    const existingMeta = safeJsonParse<Record<string, unknown>>(row.meta_json) ?? {};
+    existingMeta.cards = cardsArray;
+    const metaJson = JSON.stringify(existingMeta, null, 2);
 
     const res = await ctx.env.DB
       .prepare(
         `
         UPDATE ar_u_roots
         SET
-          cards_json = ?,
           status = ?,
+          meta_json = ?,
           updated_at = datetime('now')
         WHERE ar_u_root = ?
       `
       )
-      .bind(cardsToStore, status, id)
+      .bind(status, metaJson, id)
       .run();
 
     // @ts-ignore

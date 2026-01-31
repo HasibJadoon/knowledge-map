@@ -248,7 +248,6 @@ CREATE TABLE ar_u_roots (
   root             TEXT NOT NULL,
   root_norm        TEXT NOT NULL UNIQUE,
 
-  family            TEXT,
   arabic_trilateral TEXT,
   english_trilateral TEXT,
   root_latn         TEXT,
@@ -256,7 +255,6 @@ CREATE TABLE ar_u_roots (
   alt_latn_json     JSON CHECK (alt_latn_json IS NULL OR json_valid(alt_latn_json)),
   search_keys_norm  TEXT,
 
-  cards_json        JSON CHECK (cards_json IS NULL OR json_valid(cards_json)),
   status            TEXT NOT NULL DEFAULT 'active',
   difficulty        INTEGER,
   frequency         TEXT,

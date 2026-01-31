@@ -35,13 +35,13 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     return Response.json({ existing: [], new: [] });
   }
 
-  // Query roots table for existing (root, family)
-  // SQLite supports row-value IN: (root,family) IN ((?,?),(?,?),...)
-  const tuples = unique.map(() => "(?, ?)").join(",");
+  const conditions = unique
+    .map(() => "(root = ? AND json_extract(meta_json, '$.family') = ?)")
+    .join(" OR ");
   const sql = `
-    SELECT DISTINCT root, family
+    SELECT root, json_extract(meta_json, '$.family') AS family
     FROM ar_u_roots
-    WHERE (root, family) IN (${tuples})
+    WHERE ${conditions}
   `;
 
   const binds: string[] = [];
@@ -51,7 +51,9 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
 
   const { results } = await ctx.env.DB.prepare(sql).bind(...binds).all<RootFamily>();
 
-  const existing = (results ?? []).map((r) => ({ root: r.root, family: r.family }));
+  const existing = (results ?? [])
+    .map((r) => ({ root: r.root, family: (r.family ?? '').trim() }))
+    .filter((r) => r.family);
 
   const existingSet = new Set(existing.map((r) => `${r.root}||${r.family}`));
   const newRoots = unique.filter((r) => !existingSet.has(`${r.root}||${r.family}`));

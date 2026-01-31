@@ -92,19 +92,41 @@ export function toJsonOrNull(value: unknown): string | null {
 
 export interface ArURootPayload {
   root: string;
-  family: string;
+  family?: string | null;
   rootLatn?: string | null;
   rootNorm: string;
   arabicTrilateral?: string | null;
   englishTrilateral?: string | null;
   altLatn?: unknown[] | null;
   searchKeys?: string | null;
-  cards?: unknown[] | null;
   status?: string;
   difficulty?: number | null;
   frequency?: string | null;
   extractedAt?: string | null;
   meta?: unknown;
+}
+
+function mergeMeta(payload: ArURootPayload) {
+  const base =
+    typeof payload.meta === 'object' && payload.meta !== null && !Array.isArray(payload.meta)
+      ? { ...payload.meta }
+      : {};
+  let dirty = Object.keys(base).length > 0;
+
+  if (payload.family !== undefined) {
+    dirty = true;
+    if (payload.family === null) {
+      delete base.family;
+    } else {
+      base.family = payload.family;
+    }
+  }
+
+  if (!dirty) {
+    return null;
+  }
+
+  return base;
 }
 
 export async function upsertArURoot(env: EnvCommon, payload: ArURootPayload) {
@@ -114,34 +136,31 @@ export async function upsertArURoot(env: EnvCommon, payload: ArURootPayload) {
 
   const canonical = Canon.root(payload.rootNorm);
   const { id, canonical_input } = await universalId(canonical);
-  const cardsJson = toJsonOrNull(payload.cards);
-  const metaJson = toJsonOrNull(payload.meta);
+  const metaJson = toJsonOrNull(mergeMeta(payload));
   const altJson = toJsonOrNull(payload.altLatn);
 
   await env.DB.prepare(`
     INSERT INTO ar_u_roots (
-      ar_u_root, canonical_input, root, family,
+      ar_u_root, canonical_input, root,
       arabic_trilateral, english_trilateral,
       root_latn, root_norm, alt_latn_json, search_keys_norm,
-      cards_json, status, difficulty, frequency,
+      status, difficulty, frequency,
       extracted_at, meta_json
     ) VALUES (
-      ?, ?, ?, ?,
+      ?, ?, ?,
       ?, ?,
       ?, ?, ?, ?,
-      ?, ?, ?, ?,
+      ?, ?, ?,
       ?, ?
     )
     ON CONFLICT(ar_u_root) DO UPDATE SET
       root = excluded.root,
-      family = excluded.family,
       arabic_trilateral = excluded.arabic_trilateral,
       english_trilateral = excluded.english_trilateral,
       root_latn = excluded.root_latn,
       root_norm = excluded.root_norm,
       alt_latn_json = excluded.alt_latn_json,
       search_keys_norm = excluded.search_keys_norm,
-      cards_json = excluded.cards_json,
       status = excluded.status,
       difficulty = excluded.difficulty,
       frequency = excluded.frequency,
@@ -153,14 +172,12 @@ export async function upsertArURoot(env: EnvCommon, payload: ArURootPayload) {
       id,
       canonical_input,
       payload.root,
-      payload.family,
       payload.arabicTrilateral ?? null,
       payload.englishTrilateral ?? null,
       payload.rootLatn ?? null,
       payload.rootNorm,
       altJson,
       payload.searchKeys ?? null,
-      cardsJson,
       payload.status ?? 'active',
       payload.difficulty ?? null,
       payload.frequency ?? null,

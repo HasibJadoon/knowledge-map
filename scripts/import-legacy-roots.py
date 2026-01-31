@@ -49,6 +49,9 @@ def build_meta(row: sqlite3.Row) -> Optional[str]:
     root_copy = normalize_text(row["c6"])
     if root_copy:
         meta["root_copy"] = root_copy
+    family = normalize_text(row["c4"])
+    if family:
+        meta["family"] = family
     letter_breakdown = normalize_text(row["c18"])
     if letter_breakdown:
         meta["letter_breakdown"] = letter_breakdown
@@ -93,37 +96,37 @@ def migrate(db_path: Path, dry_run: bool) -> None:
       ar_u_root,
       canonical_input,
       root,
-      root_norm,
-      family,
+      arabic_trilateral,
+      english_trilateral,
       root_latn,
+      root_norm,
       alt_latn_json,
       search_keys_norm,
-      cards_json,
       status,
       difficulty,
       frequency,
-      created_at,
-      updated_at,
       extracted_at,
-      meta_json
+      meta_json,
+      created_at,
+      updated_at
     )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(ar_u_root) DO UPDATE SET
       canonical_input = excluded.canonical_input,
       root = excluded.root,
-      root_norm = excluded.root_norm,
-      family = excluded.family,
+      arabic_trilateral = excluded.arabic_trilateral,
+      english_trilateral = excluded.english_trilateral,
       root_latn = excluded.root_latn,
+      root_norm = excluded.root_norm,
       alt_latn_json = excluded.alt_latn_json,
       search_keys_norm = excluded.search_keys_norm,
-      cards_json = excluded.cards_json,
       status = excluded.status,
       difficulty = excluded.difficulty,
       frequency = excluded.frequency,
-      updated_at = excluded.updated_at,
       extracted_at = excluded.extracted_at,
-      meta_json = excluded.meta_json
-    """
+      meta_json = excluded.meta_json,
+      updated_at = excluded.updated_at
+  """
 
     migrated = 0
     for row in rows:
@@ -141,19 +144,19 @@ def migrate(db_path: Path, dry_run: bool) -> None:
             ar_u_root,
             canonical,
             root,
-            root_norm,
-            normalize_text(row["c4"]),
+            None,
+            None,
             normalize_text(row["c5"]),
+            root_norm,
             normalize_text(row["c7"]),
             normalize_text(row["c10"]),
-            normalize_text(row["c9"]),
             normalize_text(row["c11"]) or "active",
             parse_int(normalize_text(row["c12"])),
             normalize_text(row["c13"]),
-            normalize_text(row["c14"]),
-            normalize_text(row["c15"]),
             normalize_text(row["c16"]),
             build_meta(row),
+            normalize_text(row["c14"]),
+            normalize_text(row["c15"]),
         )
 
         if dry_run:

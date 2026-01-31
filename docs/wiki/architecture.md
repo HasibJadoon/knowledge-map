@@ -135,7 +135,7 @@ Master table for Arabic roots and card generation.
 Key ideas:
 - keep multiple romanization/search forms (`root_latn`, `root_norm`, `alt_latn_json`)
 - keep study metadata (`difficulty`, `frequency`, `status`)
-- `cards_json` is the Anki/SRS payloads per root
+- `meta_json` captures auxiliary data (family, romanization sources, cards)
 
 #### `ar_root_words`
 Maps a root to locations (lightweight):

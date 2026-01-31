@@ -30,10 +30,22 @@ function safeJsonParse<T>(value: string | null | undefined): T | null {
   }
 }
 
+function parseMeta(row: any) {
+  const meta = safeJsonParse<Record<string, unknown>>(row.meta_json) ?? {};
+  const family =
+    typeof meta?.family === 'string'
+      ? meta.family.trim()
+      : undefined;
+  return { meta, family };
+}
+
 function mapArURoot(row: any) {
+  const { meta, family } = parseMeta(row);
   return {
     ...row,
-    cards: safeJsonParse<RootCard[]>(row.cards_json) ?? [],
+    family: family ?? '',
+    cards: [],
+    meta,
     alt_latn_json: safeJsonParse<string[]>(row.alt_latn_json),
     romanization_sources_json: safeJsonParse<Record<string, unknown>>(row.romanization_sources_json),
   };
@@ -77,14 +89,14 @@ function parseObjectField(value: unknown): Record<string, unknown> | null {
 
 function generateSearchKeys(
   root: string,
-  family: string,
+  family?: string,
   rootLatn?: string | null,
   rootNorm?: string | null,
   alt?: unknown[]
 ): string {
   const parts = [
     root,
-    family,
+    family ?? '',
     rootLatn ?? '',
     rootNorm ?? '',
     ...(alt ?? []).map((item) => String(item ?? '')),
@@ -141,12 +153,10 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         ar_u_root AS id,
         canonical_input,
         root,
-        family,
         root_latn,
         root_norm,
         alt_latn_json,
         romanization_sources_json,
-        cards_json,
         search_keys_norm,
         status,
         difficulty,
@@ -155,7 +165,8 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         arabic_trilateral,
         english_trilateral,
         created_at,
-        updated_at
+        updated_at,
+        meta_json
       FROM ar_u_roots
     `;
 
@@ -169,10 +180,10 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
           `
           ${selectSql}
           WHERE root = ?1 OR root_norm = ?2 OR search_keys_norm LIKE ?3
-          ORDER BY root ASC, family ASC
+          ORDER BY root ASC
           LIMIT ?4
         `
-        )
+      )
         .bind(rootParam, canonicalRoot, pattern, exactLimit)
         .all();
 
@@ -197,15 +208,15 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       `
         SELECT COUNT(*) AS total
         FROM ar_u_roots
-        WHERE root LIKE ?1 OR family LIKE ?1 OR search_keys_norm LIKE ?1
+        WHERE root LIKE ?1 OR search_keys_norm LIKE ?1
       `
       ).bind(like);
 
       dataStmt = ctx.env.DB.prepare(
         `
       ${selectSql}
-      WHERE root LIKE ?1 OR family LIKE ?1 OR search_keys_norm LIKE ?1
-          ORDER BY root ASC, family ASC
+      WHERE root LIKE ?1 OR search_keys_norm LIKE ?1
+          ORDER BY root ASC
           LIMIT ?2 OFFSET ?3
         `
       ).bind(like, limit, offset);
@@ -217,7 +228,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       dataStmt = ctx.env.DB.prepare(
         `
           ${selectSql}
-          ORDER BY root ASC, family ASC
+          ORDER BY root ASC
           LIMIT ?1 OFFSET ?2
         `
       ).bind(limit, offset);
@@ -312,8 +323,6 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       );
     }
 
-    const cards = Array.isArray(body?.cards) ? body.cards : [];
-
     const rootLatn = typeof body?.root_latn === 'string' ? body.root_latn.trim() : null;
     const rootNorm = typeof body?.root_norm === 'string' ? body.root_norm.trim() : root;
     const altLatn = parseArrayField(body?.alt_latn_json);
@@ -333,7 +342,6 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       englishTrilateral: typeof body?.english_trilateral === 'string' ? body.english_trilateral.trim() : null,
       altLatn: altLatn ?? null,
       searchKeys,
-      cards,
       status,
       difficulty,
       frequency,

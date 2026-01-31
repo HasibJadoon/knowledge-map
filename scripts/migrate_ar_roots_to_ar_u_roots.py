@@ -36,6 +36,12 @@ def build_meta(row: sqlite3.Row) -> Optional[str]:
         except json.JSONDecodeError:
             meta["romanization_sources_raw"] = roman
 
+    family_raw = row["family"]
+    if isinstance(family_raw, str):
+        family = family_raw.strip()
+        if family:
+            meta["family"] = family
+
     word_count = row["word_count"]
     if word_count is not None:
         meta["legacy_word_count"] = word_count
@@ -57,21 +63,18 @@ def build_insert_payload(row: sqlite3.Row) -> Tuple:
     status_raw = row["status"] or "active"
     status = status_raw.strip().lower()
 
-    cards_json = row["cards_json"] or "[]"
     meta_json = build_meta(row)
 
     return (
         ar_u_root,
         canonical,
         row["root"],
-        row["family"],
         row["arabic_trilateral"],
         row["english_trilateral"],
         row["root_latn"],
         root_norm,
         row["alt_latn_json"],
         row["search_keys_norm"],
-        cards_json,
         status,
         row["difficulty"],
         row["frequency"],
@@ -106,14 +109,12 @@ def migrate(db_path: Path, dry_run: bool = False) -> None:
       ar_u_root,
       canonical_input,
       root,
-      family,
       arabic_trilateral,
       english_trilateral,
       root_latn,
       root_norm,
       alt_latn_json,
       search_keys_norm,
-      cards_json,
       status,
       difficulty,
       frequency,
@@ -122,17 +123,15 @@ def migrate(db_path: Path, dry_run: bool = False) -> None:
       created_at,
       updated_at
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(ar_u_root) DO UPDATE SET
       root = excluded.root,
-      family = excluded.family,
       arabic_trilateral = excluded.arabic_trilateral,
       english_trilateral = excluded.english_trilateral,
       root_latn = excluded.root_latn,
       root_norm = excluded.root_norm,
       alt_latn_json = excluded.alt_latn_json,
       search_keys_norm = excluded.search_keys_norm,
-      cards_json = excluded.cards_json,
       status = excluded.status,
       difficulty = excluded.difficulty,
       frequency = excluded.frequency,
