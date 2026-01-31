@@ -245,7 +245,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
     if (this.currentPath === '/arabic/roots') {
       this.showHeaderSearch = true;
-      this.headerPlaceholder = 'Search root or family';
+      this.headerPlaceholder = 'Search root';
       this.headerActionLabel = 'New Root';
       this.headerActionKind = 'roots-new';
       this.headerSecondaryLabel = 'Refresh';
