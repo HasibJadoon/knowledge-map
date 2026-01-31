@@ -30,8 +30,8 @@ else
   fail "total is not numeric"
 fi
 
-# ---- Test 4: search works (root or family) ----
-# Try a query that should match family buckets like "فتح" or common roots "صرف"
+# ---- Test 4: search works (root/search keys) ----
+# Try a query that should match roots such as "فتح" or search keys like "صرف"
  search="$(curl -s "$BASE_URL/arabic/lexicon_roots?q=%D9%81%D8%AA%D8%AD&limit=20&offset=0")"
 echo "$search" | jq -e '.ok == true' >/dev/null || fail "search ok=true"
 # allow 0 results if dataset doesn't include it, but ensure no error and results array exists

@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 export type ArabicRoot = {
   id: string;
   root: string;
-  family?: string;
+  meta?: Record<string, unknown> | null;
   status?: string;
   frequency?: string;
   cards?: string | unknown[];

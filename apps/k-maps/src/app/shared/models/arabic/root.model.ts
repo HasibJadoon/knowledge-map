@@ -13,7 +13,7 @@ export interface Root {
   user_id: number | null;
 
   root: string;
-  family: string;
+  meta?: Record<string, unknown> | null;
 
   root_latn: string | null;
   root_norm: string | null;

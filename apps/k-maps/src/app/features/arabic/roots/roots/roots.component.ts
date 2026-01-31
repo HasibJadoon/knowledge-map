@@ -47,7 +47,6 @@ export class RootsComponent implements OnInit, OnDestroy {
 
   creating = false;
   newRoot = '';
-  newFamily = '';
   newCardSurf = '';
   newCardExample = '';
   newCardMeaning = '';
@@ -103,7 +102,7 @@ export class RootsComponent implements OnInit, OnDestroy {
   }
 
   trackByKey = (_: number, r: RootRow) =>
-    `${r.id ?? ''}|${r.root}|${r.family}`;
+    `${r.id ?? ''}|${r.root}|${r.root_norm ?? ''}`;
 
   statusBadgeClass(status?: string) {
     const normalized = (status ?? '').toLowerCase();
@@ -281,9 +280,8 @@ export class RootsComponent implements OnInit, OnDestroy {
 
   async createNew() {
     const root = this.newRoot.trim();
-    const family = this.newFamily.trim();
-    if (!root || !family) {
-      this.showToast('Root and family are required.', 'error');
+    if (!root) {
+      this.showToast('Root is required.', 'error');
       return;
     }
 
@@ -296,11 +294,10 @@ export class RootsComponent implements OnInit, OnDestroy {
       const searchKeysInput = this.newSearchKeys.trim();
       const searchKeys =
         searchKeysInput ||
-        this.generateSearchKeysForRoot(root, family, rootLatn, rootNorm, altLatn);
+        this.generateSearchKeysForRoot(root, rootLatn, rootNorm, altLatn);
 
       const payload: Record<string, unknown> = {
         root,
-        family,
         cards: this.newCards,
         search_keys_norm: searchKeys,
       };
@@ -527,12 +524,11 @@ export class RootsComponent implements OnInit, OnDestroy {
 
   private generateSearchKeysForRoot(
     root: string,
-    family: string,
     rootLatn: string,
     rootNorm: string,
     alt: string[]
   ): string {
-    const parts = [root, family, rootLatn, rootNorm, ...alt]
+    const parts = [root, rootLatn, rootNorm, ...alt]
       .map((part) => (part ?? '').toLowerCase().trim())
       .filter((part) => part.length > 0);
     return parts.join(' ');

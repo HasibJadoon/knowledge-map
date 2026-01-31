@@ -3,8 +3,7 @@ interface Env {
   ASSETS: Fetcher;
 }
 
-type RootFamily = { root: string; family: string };
-type Body = { roots: RootFamily[] };
+type Body = { roots: string[] };
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   const body = (await ctx.request.json()) as Partial<Body>;
@@ -12,52 +11,47 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   // Validate
   if (!body?.roots || !Array.isArray(body.roots)) {
     return Response.json(
-      { ok: false, error: "Expected JSON { roots: { root: string; family: string }[] }" },
+      { ok: false, error: "Expected JSON { roots: string[] }" },
       { status: 400 }
     );
   }
 
-  // Normalize + de-dupe by (root|family)
-  const normalized: RootFamily[] = body.roots
-    .map((x: any) => ({
-      root: String(x?.root ?? "").trim(),
-      family: String(x?.family ?? "").trim(),
-    }))
-    .filter((x) => x.root && x.family);
+  const normalized = Array.from(
+    new Set(
+      body.roots
+        .map((value) => String(value ?? "").trim())
+        .filter((value) => value.length > 0)
+    )
+  );
 
-  const uniqMap = new Map<string, RootFamily>();
-  for (const rf of normalized) {
-    uniqMap.set(`${rf.root}||${rf.family}`, rf);
-  }
-  const unique = Array.from(uniqMap.values());
-
-  if (unique.length === 0) {
+  if (normalized.length === 0) {
     return Response.json({ existing: [], new: [] });
   }
 
-  // Query each pair by looking up the family stored in meta_json
-  const conditions = unique
-    .map(() => "(root = ? AND json_extract(meta_json, '$.family') = ?)")
-    .join(" OR ");
-  const sql = `
-    SELECT root, json_extract(meta_json, '$.family') AS family
-    FROM ar_u_roots
-    WHERE ${conditions}
-  `;
+  const conditions = normalized.map(() => "(root = ? OR root_norm = ?)").join(" OR ");
+  const binds = normalized.flatMap((value) => [value, value]);
 
-  const binds: string[] = [];
-  for (const rf of unique) {
-    binds.push(rf.root, rf.family);
-  }
+  const { results } = await ctx.env.DB
+    .prepare(
+      `
+      SELECT root, root_norm
+      FROM ar_u_roots
+      WHERE ${conditions}
+    `
+    )
+    .bind(...binds)
+    .all<{ root: string; root_norm: string }>();
 
-  const { results } = await ctx.env.DB.prepare(sql).bind(...binds).all<RootFamily>();
+  const existingSet = new Set<string>();
+  (results ?? []).forEach((row) => {
+    existingSet.add(row.root?.trim() ?? '');
+    existingSet.add(row.root_norm?.trim() ?? '');
+  });
 
-  const existing = (results ?? [])
-    .map((r) => ({ root: r.root, family: (r.family ?? '').trim() }))
-    .filter((r) => r.family);
+  const newRoots = normalized.filter((value) => !existingSet.has(value));
 
-  const existingSet = new Set(existing.map((r) => `${r.root}||${r.family}`));
-  const newRoots = unique.filter((r) => !existingSet.has(`${r.root}||${r.family}`));
-
-  return Response.json({ existing, new: newRoots });
+  return Response.json({
+    existing: Array.from(existingSet).filter((value) => value),
+    new: newRoots,
+  });
 };

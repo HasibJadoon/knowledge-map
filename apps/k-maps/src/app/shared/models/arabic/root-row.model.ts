@@ -3,8 +3,8 @@ import { RootCard } from './root-card.model';
 export interface RootRow {
   id?: string;
   root: string;
-  family: string;
   cards?: RootCard[] | null;
+  meta?: Record<string, unknown> | null;
   status?: string;
   frequency?: string;
   difficulty?: number | null;

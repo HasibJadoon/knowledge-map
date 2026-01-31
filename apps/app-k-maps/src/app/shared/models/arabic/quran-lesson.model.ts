@@ -83,7 +83,6 @@ export interface QuranLessonVocabularyCard {
   word: string;
   root?: string | null;
   surface_ar?: string;
-  family?: string;
   translation?: string;
   token_ids?: string[];
   [key: string]: unknown;

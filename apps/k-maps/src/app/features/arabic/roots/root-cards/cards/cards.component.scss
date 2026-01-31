@@ -46,8 +46,7 @@
 }
 
 /* Header Arabic font */
-.cards-root,
-.cards-family {
+.cards-root {
   font-family: 'UthmanicHafs', 'Amiri', 'Noto Naskh Arabic', serif;
   letter-spacing: 0.2px;
   font-size: var(--app-ar-font-size, 1em);

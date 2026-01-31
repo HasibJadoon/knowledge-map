@@ -49,9 +49,6 @@ def build_meta(row: sqlite3.Row) -> Optional[str]:
     root_copy = normalize_text(row["c6"])
     if root_copy:
         meta["root_copy"] = root_copy
-    family = normalize_text(row["c4"])
-    if family:
-        meta["family"] = family
     letter_breakdown = normalize_text(row["c18"])
     if letter_breakdown:
         meta["letter_breakdown"] = letter_breakdown

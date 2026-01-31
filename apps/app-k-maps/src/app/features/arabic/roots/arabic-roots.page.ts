@@ -65,7 +65,6 @@ export class ArabicRootsPage implements OnInit {
       cssClass: 'root-cards-modal',
       componentProps: {
         root: root.root ?? '',
-        family: root.family ?? '',
         cards: this.selectedCards,
       },
     });
@@ -152,13 +151,11 @@ export class ArabicRootsPage implements OnInit {
 
     const matched = this.roots.filter((item) => {
       const root = item.root?.toLowerCase() ?? '';
-      const family = item.family?.toLowerCase() ?? '';
       const rootLatn = item.root_latn?.toLowerCase() ?? '';
       const rootNorm = item.root_norm?.toLowerCase() ?? '';
       const searchKeys = item.search_keys_norm?.toLowerCase() ?? '';
       return (
         root.includes(normalized) ||
-        family.includes(normalized) ||
         rootLatn.includes(normalized) ||
         rootNorm.includes(normalized) ||
         searchKeys.includes(normalized)

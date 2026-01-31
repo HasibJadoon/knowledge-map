@@ -14,7 +14,6 @@ import { RootCard } from '../../../../../../shared/models/arabic/root-card.model
 export class CardsComponent implements OnChanges {
   @Input() id?: number; // REQUIRED for save
   @Input() root = '';
-  @Input() family = '';
 
   @Input() cards: RootCard[] = [];
   @Input() cardsJson = '[]';

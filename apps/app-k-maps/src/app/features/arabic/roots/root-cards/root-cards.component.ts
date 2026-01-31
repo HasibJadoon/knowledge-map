@@ -17,7 +17,6 @@ export type RootCard = {
 })
 export class RootCardsComponent {
   @Input() root = '';
-  @Input() family = '';
   @Input() cards: RootCard[] = [];
 
   private readonly modalCtrl = inject(ModalController);

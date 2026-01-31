@@ -80,9 +80,6 @@ def collect_search_keys(values: list[tuple[Any, bool]]) -> Optional[str]:
 def build_meta(row: sqlite3.Row) -> Optional[Dict[str, Any]]:
     meta: Dict[str, Any] = {}
 
-    family = normalize_text(row["c4"])
-    if family:
-        meta["family"] = family
 
     root_copy = normalize_text(row["c6"])
     if root_copy:

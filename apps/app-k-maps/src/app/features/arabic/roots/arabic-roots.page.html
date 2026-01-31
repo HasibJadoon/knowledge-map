@@ -7,7 +7,7 @@
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar
-      placeholder="Search by root or family"
+      placeholder="Search by root"
       [value]="searchTerm"
       (ionInput)="onSearchChange($event)"
     ></ion-searchbar>
@@ -33,7 +33,7 @@
   <ion-list *ngIf="!loading && !error && filtered.length">
     <ion-item *ngFor="let item of filtered" button detail="true" (click)="openRootModal(item)">
       <ion-label>
-        <h2>{{ item.root }} <span *ngIf="item.family">({{ item.family }})</span></h2>
+        <h2>{{ item.root }}</h2>
         <p class="root-meta">
           <span *ngIf="item.root_latn">Latin: {{ item.root_latn }}</span>
           <span *ngIf="item.root_latn && item.root_norm"> • </span>

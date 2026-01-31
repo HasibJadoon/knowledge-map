@@ -92,7 +92,6 @@ export function toJsonOrNull(value: unknown): string | null {
 
 export interface ArURootPayload {
   root: string;
-  family?: string | null;
   rootLatn?: string | null;
   rootNorm: string;
   arabicTrilateral?: string | null;
@@ -106,29 +105,6 @@ export interface ArURootPayload {
   meta?: unknown;
 }
 
-function mergeMeta(payload: ArURootPayload) {
-  const base =
-    typeof payload.meta === 'object' && payload.meta !== null && !Array.isArray(payload.meta)
-      ? { ...payload.meta }
-      : {};
-  let dirty = Object.keys(base).length > 0;
-
-  if (payload.family !== undefined) {
-    dirty = true;
-    if (payload.family === null) {
-      delete base.family;
-    } else {
-      base.family = payload.family;
-    }
-  }
-
-  if (!dirty) {
-    return null;
-  }
-
-  return base;
-}
-
 export async function upsertArURoot(env: EnvCommon, payload: ArURootPayload) {
   if (!payload.rootNorm) {
     throw new Error('rootNorm is required to build canonical input');
@@ -136,7 +112,7 @@ export async function upsertArURoot(env: EnvCommon, payload: ArURootPayload) {
 
   const canonical = Canon.root(payload.rootNorm);
   const { id, canonical_input } = await universalId(canonical);
-  const metaJson = toJsonOrNull(mergeMeta(payload));
+  const metaJson = toJsonOrNull(payload.meta);
   const altJson = toJsonOrNull(payload.altLatn);
 
   await env.DB.prepare(`

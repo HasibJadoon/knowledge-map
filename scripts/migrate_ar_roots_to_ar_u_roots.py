@@ -36,11 +36,6 @@ def build_meta(row: sqlite3.Row) -> Optional[str]:
         except json.JSONDecodeError:
             meta["romanization_sources_raw"] = roman
 
-    family_raw = row["family"]
-    if isinstance(family_raw, str):
-        family = family_raw.strip()
-        if family:
-            meta["family"] = family
 
     word_count = row["word_count"]
     if word_count is not None:
@@ -151,7 +146,6 @@ def migrate(db_path: Path, dry_run: bool = False) -> None:
         seen_canonical.add(canonical_input)
         seen_root_norm.add(root_norm)
         if dry_run:
-            print(f"Would migrate root={row['root']} family={row['family']}")
             migrated += 1
             continue
         cursor.execute(insert_sql, payload)

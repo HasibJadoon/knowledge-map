@@ -31,19 +31,13 @@ function safeJsonParse<T>(value: string | null | undefined): T | null {
 }
 
 function parseMeta(row: any) {
-  const meta = safeJsonParse<Record<string, unknown>>(row.meta_json) ?? {};
-  const family =
-    typeof meta?.family === 'string'
-      ? meta.family.trim()
-      : undefined;
-  return { meta, family };
+  return safeJsonParse<Record<string, unknown>>(row.meta_json) ?? {};
 }
 
 function mapArURoot(row: any) {
-  const { meta, family } = parseMeta(row);
+  const meta = parseMeta(row);
   return {
     ...row,
-    family: family ?? '',
     cards: [],
     meta,
     alt_latn_json: safeJsonParse<string[]>(row.alt_latn_json),
@@ -89,14 +83,12 @@ function parseObjectField(value: unknown): Record<string, unknown> | null {
 
 function generateSearchKeys(
   root: string,
-  family?: string,
   rootLatn?: string | null,
   rootNorm?: string | null,
   alt?: unknown[]
 ): string {
   const parts = [
     root,
-    family ?? '',
     rootLatn ?? '',
     rootNorm ?? '',
     ...(alt ?? []).map((item) => String(item ?? '')),
@@ -302,16 +294,15 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     }
 
     const root = typeof body?.root === 'string' ? body.root.trim() : '';
-    const family = typeof body?.family === 'string' ? body.family.trim() : '';
     const status = typeof body?.status === 'string' ? body.status.trim() : 'active';
     const frequency = typeof body?.frequency === 'string' ? body.frequency.trim() : null;
     const difficulty = body?.difficulty === null || body?.difficulty === undefined
       ? null
       : Number(body.difficulty);
 
-    if (!root || !family) {
+    if (!root) {
       return new Response(
-        JSON.stringify({ ok: false, error: 'root and family are required' }),
+        JSON.stringify({ ok: false, error: 'root is required' }),
         { status: 400, headers: jsonHeaders }
       );
     }
@@ -331,11 +322,10 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       typeof body?.search_keys_norm === 'string' ? body.search_keys_norm.trim() : '';
     const searchKeys =
       searchKeysCandidate ||
-      generateSearchKeys(root, family, rootLatn, rootNorm, altLatn);
+      generateSearchKeys(root, rootLatn, rootNorm, altLatn);
 
     const payload: ArURootPayload = {
       root,
-      family,
       rootLatn,
       rootNorm,
       arabicTrilateral: typeof body?.arabic_trilateral === 'string' ? body.arabic_trilateral.trim() : null,

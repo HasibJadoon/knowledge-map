@@ -13,7 +13,6 @@
             <span class="visually-hidden">View</span>
           </th>
           <th class="col-root sticky-col-2">Root</th>
-          <th>Family</th>
           <th>Status</th>
           <th>Frequency</th>
           <th>Difficulty</th>
@@ -48,7 +47,6 @@
               </div>
             </td>
 
-            <td class="roots-family">{{ r.family }}</td>
             <td>
               <span class="badge" [ngClass]="statusBadgeClass(r.status)">
                 {{ r.status ?? '—' }}
@@ -86,7 +84,6 @@
     *ngIf="showCards"
     [id]="selectedRoot?.id"
     [root]="selectedRoot?.root ?? ''"
-    [family]="selectedRoot?.family ?? ''"
     [cards]="selectedCards"
     [cardsJson]="selectedCardsJson"
     [error]="cardsError"
@@ -109,10 +106,6 @@
     <div class="mb-3">
       <label class="form-label">Root</label>
       <input type="text" class="form-control" [(ngModel)]="newRoot" />
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Family</label>
-      <input type="text" class="form-control" [(ngModel)]="newFamily" />
     </div>
     <div class="row g-3 mb-3">
       <div class="col-md-6">
@@ -151,7 +144,7 @@
         [(ngModel)]="newSearchKeys"
         placeholder="auto-generated if empty"
       />
-      <div class="form-text">Enter normalized terms to improve search; defaults to root+family+romanization.</div>
+      <div class="form-text">Enter normalized terms to improve search; defaults to root+romanization.</div>
     </div>
     <div class="roots-divider"></div>
     <div class="mb-2 fw-semibold">Cards</div>
