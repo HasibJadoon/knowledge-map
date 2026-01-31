@@ -7,14 +7,6 @@ interface Env {
   JWT_SECRET: string;
 }
 
-type RootCard = {
-  card_id: string;
-  card_type: string;
-  front: string;
-  back: string;
-  tags: string[];
-};
-
 const jsonHeaders = {
   'content-type': 'application/json; charset=utf-8',
   'access-control-allow-origin': '*',
@@ -84,7 +76,6 @@ function mapArURoot(row: any) {
     cards: [],
     meta,
     alt_latn_json: safeJsonParse<string[]>(row.alt_latn_json),
-    romanization_sources_json: safeJsonParse<Record<string, unknown>>(row.romanization_sources_json),
   };
 }
 
@@ -157,7 +148,6 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         root_latn,
         root_norm,
         alt_latn_json,
-        romanization_sources_json,
         search_keys_norm,
         status,
         difficulty,
@@ -327,7 +317,6 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     const rootLatn = typeof body?.root_latn === 'string' ? body.root_latn.trim() : null;
     const rootNorm = typeof body?.root_norm === 'string' ? body.root_norm.trim() : root;
     const altLatn = parseArrayField(body?.alt_latn_json);
-    const romanizationSources = parseObjectField(body?.romanization_sources_json);
     const searchKeysCandidate =
       typeof body?.search_keys_norm === 'string' ? body.search_keys_norm.trim() : '';
     const searchKeys =
@@ -343,7 +332,6 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       englishTrilateral: typeof body?.english_trilateral === 'string' ? body.english_trilateral.trim() : null,
       altLatn: altLatn ?? null,
       searchKeys,
-      cards,
       status,
       difficulty,
       frequency,
