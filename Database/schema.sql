@@ -73,17 +73,8 @@ CREATE TABLE user_activity_logs (
 --------------------------------------------------------------------------------
 DROP TABLE IF EXISTS ar_quran_text;
 DROP TABLE IF EXISTS ar_surah_aya;
-DROP TABLE IF EXISTS ar_quran_ayah;
-DROP TABLE IF EXISTS ar_surah_ayah_meta;
-DROP TABLE IF EXISTS ar_lessons;
-DROP TABLE IF EXISTS ar_docs;
-DROP TABLE IF EXISTS wiki_docs;
-
-DROP TABLE IF EXISTS ar_doc_surah_link;
-DROP TABLE IF EXISTS ar_lesson_surah_link;
 DROP TABLE IF EXISTS ar_containers;
 DROP TABLE IF EXISTS ar_container_units;
-DROP TABLE IF EXISTS ar_surahs;
 
 -- Quran text (container content)
 CREATE TABLE ar_quran_ayah (
@@ -154,35 +145,142 @@ CREATE TABLE ar_lessons (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Docs (Arabic stream docs/notes/articles)
-CREATE TABLE ar_docs (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  slug        TEXT NOT NULL UNIQUE,
-  title       TEXT NOT NULL,
-  body_md     TEXT NOT NULL,
-  body_json   JSON,
-  tags_json   JSON,
-  status      TEXT NOT NULL DEFAULT 'published',
-  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at  TEXT,
-  parent_slug TEXT,
-  sort_order  INTEGER NOT NULL DEFAULT 0
+-- =====================================================================================
+-- 1b) USER LESSON LAYER (empty placeholders removed earlier; add minimal tables here)
+-- =====================================================================================
+DROP TABLE IF EXISTS ar_lesson_enrollments;
+DROP TABLE IF EXISTS ar_lesson_user_state;
+DROP TABLE IF EXISTS ar_lesson_unit_progress;
+
+CREATE TABLE IF NOT EXISTS ar_lesson_enrollments (
+  lesson_id     INTEGER NOT NULL,
+  user_id       INTEGER NOT NULL,
+  role          TEXT NOT NULL DEFAULT 'student',  -- owner | editor | student
+  status        TEXT NOT NULL DEFAULT 'active',   -- active | paused | completed | dropped
+  settings_json JSON,
+  started_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  completed_at  TEXT,
+  updated_at    TEXT,
+  PRIMARY KEY (lesson_id, user_id),
+  FOREIGN KEY (lesson_id) REFERENCES ar_lessons(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id)   REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE INDEX idx_ar_lesson_enroll_user ON ar_lesson_enrollments(user_id, status);
+
+CREATE TABLE IF NOT EXISTS ar_lesson_user_state (
+  lesson_id        INTEGER NOT NULL,
+  user_id          INTEGER NOT NULL,
+  current_unit_id  TEXT,
+  current_step     TEXT,
+  state_json       JSON CHECK (state_json IS NULL OR json_valid(state_json)),
+  progress_json    JSON CHECK (progress_json IS NULL OR json_valid(progress_json)),
+  last_seen_at     TEXT,
+  created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at       TEXT,
+  PRIMARY KEY (lesson_id, user_id),
+  FOREIGN KEY (lesson_id) REFERENCES ar_lessons(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id)   REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE INDEX idx_ar_lesson_user_state_user ON ar_lesson_user_state(user_id, last_seen_at);
+
+CREATE TABLE IF NOT EXISTS ar_lesson_unit_progress (
+  lesson_id     INTEGER NOT NULL,
+  user_id       INTEGER NOT NULL,
+  container_id  TEXT NOT NULL,
+  unit_id       TEXT NOT NULL,
+  status        TEXT NOT NULL DEFAULT 'todo',   -- todo | doing | done | skipped
+  score         REAL,
+  time_spent_s  INTEGER,
+  attempts      INTEGER NOT NULL DEFAULT 0,
+  progress_json JSON CHECK (progress_json IS NULL OR json_valid(progress_json)),
+  started_at    TEXT,
+  completed_at  TEXT,
+  updated_at    TEXT,
+  PRIMARY KEY (lesson_id, user_id, unit_id),
+  FOREIGN KEY (lesson_id)    REFERENCES ar_lessons(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id)      REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (container_id) REFERENCES ar_containers(id) ON DELETE CASCADE,
+  FOREIGN KEY (unit_id)      REFERENCES ar_container_units(id) ON DELETE CASCADE
+);
+CREATE INDEX idx_ar_lesson_unit_progress_user
+  ON ar_lesson_unit_progress(user_id, lesson_id, status);
+
+-- =====================================================================================
+-- 2) SRS LAYER (per-user spaced repetition)
+-- =====================================================================================
+DROP TABLE IF EXISTS ar_srs_reviews;
+DROP TABLE IF EXISTS ar_srs_state;
+DROP TABLE IF EXISTS ar_srs_items;
+
+CREATE TABLE IF NOT EXISTS ar_srs_items (
+  id              TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
+  user_id         INTEGER NOT NULL,
+  lesson_id       INTEGER,
+  item_type       TEXT NOT NULL,
+  item_key        TEXT NOT NULL,
+  front_json      JSON NOT NULL CHECK (json_valid(front_json)),
+  back_json       JSON NOT NULL CHECK (json_valid(back_json)),
+  tags_json       JSON CHECK (tags_json IS NULL OR json_valid(tags_json)),
+  source_json     JSON CHECK (source_json IS NULL OR json_valid(source_json)),
+  status          TEXT NOT NULL DEFAULT 'active',
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT,
+  FOREIGN KEY (user_id)  REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (lesson_id) REFERENCES ar_lessons(id) ON DELETE SET NULL
+);
+CREATE INDEX IF NOT EXISTS idx_ar_srs_items_user_status ON ar_srs_items(user_id, status);
+CREATE INDEX IF NOT EXISTS idx_ar_srs_items_user_lesson ON ar_srs_items(user_id, lesson_id);
+CREATE INDEX IF NOT EXISTS idx_ar_srs_items_type_key ON ar_srs_items(item_type, item_key);
+
+CREATE TABLE IF NOT EXISTS ar_srs_state (
+  srs_item_id     TEXT PRIMARY KEY,
+  due_at          TEXT NOT NULL,
+  last_review_at  TEXT,
+  interval_days   REAL NOT NULL DEFAULT 0,
+  ease            REAL NOT NULL DEFAULT 2.5,
+  reps            INTEGER NOT NULL DEFAULT 0,
+  lapses          INTEGER NOT NULL DEFAULT 0,
+  again_count     INTEGER NOT NULL DEFAULT 0,
+  hard_count      INTEGER NOT NULL DEFAULT 0,
+  good_count      INTEGER NOT NULL DEFAULT 0,
+  easy_count      INTEGER NOT NULL DEFAULT 0,
+  state_json      JSON CHECK (state_json IS NULL OR json_valid(state_json)),
+  updated_at      TEXT,
+  FOREIGN KEY (srs_item_id) REFERENCES ar_srs_items(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_ar_srs_state_due ON ar_srs_state(due_at);
+
+CREATE TABLE IF NOT EXISTS ar_srs_reviews (
+  id            INTEGER PRIMARY KEY AUTOINCREMENT,
+  srs_item_id   TEXT NOT NULL,
+  user_id       INTEGER NOT NULL,
+  lesson_id     INTEGER,
+  rating        TEXT NOT NULL,
+  response_ms   INTEGER,
+  result_json   JSON CHECK (result_json IS NULL OR json_valid(result_json)),
+  reviewed_at   TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (srs_item_id) REFERENCES ar_srs_items(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id)     REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (lesson_id)   REFERENCES ar_lessons(id) ON DELETE SET NULL
+);
+CREATE INDEX IF NOT EXISTS idx_ar_srs_reviews_user_time ON ar_srs_reviews(user_id, reviewed_at);
+CREATE INDEX IF NOT EXISTS idx_ar_srs_reviews_item_time ON ar_srs_reviews(srs_item_id, reviewed_at);
+
+CREATE TABLE ar_surah_ayah_meta (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  surah_ayah      INTEGER NOT NULL UNIQUE,
+  theme           TEXT,
+  keywords        TEXT,
+  theme_json      JSON CHECK (theme_json IS NULL OR json_valid(theme_json)),
+  matching_json   JSON CHECK (matching_json IS NULL OR json_valid(matching_json)),
+  extra_json      JSON CHECK (extra_json IS NULL OR json_valid(extra_json)),
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT,
+  FOREIGN KEY (surah_ayah) REFERENCES ar_quran_ayah(surah_ayah) ON DELETE CASCADE
 );
 
--- Wiki docs (markdown-based docs mirrored from legacy .md files)
-CREATE TABLE wiki_docs (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  slug        TEXT NOT NULL UNIQUE,
-  title       TEXT NOT NULL,
-  body_md     TEXT NOT NULL,
-  body_json   JSON,
-  tags_json   JSON,
-  status      TEXT NOT NULL DEFAULT 'published',
-  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at  TEXT,
-  parent_slug TEXT,
-  sort_order  INTEGER NOT NULL DEFAULT 0
-);
+CREATE INDEX IF NOT EXISTS idx_ar_surah_ayah_meta_theme ON ar_surah_ayah_meta(theme);
 
 -- Surah registry
 CREATE TABLE ar_surahs (
@@ -229,28 +327,6 @@ CREATE TABLE ar_container_units (
   updated_at     TEXT,
 
   FOREIGN KEY (container_id) REFERENCES ar_containers(id) ON DELETE CASCADE
-);
-
--- Doc ↔ Surah
-CREATE TABLE ar_doc_surah_link (
-  doc_id   INTEGER NOT NULL,
-  surah    INTEGER NOT NULL,
-  note     TEXT,
-
-  PRIMARY KEY (doc_id, surah),
-  FOREIGN KEY (doc_id) REFERENCES ar_docs(id) ON DELETE CASCADE,
-  FOREIGN KEY (surah)  REFERENCES ar_surahs(surah) ON DELETE CASCADE
-);
-
--- Lesson ↔ Surah
-CREATE TABLE ar_lesson_surah_link (
-  lesson_id INTEGER NOT NULL,
-  surah     INTEGER NOT NULL,
-  note      TEXT,
-
-  PRIMARY KEY (lesson_id, surah),
-  FOREIGN KEY (lesson_id) REFERENCES ar_lessons(id) ON DELETE CASCADE,
-  FOREIGN KEY (surah)     REFERENCES ar_surahs(surah) ON DELETE CASCADE
 );
 
 --------------------------------------------------------------------------------
