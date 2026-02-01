@@ -34,7 +34,7 @@ export class TokensService {
     const token = localStorage.getItem(this.tokenKey);
     const headers: Record<string, string> = { 'content-type': 'application/json' };
     if (token) {
-      headers.authorization = `Bearer ${token}`;
+      headers['authorization'] = `Bearer ${token}`;
     }
     return new HttpHeaders(headers);
   }

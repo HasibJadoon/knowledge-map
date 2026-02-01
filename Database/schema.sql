@@ -109,21 +109,6 @@ CREATE INDEX IF NOT EXISTS idx_ar_quran_ayah_surah_ayah ON ar_quran_ayah(surah, 
 CREATE INDEX IF NOT EXISTS idx_ar_quran_ayah_page ON ar_quran_ayah(page);
 CREATE INDEX IF NOT EXISTS idx_ar_quran_ayah_juz ON ar_quran_ayah(juz);
 
-CREATE TABLE ar_surah_ayah_meta (
-  id              INTEGER PRIMARY KEY AUTOINCREMENT,
-  surah_ayah      INTEGER NOT NULL UNIQUE,
-  theme           TEXT,
-  keywords        TEXT,
-  theme_json      JSON CHECK (theme_json IS NULL OR json_valid(theme_json)),
-  matching_json   JSON CHECK (matching_json IS NULL OR json_valid(matching_json)),
-  extra_json      JSON CHECK (extra_json IS NULL OR json_valid(extra_json)),
-  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at      TEXT,
-  FOREIGN KEY (surah_ayah) REFERENCES ar_quran_ayah(surah_ayah) ON DELETE CASCADE
-);
-
-CREATE INDEX IF NOT EXISTS idx_ar_surah_ayah_meta_theme ON ar_surah_ayah_meta(theme);
-
 -- Lessons (Arabic stream)
 CREATE TABLE ar_lessons (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -144,6 +129,27 @@ CREATE TABLE ar_lessons (
 
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
+
+CREATE TABLE ar_lesson_unit_link (
+  lesson_id     INTEGER NOT NULL,
+  container_id  TEXT NOT NULL,
+  unit_id       TEXT,
+  order_index   INTEGER NOT NULL DEFAULT 0,
+  role          TEXT,
+  note          TEXT,
+  link_json     JSON CHECK (link_json IS NULL OR json_valid(link_json)),
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  PRIMARY KEY (lesson_id, container_id, unit_id),
+  FOREIGN KEY (lesson_id)   REFERENCES ar_lessons(id) ON DELETE CASCADE,
+  FOREIGN KEY (container_id) REFERENCES ar_containers(id) ON DELETE CASCADE,
+  FOREIGN KEY (unit_id)     REFERENCES ar_container_units(id) ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_ar_lesson_unit_link_lesson_order
+  ON ar_lesson_unit_link(lesson_id, order_index);
+
+CREATE INDEX IF NOT EXISTS idx_ar_lesson_unit_link_container
+  ON ar_lesson_unit_link(container_id);
 
 -- =====================================================================================
 -- 1b) USER LESSON LAYER (empty placeholders removed earlier; add minimal tables here)
@@ -332,14 +338,6 @@ CREATE TABLE ar_container_units (
 --------------------------------------------------------------------------------
 -- 2) UNIVERSAL LAYER (ar_u_*)
 --------------------------------------------------------------------------------
-DROP TABLE IF EXISTS ar_u_grammar;
-DROP TABLE IF EXISTS ar_u_valency;
-DROP TABLE IF EXISTS ar_u_lexicon;
-DROP TABLE IF EXISTS ar_u_expressions;
-DROP TABLE IF EXISTS ar_u_sentences;
-DROP TABLE IF EXISTS ar_u_spans;
-DROP TABLE IF EXISTS ar_u_tokens;
-DROP TABLE IF EXISTS ar_u_roots;
 
 CREATE TABLE ar_u_roots (
   ar_u_root        TEXT PRIMARY KEY,
@@ -965,18 +963,6 @@ CREATE INDEX idx_user_logs_type         ON user_activity_logs(event_type);
 CREATE INDEX idx_user_logs_target       ON user_activity_logs(target_type, target_id);
 CREATE INDEX idx_user_logs_created      ON user_activity_logs(created_at);
 
-CREATE INDEX idx_ar_quran_text_surah_ayah ON ar_quran_text(sura, aya);
-CREATE INDEX idx_ar_quran_text_page       ON ar_quran_text(page);
-
-CREATE INDEX idx_ar_docs_slug        ON ar_docs(slug);
-CREATE INDEX idx_ar_docs_status      ON ar_docs(status);
-CREATE INDEX idx_ar_docs_parent      ON ar_docs(parent_slug);
-CREATE INDEX idx_ar_docs_sort        ON ar_docs(sort_order);
-
-CREATE INDEX idx_wiki_docs_slug      ON wiki_docs(slug);
-CREATE INDEX idx_wiki_docs_status    ON wiki_docs(status);
-CREATE INDEX idx_wiki_docs_parent    ON wiki_docs(parent_slug);
-CREATE INDEX idx_wiki_docs_sort      ON wiki_docs(sort_order);
 
 CREATE INDEX idx_ar_lessons_user_id  ON ar_lessons(user_id);
 CREATE INDEX idx_ar_lessons_status   ON ar_lessons(status);

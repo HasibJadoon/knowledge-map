@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
@@ -8,7 +9,8 @@ import { TokenRow } from '../../../shared/models/token.model';
 @Component({
   selector: 'app-arabic-tokens',
   standalone: true,
-  imports: [IonicModule, FormsModule],
+  imports: [IonicModule, FormsModule, CommonModule, TitleCasePipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './arabic-tokens.page.html',
   styleUrls: ['./arabic-tokens.page.scss'],
 })
