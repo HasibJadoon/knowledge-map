@@ -69,14 +69,51 @@ CREATE TABLE user_activity_logs (
 );
 
 --------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 -- 1) CONTAINER LAYER (Arabic sources + registry)
 --------------------------------------------------------------------------------
 DROP TABLE IF EXISTS ar_quran_text;
 DROP TABLE IF EXISTS ar_surah_aya;
-DROP TABLE IF EXISTS ar_containers;
-DROP TABLE IF EXISTS ar_container_units;
 
--- Quran text (container content)
+CREATE TABLE ar_surahs (
+  surah        INTEGER PRIMARY KEY,
+  name_ar      TEXT NOT NULL,
+  name_en      TEXT,
+  ayah_count   INTEGER,
+  meta_json    JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at   TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_ar_surahs_name_ar ON ar_surahs(name_ar);
+
+CREATE TABLE ar_containers (
+  id             TEXT PRIMARY KEY,
+  container_type TEXT NOT NULL,
+  container_key  TEXT NOT NULL,
+  title          TEXT,
+  meta_json      JSON,
+  created_at     TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at     TEXT,
+  UNIQUE(container_type, container_key)
+);
+
+CREATE TABLE ar_container_units (
+  id             TEXT PRIMARY KEY,
+  container_id   TEXT NOT NULL,
+  unit_type      TEXT NOT NULL,
+  order_index    INTEGER NOT NULL DEFAULT 0,
+  ayah_from      INTEGER,
+  ayah_to        INTEGER,
+  start_ref      TEXT,
+  end_ref        TEXT,
+  text_cache     TEXT,
+  meta_json      JSON,
+  created_at     TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at     TEXT,
+  FOREIGN KEY (container_id) REFERENCES ar_containers(id) ON DELETE CASCADE
+);
+
 CREATE TABLE ar_quran_ayah (
   id                INTEGER PRIMARY KEY AUTOINCREMENT,
   surah             INTEGER NOT NULL,
@@ -109,11 +146,24 @@ CREATE INDEX IF NOT EXISTS idx_ar_quran_ayah_surah_ayah ON ar_quran_ayah(surah, 
 CREATE INDEX IF NOT EXISTS idx_ar_quran_ayah_page ON ar_quran_ayah(page);
 CREATE INDEX IF NOT EXISTS idx_ar_quran_ayah_juz ON ar_quran_ayah(juz);
 
--- Lessons (Arabic stream)
+CREATE TABLE ar_surah_ayah_meta (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  surah_ayah      INTEGER NOT NULL UNIQUE,
+  theme           TEXT,
+  keywords        TEXT,
+  theme_json      JSON CHECK (theme_json IS NULL OR json_valid(theme_json)),
+  matching_json   JSON CHECK (matching_json IS NULL OR json_valid(matching_json)),
+  extra_json      JSON CHECK (extra_json IS NULL OR json_valid(extra_json)),
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT,
+  FOREIGN KEY (surah_ayah) REFERENCES ar_quran_ayah(surah_ayah) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_ar_surah_ayah_meta_theme ON ar_surah_ayah_meta(theme);
+
 CREATE TABLE ar_lessons (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id     INTEGER,
-
   title       TEXT NOT NULL,
   title_ar    TEXT,
   lesson_type TEXT NOT NULL,
@@ -121,33 +171,29 @@ CREATE TABLE ar_lessons (
   status      TEXT NOT NULL DEFAULT 'draft',
   difficulty  INTEGER,
   source      TEXT,
-
   lesson_json JSON NOT NULL CHECK (json_valid(lesson_json)),
-
   created_at  TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at  TEXT,
-
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
 CREATE TABLE ar_lesson_unit_link (
   lesson_id     INTEGER NOT NULL,
   container_id  TEXT NOT NULL,
-  unit_id       TEXT,
+  unit_id       TEXT NOT NULL DEFAULT '',
   order_index   INTEGER NOT NULL DEFAULT 0,
+  link_scope    TEXT NOT NULL DEFAULT 'unit',
   role          TEXT,
   note          TEXT,
   link_json     JSON CHECK (link_json IS NULL OR json_valid(link_json)),
   created_at    TEXT NOT NULL DEFAULT (datetime('now')),
-  PRIMARY KEY (lesson_id, container_id, unit_id),
+  PRIMARY KEY (lesson_id, container_id, link_scope, unit_id),
   FOREIGN KEY (lesson_id)   REFERENCES ar_lessons(id) ON DELETE CASCADE,
   FOREIGN KEY (container_id) REFERENCES ar_containers(id) ON DELETE CASCADE,
-  FOREIGN KEY (unit_id)     REFERENCES ar_container_units(id) ON DELETE SET NULL
+  CHECK ((link_scope = 'container' AND unit_id = '') OR (link_scope = 'unit' AND unit_id != ''))
 );
-
 CREATE INDEX IF NOT EXISTS idx_ar_lesson_unit_link_lesson_order
-  ON ar_lesson_unit_link(lesson_id, order_index);
-
+  ON ar_lesson_unit_link(lesson_id, link_scope, unit_id);
 CREATE INDEX IF NOT EXISTS idx_ar_lesson_unit_link_container
   ON ar_lesson_unit_link(container_id);
 
@@ -202,7 +248,7 @@ CREATE TABLE IF NOT EXISTS ar_lesson_unit_progress (
   started_at    TEXT,
   completed_at  TEXT,
   updated_at    TEXT,
-  PRIMARY KEY (lesson_id, user_id, unit_id),
+  PRIMARY KEY (lesson_id, user_id, container_id, unit_id),
   FOREIGN KEY (lesson_id)    REFERENCES ar_lessons(id) ON DELETE CASCADE,
   FOREIGN KEY (user_id)      REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (container_id) REFERENCES ar_containers(id) ON DELETE CASCADE,
@@ -288,54 +334,6 @@ CREATE TABLE ar_surah_ayah_meta (
 
 CREATE INDEX IF NOT EXISTS idx_ar_surah_ayah_meta_theme ON ar_surah_ayah_meta(theme);
 
--- Surah registry
-CREATE TABLE ar_surahs (
-  surah        INTEGER PRIMARY KEY,
-  name_ar      TEXT,
-  name_en      TEXT,
-  ayah_count   INTEGER,
-  meta_json    JSON,
-
-  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at   TEXT
-);
-
--- Container registry
-CREATE TABLE ar_containers (
-  id             TEXT PRIMARY KEY,
-  container_type TEXT NOT NULL,
-  container_key  TEXT NOT NULL,
-  title          TEXT,
-  meta_json      JSON,
-
-  created_at     TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at     TEXT,
-
-  UNIQUE(container_type, container_key)
-);
-
--- Units inside a container
-CREATE TABLE ar_container_units (
-  id             TEXT PRIMARY KEY,
-  container_id   TEXT NOT NULL,
-  unit_type      TEXT NOT NULL,
-  order_index    INTEGER NOT NULL DEFAULT 0,
-
-  ayah_from      INTEGER,
-  ayah_to        INTEGER,
-  start_ref      TEXT,
-  end_ref        TEXT,
-
-  text_cache     TEXT,
-  meta_json      JSON,
-
-  created_at     TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at     TEXT,
-
-  FOREIGN KEY (container_id) REFERENCES ar_containers(id) ON DELETE CASCADE
-);
-
---------------------------------------------------------------------------------
 -- 2) UNIVERSAL LAYER (ar_u_*)
 --------------------------------------------------------------------------------
 
