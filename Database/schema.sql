@@ -126,6 +126,7 @@ CREATE TABLE ar_quran_ayah (
   text_simple       TEXT NOT NULL,
   text_normalized   TEXT NOT NULL,
   text_diacritics   TEXT,
+  text_non_diacritics TEXT,
   text_no_diacritics TEXT,
   first_word        TEXT,
   last_word         TEXT,
@@ -401,6 +402,25 @@ CREATE TABLE IF NOT EXISTS ar_srs_reviews (
 );
 CREATE INDEX IF NOT EXISTS idx_ar_srs_reviews_user_time ON ar_srs_reviews(user_id, reviewed_at);
 CREATE INDEX IF NOT EXISTS idx_ar_srs_reviews_item_time ON ar_srs_reviews(srs_item_id, reviewed_at);
+
+--------------------------------------------------------------------------------
+-- 1d) DOCUMENTATION TABLES (Markdown knowledge)
+--------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS wiki_docs (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug        TEXT NOT NULL UNIQUE,
+  title       TEXT NOT NULL,
+  body_md     TEXT NOT NULL,
+  body_json   JSON CHECK (body_json IS NULL OR json_valid(body_json)),
+  tags_json   JSON CHECK (tags_json IS NULL OR json_valid(tags_json)),
+  status      TEXT NOT NULL DEFAULT 'published',
+  parent_slug TEXT,
+  sort_order  INTEGER NOT NULL DEFAULT 0,
+  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at  TEXT,
+  CHECK (status IN ('draft', 'published'))
+);
+CREATE INDEX IF NOT EXISTS idx_wiki_docs_status ON wiki_docs(status);
 
 -- 2) UNIVERSAL LAYER (ar_u_*)
 --------------------------------------------------------------------------------
