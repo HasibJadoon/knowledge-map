@@ -69,7 +69,6 @@ interface QuranVerseRow {
   ayah: number;
   text: string;
   text_diacritics?: string | null;
-  text_non_diacritics?: string | null;
   text_simple?: string | null;
 }
 
@@ -229,7 +228,7 @@ async function fetchAyahRows(db: D1Database, requests: Map<number, Set<number>>)
     const stmt = db
       .prepare(
         `
-        SELECT surah, ayah, text, text_diacritics, text_non_diacritics, text_simple
+        SELECT surah, ayah, text, text_diacritics, text_simple
         FROM ar_quran_ayah
         WHERE surah = ?1 AND ayah IN (${placeholders})
       `
@@ -519,7 +518,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
           translationRow?.translation_usmani ??
           null;
         const cleanText =
-          verse.text_non_diacritics ?? verse.text_simple ?? verse.text ?? verse.text_diacritics ?? '';
+          verse.text_simple ?? verse.text ?? verse.text_diacritics ?? '';
         const diacText = verse.text ?? verse.text_diacritics ?? verse.text_simple ?? '';
         ayat.push({
           unit_id: unit.unit_id,
