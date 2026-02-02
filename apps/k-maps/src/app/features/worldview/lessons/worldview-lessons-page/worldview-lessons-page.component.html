@@ -12,9 +12,9 @@
       >
         <div class="d-flex flex-wrap justify-content-between gap-2 align-items-center">
           <div>
-            <div class="fw-semibold">{{ row.source?.title ?? 'Untitled' }}</div>
-            <div class="text-medium-emphasis">{{ row.source?.creator ?? '—' }}</div>
-            <small class="text-medium-emphasis">{{ row.summary?.one_line ?? '' }}</small>
+            <div class="fw-semibold">{{ row.source ? row.source.title : 'Untitled' }}</div>
+            <div class="text-medium-emphasis">{{ row.source ? row.source.creator : '—' }}</div>
+            <small class="text-medium-emphasis">{{ row.summary ? row.summary.one_line : '' }}</small>
           </div>
           <div class="d-flex align-items-center gap-2">
             <span class="badge kind-badge">{{ row.source.kind }}</span>

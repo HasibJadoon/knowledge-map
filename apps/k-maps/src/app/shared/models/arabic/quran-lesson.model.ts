@@ -11,6 +11,18 @@ export interface QuranLessonAyahUnit {
   arabic_non_diacritics?: string | null;
 }
 
+export interface QuranLessonUnit {
+  id?: string | null;
+  unit_type?: string | null;
+  order_index?: number | null;
+  ayah_from?: number | null;
+  ayah_to?: number | null;
+  start_ref?: string | null;
+  end_ref?: string | null;
+  text_cache?: string | null;
+  meta_json?: Record<string, unknown> | null;
+}
+
 export interface QuranLessonText {
   arabic_full: QuranLessonAyahUnit[];
   mode: 'original' | 'edited' | 'mixed';
@@ -258,6 +270,7 @@ export interface QuranLesson {
   comprehension?: QuranLessonComprehension;
   vocab_layer?: QuranLessonVocabLayer;
   passage_layers?: QuranLessonPassageLayer[];
+  units?: QuranLessonUnit[];
   _notes?: QuranLessonNotes;
   created_at?: string;
   updated_at?: string | null;

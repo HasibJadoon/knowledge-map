@@ -24,6 +24,7 @@
     </button>
   </div>
 
+
   <hr class="study-divider" />
 
   <ng-container [ngSwitch]="activeTab">
@@ -156,6 +157,22 @@
          ========================= -->
     <ng-container *ngSwitchCase="'passage'">
       <div class="study-grid comprehension-grid">
+        <article class="study-card passage-card glow-card" *ngIf="passageCacheText; else noPassageText">
+          <div class="study-card-heading">
+            <h4>Passage text</h4>
+            <h4 class="study-card-mode">{{ passageUnitLabel || 'Passage' }}</h4>
+          </div>
+
+          <hr class="study-card-divider" />
+
+          <textarea class="passage-textarea" rows="6" readonly>{{ passageCacheText }}</textarea>
+        </article>
+        <ng-template #noPassageText>
+          <article class="study-card passage-card">
+            <p class="text-muted">Passage text is not available yet.</p>
+          </article>
+        </ng-template>
+
         <article class="study-card comprehension-card" *ngIf="hasComprehensionQuestions; else noComprehension">
           <div class="study-card-heading">
             <h4>Comprehension questions</h4>

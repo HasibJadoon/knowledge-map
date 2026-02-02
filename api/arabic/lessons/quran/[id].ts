@@ -490,7 +490,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     }
     const ayat: QuranLessonAyahUnit[] = [];
     for (const unit of unitRows) {
-      if (!unit.unit_id) continue;
+      if (!unit.unit_id || unit.unit_type !== 'ayah') continue;
       const surah = parseSurahFromUnitId(unit.unit_id);
       if (!surah) continue;
       const { ayah_from: rawFrom, ayah_to: rawTo } = parseAyahRange(unit);

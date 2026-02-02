@@ -123,6 +123,9 @@ export class QuranLessonEditorComponent implements OnInit {
     } else if (!Array.isArray(this.lesson.text.arabic_full)) {
       this.lesson.text.arabic_full = [];
     }
+    if (!Array.isArray(this.lesson.units)) {
+      this.lesson.units = [];
+    }
     this.lesson.comprehension.mcqs = this.normalizeMcqs(this.lesson.comprehension);
     if (!Array.isArray(this.lesson.comprehension.reflective)) {
       this.lesson.comprehension.reflective = [];
@@ -266,6 +269,7 @@ export class QuranLessonEditorComponent implements OnInit {
         mode: 'original',
       },
       sentences: [],
+      units: [],
       comprehension: {
         mcqs: [],
       },

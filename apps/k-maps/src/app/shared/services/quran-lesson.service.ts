@@ -13,6 +13,7 @@ import {
   QuranLessonVocabBuckets,
   QuranLessonNotes,
   QuranLessonReference,
+  QuranLessonUnit,
   normalizeQuranLessonSentences,
 } from '../models/arabic/quran-lesson.model';
 import { API_BASE } from '../api-base';
@@ -86,6 +87,17 @@ export class QuranLessonService {
       };
     });
     const normalizedSentences = normalizeQuranLessonSentences(sentencesPayload);
+    const lessonUnits: QuranLessonUnit[] = (data.units ?? []).map((unit) => ({
+      id: unit.id ?? null,
+      unit_type: unit.unit_type ?? null,
+      order_index: unit.order_index ?? null,
+      ayah_from: unit.ayah_from ?? null,
+      ayah_to: unit.ayah_to ?? null,
+      start_ref: unit.start_ref ?? null,
+      end_ref: unit.end_ref ?? null,
+      text_cache: unit.text_cache ?? null,
+      meta_json: unit.meta_json ?? null,
+    }));
     const rawMode = lessonJson['mode'];
     const lessonMode: 'original' | 'edited' | 'mixed' =
       rawMode === 'edited'
@@ -135,6 +147,7 @@ export class QuranLessonService {
       comprehension: lessonComprehension,
       vocab_layer: lessonVocabLayer,
       passage_layers: lessonPassageLayers,
+      units: lessonUnits,
       _notes: lessonNotes,
       created_at: data.lesson_row.created_at,
       updated_at: data.lesson_row.updated_at ?? undefined,

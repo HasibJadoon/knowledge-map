@@ -8,6 +8,7 @@ import {
   QuranLesson,
   QuranLessonMcq,
   QuranLessonComprehensionQuestion,
+  QuranLessonUnit,
 } from '../../../../../shared/models/arabic/quran-lesson.model';
 
 @Component({
@@ -137,6 +138,26 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
 
   get sentenceList() {
     return this.lesson?.sentences ?? [];
+  }
+
+  private get passageUnitEntry(): QuranLessonUnit | null {
+    const units = this.lesson?.units ?? [];
+    if (!units.length) return null;
+    const passageUnit = units.find((unit) => unit.unit_type === 'passage');
+    return passageUnit ?? units[0] ?? null;
+  }
+
+  get passageCacheText(): string {
+    return (this.passageUnitEntry?.text_cache ?? '').trim();
+  }
+
+  get passageUnitLabel(): string {
+    const unit = this.passageUnitEntry;
+    if (!unit) return '';
+    if (unit.start_ref && unit.end_ref) {
+      return `${unit.start_ref}-${unit.end_ref}`;
+    }
+    return unit.start_ref ?? unit.end_ref ?? unit.unit_type ?? '';
   }
 
   get mcqQuestions(): QuranLessonMcq[] {
