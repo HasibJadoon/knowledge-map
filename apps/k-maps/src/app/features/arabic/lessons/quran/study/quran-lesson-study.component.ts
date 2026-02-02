@@ -24,7 +24,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
 
   private defaultText: QuranLesson['text'] = { arabic_full: [], mode: 'original' };
   lesson: QuranLesson | null = null;
-  activeTab: 'study' | 'mcq' | 'passage' = 'study';
+  activeTab: 'study' | 'sentences' | 'mcq' | 'passage' = 'study';
   mcqSelections: Record<string, { selectedIndex: number; isCorrect: boolean }> = {};
   private audioContext?: AudioContext;
   selectedVerseId: string | null = null;
@@ -117,6 +117,14 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     this.selectedVerseId = unitId;
   }
 
+  setActiveTab(tab: 'study' | 'sentences' | 'mcq' | 'passage') {
+    this.activeTab = tab;
+  }
+
+  sentenceKey(unitId: string, index: number) {
+    return `${unitId}-${index}`;
+  }
+
   getQuestionKey(question: QuranLessonComprehensionQuestion) {
     return question.question_id ?? question.question;
   }
@@ -168,7 +176,14 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     this.subs.add(
       this.route.queryParamMap.subscribe((params) => {
         const tab = params.get('tab');
-        this.activeTab = tab === 'mcq' ? 'mcq' : tab === 'passage' ? 'passage' : 'study';
+        this.activeTab =
+          tab === 'mcq'
+            ? 'mcq'
+            : tab === 'passage'
+              ? 'passage'
+              : tab === 'sentences'
+                ? 'sentences'
+                : 'study';
       })
     );
 

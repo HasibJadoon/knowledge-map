@@ -5,6 +5,25 @@
     </div>
   </header>
 
+  <div class="study-tabs">
+    <button class="tab-btn" [class.active]="activeTab === 'study'" type="button" (click)="setActiveTab('study')">
+      <span class="tab-icon">📖</span>
+      Passage
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'sentences'" type="button" (click)="setActiveTab('sentences')">
+      <span class="tab-icon">🧾</span>
+      Sentences
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'mcq'" type="button" (click)="setActiveTab('mcq')">
+      <span class="tab-icon">❓</span>
+      MCQs
+    </button>
+    <button class="tab-btn" [class.active]="activeTab === 'passage'" type="button" (click)="setActiveTab('passage')">
+      <span class="tab-icon">🧠</span>
+      Comprehension
+    </button>
+  </div>
+
   <hr class="study-divider" />
 
   <ng-container [ngSwitch]="activeTab">
@@ -45,10 +64,14 @@
           </ng-template>
         </article>
 
-        <!-- -------- Sentences -------- -->
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'sentences'">
+      <div class="study-grid">
         <article class="study-card">
           <div class="study-card-heading">
-            <h4>Sentences</h4>
+            <h4>Sentence Structure</h4>
             <h4 class="study-card-mode">{{ sentenceGroups.length }} verse groups</h4>
           </div>
 
@@ -56,24 +79,19 @@
 
           <div class="arabic-text-container glow-card" *ngIf="sentenceGroups.length > 0; else noSentences">
             <div class="arabic-text-group glow-card" *ngFor="let group of sentenceGroups">
-
-              <!-- verse heading -->
-              <p class="arabic-text-heading glow-card" >
+              <p class="arabic-text-heading glow-card">
                 <span class="arabic-heading-text">{{ group.verseArabic }}</span>
               </p>
-
               <hr class="study-card-divider" />
               <hr class="study-card-divider" />
-              <!-- sentence rows -->
               <div
                 class="arabic-text arabic-text-row"
                 *ngFor="let sentence of group.sentences; let idx = index"
-                [class.arabic-text-selected]="selectedSentenceKey === `${group.unitId}-${idx}`"
+                [class.arabic-text-selected]="selectedSentenceKey === sentenceKey(group.unitId, idx)"
                 (click)="selectSentence(group.unitId, idx); $event.stopPropagation()"
               >
                 <span class="arabic-text-run">{{ sentence.arabic }}</span>
               </div>
-
             </div>
           </div>
 
@@ -81,7 +99,6 @@
             <p class="text-muted">Sentence segmentation is not available yet.</p>
           </ng-template>
         </article>
-
       </div>
     </ng-container>
 

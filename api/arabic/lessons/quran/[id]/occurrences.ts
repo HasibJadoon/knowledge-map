@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import { requireAuth } from '../../../../_utils/auth';
 
 const jsonHeaders = {
@@ -48,13 +47,17 @@ type OccurrenceRequest = {
   sentence: SentencePayload;
 };
 
-function hash(value: string) {
-  return crypto.createHash('sha256').update(value, 'utf8').digest('hex');
+async function hash(value: string) {
+  const data = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
 }
 
 async function ensureUniversalToken(db: D1Database, surface: string) {
-  const canonical = `token|ar|${surface.trim()}`;
-  const ar_u_token = hash(canonical);
+    const canonical = `token|ar|${surface.trim()}`;
+    const ar_u_token = await hash(canonical);
   await db
     .prepare(
       `
@@ -69,8 +72,8 @@ async function ensureUniversalToken(db: D1Database, surface: string) {
 }
 
 async function ensureUniversalSpan(db: D1Database, text: string, tokenIds: string[]) {
-  const canonical = `span|ar|${text.trim()}|tokens:${tokenIds.join(',')}`;
-  const ar_u_span = hash(canonical);
+    const canonical = `span|ar|${text.trim()}|tokens:${tokenIds.join(',')}`;
+    const ar_u_span = await hash(canonical);
   await db
     .prepare(
       `
@@ -85,8 +88,8 @@ async function ensureUniversalSpan(db: D1Database, text: string, tokenIds: strin
 }
 
 async function ensureUniversalSentence(db: D1Database, text: string, tokenIds: string[]) {
-  const canonical = `sentence|ar|${text.trim()}|tokens:${tokenIds.join(',')}`;
-  const ar_u_sentence = hash(canonical);
+    const canonical = `sentence|ar|${text.trim()}|tokens:${tokenIds.join(',')}`;
+    const ar_u_sentence = await hash(canonical);
   await db
     .prepare(
       `
@@ -114,7 +117,8 @@ async function insertOccurrenceToken(
   token: TokenPayload,
   ar_u_token: string
 ) {
-  const tokenOccId = token.token_occ_id ?? hash(`occ_token|${containerId}|${unitId}|${token.pos_index}|${token.surface}`);
+  const tokenOccId =
+    token.token_occ_id ?? (await hash(`occ_token|${containerId}|${unitId}|${token.pos_index}|${token.surface}`));
   await db
     .prepare(
       `
@@ -164,7 +168,7 @@ async function insertOccurrenceSpan(
   span: SpanPayload,
   ar_u_span: string
 ) {
-  const spanOccId = hash(`occ_span|${containerId}|${unitId}|${span.start_index}-${span.end_index}|${span.text}`);
+  const spanOccId = await hash(`occ_span|${containerId}|${unitId}|${span.start_index}-${span.end_index}|${span.text}`);
   await db
     .prepare(
       `
@@ -196,7 +200,7 @@ async function insertOccurrenceSentence(
   sentence: SentencePayload,
   ar_u_sentence: string
 ) {
-  const sentenceOccId = hash(`occ_sentence|${containerId}|${unitId}|${sentence.text}`);
+  const sentenceOccId = await hash(`occ_sentence|${containerId}|${unitId}|${sentence.text}`);
   await db
     .prepare(
       `
@@ -254,7 +258,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     if (!Number.isInteger(lessonId) || lessonId <= 0) {
       return new Response(JSON.stringify({ ok: false, error: 'Invalid lesson id' }), { status: 400, headers: jsonHeaders });
     }
-    const body = await ctx.request.json<OccurrenceRequest>();
+    const body = (await ctx.request.json()) as OccurrenceRequest;
     if (!body.container_id || !body.unit_id || !body.sentence) {
       return new Response(JSON.stringify({ ok: false, error: 'Missing payload fields' }), { status: 400, headers: jsonHeaders });
     }
