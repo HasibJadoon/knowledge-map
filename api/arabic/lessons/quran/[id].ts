@@ -70,7 +70,6 @@ interface QuranVerseRow {
   text: string;
   text_diacritics?: string | null;
   text_simple?: string | null;
-  text_non_diacritics?: string | null;
   verse_mark?: string | null;
   verse_full?: string | null;
 }
@@ -80,7 +79,6 @@ interface QuranLessonAyahUnit {
   unit_type: 'ayah';
   arabic: string;
   arabic_diacritics?: string | null;
-  arabic_non_diacritics?: string | null;
   translation: string | null;
   translations?: Record<string, string | null> | null;
   surah: number;
@@ -237,7 +235,6 @@ async function fetchAyahRows(db: D1Database, requests: Map<number, Set<number>>)
           text,
           text_diacritics,
           text_simple,
-          text_non_diacritics,
           verse_mark,
           verse_full
         FROM ar_quran_ayah
@@ -533,14 +530,12 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
           null;
         const cleanText =
           verse.text_simple ??
-          verse.text_non_diacritics ??
           verse.text ??
           verse.text_diacritics ??
           '';
         const diacText =
           verse.text ??
           verse.text_diacritics ??
-          verse.text_non_diacritics ??
           verse.text_simple ??
           '';
         const verseMarker =
