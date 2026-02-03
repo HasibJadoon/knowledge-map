@@ -44,10 +44,8 @@ def ensure_tables(cursor: sqlite3.Cursor) -> None:
             lemma_text_clean TEXT NOT NULL,
             words_count INTEGER,
             uniq_words_count INTEGER,
-            primary_ar_token_occ_id TEXT,
             primary_ar_u_token TEXT,
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
-            FOREIGN KEY (primary_ar_token_occ_id) REFERENCES ar_occ_token(ar_token_occ_id),
             FOREIGN KEY (primary_ar_u_token) REFERENCES ar_u_tokens(ar_u_token)
         );
 
@@ -168,10 +166,10 @@ def main() -> None:
             if not token_occ_id and not ar_u_token:
                 missing_tokens += 1
             else:
-                if not primary_set:
+                if not primary_set and ar_u_token:
                     target_cursor.execute(
-                        "UPDATE quran_ayah_lemmas SET primary_ar_token_occ_id = ?, primary_ar_u_token = ? WHERE lemma_id = ? AND primary_ar_token_occ_id IS NULL",
-                        (token_occ_id, ar_u_token, lemma_id),
+                        "UPDATE quran_ayah_lemmas SET primary_ar_u_token = ? WHERE lemma_id = ? AND primary_ar_u_token IS NULL",
+                        (ar_u_token, lemma_id),
                     )
                     primary_set = True
             target_cursor.execute(

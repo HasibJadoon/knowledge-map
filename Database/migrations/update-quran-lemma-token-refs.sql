@@ -66,19 +66,7 @@ WHERE ar_u_token IS NULL
   );
 
 UPDATE quran_ayah_lemmas
-SET
-  primary_ar_token_occ_id = COALESCE(
-    primary_ar_token_occ_id,
-    (
-      SELECT ar_token_occ_id
-      FROM quran_ayah_lemma_location loc
-      WHERE loc.lemma_id = quran_ayah_lemmas.lemma_id
-        AND loc.ar_token_occ_id IS NOT NULL
-      ORDER BY loc.id
-      LIMIT 1
-    )
-  ),
-  primary_ar_u_token = COALESCE(
+SET primary_ar_u_token = COALESCE(
     primary_ar_u_token,
     (
       SELECT ar_u_token
@@ -88,4 +76,5 @@ SET
       ORDER BY loc.id
       LIMIT 1
     )
-  );
+  )
+WHERE primary_ar_u_token IS NULL;
