@@ -133,6 +133,23 @@ interface QuranTokenRow {
   updated_at: string | null;
 }
 
+interface QuranLessonLemmaLocation {
+  lemma_id: number;
+  lemma_text: string;
+  lemma_text_clean: string;
+  words_count: number | null;
+  uniq_words_count: number | null;
+  word_location: string;
+  token_index: number;
+  ar_token_occ_id: string | null;
+  ar_u_token: string | null;
+}
+
+interface QuranLessonLemmaLocationRow extends QuranLessonLemmaLocation {
+  surah: number;
+  ayah: number;
+}
+
 interface SlotVocabularyCard {
   token_occ_id: string;
   u_token_id: string;
@@ -414,6 +431,72 @@ function buildVocabBuckets(tokens: QuranTokenRow[]) {
   return { verbs, nouns };
 }
 
+async function fetchAyahLemmaLocations(
+  db: D1Database,
+  combos: Array<{ surah: number; ayah: number }>
+): Promise<Map<string, QuranLessonLemmaLocation[]>> {
+  const map = new Map<string, QuranLessonLemmaLocation[]>();
+  if (!combos.length) return map;
+
+  const unique = Array.from(
+    new Map(
+      combos
+        .map((combo) => [`${combo.surah}:${combo.ayah}`, combo] as const)
+        .filter(([, combo]) => Number.isFinite(combo.surah) && Number.isFinite(combo.ayah))
+    ).values()
+  );
+
+  if (!unique.length) return map;
+
+  const clause = unique.map(() => "(?, ?)").join(", ");
+  const sql = `
+    SELECT
+      loc.surah,
+      loc.ayah,
+      loc.word_location,
+      loc.token_index,
+      loc.ar_token_occ_id,
+      loc.ar_u_token,
+      l.lemma_id,
+      l.lemma_text,
+      l.lemma_text_clean,
+      l.words_count,
+      l.uniq_words_count
+    FROM quran_ayah_lemma_location loc
+    JOIN quran_ayah_lemmas l ON l.lemma_id = loc.lemma_id
+    WHERE (loc.surah, loc.ayah) IN (${clause})
+    ORDER BY loc.surah, loc.ayah, loc.token_index, l.lemma_text
+  `;
+
+  const bindings = unique.flatMap((combo) => [combo.surah, combo.ayah]);
+  const result = (await db.prepare(sql).bind(...bindings).all()) as {
+    results?: QuranLessonLemmaLocationRow[];
+  };
+
+  for (const row of result?.results ?? []) {
+    const key = `${row.surah}:${row.ayah}`;
+    const entry: QuranLessonLemmaLocation = {
+      lemma_id: row.lemma_id,
+      lemma_text: row.lemma_text,
+      lemma_text_clean: row.lemma_text_clean,
+      words_count: row.words_count,
+      uniq_words_count: row.uniq_words_count,
+      word_location: row.word_location,
+      token_index: row.token_index,
+      ar_token_occ_id: row.ar_token_occ_id,
+      ar_u_token: row.ar_u_token,
+    };
+    const existing = map.get(key);
+    if (existing) {
+      existing.push(entry);
+    } else {
+      map.set(key, [entry]);
+    }
+  }
+
+  return map;
+}
+
 
 /* ========================= GET /arabic/lessons/quran/:id ========================= */
 
@@ -557,6 +640,24 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       }
     }
 
+    const verseKeys = Array.from(new Set(ayat.map((verse) => `${verse.surah}:${verse.ayah}`)));
+    const verseCombos = verseKeys
+      .map((key) => {
+        const [surahStr, ayahStr] = key.split(':');
+        const surah = Number(surahStr);
+        const ayah = Number(ayahStr);
+        return Number.isFinite(surah) && Number.isFinite(ayah) ? { surah, ayah } : null;
+      })
+      .filter((combo): combo is { surah: number; ayah: number } => combo !== null);
+    const verseLemmaMap = await fetchAyahLemmaLocations(ctx.env.DB, verseCombos);
+    const ayatWithLemmas = ayat.map((verse) => {
+      const key = `${verse.surah}:${verse.ayah}`;
+      return {
+        ...verse,
+        lemmas: verseLemmaMap.get(key) ?? [],
+      };
+    });
+
     const ayahUnitIds = unitRows.filter((u) => u.unit_type === 'ayah' && u.unit_id).map((u) => u.unit_id!) ?? [];
     const tokens = await fetchTokens(ctx.env.DB, containerId, ayahUnitIds);
     const spans = await fetchSpans(ctx.env.DB, containerId, ayahUnitIds);
@@ -601,7 +702,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         text_cache: unit.text_cache,
         meta_json: safeJson(unit.meta_json),
       })),
-      ayat,
+      ayat: ayatWithLemmas,
       sentences: sentences.map((sentence) => ({
         sentence_occ_id: sentence.ar_sentence_occ_id,
         u_sentence_id: sentence.ar_u_sentence,

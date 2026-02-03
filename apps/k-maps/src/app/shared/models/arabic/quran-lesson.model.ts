@@ -11,6 +11,7 @@ export interface QuranLessonAyahUnit {
   arabic_non_diacritics?: string | null;
   verse_mark?: string | null;
   verse_full?: string | null;
+  lemmas?: QuranLessonLemmaLocation[];
 }
 
 export interface QuranLessonUnit {
@@ -58,6 +59,18 @@ export interface QuranLessonToken {
   pos?: string;
   features?: Record<string, unknown>;
   [key: string]: unknown;
+}
+
+export interface QuranLessonLemmaLocation {
+  lemma_id: number;
+  lemma_text: string;
+  lemma_text_clean: string;
+  words_count?: number | null;
+  uniq_words_count?: number | null;
+  word_location: string;
+  token_index: number;
+  ar_token_occ_id?: string | null;
+  ar_u_token?: string | null;
 }
 
 export interface QuranLessonSentenceMarker {

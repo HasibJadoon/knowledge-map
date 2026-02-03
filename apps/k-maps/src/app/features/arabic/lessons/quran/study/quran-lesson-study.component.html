@@ -5,55 +5,46 @@
     </div>
   </header>
 
-
-
-
   <hr class="study-divider" />
 
   <ng-container [ngSwitch]="activeTab">
-
     <!-- =========================
          TAB: Study
          ========================= -->
     <ng-container *ngSwitchCase="'study'">
       <div class="study-grid">
-
-        <!-- -------- Arabic Text (Verses) -------- -->
         <article class="study-card">
           <div class="study-card-heading">
             <h4>Text</h4>
-            <h4 >
+            <h4>
               {{ lesson.reference?.surah ? lesson.reference?.surah : 'Passage' }}
             </h4>
           </div>
 
           <hr class="study-card-divider" />
 
-          <div  *ngIf="verseList.length; else noArabic">
-            <div
-              *ngFor="let verse of verseList"
-              class="arabic-text arabic-text-row"
-              [class.arabic-text-selected]="selectedVerseId === verse.id"
+          <div *ngIf="verseList.length > 0; else noArabic" class="arabic-passage">
+            <span
+              *ngFor="let verse of verseList; trackBy: trackByVerseId"
+              class="arabic-verse arabic-text"
+              [class.arabic-verse--selected]="selectedVerseId === verse.id"
               (click)="selectVerse(verse.id)"
             >
-              <span
-                class="arabic-text-run glow-card verse-glow"
-                [class.glow-card--active]="selectedVerseId === verse.id"
-              >
-                {{ verse.text }}
-              </span>
-              <span class="verse-marker" *ngIf="verse.marker">{{ verse.marker }}</span>
-            </div>
+              <span class="verse-text">{{ verse.text }}</span>
+              <span class="verse-marker">{{ verse.marker }}</span>
+            </span>
           </div>
 
           <ng-template #noArabic>
             <p class="text-muted">Arabic text is not available for this lesson yet.</p>
           </ng-template>
         </article>
-
       </div>
     </ng-container>
 
+    <!-- =========================
+         TAB: Sentences
+         ========================= -->
     <ng-container *ngSwitchCase="'sentences'">
       <div class="study-grid">
         <article class="study-card">
@@ -64,13 +55,21 @@
 
           <hr class="study-card-divider" />
 
-          <div class="arabic-text-container glow-card" *ngIf="sentenceGroups.length > 0; else noSentences">
-            <div class="arabic-text-group glow-card" *ngFor="let group of sentenceGroups">
+          <div
+            class="arabic-text-container glow-card"
+            *ngIf="sentenceGroups.length > 0; else noSentences"
+          >
+            <div
+              class="arabic-text-group glow-card"
+              *ngFor="let group of sentenceGroups; trackBy: trackByGroupId"
+            >
               <p class="arabic-text-heading glow-card">
                 <span class="arabic-heading-text">{{ group.verseArabic }}</span>
               </p>
+
               <hr class="study-card-divider" />
               <hr class="study-card-divider" />
+
               <div
                 class="arabic-text arabic-text-row"
                 *ngFor="let sentence of group.sentences; let idx = index"
@@ -94,7 +93,10 @@
          ========================= -->
     <ng-container *ngSwitchCase="'mcq'">
       <div class="study-grid study-grid--mcq">
-        <article class="study-card mcq-card glow-card" *ngIf="mcqQuestions.length; else noMcqs">
+        <article
+          class="study-card mcq-card glow-card"
+          *ngIf="mcqQuestions.length > 0; else noMcqs"
+        >
           <div class="study-card-heading">
             <h4>Comprehension MCQs</h4>
             <h4 class="study-card-mode">{{ mcqQuestions.length }} questions</h4>
@@ -103,7 +105,10 @@
           <hr class="study-card-divider" />
 
           <div class="mcq-list">
-            <section class="mcq-question-card" *ngFor="let mcq of mcqQuestions; let idx = index">
+            <section
+              class="mcq-question-card"
+              *ngFor="let mcq of mcqQuestions; trackBy: trackByMcqId"
+            >
               <p class="mcq-question-text">{{ mcq.question }}</p>
 
               <ul class="mcq-options">
@@ -143,7 +148,10 @@
          ========================= -->
     <ng-container *ngSwitchCase="'passage'">
       <div class="study-grid comprehension-grid">
-        <article class="study-card passage-card glow-card" *ngIf="passageCacheText; else noPassageText">
+        <article
+          class="study-card passage-card glow-card"
+          *ngIf="passageCacheText; else noPassageText"
+        >
           <div class="study-card-heading">
             <h4>Passage text</h4>
             <h4 class="study-card-mode">{{ passageUnitLabel || 'Passage' }}</h4>
@@ -151,15 +159,21 @@
 
           <hr class="study-card-divider" />
 
-          <textarea class="passage-textarea" rows="6" readonly>{{ passageCacheText }}</textarea>
+          <textarea class="passage-textarea" rows="6" readonly>
+{{ passageCacheText }}</textarea
+          >
         </article>
+
         <ng-template #noPassageText>
           <article class="study-card passage-card">
             <p class="text-muted">Passage text is not available yet.</p>
           </article>
         </ng-template>
 
-        <article class="study-card comprehension-card" *ngIf="hasComprehensionQuestions; else noComprehension">
+        <article
+          class="study-card comprehension-card"
+          *ngIf="hasComprehensionQuestions; else noComprehension"
+        >
           <div class="study-card-heading">
             <h4>Comprehension questions</h4>
             <h4 class="study-card-mode">
@@ -170,7 +184,7 @@
           <hr class="study-card-divider" />
 
           <div class="comprehension-sections">
-            <section class="comp-section" *ngIf="reflectiveQuestions.length">
+            <section class="comp-section" *ngIf="reflectiveQuestions.length > 0">
               <div class="comp-section-heading">
                 <span>Reflective</span>
                 <small>Spend time thinking through the passage.</small>
@@ -178,16 +192,18 @@
 
               <article
                 class="comp-item glow-card"
-                *ngFor="let question of reflectiveQuestions"
+                *ngFor="let question of reflectiveQuestions; trackBy: trackByQuestionKey"
                 (click)="selectQuestion(question)"
                 [class.active]="selectedQuestionId === getQuestionKey(question)"
               >
                 <p class="comp-question text-gold">{{ question.question }}</p>
-                <p class="comp-hint" *ngIf="question.answer_hint">Hint: {{ question.answer_hint }}</p>
+                <p class="comp-hint" *ngIf="question.answer_hint">
+                  Hint: {{ question.answer_hint }}
+                </p>
               </article>
             </section>
 
-            <section class="comp-section" *ngIf="analyticalQuestions.length">
+            <section class="comp-section" *ngIf="analyticalQuestions.length > 0">
               <div class="comp-section-heading">
                 <span>Analytical</span>
                 <small>Trace how the story is constructed.</small>
@@ -195,12 +211,14 @@
 
               <article
                 class="comp-item glow-card"
-                *ngFor="let question of analyticalQuestions"
+                *ngFor="let question of analyticalQuestions; trackBy: trackByQuestionKey"
                 (click)="selectQuestion(question)"
                 [class.active]="selectedQuestionId === getQuestionKey(question)"
               >
                 <p class="comp-question text-gold">{{ question.question }}</p>
-                <p class="comp-hint" *ngIf="question.answer_hint">Hint: {{ question.answer_hint }}</p>
+                <p class="comp-hint" *ngIf="question.answer_hint">
+                  Hint: {{ question.answer_hint }}
+                </p>
               </article>
             </section>
           </div>
@@ -213,7 +231,6 @@
         </ng-template>
       </div>
     </ng-container>
-
   </ng-container>
 </section>
 

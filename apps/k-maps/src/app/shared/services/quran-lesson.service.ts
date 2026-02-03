@@ -118,6 +118,7 @@ export class QuranLessonService {
         surah: unit.surah,
         ayah: unit.ayah,
         notes: unit.notes ?? null,
+        lemmas: unit.lemmas ?? undefined,
       })),
       mode:
         rawMode === 'edited'

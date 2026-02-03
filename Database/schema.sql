@@ -769,10 +769,8 @@ CREATE TABLE quran_ayah_lemmas (
   lemma_text_clean         TEXT NOT NULL,
   words_count              INTEGER,
   uniq_words_count         INTEGER,
-  primary_ar_token_occ_id  TEXT,
   primary_ar_u_token       TEXT,
   created_at               TEXT NOT NULL DEFAULT (datetime('now')),
-  FOREIGN KEY (primary_ar_token_occ_id) REFERENCES ar_occ_token(ar_token_occ_id),
   FOREIGN KEY (primary_ar_u_token) REFERENCES ar_u_tokens(ar_u_token)
 );
 

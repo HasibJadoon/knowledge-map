@@ -42,3 +42,16 @@
   font-weight: 600;
   margin-inline-start: 0.5rem;
 }
+
+.arabic-passage {
+  direction: rtl;
+  text-align: justify;
+  line-height: 2.2;
+  font-size: 1.4rem;
+}
+
+.arabic-verse {
+  cursor: pointer;
+  white-space: normal; /* IMPORTANT: allows flow */
+}
+

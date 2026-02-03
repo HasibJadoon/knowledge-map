@@ -30,6 +30,8 @@ coverage/
 # track the canonical schema even though other SQL dumps stay ignored
 *.sql
 !database/schema.sql
+!database/migrations/
+!database/migrations/*.sql
 
 # Env & secrets
 .env

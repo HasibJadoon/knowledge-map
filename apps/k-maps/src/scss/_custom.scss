@@ -23,6 +23,9 @@
   --app-font-ar: "Uthmanic Hafs", "Scheherazade New", "Amiri", "Noto Naskh Arabic", "Cairo", serif;
   --app-font-ar-size: 1.35rem;
 
+  /* ✅ alias to avoid accidental mismatch */
+  --app-ar-font-size: var(--app-font-ar-size);
+
   --app-gold: #ffd800;
   --app-gold-rgb: 255, 216, 0;
   --app-heading-blue: #9ef0ff;
@@ -138,7 +141,7 @@ body {
   padding: 0.6rem 0.85rem;
   font-size: 0.95rem;
   color: #fff;
-  font-family: var(--app-font-sans, 'Poppins', system-ui);
+  font-family: var(--app-font-sans, "Poppins", system-ui);
 }
 
 .lesson-editor-tabs {
@@ -212,7 +215,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: linear-gradient(180deg, rgba(2, 5, 22, 0.95), rgba(5, 9, 28, 0.9));
   color: #fff;
-  font-family: 'Fira Code', 'Source Code Pro', Menlo, monospace;
+  font-family: "Fira Code", "Source Code Pro", Menlo, monospace;
   font-size: 1rem;
   padding: 0.95rem 1rem;
   line-height: 1.4;
@@ -248,7 +251,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(0, 0, 0, 0.45);
   color: #fff;
-  font-family: 'Fira Code', 'Source Code Pro', Menlo, monospace;
+  font-family: "Fira Code", "Source Code Pro", Menlo, monospace;
   line-height: 1.4;
   padding: 0.65rem 0.85rem;
   font-size: 0.95rem;
@@ -260,7 +263,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: rgba(0, 0, 0, 0.35);
   color: #fff;
-  font-family: var(--app-font-sans, 'Poppins', system-ui);
+  font-family: var(--app-font-sans, "Poppins", system-ui);
   font-size: 0.95rem;
   padding: 0.5rem 0.75rem;
   resize: vertical;
@@ -286,7 +289,7 @@ body {
   max-height: 9rem;
 }
 
-.lesson-editor .comprehension-card .comp-item textarea[rows='1'] {
+.lesson-editor .comprehension-card .comp-item textarea[rows="1"] {
   min-height: 2.25rem;
 }
 
@@ -379,7 +382,6 @@ body {
   font-family: var(--app-font-ar);
   font-size: calc(var(--app-ar-font-size, 1.3rem) * 1.05);
   line-height: 1.75;
-
   text-align: right;
   direction: rtl;
   color: rgba(255, 255, 255, 0.92);
@@ -404,7 +406,60 @@ body {
   color: var(--app-heading-blue);
 }
 
+/* =========================
+   Qur'an Study: PASSAGE (verses flow)
+   ========================= */
+.arabic-passage {
+  direction: rtl;
+  text-align: justify;
+  line-height: 2.25;
+  font-size: calc(var(--app-font-ar-size, 1.35rem) * 1.05);
+  font-family: var(--app-font-ar);
+}
 
+.arabic-verse {
+  display: inline;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Text-only highlight pill */
+.arabic-verse .verse-text {
+  display: inline;
+  padding: 0.18rem 0.55rem;
+  border-radius: 0.75rem;
+  transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Hover affects only text (not marker) */
+.arabic-verse:hover .verse-text {
+  box-shadow:
+    0 0 20px rgba(var(--app-gold-rgb), 0.18),
+    0 0 35px rgba(var(--app-gold-rgb), 0.12);
+}
+
+/* Selected affects only text (not marker) */
+.arabic-verse--selected .verse-text {
+  background: #12203c73;
+  color: #b39ddb;
+  box-shadow:
+    0 0 18px rgba(165, 219, 248, 0.85),
+    inset 0 0 8px rgba(248, 219, 1, 0.22);
+}
+
+/* Marker: red and stable */
+.verse-marker {
+  white-space: nowrap;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #c62828;
+  margin-inline-start: 0.4rem;
+  padding: 0;
+  background: transparent;
+}
 
 /* =========================
    Arabic: rows (verses/sentences)
@@ -463,8 +518,12 @@ body {
 .text-muted {
   opacity: 0.75;
 }
-.pl-20 { padding-left: 20px; }
-.pr-20 { padding-right: 20px; }
+.pl-20 {
+  padding-left: 20px;
+}
+.pr-20 {
+  padding-right: 20px;
+}
 
 /* =========================
    Grids (mcq / comprehension)
@@ -539,8 +598,12 @@ body {
   margin: 0.65rem 0 0;
 }
 
-.mcq-feedback-text--correct { color: rgba(60, 255, 170, 0.95); }
-.mcq-feedback-text--incorrect { color: rgba(255, 120, 120, 0.95); }
+.mcq-feedback-text--correct {
+  color: rgba(60, 255, 170, 0.95);
+}
+.mcq-feedback-text--incorrect {
+  color: rgba(255, 120, 120, 0.95);
+}
 
 /* =========================
    Comprehension questions
@@ -598,9 +661,9 @@ body {
    ===================================================== */
 
 .md-body {
-  min-width: 0;              /* critical for flex/grid parents */
+  min-width: 0; /* critical for flex/grid parents */
   max-width: 100%;
-  overflow-x: hidden;        /* stop image bleed */
+  overflow-x: hidden; /* stop image bleed */
   line-height: 1.65;
   color: #e2e8f0;
 }
@@ -713,12 +776,12 @@ body {
     margin: 0.35rem 0;
   }
 
-.lesson-card p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.8);
-}
+  .lesson-card p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+  }
 
-.card-actions {
+  .card-actions {
     margin-top: 1.5rem;
     display: flex;
     gap: 0.75rem;
