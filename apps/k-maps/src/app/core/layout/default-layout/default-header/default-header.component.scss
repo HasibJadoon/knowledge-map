@@ -47,12 +47,21 @@
   background: rgba(249, 177, 21, 0.22);
 }
 
+.header-app-title {
+  margin-left: 0.75rem;
+  font-size: var(--app-header-title-size, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 .header-breadcrumb {
+  display: block;
   width: 100%;
 }
 
 .header-breadcrumb-row {
   display: flex;
+  width: 100%;
   align-items: stretch;
   gap: 0.75rem;
   flex-wrap: wrap;
