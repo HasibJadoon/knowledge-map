@@ -1,4 +1,9 @@
-export { AppCrudTableComponent, type CrudTableColumn } from './app-crud-table/app-crud-table.component';
+export {
+  AppCrudTableComponent,
+  type CrudTableAction,
+  type CrudTableActionEvent,
+  type CrudTableColumn
+} from './app-crud-table/app-crud-table.component';
 export { AppCrudTableComponent as CrudTableComponent } from './app-crud-table/app-crud-table.component';
 export {
   AppCrudTableComponent as EntityTableComponent,

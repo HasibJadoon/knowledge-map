@@ -6,11 +6,12 @@ import { Subscription } from 'rxjs';
 import { TokensService } from '../../../shared/services/tokens.service';
 import { PageHeaderSearchService } from '../../../shared/services/page-header-search.service';
 import { TokenRow } from '../../../shared/models/arabic/token.model';
+import { AppCrudTableComponent, CrudTableColumn } from '../../../shared/components';
 
 @Component({
   selector: 'app-tokens',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AppCrudTableComponent],
   templateUrl: './tokens.component.html',
   styleUrls: ['./tokens.component.scss'],
 })
@@ -26,6 +27,43 @@ export class TokensComponent implements OnInit, OnDestroy {
   page = 1;
   pageSize = 50;
   pageSizeOptions = [25, 50, 100];
+  tableColumns: CrudTableColumn[] = [
+    {
+      key: 'lemma_ar',
+      label: 'Lemma (Arabic)',
+      cellClass: () => 'app-table-arabic',
+    },
+    {
+      key: 'lemma_norm',
+      label: 'Lemma (Norm)',
+      cellClass: () => 'app-table-english',
+    },
+    {
+      key: 'pos',
+      label: 'POS',
+      cellClass: () => 'app-table-english',
+    },
+    {
+      key: 'root',
+      label: 'Root',
+      value: (row) => this.displayRoot(row as TokenRow),
+      cellClass: (row) => {
+        const hasArabic = !!String(row['root'] ?? '').trim();
+        return hasArabic ? 'app-table-arabic' : 'app-table-english';
+      },
+    },
+    {
+      key: 'canonical_input',
+      label: 'Canonical',
+      cellClass: () => 'app-table-english',
+    },
+    {
+      key: 'meta',
+      label: 'Meta',
+      value: (row) => this.metaSummary(row as TokenRow),
+      cellClass: () => 'app-table-english',
+    },
+  ];
 
   tokens: TokenRow[] = [];
   total = 0;
@@ -103,5 +141,12 @@ export class TokensComponent implements OnInit, OnDestroy {
     if (token.root && !token.root_norm) return token.root;
     if (token.root && token.root_norm) return `${token.root} (${token.root_norm})`;
     return token.root_norm;
+  }
+
+  metaSummary(token: TokenRow) {
+    const parts: string[] = [];
+    if (token.meta && Object.keys(token.meta).length) parts.push('meta');
+    if (token.root_meta && Object.keys(token.root_meta).length) parts.push('root meta');
+    return parts.length ? parts.join(', ') : '—';
   }
 }

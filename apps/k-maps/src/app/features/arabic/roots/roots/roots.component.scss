@@ -68,25 +68,6 @@
   }
 }
 
-/* Table wrapper spacing (optional) */
-.roots-table-wrap {
-  margin-top: 0.75rem;
-}
-
-.roots-table tbody tr:hover > td {
-  background: rgba(80, 180, 255, 0.22);
-  box-shadow:
-    inset 0 0 0 1px rgba(80, 180, 255, 0.4),
-    0 6px 12px rgba(80, 180, 255, 0.18);
-}
-
-/* Arabic font for roots */
-.roots-root {
-  font-family: 'UthmanicHafs', 'Amiri', 'Noto Naskh Arabic', serif;
-  letter-spacing: 0.2px;
-  font-size: var(--app-ar-font-size, 1em);
-}
-
 .badge-edited {
   background: #ff4d9d;
   color: #1f242f;
@@ -113,47 +94,4 @@
 
 .badge {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-}
-
-.difficulty-light {
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #94a3b8;
-  box-shadow:
-    inset 0 0 8px rgba(255, 255, 255, 0.25),
-    0 0 0 2px rgba(255, 255, 255, 0.08),
-    0 0 14px rgba(0, 0, 0, 0.45);
-}
-
-.difficulty-light[data-level="1"] {
-  background: #22c55e;
-  box-shadow:
-    inset 0 0 10px rgba(255, 255, 255, 0.35),
-    0 0 10px rgba(34, 197, 94, 0.75),
-    0 0 22px rgba(34, 197, 94, 0.45);
-}
-
-.difficulty-light[data-level="2"] {
-  background: #fbbf24;
-  box-shadow:
-    inset 0 0 10px rgba(255, 255, 255, 0.35),
-    0 0 10px rgba(251, 191, 36, 0.75),
-    0 0 22px rgba(251, 191, 36, 0.45);
-}
-
-.difficulty-light[data-level="3"] {
-  background: #ef4444;
-  box-shadow:
-    inset 0 0 10px rgba(255, 255, 255, 0.35),
-    0 0 10px rgba(239, 68, 68, 0.75),
-    0 0 22px rgba(239, 68, 68, 0.45);
-}
-
-.roots-eye-btn {
-  font-size: 1.1rem;
-  line-height: 1;
-  width: 2rem;
-  height: 2rem;
 }

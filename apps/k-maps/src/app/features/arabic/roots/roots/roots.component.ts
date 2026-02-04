@@ -9,12 +9,18 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { API_BASE } from '../../../../shared/api-base';
 import { RootCard } from '../../../../shared/models/arabic/root-card.model';
 import { RootRow, RootsApiResponse } from '../../../../shared/models/arabic/root-row.model';
+import {
+  AppCrudTableComponent,
+  CrudTableAction,
+  CrudTableActionEvent,
+  CrudTableColumn
+} from '../../../../shared/components';
 
 
 @Component({
   selector: 'app-roots',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardsComponent],
+  imports: [CommonModule, FormsModule, CardsComponent, AppCrudTableComponent],
   templateUrl: './roots.component.html',
   styleUrls: ['./roots.component.scss'],
 })
@@ -23,6 +29,49 @@ export class RootsComponent implements OnInit, OnDestroy {
   limit = 100;
 
   rows: RootRow[] = [];
+  tableColumns: CrudTableColumn[] = [
+    {
+      key: 'root',
+      label: 'Root',
+      cellClass: () => 'app-table-arabic',
+    },
+    {
+      key: 'root_latn',
+      label: 'Latin',
+      value: (row) => row['root_latn'] || '—',
+      cellClass: () => 'app-table-english',
+    },
+    {
+      key: 'root_norm',
+      label: 'Normalized',
+      value: (row) => row['root_norm'] || '—',
+      cellClass: () => 'app-table-english',
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      type: 'badge',
+      value: (row) => row['status'] || '—',
+      badgeClass: (row) => this.statusBadgeClass(String(row['status'] ?? '')),
+    },
+    {
+      key: 'frequency',
+      label: 'Frequency',
+      type: 'badge',
+      value: (row) => row['frequency'] || '—',
+      badgeClass: (row) => this.frequencyBadgeClass(String(row['frequency'] ?? '')),
+    },
+    {
+      key: 'difficulty',
+      label: 'Difficulty',
+      value: (row) => this.difficultyLabel(Number(row['difficulty'])),
+      cellClass: () => 'app-table-english',
+    },
+  ];
+  tableActions: CrudTableAction[] = [
+    { id: 'view', label: 'View cards', icon: 'view', variant: 'primary', outline: true },
+    { id: 'edit', label: 'Edit cards', icon: 'edit', variant: 'primary', outline: false },
+  ];
   loading = false;
   error = '';
 
@@ -101,8 +150,24 @@ export class RootsComponent implements OnInit, OnDestroy {
     this.toast.show(msg, type === 'success' ? 'success' : 'error');
   }
 
-  trackByKey = (_: number, r: RootRow) =>
-    `${r.id ?? ''}|${r.root}|${r.root_norm ?? ''}`;
+  onViewRow(row: RootRow) {
+    this.openCards(row);
+  }
+
+  onEditRow(row: RootRow) {
+    this.openCards(row, 'edit');
+  }
+
+  onTableAction(event: CrudTableActionEvent) {
+    const row = event.row as RootRow;
+    if (event.id === 'view') {
+      this.onViewRow(row);
+      return;
+    }
+    if (event.id === 'edit') {
+      this.onEditRow(row);
+    }
+  }
 
   statusBadgeClass(status?: string) {
     const normalized = (status ?? '').toLowerCase();
@@ -144,6 +209,20 @@ export class RootsComponent implements OnInit, OnDestroy {
     if (num <= 3) return 1;
     if (num <= 7) return 2;
     return 3;
+  }
+
+  difficultyLabel(value?: number | null) {
+    const level = this.difficultyLevel(value);
+    switch (level) {
+      case 1:
+        return 'Easy';
+      case 2:
+        return 'Medium';
+      case 3:
+        return 'Hard';
+      default:
+        return '—';
+    }
   }
 
   onSearchInput() {

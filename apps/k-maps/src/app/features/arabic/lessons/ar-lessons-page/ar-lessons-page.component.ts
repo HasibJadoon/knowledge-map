@@ -5,7 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ArLessonsService } from '../../../../shared/services/ar-lessons.service';
 import { PageHeaderSearchService } from '../../../../shared/services/page-header-search.service';
 import { ArLessonRow } from '../../../../shared/models/arabic/lesson-row.model';
-import { AppCrudTableComponent, CrudTableColumn } from '../../../../shared/components';
+import {
+  AppCrudTableComponent,
+  CrudTableAction,
+  CrudTableActionEvent,
+  CrudTableColumn
+} from '../../../../shared/components';
 
 @Component({
   selector: 'app-ar-lessons-page',
@@ -39,6 +44,11 @@ export class ArLessonsPageComponent implements OnInit, OnDestroy {
       type: 'badge',
       badgeClass: (row) => this.statusBadgeClass(String(row['status'] ?? '')),
     },
+  ];
+  tableActions: CrudTableAction[] = [
+    { id: 'view', label: 'View', icon: 'view', variant: 'primary', outline: true },
+    { id: 'study', label: 'Study', icon: 'study', variant: 'secondary', outline: true },
+    { id: 'edit', label: 'Edit', icon: 'edit', variant: 'primary', outline: false },
   ];
 
   ngOnInit() {
@@ -96,6 +106,11 @@ export class ArLessonsPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['/arabic/lessons', prefix, row.id, 'edit']);
   }
 
+  study(row: { id: number; lesson_type: string }) {
+    const prefix = this.getLessonPrefix(row.lesson_type);
+    this.router.navigate(['/arabic/lessons', prefix, row.id, 'study']);
+  }
+
   onViewRow(row: Record<string, unknown>) {
     const id = Number(row['id']);
     const lessonType = String(row['lesson_type'] ?? '');
@@ -108,6 +123,28 @@ export class ArLessonsPageComponent implements OnInit, OnDestroy {
     const lessonType = String(row['lesson_type'] ?? '');
     if (!Number.isFinite(id)) return;
     this.edit({ id, lesson_type: lessonType });
+  }
+
+  onStudyRow(row: Record<string, unknown>) {
+    const id = Number(row['id']);
+    const lessonType = String(row['lesson_type'] ?? '');
+    if (!Number.isFinite(id)) return;
+    this.study({ id, lesson_type: lessonType });
+  }
+
+  onTableAction(event: CrudTableActionEvent) {
+    const row = event.row as Record<string, unknown>;
+    if (event.id === 'view') {
+      this.onViewRow(row);
+      return;
+    }
+    if (event.id === 'study') {
+      this.onStudyRow(row);
+      return;
+    }
+    if (event.id === 'edit') {
+      this.onEditRow(row);
+    }
   }
 
   private getLessonPrefix(type?: string): 'quran' | 'literature' {

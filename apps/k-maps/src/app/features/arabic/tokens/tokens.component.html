@@ -29,36 +29,12 @@
     No tokens found for the current filters.
   </section>
 
-  <div *ngIf="tokens.length" class="table-responsive">
-    <table class="table table-sm table-hover align-middle">
-      <thead>
-        <tr>
-          <th>Lemma</th>
-          <th>POS</th>
-          <th>Root</th>
-          <th>Canonical</th>
-          <th class="text-end">Meta</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let token of tokens; trackBy: trackByToken">
-          <td>
-            <div class="fw-semibold">{{ token.lemma_ar }}</div>
-            <div class="text-muted small">{{ token.lemma_norm }}</div>
-          </td>
-          <td>{{ token.pos }}</td>
-          <td>{{ displayRoot(token) }}</td>
-          <td>
-            <div class="text-monospace small">{{ token.canonical_input }}</div>
-          </td>
-          <td class="text-end small">
-            <span *ngIf="token.meta && (token.meta | json).length">meta</span>
-            <span *ngIf="token.root_meta && (token.root_meta | json).length">root meta</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <app-crud-table
+    *ngIf="tokens.length"
+    [columns]="tableColumns"
+    [rows]="tokens"
+    [showActions]="false"
+  ></app-crud-table>
 
   <footer *ngIf="tokens.length" class="tokens-pagination">
     <div>

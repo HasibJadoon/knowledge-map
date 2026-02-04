@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th *ngFor="let col of normalizedColumns">{{ col.label }}</th>
-        <th *ngIf="showActions" class="text-end">{{ actionsLabel }}</th>
+        <th *ngIf="hasActionColumn" class="text-end">{{ actionsLabel }}</th>
       </tr>
     </thead>
     <tbody>
@@ -16,34 +16,31 @@
             <span *ngSwitchDefault>{{ resolveCellValue(col, row) }}</span>
           </ng-container>
         </td>
-        <td *ngIf="showActions" class="text-end app-crud-actions">
+        <td *ngIf="hasActionColumn" class="text-end app-crud-actions">
           <button
-            *ngIf="showViewAction"
+            *ngFor="let actionItem of resolvedActions; trackBy: trackByAction"
             type="button"
-            class="btn btn-sm btn-outline-info app-crud-view-btn"
-            (click)="onView(row)"
-            aria-label="View row"
-            title="View data"
+            class="btn btn-sm app-crud-action-btn"
+            [ngClass]="[resolveActionButtonClass(actionItem), actionItem.className || '', showActionLabel(actionItem) ? 'app-crud-action-btn-label' : '']"
+            [disabled]="isActionDisabled(actionItem, row)"
+            [attr.aria-label]="actionItem.label"
+            [attr.title]="actionItem.label"
+            (click)="onActionClick(actionItem, row)"
           >
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path
-                d="M2 12s3.8-6.5 10-6.5S22 12 22 12s-3.8 6.5-10 6.5S2 12 2 12Z"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.7" />
-            </svg>
-          </button>
-          <button
-            *ngIf="showEditAction"
-            type="button"
-            class="btn btn-sm btn-primary app-crud-edit-btn"
-            (click)="onEdit(row)"
-          >
-            Edit
+            <ng-container *ngIf="actionItem.icon || actionItem.iconPaths?.length">
+              <ng-container *ngIf="resolveActionIcon(actionItem) as iconDef; else fallbackIconText">
+                <span class="app-crud-icon" aria-hidden="true">
+                  <svg [attr.viewBox]="iconDef.viewBox" focusable="false">
+                    <path *ngFor="let d of iconDef.paths; trackBy: trackByPath" [attr.d]="d" />
+                  </svg>
+                </span>
+              </ng-container>
+              <ng-template #fallbackIconText>
+                <span class="app-crud-icon-fallback">{{ actionItem.icon }}</span>
+              </ng-template>
+            </ng-container>
+            <span *ngIf="showActionLabel(actionItem)" class="app-crud-action-label">{{ actionItem.label }}</span>
+            <span *ngIf="!actionItem.icon && !showActionLabel(actionItem)" class="app-crud-action-label">{{ actionItem.label }}</span>
           </button>
         </td>
       </tr>

@@ -5,75 +5,14 @@
 
   <div *ngIf="loading" class="text-body-secondary my-3">Loading…</div>
 
-  <div class="table-responsive roots-table-wrap" *ngIf="!loading && rows?.length">
-    <table class="table table-hover align-middle roots-table mb-0">
-      <thead class="roots-thead">
-        <tr>
-          <th class="col-eye sticky-col-1">
-            <span class="visually-hidden">View</span>
-          </th>
-          <th class="col-root sticky-col-2">Root</th>
-          <th>Status</th>
-          <th>Frequency</th>
-          <th>Difficulty</th>
-          <th class="text-end">Actions</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        @for (r of rows; track trackByKey($index, r)) {
-          <tr>
-            <td class="sticky-col-1">
-              <button
-                type="button"
-                class="btn btn-sm btn-ghost-primary roots-eye-btn"
-                (click)="openCards(r)"
-                title="View cards"
-                aria-label="View cards"
-              >
-                👁
-              </button>
-            </td>
-
-            <td class="sticky-col-2">
-              <span class="fw-semibold roots-root">{{ r.root }}</span>
-              <div class="text-muted small" *ngIf="r.root_latn || r.root_norm">
-                <span *ngIf="r.root_latn">{{ r.root_latn }}</span>
-                <span *ngIf="r.root_latn && r.root_norm"> • </span>
-                <span *ngIf="r.root_norm">{{ r.root_norm }}</span>
-              </div>
-              <div class="text-muted small" *ngIf="r.search_keys_norm">
-                Search keys: {{ r.search_keys_norm }}
-              </div>
-            </td>
-
-            <td>
-              <span class="badge" [ngClass]="statusBadgeClass(r.status)">
-                {{ r.status ?? '—' }}
-              </span>
-            </td>
-            <td>
-              <span class="badge" [ngClass]="frequencyBadgeClass(r.frequency)">
-                {{ r.frequency ?? '—' }}
-              </span>
-            </td>
-            <td>
-              <span class="difficulty-light" [attr.data-level]="difficultyLevel(r.difficulty)"></span>
-            </td>
-            <td class="text-end">
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-primary"
-                (click)="openCards(r, 'edit')"
-              >
-                Edit
-              </button>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+  <app-crud-table
+    *ngIf="!loading && rows?.length"
+    [columns]="tableColumns"
+    [rows]="rows"
+    [actions]="tableActions"
+    [emptyMessage]="'No roots found.'"
+    (action)="onTableAction($event)"
+  ></app-crud-table>
 
   <div *ngIf="!loading && (!rows || !rows.length)" class="text-body-secondary my-3">
     No roots found.

@@ -36,9 +36,9 @@
         *ngIf="!loading"
         [columns]="tableColumns"
         [rows]="rows"
+        [actions]="tableActions"
         [emptyMessage]="'No lessons yet.'"
-        (view)="onViewRow($event)"
-        (edit)="onEditRow($event)"
+        (action)="onTableAction($event)"
       ></app-crud-table>
     </div>
   </div>
