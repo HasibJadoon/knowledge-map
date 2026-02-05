@@ -2,8 +2,13 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation, inject } from '@angula
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
-import { QuranLessonService } from '../../../../../shared/services/quran-lesson.service';
+import {
+  QuranLessonCommitRequest,
+  QuranLessonCommitStep,
+  QuranLessonService,
+} from '../../../../../shared/services/quran-lesson.service';
 import { PageHeaderService } from '../../../../../shared/services/page-header.service';
 import {
   QuranLesson,
@@ -95,6 +100,40 @@ const BUILDER_TABS: BuilderTab[] = [
   { id: 'review', label: 'Validate + Publish', intent: 'Run checks before publish' },
   { id: 'dev', label: 'Raw JSON / Tools', intent: 'Use low-level JSON and debug helpers' },
 ];
+
+const DRAFT_KEY_PREFIX = 'km:quran-lesson-builder:draft';
+
+const COMMIT_STEP_BY_TAB: Partial<Record<BuilderTabId, QuranLessonCommitStep>> = {
+  meta: 'meta',
+  container: 'container',
+  units: 'units',
+  tokens: 'tokens',
+  spans: 'spans',
+  sentences: 'sentences',
+  grammar: 'grammar',
+};
+
+type LocalDraftSnapshot = {
+  savedAt: string;
+  activeTabId: BuilderTabId;
+  lesson: QuranLesson;
+  verseSelection: VerseSelection;
+  containerForm: {
+    title: string;
+    surah: number;
+    ayahFrom: number;
+    ayahTo: number;
+    containerId: string;
+    unitId: string;
+  };
+  sentenceForm: {
+    text: string;
+    translation: string;
+    tokens: string;
+    spans: string;
+    grammarIds: string;
+  };
+};
 
 @Component({
   selector: 'app-quran-lesson-editor',
@@ -319,35 +358,44 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  save() {
+  async save() {
     if (!this.lesson) return;
     this.isSaving = true;
     this.normalizeBeforeSave();
+    this.saveDraftLocal();
 
-    if (this.isNewLesson) {
-      const payload = this.buildCreatePayload();
-      this.service.createLesson(payload).subscribe({
-        next: (createdLesson) => {
-          this.isSaving = false;
-          const createdId = String((createdLesson as { id?: string | number })?.id ?? '');
-          if (!createdId) return;
-          this.router.navigate(['/arabic/lessons/quran', createdId, 'edit']);
-        },
-        error: () => {
-          this.isSaving = false;
-        },
-      });
-      return;
+    try {
+      if (this.isNewLesson) {
+        const title = this.lesson.title?.trim() ?? '';
+        if (!title) {
+          this.occurrenceFeedback = 'Saved locally. Add title to create the lesson row.';
+          return;
+        }
+
+        const payload = this.buildCreatePayload();
+        const createdLesson = await firstValueFrom(this.service.createLesson(payload));
+        const createdId = String((createdLesson as { id?: string | number })?.id ?? '');
+        if (!createdId) {
+          this.occurrenceFeedback = 'Lesson created, but id is missing in response.';
+          return;
+        }
+        this.clearDraftForLesson('new');
+        await this.router.navigate(['/arabic/lessons/quran', createdId, 'edit']);
+        return;
+      }
+
+      if (this.lesson.title.trim()) {
+        await firstValueFrom(this.service.updateLesson(this.lesson.id, this.lesson));
+      }
+
+      const commitMessage = await this.saveCurrentStep(this.activeTabId);
+      this.occurrenceFeedback = commitMessage;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Save failed';
+      this.occurrenceFeedback = `Save failed: ${message}`;
+    } finally {
+      this.isSaving = false;
     }
-
-    this.service.updateLesson(this.lesson.id, this.lesson).subscribe({
-      next: () => {
-        this.isSaving = false;
-      },
-      error: () => {
-        this.isSaving = false;
-      },
-    });
   }
 
   back() {
@@ -382,6 +430,7 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
     if (!this.lesson) return;
     this.syncBuilderExtrasToLesson();
     this.lessonJson = JSON.stringify(this.lesson, null, 2);
+    this.saveDraftLocal();
   }
 
   get safeReference(): NonNullable<QuranLesson['reference']> {
@@ -1294,10 +1343,481 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
     });
   }
 
+  private async saveCurrentStep(tabId: BuilderTabId) {
+    const lessonId = this.getLessonId();
+    if (!lessonId) {
+      return 'Saved locally. Create lesson row first.';
+    }
+
+    const step = COMMIT_STEP_BY_TAB[tabId];
+    if (!step) {
+      return 'Saved locally. This tab does not commit server rows.';
+    }
+
+    const eligibility = this.getStepSaveEligibility(step);
+    if (!eligibility.ok) {
+      return `Saved locally. ${eligibility.reason}`;
+    }
+
+    let response:
+      | { ok: boolean; result: { container_id?: string | null; unit_id?: string | null; counts?: Record<string, number> } }
+      | null = null;
+
+    try {
+      const commitPayload = this.buildCommitPayload(step);
+      response = await firstValueFrom(this.service.commitStep(lessonId, commitPayload));
+    } catch (error: unknown) {
+      return `Saved locally. ${this.readCommitError(error)}`;
+    }
+
+    if (!response?.ok) {
+      return 'Saved locally. Server step commit failed.';
+    }
+
+    if (response.result?.container_id) {
+      this.containerForm.containerId = response.result.container_id;
+    }
+    if (response.result?.unit_id) {
+      this.containerForm.unitId = response.result.unit_id;
+    }
+
+    const tableCount = Object.keys(response.result?.counts ?? {}).length;
+    return tableCount
+      ? `Saved locally + committed '${step}' (${tableCount} table updates).`
+      : `Saved locally + committed '${step}'.`;
+  }
+
+  private readCommitError(error: unknown) {
+    const typed = error as {
+      error?: unknown;
+      message?: string;
+      status?: number;
+      statusText?: string;
+    };
+    const body = this.asRecord(typed?.error);
+    const bodyMessage = body && typeof body['error'] === 'string' ? body['error'] : null;
+    if (bodyMessage) return bodyMessage;
+    if (typed?.message) return typed.message;
+    if (typed?.status && typed?.statusText) return `HTTP ${typed.status}: ${typed.statusText}`;
+    return 'Server step commit failed.';
+  }
+
+  private getStepSaveEligibility(step: QuranLessonCommitStep) {
+    if (!this.lesson) {
+      return { ok: false, reason: 'Lesson is not initialized.' };
+    }
+
+    const containerId = this.getCommitContainerId();
+
+    switch (step) {
+      case 'meta':
+        return this.lesson.title.trim()
+          ? { ok: true, reason: '' }
+          : { ok: false, reason: 'Meta step requires title.' };
+      case 'container': {
+        const containerKey = this.getCommitContainerKey();
+        return containerKey
+          ? { ok: true, reason: '' }
+          : { ok: false, reason: 'Container step requires container key.' };
+      }
+      case 'units': {
+        if (!containerId) return { ok: false, reason: 'Units step requires container id.' };
+        const hasUnits = this.safeUnits.length > 0;
+        if (!hasUnits) return { ok: false, reason: 'Add at least one unit first.' };
+        const invalidAyahUnit = this.safeUnits.find(
+          (unit) =>
+            unit.unit_type === 'ayah' &&
+            (unit.ayah_from == null || unit.ayah_to == null)
+        );
+        if (invalidAyahUnit) {
+          return { ok: false, reason: `Ayah unit '${invalidAyahUnit.id ?? 'unknown'}' is missing ayah range.` };
+        }
+        return { ok: true, reason: '' };
+      }
+      case 'tokens':
+        if (!containerId) return { ok: false, reason: 'Tokens step requires container id.' };
+        return this.safeTokens.length
+          ? { ok: true, reason: '' }
+          : { ok: false, reason: 'Add at least one token first.' };
+      case 'spans':
+        if (!containerId) return { ok: false, reason: 'Spans step requires container id.' };
+        return this.safeSpans.length
+          ? { ok: true, reason: '' }
+          : { ok: false, reason: 'Add at least one span first.' };
+      case 'grammar': {
+        if (!containerId) return { ok: false, reason: 'Grammar step requires container id.' };
+        const linkCount =
+          Object.keys(this.grammarLinks.token).length +
+          Object.keys(this.grammarLinks.span).length +
+          Object.keys(this.grammarLinks.sentence).length;
+        return linkCount
+          ? { ok: true, reason: '' }
+          : { ok: false, reason: 'Add at least one grammar link first.' };
+      }
+      case 'sentences':
+        if (!containerId) return { ok: false, reason: 'Sentences step requires container id.' };
+        return this.safeSentences.length
+          ? { ok: true, reason: '' }
+          : { ok: false, reason: 'Add at least one sentence first.' };
+      case 'lemmas':
+        return this.safeArabicVerses.some((verse) => (verse.lemmas ?? []).length > 0)
+          ? { ok: true, reason: '' }
+          : { ok: false, reason: 'Add at least one lemma location first.' };
+      case 'expressions':
+      case 'links':
+        return { ok: false, reason: 'This step is not wired to UI yet.' };
+    }
+  }
+
+  private buildCommitPayload(step: QuranLessonCommitStep): QuranLessonCommitRequest {
+    const containerId = this.getCommitContainerId();
+    const unitId = this.getCommitUnitId();
+
+    switch (step) {
+      case 'meta':
+        return {
+          step,
+          payload: {
+            title: this.lesson?.title ?? '',
+            title_ar: this.lesson?.title_ar ?? null,
+            lesson_type: this.lesson?.lesson_type ?? 'quran',
+            subtype: this.lesson?.subtype ?? null,
+            source: this.lesson?.source ?? null,
+            status: this.lesson?.status ?? 'draft',
+            difficulty: this.lesson?.difficulty ?? null,
+            lesson_json: this.lesson ?? {},
+          },
+        };
+      case 'container':
+        return {
+          step,
+          container_id: containerId,
+          unit_id: unitId,
+          payload: {
+            container: {
+              id: containerId,
+              container_type: 'quran',
+              container_key: this.getCommitContainerKey(),
+              title:
+                this.containerForm.title.trim() ||
+                `Surah ${this.verseSelection.surah} (${this.verseSelection.ayahFrom}-${this.verseSelection.ayahTo})`,
+              meta_json: {
+                source: 'lesson-builder',
+                lesson_id: this.lesson?.id ?? null,
+              },
+            },
+          },
+        };
+      case 'units':
+        return {
+          step,
+          container_id: containerId,
+          unit_id: unitId,
+          payload: {
+            units: this.safeUnits.map((unit) => ({
+              id: unit.id ?? null,
+              unit_type: unit.unit_type ?? null,
+              order_index: unit.order_index ?? 0,
+              ayah_from: unit.ayah_from ?? null,
+              ayah_to: unit.ayah_to ?? null,
+              start_ref: unit.start_ref ?? null,
+              end_ref: unit.end_ref ?? null,
+              text_cache: unit.text_cache ?? null,
+              meta_json: unit.meta_json ?? null,
+            })),
+          },
+        };
+      case 'tokens':
+        return {
+          step,
+          container_id: containerId,
+          unit_id: unitId,
+          payload: {
+            roots: this.buildTokenRootPayload(),
+            u_tokens: this.buildUniversalTokenPayload(),
+            occ_tokens: this.safeTokens.map((token) => ({
+              ar_token_occ_id: token.token_occ_id,
+              container_id: token.container_id || containerId || '',
+              unit_id: token.unit_id ?? unitId ?? null,
+              pos_index: token.pos_index,
+              surface_ar: token.surface_ar,
+              norm_ar: token.norm_ar ?? null,
+              lemma_ar: token.lemma_ar ?? null,
+              pos: token.pos ?? 'noun',
+              ar_u_token: token.u_token_id || null,
+              ar_u_root: token.u_root_id ?? null,
+              features_json: token.features ?? null,
+            })),
+            lemmas: this.buildLemmaCommitPayload(),
+          },
+        };
+      case 'spans':
+        return {
+          step,
+          container_id: containerId,
+          unit_id: unitId,
+          payload: {
+            u_spans: this.safeSpans.map((span) => ({
+              ar_u_span: span.u_span_id || null,
+              span_type: span.span_type ?? 'phrase',
+              token_u_ids: span.token_ids,
+              meta_json: span.meta ?? null,
+            })),
+            occ_spans: this.safeSpans.map((span) => ({
+              ar_span_occ_id: span.span_occ_id,
+              container_id: span.container_id || containerId || '',
+              unit_id: span.unit_id ?? unitId ?? null,
+              start_index: span.start_index,
+              end_index: span.end_index,
+              text_cache: span.text_cache ?? null,
+              ar_u_span: span.u_span_id || null,
+              token_u_ids: span.token_ids,
+              span_type: span.span_type ?? 'phrase',
+              meta_json: span.meta ?? null,
+            })),
+          },
+        };
+      case 'grammar':
+        return {
+          step,
+          container_id: containerId,
+          unit_id: unitId,
+          payload: {
+            u_grammar: this.buildGrammarUniversalPayload(),
+            occ_grammar: this.buildGrammarOccurrencePayload(containerId, unitId),
+          },
+        };
+      case 'sentences':
+        return {
+          step,
+          container_id: containerId,
+          unit_id: unitId,
+          payload: {
+            u_sentences: this.safeSentences.map((sentence) => ({
+              ar_u_sentence: null,
+              sentence_kind: 'nominal',
+              sequence: [],
+              text_ar: sentence.arabic ?? sentence.text.arabic ?? '',
+              meta_json: null,
+            })),
+            occ_sentences: this.safeSentences.map((sentence) => ({
+              ar_sentence_occ_id: sentence.sentence_id,
+              container_id: containerId,
+              unit_id: sentence.unit_id ?? unitId ?? null,
+              sentence_order: sentence.sentence_order ?? 1,
+              text_ar: sentence.arabic ?? sentence.text.arabic ?? '',
+              translation: sentence.translation ?? sentence.text.translation ?? null,
+              notes: sentence.notes ?? null,
+              ar_u_sentence: null,
+              sentence_kind: 'nominal',
+              sequence: [],
+            })),
+          },
+        };
+      case 'lemmas':
+        return {
+          step,
+          payload: {
+            lemmas: this.buildLemmaCommitPayload(),
+          },
+        };
+      case 'expressions':
+      case 'links':
+        return {
+          step,
+          container_id: containerId,
+          unit_id: unitId,
+          payload: {},
+        };
+    }
+  }
+
+  private buildTokenRootPayload() {
+    const seen = new Set<string>();
+    const rows: Array<Record<string, unknown>> = [];
+    for (const token of this.safeTokens) {
+      if (!token.u_root_id) continue;
+      if (seen.has(token.u_root_id)) continue;
+      seen.add(token.u_root_id);
+      rows.push({
+        ar_u_root: token.u_root_id,
+        root: token.u_root_id,
+        root_norm: token.u_root_id,
+        status: 'active',
+      });
+    }
+    return rows;
+  }
+
+  private buildUniversalTokenPayload() {
+    const seen = new Set<string>();
+    const rows: Array<Record<string, unknown>> = [];
+    for (const token of this.safeTokens) {
+      const key = token.u_token_id || `${token.lemma_ar ?? token.surface_ar}|${token.pos ?? 'noun'}|${token.u_root_id ?? ''}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      rows.push({
+        ar_u_token: token.u_token_id || null,
+        lemma_ar: token.lemma_ar ?? token.surface_ar,
+        lemma_norm: token.norm_ar ?? token.lemma_ar ?? token.surface_ar,
+        pos: token.pos ?? 'noun',
+        ar_u_root: token.u_root_id ?? null,
+        root_norm: token.u_root_id ?? null,
+        features_json: token.features ?? null,
+      });
+    }
+    return rows;
+  }
+
+  private buildLemmaCommitPayload() {
+    const rows: Array<Record<string, unknown>> = [];
+    for (const verse of this.safeArabicVerses) {
+      const lemmas = Array.isArray(verse.lemmas) ? verse.lemmas : [];
+      for (const lemma of lemmas) {
+        const lemmaId = Number.isFinite(lemma.lemma_id) && lemma.lemma_id > 0 ? lemma.lemma_id : 0;
+        rows.push({
+          lemma_id: lemmaId,
+          lemma_text: lemma.lemma_text,
+          lemma_text_clean: lemma.lemma_text_clean,
+          words_count: lemma.words_count ?? null,
+          uniq_words_count: lemma.uniq_words_count ?? null,
+          primary_ar_u_token: lemma.ar_u_token ?? null,
+          locations: [
+            {
+              word_location: lemma.word_location,
+              surah: verse.surah,
+              ayah: verse.ayah,
+              token_index: lemma.token_index,
+              ar_token_occ_id: lemma.ar_token_occ_id ?? null,
+              ar_u_token: lemma.ar_u_token ?? null,
+              word_simple: lemma.word_simple ?? null,
+              word_diacritic: lemma.word_diacritic ?? null,
+            },
+          ],
+        });
+      }
+    }
+    return rows;
+  }
+
+  private buildGrammarUniversalPayload() {
+    const concepts = new Set<string>();
+    for (const map of [this.grammarLinks.token, this.grammarLinks.span, this.grammarLinks.sentence]) {
+      for (const list of Object.values(map)) {
+        for (const concept of list) {
+          const normalized = concept.trim();
+          if (normalized) concepts.add(normalized);
+        }
+      }
+    }
+    return Array.from(concepts).map((concept) => ({
+      grammar_id: concept,
+      category: 'builder',
+      title: concept,
+      title_ar: null,
+      definition: null,
+      definition_ar: null,
+      meta_json: { source: 'builder' },
+    }));
+  }
+
+  private buildGrammarOccurrencePayload(containerId: string | null, unitId: string | null) {
+    const rows: Array<Record<string, unknown>> = [];
+    const pushRows = (
+      targetType: 'token_occ' | 'span_occ' | 'sentence_occ',
+      map: Record<string, string[]>
+    ) => {
+      for (const [targetId, concepts] of Object.entries(map)) {
+        for (const concept of concepts) {
+          rows.push({
+            id: `${targetType}|${targetId}|${concept}`,
+            container_id: containerId,
+            unit_id: unitId,
+            target_type: targetType,
+            target_id: targetId,
+            grammar_id: concept,
+            note: null,
+            meta_json: { source: 'builder' },
+          });
+        }
+      }
+    };
+    pushRows('token_occ', this.grammarLinks.token);
+    pushRows('span_occ', this.grammarLinks.span);
+    pushRows('sentence_occ', this.grammarLinks.sentence);
+    return rows;
+  }
+
+  private getCommitContainerId() {
+    return this.containerForm.containerId || this.proposedContainerId;
+  }
+
+  private getCommitContainerKey() {
+    return `quran-${this.verseSelection.surah}`;
+  }
+
+  private getCommitUnitId() {
+    return this.containerForm.unitId || this.selectedVerse?.unit_id || null;
+  }
+
+  private getLessonId() {
+    const raw = this.lesson?.id ?? '';
+    const parsed = Number.parseInt(String(raw), 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+  }
+
+  private getDraftKey(lessonKey?: string) {
+    const key = lessonKey ?? (this.isNewLesson ? 'new' : String(this.lesson?.id ?? 'new'));
+    return `${DRAFT_KEY_PREFIX}:${key}`;
+  }
+
+  private saveDraftLocal() {
+    const storage = globalThis.localStorage;
+    if (!storage || !this.lesson) return;
+
+    const snapshot: LocalDraftSnapshot = {
+      savedAt: new Date().toISOString(),
+      activeTabId: this.activeTabId,
+      lesson: this.lesson,
+      verseSelection: this.verseSelection,
+      containerForm: this.containerForm,
+      sentenceForm: this.sentenceForm,
+    };
+    storage.setItem(this.getDraftKey(), JSON.stringify(snapshot));
+  }
+
+  private restoreDraft(lessonKey: string) {
+    const storage = globalThis.localStorage;
+    if (!storage) return false;
+
+    const raw = storage.getItem(this.getDraftKey(lessonKey));
+    if (!raw) return false;
+
+    try {
+      const parsed = JSON.parse(raw) as LocalDraftSnapshot;
+      if (!parsed || !parsed.lesson) return false;
+      this.lesson = parsed.lesson;
+      this.activeTabId = parsed.activeTabId ?? this.activeTabId;
+      this.verseSelection = parsed.verseSelection ?? this.verseSelection;
+      this.containerForm = parsed.containerForm ?? this.containerForm;
+      this.sentenceForm = parsed.sentenceForm ?? this.sentenceForm;
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  private clearDraftForLesson(lessonKey: string) {
+    const storage = globalThis.localStorage;
+    if (!storage) return;
+    storage.removeItem(this.getDraftKey(lessonKey));
+  }
+
   private loadLesson(id: number) {
     this.service.getLesson(id).subscribe((lesson: QuranLesson) => {
       this.isNewLesson = false;
       this.lesson = lesson;
+      this.restoreDraft(String(id));
       this.ensureDefaults();
       this.onLessonEdited();
     });
@@ -1306,6 +1826,7 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
   private initializeNewLesson() {
     this.isNewLesson = true;
     this.lesson = this.buildBlankLesson();
+    this.restoreDraft('new');
     this.ensureDefaults();
     this.onLessonEdited();
   }

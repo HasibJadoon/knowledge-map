@@ -20,6 +20,33 @@ import { API_BASE } from '../api-base';
 
 type LessonResponse = QuranLessonApiPayload;
 
+export type QuranLessonCommitStep =
+  | 'meta'
+  | 'container'
+  | 'units'
+  | 'lemmas'
+  | 'tokens'
+  | 'spans'
+  | 'grammar'
+  | 'sentences'
+  | 'expressions'
+  | 'links';
+
+export interface QuranLessonCommitRequest {
+  step: QuranLessonCommitStep;
+  container_id?: string | null;
+  unit_id?: string | null;
+  payload: Record<string, unknown>;
+}
+
+export interface QuranLessonCommitResult {
+  lesson_id: number;
+  step: QuranLessonCommitStep;
+  container_id?: string | null;
+  unit_id?: string | null;
+  counts: Record<string, number>;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -237,6 +264,18 @@ export class QuranLessonService {
     });
     return this.http.post<{ ok: boolean; result: any }>(
       `${this.baseUrl}/${lessonId}/occurrences`,
+      payload,
+      { headers }
+    );
+  }
+
+  commitStep(id: number | string, payload: QuranLessonCommitRequest) {
+    const headers = new HttpHeaders({
+      'content-type': 'application/json',
+      ...this.auth.authHeaders(),
+    });
+    return this.http.post<{ ok: boolean; result: QuranLessonCommitResult }>(
+      `${API_BASE}/arabic/lessons/${id}/commit`,
       payload,
       { headers }
     );

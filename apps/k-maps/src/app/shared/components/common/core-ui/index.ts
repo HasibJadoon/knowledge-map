@@ -4,6 +4,11 @@ export {
   type CrudTableActionEvent,
   type CrudTableColumn,
 } from './app-crud-table/app-crud-table.component';
+export {
+  AppMenuCardsComponent,
+  type AppMenuCardItem,
+  type AppMenuCardSection,
+} from './app-menu-cards/app-menu-cards.component';
 export { AppHeaderSettingsDropdownComponent } from './app-header-settings-dropdown/app-header-settings-dropdown.component';
 export {
   AppHeaderbarComponent,

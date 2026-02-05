@@ -1,0 +1,47 @@
+<div class="app-menu-cards-grid" *ngIf="sections.length; else emptyCards">
+  <ng-container *ngFor="let section of sections; let idx = index; trackBy: trackBySection">
+    <h2 class="app-menu-section-title" [class.mt-section]="idx > 0">{{ section.title }}</h2>
+
+    <c-row class="g-3 app-menu-cards-row" [class.mb-4]="idx < sections.length - 1">
+      <c-col lg="3" md="6" sm="12" class="app-menu-card-col" *ngFor="let card of section.cards; trackBy: trackByCard">
+        <c-card
+          class="app-menu-card"
+          [ngClass]="card.themeClass"
+          [class.is-disabled]="card.disabled"
+          role="button"
+          [attr.tabindex]="card.disabled ? -1 : 0"
+          [attr.aria-disabled]="card.disabled ? 'true' : null"
+          (click)="onCardSelect(card)"
+          (keydown)="onCardKeydown(card, $event)"
+        >
+          <c-card-body class="app-menu-card-body">
+            <div class="app-menu-poster">
+              <img
+                class="app-menu-poster-img app-menu-poster-img--primary"
+                [src]="card.image"
+                [alt]="card.title"
+                loading="lazy"
+              />
+              <img
+                class="app-menu-poster-img app-menu-poster-img--secondary"
+                [src]="card.imageAlt || card.image"
+                [alt]="card.title + ' preview'"
+                loading="lazy"
+              />
+            </div>
+
+            <div class="app-menu-information">
+              <span class="app-menu-title">{{ card.title }}</span>
+              <span class="app-menu-arrow" aria-hidden="true">→</span>
+              <p class="app-menu-text">{{ card.description }}</p>
+            </div>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </ng-container>
+</div>
+
+<ng-template #emptyCards>
+  <div class="app-menu-cards-empty text-body-secondary">No menu items.</div>
+</ng-template>

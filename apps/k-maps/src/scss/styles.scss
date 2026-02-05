@@ -20,9 +20,6 @@
 // Shared Core UI theme tokens (dark/light).
 @use "../app/shared/components/common/core-ui/theme" as core-ui-theme;
 
-// Home dashboard card style (big-menu inspired).
-@use "dashboard-home";
-
 // Global styles for the settings panel dropdown.
 @use "settings-panel";
 

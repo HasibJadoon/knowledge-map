@@ -15,6 +15,11 @@ export {
   AppHeaderbarComponent,
   type AppHeaderbarPagination
 } from './common/core-ui/app-headerbar/app-headerbar.component';
+export {
+  AppMenuCardsComponent,
+  type AppMenuCardItem,
+  type AppMenuCardSection
+} from './common/core-ui/app-menu-cards/app-menu-cards.component';
 export { AppViewJsonModalComponent } from './common/core-ui/app-view-json-modal/app-view-json-modal.component';
 export { ChecklistComponent, type ChecklistItem } from './checklist/checklist.component';
 export { EmptyStateComponent } from './empty-state/empty-state.component';

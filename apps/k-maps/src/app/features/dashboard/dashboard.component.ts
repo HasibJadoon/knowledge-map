@@ -3,27 +3,20 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 import {
-  CardComponent,
-  CardBodyComponent,
-  ColComponent,
-  RowComponent
-} from '@coreui/angular';
+  AppMenuCardItem,
+  AppMenuCardSection,
+  AppMenuCardsComponent,
+} from '../../shared/components';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [
-    CommonModule,
-    CardComponent,
-    CardBodyComponent,
-    RowComponent,
-    ColComponent
-  ]
+  imports: [CommonModule, AppMenuCardsComponent],
 })
 export class DashboardComponent {
-  readonly sections: DashboardSection[] = [
+  readonly sections: AppMenuCardSection[] = [
     {
       id: 'arabic',
       title: 'Arabic',
@@ -35,7 +28,7 @@ export class DashboardComponent {
           route: '/arabic/lessons',
           image: '/assets/images/app-icons/dashboard/card-arabic.svg',
           imageAlt: '/assets/images/app-icons/dashboard/arabic-lesson-card.png',
-          theme: 'theme-arabic',
+          themeClass: 'theme-arabic',
         },
         {
           id: 'roots',
@@ -44,7 +37,7 @@ export class DashboardComponent {
           route: '/arabic/roots',
           image: '/assets/images/app-icons/dashboard/card-roots.svg',
           imageAlt: '/assets/images/app-icons/dashboard/arabic-root-card.png',
-          theme: 'theme-roots',
+          themeClass: 'theme-roots',
         },
         {
           id: 'lexicon',
@@ -53,7 +46,7 @@ export class DashboardComponent {
           route: '/arabic/lexicon',
           image: '/assets/images/app-icons/dashboard/card-lexicon.svg',
           imageAlt: '/assets/images/app-icons/dashboard/arabic-lexicon-card.png',
-          theme: 'theme-lexicon',
+          themeClass: 'theme-lexicon',
         },
         {
           id: 'memory',
@@ -62,7 +55,7 @@ export class DashboardComponent {
           route: '/arabic/memory',
           image: '/assets/images/app-icons/dashboard/card-memory.svg',
           imageAlt: '/assets/images/app-icons/dashboard/arabic-memory-card.png',
-          theme: 'theme-memory',
+          themeClass: 'theme-memory',
         },
       ],
     },
@@ -77,7 +70,7 @@ export class DashboardComponent {
           route: '/worldview/lessons',
           image: '/assets/images/app-icons/dashboard/card-worldview.svg',
           imageAlt: '/assets/images/app-icons/dashboard/image.png',
-          theme: 'theme-worldview',
+          themeClass: 'theme-worldview',
         },
       ],
     },
@@ -92,7 +85,7 @@ export class DashboardComponent {
           route: '/crossref',
           image: '/assets/images/app-icons/dashboard/card-crossref.svg',
           imageAlt: '/assets/images/app-icons/dashboard/icons.webp',
-          theme: 'theme-crossref',
+          themeClass: 'theme-crossref',
         },
       ],
     },
@@ -107,7 +100,7 @@ export class DashboardComponent {
           route: '/podcast',
           image: '/assets/images/app-icons/dashboard/card-podcast.svg',
           imageAlt: '/assets/images/app-icons/dashboard/vue.jpg',
-          theme: 'theme-podcast',
+          themeClass: 'theme-podcast',
         },
       ],
     },
@@ -122,7 +115,7 @@ export class DashboardComponent {
           route: '/planner',
           image: '/assets/images/app-icons/dashboard/card-planner.svg',
           imageAlt: '/assets/images/app-icons/dashboard/react.jpg',
-          theme: 'theme-planner',
+          themeClass: 'theme-planner',
         },
       ],
     },
@@ -130,39 +123,9 @@ export class DashboardComponent {
 
   constructor(private router: Router) {}
 
-  go(path: string) {
-    this.router.navigate([path]);
+  go(card: AppMenuCardItem) {
+    if (!card.route) return;
+    const commands = Array.isArray(card.route) ? card.route : [card.route];
+    this.router.navigate(commands);
   }
-
-  trackBySection(_: number, section: DashboardSection) {
-    return section.id;
-  }
-
-  trackByCard(_: number, card: DashboardCard) {
-    return card.id;
-  }
-}
-
-interface DashboardSection {
-  id: string;
-  title: string;
-  cards: DashboardCard[];
-}
-
-interface DashboardCard {
-  id: string;
-  title: string;
-  description: string;
-  route: string;
-  image: string;
-  imageAlt?: string;
-  theme:
-    | 'theme-arabic'
-    | 'theme-roots'
-    | 'theme-lexicon'
-    | 'theme-memory'
-    | 'theme-worldview'
-    | 'theme-crossref'
-    | 'theme-podcast'
-    | 'theme-planner';
 }
