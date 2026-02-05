@@ -21,16 +21,17 @@
 
   <div *ngIf="shouldShowPagination || filters.length" class="app-headerbar-pagination">
     <div class="app-headerbar-filters" *ngIf="filters.length">
-      <select
-        *ngFor="let filter of filters"
-        class="form-select app-headerbar-select"
-        [value]="filter.value"
-        (change)="onFilterInput(filter, $event)"
-      >
-        <option *ngFor="let option of filter.options" [value]="option.value">
-          {{ option.label }}
-        </option>
-      </select>
+      <div *ngFor="let filter of filters" class="app-headerbar-select-wrap">
+        <select
+          class="form-select app-headerbar-select"
+          [value]="filter.value"
+          (change)="onFilterInput(filter, $event)"
+        >
+          <option *ngFor="let option of filter.options" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <ul

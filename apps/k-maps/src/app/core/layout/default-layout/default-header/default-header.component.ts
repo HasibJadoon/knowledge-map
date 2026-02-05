@@ -22,7 +22,7 @@ import { PageHeaderService } from '../../../../shared/services/page-header.servi
 import { PageHeaderTabsConfig } from '../../../../shared/models/core/page-header.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-const SKIPPED_BREADCRUMB_LABELS = new Set(['Arabic Lessons', 'Quran Lessons']);
+const SKIPPED_BREADCRUMB_LABELS = new Set(['Quran Lessons']);
 
 @Component({
   selector: 'app-default-header',
@@ -59,4 +59,10 @@ export class DefaultHeaderComponent extends HeaderComponent {
   filteredBreadcrumbs = computed<IBreadcrumbItem[]>(() =>
     this.breadcrumbsSignal().filter((item) => !SKIPPED_BREADCRUMB_LABELS.has(item?.label ?? ''))
   );
+
+  singleBreadcrumbTitle = computed(() => {
+    const items = this.filteredBreadcrumbs();
+    if (items.length !== 1) return '';
+    return String(items[0]?.label ?? '').trim();
+  });
 }

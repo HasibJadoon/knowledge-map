@@ -28,9 +28,14 @@
 
     <ng-template #defaultBreadcrumb>
       <div class="header-breadcrumb">
-        <div class="breadcrumb-row">
-          <c-breadcrumb-router [items]="filteredBreadcrumbs()" />
+        <div class="breadcrumb-row" *ngIf="singleBreadcrumbTitle(); else breadcrumbTrail">
+          <div class="header-page-title">{{ singleBreadcrumbTitle() }}</div>
         </div>
+        <ng-template #breadcrumbTrail>
+          <div class="breadcrumb-row">
+            <c-breadcrumb-router [items]="filteredBreadcrumbs()" />
+          </div>
+        </ng-template>
       </div>
     </ng-template>
   </c-container>

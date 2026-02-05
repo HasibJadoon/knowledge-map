@@ -59,3 +59,16 @@
   width: 100%;
   padding-block: 0.5rem;
 }
+
+.breadcrumb-row {
+  min-height: 1.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.header-page-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+}
