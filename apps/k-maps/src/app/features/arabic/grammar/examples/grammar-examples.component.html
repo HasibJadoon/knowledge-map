@@ -1,0 +1,117 @@
+<div class="grammar-examples">
+  <app-headerbar
+    class="grammar-examples-header"
+    [showTitle]="true"
+    [title]="'Examples Library'"
+    [showSearch]="true"
+    [placeholder]="'Search examples'"
+    [value]="q"
+    [primaryLabel]="'New Example'"
+    [secondaryLabel]="'Bulk Import'"
+    (search)="onHeaderSearchInput($event)"
+    (primary)="openNewExample()"
+    (secondary)="openBulkImport()"
+    [filters]="headerFilters"
+    (filterChange)="onHeaderFilterChange($event)"
+  />
+
+  <div *ngIf="error" class="alert alert-danger py-2 my-3">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="text-body-secondary my-3">Loading…</div>
+
+  <div class="examples-grid" *ngIf="!loading">
+    <div class="example-card" *ngFor="let example of examples">
+      <div class="example-header">
+        <span class="example-type">{{ example.extra?.['example_type'] || 'custom' }}</span>
+        <span class="example-ref" *ngIf="example.extra?.['surah']">
+          Q{{ example.extra?.['surah'] }}:{{ example.extra?.['ayah'] }}
+        </span>
+      </div>
+      <div class="example-ar">{{ example.excerpt }}</div>
+      <div class="example-note">{{ example.commentary }}</div>
+      <div class="example-footer">
+        <span class="example-meta">{{ example.created_at | date: 'mediumDate' }}</span>
+        <div class="example-actions">
+          <button class="btn btn-icon btn-sm" (click)="openEditExample(example)">✎</button>
+          <button class="btn btn-icon btn-sm text-danger" (click)="deleteExample(example)">🗑</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!examples.length" class="panel-empty">No examples found.</div>
+  </div>
+
+  <!-- Example modal -->
+  <div *ngIf="showExampleModal" class="modal-backdrop" (click)="closeExampleModal()"></div>
+  <div *ngIf="showExampleModal" class="modal-card modal-wide" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h4>{{ exampleForm.id ? 'Edit Example' : 'New Example' }}</h4>
+      <button class="btn btn-sm btn-outline-light" (click)="closeExampleModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-span">
+          <label class="form-label">Grammar Node</label>
+          <select class="form-select" [(ngModel)]="exampleForm.grammar_id">
+            <option value="">No node</option>
+            <option *ngFor="let c of concepts" [value]="c.ar_u_grammar">
+              {{ c.title || c.title_ar || c.ar_u_grammar.slice(0, 8) }}
+            </option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Type</label>
+          <select class="form-select" [(ngModel)]="exampleForm.type">
+            <option value="custom">Custom</option>
+            <option value="quran">Quran</option>
+            <option value="textbook">Textbook</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Surah</label>
+          <input class="form-control" type="number" [(ngModel)]="exampleForm.surah" />
+        </div>
+        <div>
+          <label class="form-label">Ayah</label>
+          <input class="form-control" type="number" [(ngModel)]="exampleForm.ayah" />
+        </div>
+        <div class="form-span">
+          <label class="form-label">Arabic Example</label>
+          <textarea class="form-control" rows="3" [(ngModel)]="exampleForm.excerpt"></textarea>
+        </div>
+        <div class="form-span">
+          <label class="form-label">Commentary / Translation</label>
+          <textarea class="form-control" rows="3" [(ngModel)]="exampleForm.commentary"></textarea>
+        </div>
+        <div class="form-span">
+          <label class="form-label">Tags</label>
+          <input class="form-control" [(ngModel)]="exampleForm.tags" placeholder="i3rab, nahw" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" (click)="saveExample()">Save</button>
+    </div>
+  </div>
+
+  <!-- Bulk modal -->
+  <div *ngIf="showBulkModal" class="modal-backdrop" (click)="closeBulkModal()"></div>
+  <div *ngIf="showBulkModal" class="modal-card modal-wide" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h4>Bulk Import Examples</h4>
+      <button class="btn btn-sm btn-outline-light" (click)="closeBulkModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <p class="text-muted">
+        Paste lines in this format (pipe or comma separated):
+        <code>grammar_id | excerpt | commentary | type | surah | ayah</code>
+      </p>
+      <textarea class="form-control" rows="8" [(ngModel)]="bulkText"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" (click)="runBulkImport()">Import</button>
+    </div>
+  </div>
+</div>

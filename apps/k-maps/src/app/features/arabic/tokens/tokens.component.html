@@ -30,7 +30,10 @@
     *ngIf="tokens.length"
     [columns]="tableColumns"
     [rows]="tokens"
-    [showActions]="false"
+    [showActions]="true"
+    [showViewAction]="false"
+    [showEditAction]="true"
+    (edit)="openEdit($event)"
   ></app-crud-table>
 
   <app-headerbar
@@ -41,4 +44,68 @@
     (pageChange)="onHeaderPageChange($event)"
     (pageSizeChange)="onHeaderPageSizeChange($event)"
   />
+
+  <div *ngIf="showEdit" class="tokens-modal-backdrop" (click)="closeEdit()"></div>
+  <div *ngIf="showEdit" class="tokens-modal" (click)="$event.stopPropagation()">
+    <div class="tokens-modal-header">
+      <h5 class="mb-0">Edit Token</h5>
+      <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closeEdit()">
+        Close
+      </button>
+    </div>
+
+    <div class="tokens-modal-body">
+      <div class="tokens-form-grid">
+        <label>
+          <span>Lemma (Arabic)</span>
+          <input type="text" [(ngModel)]="editForm.lemma_ar" />
+        </label>
+
+        <label>
+          <span>Lemma (Norm)</span>
+          <input type="text" [(ngModel)]="editForm.lemma_norm" />
+        </label>
+
+        <label>
+          <span>POS</span>
+          <select [(ngModel)]="editForm.pos">
+            <option *ngFor="let option of posOptions" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+        </label>
+
+        <label>
+          <span>Root norm</span>
+          <input type="text" [(ngModel)]="editForm.root_norm" />
+        </label>
+
+        <label>
+          <span>Root id (ar_u_root)</span>
+          <input type="text" [(ngModel)]="editForm.ar_u_root" />
+        </label>
+
+        <label class="tokens-form-span">
+          <span>Canonical input</span>
+          <input type="text" [value]="editToken?.canonical_input" readonly />
+        </label>
+
+        <label class="tokens-form-span">
+          <span>Meta (JSON)</span>
+          <textarea rows="6" [(ngModel)]="editMetaJson"></textarea>
+        </label>
+      </div>
+
+      <p *ngIf="editError" class="tokens-error">{{ editError }}</p>
+    </div>
+
+    <div class="tokens-modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="closeEdit()">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-primary" (click)="saveEdit()" [disabled]="savingEdit">
+        {{ savingEdit ? 'Saving…' : 'Save' }}
+      </button>
+    </div>
+  </div>
 </div>

@@ -13,3 +13,98 @@
 .tokens-pagination-footer {
   margin-top: 0.9rem;
 }
+
+.tokens-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 10, 20, 0.6);
+  z-index: 1040;
+}
+
+.tokens-modal {
+  position: fixed;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(620px, calc(100% - 2rem));
+  max-height: 84vh;
+  overflow: auto;
+  background: linear-gradient(160deg, rgba(13, 22, 38, 0.98), rgba(8, 14, 26, 0.98));
+  border: 1px solid rgba(121, 151, 209, 0.3);
+  border-radius: 14px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  z-index: 1050;
+  color: rgba(241, 246, 255, 0.96);
+}
+
+.tokens-modal-header,
+.tokens-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(121, 151, 209, 0.2);
+}
+
+.tokens-modal-footer {
+  border-top: 1px solid rgba(121, 151, 209, 0.2);
+  border-bottom: none;
+  justify-content: flex-end;
+}
+
+.tokens-modal-body {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.tokens-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.tokens-form-grid label {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.tokens-form-grid label > span {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: rgba(176, 194, 226, 0.9);
+}
+
+.tokens-form-grid input,
+.tokens-form-grid select,
+.tokens-form-grid textarea {
+  width: 100%;
+  border-radius: 9px;
+  border: 1px solid rgba(118, 149, 205, 0.35);
+  background: rgba(10, 18, 32, 0.92);
+  color: rgba(241, 246, 255, 0.96);
+  padding: 0.45rem 0.55rem;
+}
+
+.tokens-form-span {
+  grid-column: span 2;
+}
+
+.tokens-error {
+  margin: 0.6rem 0 0;
+  color: rgba(255, 178, 178, 0.95);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 720px) {
+  .tokens-modal {
+    top: 6%;
+  }
+
+  .tokens-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tokens-form-span {
+    grid-column: auto;
+  }
+}

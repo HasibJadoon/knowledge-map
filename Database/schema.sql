@@ -626,6 +626,51 @@ CREATE TABLE ar_u_grammar (
   updated_at       TEXT
 );
 
+CREATE TABLE ar_u_grammar_relations (
+  id                  TEXT PRIMARY KEY,
+  parent_ar_u_grammar TEXT NOT NULL,
+  child_ar_u_grammar  TEXT NOT NULL,
+  relation_type       TEXT NOT NULL DEFAULT 'is_a',
+  order_index         INTEGER,
+  meta_json           JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at          TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at          TEXT,
+  FOREIGN KEY (parent_ar_u_grammar) REFERENCES ar_u_grammar(ar_u_grammar) ON DELETE CASCADE,
+  FOREIGN KEY (child_ar_u_grammar)  REFERENCES ar_u_grammar(ar_u_grammar) ON DELETE CASCADE,
+  UNIQUE (parent_ar_u_grammar, child_ar_u_grammar, relation_type)
+);
+
+CREATE TABLE ar_grammar_units (
+  id          TEXT PRIMARY KEY,
+  parent_id   TEXT,
+  unit_type   TEXT NOT NULL,
+  order_index INTEGER,
+  title       TEXT,
+  title_ar    TEXT,
+  source_id   INTEGER,
+  start_page  INTEGER,
+  end_page    INTEGER,
+  meta_json   JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at  TEXT,
+  FOREIGN KEY (parent_id) REFERENCES ar_grammar_units(id) ON DELETE CASCADE,
+  FOREIGN KEY (source_id) REFERENCES ar_sources(id) ON DELETE SET NULL
+);
+
+CREATE TABLE ar_grammar_unit_items (
+  id          TEXT PRIMARY KEY,
+  unit_id     TEXT NOT NULL,
+  item_type   TEXT NOT NULL,
+  title       TEXT,
+  content     TEXT NOT NULL,
+  content_ar  TEXT,
+  order_index INTEGER,
+  meta_json   JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at  TEXT,
+  FOREIGN KEY (unit_id) REFERENCES ar_grammar_units(id) ON DELETE CASCADE
+);
+
 --------------------------------------------------------------------------------
 -- 3) OCCURRENCE LAYER (Arabic transactional)
 --------------------------------------------------------------------------------
@@ -1174,6 +1219,13 @@ CREATE INDEX idx_ar_u_valency_prep      ON ar_u_valency(prep_ar_u_token);
 CREATE INDEX idx_ar_u_valency_frame     ON ar_u_valency(frame_type);
 
 CREATE INDEX idx_ar_u_grammar_grammar_id ON ar_u_grammar(grammar_id);
+CREATE INDEX idx_ar_u_grammar_rel_parent ON ar_u_grammar_relations(parent_ar_u_grammar);
+CREATE INDEX idx_ar_u_grammar_rel_child ON ar_u_grammar_relations(child_ar_u_grammar);
+CREATE INDEX idx_ar_grammar_units_parent ON ar_grammar_units(parent_id);
+CREATE INDEX idx_ar_grammar_units_type ON ar_grammar_units(unit_type);
+CREATE INDEX idx_ar_grammar_units_source ON ar_grammar_units(source_id);
+CREATE INDEX idx_ar_grammar_unit_items_unit ON ar_grammar_unit_items(unit_id);
+CREATE INDEX idx_ar_grammar_unit_items_type ON ar_grammar_unit_items(item_type);
 
 CREATE INDEX idx_ar_occ_token_container_unit ON ar_occ_token(container_id, unit_id);
 CREATE INDEX idx_ar_occ_token_order          ON ar_occ_token(container_id, unit_id, pos_index);

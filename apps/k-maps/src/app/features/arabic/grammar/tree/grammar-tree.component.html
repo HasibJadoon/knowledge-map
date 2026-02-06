@@ -1,0 +1,153 @@
+<div class="grammar-tree">
+  <app-headerbar
+    class="grammar-tree-header"
+    [showTitle]="true"
+    [title]="'Grammar Tree'"
+    [showSearch]="true"
+    [placeholder]="'Search concepts'"
+    [value]="search"
+    [primaryLabel]="'Add Child'"
+    (search)="onSearch($event)"
+    (primary)="openChildModal()"
+  />
+
+  <div *ngIf="error" class="alert alert-danger py-2 my-3">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="text-body-secondary my-3">Loading…</div>
+
+  <div class="grammar-tree-body" *ngIf="!loading">
+    <aside class="tree-panel">
+      <div class="panel-header">
+        <span>Concept Tree</span>
+      </div>
+      <div class="tree-list">
+        <div
+          class="tree-row"
+          *ngFor="let node of nodes"
+          [style.padding-left.px]="12 + node.level * 18"
+          [class.active]="node.id === selectedId"
+          (click)="selectNode(node)"
+        >
+          <button
+            class="tree-toggle"
+            type="button"
+            *ngIf="!node.isLeaf && !search"
+            (click)="toggleNode(node); $event.stopPropagation()"
+          >
+            {{ expanded.has(node.id) ? '▾' : '▸' }}
+          </button>
+          <ng-container *ngIf="conceptById(node.id) as concept">
+            <div class="tree-title">
+              <span>{{ concept.title || 'Untitled' }}</span>
+              <small>{{ concept.title_ar }}</small>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </aside>
+
+    <section class="details-panel" *ngIf="selectedConcept">
+      <div class="details-header">
+        <div>
+          <h3>{{ selectedConcept.title || 'Concept' }}</h3>
+          <p class="text-muted">{{ selectedConcept.title_ar }}</p>
+        </div>
+        <button class="btn btn-outline-light btn-sm" (click)="openExamples()">View Examples</button>
+      </div>
+
+      <div class="details-form">
+        <div class="form-grid">
+          <div>
+            <label class="form-label">Title (EN)</label>
+            <input class="form-control" [(ngModel)]="editForm.title" />
+          </div>
+          <div>
+            <label class="form-label">Title (AR)</label>
+            <input class="form-control" [(ngModel)]="editForm.title_ar" />
+          </div>
+          <div>
+            <label class="form-label">Category</label>
+            <input class="form-control" [(ngModel)]="editForm.category" />
+          </div>
+          <div>
+            <label class="form-label">Tags</label>
+            <input class="form-control" [(ngModel)]="editForm.tags" placeholder="nahw, sarf, i3rab" />
+          </div>
+          <div class="form-span">
+            <label class="form-label">Definition (EN)</label>
+            <textarea class="form-control" rows="3" [(ngModel)]="editForm.definition"></textarea>
+          </div>
+          <div class="form-span">
+            <label class="form-label">Definition (AR)</label>
+            <textarea class="form-control" rows="3" [(ngModel)]="editForm.definition_ar"></textarea>
+          </div>
+        </div>
+        <div class="details-actions">
+          <button class="btn btn-primary" (click)="saveConcept()">Save Changes</button>
+        </div>
+      </div>
+
+      <div class="examples-panel">
+        <div class="panel-header">
+          <span>Examples</span>
+          <span class="text-muted">{{ examples.length }} total</span>
+        </div>
+        <div *ngIf="!examples.length" class="panel-empty">No examples yet.</div>
+        <div class="example-card" *ngFor="let example of examples">
+          <div class="example-ar">{{ example.excerpt }}</div>
+          <div class="example-meta">
+            <span>{{ example.extra?.['example_type'] || 'custom' }}</span>
+            <span>{{ example.extra?.['surah'] ? 'Q' + example.extra?.['surah'] + ':' + example.extra?.['ayah'] : '' }}</span>
+          </div>
+          <div class="example-note">{{ example.commentary }}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="details-panel" *ngIf="!selectedConcept">
+      <div class="panel-empty">Select a concept to edit details.</div>
+    </section>
+  </div>
+
+  <!-- Child modal -->
+  <div *ngIf="showChildModal" class="modal-backdrop" (click)="closeChildModal()"></div>
+  <div *ngIf="showChildModal" class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h4>New Child Concept</h4>
+      <button class="btn btn-sm btn-outline-light" (click)="closeChildModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div>
+          <label class="form-label">Title (EN)</label>
+          <input class="form-control" [(ngModel)]="childForm.title" />
+        </div>
+        <div>
+          <label class="form-label">Title (AR)</label>
+          <input class="form-control" [(ngModel)]="childForm.title_ar" />
+        </div>
+        <div>
+          <label class="form-label">Category</label>
+          <input class="form-control" [(ngModel)]="childForm.category" />
+        </div>
+        <div>
+          <label class="form-label">Tags</label>
+          <input class="form-control" [(ngModel)]="childForm.tags" />
+        </div>
+        <div class="form-span">
+          <label class="form-label">Definition (EN)</label>
+          <textarea rows="3" class="form-control" [(ngModel)]="childForm.definition"></textarea>
+        </div>
+        <div class="form-span">
+          <label class="form-label">Definition (AR)</label>
+          <textarea rows="3" class="form-control" [(ngModel)]="childForm.definition_ar"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" (click)="createChild()">Create Child</button>
+    </div>
+  </div>
+</div>

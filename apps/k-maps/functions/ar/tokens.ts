@@ -148,3 +148,160 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     });
   }
 };
+
+export const onRequestPut: PagesFunction<Env> = async (ctx) => {
+  const user = await requireAuth(ctx);
+  if (!user) {
+    return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
+      status: 401,
+      headers: jsonHeaders,
+    });
+  }
+
+  let body: Record<string, unknown> | null = null;
+  try {
+    body = (await ctx.request.json()) as Record<string, unknown>;
+  } catch {
+    body = null;
+  }
+
+  if (!body || typeof body !== 'object') {
+    return new Response(JSON.stringify({ ok: false, error: 'Invalid JSON payload.' }), {
+      status: 400,
+      headers: jsonHeaders,
+    });
+  }
+
+  const id = String(body['id'] ?? '').trim();
+  if (!id) {
+    return new Response(JSON.stringify({ ok: false, error: 'Token id is required.' }), {
+      status: 400,
+      headers: jsonHeaders,
+    });
+  }
+
+  const lemmaAr = String(body['lemma_ar'] ?? '').trim();
+  const lemmaNorm = String(body['lemma_norm'] ?? '').trim();
+  const pos = String(body['pos'] ?? '').trim().toLowerCase();
+  if (!lemmaAr || !lemmaNorm || !pos) {
+    return new Response(JSON.stringify({ ok: false, error: 'lemma_ar, lemma_norm, and pos are required.' }), {
+      status: 400,
+      headers: jsonHeaders,
+    });
+  }
+  if (!allowedPosFilters.has(pos)) {
+    return new Response(JSON.stringify({ ok: false, error: 'Invalid POS value.' }), {
+      status: 400,
+      headers: jsonHeaders,
+    });
+  }
+
+  const rootNormRaw = body['root_norm'];
+  const rootNorm =
+    rootNormRaw === null || rootNormRaw === undefined
+      ? null
+      : String(rootNormRaw).trim() || null;
+
+  const arURootRaw = body['ar_u_root'];
+  const arURoot =
+    arURootRaw === null || arURootRaw === undefined
+      ? null
+      : String(arURootRaw).trim() || null;
+
+  const metaProvided = Object.prototype.hasOwnProperty.call(body, 'meta');
+  let metaJson: string | null | undefined = undefined;
+  if (metaProvided) {
+    const metaValue = body['meta'];
+    if (metaValue === null) {
+      metaJson = null;
+    } else if (typeof metaValue === 'object' && !Array.isArray(metaValue)) {
+      metaJson = JSON.stringify(metaValue);
+    } else {
+      return new Response(JSON.stringify({ ok: false, error: 'meta must be a JSON object.' }), {
+        status: 400,
+        headers: jsonHeaders,
+      });
+    }
+  }
+
+  try {
+    const existing = await ctx.env.DB.prepare(
+      `SELECT ar_u_token AS id FROM ar_u_tokens WHERE ar_u_token = ?`
+    ).bind(id).first();
+    if (!existing) {
+      return new Response(JSON.stringify({ ok: false, error: 'Token not found.' }), {
+        status: 404,
+        headers: jsonHeaders,
+      });
+    }
+
+    if (arURoot) {
+      const rootExists = await ctx.env.DB.prepare(
+        `SELECT ar_u_root FROM ar_u_roots WHERE ar_u_root = ?`
+      ).bind(arURoot).first();
+      if (!rootExists) {
+        return new Response(JSON.stringify({ ok: false, error: 'Root id not found.' }), {
+          status: 400,
+          headers: jsonHeaders,
+        });
+      }
+    }
+
+    const updateCols: string[] = [];
+    const updateBinds: (string | number | null)[] = [];
+    updateCols.push('lemma_ar = ?');
+    updateBinds.push(lemmaAr);
+    updateCols.push('lemma_norm = ?');
+    updateBinds.push(lemmaNorm);
+    updateCols.push('pos = ?');
+    updateBinds.push(pos);
+    updateCols.push('root_norm = ?');
+    updateBinds.push(rootNorm);
+    updateCols.push('ar_u_root = ?');
+    updateBinds.push(arURoot);
+    if (metaProvided) {
+      updateCols.push('meta_json = ?');
+      updateBinds.push(metaJson ?? null);
+    }
+    updateCols.push(`updated_at = datetime('now')`);
+
+    const updateSql = `UPDATE ar_u_tokens SET ${updateCols.join(', ')} WHERE ar_u_token = ?`;
+    updateBinds.push(id);
+    await ctx.env.DB.prepare(updateSql).bind(...updateBinds).run();
+
+    const refreshed = await ctx.env.DB.prepare(`
+      SELECT
+        t.ar_u_token AS id,
+        t.canonical_input,
+        t.lemma_ar,
+        t.lemma_norm,
+        t.pos,
+        t.root_norm,
+        t.ar_u_root,
+        r.root,
+        r.root_latn,
+        r.meta_json AS root_meta_json,
+        t.meta_json
+      FROM ar_u_tokens t
+      LEFT JOIN ar_u_roots r ON r.ar_u_root = t.ar_u_root
+      WHERE t.ar_u_token = ?
+    `).bind(id).first<TokenRow>();
+
+    if (!refreshed) {
+      return new Response(JSON.stringify({ ok: false, error: 'Token not found after update.' }), {
+        status: 404,
+        headers: jsonHeaders,
+      });
+    }
+
+    return new Response(JSON.stringify({ ok: true, result: safeToken(refreshed) }), {
+      headers: jsonHeaders,
+    });
+  } catch (err) {
+    console.error('token update error', err);
+    return new Response(JSON.stringify({ ok: false, error: 'Failed to update token.' }), {
+      status: 500,
+      headers: jsonHeaders,
+    });
+  }
+};

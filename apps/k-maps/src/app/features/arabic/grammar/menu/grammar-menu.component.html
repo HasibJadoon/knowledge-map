@@ -1,0 +1,18 @@
+<div class="grammar-menu">
+  <app-headerbar
+    class="grammar-menu-header"
+    [showTitle]="true"
+    [title]="'Grammar'"
+    [showSearch]="false"
+  />
+
+  <div class="grammar-menu-intro">
+    <div class="grammar-menu-eyebrow">Curriculum</div>
+    <h2>Build grammar lessons with clear hierarchy.</h2>
+    <p>
+      Organize chapters, maintain the concept tree, and curate examples in one place.
+    </p>
+  </div>
+
+  <app-menu-cards [sections]="sections" (cardSelect)="onCardSelect($event)"></app-menu-cards>
+</div>

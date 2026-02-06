@@ -1,0 +1,123 @@
+:host {
+  display: block;
+}
+
+.grammar-examples {
+  padding: 1.5rem 1.5rem 2.5rem;
+}
+
+.grammar-examples-header {
+  margin-bottom: 1.2rem;
+}
+
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.example-card {
+  background: linear-gradient(160deg, rgba(14, 24, 42, 0.92), rgba(10, 18, 33, 0.97));
+  border: 1px solid rgba(133, 160, 214, 0.22);
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.example-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(184, 200, 230, 0.7);
+}
+
+.example-ar {
+  font-family: var(--app-font-ar);
+  font-size: 1.15rem;
+}
+
+.example-note {
+  font-size: 0.86rem;
+  color: rgba(184, 200, 230, 0.75);
+}
+
+.example-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: rgba(184, 200, 230, 0.7);
+}
+
+.example-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.example-actions .btn-icon {
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.panel-empty {
+  color: rgba(184, 200, 230, 0.7);
+  padding: 0.6rem 0.2rem;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 8, 15, 0.65);
+  z-index: 40;
+}
+
+.modal-card {
+  position: fixed;
+  inset: 10% auto auto 50%;
+  transform: translateX(-50%);
+  width: min(640px, 92vw);
+  background: linear-gradient(160deg, rgba(14, 24, 42, 0.98), rgba(10, 18, 33, 0.98));
+  border-radius: 1rem;
+  border: 1px solid rgba(133, 160, 214, 0.25);
+  padding: 1.2rem;
+  z-index: 41;
+}
+
+.modal-wide {
+  width: min(760px, 94vw);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-body {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.form-span {
+  grid-column: 1 / -1;
+}

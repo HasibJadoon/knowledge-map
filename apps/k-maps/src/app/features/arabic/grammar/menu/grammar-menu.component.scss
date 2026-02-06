@@ -1,0 +1,48 @@
+:host {
+  display: block;
+}
+
+.grammar-menu {
+  min-height: calc(100vh - 110px);
+  padding: 1.5rem 1.75rem 2.5rem;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(52, 96, 148, 0.22), transparent 55%),
+    radial-gradient(circle at 85% 10%, rgba(131, 94, 45, 0.22), transparent 45%),
+    linear-gradient(160deg, rgba(10, 16, 28, 0.98), rgba(9, 14, 24, 0.92));
+  border-radius: 1.2rem;
+  border: 1px solid rgba(117, 144, 190, 0.18);
+}
+
+.grammar-menu-header {
+  margin-bottom: 1.5rem;
+}
+
+.grammar-menu-intro {
+  max-width: 640px;
+  margin-bottom: 1.75rem;
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+}
+
+.grammar-menu-intro h2 {
+  font-size: 1.6rem;
+  margin: 0.2rem 0 0.4rem;
+  font-weight: 700;
+}
+
+.grammar-menu-intro p {
+  margin: 0;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+}
+
+.grammar-menu-eyebrow {
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  color: rgba(201, 216, 255, 0.7);
+}
+
+@media (max-width: 900px) {
+  .grammar-menu {
+    padding: 1.25rem 1.2rem 2rem;
+  }
+}

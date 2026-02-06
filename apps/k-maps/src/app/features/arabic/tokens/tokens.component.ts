@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TokensService } from '../../../shared/services/tokens.service';
@@ -19,7 +20,7 @@ import {
 @Component({
   selector: 'app-tokens',
   standalone: true,
-  imports: [CommonModule, AppCrudTableComponent, AppHeaderbarComponent],
+  imports: [CommonModule, FormsModule, AppCrudTableComponent, AppHeaderbarComponent],
   templateUrl: './tokens.component.html',
   styleUrls: ['./tokens.component.scss'],
 })
@@ -78,6 +79,19 @@ export class TokensComponent implements OnInit, OnDestroy {
   total = 0;
   loading = false;
   error = '';
+
+  showEdit = false;
+  savingEdit = false;
+  editError = '';
+  editToken: TokenRow | null = null;
+  editForm = {
+    lemma_ar: '',
+    lemma_norm: '',
+    pos: '',
+    root_norm: '',
+    ar_u_root: '',
+  };
+  editMetaJson = '{}';
 
   constructor(
     private tokensService: TokensService,
@@ -189,6 +203,75 @@ export class TokensComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.load();
+  }
+
+  openEdit(token: TokenRow) {
+    this.editToken = token;
+    this.editForm = {
+      lemma_ar: token.lemma_ar ?? '',
+      lemma_norm: token.lemma_norm ?? '',
+      pos: token.pos ?? '',
+      root_norm: token.root_norm ?? '',
+      ar_u_root: token.ar_u_root ?? '',
+    };
+    this.editMetaJson = JSON.stringify(token.meta ?? {}, null, 2);
+    this.editError = '';
+    this.showEdit = true;
+  }
+
+  closeEdit() {
+    this.showEdit = false;
+    this.savingEdit = false;
+    this.editError = '';
+    this.editToken = null;
+  }
+
+  async saveEdit() {
+    if (!this.editToken) return;
+
+    let meta: Record<string, unknown> | null = null;
+    if (this.editMetaJson.trim()) {
+      try {
+        const parsed = JSON.parse(this.editMetaJson);
+        if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+          throw new Error('Meta JSON must be an object.');
+        }
+        meta = parsed as Record<string, unknown>;
+      } catch (err) {
+        this.editError =
+          err instanceof Error ? err.message : 'Meta JSON must be a valid object.';
+        return;
+      }
+    }
+
+    const payload = {
+      lemma_ar: this.editForm.lemma_ar.trim(),
+      lemma_norm: this.editForm.lemma_norm.trim(),
+      pos: this.editForm.pos.trim(),
+      root_norm: this.editForm.root_norm.trim() || null,
+      ar_u_root: this.editForm.ar_u_root.trim() || null,
+      meta,
+    };
+
+    this.savingEdit = true;
+    this.editError = '';
+    try {
+      const updated = await this.tokensService.update(this.editToken.id, payload);
+      const index = this.tokens.findIndex((token) => token.id === updated.id);
+      if (index >= 0) {
+        this.tokens = [
+          ...this.tokens.slice(0, index),
+          updated,
+          ...this.tokens.slice(index + 1),
+        ];
+      }
+      this.toast.show('Token updated.', 'success');
+      this.closeEdit();
+    } catch (err: any) {
+      this.editError = err?.message ?? 'Unable to update token.';
+    } finally {
+      this.savingEdit = false;
+    }
   }
 
   trackByToken(_index: number, token: TokenRow) {

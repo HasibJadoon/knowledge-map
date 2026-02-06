@@ -1,0 +1,217 @@
+<div class="grammar-chapters">
+  <app-headerbar
+    class="grammar-chapters-header"
+    [showTitle]="true"
+    [title]="'Chapters & Lessons'"
+    [showSearch]="true"
+    [placeholder]="'Search chapters or lessons'"
+    [value]="q"
+    [primaryLabel]="'New Lesson'"
+    [secondaryLabel]="'New Chapter'"
+    (search)="onHeaderSearchInput($event)"
+    (primary)="openNewLesson()"
+    (secondary)="openNewChapter()"
+    [filters]="headerFilters"
+    (filterChange)="onHeaderFilterChange($event)"
+  />
+
+  <div *ngIf="error" class="alert alert-danger py-2 my-3">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="text-body-secondary my-3">Loading…</div>
+
+  <div class="grammar-chapters-body" *ngIf="!loading">
+    <aside class="chapter-panel">
+      <div class="panel-header">
+        <span>Chapters</span>
+        <button type="button" class="btn btn-sm btn-outline-light" (click)="openNewChapter()">+</button>
+      </div>
+
+      <div *ngIf="!filteredChapters.length" class="panel-empty">No chapters yet.</div>
+
+      <div
+        class="chapter-card"
+        *ngFor="let chapter of filteredChapters"
+        [class.active]="chapter.id === selectedChapter?.id"
+        (click)="selectChapter(chapter)"
+      >
+        <div class="chapter-title">
+          <span>{{ chapter.title || 'Untitled' }}</span>
+          <small class="text-muted">{{ chapter.title_ar }}</small>
+        </div>
+        <div class="chapter-meta">
+          <span>#{{ chapter.order_index ?? '—' }}</span>
+          <span>{{ chapter.start_page ?? '—' }}-{{ chapter.end_page ?? '—' }}</span>
+        </div>
+        <div class="chapter-actions">
+          <button type="button" class="btn btn-icon btn-sm" (click)="openEditChapter(chapter); $event.stopPropagation()">✎</button>
+          <button type="button" class="btn btn-icon btn-sm text-danger" (click)="deleteChapter(chapter); $event.stopPropagation()">🗑</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="lesson-panel">
+      <div class="lesson-panel-header">
+        <div>
+          <h3>Lessons</h3>
+          <p class="text-muted" *ngIf="selectedChapter">
+            {{ selectedChapter.title }} · {{ selectedChapter.title_ar || '—' }}
+          </p>
+        </div>
+        <div class="lesson-panel-meta">
+          <span>Last edited: {{ selectedChapter?.meta?.['last_edited'] || '—' }}</span>
+          <span>Created by: {{ selectedChapter?.meta?.['created_by'] || '—' }}</span>
+        </div>
+      </div>
+
+      <div *ngIf="!selectedChapter" class="panel-empty">Select a chapter to view lessons.</div>
+
+      <div class="lesson-table-wrap" *ngIf="selectedChapter">
+        <table class="lesson-table">
+          <thead>
+            <tr>
+              <th class="col-handle"></th>
+              <th class="col-no">Lesson No</th>
+              <th>Title / عنوان</th>
+              <th class="col-pages">Pages</th>
+              <th class="col-nodes">Grammar Nodes</th>
+              <th class="col-status">Status</th>
+              <th class="col-actions"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let lesson of filteredLessons">
+              <td class="col-handle">≡</td>
+              <td class="col-no">{{ lesson.meta?.['lesson_no'] || lesson.order_index || '—' }}</td>
+              <td>
+                <div class="lesson-title">{{ lesson.title || 'Untitled' }}</div>
+                <div class="lesson-sub">{{ lesson.content_ar || '' }}</div>
+              </td>
+              <td class="col-pages">{{ lesson.meta?.['pages'] || '—' }}</td>
+              <td class="col-nodes">
+                <span class="chip" *ngFor="let node of lessonNodes(lesson)">
+                  {{ node }}
+                </span>
+              </td>
+              <td class="col-status">
+                <span class="status-pill">{{ lesson.meta?.['status'] || 'draft' }}</span>
+              </td>
+              <td class="col-actions">
+                <button class="btn btn-icon btn-sm" (click)="openEditLesson(lesson)">✎</button>
+                <button class="btn btn-icon btn-sm" (click)="duplicateLesson(lesson)">⎘</button>
+                <button class="btn btn-icon btn-sm" (click)="exportLesson(lesson)">⤓</button>
+                <button class="btn btn-icon btn-sm text-danger" (click)="deleteLesson(lesson)">🗑</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="!filteredLessons.length" class="panel-empty">No lessons yet.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Chapter modal -->
+  <div *ngIf="showChapterModal" class="modal-backdrop" (click)="closeChapterModal()"></div>
+  <div *ngIf="showChapterModal" class="modal-card" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h4>{{ chapterForm.id ? 'Edit Chapter' : 'New Chapter' }}</h4>
+      <button class="btn btn-sm btn-outline-light" (click)="closeChapterModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div>
+          <label class="form-label">Title (EN)</label>
+          <input class="form-control" [(ngModel)]="chapterForm.title" />
+        </div>
+        <div>
+          <label class="form-label">Title (AR)</label>
+          <input class="form-control" [(ngModel)]="chapterForm.title_ar" />
+        </div>
+        <div>
+          <label class="form-label">Book</label>
+          <select class="form-select" [(ngModel)]="chapterForm.book_id">
+            <option value="">No parent</option>
+            <option *ngFor="let book of books" [value]="book.id">{{ book.title || 'Untitled' }}</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Order</label>
+          <input class="form-control" type="number" [(ngModel)]="chapterForm.order_index" />
+        </div>
+        <div>
+          <label class="form-label">Start Page</label>
+          <input class="form-control" type="number" [(ngModel)]="chapterForm.start_page" />
+        </div>
+        <div>
+          <label class="form-label">End Page</label>
+          <input class="form-control" type="number" [(ngModel)]="chapterForm.end_page" />
+        </div>
+        <div>
+          <label class="form-label">Status</label>
+          <select class="form-select" [(ngModel)]="chapterForm.status">
+            <option value="draft">Draft</option>
+            <option value="ready">Ready</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" (click)="saveChapter()">Save</button>
+    </div>
+  </div>
+
+  <!-- Lesson modal -->
+  <div *ngIf="showLessonModal" class="modal-backdrop" (click)="closeLessonModal()"></div>
+  <div *ngIf="showLessonModal" class="modal-card modal-wide" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h4>{{ lessonForm.id ? 'Edit Lesson' : 'New Lesson' }}</h4>
+      <button class="btn btn-sm btn-outline-light" (click)="closeLessonModal()">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div>
+          <label class="form-label">Lesson No</label>
+          <input class="form-control" [(ngModel)]="lessonForm.lesson_no" />
+        </div>
+        <div>
+          <label class="form-label">Order</label>
+          <input class="form-control" type="number" [(ngModel)]="lessonForm.order_index" />
+        </div>
+        <div>
+          <label class="form-label">Title (EN)</label>
+          <input class="form-control" [(ngModel)]="lessonForm.title" />
+        </div>
+        <div>
+          <label class="form-label">Title (AR)</label>
+          <input class="form-control" [(ngModel)]="lessonForm.content_ar" />
+        </div>
+        <div>
+          <label class="form-label">Pages</label>
+          <input class="form-control" [(ngModel)]="lessonForm.pages" />
+        </div>
+        <div>
+          <label class="form-label">Status</label>
+          <select class="form-select" [(ngModel)]="lessonForm.status">
+            <option value="draft">Draft</option>
+            <option value="ready">Ready</option>
+            <option value="published">Published</option>
+          </select>
+        </div>
+        <div class="form-span">
+          <label class="form-label">Grammar Nodes (comma separated)</label>
+          <input class="form-control" [(ngModel)]="lessonForm.grammar_nodes" />
+        </div>
+        <div class="form-span">
+          <label class="form-label">Lesson Content</label>
+          <textarea rows="4" class="form-control" [(ngModel)]="lessonForm.content"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" (click)="saveLesson()">Save</button>
+    </div>
+  </div>
+</div>

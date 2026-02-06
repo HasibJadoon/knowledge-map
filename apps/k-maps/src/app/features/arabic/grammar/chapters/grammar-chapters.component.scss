@@ -1,0 +1,251 @@
+:host {
+  display: block;
+}
+
+.grammar-chapters {
+  padding: 1.5rem 1.5rem 2.5rem;
+}
+
+.grammar-chapters-header {
+  margin-bottom: 1.2rem;
+}
+
+.grammar-chapters-body {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+.chapter-panel,
+.lesson-panel {
+  background: linear-gradient(160deg, rgba(14, 24, 42, 0.94), rgba(10, 18, 33, 0.97));
+  border: 1px solid rgba(133, 160, 214, 0.22);
+  border-radius: 1.1rem;
+  padding: 1.1rem;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.25);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.panel-empty {
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+  padding: 0.6rem 0.4rem;
+}
+
+.chapter-card {
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(133, 160, 214, 0.2);
+  background: rgba(10, 16, 28, 0.6);
+  margin-bottom: 0.65rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  position: relative;
+}
+
+.chapter-card.active {
+  border-color: rgba(255, 214, 128, 0.6);
+  box-shadow: 0 0 0 1px rgba(255, 214, 128, 0.2);
+}
+
+.chapter-card:hover {
+  transform: translateY(-2px);
+}
+
+.chapter-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-weight: 600;
+}
+
+.chapter-title small {
+  font-size: 0.85rem;
+  color: rgba(184, 200, 230, 0.8);
+}
+
+.chapter-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+  color: rgba(184, 200, 230, 0.7);
+}
+
+.chapter-actions {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.chapter-actions .btn-icon {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.lesson-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.lesson-panel-header h3 {
+  margin: 0;
+}
+
+.lesson-panel-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.78rem;
+  color: rgba(184, 200, 230, 0.7);
+}
+
+.lesson-table-wrap {
+  overflow-x: auto;
+}
+
+.lesson-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.lesson-table th,
+.lesson-table td {
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid rgba(133, 160, 214, 0.15);
+  vertical-align: top;
+}
+
+.lesson-table th {
+  text-align: left;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(184, 200, 230, 0.75);
+}
+
+.lesson-title {
+  font-weight: 600;
+}
+
+.lesson-sub {
+  font-size: 0.85rem;
+  color: rgba(184, 200, 230, 0.7);
+}
+
+.col-handle {
+  width: 30px;
+  color: rgba(184, 200, 230, 0.7);
+}
+
+.col-no {
+  width: 90px;
+}
+
+.col-pages {
+  width: 100px;
+}
+
+.col-nodes {
+  min-width: 160px;
+}
+
+.col-status {
+  width: 110px;
+}
+
+.col-actions {
+  width: 150px;
+  text-align: right;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  margin: 0 0.3rem 0.3rem 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.75rem;
+  color: rgba(241, 246, 255, 0.9);
+}
+
+.status-pill {
+  display: inline-flex;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(98, 141, 255, 0.2);
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 8, 15, 0.65);
+  z-index: 40;
+}
+
+.modal-card {
+  position: fixed;
+  inset: 10% auto auto 50%;
+  transform: translateX(-50%);
+  width: min(620px, 92vw);
+  background: linear-gradient(160deg, rgba(14, 24, 42, 0.98), rgba(10, 18, 33, 0.98));
+  border-radius: 1rem;
+  border: 1px solid rgba(133, 160, 214, 0.25);
+  padding: 1.2rem;
+  z-index: 41;
+}
+
+.modal-wide {
+  width: min(760px, 94vw);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-body {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.form-span {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 980px) {
+  .grammar-chapters-body {
+    grid-template-columns: 1fr;
+  }
+}
