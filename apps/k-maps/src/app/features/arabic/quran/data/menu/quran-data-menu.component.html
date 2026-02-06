@@ -1,0 +1,18 @@
+<div class="quran-data-menu">
+  <app-headerbar
+    class="quran-data-menu-header"
+    [showTitle]="true"
+    [title]="'Quran Data'"
+    [showSearch]="false"
+  />
+
+  <div class="quran-data-menu-intro">
+    <div class="quran-data-menu-eyebrow">Data Management</div>
+    <h2>Manage Quran text, lemmas, and locations.</h2>
+    <p>
+      Browse surah cards, explore lemma indices, and inspect lemma occurrences at ayah level.
+    </p>
+  </div>
+
+  <app-menu-cards [sections]="sections" (cardSelect)="onCardSelect($event)"></app-menu-cards>
+</div>

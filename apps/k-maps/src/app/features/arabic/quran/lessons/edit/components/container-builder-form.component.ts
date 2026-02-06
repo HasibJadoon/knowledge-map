@@ -36,6 +36,11 @@ type ContainerFormModel = {
         <span>Ayah from</span>
         <input type="number" min="1" [(ngModel)]="form.ayahFrom" />
       </label>
+
+      <label>
+        <span>Ayah to</span>
+        <input type="number" min="1" [(ngModel)]="form.ayahTo" />
+      </label>
     </div>
   `,
 })

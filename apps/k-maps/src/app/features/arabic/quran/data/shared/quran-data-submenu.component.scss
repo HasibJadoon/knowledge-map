@@ -1,0 +1,45 @@
+.quran-data-submenu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.submenu-card {
+  display: block;
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--km-core-border, rgba(133, 160, 214, 0.2));
+  background: linear-gradient(165deg, rgba(14, 24, 42, 0.96), rgba(10, 18, 33, 0.92));
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+  text-decoration: none;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.submenu-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.15rem;
+}
+
+.submenu-desc {
+  font-size: 0.8rem;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+}
+
+.submenu-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--km-core-border-strong, rgba(133, 160, 214, 0.34));
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.25);
+}
+
+.submenu-card.active {
+  border-color: rgba(122, 162, 255, 0.6);
+  box-shadow: 0 0 0 1px rgba(122, 162, 255, 0.35), 0 12px 22px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 720px) {
+  .quran-data-submenu {
+    grid-template-columns: 1fr;
+  }
+}

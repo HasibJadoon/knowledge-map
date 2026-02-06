@@ -1,0 +1,38 @@
+.worldview-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.worldview-menu-header {
+  margin-bottom: 0.5rem;
+}
+
+.worldview-menu-intro {
+  padding: 1.1rem 1.4rem;
+  border-radius: 1rem;
+  border: 1px solid var(--km-core-border, rgba(133, 160, 214, 0.2));
+  background: linear-gradient(160deg, rgba(16, 24, 40, 0.95), rgba(10, 18, 33, 0.9));
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+}
+
+.worldview-menu-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 0.68rem;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+  margin-bottom: 0.6rem;
+}
+
+.worldview-menu-intro h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.35rem;
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+}
+
+.worldview-menu-intro p {
+  margin: 0;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+  max-width: 600px;
+}

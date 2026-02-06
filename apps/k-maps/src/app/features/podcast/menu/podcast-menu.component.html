@@ -1,0 +1,18 @@
+<div class="podcast-menu">
+  <app-headerbar
+    class="podcast-menu-header"
+    [showTitle]="true"
+    [title]="'Podcast'"
+    [showSearch]="false"
+  />
+
+  <div class="podcast-menu-intro">
+    <div class="podcast-menu-eyebrow">Podcast Suite</div>
+    <h2>Plan, write, and manage podcast episodes.</h2>
+    <p>
+      Jump into the episode library or start a new draft in minutes.
+    </p>
+  </div>
+
+  <app-menu-cards [sections]="sections" (cardSelect)="onCardSelect($event)"></app-menu-cards>
+</div>

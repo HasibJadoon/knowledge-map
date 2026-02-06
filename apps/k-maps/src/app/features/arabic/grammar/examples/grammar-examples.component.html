@@ -24,9 +24,9 @@
   <div class="examples-grid" *ngIf="!loading">
     <div class="example-card" *ngFor="let example of examples">
       <div class="example-header">
-        <span class="example-type">{{ example.extra?.['example_type'] || 'custom' }}</span>
+          <span class="example-type">{{ example.extra['example_type'] || 'custom' }}</span>
         <span class="example-ref" *ngIf="example.extra?.['surah']">
-          Q{{ example.extra?.['surah'] }}:{{ example.extra?.['ayah'] }}
+          Q{{ example.extra['surah'] }}:{{ example.extra['ayah'] }}
         </span>
       </div>
       <div class="example-ar arabic-text">{{ example.excerpt }}</div>

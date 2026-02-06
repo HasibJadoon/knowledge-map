@@ -1,0 +1,31 @@
+<div class="quran-lemmas">
+  <app-headerbar
+    [showTitle]="true"
+    [title]="'Lemma Index'"
+    [showSearch]="true"
+    [placeholder]="'Search lemma text'"
+    [value]="q"
+    [pagination]="pagination"
+    (search)="onHeaderSearchInput($event)"
+    (pageChange)="onHeaderPageChange($event)"
+    (pageSizeChange)="onHeaderPageSizeChange($event)"
+  />
+
+  <app-quran-data-submenu [active]="'lemmas'"></app-quran-data-submenu>
+
+  <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
+  <div *ngIf="loading" class="text-body-secondary">Loading lemmas…</div>
+
+  <app-crud-table
+    *ngIf="!loading"
+    [columns]="columns"
+    [rows]="lemmas"
+    [emptyMessage]="'No lemmas found.'"
+    [showActions]="true"
+    [showViewAction]="false"
+    [showEditAction]="false"
+    [showStudyAction]="false"
+    [actions]="actions"
+    (action)="onAction($event)"
+  ></app-crud-table>
+</div>

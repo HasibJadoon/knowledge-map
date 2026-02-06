@@ -1,0 +1,18 @@
+<div class="quran-menu">
+  <app-headerbar
+    class="quran-menu-header"
+    [showTitle]="true"
+    [title]="'Quran'"
+    [showSearch]="false"
+  />
+
+  <div class="quran-menu-intro">
+    <div class="quran-menu-eyebrow">Quran Operations</div>
+    <h2>Build, analyze, and manage Quran datasets.</h2>
+    <p>
+      Access lesson builders, curated data catalogs, and passage sections from a single workspace.
+    </p>
+  </div>
+
+  <app-menu-cards [sections]="sections" (cardSelect)="onCardSelect($event)"></app-menu-cards>
+</div>

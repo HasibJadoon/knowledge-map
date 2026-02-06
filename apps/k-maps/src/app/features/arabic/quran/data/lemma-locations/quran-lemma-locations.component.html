@@ -1,0 +1,48 @@
+<div class="quran-lemma-locations">
+  <app-headerbar
+    [showTitle]="true"
+    [title]="'Lemma Locations'"
+    [showSearch]="true"
+    [placeholder]="'Search lemma text'"
+    [value]="q"
+    [pagination]="pagination"
+    (search)="onHeaderSearchInput($event)"
+    (pageChange)="onHeaderPageChange($event)"
+    (pageSizeChange)="onHeaderPageSizeChange($event)"
+  />
+
+  <app-quran-data-submenu [active]="'lemma-locations'"></app-quran-data-submenu>
+
+  <div class="filter-row">
+    <div class="filter-field">
+      <label>Lemma ID</label>
+      <input type="number" class="form-control" [(ngModel)]="lemmaId" placeholder="e.g. 1024" />
+    </div>
+    <div class="filter-field">
+      <label>Surah</label>
+      <input type="number" class="form-control" [(ngModel)]="surah" placeholder="1-114" />
+    </div>
+    <div class="filter-field">
+      <label>Ayah</label>
+      <input type="number" class="form-control" [(ngModel)]="ayah" placeholder="Ayah" />
+    </div>
+    <div class="filter-actions">
+      <button class="btn btn-primary" type="button" (click)="applyFilters()">Apply</button>
+      <button class="btn btn-outline-light" type="button" (click)="clearFilters()">Clear</button>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
+  <div *ngIf="loading" class="text-body-secondary">Loading lemma locations…</div>
+
+  <app-crud-table
+    *ngIf="!loading"
+    [columns]="columns"
+    [rows]="rows"
+    [emptyMessage]="'No lemma locations found.'"
+    [showActions]="false"
+    [showViewAction]="false"
+    [showEditAction]="false"
+    [showStudyAction]="false"
+  ></app-crud-table>
+</div>

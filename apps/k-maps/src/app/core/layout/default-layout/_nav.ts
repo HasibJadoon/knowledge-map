@@ -9,49 +9,12 @@ export const navItems: INavData[] = [
   {
     name: 'Arabic',
     iconComponent: { name: 'cilBookmark' },
-    children: [
-      {
-        name: 'Quran',
-        url: '/arabic/quran/lessons',
-        iconComponent: { name: 'cilBookmark' }
-      },
-      {
-        name: 'Literature',
-        url: '/arabic/literature/lessons',
-        iconComponent: { name: 'cilDescription' }
-      },
-      {
-        name: 'Grammar',
-        url: '/arabic/grammar',
-        iconComponent: { name: 'cilNotes' }
-      },
-      {
-        name: 'Tokens',
-        url: '/arabic/tokens',
-        iconComponent: { name: 'cilSpeech' }
-      },
-      {
-        name: 'Sentences',
-        url: '/arabic/sentences',
-        iconComponent: { name: 'cilNotes' }
-      },
-      {
-        name: 'Roots',
-        url: '/arabic/roots',
-        iconComponent: { name: 'cilTags' }
-      }
-    ]
+    url: '/arabic'
   },
   {
     name: 'Worldview',
     iconComponent: { name: 'cilMap' },
-    children: [
-      {
-        name: 'Lessons',
-        url: '/worldview/lessons',
-        iconComponent: { name: 'cilMap' }
-      }
-    ]
+    url: '/worldview'
   },
   {
     name: 'Discourse',
@@ -88,34 +51,16 @@ export const navItems: INavData[] = [
   {
     name: 'Crossref',
     iconComponent: { name: 'cilShareAll' },
-    children: [
-      {
-        name: 'Cross References',
-        url: '/crossref',
-        iconComponent: { name: 'cilShareAll' }
-      }
-    ]
+    url: '/crossref'
   },
   {
     name: 'Podcast',
     iconComponent: { name: 'cilMediaPlay' },
-    children: [
-      {
-        name: 'Episodes',
-        url: '/podcast',
-        iconComponent: { name: 'cilMediaPlay' }
-      }
-    ]
+    url: '/podcast'
   },
   {
     name: 'Planner',
     iconComponent: { name: 'cilCalendar' },
-    children: [
-      {
-        name: 'Weekly Plan',
-        url: '/planner',
-        iconComponent: { name: 'cilCalendar' }
-      }
-    ]
+    url: '/planner'
   }
 ];

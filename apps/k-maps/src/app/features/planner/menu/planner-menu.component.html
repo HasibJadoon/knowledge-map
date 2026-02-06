@@ -1,0 +1,18 @@
+<div class="planner-menu">
+  <app-headerbar
+    class="planner-menu-header"
+    [showTitle]="true"
+    [title]="'Planner'"
+    [showSearch]="false"
+  />
+
+  <div class="planner-menu-intro">
+    <div class="planner-menu-eyebrow">Planning Suite</div>
+    <h2>Plan sprints, track weekly tasks.</h2>
+    <p>
+      Jump into weekly plans or spin up a new planning session quickly.
+    </p>
+  </div>
+
+  <app-menu-cards [sections]="sections" (cardSelect)="onCardSelect($event)"></app-menu-cards>
+</div>

@@ -1,0 +1,18 @@
+<div class="arabic-menu">
+  <app-headerbar
+    class="arabic-menu-header"
+    [showTitle]="true"
+    [title]="'Arabic'"
+    [showSearch]="false"
+  />
+
+  <div class="arabic-menu-intro">
+    <div class="arabic-menu-eyebrow">Arabic Suite</div>
+    <h2>Everything for Quranic and classical Arabic workflows.</h2>
+    <p>
+      Jump into Quran lessons, literature, grammar, tokens, sentences, and root systems.
+    </p>
+  </div>
+
+  <app-menu-cards [sections]="sections" (cardSelect)="onCardSelect($event)"></app-menu-cards>
+</div>

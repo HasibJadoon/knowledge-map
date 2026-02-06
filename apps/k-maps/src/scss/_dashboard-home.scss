@@ -1,0 +1,208 @@
+.dashboard-grid {
+  width: 100%;
+}
+
+.dashboard-grid c-row {
+  align-items: stretch;
+}
+
+.dashboard-grid c-col {
+  display: flex;
+}
+
+.dashboard-grid c-col > .dashboard-card {
+  flex: 1 1 auto;
+}
+
+.section-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+}
+
+.section-title.mt-section {
+  margin-top: 0.65rem;
+}
+
+c-card.dashboard-card,
+c-card.dashboard-card .card {
+  display: block;
+  width: 100%;
+  height: 176px !important;
+  overflow: hidden;
+  border-radius: 0.95rem;
+  border: 1px solid var(--km-core-border, rgba(133, 160, 214, 0.2));
+  background: var(--km-core-surface-1, rgba(17, 26, 43, 0.98));
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+.dashboard-card-body {
+  position: relative;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+}
+
+.menu-poster {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18), transparent 58%),
+    linear-gradient(155deg, rgba(22, 34, 58, 0.98), rgba(13, 21, 36, 0.95));
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.menu-poster::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.16));
+  transition: bottom 0.35s ease;
+}
+
+.menu-information {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: -146px;
+  z-index: 2;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 12, 23, 0) 0%,
+    rgba(7, 12, 23, 0.6) 55%,
+    rgba(7, 12, 23, 0.95) 100%
+  );
+  transition: bottom 0.35s ease;
+}
+
+.menu-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+}
+
+.menu-line {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.menu-button {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  color: #253858;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.menu-text {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.icon-badge {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    0 10px 22px rgba(0, 0, 0, 0.22);
+}
+
+.card-icon {
+  color: inherit;
+}
+
+c-card.dashboard-card:hover,
+c-card.dashboard-card:hover .card {
+  transform: translateY(-5px);
+  border-color: var(--km-core-border-strong, rgba(133, 160, 214, 0.34));
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.07);
+}
+
+c-card.dashboard-card:hover .menu-poster {
+  transform: translateY(-24px);
+  filter: blur(2px);
+}
+
+c-card.dashboard-card:hover .menu-poster::before {
+  bottom: 0;
+}
+
+c-card.dashboard-card:hover .menu-information {
+  bottom: -72px;
+}
+
+c-card.dashboard-card:hover .menu-line {
+  opacity: 1;
+}
+
+c-card.dashboard-card:hover .menu-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.theme-arabic { color: #7aa2ff; }
+.theme-roots { color: #8bd3c7; }
+.theme-lexicon { color: #f0c674; }
+.theme-memory { color: #9a86fd; }
+.theme-worldview { color: #7ed6df; }
+.theme-crossref { color: #ff9f7f; }
+.theme-podcast { color: #f38ba8; }
+.theme-planner { color: #a6e3a1; }
+
+@media (prefers-color-scheme: light) {
+  .menu-information {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(250, 252, 255, 0.78) 55%,
+      rgba(245, 248, 255, 0.97) 100%
+    );
+  }
+
+  .menu-button {
+    background: rgba(15, 32, 64, 0.9);
+    color: rgba(245, 250, 255, 0.95);
+  }
+}
+
+@media (max-width: 768px) {
+  c-card.dashboard-card,
+  c-card.dashboard-card .card {
+    height: 164px !important;
+  }
+
+  c-card.dashboard-card .menu-information {
+    bottom: -92px;
+  }
+}

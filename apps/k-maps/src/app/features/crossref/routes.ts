@@ -4,6 +4,12 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
+      import('./menu/crossref-menu.component').then(m => m.CrossrefMenuComponent),
+    data: { title: 'Cross-Reference' }
+  },
+  {
+    path: 'refs',
+    loadComponent: () =>
       import('./crossref-page/crossref-page.component').then(m => m.CrossrefPageComponent),
     data: { title: 'Cross References' }
   },

@@ -1,0 +1,18 @@
+<div class="worldview-menu">
+  <app-headerbar
+    class="worldview-menu-header"
+    [showTitle]="true"
+    [title]="'Worldview'"
+    [showSearch]="false"
+  />
+
+  <div class="worldview-menu-intro">
+    <div class="worldview-menu-eyebrow">Worldview Suite</div>
+    <h2>Map lessons, sources, and knowledge artifacts.</h2>
+    <p>
+      Access worldview lessons and the knowledge desk from a single landing page.
+    </p>
+  </div>
+
+  <app-menu-cards [sections]="sections" (cardSelect)="onCardSelect($event)"></app-menu-cards>
+</div>

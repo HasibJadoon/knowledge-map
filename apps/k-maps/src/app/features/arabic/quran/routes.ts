@@ -10,7 +10,38 @@ import { QuranSectionEditComponent } from './lessons/sections/edit/quran-section
 import { QuranSectionStudyComponent } from './lessons/sections/study/quran-section-study.component';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'lessons' },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./menu/quran-menu.component').then(m => m.QuranMenuComponent),
+    data: { title: 'Quran' },
+  },
+  {
+    path: 'data',
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./data/menu/quran-data-menu.component').then(m => m.QuranDataMenuComponent),
+        data: { title: 'Quran Data' },
+      },
+      {
+        path: 'text',
+        loadComponent: () => import('./data/text/quran-text.component').then(m => m.QuranTextComponent),
+        data: { title: 'Quran Text' },
+      },
+      {
+        path: 'lemmas',
+        loadComponent: () => import('./data/lemmas/quran-lemmas.component').then(m => m.QuranLemmasComponent),
+        data: { title: 'Quran Lemmas' },
+      },
+      {
+        path: 'lemma-locations',
+        loadComponent: () =>
+          import('./data/lemma-locations/quran-lemma-locations.component').then(m => m.QuranLemmaLocationsComponent),
+        data: { title: 'Lemma Locations' },
+      },
+    ],
+  },
   {
     path: 'lessons',
     data: { title: 'Quran Lessons' },

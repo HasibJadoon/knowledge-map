@@ -4,6 +4,12 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
+      import('./menu/podcast-menu.component').then(m => m.PodcastMenuComponent),
+    data: { title: 'Podcast' }
+  },
+  {
+    path: 'episodes',
+    loadComponent: () =>
       import('./episodes/podcast-episodes-page/podcast-episodes-page.component').then(m => m.PodcastEpisodesPageComponent),
     data: { title: 'Podcast Episodes' }
   },

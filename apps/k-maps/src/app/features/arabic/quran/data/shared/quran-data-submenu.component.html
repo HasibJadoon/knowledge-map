@@ -1,0 +1,11 @@
+<div class="quran-data-submenu">
+  <a
+    *ngFor="let item of items"
+    [routerLink]="item.route"
+    class="submenu-card"
+    [class.active]="item.id === active"
+  >
+    <div class="submenu-title">{{ item.title }}</div>
+    <div class="submenu-desc">{{ item.description }}</div>
+  </a>
+</div>

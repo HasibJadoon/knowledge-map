@@ -2,6 +2,12 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./menu/arabic-menu.component').then(m => m.ArabicMenuComponent),
+    data: { title: 'Arabic' }
+  },
+  {
     path: 'quran',
     loadChildren: () => import('./quran/routes').then(m => m.routes),
     data: { title: 'Quran' }

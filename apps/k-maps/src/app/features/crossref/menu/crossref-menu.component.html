@@ -1,0 +1,18 @@
+<div class="crossref-menu">
+  <app-headerbar
+    class="crossref-menu-header"
+    [showTitle]="true"
+    [title]="'Cross-Reference'"
+    [showSearch]="false"
+  />
+
+  <div class="crossref-menu-intro">
+    <div class="crossref-menu-eyebrow">Cross-Reference Suite</div>
+    <h2>Connect Quran passages across sources.</h2>
+    <p>
+      Explore existing references or create new Quran comparisons in minutes.
+    </p>
+  </div>
+
+  <app-menu-cards [sections]="sections" (cardSelect)="onCardSelect($event)"></app-menu-cards>
+</div>

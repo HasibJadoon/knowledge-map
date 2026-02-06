@@ -38,6 +38,17 @@ export type { LibraryEntry } from './worldview/library-entry.model';
 export { QuranRelationModel } from './arabic/quran-relation.model';
 export type { QuranRelation } from './arabic/quran-relation.model';
 
+export type {
+  QuranSurah,
+  QuranSurahListResponse,
+  QuranAyah,
+  QuranAyahListResponse,
+  QuranLemma,
+  QuranLemmaListResponse,
+  QuranLemmaLocation,
+  QuranLemmaLocationListResponse,
+} from './arabic/quran-data.model';
+
 export { RootModel } from './arabic/root.model';
 export type { Root } from './arabic/root.model';
 
