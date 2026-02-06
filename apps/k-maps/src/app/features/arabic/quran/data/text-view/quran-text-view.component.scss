@@ -32,6 +32,12 @@
   text-align-last: right;
 }
 
+.reading-mark {
+  color: #facc15;
+  font-size: 0.85em;
+  margin-inline-start: 0.15rem;
+}
+
 .arabic-passage {
   display: flex;
   flex-direction: column;
@@ -96,6 +102,191 @@
   color: rgba(226, 232, 240, 0.92);
 }
 
+.translation-passages {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  direction: ltr;
+  text-align: left;
+  font-family: var(--app-font-sans);
+  color: rgba(226, 232, 240, 0.92);
+}
+
+.translation-passage {
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 0.85rem;
+  background: rgba(15, 23, 42, 0.3);
+}
+
+.translation-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.translation-intro {
+  padding: 0.75rem 0.85rem;
+  border: 1px dashed rgba(148, 163, 184, 0.25);
+  border-radius: 0.85rem;
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.translation-intro-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(148, 163, 184, 0.9);
+  margin-bottom: 0.45rem;
+}
+
+.translation-intro-text {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  text-align: justify;
+  text-align-last: left;
+  color: rgba(226, 232, 240, 0.88);
+}
+
+.translation-intro-divider {
+  margin-top: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #facc15;
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.translation-intro-divider::before,
+.translation-intro-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(250, 204, 21, 0.3);
+}
+
+.translation-passage-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(148, 163, 184, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.translation-range {
+  color: #facc15;
+  font-weight: 600;
+}
+
+.translation-text {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  white-space: normal;
+  text-align: justify;
+  text-align-last: left;
+}
+
+.translation-text--justified {
+  text-align: justify;
+  text-align-last: left;
+}
+
+.translation-number {
+  display: inline-block;
+  margin-right: 0.28rem;
+  font-weight: 600;
+  font-size: 0.68rem;
+  color: #facc15;
+  letter-spacing: 0.02em;
+  vertical-align: super;
+  position: relative;
+  top: -0.2em;
+  text-transform: none;
+  background: none;
+  box-shadow: none;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+}
+
+.translation-segment-text {
+  display: inline;
+}
+
+.translation-footnotes {
+  margin-top: 0.75rem;
+  border-top: 1px dashed rgba(148, 163, 184, 0.18);
+  padding-top: 0.65rem;
+}
+
+.footnote-toggle {
+  border: none;
+  background: none;
+  color: rgba(226, 232, 240, 0.85);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+}
+
+.footnote-toggle-icon {
+  font-size: 0.9rem;
+}
+
+.footnote-list {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.footnote-item {
+  display: flex;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.footnote-marker {
+  font-weight: 700;
+  color: #facc15;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  position: relative;
+  top: 0.1rem;
+  min-width: 0.8rem;
+  text-transform: lowercase;
+}
+
+.footnote-inline {
+  font-size: 0.7rem;
+  font-weight: 600;
+  vertical-align: super;
+  color: #7dd3fc;
+  cursor: help;
+  transition: color 0.2s ease;
+  margin-left: 0.1rem;
+}
+
+.footnote-inline:hover {
+  color: #f9a8d4;
+}
+
+
 .passage-section {
   padding-bottom: 0.75rem;
   border-bottom: 1px dashed rgba(148, 163, 184, 0.2);
@@ -113,6 +304,13 @@
   display: flex;
   align-items: baseline;
   gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.study-card-subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
 }
 
 .view-controls {

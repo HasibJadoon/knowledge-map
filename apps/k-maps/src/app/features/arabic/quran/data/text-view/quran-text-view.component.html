@@ -27,14 +27,17 @@
             <div class="study-card-title">
               <h4>Text</h4>
               <h4 class="study-card-mode">Surah {{ surah.surah }}</h4>
+              <p class="study-card-subtitle" *ngIf="showTranslation && translationSourceMeta">
+                {{ translationSourceMeta }}
+              </p>
             </div>
             <div class="view-controls">
               <div class="toggle-group">
                 <button
                   type="button"
                   class="toggle-btn"
-                  [class.active]="showVerse"
-                  (click)="toggleSection('verse')"
+                  [class.active]="viewMode === 'verse'"
+                  (click)="setViewMode('verse')"
                 >
                   <span class="toggle-icon">≡</span>
                   Verse by Verse
@@ -42,8 +45,8 @@
                 <button
                   type="button"
                   class="toggle-btn"
-                  [class.active]="showReading"
-                  (click)="toggleSection('reading')"
+                  [class.active]="viewMode === 'reading'"
+                  (click)="setViewMode('reading')"
                 >
                   <span class="toggle-icon">▤</span>
                   Reading
@@ -51,8 +54,8 @@
                 <button
                   type="button"
                   class="toggle-btn"
-                  [class.active]="showTranslation"
-                  (click)="toggleSection('translation')"
+                  [class.active]="viewMode === 'translation'"
+                  (click)="setViewMode('translation')"
                 >
                   <span class="toggle-icon">A</span>
                   Translation
@@ -74,11 +77,70 @@
             class="arabic-passage"
             [class.arabic-passage--reading]="showReading"
           >
-            <div *ngIf="showReading && readingText" class="reading-text text-arabic passage-section">
-              {{ readingText }}
-            </div>
-            <div *ngIf="showTranslation && readingTranslation" class="reading-translation passage-section">
-              {{ readingTranslation }}
+            <div
+              *ngIf="showReading && readingHtml"
+              class="reading-text text-arabic passage-section"
+              [innerHTML]="readingHtml"
+            ></div>
+            <div *ngIf="showTranslation" class="translation-passages passage-section">
+              <ng-container *ngIf="translationPassageList.length; else translationFallback">
+                <div
+                  *ngFor="let passage of translationPassageList; trackBy: trackByPassage"
+                  class="translation-passage"
+                >
+                  <div class="translation-passage-header">
+                    <span class="translation-range">{{ formatTranslationRange(passage) }}</span>
+                    <span class="translation-page" *ngIf="passage.page_book">p. {{ passage.page_book }}</span>
+                  </div>
+                  <div class="translation-body">
+                    <ng-container *ngIf="getPassageHtmlParts(passage) as passageParts; else translationSegmentsTpl">
+                      <div class="translation-intro" *ngIf="passageParts.intro">
+                        <div class="translation-intro-label">Surah Introduction</div>
+                        <div class="translation-intro-text" [innerHTML]="passageParts.intro"></div>
+                        <div class="translation-intro-divider">
+                          <span>Surah Begins</span>
+                        </div>
+                      </div>
+                      <p class="translation-text translation-text--justified">
+                        <span [innerHTML]="passageParts.body"></span>
+                      </p>
+                    </ng-container>
+                    <ng-template #translationSegmentsTpl>
+                      <p class="translation-text translation-text--justified">
+                        <ng-container *ngIf="getPassageSegments(passage).length; else translationTextFallback">
+                          <ng-container *ngFor="let seg of getPassageSegments(passage); let isLast = last">
+                            <span class="translation-number">{{ seg.number }}</span>
+                            <span class="translation-segment-text">{{ seg.text }}</span>
+                            <span *ngIf="!isLast"> </span>
+                          </ng-container>
+                        </ng-container>
+                        <ng-template #translationTextFallback>{{ formatPassageText(passage.text) }}</ng-template>
+                      </p>
+                    </ng-template>
+                  </div>
+                  <div class="translation-footnotes" *ngIf="getFootnotes(passage).length">
+                    <button
+                      type="button"
+                      class="footnote-toggle"
+                      (click)="toggleFootnotes(passage)"
+                    >
+                      Footnotes ({{ getFootnotes(passage).length }})
+                      <span class="footnote-toggle-icon">
+                        {{ isFootnotesOpen(passage) ? '▾' : '▸' }}
+                      </span>
+                    </button>
+                    <div class="footnote-list" *ngIf="isFootnotesOpen(passage)">
+                      <div *ngFor="let note of getFootnotes(passage)" class="footnote-item">
+                        <span class="footnote-marker">{{ note.marker }}</span>
+                        <span class="footnote-text">{{ note.text }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #translationFallback>
+                <p class="translation-text" *ngIf="readingTranslation">{{ readingTranslation }}</p>
+              </ng-template>
             </div>
 
             <ng-container *ngIf="showVerse">

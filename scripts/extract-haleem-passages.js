@@ -116,6 +116,51 @@ function isFootnoteLine(line) {
   return false;
 }
 
+function extractFootnotes(lines, viewportHeight) {
+  const footnotes = [];
+  let current = null;
+  const threshold = viewportHeight * footnoteRegionRatio;
+  const footnoteLines = lines.filter((line) => line.y <= threshold);
+
+  for (const line of footnoteLines) {
+    const text = line.text.trim();
+    if (!text) continue;
+    if (/^[a-z](\s+[a-z])+$/.test(text)) continue;
+
+    const match = text.match(/^([a-z])\s+(.*)$/);
+    if (match) {
+      if (current) footnotes.push(current);
+      current = { marker: match[1], text: match[2].trim() };
+      continue;
+    }
+
+    if (current) {
+      current.text = `${current.text} ${text}`.replace(/\s+/g, ' ').trim();
+    }
+  }
+
+  if (current) footnotes.push(current);
+  return footnotes;
+}
+
+function stripFootnoteText(bodyText, footnotes) {
+  if (!bodyText || !footnotes?.length) return bodyText;
+  let cleaned = bodyText;
+
+  for (const note of footnotes) {
+    const noteText = String(note?.text ?? '').trim();
+    if (!noteText) continue;
+    const escaped = noteText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const flexible = escaped.replace(/\s+/g, '\\s+');
+    const noteRegex = new RegExp(flexible, 'gi');
+    const markerRegex = new RegExp(`\\s+[a-z]\\s+${flexible}`, 'gi');
+    cleaned = cleaned.replace(markerRegex, ' ');
+    cleaned = cleaned.replace(noteRegex, ' ');
+  }
+
+  return cleaned.replace(/\s+/g, ' ').trim();
+}
+
 function parseHeader(line) {
   let match = line.match(/^(\d+)\s*:\s*(\d+)\s+.*\s+(\d+)$/);
   if (match) {
@@ -189,6 +234,7 @@ function chooseRange(numbers, headerAyah) {
     const content = await page.getTextContent();
     const viewport = page.getViewport({ scale: 1.0 });
     const lines = groupLines(content.items);
+    const footnotes = extractFootnotes(lines, viewport.height);
 
     let headerLine = null;
     let headerAyah = null;
@@ -203,6 +249,30 @@ function chooseRange(numbers, headerAyah) {
         break;
       }
     }
+
+    const bodyLines = [];
+    const threshold = viewport.height * footnoteRegionRatio;
+    const footnoteCandidates = lines.filter((line) => line.y <= threshold && isFootnoteLine(line.text));
+    const footnoteStartY = footnoteCandidates
+      .map((line) => line.y)
+      .reduce((acc, value) => (acc == null || value > acc ? value : acc), null);
+
+    for (const line of lines) {
+      if (footnoteStartY != null && line.y <= footnoteStartY) continue;
+      if (footnoteStartY == null && line.y <= threshold && isFootnoteLine(line.text)) continue;
+
+      if (line.text === headerLine) continue;
+      if (/^\d+\.\s+/.test(line.text)) continue;
+      if (parseHeader(line.text)) continue;
+      if (/^[a-z](\s+[a-z])+$/.test(line.text)) continue;
+      if (isFootnoteLine(line.text)) continue;
+
+      bodyLines.push(line.text);
+    }
+
+    let bodyText = bodyLines.join(' ').replace(/\s+/g, ' ').trim();
+    bodyText = bodyText.replace(/(\w)-\s+(\w)/g, '$1$2');
+    bodyText = stripFootnoteText(bodyText, footnotes);
 
     const numbersBySurah = new Map();
     let inFootnotes = false;
@@ -272,6 +342,8 @@ function chooseRange(numbers, headerAyah) {
         text,
         meta_json: {
           header_ayah: headerAyah,
+          footnotes,
+          text_pdf: bodyText || null,
         },
       });
     }
