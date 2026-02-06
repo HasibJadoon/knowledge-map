@@ -28,4 +28,14 @@
     [actions]="actions"
     (action)="onAction($event)"
   ></app-crud-table>
+
+  <app-headerbar
+    *ngIf="!loading"
+    class="quran-lemmas-footer"
+    [showTitle]="false"
+    [showSearch]="false"
+    [pagination]="pagination"
+    (pageChange)="onHeaderPageChange($event)"
+    (pageSizeChange)="onHeaderPageSizeChange($event)"
+  />
 </div>

@@ -23,6 +23,7 @@ type VerseWordView = {
   key: string;
   surface: string;
   tokenIndex: number;
+  pos?: string | null;
   wordLocation?: string;
   lemmaId?: number;
   lemmaText?: string;
@@ -74,6 +75,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
 
   lesson: QuranLesson | null = null;
   activeTab: StudyTab = 'study';
+  readingMode: 'verse' | 'reading' = 'verse';
 
   selectedVerseId: string | null = null;
   selectedSentenceKey: string | null = null;
@@ -165,6 +167,14 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
 
     const fallback = (this.passageUnitEntry?.text_cache ?? '').trim();
     return fallback ? this.stripArabicDiacritics(fallback) : '';
+  }
+
+  get readingText(): string {
+    const lines = this.verseList.map((verse) => {
+      const marker = verse.marker?.trim();
+      return marker ? `${verse.text} ${marker}` : verse.text;
+    });
+    return lines.join(' ');
   }
 
   get passageUnitLabel(): string {
@@ -366,6 +376,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     surah?: number,
     ayah?: number
   ): VerseWordView[] {
+    const posMap = this.buildTokenPosMap();
     const lemmasByToken = this.indexLemmasByToken(lemmas);
     const words = this.tokenizeWords(text);
 
@@ -374,6 +385,8 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
       const lemma = lemmasByToken.get(tokenIndex);
       const fallbackWordLocation =
         surah && ayah ? `${surah}:${ayah}:${tokenIndex}` : undefined;
+      const posKey = lemma?.ar_u_token ? `u:${lemma.ar_u_token}` : null;
+      const pos = posKey ? posMap.get(posKey) ?? null : null;
 
       const simpleWord = this.stripArabicDiacritics((lemma?.word_simple ?? '').trim());
       const plainWord = this.stripArabicDiacritics(rawWord);
@@ -383,6 +396,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
         key: `${verseId}-${tokenIndex}`,
         surface,
         tokenIndex,
+        pos,
         wordLocation: lemma?.word_location ?? fallbackWordLocation,
         lemmaId: lemma?.lemma_id,
         lemmaText: lemma?.lemma_text,
@@ -390,6 +404,16 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
         arUToken: lemma?.ar_u_token ?? null,
       };
     });
+  }
+
+  private buildTokenPosMap(): Map<string, string> {
+    const map = new Map<string, string>();
+    const tokens = this.lesson?.analysis?.tokens ?? [];
+    for (const token of tokens) {
+      if (!token?.u_token_id || !token.pos) continue;
+      map.set(`u:${token.u_token_id}`, token.pos);
+    }
+    return map;
   }
 
   private buildPassageVerseText(verse: AyahUnit): string {

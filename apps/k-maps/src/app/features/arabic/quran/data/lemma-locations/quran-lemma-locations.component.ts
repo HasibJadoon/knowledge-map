@@ -52,16 +52,6 @@ export class QuranLemmaLocationsComponent implements OnInit, OnDestroy {
       cellClass: () => 'app-table-english',
     },
     {
-      key: 'surah',
-      label: 'Surah',
-      cellClass: () => 'app-table-english',
-    },
-    {
-      key: 'ayah',
-      label: 'Ayah',
-      cellClass: () => 'app-table-english',
-    },
-    {
       key: 'token_index',
       label: 'Token',
       cellClass: () => 'app-table-english',
@@ -70,11 +60,6 @@ export class QuranLemmaLocationsComponent implements OnInit, OnDestroy {
       key: 'word_simple',
       label: 'Word',
       cellClass: () => 'app-table-arabic',
-    },
-    {
-      key: 'word_location',
-      label: 'Location',
-      cellClass: () => 'app-table-english',
     },
   ];
 

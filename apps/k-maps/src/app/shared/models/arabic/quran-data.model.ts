@@ -18,6 +18,7 @@ export interface QuranAyah {
   surah: number;
   ayah: number;
   surah_ayah: number;
+  page?: number | null;
   text: string;
   text_simple?: string | null;
   text_normalized?: string | null;

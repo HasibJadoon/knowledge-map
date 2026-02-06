@@ -30,6 +30,7 @@ export class AppHeaderbarComponent {
   @Input() showSearch = true;
   @Input() placeholder = 'Search';
   @Input() value = '';
+  @Input() leadingLabel = '';
   @Input() primaryLabel = '';
   @Input() secondaryLabel = '';
   @Input() tertiaryLabel = '';
@@ -37,6 +38,7 @@ export class AppHeaderbarComponent {
   @Input() filters: PageHeaderFilterConfig[] = [];
 
   @Output() search = new EventEmitter<string>();
+  @Output() leading = new EventEmitter<void>();
   @Output() primary = new EventEmitter<void>();
   @Output() secondary = new EventEmitter<void>();
   @Output() tertiary = new EventEmitter<void>();

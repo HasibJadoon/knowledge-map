@@ -22,33 +22,63 @@
           </div>
           <hr class="study-card-divider" />
 
-          <div *ngIf="verseList.length > 0; else noArabic" class="arabic-passage">
-            <span
-              *ngFor="let verse of verseList; trackBy: trackByVerseId"
-              class="arabic-verse"
-              [class.arabic-verse--selected]="selectedVerseId === verse.id"
-              (click)="selectVerse(verse.id)"
+          <div class="reading-toggle">
+            <button
+              type="button"
+              class="toggle-pill"
+              [class.active]="readingMode === 'verse'"
+              (click)="readingMode = 'verse'"
             >
-              <span class="verse-text text-arabic">
-                <ng-container *ngIf="verse.words.length > 0; else versePlainText">
-                  <ng-container *ngFor="let word of verse.words; let isLast = last; trackBy: trackByWordKey">
-                    <span
-                      class="quran-word"
-                      [class.quran-word--interactive]="!!word.lemmaId"
-                      [class.quran-word--active]="activeWordKey === word.key"
-                      [attr.data-word-location]="word.wordLocation || null"
-                      [attr.title]="word.wordLocation || null"
-                      (dblclick)="onWordDoubleClick($event, word)"
-                    >
-                      {{ word.surface }}
-                    </span>
-                    <span *ngIf="!isLast"> </span>
-                  </ng-container>
-                </ng-container>
+              <span class="toggle-icon">≡</span>
+              Verse by Verse
+            </button>
+            <button
+              type="button"
+              class="toggle-pill"
+              [class.active]="readingMode === 'reading'"
+              (click)="readingMode = 'reading'"
+            >
+              <span class="toggle-icon">▤</span>
+              Reading
+            </button>
+          </div>
 
-                <ng-template #versePlainText>{{ verse.text }}</ng-template>
+          <div *ngIf="verseList.length > 0; else noArabic" class="arabic-passage" [class.arabic-passage--reading]="readingMode === 'reading'">
+            <ng-container *ngIf="readingMode === 'reading'; else verseByVerse">
+              <div class="reading-text text-arabic">
+                {{ readingText }}
+              </div>
+            </ng-container>
+
+            <ng-template #verseByVerse>
+              <span
+                *ngFor="let verse of verseList; trackBy: trackByVerseId"
+                class="arabic-verse"
+                [class.arabic-verse--selected]="selectedVerseId === verse.id"
+                (click)="selectVerse(verse.id)"
+              >
+                <span class="verse-text text-arabic">
+                  <ng-container *ngIf="verse.words.length > 0; else versePlainText">
+                    <ng-container *ngFor="let word of verse.words; let isLast = last; trackBy: trackByWordKey">
+                      <span
+                        class="quran-word"
+                        [class.quran-word--interactive]="!!word.lemmaId"
+                        [class.quran-word--active]="activeWordKey === word.key"
+                        [class.quran-word--verb]="word.pos === 'verb'"
+                        [attr.data-word-location]="word.wordLocation || null"
+                        [attr.title]="word.wordLocation || null"
+                        (dblclick)="onWordDoubleClick($event, word)"
+                      >
+                        {{ word.surface }}
+                      </span>
+                      <span *ngIf="!isLast"> </span>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-template #versePlainText>{{ verse.text }}</ng-template>
+                </span>
               </span>
-            </span>
+            </ng-template>
           </div>
 
           <p *ngIf="lexiconError" class="lexicon-feedback">{{ lexiconError }}</p>

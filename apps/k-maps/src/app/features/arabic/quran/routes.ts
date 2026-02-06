@@ -30,6 +30,11 @@ export const routes: Routes = [
         data: { title: 'Quran Text' },
       },
       {
+        path: 'text/:surah',
+        loadComponent: () => import('./data/text-view/quran-text-view.component').then(m => m.QuranTextViewComponent),
+        data: { title: 'Quran Text' },
+      },
+      {
         path: 'lemmas',
         loadComponent: () => import('./data/lemmas/quran-lemmas.component').then(m => m.QuranLemmasComponent),
         data: { title: 'Quran Lemmas' },

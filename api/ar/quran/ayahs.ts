@@ -56,6 +56,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         surah,
         ayah,
         surah_ayah,
+        page,
         text,
         text_simple,
         text_normalized,

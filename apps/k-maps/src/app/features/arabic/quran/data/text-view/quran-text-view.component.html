@@ -1,0 +1,52 @@
+<div class="quran-text-view">
+  <app-headerbar
+    [showTitle]="true"
+    [title]="headerTitle"
+    [showSearch]="false"
+    [leadingLabel]="'Back to Surah list'"
+    (leading)="goBack()"
+  />
+
+  <div class="view-header">
+    <span class="view-meta">Quran Text · Surah {{ surahId || '—' }}</span>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
+  <div *ngIf="loadingSurah" class="text-body-secondary">Loading surah…</div>
+
+  <div class="surah-preview" *ngIf="surah">
+    <div class="surah-hero">
+      <div class="surah-hero-arabic arabic-text">{{ surah.name_ar }}</div>
+      <div class="surah-hero-title">
+        <span class="surah-hero-number">{{ surah.surah }}.</span>
+        {{ surah.name_en || 'Surah ' + surah.surah }}
+        <span class="surah-info-pill">info</span>
+      </div>
+      <div class="surah-hero-translation">
+        {{ surah.meta['english_name_translation'] || '—' }}
+      </div>
+      <div class="surah-hero-meta">
+        {{ surah.ayah_count || '—' }} Ayahs
+      </div>
+    </div>
+
+    <div class="bismillah-block" *ngIf="shouldShowBismillah">
+      <div class="bismillah arabic-text">{{ bismillah }}</div>
+      <div class="bismillah-translation">{{ bismillahTranslation }}</div>
+    </div>
+
+    <div *ngIf="loadingAyahs" class="text-body-secondary">Loading ayahs…</div>
+
+    <div class="ayah-list" *ngIf="!loadingAyahs">
+      <ng-container *ngFor="let ayah of ayahs; let i = index; trackBy: trackByAyah">
+        <div *ngIf="showPageDivider(i)" class="page-divider">
+          <span class="page-divider-number">{{ ayah.page || '—' }}</span>
+        </div>
+        <div class="ayah-row">
+          <span class="ayah-index">{{ ayah.ayah }}</span>
+          <div class="ayah-text arabic-text">{{ ayah.text }}</div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

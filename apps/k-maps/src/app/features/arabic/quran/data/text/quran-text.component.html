@@ -1,14 +1,6 @@
 <div class="quran-text">
-  <app-headerbar
-    [showTitle]="false"
-    [showSearch]="true"
-    [placeholder]="'Search surah name or number'"
-    [value]="q"
-    (search)="onHeaderSearchInput($event)"
-  />
 
-  <app-quran-data-submenu [active]="'text'"></app-quran-data-submenu>
-
+  
   <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
 
   <div class="quran-tabs-row">
@@ -39,7 +31,6 @@
           <h3>Surah Directory</h3>
           <p class="text-muted">{{ filteredSurahs.length }} surahs</p>
         </div>
-        <span class="panel-note">Browse like Quran.com and pick a surah to preview.</span>
       </div>
 
       <div *ngIf="loadingSurahs" class="text-body-secondary">Loading surahs…</div>
@@ -49,8 +40,7 @@
           type="button"
           class="surah-card"
           *ngFor="let surah of filteredSurahs; trackBy: trackBySurah"
-          [class.active]="selectedSurah?.surah === surah.surah"
-          (click)="selectSurah(surah)"
+          (click)="openSurah(surah)"
         >
           <div class="surah-badge">
             <span>{{ surah.surah }}</span>
@@ -64,47 +54,17 @@
         </button>
       </div>
     </section>
-
-    <aside class="surah-preview">
-      <div *ngIf="!selectedSurah" class="panel-empty">
-        Select a surah to preview the Arabic text.
-      </div>
-
-      <ng-container *ngIf="selectedSurah">
-        <div class="surah-hero">
-          <div class="surah-hero-arabic arabic-text">{{ selectedSurah.name_ar }}</div>
-          <div class="surah-hero-title">
-            <span class="surah-hero-number">{{ selectedSurah.surah }}.</span>
-            {{ selectedSurah.name_en || 'Surah ' + selectedSurah.surah }}
-            <span class="surah-info-pill">info</span>
-          </div>
-          <div class="surah-hero-translation">
-            {{ selectedSurah.meta['english_name_translation'] || '—' }}
-          </div>
-          <div class="surah-hero-meta">
-            {{ selectedSurah.ayah_count || '—' }} Ayahs
-          </div>
-        </div>
-
-        <div class="bismillah-block" *ngIf="shouldShowBismillah">
-          <div class="bismillah arabic-text">{{ bismillah }}</div>
-          <div class="bismillah-translation">{{ bismillahTranslation }}</div>
-        </div>
-
-        <div *ngIf="ayahError" class="alert alert-danger py-2">{{ ayahError }}</div>
-        <div *ngIf="loadingAyahs" class="text-body-secondary">Loading ayahs…</div>
-
-        <div class="ayah-list" *ngIf="!loadingAyahs">
-          <div class="ayah-row" *ngFor="let ayah of ayahs; trackBy: trackByAyah">
-            <span class="ayah-index">{{ ayah.ayah }}</span>
-            <div class="ayah-text arabic-text">{{ ayah.text }}</div>
-          </div>
-        </div>
-      </ng-container>
-    </aside>
   </div>
 
   <ng-template #comingSoon>
-    <div class="panel-empty">Juz + Revelation Order views are coming next.</div>
+    <section class="surah-panel">
+      <div class="panel-header">
+        <div>
+          <h3>Coming soon</h3>
+          <p class="text-muted">Juz and additional index views will land here.</p>
+        </div>
+      </div>
+    </section>
   </ng-template>
+
 </div>

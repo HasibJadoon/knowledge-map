@@ -63,6 +63,7 @@ export class QuranLemmasComponent implements OnInit, OnDestroy {
       key: 'primary_ar_u_token',
       label: 'Primary Token',
       cellClass: () => 'app-table-english',
+      value: (row) => row.primary_ar_u_token || '—',
     },
   ];
 

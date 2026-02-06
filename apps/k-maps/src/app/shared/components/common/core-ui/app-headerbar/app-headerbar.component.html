@@ -1,21 +1,33 @@
 <div class="app-headerbar">
-  <div class="app-headerbar-main" *ngIf="showTitle || showSearch">
-    <div *ngIf="showTitle && title" class="app-headerbar-title-wrap">
-      <h1 class="app-headerbar-title">{{ title }}</h1>
+  <div class="app-headerbar-main" *ngIf="showTitle || showSearch || leadingLabel">
+    <div class="app-headerbar-left">
+      <div *ngIf="showTitle && title" class="app-headerbar-title-wrap">
+        <h1 class="app-headerbar-title">{{ title }}</h1>
+      </div>
+
+      <div *ngIf="showSearch" class="app-headerbar-search-wrap">
+        <app-header-search
+          [placeholder]="placeholder"
+          [value]="value"
+          [primaryLabel]="primaryLabel"
+          [secondaryLabel]="secondaryLabel"
+          [tertiaryLabel]="tertiaryLabel"
+          (search)="search.emit($event)"
+          (primary)="primary.emit()"
+          (secondary)="secondary.emit()"
+          (tertiary)="tertiary.emit()"
+        />
+      </div>
     </div>
 
-    <div *ngIf="showSearch" class="app-headerbar-search-wrap">
-      <app-header-search
-        [placeholder]="placeholder"
-        [value]="value"
-        [primaryLabel]="primaryLabel"
-        [secondaryLabel]="secondaryLabel"
-        [tertiaryLabel]="tertiaryLabel"
-        (search)="search.emit($event)"
-        (primary)="primary.emit()"
-        (secondary)="secondary.emit()"
-        (tertiary)="tertiary.emit()"
-      />
+    <div class="app-headerbar-actions" *ngIf="leadingLabel">
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-light app-headerbar-leading-btn"
+        (click)="leading.emit()"
+      >
+        {{ leadingLabel }}
+      </button>
     </div>
   </div>
 

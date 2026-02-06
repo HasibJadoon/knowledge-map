@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AppHeaderbarComponent } from '../../../../../shared/components';
 import { QuranDataService } from '../../../../../shared/services/quran-data.service';
-import { QuranAyah, QuranSurah } from '../../../../../shared/models/arabic/quran-data.model';
+import { QuranSurah } from '../../../../../shared/models/arabic/quran-data.model';
 import { QuranDataSubmenuComponent } from '../shared/quran-data-submenu.component';
 
 @Component({
@@ -16,29 +17,22 @@ import { QuranDataSubmenuComponent } from '../shared/quran-data-submenu.componen
 })
 export class QuranTextComponent implements OnInit {
   private readonly dataService = inject(QuranDataService);
+  private readonly router = inject(Router);
 
   readonly tabs = [
     { id: 'surah', label: 'Surah' },
-    { id: 'juz', label: 'Juz' },
-    { id: 'revelation', label: 'Revelation Order' },
+    { id: 'juz', label: 'Juz' }
   ];
   activeTab = 'surah';
 
   q = '';
   sort = 'asc';
 
-  readonly bismillah = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
-  readonly bismillahTranslation = 'In the Name of Allah—the Most Compassionate, Most Merciful';
-
   surahs: QuranSurah[] = [];
   filteredSurahs: QuranSurah[] = [];
-  selectedSurah: QuranSurah | null = null;
-  ayahs: QuranAyah[] = [];
 
   loadingSurahs = false;
-  loadingAyahs = false;
   error = '';
-  ayahError = '';
 
   async ngOnInit() {
     await this.loadSurahs();
@@ -89,31 +83,9 @@ export class QuranTextComponent implements OnInit {
     this.activeTab = tabId;
   }
 
-  async selectSurah(surah: QuranSurah) {
-    if (this.selectedSurah?.surah === surah.surah) return;
-    this.selectedSurah = surah;
-    await this.loadAyahs(surah.surah);
-  }
-
-  async loadAyahs(surah: number) {
-    this.loadingAyahs = true;
-    this.ayahError = '';
-    this.ayahs = [];
-    try {
-      const response = await this.dataService.listAyahs({ surah, pageSize: 400 });
-      this.ayahs = response.results ?? [];
-    } catch (err: any) {
-      console.error('quran ayah load error', err);
-      this.ayahError = err?.message ?? 'Unable to load ayahs.';
-    } finally {
-      this.loadingAyahs = false;
-    }
-  }
-
-  get shouldShowBismillah() {
-    return !!this.selectedSurah && this.selectedSurah.surah !== 9;
+  openSurah(surah: QuranSurah) {
+    this.router.navigate(['/arabic/quran/data/text', surah.surah]);
   }
 
   trackBySurah = (_: number, surah: QuranSurah) => surah.surah;
-  trackByAyah = (_: number, ayah: QuranAyah) => `${ayah.surah}:${ayah.ayah}`;
 }
