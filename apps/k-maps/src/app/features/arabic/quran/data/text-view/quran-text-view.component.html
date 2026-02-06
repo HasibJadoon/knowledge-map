@@ -72,7 +72,7 @@
           <div
             *ngIf="!loadingAyahs && ayahs.length > 0; else noArabic"
             class="arabic-passage"
-            [class.arabic-passage--reading]="viewMode === 'reading'"
+            [class.arabic-passage--reading]="showReading"
           >
             <div *ngIf="showReading && readingText" class="reading-text text-arabic passage-section">
               {{ readingText }}
