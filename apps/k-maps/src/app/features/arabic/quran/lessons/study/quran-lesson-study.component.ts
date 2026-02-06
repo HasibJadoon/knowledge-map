@@ -207,7 +207,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
   }
 
   getQuestionKey(question: QuranLessonComprehensionQuestion) {
-    return question.question_id ?? question.question;
+    return question.question_id ?? question.question ?? null;
   }
 
   // =========================================================================
@@ -230,9 +230,8 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     return mcq.mcq_id;
   }
 
-  trackByQuestionKey(_: number, question: QuranLessonComprehensionQuestion) {
-    return this.getQuestionKey(question);
-  }
+  trackByQuestionKey = (_: number, question: QuranLessonComprehensionQuestion) =>
+    this.getQuestionKey(question) ?? `${question.question ?? ''}-${_}`;
 
   // =========================================================================
   // SEGMENT: UI Actions

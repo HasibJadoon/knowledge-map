@@ -8,6 +8,8 @@ import {
   QuranLessonSentenceV2,
   QuranLessonText,
   QuranLessonApiPayload,
+  QuranLessonComprehensionQuestion,
+  QuranLessonMcq,
   QuranLessonTokenV2,
   QuranLessonSpanV2,
   QuranLessonVocabBuckets,
@@ -195,10 +197,7 @@ export class QuranLessonService {
 
     const lessonReference = lessonJson['reference'] as QuranLessonReference | undefined;
     const lessonComprehensionRaw = this.asRecord(lessonJson['comprehension']) ?? {};
-    if (!('mcqs' in lessonComprehensionRaw) && Array.isArray(lessonComprehensionRaw['Mcqs'])) {
-      lessonComprehensionRaw['mcqs'] = lessonComprehensionRaw['Mcqs'];
-    }
-    const lessonComprehension = lessonComprehensionRaw as QuranLesson['comprehension'];
+    const lessonComprehension = this.normalizeComprehension(lessonComprehensionRaw);
     const lessonVocabLayer = lessonJson['vocab_layer'] as QuranLesson['vocab_layer'] | undefined;
     const lessonPassageLayers = lessonJson['passage_layers'] as QuranLesson['passage_layers'] | undefined;
     const lessonNotes = lessonJson['_notes'] as QuranLessonNotes | undefined;
@@ -269,6 +268,110 @@ export class QuranLessonService {
   private asArray<T>(value: unknown): T[] | null {
     if (!Array.isArray(value)) return null;
     return value as T[];
+  }
+
+  private normalizeComprehension(raw: Record<string, unknown>): QuranLesson['comprehension'] {
+    const normalized: Record<string, unknown> = { ...raw };
+
+    if (!('mcqs' in normalized) && Array.isArray(normalized['Mcqs'])) {
+      normalized['mcqs'] = normalized['Mcqs'];
+    }
+
+    const legacyQuestions = this.asArray<Record<string, unknown>>(normalized['questions']);
+    const existingReflective = this.asArray<QuranLessonComprehensionQuestion>(
+      normalized['reflective']
+    );
+    const existingAnalytical = this.asArray<QuranLessonComprehensionQuestion>(
+      normalized['analytical']
+    );
+    if (legacyQuestions?.length && !existingReflective?.length && !existingAnalytical?.length) {
+      const answers = this.asRecord(normalized['answers']) ?? {};
+      normalized['reflective'] = legacyQuestions
+        .map((question, index) => {
+          const questionId = String(
+            question['question_id'] ?? question['id'] ?? `q${index + 1}`
+          );
+          const questionText = String(question['question'] ?? question['text'] ?? '').trim();
+          if (!questionText) return null;
+
+          const rawAnswer =
+            answers[questionId as keyof typeof answers] ??
+            (question['id'] != null ? answers[String(question['id'])] : undefined);
+          const answerHint = typeof rawAnswer === 'string' ? rawAnswer : undefined;
+
+          return {
+            question_id: questionId,
+            question: questionText,
+            question_ar:
+              typeof question['question_ar'] === 'string' ? question['question_ar'] : undefined,
+            answer_hint: answerHint,
+            data:
+              rawAnswer && typeof rawAnswer !== 'string'
+                ? { legacy_answer: rawAnswer }
+                : undefined,
+          } as QuranLessonComprehensionQuestion;
+        })
+        .filter((question): question is QuranLessonComprehensionQuestion => !!question);
+    }
+
+    const normalizeMcqArray = (input: unknown): QuranLessonMcq[] | null => {
+      const items = this.asArray<Record<string, unknown>>(input);
+      if (!items?.length) return null;
+
+      const results = items
+        .map((entry, index) => {
+          const mcqId = String(entry['mcq_id'] ?? entry['id'] ?? `mcq${index + 1}`);
+          const questionText = String(entry['question'] ?? entry['text'] ?? '').trim();
+          if (!questionText) return null;
+
+          const optionsRaw = this.asArray<Record<string, unknown>>(entry['options']) ?? [];
+          const correctId = entry['correct_option_id'] ?? entry['correct_option'] ?? null;
+          const options = optionsRaw
+            .map((option, optionIndex) => {
+              const optionText = String(option['option'] ?? option['text'] ?? '').trim();
+              if (!optionText) return null;
+              const optionId = option['option_id'] ?? option['id'] ?? optionIndex;
+              const isCorrect =
+                typeof option['is_correct'] === 'boolean'
+                  ? option['is_correct']
+                  : correctId != null
+                    ? String(correctId) === String(optionId)
+                    : false;
+              return {
+                option: optionText,
+                is_correct: isCorrect,
+              };
+            })
+            .filter((opt): opt is { option: string; is_correct: boolean } => !!opt);
+
+          return {
+            mcq_id: mcqId,
+            question: questionText,
+            question_ar:
+              typeof entry['question_ar'] === 'string' ? entry['question_ar'] : undefined,
+            options,
+          } as QuranLessonMcq;
+        })
+        .filter((mcq): mcq is QuranLessonMcq => !!mcq);
+
+      return results.length ? results : null;
+    };
+
+    const mcqs = normalized['mcqs'];
+    if (Array.isArray(mcqs)) {
+      normalized['mcqs'] = normalizeMcqArray(mcqs) ?? mcqs;
+    } else if (mcqs && typeof mcqs === 'object') {
+      const grouped = mcqs as Record<string, unknown>;
+      const nextGrouped: Record<string, unknown> = { ...grouped };
+      for (const key of ['text', 'vocabulary', 'grammar']) {
+        if (key in grouped) {
+          nextGrouped[key] = normalizeMcqArray(grouped[key]) ?? grouped[key];
+        }
+      }
+      normalized['mcqs'] = nextGrouped;
+    }
+
+    return normalized as QuranLesson['comprehension'];
   }
 
   createContainer(payload: {

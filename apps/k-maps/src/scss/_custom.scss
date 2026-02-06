@@ -44,6 +44,33 @@ body {
   font-family: var(--app-font-sans, "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif);
 }
 
+@media (max-width: 1024px) {
+  :root {
+    --app-font-size: 15px;
+    --app-body-font-size: 15px;
+    --app-menu-font-size: 14px;
+    --app-header-font-size: 14px;
+    --app-header-title-size: 16px;
+    --app-footer-font-size: 13px;
+  }
+
+  .sidebar {
+    --cui-sidebar-width: 13.5rem;
+  }
+
+  .sidebar .nav-link,
+  .sidebar .nav-group-toggle,
+  .sidebar .nav-title,
+  .sidebar .sidebar-brand {
+    padding: 0.4rem 0.65rem;
+  }
+
+  .header .header-breadcrumb {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+}
+
 .wrapper > .body {
   font-size: var(--app-body-font-size, 16px);
 }
@@ -841,7 +868,7 @@ body {
 
   .builder-workspace {
     display: grid;
-    grid-template-columns: 340px minmax(0, 1fr);
+    grid-template-columns: 320px minmax(0, 1fr);
     gap: 0.8rem;
     align-items: start;
   }
@@ -867,9 +894,13 @@ body {
 @media (max-width: 1280px) {
   .lesson-builder--workflow .builder-workspace {
     grid-template-columns: 1fr;
+    max-width: 900px;
+    margin: 0 auto;
   }
 
   .lesson-builder--workflow .builder-workflow-rail {
     position: static;
+    max-width: 900px;
+    margin: 0 auto;
   }
 }
