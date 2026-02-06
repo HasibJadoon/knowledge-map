@@ -3,15 +3,13 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AppHeaderbarComponent } from '../../../../../shared/components';
 import { QuranDataService } from '../../../../../shared/services/quran-data.service';
 import { QuranSurah } from '../../../../../shared/models/arabic/quran-data.model';
-import { QuranDataSubmenuComponent } from '../shared/quran-data-submenu.component';
 
 @Component({
   selector: 'app-quran-text',
   standalone: true,
-  imports: [CommonModule, FormsModule, AppHeaderbarComponent, QuranDataSubmenuComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './quran-text.component.html',
   styleUrls: ['./quran-text.component.scss'],
 })

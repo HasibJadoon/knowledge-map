@@ -16,13 +16,7 @@
         <article class="study-card">
           <div class="study-card-heading">
             <h4>Text</h4>
-            <h4>
-              {{ lesson.reference?.surah ? lesson.reference?.surah : 'Passage' }}
-            </h4>
-          </div>
-          <hr class="study-card-divider" />
-
-          <div class="view-toggle">
+               <div class="view-toggle">
             <button
               type="button"
               class="view-toggle-btn"
@@ -42,6 +36,14 @@
               Reading
             </button>
           </div>
+            <h4>
+              {{ lesson.reference?.surah ? lesson.reference?.surah : 'Passage' }}
+            </h4>
+            
+          </div>
+          <hr class="study-card-divider" />
+
+       
 
           <div *ngIf="verseList.length > 0; else noArabic" class="arabic-passage" [class.arabic-passage--reading]="readingMode === 'reading'">
             <ng-container *ngIf="readingMode === 'reading'; else verseByVerse">
