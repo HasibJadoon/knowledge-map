@@ -29,7 +29,7 @@
           Q{{ example.extra?.['surah'] }}:{{ example.extra?.['ayah'] }}
         </span>
       </div>
-      <div class="example-ar">{{ example.excerpt }}</div>
+      <div class="example-ar arabic-text">{{ example.excerpt }}</div>
       <div class="example-note">{{ example.commentary }}</div>
       <div class="example-footer">
         <span class="example-meta">{{ example.created_at | date: 'mediumDate' }}</span>
@@ -79,7 +79,7 @@
         </div>
         <div class="form-span">
           <label class="form-label">Arabic Example</label>
-          <textarea class="form-control" rows="3" [(ngModel)]="exampleForm.excerpt"></textarea>
+          <textarea class="form-control arabic-text arabic-input" rows="3" [(ngModel)]="exampleForm.excerpt"></textarea>
         </div>
         <div class="form-span">
           <label class="form-label">Commentary / Translation</label>

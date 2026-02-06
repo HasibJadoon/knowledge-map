@@ -38,7 +38,7 @@
       >
         <div class="chapter-title">
           <span>{{ chapter.title || 'Untitled' }}</span>
-          <small class="text-muted">{{ chapter.title_ar }}</small>
+          <small class="text-muted arabic-text">{{ chapter.title_ar }}</small>
         </div>
         <div class="chapter-meta">
           <span>#{{ chapter.order_index ?? '—' }}</span>
@@ -86,7 +86,7 @@
               <td class="col-no">{{ lesson.meta?.['lesson_no'] || lesson.order_index || '—' }}</td>
               <td>
                 <div class="lesson-title">{{ lesson.title || 'Untitled' }}</div>
-                <div class="lesson-sub">{{ lesson.content_ar || '' }}</div>
+                <div class="lesson-sub arabic-text">{{ lesson.content_ar || '' }}</div>
               </td>
               <td class="col-pages">{{ lesson.meta?.['pages'] || '—' }}</td>
               <td class="col-nodes">
@@ -127,7 +127,7 @@
         </div>
         <div>
           <label class="form-label">Title (AR)</label>
-          <input class="form-control" [(ngModel)]="chapterForm.title_ar" />
+          <input class="form-control arabic-text arabic-input" [(ngModel)]="chapterForm.title_ar" />
         </div>
         <div>
           <label class="form-label">Book</label>
@@ -186,7 +186,7 @@
         </div>
         <div>
           <label class="form-label">Title (AR)</label>
-          <input class="form-control" [(ngModel)]="lessonForm.content_ar" />
+          <input class="form-control arabic-text arabic-input" [(ngModel)]="lessonForm.content_ar" />
         </div>
         <div>
           <label class="form-label">Pages</label>
