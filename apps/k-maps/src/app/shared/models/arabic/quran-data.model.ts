@@ -94,6 +94,30 @@ export interface QuranLemmaLocation {
   ar_token_occ_id?: string | null;
 }
 
+export interface QuranLemmaLocationUpsert {
+  id?: number | null;
+  lemma_id?: number | null;
+  lemma_text?: string | null;
+  lemma_text_clean?: string | null;
+  words_count?: number | null;
+  uniq_words_count?: number | null;
+  primary_ar_u_token?: string | null;
+  word_location?: string | null;
+  surah: number;
+  ayah: number;
+  token_index: number;
+  word_simple?: string | null;
+  word_diacritic?: string | null;
+  ar_u_token?: string | null;
+  ar_token_occ_id?: string | null;
+}
+
+export interface QuranLemmaLocationUpsertResponse {
+  ok: boolean;
+  results?: QuranLemmaLocation[];
+  error?: string;
+}
+
 export interface QuranAyahTranslations {
   haleem?: string | null;
   footnotes_haleem?: unknown;

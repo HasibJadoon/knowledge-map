@@ -7,6 +7,8 @@ import {
   QuranAyahListResponse,
   QuranLemmaListResponse,
   QuranLemmaLocationListResponse,
+  QuranLemmaLocationUpsert,
+  QuranLemmaLocationUpsertResponse,
 } from '../models/arabic/quran-data.model';
 
 @Injectable({ providedIn: 'root' })
@@ -117,5 +119,23 @@ export class QuranDataService {
     }
 
     return (await res.json()) as QuranLemmaLocationListResponse;
+  }
+
+  async upsertLemmaLocations(entries: QuranLemmaLocationUpsert[]): Promise<QuranLemmaLocationUpsertResponse> {
+    const res = await fetch(`${API_BASE}/ar/quran/lemma-locations`, {
+      method: 'POST',
+      headers: {
+        ...this.auth.authHeaders(),
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ entries }),
+    });
+
+    if (!res.ok) {
+      const payload = (await res.json().catch(() => ({}))) as { error?: string };
+      throw new Error(payload.error ?? `Failed to save lemma locations (${res.status})`);
+    }
+
+    return (await res.json()) as QuranLemmaLocationUpsertResponse;
   }
 }

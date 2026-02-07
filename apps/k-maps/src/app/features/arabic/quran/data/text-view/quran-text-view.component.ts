@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -15,13 +16,25 @@ import {
 } from '../../../../../shared/models/arabic/quran-data.model';
 
 type QuranAyahWithPage = QuranAyah & { page?: number | null };
-type ReadingToken = { text: string; type: 'word' | 'mark' };
-type ReadingPage = { page: number | null; tokens: ReadingToken[] };
+type LemmaEditorRow = {
+  id?: number | null;
+  lemma_id?: number | null;
+  lemma_text?: string | null;
+  lemma_text_clean?: string | null;
+  word_location?: string | null;
+  surah?: number | null;
+  ayah?: number | null;
+  token_index?: number | null;
+  word_simple?: string | null;
+  word_diacritic?: string | null;
+  ar_u_token?: string | null;
+  ar_token_occ_id?: string | null;
+};
 
 @Component({
   selector: 'app-quran-text-view',
   standalone: true,
-  imports: [CommonModule, AppHeaderbarComponent],
+  imports: [CommonModule, FormsModule, AppHeaderbarComponent],
   templateUrl: './quran-text-view.component.html',
   styleUrls: ['./quran-text-view.component.scss'],
 })
@@ -32,6 +45,7 @@ export class QuranTextViewComponent implements OnInit, OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly subs = new Subscription();
   private readonly arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  private readonly arabicDiacriticsRe = /[\u064B-\u065F\u0670\u06D6-\u06ED]/g;
 
   readonly bismillah = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ';
   readonly bismillahTranslation = 'In the Name of Allah—the Most Compassionate, Most Merciful';
@@ -44,12 +58,12 @@ export class QuranTextViewComponent implements OnInit, OnDestroy {
   translationSegmentsByPassage = new Map<string, { number: number; text: string }[]>();
   expandedFootnotes = new Set<string>();
   viewMode: 'verse' | 'reading' | 'translation' = 'verse';
+  editingAyahKey: string | null = null;
+  lemmaEditorRows: LemmaEditorRow[] = [];
+  lemmaEditorLoading = false;
+  lemmaEditorSaving = false;
+  lemmaEditorError = '';
   lemmaTokensByAyah = new Map<number, string[]>();
-  lemmaTokensLoaded = false;
-  loadingLemmaTokens = false;
-  lemmaTokensError = '';
-  readingPages: ReadingPage[] = [];
-  readingText = '';
   readingHtml: SafeHtml | null = null;
   readingTranslation = '';
 
@@ -81,11 +95,9 @@ export class QuranTextViewComponent implements OnInit, OnDestroy {
   async loadSurah(id: number) {
     this.loadingSurah = true;
     this.error = '';
+    this.closeLemmaEditor();
     try {
       await this.loadAyahs(id);
-      this.lemmaTokensByAyah.clear();
-      this.lemmaTokensLoaded = false;
-      this.lemmaTokensError = '';
     } catch (err: any) {
       console.error('surah load error', err);
       this.error = err?.message ?? 'Unable to load surah.';
@@ -118,13 +130,11 @@ export class QuranTextViewComponent implements OnInit, OnDestroy {
 
   hydrateLemmaTokensFromAyahs() {
     this.lemmaTokensByAyah.clear();
-    let hasLemmaData = false;
     for (const ayah of this.ayahs) {
       const wordRows = Array.isArray(ayah.words) ? ayah.words : [];
       const lemmas = Array.isArray(ayah.lemmas) ? ayah.lemmas : [];
       const source = wordRows.length ? wordRows : lemmas;
       if (!source.length) continue;
-      hasLemmaData = true;
       const tokens = source
         .map((lemma) =>
           'text_uthmani' in lemma || 'text_imlaei_simple' in lemma
@@ -140,7 +150,6 @@ export class QuranTextViewComponent implements OnInit, OnDestroy {
         this.lemmaTokensByAyah.set(ayah.ayah, tokens);
       }
     }
-    this.lemmaTokensLoaded = hasLemmaData;
   }
 
   get shouldShowBismillah() {
@@ -283,17 +292,19 @@ export class QuranTextViewComponent implements OnInit, OnDestroy {
     word.word_location || word.location || word.id || word.lemma_id || word.token_index || word.position || _;
   trackByPassage = (_: number, passage: QuranTranslationPassage) =>
     passage.id || `${passage.surah}:${passage.ayah_from}-${passage.ayah_to}-${passage.passage_index}`;
-
-  showPageDivider(index: number) {
-    if (index <= 0) return false;
-    const currentPage = this.ayahs[index]?.page ?? null;
-    const previousPage = this.ayahs[index - 1]?.page ?? null;
-    if (!currentPage) return false;
-    return currentPage !== previousPage;
-  }
+  trackByLemmaRow = (_: number, row: LemmaEditorRow) =>
+    row.id ?? `${row.surah}:${row.ayah}:${row.token_index ?? _}`;
 
   getAyahMark(ayah: QuranAyahWithPage) {
     return this.formatAyahNumber(ayah.ayah);
+  }
+
+  getAyahKey(ayah: QuranAyahWithPage) {
+    return `${ayah.surah}:${ayah.ayah}`;
+  }
+
+  isEditingAyah(ayah: QuranAyahWithPage) {
+    return this.editingAyahKey === this.getAyahKey(ayah);
   }
 
   getTranslationText(ayah: QuranAyahWithPage) {
@@ -332,38 +343,167 @@ export class QuranTextViewComponent implements OnInit, OnDestroy {
       .filter((token) => !/^[0-9٠-٩]+$/.test(token));
   }
 
-  async loadLemmaTokens(surah: number) {
-    this.loadingLemmaTokens = true;
-    this.lemmaTokensError = '';
-    this.lemmaTokensByAyah.clear();
-    this.readingPages = [];
+  stripArabicDiacritics(text: string) {
+    return String(text ?? '').normalize('NFKC').replace(this.arabicDiacriticsRe, '').trim();
+  }
 
-    let page = 1;
-    let hasMore = true;
+  async openLemmaEditor(ayah: QuranAyahWithPage) {
+    const key = this.getAyahKey(ayah);
+    if (this.editingAyahKey === key) {
+      this.closeLemmaEditor();
+      return;
+    }
+    this.editingAyahKey = key;
+    await this.loadLemmaEditorRows(ayah);
+  }
+
+  closeLemmaEditor() {
+    this.editingAyahKey = null;
+    this.lemmaEditorRows = [];
+    this.lemmaEditorError = '';
+    this.lemmaEditorLoading = false;
+    this.lemmaEditorSaving = false;
+  }
+
+  async loadLemmaEditorRows(ayah: QuranAyahWithPage) {
+    this.lemmaEditorLoading = true;
+    this.lemmaEditorError = '';
     try {
-      while (hasMore) {
-        const response = await this.dataService.listLemmaLocations({ surah, page, pageSize: 200 });
-        const rows = response.results ?? [];
-        for (const row of rows) {
-          const ayah = row.ayah;
-          if (!ayah) continue;
-          const word = row.word_diacritic || row.word_simple || '';
-          if (!word) continue;
-          if (!this.lemmaTokensByAyah.has(ayah)) {
-            this.lemmaTokensByAyah.set(ayah, []);
-          }
-          this.lemmaTokensByAyah.get(ayah)?.push(word);
-        }
-        hasMore = !!response.hasMore;
-        page += 1;
+      const response = await this.dataService.listLemmaLocations({
+        surah: ayah.surah,
+        ayah: ayah.ayah,
+        pageSize: 500,
+      });
+      const rows = response.results ?? [];
+      if (rows.length) {
+        this.lemmaEditorRows = rows.map((row) => ({
+          id: row.id,
+          lemma_id: row.lemma_id,
+          lemma_text: row.lemma_text ?? '',
+          lemma_text_clean: row.lemma_text_clean ?? '',
+          word_location: row.word_location,
+          surah: row.surah,
+          ayah: row.ayah,
+          token_index: row.token_index,
+          word_simple: row.word_simple ?? '',
+          word_diacritic: row.word_diacritic ?? '',
+          ar_u_token: row.ar_u_token ?? null,
+          ar_token_occ_id: row.ar_token_occ_id ?? null,
+        }));
+        return;
       }
-      this.lemmaTokensLoaded = true;
-      this.buildReadingPages();
+
+      const tokens = this.getReadingTokens(ayah);
+      this.lemmaEditorRows = tokens.map((token, index) => ({
+        lemma_id: null,
+        lemma_text: '',
+        lemma_text_clean: '',
+        word_location: `${ayah.surah}:${ayah.ayah}:${index + 1}`,
+        surah: ayah.surah,
+        ayah: ayah.ayah,
+        token_index: index + 1,
+        word_simple: this.stripArabicDiacritics(token),
+        word_diacritic: token,
+      }));
     } catch (err: any) {
-      console.error('lemma token load error', err);
-      this.lemmaTokensError = err?.message ?? 'Unable to load lemma tokens.';
+      console.error('lemma editor load error', err);
+      this.lemmaEditorError = err?.message ?? 'Unable to load lemma data.';
+      this.lemmaEditorRows = [];
     } finally {
-      this.loadingLemmaTokens = false;
+      this.lemmaEditorLoading = false;
+    }
+  }
+
+  addLemmaEditorRow(ayah: QuranAyahWithPage) {
+    const nextIndex = Math.max(0, ...this.lemmaEditorRows.map((row) => Number(row.token_index) || 0)) + 1;
+    this.lemmaEditorRows = [
+      ...this.lemmaEditorRows,
+      {
+        id: null,
+        lemma_id: null,
+        lemma_text: '',
+        lemma_text_clean: '',
+        word_location: `${ayah.surah}:${ayah.ayah}:${nextIndex}`,
+        surah: ayah.surah,
+        ayah: ayah.ayah,
+        token_index: nextIndex,
+        word_simple: '',
+        word_diacritic: '',
+      },
+    ];
+  }
+
+  getEditorWordLocation(row: LemmaEditorRow, ayah: QuranAyahWithPage) {
+    if (row.word_location?.trim()) return row.word_location;
+    const tokenIndex = Number(row.token_index) || 0;
+    if (!tokenIndex) return '';
+    return `${ayah.surah}:${ayah.ayah}:${tokenIndex}`;
+  }
+
+  async saveLemmaEditorRows(ayah: QuranAyahWithPage) {
+    if (this.lemmaEditorSaving) return;
+    this.lemmaEditorSaving = true;
+    this.lemmaEditorError = '';
+
+    try {
+      const entries = [];
+      for (const row of this.lemmaEditorRows) {
+        const tokenIndex = Number(row.token_index);
+        const lemmaId = row.lemma_id != null ? Number(row.lemma_id) : null;
+        const lemmaText = (row.lemma_text ?? '').trim();
+        const lemmaClean = (row.lemma_text_clean ?? '').trim();
+        const wordSimple = (row.word_simple ?? '').trim();
+        const wordDiacritic = (row.word_diacritic ?? '').trim();
+
+        const hasAny =
+          Number.isFinite(tokenIndex) ||
+          !!lemmaId ||
+          !!lemmaText ||
+          !!lemmaClean ||
+          !!wordSimple ||
+          !!wordDiacritic;
+
+        if (!hasAny) continue;
+        if (!Number.isFinite(tokenIndex) || tokenIndex <= 0) {
+          this.lemmaEditorError = 'Each token needs a valid token index.';
+          return;
+        }
+        if (!lemmaId && !lemmaText && !lemmaClean) {
+          this.lemmaEditorError = 'Provide a lemma id or lemma text for each token.';
+          return;
+        }
+
+        entries.push({
+          id: row.id ?? undefined,
+          lemma_id: lemmaId ?? undefined,
+          lemma_text: lemmaText || undefined,
+          lemma_text_clean: lemmaClean || undefined,
+          word_location: this.getEditorWordLocation(row, ayah) || undefined,
+          surah: ayah.surah,
+          ayah: ayah.ayah,
+          token_index: tokenIndex,
+          word_simple: wordSimple || undefined,
+          word_diacritic: wordDiacritic || undefined,
+          ar_u_token: row.ar_u_token ?? undefined,
+          ar_token_occ_id: row.ar_token_occ_id ?? undefined,
+        });
+      }
+
+      if (!entries.length) {
+        this.lemmaEditorError = 'Nothing to save yet.';
+        return;
+      }
+
+      await this.dataService.upsertLemmaLocations(entries);
+      if (this.surahId) {
+        await this.loadAyahs(this.surahId);
+      }
+      this.closeLemmaEditor();
+    } catch (err: any) {
+      console.error('lemma editor save error', err);
+      this.lemmaEditorError = err?.message ?? 'Unable to save lemma edits.';
+    } finally {
+      this.lemmaEditorSaving = false;
     }
   }
 
@@ -374,31 +514,16 @@ export class QuranTextViewComponent implements OnInit, OnDestroy {
   }
 
   buildReadingPages() {
-    const pages: ReadingPage[] = [];
-    const pageMap = new Map<number, ReadingPage>();
-    const tokens: string[] = [];
     const htmlParts: string[] = [];
     const translationParts: string[] = [];
 
     for (const ayah of this.ayahs) {
-      const pageKey = ayah.page ?? 0;
-      let page = pageMap.get(pageKey);
-      if (!page) {
-        page = { page: ayah.page ?? null, tokens: [] };
-        pageMap.set(pageKey, page);
-        pages.push(page);
-      }
-
       const words = this.getReadingTokens(ayah);
       for (const word of words) {
-        page.tokens.push({ text: word, type: 'word' });
-        tokens.push(word);
         htmlParts.push(this.escapeHtml(word));
       }
       const marker = this.getAyahMark(ayah);
       if (marker) {
-        page.tokens.push({ text: marker, type: 'mark' });
-        tokens.push(marker);
         htmlParts.push(`<span class=\"reading-mark\">${this.escapeHtml(marker)}</span>`);
       }
 
@@ -408,8 +533,6 @@ export class QuranTextViewComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.readingPages = pages;
-    this.readingText = tokens.join(' ').replace(/\s+/g, ' ').trim();
     const html = htmlParts.join(' ').replace(/\s+/g, ' ').trim();
     this.readingHtml = html ? this.sanitizer.bypassSecurityTrustHtml(html) : null;
     this.readingTranslation = translationParts.join(' ').replace(/\s+/g, ' ').trim();

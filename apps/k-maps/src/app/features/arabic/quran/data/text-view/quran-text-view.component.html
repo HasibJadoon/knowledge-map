@@ -130,7 +130,13 @@
             </div>
 
             <ng-container *ngIf="showVerse">
-              <div *ngFor="let ayah of ayahs; trackBy: trackByAyah" class="arabic-verse-row">
+              <div
+                *ngFor="let ayah of ayahs; trackBy: trackByAyah"
+                class="arabic-verse-row arabic-verse-row--editable"
+                [class.arabic-verse-row--editing]="isEditingAyah(ayah)"
+                (dblclick)="openLemmaEditor(ayah)"
+                title="Double-click to edit tokens"
+              >
                 <div class="verse-text text-arabic">
                   <ng-container *ngIf="(ayah.words?.length ?? 0) > 0; else versePlainText">
                     <ng-container *ngFor="let word of ayah.words; let isLast = last; trackBy: trackByAyahWord">
@@ -149,6 +155,55 @@
                   <span class="verse-number-inline">{{ formatAyahNumber(ayah.ayah) }}</span>
                 </div>
                 <div class="verse-translation" *ngIf="false"></div>
+
+                <div class="lemma-editor" *ngIf="isEditingAyah(ayah)" (dblclick)="$event.stopPropagation()">
+                  <div class="lemma-editor-header">
+                    <div>
+                      <h5>Token editor</h5>
+                      <p class="lemma-editor-subtitle">Update lemma/tokens for this verse.</p>
+                    </div>
+                    <div class="lemma-editor-actions">
+                      <button type="button" class="btn btn-outline-light btn-sm" (click)="addLemmaEditorRow(ayah)">
+                        Add Token
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        [disabled]="lemmaEditorSaving"
+                        (click)="saveLemmaEditorRows(ayah)"
+                      >
+                        {{ lemmaEditorSaving ? 'Saving…' : 'Save' }}
+                      </button>
+                      <button type="button" class="btn btn-ghost btn-sm" (click)="closeLemmaEditor()">
+                        Close
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="lemmaEditorLoading" class="text-body-secondary">Loading lemma rows…</div>
+                  <div *ngIf="lemmaEditorError" class="alert alert-danger py-2">{{ lemmaEditorError }}</div>
+
+                  <div class="lemma-editor-table" *ngIf="!lemmaEditorLoading">
+                    <div class="lemma-editor-row lemma-editor-row--head">
+                      <span>Token</span>
+                      <span>Word (Uthmani)</span>
+                      <span>Word (Simple)</span>
+                      <span>Lemma ID</span>
+                      <span>Lemma</span>
+                      <span>Lemma Clean</span>
+                      <span>Location</span>
+                    </div>
+                    <div class="lemma-editor-row" *ngFor="let row of lemmaEditorRows; trackBy: trackByLemmaRow">
+                      <input type="number" min="1" [(ngModel)]="row.token_index" />
+                      <input type="text" class="text-arabic" dir="rtl" [(ngModel)]="row.word_diacritic" />
+                      <input type="text" class="text-arabic" dir="rtl" [(ngModel)]="row.word_simple" />
+                      <input type="number" min="1" [(ngModel)]="row.lemma_id" />
+                      <input type="text" class="text-arabic" dir="rtl" [(ngModel)]="row.lemma_text" />
+                      <input type="text" [(ngModel)]="row.lemma_text_clean" />
+                      <span class="lemma-editor-location">{{ getEditorWordLocation(row, ayah) }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </ng-container>
           </div>

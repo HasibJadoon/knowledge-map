@@ -33,6 +33,40 @@ const sourceMeta = {
 
 const yTolerance = 2.0;
 const footnoteRegionRatio = 0.32;
+const LIGATURE_PREFIX_STOP = new Set([
+  'a',
+  'an',
+  'the',
+  'and',
+  'for',
+  'you',
+  'your',
+  'our',
+  'all',
+  'any',
+  'his',
+  'her',
+  'was',
+  'are',
+  'not',
+  'nor',
+  'who',
+  'but',
+  'yet',
+  'one',
+  'two',
+  'three',
+  'four',
+  'five',
+  'in',
+  'on',
+  'at',
+  'by',
+  'of',
+  'to',
+  'up',
+  'out',
+]);
 
 function runSqlite(query) {
   const cmd = `sqlite3 "${dbPath}" ".mode list" ".separator |" "${query.replace(/"/g, '""')}"`;
@@ -158,24 +192,31 @@ function extractFootnotes(lines, viewportHeight, footnoteStartY) {
     const match = text.match(/^([a-z])\s+(.*)$/);
     if (match) {
       if (current) footnotes.push(current);
-      current = { marker: match[1], text: match[2].trim() };
+      current = { marker: match[1], text: normalizePdfText(match[2].trim()) };
       continue;
     }
 
     if (current) {
-      current.text = `${current.text} ${text}`.replace(/\s+/g, ' ').trim();
+      current.text = normalizePdfText(`${current.text} ${text}`.replace(/\s+/g, ' ').trim());
     }
   }
 
   if (current) footnotes.push(current);
-  return footnotes;
+  return footnotes.map((note) => ({
+    ...note,
+    text: normalizePdfText(note.text),
+  }));
 }
 
 function stripFootnoteText(bodyText, footnotes) {
   if (!bodyText || !footnotes?.length) return bodyText;
-  let cleaned = bodyText;
+  let cleaned = normalizePdfText(bodyText);
+  const normalizedFootnotes = footnotes.map((note) => ({
+    ...note,
+    text: normalizePdfText(String(note?.text ?? '')),
+  }));
 
-  for (const note of footnotes) {
+  for (const note of normalizedFootnotes) {
     const noteText = String(note?.text ?? '').trim();
     if (!noteText) continue;
     const escaped = noteText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -187,6 +228,26 @@ function stripFootnoteText(bodyText, footnotes) {
   }
 
   return cleaned.replace(/\s+/g, ' ').trim();
+}
+
+function normalizePdfText(text) {
+  if (!text) return '';
+  let cleaned = String(text);
+  cleaned = cleaned.replace(/\u0002/g, "'");
+  cleaned = cleaned.replace(/\u0001/g, '');
+  cleaned = cleaned.replace(/[\u0000-\u001f]/g, ' ');
+  cleaned = cleaned.replace(/(\w)-\s+(\w)/g, '$1$2');
+  cleaned = cleaned.replace(/\b(fi|fl|ff|ffi|ffl)\s+([a-z])/gi, '$1$2');
+  cleaned = cleaned.replace(/\b([A-Za-z]{1,3})\s+((?:ff|fi|fl|ffi|ffl)[a-z])/gi, (match, prefix, rest) => {
+    if (LIGATURE_PREFIX_STOP.has(prefix.toLowerCase())) {
+      return `${prefix} ${rest}`;
+    }
+    return `${prefix}${rest}`;
+  });
+  cleaned = cleaned.replace(/(\w)\s*'\s*(\w)/g, "$1'$2");
+  cleaned = cleaned.replace(/Qur['’]?\s*an/gi, 'Quran');
+  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+  return cleaned;
 }
 
 function parseHeader(line) {
@@ -374,8 +435,8 @@ function assignFootnotesToVerses(lines, footnotes, range) {
     }
 
     let bodyText = bodyLines.join(' ').replace(/\s+/g, ' ').trim();
-    bodyText = bodyText.replace(/(\w)-\s+(\w)/g, '$1$2');
     bodyText = stripFootnoteText(bodyText, footnotes);
+    bodyText = normalizePdfText(bodyText);
 
     const numbersBySurah = new Map();
     let inFootnotes = false;
@@ -434,7 +495,7 @@ function assignFootnotesToVerses(lines, footnotes, range) {
 
       const text = buildPassageText(surah, range.from, range.to);
 
-      const verseFootnotes = assignFootnotesToVerses(bodyLines, footnotes, range);
+    const verseFootnotes = assignFootnotesToVerses(bodyLines, footnotes, range);
       for (const [ayahKey, notes] of verseFootnotes.entries()) {
         const mapKey = `${surah}:${ayahKey}`;
         if (!footnotesByVerse.has(mapKey)) footnotesByVerse.set(mapKey, []);

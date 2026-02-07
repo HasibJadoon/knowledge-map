@@ -60,6 +60,17 @@
   direction: rtl;
 }
 
+.arabic-verse-row--editable {
+  cursor: pointer;
+}
+
+.arabic-verse-row--editing {
+  background: rgba(15, 23, 42, 0.35);
+  border-radius: 0.85rem;
+  padding: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
 .verse-text {
   font-size: calc(var(--app-ar-font-size, var(--app-font-ar-size, 1.35rem)) * 1.05);
   line-height: 2.1;
@@ -227,6 +238,81 @@
   top: 0.1rem;
   min-width: 0.8rem;
   text-transform: lowercase;
+}
+
+.lemma-editor {
+  margin-top: 0.75rem;
+  direction: ltr;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.lemma-editor-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.lemma-editor-header h5 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+}
+
+.lemma-editor-subtitle {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.lemma-editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.lemma-editor-table {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-x: auto;
+}
+
+.lemma-editor-row {
+  display: grid;
+  grid-template-columns: 0.6fr 1.4fr 1.2fr 0.8fr 1.2fr 1.2fr 1.4fr;
+  gap: 0.4rem;
+  align-items: center;
+  min-width: 720px;
+}
+
+.lemma-editor-row--head {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.lemma-editor-row input {
+  width: 100%;
+  background: rgba(2, 6, 23, 0.55);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 0.4rem;
+  color: #e2e8f0;
+  padding: 0.3rem 0.45rem;
+  font-size: 0.85rem;
+}
+
+.lemma-editor-location {
+  font-size: 0.75rem;
+  color: rgba(148, 163, 184, 0.85);
+  white-space: nowrap;
 }
 
 
