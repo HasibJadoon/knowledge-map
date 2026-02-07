@@ -24,7 +24,7 @@
 
 .lesson-builder .split-layout {
   display: grid;
-  grid-template-columns: 90px minmax(0, 1fr) 360px;
+  grid-template-columns: 90px minmax(0, 1fr) minmax(0, 420px);
   gap: 0.5rem;
 }
 
@@ -265,6 +265,24 @@
   min-height: 32px;
 }
 
+.lesson-builder .feature-controls {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.lesson-builder .feature-controls--noun,
+.lesson-builder .feature-controls--verb {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.lesson-builder .feature-controls--particle {
+  grid-template-columns: 1fr;
+}
+
+.lesson-builder .feature-controls select {
+  width: 100%;
+}
+
 .lesson-builder .editor-table th,
 .lesson-builder .editor-table td {
   border-bottom: 1px solid var(--b);
@@ -299,7 +317,7 @@
 }
 
 .lesson-builder .main-pane {
-  max-width: 860px;
+  width: 100%;
 }
 
 .lesson-builder app-context-right-pane.context-pane--split .context-pane {
@@ -307,8 +325,9 @@
   background: transparent;
   padding: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
-  gap: 0.2rem;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.55fr);
+  column-gap: 0.15rem;
+  row-gap: 0.2rem;
   align-content: start;
 }
 

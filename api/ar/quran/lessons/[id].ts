@@ -151,6 +151,17 @@ interface QuranTokenRow {
   ar_u_token: string;
   ar_u_root: string | null;
   features_json: string | null;
+  noun_case: string | null;
+  noun_number: string | null;
+  noun_gender: string | null;
+  noun_definiteness: string | null;
+  verb_tense: string | null;
+  verb_mood: string | null;
+  verb_voice: string | null;
+  verb_person: string | null;
+  verb_number: string | null;
+  verb_gender: string | null;
+  particle_type: string | null;
   created_at: string;
   updated_at: string | null;
 }
@@ -197,6 +208,34 @@ function buildUnitQueryPattern(unitId: string | null): string | null {
 
 function parseTokenFeatures(text: string | null) {
   return safeJson(text);
+}
+
+function buildMorphFeatureMap(token: QuranTokenRow) {
+  const map: Record<string, unknown> = {};
+  const pos = token.pos ?? null;
+  if (pos === 'noun' || pos === 'adj') {
+    if (token.noun_case) map['status'] = token.noun_case;
+    if (token.noun_number) map['number'] = token.noun_number;
+    if (token.noun_gender) map['gender'] = token.noun_gender;
+    if (token.noun_definiteness) map['type'] = token.noun_definiteness;
+  } else if (pos === 'verb') {
+    if (token.verb_tense) map['tense'] = token.verb_tense;
+    if (token.verb_mood) map['mood'] = token.verb_mood;
+    if (token.verb_voice) map['voice'] = token.verb_voice;
+    if (token.verb_person) map['person'] = token.verb_person;
+    if (token.verb_number) map['number'] = token.verb_number;
+    if (token.verb_gender) map['gender'] = token.verb_gender;
+  } else if (pos === 'particle') {
+    if (token.particle_type) map['particle_type'] = token.particle_type;
+  }
+  return Object.keys(map).length ? map : null;
+}
+
+function buildTokenFeatures(token: QuranTokenRow) {
+  const base = parseTokenFeatures(token.features_json) ?? {};
+  const morph = buildMorphFeatureMap(token) ?? {};
+  const merged = { ...morph, ...base };
+  return Object.keys(merged).length ? merged : null;
 }
 
 function roleIsNoun(pos: string | null) {
@@ -327,24 +366,36 @@ async function fetchTokens(db: D1Database, containerId: string, ids: string[]) {
     .prepare(
       `
       SELECT
-        ar_token_occ_id,
-        user_id,
-        container_id,
-        unit_id,
-        pos_index,
-        surface_ar,
-        norm_ar,
-        lemma_ar,
-        pos,
-        ar_u_token,
-        ar_u_root,
-        features_json,
-        created_at,
-        updated_at
-      FROM ar_occ_token
-      WHERE container_id = ?1
-        AND unit_id IN (${placeholders})
-      ORDER BY unit_id, pos_index
+        t.ar_token_occ_id,
+        t.user_id,
+        t.container_id,
+        t.unit_id,
+        t.pos_index,
+        t.surface_ar,
+        t.norm_ar,
+        t.lemma_ar,
+        t.pos,
+        t.ar_u_token,
+        t.ar_u_root,
+        t.features_json,
+        m.noun_case,
+        m.noun_number,
+        m.noun_gender,
+        m.noun_definiteness,
+        m.verb_tense,
+        m.verb_mood,
+        m.verb_voice,
+        m.verb_person,
+        m.verb_number,
+        m.verb_gender,
+        m.particle_type,
+        t.created_at,
+        t.updated_at
+      FROM ar_occ_token t
+      LEFT JOIN ar_occ_token_morph m ON m.ar_token_occ_id = t.ar_token_occ_id
+      WHERE t.container_id = ?1
+        AND t.unit_id IN (${placeholders})
+      ORDER BY t.unit_id, t.pos_index
     `
     )
     .bind(containerId, ...ids);
@@ -443,7 +494,7 @@ function buildVocabBuckets(tokens: QuranTokenRow[]) {
       pos_index: token.pos_index,
       surface_ar: token.surface_ar,
       lemma_ar: token.lemma_ar,
-      features: parseTokenFeatures(token.features_json),
+      features: buildTokenFeatures(token),
     };
     if (roleIsVerb(token.pos)) {
       verbs.push(card);
@@ -761,7 +812,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         norm_ar: token.norm_ar,
         lemma_ar: token.lemma_ar,
         pos: token.pos,
-        features: parseTokenFeatures(token.features_json),
+        features: buildTokenFeatures(token),
       })),
       spans: spans.map((span) => ({
         span_occ_id: span.ar_span_occ_id,

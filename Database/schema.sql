@@ -721,6 +721,7 @@ DROP TABLE IF EXISTS ar_occ_grammar;
 DROP TABLE IF EXISTS ar_occ_expression;
 DROP TABLE IF EXISTS ar_occ_sentence;
 DROP TABLE IF EXISTS ar_occ_span;
+DROP TABLE IF EXISTS ar_occ_token_morph;
 DROP TABLE IF EXISTS ar_occ_token;
 DROP TABLE IF EXISTS quran_ayah_lemma_location;
 DROP TABLE IF EXISTS quran_ayah_lemmas;
@@ -753,6 +754,33 @@ CREATE TABLE ar_occ_token (
   FOREIGN KEY (ar_u_root)    REFERENCES ar_u_roots(ar_u_root) ON DELETE SET NULL,
 
   UNIQUE(container_id, unit_id, pos_index)
+);
+
+CREATE TABLE ar_occ_token_morph (
+  ar_token_occ_id    TEXT PRIMARY KEY,
+
+  pos                TEXT,
+
+  noun_case          TEXT,
+  noun_number        TEXT,
+  noun_gender        TEXT,
+  noun_definiteness  TEXT,
+
+  verb_tense         TEXT,
+  verb_mood          TEXT,
+  verb_voice         TEXT,
+  verb_person        TEXT,
+  verb_number        TEXT,
+  verb_gender        TEXT,
+
+  particle_type      TEXT,
+
+  extra_json         JSON CHECK (extra_json IS NULL OR json_valid(extra_json)),
+
+  created_at         TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at         TEXT,
+
+  FOREIGN KEY (ar_token_occ_id) REFERENCES ar_occ_token(ar_token_occ_id) ON DELETE CASCADE
 );
 
 CREATE TABLE ar_occ_span (
@@ -1272,6 +1300,7 @@ CREATE INDEX idx_ar_grammar_unit_items_type ON ar_grammar_unit_items(item_type);
 CREATE INDEX idx_ar_occ_token_container_unit ON ar_occ_token(container_id, unit_id);
 CREATE INDEX idx_ar_occ_token_order          ON ar_occ_token(container_id, unit_id, pos_index);
 CREATE INDEX idx_ar_occ_token_u_token        ON ar_occ_token(ar_u_token);
+CREATE INDEX idx_ar_occ_token_morph_pos      ON ar_occ_token_morph(pos);
 
 CREATE INDEX idx_ar_occ_span_container_unit  ON ar_occ_span(container_id, unit_id);
 CREATE INDEX idx_ar_occ_span_range           ON ar_occ_span(container_id, unit_id, start_index, end_index);

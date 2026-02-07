@@ -199,11 +199,12 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
 
   readonly tabs: BuilderTab[] = BUILDER_TABS;
   readonly surahOptions = Array.from({ length: 114 }, (_, index) => index + 1);
-  readonly grammarConcepts = [
-    'ism',
-    'fi_l',
-    'harf',
-  ];
+  readonly grammarConcepts = ['اسم', 'فعل', 'حرف'];
+  private readonly grammarConceptLegacyMap: Record<string, string> = {
+    ism: 'اسم',
+    fi_l: 'فعل',
+    harf: 'حرف',
+  };
 
   lesson: QuranLesson | null = null;
   activeTabId: BuilderTabId = 'meta';
@@ -1172,6 +1173,9 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
       verse.lemmas = lemmas;
 
       this.safeTokens.push(...tokens);
+      for (const token of tokens) {
+        this.autoAssignTokenGrammarConcept(token);
+      }
       this.syncContextSelections();
       this.onLessonEdited();
       this.setSaveStatus(`Loaded ${tokens.length} tokens for ${verse.surah}:${verse.ayah}.`, 'success');
@@ -1291,6 +1295,11 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
       '\u064C': 'dammatan',
       '\u064D': 'kasratan',
     };
+    const tanweenStatusMap: Record<string, string> = {
+      fathatan: 'منصوب',
+      dammatan: 'مرفوع',
+      kasratan: 'مجرور',
+    };
     let tanween: string | null = null;
     for (const [mark, label] of Object.entries(tanweenMap)) {
       if (surface.includes(mark)) {
@@ -1300,27 +1309,27 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
     }
 
     const particleMap: Record<string, string> = {
-      و: 'conjunction',
-      ف: 'result',
-      س: 'future',
-      ب: 'preposition',
-      ك: 'preposition',
-      ل: 'preposition',
-      إلى: 'preposition',
-      على: 'preposition',
-      من: 'preposition',
-      في: 'preposition',
-      عن: 'preposition',
-      حتى: 'preposition',
-      إن: 'inna',
-      إِن: 'inna',
-      أن: 'an',
-      لن: 'negation',
-      لم: 'negation',
-      لا: 'negation',
-      ما: 'negation',
-      يا: 'vocative',
-      قد: 'particle',
+      و: 'عطف',
+      ف: 'عطف',
+      س: 'استقبال',
+      ب: 'جر',
+      ك: 'جر',
+      ل: 'جر',
+      إلى: 'جر',
+      على: 'جر',
+      من: 'جر',
+      في: 'جر',
+      عن: 'جر',
+      حتى: 'جر',
+      إن: 'إنَّ',
+      إِن: 'إنَّ',
+      أن: 'أنْ',
+      لن: 'نفي',
+      لم: 'نفي',
+      لا: 'نفي',
+      ما: 'نفي',
+      يا: 'نداء',
+      قد: 'تحقيق',
     };
 
     const pronouns = new Set(['ي', 'ك', 'ه', 'ها', 'هم', 'هن', 'نا', 'كما', 'كم', 'كن', 'هما']);
@@ -1334,7 +1343,7 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
         features['particle_type'] = particleType;
       }
       if (pronouns.has(normalized)) {
-        features['particle_type'] = 'pronoun';
+        features['particle_type'] = 'ضمير';
         features['pronoun'] = normalized;
       }
     }
@@ -1342,11 +1351,14 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
     if (!pos) {
       if (normalized.startsWith('ال') || lemma.startsWith('ال')) {
         pos = 'noun';
-        features['definite'] = true;
+        features['type'] = 'معرفة';
       }
       if (tanween) {
         pos = 'noun';
-        features['tanween'] = tanween;
+        features['status'] = tanweenStatusMap[tanween] ?? null;
+        if (!features['type']) {
+          features['type'] = 'نكرة';
+        }
       }
     }
 
@@ -1356,11 +1368,11 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
   private getPosFeatureTemplate(pos: string) {
     switch (pos) {
       case 'verb':
-        return { tense: null, mood: null, person: null, number: null, gender: null };
+        return { tense: null, mood: null };
       case 'noun':
-        return { case: null, number: null, gender: null, state: null };
+        return { status: null, number: null, gender: null, type: null };
       case 'adj':
-        return { case: null, number: null, gender: null, degree: null };
+        return { status: null, number: null, gender: null, type: null };
       case 'particle':
         return { particle_type: null };
       case 'phrase':
@@ -1492,13 +1504,13 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
     if (segment.kind === 'prefix') {
       const particleType =
         simple === 'و'
-          ? 'conjunction'
+          ? 'عطف'
           : simple === 'ف'
-            ? 'result'
+            ? 'عطف'
             : simple === 'س'
-              ? 'future'
+              ? 'استقبال'
               : simple === 'ب' || simple === 'ك' || simple === 'ل'
-                ? 'preposition'
+                ? 'جر'
                 : null;
       if (particleType) {
         features['particle_type'] = particleType;
@@ -1507,7 +1519,7 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
     }
 
     if (segment.kind === 'suffix') {
-      features['particle_type'] = 'pronoun';
+      features['particle_type'] = 'ضمير';
       return { pos: 'particle', features };
     }
 
@@ -1618,7 +1630,50 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
     } else if (defaults.features && existing) {
       token.features = { ...defaults.features, ...existing };
     }
+    this.autoAssignTokenGrammarConcept(token);
     this.onLessonEdited();
+  }
+
+  private autoAssignTokenGrammarConcept(token: QuranLessonTokenV2) {
+    const tokenId = token.token_occ_id;
+    if (!tokenId) return;
+
+    const concept = this.mapPosToGrammarConcept(token.pos);
+    const map = this.grammarLinks.token;
+    const existing = map[tokenId] ?? [];
+    const coreConcepts = new Set([
+      ...this.grammarConcepts,
+      ...Object.keys(this.grammarConceptLegacyMap),
+    ]);
+
+    if (!concept) {
+      const trimmed = existing.filter((item) => !coreConcepts.has(item));
+      if (trimmed.length) {
+        map[tokenId] = trimmed;
+      } else {
+        delete map[tokenId];
+      }
+      return;
+    }
+
+    const normalizedExisting = existing.map((item) => this.normalizeGrammarConcept(item));
+    const cleaned = normalizedExisting.filter((item) => !coreConcepts.has(item) || item === concept);
+    if (!cleaned.includes(concept)) {
+      cleaned.push(concept);
+    }
+    map[tokenId] = cleaned;
+  }
+
+  private mapPosToGrammarConcept(pos: string | null | undefined) {
+    if (!pos) return null;
+    if (pos === 'verb') return 'فعل';
+    if (pos === 'particle') return 'حرف';
+    if (pos === 'noun' || pos === 'adj') return 'اسم';
+    return null;
+  }
+
+  private normalizeGrammarConcept(concept: string) {
+    return this.grammarConceptLegacyMap[concept] ?? concept;
   }
 
   onGrammarTargetChange(targetType: GrammarTargetType, targetId: string) {
@@ -3151,7 +3206,9 @@ export class QuranLessonEditorComponent implements OnInit, OnDestroy {
     const result: Record<string, string[]> = {};
     for (const [targetId, links] of Object.entries(map)) {
       if (Array.isArray(links)) {
-        result[targetId] = links.map((entry) => String(entry)).filter(Boolean);
+        result[targetId] = links
+          .map((entry) => this.normalizeGrammarConcept(String(entry)))
+          .filter(Boolean);
       }
     }
     return result;

@@ -74,7 +74,81 @@ import { QuranLessonTokenV2 } from '../../../../../../shared/models/arabic/quran
             </td>
             <td><input type="number" min="0" [(ngModel)]="token.pos_index" (ngModelChange)="changed.emit()" /></td>
             <td>
-              <textarea rows="1" [ngModel]="tokenFeaturesText(token)" (ngModelChange)="tokenFeaturesInput.emit({ token, value: $event })"></textarea>
+              <div class="feature-controls feature-controls--noun" *ngIf="token.pos === 'noun'">
+                <select
+                  [ngModel]="featureValue(token, 'status')"
+                  (ngModelChange)="setFeatureValue(token, 'status', $event)"
+                >
+                  <option [ngValue]="null">الحالة</option>
+                  <option [ngValue]="'مرفوع'">مرفوع</option>
+                  <option [ngValue]="'منصوب'">منصوب</option>
+                  <option [ngValue]="'مجرور'">مجرور</option>
+                </select>
+                <select
+                  [ngModel]="featureValue(token, 'number')"
+                  (ngModelChange)="setFeatureValue(token, 'number', $event)"
+                >
+                  <option [ngValue]="null">العدد</option>
+                  <option [ngValue]="'مفرد'">مفرد</option>
+                  <option [ngValue]="'مثنى'">مثنى</option>
+                  <option [ngValue]="'جمع'">جمع</option>
+                </select>
+                <select
+                  [ngModel]="featureValue(token, 'gender')"
+                  (ngModelChange)="setFeatureValue(token, 'gender', $event)"
+                >
+                  <option [ngValue]="null">الجنس</option>
+                  <option [ngValue]="'مذكر'">مذكر</option>
+                  <option [ngValue]="'مؤنث'">مؤنث</option>
+                </select>
+                <select
+                  [ngModel]="featureValue(token, 'type')"
+                  (ngModelChange)="setFeatureValue(token, 'type', $event)"
+                >
+                  <option [ngValue]="null">النوع</option>
+                  <option [ngValue]="'معرفة'">معرفة</option>
+                  <option [ngValue]="'نكرة'">نكرة</option>
+                </select>
+              </div>
+              <div class="feature-controls feature-controls--verb" *ngIf="token.pos === 'verb'">
+                <select
+                  [ngModel]="featureValue(token, 'tense')"
+                  (ngModelChange)="setFeatureValue(token, 'tense', $event)"
+                >
+                  <option [ngValue]="null">الزمن</option>
+                  <option [ngValue]="'ماضٍ'">ماضٍ</option>
+                  <option [ngValue]="'مضارع'">مضارع</option>
+                  <option [ngValue]="'أمر'">أمر</option>
+                </select>
+                <select
+                  [ngModel]="featureValue(token, 'mood')"
+                  (ngModelChange)="setFeatureValue(token, 'mood', $event)"
+                >
+                  <option [ngValue]="null">الإعراب</option>
+                  <option [ngValue]="'مرفوع'">مرفوع</option>
+                  <option [ngValue]="'منصوب'">منصوب</option>
+                  <option [ngValue]="'مجزوم'">مجزوم</option>
+                </select>
+              </div>
+              <div class="feature-controls feature-controls--particle" *ngIf="token.pos === 'particle'">
+                <select
+                  [ngModel]="featureValue(token, 'particle_type')"
+                  (ngModelChange)="setFeatureValue(token, 'particle_type', $event)"
+                >
+                  <option [ngValue]="null">نوع الحرف</option>
+                  <option [ngValue]="'جر'">حرف جر</option>
+                  <option [ngValue]="'عطف'">حرف عطف</option>
+                  <option [ngValue]="'نفي'">حرف نفي</option>
+                  <option [ngValue]="'نداء'">حرف نداء</option>
+                  <option [ngValue]="'استفهام'">حرف استفهام</option>
+                  <option [ngValue]="'شرط'">حرف شرط</option>
+                  <option [ngValue]="'توكيد'">حرف توكيد</option>
+                  <option [ngValue]="'جزم'">حرف جزم</option>
+                  <option [ngValue]="'نصب'">حرف نصب</option>
+                  <option [ngValue]="'استقبال'">حرف استقبال</option>
+                  <option [ngValue]="'ضمير'">ضمير</option>
+                </select>
+              </div>
             </td>
             <td>
               <button type="button" class="btn btn-sm btn-danger" (click)="remove.emit(token.token_occ_id)">Remove</button>
@@ -96,12 +170,9 @@ export class OccTokenGridComponent {
   @Input() splitAffixes = true;
 
   readonly posOptions = [
-    { value: 'noun', label: 'Noun' },
-    { value: 'verb', label: 'Verb' },
-    { value: 'particle', label: 'Particle' },
-    { value: 'adj', label: 'Adjective' },
-    { value: 'phrase', label: 'Phrase' },
-    { value: 'other', label: 'Other' },
+    { value: 'noun', label: 'اسم' },
+    { value: 'verb', label: 'فعل' },
+    { value: 'particle', label: 'حرف' },
   ];
 
   @Output() add = new EventEmitter<void>();
@@ -115,7 +186,25 @@ export class OccTokenGridComponent {
   trackByToken = (_index: number, token: QuranLessonTokenV2) =>
     token.token_occ_id || `${token.unit_id}-${token.pos_index}-${_index}`;
 
-  tokenFeaturesText(token: QuranLessonTokenV2) {
-    return token.features ? JSON.stringify(token.features) : '';
+  featureValue(token: QuranLessonTokenV2, key: string) {
+    const features = token.features && typeof token.features === 'object' ? token.features : null;
+    if (!features) return null;
+    return (features as Record<string, unknown>)[key] ?? null;
+  }
+
+  setFeatureValue(token: QuranLessonTokenV2, key: string, value: unknown) {
+    if (!token.features || typeof token.features !== 'object') {
+      token.features = {};
+    }
+    const features = token.features as Record<string, unknown>;
+    if (value == null || value === '') {
+      delete features[key];
+    } else {
+      features[key] = value;
+    }
+    if (!Object.keys(features).length) {
+      token.features = null;
+    }
+    this.changed.emit();
   }
 }

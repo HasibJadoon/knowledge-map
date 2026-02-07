@@ -87,6 +87,18 @@ function asString(value: unknown): string | null {
   return trimmed ? trimmed : null;
 }
 
+function asRecordFromJson(value: unknown): JsonRecord | null {
+  const record = asRecord(value);
+  if (record) return record;
+  if (typeof value !== 'string') return null;
+  try {
+    const parsed = JSON.parse(value);
+    return asRecord(parsed);
+  } catch {
+    return null;
+  }
+}
+
 function asNumber(value: unknown): number | null {
   if (typeof value !== 'number') return null;
   if (!Number.isFinite(value)) return null;
@@ -116,6 +128,147 @@ function normalizeTextNorm(value: string) {
   return canonicalize(value)
     .replace(/\s+/g, '_')
     .replace(/[|]/g, '_');
+}
+
+function pickFeatureValue(features: JsonRecord | null, key: string): string | null {
+  if (!features) return null;
+  const raw = features[key];
+  return typeof raw === 'string' ? raw.trim() || null : null;
+}
+
+function extractTokenMorph(pos: string, features: JsonRecord | null) {
+  if (!features) return null;
+
+  let nounCase: string | null = null;
+  let nounNumber: string | null = null;
+  let nounGender: string | null = null;
+  let nounDefiniteness: string | null = null;
+  let verbTense: string | null = null;
+  let verbMood: string | null = null;
+  let verbVoice: string | null = null;
+  let verbPerson: string | null = null;
+  let verbNumber: string | null = null;
+  let verbGender: string | null = null;
+  let particleType: string | null = null;
+
+  if (pos === 'noun' || pos === 'adj') {
+    nounCase = pickFeatureValue(features, 'status');
+    nounNumber = pickFeatureValue(features, 'number');
+    nounGender = pickFeatureValue(features, 'gender');
+    nounDefiniteness = pickFeatureValue(features, 'type');
+  } else if (pos === 'verb') {
+    verbTense = pickFeatureValue(features, 'tense');
+    verbMood = pickFeatureValue(features, 'mood');
+    verbVoice = pickFeatureValue(features, 'voice');
+    verbPerson = pickFeatureValue(features, 'person');
+    verbNumber = pickFeatureValue(features, 'number');
+    verbGender = pickFeatureValue(features, 'gender');
+  } else if (pos === 'particle') {
+    particleType = pickFeatureValue(features, 'particle_type');
+  }
+
+  const hasValues = [
+    nounCase,
+    nounNumber,
+    nounGender,
+    nounDefiniteness,
+    verbTense,
+    verbMood,
+    verbVoice,
+    verbPerson,
+    verbNumber,
+    verbGender,
+    particleType,
+  ].some(Boolean);
+
+  if (!hasValues) return null;
+
+  return {
+    pos,
+    nounCase,
+    nounNumber,
+    nounGender,
+    nounDefiniteness,
+    verbTense,
+    verbMood,
+    verbVoice,
+    verbPerson,
+    verbNumber,
+    verbGender,
+    particleType,
+  };
+}
+
+async function upsertTokenMorph(
+  db: D1Database,
+  tokenOccId: string,
+  pos: string,
+  features: JsonRecord | null
+) {
+  const morph = extractTokenMorph(pos, features);
+  if (!morph) {
+    await db.prepare(`DELETE FROM ar_occ_token_morph WHERE ar_token_occ_id = ?1`).bind(tokenOccId).run();
+    return;
+  }
+
+  await db
+    .prepare(
+      `
+      INSERT INTO ar_occ_token_morph (
+        ar_token_occ_id,
+        pos,
+        noun_case,
+        noun_number,
+        noun_gender,
+        noun_definiteness,
+        verb_tense,
+        verb_mood,
+        verb_voice,
+        verb_person,
+        verb_number,
+        verb_gender,
+        particle_type,
+        extra_json,
+        created_at,
+        updated_at
+      ) VALUES (
+        ?1, ?2, ?3, ?4, ?5, ?6,
+        ?7, ?8, ?9, ?10, ?11, ?12,
+        ?13, NULL, datetime('now'), datetime('now')
+      )
+      ON CONFLICT(ar_token_occ_id) DO UPDATE SET
+        pos = excluded.pos,
+        noun_case = excluded.noun_case,
+        noun_number = excluded.noun_number,
+        noun_gender = excluded.noun_gender,
+        noun_definiteness = excluded.noun_definiteness,
+        verb_tense = excluded.verb_tense,
+        verb_mood = excluded.verb_mood,
+        verb_voice = excluded.verb_voice,
+        verb_person = excluded.verb_person,
+        verb_number = excluded.verb_number,
+        verb_gender = excluded.verb_gender,
+        particle_type = excluded.particle_type,
+        extra_json = excluded.extra_json,
+        updated_at = datetime('now')
+    `
+    )
+    .bind(
+      tokenOccId,
+      morph.pos,
+      morph.nounCase,
+      morph.nounNumber,
+      morph.nounGender,
+      morph.nounDefiniteness,
+      morph.verbTense,
+      morph.verbMood,
+      morph.verbVoice,
+      morph.verbPerson,
+      morph.verbNumber,
+      morph.verbGender,
+      morph.particleType
+    )
+    .run();
 }
 
 function parseStep(stepValue: string | undefined): CommitStep | null {
@@ -781,6 +934,7 @@ async function commitTokensStep(
       )
       .run();
 
+    await upsertTokenMorph(db, tokenOccId, pos, asRecordFromJson(row['features_json']));
     bump(counts, 'ar_occ_token');
   }
 }
