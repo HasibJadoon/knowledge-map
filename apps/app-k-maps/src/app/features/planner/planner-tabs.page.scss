@@ -1,0 +1,47 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  --planner-toolbar-safe-top: var(--ion-safe-area-top, env(safe-area-inset-top));
+  --planner-toolbar-min-height: 56px;
+  --planner-shell-header-offset: calc(var(--planner-toolbar-min-height) + var(--planner-toolbar-safe-top));
+}
+
+ion-header.study-toolbar-wrap {
+  position: relative;
+  z-index: 12;
+}
+
+ion-header.study-toolbar-wrap ion-toolbar.study-toolbar {
+  --background: rgba(10, 18, 34, 0.94);
+  --color: var(--km-text, #e6edf8);
+  --border-color: rgba(145, 176, 224, 0.2);
+  --min-height: var(--planner-toolbar-min-height);
+}
+
+ion-router-outlet {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+ion-footer.planner-tabs-footer {
+  border-top: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.planner-toolbar-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: 0.35rem;
+  min-height: 2rem;
+}
+
+.planner-toolbar-title span {
+  font-size: 0.96rem;
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}

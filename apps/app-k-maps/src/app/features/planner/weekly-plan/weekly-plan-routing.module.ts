@@ -5,7 +5,7 @@ import { PlannerKanbanPage } from './planner-kanban.page';
 import { PlannerLessonsPage } from './planner-lessons.page';
 import { PlannerPodcastPage } from './planner-podcast.page';
 import { PlannerReviewPage } from './planner-review.page';
-import { PlannerTabsPage } from './planner-tabs.page';
+import { PlannerTabsPage } from '../planner-tabs.page';
 import { WeeklyPlanPage } from './weekly-plan.page';
 
 const routes: Routes = [

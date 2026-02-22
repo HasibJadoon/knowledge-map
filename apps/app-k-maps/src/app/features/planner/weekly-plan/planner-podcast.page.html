@@ -1,40 +1,64 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Podcast</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
+<ion-content class="km-shell km-content-with-bottom-tabs km-planner-page" [fullscreen]="true">
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  @if (loading()) {
-    <ion-list>
-      @for (row of [1,2,3,4,5]; track row) {
-        <ion-item lines="none">
-          <ion-label>
-            <h3><ion-skeleton-text animated style="width: 60%"></ion-skeleton-text></h3>
-            <p><ion-skeleton-text animated style="width: 82%"></ion-skeleton-text></p>
-          </ion-label>
-        </ion-item>
-      }
-    </ion-list>
-  } @else {
-    <ion-list>
-      @for (item of items(); track item.id) {
-        <ion-item button="true" detail="true" (click)="openEpisode(item)">
-          <ion-label>
-            <h3>{{ item.title }}</h3>
-            <p>
-              <ion-note>{{ item.status | titlecase }}</ion-note>
-            </p>
-          </ion-label>
-        </ion-item>
-      }
-    </ion-list>
-  }
+  <div class="km-planner-wrap ion-padding">
+    <section class="km-panel km-panel--hero">
+      <div>
+        <p class="km-panel-kicker">Episode Queue</p>
+        <h1>Podcast</h1>
+        <p class="km-panel-subtitle">Track episode briefs, priorities, and production status.</p>
+      </div>
+      <div class="km-hero-chips">
+        <span class="km-chip">{{ items().length }} episodes</span>
+      </div>
+    </section>
+
+    <section class="km-panel km-panel--search">
+      <ion-searchbar
+        class="km-searchbar"
+        [value]="queryControl.value"
+        debounce="300"
+        placeholder="Search episodes"
+        (ionInput)="onQueryInput($event.detail.value)"
+      ></ion-searchbar>
+    </section>
+
+    <ng-container *ngIf="loading(); else episodesLoaded">
+      <section class="km-panel">
+        <ion-list class="km-entry-list">
+          <ion-item class="km-entry-row" lines="none" *ngFor="let row of [1, 2, 3, 4, 5]">
+            <ion-label>
+              <h3><ion-skeleton-text animated style="width: 65%"></ion-skeleton-text></h3>
+              <p><ion-skeleton-text animated style="width: 92%"></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </section>
+    </ng-container>
+
+    <ng-template #episodesLoaded>
+      <section class="km-panel" *ngIf="items().length > 0; else noEpisodes">
+        <ion-list class="km-entry-list">
+          <ion-item class="km-entry-row km-entry-row--action" button="true" detail="true" lines="none" *ngFor="let item of items()" (click)="openEpisode(item)">
+            <ion-label>
+              <h3>{{ item.title }}</h3>
+              <p class="km-entry-meta">{{ episodeTopic(item) }}</p>
+              <p class="km-entry-meta">{{ episodeSummary(item) }}</p>
+              <p class="km-entry-time">{{ formatDate(item.updated_at ?? item.created_at) }}</p>
+            </ion-label>
+            <ion-badge class="km-status-badge" slot="end">{{ item.status | titlecase }}</ion-badge>
+          </ion-item>
+        </ion-list>
+      </section>
+
+      <ng-template #noEpisodes>
+        <section class="km-panel km-empty-state">
+          <h3>No episodes found</h3>
+          <p>Episodes will show here when available.</p>
+        </section>
+      </ng-template>
+    </ng-template>
+  </div>
 </ion-content>

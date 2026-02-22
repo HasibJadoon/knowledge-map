@@ -129,6 +129,7 @@ export class SprintWeekBoardPageComponent {
   taskRelatedType = '';
   taskRelatedId = '';
   taskSource: PlannerTaskRow | null = null;
+  searchQuery = '';
 
   promoteTypeByNoteId: Record<string, string> = {};
   planDraft: PlanWeekAssignments = createPlanWeekDraft();
@@ -141,7 +142,11 @@ export class SprintWeekBoardPageComponent {
 
   tasksFor(status: BoardStatus, lane: PlannerLane): PlannerTaskRow[] {
     return this.tasks()
-      .filter((task) => task.item_json.lane === lane && this.toBoardStatus(task.item_json.status) === status)
+      .filter((task) =>
+        task.item_json.lane === lane &&
+        this.toBoardStatus(task.item_json.status) === status &&
+        this.matchesTaskSearch(task)
+      )
       .sort((a, b) => {
         const orderA = typeof a.item_json.order_index === 'number' ? a.item_json.order_index : Number.MAX_SAFE_INTEGER;
         const orderB = typeof b.item_json.order_index === 'number' ? b.item_json.order_index : Number.MAX_SAFE_INTEGER;
@@ -159,7 +164,11 @@ export class SprintWeekBoardPageComponent {
   }
 
   columnCount(status: BoardStatus): number {
-    return this.tasks().filter((task) => this.toBoardStatus(task.item_json.status) === status).length;
+    return this.tasks().filter((task) => this.toBoardStatus(task.item_json.status) === status && this.matchesTaskSearch(task)).length;
+  }
+
+  filteredTaskCount(): number {
+    return this.tasks().filter((task) => this.matchesTaskSearch(task)).length;
   }
 
   boardDropListId(status: BoardStatus, lane: PlannerLane): string {
@@ -727,8 +736,41 @@ export class SprintWeekBoardPageComponent {
   }
 
   private nextAnchor(lane: 'lesson' | 'podcast'): PlannerTaskRow | null {
-    const pending = this.tasksFor('planned', lane).concat(this.tasksFor('doing', lane));
+    const pending = this.tasks()
+      .filter((task) => task.item_json.lane === lane)
+      .filter((task) => {
+        const status = this.toBoardStatus(task.item_json.status);
+        return status === 'planned' || status === 'doing';
+      })
+      .sort((a, b) => {
+        const orderA = typeof a.item_json.order_index === 'number' ? a.item_json.order_index : Number.MAX_SAFE_INTEGER;
+        const orderB = typeof b.item_json.order_index === 'number' ? b.item_json.order_index : Number.MAX_SAFE_INTEGER;
+        return orderA - orderB;
+      });
     return pending.length > 0 ? pending[0] : null;
+  }
+
+  private matchesTaskSearch(task: PlannerTaskRow): boolean {
+    const query = this.searchQuery.trim().toLowerCase();
+    if (!query) {
+      return true;
+    }
+
+    const searchText = [
+      task.item_json.title,
+      task.item_json.note,
+      task.item_json.lane,
+      task.item_json.priority,
+      task.item_json.status,
+      task.item_json.assignment.topic,
+      task.item_json.assignment.unit_id,
+      task.related_type,
+      task.related_id,
+    ]
+      .map((part) => (part ?? '').toString().toLowerCase())
+      .join(' ');
+
+    return searchText.includes(query);
   }
 
   lessonLabel(lessonId: number | null): string {

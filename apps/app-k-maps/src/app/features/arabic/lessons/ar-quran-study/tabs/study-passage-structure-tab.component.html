@@ -1,11 +1,4 @@
 <section class="study-tab study-tab--passage">
-  <app-targeted-notes-panel
-    *ngIf="taskTarget as target"
-    class="study-targeted-notes"
-    [target]="target"
-    placeholder="Capture a passage-structure note..."
-  ></app-targeted-notes-panel>
-
   <ion-accordion-group class="study-accordion" *ngIf="sections.length; else noPassageSections">
     <ion-accordion
       class="study-accordion-item"

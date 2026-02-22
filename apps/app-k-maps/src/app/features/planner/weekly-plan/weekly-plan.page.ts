@@ -1,29 +1,21 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  ModalController,
-  RefresherCustomEvent,
-  ToastController,
-} from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { RefresherCustomEvent, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { CaptureNotesService } from '../../sprint/services/capture-notes.service';
+import { PlannerLane, PlannerTask, PlannerTaskRow, PlannerWeekPlan, PlannerWeekSummary } from '../../sprint/models/sprint.models';
 import { PlannerService } from '../../sprint/services/planner.service';
-import {
-  CaptureNoteMeta,
-  PlannerLane,
-  PlannerTask,
-  PlannerTaskRow,
-  PlannerWeekPlan,
-  PlannerWeekSummary,
-} from '../../sprint/models/sprint.models';
 import { computeWeekStartSydney, formatWeekRangeLabel } from '../../sprint/utils/week-start.util';
-import { TaskDetailModalComponent } from './modals/task-detail.modal';
-import { TaskEditModalComponent } from './modals/task-edit.modal';
-import { PlanWeekModalComponent, PlanWeekModalResult } from './modals/plan-week.modal';
-import { addOutline, gridOutline, sparklesOutline } from 'ionicons/icons';
 
-type BoardStatus = 'planned' | 'doing' | 'done';
+type TaskStatus = PlannerTask['status'];
+
+type LaneGroup = {
+  lane: PlannerLane;
+  tasks: PlannerTaskRow[];
+};
+
+const LANES: PlannerLane[] = ['lesson', 'podcast', 'notes', 'admin'];
+const TASK_STATUS_OPTIONS: TaskStatus[] = ['planned', 'todo', 'doing', 'blocked', 'done', 'skipped'];
 
 @Component({
   selector: 'app-weekly-plan',
@@ -33,19 +25,15 @@ type BoardStatus = 'planned' | 'doing' | 'done';
 })
 export class WeeklyPlanPage {
   private readonly planner = inject(PlannerService);
-  private readonly captureNotes = inject(CaptureNotesService);
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly modalController = inject(ModalController);
   private readonly toastController = inject(ToastController);
 
   readonly loading = signal(true);
   readonly saving = signal(false);
-  readonly weekStart = signal(computeWeekStartSydney());
+  readonly weekStart = signal(computeWeekStartSydney(this.planner.currentWeekStart()));
   readonly weekLabel = computed(() => formatWeekRangeLabel(this.weekStart()));
 
   readonly weekPlan = signal<PlannerWeekPlan | null>(null);
-  readonly tasks = signal<PlannerTaskRow[]>([]);
   readonly summary = signal<PlannerWeekSummary>({
     tasks_done: 0,
     tasks_total: 0,
@@ -55,80 +43,55 @@ export class WeeklyPlanPage {
     promoted_notes: 0,
   });
 
-  readonly captureControl = new FormControl('', { nonNullable: true });
-  activeStatus: BoardStatus = 'planned';
+  readonly tasks = signal<PlannerTaskRow[]>([]);
+  readonly lanes = LANES;
+  readonly taskStatusOptions = TASK_STATUS_OPTIONS;
 
-  readonly lanes: PlannerLane[] = ['lesson', 'podcast', 'notes', 'admin'];
+  readonly titleControl = new FormControl('', { nonNullable: true });
+  readonly laneControl = new FormControl<PlannerLane>('lesson', { nonNullable: true });
+  readonly estimateControl = new FormControl(30, { nonNullable: true });
 
-  readonly shouldPromptPlanning = computed(() => {
-    const plan = this.weekPlan();
-    if (!plan) {
-      return false;
-    }
-    const planning = plan.planning_state;
-    if (planning.is_planned) {
-      return false;
-    }
-
-    if (!planning.defer_until) {
-      return true;
-    }
-
-    const deferAt = new Date(planning.defer_until).getTime();
-    if (Number.isNaN(deferAt)) {
-      return true;
-    }
-
-    return Date.now() >= deferAt;
-  });
-
-  readonly lessonDone = computed(() => this.countAnchorDone('lesson'));
-  readonly podcastDone = computed(() => this.countAnchorDone('podcast'));
-  readonly minuteTarget = computed(() => {
-    const budget = this.weekPlan()?.time_budget;
-    if (!budget) {
-      return 450;
-    }
-    return budget.lesson_min + budget.podcast_min + budget.review_min;
-  });
-
-  readonly progressPct = computed(() => {
-    const total = this.summary().tasks_total;
-    if (!total) {
-      return 0;
-    }
-    return Math.min(100, Math.round((this.summary().tasks_done / total) * 100));
-  });
-
-  readonly gridIcon = gridOutline;
-  readonly addIcon = addOutline;
-  readonly sparklesIcon = sparklesOutline;
-
-  constructor() {
-    this.route.paramMap.subscribe((params) => {
-      const weekStart = computeWeekStartSydney(params.get('weekStart') ?? this.planner.currentWeekStart());
-      this.weekStart.set(weekStart);
-      void this.loadWeek(weekStart);
-    });
-  }
-
-  tasksForLane(lane: PlannerLane): PlannerTaskRow[] {
-    return this.tasks()
-      .filter((task) => task.item_json.lane === lane && this.toBoardStatus(task.item_json.status) === this.activeStatus)
+  readonly groupedTasks = computed<LaneGroup[]>(() => this.lanes.map((lane) => ({
+    lane,
+    tasks: this.tasks()
+      .filter((task) => task.item_json.lane === lane)
       .sort((a, b) => {
         const orderA = typeof a.item_json.order_index === 'number' ? a.item_json.order_index : Number.MAX_SAFE_INTEGER;
         const orderB = typeof b.item_json.order_index === 'number' ? b.item_json.order_index : Number.MAX_SAFE_INTEGER;
         if (orderA !== orderB) {
           return orderA - orderB;
         }
+
         const updatedA = new Date(a.updated_at ?? a.created_at).getTime();
         const updatedB = new Date(b.updated_at ?? b.created_at).getTime();
         return updatedB - updatedA;
-      });
-  }
+      }),
+  })));
 
-  laneCount(lane: PlannerLane): number {
-    return this.tasksForLane(lane).length;
+  readonly minuteTarget = computed(() => {
+    const plan = this.weekPlan();
+    if (!plan) {
+      return 0;
+    }
+
+    return plan.time_budget.lesson_min + plan.time_budget.podcast_min + plan.time_budget.review_min;
+  });
+
+  readonly completionPercent = computed(() => {
+    const stats = this.summary();
+    if (stats.tasks_total === 0) {
+      return 0;
+    }
+
+    return Math.round((stats.tasks_done / stats.tasks_total) * 100);
+  });
+
+  constructor() {
+    this.route.paramMap.subscribe((params) => {
+      const nextWeekStart = computeWeekStartSydney(params.get('weekStart') ?? this.planner.currentWeekStart());
+      this.weekStart.set(nextWeekStart);
+      void this.loadWeek(nextWeekStart);
+    });
   }
 
   async onRefresh(event: RefresherCustomEvent): Promise<void> {
@@ -136,160 +99,183 @@ export class WeeklyPlanPage {
     event.target.complete();
   }
 
-  onStatusChanged(value: string | number | null | undefined): void {
-    if (value === 'planned' || value === 'doing' || value === 'done') {
-      this.activeStatus = value;
+  laneLabel(lane: PlannerLane): string {
+    if (lane === 'lesson') {
+      return 'Lessons';
     }
+    if (lane === 'podcast') {
+      return 'Podcast';
+    }
+    if (lane === 'notes') {
+      return 'Notes';
+    }
+    return 'Admin';
   }
 
-  async captureQuickNote(): Promise<void> {
-    const text = this.captureControl.value.trim();
-    if (!text) {
+  statusLabel(status: TaskStatus): string {
+    if (status === 'todo') {
+      return 'To Do';
+    }
+    if (status === 'doing') {
+      return 'Doing';
+    }
+    if (status === 'done') {
+      return 'Done';
+    }
+    if (status === 'blocked') {
+      return 'Blocked';
+    }
+    if (status === 'skipped') {
+      return 'Skipped';
+    }
+    return 'Planned';
+  }
+
+  assignmentSummary(task: PlannerTaskRow): string {
+    const assignment = task.item_json.assignment;
+    if (task.item_json.lane === 'lesson' && assignment.ar_lesson_id) {
+      return `Lesson ${assignment.ar_lesson_id} · ${task.item_json.estimate_min} min`;
+    }
+    if (task.item_json.lane === 'podcast' && assignment.topic) {
+      return `${assignment.topic} · ${task.item_json.estimate_min} min`;
+    }
+    return `${task.item_json.estimate_min} min`;
+  }
+
+  async addTask(): Promise<void> {
+    const title = this.titleControl.value.trim();
+    const lane = this.laneControl.value;
+    const estimate = Number(this.estimateControl.value);
+
+    if (!title) {
+      await this.presentToast('Add a task title first.');
+      return;
+    }
+
+    if (!Number.isFinite(estimate) || estimate <= 0) {
+      await this.presentToast('Estimate must be a positive number.');
       return;
     }
 
     this.saving.set(true);
     try {
-      const meta: CaptureNoteMeta = {
-        schema_version: 1,
-        kind: 'capture',
-        week_start: this.weekStart(),
-        source: 'weekly',
-        related_type: 'sp_weekly_plans',
-        related_id: this.weekStart(),
-      };
-
-      await firstValueFrom(this.captureNotes.create({
-        text,
-        title: summarizeTitle(text),
-        meta,
-      }));
-
-      this.captureControl.setValue('', { emitEvent: false });
-      await this.presentToast('Captured.');
-    } catch {
-      await this.presentToast('Could not capture note.');
-    } finally {
-      this.saving.set(false);
-    }
-  }
-
-  async openCreateModal(): Promise<void> {
-    const modal = await this.modalController.create({
-      component: TaskEditModalComponent,
-      componentProps: {
-        initialTask: null,
-        weekStart: this.weekStart(),
-      },
-      breakpoints: [0, 0.6, 0.92],
-      initialBreakpoint: 0.92,
-    });
-
-    await modal.present();
-    const result = await modal.onDidDismiss<{ item_json: PlannerTask; related_type: string | null; related_id: string | null }>();
-    if (result.role !== 'save' || !result.data) {
-      return;
-    }
-
-    this.saving.set(true);
-    try {
+      const task = this.buildTask(title, lane, estimate);
       const created = await firstValueFrom(this.planner.createTask({
         week_start: this.weekStart(),
-        item_json: result.data.item_json,
-        related_type: result.data.related_type,
-        related_id: result.data.related_id,
+        item_json: task,
+        related_type: null,
+        related_id: null,
       }));
 
       this.tasks.update((items) => [created, ...items]);
-      this.recomputeSummary();
-      await this.presentToast('Task created.');
+      this.refreshSummaryFromTasks();
+
+      this.titleControl.setValue('', { emitEvent: false });
+      this.laneControl.setValue(lane, { emitEvent: false });
+      this.estimateControl.setValue(estimate, { emitEvent: false });
+
+      await this.presentToast('Task added.');
     } catch {
-      await this.presentToast('Could not create task.');
+      await this.presentToast('Could not add task.');
     } finally {
       this.saving.set(false);
     }
   }
 
-  async openEditModal(task: PlannerTaskRow): Promise<void> {
+  onTaskStatusChanged(task: PlannerTaskRow, value: string | number | null | undefined): void {
+    if (!isTaskStatus(value)) {
+      return;
+    }
+    void this.persistStatus(task, value);
+  }
+
+  private async persistStatus(task: PlannerTaskRow, nextStatus: TaskStatus): Promise<void> {
+    if (this.saving()) {
+      return;
+    }
+
+    if (task.item_json.status === nextStatus) {
+      return;
+    }
+
+    const previousTask = structuredClone(task);
+    const optimisticTask: PlannerTaskRow = {
+      ...task,
+      item_json: {
+        ...task.item_json,
+        status: nextStatus,
+      },
+      updated_at: new Date().toISOString(),
+    };
+
+    this.replaceTask(optimisticTask);
+    this.refreshSummaryFromTasks();
+
+    this.saving.set(true);
     try {
-      const modal = await this.modalController.create({
-        component: TaskEditModalComponent,
-        componentProps: {
-          initialTask: task.item_json,
-          relatedType: task.related_type,
-          relatedId: task.related_id,
-          weekStart: this.weekStart(),
-        },
-        breakpoints: [0, 0.6, 0.92],
-        initialBreakpoint: 0.92,
-      });
+      const updated = nextStatus === 'done'
+        ? (await firstValueFrom(this.planner.completeTask(task.id, {
+            actual_min: task.item_json.actual_min ?? task.item_json.estimate_min,
+          }))).task
+        : await firstValueFrom(this.planner.updateTask(task.id, {
+            item_json: {
+              ...task.item_json,
+              status: nextStatus,
+            },
+            related_type: task.related_type,
+            related_id: task.related_id,
+          }));
 
-      await modal.present();
-      const result = await modal.onDidDismiss<{ item_json: PlannerTask; related_type: string | null; related_id: string | null }>();
-      if (result.role !== 'save' || !result.data) {
-        return;
-      }
-
-      await this.updateTask(task, result.data.item_json, result.data.related_type, result.data.related_id);
+      this.replaceTask(updated);
+      this.refreshSummaryFromTasks();
+      await this.presentToast(`Moved to ${this.statusLabel(nextStatus)}.`);
     } catch {
-      await this.presentToast('Could not open task editor.');
+      this.replaceTask(previousTask);
+      this.refreshSummaryFromTasks();
+      await this.presentToast('Could not update status.');
+    } finally {
+      this.saving.set(false);
     }
   }
 
-  async openDetailModal(task: PlannerTaskRow): Promise<void> {
-    try {
-      const modal = await this.modalController.create({
-        component: TaskDetailModalComponent,
-        componentProps: {
-          task,
-          weekStart: this.weekStart(),
-        },
-        breakpoints: [0, 0.72, 0.96],
-        initialBreakpoint: 0.96,
-      });
+  private buildTask(title: string, lane: PlannerLane, estimate: number): PlannerTask {
+    const assignmentKind: PlannerTask['assignment']['kind'] = lane === 'lesson'
+      ? 'lesson'
+      : lane === 'podcast'
+        ? 'podcast'
+        : 'none';
 
-      await modal.present();
-      const result = await modal.onDidDismiss<{ item_json?: PlannerTask; actual_min?: number; capture_text?: string }>();
-      if (result.role === 'save' && result.data?.item_json) {
-        await this.updateTask(task, result.data.item_json, task.related_type, task.related_id);
-        return;
-      }
-
-      if (result.role === 'complete') {
-        await this.completeTask(task, result.data?.actual_min);
-        return;
-      }
-
-      if (result.role === 'capture' && result.data?.capture_text) {
-        await this.createTaskCapture(task, result.data.capture_text);
-      }
-    } catch {
-      await this.presentToast('Could not open task details.');
-    }
-  }
-
-  async moveToDoing(task: PlannerTaskRow): Promise<void> {
-    const nextTask: PlannerTask = {
-      ...task.item_json,
-      status: 'doing',
+    return {
+      schema_version: 1,
+      lane,
+      anchor: false,
+      title,
+      priority: 'P2',
+      status: 'planned',
+      estimate_min: Math.max(5, Math.round(estimate)),
+      actual_min: null,
+      assignment: {
+        kind: assignmentKind,
+        ar_lesson_id: null,
+        unit_id: null,
+        topic: null,
+        episode_no: null,
+        recording_at: null,
+      },
+      tags: [lane],
+      checklist: [],
+      note: '',
+      links: [],
+      capture_on_done: {
+        create_capture_note: true,
+        template: 'quick',
+      },
+      meta: {
+        anchor_key: null,
+        week_start: this.weekStart(),
+      },
+      order_index: this.tasks().length + 1,
     };
-    await this.updateTask(task, nextTask, task.related_type, task.related_id);
-  }
-
-  async markBlocked(task: PlannerTaskRow): Promise<void> {
-    const nextTask: PlannerTask = {
-      ...task.item_json,
-      status: 'blocked',
-    };
-    await this.updateTask(task, nextTask, task.related_type, task.related_id);
-  }
-
-  async completeFromSwipe(task: PlannerTaskRow): Promise<void> {
-    await this.completeTask(task, task.item_json.actual_min ?? task.item_json.estimate_min);
-  }
-
-  openKanbanView(): void {
-    void this.router.navigate(['/planner/kanban']);
   }
 
   private async loadWeek(weekStart: string): Promise<void> {
@@ -297,151 +283,13 @@ export class WeeklyPlanPage {
     try {
       const week = await firstValueFrom(this.planner.ensureWeekAnchors(weekStart));
       this.weekPlan.set(week.weekPlan?.item_json ?? null);
-      this.tasks.set(week.tasks);
       this.summary.set(week.summary);
-      this.recomputeSummary();
+      this.tasks.set(week.tasks);
+      this.refreshSummaryFromTasks();
     } catch {
-      await this.presentToast('Could not load weekly sprint.');
+      await this.presentToast('Could not load planner week.');
     } finally {
       this.loading.set(false);
-    }
-  }
-
-  async openPlanWeekModal(blocking = false): Promise<void> {
-    const modal = await this.modalController.create({
-      component: PlanWeekModalComponent,
-      componentProps: {
-        weekStart: this.weekStart(),
-        weekPlan: this.weekPlan(),
-        tasks: this.tasks(),
-      },
-      backdropDismiss: !blocking,
-      breakpoints: [0, 0.72, 0.98],
-      initialBreakpoint: 0.98,
-    });
-
-    await modal.present();
-    const result = await modal.onDidDismiss<PlanWeekModalResult>();
-    if (!result.data) {
-      return;
-    }
-
-    if (result.data.mode === 'later') {
-      await this.deferPlanning();
-      return;
-    }
-
-    if (result.data.mode === 'save') {
-      await this.savePlanning(result.data.assignments);
-    }
-  }
-
-  private async savePlanning(assignments: Record<string, unknown>): Promise<void> {
-    this.saving.set(true);
-    try {
-      const response = await firstValueFrom(this.planner.planWeek({
-        week_start: this.weekStart(),
-        planning_state: { is_planned: true },
-        assignments,
-      }));
-      this.weekPlan.set(response.weekPlan?.item_json ?? null);
-      this.tasks.set(response.tasks);
-      this.summary.set(response.summary);
-      this.recomputeSummary();
-    } catch {
-      await this.presentToast('Could not save plan.');
-    } finally {
-      this.saving.set(false);
-    }
-  }
-
-  private async deferPlanning(): Promise<void> {
-    this.saving.set(true);
-    try {
-      const response = await firstValueFrom(this.planner.planWeek({
-        week_start: this.weekStart(),
-        later_today: true,
-        planning_state: { is_planned: false },
-      }));
-      this.weekPlan.set(response.weekPlan?.item_json ?? null);
-      this.tasks.set(response.tasks);
-      this.summary.set(response.summary);
-      this.recomputeSummary();
-    } catch {
-      await this.presentToast('Could not defer planning.');
-    } finally {
-      this.saving.set(false);
-    }
-  }
-
-  private async updateTask(
-    task: PlannerTaskRow,
-    itemJson: PlannerTask,
-    relatedType: string | null,
-    relatedId: string | null
-  ): Promise<void> {
-    this.saving.set(true);
-    try {
-      const updated = await firstValueFrom(this.planner.updateTask(task.id, {
-        item_json: itemJson,
-        related_type: relatedType,
-        related_id: relatedId,
-      }));
-
-      this.replaceTask(updated);
-      this.recomputeSummary();
-      await this.presentToast('Task saved.');
-    } catch {
-      await this.presentToast('Could not save task.');
-    } finally {
-      this.saving.set(false);
-    }
-  }
-
-  private async completeTask(task: PlannerTaskRow, actualMin?: number | null): Promise<void> {
-    this.saving.set(true);
-    try {
-      const response = await firstValueFrom(this.planner.completeTask(task.id, {
-        actual_min: actualMin ?? undefined,
-      }));
-      this.replaceTask(response.task);
-      this.recomputeSummary();
-      await this.presentToast('Task completed.');
-    } catch {
-      await this.presentToast('Could not complete task.');
-    } finally {
-      this.saving.set(false);
-    }
-  }
-
-  private async createTaskCapture(task: PlannerTaskRow, text: string): Promise<void> {
-    const normalized = text.trim();
-    if (!normalized) {
-      return;
-    }
-
-    this.saving.set(true);
-    try {
-      const meta: CaptureNoteMeta = {
-        schema_version: 1,
-        kind: 'capture',
-        week_start: this.weekStart(),
-        source: task.item_json.lane === 'podcast' ? 'podcast' : 'lesson',
-        related_type: task.related_type ?? 'sp_weekly_tasks',
-        related_id: task.related_id ?? task.id,
-        task_type: 'task',
-      };
-
-      await firstValueFrom(this.captureNotes.create({
-        text: normalized,
-        title: summarizeTitle(normalized),
-        meta,
-      }));
-      await this.presentToast('Note captured.');
-    } catch {
-      await this.presentToast('Could not capture note.');
-    } finally {
-      this.saving.set(false);
     }
   }
 
@@ -451,64 +299,33 @@ export class WeeklyPlanPage {
       if (index < 0) {
         return [updated, ...items];
       }
+
       const next = [...items];
       next[index] = updated;
       return next;
     });
   }
 
-  private recomputeSummary(): void {
+  private refreshSummaryFromTasks(): void {
     const tasks = this.tasks();
-    let done = 0;
-    let minutes = 0;
+    const doneStatuses: TaskStatus[] = ['done'];
 
-    for (const task of tasks) {
-      if (this.toBoardStatus(task.item_json.status) === 'done') {
-        done += 1;
+    const tasksDone = tasks.filter((task) => doneStatuses.includes(task.item_json.status)).length;
+    const minutesSpent = tasks.reduce((total, task) => {
+      if (task.item_json.status !== 'done') {
+        return total;
       }
-      if (typeof task.item_json.actual_min === 'number' && Number.isFinite(task.item_json.actual_min)) {
-        minutes += task.item_json.actual_min;
-      }
-    }
 
-    this.summary.update((state) => ({
-      ...state,
-      tasks_done: done,
+      const minutes = task.item_json.actual_min ?? task.item_json.estimate_min;
+      return Number.isFinite(minutes) ? total + minutes : total;
+    }, 0);
+
+    this.summary.update((value) => ({
+      ...value,
+      tasks_done: tasksDone,
       tasks_total: tasks.length,
-      minutes_spent: minutes,
+      minutes_spent: minutesSpent,
     }));
-  }
-
-  private countAnchorDone(lane: 'lesson' | 'podcast'): number {
-    return this.tasks().filter((task) => task.item_json.anchor && task.item_json.lane === lane && this.toBoardStatus(task.item_json.status) === 'done').length;
-  }
-
-  assignmentSummary(task: PlannerTaskRow): string {
-    if (task.item_json.lane === 'lesson') {
-      if (task.item_json.assignment.ar_lesson_id) {
-        return `Lesson #${task.item_json.assignment.ar_lesson_id} · ${task.item_json.estimate_min} min`;
-      }
-      return `${task.item_json.estimate_min} min · Not assigned`;
-    }
-
-    if (task.item_json.lane === 'podcast') {
-      if (task.item_json.assignment.topic) {
-        return `${task.item_json.estimate_min} min · ${task.item_json.assignment.topic}`;
-      }
-      return `${task.item_json.estimate_min} min · Topic pending`;
-    }
-
-    return `${task.item_json.estimate_min} min`;
-  }
-
-  private toBoardStatus(status: string): BoardStatus {
-    if (status === 'done') {
-      return 'done';
-    }
-    if (status === 'doing' || status === 'blocked') {
-      return 'doing';
-    }
-    return 'planned';
   }
 
   private async presentToast(message: string): Promise<void> {
@@ -521,15 +338,11 @@ export class WeeklyPlanPage {
   }
 }
 
-function summarizeTitle(text: string): string {
-  const compact = text.replace(/\s+/g, ' ').trim();
-  if (!compact) {
-    return 'Capture note';
-  }
-
-  if (compact.length <= 60) {
-    return compact;
-  }
-
-  return `${compact.slice(0, 57).replace(/\s+$/, '')}...`;
+function isTaskStatus(value: unknown): value is TaskStatus {
+  return value === 'planned'
+    || value === 'todo'
+    || value === 'doing'
+    || value === 'blocked'
+    || value === 'done'
+    || value === 'skipped';
 }

@@ -1,11 +1,4 @@
 <section class="study-tab study-tab--morphology">
-  <app-targeted-notes-panel
-    *ngIf="taskTarget as target"
-    class="study-targeted-notes"
-    [target]="target"
-    placeholder="Capture a morphology note..."
-  ></app-targeted-notes-panel>
-
   <ion-accordion-group class="study-accordion" expand="inset">
     <ion-accordion class="study-accordion-item" value="nouns">
       <ion-item slot="header" class="study-accordion-header">
@@ -17,17 +10,12 @@
         <ion-grid class="study-morph-grid" *ngIf="nouns.length">
           <ion-row class="study-morph-row">
             <ion-col class="study-morph-col" size="6" *ngFor="let item of nouns">
-              <div class="study-morph-tile-wrap">
-                <button type="button" class="study-morph-tile" (click)="openMorphologyDetails(item)">
-                  <span class="study-morph-label" dir="rtl" translate="no">
-                    <strong class="study-morph-word arabic">{{ item.word }}</strong>
-                    <small class="study-morph-root arabic" *ngIf="item.root">({{ item.root }})</small>
-                  </span>
-                </button>
-                <ion-button class="study-morph-note-btn" size="small" fill="clear" (click)="toggleWordNotes($event, item)">
-                  Notes
-                </ion-button>
-              </div>
+              <button type="button" class="study-morph-tile" (click)="openMorphologyDetails(item)">
+                <span class="study-morph-label" dir="rtl" translate="no">
+                  <strong class="study-morph-word arabic">{{ item.word }}</strong>
+                  <small class="study-morph-root arabic" *ngIf="item.root">({{ item.root }})</small>
+                </span>
+              </button>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -44,17 +32,12 @@
         <ion-grid class="study-morph-grid" *ngIf="verbs.length">
           <ion-row class="study-morph-row">
             <ion-col class="study-morph-col" size="6" *ngFor="let item of verbs">
-              <div class="study-morph-tile-wrap">
-                <button type="button" class="study-morph-tile" (click)="openMorphologyDetails(item)">
-                  <span class="study-morph-label" dir="rtl" translate="no">
-                    <strong class="study-morph-word arabic">{{ item.word }}</strong>
-                    <small class="study-morph-root arabic" *ngIf="item.root">({{ item.root }})</small>
-                  </span>
-                </button>
-                <ion-button class="study-morph-note-btn" size="small" fill="clear" (click)="toggleWordNotes($event, item)">
-                  Notes
-                </ion-button>
-              </div>
+              <button type="button" class="study-morph-tile" (click)="openMorphologyDetails(item)">
+                <span class="study-morph-label" dir="rtl" translate="no">
+                  <strong class="study-morph-word arabic">{{ item.word }}</strong>
+                  <small class="study-morph-root arabic" *ngIf="item.root">({{ item.root }})</small>
+                </span>
+              </button>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -62,21 +45,36 @@
     </ion-accordion>
   </ion-accordion-group>
 
-  <app-targeted-notes-panel
-    *ngIf="activeWordNoteTarget"
-    class="study-targeted-notes study-targeted-notes--inline"
-    [target]="activeWordNoteTarget!"
-    placeholder="Add a note for this word..."
-  ></app-targeted-notes-panel>
-
   <ion-modal class="study-morph-modal" [isOpen]="isMorphologyModalOpen" (didDismiss)="onMorphologyModalDismiss()">
     <ng-template>
       <ion-header>
         <ion-toolbar class="study-morph-modal-toolbar">
           <ion-title>Word Insight</ion-title>
           <ion-buttons slot="end">
+            <ion-button
+              fill="clear"
+              class="study-morph-modal-icon-btn"
+              [disabled]="!activeWordNoteTarget"
+              aria-label="Open word notes"
+              (click)="openWordNotesModal()"
+            >
+              <ion-icon name="document-text-outline" slot="icon-only"></ion-icon>
+            </ion-button>
             <ion-button fill="clear" (click)="closeMorphologyDetails()">Close</ion-button>
           </ion-buttons>
+        </ion-toolbar>
+        <ion-toolbar class="study-morph-modal-toolbar study-morph-modal-toolbar--tabs">
+          <ion-segment class="study-morph-modal-tabs" [value]="activeMorphologyDetailTab" (ionChange)="onMorphologyDetailTabChange($event)">
+            <ion-segment-button value="lexicon">
+              <ion-label>Lexicon</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="morphology">
+              <ion-label>Morphology</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="evidence">
+              <ion-label>Evidence ({{ evidenceCount }})</ion-label>
+            </ion-segment-button>
+          </ion-segment>
         </ion-toolbar>
       </ion-header>
 
@@ -206,21 +204,6 @@
         </ng-container>
       </ion-content>
 
-      <ion-footer class="study-morph-modal-footer">
-        <ion-toolbar class="study-morph-modal-toolbar">
-          <ion-segment class="study-morph-modal-tabs" [value]="activeMorphologyDetailTab" (ionChange)="onMorphologyDetailTabChange($event)">
-            <ion-segment-button value="lexicon">
-              <ion-label>Lexicon</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="morphology">
-              <ion-label>Morphology</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="evidence">
-              <ion-label>Evidence ({{ evidenceCount }})</ion-label>
-            </ion-segment-button>
-          </ion-segment>
-        </ion-toolbar>
-      </ion-footer>
     </ng-template>
   </ion-modal>
 </section>

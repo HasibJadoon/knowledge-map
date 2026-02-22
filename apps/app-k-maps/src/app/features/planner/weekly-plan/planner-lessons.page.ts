@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RefresherCustomEvent, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
@@ -18,6 +19,7 @@ export class PlannerLessonsPage {
 
   readonly loading = signal(true);
   readonly lessons = signal<LessonPickerItem[]>([]);
+  readonly queryControl = new FormControl('', { nonNullable: true });
 
   constructor() {
     void this.load();
@@ -28,6 +30,11 @@ export class PlannerLessonsPage {
     event.target.complete();
   }
 
+  onQueryInput(value: string | null | undefined): void {
+    this.queryControl.setValue(value ?? '', { emitEvent: false });
+    void this.load();
+  }
+
   openLesson(lesson: LessonPickerItem): void {
     void this.router.navigate(['/arabic/lessons', lesson.id, 'study']);
   }
@@ -35,17 +42,22 @@ export class PlannerLessonsPage {
   private async load(): Promise<void> {
     this.loading.set(true);
     try {
-      const lessons = await firstValueFrom(this.lessonsService.list('', 80));
+      const query = this.queryControl.value.trim();
+      const lessons = await firstValueFrom(this.lessonsService.list(query, 80));
       this.lessons.set(lessons);
     } catch {
-      const toast = await this.toastController.create({
-        message: 'Could not load lessons.',
-        duration: 1400,
-        position: 'bottom',
-      });
-      await toast.present();
+      await this.presentToast('Could not load lessons.');
     } finally {
       this.loading.set(false);
     }
+  }
+
+  private async presentToast(message: string): Promise<void> {
+    const toast = await this.toastController.create({
+      message,
+      duration: 1400,
+      position: 'bottom',
+    });
+    await toast.present();
   }
 }

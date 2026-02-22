@@ -1,85 +1,84 @@
-<ion-page>
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title>Tokens</ion-title>
-      <ion-subtitle>Canonical token layer linked to roots</ion-subtitle>
-    </ion-toolbar>
-    <ion-toolbar>
-      <ion-searchbar
-        placeholder="Search lemma, root, or canonical input"
-        [(ngModel)]="q"
-        (ionClear)="onSearch()"
-        (ionSearch)="onSearch()"
-      ></ion-searchbar>
-    </ion-toolbar>
-  </ion-header>
+<ion-header class="tokens-header">
+  <ion-toolbar class="tokens-toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Tokens</ion-title>
+  </ion-toolbar>
 
-  <ion-content>
-    <ion-grid class="filters">
-      <ion-row>
-        <ion-col size="12" size-md="6">
-          <ion-item>
-            <ion-label>Part of speech</ion-label>
-            <ion-select [(ngModel)]="pos" (ionChange)="onSearch()" interface="popover">
-              <ion-select-option value="">All</ion-select-option>
-              <ion-select-option *ngFor="let option of posOptions" [value]="option">
-                {{ option | titlecase }}
-              </ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-        <ion-col size="12" size-md="6">
-          <ion-item>
-            <ion-label>Page size</ion-label>
-            <ion-select [(ngModel)]="pageSize" (ionChange)="onSearch()" interface="popover">
-              <ion-select-option value="25">25</ion-select-option>
-              <ion-select-option value="50">50</ion-select-option>
-              <ion-select-option value="100">100</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <ion-toolbar class="tokens-toolbar tokens-toolbar--search">
+    <ion-searchbar
+      placeholder="Search lemma, root, or canonical input"
+      [(ngModel)]="q"
+      (ionClear)="onSearch()"
+      (ionSearch)="onSearch()"
+    ></ion-searchbar>
+  </ion-toolbar>
 
-    <ion-list *ngIf="tokens.length">
-      <ion-item *ngFor="let token of tokens" detail="false">
-        <ion-label class="ion-text-wrap">
-          <h3>{{ token.lemma_ar }}</h3>
-          <p class="caption">{{ token.lemma_norm }} · {{ token.pos }}</p>
-          <p class="root">Root: {{ displayRoot(token) }}</p>
-          <p class="canonical">{{ token.canonical_input }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+  <ion-toolbar class="tokens-toolbar tokens-toolbar--pager" *ngIf="tokens.length">
+    <ion-title size="small">Page {{ page }} · {{ total }} tokens</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" size="small" (click)="changePage('prev')" [disabled]="page <= 1">
+        Prev
+      </ion-button>
+      <ion-button
+        fill="outline"
+        size="small"
+        (click)="changePage('next')"
+        [disabled]="page >= totalPages"
+      >
+        Next
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <ion-card *ngIf="!tokens.length && !loading" class="empty-card">
-      <ion-card-content>No tokens found with the current filters.</ion-card-content>
-    </ion-card>
+<ion-content class="km-shell tokens-content">
+  <ion-grid class="filters">
+    <ion-row>
+      <ion-col size="12" size-md="6">
+        <ion-item>
+          <ion-label>Part of speech</ion-label>
+          <ion-select [(ngModel)]="pos" (ionChange)="onSearch()" interface="popover">
+            <ion-select-option value="">All</ion-select-option>
+            <ion-select-option *ngFor="let option of posOptions" [value]="option">
+              {{ option | titlecase }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12" size-md="6">
+        <ion-item>
+          <ion-label>Page size</ion-label>
+          <ion-select [(ngModel)]="pageSize" (ionChange)="onSearch()" interface="popover">
+            <ion-select-option value="25">25</ion-select-option>
+            <ion-select-option value="50">50</ion-select-option>
+            <ion-select-option value="100">100</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-    <div *ngIf="loading" class="loading-state">
-      <ion-spinner name="crescent"></ion-spinner>
-      <p>Loading tokens…</p>
-    </div>
+  <ion-list *ngIf="tokens.length">
+    <ion-item *ngFor="let token of tokens" detail="false">
+      <ion-label class="ion-text-wrap">
+        <h3>{{ token.lemma_ar }}</h3>
+        <p class="caption">{{ token.lemma_norm }} · {{ token.pos }}</p>
+        <p class="root">Root: {{ displayRoot(token) }}</p>
+        <p class="canonical">{{ token.canonical_input }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
-    <ion-footer *ngIf="tokens.length" class="tokens-footer">
-      <ion-toolbar>
-        <ion-title>Page {{ page }} · {{ total }} tokens</ion-title>
-        <ion-buttons slot="end">
-          <ion-button fill="outline" size="small" (click)="changePage('prev')" [disabled]="page <= 1">
-            Prev
-          </ion-button>
-          <ion-button
-            fill="outline"
-            size="small"
-            (click)="changePage('next')"
-            [disabled]="page >= totalPages"
-          >
-            Next
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-footer>
+  <ion-card *ngIf="!tokens.length && !loading" class="empty-card">
+    <ion-card-content>No tokens found with the current filters.</ion-card-content>
+  </ion-card>
 
-    <ion-toast *ngIf="error" [isOpen]="true" [message]="error" duration="4000"></ion-toast>
-  </ion-content>
-</ion-page>
+  <div *ngIf="loading" class="loading-state">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading tokens…</p>
+  </div>
+
+  <ion-toast *ngIf="error" [isOpen]="true" [message]="error" duration="4000"></ion-toast>
+</ion-content>

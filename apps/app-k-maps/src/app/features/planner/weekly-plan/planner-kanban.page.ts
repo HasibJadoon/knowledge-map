@@ -3,8 +3,19 @@ import { RefresherCustomEvent, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { PlannerLane, PlannerTask, PlannerTaskRow } from '../../sprint/models/sprint.models';
 import { PlannerService } from '../../sprint/services/planner.service';
+import { formatWeekRangeLabel } from '../../sprint/utils/week-start.util';
 
 type BoardStatus = 'planned' | 'doing' | 'done';
+type TaskStatus = PlannerTask['status'];
+
+type KanbanLaneGroup = {
+  lane: PlannerLane;
+  tasks: PlannerTaskRow[];
+};
+
+const BOARD_STATUSES: BoardStatus[] = ['planned', 'doing', 'done'];
+const LANES: PlannerLane[] = ['lesson', 'podcast', 'notes', 'admin'];
+const TASK_STATUS_OPTIONS: TaskStatus[] = ['planned', 'todo', 'doing', 'blocked', 'done', 'skipped'];
 
 @Component({
   selector: 'app-planner-kanban-page',
@@ -19,17 +30,26 @@ export class PlannerKanbanPage {
   readonly loading = signal(true);
   readonly saving = signal(false);
   readonly weekStart = signal(this.planner.currentWeekStart());
-  readonly tasks = signal<PlannerTaskRow[]>([]);
+  readonly weekLabel = computed(() => formatWeekRangeLabel(this.weekStart()));
+
   readonly activeStatus = signal<BoardStatus>('planned');
+  readonly tasks = signal<PlannerTaskRow[]>([]);
 
-  readonly lanes: PlannerLane[] = ['lesson', 'podcast', 'notes', 'admin'];
+  readonly boardStatuses = BOARD_STATUSES;
+  readonly taskStatusOptions = TASK_STATUS_OPTIONS;
 
-  readonly grouped = computed(() => {
-    const status = this.activeStatus();
-    const items = this.tasks().filter((task) => this.toBoardStatus(task.item_json.status) === status);
-    return this.lanes.map((lane) => ({
+  readonly grouped = computed<KanbanLaneGroup[]>(() => {
+    const boardStatus = this.activeStatus();
+    const visibleTasks = this.tasks().filter((task) => this.toBoardStatus(task.item_json.status) === boardStatus);
+    return LANES.map((lane) => ({
       lane,
-      tasks: items.filter((task) => task.item_json.lane === lane),
+      tasks: visibleTasks
+        .filter((task) => task.item_json.lane === lane)
+        .sort((a, b) => {
+          const updatedA = new Date(a.updated_at ?? a.created_at).getTime();
+          const updatedB = new Date(b.updated_at ?? b.created_at).getTime();
+          return updatedB - updatedA;
+        }),
     }));
   });
 
@@ -42,37 +62,60 @@ export class PlannerKanbanPage {
     event.target.complete();
   }
 
-  onStatusChanged(value: string | number | null | undefined): void {
-    if (value === 'planned' || value === 'doing' || value === 'done') {
+  boardStatusLabel(status: BoardStatus): string {
+    if (status === 'planned') {
+      return 'To Do';
+    }
+    if (status === 'doing') {
+      return 'Doing';
+    }
+    return 'Done';
+  }
+
+  laneLabel(lane: PlannerLane): string {
+    if (lane === 'lesson') {
+      return 'Lessons';
+    }
+    if (lane === 'podcast') {
+      return 'Podcast';
+    }
+    if (lane === 'notes') {
+      return 'Notes';
+    }
+    return 'Admin';
+  }
+
+  statusLabel(status: TaskStatus): string {
+    if (status === 'todo') {
+      return 'To Do';
+    }
+    if (status === 'doing') {
+      return 'Doing';
+    }
+    if (status === 'done') {
+      return 'Done';
+    }
+    if (status === 'blocked') {
+      return 'Blocked';
+    }
+    if (status === 'skipped') {
+      return 'Skipped';
+    }
+    return 'Planned';
+  }
+
+  onBoardStatusChanged(value: string | number | null | undefined): void {
+    if (isBoardStatus(value)) {
       this.activeStatus.set(value);
     }
   }
 
-  async setStatus(task: PlannerTaskRow, nextStatus: PlannerTask['status']): Promise<void> {
-    this.saving.set(true);
-    try {
-      if (nextStatus === 'done') {
-        const response = await firstValueFrom(this.planner.completeTask(task.id, {
-          actual_min: task.item_json.actual_min ?? task.item_json.estimate_min,
-        }));
-        this.replaceTask(response.task);
-      } else {
-        const nextTask: PlannerTask = {
-          ...task.item_json,
-          status: nextStatus,
-        };
-        const updated = await firstValueFrom(this.planner.updateTask(task.id, {
-          item_json: nextTask,
-          related_type: task.related_type,
-          related_id: task.related_id,
-        }));
-        this.replaceTask(updated);
-      }
-    } catch {
-      await this.presentToast('Could not update task.');
-    } finally {
-      this.saving.set(false);
+  onTaskStatusChanged(task: PlannerTaskRow, value: string | number | null | undefined): void {
+    if (!isTaskStatus(value)) {
+      return;
     }
+
+    void this.setTaskStatus(task, value);
   }
 
   private async load(): Promise<void> {
@@ -81,25 +124,76 @@ export class PlannerKanbanPage {
       const week = await firstValueFrom(this.planner.ensureWeekAnchors(this.weekStart()));
       this.tasks.set(week.tasks);
     } catch {
-      await this.presentToast('Could not load Kanban.');
+      await this.presentToast('Could not load Kanban board.');
     } finally {
       this.loading.set(false);
     }
   }
 
+  private async setTaskStatus(task: PlannerTaskRow, nextStatus: TaskStatus): Promise<void> {
+    if (this.saving()) {
+      return;
+    }
+
+    if (task.item_json.status === nextStatus) {
+      return;
+    }
+
+    const previousTask = structuredClone(task);
+    const optimisticTask: PlannerTaskRow = {
+      ...task,
+      item_json: {
+        ...task.item_json,
+        status: nextStatus,
+        actual_min: nextStatus === 'done'
+          ? (task.item_json.actual_min ?? task.item_json.estimate_min)
+          : task.item_json.actual_min,
+      },
+      updated_at: new Date().toISOString(),
+    };
+
+    this.replaceTask(optimisticTask);
+    this.activeStatus.set(this.toBoardStatus(nextStatus));
+
+    this.saving.set(true);
+    try {
+      const updated = nextStatus === 'done'
+        ? (await firstValueFrom(this.planner.completeTask(task.id, {
+            actual_min: task.item_json.actual_min ?? task.item_json.estimate_min,
+          }))).task
+        : await firstValueFrom(this.planner.updateTask(task.id, {
+            item_json: {
+              ...task.item_json,
+              status: nextStatus,
+            },
+            related_type: task.related_type,
+            related_id: task.related_id,
+          }));
+
+      this.replaceTask(updated);
+      await this.presentToast(`Moved to ${this.statusLabel(nextStatus)}.`);
+    } catch {
+      this.replaceTask(previousTask);
+      await this.presentToast('Could not update task.');
+    } finally {
+      this.saving.set(false);
+    }
+  }
+
   private replaceTask(updated: PlannerTaskRow): void {
     this.tasks.update((items) => {
-      const idx = items.findIndex((row) => row.id === updated.id);
-      if (idx < 0) {
+      const index = items.findIndex((item) => item.id === updated.id);
+      if (index < 0) {
         return [updated, ...items];
       }
-      const copy = [...items];
-      copy[idx] = updated;
-      return copy;
+
+      const next = [...items];
+      next[index] = updated;
+      return next;
     });
   }
 
-  private toBoardStatus(status: string): BoardStatus {
+  private toBoardStatus(status: TaskStatus): BoardStatus {
     if (status === 'done') {
       return 'done';
     }
@@ -117,4 +211,17 @@ export class PlannerKanbanPage {
     });
     await toast.present();
   }
+}
+
+function isBoardStatus(value: unknown): value is BoardStatus {
+  return value === 'planned' || value === 'doing' || value === 'done';
+}
+
+function isTaskStatus(value: unknown): value is TaskStatus {
+  return value === 'planned'
+    || value === 'todo'
+    || value === 'doing'
+    || value === 'blocked'
+    || value === 'done'
+    || value === 'skipped';
 }

@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+.targeted-notes-modal-content {
+  --background: var(--ion-background-color);
+}
+
+.targeted-notes-modal-subtitle {
+  margin: 0 0 0.75rem;
+  color: var(--ion-color-medium);
+  font-size: 0.84rem;
+}

@@ -1,12 +1,25 @@
 <section class="sprint-week-page sp-shell">
   <header class="week-header sp-glass">
-    <div>
+    <div class="week-header-top">
       <h1>{{ weekRangeLabel() }}</h1>
+
+      <div class="header-actions">
+        <button type="button" class="sp-btn" (click)="goToReview()">Review</button>
+      </div>
     </div>
 
-    <div class="header-actions">
-      <button type="button" class="sp-btn" (click)="startCreateTask()">+ Add Task</button>
-      <button type="button" class="sp-btn" (click)="goToReview()">Review</button>
+    <div class="top-task-bar">
+      <label class="task-field top-task-input">
+        <span>Add New Task</span>
+        <input [formControl]="quickTaskControl" placeholder="Task title" (keydown.enter)="startCreateTask()" />
+      </label>
+
+      <button class="sp-btn sp-btn-primary" type="button" (click)="startCreateTask()">Add</button>
+
+      <label class="task-field search-field">
+        <span>Search Tasks</span>
+        <input [(ngModel)]="searchQuery" name="task-search" placeholder="Search title, lane, status or note..." />
+      </label>
     </div>
   </header>
 
@@ -22,13 +35,9 @@
     </div>
   </section>
 
-  <section class="task-strip sp-glass">
-    <label class="task-field">
-      <span>Add New Task</span>
-      <input [formControl]="quickTaskControl" placeholder="Task title" (keydown.enter)="startCreateTask()" />
-    </label>
-    <button class="sp-btn sp-btn-primary" type="button" (click)="startCreateTask()">Add</button>
-  </section>
+  @if (searchQuery.trim()) {
+    <p class="search-hint">Showing {{ filteredTaskCount() }} matching tasks</p>
+  }
 
   @if (error()) {
     <p class="error-msg">{{ error() }}</p>

@@ -1,11 +1,4 @@
 <section class="study-tab study-tab--comprehension">
-  <app-targeted-notes-panel
-    *ngIf="taskTarget as target"
-    class="study-targeted-notes"
-    [target]="target"
-    placeholder="Capture a comprehension note..."
-  ></app-targeted-notes-panel>
-
   <ion-accordion-group class="study-accordion" *ngIf="groups.length; else noComprehensionGroups">
     <ion-accordion
       class="study-accordion-item"
@@ -27,18 +20,13 @@
                 slot="end"
                 fill="clear"
                 size="small"
-                (click)="toggleQuestionNotes($event, groupIndex, questionIndex)"
+                class="study-notes-icon-btn"
+                aria-label="Open question notes"
+                (click)="openQuestionNotes($event, group, groupIndex, questionIndex)"
               >
-                Notes
+                <ion-icon slot="icon-only" name="document-text-outline"></ion-icon>
               </ion-button>
             </ion-item>
-
-            <app-targeted-notes-panel
-              *ngIf="activeQuestionKey === questionKey(groupIndex, questionIndex) && activeQuestionTarget"
-              class="study-targeted-notes study-targeted-notes--inline"
-              [target]="activeQuestionTarget!"
-              placeholder="Add a note for this question..."
-            ></app-targeted-notes-panel>
           </ng-container>
         </ion-list>
       </div>

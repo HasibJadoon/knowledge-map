@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { arrowBackOutline } from 'ionicons/icons';
@@ -29,7 +29,7 @@ type StudyTab = 'reading' | 'memory' | 'mcq' | 'passage';
 @Component({
   selector: 'app-ar-lesson-study',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, RouterModule],
   templateUrl: './ar-lesson-study.page.html',
 })
 export class ArLessonStudyPage implements OnInit {

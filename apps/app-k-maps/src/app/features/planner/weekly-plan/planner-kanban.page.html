@@ -1,75 +1,76 @@
-<ion-header>
-  <ion-toolbar class="km-week-toolbar">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Kanban Cards</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" class="planner-kanban-content km-shell km-content-with-bottom-tabs">
+<ion-content class="km-shell km-content-with-bottom-tabs km-planner-page" [fullscreen]="true">
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <section class="km-status-segment km-glass">
-    <ion-segment [value]="activeStatus()" (ionChange)="onStatusChanged($event.detail.value)">
-      <ion-segment-button value="planned">To Do</ion-segment-button>
-      <ion-segment-button value="doing">Doing</ion-segment-button>
-      <ion-segment-button value="done">Done</ion-segment-button>
-    </ion-segment>
-  </section>
+  <div class="km-planner-wrap ion-padding">
+    <section class="km-panel km-panel--hero">
+      <div>
+        <p class="km-panel-kicker">Kanban Board</p>
+        <h1>{{ weekLabel() }}</h1>
+        <p class="km-panel-subtitle">{{ boardStatusLabel(activeStatus()) }} focus across all lanes.</p>
+      </div>
+      <div class="km-hero-chips">
+        <span class="km-chip">{{ boardStatusLabel(activeStatus()) }}</span>
+      </div>
+    </section>
 
-  @if (loading()) {
-    <ion-list>
-      @for (row of [1,2,3,4]; track row) {
-        <ion-item lines="none">
-          <ion-label>
-            <h3><ion-skeleton-text animated style="width: 65%"></ion-skeleton-text></h3>
-            <p><ion-skeleton-text animated style="width: 90%"></ion-skeleton-text></p>
-          </ion-label>
-        </ion-item>
-      }
-    </ion-list>
-  } @else {
-    <section class="kanban-shell">
-      @for (bucket of grouped(); track bucket.lane) {
-        <article class="kanban-lane km-glass">
-          <header class="lane-header">
-            <h3>{{ bucket.lane | titlecase }}</h3>
-            <span>{{ bucket.tasks.length }}</span>
+    <section class="km-panel km-panel--segment">
+      <ion-segment class="km-status-segment" [value]="activeStatus()" (ionChange)="onBoardStatusChanged($event.detail.value)">
+        <ion-segment-button *ngFor="let status of boardStatuses" [value]="status">
+          <ion-label>{{ boardStatusLabel(status) }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </section>
+
+    <ng-container *ngIf="loading(); else boardLoaded">
+      <section class="km-panel">
+        <ion-list class="km-task-list">
+          <ion-item class="km-task-row" lines="none" *ngFor="let row of [1, 2, 3, 4, 5]">
+            <ion-label>
+              <h3><ion-skeleton-text animated style="width: 60%"></ion-skeleton-text></h3>
+              <p><ion-skeleton-text animated style="width: 85%"></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </section>
+    </ng-container>
+
+    <ng-template #boardLoaded>
+      <section class="km-lane-grid">
+        <article class="km-panel km-lane-card" *ngFor="let group of grouped()" [attr.data-lane]="group.lane">
+          <header class="km-lane-head">
+            <div>
+              <h2 class="km-lane-title">{{ laneLabel(group.lane) }}</h2>
+              <p class="km-lane-subtitle">{{ group.tasks.length }} task(s) in this lane.</p>
+            </div>
+            <ion-badge class="km-lane-badge">{{ group.tasks.length }}</ion-badge>
           </header>
 
-          <div class="lane-body">
-            @for (task of bucket.tasks; track task.id) {
-              <ion-card class="task-card">
-                <ion-card-header>
-                  <ion-card-title>{{ task.item_json.title }}</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
-                  <p class="task-meta">
-                    <span class="km-chip">{{ task.item_json.priority }}</span>
-                    <span class="km-chip">{{ task.item_json.estimate_min }} min</span>
-                  </p>
+          <div class="km-empty-inline" *ngIf="group.tasks.length === 0">No tasks in this lane.</div>
 
-                  <div class="task-actions">
-                    @if (task.item_json.status !== 'doing') {
-                      <ion-button size="small" fill="outline" class="km-btn" (click)="setStatus(task, 'doing')">Doing</ion-button>
-                    }
-                    @if (task.item_json.status !== 'done') {
-                      <ion-button size="small" fill="outline" class="km-btn" (click)="setStatus(task, 'done')">Done</ion-button>
-                    }
-                  </div>
-                </ion-card-content>
-              </ion-card>
-            }
-
-            @if (bucket.tasks.length === 0) {
-              <p class="lane-empty">No tasks.</p>
-            }
-          </div>
+          <ion-list class="km-task-list" *ngIf="group.tasks.length > 0">
+            <ion-item class="km-task-row" *ngFor="let task of group.tasks" lines="none">
+              <ion-label>
+                <h3>{{ task.item_json.title }}</h3>
+                <p class="km-task-meta">{{ task.item_json.priority }} · {{ task.item_json.estimate_min }} min</p>
+              </ion-label>
+              <ion-select
+                class="km-task-status-select"
+                slot="end"
+                interface="popover"
+                [value]="task.item_json.status"
+                [disabled]="saving()"
+                (ionChange)="onTaskStatusChanged(task, $event.detail.value)"
+              >
+                <ion-select-option *ngFor="let status of taskStatusOptions" [value]="status">
+                  {{ statusLabel(status) }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
         </article>
-      }
-    </section>
-  }
+      </section>
+    </ng-template>
+  </div>
 </ion-content>

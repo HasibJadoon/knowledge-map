@@ -1,11 +1,11 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header class="roots-header">
+  <ion-toolbar class="roots-toolbar">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Arabic Roots</ion-title>
+    <ion-title>Roots</ion-title>
   </ion-toolbar>
-  <ion-toolbar>
+  <ion-toolbar class="roots-toolbar roots-toolbar--search">
     <ion-searchbar
       placeholder="Search by root"
       [value]="searchTerm"
@@ -14,7 +14,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="km-shell roots-content">
   <ion-refresher slot="fixed" (ionRefresh)="loadRoots($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>

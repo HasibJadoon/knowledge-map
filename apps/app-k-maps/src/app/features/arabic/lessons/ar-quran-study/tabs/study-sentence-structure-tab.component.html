@@ -1,22 +1,24 @@
 <section class="study-tab study-tab--sentence">
-  <app-targeted-notes-panel
-    *ngIf="taskTarget as target"
-    class="study-targeted-notes"
-    [target]="target"
-    placeholder="Capture a sentence-structure note..."
-  ></app-targeted-notes-panel>
-
   <ion-accordion-group class="study-accordion" *ngIf="entries.length; else noSentenceEntries">
     <ion-accordion class="study-accordion-item" *ngFor="let sentence of entries" [value]="sentence.id">
       <ion-item slot="header" class="study-accordion-header study-accordion-header--sentence">
-        <ion-label dir="auto" translate="no">{{ sentence.order }}. {{ sentence.summary }}</ion-label>
-        <ion-button slot="end" fill="clear" size="small" (click)="toggleSentenceNotes($event, sentence)">
-          Notes
+        <ion-label class="study-sentence-header-label" translate="no">
+          <span class="study-sentence-header-index">{{ sentence.order }}.</span>
+          <span class="study-sentence-header-text arabic" dir="rtl">{{ sentence.summary }}</span>
+        </ion-label>
+        <ion-button
+          slot="end"
+          fill="clear"
+          size="small"
+          class="study-notes-icon-btn"
+          aria-label="Open sentence notes"
+          (click)="openSentenceNotes($event, sentence)"
+        >
+          <ion-icon slot="icon-only" name="document-text-outline"></ion-icon>
         </ion-button>
       </ion-item>
 
       <div slot="content" class="study-accordion-content">
-        <p class="study-arabic-block" dir="rtl" translate="no">{{ sentence.arabic }}</p>
         <p class="study-body-text" *ngIf="sentence.translation">{{ sentence.translation }}</p>
 
         <ion-list class="study-list" lines="none" *ngIf="sentence.components.length">
@@ -24,13 +26,6 @@
             <ion-label>{{ component }}</ion-label>
           </ion-item>
         </ion-list>
-
-        <app-targeted-notes-panel
-          *ngIf="activeSentenceId === sentence.id && activeSentenceTarget"
-          class="study-targeted-notes study-targeted-notes--inline"
-          [target]="activeSentenceTarget!"
-          placeholder="Add a note for this sentence..."
-        ></app-targeted-notes-panel>
       </div>
     </ion-accordion>
   </ion-accordion-group>

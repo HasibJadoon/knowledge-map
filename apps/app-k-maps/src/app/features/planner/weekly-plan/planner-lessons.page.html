@@ -1,38 +1,68 @@
-<ion-header>
-  <ion-toolbar class="km-week-toolbar">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Lessons</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" class="planner-lessons-content km-shell km-content-with-bottom-tabs">
+<ion-content class="km-shell km-content-with-bottom-tabs km-planner-page" [fullscreen]="true">
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  @if (loading()) {
-    <ion-list>
-      @for (row of [1,2,3,4,5]; track row) {
-        <ion-item lines="none">
-          <ion-label>
-            <h3><ion-skeleton-text animated style="width: 60%"></ion-skeleton-text></h3>
-            <p><ion-skeleton-text animated style="width: 85%"></ion-skeleton-text></p>
-          </ion-label>
-        </ion-item>
-      }
-    </ion-list>
-  } @else {
-    <ion-list class="km-quick-list">
-      @for (lesson of lessons(); track lesson.id) {
-        <ion-item button="true" detail="false" lines="none" class="km-quick-card" (click)="openLesson(lesson)">
-          <ion-label>
-            <h3>{{ lesson.title }}</h3>
-            <p>{{ lesson.unit_id || lesson.container_id || 'Open study' }}</p>
-          </ion-label>
-        </ion-item>
-      }
-    </ion-list>
-  }
+  <div class="km-planner-wrap ion-padding">
+    <section class="km-panel km-panel--hero">
+      <div>
+        <p class="km-panel-kicker">Lesson Queue</p>
+        <h1>Lessons</h1>
+        <p class="km-panel-subtitle">Browse lesson anchors and jump directly into study mode.</p>
+      </div>
+      <div class="km-hero-chips">
+        <span class="km-chip">{{ lessons().length }} results</span>
+      </div>
+    </section>
+
+    <section class="km-panel km-panel--search">
+      <ion-searchbar
+        class="km-searchbar"
+        [value]="queryControl.value"
+        debounce="300"
+        placeholder="Search lessons"
+        (ionInput)="onQueryInput($event.detail.value)"
+      ></ion-searchbar>
+    </section>
+
+    <ng-container *ngIf="loading(); else lessonsLoaded">
+      <section class="km-panel">
+        <ion-list class="km-entry-list">
+          <ion-item class="km-entry-row" lines="none" *ngFor="let row of [1, 2, 3, 4, 5]">
+            <ion-label>
+              <h3><ion-skeleton-text animated style="width: 60%"></ion-skeleton-text></h3>
+              <p><ion-skeleton-text animated style="width: 85%"></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </section>
+    </ng-container>
+
+    <ng-template #lessonsLoaded>
+      <section class="km-panel" *ngIf="lessons().length > 0; else emptyLessons">
+        <ion-list class="km-entry-list">
+          <ion-item
+            class="km-entry-row km-entry-row--action"
+            button="true"
+            detail="true"
+            lines="none"
+            *ngFor="let lesson of lessons()"
+            (click)="openLesson(lesson)"
+          >
+            <ion-label>
+              <h3>{{ lesson.title }}</h3>
+              <p class="km-entry-meta">{{ lesson.unit_id || lesson.container_id || 'Open lesson workspace' }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </section>
+
+      <ng-template #emptyLessons>
+        <section class="km-panel km-empty-state">
+          <h3>No lessons found</h3>
+          <p>Try a different search query.</p>
+        </section>
+      </ng-template>
+    </ng-template>
+  </div>
 </ion-content>

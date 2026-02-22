@@ -5,6 +5,14 @@
         <ion-icon [icon]="icons.arrowBackOutline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/dashboard" routerDirection="root" aria-label="Home">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" routerLink="/settings" routerDirection="forward" aria-label="Settings">
+        <ion-icon name="settings-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

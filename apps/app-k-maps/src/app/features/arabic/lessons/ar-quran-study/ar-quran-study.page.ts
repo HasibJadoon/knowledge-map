@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import {
   arrowBackOutline,
@@ -40,6 +40,7 @@ const LEGACY_STUDY_TAB_MAP: Record<string, StudyTask> = {
   imports: [
     CommonModule,
     IonicModule,
+    RouterModule,
     StudyReadingTabComponent,
     StudyMorphologyTabComponent,
     StudySentenceStructureTabComponent,

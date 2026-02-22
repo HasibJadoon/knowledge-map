@@ -219,26 +219,6 @@ ion-content {
     box-shadow: none;
   }
 
-.study-targeted-notes {
-  margin: 0 0 0.75rem;
-}
-
-.study-targeted-notes--inline {
-  margin-top: 0.65rem;
-}
-
-.study-morph-tile-wrap {
-  display: grid;
-  gap: 0.25rem;
-}
-
-.study-morph-note-btn {
-  justify-self: end;
-  --padding-start: 0.45rem;
-  --padding-end: 0.45rem;
-  font-size: 0.72rem;
-}
-
   :is(.arabic-inline, .arabic-question) {
     line-height: 1.8;
   }
@@ -284,6 +264,19 @@ ion-content {
 
   .study-tabs ion-icon {
     font-size: 1.35rem;
+  }
+
+  .study-notes-icon-btn {
+    --padding-start: 0.34rem;
+    --padding-end: 0.34rem;
+    --border-radius: 9px;
+    min-width: 30px;
+    min-height: 30px;
+    color: rgba(192, 212, 239, 0.9);
+  }
+
+  .study-notes-icon-btn ion-icon {
+    font-size: 0.94rem;
   }
 
   .arabic-text,
@@ -1171,51 +1164,6 @@ app-root-cards .root-card-header {
   text-shadow: 0 0 10px rgba(122, 255, 226, 0.45);
 }
 
-/* Arabic tokens page */
-app-arabic-tokens ion-content {
-  --background: var(--ion-color-light-shade);
-  padding-bottom: 2rem;
-}
-
-app-arabic-tokens .filters {
-  margin: 0;
-  padding: 0.5rem 1rem;
-}
-
-app-arabic-tokens ion-item {
-  --background: transparent;
-}
-
-app-arabic-tokens ion-list {
-  margin: 0 1rem;
-}
-
-app-arabic-tokens ion-label h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-app-arabic-tokens .caption {
-  font-size: 0.8rem;
-  color: var(--ion-color-medium-shade);
-}
-
-app-arabic-tokens .root,
-app-arabic-tokens .canonical {
-  font-size: 0.75rem;
-  color: var(--ion-color-dark-shade);
-}
-
-app-arabic-tokens .loading-state {
-  margin-top: 2rem;
-  text-align: center;
-  color: var(--ion-color-medium-shade);
-}
-
-app-arabic-tokens .tokens-footer ion-toolbar {
-  margin-top: 1rem;
-}
-
 /* Discourse pages */
 app-discourse-concept-detail .flow {
   text-align: center;
@@ -1396,10 +1344,14 @@ app-worldview-entry .chip-row {
 }
 
 app-ar-quran-study {
+  --study-font-size: var(--app-font-size, 16px);
+  --study-font-ar-size: var(--app-font-ar-size, 32px);
   display: block;
   min-height: 100%;
   background: var(--study-bg);
   color: var(--study-text);
+  font-family: var(--app-font-sans);
+  font-size: var(--study-font-size);
 }
 
 app-ar-quran-study .study-toolbar {
@@ -1457,6 +1409,14 @@ app-ar-quran-study .study-tab {
   display: block;
 }
 
+app-ar-quran-study .study-tab :is(ion-label, ion-note, p, h3, h4, li, strong, small) {
+  font-family: var(--app-font-sans);
+}
+
+app-ar-quran-study .study-tab :is(.arabic, [dir='rtl']) {
+  font-family: var(--app-font-ar);
+}
+
 app-ar-quran-study .study-list {
   --background: transparent;
   background: transparent;
@@ -1487,6 +1447,12 @@ app-ar-quran-study .study-item--sub {
 }
 
 app-ar-quran-study .study-item--question ion-label {
+  font-size: calc(var(--study-font-size) * 0.98);
+  line-height: 1.55;
+}
+
+app-ar-quran-study .study-item ion-label {
+  font-size: calc(var(--study-font-size) * 0.98);
   line-height: 1.55;
 }
 
@@ -1538,10 +1504,34 @@ app-ar-quran-study .study-accordion-header {
 app-ar-quran-study .study-accordion-header ion-label {
   margin: 0;
   font-family: var(--app-font-sans);
-  font-size: 1rem;
+  font-size: var(--study-font-size);
   font-weight: 650;
   line-height: 1.45;
   color: var(--study-text);
+}
+
+app-ar-quran-study .study-accordion-header--sentence ion-label.study-sentence-header-label {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+app-ar-quran-study .study-sentence-header-index {
+  flex: 0 0 auto;
+  font-family: var(--app-font-sans);
+  font-size: calc(var(--study-font-size) * 0.98);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--study-text);
+}
+
+app-ar-quran-study .study-sentence-header-text {
+  flex: 1 1 auto;
+  font-family: var(--app-font-ar);
+  font-size: calc(var(--study-font-ar-size) * 0.5);
+  line-height: 1.45;
+  color: var(--study-text);
+  text-align: right;
 }
 
 app-ar-quran-study .study-accordion-header ion-icon {
@@ -1550,7 +1540,7 @@ app-ar-quran-study .study-accordion-header ion-icon {
 }
 
 app-ar-quran-study .study-accordion-header ion-note {
-  font-size: 0.76rem;
+  font-size: calc(var(--study-font-size) * 0.76);
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--study-label);
@@ -1605,7 +1595,7 @@ app-ar-quran-study .study-chip ion-label {
 }
 
 app-ar-quran-study .study-chip ion-label small {
-  font-size: 0.78rem;
+  font-size: calc(var(--study-font-size) * 0.78);
   color: rgba(191, 205, 222, 0.94);
 }
 
@@ -1614,7 +1604,7 @@ app-ar-quran-study .study-chip--token ion-label {
 }
 
 app-ar-quran-study .study-chip .arabic {
-  font-size: calc(var(--app-font-ar-size, 32px) * 0.5);
+  font-size: calc(var(--study-font-ar-size) * 0.5);
   line-height: 1.2;
 }
 
@@ -1676,20 +1666,20 @@ app-ar-quran-study .study-morph-label {
 }
 
 app-ar-quran-study .study-morph-word {
-  font-size: calc(var(--app-font-ar-size, 32px) * 0.46);
+  font-size: calc(var(--study-font-ar-size) * 0.46);
   line-height: 1.25;
   color: #f4f8ff;
 }
 
 app-ar-quran-study .study-morph-root {
-  font-size: calc(var(--app-font-ar-size, 32px) * 0.32);
+  font-size: calc(var(--study-font-ar-size) * 0.32);
   line-height: 1.25;
   color: rgba(199, 213, 231, 0.9);
 }
 
 app-ar-quran-study .study-row-key {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: calc(var(--study-font-size) * 0.78);
   line-height: 1.3;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1699,14 +1689,14 @@ app-ar-quran-study .study-row-key {
 
 app-ar-quran-study .study-body-text {
   margin: 0.36rem 0 0;
-  font-size: 1rem;
+  font-size: var(--study-font-size);
   line-height: 1.62;
   color: var(--study-text);
 }
 
 app-ar-quran-study .study-muted {
   margin: 0.45rem 0 0;
-  font-size: 0.96rem;
+  font-size: calc(var(--study-font-size) * 0.96);
   line-height: 1.6;
   color: var(--study-muted);
 }
@@ -1715,7 +1705,7 @@ app-ar-quran-study .study-empty {
   margin: 0;
   padding: 0.35rem 0.12rem;
   color: var(--study-muted);
-  font-size: 0.96rem;
+  font-size: calc(var(--study-font-size) * 0.96);
 }
 
 app-ar-quran-study .study-reading-wrap {
@@ -1726,7 +1716,7 @@ app-ar-quran-study .study-reading-flow,
 app-ar-quran-study .study-arabic-block {
   margin: 0;
   font-family: var(--app-font-ar);
-  font-size: calc(var(--app-font-ar-size, 32px) * 0.86);
+  font-size: calc(var(--study-font-ar-size) * 0.86);
   line-height: 2.12;
   color: #f2f7ff;
 }
@@ -1764,13 +1754,13 @@ app-ar-quran-study .study-reading-marker {
   display: inline;
   vertical-align: middle;
   color: rgba(228, 238, 249, 0.86);
-  font-size: calc(var(--app-font-ar-size, 32px) * 0.52);
+  font-size: calc(var(--study-font-ar-size) * 0.52);
   line-height: 1;
 }
 
 app-ar-quran-study .study-reading-translation-marker {
   color: rgba(201, 214, 230, 0.86);
-  font-size: 0.78rem;
+  font-size: calc(var(--study-font-size) * 0.78);
   font-weight: 700;
   letter-spacing: 0.02em;
   margin-inline-end: 0.32rem;
@@ -1786,7 +1776,7 @@ app-ar-quran-study .study-reading-translation {
   margin: 0;
   font-family: var(--app-font-sans);
   color: var(--study-muted);
-  font-size: 0.98rem;
+  font-size: calc(var(--study-font-size) * 0.98);
   line-height: 1.62;
   text-align: justify;
 }
@@ -1794,7 +1784,7 @@ app-ar-quran-study .study-reading-translation {
 app-ar-quran-study .study-ayah-translation {
   margin: 0.52rem 0 0;
   color: var(--study-muted);
-  font-size: 0.98rem;
+  font-size: calc(var(--study-font-size) * 0.98);
   line-height: 1.62;
 }
 
@@ -1882,11 +1872,13 @@ app-ar-quran-study .study-timeline-step:last-child .study-timeline-copy {
 
   app-ar-quran-study .study-reading-flow,
   app-ar-quran-study .study-arabic-block {
-    font-size: calc(var(--app-font-ar-size, 32px) * 0.76);
+    font-size: calc(var(--study-font-ar-size) * 0.76);
   }
 }
 
 ion-modal.study-morph-modal {
+  --study-font-size: var(--app-font-size, 16px);
+  --study-font-ar-size: var(--app-font-ar-size, 32px);
   --width: min(980px, 100vw);
   --height: min(92%, 940px);
   --border-radius: 18px 18px 0 0;
@@ -1901,6 +1893,24 @@ ion-modal.study-morph-modal .study-morph-modal-toolbar {
   --background: rgba(11, 15, 20, 0.98);
   --color: #e8eef7;
   --border-color: rgba(170, 183, 199, 0.2);
+}
+
+ion-modal.study-morph-modal .study-morph-modal-toolbar--tabs {
+  --min-height: 56px;
+}
+
+ion-modal.study-morph-modal .study-morph-modal-icon-btn {
+  --padding-start: 0.36rem;
+  --padding-end: 0.36rem;
+  --border-radius: 10px;
+  min-width: 32px;
+  min-height: 32px;
+  margin-inline-end: 0.2rem;
+  color: rgba(232, 238, 247, 0.88);
+}
+
+ion-modal.study-morph-modal .study-morph-modal-icon-btn ion-icon {
+  font-size: 1rem;
 }
 
 ion-modal.study-morph-modal .study-morph-modal-content {
@@ -1933,7 +1943,7 @@ ion-modal.study-morph-modal .study-item:last-child {
 
 ion-modal.study-morph-modal .study-row-key {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: calc(var(--study-font-size) * 0.78);
   line-height: 1.3;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1943,21 +1953,21 @@ ion-modal.study-morph-modal .study-row-key {
 
 ion-modal.study-morph-modal .study-body-text {
   margin: 0.36rem 0 0;
-  font-size: 1rem;
+  font-size: var(--study-font-size);
   line-height: 1.62;
   color: #e8eef7;
 }
 
 ion-modal.study-morph-modal .study-muted {
   margin: 0;
-  font-size: 0.96rem;
+  font-size: calc(var(--study-font-size) * 0.96);
   line-height: 1.58;
   color: #b4c0d0;
 }
 
 ion-modal.study-morph-modal .study-empty {
   margin: 0;
-  font-size: 0.96rem;
+  font-size: calc(var(--study-font-size) * 0.96);
   line-height: 1.58;
   color: #b4c0d0;
 }
@@ -1977,7 +1987,7 @@ ion-modal.study-morph-modal .study-chip {
 }
 
 ion-modal.study-morph-modal .study-chip ion-label.arabic {
-  font-size: calc(var(--app-font-ar-size, 32px) * 0.4);
+  font-size: calc(var(--study-font-ar-size) * 0.4);
   line-height: 1.3;
 }
 
@@ -1996,7 +2006,7 @@ ion-modal.study-morph-modal .study-morph-modal-hero {
 
 ion-modal.study-morph-modal .study-morph-modal-word {
   margin: 0;
-  font-size: clamp(2rem, 1.8rem + 1vw, 2.5rem);
+  font-size: clamp(calc(var(--study-font-ar-size) * 0.82), calc(var(--study-font-ar-size) * 0.74 + 1vw), calc(var(--study-font-ar-size) * 1.08));
   line-height: 1.45;
   color: #8be7cc;
 }
@@ -2004,7 +2014,7 @@ ion-modal.study-morph-modal .study-morph-modal-word {
 ion-modal.study-morph-modal .study-morph-modal-gloss {
   margin: 0.45rem 0 0;
   color: #e3edf8;
-  font-size: 1.08rem;
+  font-size: calc(var(--study-font-size) * 1.08);
 }
 
 ion-modal.study-morph-modal .study-morph-modal-hero .study-body-text {
@@ -2018,7 +2028,7 @@ ion-modal.study-morph-modal .study-morph-modal-pos {
   border: 1px solid rgba(106, 194, 177, 0.5);
   border-radius: 999px;
   padding: 0.42rem 0.62rem;
-  font-size: 0.86rem;
+  font-size: calc(var(--study-font-size) * 0.86);
   letter-spacing: 0.06em;
   font-weight: 700;
 }
@@ -2055,7 +2065,7 @@ ion-modal.study-morph-modal .study-morph-form-row strong {
 }
 
 ion-modal.study-morph-modal .study-morph-form-row .arabic {
-  font-size: calc(var(--app-font-ar-size, 32px) * 0.45);
+  font-size: calc(var(--study-font-ar-size) * 0.45);
   line-height: 1.3;
 }
 
@@ -2075,30 +2085,27 @@ ion-modal.study-morph-modal .study-morph-profile-card {
 ion-modal.study-morph-modal .study-morph-profile-card p {
   margin: 0;
   color: #aebfd5;
-  font-size: 0.88rem;
+  font-size: calc(var(--study-font-size) * 0.88);
 }
 
 ion-modal.study-morph-modal .study-morph-profile-card h4 {
   margin: 0.5rem 0 0;
   color: #edf3fc;
-  font-size: 1.1rem;
+  font-size: calc(var(--study-font-size) * 1.1);
   line-height: 1.45;
 }
 
 ion-modal.study-morph-modal .study-morph-evidence-word {
   margin: 0;
-  font-size: calc(var(--app-font-ar-size, 32px) * 0.58);
+  font-size: calc(var(--study-font-ar-size) * 0.58);
   line-height: 1.5;
   color: #f1f7ff;
-}
-
-ion-modal.study-morph-modal .study-morph-modal-footer {
-  border-top: 1px solid rgba(170, 183, 199, 0.2);
 }
 
 ion-modal.study-morph-modal .study-morph-modal-tabs {
   --background: transparent;
   --indicator-color: transparent;
+  padding-inline: 0.35rem;
 }
 
 ion-modal.study-morph-modal .study-morph-modal-tabs ion-segment-button {
@@ -2293,11 +2300,457 @@ app-notes-tab-list .notes-empty-state p {
   --indicator-color: transparent;
 }
 
+/* Planner UI system (reusable for week + kanban pages) */
+:root {
+  --km-panel-radius: 1rem;
+  --km-panel-padding: 0.9rem;
+  --km-lane-lesson: #6dc3ff;
+  --km-lane-podcast: #f6b25f;
+  --km-lane-notes: #80ddb6;
+  --km-lane-admin: #b89bff;
+}
+
+.km-planner-page {
+  color: var(--km-text);
+  --padding-top: calc(var(--planner-shell-header-offset, env(safe-area-inset-top)) + 0.55rem);
+}
+
+.km-planner-wrap {
+  display: grid;
+  gap: 0.85rem;
+  align-content: start;
+}
+
+.km-panel {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-panel-radius);
+  box-shadow: 0 14px 28px rgba(5, 10, 22, 0.34);
+  backdrop-filter: blur(6px);
+  padding: var(--km-panel-padding);
+}
+
+.km-panel--hero {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.km-panel-kicker {
+  margin: 0 0 0.32rem;
+  color: color-mix(in srgb, var(--km-text-dim) 82%, #d3e7ff 18%);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.km-panel--hero h1 {
+  margin: 0;
+  font-size: 1.38rem;
+  letter-spacing: 0.01em;
+  color: #ecf5ff;
+}
+
+.km-panel-subtitle {
+  margin: 0.42rem 0 0;
+  color: var(--km-text-dim);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.km-hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+}
+
+.km-panel--metrics {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.km-panel--search {
+  padding: 0.5rem;
+}
+
+.km-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.km-metric-card {
+  background: rgba(12, 21, 38, 0.78);
+  border: 1px solid rgba(148, 181, 228, 0.26);
+  border-radius: 0.8rem;
+  padding: 0.6rem 0.68rem;
+}
+
+.km-metric-card p {
+  margin: 0;
+  color: var(--km-text-dim);
+  text-transform: uppercase;
+  font-size: 0.67rem;
+  letter-spacing: 0.08em;
+}
+
+.km-metric-card h3 {
+  margin: 0.35rem 0 0;
+  color: #f2f7ff;
+  font-size: 1.06rem;
+  line-height: 1.1;
+}
+
+.km-progress-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+  font-size: 0.79rem;
+  color: var(--km-text-dim);
+}
+
+.km-progress-meta strong {
+  color: #f5f9ff;
+  font-size: 0.83rem;
+  font-weight: 700;
+}
+
+.km-progress-bar {
+  --background: rgba(121, 152, 197, 0.2);
+  --progress-background: linear-gradient(90deg, #62d8d0 0%, #79a6ff 100%);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.km-panel-header h2 {
+  margin: 0 0 0.72rem;
+  color: #eef6ff;
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.km-form-grid {
+  display: grid;
+  gap: 0.56rem;
+  margin-bottom: 0.72rem;
+}
+
+.km-form-grid--stack {
+  grid-template-columns: 1fr;
+}
+
+.km-form-field {
+  --background: rgba(9, 16, 30, 0.74);
+  --padding-start: 0.55rem;
+  --inner-padding-end: 0.3rem;
+  --inner-border-width: 0;
+  --min-height: 4.15rem;
+  border: 1px solid rgba(145, 177, 224, 0.25);
+  border-radius: 0.75rem;
+}
+
+.km-form-field ion-input,
+.km-form-field ion-select {
+  --color: var(--km-text);
+  --placeholder-color: color-mix(in srgb, var(--km-text-dim) 85%, #d4e5ff 15%);
+  --label-color: color-mix(in srgb, var(--km-text-dim) 80%, #d9e9ff 20%);
+}
+
+.km-textarea-field {
+  --min-height: 5.45rem;
+}
+
+.km-form-field ion-textarea {
+  --color: var(--km-text);
+  --placeholder-color: color-mix(in srgb, var(--km-text-dim) 85%, #d4e5ff 15%);
+  --label-color: color-mix(in srgb, var(--km-text-dim) 80%, #d9e9ff 20%);
+  --padding-top: 0.25rem;
+}
+
+.km-searchbar {
+  --background: rgba(10, 18, 33, 0.84);
+  --border-radius: 0.75rem;
+  --color: var(--km-text);
+  --placeholder-color: color-mix(in srgb, var(--km-text-dim) 82%, #d5e7ff 18%);
+  --icon-color: color-mix(in srgb, var(--km-text-dim) 78%, #cfe4ff 22%);
+  --clear-button-color: color-mix(in srgb, var(--km-text-dim) 78%, #cfe4ff 22%);
+  padding: 0;
+}
+
+.km-primary-btn {
+  --background: linear-gradient(135deg, #3a71d8 0%, #4f96ff 100%);
+  --background-activated: linear-gradient(135deg, #3e74db 0%, #539bff 100%);
+  --background-focused: linear-gradient(135deg, #3e74db 0%, #539bff 100%);
+  --color: #f4f9ff;
+  --border-radius: 0.78rem;
+  font-weight: 600;
+}
+
+.km-lane-stack,
+.km-lane-grid {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.km-lane-card {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+.km-lane-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--km-lane-accent, var(--km-lane-lesson));
+  border-radius: 4px;
+}
+
+.km-lane-card[data-lane='lesson'] {
+  --km-lane-accent: var(--km-lane-lesson);
+}
+
+.km-lane-card[data-lane='podcast'] {
+  --km-lane-accent: var(--km-lane-podcast);
+}
+
+.km-lane-card[data-lane='notes'] {
+  --km-lane-accent: var(--km-lane-notes);
+}
+
+.km-lane-card[data-lane='admin'] {
+  --km-lane-accent: var(--km-lane-admin);
+}
+
+.km-lane-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.82rem 0.86rem 0.72rem 1rem;
+  border-bottom: 1px solid rgba(146, 178, 224, 0.2);
+}
+
+.km-lane-title {
+  margin: 0;
+  color: #edf6ff;
+  font-size: 0.98rem;
+  font-weight: 650;
+}
+
+.km-lane-subtitle {
+  margin: 0.26rem 0 0;
+  color: var(--km-text-dim);
+  font-size: 0.79rem;
+}
+
+.km-lane-badge {
+  --background: color-mix(in srgb, var(--km-lane-accent) 22%, transparent);
+  --color: color-mix(in srgb, var(--km-lane-accent) 78%, #dcecff 22%);
+  border: 1px solid color-mix(in srgb, var(--km-lane-accent) 40%, transparent);
+  border-radius: 999px;
+  padding-inline: 0.46rem;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.km-task-list {
+  background: transparent;
+  padding: 0.55rem;
+}
+
+.km-entry-list {
+  background: transparent;
+  padding: 0.55rem;
+}
+
+.km-entry-row {
+  --background: rgba(11, 19, 35, 0.76);
+  --padding-start: 0.56rem;
+  --inner-padding-end: 0.44rem;
+  --inner-border-width: 0;
+  --min-height: 4.3rem;
+  border: 1px solid rgba(145, 177, 224, 0.2);
+  border-radius: 0.76rem;
+  margin-bottom: 0.45rem;
+}
+
+.km-entry-row:last-child {
+  margin-bottom: 0;
+}
+
+.km-entry-row h2,
+.km-entry-row h3 {
+  margin: 0;
+  color: #eaf3ff;
+  font-size: 0.93rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.km-entry-meta {
+  margin: 0.28rem 0 0;
+  color: var(--km-text-dim);
+  font-size: 0.79rem;
+  line-height: 1.35;
+}
+
+.km-entry-time {
+  margin: 0.32rem 0 0;
+  color: color-mix(in srgb, var(--km-text-dim) 88%, #d6e8ff 12%);
+  font-size: 0.74rem;
+}
+
+.km-entry-row--check {
+  --padding-start: 0.38rem;
+}
+
+.km-entry-row--check ion-checkbox {
+  --size: 1.06rem;
+  --checkmark-color: #081224;
+  --checkbox-background-checked: #7bc5ff;
+  --border-color-checked: #7bc5ff;
+}
+
+.km-status-badge {
+  --background: rgba(43, 65, 100, 0.72);
+  --color: #d6e9ff;
+  border: 1px solid rgba(147, 179, 224, 0.28);
+  border-radius: 999px;
+  min-width: 3.4rem;
+  text-align: center;
+}
+
+.km-task-row {
+  --background: rgba(11, 19, 35, 0.76);
+  --padding-start: 0.56rem;
+  --inner-padding-end: 0.44rem;
+  --inner-border-width: 0;
+  --min-height: 4.3rem;
+  border: 1px solid rgba(145, 177, 224, 0.2);
+  border-radius: 0.76rem;
+  margin-bottom: 0.45rem;
+}
+
+.km-task-row:last-child {
+  margin-bottom: 0;
+}
+
+.km-task-row h2,
+.km-task-row h3 {
+  margin: 0;
+  color: #eaf3ff;
+  font-size: 0.93rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.km-task-meta {
+  margin: 0.28rem 0 0;
+  color: var(--km-text-dim);
+  font-size: 0.79rem;
+}
+
+.km-task-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.33rem;
+  margin-top: 0.42rem;
+}
+
+.km-task-status-select {
+  --padding-start: 0.44rem;
+  --padding-end: 0.35rem;
+  --background: rgba(26, 44, 74, 0.86);
+  --border-radius: 0.62rem;
+  --placeholder-color: var(--km-text-dim);
+  --color: var(--km-text);
+  border: 1px solid rgba(141, 173, 220, 0.36);
+  border-radius: 0.62rem;
+  min-width: 7.2rem;
+  max-width: 8.8rem;
+}
+
+.km-empty-state {
+  text-align: center;
+}
+
+.km-empty-state h3 {
+  margin: 0;
+  color: #edf6ff;
+}
+
+.km-empty-state p {
+  margin: 0.38rem 0 0;
+  color: var(--km-text-dim);
+}
+
+.km-empty-inline {
+  padding: 0.8rem 1rem 1rem;
+  color: var(--km-text-dim);
+  font-size: 0.84rem;
+}
+
+.km-panel--segment .km-status-segment {
+  margin: 0;
+}
+
+@media (min-width: 760px) {
+  .km-form-grid {
+    grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 920px) {
+  .km-panel--hero {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
+
+  .km-metric-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .km-lane-stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .km-lane-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1240px) {
+  .km-lane-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  .km-planner-wrap {
+    gap: 0.72rem;
+  }
+
+  .km-panel {
+    padding: 0.76rem;
+  }
+
+  .km-panel--hero h1 {
+    font-size: 1.2rem;
+  }
+
+  .km-task-status-select {
+    min-width: 6.6rem;
+  }
+}
+
 /* Shared icon-only bottom tabs for Ionic */
 :root {
   --app-icon-tabs-bg: rgba(9, 13, 18, 0.97);
   --app-icon-tabs-color: #67c4ff;
-  --app-icon-tabs-selected: #ff4d66;
+  --app-icon-tabs-selected: #ff3b5c;
   --app-icon-tabs-border-color: rgba(148, 180, 228, 0.2);
   --app-icon-tabs-padding: 0.08rem 0 calc(env(safe-area-inset-bottom) * 0.45);
   --app-icon-tabs-min-height: 50px;

@@ -16,7 +16,9 @@ export const routes: Routes = [
   {
     path: 'new',
     loadComponent: () =>
-      import('./weekly-plan-editor/weekly-plan-editor.component').then(m => m.WeeklyPlanEditorComponent),
+      import('../sprint/pages/week-board/sprint-week-board.page').then(
+        (m) => m.SprintWeekBoardPageComponent
+      ),
     data: { title: 'New Weekly Plan' }
   },
   {

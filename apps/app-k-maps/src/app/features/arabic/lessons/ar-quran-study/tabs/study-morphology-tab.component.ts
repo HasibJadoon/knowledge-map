@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { TargetedNotesPanelComponent } from '../../../../../notes/targeting/targeted-notes-panel/targeted-notes-panel.component';
-import { TargetRef, makeTaskTarget, makeWordTarget } from '../../../../../notes/targeting/targeting.models';
+import { TargetedNotesModalService } from '../../../../../notes/targeting/targeted-notes-modal.service';
+import { buildTaskTargetSafe } from '../../../../../notes/targeting/targeting-builders';
+import { TargetRef, makeWordTarget } from '../../../../../notes/targeting/targeting.models';
 
 import { StudyMorphologyItem } from '../ar-quran-study.facade';
 import {
@@ -39,11 +40,12 @@ type MorphologyField = {
 @Component({
   selector: 'app-study-morphology-tab',
   standalone: true,
-  imports: [CommonModule, IonicModule, TargetedNotesPanelComponent],
+  imports: [CommonModule, IonicModule],
   templateUrl: './study-morphology-tab.component.html',
 })
 export class StudyMorphologyTabComponent implements OnChanges {
   private readonly lexiconData = inject(QuranLexiconDataService);
+  private readonly targetedNotesModal = inject(TargetedNotesModalService);
 
   @Input() nouns: StudyMorphologyItem[] = [];
   @Input() verbs: StudyMorphologyItem[] = [];
@@ -57,7 +59,6 @@ export class StudyMorphologyTabComponent implements OnChanges {
   activeMorphologyDetailTab: MorphologyDetailTab = 'lexicon';
   selectedMorphologyItem: StudyMorphologyItem | null = null;
   taskTarget: TargetRef | null = null;
-  activeWordNoteKey = '';
   activeWordNoteTarget: TargetRef | null = null;
 
   remoteLoading = false;
@@ -87,38 +88,34 @@ export class StudyMorphologyTabComponent implements OnChanges {
     }
   }
 
-  toggleWordNotes(event: Event, item: StudyMorphologyItem): void {
-    event.stopPropagation();
-
-    const target = this.buildWordTarget(item);
-    const key = `${item.location}|${item.word}`;
-
-    if (!target) {
-      this.activeWordNoteKey = '';
-      this.activeWordNoteTarget = null;
-      return;
-    }
-
-    if (this.activeWordNoteKey === key) {
-      this.activeWordNoteKey = '';
-      this.activeWordNoteTarget = null;
-      return;
-    }
-
-    this.activeWordNoteKey = key;
-    this.activeWordNoteTarget = target;
-  }
-
   openMorphologyDetails(item: StudyMorphologyItem): void {
     this.selectedMorphologyItem = item;
+    this.activeWordNoteTarget = this.buildWordTarget(item);
     this.activeMorphologyDetailTab = 'lexicon';
     this.isMorphologyModalOpen = true;
     this.recomputeSelectionDetails();
   }
 
+  async openWordNotesModal(): Promise<void> {
+    if (!this.activeWordNoteTarget) return;
+
+    const subtitle = [this.activeWord, this.activeLocation]
+      .map((value) => value.trim())
+      .filter((value) => value && value !== '—')
+      .join(' • ');
+
+    await this.targetedNotesModal.open({
+      target: this.activeWordNoteTarget,
+      title: 'Word Notes',
+      subtitle: subtitle || 'Word target',
+      placeholder: 'Add a note for this word...',
+    });
+  }
+
   closeMorphologyDetails(): void {
     this.isMorphologyModalOpen = false;
     this.selectedMorphologyItem = null;
+    this.activeWordNoteTarget = null;
     this.activeMorphologyDetailTab = 'lexicon';
     this.selectedMorphologyRecord = null;
     this.selectedLinkRecord = null;
@@ -906,17 +903,7 @@ export class StudyMorphologyTabComponent implements OnChanges {
   }
 
   private buildTaskTarget(): TargetRef | null {
-    const unit = this.unitId.trim();
-    if (!unit) return null;
-
-    const range = this.rangeRef.trim();
-    const refText = range ? `${range} • morphology` : 'morphology';
-
-    try {
-      return makeTaskTarget(unit, 'morphology', refText);
-    } catch {
-      return null;
-    }
+    return buildTaskTargetSafe(this.unitId, 'morphology', this.rangeRef);
   }
 
   private buildWordTarget(item: StudyMorphologyItem): TargetRef | null {

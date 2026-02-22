@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { PlannerService } from '../../sprint/services/planner.service';
@@ -11,7 +11,7 @@ import { computeWeekStartSydney } from '../../sprint/utils/week-start.util';
 @Component({
   selector: 'app-sprint-review-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule],
   templateUrl: './sprint-review.page.html',
   styleUrl: './sprint-review.page.scss',
 })
