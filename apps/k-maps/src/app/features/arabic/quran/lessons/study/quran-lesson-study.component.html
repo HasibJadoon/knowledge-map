@@ -82,6 +82,17 @@
             <div class="task-meta">
               <span>Linked unit: Surah {{ state.selectedSurah || '--' }} Ayah {{ rangeLabelShort }}</span>
               <span>Study mode: {{ tab.label }}</span>
+              <button
+                *ngIf="taskTarget(tab.type)"
+                type="button"
+                class="study-task-notes-icon-btn"
+                [class.study-task-notes-icon-btn--active]="isTaskNotesModalOpen(tab.type)"
+                aria-label="Open task notes"
+                [title]="tab.label + ' Notes'"
+                (click)="toggleTaskNotesModal(tab.type)"
+              >
+                <svg cIcon name="cilNotes"></svg>
+              </button>
             </div>
 
             <ng-container [ngSwitch]="tab.type">
@@ -112,12 +123,6 @@
               </div>
 
               <div class="morphology-layout" *ngSwitchCase="'morphology'">
-                <app-targeted-notes-panel
-                  *ngIf="taskTarget('morphology') as target"
-                  class="study-targeted-notes"
-                  [target]="target"
-                ></app-targeted-notes-panel>
-
                 <div class="morphology-grid">
                   <article class="morph-bucket morph-bucket--noun">
                     <div class="morph-bucket-head">
@@ -199,11 +204,14 @@
                         <span class="study-word-dialog-ref">{{ morphologyDialogReference }}</span>
                         <button
                           type="button"
-                          class="study-word-dialog-toggle-btn study-word-dialog-toggle-btn--wide"
+                          class="study-word-dialog-icon-btn"
+                          [class.study-word-dialog-icon-btn--active]="showMorphologyWordNotesModal"
                           [disabled]="!morphologyWordTarget"
-                          (click)="toggleMorphologyWordNotes()"
+                          aria-label="Open word notes"
+                          title="Word Notes"
+                          (click)="toggleMorphologyWordNotesModal()"
                         >
-                          {{ showMorphologyWordNotes ? 'Hide Word Notes' : 'Word Notes' }}
+                          <svg cIcon name="cilNotes"></svg>
                         </button>
                         <button
                           type="button"
@@ -215,10 +223,6 @@
                         </button>
                       </div>
                     </header>
-
-                    <div class="study-word-note-popover" *ngIf="showMorphologyWordNotes && morphologyWordTarget as target">
-                      <app-targeted-notes-panel [target]="target"></app-targeted-notes-panel>
-                    </div>
 
                     <div class="study-word-dialog-layout" [class.study-word-dialog-layout--analysis]="dialogViewMode === 'analysis'">
                       <section class="study-word-context">
@@ -275,16 +279,40 @@
                       <button type="button" class="btn btn-ghost btn-sm" (click)="closeMorphologyWordDialog()">Close</button>
                     </div>
                   </div>
+
+                  <div
+                    class="study-word-notes-modal-backdrop"
+                    *ngIf="showMorphologyWordNotesModal && morphologyWordTarget as target"
+                    (click)="$event.stopPropagation(); closeMorphologyWordNotesModal()"
+                  >
+                    <section
+                      class="study-word-notes-modal"
+                      role="dialog"
+                      aria-modal="true"
+                      aria-label="Word notes"
+                      (click)="$event.stopPropagation()"
+                    >
+                      <header class="study-word-notes-modal-head">
+                        <div>
+                          <h4>Word Notes</h4>
+                          <p>{{ morphologyDialogReference }}</p>
+                        </div>
+                        <button
+                          type="button"
+                          class="study-word-dialog-close-top"
+                          aria-label="Close word notes"
+                          (click)="closeMorphologyWordNotesModal()"
+                        >
+                          ×
+                        </button>
+                      </header>
+                      <app-targeted-notes-panel class="study-modal-notes" [target]="target"></app-targeted-notes-panel>
+                    </section>
+                  </div>
                 </div>
               </div>
 
               <div class="sentence-layout" *ngSwitchCase="'sentence_structure'">
-                <app-targeted-notes-panel
-                  *ngIf="taskTarget('sentence_structure') as target"
-                  class="study-targeted-notes"
-                  [target]="target"
-                ></app-targeted-notes-panel>
-
                 <app-tabs
                   class="sentence-tabs"
                   [tabs]="sentenceTabs"
@@ -348,12 +376,6 @@
                   </div>
                   <span class="study-task-ref">{{ passageReferenceBadge }}</span>
                 </header>
-
-                <app-targeted-notes-panel
-                  *ngIf="taskTarget('comprehension') as target"
-                  class="study-targeted-notes"
-                  [target]="target"
-                ></app-targeted-notes-panel>
 
                 <section class="study-question-grid" *ngIf="comprehensionQuestionGroups.length; else noComprehensionPrompts">
                   <article
@@ -473,12 +495,6 @@
                     </button>
                   </div>
                 </header>
-
-                <app-targeted-notes-panel
-                  *ngIf="taskTarget('passage_structure') as target"
-                  class="study-targeted-notes"
-                  [target]="target"
-                ></app-targeted-notes-panel>
 
                 <nav class="kmap-mini-nav" *ngIf="passageStructureSections.length > 1" aria-label="Passage section navigation">
                   <button
@@ -641,6 +657,32 @@
                 <pre class="study-json">{{ formatJson(tab.json) }}</pre>
               </div>
             </ng-container>
+
+            <div class="study-task-notes-modal-backdrop" *ngIf="taskNotesModalTarget as target" (click)="closeTaskNotesModal()">
+              <section
+                class="study-task-notes-modal"
+                role="dialog"
+                aria-modal="true"
+                [attr.aria-label]="taskNotesModalTitle"
+                (click)="$event.stopPropagation()"
+              >
+                <header class="study-task-notes-modal-head">
+                  <div>
+                    <h4>{{ taskNotesModalTitle }}</h4>
+                    <p>{{ studyRangeRef }}</p>
+                  </div>
+                  <button
+                    type="button"
+                    class="study-word-dialog-close-top"
+                    aria-label="Close task notes"
+                    (click)="closeTaskNotesModal()"
+                  >
+                    ×
+                  </button>
+                </header>
+                <app-targeted-notes-panel class="study-modal-notes" [target]="target"></app-targeted-notes-panel>
+              </section>
+            </div>
           </div>
         </ng-template>
       </div>

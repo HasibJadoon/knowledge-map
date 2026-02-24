@@ -1907,6 +1907,62 @@ app-quran-lesson-study {
   background: rgba(14, 24, 39, 0.72);
 }
 
+.quran-study-shell .study-word-dialog-icon-btn,
+.quran-study-shell .study-task-notes-icon-btn {
+  flex-shrink: 0;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid rgba(126, 166, 202, 0.35);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(15, 27, 42, 0.92), rgba(11, 21, 33, 0.9));
+  color: rgba(184, 208, 234, 0.92);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, color 0.16s ease;
+  box-shadow: 0 8px 14px rgba(5, 12, 20, 0.28), inset 0 1px 0 rgba(173, 206, 236, 0.14);
+}
+
+.quran-study-shell .study-word-dialog-icon-btn svg,
+.quran-study-shell .study-task-notes-icon-btn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.quran-study-shell .study-word-dialog-icon-btn:hover:not(:disabled),
+.quran-study-shell .study-task-notes-icon-btn:hover:not(:disabled) {
+  color: #f2fffd;
+  border-color: rgba(125, 217, 189, 0.58);
+  box-shadow:
+    0 12px 20px rgba(5, 14, 24, 0.34),
+    inset 0 0 0 1px rgba(125, 217, 189, 0.2);
+  transform: translateY(-1px);
+}
+
+.quran-study-shell .study-word-dialog-icon-btn:disabled,
+.quran-study-shell .study-task-notes-icon-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quran-study-shell .study-word-dialog-icon-btn--active,
+.quran-study-shell .study-task-notes-icon-btn--active {
+  color: #dcfff4;
+  border-color: rgba(125, 217, 189, 0.68);
+  background: linear-gradient(180deg, rgba(38, 101, 93, 0.88), rgba(25, 73, 67, 0.9));
+}
+
+.quran-study-shell .study-task-notes-icon-btn {
+  width: 2.15rem;
+  height: 2.15rem;
+}
+
+.quran-study-shell .task-meta .study-task-notes-icon-btn {
+  margin-inline-start: auto;
+}
+
 .quran-study-shell .study-word-dialog-layout {
   min-height: 0;
   height: 100%;
@@ -2072,6 +2128,107 @@ app-quran-lesson-study {
   min-width: 10rem;
 }
 
+.quran-study-shell .study-word-notes-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background:
+    radial-gradient(circle at 16% 8%, rgba(66, 140, 214, 0.18), transparent 44%),
+    radial-gradient(circle at 85% 14%, rgba(101, 210, 182, 0.16), transparent 38%),
+    rgba(5, 10, 16, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+.quran-study-shell .study-task-notes-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1260;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background:
+    radial-gradient(circle at 16% 8%, rgba(66, 140, 214, 0.18), transparent 44%),
+    radial-gradient(circle at 85% 14%, rgba(101, 210, 182, 0.16), transparent 38%),
+    rgba(5, 10, 16, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+.quran-study-shell .study-word-notes-modal,
+.quran-study-shell .study-task-notes-modal {
+  position: relative;
+  width: min(1120px, calc(100vw - 2.4rem));
+  max-height: calc(100vh - 2.4rem);
+  max-height: calc(100dvh - 2.4rem);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid rgba(123, 172, 208, 0.38);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 12% 9%, rgba(59, 132, 202, 0.2), transparent 45%),
+    linear-gradient(168deg, rgba(7, 13, 23, 0.96), rgba(11, 20, 32, 0.94));
+  box-shadow:
+    0 26px 48px rgba(2, 8, 14, 0.68),
+    inset 0 1px 0 rgba(180, 212, 238, 0.12);
+  overflow: hidden;
+}
+
+.quran-study-shell .study-word-notes-modal app-targeted-notes-panel,
+.quran-study-shell .study-task-notes-modal app-targeted-notes-panel {
+  min-height: 0;
+  overflow: auto;
+}
+
+.quran-study-shell .study-word-notes-modal-head,
+.quran-study-shell .study-task-notes-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid rgba(121, 169, 206, 0.22);
+}
+
+.quran-study-shell .study-word-notes-modal-head h4,
+.quran-study-shell .study-task-notes-modal-head h4 {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: #ecf7ff;
+  font-family: 'Noto Serif', 'Georgia', serif;
+}
+
+.quran-study-shell .study-word-notes-modal-head p,
+.quran-study-shell .study-task-notes-modal-head p {
+  margin: 0.28rem 0 0;
+  font-size: 0.88rem;
+  color: rgba(176, 203, 230, 0.88);
+}
+
+.quran-study-shell .study-word-notes-modal .study-word-dialog-close-top,
+.quran-study-shell .study-task-notes-modal .study-word-dialog-close-top {
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 16px;
+  border-color: rgba(118, 206, 183, 0.5);
+  background: linear-gradient(180deg, rgba(16, 35, 45, 0.95), rgba(10, 23, 34, 0.95));
+  color: rgba(229, 243, 255, 0.95);
+  font-size: 1.9rem;
+}
+
+.quran-study-shell .study-word-notes-modal .study-word-dialog-close-top:hover,
+.quran-study-shell .study-task-notes-modal .study-word-dialog-close-top:hover {
+  border-color: rgba(125, 217, 189, 0.74);
+  box-shadow:
+    0 8px 18px rgba(6, 18, 24, 0.35),
+    inset 0 0 0 1px rgba(125, 217, 189, 0.22);
+}
+
 @media (max-width: 1100px) {
   .quran-study-shell .reading-layout {
     grid-template-columns: 1fr;
@@ -2117,6 +2274,22 @@ app-quran-lesson-study {
     padding: 0.75rem 1rem;
     border-top: 1px solid rgba(120, 164, 198, 0.22);
     background: rgba(10, 16, 25, 0.78);
+  }
+
+  .quran-study-shell .study-word-notes-modal-backdrop {
+    padding: 0.55rem;
+  }
+
+  .quran-study-shell .study-task-notes-modal-backdrop {
+    padding: 0.55rem;
+  }
+
+  .quran-study-shell .study-word-notes-modal,
+  .quran-study-shell .study-task-notes-modal {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border-radius: 12px;
   }
 }
 
@@ -2170,12 +2343,6 @@ app-quran-lesson-study {
 .quran-study-shell .study-question-notes-wrap {
   list-style: none;
   margin-top: 0.35rem;
-}
-
-.quran-study-shell .study-word-note-popover {
-  border-bottom: 1px solid rgba(120, 164, 198, 0.22);
-  padding: 0.7rem 0.9rem;
-  background: rgba(10, 16, 25, 0.76);
 }
 
 .quran-study-shell .sentence-tabs .nav {

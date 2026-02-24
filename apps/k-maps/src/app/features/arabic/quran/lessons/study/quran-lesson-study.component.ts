@@ -58,6 +58,13 @@ const STUDY_TASK_TAB_ORDER: Array<'lesson' | TaskType> = [
   'passage_structure',
 ];
 
+const TASK_NOTES_TYPES = new Set<TaskType>([
+  'morphology',
+  'sentence_structure',
+  'comprehension',
+  'passage_structure',
+]);
+
 const SENTENCE_SUB_TABS: AppTabItem[] = [
   { id: 'verses', label: 'Verses' },
   { id: 'items', label: 'Items' },
@@ -211,7 +218,9 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
   morphologyDialogWord: QuranWordInspectorSelection | null = null;
   dialogViewMode: 'context' | 'analysis' = 'context';
   showDialogTranslation = true;
-  showMorphologyWordNotes = false;
+  showMorphologyWordNotesModal = false;
+  taskNotesModalTarget: TargetRef | null = null;
+  taskNotesModalTitle = 'Notes';
   activeSentenceNoteKey = '';
   activeSentenceNoteTarget: TargetRef | null = null;
   activeComprehensionNoteKey = '';
@@ -567,7 +576,11 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     return this.rangeLabelShort || this.lessonSubtitle;
   }
 
-  taskTarget(taskType: 'passage_structure' | 'sentence_structure' | 'morphology' | 'comprehension'): TargetRef | null {
+  taskTarget(taskType: TaskType): TargetRef | null {
+    if (!TASK_NOTES_TYPES.has(taskType)) {
+      return null;
+    }
+
     const unitId = this.studyUnitId;
     if (!unitId) return null;
 
@@ -608,6 +621,40 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
 
     this.activeSentenceNoteKey = nextKey;
     this.activeSentenceNoteTarget = this.sentenceItemTarget(sentence);
+  }
+
+  toggleTaskNotesModal(taskType: TaskType): void {
+    const target = this.taskTarget(taskType);
+    if (!target) {
+      this.closeTaskNotesModal();
+      return;
+    }
+
+    if (
+      this.taskNotesModalTarget &&
+      this.taskNotesModalTarget.target_type === target.target_type &&
+      this.taskNotesModalTarget.target_id === target.target_id
+    ) {
+      this.closeTaskNotesModal();
+      return;
+    }
+
+    this.taskNotesModalTarget = target;
+    this.taskNotesModalTitle = `${this.toTitle(taskType)} Notes`;
+  }
+
+  isTaskNotesModalOpen(taskType: TaskType): boolean {
+    const target = this.taskTarget(taskType);
+    if (!target || !this.taskNotesModalTarget) return false;
+    return (
+      this.taskNotesModalTarget.target_type === target.target_type &&
+      this.taskNotesModalTarget.target_id === target.target_id
+    );
+  }
+
+  closeTaskNotesModal(): void {
+    this.taskNotesModalTarget = null;
+    this.taskNotesModalTitle = 'Notes';
   }
 
   comprehensionQuestionKey(groupIndex: number, questionIndex: number): string {
@@ -655,13 +702,17 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleMorphologyWordNotes(): void {
+  toggleMorphologyWordNotesModal(): void {
     if (!this.morphologyWordTarget) {
-      this.showMorphologyWordNotes = false;
+      this.showMorphologyWordNotesModal = false;
       return;
     }
 
-    this.showMorphologyWordNotes = !this.showMorphologyWordNotes;
+    this.showMorphologyWordNotesModal = !this.showMorphologyWordNotesModal;
+  }
+
+  closeMorphologyWordNotesModal(): void {
+    this.showMorphologyWordNotesModal = false;
   }
 
   ngOnInit() {
@@ -778,7 +829,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
 
   closeMorphologyWordDialog() {
     this.morphologyDialogWord = null;
-    this.showMorphologyWordNotes = false;
+    this.showMorphologyWordNotesModal = false;
   }
 
   setDialogViewMode(mode: 'context' | 'analysis') {
@@ -919,6 +970,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     } else {
       this.studyActiveTaskTab = 'lesson';
     }
+    this.closeTaskNotesModal();
 
     if (this.studyActiveTaskTab !== 'reading') {
       this.clearReadingWordSelection();
