@@ -1907,6 +1907,14 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     const mainComponents = rawComponents
       .map((item, index) => this.toSentenceStructureSegment(item, index))
       .filter((item): item is QuranSentenceStructureSegment => item != null);
+    const rawExpansions = Array.isArray(summaryRecord?.['expansions']) ? summaryRecord['expansions'] : [];
+    const expansionComponents = rawExpansions
+      .map((item, index) => this.toSentenceStructureExpansionSegment(item, index))
+      .filter((item): item is QuranSentenceStructureSegment => item != null);
+
+    if (expansionComponents.length) {
+      mainComponents.push(...expansionComponents);
+    }
 
     if (!mainComponents.length && fullText) {
       mainComponents.push({
@@ -1921,6 +1929,25 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     return {
       full_text: fullText,
       main_components: mainComponents,
+    };
+  }
+
+  private toSentenceStructureExpansionSegment(raw: unknown, index: number): QuranSentenceStructureSegment | null {
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+    const record = raw as Record<string, unknown>;
+    const component = this.textFromUnknown(record['type']) || `Expansion ${index + 1}`;
+    const text = this.textFromUnknown(record['text']);
+    const pattern = this.textFromUnknown(record['pattern']);
+    const role = this.textFromUnknown(record['function']) || this.textFromUnknown(record['role']);
+    const grammarRaw = Array.isArray(record['grammar']) ? record['grammar'] : [];
+    const grammar = grammarRaw.map((item) => this.textFromUnknown(item)).filter((item) => Boolean(item));
+
+    return {
+      component,
+      text: text || component,
+      pattern,
+      role,
+      grammar,
     };
   }
 
