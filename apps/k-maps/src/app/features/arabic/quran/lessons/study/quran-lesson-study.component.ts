@@ -15,7 +15,6 @@ import {
   AppFontSizeControlsComponent,
   AppPillsComponent,
   type AppPillItem,
-  AppTabsComponent,
   type AppTabItem,
 } from '../../../../../shared/components';
 import { LessonCaptureBarComponent } from '../../../../sprint/components/lesson-capture-bar/lesson-capture-bar.component';
@@ -23,7 +22,6 @@ import { QuranAyah } from '../../../../../shared/models/arabic/quran-data.model'
 import { PageHeaderTabsConfig } from '../../../../../shared/models/core/page-header.model';
 import { PageHeaderService } from '../../../../../shared/services/page-header.service';
 import {
-  QuranSentenceStructureComponent,
   type QuranSentenceStructureSegment,
   type QuranSentenceStructureSentence,
   type QuranSentenceStructureSummary,
@@ -190,12 +188,10 @@ type ExpressionStudyCard = {
     CommonModule,
     IconDirective,
     TargetedNotesPanelComponent,
-    AppTabsComponent,
     AppPillsComponent,
     AppFontSizeControlsComponent,
     LessonCaptureBarComponent,
     QuranWordInspectorComponent,
-    QuranSentenceStructureComponent,
   ],
   templateUrl: './quran-lesson-study.component.html',
   providers: [QuranLessonEditorFacade],
@@ -655,6 +651,71 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
   closeTaskNotesModal(): void {
     this.taskNotesModalTarget = null;
     this.taskNotesModalTitle = 'Notes';
+  }
+
+  sentenceVisualReference(sentence: QuranSentenceStructureSentence, sentenceIndex: number): string {
+    const ayah = this.sentenceAyahsForStudy[sentenceIndex] ?? null;
+    const surahNo = ayah?.surah ?? this.numberFromUnknown(this.state.selectedSurah);
+    const ayahNo = ayah?.ayah ?? Math.max(1, Math.trunc(sentence.sentence_order || sentenceIndex + 1));
+    const surahName = this.resolveSurahName(surahNo);
+
+    if (surahName && surahNo != null) return `${surahName} ${surahNo}:${ayahNo}`;
+    if (surahNo != null) return `Surah ${surahNo}:${ayahNo}`;
+    return `Sentence #${Math.max(1, Math.trunc(sentence.sentence_order || sentenceIndex + 1))}`;
+  }
+
+  sentenceSegmentLabel(component: string): string {
+    const normalized = this.textFromUnknown(component)
+      .replace(/[_-]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!normalized) return 'Component';
+    return normalized.toUpperCase();
+  }
+
+  sentenceSegmentDescription(segment: QuranSentenceStructureSegment): string {
+    const role = this.textFromUnknown(segment.role).trim();
+    if (role) return role;
+
+    const pattern = this.textFromUnknown(segment.pattern).trim();
+    if (pattern) return pattern;
+
+    const grammar = Array.isArray(segment.grammar)
+      ? segment.grammar.map((entry) => this.textFromUnknown(entry).trim()).filter(Boolean)
+      : [];
+    if (grammar.length) return grammar.join(' • ');
+
+    return 'Structured sentence component.';
+  }
+
+  sentenceSegmentDescriptionIsArabic(segment: QuranSentenceStructureSegment): boolean {
+    const description = this.sentenceSegmentDescription(segment);
+    return ARABIC_SCRIPT_CHAR_RE.test(description);
+  }
+
+  sentenceSegmentTags(segment: QuranSentenceStructureSegment): string[] {
+    const out = new Set<string>();
+
+    const pattern = this.textFromUnknown(segment.pattern).trim();
+    if (pattern) out.add(pattern);
+
+    for (const item of segment.grammar ?? []) {
+      const value = this.textFromUnknown(item).trim();
+      if (value) out.add(value);
+      if (out.size >= 4) break;
+    }
+
+    return Array.from(out);
+  }
+
+  sentenceSegmentTone(segment: QuranSentenceStructureSegment, segmentIndex: number): string {
+    const component = this.textFromUnknown(segment.component).toLowerCase();
+    if (component.includes('main')) return 'gold';
+    if (component.includes('cause') || component.includes('reason')) return 'amber';
+    if (component.includes('clarif') || component.includes('explain') || component.includes('detail')) return 'cyan';
+    if (component.includes('before') || component.includes('prior') || component.includes('state')) return 'rose';
+    if (component.includes('result') || component.includes('effect')) return 'mint';
+    return segmentIndex === 0 ? 'gold' : 'slate';
   }
 
   comprehensionQuestionKey(groupIndex: number, questionIndex: number): string {

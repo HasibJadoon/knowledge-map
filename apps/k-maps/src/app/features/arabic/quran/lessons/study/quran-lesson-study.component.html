@@ -78,8 +78,8 @@
         </ng-container>
 
         <ng-template #taskPane>
-          <div class="task-editor" *ngIf="activeTaskTab as tab">
-            <div class="task-meta">
+          <div class="task-editor" *ngIf="activeTaskTab as tab" [class.task-editor--sentence]="tab.type === 'sentence_structure'">
+            <div class="task-meta" *ngIf="tab.type !== 'sentence_structure'">
               <span>Linked unit: Surah {{ state.selectedSurah || '--' }} Ayah {{ rangeLabelShort }}</span>
               <span>Study mode: {{ tab.label }}</span>
               <button
@@ -313,58 +313,66 @@
               </div>
 
               <div class="sentence-layout" *ngSwitchCase="'sentence_structure'">
-                <app-tabs
-                  class="sentence-tabs"
-                  [tabs]="sentenceTabs"
-                  [activeId]="state.sentenceSubTab"
-                  variant="tabs"
-                  orientation="horizontal"
-                  ariaLabel="Sentence structure tabs"
-                  [primaryIds]="sentencePrimaryIds"
-                  overflowLabel="More"
-                  (tabChange)="onSentenceTabChange($event)"
-                ></app-tabs>
+                <div class="sentence-layout-head">
+                  <button
+                    *ngIf="taskTarget('sentence_structure')"
+                    type="button"
+                    class="study-task-notes-icon-btn"
+                    [class.study-task-notes-icon-btn--active]="isTaskNotesModalOpen('sentence_structure')"
+                    aria-label="Open sentence notes"
+                    title="Sentence Structure Notes"
+                    (click)="toggleTaskNotesModal('sentence_structure')"
+                  >
+                    <svg cIcon name="cilNotes"></svg>
+                  </button>
+                </div>
+                <div class="sentence-visual-layout" *ngIf="sentenceStructureSentences.length; else noSentenceVerses">
+                  <article class="sentence-visual-card" *ngFor="let sentence of sentenceStructureSentences; let sentenceIndex = index">
+                    <header class="sentence-visual-hero">
+                      <p class="sentence-visual-full text-arabic" dir="rtl" translate="no">
+                        {{ sentence.structure_summary.full_text || '—' }}
+                      </p>
+                      <p class="sentence-visual-ref">
+                        {{ sentenceVisualReference(sentence, sentenceIndex) }}
+                      </p>
+                    </header>
 
-                <div class="sentence-pane">
-                  <ng-container *ngIf="state.sentenceSubTab === 'verses'">
-                    <div class="unit-preview" *ngIf="sentenceAyahsForStudy.length; else noSentenceVerses">
-                      <article class="unit-ayah" *ngFor="let ayah of sentenceAyahsForStudy">
-                        <span class="unit-ayah-index">Ayah {{ ayah.ayah }}</span>
-                        <p class="unit-ayah-text">{{ ayah.text_uthmani || ayah.text || '—' }}</p>
+                    <div class="sentence-visual-timeline" *ngIf="sentence.structure_summary.main_components.length; else noSentenceComponents">
+                      <article
+                        class="sentence-visual-node"
+                        *ngFor="let segment of sentence.structure_summary.main_components; let segmentIndex = index"
+                        [class.sentence-visual-node--primary]="segmentIndex === 0"
+                        [attr.data-tone]="sentenceSegmentTone(segment, segmentIndex)"
+                      >
+                        <span class="sentence-visual-dot" aria-hidden="true"></span>
+                        <section class="sentence-visual-node-card">
+                          <p class="sentence-visual-node-label">{{ sentenceSegmentLabel(segment.component) }}</p>
+                          <ng-container *ngIf="sentenceSegmentTags(segment) as tags">
+                            <div class="sentence-visual-node-tags" *ngIf="tags.length">
+                              <span class="sentence-visual-tag" *ngFor="let tag of tags">{{ tag }}</span>
+                            </div>
+                          </ng-container>
+                          <p class="sentence-visual-node-ar text-arabic" dir="rtl" translate="no">{{ segment.text || '—' }}</p>
+                          <p
+                            class="sentence-visual-node-en"
+                            [class.sentence-visual-node-en--arabic]="sentenceSegmentDescriptionIsArabic(segment)"
+                            [attr.dir]="sentenceSegmentDescriptionIsArabic(segment) ? 'rtl' : null"
+                          >
+                            {{ sentenceSegmentDescription(segment) }}
+                          </p>
+                        </section>
                       </article>
                     </div>
-                    <ng-template #noSentenceVerses>
-                      <p class="text-muted">No verse preview available.</p>
+
+                    <ng-template #noSentenceComponents>
+                      <p class="text-muted">No sentence components available.</p>
                     </ng-template>
-                  </ng-container>
-
-                  <ng-container *ngIf="state.sentenceSubTab === 'items'">
-                    <app-quran-sentence-structure [sentences]="sentenceStructureSentences"></app-quran-sentence-structure>
-
-                    <section class="sentence-item-notes" *ngIf="sentenceStructureSentences.length">
-                      <article class="sentence-item-note-row" *ngFor="let sentence of sentenceStructureSentences">
-                        <button
-                          type="button"
-                          class="sentence-item-note-btn"
-                          (click)="toggleSentenceItemNotes(sentence)"
-                        >
-                          {{ activeSentenceNoteKey === ('sent_' + sentence.sentence_order) ? 'Hide' : 'Notes' }}
-                          Sentence #{{ sentence.sentence_order }}
-                        </button>
-
-                        <app-targeted-notes-panel
-                          *ngIf="activeSentenceNoteKey === ('sent_' + sentence.sentence_order) && activeSentenceNoteTarget"
-                          class="study-targeted-notes study-targeted-notes--inline"
-                          [target]="activeSentenceNoteTarget!"
-                        ></app-targeted-notes-panel>
-                      </article>
-                    </section>
-                  </ng-container>
-
-                  <ng-container *ngIf="state.sentenceSubTab === 'json'">
-                    <pre class="study-json">{{ sentenceTaskJson }}</pre>
-                  </ng-container>
+                  </article>
                 </div>
+
+                <ng-template #noSentenceVerses>
+                  <p class="text-muted">No sentence structure data available.</p>
+                </ng-template>
               </div>
 
               <div class="study-comprehension-layout" *ngSwitchCase="'comprehension'">
