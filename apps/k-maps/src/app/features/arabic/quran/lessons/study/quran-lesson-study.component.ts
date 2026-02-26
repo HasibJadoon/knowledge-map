@@ -228,6 +228,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
   private comprehensionGroupsCache: ComprehensionQuestionGroup[] = [];
   private expressionCardsCacheKey = '';
   private expressionCardsCache: ExpressionStudyCard[] = [];
+  private readonly expandedSentenceSectionKeys = new Set<string>();
 
   get state(): EditorState {
     return this.facade.state;
@@ -664,6 +665,24 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     return `Sentence #${Math.max(1, Math.trunc(sentence.sentence_order || sentenceIndex + 1))}`;
   }
 
+  toggleSentenceSection(sentence: QuranSentenceStructureSentence, section: 'main' | 'expansion'): void {
+    const key = this.sentenceSectionKey(sentence, section);
+    if (this.expandedSentenceSectionKeys.has(key)) {
+      this.expandedSentenceSectionKeys.delete(key);
+      return;
+    }
+    this.expandedSentenceSectionKeys.add(key);
+  }
+
+  isSentenceSectionExpanded(sentence: QuranSentenceStructureSentence, section: 'main' | 'expansion'): boolean {
+    return this.expandedSentenceSectionKeys.has(this.sentenceSectionKey(sentence, section));
+  }
+
+  private sentenceSectionKey(sentence: QuranSentenceStructureSentence, section: 'main' | 'expansion'): string {
+    const order = Math.max(1, Math.trunc(sentence.sentence_order || 1));
+    return `${order}:${section}`;
+  }
+
   sentenceSegmentLabel(component: string): string {
     const normalized = this.textFromUnknown(component)
       .replace(/[_-]+/g, ' ')
@@ -708,14 +727,16 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     return Array.from(out);
   }
 
-  sentenceSegmentTone(segment: QuranSentenceStructureSegment, segmentIndex: number): string {
+  sentenceSegmentTone(segment: QuranSentenceStructureSegment, segmentIndex: number, isExpansion = false): string {
     const component = this.textFromUnknown(segment.component).toLowerCase();
     if (component.includes('main')) return 'gold';
     if (component.includes('cause') || component.includes('reason')) return 'amber';
     if (component.includes('clarif') || component.includes('explain') || component.includes('detail')) return 'cyan';
     if (component.includes('before') || component.includes('prior') || component.includes('state')) return 'rose';
     if (component.includes('result') || component.includes('effect')) return 'mint';
-    return segmentIndex === 0 ? 'gold' : 'slate';
+    if (component.includes('coordination') || component.includes('link')) return 'amber';
+    if (component.includes('preposition') || component.includes('attachment')) return 'cyan';
+    return isExpansion ? 'slate' : segmentIndex === 0 ? 'gold' : 'slate';
   }
 
   comprehensionQuestionKey(groupIndex: number, questionIndex: number): string {
@@ -1912,10 +1933,6 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
       .map((item, index) => this.toSentenceStructureExpansionSegment(item, index))
       .filter((item): item is QuranSentenceStructureSegment => item != null);
 
-    if (expansionComponents.length) {
-      mainComponents.push(...expansionComponents);
-    }
-
     if (!mainComponents.length && fullText) {
       mainComponents.push({
         component: 'Sentence',
@@ -1929,6 +1946,7 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     return {
       full_text: fullText,
       main_components: mainComponents,
+      expansions: expansionComponents,
     };
   }
 

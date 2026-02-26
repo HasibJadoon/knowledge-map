@@ -2263,6 +2263,105 @@ app-quran-lesson-study {
   gap: 1rem;
 }
 
+.quran-study-shell .sentence-visual-sections {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.quran-study-shell .sentence-visual-section {
+  border: 1px solid rgba(96, 136, 177, 0.28);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(9, 18, 31, 0.72), rgba(7, 15, 26, 0.68));
+  box-shadow:
+    inset 0 0 0 1px rgba(179, 209, 239, 0.06),
+    0 8px 18px rgba(4, 10, 18, 0.36);
+  overflow: hidden;
+  transition: border-color 220ms ease, box-shadow 240ms ease;
+}
+
+.quran-study-shell .sentence-visual-section--expanded {
+  border-color: rgba(126, 194, 255, 0.5);
+  box-shadow:
+    inset 0 0 0 1px rgba(158, 211, 255, 0.15),
+    0 14px 28px rgba(4, 10, 18, 0.48),
+    0 0 24px rgba(103, 179, 248, 0.14);
+}
+
+.quran-study-shell .sentence-visual-section-toggle {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(116, 163, 207, 0.2);
+  background: linear-gradient(180deg, rgba(13, 26, 43, 0.94), rgba(10, 20, 33, 0.9));
+  color: #d5e9ff;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.72rem 0.9rem;
+  text-align: right;
+  direction: rtl;
+  cursor: pointer;
+  transition: background-color 200ms ease, border-color 220ms ease, color 220ms ease;
+}
+
+.quran-study-shell .sentence-visual-section-toggle:hover {
+  background: linear-gradient(180deg, rgba(16, 31, 52, 0.96), rgba(12, 23, 39, 0.92));
+}
+
+.quran-study-shell .sentence-visual-section-toggle:focus-visible {
+  outline: 2px solid rgba(143, 210, 255, 0.72);
+  outline-offset: -2px;
+}
+
+.quran-study-shell .sentence-visual-section-title {
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: rgba(188, 219, 248, 0.95);
+}
+
+.quran-study-shell .sentence-visual-section-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(116, 168, 219, 0.42);
+  background: rgba(11, 24, 39, 0.82);
+  color: rgba(182, 218, 250, 0.95);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.quran-study-shell .sentence-visual-section-caret {
+  display: inline-block;
+  color: rgba(169, 210, 245, 0.88);
+  font-size: 1rem;
+  line-height: 1;
+  transform: rotate(0deg);
+  transition: transform 220ms ease, color 220ms ease;
+}
+
+.quran-study-shell .sentence-visual-section-caret--expanded {
+  transform: rotate(180deg);
+  color: rgba(200, 229, 255, 0.96);
+}
+
+.quran-study-shell .sentence-visual-section .sentence-visual-timeline {
+  padding: 0.6rem 0.9rem 0.95rem;
+  padding-right: calc(0.9rem + 1.45rem);
+}
+
+.quran-study-shell .sentence-visual-section .sentence-visual-timeline::before {
+  right: calc(0.9rem + 0.46rem);
+  top: 0.2rem;
+  bottom: 0.2rem;
+}
+
 .quran-study-shell .sentence-visual-hero {
   border: 1px solid rgba(104, 151, 194, 0.26);
   border-radius: 14px;
@@ -2678,6 +2777,24 @@ app-quran-lesson-study {
 
   .quran-study-shell .sentence-visual-hero {
     padding: 1.1rem 0.75rem 0.85rem;
+  }
+
+  .quran-study-shell .sentence-visual-section-toggle {
+    padding: 0.64rem 0.72rem;
+  }
+
+  .quran-study-shell .sentence-visual-section-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+  }
+
+  .quran-study-shell .sentence-visual-section .sentence-visual-timeline {
+    padding: 0.5rem 0.72rem 0.8rem;
+    padding-right: calc(0.72rem + 1.05rem);
+  }
+
+  .quran-study-shell .sentence-visual-section .sentence-visual-timeline::before {
+    right: calc(0.72rem + 0.3rem);
   }
 
   .quran-study-shell .sentence-visual-full {

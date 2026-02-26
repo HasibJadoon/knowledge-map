@@ -21,6 +21,7 @@ export interface QuranSentenceStructureSegment {
 export interface QuranSentenceStructureSummary {
   full_text: string;
   main_components: QuranSentenceStructureSegment[];
+  expansions: QuranSentenceStructureSegment[];
 }
 
 export interface QuranSentenceStructureSentence {

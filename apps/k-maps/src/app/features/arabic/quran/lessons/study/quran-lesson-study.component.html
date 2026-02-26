@@ -337,32 +337,110 @@
                       </p>
                     </header>
 
-                    <div class="sentence-visual-timeline" *ngIf="sentence.structure_summary.main_components.length; else noSentenceComponents">
-                      <article
-                        class="sentence-visual-node"
-                        *ngFor="let segment of sentence.structure_summary.main_components; let segmentIndex = index"
-                        [class.sentence-visual-node--primary]="segmentIndex === 0"
-                        [attr.data-tone]="sentenceSegmentTone(segment, segmentIndex)"
-                      >
-                        <span class="sentence-visual-dot" aria-hidden="true"></span>
-                        <section class="sentence-visual-node-card">
-                          <p class="sentence-visual-node-label">{{ sentenceSegmentLabel(segment.component) }}</p>
-                          <ng-container *ngIf="sentenceSegmentTags(segment) as tags">
-                            <div class="sentence-visual-node-tags" *ngIf="tags.length">
-                              <span class="sentence-visual-tag" *ngFor="let tag of tags">{{ tag }}</span>
-                            </div>
-                          </ng-container>
-                          <p class="sentence-visual-node-ar text-arabic" dir="rtl" translate="no">{{ segment.text || '—' }}</p>
-                          <p
-                            class="sentence-visual-node-en"
-                            [class.sentence-visual-node-en--arabic]="sentenceSegmentDescriptionIsArabic(segment)"
-                            [attr.dir]="sentenceSegmentDescriptionIsArabic(segment) ? 'rtl' : null"
+                    <ng-container
+                      *ngIf="sentence.structure_summary.main_components.length || sentence.structure_summary.expansions.length; else noSentenceComponents"
+                    >
+                      <div class="sentence-visual-sections">
+                        <section
+                          class="sentence-visual-section"
+                          *ngIf="sentence.structure_summary.main_components.length"
+                          [class.sentence-visual-section--expanded]="isSentenceSectionExpanded(sentence, 'main')"
+                        >
+                          <button
+                            type="button"
+                            class="sentence-visual-section-toggle"
+                            [attr.aria-expanded]="isSentenceSectionExpanded(sentence, 'main')"
+                            (click)="toggleSentenceSection(sentence, 'main')"
                           >
-                            {{ sentenceSegmentDescription(segment) }}
-                          </p>
+                            <span class="sentence-visual-section-title">Main Components</span>
+                            <span class="sentence-visual-section-count">{{ sentence.structure_summary.main_components.length }}</span>
+                            <span
+                              class="sentence-visual-section-caret"
+                              [class.sentence-visual-section-caret--expanded]="isSentenceSectionExpanded(sentence, 'main')"
+                              aria-hidden="true"
+                            >
+                              ⌄
+                            </span>
+                          </button>
+
+                          <div class="sentence-visual-timeline" *ngIf="isSentenceSectionExpanded(sentence, 'main')">
+                            <article
+                              class="sentence-visual-node"
+                              *ngFor="let segment of sentence.structure_summary.main_components; let segmentIndex = index"
+                              [class.sentence-visual-node--primary]="segmentIndex === 0"
+                              [attr.data-tone]="sentenceSegmentTone(segment, segmentIndex)"
+                            >
+                              <span class="sentence-visual-dot" aria-hidden="true"></span>
+                              <section class="sentence-visual-node-card">
+                                <p class="sentence-visual-node-label">{{ sentenceSegmentLabel(segment.component) }}</p>
+                                <ng-container *ngIf="sentenceSegmentTags(segment) as tags">
+                                  <div class="sentence-visual-node-tags" *ngIf="tags.length">
+                                    <span class="sentence-visual-tag" *ngFor="let tag of tags">{{ tag }}</span>
+                                  </div>
+                                </ng-container>
+                                <p class="sentence-visual-node-ar text-arabic" dir="rtl" translate="no">{{ segment.text || '—' }}</p>
+                                <p
+                                  class="sentence-visual-node-en"
+                                  [class.sentence-visual-node-en--arabic]="sentenceSegmentDescriptionIsArabic(segment)"
+                                  [attr.dir]="sentenceSegmentDescriptionIsArabic(segment) ? 'rtl' : null"
+                                >
+                                  {{ sentenceSegmentDescription(segment) }}
+                                </p>
+                              </section>
+                            </article>
+                          </div>
                         </section>
-                      </article>
-                    </div>
+
+                        <section
+                          class="sentence-visual-section sentence-visual-section--expansion"
+                          *ngIf="sentence.structure_summary.expansions.length"
+                          [class.sentence-visual-section--expanded]="isSentenceSectionExpanded(sentence, 'expansion')"
+                        >
+                          <button
+                            type="button"
+                            class="sentence-visual-section-toggle"
+                            [attr.aria-expanded]="isSentenceSectionExpanded(sentence, 'expansion')"
+                            (click)="toggleSentenceSection(sentence, 'expansion')"
+                          >
+                            <span class="sentence-visual-section-title">Expansions</span>
+                            <span class="sentence-visual-section-count">{{ sentence.structure_summary.expansions.length }}</span>
+                            <span
+                              class="sentence-visual-section-caret"
+                              [class.sentence-visual-section-caret--expanded]="isSentenceSectionExpanded(sentence, 'expansion')"
+                              aria-hidden="true"
+                            >
+                              ⌄
+                            </span>
+                          </button>
+
+                          <div class="sentence-visual-timeline" *ngIf="isSentenceSectionExpanded(sentence, 'expansion')">
+                            <article
+                              class="sentence-visual-node"
+                              *ngFor="let segment of sentence.structure_summary.expansions; let segmentIndex = index"
+                              [attr.data-tone]="sentenceSegmentTone(segment, segmentIndex, true)"
+                            >
+                              <span class="sentence-visual-dot" aria-hidden="true"></span>
+                              <section class="sentence-visual-node-card">
+                                <p class="sentence-visual-node-label">{{ sentenceSegmentLabel(segment.component) }}</p>
+                                <ng-container *ngIf="sentenceSegmentTags(segment) as tags">
+                                  <div class="sentence-visual-node-tags" *ngIf="tags.length">
+                                    <span class="sentence-visual-tag" *ngFor="let tag of tags">{{ tag }}</span>
+                                  </div>
+                                </ng-container>
+                                <p class="sentence-visual-node-ar text-arabic" dir="rtl" translate="no">{{ segment.text || '—' }}</p>
+                                <p
+                                  class="sentence-visual-node-en"
+                                  [class.sentence-visual-node-en--arabic]="sentenceSegmentDescriptionIsArabic(segment)"
+                                  [attr.dir]="sentenceSegmentDescriptionIsArabic(segment) ? 'rtl' : null"
+                                >
+                                  {{ sentenceSegmentDescription(segment) }}
+                                </p>
+                              </section>
+                            </article>
+                          </div>
+                        </section>
+                      </div>
+                    </ng-container>
 
                     <ng-template #noSentenceComponents>
                       <p class="text-muted">No sentence components available.</p>
