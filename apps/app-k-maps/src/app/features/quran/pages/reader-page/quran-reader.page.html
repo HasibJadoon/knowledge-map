@@ -1,118 +1,95 @@
 <ion-header translucent="true">
-  <ion-toolbar class="quran-reader-toolbar">
+  <ion-toolbar class="quran-reader-page__toolbar">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/quran"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ headerTitle }}</ion-title>
+    <ion-title>Qur'an</ion-title>
+    <div class="quran-reader-page__toolbar-page" slot="end" *ngIf="toolbarPageLabel() as pageLabel">
+      {{ pageLabel }}
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="quran-reader">
-    <ion-card class="quran-reader__status" *ngIf="error">
-      <ion-card-content>
-        <ion-text color="danger">
-          <p>{{ error }}</p>
-        </ion-text>
-      </ion-card-content>
-    </ion-card>
+  <div class="quran-reader-page">
+    <section class="quran-reader-page__state" *ngIf="!currentPage() && loading()">
+      <div class="quran-reader-page__placeholder quran-reader-page__placeholder--full">
+        <div class="quran-reader-page__placeholder-line quran-reader-page__placeholder-line--short"></div>
+        <div class="quran-reader-page__placeholder-sheet">
+          <div class="quran-reader-page__placeholder-line"></div>
+          <div class="quran-reader-page__placeholder-line" *ngFor="let _ of initialPlaceholderLines"></div>
+          <div class="quran-reader-page__placeholder-line quran-reader-page__placeholder-line--short"></div>
+        </div>
+      </div>
+    </section>
 
-    <ion-card class="quran-reader__status" *ngIf="loading">
-      <ion-card-content>
-        <ion-text color="medium">
-          <p>Loading page reader...</p>
-        </ion-text>
-      </ion-card-content>
-    </ion-card>
+    <section class="quran-reader-page__state quran-reader-page__state--error" *ngIf="!currentPage() && error()">
+      <p class="quran-reader-page__state-title">Unable to open this page</p>
+      <p class="quran-reader-page__state-copy">{{ error() }}</p>
+      <div class="quran-reader-page__state-actions">
+        <ion-button fill="clear" (click)="retryCurrentRoute()">Try again</ion-button>
+        <ion-button fill="solid" (click)="openBrowse()">Back to Index</ion-button>
+      </div>
+    </section>
 
-    <ng-container *ngIf="!loading && surah">
-      <ion-card class="quran-reader__hero">
-        <ion-card-content>
-          <ion-text color="tertiary">
-            <p class="quran-reader__eyebrow">Simple Reader</p>
-          </ion-text>
+    <ng-container *ngIf="currentPage() as page">
+      <div class="quran-reader-page__banner" *ngIf="bannerError()">
+        <span>{{ bannerError() }}</span>
+        <ion-button fill="clear" size="small" (click)="retryCurrentRoute()">Retry</ion-button>
+      </div>
 
-          <h1 class="quran-reader__title">{{ headerTitle }}</h1>
-
-          <ion-text color="warning">
-            <p class="quran-reader__title-ar" dir="rtl" lang="ar">{{ surah.name_ar }}</p>
-          </ion-text>
-
-          <ion-text color="medium">
-            <p class="quran-reader__meta">{{ surahMeta }}</p>
-          </ion-text>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="quran-reader__status" *ngIf="pages.length === 0">
-        <ion-card-content>
-          <ion-text color="medium">
-            <p>No page text is available for this surah.</p>
-          </ion-text>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="quran-reader__page-card" *ngFor="let pageData of pages; trackBy: trackByPage">
-        <ion-card-content>
-          <div class="quran-reader__page-head">
-            <div>
-              <ion-text color="tertiary">
-                <p class="quran-reader__page-kicker">Mushaf Page</p>
-              </ion-text>
-              <h2 class="quran-reader__title">Page {{ pageData.page.number }}</h2>
-            </div>
-
-            <ion-chip *ngIf="pageData.page.verse_count">
-              <ion-label>{{ pageData.page.verse_count }} ayahs</ion-label>
-            </ion-chip>
-          </div>
-
-          <ion-text color="medium">
-            <p class="quran-reader__page-meta">
-              {{ pageData.page.start_ref }} to {{ pageData.page.end_ref }}
-            </p>
-          </ion-text>
-
-          <ion-text color="medium" *ngIf="totalPages > 0">
-            <p class="quran-reader__page-range">Mushaf page {{ pageData.page.number }} of {{ totalPages }}</p>
-          </ion-text>
-
-          <div class="quran-reader__page-body" *ngIf="pageData.layout_lines.length; else verseFallback">
-            <ng-container *ngFor="let line of pageData.layout_lines; trackBy: trackByLine">
-              <ion-text
-                [color]="line.line_type === 'surah_name' ? 'warning' : line.line_type === 'basmallah' ? 'tertiary' : 'light'"
-              >
-                <p
-                  class="quran-reader__line"
-                  [class.quran-reader__line--centered]="line.is_centered"
-                  [class.quran-reader__line--surah]="line.line_type === 'surah_name'"
-                  [class.quran-reader__line--bismillah]="line.line_type === 'basmallah'"
-                  dir="rtl"
-                  lang="ar"
-                >
-                  {{ line.text }}
-                </p>
-              </ion-text>
+      <div class="quran-reader-page__viewport">
+        <swiper-container #swiperElement init="false" class="quran-reader-page__swiper">
+          <swiper-slide class="quran-reader-page__slide">
+            <ng-container *ngIf="page.meta.prevPage !== null; else startBoundary">
+              <app-quran-page-renderer *ngIf="previousPage() as previousPage; else loadingNeighbour" [page]="previousPage"></app-quran-page-renderer>
             </ng-container>
-          </div>
+          </swiper-slide>
 
-          <ng-template #verseFallback>
-            <ng-container *ngIf="pageData.verses.length; else emptyPageText">
-              <ion-text color="light" *ngFor="let verse of pageData.verses">
-                <p class="quran-reader__fallback-verse" dir="rtl" lang="ar">
-                  {{ verse.text_diacritics || verse.text }}
-                </p>
-              </ion-text>
+          <swiper-slide class="quran-reader-page__slide">
+            <app-quran-page-renderer [page]="page"></app-quran-page-renderer>
+          </swiper-slide>
+
+          <swiper-slide class="quran-reader-page__slide">
+            <ng-container *ngIf="page.meta.nextPage !== null; else endBoundary">
+              <app-quran-page-renderer *ngIf="nextPage() as nextPageData; else loadingNeighbour" [page]="nextPageData"></app-quran-page-renderer>
             </ng-container>
-          </ng-template>
+          </swiper-slide>
+        </swiper-container>
+      </div>
 
-          <ng-template #emptyPageText>
-            <ion-text color="medium">
-              <p class="quran-reader__empty">This page has no renderable surah text.</p>
-            </ion-text>
-          </ng-template>
-        </ion-card-content>
-      </ion-card>
+      <footer class="quran-reader-page__controls">
+        <ion-button fill="clear" size="small" [disabled]="!canGoPrev()" (click)="goToPreviousPage()">
+          Previous
+        </ion-button>
+        <p class="quran-reader-page__hint">{{ statusHint() }}</p>
+        <ion-button fill="clear" size="small" [disabled]="!canGoNext()" (click)="goToNextPage()">
+          Next
+        </ion-button>
+      </footer>
     </ng-container>
   </div>
+
+  <ng-template #loadingNeighbour>
+    <div class="quran-reader-page__placeholder">
+      <div class="quran-reader-page__placeholder-sheet">
+        <div class="quran-reader-page__placeholder-line quran-reader-page__placeholder-line--short"></div>
+        <div class="quran-reader-page__placeholder-line" *ngFor="let _ of neighbouringPlaceholderLines"></div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #startBoundary>
+    <div class="quran-reader-page__edge-state">
+      <p class="quran-reader-page__edge-title">Beginning of the Mushaf</p>
+      <p class="quran-reader-page__edge-copy">Page 1 is the first page in the standard Madani Mushaf.</p>
+    </div>
+  </ng-template>
+
+  <ng-template #endBoundary>
+    <div class="quran-reader-page__edge-state">
+      <p class="quran-reader-page__edge-title">End of the Mushaf</p>
+      <p class="quran-reader-page__edge-copy">Page 604 is the final page in the standard Madani Mushaf.</p>
+    </div>
+  </ng-template>
 </ion-content>

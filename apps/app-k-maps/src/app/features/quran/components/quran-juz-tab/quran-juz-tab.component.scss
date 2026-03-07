@@ -1,1 +1,105 @@
-/* Styles moved to src/global.scss to stay under Angular component style budgets. */
+:host {
+  display: block;
+}
+
+.quran-browse__juz-group {
+  margin: 0 0 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.45rem;
+  background: linear-gradient(180deg, rgba(19, 26, 37, 0.95), rgba(10, 15, 24, 0.92));
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.22);
+}
+
+.quran-browse__juz-group:last-child {
+  margin-bottom: 0;
+}
+
+.quran-browse__juz-group ion-card-content {
+  padding: 0.7rem;
+}
+
+.quran-browse__juz-header,
+.quran-browse__stack-item {
+  --border-color: transparent;
+  --inner-border-width: 0;
+  --inner-padding-end: 0;
+}
+
+.quran-browse__juz-header {
+  --background: linear-gradient(180deg, rgba(24, 32, 45, 0.94), rgba(15, 21, 31, 0.9));
+  --padding-start: 0.75rem;
+  --padding-end: 0.75rem;
+  --min-height: 3.65rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 1.05rem;
+}
+
+.quran-browse__juz-pages,
+.quran-browse__juz-meta,
+.quran-browse__stack-meta {
+  margin: 0;
+}
+
+.quran-browse__juz-pages {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff6e7;
+}
+
+.quran-browse__juz-meta,
+.quran-browse__stack-meta {
+  margin-top: 0.25rem;
+  font-size: 0.88rem;
+  color: rgba(238, 233, 220, 0.62);
+}
+
+.quran-browse__stack-list {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.quran-browse__juz-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.quran-browse__stack-item {
+  --background: rgba(255, 255, 255, 0.04);
+  --padding-start: 0.95rem;
+  --padding-end: 0.95rem;
+  --min-height: 4.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+}
+
+.quran-browse__stack-copy {
+  min-width: 0;
+}
+
+.quran-browse__stack-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff8e9;
+}
+
+.quran-browse__stack-title-ar {
+  margin-top: 0.35rem;
+  display: block;
+  font-family: var(--app-font-ar);
+  font-size: 1.3rem;
+  line-height: 1.15;
+  color: rgba(255, 248, 232, 0.92);
+}
+
+.quran-browse__page-chip {
+  --background: rgba(231, 201, 139, 0.1);
+  border: 1px solid rgba(231, 201, 139, 0.18);
+  color: #e7c98b;
+  font-size: 0.86rem;
+  font-weight: 700;
+  box-shadow: none;
+}

@@ -1,1 +1,89 @@
-/* Styles moved to src/global.scss to stay under Angular component style budgets. */
+:host {
+  display: block;
+}
+
+.quran-browse__surah-list {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.quran-browse__surah-item {
+  --background: rgba(255, 255, 255, 0.04);
+  --border-color: transparent;
+  --inner-border-width: 0;
+  --padding-start: 0.95rem;
+  --padding-end: 0.95rem;
+  --inner-padding-end: 0;
+  --min-height: 5.25rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.1rem;
+  overflow: hidden;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+}
+
+.quran-browse__surah-item:last-child {
+  margin-bottom: 0;
+}
+
+.quran-browse__surah-number {
+  width: 2.8rem;
+  height: 2.8rem;
+  margin-inline-end: 1rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.95rem;
+  background: linear-gradient(180deg, rgba(231, 201, 139, 0.22), rgba(231, 201, 139, 0.08));
+  color: #ffe6a3;
+  font-weight: 700;
+}
+
+.quran-browse__surah-copy {
+  min-width: 0;
+  margin: 0;
+}
+
+.quran-browse__surah-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.7rem;
+}
+
+.quran-browse__surah-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff8e9;
+}
+
+.quran-browse__surah-title-ar {
+  font-family: var(--app-font-ar);
+  font-size: 1.35rem;
+  line-height: 1.15;
+  color: rgba(255, 248, 232, 0.92);
+}
+
+.quran-browse__surah-meta {
+  margin-top: 0.2rem;
+  font-size: 0.88rem;
+  color: rgba(238, 233, 220, 0.62);
+}
+
+.quran-browse__page-chip {
+  --background: rgba(231, 201, 139, 0.1);
+  margin-inline-start: 0.75rem;
+  border: 1px solid rgba(231, 201, 139, 0.18);
+  color: #e7c98b;
+  font-size: 0.86rem;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+@media (max-width: 680px) {
+  .quran-browse__surah-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+}

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { QuranBrowseJuz, QuranBrowseSurah } from '../../../../shared/models/quran-reader.model';
@@ -10,6 +10,7 @@ import { QuranBrowseJuz, QuranBrowseSurah } from '../../../../shared/models/qura
   imports: [CommonModule, IonicModule, RouterLink],
   templateUrl: './quran-juz-tab.component.html',
   styleUrl: './quran-juz-tab.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuranJuzTabComponent {
   @Input() juzs: QuranBrowseJuz[] = [];
@@ -26,5 +27,21 @@ export class QuranJuzTabComponent {
 
   trackBySurah(_: number, surah: QuranBrowseSurah): number {
     return surah.surah;
+  }
+
+  buildSurahLink(surah: QuranBrowseSurah): string[] {
+    if (surah.start_page != null) {
+      return ['/quran', 'page', String(surah.start_page)];
+    }
+
+    return ['/quran', 'surah', String(surah.surah)];
+  }
+
+  buildJuzLink(juz: QuranBrowseJuz): string[] | null {
+    if (juz.start_page == null) {
+      return null;
+    }
+
+    return ['/quran', 'page', String(juz.start_page)];
   }
 }

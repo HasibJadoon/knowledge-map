@@ -4,7 +4,7 @@
     button="true"
     detail="true"
     class="quran-browse__surah-item"
-    [routerLink]="['/quran', 'surah', surah.surah]"
+    [routerLink]="buildSurahLink(surah)"
   >
     <div slot="start" class="quran-browse__surah-number">{{ surah.surah }}</div>
 

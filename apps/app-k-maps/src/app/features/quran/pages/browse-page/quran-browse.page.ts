@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { bookOutline, documentTextOutline } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
@@ -22,6 +22,7 @@ type MainTab = 'list' | 'summary';
   imports: [CommonModule, IonicModule, QuranSummaryTabComponent, QuranSurahTabComponent, QuranJuzTabComponent, AppIconTabsComponent],
   templateUrl: './quran-browse.page.html',
   styleUrl: './quran-browse.page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuranBrowsePage implements OnInit {
   private readonly quranReader = inject(QuranReaderService);

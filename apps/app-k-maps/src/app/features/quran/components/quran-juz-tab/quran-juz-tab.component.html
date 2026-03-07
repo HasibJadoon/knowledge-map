@@ -5,6 +5,8 @@
       lines="none"
       detail="false"
       class="quran-browse__juz-header"
+      [button]="juz.start_page != null"
+      [routerLink]="buildJuzLink(juz)"
     >
       <ion-label>
         <h2 class="quran-browse__juz-pages">
@@ -30,7 +32,7 @@
         button="true"
         detail="true"
         class="quran-browse__stack-item quran-browse__stack-item--juz"
-        [routerLink]="['/quran', 'surah', surah.surah]"
+        [routerLink]="buildSurahLink(surah)"
       >
         <ion-label class="quran-browse__stack-copy quran-browse__stack-copy--juz">
           <div class="quran-browse__stack-heading">

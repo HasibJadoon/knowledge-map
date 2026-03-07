@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { QuranBrowseSurah } from '../../../../shared/models/quran-reader.model';
@@ -10,6 +10,7 @@ import { QuranBrowseSurah } from '../../../../shared/models/quran-reader.model';
   imports: [CommonModule, IonicModule, RouterLink],
   templateUrl: './quran-surah-tab.component.html',
   styleUrl: './quran-surah-tab.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuranSurahTabComponent {
   @Input() surahs: QuranBrowseSurah[] = [];
@@ -22,5 +23,13 @@ export class QuranSurahTabComponent {
 
   trackBySurah(_: number, surah: QuranBrowseSurah): number {
     return surah.surah;
+  }
+
+  buildSurahLink(surah: QuranBrowseSurah): string[] {
+    if (surah.start_page != null) {
+      return ['/quran', 'page', String(surah.start_page)];
+    }
+
+    return ['/quran', 'surah', String(surah.surah)];
   }
 }

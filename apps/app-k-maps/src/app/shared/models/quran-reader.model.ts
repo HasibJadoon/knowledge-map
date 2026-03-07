@@ -1,3 +1,7 @@
+export const QURAN_MIN_PAGE = 1;
+export const QURAN_TOTAL_PAGES = 604;
+export const QURAN_MUSHAF_LINE_COUNT = 15;
+
 export interface QuranSurahMetaSummary {
   name_simple: string | null;
   revelation_place: string | null;
@@ -23,13 +27,15 @@ export interface QuranBrowseJuz {
   surahs: QuranBrowseSurah[];
 }
 
+export interface QuranMenuStats {
+  total_pages: number;
+  total_surahs: number;
+  total_juzs: number;
+}
+
 export interface QuranMenuResponse {
   ok: boolean;
-  stats: {
-    total_pages: number;
-    total_surahs: number;
-    total_juzs: number;
-  };
+  stats: QuranMenuStats;
   surahs: QuranBrowseSurah[];
   juzs: QuranBrowseJuz[];
 }
@@ -57,9 +63,11 @@ export interface QuranPageAyahSlice {
   words: QuranPageWord[];
 }
 
+export type QuranLayoutLineType = 'ayah' | 'surah_name' | 'basmallah';
+
 export interface QuranLayoutLine {
   line_number: number;
-  line_type: 'ayah' | 'surah_name' | 'basmallah';
+  line_type: QuranLayoutLineType;
   is_centered: boolean;
   surah_number: number | null;
   text: string;
@@ -89,31 +97,24 @@ export interface QuranPageVerse {
   words: QuranPageWord[];
 }
 
-export interface QuranReaderPageData {
-  page: {
-    number: number;
-    prev_page: number | null;
-    next_page: number | null;
-    verse_count: number;
-    start_ref: string;
-    end_ref: string;
-    juzs: number[];
-    hizbs: number[];
-  };
+export interface QuranPageMeta {
+  number: number;
+  prev_page: number | null;
+  next_page: number | null;
+  verse_count: number;
+  start_ref: string;
+  end_ref: string;
+  juzs: number[];
+  hizbs: number[];
+}
+
+export interface QuranPageContent {
+  page: QuranPageMeta;
   verses: QuranPageVerse[];
   layout_lines: QuranLayoutLine[];
 }
 
-export interface QuranReaderSurah extends QuranBrowseSurah {
-  end_page: number | null;
-}
-
-export interface QuranSurahReaderResponse {
+export interface QuranPageResponse extends QuranPageContent {
   ok: boolean;
-  surah: QuranReaderSurah;
-  stats: {
-    total_pages: number;
-    page_count: number;
-  };
-  pages: QuranReaderPageData[];
+  surahs: QuranBrowseSurah[];
 }

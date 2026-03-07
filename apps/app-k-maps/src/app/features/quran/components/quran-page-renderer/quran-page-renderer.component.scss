@@ -1,0 +1,152 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.quran-page-sheet {
+  height: 100%;
+  display: flex;
+}
+
+.quran-page-sheet__surface {
+  width: min(100%, 35rem);
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 0.9rem;
+  color: #251d12;
+  border-radius: 1.8rem;
+  border: 1px solid rgba(94, 71, 33, 0.2);
+  background:
+    linear-gradient(180deg, rgba(255, 250, 239, 0.97), rgba(238, 225, 197, 0.98)),
+    linear-gradient(135deg, rgba(179, 149, 91, 0.08), transparent 55%);
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.38);
+}
+
+.quran-page-sheet__header,
+.quran-page-sheet__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.quran-page-sheet__heading {
+  min-width: 0;
+}
+
+.quran-page-sheet__title,
+.quran-page-sheet__title-ar,
+.quran-page-sheet__reference,
+.quran-page-sheet__footer {
+  margin: 0;
+}
+
+.quran-page-sheet__title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(58, 43, 20, 0.84);
+}
+
+.quran-page-sheet__title-ar {
+  margin-top: 0.25rem;
+  font-family: var(--app-font-ar);
+  font-size: 1.55rem;
+  line-height: 1.15;
+}
+
+.quran-page-sheet__reference,
+.quran-page-sheet__footer {
+  font-size: 0.8rem;
+  color: rgba(74, 56, 27, 0.68);
+}
+
+.quran-page-sheet__frame {
+  min-height: 0;
+  padding: 1rem 0.8rem;
+  border-radius: 1.35rem;
+  border: 1px solid rgba(112, 84, 39, 0.14);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.12)),
+    linear-gradient(180deg, rgba(243, 234, 211, 0.98), rgba(236, 223, 193, 0.98));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+
+.quran-page-sheet__lines {
+  height: 100%;
+  display: grid;
+  grid-template-rows: repeat(var(--quran-line-count, 15), minmax(0, 1fr));
+}
+
+.quran-page-sheet__slot {
+  display: flex;
+  align-items: center;
+}
+
+.quran-page-sheet__line,
+.quran-page-sheet__fallback-verse,
+.quran-page-sheet__fallback-empty {
+  margin: 0;
+  width: 100%;
+}
+
+.quran-page-sheet__line,
+.quran-page-sheet__fallback-verse {
+  font-family: var(--app-font-ar);
+  font-size: clamp(1.85rem, 4.9vw, 2.45rem);
+  line-height: 1.75;
+  text-align: right;
+}
+
+.quran-page-sheet__line--centered {
+  text-align: center;
+}
+
+.quran-page-sheet__line--surah,
+.quran-page-sheet__line--basmallah {
+  text-align: center;
+}
+
+.quran-page-sheet__line--surah {
+  font-size: clamp(1.95rem, 5.2vw, 2.7rem);
+  color: #6a4f22;
+}
+
+.quran-page-sheet__line--basmallah {
+  font-size: clamp(1.82rem, 5vw, 2.4rem);
+  color: #4d4b43;
+}
+
+.quran-page-sheet__fallback {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quran-page-sheet__fallback-empty {
+  align-self: center;
+  max-width: 16rem;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(74, 56, 27, 0.72);
+}
+
+@media (min-width: 768px) {
+  .quran-page-sheet__surface {
+    padding: 1.25rem;
+    border-radius: 2rem;
+  }
+
+  .quran-page-sheet__frame {
+    padding: 1.2rem 1rem;
+  }
+}
