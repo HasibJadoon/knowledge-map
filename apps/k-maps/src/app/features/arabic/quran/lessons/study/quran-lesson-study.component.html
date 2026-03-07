@@ -2,6 +2,7 @@
   class="quran-edit-new quran-study-shell"
   *ngIf="ready; else loadingTpl"
   [style.--app-ar-font-size]="arabicFontSize"
+  [style.--study-ui-font-scale]="studyUiFontScale"
   [class.quran-study-shell--dialog-open]="morphologyDialogWord !== null"
 >
   <header class="edit-hero">
@@ -34,7 +35,7 @@
   ></app-lesson-capture-bar>
 
   <div class="edit-grid">
-    <main class="edit-panel">
+    <main class="edit-panel" [class.edit-panel--comprehension]="studyActiveTaskTab === 'comprehension'">
       <div class="panel-head">
         <div>
           <h2>{{ studyActiveTaskTab === 'lesson' ? 'Lesson Overview' : (activeTaskTab?.label || 'Task') }}</h2>
@@ -78,23 +79,12 @@
         </ng-container>
 
         <ng-template #taskPane>
-          <div class="task-editor" *ngIf="activeTaskTab as tab" [class.task-editor--sentence]="tab.type === 'sentence_structure'">
-            <div class="task-meta" *ngIf="tab.type !== 'sentence_structure'">
-              <span>Linked unit: Surah {{ state.selectedSurah || '--' }} Ayah {{ rangeLabelShort }}</span>
-              <span>Study mode: {{ tab.label }}</span>
-              <button
-                *ngIf="taskTarget(tab.type)"
-                type="button"
-                class="study-task-notes-icon-btn"
-                [class.study-task-notes-icon-btn--active]="isTaskNotesModalOpen(tab.type)"
-                aria-label="Open task notes"
-                [title]="tab.label + ' Notes'"
-                (click)="toggleTaskNotesModal(tab.type)"
-              >
-                <svg cIcon name="cilNotes"></svg>
-              </button>
-            </div>
-
+          <div
+            class="task-editor"
+            *ngIf="activeTaskTab as tab"
+            [class.task-editor--sentence]="tab.type === 'sentence_structure'"
+            [class.task-editor--comprehension]="tab.type === 'comprehension'"
+          >
             <ng-container [ngSwitch]="tab.type">
               <div class="reading-layout" *ngSwitchCase="'reading'">
                 <article class="reading-summary-card">
@@ -107,7 +97,15 @@
                   >
                     <ng-container *ngFor="let ayahGroup of readingAyahWordGroups; let isLastAyah = last">
                       <ng-container *ngFor="let token of ayahGroup.words; let isLastWord = last">
-                        <span class="quran-word">
+                        <span
+                          class="quran-word quran-word--interactive"
+                          [class.quran-word--active]="isReadingWordSelected(token.location)"
+                          tabindex="0"
+                          role="button"
+                          [attr.aria-label]="'Word ' + token.text"
+                          (click)="selectReadingWord(token)"
+                          (keydown)="onReadingWordKeydown($event, token)"
+                        >
                           {{ token.text }}
                         </span>
                         <span *ngIf="!isLastWord"> </span>
@@ -454,15 +452,6 @@
               </div>
 
               <div class="study-comprehension-layout" *ngSwitchCase="'comprehension'">
-                <header class="study-task-head">
-                  <div class="study-task-head-copy">
-                    <p class="study-task-kicker">Comprehension Matrix</p>
-                    <h3>Structured Question Bank</h3>
-                    <p>{{ comprehensionQuestionTotal }} prompts across {{ comprehensionQuestionGroups.length }} categories.</p>
-                  </div>
-                  <span class="study-task-ref">{{ passageReferenceBadge }}</span>
-                </header>
-
                 <section class="study-question-grid" *ngIf="comprehensionQuestionGroups.length; else noComprehensionPrompts">
                   <article
                     class="study-question-card"
@@ -479,13 +468,20 @@
                       <ng-container *ngFor="let question of group.questions; let questionIndex = index">
                         <li class="study-question-item">
                           <span class="study-question-index">{{ questionIndex + 1 }}</span>
-                          <p>{{ question }}</p>
+                          <p>
+                            <ng-container *ngFor="let segment of toPassageTextSegments(question)">
+                              <span [class.kmap-arabic-run]="segment.isArabic">{{ segment.text }}</span>
+                            </ng-container>
+                          </p>
                           <button
                             type="button"
-                            class="study-question-note-btn"
+                            class="study-question-note-btn study-task-notes-icon-btn"
+                            [class.study-task-notes-icon-btn--active]="activeComprehensionNoteKey === comprehensionQuestionKey(groupIndex, questionIndex)"
+                            [attr.aria-label]="activeComprehensionNoteKey === comprehensionQuestionKey(groupIndex, questionIndex) ? 'Close notes' : 'Open notes'"
+                            [attr.title]="activeComprehensionNoteKey === comprehensionQuestionKey(groupIndex, questionIndex) ? 'Hide notes' : 'Open notes'"
                             (click)="toggleComprehensionItemNotes(groupIndex, questionIndex)"
                           >
-                            Notes
+                            <svg cIcon name="cilNotes"></svg>
                           </button>
                         </li>
 

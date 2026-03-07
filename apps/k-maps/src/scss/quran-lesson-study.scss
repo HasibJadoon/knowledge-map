@@ -788,6 +788,81 @@ app-quran-lesson-study {
   line-height: 1.58;
 }
 
+.quran-study-shell .study-comprehension-layout {
+  --study-comprehension-font-scale: calc(1.12 * var(--study-ui-font-scale, 1));
+}
+
+.quran-study-shell .study-comprehension-layout .study-task-kicker {
+  font-size: calc(0.84rem * var(--study-comprehension-font-scale));
+}
+
+.quran-study-shell .study-comprehension-layout .study-task-head-copy h3 {
+  font-size: clamp(1.89rem, 2.8vw, 2.52rem);
+}
+
+.quran-study-shell .study-comprehension-layout .study-task-head-copy p {
+  font-size: calc(1rem * var(--study-comprehension-font-scale));
+}
+
+.quran-study-shell .study-comprehension-layout .study-task-ref {
+  font-size: calc(0.88rem * var(--study-comprehension-font-scale));
+}
+
+.quran-study-shell .study-comprehension-layout .study-question-card-head h4 {
+  font-size: calc(1.05rem * var(--study-comprehension-font-scale));
+}
+
+.quran-study-shell .study-comprehension-layout .study-question-count {
+  font-size: calc(0.82rem * var(--study-comprehension-font-scale));
+}
+
+.quran-study-shell .study-comprehension-layout .study-question-index {
+  width: calc(1.6rem * var(--study-comprehension-font-scale));
+  height: calc(1.6rem * var(--study-comprehension-font-scale));
+  font-size: calc(0.84rem * var(--study-comprehension-font-scale));
+}
+
+.quran-study-shell .study-comprehension-layout .study-question-item p {
+  font-size: calc(1.01rem * var(--study-comprehension-font-scale));
+  line-height: 1.5;
+}
+
+.quran-study-shell .study-comprehension-layout .study-question-item {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 0.32rem 0.4rem;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.quran-study-shell .study-comprehension-layout .study-question-item:hover,
+.quran-study-shell .study-comprehension-layout .study-question-item:focus-within {
+  border-color: color-mix(in srgb, var(--section-accent) 46%, rgba(154, 184, 214, 0.35));
+  background: color-mix(in srgb, var(--section-accent) 14%, rgba(16, 24, 35, 0.84));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--section-accent) 24%, transparent);
+}
+
+.quran-study-shell .study-comprehension-layout .study-question-item:hover .study-question-index,
+.quran-study-shell .study-comprehension-layout .study-question-item:focus-within .study-question-index {
+  border-color: color-mix(in srgb, var(--section-accent) 72%, transparent);
+  background: color-mix(in srgb, var(--section-accent) 22%, rgba(18, 25, 34, 0.95));
+}
+
+.quran-study-shell .study-comprehension-layout .kmap-arabic-run {
+  font-family: var(--app-font-ar, 'Uthmanic Hafs', 'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', serif);
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+.quran-study-shell .study-comprehension-layout .study-question-note-btn {
+  width: calc(2.15rem * var(--study-comprehension-font-scale));
+  height: calc(2.15rem * var(--study-comprehension-font-scale));
+}
+
+.quran-study-shell .study-comprehension-layout .study-question-note-btn svg {
+  width: calc(1rem * var(--study-comprehension-font-scale));
+  height: calc(1rem * var(--study-comprehension-font-scale));
+}
+
 .quran-study-shell .study-expression-grid {
   display: grid;
   gap: 0.95rem;
@@ -934,6 +1009,10 @@ app-quran-lesson-study {
   .quran-study-shell .study-question-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+.quran-study-shell .study-comprehension-layout .study-question-grid {
+  grid-template-columns: 1fr;
 }
 
 @media (min-width: 1380px) {
@@ -1601,6 +1680,41 @@ app-quran-lesson-study {
   box-shadow: none;
 }
 
+.quran-study-shell .task-editor--comprehension {
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.quran-study-shell .task-editor--comprehension .study-comprehension-layout {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+
+.quran-study-shell .edit-panel--comprehension {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.quran-study-shell .edit-panel--comprehension::before {
+  content: none;
+}
+
+.quran-study-shell .edit-panel--comprehension .panel-head {
+  border-bottom: 0;
+  padding-bottom: 0.2rem;
+}
+
+.quran-study-shell .edit-panel--comprehension .panel-body {
+  padding-top: 0.2rem;
+}
+
 .quran-study-shell.quran-study-shell--dialog-open .edit-panel {
   animation: none;
   overflow: visible;
@@ -1632,37 +1746,50 @@ app-quran-lesson-study {
 
 .quran-study-shell .reading-text-primary {
   margin: 0;
+  display: block;
+  width: 100%;
   text-align: justify;
   text-align-last: right;
+  text-justify: inter-word;
   direction: rtl;
   font-size: var(--app-ar-font-size, 1.35rem);
-  line-height: 1.95;
+  line-height: 2.7rem;
+  word-spacing: 0.1em;
   color: var(--paper-ink);
 }
 
 .quran-study-shell .reading-text-primary .quran-word {
-  border-radius: 0;
-  padding: 0;
+  border-radius: 0.4rem;
+  padding: 0.05rem 0.2rem;
   border-bottom: 0;
-  transition: color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
-.quran-study-shell .reading-text-primary .quran-word--interactive:hover {
+.quran-study-shell .reading-text-primary .quran-word--interactive:not(.quran-word--active):hover {
   background: transparent;
   box-shadow: none;
-  color: #7fd7ff;
+  color: #8fdfff;
 }
 
-.quran-study-shell .reading-text-primary .quran-word--interactive:focus-visible {
+.quran-study-shell .reading-text-primary .quran-word--interactive {
+  cursor: pointer;
+}
+
+.quran-study-shell .reading-text-primary .quran-word--interactive:not(.quran-word--active):focus-visible {
   outline: none;
-  color: #7fd7ff;
+  background: transparent;
+  box-shadow: none;
+  color: #8fdfff;
 }
 
 .quran-study-shell .reading-text-primary .quran-word--active {
-  color: #9cf8df;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-decoration-color: rgba(125, 217, 189, 0.7);
+  background: rgba(255, 213, 0, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(255, 213, 0, 0.55),
+    0 8px 16px rgba(255, 213, 0, 0.2);
+  color: #fff7c7;
 }
 
 .quran-study-shell .reading-text-primary .reading-ayah-mark {
@@ -2734,13 +2861,8 @@ app-quran-lesson-study {
 }
 
 .quran-study-shell .study-question-note-btn {
-  border: 1px solid rgba(124, 164, 198, 0.28);
-  border-radius: 8px;
-  background: rgba(15, 24, 35, 0.72);
-  color: rgba(188, 215, 238, 0.9);
-  font-size: 0.74rem;
-  padding: 0.25rem 0.52rem;
-  white-space: nowrap;
+  align-self: start;
+  padding: 0;
 }
 
 .quran-study-shell .study-question-notes-wrap {

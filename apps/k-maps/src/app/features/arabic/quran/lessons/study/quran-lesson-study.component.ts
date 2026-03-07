@@ -283,6 +283,11 @@ export class QuranLessonStudyComponent implements OnInit, OnDestroy {
     return `${this.fontRem.toFixed(2)}rem`;
   }
 
+  get studyUiFontScale(): string {
+    const baseFontRem = 1.35;
+    return (this.fontRem / baseFontRem).toFixed(3);
+  }
+
   get readingTextNonDiacritic(): string {
     return this.getReadingSourceAyahs()
       .map((ayah) => this.resolveReadingAyahText(ayah))
