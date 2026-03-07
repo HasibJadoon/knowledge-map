@@ -1,0 +1,72 @@
+<ion-header translucent="true">
+  <ion-toolbar class="quran-browse-toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Quran</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="openFirstPage()">Page 1</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="quran-browse-toolbar quran-browse-toolbar--subtoggle" *ngIf="mainTab === 'list'">
+    <ion-segment [value]="activeTab" (ionChange)="onTabChange($event)" class="quran-browse__header-subtoggle">
+      <ion-segment-button value="surahs">
+        <ion-label>Surahs</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="juz">
+        <ion-label>Juz'</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="quran-browse-page">
+  <div class="quran-browse">
+    <ion-card *ngIf="error" class="quran-browse__panel quran-browse__card">
+      <ion-card-content>
+        <p class="quran-browse__error">{{ error }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="loading" class="quran-browse__panel quran-browse__card">
+      <ion-card-content>
+        <p class="quran-browse__loading">Loading Quran menu...</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ng-container *ngIf="!loading">
+      <app-quran-summary-tab
+        *ngIf="mainTab === 'summary'"
+        [totalPages]="totalPages"
+        [totalSurahs]="surahs.length"
+        [totalJuzs]="juzs.length"
+        [recentPages]="recentPages"
+        (firstPageRequested)="openFirstPage()"
+        (recentPageSelected)="openRecentPage($event)"
+      ></app-quran-summary-tab>
+
+      <app-quran-surah-tab
+        *ngIf="mainTab === 'list' && activeTab === 'surahs'"
+        [surahs]="surahs"
+        (surahSelected)="openSurah($event)"
+      ></app-quran-surah-tab>
+
+      <app-quran-juz-tab
+        *ngIf="mainTab === 'list' && activeTab === 'juz'"
+        [juzs]="juzs"
+        (juzSelected)="openJuz($event)"
+        (surahSelected)="openSurah($event)"
+      ></app-quran-juz-tab>
+    </ng-container>
+  </div>
+</ion-content>
+
+<ion-footer class="quran-browse-footer">
+  <app-icon-tabs
+    [tabs]="browseTabs"
+    [activeKey]="mainTab"
+    [manual]="true"
+    (tabSelected)="onMainTabSelected($event)"
+  ></app-icon-tabs>
+</ion-footer>

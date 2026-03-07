@@ -59,12 +59,12 @@ const routes: Routes = [
   },
   {
     path: 'quran',
-    loadComponent: () => import('./features/quran/quran-browse.page').then(m => m.QuranBrowsePage),
+    loadComponent: () => import('./features/quran/pages/browse-page/quran-browse.page').then(m => m.QuranBrowsePage),
     canActivate: [AuthGuard]
   },
   {
     path: 'quran/page/:page',
-    loadComponent: () => import('./features/quran/quran-reader.page').then(m => m.QuranReaderPage),
+    loadComponent: () => import('./features/quran/pages/reader-page/quran-reader.page').then(m => m.QuranReaderPage),
     canActivate: [AuthGuard]
   },
   {

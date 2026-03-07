@@ -3,8 +3,8 @@ import { Component, HostListener, OnDestroy, OnInit, inject } from '@angular/cor
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { firstValueFrom, Subscription } from 'rxjs';
-import { QuranBrowseSurah, QuranPageMeta, QuranPageVerse } from '../../shared/models/quran-reader.model';
-import { QuranReaderService } from '../../shared/services/quran-reader.service';
+import { QuranBrowseSurah, QuranPageMeta, QuranPageVerse } from '../../../../shared/models/quran-reader.model';
+import { QuranReaderService } from '../../../../shared/services/quran-reader.service';
 
 interface QuranReaderSurahGroup {
   surah: QuranBrowseSurah | null;
@@ -246,7 +246,7 @@ export class QuranReaderPage implements OnInit, OnDestroy {
       const list = Array.isArray(current) ? current : [];
       const filtered = list.filter((entry) => typeof entry?.page !== 'number' || entry.page !== nextEntry.page);
       filtered.unshift(nextEntry);
-      localStorage.setItem(QURAN_RECENT_PAGES_KEY, JSON.stringify(filtered.slice(0, 6)));
+      localStorage.setItem(QURAN_RECENT_PAGES_KEY, JSON.stringify(filtered.slice(0, 3)));
     } catch {
       localStorage.setItem(QURAN_RECENT_PAGES_KEY, JSON.stringify([nextEntry]));
     }

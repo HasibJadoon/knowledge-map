@@ -34,6 +34,15 @@ export interface QuranMenuResponse {
   juzs: QuranBrowseJuz[];
 }
 
+export interface QuranRecentPageEntry {
+  page: number;
+  surah: number | null;
+  name_en: string | null;
+  name_ar: string | null;
+  juz: number | null;
+  seen_at: string;
+}
+
 export interface QuranPageWord {
   position: number;
   text: string | null;

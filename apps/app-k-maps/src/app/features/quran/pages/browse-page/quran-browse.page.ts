@@ -2,27 +2,28 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { bookOutline, documentTextOutline } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
-import { QuranBrowseJuz, QuranBrowseSurah } from '../../shared/models/quran-reader.model';
-import { QuranReaderService } from '../../shared/services/quran-reader.service';
+import {
+  QuranBrowseJuz,
+  QuranBrowseSurah,
+  QuranRecentPageEntry,
+} from '../../../../shared/models/quran-reader.model';
+import { AppIconTabsComponent, IconTabItem } from '../../../../shared/components/icon-tabs/icon-tabs.component';
+import { QuranReaderService } from '../../../../shared/services/quran-reader.service';
+import { QuranJuzTabComponent } from '../../components/quran-juz-tab/quran-juz-tab.component';
+import { QuranSummaryTabComponent } from '../../components/quran-summary-tab/quran-summary-tab.component';
+import { QuranSurahTabComponent } from '../../components/quran-surah-tab/quran-surah-tab.component';
 
 type BrowseTab = 'surahs' | 'juz';
-
-interface QuranRecentPage {
-  page: number;
-  surah: number | null;
-  name_en: string | null;
-  name_ar: string | null;
-  juz: number | null;
-  seen_at: string;
-}
+type MainTab = 'list' | 'summary';
 
 const QURAN_RECENT_PAGES_KEY = 'quran_recent_pages';
 
 @Component({
   selector: 'app-quran-browse-page',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, QuranSummaryTabComponent, QuranSurahTabComponent, QuranJuzTabComponent, AppIconTabsComponent],
   templateUrl: './quran-browse.page.html',
   styleUrl: './quran-browse.page.scss',
 })
@@ -30,10 +31,15 @@ export class QuranBrowsePage implements OnInit {
   private readonly quranReader = inject(QuranReaderService);
   private readonly router = inject(Router);
 
+  mainTab: MainTab = 'list';
   activeTab: BrowseTab = 'surahs';
   surahs: QuranBrowseSurah[] = [];
   juzs: QuranBrowseJuz[] = [];
-  recentPages: QuranRecentPage[] = [];
+  recentPages: QuranRecentPageEntry[] = [];
+  readonly browseTabs: IconTabItem[] = [
+    { key: 'list', label: 'List', icon: bookOutline },
+    { key: 'summary', label: 'Summary', icon: documentTextOutline },
+  ];
   totalPages = 0;
   loading = false;
   error = '';
@@ -41,10 +47,6 @@ export class QuranBrowsePage implements OnInit {
   async ngOnInit() {
     this.recentPages = this.readRecentPages();
     await this.loadMenu();
-  }
-
-  get hasRecentPages(): boolean {
-    return this.recentPages.length > 0;
   }
 
   async loadMenu() {
@@ -69,6 +71,10 @@ export class QuranBrowsePage implements OnInit {
     this.activeTab = nextTab;
   }
 
+  onMainTabSelected(tabKey: string) {
+    this.mainTab = tabKey === 'summary' ? 'summary' : 'list';
+  }
+
   openFirstPage() {
     void this.router.navigate(['/quran/page', 1]);
   }
@@ -83,53 +89,11 @@ export class QuranBrowsePage implements OnInit {
     void this.router.navigate(['/quran/page', juz.start_page]);
   }
 
-  openRecentPage(entry: QuranRecentPage) {
+  openRecentPage(entry: QuranRecentPageEntry) {
     void this.router.navigate(['/quran/page', entry.page]);
   }
 
-  getRevelationLabel(place: string | null): string {
-    if (place === 'makkah') return 'Makki';
-    if (place === 'madinah') return 'Madani';
-    return 'Revelation not tagged';
-  }
-
-  formatRecentTime(iso: string): string {
-    const timestamp = Date.parse(iso);
-    if (!Number.isFinite(timestamp)) return 'Recently opened';
-
-    const diffMs = Date.now() - timestamp;
-    const diffMinutes = Math.max(1, Math.floor(diffMs / 60000));
-    if (diffMinutes < 60) {
-      return `${diffMinutes} min ago`;
-    }
-
-    const diffHours = Math.floor(diffMinutes / 60);
-    if (diffHours < 24) {
-      return `${diffHours} hr ago`;
-    }
-
-    const diffDays = Math.floor(diffHours / 24);
-    if (diffDays < 7) {
-      return `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
-    }
-
-    const diffWeeks = Math.floor(diffDays / 7);
-    return `${diffWeeks} week${diffWeeks === 1 ? '' : 's'} ago`;
-  }
-
-  trackBySurah(_: number, surah: QuranBrowseSurah): number {
-    return surah.surah;
-  }
-
-  trackByJuz(_: number, juz: QuranBrowseJuz): number {
-    return juz.juz;
-  }
-
-  trackByRecent(_: number, entry: QuranRecentPage): number {
-    return entry.page;
-  }
-
-  private readRecentPages(): QuranRecentPage[] {
+  private readRecentPages(): QuranRecentPageEntry[] {
     try {
       const raw = localStorage.getItem(QURAN_RECENT_PAGES_KEY);
       if (!raw) return [];
@@ -147,7 +111,7 @@ export class QuranBrowsePage implements OnInit {
           seen_at: typeof entry?.seen_at === 'string' ? entry.seen_at : '',
         }))
         .filter((entry) => Number.isFinite(entry.page))
-        .slice(0, 6);
+        .slice(0, 3);
     } catch {
       return [];
     }

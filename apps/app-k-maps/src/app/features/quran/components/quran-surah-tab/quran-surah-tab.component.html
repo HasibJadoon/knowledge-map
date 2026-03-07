@@ -1,0 +1,35 @@
+<ion-list *ngIf="surahs.length; else emptySurahs" lines="none" class="quran-browse__surah-list">
+  <ion-item
+    *ngFor="let surah of surahs; trackBy: trackBySurah"
+    button
+    detail="false"
+    class="quran-browse__surah-item"
+    (click)="surahSelected.emit(surah)"
+  >
+    <div slot="start" class="quran-browse__surah-number">{{ surah.surah }}</div>
+
+    <ion-label class="quran-browse__surah-copy">
+      <div class="quran-browse__surah-heading">
+        <div class="quran-browse__surah-title">
+          {{ surah.meta.name_simple || surah.name_en || ('Surah ' + surah.surah) }}
+        </div>
+        <div class="quran-browse__surah-title-ar" lang="ar" dir="rtl">{{ surah.name_ar }}</div>
+      </div>
+      <div class="quran-browse__surah-meta">
+        {{ getRevelationLabel(surah.meta.revelation_place) }} · {{ surah.ayah_count ?? 0 }} verses
+      </div>
+    </ion-label>
+
+    <ion-chip slot="end" class="quran-browse__page-chip" *ngIf="surah.start_page != null">
+      <ion-label>P. {{ surah.start_page }}</ion-label>
+    </ion-chip>
+  </ion-item>
+</ion-list>
+
+<ng-template #emptySurahs>
+  <ion-card class="quran-browse__panel quran-browse__card">
+    <ion-card-content>
+      <p class="quran-browse__summary">Surah data is not available right now.</p>
+    </ion-card-content>
+  </ion-card>
+</ng-template>

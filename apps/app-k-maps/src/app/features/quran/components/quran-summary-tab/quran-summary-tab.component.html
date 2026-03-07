@@ -1,0 +1,78 @@
+<ion-card class="quran-browse__hero quran-browse__card">
+  <ion-card-content>
+    <p class="quran-browse__eyebrow">Separate Reader</p>
+    <h1>Quran</h1>
+    <p class="quran-browse__summary">
+      Browse by Surah or Juz', then open a Mushaf page and move left or right between pages.
+    </p>
+
+    <ion-button fill="outline" class="quran-browse__inline-action" (click)="firstPageRequested.emit()">
+      Open Page 1
+    </ion-button>
+
+    <div class="quran-browse__stats">
+      <article class="quran-browse__stat">
+        <span class="quran-browse__stat-value">{{ totalPages }}</span>
+        <span class="quran-browse__stat-label">Pages</span>
+      </article>
+      <article class="quran-browse__stat">
+        <span class="quran-browse__stat-value">{{ totalSurahs }}</span>
+        <span class="quran-browse__stat-label">Surahs</span>
+      </article>
+      <article class="quran-browse__stat">
+        <span class="quran-browse__stat-value">{{ totalJuzs }}</span>
+        <span class="quran-browse__stat-label">Juz'</span>
+      </article>
+    </div>
+  </ion-card-content>
+</ion-card>
+
+<ion-card class="quran-browse__section quran-browse__card">
+  <ion-card-content>
+    <div class="quran-browse__section-heading">
+      <div>
+        <p class="quran-browse__section-label">Recent Pages</p>
+        <h2>Continue reading</h2>
+      </div>
+    </div>
+
+    <ion-list *ngIf="hasRecentPages; else emptyRecent" lines="none" class="quran-browse__stack-list">
+      <ion-item
+        *ngFor="let entry of recentPages; trackBy: trackByRecent"
+        button
+        detail="false"
+        class="quran-browse__stack-item"
+        (click)="recentPageSelected.emit(entry)"
+      >
+        <ion-label>
+          <div class="quran-browse__stack-title">
+            <span>{{ entry.name_en || ('Surah ' + (entry.surah ?? '')) }}</span>
+            <span
+              *ngIf="entry.name_ar"
+              class="quran-browse__stack-title-ar"
+              lang="ar"
+              dir="rtl"
+            >
+              {{ entry.name_ar }}
+            </span>
+          </div>
+          <div class="quran-browse__stack-meta">
+            {{ formatRecentTime(entry.seen_at) }}
+            <span *ngIf="entry.juz != null"> · Juz' {{ entry.juz }}</span>
+          </div>
+        </ion-label>
+        <ion-chip slot="end" class="quran-browse__page-chip">
+          <ion-label>P. {{ entry.page }}</ion-label>
+        </ion-chip>
+      </ion-item>
+    </ion-list>
+
+    <ng-template #emptyRecent>
+      <ion-card class="quran-browse__panel quran-browse__card">
+        <ion-card-content>
+          <p class="quran-browse__summary">Recent Quran pages will appear here after you open them.</p>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+  </ion-card-content>
+</ion-card>
