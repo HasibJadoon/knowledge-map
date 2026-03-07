@@ -1,0 +1,161 @@
+<ion-header translucent="true">
+  <ion-toolbar class="quran-browse-toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Quran</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="openFirstPage()">Page 1</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="quran-browse-page">
+  <div class="quran-browse">
+    <section class="quran-browse__hero">
+      <p class="quran-browse__eyebrow">Separate Reader</p>
+      <h1>Quran</h1>
+      <p class="quran-browse__summary">
+        Browse by Surah or Juz', then open a Mushaf page and move left or right between pages.
+      </p>
+
+      <div class="quran-browse__stats">
+        <div class="quran-browse__stat">
+          <span class="quran-browse__stat-value">{{ totalPages || '--' }}</span>
+          <span class="quran-browse__stat-label">Pages</span>
+        </div>
+        <div class="quran-browse__stat">
+          <span class="quran-browse__stat-value">{{ surahs.length || '--' }}</span>
+          <span class="quran-browse__stat-label">Surahs</span>
+        </div>
+        <div class="quran-browse__stat">
+          <span class="quran-browse__stat-value">{{ juzs.length || '--' }}</span>
+          <span class="quran-browse__stat-label">Juz'</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="quran-browse__panel">
+      <ion-segment [value]="activeTab" (ionChange)="onTabChange($event)" class="quran-browse__segment">
+        <ion-segment-button value="surahs">
+          <ion-label>Surahs</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="juz">
+          <ion-label>Juz'</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </section>
+
+    <section class="quran-browse__section" *ngIf="hasRecentPages">
+      <div class="quran-browse__section-heading">
+        <div>
+          <p class="quran-browse__section-label">Recent Pages</p>
+          <h2>Continue where you left off</h2>
+        </div>
+      </div>
+
+      <div class="quran-browse__stack">
+        <button
+          type="button"
+          class="quran-browse__stack-row"
+          *ngFor="let entry of recentPages; trackBy: trackByRecent"
+          (click)="openRecentPage(entry)"
+        >
+          <div class="quran-browse__stack-copy">
+            <div class="quran-browse__stack-title">
+              {{ entry.name_en || ('Surah ' + (entry.surah ?? '--')) }}
+              <span class="quran-browse__stack-title-ar arabic">{{ entry.name_ar || '' }}</span>
+            </div>
+            <div class="quran-browse__stack-meta">
+              {{ formatRecentTime(entry.seen_at) }}
+              <span *ngIf="entry.juz != null">- Juz' {{ entry.juz }}</span>
+            </div>
+          </div>
+          <div class="quran-browse__stack-page">p.{{ entry.page }}</div>
+        </button>
+      </div>
+    </section>
+
+    <div *ngIf="error" class="quran-browse__error">{{ error }}</div>
+    <div *ngIf="loading" class="quran-browse__loading">Loading Quran menu...</div>
+
+    <ng-container *ngIf="!loading">
+      <section class="quran-browse__section" *ngIf="activeTab === 'surahs'">
+        <div class="quran-browse__section-heading">
+          <div>
+            <p class="quran-browse__section-label">Surah Directory</p>
+            <h2>Open a page from a surah start</h2>
+          </div>
+        </div>
+
+        <div class="quran-browse__grid">
+          <button
+            type="button"
+            class="quran-browse__surah-card"
+            *ngFor="let surah of surahs; trackBy: trackBySurah"
+            (click)="openSurah(surah)"
+          >
+            <div class="quran-browse__surah-number">{{ surah.surah }}</div>
+            <div class="quran-browse__surah-copy">
+              <div class="quran-browse__surah-title">
+                {{ surah.meta.name_simple || surah.name_en || ('Surah ' + surah.surah) }}
+              </div>
+              <div class="quran-browse__surah-meta">
+                {{ getRevelationLabel(surah.meta.revelation_place) }}
+                <span *ngIf="surah.ayah_count != null">- {{ surah.ayah_count }} ayahs</span>
+              </div>
+              <div class="quran-browse__surah-meta" *ngIf="surah.start_page != null">
+                Starts on page {{ surah.start_page }}
+              </div>
+            </div>
+            <div class="quran-browse__surah-arabic arabic">{{ surah.name_ar }}</div>
+          </button>
+        </div>
+      </section>
+
+      <section class="quran-browse__section" *ngIf="activeTab === 'juz'">
+        <div class="quran-browse__section-heading">
+          <div>
+            <p class="quran-browse__section-label">Juz' Directory</p>
+            <h2>Jump to the start of each juz'</h2>
+          </div>
+        </div>
+
+        <div class="quran-browse__juz-list">
+          <section class="quran-browse__juz-group" *ngFor="let juz of juzs; trackBy: trackByJuz">
+            <div class="quran-browse__section-heading quran-browse__section-heading--compact">
+              <div>
+                <p class="quran-browse__section-label">Juz' {{ juz.juz }}</p>
+                <h3>Pages {{ juz.start_page || '--' }}-{{ juz.end_page || '--' }}</h3>
+              </div>
+              <button type="button" class="quran-browse__inline-action" (click)="openJuz(juz)">
+                Open p.{{ juz.start_page || '--' }}
+              </button>
+            </div>
+
+            <div class="quran-browse__stack">
+              <button
+                type="button"
+                class="quran-browse__stack-row"
+                *ngFor="let surah of juz.surahs; trackBy: trackBySurah"
+                (click)="openSurah(surah)"
+              >
+                <div class="quran-browse__stack-copy">
+                  <div class="quran-browse__stack-title">
+                    {{ surah.surah }}. {{ surah.meta.name_simple || surah.name_en || ('Surah ' + surah.surah) }}
+                    <span class="quran-browse__stack-title-ar arabic">{{ surah.name_ar }}</span>
+                  </div>
+                  <div class="quran-browse__stack-meta">
+                    {{ getRevelationLabel(surah.meta.revelation_place) }}
+                    <span *ngIf="surah.ayah_count != null">- {{ surah.ayah_count }} ayahs</span>
+                  </div>
+                </div>
+                <div class="quran-browse__stack-page">p.{{ surah.start_page || '--' }}</div>
+              </button>
+            </div>
+          </section>
+        </div>
+      </section>
+    </ng-container>
+  </div>
+</ion-content>

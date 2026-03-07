@@ -44,6 +44,13 @@
         </ion-menu-toggle>
       </div>
 
+      <ion-menu-toggle autoHide="true">
+        <ion-item routerLink="/quran" routerDirection="root" detail="false">
+          <ion-icon name="book-outline" slot="start" class="menu-icon"></ion-icon>
+          <ion-label><h2>Quran</h2></ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+
             <ion-item button detail="false" (click)="toggle('worldview')">
         <ion-icon name="globe-outline" slot="start" class="menu-icon"></ion-icon>
         <ion-label><h2>Worldview</h2></ion-label>
