@@ -74,6 +74,17 @@ export interface QuranPageVerse {
   words: QuranPageWord[];
 }
 
+export type QuranPageLayoutLineType = 'ayah' | 'surah_name' | 'basmallah';
+
+export interface QuranPageLayoutLine {
+  line_number: number;
+  line_type: QuranPageLayoutLineType;
+  is_centered: boolean;
+  surah_number: number | null;
+  text: string;
+  text_simple: string | null;
+}
+
 export interface QuranPageMeta {
   number: number;
   prev_page: number | null;
@@ -90,4 +101,5 @@ export interface QuranPageResponse {
   page: QuranPageMeta;
   surahs: QuranBrowseSurah[];
   verses: QuranPageVerse[];
+  layout_lines: QuranPageLayoutLine[];
 }

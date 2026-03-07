@@ -1,93 +1,119 @@
-<ion-header translucent="true">
+<ion-header class="study-toolbar-wrap" translucent="true">
   <ion-toolbar class="quran-reader-toolbar">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/quran"></ion-back-button>
+      <ion-back-button class="study-back-button" defaultHref="/quran" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ pageTitle }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="openBrowse()">Browse</ion-button>
+    <ion-buttons slot="end" class="quran-reader__toolbar-actions" *ngIf="pageData">
+      <ion-segment
+        [value]="textMode"
+        class="quran-reader__toolbar-toggle quran-reader__toolbar-toggle--inline"
+        (ionChange)="onTextModeChange($event)"
+      >
+        <ion-segment-button value="diacritic" aria-label="Diacritic text" title="Diacritic text">
+          <ion-icon name="sparkles-outline" aria-hidden="true"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="plain" aria-label="Plain text" title="Plain text">
+          <ion-icon name="remove-outline" aria-hidden="true"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+      <ion-button fill="clear" (click)="openBrowse()" aria-label="Browse Quran" title="Browse Quran">
+        <ion-icon name="grid-outline" slot="icon-only"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content
   [fullscreen]="true"
-  class="quran-reader-page"
+  class="study-content quran-reader-page"
   (touchstart)="onTouchStart($event)"
   (touchend)="onTouchEnd($event)"
   (touchcancel)="resetTouch()"
 >
-  <div class="quran-reader">
-    <ion-card class="quran-reader__hero quran-reader__card" *ngIf="pageData as page">
-      <ion-card-content>
-        <div class="quran-reader__eyebrow">Page {{ page.number }}</div>
-        <h1>{{ readerHeading }}</h1>
-        <p class="quran-reader__summary">{{ pageContext }}</p>
+  <div class="study-shell ion-padding app-text-select">
+    <ion-item class="study-state study-state--error" lines="none" *ngIf="error">
+      <ion-label>{{ error }}</ion-label>
+    </ion-item>
 
-        <div class="quran-reader__nav">
-          <ion-button fill="outline" class="quran-reader__nav-btn" [disabled]="page.prev_page == null" (click)="goToPage(page.prev_page)">
-            Previous
-          </ion-button>
-          <ion-note class="quran-reader__nav-hint">Swipe right for previous, left for next</ion-note>
-          <ion-button fill="outline" class="quran-reader__nav-btn" [disabled]="page.next_page == null" (click)="goToPage(page.next_page)">
-            Next
-          </ion-button>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card *ngIf="error" class="quran-reader__card">
-      <ion-card-content>
-        <p class="quran-reader__error">{{ error }}</p>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card *ngIf="loading" class="quran-reader__card">
-      <ion-card-content>
-        <p class="quran-reader__loading">Loading Quran page...</p>
-      </ion-card-content>
-    </ion-card>
+    <ion-item class="study-state" lines="none" *ngIf="loading">
+      <ion-label>Loading Quran page...</ion-label>
+    </ion-item>
 
     <ng-container *ngIf="!loading && !error">
-      <ion-card class="quran-reader__surah-block quran-reader__card" *ngFor="let group of surahGroups; trackBy: trackByGroup">
-        <ion-card-content>
-          <div class="quran-reader__surah-header" *ngIf="group.surah as surah">
-            <div class="quran-reader__surah-copy">
-              <div class="quran-reader__surah-chip">{{ surah.surah }}</div>
-              <div>
-                <p class="quran-reader__eyebrow">Surah</p>
-                <h2>{{ surah.meta.name_simple || surah.name_en || ('Surah ' + surah.surah) }}</h2>
-                <p class="quran-reader__surah-meta">
-                  {{ getRevelationLabel(surah.meta.revelation_place) }}
-                  <span *ngIf="surah.ayah_count != null">- {{ surah.ayah_count }} ayahs</span>
-                  <span *ngIf="surah.start_page != null">- starts p.{{ surah.start_page }}</span>
-                </p>
-              </div>
+      <ng-container [ngSwitch]="activeTab">
+        <section class="study-tab study-tab--reading" *ngSwitchCase="'reading'">
+          <div class="study-reading-wrap" *ngIf="pageLayoutLines.length; else legacyReading">
+            <div class="quran-reader__mushaf" dir="rtl" translate="no">
+              <p
+                *ngFor="let line of pageLayoutLines; trackBy: trackByLayoutLine"
+                class="quran-reader__layout-line"
+                [class.quran-reader__layout-line--ayah]="line.line_type === 'ayah'"
+                [class.quran-reader__layout-line--centered]="line.is_centered"
+                [class.quran-reader__layout-line--surah]="line.line_type === 'surah_name'"
+                [class.quran-reader__layout-line--basmallah]="line.line_type === 'basmallah'"
+              >
+                {{ getLayoutLineDisplayText(line) }}
+              </p>
             </div>
-            <div class="quran-reader__surah-arabic arabic">{{ surah.name_ar }}</div>
           </div>
 
-          <ion-list lines="none" class="quran-reader__verse-list">
-            <ion-item class="quran-reader__verse-item" *ngFor="let verse of group.verses; trackBy: trackByVerse">
-              <ion-label>
-                <div class="quran-reader__verse-top">
-                  <span class="quran-reader__verse-ref">{{ verse.verse_key }}</span>
-                  <span class="quran-reader__verse-stat" *ngIf="verse.word_count != null">{{ verse.word_count }} words</span>
+          <ng-template #legacyReading>
+            <ng-container *ngFor="let group of surahGroups; trackBy: trackByGroup; let isLastGroup = last">
+              <div class="quran-reader__surah-opening" *ngIf="shouldShowSurahHeader(group)">
+                <div class="quran-reader__surah-frame">
+                  <span class="quran-reader__surah-medallion" aria-hidden="true"></span>
+                  <div class="quran-reader__surah-title arabic">{{ getGroupSurahArabicName(group) }}</div>
+                  <span class="quran-reader__surah-medallion" aria-hidden="true"></span>
                 </div>
 
-                <p class="quran-reader__arabic arabic-text">
-                  {{ formatVerseText(verse) }}
-                  <span class="quran-reader__marker">{{ formatVerseMarker(verse) }}</span>
-                </p>
+                <div class="quran-reader__bismillah" *ngIf="getOpeningBismillahText(group) as openingBismillah" dir="rtl">
+                  <span class="quran-reader__bismillah-text arabic">{{ openingBismillah }}</span>
+                  <span class="quran-reader__bismillah-marker" *ngIf="getOpeningBismillahMarker(group) as openingMarker">
+                    {{ openingMarker }}
+                  </span>
+                </div>
+              </div>
 
-                <p class="quran-reader__translation" *ngIf="verse.translation">
-                  {{ verse.translation }}
-                </p>
-              </ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-card-content>
-      </ion-card>
+              <div class="study-reading-wrap">
+                <div class="quran-reader__ayah-flow" dir="rtl" translate="no">
+                  <p class="quran-reader__ayah-line" *ngFor="let verse of getReadingVerses(group); trackBy: trackByVerse">
+                    <span class="quran-reader__ayah-text">{{ getVerseDisplayText(verse) }}</span>
+                    <span class="study-reading-marker">{{ formatVerseMarker(verse) }}</span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="quran-reader__page-no" *ngIf="isLastGroup">{{ pageNumberLabel }}</div>
+            </ng-container>
+          </ng-template>
+
+          <div class="quran-reader__page-no" *ngIf="pageLayoutLines.length">{{ pageNumberLabel }}</div>
+        </section>
+
+        <section class="study-tab" *ngSwitchCase="'translation'">
+          <ng-container *ngFor="let group of surahGroups; trackBy: trackByGroup">
+            <div class="quran-reader__translation-pane" *ngIf="hasGroupTranslations(group); else noTranslation">
+              <p class="study-reading-translation" *ngFor="let verse of group.verses; trackBy: trackByVerse">
+                <span class="study-reading-translation-marker">{{ formatVerseMarker(verse) }}</span>
+                {{ verse.translation }}
+              </p>
+            </div>
+
+            <ng-template #noTranslation>
+              <p class="study-empty">Translation is not available for this page.</p>
+            </ng-template>
+          </ng-container>
+        </section>
+      </ng-container>
     </ng-container>
   </div>
 </ion-content>
+
+<ion-footer class="study-footer" *ngIf="!loading && !error && pageData">
+  <app-icon-tabs
+    [tabs]="readerTabs"
+    [activeKey]="activeTab"
+    [manual]="true"
+    (tabSelected)="setActiveTab($event === 'translation' ? 'translation' : 'reading')"
+  ></app-icon-tabs>
+</ion-footer>

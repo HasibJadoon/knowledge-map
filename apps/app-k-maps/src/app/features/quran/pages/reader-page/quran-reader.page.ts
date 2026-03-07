@@ -2,14 +2,24 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { bookOutline, languageOutline } from 'ionicons/icons';
 import { firstValueFrom, Subscription } from 'rxjs';
-import { QuranBrowseSurah, QuranPageMeta, QuranPageVerse } from '../../../../shared/models/quran-reader.model';
+import {
+  QuranBrowseSurah,
+  QuranPageLayoutLine,
+  QuranPageMeta,
+  QuranPageVerse,
+} from '../../../../shared/models/quran-reader.model';
 import { QuranReaderService } from '../../../../shared/services/quran-reader.service';
+import { AppIconTabsComponent, IconTabItem } from '../../../../shared/components/icon-tabs/icon-tabs.component';
 
 interface QuranReaderSurahGroup {
   surah: QuranBrowseSurah | null;
   verses: QuranPageVerse[];
 }
+
+type QuranReaderTextMode = 'diacritic' | 'plain';
+type QuranReaderTab = 'reading' | 'translation';
 
 interface QuranRecentPage {
   page: number;
@@ -21,11 +31,14 @@ interface QuranRecentPage {
 }
 
 const QURAN_RECENT_PAGES_KEY = 'quran_recent_pages';
+const ARABIC_DIACRITICS_RE = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g;
+const BISMILLAH_DIACRITIC = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
+const BISMILLAH_PLAIN = 'بسم الله الرحمن الرحيم';
 
 @Component({
   selector: 'app-quran-reader-page',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, AppIconTabsComponent],
   templateUrl: './quran-reader.page.html',
   styleUrl: './quran-reader.page.scss',
 })
@@ -39,10 +52,17 @@ export class QuranReaderPage implements OnInit, OnDestroy {
   private touchStartX: number | null = null;
   private touchStartY: number | null = null;
   private touchStartTime = 0;
+  readonly readerTabs: IconTabItem[] = [
+    { key: 'reading', label: 'Reading', icon: bookOutline },
+    { key: 'translation', label: 'Translation', icon: languageOutline },
+  ];
 
   pageData: QuranPageMeta | null = null;
   surahs: QuranBrowseSurah[] = [];
   surahGroups: QuranReaderSurahGroup[] = [];
+  pageLayoutLines: QuranPageLayoutLine[] = [];
+  activeTab: QuranReaderTab = 'reading';
+  textMode: QuranReaderTextMode = 'diacritic';
   loading = false;
   error = '';
 
@@ -55,6 +75,7 @@ export class QuranReaderPage implements OnInit, OnDestroy {
           this.pageData = null;
           this.surahs = [];
           this.surahGroups = [];
+          this.pageLayoutLines = [];
           return;
         }
 
@@ -68,6 +89,15 @@ export class QuranReaderPage implements OnInit, OnDestroy {
   }
 
   get pageTitle(): string {
+    if (this.surahs.length === 1) {
+      const surah = this.surahs[0]!;
+      return surah.meta.name_simple || surah.name_en || `Surah ${surah.surah}`;
+    }
+
+    if (this.surahs.length > 1) {
+      return this.readerHeading;
+    }
+
     if (this.pageData == null) return 'Quran';
     return `Page ${this.pageData.number}`;
   }
@@ -90,13 +120,13 @@ export class QuranReaderPage implements OnInit, OnDestroy {
     if (this.pageData == null) return '';
 
     const refRange = `${this.pageData.start_ref} - ${this.pageData.end_ref}`;
-    const juzLabel = this.pageData.juzs.length
-      ? this.pageData.juzs.length === 1
-        ? `Juz' ${this.pageData.juzs[0]}`
-        : `Juz' ${this.pageData.juzs[0]}-${this.pageData.juzs[this.pageData.juzs.length - 1]}`
-      : 'Juz not tagged';
+    const juzLabel = this.formatJuzLabel(this.pageData.juzs);
 
     return `${refRange} - ${juzLabel}`;
+  }
+
+  get pageNumberLabel(): string {
+    return this.pageData ? String(this.pageData.number) : '';
   }
 
   async loadPage(page: number) {
@@ -108,12 +138,14 @@ export class QuranReaderPage implements OnInit, OnDestroy {
       this.pageData = response.page;
       this.surahs = response.surahs ?? [];
       this.surahGroups = this.buildSurahGroups(response.verses ?? [], this.surahs);
+      this.pageLayoutLines = response.layout_lines ?? [];
       this.persistRecentPage();
     } catch (err: unknown) {
       this.error = err instanceof Error ? err.message : 'Unable to load Quran page.';
       this.pageData = null;
       this.surahs = [];
       this.surahGroups = [];
+      this.pageLayoutLines = [];
     } finally {
       this.loading = false;
     }
@@ -126,6 +158,20 @@ export class QuranReaderPage implements OnInit, OnDestroy {
 
   openBrowse() {
     void this.router.navigate(['/quran']);
+  }
+
+  setTextMode(value: string | null | undefined) {
+    if (value !== 'diacritic' && value !== 'plain') return;
+    this.textMode = value;
+  }
+
+  onTextModeChange(event: CustomEvent<{ value?: unknown }>) {
+    const value = typeof event.detail.value === 'string' ? event.detail.value : null;
+    this.setTextMode(value);
+  }
+
+  setActiveTab(tab: QuranReaderTab) {
+    this.activeTab = tab;
   }
 
   onTouchStart(event: TouchEvent) {
@@ -186,12 +232,70 @@ export class QuranReaderPage implements OnInit, OnDestroy {
     return 'Revelation not tagged';
   }
 
-  formatVerseText(verse: QuranPageVerse): string {
-    const words = verse.words
-      .map((word) => word.text ?? word.simple ?? '')
-      .filter((token) => token.trim().length > 0);
+  getGroupJuzLabel(group: QuranReaderSurahGroup): string {
+    const juzs = Array.from(
+      new Set(group.verses.map((verse) => verse.juz).filter((value): value is number => value != null))
+    ).sort((a, b) => a - b);
+    return this.formatJuzLabel(juzs.length ? juzs : this.pageData?.juzs ?? []);
+  }
 
-    return words.length ? words.join(' ') : verse.text;
+  getGroupSurahName(group: QuranReaderSurahGroup): string {
+    if (group.surah != null) {
+      return group.surah.meta.name_simple || group.surah.name_en || `Surah ${group.surah.surah}`;
+    }
+
+    const verse = group.verses[0];
+    return verse ? `Surah ${verse.surah}` : 'Surah';
+  }
+
+  getGroupSurahArabicName(group: QuranReaderSurahGroup): string {
+    return group.surah?.name_ar ?? '';
+  }
+
+  isSurahStart(group: QuranReaderSurahGroup): boolean {
+    return group.verses[0]?.ayah === 1;
+  }
+
+  shouldShowSurahHeader(group: QuranReaderSurahGroup): boolean {
+    return this.isSurahStart(group) && Boolean(group.surah?.name_ar);
+  }
+
+  getOpeningBismillahText(group: QuranReaderSurahGroup): string {
+    if (!this.isSurahStart(group)) return '';
+    if (this.hasBismillahAsFirstVerse(group)) {
+      return this.getVerseDisplayText(group.verses[0]!);
+    }
+    if (!group.surah?.meta.bismillah_pre) return '';
+    return this.textMode === 'plain' ? BISMILLAH_PLAIN : BISMILLAH_DIACRITIC;
+  }
+
+  getOpeningBismillahMarker(group: QuranReaderSurahGroup): string {
+    if (!this.hasBismillahAsFirstVerse(group)) return '';
+    return this.formatVerseMarker(group.verses[0]!);
+  }
+
+  getReadingVerses(group: QuranReaderSurahGroup): QuranPageVerse[] {
+    return this.hasBismillahAsFirstVerse(group) ? group.verses.slice(1) : group.verses;
+  }
+
+  getVerseDisplayText(verse: QuranPageVerse): string {
+    if (this.textMode === 'plain') {
+      return (verse.text_simple ?? this.stripArabicDiacritics(verse.text)).trim();
+    }
+
+    return (verse.text ?? '').trim();
+  }
+
+  getLayoutLineDisplayText(line: QuranPageLayoutLine): string {
+    if (this.textMode === 'plain') {
+      return (line.text_simple ?? this.stripArabicDiacritics(line.text)).trim();
+    }
+
+    return (line.text ?? '').trim();
+  }
+
+  hasGroupTranslations(group: QuranReaderSurahGroup): boolean {
+    return group.verses.some((verse) => Boolean(verse.translation));
   }
 
   formatVerseMarker(verse: QuranPageVerse): string {
@@ -205,6 +309,10 @@ export class QuranReaderPage implements OnInit, OnDestroy {
 
   trackByVerse(_: number, verse: QuranPageVerse): string {
     return verse.verse_key;
+  }
+
+  trackByLayoutLine(_: number, line: QuranPageLayoutLine): string {
+    return `${line.line_number}:${line.line_type}`;
   }
 
   private buildSurahGroups(verses: QuranPageVerse[], surahs: QuranBrowseSurah[]): QuranReaderSurahGroup[] {
@@ -257,5 +365,26 @@ export class QuranReaderPage implements OnInit, OnDestroy {
       .split('')
       .map((digit) => this.arabicDigits[Number(digit)] ?? digit)
       .join('');
+  }
+
+  private stripArabicDiacritics(value: string): string {
+    return value.replace(ARABIC_DIACRITICS_RE, '');
+  }
+
+  private hasBismillahAsFirstVerse(group: QuranReaderSurahGroup): boolean {
+    if (!this.isSurahStart(group)) return false;
+    const firstVerse = group.verses[0];
+    if (!firstVerse) return false;
+    return this.normalizeArabic(firstVerse.text) === this.normalizeArabic(BISMILLAH_DIACRITIC);
+  }
+
+  private normalizeArabic(value: string): string {
+    return this.stripArabicDiacritics(value).replace(/\s+/g, ' ').trim();
+  }
+
+  private formatJuzLabel(juzs: number[]): string {
+    if (!juzs.length) return 'Juz not tagged';
+    if (juzs.length === 1) return `Juz' ${juzs[0]}`;
+    return `Juz' ${juzs[0]}-${juzs[juzs.length - 1]}`;
   }
 }

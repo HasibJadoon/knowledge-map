@@ -34,6 +34,7 @@ type VerseRow = {
 };
 
 type WordRow = {
+  word_id: number | null;
   surah: number;
   ayah: number;
   position: number;
@@ -44,6 +45,16 @@ type WordRow = {
   root: string | null;
   page: number | null;
   line: number | null;
+};
+
+type LayoutRow = {
+  page_number: number;
+  line_number: number;
+  line_type: string;
+  is_centered: number | null;
+  first_word_id: number | null;
+  last_word_id: number | null;
+  surah_number: number | null;
 };
 
 type SurahPageRow = {
@@ -59,6 +70,10 @@ type SurahPageRow = {
 type MaxPageRow = {
   max_page: number | null;
 };
+
+const BISMILLAH_DIACRITIC = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
+const BISMILLAH_PLAIN = 'بسم الله الرحمن الرحيم';
+const ARABIC_DIGITS = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
 function safeJson(value: unknown): Record<string, unknown> {
   if (value == null) return {};
@@ -89,6 +104,45 @@ function intValue(value: unknown): number | null {
 
 function boolValue(value: unknown): boolean | null {
   return typeof value === 'boolean' ? value : null;
+}
+
+function toArabicDigits(value: number): string {
+  return String(value)
+    .split('')
+    .map((digit) => ARABIC_DIGITS[Number(digit)] ?? digit)
+    .join('');
+}
+
+function formatVerseMarker(verse: Pick<VerseRow, 'ayah' | 'verse_mark' | 'verse_full'>): string {
+  const marker = textValue(verse.verse_full) ?? textValue(verse.verse_mark);
+  return marker ?? toArabicDigits(verse.ayah);
+}
+
+function normalizeLayoutLineType(value: unknown): 'ayah' | 'surah_name' | 'basmallah' {
+  if (value === 'surah_name' || value === 'basmallah') return value;
+  return 'ayah';
+}
+
+function buildLayoutLineText(
+  words: WordRow[],
+  versesByKey: Map<string, VerseRow>,
+  useSimpleText: boolean
+): string {
+  const parts: string[] = [];
+
+  for (const word of words) {
+    const token = textValue(useSimpleText ? word.simple : word.text);
+    if (token) {
+      parts.push(token);
+    }
+
+    const verse = versesByKey.get(`${word.surah}:${word.ayah}`);
+    if (verse && verse.word_count != null && word.position >= verse.word_count) {
+      parts.push(formatVerseMarker(verse));
+    }
+  }
+
+  return parts.join(' ').replace(/\s+/g, ' ').trim();
 }
 
 function summarizeSurahMeta(value: unknown) {
@@ -155,33 +209,13 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     `
     );
 
-    const wordStmt = ctx.env.DB.prepare(
-      `
-      SELECT
-        surah,
-        ayah,
-        position,
-        text,
-        simple,
-        translation,
-        lemma,
-        root,
-        page,
-        line
-      FROM ar_u_quran_ayah_words
-      WHERE page = ?1
-      ORDER BY surah ASC, ayah ASC, position ASC
-    `
-    );
-
     const maxPageStmt = ctx.env.DB.prepare(`
       SELECT MAX(page) AS max_page
       FROM ar_quran_ayah
     `);
 
-    const [{ results: verseRowsRaw = [] }, { results: wordRowsRaw = [] }, maxPageRow] = await Promise.all([
+    const [{ results: verseRowsRaw = [] }, maxPageRow] = await Promise.all([
       verseStmt.bind(pageNo).all<VerseRow>(),
-      wordStmt.bind(pageNo).all<WordRow>(),
       maxPageStmt.first<MaxPageRow>(),
     ]);
 
@@ -195,6 +229,28 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
     const surahIds = Array.from(new Set(verseRows.map((row) => row.surah)));
     const surahPlaceholders = surahIds.map((_, index) => `?${index + 1}`).join(', ');
+    const wordConditions = verseRows
+      .map((_, index) => `(surah = ?${index * 2 + 1} AND ayah = ?${index * 2 + 2})`)
+      .join(' OR ');
+    const wordStmt = ctx.env.DB.prepare(
+      `
+      SELECT
+        word_id,
+        surah,
+        ayah,
+        position,
+        text,
+        simple,
+        translation,
+        lemma,
+        root,
+        page,
+        line
+      FROM ar_u_quran_ayah_words
+      WHERE ${wordConditions}
+      ORDER BY word_id ASC, surah ASC, ayah ASC, position ASC
+    `
+    );
     const surahStmt = ctx.env.DB.prepare(
       `
       SELECT
@@ -213,7 +269,28 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       ORDER BY s.surah ASC
     `
     );
-    const { results: surahRowsRaw = [] } = await surahStmt.bind(...surahIds).all<SurahPageRow>();
+    const layoutStmt = ctx.env.DB.prepare(
+      `
+      SELECT
+        page_number,
+        line_number,
+        line_type,
+        is_centered,
+        first_word_id,
+        last_word_id,
+        surah_number
+      FROM ar_quran_page_layout_lines
+      WHERE page_number = ?1
+      ORDER BY line_number ASC
+    `
+    );
+
+    const wordParams = verseRows.flatMap((row) => [row.surah, row.ayah]);
+    const [{ results: wordRowsRaw = [] }, { results: surahRowsRaw = [] }, layoutResult] = await Promise.all([
+      wordStmt.bind(...wordParams).all<WordRow>(),
+      surahStmt.bind(...surahIds).all<SurahPageRow>(),
+      layoutStmt.bind(pageNo).all<LayoutRow>().catch(() => ({ results: [] as LayoutRow[] })),
+    ]);
 
     const wordRows = (wordRowsRaw ?? []) as WordRow[];
     const wordsByVerse = new Map<string, WordRow[]>();
@@ -233,6 +310,8 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       start_juz: row.start_juz ?? null,
       meta: summarizeSurahMeta(row.meta_json),
     }));
+    const surahByNumber = new Map(surahs.map((surah) => [surah.surah, surah]));
+    const verseByKey = new Map(verseRows.map((row) => [`${row.surah}:${row.ayah}`, row] as const));
 
     const juzs = Array.from(
       new Set(verseRows.map((row) => row.juz).filter((value): value is number => value != null))
@@ -279,6 +358,48 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         words,
       };
     });
+    const layoutRows = ((layoutResult?.results ?? []) as LayoutRow[]) ?? [];
+    const layoutLines = layoutRows
+      .map((row) => {
+        const lineType = normalizeLayoutLineType(row.line_type);
+        const lineWords =
+          lineType === 'ayah' && row.first_word_id != null && row.last_word_id != null
+            ? wordRows.filter(
+                (word) =>
+                  word.word_id != null
+                  && word.word_id >= row.first_word_id!
+                  && word.word_id <= row.last_word_id!
+              )
+            : [];
+
+        let text = '';
+        let textSimple: string | null = null;
+
+        if (lineType === 'surah_name') {
+          text = surahByNumber.get(row.surah_number ?? 0)?.name_ar ?? '';
+          textSimple = text || null;
+        } else if (lineType === 'basmallah') {
+          text = BISMILLAH_DIACRITIC;
+          textSimple = BISMILLAH_PLAIN;
+        } else {
+          text = buildLayoutLineText(lineWords, verseByKey, false);
+          textSimple = buildLayoutLineText(lineWords, verseByKey, true) || null;
+        }
+
+        return {
+          line_number: row.line_number,
+          line_type: lineType,
+          is_centered: row.is_centered === 1,
+          surah_number: row.surah_number ?? null,
+          text,
+          text_simple: textSimple,
+        };
+      })
+      .filter((line) => line.text.length > 0);
+    const ayahLayoutRowCount = layoutRows.filter((row) => normalizeLayoutLineType(row.line_type) === 'ayah').length;
+    const shouldUseLayout =
+      ayahLayoutRowCount === 0
+      || layoutLines.filter((line) => line.line_type === 'ayah').length >= Math.max(1, Math.floor(ayahLayoutRowCount * 0.6));
 
     return new Response(
       JSON.stringify({
@@ -295,6 +416,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         },
         surahs,
         verses,
+        layout_lines: shouldUseLayout ? layoutLines : [],
       }),
       { headers: jsonHeaders }
     );
