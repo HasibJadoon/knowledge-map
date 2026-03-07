@@ -66,6 +66,8 @@ export interface QuranPageVerse {
   ruku: number | null;
   text: string;
   text_simple: string | null;
+  text_diacritics: string | null;
+  text_no_diacritics: string | null;
   verse_mark: string | null;
   verse_full: string | null;
   word_count: number | null;

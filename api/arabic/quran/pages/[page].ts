@@ -23,6 +23,9 @@ type VerseRow = {
   ruku: number | null;
   text: string;
   text_simple: string | null;
+  text_diacritics: string | null;
+  text_non_diacritics: string | null;
+  text_no_diacritics: string | null;
   verse_mark: string | null;
   verse_full: string | null;
   word_count: number | null;
@@ -192,6 +195,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         a.ruku,
         a.text,
         a.text_simple,
+        a.text_diacritics,
+        a.text_non_diacritics,
+        a.text_no_diacritics,
         a.verse_mark,
         a.verse_full,
         a.word_count,
@@ -345,6 +351,8 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         ruku: row.ruku ?? null,
         text: row.text,
         text_simple: row.text_simple ?? null,
+        text_diacritics: row.text_diacritics ?? row.text,
+        text_no_diacritics: row.text_no_diacritics ?? row.text_non_diacritics ?? row.text_simple ?? null,
         verse_mark: row.verse_mark ?? null,
         verse_full: row.verse_full ?? null,
         word_count: row.word_count ?? null,

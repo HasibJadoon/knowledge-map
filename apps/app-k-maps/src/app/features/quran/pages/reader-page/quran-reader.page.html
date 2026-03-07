@@ -42,8 +42,8 @@
     <ng-container *ngIf="!loading && !error">
       <ng-container [ngSwitch]="activeTab">
         <section class="study-tab study-tab--reading" *ngSwitchCase="'reading'">
-          <div class="study-reading-wrap" *ngIf="pageLayoutLines.length; else legacyReading">
-            <div class="quran-reader__mushaf" dir="rtl" translate="no">
+          <div class="quran-reader__mushaf-page" *ngIf="pageLayoutLines.length; else fallbackReading">
+            <div class="quran-reader__mushaf-lines" dir="rtl" translate="no">
               <p
                 *ngFor="let line of pageLayoutLines; trackBy: trackByLayoutLine"
                 class="quran-reader__layout-line"
@@ -52,46 +52,40 @@
                 [class.quran-reader__layout-line--surah]="line.line_type === 'surah_name'"
                 [class.quran-reader__layout-line--basmallah]="line.line_type === 'basmallah'"
               >
-                {{ getLayoutLineDisplayText(line) }}
+                {{ textMode === 'plain' ? (line.text_simple || '') : line.text }}
               </p>
             </div>
+
+            <div class="quran-reader__page-no">{{ pageNumberLabel }}</div>
           </div>
 
-          <ng-template #legacyReading>
+          <ng-template #fallbackReading>
             <ng-container *ngFor="let group of surahGroups; trackBy: trackByGroup; let isLastGroup = last">
-              <div class="quran-reader__surah-opening" *ngIf="shouldShowSurahHeader(group)">
-                <div class="quran-reader__surah-frame">
-                  <span class="quran-reader__surah-medallion" aria-hidden="true"></span>
-                  <div class="quran-reader__surah-title arabic">{{ getGroupSurahArabicName(group) }}</div>
-                  <span class="quran-reader__surah-medallion" aria-hidden="true"></span>
-                </div>
-
-                <div class="quran-reader__bismillah" *ngIf="getOpeningBismillahText(group) as openingBismillah" dir="rtl">
-                  <span class="quran-reader__bismillah-text arabic">{{ openingBismillah }}</span>
-                  <span class="quran-reader__bismillah-marker" *ngIf="getOpeningBismillahMarker(group) as openingMarker">
-                    {{ openingMarker }}
-                  </span>
-                </div>
+              <div class="quran-reader__fallback-heading" *ngIf="getGroupSurahArabicName(group)" dir="rtl" translate="no">
+                {{ getGroupSurahArabicName(group) }}
               </div>
 
               <div class="study-reading-wrap">
-                <div class="quran-reader__ayah-flow" dir="rtl" translate="no">
-                  <p class="quran-reader__ayah-line" *ngFor="let verse of getReadingVerses(group); trackBy: trackByVerse">
-                    <span class="quran-reader__ayah-text">{{ getVerseDisplayText(verse) }}</span>
-                    <span class="study-reading-marker">{{ formatVerseMarker(verse) }}</span>
-                  </p>
-                </div>
+                <p class="study-reading-flow" dir="rtl" translate="no">
+                  <ng-container *ngFor="let verse of group.verses; trackBy: trackByVerse">
+                    <span class="quran-reader__ayah-text">
+                      {{ textMode === 'plain' ? (verse.text_no_diacritics || '') : (verse.text_diacritics || '') }}
+                    </span>
+                  </ng-container>
+                </p>
               </div>
 
               <div class="quran-reader__page-no" *ngIf="isLastGroup">{{ pageNumberLabel }}</div>
             </ng-container>
           </ng-template>
-
-          <div class="quran-reader__page-no" *ngIf="pageLayoutLines.length">{{ pageNumberLabel }}</div>
         </section>
 
         <section class="study-tab" *ngSwitchCase="'translation'">
           <ng-container *ngFor="let group of surahGroups; trackBy: trackByGroup">
+            <div class="quran-reader__translation-heading" *ngIf="getGroupSurahArabicName(group)" dir="rtl" translate="no">
+              {{ getGroupSurahArabicName(group) }}
+            </div>
+
             <div class="quran-reader__translation-pane" *ngIf="hasGroupTranslations(group); else noTranslation">
               <p class="study-reading-translation" *ngFor="let verse of group.verses; trackBy: trackByVerse">
                 <span class="study-reading-translation-marker">{{ formatVerseMarker(verse) }}</span>
