@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonContent, IonicModule } from '@ionic/angular';
 import { sparklesOutline, textOutline } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
 import type Swiper from 'swiper';
@@ -74,6 +74,8 @@ export class QuranReaderPage {
   set swiperElementRef(value: ElementRef<SwiperContainer> | undefined) {
     this.attachSwiper(value?.nativeElement ?? null);
   }
+
+  @ViewChild(IonContent) private content?: IonContent;
 
   constructor() {
     this.destroyRef.onDestroy(() => {
@@ -166,6 +168,7 @@ export class QuranReaderPage {
       this.nextPage.set(null);
       this.currentPage.set(page);
       this.loading.set(false);
+      this.resetContentScroll();
       this.readerPageService.preloadAdjacentPages(pageNumber);
       this.syncSwiperPosition(false);
 
@@ -245,6 +248,7 @@ export class QuranReaderPage {
       direction: 'horizontal',
       slidesPerView: 1,
       initialSlide: 1,
+      autoHeight: true,
       speed: 240,
       threshold: 10,
       spaceBetween: 14,
@@ -316,6 +320,7 @@ export class QuranReaderPage {
     this.suppressSlideChange = true;
     this.updateSwiperInteractivity();
     swiper.update();
+    swiper.updateAutoHeight(animate ? 240 : 0);
     swiper.slideTo(1, animate ? 240 : 0, false);
 
     requestAnimationFrame(() => {
@@ -346,6 +351,12 @@ export class QuranReaderPage {
     swiper.allowTouchMove = allowTouchMove;
     swiper.allowSlidePrev = allowSlidePrev;
     swiper.allowSlideNext = allowSlideNext;
+  }
+
+  private resetContentScroll(): void {
+    requestAnimationFrame(() => {
+      void this.content?.scrollToPoint(0, 0, 0);
+    });
   }
 
   private showRouteError(message: string): void {

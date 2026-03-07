@@ -1,16 +1,13 @@
 :host {
   display: block;
-  height: 100%;
 }
 
 .quran-reading-page {
-  height: 100%;
-  display: flex;
+  display: block;
 }
 
 .quran-reading-page__surface {
   width: min(100%, 42rem);
-  min-height: 100%;
   margin: 0 auto;
   padding: 0;
   color: var(--study-text, #e8eef7);
@@ -22,14 +19,11 @@
 }
 
 .quran-reading-page__passage {
-  height: 100%;
-  overflow: auto;
   display: grid;
   gap: 0.95rem;
   align-content: start;
   box-sizing: border-box;
-  padding-block: 0 2.6rem;
-  scroll-padding-block-end: 2.6rem;
+  padding-block: 0;
 }
 
 .quran-reading-page__section {

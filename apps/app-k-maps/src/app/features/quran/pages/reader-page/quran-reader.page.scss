@@ -40,23 +40,22 @@
   min-height: 100%;
   margin-inline: auto;
   padding: calc(env(safe-area-inset-top) + 0.45rem) 0.9rem calc(env(safe-area-inset-bottom) + 0.6rem);
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  display: block;
 }
 
 .quran-reader-page__viewport {
-  flex: 1;
-  min-height: calc(100svh - 6.35rem);
+  min-height: 0;
+  margin-top: 0.75rem;
 }
 
-.quran-reader-page__swiper,
-.quran-reader-page__slide {
-  height: 100%;
+.quran-reader-page__swiper {
+  display: block;
+  overflow: visible;
 }
 
 .quran-reader-page__slide {
   display: block;
+  height: auto;
 }
 
 .quran-reader-page__state,
@@ -166,9 +165,5 @@
 @media (max-width: 680px) {
   .quran-reader-page {
     padding-inline: 0.72rem;
-  }
-
-  .quran-reader-page__viewport {
-    min-height: calc(100svh - 5.95rem);
   }
 }

@@ -1,0 +1,123 @@
+:host {
+  display: block;
+}
+
+.quran-surah-notes-list {
+  background: transparent;
+}
+
+.quran-surah-notes-list__section {
+  margin: 0;
+  border-bottom: 1px solid rgba(101, 182, 255, 0.12);
+}
+
+.quran-surah-notes-list__section:first-child {
+  border-top: 1px solid rgba(101, 182, 255, 0.12);
+}
+
+.quran-surah-notes-list__header {
+  --background: transparent;
+  --color: #eef5ff;
+  --inner-padding-end: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --min-height: 0;
+  padding-block: 1rem 0.9rem;
+}
+
+.quran-surah-notes-list__header ion-label {
+  margin: 0;
+}
+
+.quran-surah-notes-list__header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.quran-surah-notes-list__verse-key {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(122, 214, 255, 0.82);
+}
+
+.quran-surah-notes-list__count {
+  font-size: 0.82rem;
+  color: rgba(211, 225, 243, 0.72);
+}
+
+.quran-surah-notes-list__verse-text {
+  margin: 0.6rem 0 0;
+  color: #f4f8ff;
+  font-family: var(--app-font-ar);
+  font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+  line-height: 1.85;
+  text-align: right;
+}
+
+.quran-surah-notes-list__content {
+  padding: 0 0 0.3rem;
+}
+
+.quran-surah-notes-list__notes {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.quran-surah-notes-list__note {
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
+  --border-color: rgba(101, 182, 255, 0.1);
+  --min-height: 4.9rem;
+}
+
+.quran-surah-notes-list__note ion-label {
+  margin-block: 0.78rem 0.82rem;
+}
+
+.quran-surah-notes-list__note-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.quran-surah-notes-list__note h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #f6f9ff;
+}
+
+.quran-surah-notes-list__note p {
+  margin: 0.34rem 0 0;
+  color: rgba(208, 220, 236, 0.74);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.quran-surah-notes-list__note-meta {
+  font-size: 0.78rem;
+  color: rgba(162, 183, 210, 0.64);
+}
+
+.quran-surah-notes-list__target-chip {
+  --background: rgba(42, 188, 255, 0.1);
+  margin: 0;
+  border: 1px solid rgba(92, 210, 255, 0.24);
+  color: #7bddff;
+  box-shadow: none;
+}
+
+@media (max-width: 680px) {
+  .quran-surah-notes-list__note-top {
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+}

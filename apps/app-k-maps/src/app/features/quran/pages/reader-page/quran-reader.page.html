@@ -22,7 +22,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [forceOverscroll]="false">
   <div class="quran-reader-page">
     <section class="quran-reader-page__state" *ngIf="!currentPage() && loading()">
       <div class="quran-reader-page__placeholder quran-reader-page__placeholder--full">

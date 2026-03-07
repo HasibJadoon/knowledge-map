@@ -1,0 +1,111 @@
+:host {
+  display: block;
+}
+
+:host ion-content {
+  --background: linear-gradient(180deg, #040912 0%, #06101c 48%, #050913 100%);
+}
+
+.quran-surah-notes__toolbar,
+.quran-surah-notes__footer {
+  --background: rgba(6, 12, 22, 0.94);
+  --color: #eef5ff;
+  --border-color: rgba(88, 202, 255, 0.14);
+  backdrop-filter: blur(18px);
+}
+
+.quran-surah-notes__footer {
+  --app-icon-tabs-bg: rgba(6, 12, 22, 0.94);
+  --app-icon-tabs-color: rgba(205, 220, 241, 0.72);
+  --app-icon-tabs-selected: #79ddff;
+  --app-icon-tabs-border-color: rgba(88, 202, 255, 0.14);
+}
+
+.quran-surah-notes {
+  width: min(100%, 960px);
+  min-height: 100%;
+  margin-inline: auto;
+  padding: calc(env(safe-area-inset-top) + 0.8rem) 1rem calc(env(safe-area-inset-bottom) + 5.8rem);
+}
+
+.quran-surah-notes__hero {
+  padding: 0.15rem 0 1rem;
+  border-bottom: 1px solid rgba(101, 182, 255, 0.14);
+  margin-bottom: 0.35rem;
+}
+
+.quran-surah-notes__eyebrow {
+  margin: 0;
+  color: rgba(121, 221, 255, 0.82);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.quran-surah-notes__hero h1 {
+  margin: 0.35rem 0 0;
+  color: #f5f9ff;
+  font-size: clamp(1.75rem, 4vw, 2.45rem);
+  line-height: 1.1;
+}
+
+.quran-surah-notes__arabic {
+  margin: 0.45rem 0 0;
+  color: rgba(243, 248, 255, 0.92);
+  font-family: var(--app-font-ar);
+  font-size: clamp(1.9rem, 5vw, 3rem);
+  line-height: 1.5;
+  text-align: right;
+}
+
+.quran-surah-notes__state {
+  padding: 1.25rem 0;
+  color: rgba(214, 226, 241, 0.8);
+}
+
+.quran-surah-notes__state h2,
+.quran-surah-notes__state p {
+  margin: 0;
+}
+
+.quran-surah-notes__state h2 {
+  color: #f2f7ff;
+  font-size: 1.08rem;
+}
+
+.quran-surah-notes__state p {
+  margin-top: 0.45rem;
+  line-height: 1.7;
+}
+
+.quran-surah-notes__skeleton-block {
+  padding-block: 1rem;
+  border-bottom: 1px solid rgba(101, 182, 255, 0.12);
+}
+
+.quran-surah-notes__skeleton-line {
+  height: 0.9rem;
+  border-radius: 999px;
+  margin-bottom: 0.68rem;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(116, 200, 255, 0.12), rgba(255, 255, 255, 0.03));
+}
+
+.quran-surah-notes__skeleton-line--short {
+  width: 30%;
+}
+
+.quran-surah-notes__skeleton-line--medium {
+  width: 55%;
+}
+
+.quran-surah-notes__skeleton-line--title {
+  width: 42%;
+  height: 1.6rem;
+}
+
+@media (max-width: 680px) {
+  .quran-surah-notes {
+    padding-inline: 0.85rem;
+  }
+}

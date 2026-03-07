@@ -21,6 +21,7 @@
   border-radius: 1.1rem;
   overflow: hidden;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+  position: relative;
 }
 
 .quran-browse__surah-item:last-child {
@@ -72,12 +73,58 @@
 
 .quran-browse__page-chip {
   --background: rgba(231, 201, 139, 0.1);
-  margin-inline-start: 0.75rem;
   border: 1px solid rgba(231, 201, 139, 0.18);
   color: #e7c98b;
   font-size: 0.86rem;
   font-weight: 700;
   box-shadow: none;
+  margin-inline-start: 0.55rem;
+}
+
+.quran-browse__notes-button {
+  --color: rgba(210, 224, 244, 0.48);
+  --padding-start: 0.05rem;
+  --padding-end: 0.05rem;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  --box-shadow: none;
+  margin: 0;
+}
+
+.quran-browse__notes-button--floating {
+  position: absolute;
+  inset-inline-end: 0.14rem;
+  bottom: 0.14rem;
+  inline-size: 1.5rem;
+  min-width: 1.5rem;
+  block-size: 1.5rem;
+  min-height: 1.5rem;
+  z-index: 2;
+  opacity: 1;
+  border-radius: 0.7rem 0.18rem 1rem 0.18rem;
+  border: 1px solid rgba(231, 201, 139, 0.08);
+  background:
+    linear-gradient(180deg, rgba(20, 27, 39, 0.88), rgba(10, 15, 27, 0.94)),
+    linear-gradient(135deg, rgba(231, 201, 139, 0.08), rgba(100, 182, 255, 0.08));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 8px 18px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(10px);
+}
+
+.quran-browse__notes-button--floating ion-icon {
+  font-size: 0.78rem;
+  filter: drop-shadow(0 0 6px rgba(231, 201, 139, 0.06));
+}
+
+@media (hover: hover) {
+  .quran-browse__notes-button--floating:hover {
+    --color: rgba(231, 201, 139, 0.72);
+    border-color: rgba(231, 201, 139, 0.16);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 10px 20px rgba(0, 0, 0, 0.22);
+  }
 }
 
 @media (max-width: 680px) {

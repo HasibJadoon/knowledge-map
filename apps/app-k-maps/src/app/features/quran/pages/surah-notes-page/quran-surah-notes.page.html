@@ -1,0 +1,60 @@
+<ion-header translucent="true">
+  <ion-toolbar class="quran-surah-notes__toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/quran"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ pageTitle() }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="quran-surah-notes__content">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="quran-surah-notes">
+    <section class="quran-surah-notes__hero" *ngIf="response() as data">
+      <p class="quran-surah-notes__eyebrow">{{ summaryLabel() }}</p>
+      <h1>{{ data.surah.name_simple || data.surah.name_en || ('Surah ' + data.surah.surah) }}</h1>
+      <p class="quran-surah-notes__arabic" lang="ar" dir="rtl" translate="no">{{ data.surah.name_ar }}</p>
+    </section>
+
+    <section class="quran-surah-notes__state" *ngIf="loading()">
+      <div class="quran-surah-notes__skeleton-line quran-surah-notes__skeleton-line--short"></div>
+      <div class="quran-surah-notes__skeleton-line quran-surah-notes__skeleton-line--title"></div>
+      <div class="quran-surah-notes__skeleton-line quran-surah-notes__skeleton-line--medium"></div>
+      <div class="quran-surah-notes__skeleton-block" *ngFor="let row of [1, 2, 3]">
+        <div class="quran-surah-notes__skeleton-line quran-surah-notes__skeleton-line--medium"></div>
+        <div class="quran-surah-notes__skeleton-line"></div>
+        <div class="quran-surah-notes__skeleton-line"></div>
+      </div>
+    </section>
+
+    <section class="quran-surah-notes__state" *ngIf="!loading() && error()">
+      <h2>{{ errorTitle() }}</h2>
+      <p>{{ error() }}</p>
+    </section>
+
+    <ng-container *ngIf="!loading() && !error() && response() as data">
+      <section class="quran-surah-notes__state" *ngIf="data.verses.length === 0">
+        <h2>{{ emptyTitle() }}</h2>
+        <p>{{ emptyMessage() }}</p>
+      </section>
+
+      <app-quran-surah-notes-list
+        *ngIf="data.verses.length > 0"
+        [verses]="data.verses"
+        [expandedVerseKey]="data.verses[0]?.verseKey ?? null"
+      ></app-quran-surah-notes-list>
+    </ng-container>
+  </div>
+</ion-content>
+
+<ion-footer class="quran-surah-notes__footer">
+  <app-icon-tabs
+    [tabs]="modeTabs"
+    [activeKey]="mode()"
+    [manual]="true"
+    (tabSelected)="onModeTabSelected($event)"
+  ></app-icon-tabs>
+</ion-footer>

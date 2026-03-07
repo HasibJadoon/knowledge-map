@@ -63,6 +63,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'quran/surah/:surah/notes',
+    loadComponent: () => import('./features/quran/pages/surah-notes-page/quran-surah-notes.page').then(m => m.QuranSurahNotesPage),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'quran/surah/:surah',
     loadComponent: () => import('./features/quran/pages/reader-page/quran-reader.page').then(m => m.QuranReaderPage),
     canActivate: [AuthGuard]

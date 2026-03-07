@@ -1,0 +1,48 @@
+<ion-accordion-group
+  class="quran-surah-notes-list"
+  [value]="expandedVerseKey || undefined"
+  *ngIf="verses.length"
+>
+  <ion-accordion
+    class="quran-surah-notes-list__section"
+    *ngFor="let verse of verses; trackBy: trackByVerse"
+    [value]="verse.verseKey"
+  >
+    <ion-item slot="header" lines="none" class="quran-surah-notes-list__header">
+      <ion-label>
+        <div class="quran-surah-notes-list__header-top">
+          <span class="quran-surah-notes-list__verse-key">{{ verse.verseKey }}</span>
+          <span class="quran-surah-notes-list__count">{{ noteCountLabel(verse.notes.length) }}</span>
+        </div>
+        <p class="quran-surah-notes-list__verse-text" lang="ar" dir="rtl" translate="no">
+          {{ verse.text }}
+        </p>
+      </ion-label>
+    </ion-item>
+
+    <div slot="content" class="quran-surah-notes-list__content">
+      <ion-list lines="full" class="quran-surah-notes-list__notes">
+        <ion-item
+          class="quran-surah-notes-list__note"
+          *ngFor="let note of verse.notes; trackBy: trackByNote"
+          [routerLink]="['/notes', note.id]"
+          button="true"
+        >
+          <ion-label>
+            <div class="quran-surah-notes-list__note-top">
+              <h3>{{ titleFor(note) }}</h3>
+              <ion-chip class="quran-surah-notes-list__target-chip">
+                <ion-label>{{ targetLabel(note) }}</ion-label>
+              </ion-chip>
+            </div>
+            <p>{{ previewFor(note) }}</p>
+            <p class="quran-surah-notes-list__note-meta">
+              {{ note.updated_at | date: 'MMM d, h:mm a' }}
+              <span *ngIf="note.ref"> · {{ note.ref }}</span>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-accordion>
+</ion-accordion-group>
