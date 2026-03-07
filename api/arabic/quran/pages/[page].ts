@@ -116,8 +116,8 @@ function toArabicDigits(value: number): string {
     .join('');
 }
 
-function formatVerseMarker(verse: Pick<VerseRow, 'ayah' | 'verse_mark' | 'verse_full'>): string {
-  const marker = textValue(verse.verse_full) ?? textValue(verse.verse_mark);
+function formatVerseMarker(verse: Pick<VerseRow, 'ayah' | 'verse_mark'>): string {
+  const marker = textValue(verse.verse_mark);
   return marker ?? toArabicDigits(verse.ayah);
 }
 

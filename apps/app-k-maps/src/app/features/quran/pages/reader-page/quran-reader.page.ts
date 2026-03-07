@@ -83,10 +83,7 @@ export class QuranReaderPage implements OnInit, OnDestroy {
 
   get pageNumberLabel(): string {
     if (this.pageData == null) return '';
-    return String(this.pageData.number)
-      .split('')
-      .map((digit) => ARABIC_DIGITS[Number(digit)] ?? digit)
-      .join('');
+    return this.toArabicDigits(this.pageData.number);
   }
 
   get renderedLayoutLines(): QuranRenderedLayoutLine[] {
@@ -120,10 +117,12 @@ export class QuranReaderPage implements OnInit, OnDestroy {
 
     try {
       const response = await firstValueFrom(this.quranReader.getPage(page));
+      const verses = response.verses ?? [];
+
       this.pageData = response.page;
       this.surahs = response.surahs ?? [];
-      this.surahGroups = this.buildSurahGroups(response.verses ?? [], this.surahs);
-      this.pageLayoutLines = response.layout_lines ?? [];
+      this.surahGroups = this.buildSurahGroups(verses, this.surahs);
+      this.pageLayoutLines = this.normalizeLayoutLines(response.layout_lines ?? [], verses);
       this.persistRecentPage();
     } catch (err: unknown) {
       this.error = err instanceof Error ? err.message : 'Unable to load Quran page.';
@@ -253,6 +252,34 @@ export class QuranReaderPage implements OnInit, OnDestroy {
     }
 
     return groups;
+  }
+
+  private normalizeLayoutLines(lines: QuranPageLayoutLine[], verses: QuranPageVerse[]): QuranPageLayoutLine[] {
+    const versesByKey = new Map(verses.map((verse) => [verse.verse_key, verse] as const));
+
+    return lines.map((line) => ({
+      ...line,
+      ayahs: (line.ayahs ?? []).map((ayah) => ({
+        ...ayah,
+        marker: this.resolveAyahMarker(ayah, versesByKey.get(ayah.verse_key) ?? null),
+      })),
+    }));
+  }
+
+  private resolveAyahMarker(ayah: QuranPageLayoutAyah, verse: QuranPageVerse | null): string | null {
+    if (!ayah.is_complete) return null;
+
+    const canonical = verse?.verse_mark?.trim();
+    if (canonical) return canonical;
+
+    return `﴿${this.toArabicDigits(ayah.ayah)}﴾`;
+  }
+
+  private toArabicDigits(value: number): string {
+    return String(value)
+      .split('')
+      .map((digit) => ARABIC_DIGITS[Number(digit)] ?? digit)
+      .join('');
   }
 
   private persistRecentPage() {
