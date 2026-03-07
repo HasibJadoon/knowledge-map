@@ -5,8 +5,6 @@
       lines="none"
       detail="false"
       class="quran-browse__juz-header"
-      [button]="juz.start_page != null"
-      (click)="juz.start_page != null ? juzSelected.emit(juz) : null"
     >
       <ion-label>
         <h2 class="quran-browse__juz-pages">
@@ -29,10 +27,8 @@
     <ion-list lines="none" class="quran-browse__stack-list quran-browse__juz-stack">
       <ion-item
         *ngFor="let surah of juz.surahs; trackBy: trackBySurah"
-        button
         detail="false"
         class="quran-browse__stack-item quran-browse__stack-item--juz"
-        (click)="surahSelected.emit(surah)"
       >
         <ion-label class="quran-browse__stack-copy quran-browse__stack-copy--juz">
           <div class="quran-browse__stack-heading">

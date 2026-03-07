@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { QuranBrowseSurah } from '../../../../shared/models/quran-reader.model';
 
@@ -12,8 +12,6 @@ import { QuranBrowseSurah } from '../../../../shared/models/quran-reader.model';
 })
 export class QuranSurahTabComponent {
   @Input() surahs: QuranBrowseSurah[] = [];
-
-  @Output() surahSelected = new EventEmitter<QuranBrowseSurah>();
 
   getRevelationLabel(place: string | null): string {
     if (place === 'makkah') return 'Makki';

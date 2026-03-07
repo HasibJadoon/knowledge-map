@@ -4,9 +4,6 @@
       <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
     <ion-title>Quran</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="openFirstPage()">Page 1</ion-button>
-    </ion-buttons>
   </ion-toolbar>
 
   <ion-toolbar class="quran-browse-toolbar quran-browse-toolbar--subtoggle" *ngIf="mainTab === 'list'">
@@ -41,22 +38,16 @@
         [totalPages]="totalPages"
         [totalSurahs]="surahs.length"
         [totalJuzs]="juzs.length"
-        [recentPages]="recentPages"
-        (firstPageRequested)="openFirstPage()"
-        (recentPageSelected)="openRecentPage($event)"
       ></app-quran-summary-tab>
 
       <app-quran-surah-tab
         *ngIf="mainTab === 'list' && activeTab === 'surahs'"
         [surahs]="surahs"
-        (surahSelected)="openSurah($event)"
       ></app-quran-surah-tab>
 
       <app-quran-juz-tab
         *ngIf="mainTab === 'list' && activeTab === 'juz'"
         [juzs]="juzs"
-        (juzSelected)="openJuz($event)"
-        (surahSelected)="openSurah($event)"
       ></app-quran-juz-tab>
     </ng-container>
   </div>

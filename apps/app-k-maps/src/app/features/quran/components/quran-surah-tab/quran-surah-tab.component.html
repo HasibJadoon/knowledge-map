@@ -1,10 +1,8 @@
 <ion-list *ngIf="surahs.length; else emptySurahs" lines="none" class="quran-browse__surah-list">
   <ion-item
     *ngFor="let surah of surahs; trackBy: trackBySurah"
-    button
     detail="false"
     class="quran-browse__surah-item"
-    (click)="surahSelected.emit(surah)"
   >
     <div slot="start" class="quran-browse__surah-number">{{ surah.surah }}</div>
 
