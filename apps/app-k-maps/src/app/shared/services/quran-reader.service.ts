@@ -6,7 +6,7 @@ import { QuranMenuResponse, QuranPageResponse } from '../models/quran-reader.mod
 @Injectable({ providedIn: 'root' })
 export class QuranReaderService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiBase}/ar/quran`;
+  private readonly baseUrl = `${environment.apiBase}/arabic/quran`;
 
   getMenu() {
     return this.http.get<QuranMenuResponse>(`${this.baseUrl}/menu`);
