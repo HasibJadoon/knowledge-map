@@ -1,60 +1,26 @@
-<article class="quran-page-sheet" [attr.aria-label]="page.meta.pageLabel">
-  <div class="quran-page-sheet__surface">
-    <header class="quran-page-sheet__header">
-      <div class="quran-page-sheet__heading">
-        <h2 class="quran-page-sheet__title">{{ page.header.title }}</h2>
-        <p class="quran-page-sheet__title-ar" *ngIf="page.header.arabicTitle" dir="rtl" lang="ar">
-          {{ page.header.arabicTitle }}
-        </p>
-      </div>
-
-      <p class="quran-page-sheet__reference">{{ page.header.subtitle }}</p>
-    </header>
-
-    <div class="quran-page-sheet__frame">
-      <div
-        *ngIf="page.layout.hasStructuredLines; else fallbackLines"
-        class="quran-page-sheet__lines"
-        [style.--quran-line-count]="page.layout.slotCount"
-        dir="rtl"
-        lang="ar"
-      >
-        <div
-          *ngFor="let slot of page.layout.slots; trackBy: trackBySlot"
-          class="quran-page-sheet__slot"
-          [class.quran-page-sheet__slot--blank]="slot.line == null"
+<article class="quran-reading-page" [attr.aria-label]="page.meta.pageLabel">
+  <div class="quran-reading-page__surface">
+    <div class="quran-reading-page__frame">
+      <div class="quran-reading-page__passage" *ngIf="passageSections.length; else noPassage" dir="rtl" lang="ar" translate="no">
+        <section
+          *ngFor="let section of passageSections; trackBy: trackBySection"
+          class="quran-reading-page__section"
         >
-          <p
-            *ngIf="slot.line as line"
-            class="quran-page-sheet__line"
-            [class.quran-page-sheet__line--centered]="line.isCentered"
-            [class.quran-page-sheet__line--surah]="line.lineType === 'surah_name'"
-            [class.quran-page-sheet__line--basmallah]="line.lineType === 'basmallah'"
-          >
-            {{ line.text }}
+          <p class="quran-reading-page__section-title" *ngIf="section.heading">{{ section.heading }}</p>
+          <p class="quran-reading-page__section-basmallah" *ngIf="section.basmallah">{{ section.basmallah }}</p>
+          <p class="quran-reading-page__section-text" *ngIf="section.verses.length">
+            <ng-container *ngFor="let verse of section.verses; trackBy: trackByVerse">
+              <span class="quran-reading-page__verse-text">{{ verse.text }}</span>
+              <span class="quran-reading-page__marker" *ngIf="verse.marker" aria-hidden="true">{{ verse.marker }}</span>
+              <span> </span>
+            </ng-container>
           </p>
-        </div>
+        </section>
       </div>
 
-      <ng-template #fallbackLines>
-        <div class="quran-page-sheet__fallback" dir="rtl" lang="ar">
-          <p
-            *ngFor="let verse of page.fallbackVerses; trackBy: trackByFallbackVerse"
-            class="quran-page-sheet__fallback-verse"
-          >
-            {{ verse.text }}
-          </p>
-
-          <p class="quran-page-sheet__fallback-empty" *ngIf="page.fallbackVerses.length === 0">
-            No renderable text is available for this page.
-          </p>
-        </div>
+      <ng-template #noPassage>
+        <p class="quran-reading-page__fallback-empty">No renderable text is available for this page.</p>
       </ng-template>
     </div>
-
-    <footer class="quran-page-sheet__footer">
-      <span>{{ page.meta.footerLabel || 'Mushaf page' }}</span>
-      <span>{{ page.meta.pageLabel }}</span>
-    </footer>
   </div>
 </article>

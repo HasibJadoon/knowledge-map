@@ -13,6 +13,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { sparklesOutline, textOutline } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
 import type Swiper from 'swiper';
 import type { SwiperContainer } from 'swiper/element';
@@ -54,23 +55,20 @@ export class QuranReaderPage {
   readonly previousPage = signal<QuranReaderPageViewModel | null>(null);
   readonly nextPage = signal<QuranReaderPageViewModel | null>(null);
   readonly pendingNavigationPage = signal<number | null>(null);
+  readonly showDiacritics = signal(false);
   readonly initialPlaceholderLines = Array.from({ length: 8 }, (_, index) => index);
   readonly neighbouringPlaceholderLines = Array.from({ length: 9 }, (_, index) => index);
 
   readonly bannerError = computed(() => this.currentPage() ? this.error() : '');
-  readonly canGoPrev = computed(() =>
-    this.pendingNavigationPage() == null && this.currentPage()?.meta.prevPage != null
-  );
-  readonly canGoNext = computed(() =>
-    this.pendingNavigationPage() == null && this.currentPage()?.meta.nextPage != null
-  );
-  readonly statusHint = computed(() =>
-    this.pendingNavigationPage() != null ? 'Turning page…' : 'Swipe horizontally to turn the page'
-  );
   readonly toolbarPageLabel = computed(() => {
     const pageNumber = this.pendingNavigationPage() ?? this.currentPage()?.meta.pageNumber ?? null;
     return pageNumber == null ? '' : `P. ${pageNumber}`;
   });
+  readonly toolbarTitle = computed(() => this.currentPage()?.header.title || 'Qur\'an');
+  readonly textModeIcon = computed(() => this.showDiacritics() ? sparklesOutline : textOutline);
+  readonly textModeLabel = computed(() =>
+    this.showDiacritics() ? 'Show text without diacritics' : 'Show text with diacritics'
+  );
 
   @ViewChild('swiperElement')
   set swiperElementRef(value: ElementRef<SwiperContainer> | undefined) {
@@ -97,20 +95,8 @@ export class QuranReaderPage {
     await this.router.navigate(['/quran']);
   }
 
-  goToPreviousPage(): void {
-    if (!this.canGoPrev()) {
-      return;
-    }
-
-    this.advanceSlide('prev');
-  }
-
-  goToNextPage(): void {
-    if (!this.canGoNext()) {
-      return;
-    }
-
-    this.advanceSlide('next');
+  toggleTextMode(): void {
+    this.showDiacritics.update((value) => !value);
   }
 
   private async handleRouteChange(paramMap: ParamMap): Promise<void> {
@@ -301,31 +287,6 @@ export class QuranReaderPage {
     if (swiper.activeIndex !== 1) {
       this.syncSwiperPosition(false);
     }
-  }
-
-  private advanceSlide(direction: 'prev' | 'next'): void {
-    const page = this.currentPage();
-    if (!page) {
-      return;
-    }
-
-    const targetPage = direction === 'prev' ? page.meta.prevPage : page.meta.nextPage;
-    if (targetPage == null) {
-      return;
-    }
-
-    const swiper = this.swiperElement?.swiper;
-    if (!swiper) {
-      void this.navigateToPage(targetPage);
-      return;
-    }
-
-    if (direction === 'prev') {
-      swiper.slidePrev();
-      return;
-    }
-
-    swiper.slideNext();
   }
 
   private async navigateToPage(pageNumber: number): Promise<void> {

@@ -5,11 +5,13 @@ import {
   QURAN_TOTAL_PAGES,
   QuranBrowseSurah,
   QuranLayoutLine,
+  QuranPageAyahSlice,
   QuranPageMeta,
   QuranPageResponse,
 } from '../../../shared/models/quran-reader.model';
 import { QuranReaderService } from '../../../shared/services/quran-reader.service';
 import {
+  QuranReaderPageAyahSliceViewModel,
   QuranReaderFallbackVerseViewModel,
   QuranReaderLayoutSlotViewModel,
   QuranReaderPageLineViewModel,
@@ -50,7 +52,7 @@ export class QuranReaderPageService {
 
   private toPageViewModel(response: QuranPageResponse): QuranReaderPageViewModel {
     const primarySurah = response.surahs[0] ?? null;
-    const title = this.buildPrimaryTitle(primarySurah, response.page.number, response.surahs.length);
+    const title = this.buildPrimaryTitle(primarySurah, response.page.number);
     const arabicTitle = response.surahs.length === 1 ? primarySurah?.name_ar ?? null : null;
     const referenceLabel = `${response.page.start_ref} - ${response.page.end_ref}`;
     const footerLabel = this.buildFooterLabel(response.page, response.surahs.length);
@@ -84,16 +86,25 @@ export class QuranReaderPageService {
       fallbackVerses: response.verses.map((verse): QuranReaderFallbackVerseViewModel => ({
         id: verse.id,
         verseKey: verse.verse_key,
-        text: verse.verse_full ?? verse.text_diacritics ?? verse.text,
+        text:
+          verse.text_no_diacritics
+          ?? verse.text_simple
+          ?? verse.verse_full
+          ?? verse.text_diacritics
+          ?? verse.text,
+        textDiacritics:
+          verse.text_diacritics
+          ?? verse.text
+          ?? verse.verse_full
+          ?? verse.text_simple
+          ?? verse.text_no_diacritics
+          ?? '',
+        marker: verse.verse_mark ?? null,
       })),
     };
   }
 
-  private buildPrimaryTitle(
-    primarySurah: QuranBrowseSurah | null,
-    pageNumber: number,
-    surahCount: number
-  ): string {
+  private buildPrimaryTitle(primarySurah: QuranBrowseSurah | null, pageNumber: number): string {
     const primaryLabel = primarySurah
       ? primarySurah.meta.name_simple ?? primarySurah.name_en ?? `Surah ${primarySurah.surah}`
       : null;
@@ -102,7 +113,7 @@ export class QuranReaderPageService {
       return `Page ${pageNumber}`;
     }
 
-    return surahCount > 1 ? `${primaryLabel} + ${surahCount - 1}` : primaryLabel;
+    return primaryLabel;
   }
 
   private buildFooterLabel(page: QuranPageMeta, surahCount: number): string | null {
@@ -136,10 +147,39 @@ export class QuranReaderPageService {
       .map((line) => ({
         id: `${pageNumber}-${line.line_number}-${line.line_type}`,
         slot: line.line_number,
-        text: line.text,
+        text: line.text_simple ?? line.text,
+        textDiacritics: line.text,
         lineType: line.line_type,
         isCentered: line.is_centered || line.line_type !== 'ayah',
+        ayahs: this.buildAyahSlices(line.ayahs ?? []),
       }));
+  }
+
+  private buildAyahSlices(ayahs: QuranPageAyahSlice[]): QuranReaderPageAyahSliceViewModel[] {
+    return ayahs
+      .map((ayah) => {
+        const text = ayah.words
+          .map((word) => (word.simple ?? word.text ?? '').trim())
+          .filter((word) => word.length > 0)
+          .join(' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        const textDiacritics = ayah.words
+          .map((word) => (word.text ?? word.simple ?? '').trim())
+          .filter((word) => word.length > 0)
+          .join(' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+        return {
+          verseKey: ayah.verse_key,
+          text,
+          textDiacritics: textDiacritics || text,
+          marker: ayah.marker ?? null,
+          isComplete: ayah.is_complete,
+        } satisfies QuranReaderPageAyahSliceViewModel;
+      })
+      .filter((ayah) => ayah.text.length > 0 || ayah.textDiacritics.length > 0);
   }
 
   private buildLayoutSlots(

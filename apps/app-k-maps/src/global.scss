@@ -69,6 +69,22 @@
   src: url("assets/fonts/UthmanicHafs_V22.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "Surah Name V2";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/surah-name-v2.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "QCF Surah Header";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/QCF_SurahHeader_COLOR-Regular.woff2") format("woff2");
+}
+
 :root {
   --app-font-size: 16px;
   --app-font-ar-size: 32px;

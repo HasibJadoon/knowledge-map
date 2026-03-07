@@ -23,8 +23,18 @@ export interface QuranReaderPageLineViewModel {
   id: string;
   slot: number;
   text: string;
+  textDiacritics: string;
   lineType: QuranLayoutLineType | 'fallback';
   isCentered: boolean;
+  ayahs: QuranReaderPageAyahSliceViewModel[];
+}
+
+export interface QuranReaderPageAyahSliceViewModel {
+  verseKey: string;
+  text: string;
+  textDiacritics: string;
+  marker: string | null;
+  isComplete: boolean;
 }
 
 export interface QuranReaderLayoutSlotViewModel {
@@ -36,6 +46,8 @@ export interface QuranReaderFallbackVerseViewModel {
   id: number;
   verseKey: string;
   text: string;
+  textDiacritics: string;
+  marker: string | null;
 }
 
 export interface QuranReaderPageLayoutViewModel {
