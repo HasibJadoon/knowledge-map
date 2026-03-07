@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { QuranBrowseJuz, QuranBrowseSurah } from '../../../../shared/models/quran-reader.model';
 
 @Component({
   selector: 'app-quran-juz-tab',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, RouterLink],
   templateUrl: './quran-juz-tab.component.html',
   styleUrl: './quran-juz-tab.component.scss',
 })

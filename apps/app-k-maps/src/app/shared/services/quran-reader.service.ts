@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { QuranMenuResponse } from '../models/quran-reader.model';
+import { QuranMenuResponse, QuranSurahReaderResponse } from '../models/quran-reader.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuranReaderService {
@@ -10,5 +10,9 @@ export class QuranReaderService {
 
   getMenu() {
     return this.http.get<QuranMenuResponse>(`${this.baseUrl}/menu`);
+  }
+
+  getSurahPages(surah: number) {
+    return this.http.get<QuranSurahReaderResponse>(`${this.baseUrl}/surah/${surah}/pages`);
   }
 }

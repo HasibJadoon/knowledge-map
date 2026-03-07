@@ -1,0 +1,118 @@
+<ion-header translucent="true">
+  <ion-toolbar class="quran-reader-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/quran"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ headerTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="quran-reader">
+    <ion-card class="quran-reader__status" *ngIf="error">
+      <ion-card-content>
+        <ion-text color="danger">
+          <p>{{ error }}</p>
+        </ion-text>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="quran-reader__status" *ngIf="loading">
+      <ion-card-content>
+        <ion-text color="medium">
+          <p>Loading page reader...</p>
+        </ion-text>
+      </ion-card-content>
+    </ion-card>
+
+    <ng-container *ngIf="!loading && surah">
+      <ion-card class="quran-reader__hero">
+        <ion-card-content>
+          <ion-text color="tertiary">
+            <p class="quran-reader__eyebrow">Simple Reader</p>
+          </ion-text>
+
+          <h1 class="quran-reader__title">{{ headerTitle }}</h1>
+
+          <ion-text color="warning">
+            <p class="quran-reader__title-ar" dir="rtl" lang="ar">{{ surah.name_ar }}</p>
+          </ion-text>
+
+          <ion-text color="medium">
+            <p class="quran-reader__meta">{{ surahMeta }}</p>
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="quran-reader__status" *ngIf="pages.length === 0">
+        <ion-card-content>
+          <ion-text color="medium">
+            <p>No page text is available for this surah.</p>
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="quran-reader__page-card" *ngFor="let pageData of pages; trackBy: trackByPage">
+        <ion-card-content>
+          <div class="quran-reader__page-head">
+            <div>
+              <ion-text color="tertiary">
+                <p class="quran-reader__page-kicker">Mushaf Page</p>
+              </ion-text>
+              <h2 class="quran-reader__title">Page {{ pageData.page.number }}</h2>
+            </div>
+
+            <ion-chip *ngIf="pageData.page.verse_count">
+              <ion-label>{{ pageData.page.verse_count }} ayahs</ion-label>
+            </ion-chip>
+          </div>
+
+          <ion-text color="medium">
+            <p class="quran-reader__page-meta">
+              {{ pageData.page.start_ref }} to {{ pageData.page.end_ref }}
+            </p>
+          </ion-text>
+
+          <ion-text color="medium" *ngIf="totalPages > 0">
+            <p class="quran-reader__page-range">Mushaf page {{ pageData.page.number }} of {{ totalPages }}</p>
+          </ion-text>
+
+          <div class="quran-reader__page-body" *ngIf="pageData.layout_lines.length; else verseFallback">
+            <ng-container *ngFor="let line of pageData.layout_lines; trackBy: trackByLine">
+              <ion-text
+                [color]="line.line_type === 'surah_name' ? 'warning' : line.line_type === 'basmallah' ? 'tertiary' : 'light'"
+              >
+                <p
+                  class="quran-reader__line"
+                  [class.quran-reader__line--centered]="line.is_centered"
+                  [class.quran-reader__line--surah]="line.line_type === 'surah_name'"
+                  [class.quran-reader__line--bismillah]="line.line_type === 'basmallah'"
+                  dir="rtl"
+                  lang="ar"
+                >
+                  {{ line.text }}
+                </p>
+              </ion-text>
+            </ng-container>
+          </div>
+
+          <ng-template #verseFallback>
+            <ng-container *ngIf="pageData.verses.length; else emptyPageText">
+              <ion-text color="light" *ngFor="let verse of pageData.verses">
+                <p class="quran-reader__fallback-verse" dir="rtl" lang="ar">
+                  {{ verse.text_diacritics || verse.text }}
+                </p>
+              </ion-text>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #emptyPageText>
+            <ion-text color="medium">
+              <p class="quran-reader__empty">This page has no renderable surah text.</p>
+            </ion-text>
+          </ng-template>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </div>
+</ion-content>

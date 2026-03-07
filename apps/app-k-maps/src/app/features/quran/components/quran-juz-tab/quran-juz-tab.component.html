@@ -27,8 +27,10 @@
     <ion-list lines="none" class="quran-browse__stack-list quran-browse__juz-stack">
       <ion-item
         *ngFor="let surah of juz.surahs; trackBy: trackBySurah"
-        detail="false"
+        button="true"
+        detail="true"
         class="quran-browse__stack-item quran-browse__stack-item--juz"
+        [routerLink]="['/quran', 'surah', surah.surah]"
       >
         <ion-label class="quran-browse__stack-copy quran-browse__stack-copy--juz">
           <div class="quran-browse__stack-heading">

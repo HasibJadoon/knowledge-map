@@ -1,8 +1,10 @@
 <ion-list *ngIf="surahs.length; else emptySurahs" lines="none" class="quran-browse__surah-list">
   <ion-item
     *ngFor="let surah of surahs; trackBy: trackBySurah"
-    detail="false"
+    button="true"
+    detail="true"
     class="quran-browse__surah-item"
+    [routerLink]="['/quran', 'surah', surah.surah]"
   >
     <div slot="start" class="quran-browse__surah-number">{{ surah.surah }}</div>
 
