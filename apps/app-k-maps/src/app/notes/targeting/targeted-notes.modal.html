@@ -1,14 +1,38 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header class="targeted-notes-modal-head">
+  <ion-toolbar class="targeted-notes-modal-toolbar">
     <ion-title>{{ title }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="dismiss()">Close</ion-button>
+      <ion-button class="targeted-notes-modal-close" fill="clear" (click)="dismiss()">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding targeted-notes-modal-content">
-  <p class="targeted-notes-modal-subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+  <section class="targeted-notes-modal-target">
+    <p
+      class="targeted-notes-modal-target-text"
+      *ngIf="hasContextText; else fallbackTargetText"
+      [class.targeted-notes-modal-target-text--arabic]="isContextArabic"
+      [attr.dir]="isContextArabic ? 'rtl' : null"
+      [attr.lang]="isContextArabic ? 'ar' : null"
+      translate="no"
+    >
+      {{ contextText }}
+    </p>
+
+    <ng-template #fallbackTargetText>
+      <p class="targeted-notes-modal-target-text">{{ title }}</p>
+    </ng-template>
+
+    <p class="targeted-notes-modal-target-meta" *ngIf="subtitle || contextFocus">
+      <span *ngIf="subtitle">{{ subtitle }}</span>
+      <span *ngIf="subtitle && contextFocus"> · </span>
+      <span *ngIf="contextFocus">{{ contextFocus }}</span>
+    </p>
+  </section>
+
+  <div class="targeted-notes-modal-divider" aria-hidden="true"></div>
+
   <app-targeted-notes-block
     [target]="target"
     [placeholder]="placeholder"

@@ -10,8 +10,28 @@
           <p class="quran-reading-page__section-basmallah" *ngIf="section.basmallah">{{ section.basmallah }}</p>
           <p class="quran-reading-page__section-text" *ngIf="section.verses.length">
             <ng-container *ngFor="let verse of section.verses; trackBy: trackByVerse">
-              <span class="quran-reading-page__verse-text">{{ verse.text }}</span>
-              <span class="quran-reading-page__marker" *ngIf="verse.marker" aria-hidden="true">{{ verse.marker }}</span>
+              <ng-container *ngIf="verse.words.length; else plainVerseText">
+                <ng-container *ngFor="let word of verse.words; trackBy: trackByWord">
+                  <span
+                    class="quran-reading-page__word"
+                    appLongPress
+                    (appLongPress)="openTargetMenu($event, verse, word)"
+                  >{{ word.text }}</span>{{ ' ' }}
+                </ng-container>
+              </ng-container>
+              <ng-template #plainVerseText>
+                <span
+                  class="quran-reading-page__verse-text"
+                  appLongPress
+                  (appLongPress)="openTargetMenu($event, verse)"
+                >{{ verse.text }}</span>{{ ' ' }}
+              </ng-template>
+              <span
+                class="quran-reading-page__marker"
+                *ngIf="verse.marker"
+                appLongPress
+                (appLongPress)="openTargetMenu($event, verse)"
+              >{{ verse.marker }}</span>
               <span> </span>
             </ng-container>
           </p>

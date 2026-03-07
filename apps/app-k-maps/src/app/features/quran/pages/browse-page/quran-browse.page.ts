@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { bookOutline, documentTextOutline } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
@@ -26,6 +26,7 @@ type MainTab = 'list' | 'summary';
 })
 export class QuranBrowsePage implements OnInit {
   private readonly quranReader = inject(QuranReaderService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   mainTab: MainTab = 'list';
   activeTab: BrowseTab = 'surahs';
@@ -46,6 +47,7 @@ export class QuranBrowsePage implements OnInit {
   async loadMenu() {
     this.loading = true;
     this.error = '';
+    this.changeDetectorRef.markForCheck();
 
     try {
       const response = await firstValueFrom(this.quranReader.getMenu());
@@ -56,6 +58,7 @@ export class QuranBrowsePage implements OnInit {
       this.error = err instanceof Error ? err.message : 'Unable to load Quran menu.';
     } finally {
       this.loading = false;
+      this.changeDetectorRef.markForCheck();
     }
   }
 

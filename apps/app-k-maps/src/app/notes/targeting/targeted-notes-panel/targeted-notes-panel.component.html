@@ -1,18 +1,33 @@
 <section class="targeted-notes-panel">
-  <header class="targeted-notes-panel__head">
-    <h3>Notes</h3>
-    <div class="targeted-notes-panel__actions">
-      <ion-button fill="clear" size="small" (click)="refresh()" [disabled]="loading() || adding()">
-        Refresh
-      </ion-button>
-      <ion-button fill="clear" size="small" (click)="toggleOpen()">
-        {{ open() ? 'Hide' : 'Show' }}
-      </ion-button>
-    </div>
-  </header>
-
   @if (open()) {
     <div class="targeted-notes-panel__body">
+      <div class="targeted-notes-panel__composer">
+        <ion-textarea
+          [(ngModel)]="bodyMd"
+          [placeholder]="placeholder"
+          [rows]="12"
+          [autoGrow]="true"
+          [maxlength]="4000"
+        ></ion-textarea>
+
+        <div class="targeted-notes-panel__composer-bar">
+          <p class="targeted-notes-panel__meta">{{ noteCountLabel }}</p>
+          <ion-button fill="clear" size="small" (click)="refresh()" [disabled]="loading() || adding()">
+            <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+        <ion-button class="targeted-notes-panel__submit" expand="block" size="small" (click)="addNote()" [disabled]="adding()">
+          {{ adding() ? 'Saving...' : 'Save Note' }}
+        </ion-button>
+      </div>
+
+      @if (error()) {
+        <p class="targeted-notes-panel__error">{{ error() }}</p>
+      }
+
+      <div class="targeted-notes-panel__divider" aria-hidden="true"></div>
+
       @if (loading()) {
         <div class="targeted-notes-panel__state">
           <ion-skeleton-text animated style="width: 100%; height: 1.2rem"></ion-skeleton-text>
@@ -21,38 +36,18 @@
         </div>
       } @else {
         @if (notes().length > 0) {
-          <ion-list class="targeted-notes-panel__list" lines="none">
+          <div class="targeted-notes-panel__list">
             @for (note of notes(); track trackById($index, note)) {
-              <ion-item class="targeted-notes-panel__item" lines="none">
-                <ion-label>
-                  <h4>{{ titleFor(note) }}</h4>
-                  <p>{{ previewFor(note) }}</p>
-                  <p class="targeted-notes-panel__time">{{ note.updated_at | date: 'MMM d, h:mm a' }}</p>
-                </ion-label>
-              </ion-item>
+              <article class="targeted-notes-panel__item">
+                <h4>{{ titleFor(note) }}</h4>
+                <p>{{ previewFor(note) }}</p>
+                <p class="targeted-notes-panel__time">{{ note.updated_at | date: 'MMM d, h:mm a' }}</p>
+              </article>
             }
-          </ion-list>
+          </div>
         } @else {
           <p class="targeted-notes-panel__state">No notes yet for this target.</p>
         }
-      }
-
-      <div class="targeted-notes-panel__composer">
-        <ion-textarea
-          [(ngModel)]="bodyMd"
-          [placeholder]="placeholder"
-          [rows]="2"
-          [autoGrow]="true"
-          [maxlength]="4000"
-        ></ion-textarea>
-
-        <ion-button expand="block" size="small" (click)="addNote()" [disabled]="adding()">
-          {{ adding() ? 'Adding...' : 'Add' }}
-        </ion-button>
-      </div>
-
-      @if (error()) {
-        <p class="targeted-notes-panel__error">{{ error() }}</p>
       }
     </div>
   }

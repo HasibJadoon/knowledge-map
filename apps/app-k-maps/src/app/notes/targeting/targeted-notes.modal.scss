@@ -1,13 +1,64 @@
 :host {
   display: block;
+  height: 100%;
+}
+
+.targeted-notes-modal-head,
+.targeted-notes-modal-toolbar,
+.targeted-notes-modal-content {
+  --background: transparent;
+}
+
+.targeted-notes-modal-toolbar {
+  --background: rgba(5, 10, 18, 0.94);
+  --border-color: rgba(84, 214, 255, 0.14);
+  --color: #f4f8ff;
+  backdrop-filter: blur(16px);
+}
+
+.targeted-notes-modal-close {
+  --color: rgba(215, 229, 255, 0.74);
 }
 
 .targeted-notes-modal-content {
-  --background: var(--ion-background-color);
+  --background: linear-gradient(180deg, #040912 0%, #06101c 48%, #050913 100%);
+  --padding-bottom: calc(env(safe-area-inset-bottom) + 1.1rem);
+  color: #eef4ff;
 }
 
-.targeted-notes-modal-subtitle {
-  margin: 0 0 0.75rem;
-  color: var(--ion-color-medium);
+.targeted-notes-modal-target,
+.targeted-notes-modal-target-text,
+.targeted-notes-modal-target-meta {
+  margin: 0;
+}
+
+.targeted-notes-modal-target {
+  padding: 0.35rem 0 0.95rem;
+}
+
+.targeted-notes-modal-target-text {
+  color: #f5f9ff;
+  font-size: 1.18rem;
+  line-height: 1.75;
+}
+
+.targeted-notes-modal-target-text--arabic {
+  font-family: var(--app-font-ar);
+  font-size: clamp(calc(var(--app-font-ar-size, 32px) * 0.7), 5.4vw, calc(var(--app-font-ar-size, 32px) * 0.88));
+  line-height: 2;
+  text-align: right;
+}
+
+.targeted-notes-modal-target-meta {
+  margin-top: 0.45rem;
+  color: rgba(193, 210, 233, 0.68);
   font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.targeted-notes-modal-divider {
+  block-size: 1px;
+  margin: 0 0 1rem;
+  background: linear-gradient(90deg, transparent, rgba(84, 214, 255, 0.78), transparent);
+  box-shadow: 0 0 12px rgba(84, 214, 255, 0.2);
 }

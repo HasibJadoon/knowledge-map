@@ -1,4 +1,4 @@
-export type TargetType = 'task' | 'task_item' | 'quran_word';
+export type TargetType = 'task' | 'task_item' | 'quran_ayah' | 'quran_word';
 
 export interface TargetRef {
   target_type: TargetType;
@@ -100,6 +100,30 @@ export function makeWordTarget(surah: number, ayah: number, token_index: number)
   return {
     target_type: 'quran_word',
     target_id: `QW:${ref}`,
+    ref,
+  };
+}
+
+export function makeAyahTarget(surah: number, ayah: number): TargetRef {
+  const surahNum = Math.trunc(surah);
+  const ayahNum = Math.trunc(ayah);
+
+  if (!Number.isFinite(surahNum) || !Number.isFinite(ayahNum)) {
+    throw new Error('Ayah target needs numeric surah and ayah.');
+  }
+
+  if (surahNum < 1 || surahNum > 114) {
+    throw new Error('Surah must be 1..114.');
+  }
+
+  if (ayahNum < 1 || ayahNum > 286) {
+    throw new Error('Ayah must be 1..286.');
+  }
+
+  const ref = `${surahNum}:${ayahNum}`;
+  return {
+    target_type: 'quran_ayah',
+    target_id: `Q:${ref}`,
     ref,
   };
 }

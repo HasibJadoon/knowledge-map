@@ -2140,6 +2140,58 @@ ion-modal.study-morph-modal .study-morph-modal-tabs ion-segment-button.segment-b
   box-shadow: 0 0 14px rgba(74, 184, 166, 0.26);
 }
 
+ion-modal.targeted-notes-modal-shell {
+  --width: 100vw;
+  --height: 100%;
+  --border-radius: 0;
+  --box-shadow: none;
+}
+
+ion-modal.targeted-notes-modal-shell::part(content) {
+  overflow: hidden;
+}
+
+ion-modal.targeted-notes-modal-shell::part(backdrop) {
+  background: rgba(2, 6, 12, 0.74);
+  backdrop-filter: blur(8px);
+}
+
+ion-action-sheet.note-target-action-sheet {
+  --background: transparent;
+  --backdrop-opacity: 0.55;
+}
+
+ion-action-sheet.note-target-action-sheet .action-sheet-group {
+  border: 1px solid rgba(118, 154, 203, 0.18);
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at top, rgba(74, 183, 206, 0.12), transparent 50%),
+    linear-gradient(180deg, rgba(10, 17, 28, 0.98), rgba(7, 12, 20, 0.99));
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.36);
+}
+
+ion-action-sheet.note-target-action-sheet .action-sheet-title,
+ion-action-sheet.note-target-action-sheet .action-sheet-sub-title {
+  color: #f4f8ff;
+}
+
+ion-action-sheet.note-target-action-sheet .action-sheet-sub-title {
+  color: rgba(210, 223, 240, 0.72);
+}
+
+ion-action-sheet.note-target-action-sheet .action-sheet-button {
+  color: #eef5ff;
+  font-weight: 600;
+}
+
+ion-action-sheet.note-target-action-sheet .action-sheet-button.sc-ion-action-sheet-md {
+  border-top-color: rgba(118, 154, 203, 0.12);
+}
+
+ion-action-sheet.note-target-action-sheet .action-sheet-cancel {
+  color: rgba(196, 212, 232, 0.78);
+}
+
 @media (max-width: 767px) {
   ion-modal.study-morph-modal .study-morph-profile-grid {
     grid-template-columns: 1fr;

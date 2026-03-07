@@ -8,6 +8,9 @@ export type OpenTargetedNotesModalArgs = {
   title?: string;
   subtitle?: string;
   placeholder?: string;
+  contextText?: string;
+  contextTextLabel?: string;
+  contextFocus?: string;
   cssClass?: string;
 };
 
@@ -16,14 +19,18 @@ export class TargetedNotesModalService {
   private readonly modalController = inject(ModalController);
 
   async open(args: OpenTargetedNotesModalArgs): Promise<void> {
+    const cssClass = ['targeted-notes-modal-shell', args.cssClass].filter(Boolean).join(' ');
     const modal = await this.modalController.create({
       component: TargetedNotesModalComponent,
-      cssClass: args.cssClass,
+      cssClass,
       componentProps: {
         target: args.target,
         title: args.title ?? 'Notes',
         subtitle: args.subtitle ?? '',
         placeholder: args.placeholder ?? 'Add a targeted note...',
+        contextText: args.contextText ?? '',
+        contextTextLabel: args.contextTextLabel ?? '',
+        contextFocus: args.contextFocus ?? '',
       },
     });
 

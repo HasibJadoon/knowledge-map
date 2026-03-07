@@ -16,6 +16,7 @@ import {
   QuranReaderLayoutSlotViewModel,
   QuranReaderPageLineViewModel,
   QuranReaderPageViewModel,
+  QuranReaderWordViewModel,
 } from '../models/quran-reader-view.model';
 
 @Injectable({ providedIn: 'root' })
@@ -100,6 +101,7 @@ export class QuranReaderPageService {
           ?? verse.text_no_diacritics
           ?? '',
         marker: verse.verse_mark ?? null,
+        words: this.buildWordViews(verse.verse_key, verse.words),
       })),
     };
   }
@@ -177,9 +179,27 @@ export class QuranReaderPageService {
           textDiacritics: textDiacritics || text,
           marker: ayah.marker ?? null,
           isComplete: ayah.is_complete,
+          words: this.buildWordViews(ayah.verse_key, ayah.words),
         } satisfies QuranReaderPageAyahSliceViewModel;
       })
       .filter((ayah) => ayah.text.length > 0 || ayah.textDiacritics.length > 0);
+  }
+
+  private buildWordViews(verseKey: string, words: QuranPageAyahSlice['words']): QuranReaderWordViewModel[] {
+    return words
+      .map((word) => {
+        const text = (word.simple ?? word.text ?? '').trim();
+        const textDiacritics = (word.text ?? word.simple ?? '').trim();
+        const tokenIndex = Number.isFinite(word.position) ? Math.trunc(word.position) : 0;
+
+        return {
+          id: `${verseKey}:${tokenIndex}`,
+          tokenIndex,
+          text,
+          textDiacritics: textDiacritics || text,
+        } satisfies QuranReaderWordViewModel;
+      })
+      .filter((word) => word.tokenIndex > 0 && (word.text.length > 0 || word.textDiacritics.length > 0));
   }
 
   private buildLayoutSlots(

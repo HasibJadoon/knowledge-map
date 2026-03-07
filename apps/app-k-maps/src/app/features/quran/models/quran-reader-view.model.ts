@@ -35,6 +35,7 @@ export interface QuranReaderPageAyahSliceViewModel {
   textDiacritics: string;
   marker: string | null;
   isComplete: boolean;
+  words: QuranReaderWordViewModel[];
 }
 
 export interface QuranReaderLayoutSlotViewModel {
@@ -48,6 +49,14 @@ export interface QuranReaderFallbackVerseViewModel {
   text: string;
   textDiacritics: string;
   marker: string | null;
+  words: QuranReaderWordViewModel[];
+}
+
+export interface QuranReaderWordViewModel {
+  id: string;
+  tokenIndex: number;
+  text: string;
+  textDiacritics: string;
 }
 
 export interface QuranReaderPageLayoutViewModel {

@@ -78,6 +78,15 @@ export class TargetedNotesPanelComponent implements OnChanges {
     return note.title?.trim() || computeTitleFromMarkdown(note.body_md) || 'Untitled';
   }
 
+  get noteCountLabel(): string {
+    const count = this.notes().length;
+    if (count === 1) {
+      return '1 note';
+    }
+
+    return `${count} notes`;
+  }
+
   previewFor(note: CaptureNote): string {
     const compact = note.body_md.replace(/\s+/g, ' ').trim();
     if (!compact) {
