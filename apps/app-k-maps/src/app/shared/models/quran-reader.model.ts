@@ -44,6 +44,9 @@ export interface QuranRecentPageEntry {
 }
 
 export interface QuranPageWord {
+  word_id: number | null;
+  surah: number;
+  ayah: number;
   position: number;
   text: string | null;
   simple: string | null;
@@ -78,6 +81,15 @@ export interface QuranPageVerse {
 
 export type QuranPageLayoutLineType = 'ayah' | 'surah_name' | 'basmallah';
 
+export interface QuranPageLayoutAyah {
+  surah: number;
+  ayah: number;
+  verse_key: string;
+  marker: string | null;
+  is_complete: boolean;
+  words: QuranPageWord[];
+}
+
 export interface QuranPageLayoutLine {
   line_number: number;
   line_type: QuranPageLayoutLineType;
@@ -85,6 +97,7 @@ export interface QuranPageLayoutLine {
   surah_number: number | null;
   text: string;
   text_simple: string | null;
+  ayahs: QuranPageLayoutAyah[];
 }
 
 export interface QuranPageMeta {

@@ -1,1 +1,21 @@
-/* Styles moved to src/global.scss to stay under Angular component style budgets. */
+:host{display:block;color:#f1efe8}
+ion-content.quran-reader-page__content{--background:#111213;--color:#f1efe8}
+.quran-reader-page__toolbar{--background:rgba(17,18,19,.92);--border-color:rgba(255,255,255,.08);--color:#f1efe8;backdrop-filter:blur(14px)}
+.quran-reader-page__toolbar :is(ion-button,ion-back-button){--color:#f1efe8}
+.quran-reader-page__shell{min-height:100%;display:flex;justify-content:center;padding:calc(var(--ion-safe-area-top,0px) + 76px) 12px calc(var(--ion-safe-area-bottom,0px) + 18px)}
+.quran-reader-page__mushaf,.quran-reader-page__state{width:min(100%,31rem)}
+.quran-reader-page__page{color:#f5f1e8;font-family:var(--app-font-ar,"Scheherazade New",serif);font-size:clamp(1.9rem,6.8vw,2.5rem);line-height:1.62}
+.quran-reader-page__line-container{min-height:3.35rem}
+.quran-reader-page__line-container--empty{opacity:.18}
+.quran-reader-page__line--ayah,.quran-reader-page__fallback-text{text-align:justify;text-align-last:justify}
+.quran-reader-page__line--ayah:not(.quran-reader-page__line--centered)::after{content:"";display:inline-block;width:100%}
+.quran-reader-page__line--centered,.quran-reader-page__line--surah,.quran-reader-page__line--basmallah,.quran-reader-page__number,.quran-reader-page__state{text-align:center}
+.quran-reader-page__surah-name{font-size:.84em;font-weight:600}
+.quran-reader-page__basmallah{font-size:.9em}
+.quran-reader-page__marker{margin-inline:.22ch .36ch;font-size:.72em;opacity:.88}
+.quran-reader-page__empty-line{display:inline-block;width:100%}
+.quran-reader-page__fallback-text{margin:0}
+.quran-reader-page__number{margin-top:.9rem;font-family:var(--app-font-ar,"Scheherazade New",serif);font-size:1.05rem;letter-spacing:.08em;color:rgba(241,239,232,.7)}
+.quran-reader-page__state{margin:0 auto;padding-top:1.5rem;font:0.98rem var(--ion-font-family,inherit);color:rgba(241,239,232,.78)}
+.quran-reader-page__state--error{color:rgba(255,227,227,.92)}
+@media (min-width:768px){.quran-reader-page__shell{padding-inline:24px}}

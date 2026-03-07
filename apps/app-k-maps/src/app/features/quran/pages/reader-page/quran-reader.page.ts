@@ -2,24 +2,21 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { bookOutline, languageOutline } from 'ionicons/icons';
 import { firstValueFrom, Subscription } from 'rxjs';
 import {
   QuranBrowseSurah,
+  QuranPageLayoutAyah,
   QuranPageLayoutLine,
   QuranPageMeta,
   QuranPageVerse,
+  QuranPageWord,
 } from '../../../../shared/models/quran-reader.model';
 import { QuranReaderService } from '../../../../shared/services/quran-reader.service';
-import { AppIconTabsComponent, IconTabItem } from '../../../../shared/components/icon-tabs/icon-tabs.component';
 
 interface QuranReaderSurahGroup {
   surah: QuranBrowseSurah | null;
   verses: QuranPageVerse[];
 }
-
-type QuranReaderTextMode = 'diacritic' | 'plain';
-type QuranReaderTab = 'reading' | 'translation';
 
 interface QuranRecentPage {
   page: number;
@@ -30,12 +27,18 @@ interface QuranRecentPage {
   seen_at: string;
 }
 
+interface QuranRenderedLayoutLine extends QuranPageLayoutLine {
+  empty: boolean;
+}
+
 const QURAN_RECENT_PAGES_KEY = 'quran_recent_pages';
+const MUSHAF_LINES_PER_PAGE = 15;
+const ARABIC_DIGITS = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
 @Component({
   selector: 'app-quran-reader-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, AppIconTabsComponent],
+  imports: [CommonModule, IonicModule],
   templateUrl: './quran-reader.page.html',
   styleUrl: './quran-reader.page.scss',
 })
@@ -44,22 +47,15 @@ export class QuranReaderPage implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly quranReader = inject(QuranReaderService);
   private readonly subscriptions = new Subscription();
-  private readonly arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
   private touchStartX: number | null = null;
   private touchStartY: number | null = null;
   private touchStartTime = 0;
-  readonly readerTabs: IconTabItem[] = [
-    { key: 'reading', label: 'Reading', icon: bookOutline },
-    { key: 'translation', label: 'Translation', icon: languageOutline },
-  ];
 
   pageData: QuranPageMeta | null = null;
   surahs: QuranBrowseSurah[] = [];
   surahGroups: QuranReaderSurahGroup[] = [];
   pageLayoutLines: QuranPageLayoutLine[] = [];
-  activeTab: QuranReaderTab = 'reading';
-  textMode: QuranReaderTextMode = 'diacritic';
   loading = false;
   error = '';
 
@@ -86,7 +82,36 @@ export class QuranReaderPage implements OnInit, OnDestroy {
   }
 
   get pageNumberLabel(): string {
-    return this.pageData ? String(this.pageData.number) : '';
+    if (this.pageData == null) return '';
+    return String(this.pageData.number)
+      .split('')
+      .map((digit) => ARABIC_DIGITS[Number(digit)] ?? digit)
+      .join('');
+  }
+
+  get renderedLayoutLines(): QuranRenderedLayoutLine[] {
+    if (!this.pageLayoutLines.length) return [];
+
+    const byLine = new Map(this.pageLayoutLines.map((line) => [line.line_number, line] as const));
+
+    return Array.from({ length: MUSHAF_LINES_PER_PAGE }, (_, index) => {
+      const lineNumber = index + 1;
+      const line = byLine.get(lineNumber);
+      if (line) {
+        return { ...line, empty: false };
+      }
+
+      return {
+        line_number: lineNumber,
+        line_type: 'ayah',
+        is_centered: false,
+        surah_number: null,
+        text: '',
+        text_simple: null,
+        ayahs: [],
+        empty: true,
+      };
+    });
   }
 
   async loadPage(page: number) {
@@ -118,20 +143,6 @@ export class QuranReaderPage implements OnInit, OnDestroy {
 
   openBrowse() {
     void this.router.navigate(['/quran']);
-  }
-
-  setTextMode(value: string | null | undefined) {
-    if (value !== 'diacritic' && value !== 'plain') return;
-    this.textMode = value;
-  }
-
-  onTextModeChange(event: CustomEvent<{ value?: unknown }>) {
-    const value = typeof event.detail.value === 'string' ? event.detail.value : null;
-    this.setTextMode(value);
-  }
-
-  setActiveTab(tab: QuranReaderTab) {
-    this.activeTab = tab;
   }
 
   onTouchStart(event: TouchEvent) {
@@ -190,15 +201,6 @@ export class QuranReaderPage implements OnInit, OnDestroy {
     return group.surah?.name_ar ?? '';
   }
 
-  hasGroupTranslations(group: QuranReaderSurahGroup): boolean {
-    return group.verses.some((verse) => Boolean(verse.translation));
-  }
-
-  formatVerseMarker(verse: QuranPageVerse): string {
-    const marker = (verse.verse_full ?? verse.verse_mark ?? '').trim();
-    return marker || this.toArabicDigits(verse.ayah);
-  }
-
   trackByGroup(_: number, group: QuranReaderSurahGroup): number {
     return group.surah?.surah ?? group.verses[0]?.surah ?? 0;
   }
@@ -209,6 +211,28 @@ export class QuranReaderPage implements OnInit, OnDestroy {
 
   trackByLayoutLine(_: number, line: QuranPageLayoutLine): string {
     return `${line.line_number}:${line.line_type}`;
+  }
+
+  trackByLayoutAyah(_: number, ayah: QuranPageLayoutAyah): string {
+    const firstWord = ayah.words[0];
+    return `${ayah.verse_key}:${firstWord?.word_id ?? firstWord?.position ?? 0}`;
+  }
+
+  trackByLayoutWord(_: number, word: QuranPageWord): string | number {
+    return word.word_id ?? `${word.surah}:${word.ayah}:${word.position}`;
+  }
+
+  getLayoutWordText(word: QuranPageWord): string {
+    return word.text ?? word.simple ?? '';
+  }
+
+  getWordDomId(word: QuranPageWord): string {
+    const suffix = word.word_id ?? `${word.surah}-${word.ayah}-${word.position}`;
+    return `word-${suffix}`;
+  }
+
+  getWordLocation(word: QuranPageWord): string {
+    return `${word.surah}:${word.ayah}:${word.position}`;
   }
 
   private buildSurahGroups(verses: QuranPageVerse[], surahs: QuranBrowseSurah[]): QuranReaderSurahGroup[] {
@@ -254,12 +278,5 @@ export class QuranReaderPage implements OnInit, OnDestroy {
     } catch {
       localStorage.setItem(QURAN_RECENT_PAGES_KEY, JSON.stringify([nextEntry]));
     }
-  }
-
-  private toArabicDigits(value: number): string {
-    return String(value)
-      .split('')
-      .map((digit) => this.arabicDigits[Number(digit)] ?? digit)
-      .join('');
   }
 }

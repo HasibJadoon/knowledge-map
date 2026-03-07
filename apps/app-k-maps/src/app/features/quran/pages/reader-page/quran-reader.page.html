@@ -1,21 +1,9 @@
-<ion-header class="study-toolbar-wrap" translucent="true">
-  <ion-toolbar class="quran-reader-toolbar">
+<ion-header translucent="true">
+  <ion-toolbar class="quran-reader-page__toolbar">
     <ion-buttons slot="start">
-      <ion-back-button class="study-back-button" defaultHref="/quran" text=""></ion-back-button>
+      <ion-back-button defaultHref="/quran" text=""></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end" class="quran-reader__toolbar-actions" *ngIf="pageData">
-      <ion-segment
-        [value]="textMode"
-        class="quran-reader__toolbar-toggle quran-reader__toolbar-toggle--inline"
-        (ionChange)="onTextModeChange($event)"
-      >
-        <ion-segment-button value="diacritic" aria-label="Diacritic text" title="Diacritic text">
-          <ion-icon name="sparkles-outline" aria-hidden="true"></ion-icon>
-        </ion-segment-button>
-        <ion-segment-button value="plain" aria-label="Plain text" title="Plain text">
-          <ion-icon name="remove-outline" aria-hidden="true"></ion-icon>
-        </ion-segment-button>
-      </ion-segment>
+    <ion-buttons slot="end" *ngIf="pageData">
       <ion-button fill="clear" (click)="openBrowse()" aria-label="Browse Quran" title="Browse Quran">
         <ion-icon name="grid-outline" slot="icon-only"></ion-icon>
       </ion-button>
@@ -25,89 +13,95 @@
 
 <ion-content
   [fullscreen]="true"
-  class="study-content quran-reader-page"
+  class="quran-reader-page__content"
   (touchstart)="onTouchStart($event)"
   (touchend)="onTouchEnd($event)"
   (touchcancel)="resetTouch()"
 >
-  <div class="study-shell ion-padding app-text-select">
-    <ion-item class="study-state study-state--error" lines="none" *ngIf="error">
-      <ion-label>{{ error }}</ion-label>
-    </ion-item>
+  <div class="quran-reader-page__shell">
+    <div class="quran-reader-page__state quran-reader-page__state--error" *ngIf="error">{{ error }}</div>
 
-    <ion-item class="study-state" lines="none" *ngIf="loading">
-      <ion-label>Loading Quran page...</ion-label>
-    </ion-item>
+    <div class="quran-reader-page__state" *ngIf="loading">Loading Quran page...</div>
 
     <ng-container *ngIf="!loading && !error">
-      <ng-container [ngSwitch]="activeTab">
-        <section class="study-tab study-tab--reading" *ngSwitchCase="'reading'">
-          <div class="quran-reader__mushaf-page" *ngIf="pageLayoutLines.length; else fallbackReading">
-            <div class="quran-reader__mushaf-lines" dir="rtl" translate="no">
-              <p
-                *ngFor="let line of pageLayoutLines; trackBy: trackByLayoutLine"
-                class="quran-reader__layout-line"
-                [class.quran-reader__layout-line--ayah]="line.line_type === 'ayah'"
-                [class.quran-reader__layout-line--centered]="line.is_centered"
-                [class.quran-reader__layout-line--surah]="line.line_type === 'surah_name'"
-                [class.quran-reader__layout-line--basmallah]="line.line_type === 'basmallah'"
-              >
-                {{ textMode === 'plain' ? (line.text_simple || '') : line.text }}
-              </p>
-            </div>
+      <section class="quran-reader-page__mushaf" *ngIf="renderedLayoutLines.length; else fallbackReading">
+        <div class="quran-reader-page__page" dir="rtl" translate="no">
+          <div
+            *ngFor="let line of renderedLayoutLines; trackBy: trackByLayoutLine"
+            class="quran-reader-page__line-container"
+            [class.quran-reader-page__line-container--empty]="line.empty"
+            [attr.data-line]="line.line_number"
+          >
+            <div
+              class="quran-reader-page__line"
+              [class.quran-reader-page__line--ayah]="line.line_type === 'ayah'"
+              [class.quran-reader-page__line--centered]="line.is_centered"
+              [class.quran-reader-page__line--surah]="line.line_type === 'surah_name'"
+              [class.quran-reader-page__line--basmallah]="line.line_type === 'basmallah'"
+            >
+              <ng-container [ngSwitch]="line.line_type">
+                <div *ngSwitchCase="'surah_name'" class="quran-reader-page__surah-name">
+                  {{ line.text }}
+                </div>
 
-            <div class="quran-reader__page-no">{{ pageNumberLabel }}</div>
-          </div>
+                <div *ngSwitchCase="'basmallah'" class="quran-reader-page__basmallah">
+                  {{ line.text }}
+                </div>
 
-          <ng-template #fallbackReading>
-            <ng-container *ngFor="let group of surahGroups; trackBy: trackByGroup; let isLastGroup = last">
-              <div class="quran-reader__fallback-heading" *ngIf="getGroupSurahArabicName(group)" dir="rtl" translate="no">
-                {{ getGroupSurahArabicName(group) }}
-              </div>
+                <ng-container *ngSwitchDefault>
+                  <ng-container *ngIf="line.ayahs.length; else emptyLine">
+                    <span
+                      *ngFor="let ayah of line.ayahs; trackBy: trackByLayoutAyah"
+                      class="quran-reader-page__ayah-container"
+                    >
+                      <span class="quran-reader-page__ayah" [attr.data-ayah]="ayah.verse_key">
+                        <span
+                          *ngFor="let word of ayah.words; trackBy: trackByLayoutWord"
+                          class="quran-reader-page__word"
+                          [attr.id]="getWordDomId(word)"
+                          [attr.data-location]="getWordLocation(word)"
+                          [attr.data-ayah]="ayah.verse_key"
+                          [attr.data-position]="word.position"
+                        >
+                          {{ getLayoutWordText(word) }}
+                        </span>
 
-              <div class="study-reading-wrap">
-                <p class="study-reading-flow" dir="rtl" translate="no">
-                  <ng-container *ngFor="let verse of group.verses; trackBy: trackByVerse">
-                    <span class="quran-reader__ayah-text">
-                      {{ textMode === 'plain' ? (verse.text_no_diacritics || '') : (verse.text_diacritics || '') }}
+                        <span *ngIf="ayah.marker" class="quran-reader-page__marker">{{ ayah.marker }}</span>
+                      </span>
                     </span>
                   </ng-container>
-                </p>
-              </div>
-
-              <div class="quran-reader__page-no" *ngIf="isLastGroup">{{ pageNumberLabel }}</div>
-            </ng-container>
-          </ng-template>
-        </section>
-
-        <section class="study-tab" *ngSwitchCase="'translation'">
-          <ng-container *ngFor="let group of surahGroups; trackBy: trackByGroup">
-            <div class="quran-reader__translation-heading" *ngIf="getGroupSurahArabicName(group)" dir="rtl" translate="no">
-              {{ getGroupSurahArabicName(group) }}
+                </ng-container>
+              </ng-container>
             </div>
+          </div>
 
-            <div class="quran-reader__translation-pane" *ngIf="hasGroupTranslations(group); else noTranslation">
-              <p class="study-reading-translation" *ngFor="let verse of group.verses; trackBy: trackByVerse">
-                <span class="study-reading-translation-marker">{{ formatVerseMarker(verse) }}</span>
-                {{ verse.translation }}
+          <div class="quran-reader-page__number" *ngIf="pageData">{{ pageNumberLabel }}</div>
+        </div>
+      </section>
+
+      <ng-template #fallbackReading>
+        <section class="quran-reader-page__mushaf quran-reader-page__mushaf--fallback" dir="rtl" translate="no">
+          <div class="quran-reader-page__page">
+            <ng-container *ngFor="let group of surahGroups; trackBy: trackByGroup">
+              <h2 class="quran-reader-page__surah-name" *ngIf="getGroupSurahArabicName(group)">
+                سورة {{ getGroupSurahArabicName(group) }}
+              </h2>
+
+              <p class="quran-reader-page__fallback-text">
+                <ng-container *ngFor="let verse of group.verses; trackBy: trackByVerse">
+                  <span>{{ verse.text_diacritics || '' }}</span>
+                </ng-container>
               </p>
-            </div>
+            </ng-container>
 
-            <ng-template #noTranslation>
-              <p class="study-empty">Translation is not available for this page.</p>
-            </ng-template>
-          </ng-container>
+            <div class="quran-reader-page__number" *ngIf="pageData">{{ pageNumberLabel }}</div>
+          </div>
         </section>
-      </ng-container>
+      </ng-template>
     </ng-container>
   </div>
 </ion-content>
 
-<ion-footer class="study-footer" *ngIf="!loading && !error && pageData">
-  <app-icon-tabs
-    [tabs]="readerTabs"
-    [activeKey]="activeTab"
-    [manual]="true"
-    (tabSelected)="setActiveTab($event === 'translation' ? 'translation' : 'reading')"
-  ></app-icon-tabs>
-</ion-footer>
+<ng-template #emptyLine>
+  <span class="quran-reader-page__empty-line">&#160;</span>
+</ng-template>

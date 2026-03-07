@@ -126,6 +126,76 @@ function normalizeLayoutLineType(value: unknown): 'ayah' | 'surah_name' | 'basma
   return 'ayah';
 }
 
+function buildSurahLineText(name: string | null): string {
+  if (!name) return '';
+  return `سورة ${name}`;
+}
+
+function toPageWord(word: WordRow) {
+  return {
+    word_id: word.word_id ?? null,
+    surah: word.surah,
+    ayah: word.ayah,
+    position: word.position,
+    text: word.text ?? null,
+    simple: word.simple ?? null,
+    translation: word.translation ?? null,
+    lemma: word.lemma ?? null,
+    root: word.root ?? null,
+    page: word.page ?? null,
+    line: word.line ?? null,
+  };
+}
+
+function buildLayoutAyahs(words: WordRow[], versesByKey: Map<string, VerseRow>) {
+  const ayahs: Array<{
+    surah: number;
+    ayah: number;
+    verse_key: string;
+    marker: string | null;
+    is_complete: boolean;
+    words: ReturnType<typeof toPageWord>[];
+  }> = [];
+
+  let currentKey = '';
+  let currentWords: WordRow[] = [];
+
+  const flush = () => {
+    if (!currentWords.length) return;
+
+    const firstWord = currentWords[0]!;
+    const verseKey = `${firstWord.surah}:${firstWord.ayah}`;
+    const verse = versesByKey.get(verseKey);
+    const lastWord = currentWords[currentWords.length - 1]!;
+    const isComplete = verse?.word_count != null ? lastWord.position >= verse.word_count : false;
+
+    ayahs.push({
+      surah: firstWord.surah,
+      ayah: firstWord.ayah,
+      verse_key: verseKey,
+      marker: isComplete && verse ? formatVerseMarker(verse) : null,
+      is_complete: isComplete,
+      words: currentWords.map(toPageWord),
+    });
+
+    currentWords = [];
+    currentKey = '';
+  };
+
+  for (const word of words) {
+    const key = `${word.surah}:${word.ayah}`;
+    if (currentKey && key !== currentKey) {
+      flush();
+    }
+
+    currentKey = key;
+    currentWords.push(word);
+  }
+
+  flush();
+  return ayahs;
+}
+
 function buildLayoutLineText(
   words: WordRow[],
   versesByKey: Map<string, VerseRow>,
@@ -233,6 +303,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       });
     }
 
+    const canonicalPageNo = verseRows[0]?.page ?? pageNo;
     const surahIds = Array.from(new Set(verseRows.map((row) => row.surah)));
     const surahPlaceholders = surahIds.map((_, index) => `?${index + 1}`).join(', ');
     const wordConditions = verseRows
@@ -295,7 +366,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const [{ results: wordRowsRaw = [] }, { results: surahRowsRaw = [] }, layoutResult] = await Promise.all([
       wordStmt.bind(...wordParams).all<WordRow>(),
       surahStmt.bind(...surahIds).all<SurahPageRow>(),
-      layoutStmt.bind(pageNo).all<LayoutRow>().catch(() => ({ results: [] as LayoutRow[] })),
+      layoutStmt.bind(canonicalPageNo).all<LayoutRow>().catch(() => ({ results: [] as LayoutRow[] })),
     ]);
 
     const wordRows = (wordRowsRaw ?? []) as WordRow[];
@@ -328,16 +399,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
     const verses = verseRows.map((row) => {
       const verseKey = `${row.surah}:${row.ayah}`;
-      const words = (wordsByVerse.get(verseKey) ?? []).map((word) => ({
-        position: word.position,
-        text: word.text ?? null,
-        simple: word.simple ?? null,
-        translation: word.translation ?? null,
-        lemma: word.lemma ?? null,
-        root: word.root ?? null,
-        page: word.page ?? null,
-        line: word.line ?? null,
-      }));
+      const words = (wordsByVerse.get(verseKey) ?? []).map(toPageWord);
 
       return {
         id: row.id,
@@ -379,12 +441,13 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
                   && word.word_id <= row.last_word_id!
               )
             : [];
+        const ayahs = lineType === 'ayah' ? buildLayoutAyahs(lineWords, verseByKey) : [];
 
         let text = '';
         let textSimple: string | null = null;
 
         if (lineType === 'surah_name') {
-          text = surahByNumber.get(row.surah_number ?? 0)?.name_ar ?? '';
+          text = buildSurahLineText(surahByNumber.get(row.surah_number ?? 0)?.name_ar ?? null);
           textSimple = text || null;
         } else if (lineType === 'basmallah') {
           text = BISMILLAH_DIACRITIC;
@@ -401,21 +464,17 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
           surah_number: row.surah_number ?? null,
           text,
           text_simple: textSimple,
+          ayahs,
         };
       })
-      .filter((line) => line.text.length > 0);
-    const ayahLayoutRowCount = layoutRows.filter((row) => normalizeLayoutLineType(row.line_type) === 'ayah').length;
-    const shouldUseLayout =
-      ayahLayoutRowCount === 0
-      || layoutLines.filter((line) => line.line_type === 'ayah').length >= Math.max(1, Math.floor(ayahLayoutRowCount * 0.6));
-
+      .filter((line) => line.text.length > 0 || line.ayahs.length > 0);
     return new Response(
       JSON.stringify({
         ok: true,
         page: {
-          number: pageNo,
-          prev_page: pageNo > 1 ? pageNo - 1 : null,
-          next_page: pageNo < (maxPageRow?.max_page ?? pageNo) ? pageNo + 1 : null,
+          number: canonicalPageNo,
+          prev_page: canonicalPageNo > 1 ? canonicalPageNo - 1 : null,
+          next_page: canonicalPageNo < (maxPageRow?.max_page ?? canonicalPageNo) ? canonicalPageNo + 1 : null,
           verse_count: verses.length,
           start_ref: `${verseRows[0]!.surah}:${verseRows[0]!.ayah}`,
           end_ref: `${verseRows[verseRows.length - 1]!.surah}:${verseRows[verseRows.length - 1]!.ayah}`,
@@ -424,7 +483,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         },
         surahs,
         verses,
-        layout_lines: shouldUseLayout ? layoutLines : [],
+        layout_lines: layoutRows.length ? layoutLines : [],
       }),
       { headers: jsonHeaders }
     );
