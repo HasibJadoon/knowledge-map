@@ -36,6 +36,10 @@ export interface CreatorEpisodeSegment {
   summary: string;
   transitionNote: string;
   reference: string;
+  primaryReference: string;
+  secondaryReference: string;
+  brainstormIdeas: string;
+  sourceNote: string;
   notes: string;
   order: number;
   lessonState: CreatorLessonState;
@@ -257,6 +261,10 @@ export function createSegment(episodeType: CreatorEpisodeType, episodeId: string
     summary: '',
     transitionNote: '',
     reference: '',
+    primaryReference: '',
+    secondaryReference: '',
+    brainstormIdeas: '',
+    sourceNote: '',
     notes: '',
     order,
     lessonState: episodeType === 'lesson_log' ? 'done' : 'done',
@@ -299,6 +307,42 @@ export function createChecklistItem(text: string, order: number): CreatorCheckli
     id: buildId(),
     text,
     order,
+  };
+}
+
+export function duplicateDialogueItem(item: CreatorDialogueItem, order: number): CreatorDialogueItem {
+  return {
+    ...item,
+    id: buildId(),
+    order,
+  };
+}
+
+export function duplicateTalkingPoint(item: CreatorTalkingPoint, order: number): CreatorTalkingPoint {
+  return {
+    ...item,
+    id: buildId(),
+    order,
+  };
+}
+
+export function duplicateChecklistItem(item: CreatorChecklistItem, order: number): CreatorChecklistItem {
+  return {
+    ...item,
+    id: buildId(),
+    order,
+  };
+}
+
+export function duplicateSegment(segment: CreatorEpisodeSegment, order: number): CreatorEpisodeSegment {
+  return {
+    ...segment,
+    id: buildId(),
+    order,
+    dialogueItems: segment.dialogueItems.map((item, itemIndex) => duplicateDialogueItem(item, itemIndex)),
+    talkingPoints: segment.talkingPoints.map((item, itemIndex) => duplicateTalkingPoint(item, itemIndex)),
+    doneItems: segment.doneItems.map((item, itemIndex) => duplicateChecklistItem(item, itemIndex)),
+    reviewItems: segment.reviewItems.map((item, itemIndex) => duplicateChecklistItem(item, itemIndex)),
   };
 }
 
@@ -374,7 +418,10 @@ export function mapPodcastEpisodeToCreator(row: PodcastEpisode): CreatorEpisode 
 
   if (type === 'lesson_log' && !episode.output.lessonSummary && episode.segments.length) {
     episode.output.lessonSummary = episode.segments
-      .flatMap((segment) => segment.doneItems.map((item) => item.text))
+      .reduce<string[]>((items, segment) => {
+        items.push(...segment.doneItems.map((item) => item.text));
+        return items;
+      }, [])
       .filter(Boolean)
       .join('\n');
   }
@@ -423,6 +470,10 @@ export function toPodcastSavePayload(episode: CreatorEpisode): {
           summary: segment.summary,
           transitionNote: segment.transitionNote,
           reference: segment.reference,
+          primaryReference: segment.primaryReference,
+          secondaryReference: segment.secondaryReference,
+          brainstormIdeas: segment.brainstormIdeas,
+          sourceNote: segment.sourceNote,
           notes: segment.notes,
           order: index,
           lessonState: segment.lessonState,
@@ -554,6 +605,10 @@ function mapSegment(rawSegment: unknown, type: CreatorEpisodeType, episodeId: st
     summary: toText(record['summary']) ?? '',
     transitionNote: toText(record['transitionNote']) ?? '',
     reference: toText(record['reference']) ?? '',
+    primaryReference: toText(record['primaryReference']) ?? toText(record['reference']) ?? '',
+    secondaryReference: toText(record['secondaryReference']) ?? '',
+    brainstormIdeas: toText(record['brainstormIdeas']) ?? '',
+    sourceNote: toText(record['sourceNote']) ?? '',
     notes: toText(record['notes']) ?? '',
     order: toNumber(record['order']) ?? index,
     lessonState: resolveLessonState(record['lessonState']),

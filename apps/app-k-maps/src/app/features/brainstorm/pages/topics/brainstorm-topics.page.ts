@@ -1,8 +1,8 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController, AlertController, IonicModule, ToastController } from '@ionic/angular';
-import { addOutline, searchOutline } from 'ionicons/icons';
+import { addOutline, arrowBackOutline, searchOutline } from 'ionicons/icons';
 import { TopicRowComponent } from '../../components/topic-row/topic-row.component';
 import { BrainstormTopic } from '../../brainstorm.models';
 import { BrainstormStoreService } from '../../services/brainstorm-store.service';
@@ -18,9 +18,11 @@ import { BrainstormStoreService } from '../../services/brainstorm-store.service'
 export class BrainstormTopicsPage {
   readonly icons = {
     addOutline,
+    arrowBackOutline,
     searchOutline,
   };
 
+  private readonly location = inject(Location);
   private readonly router = inject(Router);
   readonly store = inject(BrainstormStoreService);
   private readonly actionSheetController = inject(ActionSheetController);
@@ -66,6 +68,15 @@ export class BrainstormTopicsPage {
 
   openSearch(): void {
     void this.router.navigateByUrl('/brainstorm/search');
+  }
+
+  back(): void {
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      this.location.back();
+      return;
+    }
+
+    void this.router.navigateByUrl('/dashboard');
   }
 
   archiveTopic(topicId: string): void {

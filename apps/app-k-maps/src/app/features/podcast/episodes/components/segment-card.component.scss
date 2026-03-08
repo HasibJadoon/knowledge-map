@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.segment-card {
+  display: grid;
+  gap: 0.28rem;
+  width: 100%;
+}
+
+.segment-card__head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.segment-card__title-wrap {
+  min-width: 0;
+}
+
+.segment-card__head h3 {
+  margin: 0;
+  color: #edf6ff;
+  font-size: 0.92rem;
+  font-weight: 650;
+  line-height: 1.24;
+}
+
+.segment-card__support,
+.segment-card__summary,
+.segment-card__meta {
+  margin: 0;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.segment-card__summary {
+  color: color-mix(in srgb, var(--km-text-dim, #9eb2ce) 84%, #d9e8ff 16%);
+}
+
+.segment-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.24rem 0.34rem;
+}

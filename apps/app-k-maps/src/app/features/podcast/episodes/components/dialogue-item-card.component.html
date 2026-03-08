@@ -1,0 +1,24 @@
+<div class="creator-structured-card" [formGroup]="group">
+  <div class="creator-structured-card__row creator-structured-card__row--split">
+    <ion-item lines="none" class="km-form-field creator-structured-card__field creator-structured-card__field--compact">
+      <ion-select formControlName="speaker" label="Speaker" labelPlacement="stacked" interface="action-sheet">
+        <ion-select-option *ngFor="let speaker of speakers" [value]="speaker">{{ speakerLabel(speaker) }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none" class="km-form-field creator-structured-card__field">
+      <ion-input formControlName="cue" label="Cue" labelPlacement="stacked" placeholder="Optional reply or cue"></ion-input>
+    </ion-item>
+  </div>
+
+  <ion-item lines="none" class="km-form-field km-textarea-field creator-structured-card__field">
+    <ion-textarea
+      formControlName="text"
+      autoGrow="true"
+      rows="3"
+      label="Prompt"
+      labelPlacement="stacked"
+      placeholder="Prompt or speaking point"
+    ></ion-textarea>
+  </ion-item>
+</div>

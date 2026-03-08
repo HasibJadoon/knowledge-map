@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, DestroyRef, ViewChild, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActionSheetController, AlertController, IonSearchbar, IonicModule, ToastController } from '@ionic/angular';
-import { closeOutline } from 'ionicons/icons';
+import { arrowBackOutline, closeOutline } from 'ionicons/icons';
 import { IdeaRowComponent } from '../../components/idea-row/idea-row.component';
 import { TopicRowComponent } from '../../components/topic-row/topic-row.component';
 import { BrainstormIdeaSearchResult, BrainstormTopic } from '../../brainstorm.models';
@@ -20,10 +20,12 @@ import { BrainstormStoreService } from '../../services/brainstorm-store.service'
 })
 export class BrainstormSearchPage {
   readonly icons = {
+    arrowBackOutline,
     closeOutline,
   };
 
   private readonly destroyRef = inject(DestroyRef);
+  private readonly location = inject(Location);
   private readonly router = inject(Router);
   private readonly store = inject(BrainstormStoreService);
   private readonly actionSheetController = inject(ActionSheetController);
@@ -90,6 +92,15 @@ export class BrainstormSearchPage {
   }
 
   closeSearch(): void {
+    void this.router.navigateByUrl('/brainstorm/topics');
+  }
+
+  back(): void {
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      this.location.back();
+      return;
+    }
+
     void this.router.navigateByUrl('/brainstorm/topics');
   }
 

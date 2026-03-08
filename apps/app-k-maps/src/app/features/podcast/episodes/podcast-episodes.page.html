@@ -1,19 +1,84 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header translucent="true">
+  <ion-toolbar class="podcast-builder-toolbar km-week-toolbar">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Podcast Episodes</ion-title>
+    <ion-title>Episodes</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" size="small" routerLink="/dashboard" routerDirection="root" aria-label="Dashboard">
-        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      <ion-button fill="clear" (click)="openStatusFilter()" aria-label="Filter episodes">
+        <ion-icon name="funnel-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="startCreateEpisode()" [disabled]="creating()" aria-label="Create episode">
+        <ion-icon name="add-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <ion-toolbar class="podcast-builder-toolbar podcast-builder-toolbar--search">
+    <ion-searchbar
+      class="km-searchbar podcast-builder-searchbar"
+      debounce="250"
+      [value]="query()"
+      placeholder="Search episodes"
+      (ionInput)="onQueryInput($event.detail.value)"
+    ></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-text color="medium">
-    <p>Podcast Episodes is coming soon.</p>
-  </ion-text>
+<ion-content [fullscreen]="true" class="km-shell podcast-episodes__content">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="podcast-episodes">
+    <section class="km-panel km-panel--search podcast-episodes__filters">
+      <div class="podcast-episodes__filter-row">
+        <span class="km-chip">{{ statusLabel }}</span>
+        <span class="podcast-episodes__count" *ngIf="!loading()">{{ episodes().length }} episodes</span>
+      </div>
+    </section>
+
+    <section class="podcast-episodes__state" *ngIf="error() && !loading()">
+      <h2>Unable to load episodes</h2>
+      <p>{{ error() }}</p>
+      <ion-button fill="clear" size="small" (click)="retry()">Retry</ion-button>
+    </section>
+
+    <section class="km-panel" *ngIf="loading()">
+      <ion-list class="km-entry-list">
+        <ion-item class="km-entry-row" lines="none" *ngFor="let row of [1, 2, 3, 4]">
+          <ion-label>
+            <h3><ion-skeleton-text animated style="width: 72%"></ion-skeleton-text></h3>
+            <p class="km-entry-meta"><ion-skeleton-text animated style="width: 54%"></ion-skeleton-text></p>
+            <p class="km-entry-time"><ion-skeleton-text animated style="width: 38%"></ion-skeleton-text></p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </section>
+
+    <div class="podcast-episodes__list" *ngIf="!loading() && !error() && episodes().length; else emptyState">
+      <app-episode-card
+        *ngFor="let episode of episodes(); trackBy: trackEpisode"
+        [episode]="episode"
+        (selected)="openEpisode($event)"
+      ></app-episode-card>
+    </div>
+
+    <ng-template #emptyState>
+      <section class="km-panel km-empty-state" *ngIf="!loading() && !error()">
+        <h3>No episodes yet</h3>
+        <p>Create the first episode and start shaping the structure.</p>
+      </section>
+    </ng-template>
+  </div>
 </ion-content>
+
+<ion-footer class="podcast-episodes__footer">
+  <ion-toolbar>
+    <div class="podcast-episodes__footer-inner ion-padding-horizontal ion-padding-top ion-padding-bottom">
+      <ion-button class="km-primary-btn" expand="block" (click)="startCreateEpisode()" [disabled]="creating()">
+        <ion-icon name="add-outline" slot="start"></ion-icon>
+        New Episode
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

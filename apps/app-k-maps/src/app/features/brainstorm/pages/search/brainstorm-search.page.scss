@@ -2,6 +2,34 @@
   display: block;
 }
 
+ion-header.study-toolbar-wrap {
+  position: relative;
+  z-index: 12;
+}
+
+ion-header.study-toolbar-wrap ion-toolbar.study-toolbar {
+  --background: rgba(10, 18, 34, 0.94);
+  --color: var(--km-text, #e6edf8);
+  --border-color: rgba(145, 176, 224, 0.2);
+  --min-height: 56px;
+}
+
+.planner-toolbar-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: 0.35rem;
+  min-height: 2rem;
+}
+
+.planner-toolbar-title span {
+  font-size: 0.96rem;
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
 .brainstorm-toolbar {
   --background: rgba(10, 18, 34, 0.9);
   --border-color: rgba(145, 176, 224, 0.18);

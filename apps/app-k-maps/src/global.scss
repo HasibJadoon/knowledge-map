@@ -2192,6 +2192,122 @@ ion-action-sheet.note-target-action-sheet .action-sheet-cancel {
   color: rgba(196, 212, 232, 0.78);
 }
 
+ion-alert.km-overlay-alert {
+  --backdrop-opacity: 0.58;
+}
+
+ion-alert.km-overlay-alert::part(backdrop),
+ion-action-sheet.km-overlay-action-sheet::part(backdrop) {
+  background: rgba(2, 6, 12, 0.74);
+  backdrop-filter: blur(8px);
+}
+
+ion-alert.km-overlay-alert .alert-wrapper {
+  border: 1px solid rgba(118, 154, 203, 0.2);
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(circle at top, rgba(74, 183, 206, 0.1), transparent 55%),
+    linear-gradient(180deg, rgba(10, 17, 28, 0.98), rgba(7, 12, 20, 0.99));
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.38);
+}
+
+ion-alert.km-overlay-alert .alert-head {
+  padding: 1.2rem 1.2rem 0.45rem;
+}
+
+ion-alert.km-overlay-alert .alert-title {
+  color: #f4f8ff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+ion-alert.km-overlay-alert .alert-message {
+  color: rgba(210, 223, 240, 0.78);
+}
+
+ion-alert.km-overlay-alert .alert-input-group {
+  padding: 0.2rem 1rem 1rem;
+}
+
+ion-alert.km-overlay-alert .alert-input,
+ion-alert.km-overlay-alert input.alert-input {
+  margin-top: 0;
+  border: 1px solid rgba(118, 154, 203, 0.18);
+  border-radius: 1rem;
+  background: rgba(4, 9, 18, 0.86);
+  color: #eef5ff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+ion-alert.km-overlay-alert .alert-input::placeholder,
+ion-alert.km-overlay-alert input.alert-input::placeholder {
+  color: rgba(172, 190, 216, 0.56);
+}
+
+ion-alert.km-overlay-alert .alert-button-group {
+  padding: 0.35rem 0.85rem 0.9rem;
+}
+
+ion-alert.km-overlay-alert button.alert-button {
+  border-radius: 0.95rem;
+  color: #eef5ff;
+  font-weight: 650;
+  min-height: 2.9rem;
+}
+
+ion-alert.km-overlay-alert button.alert-button.alert-button-role-cancel {
+  color: rgba(196, 212, 232, 0.82);
+}
+
+ion-alert.km-overlay-alert button.alert-button:not(.alert-button-role-cancel) {
+  color: #e7c98b;
+}
+
+ion-action-sheet.km-overlay-action-sheet {
+  --background: transparent;
+  --backdrop-opacity: 0.58;
+}
+
+ion-action-sheet.km-overlay-action-sheet .action-sheet-group {
+  border: 1px solid rgba(118, 154, 203, 0.18);
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at top, rgba(74, 183, 206, 0.1), transparent 52%),
+    linear-gradient(180deg, rgba(10, 17, 28, 0.98), rgba(7, 12, 20, 0.99));
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.36);
+}
+
+ion-action-sheet.km-overlay-action-sheet .action-sheet-title,
+ion-action-sheet.km-overlay-action-sheet .action-sheet-sub-title {
+  color: #f4f8ff;
+}
+
+ion-action-sheet.km-overlay-action-sheet .action-sheet-sub-title {
+  color: rgba(210, 223, 240, 0.72);
+}
+
+ion-action-sheet.km-overlay-action-sheet .action-sheet-button {
+  color: #eef5ff;
+  font-weight: 600;
+}
+
+ion-action-sheet.km-overlay-action-sheet .action-sheet-button.sc-ion-action-sheet-md {
+  border-top-color: rgba(118, 154, 203, 0.12);
+}
+
+ion-action-sheet.km-overlay-action-sheet .action-sheet-button-inner {
+  gap: 0.9rem;
+}
+
+ion-action-sheet.km-overlay-action-sheet .action-sheet-button ion-icon {
+  color: rgba(103, 196, 255, 0.88);
+}
+
+ion-action-sheet.km-overlay-action-sheet .action-sheet-cancel {
+  color: rgba(196, 212, 232, 0.78);
+}
+
 @media (max-width: 767px) {
   ion-modal.study-morph-modal .study-morph-profile-grid {
     grid-template-columns: 1fr;

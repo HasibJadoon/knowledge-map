@@ -58,6 +58,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'episodes',
+    redirectTo: 'podcast',
+    pathMatch: 'full',
+  },
+  {
     path: 'quran/page/:page',
     loadComponent: () => import('./features/quran/pages/reader-page/quran-reader.page').then(m => m.QuranReaderPage),
     canActivate: [AuthGuard]

@@ -1,0 +1,102 @@
+:host {
+  display: block;
+}
+
+.podcast-builder-toolbar {
+  --background: rgba(10, 18, 34, 0.9);
+  --border-color: rgba(145, 176, 224, 0.18);
+  --color: var(--km-text, #e6edf8);
+}
+
+.podcast-segment__content::part(scroll) {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
+}
+
+.podcast-segment {
+  width: min(100%, 44rem);
+  min-height: 100%;
+  margin-inline: auto;
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  padding: calc(env(safe-area-inset-top) + 0.75rem) 0.8rem 0.35rem;
+}
+
+.podcast-segment__state,
+.podcast-segment__form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.podcast-segment__state h2,
+.podcast-segment__state p {
+  margin: 0;
+}
+
+.podcast-segment__state h2 {
+  color: var(--km-text, #e6edf8);
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.podcast-segment__state p {
+  color: var(--km-text-dim, #9eb2ce);
+}
+
+.podcast-segment__tabs {
+  --background: rgba(9, 15, 28, 0.88);
+  --indicator-color: rgba(122, 215, 255, 0.14);
+  margin: 0;
+  padding: 0.24rem;
+  border: 1px solid rgba(145, 177, 224, 0.18);
+  border-radius: 1.05rem;
+}
+
+.podcast-segment__tabs ion-segment-button {
+  --background-checked: rgba(122, 215, 255, 0.08);
+  --color: var(--km-text-dim, #9eb2ce);
+  --color-checked: var(--km-text, #e6edf8);
+  --indicator-box-shadow: none;
+  min-height: 2.7rem;
+  border-radius: 0.82rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.podcast-segment__tabs ion-segment-button::part(indicator) {
+  border-radius: 0.82rem;
+}
+
+.podcast-segment__panel {
+  display: grid;
+  gap: 0.82rem;
+}
+
+.podcast-segment__split-fields {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.podcast-segment__structured-list {
+  display: grid;
+  gap: 0.58rem;
+}
+
+.podcast-segment__structured-row {
+  --padding-start: 0.72rem;
+  --inner-padding-end: 0.5rem;
+  --min-height: 0;
+  align-items: start;
+}
+
+.podcast-segment__textarea {
+  align-items: start;
+}
+
+@media (min-width: 640px) {
+  .podcast-segment__split-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
