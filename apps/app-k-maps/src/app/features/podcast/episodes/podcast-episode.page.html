@@ -30,40 +30,60 @@
     </section>
 
     <form class="podcast-episode__form" [formGroup]="form" *ngIf="episode() as episode">
-      <section class="km-panel podcast-episode__summary">
-        <div class="podcast-episode__summary-head">
-          <div class="podcast-episode__summary-copy">
-            <div class="podcast-episode__summary-badges">
-              <app-status-badge [label]="typeLabel" [tone]="episode.type === 'lesson_log' ? 'accent' : episode.type === 'discussion' ? 'warning' : 'info'"></app-status-badge>
-              <app-status-badge [label]="statusLabel" [tone]="episode.status === 'published' || episode.status === 'completed' ? 'success' : episode.status === 'ready' ? 'accent' : episode.status === 'draft' ? 'warning' : 'neutral'"></app-status-badge>
-            </div>
+      <section class="km-panel podcast-episode__hero">
+        <div class="podcast-episode__hero-head">
+          <span class="podcast-episode__hero-mark" aria-hidden="true">
+            <ion-icon [icon]="isLessonLog() ? icons.bookOutline : icons.micOutline"></ion-icon>
+          </span>
+          <div class="podcast-episode__hero-copy">
             <h1>{{ episode.title }}</h1>
-            <div class="podcast-episode__summary-meta">
-              <span>{{ segmentCountLabel }}</span>
-              <span aria-hidden="true">•</span>
-              <span>{{ durationLabel }}</span>
-              <span aria-hidden="true">•</span>
-              <span>Updated {{ updatedLabel }}</span>
-            </div>
           </div>
+        </div>
+        <div class="podcast-episode__hero-pills">
+          <span class="podcast-episode__hero-pill">
+            <ion-icon [icon]="icons.gridOutline" aria-hidden="true"></ion-icon>
+            <span>{{ compactTabLabel }}</span>
+          </span>
+          <span class="podcast-episode__hero-pill">
+            <ion-icon [icon]="icons.layersOutline" aria-hidden="true"></ion-icon>
+            <span>{{ compactTypeLabel }}</span>
+          </span>
+          <span class="podcast-episode__hero-pill">
+            <ion-icon [icon]="icons.flashOutline" aria-hidden="true"></ion-icon>
+            <span>{{ compactStatusLabel }}</span>
+          </span>
+          <span class="podcast-episode__hero-pill">
+            <ion-icon [icon]="icons.listOutline" aria-hidden="true"></ion-icon>
+            <span>{{ compactSegmentMetric }}</span>
+          </span>
+          <span class="podcast-episode__hero-pill">
+            <ion-icon [icon]="icons.timeOutline" aria-hidden="true"></ion-icon>
+            <span>{{ compactDurationMetric }}</span>
+          </span>
         </div>
       </section>
 
-      <section class="podcast-episode__panel podcast-episode__panel--segments" *ngIf="activeTab() === 'segments'">
+      <section class="km-panel podcast-episode__panel podcast-episode__panel--segments" *ngIf="activeTab() === 'segments'">
         <div class="podcast-episode__section-head">
           <div>
             <h2>Segments</h2>
-            <p>Tap to edit. Drag to reorder.</p>
+            <p>Tap to edit. Drag to sort.</p>
           </div>
-          <ion-button fill="clear" size="small" class="podcast-episode__section-action" (click)="addSegment()" [disabled]="saving()">
-            <ion-icon name="add-outline" slot="start"></ion-icon>
-            Add
+          <ion-button
+            fill="clear"
+            size="small"
+            class="podcast-episode__section-action"
+            (click)="addSegment()"
+            [disabled]="saving()"
+            aria-label="Add segment"
+          >
+            <ion-icon [icon]="icons.addOutline" slot="icon-only"></ion-icon>
           </ion-button>
         </div>
 
         <div class="podcast-episode__segment-list" *ngIf="episode.segments.length; else noSegmentsState">
           <ion-reorder-group [disabled]="saving()" (ionItemReorder)="reorderSegments($event)">
-            <ion-item-sliding *ngFor="let segment of episode.segments; trackBy: trackSegment">
+            <ion-item-sliding *ngFor="let segment of episode.segments; let index = index; trackBy: trackSegment">
               <ion-item
                 lines="none"
                 [button]="true"
@@ -71,20 +91,36 @@
                 class="km-entry-row podcast-episode__segment-row"
                 (click)="openSegment(segment.id)"
               >
-                <app-segment-card [segment]="segment" [episodeType]="episode.type"></app-segment-card>
+                <app-segment-card [segment]="segment" [episodeType]="episode.type" [order]="index + 1"></app-segment-card>
+                <ion-button
+                  slot="end"
+                  fill="clear"
+                  size="small"
+                  class="podcast-episode__segment-delete"
+                  [disabled]="saving()"
+                  aria-label="Delete segment"
+                  (click)="onDeleteSegmentClick($event, segment.id)"
+                >
+                  <ion-icon [icon]="icons.trashOutline" slot="icon-only"></ion-icon>
+                </ion-button>
                 <ion-reorder slot="end"></ion-reorder>
               </ion-item>
 
               <ion-item-options side="end">
                 <ion-item-option color="medium" (click)="duplicateSegment(segment.id)">Duplicate</ion-item-option>
-                <ion-item-option color="danger" (click)="confirmDeleteSegment(segment.id)">Delete</ion-item-option>
               </ion-item-options>
             </ion-item-sliding>
           </ion-reorder-group>
         </div>
       </section>
 
-      <section class="podcast-episode__panel" *ngIf="activeTab() === 'review'">
+      <section class="podcast-episode__panel podcast-episode__panel--review" *ngIf="activeTab() === 'review'">
+        <header class="podcast-episode__panel-title">
+          <div>
+            <h2>Review Pass</h2>
+            <p>{{ activeTabDescription }}</p>
+          </div>
+        </header>
         <ng-container [ngSwitch]="episode.type">
           <div class="podcast-episode__review-stack" *ngSwitchCase="'discussion'">
             <section class="km-panel podcast-episode__review-panel" *ngFor="let segment of episode.segments; trackBy: trackSegment">
@@ -169,6 +205,12 @@
       </section>
 
       <section class="km-panel podcast-episode__panel" *ngIf="activeTab() === 'publish' && !isLessonLog()">
+        <header class="podcast-episode__panel-title">
+          <div>
+            <h2>Publishing Package</h2>
+            <p>Finish the packaging details before the episode moves out of draft.</p>
+          </div>
+        </header>
         <div class="km-form-grid km-form-grid--stack">
           <ion-item lines="none" class="km-form-field">
             <ion-input formControlName="videoTitle" label="Video Title" labelPlacement="stacked" placeholder="YouTube title"></ion-input>
@@ -225,6 +267,12 @@
       </section>
 
       <section class="km-panel podcast-episode__panel" *ngIf="activeTab() === 'output' && isLessonLog()">
+        <header class="podcast-episode__panel-title">
+          <div>
+            <h2>Lesson Output</h2>
+            <p>Capture the outcome of the session and what needs to happen next.</p>
+          </div>
+        </header>
         <div class="km-form-grid km-form-grid--stack">
           <ion-item lines="none" class="km-form-field km-textarea-field podcast-episode__textarea">
             <ion-textarea formControlName="lessonSummary" autoGrow="true" rows="6" label="Lesson Summary" labelPlacement="stacked" placeholder="What was covered in this lesson?"></ion-textarea>

@@ -1,9 +1,11 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { RefresherCustomEvent, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { PlannerLane, PlannerTask, PlannerTaskRow } from '../../sprint/models/sprint.models';
 import { PlannerService } from '../../sprint/services/planner.service';
 import { formatWeekRangeLabel } from '../../sprint/utils/week-start.util';
+import { linkedPodcastEpisodeId } from './planner-task-links.util';
 
 type BoardStatus = 'planned' | 'doing' | 'done';
 type TaskStatus = PlannerTask['status'];
@@ -14,7 +16,7 @@ type KanbanLaneGroup = {
 };
 
 const BOARD_STATUSES: BoardStatus[] = ['planned', 'doing', 'done'];
-const LANES: PlannerLane[] = ['lesson', 'podcast', 'notes', 'admin'];
+const LANES: PlannerLane[] = ['lesson', 'podcast'];
 const TASK_STATUS_OPTIONS: TaskStatus[] = ['planned', 'todo', 'doing', 'blocked', 'done', 'skipped'];
 
 @Component({
@@ -25,6 +27,7 @@ const TASK_STATUS_OPTIONS: TaskStatus[] = ['planned', 'todo', 'doing', 'blocked'
 })
 export class PlannerKanbanPage {
   private readonly planner = inject(PlannerService);
+  private readonly router = inject(Router);
   private readonly toastController = inject(ToastController);
 
   readonly loading = signal(true);
@@ -76,13 +79,7 @@ export class PlannerKanbanPage {
     if (lane === 'lesson') {
       return 'Lessons';
     }
-    if (lane === 'podcast') {
-      return 'Podcast';
-    }
-    if (lane === 'notes') {
-      return 'Notes';
-    }
-    return 'Admin';
+    return 'Podcast';
   }
 
   statusLabel(status: TaskStatus): string {
@@ -116,6 +113,19 @@ export class PlannerKanbanPage {
     }
 
     void this.setTaskStatus(task, value);
+  }
+
+  hasPodcastEpisodeLink(task: PlannerTaskRow): boolean {
+    return Boolean(linkedPodcastEpisodeId(task));
+  }
+
+  openTask(task: PlannerTaskRow): void {
+    const episodeId = linkedPodcastEpisodeId(task);
+    if (!episodeId) {
+      return;
+    }
+
+    void this.router.navigate(['/podcast', episodeId]);
   }
 
   private async load(): Promise<void> {

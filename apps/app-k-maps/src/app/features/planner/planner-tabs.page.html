@@ -17,6 +17,15 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <ion-toolbar class="study-toolbar study-toolbar--search" *ngIf="hasToolbarSearch">
+    <ion-searchbar
+      [value]="toolbarSearchQuery"
+      debounce="300"
+      [placeholder]="toolbarSearchPlaceholder"
+      show-clear-button="focus"
+      (ionInput)="onToolbarSearchInput($event.detail.value)"
+    ></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-router-outlet></ion-router-outlet>

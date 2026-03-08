@@ -4,7 +4,14 @@
   height: 100%;
   --planner-toolbar-safe-top: var(--ion-safe-area-top, env(safe-area-inset-top));
   --planner-toolbar-min-height: 56px;
+  --planner-search-toolbar-min-height: 64px;
   --planner-shell-header-offset: calc(var(--planner-toolbar-min-height) + var(--planner-toolbar-safe-top));
+}
+
+:host.planner-shell--with-search {
+  --planner-shell-header-offset: calc(
+    var(--planner-toolbar-safe-top) + var(--planner-toolbar-min-height) + var(--planner-search-toolbar-min-height)
+  );
 }
 
 ion-header.study-toolbar-wrap {
@@ -17,6 +24,18 @@ ion-header.study-toolbar-wrap ion-toolbar.study-toolbar {
   --color: var(--km-text, #e6edf8);
   --border-color: rgba(145, 176, 224, 0.2);
   --min-height: var(--planner-toolbar-min-height);
+}
+
+ion-header.study-toolbar-wrap ion-toolbar.study-toolbar--search {
+  --min-height: var(--planner-search-toolbar-min-height);
+  --padding-top: 0.15rem;
+  --padding-bottom: 0.3rem;
+  --padding-start: 0.5rem;
+  --padding-end: 0.5rem;
+}
+
+ion-header.study-toolbar-wrap ion-toolbar.study-toolbar--search ion-searchbar {
+  padding: 0;
 }
 
 ion-router-outlet {

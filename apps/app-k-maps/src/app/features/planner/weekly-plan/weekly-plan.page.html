@@ -8,7 +8,7 @@
       <div>
         <p class="km-panel-kicker">Weekly Planner</p>
         <h1>{{ weekLabel() }}</h1>
-        <p class="km-panel-subtitle">Build momentum across lessons, podcast, notes, and admin tasks.</p>
+        <p class="km-panel-subtitle">Build momentum across lessons and podcast work.</p>
       </div>
       <div class="km-hero-chips">
         <span class="km-chip">{{ summary().tasks_done }} done</span>
@@ -61,8 +61,6 @@
           <ion-select [formControl]="laneControl" interface="popover" label="Lane" labelPlacement="stacked">
             <ion-select-option value="lesson">Lessons</ion-select-option>
             <ion-select-option value="podcast">Podcast</ion-select-option>
-            <ion-select-option value="notes">Notes</ion-select-option>
-            <ion-select-option value="admin">Admin</ion-select-option>
           </ion-select>
         </ion-item>
 
@@ -112,7 +110,14 @@
           </header>
 
           <ion-list class="km-task-list" *ngIf="group.tasks.length > 0; else emptyLane">
-            <ion-item class="km-task-row" *ngFor="let task of group.tasks" lines="none">
+            <ion-item
+              class="km-task-row"
+              *ngFor="let task of group.tasks"
+              lines="none"
+              [button]="hasPodcastEpisodeLink(task)"
+              detail="false"
+              (click)="openTask(task)"
+            >
               <ion-label>
                 <h3>{{ task.item_json.title }}</h3>
                 <p class="km-task-meta">{{ assignmentSummary(task) }}</p>
@@ -128,6 +133,7 @@
                 interface="popover"
                 aria-label="Status"
                 [disabled]="saving()"
+                (click)="$event.stopPropagation()"
                 (ionChange)="onTaskStatusChanged(task, $event.detail.value)"
               >
                 <ion-select-option *ngFor="let status of taskStatusOptions" [value]="status">

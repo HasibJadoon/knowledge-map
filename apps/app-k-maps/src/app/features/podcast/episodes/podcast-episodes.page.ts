@@ -18,6 +18,7 @@ import { PodcastBuilderService } from './podcast-builder.service';
 
 const PODCAST_ALERT_CLASS = 'km-overlay-alert';
 const PODCAST_SHEET_CLASS = 'km-overlay-action-sheet';
+const PODCAST_STATUS_FILTER_SHEET_CLASS = 'podcast-status-filter-sheet';
 
 @Component({
   selector: 'app-podcast-episodes',
@@ -75,7 +76,7 @@ export class PodcastEpisodesPage {
 
   async openStatusFilter(): Promise<void> {
     const actionSheet = await this.actionSheetController.create({
-      cssClass: PODCAST_SHEET_CLASS,
+      cssClass: [PODCAST_SHEET_CLASS, PODCAST_STATUS_FILTER_SHEET_CLASS],
       header: 'Filter Episodes',
       buttons: [
         {

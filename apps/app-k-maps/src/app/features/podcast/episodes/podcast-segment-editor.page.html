@@ -4,11 +4,6 @@
       <ion-back-button [defaultHref]="backHref"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ title }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="saveSegment()" [disabled]="saving()" aria-label="Save segment">
-        Save
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -30,183 +25,109 @@
     </section>
 
     <form class="podcast-segment__form" [formGroup]="form" *ngIf="episode() && !loading() && !error() && segmentIndex() >= 0">
-      <ion-segment class="podcast-segment__tabs" [value]="activeTab()" (ionChange)="changeTab($event.detail.value)">
-        <ion-segment-button *ngFor="let tab of tabs()" [value]="tab.key">
-          <ion-label>{{ tab.label }}</ion-label>
-        </ion-segment-button>
-      </ion-segment>
-
-      <section class="km-panel podcast-segment__panel" *ngIf="activeTab() === 'overview'">
-        <div class="km-form-grid km-form-grid--stack">
-          <ion-item lines="none" class="km-form-field">
-            <ion-input formControlName="title" label="Segment Title" labelPlacement="stacked" placeholder="Segment title"></ion-input>
-          </ion-item>
-
-          <div class="podcast-segment__split-fields">
-            <ion-item lines="none" class="km-form-field">
-              <ion-input formControlName="type" label="Segment Type" labelPlacement="stacked" placeholder="Intro, analysis, reading"></ion-input>
+      <section class="podcast-segment__section">
+        <div class="podcast-segment__detail-list" [formArrayName]="detailFormArrayName">
+          <ion-reorder-group [disabled]="saving()" (ionItemReorder)="reorderDetailItems($event)">
+            <ion-item
+              *ngFor="let control of detailControls; let index = index; trackBy: trackDetail"
+              lines="none"
+              class="km-entry-row podcast-segment__detail-row"
+              [formGroupName]="index"
+            >
+              <div class="podcast-segment__detail-stack">
+                <ion-textarea
+                  class="podcast-segment__detail-textarea"
+                  formControlName="text"
+                  autoGrow="true"
+                  rows="1"
+                  [placeholder]="detailItemPlaceholder(index)"
+                  [aria-label]="detailSectionTitle + ' ' + (index + 1)"
+                ></ion-textarea>
+                <div class="podcast-segment__detail-divider" aria-hidden="true"></div>
+                <div
+                  class="podcast-segment__detail-actions"
+                  [class.podcast-segment__detail-actions--talking-points]="detailFormArrayName === 'talkingPoints'"
+                >
+                  <ng-container *ngIf="detailFormArrayName === 'talkingPoints'">
+                    <span
+                      class="podcast-segment__detail-owner"
+                      [class.podcast-segment__detail-owner--empty]="!detailOwnerInitial(control)"
+                      [attr.aria-label]="detailOwnerInitial(control) ? 'Assigned user initial ' + detailOwnerInitial(control) : null"
+                      [attr.aria-hidden]="detailOwnerInitial(control) ? null : 'true'"
+                    >
+                      {{ detailOwnerInitial(control) ?? '' }}
+                    </span>
+                    <ion-button
+                      *ngIf="detailDurationValue(control) as durationValue"
+                      fill="clear"
+                      size="small"
+                      type="button"
+                      class="podcast-segment__detail-duration"
+                      [attr.aria-label]="'Cycle ' + detailItemLabel(index) + ' duration. Current duration ' + detailDurationLabel(control)"
+                      (click)="cycleDetailDuration(control)"
+                    >
+                      <span class="podcast-segment__detail-duration-shell">
+                        <ion-icon [icon]="icons.timeOutline"></ion-icon>
+                        <span class="podcast-segment__detail-duration-badge">{{ durationValue }}</span>
+                      </span>
+                    </ion-button>
+                  </ng-container>
+                  <ion-button
+                    fill="clear"
+                    size="small"
+                    type="button"
+                    class="podcast-segment__detail-delete"
+                    [attr.aria-label]="'Delete ' + detailItemLabel(index)"
+                    (click)="deleteDetailItem(index)"
+                  >
+                    <ion-icon [icon]="icons.trashOutline" slot="icon-only"></ion-icon>
+                  </ion-button>
+                </div>
+              </div>
             </ion-item>
-
-            <ion-item lines="none" class="km-form-field">
-              <ion-input formControlName="duration" type="number" label="Estimated Duration" labelPlacement="stacked" placeholder="Minutes"></ion-input>
-            </ion-item>
-          </div>
-
-          <ion-item lines="none" class="km-form-field km-textarea-field podcast-segment__textarea">
-            <ion-textarea formControlName="summary" autoGrow="true" rows="5" label="Summary" labelPlacement="stacked" placeholder="Goal, summary, or teaching focus"></ion-textarea>
-          </ion-item>
-
-          <ion-item lines="none" class="km-form-field" *ngIf="!isLessonLog()">
-            <ion-input formControlName="transitionNote" label="Transition Note" labelPlacement="stacked" placeholder="Optional transition cue"></ion-input>
-          </ion-item>
-
-          <ion-item lines="none" class="km-form-field">
-            <ion-input formControlName="reference" label="Reference" labelPlacement="stacked" placeholder="Verse, source, or section reference"></ion-input>
-          </ion-item>
+          </ion-reorder-group>
         </div>
 
-        <ion-button class="km-primary-btn" expand="block" (click)="saveSegment()" [disabled]="saving()">
-          Save Segment
+        <ion-button
+          fill="clear"
+          size="small"
+          type="button"
+          class="podcast-segment__add-point"
+          (click)="addDetailItem()"
+        >
+          <ion-icon [icon]="icons.addOutline" slot="start"></ion-icon>
+          {{ addDetailLabel }}
         </ion-button>
       </section>
 
-      <section class="podcast-segment__panel" *ngIf="activeTab() === 'dialogue' && isDiscussion()">
-        <div class="podcast-segment__structured-list" *ngIf="dialogueItems.length; else noDialogueState">
-          <ion-reorder-group [disabled]="false" (ionItemReorder)="reorderDialogueItems($event)">
-            <ion-item-sliding *ngFor="let group of dialogueItems.controls; let index = index; trackBy: trackIndex">
-              <ion-item lines="none" class="km-entry-row podcast-segment__structured-row">
-                <app-dialogue-item-card [group]="$any(group)"></app-dialogue-item-card>
-                <ion-reorder slot="end"></ion-reorder>
-              </ion-item>
-              <ion-item-options side="end">
-                <ion-item-option color="medium" (click)="duplicateDialogue(index)">Duplicate</ion-item-option>
-                <ion-item-option color="danger" (click)="deleteDialogue(index)">Delete</ion-item-option>
-              </ion-item-options>
-            </ion-item-sliding>
-          </ion-reorder-group>
-        </div>
-
-        <ion-button fill="clear" size="small" (click)="addDialogueItem()">Add Dialogue Item</ion-button>
-        <ion-button class="km-primary-btn" expand="block" (click)="saveSegment()" [disabled]="saving()">Save Segment</ion-button>
-      </section>
-
-      <section class="podcast-segment__panel" *ngIf="activeTab() === 'talking_points' && !isDiscussion() && !isLessonLog()">
-        <div class="podcast-segment__structured-list" *ngIf="talkingPoints.length; else noPointsState">
-          <ion-reorder-group [disabled]="false" (ionItemReorder)="reorderTalkingPoints($event)">
-            <ion-item-sliding *ngFor="let group of talkingPoints.controls; let index = index; trackBy: trackIndex">
-              <ion-item lines="none" class="km-entry-row podcast-segment__structured-row">
-                <app-talking-point-card [group]="$any(group)"></app-talking-point-card>
-                <ion-reorder slot="end"></ion-reorder>
-              </ion-item>
-              <ion-item-options side="end">
-                <ion-item-option color="medium" (click)="duplicateTalkingPoint(index)">Duplicate</ion-item-option>
-                <ion-item-option color="danger" (click)="deleteTalkingPoint(index)">Delete</ion-item-option>
-              </ion-item-options>
-            </ion-item-sliding>
-          </ion-reorder-group>
-        </div>
-
-        <ion-button fill="clear" size="small" (click)="addTalkingPoint()">Add Talking Point</ion-button>
-        <ion-button class="km-primary-btn" expand="block" (click)="saveSegment()" [disabled]="saving()">Save Segment</ion-button>
-      </section>
-
-      <section class="podcast-segment__panel" *ngIf="activeTab() === 'done' && isLessonLog()">
-        <div class="podcast-segment__structured-list" *ngIf="doneItems.length; else noDoneState">
-          <ion-reorder-group [disabled]="false" (ionItemReorder)="reorderDoneItems($event)">
-            <ion-item-sliding *ngFor="let group of doneItems.controls; let index = index; trackBy: trackIndex">
-              <ion-item lines="none" class="km-entry-row podcast-segment__structured-row">
-                <app-review-item-card [group]="$any(group)" label="Covered" placeholder="What was covered in this part?"></app-review-item-card>
-                <ion-reorder slot="end"></ion-reorder>
-              </ion-item>
-              <ion-item-options side="end">
-                <ion-item-option color="medium" (click)="duplicateDoneItem(index)">Duplicate</ion-item-option>
-                <ion-item-option color="danger" (click)="deleteDoneItem(index)">Delete</ion-item-option>
-              </ion-item-options>
-            </ion-item-sliding>
-          </ion-reorder-group>
-        </div>
-
-        <ion-button fill="clear" size="small" (click)="addDoneItem()">Add Covered Item</ion-button>
-        <ion-button class="km-primary-btn" expand="block" (click)="saveSegment()" [disabled]="saving()">Save Segment</ion-button>
-      </section>
-
-      <section class="podcast-segment__panel" *ngIf="activeTab() === 'review' && isLessonLog()">
-        <div class="podcast-segment__structured-list" *ngIf="reviewItems.length; else noReviewState">
-          <ion-reorder-group [disabled]="false" (ionItemReorder)="reorderReviewItems($event)">
-            <ion-item-sliding *ngFor="let group of reviewItems.controls; let index = index; trackBy: trackIndex">
-              <ion-item lines="none" class="km-entry-row podcast-segment__structured-row">
-                <app-review-item-card [group]="$any(group)" label="Review" placeholder="What needs revisiting?"></app-review-item-card>
-                <ion-reorder slot="end"></ion-reorder>
-              </ion-item>
-              <ion-item-options side="end">
-                <ion-item-option color="medium" (click)="duplicateReviewItem(index)">Duplicate</ion-item-option>
-                <ion-item-option color="danger" (click)="deleteReviewItem(index)">Delete</ion-item-option>
-              </ion-item-options>
-            </ion-item-sliding>
-          </ion-reorder-group>
-        </div>
-
-        <ion-button fill="clear" size="small" (click)="addReviewItem()">Add Review Item</ion-button>
-        <ion-button class="km-primary-btn" expand="block" (click)="saveSegment()" [disabled]="saving()">Save Segment</ion-button>
-      </section>
-
-      <section class="km-panel podcast-segment__panel" *ngIf="activeTab() === 'notes'">
-        <ion-item lines="none" class="km-form-field km-textarea-field podcast-segment__textarea">
-          <ion-textarea formControlName="notes" autoGrow="true" rows="10" label="Notes" labelPlacement="stacked" placeholder="Extended notes for this segment"></ion-textarea>
-        </ion-item>
-
-        <ion-button class="km-primary-btn" expand="block" (click)="saveSegment()" [disabled]="saving()">Save Segment</ion-button>
-      </section>
-
-      <section class="km-panel podcast-segment__panel" *ngIf="activeTab() === 'source' && !isLessonLog()">
-        <div class="km-form-grid km-form-grid--stack">
-          <ion-item lines="none" class="km-form-field">
-            <ion-input formControlName="primaryReference" label="Primary Reference" labelPlacement="stacked" placeholder="Primary reference"></ion-input>
-          </ion-item>
-
-          <ion-item lines="none" class="km-form-field">
-            <ion-input formControlName="secondaryReference" label="Secondary Reference" labelPlacement="stacked" placeholder="Secondary reference"></ion-input>
-          </ion-item>
-
-          <ion-item lines="none" class="km-form-field">
-            <ion-input formControlName="brainstormIdeas" label="Related Brainstorm Ideas" labelPlacement="stacked" placeholder="Comma-separated idea links"></ion-input>
-          </ion-item>
-
-          <ion-item lines="none" class="km-form-field km-textarea-field podcast-segment__textarea">
-            <ion-textarea formControlName="sourceNote" autoGrow="true" rows="7" label="Source Note" labelPlacement="stacked" placeholder="Source context or supporting note"></ion-textarea>
-          </ion-item>
-        </div>
-
-        <ion-button class="km-primary-btn" expand="block" (click)="saveSegment()" [disabled]="saving()">Save Segment</ion-button>
-      </section>
     </form>
-
-    <ng-template #noDialogueState>
-      <section class="km-panel km-empty-state">
-        <h3>No dialogue yet</h3>
-        <p>Add the first prompt or reply cue for this segment.</p>
-      </section>
-    </ng-template>
-
-    <ng-template #noPointsState>
-      <section class="km-panel km-empty-state">
-        <h3>No talking points yet</h3>
-        <p>Add the first point for this solo segment.</p>
-      </section>
-    </ng-template>
-
-    <ng-template #noDoneState>
-      <section class="km-panel km-empty-state">
-        <h3>No covered items yet</h3>
-        <p>Record what was actually covered in this section.</p>
-      </section>
-    </ng-template>
-
-    <ng-template #noReviewState>
-      <section class="km-panel km-empty-state">
-        <h3>No review items yet</h3>
-        <p>Capture what needs to be revisited next time.</p>
-      </section>
-    </ng-template>
   </div>
 </ion-content>
+
+<ion-footer class="podcast-segment__footer" *ngIf="episode() && !loading() && !error() && segmentIndex() >= 0">
+  <ion-toolbar class="podcast-segment__footer-bar">
+    <div class="podcast-segment__footer-inner">
+      <ion-button
+        fill="clear"
+        size="small"
+        type="button"
+        class="podcast-segment__footer-delete"
+        (click)="deleteCurrentSegment()"
+        [disabled]="saving()"
+      >
+        <ion-icon [icon]="icons.trashOutline" slot="start"></ion-icon>
+        Delete Section
+      </ion-button>
+      <ion-button
+        class="km-primary-btn podcast-segment__footer-save"
+        size="small"
+        type="button"
+        (click)="saveSegment()"
+        [disabled]="saving()"
+      >
+        <ion-icon [icon]="icons.checkmarkCircleOutline" slot="start"></ion-icon>
+        {{ saving() ? 'Saving...' : 'Save' }}
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

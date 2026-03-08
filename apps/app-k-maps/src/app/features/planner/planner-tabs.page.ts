@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { albumsOutline, arrowBackOutline, bookOutline, calendarOutline, gridOutline, micOutline, sparklesOutline } from 'ionicons/icons';
 
@@ -9,6 +9,9 @@ import { albumsOutline, arrowBackOutline, bookOutline, calendarOutline, gridOutl
   standalone: false,
   templateUrl: './planner-tabs.page.html',
   styleUrl: './planner-tabs.page.scss',
+  host: {
+    '[class.planner-shell--with-search]': 'hasToolbarSearch',
+  },
 })
 export class PlannerTabsPage {
   private readonly plannerBasePath = '/planner';
@@ -23,6 +26,7 @@ export class PlannerTabsPage {
 
   private readonly location = inject(Location);
   private readonly menuController = inject(MenuController);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   readonly icons = {
     arrowBackOutline,
@@ -57,6 +61,23 @@ export class PlannerTabsPage {
     return headingMap[this.activeTabKey] ?? 'Week';
   }
 
+  get hasToolbarSearch(): boolean {
+    return this.activeTabKey === 'lessons' || this.activeTabKey === 'podcast';
+  }
+
+  get toolbarSearchQuery(): string {
+    if (!this.hasToolbarSearch) {
+      return '';
+    }
+
+    const query = this.router.parseUrl(this.router.url).queryParams['q'];
+    return typeof query === 'string' ? query : '';
+  }
+
+  get toolbarSearchPlaceholder(): string {
+    return this.activeTabKey === 'podcast' ? 'Search episodes' : 'Search lessons';
+  }
+
   onTabSelected(tabKey: string): void {
     const targetUrl = this.tabRouteMap[tabKey];
     if (!targetUrl || this.router.url.startsWith(targetUrl)) {
@@ -67,6 +88,22 @@ export class PlannerTabsPage {
 
   back(): void {
     this.location.back();
+  }
+
+  onToolbarSearchInput(value: string | null | undefined): void {
+    if (!this.hasToolbarSearch) {
+      return;
+    }
+
+    const query = (value ?? '').trim();
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        q: query || null,
+      },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
   }
 
   private resolveTabKeyFromUrl(url: string): string {

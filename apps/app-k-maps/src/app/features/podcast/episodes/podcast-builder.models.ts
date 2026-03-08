@@ -18,6 +18,8 @@ export interface CreatorTalkingPoint {
   id: string;
   text: string;
   tone: CreatorTalkingPointTone;
+  durationMin?: number | null;
+  userId?: number | null;
   order: number;
 }
 
@@ -115,7 +117,7 @@ export const CREATOR_SPEAKERS: ReadonlyArray<CreatorSpeaker> = [
   'both',
 ];
 
-export const CREATOR_TONES: ReadonlyArray<CreatorTalkingPointTone> = [
+const CREATOR_TONES: ReadonlyArray<CreatorTalkingPointTone> = [
   '',
   'hook',
   'core',
@@ -175,17 +177,6 @@ export function speakerLabel(speaker: CreatorSpeaker): string {
   }
 
   return speaker === 'host' ? 'Host' : 'Guest';
-}
-
-export function toneLabel(tone: CreatorTalkingPointTone): string {
-  if (!tone) {
-    return 'None';
-  }
-
-  if (tone === 'hook') return 'Hook';
-  if (tone === 'core') return 'Core point';
-  if (tone === 'transition') return 'Transition';
-  return 'Closing';
 }
 
 export function lessonStateLabel(state: CreatorLessonState): string {
@@ -298,6 +289,8 @@ export function createTalkingPoint(order: number, text = ''): CreatorTalkingPoin
     id: buildId(),
     text,
     tone: '',
+    durationMin: 1,
+    userId: null,
     order,
   };
 }
@@ -321,6 +314,8 @@ export function duplicateDialogueItem(item: CreatorDialogueItem, order: number):
 export function duplicateTalkingPoint(item: CreatorTalkingPoint, order: number): CreatorTalkingPoint {
   return {
     ...item,
+    durationMin: item.durationMin ?? 1,
+    userId: item.userId ?? null,
     id: buildId(),
     order,
   };
@@ -488,6 +483,8 @@ export function toPodcastSavePayload(episode: CreatorEpisode): {
             id: item.id,
             text: item.text,
             tone: item.tone,
+            durationMin: item.durationMin ?? 1,
+            userId: item.userId ?? null,
             order: itemIndex,
           })),
           doneItems: segment.doneItems.map((item, itemIndex) => ({
@@ -545,14 +542,15 @@ function defaultSegmentTitle(type: CreatorEpisodeType, order: number): string {
 function deriveLegacySegments(content: Record<string, unknown>, type: CreatorEpisodeType, episodeId: string): CreatorEpisodeSegment[] {
   const outlineItems = Array.isArray(content['outline']) ? content['outline'] : [];
   if (outlineItems.length === 0) {
-    return defaultSegmentsForType(type, episodeId);
+    return defaultSegmentsForType(type, episodeId).map((segment, index) => withStableFallbackIds(segment, episodeId, index));
   }
 
   if (type === 'discussion') {
     const segment = createSegment(type, episodeId, 0, 'Outline');
+    segment.id = buildStableId('seg', episodeId, 0, segment.title);
     segment.summary = toText(content['topic']) ?? '';
     segment.dialogueItems = outlineItems.map((item, index) => ({
-      id: buildId(),
+      id: buildStableId('dlg', segment.id, index, toText(item) ?? `Prompt ${index + 1}`),
       text: toText(item) ?? `Prompt ${index + 1}`,
       speaker: index % 2 === 0 ? 'host' : 'co_host',
       cue: '',
@@ -563,16 +561,24 @@ function deriveLegacySegments(content: Record<string, unknown>, type: CreatorEpi
 
   if (type === 'lesson_log') {
     const segment = createSegment(type, episodeId, 0, 'Lesson Notes');
-    segment.doneItems = outlineItems.map((item, index) => createChecklistItem(toText(item) ?? `Covered ${index + 1}`, index));
+    segment.id = buildStableId('seg', episodeId, 0, segment.title);
+    segment.doneItems = outlineItems.map((item, index) => ({
+      id: buildStableId('chk', segment.id, index, toText(item) ?? `Covered ${index + 1}`),
+      text: toText(item) ?? `Covered ${index + 1}`,
+      order: index,
+    }));
     segment.reviewItems = [];
     return [segment];
   }
 
   const segment = createSegment(type, episodeId, 0, 'Outline');
+  segment.id = buildStableId('seg', episodeId, 0, segment.title);
   segment.talkingPoints = outlineItems.map((item, index) => ({
-    id: buildId(),
+    id: buildStableId('tp', segment.id, index, toText(item) ?? `Point ${index + 1}`),
     text: toText(item) ?? `Point ${index + 1}`,
     tone: '',
+    durationMin: 1,
+    userId: null,
     order: index,
   }));
   segment.summary = toText(content['topic']) ?? '';
@@ -596,11 +602,15 @@ function mapSegment(rawSegment: unknown, type: CreatorEpisodeType, episodeId: st
     return null;
   }
 
+  const title = toText(record['title']) ?? defaultSegmentTitle(type, index);
+  const order = toNumber(record['order']) ?? index;
+  const segmentId = toText(record['id']) ?? buildStableId('seg', episodeId, order, title);
+
   return {
-    id: toText(record['id']) ?? buildId(),
+    id: segmentId,
     episodeId,
-    title: toText(record['title']) ?? defaultSegmentTitle(type, index),
-    type: toText(record['type']) ?? toText(record['title']) ?? defaultSegmentTitle(type, index),
+    title,
+    type: toText(record['type']) ?? title,
     duration: toNumber(record['duration']),
     summary: toText(record['summary']) ?? '',
     transitionNote: toText(record['transitionNote']) ?? '',
@@ -610,29 +620,29 @@ function mapSegment(rawSegment: unknown, type: CreatorEpisodeType, episodeId: st
     brainstormIdeas: toText(record['brainstormIdeas']) ?? '',
     sourceNote: toText(record['sourceNote']) ?? '',
     notes: toText(record['notes']) ?? '',
-    order: toNumber(record['order']) ?? index,
+    order,
     lessonState: resolveLessonState(record['lessonState']),
-    dialogueItems: readDialogueItems(record['dialogueItems']),
-    talkingPoints: readTalkingPoints(record['talkingPoints']),
-    doneItems: readChecklistItems(record['doneItems']),
-    reviewItems: readChecklistItems(record['reviewItems']),
+    dialogueItems: readDialogueItems(record['dialogueItems'], segmentId),
+    talkingPoints: readTalkingPoints(record['talkingPoints'], segmentId),
+    doneItems: readChecklistItems(record['doneItems'], segmentId),
+    reviewItems: readChecklistItems(record['reviewItems'], segmentId),
   };
 }
 
-function readDialogueItems(value: unknown): CreatorDialogueItem[] {
+function readDialogueItems(value: unknown, segmentId: string): CreatorDialogueItem[] {
   if (!Array.isArray(value)) {
     return [];
   }
 
   return value
-    .map((rawItem, index) => {
+    .map((rawItem, index): CreatorDialogueItem | null => {
       const record = asRecord(rawItem);
       if (!record) {
         return null;
       }
 
       return {
-        id: toText(record['id']) ?? buildId(),
+        id: toText(record['id']) ?? buildStableId('dlg', segmentId, index, toText(record['text']) ?? ''),
         text: toText(record['text']) ?? '',
         speaker: isCreatorSpeaker(record['speaker']) ? record['speaker'] : 'host',
         cue: toText(record['cue']) ?? '',
@@ -643,25 +653,41 @@ function readDialogueItems(value: unknown): CreatorDialogueItem[] {
     .sort((left, right) => left.order - right.order);
 }
 
-function readTalkingPoints(value: unknown): CreatorTalkingPoint[] {
+function readTalkingPoints(value: unknown, segmentId: string): CreatorTalkingPoint[] {
   if (!Array.isArray(value)) {
     return [];
   }
 
   return value
-    .map((rawItem, index) => {
+    .map((rawItem, index): CreatorTalkingPoint | null => {
       const record = asRecord(rawItem);
       if (!record) {
         return null;
       }
 
       const tone = toText(record['tone']);
+      const durationMin = toInteger(record['durationMin'])
+        ?? toInteger(record['duration'])
+        ?? toInteger(record['minutes'])
+        ?? toInteger(record['minute'])
+        ?? 1;
+      const userId = toInteger(record['userId'])
+        ?? toInteger(record['user_id'])
+        ?? toInteger(record['userID'])
+        ?? toInteger(record['assignedUserId'])
+        ?? toInteger(record['assigned_user_id'])
+        ?? toInteger(record['assigneeId'])
+        ?? toInteger(record['assignee_id'])
+        ?? toInteger(record['ownerId'])
+        ?? toInteger(record['owner_id']);
       return {
-        id: toText(record['id']) ?? buildId(),
+        id: toText(record['id']) ?? buildStableId('tp', segmentId, index, toText(record['text']) ?? ''),
         text: toText(record['text']) ?? '',
         tone: tone && CREATOR_TONES.includes(tone as CreatorTalkingPointTone)
           ? tone as CreatorTalkingPointTone
           : '',
+        durationMin,
+        userId,
         order: toNumber(record['order']) ?? index,
       };
     })
@@ -669,7 +695,7 @@ function readTalkingPoints(value: unknown): CreatorTalkingPoint[] {
     .sort((left, right) => left.order - right.order);
 }
 
-function readChecklistItems(value: unknown): CreatorChecklistItem[] {
+function readChecklistItems(value: unknown, segmentId: string): CreatorChecklistItem[] {
   if (!Array.isArray(value)) {
     return [];
   }
@@ -682,7 +708,7 @@ function readChecklistItems(value: unknown): CreatorChecklistItem[] {
       }
 
       return {
-        id: toText(record['id']) ?? buildId(),
+        id: toText(record['id']) ?? buildStableId('chk', segmentId, index, toText(record['text']) ?? ''),
         text: toText(record['text']) ?? '',
         order: toNumber(record['order']) ?? index,
       };
@@ -785,10 +811,54 @@ function toNumber(value: unknown): number | null {
   return null;
 }
 
+function toInteger(value: unknown): number | null {
+  const parsed = toNumber(value);
+  return parsed !== null && Number.isInteger(parsed) ? parsed : null;
+}
+
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === 'object' && !Array.isArray(value)
     ? value as Record<string, unknown>
     : {};
+}
+
+function withStableFallbackIds(segment: CreatorEpisodeSegment, episodeId: string, index: number): CreatorEpisodeSegment {
+  const segmentId = buildStableId('seg', episodeId, index, segment.title);
+
+  return {
+    ...segment,
+    id: segmentId,
+    dialogueItems: segment.dialogueItems.map((item, itemIndex) => ({
+      ...item,
+      id: buildStableId('dlg', segmentId, itemIndex, item.text),
+    })),
+    talkingPoints: segment.talkingPoints.map((item, itemIndex) => ({
+      ...item,
+      durationMin: item.durationMin ?? 1,
+      userId: item.userId ?? null,
+      id: buildStableId('tp', segmentId, itemIndex, item.text),
+    })),
+    doneItems: segment.doneItems.map((item, itemIndex) => ({
+      ...item,
+      id: buildStableId('chk', segmentId, itemIndex, item.text),
+    })),
+    reviewItems: segment.reviewItems.map((item, itemIndex) => ({
+      ...item,
+      id: buildStableId('rvw', segmentId, itemIndex, item.text),
+    })),
+  };
+}
+
+function buildStableId(prefix: string, ...parts: Array<string | number>): string {
+  const source = parts.map((part) => String(part)).join('|');
+  let hash = 2166136261;
+
+  for (let index = 0; index < source.length; index += 1) {
+    hash ^= source.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  return `${prefix}-${(hash >>> 0).toString(36)}`;
 }
 
 function buildId(): string {

@@ -19,7 +19,7 @@ export class TaskEditModalComponent implements OnInit {
   @Input() relatedId: string | null = null;
   @Input() weekStart = '';
 
-  readonly lanes: PlannerLane[] = ['lesson', 'podcast', 'notes', 'admin'];
+  readonly lanes: PlannerLane[] = ['lesson', 'podcast'];
   readonly priorities: PlannerPriority[] = ['P1', 'P2', 'P3'];
   readonly statuses: PlannerTaskStatus[] = ['planned', 'doing', 'done', 'blocked', 'skipped'];
 

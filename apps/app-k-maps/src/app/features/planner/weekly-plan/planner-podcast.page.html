@@ -4,27 +4,6 @@
   </ion-refresher>
 
   <div class="km-planner-wrap ion-padding">
-    <section class="km-panel km-panel--hero">
-      <div>
-        <p class="km-panel-kicker">Episode Queue</p>
-        <h1>Podcast</h1>
-        <p class="km-panel-subtitle">Track episode briefs, priorities, and production status.</p>
-      </div>
-      <div class="km-hero-chips">
-        <span class="km-chip">{{ items().length }} episodes</span>
-      </div>
-    </section>
-
-    <section class="km-panel km-panel--search">
-      <ion-searchbar
-        class="km-searchbar"
-        [value]="queryControl.value"
-        debounce="300"
-        placeholder="Search episodes"
-        (ionInput)="onQueryInput($event.detail.value)"
-      ></ion-searchbar>
-    </section>
-
     <ng-container *ngIf="loading(); else episodesLoaded">
       <section class="km-panel">
         <ion-list class="km-entry-list">

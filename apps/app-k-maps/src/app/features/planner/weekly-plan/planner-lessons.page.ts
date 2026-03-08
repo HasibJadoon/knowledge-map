@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RefresherCustomEvent, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { LessonPickerItem } from '../../sprint/models/sprint.models';
@@ -14,6 +14,7 @@ import { LessonsService } from '../../sprint/services/lessons.service';
 })
 export class PlannerLessonsPage {
   private readonly lessonsService = inject(LessonsService);
+  private readonly route = inject(ActivatedRoute);
   private readonly toastController = inject(ToastController);
   private readonly router = inject(Router);
 
@@ -22,17 +23,15 @@ export class PlannerLessonsPage {
   readonly queryControl = new FormControl('', { nonNullable: true });
 
   constructor() {
-    void this.load();
+    this.route.queryParamMap.subscribe((params) => {
+      this.queryControl.setValue(params.get('q') ?? '', { emitEvent: false });
+      void this.load();
+    });
   }
 
   async onRefresh(event: RefresherCustomEvent): Promise<void> {
     await this.load();
     event.target.complete();
-  }
-
-  onQueryInput(value: string | null | undefined): void {
-    this.queryControl.setValue(value ?? '', { emitEvent: false });
-    void this.load();
   }
 
   openLesson(lesson: LessonPickerItem): void {

@@ -2308,6 +2308,11 @@ ion-action-sheet.km-overlay-action-sheet .action-sheet-cancel {
   color: rgba(196, 212, 232, 0.78);
 }
 
+ion-action-sheet.podcast-status-filter-sheet .action-sheet-button-inner {
+  justify-content: flex-start;
+  text-align: left;
+}
+
 @media (max-width: 767px) {
   ion-modal.study-morph-modal .study-morph-profile-grid {
     grid-template-columns: 1fr;

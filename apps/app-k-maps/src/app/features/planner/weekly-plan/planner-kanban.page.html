@@ -50,7 +50,14 @@
           <div class="km-empty-inline" *ngIf="group.tasks.length === 0">No tasks in this lane.</div>
 
           <ion-list class="km-task-list" *ngIf="group.tasks.length > 0">
-            <ion-item class="km-task-row" *ngFor="let task of group.tasks" lines="none">
+            <ion-item
+              class="km-task-row"
+              *ngFor="let task of group.tasks"
+              lines="none"
+              [button]="hasPodcastEpisodeLink(task)"
+              detail="false"
+              (click)="openTask(task)"
+            >
               <ion-label>
                 <h3>{{ task.item_json.title }}</h3>
                 <p class="km-task-meta">{{ task.item_json.priority }} · {{ task.item_json.estimate_min }} min</p>
@@ -61,6 +68,7 @@
                 interface="popover"
                 [value]="task.item_json.status"
                 [disabled]="saving()"
+                (click)="$event.stopPropagation()"
                 (ionChange)="onTaskStatusChanged(task, $event.detail.value)"
               >
                 <ion-select-option *ngFor="let status of taskStatusOptions" [value]="status">

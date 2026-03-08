@@ -1,11 +1,12 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RefresherCustomEvent, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { PlannerLane, PlannerTask, PlannerTaskRow, PlannerWeekPlan, PlannerWeekSummary } from '../../sprint/models/sprint.models';
 import { PlannerService } from '../../sprint/services/planner.service';
 import { computeWeekStartSydney, formatWeekRangeLabel } from '../../sprint/utils/week-start.util';
+import { linkedPodcastEpisodeId } from './planner-task-links.util';
 
 type TaskStatus = PlannerTask['status'];
 
@@ -14,7 +15,7 @@ type LaneGroup = {
   tasks: PlannerTaskRow[];
 };
 
-const LANES: PlannerLane[] = ['lesson', 'podcast', 'notes', 'admin'];
+const LANES: PlannerLane[] = ['lesson', 'podcast'];
 const TASK_STATUS_OPTIONS: TaskStatus[] = ['planned', 'todo', 'doing', 'blocked', 'done', 'skipped'];
 
 @Component({
@@ -26,6 +27,7 @@ const TASK_STATUS_OPTIONS: TaskStatus[] = ['planned', 'todo', 'doing', 'blocked'
 export class WeeklyPlanPage {
   private readonly planner = inject(PlannerService);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly toastController = inject(ToastController);
 
   readonly loading = signal(true);
@@ -103,13 +105,7 @@ export class WeeklyPlanPage {
     if (lane === 'lesson') {
       return 'Lessons';
     }
-    if (lane === 'podcast') {
-      return 'Podcast';
-    }
-    if (lane === 'notes') {
-      return 'Notes';
-    }
-    return 'Admin';
+    return 'Podcast';
   }
 
   statusLabel(status: TaskStatus): string {
@@ -187,6 +183,19 @@ export class WeeklyPlanPage {
       return;
     }
     void this.persistStatus(task, value);
+  }
+
+  hasPodcastEpisodeLink(task: PlannerTaskRow): boolean {
+    return Boolean(linkedPodcastEpisodeId(task));
+  }
+
+  openTask(task: PlannerTaskRow): void {
+    const episodeId = linkedPodcastEpisodeId(task);
+    if (!episodeId) {
+      return;
+    }
+
+    void this.router.navigate(['/podcast', episodeId]);
   }
 
   private async persistStatus(task: PlannerTaskRow, nextStatus: TaskStatus): Promise<void> {

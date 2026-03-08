@@ -1,24 +1,16 @@
 <div class="segment-card">
-  <div class="segment-card__head">
-    <div class="segment-card__title-wrap">
-      <h3>{{ segment.title }}</h3>
-      <p class="segment-card__support" *ngIf="supportLine && episodeType !== 'lesson_log'">{{ supportLine }}</p>
-    </div>
+  <span class="segment-card__order">{{ orderLabel }}</span>
 
-    <app-status-badge
-      *ngIf="episodeType === 'lesson_log'"
-      [label]="supportLine"
-      [tone]="lessonTone"
-    ></app-status-badge>
-  </div>
+  <h3>{{ title }}</h3>
 
-  <p class="segment-card__summary" *ngIf="segment.summary && segment.summary !== supportLine">{{ segment.summary }}</p>
-
-  <div class="segment-card__meta">
-    <span>{{ itemLine }}</span>
-    <span>•</span>
-    <span>{{ durationLine }}</span>
-    <span *ngIf="segment.reference && episodeType !== 'solo'">•</span>
-    <span *ngIf="segment.reference && episodeType !== 'solo'">{{ segment.reference }}</span>
+  <div class="segment-card__meta" *ngIf="metadataItems.length">
+    <span
+      class="segment-card__meta-item"
+      *ngFor="let item of metadataItems"
+      [attr.aria-label]="item.ariaLabel"
+    >
+      <ion-icon [icon]="item.icon" aria-hidden="true"></ion-icon>
+      <span *ngIf="item.value">{{ item.value }}</span>
+    </span>
   </div>
 </div>

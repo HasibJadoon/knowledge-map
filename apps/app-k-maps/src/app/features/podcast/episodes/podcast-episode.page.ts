@@ -7,28 +7,34 @@ import {
   RefresherCustomEvent,
   ToastController,
 } from '@ionic/angular';
-import { documentTextOutline, listOutline, paperPlaneOutline } from 'ionicons/icons';
+import {
+  addOutline,
+  bookOutline,
+  documentTextOutline,
+  flashOutline,
+  gridOutline,
+  layersOutline,
+  listOutline,
+  micOutline,
+  paperPlaneOutline,
+  timeOutline,
+  trashOutline,
+} from 'ionicons/icons';
 import { IconTabItem } from '../../../shared/components/icon-tabs/icon-tabs.component';
 import {
   CREATOR_EPISODE_STATUSES,
   CreatorEpisode,
   CreatorEpisodeSegment,
-  CreatorEpisodeStatus,
   CreatorSpeaker,
-  CreatorEpisodeType,
   createSegment,
   duplicateSegment,
   episodeStatusLabel,
-  episodeTypeLabel,
   lessonStateLabel,
   speakerLabel,
 } from './podcast-builder.models';
 import { PodcastBuilderService } from './podcast-builder.service';
 
 type EpisodeTab = 'segments' | 'review' | 'publish' | 'output';
-
-const STANDARD_TABS: EpisodeTab[] = ['segments', 'review', 'publish'];
-const LESSON_TABS: EpisodeTab[] = ['segments', 'review', 'output'];
 const PODCAST_ALERT_CLASS = 'km-overlay-alert';
 const PODCAST_SHEET_CLASS = 'km-overlay-action-sheet';
 
@@ -71,7 +77,6 @@ export class PodcastEpisodePage {
     nextSessionPrep: '',
   });
 
-  readonly tabs = computed(() => this.isLessonLog() ? LESSON_TABS : STANDARD_TABS);
   readonly workspaceTabs = computed<ReadonlyArray<IconTabItem>>(() => this.isLessonLog()
     ? [
         { key: 'segments', label: 'Segments', icon: listOutline },
@@ -85,6 +90,17 @@ export class PodcastEpisodePage {
       ]);
   readonly reviewChecklistItems = computed(() => splitLines(this.form.controls.reviewChecklist.value));
   readonly nextSessionItems = computed(() => splitLines(this.form.controls.nextSessionPrep.value));
+  readonly icons = {
+    addOutline,
+    bookOutline,
+    flashOutline,
+    gridOutline,
+    layersOutline,
+    listOutline,
+    micOutline,
+    timeOutline,
+    trashOutline,
+  };
 
   constructor() {
     this.route.paramMap.subscribe((params) => {
@@ -103,37 +119,54 @@ export class PodcastEpisodePage {
     return this.episode()?.title ?? 'Episode';
   }
 
-  get typeLabel(): string {
-    const episode = this.episode();
-    return episode ? episodeTypeLabel(episode.type) : 'Episode';
+  get compactTabLabel(): string {
+    if (this.activeTab() === 'review') return 'REV';
+    if (this.activeTab() === 'publish') return 'PUB';
+    if (this.activeTab() === 'output') return 'OUT';
+    return 'SEG';
   }
 
-  get statusLabel(): string {
-    const episode = this.episode();
-    return episode ? episodeStatusLabel(episode.status) : 'Draft';
+  get compactTypeLabel(): string {
+    const type = this.episode()?.type;
+    if (type === 'lesson_log') return 'L-LOG';
+    return type === 'discussion' ? 'DISC' : 'SOLO';
   }
 
-  get segmentCountLabel(): string {
+  get compactStatusLabel(): string {
+    const status = this.episode()?.status;
+    if (status === 'script') return 'SCR';
+    if (status === 'ready') return 'RDY';
+    if (status === 'published') return 'PUB';
+    if (status === 'completed') return 'DONE';
+    return 'DRFT';
+  }
+
+  get compactSegmentMetric(): string {
     const count = this.episode()?.segments.length ?? 0;
-    return `${count} ${count === 1 ? 'segment' : 'segments'}`;
+    return `${count} SEG`;
   }
 
-  get durationLabel(): string {
+  get compactDurationMetric(): string {
     const duration = this.episode()?.estimatedDuration;
-    return duration ? `${duration} min` : 'Duration open';
+    return duration ? `${duration}M` : 'OPEN';
   }
 
-  get updatedLabel(): string {
-    const value = this.episode()?.updatedAt ?? this.episode()?.createdAt ?? '';
-    const date = new Date(value);
-    return Number.isNaN(date.getTime())
-      ? value
-      : date.toLocaleDateString(undefined, {
-          month: 'short',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: '2-digit',
-        });
+  get activeTabDescription(): string {
+    if (this.activeTab() === 'segments') {
+      return 'Shape the episode flow, adjust timing, and keep the run of show clean.';
+    }
+
+    if (this.activeTab() === 'review') {
+      return this.isLessonLog()
+        ? 'Review what was covered, what needs reinforcement, and what carries into the next session.'
+        : 'Check the spoken outline before packaging the episode for delivery.';
+    }
+
+    if (this.activeTab() === 'publish') {
+      return 'Prepare the title, description, tags, and publishing support notes.';
+    }
+
+    return 'Capture lesson outputs, export notes, and next-session preparation.';
   }
 
   isLessonLog(): boolean {
@@ -165,6 +198,12 @@ export class PodcastEpisodePage {
     }
 
     void this.router.navigate(['/podcast', episode.id, 'segments', segmentId]);
+  }
+
+  onDeleteSegmentClick(event: Event, segmentId: string): void {
+    event.preventDefault();
+    event.stopPropagation();
+    void this.confirmDeleteSegment(segmentId);
   }
 
   async retry(): Promise<void> {

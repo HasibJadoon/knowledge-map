@@ -1,7 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RefresherCustomEvent, ToastController } from '@ionic/angular';
+import {
+  addOutline,
+  checkmarkCircleOutline,
+  timeOutline,
+  trashOutline,
+} from 'ionicons/icons';
+import { firstValueFrom } from 'rxjs';
 import {
   CreatorChecklistItem,
   CreatorDialogueItem,
@@ -9,38 +16,12 @@ import {
   CreatorEpisodeSegment,
   CreatorEpisodeType,
   CreatorTalkingPoint,
-  CreatorTalkingPointTone,
   createChecklistItem,
   createDialogueItem,
   createTalkingPoint,
-  duplicateChecklistItem,
-  duplicateDialogueItem,
-  duplicateTalkingPoint,
 } from './podcast-builder.models';
 import { PodcastBuilderService } from './podcast-builder.service';
-
-type SegmentTab = 'overview' | 'dialogue' | 'talking_points' | 'done' | 'review' | 'notes' | 'source';
-
-const DISCUSSION_TABS: ReadonlyArray<{ key: SegmentTab; label: string }> = [
-  { key: 'overview', label: 'Overview' },
-  { key: 'dialogue', label: 'Dialogue' },
-  { key: 'notes', label: 'Notes' },
-  { key: 'source', label: 'Source' },
-];
-
-const SOLO_TABS: ReadonlyArray<{ key: SegmentTab; label: string }> = [
-  { key: 'overview', label: 'Overview' },
-  { key: 'talking_points', label: 'Talking Points' },
-  { key: 'notes', label: 'Notes' },
-  { key: 'source', label: 'Source' },
-];
-
-const LESSON_TABS: ReadonlyArray<{ key: SegmentTab; label: string }> = [
-  { key: 'overview', label: 'Overview' },
-  { key: 'done', label: 'Done' },
-  { key: 'review', label: 'Review' },
-  { key: 'notes', label: 'Notes' },
-];
+import { PodcastUsersService } from './podcast-users.service';
 
 @Component({
   selector: 'app-podcast-segment-editor-page',
@@ -50,50 +31,37 @@ const LESSON_TABS: ReadonlyArray<{ key: SegmentTab; label: string }> = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PodcastSegmentEditorPage {
+  readonly icons = {
+    addOutline,
+    checkmarkCircleOutline,
+    timeOutline,
+    trashOutline,
+  };
+
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   private readonly toastController = inject(ToastController);
   private readonly builder = inject(PodcastBuilderService);
+  private readonly users = inject(PodcastUsersService);
 
   readonly loading = signal(true);
   readonly saving = signal(false);
   readonly error = signal<string | null>(null);
   readonly episode = signal<CreatorEpisode | null>(null);
   readonly segmentIndex = signal(-1);
-  readonly activeTab = signal<SegmentTab>('overview');
-
-  readonly tabs = computed(() => {
-    const type = this.episode()?.type;
-    if (type === 'discussion') {
-      return DISCUSSION_TABS;
-    }
-
-    if (type === 'lesson_log') {
-      return LESSON_TABS;
-    }
-
-    return SOLO_TABS;
-  });
+  readonly talkingPointDurationOptions = [1, 2, 3, 5, 10] as const;
+  readonly talkingPointInitials = signal<Record<number, string>>({});
 
   readonly form = this.formBuilder.group({
-    title: [''],
-    type: [''],
-    duration: [''],
-    summary: [''],
-    transitionNote: [''],
-    reference: [''],
-    primaryReference: [''],
-    secondaryReference: [''],
-    brainstormIdeas: [''],
-    sourceNote: [''],
-    notes: [''],
     dialogueItems: this.formBuilder.array([]),
     talkingPoints: this.formBuilder.array([]),
     doneItems: this.formBuilder.array([]),
-    reviewItems: this.formBuilder.array([]),
   });
 
   constructor() {
+    void this.loadTalkingPointUsers();
+
     this.route.paramMap.subscribe((params) => {
       const episodeId = params.get('episodeId');
       const segmentId = params.get('segmentId');
@@ -108,11 +76,51 @@ export class PodcastSegmentEditorPage {
   }
 
   get title(): string {
-    return this.form.controls.title.value?.trim() || 'Segment';
+    return this.currentSegment()?.title ?? 'Segment';
   }
 
   get backHref(): string {
     return this.episode() ? `/podcast/${this.episode()!.id}` : '/podcast';
+  }
+
+  get detailSectionTitle(): string {
+    if (this.isDiscussion()) {
+      return 'Dialogue Prompts';
+    }
+
+    if (this.isLessonLog()) {
+      return 'Covered Points';
+    }
+
+    return 'Talking Points';
+  }
+
+  get detailFormArrayName(): 'dialogueItems' | 'talkingPoints' | 'doneItems' {
+    if (this.isDiscussion()) {
+      return 'dialogueItems';
+    }
+
+    if (this.isLessonLog()) {
+      return 'doneItems';
+    }
+
+    return 'talkingPoints';
+  }
+
+  get detailControls(): AbstractControl[] {
+    return this.detailItems.controls;
+  }
+
+  get addDetailLabel(): string {
+    if (this.isDiscussion()) {
+      return 'Add prompt';
+    }
+
+    if (this.isLessonLog()) {
+      return 'Add covered point';
+    }
+
+    return 'Add talking point';
   }
 
   get dialogueItems(): FormArray {
@@ -127,10 +135,6 @@ export class PodcastSegmentEditorPage {
     return this.form.get('doneItems') as FormArray;
   }
 
-  get reviewItems(): FormArray {
-    return this.form.get('reviewItems') as FormArray;
-  }
-
   isDiscussion(): boolean {
     return this.episode()?.type === 'discussion';
   }
@@ -139,22 +143,16 @@ export class PodcastSegmentEditorPage {
     return this.episode()?.type === 'lesson_log';
   }
 
-  trackIndex(index: number): number {
-    return index;
-  }
-
-  changeTab(value: string | number | null | undefined): void {
-    if (
-      value === 'overview'
-      || value === 'dialogue'
-      || value === 'talking_points'
-      || value === 'done'
-      || value === 'review'
-      || value === 'notes'
-      || value === 'source'
-    ) {
-      this.activeTab.set(value);
+  get detailItems(): FormArray {
+    if (this.isDiscussion()) {
+      return this.dialogueItems;
     }
+
+    if (this.isLessonLog()) {
+      return this.doneItems;
+    }
+
+    return this.talkingPoints;
   }
 
   async onRefresh(event: RefresherCustomEvent): Promise<void> {
@@ -174,18 +172,125 @@ export class PodcastSegmentEditorPage {
     }
   }
 
-  addDialogueItem(): void {
-    this.dialogueItems.push(this.createDialogueGroup(createDialogueItem(this.dialogueItems.length)));
+  trackDetail(index: number, control: AbstractControl): string {
+    return String(control.get('id')?.value ?? index);
   }
 
-  duplicateDialogue(index: number): void {
-    const source = this.dialogueItems.at(index)?.value as CreatorDialogueItem | undefined;
-    if (!source) {
+  detailItemPlaceholder(index: number): string {
+    if (this.isDiscussion()) {
+      return `Prompt ${index + 1}`;
+    }
+
+    if (this.isLessonLog()) {
+      return `Covered point ${index + 1}`;
+    }
+
+    return `Talking point ${index + 1}`;
+  }
+
+  detailItemLabel(index: number): string {
+    if (this.isDiscussion()) {
+      return `prompt ${index + 1}`;
+    }
+
+    if (this.isLessonLog()) {
+      return `covered point ${index + 1}`;
+    }
+
+    return `talking point ${index + 1}`;
+  }
+
+  detailOwnerInitial(control: AbstractControl): string | null {
+    if (this.detailFormArrayName !== 'talkingPoints') {
+      return null;
+    }
+
+    if (!this.showResponsibleInitials()) {
+      return null;
+    }
+
+    const userId = toNullableInteger(control.get('userId')?.value);
+    if (userId === null) {
+      return null;
+    }
+
+    return this.talkingPointInitials()[userId] ?? 'U';
+  }
+
+  detailDurationLabel(control: AbstractControl): string | null {
+    if (this.detailFormArrayName !== 'talkingPoints') {
+      return null;
+    }
+
+    const durationMin = toNullableInteger(control.get('durationMin')?.value) ?? 1;
+    return `${durationMin}m`;
+  }
+
+  detailDurationValue(control: AbstractControl): number | null {
+    if (this.detailFormArrayName !== 'talkingPoints') {
+      return null;
+    }
+
+    return toNullableInteger(control.get('durationMin')?.value) ?? 1;
+  }
+
+  cycleDetailDuration(control: AbstractControl): void {
+    if (this.detailFormArrayName !== 'talkingPoints') {
       return;
     }
 
-    this.dialogueItems.insert(index + 1, this.createDialogueGroup(duplicateDialogueItem(source, index + 1)));
-    normalizeFormArrayOrder(this.dialogueItems);
+    const current = toNullableInteger(control.get('durationMin')?.value) ?? this.talkingPointDurationOptions[0];
+    const currentIndex = this.talkingPointDurationOptions.indexOf(current as typeof this.talkingPointDurationOptions[number]);
+    const nextIndex = currentIndex >= 0
+      ? (currentIndex + 1) % this.talkingPointDurationOptions.length
+      : 0;
+    control.get('durationMin')?.setValue(this.talkingPointDurationOptions[nextIndex]);
+  }
+
+  addDetailItem(): void {
+    if (this.isDiscussion()) {
+      this.addDialogueItem();
+      return;
+    }
+
+    if (this.isLessonLog()) {
+      this.addDoneItem();
+      return;
+    }
+
+    this.addTalkingPoint();
+  }
+
+  deleteDetailItem(index: number): void {
+    if (this.isDiscussion()) {
+      this.deleteDialogue(index);
+      return;
+    }
+
+    if (this.isLessonLog()) {
+      this.deleteDoneItem(index);
+      return;
+    }
+
+    this.deleteTalkingPoint(index);
+  }
+
+  reorderDetailItems(event: CustomEvent<{ from: number; to: number; complete: () => void }>): void {
+    if (this.isDiscussion()) {
+      this.reorderDialogueItems(event);
+      return;
+    }
+
+    if (this.isLessonLog()) {
+      this.reorderDoneItems(event);
+      return;
+    }
+
+    this.reorderTalkingPoints(event);
+  }
+
+  addDialogueItem(): void {
+    this.dialogueItems.push(this.createDialogueGroup(createDialogueItem(this.dialogueItems.length)));
   }
 
   deleteDialogue(index: number): void {
@@ -202,16 +307,6 @@ export class PodcastSegmentEditorPage {
     this.talkingPoints.push(this.createTalkingPointGroup(createTalkingPoint(this.talkingPoints.length)));
   }
 
-  duplicateTalkingPoint(index: number): void {
-    const source = this.talkingPoints.at(index)?.value as CreatorTalkingPoint | undefined;
-    if (!source) {
-      return;
-    }
-
-    this.talkingPoints.insert(index + 1, this.createTalkingPointGroup(duplicateTalkingPoint(source, index + 1)));
-    normalizeFormArrayOrder(this.talkingPoints);
-  }
-
   deleteTalkingPoint(index: number): void {
     this.talkingPoints.removeAt(index);
     normalizeFormArrayOrder(this.talkingPoints);
@@ -226,16 +321,6 @@ export class PodcastSegmentEditorPage {
     this.doneItems.push(this.createChecklistGroup(createChecklistItem('What was covered', this.doneItems.length)));
   }
 
-  duplicateDoneItem(index: number): void {
-    const source = this.doneItems.at(index)?.value as CreatorChecklistItem | undefined;
-    if (!source) {
-      return;
-    }
-
-    this.doneItems.insert(index + 1, this.createChecklistGroup(duplicateChecklistItem(source, index + 1)));
-    normalizeFormArrayOrder(this.doneItems);
-  }
-
   deleteDoneItem(index: number): void {
     this.doneItems.removeAt(index);
     normalizeFormArrayOrder(this.doneItems);
@@ -243,30 +328,6 @@ export class PodcastSegmentEditorPage {
 
   reorderDoneItems(event: CustomEvent<{ from: number; to: number; complete: () => void }>): void {
     reorderFormArray(this.doneItems, event.detail.from, event.detail.to);
-    event.detail.complete();
-  }
-
-  addReviewItem(): void {
-    this.reviewItems.push(this.createChecklistGroup(createChecklistItem('What needs review', this.reviewItems.length)));
-  }
-
-  duplicateReviewItem(index: number): void {
-    const source = this.reviewItems.at(index)?.value as CreatorChecklistItem | undefined;
-    if (!source) {
-      return;
-    }
-
-    this.reviewItems.insert(index + 1, this.createChecklistGroup(duplicateChecklistItem(source, index + 1)));
-    normalizeFormArrayOrder(this.reviewItems);
-  }
-
-  deleteReviewItem(index: number): void {
-    this.reviewItems.removeAt(index);
-    normalizeFormArrayOrder(this.reviewItems);
-  }
-
-  reorderReviewItems(event: CustomEvent<{ from: number; to: number; complete: () => void }>): void {
-    reorderFormArray(this.reviewItems, event.detail.from, event.detail.to);
     event.detail.complete();
   }
 
@@ -301,6 +362,31 @@ export class PodcastSegmentEditorPage {
     }
   }
 
+  async deleteCurrentSegment(): Promise<void> {
+    const episode = this.episode();
+    const currentSegment = this.currentSegment();
+    if (!episode || !currentSegment || this.saving()) {
+      return;
+    }
+
+    const next = this.builder.updateEpisode(episode, (draft) => {
+      draft.segments = draft.segments.filter((segment) => segment.id !== currentSegment.id);
+      normalizeSegments(draft.segments, draft.id);
+    });
+
+    this.saving.set(true);
+
+    try {
+      await this.builder.saveEpisode(next);
+      await this.presentToast('Section deleted.');
+      await this.router.navigate(['/podcast', episode.id], { replaceUrl: true });
+    } catch (error: unknown) {
+      await this.presentToast(error instanceof Error ? error.message : 'Unable to delete section.');
+    } finally {
+      this.saving.set(false);
+    }
+  }
+
   private currentSegment(): CreatorEpisodeSegment | null {
     const episode = this.episode();
     const index = this.segmentIndex();
@@ -314,13 +400,21 @@ export class PodcastSegmentEditorPage {
   private async loadSegment(episodeId: string, segmentId: string): Promise<void> {
     this.loading.set(true);
     this.error.set(null);
-    this.activeTab.set('overview');
 
     try {
       const episode = await this.builder.getEpisode(episodeId);
       const index = episode.segments.findIndex((segment) => segment.id === segmentId);
       if (index < 0) {
-        throw new Error('Segment not found.');
+        const fallbackSegment = episode.segments[0];
+        if (!fallbackSegment) {
+          throw new Error('Segment not found.');
+        }
+
+        this.episode.set(episode);
+        this.segmentIndex.set(0);
+        this.patchForm(fallbackSegment);
+        await this.router.navigate(['/podcast', episode.id, 'segments', fallbackSegment.id], { replaceUrl: true });
+        return;
       }
 
       this.episode.set(episode);
@@ -335,72 +429,40 @@ export class PodcastSegmentEditorPage {
     }
   }
 
-  private patchForm(segment: CreatorEpisodeSegment): void {
-    this.form.patchValue({
-      title: segment.title,
-      type: segment.type,
-      duration: segment.duration === null ? '' : String(segment.duration),
-      summary: segment.summary,
-      transitionNote: segment.transitionNote,
-      reference: segment.reference,
-      primaryReference: segment.primaryReference,
-      secondaryReference: segment.secondaryReference,
-      brainstormIdeas: segment.brainstormIdeas,
-      sourceNote: segment.sourceNote,
-      notes: segment.notes,
-    });
+  private async loadTalkingPointUsers(): Promise<void> {
+    try {
+      const users = await firstValueFrom(this.users.list());
+      this.talkingPointInitials.set(
+        users.reduce<Record<number, string>>((accumulator, user) => {
+          const initial = readInitial(user.login, user.username, user.email);
+          if (initial) {
+            accumulator[user.id] = initial;
+          }
+          return accumulator;
+        }, {})
+      );
+    } catch {
+      this.talkingPointInitials.set({});
+    }
+  }
 
+  private patchForm(segment: CreatorEpisodeSegment): void {
     replaceFormArray(this.dialogueItems, segment.dialogueItems.map((item) => this.createDialogueGroup(item)));
     replaceFormArray(this.talkingPoints, segment.talkingPoints.map((item) => this.createTalkingPointGroup(item)));
     replaceFormArray(this.doneItems, segment.doneItems.map((item) => this.createChecklistGroup(item)));
-    replaceFormArray(this.reviewItems, segment.reviewItems.map((item) => this.createChecklistGroup(item)));
   }
 
   private buildSegment(currentSegment: CreatorEpisodeSegment, episodeType: CreatorEpisodeType): CreatorEpisodeSegment {
+    const dialogueItems = buildDialogueItems(this.dialogueItems, currentSegment);
+    const talkingPoints = buildTalkingPoints(this.talkingPoints, currentSegment);
+    const doneItems = buildChecklistItems(this.doneItems, currentSegment.doneItems, currentSegment.id, 'done');
+
     return {
       ...currentSegment,
-      title: this.form.controls.title.value?.trim() || currentSegment.title,
-      type: this.form.controls.type.value?.trim() || this.form.controls.title.value?.trim() || currentSegment.type,
-      duration: toNullableNumber(this.form.controls.duration.value),
-      summary: this.form.controls.summary.value?.trim() || '',
-      transitionNote: this.form.controls.transitionNote.value?.trim() || '',
-      reference: this.form.controls.reference.value?.trim() || '',
-      primaryReference: this.form.controls.primaryReference.value?.trim() || '',
-      secondaryReference: this.form.controls.secondaryReference.value?.trim() || '',
-      brainstormIdeas: this.form.controls.brainstormIdeas.value?.trim() || '',
-      sourceNote: this.form.controls.sourceNote.value?.trim() || '',
-      notes: this.form.controls.notes.value || '',
-      dialogueItems: episodeType === 'discussion'
-        ? this.dialogueItems.controls.map((control, index) => ({
-            id: String(control.get('id')?.value ?? ''),
-            text: String(control.get('text')?.value ?? '').trim(),
-            speaker: String(control.get('speaker')?.value ?? 'host') as CreatorDialogueItem['speaker'],
-            cue: String(control.get('cue')?.value ?? '').trim(),
-            order: index,
-          })).filter((item) => item.text.length > 0)
-        : [],
-      talkingPoints: episodeType === 'solo'
-        ? this.talkingPoints.controls.map((control, index) => ({
-            id: String(control.get('id')?.value ?? ''),
-            text: String(control.get('text')?.value ?? '').trim(),
-            tone: String(control.get('tone')?.value ?? '') as CreatorTalkingPointTone,
-            order: index,
-          })).filter((item) => item.text.length > 0)
-        : [],
-      doneItems: episodeType === 'lesson_log'
-        ? this.doneItems.controls.map((control, index) => ({
-            id: String(control.get('id')?.value ?? ''),
-            text: String(control.get('text')?.value ?? '').trim(),
-            order: index,
-          })).filter((item) => item.text.length > 0)
-        : [],
-      reviewItems: episodeType === 'lesson_log'
-        ? this.reviewItems.controls.map((control, index) => ({
-            id: String(control.get('id')?.value ?? ''),
-            text: String(control.get('text')?.value ?? '').trim(),
-            order: index,
-          })).filter((item) => item.text.length > 0)
-        : [],
+      dialogueItems: episodeType === 'discussion' ? dialogueItems : currentSegment.dialogueItems,
+      talkingPoints: episodeType === 'solo' ? talkingPoints : currentSegment.talkingPoints,
+      doneItems: episodeType === 'lesson_log' ? doneItems : currentSegment.doneItems,
+      reviewItems: currentSegment.reviewItems,
     };
   }
 
@@ -419,8 +481,18 @@ export class PodcastSegmentEditorPage {
       id: [item.id],
       text: [item.text],
       tone: [item.tone],
+      durationMin: [item.durationMin ?? 1],
+      userId: [item.userId ?? null],
       order: [item.order],
     });
+  }
+
+  private showResponsibleInitials(): boolean {
+    const userIds = this.talkingPoints.controls
+      .map((control) => toNullableInteger(control.get('userId')?.value))
+      .filter((value): value is number => value !== null);
+
+    return new Set(userIds).size > 1;
   }
 
   private createChecklistGroup(item: CreatorChecklistItem): FormGroup {
@@ -473,11 +545,88 @@ function normalizeSegments(segments: CreatorEpisodeSegment[], episodeId: string)
   });
 }
 
-function toNullableNumber(value: string | null | undefined): number | null {
-  if (!value || !value.trim()) {
-    return null;
+function toNullableInteger(value: unknown): number | null {
+  if (typeof value === 'number') {
+    return Number.isInteger(value) ? value : null;
   }
 
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value);
+    return Number.isInteger(parsed) ? parsed : null;
+  }
+
+  return null;
+}
+
+function readInitial(...values: Array<string | null | undefined>): string {
+  for (const value of values) {
+    const match = String(value ?? '').trim().match(/[A-Za-z0-9]/);
+    if (match) {
+      return match[0].toUpperCase();
+    }
+  }
+
+  return 'U';
+}
+
+function buildDialogueItems(target: FormArray, currentSegment: CreatorEpisodeSegment): CreatorDialogueItem[] {
+  return target.controls
+    .map((control, index): CreatorDialogueItem | null => {
+      const text = String(control.get('text')?.value ?? '').trim();
+      if (!text) {
+        return null;
+      }
+
+      return {
+        id: String(control.get('id')?.value ?? currentSegment.dialogueItems[index]?.id ?? `${currentSegment.id}-dialogue-${index + 1}`),
+        text,
+        speaker: (control.get('speaker')?.value as CreatorDialogueItem['speaker'] | null) ?? currentSegment.dialogueItems[index]?.speaker ?? 'host',
+        cue: String(control.get('cue')?.value ?? currentSegment.dialogueItems[index]?.cue ?? '').trim(),
+        order: index,
+      };
+    })
+    .filter((item): item is CreatorDialogueItem => item !== null);
+}
+
+function buildTalkingPoints(target: FormArray, currentSegment: CreatorEpisodeSegment): CreatorTalkingPoint[] {
+  return target.controls
+    .map((control, index): CreatorTalkingPoint | null => {
+      const text = String(control.get('text')?.value ?? '').trim();
+      if (!text) {
+        return null;
+      }
+
+      return {
+        id: String(control.get('id')?.value ?? currentSegment.talkingPoints[index]?.id ?? `${currentSegment.id}-point-${index + 1}`),
+        text,
+        tone: (control.get('tone')?.value as CreatorTalkingPoint['tone'] | null) ?? currentSegment.talkingPoints[index]?.tone ?? '',
+        durationMin: toNullableInteger(control.get('durationMin')?.value) ?? currentSegment.talkingPoints[index]?.durationMin ?? 1,
+        userId: toNullableInteger(control.get('userId')?.value) ?? currentSegment.talkingPoints[index]?.userId ?? null,
+        order: index,
+      };
+    })
+    .filter((item): item is CreatorTalkingPoint => item !== null);
+}
+
+function buildChecklistItems(
+  target: FormArray,
+  currentItems: CreatorChecklistItem[],
+  segmentId: string,
+  prefix: 'done' | 'review',
+): CreatorChecklistItem[] {
+  return target.controls
+    .map((control, index) => {
+      const text = String(control.get('text')?.value ?? '').trim();
+      if (!text) {
+        return null;
+      }
+
+      const source = currentItems[index];
+      return {
+        id: String(control.get('id')?.value ?? source?.id ?? `${segmentId}-${prefix}-${index + 1}`),
+        text,
+        order: index,
+      };
+    })
+    .filter((item): item is CreatorChecklistItem => item !== null);
 }

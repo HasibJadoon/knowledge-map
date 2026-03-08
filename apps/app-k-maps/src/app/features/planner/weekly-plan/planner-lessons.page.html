@@ -3,30 +3,10 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="km-planner-wrap ion-padding">
-    <section class="km-panel km-panel--hero">
-      <div>
-        <p class="km-panel-kicker">Lesson Queue</p>
-        <h1>Lessons</h1>
-        <p class="km-panel-subtitle">Browse lesson anchors and jump directly into study mode.</p>
-      </div>
-      <div class="km-hero-chips">
-        <span class="km-chip">{{ lessons().length }} results</span>
-      </div>
-    </section>
-
-    <section class="km-panel km-panel--search">
-      <ion-searchbar
-        class="km-searchbar"
-        [value]="queryControl.value"
-        debounce="300"
-        placeholder="Search lessons"
-        (ionInput)="onQueryInput($event.detail.value)"
-      ></ion-searchbar>
-    </section>
+  <div class="km-planner-wrap km-lessons-content ion-padding">
 
     <ng-container *ngIf="loading(); else lessonsLoaded">
-      <section class="km-panel">
+      <section class="km-panel km-lessons-results">
         <ion-list class="km-entry-list">
           <ion-item class="km-entry-row" lines="none" *ngFor="let row of [1, 2, 3, 4, 5]">
             <ion-label>
@@ -39,7 +19,7 @@
     </ng-container>
 
     <ng-template #lessonsLoaded>
-      <section class="km-panel" *ngIf="lessons().length > 0; else emptyLessons">
+      <section class="km-panel km-lessons-results" *ngIf="lessons().length > 0; else emptyLessons">
         <ion-list class="km-entry-list">
           <ion-item
             class="km-entry-row km-entry-row--action"

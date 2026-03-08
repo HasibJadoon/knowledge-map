@@ -5,12 +5,9 @@ import { IonicModule } from '@ionic/angular';
 import { AppIconTabsComponent } from '../../../shared/components/icon-tabs/icon-tabs.component';
 
 import { PodcastEpisodesPageRoutingModule } from './podcast-episodes-routing.module';
-import { DialogueItemCardComponent } from './components/dialogue-item-card.component';
 import { EpisodeCardComponent } from './components/episode-card.component';
-import { ReviewItemCardComponent } from './components/review-item-card.component';
 import { SegmentCardComponent } from './components/segment-card.component';
 import { StatusBadgeComponent } from './components/status-badge.component';
-import { TalkingPointCardComponent } from './components/talking-point-card.component';
 import { PodcastEpisodePage } from './podcast-episode.page';
 import { PodcastEpisodesPage } from './podcast-episodes.page';
 import { PodcastSegmentEditorPage } from './podcast-segment-editor.page';
@@ -24,9 +21,6 @@ import { PodcastSegmentEditorPage } from './podcast-segment-editor.page';
     EpisodeCardComponent,
     SegmentCardComponent,
     StatusBadgeComponent,
-    DialogueItemCardComponent,
-    TalkingPointCardComponent,
-    ReviewItemCardComponent,
   ],
 })
 export class PodcastEpisodesPageModule {}
