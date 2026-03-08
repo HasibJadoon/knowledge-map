@@ -111,9 +111,9 @@ export const DASHBOARD_MENU_SECTIONS: ReadonlyArray<DashboardMenuSection> = [
     icon: bulbOutline,
     tone: 'mint',
     items: [
-      { title: 'Topics', subtitle: 'Topic List', icon: albumsOutline, route: ['/brainstorm', 'topics'] },
-      { title: 'Quick Add', subtitle: 'Fast Capture', icon: addCircleOutline, route: ['/brainstorm', 'new'] },
-      { title: 'Search', subtitle: 'Find Ideas', icon: searchOutline, route: ['/brainstorm', 'search'] },
+      { title: 'Topics', subtitle: 'Browse And Organize', icon: albumsOutline, route: ['/brainstorm', 'topics'] },
+      { title: 'Quick Add', subtitle: 'Capture A Thought', icon: addCircleOutline, route: ['/brainstorm', 'new'] },
+      { title: 'Search', subtitle: 'Find Ideas Fast', icon: searchOutline, route: ['/brainstorm', 'search'] },
     ],
   },
   {

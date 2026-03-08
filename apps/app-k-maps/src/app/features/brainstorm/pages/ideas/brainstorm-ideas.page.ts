@@ -4,7 +4,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, AlertController, IonTextarea, IonicModule, ToastController } from '@ionic/angular';
-import { createOutline, paperPlaneOutline } from 'ionicons/icons';
+import { paperPlaneOutline } from 'ionicons/icons';
+import { blurActiveElement } from '../../../../shared/focus-utils';
 import { IdeaRowComponent } from '../../components/idea-row/idea-row.component';
 import { BrainstormIdea } from '../../brainstorm.models';
 import { BrainstormStoreService } from '../../services/brainstorm-store.service';
@@ -19,7 +20,6 @@ import { BrainstormStoreService } from '../../services/brainstorm-store.service'
 })
 export class BrainstormIdeasPage {
   readonly icons = {
-    createOutline,
     paperPlaneOutline,
   };
 
@@ -33,6 +33,7 @@ export class BrainstormIdeasPage {
 
   readonly quickCaptureControl = new FormControl('', { nonNullable: true });
   readonly topicId = signal<string | null>(null);
+  readonly query = signal('');
   readonly loading = computed(() => this.store.loading());
   readonly error = computed(() => this.store.error());
   readonly topic = computed(() => {
@@ -43,6 +44,23 @@ export class BrainstormIdeasPage {
     const topicId = this.topicId();
     return topicId ? this.store.listIdeasForTopic(topicId) : [];
   });
+  readonly filteredIdeas = computed(() => {
+    const normalizedQuery = this.query().trim().toLowerCase();
+    if (!normalizedQuery) {
+      return this.ideas();
+    }
+
+    return this.ideas().filter((idea) => {
+      const haystack = [
+        idea.text,
+        idea.reference,
+        idea.context,
+        idea.tags.join(' '),
+      ].join(' ').toLowerCase();
+
+      return haystack.includes(normalizedQuery);
+    });
+  });
 
   @ViewChild(IonTextarea) private quickCaptureField?: IonTextarea;
 
@@ -51,11 +69,10 @@ export class BrainstormIdeasPage {
       this.topicId.set(params.get('topicId'));
       void this.store.ensureLoaded().catch(() => undefined);
     });
-  }
 
-  get countLabel(): string {
-    const count = this.ideas().length;
-    return `${count} ${count === 1 ? 'idea' : 'ideas'}`;
+    this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      this.query.set((params.get('q') ?? '').trim());
+    });
   }
 
   get canSendQuickCapture(): boolean {
@@ -82,21 +99,13 @@ export class BrainstormIdeasPage {
     }
   }
 
-  openComposer(): void {
-    const topicId = this.topicId();
-    if (!topicId) {
-      return;
-    }
-
-    void this.router.navigate(['/brainstorm', 'topic', topicId, 'idea', 'new']);
-  }
-
   openIdea(ideaId: string): void {
     const topicId = this.topicId();
     if (!topicId) {
       return;
     }
 
+    blurActiveElement();
     void this.router.navigate(['/brainstorm', 'topic', topicId, 'idea', ideaId]);
   }
 

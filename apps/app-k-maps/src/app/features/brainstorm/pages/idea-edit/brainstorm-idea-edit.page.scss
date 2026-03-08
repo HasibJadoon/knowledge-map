@@ -2,27 +2,21 @@
   display: block;
 }
 
-.brainstorm-toolbar {
-  --background: rgba(10, 18, 34, 0.9);
-  --border-color: rgba(145, 176, 224, 0.18);
-  --color: var(--km-text, #e6edf8);
-}
-
-.brainstorm-edit__content::part(scroll) {
-  padding-bottom: calc(env(safe-area-inset-bottom) + var(--app-icon-tabs-min-height) + 1.2rem);
-}
-
 .brainstorm-edit,
 .brainstorm-edit__state {
-  width: min(100%, 40rem);
+  width: min(100%, 42rem);
   min-height: 100%;
   margin-inline: auto;
-  padding: calc(env(safe-area-inset-top) + 0.75rem) 0.8rem 0.2rem;
+}
+
+.brainstorm-edit__state {
+  padding: 0.9rem 1rem;
 }
 
 .brainstorm-edit {
   display: grid;
-  gap: 0.95rem;
+  gap: 0.88rem;
+  padding-block: 0.9rem;
 }
 
 .brainstorm-edit__state {
@@ -51,50 +45,121 @@
   line-height: 1.62;
 }
 
+.brainstorm-edit__segment-panel {
+  padding: 0.58rem;
+}
+
 .brainstorm-edit__segment {
-  margin: 0;
+  --background: linear-gradient(180deg, rgba(10,18,34,.94), rgba(6,12,24,.96));
+  --indicator-color: transparent;
+  border: 1px solid rgba(121,224,197,.12);
+  border-radius: 1rem;
+}
+
+.brainstorm-edit__segment ion-segment-button {
+  --color: rgba(168,198,235,.88);
+  --color-checked: #79e0c5;
+  --border-radius: 1rem;
+  min-height: 3rem;
+  font-weight: 700;
+}
+
+.brainstorm-edit__segment ion-segment-button:not(:last-child) {
+  border-inline-end: 1px solid rgba(151,181,227,.18);
 }
 
 .brainstorm-edit__panel {
   display: grid;
-  gap: 0.82rem;
+  gap: 0.88rem;
 }
 
-.brainstorm-edit__topic-row {
+.brainstorm-edit__tool-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.55rem;
+  align-items: stretch;
+  gap: 0.65rem;
 }
 
-.brainstorm-edit__field {
+.brainstorm-edit__surface {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.92rem 1rem;
+  border: 1px solid rgba(121, 224, 197, 0.12);
+  border-radius: 1.22rem;
+  background: linear-gradient(180deg, rgba(8, 14, 28, 0.95), rgba(4, 10, 21, 0.9));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 16px 32px rgba(2, 7, 18, 0.18);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.brainstorm-edit__surface:focus-within {
+  border-color: rgba(121, 224, 197, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 0 28px rgba(121, 224, 197, 0.12);
+}
+
+.brainstorm-edit__surface--editor {
+  min-height: clamp(16rem, 52vh, 26rem);
+  align-content: start;
+}
+
+.brainstorm-edit__surface--context {
+  min-height: clamp(14rem, 44vh, 22rem);
+}
+
+.brainstorm-edit__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  color: color-mix(in srgb, var(--km-text-dim, #9eb2ce) 88%, #e7f5ff 12%);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.brainstorm-edit__eyebrow ion-icon {
+  color: #79e0c5;
+  font-size: 0.94rem;
+  filter: drop-shadow(0 0 10px rgba(121, 224, 197, 0.28));
+}
+
+.brainstorm-edit__surface ion-input,
+.brainstorm-edit__surface ion-select,
+.brainstorm-edit__surface ion-textarea {
+  --color: var(--km-text, #e6edf8);
+  --placeholder-color: color-mix(in srgb, var(--km-text-dim, #9eb2ce) 84%, #d9e8ff 16%);
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
   margin: 0;
 }
 
-.brainstorm-edit__field--thought,
-.brainstorm-edit__field--context {
-  align-items: start;
+.brainstorm-edit__surface ion-select {
+  font-size: 1.22rem;
+  font-weight: 650;
 }
 
-.brainstorm-edit__field ion-input,
-.brainstorm-edit__field ion-select,
-.brainstorm-edit__field ion-textarea {
-  --color: var(--km-text, #e6edf8);
-  --placeholder-color: color-mix(in srgb, var(--km-text-dim, #9eb2ce) 84%, #d9e8ff 16%);
-  --label-color: color-mix(in srgb, var(--km-text-dim, #9eb2ce) 80%, #dcecff 20%);
+.brainstorm-edit__surface ion-textarea {
+  min-height: 100%;
+  font-size: 1.02rem;
+  line-height: 1.72;
 }
 
-.brainstorm-edit__toggle-list {
-  display: grid;
-  gap: 0.2rem;
-  padding: 0.45rem 0.55rem;
-}
-
-.brainstorm-edit__toggle-item {
-  --background: transparent;
-  --padding-start: 0.15rem;
-  --inner-padding-end: 0.15rem;
-  --color: var(--km-text, #e6edf8);
+.brainstorm-edit__tool-button {
+  --color: #79e0c5;
+  --background: rgba(9, 18, 30, 0.94);
+  --background-hover: rgba(121, 224, 197, 0.08);
+  --background-activated: rgba(121, 224, 197, 0.14);
+  --border-radius: 1.08rem;
+  width: 3.35rem;
+  height: 100%;
+  margin: 0;
+  border: 1px solid rgba(121, 224, 197, 0.16);
+  border-radius: 1.08rem;
 }
 
 .brainstorm-edit__chips {
@@ -103,6 +168,13 @@
   gap: 0.42rem;
 }
 
-.brainstorm-edit__chip {
-  font-size: 0.72rem;
+.brainstorm-edit__delete-button {
+  justify-self: start;
+  --color: color-mix(in srgb, #ff8b8b 76%, #ffd3d3 24%);
+}
+
+@media (max-width: 480px) {
+  .brainstorm-edit__surface--editor {
+    min-height: clamp(14rem, 48vh, 22rem);
+  }
 }

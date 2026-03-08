@@ -4,6 +4,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AlertController, IonicModule, ToastController } from '@ionic/angular';
+import {
+  addOutline,
+  createOutline,
+  documentTextOutline,
+  pricetagOutline,
+  sparklesOutline,
+  layersOutline,
+  attachOutline,
+  trashOutline,
+  bookmarkOutline,
+} from 'ionicons/icons';
+import { blurActiveElement } from '../../../../shared/focus-utils';
 import { BrainstormIdea, BrainstormTopic } from '../../brainstorm.models';
 import { BrainstormStoreService } from '../../services/brainstorm-store.service';
 
@@ -48,6 +60,22 @@ export class BrainstormIdeaEditPage {
   readonly hasTopics = computed(() => this.topicOptions().length > 0);
   readonly loading = computed(() => this.store.loading() || this.hydrating());
   readonly error = computed(() => this.store.error());
+  readonly editorTabs = [
+    { key: 'idea', label: 'Idea' },
+    { key: 'details', label: 'Details' },
+    { key: 'context', label: 'Context' },
+  ] as const;
+  readonly icons = {
+    addOutline,
+    attachOutline,
+    bookmarkOutline,
+    createOutline,
+    documentTextOutline,
+    layersOutline,
+    pricetagOutline,
+    sparklesOutline,
+    trashOutline,
+  } as const;
 
   constructor() {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
@@ -57,11 +85,6 @@ export class BrainstormIdeaEditPage {
 
   get canSave(): boolean {
     return Boolean(this.form.controls.topicId.value && this.form.controls.text.value.trim() && !this.store.mutating());
-  }
-
-  get backHref(): string {
-    const topicId = this.form.controls.topicId.value || this.routeTopicId();
-    return topicId ? `/brainstorm/topic/${topicId}` : '/brainstorm/topics';
   }
 
   get saveLabel(): string {
@@ -79,6 +102,7 @@ export class BrainstormIdeaEditPage {
   }
 
   goToTopics(): void {
+    blurActiveElement();
     void this.router.navigateByUrl('/brainstorm/topics');
   }
 
@@ -160,6 +184,7 @@ export class BrainstormIdeaEditPage {
         await this.store.createIdea(payload);
       }
 
+      blurActiveElement();
       await this.router.navigate(['/brainstorm', 'topic', topicId]);
     } catch {
       await this.presentToast(this.store.error() ?? 'Could not save this idea.');
@@ -183,6 +208,7 @@ export class BrainstormIdeaEditPage {
           handler: async () => {
             try {
               await this.store.deleteIdea(existingIdea.id);
+              blurActiveElement();
               await this.router.navigate(['/brainstorm', 'topic', existingIdea.topicId]);
             } catch {
               await this.presentToast(this.store.error() ?? 'Unable to delete idea.');

@@ -4,170 +4,17 @@
       <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <ion-content>
-    <ion-list>
-      <ion-menu-toggle autoHide="true">
-        <ion-item routerLink="/dashboard" routerDirection="root" detail="false">
-          <ion-icon name="home-outline" slot="start" class="menu-icon"></ion-icon>
-          <ion-label><h2>Home</h2></ion-label>
+    <ion-list lines="none">
+      <ion-menu-toggle autoHide="true" *ngFor="let entry of menuEntries; trackBy: trackEntry">
+        <ion-item [routerLink]="entry.route" routerDirection="root" detail="false" class="menu-entry">
+          <ion-icon [icon]="entry.icon" slot="start" class="menu-icon"></ion-icon>
+          <ion-label class="menu-label">
+            <h2>{{ entry.title }}</h2>
+          </ion-label>
         </ion-item>
       </ion-menu-toggle>
-
-            <ion-item button detail="false" (click)="toggle('arabic')">
-        <ion-icon name="book-outline" slot="start" class="menu-icon"></ion-icon>
-        <ion-label><h2>Arabic</h2></ion-label>
-        <span class="menu-chevron" [class.open]="isOpen('arabic')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l8 7-8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </ion-item>
-      <div class="submenu" *ngIf="isOpen('arabic')">
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/arabic/lessons" routerDirection="root" detail="false">
-            <ion-icon name="book-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Lessons</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/arabic/roots" routerDirection="root" detail="false">
-            <ion-icon name="leaf-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Roots</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/arabic/lexicon" routerDirection="root" detail="false">
-            <ion-icon name="library-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Lexicon</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/arabic/tokens" routerDirection="root" detail="false">
-            <ion-icon name="swap-horizontal-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Tokens</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/arabic/memory" routerDirection="root" detail="false">
-            <ion-icon name="sparkles-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Memory</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-      </div>
-
-      <ion-menu-toggle autoHide="true">
-        <ion-item routerLink="/quran" routerDirection="root" detail="false">
-          <ion-icon name="book-outline" slot="start" class="menu-icon"></ion-icon>
-          <ion-label><h2>Quran</h2></ion-label>
-        </ion-item>
-      </ion-menu-toggle>
-
-            <ion-item button detail="false" (click)="toggle('worldview')">
-        <ion-icon name="globe-outline" slot="start" class="menu-icon"></ion-icon>
-        <ion-label><h2>Worldview</h2></ion-label>
-        <span class="menu-chevron" [class.open]="isOpen('worldview')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l8 7-8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </ion-item>
-      <div class="submenu" *ngIf="isOpen('worldview')">
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/worldview/lessons" routerDirection="root" detail="false">
-            <ion-icon name="globe-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Lessons</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-      </div>
-
-            <ion-item button detail="false" (click)="toggle('discourse')">
-        <ion-icon name="chatbubbles-outline" slot="start" class="menu-icon"></ion-icon>
-        <ion-label><h2>Discourse</h2></ion-label>
-        <span class="menu-chevron" [class.open]="isOpen('discourse')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l8 7-8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </ion-item>
-      <div class="submenu" *ngIf="isOpen('discourse')">
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/discourse/quranic" routerDirection="root" detail="false">
-            <ion-icon name="book-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Qur&#39;anic Discourse</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/discourse/wv_concepts" routerDirection="root" detail="false">
-            <ion-icon name="pricetags-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Concepts</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/discourse/flows" routerDirection="root" detail="false">
-            <ion-icon name="shuffle-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Flows</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-      </div>
-
-            <ion-item button detail="false" (click)="toggle('crossref')">
-        <ion-icon name="git-compare-outline" slot="start" class="menu-icon"></ion-icon>
-        <ion-label><h2>Crossref</h2></ion-label>
-        <span class="menu-chevron" [class.open]="isOpen('crossref')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l8 7-8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </ion-item>
-      <div class="submenu" *ngIf="isOpen('crossref')">
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/crossref" routerDirection="root" detail="false">
-            <ion-icon name="git-compare-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Cross References</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-      </div>
-
-            <ion-item button detail="false" (click)="toggle('podcast')">
-        <ion-icon name="mic-outline" slot="start" class="menu-icon"></ion-icon>
-        <ion-label><h2>Podcast</h2></ion-label>
-        <span class="menu-chevron" [class.open]="isOpen('podcast')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l8 7-8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </ion-item>
-      <div class="submenu" *ngIf="isOpen('podcast')">
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/podcast" routerDirection="root" detail="false">
-            <ion-icon name="mic-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Episodes</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-      </div>
-
-            <ion-item button detail="false" (click)="toggle('planner')">
-        <ion-icon name="calendar-outline" slot="start" class="menu-icon"></ion-icon>
-        <ion-label><h2>Planner</h2></ion-label>
-        <span class="menu-chevron" [class.open]="isOpen('planner')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l8 7-8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </ion-item>
-      <div class="submenu" *ngIf="isOpen('planner')">
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/planner" routerDirection="root" detail="false">
-            <ion-icon name="calendar-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Weekly Plan</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-      </div>
-
-            <ion-item button detail="false" (click)="toggle('notes')">
-        <ion-icon name="document-text-outline" slot="start" class="menu-icon"></ion-icon>
-        <ion-label><h2>Notes</h2></ion-label>
-        <span class="menu-chevron" [class.open]="isOpen('notes')"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l8 7-8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      </ion-item>
-      <div class="submenu" *ngIf="isOpen('notes')">
-        <ion-menu-toggle autoHide="true">
-          <ion-item routerLink="/notes/inbox" routerDirection="root" detail="false">
-            <ion-icon name="document-text-outline" slot="start" class="menu-icon"></ion-icon>
-            <ion-label><h2>Inbox</h2></ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-      </div>
-
-      <ion-menu-toggle autoHide="true">
-        <ion-item routerLink="/brainstorm" routerDirection="root" detail="false">
-          <ion-icon name="bulb-outline" slot="start" class="menu-icon"></ion-icon>
-          <ion-label><h2>Brainstorm</h2></ion-label>
-        </ion-item>
-      </ion-menu-toggle>
-
-      <ion-menu-toggle autoHide="true">
-        <ion-item routerLink="/settings" routerDirection="root" detail="false">
-          <ion-icon name="settings-outline" slot="start" class="menu-icon"></ion-icon>
-          <ion-label><h2>Settings</h2></ion-label>
-        </ion-item>
-      </ion-menu-toggle>
-
     </ion-list>
   </ion-content>
 </ion-menu>

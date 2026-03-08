@@ -1,41 +1,16 @@
-<ion-header class="study-toolbar-wrap" translucent="true">
-  <ion-toolbar class="study-toolbar">
-    <ion-buttons slot="start">
-      <ion-button class="study-back-button" fill="clear" (click)="back()" aria-label="Back">
-        <ion-icon [icon]="icons.arrowBackOutline" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title class="planner-toolbar-title">
-      <span>Brainstorm</span>
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="openSearch()" aria-label="Search">
-        <ion-icon [icon]="icons.searchOutline" slot="icon-only"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear" (click)="createTopic()" [disabled]="mutating()" aria-label="New topic">
-        <ion-icon [icon]="icons.addOutline" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" class="km-shell brainstorm-topics__content">
+<ion-content [fullscreen]="true" class="km-shell km-content-with-bottom-tabs km-planner-page brainstorm-topics__content">
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="brainstorm-topics">
-    <section class="brainstorm-topics__meta" *ngIf="!loading()">
-      <p>{{ topics().length }} {{ topics().length === 1 ? 'topic' : 'topics' }}</p>
-    </section>
-
-    <section class="brainstorm-topics__state" *ngIf="error() && !loading()">
+  <div class="km-planner-wrap ion-padding brainstorm-topics">
+    <section class="km-panel km-empty-state brainstorm-topics__state" *ngIf="error() && !loading()">
       <h2>Unable to load brainstorm</h2>
       <p>{{ error() }}</p>
       <ion-button fill="clear" size="small" (click)="retryLoad()">Retry</ion-button>
     </section>
 
-    <section class="brainstorm-topics__state" *ngIf="loading()">
+    <section class="km-panel km-empty-state brainstorm-topics__state" *ngIf="loading()">
       <ion-spinner name="crescent"></ion-spinner>
       <p>Loading topics…</p>
     </section>
@@ -55,10 +30,9 @@
   </div>
 
   <ng-template #emptyTopics>
-    <section class="brainstorm-topics__state">
+    <section class="km-panel km-empty-state brainstorm-topics__state">
       <h2>No topics yet</h2>
-      <p>Create one topic and keep the capture flow light.</p>
-      <ion-button fill="clear" size="small" (click)="createTopic()">New Topic</ion-button>
+      <p>Use the add icon in the toolbar to create the first topic.</p>
     </section>
   </ng-template>
 </ion-content>

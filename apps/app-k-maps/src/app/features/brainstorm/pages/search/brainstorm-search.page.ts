@@ -1,10 +1,9 @@
-import { CommonModule, Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, ViewChild, computed, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ActionSheetController, AlertController, IonSearchbar, IonicModule, ToastController } from '@ionic/angular';
-import { arrowBackOutline, closeOutline } from 'ionicons/icons';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActionSheetController, AlertController, IonicModule, ToastController } from '@ionic/angular';
+import { blurActiveElement } from '../../../../shared/focus-utils';
 import { IdeaRowComponent } from '../../components/idea-row/idea-row.component';
 import { TopicRowComponent } from '../../components/topic-row/topic-row.component';
 import { BrainstormIdeaSearchResult, BrainstormTopic } from '../../brainstorm.models';
@@ -13,37 +12,29 @@ import { BrainstormStoreService } from '../../services/brainstorm-store.service'
 @Component({
   selector: 'app-brainstorm-search-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IonicModule, TopicRowComponent, IdeaRowComponent],
+  imports: [CommonModule, IonicModule, TopicRowComponent, IdeaRowComponent],
   templateUrl: './brainstorm-search.page.html',
   styleUrl: './brainstorm-search.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BrainstormSearchPage {
-  readonly icons = {
-    arrowBackOutline,
-    closeOutline,
-  };
-
   private readonly destroyRef = inject(DestroyRef);
-  private readonly location = inject(Location);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly store = inject(BrainstormStoreService);
   private readonly actionSheetController = inject(ActionSheetController);
   private readonly alertController = inject(AlertController);
   private readonly toastController = inject(ToastController);
 
-  readonly searchControl = new FormControl('', { nonNullable: true });
   readonly query = signal('');
   readonly loading = computed(() => this.store.loading());
   readonly error = computed(() => this.store.error());
   readonly topicMatches = computed<BrainstormTopic[]>(() => this.store.listTopics(this.query()));
   readonly ideaMatches = computed<BrainstormIdeaSearchResult[]>(() => this.store.searchIdeas(this.query()));
 
-  @ViewChild(IonSearchbar) private searchbar?: IonSearchbar;
-
   constructor() {
-    this.searchControl.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
-      this.query.set(value.trim());
+    this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      this.query.set((params.get('q') ?? '').trim());
     });
   }
 
@@ -53,10 +44,6 @@ export class BrainstormSearchPage {
     } catch {
       return;
     }
-
-    requestAnimationFrame(() => {
-      void this.searchbar?.setFocus();
-    });
   }
 
   trackTopic(_: number, topic: BrainstormTopic): string {
@@ -84,24 +71,13 @@ export class BrainstormSearchPage {
   }
 
   openTopic(topicId: string): void {
+    blurActiveElement();
     void this.router.navigate(['/brainstorm', 'topic', topicId]);
   }
 
   openIdea(topicId: string, ideaId: string): void {
+    blurActiveElement();
     void this.router.navigate(['/brainstorm', 'topic', topicId, 'idea', ideaId]);
-  }
-
-  closeSearch(): void {
-    void this.router.navigateByUrl('/brainstorm/topics');
-  }
-
-  back(): void {
-    if (typeof window !== 'undefined' && window.history.length > 1) {
-      this.location.back();
-      return;
-    }
-
-    void this.router.navigateByUrl('/brainstorm/topics');
   }
 
   archiveTopic(topicId: string): void {

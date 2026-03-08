@@ -1,59 +1,43 @@
-<ion-header class="study-toolbar-wrap" translucent="true">
-  <ion-toolbar class="study-toolbar">
-    <ion-buttons slot="start">
-      <ion-button class="study-back-button" fill="clear" (click)="back()" aria-label="Back">
-        <ion-icon [icon]="icons.arrowBackOutline" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title class="planner-toolbar-title">
-      <span>Search</span>
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="closeSearch()" aria-label="Close search">
-        <ion-icon [icon]="icons.closeOutline" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-
-  <ion-toolbar class="brainstorm-toolbar brainstorm-toolbar--search km-week-toolbar">
-    <ion-searchbar
-      #searchbar
-      class="km-searchbar brainstorm-searchbar"
-      [formControl]="searchControl"
-      placeholder="Search ideas, topics, tags, or context"
-      show-clear-button="focus"
-      [debounce]="0"
-    ></ion-searchbar>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" class="km-shell brainstorm-search__content">
+<ion-content [fullscreen]="true" class="km-shell km-content-with-bottom-tabs km-planner-page brainstorm-search__content">
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="brainstorm-search">
-    <section class="brainstorm-search__state" *ngIf="error() && !loading()">
+  <div class="km-planner-wrap ion-padding brainstorm-search">
+    <section class="km-panel km-empty-state brainstorm-search__state" *ngIf="error() && !loading()">
       <h2>Search is unavailable</h2>
       <p>{{ error() }}</p>
       <ion-button fill="clear" size="small" (click)="retryLoad()">Retry</ion-button>
     </section>
 
     <ng-container *ngIf="!error() || loading()">
-      <section class="brainstorm-search__state" *ngIf="loading()">
+      <section class="km-panel km-empty-state brainstorm-search__state" *ngIf="loading()">
         <ion-spinner name="crescent"></ion-spinner>
         <p>Loading brainstorm…</p>
       </section>
 
       <ng-container *ngIf="!loading()">
-        <section class="brainstorm-search__state" *ngIf="!query()">
+        <section class="km-panel km-panel--hero" *ngIf="!query()">
+          <div>
+            <p class="km-panel-kicker">Brainstorm Search</p>
+            <h1>Find topics, thoughts, tags, and supporting context.</h1>
+            <p class="km-panel-subtitle">Type above to scan topic titles, captured ideas, tags, references, and notes.</p>
+          </div>
+        </section>
+
+        <section class="km-panel km-empty-state brainstorm-search__state" *ngIf="!query()">
           <h2>Start typing</h2>
-          <p>Search across topic titles, captured thoughts, tags, references, and context.</p>
+          <p>Search works across titles, captured thoughts, tags, references, and context.</p>
         </section>
 
         <ng-container *ngIf="query()">
-          <section class="brainstorm-search__section" *ngIf="topicMatches().length">
-            <p class="brainstorm-search__eyebrow">Topics</p>
+          <section class="km-panel brainstorm-search__section" *ngIf="topicMatches().length">
+            <header class="km-panel-header brainstorm-search__section-head">
+              <div>
+                <h2>Topics</h2>
+              </div>
+              <span class="km-chip">{{ topicMatches().length }}</span>
+            </header>
             <div class="brainstorm-search__list">
               <app-topic-row
                 *ngFor="let topic of topicMatches(); trackBy: trackTopic"
@@ -66,8 +50,13 @@
             </div>
           </section>
 
-          <section class="brainstorm-search__section" *ngIf="ideaMatches().length">
-            <p class="brainstorm-search__eyebrow">Ideas</p>
+          <section class="km-panel brainstorm-search__section" *ngIf="ideaMatches().length">
+            <header class="km-panel-header brainstorm-search__section-head">
+              <div>
+                <h2>Ideas</h2>
+              </div>
+              <span class="km-chip">{{ ideaMatches().length }}</span>
+            </header>
             <div class="brainstorm-search__list">
               <app-idea-row
                 *ngFor="let result of ideaMatches(); trackBy: trackIdea"
@@ -83,7 +72,7 @@
             </div>
           </section>
 
-          <section class="brainstorm-search__state" *ngIf="!topicMatches().length && !ideaMatches().length">
+          <section class="km-panel km-empty-state brainstorm-search__state" *ngIf="!topicMatches().length && !ideaMatches().length">
             <h2>No matches</h2>
             <p>Try a different phrase or open a topic and keep capturing more ideas.</p>
           </section>

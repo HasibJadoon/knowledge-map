@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { blurActiveElement } from '../../shared/focus-utils';
 
 @Component({
   selector: 'app-settings',
@@ -132,11 +133,13 @@ export class SettingsPage implements OnInit {
   }
 
   openFontSheet(target: "arabic" | "english"): void {
+    blurActiveElement();
     this.activeFontTarget = target;
     this.fontSheetOpen = true;
   }
 
   closeFontSheet(): void {
+    blurActiveElement();
     this.fontSheetOpen = false;
   }
 }

@@ -1,8 +1,8 @@
-import { CommonModule, Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, AlertController, IonicModule, ToastController } from '@ionic/angular';
-import { addOutline, arrowBackOutline, searchOutline } from 'ionicons/icons';
+import { blurActiveElement } from '../../../../shared/focus-utils';
 import { TopicRowComponent } from '../../components/topic-row/topic-row.component';
 import { BrainstormTopic } from '../../brainstorm.models';
 import { BrainstormStoreService } from '../../services/brainstorm-store.service';
@@ -16,23 +16,23 @@ import { BrainstormStoreService } from '../../services/brainstorm-store.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BrainstormTopicsPage {
-  readonly icons = {
-    addOutline,
-    arrowBackOutline,
-    searchOutline,
-  };
-
-  private readonly location = inject(Location);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   readonly store = inject(BrainstormStoreService);
   private readonly actionSheetController = inject(ActionSheetController);
   private readonly alertController = inject(AlertController);
   private readonly toastController = inject(ToastController);
 
-  readonly topics = computed<BrainstormTopic[]>(() => this.store.listTopics());
+  readonly query = signal('');
+  readonly topics = computed<BrainstormTopic[]>(() => this.store.listTopics(this.query()));
   readonly loading = computed(() => this.store.loading());
   readonly error = computed(() => this.store.error());
-  readonly mutating = computed(() => this.store.mutating());
+
+  constructor() {
+    this.route.queryParamMap.subscribe((params) => {
+      this.query.set((params.get('q') ?? '').trim());
+    });
+  }
 
   async ionViewWillEnter(): Promise<void> {
     try {
@@ -63,20 +63,8 @@ export class BrainstormTopicsPage {
   }
 
   openTopic(topicId: string): void {
+    blurActiveElement();
     void this.router.navigate(['/brainstorm', 'topic', topicId]);
-  }
-
-  openSearch(): void {
-    void this.router.navigateByUrl('/brainstorm/search');
-  }
-
-  back(): void {
-    if (typeof window !== 'undefined' && window.history.length > 1) {
-      this.location.back();
-      return;
-    }
-
-    void this.router.navigateByUrl('/dashboard');
   }
 
   archiveTopic(topicId: string): void {
@@ -113,6 +101,7 @@ export class BrainstormTopicsPage {
                 return false;
               }
 
+              blurActiveElement();
               await this.router.navigate(['/brainstorm', 'topic', created.id]);
               return true;
             } catch {

@@ -22,13 +22,16 @@ export class TopicRowComponent {
 
   @ViewChild(IonItemSliding) private slidingItem?: IonItemSliding;
 
-  get subtitle(): string {
-    const count = this.topic.ideaCount;
-    return `${count} ${count === 1 ? 'idea' : 'ideas'}`;
-  }
-
   get updatedLabel(): string {
     return formatRelativeDate(this.topic.updatedAt);
+  }
+
+  get ideaCountLabel(): string {
+    return this.topic.ideaCount === 1 ? 'Idea' : 'Ideas';
+  }
+
+  get topicInitials(): string {
+    return toInitials(this.topic.title);
   }
 
   onSelect(): void {
@@ -55,14 +58,27 @@ function formatRelativeDate(value: string): string {
   const minutes = Math.round(elapsed / 60000);
 
   if (minutes < 60) {
-    return `${Math.max(minutes, 1)}m`;
+    return `${Math.max(minutes, 1)}m ago`;
   }
 
   const hours = Math.round(minutes / 60);
   if (hours < 24) {
-    return `${hours}h`;
+    return `${hours}h ago`;
   }
 
   const days = Math.round(hours / 24);
-  return `${days}d`;
+  return `${days}d ago`;
+}
+
+function toInitials(value: string): string {
+  const words = value.trim().split(/\s+/).filter(Boolean);
+
+  if (words.length === 0) {
+    return 'KM';
+  }
+
+  return words
+    .slice(0, 2)
+    .map((word) => word[0]?.toUpperCase() ?? '')
+    .join('');
 }

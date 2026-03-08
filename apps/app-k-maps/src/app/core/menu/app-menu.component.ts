@@ -2,26 +2,15 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { addIcons } from 'ionicons';
-import {
-  bulbOutline,
-  bookOutline,
-  calendarOutline,
-  chatbubblesOutline,
-  chevronForwardOutline,
-  documentTextOutline,
-  gitCompareOutline,
-  globeOutline,
-  homeOutline,
-  leafOutline,
-  libraryOutline,
-  micOutline,
-  pricetagsOutline,
-  settingsOutline,
-  shuffleOutline,
-  sparklesOutline,
-  swapHorizontalOutline,
-} from 'ionicons/icons';
+import { homeOutline, settingsOutline } from 'ionicons/icons';
+import { DASHBOARD_MENU_SECTIONS } from '../../features/dashboard/dashboard-menu.data';
+
+type MenuEntry = {
+  title: string;
+  icon: string;
+  route: string[];
+};
+
 @Component({
   selector: 'app-menu',
   templateUrl: './app-menu.component.html',
@@ -29,39 +18,31 @@ import {
   imports: [CommonModule, IonicModule, RouterModule],
 })
 export class AppMenuComponent {
-  private openSections = new Set<string>(['arabic']);
+  readonly menuEntries = this.buildMenuEntries();
 
-  constructor() {
-    addIcons({
-      chevronForwardOutline,
-      homeOutline,
-      bulbOutline,
-      bookOutline,
-      leafOutline,
-      libraryOutline,
-      swapHorizontalOutline,
-      sparklesOutline,
-      globeOutline,
-      chatbubblesOutline,
-      pricetagsOutline,
-      shuffleOutline,
-      gitCompareOutline,
-      micOutline,
-      calendarOutline,
-      documentTextOutline,
-      settingsOutline,
-    });
+  trackEntry(_: number, entry: MenuEntry): string {
+    return entry.route.join('/');
   }
 
-  toggle(section: string) {
-    if (this.openSections.has(section)) {
-      this.openSections.delete(section);
-    } else {
-      this.openSections.add(section);
-    }
-  }
-
-  isOpen(section: string) {
-    return this.openSections.has(section);
+  private buildMenuEntries(): ReadonlyArray<MenuEntry> {
+    return [
+      {
+        title: 'Home',
+        icon: homeOutline,
+        route: ['/dashboard'],
+      },
+      ...DASHBOARD_MENU_SECTIONS
+        .filter((section) => section.key !== 'settings')
+        .map((section) => ({
+          title: section.title,
+          icon: section.icon,
+          route: ['/dashboard', section.key],
+        })),
+      {
+        title: 'Settings',
+        icon: settingsOutline,
+        route: ['/settings'],
+      },
+    ];
   }
 }

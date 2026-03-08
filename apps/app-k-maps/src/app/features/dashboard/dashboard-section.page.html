@@ -13,17 +13,36 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="dashboard-page">
-  <div class="dashboard-shell">
-    <app-dashboard-card-grid
-      *ngIf="section(); else missingSection"
-      [cards]="cards()"
-      emptyText="No submenu items."
-    ></app-dashboard-card-grid>
+  <ng-container *ngIf="section() as currentSection; else missingSection">
+    <div class="dashboard-shell">
+      <section
+        class="dashboard-section-hero"
+        [class.dashboard-section-hero--sand]="currentSection.tone === 'sand'"
+        [class.dashboard-section-hero--sky]="currentSection.tone === 'sky'"
+        [class.dashboard-section-hero--mint]="currentSection.tone === 'mint'"
+      >
+        <div class="dashboard-section-hero__copy">
+          <p class="dashboard-section-kicker">Dashboard Section</p>
+          <h1>{{ currentSection.title }}</h1>
+        </div>
 
-    <ng-template #missingSection>
+        <div class="dashboard-section-chips">
+          <span class="dashboard-section-chip">{{ currentSection.items.length }} {{ currentSection.items.length === 1 ? 'tool' : 'tools' }}</span>
+          <span class="dashboard-section-chip">{{ currentSection.tone | titlecase }}</span>
+        </div>
+      </section>
+
+      <section class="dashboard-section-grid">
+        <app-dashboard-card-grid [cards]="cards()" emptyText="No tools."></app-dashboard-card-grid>
+      </section>
+    </div>
+  </ng-container>
+
+  <ng-template #missingSection>
+    <div class="dashboard-shell">
       <section class="dashboard-empty">
         <p>Menu section not found.</p>
       </section>
-    </ng-template>
-  </div>
+    </div>
+  </ng-template>
 </ion-content>

@@ -1,5 +1,53 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-button class="study-back-button" fill="clear" (click)="back()" aria-label="Back">
+        <ion-icon [icon]="icons.arrowBackOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="planner-toolbar-title">
+      <span>{{ toolbarHeading }}</span>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goToDashboard()" aria-label="Dashboard">
+        <ion-icon [icon]="icons.homeOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" *ngIf="!showCreateIdeaAction" (click)="openSettings()" aria-label="Settings">
+        <ion-icon [icon]="icons.settingsOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" *ngIf="showCreateIdeaAction" (click)="openNewIdea()" aria-label="New idea">
+        <ion-icon [icon]="icons.createOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="study-toolbar study-toolbar--search" *ngIf="hasToolbarSearch">
+    <div class="brainstorm-toolbar-row">
+      <ion-searchbar
+        class="brainstorm-toolbar-searchbar"
+        [value]="toolbarSearchQuery"
+        debounce="150"
+        [placeholder]="toolbarSearchPlaceholder"
+        show-clear-button="focus"
+        (ionInput)="onToolbarSearchInput($event.detail.value)"
+      ></ion-searchbar>
+
+      <ion-button
+        *ngIf="showCreateTopicAction"
+        class="brainstorm-toolbar-new-button"
+        fill="clear"
+        (click)="openNewTopic()"
+        aria-label="New topic"
+      >
+        <ion-icon [icon]="icons.addOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
 <ion-router-outlet></ion-router-outlet>
-<ion-footer class="brainstorm-tabs__footer">
+
+<ion-footer class="planner-tabs-footer brainstorm-tabs__footer" *ngIf="showFooterTabs">
   <app-icon-tabs
     class="brainstorm-tabs__bar"
     [tabs]="tabs"

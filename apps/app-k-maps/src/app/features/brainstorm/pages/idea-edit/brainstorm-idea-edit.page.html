@@ -1,119 +1,135 @@
-<ion-header translucent="true">
-  <ion-toolbar class="brainstorm-toolbar km-week-toolbar">
-    <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="backHref"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Edit Idea</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" [disabled]="!isEditing()" (click)="deleteIdea()" aria-label="Delete idea">
-        <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" class="km-shell brainstorm-edit__content">
-  <section class="brainstorm-edit__state" *ngIf="error() && !loading()">
+<ion-content [fullscreen]="true" class="km-shell km-content-with-bottom-tabs km-planner-page brainstorm-edit__content">
+  <section class="km-panel km-empty-state brainstorm-edit__state" *ngIf="error() && !loading()">
     <h2>Unable to load editor</h2>
     <p>{{ error() }}</p>
     <ion-button fill="clear" size="small" (click)="retryLoad()">Retry</ion-button>
   </section>
 
-  <section class="brainstorm-edit__state" *ngIf="loading()">
+  <section class="km-panel km-empty-state brainstorm-edit__state" *ngIf="loading()">
     <ion-spinner name="crescent"></ion-spinner>
     <p>Loading idea…</p>
   </section>
 
-  <form class="brainstorm-edit" [formGroup]="form" *ngIf="!loading() && !error() && !missingIdea(); else missingIdeaState">
-    <ion-segment class="km-status-segment brainstorm-edit__segment" [value]="activeTab()" (ionChange)="changeTab($event.detail.value)">
-      <ion-segment-button value="idea">
-        <ion-label>Idea</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="details">
-        <ion-label>Details</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="context">
-        <ion-label>Context</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+  <form class="km-planner-wrap ion-padding brainstorm-edit" [formGroup]="form" *ngIf="!loading() && !error() && !missingIdea(); else missingIdeaState">
+    <section class="km-panel km-panel--segment brainstorm-edit__segment-panel">
+      <ion-segment class="km-status-segment brainstorm-edit__segment" [value]="activeTab()" (ionChange)="changeTab($event.detail.value)">
+        <ion-segment-button *ngFor="let tab of editorTabs" [value]="tab.key">
+          <ion-label>{{ tab.label }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </section>
 
-    <section class="brainstorm-edit__panel" *ngIf="activeTab() === 'idea'">
-      <div class="brainstorm-edit__topic-row" *ngIf="hasTopics(); else noTopicsState">
-        <ion-item lines="none" class="km-form-field brainstorm-edit__field">
-          <ion-select formControlName="topicId" label="Topic" labelPlacement="stacked" interface="action-sheet">
+    <section class="brainstorm-edit__panel brainstorm-edit__panel--idea" *ngIf="activeTab() === 'idea'">
+      <div class="brainstorm-edit__tool-row" *ngIf="hasTopics(); else noTopicsState">
+        <div class="brainstorm-edit__surface brainstorm-edit__surface--topic">
+          <span class="brainstorm-edit__eyebrow">
+            <ion-icon [icon]="icons.layersOutline" aria-hidden="true"></ion-icon>
+            <span>Topic</span>
+          </span>
+
+          <ion-select formControlName="topicId" interface="action-sheet" aria-label="Topic">
             <ion-select-option *ngFor="let topic of topicOptions()" [value]="topic.id">{{ topic.title }}</ion-select-option>
           </ion-select>
-        </ion-item>
-        <ion-button fill="clear" size="small" (click)="createTopicFromEditor()">New Topic</ion-button>
+        </div>
+
+        <ion-button
+          type="button"
+          fill="clear"
+          class="brainstorm-edit__tool-button"
+          (click)="createTopicFromEditor()"
+          aria-label="Create new topic"
+        >
+          <ion-icon [icon]="icons.addOutline" slot="icon-only"></ion-icon>
+        </ion-button>
       </div>
 
-      <ion-item lines="none" class="km-form-field km-textarea-field brainstorm-edit__field brainstorm-edit__field--thought">
+      <div class="brainstorm-edit__surface brainstorm-edit__surface--editor">
+        <span class="brainstorm-edit__eyebrow">
+          <ion-icon [icon]="icons.createOutline" aria-hidden="true"></ion-icon>
+          <span>Idea</span>
+        </span>
         <ion-textarea
           formControlName="text"
           autoGrow="true"
-          rows="10"
-          label="Idea"
-          labelPlacement="stacked"
+          rows="12"
+          aria-label="Idea"
           placeholder="Shape the main thought here…"
         ></ion-textarea>
-      </ion-item>
-
-      <ion-button class="km-primary-btn" expand="block" [disabled]="!canSave" (click)="saveIdea()">{{ saveLabel }}</ion-button>
-    </section>
-
-    <section class="brainstorm-edit__panel" *ngIf="activeTab() === 'details'">
-      <div class="brainstorm-edit__toggle-list km-panel">
-        <ion-item lines="none" class="brainstorm-edit__toggle-item">
-          <ion-label>Highlight</ion-label>
-          <ion-toggle formControlName="highlighted"></ion-toggle>
-        </ion-item>
-        <ion-item lines="none" class="brainstorm-edit__toggle-item">
-          <ion-label>Pin</ion-label>
-          <ion-toggle formControlName="pinned"></ion-toggle>
-        </ion-item>
       </div>
 
-      <ion-item lines="none" class="km-form-field brainstorm-edit__field">
-        <ion-input formControlName="tagsText" label="Tags" labelPlacement="stacked" placeholder="theme, pattern, link"></ion-input>
-      </ion-item>
+      <ion-button class="km-primary-btn brainstorm-edit__save-button" expand="block" [disabled]="!canSave" (click)="saveIdea()">
+        <ion-icon [icon]="icons.sparklesOutline" slot="start"></ion-icon>
+        <span>{{ saveLabel }}</span>
+      </ion-button>
+    </section>
+
+    <section class="brainstorm-edit__panel brainstorm-edit__panel--details" *ngIf="activeTab() === 'details'">
+      <div class="brainstorm-edit__surface brainstorm-edit__surface--field">
+        <span class="brainstorm-edit__eyebrow">
+          <ion-icon [icon]="icons.pricetagOutline" aria-hidden="true"></ion-icon>
+          <span>Tags</span>
+        </span>
+        <ion-input formControlName="tagsText" aria-label="Tags" placeholder="theme, pattern, link"></ion-input>
+      </div>
 
       <div class="brainstorm-edit__chips" *ngIf="tagsPreview.length">
         <span class="km-chip brainstorm-edit__chip" *ngFor="let tag of tagsPreview">{{ tag }}</span>
       </div>
 
-      <ion-item lines="none" class="km-form-field brainstorm-edit__field">
-        <ion-input formControlName="reference" label="Reference" labelPlacement="stacked" placeholder="Verse, URL, or note ref"></ion-input>
-      </ion-item>
+      <div class="brainstorm-edit__surface brainstorm-edit__surface--field">
+        <span class="brainstorm-edit__eyebrow">
+          <ion-icon [icon]="icons.attachOutline" aria-hidden="true"></ion-icon>
+          <span>Reference</span>
+        </span>
+        <ion-input formControlName="reference" aria-label="Reference" placeholder="Verse, URL, or note ref"></ion-input>
+      </div>
 
-      <ion-button class="km-primary-btn" expand="block" [disabled]="!canSave" (click)="saveIdea()">Save Changes</ion-button>
+      <ion-button type="button" fill="clear" color="danger" class="brainstorm-edit__delete-button" *ngIf="isEditing()" (click)="deleteIdea()">
+        <ion-icon [icon]="icons.trashOutline" slot="start"></ion-icon>
+        <span>Delete Idea</span>
+      </ion-button>
+
+      <ion-button class="km-primary-btn brainstorm-edit__save-button" expand="block" [disabled]="!canSave" (click)="saveIdea()">
+        <ion-icon [icon]="icons.sparklesOutline" slot="start"></ion-icon>
+        <span>Save Changes</span>
+      </ion-button>
     </section>
 
-    <section class="brainstorm-edit__panel" *ngIf="activeTab() === 'context'">
-      <ion-item lines="none" class="km-form-field km-textarea-field brainstorm-edit__field brainstorm-edit__field--context">
+    <section class="brainstorm-edit__panel brainstorm-edit__panel--context" *ngIf="activeTab() === 'context'">
+      <div class="brainstorm-edit__surface brainstorm-edit__surface--editor brainstorm-edit__surface--context">
+        <span class="brainstorm-edit__eyebrow">
+          <ion-icon [icon]="icons.documentTextOutline" aria-hidden="true"></ion-icon>
+          <span>Context</span>
+        </span>
         <ion-textarea
           formControlName="context"
           autoGrow="true"
           rows="12"
-          label="Context"
-          labelPlacement="stacked"
+          aria-label="Context"
           placeholder="Context, source notes, supporting links, or expansion…"
         ></ion-textarea>
-      </ion-item>
+      </div>
 
-      <ion-button class="km-primary-btn" expand="block" [disabled]="!canSave" (click)="saveIdea()">Save Changes</ion-button>
+      <ion-button class="km-primary-btn brainstorm-edit__save-button" expand="block" [disabled]="!canSave" (click)="saveIdea()">
+        <ion-icon [icon]="icons.sparklesOutline" slot="start"></ion-icon>
+        <span>Save Changes</span>
+      </ion-button>
     </section>
   </form>
 
   <ng-template #noTopicsState>
-    <section class="brainstorm-edit__state">
+    <section class="km-panel km-empty-state brainstorm-edit__state">
       <h2>No topics yet</h2>
       <p>Create one topic first so this idea has a place to land.</p>
-      <ion-button fill="clear" size="small" (click)="createTopicFromEditor()">New Topic</ion-button>
+      <ion-button type="button" fill="clear" size="small" (click)="createTopicFromEditor()">
+        <ion-icon [icon]="icons.addOutline" slot="start"></ion-icon>
+        <span>New Topic</span>
+      </ion-button>
     </section>
   </ng-template>
 
   <ng-template #missingIdeaState>
-    <section class="brainstorm-edit__state" *ngIf="!loading() && !error()">
+    <section class="km-panel km-empty-state brainstorm-edit__state" *ngIf="!loading() && !error()">
       <h2>Idea not found</h2>
       <p>The selected idea is no longer available.</p>
       <ion-button fill="clear" size="small" (click)="goToTopics()">Back to Topics</ion-button>
