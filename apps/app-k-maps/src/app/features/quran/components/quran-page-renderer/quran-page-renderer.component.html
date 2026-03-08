@@ -41,6 +41,14 @@
       <ng-template #noPassage>
         <p class="quran-reading-page__fallback-empty">No renderable text is available for this page.</p>
       </ng-template>
+
+      <footer class="quran-reading-page__page-end" aria-label="Page number">
+        <span class="quran-reading-page__page-end-line" aria-hidden="true"></span>
+        <span class="quran-reading-page__page-end-badge" [attr.aria-label]="page.meta.pageLabel">
+          <span class="quran-reading-page__page-end-number">{{ pageNumberLabel }}</span>
+        </span>
+        <span class="quran-reading-page__page-end-line" aria-hidden="true"></span>
+      </footer>
     </div>
   </div>
 </article>

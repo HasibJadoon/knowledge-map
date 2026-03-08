@@ -1,0 +1,29 @@
+<ion-header translucent="true">
+  <ion-toolbar class="dashboard-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ section()?.title || 'Menu' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" routerLink="/dashboard" routerDirection="root" aria-label="Dashboard">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-page">
+  <div class="dashboard-shell">
+    <app-dashboard-card-grid
+      *ngIf="section(); else missingSection"
+      [cards]="cards()"
+      emptyText="No submenu items."
+    ></app-dashboard-card-grid>
+
+    <ng-template #missingSection>
+      <section class="dashboard-empty">
+        <p>Menu section not found.</p>
+      </section>
+    </ng-template>
+  </div>
+</ion-content>

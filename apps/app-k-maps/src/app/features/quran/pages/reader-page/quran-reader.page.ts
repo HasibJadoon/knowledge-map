@@ -48,6 +48,8 @@ export class QuranReaderPage {
   private swiperElement: SwiperContainer | null = null;
   private suppressSlideChange = false;
   private activeLoadToken = 0;
+  private pendingLayoutSyncFrame: number | null = null;
+  private fontMetricsSyncQueued = false;
 
   readonly loading = signal(true);
   readonly error = signal('');
@@ -79,6 +81,9 @@ export class QuranReaderPage {
 
   constructor() {
     this.destroyRef.onDestroy(() => {
+      if (this.pendingLayoutSyncFrame != null) {
+        cancelAnimationFrame(this.pendingLayoutSyncFrame);
+      }
       if (this.swiperElement) {
         this.swiperElement.removeEventListener('swiperslidechange', this.swiperSlideChangeHandler);
       }
@@ -99,6 +104,7 @@ export class QuranReaderPage {
 
   toggleTextMode(): void {
     this.showDiacritics.update((value) => !value);
+    this.scheduleLayoutSync();
   }
 
   private async handleRouteChange(paramMap: ParamMap): Promise<void> {
@@ -171,6 +177,7 @@ export class QuranReaderPage {
       this.resetContentScroll();
       this.readerPageService.preloadAdjacentPages(pageNumber);
       this.syncSwiperPosition(false);
+      this.scheduleLayoutSync();
 
       void this.loadWindowPage(page.meta.prevPage, 'previous', loadToken);
       void this.loadWindowPage(page.meta.nextPage, 'next', loadToken);
@@ -216,6 +223,7 @@ export class QuranReaderPage {
     } finally {
       if (loadToken === this.activeLoadToken) {
         this.syncSwiperPosition(false);
+        this.scheduleLayoutSync();
       }
     }
   }
@@ -265,6 +273,8 @@ export class QuranReaderPage {
     }
 
     this.syncSwiperPosition(false);
+    this.scheduleLayoutSync();
+    this.queueFontMetricsSync();
   }
 
   private onSwiperSlideChange(event: CustomEvent<[Swiper]>): void {
@@ -356,6 +366,35 @@ export class QuranReaderPage {
   private resetContentScroll(): void {
     requestAnimationFrame(() => {
       void this.content?.scrollToPoint(0, 0, 0);
+    });
+  }
+
+  private scheduleLayoutSync(): void {
+    if (this.pendingLayoutSyncFrame != null) {
+      cancelAnimationFrame(this.pendingLayoutSyncFrame);
+    }
+
+    this.pendingLayoutSyncFrame = requestAnimationFrame(() => {
+      this.pendingLayoutSyncFrame = null;
+
+      const swiper = this.swiperElement?.swiper;
+      if (!swiper) {
+        return;
+      }
+
+      swiper.update();
+      swiper.updateAutoHeight(0);
+    });
+  }
+
+  private queueFontMetricsSync(): void {
+    if (this.fontMetricsSyncQueued || typeof document === 'undefined' || !('fonts' in document)) {
+      return;
+    }
+
+    this.fontMetricsSyncQueued = true;
+    void document.fonts.ready.then(() => {
+      this.scheduleLayoutSync();
     });
   }
 

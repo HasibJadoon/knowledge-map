@@ -11,6 +11,7 @@ import {
   documentTextOutline,
   gitCompareOutline,
   globeOutline,
+  homeOutline,
   leafOutline,
   libraryOutline,
   micOutline,
@@ -32,6 +33,7 @@ export class AppMenuComponent {
   constructor() {
     addIcons({
       chevronForwardOutline,
+      homeOutline,
       bookOutline,
       leafOutline,
       libraryOutline,

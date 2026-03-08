@@ -62,6 +62,10 @@ export class QuranPageRendererComponent {
     return this.buildFallbackSections();
   }
 
+  get pageNumberLabel(): string {
+    return this.toArabicDigits(this.page.meta.pageNumber);
+  }
+
   trackBySection(_: number, section: QuranReadingSectionViewModel): string {
     return section.id;
   }

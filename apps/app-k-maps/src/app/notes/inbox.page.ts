@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { addOutline, checkmarkDoneOutline, createOutline, flagOutline } from 'ionicons/icons';
 import { debounceTime, distinctUntilChanged, finalize, map, take } from 'rxjs';
@@ -12,7 +12,7 @@ import { AppIconTabsComponent, IconTabItem } from '../shared/components/icon-tab
 @Component({
   selector: 'app-notes-inbox-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IonicModule, AppIconTabsComponent],
+  imports: [CommonModule, ReactiveFormsModule, IonicModule, RouterLink, AppIconTabsComponent],
   templateUrl: './inbox.page.html',
   styleUrls: ['./inbox.page.scss'],
 })

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { discourseConcepts, DiscourseConcept } from '../discourse-mock';
 
 type CategoryFilter = {
@@ -12,7 +12,7 @@ type CategoryFilter = {
 @Component({
   selector: 'app-discourse-concepts',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, RouterLink],
   templateUrl: './discourse-concepts.page.html',
 })
 export class DiscourseConceptsPage {

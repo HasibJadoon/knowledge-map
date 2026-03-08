@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { bookOutline, documentTextOutline } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
@@ -19,7 +20,7 @@ type MainTab = 'list' | 'summary';
 @Component({
   selector: 'app-quran-browse-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, QuranSummaryTabComponent, QuranSurahTabComponent, QuranJuzTabComponent, AppIconTabsComponent],
+  imports: [CommonModule, IonicModule, RouterLink, QuranSummaryTabComponent, QuranSurahTabComponent, QuranJuzTabComponent, AppIconTabsComponent],
   templateUrl: './quran-browse.page.html',
   styleUrl: './quran-browse.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

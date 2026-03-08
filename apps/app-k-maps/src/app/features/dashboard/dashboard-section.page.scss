@@ -30,6 +30,18 @@
     calc(env(safe-area-inset-bottom) + 1.5rem);
 }
 
+.dashboard-empty {
+  min-height: calc(100svh - 12rem);
+  display: grid;
+  place-items: center;
+  color: rgba(206, 218, 234, 0.74);
+  text-align: center;
+}
+
+.dashboard-empty p {
+  margin: 0;
+}
+
 @media (max-width: 680px) {
   .dashboard-shell {
     padding-inline: 0.62rem;

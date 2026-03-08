@@ -6,6 +6,13 @@
   </ion-header>
   <ion-content>
     <ion-list>
+      <ion-menu-toggle autoHide="true">
+        <ion-item routerLink="/dashboard" routerDirection="root" detail="false">
+          <ion-icon name="home-outline" slot="start" class="menu-icon"></ion-icon>
+          <ion-label><h2>Home</h2></ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+
             <ion-item button detail="false" (click)="toggle('arabic')">
         <ion-icon name="book-outline" slot="start" class="menu-icon"></ion-icon>
         <ion-label><h2>Arabic</h2></ion-label>
