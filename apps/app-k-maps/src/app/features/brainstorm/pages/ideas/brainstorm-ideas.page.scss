@@ -1,0 +1,91 @@
+:host {
+  display: block;
+}
+
+.brainstorm-toolbar {
+  --background: rgba(10, 18, 34, 0.9);
+  --border-color: rgba(145, 176, 224, 0.18);
+  --color: var(--km-text, #e6edf8);
+}
+
+.brainstorm-ideas__count {
+  margin-inline-end: 0.25rem;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.brainstorm-ideas__content::part(scroll) {
+  padding-bottom: calc(env(safe-area-inset-bottom) + var(--app-icon-tabs-min-height) + 6.6rem);
+}
+
+.brainstorm-ideas {
+  width: min(100%, 40rem);
+  min-height: 100%;
+  margin-inline: auto;
+  padding: calc(env(safe-area-inset-top) + 0.75rem) 0.8rem 0.2rem;
+  display: grid;
+  gap: 0.95rem;
+}
+
+.brainstorm-ideas__list {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.brainstorm-ideas__state {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.3rem 0.2rem 0;
+}
+
+.brainstorm-ideas__state ion-spinner {
+  color: var(--app-heading-blue, #9ef0ff);
+}
+
+.brainstorm-ideas__state h2,
+.brainstorm-ideas__state p {
+  margin: 0;
+}
+
+.brainstorm-ideas__state h2 {
+  color: var(--km-text, #e6edf8);
+  font-size: 1.04rem;
+  font-weight: 650;
+}
+
+.brainstorm-ideas__state p {
+  color: var(--km-text-dim, #9eb2ce);
+  line-height: 1.62;
+}
+
+.brainstorm-ideas__composer-shell {
+  left: 0.8rem;
+  right: 0.8rem;
+  bottom: calc(env(safe-area-inset-bottom) + var(--app-icon-tabs-min-height) + 0.55rem);
+}
+
+.brainstorm-ideas__composer {
+  width: min(100%, 40rem);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.5rem;
+  padding: 0.46rem 0.56rem 0.46rem 0.82rem;
+  border-radius: 1rem;
+}
+
+.brainstorm-ideas__composer ion-textarea {
+  --padding-top: 0.15rem;
+  --padding-bottom: 0.15rem;
+  --padding-start: 0;
+  --padding-end: 0;
+  --color: var(--km-text, #e6edf8);
+  --placeholder-color: var(--km-text-dim, #9eb2ce);
+  max-height: 9rem;
+}
+
+.brainstorm-ideas__composer ion-button {
+  margin: 0;
+}

@@ -1,0 +1,64 @@
+:host {
+  display: block;
+  --brainstorm-surface: var(--km-surface, linear-gradient(165deg, rgba(18, 30, 52, 0.86), rgba(11, 18, 33, 0.88)));
+  --brainstorm-border: var(--km-border, rgba(151, 181, 227, 0.27));
+  --brainstorm-text: var(--km-text, #e6edf8);
+  --brainstorm-muted: var(--km-text-dim, #9eb2ce);
+}
+
+.brainstorm-topic-row {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--brainstorm-border);
+  background: var(--brainstorm-surface);
+  box-shadow: 0 14px 28px rgba(5, 10, 22, 0.22);
+}
+
+.brainstorm-topic-row__item {
+  --background: transparent;
+  --padding-start: 0.95rem;
+  --padding-end: 0.8rem;
+  --inner-padding-end: 0;
+  --min-height: 4.15rem;
+  transition: transform 140ms ease, background-color 140ms ease;
+}
+
+.brainstorm-topic-row__item ion-label h2,
+.brainstorm-topic-row__item ion-label p {
+  margin: 0;
+}
+
+.brainstorm-topic-row__item ion-label h2 {
+  color: var(--brainstorm-text);
+  font-size: 0.97rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.brainstorm-topic-row__item ion-label p {
+  margin-top: 0.22rem;
+  color: var(--brainstorm-muted);
+  font-size: 0.8rem;
+}
+
+.brainstorm-topic-row__end {
+  display: grid;
+  justify-items: end;
+  gap: 0.22rem;
+  padding-inline-start: 0.75rem;
+}
+
+.brainstorm-topic-row__stamp {
+  color: color-mix(in srgb, var(--brainstorm-muted) 86%, #dcecff 14%);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.brainstorm-topic-row__chevron {
+  color: color-mix(in srgb, var(--brainstorm-muted) 80%, #dcecff 20%);
+  font-size: 0.95rem;
+}
+
+.brainstorm-topic-row__item:active {
+  transform: scale(0.995);
+}

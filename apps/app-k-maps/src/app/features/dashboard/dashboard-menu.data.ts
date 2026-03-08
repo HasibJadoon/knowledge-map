@@ -1,5 +1,8 @@
 import {
+  addCircleOutline,
+  albumsOutline,
   bookOutline,
+  bulbOutline,
   calendarOutline,
   chatbubblesOutline,
   documentTextOutline,
@@ -9,6 +12,7 @@ import {
   libraryOutline,
   micOutline,
   pricetagsOutline,
+  searchOutline,
   settingsOutline,
   shuffleOutline,
   sparklesOutline,
@@ -98,6 +102,18 @@ export const DASHBOARD_MENU_SECTIONS: ReadonlyArray<DashboardMenuSection> = [
     tone: 'mint',
     items: [
       { title: 'Episodes', subtitle: 'Podcast', icon: micOutline, route: ['/podcast'] },
+    ],
+  },
+  {
+    key: 'brainstorm',
+    title: 'Brainstorm',
+    subtitle: 'Pocket Idea Lab',
+    icon: bulbOutline,
+    tone: 'mint',
+    items: [
+      { title: 'Topics', subtitle: 'Topic List', icon: albumsOutline, route: ['/brainstorm', 'topics'] },
+      { title: 'Quick Add', subtitle: 'Fast Capture', icon: addCircleOutline, route: ['/brainstorm', 'new'] },
+      { title: 'Search', subtitle: 'Find Ideas', icon: searchOutline, route: ['/brainstorm', 'search'] },
     ],
   },
   {

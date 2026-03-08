@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import {
+  bulbOutline,
   bookOutline,
   calendarOutline,
   chatbubblesOutline,
@@ -34,6 +35,7 @@ export class AppMenuComponent {
     addIcons({
       chevronForwardOutline,
       homeOutline,
+      bulbOutline,
       bookOutline,
       leafOutline,
       libraryOutline,

@@ -1,0 +1,90 @@
+<ion-header translucent="true">
+  <ion-toolbar class="brainstorm-toolbar km-week-toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Search</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="closeSearch()" aria-label="Close search">
+        <ion-icon [icon]="icons.closeOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="brainstorm-toolbar brainstorm-toolbar--search km-week-toolbar">
+    <ion-searchbar
+      #searchbar
+      class="km-searchbar brainstorm-searchbar"
+      [formControl]="searchControl"
+      placeholder="Search ideas, topics, tags, or context"
+      show-clear-button="focus"
+      [debounce]="0"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="km-shell brainstorm-search__content">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="brainstorm-search">
+    <section class="brainstorm-search__state" *ngIf="error() && !loading()">
+      <h2>Search is unavailable</h2>
+      <p>{{ error() }}</p>
+      <ion-button fill="clear" size="small" (click)="retryLoad()">Retry</ion-button>
+    </section>
+
+    <ng-container *ngIf="!error() || loading()">
+      <section class="brainstorm-search__state" *ngIf="loading()">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Loading brainstorm…</p>
+      </section>
+
+      <ng-container *ngIf="!loading()">
+        <section class="brainstorm-search__state" *ngIf="!query()">
+          <h2>Start typing</h2>
+          <p>Search across topic titles, captured thoughts, tags, references, and context.</p>
+        </section>
+
+        <ng-container *ngIf="query()">
+          <section class="brainstorm-search__section" *ngIf="topicMatches().length">
+            <p class="brainstorm-search__eyebrow">Topics</p>
+            <div class="brainstorm-search__list">
+              <app-topic-row
+                *ngFor="let topic of topicMatches(); trackBy: trackTopic"
+                [topic]="topic"
+                (selected)="openTopic($event)"
+                (longPressed)="onTopicLongPress($event)"
+                (archived)="archiveTopic($event)"
+                (deleted)="deleteTopicFromRow($event)"
+              ></app-topic-row>
+            </div>
+          </section>
+
+          <section class="brainstorm-search__section" *ngIf="ideaMatches().length">
+            <p class="brainstorm-search__eyebrow">Ideas</p>
+            <div class="brainstorm-search__list">
+              <app-idea-row
+                *ngFor="let result of ideaMatches(); trackBy: trackIdea"
+                [idea]="result.idea"
+                [topicLabel]="result.topicTitle"
+                (selected)="openIdea(result.idea.topicId, $event)"
+                (edited)="openIdea(result.idea.topicId, $event)"
+                (longPressed)="onIdeaLongPress($event)"
+                (toggledPin)="toggleIdeaPin($event)"
+                (toggledHighlight)="toggleIdeaHighlight($event)"
+                (deleted)="deleteIdeaFromRow($event)"
+              ></app-idea-row>
+            </div>
+          </section>
+
+          <section class="brainstorm-search__state" *ngIf="!topicMatches().length && !ideaMatches().length">
+            <h2>No matches</h2>
+            <p>Try a different phrase or open a topic and keep capturing more ideas.</p>
+          </section>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</ion-content>

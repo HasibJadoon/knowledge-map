@@ -26,6 +26,19 @@ export class PodcastService {
     );
   }
 
+  create(payload: {
+    title: string;
+    status?: string;
+    related_type?: string | null;
+    related_id?: string | null;
+    refs_json: Record<string, unknown>;
+    content_json: Record<string, unknown>;
+  }): Observable<PodcastEpisode> {
+    return this.http.post<{ ok: boolean; item: PodcastEpisode }>(`${this.apiRoot}/podcast`, payload).pipe(
+      map((response) => response.item)
+    );
+  }
+
   save(id: string, payload: {
     title?: string;
     status?: string;

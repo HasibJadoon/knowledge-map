@@ -1,0 +1,10 @@
+<ion-router-outlet></ion-router-outlet>
+<ion-footer class="brainstorm-tabs__footer">
+  <app-icon-tabs
+    class="brainstorm-tabs__bar"
+    [tabs]="tabs"
+    [activeKey]="activeTabKey()"
+    [manual]="true"
+    (tabSelected)="onTabSelected($event)"
+  ></app-icon-tabs>
+</ion-footer>

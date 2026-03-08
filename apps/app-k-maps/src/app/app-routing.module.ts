@@ -88,6 +88,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'brainstorm',
+    loadChildren: () => import('./features/brainstorm/brainstorm.routes').then((m) => m.BRAINSTORM_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'review/:weekStart',
     loadComponent: () => import('./features/planner/sprint-review/sprint-review.page').then((m) => m.SprintReviewPage),
     canActivate: [AuthGuard]

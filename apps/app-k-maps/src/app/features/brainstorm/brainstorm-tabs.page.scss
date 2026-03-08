@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  --planner-toolbar-safe-top: var(--ion-safe-area-top, env(safe-area-inset-top));
+  --planner-toolbar-min-height: 56px;
+  --planner-shell-header-offset: calc(var(--planner-toolbar-min-height) + var(--planner-toolbar-safe-top));
+}
+
+ion-router-outlet {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.brainstorm-tabs__footer {
+  border-top: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.brainstorm-tabs__bar {
+  --app-icon-tabs-bg: rgba(9, 13, 18, 0.97);
+  --app-icon-tabs-color: color-mix(in srgb, var(--km-text-dim, #9eb2ce) 78%, #d7e8ff 22%);
+  --app-icon-tabs-selected: var(--app-heading-blue, #9ef0ff);
+  --app-icon-tabs-border-color: var(--km-border, rgba(151, 181, 227, 0.27));
+  --app-icon-tabs-min-height: 52px;
+  --app-icon-tabs-icon-size: 1.18rem;
+}

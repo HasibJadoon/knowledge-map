@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.brainstorm-toolbar {
+  --background: rgba(10, 18, 34, 0.9);
+  --border-color: rgba(145, 176, 224, 0.18);
+  --color: var(--km-text, #e6edf8);
+}
+
+.brainstorm-topics__content::part(scroll) {
+  padding-bottom: calc(env(safe-area-inset-bottom) + var(--app-icon-tabs-min-height) + 1.2rem);
+}
+
+.brainstorm-topics {
+  width: min(100%, 40rem);
+  min-height: 100%;
+  margin-inline: auto;
+  padding: calc(env(safe-area-inset-top) + 0.75rem) 0.8rem 0.2rem;
+  display: grid;
+  gap: 0.95rem;
+}
+
+.brainstorm-topics__meta p {
+  margin: 0;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.82rem;
+}
+
+.brainstorm-topics__list {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.brainstorm-topics__state {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.3rem 0.2rem 0;
+}
+
+.brainstorm-topics__state ion-spinner {
+  color: var(--app-heading-blue, #9ef0ff);
+}
+
+.brainstorm-topics__state h2,
+.brainstorm-topics__state p {
+  margin: 0;
+}
+
+.brainstorm-topics__state h2 {
+  color: var(--km-text, #e6edf8);
+  font-size: 1.04rem;
+  font-weight: 650;
+}
+
+.brainstorm-topics__state p {
+  color: var(--km-text-dim, #9eb2ce);
+  line-height: 1.62;
+}

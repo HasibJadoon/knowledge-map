@@ -1,0 +1,108 @@
+:host {
+  display: block;
+}
+
+.brainstorm-toolbar {
+  --background: rgba(10, 18, 34, 0.9);
+  --border-color: rgba(145, 176, 224, 0.18);
+  --color: var(--km-text, #e6edf8);
+}
+
+.brainstorm-edit__content::part(scroll) {
+  padding-bottom: calc(env(safe-area-inset-bottom) + var(--app-icon-tabs-min-height) + 1.2rem);
+}
+
+.brainstorm-edit,
+.brainstorm-edit__state {
+  width: min(100%, 40rem);
+  min-height: 100%;
+  margin-inline: auto;
+  padding: calc(env(safe-area-inset-top) + 0.75rem) 0.8rem 0.2rem;
+}
+
+.brainstorm-edit {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.brainstorm-edit__state {
+  display: grid;
+  align-content: start;
+  gap: 0.65rem;
+}
+
+.brainstorm-edit__state ion-spinner {
+  color: var(--app-heading-blue, #9ef0ff);
+}
+
+.brainstorm-edit__state h2,
+.brainstorm-edit__state p {
+  margin: 0;
+}
+
+.brainstorm-edit__state h2 {
+  color: var(--km-text, #e6edf8);
+  font-size: 1.04rem;
+  font-weight: 650;
+}
+
+.brainstorm-edit__state p {
+  color: var(--km-text-dim, #9eb2ce);
+  line-height: 1.62;
+}
+
+.brainstorm-edit__segment {
+  margin: 0;
+}
+
+.brainstorm-edit__panel {
+  display: grid;
+  gap: 0.82rem;
+}
+
+.brainstorm-edit__topic-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.brainstorm-edit__field {
+  margin: 0;
+}
+
+.brainstorm-edit__field--thought,
+.brainstorm-edit__field--context {
+  align-items: start;
+}
+
+.brainstorm-edit__field ion-input,
+.brainstorm-edit__field ion-select,
+.brainstorm-edit__field ion-textarea {
+  --color: var(--km-text, #e6edf8);
+  --placeholder-color: color-mix(in srgb, var(--km-text-dim, #9eb2ce) 84%, #d9e8ff 16%);
+  --label-color: color-mix(in srgb, var(--km-text-dim, #9eb2ce) 80%, #dcecff 20%);
+}
+
+.brainstorm-edit__toggle-list {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.45rem 0.55rem;
+}
+
+.brainstorm-edit__toggle-item {
+  --background: transparent;
+  --padding-start: 0.15rem;
+  --inner-padding-end: 0.15rem;
+  --color: var(--km-text, #e6edf8);
+}
+
+.brainstorm-edit__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+}
+
+.brainstorm-edit__chip {
+  font-size: 0.72rem;
+}

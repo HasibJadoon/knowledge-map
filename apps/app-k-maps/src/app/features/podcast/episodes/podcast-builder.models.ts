@@ -1,0 +1,741 @@
+import { PodcastEpisode } from '../../sprint/models/sprint.models';
+
+export type CreatorEpisodeType = 'discussion' | 'solo' | 'lesson_log';
+export type CreatorEpisodeStatus = 'draft' | 'script' | 'ready' | 'published' | 'completed';
+export type CreatorSpeaker = 'host' | 'co_host' | 'guest' | 'both';
+export type CreatorTalkingPointTone = 'hook' | 'core' | 'transition' | 'closing' | '';
+export type CreatorLessonState = 'done' | 'needs_review' | 'assigned';
+
+export interface CreatorDialogueItem {
+  id: string;
+  text: string;
+  speaker: CreatorSpeaker;
+  cue: string;
+  order: number;
+}
+
+export interface CreatorTalkingPoint {
+  id: string;
+  text: string;
+  tone: CreatorTalkingPointTone;
+  order: number;
+}
+
+export interface CreatorChecklistItem {
+  id: string;
+  text: string;
+  order: number;
+}
+
+export interface CreatorEpisodeSegment {
+  id: string;
+  episodeId: string;
+  title: string;
+  type: string;
+  duration: number | null;
+  summary: string;
+  transitionNote: string;
+  reference: string;
+  notes: string;
+  order: number;
+  lessonState: CreatorLessonState;
+  dialogueItems: CreatorDialogueItem[];
+  talkingPoints: CreatorTalkingPoint[];
+  doneItems: CreatorChecklistItem[];
+  reviewItems: CreatorChecklistItem[];
+}
+
+export interface CreatorEpisodePublishState {
+  videoTitle: string;
+  description: string;
+  tags: string;
+  thumbnailNote: string;
+  estimatedDuration: string;
+  categoryOrPlaylist: string;
+  publishStatus: string;
+  hookLine: string;
+  cta: string;
+  endScreenNote: string;
+}
+
+export interface CreatorEpisodeOutputState {
+  lessonSummary: string;
+  exportNotes: string;
+  reviewChecklist: string;
+  nextSessionPrep: string;
+}
+
+export interface CreatorEpisodeSourceState {
+  primaryReference: string;
+  secondaryReference: string;
+  brainstormIdeas: string;
+  sourceNote: string;
+}
+
+export interface CreatorEpisode {
+  id: string;
+  title: string;
+  type: CreatorEpisodeType;
+  status: CreatorEpisodeStatus;
+  estimatedDuration: number | null;
+  updatedAt: string;
+  createdAt: string;
+  relatedType: string | null;
+  relatedId: string | null;
+  source: CreatorEpisodeSourceState;
+  publish: CreatorEpisodePublishState;
+  output: CreatorEpisodeOutputState;
+  segments: CreatorEpisodeSegment[];
+  rawContent: Record<string, unknown>;
+  rawRefs: Record<string, unknown>;
+}
+
+export const CREATOR_EPISODE_TYPES: ReadonlyArray<CreatorEpisodeType> = [
+  'discussion',
+  'solo',
+  'lesson_log',
+];
+
+export const CREATOR_EPISODE_STATUSES: ReadonlyArray<CreatorEpisodeStatus> = [
+  'draft',
+  'script',
+  'ready',
+  'published',
+  'completed',
+];
+
+export const CREATOR_SPEAKERS: ReadonlyArray<CreatorSpeaker> = [
+  'host',
+  'co_host',
+  'guest',
+  'both',
+];
+
+export const CREATOR_TONES: ReadonlyArray<CreatorTalkingPointTone> = [
+  '',
+  'hook',
+  'core',
+  'transition',
+  'closing',
+];
+
+export const CREATOR_LESSON_STATES: ReadonlyArray<CreatorLessonState> = [
+  'done',
+  'needs_review',
+  'assigned',
+];
+
+export function isCreatorEpisodeType(value: unknown): value is CreatorEpisodeType {
+  return value === 'discussion' || value === 'solo' || value === 'lesson_log';
+}
+
+export function isCreatorEpisodeStatus(value: unknown): value is CreatorEpisodeStatus {
+  return value === 'draft'
+    || value === 'script'
+    || value === 'ready'
+    || value === 'published'
+    || value === 'completed';
+}
+
+export function isCreatorSpeaker(value: unknown): value is CreatorSpeaker {
+  return value === 'host' || value === 'co_host' || value === 'guest' || value === 'both';
+}
+
+export function isCreatorLessonState(value: unknown): value is CreatorLessonState {
+  return value === 'done' || value === 'needs_review' || value === 'assigned';
+}
+
+export function episodeTypeLabel(type: CreatorEpisodeType): string {
+  if (type === 'lesson_log') {
+    return 'Lesson Log';
+  }
+
+  return type === 'discussion' ? 'Discussion' : 'Solo';
+}
+
+export function episodeStatusLabel(status: CreatorEpisodeStatus): string {
+  if (status === 'draft') return 'Draft';
+  if (status === 'script') return 'Script';
+  if (status === 'ready') return 'Ready';
+  if (status === 'published') return 'Published';
+  return 'Completed';
+}
+
+export function speakerLabel(speaker: CreatorSpeaker): string {
+  if (speaker === 'co_host') {
+    return 'Co-host';
+  }
+
+  if (speaker === 'both') {
+    return 'Both';
+  }
+
+  return speaker === 'host' ? 'Host' : 'Guest';
+}
+
+export function toneLabel(tone: CreatorTalkingPointTone): string {
+  if (!tone) {
+    return 'None';
+  }
+
+  if (tone === 'hook') return 'Hook';
+  if (tone === 'core') return 'Core point';
+  if (tone === 'transition') return 'Transition';
+  return 'Closing';
+}
+
+export function lessonStateLabel(state: CreatorLessonState): string {
+  if (state === 'needs_review') {
+    return 'Needs Review';
+  }
+
+  return state === 'assigned' ? 'Assigned' : 'Done';
+}
+
+export function createBlankEpisode(args: {
+  id: string;
+  title: string;
+  type: CreatorEpisodeType;
+  createdAt?: string;
+  updatedAt?: string;
+  status?: CreatorEpisodeStatus;
+  relatedType?: string | null;
+  relatedId?: string | null;
+  rawContent?: Record<string, unknown>;
+  rawRefs?: Record<string, unknown>;
+}): CreatorEpisode {
+  const now = args.updatedAt ?? args.createdAt ?? new Date().toISOString();
+
+  return {
+    id: args.id,
+    title: args.title,
+    type: args.type,
+    status: args.status ?? 'draft',
+    estimatedDuration: null,
+    updatedAt: args.updatedAt ?? now,
+    createdAt: args.createdAt ?? now,
+    relatedType: args.relatedType ?? null,
+    relatedId: args.relatedId ?? null,
+    source: {
+      primaryReference: '',
+      secondaryReference: '',
+      brainstormIdeas: '',
+      sourceNote: '',
+    },
+    publish: {
+      videoTitle: args.title,
+      description: '',
+      tags: '',
+      thumbnailNote: '',
+      estimatedDuration: '',
+      categoryOrPlaylist: '',
+      publishStatus: '',
+      hookLine: '',
+      cta: '',
+      endScreenNote: '',
+    },
+    output: {
+      lessonSummary: '',
+      exportNotes: '',
+      reviewChecklist: '',
+      nextSessionPrep: '',
+    },
+    segments: defaultSegmentsForType(args.type, args.id),
+    rawContent: { ...(args.rawContent ?? {}) },
+    rawRefs: { ...(args.rawRefs ?? {}) },
+  };
+}
+
+export function createSegment(episodeType: CreatorEpisodeType, episodeId: string, order: number, seedTitle?: string): CreatorEpisodeSegment {
+  const title = seedTitle ?? defaultSegmentTitle(episodeType, order);
+  return {
+    id: buildId(),
+    episodeId,
+    title,
+    type: title,
+    duration: null,
+    summary: '',
+    transitionNote: '',
+    reference: '',
+    notes: '',
+    order,
+    lessonState: episodeType === 'lesson_log' ? 'done' : 'done',
+    dialogueItems: episodeType === 'discussion'
+      ? [createDialogueItem(0)]
+      : [],
+    talkingPoints: episodeType === 'solo'
+      ? [createTalkingPoint(0)]
+      : [],
+    doneItems: episodeType === 'lesson_log'
+      ? [createChecklistItem('What was covered', 0)]
+      : [],
+    reviewItems: episodeType === 'lesson_log'
+      ? [createChecklistItem('What needs review', 0)]
+      : [],
+  };
+}
+
+export function createDialogueItem(order: number, text = ''): CreatorDialogueItem {
+  return {
+    id: buildId(),
+    text,
+    speaker: 'host',
+    cue: '',
+    order,
+  };
+}
+
+export function createTalkingPoint(order: number, text = ''): CreatorTalkingPoint {
+  return {
+    id: buildId(),
+    text,
+    tone: '',
+    order,
+  };
+}
+
+export function createChecklistItem(text: string, order: number): CreatorChecklistItem {
+  return {
+    id: buildId(),
+    text,
+    order,
+  };
+}
+
+export function cloneEpisode(episode: CreatorEpisode): CreatorEpisode {
+  return JSON.parse(JSON.stringify(episode)) as CreatorEpisode;
+}
+
+export function mapPodcastEpisodeToCreator(row: PodcastEpisode): CreatorEpisode {
+  const content = asRecord(row.content_json);
+  const refs = asRecord(row.refs_json);
+  const builder = asRecord(content['builder']);
+  const type = resolveEpisodeType(builder?.['type'], content['episode_type'], row.title);
+  const episode = createBlankEpisode({
+    id: row.id,
+    title: row.title,
+    type,
+    status: resolveEpisodeStatus(row.status),
+    createdAt: row.created_at,
+    updatedAt: row.updated_at ?? row.created_at,
+    relatedType: row.related_type,
+    relatedId: row.related_id,
+    rawContent: content,
+    rawRefs: refs,
+  });
+
+  episode.estimatedDuration = toNumber(builder?.['estimatedDuration'])
+    ?? toNumber(content['estimated_duration'])
+    ?? estimateEpisodeDuration(readSegments(builder?.['segments'], type, row.id));
+  episode.source = {
+    primaryReference: toText(builder?.['source'] && asRecord(builder['source'])?.['primaryReference'])
+      ?? toText(refs['primary_reference'])
+      ?? toText(content['topic'])
+      ?? '',
+    secondaryReference: toText(builder?.['source'] && asRecord(builder['source'])?.['secondaryReference'])
+      ?? toText(refs['secondary_reference'])
+      ?? '',
+    brainstormIdeas: toText(builder?.['source'] && asRecord(builder['source'])?.['brainstormIdeas'])
+      ?? joinStringArray(refs['brainstorm_ids'])
+      ?? '',
+    sourceNote: toText(builder?.['source'] && asRecord(builder['source'])?.['sourceNote'])
+      ?? toText(refs['source_note'])
+      ?? '',
+  };
+  episode.publish = {
+    videoTitle: toText(builder?.['publish'] && asRecord(builder['publish'])?.['videoTitle']) ?? row.title,
+    description: toText(builder?.['publish'] && asRecord(builder['publish'])?.['description'])
+      ?? toText(content['script'])
+      ?? '',
+    tags: toText(builder?.['publish'] && asRecord(builder['publish'])?.['tags']) ?? '',
+    thumbnailNote: toText(builder?.['publish'] && asRecord(builder['publish'])?.['thumbnailNote']) ?? '',
+    estimatedDuration: toText(builder?.['publish'] && asRecord(builder['publish'])?.['estimatedDuration']) ?? '',
+    categoryOrPlaylist: toText(builder?.['publish'] && asRecord(builder['publish'])?.['categoryOrPlaylist']) ?? '',
+    publishStatus: toText(builder?.['publish'] && asRecord(builder['publish'])?.['publishStatus']) ?? '',
+    hookLine: toText(builder?.['publish'] && asRecord(builder['publish'])?.['hookLine']) ?? '',
+    cta: toText(builder?.['publish'] && asRecord(builder['publish'])?.['cta']) ?? '',
+    endScreenNote: toText(builder?.['publish'] && asRecord(builder['publish'])?.['endScreenNote']) ?? '',
+  };
+  episode.output = {
+    lessonSummary: toText(builder?.['output'] && asRecord(builder['output'])?.['lessonSummary']) ?? '',
+    exportNotes: toText(builder?.['output'] && asRecord(builder['output'])?.['exportNotes']) ?? '',
+    reviewChecklist: toText(builder?.['output'] && asRecord(builder['output'])?.['reviewChecklist']) ?? '',
+    nextSessionPrep: toText(builder?.['output'] && asRecord(builder['output'])?.['nextSessionPrep']) ?? '',
+  };
+  episode.segments = readSegments(builder?.['segments'], type, row.id);
+
+  if (episode.segments.length === 0) {
+    episode.segments = deriveLegacySegments(content, type, row.id);
+  }
+
+  if (episode.estimatedDuration === null) {
+    episode.estimatedDuration = estimateEpisodeDuration(episode.segments);
+  }
+
+  if (type === 'lesson_log' && !episode.output.lessonSummary && episode.segments.length) {
+    episode.output.lessonSummary = episode.segments
+      .flatMap((segment) => segment.doneItems.map((item) => item.text))
+      .filter(Boolean)
+      .join('\n');
+  }
+
+  return episode;
+}
+
+export function toPodcastSavePayload(episode: CreatorEpisode): {
+  title: string;
+  status: string;
+  related_type: string | null;
+  related_id: string | null;
+  refs_json: Record<string, unknown>;
+  content_json: Record<string, unknown>;
+} {
+  const refsJson = {
+    ...episode.rawRefs,
+    primary_reference: episode.source.primaryReference || null,
+    secondary_reference: episode.source.secondaryReference || null,
+    brainstorm_ids: splitCommaText(episode.source.brainstormIdeas),
+    source_note: episode.source.sourceNote || null,
+  };
+
+  const contentJson = {
+    ...episode.rawContent,
+    schema_version: 1,
+    episode_type: episode.type,
+    estimated_duration: episode.estimatedDuration,
+    builder: {
+      type: episode.type,
+      estimatedDuration: episode.estimatedDuration,
+      source: {
+        primaryReference: episode.source.primaryReference,
+        secondaryReference: episode.source.secondaryReference,
+        brainstormIdeas: episode.source.brainstormIdeas,
+        sourceNote: episode.source.sourceNote,
+      },
+      publish: { ...episode.publish },
+      output: { ...episode.output },
+      segments: episode.segments
+        .map((segment, index) => ({
+          id: segment.id,
+          title: segment.title,
+          type: segment.type,
+          duration: segment.duration,
+          summary: segment.summary,
+          transitionNote: segment.transitionNote,
+          reference: segment.reference,
+          notes: segment.notes,
+          order: index,
+          lessonState: segment.lessonState,
+          dialogueItems: segment.dialogueItems.map((item, itemIndex) => ({
+            id: item.id,
+            text: item.text,
+            speaker: item.speaker,
+            cue: item.cue,
+            order: itemIndex,
+          })),
+          talkingPoints: segment.talkingPoints.map((item, itemIndex) => ({
+            id: item.id,
+            text: item.text,
+            tone: item.tone,
+            order: itemIndex,
+          })),
+          doneItems: segment.doneItems.map((item, itemIndex) => ({
+            id: item.id,
+            text: item.text,
+            order: itemIndex,
+          })),
+          reviewItems: segment.reviewItems.map((item, itemIndex) => ({
+            id: item.id,
+            text: item.text,
+            order: itemIndex,
+          })),
+        })),
+    },
+  };
+
+  return {
+    title: episode.title,
+    status: episode.status,
+    related_type: episode.relatedType,
+    related_id: episode.relatedId,
+    refs_json: refsJson,
+    content_json: contentJson,
+  };
+}
+
+function defaultSegmentsForType(type: CreatorEpisodeType, episodeId: string): CreatorEpisodeSegment[] {
+  if (type === 'discussion') {
+    return ['Intro', 'Main Discussion', 'Conclusion'].map((title, index) => createSegment(type, episodeId, index, title));
+  }
+
+  if (type === 'lesson_log') {
+    return ['Passage Reading', 'Vocabulary', 'Discussion', 'Homework'].map((title, index) => {
+      const segment = createSegment(type, episodeId, index, title);
+      segment.lessonState = title === 'Homework' ? 'assigned' : 'done';
+      return segment;
+    });
+  }
+
+  return ['Intro', 'Main Point', 'Reflection', 'Conclusion'].map((title, index) => createSegment(type, episodeId, index, title));
+}
+
+function defaultSegmentTitle(type: CreatorEpisodeType, order: number): string {
+  if (type === 'discussion') {
+    return `Discussion ${order + 1}`;
+  }
+
+  if (type === 'lesson_log') {
+    return `Section ${order + 1}`;
+  }
+
+  return `Segment ${order + 1}`;
+}
+
+function deriveLegacySegments(content: Record<string, unknown>, type: CreatorEpisodeType, episodeId: string): CreatorEpisodeSegment[] {
+  const outlineItems = Array.isArray(content['outline']) ? content['outline'] : [];
+  if (outlineItems.length === 0) {
+    return defaultSegmentsForType(type, episodeId);
+  }
+
+  if (type === 'discussion') {
+    const segment = createSegment(type, episodeId, 0, 'Outline');
+    segment.summary = toText(content['topic']) ?? '';
+    segment.dialogueItems = outlineItems.map((item, index) => ({
+      id: buildId(),
+      text: toText(item) ?? `Prompt ${index + 1}`,
+      speaker: index % 2 === 0 ? 'host' : 'co_host',
+      cue: '',
+      order: index,
+    }));
+    return [segment];
+  }
+
+  if (type === 'lesson_log') {
+    const segment = createSegment(type, episodeId, 0, 'Lesson Notes');
+    segment.doneItems = outlineItems.map((item, index) => createChecklistItem(toText(item) ?? `Covered ${index + 1}`, index));
+    segment.reviewItems = [];
+    return [segment];
+  }
+
+  const segment = createSegment(type, episodeId, 0, 'Outline');
+  segment.talkingPoints = outlineItems.map((item, index) => ({
+    id: buildId(),
+    text: toText(item) ?? `Point ${index + 1}`,
+    tone: '',
+    order: index,
+  }));
+  segment.summary = toText(content['topic']) ?? '';
+  return [segment];
+}
+
+function readSegments(rawSegments: unknown, type: CreatorEpisodeType, episodeId: string): CreatorEpisodeSegment[] {
+  if (!Array.isArray(rawSegments)) {
+    return [];
+  }
+
+  return rawSegments
+    .map((rawSegment, index) => mapSegment(rawSegment, type, episodeId, index))
+    .filter((segment): segment is CreatorEpisodeSegment => Boolean(segment))
+    .sort((left, right) => left.order - right.order);
+}
+
+function mapSegment(rawSegment: unknown, type: CreatorEpisodeType, episodeId: string, index: number): CreatorEpisodeSegment | null {
+  const record = asRecord(rawSegment);
+  if (!record) {
+    return null;
+  }
+
+  return {
+    id: toText(record['id']) ?? buildId(),
+    episodeId,
+    title: toText(record['title']) ?? defaultSegmentTitle(type, index),
+    type: toText(record['type']) ?? toText(record['title']) ?? defaultSegmentTitle(type, index),
+    duration: toNumber(record['duration']),
+    summary: toText(record['summary']) ?? '',
+    transitionNote: toText(record['transitionNote']) ?? '',
+    reference: toText(record['reference']) ?? '',
+    notes: toText(record['notes']) ?? '',
+    order: toNumber(record['order']) ?? index,
+    lessonState: resolveLessonState(record['lessonState']),
+    dialogueItems: readDialogueItems(record['dialogueItems']),
+    talkingPoints: readTalkingPoints(record['talkingPoints']),
+    doneItems: readChecklistItems(record['doneItems']),
+    reviewItems: readChecklistItems(record['reviewItems']),
+  };
+}
+
+function readDialogueItems(value: unknown): CreatorDialogueItem[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((rawItem, index) => {
+      const record = asRecord(rawItem);
+      if (!record) {
+        return null;
+      }
+
+      return {
+        id: toText(record['id']) ?? buildId(),
+        text: toText(record['text']) ?? '',
+        speaker: isCreatorSpeaker(record['speaker']) ? record['speaker'] : 'host',
+        cue: toText(record['cue']) ?? '',
+        order: toNumber(record['order']) ?? index,
+      };
+    })
+    .filter((item): item is CreatorDialogueItem => Boolean(item))
+    .sort((left, right) => left.order - right.order);
+}
+
+function readTalkingPoints(value: unknown): CreatorTalkingPoint[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((rawItem, index) => {
+      const record = asRecord(rawItem);
+      if (!record) {
+        return null;
+      }
+
+      const tone = toText(record['tone']);
+      return {
+        id: toText(record['id']) ?? buildId(),
+        text: toText(record['text']) ?? '',
+        tone: tone && CREATOR_TONES.includes(tone as CreatorTalkingPointTone)
+          ? tone as CreatorTalkingPointTone
+          : '',
+        order: toNumber(record['order']) ?? index,
+      };
+    })
+    .filter((item): item is CreatorTalkingPoint => Boolean(item))
+    .sort((left, right) => left.order - right.order);
+}
+
+function readChecklistItems(value: unknown): CreatorChecklistItem[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((rawItem, index) => {
+      const record = asRecord(rawItem);
+      if (!record) {
+        return null;
+      }
+
+      return {
+        id: toText(record['id']) ?? buildId(),
+        text: toText(record['text']) ?? '',
+        order: toNumber(record['order']) ?? index,
+      };
+    })
+    .filter((item): item is CreatorChecklistItem => Boolean(item))
+    .sort((left, right) => left.order - right.order);
+}
+
+function resolveEpisodeType(...values: unknown[]): CreatorEpisodeType {
+  for (const value of values) {
+    if (isCreatorEpisodeType(value)) {
+      return value;
+    }
+
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'lesson' || normalized === 'lesson log' || normalized === 'lesson_log') {
+        return 'lesson_log';
+      }
+      if (normalized === 'discussion') {
+        return 'discussion';
+      }
+      if (normalized === 'solo') {
+        return 'solo';
+      }
+      if (normalized.includes('lesson')) {
+        return 'lesson_log';
+      }
+    }
+  }
+
+  return 'solo';
+}
+
+function resolveEpisodeStatus(value: unknown): CreatorEpisodeStatus {
+  return isCreatorEpisodeStatus(typeof value === 'string' ? value.trim().toLowerCase() : value)
+    ? value as CreatorEpisodeStatus
+    : 'draft';
+}
+
+function resolveLessonState(value: unknown): CreatorLessonState {
+  if (isCreatorLessonState(value)) {
+    return value;
+  }
+
+  if (typeof value === 'string' && value.trim().toLowerCase() === 'needs review') {
+    return 'needs_review';
+  }
+
+  return 'done';
+}
+
+function estimateEpisodeDuration(segments: CreatorEpisodeSegment[]): number | null {
+  const total = segments.reduce((sum, segment) => sum + (segment.duration ?? 0), 0);
+  return total > 0 ? total : null;
+}
+
+function splitCommaText(value: string): string[] {
+  return value
+    .split(',')
+    .map((item) => item.trim())
+    .filter((item) => item.length > 0);
+}
+
+function joinStringArray(value: unknown): string | null {
+  if (!Array.isArray(value)) {
+    return null;
+  }
+
+  const items = value
+    .map((entry) => toText(entry))
+    .filter((entry): entry is string => Boolean(entry));
+
+  return items.length ? items.join(', ') : null;
+}
+
+function toText(value: unknown): string | null {
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    return trimmed.length ? trimmed : null;
+  }
+
+  if (typeof value === 'number') {
+    return String(value);
+  }
+
+  return null;
+}
+
+function toNumber(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === 'string' && value.trim().length > 0) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  return null;
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : {};
+}
+
+function buildId(): string {
+  return Math.random().toString(36).slice(2, 10);
+}
