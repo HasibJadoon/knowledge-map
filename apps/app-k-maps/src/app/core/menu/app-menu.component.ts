@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { homeOutline, settingsOutline } from 'ionicons/icons';
 import { DASHBOARD_MENU_SECTIONS } from '../../features/dashboard/dashboard-menu.data';
+import { dashboardSectionRoute } from '../../features/dashboard/dashboard-card.model';
 
 type MenuEntry = {
   title: string;
@@ -36,7 +37,7 @@ export class AppMenuComponent {
         .map((section) => ({
           title: section.title,
           icon: section.icon,
-          route: ['/dashboard', section.key],
+          route: dashboardSectionRoute(section),
         })),
       {
         title: 'Settings',

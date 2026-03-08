@@ -1,13 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DashboardTone } from './dashboard-menu.data';
-
-export type DashboardCardView = {
-  title: string;
-  subtitle: string;
-  icon: string;
-  route: string[];
-  tone: DashboardTone;
-};
+import { DashboardCardView } from './dashboard-card.model';
 
 @Component({
   selector: 'app-dashboard-card-grid',

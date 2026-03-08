@@ -5,14 +5,14 @@
       lines="none"
       detail="false"
       class="quran-browse__juz-header"
-      [button]="juz.start_page != null"
+      [button]="juz.start_page !== null"
       [routerLink]="buildJuzLink(juz)"
     >
       <ion-label>
         <h2 class="quran-browse__juz-pages">
           Juz' {{ juz.juz }}
-          <span *ngIf="juz.start_page != null">
-            ({{ juz.start_page }}<span *ngIf="juz.end_page != null && juz.end_page !== juz.start_page">-{{ juz.end_page }}</span>)
+          <span *ngIf="juz.start_page !== null">
+            ({{ juz.start_page }}<span *ngIf="juz.end_page !== null && juz.end_page !== juz.start_page">-{{ juz.end_page }}</span>)
           </span>
         </h2>
         <p class="quran-browse__juz-meta">
@@ -21,7 +21,7 @@
         </p>
       </ion-label>
 
-      <ion-chip slot="end" class="quran-browse__page-chip quran-browse__page-chip--juz" *ngIf="juz.start_page != null">
+      <ion-chip slot="end" class="quran-browse__page-chip quran-browse__page-chip--juz" *ngIf="juz.start_page !== null">
         <ion-label>p. {{ juz.start_page }}</ion-label>
       </ion-chip>
     </ion-item>
@@ -46,7 +46,7 @@
           </div>
         </ion-label>
 
-        <ion-chip slot="end" class="quran-browse__page-chip" *ngIf="surah.start_page != null">
+        <ion-chip slot="end" class="quran-browse__page-chip" *ngIf="surah.start_page !== null">
           <ion-label>p. {{ surah.start_page }}</ion-label>
         </ion-chip>
       </ion-item>

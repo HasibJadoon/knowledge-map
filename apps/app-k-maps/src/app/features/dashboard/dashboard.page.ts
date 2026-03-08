@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DASHBOARD_MENU_SECTIONS } from './dashboard-menu.data';
-import { DashboardCardView } from './dashboard-card-grid.component';
+import { toDashboardSectionCard } from './dashboard-card.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,11 +10,5 @@ import { DashboardCardView } from './dashboard-card-grid.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPage {
-  readonly cards: ReadonlyArray<DashboardCardView> = DASHBOARD_MENU_SECTIONS.map((section) => ({
-    title: section.title,
-    subtitle: section.subtitle,
-    icon: section.icon,
-    tone: section.tone,
-    route: ['/dashboard', section.key],
-  }));
+  readonly cards = DASHBOARD_MENU_SECTIONS.map(toDashboardSectionCard);
 }

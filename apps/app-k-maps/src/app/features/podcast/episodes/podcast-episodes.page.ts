@@ -15,9 +15,8 @@ import {
   episodeTypeLabel,
 } from './podcast-builder.models';
 import { PodcastBuilderService } from './podcast-builder.service';
+import { KM_OVERLAY_ACTION_SHEET_CLASS, KM_OVERLAY_ALERT_CLASS } from '../../../shared/overlay-classes';
 
-const PODCAST_ALERT_CLASS = 'km-overlay-alert';
-const PODCAST_SHEET_CLASS = 'km-overlay-action-sheet';
 const PODCAST_STATUS_FILTER_SHEET_CLASS = 'podcast-status-filter-sheet';
 
 @Component({
@@ -76,7 +75,7 @@ export class PodcastEpisodesPage {
 
   async openStatusFilter(): Promise<void> {
     const actionSheet = await this.actionSheetController.create({
-      cssClass: [PODCAST_SHEET_CLASS, PODCAST_STATUS_FILTER_SHEET_CLASS],
+      cssClass: [KM_OVERLAY_ACTION_SHEET_CLASS, PODCAST_STATUS_FILTER_SHEET_CLASS],
       header: 'Filter Episodes',
       buttons: [
         {
@@ -111,7 +110,7 @@ export class PodcastEpisodesPage {
     }
 
     const alert = await this.alertController.create({
-      cssClass: PODCAST_ALERT_CLASS,
+      cssClass: KM_OVERLAY_ALERT_CLASS,
       header: 'New Episode',
       inputs: [
         {
@@ -161,7 +160,7 @@ export class PodcastEpisodesPage {
 
   private async chooseEpisodeType(title: string): Promise<void> {
     const actionSheet = await this.actionSheetController.create({
-      cssClass: PODCAST_SHEET_CLASS,
+      cssClass: KM_OVERLAY_ACTION_SHEET_CLASS,
       header: 'Episode Type',
       buttons: [
         {

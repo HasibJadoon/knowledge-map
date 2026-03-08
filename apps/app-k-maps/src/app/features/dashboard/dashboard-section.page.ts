@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signa
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { DashboardMenuLink, DashboardMenuSection, findDashboardMenuSection } from './dashboard-menu.data';
-import { DashboardCardView } from './dashboard-card-grid.component';
+import { DashboardMenuSection, findDashboardMenuSection } from './dashboard-menu.data';
+import { toDashboardItemCard } from './dashboard-card.model';
 
 @Component({
   selector: 'app-dashboard-section',
@@ -17,14 +17,14 @@ export class DashboardSectionPage {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly section = signal<DashboardMenuSection | null>(null);
-  readonly cards = computed<ReadonlyArray<DashboardCardView>>(() => {
+  readonly cards = computed(() => {
     const currentSection = this.section();
 
     if (!currentSection) {
       return [];
     }
 
-    return currentSection.items.map((item) => this.toCard(item, currentSection));
+    return currentSection.items.map((item) => toDashboardItemCard(item, currentSection.tone));
   });
 
   constructor() {
@@ -34,15 +34,5 @@ export class DashboardSectionPage {
     ).subscribe((section) => {
       this.section.set(section);
     });
-  }
-
-  private toCard(item: DashboardMenuLink, section: DashboardMenuSection): DashboardCardView {
-    return {
-      title: item.title,
-      subtitle: item.subtitle,
-      icon: item.icon,
-      tone: section.tone,
-      route: item.route,
-    };
   }
 }

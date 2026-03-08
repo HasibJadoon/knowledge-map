@@ -30,7 +30,7 @@
       <ion-icon slot="icon-only" [icon]="documentTextOutline"></ion-icon>
     </ion-button>
 
-    <ion-chip slot="end" class="quran-browse__page-chip" *ngIf="surah.start_page != null">
+    <ion-chip slot="end" class="quran-browse__page-chip" *ngIf="surah.start_page !== null">
       <ion-label>P. {{ surah.start_page }}</ion-label>
     </ion-chip>
   </ion-item>

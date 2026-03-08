@@ -21,6 +21,7 @@ import {
   trashOutline,
 } from 'ionicons/icons';
 import { IconTabItem } from '../../../shared/components/icon-tabs/icon-tabs.component';
+import { KM_OVERLAY_ACTION_SHEET_CLASS, KM_OVERLAY_ALERT_CLASS } from '../../../shared/overlay-classes';
 import {
   CREATOR_EPISODE_STATUSES,
   CreatorEpisode,
@@ -35,8 +36,6 @@ import {
 import { PodcastBuilderService } from './podcast-builder.service';
 
 type EpisodeTab = 'segments' | 'review' | 'publish' | 'output';
-const PODCAST_ALERT_CLASS = 'km-overlay-alert';
-const PODCAST_SHEET_CLASS = 'km-overlay-action-sheet';
 
 @Component({
   selector: 'app-podcast-episode-page',
@@ -220,7 +219,7 @@ export class PodcastEpisodePage {
     }
 
     const actionSheet = await this.actionSheetController.create({
-      cssClass: PODCAST_SHEET_CLASS,
+      cssClass: KM_OVERLAY_ACTION_SHEET_CLASS,
       header: episode.title,
       buttons: [
         {
@@ -290,7 +289,7 @@ export class PodcastEpisodePage {
 
   async confirmDeleteSegment(segmentId: string): Promise<void> {
     const alert = await this.alertController.create({
-      cssClass: PODCAST_ALERT_CLASS,
+      cssClass: KM_OVERLAY_ALERT_CLASS,
       header: 'Delete Segment',
       message: 'Remove this segment from the episode?',
       buttons: [
@@ -435,7 +434,7 @@ export class PodcastEpisodePage {
     }
 
     const alert = await this.alertController.create({
-      cssClass: PODCAST_ALERT_CLASS,
+      cssClass: KM_OVERLAY_ALERT_CLASS,
       header: 'Rename Episode',
       inputs: [
         {
@@ -479,7 +478,7 @@ export class PodcastEpisodePage {
     }
 
     const actionSheet = await this.actionSheetController.create({
-      cssClass: PODCAST_SHEET_CLASS,
+      cssClass: KM_OVERLAY_ACTION_SHEET_CLASS,
       header: 'Set Status',
       buttons: [
         ...CREATOR_EPISODE_STATUSES.map((status) => ({
