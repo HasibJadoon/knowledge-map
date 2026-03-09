@@ -1,11 +1,12 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Capacitor, type PluginListenerHandle } from '@capacitor/core';
+import { Keyboard } from '@capacitor/keyboard';
 import { AlertController, MenuController, IonicModule, ToastController } from '@ionic/angular';
 import { addOutline, albumsOutline, arrowBackOutline, createOutline, homeOutline, searchOutline, settingsOutline } from 'ionicons/icons';
 import { filter } from 'rxjs';
-import { Location } from '@angular/common';
 import { AppIconTabsComponent } from '../../shared/components/icon-tabs/icon-tabs.component';
 import { blurActiveElement } from '../../shared/focus-utils';
 import { BrainstormStoreService } from './services/brainstorm-store.service';
@@ -30,8 +31,10 @@ export class BrainstormTabsPage {
   private readonly store = inject(BrainstormStoreService);
   private readonly alertController = inject(AlertController);
   private readonly toastController = inject(ToastController);
+  private readonly keyboardListenerHandles: Promise<PluginListenerHandle>[] = [];
   readonly currentUrl = signal(this.router.url);
   readonly activeTabKey = signal(this.resolveTabKey(this.router.url));
+  readonly keyboardOpen = signal(false);
   readonly icons = {
     addOutline,
     albumsOutline,
@@ -48,12 +51,21 @@ export class BrainstormTabsPage {
   ];
 
   constructor() {
+    this.bindKeyboardListeners();
+    this.destroyRef.onDestroy(() => {
+      void this.unbindKeyboardListeners();
+    });
+
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       takeUntilDestroyed(this.destroyRef),
     ).subscribe((event) => {
       this.currentUrl.set(event.urlAfterRedirects);
       this.activeTabKey.set(this.resolveTabKey(event.urlAfterRedirects));
+
+      if (!this.isTopicView) {
+        this.keyboardOpen.set(false);
+      }
     });
   }
 
@@ -125,7 +137,7 @@ export class BrainstormTabsPage {
 
   get showFooterTabs(): boolean {
     const url = this.currentUrl();
-    return !url.startsWith('/brainstorm/search');
+    return !url.startsWith('/brainstorm/search') && !(this.isTopicView && this.keyboardOpen());
   }
 
   onTabSelected(tabKey: string | number | null | undefined): void {
@@ -237,5 +249,40 @@ export class BrainstormTabsPage {
     }
 
     return 'topics';
+  }
+
+  private bindKeyboardListeners(): void {
+    if (!Capacitor.isNativePlatform()) {
+      return;
+    }
+
+    const markKeyboardOpen = () => {
+      this.keyboardOpen.set(true);
+    };
+    const markKeyboardClosed = () => {
+      this.keyboardOpen.set(false);
+    };
+
+    this.keyboardListenerHandles.push(
+      Keyboard.addListener('keyboardWillShow', markKeyboardOpen),
+      Keyboard.addListener('keyboardDidShow', markKeyboardOpen),
+      Keyboard.addListener('keyboardWillHide', markKeyboardClosed),
+      Keyboard.addListener('keyboardDidHide', markKeyboardClosed),
+    );
+  }
+
+  private async unbindKeyboardListeners(): Promise<void> {
+    if (this.keyboardListenerHandles.length === 0) {
+      return;
+    }
+
+    for (const handlePromise of this.keyboardListenerHandles) {
+      try {
+        const handle = await handlePromise;
+        await handle.remove();
+      } catch {
+        // Ignore listener cleanup failures during route teardown.
+      }
+    }
   }
 }
