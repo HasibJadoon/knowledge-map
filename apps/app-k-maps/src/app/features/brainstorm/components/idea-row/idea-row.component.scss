@@ -20,8 +20,13 @@
   --padding-end: 0.82rem;
   --inner-padding-end: 0;
   --min-height: 4.25rem;
-  align-items: flex-start;
+  align-items: stretch;
   transition: transform 140ms ease;
+}
+
+.brainstorm-idea-row__item ion-label {
+  align-self: flex-start;
+  padding-top: 0.1rem;
 }
 
 .brainstorm-idea-row__item ion-label h2,
@@ -48,10 +53,13 @@
 
 .brainstorm-idea-row__aside {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  align-self: stretch;
+  flex-direction: column;
+  justify-content: space-between;
   gap: 0.35rem;
-  padding-top: 0.06rem;
-  margin-inline-start: 0.7rem;
+  margin-inline-start: 0.78rem;
+  padding-block: 0.2rem 0.12rem;
 }
 
 .brainstorm-idea-row__flags {
@@ -69,24 +77,24 @@
   --background-activated: transparent;
   --padding-start: 0;
   --padding-end: 0;
-  width: 2rem;
-  min-width: 2rem;
-  min-height: 2rem;
+  width: 1.68rem;
+  min-width: 1.68rem;
+  min-height: 1.68rem;
   margin: 0;
 }
 
 .brainstorm-idea-row__delete::part(native) {
-  width: 2rem;
-  min-width: 2rem;
-  min-height: 2rem;
-  border: 1px solid rgba(235, 68, 90, 0.2);
-  border-radius: 0.72rem;
-  background: rgba(235, 68, 90, 0.08);
+  width: 1.68rem;
+  min-width: 1.68rem;
+  min-height: 1.68rem;
+  border: 1px solid rgba(235, 68, 90, 0.14);
+  border-radius: 0.56rem;
+  background: rgba(235, 68, 90, 0.06);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .brainstorm-idea-row__delete ion-icon {
-  font-size: 0.98rem;
+  font-size: 0.82rem;
 }
 
 .brainstorm-idea-row__item:active {

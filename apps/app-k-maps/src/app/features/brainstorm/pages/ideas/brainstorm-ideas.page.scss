@@ -9,7 +9,7 @@
     --brainstorm-shell-tab-offset,
     calc(var(--app-icon-tabs-min-height) + (env(safe-area-inset-bottom) * 0.45))
   );
-  --brainstorm-ideas-composer-space: calc(env(safe-area-inset-bottom) + 5.8rem + var(--brainstorm-ideas-footer-offset));
+  --brainstorm-ideas-composer-space: calc(5.8rem + var(--brainstorm-ideas-footer-offset));
 }
 
 .brainstorm-ideas__content {
@@ -62,7 +62,7 @@
 
 .brainstorm-ideas__footer {
   margin-bottom: max(0px, calc(var(--brainstorm-ideas-footer-offset) - 1px));
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: 0;
   background: transparent;
   --border-width: 0;
   --border-color: transparent;
