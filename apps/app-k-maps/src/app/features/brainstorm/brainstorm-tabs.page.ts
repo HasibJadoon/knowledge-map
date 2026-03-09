@@ -5,7 +5,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Capacitor, type PluginListenerHandle } from '@capacitor/core';
 import { Keyboard } from '@capacitor/keyboard';
 import { AlertController, MenuController, IonicModule, ToastController } from '@ionic/angular';
-import { addOutline, albumsOutline, arrowBackOutline, createOutline, homeOutline, searchOutline, settingsOutline } from 'ionicons/icons';
+import { addOutline, albumsOutline, arrowBackOutline, homeOutline, searchOutline, settingsOutline } from 'ionicons/icons';
 import { filter } from 'rxjs';
 import { AppIconTabsComponent } from '../../shared/components/icon-tabs/icon-tabs.component';
 import { blurActiveElement } from '../../shared/focus-utils';
@@ -20,6 +20,7 @@ import { BrainstormStoreService } from './services/brainstorm-store.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.brainstorm-shell--with-search]': 'hasToolbarSearch',
+    '[style.--brainstorm-shell-tab-offset]': 'footerTabOffset',
   },
 })
 export class BrainstormTabsPage {
@@ -39,7 +40,6 @@ export class BrainstormTabsPage {
     addOutline,
     albumsOutline,
     arrowBackOutline,
-    createOutline,
     homeOutline,
     searchOutline,
     settingsOutline,
@@ -118,19 +118,6 @@ export class BrainstormTabsPage {
     return url.startsWith('/brainstorm/topic/') && !url.includes('/idea/');
   }
 
-  get topicIdFromUrl(): string | null {
-    if (!this.isTopicView) {
-      return null;
-    }
-
-    const segments = this.currentUrl().split('?')[0].split('/').filter(Boolean);
-    return segments[2] ?? null;
-  }
-
-  get showCreateIdeaAction(): boolean {
-    return Boolean(this.topicIdFromUrl);
-  }
-
   get showCreateTopicAction(): boolean {
     return this.isTopicsView || this.activeTabKey() === 'search';
   }
@@ -138,6 +125,12 @@ export class BrainstormTabsPage {
   get showFooterTabs(): boolean {
     const url = this.currentUrl();
     return !url.startsWith('/brainstorm/search') && !(this.isTopicView && this.keyboardOpen());
+  }
+
+  get footerTabOffset(): string {
+    return this.showFooterTabs
+      ? 'calc(var(--app-icon-tabs-min-height) + (env(safe-area-inset-bottom) * 0.45))'
+      : '0px';
   }
 
   onTabSelected(tabKey: string | number | null | undefined): void {
@@ -184,16 +177,6 @@ export class BrainstormTabsPage {
       queryParamsHandling: 'merge',
       replaceUrl: true,
     });
-  }
-
-  openNewIdea(): void {
-    const topicId = this.topicIdFromUrl;
-    if (!topicId) {
-      return;
-    }
-
-    blurActiveElement();
-    void this.router.navigate(['/brainstorm', 'topic', topicId, 'idea', 'new']);
   }
 
   async openNewTopic(): Promise<void> {

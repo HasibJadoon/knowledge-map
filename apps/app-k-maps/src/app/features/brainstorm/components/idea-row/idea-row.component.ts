@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { IonItemSliding, IonicModule } from '@ionic/angular';
-import { bookmarkOutline, sparklesOutline } from 'ionicons/icons';
+import { bookmarkOutline, sparklesOutline, trashOutline } from 'ionicons/icons';
 import { LongPressDirective } from '../../../../shared/directives/long-press.directive';
 import { BrainstormIdea } from '../../brainstorm.models';
 
@@ -17,6 +17,7 @@ export class IdeaRowComponent {
   readonly icons = {
     bookmarkOutline,
     sparklesOutline,
+    trashOutline,
   };
 
   @Input({ required: true }) idea!: BrainstormIdea;
@@ -62,6 +63,12 @@ export class IdeaRowComponent {
   async onDelete(): Promise<void> {
     this.deleted.emit(this.idea.id);
     await this.slidingItem?.close();
+  }
+
+  onDeleteButtonClick(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    void this.onDelete();
   }
 }
 

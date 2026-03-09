@@ -46,13 +46,47 @@
   font-size: 0.78rem;
 }
 
+.brainstorm-idea-row__aside {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding-top: 0.06rem;
+  margin-inline-start: 0.7rem;
+}
+
 .brainstorm-idea-row__flags {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  padding-top: 0.18rem;
   color: color-mix(in srgb, var(--brainstorm-muted) 75%, #dcecff 25%);
   font-size: 0.88rem;
+}
+
+.brainstorm-idea-row__delete {
+  --color: color-mix(in srgb, var(--ion-color-danger, #eb445a) 80%, #ffd9df 20%);
+  --background: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  width: 2rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  margin: 0;
+}
+
+.brainstorm-idea-row__delete::part(native) {
+  width: 2rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  border: 1px solid rgba(235, 68, 90, 0.2);
+  border-radius: 0.72rem;
+  background: rgba(235, 68, 90, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.brainstorm-idea-row__delete ion-icon {
+  font-size: 0.98rem;
 }
 
 .brainstorm-idea-row__item:active {

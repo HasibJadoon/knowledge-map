@@ -12,11 +12,8 @@
       <ion-button fill="clear" (click)="goToDashboard()" aria-label="Dashboard">
         <ion-icon [icon]="icons.homeOutline" slot="icon-only"></ion-icon>
       </ion-button>
-      <ion-button fill="clear" *ngIf="!showCreateIdeaAction" (click)="openSettings()" aria-label="Settings">
+      <ion-button fill="clear" *ngIf="!isTopicView" (click)="openSettings()" aria-label="Settings">
         <ion-icon [icon]="icons.settingsOutline" slot="icon-only"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear" *ngIf="showCreateIdeaAction" (click)="openNewIdea()" aria-label="New idea">
-        <ion-icon [icon]="icons.createOutline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

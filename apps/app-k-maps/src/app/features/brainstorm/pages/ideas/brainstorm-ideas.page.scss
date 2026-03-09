@@ -1,6 +1,20 @@
 :host {
-  display: block;
-  --brainstorm-ideas-composer-space: calc(env(safe-area-inset-bottom) + 5.8rem);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  --brainstorm-ideas-footer-surface:
+    linear-gradient(180deg, rgba(6, 10, 18, 0) 0%, rgba(8, 14, 25, 0.56) 26%, rgba(8, 13, 23, 0.88) 66%, rgba(9, 13, 18, 0.97) 100%);
+  --brainstorm-ideas-footer-offset: var(
+    --brainstorm-shell-tab-offset,
+    calc(var(--app-icon-tabs-min-height) + (env(safe-area-inset-bottom) * 0.45))
+  );
+  --brainstorm-ideas-composer-space: calc(env(safe-area-inset-bottom) + 5.8rem + var(--brainstorm-ideas-footer-offset));
+}
+
+.brainstorm-ideas__content {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .brainstorm-ideas__content::part(scroll) {
@@ -47,6 +61,7 @@
 }
 
 .brainstorm-ideas__footer {
+  margin-bottom: max(0px, calc(var(--brainstorm-ideas-footer-offset) - 1px));
   padding-bottom: env(safe-area-inset-bottom);
   background: transparent;
   --border-width: 0;
@@ -55,14 +70,16 @@
 }
 
 .brainstorm-ideas__footer-bar {
-  --background: transparent;
+  --background: var(--brainstorm-ideas-footer-surface);
   --border-color: transparent;
   --min-height: 0;
   --padding-top: 0;
   --padding-bottom: 0;
   --padding-start: 0;
   --padding-end: 0;
-  padding: 0.35rem 0.8rem 0.4rem;
+  padding: 0.28rem 0.8rem 0.12rem;
+  box-shadow: none;
+  backdrop-filter: blur(18px);
 }
 
 .brainstorm-ideas__composer {
@@ -74,6 +91,10 @@
   gap: 0.5rem;
   padding: 0.46rem 0.56rem 0.46rem 0.82rem;
   border-radius: 1rem;
+  background: linear-gradient(165deg, rgba(15, 27, 47, 0.88), rgba(9, 17, 31, 0.9));
+  border-color: rgba(151, 181, 227, 0.16);
+  box-shadow: 0 10px 22px rgba(5, 10, 22, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
 }
 
 .brainstorm-ideas__composer ion-textarea {
