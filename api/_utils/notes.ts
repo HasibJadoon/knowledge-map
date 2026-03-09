@@ -1,6 +1,6 @@
 import type { D1Database } from '@cloudflare/workers-types';
 
-export type NoteStatus = 'inbox' | 'archived';
+export type NoteStatus = 'draft' | 'flag' | 'published';
 
 export type NoteLinkTargetType =
   | 'quran_ayah'
@@ -33,6 +33,7 @@ export interface NoteLinkDto {
 export interface CommentDto {
   id: string;
   user_id: number;
+  author_email?: string | null;
   target_type: CommentTargetType;
   target_id: string;
   body_md: string;
@@ -40,10 +41,11 @@ export interface CommentDto {
 }
 
 const STATUS_ALIASES: Record<string, NoteStatus> = {
-  inbox: 'inbox',
-  archived: 'archived',
-  draft: 'inbox',
-  published: 'archived',
+  inbox: 'draft',
+  archived: 'published',
+  draft: 'draft',
+  flag: 'flag',
+  published: 'published',
 };
 
 const LINK_TARGET_TYPES = new Set<NoteLinkTargetType>([
@@ -124,7 +126,7 @@ export function parseStatus(value: unknown): NoteStatus | null {
 
 export function listStatus(value: string | null): NoteStatus {
   const parsed = parseStatus(value ?? '');
-  return parsed ?? 'inbox';
+  return parsed ?? 'draft';
 }
 
 export function parseLinkTargetType(value: unknown): NoteLinkTargetType | null {
@@ -185,13 +187,15 @@ export async function fetchOwnedNote(
 
 export function mapNoteRow(row: unknown): CaptureNoteDto {
   const record = asRecord(row) ?? {};
+  const title = readString(record['title']) ?? null;
+  const body = readString(record['body_md']) ?? '';
 
   return {
     id: readString(record['id']) ?? '',
     user_id: parseNumber(record['user_id']),
-    status: (parseStatus(record['status']) ?? 'inbox'),
-    body_md: readString(record['body_md']) ?? '',
-    title: readString(record['title']) ?? null,
+    status: canonicalStatus(record['status'], title, body),
+    body_md: body,
+    title,
     created_at: readString(record['created_at']) ?? '',
     updated_at: readString(record['updated_at']) ?? '',
   };
@@ -217,9 +221,28 @@ export function mapCommentRow(row: unknown): CommentDto {
   return {
     id: readString(record['id']) ?? '',
     user_id: parseNumber(record['user_id']),
+    author_email: readString(record['author_email']) ?? null,
     target_type: targetType,
     target_id: readString(record['target_id']) ?? '',
     body_md: readString(record['body_md']) ?? '',
     created_at: readString(record['created_at']) ?? '',
   };
+}
+
+export function canonicalStatus(rawStatus: unknown, title: string | null, body: string): NoteStatus {
+  const parsed = parseStatus(rawStatus);
+  if (parsed === 'flag' || parsed === 'published') {
+    return parsed;
+  }
+
+  if (parsed === 'draft' && hasLegacyFlagMarker(title, body)) {
+    return 'flag';
+  }
+
+  return parsed ?? (hasLegacyFlagMarker(title, body) ? 'flag' : 'draft');
+}
+
+function hasLegacyFlagMarker(title: string | null, body: string): boolean {
+  const haystack = `${title ?? ''}\n${body}`.toLowerCase();
+  return /\B#flag\b/.test(haystack) || /\[flag\]/.test(haystack);
 }

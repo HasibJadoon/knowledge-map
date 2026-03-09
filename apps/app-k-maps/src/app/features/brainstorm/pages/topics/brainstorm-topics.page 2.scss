@@ -1,0 +1,39 @@
+:host {
+  display: block;
+}
+
+.brainstorm-topics {
+  width: min(100%, 42rem);
+  min-height: 100%;
+  margin-inline: auto;
+}
+
+.brainstorm-topics__list {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.brainstorm-topics__state {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.brainstorm-topics__state ion-spinner {
+  color: #79e0c5;
+}
+
+.brainstorm-topics__state h2,
+.brainstorm-topics__state p {
+  margin: 0;
+}
+
+.brainstorm-topics__state h2 {
+  color: var(--km-text, #e6edf8);
+  font-size: 1.04rem;
+  font-weight: 650;
+}
+
+.brainstorm-topics__state p {
+  color: var(--km-text-dim, #9eb2ce);
+  line-height: 1.62;
+}

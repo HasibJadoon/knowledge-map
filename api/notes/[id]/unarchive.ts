@@ -23,7 +23,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       .prepare(
         `
         UPDATE ar_capture_notes
-        SET status = 'inbox', updated_at = datetime('now')
+        SET status = 'draft', updated_at = datetime('now')
         WHERE id = ?1 AND user_id = ?2
         `
       )

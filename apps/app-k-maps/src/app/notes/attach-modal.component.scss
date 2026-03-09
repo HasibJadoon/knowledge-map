@@ -1,21 +1,117 @@
 :host {
   display: block;
+  --attach-modal-surface: rgba(10, 18, 34, 0.94);
+  --attach-modal-panel-surface: linear-gradient(165deg, rgba(18, 30, 52, 0.86), rgba(11, 18, 33, 0.9));
+}
+
+.attach-modal-head,
+.attach-modal-toolbar,
+.attach-modal-content {
+  --background: var(--attach-modal-surface);
+  --color: var(--km-text, #e6edf8);
+}
+
+.attach-modal-toolbar {
+  --border-color: rgba(145, 176, 224, 0.18);
+}
+
+.attach-modal-close {
+  --color: rgba(121, 224, 197, 0.94);
+}
+
+.attach-modal-content {
+  --padding-top: 1rem;
+}
+
+.attach-modal-panel {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(148, 182, 228, 0.22);
+  border-radius: 1.15rem;
+  background: var(--attach-modal-panel-surface);
+  box-shadow: 0 12px 24px rgba(6, 12, 25, 0.26);
+}
+
+.attach-modal-copy {
+  display: grid;
+  gap: 0.26rem;
+}
+
+.attach-modal-eyebrow,
+.attach-modal-meta {
+  margin: 0;
+}
+
+.attach-modal-eyebrow {
+  color: #79e0c5;
+  font-size: 0.77rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.attach-modal-meta {
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.attach-modal-segment {
+  --background: rgba(15, 25, 44, 0.88);
+  border: 1px solid rgba(151, 181, 227, 0.14);
+  border-radius: 1rem;
+  padding: 0.2rem;
+}
+
+.attach-modal-segment ion-segment-button {
+  --border-radius: 0.8rem;
+  --color: var(--km-text-dim, #9eb2ce);
+  --color-checked: var(--km-text, #e6edf8);
+  --indicator-color: rgba(121, 224, 197, 0.18);
+  min-height: 2.55rem;
+  font-weight: 600;
 }
 
 .attach-form-block {
-  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
 }
 
 ion-item {
-  --background: var(--ion-color-step-50, transparent);
-  --border-radius: 0.75rem;
-  --padding-start: 0.8rem;
-  --inner-padding-end: 0.8rem;
-  margin-bottom: 0.65rem;
+  --background: rgba(12, 21, 37, 0.9);
+  --border-radius: 0.95rem;
+  --padding-start: 0.9rem;
+  --inner-padding-end: 0.9rem;
+  border: 1px solid rgba(151, 181, 227, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+ion-label[position='stacked'] {
+  margin-bottom: 0.4rem;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+}
+
+ion-input,
+ion-select {
+  --color: var(--km-text, #e6edf8);
+  --placeholder-color: var(--km-text-dim, #9eb2ce);
 }
 
 .input-error {
-  margin: 0.35rem 0 0.75rem;
-  color: var(--ion-color-danger);
+  margin: -0.2rem 0 0;
+  color: #f08aa2;
   font-size: 0.82rem;
+}
+
+.attach-modal-save {
+  --background: linear-gradient(180deg, rgba(121, 224, 197, 0.2), rgba(121, 224, 197, 0.14));
+  --background-activated: rgba(121, 224, 197, 0.22);
+  --background-hover: rgba(121, 224, 197, 0.18);
+  --border-radius: 0.95rem;
+  --box-shadow: none;
+  --color: #dff8f0;
+  margin: 0;
 }

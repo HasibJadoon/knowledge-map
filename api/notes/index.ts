@@ -27,41 +27,33 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const status = listStatus(url.searchParams.get('status'));
     const query = (url.searchParams.get('q') ?? '').trim();
 
-    if (query) {
-      const like = `%${query}%`;
-      const { results = [] } = await ctx.env.DB
-        .prepare(
+    const statement = query
+      ? ctx.env.DB.prepare(
           `
           SELECT ${NOTE_COLUMNS}
           FROM ar_capture_notes
           WHERE user_id = ?1
-            AND status = ?2
-            AND (body_md LIKE ?3 OR COALESCE(title, '') LIKE ?3)
+            AND (body_md LIKE ?2 OR COALESCE(title, '') LIKE ?2)
           ORDER BY updated_at DESC, created_at DESC
-          LIMIT 400
+          LIMIT 600
           `
-        )
-        .bind(user.id, status, like)
-        .all<Record<string, unknown>>();
+        ).bind(user.id, `%${query}%`)
+      : ctx.env.DB.prepare(
+          `
+          SELECT ${NOTE_COLUMNS}
+          FROM ar_capture_notes
+          WHERE user_id = ?1
+          ORDER BY updated_at DESC, created_at DESC
+          LIMIT 600
+          `
+        ).bind(user.id);
 
-      return json({ ok: true, notes: results.map(mapNoteRow) });
-    }
+    const { results = [] } = await statement.all<Record<string, unknown>>();
+    const notes = results
+      .map(mapNoteRow)
+      .filter((note) => note.status === status);
 
-    const { results = [] } = await ctx.env.DB
-      .prepare(
-        `
-        SELECT ${NOTE_COLUMNS}
-        FROM ar_capture_notes
-        WHERE user_id = ?1
-          AND status = ?2
-        ORDER BY updated_at DESC, created_at DESC
-        LIMIT 400
-        `
-      )
-      .bind(user.id, status)
-      .all<Record<string, unknown>>();
-
-    return json({ ok: true, notes: results.map(mapNoteRow) });
+    return json({ ok: true, notes });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Failed to list notes.';
     return json({ ok: false, error: message }, 500);
@@ -86,9 +78,9 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     }
 
     const statusInput = body['status'];
-    const status = statusInput === undefined ? 'inbox' : parseStatus(statusInput);
+    const status = statusInput === undefined ? 'draft' : parseStatus(statusInput);
     if (!status) {
-      return json({ ok: false, error: 'status must be inbox or archived.' }, 400);
+      return json({ ok: false, error: 'status must be draft, flag, or published.' }, 400);
     }
 
     const noteId = crypto.randomUUID();

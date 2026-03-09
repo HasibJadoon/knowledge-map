@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { checkmarkDoneOutline, createOutline, flagOutline, paperPlaneOutline } from 'ionicons/icons';
 import {
   Subject,
   catchError,
@@ -18,14 +19,15 @@ import {
   take,
   tap,
 } from 'rxjs';
+import { AppIconTabsComponent, IconTabItem } from '../shared/components/icon-tabs/icon-tabs.component';
 import { AttachModalComponent } from './attach-modal.component';
 import { NotesApiService } from './notes-api.service';
-import { Comment as NoteComment, Note, NoteDetail, NoteLink, computeTitleFromMarkdown } from './notes.models';
+import { Comment as NoteComment, Note, NoteDetail, NoteLink, NoteStatus, computeTitleFromMarkdown } from './notes.models';
 
 @Component({
   selector: 'app-note-editor-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IonicModule],
+  imports: [CommonModule, ReactiveFormsModule, IonicModule, AppIconTabsComponent],
   templateUrl: './editor.page.html',
   styleUrls: ['./editor.page.scss'],
 })
@@ -35,11 +37,15 @@ export class EditorPage {
   private readonly modalController = inject(ModalController);
   private readonly toastController = inject(ToastController);
   private readonly destroyRef = inject(DestroyRef);
+  readonly icons = {
+    paperPlaneOutline,
+  };
 
   readonly bodyControl = new FormControl('', { nonNullable: true });
+  readonly commentControl = new FormControl('', { nonNullable: true });
 
   readonly loading = signal(true);
-  readonly archivePending = signal(false);
+  readonly statusPending = signal(false);
   readonly saveState = signal<'idle' | 'saving' | 'saved' | 'error'>('idle');
 
   readonly note = signal<NoteDetail | null>(null);
@@ -51,7 +57,11 @@ export class EditorPage {
   private readonly autosaveInput$ = new Subject<string>();
   private readonly forceSaveInput$ = new Subject<string>();
   private readonly lastSavedTrimmed = signal('');
-  readonly commentControl = new FormControl('', { nonNullable: true });
+  readonly statusTabs: ReadonlyArray<IconTabItem> = [
+    { key: 'draft', icon: createOutline, label: 'Draft' },
+    { key: 'flag', icon: flagOutline, label: 'Flag' },
+    { key: 'published', icon: checkmarkDoneOutline, label: 'Published' },
+  ];
 
   constructor() {
     this.route.paramMap.pipe(
@@ -114,8 +124,8 @@ export class EditorPage {
     }
   }
 
-  get isArchived(): boolean {
-    return this.note()?.status === 'archived';
+  get canSubmitComment(): boolean {
+    return this.commentControl.value.trim().length > 0 && !this.commentsSubmitting();
   }
 
   forceSaveNow(): void {
@@ -173,37 +183,61 @@ export class EditorPage {
     });
   }
 
-  toggleArchive(): void {
+  onStatusChange(value: string | number | null | undefined): void {
     const activeNote = this.note();
-    if (!activeNote || this.archivePending()) {
+    const nextStatus = this.parseStatus(value);
+    if (!activeNote || !nextStatus || nextStatus === activeNote.status || this.statusPending()) {
       return;
     }
 
-    this.archivePending.set(true);
-
-    const nextStatus = activeNote.status === 'archived' ? 'inbox' : 'archived';
-    const request$ = nextStatus === 'archived'
-      ? this.notesApi.archiveNote(activeNote.id)
-      : this.notesApi.unarchiveNote(activeNote.id);
-
-    request$.pipe(
+    this.statusPending.set(true);
+    this.notesApi.updateNote(activeNote.id, { status: nextStatus }).pipe(
       take(1),
-      finalize(() => this.archivePending.set(false))
+      finalize(() => this.statusPending.set(false))
     ).subscribe({
-      next: (response) => {
+      next: (updated) => {
         const merged: NoteDetail = {
           ...activeNote,
-          ...(response ?? {}),
-          status: nextStatus,
+          ...updated,
           links: this.noteLinks(),
         };
 
         this.note.set(merged);
       },
       error: () => {
-        void this.presentToast('Could not update archive state.');
+        void this.presentToast('Could not update note status.');
       },
     });
+  }
+
+  onStatusTabSelected(tabKey: string | number | null | undefined): void {
+    this.onStatusChange(tabKey);
+  }
+
+  onCommentKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'Enter' || event.shiftKey || event.isComposing) {
+      return;
+    }
+
+    event.preventDefault();
+    this.submitComment();
+  }
+
+  isOwnComment(comment: NoteComment): boolean {
+    return comment.user_id === this.note()?.user_id;
+  }
+
+  commentInitial(comment: NoteComment): string {
+    const email = comment.author_email?.trim();
+    if (email) {
+      const username = email.split('@')[0]?.trim();
+      const initial = username?.charAt(0).toUpperCase();
+      if (initial) {
+        return initial;
+      }
+    }
+
+    return this.isOwnComment(comment) ? 'Y' : 'U';
   }
 
   iconFor(targetType: NoteLink['target_type']): string {
@@ -228,15 +262,6 @@ export class EditorPage {
     return comment.id;
   }
 
-  refreshComments(): void {
-    const activeNote = this.note();
-    if (!activeNote) {
-      return;
-    }
-
-    this.loadComments(activeNote.id).pipe(take(1)).subscribe();
-  }
-
   submitComment(): void {
     const activeNote = this.note();
     const body = this.commentControl.value.trim();
@@ -255,7 +280,9 @@ export class EditorPage {
       finalize(() => this.commentsSubmitting.set(false))
     ).subscribe({
       next: (comment) => {
-        this.comments.update((items) => [comment, ...items]);
+        this.comments.update((items) =>
+          [...items, comment].sort((left, right) => left.created_at.localeCompare(right.created_at))
+        );
         this.commentControl.setValue('', { emitEvent: false });
       },
       error: () => {
@@ -274,10 +301,10 @@ export class EditorPage {
 
         const body = note.body_md ?? '';
         this.bodyControl.setValue(body, { emitEvent: false });
+        this.commentControl.setValue('', { emitEvent: false });
 
         this.lastSavedTrimmed.set(body.trim());
         this.saveState.set('saved');
-        this.commentControl.setValue('', { emitEvent: false });
         return this.loadComments(note.id).pipe(map(() => note));
       }),
       catchError(() => {
@@ -300,7 +327,9 @@ export class EditorPage {
 
     return this.notesApi.getComments('note', noteId).pipe(
       tap((comments) => {
-        this.comments.set(comments);
+        this.comments.set(
+          [...comments].sort((left, right) => left.created_at.localeCompare(right.created_at))
+        );
       }),
       catchError(() => {
         this.comments.set([]);
@@ -357,5 +386,21 @@ export class EditorPage {
     });
 
     await toast.present();
+  }
+
+  private parseStatus(value: string | number | null | undefined): NoteStatus | null {
+    if (typeof value !== 'string') {
+      return null;
+    }
+
+    if (value === 'flag' || value === 'published') {
+      return value;
+    }
+
+    if (value === 'draft') {
+      return 'draft';
+    }
+
+    return null;
   }
 }

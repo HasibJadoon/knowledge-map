@@ -27,6 +27,7 @@ export interface NoteDetail extends Note {
 export interface Comment {
   id: string;
   user_id: number;
+  author_email?: string | null;
   target_type: 'note' | 'quran_ayah' | 'ar_u_lexicon' | 'wv_concept';
   target_id: string;
   body_md: string;

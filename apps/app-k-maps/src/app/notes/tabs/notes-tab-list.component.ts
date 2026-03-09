@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, Input, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { IonicModule, RefresherCustomEvent } from '@ionic/angular';
-import { Observable, catchError, distinctUntilChanged, finalize, forkJoin, map, of, switchMap, take, tap } from 'rxjs';
+import { IonicModule, RefresherCustomEvent, ToastController } from '@ionic/angular';
+import { paperPlaneOutline } from 'ionicons/icons';
+import { Observable, catchError, distinctUntilChanged, finalize, map, of, switchMap, take, tap } from 'rxjs';
 import { NotesApiService } from '../notes-api.service';
 import { Note, computePreview, computeTitleFromMarkdown } from '../notes.models';
 
@@ -12,7 +14,7 @@ export type NotesTabMode = 'draft' | 'flag' | 'published';
 @Component({
   selector: 'app-notes-tab-list',
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, IonicModule, RouterLink],
   templateUrl: './notes-tab-list.component.html',
   styleUrls: ['./notes-tab-list.component.scss'],
 })
@@ -22,11 +24,18 @@ export class NotesTabListComponent implements OnInit {
   private readonly notesApi = inject(NotesApiService);
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly toastController = inject(ToastController);
 
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly notes = signal<Note[]>([]);
+  readonly query = signal('');
+  readonly creating = signal(false);
+  readonly composerControl = new FormControl('', { nonNullable: true });
   readonly skeletonRows = [1, 2, 3, 4, 5, 6];
+  readonly icons = {
+    paperPlaneOutline,
+  };
 
   ngOnInit(): void {
     this.route.queryParamMap.pipe(
@@ -64,19 +73,66 @@ export class NotesTabListComponent implements OnInit {
 
   emptyStateMessage(): string {
     if (this.mode === 'published') {
-      return 'Archive a note in the editor to publish it here.';
+      return 'Move a note to Published in the editor to collect it here.';
     }
 
     if (this.mode === 'flag') {
-      return 'Use #flag in a note to keep it in this tab.';
+      return 'Move a note to Flag in the editor to keep it here.';
     }
 
-    return 'Tap + in the header to capture a new note.';
+    return 'Capture the first draft below.';
+  }
+
+  get showComposer(): boolean {
+    return this.mode === 'draft';
+  }
+
+  get canSendComposer(): boolean {
+    return !this.creating() && this.composerControl.value.trim().length > 0;
+  }
+
+  createDraftNote(): void {
+    const body = this.composerControl.value.trim();
+    if (!body || this.creating() || this.mode !== 'draft') {
+      return;
+    }
+
+    this.creating.set(true);
+
+    this.notesApi.createNote({
+      body_md: body,
+      title: computeTitleFromMarkdown(body),
+      status: 'draft',
+    }).pipe(
+      take(1),
+      finalize(() => this.creating.set(false))
+    ).subscribe({
+      next: (note) => {
+        this.composerControl.setValue('', { emitEvent: false });
+
+        if (this.matchesQuery(note, this.query())) {
+          this.notes.update((items) => [note, ...items.filter((item) => item.id !== note.id)]);
+        }
+      },
+      error: () => {
+        void this.presentToast('Could not save note.');
+      },
+    });
+  }
+
+  onComposerKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'Enter' || event.shiftKey) {
+      return;
+    }
+
+    event.preventDefault();
+    this.createDraftNote();
   }
 
   private fetchNotes(query: string, done?: () => void): Observable<Note[]> {
     this.loading.set(true);
     this.error.set(null);
+    this.query.set(query);
 
     return this.listByMode(query).pipe(
       tap((notes) => {
@@ -95,29 +151,7 @@ export class NotesTabListComponent implements OnInit {
   }
 
   private listByMode(query: string): Observable<Note[]> {
-    if (this.mode === 'draft') {
-      return this.notesApi.listNotes('inbox', query);
-    }
-
-    if (this.mode === 'published') {
-      return this.notesApi.listNotes('archived', query);
-    }
-
-    return forkJoin([
-      this.notesApi.listNotes('inbox', query),
-      this.notesApi.listNotes('archived', query),
-    ]).pipe(
-      map(([inbox, archived]) => {
-        return [...inbox, ...archived]
-          .filter((note) => this.isFlagged(note))
-          .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
-      })
-    );
-  }
-
-  private isFlagged(note: Note): boolean {
-    const haystack = `${note.title ?? ''}\n${note.body_md}`.toLowerCase();
-    return /\B#flag\b/.test(haystack) || /\[flag\]/.test(haystack);
+    return this.notesApi.listNotes(this.mode, query);
   }
 
   private toErrorMessage(error: unknown): string {
@@ -140,5 +174,25 @@ export class NotesTabListComponent implements OnInit {
     }
 
     return null;
+  }
+
+  private matchesQuery(note: Note, query: string): boolean {
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) {
+      return true;
+    }
+
+    const haystack = `${note.title ?? ''}\n${note.body_md}`.toLowerCase();
+    return haystack.includes(normalized);
+  }
+
+  private async presentToast(message: string): Promise<void> {
+    const toast = await this.toastController.create({
+      message,
+      duration: 1800,
+      position: 'bottom',
+    });
+
+    await toast.present();
   }
 }

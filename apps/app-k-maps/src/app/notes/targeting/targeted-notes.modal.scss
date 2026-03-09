@@ -33,7 +33,11 @@
 }
 
 .targeted-notes-modal-target {
-  padding: 0.35rem 0 0.95rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(148, 182, 228, 0.2);
+  border-radius: 1rem;
+  background: linear-gradient(165deg, rgba(14, 24, 42, 0.92), rgba(8, 14, 27, 0.95));
+  box-shadow: 0 12px 28px rgba(4, 9, 19, 0.22);
 }
 
 .targeted-notes-modal-target-text {
@@ -58,7 +62,7 @@
 
 .targeted-notes-modal-divider {
   block-size: 1px;
-  margin: 0 0 1rem;
+  margin: 0.25rem 0 1rem;
   background: linear-gradient(90deg, transparent, rgba(84, 214, 255, 0.78), transparent);
   box-shadow: 0 0 12px rgba(84, 214, 255, 0.2);
 }

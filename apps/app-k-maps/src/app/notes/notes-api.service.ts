@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
-  Comment,
+  Comment as NoteComment,
   Note,
   NoteDetail,
   NoteLink,
@@ -30,7 +30,7 @@ interface CreateLinkPayload {
 }
 
 interface CreateCommentPayload {
-  target_type: Comment['target_type'];
+  target_type: NoteComment['target_type'];
   target_id: string;
   body_md: string;
 }
@@ -40,28 +40,23 @@ export class NotesApiService {
   private readonly http = inject(HttpClient);
   private readonly apiRoot = resolveApiRoot(environment.apiBase);
 
-  listNotes(status: NoteStatus = 'inbox', q = ''): Observable<Note[]> {
-    const params = new HttpParams()
+  listNotes(status: NoteStatus = 'draft', q = ''): Observable<Note[]> {
+    let params = new HttpParams()
       .set('status', status)
       .set('limit', '400');
 
-    return this.http.get<unknown>(`${this.apiRoot}/notes/capture`, { params }).pipe(
-      map((response) => {
-        const notes = this.pickList<Note>(response, ['notes', 'results', 'items', 'data']);
-        const query = q.trim().toLowerCase();
-        if (!query) {
-          return notes;
-        }
-        return notes.filter((note) => {
-          const haystack = `${note.title ?? ''}\n${note.body_md}`.toLowerCase();
-          return haystack.includes(query);
-        });
-      })
+    const query = q.trim();
+    if (query) {
+      params = params.set('q', query);
+    }
+
+    return this.http.get<unknown>(`${this.apiRoot}/notes`, { params }).pipe(
+      map((response) => this.pickList<Note>(response, ['notes', 'results', 'items', 'data']))
     );
   }
 
   createNote(payload: CreateNotePayload): Observable<Note> {
-    return this.http.post<unknown>(`${this.apiRoot}/notes/capture`, payload).pipe(
+    return this.http.post<unknown>(`${this.apiRoot}/notes`, payload).pipe(
       map((response) => this.pickItem<Note>(response, ['note', 'result', 'item', 'data']) ?? (response as Note))
     );
   }
@@ -115,30 +110,26 @@ export class NotesApiService {
       .set('target_type', targetType)
       .set('target_id', targetId);
 
-    return this.http.delete<void>(`${this.apiRoot}/notes/${encodeURIComponent(noteId)}/links`, { params });
+    return this.http.delete<void>(`${this.apiRoot}/notes/${encodeURIComponent(noteId)}/links`, {
+      params,
+    });
   }
 
-  getNotesForTarget(targetType: NoteLinkTargetType, targetId: string): Observable<Note[]> {
-    return this.http.get<unknown>(
-      `${this.apiRoot}/targets/${encodeURIComponent(targetType)}/${encodeURIComponent(targetId)}/notes`
-    ).pipe(
-      map((response) => this.pickList<Note>(response, ['notes', 'results', 'items', 'data']))
-    );
-  }
-
-  getComments(targetType: Comment['target_type'], targetId: string): Observable<Comment[]> {
+  getComments(targetType: NoteComment['target_type'], targetId: string): Observable<NoteComment[]> {
     const params = new HttpParams()
       .set('target_type', targetType)
       .set('target_id', targetId);
 
     return this.http.get<unknown>(`${this.apiRoot}/comments`, { params }).pipe(
-      map((response) => this.pickList<Comment>(response, ['comments', 'results', 'items', 'data']))
+      map((response) => this.pickList<NoteComment>(response, ['comments', 'results', 'items', 'data']))
     );
   }
 
-  createComment(payload: CreateCommentPayload): Observable<Comment> {
+  createComment(payload: CreateCommentPayload): Observable<NoteComment> {
     return this.http.post<unknown>(`${this.apiRoot}/comments`, payload).pipe(
-      map((response) => this.pickItem<Comment>(response, ['comment', 'result', 'item', 'data']) ?? (response as Comment))
+      map((response) =>
+        this.pickItem<NoteComment>(response, ['comment', 'result', 'item', 'data']) ?? (response as NoteComment)
+      )
     );
   }
 

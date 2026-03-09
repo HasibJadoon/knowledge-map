@@ -1,24 +1,29 @@
 <section class="targeted-notes-panel">
   @if (open()) {
     <div class="targeted-notes-panel__body">
+      <div class="targeted-notes-panel__summary">
+        <div class="targeted-notes-panel__summary-copy">
+          <p class="targeted-notes-panel__eyebrow">Target Notes</p>
+          <p class="targeted-notes-panel__meta">{{ noteCountLabel }}</p>
+        </div>
+        <ion-button fill="clear" size="small" (click)="refresh()" [disabled]="loading() || adding()" aria-label="Refresh notes">
+          <ion-icon [icon]="icons.refreshOutline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+
       <div class="targeted-notes-panel__composer">
         <ion-textarea
-          [(ngModel)]="bodyMd"
+          #composerField
+          [formControl]="composerControl"
           [placeholder]="placeholder"
-          [rows]="12"
+          rows="1"
           [autoGrow]="true"
+          enterkeyhint="send"
           [maxlength]="4000"
+          (keydown)="onComposerKeydown($event)"
         ></ion-textarea>
-
-        <div class="targeted-notes-panel__composer-bar">
-          <p class="targeted-notes-panel__meta">{{ noteCountLabel }}</p>
-          <ion-button fill="clear" size="small" (click)="refresh()" [disabled]="loading() || adding()">
-            <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
-          </ion-button>
-        </div>
-
-        <ion-button class="targeted-notes-panel__submit" expand="block" size="small" (click)="addNote()" [disabled]="adding()">
-          {{ adding() ? 'Saving...' : 'Save Note' }}
+        <ion-button fill="clear" (click)="addNote()" [disabled]="!canSubmit" aria-label="Save targeted note">
+          <ion-icon [icon]="icons.paperPlaneOutline" slot="icon-only"></ion-icon>
         </ion-button>
       </div>
 
@@ -26,13 +31,16 @@
         <p class="targeted-notes-panel__error">{{ error() }}</p>
       }
 
-      <div class="targeted-notes-panel__divider" aria-hidden="true"></div>
-
       @if (loading()) {
-        <div class="targeted-notes-panel__state">
-          <ion-skeleton-text animated style="width: 100%; height: 1.2rem"></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 92%; height: 1.2rem"></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 78%; height: 1.2rem"></ion-skeleton-text>
+        <div class="targeted-notes-panel__list">
+          @for (row of skeletonRows; track row) {
+            <article class="targeted-notes-panel__item targeted-notes-panel__item--skeleton">
+              <ion-skeleton-text animated style="width: 58%; height: 1.3rem"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 94%; height: 0.95rem"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 82%; height: 0.95rem"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 32%; height: 0.8rem"></ion-skeleton-text>
+            </article>
+          }
         </div>
       } @else {
         @if (notes().length > 0) {
@@ -46,7 +54,10 @@
             }
           </div>
         } @else {
-          <p class="targeted-notes-panel__state">No notes yet for this target.</p>
+          <section class="targeted-notes-panel__state">
+            <h3>No notes yet</h3>
+            <p>Capture the first note for this target below.</p>
+          </section>
         }
       }
     </div>

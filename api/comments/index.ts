@@ -1,6 +1,7 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
 import { requireAuth } from '../_utils/auth';
 import {
+  fetchOwnedNote,
   json,
   mapCommentRow,
   parseBody,
@@ -29,15 +30,40 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       return json({ ok: false, error: 'target_type and target_id are required.' }, 400);
     }
 
+    if (targetType === 'note') {
+      const note = await fetchOwnedNote(ctx.env.DB, targetId, user.id);
+      if (!note) {
+        return json({ ok: false, error: 'Note not found.' }, 404);
+      }
+
+      const { results = [] } = await ctx.env.DB
+        .prepare(
+          `
+          SELECT comments.id, comments.user_id, users.email AS author_email, comments.target_type, comments.target_id, comments.body_md, comments.created_at
+          FROM comments
+          LEFT JOIN users ON users.id = comments.user_id
+          WHERE target_type = ?1
+            AND target_id = ?2
+          ORDER BY created_at ASC, id ASC
+          LIMIT 400
+          `
+        )
+        .bind(targetType, targetId)
+        .all<Record<string, unknown>>();
+
+      return json({ ok: true, comments: results.map(mapCommentRow) });
+    }
+
     const { results = [] } = await ctx.env.DB
       .prepare(
         `
-        SELECT id, user_id, target_type, target_id, body_md, created_at
+        SELECT comments.id, comments.user_id, users.email AS author_email, comments.target_type, comments.target_id, comments.body_md, comments.created_at
         FROM comments
+        LEFT JOIN users ON users.id = comments.user_id
         WHERE user_id = ?1
           AND target_type = ?2
           AND target_id = ?3
-        ORDER BY created_at DESC
+        ORDER BY created_at ASC, id ASC
         LIMIT 400
         `
       )
@@ -86,8 +112,9 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     const row = await ctx.env.DB
       .prepare(
         `
-        SELECT id, user_id, target_type, target_id, body_md, created_at
+        SELECT comments.id, comments.user_id, users.email AS author_email, comments.target_type, comments.target_id, comments.body_md, comments.created_at
         FROM comments
+        LEFT JOIN users ON users.id = comments.user_id
         WHERE id = ?1 AND user_id = ?2
         LIMIT 1
         `

@@ -2,7 +2,7 @@ export type QuranSurahNotesMode = 'draft' | 'flag' | 'published';
 
 export type QuranSurahNoteTargetType = 'quran_ayah' | 'quran_word';
 
-export type QuranSurahNoteStatus = 'inbox' | 'archived';
+export type QuranSurahNoteStatus = 'draft' | 'flag' | 'published';
 
 export interface QuranSurahNotesSurah {
   surah: number;

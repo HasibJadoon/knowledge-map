@@ -18,22 +18,18 @@
         show-clear-button="focus"
         [debounce]="0"
       ></ion-searchbar>
-      <ion-button
-        class="notes-add-search-button"
-        fill="solid"
-        size="small"
-        (click)="createNote()"
-        [disabled]="creating()"
-        aria-label="Create note"
-      >
-        <ion-icon slot="icon-only" [icon]="addOutline"></ion-icon>
-      </ion-button>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-tabs>
-  <ion-router-outlet></ion-router-outlet>
+<ion-router-outlet></ion-router-outlet>
 
-  <app-icon-tabs [tabs]="noteTabs"></app-icon-tabs>
-</ion-tabs>
+<ion-footer class="notes-tabs__footer ion-no-border" *ngIf="showFooterTabs">
+  <app-icon-tabs
+    class="notes-tabs__bar"
+    [tabs]="noteTabs"
+    [activeKey]="activeTabKey()"
+    [manual]="true"
+    (tabSelected)="onTabSelected($event)"
+  ></app-icon-tabs>
+</ion-footer>

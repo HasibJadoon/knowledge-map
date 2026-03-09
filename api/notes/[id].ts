@@ -106,7 +106,7 @@ export const onRequestPatch: PagesFunction<Env> = async (ctx) => {
     if (Object.prototype.hasOwnProperty.call(body, 'status')) {
       const status = parseStatus(body['status']);
       if (!status) {
-        return json({ ok: false, error: 'status must be inbox or archived.' }, 400);
+        return json({ ok: false, error: 'status must be draft, flag, or published.' }, 400);
       }
 
       setClauses.push('status = ?');

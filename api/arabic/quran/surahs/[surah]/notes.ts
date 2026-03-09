@@ -57,11 +57,6 @@ function parseAyahTarget(targetType: unknown, targetId: unknown, surah: number):
   return null;
 }
 
-function isFlagged(row: Record<string, unknown>): boolean {
-  const haystack = `${readString(row['title']) ?? ''}\n${readString(row['body_md']) ?? ''}`.toLowerCase();
-  return /\B#flag\b/.test(haystack) || /\[flag\]/.test(haystack);
-}
-
 function verseText(row: VerseRow): string {
   const preferred = [
     readString(row['text_diacritics']),
@@ -110,17 +105,6 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const versePattern = `Q:${surah}:%`;
     const wordPattern = `QW:${surah}:%`;
 
-    const binds: unknown[] = [user.id, versePattern, wordPattern];
-    let statusClause = '';
-
-    if (mode === 'draft') {
-      statusClause = 'AND n.status = ?4';
-      binds.push('inbox');
-    } else if (mode === 'published') {
-      statusClause = 'AND n.status = ?4';
-      binds.push('archived');
-    }
-
     const { results = [] } = await ctx.env.DB
       .prepare(
         `
@@ -144,24 +128,27 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
             OR
             (l.target_type = 'quran_word' AND l.target_id LIKE ?3)
           )
-          ${statusClause}
         ORDER BY n.updated_at DESC, l.created_at DESC
         LIMIT 800
         `
       )
-      .bind(...binds)
+      .bind(user.id, versePattern, wordPattern)
       .all<NoteLinkRow>();
 
     const filtered = (results ?? [])
-      .filter((row) => (mode === 'flag' ? isFlagged(row) : true))
       .map((row) => {
+        const note = mapNoteRow(row);
+        if (note.status !== mode) {
+          return null;
+        }
+
         const parsed = parseAyahTarget(row['target_type'], row['target_id'], surah);
         if (!parsed) {
           return null;
         }
 
         return {
-          ...mapNoteRow(row),
+          ...note,
           target_type: row['target_type'] === 'quran_word' ? 'quran_word' : 'quran_ayah',
           target_id: readString(row['target_id']) ?? '',
           ref: readString(row['ref']) ?? null,

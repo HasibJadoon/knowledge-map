@@ -84,11 +84,11 @@ export class QuranSurahNotesPage {
 
   readonly emptyMessage = computed(() => {
     if (this.mode() === 'published') {
-      return 'Archive a targeted note to collect it here under its verse.';
+      return 'Move a targeted note to Published to collect it here under its verse.';
     }
 
     if (this.mode() === 'flag') {
-      return 'Use #flag or [flag] inside a targeted note to surface it here.';
+      return 'Move a targeted note to Flag to surface it here.';
     }
 
     return 'Long-press a verse or word in the reader to capture a note for this surah.';

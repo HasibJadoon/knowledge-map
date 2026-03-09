@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChanges, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild, inject, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { IonTextarea } from '@ionic/angular/standalone';
+import { paperPlaneOutline, refreshOutline } from 'ionicons/icons';
 import { finalize, take } from 'rxjs';
 import { TargetedNotesApiService } from '../targeted-notes-api.service';
 import { CaptureNote, TargetRef, computeTitleFromMarkdown } from '../targeting.models';
@@ -9,7 +11,7 @@ import { CaptureNote, TargetRef, computeTitleFromMarkdown } from '../targeting.m
 @Component({
   selector: 'app-targeted-notes-panel',
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [CommonModule, ReactiveFormsModule, IonicModule],
   templateUrl: './targeted-notes-panel.component.html',
   styleUrls: ['./targeted-notes-panel.component.scss'],
 })
@@ -23,8 +25,14 @@ export class TargetedNotesPanelComponent implements OnChanges {
   readonly open = signal(true);
   readonly notes = signal<CaptureNote[]>([]);
   readonly error = signal<string | null>(null);
+  readonly composerControl = new FormControl('', { nonNullable: true });
+  readonly skeletonRows = [1, 2, 3];
+  readonly icons = {
+    paperPlaneOutline,
+    refreshOutline,
+  };
 
-  bodyMd = '';
+  @ViewChild(IonTextarea) private composerField?: IonTextarea;
 
   private lastTargetKey = '';
   private readonly targetedNotesApi = inject(TargetedNotesApiService);
@@ -52,7 +60,8 @@ export class TargetedNotesPanelComponent implements OnChanges {
       return;
     }
 
-    if (!this.bodyMd.trim()) {
+    const body = this.composerControl.value.trim();
+    if (!body) {
       this.error.set('Write something first.');
       return;
     }
@@ -60,13 +69,16 @@ export class TargetedNotesPanelComponent implements OnChanges {
     this.error.set(null);
     this.adding.set(true);
 
-    this.targetedNotesApi.createTargetedNote(this.target, this.bodyMd).pipe(
+    this.targetedNotesApi.createTargetedNote(this.target, body).pipe(
       take(1),
       finalize(() => this.adding.set(false))
     ).subscribe({
-      next: () => {
-        this.bodyMd = '';
-        this.loadNotes();
+      next: (note) => {
+        this.composerControl.setValue('', { emitEvent: false });
+        this.notes.update((items) => [note, ...items.filter((item) => item.id !== note.id)]);
+        requestAnimationFrame(() => {
+          void this.composerField?.setFocus();
+        });
       },
       error: (error: Error) => {
         this.error.set(error.message || 'Could not add note.');
@@ -76,6 +88,10 @@ export class TargetedNotesPanelComponent implements OnChanges {
 
   titleFor(note: CaptureNote): string {
     return note.title?.trim() || computeTitleFromMarkdown(note.body_md) || 'Untitled';
+  }
+
+  get canSubmit(): boolean {
+    return !this.adding() && this.composerControl.value.trim().length > 0;
   }
 
   get noteCountLabel(): string {
@@ -102,6 +118,15 @@ export class TargetedNotesPanelComponent implements OnChanges {
 
   trackById(_: number, note: CaptureNote): string {
     return note.id;
+  }
+
+  onComposerKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'Enter' || event.shiftKey || event.isComposing) {
+      return;
+    }
+
+    event.preventDefault();
+    this.addNote();
   }
 
   private refreshIfTargetChanged(): void {

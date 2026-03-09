@@ -3,52 +3,71 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  @if (loading()) {
-    <ion-list>
-      @for (row of skeletonRows; track row) {
-        <ion-item lines="none" class="notes-list-item">
-          <ion-label>
-            <h3><ion-skeleton-text animated style="width: 60%"></ion-skeleton-text></h3>
-            <p><ion-skeleton-text animated style="width: 95%"></ion-skeleton-text></p>
-            <p><ion-skeleton-text animated style="width: 35%"></ion-skeleton-text></p>
-          </ion-label>
-        </ion-item>
-      }
-    </ion-list>
-  } @else {
-    @if (error()) {
-      <ion-item lines="none">
-        <ion-label class="notes-empty-state">
-          <h3>{{ emptyStateTitle() }}</h3>
-          <p>{{ error() }}</p>
-        </ion-label>
-      </ion-item>
-    } @else {
-      <ion-list>
-        @for (note of notes(); track note.id) {
-          <ion-item
-            class="notes-list-item"
-            lines="full"
-            button="true"
-            [routerLink]="['/notes', note.id]"
-          >
+  <div class="notes-tab-shell ion-padding">
+    @if (loading()) {
+      <ion-list class="notes-list" lines="none">
+        @for (row of skeletonRows; track row) {
+          <ion-item lines="none" class="notes-list-item">
             <ion-label>
-              <h3>{{ titleFor(note) }}</h3>
-              <p>{{ previewFor(note) }}</p>
-              <p class="notes-time">{{ note.updated_at | date: 'MMM d, h:mm a' }}</p>
-            </ion-label>
-          </ion-item>
-        }
-
-        @if (notes().length === 0) {
-          <ion-item lines="none">
-            <ion-label class="notes-empty-state">
-              <h3>{{ emptyStateTitle() }}</h3>
-              <p>{{ emptyStateMessage() }}</p>
+              <h3><ion-skeleton-text animated style="width: 60%"></ion-skeleton-text></h3>
+              <p><ion-skeleton-text animated style="width: 95%"></ion-skeleton-text></p>
+              <p><ion-skeleton-text animated style="width: 35%"></ion-skeleton-text></p>
             </ion-label>
           </ion-item>
         }
       </ion-list>
+    } @else {
+      @if (error()) {
+        <section class="notes-empty-state">
+          <h3>{{ emptyStateTitle() }}</h3>
+          <p>{{ error() }}</p>
+        </section>
+      } @else {
+        @if (notes().length > 0) {
+          <ion-list class="notes-list" lines="none">
+            @for (note of notes(); track note.id) {
+              <ion-item
+                class="notes-list-item"
+                lines="none"
+                button="true"
+                detail="false"
+                [routerLink]="['/notes', note.id]"
+              >
+                <ion-label>
+                  <h3>{{ titleFor(note) }}</h3>
+                  <p>{{ previewFor(note) }}</p>
+                  <p class="notes-time">{{ note.updated_at | date: 'MMM d, h:mm a' }}</p>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        } @else {
+          <section class="notes-empty-state">
+            <h3>{{ emptyStateTitle() }}</h3>
+            <p>{{ emptyStateMessage() }}</p>
+          </section>
+        }
+      }
     }
-  }
+  </div>
 </ion-content>
+
+@if (showComposer) {
+  <ion-footer class="notes-tab-footer ion-no-border">
+    <ion-toolbar class="notes-tab-footer-bar">
+      <div class="notes-composer">
+        <ion-textarea
+          [formControl]="composerControl"
+          autoGrow="true"
+          rows="1"
+          enterkeyhint="send"
+          placeholder="Write a note..."
+          (keydown)="onComposerKeydown($event)"
+        ></ion-textarea>
+        <ion-button fill="clear" [disabled]="!canSendComposer" (click)="createDraftNote()" aria-label="Save note">
+          <ion-icon [icon]="icons.paperPlaneOutline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+}

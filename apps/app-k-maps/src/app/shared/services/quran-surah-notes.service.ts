@@ -91,7 +91,7 @@ export class QuranSurahNotesService {
     return {
       id,
       user_id: readNumber(record?.['user_id']),
-      status: readString(record?.['status']) === 'archived' ? 'archived' : 'inbox',
+      status: normalizeNoteStatus(readString(record?.['status'])),
       body_md: readString(record?.['body_md']) ?? '',
       title: readString(record?.['title']) ?? null,
       created_at: readString(record?.['created_at']) ?? '',
@@ -147,6 +147,19 @@ function readNumber(value: unknown): number {
 function readNullableNumber(value: unknown): number | null {
   const parsed = readNumber(value);
   return parsed > 0 ? parsed : null;
+}
+
+function normalizeNoteStatus(value: string | null): QuranSurahTargetNote['status'] {
+  const normalized = value?.trim().toLowerCase() ?? '';
+  if (normalized === 'flag') {
+    return 'flag';
+  }
+
+  if (normalized === 'published' || normalized === 'archived') {
+    return 'published';
+  }
+
+  return 'draft';
 }
 
 function compareNotes(left: QuranSurahTargetNote, right: QuranSurahTargetNote): number {

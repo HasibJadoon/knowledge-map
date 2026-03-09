@@ -27,7 +27,7 @@ export class TargetedNotesApiService {
     const payload = {
       body_md,
       title: computeTitleFromMarkdown(body_md),
-      status: 'inbox' as const,
+      status: 'draft' as const,
     };
 
     return this.http.post<unknown>(`${this.apiRoot}/notes`, payload).pipe(

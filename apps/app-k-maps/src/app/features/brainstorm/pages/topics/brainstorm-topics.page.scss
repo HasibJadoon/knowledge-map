@@ -61,12 +61,17 @@
 }
 
 .brainstorm-topics__footer {
-  margin-bottom: max(0px, calc(var(--brainstorm-topics-footer-offset) - 1px));
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--brainstorm-topics-footer-offset);
+  z-index: 14;
   padding-bottom: 0;
   background: transparent;
   --border-width: 0;
   --border-color: transparent;
   box-shadow: none;
+  pointer-events: none;
 }
 
 .brainstorm-topics__footer-bar {
@@ -80,6 +85,7 @@
   padding: 0.28rem 0.8rem 0.12rem;
   box-shadow: none;
   backdrop-filter: blur(18px);
+  pointer-events: none;
 }
 
 .brainstorm-topics__composer {
@@ -95,6 +101,7 @@
   border-color: rgba(151, 181, 227, 0.16);
   box-shadow: 0 10px 22px rgba(5, 10, 22, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
+  pointer-events: auto;
 }
 
 .brainstorm-topics__composer ion-textarea {

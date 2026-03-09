@@ -1,8 +1,6 @@
 import {
-  addCircleOutline,
   albumsOutline,
   bookOutline,
-  bulbOutline,
   calendarOutline,
   chatbubblesOutline,
   documentTextOutline,
@@ -12,7 +10,6 @@ import {
   libraryOutline,
   micOutline,
   pricetagsOutline,
-  searchOutline,
   settingsOutline,
   shuffleOutline,
   sparklesOutline,
@@ -97,23 +94,12 @@ export const DASHBOARD_MENU_SECTIONS: ReadonlyArray<DashboardMenuSection> = [
   {
     key: 'podcast',
     title: 'Podcast',
-    subtitle: 'Audio Review',
+    subtitle: 'Audio Review And Ideas',
     icon: micOutline,
     tone: 'mint',
     items: [
       { title: 'Episodes', subtitle: 'Podcast', icon: micOutline, route: ['/podcast'] },
-    ],
-  },
-  {
-    key: 'brainstorm',
-    title: 'Brainstorm',
-    subtitle: 'Pocket Idea Lab',
-    icon: bulbOutline,
-    tone: 'mint',
-    items: [
-      { title: 'Topics', subtitle: 'Browse And Organize', icon: albumsOutline, route: ['/brainstorm', 'topics'] },
-      { title: 'Quick Add', subtitle: 'Capture A Thought', icon: addCircleOutline, route: ['/brainstorm', 'new'] },
-      { title: 'Search', subtitle: 'Find Ideas Fast', icon: searchOutline, route: ['/brainstorm', 'search'] },
+      { title: 'Topics', subtitle: 'Brainstorm', icon: albumsOutline, route: ['/brainstorm', 'topics'] },
     ],
   },
   {
@@ -153,5 +139,7 @@ export function findDashboardMenuSection(sectionKey: string | null): DashboardMe
     return null;
   }
 
-  return DASHBOARD_MENU_SECTIONS.find((section) => section.key === sectionKey) ?? null;
+  const normalized = sectionKey.trim().toLowerCase();
+  const resolvedKey = normalized === 'brainstorm' ? 'podcast' : normalized;
+  return DASHBOARD_MENU_SECTIONS.find((section) => section.key === resolvedKey) ?? null;
 }
