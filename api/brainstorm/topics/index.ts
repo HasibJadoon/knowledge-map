@@ -63,7 +63,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       created_at: timestamp,
       updated_at: timestamp,
       archived: false,
-      ideas: [],
+      subtopics: [],
     };
 
     await insertBrainstormTopic(ctx.env.DB, user.id, topic);

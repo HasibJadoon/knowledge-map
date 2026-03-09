@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { IonItemSliding, IonicModule } from '@ionic/angular';
 import { LongPressDirective } from '../../../../shared/directives/long-press.directive';
-import { BrainstormTopic } from '../../brainstorm.models';
+import { BrainstormSubtopic, BrainstormTopic } from '../../brainstorm.models';
 
 @Component({
   selector: 'app-topic-row',
@@ -13,7 +13,11 @@ import { BrainstormTopic } from '../../brainstorm.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopicRowComponent {
-  @Input({ required: true }) topic!: BrainstormTopic;
+  @Input({ required: true }) entry!: BrainstormTopic | BrainstormSubtopic;
+  @Input() count = 0;
+  @Input() countLabelSingular = 'Idea';
+  @Input() countLabelPlural = 'Ideas';
+  @Input() showArchive = true;
 
   @Output() selected = new EventEmitter<string>();
   @Output() longPressed = new EventEmitter<string>();
@@ -23,32 +27,32 @@ export class TopicRowComponent {
   @ViewChild(IonItemSliding) private slidingItem?: IonItemSliding;
 
   get updatedLabel(): string {
-    return formatRelativeDate(this.topic.updatedAt);
+    return formatRelativeDate(this.entry.updatedAt);
   }
 
-  get ideaCountLabel(): string {
-    return this.topic.ideaCount === 1 ? 'Idea' : 'Ideas';
+  get countLabel(): string {
+    return this.count === 1 ? this.countLabelSingular : this.countLabelPlural;
   }
 
   get topicInitials(): string {
-    return toInitials(this.topic.title);
+    return toInitials(this.entry.title);
   }
 
   onSelect(): void {
-    this.selected.emit(this.topic.id);
+    this.selected.emit(this.entry.id);
   }
 
   onLongPress(): void {
-    this.longPressed.emit(this.topic.id);
+    this.longPressed.emit(this.entry.id);
   }
 
   async onArchive(): Promise<void> {
-    this.archived.emit(this.topic.id);
+    this.archived.emit(this.entry.id);
     await this.slidingItem?.close();
   }
 
   async onDelete(): Promise<void> {
-    this.deleted.emit(this.topic.id);
+    this.deleted.emit(this.entry.id);
     await this.slidingItem?.close();
   }
 }

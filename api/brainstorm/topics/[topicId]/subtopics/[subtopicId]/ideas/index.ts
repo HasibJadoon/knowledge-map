@@ -1,5 +1,5 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
-import { requireAuth } from '../../../../_utils/auth';
+import { requireAuth } from '../../../../../../_utils/auth';
 import {
   ensureBrainstormTable,
   fetchBrainstormIdeaAuthor,
@@ -16,7 +16,7 @@ import {
   readStringArray,
   readTrimmedString,
   type BrainstormIdeaDto,
-} from '../../../../_utils/brainstorm';
+} from '../../../../../../_utils/brainstorm';
 
 interface Env {
   DB: D1Database;
@@ -32,6 +32,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
 
     await ensureBrainstormTable(ctx.env.DB);
     const topicId = readParam(ctx.params, 'topicId');
+    const subtopicId = readParam(ctx.params, 'subtopicId');
     const row = await fetchOwnedBrainstormRow(ctx.env.DB, topicId, user.id);
     if (!row) {
       return json({ ok: false, error: 'Topic not found.' }, 404);
@@ -42,12 +43,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       return json({ ok: false, error: 'Invalid JSON payload.' }, 400);
     }
 
-    const subtopicId = readTrimmedString(body['subtopicId']);
     const text = readTrimmedString(body['text']);
-    if (!subtopicId) {
-      return json({ ok: false, error: 'subtopicId must be a non-empty string.' }, 400);
-    }
-
     if (!text) {
       return json({ ok: false, error: 'text must be a non-empty string.' }, 400);
     }

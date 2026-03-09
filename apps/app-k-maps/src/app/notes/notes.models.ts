@@ -1,4 +1,4 @@
-export type NoteStatus = 'inbox' | 'archived';
+export type NoteStatus = 'draft' | 'flag' | 'published';
 
 export type NoteLinkTargetType = 'quran_ayah' | 'quran_word' | 'ar_u_lexicon' | 'wv_concept';
 

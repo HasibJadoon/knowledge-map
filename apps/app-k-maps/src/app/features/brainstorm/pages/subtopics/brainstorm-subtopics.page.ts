@@ -7,58 +7,63 @@ import { ActionSheetController, AlertController, IonTextarea, IonicModule, Toast
 import { paperPlaneOutline } from 'ionicons/icons';
 import { blurActiveElement } from '../../../../shared/focus-utils';
 import { TopicRowComponent } from '../../components/topic-row/topic-row.component';
-import { BrainstormTopic } from '../../brainstorm.models';
+import { BrainstormSubtopic } from '../../brainstorm.models';
 import { BrainstormStoreService } from '../../services/brainstorm-store.service';
 
 @Component({
-  selector: 'app-brainstorm-topics-page',
+  selector: 'app-brainstorm-subtopics-page',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, IonicModule, TopicRowComponent],
-  templateUrl: './brainstorm-topics.page.html',
-  styleUrl: './brainstorm-topics.page.scss',
+  templateUrl: './brainstorm-subtopics.page.html',
+  styleUrl: './brainstorm-subtopics.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BrainstormTopicsPage {
+export class BrainstormSubtopicsPage {
   readonly icons = {
     paperPlaneOutline,
   };
 
   private readonly destroyRef = inject(DestroyRef);
-  private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   readonly store = inject(BrainstormStoreService);
   private readonly actionSheetController = inject(ActionSheetController);
   private readonly alertController = inject(AlertController);
   private readonly toastController = inject(ToastController);
 
-  readonly topicCaptureControl = new FormControl('', { nonNullable: true });
+  readonly subtopicCaptureControl = new FormControl('', { nonNullable: true });
+  readonly topicId = signal<string | null>(null);
   readonly query = signal('');
-  readonly topics = computed<BrainstormTopic[]>(() => this.store.listTopics(this.query()));
   readonly loading = computed(() => this.store.loading());
   readonly error = computed(() => this.store.error());
+  readonly topic = computed(() => {
+    const topicId = this.topicId();
+    return topicId ? this.store.getTopic(topicId) : null;
+  });
+  readonly subtopics = computed<BrainstormSubtopic[]>(() => {
+    const topicId = this.topicId();
+    return topicId ? this.store.listSubtopicsForTopic(topicId, this.query()) : [];
+  });
 
-  @ViewChild(IonTextarea) private topicCaptureField?: IonTextarea;
+  @ViewChild(IonTextarea) private subtopicCaptureField?: IonTextarea;
 
   constructor() {
+    this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      this.topicId.set(params.get('topicId'));
+      void this.store.ensureLoaded().catch(() => undefined);
+    });
+
     this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       this.query.set((params.get('q') ?? '').trim());
     });
   }
 
-  get canSendTopicCapture(): boolean {
-    return this.topicCaptureControl.value.trim().length > 0 && !this.store.mutating();
+  get canSendSubtopicCapture(): boolean {
+    return Boolean(this.topic()) && this.subtopicCaptureControl.value.trim().length > 0 && !this.store.mutating();
   }
 
-  async ionViewWillEnter(): Promise<void> {
-    try {
-      await this.store.ensureLoaded();
-    } catch {
-      return;
-    }
-  }
-
-  trackTopic(_: number, topic: BrainstormTopic): string {
-    return topic.id;
+  trackSubtopic(_: number, subtopic: BrainstormSubtopic): string {
+    return subtopic.id;
   }
 
   async refresh(event: Event): Promise<void> {
@@ -73,80 +78,79 @@ export class BrainstormTopicsPage {
     try {
       await this.store.reload();
     } catch {
-      await this.presentToast(this.store.error() ?? 'Unable to load brainstorm topics.');
+      await this.presentToast(this.store.error() ?? 'Unable to load this topic.');
     }
   }
 
-  openTopic(topicId: string): void {
+  openSubtopic(subtopicId: string): void {
+    const topicId = this.topicId();
+    if (!topicId) {
+      return;
+    }
+
     blurActiveElement();
-    void this.router.navigate(['/brainstorm', 'topic', topicId]);
+    void this.router.navigate(['/brainstorm', 'topic', topicId, 'subtopic', subtopicId]);
   }
 
-  archiveTopic(topicId: string): void {
-    void this.runStoreAction(
-      () => this.store.archiveTopic(topicId),
-      'Unable to archive topic.',
-    );
+  deleteSubtopicFromRow(subtopicId: string): void {
+    const topicId = this.topicId();
+    const subtopic = topicId ? this.store.getSubtopic(topicId, subtopicId) : null;
+    if (!topicId || !subtopic) {
+      return;
+    }
+
+    void this.confirmDeleteSubtopic(topicId, subtopic);
   }
 
-  deleteTopicFromRow(topicId: string): void {
-    void this.confirmDeleteTopic(topicId, this.store.getTopic(topicId)?.title ?? 'this topic');
-  }
-
-  onTopicCaptureKeydown(event: KeyboardEvent): void {
+  onSubtopicCaptureKeydown(event: KeyboardEvent): void {
     if (event.key !== 'Enter' || event.shiftKey || event.isComposing) {
       return;
     }
 
     event.preventDefault();
-    void this.sendTopicCapture();
+    void this.sendSubtopicCapture();
   }
 
-  async sendTopicCapture(): Promise<void> {
-    const title = this.topicCaptureControl.value.trim();
-    if (!title || this.store.mutating()) {
+  async sendSubtopicCapture(): Promise<void> {
+    const topicId = this.topicId();
+    const title = this.subtopicCaptureControl.value.trim();
+    if (!topicId || !title || this.store.mutating()) {
       return;
     }
 
     try {
-      const created = await this.store.createTopic(title);
+      const created = await this.store.createSubtopic(topicId, title);
       if (!created) {
-        await this.presentToast('Topic title cannot be empty.');
+        await this.presentToast('Subtopic title cannot be empty.');
         return;
       }
 
-      this.topicCaptureControl.setValue('', { emitEvent: false });
+      this.subtopicCaptureControl.setValue('', { emitEvent: false });
       blurActiveElement();
-      await this.router.navigate(['/brainstorm', 'topic', created.id]);
+      await this.router.navigate(['/brainstorm', 'topic', topicId, 'subtopic', created.id]);
     } catch {
-      await this.presentToast(this.store.error() ?? 'Unable to create topic.');
+      await this.presentToast(this.store.error() ?? 'Unable to create subtopic.');
       requestAnimationFrame(() => {
-        void this.topicCaptureField?.setFocus();
+        void this.subtopicCaptureField?.setFocus();
       });
     }
   }
 
-  async onTopicLongPress(topicId: string): Promise<void> {
-    const topic = this.store.getTopic(topicId);
-    if (!topic) {
+  async onSubtopicLongPress(subtopicId: string): Promise<void> {
+    const topicId = this.topicId();
+    const subtopic = topicId ? this.store.getSubtopic(topicId, subtopicId) : null;
+    if (!topicId || !subtopic) {
       return;
     }
 
     const actionSheet = await this.actionSheetController.create({
-      header: topic.title,
+      header: subtopic.title,
       buttons: [
         {
           text: 'Rename',
           icon: 'create-outline',
           handler: () => {
-            void this.renameTopic(topic);
-          },
-        },
-        {
-          text: 'Archive',
-          icon: 'archive-outline',
-          handler: () => {
-            this.archiveTopic(topic.id);
+            void this.renameSubtopic(topicId, subtopic);
           },
         },
         {
@@ -154,7 +158,7 @@ export class BrainstormTopicsPage {
           role: 'destructive',
           icon: 'trash-outline',
           handler: () => {
-            void this.confirmDeleteTopic(topic.id, topic.title);
+            void this.confirmDeleteSubtopic(topicId, subtopic);
           },
         },
         {
@@ -167,14 +171,14 @@ export class BrainstormTopicsPage {
     await actionSheet.present();
   }
 
-  private async renameTopic(topic: BrainstormTopic): Promise<void> {
+  private async renameSubtopic(topicId: string, subtopic: BrainstormSubtopic): Promise<void> {
     const alert = await this.alertController.create({
-      header: 'Rename Topic',
+      header: 'Rename Subtopic',
       inputs: [
         {
           name: 'title',
           type: 'text',
-          value: topic.title,
+          value: subtopic.title,
         },
       ],
       buttons: [
@@ -184,15 +188,15 @@ export class BrainstormTopicsPage {
           role: 'confirm',
           handler: async (value) => {
             try {
-              const updated = await this.store.renameTopic(topic.id, String(value.title ?? ''));
+              const updated = await this.store.renameSubtopic(topicId, subtopic.id, String(value.title ?? ''));
               if (!updated) {
-                await this.presentToast('Topic title cannot be empty.');
+                await this.presentToast('Subtopic title cannot be empty.');
                 return false;
               }
 
               return true;
             } catch {
-              await this.presentToast(this.store.error() ?? 'Unable to rename topic.');
+              await this.presentToast(this.store.error() ?? 'Unable to rename subtopic.');
               return false;
             }
           },
@@ -203,10 +207,10 @@ export class BrainstormTopicsPage {
     await alert.present();
   }
 
-  private async confirmDeleteTopic(topicId: string, title: string): Promise<void> {
+  private async confirmDeleteSubtopic(topicId: string, subtopic: BrainstormSubtopic): Promise<void> {
     const alert = await this.alertController.create({
-      header: 'Delete Topic',
-      message: `Delete ${title}? This removes all subtopics and ideas inside it.`,
+      header: 'Delete Subtopic',
+      message: `Delete ${subtopic.title}? This removes all ideas inside it.`,
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         {
@@ -214,8 +218,8 @@ export class BrainstormTopicsPage {
           role: 'destructive',
           handler: () => {
             void this.runStoreAction(
-              () => this.store.deleteTopic(topicId),
-              'Unable to delete topic.',
+              () => this.store.deleteSubtopic(topicId, subtopic.id),
+              'Unable to delete subtopic.',
             );
           },
         },

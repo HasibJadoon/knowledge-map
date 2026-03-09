@@ -28,7 +28,22 @@ export const BRAINSTORM_ROUTES: Routes = [
       {
         path: 'topic/:topicId',
         loadComponent: () =>
+          import('./pages/subtopics/brainstorm-subtopics.page').then((m) => m.BrainstormSubtopicsPage),
+      },
+      {
+        path: 'topic/:topicId/subtopic/:subtopicId',
+        loadComponent: () =>
           import('./pages/ideas/brainstorm-ideas.page').then((m) => m.BrainstormIdeasPage),
+      },
+      {
+        path: 'topic/:topicId/subtopic/:subtopicId/idea/new',
+        loadComponent: () =>
+          import('./pages/idea-edit/brainstorm-idea-edit.page').then((m) => m.BrainstormIdeaEditPage),
+      },
+      {
+        path: 'topic/:topicId/subtopic/:subtopicId/idea/:ideaId',
+        loadComponent: () =>
+          import('./pages/idea-edit/brainstorm-idea-edit.page').then((m) => m.BrainstormIdeaEditPage),
       },
       {
         path: 'topic/:topicId/idea/new',

@@ -8,7 +8,7 @@
   <section class="km-panel km-empty-state brainstorm-edit__state" *ngIf="loading()">
     <ion-spinner name="crescent"></ion-spinner>
     <p>Loading idea…</p>
-  </section>
+    </section>
 
   <form class="km-planner-wrap ion-padding brainstorm-edit" [formGroup]="form" *ngIf="!loading() && !error() && !missingIdea(); else missingIdeaState">
     <section class="km-panel km-panel--segment brainstorm-edit__segment-panel">
@@ -32,18 +32,19 @@
           </ion-select>
         </div>
 
-        <ion-button
-          type="button"
-          fill="clear"
-          class="brainstorm-edit__tool-button"
-          (click)="createTopicFromEditor()"
-          aria-label="Create new topic"
-        >
-          <ion-icon [icon]="icons.addOutline" slot="icon-only"></ion-icon>
-        </ion-button>
+        <div class="brainstorm-edit__surface brainstorm-edit__surface--topic" *ngIf="hasSubtopics(); else noSubtopicsState">
+          <span class="brainstorm-edit__eyebrow">
+            <ion-icon [icon]="icons.layersOutline" aria-hidden="true"></ion-icon>
+            <span>Subtopic</span>
+          </span>
+
+          <ion-select formControlName="subtopicId" interface="action-sheet" aria-label="Subtopic">
+            <ion-select-option *ngFor="let subtopic of subtopicOptions()" [value]="subtopic.id">{{ subtopic.title }}</ion-select-option>
+          </ion-select>
+        </div>
       </div>
 
-      <div class="brainstorm-edit__surface brainstorm-edit__surface--editor">
+      <div class="brainstorm-edit__surface brainstorm-edit__surface--editor" *ngIf="hasSubtopics()">
         <span class="brainstorm-edit__eyebrow">
           <ion-icon [icon]="icons.createOutline" aria-hidden="true"></ion-icon>
           <span>Idea</span>
@@ -57,7 +58,7 @@
         ></ion-textarea>
       </div>
 
-      <ion-button class="km-primary-btn brainstorm-edit__save-button" expand="block" [disabled]="!canSave" (click)="saveIdea()">
+      <ion-button class="km-primary-btn brainstorm-edit__save-button" expand="block" [disabled]="!canSave || !hasSubtopics()" (click)="saveIdea()">
         <ion-icon [icon]="icons.sparklesOutline" slot="start"></ion-icon>
         <span>{{ saveLabel }}</span>
       </ion-button>
@@ -120,11 +121,16 @@
   <ng-template #noTopicsState>
     <section class="km-panel km-empty-state brainstorm-edit__state">
       <h2>No topics yet</h2>
-      <p>Create one topic first so this idea has a place to land.</p>
-      <ion-button type="button" fill="clear" size="small" (click)="createTopicFromEditor()">
-        <ion-icon [icon]="icons.addOutline" slot="start"></ion-icon>
-        <span>New Topic</span>
-      </ion-button>
+      <p>Create one from the topics screen first so this idea has a place to land.</p>
+      <ion-button type="button" fill="clear" size="small" (click)="goToTopics()">Back to Topics</ion-button>
+    </section>
+  </ng-template>
+
+  <ng-template #noSubtopicsState>
+    <section class="km-panel km-empty-state brainstorm-edit__state">
+      <h2>No subtopics yet</h2>
+      <p>Open the topic first and capture a subtopic before saving ideas here.</p>
+      <ion-button type="button" fill="clear" size="small" (click)="goToCurrentTopic()">Open Topic</ion-button>
     </section>
   </ng-template>
 

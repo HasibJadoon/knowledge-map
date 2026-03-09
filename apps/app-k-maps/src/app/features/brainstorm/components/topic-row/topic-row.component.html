@@ -14,11 +14,11 @@
 
     <ion-label class="brainstorm-topic-row__body">
       <div class="brainstorm-topic-row__head">
-        <h2>{{ topic.title }}</h2>
+        <h2>{{ entry.title }}</h2>
       </div>
 
       <div class="brainstorm-topic-row__meta">
-        <span class="brainstorm-topic-row__count-inline">{{ topic.ideaCount }} {{ ideaCountLabel | lowercase }}</span>
+        <span class="brainstorm-topic-row__count-inline">{{ count }} {{ countLabel | lowercase }}</span>
         <ion-icon class="brainstorm-topic-row__meta-icon" name="time-outline" aria-hidden="true"></ion-icon>
         <span class="brainstorm-topic-row__stamp">{{ updatedLabel }}</span>
       </div>
@@ -28,7 +28,7 @@
   </ion-item>
 
   <ion-item-options side="end">
-    <ion-item-option color="medium" (click)="onArchive()">Archive</ion-item-option>
+    <ion-item-option color="medium" *ngIf="showArchive" (click)="onArchive()">Archive</ion-item-option>
     <ion-item-option color="danger" (click)="onDelete()">Delete</ion-item-option>
   </ion-item-options>
 </ion-item-sliding>

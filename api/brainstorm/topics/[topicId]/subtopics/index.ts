@@ -2,20 +2,15 @@ import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
 import { requireAuth } from '../../../../_utils/auth';
 import {
   ensureBrainstormTable,
-  fetchBrainstormIdeaAuthor,
   fetchOwnedBrainstormRow,
-  findSubtopic,
   json,
   mapBrainstormRow,
   nowIso,
   parseBody,
   persistBrainstormTopic,
-  readBoolean,
   readParam,
-  readString,
-  readStringArray,
   readTrimmedString,
-  type BrainstormIdeaDto,
+  type BrainstormSubtopicDto,
 } from '../../../../_utils/brainstorm';
 
 interface Env {
@@ -42,55 +37,36 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       return json({ ok: false, error: 'Invalid JSON payload.' }, 400);
     }
 
-    const subtopicId = readTrimmedString(body['subtopicId']);
-    const text = readTrimmedString(body['text']);
-    if (!subtopicId) {
-      return json({ ok: false, error: 'subtopicId must be a non-empty string.' }, 400);
-    }
-
-    if (!text) {
-      return json({ ok: false, error: 'text must be a non-empty string.' }, 400);
+    const title = readTrimmedString(body['title']);
+    if (!title) {
+      return json({ ok: false, error: 'title must be a non-empty string.' }, 400);
     }
 
     const topic = mapBrainstormRow(row);
-    const subtopic = findSubtopic(topic, subtopicId);
-    if (!subtopic) {
-      return json({ ok: false, error: 'Subtopic not found.' }, 404);
+    if (topic.archived) {
+      return json({ ok: false, error: 'Archived topics cannot be edited.' }, 400);
     }
 
     const timestamp = nowIso();
-    const author = await fetchBrainstormIdeaAuthor(ctx.env.DB, user.id);
-    const idea: BrainstormIdeaDto = {
+    const subtopic: BrainstormSubtopicDto = {
       id: crypto.randomUUID(),
       topicId,
-      subtopicId,
-      text,
+      title,
       created_at: timestamp,
       updated_at: timestamp,
-      highlighted: readBoolean(body['highlighted']) ?? false,
-      pinned: readBoolean(body['pinned']) ?? false,
-      tags: readStringArray(body['tags']),
-      reference: readString(body['reference'])?.trim() ?? '',
-      context: readString(body['context'])?.trim() ?? '',
-      author,
+      ideas: [],
     };
 
     const updatedTopic = {
       ...topic,
       updated_at: timestamp,
-      subtopics: topic.subtopics.map((entry) => entry.id === subtopicId
-        ? {
-            ...entry,
-            updated_at: timestamp,
-            ideas: [idea, ...entry.ideas],
-          }
-        : entry),
+      subtopics: [subtopic, ...topic.subtopics],
     };
 
     await persistBrainstormTopic(ctx.env.DB, row, user.id, updatedTopic);
-    return json({ ok: true, topics: [updatedTopic] }, 201);
+    return json({ ok: true, topic: updatedTopic }, 201);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to create brainstorm idea.';
+    const message = error instanceof Error ? error.message : 'Failed to create brainstorm subtopic.';
     return json({ ok: false, error: message }, 500);
   }
 };

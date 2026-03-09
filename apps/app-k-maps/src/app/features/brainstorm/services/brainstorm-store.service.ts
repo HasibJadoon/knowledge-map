@@ -1,11 +1,13 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import {
+  BrainstormApiSubtopicDto,
   BrainstormApiTopicDto,
   BrainstormIdea,
   BrainstormIdeaDraft,
   BrainstormIdeaSearchResult,
   BrainstormState,
+  BrainstormSubtopic,
   BrainstormTopic,
   BrainstormTopicDetail,
 } from '../brainstorm.models';
@@ -64,7 +66,7 @@ export class BrainstormStoreService {
   }
 
   getTopic(topicId: string): BrainstormTopic | null {
-    const topic = this.state().topics.find((item) => item.id === topicId && !item.archived) ?? null;
+    const topic = this.findTopic(topicId);
     return topic ? this.toTopic(topic) : null;
   }
 
@@ -72,9 +74,31 @@ export class BrainstormStoreService {
     return this.listTopics()[0]?.id ?? null;
   }
 
-  listIdeasForTopic(topicId: string): BrainstormIdea[] {
-    const topic = this.state().topics.find((item) => item.id === topicId && !item.archived) ?? null;
-    return topic ? [...topic.ideas].sort((left, right) => this.sortIdeas(left, right)) : [];
+  listSubtopicsForTopic(topicId: string, query = ''): BrainstormSubtopic[] {
+    const topic = this.findTopic(topicId);
+    if (!topic) {
+      return [];
+    }
+
+    const normalizedQuery = query.trim().toLowerCase();
+    return topic.subtopics
+      .filter((subtopic) => !normalizedQuery || subtopic.title.toLowerCase().includes(normalizedQuery))
+      .map((subtopic) => this.toSubtopic(subtopic))
+      .sort((left, right) => this.sortByDateDesc(left.updatedAt, right.updatedAt));
+  }
+
+  getSubtopic(topicId: string, subtopicId: string): BrainstormSubtopic | null {
+    const subtopic = this.findSubtopic(topicId, subtopicId);
+    return subtopic ? this.toSubtopic(subtopic) : null;
+  }
+
+  getDefaultSubtopicId(topicId: string): string | null {
+    return this.listSubtopicsForTopic(topicId)[0]?.id ?? null;
+  }
+
+  listIdeasForSubtopic(topicId: string, subtopicId: string): BrainstormIdea[] {
+    const subtopic = this.findSubtopic(topicId, subtopicId);
+    return subtopic ? [...subtopic.ideas].sort((left, right) => this.sortIdeas(left, right)) : [];
   }
 
   searchIdeas(query: string): BrainstormIdeaSearchResult[] {
@@ -90,15 +114,18 @@ export class BrainstormStoreService {
         continue;
       }
 
-      for (const idea of topic.ideas) {
-        if (!this.matchesIdeaSearch(idea, normalizedQuery)) {
-          continue;
-        }
+      for (const subtopic of topic.subtopics) {
+        for (const idea of subtopic.ideas) {
+          if (!this.matchesIdeaSearch(idea, normalizedQuery)) {
+            continue;
+          }
 
-        results.push({
-          idea,
-          topicTitle: topic.title,
-        });
+          results.push({
+            idea,
+            topicTitle: topic.title,
+            subtopicTitle: subtopic.title,
+          });
+        }
       }
     }
 
@@ -107,9 +134,11 @@ export class BrainstormStoreService {
 
   getIdea(ideaId: string): BrainstormIdea | null {
     for (const topic of this.state().topics) {
-      const match = topic.ideas.find((idea) => idea.id === ideaId);
-      if (match) {
-        return match;
+      for (const subtopic of topic.subtopics) {
+        const match = subtopic.ideas.find((idea) => idea.id === ideaId);
+        if (match) {
+          return match;
+        }
       }
     }
 
@@ -160,15 +189,48 @@ export class BrainstormStoreService {
     }, 'Unable to delete topic.');
   }
 
-  async createIdea(draft: BrainstormIdeaDraft): Promise<BrainstormIdea | null> {
-    if (!draft.topicId || !draft.text.trim()) {
+  async createSubtopic(topicId: string, title: string): Promise<BrainstormSubtopic | null> {
+    const trimmedTitle = title.trim();
+    if (!topicId || !trimmedTitle) {
       return null;
     }
 
     return this.withMutation(async () => {
-      const topics = await firstValueFrom(this.api.createIdea(draft.topicId, draft));
+      const topic = await firstValueFrom(this.api.createSubtopic(topicId, trimmedTitle));
+      this.upsertTopics([this.toTopicDetail(topic)]);
+      return this.listSubtopicsForTopic(topicId)[0] ?? null;
+    }, 'Unable to create subtopic.');
+  }
+
+  async renameSubtopic(topicId: string, subtopicId: string, title: string): Promise<BrainstormSubtopic | null> {
+    const trimmedTitle = title.trim();
+    if (!topicId || !subtopicId || !trimmedTitle) {
+      return null;
+    }
+
+    return this.withMutation(async () => {
+      const topic = await firstValueFrom(this.api.updateSubtopic(topicId, subtopicId, { title: trimmedTitle }));
+      this.upsertTopics([this.toTopicDetail(topic)]);
+      return this.getSubtopic(topicId, subtopicId);
+    }, 'Unable to rename subtopic.');
+  }
+
+  async deleteSubtopic(topicId: string, subtopicId: string): Promise<void> {
+    await this.withMutation(async () => {
+      const topic = await firstValueFrom(this.api.deleteSubtopic(topicId, subtopicId));
+      this.upsertTopics([this.toTopicDetail(topic)]);
+    }, 'Unable to delete subtopic.');
+  }
+
+  async createIdea(draft: BrainstormIdeaDraft): Promise<BrainstormIdea | null> {
+    if (!draft.topicId || !draft.subtopicId || !draft.text.trim()) {
+      return null;
+    }
+
+    return this.withMutation(async () => {
+      const topics = await firstValueFrom(this.api.createIdea(draft.topicId, draft.subtopicId, draft));
       this.upsertTopics(topics.map((topic) => this.toTopicDetail(topic)));
-      return this.getFreshIdea(topics, draft.topicId);
+      return this.listIdeasForSubtopic(draft.topicId, draft.subtopicId)[0] ?? null;
     }, 'Unable to save idea.');
   }
 
@@ -179,14 +241,17 @@ export class BrainstormStoreService {
     }
 
     const sourceTopicId = currentIdea.topicId;
+    const sourceSubtopicId = currentIdea.subtopicId;
     const nextTopicId = (changes.topicId ?? currentIdea.topicId).trim();
+    const nextSubtopicId = (changes.subtopicId ?? currentIdea.subtopicId).trim();
     const payload: Partial<BrainstormIdeaDraft> = {
       ...changes,
       topicId: nextTopicId,
+      subtopicId: nextSubtopicId,
     };
 
     return this.withMutation(async () => {
-      const topics = await firstValueFrom(this.api.updateIdea(sourceTopicId, ideaId, payload));
+      const topics = await firstValueFrom(this.api.updateIdea(sourceTopicId, sourceSubtopicId, ideaId, payload));
       this.upsertTopics(topics.map((topic) => this.toTopicDetail(topic)));
       return this.getIdea(ideaId);
     }, 'Unable to update idea.');
@@ -199,19 +264,40 @@ export class BrainstormStoreService {
     }
 
     await this.withMutation(async () => {
-      const topics = await firstValueFrom(this.api.deleteIdea(idea.topicId, idea.id));
+      const topics = await firstValueFrom(this.api.deleteIdea(idea.topicId, idea.subtopicId, idea.id));
       this.upsertTopics(topics.map((topic) => this.toTopicDetail(topic)));
     }, 'Unable to delete idea.');
   }
 
   async togglePinned(ideaId: string): Promise<BrainstormIdea | null> {
     const idea = this.getIdea(ideaId);
-    return idea ? this.updateIdea(ideaId, { topicId: idea.topicId, pinned: !idea.pinned }) : null;
+    return idea
+      ? this.updateIdea(ideaId, {
+          topicId: idea.topicId,
+          subtopicId: idea.subtopicId,
+          pinned: !idea.pinned,
+        })
+      : null;
   }
 
   async toggleHighlighted(ideaId: string): Promise<BrainstormIdea | null> {
     const idea = this.getIdea(ideaId);
-    return idea ? this.updateIdea(ideaId, { topicId: idea.topicId, highlighted: !idea.highlighted }) : null;
+    return idea
+      ? this.updateIdea(ideaId, {
+          topicId: idea.topicId,
+          subtopicId: idea.subtopicId,
+          highlighted: !idea.highlighted,
+        })
+      : null;
+  }
+
+  private findTopic(topicId: string): BrainstormTopicDetail | null {
+    return this.state().topics.find((item) => item.id === topicId && !item.archived) ?? null;
+  }
+
+  private findSubtopic(topicId: string, subtopicId: string) {
+    const topic = this.findTopic(topicId);
+    return topic?.subtopics.find((item) => item.id === subtopicId) ?? null;
   }
 
   private toTopic(topic: BrainstormTopicDetail): BrainstormTopic {
@@ -219,32 +305,62 @@ export class BrainstormStoreService {
       id: topic.id,
       title: topic.title,
       createdAt: topic.createdAt,
-      ideaCount: topic.ideas.length,
+      subtopicCount: topic.subtopics.length,
+      ideaCount: topic.subtopics.reduce((count, subtopic) => count + subtopic.ideas.length, 0),
       updatedAt: topic.updatedAt,
       archived: topic.archived,
     };
   }
 
   private toTopicDetail(topic: BrainstormApiTopicDto): BrainstormTopicDetail {
-    const ideas = (topic.ideas ?? [])
-      .map((idea) => this.toIdea(idea))
-      .sort((left, right) => this.sortIdeas(left, right));
+    const subtopics = (topic.subtopics ?? [])
+      .map((subtopic) => this.toSubtopicDetail(subtopic))
+      .sort((left, right) => this.sortByDateDesc(left.updatedAt, right.updatedAt));
 
     return {
       id: topic.id,
       title: topic.title,
       createdAt: topic.created_at,
-      ideaCount: ideas.length,
+      subtopicCount: subtopics.length,
+      ideaCount: subtopics.reduce((count, subtopic) => count + subtopic.ideas.length, 0),
       updatedAt: topic.updated_at,
       archived: topic.archived,
+      subtopics,
+    };
+  }
+
+  private toSubtopic(topic: BrainstormTopicDetail['subtopics'][number]): BrainstormSubtopic {
+    return {
+      id: topic.id,
+      topicId: topic.topicId,
+      title: topic.title,
+      createdAt: topic.createdAt,
+      updatedAt: topic.updatedAt,
+      ideaCount: topic.ideas.length,
+    };
+  }
+
+  private toSubtopicDetail(subtopic: BrainstormApiSubtopicDto): BrainstormTopicDetail['subtopics'][number] {
+    const ideas = (subtopic.ideas ?? [])
+      .map((idea) => this.toIdea(idea))
+      .sort((left, right) => this.sortIdeas(left, right));
+
+    return {
+      id: subtopic.id,
+      topicId: subtopic.topicId,
+      title: subtopic.title,
+      createdAt: subtopic.created_at,
+      updatedAt: subtopic.updated_at,
+      ideaCount: ideas.length,
       ideas,
     };
   }
 
-  private toIdea(idea: BrainstormApiTopicDto['ideas'][number]): BrainstormIdea {
+  private toIdea(idea: BrainstormApiSubtopicDto['ideas'][number]): BrainstormIdea {
     return {
       id: idea.id,
       topicId: idea.topicId,
+      subtopicId: idea.subtopicId,
       text: idea.text,
       createdAt: idea.created_at,
       updatedAt: idea.updated_at,
@@ -253,6 +369,12 @@ export class BrainstormStoreService {
       tags: idea.tags ?? [],
       reference: idea.reference ?? '',
       context: idea.context ?? '',
+      author: idea.author
+        ? {
+            userId: idea.author.user_id,
+            email: idea.author.email,
+          }
+        : null,
     };
   }
 
@@ -265,21 +387,13 @@ export class BrainstormStoreService {
     this.state.set({ topics: Array.from(topicMap.values()) });
   }
 
-  private getFreshIdea(topics: ReadonlyArray<BrainstormApiTopicDto>, preferredTopicId: string): BrainstormIdea | null {
-    const updatedTopic = topics.find((topic) => topic.id === preferredTopicId) ?? topics[0] ?? null;
-    if (!updatedTopic || updatedTopic.ideas.length === 0) {
-      return null;
-    }
-
-    return this.toIdea(updatedTopic.ideas[0]);
-  }
-
   private matchesIdeaSearch(idea: BrainstormIdea, query: string): boolean {
     const haystack = [
       idea.text,
       idea.reference,
       idea.context,
       idea.tags.join(' '),
+      idea.author?.email ?? '',
     ].join(' ').toLowerCase();
 
     return haystack.includes(query);

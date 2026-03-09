@@ -1,5 +1,5 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
-import { requireAuth } from '../../../../_utils/auth';
+import { requireAuth } from '../../../../../../_utils/auth';
 import {
   applyIdeaUpdate,
   ensureBrainstormTable,
@@ -12,22 +12,11 @@ import {
   persistBrainstormTopic,
   readParam,
   readTrimmedString,
-} from '../../../../_utils/brainstorm';
+} from '../../../../../../_utils/brainstorm';
 
 interface Env {
   DB: D1Database;
   JWT_SECRET: string;
-}
-
-function locateIdea(topic: ReturnType<typeof mapBrainstormRow>, ideaId: string) {
-  for (const subtopic of topic.subtopics) {
-    const idea = subtopic.ideas.find((entry) => entry.id === ideaId);
-    if (idea) {
-      return { subtopic, idea };
-    }
-  }
-
-  return null;
 }
 
 export const onRequestPatch: PagesFunction<Env> = async (ctx) => {
@@ -39,6 +28,7 @@ export const onRequestPatch: PagesFunction<Env> = async (ctx) => {
 
     await ensureBrainstormTable(ctx.env.DB);
     const topicId = readParam(ctx.params, 'topicId');
+    const subtopicId = readParam(ctx.params, 'subtopicId');
     const ideaId = readParam(ctx.params, 'ideaId');
     const row = await fetchOwnedBrainstormRow(ctx.env.DB, topicId, user.id);
     if (!row) {
@@ -51,13 +41,12 @@ export const onRequestPatch: PagesFunction<Env> = async (ctx) => {
     }
 
     const sourceTopic = mapBrainstormRow(row);
-    const sourceMatch = locateIdea(sourceTopic, ideaId);
-    if (!sourceMatch) {
+    const sourceSubtopic = findSubtopic(sourceTopic, subtopicId);
+    const sourceIdea = sourceSubtopic?.ideas.find((idea) => idea.id === ideaId) ?? null;
+    if (!sourceSubtopic || !sourceIdea) {
       return json({ ok: false, error: 'Idea not found.' }, 404);
     }
 
-    const sourceSubtopic = sourceMatch.subtopic;
-    const sourceIdea = sourceMatch.idea;
     const timestamp = nowIso();
     const targetTopicId = readTrimmedString(body['topicId']) ?? sourceTopic.id;
     const targetSubtopicId = readTrimmedString(body['subtopicId']) ?? sourceSubtopic.id;
@@ -180,6 +169,7 @@ export const onRequestDelete: PagesFunction<Env> = async (ctx) => {
 
     await ensureBrainstormTable(ctx.env.DB);
     const topicId = readParam(ctx.params, 'topicId');
+    const subtopicId = readParam(ctx.params, 'subtopicId');
     const ideaId = readParam(ctx.params, 'ideaId');
     const row = await fetchOwnedBrainstormRow(ctx.env.DB, topicId, user.id);
     if (!row) {
@@ -187,8 +177,8 @@ export const onRequestDelete: PagesFunction<Env> = async (ctx) => {
     }
 
     const topic = mapBrainstormRow(row);
-    const sourceMatch = locateIdea(topic, ideaId);
-    if (!sourceMatch) {
+    const subtopic = findSubtopic(topic, subtopicId);
+    if (!subtopic || !subtopic.ideas.some((idea) => idea.id === ideaId)) {
       return json({ ok: false, error: 'Idea not found.' }, 404);
     }
 
@@ -196,7 +186,7 @@ export const onRequestDelete: PagesFunction<Env> = async (ctx) => {
     const updatedTopic = {
       ...topic,
       updated_at: timestamp,
-      subtopics: topic.subtopics.map((entry) => entry.id === sourceMatch.subtopic.id
+      subtopics: topic.subtopics.map((entry) => entry.id === subtopicId
         ? {
             ...entry,
             updated_at: timestamp,

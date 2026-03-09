@@ -10,7 +10,7 @@ export interface CaptureNote {
   id: string;
   body_md: string;
   title?: string | null;
-  status: 'inbox' | 'archived';
+  status: 'draft' | 'flag' | 'published';
   created_at: string;
   updated_at: string;
 }

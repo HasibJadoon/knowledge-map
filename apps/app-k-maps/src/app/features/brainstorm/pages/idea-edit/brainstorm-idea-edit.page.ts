@@ -5,18 +5,17 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AlertController, IonicModule, ToastController } from '@ionic/angular';
 import {
-  addOutline,
+  bookmarkOutline,
   createOutline,
   documentTextOutline,
-  pricetagOutline,
-  sparklesOutline,
   layersOutline,
   attachOutline,
   trashOutline,
-  bookmarkOutline,
+  pricetagOutline,
+  sparklesOutline,
 } from 'ionicons/icons';
 import { blurActiveElement } from '../../../../shared/focus-utils';
-import { BrainstormIdea, BrainstormTopic } from '../../brainstorm.models';
+import { BrainstormIdea, BrainstormSubtopic, BrainstormTopic } from '../../brainstorm.models';
 import { BrainstormStoreService } from '../../services/brainstorm-store.service';
 
 type EditTab = 'idea' | 'details' | 'context';
@@ -40,12 +39,15 @@ export class BrainstormIdeaEditPage {
 
   readonly activeTab = signal<EditTab>('idea');
   readonly routeTopicId = signal<string | null>(null);
+  readonly routeSubtopicId = signal<string | null>(null);
   readonly ideaId = signal<string | null>(null);
   readonly currentIdea = signal<BrainstormIdea | null>(null);
+  readonly selectedTopicId = signal('');
   readonly hydrating = signal(true);
 
   readonly form = this.formBuilder.nonNullable.group({
     topicId: '',
+    subtopicId: '',
     text: '',
     highlighted: false,
     pinned: false,
@@ -55,9 +57,14 @@ export class BrainstormIdeaEditPage {
   });
 
   readonly topicOptions = computed<BrainstormTopic[]>(() => this.store.listTopics());
+  readonly subtopicOptions = computed<BrainstormSubtopic[]>(() => {
+    const topicId = this.selectedTopicId();
+    return topicId ? this.store.listSubtopicsForTopic(topicId) : [];
+  });
   readonly isEditing = computed(() => this.currentIdea() !== null);
   readonly missingIdea = computed(() => !this.hydrating() && this.ideaId() !== null && this.currentIdea() === null);
   readonly hasTopics = computed(() => this.topicOptions().length > 0);
+  readonly hasSubtopics = computed(() => this.subtopicOptions().length > 0);
   readonly loading = computed(() => this.store.loading() || this.hydrating());
   readonly error = computed(() => this.store.error());
   readonly editorTabs = [
@@ -66,7 +73,6 @@ export class BrainstormIdeaEditPage {
     { key: 'context', label: 'Context' },
   ] as const;
   readonly icons = {
-    addOutline,
     attachOutline,
     bookmarkOutline,
     createOutline,
@@ -81,10 +87,27 @@ export class BrainstormIdeaEditPage {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       void this.loadFromRoute(params);
     });
+
+    this.form.controls.topicId.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((topicId) => {
+      this.selectedTopicId.set(topicId ?? '');
+      const currentSubtopicId = this.form.controls.subtopicId.value;
+      const nextSubtopicId = this.store.listSubtopicsForTopic(topicId ?? '').some((subtopic) => subtopic.id === currentSubtopicId)
+        ? currentSubtopicId
+        : this.store.getDefaultSubtopicId(topicId ?? '') ?? '';
+
+      if (nextSubtopicId !== currentSubtopicId) {
+        this.form.controls.subtopicId.setValue(nextSubtopicId, { emitEvent: false });
+      }
+    });
   }
 
   get canSave(): boolean {
-    return Boolean(this.form.controls.topicId.value && this.form.controls.text.value.trim() && !this.store.mutating());
+    return Boolean(
+      this.form.controls.topicId.value
+      && this.form.controls.subtopicId.value
+      && this.form.controls.text.value.trim()
+      && !this.store.mutating()
+    );
   }
 
   get saveLabel(): string {
@@ -106,45 +129,19 @@ export class BrainstormIdeaEditPage {
     void this.router.navigateByUrl('/brainstorm/topics');
   }
 
-  async retryLoad(): Promise<void> {
-    await this.loadFromRoute(this.route.snapshot.paramMap, true);
+  goToCurrentTopic(): void {
+    const topicId = this.form.controls.topicId.value || this.routeTopicId();
+    if (!topicId) {
+      this.goToTopics();
+      return;
+    }
+
+    blurActiveElement();
+    void this.router.navigate(['/brainstorm', 'topic', topicId]);
   }
 
-  async createTopicFromEditor(): Promise<void> {
-    const alert = await this.alertController.create({
-      header: 'New Topic',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Topic title',
-        },
-      ],
-      buttons: [
-        { text: 'Cancel', role: 'cancel' },
-        {
-          text: 'Create',
-          role: 'confirm',
-          handler: async (value) => {
-            try {
-              const created = await this.store.createTopic(String(value.title ?? ''));
-              if (!created) {
-                await this.presentToast('Topic title cannot be empty.');
-                return false;
-              }
-
-              this.form.controls.topicId.setValue(created.id);
-              return true;
-            } catch {
-              await this.presentToast(this.store.error() ?? 'Unable to create topic.');
-              return false;
-            }
-          },
-        },
-      ],
-    });
-
-    await alert.present();
+  async retryLoad(): Promise<void> {
+    await this.loadFromRoute(this.route.snapshot.paramMap, true);
   }
 
   async saveIdea(): Promise<void> {
@@ -154,10 +151,16 @@ export class BrainstormIdeaEditPage {
     }
 
     const topicId = this.form.controls.topicId.value;
+    const subtopicId = this.form.controls.subtopicId.value;
     const text = this.form.controls.text.value.trim();
 
     if (!topicId) {
       await this.presentToast('Choose a topic first.');
+      return;
+    }
+
+    if (!subtopicId) {
+      await this.presentToast('Choose a subtopic first.');
       return;
     }
 
@@ -168,6 +171,7 @@ export class BrainstormIdeaEditPage {
 
     const payload = {
       topicId,
+      subtopicId,
       text,
       highlighted: this.form.controls.highlighted.value,
       pinned: this.form.controls.pinned.value,
@@ -185,7 +189,7 @@ export class BrainstormIdeaEditPage {
       }
 
       blurActiveElement();
-      await this.router.navigate(['/brainstorm', 'topic', topicId]);
+      await this.router.navigate(['/brainstorm', 'topic', topicId, 'subtopic', subtopicId]);
     } catch {
       await this.presentToast(this.store.error() ?? 'Could not save this idea.');
     }
@@ -209,7 +213,7 @@ export class BrainstormIdeaEditPage {
             try {
               await this.store.deleteIdea(existingIdea.id);
               blurActiveElement();
-              await this.router.navigate(['/brainstorm', 'topic', existingIdea.topicId]);
+              await this.router.navigate(['/brainstorm', 'topic', existingIdea.topicId, 'subtopic', existingIdea.subtopicId]);
             } catch {
               await this.presentToast(this.store.error() ?? 'Unable to delete idea.');
             }
@@ -233,15 +237,23 @@ export class BrainstormIdeaEditPage {
     }
 
     const topicId = paramMap.get('topicId');
+    const subtopicId = paramMap.get('subtopicId');
     const ideaId = paramMap.get('ideaId');
     const idea = ideaId && ideaId !== 'new' ? this.store.getIdea(ideaId) : null;
     const initialTopicId = idea?.topicId ?? topicId ?? this.store.getDefaultTopicId() ?? '';
+    const initialSubtopicId = idea?.subtopicId
+      ?? subtopicId
+      ?? this.store.getDefaultSubtopicId(initialTopicId)
+      ?? '';
 
     this.routeTopicId.set(topicId);
+    this.routeSubtopicId.set(subtopicId);
     this.ideaId.set(ideaId && ideaId !== 'new' ? ideaId : null);
     this.currentIdea.set(idea);
+    this.selectedTopicId.set(initialTopicId);
     this.form.reset({
       topicId: initialTopicId,
+      subtopicId: initialSubtopicId,
       text: idea?.text ?? '',
       highlighted: idea?.highlighted ?? false,
       pinned: idea?.pinned ?? false,

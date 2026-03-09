@@ -12,7 +12,7 @@
       <ion-button fill="clear" (click)="goToDashboard()" aria-label="Dashboard">
         <ion-icon [icon]="icons.homeOutline" slot="icon-only"></ion-icon>
       </ion-button>
-      <ion-button fill="clear" *ngIf="!isTopicView" (click)="openSettings()" aria-label="Settings">
+      <ion-button fill="clear" *ngIf="!isTopicView && !isIdeasView" (click)="openSettings()" aria-label="Settings">
         <ion-icon [icon]="icons.settingsOutline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -28,16 +28,6 @@
         show-clear-button="focus"
         (ionInput)="onToolbarSearchInput($event.detail.value)"
       ></ion-searchbar>
-
-      <ion-button
-        *ngIf="showCreateTopicAction"
-        class="brainstorm-toolbar-new-button"
-        fill="clear"
-        (click)="openNewTopic()"
-        aria-label="New topic"
-      >
-        <ion-icon [icon]="icons.addOutline" slot="icon-only"></ion-icon>
-      </ion-button>
     </div>
   </ion-toolbar>
 </ion-header>

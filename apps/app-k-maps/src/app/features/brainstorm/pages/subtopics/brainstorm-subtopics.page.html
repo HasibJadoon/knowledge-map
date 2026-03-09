@@ -1,0 +1,67 @@
+<ion-content [fullscreen]="true" class="km-shell km-planner-page brainstorm-subtopics__content">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="km-planner-wrap ion-padding brainstorm-subtopics">
+    <section class="km-panel km-empty-state brainstorm-subtopics__state" *ngIf="error() && !loading()">
+      <h2>Unable to load topic</h2>
+      <p>{{ error() }}</p>
+      <ion-button fill="clear" size="small" (click)="retryLoad()">Retry</ion-button>
+    </section>
+
+    <section class="km-panel km-empty-state brainstorm-subtopics__state" *ngIf="loading()">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Loading subtopics…</p>
+    </section>
+
+    <ng-container *ngIf="!loading() && !error()">
+      <section class="km-panel km-empty-state brainstorm-subtopics__state" *ngIf="!topic()">
+        <h2>Topic not found</h2>
+        <p>The selected topic is not available anymore.</p>
+      </section>
+
+      <ng-container *ngIf="topic()">
+        <div class="brainstorm-subtopics__list" *ngIf="subtopics().length; else emptySubtopics">
+          <app-topic-row
+            *ngFor="let subtopic of subtopics(); trackBy: trackSubtopic"
+            [entry]="subtopic"
+            [count]="subtopic.ideaCount"
+            countLabelSingular="Idea"
+            countLabelPlural="Ideas"
+            [showArchive]="false"
+            (selected)="openSubtopic($event)"
+            (longPressed)="onSubtopicLongPress($event)"
+            (deleted)="deleteSubtopicFromRow($event)"
+          ></app-topic-row>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <ng-template #emptySubtopics>
+    <section class="km-panel km-empty-state brainstorm-subtopics__state">
+      <h2>{{ query() ? 'No matches' : 'No subtopics yet' }}</h2>
+      <p>{{ query() ? 'Try a different search phrase.' : 'Capture the first subtopic below to start collecting ideas.' }}</p>
+    </section>
+  </ng-template>
+</ion-content>
+
+<ion-footer class="brainstorm-subtopics__footer ion-no-border" *ngIf="topic()">
+  <ion-toolbar class="brainstorm-subtopics__footer-bar">
+    <div class="brainstorm-subtopics__composer km-glass">
+      <ion-textarea
+        #subtopicCaptureField
+        [formControl]="subtopicCaptureControl"
+        autoGrow="true"
+        rows="1"
+        enterkeyhint="send"
+        placeholder="Write a subtopic…"
+        (keydown)="onSubtopicCaptureKeydown($event)"
+      ></ion-textarea>
+      <ion-button fill="clear" [disabled]="!canSendSubtopicCapture" (click)="sendSubtopicCapture()" aria-label="Create subtopic">
+        <ion-icon [icon]="icons.paperPlaneOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

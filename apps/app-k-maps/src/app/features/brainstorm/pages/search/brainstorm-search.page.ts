@@ -75,9 +75,9 @@ export class BrainstormSearchPage {
     void this.router.navigate(['/brainstorm', 'topic', topicId]);
   }
 
-  openIdea(topicId: string, ideaId: string): void {
+  openIdea(topicId: string, subtopicId: string, ideaId: string): void {
     blurActiveElement();
-    void this.router.navigate(['/brainstorm', 'topic', topicId, 'idea', ideaId]);
+    void this.router.navigate(['/brainstorm', 'topic', topicId, 'subtopic', subtopicId, 'idea', ideaId]);
   }
 
   archiveTopic(topicId: string): void {
@@ -177,7 +177,7 @@ export class BrainstormSearchPage {
           text: 'Edit',
           icon: 'create-outline',
           handler: () => {
-            this.openIdea(idea.topicId, idea.id);
+            this.openIdea(idea.topicId, idea.subtopicId, idea.id);
           },
         },
         {
@@ -236,7 +236,7 @@ export class BrainstormSearchPage {
   private async confirmDeleteTopic(topicId: string, title: string): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Delete Topic',
-      message: `Delete ${title}? This removes all ideas inside it.`,
+      message: `Delete ${title}? This removes all subtopics and ideas inside it.`,
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         {
@@ -258,7 +258,7 @@ export class BrainstormSearchPage {
   private async confirmDeleteIdea(ideaId: string): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Delete Idea',
-      message: 'Remove this idea from the topic?',
+      message: 'Remove this idea from the subtopic?',
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         {

@@ -1,8 +1,14 @@
 import type { D1Database } from '@cloudflare/workers-types';
 
+export interface BrainstormIdeaAuthorDto {
+  user_id: number;
+  email: string;
+}
+
 export interface BrainstormIdeaDto {
   id: string;
   topicId: string;
+  subtopicId: string;
   text: string;
   created_at: string;
   updated_at: string;
@@ -11,6 +17,16 @@ export interface BrainstormIdeaDto {
   tags: string[];
   reference: string;
   context: string;
+  author: BrainstormIdeaAuthorDto | null;
+}
+
+export interface BrainstormSubtopicDto {
+  id: string;
+  topicId: string;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  ideas: BrainstormIdeaDto[];
 }
 
 export interface BrainstormTopicDto {
@@ -19,7 +35,7 @@ export interface BrainstormTopicDto {
   created_at: string;
   updated_at: string;
   archived: boolean;
-  ideas: BrainstormIdeaDto[];
+  subtopics: BrainstormSubtopicDto[];
 }
 
 type BrainstormSessionRow = Record<string, unknown>;
@@ -34,6 +50,16 @@ type StoredBrainstormIdea = {
   tags?: unknown;
   reference?: unknown;
   context?: unknown;
+  author_user_id?: unknown;
+  author_email?: unknown;
+};
+
+type StoredBrainstormSubtopic = {
+  id?: unknown;
+  title?: unknown;
+  created_at?: unknown;
+  updated_at?: unknown;
+  ideas?: unknown;
 };
 
 type StoredBrainstormPayload = Record<string, unknown> & {
@@ -51,6 +77,11 @@ type StoredBrainstormPayload = Record<string, unknown> & {
   updated_at?: unknown;
   user_id?: unknown;
 };
+
+const BRAINSTORM_SCHEMA_VERSION = 3;
+const BRAINSTORM_MOBILE_VERSION = 2;
+const DEFAULT_SUBTOPIC_TITLE = 'Untitled Subtopic';
+const LEGACY_SUBTOPIC_TITLE = 'General';
 
 export const BRAINSTORM_SESSION_COLUMNS = [
   'id',
@@ -150,7 +181,7 @@ export async function ensureBrainstormTable(db: D1Database): Promise<void> {
       topic TEXT NOT NULL,
       status TEXT NOT NULL DEFAULT 'open',
       stage TEXT NOT NULL DEFAULT 'raw',
-      schema_version INTEGER NOT NULL DEFAULT 2,
+      schema_version INTEGER NOT NULL DEFAULT 3,
       revision INTEGER,
       session_json JSON NOT NULL CHECK (json_valid(session_json)),
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
@@ -196,6 +227,25 @@ export async function fetchOwnedBrainstormRow(
   ).bind(topicId, userId).first<BrainstormSessionRow>();
 }
 
+export async function fetchBrainstormIdeaAuthor(
+  db: D1Database,
+  userId: number,
+): Promise<BrainstormIdeaAuthorDto> {
+  const actor = await db.prepare(
+    `
+    SELECT email
+    FROM users
+    WHERE id = ?1
+    LIMIT 1
+    `
+  ).bind(userId).first<{ email: string | null }>();
+
+  return {
+    user_id: userId,
+    email: actor?.email?.trim() || `user-${userId}`,
+  };
+}
+
 export function mapBrainstormRow(row: unknown): BrainstormTopicDto {
   const record = asRecord(row) ?? {};
   const topicId = readString(record['id']) ?? '';
@@ -203,12 +253,7 @@ export function mapBrainstormRow(row: unknown): BrainstormTopicDto {
   const updatedAt = readString(record['updated_at']) ?? createdAt;
   const payload = parseStoredPayload(record['session_json']);
   const mobileTopic = asRecord(payload?.['mobile_topic']);
-  const rawIdeas = Array.isArray(mobileTopic?.['ideas']) ? mobileTopic?.['ideas'] : [];
-
-  const ideas = rawIdeas
-    .map((idea) => normalizeIdea(idea as StoredBrainstormIdea, topicId, createdAt, updatedAt))
-    .filter((idea) => idea.text.length > 0)
-    .sort(sortIdeas);
+  const subtopics = normalizeStoredSubtopics(mobileTopic, topicId, createdAt, updatedAt);
 
   return {
     id: topicId,
@@ -218,7 +263,7 @@ export function mapBrainstormRow(row: unknown): BrainstormTopicDto {
     created_at: createdAt,
     updated_at: updatedAt,
     archived: (readString(record['status']) ?? readString(payload?.['status']) ?? 'open') === 'archived',
-    ideas,
+    subtopics,
   };
 }
 
@@ -243,13 +288,14 @@ export async function insertBrainstormTopic(
       created_at,
       updated_at
     )
-    VALUES (?1, ?2, ?3, ?4, 'raw', 2, 1, ?5, ?6, ?7)
+    VALUES (?1, ?2, ?3, ?4, 'raw', ?5, 1, ?6, ?7, ?8)
     `
   ).bind(
     topic.id,
     userId,
     topic.title,
     topic.archived ? 'archived' : 'open',
+    BRAINSTORM_SCHEMA_VERSION,
     sessionJson,
     topic.created_at,
     topic.updated_at,
@@ -272,10 +318,10 @@ export async function persistBrainstormTopic(
     SET topic = ?3,
         status = ?4,
         stage = 'raw',
-        schema_version = 2,
-        revision = ?5,
-        session_json = ?6,
-        updated_at = ?7
+        schema_version = ?5,
+        revision = ?6,
+        session_json = ?7,
+        updated_at = ?8
     WHERE id = ?1 AND user_id = ?2
     `
   ).bind(
@@ -283,10 +329,18 @@ export async function persistBrainstormTopic(
     userId,
     topic.title,
     topic.archived ? 'archived' : 'open',
+    BRAINSTORM_SCHEMA_VERSION,
     revision,
     sessionJson,
     topic.updated_at,
   ).run();
+}
+
+export function findSubtopic(
+  topic: BrainstormTopicDto,
+  subtopicId: string,
+): BrainstormSubtopicDto | null {
+  return topic.subtopics.find((subtopic) => subtopic.id === subtopicId) ?? null;
 }
 
 export function applyIdeaUpdate(
@@ -317,18 +371,82 @@ export function applyIdeaUpdate(
   };
 }
 
+function normalizeStoredSubtopics(
+  mobileTopic: Record<string, unknown> | null,
+  topicId: string,
+  fallbackCreatedAt: string,
+  fallbackUpdatedAt: string,
+): BrainstormSubtopicDto[] {
+  const rawSubtopics = Array.isArray(mobileTopic?.['subtopics']) ? mobileTopic?.['subtopics'] : [];
+  if (rawSubtopics.length > 0) {
+    return rawSubtopics
+      .map((subtopic) => normalizeSubtopic(subtopic as StoredBrainstormSubtopic, topicId, fallbackCreatedAt, fallbackUpdatedAt))
+      .sort(sortSubtopics);
+  }
+
+  const rawIdeas = Array.isArray(mobileTopic?.['ideas']) ? mobileTopic?.['ideas'] : [];
+  if (rawIdeas.length === 0) {
+    return [];
+  }
+
+  const subtopicId = legacySubtopicId(topicId);
+  return [
+    {
+      id: subtopicId,
+      topicId,
+      title: LEGACY_SUBTOPIC_TITLE,
+      created_at: fallbackCreatedAt,
+      updated_at: fallbackUpdatedAt,
+      ideas: rawIdeas
+        .map((idea) => normalizeIdea(idea as StoredBrainstormIdea, topicId, subtopicId, fallbackCreatedAt, fallbackUpdatedAt))
+        .filter((idea) => idea.text.length > 0)
+        .sort(sortIdeas),
+    },
+  ];
+}
+
+function normalizeSubtopic(
+  rawSubtopic: StoredBrainstormSubtopic,
+  topicId: string,
+  fallbackCreatedAt: string,
+  fallbackUpdatedAt: string,
+): BrainstormSubtopicDto {
+  const subtopicId = readString(rawSubtopic.id) ?? crypto.randomUUID();
+  const createdAt = readString(rawSubtopic.created_at) ?? fallbackCreatedAt;
+  const fallbackIdeaUpdatedAt = readString(rawSubtopic.updated_at) ?? createdAt ?? fallbackUpdatedAt;
+  const ideas = (Array.isArray(rawSubtopic.ideas) ? rawSubtopic.ideas : [])
+    .map((idea) => normalizeIdea(idea as StoredBrainstormIdea, topicId, subtopicId, createdAt, fallbackIdeaUpdatedAt))
+    .filter((idea) => idea.text.length > 0)
+    .sort(sortIdeas);
+
+  const updatedAt = ideas[0]?.updated_at ?? fallbackIdeaUpdatedAt;
+
+  return {
+    id: subtopicId,
+    topicId,
+    title: readTrimmedString(rawSubtopic.title) ?? DEFAULT_SUBTOPIC_TITLE,
+    created_at: createdAt,
+    updated_at: updatedAt,
+    ideas,
+  };
+}
+
 function normalizeIdea(
   rawIdea: StoredBrainstormIdea,
   topicId: string,
+  subtopicId: string,
   fallbackCreatedAt: string,
   fallbackUpdatedAt: string,
 ): BrainstormIdeaDto {
   const createdAt = readString(rawIdea.created_at) ?? fallbackCreatedAt;
   const updatedAt = readString(rawIdea.updated_at) ?? createdAt ?? fallbackUpdatedAt;
+  const authorUserId = parseFiniteNumber(rawIdea.author_user_id);
+  const authorEmail = readTrimmedString(rawIdea.author_email);
 
   return {
     id: readString(rawIdea.id) ?? crypto.randomUUID(),
     topicId,
+    subtopicId,
     text: readTrimmedString(rawIdea.text) ?? '',
     created_at: createdAt,
     updated_at: updatedAt,
@@ -337,7 +455,17 @@ function normalizeIdea(
     tags: readStringArray(rawIdea.tags),
     reference: readString(rawIdea.reference)?.trim() ?? '',
     context: readString(rawIdea.context)?.trim() ?? '',
+    author: authorUserId > 0 || authorEmail
+      ? {
+          user_id: authorUserId,
+          email: authorEmail ?? `user-${authorUserId || 'unknown'}`,
+        }
+      : null,
   };
+}
+
+function sortSubtopics(left: BrainstormSubtopicDto, right: BrainstormSubtopicDto): number {
+  return new Date(right.updated_at).getTime() - new Date(left.updated_at).getTime();
 }
 
 function sortIdeas(left: BrainstormIdeaDto, right: BrainstormIdeaDto): number {
@@ -386,7 +514,7 @@ function buildSessionPayload(
   return {
     ...payload,
     entity_type: 'brainstorm_session',
-    schema_version: 2,
+    schema_version: BRAINSTORM_SCHEMA_VERSION,
     id: topic.id,
     topic: topic.title,
     topic_concept_ids: Array.isArray(payload['topic_concept_ids']) ? payload['topic_concept_ids'] : [],
@@ -401,22 +529,34 @@ function buildSessionPayload(
     },
     brain_items: Array.isArray(payload['brain_items']) ? payload['brain_items'] : [],
     mobile_topic: {
-      version: 1,
-      ideas: topic.ideas.map((idea) => ({
-        id: idea.id,
-        text: idea.text,
-        created_at: idea.created_at,
-        updated_at: idea.updated_at,
-        highlighted: idea.highlighted,
-        pinned: idea.pinned,
-        tags: idea.tags,
-        reference: idea.reference,
-        context: idea.context,
+      version: BRAINSTORM_MOBILE_VERSION,
+      subtopics: topic.subtopics.map((subtopic) => ({
+        id: subtopic.id,
+        title: subtopic.title,
+        created_at: subtopic.created_at,
+        updated_at: subtopic.updated_at,
+        ideas: subtopic.ideas.map((idea) => ({
+          id: idea.id,
+          text: idea.text,
+          created_at: idea.created_at,
+          updated_at: idea.updated_at,
+          highlighted: idea.highlighted,
+          pinned: idea.pinned,
+          tags: idea.tags,
+          reference: idea.reference,
+          context: idea.context,
+          author_user_id: idea.author?.user_id ?? null,
+          author_email: idea.author?.email ?? null,
+        })),
       })),
     },
     created_at: readString(payload['created_at']) ?? topic.created_at,
     updated_at: topic.updated_at,
   };
+}
+
+function legacySubtopicId(topicId: string): string {
+  return `${topicId}__general`;
 }
 
 function parseFiniteNumber(value: unknown): number {

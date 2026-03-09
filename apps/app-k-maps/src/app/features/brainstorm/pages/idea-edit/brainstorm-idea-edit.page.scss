@@ -75,7 +75,7 @@
 
 .brainstorm-edit__tool-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
   gap: 0.65rem;
 }
@@ -149,19 +149,6 @@
   line-height: 1.72;
 }
 
-.brainstorm-edit__tool-button {
-  --color: #79e0c5;
-  --background: rgba(9, 18, 30, 0.94);
-  --background-hover: rgba(121, 224, 197, 0.08);
-  --background-activated: rgba(121, 224, 197, 0.14);
-  --border-radius: 1.08rem;
-  width: 3.35rem;
-  height: 100%;
-  margin: 0;
-  border: 1px solid rgba(121, 224, 197, 0.16);
-  border-radius: 1.08rem;
-}
-
 .brainstorm-edit__chips {
   display: flex;
   flex-wrap: wrap;
@@ -174,6 +161,10 @@
 }
 
 @media (max-width: 480px) {
+  .brainstorm-edit__tool-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .brainstorm-edit__surface--editor {
     min-height: clamp(14rem, 48vh, 22rem);
   }

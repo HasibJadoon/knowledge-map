@@ -40,27 +40,62 @@ export class BrainstormApiService {
     );
   }
 
-  createIdea(topicId: string, draft: BrainstormIdeaDraft): Observable<BrainstormApiTopicDto[]> {
+  createSubtopic(topicId: string, title: string): Observable<BrainstormApiTopicDto> {
+    return this.http.post<{ ok: boolean; topic: BrainstormApiTopicDto }>(
+      `${this.apiRoot}/${encodeURIComponent(topicId)}/subtopics`,
+      { title },
+    ).pipe(
+      map((response) => response.topic)
+    );
+  }
+
+  updateSubtopic(
+    topicId: string,
+    subtopicId: string,
+    changes: { title?: string },
+  ): Observable<BrainstormApiTopicDto> {
+    return this.http.patch<{ ok: boolean; topic: BrainstormApiTopicDto }>(
+      `${this.apiRoot}/${encodeURIComponent(topicId)}/subtopics/${encodeURIComponent(subtopicId)}`,
+      changes,
+    ).pipe(
+      map((response) => response.topic)
+    );
+  }
+
+  deleteSubtopic(topicId: string, subtopicId: string): Observable<BrainstormApiTopicDto> {
+    return this.http.delete<{ ok: boolean; topic: BrainstormApiTopicDto }>(
+      `${this.apiRoot}/${encodeURIComponent(topicId)}/subtopics/${encodeURIComponent(subtopicId)}`
+    ).pipe(
+      map((response) => response.topic)
+    );
+  }
+
+  createIdea(topicId: string, subtopicId: string, draft: BrainstormIdeaDraft): Observable<BrainstormApiTopicDto[]> {
     return this.http.post<{ ok: boolean; topics: BrainstormApiTopicDto[] }>(
-      `${this.apiRoot}/${encodeURIComponent(topicId)}/ideas`,
+      `${this.apiRoot}/${encodeURIComponent(topicId)}/subtopics/${encodeURIComponent(subtopicId)}/ideas`,
       draft,
     ).pipe(
       map((response) => response.topics ?? [])
     );
   }
 
-  updateIdea(topicId: string, ideaId: string, changes: Partial<BrainstormIdeaDraft>): Observable<BrainstormApiTopicDto[]> {
+  updateIdea(
+    topicId: string,
+    subtopicId: string,
+    ideaId: string,
+    changes: Partial<BrainstormIdeaDraft>,
+  ): Observable<BrainstormApiTopicDto[]> {
     return this.http.patch<{ ok: boolean; topics: BrainstormApiTopicDto[] }>(
-      `${this.apiRoot}/${encodeURIComponent(topicId)}/ideas/${encodeURIComponent(ideaId)}`,
+      `${this.apiRoot}/${encodeURIComponent(topicId)}/subtopics/${encodeURIComponent(subtopicId)}/ideas/${encodeURIComponent(ideaId)}`,
       changes,
     ).pipe(
       map((response) => response.topics ?? [])
     );
   }
 
-  deleteIdea(topicId: string, ideaId: string): Observable<BrainstormApiTopicDto[]> {
+  deleteIdea(topicId: string, subtopicId: string, ideaId: string): Observable<BrainstormApiTopicDto[]> {
     return this.http.delete<{ ok: boolean; topics: BrainstormApiTopicDto[] }>(
-      `${this.apiRoot}/${encodeURIComponent(topicId)}/ideas/${encodeURIComponent(ideaId)}`
+      `${this.apiRoot}/${encodeURIComponent(topicId)}/subtopics/${encodeURIComponent(subtopicId)}/ideas/${encodeURIComponent(ideaId)}`
     ).pipe(
       map((response) => response.topics ?? [])
     );

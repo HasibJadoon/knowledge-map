@@ -33,6 +33,7 @@ export class BrainstormIdeasPage {
 
   readonly quickCaptureControl = new FormControl('', { nonNullable: true });
   readonly topicId = signal<string | null>(null);
+  readonly subtopicId = signal<string | null>(null);
   readonly query = signal('');
   readonly loading = computed(() => this.store.loading());
   readonly error = computed(() => this.store.error());
@@ -40,9 +41,15 @@ export class BrainstormIdeasPage {
     const topicId = this.topicId();
     return topicId ? this.store.getTopic(topicId) : null;
   });
+  readonly subtopic = computed(() => {
+    const topicId = this.topicId();
+    const subtopicId = this.subtopicId();
+    return topicId && subtopicId ? this.store.getSubtopic(topicId, subtopicId) : null;
+  });
   readonly ideas = computed(() => {
     const topicId = this.topicId();
-    return topicId ? this.store.listIdeasForTopic(topicId) : [];
+    const subtopicId = this.subtopicId();
+    return topicId && subtopicId ? this.store.listIdeasForSubtopic(topicId, subtopicId) : [];
   });
   readonly filteredIdeas = computed(() => {
     const normalizedQuery = this.query().trim().toLowerCase();
@@ -56,6 +63,7 @@ export class BrainstormIdeasPage {
         idea.reference,
         idea.context,
         idea.tags.join(' '),
+        idea.author?.email ?? '',
       ].join(' ').toLowerCase();
 
       return haystack.includes(normalizedQuery);
@@ -67,6 +75,7 @@ export class BrainstormIdeasPage {
   constructor() {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       this.topicId.set(params.get('topicId'));
+      this.subtopicId.set(params.get('subtopicId'));
       void this.store.ensureLoaded().catch(() => undefined);
     });
 
@@ -76,7 +85,7 @@ export class BrainstormIdeasPage {
   }
 
   get canSendQuickCapture(): boolean {
-    return Boolean(this.topic()) && this.quickCaptureControl.value.trim().length > 0 && !this.store.mutating();
+    return Boolean(this.subtopic()) && this.quickCaptureControl.value.trim().length > 0 && !this.store.mutating();
   }
 
   trackIdea(_: number, idea: BrainstormIdea): string {
@@ -95,18 +104,19 @@ export class BrainstormIdeasPage {
     try {
       await this.store.reload();
     } catch {
-      await this.presentToast(this.store.error() ?? 'Unable to load this topic.');
+      await this.presentToast(this.store.error() ?? 'Unable to load this subtopic.');
     }
   }
 
   openIdea(ideaId: string): void {
     const topicId = this.topicId();
-    if (!topicId) {
+    const subtopicId = this.subtopicId();
+    if (!topicId || !subtopicId) {
       return;
     }
 
     blurActiveElement();
-    void this.router.navigate(['/brainstorm', 'topic', topicId, 'idea', ideaId]);
+    void this.router.navigate(['/brainstorm', 'topic', topicId, 'subtopic', subtopicId, 'idea', ideaId]);
   }
 
   toggleIdeaPin(ideaId: string): void {
@@ -138,13 +148,14 @@ export class BrainstormIdeasPage {
 
   async sendQuickCapture(): Promise<void> {
     const topicId = this.topicId();
+    const subtopicId = this.subtopicId();
     const text = this.quickCaptureControl.value.trim();
-    if (!topicId || !text || this.store.mutating()) {
+    if (!topicId || !subtopicId || !text || this.store.mutating()) {
       return;
     }
 
     try {
-      await this.store.createIdea({ topicId, text });
+      await this.store.createIdea({ topicId, subtopicId, text });
       this.quickCaptureControl.setValue('', { emitEvent: false });
       requestAnimationFrame(() => {
         void this.quickCaptureField?.setFocus();
@@ -205,7 +216,7 @@ export class BrainstormIdeasPage {
   private async confirmDeleteIdea(ideaId: string): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Delete Idea',
-      message: 'Remove this idea from the topic?',
+      message: 'Remove this idea from the subtopic?',
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         {

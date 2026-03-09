@@ -20,14 +20,14 @@
         <section class="km-panel km-panel--hero" *ngIf="!query()">
           <div>
             <p class="km-panel-kicker">Brainstorm Search</p>
-            <h1>Find topics, thoughts, tags, and supporting context.</h1>
-            <p class="km-panel-subtitle">Type above to scan topic titles, captured ideas, tags, references, and notes.</p>
+            <h1>Find topics, subtopics, thoughts, tags, and supporting context.</h1>
+            <p class="km-panel-subtitle">Type above to scan topic titles, subtopics, captured ideas, tags, references, and notes.</p>
           </div>
         </section>
 
         <section class="km-panel km-empty-state brainstorm-search__state" *ngIf="!query()">
           <h2>Start typing</h2>
-          <p>Search works across titles, captured thoughts, tags, references, and context.</p>
+          <p>Search works across topics, subtopics, captured thoughts, tags, references, and context.</p>
         </section>
 
         <ng-container *ngIf="query()">
@@ -41,7 +41,10 @@
             <div class="brainstorm-search__list">
               <app-topic-row
                 *ngFor="let topic of topicMatches(); trackBy: trackTopic"
-                [topic]="topic"
+                [entry]="topic"
+                [count]="topic.subtopicCount"
+                countLabelSingular="Subtopic"
+                countLabelPlural="Subtopics"
                 (selected)="openTopic($event)"
                 (longPressed)="onTopicLongPress($event)"
                 (archived)="archiveTopic($event)"
@@ -61,9 +64,9 @@
               <app-idea-row
                 *ngFor="let result of ideaMatches(); trackBy: trackIdea"
                 [idea]="result.idea"
-                [topicLabel]="result.topicTitle"
-                (selected)="openIdea(result.idea.topicId, $event)"
-                (edited)="openIdea(result.idea.topicId, $event)"
+                [topicLabel]="result.topicTitle + ' / ' + result.subtopicTitle"
+                (selected)="openIdea(result.idea.topicId, result.idea.subtopicId, $event)"
+                (edited)="openIdea(result.idea.topicId, result.idea.subtopicId, $event)"
                 (longPressed)="onIdeaLongPress($event)"
                 (toggledPin)="toggleIdeaPin($event)"
                 (toggledHighlight)="toggleIdeaHighlight($event)"
@@ -74,7 +77,7 @@
 
           <section class="km-panel km-empty-state brainstorm-search__state" *ngIf="!topicMatches().length && !ideaMatches().length">
             <h2>No matches</h2>
-            <p>Try a different phrase or open a topic and keep capturing more ideas.</p>
+            <p>Try a different phrase or open a topic and keep capturing more subtopics and ideas.</p>
           </section>
         </ng-container>
       </ng-container>

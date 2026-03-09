@@ -4,8 +4,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Capacitor, type PluginListenerHandle } from '@capacitor/core';
 import { Keyboard } from '@capacitor/keyboard';
-import { AlertController, MenuController, IonicModule, ToastController } from '@ionic/angular';
-import { addOutline, albumsOutline, arrowBackOutline, homeOutline, searchOutline, settingsOutline } from 'ionicons/icons';
+import { MenuController, IonicModule } from '@ionic/angular';
+import { albumsOutline, arrowBackOutline, homeOutline, searchOutline, settingsOutline } from 'ionicons/icons';
 import { filter } from 'rxjs';
 import { AppIconTabsComponent } from '../../shared/components/icon-tabs/icon-tabs.component';
 import { blurActiveElement } from '../../shared/focus-utils';
@@ -30,14 +30,11 @@ export class BrainstormTabsPage {
   private readonly location = inject(Location);
   private readonly menuController = inject(MenuController);
   private readonly store = inject(BrainstormStoreService);
-  private readonly alertController = inject(AlertController);
-  private readonly toastController = inject(ToastController);
   private readonly keyboardListenerHandles: Promise<PluginListenerHandle>[] = [];
   readonly currentUrl = signal(this.router.url);
   readonly activeTabKey = signal(this.resolveTabKey(this.router.url));
   readonly keyboardOpen = signal(false);
   readonly icons = {
-    addOutline,
     albumsOutline,
     arrowBackOutline,
     homeOutline,
@@ -63,7 +60,7 @@ export class BrainstormTabsPage {
       this.currentUrl.set(event.urlAfterRedirects);
       this.activeTabKey.set(this.resolveTabKey(event.urlAfterRedirects));
 
-      if (!this.isTopicView) {
+      if (!this.isKeyboardAwareView) {
         this.keyboardOpen.set(false);
       }
     });
@@ -75,20 +72,27 @@ export class BrainstormTabsPage {
   }
 
   get toolbarHeading(): string {
-    if (this.isTopicView) {
+    if (this.isIdeasView) {
       return 'Ideas';
+    }
+
+    if (this.isTopicView) {
+      return 'Subtopics';
+    }
+
+    if (this.isIdeaEditorView) {
+      return 'Idea';
     }
 
     const headings: Record<string, string> = {
       topics: 'Topics',
-      new: 'Quick Add',
       search: 'Search',
     };
     return headings[this.activeTabKey()] ?? 'Topics';
   }
 
   get hasToolbarSearch(): boolean {
-    return this.isTopicsView || this.activeTabKey() === 'search' || this.isTopicView;
+    return this.isTopicsView || this.activeTabKey() === 'search' || this.isTopicView || this.isIdeasView;
   }
 
   get toolbarSearchQuery(): string {
@@ -105,7 +109,11 @@ export class BrainstormTabsPage {
       return 'Search topics';
     }
 
-    return this.isTopicView ? 'Search ideas' : 'Search ideas, topics, tags, or context';
+    if (this.isTopicView) {
+      return 'Search subtopics';
+    }
+
+    return this.isIdeasView ? 'Search ideas' : 'Search ideas, topics, tags, or context';
   }
 
   get isTopicsView(): boolean {
@@ -115,16 +123,25 @@ export class BrainstormTabsPage {
 
   get isTopicView(): boolean {
     const url = this.currentUrl();
-    return url.startsWith('/brainstorm/topic/') && !url.includes('/idea/');
+    return url.startsWith('/brainstorm/topic/') && !url.includes('/subtopic/') && !url.includes('/idea/');
   }
 
-  get showCreateTopicAction(): boolean {
-    return this.isTopicsView || this.activeTabKey() === 'search';
+  get isIdeasView(): boolean {
+    const url = this.currentUrl();
+    return url.startsWith('/brainstorm/topic/') && url.includes('/subtopic/') && !url.includes('/idea/');
+  }
+
+  get isIdeaEditorView(): boolean {
+    return this.currentUrl().includes('/idea/');
+  }
+
+  get isKeyboardAwareView(): boolean {
+    return this.isTopicsView || this.isTopicView || this.isIdeasView || this.isIdeaEditorView;
   }
 
   get showFooterTabs(): boolean {
     const url = this.currentUrl();
-    return !url.startsWith('/brainstorm/search') && !(this.isTopicView && this.keyboardOpen());
+    return !url.startsWith('/brainstorm/search') && !(this.isKeyboardAwareView && this.keyboardOpen());
   }
 
   get footerTabOffset(): string {
@@ -177,53 +194,6 @@ export class BrainstormTabsPage {
       queryParamsHandling: 'merge',
       replaceUrl: true,
     });
-  }
-
-  async openNewTopic(): Promise<void> {
-    const alert = await this.alertController.create({
-      header: 'New Topic',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Topic title',
-        },
-      ],
-      buttons: [
-        { text: 'Cancel', role: 'cancel' },
-        {
-          text: 'Create',
-          role: 'confirm',
-          handler: async (value) => {
-            try {
-              const created = await this.store.createTopic(String(value.title ?? ''));
-              if (!created) {
-                await this.presentToast('Topic title cannot be empty.');
-                return false;
-              }
-
-              blurActiveElement();
-              await this.router.navigate(['/brainstorm', 'topic', created.id]);
-              return true;
-            } catch {
-              await this.presentToast(this.store.error() ?? 'Unable to create topic.');
-              return false;
-            }
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
-  private async presentToast(message: string): Promise<void> {
-    const toast = await this.toastController.create({
-      message,
-      duration: 1800,
-      position: 'bottom',
-    });
-    await toast.present();
   }
 
   private resolveTabKey(url: string): string {
