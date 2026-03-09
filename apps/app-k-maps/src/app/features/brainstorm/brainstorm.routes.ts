@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const BRAINSTORM_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./brainstorm-tabs.page').then((m) => m.BrainstormTabsPage),
+    loadComponent: () => import('./pages/tabs/brainstorm-tabs.page').then((m) => m.BrainstormTabsPage),
     children: [
       {
         path: '',

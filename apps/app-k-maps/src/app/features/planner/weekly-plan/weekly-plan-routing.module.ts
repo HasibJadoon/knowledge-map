@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PlannerInboxPage } from './planner-inbox.page';
-import { PlannerKanbanPage } from './planner-kanban.page';
-import { PlannerLessonsPage } from './planner-lessons.page';
-import { PlannerPodcastPage } from './planner-podcast.page';
-import { PlannerReviewPage } from './planner-review.page';
-import { PlannerTabsPage } from '../planner-tabs.page';
-import { WeeklyPlanPage } from './weekly-plan.page';
+import { PlannerInboxPage } from './planner-inbox/planner-inbox.page';
+import { PlannerKanbanPage } from './planner-kanban/planner-kanban.page';
+import { PlannerLessonsPage } from './planner-lessons/planner-lessons.page';
+import { PlannerPodcastPage } from './planner-podcast/planner-podcast.page';
+import { PlannerReviewPage } from './planner-review/planner-review.page';
+import { PlannerTabsPage } from '../pages/tabs/planner-tabs.page';
+import { WeeklyPlanPage } from './weekly-plan/weekly-plan.page';
 
 const routes: Routes = [
   {

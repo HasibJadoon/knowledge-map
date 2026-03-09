@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ArabicRootsPageRoutingModule } from './arabic-roots-routing.module';
-import { ArabicRootsPage } from './arabic-roots.page';
+import { ArabicRootsPage } from './arabic-roots/arabic-roots.page';
 import { RootCardsComponent } from './root-cards/root-cards.component';
 
 @NgModule({

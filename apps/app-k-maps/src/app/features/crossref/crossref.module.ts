@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
 import { CrossrefPageRoutingModule } from './crossref-routing.module';
-import { CrossrefPage } from './crossref.page';
+import { CrossrefPage } from './pages/crossref/crossref.page';
 
 @NgModule({
   imports: [CommonModule, IonicModule, CrossrefPageRoutingModule],

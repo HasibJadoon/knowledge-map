@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 
 import { DashboardPageRoutingModule } from './dashboard-routing.module';
 import { DashboardCardGridComponent } from './dashboard-card-grid.component';
-import { DashboardPage } from './dashboard.page';
-import { DashboardSectionPage } from './dashboard-section.page';
+import { DashboardPage } from './pages/dashboard/dashboard.page';
+import { DashboardSectionPage } from './pages/section/dashboard-section.page';
 
 @NgModule({
   imports: [CommonModule, IonicModule, RouterModule, DashboardPageRoutingModule],

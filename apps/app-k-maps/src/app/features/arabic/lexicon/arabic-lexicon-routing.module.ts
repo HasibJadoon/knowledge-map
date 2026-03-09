@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ArabicLexiconPage } from './arabic-lexicon.page';
+import { ArabicLexiconPage } from './arabic-lexicon/arabic-lexicon.page';
 
 const routes: Routes = [
   {

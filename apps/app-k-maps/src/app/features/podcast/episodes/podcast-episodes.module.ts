@@ -8,9 +8,9 @@ import { PodcastEpisodesPageRoutingModule } from './podcast-episodes-routing.mod
 import { EpisodeCardComponent } from './components/episode-card.component';
 import { SegmentCardComponent } from './components/segment-card.component';
 import { StatusBadgeComponent } from './components/status-badge.component';
-import { PodcastEpisodePage } from './podcast-episode.page';
-import { PodcastEpisodesPage } from './podcast-episodes.page';
-import { PodcastSegmentEditorPage } from './podcast-segment-editor.page';
+import { PodcastEpisodePage } from './podcast-episode/podcast-episode.page';
+import { PodcastEpisodesPage } from './podcast-episodes/podcast-episodes.page';
+import { PodcastSegmentEditorPage } from './podcast-segment-editor/podcast-segment-editor.page';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule, PodcastEpisodesPageRoutingModule, AppIconTabsComponent],

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
 import { ArabicMemoryPageRoutingModule } from './arabic-memory-routing.module';
-import { ArabicMemoryPage } from './arabic-memory.page';
+import { ArabicMemoryPage } from './arabic-memory/arabic-memory.page';
 
 @NgModule({
   imports: [CommonModule, IonicModule, ArabicMemoryPageRoutingModule],

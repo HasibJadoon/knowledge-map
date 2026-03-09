@@ -1,0 +1,134 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  --notes-tab-footer-surface:
+    linear-gradient(180deg, rgba(6, 10, 18, 0) 0%, rgba(8, 14, 25, 0.56) 26%, rgba(8, 13, 23, 0.88) 66%, rgba(9, 13, 18, 0.97) 100%);
+  --notes-tab-footer-offset: var(
+    --notes-shell-tab-offset,
+    calc(var(--app-icon-tabs-min-height) + (env(safe-area-inset-bottom) * 0.45))
+  );
+  --notes-tab-composer-space: calc(5.8rem + var(--notes-tab-footer-offset));
+}
+
+.notes-tab-content {
+  --background: var(--km-shell-bg);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.notes-tab-content::part(scroll) {
+  padding-top: calc(var(--notes-shell-header-offset, 0px) + 0.45rem);
+  padding-bottom: var(--notes-tab-composer-space);
+}
+
+.notes-tab-shell {
+  width: min(100%, 42rem);
+  min-height: 100%;
+  margin-inline: auto;
+}
+
+.notes-list {
+  background: transparent;
+}
+
+.notes-list-item {
+  --background: linear-gradient(165deg, rgba(18, 30, 52, 0.86), rgba(11, 18, 33, 0.9));
+  --min-height: 7.2rem;
+  --padding-start: 1rem;
+  --inner-padding-end: 1rem;
+  --inner-padding-top: 1rem;
+  --inner-padding-bottom: 1rem;
+  border: 1px solid rgba(148, 182, 228, 0.24);
+  border-radius: 1rem;
+  margin: 0 0 0.78rem;
+  box-shadow: 0 10px 20px rgba(6, 12, 25, 0.28);
+}
+
+.notes-list-item h3 {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 650;
+  color: var(--km-text, #e6edf8);
+}
+
+.notes-list-item p {
+  margin: 0.4rem 0 0;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.92rem;
+  line-height: 1.42;
+}
+
+.notes-time {
+  margin-top: 0.62rem;
+  font-size: 0.8rem;
+}
+
+.notes-empty-state {
+  display: grid;
+  gap: 0.72rem;
+  padding-block: 2rem;
+  text-align: center;
+}
+
+.notes-empty-state h3 {
+  margin-bottom: 0.42rem;
+  color: var(--km-text, #e6edf8);
+}
+
+.notes-empty-state p {
+  margin: 0;
+  color: var(--km-text-dim, #9eb2ce);
+}
+
+.notes-tab-footer {
+  margin-bottom: max(0px, calc(var(--notes-tab-footer-offset) - 1px));
+  padding-bottom: 0;
+  background: transparent;
+  --border-width: 0;
+  --border-color: transparent;
+  box-shadow: none;
+}
+
+.notes-tab-footer-bar {
+  --background: var(--notes-tab-footer-surface);
+  --border-color: transparent;
+  --min-height: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  padding: 0.28rem 0.8rem 0.12rem;
+  box-shadow: none;
+  backdrop-filter: blur(18px);
+}
+
+.notes-composer {
+  width: min(100%, 42rem);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.5rem;
+  padding: 0.46rem 0.56rem 0.46rem 0.82rem;
+  border-radius: 1rem;
+  background: linear-gradient(165deg, rgba(15, 27, 47, 0.88), rgba(9, 17, 31, 0.9));
+  border: 1px solid rgba(151, 181, 227, 0.16);
+  box-shadow: 0 10px 22px rgba(5, 10, 22, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+}
+
+.notes-composer ion-textarea {
+  --padding-top: 0.15rem;
+  --padding-bottom: 0.15rem;
+  --padding-start: 0;
+  --padding-end: 0;
+  --color: var(--km-text, #e6edf8);
+  --placeholder-color: var(--km-text-dim, #9eb2ce);
+  max-height: 9rem;
+}
+
+.notes-composer ion-button {
+  margin: 0;
+}

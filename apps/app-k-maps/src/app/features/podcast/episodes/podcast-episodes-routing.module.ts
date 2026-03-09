@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PodcastEpisodePage } from './podcast-episode.page';
-import { PodcastEpisodesPage } from './podcast-episodes.page';
-import { PodcastSegmentEditorPage } from './podcast-segment-editor.page';
+import { PodcastEpisodePage } from './podcast-episode/podcast-episode.page';
+import { PodcastEpisodesPage } from './podcast-episodes/podcast-episodes.page';
+import { PodcastSegmentEditorPage } from './podcast-segment-editor/podcast-segment-editor.page';
 
 const routes: Routes = [
   {

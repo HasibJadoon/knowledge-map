@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { computePreview, computeTitleFromMarkdown } from '../../../../notes/notes.models';
+import { computePreview, computeTitleFromMarkdown } from '../../../../notes/models/notes.models';
 import { QuranSurahNotesVerse, QuranSurahTargetNote } from '../../models/quran-surah-notes.model';
 
 @Component({

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
 import { ArabicLexiconPageRoutingModule } from './arabic-lexicon-routing.module';
-import { ArabicLexiconPage } from './arabic-lexicon.page';
+import { ArabicLexiconPage } from './arabic-lexicon/arabic-lexicon.page';
 
 @NgModule({
   imports: [CommonModule, IonicModule, ArabicLexiconPageRoutingModule],

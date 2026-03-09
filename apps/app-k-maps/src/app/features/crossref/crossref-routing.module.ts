@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CrossrefPage } from './crossref.page';
+import { CrossrefPage } from './pages/crossref/crossref.page';
 
 const routes: Routes = [
   {
