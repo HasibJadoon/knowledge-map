@@ -1,0 +1,44 @@
+:host {
+  display: block;
+}
+
+.kmaps-unit-workspace-tabs {
+  --km-panel-padding: 0.38rem;
+  padding: 0.38rem;
+}
+
+.kmaps-unit-workspace-tabs__segment {
+  margin: 0;
+  padding: 0.18rem;
+  background: rgba(8, 15, 28, 0.74);
+  border: 1px solid rgba(145, 176, 224, 0.14);
+  border-radius: 1rem;
+}
+
+.kmaps-unit-workspace-tabs__segment ion-segment-button {
+  --color: rgba(162, 195, 232, 0.74);
+  --color-checked: #8ee9ff;
+  --background-checked: rgba(74, 131, 230, 0.22);
+  --indicator-color: transparent;
+  min-width: 5rem;
+  min-height: 3.15rem;
+  border-radius: 0.82rem;
+}
+
+.kmaps-unit-workspace-tabs__segment ion-segment-button::part(indicator-background) {
+  border-radius: 0.82rem;
+  background: linear-gradient(135deg, rgba(64, 120, 220, 0.28) 0%, rgba(104, 209, 255, 0.22) 100%);
+  box-shadow: 0 0 18px rgba(104, 209, 255, 0.12);
+}
+
+.kmaps-unit-workspace-tabs__segment ion-icon {
+  margin-bottom: 0.18rem;
+  font-size: 1rem;
+  filter: drop-shadow(0 0 9px rgba(98, 197, 255, 0.22));
+}
+
+.kmaps-unit-workspace-tabs__segment ion-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}

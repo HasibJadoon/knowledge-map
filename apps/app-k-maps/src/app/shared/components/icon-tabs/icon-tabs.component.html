@@ -3,11 +3,14 @@
     class="app-icon-tab-button"
     *ngFor="let tab of tabs"
     [tab]="tab.key"
+    [class.tab-selected]="activeKey === tab.key"
     [selected]="manual ? activeKey === tab.key : undefined"
+    [attr.aria-selected]="activeKey === tab.key"
     [attr.aria-label]="tab.label"
     [title]="tab.label"
     (click)="onSelect(tab.key, $event)"
   >
     <ion-icon [icon]="tab.icon" aria-hidden="true"></ion-icon>
+    <ion-label *ngIf="showLabels">{{ tab.label }}</ion-label>
   </ion-tab-button>
 </ion-tab-bar>

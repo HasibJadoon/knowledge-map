@@ -1,0 +1,40 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-button class="study-back-button" fill="clear" (click)="back()" aria-label="Back">
+        <ion-icon [icon]="icons.arrowBackOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="planner-toolbar-title">
+      <span>{{ toolbarHeading }}</span>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/dashboard" routerDirection="root" aria-label="Home">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" routerLink="/settings" routerDirection="forward" aria-label="Settings">
+        <ion-icon name="settings-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="study-toolbar study-toolbar--search" *ngIf="hasToolbarSearch">
+    <ion-searchbar
+      [value]="toolbarSearchQuery"
+      debounce="300"
+      [placeholder]="toolbarSearchPlaceholder"
+      show-clear-button="focus"
+      (ionInput)="onToolbarSearchInput($event.detail.value)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-router-outlet></ion-router-outlet>
+
+<ion-footer class="planner-tabs-footer">
+  <app-icon-tabs
+    [tabs]="tabs"
+    [activeKey]="activeTabKey"
+    [manual]="true"
+    (tabSelected)="onTabSelected($event)"
+  ></app-icon-tabs>
+</ion-footer>

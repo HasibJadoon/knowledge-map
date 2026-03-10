@@ -1,0 +1,69 @@
+<app-kmaps-workflow-shell
+  title="Library"
+  [showHeader]="true"
+  [showBackButton]="true"
+  [showSearch]="true"
+  [searchValue]="searchQuery()"
+  searchPlaceholder="Search titles, creators, or formats"
+  [showMenuButton]="false"
+  [showHomeButton]="true"
+  backHref="/dashboard"
+  (searchChange)="onSearchChange($event)"
+>
+  <section class="library-page__list-surface" *ngIf="visibleEntries().length; else emptyLibrary">
+    <ion-list class="library-page__list" lines="none">
+      <ion-item
+        *ngFor="let entry of visibleEntries(); trackBy: trackEntry; let isFirst = first"
+        class="library-page__item"
+        lines="none"
+        button
+        detail="false"
+        (click)="openSource(entry.source.id)"
+      >
+        <div class="library-page__row" [class.library-page__row--first]="isFirst">
+          <div class="library-page__cover" [attr.data-type]="entry.source.sourceType" aria-hidden="true">
+            <ion-icon [name]="entry.iconName"></ion-icon>
+          </div>
+
+          <div class="library-page__main">
+            <div class="library-page__head">
+              <div class="library-page__copy">
+                <h2>{{ entry.source.title }}</h2>
+                <p class="library-page__primary">{{ entry.primaryMeta }}</p>
+              </div>
+
+              <div class="library-page__head-actions">
+                <button
+                  *ngIf="entry.peopleSummary as peopleSummary"
+                  type="button"
+                  class="library-page__meta-trigger"
+                  [class.library-page__meta-trigger--icon-only]="!peopleSummary.moreLabel"
+                  [attr.aria-label]="peopleSummary.ariaLabel"
+                  (click)="openSourceMetadata($event, entry.source.id)"
+                >
+                  <span class="library-page__avatar">{{ peopleSummary.initials }}</span>
+                  <span class="library-page__meta-count" *ngIf="peopleSummary.moreLabel">{{ peopleSummary.moreLabel }}</span>
+                </button>
+
+                <ion-icon class="library-page__chevron" name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+              </div>
+            </div>
+
+            <div class="library-page__foot">
+              <p class="library-page__secondary">{{ entry.secondaryMeta }}</p>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </section>
+
+  <ng-template #emptyLibrary>
+    <app-kmaps-empty-state-card
+      [title]="emptyTitle()"
+      [message]="emptyMessage()"
+      actionLabel="Add source"
+      (actionSelected)="openNewSource()"
+    ></app-kmaps-empty-state-card>
+  </ng-template>
+</app-kmaps-workflow-shell>

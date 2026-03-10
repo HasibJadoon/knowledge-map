@@ -1,0 +1,12 @@
+<div class="kmaps-action-strip">
+  <ion-button
+    *ngFor="let action of actions; trackBy: trackAction"
+    [fill]="action.fill || 'outline'"
+    [disabled]="action.disabled"
+    class="kmaps-action-strip__button"
+    (click)="actionSelected.emit(action.key)"
+  >
+    <ion-icon *ngIf="action.icon" [name]="action.icon" slot="start"></ion-icon>
+    {{ action.label }}
+  </ion-button>
+</div>

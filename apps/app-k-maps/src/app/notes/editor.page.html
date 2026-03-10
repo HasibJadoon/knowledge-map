@@ -1,0 +1,112 @@
+<ion-header class="notes-editor-head">
+  <ion-toolbar class="notes-editor-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/notes/draft"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{ title }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button class="notes-editor-attach" fill="clear" (click)="openAttachModal()" [disabled]="loading()" aria-label="Attach">
+        <ion-icon slot="icon-only" name="attach-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="save-toolbar notes-editor-meta-toolbar">
+    <div class="editor-toolbar-meta">
+      <ion-note class="save-state">{{ saveLabel }}</ion-note>
+      @if (note(); as activeNote) {
+        <div class="editor-status-tabs-shell">
+          <app-icon-tabs
+            class="editor-status-tabs"
+            [tabs]="statusTabs"
+            [activeKey]="activeNote.status"
+            [manual]="true"
+            (tabSelected)="onStatusTabSelected($event)"
+          ></app-icon-tabs>
+        </div>
+      }
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="editor-content">
+  @if (loading()) {
+    <div class="editor-shell ion-padding">
+      <section class="editor-panel editor-panel--loading">
+        <ion-skeleton-text animated style="width: 38%; height: 1.1rem"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 2rem"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 2rem"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 92%; height: 2rem"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 70%; height: 2rem"></ion-skeleton-text>
+      </section>
+    </div>
+  } @else {
+    <div class="editor-shell ion-padding">
+      <div class="textarea-wrap editor-body-wrap">
+        <ion-textarea
+          [formControl]="bodyControl"
+          class="editor-textarea"
+          placeholder="Start writing in Markdown..."
+          [autoGrow]="false"
+          spellcheck="true"
+          autocapitalize="sentences"
+        ></ion-textarea>
+      </div>
+
+      @if (noteLinks().length > 0) {
+        <section class="editor-panel">
+          <div class="editor-panel__copy">
+            <p class="editor-panel__eyebrow">Attached Context</p>
+            <p class="editor-panel__meta">Links connected to this note.</p>
+          </div>
+
+          <div class="links-row">
+            @for (link of noteLinks(); track trackLink($index, link)) {
+              <ion-chip outline="true" class="link-chip">
+                <ion-icon [name]="iconFor(link.target_type)"></ion-icon>
+                <ion-label>{{ link.ref || link.target_id }}</ion-label>
+                <ion-icon
+                  class="chip-close"
+                  name="close-circle-outline"
+                  (click)="removeLink(link)"
+                ></ion-icon>
+              </ion-chip>
+            }
+          </div>
+        </section>
+      }
+
+      <section class="editor-panel comments-wrap">
+        <div class="comments-head">
+          <div class="editor-panel__copy">
+            <p class="editor-panel__eyebrow">Comments</p>
+            <p class="editor-panel__meta">Discussion stays with this note.</p>
+          </div>
+          <ion-button fill="clear" size="small" (click)="refreshComments()" [disabled]="commentsLoading()">
+            Refresh
+          </ion-button>
+        </div>
+
+        @if (commentsLoading()) {
+          <p class="comments-state">Loading comments...</p>
+        } @else if (comments().length > 0) {
+          <div class="comments-thread">
+            @for (comment of comments(); track trackComment($index, comment)) {
+              <article class="comments-message" [class.comments-message--own]="isOwnComment(comment)">
+                <div class="comments-avatar" aria-hidden="true">{{ commentInitial(comment) }}</div>
+                <div class="comments-bubble">
+                  <p class="comment-body">{{ comment.body_md }}</p>
+                  <p class="comment-time">{{ comment.created_at | date: 'MMM d, h:mm a' }}</p>
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <p class="comments-state">No comments yet.</p>
+        }
+      </section>
+    </div>
+  }
+</ion-content>

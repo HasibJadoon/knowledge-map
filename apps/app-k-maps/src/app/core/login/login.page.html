@@ -1,0 +1,46 @@
+<ion-content fullscreen class="login-page">
+  <div class="login-wrap">
+    <div class="title-block">
+      <h1>Login</h1>
+      <p>Sign in to your account</p>
+    </div>
+
+    <div class="error-banner" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <ion-card class="login-card">
+      <ion-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <ion-item class="input-item" lines="none">
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-input
+              type="email"
+              placeholder="Email"
+              formControlName="email"
+              autocomplete="email"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item class="input-item" lines="none">
+            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+            <ion-input
+              type="password"
+              placeholder="Password"
+              formControlName="password"
+              autocomplete="current-password"
+            ></ion-input>
+          </ion-item>
+
+          <ion-button
+            expand="block"
+            type="submit"
+            class="login-button"
+            [disabled]="loading"
+          >
+            <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+            <span *ngIf="!loading">Login</span>
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

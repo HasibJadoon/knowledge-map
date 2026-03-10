@@ -1,0 +1,28 @@
+<ion-header translucent="true">
+  <ion-toolbar class="dashboard-toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="dashboard-toolbar dashboard-toolbar--search">
+    <div class="dashboard-toolbar-search-row">
+      <ion-searchbar
+        class="km-searchbar dashboard-toolbar-searchbar"
+        [value]="query()"
+        placeholder="Search menu"
+        show-clear-button="focus"
+        [debounce]="0"
+        (ionInput)="onSearchInput($event.detail.value)"
+      ></ion-searchbar>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-page">
+  <div class="dashboard-shell">
+    <p class="dashboard-search-summary">{{ searchSummary() }}</p>
+
+    <app-dashboard-card-grid [cards]="cards()" [emptyText]="emptyText()"></app-dashboard-card-grid>
+  </div>
+</ion-content>

@@ -1,0 +1,13 @@
+:host {
+  display: inline-flex;
+}
+
+.note-kind-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.55rem;
+  padding: 0.16rem 0.52rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}

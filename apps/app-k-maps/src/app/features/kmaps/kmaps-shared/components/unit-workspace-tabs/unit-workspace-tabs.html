@@ -1,0 +1,14 @@
+<section class="km-panel km-panel--segment kmaps-unit-workspace-tabs">
+  <ion-segment
+    class="km-status-segment kmaps-unit-workspace-tabs__segment"
+    mode="md"
+    scrollable="true"
+    [value]="activeKey"
+    (ionChange)="onTabChanged($event.detail.value)"
+  >
+    <ion-segment-button *ngFor="let tab of tabs" [value]="tab.key">
+      <ion-icon [name]="tab.icon"></ion-icon>
+      <ion-label>{{ tabLabel(tab) }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</section>

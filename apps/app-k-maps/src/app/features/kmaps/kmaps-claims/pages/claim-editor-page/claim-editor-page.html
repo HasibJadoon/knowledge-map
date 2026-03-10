@@ -1,0 +1,44 @@
+<app-kmaps-workflow-shell
+  title="Convert Into Claim"
+  [subtitle]="unit()?.locatorLabel || ''"
+  [showBackButton]="true"
+  [backHref]="unitId() ? '/worldview/sources/' + sourceId() + '/units/' + unitId() : '/worldview/library'"
+  [showHomeButton]="false"
+  [showFooter]="true"
+>
+  <app-kmaps-unit-workspace-tabs *ngIf="sourceId() && unitId()" [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-workspace-tabs>
+
+  <section class="km-panel claim-editor-page__note-card" *ngIf="primaryNote() as note">
+    <div class="claim-editor-page__note-head">
+      <div class="claim-editor-page__note-kind"></div>
+      <div class="claim-editor-page__note-copy">
+        <h2>{{ note.title || noteKindLabel(note) }}</h2>
+        <p>{{ note.locator }}</p>
+      </div>
+      <ion-icon name="link-outline"></ion-icon>
+    </div>
+
+    <blockquote class="km-quote-block" *ngIf="note.excerptText">{{ note.excerptText }}</blockquote>
+    <p class="claim-editor-page__note-body">{{ note.bodyMd }}</p>
+  </section>
+
+  <form class="km-panel claim-editor-page__editor" [formGroup]="form">
+    <ion-item lines="none" class="claim-editor-page__field claim-editor-page__field--body">
+      <ion-textarea
+        formControlName="claimText"
+        autoGrow="true"
+        rows="7"
+        placeholder="Distill the note cluster into one clear claim."
+      ></ion-textarea>
+    </ion-item>
+  </form>
+
+  <div class="claim-editor-page__actions">
+    <ion-button fill="outline" (click)="openContextConcepts()">Link Concept</ion-button>
+    <ion-button fill="outline" (click)="openContextDistill()">Queue Distill</ion-button>
+  </div>
+
+  <div kmapsShellFooter class="claim-editor-page__footer">
+    <ion-button class="km-primary-btn" (click)="save()">Save Note</ion-button>
+  </div>
+</app-kmaps-workflow-shell>

@@ -1,0 +1,14 @@
+<section class="km-panel kmaps-empty-state">
+  <div class="kmaps-empty-state__icon">
+    <ion-icon [name]="icon"></ion-icon>
+  </div>
+
+  <div class="kmaps-empty-state__copy">
+    <h3>{{ title }}</h3>
+    <p>{{ message }}</p>
+  </div>
+
+  <ion-button *ngIf="actionLabel" fill="outline" (click)="actionSelected.emit()">
+    {{ actionLabel }}
+  </ion-button>
+</section>

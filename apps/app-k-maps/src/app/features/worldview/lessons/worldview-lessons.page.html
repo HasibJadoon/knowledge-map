@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Worldview Lessons</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" routerLink="/dashboard" routerDirection="root" aria-label="Dashboard">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Worldview Entries</ion-card-title>
+      <ion-card-subtitle>Capture, edit, and link worldview sources.</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-searchbar
+        placeholder="Search title, creator, or summary"
+        (ionInput)="onSearchChange($event)"
+      ></ion-searchbar>
+
+      <div class="filters">
+        <ion-chip
+          *ngFor="let kind of kinds"
+          [outline]="activeKind !== kind"
+          (click)="setKind(kind)"
+        >
+          <ion-label>{{ kind }}</ion-label>
+        </ion-chip>
+      </div>
+
+      <ion-button expand="block" class="ion-margin-top" (click)="openCapture()">
+        Log Source
+      </ion-button>
+
+      <ion-list lines="none" class="ion-margin-top">
+        <ion-item
+          *ngFor="let row of rows"
+          button="true"
+          detail="true"
+          (click)="openEntry(row.id)"
+        >
+          <ion-label>
+            <h2>{{ row.source.title }}</h2>
+            <p>{{ row.source.creator }}</p>
+            <p class="ion-text-wrap">{{ row.summary.one_line }}</p>
+          </ion-label>
+          <ion-badge slot="end" color="medium">{{ row.source.kind }}</ion-badge>
+        </ion-item>
+      </ion-list>
+      <ion-text color="medium" *ngIf="rows.length === 0">
+        <p>No entries yet.</p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

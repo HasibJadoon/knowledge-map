@@ -1,0 +1,52 @@
+<app-kmaps-workflow-shell
+  title="Concept Graph"
+  [subtitle]="currentConcept()?.label || unit()?.title || ''"
+  [showBackButton]="true"
+  [backHref]="unitId() ? '/worldview/sources/' + sourceId() + '/units/' + unitId() : '/worldview/library'"
+  [showHomeButton]="false"
+>
+  <app-kmaps-unit-workspace-tabs *ngIf="sourceId() && unitId()" [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-workspace-tabs>
+
+  <ion-searchbar
+    class="km-searchbar concept-detail-page__search"
+    [value]="conceptQuery()"
+    placeholder="Search concepts..."
+    debounce="150"
+    (ionInput)="updateConceptQuery($event.detail.value)"
+  ></ion-searchbar>
+
+  <section class="concept-detail-page__chip-row" *ngIf="filteredConcepts().length">
+    <button
+      type="button"
+      class="concept-detail-page__chip"
+      *ngFor="let concept of filteredConcepts(); trackBy: trackConcept"
+      [class.concept-detail-page__chip--active]="activeConceptId() === concept.id"
+      (click)="selectConcept(concept.id)"
+    >
+      {{ concept.label }}
+    </button>
+  </section>
+
+  <section class="km-panel concept-detail-page__hero" *ngIf="currentConcept() as concept">
+    <p class="km-panel-kicker">{{ concept.category }}</p>
+    <h1>{{ concept.label }}</h1>
+    <p class="km-panel-subtitle">{{ concept.summary }}</p>
+  </section>
+
+  <section class="concept-detail-page__note-stack" *ngIf="visibleNotes().length; else emptyState">
+    <article class="km-panel concept-detail-page__note-card" *ngFor="let note of visibleNotes(); trackBy: trackNote">
+      <div class="concept-detail-page__note-head">
+        <span>{{ noteLabel(note) }}</span>
+        <ion-icon name="chevron-down-outline"></ion-icon>
+      </div>
+      <h3>{{ note.title || noteLabel(note) }}</h3>
+      <p>{{ note.excerptText || note.bodyMd }}</p>
+    </article>
+  </section>
+
+  <ng-template #emptyState>
+    <section class="km-panel concept-detail-page__empty">
+      No concept-linked notes in this context yet.
+    </section>
+  </ng-template>
+</app-kmaps-workflow-shell>

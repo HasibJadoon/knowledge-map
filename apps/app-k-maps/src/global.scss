@@ -2493,6 +2493,13 @@ app-notes-tab-list .notes-empty-state p {
 :root {
   --km-panel-radius: 1rem;
   --km-panel-padding: 0.9rem;
+  --km-soft-surface: rgba(255, 255, 255, 0.03);
+  --km-soft-border: rgba(145, 176, 224, 0.16);
+  --km-soft-border-strong: rgba(145, 176, 224, 0.24);
+  --km-accent-surface: rgba(var(--app-gold-rgb, 255, 216, 0), 0.09);
+  --km-accent-border: rgba(var(--app-gold-rgb, 255, 216, 0), 0.34);
+  --km-accent-text-soft: rgba(236, 245, 255, 0.88);
+  --km-accent-text: rgba(236, 245, 255, 0.9);
   --km-lane-lesson: #6dc3ff;
   --km-lane-podcast: #f6b25f;
   --km-lane-notes: #80ddb6;
@@ -2517,6 +2524,17 @@ app-notes-tab-list .notes-empty-state p {
   box-shadow: 0 14px 28px rgba(5, 10, 22, 0.34);
   backdrop-filter: blur(6px);
   padding: var(--km-panel-padding);
+}
+
+.km-subcard {
+  border: 1px solid var(--km-soft-border);
+  border-radius: 1rem;
+  background: var(--km-soft-surface);
+}
+
+.km-subcard--active {
+  border-color: var(--km-accent-border);
+  background: var(--km-accent-surface);
 }
 
 .km-panel--hero {
@@ -2544,6 +2562,15 @@ app-notes-tab-list .notes-empty-state p {
   margin: 0.42rem 0 0;
   color: var(--km-text-dim);
   font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.km-quote-block {
+  margin: 0;
+  padding-inline-start: 0.72rem;
+  border-inline-start: 2px solid rgba(var(--app-gold-rgb, 255, 216, 0), 0.36);
+  color: var(--km-accent-text);
+  font-size: 0.83rem;
   line-height: 1.45;
 }
 
@@ -2944,6 +2971,33 @@ app-notes-tab-list .notes-empty-state p {
   --app-icon-tabs-padding: 0.08rem 0 calc(env(safe-area-inset-bottom) * 0.45);
   --app-icon-tabs-min-height: 50px;
   --app-icon-tabs-icon-size: 1.25rem;
+  --app-icon-tabs-radius: 0;
+}
+
+ion-modal.km-source-metadata-modal {
+  --width: min(100%, 44rem);
+  --height: min(88vh, 46rem);
+  --border-radius: 1.5rem 1.5rem 0 0;
+  --box-shadow: 0 -18px 42px rgba(3, 7, 16, 0.52);
+  align-items: flex-end;
+}
+
+ion-modal.km-source-metadata-modal::part(content) {
+  overflow: hidden;
+  background: transparent;
+}
+
+ion-modal.km-note-workspace-modal {
+  --width: 100%;
+  --height: 100%;
+  --border-radius: 0;
+  --box-shadow: none;
+  align-items: stretch;
+}
+
+ion-modal.km-note-workspace-modal::part(content) {
+  overflow: hidden;
+  background: transparent;
 }
 
 app-icon-tabs .app-icon-tab-bar {
@@ -2952,6 +3006,8 @@ app-icon-tabs .app-icon-tab-bar {
   --color: var(--app-icon-tabs-color);
   --color-selected: var(--app-icon-tabs-selected);
   border-top: 1px solid var(--app-icon-tabs-border-color);
+  border-radius: var(--app-icon-tabs-radius);
+  overflow: hidden;
   padding: var(--app-icon-tabs-padding);
 }
 
@@ -2969,9 +3025,20 @@ app-icon-tabs .app-icon-tab-button ion-icon {
   transition: color 0.2s ease, filter 0.2s ease, transform 0.2s ease;
 }
 
+app-icon-tabs .app-icon-tab-button ion-label {
+  margin-top: 0.14rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
 app-icon-tabs .app-icon-tab-button.tab-selected ion-icon {
   filter: drop-shadow(0 0 10px color-mix(in srgb, var(--app-icon-tabs-selected) 68%, transparent));
   transform: translateY(-1px);
+}
+
+app-icon-tabs .app-icon-tab-button.tab-selected ion-label {
+  color: var(--app-icon-tabs-selected);
 }
 
 .editor-comments-footer {

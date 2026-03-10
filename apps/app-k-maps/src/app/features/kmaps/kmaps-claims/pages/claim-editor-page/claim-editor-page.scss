@@ -1,0 +1,84 @@
+:host {
+  display: block;
+}
+
+.claim-editor-page__note-card,
+.claim-editor-page__editor {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.claim-editor-page__note-head {
+  display: flex;
+  align-items: start;
+  gap: 0.65rem;
+}
+
+.claim-editor-page__note-kind {
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 0.28rem;
+  background: rgba(255, 214, 105, 0.9);
+  flex: 0 0 auto;
+}
+
+.claim-editor-page__note-copy {
+  flex: 1 1 auto;
+}
+
+.claim-editor-page__note-copy h2,
+.claim-editor-page__note-copy p,
+.claim-editor-page__note-body {
+  margin: 0;
+}
+
+.claim-editor-page__note-copy h2 {
+  color: #eef6ff;
+  font-size: 1.12rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.claim-editor-page__note-copy p {
+  margin-top: 0.2rem;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.82rem;
+}
+
+.claim-editor-page__note-head ion-icon {
+  color: rgba(184, 206, 236, 0.76);
+  font-size: 1rem;
+}
+
+.claim-editor-page__note-body {
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.claim-editor-page__field {
+  --background: rgba(255, 255, 255, 0.03);
+  --padding-start: 0.8rem;
+  --inner-padding-end: 0.8rem;
+  border: 1px solid rgba(145, 176, 224, 0.14);
+  border-radius: 1rem;
+}
+
+.claim-editor-page__field--body {
+  align-items: start;
+}
+
+.claim-editor-page__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.claim-editor-page__actions ion-button,
+.claim-editor-page__footer ion-button {
+  margin: 0;
+}
+
+.claim-editor-page__footer ion-button {
+  width: 100%;
+}

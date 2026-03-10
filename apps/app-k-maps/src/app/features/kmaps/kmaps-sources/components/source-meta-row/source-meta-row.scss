@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.source-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.source-meta-row__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 1.8rem;
+  padding-inline: 0.52rem;
+}
+
+.source-meta-row__label {
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.68rem;
+}
+
+.source-meta-row__value {
+  color: var(--km-text, #e6edf8);
+  font-size: 0.72rem;
+  font-weight: 600;
+}

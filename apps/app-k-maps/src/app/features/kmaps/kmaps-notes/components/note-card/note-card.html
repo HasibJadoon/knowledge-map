@@ -1,0 +1,24 @@
+<button
+  type="button"
+  class="note-card km-subcard"
+  [class.note-card--selected]="selected"
+  [class.km-subcard--active]="selected"
+  (click)="selectedChange.emit(note.id)"
+>
+  <div class="note-card__head">
+    <div class="note-card__labels">
+      <app-note-kind-chip [kind]="note.noteKind"></app-note-kind-chip>
+      <span class="note-card__locator" *ngIf="note.locator">{{ note.locator }}</span>
+    </div>
+
+    <span class="note-card__select-indicator" *ngIf="selectionMode" aria-hidden="true"></span>
+  </div>
+
+  <h3>{{ heading }}</h3>
+
+  <blockquote class="km-quote-block" *ngIf="note.excerptText">{{ note.excerptText }}</blockquote>
+
+  <p class="note-card__body">{{ previewBody }}</p>
+
+  <p class="note-card__meta">{{ createdLabel }}</p>
+</button>

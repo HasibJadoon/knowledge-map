@@ -1,0 +1,96 @@
+<ion-header class="source-metadata-sheet__header">
+  <div class="source-metadata-sheet__handle" aria-hidden="true"></div>
+
+  <ion-toolbar class="source-metadata-sheet__toolbar">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="close()" aria-label="Close source details">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="source-metadata-sheet__title">
+      <span>{{ source()?.title || 'Source details' }}</span>
+      <small *ngIf="subtitle()">{{ subtitle() }}</small>
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar class="source-metadata-sheet__tabs-toolbar">
+    <ion-segment class="source-metadata-sheet__segment" mode="md" [value]="activeTab()" (ionChange)="setTab($event.detail.value)">
+      <ion-segment-button value="people">
+        <ion-label>People</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="publication">
+        <ion-label>Publication</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="details">
+        <ion-label>Details</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="source-metadata-sheet__content">
+  <ng-container [ngSwitch]="activeTab()">
+    <ion-list class="source-metadata-sheet__list" lines="none" *ngSwitchCase="'people'">
+      <ion-item class="source-metadata-sheet__item" lines="none" *ngFor="let contributor of contributors(); trackBy: contributorTrack">
+        <div slot="start" class="source-metadata-sheet__avatar-wrap">
+          <div class="source-metadata-sheet__avatar">
+            {{ contributorInitials(contributor) }}
+          </div>
+          <span class="source-metadata-sheet__primary-indicator" *ngIf="contributor.isPrimary">
+            <ion-icon name="checkmark-outline" aria-hidden="true"></ion-icon>
+          </span>
+        </div>
+
+        <ion-label>
+          <h3>{{ contributor.person.displayName }}</h3>
+          <p>{{ roleLabel(contributor.role) }}</p>
+          <p *ngIf="contributor.note">{{ contributor.note }}</p>
+        </ion-label>
+
+        <ion-icon slot="end" class="source-metadata-sheet__chevron" name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+      </ion-item>
+
+      <section class="source-metadata-sheet__empty" *ngIf="contributors().length === 0">
+        <h3>No contributors yet</h3>
+        <p>Add authors, editors, or organizations to enrich this source record.</p>
+      </section>
+    </ion-list>
+
+    <ion-list class="source-metadata-sheet__list" lines="none" *ngSwitchCase="'publication'">
+      <ion-item class="source-metadata-sheet__meta-item" lines="none" *ngFor="let item of publicationItems(); trackBy: metaTrack">
+        <ion-label>
+          <p class="source-metadata-sheet__meta-label">{{ item.label }}</p>
+          <h3 class="source-metadata-sheet__meta-value">{{ item.value }}</h3>
+        </ion-label>
+      </ion-item>
+
+      <section class="source-metadata-sheet__empty" *ngIf="publicationItems().length === 0">
+        <h3>No publication metadata</h3>
+        <p>Publisher, year, edition, and other publication fields will appear here.</p>
+      </section>
+    </ion-list>
+
+    <ion-list class="source-metadata-sheet__list" lines="none" *ngSwitchDefault>
+      <ion-item class="source-metadata-sheet__meta-item" lines="none" *ngFor="let item of detailItems(); trackBy: metaTrack">
+        <ion-label>
+          <p class="source-metadata-sheet__meta-label">{{ item.label }}</p>
+          <h3 class="source-metadata-sheet__meta-value">{{ item.value }}</h3>
+        </ion-label>
+      </ion-item>
+
+      <section class="source-metadata-sheet__empty" *ngIf="detailItems().length === 0">
+        <h3>No source details</h3>
+        <p>Descriptive notes, recent locators, and flexible detail fields will appear here.</p>
+      </section>
+    </ion-list>
+  </ng-container>
+</ion-content>
+
+<ion-footer class="source-metadata-sheet__footer">
+  <ion-toolbar>
+    <ion-button expand="block" fill="clear" class="source-metadata-sheet__close-button" (click)="close()">
+      Close
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

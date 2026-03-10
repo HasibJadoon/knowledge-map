@@ -1,0 +1,47 @@
+<ng-container *ngIf="variant === 'featured'; else rowCard">
+  <button
+    type="button"
+    class="source-card"
+    [class.source-card--featured]="true"
+    [class.km-glass]="true"
+    (click)="selected.emit(source.id)"
+  >
+    <div class="source-card__featured-cover" [attr.data-type]="source.sourceType" aria-hidden="true">
+      <span class="source-card__featured-cover-label">{{ coverLabel }}</span>
+      <ion-icon [name]="sourceTypeIcon"></ion-icon>
+    </div>
+
+    <div class="source-card__featured-body">
+      <div class="source-card__featured-head">
+        <div class="source-card__copy">
+          <h3>{{ source.title }}</h3>
+          <p class="source-card__primary-meta">{{ primaryMeta }}</p>
+          <p class="source-card__featured-meta">{{ noteCount }} notes · {{ claimCount }} claims · {{ progressSummary }}</p>
+        </div>
+
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </div>
+
+      <div class="source-card__progress-track" *ngIf="source.progressPercent > 0">
+        <span [style.width.%]="source.progressPercent"></span>
+      </div>
+    </div>
+  </button>
+</ng-container>
+
+<ng-template #rowCard>
+  <ion-item class="source-card source-card--row source-card__item" lines="none" button detail="false" (click)="selected.emit(source.id)">
+    <ion-thumbnail slot="start" class="source-card__cover" aria-hidden="true">
+      <ion-icon [name]="sourceTypeIcon"></ion-icon>
+    </ion-thumbnail>
+
+    <ion-label class="source-card__content">
+      <h3>{{ source.title }}</h3>
+      <p class="source-card__primary-meta">{{ primaryMeta }}</p>
+      <p class="source-card__secondary-meta">{{ secondaryMeta }}</p>
+    </ion-label>
+
+    <ion-badge slot="end" class="source-card__progress" *ngIf="source.progressPercent">{{ source.progressPercent }}%</ion-badge>
+    <ion-icon slot="end" class="source-card__chevron" name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+  </ion-item>
+</ng-template>

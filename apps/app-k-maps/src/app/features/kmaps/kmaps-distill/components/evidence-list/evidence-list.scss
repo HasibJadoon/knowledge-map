@@ -1,0 +1,39 @@
+:host {
+  display: block;
+}
+
+.evidence-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.evidence-list__item {
+  padding: 0.76rem 0.8rem;
+  border-radius: 1rem;
+}
+
+.evidence-list__item h4,
+.evidence-list__item p,
+.evidence-list__item span {
+  margin: 0;
+}
+
+.evidence-list__item h4 {
+  color: var(--km-text, #e6edf8);
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.evidence-list__item p {
+  margin-top: 0.22rem;
+  color: var(--km-accent-text-soft);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.evidence-list__item span {
+  display: block;
+  margin-top: 0.28rem;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.7rem;
+}

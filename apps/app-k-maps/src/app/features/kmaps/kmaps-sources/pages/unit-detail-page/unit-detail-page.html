@@ -1,0 +1,48 @@
+<app-kmaps-workflow-shell
+  [title]="heading().title"
+  [subtitle]="heading().subtitle"
+  [showBackButton]="true"
+  [backHref]="'/worldview/sources/' + sourceId()"
+  [showHomeButton]="false"
+>
+  <ion-button kmapsToolbarEnd fill="clear" aria-label="More actions">
+    <ion-icon name="ellipsis-horizontal"></ion-icon>
+  </ion-button>
+
+  <app-kmaps-unit-workspace-tabs [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-workspace-tabs>
+
+  <section class="km-panel unit-detail-page__progress-panel" *ngIf="source() && unit() as currentUnit">
+    <div class="unit-detail-page__progress-head">
+      <div>
+        <p class="km-panel-kicker">{{ source()?.sourceType }}</p>
+        <p class="unit-detail-page__summary">{{ currentUnit.summary }}</p>
+      </div>
+      <strong>{{ progressLabel() }}</strong>
+    </div>
+
+    <div class="unit-detail-page__progress-copy">
+      <span>Reading Progress</span>
+      <span>{{ lastOpenedLabel() }}</span>
+    </div>
+
+    <ion-progress-bar class="km-progress-bar" [value]="(source()?.progressPercent || 0) / 100"></ion-progress-bar>
+  </section>
+
+  <section class="km-panel unit-detail-page__list-panel">
+    <ion-list class="unit-detail-page__list">
+      <ion-item class="unit-detail-page__count-row" lines="full" *ngFor="let row of noteSummaryRows()">
+        <ion-label>{{ row.label }}</ion-label>
+        <ion-note slot="end">{{ noteCountLabel(row) }}</ion-note>
+      </ion-item>
+
+      <ion-item class="unit-detail-page__note-row" lines="full" *ngFor="let note of recentNotes()">
+        <div slot="start" class="unit-detail-page__swatch" [attr.data-kind]="note.noteKind"></div>
+        <ion-label>
+          <h3>{{ noteLabel(note) }}</h3>
+          <p>{{ note.title || note.bodyMd }}</p>
+        </ion-label>
+        <ion-note slot="end" *ngIf="note.locator">{{ note.locator }}</ion-note>
+      </ion-item>
+    </ion-list>
+  </section>
+</app-kmaps-workflow-shell>

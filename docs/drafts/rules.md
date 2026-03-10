@@ -90,7 +90,6 @@ All phrases are **dependent** and live **inside a sentence**.
 # Arabic Valency — Minimal
 
 - Valency = verb requirement
-- Lives in `ar_u_valency`
 - Links **verb ⇄ preposition**
 
 ## Types

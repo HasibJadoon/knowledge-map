@@ -1,0 +1,44 @@
+:host {
+  display: block;
+}
+
+.kmaps-empty-state {
+  display: grid;
+  gap: 0.72rem;
+  justify-items: start;
+}
+
+.kmaps-empty-state__icon {
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(145, 176, 224, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--app-heading-blue, #9ef0ff);
+}
+
+.kmaps-empty-state__icon ion-icon {
+  font-size: 1.2rem;
+}
+
+.kmaps-empty-state__copy h3,
+.kmaps-empty-state__copy p {
+  margin: 0;
+}
+
+.kmaps-empty-state__copy h3 {
+  color: var(--km-text, #e6edf8);
+  font-size: 0.98rem;
+  font-weight: 650;
+}
+
+.kmaps-empty-state__copy p {
+  margin-top: 0.24rem;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+

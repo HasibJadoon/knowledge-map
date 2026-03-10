@@ -67,7 +67,7 @@ export class DashboardPage {
       icon: globeOutline,
       tone: 'mint',
       items: [
-        { label: 'Lessons', icon: globeOutline, route: ['/worldview', 'lessons'] },
+        { label: 'Lessons', icon: globeOutline, route: ['/worldview', 'library'] },
       ],
     },
     {
