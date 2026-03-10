@@ -59,31 +59,41 @@
 
   <div class="source-detail-page__list-surface" *ngIf="outlineGroups().length; else noUnits">
     <section class="source-detail-page__group" *ngFor="let group of outlineGroups(); trackBy: trackGroup">
-      <button
-        type="button"
+      <div
         class="source-detail-page__unit"
         [class.source-detail-page__unit--expanded]="group.isExpanded"
         [class.source-detail-page__unit--expandable]="group.isExpandable"
-        (click)="onOutlineSelected(group)"
       >
-        <div class="source-detail-page__unit-copy">
-          <h2>{{ group.unit.title }}</h2>
-          <p class="source-detail-page__unit-meta" *ngIf="searchQuery().trim() && group.unit.locatorLabel">
-            {{ group.unit.locatorLabel }}
-          </p>
-        </div>
+        <button type="button" class="source-detail-page__unit-main" (click)="openUnitNotes(group.unit.id)">
+          <div class="source-detail-page__unit-copy">
+            <h2>{{ group.unit.title }}</h2>
+            <p class="source-detail-page__unit-meta" *ngIf="searchQuery().trim() && group.unit.locatorLabel">
+              {{ group.unit.locatorLabel }}
+            </p>
+          </div>
+        </button>
 
-        <div class="source-detail-page__unit-trailing">
+        <button
+          *ngIf="group.isExpandable"
+          type="button"
+          class="source-detail-page__unit-toggle"
+          (click)="toggleOutlineGroup($event, group.unit.id)"
+          [attr.aria-label]="group.isExpanded ? 'Collapse chapter sections' : 'Expand chapter sections'"
+        >
+          <ion-icon [name]="chapterChevron(group)" aria-hidden="true"></ion-icon>
+        </button>
+
+        <div class="source-detail-page__unit-trailing" *ngIf="!group.isExpandable">
           <ion-icon [name]="chapterChevron(group)" aria-hidden="true"></ion-icon>
         </div>
-      </button>
+      </div>
 
       <div class="source-detail-page__section-list" *ngIf="group.visibleChildren.length">
         <button
           type="button"
           class="source-detail-page__section"
           *ngFor="let child of group.visibleChildren; trackBy: trackUnit"
-          (click)="openUnit(child.id)"
+          (click)="openUnitNotes(child.id)"
         >
           <span class="source-detail-page__section-mark" aria-hidden="true"></span>
 

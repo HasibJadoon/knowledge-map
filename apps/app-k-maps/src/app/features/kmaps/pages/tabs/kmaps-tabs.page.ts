@@ -14,6 +14,9 @@ type KmapsBottomTabKey = 'library' | 'sources' | 'distill' | 'planner';
   imports: [IonicModule, AppIconTabsComponent],
   templateUrl: './kmaps-tabs.page.html',
   styleUrl: './kmaps-tabs.page.scss',
+  host: {
+    'class': 'ion-page kmaps-tabs-page',
+  },
 })
 export class KmapsTabsPage {
   private readonly router = inject(Router);

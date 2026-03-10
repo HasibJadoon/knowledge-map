@@ -76,11 +76,30 @@ export class NoteWorkspaceModalComponent {
   noteKindLabel(kind: WorkspaceNoteKind): string {
     switch (kind) {
       case 'observation':
-        return 'Comment';
+        return 'C';
       case 'claim_seed':
         return 'Claim Seed';
       default:
-        return kind.charAt(0).toUpperCase() + kind.slice(1);
+        return kind.charAt(0).toUpperCase();
+    }
+  }
+
+  noteKindIcon(kind: WorkspaceNoteKind): string {
+    switch (kind) {
+      case 'question':
+        return 'help-circle-outline';
+      case 'reflection':
+        return 'chatbox-ellipses-outline';
+      case 'quote':
+        return 'bookmark-outline';
+      case 'insight':
+        return 'bulb-outline';
+      case 'observation':
+        return 'chatbubble-outline';
+      case 'claim_seed':
+        return 'flash-outline';
+      default:
+        return 'document-text-outline';
     }
   }
 

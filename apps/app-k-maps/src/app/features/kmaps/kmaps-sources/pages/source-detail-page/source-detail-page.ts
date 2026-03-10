@@ -175,13 +175,14 @@ export class SourceDetailPage {
     void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', unitId]);
   }
 
-  onOutlineSelected(group: SourceOutlineGroup): void {
-    if (group.isExpandable && !this.searchQuery().trim()) {
-      this.toggleChapter(group.unit.id);
-      return;
-    }
+  openUnitNotes(unitId: string): void {
+    void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', unitId, 'notes']);
+  }
 
-    this.openUnit(group.unit.id);
+  toggleOutlineGroup(event: Event, unitId: string): void {
+    event.stopPropagation();
+    event.preventDefault();
+    this.toggleChapter(unitId);
   }
 
   openCaptureDraft(): void {

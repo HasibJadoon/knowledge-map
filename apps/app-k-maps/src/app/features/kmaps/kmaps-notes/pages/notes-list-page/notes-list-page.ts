@@ -6,6 +6,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 
 import { KmapsEmptyStateCardComponent } from '../../../kmaps-shared/components/empty-state-card/empty-state-card';
 import { KmapsWorkflowShellComponent } from '../../../kmaps-shared/components/workflow-shell/workflow-shell';
+import { KmapsUnitWorkspaceTabsComponent } from '../../../kmaps-shared/components/unit-workspace-tabs/unit-workspace-tabs';
 import { KmapsNote, KmapsNoteKind } from '../../../kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
 import { NoteWorkspaceModalComponent } from '../../components/note-workspace-modal/note-workspace-modal';
@@ -19,6 +20,7 @@ type WorkspaceNoteKind = Extract<KmapsNoteKind, 'quote' | 'reflection' | 'questi
     CommonModule,
     IonicModule,
     KmapsWorkflowShellComponent,
+    KmapsUnitWorkspaceTabsComponent,
     KmapsEmptyStateCardComponent,
   ],
   templateUrl: './notes-list-page.html',
@@ -36,20 +38,56 @@ export class NotesListPage {
   readonly source = computed(() => this.workflow.getSource(this.sourceId()));
   readonly unit = computed(() => this.workflow.getUnit(this.unitId()));
   readonly parentUnit = computed(() => this.workflow.getUnit(this.unit()?.parentUnitId || ''));
+  readonly childUnits = computed(() =>
+    this.workflow.getUnitsForSource(this.sourceId()).filter((unit) => unit.parentUnitId === this.unitId()),
+  );
+  readonly hasParentUnit = computed(() => !!this.parentUnit()?.id);
   readonly heading = computed(() => splitUnitHeading(this.unit()?.title));
   readonly parentHeading = computed(() => splitUnitHeading(this.parentUnit()?.title));
+  readonly scopedNotes = computed(() => this.workflow.getNotesForUnitScope(this.sourceId(), this.unitId()));
+  readonly scopeLabel = computed(() => {
+    const unitType = this.unit()?.unitType;
+    return unitType === 'chapter' ? 'chapter' : 'section';
+  });
   readonly sectionNotes = computed(() =>
-    this.workflow
-      .getNotesForContext(this.sourceId(), this.unitId() || null)
-      .filter((note) => isWorkspaceNote(note.noteKind))
-      .sort(compareByKindThenDate),
+    this.scopedNotes().filter((note) => isWorkspaceNote(note.noteKind)).sort(compareByKindThenDate),
   );
-  readonly highlightCount = computed(
-    () => this.workflow.getNotesForContext(this.sourceId(), this.unitId() || null).filter((note) => note.noteKind === 'highlight').length,
-  );
+  readonly highlightCount = computed(() => this.scopedNotes().filter((note) => note.noteKind === 'highlight').length);
   readonly claimCount = computed(() => this.workflow.getClaimsForContext(this.sourceId(), this.unitId() || null).length);
-  readonly toolbarTitle = computed(() => this.parentHeading().subtitle || this.parentHeading().title || 'Section');
-  readonly toolbarSubtitle = computed(() => this.parentHeading().subtitle ? this.parentHeading().title : '');
+  readonly toolbarTitle = computed(() => {
+    if (this.hasParentUnit()) {
+      return this.parentHeading().subtitle || this.parentHeading().title || this.heading().subtitle || this.heading().title || 'Section';
+    }
+
+    return this.heading().subtitle || this.heading().title || 'Notes';
+  });
+  readonly toolbarSubtitle = computed(() => {
+    if (this.hasParentUnit()) {
+      return this.parentHeading().subtitle ? this.parentHeading().title : '';
+    }
+
+    return this.heading().subtitle ? this.heading().title : this.source()?.title || '';
+  });
+  readonly backHref = computed(() => {
+    if (this.hasParentUnit()) {
+      return `/worldview/sources/${this.sourceId()}/units/${this.parentUnit()!.id}/notes`;
+    }
+
+    return `/worldview/sources/${this.sourceId()}`;
+  });
+  readonly contextKicker = computed(() => this.heading().subtitle || this.source()?.title || '');
+  readonly contextMessage = computed(
+    () => this.unit()?.summary || `Notes and insights anchored to this ${this.scopeLabel()} workspace.`,
+  );
+  readonly emptyTitle = computed(() => `No notes in this ${this.scopeLabel()}`);
+  readonly emptyMessage = computed(() => {
+    const base = `Create the first note for this ${this.scopeLabel()} workspace.`;
+    if (this.childUnits().length) {
+      return `${base} Notes from child sections also show here.`;
+    }
+
+    return `${base} Highlights stay separate from notes here.`;
+  });
 
   constructor() {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((paramMap) => {
@@ -93,7 +131,7 @@ export class NotesListPage {
       return;
     }
 
-    void this.router.navigate(['/worldview', 'sources', this.sourceId(), 'units', this.parentUnit()!.id]);
+    void this.router.navigate(['/worldview', 'sources', this.sourceId(), 'units', this.parentUnit()!.id, 'notes']);
   }
 
   noteKindLabel(kind: KmapsNoteKind): string {
@@ -121,7 +159,7 @@ export class NotesListPage {
 function splitUnitHeading(title: string | null | undefined): { title: string; subtitle: string } {
   const value = (title || '').trim();
   if (!value) {
-    return { title: 'Section workspace', subtitle: '' };
+    return { title: 'Notes', subtitle: '' };
   }
 
   const [left, ...rest] = value

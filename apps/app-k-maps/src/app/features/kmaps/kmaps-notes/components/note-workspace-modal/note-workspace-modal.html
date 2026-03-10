@@ -31,7 +31,8 @@
           [class.note-workspace-modal__kind-chip--active]="form.controls.noteKind.value === kind"
           (click)="selectKind(kind)"
         >
-          {{ noteKindLabel(kind) }}
+          <ion-icon [name]="noteKindIcon(kind)" aria-hidden="true"></ion-icon>
+          <span>{{ noteKindLabel(kind) }}</span>
         </button>
       </div>
     </section>

@@ -2,18 +2,20 @@
   [title]="toolbarTitle()"
   [subtitle]="toolbarSubtitle()"
   [showBackButton]="true"
-  [backHref]="unitId() ? '/worldview/sources/' + sourceId() + '/units/' + unitId() : '/worldview/sources/' + sourceId()"
+  [backHref]="backHref()"
   [showHomeButton]="false"
 >
-  <button type="button" class="notes-list-page__parent-link" *ngIf="parentHeading().title" (click)="openParentChapter()">
+  <app-kmaps-unit-workspace-tabs [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-workspace-tabs>
+
+  <button type="button" class="notes-list-page__parent-link" *ngIf="hasParentUnit()" (click)="openParentChapter()">
     <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
     <span>{{ parentHeading().subtitle ? parentHeading().subtitle + ' · ' : '' }}{{ parentHeading().title }}</span>
   </button>
 
   <section class="km-panel km-panel--hero notes-list-page__context" *ngIf="unit()">
-    <p class="km-panel-kicker">{{ heading().subtitle || source()?.title }}</p>
+    <p class="km-panel-kicker">{{ contextKicker() }}</p>
     <h1>{{ heading().title }}</h1>
-    <p class="km-panel-subtitle">{{ unit()?.summary || 'Notes and insights anchored to this section.' }}</p>
+    <p class="km-panel-subtitle">{{ contextMessage() }}</p>
   </section>
 
   <section class="notes-list-page__metric-row">
@@ -66,8 +68,8 @@
 
   <ng-template #emptyNotes>
     <app-kmaps-empty-state-card
-      title="No notes in this section"
-      message="Create the first note for this section workspace. Highlights stay separate from notes here."
+      [title]="emptyTitle()"
+      [message]="emptyMessage()"
       actionLabel="Create note"
       (actionSelected)="openCreateNoteModal()"
     ></app-kmaps-empty-state-card>

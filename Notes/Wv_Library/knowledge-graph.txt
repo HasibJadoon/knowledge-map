@@ -1,0 +1,25 @@
+3️⃣ Knowledge Graph
+
+Concepts and claims form your graph layer.
+
+Example structure:
+
+Concept
+Modern State
+       │
+       │ supported by
+       │
+Claim
+Modern state incompatible
+with juristic ethics
+       │
+       │ derived from
+       │
+Note
+Reflection on sovereignty
+       │
+       │ based on
+       │
+Highlight
+“The modern state is structurally
+incompatible with non-sovereignty.”
