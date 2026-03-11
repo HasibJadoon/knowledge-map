@@ -1,0 +1,65 @@
+:host {
+  display: block;
+}
+
+.reader-page__article,
+.reader-page__footer-card {
+  display: grid;
+  gap: 0.68rem;
+}
+
+.reader-page__locator,
+.reader-page__footer-locator {
+  margin: 0;
+}
+
+.reader-page__locator,
+.reader-page__footer-locator {
+  color: var(--km-accent-text-soft);
+  font-size: 0.75rem;
+}
+
+.reader-page__paragraph {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.8rem;
+  padding: 0.78rem 0;
+  border: 0;
+  border-bottom: 1px solid rgba(145, 176, 224, 0.12);
+  background: transparent;
+  color: rgba(236, 245, 255, 0.9);
+  text-align: left;
+  font-size: 0.92rem;
+  line-height: 1.68;
+}
+
+.reader-page__paragraph:last-child {
+  border-bottom: 0;
+}
+
+.reader-page__paragraph-index {
+  color: rgba(var(--app-gold-rgb, 255, 216, 0), 0.72);
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.reader-page__paragraph--selected {
+  padding-inline: 0.65rem;
+  border-radius: 0.95rem;
+  background: rgba(var(--app-gold-rgb, 255, 216, 0), 0.08);
+  box-shadow: inset 0 0 0 1px rgba(var(--app-gold-rgb, 255, 216, 0), 0.18);
+}
+
+.reader-page__footer-card {
+  gap: 0.45rem;
+}
+
+.reader-page__footer-actions {
+  display: flex;
+  gap: 0.55rem;
+}
+
+.reader-page__footer-actions ion-button {
+  margin: 0;
+  flex: 1 1 auto;
+}

@@ -215,7 +215,6 @@ Rules
 	•	Never redefine tokens
 
 5.2 Valency (Verb + Prep)
-	•	ar_u_valency
 	•	ar_token_valency_link
 	•	Verb+prep is NEVER a span
 

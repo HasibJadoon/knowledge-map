@@ -44,7 +44,12 @@ const routes: Routes = [
   },
   {
     path: 'worldview/lessons',
-    loadChildren: () => import('./features/worldview/lessons/worldview-lessons.module').then(m => m.WorldviewLessonsPageModule),
+    loadChildren: () => import('./features/kmaps/kmaps.routes').then((m) => m.KMAPS_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'worldview',
+    loadChildren: () => import('./features/kmaps/kmaps.routes').then((m) => m.KMAPS_ROUTES),
     canActivate: [AuthGuard]
   },
   {

@@ -1,0 +1,41 @@
+:host {
+  display: block;
+}
+
+.kmaps-stat-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.48rem;
+}
+
+.kmaps-stat-chip-row__chip {
+  min-width: 4.2rem;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  padding: 0.5rem 0.62rem;
+  border-radius: 0.95rem;
+  border: 1px solid rgba(145, 176, 224, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.kmaps-stat-chip-row__chip--emphasis {
+  border-color: rgba(var(--app-gold-rgb, 255, 216, 0), 0.26);
+  background: rgba(var(--app-gold-rgb, 255, 216, 0), 0.08);
+}
+
+.kmaps-stat-chip-row__value,
+.kmaps-stat-chip-row__label {
+  display: block;
+}
+
+.kmaps-stat-chip-row__value {
+  color: var(--km-text, #e6edf8);
+  font-size: 0.94rem;
+  font-weight: 650;
+}
+
+.kmaps-stat-chip-row__label {
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.69rem;
+}

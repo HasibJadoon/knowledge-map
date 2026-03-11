@@ -1,0 +1,120 @@
+:host {
+  display: block;
+}
+
+.unit-detail-page__progress-panel,
+.unit-detail-page__list-panel {
+  display: grid;
+  gap: 0.72rem;
+}
+
+.unit-detail-page__progress-head,
+.unit-detail-page__progress-copy {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.unit-detail-page__progress-head strong {
+  color: #edf6ff;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.unit-detail-page__summary {
+  margin: 0;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.unit-detail-page__progress-copy {
+  align-items: center;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.8rem;
+}
+
+.unit-detail-page__list {
+  background: transparent;
+  padding: 0;
+}
+
+.unit-detail-page__count-row,
+.unit-detail-page__note-row {
+  --background: transparent;
+  --min-height: 3.4rem;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-border-width: 0;
+  --border-color: rgba(133, 188, 255, 0.16);
+}
+
+.unit-detail-page__count-row ion-label,
+.unit-detail-page__note-row ion-label {
+  margin: 0;
+}
+
+.unit-detail-page__count-row ion-label {
+  color: #ecf5ff;
+  font-size: 0.98rem;
+  font-weight: 560;
+}
+
+.unit-detail-page__count-row ion-note,
+.unit-detail-page__note-row ion-note {
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.84rem;
+}
+
+.unit-detail-page__note-row {
+  --min-height: 4.05rem;
+  --padding-start: 0.12rem;
+}
+
+.unit-detail-page__note-row h3,
+.unit-detail-page__note-row p {
+  margin: 0;
+}
+
+.unit-detail-page__note-row h3 {
+  color: #f0f7ff;
+  font-size: 0.95rem;
+  font-weight: 640;
+}
+
+.unit-detail-page__note-row p {
+  margin-top: 0.22rem;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.unit-detail-page__swatch {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 0.16rem;
+  background: rgba(160, 188, 228, 0.24);
+  margin-inline-end: 0.4rem;
+  box-shadow: 0 0 0 1px rgba(145, 177, 224, 0.18);
+}
+
+.unit-detail-page__swatch[data-kind='quote'],
+.unit-detail-page__swatch[data-kind='highlight'],
+.unit-detail-page__swatch[data-kind='summary'] {
+  background: rgba(255, 211, 106, 0.9);
+}
+
+.unit-detail-page__swatch[data-kind='reflection'] {
+  background: rgba(89, 145, 255, 0.94);
+}
+
+.unit-detail-page__swatch[data-kind='question'] {
+  background: rgba(110, 221, 181, 0.92);
+}
+
+.unit-detail-page__swatch[data-kind='claim_seed'],
+.unit-detail-page__swatch[data-kind='idea'] {
+  background: rgba(122, 230, 198, 0.92);
+}

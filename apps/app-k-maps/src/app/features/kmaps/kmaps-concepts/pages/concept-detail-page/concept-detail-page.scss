@@ -1,0 +1,81 @@
+:host {
+  display: block;
+}
+
+.concept-detail-page__search {
+  padding: 0;
+}
+
+.concept-detail-page__chip-row {
+  display: flex;
+  gap: 0.55rem;
+  overflow-x: auto;
+  padding-bottom: 0.12rem;
+}
+
+.concept-detail-page__chip {
+  flex: 0 0 auto;
+  border: 1px solid rgba(145, 176, 224, 0.16);
+  border-radius: 0.82rem;
+  background: rgba(13, 22, 38, 0.72);
+  color: rgba(220, 234, 255, 0.84);
+  padding: 0.72rem 0.9rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.concept-detail-page__chip--active {
+  border-color: rgba(107, 194, 255, 0.34);
+  background: rgba(56, 92, 165, 0.3);
+  box-shadow: 0 0 18px rgba(98, 197, 255, 0.1);
+  color: #f2f8ff;
+}
+
+.concept-detail-page__hero,
+.concept-detail-page__note-card {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.concept-detail-page__note-stack {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.concept-detail-page__note-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.concept-detail-page__note-head span {
+  color: #7ab0ff;
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.concept-detail-page__note-head ion-icon {
+  color: rgba(180, 197, 220, 0.7);
+  font-size: 1rem;
+}
+
+.concept-detail-page__note-card h3,
+.concept-detail-page__note-card p,
+.concept-detail-page__empty {
+  margin: 0;
+}
+
+.concept-detail-page__note-card h3 {
+  color: #f0f7ff;
+  font-size: 1.08rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.concept-detail-page__note-card p,
+.concept-detail-page__empty {
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}

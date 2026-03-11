@@ -1,0 +1,10 @@
+<div class="kmaps-stat-chip-row">
+  <div
+    *ngFor="let stat of stats; trackBy: trackStat"
+    class="kmaps-stat-chip-row__chip"
+    [class.kmaps-stat-chip-row__chip--emphasis]="stat.emphasis"
+  >
+    <span class="kmaps-stat-chip-row__value">{{ stat.value }}</span>
+    <span class="kmaps-stat-chip-row__label">{{ stat.label }}</span>
+  </div>
+</div>

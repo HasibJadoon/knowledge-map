@@ -1,0 +1,83 @@
+<app-kmaps-workflow-shell
+  [title]="draftItem()?.title || 'Content builder'"
+  subtitle="Assemble notes and claims into publishable blocks"
+  [showBackButton]="true"
+  backHref="/worldview/library"
+  [showHomeButton]="false"
+  [showFooter]="true"
+>
+  <form class="km-panel content-builder-page__form">
+    <ion-item lines="none" class="content-builder-page__field">
+      <ion-label position="stacked">Title</ion-label>
+      <ion-input [formControl]="form.controls.title"></ion-input>
+    </ion-item>
+
+    <div class="content-builder-page__split">
+      <ion-item lines="none" class="content-builder-page__field">
+        <ion-label>Type</ion-label>
+        <ion-select [formControl]="form.controls.contentType" interface="popover">
+          <ion-select-option value="article">Article</ion-select-option>
+          <ion-select-option value="podcast">Podcast</ion-select-option>
+          <ion-select-option value="video">Video</ion-select-option>
+          <ion-select-option value="newsletter">Newsletter</ion-select-option>
+          <ion-select-option value="script">Script</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none" class="content-builder-page__field">
+        <ion-label>Status</ion-label>
+        <ion-select [formControl]="form.controls.status" interface="popover">
+          <ion-select-option value="draft">Draft</ion-select-option>
+          <ion-select-option value="active">Active</ion-select-option>
+          <ion-select-option value="published">Published</ion-select-option>
+          <ion-select-option value="archived">Archived</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+  </form>
+
+  <app-kmaps-grouped-section eyebrow="Blocks" title="Ordered blocks" subtitle="Build the piece from focused content blocks instead of one large text wall.">
+    <section class="km-panel content-builder-page__block-editor">
+      <ion-item lines="none" class="content-builder-page__field">
+        <ion-label>Block type</ion-label>
+        <ion-select [formControl]="form.controls.blockKind" interface="popover">
+          <ion-select-option *ngFor="let kind of blockKinds" [value]="kind">{{ kind | titlecase }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none" class="content-builder-page__field">
+        <ion-label position="stacked">Block title</ion-label>
+        <ion-input [formControl]="form.controls.blockTitle"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="content-builder-page__field content-builder-page__field--body">
+        <ion-label position="stacked">Block body</ion-label>
+        <ion-textarea [formControl]="form.controls.blockBody" autoGrow="true" rows="6"></ion-textarea>
+      </ion-item>
+
+      <ion-button (click)="upsertBlock()">{{ activeBlockId() ? 'Update block' : 'Add block' }}</ion-button>
+    </section>
+
+    <app-content-block-card
+      *ngFor="let block of blocks(); let index = index"
+      [block]="block"
+      [canMoveUp]="index > 0"
+      [canMoveDown]="index < blocks().length - 1"
+      (selected)="selectBlock($event)"
+      (moveUp)="moveBlock($event, -1)"
+      (moveDown)="moveBlock($event, 1)"
+      (remove)="removeBlock($event)"
+    ></app-content-block-card>
+  </app-kmaps-grouped-section>
+
+  <app-kmaps-grouped-section eyebrow="Research" title="Linked research items" subtitle="Notes and claims stay visible while you shape the final output.">
+    <app-evidence-list [items]="evidenceItems()"></app-evidence-list>
+    <button type="button" class="content-builder-page__claim-chip" *ngFor="let claim of claimSummaries()">
+      {{ claim.title }}
+    </button>
+  </app-kmaps-grouped-section>
+
+  <div kmapsShellFooter class="content-builder-page__footer">
+    <ion-button (click)="save()">Save content</ion-button>
+  </div>
+</app-kmaps-workflow-shell>

@@ -1,0 +1,117 @@
+<app-kmaps-workflow-shell
+  [title]="currentSource().title"
+  [subtitle]="headerSubtitle()"
+  [showBackButton]="true"
+  [showSearch]="true"
+  [searchValue]="searchQuery()"
+  [showHomeButton]="false"
+  backHref="/worldview/library"
+  searchPlaceholder="Search chapters or sections"
+  (searchChange)="onSearchChange($event)"
+>
+  <ion-button
+    kmapsToolbarEnd
+    fill="clear"
+    class="source-detail-page__toolbar-button"
+    aria-label="More actions"
+    (click)="openToolbarMenu()"
+  >
+    <ion-icon name="ellipsis-horizontal" slot="icon-only"></ion-icon>
+  </ion-button>
+
+  <section class="km-panel source-detail-page__summary">
+    <div class="source-detail-page__summary-copy">
+      <p class="source-detail-page__type">{{ sourceTypeLabel() }}</p>
+      <p class="source-detail-page__summary-line">{{ summaryLine() }}</p>
+    </div>
+
+    <div class="source-detail-page__progress-head">
+      <span>Reading Progress</span>
+      <strong>{{ progressPercent() }}%</strong>
+    </div>
+
+    <div class="source-detail-page__progress-track" aria-hidden="true">
+      <span [style.width.%]="progressPercent()"></span>
+    </div>
+
+    <p class="source-detail-page__progress-copy">{{ progressCopy() }}</p>
+
+    <div class="source-detail-page__stats">
+      <div class="source-detail-page__stat">
+        <span>Units</span>
+        <strong>{{ units().length }}</strong>
+      </div>
+      <div class="source-detail-page__stat">
+        <span>Notes</span>
+        <strong>{{ totalNotes() }}</strong>
+      </div>
+      <div class="source-detail-page__stat">
+        <span>Claims</span>
+        <strong>{{ totalClaims() }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="source-detail-page__section-head">
+    <p class="source-detail-page__eyebrow">Source Outline</p>
+    <h1>{{ searchQuery().trim() ? 'Matching Sections' : 'Contents' }}</h1>
+  </section>
+
+  <div class="source-detail-page__list-surface" *ngIf="outlineGroups().length; else noUnits">
+    <section class="source-detail-page__group" *ngFor="let group of outlineGroups(); trackBy: trackGroup">
+      <div
+        class="source-detail-page__unit"
+        [class.source-detail-page__unit--expanded]="group.isExpanded"
+        [class.source-detail-page__unit--expandable]="group.isExpandable"
+      >
+        <button type="button" class="source-detail-page__unit-main" (click)="openUnitNotes(group.unit.id)">
+          <div class="source-detail-page__unit-copy">
+            <h2>{{ group.unit.title }}</h2>
+            <p class="source-detail-page__unit-meta" *ngIf="searchQuery().trim() && group.unit.locatorLabel">
+              {{ group.unit.locatorLabel }}
+            </p>
+          </div>
+        </button>
+
+        <button
+          *ngIf="group.isExpandable"
+          type="button"
+          class="source-detail-page__unit-toggle"
+          (click)="toggleOutlineGroup($event, group.unit.id)"
+          [attr.aria-label]="group.isExpanded ? 'Collapse chapter sections' : 'Expand chapter sections'"
+        >
+          <ion-icon [name]="chapterChevron(group)" aria-hidden="true"></ion-icon>
+        </button>
+
+        <div class="source-detail-page__unit-trailing" *ngIf="!group.isExpandable">
+          <ion-icon [name]="chapterChevron(group)" aria-hidden="true"></ion-icon>
+        </div>
+      </div>
+
+      <div class="source-detail-page__section-list" *ngIf="group.visibleChildren.length">
+        <button
+          type="button"
+          class="source-detail-page__section"
+          *ngFor="let child of group.visibleChildren; trackBy: trackUnit"
+          (click)="openUnitNotes(child.id)"
+        >
+          <span class="source-detail-page__section-mark" aria-hidden="true"></span>
+
+          <div class="source-detail-page__section-copy">
+            <h3>{{ child.title }}</h3>
+            <p *ngIf="searchQuery().trim() && child.locatorLabel">{{ child.locatorLabel }}</p>
+          </div>
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <ng-template #noUnits>
+    <app-kmaps-empty-state-card
+      [title]="emptyTitle()"
+      [message]="emptyMessage()"
+      actionLabel="Open capture"
+      (actionSelected)="openCaptureDraft()"
+    ></app-kmaps-empty-state-card>
+  </ng-template>
+</app-kmaps-workflow-shell>

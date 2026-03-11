@@ -1,0 +1,21 @@
+Library
+   ↓
+Source
+   ↓
+Unit
+   ↓
+Reading
+   ↓
+Highlight
+   ↓
+Note
+   ↓
+DISTILL
+   ↓
+Concept
+   ↓
+Claim
+   ↓
+SRS
+   ↓
+Knowledge Graph

@@ -62,11 +62,11 @@ export const DASHBOARD_MENU_SECTIONS: ReadonlyArray<DashboardMenuSection> = [
   {
     key: 'worldview',
     title: 'Worldview',
-    subtitle: 'Lesson Space',
+    subtitle: 'Reading Workflow',
     icon: globeOutline,
     tone: 'mint',
     items: [
-      { title: 'Lessons', subtitle: 'Worldview', icon: globeOutline, route: ['/worldview', 'lessons'] },
+      { title: 'Library', subtitle: 'K-Maps', icon: globeOutline, route: ['/worldview', 'library'] },
     ],
   },
   {

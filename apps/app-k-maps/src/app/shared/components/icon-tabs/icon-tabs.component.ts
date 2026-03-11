@@ -19,6 +19,7 @@ export class AppIconTabsComponent {
   @Input() tabs: ReadonlyArray<IconTabItem> = [];
   @Input() activeKey: string | null = null;
   @Input() manual = false;
+  @Input() showLabels = false;
 
   @Output() tabSelected = new EventEmitter<string>();
 

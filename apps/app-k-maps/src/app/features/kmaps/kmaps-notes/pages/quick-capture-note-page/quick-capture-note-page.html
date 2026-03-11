@@ -1,0 +1,58 @@
+<app-kmaps-workflow-shell
+  title="Create Note"
+  [subtitle]="unit()?.locatorLabel || ''"
+  [showBackButton]="true"
+  [backHref]="'/worldview/sources/' + sourceId() + '/units/' + unitId()"
+  [showHomeButton]="false"
+  [showFooter]="true"
+>
+  <app-kmaps-unit-workspace-tabs [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-workspace-tabs>
+
+  <ion-searchbar
+    class="km-searchbar quick-capture-note-page__search"
+    [value]="conceptQuery()"
+    placeholder="Search concepts..."
+    debounce="150"
+    (ionInput)="updateConceptQuery($event.detail.value)"
+  ></ion-searchbar>
+
+  <section class="quick-capture-note-page__kind-grid">
+    <button
+      type="button"
+      class="km-panel quick-capture-note-page__kind-card"
+      *ngFor="let kind of kindOptions"
+      [class.quick-capture-note-page__kind-card--active]="form.controls.noteKind.value === kind"
+      [attr.data-kind]="kind"
+      (click)="setNoteKind(kind)"
+    >
+      <div class="quick-capture-note-page__kind-head">
+        <div class="quick-capture-note-page__kind-check" [attr.data-kind]="kind"></div>
+        <strong>{{ kindLabel(kind) }}</strong>
+        <ion-icon name="chevron-down-outline"></ion-icon>
+      </div>
+
+      <p *ngIf="form.controls.noteKind.value === kind">
+        {{ excerpt() || 'Capture the core point cleanly, then move back to the chapter flow.' }}
+      </p>
+    </button>
+  </section>
+
+  <form class="km-panel quick-capture-note-page__editor" [formGroup]="form">
+    <p class="quick-capture-note-page__locator">{{ locator() || unit()?.locatorLabel }}</p>
+
+    <blockquote class="km-quote-block" *ngIf="excerpt()">{{ excerpt() }}</blockquote>
+
+    <ion-item lines="none" class="quick-capture-note-page__field quick-capture-note-page__field--body">
+      <ion-textarea
+        formControlName="bodyMd"
+        autoGrow="true"
+        rows="7"
+        placeholder="Write the note in one clean pass."
+      ></ion-textarea>
+    </ion-item>
+  </form>
+
+  <div kmapsShellFooter class="quick-capture-note-page__footer">
+    <ion-button class="km-primary-btn" (click)="save()">Convert to Notes</ion-button>
+  </div>
+</app-kmaps-workflow-shell>

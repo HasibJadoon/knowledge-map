@@ -1,0 +1,137 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: var(--km-text, #e6edf8);
+}
+
+.note-workspace-modal__header {
+  background: rgba(8, 14, 27, 0.98);
+  border-bottom: 1px solid rgba(145, 176, 224, 0.12);
+}
+
+.note-workspace-modal__toolbar {
+  --background: transparent;
+  --color: var(--km-text, #e6edf8);
+  --min-height: 3.8rem;
+}
+
+.note-workspace-modal__toolbar ion-button {
+  --color: #9ad9ff;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.note-workspace-modal__title {
+  text-align: center;
+  font-size: 1.02rem;
+  font-weight: 680;
+}
+
+.note-workspace-modal__content {
+  --background: var(--km-shell-bg);
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  --padding-top: 1rem;
+  --padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.note-workspace-modal__form {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.note-workspace-modal__section {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.note-workspace-modal__section--grow {
+  flex: 1 1 auto;
+}
+
+.note-workspace-modal__label {
+  color: rgba(236, 245, 255, 0.82);
+  font-size: 0.92rem;
+  font-weight: 620;
+}
+
+.note-workspace-modal__kind-row {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  border: 1px solid rgba(145, 176, 224, 0.16);
+  border-radius: 1rem;
+  background: rgba(18, 30, 52, 0.42);
+}
+
+.note-workspace-modal__kind-chip {
+  min-height: 3rem;
+  min-width: 5.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  padding: 0.72rem 0.92rem;
+  border: 0;
+  border-right: 1px solid rgba(145, 176, 224, 0.14);
+  border-radius: 0;
+  background: transparent;
+  color: rgba(236, 245, 255, 0.76);
+  font-size: 0.92rem;
+  font-weight: 560;
+  white-space: nowrap;
+}
+
+.note-workspace-modal__kind-chip--active {
+  background: rgba(74, 131, 230, 0.22);
+  color: #dff7ff;
+  box-shadow: inset 0 -2px 0 #8ddcff;
+}
+
+.note-workspace-modal__kind-chip:last-child {
+  border-right: 0;
+}
+
+.note-workspace-modal__kind-chip ion-icon {
+  font-size: 1rem;
+  opacity: 0.92;
+  flex: 0 0 auto;
+}
+
+.note-workspace-modal__kind-chip span {
+  line-height: 1;
+}
+
+.note-workspace-modal__field {
+  --background: rgba(255, 255, 255, 0.04);
+  --border-radius: 1rem;
+  --padding-start: 0.88rem;
+  --inner-padding-end: 0.88rem;
+  border: 1px solid rgba(145, 176, 224, 0.16);
+  border-radius: 1rem;
+}
+
+.note-workspace-modal__field ion-input,
+.note-workspace-modal__field ion-textarea {
+  --color: var(--km-text, #e6edf8);
+  --placeholder-color: rgba(236, 245, 255, 0.44);
+  font-size: 1rem;
+}
+
+.note-workspace-modal__field--textarea {
+  flex: 1 1 auto;
+  align-items: stretch;
+}
+
+.note-workspace-modal__field--textarea ion-textarea {
+  min-height: min(40vh, 20rem);
+}
+
+@media (max-width: 420px) {
+  .note-workspace-modal__kind-row {
+    border-radius: 0.9rem;
+  }
+}

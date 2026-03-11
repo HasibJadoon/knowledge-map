@@ -1,0 +1,319 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  --notes-editor-surface: rgba(10, 18, 34, 0.94);
+  --notes-editor-panel-surface: linear-gradient(165deg, rgba(18, 30, 52, 0.86), rgba(11, 18, 33, 0.9));
+  --notes-editor-panel-border: rgba(148, 182, 228, 0.22);
+  --notes-editor-panel-shadow: 0 12px 24px rgba(6, 12, 25, 0.26);
+}
+
+.notes-editor-head {
+  position: relative;
+  z-index: 5;
+}
+
+.notes-editor-toolbar,
+.notes-editor-meta-toolbar {
+  --background: var(--notes-editor-surface);
+  --color: var(--km-text, #e6edf8);
+  --border-color: rgba(145, 176, 224, 0.18);
+}
+
+.notes-editor-toolbar ion-title {
+  color: var(--km-text, #e6edf8);
+  font-weight: 650;
+}
+
+.notes-editor-toolbar ion-back-button,
+.notes-editor-attach {
+  --color: rgba(121, 224, 197, 0.94);
+}
+
+.notes-editor-attach::part(native) {
+  border: 1px solid rgba(121, 224, 197, 0.16);
+  border-radius: 0.9rem;
+  background:
+    radial-gradient(circle at top, rgba(121, 224, 197, 0.12), transparent 58%),
+    linear-gradient(180deg, rgba(10, 20, 36, 0.96), rgba(7, 14, 27, 0.98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 18px rgba(0, 0, 0, 0.16);
+}
+
+.save-toolbar {
+  --min-height: 2rem;
+}
+
+.editor-toolbar-meta {
+  display: grid;
+  gap: 0.62rem;
+  padding: 0.35rem 0.9rem 0.82rem;
+}
+
+.save-state {
+  display: block;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+}
+
+.editor-status-tabs-shell {
+  border: 1px solid rgba(151, 181, 227, 0.14);
+  border-radius: 1rem;
+  background: rgba(15, 25, 44, 0.88);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.editor-status-tabs {
+  --app-icon-tabs-bg: transparent;
+  --app-icon-tabs-color: rgba(168, 214, 240, 0.72);
+  --app-icon-tabs-selected: #79e0c5;
+  --app-icon-tabs-border-color: transparent;
+  --app-icon-tabs-padding: 0;
+  --app-icon-tabs-min-height: 46px;
+  --app-icon-tabs-icon-size: 1.12rem;
+}
+
+.editor-content {
+  --background: var(--km-shell-bg);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.editor-content::part(scroll) {
+  padding-bottom: calc(1.2rem + env(safe-area-inset-bottom));
+}
+
+.editor-shell {
+  width: min(100%, 42rem);
+  min-height: 100%;
+  margin-inline: auto;
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+}
+
+.editor-panel {
+  display: grid;
+  gap: 0.82rem;
+  padding: 1rem;
+  border: 1px solid var(--notes-editor-panel-border);
+  border-radius: 1.1rem;
+  background: var(--notes-editor-panel-surface);
+  box-shadow: var(--notes-editor-panel-shadow);
+}
+
+.editor-panel--loading {
+  min-height: 18rem;
+}
+
+.editor-panel__eyebrow,
+.editor-panel__meta {
+  margin: 0;
+}
+
+.editor-panel__eyebrow {
+  color: #79e0c5;
+  font-size: 0.77rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.editor-panel__meta {
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.textarea-wrap {
+  min-height: 54vh;
+  border: 1px solid rgba(151, 181, 227, 0.14);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(8, 15, 29, 0.76), rgba(6, 12, 23, 0.92));
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.editor-body-wrap {
+  box-shadow: var(--notes-editor-panel-shadow);
+}
+
+.editor-textarea {
+  height: 100%;
+  width: 100%;
+  --background: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --color: var(--km-text, #e6edf8);
+  --placeholder-color: var(--km-text-dim, #9eb2ce);
+}
+
+.editor-textarea::part(native) {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 54vh;
+  padding: 1.05rem 1.15rem;
+  line-height: 1.68;
+  font-size: 1rem;
+  color: var(--km-text, #e6edf8);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.editor-textarea::part(native)::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.link-chip {
+  --background: rgba(15, 27, 47, 0.88);
+  --color: var(--km-text, #e6edf8);
+  border: 1px solid rgba(151, 181, 227, 0.18);
+  border-radius: 999px;
+  min-height: 2.5rem;
+}
+
+.link-chip ion-label {
+  font-size: 0.88rem;
+}
+
+.link-chip ion-icon:first-child {
+  color: #79e0c5;
+}
+
+.chip-close {
+  margin-inline-start: 0.24rem;
+  color: rgba(236, 123, 149, 0.9);
+  cursor: pointer;
+}
+
+.comments-wrap {
+  gap: 0.85rem;
+}
+
+.comments-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.comments-head ion-button {
+  --color: #79e0c5;
+  margin: 0;
+}
+
+.comments-state {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--km-text-dim, #9eb2ce);
+}
+
+.comments-thread {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.comments-message {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 0.6rem;
+}
+
+.comments-message--own {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+}
+
+.comments-avatar {
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(151, 181, 227, 0.18);
+  background: rgba(12, 22, 39, 0.95);
+  color: #79e0c5;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.comments-message--own .comments-avatar {
+  color: rgba(168, 214, 240, 0.92);
+  border-color: rgba(121, 224, 197, 0.16);
+  background: rgba(13, 29, 40, 0.96);
+}
+
+.comments-bubble {
+  width: min(100%, 28rem);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.comment-body {
+  margin: 0;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(151, 181, 227, 0.14);
+  border-radius: 0.95rem;
+  background: linear-gradient(180deg, rgba(12, 20, 36, 0.86), rgba(8, 14, 25, 0.92));
+  font-size: 0.9rem;
+  line-height: 1.52;
+  color: var(--km-text, #e6edf8);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.comments-message--own .comment-body {
+  border-color: rgba(121, 224, 197, 0.18);
+  background: linear-gradient(180deg, rgba(20, 40, 54, 0.9), rgba(10, 23, 35, 0.94));
+}
+
+.comment-time {
+  margin: 0;
+  padding-inline: 0.2rem;
+  font-size: 0.76rem;
+  color: var(--km-text-dim, #9eb2ce);
+}
+
+.comments-message--own .comment-time {
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .editor-shell {
+    gap: 0.78rem;
+  }
+
+  .editor-panel {
+    padding: 0.9rem;
+    border-radius: 1rem;
+  }
+
+  .textarea-wrap,
+  .editor-textarea::part(native) {
+    min-height: 48vh;
+  }
+
+  .comments-head {
+    flex-direction: column;
+  }
+
+  .comments-head ion-button {
+    align-self: flex-start;
+  }
+}

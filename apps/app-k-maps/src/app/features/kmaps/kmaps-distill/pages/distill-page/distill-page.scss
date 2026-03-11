@@ -1,0 +1,93 @@
+:host {
+  display: block;
+}
+
+.distill-page__filters ion-segment {
+  margin: 0;
+  padding: 0.2rem;
+  border-radius: 0.92rem;
+  background: rgba(7, 14, 27, 0.6);
+}
+
+.distill-page__filters ion-segment-button {
+  --color: rgba(180, 197, 220, 0.76);
+  --color-checked: #eef6ff;
+  --background-checked: rgba(62, 116, 219, 0.26);
+  --indicator-color: transparent;
+  min-height: 2.5rem;
+  font-size: 0.82rem;
+}
+
+.distill-page__filters ion-segment-button::part(indicator-background) {
+  border-radius: 0.72rem;
+  background: linear-gradient(135deg, rgba(61, 111, 202, 0.36) 0%, rgba(82, 150, 255, 0.26) 100%);
+}
+
+.distill-page__selection-meta {
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.8rem;
+}
+
+.distill-page__list {
+  background: transparent;
+  padding: 0;
+}
+
+.distill-page__note-row {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-border-width: 0;
+  --min-height: 4.7rem;
+  --border-color: rgba(133, 188, 255, 0.16);
+}
+
+.distill-page__note-row ion-checkbox {
+  --size: 1.18rem;
+  --border-color: rgba(138, 171, 221, 0.36);
+  --checkbox-background-checked: #5c97ff;
+  --border-color-checked: #5c97ff;
+  margin-inline-end: 0.65rem;
+  pointer-events: none;
+}
+
+.distill-page__note-row ion-label {
+  margin: 0;
+}
+
+.distill-page__note-row h3,
+.distill-page__note-row p,
+.distill-page__note-row span {
+  margin: 0;
+}
+
+.distill-page__note-row h3 {
+  color: #eef6ff;
+  font-size: 1rem;
+  font-weight: 640;
+  line-height: 1.32;
+}
+
+.distill-page__note-row p {
+  margin-top: 0.2rem;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.distill-page__note-row span {
+  display: block;
+  margin-top: 0.32rem;
+  color: color-mix(in srgb, var(--km-text-dim) 78%, #d7e8ff 22%);
+  font-size: 0.8rem;
+}
+
+.distill-page__note-row--selected h3 {
+  color: #ffffff;
+}
+
+.distill-page__empty {
+  margin: 0;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.86rem;
+}

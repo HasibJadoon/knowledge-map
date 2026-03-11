@@ -1,0 +1,13 @@
+<button type="button" class="unit-list-item km-subcard" (click)="selected.emit(unit.id)">
+  <div class="unit-list-item__head">
+    <div>
+      <p class="unit-list-item__eyebrow">{{ unitTypeLabel }}</p>
+      <h3>{{ unit.title }}</h3>
+    </div>
+    <span class="unit-list-item__locator" *ngIf="unit.locatorLabel">{{ unit.locatorLabel }}</span>
+  </div>
+
+  <p class="unit-list-item__summary" *ngIf="unit.summary">{{ unit.summary }}</p>
+
+  <app-kmaps-stat-chip-row [stats]="stats"></app-kmaps-stat-chip-row>
+</button>

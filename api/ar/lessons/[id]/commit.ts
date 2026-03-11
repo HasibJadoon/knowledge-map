@@ -1314,8 +1314,8 @@ async function commitLinksStep(
         `
         INSERT OR REPLACE INTO ar_token_pair_links (
           id, user_id, container_id, unit_id, link_type, from_token_occ, to_token_occ,
-          ar_u_valency, note, meta_json, created_at
-        ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, datetime('now'))
+          note, meta_json, created_at
+        ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, datetime('now'))
       `
       )
       .bind(
@@ -1326,7 +1326,6 @@ async function commitLinksStep(
         linkType,
         fromTokenOcc,
         toTokenOcc,
-        asString(row['ar_u_valency']),
         asString(row['note']),
         toJsonOrNull(row['meta_json'])
       )
