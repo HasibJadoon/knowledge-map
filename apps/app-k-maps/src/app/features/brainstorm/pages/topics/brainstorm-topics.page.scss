@@ -30,6 +30,15 @@
   gap: 0.82rem;
 }
 
+.brainstorm-topics__body {
+  width: min(100%, 42rem);
+  min-height: 100%;
+  margin-inline: auto;
+  display: grid;
+  align-content: start;
+  gap: 0.82rem;
+}
+
 .brainstorm-topics__list {
   display: grid;
   gap: 0.72rem;
@@ -38,6 +47,10 @@
 .brainstorm-topics__state {
   display: grid;
   gap: 0.72rem;
+}
+
+.brainstorm-topics__state-card {
+  margin: 0;
 }
 
 .brainstorm-topics__state ion-spinner {

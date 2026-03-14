@@ -1,4 +1,4 @@
-<ion-header translucent="true">
+<ion-header>
   <ion-toolbar class="dashboard-toolbar">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -19,9 +19,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="dashboard-page">
-  <div class="dashboard-shell">
-    <p class="dashboard-search-summary">{{ searchSummary() }}</p>
+<ion-content class="dashboard-page">
+  <div class="dashboard-content ion-padding">
+    <ion-note class="dashboard-search-summary">{{ searchSummary() }}</ion-note>
 
     <app-dashboard-card-grid [cards]="cards()" [emptyText]="emptyText()"></app-dashboard-card-grid>
   </div>

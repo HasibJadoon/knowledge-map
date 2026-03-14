@@ -36,9 +36,10 @@
 }
 
 .login-card {
-  --background: #2a3040;
+  --background: var(--km-ion-card-background);
   border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(12, 14, 20, 0.45);
+  border: 1px solid var(--km-ion-card-border-color);
+  box-shadow: none;
 }
 
 .input-item {

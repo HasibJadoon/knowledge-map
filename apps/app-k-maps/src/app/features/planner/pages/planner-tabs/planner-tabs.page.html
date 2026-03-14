@@ -1,0 +1,49 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-button class="study-back-button" fill="clear" (click)="back()" aria-label="Back">
+        <ion-icon [icon]="icons.arrowBackOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>{{ title() }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" aria-label="Home" (click)="goHome()">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" aria-label="Settings" (click)="openSettings()">
+        <ion-icon name="settings-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="study-toolbar planner-tabs-page__toolbar--search" *ngIf="showSearch()">
+    <ion-searchbar
+      class="km-searchbar"
+      [value]="searchValue()"
+      debounce="300"
+      [placeholder]="searchPlaceholder()"
+      show-clear-button="focus"
+      (ionInput)="onSearchInput($event.detail.value)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="study-content" [fullscreen]="true">
+  <ng-container [ngSwitch]="activeTab()">
+    <app-weekly-plan *ngSwitchCase="'week'"></app-weekly-plan>
+    <app-planner-kanban-page *ngSwitchCase="'kanban'"></app-planner-kanban-page>
+    <app-planner-inbox-page *ngSwitchCase="'inbox'"></app-planner-inbox-page>
+    <app-planner-lessons-page *ngSwitchCase="'lessons'"></app-planner-lessons-page>
+    <app-planner-podcast-page *ngSwitchCase="'podcast'"></app-planner-podcast-page>
+    <app-planner-review-page *ngSwitchCase="'review'"></app-planner-review-page>
+  </ng-container>
+</ion-content>
+
+<ion-footer class="study-footer planner-tabs-page__footer">
+  <app-planner-tab-bar
+    [activeTab]="activeTab()"
+    (tabSelected)="onPlannerTabSelected($event)"
+  ></app-planner-tab-bar>
+</ion-footer>

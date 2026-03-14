@@ -1,4 +1,4 @@
-<ion-header translucent="true">
+<ion-header>
   <ion-toolbar class="dashboard-toolbar">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/dashboard"></ion-back-button>
@@ -12,25 +12,30 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="dashboard-page">
+<ion-content class="dashboard-page">
   <ng-container *ngIf="section() as currentSection; else missingSection">
-    <div class="dashboard-shell">
-      <section
-        class="dashboard-section-hero"
+    <div class="dashboard-content ion-padding">
+      <ion-card
+        class="km-ion-card dashboard-section-hero"
         [class.dashboard-section-hero--sand]="currentSection.tone === 'sand'"
         [class.dashboard-section-hero--sky]="currentSection.tone === 'sky'"
         [class.dashboard-section-hero--mint]="currentSection.tone === 'mint'"
       >
-        <div class="dashboard-section-hero__copy">
-          <p class="dashboard-section-kicker">Dashboard Section</p>
+        <ion-card-content>
+          <ion-note class="dashboard-section-kicker">Dashboard Section</ion-note>
           <h1>{{ currentSection.title }}</h1>
-        </div>
+          <p class="dashboard-section-subtitle">{{ currentSection.subtitle }}</p>
 
-        <div class="dashboard-section-chips">
-          <span class="dashboard-section-chip">{{ currentSection.items.length }} {{ currentSection.items.length === 1 ? 'tool' : 'tools' }}</span>
-          <span class="dashboard-section-chip">{{ currentSection.tone | titlecase }}</span>
-        </div>
-      </section>
+          <div class="dashboard-section-chips">
+            <ion-chip class="dashboard-section-chip" outline="true">
+              <ion-label>{{ currentSection.items.length }} {{ currentSection.items.length === 1 ? 'tool' : 'tools' }}</ion-label>
+            </ion-chip>
+            <ion-chip class="dashboard-section-chip" outline="true">
+              <ion-label>{{ currentSection.tone | titlecase }}</ion-label>
+            </ion-chip>
+          </div>
+        </ion-card-content>
+      </ion-card>
 
       <section class="dashboard-section-grid">
         <app-dashboard-card-grid [cards]="cards()" emptyText="No tools."></app-dashboard-card-grid>
@@ -39,10 +44,12 @@
   </ng-container>
 
   <ng-template #missingSection>
-    <div class="dashboard-shell">
-      <section class="dashboard-empty">
-        <p>Menu section not found.</p>
-      </section>
+    <div class="dashboard-content ion-padding">
+      <ion-card class="km-ion-card dashboard-empty">
+        <ion-card-content>
+          <p>Menu section not found.</p>
+        </ion-card-content>
+      </ion-card>
     </div>
   </ng-template>
 </ion-content>

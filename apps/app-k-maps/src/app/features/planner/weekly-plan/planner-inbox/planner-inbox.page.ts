@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IonItemSliding, RefresherCustomEvent, ToastController } from '@ionic/angular';
+import { IonItemSliding, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { CaptureNote, CaptureNoteMeta } from '../../../sprint/models/sprint.models';
 import { CaptureNotesService } from '../../../sprint/services/capture-notes.service';
@@ -25,11 +25,6 @@ export class PlannerInboxPage {
 
   constructor() {
     void this.load();
-  }
-
-  async onRefresh(event: RefresherCustomEvent): Promise<void> {
-    await this.load();
-    event.target.complete();
   }
 
   async capture(): Promise<void> {

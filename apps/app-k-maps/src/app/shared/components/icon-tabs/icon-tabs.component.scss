@@ -1,3 +1,89 @@
 :host {
   display: block;
+  --km-tabs-bg: var(--ion-tab-bar-background, var(--app-toolbar-background-strong));
+  --km-tabs-color: var(--ion-tab-bar-color, rgba(210, 225, 244, 0.72));
+  --km-tabs-selected: var(--ion-tab-bar-color-selected, var(--ion-color-primary-tint));
+  --km-tabs-border-color: var(--ion-border-color, rgba(170, 183, 199, 0.16));
+  --km-tabs-padding: 0 calc(env(safe-area-inset-bottom) * 0.7);
+  --km-tabs-min-height: 50px;
+  --km-tabs-icon-size: 1.18rem;
+  --km-tabs-label-size: 0.72rem;
+}
+
+.km-tabs__bar,
+.app-icon-tab-bar {
+  --background: var(--km-tabs-bg);
+  --border: 0;
+  --color: var(--km-tabs-color);
+  --color-selected: var(--km-tabs-selected);
+  background: var(--km-tabs-bg);
+  border-top: 1px solid var(--km-tabs-border-color);
+  padding: var(--km-tabs-padding);
+  backdrop-filter: blur(var(--app-toolbar-blur, 18px)) saturate(160%);
+}
+
+.km-tabs__button,
+.app-icon-tab-button {
+  --background: transparent;
+  --color: var(--km-tabs-color);
+  --color-selected: var(--km-tabs-selected);
+  --padding-start: 0.3rem;
+  --padding-end: 0.3rem;
+  --ripple-color: color-mix(in srgb, var(--km-tabs-selected) 18%, transparent);
+  min-height: var(--km-tabs-min-height);
+  max-width: none;
+}
+
+.km-tabs__button--labeled,
+.app-icon-tab-button--labeled {
+  min-height: calc(var(--km-tabs-min-height) + 0.9rem);
+}
+
+.km-tabs__button.tab-selected,
+.app-icon-tab-button.tab-selected {
+  color: var(--km-tabs-selected);
+}
+
+.km-tabs__button::part(native),
+.app-icon-tab-button::part(native) {
+  border-radius: 0.95rem;
+}
+
+.km-tabs__button ion-icon,
+.app-icon-tab-button ion-icon {
+  font-size: var(--km-tabs-icon-size);
+}
+
+.km-tabs__button ion-label,
+.app-icon-tab-button ion-label {
+  margin-top: 0.18rem;
+  font-size: var(--km-tabs-label-size);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+:host-context(.ios) .km-tabs__button,
+:host-context(.ios) .app-icon-tab-button {
+  font-weight: 500;
+}
+
+:host-context(.md) .km-tabs__bar,
+:host-context(.md) .app-icon-tab-bar {
+  box-shadow: none;
+}
+
+:host-context(.md) .km-tabs__button,
+:host-context(.md) .app-icon-tab-button {
+  text-transform: none;
+}
+
+.km-tabs__button.tab-selected::part(native),
+.app-icon-tab-button.tab-selected::part(native) {
+  background: rgba(var(--ion-color-primary-rgb), 0.12);
+}
+
+.km-tabs__bar:not(.km-tabs__bar--labeled) .km-tabs__button,
+.app-icon-tab-bar:not(.app-icon-tab-bar--labeled) .app-icon-tab-button {
+  --padding-top: 0.45rem;
+  --padding-bottom: 0.45rem;
 }

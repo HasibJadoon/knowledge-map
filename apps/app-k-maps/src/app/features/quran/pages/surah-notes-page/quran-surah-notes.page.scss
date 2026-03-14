@@ -3,22 +3,14 @@
 }
 
 :host ion-content {
-  --background: linear-gradient(180deg, #040912 0%, #06101c 48%, #050913 100%);
-}
-
-.quran-surah-notes__toolbar,
-.quran-surah-notes__footer {
-  --background: rgba(6, 12, 22, 0.94);
-  --color: #eef5ff;
-  --border-color: rgba(88, 202, 255, 0.14);
-  backdrop-filter: blur(18px);
+  --background: var(--app-page-background);
 }
 
 .quran-surah-notes__footer {
-  --app-icon-tabs-bg: rgba(6, 12, 22, 0.94);
+  --app-icon-tabs-bg: transparent;
   --app-icon-tabs-color: rgba(205, 220, 241, 0.72);
-  --app-icon-tabs-selected: #79ddff;
-  --app-icon-tabs-border-color: rgba(88, 202, 255, 0.14);
+  --app-icon-tabs-selected: var(--ion-color-primary-tint);
+  --app-icon-tabs-border-color: transparent;
 }
 
 .quran-surah-notes {
@@ -30,13 +22,13 @@
 
 .quran-surah-notes__hero {
   padding: 0.15rem 0 1rem;
-  border-bottom: 1px solid rgba(101, 182, 255, 0.14);
+  border-bottom: 1px solid var(--app-border-soft);
   margin-bottom: 0.35rem;
 }
 
 .quran-surah-notes__eyebrow {
   margin: 0;
-  color: rgba(121, 221, 255, 0.82);
+  color: color-mix(in srgb, var(--ion-color-primary-tint) 82%, #fff 18%);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -45,14 +37,14 @@
 
 .quran-surah-notes__hero h1 {
   margin: 0.35rem 0 0;
-  color: #f5f9ff;
+  color: var(--app-text-strong);
   font-size: clamp(1.75rem, 4vw, 2.45rem);
   line-height: 1.1;
 }
 
 .quran-surah-notes__arabic {
   margin: 0.45rem 0 0;
-  color: rgba(243, 248, 255, 0.92);
+  color: color-mix(in srgb, var(--app-text-strong) 88%, var(--ion-color-primary-tint) 12%);
   font-family: var(--app-font-ar);
   font-size: clamp(1.9rem, 5vw, 3rem);
   line-height: 1.5;
@@ -61,7 +53,7 @@
 
 .quran-surah-notes__state {
   padding: 1.25rem 0;
-  color: rgba(214, 226, 241, 0.8);
+  color: var(--app-text-muted);
 }
 
 .quran-surah-notes__state h2,
@@ -70,7 +62,7 @@
 }
 
 .quran-surah-notes__state h2 {
-  color: #f2f7ff;
+  color: var(--app-text-strong);
   font-size: 1.08rem;
 }
 
@@ -81,14 +73,14 @@
 
 .quran-surah-notes__skeleton-block {
   padding-block: 1rem;
-  border-bottom: 1px solid rgba(101, 182, 255, 0.12);
+  border-bottom: 1px solid rgba(var(--ion-color-primary-rgb), 0.12);
 }
 
 .quran-surah-notes__skeleton-line {
   height: 0.9rem;
   border-radius: 999px;
   margin-bottom: 0.68rem;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(116, 200, 255, 0.12), rgba(255, 255, 255, 0.03));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(var(--ion-color-primary-rgb), 0.16), rgba(255, 255, 255, 0.03));
 }
 
 .quran-surah-notes__skeleton-line--short {

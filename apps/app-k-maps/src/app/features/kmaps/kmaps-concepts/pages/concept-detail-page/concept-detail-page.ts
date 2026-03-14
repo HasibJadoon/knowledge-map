@@ -4,15 +4,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
-import { KmapsWorkflowShellComponent } from '../../../kmaps-shared/components/workflow-shell/workflow-shell';
-import { KmapsUnitWorkspaceTabsComponent } from '../../../kmaps-shared/components/unit-workspace-tabs/unit-workspace-tabs';
+import { KmapsUnitBottomTabsComponent } from '../../../kmaps-shared/components/unit-bottom-tabs/unit-bottom-tabs';
+import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { KmapsConcept, KmapsNote, formatNoteKindLabel } from '../../../kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
 
 @Component({
   selector: 'app-concept-detail-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, KmapsWorkflowShellComponent, KmapsUnitWorkspaceTabsComponent],
+  imports: [CommonModule, IonicModule, KmapsPageHeaderComponent, KmapsUnitBottomTabsComponent],
   templateUrl: './concept-detail-page.html',
   styleUrl: './concept-detail-page.scss',
 })

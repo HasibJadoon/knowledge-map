@@ -1,54 +1,67 @@
-<app-kmaps-workflow-shell
-  title="Select Notes to Distill"
-  [subtitle]="heading().subtitle"
+<app-kmaps-page-header
+  [title]="source()?.title || 'K-Maps'"
+  [subtitle]="unit()?.locatorLabel || 'Highlight workspace'"
   [showBackButton]="true"
   [backHref]="'/worldview/sources/' + sourceId() + '/units/' + unitId()"
-  [showHomeButton]="false"
 >
-  <app-kmaps-unit-workspace-tabs [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-workspace-tabs>
+</app-kmaps-page-header>
 
-  <section class="km-panel km-panel--segment distill-page__filters">
-    <ion-segment mode="md" [value]="activeFilter()" (ionChange)="setFilter($event.detail.value)">
-      <ion-segment-button value="all">
-        <ion-label>All</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="highlight">
-        <ion-label>Highlights</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="reflection">
-        <ion-label>Reflections</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="claim_seed">
-        <ion-label>Claims</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </section>
+<ion-content [fullscreen]="true" class="km-native-page">
+  <div class="km-native-page__body km-native-page__body--with-tabs">
+    <ion-card class="km-card highlights-page__hero" *ngIf="unit() as currentUnit">
+      <ion-card-content>
+        <p class="highlights-page__source">{{ source()?.title }}</p>
+        <div class="highlights-page__hero-head">
+          <h1>{{ currentUnit.title }}</h1>
+          <span>{{ progressPercent() }}% read</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
 
-  <section class="km-panel distill-page__list-panel">
-    <div class="distill-page__selection-meta">{{ selectedNoteIds().length }} selected</div>
-
-    <ion-list class="distill-page__list" *ngIf="filteredNotes().length; else emptyState">
-      <ion-item
-        button="true"
-        detail="false"
-        lines="full"
-        class="distill-page__note-row"
-        [class.distill-page__note-row--selected]="isSelected(note.id)"
-        *ngFor="let note of filteredNotes()"
-        (click)="toggleNoteSelection(note.id)"
+    <section class="highlights-page__filter-row">
+      <button
+        type="button"
+        class="highlights-page__filter-pill"
+        *ngFor="let filter of filters"
+        [class.highlights-page__filter-pill--active]="activeFilter() === filter"
+        (click)="setFilter(filter)"
       >
-        <ion-checkbox slot="start" [checked]="isSelected(note.id)"></ion-checkbox>
+        {{ filterLabel(filter) }}
+      </button>
+    </section>
 
-        <ion-label>
-          <h3>{{ note.title || noteLabel(note) }}</h3>
-          <p>{{ note.excerptText || note.bodyMd }}</p>
-          <span *ngIf="note.locator">{{ note.locator }}</span>
-        </ion-label>
-      </ion-item>
-    </ion-list>
+    <section class="highlights-page__list" *ngIf="filteredHighlights().length; else emptyState">
+      <ion-card class="km-card highlights-page__item" *ngFor="let note of filteredHighlights(); trackBy: trackNote">
+        <ion-card-content>
+          <div class="highlights-page__item-head">
+            <div>
+              <p class="highlights-page__item-meta">{{ noteMeta(note) }}</p>
+              <h2>{{ notePreview(note) }}</h2>
+            </div>
+
+            <button type="button" class="highlights-page__menu-button" (click)="openHighlightMenu(note)">
+              <ion-icon name="ellipsis-horizontal"></ion-icon>
+            </button>
+          </div>
+
+          <button type="button" class="highlights-page__item-open" (click)="openHighlight(note.id)">
+            Open highlight
+          </button>
+        </ion-card-content>
+      </ion-card>
+    </section>
 
     <ng-template #emptyState>
-      <p class="distill-page__empty">No notes in this filter yet.</p>
+      <app-kmaps-empty-state-card
+        title="No highlights in this filter"
+        message="Go back to the read tab, mark a passage, and it will appear here with calm metadata and overflow actions."
+        actionLabel="Go to read"
+        (actionSelected)="goToRead()"
+      ></app-kmaps-empty-state-card>
     </ng-template>
-  </section>
-</app-kmaps-workflow-shell>
+  </div>
+</ion-content>
+
+<ion-footer class="km-native-page__footer">
+  <app-kmaps-unit-bottom-tabs [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-bottom-tabs>
+</ion-footer>

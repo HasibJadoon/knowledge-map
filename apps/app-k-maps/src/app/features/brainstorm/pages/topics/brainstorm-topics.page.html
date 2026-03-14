@@ -1,19 +1,23 @@
-<ion-content [fullscreen]="true" class="km-shell km-planner-page brainstorm-topics__content">
+<ion-content class="brainstorm-topics__content">
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="km-planner-wrap ion-padding brainstorm-topics">
-    <section class="km-panel km-empty-state brainstorm-topics__state" *ngIf="error() && !loading()">
-      <h2>Unable to load brainstorm</h2>
-      <p>{{ error() }}</p>
-      <ion-button fill="clear" size="small" (click)="retryLoad()">Retry</ion-button>
-    </section>
+  <div class="brainstorm-topics__body ion-padding">
+    <ion-card class="km-ion-card brainstorm-topics__state-card" *ngIf="error() && !loading()">
+      <ion-card-content class="brainstorm-topics__state">
+        <h2>Unable to load brainstorm</h2>
+        <p>{{ error() }}</p>
+        <ion-button fill="clear" size="small" (click)="retryLoad()">Retry</ion-button>
+      </ion-card-content>
+    </ion-card>
 
-    <section class="km-panel km-empty-state brainstorm-topics__state" *ngIf="loading()">
-      <ion-spinner name="crescent"></ion-spinner>
-      <p>Loading topics…</p>
-    </section>
+    <ion-card class="km-ion-card brainstorm-topics__state-card" *ngIf="loading()">
+      <ion-card-content class="brainstorm-topics__state">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Loading topics…</p>
+      </ion-card-content>
+    </ion-card>
 
     <ng-container *ngIf="!loading() && !error()">
       <div class="brainstorm-topics__list" *ngIf="topics().length; else emptyTopics">
@@ -33,10 +37,12 @@
   </div>
 
   <ng-template #emptyTopics>
-    <section class="km-panel km-empty-state brainstorm-topics__state">
-      <h2>{{ query() ? 'No matches' : 'No topics yet' }}</h2>
-      <p>{{ query() ? 'Try a different search phrase.' : 'Capture the first topic below to start organizing subtopics and ideas.' }}</p>
-    </section>
+    <ion-card class="km-ion-card brainstorm-topics__state-card">
+      <ion-card-content class="brainstorm-topics__state">
+        <h2>{{ query() ? 'No matches' : 'No topics yet' }}</h2>
+        <p>{{ query() ? 'Try a different search phrase.' : 'Capture the first topic below to start organizing subtopics and ideas.' }}</p>
+      </ion-card-content>
+    </ion-card>
   </ng-template>
 </ion-content>
 

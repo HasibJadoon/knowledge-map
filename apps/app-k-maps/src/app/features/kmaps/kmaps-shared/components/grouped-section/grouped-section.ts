@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 import { KmapsSectionHeaderComponent } from '../section-header/section-header';
 
 @Component({
   selector: 'app-kmaps-grouped-section',
   standalone: true,
-  imports: [CommonModule, KmapsSectionHeaderComponent],
+  imports: [CommonModule, IonicModule, KmapsSectionHeaderComponent],
   templateUrl: './grouped-section.html',
   styleUrl: './grouped-section.scss',
 })

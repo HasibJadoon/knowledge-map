@@ -6,12 +6,10 @@ import { ActionSheetController, IonicModule } from '@ionic/angular';
 
 import { KmapsEmptyStateCardComponent } from '../../../kmaps-shared/components/empty-state-card/empty-state-card';
 import {
-  formatSourceTypeLabel,
   formatUnitTypeLabel,
   type KmapsSource,
   type KmapsSourceUnit,
 } from '../../../kmaps-shared/models/kmaps.models';
-import { KmapsWorkflowShellComponent } from '../../../kmaps-shared/components/workflow-shell/workflow-shell';
 import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
 
 type SourceOutlineGroup = {
@@ -25,7 +23,7 @@ type SourceOutlineGroup = {
 @Component({
   selector: 'app-source-detail-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, KmapsWorkflowShellComponent, KmapsEmptyStateCardComponent],
+  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent],
   templateUrl: './source-detail-page.html',
   styleUrl: './source-detail-page.scss',
 })
@@ -97,7 +95,6 @@ export class SourceDetailPage {
     const source = this.currentSource();
     return [source.creator, source.publicationYear ? String(source.publicationYear) : null].filter(Boolean).join(' • ');
   });
-  readonly sourceTypeLabel = computed(() => formatSourceTypeLabel(this.currentSource().sourceType));
   readonly progressPercent = computed(() => clampPercent(this.currentSource().progressPercent));
   readonly progressCopy = computed(() => {
     const source = this.currentSource();
@@ -109,12 +106,6 @@ export class SourceDetailPage {
 
     return `${this.units().length} ${this.units().length === 1 ? 'unit' : 'units'} ready for reading.`;
   });
-  readonly summaryLine = computed(() => {
-    const source = this.currentSource();
-    return source.description || 'Start with a clean registry entry, then add units and move into reading.';
-  });
-  readonly totalNotes = computed(() => this.workflow.getSourceNotesCount(this.currentSource().id));
-  readonly totalClaims = computed(() => this.workflow.getSourceClaimCount(this.currentSource().id));
   readonly emptyTitle = computed(() => {
     if (this.searchQuery().trim()) {
       return 'No matching chapters or sections';
@@ -179,6 +170,10 @@ export class SourceDetailPage {
     void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', unitId, 'notes']);
   }
 
+  resumeReading(): void {
+    this.openContinueReading();
+  }
+
   toggleOutlineGroup(event: Event, unitId: string): void {
     event.stopPropagation();
     event.preventDefault();
@@ -192,17 +187,6 @@ export class SourceDetailPage {
     }
 
     void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', preferredUnit.id, 'capture']);
-  }
-
-  unitMeta(unit: KmapsSourceUnit): string {
-    return [
-      formatUnitTypeLabel(unit.unitType),
-      unit.locatorLabel,
-      `${unit.readingMinutes} min`,
-      this.noteCountForUnit(unit.id) ? `${this.noteCountForUnit(unit.id)} notes` : null,
-    ]
-      .filter(Boolean)
-      .join(' • ');
   }
 
   noteCountForUnit(unitId: string): number {

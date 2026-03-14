@@ -1,13 +1,15 @@
-<section class="km-panel kmaps-grouped-section">
-  <app-kmaps-section-header
-    [eyebrow]="eyebrow"
-    [title]="title"
-    [subtitle]="subtitle"
-    [actionLabel]="actionLabel"
-    (actionSelected)="actionSelected.emit()"
-  ></app-kmaps-section-header>
+<ion-card class="km-card kmaps-grouped-section">
+  <ion-card-content class="kmaps-grouped-section__content">
+    <app-kmaps-section-header
+      [eyebrow]="eyebrow"
+      [title]="title"
+      [subtitle]="subtitle"
+      [actionLabel]="actionLabel"
+      (actionSelected)="actionSelected.emit()"
+    ></app-kmaps-section-header>
 
-  <div class="kmaps-grouped-section__body">
-    <ng-content></ng-content>
-  </div>
-</section>
+    <div class="kmaps-grouped-section__body">
+      <ng-content></ng-content>
+    </div>
+  </ion-card-content>
+</ion-card>

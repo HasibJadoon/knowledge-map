@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { RefresherCustomEvent, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { PlannerTaskRow, PlannerWeekSummary, SprintReview } from '../../../sprint/models/sprint.models';
 import { PlannerService } from '../../../sprint/services/planner.service';
@@ -40,16 +40,15 @@ export class PlannerReviewPage {
   readonly carryOverTaskIds = signal<string[]>([]);
 
   constructor() {
-    this.route.paramMap.subscribe((params) => {
-      const nextWeekStart = computeWeekStartSydney(params.get('weekStart') ?? this.planner.currentWeekStart());
+    this.route.queryParamMap.subscribe((params) => {
+      const nextWeekStart = computeWeekStartSydney(
+        params.get('weekStart')
+          ?? this.route.snapshot.paramMap.get('weekStart')
+          ?? this.planner.currentWeekStart()
+      );
       this.weekStart.set(nextWeekStart);
       void this.load();
     });
-  }
-
-  async onRefresh(event: RefresherCustomEvent): Promise<void> {
-    await this.load();
-    event.target.complete();
   }
 
   isCarryOver(taskId: string): boolean {

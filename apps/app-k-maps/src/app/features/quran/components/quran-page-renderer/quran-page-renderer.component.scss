@@ -2,20 +2,15 @@
   display: block;
 }
 
-.quran-reading-page {
-  display: block;
-}
-
 .quran-reading-page__surface {
   width: min(100%, 42rem);
   margin: 0 auto;
   padding: 0;
-  color: var(--study-text, #e8eef7);
+  color: var(--study-text);
 }
 
 .quran-reading-page__frame {
   min-height: 0;
-  padding: 0;
 }
 
 .quran-reading-page__passage {
@@ -43,7 +38,7 @@
 .quran-reading-page__section-basmallah,
 .quran-reading-page__section-text {
   font-family: var(--app-font-ar);
-  color: #f2f7ff;
+  color: var(--app-text-strong);
 }
 
 .quran-reading-page__section-title {
@@ -53,15 +48,15 @@
   max-width: 100%;
   padding: 0.2rem 1.6rem 0.45rem;
   text-align: center;
-  color: var(--study-label, #ffd84d);
+  color: var(--study-label, var(--ion-color-primary-tint));
   font-family: "Surah Name V2", "QCF Surah Header", var(--app-font-ar);
   font-size: clamp(calc(var(--app-font-ar-size, 32px) * 1.02), 7.8vw, calc(var(--app-font-ar-size, 32px) * 1.45));
   line-height: 1.2;
   letter-spacing: 0.01em;
   margin-bottom: 0.12rem;
   text-shadow:
-    0 0 18px rgba(255, 216, 77, 0.12),
-    0 0 34px rgba(255, 216, 77, 0.06);
+    0 0 18px rgba(var(--ion-color-primary-rgb), 0.14),
+    0 0 34px rgba(var(--ion-color-primary-rgb), 0.06);
 }
 
 .quran-reading-page__section-title::before,
@@ -71,7 +66,7 @@
   top: 50%;
   width: min(18vw, 4.5rem);
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 216, 77, 0.7), transparent);
+  background: linear-gradient(90deg, transparent, rgba(var(--ion-color-primary-rgb), 0.72), transparent);
   transform: translateY(-50%);
 }
 
@@ -92,13 +87,13 @@
   max-width: 100%;
   padding: 0.28rem 1.4rem 0.5rem;
   text-align: center;
-  color: #f3f8ff;
+  color: var(--app-text-strong);
   font-size: clamp(calc(var(--app-font-ar-size, 32px) * 0.9), 6.6vw, calc(var(--app-font-ar-size, 32px) * 1.12));
   line-height: 1.35;
   letter-spacing: 0.01em;
   text-shadow:
-    0 0 18px rgba(83, 215, 242, 0.14),
-    0 0 28px rgba(83, 215, 242, 0.06);
+    0 0 18px rgba(var(--ion-color-primary-rgb), 0.14),
+    0 0 28px rgba(var(--ion-color-primary-rgb), 0.06);
 }
 
 .quran-reading-page__section-basmallah::before,
@@ -108,7 +103,7 @@
   left: 50%;
   width: min(48%, 8rem);
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(83, 215, 242, 0.7), transparent);
+  background: linear-gradient(90deg, transparent, rgba(var(--ion-color-primary-rgb), 0.72), transparent);
   transform: translateX(-50%);
 }
 
@@ -160,8 +155,8 @@
   .quran-reading-page__word:hover,
   .quran-reading-page__verse-text:hover {
     color: #f8fbff;
-    text-shadow: 0 0 12px rgba(106, 217, 255, 0.18);
-    background: rgba(34, 53, 74, 0.2);
+    text-shadow: 0 0 12px rgba(var(--ion-color-primary-rgb), 0.2);
+    background: rgba(var(--ion-color-primary-rgb), 0.1);
   }
 }
 
@@ -174,10 +169,10 @@
   block-size: 1.95em;
   margin-inline: 0.28rem 0.5rem;
   border-radius: 999px;
-  border: 1.5px solid rgba(46, 210, 234, 0.88);
-  box-shadow: inset 0 0 0 1px rgba(46, 210, 234, 0.2);
-  background: radial-gradient(circle at 32% 24%, rgba(46, 210, 234, 0.18), rgba(46, 210, 234, 0.03) 62%, transparent 72%);
-  color: #35d7f2;
+  border: 1.5px solid rgba(var(--ion-color-primary-rgb), 0.88);
+  box-shadow: inset 0 0 0 1px rgba(var(--ion-color-primary-rgb), 0.2);
+  background: radial-gradient(circle at 32% 24%, rgba(var(--ion-color-primary-rgb), 0.18), rgba(var(--ion-color-primary-rgb), 0.03) 62%, transparent 72%);
+  color: var(--ion-color-primary-tint);
   font-size: clamp(0.9rem, 0.56em, 1.25rem);
   font-family: var(--app-font-sans);
   font-weight: 700;
@@ -195,8 +190,8 @@
   .quran-reading-page__marker:hover {
     transform: translateY(-0.04em);
     box-shadow:
-      inset 0 0 0 1px rgba(46, 210, 234, 0.24),
-      0 0 16px rgba(46, 210, 234, 0.22);
+      inset 0 0 0 1px rgba(var(--ion-color-primary-rgb), 0.24),
+      0 0 16px rgba(var(--ion-color-primary-rgb), 0.22);
   }
 }
 
@@ -205,7 +200,7 @@
   position: absolute;
   inset: -0.16em;
   border-radius: 999px;
-  border: 1px solid rgba(46, 210, 234, 0.42);
+  border: 1px solid rgba(var(--ion-color-primary-rgb), 0.42);
   pointer-events: none;
 }
 
@@ -218,7 +213,7 @@
   letter-spacing: 0.1em;
   font-size: 0.34em;
   line-height: 1;
-  color: rgba(46, 210, 234, 0.95);
+  color: rgba(var(--ion-color-primary-rgb), 0.95);
 }
 
 .quran-reading-page__fallback-empty {
@@ -228,7 +223,7 @@
   font-family: var(--app-font-sans);
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--study-muted, #b4c0d0);
+  color: var(--study-muted);
 }
 
 .quran-reading-page__page-end {
@@ -280,9 +275,6 @@
 .quran-reading-page__page-end-number {
   position: relative;
   z-index: 1;
-}
-
-.quran-reading-page__page-end-number {
   color: #54def5;
   font-family: var(--app-font-sans);
   font-size: 1.04rem;

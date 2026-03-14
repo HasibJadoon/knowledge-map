@@ -8,7 +8,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { ContentBlockCardComponent } from '../../components/content-block-card/content-block-card';
 import { EvidenceListComponent } from '../../../kmaps-distill/components/evidence-list/evidence-list';
 import { KmapsGroupedSectionComponent } from '../../../kmaps-shared/components/grouped-section/grouped-section';
-import { KmapsWorkflowShellComponent } from '../../../kmaps-shared/components/workflow-shell/workflow-shell';
+import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { KmapsContentBlockKind, KmapsContentItem, KmapsContentStatus, KmapsContentType } from '../../../kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
 
@@ -19,7 +19,7 @@ import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workf
     CommonModule,
     IonicModule,
     ReactiveFormsModule,
-    KmapsWorkflowShellComponent,
+    KmapsPageHeaderComponent,
     KmapsGroupedSectionComponent,
     EvidenceListComponent,
     ContentBlockCardComponent,

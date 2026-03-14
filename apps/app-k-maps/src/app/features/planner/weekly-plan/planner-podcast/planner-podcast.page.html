@@ -1,9 +1,4 @@
-<ion-content class="km-shell km-content-with-bottom-tabs km-planner-page" [fullscreen]="true">
-  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
-  <div class="km-planner-wrap ion-padding">
+<div class="study-shell ion-padding km-planner-wrap">
     <ng-container *ngIf="loading(); else episodesLoaded">
       <section class="km-panel">
         <ion-list class="km-entry-list">
@@ -39,5 +34,4 @@
         </section>
       </ng-template>
     </ng-template>
-  </div>
-</ion-content>
+</div>

@@ -4,6 +4,16 @@
 
 .content-builder-page__form,
 .content-builder-page__block-editor {
+  margin: 0;
+}
+
+.content-builder-page__form ion-card-content,
+.content-builder-page__block-editor ion-card-content {
+  display: grid;
+  gap: 0.62rem;
+}
+
+.content-builder-page__form form {
   display: grid;
   gap: 0.62rem;
 }

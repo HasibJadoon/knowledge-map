@@ -2,41 +2,46 @@
   <ion-row>
     <ion-col
       size="6"
+      size-md="4"
       size-lg="4"
       *ngFor="let card of cards; trackBy: trackByCard"
     >
-      <button
-        type="button"
-        class="dashboard-card"
+      <ion-card
+        class="km-ion-card dashboard-card"
         [class.dashboard-card--sand]="card.tone === 'sand'"
         [class.dashboard-card--sky]="card.tone === 'sky'"
         [class.dashboard-card--mint]="card.tone === 'mint'"
+        button
         [routerLink]="card.route"
       >
-        <span class="dashboard-card__glow" aria-hidden="true"></span>
-
-        <div class="dashboard-card__poster">
-          <div class="dashboard-card__icon-wrap">
-            <ion-icon class="dashboard-card__icon" [icon]="card.icon"></ion-icon>
+        <ion-card-header class="dashboard-card__header" aria-hidden="true">
+          <div class="dashboard-card__top">
+            <div class="dashboard-card__icon-wrap">
+              <ion-icon class="dashboard-card__icon" [icon]="card.icon"></ion-icon>
+            </div>
           </div>
-        </div>
+          <div class="dashboard-card__top-line"></div>
+        </ion-card-header>
 
-        <div class="dashboard-card__info">
+        <ion-card-content class="dashboard-card__content">
           <div class="dashboard-card__copy">
             <span class="dashboard-card__title">{{ card.title }}</span>
             <span class="dashboard-card__subtitle">{{ card.subtitle }}</span>
           </div>
+
           <span class="dashboard-card__arrow" aria-hidden="true">
             <ion-icon name="chevron-forward-outline"></ion-icon>
           </span>
-        </div>
-      </button>
+        </ion-card-content>
+      </ion-card>
     </ion-col>
   </ion-row>
 </ion-grid>
 
 <ng-template #emptyState>
-  <section class="dashboard-empty">
-    <p>{{ emptyText }}</p>
-  </section>
+  <ion-card class="km-ion-card dashboard-empty">
+    <ion-card-content>
+      <p>{{ emptyText }}</p>
+    </ion-card-content>
+  </ion-card>
 </ng-template>

@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { SourceMetadataSheetComponent } from '../../components/source-metadata-sheet/source-metadata-sheet';
 import { KmapsEmptyStateCardComponent } from '../../../kmaps-shared/components/empty-state-card/empty-state-card';
 import { KmapsSource, formatSourceTypeLabel, type KmapsSourceContributor, type KmapsSourceType } from '../../../kmaps-shared/models/kmaps.models';
-import { KmapsWorkflowShellComponent } from '../../../kmaps-shared/components/workflow-shell/workflow-shell';
 import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
 
 type LibraryPeopleSummary = {
@@ -26,7 +25,7 @@ type LibraryListEntry = {
 @Component({
   selector: 'app-library-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, KmapsWorkflowShellComponent, KmapsEmptyStateCardComponent],
+  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent],
   templateUrl: './library-page.html',
   styleUrl: './library-page.scss',
 })

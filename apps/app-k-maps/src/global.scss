@@ -9,6 +9,8 @@
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
+@use "sass:meta";
+
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
 
@@ -90,11 +92,6 @@
   --app-font-ar-size: 32px;
   --app-font-sans: "Poppins", "Helvetica Neue", Arial, sans-serif;
   --app-font-ar: "Uthmanic Hafs", "Scheherazade New", serif;
-  --app-gold: #ffd800;
-  --app-gold-rgb: 255, 216, 0;
-  --app-heading-blue: #9ef0ff;
-  --app-card-bg: rgba(3, 9, 31, 0.92);
-  --app-card-border: rgba(255, 255, 255, 0.12);
 }
 
 body {
@@ -115,7 +112,32 @@ html {
 }
 
 ion-content {
-  --background: #0b0d12;
+  --background: var(--ion-background-color);
+}
+
+ion-card,
+ion-card.km-card,
+ion-card.km-ion-card {
+  --background: var(--km-ion-card-background);
+  --color: var(--ion-text-color);
+  background: var(--km-ion-card-background);
+  border: 1px solid var(--km-ion-card-border-color);
+  border-radius: var(--km-ion-card-radius);
+  box-shadow: var(--km-ion-card-shadow);
+  overflow: hidden;
+}
+
+ion-card ion-card-header,
+ion-card ion-card-content {
+  color: inherit;
+}
+
+ion-card ion-card-title {
+  color: var(--ion-text-color);
+}
+
+ion-card ion-card-subtitle {
+  color: rgba(var(--ion-text-color-rgb, 238, 244, 255), 0.64);
 }
 
   .arabic-title,
@@ -1022,77 +1044,6 @@ app-arabic-roots .state.empty {
   color: var(--ion-color-medium);
 }
 
-/* Arabic lessons page */
-app-arabic-lessons ion-item h2,
-app-arabic-lessons ion-label .lesson-title {
-  font-family: var(--app-font-sans);
-  font-weight: 800;
-}
-
-app-arabic-lessons .lesson-title-ar,
-app-arabic-lessons ion-label .lesson-title-ar {
-  font-family: var(--app-font-ar) !important;
-  font-size: var(--app-font-ar-size);
-}
-
-app-arabic-lessons ion-badge {
-  text-transform: capitalize;
-  padding: 6px 10px;
-  border-radius: 12px;
-}
-
-app-arabic-lessons .lesson-badges {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-app-arabic-lessons .subtype-chip {
-  --background: rgba(86, 204, 255, 0.16);
-  --color: #56ccff;
-  border: 1px solid rgba(86, 204, 255, 0.35);
-  box-shadow: 0 0 8px rgba(86, 204, 255, 0.35);
-}
-
-app-arabic-lessons .subtype-chip ion-label {
-  color: #56ccff;
-  font-weight: 800;
-  font-size: 0.85rem;
-}
-
-app-arabic-lessons .status-draft {
-  --background: rgba(255, 170, 0, 0.2);
-  --color: #ffb300;
-  border: 1px solid rgba(255, 179, 0, 0.35);
-}
-
-app-arabic-lessons .status-done {
-  --background: rgba(0, 200, 120, 0.2);
-  --color: #2bff9a;
-  border: 1px solid rgba(43, 255, 154, 0.35);
-}
-
-app-arabic-lessons .status-published {
-  --background: rgba(86, 204, 255, 0.2);
-  --color: #56ccff;
-  border: 1px solid rgba(86, 204, 255, 0.35);
-}
-
-app-arabic-lessons .status-default {
-  --background: rgba(180, 190, 210, 0.2);
-  --color: #c9d1e0;
-  border: 1px solid rgba(201, 209, 224, 0.35);
-}
-
-app-arabic-lessons .status-draft,
-app-arabic-lessons .status-done,
-app-arabic-lessons .status-published,
-app-arabic-lessons .status-default {
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
-}
-
 /* Arabic roots page */
 app-arabic-roots ion-content {
   --overflow: auto;
@@ -1343,23 +1294,12 @@ app-worldview-entry .chip-row {
    Quran Study (Ionic Native Mobile Styling)
    ========================================================================== */
 
-:root {
-  --study-bg: #0b0f14;
-  --study-surface: #141a22;
-  --study-surface-2: #101722;
-  --study-border: rgba(170, 183, 199, 0.25);
-  --study-border-soft: rgba(170, 183, 199, 0.16);
-  --study-text: #e8eef7;
-  --study-muted: #b4c0d0;
-  --study-label: #ffd84d;
-  --study-blue: #4e8fd7;
-  --study-green: #3ea072;
-  --study-orange: #d18a45;
-  --study-violet: #8366b6;
-  --study-gray: #8a97a8;
+.km-card {
+  margin: 0;
 }
 
-app-ar-quran-study {
+app-ar-quran-study,
+app-planner-tabs-page {
   --study-font-size: var(--app-font-size, 16px);
   --study-font-ar-size: var(--app-font-ar-size, 32px);
   display: block;
@@ -1370,28 +1310,33 @@ app-ar-quran-study {
   font-size: var(--study-font-size);
 }
 
-app-ar-quran-study .study-toolbar {
+app-ar-quran-study .study-toolbar,
+app-planner-tabs-page .study-toolbar {
   --background: rgba(11, 15, 20, 0.95);
   --color: var(--study-text);
   --border-color: var(--study-border-soft);
   --min-height: 48px;
 }
 
-app-ar-quran-study .study-back-button {
+app-ar-quran-study .study-back-button,
+app-planner-tabs-page .study-back-button {
   --color: #dbe8f8;
   --background: transparent;
   --border-radius: 10px;
 }
 
-app-ar-quran-study .study-back-button ion-icon {
+app-ar-quran-study .study-back-button ion-icon,
+app-planner-tabs-page .study-back-button ion-icon {
   font-size: 1.3rem;
 }
 
-app-ar-quran-study ion-content.study-content {
+app-ar-quran-study ion-content.study-content,
+app-planner-tabs-page ion-content.study-content {
   --background: var(--study-bg);
 }
 
-app-ar-quran-study .study-shell {
+app-ar-quran-study .study-shell,
+app-planner-tabs-page .study-shell {
   width: min(100%, 1040px);
   margin-inline: auto;
   display: grid;
@@ -1416,7 +1361,8 @@ app-ar-quran-study .study-state--error {
   border-color: rgba(222, 107, 107, 0.42);
 }
 
-app-ar-quran-study .study-footer {
+app-ar-quran-study .study-footer,
+app-planner-tabs-page .study-footer {
   border-top: 1px solid var(--study-border-soft);
   background: rgba(9, 13, 18, 0.97);
 }
@@ -1878,7 +1824,8 @@ app-ar-quran-study .study-timeline-step:last-child .study-timeline-copy {
 }
 
 @media (max-width: 767px) {
-  app-ar-quran-study .study-shell {
+  app-ar-quran-study .study-shell,
+  app-planner-tabs-page .study-shell {
     padding-inline: 0.72rem;
   }
 
@@ -2399,29 +2346,60 @@ app-notes-tab-list .notes-empty-state p {
   color: var(--ion-color-medium);
 }
 
-/* Sprint/mobile reusable glass tokens */
-:root {
-  --km-shell-bg:
-    radial-gradient(95% 60% at 18% -8%, rgba(64, 112, 191, 0.18), transparent 62%),
-    radial-gradient(78% 52% at 100% 0%, rgba(49, 135, 215, 0.15), transparent 56%),
-    linear-gradient(165deg, #071022 0%, #0d1830 62%, #111c34 100%);
-  --km-surface: linear-gradient(165deg, rgba(18, 30, 52, 0.86), rgba(11, 18, 33, 0.88));
-  --km-surface-soft: rgba(21, 32, 54, 0.75);
-  --km-border: rgba(151, 181, 227, 0.27);
-  --km-border-strong: rgba(157, 189, 235, 0.42);
-  --km-text: #e6edf8;
-  --km-text-dim: #9eb2ce;
-}
-
 .km-shell {
   --background: var(--km-shell-bg);
+  background: var(--km-shell-bg);
+}
+
+.km-native-page {
+  --background: var(--km-shell-bg);
+  --overflow: auto;
+  background: var(--km-shell-bg);
+  color: var(--km-text);
+}
+
+ion-content.km-native-page::part(scroll),
+ion-content.source-metadata-sheet__content::part(scroll),
+ion-content.note-workspace-modal__content::part(scroll) {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+.km-native-page__body {
+  min-height: 100%;
+  display: grid;
+  gap: 0.85rem;
+  align-content: start;
+  padding: 0.55rem 1rem 1rem;
+}
+
+.km-native-page__body--with-tabs {
+  padding-bottom: calc(var(--km-tabs-min-height, 52px) + env(safe-area-inset-bottom) + 1rem);
+}
+
+.km-native-page__body--with-footer {
+  padding-bottom: calc(var(--km-tabs-min-height, 52px) + env(safe-area-inset-bottom) + 8rem);
+}
+
+.km-native-page__footer {
+  border-top: 1px solid var(--ion-border-color, rgba(170, 183, 199, 0.16));
+  box-shadow: none;
+  background: var(--ion-toolbar-background, var(--ion-background-color, #0b0f14));
+}
+
+.km-native-page__footer-stack {
+  display: grid;
+  gap: 0.72rem;
+  padding: 0.18rem 1rem calc(env(safe-area-inset-bottom) + 0.24rem);
 }
 
 .km-glass {
-  background: var(--km-surface);
-  border: 1px solid var(--km-border);
-  box-shadow: 0 14px 28px rgba(5, 10, 22, 0.34);
-  backdrop-filter: blur(6px);
+  background: var(--km-ion-card-background);
+  border: 1px solid var(--km-ion-card-border-color);
+  box-shadow: var(--km-ion-card-shadow);
+  border-radius: var(--km-ion-card-radius);
+  backdrop-filter: none;
 }
 
 .km-chip {
@@ -2490,22 +2468,6 @@ app-notes-tab-list .notes-empty-state p {
 }
 
 /* Planner UI system (reusable for week + kanban pages) */
-:root {
-  --km-panel-radius: 1rem;
-  --km-panel-padding: 0.9rem;
-  --km-soft-surface: rgba(255, 255, 255, 0.03);
-  --km-soft-border: rgba(145, 176, 224, 0.16);
-  --km-soft-border-strong: rgba(145, 176, 224, 0.24);
-  --km-accent-surface: rgba(var(--app-gold-rgb, 255, 216, 0), 0.09);
-  --km-accent-border: rgba(var(--app-gold-rgb, 255, 216, 0), 0.34);
-  --km-accent-text-soft: rgba(236, 245, 255, 0.88);
-  --km-accent-text: rgba(236, 245, 255, 0.9);
-  --km-lane-lesson: #6dc3ff;
-  --km-lane-podcast: #f6b25f;
-  --km-lane-notes: #80ddb6;
-  --km-lane-admin: #b89bff;
-}
-
 .km-planner-page {
   color: var(--km-text);
   --padding-top: calc(var(--planner-shell-header-offset, env(safe-area-inset-top)) + 0.55rem);
@@ -2518,18 +2480,18 @@ app-notes-tab-list .notes-empty-state p {
 }
 
 .km-panel {
-  background: var(--km-surface);
-  border: 1px solid var(--km-border);
-  border-radius: var(--km-panel-radius);
-  box-shadow: 0 14px 28px rgba(5, 10, 22, 0.34);
-  backdrop-filter: blur(6px);
+  background: var(--km-ion-card-background);
+  border: 1px solid var(--km-ion-card-border-color);
+  border-radius: var(--km-ion-card-radius);
+  box-shadow: var(--km-ion-card-shadow);
+  backdrop-filter: none;
   padding: var(--km-panel-padding);
 }
 
 .km-subcard {
-  border: 1px solid var(--km-soft-border);
-  border-radius: 1rem;
-  background: var(--km-soft-surface);
+  border: 1px solid var(--km-ion-card-border-color);
+  border-radius: calc(var(--km-ion-card-radius) - 0.2rem);
+  background: rgba(255, 255, 255, 0.025);
 }
 
 .km-subcard--active {
@@ -2962,18 +2924,6 @@ app-notes-tab-list .notes-empty-state p {
   }
 }
 
-/* Shared icon-only bottom tabs for Ionic */
-:root {
-  --app-icon-tabs-bg: rgba(9, 13, 18, 0.97);
-  --app-icon-tabs-color: #67c4ff;
-  --app-icon-tabs-selected: #ff3b5c;
-  --app-icon-tabs-border-color: rgba(148, 180, 228, 0.2);
-  --app-icon-tabs-padding: 0.08rem 0 calc(env(safe-area-inset-bottom) * 0.45);
-  --app-icon-tabs-min-height: 50px;
-  --app-icon-tabs-icon-size: 1.25rem;
-  --app-icon-tabs-radius: 0;
-}
-
 ion-modal.km-source-metadata-modal {
   --width: min(100%, 44rem);
   --height: min(88vh, 46rem);
@@ -2983,6 +2933,9 @@ ion-modal.km-source-metadata-modal {
 }
 
 ion-modal.km-source-metadata-modal::part(content) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   overflow: hidden;
   background: transparent;
 }
@@ -2996,49 +2949,11 @@ ion-modal.km-note-workspace-modal {
 }
 
 ion-modal.km-note-workspace-modal::part(content) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   overflow: hidden;
   background: transparent;
-}
-
-app-icon-tabs .app-icon-tab-bar {
-  --background: var(--app-icon-tabs-bg);
-  --border: 0;
-  --color: var(--app-icon-tabs-color);
-  --color-selected: var(--app-icon-tabs-selected);
-  border-top: 1px solid var(--app-icon-tabs-border-color);
-  border-radius: var(--app-icon-tabs-radius);
-  overflow: hidden;
-  padding: var(--app-icon-tabs-padding);
-}
-
-app-icon-tabs .app-icon-tab-button {
-  --color: var(--app-icon-tabs-color);
-  --color-selected: var(--app-icon-tabs-selected);
-  --ripple-color: color-mix(in srgb, var(--app-icon-tabs-color) 35%, transparent);
-  min-height: var(--app-icon-tabs-min-height);
-}
-
-app-icon-tabs .app-icon-tab-button ion-icon {
-  color: currentColor;
-  font-size: var(--app-icon-tabs-icon-size);
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--app-icon-tabs-color) 72%, transparent));
-  transition: color 0.2s ease, filter 0.2s ease, transform 0.2s ease;
-}
-
-app-icon-tabs .app-icon-tab-button ion-label {
-  margin-top: 0.14rem;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-}
-
-app-icon-tabs .app-icon-tab-button.tab-selected ion-icon {
-  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--app-icon-tabs-selected) 68%, transparent));
-  transform: translateY(-1px);
-}
-
-app-icon-tabs .app-icon-tab-button.tab-selected ion-label {
-  color: var(--app-icon-tabs-selected);
 }
 
 .editor-comments-footer {
@@ -3093,3 +3008,5 @@ app-icon-tabs .app-icon-tab-button.tab-selected ion-label {
   margin: 0;
   --color: rgba(103, 170, 255, 0.9);
 }
+
+@include meta.load-css("./theme/app-foundation");

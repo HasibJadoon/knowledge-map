@@ -1,93 +1,130 @@
 :host {
   display: block;
+  --highlight-surface: rgba(16, 20, 31, 0.92);
+  --highlight-border: rgba(132, 156, 194, 0.12);
+  --highlight-text: #f3f5fa;
+  --highlight-text-dim: #9ca9c0;
 }
 
-.distill-page__filters ion-segment {
+.highlights-page__hero,
+.highlights-page__item {
   margin: 0;
-  padding: 0.2rem;
-  border-radius: 0.92rem;
-  background: rgba(7, 14, 27, 0.6);
 }
 
-.distill-page__filters ion-segment-button {
-  --color: rgba(180, 197, 220, 0.76);
-  --color-checked: #eef6ff;
-  --background-checked: rgba(62, 116, 219, 0.26);
-  --indicator-color: transparent;
-  min-height: 2.5rem;
+.highlights-page__hero ion-card-content {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem;
+}
+
+.highlights-page__source,
+.highlights-page__item-meta,
+.highlights-page__item h2 {
+  margin: 0;
+}
+
+.highlights-page__source {
+  color: var(--highlight-text-dim);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.highlights-page__hero-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.highlights-page__hero-head h1 {
+  margin: 0;
+  color: var(--highlight-text);
+  font-size: 1.36rem;
+  line-height: 1.2;
+}
+
+.highlights-page__hero-head span {
+  color: #d7e6ff;
   font-size: 0.82rem;
 }
 
-.distill-page__filters ion-segment-button::part(indicator-background) {
-  border-radius: 0.72rem;
-  background: linear-gradient(135deg, rgba(61, 111, 202, 0.36) 0%, rgba(82, 150, 255, 0.26) 100%);
+.highlights-page__filter-row {
+  display: flex;
+  gap: 0.52rem;
+  overflow-x: auto;
+  padding-bottom: 0.1rem;
 }
 
-.distill-page__selection-meta {
-  color: var(--km-text-dim, #9eb2ce);
-  font-size: 0.8rem;
+.highlights-page__filter-pill,
+.highlights-page__menu-button,
+.highlights-page__item-open {
+  border: 0;
+  font: inherit;
 }
 
-.distill-page__list {
-  background: transparent;
-  padding: 0;
+.highlights-page__filter-pill {
+  flex: 0 0 auto;
+  min-height: 2.4rem;
+  padding: 0 0.92rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--highlight-text-dim);
 }
 
-.distill-page__note-row {
-  --background: transparent;
-  --padding-start: 0;
-  --inner-padding-end: 0;
-  --inner-border-width: 0;
-  --min-height: 4.7rem;
-  --border-color: rgba(133, 188, 255, 0.16);
+.highlights-page__filter-pill--active {
+  background: rgba(244, 208, 111, 0.16);
+  color: #f7e39d;
 }
 
-.distill-page__note-row ion-checkbox {
-  --size: 1.18rem;
-  --border-color: rgba(138, 171, 221, 0.36);
-  --checkbox-background-checked: #5c97ff;
-  --border-color-checked: #5c97ff;
-  margin-inline-end: 0.65rem;
-  pointer-events: none;
+.highlights-page__list {
+  display: grid;
+  gap: 0.78rem;
 }
 
-.distill-page__note-row ion-label {
-  margin: 0;
+.highlights-page__item {
 }
 
-.distill-page__note-row h3,
-.distill-page__note-row p,
-.distill-page__note-row span {
-  margin: 0;
+.highlights-page__item ion-card-content {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0.98rem;
 }
 
-.distill-page__note-row h3 {
-  color: #eef6ff;
+.highlights-page__item-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.82rem;
+}
+
+.highlights-page__item-meta {
+  color: var(--highlight-text-dim);
+  font-size: 0.78rem;
+}
+
+.highlights-page__item h2 {
+  margin-top: 0.38rem;
+  color: #f4d06f;
   font-size: 1rem;
-  font-weight: 640;
-  line-height: 1.32;
+  font-weight: 590;
+  line-height: 1.6;
 }
 
-.distill-page__note-row p {
-  margin-top: 0.2rem;
-  color: var(--km-text-dim, #9eb2ce);
-  font-size: 0.84rem;
-  line-height: 1.4;
+.highlights-page__menu-button {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d7e5ff;
+  flex: 0 0 auto;
 }
 
-.distill-page__note-row span {
-  display: block;
-  margin-top: 0.32rem;
-  color: color-mix(in srgb, var(--km-text-dim) 78%, #d7e8ff 22%);
-  font-size: 0.8rem;
-}
-
-.distill-page__note-row--selected h3 {
-  color: #ffffff;
-}
-
-.distill-page__empty {
-  margin: 0;
-  color: var(--km-text-dim, #9eb2ce);
-  font-size: 0.86rem;
+.highlights-page__item-open {
+  justify-self: start;
+  min-height: 2.1rem;
+  padding: 0 0.82rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #eef5ff;
 }

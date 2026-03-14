@@ -1,4 +1,4 @@
-<ion-header translucent="true">
+<ion-header>
   <ion-toolbar class="podcast-builder-toolbar km-week-toolbar">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -24,26 +24,29 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="km-shell podcast-episodes__content">
+<ion-content class="podcast-episodes__content">
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <div class="podcast-episodes">
-    <section class="km-panel km-panel--search podcast-episodes__filters">
-      <div class="podcast-episodes__filter-row">
-        <span class="km-chip">{{ statusLabel }}</span>
+    <ion-card class="km-ion-card podcast-episodes__filters">
+      <ion-card-content class="podcast-episodes__filter-row">
+        <ion-chip>{{ statusLabel }}</ion-chip>
         <span class="podcast-episodes__count" *ngIf="!loading()">{{ episodes().length }} episodes</span>
-      </div>
-    </section>
+      </ion-card-content>
+    </ion-card>
 
-    <section class="podcast-episodes__state" *ngIf="error() && !loading()">
-      <h2>Unable to load episodes</h2>
-      <p>{{ error() }}</p>
-      <ion-button fill="clear" size="small" (click)="retry()">Retry</ion-button>
-    </section>
+    <ion-card class="km-ion-card podcast-episodes__state-card" *ngIf="error() && !loading()">
+      <ion-card-content class="podcast-episodes__state">
+        <h2>Unable to load episodes</h2>
+        <p>{{ error() }}</p>
+        <ion-button fill="clear" size="small" (click)="retry()">Retry</ion-button>
+      </ion-card-content>
+    </ion-card>
 
-    <section class="km-panel" *ngIf="loading()">
+    <ion-card class="km-ion-card podcast-episodes__state-card" *ngIf="loading()">
+      <ion-card-content>
       <ion-list class="km-entry-list">
         <ion-item class="km-entry-row" lines="none" *ngFor="let row of [1, 2, 3, 4]">
           <ion-label>
@@ -53,7 +56,8 @@
           </ion-label>
         </ion-item>
       </ion-list>
-    </section>
+      </ion-card-content>
+    </ion-card>
 
     <div class="podcast-episodes__list" *ngIf="!loading() && !error() && episodes().length; else emptyState">
       <app-episode-card
@@ -64,10 +68,12 @@
     </div>
 
     <ng-template #emptyState>
-      <section class="km-panel km-empty-state" *ngIf="!loading() && !error()">
-        <h3>No episodes yet</h3>
-        <p>Create the first episode and start shaping the structure.</p>
-      </section>
+      <ion-card class="km-ion-card podcast-episodes__state-card" *ngIf="!loading() && !error()">
+        <ion-card-content class="podcast-episodes__state">
+          <h3>No episodes yet</h3>
+          <p>Create the first episode and start shaping the structure.</p>
+        </ion-card-content>
+      </ion-card>
     </ng-template>
   </div>
 </ion-content>

@@ -8,16 +8,16 @@
 
 .quran-surah-notes-list__section {
   margin: 0;
-  border-bottom: 1px solid rgba(101, 182, 255, 0.12);
+  border-bottom: 1px solid var(--app-border-soft);
 }
 
 .quran-surah-notes-list__section:first-child {
-  border-top: 1px solid rgba(101, 182, 255, 0.12);
+  border-top: 1px solid var(--app-border-soft);
 }
 
 .quran-surah-notes-list__header {
   --background: transparent;
-  --color: #eef5ff;
+  --color: var(--ion-text-color);
   --inner-padding-end: 0;
   --padding-start: 0;
   --padding-end: 0;
@@ -41,17 +41,17 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(122, 214, 255, 0.82);
+  color: color-mix(in srgb, var(--ion-color-primary-tint) 82%, #fff 18%);
 }
 
 .quran-surah-notes-list__count {
   font-size: 0.82rem;
-  color: rgba(211, 225, 243, 0.72);
+  color: var(--app-text-muted);
 }
 
 .quran-surah-notes-list__verse-text {
   margin: 0.6rem 0 0;
-  color: #f4f8ff;
+  color: var(--app-text-strong);
   font-family: var(--app-font-ar);
   font-size: clamp(1.65rem, 3.2vw, 2.35rem);
   line-height: 1.85;
@@ -73,7 +73,7 @@
   --padding-start: 0;
   --padding-end: 0;
   --inner-padding-end: 0;
-  --border-color: rgba(101, 182, 255, 0.1);
+  --border-color: rgba(var(--ion-color-primary-rgb), 0.12);
   --min-height: 4.9rem;
 }
 
@@ -92,26 +92,26 @@
   margin: 0;
   font-size: 1rem;
   line-height: 1.4;
-  color: #f6f9ff;
+  color: var(--app-text-strong);
 }
 
 .quran-surah-notes-list__note p {
   margin: 0.34rem 0 0;
-  color: rgba(208, 220, 236, 0.74);
+  color: var(--app-text-muted);
   font-size: 0.92rem;
   line-height: 1.55;
 }
 
 .quran-surah-notes-list__note-meta {
   font-size: 0.78rem;
-  color: rgba(162, 183, 210, 0.64);
+  color: color-mix(in srgb, var(--app-text-muted) 82%, #d5e8ff 18%);
 }
 
 .quran-surah-notes-list__target-chip {
-  --background: rgba(42, 188, 255, 0.1);
+  --background: rgba(var(--ion-color-primary-rgb), 0.1);
   margin: 0;
-  border: 1px solid rgba(92, 210, 255, 0.24);
-  color: #7bddff;
+  border: 1px solid rgba(var(--ion-color-primary-rgb), 0.24);
+  color: var(--ion-color-primary-tint);
   box-shadow: none;
 }
 

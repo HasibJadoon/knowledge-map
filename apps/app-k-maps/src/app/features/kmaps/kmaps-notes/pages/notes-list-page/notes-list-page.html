@@ -1,77 +1,75 @@
-<app-kmaps-workflow-shell
+<app-kmaps-page-header
   [title]="toolbarTitle()"
   [subtitle]="toolbarSubtitle()"
   [showBackButton]="true"
   [backHref]="backHref()"
-  [showHomeButton]="false"
 >
-  <app-kmaps-unit-workspace-tabs [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-workspace-tabs>
+</app-kmaps-page-header>
 
-  <button type="button" class="notes-list-page__parent-link" *ngIf="hasParentUnit()" (click)="openParentChapter()">
-    <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
-    <span>{{ parentHeading().subtitle ? parentHeading().subtitle + ' · ' : '' }}{{ parentHeading().title }}</span>
-  </button>
-
-  <section class="km-panel km-panel--hero notes-list-page__context" *ngIf="unit()">
-    <p class="km-panel-kicker">{{ contextKicker() }}</p>
-    <h1>{{ heading().title }}</h1>
-    <p class="km-panel-subtitle">{{ contextMessage() }}</p>
-  </section>
-
-  <section class="notes-list-page__metric-row">
-    <article class="km-panel notes-list-page__metric notes-list-page__metric--active">
-      <span>Notes</span>
-      <strong>{{ sectionNotes().length }}</strong>
-    </article>
-    <article class="km-panel notes-list-page__metric">
-      <span>Highlights</span>
-      <strong>{{ highlightCount() }}</strong>
-    </article>
-    <article class="km-panel notes-list-page__metric">
-      <span>Claims</span>
-      <strong>{{ claimCount() }}</strong>
-    </article>
-  </section>
-
-  <button type="button" class="km-panel notes-list-page__create" (click)="openCreateNoteModal()">
-    <span class="notes-list-page__create-icon">
-      <ion-icon name="add-outline"></ion-icon>
-    </span>
-    <span class="notes-list-page__create-copy">Create Note</span>
-    <ion-icon class="notes-list-page__create-chevron" name="chevron-forward-outline"></ion-icon>
-  </button>
-
-  <section class="notes-list-page__list-wrap" *ngIf="sectionNotes().length; else emptyNotes">
-    <p class="notes-list-page__section-label">Notes</p>
-
-    <button
-      type="button"
-      class="notes-list-page__item"
-      *ngFor="let note of sectionNotes(); trackBy: trackNote"
-      (click)="openNoteModal(note.id)"
-    >
-      <span class="notes-list-page__item-icon" [attr.data-kind]="note.noteKind">
-        <ion-icon [name]="noteIcon(note.noteKind)"></ion-icon>
-      </span>
-
-      <div class="notes-list-page__item-copy">
-        <div class="notes-list-page__item-head">
-          <h3>{{ noteKindLabel(note.noteKind) }}</h3>
-          <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
-        </div>
-
-        <p>{{ notePreview(note) }}</p>
-        <span>{{ locatorLabel(note) }}</span>
-      </div>
+<ion-content [fullscreen]="true" class="km-native-page">
+  <div class="km-native-page__body km-native-page__body--with-tabs">
+    <button type="button" class="notes-page__parent-link" *ngIf="hasParentUnit()" (click)="openParentChapter()">
+      <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
+      <span>{{ parentUnit()?.title }}</span>
     </button>
-  </section>
 
-  <ng-template #emptyNotes>
-    <app-kmaps-empty-state-card
-      [title]="emptyTitle()"
-      [message]="emptyMessage()"
-      actionLabel="Create note"
-      (actionSelected)="openCreateNoteModal()"
-    ></app-kmaps-empty-state-card>
-  </ng-template>
-</app-kmaps-workflow-shell>
+    <ion-card class="km-card notes-page__hero" *ngIf="unit() as currentUnit">
+      <ion-card-content>
+        <div class="notes-page__hero-head">
+          <div>
+            <p class="notes-page__source">{{ source()?.title }}</p>
+            <h1>{{ currentUnit.title }}</h1>
+          </div>
+          <button type="button" class="notes-page__create-button" (click)="openCreateNoteModal()">New Note</button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <section class="notes-page__filter-row">
+      <button
+        type="button"
+        class="notes-page__filter-pill"
+        *ngFor="let filter of filters"
+        [class.notes-page__filter-pill--active]="activeFilter() === filter"
+        (click)="setFilter(filter)"
+      >
+        {{ filterLabel(filter) }}
+      </button>
+    </section>
+
+    <section class="notes-page__list" *ngIf="filteredNotes().length; else emptyNotes">
+      <ion-card
+        class="km-card notes-page__card"
+        *ngFor="let note of filteredNotes(); trackBy: trackNote"
+        [attr.data-kind]="note.noteKind"
+      >
+        <ion-card-content>
+          <div class="notes-page__card-head">
+            <span class="notes-page__badge">{{ noteKindLabel(note.noteKind) }}</span>
+            <button type="button" class="notes-page__menu-button" (click)="openNoteMenu(note)">
+              <ion-icon name="ellipsis-horizontal"></ion-icon>
+            </button>
+          </div>
+
+          <button type="button" class="notes-page__card-open" (click)="openNoteModal(note.id)">
+            <p>{{ notePreview(note) }}</p>
+            <span>{{ locatorLabel(note) }}</span>
+          </button>
+        </ion-card-content>
+      </ion-card>
+    </section>
+
+    <ng-template #emptyNotes>
+      <app-kmaps-empty-state-card
+        title="No notes in this filter"
+        message="Capture reflections, questions, ideas, or claim seeds from the chapter and they will collect here in a calmer workspace."
+        actionLabel="Create note"
+        (actionSelected)="openCreateNoteModal()"
+      ></app-kmaps-empty-state-card>
+    </ng-template>
+  </div>
+</ion-content>
+
+<ion-footer class="km-native-page__footer">
+  <app-kmaps-unit-bottom-tabs [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-bottom-tabs>
+</ion-footer>

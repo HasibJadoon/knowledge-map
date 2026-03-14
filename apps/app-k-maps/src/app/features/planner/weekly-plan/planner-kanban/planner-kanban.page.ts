@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { RefresherCustomEvent, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { PlannerLane, PlannerTask, PlannerTaskRow } from '../../../sprint/models/sprint.models';
 import { PlannerService } from '../../../sprint/services/planner.service';
@@ -58,11 +58,6 @@ export class PlannerKanbanPage {
 
   constructor() {
     void this.load();
-  }
-
-  async onRefresh(event: RefresherCustomEvent): Promise<void> {
-    await this.load();
-    event.target.complete();
   }
 
   boardStatusLabel(status: BoardStatus): string {

@@ -1,4 +1,4 @@
-<ion-header translucent="true">
+<ion-header>
   <ion-toolbar class="quran-browse-toolbar">
     <ion-buttons slot="start">
       <ion-menu-button menu="main-menu"></ion-menu-button>
@@ -23,15 +23,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="quran-browse-page">
+<ion-content class="quran-browse-page">
   <div class="quran-browse">
-    <ion-card *ngIf="error" class="quran-browse__panel quran-browse__card">
+    <ion-card *ngIf="error" class="km-ion-card quran-browse__panel quran-browse__card">
       <ion-card-content>
         <p class="quran-browse__error">{{ error }}</p>
       </ion-card-content>
     </ion-card>
 
-    <ion-card *ngIf="loading" class="quran-browse__panel quran-browse__card">
+    <ion-card *ngIf="loading" class="km-ion-card quran-browse__panel quran-browse__card">
       <ion-card-content>
         <p class="quran-browse__loading">Loading Quran menu...</p>
       </ion-card-content>

@@ -1,104 +1,107 @@
+:host {
+  display: block;
+}
+
+:host ion-content {
+  --background: var(--app-page-background);
+}
+
+.arabic-lessons__list {
+  padding-top: 0.35rem;
+  background: transparent;
+}
+
 .state {
-  display: grid;
-  place-items: center;
-  gap: 0.5rem;
-  padding: 2rem 1rem;
-  text-align: center;
+  margin: 0.85rem;
 }
 
-.state.error {
-  color: var(--ion-color-danger);
+.state ion-icon {
+  font-size: 1.45rem;
 }
 
-.state.empty {
-  color: var(--ion-color-medium);
+.state--error {
+  border-color: rgba(var(--ion-color-danger-rgb), 0.28);
 }
 
+.state--empty {
+  border-style: dashed;
+}
 
-ion-item h2 {
+.arabic-lessons__row {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  --inner-padding-end: 0;
+  --padding-top: 0.72rem;
+  --padding-bottom: 0.72rem;
+}
+
+.arabic-lessons__row h2,
+.arabic-lessons__row ion-label .lesson-title {
   font-family: var(--app-font-sans);
   font-weight: 800;
 }
 
-.lesson-title-ar {
-  font-family: var(--app-font-ar);
-  font-size: var(--app-font-ar-size);
-}
-
-ion-badge {
-  text-transform: capitalize;
-  padding: 6px 10px;
-  border-radius: 12px;
-}
-
-.status-draft {
-  --background: rgba(255, 170, 0, 0.2);
-  --color: #ffb300;
-  border: 1px solid rgba(255, 179, 0, 0.35);
-}
-
-.status-done {
-  --background: rgba(0, 200, 120, 0.2);
-  --color: #2bff9a;
-  border: 1px solid rgba(43, 255, 154, 0.35);
-}
-
-.status-published {
-  --background: rgba(86, 204, 255, 0.2);
-  --color: #56ccff;
-  border: 1px solid rgba(86, 204, 255, 0.35);
-}
-
-.status-default {
-  --background: rgba(180, 190, 210, 0.2);
-  --color: #c9d1e0;
-  border: 1px solid rgba(201, 209, 224, 0.35);
-}
-
-
-ion-label .lesson-title {
-  font-family: var(--app-font-sans);
-  font-weight: 800;
-}
-
-ion-label .lesson-title-ar {
+.lesson-title-ar,
+.arabic-lessons__row ion-label .lesson-title-ar {
   font-family: var(--app-font-ar) !important;
   font-size: var(--app-font-ar-size);
 }
 
-
-.subtype-chip {
-  --background: rgba(86, 204, 255, 0.18);
-  --color: #56ccff;
-  border: 1px solid rgba(86, 204, 255, 0.35);
-  box-shadow: 0 0 8px rgba(86, 204, 255, 0.35);
+.arabic-lessons__row ion-badge {
+  text-transform: capitalize;
+  padding: 0.34rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
 }
-
 
 .lesson-badges {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 6px;
-  margin-top: 8px;
+  gap: 0.38rem;
+  margin-top: 0.3rem;
 }
 
-
 .subtype-chip {
-  --background: rgba(86, 204, 255, 0.16);
-  border: 1px solid rgba(86, 204, 255, 0.35);
+  --background: rgba(var(--ion-color-primary-rgb), 0.12);
+  --color: var(--ion-color-primary-tint);
+  border: 1px solid rgba(var(--ion-color-primary-rgb), 0.22);
+  box-shadow: none;
 }
 
 .subtype-chip ion-label {
-  color: #56ccff;
-  font-weight: 800;
-  font-size: 0.85rem;
+  color: inherit;
+  font-weight: 700;
+  font-size: 0.8rem;
 }
 
+.status-draft {
+  --background: rgba(var(--ion-color-warning-rgb), 0.16);
+  --color: var(--ion-color-warning);
+  border-color: rgba(var(--ion-color-warning-rgb), 0.26);
+}
+
+.status-done {
+  --background: rgba(var(--ion-color-success-rgb), 0.16);
+  --color: var(--ion-color-success);
+  border-color: rgba(var(--ion-color-success-rgb), 0.26);
+}
+
+.status-published {
+  --background: rgba(var(--ion-color-primary-rgb), 0.16);
+  --color: var(--ion-color-primary-tint);
+  border-color: rgba(var(--ion-color-primary-rgb), 0.26);
+}
+
+.status-default {
+  --background: rgba(var(--ion-color-medium-rgb), 0.16);
+  --color: color-mix(in srgb, var(--ion-text-color) 84%, var(--ion-color-medium) 16%);
+  border-color: rgba(var(--ion-color-medium-rgb), 0.24);
+}
 
 .status-draft,
 .status-done,
 .status-published,
 .status-default {
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+  box-shadow: none;
 }

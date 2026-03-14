@@ -1,0 +1,35 @@
+<ion-header class="kmaps-page-header">
+  <ion-toolbar class="kmaps-page-header__toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button *ngIf="showBackButton" [defaultHref]="backHref" text=""></ion-back-button>
+    </ion-buttons>
+
+    <ion-title
+      class="kmaps-page-header__title"
+      [class.kmaps-page-header__title--start]="titleAlignment === 'start'"
+    >
+      <span>{{ title }}</span>
+      <small *ngIf="subtitle">{{ subtitle }}</small>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ng-content select="[kmapsHeaderEnd]"></ng-content>
+      <ion-button *ngIf="showHomeButton" fill="clear" [routerLink]="homeHref" routerDirection="root" aria-label="Dashboard">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="kmaps-page-header__toolbar kmaps-page-header__toolbar--search" *ngIf="showSearch">
+    <ion-searchbar
+      class="kmaps-page-header__searchbar"
+      [value]="searchValue"
+      debounce="150"
+      [placeholder]="searchPlaceholder"
+      show-clear-button="focus"
+      (ionInput)="onSearchInput($event.detail.value)"
+    ></ion-searchbar>
+  </ion-toolbar>
+
+  <ng-content select="[kmapsHeaderAfterSearch]"></ng-content>
+</ion-header>

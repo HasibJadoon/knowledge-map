@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+:host ::ng-deep .app-icon-tab-bar {
+  --background: rgba(9, 16, 29, 0.94);
+  border-top: 1px solid rgba(145, 176, 224, 0.16);
+  padding: 0.28rem 0 calc(0.28rem + env(safe-area-inset-bottom));
+}
+
+:host ::ng-deep .app-icon-tab-button {
+  --color: rgba(171, 197, 230, 0.72);
+  --color-selected: #eef8ff;
+  --ripple-color: rgba(135, 209, 255, 0.12);
+  min-height: 3.65rem;
+  max-width: none;
+}
+
+:host ::ng-deep .app-icon-tab-button.tab-selected {
+  color: #eef8ff;
+}
+
+:host ::ng-deep .app-icon-tab-button ion-icon {
+  font-size: 1.06rem;
+}
+
+:host ::ng-deep .app-icon-tab-button ion-label {
+  display: block;
+  margin-top: 0.18rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}

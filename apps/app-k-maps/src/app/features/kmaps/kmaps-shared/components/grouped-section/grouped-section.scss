@@ -3,6 +3,10 @@
 }
 
 .kmaps-grouped-section {
+  margin: 0;
+}
+
+.kmaps-grouped-section__content {
   display: grid;
   gap: 0.8rem;
 }
@@ -11,4 +15,3 @@
   display: grid;
   gap: 0.72rem;
 }
-

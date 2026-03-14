@@ -1,5 +1,5 @@
 <ng-container *ngIf="juzs.length; else emptyJuzs">
-  <ion-card *ngFor="let juz of juzs; trackBy: trackByJuz" class="quran-browse__section quran-browse__card quran-browse__juz-group">
+  <ion-card *ngFor="let juz of juzs; trackBy: trackByJuz" class="km-ion-card quran-browse__section quran-browse__card quran-browse__juz-group">
     <ion-card-content>
     <ion-item
       lines="none"
@@ -56,7 +56,7 @@
 </ng-container>
 
 <ng-template #emptyJuzs>
-  <ion-card class="quran-browse__panel quran-browse__card">
+  <ion-card class="km-ion-card quran-browse__panel quran-browse__card">
     <ion-card-content>
       <p class="quran-browse__summary">Juz data is not available right now.</p>
     </ion-card-content>

@@ -12,24 +12,30 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="km-shell">
   <ion-refresher slot="fixed" (ionRefresh)="loadLessons($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="state" *ngIf="loading">
+  <div class="state km-panel km-empty-state" *ngIf="loading">
     <ion-spinner name="crescent"></ion-spinner>
     <p>Loading lessons...</p>
   </div>
 
-  <div class="state error" *ngIf="!loading && error">
+  <div class="state state--error km-panel km-empty-state" *ngIf="!loading && error">
     <ion-icon name="alert-circle-outline"></ion-icon>
     <p>{{ error }}</p>
     <ion-button fill="outline" size="small" (click)="loadLessons()">Retry</ion-button>
   </div>
 
-  <ion-list *ngIf="!loading && !error && lessons.length">
-    <ion-item *ngFor="let lesson of lessons" [routerLink]="['/arabic/lessons', lesson.id, 'study']" detail="false">
+  <ion-list class="km-entry-list arabic-lessons__list" *ngIf="!loading && !error && lessons.length">
+    <ion-item
+      class="km-entry-row arabic-lessons__row"
+      lines="none"
+      *ngFor="let lesson of lessons"
+      [routerLink]="['/arabic/lessons', lesson.id, 'study']"
+      detail="false"
+    >
       <ion-label>
         <h2 class="lesson-title" [ngClass]="{ 'lesson-title-ar': isArabicTitle(lesson.title) }" [attr.lang]="isArabicTitle(lesson.title) ? 'ar' : null">
           {{ lesson.title || 'Untitled Lesson' }}
@@ -45,7 +51,7 @@
     </ion-item>
   </ion-list>
 
-  <div class="state empty" *ngIf="!loading && !error && !lessons.length">
+  <div class="state state--empty km-panel km-empty-state" *ngIf="!loading && !error && !lessons.length">
     <ion-icon name="book-outline"></ion-icon>
     <p>No lessons found.</p>
   </div>

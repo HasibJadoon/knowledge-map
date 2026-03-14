@@ -1,1 +1,21 @@
+:host {
+  display: block;
+  --km-tabs-selected: var(--ion-color-primary-tint);
+}
 
+:host ion-content.study-content {
+  --background: var(--app-page-background);
+}
+
+.study-toolbar ion-title {
+  font-size: 0.98rem;
+  font-weight: 650;
+}
+
+.study-shell {
+  padding-top: 0.55rem;
+}
+
+.study-footer app-icon-tabs {
+  --km-tabs-selected: var(--ion-color-primary-tint);
+}

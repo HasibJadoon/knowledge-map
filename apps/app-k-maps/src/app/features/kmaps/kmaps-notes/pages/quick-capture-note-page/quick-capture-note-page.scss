@@ -13,11 +13,15 @@
 }
 
 .quick-capture-note-page__kind-card {
+  margin: 0;
   width: 100%;
-  display: grid;
-  gap: 0.48rem;
   color: inherit;
   text-align: left;
+}
+
+.quick-capture-note-page__kind-card ion-card-content {
+  display: grid;
+  gap: 0.48rem;
 }
 
 .quick-capture-note-page__kind-card--active {
@@ -90,6 +94,16 @@
 
 .quick-capture-note-page__field--body {
   align-items: start;
+}
+
+.quick-capture-note-page__editor {
+  margin: 0;
+}
+
+.quick-capture-note-page__editor ion-card-content,
+.quick-capture-note-page__editor form {
+  display: grid;
+  gap: 0.7rem;
 }
 
 .quick-capture-note-page__footer ion-button {

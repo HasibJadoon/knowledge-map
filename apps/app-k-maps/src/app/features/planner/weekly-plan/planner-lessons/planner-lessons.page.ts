@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RefresherCustomEvent, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { LessonPickerItem } from '../../../sprint/models/sprint.models';
 import { LessonsService } from '../../../sprint/services/lessons.service';
@@ -27,11 +27,6 @@ export class PlannerLessonsPage {
       this.queryControl.setValue(params.get('q') ?? '', { emitEvent: false });
       void this.load();
     });
-  }
-
-  async onRefresh(event: RefresherCustomEvent): Promise<void> {
-    await this.load();
-    event.target.complete();
   }
 
   openLesson(lesson: LessonPickerItem): void {

@@ -33,6 +33,11 @@
 
 .concept-detail-page__hero,
 .concept-detail-page__note-card {
+  margin: 0;
+}
+
+.concept-detail-page__hero ion-card-content,
+.concept-detail-page__note-card ion-card-content {
   display: grid;
   gap: 0.6rem;
 }

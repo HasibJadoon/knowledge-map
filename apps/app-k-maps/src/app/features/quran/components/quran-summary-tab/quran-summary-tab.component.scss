@@ -4,10 +4,6 @@
 
 .quran-browse__hero {
   margin: 0;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.45rem;
-  background: linear-gradient(180deg, rgba(19, 26, 37, 0.95), rgba(10, 15, 24, 0.92));
-  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.22);
 }
 
 .quran-browse__hero ion-card-content {
@@ -24,20 +20,20 @@
   font-size: 0.72rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(158, 214, 210, 0.82);
+  color: color-mix(in srgb, var(--ion-color-primary-tint) 82%, #fff 18%);
 }
 
 .quran-browse__hero h1 {
   margin: 0.45rem 0 0;
   font-size: 1.9rem;
   font-weight: 600;
-  color: #fffaf0;
+  color: var(--app-text-strong);
 }
 
 .quran-browse__summary {
   margin-top: 0.7rem;
   line-height: 1.65;
-  color: rgba(238, 233, 220, 0.74);
+  color: var(--app-text-muted);
 }
 
 .quran-browse__stats {
@@ -50,27 +46,27 @@
 .quran-browse__stat {
   padding: 0.95rem;
   border-radius: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--app-border-soft);
+  background: rgba(7, 16, 30, 0.36);
 }
 
 .quran-browse__stat-value {
   display: block;
   font-size: 1.25rem;
   font-weight: 700;
-  color: #fff6e3;
+  color: var(--app-text-strong);
 }
 
 .quran-browse__stat-label {
   margin-top: 0.25rem;
   display: block;
   font-size: 0.88rem;
-  color: rgba(238, 233, 220, 0.62);
+  color: var(--app-text-muted);
 }
 
 .quran-browse__summary-action {
   margin-top: 0.85rem;
-  --color: #d8f7f5;
+  --color: var(--ion-color-primary-tint);
   text-transform: none;
 }
 

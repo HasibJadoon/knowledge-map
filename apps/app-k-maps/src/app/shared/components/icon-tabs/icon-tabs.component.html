@@ -1,9 +1,16 @@
-<ion-tab-bar slot="bottom" class="app-icon-tab-bar">
+<ion-tab-bar
+  class="km-tabs__bar app-icon-tab-bar"
+  [class.km-tabs__bar--labeled]="showLabels"
+  [class.app-icon-tab-bar--labeled]="showLabels"
+>
   <ion-tab-button
-    class="app-icon-tab-button"
+    class="km-tabs__button app-icon-tab-button"
     *ngFor="let tab of tabs"
     [tab]="tab.key"
+    [layout]="showLabels ? 'icon-top' : 'icon-only'"
     [class.tab-selected]="activeKey === tab.key"
+    [class.km-tabs__button--labeled]="showLabels"
+    [class.app-icon-tab-button--labeled]="showLabels"
     [selected]="manual ? activeKey === tab.key : undefined"
     [attr.aria-selected]="activeKey === tab.key"
     [attr.aria-label]="tab.label"

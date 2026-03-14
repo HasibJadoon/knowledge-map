@@ -3,9 +3,14 @@
 }
 
 .kmaps-empty-state {
+  margin: 0;
+}
+
+.kmaps-empty-state__content {
   display: grid;
   gap: 0.72rem;
   justify-items: start;
+  padding: 1rem;
 }
 
 .kmaps-empty-state__icon {
@@ -41,4 +46,3 @@
   font-size: 0.84rem;
   line-height: 1.45;
 }
-

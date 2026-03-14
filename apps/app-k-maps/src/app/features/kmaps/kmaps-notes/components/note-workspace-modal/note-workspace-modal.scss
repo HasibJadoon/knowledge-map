@@ -29,6 +29,9 @@
 }
 
 .note-workspace-modal__content {
+  flex: 1 1 auto;
+  min-height: 0;
+  --overflow: auto;
   --background: var(--km-shell-bg);
   --padding-start: 1rem;
   --padding-end: 1rem;

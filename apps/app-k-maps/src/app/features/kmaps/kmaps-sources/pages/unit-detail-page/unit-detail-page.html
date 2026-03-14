@@ -1,48 +1,186 @@
-<app-kmaps-workflow-shell
-  [title]="heading().title"
-  [subtitle]="heading().subtitle"
+<app-kmaps-page-header
+  [title]="source()?.title || 'K-Maps'"
+  [subtitle]="unit()?.locatorLabel || 'Chapter workspace'"
   [showBackButton]="true"
   [backHref]="'/worldview/sources/' + sourceId()"
-  [showHomeButton]="false"
 >
-  <ion-button kmapsToolbarEnd fill="clear" aria-label="More actions">
+  <ion-button kmapsHeaderEnd fill="clear" aria-label="More actions">
     <ion-icon name="ellipsis-horizontal"></ion-icon>
   </ion-button>
+</app-kmaps-page-header>
 
-  <app-kmaps-unit-workspace-tabs [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-workspace-tabs>
+<ion-content [fullscreen]="true" class="km-native-page">
+  <div class="km-native-page__body km-native-page__body--with-tabs">
+    <ion-card class="km-card overview-page__hero-card">
+      <ion-card-content>
+        <p class="overview-page__source-label">{{ source()?.title || 'Source' }}</p>
+        <h1>{{ chapterTitle() }}</h1>
 
-  <section class="km-panel unit-detail-page__progress-panel" *ngIf="source() && unit() as currentUnit">
-    <div class="unit-detail-page__progress-head">
-      <div>
-        <p class="km-panel-kicker">{{ source()?.sourceType }}</p>
-        <p class="unit-detail-page__summary">{{ currentUnit.summary }}</p>
-      </div>
-      <strong>{{ progressLabel() }}</strong>
-    </div>
+        <div class="overview-page__progress-row">
+          <span>{{ progressLabel() }}</span>
+          <span>{{ lastReadingPositionLabel() }}</span>
+        </div>
 
-    <div class="unit-detail-page__progress-copy">
-      <span>Reading Progress</span>
-      <span>{{ lastOpenedLabel() }}</span>
-    </div>
+        <div class="overview-page__progress-track" aria-hidden="true">
+          <span [style.width.%]="progressPercent()"></span>
+        </div>
 
-    <ion-progress-bar class="km-progress-bar" [value]="(source()?.progressPercent || 0) / 100"></ion-progress-bar>
-  </section>
+        <button type="button" class="overview-page__primary-button" (click)="continueReading()">
+          Continue Reading
+        </button>
+      </ion-card-content>
+    </ion-card>
 
-  <section class="km-panel unit-detail-page__list-panel">
-    <ion-list class="unit-detail-page__list">
-      <ion-item class="unit-detail-page__count-row" lines="full" *ngFor="let row of noteSummaryRows()">
-        <ion-label>{{ row.label }}</ion-label>
-        <ion-note slot="end">{{ noteCountLabel(row) }}</ion-note>
-      </ion-item>
+    <section class="overview-page__metric-grid">
+      <ion-card
+        class="km-card overview-page__metric-card"
+        *ngFor="let metric of metrics()"
+        [attr.data-tone]="metric.tone"
+        (click)="onMetricSelected(metric)"
+      >
+        <ion-card-content>
+          <span>{{ metric.label }}</span>
+          <strong>{{ metric.value }}</strong>
+        </ion-card-content>
+      </ion-card>
+    </section>
 
-      <ion-item class="unit-detail-page__note-row" lines="full" *ngFor="let note of recentNotes()">
-        <div slot="start" class="unit-detail-page__swatch" [attr.data-kind]="note.noteKind"></div>
-        <ion-label>
-          <h3>{{ noteLabel(note) }}</h3>
-          <p>{{ note.title || note.bodyMd }}</p>
-        </ion-label>
-        <ion-note slot="end" *ngIf="note.locator">{{ note.locator }}</ion-note>
-      </ion-item>
-    </ion-list>
-  </section>
-</app-kmaps-workflow-shell>
+    <ion-card class="km-card overview-page__surface-card">
+      <ion-card-content>
+        <div class="overview-page__section-head">
+          <div>
+            <p class="overview-page__section-kicker">Last Reading Session</p>
+            <h2>{{ lastReadingDateLabel() }}</h2>
+          </div>
+          <span class="overview-page__meta-pill">{{ lastReadingDurationLabel() }}</span>
+        </div>
+
+        <div class="overview-page__session-meta">
+          <span>Progress marker</span>
+          <strong>{{ lastReadingPositionLabel() }}</strong>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="km-card overview-page__surface-card">
+      <ion-card-content>
+        <div class="overview-page__section-head">
+          <div>
+            <p class="overview-page__section-kicker">Summary</p>
+            <h2>Chapter working summary</h2>
+          </div>
+
+          <div class="overview-page__summary-actions" *ngIf="!isEditingSummary(); else editingSummaryActions">
+            <button type="button" class="overview-page__ghost-button" (click)="startSummaryEdit()">Edit</button>
+          </div>
+        </div>
+
+        <ng-template #editingSummaryActions>
+          <div class="overview-page__summary-actions">
+            <button type="button" class="overview-page__ghost-button" (click)="cancelSummaryEdit()">Cancel</button>
+            <button type="button" class="overview-page__accent-button" (click)="saveSummary()">Save</button>
+          </div>
+        </ng-template>
+
+        <p class="overview-page__summary-text" *ngIf="!isEditingSummary(); else summaryEditor">
+          {{ summaryText() }}
+        </p>
+
+        <ng-template #summaryEditor>
+          <textarea
+            class="overview-page__summary-editor"
+            [value]="summaryDraft()"
+            rows="4"
+            (input)="onSummaryInput($event)"
+          ></textarea>
+        </ng-template>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="km-card overview-page__surface-card">
+      <ion-card-content>
+        <div class="overview-page__section-head">
+          <div>
+            <p class="overview-page__section-kicker">Key Themes</p>
+            <h2>Active threads</h2>
+          </div>
+        </div>
+
+        <div class="overview-page__theme-row">
+          <span class="overview-page__theme-pill" *ngFor="let theme of keyThemes()">{{ theme }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="km-card overview-page__surface-card">
+      <ion-card-content>
+        <div class="overview-page__section-head">
+          <div>
+            <p class="overview-page__section-kicker">Recent Highlights</p>
+            <h2>{{ recentHighlights().length }} saved passages</h2>
+          </div>
+          <button type="button" class="overview-page__ghost-button" (click)="openHighlights()">View all</button>
+        </div>
+
+        <div class="overview-page__list-stack">
+          <ion-card
+            class="km-card overview-page__highlight-card"
+            *ngFor="let note of recentHighlights(); trackBy: trackNote"
+            (click)="openHighlights()"
+          >
+            <ion-card-content>
+              <div class="overview-page__highlight-accent"></div>
+              <div class="overview-page__item-copy">
+                <p>{{ notePreview(note, 120) }}</p>
+                <span>{{ noteMeta(note) }}</span>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="km-card overview-page__surface-card">
+      <ion-card-content>
+        <div class="overview-page__section-head">
+          <div>
+            <p class="overview-page__section-kicker">Recent Notes</p>
+            <h2>{{ recentNotes().length }} active note cards</h2>
+          </div>
+          <button type="button" class="overview-page__ghost-button" (click)="openNotes()">View all</button>
+        </div>
+
+        <div class="overview-page__note-stack">
+          <ion-card
+            class="km-card overview-page__note-card"
+            *ngFor="let note of recentNotes(); trackBy: trackNote"
+            [attr.data-kind]="note.noteKind"
+            (click)="openNotes()"
+          >
+            <ion-card-content>
+              <div class="overview-page__note-head">
+                <span class="overview-page__note-kind">{{ noteKindLabel(note) }}</span>
+                <span class="overview-page__note-meta">{{ noteMeta(note) }}</span>
+              </div>
+              <p>{{ notePreview(note) }}</p>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="km-card overview-page__distill-cta" (click)="startDistill()">
+      <ion-card-content>
+        <div>
+          <span>Distill queue ready</span>
+          <strong>Start Distill</strong>
+        </div>
+        <p>{{ distillItemCount() }} items prepared from highlights, reflections, and claim seeds.</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+<ion-footer class="km-native-page__footer">
+  <app-kmaps-unit-bottom-tabs [sourceId]="sourceId()" [unitId]="unitId()"></app-kmaps-unit-bottom-tabs>
+</ion-footer>

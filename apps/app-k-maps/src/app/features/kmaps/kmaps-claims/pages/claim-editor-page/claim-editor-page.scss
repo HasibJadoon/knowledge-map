@@ -4,6 +4,12 @@
 
 .claim-editor-page__note-card,
 .claim-editor-page__editor {
+  margin: 0;
+}
+
+.claim-editor-page__note-card ion-card-content,
+.claim-editor-page__editor ion-card-content,
+.claim-editor-page__editor form {
   display: grid;
   gap: 0.7rem;
 }

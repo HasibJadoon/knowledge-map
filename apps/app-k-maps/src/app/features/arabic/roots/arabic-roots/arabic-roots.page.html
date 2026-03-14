@@ -12,6 +12,7 @@
   </ion-toolbar>
   <ion-toolbar class="roots-toolbar roots-toolbar--search">
     <ion-searchbar
+      class="km-searchbar"
       placeholder="Search by root"
       [value]="searchTerm"
       (ionInput)="onSearchChange($event)"
@@ -19,24 +20,24 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="km-shell roots-content">
+<ion-content class="roots-content km-shell">
   <ion-refresher slot="fixed" (ionRefresh)="loadRoots($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <div class="state" *ngIf="loading">
+  <div class="state km-panel km-empty-state" *ngIf="loading">
     <ion-spinner name="crescent"></ion-spinner>
     <p>Loading roots...</p>
   </div>
 
-  <div class="state error" *ngIf="!loading && error">
+  <div class="state state--error km-panel km-empty-state" *ngIf="!loading && error">
     <ion-icon name="alert-circle-outline"></ion-icon>
     <p>{{ error }}</p>
     <ion-button fill="outline" size="small" (click)="loadRoots()">Retry</ion-button>
   </div>
 
-  <ion-list *ngIf="!loading && !error && filtered.length">
-    <ion-item *ngFor="let item of filtered" button detail="true" (click)="openRootModal(item)">
+  <ion-list class="km-entry-list roots-list" *ngIf="!loading && !error && filtered.length">
+    <ion-item class="km-entry-row roots-row" lines="none" *ngFor="let item of filtered" button detail="true" (click)="openRootModal(item)">
       <ion-label>
         <h2>{{ item.root }}</h2>
         <p class="root-meta">
@@ -55,7 +56,7 @@
     </ion-item>
   </ion-list>
 
-  <div class="state empty" *ngIf="!loading && !error && !filtered.length">
+  <div class="state state--empty km-panel km-empty-state" *ngIf="!loading && !error && !filtered.length">
     <ion-icon name="search-outline"></ion-icon>
     <p>No roots found.</p>
   </div>

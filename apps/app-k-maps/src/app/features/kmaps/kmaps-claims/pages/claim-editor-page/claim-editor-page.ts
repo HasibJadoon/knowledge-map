@@ -5,15 +5,15 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, ToastController } from '@ionic/angular';
 
-import { KmapsWorkflowShellComponent } from '../../../kmaps-shared/components/workflow-shell/workflow-shell';
-import { KmapsUnitWorkspaceTabsComponent } from '../../../kmaps-shared/components/unit-workspace-tabs/unit-workspace-tabs';
+import { KmapsUnitBottomTabsComponent } from '../../../kmaps-shared/components/unit-bottom-tabs/unit-bottom-tabs';
+import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { KmapsClaimStatus, KmapsNote, formatNoteKindLabel } from '../../../kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
 
 @Component({
   selector: 'app-claim-editor-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule, KmapsWorkflowShellComponent, KmapsUnitWorkspaceTabsComponent],
+  imports: [CommonModule, IonicModule, ReactiveFormsModule, KmapsPageHeaderComponent, KmapsUnitBottomTabsComponent],
   templateUrl: './claim-editor-page.html',
   styleUrl: './claim-editor-page.scss',
 })
