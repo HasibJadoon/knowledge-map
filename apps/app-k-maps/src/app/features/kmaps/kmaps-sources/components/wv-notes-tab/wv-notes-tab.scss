@@ -1,0 +1,53 @@
+:host {
+  display: grid;
+  gap: var(--app-space-3);
+}
+
+.wv-notes-tab__filters {
+  --background: transparent;
+}
+
+.wv-notes-tab__create {
+  justify-self: start;
+}
+
+.wv-notes-tab__card {
+  margin: 0;
+}
+
+.wv-notes-tab__card ion-card-content {
+  display: grid;
+  gap: var(--app-space-3);
+}
+
+.wv-notes-tab__card-head,
+.wv-notes-tab__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.wv-notes-tab__locator,
+.wv-notes-tab__body,
+.wv-notes-tab__excerpt {
+  margin: 0;
+}
+
+.wv-notes-tab__locator,
+.wv-notes-tab__body {
+  color: var(--app-text-muted);
+}
+
+.wv-notes-tab__excerpt {
+  padding-left: 0.85rem;
+  border-left: 2px solid rgba(var(--ion-color-primary-rgb), 0.45);
+  color: var(--app-text-strong);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.wv-notes-tab__body {
+  font-size: 0.9rem;
+  line-height: 1.55;
+}

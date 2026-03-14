@@ -1,0 +1,47 @@
+<app-kmaps-page-header
+  title="Planner"
+  [subtitle]="unit()?.title || 'Source unit tasks'"
+  [showBackButton]="true"
+  [backHref]="backHref()"
+  [showHomeButton]="true"
+></app-kmaps-page-header>
+
+<ion-content class="km-native-page">
+  <div class="app-page-content">
+    <ion-card class="km-card" *ngIf="source() && unit()">
+      <ion-card-content>
+        <p class="wv-planner__kicker">{{ source()?.title }}</p>
+        <h1>{{ unit()?.title }}</h1>
+        <p class="wv-planner__summary">
+          Suggested planner tasks for distillation, authoring, and follow-through on this source unit.
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="km-card" *ngFor="let task of tasks()">
+      <ion-card-content class="wv-planner__task">
+        <div>
+          <h2>{{ task.title }}</h2>
+          <p>{{ task.relatedTarget }}</p>
+        </div>
+
+        <ion-segment [value]="task.lane" (ionChange)="onLaneChange(task.id, $event.detail.value)">
+          <ion-segment-button value="todo">
+            <ion-label>Todo</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="in_progress">
+            <ion-label>Doing</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="review">
+            <ion-label>Review</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="done">
+            <ion-label>Done</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="block" fill="outline" class="km-btn" (click)="openPlannerWorkspace()">Open Main Planner</ion-button>
+  </div>
+</ion-content>

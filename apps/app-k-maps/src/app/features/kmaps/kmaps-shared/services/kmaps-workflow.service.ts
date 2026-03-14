@@ -573,6 +573,23 @@ export class KmapsWorkflowService {
     return updatedNote;
   }
 
+  deleteNote(noteId: string): boolean {
+    const id = noteId.trim();
+    if (!id) {
+      return false;
+    }
+
+    const note = this.getNote(id);
+    if (!note) {
+      return false;
+    }
+
+    this.notesState.update((current) => current.filter((item) => item.id !== id));
+    this.noteLinksState.update((current) => current.filter((item) => item.noteId !== id));
+    this.bumpSourceTimestamp(note.sourceId, new Date().toISOString());
+    return true;
+  }
+
   linkNotesToConcept(noteIds: string[], conceptId: string): void {
     const createdAt = new Date().toISOString();
     const existing = new Set(

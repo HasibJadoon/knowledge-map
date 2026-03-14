@@ -14,6 +14,16 @@ export const KMAPS_ROUTES: Routes = [
       import('./kmaps-library/pages/library-page/library-page').then((m) => m.LibraryPage),
   },
   {
+    path: 'source/:sourceId',
+    loadComponent: () =>
+      import('./kmaps-sources/pages/source-detail-page/source-detail-page').then((m) => m.SourceDetailPage),
+  },
+  {
+    path: 'source/:sourceId/unit/:unitId',
+    loadComponent: () =>
+      import('./kmaps-sources/pages/wv-unit-workspace/wv-unit-workspace.page').then((m) => m.WvUnitWorkspacePage),
+  },
+  {
     path: 'sources/new',
     loadComponent: () =>
       import('./kmaps-sources/pages/source-detail-page/source-detail-page').then((m) => m.SourceDetailPage),
@@ -26,7 +36,37 @@ export const KMAPS_ROUTES: Routes = [
   {
     path: 'sources/:sourceId/units/:unitId',
     loadComponent: () =>
-      import('./kmaps-sources/pages/source-unit-page/source-unit-page').then((m) => m.SourceUnitPage),
+      import('./kmaps-sources/pages/wv-unit-workspace/wv-unit-workspace.page').then((m) => m.WvUnitWorkspacePage),
+  },
+  {
+    path: 'distill/start/:unitId',
+    loadComponent: () =>
+      import('./kmaps-distill/pages/wv-distill-start/wv-distill-start.page').then((m) => m.WvDistillStartPage),
+  },
+  {
+    path: 'distill/batch/:batchId',
+    loadComponent: () =>
+      import('./kmaps-distill/pages/wv-distill-builder/wv-distill-builder.page').then((m) => m.WvDistillBuilderPage),
+  },
+  {
+    path: 'suggestions/:batchId',
+    loadComponent: () =>
+      import('./kmaps-distill/pages/wv-suggestions/wv-suggestions.page').then((m) => m.WvSuggestionsPage),
+  },
+  {
+    path: 'approval/:suggestionId',
+    loadComponent: () =>
+      import('./kmaps-distill/pages/wv-node-approval/wv-node-approval.page').then((m) => m.WvNodeApprovalPage),
+  },
+  {
+    path: 'document/create',
+    loadComponent: () =>
+      import('./kmaps-content/pages/wv-document-editor/wv-document-editor.page').then((m) => m.WvDocumentEditorPage),
+  },
+  {
+    path: 'planner/:unitId',
+    loadComponent: () =>
+      import('./kmaps-planner/pages/wv-planner/wv-planner.page').then((m) => m.WvPlannerPage),
   },
   {
     path: '',

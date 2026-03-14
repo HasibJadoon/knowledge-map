@@ -1,0 +1,82 @@
+:host {
+  display: grid;
+  gap: var(--app-space-3);
+}
+
+.wv-overview-tab__hero,
+.wv-overview-tab ion-card.km-card {
+  margin: 0;
+}
+
+.wv-overview-tab__hero ion-card-content {
+  display: grid;
+  gap: var(--app-space-3);
+}
+
+.wv-overview-tab__kicker,
+.wv-overview-tab__locator,
+.wv-overview-tab__summary,
+.wv-overview-tab__state,
+.wv-overview-tab h1,
+.wv-overview-tab h2 {
+  margin: 0;
+}
+
+.wv-overview-tab__hero-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.wv-overview-tab__kicker {
+  color: var(--app-text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wv-overview-tab__hero-copy h1 {
+  color: var(--app-text-strong);
+  font-size: clamp(1.4rem, 5vw, 1.9rem);
+  font-weight: 720;
+  line-height: 1.08;
+}
+
+.wv-overview-tab__locator,
+.wv-overview-tab__summary,
+.wv-overview-tab__state {
+  color: var(--app-text-muted);
+  line-height: 1.55;
+}
+
+.wv-overview-tab__hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.wv-overview-tab__section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--app-space-3);
+}
+
+.wv-overview-tab__section-head h2 {
+  color: var(--app-text-strong);
+  font-size: 1rem;
+  font-weight: 660;
+  line-height: 1.22;
+}
+
+.wv-overview-tab__state {
+  padding: 0 var(--app-space-4) var(--app-space-4);
+  font-size: 0.84rem;
+}
+
+@media (max-width: 420px) {
+  .wv-overview-tab__section-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

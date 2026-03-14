@@ -16,16 +16,14 @@
   backdrop-filter: blur(var(--app-toolbar-blur, 18px)) saturate(160%);
 }
 
-.kmaps-page-header__toolbar ion-button,
-.kmaps-page-header__toolbar ion-back-button {
+.kmaps-page-header__toolbar ion-button {
   --color: var(--ion-color-primary);
   --padding-start: 0.3rem;
   --padding-end: 0.3rem;
   min-height: 2.25rem;
 }
 
-.kmaps-page-header__toolbar ion-icon,
-.kmaps-page-header__toolbar ion-back-button::part(icon) {
+.kmaps-page-header__toolbar ion-icon {
   font-size: 1.65rem;
 }
 

@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.wv-distill-start__kicker,
+.wv-distill-start__meta,
+.wv-distill-start__summary,
+.wv-distill-start__stats span,
+.wv-distill-start__stats strong,
+.wv-distill-start__stats ion-card-content h2 {
+  margin: 0;
+}
+
+.wv-distill-start__kicker {
+  color: var(--app-text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wv-distill-start__meta,
+.wv-distill-start__summary,
+.wv-distill-start__stats span {
+  color: var(--app-text-muted);
+}
+
+.wv-distill-start__stats ion-card {
+  margin: 0;
+}
+
+.wv-distill-start__stats ion-card-content {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.wv-distill-start__stats strong {
+  color: var(--app-text-strong);
+  font-size: 1.35rem;
+}

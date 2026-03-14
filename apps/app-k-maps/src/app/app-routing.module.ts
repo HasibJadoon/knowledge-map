@@ -53,6 +53,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'wv',
+    loadChildren: () => import('./features/kmaps/kmaps.routes').then((m) => m.KMAPS_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'crossref',
     loadChildren: () => import('./features/crossref/crossref.module').then(m => m.CrossrefPageModule),
     canActivate: [AuthGuard]

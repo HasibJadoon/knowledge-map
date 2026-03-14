@@ -1,0 +1,41 @@
+<app-kmaps-page-header
+  title="Document Editor"
+  [subtitle]="unit()?.title || 'Lesson draft'"
+  [showBackButton]="true"
+  [backHref]="backHref()"
+  [showHomeButton]="true"
+></app-kmaps-page-header>
+
+<ion-content class="km-native-page">
+  <div class="app-page-content">
+    <ion-card class="km-card" *ngIf="source() && unit()">
+      <ion-card-content>
+        <p class="wv-document-editor__kicker">{{ source()?.title }}</p>
+        <h1>{{ unit()?.title }}</h1>
+        <p class="wv-document-editor__summary">
+          This draft is seeded from the current batch so you can move directly into structured document authoring.
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="km-card" *ngIf="contentItem() as item">
+      <ion-card-content class="wv-document-editor__section">
+        <div>
+          <p class="wv-document-editor__kicker">Draft Blocks</p>
+          <h2>{{ item.blocks.length }} blocks ready</h2>
+        </div>
+
+        <ion-list lines="full">
+          <ion-item *ngFor="let block of item.blocks">
+            <ion-label>
+              <h3>{{ block.title }}</h3>
+              <p>{{ block.kind }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <ion-button expand="block" class="km-btn" (click)="openFullBuilder()">Open Full Builder</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

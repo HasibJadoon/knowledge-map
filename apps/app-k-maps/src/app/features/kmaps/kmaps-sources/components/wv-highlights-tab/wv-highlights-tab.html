@@ -1,0 +1,21 @@
+<ion-card class="km-card wv-highlights-tab__card" *ngFor="let note of highlights; trackBy: trackNote">
+  <ion-card-content>
+    <p class="wv-highlights-tab__meta">{{ meta(note) }}</p>
+    <h2>{{ preview(note) }}</h2>
+
+    <div class="wv-highlights-tab__actions">
+      <ion-button fill="clear" size="small" (click)="addNote.emit(note)">Add Note</ion-button>
+      <ion-button fill="clear" size="small" (click)="editHighlight.emit(note)">Edit</ion-button>
+      <ion-button fill="clear" size="small" color="danger" (click)="deleteHighlight.emit(note)">Delete</ion-button>
+      <ion-button fill="outline" size="small" class="km-btn" (click)="sendToDistill.emit(note)">Send to Distill</ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>
+
+<app-kmaps-empty-state-card
+  *ngIf="!highlights.length"
+  title="No highlights yet"
+  [message]="emptyMessage"
+  actionLabel="Go to read"
+  (actionSelected)="goToRead.emit()"
+></app-kmaps-empty-state-card>

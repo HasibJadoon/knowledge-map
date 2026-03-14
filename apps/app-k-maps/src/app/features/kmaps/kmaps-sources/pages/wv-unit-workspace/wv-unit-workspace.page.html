@@ -1,0 +1,88 @@
+<app-kmaps-page-header
+  [title]="unit()?.title || 'Source Unit'"
+  [showBackButton]="true"
+  [backHref]="backHref()"
+  [showHomeButton]="true"
+  [showSearch]="true"
+  [searchValue]="searchQuery()"
+  [searchPlaceholder]="searchPlaceholder()"
+  (searchChange)="onSearchChange($event)"
+></app-kmaps-page-header>
+
+<ion-content class="km-native-page wv-unit-workspace__content">
+  <div class="app-page-content app-page-content--wide wv-unit-workspace__body wv-unit-workspace__body--with-tabs">
+    <ng-container [ngSwitch]="activeTab()">
+      <app-wv-overview-tab
+        *ngSwitchCase="'overview'"
+        [source]="source()"
+        [unit]="unit()"
+        [summary]="sourceSummary()"
+        [progressPercent]="progressPercent()"
+        [stats]="stats()"
+        [structureUnits]="filteredOverviewUnits()"
+        [recentHighlights]="recentHighlights()"
+        [recentNotes]="recentNotes()"
+        [isEmpty]="isEmptyState()"
+        (continueReading)="setActiveTab('read')"
+        (viewHighlights)="setActiveTab('highlights')"
+        (viewNotes)="setActiveTab('notes')"
+        (openUnit)="openUnit($event)"
+        (openNote)="openNote($event)"
+      ></app-wv-overview-tab>
+
+      <app-wv-read-tab
+        *ngSwitchCase="'read'"
+        [readUnits]="readUnits()"
+        [selectedReadUnit]="selectedReadUnit()"
+        [displayedSections]="displayedReadingSections()"
+        [selectedParagraphIndex]="selectedParagraphIndex()"
+        [selectedExcerpt]="selectedExcerpt()"
+        [selectedLocator]="selectedLocator()"
+        [normalizedQuery]="normalizedQuery()"
+        (scopeSelected)="selectReadUnit($event)"
+        (paragraphSelected)="selectParagraph($event)"
+        (paragraphMenuRequested)="openParagraphMenu($event)"
+        (highlightRequested)="highlightSelected()"
+        (noteRequested)="openCreateNoteModal('quote')"
+        (copyRequested)="copySelectedExcerpt()"
+        (linkNodeRequested)="linkSelectedToNode()"
+        (backToOverview)="setActiveTab('overview')"
+      ></app-wv-read-tab>
+
+      <app-wv-highlights-tab
+        *ngSwitchCase="'highlights'"
+        [highlights]="filteredHighlights()"
+        [emptyMessage]="highlightsEmptyMessage()"
+        (addNote)="openNoteFromHighlight($event)"
+        (editHighlight)="openNote($event)"
+        (deleteHighlight)="deleteHighlight($event)"
+        (sendToDistill)="startDistill()"
+        (goToRead)="setActiveTab('read')"
+      ></app-wv-highlights-tab>
+
+      <app-wv-notes-tab
+        *ngSwitchCase="'notes'"
+        [notes]="filteredNotes()"
+        [filters]="noteFilters"
+        [activeFilter]="activeNotesFilter()"
+        [emptyMessage]="noteEmptyMessage()"
+        (activeFilterChange)="onNotesFilterChange($event)"
+        (createNote)="openCreateNoteModal()"
+        (editNote)="openNote($event)"
+        (deleteNote)="deleteNote($event)"
+        (sendToDistill)="startDistill()"
+      ></app-wv-notes-tab>
+    </ng-container>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="showDistillFab()">
+    <ion-button class="wv-unit-workspace__fab-button" shape="round" (click)="startDistill()">
+      <ion-icon name="sparkles-outline" slot="start"></ion-icon>
+      Start Distill
+    </ion-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer class="km-native-page__footer">
+  <app-kmaps-unit-workspace-tabs [activeTab]="activeTab()" (activeTabChange)="setActiveTab($event)"></app-kmaps-unit-workspace-tabs>
+</ion-footer>

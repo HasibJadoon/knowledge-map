@@ -1,0 +1,67 @@
+<section class="wv-read-tab__scope-row" *ngIf="readUnits.length > 1">
+  <button
+    type="button"
+    class="wv-read-tab__scope-chip"
+    *ngFor="let readUnit of readUnits; trackBy: trackUnit"
+    [class.wv-read-tab__scope-chip--active]="selectedReadUnit?.id === readUnit.id"
+    (click)="scopeSelected.emit(readUnit.id)"
+  >
+    {{ readUnit.locatorLabel || readUnit.title }}
+  </button>
+</section>
+
+<ion-card class="km-card wv-read-tab__selection-card" *ngIf="selectedExcerpt">
+  <ion-card-content>
+    <div class="wv-read-tab__selection-head">
+      <div>
+        <p class="wv-read-tab__kicker">Selected text</p>
+        <h2>{{ selectedLocator || selectedReadUnit?.title || 'Current selection' }}</h2>
+      </div>
+    </div>
+
+    <blockquote class="wv-read-tab__quote">{{ selectedExcerpt }}</blockquote>
+
+    <div class="wv-read-tab__actions">
+      <ion-button fill="outline" size="small" class="km-btn" (click)="highlightRequested.emit()">Highlight</ion-button>
+      <ion-button fill="outline" size="small" class="km-btn" (click)="noteRequested.emit()">Add Note</ion-button>
+      <ion-button fill="clear" size="small" (click)="copyRequested.emit()">Copy</ion-button>
+      <ion-button fill="clear" size="small" (click)="linkNodeRequested.emit()">Link Node</ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>
+
+<section class="wv-read-tab__reading" *ngIf="displayedSections.length; else noReading">
+  <section class="wv-read-tab__reading-section" *ngFor="let section of displayedSections; trackBy: trackSection">
+    <div class="wv-read-tab__reading-head">
+      <span></span>
+      <h2>{{ section.heading }}</h2>
+    </div>
+
+    <button
+      type="button"
+      class="wv-read-tab__paragraph"
+      *ngFor="let paragraph of section.paragraphs"
+      [class.wv-read-tab__paragraph--selected]="selectedParagraphIndex === paragraph.index"
+      (mousedown)="onParagraphPressStart(paragraph.index)"
+      (mouseup)="onParagraphPressEnd()"
+      (mouseleave)="onParagraphPressEnd()"
+      (touchstart)="onParagraphPressStart(paragraph.index)"
+      (touchend)="onParagraphPressEnd()"
+      (touchcancel)="onParagraphPressEnd()"
+      (contextmenu)="onParagraphContextMenu($event, paragraph.index)"
+      (click)="onParagraphClick(paragraph.index)"
+    >
+      <span class="wv-read-tab__paragraph-index">{{ paragraph.index + 1 }}</span>
+      <span>{{ paragraph.body }}</span>
+    </button>
+  </section>
+</section>
+
+<ng-template #noReading>
+  <app-kmaps-empty-state-card
+    title="No reading in this view"
+    [message]="normalizedQuery ? 'Clear the search to view the full reading text for this source unit.' : 'This source unit does not have reading text yet.'"
+    [actionLabel]="normalizedQuery ? 'Back to overview' : 'Back to overview'"
+    (actionSelected)="backToOverview.emit()"
+  ></app-kmaps-empty-state-card>
+</ng-template>

@@ -1,0 +1,47 @@
+<app-kmaps-page-header
+  title="Start Distill"
+  [subtitle]="unit()?.title || 'Distill entry'"
+  [showBackButton]="true"
+  [backHref]="backHref()"
+  [showHomeButton]="true"
+></app-kmaps-page-header>
+
+<ion-content class="km-native-page">
+  <div class="app-page-content">
+    <ion-card class="km-card" *ngIf="source() && unit()">
+      <ion-card-content>
+        <p class="wv-distill-start__kicker">{{ source()?.title }}</p>
+        <h1>{{ unit()?.title }}</h1>
+        <p class="wv-distill-start__meta">{{ unit()?.locatorLabel || unit()?.startRef || 'Source unit' }}</p>
+        <p class="wv-distill-start__summary">
+          Distill the current unit into a focused batch using saved notes and highlights from this workspace.
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-grid class="wv-distill-start__stats">
+      <ion-row>
+        <ion-col size="6">
+          <ion-card class="km-card">
+            <ion-card-content>
+              <span>Notes</span>
+              <strong>{{ notes().length }}</strong>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="6">
+          <ion-card class="km-card">
+            <ion-card-content>
+              <span>Highlights</span>
+              <strong>{{ highlights().length }}</strong>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-button expand="block" class="km-btn" [disabled]="!notes().length && !highlights().length" (click)="startDistill()">
+      Start Distill
+    </ion-button>
+  </div>
+</ion-content>

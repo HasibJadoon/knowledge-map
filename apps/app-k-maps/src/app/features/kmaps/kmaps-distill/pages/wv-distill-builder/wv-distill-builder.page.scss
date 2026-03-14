@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.wv-distill-builder__kicker,
+.wv-distill-builder__summary,
+.wv-distill-builder__section h2 {
+  margin: 0;
+}
+
+.wv-distill-builder__kicker {
+  color: var(--app-text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wv-distill-builder__summary {
+  color: var(--app-text-muted);
+  line-height: 1.55;
+}
+
+.wv-distill-builder__section {
+  display: grid;
+  gap: var(--app-space-3);
+}
+
+.wv-distill-builder__items {
+  display: grid;
+  gap: var(--app-space-3);
+}
+
+.wv-distill-builder__item {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.wv-distill-builder__tray {
+  display: grid;
+  gap: var(--app-space-3);
+}

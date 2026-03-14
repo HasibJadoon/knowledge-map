@@ -1,0 +1,98 @@
+<app-kmaps-page-header
+  title="Distill Builder"
+  [subtitle]="unit()?.title || 'Batch selection'"
+  [showBackButton]="true"
+  [backHref]="backHref()"
+  [showHomeButton]="true"
+></app-kmaps-page-header>
+
+<ion-content class="km-native-page">
+  <div class="app-page-content app-page-content--wide">
+    <ng-container *ngIf="hasBatch(); else missingBatchState">
+      <ion-card class="km-card">
+        <ion-card-content>
+          <p class="wv-distill-builder__kicker">{{ source()?.title || 'Source' }}</p>
+          <h1>{{ unit()?.title || 'Distill batch' }}</h1>
+          <p class="wv-distill-builder__summary">
+            Select the notes and highlights you want to use in this batch, then assign a role for downstream suggestions.
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+      <section class="wv-distill-builder__section">
+        <h2>Highlights</h2>
+
+        <div class="wv-distill-builder__items">
+          <section class="wv-distill-builder__item" *ngFor="let note of sourceHighlights(); trackBy: trackNote">
+            <app-note-card
+              [note]="note"
+              [selectionMode]="true"
+              [selected]="isSelected(note.id)"
+              (selectedChange)="toggleSelection($event)"
+            ></app-note-card>
+
+            <ion-select
+              interface="action-sheet"
+              label="Role"
+              labelPlacement="stacked"
+              [value]="roleFor(note.id)"
+              (ionChange)="onRoleChange(note.id, $event.detail.value)"
+            >
+              <ion-select-option *ngFor="let role of roles" [value]="role">{{ role }}</ion-select-option>
+            </ion-select>
+          </section>
+        </div>
+      </section>
+
+      <section class="wv-distill-builder__section">
+        <h2>Notes</h2>
+
+        <div class="wv-distill-builder__items">
+          <section class="wv-distill-builder__item" *ngFor="let note of sourceNotes(); trackBy: trackNote">
+            <app-note-card
+              [note]="note"
+              [selectionMode]="true"
+              [selected]="isSelected(note.id)"
+              (selectedChange)="toggleSelection($event)"
+            ></app-note-card>
+
+            <ion-select
+              interface="action-sheet"
+              label="Role"
+              labelPlacement="stacked"
+              [value]="roleFor(note.id)"
+              (ionChange)="onRoleChange(note.id, $event.detail.value)"
+            >
+              <ion-select-option *ngFor="let role of roles" [value]="role">{{ role }}</ion-select-option>
+            </ion-select>
+          </section>
+        </div>
+      </section>
+
+      <ion-card class="km-card">
+        <ion-card-content class="wv-distill-builder__tray">
+          <div>
+            <p class="wv-distill-builder__kicker">Selected Items</p>
+            <h2>{{ selectedItems().length }} ready for suggestion generation</h2>
+          </div>
+
+          <ion-button expand="block" class="km-btn" [disabled]="!selectedItems().length" (click)="openSuggestions()">
+            Generate Suggestions
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </div>
+</ion-content>
+
+<ng-template #missingBatchState>
+  <ion-card class="km-card">
+    <ion-card-content>
+      <p class="wv-distill-builder__kicker">Distill batch</p>
+      <h1>Batch unavailable</h1>
+      <p class="wv-distill-builder__summary">
+        Open this page from a source unit workspace so the distill batch can be created for the current session.
+      </p>
+    </ion-card-content>
+  </ion-card>
+</ng-template>

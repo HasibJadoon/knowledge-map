@@ -6,7 +6,7 @@ import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { KmapsNoteKind } from '../../../kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
 
-type WorkspaceNoteKind = Extract<KmapsNoteKind, 'quote' | 'reflection' | 'question' | 'insight' | 'observation' | 'claim_seed' | 'idea'>;
+type WorkspaceNoteKind = Extract<KmapsNoteKind, 'highlight' | 'quote' | 'reflection' | 'question' | 'insight' | 'observation' | 'claim_seed' | 'idea'>;
 
 const BASE_NOTE_KIND_OPTIONS: WorkspaceNoteKind[] = ['question', 'reflection', 'quote', 'insight', 'observation', 'idea'];
 
@@ -34,6 +34,10 @@ export class NoteWorkspaceModalComponent {
   @Input({ required: true }) unitId = '';
   @Input() noteId: string | null = null;
   @Input() preferredKind: WorkspaceNoteKind = 'question';
+  @Input() initialTitle = '';
+  @Input() initialBodyMd = '';
+  @Input() initialExcerptText: string | null = null;
+  @Input() initialLocator: string | null = null;
 
   readonly activeNoteId = signal<string | null>(null);
   readonly activeNote = computed(() => this.workflow.getNoteById(this.activeNoteId()));
@@ -55,8 +59,8 @@ export class NoteWorkspaceModalComponent {
 
     this.form.patchValue({
       noteKind: this.preferredKind,
-      title: '',
-      bodyMd: '',
+      title: this.initialTitle.trim(),
+      bodyMd: this.initialBodyMd.trim(),
     });
   }
 
@@ -90,6 +94,8 @@ export class NoteWorkspaceModalComponent {
     switch (kind) {
       case 'question':
         return 'help-circle-outline';
+      case 'highlight':
+        return 'color-wand-outline';
       case 'reflection':
         return 'chatbox-ellipses-outline';
       case 'quote':
@@ -124,14 +130,14 @@ export class NoteWorkspaceModalComponent {
     const noteTitle = title || deriveTitleFromBody(body, this.form.controls.noteKind.value);
     const noteBody = body || noteTitle;
     const unit = this.workflow.getUnit(this.unitId);
-    const locator = unit?.locatorLabel || unit?.startRef || null;
+    const locator = this.initialLocator?.trim() || unit?.locatorLabel || unit?.startRef || null;
 
     if (this.activeNoteId()) {
       this.workflow.updateNote(this.activeNoteId()!, {
         noteKind: this.form.controls.noteKind.value,
         title: noteTitle,
         bodyMd: noteBody,
-        excerptText: this.activeNote()?.excerptText || null,
+        excerptText: this.activeNote()?.excerptText || this.initialExcerptText || null,
         locator,
       });
     } else {
@@ -141,7 +147,7 @@ export class NoteWorkspaceModalComponent {
         noteKind: this.form.controls.noteKind.value,
         title: noteTitle,
         bodyMd: noteBody,
-        excerptText: null,
+        excerptText: this.initialExcerptText || null,
         locator,
       });
     }
@@ -166,6 +172,7 @@ export class NoteWorkspaceModalComponent {
 
 function isWorkspaceNote(kind: KmapsNoteKind): kind is WorkspaceNoteKind {
   return (
+    kind === 'highlight' ||
     kind === 'quote' ||
     kind === 'reflection' ||
     kind === 'question' ||
@@ -180,6 +187,8 @@ function deriveTitleFromBody(body: string, kind: WorkspaceNoteKind): string {
   const trimmed = body.trim();
   if (!trimmed) {
     switch (kind) {
+      case 'highlight':
+        return 'Highlight';
       case 'observation':
         return 'Comment';
       case 'claim_seed':

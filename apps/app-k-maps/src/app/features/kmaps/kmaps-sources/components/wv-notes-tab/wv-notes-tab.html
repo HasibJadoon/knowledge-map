@@ -1,0 +1,38 @@
+<ion-segment
+  class="wv-notes-tab__filters"
+  [scrollable]="true"
+  [value]="activeFilter"
+  (ionChange)="onFilterChange($event.detail.value)"
+>
+  <ion-segment-button *ngFor="let filter of filters" [value]="filter">
+    <ion-label>{{ filterLabel(filter) }}</ion-label>
+  </ion-segment-button>
+</ion-segment>
+
+<ion-button fill="outline" class="km-btn wv-notes-tab__create" (click)="createNote.emit()">New Note</ion-button>
+
+<ion-card class="km-card wv-notes-tab__card" *ngFor="let note of notes; trackBy: trackNote">
+  <ion-card-content>
+    <div class="wv-notes-tab__card-head">
+      <ion-chip>{{ kindLabel(note.noteKind) }}</ion-chip>
+      <span class="wv-notes-tab__locator" *ngIf="note.locator">{{ note.locator }}</span>
+    </div>
+
+    <blockquote class="wv-notes-tab__excerpt" *ngIf="note.excerptText">{{ note.excerptText }}</blockquote>
+    <p class="wv-notes-tab__body">{{ preview(note) }}</p>
+
+    <div class="wv-notes-tab__actions">
+      <ion-button fill="clear" size="small" (click)="editNote.emit(note)">Edit</ion-button>
+      <ion-button fill="clear" size="small" color="danger" (click)="deleteNote.emit(note)">Delete</ion-button>
+      <ion-button fill="outline" size="small" class="km-btn" (click)="sendToDistill.emit(note)">Send to Distill</ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>
+
+<app-kmaps-empty-state-card
+  *ngIf="!notes.length"
+  title="No notes yet"
+  [message]="emptyMessage"
+  actionLabel="Create note"
+  (actionSelected)="createNote.emit()"
+></app-kmaps-empty-state-card>

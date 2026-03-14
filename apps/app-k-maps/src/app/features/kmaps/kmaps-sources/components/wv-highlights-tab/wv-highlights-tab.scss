@@ -1,0 +1,37 @@
+:host {
+  display: grid;
+  gap: var(--app-space-3);
+}
+
+.wv-highlights-tab__card {
+  margin: 0;
+}
+
+.wv-highlights-tab__card ion-card-content {
+  display: grid;
+  gap: var(--app-space-3);
+}
+
+.wv-highlights-tab__meta,
+.wv-highlights-tab__card h2 {
+  margin: 0;
+}
+
+.wv-highlights-tab__meta {
+  color: var(--app-text-muted);
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.wv-highlights-tab__card h2 {
+  color: var(--app-text-strong);
+  font-size: 1rem;
+  font-weight: 620;
+  line-height: 1.55;
+}
+
+.wv-highlights-tab__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}

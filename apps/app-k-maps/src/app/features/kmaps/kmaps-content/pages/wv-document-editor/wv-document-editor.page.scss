@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+.wv-document-editor__kicker,
+.wv-document-editor__summary,
+.wv-document-editor__section {
+  margin: 0;
+}
+
+.wv-document-editor__kicker {
+  color: var(--app-text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wv-document-editor__summary {
+  color: var(--app-text-muted);
+  line-height: 1.55;
+}
+
+.wv-document-editor__section {
+  display: grid;
+  gap: var(--app-space-3);
+}
