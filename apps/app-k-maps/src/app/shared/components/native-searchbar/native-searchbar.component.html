@@ -1,0 +1,10 @@
+<div class="app-page-search-row">
+  <ion-searchbar
+    class="km-searchbar app-page-searchbar"
+    [value]="value"
+    [debounce]="debounce"
+    [placeholder]="placeholder"
+    show-clear-button="focus"
+    (ionInput)="onInput($event.detail.value)"
+  ></ion-searchbar>
+</div>

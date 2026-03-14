@@ -1,6 +1,4 @@
 <ion-header class="source-metadata-sheet__header">
-  <div class="source-metadata-sheet__handle" aria-hidden="true"></div>
-
   <ion-toolbar class="source-metadata-sheet__toolbar">
     <ion-buttons slot="start">
       <ion-button fill="clear" (click)="close()" aria-label="Close source details">
@@ -16,14 +14,14 @@
 
   <ion-toolbar class="source-metadata-sheet__tabs-toolbar">
     <ion-segment class="source-metadata-sheet__segment" mode="md" [value]="activeTab()" (ionChange)="setTab($event.detail.value)">
-      <ion-segment-button value="people">
-        <ion-label>People</ion-label>
+      <ion-segment-button value="people" aria-label="People" title="People">
+        <ion-icon name="people-outline" aria-hidden="true"></ion-icon>
       </ion-segment-button>
-      <ion-segment-button value="publication">
-        <ion-label>Publication</ion-label>
+      <ion-segment-button value="publication" aria-label="Publication" title="Publication">
+        <ion-icon name="library-outline" aria-hidden="true"></ion-icon>
       </ion-segment-button>
-      <ion-segment-button value="details">
-        <ion-label>Details</ion-label>
+      <ion-segment-button value="details" aria-label="Details" title="Details">
+        <ion-icon name="document-text-outline" aria-hidden="true"></ion-icon>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>

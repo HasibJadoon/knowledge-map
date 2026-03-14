@@ -228,6 +228,48 @@ ion-menu ion-icon {
   color: var(--ion-color-primary);
 }
 
+.app-page-toolbar--search {
+  --padding-top: 0.15rem;
+  --padding-bottom: 0.3rem;
+  --padding-start: 0.5rem;
+  --padding-end: 0.5rem;
+}
+
+.app-page-search-row {
+  width: min(100%, var(--app-content-width));
+  margin-inline: auto;
+}
+
+.app-page-searchbar {
+  width: 100%;
+}
+
+.app-page-content {
+  width: min(100%, var(--app-page-content-width, var(--app-content-width)));
+  min-height: 100%;
+  display: grid;
+  gap: var(--app-space-3);
+  align-content: start;
+  box-sizing: border-box;
+  margin-inline: auto;
+  padding:
+    var(--app-space-3)
+    clamp(0.52rem, 2.6vw, var(--app-content-padding-inline))
+    calc(env(safe-area-inset-bottom) + var(--app-space-6));
+}
+
+.app-page-content--wide {
+  --app-page-content-width: var(--app-content-width-wide);
+}
+
+.app-page-summary {
+  display: block;
+  margin: 0;
+  color: var(--app-text-muted);
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
 .dashboard-toolbar,
 .library-page__toolbar,
 .library-page__search-toolbar,

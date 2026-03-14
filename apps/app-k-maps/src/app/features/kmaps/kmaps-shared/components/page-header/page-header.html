@@ -1,7 +1,8 @@
 <ion-header class="kmaps-page-header">
   <ion-toolbar class="kmaps-page-header__toolbar">
     <ion-buttons slot="start">
-      <ion-back-button *ngIf="showBackButton" [defaultHref]="backHref" text=""></ion-back-button>
+      <ion-menu-button *ngIf="showMenuButton" [menu]="menuId"></ion-menu-button>
+      <ion-back-button *ngIf="!showMenuButton && showBackButton" [defaultHref]="backHref" text=""></ion-back-button>
     </ion-buttons>
 
     <ion-title
@@ -20,15 +21,17 @@
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar class="kmaps-page-header__toolbar kmaps-page-header__toolbar--search" *ngIf="showSearch">
-    <ion-searchbar
-      class="kmaps-page-header__searchbar"
-      [value]="searchValue"
-      debounce="150"
-      [placeholder]="searchPlaceholder"
-      show-clear-button="focus"
-      (ionInput)="onSearchInput($event.detail.value)"
-    ></ion-searchbar>
+  <ion-toolbar class="kmaps-page-header__toolbar app-page-toolbar--search" *ngIf="showSearch">
+    <div class="app-page-search-row">
+      <ion-searchbar
+        class="km-searchbar app-page-searchbar"
+        [value]="searchValue"
+        [debounce]="searchDebounce"
+        [placeholder]="searchPlaceholder"
+        show-clear-button="focus"
+        (ionInput)="onSearchInput($event.detail.value)"
+      ></ion-searchbar>
+    </div>
   </ion-toolbar>
 
   <ng-content select="[kmapsHeaderAfterSearch]"></ng-content>

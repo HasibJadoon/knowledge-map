@@ -11,14 +11,6 @@
     var(--km-surface, linear-gradient(165deg, rgba(18, 30, 52, 0.86), rgba(11, 18, 33, 0.88)));
 }
 
-.source-metadata-sheet__handle {
-  width: 3rem;
-  height: 0.32rem;
-  margin: 0.52rem auto 0.18rem;
-  border-radius: 999px;
-  background: rgba(205, 224, 255, 0.22);
-}
-
 .source-metadata-sheet__toolbar,
 .source-metadata-sheet__tabs-toolbar,
 .source-metadata-sheet__footer ion-toolbar {
@@ -67,6 +59,10 @@
   text-transform: none;
 }
 
+.source-metadata-sheet__segment ion-icon {
+  font-size: 1.15rem;
+}
+
 .source-metadata-sheet__segment ion-segment-button::part(indicator-background) {
   border-radius: 999px;
   height: 2px;
@@ -76,13 +72,14 @@
   flex: 1 1 auto;
   min-height: 0;
   --overflow: auto;
+  --padding-bottom: calc(env(safe-area-inset-bottom) + 4.75rem);
   --background:
     linear-gradient(180deg, rgba(12, 20, 38, 0.98) 0%, rgba(10, 17, 32, 0.98) 100%),
     var(--km-surface, linear-gradient(165deg, rgba(18, 30, 52, 0.86), rgba(11, 18, 33, 0.88)));
 }
 
 .source-metadata-sheet__list {
-  padding: 0.14rem 0 0.7rem;
+  padding: 0.14rem 0 calc(env(safe-area-inset-bottom) + 4.75rem);
   background: transparent;
 }
 

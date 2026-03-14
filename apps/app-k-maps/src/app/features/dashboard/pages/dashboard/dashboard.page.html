@@ -5,23 +5,19 @@
     </ion-buttons>
     <ion-title>Dashboard</ion-title>
   </ion-toolbar>
-  <ion-toolbar class="dashboard-toolbar dashboard-toolbar--search">
-    <div class="dashboard-toolbar-search-row">
-      <ion-searchbar
-        class="km-searchbar dashboard-toolbar-searchbar"
-        [value]="query()"
-        placeholder="Search menu"
-        show-clear-button="focus"
-        [debounce]="0"
-        (ionInput)="onSearchInput($event.detail.value)"
-      ></ion-searchbar>
-    </div>
+  <ion-toolbar class="dashboard-toolbar app-page-toolbar--search">
+    <app-native-searchbar
+      [value]="query()"
+      placeholder="Search menu"
+      [debounce]="0"
+      (valueChange)="onSearchInput($event)"
+    ></app-native-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="dashboard-page">
-  <div class="dashboard-content ion-padding">
-    <ion-note class="dashboard-search-summary">{{ searchSummary() }}</ion-note>
+  <div class="app-page-content app-page-content--wide dashboard-content">
+    <ion-note class="app-page-summary">{{ searchSummary() }}</ion-note>
 
     <app-dashboard-card-grid [cards]="cards()" [emptyText]="emptyText()"></app-dashboard-card-grid>
   </div>

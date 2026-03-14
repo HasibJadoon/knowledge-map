@@ -1,15 +1,25 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
 }
 
-.source-detail-page__toolbar-button {
-  --color: var(--app-heading-blue, #9ef0ff);
-  --background: rgba(255, 255, 255, 0.04);
-  --border-radius: 0.9rem;
-  width: 2.8rem;
-  height: 2.8rem;
-  margin: 0 0.1rem 0 0;
-  border: 1px solid rgba(145, 176, 224, 0.18);
+:host.ion-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+:host ion-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  --background: var(--app-background, var(--km-shell-background, #0b1220));
+}
+
+:host ion-content::part(scroll) {
+  padding-bottom: calc(env(safe-area-inset-bottom) + var(--app-space-6));
 }
 
 .source-detail-page__progress-ribbon,
@@ -21,46 +31,26 @@
   margin: 0;
 }
 
-.source-detail-page__header,
-.source-detail-page__toolbar,
-.source-detail-page__search-toolbar,
 .source-detail-page__progress-toolbar {
-  --background: rgba(9, 16, 30, 0.94);
-  --border-color: rgba(145, 176, 224, 0.1);
+  --min-height: 0;
+  --padding-top: 0.1rem;
+  --padding-bottom: 0.5rem;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
 }
 
-.source-detail-page__title span,
-.source-detail-page__title small {
-  display: block;
-}
-
-.source-detail-page__title span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.source-detail-page__title small {
-  margin-top: 0.12rem;
-  color: var(--km-text-dim, #9eb2ce);
-  font-size: 0.7rem;
-  font-weight: 500;
-  line-height: 1.2;
-}
-
-.source-detail-page__search-toolbar {
-  --min-height: 3.65rem;
-}
-
-.source-detail-page__searchbar {
-  padding-inline: 0.7rem;
+.source-detail-page__progress-section {
+  padding: 0.9rem 1rem 0.35rem;
 }
 
 .source-detail-page__progress-ribbon {
   display: grid;
   gap: 0.34rem;
   width: 100%;
-  padding: 0.15rem 1rem 0.55rem;
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  background: var(--km-soft-surface, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--km-soft-border, rgba(145, 176, 224, 0.16));
 }
 
 .source-detail-page__progress-head {
@@ -146,7 +136,7 @@
 
 .source-detail-page__outline-list {
   margin: 0;
-  padding: 0 0 calc(env(safe-area-inset-bottom) + 0.5rem);
+  padding: 0 0 0.25rem;
   background: transparent;
 }
 
@@ -241,4 +231,8 @@
   color: rgba(236, 245, 255, 0.62);
   font-size: 0.74rem;
   line-height: 1.25;
+}
+
+.source-detail-page__empty-state {
+  padding: calc(var(--ion-safe-area-top, 0px) + 1rem) 1rem calc(env(safe-area-inset-bottom) + 1rem);
 }

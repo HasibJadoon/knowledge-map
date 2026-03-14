@@ -29,25 +29,6 @@
   font-size: 1.65rem;
 }
 
-.kmaps-page-header__toolbar--search {
-  --min-height: 60px;
-  --padding-top: 0.14rem;
-  --padding-bottom: 0.32rem;
-  --padding-start: 0.7rem;
-  --padding-end: 0.7rem;
-}
-
-.kmaps-page-header__searchbar {
-  padding: 0;
-  --background: rgba(7, 16, 30, 0.46);
-  --border-radius: 1rem;
-  --box-shadow: none;
-  --clear-button-color: var(--app-text-soft);
-  --color: var(--km-text, #e6edf8);
-  --icon-color: var(--app-text-soft);
-  --placeholder-color: var(--app-text-muted);
-}
-
 .kmaps-page-header__title {
   display: flex;
   flex-direction: column;

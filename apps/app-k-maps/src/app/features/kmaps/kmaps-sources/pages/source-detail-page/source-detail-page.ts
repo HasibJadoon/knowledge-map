@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActionSheetController, IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 
 import { KmapsEmptyStateCardComponent } from '../../../kmaps-shared/components/empty-state-card/empty-state-card';
 import {
@@ -11,6 +11,7 @@ import {
   type KmapsSourceUnit,
 } from '../../../kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { NativeSearchbarComponent } from '../../../../../shared/components/native-searchbar/native-searchbar.component';
 
 type SourceOutlineGroup = {
   unit: KmapsSourceUnit;
@@ -23,13 +24,12 @@ type SourceOutlineGroup = {
 @Component({
   selector: 'app-source-detail-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent],
+  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent, NativeSearchbarComponent],
   templateUrl: './source-detail-page.html',
   styleUrl: './source-detail-page.scss',
 })
 export class SourceDetailPage {
   private readonly destroyRef = inject(DestroyRef);
-  private readonly actionSheetController = inject(ActionSheetController);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly workflow = inject(KmapsWorkflowService);
@@ -118,7 +118,7 @@ export class SourceDetailPage {
       return 'Try a broader search term to find a chapter, section, or locator.';
     }
 
-    return 'Add chapter or section structure first, then use reading and quick capture against those units.';
+    return 'Add chapter or section structure first, then open each source unit in the new workspace tabs.';
   });
 
   constructor() {
@@ -133,41 +133,10 @@ export class SourceDetailPage {
     this.searchQuery.set(value);
   }
 
-  async openToolbarMenu(): Promise<void> {
-    const actionSheet = await this.actionSheetController.create({
-      header: this.currentSource().title,
-      buttons: [
-        {
-          text: 'Continue reading',
-          icon: 'book-outline',
-          handler: () => this.openContinueReading(),
-        },
-        {
-          text: 'View notes',
-          icon: 'documents-outline',
-          handler: () => this.openNotes(),
-        },
-        {
-          text: 'Distill',
-          icon: 'sparkles-outline',
-          handler: () => this.openDistill(),
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-      ],
+  openUnit(unitId: string, tab?: 'overview' | 'read'): void {
+    void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', unitId], {
+      queryParams: tab && tab !== 'overview' ? { tab } : undefined,
     });
-
-    await actionSheet.present();
-  }
-
-  openUnit(unitId: string): void {
-    void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', unitId]);
-  }
-
-  openUnitNotes(unitId: string): void {
-    void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', unitId, 'notes']);
   }
 
   resumeReading(): void {
@@ -180,17 +149,8 @@ export class SourceDetailPage {
     this.toggleChapter(unitId);
   }
 
-  openCaptureDraft(): void {
-    const preferredUnit = this.preferredWorkspaceUnit();
-    if (!preferredUnit) {
-      return;
-    }
-
-    void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', preferredUnit.id, 'capture']);
-  }
-
-  noteCountForUnit(unitId: string): number {
-    return this.workflow.getNotesForContext(this.currentSource().id, unitId).length;
+  goBackToLibrary(): void {
+    void this.router.navigate(['/worldview/library']);
   }
 
   trackGroup(_: number, group: SourceOutlineGroup): string {
@@ -215,43 +175,13 @@ export class SourceDetailPage {
       return;
     }
 
-    void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', firstUnit.id, 'read']);
-  }
-
-  private openNotes(): void {
-    const preferredUnit = this.preferredWorkspaceUnit();
-    if (!preferredUnit) {
-      return;
-    }
-
-    void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', preferredUnit.id, 'notes']);
-  }
-
-  private openDistill(): void {
-    void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'distill']);
+    this.openUnit(firstUnit.id, 'read');
   }
 
   private recentLocator(): string | null {
     const source = this.currentSource();
     const value = source.sourceJson?.['recentLocator'];
     return typeof value === 'string' && value.trim() ? value.trim() : source.sourceRef;
-  }
-
-  private preferredWorkspaceUnit(): KmapsSourceUnit | null {
-    const units = this.units();
-    if (!units.length) {
-      return null;
-    }
-
-    const recentLocator = this.readRecentLocatorForSource(this.currentSource().id);
-
-    return (
-      units.find((unit) => !!unit.parentUnitId && matchesRecentLocator(unit, recentLocator)) ||
-      units.find((unit) => !!unit.parentUnitId) ||
-      units.find((unit) => matchesRecentLocator(unit, recentLocator)) ||
-      units[0] ||
-      null
-    );
   }
 
   private toggleChapter(unitId: string): void {

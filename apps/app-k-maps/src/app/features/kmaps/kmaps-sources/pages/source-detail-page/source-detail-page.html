@@ -12,24 +12,22 @@
     <ion-buttons slot="end">
       <ion-button
         fill="clear"
-        class="source-detail-page__toolbar-button"
-        aria-label="More actions"
-        (click)="openToolbarMenu()"
+        size="small"
+        routerLink="/dashboard"
+        routerDirection="root"
+        aria-label="Dashboard"
       >
-        <ion-icon name="ellipsis-horizontal" slot="icon-only"></ion-icon>
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar class="source-detail-page__search-toolbar">
-    <ion-searchbar
-      class="source-detail-page__searchbar"
+  <ion-toolbar class="source-detail-page__search-toolbar app-page-toolbar--search">
+    <app-native-searchbar
       [value]="searchQuery()"
-      debounce="150"
       placeholder="Search chapters or sections"
-      show-clear-button="focus"
-      (ionInput)="onSearchChange($any($event.target).value || '')"
-    ></ion-searchbar>
+      (valueChange)="onSearchChange($event)"
+    ></app-native-searchbar>
   </ion-toolbar>
 
   <ion-toolbar class="source-detail-page__progress-toolbar">
@@ -59,7 +57,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="km-native-page">
+<ion-content class="source-detail-page__content">
   <ion-list class="source-detail-page__outline-list" lines="full" *ngIf="outlineGroups().length; else noUnits">
     <ng-container *ngFor="let group of outlineGroups(); trackBy: trackGroup; let isFirst = first">
       <ion-item-divider
@@ -73,7 +71,7 @@
         lines="full"
         detail="false"
         button
-        (click)="openUnitNotes(group.unit.id)"
+        (click)="openUnit(group.unit.id)"
       >
         <ion-label class="source-detail-page__unit-copy">
           <h2>{{ group.unit.title }}</h2>
@@ -109,7 +107,7 @@
           lines="full"
           detail="false"
           button
-          (click)="openUnitNotes(child.id)"
+          (click)="openUnit(child.id)"
         >
           <span class="source-detail-page__section-mark" slot="start" aria-hidden="true"></span>
 
@@ -123,12 +121,12 @@
   </ion-list>
 
   <ng-template #noUnits>
-    <div class="km-native-page__body">
+    <div class="source-detail-page__empty-state">
       <app-kmaps-empty-state-card
         [title]="emptyTitle()"
         [message]="emptyMessage()"
-        actionLabel="Open capture"
-        (actionSelected)="openCaptureDraft()"
+        actionLabel="Back to library"
+        (actionSelected)="goBackToLibrary()"
       ></app-kmaps-empty-state-card>
     </div>
   </ng-template>

@@ -6,9 +6,9 @@ import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { KmapsNoteKind } from '../../../kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
 
-type WorkspaceNoteKind = Extract<KmapsNoteKind, 'quote' | 'reflection' | 'question' | 'insight' | 'observation' | 'claim_seed'>;
+type WorkspaceNoteKind = Extract<KmapsNoteKind, 'quote' | 'reflection' | 'question' | 'insight' | 'observation' | 'claim_seed' | 'idea'>;
 
-const BASE_NOTE_KIND_OPTIONS: WorkspaceNoteKind[] = ['question', 'reflection', 'quote', 'insight', 'observation'];
+const BASE_NOTE_KIND_OPTIONS: WorkspaceNoteKind[] = ['question', 'reflection', 'quote', 'insight', 'observation', 'idea'];
 
 type WorkspaceNoteLike = {
   noteKind: KmapsNoteKind;
@@ -79,6 +79,8 @@ export class NoteWorkspaceModalComponent {
         return 'C';
       case 'claim_seed':
         return 'Claim Seed';
+      case 'idea':
+        return 'Idea';
       default:
         return kind.charAt(0).toUpperCase();
     }
@@ -98,6 +100,8 @@ export class NoteWorkspaceModalComponent {
         return 'chatbubble-outline';
       case 'claim_seed':
         return 'flash-outline';
+      case 'idea':
+        return 'sparkles-outline';
       default:
         return 'document-text-outline';
     }
@@ -167,7 +171,8 @@ function isWorkspaceNote(kind: KmapsNoteKind): kind is WorkspaceNoteKind {
     kind === 'question' ||
     kind === 'insight' ||
     kind === 'observation' ||
-    kind === 'claim_seed'
+    kind === 'claim_seed' ||
+    kind === 'idea'
   );
 }
 
@@ -179,6 +184,8 @@ function deriveTitleFromBody(body: string, kind: WorkspaceNoteKind): string {
         return 'Comment';
       case 'claim_seed':
         return 'Claim Seed';
+      case 'idea':
+        return 'Idea';
       default:
         return kind.charAt(0).toUpperCase() + kind.slice(1);
     }

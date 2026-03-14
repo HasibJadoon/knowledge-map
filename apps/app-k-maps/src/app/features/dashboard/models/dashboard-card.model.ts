@@ -1,4 +1,4 @@
-import { DashboardMenuLink, DashboardMenuSection, DashboardTone } from './dashboard-menu.data';
+import { DashboardMenuLink, DashboardMenuSection, DashboardTone } from '../data/dashboard-menu.data';
 
 export type DashboardCardView = {
   title: string;

@@ -1,25 +1,28 @@
 <ion-header class="library-page__header">
   <ion-toolbar class="library-page__toolbar">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/dashboard" text=""></ion-back-button>
+      <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
 
     <ion-title>Library</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" routerLink="/dashboard" routerDirection="root" aria-label="Dashboard">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar class="library-page__search-toolbar">
-    <ion-searchbar
-      class="library-page__searchbar"
+  <ion-toolbar class="library-page__search-toolbar app-page-toolbar--search">
+    <app-native-searchbar
       [value]="searchQuery()"
-      debounce="150"
-      placeholder="Search titles, creators, or formats"
-      show-clear-button="focus"
-      (ionInput)="onSearchChange($any($event.target).value || '')"
-    ></ion-searchbar>
+      placeholder="Search library"
+      (valueChange)="onSearchChange($event)"
+    ></app-native-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="library-page">
+<ion-content class="library-page__content">
   <ion-list class="library-page__list" lines="full" *ngIf="visibleEntries().length; else emptyLibrary">
     <ion-item
       *ngFor="let entry of visibleEntries(); trackBy: trackEntry"
@@ -58,7 +61,7 @@
   </ion-list>
 
   <ng-template #emptyLibrary>
-    <div class="library-page__empty ion-padding">
+    <div class="library-page__empty">
       <app-kmaps-empty-state-card
         [title]="emptyTitle()"
         [message]="emptyMessage()"

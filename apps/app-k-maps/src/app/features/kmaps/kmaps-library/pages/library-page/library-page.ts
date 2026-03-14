@@ -7,6 +7,7 @@ import { SourceMetadataSheetComponent } from '../../components/source-metadata-s
 import { KmapsEmptyStateCardComponent } from '../../../kmaps-shared/components/empty-state-card/empty-state-card';
 import { KmapsSource, formatSourceTypeLabel, type KmapsSourceContributor, type KmapsSourceType } from '../../../kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { NativeSearchbarComponent } from '../../../../../shared/components/native-searchbar/native-searchbar.component';
 
 type LibraryPeopleSummary = {
   initials: string;
@@ -25,7 +26,7 @@ type LibraryListEntry = {
 @Component({
   selector: 'app-library-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent],
+  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent, NativeSearchbarComponent],
   templateUrl: './library-page.html',
   styleUrl: './library-page.scss',
 })
@@ -115,10 +116,12 @@ export class LibraryPage {
     const modal = await this.modalController.create({
       component: SourceMetadataSheetComponent,
       componentProps: { sourceId },
-      breakpoints: [0, 0.48, 0.66, 0.86, 0.96],
-      initialBreakpoint: 0.66,
+      breakpoints: [0, 0.6, 0.82, 0.96],
+      initialBreakpoint: 0.82,
       backdropDismiss: true,
-      handle: false,
+      expandToScroll: false,
+      handle: true,
+      handleBehavior: 'cycle',
       cssClass: 'km-source-metadata-modal',
     });
 

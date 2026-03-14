@@ -1,0 +1,342 @@
+<ion-header class="source-unit-page__header">
+  <ion-toolbar class="source-unit-page__toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="source() ? '/worldview/sources/' + sourceId() : '/worldview/library'" text=""></ion-back-button>
+    </ion-buttons>
+
+    <ion-title class="source-unit-page__title">{{ unit()?.title || 'Source Unit' }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" routerLink="/dashboard" routerDirection="root" aria-label="Dashboard">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="source-unit-page__search-toolbar app-page-toolbar--search">
+    <app-native-searchbar
+      [value]="searchQuery()"
+      [placeholder]="searchPlaceholder()"
+      (valueChange)="onSearchChange($event)"
+    ></app-native-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="km-native-page source-unit-page__content">
+  <div class="app-page-content source-unit-page__body source-unit-page__body--with-tabs">
+    <ion-card class="km-card source-unit-page__hero" *ngIf="unit() as currentUnit">
+      <ion-card-content>
+        <p class="source-unit-page__hero-kicker">{{ source()?.title || 'Source' }}</p>
+
+        <div class="source-unit-page__hero-head">
+          <div class="source-unit-page__hero-copy">
+            <h1>{{ currentUnit.title }}</h1>
+            <p>{{ sourceSummary() }}</p>
+          </div>
+
+          <ion-button fill="outline" size="small" class="km-btn source-unit-page__hero-action" (click)="setActiveTab('read')">
+            Read
+          </ion-button>
+        </div>
+
+        <div class="source-unit-page__hero-meta">
+          <span class="km-chip">{{ unitTypeLabel(currentUnit) }}</span>
+          <span class="km-chip" *ngIf="currentUnit.locatorLabel">{{ currentUnit.locatorLabel }}</span>
+          <span class="km-chip">{{ progressPercent() }}% read</span>
+          <span class="km-chip">{{ readingMinutesLabelForUnit(currentUnit) }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ng-container *ngIf="!isEmptyState(); else emptyState">
+      <ng-container [ngSwitch]="activeTab()">
+        <ng-container *ngSwitchCase="'overview'">
+          <section class="source-unit-page__metrics">
+            <ion-card class="km-card source-unit-page__metric-card" *ngFor="let metric of metrics(); trackBy: trackMetric">
+              <ion-card-content>
+                <span>{{ metric.label }}</span>
+                <strong>{{ metric.value }}</strong>
+              </ion-card-content>
+            </ion-card>
+          </section>
+
+          <ion-card class="km-card source-unit-page__panel-card">
+            <ion-card-content>
+              <div class="source-unit-page__panel-head">
+                <div>
+                  <p class="source-unit-page__panel-kicker">Summary</p>
+                  <h2>Working summary</h2>
+                </div>
+              </div>
+
+              <p class="source-unit-page__summary">{{ sourceSummary() }}</p>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="km-card source-unit-page__panel-card">
+            <ion-card-content class="source-unit-page__panel-card-content">
+              <div class="source-unit-page__panel-head">
+                <div>
+                  <p class="source-unit-page__panel-kicker">Structure</p>
+                  <h2>{{ childUnits().length ? 'Nested units' : 'Reading scope' }}</h2>
+                </div>
+              </div>
+            </ion-card-content>
+
+            <ion-list class="source-unit-page__list" lines="full" *ngIf="filteredOverviewUnits().length; else currentUnitState">
+              <ion-item
+                class="source-unit-page__list-item"
+                *ngFor="let section of filteredOverviewUnits(); trackBy: trackUnit"
+                lines="full"
+                button
+                detail="false"
+                (click)="openUnit(section.id)"
+              >
+                <ion-label>
+                  <h3>{{ section.title }}</h3>
+                  <p>{{ overviewUnitMeta(section) }}</p>
+                </ion-label>
+
+                <ion-icon slot="end" name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+              </ion-item>
+            </ion-list>
+
+            <ng-template #currentUnitState>
+              <div class="source-unit-page__state">
+                <p>This source unit reads as a single workspace. Switch to the read tab for full text.</p>
+              </div>
+            </ng-template>
+          </ion-card>
+
+          <ion-card class="km-card source-unit-page__panel-card">
+            <ion-card-content class="source-unit-page__panel-card-content">
+              <div class="source-unit-page__panel-head">
+                <div>
+                  <p class="source-unit-page__panel-kicker">Highlights</p>
+                  <h2>{{ recentHighlights().length }} recent passages</h2>
+                </div>
+
+                <ion-button fill="clear" size="small" class="source-unit-page__panel-action" (click)="setActiveTab('highlights')">
+                  View all
+                </ion-button>
+              </div>
+            </ion-card-content>
+
+            <ion-list class="source-unit-page__list" lines="full" *ngIf="recentHighlights().length; else noHighlightPreview">
+              <ion-item class="source-unit-page__list-item" *ngFor="let note of recentHighlights(); trackBy: trackNote" lines="full">
+                <ion-label>
+                  <p class="source-unit-page__item-meta">{{ noteMeta(note) }}</p>
+                  <h3>{{ notePreview(note, 140) }}</h3>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+
+            <ng-template #noHighlightPreview>
+              <div class="source-unit-page__state">
+                <p>Highlights will appear here once you mark passages in the read tab.</p>
+              </div>
+            </ng-template>
+          </ion-card>
+
+          <ion-card class="km-card source-unit-page__panel-card">
+            <ion-card-content class="source-unit-page__panel-card-content">
+              <div class="source-unit-page__panel-head">
+                <div>
+                  <p class="source-unit-page__panel-kicker">Notes</p>
+                  <h2>{{ recentNotes().length }} recent entries</h2>
+                </div>
+
+                <ion-button fill="clear" size="small" class="source-unit-page__panel-action" (click)="setActiveTab('notes')">
+                  View all
+                </ion-button>
+              </div>
+            </ion-card-content>
+
+            <ion-list class="source-unit-page__list" lines="full" *ngIf="recentNotes().length; else noNotePreview">
+              <ion-item
+                class="source-unit-page__list-item"
+                *ngFor="let note of recentNotes(); trackBy: trackNote"
+                lines="full"
+                button
+                detail="false"
+                (click)="openNote(note)"
+              >
+                <ion-badge slot="start" [color]="noteKindTone(note.noteKind)">{{ noteKindLabel(note.noteKind) }}</ion-badge>
+
+                <ion-label>
+                  <h3>{{ noteTitle(note) }}</h3>
+                  <p>{{ noteMeta(note) }}</p>
+                </ion-label>
+
+                <ion-icon slot="end" name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+              </ion-item>
+            </ion-list>
+
+            <ng-template #noNotePreview>
+              <div class="source-unit-page__state">
+                <p>Notes created in this source unit will collect here for quick review.</p>
+              </div>
+            </ng-template>
+          </ion-card>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'read'">
+          <section class="source-unit-page__scope-row" *ngIf="readUnits().length > 1">
+            <button
+              type="button"
+              class="source-unit-page__scope-chip"
+              *ngFor="let readUnit of readUnits(); trackBy: trackUnit"
+              [class.source-unit-page__scope-chip--active]="selectedReadUnit().id === readUnit.id"
+              (click)="selectReadUnit(readUnit.id)"
+            >
+              {{ readUnit.locatorLabel || readUnit.title }}
+            </button>
+          </section>
+
+          <ion-card class="km-card source-unit-page__selection-card" *ngIf="selectedExcerpt()">
+            <ion-card-content>
+              <div class="source-unit-page__panel-head">
+                <div>
+                  <p class="source-unit-page__panel-kicker">Selected text</p>
+                  <h2>{{ selectedLocator() || selectedReadUnit().title }}</h2>
+                </div>
+              </div>
+
+              <blockquote class="source-unit-page__selection-quote">{{ selectedExcerpt() }}</blockquote>
+
+              <div class="source-unit-page__selection-actions">
+                <ion-button fill="outline" size="small" class="km-btn" (click)="highlightSelected()">Highlight</ion-button>
+                <ion-button fill="outline" size="small" class="km-btn" (click)="saveQuoteSelected()">Quote</ion-button>
+                <ion-button fill="clear" size="small" class="source-unit-page__text-button" (click)="copySelectedExcerpt()">Copy</ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <section class="source-unit-page__reading" *ngIf="displayedReadingSections().length; else noReading">
+            <section class="source-unit-page__reading-section" *ngFor="let section of displayedReadingSections(); trackBy: trackSection">
+              <div class="source-unit-page__reading-head">
+                <span></span>
+                <h2>{{ section.heading }}</h2>
+              </div>
+
+              <button
+                type="button"
+                class="source-unit-page__paragraph"
+                *ngFor="let paragraph of section.paragraphs"
+                [class.source-unit-page__paragraph--selected]="selectedParagraphIndex() === paragraph.index"
+                (click)="selectParagraph(paragraph.index)"
+              >
+                <span class="source-unit-page__paragraph-index">{{ paragraph.index + 1 }}</span>
+                <span>{{ paragraph.body }}</span>
+              </button>
+            </section>
+          </section>
+
+          <ng-template #noReading>
+            <app-kmaps-empty-state-card
+              title="No reading in this view"
+              [message]="normalizedQuery() ? 'Clear the search to view the full reading text for this source unit.' : 'This source unit does not have reading text yet.'"
+              [actionLabel]="normalizedQuery() ? 'Show all text' : 'Back to overview'"
+              (actionSelected)="normalizedQuery() ? onSearchChange('') : setActiveTab('overview')"
+            ></app-kmaps-empty-state-card>
+          </ng-template>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'highlights'">
+          <ion-card class="km-card source-unit-page__panel-card">
+            <ion-card-content class="source-unit-page__panel-card-content">
+              <div class="source-unit-page__panel-head">
+                <div>
+                  <p class="source-unit-page__panel-kicker">Highlights</p>
+                  <h2>{{ filteredHighlights().length }} saved passages</h2>
+                </div>
+              </div>
+            </ion-card-content>
+
+            <ion-list class="source-unit-page__list" lines="full" *ngIf="filteredHighlights().length; else noHighlights">
+              <ion-item class="source-unit-page__list-item" *ngFor="let note of filteredHighlights(); trackBy: trackNote" lines="full">
+                <ion-label>
+                  <p class="source-unit-page__item-meta">{{ noteMeta(note) }}</p>
+                  <h3>{{ notePreview(note, 190) }}</h3>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+
+            <ng-template #noHighlights>
+              <div class="source-unit-page__state source-unit-page__state--padded">
+                <app-kmaps-empty-state-card
+                  title="No highlights yet"
+                  [message]="normalizedQuery() ? 'No saved highlights match this search yet.' : 'Read the source unit and save a passage to build your highlight list.'"
+                  actionLabel="Go to read"
+                  (actionSelected)="jumpToRead()"
+                ></app-kmaps-empty-state-card>
+              </div>
+            </ng-template>
+          </ion-card>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'notes'">
+          <ion-card class="km-card source-unit-page__panel-card">
+            <ion-card-content class="source-unit-page__panel-card-content">
+              <div class="source-unit-page__panel-head">
+                <div>
+                  <p class="source-unit-page__panel-kicker">Notes</p>
+                  <h2>{{ filteredNotes().length }} workspace notes</h2>
+                </div>
+
+                <ion-button fill="outline" size="small" class="km-btn source-unit-page__panel-button" (click)="openCreateNoteModal()">
+                  New Note
+                </ion-button>
+              </div>
+            </ion-card-content>
+
+            <ion-list class="source-unit-page__list" lines="full" *ngIf="filteredNotes().length; else noNotes">
+              <ion-item
+                class="source-unit-page__list-item"
+                *ngFor="let note of filteredNotes(); trackBy: trackNote"
+                lines="full"
+                button
+                detail="false"
+                (click)="openNote(note)"
+              >
+                <ion-badge slot="start" [color]="noteKindTone(note.noteKind)">{{ noteKindLabel(note.noteKind) }}</ion-badge>
+
+                <ion-label>
+                  <h3>{{ noteTitle(note) }}</h3>
+                  <p class="source-unit-page__item-meta">{{ noteMeta(note) }}</p>
+                  <p>{{ notePreview(note, 150) }}</p>
+                </ion-label>
+
+                <ion-icon slot="end" name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+              </ion-item>
+            </ion-list>
+
+            <ng-template #noNotes>
+              <div class="source-unit-page__state source-unit-page__state--padded">
+                <app-kmaps-empty-state-card
+                  title="No notes yet"
+                  [message]="normalizedQuery() ? 'No notes match this search in the current source unit.' : 'Create reflections, questions, quotes, or ideas and they will collect here.'"
+                  actionLabel="Create note"
+                  (actionSelected)="openCreateNoteModal()"
+                ></app-kmaps-empty-state-card>
+              </div>
+            </ng-template>
+          </ion-card>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #emptyState>
+      <app-kmaps-empty-state-card
+        [title]="emptyStateTitle()"
+        [message]="emptyStateMessage()"
+        actionLabel="Back to source"
+        (actionSelected)="goBackToSource()"
+      ></app-kmaps-empty-state-card>
+    </ng-template>
+  </div>
+</ion-content>
+
+<ion-footer class="km-native-page__footer source-unit-page__footer">
+  <app-icon-tabs [tabs]="tabs" [manual]="true" [activeKey]="activeTab()" (tabSelected)="setActiveTab($event)"></app-icon-tabs>
+</ion-footer>

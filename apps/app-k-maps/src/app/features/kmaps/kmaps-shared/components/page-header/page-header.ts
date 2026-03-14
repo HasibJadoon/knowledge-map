@@ -17,6 +17,9 @@ export class KmapsPageHeaderComponent {
   @Input() showSearch = false;
   @Input() searchValue = '';
   @Input() searchPlaceholder = 'Search';
+  @Input() searchDebounce = 150;
+  @Input() showMenuButton = false;
+  @Input() menuId = 'main-menu';
   @Input() showBackButton = false;
   @Input() backHref = '/worldview/library';
   @Input() showHomeButton = false;
@@ -25,6 +28,6 @@ export class KmapsPageHeaderComponent {
   @Output() searchChange = new EventEmitter<string>();
 
   onSearchInput(value: string | null | undefined): void {
-    this.searchChange.emit((value ?? '').trim());
+    this.searchChange.emit(value ?? '');
   }
 }

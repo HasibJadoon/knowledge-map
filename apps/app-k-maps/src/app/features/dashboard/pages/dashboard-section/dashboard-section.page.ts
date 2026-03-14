@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signa
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { DashboardMenuSection, findDashboardMenuSection } from '../../dashboard-menu.data';
-import { toDashboardItemCard } from '../../dashboard-card.model';
+import { DashboardMenuSection, findDashboardMenuSection } from '../../data/dashboard-menu.data';
+import { toDashboardItemCard } from '../../models/dashboard-card.model';
 
 @Component({
   selector: 'app-dashboard-section',
