@@ -8,7 +8,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { KmapsUnitBottomTabsComponent } from '../../../kmaps-shared/components/unit-bottom-tabs/unit-bottom-tabs';
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { KmapsClaimStatus, KmapsNote, formatNoteKindLabel } from '../../../kmaps-shared/models/kmaps.models';
-import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 
 @Component({
   selector: 'app-claim-editor-page',

@@ -8,10 +8,10 @@ import { NoteCardComponent } from '../../../kmaps-notes/components/note-card/not
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { KmapsNote } from '../../../kmaps-shared/models/kmaps.models';
 import { WvDistillItemRole } from '../../../kmaps-shared/models/wv-workspace.models';
-import { WvDistillService } from '../../../kmaps-shared/services/wv-distill.service';
-import { WvHighlightsService } from '../../../kmaps-shared/services/wv-highlights.service';
-import { WvNotesService } from '../../../kmaps-shared/services/wv-notes.service';
-import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { WvDistillService } from '../../../../../shared/services/wv-distill.service';
+import { WvHighlightsService } from '../../../../../shared/services/wv-highlights.service';
+import { WvNotesService } from '../../../../../shared/services/wv-notes.service';
+import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 
 @Component({
   selector: 'app-wv-distill-builder-page',

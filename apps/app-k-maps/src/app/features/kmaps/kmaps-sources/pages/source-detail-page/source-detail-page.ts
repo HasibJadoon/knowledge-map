@@ -10,7 +10,7 @@ import {
   type KmapsSource,
   type KmapsSourceUnit,
 } from '../../../kmaps-shared/models/kmaps.models';
-import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 import { NativeSearchbarComponent } from '../../../../../shared/components/native-searchbar/native-searchbar.component';
 
 type SourceOutlineGroup = {

@@ -4,7 +4,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 
 import { KmapsNoteKind } from '../../../kmaps-shared/models/kmaps.models';
-import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 
 type WorkspaceNoteKind = Extract<KmapsNoteKind, 'highlight' | 'quote' | 'reflection' | 'question' | 'insight' | 'observation' | 'claim_seed' | 'idea'>;
 

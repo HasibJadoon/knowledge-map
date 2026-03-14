@@ -8,7 +8,7 @@ import {
   formatSourcePersonRoleLabel,
   formatSourceTypeLabel,
 } from '../../../kmaps-shared/models/kmaps.models';
-import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 
 type SourceMetadataTabKey = 'people' | 'publication' | 'details';
 

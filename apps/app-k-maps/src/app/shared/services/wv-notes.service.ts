@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 
-import { KmapsNote, KmapsNoteKind } from '../models/kmaps.models';
+import { KmapsNote, KmapsNoteKind } from '../../features/kmaps/kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from './kmaps-workflow.service';
 
 @Injectable({ providedIn: 'root' })

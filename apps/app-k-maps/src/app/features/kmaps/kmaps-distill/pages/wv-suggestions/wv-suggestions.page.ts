@@ -5,11 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
-import { WvDistillService } from '../../../kmaps-shared/services/wv-distill.service';
-import { WvNodesService } from '../../../kmaps-shared/services/wv-nodes.service';
-import { WvHighlightsService } from '../../../kmaps-shared/services/wv-highlights.service';
-import { WvNotesService } from '../../../kmaps-shared/services/wv-notes.service';
-import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { WvDistillService } from '../../../../../shared/services/wv-distill.service';
+import { WvNodesService } from '../../../../../shared/services/wv-nodes.service';
+import { WvHighlightsService } from '../../../../../shared/services/wv-highlights.service';
+import { WvNotesService } from '../../../../../shared/services/wv-notes.service';
+import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 
 @Component({
   selector: 'app-wv-suggestions-page',

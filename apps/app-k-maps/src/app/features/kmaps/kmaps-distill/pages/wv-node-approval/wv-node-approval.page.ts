@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
-import { WvNodesService } from '../../../kmaps-shared/services/wv-nodes.service';
+import { WvNodesService } from '../../../../../shared/services/wv-nodes.service';
 
 @Component({
   selector: 'app-wv-node-approval-page',

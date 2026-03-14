@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
-import { KmapsSource, KmapsSourceUnit } from '../models/kmaps.models';
-import { WvPlannerTaskDraft } from '../models/wv-workspace.models';
+import { KmapsSource, KmapsSourceUnit } from '../../features/kmaps/kmaps-shared/models/kmaps.models';
+import { WvPlannerTaskDraft } from '../../features/kmaps/kmaps-shared/models/wv-workspace.models';
 
 @Injectable({ providedIn: 'root' })
 export class WvPlannerService {

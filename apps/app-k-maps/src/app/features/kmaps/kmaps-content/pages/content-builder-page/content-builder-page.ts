@@ -10,7 +10,7 @@ import { EvidenceListComponent } from '../../../kmaps-distill/components/evidenc
 import { KmapsGroupedSectionComponent } from '../../../kmaps-shared/components/grouped-section/grouped-section';
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { KmapsContentBlockKind, KmapsContentItem, KmapsContentStatus, KmapsContentType } from '../../../kmaps-shared/models/kmaps.models';
-import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 
 @Component({
   selector: 'app-content-builder-page',

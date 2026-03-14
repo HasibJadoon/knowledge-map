@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 import {
   KMAPS_CLAIMS,
@@ -11,7 +12,7 @@ import {
   KMAPS_SOURCE_DETAILS,
   KMAPS_SOURCE_PEOPLE,
   KMAPS_SOURCE_UNITS,
-} from '../data/kmaps-workflow.data';
+} from '../../features/kmaps/kmaps-shared/data/kmaps-workflow.data';
 import {
   KmapsClaim,
   KmapsConcept,
@@ -33,7 +34,8 @@ import {
   formatContentBlockLabel,
   formatNoteKindLabel,
   formatTokenLabel,
-} from '../models/kmaps.models';
+} from '../../features/kmaps/kmaps-shared/models/kmaps.models';
+import { WorldviewApiService } from './worldview-api.service';
 
 type CreateNoteInput = {
   sourceId: string;
@@ -55,6 +57,7 @@ type UpdateNoteInput = {
 
 @Injectable({ providedIn: 'root' })
 export class KmapsWorkflowService {
+  private readonly worldviewApi = inject(WorldviewApiService);
   private readonly peopleState = signal<KmapsPerson[]>(clone(KMAPS_PEOPLE));
   private readonly sourcesState = signal<KmapsSource[]>(clone(KMAPS_SOURCES));
   private readonly sourcePeopleState = signal<KmapsSourcePerson[]>(clone(KMAPS_SOURCE_PEOPLE));
@@ -76,6 +79,24 @@ export class KmapsWorkflowService {
   readonly concepts = this.conceptsState.asReadonly();
   readonly claims = this.claimsState.asReadonly();
   readonly contentItems = this.contentItemsState.asReadonly();
+
+  constructor() {
+    void this.reload();
+  }
+
+  async reload(): Promise<void> {
+    try {
+      const snapshot = await firstValueFrom(this.worldviewApi.fetchWorkflow());
+      this.peopleState.set(snapshot.people);
+      this.sourcesState.set(snapshot.sources);
+      this.sourcePeopleState.set(snapshot.sourcePeople);
+      this.sourceDetailsState.set(snapshot.sourceDetails);
+      this.unitsState.set(snapshot.units);
+      this.notesState.set(snapshot.notes);
+    } catch (error) {
+      console.error('Failed to hydrate worldview workflow from API.', error);
+    }
+  }
 
   getSource(sourceId: string | null | undefined): KmapsSource | null {
     const id = (sourceId ?? '').trim();

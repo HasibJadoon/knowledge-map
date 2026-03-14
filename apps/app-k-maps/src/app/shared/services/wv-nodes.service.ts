@@ -1,8 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 
-import { KmapsNote } from '../models/kmaps.models';
+import { KmapsNote } from '../../features/kmaps/kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from './kmaps-workflow.service';
-import { WvDistillBatch, WvDistillBatchItem, WvInsightDecision, WvInsightSuggestion } from '../models/wv-workspace.models';
+import { WvDistillBatch, WvDistillBatchItem, WvInsightDecision, WvInsightSuggestion } from '../../features/kmaps/kmaps-shared/models/wv-workspace.models';
 
 @Injectable({ providedIn: 'root' })
 export class WvNodesService {

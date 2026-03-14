@@ -1,0 +1,461 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Observable, map } from 'rxjs';
+
+import { environment } from '../../../environments/environment';
+import {
+  KmapsEntityStatus,
+  KmapsNote,
+  KmapsNoteKind,
+  KmapsPerson,
+  KmapsPersonType,
+  KmapsSource,
+  KmapsSourceDetail,
+  KmapsSourcePerson,
+  KmapsSourcePersonRole,
+  KmapsSourceType,
+  KmapsSourceUnit,
+  KmapsUnitType,
+} from '../../features/kmaps/kmaps-shared/models/kmaps.models';
+
+type WorkflowApiResponse = {
+  ok?: boolean;
+  error?: string;
+  sources?: unknown[];
+  units?: unknown[];
+  people?: unknown[];
+  source_people?: unknown[];
+  source_details?: unknown[];
+  notes?: unknown[];
+};
+
+export type WorldviewWorkflowSnapshot = {
+  sources: KmapsSource[];
+  units: KmapsSourceUnit[];
+  people: KmapsPerson[];
+  sourcePeople: KmapsSourcePerson[];
+  sourceDetails: KmapsSourceDetail[];
+  notes: KmapsNote[];
+};
+
+@Injectable({ providedIn: 'root' })
+export class WorldviewApiService {
+  private readonly http = inject(HttpClient);
+  private readonly apiRoot = resolveApiRoot(environment.apiBase);
+  private readonly baseUrl = `${this.apiRoot}/worldview`;
+
+  fetchWorkflow(): Observable<WorldviewWorkflowSnapshot> {
+    return this.http.get<WorkflowApiResponse>(`${this.baseUrl}/workflow`).pipe(
+      map((response) => ({
+        sources: asArray(response.sources).map(mapSource).filter((item): item is KmapsSource => item !== null),
+        units: asArray(response.units).map(mapUnit).filter((item): item is KmapsSourceUnit => item !== null),
+        people: asArray(response.people).map(mapPerson).filter((item): item is KmapsPerson => item !== null),
+        sourcePeople: asArray(response.source_people)
+          .map(mapSourcePerson)
+          .filter((item): item is KmapsSourcePerson => item !== null),
+        sourceDetails: asArray(response.source_details)
+          .map(mapSourceDetail)
+          .filter((item): item is KmapsSourceDetail => item !== null),
+        notes: asArray(response.notes).map(mapNote).filter((item): item is KmapsNote => item !== null),
+      })),
+    );
+  }
+}
+
+function mapSource(value: unknown): KmapsSource | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const canonicalInput = readTrimmed(row?.['canonical_input']);
+  const sourceType = normalizeSourceType(row?.['source_type']);
+  const title = readTrimmed(row?.['title']);
+  if (!id || !canonicalInput || !sourceType || !title) {
+    return null;
+  }
+
+  const sourceJson = parseRecord(row?.['source_json']);
+  const metaJson = parseRecord(row?.['meta_json']);
+  const progressPercent = readNumber(sourceJson?.['progressPercent'])
+    ?? readNumber(sourceJson?.['progress_percent'])
+    ?? 0;
+  const updatedAt = readTrimmed(row?.['updated_at']);
+  const createdAt = readTrimmed(row?.['created_at']) ?? new Date().toISOString();
+  const lastOpenedAt = readTrimmed(sourceJson?.['lastOpenedAt'])
+    ?? readTrimmed(sourceJson?.['last_opened_at'])
+    ?? updatedAt
+    ?? createdAt;
+
+  return {
+    id,
+    canonicalInput,
+    userId: readInteger(row?.['user_id']),
+    sourceType,
+    title,
+    subtitle: readNullableString(row?.['subtitle']),
+    creator: readNullableString(row?.['creator']),
+    publisher: readNullableString(row?.['publisher']),
+    publicationYear: readInteger(row?.['publication_year']),
+    language: readNullableString(row?.['language']),
+    sourceUrl: readNullableString(row?.['source_url']),
+    sourceRef: readNullableString(row?.['source_ref']),
+    status: normalizeEntityStatus(row?.['status']),
+    description:
+      readNullableString(row?.['description'])
+      ?? readNullableString(sourceJson?.['summary'])
+      ?? readNullableString(metaJson?.['description'])
+      ?? '',
+    progressPercent: Math.max(0, Math.min(100, Math.round(progressPercent))),
+    lastOpenedAt,
+    sourceJson,
+    metaJson,
+    createdAt,
+    updatedAt,
+  };
+}
+
+function mapUnit(value: unknown): KmapsSourceUnit | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const canonicalInput = readTrimmed(row?.['canonical_input']);
+  const sourceId = readTrimmed(row?.['source_id']);
+  const unitType = normalizeUnitType(row?.['unit_type']);
+  if (!id || !canonicalInput || !sourceId || !unitType) {
+    return null;
+  }
+
+  const unitJson = parseRecord(row?.['unit_json']);
+  const metaJson = parseRecord(row?.['meta_json']);
+  const startRef = readNullableString(row?.['start_ref']);
+  const endRef = readNullableString(row?.['end_ref']);
+  const readingBody = readStringArray(unitJson?.['readingBody'])
+    ?? readStringArray(unitJson?.['reading_body'])
+    ?? [];
+  const readingMinutes = readInteger(unitJson?.['readingMinutes'])
+    ?? readInteger(unitJson?.['reading_minutes'])
+    ?? estimateReadingMinutes(readingBody);
+  const locatorLabel = readNullableString(unitJson?.['locatorLabel'])
+    ?? readNullableString(unitJson?.['locator_label'])
+    ?? readNullableString(metaJson?.['locatorLabel'])
+    ?? composeLocatorLabel(startRef, endRef);
+
+  return {
+    id,
+    canonicalInput,
+    sourceId,
+    parentUnitId: readNullableString(row?.['parent_unit_id']),
+    unitType,
+    title: readNullableString(row?.['title']) ?? locatorLabel ?? 'Untitled unit',
+    orderIndex: readInteger(row?.['order_index']) ?? 0,
+    startRef,
+    endRef,
+    locatorLabel,
+    anchorText: readNullableString(row?.['anchor_text']),
+    summary: readNullableString(row?.['summary']),
+    readingMinutes,
+    readingBody,
+    unitJson,
+    metaJson,
+    createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+    updatedAt: readNullableString(row?.['updated_at']),
+  };
+}
+
+function mapPerson(value: unknown): KmapsPerson | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const canonicalInput = readTrimmed(row?.['canonical_input']);
+  const displayName = readTrimmed(row?.['display_name']);
+  if (!id || !canonicalInput || !displayName) {
+    return null;
+  }
+
+  const metaJson = parseRecord(row?.['meta_json']);
+
+  return {
+    id,
+    canonicalInput,
+    displayName,
+    sortName: readNullableString(row?.['sort_name']),
+    personType: normalizePersonType(row?.['person_type']),
+    bioShort: readNullableString(row?.['bio_short']),
+    websiteUrl: readNullableString(row?.['website_url']),
+    avatarUrl: readNullableString(metaJson?.['avatarUrl']) ?? readNullableString(metaJson?.['avatar_url']),
+    metaJson,
+    createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+    updatedAt: readNullableString(row?.['updated_at']),
+  };
+}
+
+function mapSourcePerson(value: unknown): KmapsSourcePerson | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const canonicalInput = readTrimmed(row?.['canonical_input']);
+  const sourceId = readTrimmed(row?.['source_id']);
+  const personId = readTrimmed(row?.['person_id']);
+  const role = normalizeSourcePersonRole(row?.['role']);
+  if (!id || !canonicalInput || !sourceId || !personId || !role) {
+    return null;
+  }
+
+  return {
+    id,
+    canonicalInput,
+    sourceId,
+    personId,
+    role,
+    orderIndex: readInteger(row?.['order_index']) ?? 0,
+    isPrimary: readBooleanish(row?.['is_primary']),
+    note: readNullableString(row?.['note']),
+    createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+    updatedAt: readNullableString(row?.['updated_at']),
+  };
+}
+
+function mapSourceDetail(value: unknown): KmapsSourceDetail | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const canonicalInput = readTrimmed(row?.['canonical_input']);
+  const sourceId = readTrimmed(row?.['source_id']);
+  const detailKey = readTrimmed(row?.['detail_key']);
+  if (!id || !canonicalInput || !sourceId || !detailKey) {
+    return null;
+  }
+
+  return {
+    id,
+    canonicalInput,
+    sourceId,
+    detailKey,
+    detailValue: readNullableString(row?.['detail_value']),
+    orderIndex: readInteger(row?.['order_index']) ?? 0,
+    createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+    updatedAt: readNullableString(row?.['updated_at']),
+  };
+}
+
+function mapNote(value: unknown): KmapsNote | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const canonicalInput = readTrimmed(row?.['canonical_input']);
+  const sourceId = readTrimmed(row?.['source_id']);
+  const noteKind = normalizeNoteKind(row?.['note_kind']);
+  const bodyMd = readTrimmed(row?.['body_md']);
+  if (!id || !canonicalInput || !sourceId || !noteKind || bodyMd === null) {
+    return null;
+  }
+
+  return {
+    id,
+    canonicalInput,
+    userId: readInteger(row?.['user_id']),
+    sourceId,
+    sourceUnitId: readNullableString(row?.['source_unit_id']),
+    noteKind,
+    title: readNullableString(row?.['title']),
+    bodyMd,
+    excerptText: readNullableString(row?.['excerpt_text']),
+    locator: readNullableString(row?.['locator']),
+    status: normalizeEntityStatus(row?.['status']),
+    noteJson: parseRecord(row?.['note_json']),
+    metaJson: parseRecord(row?.['meta_json']),
+    createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+    updatedAt: readNullableString(row?.['updated_at']),
+  };
+}
+
+function resolveApiRoot(apiBase: string): string {
+  const normalized = apiBase.replace(/\/+$/, '');
+  if (!normalized) {
+    return '/api';
+  }
+
+  return normalized.endsWith('/api') ? normalized : `${normalized}/api`;
+}
+
+function asArray(value: unknown): unknown[] {
+  return Array.isArray(value) ? value : [];
+}
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function parseRecord(value: unknown): Record<string, unknown> | null {
+  if (typeof value === 'string') {
+    const parsed = parseJson(value);
+    return asRecord(parsed);
+  }
+
+  return asRecord(value);
+}
+
+function parseJson(value: string): unknown {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
+function readTrimmed(value: unknown): string | null {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const normalized = value.trim();
+  return normalized.length ? normalized : null;
+}
+
+function readNullableString(value: unknown): string | null {
+  return readTrimmed(value);
+}
+
+function readInteger(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return Math.trunc(value);
+  }
+
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return Math.trunc(parsed);
+    }
+  }
+
+  return null;
+}
+
+function readNumber(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return value;
+  }
+
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value);
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+
+  return null;
+}
+
+function readBooleanish(value: unknown): boolean {
+  return value === true || value === 1 || value === '1';
+}
+
+function readStringArray(value: unknown): string[] | null {
+  if (!Array.isArray(value)) {
+    return null;
+  }
+
+  return value
+    .map((item) => (typeof item === 'string' ? item.trim() : ''))
+    .filter((item) => item.length > 0);
+}
+
+function composeLocatorLabel(startRef: string | null, endRef: string | null): string | null {
+  if (startRef && endRef && startRef !== endRef) {
+    return `${startRef} - ${endRef}`;
+  }
+
+  return startRef ?? endRef ?? null;
+}
+
+function estimateReadingMinutes(paragraphs: string[]): number {
+  const words = paragraphs
+    .join(' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+
+  if (!words) {
+    return 0;
+  }
+
+  return Math.max(1, Math.round(words / 180));
+}
+
+function normalizeEntityStatus(value: unknown): KmapsEntityStatus {
+  return value === 'draft' || value === 'archived' ? value : 'active';
+}
+
+function normalizeSourceType(value: unknown): KmapsSourceType | null {
+  switch (value) {
+    case 'book':
+    case 'article':
+    case 'lecture':
+    case 'podcast':
+    case 'video':
+    case 'story':
+    case 'paper':
+    case 'conversation':
+    case 'document':
+    case 'other':
+      return value;
+    default:
+      return null;
+  }
+}
+
+function normalizeUnitType(value: unknown): KmapsUnitType | null {
+  switch (value) {
+    case 'chapter':
+    case 'section':
+    case 'heading':
+    case 'scene':
+    case 'timestamp':
+    case 'topic':
+    case 'passage':
+    case 'segment':
+    case 'other':
+      return value;
+    default:
+      return null;
+  }
+}
+
+function normalizePersonType(value: unknown): KmapsPersonType {
+  return value === 'organization' ? 'organization' : 'person';
+}
+
+function normalizeSourcePersonRole(value: unknown): KmapsSourcePersonRole | null {
+  switch (value) {
+    case 'author':
+    case 'co_author':
+    case 'editor':
+    case 'translator':
+    case 'speaker':
+    case 'host':
+    case 'guest':
+    case 'interviewer':
+    case 'publisher':
+    case 'organization':
+    case 'narrator':
+    case 'reviewer':
+    case 'other':
+      return value;
+    default:
+      return null;
+  }
+}
+
+function normalizeNoteKind(value: unknown): KmapsNoteKind | null {
+  switch (value) {
+    case 'highlight':
+    case 'quote':
+    case 'summary':
+    case 'reflection':
+    case 'question':
+    case 'claim_seed':
+    case 'insight':
+    case 'observation':
+    case 'reference':
+    case 'todo':
+    case 'idea':
+      return value;
+    default:
+      return null;
+  }
+}

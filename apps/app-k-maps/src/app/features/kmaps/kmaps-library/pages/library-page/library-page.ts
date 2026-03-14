@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { SourceMetadataSheetComponent } from '../../components/source-metadata-sheet/source-metadata-sheet';
 import { KmapsEmptyStateCardComponent } from '../../../kmaps-shared/components/empty-state-card/empty-state-card';
 import { KmapsSource, formatSourceTypeLabel, type KmapsSourceContributor, type KmapsSourceType } from '../../../kmaps-shared/models/kmaps.models';
-import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 import { NativeSearchbarComponent } from '../../../../../shared/components/native-searchbar/native-searchbar.component';
 
 type LibraryPeopleSummary = {
@@ -95,6 +95,7 @@ export class LibraryPage {
 
   async ionViewWillEnter(): Promise<void> {
     await this.menuController.enable(true, 'main-menu');
+    await this.workflow.reload();
   }
 
   onSearchChange(value: string): void {

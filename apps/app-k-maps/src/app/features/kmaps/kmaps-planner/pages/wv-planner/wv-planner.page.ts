@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
-import { WvPlannerService } from '../../../kmaps-shared/services/wv-planner.service';
-import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
+import { WvPlannerService } from '../../../../../shared/services/wv-planner.service';
+import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 
 @Component({
   selector: 'app-wv-planner-page',

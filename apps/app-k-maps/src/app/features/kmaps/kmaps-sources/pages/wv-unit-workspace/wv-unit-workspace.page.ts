@@ -8,10 +8,10 @@ import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-
 import { KmapsUnitWorkspaceTabsComponent } from '../../../kmaps-shared/components/unit-workspace-tabs/unit-workspace-tabs';
 import { KmapsNote, KmapsNoteKind, KmapsSource, KmapsSourceUnit, KmapsStatItem, formatNoteKindLabel, formatUnitTypeLabel } from '../../../kmaps-shared/models/kmaps.models';
 import { WvWorkspaceTabKey } from '../../../kmaps-shared/models/wv-workspace.models';
-import { KmapsWorkflowService } from '../../../kmaps-shared/services/kmaps-workflow.service';
-import { WvHighlightsService } from '../../../kmaps-shared/services/wv-highlights.service';
-import { WvNodesService } from '../../../kmaps-shared/services/wv-nodes.service';
-import { WvNotesService } from '../../../kmaps-shared/services/wv-notes.service';
+import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
+import { WvHighlightsService } from '../../../../../shared/services/wv-highlights.service';
+import { WvNodesService } from '../../../../../shared/services/wv-nodes.service';
+import { WvNotesService } from '../../../../../shared/services/wv-notes.service';
 import { NoteWorkspaceModalComponent } from '../../../kmaps-notes/components/note-workspace-modal/note-workspace-modal';
 import { WvHighlightsTabComponent } from '../../components/wv-highlights-tab/wv-highlights-tab';
 import { WvNotesFilterKey, WvNotesTabComponent } from '../../components/wv-notes-tab/wv-notes-tab';
