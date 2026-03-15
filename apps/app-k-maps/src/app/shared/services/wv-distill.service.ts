@@ -12,7 +12,7 @@ export class WvDistillService {
   readonly batchItems = this.batchItemsState.asReadonly();
 
   ensureDraftBatch(sourceId: string, unitId: string): WvDistillBatch {
-    const existing = this.batchesState().find((batch) => batch.unitId === unitId && batch.status === 'draft');
+    const existing = this.getBatchForUnit(unitId);
     if (existing) {
       return existing;
     }
@@ -35,6 +35,12 @@ export class WvDistillService {
 
   getBatch(batchId: string): WvDistillBatch | null {
     return this.batchesState().find((batch) => batch.id === batchId) ?? null;
+  }
+
+  getBatchForUnit(unitId: string): WvDistillBatch | null {
+    return this.batchesState()
+      .filter((batch) => batch.unitId === unitId)
+      .sort((left, right) => compareBatchRecency(left, right))[0] ?? null;
   }
 
   getItems(batchId: string): WvDistillBatchItem[] {
@@ -132,4 +138,10 @@ function inferRole(noteKind: KmapsNote['noteKind']): WvDistillItemRole {
 
 function createId(prefix: string): string {
   return `${prefix}-${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`;
+}
+
+function compareBatchRecency(left: WvDistillBatch, right: WvDistillBatch): number {
+  const leftTime = Date.parse(left.updatedAt || left.createdAt);
+  const rightTime = Date.parse(right.updatedAt || right.createdAt);
+  return rightTime - leftTime;
 }

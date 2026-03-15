@@ -38,6 +38,15 @@ import {
 import { PodcastBuilderService } from '../podcast-builder.service';
 
 type EpisodeTab = 'segments' | 'review' | 'publish' | 'output';
+type GeneratedEpisodeView = {
+  topic: string | null;
+  summary: string | null;
+  hook: string | null;
+  intro: string | null;
+  mainPoints: string[];
+  closing: string | null;
+  outlineSections: Array<{ id: string; title: string }>;
+};
 
 @Component({
   selector: 'app-podcast-episode-page',
@@ -92,6 +101,31 @@ export class PodcastEpisodePage {
       ]);
   readonly reviewChecklistItems = computed(() => splitLines(this.form.controls.reviewChecklist.value));
   readonly nextSessionItems = computed(() => splitLines(this.form.controls.nextSessionPrep.value));
+  readonly generatedEpisodeView = computed<GeneratedEpisodeView | null>(() => {
+    const content = this.episode()?.rawContent;
+    if (!content) {
+      return null;
+    }
+
+    const episodeOutline = asRecord(content['episode_outline']);
+    const source = readText(content['source']);
+    const kind = readText(content['kind']);
+    const outlineSections = readGeneratedOutlineSections(content['outline_sections'], content['outline']);
+
+    if (!episodeOutline && source !== 'wv_distill_batch' && kind !== 'outline' && outlineSections.length === 0) {
+      return null;
+    }
+
+    return {
+      topic: readText(content['topic']) || null,
+      summary: readText(content['summary']) || null,
+      hook: readText(episodeOutline?.['hook']) || readText(content['hook']) || null,
+      intro: readText(episodeOutline?.['intro']) || readText(content['intro']) || null,
+      mainPoints: readStringArray(episodeOutline?.['main_points'] ?? content['main_points']),
+      closing: readText(episodeOutline?.['closing']) || readText(content['closing']) || null,
+      outlineSections,
+    };
+  });
   readonly worldviewEntries = computed(() => {
     const episode = this.episode();
     if (!episode) {
@@ -182,10 +216,18 @@ export class PodcastEpisodePage {
 
   get activeTabDescription(): string {
     if (this.activeTab() === 'segments') {
+      if (this.isGeneratedEpisode()) {
+        return 'Review the generated run of show from the worldview distill before moving it into production.';
+      }
+
       return 'Shape the episode flow, adjust timing, and keep the run of show clean.';
     }
 
     if (this.activeTab() === 'review') {
+      if (this.isGeneratedEpisode()) {
+        return 'Use the distilled hook, intro, and main points as the speaking brief for this episode.';
+      }
+
       return this.isLessonLog()
         ? 'Review what was covered, what needs reinforcement, and what carries into the next session.'
         : 'Check the spoken outline before packaging the episode for delivery.';
@@ -202,12 +244,24 @@ export class PodcastEpisodePage {
     return this.episode()?.type === 'lesson_log';
   }
 
+  isGeneratedEpisode(): boolean {
+    return this.generatedEpisodeView() !== null;
+  }
+
   trackSegment(_: number, segment: CreatorEpisodeSegment): string {
     return segment.id;
   }
 
   trackByKey(_: number, entry: { key: string }): string {
     return entry.key;
+  }
+
+  trackGeneratedSection(_: number, entry: { id: string }): string {
+    return entry.id;
+  }
+
+  trackText(_: number, value: string): string {
+    return value;
   }
 
   changeTab(value: string | number | null | undefined): void {
@@ -418,6 +472,25 @@ export class PodcastEpisodePage {
 
   hasReviewContent(segment: CreatorEpisodeSegment): boolean {
     return segment.reviewItems.length > 0;
+  }
+
+  openSourceOutput(): void {
+    const episode = this.episode();
+    const sourceId = episode?.worldview.sourceId;
+    const unitId = episode?.worldview.subunitId || episode?.worldview.unitId || episode?.relatedId;
+    if (!sourceId) {
+      return;
+    }
+
+    const route = this.router.url.startsWith('/wv')
+      ? unitId
+        ? ['/wv', 'source', sourceId, 'unit', unitId, 'content']
+        : ['/wv', 'source', sourceId, 'content']
+      : unitId
+        ? ['/worldview', 'sources', sourceId, 'units', unitId, 'content']
+        : ['/worldview', 'sources', sourceId, 'content'];
+
+    void this.router.navigate(route);
   }
 
   private async loadEpisode(episodeId: string): Promise<void> {
@@ -641,4 +714,52 @@ function buildEpisodeOutline(episode: CreatorEpisode): string {
       ...segment.talkingPoints.map((item) => `• ${item.text}`),
     ].join('\n'))
     .join('\n\n');
+}
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function readText(value: unknown): string {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function readStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((entry) => readText(entry))
+    .filter(Boolean);
+}
+
+function readGeneratedOutlineSections(rawSections: unknown, rawOutline: unknown): Array<{ id: string; title: string }> {
+  if (Array.isArray(rawSections)) {
+    const sections = rawSections
+      .map((entry, index) => {
+        const record = asRecord(entry);
+        const title = readText(record?.['title']);
+        if (!title) {
+          return null;
+        }
+
+        return {
+          id: readText(record?.['id']) || `outline-${index + 1}`,
+          title,
+        };
+      })
+      .filter((entry): entry is { id: string; title: string } => entry !== null);
+
+    if (sections.length) {
+      return sections;
+    }
+  }
+
+  return readStringArray(rawOutline).map((title, index) => ({
+    id: `outline-${index + 1}`,
+    title,
+  }));
 }

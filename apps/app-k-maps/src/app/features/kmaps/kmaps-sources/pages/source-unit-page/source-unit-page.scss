@@ -28,9 +28,14 @@
 }
 
 .source-unit-page__list,
+.source-unit-page__content-top,
 .source-unit-page__empty-state {
   width: min(100%, var(--app-content-width));
   margin-inline: auto;
+}
+
+.source-unit-page__content-top {
+  padding-bottom: 0.85rem;
 }
 
 .source-unit-page__search-row {

@@ -40,6 +40,15 @@ export class WorldviewMenuComponent {
           imageAlt: 'assets/images/app-icons/dashboard/icons.webp',
           themeClass: 'theme-crossref',
         },
+        {
+          id: 'sources-documents',
+          title: 'Sources & Documents',
+          description: 'Browse sources with generated study notes, podcast drafts, concepts, and claims.',
+          route: ['/worldview/knowledge/sources'],
+          image: 'assets/images/app-icons/dashboard/card-worldview.svg',
+          imageAlt: 'assets/images/app-icons/dashboard/card-podcast.svg',
+          themeClass: 'theme-worldview',
+        },
       ],
     },
   ];

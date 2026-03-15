@@ -69,13 +69,36 @@
         </div>
       </section>
 
+      <section class="km-panel podcast-episode__generated-panel" *ngIf="generatedEpisodeView() as generated">
+        <div class="podcast-episode__section-head podcast-episode__section-head--stacked">
+          <div>
+            <h2>Generated Brief</h2>
+            <p>{{ generated.summary || generated.topic || 'Structured from the worldview distill output.' }}</p>
+          </div>
+          <ion-button fill="clear" size="small" class="podcast-episode__section-action" (click)="openSourceOutput()">
+            <ion-icon [icon]="icons.bookOutline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="podcast-episode__generated-pills">
+          <span class="podcast-episode__generated-pill" *ngIf="generated.hook">Hook ready</span>
+          <span class="podcast-episode__generated-pill" *ngIf="generated.mainPoints.length">
+            {{ generated.mainPoints.length }} main point{{ generated.mainPoints.length === 1 ? '' : 's' }}
+          </span>
+          <span class="podcast-episode__generated-pill" *ngIf="generated.outlineSections.length">
+            {{ generated.outlineSections.length }} outline section{{ generated.outlineSections.length === 1 ? '' : 's' }}
+          </span>
+        </div>
+      </section>
+
       <section class="km-panel podcast-episode__panel podcast-episode__panel--segments" *ngIf="activeTab() === 'segments'">
         <div class="podcast-episode__section-head">
           <div>
             <h2>Segments</h2>
-            <p>Tap to edit. Drag to sort.</p>
+            <p>{{ isGeneratedEpisode() ? 'Read the generated run of show before converting it into edited segments.' : 'Tap to edit. Drag to sort.' }}</p>
           </div>
           <ion-button
+            *ngIf="!isGeneratedEpisode()"
             fill="clear"
             size="small"
             class="podcast-episode__section-action"
@@ -87,6 +110,18 @@
           </ion-button>
         </div>
 
+        <div class="podcast-episode__generated-outline" *ngIf="generatedEpisodeView() as generated; else editableSegmentsState">
+          <div class="podcast-episode__generated-outline-row" *ngFor="let section of generated.outlineSections; let index = index; trackBy: trackGeneratedSection">
+            <span>{{ index + 1 }}</span>
+            <div>
+              <h3>{{ section.title }}</h3>
+              <p *ngIf="generated.mainPoints[index]">{{ generated.mainPoints[index] }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <ng-template #editableSegmentsState>
         <div class="podcast-episode__segment-list" *ngIf="episode.segments.length; else noSegmentsState">
           <ion-reorder-group [disabled]="saving()" (ionItemReorder)="reorderSegments($event)">
             <ion-item-sliding *ngFor="let segment of episode.segments; let index = index; trackBy: trackSegment">
@@ -118,7 +153,7 @@
             </ion-item-sliding>
           </ion-reorder-group>
         </div>
-      </section>
+      </ng-template>
 
       <section class="podcast-episode__panel podcast-episode__panel--review" *ngIf="activeTab() === 'review'">
         <header class="podcast-episode__panel-title">
@@ -127,6 +162,33 @@
             <p>{{ activeTabDescription }}</p>
           </div>
         </header>
+        <ng-container *ngIf="generatedEpisodeView() as generated; else standardReview">
+          <section class="km-panel podcast-episode__review-panel">
+            <div class="podcast-episode__generated-stack" *ngIf="generated.hook">
+              <h3>Hook</h3>
+              <p>{{ generated.hook }}</p>
+            </div>
+
+            <div class="podcast-episode__generated-stack" *ngIf="generated.intro">
+              <h3>Intro</h3>
+              <p>{{ generated.intro }}</p>
+            </div>
+
+            <div class="podcast-episode__generated-stack" *ngIf="generated.mainPoints.length">
+              <h3>Main Points</h3>
+              <ul class="podcast-episode__bullet-list">
+                <li *ngFor="let point of generated.mainPoints; trackBy: trackText">{{ point }}</li>
+              </ul>
+            </div>
+
+            <div class="podcast-episode__generated-stack" *ngIf="generated.closing">
+              <h3>Closing</h3>
+              <p>{{ generated.closing }}</p>
+            </div>
+          </section>
+        </ng-container>
+
+        <ng-template #standardReview>
         <ng-container [ngSwitch]="episode.type">
           <div class="podcast-episode__review-stack" *ngSwitchCase="'discussion'">
             <section class="km-panel podcast-episode__review-panel" *ngFor="let segment of episode.segments; trackBy: trackSegment">
@@ -208,6 +270,7 @@
             </section>
           </div>
         </ng-container>
+        </ng-template>
       </section>
 
       <section class="km-panel podcast-episode__panel" *ngIf="activeTab() === 'publish' && !isLessonLog()">

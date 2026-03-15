@@ -1,0 +1,375 @@
+{
+  "ok": true,
+  "source_batch_id": "wv_distill_q12_1_7",
+  "base_url": "https://api.k-maps.com",
+  "temp_user": {
+    "email": "codex.distill.20260315191335loc1nn@example.com",
+    "id": 19
+  },
+  "api_result": {
+    "response_id": "resp_0a8cc6c82e5affd40069b704e4650881a386a67d174c981c7f",
+    "model": "gpt-5-mini",
+    "usage": {
+      "input_tokens": 3331,
+      "output_tokens": 2906,
+      "total_tokens": 6237
+    }
+  },
+  "requested_generation": {
+    "model": "gpt-5-mini",
+    "temperature": 0.2,
+    "max_output_tokens": 4000
+  },
+  "prompt_length": 10013,
+  "test_prompt_length": 5679,
+  "test_system_length": 4332,
+  "compact_prompt_for_test": true,
+  "canonical_worldview_nodes": [
+    {
+      "id": "wv_node_q12_1_7_revelation",
+      "title": "Clear Revelation",
+      "node_type": "concept",
+      "summary": "The passage begins by establishing clarity, revelation, and intelligibility."
+    },
+    {
+      "id": "wv_node_q12_3_best_story",
+      "title": "Yusuf is presented as the best of stories",
+      "node_type": "claim",
+      "summary": "A core literary and theological framing claim for the passage."
+    },
+    {
+      "id": "wv_node_q12_5_discretion",
+      "title": "Discretion in Guidance",
+      "node_type": "concept",
+      "summary": "Ya'qub models protective discretion."
+    },
+    {
+      "id": "wv_node_q12_6_election",
+      "title": "Divine Election and Ta'wil",
+      "node_type": "concept",
+      "summary": "Election, ta'wil, and divine favor converge in ayah 6."
+    },
+    {
+      "id": "wv_node_q12_7_signs_seekers",
+      "title": "The Yusuf story contains signs for seekers",
+      "node_type": "claim",
+      "summary": "The surah explicitly invites active inquiry."
+    }
+  ],
+  "worldview_evaluation": {
+    "verdict": "pass",
+    "structure": {
+      "node_count": 5,
+      "edge_count": 5,
+      "document_count": 1,
+      "block_count": 6,
+      "block_link_count": 5,
+      "podcast_main_point_count": 4,
+      "warnings": []
+    },
+    "matched_anchors": [
+      {
+        "key": "clear_revelation",
+        "label": "Clear revelation and intelligibility",
+        "node_id": "wv_unit_q12_1_7_node1",
+        "title": "Clear Book"
+      },
+      {
+        "key": "best_story",
+        "label": "Best of stories framing",
+        "node_id": "wv_unit_q12_1_7_node3",
+        "title": "Best of Stories"
+      },
+      {
+        "key": "election_tawil",
+        "label": "Divine election and ta'wil",
+        "node_id": "wv_unit_q12_1_7_node4",
+        "title": "Divine Selection"
+      },
+      {
+        "key": "signs_for_seekers",
+        "label": "Signs for seekers",
+        "node_id": "wv_unit_q12_1_7_node5",
+        "title": "Signs for Seekers"
+      }
+    ],
+    "missing_anchors": [
+      {
+        "key": "discretion",
+        "label": "Protective discretion"
+      }
+    ],
+    "off_anchor_nodes": [],
+    "podcast_anchor_coverage": [
+      "clear_revelation",
+      "election_tawil",
+      "signs_for_seekers"
+    ],
+    "node_titles": [
+      "Clear Book",
+      "Arabic Revelation",
+      "Best of Stories",
+      "Divine Selection",
+      "Signs for Seekers"
+    ]
+  },
+  "prompt_preview": "You are a structured knowledge distillation engine for the K-Maps system.\n\nYour task is to convert passage-level reading evidence into structured worldview suggestions and one spoken-content episode outline.\n\nYou will receive JSON containing:\n- passage_context\n- highlights\n- notes\n\nSTRICT RULES\n- Use ONLY the provided highlights, notes, and passage context.\n- Do NOT invent unsupported tafsir, historical claims, or external commentary.\n- Keep titles concise and usually under 6 words.\n- Keep summaries short but meaningful and usually under 18 words.\n- Keep text_plain short and usually under 28 words.\n- Prefer concept and claim nodes first.\n- Keep the total output compact enough to fit in one response.\n- Generate 4 to 6 nodes total.\n- Generate no more than 5 edges total.\n- Create exactly one study_note document.\n- Edges must connect only generated nodes.\n- Block-node links must connect only generated blocks and generated nodes.\n- Return ONLY valid JSON.\n- Do not include markdown fences.\n- Do not include explanations before or after the JSON.\n\nWORLDVIEW RULES\n- Node types allowed: concept, claim, theme, lesson.\n- Edge relation types allowed: supports, illustrates, related_to, defines, ",
+  "draft_output": {
+    "wv_nodes": [
+      {
+        "id": "wv_unit_q12_1_7_node1",
+        "canonical_input": "آيَاتُ الْكِتَابِ الْمُبِينِ",
+        "node_type": "concept",
+        "title": "Clear Book",
+        "text_plain": "The surah grounds the narrative in the authoritative, clear Book.",
+        "summary": "Surah frames narrative authority in a clear scripture.",
+        "slug": "clear-book",
+        "data_json": {},
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_node2",
+        "canonical_input": "قُرْآنًا عَرَبِيًّا",
+        "node_type": "concept",
+        "title": "Arabic Revelation",
+        "text_plain": "The Qur'an is presented in Arabic to enable understanding and reasoning.",
+        "summary": "Language as vehicle for comprehension.",
+        "slug": "arabic-revelation",
+        "data_json": {},
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_node3",
+        "canonical_input": "أَحْسَنَ الْقَصَصِ",
+        "node_type": "theme",
+        "title": "Best of Stories",
+        "text_plain": "The Yusuf narrative is portrayed as the most refined and purposeful story.",
+        "summary": "Yusuf story modeled as exemplary narrative.",
+        "slug": "best-of-stories",
+        "data_json": {},
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_node4",
+        "canonical_input": "يَجْتَبِيكَ رَبُّكَ",
+        "node_type": "claim",
+        "title": "Divine Selection",
+        "text_plain": "Yusuf is described as chosen by God, indicating divine favor and purpose.",
+        "summary": "Yusuf's status is portrayed as divinely chosen.",
+        "slug": "divine-selection",
+        "data_json": {},
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_node5",
+        "canonical_input": "آيَاتٌ لِلسَّائِلِينَ",
+        "node_type": "lesson",
+        "title": "Signs for Seekers",
+        "text_plain": "The story yields signs and lessons for those who actively ask and seek.",
+        "summary": "Narrative offers insights to inquiring readers.",
+        "slug": "signs-for-seekers",
+        "data_json": {},
+        "meta_json": {}
+      }
+    ],
+    "wv_node_edges": [
+      {
+        "id": "wv_unit_q12_1_7_edge1",
+        "canonical_input": "Arabic Revelation defines Clear Book",
+        "from_node_id": "wv_unit_q12_1_7_node2",
+        "to_node_id": "wv_unit_q12_1_7_node1",
+        "relation_type": "defines",
+        "strength": 0.9,
+        "order_index": 1,
+        "note": "Language frames the Book's clarity and comprehension.",
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_edge2",
+        "canonical_input": "Best of Stories about Clear Book",
+        "from_node_id": "wv_unit_q12_1_7_node3",
+        "to_node_id": "wv_unit_q12_1_7_node1",
+        "relation_type": "about",
+        "strength": 0.85,
+        "order_index": 2,
+        "note": "The Yusuf narrative is presented within the authority of the Book.",
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_edge3",
+        "canonical_input": "Divine Selection supports Best of Stories",
+        "from_node_id": "wv_unit_q12_1_7_node4",
+        "to_node_id": "wv_unit_q12_1_7_node3",
+        "relation_type": "supports",
+        "strength": 0.8,
+        "order_index": 3,
+        "note": "Yusuf's chosen status underpins the exemplary story status.",
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_edge4",
+        "canonical_input": "Signs for Seekers derived_from Best of Stories",
+        "from_node_id": "wv_unit_q12_1_7_node5",
+        "to_node_id": "wv_unit_q12_1_7_node3",
+        "relation_type": "derived_from",
+        "strength": 0.9,
+        "order_index": 4,
+        "note": "The story produces lessons and signs for inquirers.",
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_edge5",
+        "canonical_input": "Signs for Seekers related_to Arabic Revelation",
+        "from_node_id": "wv_unit_q12_1_7_node5",
+        "to_node_id": "wv_unit_q12_1_7_node2",
+        "relation_type": "related_to",
+        "strength": 0.7,
+        "order_index": 5,
+        "note": "Understanding depends on the revelation's language and clarity.",
+        "meta_json": {}
+      }
+    ],
+    "wv_documents": [
+      {
+        "id": "wv_unit_q12_1_7_doc1",
+        "canonical_input": "Study note for Passage 1 (1-7)",
+        "doc_type": "study_note",
+        "title": "Yusuf: Key Themes",
+        "summary": "Concise notes on authority, language, narrative quality, choice, and signs.",
+        "document_json": {},
+        "meta_json": {}
+      }
+    ],
+    "wv_document_blocks": [
+      {
+        "id": "wv_unit_q12_1_7_block1",
+        "canonical_input": "Heading",
+        "document_id": "wv_unit_q12_1_7_doc1",
+        "parent_block_id": null,
+        "order_index": 1,
+        "block_type": "heading",
+        "block_level": 1,
+        "text_plain": "Passage 12:1-7 — Key points",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_block2",
+        "canonical_input": "Clear Book note",
+        "document_id": "wv_unit_q12_1_7_doc1",
+        "parent_block_id": null,
+        "order_index": 2,
+        "block_type": "paragraph",
+        "block_level": 1,
+        "text_plain": "The surah roots the narrative in the clear, authoritative Book.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_block3",
+        "canonical_input": "Arabic revelation note",
+        "document_id": "wv_unit_q12_1_7_doc1",
+        "parent_block_id": null,
+        "order_index": 3,
+        "block_type": "bullet_item",
+        "block_level": 1,
+        "text_plain": "Qur'an given in Arabic so listeners may understand and reason.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_block4",
+        "canonical_input": "Best stories note",
+        "document_id": "wv_unit_q12_1_7_doc1",
+        "parent_block_id": null,
+        "order_index": 4,
+        "block_type": "bullet_item",
+        "block_level": 1,
+        "text_plain": "The Yusuf account is described as the finest of narratives.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_block5",
+        "canonical_input": "Divine selection and discretion",
+        "document_id": "wv_unit_q12_1_7_doc1",
+        "parent_block_id": null,
+        "order_index": 5,
+        "block_type": "bullet_item",
+        "block_level": 1,
+        "text_plain": "Yusuf is chosen by God; discretion advised in sharing visions.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {}
+      },
+      {
+        "id": "wv_unit_q12_1_7_block6",
+        "canonical_input": "Signs for seekers note",
+        "document_id": "wv_unit_q12_1_7_doc1",
+        "parent_block_id": null,
+        "order_index": 6,
+        "block_type": "paragraph",
+        "block_level": 1,
+        "text_plain": "The story yields signs to those who actively inquire.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {}
+      }
+    ],
+    "wv_block_node_links": [
+      {
+        "id": "wv_unit_q12_1_7_link1",
+        "canonical_input": "block2 mentions node1",
+        "block_id": "wv_unit_q12_1_7_block2",
+        "node_id": "wv_unit_q12_1_7_node1",
+        "relation": "mentions"
+      },
+      {
+        "id": "wv_unit_q12_1_7_link2",
+        "canonical_input": "block3 mentions node2",
+        "block_id": "wv_unit_q12_1_7_block3",
+        "node_id": "wv_unit_q12_1_7_node2",
+        "relation": "mentions"
+      },
+      {
+        "id": "wv_unit_q12_1_7_link3",
+        "canonical_input": "block4 mentions node3",
+        "block_id": "wv_unit_q12_1_7_block4",
+        "node_id": "wv_unit_q12_1_7_node3",
+        "relation": "mentions"
+      },
+      {
+        "id": "wv_unit_q12_1_7_link4",
+        "canonical_input": "block5 mentions node4",
+        "block_id": "wv_unit_q12_1_7_block5",
+        "node_id": "wv_unit_q12_1_7_node4",
+        "relation": "mentions"
+      },
+      {
+        "id": "wv_unit_q12_1_7_link5",
+        "canonical_input": "block6 mentions node5",
+        "block_id": "wv_unit_q12_1_7_block6",
+        "node_id": "wv_unit_q12_1_7_node5",
+        "relation": "mentions"
+      }
+    ],
+    "podcast_episode": {
+      "id": "wv_unit_q12_1_7_podcast",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "title": "Yusuf: Signs and Stories",
+      "hook": "How does a single story become a manual for seekers?",
+      "intro": "We unpack 12:1-7: authority, language, narrative quality, selection, and signs.",
+      "main_points": [
+        "The passage anchors the tale in the clear Book.",
+        "The Qur'an's Arabic form aims to enable understanding.",
+        "Yusuf is presented as an exemplary, divinely chosen figure.",
+        "The story offers signs for active, questioning readers."
+      ],
+      "closing": "Reflect on how stories in the text teach those who seek."
+    }
+  }
+}

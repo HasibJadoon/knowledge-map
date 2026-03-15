@@ -16,6 +16,7 @@ import { KmapsNote } from '../../../kmaps-shared/models/kmaps.models';
 export class WvHighlightsTabComponent {
   @Input() highlights: ReadonlyArray<KmapsNote> = [];
   @Input() emptyMessage = 'Read the source unit and save a passage to build your highlight list.';
+  @Input() showDistillAction = true;
 
   @Output() addNote = new EventEmitter<KmapsNote>();
   @Output() editHighlight = new EventEmitter<KmapsNote>();

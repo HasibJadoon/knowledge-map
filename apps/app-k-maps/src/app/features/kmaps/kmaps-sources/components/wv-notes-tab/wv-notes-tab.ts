@@ -20,6 +20,7 @@ export class WvNotesTabComponent {
   @Input() activeFilter: WvNotesFilterKey = 'all';
   @Input() filters: ReadonlyArray<WvNotesFilterKey> = ['all', 'summary', 'claim_seed', 'insight', 'reflection'];
   @Input() emptyMessage = 'Create reflections, questions, ideas, or claim seeds and they will collect here.';
+  @Input() showDistillAction = true;
 
   @Output() activeFilterChange = new EventEmitter<WvNotesFilterKey>();
   @Output() createNote = new EventEmitter<void>();

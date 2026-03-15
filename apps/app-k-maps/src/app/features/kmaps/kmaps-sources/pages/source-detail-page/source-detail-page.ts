@@ -14,11 +14,19 @@ import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workf
 import { AppAddButtonComponent } from '../../../../../shared/components/app-add-button/app-add-button.component';
 import { NativeSearchbarComponent } from '../../../../../shared/components/native-searchbar/native-searchbar.component';
 import { SourceUnitEditorModalComponent } from '../../components/source-unit-editor-modal/source-unit-editor-modal';
+import { SourceContentMenuComponent } from '../../components/source-content-menu/source-content-menu.component';
 
 @Component({
   selector: 'app-source-detail-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent, NativeSearchbarComponent, AppAddButtonComponent],
+  imports: [
+    CommonModule,
+    IonicModule,
+    KmapsEmptyStateCardComponent,
+    NativeSearchbarComponent,
+    AppAddButtonComponent,
+    SourceContentMenuComponent,
+  ],
   templateUrl: './source-detail-page.html',
   styleUrl: './source-detail-page.scss',
 })

@@ -14,7 +14,11 @@
         <h1>{{ unit()?.title }}</h1>
         <p class="wv-distill-start__meta">{{ unit()?.locatorLabel || unit()?.startRef || 'Source unit' }}</p>
         <p class="wv-distill-start__summary">
-          Distill the current unit into a focused batch using saved notes and highlights from this workspace.
+          {{
+            distillLocked()
+              ? 'This passage already has a saved distill batch. New distill runs are disabled for this passage.'
+              : 'Distill the current unit into a focused batch using saved notes and highlights from this workspace.'
+          }}
         </p>
       </ion-card-content>
     </ion-card>
@@ -40,8 +44,8 @@
       </ion-row>
     </ion-grid>
 
-    <ion-button expand="block" class="km-btn" [disabled]="!notes().length && !highlights().length" (click)="startDistill()">
-      Start Distill
+    <ion-button expand="block" class="km-btn" [disabled]="actionDisabled() || existingBatchLoading()" (click)="startDistill()">
+      {{ existingBatchLoading() ? 'Checking distill…' : actionLabel() }}
     </ion-button>
   </div>
 </ion-content>

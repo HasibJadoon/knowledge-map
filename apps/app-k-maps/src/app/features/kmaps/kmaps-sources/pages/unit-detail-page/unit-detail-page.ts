@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, ToastController } from '@ionic/angular';
 
+import { isAdminToken } from '../../../../../core/auth/auth.utils';
 import { KmapsUnitBottomTabsComponent } from '../../../kmaps-shared/components/unit-bottom-tabs/unit-bottom-tabs';
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { KmapsNote, KmapsSourceUnit, formatNoteKindLabel } from '../../../kmaps-shared/models/kmaps.models';
@@ -29,6 +30,7 @@ export class UnitDetailPage {
   private readonly router = inject(Router);
   private readonly toastController = inject(ToastController);
   private readonly workflow = inject(KmapsWorkflowService);
+  readonly canManageDistill = isAdminToken(localStorage.getItem('auth_token'));
 
   readonly sourceId = signal('');
   readonly unitId = signal('');

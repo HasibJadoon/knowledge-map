@@ -46,24 +46,26 @@ export async function runOpenAITextPrompt(
   const temperature = clampTemperature(input.temperature);
   const system = input.system?.trim();
 
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      authorization: `Bearer ${apiKey}`,
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        ...(system ? [{ role: 'system', content: system }] : []),
-        { role: 'user', content: prompt },
-      ],
-      max_completion_tokens: maxOutputTokens,
-      ...(temperature == null ? {} : { temperature }),
-    }),
+  let { response, payload } = await requestTextResponse({
+    apiKey,
+    model,
+    prompt,
+    system,
+    maxOutputTokens,
+    temperature,
   });
 
-  const payload = (await response.json().catch(() => null)) as Record<string, unknown> | null;
+  if (!response.ok && temperature != null && shouldRetryWithoutTemperature(response.status, payload)) {
+    ({ response, payload } = await requestTextResponse({
+      apiKey,
+      model,
+      prompt,
+      system,
+      maxOutputTokens,
+      temperature: null,
+    }));
+  }
+
   if (!response.ok) {
     const upstreamMessage = readErrorMessage(payload);
     throw new Error(`OpenAI error ${response.status}: ${upstreamMessage}`);
@@ -80,6 +82,45 @@ export async function runOpenAITextPrompt(
     outputText,
     usage: readUsage(payload?.['usage']),
   };
+}
+
+async function requestTextResponse(input: {
+  apiKey: string;
+  model: string;
+  prompt: string;
+  system: string | undefined;
+  maxOutputTokens: number;
+  temperature: number | null;
+}): Promise<{
+  response: Response;
+  payload: Record<string, unknown> | null;
+}> {
+  const response = await fetch('https://api.openai.com/v1/responses', {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${input.apiKey}`,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: input.model,
+      input: input.prompt,
+      ...(input.system ? { instructions: input.system } : {}),
+      max_output_tokens: input.maxOutputTokens,
+      ...(buildReasoning(input.model) ? { reasoning: buildReasoning(input.model) } : {}),
+      ...(input.temperature == null ? {} : { temperature: input.temperature }),
+    }),
+  });
+
+  const payload = (await response.json().catch(() => null)) as Record<string, unknown> | null;
+  return { response, payload };
+}
+
+function buildReasoning(model: string): { effort: 'low' } | null {
+  const normalized = model.trim().toLowerCase();
+  if (normalized.startsWith('gpt-5')) {
+    return { effort: 'low' };
+  }
+  return null;
 }
 
 function clampMaxOutputTokens(value: number | null | undefined): number {
@@ -107,33 +148,41 @@ function readErrorMessage(payload: Record<string, unknown> | null): string {
   );
 }
 
-function extractOutputText(payload: Record<string, unknown> | null): string {
-  const choices = Array.isArray(payload?.['choices']) ? payload?.['choices'] : [];
-  for (const choice of choices) {
-    const message = asRecord(asRecord(choice)?.['message']);
-    const content = message?.['content'];
-    if (typeof content === 'string' && content.trim()) {
-      return content.trim();
-    }
+function shouldRetryWithoutTemperature(status: number, payload: Record<string, unknown> | null): boolean {
+  if (status !== 400) {
+    return false;
+  }
 
-    if (Array.isArray(content)) {
-      const textParts: string[] = [];
-      for (const entry of content) {
-        const contentItem = asRecord(entry);
-        const text =
-          readOptionalString(contentItem?.['text']) ||
-          readOptionalString(asRecord(contentItem?.['text'])?.['value']);
-        if (text) {
-          textParts.push(text);
-        }
-      }
-      const combined = textParts.join('\n').trim();
-      if (combined) {
-        return combined;
+  const message = readErrorMessage(payload).toLowerCase();
+  return (
+    message.includes('temperature') &&
+    (message.includes('default (1) value is supported') || message.includes('not supported'))
+  );
+}
+
+function extractOutputText(payload: Record<string, unknown> | null): string {
+  const direct = readOptionalString(payload?.['output_text']);
+  if (direct) {
+    return direct;
+  }
+
+  const output = Array.isArray(payload?.['output']) ? payload['output'] : [];
+  const textParts: string[] = [];
+  for (const item of output) {
+    const message = asRecord(item);
+    const content = Array.isArray(message?.['content']) ? message['content'] : [];
+    for (const entry of content) {
+      const contentItem = asRecord(entry);
+      const text =
+        readOptionalString(contentItem?.['text']) ||
+        readOptionalString(asRecord(contentItem?.['text'])?.['value']);
+      if (text) {
+        textParts.push(text);
       }
     }
   }
-  return '';
+
+  return textParts.join('\n').trim();
 }
 
 function readUsage(value: unknown): OpenAIResponsesUsage | null {

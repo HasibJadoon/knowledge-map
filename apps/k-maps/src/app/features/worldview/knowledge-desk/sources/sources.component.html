@@ -1,7 +1,56 @@
-<div class="card mb-3">
-    <div class="card-body">
-      <h6 class="card-title">Sources</h6>
-      <p class="text-muted mb-0">Section placeholder.</p>
-    </div>
+<section class="worldview-sources-page">
+  <app-headerbar
+    [showTitle]="true"
+    [title]="'Sources & Documents'"
+    [showSearch]="true"
+    [placeholder]="'Search source, creator, concept, or claim'"
+    [value]="q"
+    (search)="onHeaderSearchInput($event)"
+  />
+
+  <div class="worldview-sources-intro">
+    <div class="worldview-sources-kicker">Worldview Sources</div>
+    <h2>Generated documents and extracted ideas stay attached to the source.</h2>
+    <p>
+      Each source now surfaces its generated study notes, podcast drafts, and one clean concept and claim using the same global card styling.
+    </p>
   </div>
-  
+
+  <div *ngIf="loading" class="worldview-sources-state">Loading worldview sources…</div>
+  <div *ngIf="!loading && error" class="worldview-sources-state worldview-sources-state--error">{{ error }}</div>
+  <div *ngIf="!loading && !error && visiblePanels.length === 0" class="worldview-sources-state">
+    No sources matched this search.
+  </div>
+
+  <article class="source-panel" *ngFor="let panel of visiblePanels">
+    <div class="source-panel__header">
+      <div>
+        <div class="source-panel__kicker">{{ panel.source.source_type || 'source' }}</div>
+        <h3>{{ panel.source.title }}</h3>
+        <p class="source-panel__summary">
+          {{ panel.source.description || panel.source.subtitle || 'Captured worldview source with generated content attached.' }}
+        </p>
+      </div>
+      <div class="source-panel__meta">
+        <span *ngIf="panel.source.creator">{{ panel.source.creator }}</span>
+        <span *ngIf="panel.source.publisher">{{ panel.source.publisher }}</span>
+      </div>
+    </div>
+
+    <div class="source-panel__units" *ngIf="panel.unitsPreview.length">
+      <span class="source-unit-chip" *ngFor="let unit of panel.unitsPreview">{{ unit }}</span>
+    </div>
+
+    <div *ngIf="panel.error" class="source-panel__error">{{ panel.error }}</div>
+
+    <app-menu-cards
+      *ngIf="!panel.error && panel.sections.length"
+      [sections]="panel.sections"
+      (cardSelect)="onCardSelect($event)"
+    ></app-menu-cards>
+
+    <div *ngIf="!panel.error && !panel.sections.length" class="source-panel__empty">
+      No generated documents or extracted concept/claim have been saved for this source yet.
+    </div>
+  </article>
+</section>

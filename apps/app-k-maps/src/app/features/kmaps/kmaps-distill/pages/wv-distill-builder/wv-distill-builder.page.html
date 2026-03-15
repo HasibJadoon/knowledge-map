@@ -112,8 +112,14 @@
 
       <ion-card class="km-card wv-distill-builder__tray-card">
         <ion-card-content class="wv-distill-builder__tray">
-          <ion-button expand="block" class="km-btn wv-distill-builder__cta" [disabled]="!selectedItems().length || isGenerating()" (click)="openSuggestions()">
-            {{ isGenerating() ? 'Generating…' : 'Generate Suggestions' }}
+          <ion-button expand="block" class="km-btn wv-distill-builder__cta" [disabled]="(!selectedItems().length && canGenerateBatch()) || isGenerating()" (click)="openSuggestions()">
+            {{
+              isGenerating()
+                ? 'Generating…'
+                : canGenerateBatch()
+                  ? 'Generate Suggestions'
+                  : 'Open Existing Suggestions'
+            }}
           </ion-button>
         </ion-card-content>
       </ion-card>

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal, untracked } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -46,6 +47,7 @@ export class WvDistillBuilderPage {
   readonly hasBatch = computed(() => this.batch() != null);
   readonly batchItems = computed(() => (this.batchId() ? this.distillService.getItems(this.batchId()) : []));
   readonly selectedItems = computed(() => this.batchItems().filter((item) => item.selected));
+  readonly canGenerateBatch = computed(() => this.batch()?.status === 'draft');
   readonly roles: ReadonlyArray<WvDistillItemRole> = ['claim_seed', 'evidence', 'observation', 'question'];
 
   constructor() {
@@ -104,6 +106,11 @@ export class WvDistillBuilderPage {
       return;
     }
 
+    if (batch.status !== 'draft') {
+      void this.router.navigate(this.suggestionsRoute());
+      return;
+    }
+
     const selectedItems = this.selectedItems().map((item) => ({
       itemId: item.noteId,
       role: item.role,
@@ -127,6 +134,16 @@ export class WvDistillBuilderPage {
       this.nodesService.hydrateBatch(snapshot.batch.id, snapshot.suggestions, snapshot.decisions);
       void this.router.navigate(this.suggestionsRoute());
     } catch (error) {
+      if (error instanceof HttpErrorResponse && error.status === 409) {
+        const existingBatchId = typeof error.error?.existing_batch_id === 'string' ? error.error.existing_batch_id : this.batchId();
+        if (existingBatchId) {
+          void this.router.navigate(this.routeRoot() === 'wv'
+            ? ['/wv', 'suggestions', existingBatchId]
+            : ['/worldview', 'suggestions', existingBatchId]);
+          return;
+        }
+      }
+
       console.error('Failed to generate worldview distill output.', error);
     } finally {
       this.isGenerating.set(false);

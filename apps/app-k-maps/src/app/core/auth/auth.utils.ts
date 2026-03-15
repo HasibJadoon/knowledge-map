@@ -1,5 +1,6 @@
 type TokenPayload = {
   exp?: number;
+  role?: string;
 };
 
 const base64ToJson = (value: string): TokenPayload | null => {
@@ -30,3 +31,19 @@ export const isTokenValid = (token: string | null): boolean => {
   const now = Math.floor(Date.now() / 1000);
   return payload.exp > now;
 };
+
+export const getTokenRole = (token: string | null): string | null => {
+  if (!token) {
+    return null;
+  }
+
+  const parts = token.split('.');
+  if (parts.length !== 3) {
+    return null;
+  }
+
+  const payload = base64ToJson(parts[1]);
+  return typeof payload?.role === 'string' && payload.role.trim() ? payload.role.trim().toLowerCase() : null;
+};
+
+export const isAdminToken = (token: string | null): boolean => getTokenRole(token) === 'admin';

@@ -279,6 +279,35 @@ export async function loadDistillBatchSnapshot(
   };
 }
 
+export async function loadLatestDistillBatchSnapshotForUnit(
+  db: D1Database,
+  sourceId: string,
+  sourceUnitId: string,
+  userId: number,
+): Promise<DistillBatchSnapshot | null> {
+  const row = await db
+    .prepare(
+      `
+      SELECT id
+      FROM wv_distill_batches
+      WHERE user_id = ?1
+        AND json_extract(batch_json, '$.source_id') = ?2
+        AND json_extract(batch_json, '$.source_unit_id') = ?3
+      ORDER BY COALESCE(updated_at, created_at) DESC, created_at DESC, id DESC
+      LIMIT 1
+      `
+    )
+    .bind(userId, sourceId, sourceUnitId)
+    .first<Record<string, unknown>>();
+
+  const batchId = readTrimmed(row?.['id']);
+  if (!batchId) {
+    return null;
+  }
+
+  return loadDistillBatchSnapshot(db, batchId, userId);
+}
+
 export function buildDistillPrompt(context: DistillPromptContext): string {
   const passageJson = {
     passage_context: {
@@ -585,6 +614,7 @@ export async function upsertPodcastEpisode(
     throw new Error('wv_content_items table is not available.');
   }
 
+  const contentItemId = `pod_ep_${slugify(context.sourceUnitId, 'source-unit')}`;
   const worldview = await readPodcastWorldviewContext(db, context.sourceId, context.sourceUnitId);
   const canonicalInput = `wv_podcast:${context.batchId}:${slugify(draft.title || 'episode', 'episode')}`;
   const primaryReference = [
@@ -654,6 +684,7 @@ export async function upsertPodcastEpisode(
     script: '',
     script_md: '',
     checklist: [],
+    generated_episode_id: draft.id,
   };
 
   await db
@@ -677,7 +708,7 @@ export async function upsertPodcastEpisode(
       `
     )
     .bind(
-      draft.id,
+      contentItemId,
       canonicalInput,
       context.userId,
       draft.title,
@@ -706,7 +737,7 @@ export async function upsertPodcastEpisode(
       `
     )
     .bind(
-      draft.id,
+      contentItemId,
       canonicalInput,
       draft.title,
       context.sourceUnitId,

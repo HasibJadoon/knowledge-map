@@ -23,12 +23,21 @@ export class PodcastMenuComponent {
       title: 'Podcast Suite',
       cards: [
         {
-          id: 'episodes',
-          title: 'Podcast Episodes',
-          description: 'Manage episode outlines and recordings.',
+          id: 'generated-worldview',
+          title: 'Generated Drafts',
+          description: 'Open podcast drafts produced from worldview distill batches.',
           route: ['/podcast/episodes'],
           image: 'assets/images/app-icons/dashboard/card-podcast.svg',
-          imageAlt: 'assets/images/app-icons/dashboard/vue.jpg',
+          imageAlt: 'assets/images/app-icons/dashboard/card-worldview.svg',
+          themeClass: 'theme-podcast',
+        },
+        {
+          id: 'episodes',
+          title: 'Episode Library',
+          description: 'Review every podcast episode, including manual and generated drafts.',
+          route: ['/podcast/episodes'],
+          image: 'assets/images/app-icons/dashboard/card-podcast.svg',
+          imageAlt: 'assets/images/app-icons/dashboard/card-podcast.svg',
           themeClass: 'theme-podcast',
         },
         {
@@ -47,6 +56,11 @@ export class PodcastMenuComponent {
   constructor(private router: Router) {}
 
   onCardSelect(card: AppMenuCardItem) {
+    if (card.id === 'generated-worldview') {
+      this.router.navigate(['/podcast/episodes'], { queryParams: { source: 'worldview' } });
+      return;
+    }
+
     if (!card.route) return;
     const route = Array.isArray(card.route) ? card.route : [card.route];
     this.router.navigate(route);

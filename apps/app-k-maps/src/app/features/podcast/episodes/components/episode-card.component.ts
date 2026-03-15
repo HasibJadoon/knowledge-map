@@ -47,6 +47,11 @@ export class EpisodeCardComponent {
   }
 
   get summaryLine(): string {
+    const generatedSummary = readText(this.episode.rawContent['summary']);
+    if (generatedSummary) {
+      return generatedSummary;
+    }
+
     const parts = [`${this.episode.segments.length} ${this.episode.segments.length === 1 ? 'segment' : 'segments'}`];
     if (this.episode.estimatedDuration) {
       parts.push(`${this.episode.estimatedDuration} min`);
@@ -80,4 +85,8 @@ export class EpisodeCardComponent {
       },
     ).pathLabel;
   }
+}
+
+function readText(value: unknown): string {
+  return typeof value === 'string' ? value.trim() : '';
 }

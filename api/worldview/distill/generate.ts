@@ -8,6 +8,7 @@ import {
   DistillOutputDraft,
   hasTable,
   loadDistillBatchSnapshot,
+  loadLatestDistillBatchSnapshotForUnit,
   mapDecisionRow,
   mapSuggestionRow,
   normalizeDistillOutput,
@@ -55,6 +56,9 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     if (!user) {
       return json({ ok: false, error: 'Unauthorized' }, 401);
     }
+    if (user.role !== 'admin') {
+      return json({ ok: false, error: 'Admin role required.' }, 403);
+    }
 
     const db = ctx.env.DB;
     if (!(await ensureTables(db))) {
@@ -79,6 +83,27 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     const unit = await readUnitScope(db, input.sourceId, input.sourceUnitId);
     if (!unit) {
       return json({ ok: false, error: 'Worldview unit not found in this source.' }, 404);
+    }
+
+    const existingSnapshot = await loadLatestDistillBatchSnapshotForUnit(db, input.sourceId, input.sourceUnitId, user.id);
+    if (existingSnapshot) {
+      const sameBatch = existingSnapshot.batch.id === input.batchId;
+      const distillAlreadyGenerated =
+        existingSnapshot.draft_output != null
+        || existingSnapshot.suggestions.length > 0
+        || existingSnapshot.batch.status !== 'draft';
+
+      if (!sameBatch || distillAlreadyGenerated) {
+        return json(
+          {
+            ok: false,
+            error: 'Distill already exists for this passage. Only one distill is allowed per passage.',
+            existing_batch_id: existingSnapshot.batch.id,
+            existing_status: existingSnapshot.batch.status,
+          },
+          409,
+        );
+      }
     }
 
     const selected = await loadSelectedEvidence(db, input, user.id);

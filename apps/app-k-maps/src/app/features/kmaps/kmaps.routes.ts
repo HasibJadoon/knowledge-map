@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { AdminGuard } from '../../core/auth/admin.guard';
 import { KmapsTabsPage } from './pages/tabs/kmaps-tabs.page';
 
 export const KMAPS_ROUTES: Routes = [
@@ -19,6 +20,11 @@ export const KMAPS_ROUTES: Routes = [
       import('./kmaps-sources/pages/source-detail-page/source-detail-page').then((m) => m.SourceDetailPage),
   },
   {
+    path: 'source/:sourceId/content',
+    loadComponent: () =>
+      import('./kmaps-sources/pages/source-content-page/source-content-page').then((m) => m.SourceContentPage),
+  },
+  {
     path: 'source/:sourceId/unit/:unitId/workspace',
     loadComponent: () =>
       import('./kmaps-sources/pages/wv-unit-workspace/wv-unit-workspace.page').then((m) => m.WvUnitWorkspacePage),
@@ -27,6 +33,11 @@ export const KMAPS_ROUTES: Routes = [
     path: 'source/:sourceId/unit/:unitId',
     loadComponent: () =>
       import('./kmaps-sources/pages/source-unit-page/source-unit-page').then((m) => m.SourceUnitPage),
+  },
+  {
+    path: 'source/:sourceId/unit/:unitId/content',
+    loadComponent: () =>
+      import('./kmaps-sources/pages/source-content-page/source-content-page').then((m) => m.SourceContentPage),
   },
   {
     path: 'sources/new',
@@ -39,6 +50,11 @@ export const KMAPS_ROUTES: Routes = [
       import('./kmaps-sources/pages/source-detail-page/source-detail-page').then((m) => m.SourceDetailPage),
   },
   {
+    path: 'sources/:sourceId/content',
+    loadComponent: () =>
+      import('./kmaps-sources/pages/source-content-page/source-content-page').then((m) => m.SourceContentPage),
+  },
+  {
     path: 'sources/:sourceId/units/:unitId/workspace',
     loadComponent: () =>
       import('./kmaps-sources/pages/wv-unit-workspace/wv-unit-workspace.page').then((m) => m.WvUnitWorkspacePage),
@@ -49,22 +65,31 @@ export const KMAPS_ROUTES: Routes = [
       import('./kmaps-sources/pages/source-unit-page/source-unit-page').then((m) => m.SourceUnitPage),
   },
   {
+    path: 'sources/:sourceId/units/:unitId/content',
+    loadComponent: () =>
+      import('./kmaps-sources/pages/source-content-page/source-content-page').then((m) => m.SourceContentPage),
+  },
+  {
     path: 'distill/start/:unitId',
+    canActivate: [AdminGuard],
     loadComponent: () =>
       import('./kmaps-distill/pages/wv-distill-start/wv-distill-start.page').then((m) => m.WvDistillStartPage),
   },
   {
     path: 'distill/batch/:batchId',
+    canActivate: [AdminGuard],
     loadComponent: () =>
       import('./kmaps-distill/pages/wv-distill-builder/wv-distill-builder.page').then((m) => m.WvDistillBuilderPage),
   },
   {
     path: 'suggestions/:batchId',
+    canActivate: [AdminGuard],
     loadComponent: () =>
       import('./kmaps-distill/pages/wv-suggestions/wv-suggestions.page').then((m) => m.WvSuggestionsPage),
   },
   {
     path: 'approval/:suggestionId',
+    canActivate: [AdminGuard],
     loadComponent: () =>
       import('./kmaps-distill/pages/wv-node-approval/wv-node-approval.page').then((m) => m.WvNodeApprovalPage),
   },

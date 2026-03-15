@@ -1,0 +1,189 @@
+.podcast-episode-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+.podcast-episode-state {
+  border-radius: 1rem;
+  border: 1px solid rgba(133, 160, 214, 0.16);
+  background: rgba(10, 18, 33, 0.82);
+  padding: 1rem 1.15rem;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+}
+
+.podcast-episode-state--error {
+  border-color: rgba(232, 104, 104, 0.35);
+  color: #ffd6d6;
+}
+
+.podcast-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(16rem, 0.9fr);
+  gap: 1rem;
+  padding: 1.4rem;
+  border-radius: 1.1rem;
+  border: 1px solid var(--km-core-border, rgba(133, 160, 214, 0.2));
+  background: linear-gradient(152deg, rgba(16, 24, 40, 0.98), rgba(10, 18, 33, 0.94));
+  box-shadow: 0 22px 44px rgba(0, 0, 0, 0.22);
+}
+
+.podcast-kicker,
+.podcast-card-kicker {
+  margin-bottom: 0.55rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+}
+
+.podcast-hero h1 {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+}
+
+.podcast-hero p {
+  margin: 0;
+  max-width: 46rem;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+}
+
+.podcast-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.podcast-badge {
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  background: rgba(81, 178, 255, 0.18);
+  border: 1px solid rgba(81, 178, 255, 0.28);
+  color: #d7edff;
+  text-transform: capitalize;
+}
+
+.podcast-meta-line {
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+  font-size: 0.95rem;
+}
+
+.podcast-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.podcast-card {
+  padding: 1.2rem 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(133, 160, 214, 0.18);
+  background: rgba(11, 18, 30, 0.88);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+}
+
+.podcast-card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+}
+
+.podcast-section-block + .podcast-section-block {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(133, 160, 214, 0.12);
+}
+
+.podcast-section-label {
+  margin-bottom: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #9fcfff;
+}
+
+.podcast-section-block p {
+  margin: 0;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+}
+
+.podcast-points {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+}
+
+.podcast-points li + li {
+  margin-top: 0.45rem;
+}
+
+.podcast-context-list {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+}
+
+.podcast-context-list div {
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(133, 160, 214, 0.1);
+}
+
+.podcast-context-list div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.podcast-context-list dt {
+  margin-bottom: 0.2rem;
+  color: #9fcfff;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.podcast-context-list dd {
+  margin: 0;
+  color: var(--km-core-text-muted, rgba(184, 200, 230, 0.86));
+}
+
+.podcast-outline {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.podcast-outline-item {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: start;
+  padding: 0.9rem 1rem;
+  border-radius: 0.85rem;
+  background: rgba(14, 24, 42, 0.9);
+  border: 1px solid rgba(133, 160, 214, 0.14);
+}
+
+.podcast-outline-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: rgba(81, 178, 255, 0.14);
+  color: #d7edff;
+  font-weight: 700;
+}
+
+.podcast-outline-title {
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+}
+
+@media (max-width: 960px) {
+  .podcast-hero,
+  .podcast-layout {
+    grid-template-columns: 1fr;
+  }
+}

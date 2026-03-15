@@ -649,6 +649,48 @@ function defaultSegmentTitle(type: CreatorEpisodeType, order: number): string {
 }
 
 function deriveLegacySegments(content: Record<string, unknown>, type: CreatorEpisodeType, episodeId: string): CreatorEpisodeSegment[] {
+  const generatedSections = readGeneratedSections(content);
+  if (generatedSections.length) {
+    return generatedSections.map((section, index) => {
+      const segment = createSegment(type, episodeId, index, section.title);
+      segment.id = buildStableId('seg', episodeId, index, section.title);
+      segment.summary = section.summary;
+      segment.reference = toText(content['locator_label']) ?? '';
+      segment.primaryReference = segment.reference;
+
+      if (type === 'discussion') {
+        segment.dialogueItems = section.points.map((point, pointIndex) => ({
+          id: buildStableId('dlg', segment.id, pointIndex, point),
+          text: point,
+          speaker: pointIndex % 2 === 0 ? 'host' : 'co_host',
+          cue: '',
+          order: pointIndex,
+        }));
+        return segment;
+      }
+
+      if (type === 'lesson_log') {
+        segment.doneItems = section.points.map((point, pointIndex) => ({
+          id: buildStableId('chk', segment.id, pointIndex, point),
+          text: point,
+          order: pointIndex,
+        }));
+        segment.reviewItems = [];
+        return segment;
+      }
+
+      segment.talkingPoints = section.points.map((point, pointIndex) => ({
+        id: buildStableId('tp', segment.id, pointIndex, point),
+        text: point,
+        tone: pointIndex === 0 && index === 0 ? 'hook' : '',
+        durationMin: 1,
+        userId: null,
+        order: pointIndex,
+      }));
+      return segment;
+    });
+  }
+
   const outlineItems = Array.isArray(content['outline']) ? content['outline'] : [];
   if (outlineItems.length === 0) {
     return defaultSegmentsForType(type, episodeId).map((segment, index) => withStableFallbackIds(segment, episodeId, index));
@@ -692,6 +734,67 @@ function deriveLegacySegments(content: Record<string, unknown>, type: CreatorEpi
   }));
   segment.summary = toText(content['topic']) ?? '';
   return [segment];
+}
+
+function readGeneratedSections(content: Record<string, unknown>): Array<{ title: string; summary: string; points: string[] }> {
+  const episodeOutline = asRecord(content['episode_outline']);
+  const sections: Array<{ title: string; summary: string; points: string[] }> = [];
+
+  const hook = toText(episodeOutline?.['hook']) ?? toText(content['hook']);
+  if (hook) {
+    sections.push({
+      title: 'Hook',
+      summary: hook,
+      points: [hook],
+    });
+  }
+
+  const intro = toText(episodeOutline?.['intro']) ?? toText(content['intro']);
+  if (intro) {
+    sections.push({
+      title: 'Intro',
+      summary: intro,
+      points: [intro],
+    });
+  }
+
+  const mainPoints = readGeneratedMainPoints(episodeOutline?.['main_points'] ?? content['main_points']);
+  mainPoints.forEach((point, index) => {
+    sections.push({
+      title: `Main Point ${index + 1}`,
+      summary: point,
+      points: [point],
+    });
+  });
+
+  const closing = toText(episodeOutline?.['closing']) ?? toText(content['closing']);
+  if (closing) {
+    sections.push({
+      title: 'Closing',
+      summary: closing,
+      points: [closing],
+    });
+  }
+
+  if (sections.length) {
+    return sections;
+  }
+
+  return readGeneratedMainPoints(content['outline']).map((item, index) => ({
+    title: `Outline ${index + 1}`,
+    summary: item,
+    points: [item],
+  }));
+}
+
+function readGeneratedMainPoints(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((entry) => toText(entry) ?? '')
+    .filter(Boolean);
 }
 
 function readSegments(rawSegments: unknown, type: CreatorEpisodeType, episodeId: string): CreatorEpisodeSegment[] {

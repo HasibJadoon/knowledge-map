@@ -1,0 +1,33 @@
+<ion-card class="km-card source-content-menu">
+  <ion-card-content>
+    <div class="source-content-menu__head">
+      <div>
+        <p class="source-content-menu__kicker">Generated Output</p>
+        <h2>{{ unitTitle || sourceTitle || 'Source output' }}</h2>
+      </div>
+
+      <ion-spinner *ngIf="loading()" name="crescent"></ion-spinner>
+    </div>
+
+    <p class="source-content-menu__error" *ngIf="error()">{{ error() }}</p>
+
+    <div class="source-content-menu__grid">
+      <button type="button" class="source-content-menu__tile" (click)="openLatestPodcast()">
+        <span class="source-content-menu__tile-label">Podcast</span>
+        <strong>{{ latestPodcast()?.title || 'No generated episode yet' }}</strong>
+        <p>{{ podcastMeta() }}</p>
+      </button>
+
+      <button type="button" class="source-content-menu__tile" (click)="openDocuments()">
+        <span class="source-content-menu__tile-label">Documents</span>
+        <strong>{{ latestDocument()?.title || 'No study note yet' }}</strong>
+        <p>{{ documentMeta() }}</p>
+      </button>
+    </div>
+
+    <div class="source-content-menu__footer">
+      <p>{{ extractLine() }}</p>
+      <ion-button fill="clear" size="small" (click)="openOutput()">Open output</ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>

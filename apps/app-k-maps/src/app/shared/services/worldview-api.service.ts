@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
@@ -77,6 +77,16 @@ type DistillDecisionApiResponse = {
   decision?: unknown;
 };
 
+type SourceContentApiResponse = {
+  ok?: boolean;
+  error?: string;
+  source?: unknown;
+  units?: unknown[];
+  documents?: unknown[];
+  podcasts?: unknown[];
+  nodes?: unknown[];
+};
+
 export type WorldviewDistillBatchItemInput = {
   itemId: string;
   role: string | null;
@@ -90,6 +100,63 @@ export type WorldviewDistillBatchSnapshot = {
   draftOutput: Record<string, unknown> | null;
   promptVersion: string | null;
   model: string | null;
+};
+
+export type WorldviewSourceContentBlock = {
+  id: string;
+  documentId: string;
+  parentBlockId: string | null;
+  orderIndex: number;
+  blockType: 'heading' | 'paragraph' | 'bullet_item' | 'numbered_item' | 'quote' | 'callout' | 'divider';
+  blockLevel: number;
+  textPlain: string;
+  contentJson: Record<string, unknown>;
+  attrsJson: Record<string, unknown>;
+  metaJson: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string | null;
+};
+
+export type WorldviewSourceDocument = {
+  id: string;
+  title: string;
+  summary: string | null;
+  docType: string;
+  relatedNodeId: string | null;
+  documentJson: Record<string, unknown>;
+  metaJson: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string | null;
+  blocks: WorldviewSourceContentBlock[];
+};
+
+export type WorldviewSourcePodcast = {
+  id: string;
+  title: string;
+  status: string;
+  relatedId: string | null;
+  refsJson: Record<string, unknown>;
+  contentJson: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string | null;
+};
+
+export type WorldviewSourceNode = {
+  id: string;
+  nodeType: 'concept' | 'claim';
+  title: string;
+  textPlain: string;
+  summary: string;
+  slug: string;
+  metaJson: Record<string, unknown>;
+};
+
+export type WorldviewSourceContentSnapshot = {
+  source: KmapsSource | null;
+  units: KmapsSourceUnit[];
+  documents: WorldviewSourceDocument[];
+  podcasts: WorldviewSourcePodcast[];
+  nodes: WorldviewSourceNode[];
 };
 
 export type WorldviewSourceInput = {
@@ -221,6 +288,19 @@ export class WorldviewApiService {
       .pipe(map(mapDistillBatchSnapshot));
   }
 
+  fetchDistillBatchForUnit(input: {
+    sourceId: string;
+    sourceUnitId: string;
+  }): Observable<WorldviewDistillBatchSnapshot | null> {
+    const params = new HttpParams()
+      .set('source_id', input.sourceId)
+      .set('source_unit_id', input.sourceUnitId);
+
+    return this.http
+      .get<DistillBatchApiResponse>(`${this.baseUrl}/distill/by-unit`, { params })
+      .pipe(map(mapOptionalDistillBatchSnapshot));
+  }
+
   saveDistillDecision(input: {
     suggestionId: string;
     decision: 'approve' | 'edit_and_save' | 'reject';
@@ -241,6 +321,20 @@ export class WorldviewApiService {
 
   approveDistillBatch(batchId: string): Observable<WorldviewDistillBatchSnapshot> {
     return this.http.post<DistillBatchApiResponse>(`${this.baseUrl}/distill/approve`, { batchId }).pipe(map(mapDistillBatchSnapshot));
+  }
+
+  fetchSourceContent(input: {
+    sourceId: string;
+    sourceUnitId?: string | null;
+  }): Observable<WorldviewSourceContentSnapshot> {
+    let params = new HttpParams().set('source_id', input.sourceId);
+    if (input.sourceUnitId?.trim()) {
+      params = params.set('source_unit_id', input.sourceUnitId.trim());
+    }
+
+    return this.http
+      .get<SourceContentApiResponse>(`${this.baseUrl}/source-content`, { params })
+      .pipe(map(mapSourceContentSnapshot));
   }
 }
 
@@ -269,6 +363,29 @@ function mapDistillBatchSnapshot(response: DistillBatchApiResponse): WorldviewDi
   const batch = mapDistillBatch(response.batch);
   if (!batch) {
     throw new Error(readTrimmed(response.error) ?? 'Failed to load worldview distill batch.');
+  }
+
+  return {
+    batch,
+    items: asArray(response.items)
+      .map((value) => mapDistillItem(value, batch.id))
+      .filter((item): item is WvDistillBatchItem => item !== null),
+    suggestions: asArray(response.suggestions)
+      .map(mapDistillSuggestion)
+      .filter((item): item is WvInsightSuggestion => item !== null),
+    decisions: asArray(response.decisions)
+      .map(mapDistillDecision)
+      .filter((item): item is WvInsightDecision => item !== null),
+    draftOutput: parseRecord(response.draft_output),
+    promptVersion: readNullableString(response.prompt_version),
+    model: readNullableString(response.model),
+  };
+}
+
+function mapOptionalDistillBatchSnapshot(response: DistillBatchApiResponse): WorldviewDistillBatchSnapshot | null {
+  const batch = mapDistillBatch(response.batch);
+  if (!batch) {
+    return null;
   }
 
   return {
@@ -392,6 +509,117 @@ function mapDistillDecision(value: unknown): WvInsightDecision | null {
     graphTargetId: readNullableString(row?.['target_id']),
     createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
     updatedAt: readTrimmed(row?.['updated_at']) ?? readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+  };
+}
+
+function mapSourceContentSnapshot(response: SourceContentApiResponse): WorldviewSourceContentSnapshot {
+  const source = mapSource(response.source);
+  if (!source) {
+    throw new Error(readTrimmed(response.error) ?? 'Failed to load worldview source content.');
+  }
+
+  return {
+    source,
+    units: asArray(response.units).map(mapUnit).filter((item): item is KmapsSourceUnit => item !== null),
+    documents: asArray(response.documents)
+      .map(mapSourceContentDocument)
+      .filter((item): item is WorldviewSourceDocument => item !== null),
+    podcasts: asArray(response.podcasts)
+      .map(mapSourceContentPodcast)
+      .filter((item): item is WorldviewSourcePodcast => item !== null),
+    nodes: asArray(response.nodes).map(mapSourceContentNode).filter((item): item is WorldviewSourceNode => item !== null),
+  };
+}
+
+function mapSourceContentDocument(value: unknown): WorldviewSourceDocument | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const title = readTrimmed(row?.['title']);
+  const docType = readTrimmed(row?.['doc_type']);
+  const createdAt = readTrimmed(row?.['created_at']);
+  if (!id || !title || !docType || !createdAt) {
+    return null;
+  }
+
+  return {
+    id,
+    title,
+    summary: readNullableString(row?.['summary']),
+    docType,
+    relatedNodeId: readNullableString(row?.['related_node_id']),
+    documentJson: parseRecord(row?.['document_json']) ?? {},
+    metaJson: parseRecord(row?.['meta_json']) ?? {},
+    createdAt,
+    updatedAt: readNullableString(row?.['updated_at']),
+    blocks: asArray(row?.['blocks']).map(mapSourceContentBlock).filter((item): item is WorldviewSourceContentBlock => item !== null),
+  };
+}
+
+function mapSourceContentBlock(value: unknown): WorldviewSourceContentBlock | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const documentId = readTrimmed(row?.['document_id']);
+  const blockType = normalizeSourceContentBlockType(row?.['block_type']);
+  const createdAt = readTrimmed(row?.['created_at']);
+  if (!id || !documentId || !blockType || !createdAt) {
+    return null;
+  }
+
+  return {
+    id,
+    documentId,
+    parentBlockId: readNullableString(row?.['parent_block_id']),
+    orderIndex: readInteger(row?.['order_index']) ?? 0,
+    blockType,
+    blockLevel: readInteger(row?.['block_level']) ?? 1,
+    textPlain: readTrimmed(row?.['text_plain']) ?? '',
+    contentJson: parseRecord(row?.['content_json']) ?? {},
+    attrsJson: parseRecord(row?.['attrs_json']) ?? {},
+    metaJson: parseRecord(row?.['meta_json']) ?? {},
+    createdAt,
+    updatedAt: readNullableString(row?.['updated_at']),
+  };
+}
+
+function mapSourceContentPodcast(value: unknown): WorldviewSourcePodcast | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const title = readTrimmed(row?.['title']);
+  const status = readTrimmed(row?.['status']);
+  const createdAt = readTrimmed(row?.['created_at']);
+  if (!id || !title || !status || !createdAt) {
+    return null;
+  }
+
+  return {
+    id,
+    title,
+    status,
+    relatedId: readNullableString(row?.['related_id']),
+    refsJson: parseRecord(row?.['refs_json']) ?? {},
+    contentJson: parseRecord(row?.['content_json']) ?? {},
+    createdAt,
+    updatedAt: readNullableString(row?.['updated_at']),
+  };
+}
+
+function mapSourceContentNode(value: unknown): WorldviewSourceNode | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const nodeType = normalizeSourceContentNodeType(row?.['node_type']);
+  const title = readTrimmed(row?.['title']);
+  if (!id || !nodeType || !title) {
+    return null;
+  }
+
+  return {
+    id,
+    nodeType,
+    title,
+    textPlain: readTrimmed(row?.['text_plain']) ?? '',
+    summary: readTrimmed(row?.['summary']) ?? '',
+    slug: readTrimmed(row?.['slug']) ?? '',
+    metaJson: parseRecord(row?.['meta_json']) ?? {},
   };
 }
 
@@ -881,6 +1109,31 @@ function normalizeSuggestionKind(value: unknown): WvInsightSuggestion['kind'] | 
     case 'theme':
     case 'output':
     case 'edge':
+      return value;
+    default:
+      return null;
+  }
+}
+
+function normalizeSourceContentBlockType(value: unknown): WorldviewSourceContentBlock['blockType'] | null {
+  switch (value) {
+    case 'heading':
+    case 'paragraph':
+    case 'bullet_item':
+    case 'numbered_item':
+    case 'quote':
+    case 'callout':
+    case 'divider':
+      return value;
+    default:
+      return null;
+  }
+}
+
+function normalizeSourceContentNodeType(value: unknown): WorldviewSourceNode['nodeType'] | null {
+  switch (value) {
+    case 'concept':
+    case 'claim':
       return value;
     default:
       return null;

@@ -24,7 +24,7 @@
       <ion-button fill="clear" size="small" color="danger" title="Delete highlight" aria-label="Delete highlight" (click)="deleteHighlight.emit(note)">
         <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
       </ion-button>
-      <ion-button fill="clear" size="small" title="Send to distill" aria-label="Send to distill" (click)="sendToDistill.emit(note)">
+      <ion-button *ngIf="showDistillAction" fill="clear" size="small" title="Send to distill" aria-label="Send to distill" (click)="sendToDistill.emit(note)">
         <ion-icon slot="icon-only" name="sparkles-outline"></ion-icon>
       </ion-button>
     </div>

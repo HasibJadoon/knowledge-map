@@ -4,11 +4,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 
+import { isAdminToken } from '../../../../../core/auth/auth.utils';
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { KmapsUnitWorkspaceTabsComponent } from '../../../kmaps-shared/components/unit-workspace-tabs/unit-workspace-tabs';
 import { KmapsNote, KmapsNoteKind, KmapsSourceUnit, KmapsStatItem, formatNoteKindLabel, formatUnitTypeLabel } from '../../../kmaps-shared/models/kmaps.models';
 import { WvWorkspaceTabKey } from '../../../kmaps-shared/models/wv-workspace.models';
 import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
+import { WorldviewApiService } from '../../../../../shared/services/worldview-api.service';
+import { WvDistillService } from '../../../../../shared/services/wv-distill.service';
 import { WvHighlightsService } from '../../../../../shared/services/wv-highlights.service';
 import { WvNodesService } from '../../../../../shared/services/wv-nodes.service';
 import { WvNotesService } from '../../../../../shared/services/wv-notes.service';
@@ -57,9 +60,14 @@ export class WvUnitWorkspacePage {
   private readonly router = inject(Router);
   private readonly toastController = inject(ToastController);
   private readonly workflow = inject(KmapsWorkflowService);
+  private readonly worldviewApi = inject(WorldviewApiService);
+  private readonly distillService = inject(WvDistillService);
   private readonly highlightsService = inject(WvHighlightsService);
   private readonly notesService = inject(WvNotesService);
   private readonly nodesService = inject(WvNodesService);
+
+  private existingDistillRequestVersion = 0;
+  readonly canManageDistill = isAdminToken(localStorage.getItem('auth_token'));
 
   readonly sourceId = signal('');
   readonly unitId = signal('');
@@ -72,6 +80,8 @@ export class WvUnitWorkspacePage {
   readonly selectedLocator = signal('');
   readonly readContextMenuOpen = signal(false);
   readonly readContextMenuPosition = signal<ReadContextMenuPosition | null>(null);
+  readonly existingDistillBatchId = signal<string | null>(null);
+  readonly existingDistillBatchStatus = signal<'draft' | 'active' | 'completed' | null>(null);
 
   readonly noteFilters: ReadonlyArray<WvNotesFilterKey> = ['all', 'summary', 'claim_seed', 'insight', 'reflection'];
 
@@ -138,6 +148,8 @@ export class WvUnitWorkspacePage {
   readonly recentHighlights = computed(() => this.highlightsService.recentForUnit(this.sourceId(), this.unitId()));
   readonly recentNotes = computed(() => this.notesService.recentForUnit(this.sourceId(), this.unitId()));
   readonly nodeCount = computed(() => this.nodesService.getNodeCountForUnit(this.sourceId(), this.unitId()));
+  readonly localDistillBatch = computed(() => this.distillService.getBatchForUnit(this.unitId()));
+  readonly hasExistingDistill = computed(() => this.existingDistillBatchId() != null);
   readonly stats = computed<KmapsStatItem[]>(() => [
     { label: 'Highlights', value: this.allHighlights().length },
     { label: 'Notes', value: this.allNotes().length },
@@ -160,7 +172,13 @@ export class WvUnitWorkspacePage {
     }
   });
   readonly isEmptyState = computed(() => !this.source() || !this.unit() || this.sourceId() === 'new' || this.unitId() === 'new');
-  readonly showDistillFab = computed(() => this.allNotes().length >= 1);
+  readonly showDistillFab = computed(() =>
+    this.canManageDistill
+    && (this.allNotes().length >= 1 || this.allHighlights().length >= 1)
+    && !this.hasExistingDistill()
+    && this.localDistillBatch()?.status !== 'active'
+    && this.localDistillBatch()?.status !== 'completed',
+  );
   readonly readContextMenuLeft = computed(() => this.resolveContextMenuLeft(this.readContextMenuPosition()));
   readonly readContextMenuTop = computed(() => this.resolveContextMenuTop(this.readContextMenuPosition()));
 
@@ -184,6 +202,7 @@ export class WvUnitWorkspacePage {
       this.searchQuery.set('');
       this.clearReadSelection();
       this.activeNotesFilter.set('all');
+      void this.loadExistingDistillBatch();
     });
 
     this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((queryParamMap) => {
@@ -452,6 +471,27 @@ export class WvUnitWorkspacePage {
   }
 
   startDistill(): void {
+    if (!this.canManageDistill) {
+      void this.presentToast('Admin role required to run distill.');
+      return;
+    }
+
+    if (this.hasExistingDistill()) {
+      void this.router.navigate(this.existingDistillRoute(this.existingDistillBatchId()!, this.existingDistillBatchStatus() ?? 'active'));
+      return;
+    }
+
+    const localBatch = this.localDistillBatch();
+    if (localBatch && localBatch.status !== 'draft') {
+      void this.router.navigate(this.existingDistillRoute(localBatch.id, localBatch.status));
+      return;
+    }
+
+    if (localBatch?.status === 'draft') {
+      void this.router.navigate(this.distillBuilderRoute(localBatch.id));
+      return;
+    }
+
     if (!this.showDistillFab()) {
       return;
     }
@@ -590,10 +630,68 @@ export class WvUnitWorkspacePage {
       : ['/worldview', 'distill', 'start', this.unitId()];
   }
 
+  private distillBuilderRoute(batchId: string): string[] {
+    return this.routeRoot() === 'wv'
+      ? ['/wv', 'distill', 'batch', batchId]
+      : ['/worldview', 'distill', 'batch', batchId];
+  }
+
+  private existingDistillRoute(batchId: string, status: 'draft' | 'active' | 'completed'): string[] {
+    if (status === 'completed') {
+      return this.routeRoot() === 'wv'
+        ? ['/wv', 'source', this.sourceId(), 'unit', this.unitId(), 'content']
+        : ['/worldview', 'sources', this.sourceId(), 'units', this.unitId(), 'content'];
+    }
+
+    return this.routeRoot() === 'wv'
+      ? ['/wv', 'suggestions', batchId]
+      : ['/worldview', 'suggestions', batchId];
+  }
+
   private plannerRoute(): string[] {
     return this.routeRoot() === 'wv'
       ? ['/wv', 'planner', this.unitId()]
       : ['/worldview', 'planner', this.unitId()];
+  }
+
+  private async loadExistingDistillBatch(): Promise<void> {
+    const sourceId = this.sourceId();
+    const unitId = this.unitId();
+    if (!sourceId || !unitId) {
+      this.existingDistillBatchId.set(null);
+      this.existingDistillBatchStatus.set(null);
+      return;
+    }
+
+    const requestVersion = ++this.existingDistillRequestVersion;
+    this.worldviewApi
+      .fetchDistillBatchForUnit({ sourceId, sourceUnitId: unitId })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (snapshot) => {
+          if (requestVersion !== this.existingDistillRequestVersion) {
+            return;
+          }
+
+          if (!snapshot) {
+            this.existingDistillBatchId.set(null);
+            this.existingDistillBatchStatus.set(null);
+            return;
+          }
+
+          this.distillService.hydrateBatch(snapshot.batch, snapshot.items);
+          this.existingDistillBatchId.set(snapshot.batch.id);
+          this.existingDistillBatchStatus.set(snapshot.batch.status);
+        },
+        error: () => {
+          if (requestVersion !== this.existingDistillRequestVersion) {
+            return;
+          }
+
+          this.existingDistillBatchId.set(null);
+          this.existingDistillBatchStatus.set(null);
+        },
+      });
   }
 
   private async presentToast(message: string): Promise<void> {

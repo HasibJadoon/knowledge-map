@@ -1,0 +1,504 @@
+{
+  "ok": true,
+  "base_url": "https://api.k-maps.com",
+  "source_batch_id": "wv_distill_q12_1_7",
+  "generated_batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+  "temp_user": {
+    "id": 21,
+    "email": "codex.distill.persist.20260315191701zksvl2@example.com",
+    "password": "CodexDistillPass!2026"
+  },
+  "remote_fixture": {
+    "source_id": "wv_src_q12_codex_20260315191701zksvl2",
+    "chapter_unit_id": "wv_unit_q12_codex_20260315191701zksvl2",
+    "passage_unit_id": "wv_unit_q12_1_7_codex_20260315191701zksvl2",
+    "highlight_ids": {
+      "wv_hl_q12_1_1": "wv_hl_q12_1_1_codex_20260315191701zksvl2",
+      "wv_hl_q12_2_1": "wv_hl_q12_2_1_codex_20260315191701zksvl2",
+      "wv_hl_q12_3_1": "wv_hl_q12_3_1_codex_20260315191701zksvl2",
+      "wv_hl_q12_6_1": "wv_hl_q12_6_1_codex_20260315191701zksvl2",
+      "wv_hl_q12_7_1": "wv_hl_q12_7_1_codex_20260315191701zksvl2"
+    },
+    "note_ids": {
+      "wv_note_q12_1_1": "wv_note_q12_1_1_codex_20260315191701zksvl2",
+      "wv_note_q12_2_1": "wv_note_q12_2_1_codex_20260315191701zksvl2",
+      "wv_note_q12_3_1": "wv_note_q12_3_1_codex_20260315191701zksvl2",
+      "wv_note_q12_5_1": "wv_note_q12_5_1_codex_20260315191701zksvl2",
+      "wv_note_q12_7_1": "wv_note_q12_7_1_codex_20260315191701zksvl2"
+    }
+  },
+  "requested_generation": {
+    "model": "gpt-5-mini",
+    "temperature": 0.2,
+    "max_output_tokens": 4000
+  },
+  "generate_result": {
+    "model": "gpt-5-mini",
+    "prompt_version": "wv_distill_v1",
+    "usage": {
+      "input_tokens": 3949,
+      "output_tokens": 2923,
+      "total_tokens": 6872
+    },
+    "suggestion_count": 10,
+    "item_count": 10
+  },
+  "approve_result": {
+    "committed_counts": {
+      "wv_nodes": 5,
+      "wv_node_edges": 5,
+      "wv_documents": 1,
+      "wv_document_blocks": 7,
+      "wv_block_node_links": 6
+    },
+    "batch_status": "approved"
+  },
+  "remote_db_state": {
+    "batch": {
+      "id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+      "status": "approved",
+      "prompt_version": "wv_distill_v1",
+      "model": "gpt-5-mini",
+      "generated_at": "2026-03-15T19:17:50.524Z"
+    },
+    "podcast_rows": [
+      {
+        "id": "pod_ep_wv-unit-q12-1-7-codex-20260315191701zksvl2",
+        "title": "Yusuf Passage: Clarity and Signs",
+        "content_type": "podcast_episode",
+        "status": "draft",
+        "related_type": "wv_source_unit",
+        "related_id": "wv_unit_q12_1_7_codex_20260315191701zksvl2",
+        "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+        "topic": "Yusuf Passage: Clarity and Signs"
+      }
+    ],
+    "committed_counts": {
+      "nodes": 5,
+      "edges": 5,
+      "documents": 1,
+      "blocks": 7,
+      "links": 6
+    }
+  },
+  "draft_output": {
+    "wv_nodes": [
+      {
+        "id": "wv_node_q12_1_clear_book",
+        "canonical_input": "آيَاتُ الْكِتَابِ الْمُبِينِ",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "node_type": "concept",
+        "title": "Clear Book",
+        "text_plain": "The surah opens by asserting the authority and clarity of the Book.",
+        "summary": "Authority and clarity of revelation.",
+        "slug": "clear-book",
+        "status": "active",
+        "data_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "source_id": "wv_src_q12_codex_20260315191701zksvl2",
+          "source_unit_id": "wv_unit_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 1
+        }
+      },
+      {
+        "id": "wv_node_q12_2_arabic_comprehension",
+        "canonical_input": "قُرْآنًا عَرَبِيًّا — language tied to comprehension",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "node_type": "concept",
+        "title": "Arabic and Understanding",
+        "text_plain": "The Qur'an is presented in Arabic to enable reasoned comprehension.",
+        "summary": "Language facilitates grasping meaning.",
+        "slug": "arabic-understanding",
+        "status": "active",
+        "data_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "source_id": "wv_src_q12_codex_20260315191701zksvl2",
+          "source_unit_id": "wv_unit_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 2
+        }
+      },
+      {
+        "id": "wv_node_q12_3_ahsanalqasas",
+        "canonical_input": "أَحْسَنَ الْقَصَصِ — best of stories",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "node_type": "claim",
+        "title": "Best of Stories",
+        "text_plain": "The Yusuf narrative is framed as the most refined and purposeful story.",
+        "summary": "Yusuf as exemplary narrative.",
+        "slug": "best-of-stories",
+        "status": "active",
+        "data_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "source_id": "wv_src_q12_codex_20260315191701zksvl2",
+          "source_unit_id": "wv_unit_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 3
+        }
+      },
+      {
+        "id": "wv_node_q12_4_ijtiba",
+        "canonical_input": "يَجْتَبِيكَ رَبُّكَ — divine selection",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "node_type": "concept",
+        "title": "Divine Selection",
+        "text_plain": "Yusuf is depicted as chosen by God, marked by divine favor and guidance.",
+        "summary": "Yusuf's election by God.",
+        "slug": "divine-selection",
+        "status": "active",
+        "data_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "source_id": "wv_src_q12_codex_20260315191701zksvl2",
+          "source_unit_id": "wv_unit_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 4
+        }
+      },
+      {
+        "id": "wv_node_q12_5_signs_seekers",
+        "canonical_input": "آيَاتٌ لِّلسَّائِلِينَ — signs for seekers",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "node_type": "lesson",
+        "title": "Signs for Seekers",
+        "text_plain": "The story yields signs and lessons to those who actively inquire and seek meaning.",
+        "summary": "Story as guidance for seekers.",
+        "slug": "signs-for-seekers",
+        "status": "active",
+        "data_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "source_id": "wv_src_q12_codex_20260315191701zksvl2",
+          "source_unit_id": "wv_unit_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 5
+        }
+      }
+    ],
+    "wv_node_edges": [
+      {
+        "id": "wv_edge_q12_1",
+        "canonical_input": "Arabic supports comprehension",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "from_node_id": "wv_node_q12_2_arabic_comprehension",
+        "to_node_id": "wv_node_q12_1_clear_book",
+        "relation_type": "supports",
+        "strength": 0.9,
+        "order_index": 1,
+        "note": "Language choice strengthens the Book's clarity claim.",
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 1
+        }
+      },
+      {
+        "id": "wv_edge_q12_2",
+        "canonical_input": "Best of stories derived from Clear Book",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "from_node_id": "wv_node_q12_3_ahsanalqasas",
+        "to_node_id": "wv_node_q12_1_clear_book",
+        "relation_type": "derived_from",
+        "strength": 0.85,
+        "order_index": 2,
+        "note": "Narrative framing flows from the Book's authority.",
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 2
+        }
+      },
+      {
+        "id": "wv_edge_q12_3",
+        "canonical_input": "Divine selection illustrates the narrative",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "from_node_id": "wv_node_q12_4_ijtiba",
+        "to_node_id": "wv_node_q12_3_ahsanalqasas",
+        "relation_type": "illustrates",
+        "strength": 0.8,
+        "order_index": 3,
+        "note": "Yusuf's chosenness exemplifies the story's purpose.",
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 3
+        }
+      },
+      {
+        "id": "wv_edge_q12_4",
+        "canonical_input": "Signs relate to the story",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "from_node_id": "wv_node_q12_5_signs_seekers",
+        "to_node_id": "wv_node_q12_3_ahsanalqasas",
+        "relation_type": "related_to",
+        "strength": 0.9,
+        "order_index": 4,
+        "note": "Seekers find signs within the exemplary narrative.",
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 4
+        }
+      },
+      {
+        "id": "wv_edge_q12_5",
+        "canonical_input": "Divine selection supports signs for seekers",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "from_node_id": "wv_node_q12_4_ijtiba",
+        "to_node_id": "wv_node_q12_5_signs_seekers",
+        "relation_type": "supports",
+        "strength": 0.75,
+        "order_index": 5,
+        "note": "Yusuf's selection provides material for seekers' reflection.",
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 5
+        }
+      }
+    ],
+    "wv_documents": [
+      {
+        "id": "wv_doc_q12_passage1_studynote",
+        "canonical_input": "Study note for 12:1-7",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "doc_type": "study_note",
+        "title": "Yusuf Passage 1 Notes",
+        "summary": "Key concepts: clear Book, Arabic comprehension, exemplary story, divine choice, signs for seekers.",
+        "cover_image_url": null,
+        "status": "active",
+        "related_node_id": "wv_node_q12_1_clear_book",
+        "document_json": {
+          "source_id": "wv_src_q12_codex_20260315191701zksvl2",
+          "source_unit_id": "wv_unit_q12_1_7_codex_20260315191701zksvl2"
+        },
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2"
+        }
+      }
+    ],
+    "wv_document_blocks": [
+      {
+        "id": "wv_blk_q12_b1",
+        "canonical_input": "Heading: Passage 12:1-7",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "document_id": "wv_doc_q12_passage1_studynote",
+        "parent_block_id": null,
+        "order_index": 1,
+        "block_type": "heading",
+        "block_level": 1,
+        "text_plain": "Passage 12:1-7 — Key points",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 1
+        }
+      },
+      {
+        "id": "wv_blk_q12_b2",
+        "canonical_input": "Paragraph: Clear Book",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "document_id": "wv_doc_q12_passage1_studynote",
+        "parent_block_id": null,
+        "order_index": 2,
+        "block_type": "paragraph",
+        "block_level": 1,
+        "text_plain": "Opens by asserting the authority of the clear Book.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 2
+        }
+      },
+      {
+        "id": "wv_blk_q12_b3",
+        "canonical_input": "Bullet: Arabic revelation",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "document_id": "wv_doc_q12_passage1_studynote",
+        "parent_block_id": null,
+        "order_index": 3,
+        "block_type": "bullet_item",
+        "block_level": 1,
+        "text_plain": "The Qur'an is Arabic so people may reason and understand.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 3
+        }
+      },
+      {
+        "id": "wv_blk_q12_b4",
+        "canonical_input": "Bullet: Best of stories",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "document_id": "wv_doc_q12_passage1_studynote",
+        "parent_block_id": null,
+        "order_index": 4,
+        "block_type": "bullet_item",
+        "block_level": 1,
+        "text_plain": "The Yusuf narrative is presented as the finest form of story.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 4
+        }
+      },
+      {
+        "id": "wv_blk_q12_b5",
+        "canonical_input": "Bullet: Discretion and parenting",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "document_id": "wv_doc_q12_passage1_studynote",
+        "parent_block_id": null,
+        "order_index": 5,
+        "block_type": "bullet_item",
+        "block_level": 1,
+        "text_plain": "Ya'qub advises discretion, avoiding envy and harm.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 5
+        }
+      },
+      {
+        "id": "wv_blk_q12_b6",
+        "canonical_input": "Bullet: Divine selection noted",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "document_id": "wv_doc_q12_passage1_studynote",
+        "parent_block_id": null,
+        "order_index": 6,
+        "block_type": "bullet_item",
+        "block_level": 1,
+        "text_plain": "God chooses Yusuf and teaches him interpretation.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 6
+        }
+      },
+      {
+        "id": "wv_blk_q12_b7",
+        "canonical_input": "Callout: Signs for seekers",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "document_id": "wv_doc_q12_passage1_studynote",
+        "parent_block_id": null,
+        "order_index": 7,
+        "block_type": "callout",
+        "block_level": 1,
+        "text_plain": "The story yields signs to those who ask and seek.",
+        "content_json": {},
+        "attrs_json": {},
+        "meta_json": {
+          "batch_id": "wv_distill_q12_1_7_codex_20260315191701zksvl2",
+          "order_index": 7
+        }
+      }
+    ],
+    "wv_block_node_links": [
+      {
+        "id": "wv_bnl_q12_1",
+        "canonical_input": "Block 2 mentions Clear Book",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "block_id": "wv_blk_q12_b2",
+        "node_id": "wv_node_q12_1_clear_book",
+        "relation": "mentions"
+      },
+      {
+        "id": "wv_bnl_q12_2",
+        "canonical_input": "Block 3 mentions Arabic comprehension",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "block_id": "wv_blk_q12_b3",
+        "node_id": "wv_node_q12_2_arabic_comprehension",
+        "relation": "mentions"
+      },
+      {
+        "id": "wv_bnl_q12_3",
+        "canonical_input": "Block 4 references best of stories",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "block_id": "wv_blk_q12_b4",
+        "node_id": "wv_node_q12_3_ahsanalqasas",
+        "relation": "references"
+      },
+      {
+        "id": "wv_bnl_q12_4",
+        "canonical_input": "Block 6 mentions divine selection",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "block_id": "wv_blk_q12_b6",
+        "node_id": "wv_node_q12_4_ijtiba",
+        "relation": "mentions"
+      },
+      {
+        "id": "wv_bnl_q12_5",
+        "canonical_input": "Block 7 illustrates signs for seekers",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "block_id": "wv_blk_q12_b7",
+        "node_id": "wv_node_q12_5_signs_seekers",
+        "relation": "illustrates"
+      },
+      {
+        "id": "wv_bnl_q12_6",
+        "canonical_input": "Block 5 supports discretion insight",
+        "workspace_id": "ws_quran",
+        "group_id": "grp_tafsir",
+        "user_id": 21,
+        "block_id": "wv_blk_q12_b5",
+        "node_id": "wv_node_q12_3_ahsanalqasas",
+        "relation": "supports"
+      }
+    ],
+    "podcast_episode": {
+      "id": "pod_q12_passage1",
+      "source_unit_id": "wv_unit_q12_1_7_codex_20260315191701zksvl2",
+      "title": "Yusuf Passage: Clarity and Signs",
+      "hook": "How does this opening of Surah Yusuf teach reading, language, and purpose?",
+      "intro": "We unpack 12:1–7: authority of the Book, language, narrative framing, and guidance.",
+      "main_points": [
+        "The surah begins by claiming a clear, authoritative Book.",
+        "The Qur'an is given in Arabic to facilitate understanding.",
+        "The Yusuf story is presented as exemplary narrative.",
+        "God's selection of Yusuf shapes the story's meaning.",
+        "The narrative offers signs to active seekers."
+      ],
+      "closing": "Reflect on how language, narrative, and divine choice guide seekers through the Yusuf story."
+    }
+  }
+}

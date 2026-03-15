@@ -24,6 +24,9 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     if (!user) {
       return json({ ok: false, error: 'Unauthorized' }, 401);
     }
+    if (user.role !== 'admin') {
+      return json({ ok: false, error: 'Admin role required.' }, 403);
+    }
 
     const db = ctx.env.DB;
     if (!(await hasTable(db, 'wv_insight_suggestions')) || !(await hasTable(db, 'wv_insight_decisions'))) {

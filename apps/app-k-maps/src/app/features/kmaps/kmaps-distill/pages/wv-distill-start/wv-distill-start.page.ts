@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
@@ -9,6 +9,7 @@ import { WvDistillService } from '../../../../../shared/services/wv-distill.serv
 import { WvHighlightsService } from '../../../../../shared/services/wv-highlights.service';
 import { WvNotesService } from '../../../../../shared/services/wv-notes.service';
 import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
+import { WorldviewApiService } from '../../../../../shared/services/worldview-api.service';
 
 @Component({
   selector: 'app-wv-distill-start-page',
@@ -26,20 +27,76 @@ export class WvDistillStartPage {
   private readonly highlightsService = inject(WvHighlightsService);
   private readonly notesService = inject(WvNotesService);
   private readonly distillService = inject(WvDistillService);
+  private readonly worldviewApi = inject(WorldviewApiService);
+
+  private requestVersion = 0;
 
   readonly unitId = signal('');
   readonly unit = computed(() => this.workflow.getUnit(this.unitId()));
   readonly source = computed(() => this.workflow.getSource(this.unit()?.sourceId || ''));
   readonly notes = computed(() => this.notesService.listForUnit(this.source()?.id || '', this.unitId()));
   readonly highlights = computed(() => this.highlightsService.listForUnit(this.source()?.id || '', this.unitId()));
+  readonly existingBatchId = signal<string | null>(null);
+  readonly existingBatchStatus = signal<'draft' | 'active' | 'completed' | null>(null);
+  readonly existingBatchLoading = signal(false);
+  readonly localBatch = computed(() => this.distillService.getBatchForUnit(this.unitId()));
+  readonly localBatchStatus = computed(() => this.localBatch()?.status ?? null);
+  readonly distillLocked = computed(() => this.existingBatchId() != null);
+  readonly actionLabel = computed(() => {
+    if (this.distillLocked()) {
+      return this.existingBatchStatus() === 'completed' ? 'Open Existing Output' : 'Open Existing Distill';
+    }
+
+    if (this.localBatchStatus() === 'completed') {
+      return 'Open Existing Output';
+    }
+
+    if (this.localBatchStatus() === 'active') {
+      return 'Open Existing Distill';
+    }
+
+    if (this.localBatchStatus() === 'draft') {
+      return 'Continue Draft';
+    }
+
+    return 'Start Distill';
+  });
+  readonly actionDisabled = computed(() =>
+    !this.distillLocked()
+    && !this.localBatch()
+    && !this.notes().length
+    && !this.highlights().length,
+  );
 
   constructor() {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       this.unitId.set(params.get('unitId') || '');
     });
+
+    effect(() => {
+      if (this.unitId() && this.unit()?.sourceId) {
+        void this.loadExistingBatch();
+      }
+    });
   }
 
   startDistill(): void {
+    if (this.distillLocked()) {
+      void this.router.navigate(this.existingDistillRoute(this.existingBatchId()!, this.existingBatchStatus() ?? 'active'));
+      return;
+    }
+
+    const localBatch = this.localBatch();
+    if (localBatch && localBatch.status !== 'draft') {
+      void this.router.navigate(this.existingDistillRoute(localBatch.id, localBatch.status));
+      return;
+    }
+
+    if (localBatch) {
+      void this.router.navigate(this.builderRoute(localBatch.id));
+      return;
+    }
+
     const source = this.source();
     const unit = this.unit();
     if (!source || !unit) {
@@ -69,5 +126,66 @@ export class WvDistillStartPage {
     return this.routeRoot() === 'wv'
       ? ['/wv', 'distill', 'batch', batchId]
       : ['/worldview', 'distill', 'batch', batchId];
+  }
+
+  private existingDistillRoute(batchId: string, status: 'draft' | 'active' | 'completed'): string[] {
+    if (status === 'completed') {
+      return this.routeRoot() === 'wv'
+        ? ['/wv', 'source', this.source()?.id || '', 'unit', this.unit()?.id || '', 'content']
+        : ['/worldview', 'sources', this.source()?.id || '', 'units', this.unit()?.id || '', 'content'];
+    }
+
+    return this.routeRoot() === 'wv'
+      ? ['/wv', 'suggestions', batchId]
+      : ['/worldview', 'suggestions', batchId];
+  }
+
+  private async loadExistingBatch(): Promise<void> {
+    const source = this.source();
+    const unit = this.unit();
+    if (!source || !unit) {
+      this.existingBatchId.set(null);
+      this.existingBatchStatus.set(null);
+      this.existingBatchLoading.set(false);
+      return;
+    }
+
+    const requestVersion = ++this.requestVersion;
+    this.existingBatchLoading.set(true);
+
+    this.worldviewApi
+      .fetchDistillBatchForUnit({
+        sourceId: source.id,
+        sourceUnitId: unit.id,
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (snapshot) => {
+          if (requestVersion !== this.requestVersion) {
+            return;
+          }
+
+          if (!snapshot) {
+            this.existingBatchId.set(null);
+            this.existingBatchStatus.set(null);
+            this.existingBatchLoading.set(false);
+            return;
+          }
+
+          this.distillService.hydrateBatch(snapshot.batch, snapshot.items);
+          this.existingBatchId.set(snapshot.batch.id);
+          this.existingBatchStatus.set(snapshot.batch.status);
+          this.existingBatchLoading.set(false);
+        },
+        error: () => {
+          if (requestVersion !== this.requestVersion) {
+            return;
+          }
+
+          this.existingBatchId.set(null);
+          this.existingBatchStatus.set(null);
+          this.existingBatchLoading.set(false);
+        },
+      });
   }
 }
