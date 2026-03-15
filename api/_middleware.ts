@@ -6,7 +6,7 @@ interface Env {
   JWT_SECRET: string;
 }
 
-const staticAssetPattern = /\.(?:css|js|mjs|map|ico|png|jpg|jpeg|svg|webp|woff2?|ttf|eot)$/i;
+const staticAssetPattern = /\.(?:css|js|mjs|map|ico|png|jpg|jpeg|svg|webp|woff2?|ttf|eot|webmanifest)$/i;
 
 const allowedOrigins = new Set([
   'https://k-maps.com',

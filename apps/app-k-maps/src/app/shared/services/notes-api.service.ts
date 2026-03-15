@@ -191,6 +191,10 @@ function resolveApiRoot(apiBase: string): string {
     return '/api';
   }
 
+  if (/^https?:\/\//i.test(normalized)) {
+    return normalized;
+  }
+
   return normalized.endsWith('/api') ? normalized : `${normalized}/api`;
 }
 
