@@ -441,7 +441,14 @@ function asRecord(value: unknown): Record<string, unknown> | null {
 
 function compactRecord(value: Record<string, unknown>): Record<string, unknown> | null {
   const entries = Object.entries(value).filter(([, entry]) => entry != null);
-  return entries.length ? Object.fromEntries(entries) : null;
+  if (!entries.length) {
+    return null;
+  }
+
+  return entries.reduce<Record<string, unknown>>((result, [key, entry]) => {
+    result[key] = entry;
+    return result;
+  }, {});
 }
 
 function parseRecord(value: unknown): Record<string, unknown> | null {
