@@ -14,6 +14,7 @@ type TestInput = {
   system: string | null;
   model: string | null;
   maxOutputTokens: number | null;
+  temperature: number | null;
 };
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
@@ -39,6 +40,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
         system: input.system,
         model: input.model,
         maxOutputTokens: input.maxOutputTokens,
+        temperature: input.temperature,
       },
       ctx.env,
     );
@@ -67,12 +69,14 @@ function normalizeInput(body: Record<string, unknown>): TestInput | null {
   const system = readOptionalString(body['system']);
   const model = readOptionalString(body['model']);
   const maxOutputTokens = readOptionalNumber(body['maxOutputTokens'] ?? body['max_output_tokens']);
+  const temperature = readOptionalNumber(body['temperature']);
 
   return {
     prompt,
     system,
     model,
     maxOutputTokens,
+    temperature,
   };
 }
 

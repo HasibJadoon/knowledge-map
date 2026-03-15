@@ -12,6 +12,7 @@ import {
   mapSuggestionRow,
   normalizeDistillOutput,
   slugify,
+  upsertPodcastEpisode,
 } from '../_distill';
 
 interface Env {
@@ -29,6 +30,8 @@ type GenerateInput = {
     role: string | null;
   }>;
   model: string | null;
+  maxOutputTokens: number | null;
+  temperature: number | null;
 };
 
 type SourceScope = {
@@ -102,7 +105,8 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       {
         prompt,
         model: input.model,
-        maxOutputTokens: 2_000,
+        maxOutputTokens: input.maxOutputTokens ?? 2_000,
+        temperature: input.temperature,
       },
       ctx.env,
     );
@@ -144,6 +148,13 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       sourceItemIds: input.items.map((item) => item.itemId),
     });
 
+    await upsertPodcastEpisode(db, draftOutput.podcast_episode, {
+      batchId: input.batchId,
+      sourceId: input.sourceId,
+      sourceUnitId: input.sourceUnitId,
+      userId: user.id,
+    });
+
     const snapshot = await loadDistillBatchSnapshot(db, input.batchId, user.id);
     if (!snapshot) {
       return json({ ok: false, error: 'Distill batch was generated but could not be loaded.' }, 500);
@@ -177,6 +188,7 @@ async function ensureTables(db: D1Database): Promise<boolean> {
     'wv_source_units',
     'wv_notes',
     'wv_highlights',
+    'wv_content_items',
   ];
 
   for (const table of required) {
@@ -219,6 +231,8 @@ function normalizeInput(body: Record<string, unknown>): GenerateInput | null {
     sourceUnitId,
     items,
     model: readOptionalString(body['model']),
+    maxOutputTokens: readOptionalNumber(body['maxOutputTokens'] ?? body['max_output_tokens']),
+    temperature: readOptionalNumber(body['temperature']),
   };
 }
 
@@ -681,6 +695,10 @@ function readStringArray(value: unknown): string[] | null {
 }
 
 function readNumber(value: unknown): number | null {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+function readOptionalNumber(value: unknown): number | null {
   return typeof value === 'number' && Number.isFinite(value) ? value : null;
 }
 

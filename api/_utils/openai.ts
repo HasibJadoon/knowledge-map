@@ -3,6 +3,7 @@ type OpenAITextRequest = {
   system?: string | null;
   model?: string | null;
   maxOutputTokens?: number | null;
+  temperature?: number | null;
 };
 
 type OpenAIResponsesUsage = {
@@ -24,6 +25,7 @@ type OpenAIEnv = {
 
 const DEFAULT_MODEL = 'gpt-5-mini';
 const DEFAULT_MAX_OUTPUT_TOKENS = 300;
+const MAX_OUTPUT_TOKENS_LIMIT = 4_000;
 
 export async function runOpenAITextPrompt(
   input: OpenAITextRequest,
@@ -41,6 +43,7 @@ export async function runOpenAITextPrompt(
 
   const model = input.model?.trim() || DEFAULT_MODEL;
   const maxOutputTokens = clampMaxOutputTokens(input.maxOutputTokens);
+  const temperature = clampTemperature(input.temperature);
   const system = input.system?.trim();
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -56,6 +59,7 @@ export async function runOpenAITextPrompt(
         { role: 'user', content: prompt },
       ],
       max_completion_tokens: maxOutputTokens,
+      ...(temperature == null ? {} : { temperature }),
     }),
   });
 
@@ -83,7 +87,15 @@ function clampMaxOutputTokens(value: number | null | undefined): number {
     return DEFAULT_MAX_OUTPUT_TOKENS;
   }
 
-  return Math.min(Math.max(Math.trunc(value as number), 1), 2_000);
+  return Math.min(Math.max(Math.trunc(value as number), 1), MAX_OUTPUT_TOKENS_LIMIT);
+}
+
+function clampTemperature(value: number | null | undefined): number | null {
+  if (!Number.isFinite(value)) {
+    return null;
+  }
+
+  return Math.min(Math.max(Number(value), 0), 2);
 }
 
 function readErrorMessage(payload: Record<string, unknown> | null): string {
