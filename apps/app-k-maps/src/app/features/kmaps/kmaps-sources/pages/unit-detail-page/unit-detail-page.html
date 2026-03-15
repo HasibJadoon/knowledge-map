@@ -11,26 +11,6 @@
 
 <ion-content [fullscreen]="true" class="km-native-page">
   <div class="km-native-page__body km-native-page__body--with-tabs">
-    <ion-card class="km-card overview-page__hero-card">
-      <ion-card-content>
-        <p class="overview-page__source-label">{{ source()?.title || 'Source' }}</p>
-        <h1>{{ chapterTitle() }}</h1>
-
-        <div class="overview-page__progress-row">
-          <span>{{ progressLabel() }}</span>
-          <span>{{ lastReadingPositionLabel() }}</span>
-        </div>
-
-        <div class="overview-page__progress-track" aria-hidden="true">
-          <span [style.width.%]="progressPercent()"></span>
-        </div>
-
-        <button type="button" class="overview-page__primary-button" (click)="continueReading()">
-          Continue Reading
-        </button>
-      </ion-card-content>
-    </ion-card>
-
     <section class="overview-page__metric-grid">
       <ion-card
         class="km-card overview-page__metric-card"

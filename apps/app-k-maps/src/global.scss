@@ -140,6 +140,42 @@ ion-card ion-card-subtitle {
   color: rgba(var(--ion-text-color-rgb, 238, 244, 255), 0.64);
 }
 
+ion-popover.wv-read-context-menu {
+  --width: 13rem;
+  --offset-y: 0.25rem;
+}
+
+ion-popover.wv-read-context-menu::part(content) {
+  border: 1px solid var(--app-border-soft);
+  border-radius: var(--app-radius-lg);
+  background: linear-gradient(180deg, rgba(24, 38, 61, 0.98), rgba(16, 27, 46, 0.98));
+  box-shadow: var(--app-shadow-2);
+}
+
+ion-popover.wv-read-context-menu ion-list {
+  padding: 0.28rem;
+  background: transparent;
+}
+
+ion-popover.wv-read-context-menu ion-item {
+  --background: transparent;
+  --color: var(--app-text-strong);
+  --min-height: 2.55rem;
+  --padding-start: 0.72rem;
+  --inner-padding-end: 0.72rem;
+  --border-radius: 0.9rem;
+  margin: 0;
+}
+
+ion-popover.wv-read-context-menu ion-item.ion-activated,
+ion-popover.wv-read-context-menu ion-item:hover {
+  --background: var(--app-surface-soft-strong);
+}
+
+ion-popover.wv-read-context-menu ion-icon {
+  color: var(--ion-color-primary-tint);
+}
+
   .arabic-title,
   .arabic-text,
   .arabic-inline,
@@ -2933,6 +2969,24 @@ ion-modal.km-source-metadata-modal {
 }
 
 ion-modal.km-source-metadata-modal::part(content) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+ion-modal.km-source-editor-modal,
+ion-modal.km-source-unit-editor-modal {
+  --width: min(100%, 46rem);
+  --height: min(92vh, 56rem);
+  --border-radius: 1.5rem 1.5rem 0 0;
+  --box-shadow: 0 -18px 42px rgba(3, 7, 16, 0.52);
+  align-items: flex-end;
+}
+
+ion-modal.km-source-editor-modal::part(content),
+ion-modal.km-source-unit-editor-modal::part(content) {
   display: flex;
   flex-direction: column;
   min-height: 0;

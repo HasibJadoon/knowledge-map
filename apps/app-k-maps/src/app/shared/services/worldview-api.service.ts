@@ -38,6 +38,88 @@ export type WorldviewWorkflowSnapshot = {
   notes: KmapsNote[];
 };
 
+type SourceMutationApiResponse = {
+  ok?: boolean;
+  error?: string;
+  source_id?: unknown;
+  unit_ids?: unknown[];
+};
+
+type UnitMutationApiResponse = {
+  ok?: boolean;
+  error?: string;
+  unit_id?: unknown;
+};
+
+export type WorldviewSourceInput = {
+  sourceType: KmapsSourceType;
+  title: string;
+  subtitle?: string | null;
+  description?: string | null;
+  creator?: string | null;
+  publisher?: string | null;
+  publicationYear?: number | null;
+  language?: string | null;
+  sourceUrl?: string | null;
+  sourceRef?: string | null;
+};
+
+export type WorldviewSourceUnitDraftInput = {
+  clientId: string;
+  parentClientId?: string | null;
+  unitType: KmapsUnitType;
+  title: string;
+  orderIndex?: number | null;
+  startRef?: string | null;
+  endRef?: string | null;
+  anchorText?: string | null;
+  summary?: string | null;
+  readingBody?: string[];
+  readingMinutes?: number | null;
+  locatorLabel?: string | null;
+};
+
+export type WorldviewSourceUnitInput = {
+  sourceId: string;
+  parentUnitId?: string | null;
+  unitType: KmapsUnitType;
+  title: string;
+  orderIndex?: number | null;
+  startRef?: string | null;
+  endRef?: string | null;
+  anchorText?: string | null;
+  summary?: string | null;
+  readingBody?: string[];
+  readingMinutes?: number | null;
+  locatorLabel?: string | null;
+};
+
+export type CreateWorldviewSourceInput = {
+  source: WorldviewSourceInput;
+  units?: WorldviewSourceUnitDraftInput[];
+};
+
+export type UpdateWorldviewSourceInput = {
+  sourceId: string;
+  source: WorldviewSourceInput;
+};
+
+export type CreateWorldviewUnitInput = WorldviewSourceUnitInput;
+
+export type UpdateWorldviewUnitInput = {
+  unitId: string;
+  unit: Omit<WorldviewSourceUnitInput, 'sourceId'> & { sourceId?: string };
+};
+
+export type WorldviewSourceMutationResult = {
+  sourceId: string;
+  unitIds: string[];
+};
+
+export type WorldviewUnitMutationResult = {
+  unitId: string;
+};
+
 @Injectable({ providedIn: 'root' })
 export class WorldviewApiService {
   private readonly http = inject(HttpClient);
@@ -60,6 +142,43 @@ export class WorldviewApiService {
       })),
     );
   }
+
+  createSource(input: CreateWorldviewSourceInput): Observable<WorldviewSourceMutationResult> {
+    return this.http.post<SourceMutationApiResponse>(`${this.baseUrl}/source`, input).pipe(map(mapSourceMutationResponse));
+  }
+
+  updateSource(input: UpdateWorldviewSourceInput): Observable<WorldviewSourceMutationResult> {
+    return this.http.put<SourceMutationApiResponse>(`${this.baseUrl}/source`, input).pipe(map(mapSourceMutationResponse));
+  }
+
+  createUnit(input: CreateWorldviewUnitInput): Observable<WorldviewUnitMutationResult> {
+    return this.http.post<UnitMutationApiResponse>(`${this.baseUrl}/unit`, input).pipe(map(mapUnitMutationResponse));
+  }
+
+  updateUnit(input: UpdateWorldviewUnitInput): Observable<WorldviewUnitMutationResult> {
+    return this.http.put<UnitMutationApiResponse>(`${this.baseUrl}/unit`, input).pipe(map(mapUnitMutationResponse));
+  }
+}
+
+function mapSourceMutationResponse(response: SourceMutationApiResponse): WorldviewSourceMutationResult {
+  const sourceId = readTrimmed(response.source_id);
+  if (!sourceId) {
+    throw new Error(readTrimmed(response.error) ?? 'Failed to save worldview source.');
+  }
+
+  return {
+    sourceId,
+    unitIds: asArray(response.unit_ids).map(readTrimmed).filter((value): value is string => value != null),
+  };
+}
+
+function mapUnitMutationResponse(response: UnitMutationApiResponse): WorldviewUnitMutationResult {
+  const unitId = readTrimmed(response.unit_id);
+  if (!unitId) {
+    throw new Error(readTrimmed(response.error) ?? 'Failed to save worldview unit.');
+  }
+
+  return { unitId };
 }
 
 function mapSource(value: unknown): KmapsSource | null {

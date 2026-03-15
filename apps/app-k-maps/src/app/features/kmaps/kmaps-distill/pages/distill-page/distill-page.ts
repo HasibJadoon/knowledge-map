@@ -40,7 +40,6 @@ export class DistillPage {
   readonly filters: ReadonlyArray<HighlightFilterKey> = ['all', 'today', 'session', 'unprocessed'];
   readonly source = computed(() => this.workflow.getSource(this.sourceId()));
   readonly unit = computed(() => this.workflow.getUnit(this.unitId()));
-  readonly progressPercent = computed(() => clampPercent(this.source()?.progressPercent ?? 0));
   readonly highlightNotes = computed(() =>
     this.workflow
       .getNotesForUnitScope(this.sourceId(), this.unitId())
@@ -177,14 +176,6 @@ export class DistillPage {
       await navigator.clipboard.writeText(value);
     }
   }
-}
-
-function clampPercent(value: number): number {
-  if (!Number.isFinite(value)) {
-    return 0;
-  }
-
-  return Math.max(0, Math.min(100, Math.round(value)));
 }
 
 function isToday(value: string): boolean {

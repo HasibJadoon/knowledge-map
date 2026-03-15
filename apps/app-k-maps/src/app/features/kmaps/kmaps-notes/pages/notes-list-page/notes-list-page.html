@@ -4,6 +4,9 @@
   [showBackButton]="true"
   [backHref]="backHref()"
 >
+  <ion-button kmapsHeaderEnd fill="clear" aria-label="New note" (click)="openCreateNoteModal()">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-button>
 </app-kmaps-page-header>
 
 <ion-content [fullscreen]="true" class="km-native-page">
@@ -12,18 +15,6 @@
       <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
       <span>{{ parentUnit()?.title }}</span>
     </button>
-
-    <ion-card class="km-card notes-page__hero" *ngIf="unit() as currentUnit">
-      <ion-card-content>
-        <div class="notes-page__hero-head">
-          <div>
-            <p class="notes-page__source">{{ source()?.title }}</p>
-            <h1>{{ currentUnit.title }}</h1>
-          </div>
-          <button type="button" class="notes-page__create-button" (click)="openCreateNoteModal()">New Note</button>
-        </div>
-      </ion-card-content>
-    </ion-card>
 
     <section class="notes-page__filter-row">
       <button

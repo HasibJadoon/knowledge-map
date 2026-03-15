@@ -8,16 +8,6 @@
 
 <ion-content [fullscreen]="true" class="km-native-page">
   <div class="km-native-page__body km-native-page__body--with-tabs">
-    <ion-card class="km-card highlights-page__hero" *ngIf="unit() as currentUnit">
-      <ion-card-content>
-        <p class="highlights-page__source">{{ source()?.title }}</p>
-        <div class="highlights-page__hero-head">
-          <h1>{{ currentUnit.title }}</h1>
-          <span>{{ progressPercent() }}% read</span>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
     <section class="highlights-page__filter-row">
       <button
         type="button"

@@ -1,0 +1,1167 @@
+{
+  "seed_type": "wv_full_flow_seed",
+  "version": 1,
+  "workspace_id": "ws_quran",
+  "group_id": "grp_tafsir",
+  "user_id": 1,
+  "wv_sources": [
+    {
+      "id": "wv_src_q12",
+      "canonical_input": "wv_source:quran:12",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_type": "document",
+      "title": "Quran",
+      "subtitle": "Primary source text",
+      "description": "Quran source text used for worldview reading, highlighting, note-making, distillation, insight generation, node building, and document creation. Surah Yusuf is modeled as the top-level unit.",
+      "creator": "Allah",
+      "publisher": "Qur'an",
+      "publication_year": null,
+      "language": "ar",
+      "source_url": null,
+      "source_ref": "Quran",
+      "status": "active",
+      "source_json": {
+        "source_kind": "quran",
+        "title_ar": "القرآن",
+        "surah": 12,
+        "ayah_from": 1,
+        "ayah_to": 111,
+        "recentLocator": "12:1-7"
+      },
+      "meta_json": {
+        "seed_scope": "12:1-7"
+      }
+    }
+  ],
+  "wv_source_units": [
+    {
+      "id": "wv_unit_q12",
+      "canonical_input": "wv_source_unit:quran:12",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "parent_unit_id": null,
+      "unit_type": "chapter",
+      "title": "Surah Yusuf",
+      "order_index": 1,
+      "start_ref": "12:1",
+      "end_ref": "12:111",
+      "anchor_text": "سورة يوسف",
+      "summary": "Whole surah container.",
+      "unit_json": {
+        "surah": 12,
+        "title_ar": "سورة يوسف",
+        "scope": "full_surah"
+      },
+      "meta_json": {}
+    },
+    {
+      "id": "wv_unit_q12_1_7",
+      "canonical_input": "wv_source_unit:quran:12:1-7",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "parent_unit_id": "wv_unit_q12",
+      "unit_type": "passage",
+      "title": "Passage 1 (1-7)",
+      "order_index": 1,
+      "start_ref": "12:1",
+      "end_ref": "12:7",
+      "anchor_text": "الر ... آيات للسائلين",
+      "summary": "Opening passage of Surah Yusuf covering revelation, Arabic Qur'an, best of stories, the dream, caution, election, ta'wil, and signs for seekers.",
+      "unit_json": {
+        "surah": 12,
+        "ayah_from": 1,
+        "ayah_to": 7,
+        "passage_type": "opening",
+        "locatorLabel": "12:1-7",
+        "readingMinutes": 7,
+        "readingBody": [
+          "الٓرۚ تِلۡكَ ءَايَٰتُ ٱلۡكِتَٰبِ ٱلۡمُبِينِ ١",
+          "إِنَّآ أَنزَلۡنَٰهُ قُرۡءَٰنًا عَرَبِيّٗا لَّعَلَّكُمۡ تَعۡقِلُونَ ٢",
+          "نَحۡنُ نَقُصُّ عَلَيۡكَ أَحۡسَنَ ٱلۡقَصَصِ بِمَآ أَوۡحَيۡنَآ إِلَيۡكَ هَٰذَا ٱلۡقُرۡءَانَ وَإِن كُنتَ مِن قَبۡلِهِۦ لَمِنَ ٱلۡغَٰفِلِينَ ٣",
+          "إِذۡ قَالَ يُوسُفُ لِأَبِيهِ يَٰٓأَبَتِ إِنِّي رَأَيۡتُ أَحَدَ عَشَرَ كَوۡكَبٗا وَٱلشَّمۡسَ وَٱلۡقَمَرَ رَأَيۡتُهُمۡ لِي سَٰجِدِينَ ٤",
+          "قَالَ يَٰبُنَيَّ لَا تَقۡصُصۡ رُءۡيَاكَ عَلَىٰٓ إِخۡوَتِكَ فَيَكِيدُواْ لَكَ كَيۡدًاۖ إِنَّ ٱلشَّيۡطَٰنَ لِلۡإِنسَٰنِ عَدُوّٞ مُّبِينٞ ٥",
+          "وَكَذَٰلِكَ يَجۡتَبِيكَ رَبُّكَ وَيُعَلِّمُكَ مِن تَأۡوِيلِ ٱلۡأَحَادِيثِ وَيُتِمُّ نِعۡمَتَهُۥ عَلَيۡكَ وَعَلَىٰٓ ءَالِ يَعۡقُوبَ كَمَآ أَتَمَّهَا عَلَىٰٓ أَبَوَيۡكَ مِن قَبۡلُ إِبۡرَٰهِيمَ وَإِسۡحَٰقَۚ إِنَّ رَبَّكَ عَلِيمٌ حَكِيمٞ ٦",
+          "۞ لَّقَدۡ كَانَ فِي يُوسُفَ وَإِخۡوَتِهِۦٓ ءَايَٰتٞ لِّلسَّآئِلِينَ ٧"
+        ]
+      },
+      "meta_json": {}
+    }
+  ],
+  "wv_reading_sessions": [
+    {
+      "id": "wv_read_q12_1_7",
+      "canonical_input": "wv_reading_session:quran:12:1-7",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_type": "extraction",
+      "started_at": "2026-03-15 09:00:00",
+      "ended_at": "2026-03-15 09:45:00",
+      "focus_mode": "deep_read",
+      "last_position": "12:7",
+      "status": "completed",
+      "session_json": {
+        "tabs_flow": [
+          "overview",
+          "read",
+          "highlights",
+          "notes",
+          "distill"
+        ],
+        "distill_ready": true
+      },
+      "meta_json": {}
+    }
+  ],
+  "wv_highlights": [
+    {
+      "id": "wv_hl_q12_1_1",
+      "canonical_input": "wv_highlight:quran:12:1:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:1",
+      "anchor_text": "الر ۚ تِلْكَ آيَاتُ الْكِتَابِ الْمُبِينِ",
+      "selected_text": "آيَاتُ الْكِتَابِ الْمُبِينِ",
+      "start_offset": 8,
+      "end_offset": 31,
+      "color": "yellow",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 1,
+        "highlight_type": "key_phrase",
+        "tags": ["revelation", "book", "clarity"],
+        "note_hint": "The surah opens with the authority of the clear Book.",
+        "order_in_ayah": 1,
+        "order_in_passage": 1
+      }
+    },
+    {
+      "id": "wv_hl_q12_2_1",
+      "canonical_input": "wv_highlight:quran:12:2:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:2",
+      "anchor_text": "إِنَّآ أَنزَلْنَاهُ قُرْآنًا عَرَبِيًّا لَّعَلَّكُمْ تَعْقِلُونَ",
+      "selected_text": "قُرْآنًا عَرَبِيًّا",
+      "start_offset": 13,
+      "end_offset": 29,
+      "color": "blue",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 2,
+        "highlight_type": "key_phrase",
+        "tags": ["quran", "arabic", "understanding"],
+        "note_hint": "Language is tied to comprehension.",
+        "order_in_ayah": 1,
+        "order_in_passage": 2
+      }
+    },
+    {
+      "id": "wv_hl_q12_2_2",
+      "canonical_input": "wv_highlight:quran:12:2:2",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:2",
+      "anchor_text": "إِنَّآ أَنزَلْنَاهُ قُرْآنًا عَرَبِيًّا لَّعَلَّكُمْ تَعْقِلُونَ",
+      "selected_text": "لَّعَلَّكُمْ تَعْقِلُونَ",
+      "start_offset": 30,
+      "end_offset": 47,
+      "color": "green",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 2,
+        "highlight_type": "theme",
+        "tags": ["reason", "understanding", "purpose"],
+        "note_hint": "Revelation aims at عقل and understanding.",
+        "order_in_ayah": 2,
+        "order_in_passage": 3
+      }
+    },
+    {
+      "id": "wv_hl_q12_3_1",
+      "canonical_input": "wv_highlight:quran:12:3:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:3",
+      "anchor_text": "نَحْنُ نَقُصُّ عَلَيْكَ أَحْسَنَ الْقَصَصِ",
+      "selected_text": "أَحْسَنَ الْقَصَصِ",
+      "start_offset": 18,
+      "end_offset": 33,
+      "color": "purple",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 3,
+        "highlight_type": "headline_phrase",
+        "tags": ["story", "narrative", "ahsanalqasas"],
+        "note_hint": "This phrase frames the entire surah.",
+        "order_in_ayah": 1,
+        "order_in_passage": 4
+      }
+    },
+    {
+      "id": "wv_hl_q12_3_2",
+      "canonical_input": "wv_highlight:quran:12:3:2",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:3",
+      "anchor_text": "وَإِن كُنتَ مِن قَبْلِهِ لَمِنَ الْغَافِلِينَ",
+      "selected_text": "لَمِنَ الْغَافِلِينَ",
+      "start_offset": 22,
+      "end_offset": 36,
+      "color": "orange",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 3,
+        "highlight_type": "contrast",
+        "tags": ["revelation", "unknown-before", "prophethood"],
+        "note_hint": "The Prophet did not previously know this narrative independently.",
+        "order_in_ayah": 2,
+        "order_in_passage": 5
+      }
+    },
+    {
+      "id": "wv_hl_q12_4_1",
+      "canonical_input": "wv_highlight:quran:12:4:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:4",
+      "anchor_text": "إِنِّي رَأَيْتُ أَحَدَ عَشَرَ كَوْكَبًا",
+      "selected_text": "أَحَدَ عَشَرَ كَوْكَبًا",
+      "start_offset": 10,
+      "end_offset": 27,
+      "color": "yellow",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 4,
+        "highlight_type": "symbolic_image",
+        "tags": ["dream", "stars", "symbolism"],
+        "note_hint": "The dream begins with celestial symbolism.",
+        "order_in_ayah": 1,
+        "order_in_passage": 6
+      }
+    },
+    {
+      "id": "wv_hl_q12_4_2",
+      "canonical_input": "wv_highlight:quran:12:4:2",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:4",
+      "anchor_text": "وَالشَّمْسَ وَالْقَمَرَ رَأَيْتُهُمْ لِي سَاجِدِينَ",
+      "selected_text": "لِي سَاجِدِينَ",
+      "start_offset": 28,
+      "end_offset": 39,
+      "color": "pink",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 4,
+        "highlight_type": "symbolic_image",
+        "tags": ["prostration", "honor", "future-fulfillment"],
+        "note_hint": "The dream implies a future elevation and recognition.",
+        "order_in_ayah": 2,
+        "order_in_passage": 7
+      }
+    },
+    {
+      "id": "wv_hl_q12_5_1",
+      "canonical_input": "wv_highlight:quran:12:5:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:5",
+      "anchor_text": "لَا تَقْصُصْ رُؤْيَاكَ عَلَىٰ إِخْوَتِكَ",
+      "selected_text": "لَا تَقْصُصْ رُؤْيَاكَ عَلَىٰ إِخْوَتِكَ",
+      "start_offset": 0,
+      "end_offset": 30,
+      "color": "red",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 5,
+        "highlight_type": "warning",
+        "tags": ["discretion", "dream", "brothers"],
+        "note_hint": "Not every truth should be disclosed to every audience.",
+        "order_in_ayah": 1,
+        "order_in_passage": 8
+      }
+    },
+    {
+      "id": "wv_hl_q12_5_2",
+      "canonical_input": "wv_highlight:quran:12:5:2",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:5",
+      "anchor_text": "فَيَكِيدُوا لَكَ كَيْدًا ۖ إِنَّ الشَّيْطَانَ لِلْإِنسَانِ عَدُوٌّ مُّبِينٌ",
+      "selected_text": "فَيَكِيدُوا لَكَ كَيْدًا",
+      "start_offset": 0,
+      "end_offset": 19,
+      "color": "orange",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 5,
+        "highlight_type": "threat",
+        "tags": ["plot", "envy", "danger"],
+        "note_hint": "Envy can turn inner resentment into active plotting.",
+        "order_in_ayah": 2,
+        "order_in_passage": 9
+      }
+    },
+    {
+      "id": "wv_hl_q12_6_1",
+      "canonical_input": "wv_highlight:quran:12:6:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:6",
+      "anchor_text": "وَكَذَٰلِكَ يَجْتَبِيكَ رَبُّكَ",
+      "selected_text": "يَجْتَبِيكَ رَبُّكَ",
+      "start_offset": 9,
+      "end_offset": 24,
+      "color": "purple",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 6,
+        "highlight_type": "core_concept",
+        "tags": ["election", "divine-choice", "ijtiba"],
+        "note_hint": "Yusuf is not merely talented; he is chosen.",
+        "order_in_ayah": 1,
+        "order_in_passage": 10
+      }
+    },
+    {
+      "id": "wv_hl_q12_6_2",
+      "canonical_input": "wv_highlight:quran:12:6:2",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:6",
+      "anchor_text": "وَيُعَلِّمُكَ مِن تَأْوِيلِ الْأَحَادِيثِ",
+      "selected_text": "تَأْوِيلِ الْأَحَادِيثِ",
+      "start_offset": 12,
+      "end_offset": 30,
+      "color": "blue",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 6,
+        "highlight_type": "knowledge_theme",
+        "tags": ["tawil", "interpretation", "knowledge"],
+        "note_hint": "Chosen status is paired with interpretive knowledge.",
+        "order_in_ayah": 2,
+        "order_in_passage": 11
+      }
+    },
+    {
+      "id": "wv_hl_q12_6_3",
+      "canonical_input": "wv_highlight:quran:12:6:3",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:6",
+      "anchor_text": "وَيُتِمُّ نِعْمَتَهُ عَلَيْكَ وَعَلَىٰ آلِ يَعْقُوبَ",
+      "selected_text": "وَيُتِمُّ نِعْمَتَهُ عَلَيْكَ",
+      "start_offset": 0,
+      "end_offset": 22,
+      "color": "green",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 6,
+        "highlight_type": "promise",
+        "tags": ["favor", "completion", "ni'mah"],
+        "note_hint": "Election leads into the completion of divine favor.",
+        "order_in_ayah": 3,
+        "order_in_passage": 12
+      }
+    },
+    {
+      "id": "wv_hl_q12_7_1",
+      "canonical_input": "wv_highlight:quran:12:7:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "locator": "12:7",
+      "anchor_text": "لَقَدْ كَانَ فِي يُوسُفَ وَإِخْوَتِهِ آيَاتٌ لِّلسَّائِلِينَ",
+      "selected_text": "آيَاتٌ لِّلسَّائِلِينَ",
+      "start_offset": 27,
+      "end_offset": 45,
+      "color": "yellow",
+      "meta_json": {
+        "surah": 12,
+        "ayah": 7,
+        "highlight_type": "thesis",
+        "tags": ["signs", "seekers", "questions"],
+        "note_hint": "This is the passage thesis statement.",
+        "order_in_ayah": 1,
+        "order_in_passage": 13
+      }
+    }
+  ],
+  "wv_notes": [
+    {
+      "id": "wv_note_q12_1_1",
+      "canonical_input": "wv_note:quran:12:1:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "highlight_id": "wv_hl_q12_1_1",
+      "note_kind": "reflection",
+      "title": "Clear Book",
+      "body_md": "The surah opens by grounding the entire narrative in the authority and clarity of **the clear Book**.",
+      "excerpt_text": "آيَاتُ الْكِتَابِ الْمُبِينِ",
+      "locator": "12:1",
+      "status": "active",
+      "note_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_note_q12_2_1",
+      "canonical_input": "wv_note:quran:12:2:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "highlight_id": "wv_hl_q12_2_1",
+      "note_kind": "observation",
+      "title": "Arabic Revelation",
+      "body_md": "The text ties revelation to comprehension: the Qur'an is Arabic so that people may reason and grasp its meanings.",
+      "excerpt_text": "قُرْآنًا عَرَبِيًّا",
+      "locator": "12:2",
+      "status": "active",
+      "note_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_note_q12_3_1",
+      "canonical_input": "wv_note:quran:12:3:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "highlight_id": "wv_hl_q12_3_1",
+      "note_kind": "insight",
+      "title": "Best of Stories",
+      "body_md": "The Qur'an presents the Yusuf narrative not merely as history, but as the most refined and purposeful form of story.",
+      "excerpt_text": "أَحْسَنَ الْقَصَصِ",
+      "locator": "12:3",
+      "status": "active",
+      "note_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_note_q12_5_1",
+      "canonical_input": "wv_note:quran:12:5:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "highlight_id": null,
+      "note_kind": "reflection",
+      "title": "Prophetic Parenting and Discretion",
+      "body_md": "Ya'qub teaches that not every truth should be publicly disclosed; wisdom includes timing, audience, and protection from envy.",
+      "excerpt_text": "لَا تَقْصُصْ رُؤْيَاكَ عَلَىٰ إِخْوَتِكَ",
+      "locator": "12:5",
+      "status": "active",
+      "note_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_note_q12_7_1",
+      "canonical_input": "wv_note:quran:12:7:1",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "source_id": "wv_src_q12",
+      "source_unit_id": "wv_unit_q12_1_7",
+      "session_id": "wv_read_q12_1_7",
+      "highlight_id": "wv_hl_q12_7_1",
+      "note_kind": "insight",
+      "title": "Signs for Seekers",
+      "body_md": "This story is not passive reading material; it yields signs to those who approach it with questions and active seeking.",
+      "excerpt_text": "آيَاتٌ لِّلسَّائِلِينَ",
+      "locator": "12:7",
+      "status": "active",
+      "note_json": {},
+      "meta_json": {}
+    }
+  ],
+  "wv_distill_batches": [
+    {
+      "id": "wv_distill_q12_1_7",
+      "canonical_input": "wv_distill_batch:quran:12:1-7",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "batch_type": "distill",
+      "title": "Distill Surah Yusuf 12:1-7",
+      "instructions_md": "Convert notes and highlights from Surah Yusuf 12:1-7 into concepts, claims, links, and a structured study document.",
+      "status": "ready",
+      "batch_json": {
+        "source_id": "wv_src_q12",
+        "source_unit_id": "wv_unit_q12_1_7"
+      },
+      "meta_json": {}
+    }
+  ],
+  "wv_distill_batch_items": [
+    {
+      "workspace_id": "ws_quran",
+      "batch_id": "wv_distill_q12_1_7",
+      "item_type": "highlight",
+      "item_id": "wv_hl_q12_1_1",
+      "order_index": 1,
+      "role": "evidence"
+    },
+    {
+      "workspace_id": "ws_quran",
+      "batch_id": "wv_distill_q12_1_7",
+      "item_type": "highlight",
+      "item_id": "wv_hl_q12_2_1",
+      "order_index": 2,
+      "role": "evidence"
+    },
+    {
+      "workspace_id": "ws_quran",
+      "batch_id": "wv_distill_q12_1_7",
+      "item_type": "highlight",
+      "item_id": "wv_hl_q12_3_1",
+      "order_index": 3,
+      "role": "evidence"
+    },
+    {
+      "workspace_id": "ws_quran",
+      "batch_id": "wv_distill_q12_1_7",
+      "item_type": "highlight",
+      "item_id": "wv_hl_q12_6_1",
+      "order_index": 4,
+      "role": "evidence"
+    },
+    {
+      "workspace_id": "ws_quran",
+      "batch_id": "wv_distill_q12_1_7",
+      "item_type": "highlight",
+      "item_id": "wv_hl_q12_7_1",
+      "order_index": 5,
+      "role": "evidence"
+    },
+    {
+      "workspace_id": "ws_quran",
+      "batch_id": "wv_distill_q12_1_7",
+      "item_type": "note",
+      "item_id": "wv_note_q12_1_1",
+      "order_index": 6,
+      "role": "reflection"
+    },
+    {
+      "workspace_id": "ws_quran",
+      "batch_id": "wv_distill_q12_1_7",
+      "item_type": "note",
+      "item_id": "wv_note_q12_2_1",
+      "order_index": 7,
+      "role": "observation"
+    },
+    {
+      "workspace_id": "ws_quran",
+      "batch_id": "wv_distill_q12_1_7",
+      "item_type": "note",
+      "item_id": "wv_note_q12_3_1",
+      "order_index": 8,
+      "role": "insight"
+    },
+    {
+      "workspace_id": "ws_quran",
+      "batch_id": "wv_distill_q12_1_7",
+      "item_type": "note",
+      "item_id": "wv_note_q12_5_1",
+      "order_index": 9,
+      "role": "reflection"
+    },
+    {
+      "workspace_id": "ws_quran",
+      "batch_id": "wv_distill_q12_1_7",
+      "item_type": "note",
+      "item_id": "wv_note_q12_7_1",
+      "order_index": 10,
+      "role": "insight"
+    }
+  ],
+  "wv_insight_suggestions": [
+    {
+      "id": "wv_sug_q12_1_7_concept_revelation",
+      "canonical_input": "wv_insight_suggestion:quran:12:1-7:concept:revelation",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "batch_id": "wv_distill_q12_1_7",
+      "user_id": 1,
+      "suggestion_type": "node",
+      "payload_json": {
+        "node_type": "concept",
+        "node_id": "wv_node_q12_1_7_revelation",
+        "title": "Clear Revelation",
+        "summary": "The passage opens by asserting the Qur'an as a clear book and intelligible revelation."
+      },
+      "confidence": 0.97,
+      "rationale": "Derived from ayahs 1-2 and related notes.",
+      "status": "approved",
+      "meta_json": {}
+    },
+    {
+      "id": "wv_sug_q12_1_7_claim_story",
+      "canonical_input": "wv_insight_suggestion:quran:12:1-7:claim:best-story",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "batch_id": "wv_distill_q12_1_7",
+      "user_id": 1,
+      "suggestion_type": "node",
+      "payload_json": {
+        "node_type": "claim",
+        "node_id": "wv_node_q12_3_best_story",
+        "title": "The Qur'an presents Yusuf as the best of stories",
+        "summary": "The Yusuf narrative is framed as the finest narrative in form and guidance."
+      },
+      "confidence": 0.95,
+      "rationale": "Derived from ayah 3 and note on story framing.",
+      "status": "approved",
+      "meta_json": {}
+    },
+    {
+      "id": "wv_sug_q12_5_parenting",
+      "canonical_input": "wv_insight_suggestion:quran:12:5:concept:discretion",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "batch_id": "wv_distill_q12_1_7",
+      "user_id": 1,
+      "suggestion_type": "node",
+      "payload_json": {
+        "node_type": "concept",
+        "node_id": "wv_node_q12_5_discretion",
+        "title": "Discretion in Guidance",
+        "summary": "Ya'qub teaches protective wisdom by withholding vulnerable information from those likely to envy."
+      },
+      "confidence": 0.94,
+      "rationale": "Derived from ayah 5 and reflective note.",
+      "status": "approved",
+      "meta_json": {}
+    },
+    {
+      "id": "wv_sug_q12_6_election",
+      "canonical_input": "wv_insight_suggestion:quran:12:6:concept:election",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "batch_id": "wv_distill_q12_1_7",
+      "user_id": 1,
+      "suggestion_type": "node",
+      "payload_json": {
+        "node_type": "concept",
+        "node_id": "wv_node_q12_6_election",
+        "title": "Divine Election and Ta'wil",
+        "summary": "Yusuf is chosen, taught interpretation, and placed within the continuation of divine favor."
+      },
+      "confidence": 0.96,
+      "rationale": "Derived from ayah 6.",
+      "status": "approved",
+      "meta_json": {}
+    },
+    {
+      "id": "wv_sug_q12_7_seekers",
+      "canonical_input": "wv_insight_suggestion:quran:12:7:claim:signs-for-seekers",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "batch_id": "wv_distill_q12_1_7",
+      "user_id": 1,
+      "suggestion_type": "node",
+      "payload_json": {
+        "node_type": "claim",
+        "node_id": "wv_node_q12_7_signs_seekers",
+        "title": "The Yusuf story yields signs for seekers",
+        "summary": "The story is meant to disclose meanings to those who ask and search."
+      },
+      "confidence": 0.98,
+      "rationale": "Directly grounded in ayah 7.",
+      "status": "approved",
+      "meta_json": {}
+    }
+  ],
+  "wv_insight_decisions": [
+    {
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "suggestion_id": "wv_sug_q12_1_7_concept_revelation",
+      "user_id": 1,
+      "decision": "approve",
+      "target_type": "node",
+      "target_id": "wv_node_q12_1_7_revelation",
+      "edited_payload_json": null,
+      "note": "Accepted as core opening concept."
+    },
+    {
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "suggestion_id": "wv_sug_q12_1_7_claim_story",
+      "user_id": 1,
+      "decision": "approve",
+      "target_type": "node",
+      "target_id": "wv_node_q12_3_best_story",
+      "edited_payload_json": null,
+      "note": "Accepted as major claim."
+    },
+    {
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "suggestion_id": "wv_sug_q12_5_parenting",
+      "user_id": 1,
+      "decision": "approve",
+      "target_type": "node",
+      "target_id": "wv_node_q12_5_discretion",
+      "edited_payload_json": null,
+      "note": "Accepted."
+    },
+    {
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "suggestion_id": "wv_sug_q12_6_election",
+      "user_id": 1,
+      "decision": "approve",
+      "target_type": "node",
+      "target_id": "wv_node_q12_6_election",
+      "edited_payload_json": null,
+      "note": "Accepted."
+    },
+    {
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "suggestion_id": "wv_sug_q12_7_seekers",
+      "user_id": 1,
+      "decision": "approve",
+      "target_type": "node",
+      "target_id": "wv_node_q12_7_signs_seekers",
+      "edited_payload_json": null,
+      "note": "Accepted."
+    }
+  ],
+  "wv_nodes": [
+    {
+      "id": "wv_node_q12_1_7_revelation",
+      "canonical_input": "wv_node:quran:12:1-7:revelation",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "node_type": "concept",
+      "title": "Clear Revelation",
+      "text_plain": "The opening of Surah Yusuf frames the Qur'an as a clear and intelligible revelation.",
+      "summary": "The passage begins by establishing clarity, revelation, and intelligibility.",
+      "slug": "q12-clear-revelation",
+      "status": "active",
+      "data_json": {
+        "surah": 12,
+        "ayah_from": 1,
+        "ayah_to": 2
+      },
+      "meta_json": {}
+    },
+    {
+      "id": "wv_node_q12_3_best_story",
+      "canonical_input": "wv_node:quran:12:3:best-story",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "node_type": "claim",
+      "title": "Yusuf is presented as the best of stories",
+      "text_plain": "The Qur'an characterizes the Yusuf narrative as the best of stories.",
+      "summary": "A core literary and theological framing claim for the passage.",
+      "slug": "q12-best-of-stories",
+      "status": "active",
+      "data_json": {
+        "surah": 12,
+        "ayah": 3
+      },
+      "meta_json": {}
+    },
+    {
+      "id": "wv_node_q12_5_discretion",
+      "canonical_input": "wv_node:quran:12:5:discretion",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "node_type": "concept",
+      "title": "Discretion in Guidance",
+      "text_plain": "Wise guidance includes withholding vulnerable information from envious listeners.",
+      "summary": "Ya'qub models protective discretion.",
+      "slug": "q12-discretion-guidance",
+      "status": "active",
+      "data_json": {
+        "surah": 12,
+        "ayah": 5
+      },
+      "meta_json": {}
+    },
+    {
+      "id": "wv_node_q12_6_election",
+      "canonical_input": "wv_node:quran:12:6:election",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "node_type": "concept",
+      "title": "Divine Election and Ta'wil",
+      "text_plain": "Yusuf is divinely chosen and taught interpretation.",
+      "summary": "Election, ta'wil, and divine favor converge in ayah 6.",
+      "slug": "q12-election-tawil",
+      "status": "active",
+      "data_json": {
+        "surah": 12,
+        "ayah": 6
+      },
+      "meta_json": {}
+    },
+    {
+      "id": "wv_node_q12_7_signs_seekers",
+      "canonical_input": "wv_node:quran:12:7:signs-seekers",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "node_type": "claim",
+      "title": "The Yusuf story contains signs for seekers",
+      "text_plain": "The story yields signs to those who ask and seek.",
+      "summary": "The surah explicitly invites active inquiry.",
+      "slug": "q12-signs-for-seekers",
+      "status": "active",
+      "data_json": {
+        "surah": 12,
+        "ayah": 7
+      },
+      "meta_json": {}
+    }
+  ],
+  "wv_node_edges": [
+    {
+      "id": "wv_edge_q12_1_7_to_q12_3",
+      "canonical_input": "wv_node_edge:quran:12:1-7:revelation->12:3:best-story",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "from_node_id": "wv_node_q12_1_7_revelation",
+      "to_node_id": "wv_node_q12_3_best_story",
+      "relation_type": "supports",
+      "strength": 0.92,
+      "order_index": 1,
+      "note": "The literary excellence claim is grounded in revealed clarity.",
+      "meta_json": {}
+    },
+    {
+      "id": "wv_edge_q12_5_to_q12_6",
+      "canonical_input": "wv_node_edge:quran:12:5:discretion->12:6:election",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "from_node_id": "wv_node_q12_5_discretion",
+      "to_node_id": "wv_node_q12_6_election",
+      "relation_type": "related_to",
+      "strength": 0.88,
+      "order_index": 2,
+      "note": "Protective wisdom surrounds divine election.",
+      "meta_json": {}
+    },
+    {
+      "id": "wv_edge_q12_3_to_q12_7",
+      "canonical_input": "wv_node_edge:quran:12:3:best-story->12:7:signs-seekers",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "from_node_id": "wv_node_q12_3_best_story",
+      "to_node_id": "wv_node_q12_7_signs_seekers",
+      "relation_type": "supports",
+      "strength": 0.94,
+      "order_index": 3,
+      "note": "The finest story is also pedagogically rich in signs.",
+      "meta_json": {}
+    },
+    {
+      "id": "wv_edge_q12_6_to_q12_7",
+      "canonical_input": "wv_node_edge:quran:12:6:election->12:7:signs-seekers",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "from_node_id": "wv_node_q12_6_election",
+      "to_node_id": "wv_node_q12_7_signs_seekers",
+      "relation_type": "illustrates",
+      "strength": 0.89,
+      "order_index": 4,
+      "note": "Divine election is one of the signs embedded in the story.",
+      "meta_json": {}
+    }
+  ],
+  "wv_documents": [
+    {
+      "id": "wv_doc_q12_1_7_study",
+      "canonical_input": "wv_document:quran:12:1-7:study-note",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "doc_type": "study_note",
+      "title": "Surah Yusuf 12:1-7 Study Note",
+      "summary": "Structured study note derived from highlights, notes, and distilled insights.",
+      "cover_image_url": null,
+      "status": "active",
+      "related_node_id": "wv_node_q12_7_signs_seekers",
+      "document_json": {
+        "source_id": "wv_src_q12",
+        "source_unit_id": "wv_unit_q12_1_7"
+      },
+      "meta_json": {}
+    }
+  ],
+  "wv_document_blocks": [
+    {
+      "id": "wv_block_q12_1_7_001",
+      "canonical_input": "wv_document_block:quran:12:1-7:001",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "document_id": "wv_doc_q12_1_7_study",
+      "parent_block_id": null,
+      "order_index": 1,
+      "block_type": "heading",
+      "block_level": 1,
+      "text_plain": "Surah Yusuf 12:1-7",
+      "content_json": {
+        "text": "Surah Yusuf 12:1-7"
+      },
+      "attrs_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_block_q12_1_7_002",
+      "canonical_input": "wv_document_block:quran:12:1-7:002",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "document_id": "wv_doc_q12_1_7_study",
+      "parent_block_id": null,
+      "order_index": 2,
+      "block_type": "paragraph",
+      "block_level": null,
+      "text_plain": "This opening passage establishes the Qur'an as clear revelation, introduces the finest story, frames the dream, and closes by declaring these events signs for seekers.",
+      "content_json": {
+        "text": "This opening passage establishes the Qur'an as clear revelation, introduces the finest story, frames the dream, and closes by declaring these events signs for seekers."
+      },
+      "attrs_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_block_q12_1_7_003",
+      "canonical_input": "wv_document_block:quran:12:1-7:003",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "document_id": "wv_doc_q12_1_7_study",
+      "parent_block_id": null,
+      "order_index": 3,
+      "block_type": "heading",
+      "block_level": 2,
+      "text_plain": "Key Concepts",
+      "content_json": {
+        "text": "Key Concepts"
+      },
+      "attrs_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_block_q12_1_7_004",
+      "canonical_input": "wv_document_block:quran:12:1-7:004",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "document_id": "wv_doc_q12_1_7_study",
+      "parent_block_id": null,
+      "order_index": 4,
+      "block_type": "bullet_item",
+      "block_level": null,
+      "text_plain": "Clear revelation",
+      "content_json": {
+        "text": "Clear revelation"
+      },
+      "attrs_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_block_q12_1_7_005",
+      "canonical_input": "wv_document_block:quran:12:1-7:005",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "document_id": "wv_doc_q12_1_7_study",
+      "parent_block_id": null,
+      "order_index": 5,
+      "block_type": "bullet_item",
+      "block_level": null,
+      "text_plain": "Best of stories",
+      "content_json": {
+        "text": "Best of stories"
+      },
+      "attrs_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_block_q12_1_7_006",
+      "canonical_input": "wv_document_block:quran:12:1-7:006",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "document_id": "wv_doc_q12_1_7_study",
+      "parent_block_id": null,
+      "order_index": 6,
+      "block_type": "bullet_item",
+      "block_level": null,
+      "text_plain": "Discretion in guidance",
+      "content_json": {
+        "text": "Discretion in guidance"
+      },
+      "attrs_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_block_q12_1_7_007",
+      "canonical_input": "wv_document_block:quran:12:1-7:007",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "document_id": "wv_doc_q12_1_7_study",
+      "parent_block_id": null,
+      "order_index": 7,
+      "block_type": "bullet_item",
+      "block_level": null,
+      "text_plain": "Divine election and ta'wil",
+      "content_json": {
+        "text": "Divine election and ta'wil"
+      },
+      "attrs_json": {},
+      "meta_json": {}
+    },
+    {
+      "id": "wv_block_q12_1_7_008",
+      "canonical_input": "wv_document_block:quran:12:1-7:008",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "document_id": "wv_doc_q12_1_7_study",
+      "parent_block_id": null,
+      "order_index": 8,
+      "block_type": "bullet_item",
+      "block_level": null,
+      "text_plain": "Signs for seekers",
+      "content_json": {
+        "text": "Signs for seekers"
+      },
+      "attrs_json": {},
+      "meta_json": {}
+    }
+  ],
+  "wv_block_node_links": [
+    {
+      "id": "wv_bnl_q12_1_7_004",
+      "canonical_input": "wv_block_node_link:quran:12:1-7:block004:revelation",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "block_id": "wv_block_q12_1_7_004",
+      "node_id": "wv_node_q12_1_7_revelation",
+      "relation": "defines"
+    },
+    {
+      "id": "wv_bnl_q12_1_7_005",
+      "canonical_input": "wv_block_node_link:quran:12:1-7:block005:best-story",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "block_id": "wv_block_q12_1_7_005",
+      "node_id": "wv_node_q12_3_best_story",
+      "relation": "defines"
+    },
+    {
+      "id": "wv_bnl_q12_1_7_006",
+      "canonical_input": "wv_block_node_link:quran:12:1-7:block006:discretion",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "block_id": "wv_block_q12_1_7_006",
+      "node_id": "wv_node_q12_5_discretion",
+      "relation": "defines"
+    },
+    {
+      "id": "wv_bnl_q12_1_7_007",
+      "canonical_input": "wv_block_node_link:quran:12:1-7:block007:election",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "block_id": "wv_block_q12_1_7_007",
+      "node_id": "wv_node_q12_6_election",
+      "relation": "defines"
+    },
+    {
+      "id": "wv_bnl_q12_1_7_008",
+      "canonical_input": "wv_block_node_link:quran:12:1-7:block008:seekers",
+      "workspace_id": "ws_quran",
+      "group_id": "grp_tafsir",
+      "user_id": 1,
+      "block_id": "wv_block_q12_1_7_008",
+      "node_id": "wv_node_q12_7_signs_seekers",
+      "relation": "defines"
+    }
+  ]
+}

@@ -1,23 +1,4 @@
 <ng-container *ngIf="!isEmpty && unit; else emptyState">
-  <ion-card class="km-card wv-overview-tab__hero">
-    <ion-card-content>
-      <div class="wv-overview-tab__hero-copy">
-        <p class="wv-overview-tab__kicker">{{ source?.title || 'Source' }}</p>
-        <h1>{{ unit.title }}</h1>
-        <p class="wv-overview-tab__locator">{{ unit.locatorLabel || unit.startRef || 'Source unit' }}</p>
-        <p class="wv-overview-tab__summary">{{ summary }}</p>
-      </div>
-
-      <div class="wv-overview-tab__hero-meta">
-        <ion-chip *ngIf="unit.unitType">{{ unit.unitType | titlecase }}</ion-chip>
-        <ion-chip *ngIf="unit.locatorLabel">{{ unit.locatorLabel }}</ion-chip>
-        <ion-chip>{{ progressPercent }}% read</ion-chip>
-      </div>
-
-      <ion-button fill="outline" class="km-btn" (click)="continueReading.emit()">Continue Reading</ion-button>
-    </ion-card-content>
-  </ion-card>
-
   <app-kmaps-stat-chip-row [stats]="stats"></app-kmaps-stat-chip-row>
 
   <ion-card class="km-card">

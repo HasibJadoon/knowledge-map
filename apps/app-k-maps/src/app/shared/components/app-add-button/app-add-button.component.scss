@@ -1,0 +1,59 @@
+:host {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.app-add-button {
+  --background: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  --color: var(--app-text-soft);
+  --padding-start: 0;
+  --padding-end: 0;
+  --border-radius: 0.82rem;
+  --box-shadow: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
+  margin: 0;
+}
+
+.app-add-button::part(native) {
+  width: 2.2rem;
+  height: 2.2rem;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
+  padding: 0;
+  border-radius: 0.82rem;
+  border: 1px solid var(--app-border-soft);
+  background: color-mix(in srgb, var(--app-surface-soft-strong) 54%, var(--app-toolbar-background) 46%);
+  box-shadow: none;
+}
+
+.app-add-button ion-icon {
+  font-size: 0.94rem;
+}
+
+.app-add-button--compact {
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+.app-add-button--compact::part(native) {
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  border-radius: 0.72rem;
+  border-color: color-mix(in srgb, var(--app-border-soft) 76%, transparent);
+  background: color-mix(in srgb, var(--app-toolbar-background) 82%, transparent);
+}
+
+.app-add-button:hover::part(native),
+.app-add-button.ion-focused::part(native) {
+  border-color: color-mix(in srgb, var(--app-border-soft) 82%, rgba(255, 255, 255, 0.18));
+  background: color-mix(in srgb, var(--app-surface-soft-strong) 64%, var(--app-toolbar-background) 36%);
+}

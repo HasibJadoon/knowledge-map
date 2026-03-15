@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { KmapsEmptyStateCardComponent } from '../../../kmaps-shared/components/empty-state-card/empty-state-card';
 import { KmapsStatChipRowComponent } from '../../../kmaps-shared/components/stat-chip-row/stat-chip-row';
-import { KmapsNote, KmapsSource, KmapsSourceUnit, KmapsStatItem, formatNoteKindLabel, formatUnitTypeLabel } from '../../../kmaps-shared/models/kmaps.models';
+import { KmapsNote, KmapsSourceUnit, KmapsStatItem, formatNoteKindLabel, formatUnitTypeLabel } from '../../../kmaps-shared/models/kmaps.models';
 
 @Component({
   selector: 'app-wv-overview-tab',
@@ -15,17 +15,13 @@ import { KmapsNote, KmapsSource, KmapsSourceUnit, KmapsStatItem, formatNoteKindL
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WvOverviewTabComponent {
-  @Input() source: KmapsSource | null = null;
   @Input() unit: KmapsSourceUnit | null = null;
-  @Input() summary = '';
-  @Input() progressPercent = 0;
   @Input() stats: KmapsStatItem[] = [];
   @Input() structureUnits: KmapsSourceUnit[] = [];
   @Input() recentHighlights: KmapsNote[] = [];
   @Input() recentNotes: KmapsNote[] = [];
   @Input() isEmpty = false;
 
-  @Output() continueReading = new EventEmitter<void>();
   @Output() viewHighlights = new EventEmitter<void>();
   @Output() viewNotes = new EventEmitter<void>();
   @Output() openUnit = new EventEmitter<string>();

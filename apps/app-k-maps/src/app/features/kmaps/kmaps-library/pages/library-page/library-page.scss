@@ -22,6 +22,23 @@
   padding-bottom: calc(env(safe-area-inset-bottom) + var(--app-space-6));
 }
 
+.library-page__search-row {
+  display: flex;
+  align-items: center;
+  gap: 0.58rem;
+  width: min(100%, var(--app-content-width));
+  margin-inline: auto;
+}
+
+.library-page__searchbar {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.library-page__add-button {
+  flex: 0 0 auto;
+}
+
 .library-page__list {
   width: min(100%, var(--app-content-width));
   margin: 0;
@@ -59,6 +76,12 @@
   border: 1px solid var(--app-border-soft);
   background: var(--km-surface-elevated);
   box-shadow: none;
+}
+
+.library-page__cover-button {
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
 }
 
 .library-page__cover ion-icon {

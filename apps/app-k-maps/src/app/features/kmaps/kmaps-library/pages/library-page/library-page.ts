@@ -4,10 +4,12 @@ import { MenuController, IonicModule, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { SourceMetadataSheetComponent } from '../../components/source-metadata-sheet/source-metadata-sheet';
+import { SourceEditorModalComponent } from '../../../kmaps-sources/components/source-editor-modal/source-editor-modal';
 import { KmapsEmptyStateCardComponent } from '../../../kmaps-shared/components/empty-state-card/empty-state-card';
 import { KmapsSource, formatSourceTypeLabel, type KmapsSourceContributor, type KmapsSourceType } from '../../../kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 import { NativeSearchbarComponent } from '../../../../../shared/components/native-searchbar/native-searchbar.component';
+import { AppAddButtonComponent } from '../../../../../shared/components/app-add-button/app-add-button.component';
 
 type LibraryPeopleSummary = {
   initials: string;
@@ -26,7 +28,7 @@ type LibraryListEntry = {
 @Component({
   selector: 'app-library-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent, NativeSearchbarComponent],
+  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent, NativeSearchbarComponent, AppAddButtonComponent],
   templateUrl: './library-page.html',
   styleUrl: './library-page.scss',
 })
@@ -102,8 +104,38 @@ export class LibraryPage {
     this.searchQuery.set(value);
   }
 
-  openNewSource(): void {
-    void this.router.navigate(['/worldview', 'sources', 'new']);
+  async openNewSource(): Promise<void> {
+    const modal = await this.modalController.create({
+      component: SourceEditorModalComponent,
+      breakpoints: [0, 0.92, 1],
+      initialBreakpoint: 0.92,
+      backdropDismiss: true,
+      handle: true,
+      cssClass: 'km-source-editor-modal',
+    });
+
+    await modal.present();
+    const { data, role } = await modal.onDidDismiss<{ sourceId?: string }>();
+    if (role === 'save' && data?.sourceId) {
+      void this.router.navigate(['/worldview', 'sources', data.sourceId]);
+    }
+  }
+
+  async openEditSource(event: Event, sourceId: string): Promise<void> {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const modal = await this.modalController.create({
+      component: SourceEditorModalComponent,
+      componentProps: { sourceId },
+      breakpoints: [0, 0.92, 1],
+      initialBreakpoint: 0.92,
+      backdropDismiss: true,
+      handle: true,
+      cssClass: 'km-source-editor-modal',
+    });
+
+    await modal.present();
   }
 
   openSource(sourceId: string): void {

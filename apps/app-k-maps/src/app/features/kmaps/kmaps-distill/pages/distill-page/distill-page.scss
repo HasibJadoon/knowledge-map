@@ -6,47 +6,13 @@
   --highlight-text-dim: #9ca9c0;
 }
 
-.highlights-page__hero,
 .highlights-page__item {
   margin: 0;
 }
 
-.highlights-page__hero ion-card-content {
-  display: grid;
-  gap: 0.55rem;
-  padding: 1rem;
-}
-
-.highlights-page__source,
 .highlights-page__item-meta,
 .highlights-page__item h2 {
   margin: 0;
-}
-
-.highlights-page__source {
-  color: var(--highlight-text-dim);
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.highlights-page__hero-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-
-.highlights-page__hero-head h1 {
-  margin: 0;
-  color: var(--highlight-text);
-  font-size: 1.36rem;
-  line-height: 1.2;
-}
-
-.highlights-page__hero-head span {
-  color: #d7e6ff;
-  font-size: 0.82rem;
 }
 
 .highlights-page__filter-row {

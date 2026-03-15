@@ -1,0 +1,11 @@
+<ion-button
+  class="app-add-button"
+  [class.app-add-button--compact]="variant === 'compact'"
+  fill="clear"
+  [disabled]="disabled"
+  [attr.aria-label]="ariaLabel"
+  [attr.title]="title"
+  (click)="onPressed($event)"
+>
+  <ion-icon [name]="icon" slot="icon-only"></ion-icon>
+</ion-button>

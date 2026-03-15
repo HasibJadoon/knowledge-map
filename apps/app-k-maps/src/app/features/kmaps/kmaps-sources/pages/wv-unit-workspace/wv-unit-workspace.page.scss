@@ -38,9 +38,60 @@
 .wv-unit-workspace__fab-button {
   --background: color-mix(in srgb, var(--ion-color-primary) 18%, rgba(9, 20, 34, 0.94));
   --color: var(--app-text-strong);
-  --border-radius: 999px;
+  --border-radius: 1.2rem;
   --box-shadow: var(--app-shadow-2);
-  --padding-start: 0.9rem;
-  --padding-end: 0.9rem;
+  --size: 3.3rem;
   margin: 0;
+}
+
+.wv-unit-workspace__fab-button ion-icon {
+  font-size: 1.35rem;
+}
+
+.wv-read-context-menu__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.wv-read-context-menu {
+  position: fixed;
+  z-index: 9999;
+  display: grid;
+  gap: 0.24rem;
+  width: min(13.75rem, calc(100vw - 1.5rem));
+  padding: 0.32rem;
+  border: 1px solid var(--app-border-soft);
+  border-radius: var(--app-radius-lg);
+  background: linear-gradient(180deg, rgba(24, 38, 61, 0.98), rgba(16, 27, 46, 0.98));
+  box-shadow: var(--app-shadow-2);
+}
+
+.wv-read-context-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 0.72rem;
+  min-height: 2.6rem;
+  width: 100%;
+  border: 0;
+  border-radius: 0.9rem;
+  padding: 0.72rem;
+  background: transparent;
+  color: var(--app-text-strong);
+  font: inherit;
+  text-align: left;
+}
+
+.wv-read-context-menu__item:hover,
+.wv-read-context-menu__item:focus-visible {
+  background: var(--app-surface-soft-strong);
+  outline: none;
+}
+
+.wv-read-context-menu__item ion-icon {
+  color: var(--ion-color-primary-tint);
+  font-size: 1.05rem;
 }

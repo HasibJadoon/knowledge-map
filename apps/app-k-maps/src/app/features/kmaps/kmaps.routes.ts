@@ -19,9 +19,14 @@ export const KMAPS_ROUTES: Routes = [
       import('./kmaps-sources/pages/source-detail-page/source-detail-page').then((m) => m.SourceDetailPage),
   },
   {
-    path: 'source/:sourceId/unit/:unitId',
+    path: 'source/:sourceId/unit/:unitId/workspace',
     loadComponent: () =>
       import('./kmaps-sources/pages/wv-unit-workspace/wv-unit-workspace.page').then((m) => m.WvUnitWorkspacePage),
+  },
+  {
+    path: 'source/:sourceId/unit/:unitId',
+    loadComponent: () =>
+      import('./kmaps-sources/pages/source-unit-page/source-unit-page').then((m) => m.SourceUnitPage),
   },
   {
     path: 'sources/new',
@@ -34,9 +39,14 @@ export const KMAPS_ROUTES: Routes = [
       import('./kmaps-sources/pages/source-detail-page/source-detail-page').then((m) => m.SourceDetailPage),
   },
   {
-    path: 'sources/:sourceId/units/:unitId',
+    path: 'sources/:sourceId/units/:unitId/workspace',
     loadComponent: () =>
       import('./kmaps-sources/pages/wv-unit-workspace/wv-unit-workspace.page').then((m) => m.WvUnitWorkspacePage),
+  },
+  {
+    path: 'sources/:sourceId/units/:unitId',
+    loadComponent: () =>
+      import('./kmaps-sources/pages/source-unit-page/source-unit-page').then((m) => m.SourceUnitPage),
   },
   {
     path: 'distill/start/:unitId',

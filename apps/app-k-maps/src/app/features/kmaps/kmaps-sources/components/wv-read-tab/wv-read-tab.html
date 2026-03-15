@@ -10,51 +10,39 @@
   </button>
 </section>
 
-<ion-card class="km-card wv-read-tab__selection-card" *ngIf="selectedExcerpt">
-  <ion-card-content>
-    <div class="wv-read-tab__selection-head">
-      <div>
-        <p class="wv-read-tab__kicker">Selected text</p>
-        <h2>{{ selectedLocator || selectedReadUnit?.title || 'Current selection' }}</h2>
-      </div>
-    </div>
-
-    <blockquote class="wv-read-tab__quote">{{ selectedExcerpt }}</blockquote>
-
-    <div class="wv-read-tab__actions">
-      <ion-button fill="outline" size="small" class="km-btn" (click)="highlightRequested.emit()">Highlight</ion-button>
-      <ion-button fill="outline" size="small" class="km-btn" (click)="noteRequested.emit()">Add Note</ion-button>
-      <ion-button fill="clear" size="small" (click)="copyRequested.emit()">Copy</ion-button>
-      <ion-button fill="clear" size="small" (click)="linkNodeRequested.emit()">Link Node</ion-button>
-    </div>
-  </ion-card-content>
-</ion-card>
-
-<section class="wv-read-tab__reading" *ngIf="displayedSections.length; else noReading">
-  <section class="wv-read-tab__reading-section" *ngFor="let section of displayedSections; trackBy: trackSection">
-    <div class="wv-read-tab__reading-head">
-      <span></span>
-      <h2>{{ section.heading }}</h2>
-    </div>
-
-    <button
-      type="button"
-      class="wv-read-tab__paragraph"
-      *ngFor="let paragraph of section.paragraphs"
-      [class.wv-read-tab__paragraph--selected]="selectedParagraphIndex === paragraph.index"
-      (mousedown)="onParagraphPressStart(paragraph.index)"
-      (mouseup)="onParagraphPressEnd()"
-      (mouseleave)="onParagraphPressEnd()"
-      (touchstart)="onParagraphPressStart(paragraph.index)"
-      (touchend)="onParagraphPressEnd()"
-      (touchcancel)="onParagraphPressEnd()"
-      (contextmenu)="onParagraphContextMenu($event, paragraph.index)"
-      (click)="onParagraphClick(paragraph.index)"
+<section class="wv-read-tab__reading" *ngIf="displayedSegments.length; else noReading">
+  <article
+    #passageRoot
+    class="wv-read-tab__passage"
+    [class.wv-read-tab__passage--arabic]="isMostlyArabic()"
+    [attr.lang]="isMostlyArabic() ? 'ar' : 'en'"
+    [attr.dir]="isMostlyArabic() ? 'rtl' : 'ltr'"
+    (mousedown)="onPassageMouseDown($event)"
+    (mouseup)="captureSelection()"
+    (touchend)="captureSelection()"
+    (keyup)="captureSelection()"
+    (contextmenu)="onPassageContextMenu($event)"
+  >
+    <span
+      class="wv-read-tab__segment"
+      *ngFor="let segment of displayedSegments; trackBy: trackSegment"
+      [class.wv-read-tab__segment--arabic]="isArabicText(segment.body)"
+      [class.wv-read-tab__segment--english]="!isArabicText(segment.body)"
+      [class.wv-read-tab__segment--selected]="isSegmentSelected(segment.index)"
+      [attr.data-segment-index]="segment.index"
+      [attr.data-locator]="segment.locator"
+      [attr.lang]="isArabicText(segment.body) ? 'ar' : 'en'"
+      [attr.dir]="isArabicText(segment.body) ? 'rtl' : 'ltr'"
+      (mousedown)="onSegmentMouseDown($event, segment.index)"
+      (click)="onSegmentClick(segment.index)"
+      (contextmenu)="onSegmentContextMenu($event, segment.index)"
     >
-      <span class="wv-read-tab__paragraph-index">{{ paragraph.index + 1 }}</span>
-      <span>{{ paragraph.body }}</span>
-    </button>
-  </section>
+      <span class="wv-read-tab__segment-body">{{ segment.body }}</span>
+      <span class="wv-read-tab__segment-marker" *ngIf="shouldRenderMarker(segment)" aria-hidden="true">
+        {{ segment.marker }}
+      </span>
+    </span>
+  </article>
 </section>
 
 <ng-template #noReading>

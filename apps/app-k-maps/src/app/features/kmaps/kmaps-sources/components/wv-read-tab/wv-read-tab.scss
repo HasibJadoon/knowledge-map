@@ -1,6 +1,6 @@
 :host {
   display: grid;
-  gap: var(--app-space-3);
+  gap: 0;
 }
 
 .wv-read-tab__scope-row {
@@ -27,109 +27,89 @@
   color: var(--app-text-strong);
 }
 
-.wv-read-tab__selection-card {
-  margin: 0;
-}
-
-.wv-read-tab__selection-card ion-card-content {
-  display: grid;
-  gap: var(--app-space-3);
-}
-
-.wv-read-tab__kicker,
-.wv-read-tab__quote,
-.wv-read-tab__reading-head h2,
-.wv-read-tab__paragraph-index {
-  margin: 0;
-}
-
-.wv-read-tab__kicker {
-  color: var(--app-text-muted);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.wv-read-tab__selection-head h2 {
-  margin: 0;
-  color: var(--app-text-strong);
-  font-size: 1rem;
-  font-weight: 660;
-}
-
-.wv-read-tab__quote {
-  padding-left: 0.9rem;
-  border-left: 2px solid rgba(var(--ion-color-primary-rgb), 0.45);
-  color: var(--app-text-strong);
-  font-size: 0.95rem;
-  line-height: 1.7;
-}
-
-.wv-read-tab__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
 .wv-read-tab__reading {
   display: grid;
-  gap: var(--app-space-4);
+  gap: 0;
 }
 
-.wv-read-tab__reading-section {
-  display: grid;
-  gap: 0.4rem;
-}
-
-.wv-read-tab__reading-head {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.wv-read-tab__reading-head span {
-  flex: 1 1 auto;
-  height: 1px;
-  background: var(--app-border-soft);
-}
-
-.wv-read-tab__reading-head h2 {
-  color: var(--app-text-soft);
-  font-size: 0.82rem;
-  font-weight: 620;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.wv-read-tab__paragraph {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.9rem;
-  padding: 0.92rem 0;
+.wv-read-tab__passage {
+  padding: 0;
   border: 0;
-  border-bottom: 1px solid var(--app-border-soft);
+  border-radius: 0;
   background: transparent;
+  box-shadow: none;
   color: var(--app-text-strong);
+  font-family: var(--app-font-sans);
+  font-size: 1rem;
+  line-height: 1.95;
   text-align: left;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.wv-read-tab__passage--arabic {
+  font-family: var(--app-font-ar);
+  font-size: clamp(1.55rem, 2.25vw, var(--app-font-ar-size, 2rem));
+  line-height: 2.25;
+  text-align: justify;
+  text-align-last: right;
+  text-justify: inter-word;
+}
+
+.wv-read-tab__segment {
+  display: inline;
+  color: inherit;
   font: inherit;
-  font-size: 0.98rem;
-  line-height: 1.8;
+  border-radius: 0.7rem;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-color 140ms ease, color 140ms ease;
 }
 
-.wv-read-tab__paragraph:last-child {
-  border-bottom: 0;
+.wv-read-tab__segment + .wv-read-tab__segment {
+  margin-inline-start: 0.55ch;
 }
 
-.wv-read-tab__paragraph--selected {
-  margin-inline: -0.45rem;
-  padding-inline: 0.45rem;
-  border-radius: var(--app-radius-md);
-  background: rgba(var(--ion-color-primary-rgb), 0.1);
+.wv-read-tab__segment--arabic {
+  font-family: var(--app-font-ar);
 }
 
-.wv-read-tab__paragraph-index {
+.wv-read-tab__segment--english {
+  font-family: var(--app-font-sans);
+}
+
+.wv-read-tab__segment--selected {
+  background: color-mix(in srgb, var(--ion-color-primary) 18%, transparent);
+  color: color-mix(in srgb, var(--app-text-strong) 92%, white 8%);
+}
+
+.wv-read-tab__segment-body {
+  white-space: pre-wrap;
+}
+
+.wv-read-tab__segment-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  margin-inline: 0.42rem 0.1rem;
+  padding-inline: 0.16rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-surface-soft-strong) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--app-border-soft) 72%, transparent);
   color: var(--app-text-soft);
-  font-size: 0.74rem;
-  line-height: 1.6;
+  font-family: var(--app-font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: middle;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.wv-read-tab__segment--selected .wv-read-tab__segment-marker {
+  background: color-mix(in srgb, var(--ion-color-primary) 28%, var(--app-surface-soft-strong) 72%);
+  border-color: color-mix(in srgb, var(--ion-color-primary) 34%, var(--app-border-soft) 66%);
+  color: var(--app-text-strong);
 }

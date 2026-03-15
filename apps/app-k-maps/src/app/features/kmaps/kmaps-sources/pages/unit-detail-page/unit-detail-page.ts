@@ -38,7 +38,6 @@ export class UnitDetailPage {
 
   readonly source = computed(() => this.workflow.getSource(this.sourceId()));
   readonly unit = computed(() => this.workflow.getUnit(this.unitId()));
-  readonly chapterTitle = computed(() => formatChapterTitle(this.unit()));
   readonly scopedNotes = computed(() => this.workflow.getNotesForUnitScope(this.sourceId(), this.unitId()));
   readonly highlightNotes = computed(() =>
     this.scopedNotes()
@@ -68,8 +67,6 @@ export class UnitDetailPage {
     { key: 'nodes', label: 'Nodes', value: this.nodeCount(), tone: 'green' },
     { key: 'distill', label: 'Distill Items', value: this.distillItemCount(), tone: 'purple' },
   ]);
-  readonly progressPercent = computed(() => clampPercent(this.source()?.progressPercent ?? 0));
-  readonly progressLabel = computed(() => `${this.progressPercent()}% read`);
   readonly lastReadingDateLabel = computed(() => formatSessionDay(this.source()?.lastOpenedAt));
   readonly lastReadingDurationLabel = computed(() => `${Math.max(this.unit()?.readingMinutes ?? 0, 12)} min`);
   readonly lastReadingPositionLabel = computed(() => this.sourceRecentLocator() || this.unit()?.locatorLabel || 'No marker yet');
@@ -124,10 +121,6 @@ export class UnitDetailPage {
     this.summaryDraft.set(target?.value ?? '');
   }
 
-  continueReading(): void {
-    void this.router.navigate(['/worldview', 'sources', this.sourceId(), 'units', this.unitId(), 'read']);
-  }
-
   openHighlights(): void {
     void this.router.navigate(['/worldview', 'sources', this.sourceId(), 'units', this.unitId(), 'distill']);
   }
@@ -175,23 +168,6 @@ export class UnitDetailPage {
     const value = this.source()?.sourceJson?.['recentLocator'];
     return typeof value === 'string' && value.trim() ? value.trim() : '';
   }
-}
-
-function formatChapterTitle(unit: KmapsSourceUnit | null): string {
-  const title = (unit?.title || '').trim();
-  if (!title) {
-    return 'Chapter workspace';
-  }
-
-  return title.replace(/\s*·\s*/g, ' — ');
-}
-
-function clampPercent(value: number): number {
-  if (!Number.isFinite(value)) {
-    return 0;
-  }
-
-  return Math.max(0, Math.min(100, Math.round(value)));
 }
 
 function formatSessionDay(value: string | null | undefined): string {

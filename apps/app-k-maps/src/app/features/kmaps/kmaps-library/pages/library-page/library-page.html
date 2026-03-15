@@ -14,11 +14,23 @@
   </ion-toolbar>
 
   <ion-toolbar class="library-page__search-toolbar app-page-toolbar--search">
-    <app-native-searchbar
-      [value]="searchQuery()"
-      placeholder="Search library"
-      (valueChange)="onSearchChange($event)"
-    ></app-native-searchbar>
+    <div class="library-page__search-row">
+      <app-native-searchbar
+        class="library-page__searchbar"
+        [value]="searchQuery()"
+        placeholder="Search library"
+        (valueChange)="onSearchChange($event)"
+      ></app-native-searchbar>
+
+      <app-add-button
+        class="library-page__add-button"
+        variant="compact"
+        ariaLabel="Add source"
+        title="Add source"
+        (pressed)="openNewSource()"
+      >
+      </app-add-button>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -32,9 +44,16 @@
       detail="false"
       (click)="openSource(entry.source.id)"
     >
-      <ion-thumbnail slot="start" class="library-page__cover">
+      <button
+        slot="start"
+        type="button"
+        class="library-page__cover library-page__cover-button"
+        [attr.aria-label]="'Edit ' + entry.source.title"
+        [attr.title]="'Edit ' + entry.source.title"
+        (click)="openEditSource($event, entry.source.id)"
+      >
         <ion-icon [name]="entry.iconName"></ion-icon>
-      </ion-thumbnail>
+      </button>
 
       <ion-label class="library-page__copy">
         <h2>{{ entry.source.title }}</h2>

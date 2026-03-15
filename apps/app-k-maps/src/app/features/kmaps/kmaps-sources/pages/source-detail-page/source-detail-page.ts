@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 
 import { KmapsEmptyStateCardComponent } from '../../../kmaps-shared/components/empty-state-card/empty-state-card';
 import {
@@ -11,20 +11,14 @@ import {
   type KmapsSourceUnit,
 } from '../../../kmaps-shared/models/kmaps.models';
 import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
+import { AppAddButtonComponent } from '../../../../../shared/components/app-add-button/app-add-button.component';
 import { NativeSearchbarComponent } from '../../../../../shared/components/native-searchbar/native-searchbar.component';
-
-type SourceOutlineGroup = {
-  unit: KmapsSourceUnit;
-  children: KmapsSourceUnit[];
-  visibleChildren: KmapsSourceUnit[];
-  isExpanded: boolean;
-  isExpandable: boolean;
-};
+import { SourceUnitEditorModalComponent } from '../../components/source-unit-editor-modal/source-unit-editor-modal';
 
 @Component({
   selector: 'app-source-detail-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent, NativeSearchbarComponent],
+  imports: [CommonModule, IonicModule, KmapsEmptyStateCardComponent, NativeSearchbarComponent, AppAddButtonComponent],
   templateUrl: './source-detail-page.html',
   styleUrl: './source-detail-page.scss',
 })
@@ -32,185 +26,116 @@ export class SourceDetailPage {
   private readonly destroyRef = inject(DestroyRef);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly modalController = inject(ModalController);
   private readonly workflow = inject(KmapsWorkflowService);
 
   readonly sourceId = signal('');
   readonly searchQuery = signal('');
-  readonly expandedChapterIds = signal<Record<string, boolean>>({});
   readonly source = computed(() => this.workflow.getSource(this.sourceId()));
   readonly units = computed(() => sortUnits(this.workflow.getUnitsForSource(this.sourceId())));
-  readonly outlineGroups = computed<SourceOutlineGroup[]>(() => {
+  readonly currentSource = computed<KmapsSource>(() => this.source() ?? this.buildDraftSource());
+  readonly displayRootUnits = computed(() => resolveDisplayRootUnits(this.units(), this.currentSource().title));
+  readonly outlineUnits = computed(() => {
     const query = this.searchQuery().trim().toLowerCase();
-    const topLevelUnits = this.units().filter((unit) => !unit.parentUnitId);
-    const childrenByParent = new Map<string, KmapsSourceUnit[]>();
+    const units = this.units();
+    const topLevelUnits = this.displayRootUnits();
 
-    for (const unit of this.units()) {
-      if (!unit.parentUnitId) {
-        continue;
-      }
-
-      const siblings = childrenByParent.get(unit.parentUnitId) || [];
-      siblings.push(unit);
-      childrenByParent.set(unit.parentUnitId, sortUnits(siblings));
+    if (!query) {
+      return topLevelUnits;
     }
 
-    return topLevelUnits
-      .map((unit) => {
-        const children = childrenByParent.get(unit.id) || [];
-        const isExpandable = children.length > 0;
-
-        if (!query) {
-          const isExpanded = isExpandable && this.isChapterExpanded(unit.id);
-          return {
-            unit,
-            children,
-            visibleChildren: isExpanded ? children : [],
-            isExpanded,
-            isExpandable,
-          };
-        }
-
-        const unitMatches = matchesUnitQuery(unit, query);
-        const matchingChildren = children.filter((child) => matchesUnitQuery(child, query));
-
-        if (!unitMatches && matchingChildren.length === 0) {
-          return null;
-        }
-
-        const visibleChildren = !isExpandable ? [] : unitMatches ? children : matchingChildren;
-
-        return {
-          unit,
-          children,
-          visibleChildren,
-          isExpanded: visibleChildren.length > 0,
-          isExpandable,
-        };
-      })
-      .filter((group): group is SourceOutlineGroup => group !== null);
+    return topLevelUnits.filter((unit) => matchesUnitQuery(unit, query) || matchesDescendantQuery(units, unit.id, query));
   });
-  readonly currentSource = computed<KmapsSource>(() => this.source() ?? this.buildDraftSource());
   readonly isDraft = computed(() => this.sourceId() === 'new' || !this.source());
-  readonly headerSubtitle = computed(() => {
-    const source = this.currentSource();
-    return [source.creator, source.publicationYear ? String(source.publicationYear) : null].filter(Boolean).join(' • ');
-  });
   readonly progressPercent = computed(() => clampPercent(this.currentSource().progressPercent));
   readonly progressCopy = computed(() => {
-    const source = this.currentSource();
     const currentLocator = this.recentLocator();
-
     if (currentLocator) {
       return `Last opened: ${currentLocator}`;
     }
 
-    return `${this.units().length} ${this.units().length === 1 ? 'unit' : 'units'} ready for reading.`;
+    const chapterCount = this.displayRootUnits().length;
+    return `${chapterCount} ${chapterCount === 1 ? 'chapter' : 'chapters'} ready for reading.`;
   });
   readonly emptyTitle = computed(() => {
     if (this.searchQuery().trim()) {
-      return 'No matching chapters or sections';
+      return 'No matching chapters';
     }
 
-    return 'No units yet';
+    return 'No chapters yet';
   });
   readonly emptyMessage = computed(() => {
     if (this.searchQuery().trim()) {
-      return 'Try a broader search term to find a chapter, section, or locator.';
+      return 'Try a broader search term to find a chapter in this source.';
     }
 
-    return 'Add chapter or section structure first, then open each source unit in the new workspace tabs.';
+    return 'Add chapter structure first, then drill into passages before opening the reading tabs.';
   });
 
   constructor() {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((paramMap) => {
-      const sourceId = paramMap.get('sourceId') || 'new';
-      this.sourceId.set(sourceId);
-      this.syncExpandedOutline(sourceId);
+      this.sourceId.set(paramMap.get('sourceId') || 'new');
+      this.searchQuery.set('');
     });
+  }
+
+  libraryHref(): string {
+    return this.joinRoute(this.libraryRoute());
   }
 
   onSearchChange(value: string): void {
     this.searchQuery.set(value);
   }
 
-  openUnit(unitId: string, tab?: 'overview' | 'read'): void {
-    void this.router.navigate(['/worldview', 'sources', this.currentSource().id, 'units', unitId], {
-      queryParams: tab && tab !== 'overview' ? { tab } : undefined,
-    });
+  openUnit(unitId: string): void {
+    void this.router.navigate(this.unitRoute(unitId));
   }
 
   resumeReading(): void {
-    this.openContinueReading();
-  }
+    const target = findPreferredLeafUnit(this.units(), this.displayRootUnits(), this.readRecentLocatorForSource(this.sourceId()));
+    if (!target) {
+      return;
+    }
 
-  toggleOutlineGroup(event: Event, unitId: string): void {
-    event.stopPropagation();
-    event.preventDefault();
-    this.toggleChapter(unitId);
+    void this.router.navigate(this.workspaceRoute(target.id), {
+      queryParams: { tab: 'read' },
+    });
   }
 
   goBackToLibrary(): void {
-    void this.router.navigate(['/worldview/library']);
+    void this.router.navigate(this.libraryRoute());
   }
 
-  trackGroup(_: number, group: SourceOutlineGroup): string {
-    return group.unit.id;
+  goToDashboard(): void {
+    void this.router.navigate(['/dashboard']);
+  }
+
+  async addTopLevelUnit(event?: Event): Promise<void> {
+    await this.openUnitEditorModal({ event });
+  }
+
+  async addSubunit(unitId: string, event?: Event): Promise<void> {
+    await this.openUnitEditorModal({ event, initialParentUnitId: unitId });
+  }
+
+  async editUnit(unitId: string, event?: Event): Promise<void> {
+    await this.openUnitEditorModal({ event, unitId });
+  }
+
+  unitMeta(unit: KmapsSourceUnit): string {
+    const locator = unit.locatorLabel || composeLocatorLabel(unit.startRef, unit.endRef);
+    const meta = [formatUnitTypeLabel(unit.unitType), locator].filter(Boolean);
+    return meta.join(' · ');
   }
 
   trackUnit(_: number, unit: KmapsSourceUnit): string {
     return unit.id;
   }
 
-  chapterChevron(group: SourceOutlineGroup): string {
-    if (!group.isExpandable) {
-      return 'chevron-forward-outline';
-    }
-
-    return group.isExpanded ? 'chevron-down-outline' : 'chevron-forward-outline';
-  }
-
-  private openContinueReading(): void {
-    const firstUnit = this.units().find((unit) => !unit.parentUnitId) || this.units()[0];
-    if (!firstUnit) {
-      return;
-    }
-
-    this.openUnit(firstUnit.id, 'read');
-  }
-
   private recentLocator(): string | null {
     const source = this.currentSource();
     const value = source.sourceJson?.['recentLocator'];
     return typeof value === 'string' && value.trim() ? value.trim() : source.sourceRef;
-  }
-
-  private toggleChapter(unitId: string): void {
-    this.expandedChapterIds.update((current) => ({
-      ...current,
-      [unitId]: !current[unitId],
-    }));
-  }
-
-  private isChapterExpanded(unitId: string): boolean {
-    return !!this.expandedChapterIds()[unitId];
-  }
-
-  private syncExpandedOutline(sourceId: string): void {
-    const units = sortUnits(this.workflow.getUnitsForSource(sourceId));
-    const topLevelUnits = units.filter((unit) => !unit.parentUnitId);
-    const childParentIds = new Set(units.filter((unit) => !!unit.parentUnitId).map((unit) => unit.parentUnitId as string));
-    const expandableUnits = topLevelUnits.filter((unit) => childParentIds.has(unit.id));
-
-    if (!expandableUnits.length) {
-      this.expandedChapterIds.set({});
-      return;
-    }
-
-    const recentLocator = this.readRecentLocatorForSource(sourceId);
-    const preferredUnit =
-      expandableUnits.find((unit) => matchesRecentLocator(unit, recentLocator)) || expandableUnits[0];
-
-    this.expandedChapterIds.set(preferredUnit ? { [preferredUnit.id]: true } : {});
   }
 
   private readRecentLocatorForSource(sourceId: string): string {
@@ -250,6 +175,60 @@ export class SourceDetailPage {
       updatedAt: null,
     };
   }
+
+  private async openUnitEditorModal(options: {
+    event?: Event;
+    unitId?: string;
+    initialParentUnitId?: string | null;
+  }): Promise<void> {
+    this.stopEvent(options.event);
+    if (this.isDraft()) {
+      return;
+    }
+
+    const modal = await this.modalController.create({
+      component: SourceUnitEditorModalComponent,
+      componentProps: {
+        sourceId: this.currentSource().id,
+        unitId: options.unitId ?? null,
+        initialParentUnitId: options.initialParentUnitId ?? null,
+      },
+      breakpoints: [0, 0.86, 1],
+      initialBreakpoint: 0.86,
+      backdropDismiss: true,
+      handle: true,
+      cssClass: 'km-source-unit-editor-modal',
+    });
+
+    await modal.present();
+  }
+
+  private stopEvent(event?: Event): void {
+    event?.preventDefault();
+    event?.stopPropagation();
+  }
+
+  private routeRoot(): 'wv' | 'worldview' {
+    return this.router.url.startsWith('/wv') ? 'wv' : 'worldview';
+  }
+
+  private libraryRoute(): string[] {
+    return this.routeRoot() === 'wv' ? ['/wv', 'library'] : ['/worldview', 'library'];
+  }
+
+  private unitRoute(unitId: string): string[] {
+    return this.routeRoot() === 'wv'
+      ? ['/wv', 'source', this.currentSource().id, 'unit', unitId]
+      : ['/worldview', 'sources', this.currentSource().id, 'units', unitId];
+  }
+
+  private workspaceRoute(unitId: string): string[] {
+    return [...this.unitRoute(unitId), 'workspace'];
+  }
+
+  private joinRoute(route: string[]): string {
+    return route.join('/');
+  }
 }
 
 function clampPercent(value: number): number {
@@ -275,6 +254,77 @@ function matchesUnitQuery(unit: KmapsSourceUnit, query: string): boolean {
   return haystack.includes(query);
 }
 
+function matchesDescendantQuery(units: KmapsSourceUnit[], parentUnitId: string, query: string): boolean {
+  const queue = units.filter((unit) => unit.parentUnitId === parentUnitId);
+
+  while (queue.length) {
+    const next = queue.shift();
+    if (!next) {
+      continue;
+    }
+
+    if (matchesUnitQuery(next, query)) {
+      return true;
+    }
+
+    queue.push(...units.filter((unit) => unit.parentUnitId === next.id));
+  }
+
+  return false;
+}
+
+function resolveDisplayRootUnits(units: KmapsSourceUnit[], sourceTitle: string): KmapsSourceUnit[] {
+  const topLevelUnits = units.filter((unit) => !unit.parentUnitId);
+  if (topLevelUnits.length !== 1) {
+    return topLevelUnits;
+  }
+
+  const [container] = topLevelUnits;
+  const containerChildren = sortUnits(units.filter((unit) => unit.parentUnitId === container.id));
+  if (!containerChildren.length) {
+    return topLevelUnits;
+  }
+
+  if (normalizeLabel(container.title) !== normalizeLabel(sourceTitle)) {
+    return topLevelUnits;
+  }
+
+  return containerChildren;
+}
+
+function findPreferredLeafUnit(
+  units: KmapsSourceUnit[],
+  roots: KmapsSourceUnit[],
+  recentLocator: string,
+): KmapsSourceUnit | null {
+  const leaves: KmapsSourceUnit[] = [];
+  for (const root of roots) {
+    leaves.push(...collectLeafUnits(units, root.id));
+  }
+  const orderedLeaves = sortUnits(leaves.length ? leaves : roots);
+
+  return orderedLeaves.find((unit) => matchesRecentLocator(unit, recentLocator)) || orderedLeaves[0] || null;
+}
+
+function collectLeafUnits(units: KmapsSourceUnit[], unitId: string): KmapsSourceUnit[] {
+  const currentUnit = units.find((unit) => unit.id === unitId);
+  if (!currentUnit) {
+    return [];
+  }
+
+  const children = sortUnits(units.filter((unit) => unit.parentUnitId === unitId));
+  if (!children.length) {
+    return [currentUnit];
+  }
+
+  const leaves: KmapsSourceUnit[] = [];
+  for (const child of children) {
+    leaves.push(...collectLeafUnits(units, child.id));
+  }
+
+  return leaves;
+}
+
 function matchesRecentLocator(unit: KmapsSourceUnit, recentLocator: string): boolean {
   if (!recentLocator) {
     return false;
@@ -287,4 +337,16 @@ function matchesRecentLocator(unit: KmapsSourceUnit, recentLocator: string): boo
     .toLowerCase();
 
   return recentLocator.includes(haystack) || haystack.includes(recentLocator) || recentLocator.includes(chapterToken);
+}
+
+function composeLocatorLabel(startRef: string | null, endRef: string | null): string | null {
+  if (startRef && endRef && startRef !== endRef) {
+    return `${startRef}-${endRef}`;
+  }
+
+  return startRef ?? endRef ?? null;
+}
+
+function normalizeLabel(value: string | null | undefined): string {
+  return (value ?? '').trim().toLowerCase();
 }

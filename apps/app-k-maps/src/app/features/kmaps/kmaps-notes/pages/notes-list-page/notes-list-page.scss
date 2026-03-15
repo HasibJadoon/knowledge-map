@@ -17,16 +17,10 @@
   font-size: 0.88rem;
 }
 
-.notes-page__hero,
 .notes-page__card {
   margin: 0;
 }
 
-.notes-page__hero ion-card-content {
-  padding: 1rem;
-}
-
-.notes-page__hero-head,
 .notes-page__card-head {
   display: flex;
   align-items: flex-start;
@@ -34,35 +28,11 @@
   gap: 0.82rem;
 }
 
-.notes-page__source {
-  margin: 0;
-  color: var(--notes-text-dim);
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.notes-page__hero h1 {
-  margin: 0.28rem 0 0;
-  color: var(--notes-text);
-  font-size: 1.32rem;
-  line-height: 1.22;
-}
-
-.notes-page__create-button,
 .notes-page__filter-pill,
 .notes-page__menu-button,
 .notes-page__card-open {
   border: 0;
   font: inherit;
-}
-
-.notes-page__create-button {
-  min-height: 2.3rem;
-  padding: 0 0.86rem;
-  border-radius: 999px;
-  background: rgba(113, 165, 255, 0.14);
-  color: #e3edff;
 }
 
 .notes-page__filter-row {

@@ -14,16 +14,12 @@
     <ng-container [ngSwitch]="activeTab()">
       <app-wv-overview-tab
         *ngSwitchCase="'overview'"
-        [source]="source()"
         [unit]="unit()"
-        [summary]="sourceSummary()"
-        [progressPercent]="progressPercent()"
         [stats]="stats()"
         [structureUnits]="filteredOverviewUnits()"
         [recentHighlights]="recentHighlights()"
         [recentNotes]="recentNotes()"
         [isEmpty]="isEmptyState()"
-        (continueReading)="setActiveTab('read')"
         (viewHighlights)="setActiveTab('highlights')"
         (viewNotes)="setActiveTab('notes')"
         (openUnit)="openUnit($event)"
@@ -34,14 +30,15 @@
         *ngSwitchCase="'read'"
         [readUnits]="readUnits()"
         [selectedReadUnit]="selectedReadUnit()"
-        [displayedSections]="displayedReadingSections()"
-        [selectedParagraphIndex]="selectedParagraphIndex()"
+        [displayedSegments]="displayedReadingSegments()"
+        [selectedSegmentIndexes]="selectedSegmentIndexes()"
         [selectedExcerpt]="selectedExcerpt()"
         [selectedLocator]="selectedLocator()"
         [normalizedQuery]="normalizedQuery()"
         (scopeSelected)="selectReadUnit($event)"
-        (paragraphSelected)="selectParagraph($event)"
-        (paragraphMenuRequested)="openParagraphMenu($event)"
+        (selectionChanged)="onReadSelectionChange($event)"
+        (segmentToggleRequested)="toggleReadSegment($event)"
+        (contextMenuRequested)="onReadContextMenu($event)"
         (highlightRequested)="highlightSelected()"
         (noteRequested)="openCreateNoteModal('quote')"
         (copyRequested)="copySelectedExcerpt()"
@@ -76,12 +73,51 @@
   </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="showDistillFab()">
-    <ion-button class="wv-unit-workspace__fab-button" shape="round" (click)="startDistill()">
-      <ion-icon name="sparkles-outline" slot="start"></ion-icon>
-      Start Distill
-    </ion-button>
+    <ion-fab-button
+      class="wv-unit-workspace__fab-button"
+      aria-label="Start Distill"
+      title="Start Distill"
+      (click)="startDistill()"
+    >
+      <ion-icon name="sparkles-outline"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
 </ion-content>
+
+<button
+  type="button"
+  class="wv-read-context-menu__backdrop"
+  *ngIf="readContextMenuOpen()"
+  aria-label="Close reading context menu"
+  (click)="closeReadContextMenu()"
+  (contextmenu)="$event.preventDefault(); closeReadContextMenu()"
+></button>
+
+<section
+  class="wv-read-context-menu"
+  *ngIf="readContextMenuOpen()"
+  [style.left.px]="readContextMenuLeft()"
+  [style.top.px]="readContextMenuTop()"
+  (click)="$event.stopPropagation()"
+  (contextmenu)="$event.preventDefault(); $event.stopPropagation()"
+>
+  <button type="button" class="wv-read-context-menu__item" (click)="highlightFromContextMenu()">
+    <ion-icon name="color-wand-outline" aria-hidden="true"></ion-icon>
+    <span>Highlight</span>
+  </button>
+  <button type="button" class="wv-read-context-menu__item" (click)="takeNoteFromContextMenu()">
+    <ion-icon name="create-outline" aria-hidden="true"></ion-icon>
+    <span>Take Note</span>
+  </button>
+  <button type="button" class="wv-read-context-menu__item" (click)="copyFromContextMenu()">
+    <ion-icon name="copy-outline" aria-hidden="true"></ion-icon>
+    <span>Copy</span>
+  </button>
+  <button type="button" class="wv-read-context-menu__item" (click)="linkNodeFromContextMenu()">
+    <ion-icon name="share-social-outline" aria-hidden="true"></ion-icon>
+    <span>Link Node</span>
+  </button>
+</section>
 
 <ion-footer class="km-native-page__footer">
   <app-kmaps-unit-workspace-tabs [activeTab]="activeTab()" (activeTabChange)="setActiveTab($event)"></app-kmaps-unit-workspace-tabs>

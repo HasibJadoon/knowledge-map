@@ -6,19 +6,11 @@
   --reader-text-dim: #9ca8c0;
 }
 
-.reader-page__hero,
 .reader-page__context-sheet,
 .reader-page__toolbar {
   margin: 0;
 }
 
-.reader-page__hero ion-card-content {
-  display: grid;
-  gap: 0.72rem;
-  padding: 1rem;
-}
-
-.reader-page__source,
 .reader-page__sheet-kicker,
 .reader-page__sheet-locator,
 .reader-page__paragraph-index,
@@ -26,47 +18,12 @@
   margin: 0;
 }
 
-.reader-page__source {
-  color: var(--reader-text-dim);
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.reader-page__hero h1 {
-  margin: 0;
-  color: var(--reader-text);
-  font-size: 1.42rem;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-.reader-page__progress-row,
 .reader-page__section-head,
 .reader-page__sheet-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-}
-
-.reader-page__progress-row {
-  color: var(--reader-text-dim);
-  font-size: 0.77rem;
-}
-
-.reader-page__progress-track {
-  width: 100%;
-  height: 0.28rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-}
-
-.reader-page__progress-track span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(116, 177, 255, 1) 0%, rgba(141, 217, 255, 1) 100%);
 }
 
 .reader-page__section {

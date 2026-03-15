@@ -35,7 +35,13 @@ import {
   formatNoteKindLabel,
   formatTokenLabel,
 } from '../../features/kmaps/kmaps-shared/models/kmaps.models';
-import { WorldviewApiService } from './worldview-api.service';
+import {
+  CreateWorldviewSourceInput,
+  CreateWorldviewUnitInput,
+  UpdateWorldviewSourceInput,
+  UpdateWorldviewUnitInput,
+  WorldviewApiService,
+} from './worldview-api.service';
 
 type CreateNoteInput = {
   sourceId: string;
@@ -96,6 +102,30 @@ export class KmapsWorkflowService {
     } catch (error) {
       console.error('Failed to hydrate worldview workflow from API.', error);
     }
+  }
+
+  async createSourceWithUnits(input: CreateWorldviewSourceInput): Promise<{ sourceId: string; unitIds: string[] }> {
+    const result = await firstValueFrom(this.worldviewApi.createSource(input));
+    await this.reload();
+    return result;
+  }
+
+  async updateSource(input: UpdateWorldviewSourceInput): Promise<{ sourceId: string; unitIds: string[] }> {
+    const result = await firstValueFrom(this.worldviewApi.updateSource(input));
+    await this.reload();
+    return result;
+  }
+
+  async createUnit(input: CreateWorldviewUnitInput): Promise<{ unitId: string }> {
+    const result = await firstValueFrom(this.worldviewApi.createUnit(input));
+    await this.reload();
+    return result;
+  }
+
+  async updateUnit(input: UpdateWorldviewUnitInput): Promise<{ unitId: string }> {
+    const result = await firstValueFrom(this.worldviewApi.updateUnit(input));
+    await this.reload();
+    return result;
   }
 
   getSource(sourceId: string | null | undefined): KmapsSource | null {

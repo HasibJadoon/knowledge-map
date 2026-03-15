@@ -37,7 +37,6 @@ export class ReaderPage {
   readonly markedParagraphs = signal<number[]>([]);
   readonly source = computed(() => this.workflow.getSource(this.sourceId()));
   readonly unit = computed(() => this.workflow.getUnit(this.unitId()));
-  readonly progressPercent = computed(() => clampPercent(this.source()?.progressPercent ?? 0));
   readonly selectedExcerpt = computed(() => {
     const unit = this.unit();
     const index = this.selectedParagraphIndex();
@@ -214,12 +213,4 @@ function buildReadingSections(paragraphs: string[]): ReadingSection[] {
       paragraphs: paragraphs.slice(pivot).map((body, index) => ({ index: index + pivot, body })),
     },
   ];
-}
-
-function clampPercent(value: number): number {
-  if (!Number.isFinite(value)) {
-    return 0;
-  }
-
-  return Math.max(0, Math.min(100, Math.round(value)));
 }

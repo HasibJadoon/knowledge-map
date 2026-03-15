@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, HostListener, computed, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActionSheetController, IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { KmapsUnitWorkspaceTabsComponent } from '../../../kmaps-shared/components/unit-workspace-tabs/unit-workspace-tabs';
-import { KmapsNote, KmapsNoteKind, KmapsSource, KmapsSourceUnit, KmapsStatItem, formatNoteKindLabel, formatUnitTypeLabel } from '../../../kmaps-shared/models/kmaps.models';
+import { KmapsNote, KmapsNoteKind, KmapsSourceUnit, KmapsStatItem, formatNoteKindLabel, formatUnitTypeLabel } from '../../../kmaps-shared/models/kmaps.models';
 import { WvWorkspaceTabKey } from '../../../kmaps-shared/models/wv-workspace.models';
 import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
 import { WvHighlightsService } from '../../../../../shared/services/wv-highlights.service';
@@ -18,17 +18,18 @@ import { WvNotesFilterKey, WvNotesTabComponent } from '../../components/wv-notes
 import { WvOverviewTabComponent } from '../../components/wv-overview-tab/wv-overview-tab';
 import { WvReadTabComponent } from '../../components/wv-read-tab/wv-read-tab';
 
-type ReadingParagraph = {
+type ReadingSegment = {
   index: number;
+  locator: string;
+  marker: string | null;
   body: string;
 };
 
-type ReadingSection = {
-  heading: string;
-  paragraphs: ReadingParagraph[];
-};
-
 type WorkspaceNoteKind = Extract<KmapsNoteKind, 'highlight' | 'quote' | 'reflection' | 'question' | 'insight' | 'observation' | 'claim_seed' | 'idea'>;
+type ReadContextMenuPosition = {
+  x: number;
+  y: number;
+};
 
 @Component({
   selector: 'app-wv-unit-workspace-page',
@@ -49,7 +50,6 @@ type WorkspaceNoteKind = Extract<KmapsNoteKind, 'highlight' | 'quote' | 'reflect
 })
 export class WvUnitWorkspacePage {
   private readonly destroyRef = inject(DestroyRef);
-  private readonly actionSheetController = inject(ActionSheetController);
   private readonly modalController = inject(ModalController);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -65,12 +65,20 @@ export class WvUnitWorkspacePage {
   readonly searchQuery = signal('');
   readonly activeNotesFilter = signal<WvNotesFilterKey>('all');
   readonly selectedReadUnitId = signal('');
-  readonly selectedParagraphIndex = signal<number | null>(null);
+  readonly selectedSegmentIndexes = signal<number[]>([]);
+  readonly selectedExcerpt = signal('');
+  readonly selectedLocator = signal('');
+  readonly readContextMenuOpen = signal(false);
+  readonly readContextMenuPosition = signal<ReadContextMenuPosition | null>(null);
 
   readonly noteFilters: ReadonlyArray<WvNotesFilterKey> = ['all', 'summary', 'claim_seed', 'insight', 'reflection'];
 
   readonly source = computed(() => this.workflow.getSource(this.sourceId()));
   readonly unit = computed(() => this.workflow.getUnit(this.unitId()));
+  readonly parentUnit = computed(() => {
+    const currentUnit = this.unit();
+    return currentUnit?.parentUnitId ? this.workflow.getUnit(currentUnit.parentUnitId) : null;
+  });
   readonly childUnits = computed(() =>
     this.workflow
       .getUnitsForSource(this.sourceId())
@@ -83,12 +91,17 @@ export class WvUnitWorkspacePage {
       return [];
     }
 
-    return this.childUnits().length ? this.childUnits() : [currentUnit];
+    const children = this.childUnits();
+    if (!children.length) {
+      return [currentUnit];
+    }
+
+    // Keep the full passage available in the reader when nested ayah units exist.
+    return currentUnit.readingBody.length ? [currentUnit, ...children] : children;
   });
   readonly selectedReadUnit = computed(
     () => this.readUnits().find((unit) => unit.id === this.selectedReadUnitId()) || this.readUnits()[0] || null,
   );
-  readonly sourceSummary = computed(() => this.buildSourceSummary(this.source(), this.unit()));
   readonly normalizedQuery = computed(() => this.searchQuery().trim().toLowerCase());
   readonly allHighlights = computed(() => this.highlightsService.listForUnit(this.sourceId(), this.unitId()));
   readonly allNotes = computed(() => this.notesService.listForUnit(this.sourceId(), this.unitId()));
@@ -123,47 +136,14 @@ export class WvUnitWorkspacePage {
   readonly recentHighlights = computed(() => this.highlightsService.recentForUnit(this.sourceId(), this.unitId()));
   readonly recentNotes = computed(() => this.notesService.recentForUnit(this.sourceId(), this.unitId()));
   readonly nodeCount = computed(() => this.nodesService.getNodeCountForUnit(this.sourceId(), this.unitId()));
-  readonly progressPercent = computed(() => clampPercent(this.source()?.progressPercent ?? 0));
   readonly stats = computed<KmapsStatItem[]>(() => [
     { label: 'Highlights', value: this.allHighlights().length },
     { label: 'Notes', value: this.allNotes().length },
     { label: 'Nodes', value: this.nodeCount(), emphasis: this.nodeCount() > 0 },
   ]);
-  readonly displayedReadingSections = computed(() =>
-    buildReadingSections(
-      (this.selectedReadUnit()?.readingBody || [])
-        .map((body, index) => ({ index, body }))
-        .filter((paragraph) => {
-          const query = this.normalizedQuery();
-          return !query || paragraph.body.toLowerCase().includes(query);
-        }),
-    ),
+  readonly displayedReadingSegments = computed(() =>
+    buildReadingSegments(this.selectedReadUnit(), this.normalizedQuery()),
   );
-  readonly selectedExcerpt = computed(() => {
-    const readUnit = this.selectedReadUnit();
-    const paragraphIndex = this.selectedParagraphIndex();
-
-    if (!readUnit || paragraphIndex == null) {
-      return '';
-    }
-
-    return readUnit.readingBody[paragraphIndex] || '';
-  });
-  readonly selectedLocator = computed(() => {
-    const readUnit = this.selectedReadUnit();
-    const paragraphIndex = this.selectedParagraphIndex();
-
-    if (!readUnit) {
-      return '';
-    }
-
-    const baseLocator = readUnit.locatorLabel || readUnit.startRef || this.unit()?.locatorLabel || '';
-    if (paragraphIndex == null) {
-      return baseLocator;
-    }
-
-    return [baseLocator, `P${paragraphIndex + 1}`].filter(Boolean).join(' · ');
-  });
   readonly searchPlaceholder = computed(() => {
     switch (this.activeTab()) {
       case 'read':
@@ -179,9 +159,20 @@ export class WvUnitWorkspacePage {
   });
   readonly isEmptyState = computed(() => !this.source() || !this.unit() || this.sourceId() === 'new' || this.unitId() === 'new');
   readonly showDistillFab = computed(() => this.allNotes().length >= 1);
+  readonly readContextMenuLeft = computed(() => this.resolveContextMenuLeft(this.readContextMenuPosition()));
+  readonly readContextMenuTop = computed(() => this.resolveContextMenuTop(this.readContextMenuPosition()));
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    this.closeReadContextMenu();
+  }
 
   backHref(): string {
-    return this.joinRoute(this.sourceId() ? this.sourceRoute() : this.libraryRoute());
+    if (!this.sourceId()) {
+      return this.joinRoute(this.libraryRoute());
+    }
+
+    return this.joinRoute(this.parentUnit() ? this.unitRoute(this.parentUnit()!.id) : this.sourceRoute());
   }
 
   constructor() {
@@ -189,7 +180,7 @@ export class WvUnitWorkspacePage {
       this.sourceId.set(paramMap.get('sourceId') || '');
       this.unitId.set(paramMap.get('unitId') || '');
       this.searchQuery.set('');
-      this.selectedParagraphIndex.set(null);
+      this.clearReadSelection();
       this.activeNotesFilter.set('all');
     });
 
@@ -218,7 +209,7 @@ export class WvUnitWorkspacePage {
       const nextReadUnitId = this.selectedReadUnit()?.id || '';
       if (nextReadUnitId !== lastReadUnitId) {
         lastReadUnitId = nextReadUnitId;
-        this.selectedParagraphIndex.set(null);
+        this.clearReadSelection();
       }
     });
   }
@@ -238,6 +229,7 @@ export class WvUnitWorkspacePage {
 
   onSearchChange(value: string): void {
     this.searchQuery.set(value);
+    this.clearReadSelection();
   }
 
   onNotesFilterChange(filter: WvNotesFilterKey): void {
@@ -249,7 +241,7 @@ export class WvUnitWorkspacePage {
       return;
     }
 
-    void this.router.navigate(this.unitRoute(unitId), {
+    void this.router.navigate(this.hasChildUnits(unitId) ? this.unitRoute(unitId) : this.workspaceRoute(unitId), {
       queryParams: tab && tab !== 'overview' ? { tab } : undefined,
     });
   }
@@ -258,52 +250,55 @@ export class WvUnitWorkspacePage {
     this.selectedReadUnitId.set(unitId);
   }
 
-  selectParagraph(index: number): void {
-    this.selectedParagraphIndex.update((current) => (current === index ? null : index));
+  onReadSelectionChange(selection: { excerpt: string; locator: string }): void {
+    this.selectedSegmentIndexes.set([]);
+    this.selectedExcerpt.set(selection.excerpt.trim());
+    this.selectedLocator.set(selection.locator.trim());
   }
 
-  async openParagraphMenu(index: number): Promise<void> {
-    this.selectParagraph(index);
+  toggleReadSegment(index: number): void {
+    const nextIndexes = this.selectedSegmentIndexes().includes(index)
+      ? this.selectedSegmentIndexes().filter((value) => value !== index)
+      : [...this.selectedSegmentIndexes(), index].sort((left, right) => left - right);
 
-    const actionSheet = await this.actionSheetController.create({
-      header: this.selectedLocator() || 'Selection',
-      buttons: [
-        {
-          text: 'Highlight',
-          icon: 'color-wand-outline',
-          handler: () => {
-            void this.highlightSelected();
-          },
-        },
-        {
-          text: 'Add note',
-          icon: 'create-outline',
-          handler: () => {
-            void this.openCreateNoteModal('quote');
-          },
-        },
-        {
-          text: 'Copy',
-          icon: 'copy-outline',
-          handler: () => {
-            void this.copySelectedExcerpt();
-          },
-        },
-        {
-          text: 'Link node',
-          icon: 'share-social-outline',
-          handler: () => {
-            void this.linkSelectedToNode();
-          },
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        },
-      ],
+    this.selectedSegmentIndexes.set(nextIndexes);
+    if (!nextIndexes.length) {
+      this.clearReadSelection();
+      return;
+    }
+
+    const selectedSegments = this.displayedReadingSegments().filter((segment) => nextIndexes.includes(segment.index));
+    if (!selectedSegments.length) {
+      this.clearReadSelection();
+      return;
+    }
+
+    this.selectedExcerpt.set(selectedSegments.map((segment) => segment.body).join(' '));
+    this.selectedLocator.set(composeSegmentSelectionLocator(selectedSegments, this.selectedReadUnit()));
+  }
+
+  onReadContextMenu(request: { event: MouseEvent; mode: 'selection' | 'segment'; index?: number; excerpt?: string; locator?: string }): void {
+    if (request.mode === 'selection') {
+      this.selectedSegmentIndexes.set([]);
+      this.selectedExcerpt.set((request.excerpt || '').trim());
+      this.selectedLocator.set((request.locator || '').trim());
+    } else if (request.index != null) {
+      const currentIndexes = this.selectedSegmentIndexes();
+      const nextIndexes =
+        currentIndexes.length && currentIndexes.includes(request.index) ? currentIndexes : [request.index];
+      this.applySegmentSelection(nextIndexes);
+    }
+
+    if (!this.selectedExcerpt().trim()) {
+      this.closeReadContextMenu();
+      return;
+    }
+
+    this.readContextMenuPosition.set({
+      x: request.event.clientX,
+      y: request.event.clientY,
     });
-
-    await actionSheet.present();
+    this.readContextMenuOpen.set(true);
   }
 
   async highlightSelected(): Promise<void> {
@@ -385,6 +380,31 @@ export class WvUnitWorkspacePage {
     await modal.present();
   }
 
+  closeReadContextMenu(): void {
+    this.readContextMenuOpen.set(false);
+    this.readContextMenuPosition.set(null);
+  }
+
+  async highlightFromContextMenu(): Promise<void> {
+    this.closeReadContextMenu();
+    await this.highlightSelected();
+  }
+
+  async takeNoteFromContextMenu(): Promise<void> {
+    this.closeReadContextMenu();
+    await this.openCreateNoteModal('quote');
+  }
+
+  async copyFromContextMenu(): Promise<void> {
+    this.closeReadContextMenu();
+    await this.copySelectedExcerpt();
+  }
+
+  async linkNodeFromContextMenu(): Promise<void> {
+    this.closeReadContextMenu();
+    await this.linkSelectedToNode();
+  }
+
   async openNote(note: KmapsNote): Promise<void> {
     const modal = await this.modalController.create({
       component: NoteWorkspaceModalComponent,
@@ -447,7 +467,7 @@ export class WvUnitWorkspacePage {
       return;
     }
 
-    void this.router.navigate(this.sourceRoute());
+    void this.router.navigate(this.parentUnit() ? this.unitRoute(this.parentUnit()!.id) : this.sourceRoute());
   }
 
   noteEmptyMessage(): string {
@@ -466,13 +486,31 @@ export class WvUnitWorkspacePage {
     return this.selectedReadUnit()?.id || this.unit()?.id || '';
   }
 
-  private buildSourceSummary(source: KmapsSource | null, unit: KmapsSourceUnit | null): string {
-    return (
-      unit?.summary?.trim() ||
-      unit?.anchorText?.trim() ||
-      source?.description?.trim() ||
-      'Use this workspace to read, save highlights, and keep notes for the current source unit.'
-    );
+  private clearReadSelection(): void {
+    this.selectedSegmentIndexes.set([]);
+    this.selectedExcerpt.set('');
+    this.selectedLocator.set('');
+    this.closeReadContextMenu();
+  }
+
+  private applySegmentSelection(indexes: number[]): void {
+    const nextIndexes = [...indexes].sort((left, right) => left - right);
+    this.selectedSegmentIndexes.set(nextIndexes);
+    if (!nextIndexes.length) {
+      this.selectedExcerpt.set('');
+      this.selectedLocator.set('');
+      return;
+    }
+
+    const selectedSegments = this.displayedReadingSegments().filter((segment) => nextIndexes.includes(segment.index));
+    if (!selectedSegments.length) {
+      this.selectedExcerpt.set('');
+      this.selectedLocator.set('');
+      return;
+    }
+
+    this.selectedExcerpt.set(selectedSegments.map((segment) => segment.body).join(' '));
+    this.selectedLocator.set(composeSegmentSelectionLocator(selectedSegments, this.selectedReadUnit()));
   }
 
   private matchesNoteQuery(note: KmapsNote, query: string): boolean {
@@ -494,6 +532,32 @@ export class WvUnitWorkspacePage {
     return this.router.url.startsWith('/wv') ? 'wv' : 'worldview';
   }
 
+  private resolveContextMenuLeft(position: ReadContextMenuPosition | null): number | null {
+    if (!position || typeof window === 'undefined') {
+      return null;
+    }
+
+    const menuWidth = 220;
+    const gutter = 12;
+    return Math.max(gutter, Math.min(position.x + 4, window.innerWidth - menuWidth - gutter));
+  }
+
+  private resolveContextMenuTop(position: ReadContextMenuPosition | null): number | null {
+    if (!position || typeof window === 'undefined') {
+      return null;
+    }
+
+    const menuHeight = 196;
+    const gutter = 12;
+    const preferredTop = position.y + 6;
+    const maxTop = window.innerHeight - menuHeight - gutter;
+    if (preferredTop <= maxTop) {
+      return Math.max(gutter, preferredTop);
+    }
+
+    return Math.max(gutter, position.y - menuHeight - 6);
+  }
+
   private libraryRoute(): string[] {
     return this.routeRoot() === 'wv' ? ['/wv', 'library'] : ['/worldview', 'library'];
   }
@@ -508,6 +572,14 @@ export class WvUnitWorkspacePage {
     return this.routeRoot() === 'wv'
       ? ['/wv', 'source', this.sourceId(), 'unit', unitId]
       : ['/worldview', 'sources', this.sourceId(), 'units', unitId];
+  }
+
+  private workspaceRoute(unitId = this.unitId()): string[] {
+    return [...this.unitRoute(unitId), 'workspace'];
+  }
+
+  private hasChildUnits(unitId: string): boolean {
+    return this.workflow.getUnitsForSource(this.sourceId()).some((unit) => unit.parentUnitId === unitId);
   }
 
   private distillStartRoute(): string[] {
@@ -549,14 +621,6 @@ function parseTabKey(value: string | null): WvWorkspaceTabKey {
   }
 }
 
-function clampPercent(value: number): number {
-  if (!Number.isFinite(value)) {
-    return 0;
-  }
-
-  return Math.max(0, Math.min(100, Math.round(value)));
-}
-
 function matchesUnitQuery(unit: KmapsSourceUnit, query: string): boolean {
   const haystack = [unit.title, unit.summary, unit.locatorLabel, unit.anchorText, formatUnitTypeLabel(unit.unitType)]
     .filter(Boolean)
@@ -566,31 +630,23 @@ function matchesUnitQuery(unit: KmapsSourceUnit, query: string): boolean {
   return haystack.includes(query);
 }
 
-function buildReadingSections(paragraphs: ReadingParagraph[]): ReadingSection[] {
-  if (!paragraphs.length) {
+function buildReadingSegments(unit: KmapsSourceUnit | null, query: string): ReadingSegment[] {
+  if (!unit?.readingBody.length) {
     return [];
   }
 
-  if (paragraphs.length <= 3) {
-    return [
-      {
-        heading: 'Reading',
-        paragraphs,
-      },
-    ];
-  }
-
-  const pivot = Math.ceil(paragraphs.length / 2);
-  return [
-    {
-      heading: 'Opening',
-      paragraphs: paragraphs.slice(0, pivot),
-    },
-    {
-      heading: 'Continuation',
-      paragraphs: paragraphs.slice(pivot),
-    },
-  ];
+  const sequence = inferSequentialLocatorInfo(unit);
+  return unit.readingBody
+    .map((body, index) => {
+      const sequenceNumber = sequence ? sequence.start + index : null;
+      return {
+        index,
+        body,
+        locator: sequence && sequence.prefix ? `${sequence.prefix}${sequenceNumber}` : fallbackLocator(unit, index),
+        marker: sequenceNumber != null ? String(sequenceNumber) : null,
+      };
+    })
+    .filter((segment) => !query || segment.body.toLowerCase().includes(query));
 }
 
 function deriveNodeTitle(value: string): string {
@@ -600,4 +656,68 @@ function deriveNodeTitle(value: string): string {
   }
 
   return trimmed.length > 56 ? `${trimmed.slice(0, 53).trim()}...` : trimmed;
+}
+
+function composeSegmentSelectionLocator(
+  segments: ReadonlyArray<ReadingSegment>,
+  unit: KmapsSourceUnit | null,
+): string {
+  if (!segments.length) {
+    return unit?.locatorLabel || unit?.startRef || '';
+  }
+
+  const ordered = [...segments].sort((left, right) => left.index - right.index);
+  if (ordered.length === 1) {
+    return ordered[0].locator;
+  }
+
+  const isContiguous = ordered.every((segment, index) => index === 0 || segment.index === ordered[index - 1].index + 1);
+  if (isContiguous) {
+    return compactLocatorRange(ordered[0].locator, ordered[ordered.length - 1].locator) || ordered.map((segment) => segment.locator).join(', ');
+  }
+
+  return ordered.map((segment) => segment.locator).join(', ');
+}
+
+function fallbackLocator(unit: KmapsSourceUnit, index: number): string {
+  if (unit.readingBody.length === 1) {
+    return unit.locatorLabel || unit.startRef || unit.title;
+  }
+
+  const baseLocator = unit.locatorLabel || unit.startRef || unit.title;
+  return [baseLocator, `P${index + 1}`].filter(Boolean).join(' · ');
+}
+
+function inferSequentialLocatorInfo(unit: KmapsSourceUnit): { prefix: string; start: number } | null {
+  if (!unit.startRef || !unit.endRef || unit.readingBody.length < 1) {
+    return null;
+  }
+
+  const startMatch = unit.startRef.match(/^(.*?)(\d+)$/);
+  const endMatch = unit.endRef.match(/^(.*?)(\d+)$/);
+  if (!startMatch || !endMatch || startMatch[1] !== endMatch[1]) {
+    return null;
+  }
+
+  const start = Number(startMatch[2]);
+  const end = Number(endMatch[2]);
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) {
+    return null;
+  }
+
+  if (end - start + 1 !== unit.readingBody.length) {
+    return null;
+  }
+
+  return { prefix: startMatch[1], start };
+}
+
+function compactLocatorRange(startLocator: string, endLocator: string): string | null {
+  const startMatch = startLocator.match(/^(.*?)(\d+)$/);
+  const endMatch = endLocator.match(/^(.*?)(\d+)$/);
+  if (!startMatch || !endMatch || startMatch[1] !== endMatch[1]) {
+    return null;
+  }
+
+  return `${startMatch[1]}${startMatch[2]}-${endMatch[2]}`;
 }
