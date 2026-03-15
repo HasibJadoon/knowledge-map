@@ -53,6 +53,10 @@ export class WvNotesTabComponent {
     return formatNoteKindLabel(kind);
   }
 
+  isArabicText(value: string | null | undefined): boolean {
+    return /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(value || '');
+  }
+
   preview(note: KmapsNote): string {
     const value = (note.bodyMd || note.excerptText || note.title || '').trim();
     return value.length > 160 ? `${value.slice(0, 157).trim()}...` : value;

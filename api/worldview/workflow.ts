@@ -27,7 +27,8 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       return json(emptyWorkflowResponse());
     }
 
-    const [units, people, sourcePeople, sourceDetails, notes] = await Promise.all([
+    const [highlights, units, people, sourcePeople, sourceDetails, notes] = await Promise.all([
+      listHighlights(db, user.id),
       listUnits(db, user.id),
       listPeople(db, user.id),
       listSourcePeople(db, user.id),
@@ -38,6 +39,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     return json({
       ok: true,
       sources,
+      highlights,
       units,
       people,
       source_people: sourcePeople,
@@ -212,6 +214,43 @@ async function listSourceDetails(db: D1Database, userId: number): Promise<Row[]>
   return result.results ?? [];
 }
 
+async function listHighlights(db: D1Database, userId: number): Promise<Row[]> {
+  if (!(await hasTable(db, 'wv_highlights'))) {
+    return [];
+  }
+
+  const result = await db
+    .prepare(
+      `
+      SELECT
+        h.id,
+        h.canonical_input,
+        h.user_id,
+        h.source_id,
+        h.source_unit_id,
+        h.session_id,
+        h.locator,
+        h.anchor_text,
+        h.selected_text,
+        h.start_offset,
+        h.end_offset,
+        h.color,
+        h.meta_json,
+        h.created_at,
+        h.updated_at
+      FROM wv_highlights h
+      INNER JOIN wv_sources s ON s.id = h.source_id
+      WHERE (h.user_id = ?1 OR h.user_id IS NULL)
+        AND (s.user_id = ?1 OR s.user_id IS NULL)
+      ORDER BY COALESCE(h.updated_at, h.created_at) DESC, h.id DESC
+      `
+    )
+    .bind(userId)
+    .all<Row>();
+
+  return result.results ?? [];
+}
+
 async function listNotes(db: D1Database, userId: number): Promise<Row[]> {
   if (!(await hasTable(db, 'wv_notes'))) {
     return [];
@@ -269,6 +308,7 @@ function emptyWorkflowResponse() {
   return {
     ok: true,
     sources: [],
+    highlights: [],
     units: [],
     people: [],
     source_people: [],

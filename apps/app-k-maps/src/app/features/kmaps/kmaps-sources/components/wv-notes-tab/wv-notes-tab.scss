@@ -47,7 +47,26 @@
   line-height: 1.6;
 }
 
+.wv-notes-tab__excerpt--arabic {
+  padding-left: 0;
+  padding-right: 0.85rem;
+  border-left: 0;
+  border-right: 2px solid rgba(var(--ion-color-primary-rgb), 0.45);
+  font-family: var(--app-font-ar);
+  font-size: 1rem;
+  line-height: 1.9;
+  text-align: right;
+}
+
 .wv-notes-tab__body {
   font-size: 0.9rem;
   line-height: 1.55;
+}
+
+.wv-notes-tab__body--arabic {
+  font-family: var(--app-font-ar);
+  font-size: 0.98rem;
+  line-height: 1.9;
+  text-align: right;
+  color: color-mix(in srgb, var(--app-text-muted) 88%, white 12%);
 }

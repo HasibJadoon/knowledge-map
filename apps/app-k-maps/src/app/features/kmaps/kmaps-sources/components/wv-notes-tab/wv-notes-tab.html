@@ -18,8 +18,23 @@
       <span class="wv-notes-tab__locator" *ngIf="note.locator">{{ note.locator }}</span>
     </div>
 
-    <blockquote class="wv-notes-tab__excerpt" *ngIf="note.excerptText">{{ note.excerptText }}</blockquote>
-    <p class="wv-notes-tab__body">{{ preview(note) }}</p>
+    <blockquote
+      class="wv-notes-tab__excerpt"
+      *ngIf="note.excerptText"
+      [class.wv-notes-tab__excerpt--arabic]="isArabicText(note.excerptText)"
+      [attr.lang]="isArabicText(note.excerptText) ? 'ar' : 'en'"
+      [attr.dir]="isArabicText(note.excerptText) ? 'rtl' : 'ltr'"
+    >
+      {{ note.excerptText }}
+    </blockquote>
+    <p
+      class="wv-notes-tab__body"
+      [class.wv-notes-tab__body--arabic]="isArabicText(preview(note))"
+      [attr.lang]="isArabicText(preview(note)) ? 'ar' : 'en'"
+      [attr.dir]="isArabicText(preview(note)) ? 'rtl' : 'ltr'"
+    >
+      {{ preview(note) }}
+    </p>
 
     <div class="wv-notes-tab__actions">
       <ion-button fill="clear" size="small" (click)="editNote.emit(note)">Edit</ion-button>

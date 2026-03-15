@@ -22,6 +22,7 @@ type WorkflowApiResponse = {
   ok?: boolean;
   error?: string;
   sources?: unknown[];
+  highlights?: unknown[];
   units?: unknown[];
   people?: unknown[];
   source_people?: unknown[];
@@ -138,7 +139,10 @@ export class WorldviewApiService {
         sourceDetails: asArray(response.source_details)
           .map(mapSourceDetail)
           .filter((item): item is KmapsSourceDetail => item !== null),
-        notes: asArray(response.notes).map(mapNote).filter((item): item is KmapsNote => item !== null),
+        notes: mergeNotes(
+          asArray(response.notes).map(mapNote).filter((item): item is KmapsNote => item !== null),
+          asArray(response.highlights).map(mapHighlight).filter((item): item is KmapsNote => item !== null),
+        ),
       })),
     );
   }
@@ -381,6 +385,41 @@ function mapNote(value: unknown): KmapsNote | null {
   };
 }
 
+function mapHighlight(value: unknown): KmapsNote | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const canonicalInput = readTrimmed(row?.['canonical_input']);
+  const sourceId = readTrimmed(row?.['source_id']);
+  const selectedText = readTrimmed(row?.['selected_text']);
+  if (!id || !canonicalInput || !sourceId || selectedText === null) {
+    return null;
+  }
+
+  return {
+    id,
+    canonicalInput,
+    userId: readInteger(row?.['user_id']),
+    sourceId,
+    sourceUnitId: readNullableString(row?.['source_unit_id']),
+    noteKind: 'highlight',
+    title: 'Highlight',
+    bodyMd: selectedText,
+    excerptText: selectedText,
+    locator: readNullableString(row?.['locator']),
+    status: 'active',
+    noteJson: compactRecord({
+      anchorText: readNullableString(row?.['anchor_text']),
+      sessionId: readNullableString(row?.['session_id']),
+      startOffset: readInteger(row?.['start_offset']),
+      endOffset: readInteger(row?.['end_offset']),
+      color: readNullableString(row?.['color']),
+    }),
+    metaJson: parseRecord(row?.['meta_json']),
+    createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+    updatedAt: readNullableString(row?.['updated_at']),
+  };
+}
+
 function resolveApiRoot(apiBase: string): string {
   const normalized = apiBase.replace(/\/+$/, '');
   if (!normalized) {
@@ -398,6 +437,11 @@ function asRecord(value: unknown): Record<string, unknown> | null {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
     ? (value as Record<string, unknown>)
     : null;
+}
+
+function compactRecord(value: Record<string, unknown>): Record<string, unknown> | null {
+  const entries = Object.entries(value).filter(([, entry]) => entry != null);
+  return entries.length ? Object.fromEntries(entries) : null;
 }
 
 function parseRecord(value: unknown): Record<string, unknown> | null {
@@ -472,6 +516,24 @@ function readStringArray(value: unknown): string[] | null {
   return value
     .map((item) => (typeof item === 'string' ? item.trim() : ''))
     .filter((item) => item.length > 0);
+}
+
+function mergeNotes(...groups: KmapsNote[][]): KmapsNote[] {
+  const byId = new Map<string, KmapsNote>();
+
+  for (const group of groups) {
+    for (const note of group) {
+      byId.set(note.id, note);
+    }
+  }
+
+  return [...byId.values()].sort((left, right) => compareDatesDesc(left.updatedAt || left.createdAt, right.updatedAt || right.createdAt));
+}
+
+function compareDatesDesc(left: string | null | undefined, right: string | null | undefined): number {
+  const leftTime = left ? new Date(left).getTime() : 0;
+  const rightTime = right ? new Date(right).getTime() : 0;
+  return rightTime - leftTime;
 }
 
 function composeLocatorLabel(startRef: string | null, endRef: string | null): string | null {
