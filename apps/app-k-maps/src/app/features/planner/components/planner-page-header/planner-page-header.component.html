@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar class="planner-page-header__toolbar">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="back()" aria-label="Back">
+        <ion-icon [icon]="icons.arrowBackOutline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>{{ title }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" routerLink="/dashboard" routerDirection="root" aria-label="Home">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" routerLink="/settings" routerDirection="forward" aria-label="Settings">
+        <ion-icon name="settings-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="planner-page-header__toolbar planner-page-header__toolbar--search" *ngIf="showSearch">
+    <ion-searchbar
+      [value]="searchValue"
+      debounce="300"
+      [placeholder]="searchPlaceholder"
+      show-clear-button="focus"
+      (ionInput)="onSearchInput($event.detail.value)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>

@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, injec
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
 
 import { NoteCardComponent } from '../../../kmaps-notes/components/note-card/note-card';
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
@@ -12,6 +13,8 @@ import { WvDistillService } from '../../../../../shared/services/wv-distill.serv
 import { WvHighlightsService } from '../../../../../shared/services/wv-highlights.service';
 import { WvNotesService } from '../../../../../shared/services/wv-notes.service';
 import { KmapsWorkflowService } from '../../../../../shared/services/kmaps-workflow.service';
+import { WorldviewApiService } from '../../../../../shared/services/worldview-api.service';
+import { WvNodesService } from '../../../../../shared/services/wv-nodes.service';
 
 @Component({
   selector: 'app-wv-distill-builder-page',
@@ -26,11 +29,14 @@ export class WvDistillBuilderPage {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly workflow = inject(KmapsWorkflowService);
+  private readonly worldviewApi = inject(WorldviewApiService);
   private readonly highlightsService = inject(WvHighlightsService);
   private readonly notesService = inject(WvNotesService);
   private readonly distillService = inject(WvDistillService);
+  private readonly nodesService = inject(WvNodesService);
 
   readonly batchId = signal('');
+  readonly isGenerating = signal(false);
   readonly batch = computed(() => this.distillService.getBatch(this.batchId()));
   readonly unit = computed(() => this.workflow.getUnit(this.batch()?.unitId || ''));
   readonly source = computed(() => this.workflow.getSource(this.batch()?.sourceId || ''));
@@ -90,9 +96,41 @@ export class WvDistillBuilderPage {
     }
   }
 
-  openSuggestions(): void {
-    this.distillService.completeBatch(this.batchId());
-    void this.router.navigate(this.suggestionsRoute());
+  async openSuggestions(): Promise<void> {
+    const batch = this.batch();
+    const unit = this.unit();
+    const source = this.source();
+    if (!batch || !unit || !source || this.isGenerating()) {
+      return;
+    }
+
+    const selectedItems = this.selectedItems().map((item) => ({
+      itemId: item.noteId,
+      role: item.role,
+    }));
+    if (!selectedItems.length) {
+      return;
+    }
+
+    this.isGenerating.set(true);
+    try {
+      const snapshot = await firstValueFrom(
+        this.worldviewApi.generateDistillBatch({
+          batchId: batch.id,
+          sourceId: source.id,
+          sourceUnitId: unit.id,
+          items: selectedItems,
+          model: 'gpt-5-mini',
+        }),
+      );
+      this.distillService.hydrateBatch(snapshot.batch, snapshot.items);
+      this.nodesService.hydrateBatch(snapshot.batch.id, snapshot.suggestions, snapshot.decisions);
+      void this.router.navigate(this.suggestionsRoute());
+    } catch (error) {
+      console.error('Failed to generate worldview distill output.', error);
+    } finally {
+      this.isGenerating.set(false);
+    }
   }
 
   trackNote(_: number, note: KmapsNote): string {

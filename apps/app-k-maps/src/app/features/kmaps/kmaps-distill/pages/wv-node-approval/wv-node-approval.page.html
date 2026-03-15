@@ -34,8 +34,8 @@
       <ion-input formControlName="relationType"></ion-input>
     </ion-item>
 
-    <ion-button expand="block" class="km-btn" (click)="save('approved')">Approve</ion-button>
-    <ion-button expand="block" fill="outline" class="km-btn" (click)="save('edited')">Save Edit</ion-button>
-    <ion-button expand="block" fill="clear" color="danger" (click)="save('rejected')">Reject</ion-button>
+    <ion-button expand="block" class="km-btn" [disabled]="isSaving()" (click)="save('approved')">Approve</ion-button>
+    <ion-button expand="block" fill="outline" class="km-btn" [disabled]="isSaving()" (click)="save('edited')">Save Edit</ion-button>
+    <ion-button expand="block" fill="clear" color="danger" [disabled]="isSaving()" (click)="save('rejected')">Reject</ion-button>
   </form>
 </ion-content>

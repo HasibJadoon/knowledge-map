@@ -22,6 +22,7 @@ import {
 } from 'ionicons/icons';
 import { IconTabItem } from '../../../../shared/components/icon-tabs/icon-tabs.component';
 import { KM_OVERLAY_ACTION_SHEET_CLASS, KM_OVERLAY_ALERT_CLASS } from '../../../../shared/overlay-classes';
+import { KmapsWorkflowService } from '../../../../shared/services/kmaps-workflow.service';
 import {
   CREATOR_EPISODE_STATUSES,
   CreatorEpisode,
@@ -31,6 +32,7 @@ import {
   duplicateSegment,
   episodeStatusLabel,
   lessonStateLabel,
+  resolveEpisodeWorldviewView,
   speakerLabel,
 } from '../podcast-builder.models';
 import { PodcastBuilderService } from '../podcast-builder.service';
@@ -52,6 +54,7 @@ export class PodcastEpisodePage {
   private readonly toastController = inject(ToastController);
   private readonly formBuilder = inject(FormBuilder);
   private readonly builder = inject(PodcastBuilderService);
+  private readonly workflow = inject(KmapsWorkflowService);
 
   readonly loading = signal(true);
   readonly saving = signal(false);
@@ -89,6 +92,33 @@ export class PodcastEpisodePage {
       ]);
   readonly reviewChecklistItems = computed(() => splitLines(this.form.controls.reviewChecklist.value));
   readonly nextSessionItems = computed(() => splitLines(this.form.controls.nextSessionPrep.value));
+  readonly worldviewEntries = computed(() => {
+    const episode = this.episode();
+    if (!episode) {
+      return [];
+    }
+
+    const view = resolveEpisodeWorldviewView(
+      episode,
+      (sourceId) => this.workflow.getSource(sourceId),
+      (unitId) => {
+        const unit = this.workflow.getUnit(unitId);
+        return unit
+          ? {
+              title: unit.title,
+              parentUnitId: unit.parentUnitId,
+            }
+          : null;
+      },
+    );
+
+    return [
+      view.source ? { key: 'source', label: 'Source', value: view.source } : null,
+      view.unit ? { key: 'unit', label: 'Unit', value: view.unit } : null,
+      view.subunit ? { key: 'subunit', label: 'Subunit', value: view.subunit } : null,
+      view.locator ? { key: 'locator', label: 'Ref', value: view.locator } : null,
+    ].filter((entry): entry is { key: string; label: string; value: string } => entry !== null);
+  });
   readonly icons = {
     addOutline,
     bookOutline,
@@ -174,6 +204,10 @@ export class PodcastEpisodePage {
 
   trackSegment(_: number, segment: CreatorEpisodeSegment): string {
     return segment.id;
+  }
+
+  trackByKey(_: number, entry: { key: string }): string {
+    return entry.key;
   }
 
   changeTab(value: string | number | null | undefined): void {

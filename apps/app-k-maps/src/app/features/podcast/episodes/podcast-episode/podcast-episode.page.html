@@ -37,6 +37,12 @@
           </span>
           <div class="podcast-episode__hero-copy">
             <h1>{{ episode.title }}</h1>
+            <div class="podcast-episode__hero-pills" *ngIf="worldviewEntries().length">
+              <span class="podcast-episode__hero-pill" *ngFor="let entry of worldviewEntries(); trackBy: trackByKey">
+                <span>{{ entry.label }}:</span>
+                <strong>{{ entry.value }}</strong>
+              </span>
+            </div>
           </div>
         </div>
         <div class="podcast-episode__hero-pills">

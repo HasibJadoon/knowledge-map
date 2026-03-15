@@ -29,6 +29,9 @@
 
       <ion-card class="km-card">
         <ion-card-content class="wv-suggestions__footer">
+          <ion-button expand="block" class="km-btn" [disabled]="isApprovingBatch()" (click)="saveApprovedOutput()">
+            {{ isApprovingBatch() ? 'Saving…' : 'Save Approved Output' }}
+          </ion-button>
           <ion-button expand="block" class="km-btn" (click)="openDocumentEditor()">Open Document Editor</ion-button>
           <ion-button expand="block" fill="outline" class="km-btn" (click)="openPlanner()">Open Planner</ion-button>
         </ion-card-content>

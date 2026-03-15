@@ -1,6 +1,5 @@
 <app-kmaps-page-header
   title="Distill Builder"
-  [subtitle]="unit()?.title || 'Batch selection'"
   [showBackButton]="true"
   [backHref]="backHref()"
   [showHomeButton]="true"
@@ -11,13 +10,9 @@
     <ng-container *ngIf="hasBatch(); else missingBatchState">
       <ion-card class="km-card wv-distill-builder__hero">
         <ion-card-content class="wv-distill-builder__hero-content">
-          <div class="wv-distill-builder__hero-copy">
+          <div class="wv-distill-builder__hero-bar">
             <p class="wv-distill-builder__kicker">{{ source()?.title || 'Source' }}</p>
-            <h1>{{ unit()?.title || 'Distill batch' }}</h1>
-            <p class="wv-distill-builder__meta">{{ unit()?.locatorLabel || unit()?.startRef || 'Current unit' }}</p>
-            <p class="wv-distill-builder__summary">
-              Select the notes and highlights you want to use in this batch, then assign a role for downstream suggestions.
-            </p>
+            <p class="wv-distill-builder__hero-caption">{{ selectedItems().length }} selected</p>
           </div>
 
           <div class="wv-distill-builder__hero-stats">
@@ -117,16 +112,8 @@
 
       <ion-card class="km-card wv-distill-builder__tray-card">
         <ion-card-content class="wv-distill-builder__tray">
-          <div class="wv-distill-builder__tray-copy">
-            <p class="wv-distill-builder__kicker">Selected Items</p>
-            <h2>{{ selectedItems().length }} ready for suggestion generation</h2>
-            <p class="wv-distill-builder__tray-note">
-              Claim seeds, questions, observations, and evidence roles will carry into the next approval flow.
-            </p>
-          </div>
-
-          <ion-button expand="block" class="km-btn wv-distill-builder__cta" [disabled]="!selectedItems().length" (click)="openSuggestions()">
-            Generate Suggestions
+          <ion-button expand="block" class="km-btn wv-distill-builder__cta" [disabled]="!selectedItems().length || isGenerating()" (click)="openSuggestions()">
+            {{ isGenerating() ? 'Generating…' : 'Generate Suggestions' }}
           </ion-button>
         </ion-card-content>
       </ion-card>

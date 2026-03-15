@@ -1328,6 +1328,22 @@ CREATE TABLE wv_block_node_links (
   FOREIGN KEY (node_id) REFERENCES wv_nodes(id) ON DELETE CASCADE
 );
 
+CREATE TABLE wv_content_items (
+  id TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
+  user_id INTEGER,
+  title TEXT NOT NULL,
+  content_type TEXT NOT NULL CHECK (content_type IN ('podcast_episode', 'youtube_episode', 'article', 'newsletter', 'short', 'slides', 'script', 'study_note', 'note', 'other')),
+  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'active', 'published', 'archived')),
+  related_type TEXT,
+  related_id TEXT,
+  refs_json JSON NOT NULL DEFAULT '{}' CHECK (json_valid(refs_json)),
+  content_json JSON NOT NULL DEFAULT '{}' CHECK (json_valid(content_json)),
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+
 CREATE TABLE wv_nodes (
   id TEXT PRIMARY KEY,
   canonical_input TEXT NOT NULL UNIQUE,
@@ -1713,6 +1729,8 @@ CREATE INDEX idx_wv_document_blocks_parent ON wv_document_blocks(parent_block_id
 CREATE INDEX idx_wv_document_blocks_block_type ON wv_document_blocks(block_type);
 CREATE INDEX idx_wv_block_node_links_block ON wv_block_node_links(block_id);
 CREATE INDEX idx_wv_block_node_links_node_relation ON wv_block_node_links(node_id, relation);
+CREATE INDEX idx_wv_content_items_user_type_status ON wv_content_items(user_id, content_type, status);
+CREATE INDEX idx_wv_content_items_related ON wv_content_items(related_type, related_id);
 CREATE INDEX idx_wv_nodes_workspace_group_type_status ON wv_nodes(workspace_id, group_id, node_type, status);
 CREATE INDEX idx_wv_nodes_slug ON wv_nodes(slug);
 CREATE INDEX idx_wv_nodes_user_created ON wv_nodes(user_id, created_at);

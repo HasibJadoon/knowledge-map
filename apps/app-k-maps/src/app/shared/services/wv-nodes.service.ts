@@ -32,6 +32,37 @@ export class WvNodesService {
     return this.decisionsState().find((decision) => decision.suggestionId === suggestionId) ?? null;
   }
 
+  hydrateBatch(batchId: string, suggestions: WvInsightSuggestion[], decisions: WvInsightDecision[]): void {
+    this.suggestionsState.update((current) => {
+      const rest = current.filter((entry) => entry.batchId !== batchId);
+      return [...suggestions, ...rest];
+    });
+
+    const suggestionIds = new Set(suggestions.map((entry) => entry.id));
+    this.decisionsState.update((current) => {
+      const rest = current.filter((entry) => !suggestionIds.has(entry.suggestionId));
+      return [...decisions, ...rest];
+    });
+  }
+
+  upsertSuggestion(suggestion: WvInsightSuggestion): void {
+    this.suggestionsState.update((current) => {
+      const rest = current.filter((entry) => entry.id !== suggestion.id);
+      return [suggestion, ...rest];
+    });
+  }
+
+  upsertDecision(decision: WvInsightDecision | null): void {
+    if (!decision) {
+      return;
+    }
+
+    this.decisionsState.update((current) => {
+      const rest = current.filter((entry) => entry.suggestionId !== decision.suggestionId);
+      return [decision, ...rest];
+    });
+  }
+
   ensureSuggestions(batch: WvDistillBatch, items: WvDistillBatchItem[], notesById: Map<string, KmapsNote>): WvInsightSuggestion[] {
     const existing = this.getSuggestionsForBatch(batch.id);
     if (existing.length) {

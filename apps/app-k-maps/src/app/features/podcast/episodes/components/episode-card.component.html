@@ -4,6 +4,7 @@
       <div class="episode-card__title-wrap">
         <h2>{{ episode.title }}</h2>
         <p class="episode-card__summary">{{ summaryLine }}</p>
+        <p class="episode-card__context" *ngIf="worldviewLine">{{ worldviewLine }}</p>
       </div>
       <span class="episode-card__chevron" aria-hidden="true">
         <ion-icon name="chevron-forward-outline"></ion-icon>

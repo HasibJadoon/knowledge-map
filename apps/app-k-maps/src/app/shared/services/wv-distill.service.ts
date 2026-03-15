@@ -41,6 +41,18 @@ export class WvDistillService {
     return this.batchItemsState().filter((item) => item.batchId === batchId);
   }
 
+  hydrateBatch(batch: WvDistillBatch, items: WvDistillBatchItem[]): void {
+    this.batchesState.update((current) => {
+      const rest = current.filter((entry) => entry.id !== batch.id);
+      return [batch, ...rest];
+    });
+
+    this.batchItemsState.update((current) => {
+      const rest = current.filter((entry) => entry.batchId !== batch.id);
+      return [...items, ...rest];
+    });
+  }
+
   syncBatchItems(batchId: string, notes: KmapsNote[]): WvDistillBatchItem[] {
     const existing = new Map(this.getItems(batchId).map((item) => [item.noteId, item]));
     const createdAt = new Date().toISOString();

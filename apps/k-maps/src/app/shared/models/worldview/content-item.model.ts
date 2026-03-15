@@ -7,7 +7,7 @@
 
 export interface ContentItem {
   entity_type: 'content_item';
-  id: number;
+  id: string;
 
   user_id: number | null;
 
@@ -27,13 +27,14 @@ export interface ContentItem {
 }
 
 export type ContentType =
-  | 'podcast'
-  | 'youtube'
+  | 'podcast_episode'
+  | 'youtube_episode'
   | 'article'
   | 'newsletter'
   | 'short'
   | 'slides'
   | 'script'
+  | 'study_note'
   | 'note'
   | 'other';
 
@@ -41,61 +42,18 @@ export type ContentStatus = 'draft' | 'active' | 'published' | 'archived';
 
 export type ContentRelatedType =
   | 'ar_lesson'
-  | 'worldview_claim'
+  | 'wv_claim'
   | 'concept'
   | 'library_entry'
-  | 'brainstorm_session';
+  | 'brainstorm_session'
+  | 'wv_source_unit'
+  | 'wv_distill_batch'
+  | 'sp_weekly_tasks'
+  | 'sp_weekly_plans';
 
-export interface ContentRefs {
-  primary: ContentPrimaryRef | null;
-  references: ContentRef[];
-}
+export type ContentRefs = Record<string, unknown>;
 
-export interface ContentPrimaryRef {
-  related_type: ContentRelatedType;
-  related_id: string;
-  label: string | null;
-  citation: string | null;
-}
-
-export interface ContentRef {
-  related_type: ContentRelatedType | 'external';
-  related_id: string | null;
-  label: string;
-  locator: ContentLocator | null;
-  citation: string | null;
-  tags: string[];
-}
-
-export type ContentLocatorType =
-  | 'timestamp'
-  | 'page'
-  | 'section'
-  | 'chapter'
-  | 'verse'
-  | 'line'
-  | 'url'
-  | 'other';
-
-export interface ContentLocator {
-  type: ContentLocatorType;
-  value: string;
-}
-
-export interface ContentBody {
-  kind: ContentBodyKind;
-  data: Record<string, unknown>;
-}
-
-export type ContentBodyKind =
-  | 'outline'
-  | 'script'
-  | 'slides_plan'
-  | 'shot_list'
-  | 'asset_bundle'
-  | 'render_plan'
-  | 'notes'
-  | 'mixed';
+export type ContentBody = Record<string, unknown>;
 
 export class ContentItemModel {
   constructor(public data: ContentItem) {}

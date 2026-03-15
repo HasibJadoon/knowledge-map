@@ -4,9 +4,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
 
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { WvNodesService } from '../../../../../shared/services/wv-nodes.service';
+import { WorldviewApiService } from '../../../../../shared/services/worldview-api.service';
 
 @Component({
   selector: 'app-wv-node-approval-page',
@@ -22,8 +24,10 @@ export class WvNodeApprovalPage {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly nodesService = inject(WvNodesService);
+  private readonly worldviewApi = inject(WorldviewApiService);
 
   readonly suggestionId = signal('');
+  readonly isSaving = signal(false);
   readonly suggestion = computed(() => this.nodesService.getSuggestion(this.suggestionId()));
   readonly decision = computed(() => this.nodesService.getDecisionForSuggestion(this.suggestionId()));
   readonly form = this.fb.nonNullable.group({
@@ -48,22 +52,34 @@ export class WvNodeApprovalPage {
     });
   }
 
-  save(status: 'approved' | 'edited' | 'rejected' = 'edited'): void {
-    this.nodesService.saveDecision({
-      suggestionId: this.suggestionId(),
-      status,
-      title: this.form.controls.title.value,
-      summary: this.form.controls.summary.value,
-      nodeType: this.form.controls.nodeType.value as 'concept' | 'claim' | 'theme' | 'output' | 'edge',
-      relationType: this.form.controls.relationType.value || null,
-    });
-
+  async save(status: 'approved' | 'edited' | 'rejected' = 'edited'): Promise<void> {
     const batchId = this.suggestion()?.batchId;
-    if (!batchId) {
+    if (!batchId || this.isSaving()) {
       return;
     }
 
-    void this.router.navigate(this.suggestionsRoute(batchId));
+    this.isSaving.set(true);
+    try {
+      const response = await firstValueFrom(
+        this.worldviewApi.saveDistillDecision({
+          suggestionId: this.suggestionId(),
+          decision: status === 'rejected' ? 'reject' : status === 'edited' ? 'edit_and_save' : 'approve',
+          title: this.form.controls.title.value,
+          summary: this.form.controls.summary.value,
+          nodeType: this.form.controls.nodeType.value as 'concept' | 'claim' | 'theme' | 'output' | 'edge',
+          relationType: this.form.controls.relationType.value || null,
+        }),
+      );
+      if (response.suggestion) {
+        this.nodesService.upsertSuggestion(response.suggestion);
+      }
+      this.nodesService.upsertDecision(response.decision);
+      void this.router.navigate(this.suggestionsRoute(batchId));
+    } catch (error) {
+      console.error('Failed to save worldview suggestion decision.', error);
+    } finally {
+      this.isSaving.set(false);
+    }
   }
 
   backHref(): string {

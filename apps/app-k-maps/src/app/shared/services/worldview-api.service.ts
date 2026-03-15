@@ -17,6 +17,12 @@ import {
   KmapsSourceUnit,
   KmapsUnitType,
 } from '../../features/kmaps/kmaps-shared/models/kmaps.models';
+import {
+  WvDistillBatch,
+  WvDistillBatchItem,
+  WvInsightDecision,
+  WvInsightSuggestion,
+} from '../../features/kmaps/kmaps-shared/models/wv-workspace.models';
 
 type WorkflowApiResponse = {
   ok?: boolean;
@@ -50,6 +56,40 @@ type UnitMutationApiResponse = {
   ok?: boolean;
   error?: string;
   unit_id?: unknown;
+};
+
+type DistillBatchApiResponse = {
+  ok?: boolean;
+  error?: string;
+  batch?: unknown;
+  items?: unknown[];
+  suggestions?: unknown[];
+  decisions?: unknown[];
+  draft_output?: unknown;
+  prompt_version?: unknown;
+  model?: unknown;
+};
+
+type DistillDecisionApiResponse = {
+  ok?: boolean;
+  error?: string;
+  suggestion?: unknown;
+  decision?: unknown;
+};
+
+export type WorldviewDistillBatchItemInput = {
+  itemId: string;
+  role: string | null;
+};
+
+export type WorldviewDistillBatchSnapshot = {
+  batch: WvDistillBatch;
+  items: WvDistillBatchItem[];
+  suggestions: WvInsightSuggestion[];
+  decisions: WvInsightDecision[];
+  draftOutput: Record<string, unknown> | null;
+  promptVersion: string | null;
+  model: string | null;
 };
 
 export type WorldviewSourceInput = {
@@ -162,6 +202,46 @@ export class WorldviewApiService {
   updateUnit(input: UpdateWorldviewUnitInput): Observable<WorldviewUnitMutationResult> {
     return this.http.put<UnitMutationApiResponse>(`${this.baseUrl}/unit`, input).pipe(map(mapUnitMutationResponse));
   }
+
+  generateDistillBatch(input: {
+    batchId: string;
+    sourceId: string;
+    sourceUnitId: string;
+    items: WorldviewDistillBatchItemInput[];
+    model?: string | null;
+  }): Observable<WorldviewDistillBatchSnapshot> {
+    return this.http.post<DistillBatchApiResponse>(`${this.baseUrl}/distill/generate`, input).pipe(map(mapDistillBatchSnapshot));
+  }
+
+  fetchDistillBatch(batchId: string): Observable<WorldviewDistillBatchSnapshot> {
+    return this.http
+      .get<DistillBatchApiResponse>(`${this.baseUrl}/distill/batch`, {
+        params: { batchId },
+      })
+      .pipe(map(mapDistillBatchSnapshot));
+  }
+
+  saveDistillDecision(input: {
+    suggestionId: string;
+    decision: 'approve' | 'edit_and_save' | 'reject';
+    title?: string | null;
+    summary?: string | null;
+    nodeType?: string | null;
+    relationType?: string | null;
+  }): Observable<{ suggestion: WvInsightSuggestion | null; decision: WvInsightDecision | null }> {
+    return this.http
+      .post<DistillDecisionApiResponse>(`${this.baseUrl}/distill/decision`, input)
+      .pipe(
+        map((response) => ({
+          suggestion: mapDistillSuggestion(response.suggestion),
+          decision: mapDistillDecision(response.decision),
+        })),
+      );
+  }
+
+  approveDistillBatch(batchId: string): Observable<WorldviewDistillBatchSnapshot> {
+    return this.http.post<DistillBatchApiResponse>(`${this.baseUrl}/distill/approve`, { batchId }).pipe(map(mapDistillBatchSnapshot));
+  }
 }
 
 function mapSourceMutationResponse(response: SourceMutationApiResponse): WorldviewSourceMutationResult {
@@ -183,6 +263,136 @@ function mapUnitMutationResponse(response: UnitMutationApiResponse): WorldviewUn
   }
 
   return { unitId };
+}
+
+function mapDistillBatchSnapshot(response: DistillBatchApiResponse): WorldviewDistillBatchSnapshot {
+  const batch = mapDistillBatch(response.batch);
+  if (!batch) {
+    throw new Error(readTrimmed(response.error) ?? 'Failed to load worldview distill batch.');
+  }
+
+  return {
+    batch,
+    items: asArray(response.items)
+      .map((value) => mapDistillItem(value, batch.id))
+      .filter((item): item is WvDistillBatchItem => item !== null),
+    suggestions: asArray(response.suggestions)
+      .map(mapDistillSuggestion)
+      .filter((item): item is WvInsightSuggestion => item !== null),
+    decisions: asArray(response.decisions)
+      .map(mapDistillDecision)
+      .filter((item): item is WvInsightDecision => item !== null),
+    draftOutput: parseRecord(response.draft_output),
+    promptVersion: readNullableString(response.prompt_version),
+    model: readNullableString(response.model),
+  };
+}
+
+function mapDistillBatch(value: unknown): WvDistillBatch | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const sourceId = readTrimmed(row?.['source_id']);
+  const unitId = readTrimmed(row?.['source_unit_id']);
+  if (!id || !sourceId || !unitId) {
+    return null;
+  }
+
+  return {
+    id,
+    sourceId,
+    unitId,
+    batchType: 'distill',
+    workspaceId: readTrimmed(row?.['workspace_id']) === 'ws_quran' ? 'ws_quran' : 'ws_worldview',
+    status: mapDistillBatchStatus(row?.['status']),
+    createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+    updatedAt: readTrimmed(row?.['updated_at']) ?? readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+  };
+}
+
+function mapDistillBatchStatus(value: unknown): WvDistillBatch['status'] {
+  switch (value) {
+    case 'approved':
+      return 'completed';
+    case 'ready':
+    case 'running':
+      return 'active';
+    default:
+      return 'draft';
+  }
+}
+
+function mapDistillItem(value: unknown, batchId: string): WvDistillBatchItem | null {
+  const row = asRecord(value);
+  const noteId = readTrimmed(row?.['item_id']);
+  if (!noteId) {
+    return null;
+  }
+
+  return {
+    id: `distill-item:${noteId}`,
+    batchId,
+    noteId,
+    role: normalizeDistillRole(row?.['role']),
+    selected: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function mapDistillSuggestion(value: unknown): WvInsightSuggestion | null {
+  const row = asRecord(value);
+  const id = readTrimmed(row?.['id']);
+  const batchId = readTrimmed(row?.['batch_id']);
+  const payload = parseRecord(row?.['payload_json']);
+  const meta = parseRecord(row?.['meta_json']);
+  if (!id || !batchId || !payload) {
+    return null;
+  }
+
+  const kind = normalizeSuggestionKind(meta?.['kind'] ?? payload['node_type'] ?? payload['kind']);
+  const title = readTrimmed(payload['title']);
+  const summary = readTrimmed(payload['summary']);
+  if (!kind || !title || !summary) {
+    return null;
+  }
+
+  return {
+    id,
+    batchId,
+    kind,
+    title,
+    summary,
+    relationType: readNullableString(payload['relation_type'] ?? meta?.['relation_type']),
+    sourceNoteIds: readStringArray(meta?.['source_item_ids']) ?? [],
+    status: mapSuggestionStatus(row?.['status']),
+    createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+    updatedAt: readTrimmed(row?.['updated_at']) ?? readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+  };
+}
+
+function mapDistillDecision(value: unknown): WvInsightDecision | null {
+  const row = asRecord(value);
+  const suggestionId = readTrimmed(row?.['suggestion_id']);
+  const idValue = row?.['id'];
+  if (!suggestionId || (typeof idValue !== 'number' && typeof idValue !== 'string')) {
+    return null;
+  }
+
+  const edited = parseRecord(row?.['edited_payload_json']);
+  const nodeType = normalizeSuggestionKind(edited?.['node_type']) ?? 'concept';
+
+  return {
+    id: String(idValue),
+    suggestionId,
+    status: mapDecisionStatus(row?.['decision']),
+    title: readTrimmed(edited?.['title']) ?? '',
+    summary: readTrimmed(edited?.['summary']) ?? '',
+    nodeType,
+    relationType: readNullableString(edited?.['relation_type'] ?? row?.['target_type']),
+    graphTargetId: readNullableString(row?.['target_id']),
+    createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+    updatedAt: readTrimmed(row?.['updated_at']) ?? readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
+  };
 }
 
 function mapSource(value: unknown): KmapsSource | null {
@@ -649,5 +859,54 @@ function normalizeNoteKind(value: unknown): KmapsNoteKind | null {
       return value;
     default:
       return null;
+  }
+}
+
+function normalizeDistillRole(value: unknown): WvDistillBatchItem['role'] {
+  switch (value) {
+    case 'claim_seed':
+    case 'observation':
+    case 'question':
+    case 'evidence':
+      return value;
+    default:
+      return 'evidence';
+  }
+}
+
+function normalizeSuggestionKind(value: unknown): WvInsightSuggestion['kind'] | null {
+  switch (value) {
+    case 'concept':
+    case 'claim':
+    case 'theme':
+    case 'output':
+    case 'edge':
+      return value;
+    default:
+      return null;
+  }
+}
+
+function mapSuggestionStatus(value: unknown): WvInsightSuggestion['status'] {
+  switch (value) {
+    case 'approved':
+    case 'edited':
+    case 'saved':
+      return 'approved';
+    case 'rejected':
+      return 'rejected';
+    default:
+      return 'draft';
+  }
+}
+
+function mapDecisionStatus(value: unknown): WvInsightDecision['status'] {
+  switch (value) {
+    case 'reject':
+      return 'rejected';
+    case 'edit_and_save':
+      return 'edited';
+    default:
+      return 'approved';
   }
 }

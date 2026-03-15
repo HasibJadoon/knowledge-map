@@ -103,6 +103,10 @@
   -webkit-line-clamp: 2;
 }
 
+.podcast-episode__hero-copy {
+  min-width: 0;
+}
+
 .podcast-episode__hero-pills,
 .podcast-episode__utility-row {
   display: flex;

@@ -1,0 +1,54 @@
+<ion-header translucent="true">
+  <ion-toolbar class="dashboard-toolbar">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-page">
+  <div class="dashboard-shell">
+    <ion-grid class="dashboard-grid">
+      <ion-row>
+        <ion-col
+          size="12"
+          size-md="6"
+          size-lg="4"
+          *ngFor="let section of sections; trackBy: trackBySection"
+        >
+          <article
+            class="dashboard-card"
+            [class.dashboard-card--sand]="section.tone === 'sand'"
+            [class.dashboard-card--sky]="section.tone === 'sky'"
+            [class.dashboard-card--mint]="section.tone === 'mint'"
+          >
+            <span class="dashboard-card__glow" aria-hidden="true"></span>
+
+            <header class="dashboard-card__header">
+              <div class="dashboard-card__icon-wrap">
+                <ion-icon class="dashboard-card__icon" [icon]="section.icon"></ion-icon>
+              </div>
+
+              <div class="dashboard-card__heading">
+                <p class="dashboard-card__subtitle">{{ section.subtitle }}</p>
+                <h2>{{ section.title }}</h2>
+              </div>
+            </header>
+
+            <div class="dashboard-card__items">
+              <a
+                class="dashboard-card__item"
+                *ngFor="let item of section.items; trackBy: trackByItem"
+                [routerLink]="item.route"
+              >
+                <ion-icon class="dashboard-card__item-icon" [icon]="item.icon"></ion-icon>
+                <span class="dashboard-card__item-label">{{ item.label }}</span>
+              </a>
+            </div>
+          </article>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

@@ -78,6 +78,27 @@ export interface CreatorEpisodeSourceState {
   sourceNote: string;
 }
 
+export interface CreatorEpisodeWorldviewState {
+  sourceId: string | null;
+  sourceTitle: string;
+  unitId: string | null;
+  unitTitle: string;
+  subunitId: string | null;
+  subunitTitle: string;
+  locatorLabel: string;
+}
+
+export interface CreatorEpisodeWorldviewView {
+  source: string | null;
+  unit: string | null;
+  subunit: string | null;
+  locator: string | null;
+  pathLabel: string | null;
+}
+
+type EpisodeUnitLookup = (unitId: string) => { title: string; parentUnitId: string | null } | null;
+type EpisodeSourceLookup = (sourceId: string) => { title: string } | null;
+
 export interface CreatorEpisode {
   id: string;
   title: string;
@@ -89,6 +110,7 @@ export interface CreatorEpisode {
   relatedType: string | null;
   relatedId: string | null;
   source: CreatorEpisodeSourceState;
+  worldview: CreatorEpisodeWorldviewState;
   publish: CreatorEpisodePublishState;
   output: CreatorEpisodeOutputState;
   segments: CreatorEpisodeSegment[];
@@ -216,6 +238,15 @@ export function createBlankEpisode(args: {
       secondaryReference: '',
       brainstormIdeas: '',
       sourceNote: '',
+    },
+    worldview: {
+      sourceId: null,
+      sourceTitle: '',
+      unitId: null,
+      unitTitle: '',
+      subunitId: null,
+      subunitTitle: '',
+      locatorLabel: '',
     },
     publish: {
       videoTitle: args.title,
@@ -350,6 +381,7 @@ export function mapPodcastEpisodeToCreator(row: PodcastEpisode): CreatorEpisode 
   const refs = asRecord(row.refs_json);
   const builder = asRecord(content['builder']);
   const type = resolveEpisodeType(builder?.['type'], content['episode_type'], row.title);
+  const worldview = readEpisodeWorldview(content, refs, row.related_type, row.related_id);
   const episode = createBlankEpisode({
     id: row.id,
     title: row.title,
@@ -363,12 +395,14 @@ export function mapPodcastEpisodeToCreator(row: PodcastEpisode): CreatorEpisode 
     rawRefs: refs,
   });
 
+  episode.worldview = worldview;
   episode.estimatedDuration = toNumber(builder?.['estimatedDuration'])
     ?? toNumber(content['estimated_duration'])
     ?? estimateEpisodeDuration(readSegments(builder?.['segments'], type, row.id));
   episode.source = {
     primaryReference: toText(builder?.['source'] && asRecord(builder['source'])?.['primaryReference'])
       ?? toText(refs['primary_reference'])
+      ?? resolveEpisodeWorldviewView(episode).pathLabel
       ?? toText(content['topic'])
       ?? '',
     secondaryReference: toText(builder?.['source'] && asRecord(builder['source'])?.['secondaryReference'])
@@ -511,6 +545,46 @@ export function toPodcastSavePayload(episode: CreatorEpisode): {
   };
 }
 
+export function resolveEpisodeWorldviewView(
+  episode: CreatorEpisode,
+  lookupSource?: EpisodeSourceLookup,
+  lookupUnit?: EpisodeUnitLookup,
+): CreatorEpisodeWorldviewView {
+  const worldview = episode.worldview;
+  const selectedUnitId = episode.relatedType === 'wv_source_unit'
+    ? (episode.relatedId ?? worldview.subunitId ?? worldview.unitId)
+    : (worldview.subunitId ?? worldview.unitId ?? episode.relatedId);
+  const selectedUnit = selectedUnitId && lookupUnit ? lookupUnit(selectedUnitId) : null;
+  const parentUnit = selectedUnit?.parentUnitId && lookupUnit ? lookupUnit(selectedUnit.parentUnitId) : null;
+
+  const source = trimText(lookupSource && worldview.sourceId ? lookupSource(worldview.sourceId)?.title : null)
+    ?? trimText(worldview.sourceTitle);
+
+  let unit = trimText(worldview.unitTitle);
+  let subunit = trimText(worldview.subunitTitle);
+
+  if (selectedUnit && parentUnit) {
+    unit = trimText(parentUnit.title) ?? unit;
+    subunit = trimText(selectedUnit.title) ?? subunit;
+  } else if (selectedUnit) {
+    unit = trimText(selectedUnit.title) ?? unit;
+  }
+
+  if (unit && subunit && unit === subunit) {
+    subunit = null;
+  }
+
+  const pathLabel = [source, unit, subunit].filter((value): value is string => Boolean(value)).join(' / ') || null;
+
+  return {
+    source,
+    unit,
+    subunit,
+    locator: trimText(worldview.locatorLabel),
+    pathLabel,
+  };
+}
+
 function defaultSegmentsForType(type: CreatorEpisodeType, episodeId: string): CreatorEpisodeSegment[] {
   if (type === 'discussion') {
     return ['Intro', 'Main Discussion', 'Conclusion'].map((title, index) => createSegment(type, episodeId, index, title));
@@ -525,6 +599,41 @@ function defaultSegmentsForType(type: CreatorEpisodeType, episodeId: string): Cr
   }
 
   return ['Intro', 'Main Point', 'Reflection', 'Conclusion'].map((title, index) => createSegment(type, episodeId, index, title));
+}
+
+function readEpisodeWorldview(
+  content: Record<string, unknown>,
+  refs: Record<string, unknown>,
+  relatedType: string | null,
+  relatedId: string | null,
+): CreatorEpisodeWorldviewState {
+  const worldview = asRecord(refs['worldview']) ?? asRecord(content['worldview']);
+  const sourceId = toText(worldview?.['source_id']) ?? toText(refs['source_id']) ?? toText(content['source_id']) ?? null;
+  const selectedUnitId = toText(worldview?.['selected_unit_id'])
+    ?? toText(refs['source_unit_id'])
+    ?? toText(content['source_unit_id'])
+    ?? (relatedType === 'wv_source_unit' ? relatedId : null);
+
+  let unitId = toText(worldview?.['unit_id']) ?? null;
+  let subunitId = toText(worldview?.['subunit_id']) ?? null;
+
+  if (!unitId && selectedUnitId) {
+    unitId = selectedUnitId;
+  }
+
+  if (!subunitId && selectedUnitId && unitId && selectedUnitId !== unitId) {
+    subunitId = selectedUnitId;
+  }
+
+  return {
+    sourceId,
+    sourceTitle: toText(worldview?.['source_title']) ?? '',
+    unitId,
+    unitTitle: toText(worldview?.['unit_title']) ?? '',
+    subunitId,
+    subunitTitle: toText(worldview?.['subunit_title']) ?? '',
+    locatorLabel: toText(worldview?.['locator_label']) ?? toText(content['locator_label']) ?? '',
+  };
 }
 
 function defaultSegmentTitle(type: CreatorEpisodeType, order: number): string {
@@ -796,6 +905,11 @@ function toText(value: unknown): string | null {
   }
 
   return null;
+}
+
+function trimText(value: string | null | undefined): string | null {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : null;
 }
 
 function toNumber(value: unknown): number | null {

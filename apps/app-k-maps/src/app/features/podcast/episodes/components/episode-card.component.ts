@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { CreatorEpisode, episodeStatusLabel, episodeTypeLabel } from '../podcast-builder.models';
+import { KmapsWorkflowService } from '../../../../shared/services/kmaps-workflow.service';
+import { CreatorEpisode, episodeStatusLabel, episodeTypeLabel, resolveEpisodeWorldviewView } from '../podcast-builder.models';
 import { CreatorBadgeTone, StatusBadgeComponent } from './status-badge.component';
 
 @Component({
@@ -11,6 +12,8 @@ import { CreatorBadgeTone, StatusBadgeComponent } from './status-badge.component
   styleUrl: './episode-card.component.scss',
 })
 export class EpisodeCardComponent {
+  private readonly workflow = inject(KmapsWorkflowService);
+
   @Input({ required: true }) episode!: CreatorEpisode;
 
   @Output() selected = new EventEmitter<string>();
@@ -60,5 +63,21 @@ export class EpisodeCardComponent {
       hour: 'numeric',
       minute: '2-digit',
     });
+  }
+
+  get worldviewLine(): string | null {
+    return resolveEpisodeWorldviewView(
+      this.episode,
+      (sourceId) => this.workflow.getSource(sourceId),
+      (unitId) => {
+        const unit = this.workflow.getUnit(unitId);
+        return unit
+          ? {
+              title: unit.title,
+              parentUnitId: unit.parentUnitId,
+            }
+          : null;
+      },
+    ).pathLabel;
   }
 }
