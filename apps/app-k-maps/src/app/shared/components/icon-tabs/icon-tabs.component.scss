@@ -79,7 +79,10 @@
 
 .km-tabs__button.tab-selected::part(native),
 .app-icon-tab-button.tab-selected::part(native) {
-  background: rgba(var(--ion-color-primary-rgb), 0.12);
+  background: color-mix(in srgb, var(--km-tabs-selected) 16%, rgba(255, 255, 255, 0.03));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--km-tabs-selected) 18%, transparent),
+    0 0 16px color-mix(in srgb, var(--km-tabs-selected) 18%, transparent);
 }
 
 .km-tabs__bar:not(.km-tabs__bar--labeled) .km-tabs__button,

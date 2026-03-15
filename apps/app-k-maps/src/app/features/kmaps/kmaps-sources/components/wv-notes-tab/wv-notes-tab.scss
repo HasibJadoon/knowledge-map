@@ -1,31 +1,105 @@
 :host {
   display: grid;
-  gap: var(--app-space-3);
+  gap: var(--app-space-2);
 }
 
 .wv-notes-tab__filters {
   --background: transparent;
+  --color: var(--app-text-muted);
+  --color-checked: var(--app-text-strong);
+  --background-checked: color-mix(in srgb, var(--ion-color-primary) 12%, rgba(255, 255, 255, 0.03));
+  padding: 0.28rem;
+  margin-bottom: 0.28rem;
+  border: 1px solid color-mix(in srgb, var(--app-border-soft) 82%, rgba(255, 106, 134, 0.12));
+  border-radius: 1rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0.014)),
+    color-mix(in srgb, var(--app-surface-soft-strong) 44%, rgba(8, 16, 28, 0.88));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
-.wv-notes-tab__create {
-  justify-self: start;
+.wv-notes-tab__filters ion-segment-button {
+  --background: transparent;
+  --background-checked: color-mix(in srgb, #ff6a86 20%, rgba(255, 255, 255, 0.03));
+  --color: rgba(222, 234, 251, 0.76);
+  --color-checked: #fff1f4;
+  --indicator-color: transparent;
+  --indicator-box-shadow: none;
+  --border-radius: 0.82rem;
+  min-height: 2.1rem;
+  min-width: max-content;
+}
+
+.wv-notes-tab__filters ion-segment-button::part(native) {
+  border-radius: 0.82rem;
+  padding: 0 0.82rem;
+}
+
+.wv-notes-tab__filters ion-segment-button::part(indicator-background) {
+  border-radius: 0.82rem;
+  background: transparent;
+}
+
+.wv-notes-tab__filters ion-segment-button.segment-button-checked::part(native) {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 106, 134, 0.18),
+    0 0 14px rgba(255, 106, 134, 0.12);
+}
+
+.wv-notes-tab__filters ion-label {
+  font-size: 0.86rem;
+  font-weight: 560;
+  letter-spacing: 0.01em;
+  text-transform: none;
 }
 
 .wv-notes-tab__card {
   margin: 0;
+  border: 1px solid color-mix(in srgb, var(--app-border-soft) 86%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02)),
+    color-mix(in srgb, var(--app-surface-soft-strong) 48%, rgba(8, 16, 28, 0.88));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .wv-notes-tab__card ion-card-content {
   display: grid;
-  gap: var(--app-space-3);
+  gap: 0.72rem;
+  padding: 0.9rem 0.95rem;
 }
 
 .wv-notes-tab__card-head,
 .wv-notes-tab__actions {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.45rem;
+}
+
+.wv-notes-tab__actions {
+  justify-content: flex-end;
+  position: relative;
+  padding-top: 0.62rem;
+}
+
+.wv-notes-tab__actions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 106, 134, 0), rgba(255, 106, 134, 0.52), rgba(255, 106, 134, 0));
+  box-shadow: 0 0 12px rgba(255, 106, 134, 0.26);
+}
+
+.wv-notes-tab__card-head ion-chip {
+  margin: 0;
+  min-height: 1.55rem;
+  border: 1px solid color-mix(in srgb, var(--app-border-soft) 82%, transparent);
+  background: color-mix(in srgb, var(--app-surface-soft-strong) 68%, transparent);
+  color: var(--app-text-soft);
+  font-size: 0.72rem;
 }
 
 .wv-notes-tab__locator,
@@ -39,34 +113,62 @@
   color: var(--app-text-muted);
 }
 
+.wv-notes-tab__locator {
+  margin-inline-start: auto;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
 .wv-notes-tab__excerpt {
-  padding-left: 0.85rem;
+  padding-left: 0.72rem;
   border-left: 2px solid rgba(var(--ion-color-primary-rgb), 0.45);
   color: var(--app-text-strong);
-  font-size: 0.92rem;
-  line-height: 1.6;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  text-align: justify;
+  text-align-last: left;
 }
 
 .wv-notes-tab__excerpt--arabic {
   padding-left: 0;
-  padding-right: 0.85rem;
+  padding-right: 0.72rem;
   border-left: 0;
   border-right: 2px solid rgba(var(--ion-color-primary-rgb), 0.45);
   font-family: var(--app-font-ar);
-  font-size: 1rem;
-  line-height: 1.9;
-  text-align: right;
+  font-size: 0.96rem;
+  line-height: 1.82;
+  text-align: justify;
+  text-align-last: right;
 }
 
 .wv-notes-tab__body {
-  font-size: 0.9rem;
-  line-height: 1.55;
+  font-size: 0.84rem;
+  line-height: 1.48;
+  text-align: justify;
+  text-align-last: left;
 }
 
 .wv-notes-tab__body--arabic {
   font-family: var(--app-font-ar);
-  font-size: 0.98rem;
-  line-height: 1.9;
-  text-align: right;
+  font-size: 0.92rem;
+  line-height: 1.82;
+  text-align: justify;
+  text-align-last: right;
   color: color-mix(in srgb, var(--app-text-muted) 88%, white 12%);
+}
+
+.wv-notes-tab__actions ion-button {
+  --color: var(--app-text-soft);
+  --padding-start: 0;
+  --padding-end: 0;
+  min-width: 2rem;
+  margin: 0;
+}
+
+.wv-notes-tab__actions ion-button[color='danger'] {
+  --color: color-mix(in srgb, var(--ion-color-danger) 74%, #ffd2d8 26%);
+}
+
+.wv-notes-tab__actions ion-icon {
+  font-size: 1rem;
 }

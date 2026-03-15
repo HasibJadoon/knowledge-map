@@ -17,6 +17,7 @@ import { WvHighlightsTabComponent } from '../../components/wv-highlights-tab/wv-
 import { WvNotesFilterKey, WvNotesTabComponent } from '../../components/wv-notes-tab/wv-notes-tab';
 import { WvOverviewTabComponent } from '../../components/wv-overview-tab/wv-overview-tab';
 import { WvReadTabComponent } from '../../components/wv-read-tab/wv-read-tab';
+import { AppAddButtonComponent } from '../../../../../shared/components/app-add-button/app-add-button.component';
 
 type ReadingSegment = {
   index: number;
@@ -43,6 +44,7 @@ type ReadContextMenuPosition = {
     WvReadTabComponent,
     WvHighlightsTabComponent,
     WvNotesTabComponent,
+    AppAddButtonComponent,
   ],
   templateUrl: './wv-unit-workspace.page.html',
   styleUrl: './wv-unit-workspace.page.scss',

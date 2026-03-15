@@ -238,10 +238,14 @@ ion-menu ion-icon {
 .app-page-search-row {
   width: min(100%, var(--app-content-width));
   margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
 }
 
 .app-page-searchbar {
   width: 100%;
+  flex: 1 1 auto;
 }
 
 .app-page-content {

@@ -7,23 +7,52 @@
 ></app-kmaps-page-header>
 
 <ion-content class="km-native-page">
-  <div class="app-page-content app-page-content--wide">
+  <div class="app-page-content app-page-content--wide wv-distill-builder">
     <ng-container *ngIf="hasBatch(); else missingBatchState">
-      <ion-card class="km-card">
-        <ion-card-content>
-          <p class="wv-distill-builder__kicker">{{ source()?.title || 'Source' }}</p>
-          <h1>{{ unit()?.title || 'Distill batch' }}</h1>
-          <p class="wv-distill-builder__summary">
-            Select the notes and highlights you want to use in this batch, then assign a role for downstream suggestions.
-          </p>
+      <ion-card class="km-card wv-distill-builder__hero">
+        <ion-card-content class="wv-distill-builder__hero-content">
+          <div class="wv-distill-builder__hero-copy">
+            <p class="wv-distill-builder__kicker">{{ source()?.title || 'Source' }}</p>
+            <h1>{{ unit()?.title || 'Distill batch' }}</h1>
+            <p class="wv-distill-builder__meta">{{ unit()?.locatorLabel || unit()?.startRef || 'Current unit' }}</p>
+            <p class="wv-distill-builder__summary">
+              Select the notes and highlights you want to use in this batch, then assign a role for downstream suggestions.
+            </p>
+          </div>
+
+          <div class="wv-distill-builder__hero-stats">
+            <article class="wv-distill-builder__stat">
+              <span>Highlights</span>
+              <strong>{{ sourceHighlights().length }}</strong>
+            </article>
+            <article class="wv-distill-builder__stat">
+              <span>Notes</span>
+              <strong>{{ sourceNotes().length }}</strong>
+            </article>
+            <article class="wv-distill-builder__stat">
+              <span>Selected</span>
+              <strong>{{ selectedItems().length }}</strong>
+            </article>
+          </div>
         </ion-card-content>
       </ion-card>
 
       <section class="wv-distill-builder__section">
-        <h2>Highlights</h2>
+        <div class="wv-distill-builder__section-head">
+          <div>
+            <p class="wv-distill-builder__kicker">Source Evidence</p>
+            <h2>Highlights</h2>
+          </div>
+
+          <ion-chip class="wv-distill-builder__count-chip">{{ sourceHighlights().length }}</ion-chip>
+        </div>
 
         <div class="wv-distill-builder__items">
-          <section class="wv-distill-builder__item" *ngFor="let note of sourceHighlights(); trackBy: trackNote">
+          <section
+            class="wv-distill-builder__item-shell"
+            *ngFor="let note of sourceHighlights(); trackBy: trackNote"
+            [class.wv-distill-builder__item-shell--selected]="isSelected(note.id)"
+          >
             <app-note-card
               [note]="note"
               [selectionMode]="true"
@@ -31,24 +60,38 @@
               (selectedChange)="toggleSelection($event)"
             ></app-note-card>
 
-            <ion-select
-              interface="action-sheet"
-              label="Role"
-              labelPlacement="stacked"
-              [value]="roleFor(note.id)"
-              (ionChange)="onRoleChange(note.id, $event.detail.value)"
-            >
-              <ion-select-option *ngFor="let role of roles" [value]="role">{{ role }}</ion-select-option>
-            </ion-select>
+            <label class="wv-distill-builder__role-field">
+              <span>Role</span>
+
+              <ion-select
+                class="wv-distill-builder__role-select"
+                interface="popover"
+                [value]="roleFor(note.id)"
+                (ionChange)="onRoleChange(note.id, $event.detail.value)"
+              >
+                <ion-select-option *ngFor="let role of roles" [value]="role">{{ role }}</ion-select-option>
+              </ion-select>
+            </label>
           </section>
         </div>
       </section>
 
       <section class="wv-distill-builder__section">
-        <h2>Notes</h2>
+        <div class="wv-distill-builder__section-head">
+          <div>
+            <p class="wv-distill-builder__kicker">Interpretive Material</p>
+            <h2>Notes</h2>
+          </div>
+
+          <ion-chip class="wv-distill-builder__count-chip">{{ sourceNotes().length }}</ion-chip>
+        </div>
 
         <div class="wv-distill-builder__items">
-          <section class="wv-distill-builder__item" *ngFor="let note of sourceNotes(); trackBy: trackNote">
+          <section
+            class="wv-distill-builder__item-shell"
+            *ngFor="let note of sourceNotes(); trackBy: trackNote"
+            [class.wv-distill-builder__item-shell--selected]="isSelected(note.id)"
+          >
             <app-note-card
               [note]="note"
               [selectionMode]="true"
@@ -56,27 +99,33 @@
               (selectedChange)="toggleSelection($event)"
             ></app-note-card>
 
-            <ion-select
-              interface="action-sheet"
-              label="Role"
-              labelPlacement="stacked"
-              [value]="roleFor(note.id)"
-              (ionChange)="onRoleChange(note.id, $event.detail.value)"
-            >
-              <ion-select-option *ngFor="let role of roles" [value]="role">{{ role }}</ion-select-option>
-            </ion-select>
+            <label class="wv-distill-builder__role-field">
+              <span>Role</span>
+
+              <ion-select
+                class="wv-distill-builder__role-select"
+                interface="popover"
+                [value]="roleFor(note.id)"
+                (ionChange)="onRoleChange(note.id, $event.detail.value)"
+              >
+                <ion-select-option *ngFor="let role of roles" [value]="role">{{ role }}</ion-select-option>
+              </ion-select>
+            </label>
           </section>
         </div>
       </section>
 
-      <ion-card class="km-card">
+      <ion-card class="km-card wv-distill-builder__tray-card">
         <ion-card-content class="wv-distill-builder__tray">
-          <div>
+          <div class="wv-distill-builder__tray-copy">
             <p class="wv-distill-builder__kicker">Selected Items</p>
             <h2>{{ selectedItems().length }} ready for suggestion generation</h2>
+            <p class="wv-distill-builder__tray-note">
+              Claim seeds, questions, observations, and evidence roles will carry into the next approval flow.
+            </p>
           </div>
 
-          <ion-button expand="block" class="km-btn" [disabled]="!selectedItems().length" (click)="openSuggestions()">
+          <ion-button expand="block" class="km-btn wv-distill-builder__cta" [disabled]="!selectedItems().length" (click)="openSuggestions()">
             Generate Suggestions
           </ion-button>
         </ion-card-content>
@@ -86,13 +135,15 @@
 </ion-content>
 
 <ng-template #missingBatchState>
-  <ion-card class="km-card">
-    <ion-card-content>
-      <p class="wv-distill-builder__kicker">Distill batch</p>
-      <h1>Batch unavailable</h1>
-      <p class="wv-distill-builder__summary">
-        Open this page from a source unit workspace so the distill batch can be created for the current session.
-      </p>
+  <ion-card class="km-card wv-distill-builder__hero wv-distill-builder__hero--empty">
+    <ion-card-content class="wv-distill-builder__hero-content">
+      <div class="wv-distill-builder__hero-copy">
+        <p class="wv-distill-builder__kicker">Distill batch</p>
+        <h1>Batch unavailable</h1>
+        <p class="wv-distill-builder__summary">
+          Open this page from a source unit workspace so the distill batch can be created for the current session.
+        </p>
+      </div>
     </ion-card-content>
   </ion-card>
 </ng-template>

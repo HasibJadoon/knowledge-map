@@ -33,6 +33,7 @@
         show-clear-button="focus"
         (ionInput)="onSearchInput($event.detail.value)"
       ></ion-searchbar>
+      <ng-content select="[kmapsHeaderSearchEnd]"></ng-content>
     </div>
   </ion-toolbar>
 

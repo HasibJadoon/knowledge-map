@@ -7,7 +7,16 @@
   [searchValue]="searchQuery()"
   [searchPlaceholder]="searchPlaceholder()"
   (searchChange)="onSearchChange($event)"
-></app-kmaps-page-header>
+>
+  <div kmapsHeaderSearchEnd class="wv-unit-workspace__search-actions" *ngIf="activeTab() === 'notes'">
+    <app-add-button
+      ariaLabel="Create note"
+      title="Create note"
+      variant="compact"
+      (pressed)="openCreateNoteModal()"
+    ></app-add-button>
+  </div>
+</app-kmaps-page-header>
 
 <ion-content class="km-native-page wv-unit-workspace__content">
   <div class="app-page-content app-page-content--wide wv-unit-workspace__body wv-unit-workspace__body--with-tabs">

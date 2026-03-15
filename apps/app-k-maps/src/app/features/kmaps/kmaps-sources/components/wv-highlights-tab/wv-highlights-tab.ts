@@ -27,6 +27,31 @@ export class WvHighlightsTabComponent {
     return note.id;
   }
 
+  highlightColorRgb(note: KmapsNote): string {
+    switch (this.highlightColor(note)) {
+      case 'yellow':
+        return '244, 204, 88';
+      case 'blue':
+        return '110, 165, 255';
+      case 'green':
+        return '104, 214, 152';
+      case 'purple':
+        return '171, 132, 255';
+      case 'orange':
+        return '255, 170, 96';
+      case 'pink':
+        return '255, 132, 196';
+      case 'red':
+        return '255, 106, 134';
+      default:
+        return '110, 165, 255';
+    }
+  }
+
+  isArabicText(value: string | null | undefined): boolean {
+    return /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(value || '');
+  }
+
   preview(note: KmapsNote): string {
     const value = (note.excerptText || note.bodyMd).trim();
     return value.length > 180 ? `${value.slice(0, 177).trim()}...` : value;
@@ -34,6 +59,11 @@ export class WvHighlightsTabComponent {
 
   meta(note: KmapsNote): string {
     return [note.locator, formatRelativeTime(note.createdAt)].filter(Boolean).join(' • ');
+  }
+
+  private highlightColor(note: KmapsNote): string | null {
+    const value = note.noteJson?.['color'];
+    return typeof value === 'string' && value.trim() ? value.trim().toLowerCase() : null;
   }
 }
 

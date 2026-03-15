@@ -23,18 +23,13 @@
     <section class="note-workspace-modal__section">
       <label class="note-workspace-modal__label">Type</label>
 
-      <div class="note-workspace-modal__kind-row">
-        <button
-          type="button"
-          class="note-workspace-modal__kind-chip"
-          *ngFor="let kind of kindOptions"
-          [class.note-workspace-modal__kind-chip--active]="form.controls.noteKind.value === kind"
-          (click)="selectKind(kind)"
-        >
-          <ion-icon [name]="noteKindIcon(kind)" aria-hidden="true"></ion-icon>
-          <span>{{ noteKindLabel(kind) }}</span>
-        </button>
-      </div>
+      <ion-item lines="none" class="note-workspace-modal__field">
+        <ion-select formControlName="noteKind" interface="popover" placeholder="Select note type">
+          <ion-select-option *ngFor="let kind of kindOptions" [value]="kind">
+            {{ noteKindLabel(kind) }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
     </section>
 
     <section class="note-workspace-modal__section">

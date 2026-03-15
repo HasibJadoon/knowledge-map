@@ -73,43 +73,24 @@ export class NoteWorkspaceModalComponent {
     return BASE_NOTE_KIND_OPTIONS.includes(activeKind) ? BASE_NOTE_KIND_OPTIONS : [...BASE_NOTE_KIND_OPTIONS, activeKind];
   }
 
-  selectKind(kind: WorkspaceNoteKind): void {
-    this.form.controls.noteKind.setValue(kind);
-  }
-
   noteKindLabel(kind: WorkspaceNoteKind): string {
     switch (kind) {
+      case 'question':
+        return 'Question';
+      case 'reflection':
+        return 'Reflection';
+      case 'quote':
+        return 'Quote';
+      case 'insight':
+        return 'Insight';
       case 'observation':
-        return 'C';
+        return 'Observation';
       case 'claim_seed':
         return 'Claim Seed';
       case 'idea':
         return 'Idea';
       default:
-        return kind.charAt(0).toUpperCase();
-    }
-  }
-
-  noteKindIcon(kind: WorkspaceNoteKind): string {
-    switch (kind) {
-      case 'question':
-        return 'help-circle-outline';
-      case 'highlight':
-        return 'color-wand-outline';
-      case 'reflection':
-        return 'chatbox-ellipses-outline';
-      case 'quote':
-        return 'bookmark-outline';
-      case 'insight':
-        return 'bulb-outline';
-      case 'observation':
-        return 'chatbubble-outline';
-      case 'claim_seed':
-        return 'flash-outline';
-      case 'idea':
-        return 'sparkles-outline';
-      default:
-        return 'document-text-outline';
+        return kind.charAt(0).toUpperCase() + kind.slice(1);
     }
   }
 
