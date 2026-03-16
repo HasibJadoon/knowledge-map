@@ -50,8 +50,16 @@ export class WvOverviewTabComponent {
     return value.length > maxLength ? `${value.slice(0, maxLength - 3).trim()}...` : value;
   }
 
+  notePreviewVisible(note: KmapsNote, maxLength = 120): boolean {
+    return normalizeText(this.notePreview(note, maxLength)) !== normalizeText(this.noteTitle(note));
+  }
+
   noteMeta(note: KmapsNote): string {
     return [note.locator, formatRelativeTime(note.createdAt)].filter(Boolean).join(' • ');
+  }
+
+  isArabicText(value: string | null | undefined): boolean {
+    return /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(value || '');
   }
 
   private readingMinutesLabel(value: number): string {
@@ -75,4 +83,8 @@ function formatRelativeTime(value: string): string {
 
   const days = Math.round(hours / 24);
   return `${days}d ago`;
+}
+
+function normalizeText(value: string): string {
+  return value.trim().replace(/\s+/g, ' ').toLowerCase();
 }

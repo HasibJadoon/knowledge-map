@@ -42,15 +42,6 @@
 </ion-header>
 
 <ion-content class="source-unit-page__content">
-  <div class="source-unit-page__content-top" *ngIf="source() && unit()">
-    <app-source-content-menu
-      [sourceId]="sourceId()"
-      [sourceTitle]="source()?.title || ''"
-      [unitId]="unitId()"
-      [unitTitle]="unit()?.title || ''"
-    ></app-source-content-menu>
-  </div>
-
   <ion-list class="source-unit-page__list" lines="full" *ngIf="visibleUnits().length; else noUnits">
     <ion-item
       class="source-unit-page__item"

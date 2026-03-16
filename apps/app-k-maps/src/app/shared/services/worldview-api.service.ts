@@ -365,21 +365,7 @@ function mapDistillBatchSnapshot(response: DistillBatchApiResponse): WorldviewDi
     throw new Error(readTrimmed(response.error) ?? 'Failed to load worldview distill batch.');
   }
 
-  return {
-    batch,
-    items: asArray(response.items)
-      .map((value) => mapDistillItem(value, batch.id))
-      .filter((item): item is WvDistillBatchItem => item !== null),
-    suggestions: asArray(response.suggestions)
-      .map(mapDistillSuggestion)
-      .filter((item): item is WvInsightSuggestion => item !== null),
-    decisions: asArray(response.decisions)
-      .map(mapDistillDecision)
-      .filter((item): item is WvInsightDecision => item !== null),
-    draftOutput: parseRecord(response.draft_output),
-    promptVersion: readNullableString(response.prompt_version),
-    model: readNullableString(response.model),
-  };
+  return buildDistillBatchSnapshot(batch, response);
 }
 
 function mapOptionalDistillBatchSnapshot(response: DistillBatchApiResponse): WorldviewDistillBatchSnapshot | null {
@@ -388,14 +374,26 @@ function mapOptionalDistillBatchSnapshot(response: DistillBatchApiResponse): Wor
     return null;
   }
 
+  return buildDistillBatchSnapshot(batch, response);
+}
+
+function buildDistillBatchSnapshot(
+  batch: WvDistillBatch,
+  response: DistillBatchApiResponse,
+): WorldviewDistillBatchSnapshot {
+  const suggestions = asArray(response.suggestions)
+    .map(mapDistillSuggestion)
+    .filter((item): item is WvInsightSuggestion => item !== null);
+  const normalizedBatch = suggestions.length && batch.status === 'draft'
+    ? { ...batch, status: 'completed' as const }
+    : batch;
+
   return {
-    batch,
+    batch: normalizedBatch,
     items: asArray(response.items)
-      .map((value) => mapDistillItem(value, batch.id))
+      .map((value) => mapDistillItem(value, normalizedBatch.id))
       .filter((item): item is WvDistillBatchItem => item !== null),
-    suggestions: asArray(response.suggestions)
-      .map(mapDistillSuggestion)
-      .filter((item): item is WvInsightSuggestion => item !== null),
+    suggestions,
     decisions: asArray(response.decisions)
       .map(mapDistillDecision)
       .filter((item): item is WvInsightDecision => item !== null),

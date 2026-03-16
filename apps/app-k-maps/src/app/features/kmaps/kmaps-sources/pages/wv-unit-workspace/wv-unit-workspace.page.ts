@@ -149,7 +149,9 @@ export class WvUnitWorkspacePage {
   readonly recentNotes = computed(() => this.notesService.recentForUnit(this.sourceId(), this.unitId()));
   readonly nodeCount = computed(() => this.nodesService.getNodeCountForUnit(this.sourceId(), this.unitId()));
   readonly localDistillBatch = computed(() => this.distillService.getBatchForUnit(this.unitId()));
-  readonly hasExistingDistill = computed(() => this.existingDistillBatchId() != null);
+  readonly hasExistingDistill = computed(() =>
+    this.existingDistillBatchId() != null && this.existingDistillBatchStatus() !== 'completed',
+  );
   readonly stats = computed<KmapsStatItem[]>(() => [
     { label: 'Highlights', value: this.allHighlights().length },
     { label: 'Notes', value: this.allNotes().length },
@@ -177,7 +179,6 @@ export class WvUnitWorkspacePage {
     && (this.allNotes().length >= 1 || this.allHighlights().length >= 1)
     && !this.hasExistingDistill()
     && this.localDistillBatch()?.status !== 'active'
-    && this.localDistillBatch()?.status !== 'completed',
   );
   readonly readContextMenuLeft = computed(() => this.resolveContextMenuLeft(this.readContextMenuPosition()));
   readonly readContextMenuTop = computed(() => this.resolveContextMenuTop(this.readContextMenuPosition()));
@@ -482,7 +483,7 @@ export class WvUnitWorkspacePage {
     }
 
     const localBatch = this.localDistillBatch();
-    if (localBatch && localBatch.status !== 'draft') {
+    if (localBatch?.status === 'active') {
       void this.router.navigate(this.existingDistillRoute(localBatch.id, localBatch.status));
       return;
     }

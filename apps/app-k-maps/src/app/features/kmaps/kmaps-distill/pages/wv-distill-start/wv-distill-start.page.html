@@ -16,7 +16,9 @@
         <p class="wv-distill-start__summary">
           {{
             distillLocked()
-              ? 'This passage already has a saved distill batch. New distill runs are disabled for this passage.'
+              ? 'This unit already has an in-progress distill batch. Resume it here before starting another pass.'
+              : localBatchStatus() === 'draft'
+                ? 'Your draft distill is ready to resume with the notes and highlights saved in this workspace.'
               : 'Distill the current unit into a focused batch using saved notes and highlights from this workspace.'
           }}
         </p>

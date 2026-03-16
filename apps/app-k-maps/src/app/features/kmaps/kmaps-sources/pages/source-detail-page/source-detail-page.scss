@@ -141,12 +141,6 @@
   background: transparent;
 }
 
-.source-detail-page__content-top {
-  width: min(100%, var(--app-content-width));
-  margin: 0 auto;
-  padding: 0 0.5rem 0.85rem;
-}
-
 .source-detail-page__divider {
   min-height: 1px;
   --background: var(--app-border-soft);

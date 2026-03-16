@@ -68,13 +68,6 @@
 </ion-header>
 
 <ion-content class="source-detail-page__content">
-  <div class="source-detail-page__content-top" *ngIf="!isDraft()">
-    <app-source-content-menu
-      [sourceId]="currentSource().id"
-      [sourceTitle]="currentSource().title"
-    ></app-source-content-menu>
-  </div>
-
   <ion-list class="source-detail-page__outline-list" lines="full" *ngIf="outlineUnits().length; else noUnits">
     <ng-container *ngFor="let unit of outlineUnits(); trackBy: trackUnit; let isFirst = first">
       <ion-item-divider

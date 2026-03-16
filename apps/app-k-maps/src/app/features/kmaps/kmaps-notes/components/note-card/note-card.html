@@ -2,7 +2,10 @@
   type="button"
   class="note-card km-subcard"
   [class.note-card--selected]="selected"
+  [class.note-card--distill]="variant === 'distill'"
+  [class.note-card--disabled]="disabled"
   [class.km-subcard--active]="selected"
+  [disabled]="disabled"
   (click)="selectedChange.emit(note.id)"
 >
   <div class="note-card__head">
@@ -14,11 +17,37 @@
     <span class="note-card__select-indicator" *ngIf="selectionMode" aria-hidden="true"></span>
   </div>
 
-  <h3>{{ heading }}</h3>
+  <h3
+    *ngIf="showHeading"
+    [class.note-card__heading--arabic]="headingIsArabic"
+    [attr.lang]="headingIsArabic ? 'ar' : 'en'"
+    [attr.dir]="headingIsArabic ? 'rtl' : 'ltr'"
+    [attr.translate]="headingIsArabic ? 'no' : null"
+  >
+    {{ heading }}
+  </h3>
 
-  <blockquote class="km-quote-block" *ngIf="note.excerptText">{{ note.excerptText }}</blockquote>
+  <blockquote
+    class="km-quote-block note-card__excerpt"
+    *ngIf="note.excerptText"
+    [class.note-card__excerpt--arabic]="excerptIsArabic"
+    [attr.lang]="excerptIsArabic ? 'ar' : 'en'"
+    [attr.dir]="excerptIsArabic ? 'rtl' : 'ltr'"
+    [attr.translate]="excerptIsArabic ? 'no' : null"
+  >
+    {{ note.excerptText }}
+  </blockquote>
 
-  <p class="note-card__body">{{ previewBody }}</p>
+  <p
+    class="note-card__body"
+    *ngIf="showBody"
+    [class.note-card__body--arabic]="bodyIsArabic"
+    [attr.lang]="bodyIsArabic ? 'ar' : 'en'"
+    [attr.dir]="bodyIsArabic ? 'rtl' : 'ltr'"
+    [attr.translate]="bodyIsArabic ? 'no' : null"
+  >
+    {{ previewBody }}
+  </p>
 
   <p class="note-card__meta">{{ createdLabel }}</p>
 </button>

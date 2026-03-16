@@ -41,14 +41,12 @@ export class WvDistillStartPage {
   readonly existingBatchLoading = signal(false);
   readonly localBatch = computed(() => this.distillService.getBatchForUnit(this.unitId()));
   readonly localBatchStatus = computed(() => this.localBatch()?.status ?? null);
-  readonly distillLocked = computed(() => this.existingBatchId() != null);
+  readonly distillLocked = computed(() =>
+    this.existingBatchId() != null && this.existingBatchStatus() !== 'completed',
+  );
   readonly actionLabel = computed(() => {
     if (this.distillLocked()) {
-      return this.existingBatchStatus() === 'completed' ? 'Open Existing Output' : 'Open Existing Distill';
-    }
-
-    if (this.localBatchStatus() === 'completed') {
-      return 'Open Existing Output';
+      return 'Open Existing Distill';
     }
 
     if (this.localBatchStatus() === 'active') {
@@ -56,14 +54,14 @@ export class WvDistillStartPage {
     }
 
     if (this.localBatchStatus() === 'draft') {
-      return 'Continue Draft';
+      return 'Resume';
     }
 
     return 'Start Distill';
   });
   readonly actionDisabled = computed(() =>
     !this.distillLocked()
-    && !this.localBatch()
+    && this.localBatchStatus() !== 'draft'
     && !this.notes().length
     && !this.highlights().length,
   );
@@ -87,12 +85,12 @@ export class WvDistillStartPage {
     }
 
     const localBatch = this.localBatch();
-    if (localBatch && localBatch.status !== 'draft') {
+    if (localBatch?.status === 'active') {
       void this.router.navigate(this.existingDistillRoute(localBatch.id, localBatch.status));
       return;
     }
 
-    if (localBatch) {
+    if (localBatch?.status === 'draft') {
       void this.router.navigate(this.builderRoute(localBatch.id));
       return;
     }

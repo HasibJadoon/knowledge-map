@@ -13,7 +13,7 @@ export class WvDistillService {
 
   ensureDraftBatch(sourceId: string, unitId: string): WvDistillBatch {
     const existing = this.getBatchForUnit(unitId);
-    if (existing) {
+    if (existing?.status === 'draft') {
       return existing;
     }
 
@@ -111,7 +111,7 @@ export class WvDistillService {
   completeBatch(batchId: string): void {
     const updatedAt = new Date().toISOString();
     this.batchesState.update((batches) =>
-      batches.map((batch) => (batch.id === batchId ? { ...batch, status: 'active', updatedAt } : batch)),
+      batches.map((batch) => (batch.id === batchId ? { ...batch, status: 'completed', updatedAt } : batch)),
     );
   }
 

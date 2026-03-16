@@ -1,80 +1,104 @@
 <ng-container *ngIf="!isEmpty && unit; else emptyState">
-  <app-kmaps-stat-chip-row [stats]="stats"></app-kmaps-stat-chip-row>
+  <section class="wv-overview-tab">
+    <app-kmaps-stat-chip-row [stats]="stats"></app-kmaps-stat-chip-row>
 
-  <ion-card class="km-card">
-    <ion-card-content>
-      <div class="wv-overview-tab__section-head">
-        <div>
-          <p class="wv-overview-tab__kicker">Recent Highlights</p>
-          <h2>{{ recentHighlights.length }} captured passages</h2>
+    <ion-card class="km-card wv-overview-tab__panel">
+      <ion-card-content>
+        <div class="wv-overview-tab__section-head">
+          <div>
+            <p class="wv-overview-tab__kicker">Recent Highlights</p>
+            <h2>{{ recentHighlights.length }} captured passages</h2>
+          </div>
+
+          <ion-button fill="clear" size="small" class="wv-overview-tab__view-all" (click)="viewHighlights.emit()">
+            View all
+          </ion-button>
         </div>
+      </ion-card-content>
 
-        <ion-button fill="clear" size="small" (click)="viewHighlights.emit()">View all</ion-button>
+      <div class="wv-overview-tab__list" *ngIf="recentHighlights.length; else noHighlights">
+        <article class="wv-overview-tab__item" *ngFor="let note of recentHighlights; trackBy: trackNote">
+          <p
+            class="wv-overview-tab__excerpt"
+            [class.wv-overview-tab__excerpt--arabic]="isArabicText(notePreview(note, 140))"
+            [attr.lang]="isArabicText(notePreview(note, 140)) ? 'ar' : 'en'"
+            [attr.dir]="isArabicText(notePreview(note, 140)) ? 'rtl' : 'ltr'"
+          >
+            {{ notePreview(note, 140) }}
+          </p>
+          <p class="wv-overview-tab__item-meta">{{ noteMeta(note) }}</p>
+        </article>
       </div>
-    </ion-card-content>
+    </ion-card>
 
-    <ion-list lines="full" *ngIf="recentHighlights.length; else noHighlights">
-      <ion-item *ngFor="let note of recentHighlights; trackBy: trackNote" button detail="false">
-        <ion-label>
-          <h3>{{ notePreview(note, 140) }}</h3>
-          <p>{{ noteMeta(note) }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card>
+    <ion-card class="km-card wv-overview-tab__panel">
+      <ion-card-content>
+        <div class="wv-overview-tab__section-head">
+          <div>
+            <p class="wv-overview-tab__kicker">Recent Notes</p>
+            <h2>{{ recentNotes.length }} saved notes</h2>
+          </div>
 
-  <ion-card class="km-card">
-    <ion-card-content>
-      <div class="wv-overview-tab__section-head">
-        <div>
-          <p class="wv-overview-tab__kicker">Recent Notes</p>
-          <h2>{{ recentNotes.length }} saved notes</h2>
+          <ion-button fill="clear" size="small" class="wv-overview-tab__view-all" (click)="viewNotes.emit()">
+            View all
+          </ion-button>
         </div>
+      </ion-card-content>
 
-        <ion-button fill="clear" size="small" (click)="viewNotes.emit()">View all</ion-button>
+      <div class="wv-overview-tab__list" *ngIf="recentNotes.length; else noNotes">
+        <button
+          type="button"
+          class="wv-overview-tab__item wv-overview-tab__item--button"
+          *ngFor="let note of recentNotes; trackBy: trackNote"
+          (click)="openNote.emit(note)"
+        >
+          <h3
+            class="wv-overview-tab__title"
+            [class.wv-overview-tab__title--arabic]="isArabicText(noteTitle(note))"
+            [attr.lang]="isArabicText(noteTitle(note)) ? 'ar' : 'en'"
+            [attr.dir]="isArabicText(noteTitle(note)) ? 'rtl' : 'ltr'"
+          >
+            {{ noteTitle(note) }}
+          </h3>
+          <p
+            class="wv-overview-tab__excerpt"
+            *ngIf="notePreviewVisible(note)"
+            [class.wv-overview-tab__excerpt--arabic]="isArabicText(notePreview(note))"
+            [attr.lang]="isArabicText(notePreview(note)) ? 'ar' : 'en'"
+            [attr.dir]="isArabicText(notePreview(note)) ? 'rtl' : 'ltr'"
+          >
+            {{ notePreview(note) }}
+          </p>
+        </button>
       </div>
-    </ion-card-content>
+    </ion-card>
 
-    <ion-list lines="full" *ngIf="recentNotes.length; else noNotes">
-      <ion-item
-        *ngFor="let note of recentNotes; trackBy: trackNote"
-        button
-        detail="false"
-        (click)="openNote.emit(note)"
-      >
-        <ion-label>
-          <h3>{{ noteTitle(note) }}</h3>
-          <p>{{ notePreview(note) }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-
-  <ion-card class="km-card">
-    <ion-card-content>
-      <div class="wv-overview-tab__section-head">
-        <div>
-          <p class="wv-overview-tab__kicker">Source Units</p>
-          <h2>{{ structureUnits.length ? 'Nested sections' : 'Reading scope' }}</h2>
+    <ion-card class="km-card wv-overview-tab__panel">
+      <ion-card-content>
+        <div class="wv-overview-tab__section-head">
+          <div>
+            <p class="wv-overview-tab__kicker">Source Units</p>
+            <h2>{{ structureUnits.length ? 'Nested sections' : 'Reading scope' }}</h2>
+          </div>
         </div>
-      </div>
-    </ion-card-content>
+      </ion-card-content>
 
-    <ion-list lines="full" *ngIf="structureUnits.length; else noStructure">
-      <ion-item
-        *ngFor="let child of structureUnits; trackBy: trackUnit"
-        button
-        detail="false"
-        (click)="openUnit.emit(child.id)"
-      >
-        <ion-label>
-          <h3>{{ child.title }}</h3>
-          <p>{{ unitMeta(child) }}</p>
-        </ion-label>
-        <ion-icon slot="end" name="chevron-forward-outline" aria-hidden="true"></ion-icon>
-      </ion-item>
-    </ion-list>
-  </ion-card>
+      <div class="wv-overview-tab__list" *ngIf="structureUnits.length; else noStructure">
+        <button
+          type="button"
+          class="wv-overview-tab__item wv-overview-tab__item--button wv-overview-tab__item--with-icon"
+          *ngFor="let child of structureUnits; trackBy: trackUnit"
+          (click)="openUnit.emit(child.id)"
+        >
+          <div>
+            <h3 class="wv-overview-tab__title">{{ child.title }}</h3>
+            <p class="wv-overview-tab__item-meta">{{ unitMeta(child) }}</p>
+          </div>
+          <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+        </button>
+      </div>
+    </ion-card>
+  </section>
 </ng-container>
 
 <ng-template #noHighlights>

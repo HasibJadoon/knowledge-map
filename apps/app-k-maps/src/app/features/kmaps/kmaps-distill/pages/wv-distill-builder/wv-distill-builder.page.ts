@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal, untracked } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 
 import { NoteCardComponent } from '../../../kmaps-notes/components/note-card/note-card';
+import { NoteWorkspaceModalComponent } from '../../../kmaps-notes/components/note-workspace-modal/note-workspace-modal';
 import { KmapsPageHeaderComponent } from '../../../kmaps-shared/components/page-header/page-header';
 import { KmapsNote } from '../../../kmaps-shared/models/kmaps.models';
 import { WvDistillItemRole } from '../../../kmaps-shared/models/wv-workspace.models';
@@ -29,6 +30,7 @@ export class WvDistillBuilderPage {
   private readonly destroyRef = inject(DestroyRef);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly modalController = inject(ModalController);
   private readonly workflow = inject(KmapsWorkflowService);
   private readonly worldviewApi = inject(WorldviewApiService);
   private readonly highlightsService = inject(WvHighlightsService);
@@ -37,6 +39,7 @@ export class WvDistillBuilderPage {
   private readonly nodesService = inject(WvNodesService);
 
   readonly batchId = signal('');
+  readonly isLoading = signal(false);
   readonly isGenerating = signal(false);
   readonly batch = computed(() => this.distillService.getBatch(this.batchId()));
   readonly unit = computed(() => this.workflow.getUnit(this.batch()?.unitId || ''));
@@ -48,11 +51,31 @@ export class WvDistillBuilderPage {
   readonly batchItems = computed(() => (this.batchId() ? this.distillService.getItems(this.batchId()) : []));
   readonly selectedItems = computed(() => this.batchItems().filter((item) => item.selected));
   readonly canGenerateBatch = computed(() => this.batch()?.status === 'draft');
+  readonly canEditBatch = computed(() => this.canGenerateBatch() && !this.isGenerating());
+  readonly canEditNotes = computed(() => this.hasBatch() && !this.isGenerating());
+  readonly footerActionDisabled = computed(() =>
+    this.isGenerating() || !this.canGenerateBatch() || !this.selectedItems().length,
+  );
+  readonly footerActionLabel = computed(() => {
+    if (this.isGenerating()) {
+      return 'Generating…';
+    }
+
+    if (!this.canGenerateBatch()) {
+      return 'Suggestions Generated';
+    }
+
+    return 'Generate Suggestions';
+  });
+  readonly selectAllDisabled = computed(() =>
+    !this.canEditBatch() || !this.batchItems().some((item) => !item.selected),
+  );
   readonly roles: ReadonlyArray<WvDistillItemRole> = ['claim_seed', 'evidence', 'observation', 'question'];
 
   constructor() {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       this.batchId.set(params.get('batchId') || '');
+      void this.loadBatch();
     });
 
     effect(() => {
@@ -78,14 +101,26 @@ export class WvDistillBuilderPage {
   }
 
   toggleSelection(noteId: string): void {
+    if (!this.canEditBatch()) {
+      return;
+    }
+
     this.distillService.updateItemSelection(this.batchId(), noteId, !this.isSelected(noteId));
   }
 
   updateRole(noteId: string, role: WvDistillItemRole): void {
+    if (!this.canEditBatch()) {
+      return;
+    }
+
     this.distillService.updateItemRole(this.batchId(), noteId, role);
   }
 
   onRoleChange(noteId: string, value: string | null | undefined): void {
+    if (!this.canEditBatch()) {
+      return;
+    }
+
     switch (value) {
       case 'claim_seed':
       case 'observation':
@@ -96,6 +131,39 @@ export class WvDistillBuilderPage {
       default:
         this.updateRole(noteId, 'evidence');
     }
+  }
+
+  selectAllItems(): void {
+    if (this.selectAllDisabled()) {
+      return;
+    }
+
+    for (const item of this.batchItems()) {
+      if (!item.selected) {
+        this.distillService.updateItemSelection(this.batchId(), item.noteId, true);
+      }
+    }
+  }
+
+  async openNoteEditor(noteId: string): Promise<void> {
+    const source = this.source();
+    const unit = this.unit();
+    if (!source || !unit || !this.canEditNotes()) {
+      return;
+    }
+
+    const modal = await this.modalController.create({
+      component: NoteWorkspaceModalComponent,
+      componentProps: {
+        sourceId: source.id,
+        unitId: unit.id,
+        noteId,
+      },
+      cssClass: 'km-note-workspace-modal',
+      showBackdrop: true,
+    });
+
+    await modal.present();
   }
 
   async openSuggestions(): Promise<void> {
@@ -172,5 +240,25 @@ export class WvDistillBuilderPage {
     return this.routeRoot() === 'wv'
       ? ['/wv', 'suggestions', this.batchId()]
       : ['/worldview', 'suggestions', this.batchId()];
+  }
+
+  private async loadBatch(): Promise<void> {
+    const batchId = this.batchId();
+    if (!batchId || this.isLoading()) {
+      return;
+    }
+
+    this.isLoading.set(true);
+    try {
+      const snapshot = await firstValueFrom(this.worldviewApi.fetchDistillBatch(batchId));
+      this.distillService.hydrateBatch(snapshot.batch, snapshot.items);
+      this.nodesService.hydrateBatch(snapshot.batch.id, snapshot.suggestions, snapshot.decisions);
+    } catch (error) {
+      if (!this.batch()) {
+        console.error('Failed to load worldview distill batch.', error);
+      }
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 }
