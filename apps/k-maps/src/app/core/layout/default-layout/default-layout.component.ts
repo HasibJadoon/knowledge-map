@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
 import { NgScrollbar } from 'ngx-scrollbar';
+import gsap from 'gsap';
 
 import {
   ContainerComponent,
-  ShadowOnScrollDirective,
   SidebarComponent,
   SidebarFooterComponent,
   SidebarNavComponent,
@@ -13,16 +14,8 @@ import {
 } from '@coreui/angular';
 
 import { DefaultFooterComponent } from './default-footer/default-footer.component';
-import { DefaultHeaderComponent } from './default-header/default-header.component';
 import { navItems } from './_nav';
 import { ToastHostComponent } from '../../../shared/components/toast-host/toast-host.component';
-
-function isOverflown(element: HTMLElement) {
-  return (
-    element.scrollHeight > element.clientHeight ||
-    element.scrollWidth > element.clientWidth
-  );
-}
 
 @Component({
   selector: 'app-dashboard',
@@ -36,16 +29,30 @@ function isOverflown(element: HTMLElement) {
     SidebarTogglerDirective,
     ContainerComponent,
     DefaultFooterComponent,
-    DefaultHeaderComponent,
     ToastHostComponent,
     NgScrollbar,
     RouterOutlet,
-    ShadowOnScrollDirective
   ]
 })
-export class DefaultLayoutComponent {
+export class DefaultLayoutComponent implements OnInit, OnDestroy {
+  private readonly router = inject(Router);
+
+  @ViewChild('pageContent', { static: true }) pageContent!: ElementRef<HTMLDivElement>;
+
   public navItems = [...navItems];
   public sidebarCollapsed = false;
+
+  private routerSub?: Subscription;
+
+  ngOnInit(): void {
+    this.routerSub = this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => this.animatePage());
+  }
+
+  ngOnDestroy(): void {
+    this.routerSub?.unsubscribe();
+  }
 
   onSidebarEnter() {
     this.sidebarCollapsed = false;
@@ -53,5 +60,15 @@ export class DefaultLayoutComponent {
 
   onSidebarLeave() {
     this.sidebarCollapsed = true;
+  }
+
+  private animatePage(): void {
+    const el = this.pageContent?.nativeElement;
+    if (!el) return;
+    gsap.fromTo(
+      el,
+      { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.38, ease: 'power2.out', clearProps: 'all' }
+    );
   }
 }

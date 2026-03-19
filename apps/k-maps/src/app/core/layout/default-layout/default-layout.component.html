@@ -24,17 +24,12 @@
 <!--main-->
 <div class="wrapper d-flex flex-column min-vh-100">
   <app-toast-host />
-  <!--app-header-->
-  <app-default-header
-    [cShadowOnScroll]="'sm'"
-    class="mb-4 d-print-none header header-sticky p-0 shadow-sm"
-    position="sticky"
-    sidebarId="sidebar1"
-  />
   <!--app-body-->
   <div class="body flex-grow-1">
     <c-container [fluid]="true" class="h-auto px-2 px-md-3">
-      <router-outlet />
+      <div #pageContent>
+        <router-outlet />
+      </div>
     </c-container>
   </div>
   <!--app footer-->

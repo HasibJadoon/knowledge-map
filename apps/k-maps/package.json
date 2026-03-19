@@ -41,6 +41,7 @@
     "@ctrl/ngx-codemirror": "^7.0.0",
     "chart.js": "^4.5.0",
     "codemirror": "^5.65.21",
+    "gsap": "^3.14.2",
     "lodash-es": "^4.17.21",
     "marked": "^5.1.2",
     "ngx-scrollbar": "^13.0.3",
