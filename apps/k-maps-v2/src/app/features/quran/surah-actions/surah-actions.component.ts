@@ -51,12 +51,12 @@ const SVG = {
 };
 
 const ACTIONS: ActionIconVm[] = [
-  { id: 'study',      label: 'Study',  svgPath: SVG.study,      ariaLabel: 'Study this surah' },
-  { id: 'notes',      label: 'Notes',  svgPath: SVG.notes,      ariaLabel: 'Notes for this surah' },
-  { id: 'worldview',  label: 'World',  svgPath: SVG.worldview,  ariaLabel: 'Worldview for this surah' },
-  { id: 'vocabulary', label: 'Vocab',  svgPath: SVG.vocabulary, ariaLabel: 'Vocabulary of this surah' },
-  { id: 'review',     label: 'Review', svgPath: SVG.review,     ariaLabel: 'Review this surah' },
-  { id: 'srs',        label: 'SRS',    svgPath: SVG.srs,        ariaLabel: 'Spaced repetition for this surah' },
+  { id: 'study',      label: 'Study',  svgPath: SVG.study,      ariaLabel: 'Study this surah',              color: '#C9A84C' }, // gold
+  { id: 'notes',      label: 'Notes',  svgPath: SVG.notes,      ariaLabel: 'Notes for this surah',          color: '#5BBFA0' }, // teal
+  { id: 'worldview',  label: 'World',  svgPath: SVG.worldview,  ariaLabel: 'Worldview for this surah',      color: '#6B9FD4' }, // blue
+  { id: 'vocabulary', label: 'Vocab',  svgPath: SVG.vocabulary, ariaLabel: 'Vocabulary of this surah',      color: '#A87FD4' }, // purple
+  { id: 'review',     label: 'Review', svgPath: SVG.review,     ariaLabel: 'Review this surah',             color: '#D4876B' }, // amber-orange
+  { id: 'srs',        label: 'SRS',    svgPath: SVG.srs,        ariaLabel: 'Spaced repetition for this surah', color: '#D46B8A' }, // rose
 ];
 
 @Component({

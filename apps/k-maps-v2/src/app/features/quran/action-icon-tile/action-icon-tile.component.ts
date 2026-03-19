@@ -2,6 +2,7 @@ import {
   Component, Input, Output, EventEmitter, ElementRef,
   OnInit, OnDestroy, inject, ChangeDetectionStrategy,
 } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { QuranGsapService } from '../shared/quran-gsap.service';
 
 export interface ActionIconVm {
@@ -9,6 +10,7 @@ export interface ActionIconVm {
   label: string;
   svgPath: string;
   ariaLabel: string;
+  color?: string;
 }
 
 @Component({
@@ -19,10 +21,10 @@ export interface ActionIconVm {
     <button
       class="icon-tile"
       [attr.aria-label]="config.ariaLabel"
+      [style.color]="config.color || null"
       (click)="onClick($event)"
     >
-      <span class="icon-tile__icon" [innerHTML]="config.svgPath"></span>
-      <span class="icon-tile__sheen" aria-hidden="true"></span>
+      <span class="icon-tile__icon" [innerHTML]="safeIcon"></span>
     </button>
   `,
   styleUrl: './action-icon-tile.component.scss',
@@ -33,8 +35,13 @@ export class ActionIconTileComponent implements OnInit, OnDestroy {
 
   private readonly elRef = inject(ElementRef<HTMLElement>);
   private readonly gsap = inject(QuranGsapService);
+  private readonly sanitizer = inject(DomSanitizer);
   private cleanupHover!: () => void;
   private cleanupPress!: () => void;
+
+  get safeIcon(): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(this.config.svgPath);
+  }
 
   ngOnInit(): void {
     const btn = this.elRef.nativeElement.querySelector('.icon-tile') as HTMLElement;

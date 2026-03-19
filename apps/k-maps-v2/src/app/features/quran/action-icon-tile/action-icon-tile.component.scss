@@ -11,17 +11,17 @@
   padding: 0;
   cursor: pointer;
   outline: none;
-  color: rgba(201, 168, 76, 0.55);
-  will-change: transform;
-  transition: color 0.18s ease;
+  opacity: 0.6;
+  will-change: transform, opacity;
+  transition: opacity 0.18s ease;
 
   &:hover {
-    color: rgba(201, 168, 76, 0.9);
+    opacity: 1;
   }
 
   &:focus-visible {
-    color: rgba(201, 168, 76, 1);
-    outline: 2px solid rgba(201, 168, 76, 0.4);
+    opacity: 1;
+    outline: 2px solid currentColor;
     outline-offset: 3px;
     border-radius: 4px;
   }
