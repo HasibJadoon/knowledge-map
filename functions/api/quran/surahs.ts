@@ -19,17 +19,15 @@ interface SurahRow {
   juz: number | null;
 }
 
-function parseMeta(raw: string | null): Record<string, unknown> {
-  if (!raw) return {};
-  try {
-    const parsed = JSON.parse(raw);
-    return parsed && typeof parsed === 'object' ? (parsed as Record<string, unknown>) : {};
-  } catch {
-    return {};
-  }
-}
+// Canonical Makki/Madani classification — all 114 surahs
+// Source: classical Islamic scholarship (matches original component data)
+const MADANI_SURAHS = new Set([
+  2, 3, 4, 5, 8, 9, 13, 22, 24, 33, 47, 48, 49, 55,
+  57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 76, 98, 99, 110,
+]);
 
-function toRevelationType(meta: Record<string, unknown>): 'makki' | 'madani' | null {
+function getRevelationType(surahNumber: number, meta: Record<string, unknown>): 'makki' | 'madani' {
+  // Try meta_json first (allows DB override)
   const raw = (
     meta['revelation_place'] ??
     meta['revelation_type'] ??
@@ -38,9 +36,20 @@ function toRevelationType(meta: Record<string, unknown>): 'makki' | 'madani' | n
     ''
   ) as string;
   const v = raw.toString().toLowerCase();
-  if (v.includes('makk') || v === 'makki' || v === 'meccan') return 'makki';
-  if (v.includes('madin') || v === 'madani' || v === 'medinan') return 'madani';
-  return null;
+  if (v.includes('makk') || v === 'meccan') return 'makki';
+  if (v.includes('madin') || v === 'medinan') return 'madani';
+  // Fall back to canonical classification
+  return MADANI_SURAHS.has(surahNumber) ? 'madani' : 'makki';
+}
+
+function parseMeta(raw: string | null): Record<string, unknown> {
+  if (!raw) return {};
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' ? (parsed as Record<string, unknown>) : {};
+  } catch {
+    return {};
+  }
 }
 
 function toSlug(nameEn: string | null): string {
@@ -74,7 +83,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         transliteratedName: row.name_en ?? '',
         englishName: row.name_en ?? '',
         ayahCount: row.ayah_count ?? 0,
-        revelationType: toRevelationType(meta),
+        revelationType: getRevelationType(row.surah, meta),
         juz: row.juz ?? null,
       };
     });
