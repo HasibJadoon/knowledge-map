@@ -5,6 +5,7 @@
     "apps/*"
   ],
   "scripts": {
+    "dev:api": "wrangler pages dev apps/k-maps-v2/dist/k-maps-v2/browser --port 8788",
     "deploy:pages": "npm run build -w apps/k-maps-v2 && ./scripts/deploy-pages-with-api.sh \"$(pwd)/apps/k-maps-v2/dist/k-maps-v2/browser\" k-maps main",
     "deploy:ionic": "npm run build -w apps/app-k-maps && npx wrangler pages deploy apps/app-k-maps/www --project-name app-k-maps --branch main",
     "deploy:all": "npm run deploy:pages && npm run deploy:ionic",
