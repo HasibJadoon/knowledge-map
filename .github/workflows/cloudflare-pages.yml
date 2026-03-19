@@ -22,16 +22,13 @@ jobs:
 
       - name: Install and build
         run: |
-          npm install --legacy-peer-deps --workspace apps/k-maps
-          npm run build -w apps/k-maps
-
-      - name: Sync Functions
-        run: npm run sync:functions
+          npm install --legacy-peer-deps --workspace apps/k-maps-v2
+          npm run build -w apps/k-maps-v2
 
       - name: Deploy to Cloudflare Pages
         run: |
           for i in 1 2 3; do
-            npx wrangler@4.66.0 pages deploy ${{ github.workspace }}/apps/k-maps/dist/k-maps/browser --project-name k-maps --branch main && exit 0
+            npx wrangler@4.66.0 pages deploy ${{ github.workspace }}/apps/k-maps-v2/dist/k-maps-v2/browser --project-name k-maps --branch main && exit 0
             echo "Deploy attempt $i failed. Retrying in 15s..."
             sleep 15
           done

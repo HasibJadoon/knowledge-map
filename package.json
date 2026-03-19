@@ -5,12 +5,10 @@
     "apps/*"
   ],
   "scripts": {
-    "deploy:pages": "npm run build -w apps/k-maps && ./scripts/deploy-pages-with-api.sh \"$(pwd)/apps/k-maps/dist/k-maps/browser\" k-maps main",
+    "deploy:pages": "npm run build -w apps/k-maps-v2 && ./scripts/deploy-pages-with-api.sh \"$(pwd)/apps/k-maps-v2/dist/k-maps-v2/browser\" k-maps main",
     "deploy:ionic": "npm run build -w apps/app-k-maps && npx wrangler pages deploy apps/app-k-maps/www --project-name app-k-maps --branch main",
     "deploy:all": "npm run deploy:pages && npm run deploy:ionic",
-    "build:v2": "npm run build -w apps/k-maps-v2",
-    "start:v2": "npm run start -w apps/k-maps-v2",
-    "deploy:v2": "npm run build -w apps/k-maps-v2 && ./scripts/deploy-pages-with-api.sh \"$(pwd)/apps/k-maps-v2/dist/k-maps-v2/browser\" k-maps-v2 main"
+    "deploy:pages:legacy": "npm run build -w apps/k-maps && ./scripts/deploy-pages-with-api.sh \"$(pwd)/apps/k-maps/dist/k-maps/browser\" k-maps-legacy main"
   },
   "dependencies": {
     "@angular/router": "^20.0.0",
