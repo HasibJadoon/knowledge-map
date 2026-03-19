@@ -3,6 +3,7 @@ compatibility_date = "2025-01-01"
 
 # Serve this folder as the site root
 pages_build_output_dir = "apps/k-maps-v2/dist/k-maps-v2/browser"
+pages_functions_directory = "api"
 
 [[d1_databases]]
 binding = "DB"
