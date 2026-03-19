@@ -119,11 +119,9 @@
 
     <!-- ── ARABIC MUSHAF VIEW ──────────────────────────────── -->
     @if (!loading() && !error() && viewMode() === 'arabic') {
-      <div class="mushaf-flow">
+      <div class="mushaf-flow" dir="rtl">
         @for (ayah of ayahs(); track ayah.ayah) {
-          @for (word of getWords(ayah); track $index) {
-            <span class="ar-word ar-word--lg">{{ word }}</span>
-          }<span class="verse-end">&#x06DD;{{ toArabicIndic(ayah.ayah) }}</span>
+          <span class="ayah-text">{{ getAyahText(ayah) }}</span><span class="mushaf-badge">{{ toArabicIndic(ayah.ayah) }}</span>
         }
       </div>
     }

@@ -39,6 +39,12 @@ export class QuranTextComponent implements OnInit {
     this.loadAyahs(this.surahId());
   }
 
+  getAyahText(ayah: QuranAyah): string {
+    const text = ayah.text_uthmani ?? ayah.text ?? '';
+    // Strip trailing verse-end markers (U+06DD ۝) that may already be in the text
+    return text.replace(/[\u06DD\u06DE\u06DF]+.*$/, '').trimEnd();
+  }
+
   getWords(ayah: QuranAyah): string[] {
     const src = ayah.text_uthmani ?? ayah.text ?? '';
     return src.split(/\s+/).filter(w => w.length > 0);

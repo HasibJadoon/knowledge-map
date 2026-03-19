@@ -330,31 +330,40 @@
 
 // ── Arabic Mushaf continuous flow ─────────────────────────
 .mushaf-flow {
-  font-family: var(--km-font-arabic, 'Scheherazade New', serif);
-  font-size: clamp(2rem, 4.5vw, 3rem);
-  line-height: 2.8;
+  font-family: var(--km-font-arabic, 'Scheherazade New'), serif;
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  line-height: 3;
   direction: rtl;
   text-align: justify;
-  text-align-last: justify;
   text-justify: inter-word;
+  unicode-bidi: plaintext;
   color: var(--km-text);
-  word-spacing: 0.06em;
-  padding: 1.5rem 0 2rem;
-  // All children must stay inline — no block/flex elements
-  * { display: inline; }
+  word-spacing: 0.04em;
+  padding: 2rem 0 3rem;
+  overflow-wrap: break-word;
 }
 
-.ar-word--lg {
-  // inherits mushaf-flow font — display: inline from parent rule
+.ayah-text {
+  display: inline;
 }
 
-.verse-end {
-  // pure inline — ۝ + Arabic-Indic numeral
-  font-family: var(--km-font-arabic, 'Scheherazade New', serif);
+.mushaf-badge {
+  display: inline-block;
+  width: 2.2em;
+  height: 2.2em;
+  line-height: 2.2em;
+  border-radius: 50%;
+  border: 1.5px solid var(--km-gold);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.12);
+  font-family: var(--km-font-heading);
+  font-size: 0.36em;
   color: var(--km-gold);
-  font-size: 0.85em;
-  margin: 0 0.25em;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0 0.45em;
   user-select: none;
+  letter-spacing: 0;
+  background: transparent;
 }
 
 // ── Translation list ──────────────────────────────────────
