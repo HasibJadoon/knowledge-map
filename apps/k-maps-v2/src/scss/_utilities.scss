@@ -1,0 +1,191 @@
+// ══════════════════════════════════════════════════════════
+// K-MAPS V2 — Utility classes
+// ══════════════════════════════════════════════════════════
+
+// ─── Gold line ─────────────────────────────────────────────
+.km-gold-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--km-gold) 50%, transparent 100%);
+  opacity: 0.5;
+}
+
+// ─── Card base ─────────────────────────────────────────────
+.km-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius);
+  transition: border-color var(--km-duration) var(--km-ease),
+              box-shadow var(--km-duration) var(--km-ease),
+              transform var(--km-duration) var(--km-ease);
+
+  &:hover {
+    border-color: var(--km-border-gold);
+    box-shadow: var(--km-shadow-gold-hover);
+    transform: translateY(-2px);
+  }
+}
+
+// ─── Glow badge ────────────────────────────────────────────
+.km-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  background: var(--km-gold-glow);
+  border: 1px solid var(--km-border-gold);
+  border-radius: 100px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--km-gold);
+}
+
+// ─── Search input ──────────────────────────────────────────
+.km-search {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius);
+  color: var(--km-text);
+  transition: border-color var(--km-duration-fast);
+
+  &:focus-within {
+    border-color: var(--km-border-gold);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--km-text);
+    font-size: 0.88rem;
+    font-family: var(--km-font-body);
+
+    &::placeholder { color: var(--km-text-3); }
+  }
+
+  .km-search-icon {
+    color: var(--km-text-3);
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// ─── Button variants ───────────────────────────────────────
+.km-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: var(--km-radius-sm);
+  font-family: var(--km-font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: all var(--km-duration-fast) var(--km-ease);
+  cursor: pointer;
+
+  &--ghost {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--km-border);
+    color: var(--km-text-2);
+
+    &:hover {
+      border-color: var(--km-border-gold);
+      color: var(--km-gold);
+      background: var(--km-gold-glow);
+    }
+
+    &.active {
+      border-color: var(--km-border-gold-bright);
+      color: var(--km-gold-bright);
+      background: var(--km-gold-glow);
+    }
+  }
+
+  &--gold {
+    background: linear-gradient(135deg, #c9a84c 0%, #e8c96a 50%, #c9a84c 100%);
+    color: #0a0a0a;
+    font-weight: 600;
+    border: none;
+
+    &:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 24px rgba(201, 168, 76, 0.4);
+    }
+  }
+}
+
+// ─── Page wrapper ──────────────────────────────────────────
+.km-page {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden auto;
+  background: var(--km-bg);
+  position: relative;
+}
+
+// ─── Back button ───────────────────────────────────────────
+.km-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius-sm);
+  color: var(--km-text-2);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--km-duration-fast);
+
+  &:hover {
+    border-color: var(--km-border-gold);
+    color: var(--km-gold);
+  }
+}
+
+// ─── Tab bar ───────────────────────────────────────────────
+.km-tab-bar {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.3rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius);
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.km-tab {
+  flex-shrink: 0;
+  padding: 0.5rem 1.1rem;
+  border-radius: calc(var(--km-radius) - 4px);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--km-text-2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--km-duration-fast) var(--km-ease);
+  border: 1px solid transparent;
+
+  &:hover {
+    color: var(--km-text);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  &.active {
+    background: var(--km-gold-glow);
+    border-color: var(--km-border-gold);
+    color: var(--km-gold-bright);
+    font-weight: 600;
+  }
+}

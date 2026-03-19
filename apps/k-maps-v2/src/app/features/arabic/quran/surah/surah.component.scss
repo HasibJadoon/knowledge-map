@@ -1,0 +1,174 @@
+.surah-page {
+  width: 100%;
+  min-height: 100dvh;
+  background: var(--km-bg);
+  color: var(--km-text);
+  font-family: var(--km-font-body);
+  padding: 2rem 2rem 4rem;
+
+  &__inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+}
+
+// ── Navigation ──────────────────────────────────────────
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: 1px solid var(--km-border);
+  border-radius: 6px;
+  color: var(--km-text-2);
+  font-family: var(--km-font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: var(--km-border-gold);
+    color: var(--km-gold);
+  }
+}
+
+.breadcrumb {
+  font-family: var(--km-font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--km-gold);
+  opacity: 0.7;
+}
+
+// ── Header ───────────────────────────────────────────────
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--km-border);
+
+  &__number {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid var(--km-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--km-font-heading);
+    font-size: 1rem;
+    color: var(--km-gold);
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-family: var(--km-font-heading);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--km-gold);
+    margin: 0;
+  }
+}
+
+// ── Tab Bar ──────────────────────────────────────────────
+.tab-bar {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--km-border);
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--km-text-2);
+  font-family: var(--km-font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color 0.2s, border-color 0.2s;
+  border-radius: 6px 6px 0 0;
+
+  &:hover {
+    color: var(--km-text);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  &--active {
+    color: var(--km-gold);
+    border-bottom-color: var(--km-gold);
+    background: var(--km-gold-glow);
+  }
+}
+
+// ── Tab Content ──────────────────────────────────────────
+.tab-content {
+  min-height: 400px;
+}
+
+.tab-panel {
+  animation: fadeIn 0.25s ease;
+
+  &__placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 5rem 2rem;
+    background: var(--km-surface);
+    border: 1px dashed var(--km-border-gold);
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  &__icon {
+    font-size: 1.5rem;
+    color: var(--km-gold);
+    opacity: 0.4;
+  }
+
+  &__message {
+    font-family: var(--km-font-heading);
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    color: var(--km-text-2);
+    margin: 0;
+  }
+
+  &__sub {
+    font-size: 0.8rem;
+    color: var(--km-text-3);
+    margin: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

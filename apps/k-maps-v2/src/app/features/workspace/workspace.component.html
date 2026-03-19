@@ -1,0 +1,46 @@
+<div class="km-page" #page>
+
+  <!-- Back Button -->
+  <a class="km-back-btn" [routerLink]="['/landing']">
+    <span class="km-back-btn__arrow">←</span>
+    <span class="km-back-btn__label">Home</span>
+  </a>
+
+  <div class="km-page__inner">
+
+    <!-- Header -->
+    <header class="km-page-header">
+      <p class="km-page-header__eyebrow">Collaboration Layer</p>
+      <h1 class="km-page-header__title">Workspace</h1>
+      <p class="km-page-header__subtitle">Members, Roles &amp; Collaboration</p>
+      <div class="km-page-header__rule"></div>
+    </header>
+
+    <!-- Member Avatars Placeholder -->
+    <div class="km-members-row">
+      @for (i of avatarSlots; track i) {
+        <div class="km-avatar" [style.--delay]="i * 0.05 + 's'">
+          <span class="km-avatar__initial">{{ avatarLabels[i] }}</span>
+        </div>
+      }
+      <div class="km-avatar km-avatar--more">
+        <span class="km-avatar__count">+4</span>
+      </div>
+      <span class="km-members-row__label">Active members</span>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="km-grid">
+      @for (section of sections; track section.label) {
+        <div class="km-card">
+          <div class="km-card__tag">{{ section.tag }}</div>
+          <div class="km-card__icon">{{ section.icon }}</div>
+          <h3 class="km-card__title">{{ section.label }}</h3>
+          <p class="km-card__desc">{{ section.desc }}</p>
+          <div class="km-card__arrow">→</div>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

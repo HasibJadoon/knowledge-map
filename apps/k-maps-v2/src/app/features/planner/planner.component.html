@@ -1,0 +1,51 @@
+<div class="km-page" #page>
+
+  <!-- Back Button -->
+  <a class="km-back-btn" [routerLink]="['/landing']">
+    <span class="km-back-btn__arrow">←</span>
+    <span class="km-back-btn__label">Home</span>
+  </a>
+
+  <div class="km-page__inner">
+
+    <!-- Header -->
+    <header class="km-page-header">
+      <p class="km-page-header__eyebrow">Productivity System</p>
+      <h1 class="km-page-header__title">Planner</h1>
+      <p class="km-page-header__subtitle">Weekly Execution &amp; Focus</p>
+      <div class="km-page-header__rule"></div>
+    </header>
+
+    <!-- Flow Indicator -->
+    <div class="km-flow">
+      <div class="km-flow__step km-flow__step--active">
+        <span class="km-flow__dot"></span>
+        <span class="km-flow__label">Plan</span>
+      </div>
+      <div class="km-flow__connector"></div>
+      <div class="km-flow__step">
+        <span class="km-flow__dot"></span>
+        <span class="km-flow__label">Execute</span>
+      </div>
+      <div class="km-flow__connector"></div>
+      <div class="km-flow__step">
+        <span class="km-flow__dot"></span>
+        <span class="km-flow__label">Review</span>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="km-grid">
+      @for (section of sections; track section.label) {
+        <div class="km-card">
+          <div class="km-card__tag">{{ section.tag }}</div>
+          <div class="km-card__icon">{{ section.icon }}</div>
+          <h3 class="km-card__title">{{ section.label }}</h3>
+          <p class="km-card__desc">{{ section.desc }}</p>
+          <div class="km-card__arrow">→</div>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

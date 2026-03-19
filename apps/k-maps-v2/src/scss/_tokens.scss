@@ -1,0 +1,73 @@
+// ══════════════════════════════════════════════════════════
+// K-MAPS V2 — Design Tokens
+// ══════════════════════════════════════════════════════════
+
+:root {
+  // ─── Base colours ─────────────────────────────────────
+  --km-bg:            #080808;
+  --km-surface:       #0d0d0d;
+  --km-surface-2:     #141414;
+  --km-surface-3:     #1a1a1a;
+
+  // ─── Gold scale ───────────────────────────────────────
+  --km-gold-dim:      #7a6432;
+  --km-gold:          #c9a84c;
+  --km-gold-bright:   #e8c96a;
+  --km-gold-glow:     rgba(201, 168, 76, 0.18);
+  --km-gold-glow-lg:  rgba(201, 168, 76, 0.08);
+
+  // ─── Text ─────────────────────────────────────────────
+  --km-text:          rgba(255, 255, 255, 0.92);
+  --km-text-2:        rgba(255, 255, 255, 0.55);
+  --km-text-3:        rgba(255, 255, 255, 0.28);
+  --km-text-gold:     #c9a84c;
+
+  // ─── Borders ──────────────────────────────────────────
+  --km-border:        rgba(255, 255, 255, 0.07);
+  --km-border-gold:   rgba(201, 168, 76, 0.3);
+  --km-border-gold-bright: rgba(201, 168, 76, 0.6);
+
+  // ─── Radius ───────────────────────────────────────────
+  --km-radius-sm:     8px;
+  --km-radius:        14px;
+  --km-radius-lg:     20px;
+  --km-radius-xl:     28px;
+
+  // ─── Spacing ──────────────────────────────────────────
+  --km-space-xs:      0.35rem;
+  --km-space-sm:      0.65rem;
+  --km-space-md:      1.25rem;
+  --km-space-lg:      2rem;
+  --km-space-xl:      3.5rem;
+  --km-space-2xl:     6rem;
+
+  // ─── Typography ───────────────────────────────────────
+  --km-font-display:  'Cinzel Decorative', 'Cinzel', Georgia, serif;
+  --km-font-heading:  'Cinzel', Georgia, serif;
+  --km-font-body:     'Poppins', system-ui, sans-serif;
+  --km-font-arabic:   'UthmanicHafs', 'Noto Naskh Arabic', serif;
+  --km-font-arabic-surah-name: 'SurahName', serif;
+  --km-font-surah-header: 'QCFSurahHeader', serif;
+
+  // ─── Transitions ──────────────────────────────────────
+  --km-ease:          cubic-bezier(0.22, 0.61, 0.36, 1);
+  --km-ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --km-ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --km-duration:      320ms;
+  --km-duration-fast: 180ms;
+  --km-duration-slow: 540ms;
+
+  // ─── Shadows ──────────────────────────────────────────
+  --km-shadow-card:   0 4px 32px rgba(0, 0, 0, 0.6), 0 1px 4px rgba(0, 0, 0, 0.4);
+  --km-shadow-gold:   0 0 30px rgba(201, 168, 76, 0.12), 0 0 60px rgba(201, 168, 76, 0.06);
+  --km-shadow-gold-hover: 0 0 40px rgba(201, 168, 76, 0.22), 0 0 80px rgba(201, 168, 76, 0.1);
+
+  // ─── Module accent colours ─────────────────────────────
+  --km-hub-color:      #c9a84c;
+  --km-quran-color:    #c9a84c;
+  --km-arabic-color:   #c9a84c;
+  --km-worldview-color:#c9a84c;
+  --km-planner-color:  #c9a84c;
+  --km-content-color:  #c9a84c;
+  --km-workspace-color:#c9a84c;
+}

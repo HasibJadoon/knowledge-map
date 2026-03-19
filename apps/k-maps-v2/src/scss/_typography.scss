@@ -1,0 +1,63 @@
+// ══════════════════════════════════════════════════════════
+// K-MAPS V2 — Typography
+// ══════════════════════════════════════════════════════════
+
+.km-display {
+  font-family: var(--km-font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--km-text);
+}
+
+.km-heading {
+  font-family: var(--km-font-heading);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.km-label {
+  font-family: var(--km-font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--km-text-2);
+}
+
+.km-body {
+  font-family: var(--km-font-body);
+  font-weight: 400;
+  color: var(--km-text-2);
+  line-height: 1.7;
+}
+
+.km-gold {
+  color: var(--km-gold);
+}
+
+.km-divider-text {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--km-text-3);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--km-border-gold), transparent);
+  }
+}
+
+// Arabic text
+.km-arabic {
+  font-family: var(--km-font-arabic);
+  direction: rtl;
+  font-size: 1.5em;
+  line-height: 2.2;
+}

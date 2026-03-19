@@ -1,0 +1,48 @@
+<div class="surah-page">
+
+  <div class="surah-page__inner">
+
+    <!-- Navigation -->
+    <nav class="top-nav">
+      <button class="back-btn" (click)="back()">
+        <span class="back-btn__arrow">&#8592;</span>
+        <span class="back-btn__label">Quran</span>
+      </button>
+      <span class="breadcrumb">Surah {{ surahId() }}</span>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+      <div class="page-header__number">{{ surahId() }}</div>
+      <h1 class="page-header__title">Surah {{ surahId() }}</h1>
+    </header>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+      @for (tab of tabs; track tab) {
+        <button
+          class="tab-btn"
+          [class.tab-btn--active]="activeTab() === tab"
+          (click)="setTab(tab)"
+        >{{ tab }}</button>
+      }
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+      @for (tab of tabs; track tab) {
+        @if (activeTab() === tab) {
+          <div class="tab-panel">
+            <div class="tab-panel__placeholder">
+              <div class="tab-panel__icon">&#9670;</div>
+              <p class="tab-panel__message">{{ tab }} — Tab content coming soon</p>
+              <p class="tab-panel__sub">This section is under active development</p>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+  </div>
+
+</div>
