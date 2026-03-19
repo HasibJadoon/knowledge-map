@@ -74,7 +74,7 @@
     @if (viewMode() === 'grid') {
       <div class="surahs-grid" #cardsContainer>
         @for (surah of filteredSurahs(); track surah.id) {
-          <button class="surah-card" (click)="navigateToSurah(surah.id)">
+          <div class="surah-card" (click)="navigateToSurah(surah.id)">
             <div class="surah-card__header">
               <div class="surah-number">{{ surah.id }}</div>
               <span class="type-badge" [class.type-badge--madani]="surah.type === 'Madani'">
@@ -87,7 +87,27 @@
               <span class="surah-card__ayahs">{{ surah.ayahs }} ayahs</span>
               <span class="surah-card__juz">Juz {{ surah.juz }}</span>
             </div>
-          </button>
+            <!-- Card icons -->
+            <div class="surah-card__icons" (click)="$event.stopPropagation()">
+              <button
+                class="card-icon-btn"
+                title="Open in new tab"
+                (click)="openInNewTab($event, surah.id)"
+              >&#8599;</button>
+              <div class="study-menu-wrap">
+                <button
+                  class="card-icon-btn"
+                  title="Study"
+                  (click)="toggleStudyMenu($event, surah.id)"
+                >&#9670;</button>
+                @if (studyMenuId() === surah.id) {
+                  <div class="study-menu">
+                    <button class="study-menu__item" (click)="openLesson($event, surah.id)">Lesson</button>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
         }
       </div>
     }
@@ -96,7 +116,7 @@
     @if (viewMode() === 'list') {
       <div class="surahs-list" #cardsContainer>
         @for (surah of filteredSurahs(); track surah.id) {
-          <button class="surah-row" (click)="navigateToSurah(surah.id)">
+          <div class="surah-row" (click)="navigateToSurah(surah.id)">
             <div class="surah-number surah-number--sm">{{ surah.id }}</div>
             <div class="surah-row__arabic">{{ surah.arabicName }}</div>
             <div class="surah-row__name">{{ surah.name }}</div>
@@ -107,8 +127,27 @@
               <span class="surah-row__ayahs">{{ surah.ayahs }} ayahs</span>
               <span class="surah-row__juz">Juz {{ surah.juz }}</span>
             </div>
+            <div class="surah-row__icons" (click)="$event.stopPropagation()">
+              <button
+                class="card-icon-btn"
+                title="Open in new tab"
+                (click)="openInNewTab($event, surah.id)"
+              >&#8599;</button>
+              <div class="study-menu-wrap">
+                <button
+                  class="card-icon-btn"
+                  title="Study"
+                  (click)="toggleStudyMenu($event, surah.id)"
+                >&#9670;</button>
+                @if (studyMenuId() === surah.id) {
+                  <div class="study-menu">
+                    <button class="study-menu__item" (click)="openLesson($event, surah.id)">Lesson</button>
+                  </div>
+                }
+              </div>
+            </div>
             <span class="surah-row__arrow">&#8594;</span>
-          </button>
+          </div>
         }
       </div>
     }
@@ -122,3 +161,11 @@
   </div>
 
 </div>
+
+<!-- Lesson Card Modal -->
+@if (lessonCardSurahId() !== null) {
+  <km-lesson-card
+    [surahId]="lessonCardSurahId()!"
+    (closed)="closeLessonCard()"
+  />
+}

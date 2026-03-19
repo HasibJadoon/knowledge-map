@@ -1,0 +1,58 @@
+<div class="text-page">
+  <div class="text-page__inner">
+
+    <!-- Navigation -->
+    <nav class="top-nav">
+      <button class="back-btn" (click)="back()">
+        <span class="back-btn__arrow">&#8592;</span>
+        <span class="back-btn__label">Quran</span>
+      </button>
+      <span class="breadcrumb">Surah {{ surahId() }}</span>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+      <div class="page-header__number">{{ surahId() }}</div>
+      <h1 class="page-header__title">Surah {{ surahId() }}</h1>
+    </header>
+
+    <!-- Loading -->
+    @if (loading()) {
+      <div class="state-message">
+        <div class="state-message__spinner"></div>
+        <p>Loading ayahs…</p>
+      </div>
+    }
+
+    <!-- Error -->
+    @if (!loading() && error()) {
+      <div class="state-message state-message--error">
+        <p>{{ error() }}</p>
+        <button class="back-btn" (click)="back()">← Back</button>
+      </div>
+    }
+
+    <!-- Ayahs -->
+    @if (!loading() && !error()) {
+      <div class="ayahs">
+        @if (ayahs().length === 0) {
+          <div class="state-message">
+            <p>No ayahs found for this surah.</p>
+          </div>
+        }
+        @for (ayah of ayahs(); track ayah.ayah) {
+          <div class="ayah">
+            <div class="ayah__number">{{ ayah.ayah }}</div>
+            <div class="ayah__body">
+              <p class="ayah__arabic">{{ ayah.text_uthmani ?? ayah.text }}</p>
+              @if (ayah.translation) {
+                <p class="ayah__translation">{{ ayah.translation }}</p>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</div>

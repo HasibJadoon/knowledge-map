@@ -387,6 +387,89 @@
   }
 }
 
+// ── Card Icons ───────────────────────────────────────────
+.surah-card__icons,
+.surah-row__icons {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.4rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--km-border);
+}
+
+.surah-row__icons {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+  margin-left: auto;
+}
+
+.card-icon-btn {
+  background: transparent;
+  border: 1px solid var(--km-border);
+  border-radius: 5px;
+  color: var(--km-text-3);
+  font-size: 0.7rem;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+
+  &:hover {
+    border-color: var(--km-border-gold);
+    color: var(--km-gold);
+    background: var(--km-gold-glow);
+  }
+}
+
+// ── Study Menu ───────────────────────────────────────────
+.study-menu-wrap {
+  position: relative;
+}
+
+.study-menu {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  background: var(--km-surface);
+  border: 1px solid var(--km-border-gold);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  min-width: 100px;
+  z-index: 100;
+  overflow: hidden;
+  animation: menuIn 0.15s ease;
+
+  &__item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    color: var(--km-text);
+    font-family: var(--km-font-body);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: var(--km-gold-glow);
+      color: var(--km-gold);
+    }
+  }
+}
+
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 // ── Empty State ──────────────────────────────────────────
 .empty-state {
   text-align: center;

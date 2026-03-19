@@ -10,6 +10,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import gsap from 'gsap';
+import { LessonCardComponent } from '../lesson-card/lesson-card.component';
 
 export interface Surah {
   id: number;
@@ -23,12 +24,17 @@ export interface Surah {
 @Component({
   selector: 'km-quran-landing',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, LessonCardComponent],
   templateUrl: './quran-landing.component.html',
   styleUrl: './quran-landing.component.scss',
 })
 export class QuranLandingComponent implements AfterViewInit {
   private router = inject(Router);
+
+  // study icon menu state
+  studyMenuId = signal<number | null>(null);
+  // lesson card modal state
+  lessonCardSurahId = signal<number | null>(null);
 
   @ViewChild('cardsContainer') cardsContainer!: ElementRef<HTMLElement>;
 
@@ -194,7 +200,31 @@ export class QuranLandingComponent implements AfterViewInit {
   }
 
   navigateToSurah(id: number): void {
-    this.router.navigate(['/arabic/quran', id]);
+    this.router.navigate(['/arabic/quran/data/text', id]);
+  }
+
+  openInNewTab(event: Event, id: number): void {
+    event.stopPropagation();
+    window.open(`http://localhost:61537/arabic/quran/${id}`, '_blank');
+  }
+
+  toggleStudyMenu(event: Event, id: number): void {
+    event.stopPropagation();
+    this.studyMenuId.set(this.studyMenuId() === id ? null : id);
+  }
+
+  openLesson(event: Event, id: number): void {
+    event.stopPropagation();
+    this.studyMenuId.set(null);
+    this.lessonCardSurahId.set(id);
+  }
+
+  closeLessonCard(): void {
+    this.lessonCardSurahId.set(null);
+  }
+
+  closeStudyMenu(): void {
+    this.studyMenuId.set(null);
   }
 
   back(): void {
