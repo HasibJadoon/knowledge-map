@@ -25,6 +25,10 @@ export class QuranTextComponent implements OnInit {
     this.loadAyahs(id);
   }
 
+  retry(): void {
+    this.loadAyahs(this.surahId());
+  }
+
   private loadAyahs(surah: number): void {
     this.loading.set(true);
     this.error.set(null);

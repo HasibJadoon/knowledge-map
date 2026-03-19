@@ -27,8 +27,11 @@
     <!-- Error -->
     @if (!loading() && error()) {
       <div class="state-message state-message--error">
-        <p>{{ error() }}</p>
-        <button class="back-btn" (click)="back()">← Back</button>
+        <p class="state-message__detail">{{ error() }}</p>
+        <div class="state-message__actions">
+          <button class="back-btn" (click)="retry()">&#8635; Retry</button>
+          <button class="back-btn" (click)="back()">← Back</button>
+        </div>
       </div>
     }
 
