@@ -7,6 +7,11 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'quran',
+    loadChildren: () =>
+      import('./features/quran/quran.routes').then((m) => m.QURAN_ROUTES),
+  },
+  {
     path: 'landing',
     loadComponent: () =>
       import('./features/landing/landing.component').then((m) => m.LandingComponent),
@@ -18,6 +23,14 @@ export const routes: Routes = [
       import('./features/hub/hub.component').then((m) => m.HubComponent),
     title: 'Hub — K-MAPS',
   },
+  // Backwards-compatible redirects from old /arabic/quran routes
+  { path: 'arabic/quran', redirectTo: 'quran', pathMatch: 'full' },
+  { path: 'arabic/quran/:surahId', redirectTo: 'quran/:surahId', pathMatch: 'full' },
+  {
+    path: 'arabic/quran/:surahId/passage/:passageIndex',
+    redirectTo: 'quran/:surahId/passage/:passageIndex',
+    pathMatch: 'full',
+  },
   {
     path: 'arabic',
     children: [
@@ -28,51 +41,6 @@ export const routes: Routes = [
             (m) => m.ArabicHomeComponent
           ),
         title: 'Arabic — K-MAPS',
-      },
-      {
-        path: 'quran',
-        children: [
-          {
-            path: '',
-            loadComponent: () =>
-              import('./features/arabic/quran/quran-landing/quran-landing.component').then(
-                (m) => m.QuranLandingComponent
-              ),
-            title: 'Quran — K-MAPS',
-          },
-          {
-            path: 'lessons/:lessonId/study',
-            loadComponent: () =>
-              import('./features/arabic/quran/lessons/study/lesson-study.component').then(
-                (m) => m.LessonStudyComponent
-              ),
-            title: 'Study — K-MAPS',
-          },
-          {
-            path: 'lessons/:lessonId/edit',
-            loadComponent: () =>
-              import('./features/arabic/quran/lessons/edit/lesson-edit.component').then(
-                (m) => m.LessonEditComponent
-              ),
-            title: 'Edit Lesson — K-MAPS',
-          },
-          {
-            path: ':surahId/passage/:passageIndex',
-            loadComponent: () =>
-              import('./features/arabic/quran/passage/quran-passage.component').then(
-                (m) => m.QuranPassageComponent
-              ),
-            title: 'Passage — K-MAPS',
-          },
-          {
-            path: ':surahId',
-            loadComponent: () =>
-              import('./features/arabic/quran/text/quran-text.component').then(
-                (m) => m.QuranTextComponent
-              ),
-            title: 'Quran — K-MAPS',
-          },
-        ],
       },
     ],
   },

@@ -28,7 +28,7 @@ export class ArabicHomeComponent implements AfterViewInit {
       label: 'Quran',
       arabicLabel: 'القرآن',
       desc: 'Explore the Quran through a linguistic and worldview lens',
-      route: '/arabic/quran',
+      route: '/quran',
       icon: '٣',
     },
     {

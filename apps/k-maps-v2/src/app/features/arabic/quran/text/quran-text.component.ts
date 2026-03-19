@@ -49,6 +49,6 @@ export class QuranTextComponent implements OnInit {
   }
 
   back(): void {
-    this.router.navigate(['/arabic/quran']);
+    this.router.navigate(['/quran']);
   }
 }

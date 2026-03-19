@@ -6,7 +6,7 @@
     <nav class="top-nav">
       <button class="back-btn" (click)="back()">
         <span class="back-btn__arrow">&#8592;</span>
-        <span class="back-btn__label">Arabic</span>
+        <span class="back-btn__label">Home</span>
       </button>
       <span class="breadcrumb">Quran</span>
     </nav>
@@ -18,144 +18,160 @@
       <p class="page-header__subtitle">Explore the Qur'an through a Quranic Lens</p>
     </header>
 
-    <!-- Controls -->
-    <div class="controls">
-      <div class="search-wrap">
-        <span class="search-wrap__icon">&#128269;</span>
-        <input
-          class="search-input"
-          type="text"
-          placeholder="Search surah..."
-          [value]="searchQuery()"
-          (input)="setSearch($any($event.target).value)"
-        />
-      </div>
-
-      <div class="filter-group">
-        <button
-          class="filter-btn"
-          [class.filter-btn--active]="typeFilter() === 'all'"
-          (click)="setTypeFilter('all')"
-        >All</button>
-        <button
-          class="filter-btn"
-          [class.filter-btn--active]="typeFilter() === 'Makki'"
-          (click)="setTypeFilter('Makki')"
-        >Makki</button>
-        <button
-          class="filter-btn"
-          [class.filter-btn--active]="typeFilter() === 'Madani'"
-          (click)="setTypeFilter('Madani')"
-        >Madani</button>
-      </div>
-
-      <div class="view-toggle">
-        <button
-          class="view-btn"
-          [class.view-btn--active]="viewMode() === 'grid'"
-          (click)="setViewMode('grid')"
-          title="Grid view"
-        >&#9635;</button>
-        <button
-          class="view-btn"
-          [class.view-btn--active]="viewMode() === 'list'"
-          (click)="setViewMode('list')"
-          title="List view"
-        >&#9776;</button>
-      </div>
-    </div>
-
-    <!-- Count -->
-    <div class="result-count">
-      {{ filteredSurahs().length }} surah{{ filteredSurahs().length !== 1 ? 's' : '' }}
-    </div>
-
-    <!-- Grid View -->
-    @if (viewMode() === 'grid') {
-      <div class="surahs-grid" #cardsContainer>
-        @for (surah of filteredSurahs(); track surah.id) {
-          <div class="surah-card" (click)="navigateToSurah(surah.id)">
-            <div class="surah-card__header">
-              <div class="surah-number">{{ surah.id }}</div>
-              <span class="type-badge" [class.type-badge--madani]="surah.type === 'Madani'">
-                {{ surah.type }}
-              </span>
-            </div>
-            <div class="surah-card__arabic">{{ surah.arabicName }}</div>
-            <div class="surah-card__name">{{ surah.name }}</div>
-            <div class="surah-card__meta">
-              <span class="surah-card__ayahs">{{ surah.ayahs }} ayahs</span>
-              <span class="surah-card__juz">Juz {{ surah.juz }}</span>
-            </div>
-            <!-- Card icons -->
-            <div class="surah-card__icons" (click)="$event.stopPropagation()">
-              <button
-                class="card-icon-btn"
-                title="Open in new tab"
-                (click)="openInNewTab($event, surah.id)"
-              >&#8599;</button>
-              <div class="study-menu-wrap">
-                <button
-                  class="card-icon-btn"
-                  title="Study"
-                  (click)="toggleStudyMenu($event, surah.id)"
-                >&#128214;</button>
-                @if (studyMenuId() === surah.id) {
-                  <div class="study-menu">
-                    <button class="study-menu__item" (click)="openLesson($event, surah.id)">Lesson</button>
-                  </div>
-                }
-              </div>
-            </div>
-          </div>
-        }
-      </div>
+    <!-- Loading / Error -->
+    @if (quranState.loading()) {
+      <div class="empty-state"><p>Loading surahs…</p></div>
+    }
+    @if (quranState.error()) {
+      <div class="empty-state"><p>{{ quranState.error() }}</p></div>
     }
 
-    <!-- List View -->
-    @if (viewMode() === 'list') {
-      <div class="surahs-list" #cardsContainer>
-        @for (surah of filteredSurahs(); track surah.id) {
-          <div class="surah-row" (click)="navigateToSurah(surah.id)">
-            <div class="surah-number surah-number--sm">{{ surah.id }}</div>
-            <div class="surah-row__arabic">{{ surah.arabicName }}</div>
-            <div class="surah-row__name">{{ surah.name }}</div>
-            <div class="surah-row__meta">
-              <span class="type-badge" [class.type-badge--madani]="surah.type === 'Madani'">
-                {{ surah.type }}
-              </span>
-              <span class="surah-row__ayahs">{{ surah.ayahs }} ayahs</span>
-              <span class="surah-row__juz">Juz {{ surah.juz }}</span>
-            </div>
-            <div class="surah-row__icons" (click)="$event.stopPropagation()">
-              <button
-                class="card-icon-btn"
-                title="Open in new tab"
-                (click)="openInNewTab($event, surah.id)"
-              >&#8599;</button>
-              <div class="study-menu-wrap">
-                <button
-                  class="card-icon-btn"
-                  title="Study"
-                  (click)="toggleStudyMenu($event, surah.id)"
-                >&#128214;</button>
-                @if (studyMenuId() === surah.id) {
-                  <div class="study-menu">
-                    <button class="study-menu__item" (click)="openLesson($event, surah.id)">Lesson</button>
-                  </div>
+    @if (!quranState.loading() && !quranState.error()) {
+
+      <!-- Controls -->
+      <div class="controls">
+        <div class="search-wrap">
+          <span class="search-wrap__icon">&#128269;</span>
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Search surah..."
+            [value]="searchQuery()"
+            (input)="setSearch($any($event.target).value)"
+          />
+        </div>
+
+        <div class="filter-group">
+          <button
+            class="filter-btn"
+            [class.filter-btn--active]="typeFilter() === 'all'"
+            (click)="setTypeFilter('all')"
+          >All</button>
+          <button
+            class="filter-btn"
+            [class.filter-btn--active]="typeFilter() === 'makki'"
+            (click)="setTypeFilter('makki')"
+          >Makki</button>
+          <button
+            class="filter-btn"
+            [class.filter-btn--active]="typeFilter() === 'madani'"
+            (click)="setTypeFilter('madani')"
+          >Madani</button>
+        </div>
+
+        <div class="view-toggle">
+          <button
+            class="view-btn"
+            [class.view-btn--active]="viewMode() === 'grid'"
+            (click)="setViewMode('grid')"
+            title="Grid view"
+          >&#9635;</button>
+          <button
+            class="view-btn"
+            [class.view-btn--active]="viewMode() === 'list'"
+            (click)="setViewMode('list')"
+            title="List view"
+          >&#9776;</button>
+        </div>
+      </div>
+
+      <!-- Count -->
+      <div class="result-count">
+        {{ filteredSurahs().length }} surah{{ filteredSurahs().length !== 1 ? 's' : '' }}
+      </div>
+
+      <!-- Grid View -->
+      @if (viewMode() === 'grid') {
+        <div class="surahs-grid" #cardsContainer>
+          @for (surah of filteredSurahs(); track surah.surahNumber) {
+            <div class="surah-card" (click)="navigateToSurah(surah.surahNumber)">
+              <div class="surah-card__header">
+                <div class="surah-number">{{ surah.surahNumber }}</div>
+                <span class="type-badge" [class.type-badge--madani]="surah.revelationType === 'madani'">
+                  {{ surah.revelationType | titlecase }}
+                </span>
+              </div>
+              <div class="surah-card__arabic">{{ surah.arabicName }}</div>
+              <div class="surah-card__name">{{ surah.transliteratedName }}</div>
+              <div class="surah-card__meta">
+                <span class="surah-card__ayahs">{{ surah.ayahCount }} ayahs</span>
+                @if (surah.juz) {
+                  <span class="surah-card__juz">Juz {{ surah.juz }}</span>
                 }
               </div>
+              <!-- Card icons -->
+              <div class="surah-card__icons" (click)="$event.stopPropagation()">
+                <button
+                  class="card-icon-btn"
+                  title="Open in new tab"
+                  (click)="openInNewTab($event, surah.surahNumber)"
+                >&#8599;</button>
+                <div class="study-menu-wrap">
+                  <button
+                    class="card-icon-btn"
+                    title="Study"
+                    (click)="toggleStudyMenu($event, surah.surahNumber)"
+                  >&#128214;</button>
+                  @if (studyMenuId() === surah.surahNumber) {
+                    <div class="study-menu">
+                      <button class="study-menu__item" (click)="openLesson($event, surah.surahNumber)">Lesson</button>
+                    </div>
+                  }
+                </div>
+              </div>
             </div>
-            <span class="surah-row__arrow">&#8594;</span>
-          </div>
-        }
-      </div>
-    }
+          }
+        </div>
+      }
 
-    @if (filteredSurahs().length === 0) {
-      <div class="empty-state">
-        <p>No surahs match your search.</p>
-      </div>
+      <!-- List View -->
+      @if (viewMode() === 'list') {
+        <div class="surahs-list" #cardsContainer>
+          @for (surah of filteredSurahs(); track surah.surahNumber) {
+            <div class="surah-row" (click)="navigateToSurah(surah.surahNumber)">
+              <div class="surah-number surah-number--sm">{{ surah.surahNumber }}</div>
+              <div class="surah-row__arabic">{{ surah.arabicName }}</div>
+              <div class="surah-row__name">{{ surah.transliteratedName }}</div>
+              <div class="surah-row__meta">
+                <span class="type-badge" [class.type-badge--madani]="surah.revelationType === 'madani'">
+                  {{ surah.revelationType | titlecase }}
+                </span>
+                <span class="surah-row__ayahs">{{ surah.ayahCount }} ayahs</span>
+                @if (surah.juz) {
+                  <span class="surah-row__juz">Juz {{ surah.juz }}</span>
+                }
+              </div>
+              <div class="surah-row__icons" (click)="$event.stopPropagation()">
+                <button
+                  class="card-icon-btn"
+                  title="Open in new tab"
+                  (click)="openInNewTab($event, surah.surahNumber)"
+                >&#8599;</button>
+                <div class="study-menu-wrap">
+                  <button
+                    class="card-icon-btn"
+                    title="Study"
+                    (click)="toggleStudyMenu($event, surah.surahNumber)"
+                  >&#128214;</button>
+                  @if (studyMenuId() === surah.surahNumber) {
+                    <div class="study-menu">
+                      <button class="study-menu__item" (click)="openLesson($event, surah.surahNumber)">Lesson</button>
+                    </div>
+                  }
+                </div>
+              </div>
+              <span class="surah-row__arrow">&#8594;</span>
+            </div>
+          }
+        </div>
+      }
+
+      @if (filteredSurahs().length === 0) {
+        <div class="empty-state">
+          <p>No surahs match your search.</p>
+        </div>
+      }
+
     }
 
   </div>

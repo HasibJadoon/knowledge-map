@@ -1,9 +1,7 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
-import { requireAuth } from '../../../_utils/auth';
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 const jsonHeaders = {
@@ -109,14 +107,6 @@ type TranslationPassageRow = {
 };
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
-  const user = await requireAuth(ctx);
-  if (!user) {
-    return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
-      status: 401,
-      headers: jsonHeaders,
-    });
-  }
-
   const url = new URL(ctx.request.url);
   const surah = Number.parseInt(String(url.searchParams.get('surah') ?? ''), 10);
   if (!Number.isFinite(surah) || surah < 1 || surah > 114) {

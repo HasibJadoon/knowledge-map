@@ -33,7 +33,7 @@ export class LessonCardComponent implements OnInit {
   }
 
   goEditLesson(): void {
-    this.router.navigate(['/arabic/quran/lessons', this.surahId, 'edit']);
+    this.router.navigate(['/quran/lessons', this.surahId, 'edit']);
     this.close();
   }
 

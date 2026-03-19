@@ -38,7 +38,7 @@ export class LandingComponent implements AfterViewInit {
 
   readonly modules: ModuleCard[] = [
     { id: 'hub',       label: 'Hub',       route: '/hub',            icon: '◈', glyph: '⬡' },
-    { id: 'quran',     label: 'Quran',     route: '/arabic/quran',   icon: '◉', glyph: '☽' },
+    { id: 'quran',     label: 'Quran',     route: '/quran',          icon: '◉', glyph: '☽' },
     { id: 'arabic',    label: 'Arabic',    route: '/arabic',         icon: '◆', glyph: 'ع' },
     { id: 'worldview', label: 'Worldview', route: '/worldview',      icon: '◎', glyph: '◉' },
     { id: 'planner',   label: 'Planner',   route: '/planner',        icon: '▦', glyph: '⊞' },

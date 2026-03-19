@@ -38,6 +38,6 @@ export class SurahComponent implements OnInit {
   }
 
   back(): void {
-    this.router.navigate(['/arabic/quran']);
+    this.router.navigate(['/quran']);
   }
 }
