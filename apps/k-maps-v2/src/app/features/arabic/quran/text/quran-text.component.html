@@ -4,8 +4,8 @@
     <!-- Navigation -->
     <nav class="top-nav">
       <button class="back-btn" (click)="back()">
-        <span class="back-btn__arrow">&#8592;</span>
-        <span class="back-btn__label">Quran</span>
+        <span>&#8592;</span>
+        <span>Quran</span>
       </button>
       <span class="breadcrumb">
         @if (surahInfo()) {
@@ -29,7 +29,39 @@
       </div>
     </header>
 
-    <!-- Passages -->
+    <!-- View Mode Tabs -->
+    @if (!loading() && !error()) {
+      <div class="view-tabs">
+        <button
+          class="view-tab"
+          [ngClass]="{ 'view-tab--active': viewMode() === 'verse' }"
+          (click)="setView('verse')"
+        >
+          <span class="view-tab__icon">&#9776;</span>
+          Verse by Verse
+        </button>
+        <div class="view-tabs__divider"></div>
+        <button
+          class="view-tab"
+          [ngClass]="{ 'view-tab--active': viewMode() === 'arabic' }"
+          (click)="setView('arabic')"
+        >
+          <span class="view-tab__icon arabic-icon">ع</span>
+          Arabic
+        </button>
+        <div class="view-tabs__divider"></div>
+        <button
+          class="view-tab"
+          [ngClass]="{ 'view-tab--active': viewMode() === 'translation' }"
+          (click)="setView('translation')"
+        >
+          <span class="view-tab__icon">A</span>
+          Translation
+        </button>
+      </div>
+    }
+
+    <!-- Passages bar -->
     @if (!loading() && passages().length > 0) {
       <div class="passages-bar">
         <span class="passages-bar__label">&#128214; Passages</span>
@@ -63,24 +95,50 @@
       </div>
     }
 
-    <!-- Ayahs -->
-    @if (!loading() && !error()) {
-      <div class="ayahs">
-        @if (ayahs().length === 0) {
-          <div class="state-message">
-            <p>No ayahs found for this surah.</p>
+    <!-- ── VERSE BY VERSE VIEW ──────────────────────────────── -->
+    @if (!loading() && !error() && viewMode() === 'verse') {
+      <div class="reader-table">
+        @for (ayah of ayahs(); track ayah.ayah) {
+          <div class="vrow">
+            <div class="vrow__arabic" dir="rtl">
+              @for (word of getWords(ayah); track $index) {
+                <span class="ar-word">{{ word }}</span>
+              }
+              <span class="verse-marker">﴿{{ ayah.ayah }}﴾</span>
+            </div>
+            @if (ayah.translation) {
+              <div class="vrow__translation">
+                <span class="vrow__num">{{ ayah.ayah }}</span>
+                {{ ayah.translation }}
+              </div>
+            }
           </div>
         }
+      </div>
+    }
+
+    <!-- ── ARABIC MUSHAF VIEW ──────────────────────────────── -->
+    @if (!loading() && !error() && viewMode() === 'arabic') {
+      <div class="mushaf-flow" dir="rtl">
         @for (ayah of ayahs(); track ayah.ayah) {
-          <div class="ayah">
-            <div class="ayah__number">{{ ayah.ayah }}</div>
-            <div class="ayah__body">
-              <p class="ayah__arabic">{{ ayah.text_uthmani ?? ayah.text }}</p>
-              @if (ayah.translation) {
-                <p class="ayah__translation">{{ ayah.translation }}</p>
-              }
+          @for (word of getWords(ayah); track $index) {
+            <span class="ar-word ar-word--lg">{{ word }}</span>
+          }
+          <span class="verse-marker verse-marker--lg">﴿{{ ayah.ayah }}﴾</span>
+        }
+      </div>
+    }
+
+    <!-- ── TRANSLATION VIEW ────────────────────────────────── -->
+    @if (!loading() && !error() && viewMode() === 'translation') {
+      <div class="translation-list">
+        @for (ayah of ayahs(); track ayah.ayah) {
+          @if (ayah.translation) {
+            <div class="t-row">
+              <span class="t-row__num">{{ ayah.ayah }}</span>
+              <p class="t-row__text">{{ ayah.translation }}</p>
             </div>
-          </div>
+          }
         }
       </div>
     }

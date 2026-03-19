@@ -1,11 +1,14 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { NgClass } from '@angular/common';
 import { KMapsService, QuranAyah, AyahsSurah, TranslationPassage } from '../../../../core/services/k-maps.service';
+
+export type ViewMode = 'verse' | 'arabic' | 'translation';
 
 @Component({
   selector: 'km-quran-text',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, NgClass],
   templateUrl: './quran-text.component.html',
   styleUrl: './quran-text.component.scss',
 })
@@ -20,6 +23,7 @@ export class QuranTextComponent implements OnInit {
   passages = signal<TranslationPassage[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+  viewMode = signal<ViewMode>('verse');
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('surahId')) || 1;
@@ -27,8 +31,17 @@ export class QuranTextComponent implements OnInit {
     this.loadAyahs(id);
   }
 
+  setView(mode: ViewMode): void {
+    this.viewMode.set(mode);
+  }
+
   retry(): void {
     this.loadAyahs(this.surahId());
+  }
+
+  getWords(ayah: QuranAyah): string[] {
+    const src = ayah.text_uthmani ?? ayah.text ?? '';
+    return src.split(/\s+/).filter(w => w.length > 0);
   }
 
   private loadAyahs(surah: number): void {
