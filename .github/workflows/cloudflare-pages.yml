@@ -33,8 +33,7 @@ jobs:
           for i in 1 2 3; do
             npx wrangler@4.66.0 pages deploy ${{ github.workspace }}/apps/k-maps-v2/dist/k-maps-v2/browser \
               --project-name k-maps \
-              --branch main \
-              --functions-dir ${{ github.workspace }}/api && exit 0
+              --branch main && exit 0
             echo "Deploy attempt $i failed. Retrying in 15s..."
             sleep 15
           done
