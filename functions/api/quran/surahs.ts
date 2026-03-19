@@ -20,14 +20,12 @@ interface SurahRow {
 }
 
 // Canonical Makki/Madani classification — all 114 surahs
-// Source: classical Islamic scholarship (matches original component data)
 const MADANI_SURAHS = new Set([
   2, 3, 4, 5, 8, 9, 13, 22, 24, 33, 47, 48, 49, 55,
   57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 76, 98, 99, 110,
 ]);
 
 function getRevelationType(surahNumber: number, meta: Record<string, unknown>): 'makki' | 'madani' {
-  // Try meta_json first (allows DB override)
   const raw = (
     meta['revelation_place'] ??
     meta['revelation_type'] ??
@@ -38,7 +36,6 @@ function getRevelationType(surahNumber: number, meta: Record<string, unknown>): 
   const v = raw.toString().toLowerCase();
   if (v.includes('makk') || v === 'meccan') return 'makki';
   if (v.includes('madin') || v === 'medinan') return 'madani';
-  // Fall back to canonical classification
   return MADANI_SURAHS.has(surahNumber) ? 'madani' : 'makki';
 }
 
@@ -59,6 +56,7 @@ function toSlug(nameEn: string | null): string {
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   try {
+    // LEFT JOIN to get juz of ayah 1 — avoids correlated subquery for D1 compat
     const { results = [] } = await ctx.env.DB
       .prepare(
         `SELECT
@@ -67,8 +65,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
            s.name_en,
            s.ayah_count,
            s.meta_json,
-           (SELECT a.juz FROM ar_quran_ayah a WHERE a.surah = s.surah AND a.ayah = 1 LIMIT 1) AS juz
+           a.juz
          FROM ar_quran_surahs s
+         LEFT JOIN ar_quran_ayah a ON a.surah = s.surah AND a.ayah = 1
          ORDER BY s.surah ASC`
       )
       .all<SurahRow>();
@@ -90,10 +89,11 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
     return new Response(JSON.stringify({ ok: true, surahs }), { headers: JSON_HEADERS });
   } catch (err) {
-    console.error('[/api/quran/surahs]', err);
-    return new Response(JSON.stringify({ ok: false, error: 'Failed to load surahs' }), {
-      status: 500,
-      headers: JSON_HEADERS,
-    });
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error('[/api/quran/surahs]', msg);
+    return new Response(
+      JSON.stringify({ ok: false, error: 'Failed to load surahs', detail: msg }),
+      { status: 500, headers: JSON_HEADERS }
+    );
   }
 };
