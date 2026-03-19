@@ -11,7 +11,7 @@
   padding: 0;
   cursor: pointer;
   outline: none;
-  opacity: 0.6;
+  opacity: 0.75;
   will-change: transform, opacity;
   transition: opacity 0.18s ease;
 
@@ -30,8 +30,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     flex-shrink: 0;
     will-change: transform;
 
