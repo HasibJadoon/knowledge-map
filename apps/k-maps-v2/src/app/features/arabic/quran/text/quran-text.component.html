@@ -123,7 +123,7 @@
         @for (ayah of ayahs(); track ayah.ayah) {
           @for (word of getWords(ayah); track $index) {
             <span class="ar-word ar-word--lg">{{ word }}</span>
-          }<span class="ayah-badge ayah-badge--inline">{{ ayah.ayah }}</span>
+          }<span class="verse-end">&#x06DD;{{ toArabicIndic(ayah.ayah) }}</span>
         }
       </div>
     }

@@ -335,25 +335,25 @@
   line-height: 2.8;
   direction: rtl;
   text-align: justify;
+  text-align-last: justify;
   text-justify: inter-word;
   color: var(--km-text);
-  word-spacing: 0.08em;
-  letter-spacing: 0.01em;
+  word-spacing: 0.06em;
   padding: 1.5rem 0 2rem;
+  // All children must stay inline — no block/flex elements
+  * { display: inline; }
 }
 
 .ar-word--lg {
-  font-size: inherit;
+  // inherits mushaf-flow font — display: inline from parent rule
 }
 
-.verse-marker--lg {
-  display: inline-block;
+.verse-end {
+  // pure inline — ۝ + Arabic-Indic numeral
   font-family: var(--km-font-arabic, 'Scheherazade New', serif);
-  font-size: 0.55em;
   color: var(--km-gold);
-  opacity: 0.85;
-  margin: 0 0.3em;
-  vertical-align: middle;
+  font-size: 0.85em;
+  margin: 0 0.25em;
   user-select: none;
 }
 

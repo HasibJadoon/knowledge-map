@@ -44,6 +44,10 @@ export class QuranTextComponent implements OnInit {
     return src.split(/\s+/).filter(w => w.length > 0);
   }
 
+  toArabicIndic(n: number): string {
+    return n.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[+d]);
+  }
+
   private loadAyahs(surah: number): void {
     this.loading.set(true);
     this.error.set(null);
