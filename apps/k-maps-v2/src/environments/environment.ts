@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiBase: '/api',
+  apiBase: 'https://api.k-maps.com/api',
 };
