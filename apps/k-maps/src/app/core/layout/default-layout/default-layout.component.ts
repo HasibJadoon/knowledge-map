@@ -7,6 +7,7 @@ import { ContainerComponent } from '@coreui/angular';
 
 import { DefaultFooterComponent } from './default-footer/default-footer.component';
 import { ToastHostComponent } from '../../../shared/components/toast-host/toast-host.component';
+import { AppWorkspaceSwitcherComponent } from '../../../shared/components/common/core-ui/app-workspace-switcher/app-workspace-switcher.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +18,7 @@ import { ToastHostComponent } from '../../../shared/components/toast-host/toast-
     DefaultFooterComponent,
     ToastHostComponent,
     RouterOutlet,
+    AppWorkspaceSwitcherComponent,
   ]
 })
 export class DefaultLayoutComponent implements OnInit, OnDestroy {

@@ -36,3 +36,4 @@ export { JsonPreviewComponent } from './json-preview/json-preview.component';
 export { LinkedEntitiesComponent, type LinkedEntity } from './linked-entities/linked-entities.component';
 export { StatusBadgeComponent } from './status-badge/status-badge.component';
 export { ToastHostComponent } from './toast-host/toast-host.component';
+export { AppWorkspaceSwitcherComponent } from './common/core-ui/app-workspace-switcher/app-workspace-switcher.component';
