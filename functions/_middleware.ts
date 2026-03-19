@@ -92,6 +92,8 @@ export const onRequest: PagesFunction<Env> = async (ctx) => {
     url.pathname.startsWith('/openapi') ||
     url.pathname.startsWith('/assets') ||
     url.pathname.startsWith('/favicon') ||
+    url.pathname.startsWith('/api/quran') ||
+    url.pathname.startsWith('/api/ar/quran') ||
     isStaticAsset
   ) {
     const response = await ctx.next();
