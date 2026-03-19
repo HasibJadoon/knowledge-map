@@ -8,6 +8,7 @@
         <span class="lesson-card__surah">Surah {{ surahId }}</span>
       </div>
       <div class="lesson-card__actions">
+        <button class="lc-btn lc-btn--study" (click)="goStudyLesson()" title="Study lesson">Study</button>
         <button class="lc-btn lc-btn--edit" (click)="goEditLesson()" title="Edit lesson">Edit</button>
         <button class="lc-btn lc-btn--close" (click)="close()" title="Close">&#10005;</button>
       </div>

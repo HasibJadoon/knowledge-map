@@ -1,4 +1,4 @@
-// ── Page container (scroll fix) ───────────────────────────
+// ── Page container ───────────────────────────────────────
 .text-page {
   width: 100%;
   height: 100dvh;
@@ -9,12 +9,12 @@
   padding: 2rem 2rem 4rem;
 
   &__inner {
-    max-width: 1000px;
+    max-width: 860px;
     margin: 0 auto;
   }
 }
 
-// ── Navigation ──────────────────────────────────────────
+// ── Navigation ───────────────────────────────────────────
 .top-nav {
   display: flex;
   align-items: center;
@@ -53,50 +53,61 @@
   opacity: 0.7;
 }
 
-// ── Header ───────────────────────────────────────────────
+// ── Header — centered, Arabic name as the title ──────────
 .page-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  text-align: center;
+  gap: 0.75rem;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--km-border);
 
+  // Arabic name is the primary title — big, elegant
+  &__arabic {
+    font-family: var(--km-font-arabic, 'Scheherazade New', serif);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.8;
+    color: var(--km-text);
+    direction: rtl;
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  // Row: circle number + English name
+  &__sub {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    justify-content: center;
+  }
+
   &__number {
-    width: 48px;
-    height: 48px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     border: 1.5px solid var(--km-gold);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--km-font-heading);
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: var(--km-gold);
     flex-shrink: 0;
-  }
-
-  &__titles {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    opacity: 0.85;
   }
 
   &__title {
     font-family: var(--km-font-heading);
-    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: var(--km-gold);
     margin: 0;
-  }
-
-  &__arabic {
-    font-family: var(--km-font-arabic, 'Scheherazade New', serif);
-    font-size: 1.1rem;
-    color: var(--km-text-2);
-    margin: 0;
-    direction: rtl;
+    opacity: 0.85;
   }
 }
 
@@ -109,7 +120,8 @@
   border-radius: 999px;
   padding: 0.25rem;
   gap: 0;
-  margin-bottom: 1.75rem;
+  // Inside .top-nav flex row — push to the far right
+  margin-left: auto;
 
   &__divider {
     width: 1px;
@@ -200,7 +212,7 @@
   }
 }
 
-// ── State Messages ───────────────────────────────────────
+// ── State messages ────────────────────────────────────────
 .state-message {
   display: flex;
   flex-direction: column;
@@ -232,7 +244,7 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-// ── Ayah end badge (inline circle with verse number) ─────
+// ── Ayah end badge ────────────────────────────────────────
 .ayah-badge {
   display: inline-flex;
   align-items: center;
@@ -260,22 +272,34 @@
   }
 }
 
-// ── Shared Arabic word hover ──────────────────────────────
+// ── Arabic word — shared hover interaction ────────────────
+// q-word class marks each word as a future click target
+// (morphology / lexicon lookup hook — logic not yet implemented)
 .ar-word {
   display: inline;
-  cursor: default;
-  border-radius: 3px;
-  padding: 0 1px;
-  transition: color 0.15s, background 0.15s;
+  cursor: pointer;
+  transition: color 0.18s ease;
+
+  // Root cause fix: @for renders spans with NO whitespace between them.
+  // Without a space character, word-spacing has nothing to act on and Arabic
+  // spans render as a single joined run. This ::after injects a real space
+  // text node after every word, giving the browser a word boundary to space.
+  &::after {
+    content: '\0020'; // U+0020 SPACE
+  }
+
+  // Last word before a verse-end marker — suppress trailing space so justify
+  // doesn't create a large gap between the word and the verse marker.
+  &--last::after {
+    content: '';
+  }
 
   &:hover {
     color: var(--km-gold);
-    background: rgba(201, 168, 76, 0.1);
   }
 }
 
-
-// ── Verse by Verse table ──────────────────────────────────
+// ── Verse by Verse ────────────────────────────────────────
 .reader-table {
   display: flex;
   flex-direction: column;
@@ -283,31 +307,40 @@
 }
 
 .vrow {
-  padding: 1.5rem 0;
+  padding: 1.75rem 0;
   border-bottom: 1px solid var(--km-border);
+  // Skip rendering off-screen rows — big win for long surahs (Al-Baqara, etc.)
+  content-visibility: auto;
+  contain-intrinsic-size: auto 180px;
 
   &:last-child { border-bottom: none; }
 
   &__arabic {
     font-family: var(--km-font-arabic, 'Scheherazade New', serif);
-    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-    line-height: 2.6;
+    // Generous size for diacritics — min avoids squishing on mobile
+    font-size: clamp(1.7rem, 3.5vw, 2.5rem);
+    // Extra line-height so diacritics above/below never clip
+    line-height: 3;
     direction: rtl;
     text-align: justify;
     text-justify: inter-word;
     color: var(--km-text);
-    word-spacing: 0.08em;
-    margin-bottom: 0.85rem;
+    // Increase inter-word gap slightly for readability
+    word-spacing: 0.12em;
+    margin-bottom: 1rem;
+    letter-spacing: 0.01em;
   }
 
   &__translation {
-    font-size: 0.88rem;
-    line-height: 1.75;
+    font-size: 1.05rem;
+    line-height: 1.85;
     color: var(--km-text-2);
     font-style: italic;
-    padding-left: 0.5rem;
-    border-left: 2px solid rgba(201, 168, 76, 0.2);
+    padding-left: 0.75rem;
+    border-left: 2px solid rgba(201, 168, 76, 0.18);
     margin-left: 0.25rem;
+    // Softer so it doesn't compete with Arabic
+    opacity: 0.82;
   }
 
   &__num {
@@ -328,33 +361,106 @@
   }
 }
 
+// ── Bismillah block ───────────────────────────────────────
+.bismillah-block {
+  text-align: center;
+  padding: 0.5rem 0 2rem;
+  border-bottom: 1px solid var(--km-border);
+  margin-bottom: 2rem;
+}
+
+.bismillah-text {
+  font-family: var(--km-font-arabic, 'Scheherazade New', serif);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  line-height: 2.6;
+  color: var(--km-text);
+  direction: rtl;
+  letter-spacing: 0.02em;
+}
+
+// ── Arabic Mushaf — wrapper and page breaks ───────────────
+.mushaf-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+// Page-end divider — gradient lines + gold page badge
+.page-break {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0 1.5rem;
+  // GSAP animates from opacity 0 — set initial state here
+  opacity: 0;
+
+  &__line {
+    flex: 1;
+    height: 1px;
+    // Gradient: transparent → gold → transparent
+    background: linear-gradient(
+      to var(--page-break-dir, right),
+      transparent 0%,
+      rgba(201, 168, 76, 0.35) 40%,
+      rgba(201, 168, 76, 0.35) 60%,
+      transparent 100%
+    );
+    // GSAP will scaleX from 0; transform-origin set per side in TS
+    transform-origin: center;
+  }
+
+  &__num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 168, 76, 0.45);
+    font-family: var(--km-font-heading);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--km-gold);
+    opacity: 0.75;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
+
 // ── Arabic Mushaf continuous flow ─────────────────────────
 .mushaf-flow {
   font-family: var(--km-font-arabic, 'Scheherazade New', serif);
   font-size: clamp(2rem, 4.5vw, 3rem);
-  line-height: 2.8;
+  line-height: 3.2;
   direction: rtl;
+  // justify fills complete lines; text-align-last: right keeps the final
+  // incomplete line right-aligned instead of stretching it across the page.
+  // inter-character distributes spacing across all character gaps — avoids
+  // extreme word-gap stretching on short lines (verse transitions, short ayahs).
   text-align: justify;
-  text-align-last: justify;
-  text-justify: inter-word;
+  text-align-last: right;
+  text-justify: inter-character;
   color: var(--km-text);
-  word-spacing: 0.06em;
-  padding: 1.5rem 0 2rem;
-  // All children must stay inline — no block/flex elements
-  * { display: inline; }
+  padding: 1.5rem 0 2.5rem;
+  // Scope inline only to word spans — verse-end stays inline-flex
+  .ar-word { display: inline; }
 }
 
 .ar-word--lg {
-  // inherits mushaf-flow font — display: inline from parent rule
+  // inherits mushaf-flow font and display: inline from parent rule above
 }
 
+// Verse-end — Scheherazade New renders Arabic-Indic numerals as ornamental
+// circular glyphs at mushaf font sizes. No extra character or CSS border needed.
 .verse-end {
-  // pure inline — ۝ + Arabic-Indic numeral
+  display: inline;
   font-family: var(--km-font-arabic, 'Scheherazade New', serif);
+  font-size: 0.9em;
   color: var(--km-gold);
-  font-size: 0.85em;
-  margin: 0 0.25em;
+  margin: 0 0.2em;
   user-select: none;
+  letter-spacing: 0;
 }
 
 // ── Translation list ──────────────────────────────────────
@@ -368,8 +474,10 @@
   display: flex;
   align-items: baseline;
   gap: 1rem;
-  padding: 1.1rem 0;
+  padding: 1.25rem 0;
   border-bottom: 1px solid var(--km-border);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 80px;
 
   &:last-child { border-bottom: none; }
 
@@ -389,8 +497,8 @@
   }
 
   &__text {
-    font-size: 0.92rem;
-    line-height: 1.8;
+    font-size: 1.05rem;
+    line-height: 1.9;
     color: var(--km-text-2);
     margin: 0;
   }

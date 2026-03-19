@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
-import { PageTransitionService } from '../../core/services/page-transition.service';
+import { PageTransitionService } from '../../shared/services/page-transition.service';
 
 interface ModuleCard {
   id: string;

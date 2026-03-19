@@ -8,17 +8,17 @@ import {
   computed,
   OnInit,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
 import gsap from 'gsap';
 import { LessonCardComponent } from '../lesson-card/lesson-card.component';
-import { QuranStateService } from '../../../quran/quran-state.service';
+import { QuranStateService } from '../../../shared/services/quran-state.service';
 
 @Component({
   selector: 'km-quran-landing',
   standalone: true,
-  imports: [RouterLink, FormsModule, LessonCardComponent, TitleCasePipe],
+  imports: [FormsModule, LessonCardComponent, TitleCasePipe],
   templateUrl: './quran-landing.component.html',
   styleUrl: './quran-landing.component.scss',
 })

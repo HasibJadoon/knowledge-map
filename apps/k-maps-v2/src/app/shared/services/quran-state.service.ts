@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { QuranApiService } from './quran-api.service';
-import { QuranSurahListItemDto } from './quran.models';
+import { QuranSurahListItemDto } from '../models/quran.models';
 
 @Injectable({ providedIn: 'root' })
 export class QuranStateService {

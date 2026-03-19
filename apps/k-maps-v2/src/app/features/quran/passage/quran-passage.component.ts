@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { KMapsService, AyahsSurah, TranslationPassage } from '../../../../core/services/k-maps.service';
+import { KMapsService, AyahsSurah, TranslationPassage } from '../../../shared/services/k-maps.service';
 
 @Component({
   selector: 'km-quran-passage',

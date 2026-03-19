@@ -94,6 +94,17 @@
     color: var(--km-gold);
   }
 
+  &--study {
+    color: var(--km-gold);
+    border-color: rgba(201, 168, 76, 0.35);
+    background: rgba(201, 168, 76, 0.06);
+
+    &:hover {
+      background: rgba(201, 168, 76, 0.12);
+      border-color: var(--km-gold);
+    }
+  }
+
   &--close {
     width: 30px;
     height: 30px;

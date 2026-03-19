@@ -32,6 +32,11 @@ export class LessonCardComponent implements OnInit {
     this.closed.emit();
   }
 
+  goStudyLesson(): void {
+    this.router.navigate(['/quran/lessons', this.surahId, 'study']);
+    this.close();
+  }
+
   goEditLesson(): void {
     this.router.navigate(['/quran/lessons', this.surahId, 'edit']);
     this.close();

@@ -7,21 +7,44 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'landing',
+    loadChildren: () =>
+      import('./features/landing/landing.routes').then((m) => m.LANDING_ROUTES),
+  },
+  {
+    path: 'hub',
+    loadChildren: () =>
+      import('./features/hub/hub.routes').then((m) => m.HUB_ROUTES),
+  },
+  {
     path: 'quran',
     loadChildren: () =>
       import('./features/quran/quran.routes').then((m) => m.QURAN_ROUTES),
   },
   {
-    path: 'landing',
-    loadComponent: () =>
-      import('./features/landing/landing.component').then((m) => m.LandingComponent),
-    title: 'K-MAPS — Knowledge Command Center',
+    path: 'arabic',
+    loadChildren: () =>
+      import('./features/arabic/arabic.routes').then((m) => m.ARABIC_ROUTES),
   },
   {
-    path: 'hub',
-    loadComponent: () =>
-      import('./features/hub/hub.component').then((m) => m.HubComponent),
-    title: 'Hub — K-MAPS',
+    path: 'worldview',
+    loadChildren: () =>
+      import('./features/worldview/worldview.routes').then((m) => m.WORLDVIEW_ROUTES),
+  },
+  {
+    path: 'planner',
+    loadChildren: () =>
+      import('./features/planner/planner.routes').then((m) => m.PLANNER_ROUTES),
+  },
+  {
+    path: 'content',
+    loadChildren: () =>
+      import('./features/content/content.routes').then((m) => m.CONTENT_ROUTES),
+  },
+  {
+    path: 'workspace',
+    loadChildren: () =>
+      import('./features/workspace/workspace.routes').then((m) => m.WORKSPACE_ROUTES),
   },
   // Backwards-compatible redirects from old /arabic/quran routes
   { path: 'arabic/quran', redirectTo: 'quran', pathMatch: 'full' },
@@ -30,43 +53,6 @@ export const routes: Routes = [
     path: 'arabic/quran/:surahId/passage/:passageIndex',
     redirectTo: 'quran/:surahId/passage/:passageIndex',
     pathMatch: 'full',
-  },
-  {
-    path: 'arabic',
-    children: [
-      {
-        path: '',
-        loadComponent: () =>
-          import('./features/arabic/arabic-home/arabic-home.component').then(
-            (m) => m.ArabicHomeComponent
-          ),
-        title: 'Arabic — K-MAPS',
-      },
-    ],
-  },
-  {
-    path: 'worldview',
-    loadComponent: () =>
-      import('./features/worldview/worldview.component').then((m) => m.WorldviewComponent),
-    title: 'Worldview — K-MAPS',
-  },
-  {
-    path: 'planner',
-    loadComponent: () =>
-      import('./features/planner/planner.component').then((m) => m.PlannerComponent),
-    title: 'Planner — K-MAPS',
-  },
-  {
-    path: 'content',
-    loadComponent: () =>
-      import('./features/content/content.component').then((m) => m.ContentComponent),
-    title: 'Content — K-MAPS',
-  },
-  {
-    path: 'workspace',
-    loadComponent: () =>
-      import('./features/workspace/workspace.component').then((m) => m.WorkspaceComponent),
-    title: 'Workspace — K-MAPS',
   },
   {
     path: '**',
