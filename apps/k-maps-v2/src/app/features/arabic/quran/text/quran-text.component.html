@@ -7,14 +7,42 @@
         <span class="back-btn__arrow">&#8592;</span>
         <span class="back-btn__label">Quran</span>
       </button>
-      <span class="breadcrumb">Surah {{ surahId() }}</span>
+      <span class="breadcrumb">
+        @if (surahInfo()) {
+          {{ surahInfo()!.name_en ?? 'Surah ' + surahId() }}
+        } @else {
+          Surah {{ surahId() }}
+        }
+      </span>
     </nav>
 
     <!-- Header -->
     <header class="page-header">
       <div class="page-header__number">{{ surahId() }}</div>
-      <h1 class="page-header__title">Surah {{ surahId() }}</h1>
+      <div class="page-header__titles">
+        @if (surahInfo()) {
+          <h1 class="page-header__title">{{ surahInfo()!.name_en ?? 'Surah ' + surahId() }}</h1>
+          <p class="page-header__arabic">{{ surahInfo()!.name_ar }}</p>
+        } @else {
+          <h1 class="page-header__title">Surah {{ surahId() }}</h1>
+        }
+      </div>
     </header>
+
+    <!-- Passages -->
+    @if (!loading() && passages().length > 0) {
+      <div class="passages-bar">
+        <span class="passages-bar__label">&#128214; Passages</span>
+        @for (p of passages(); track p.passage_index) {
+          <a
+            class="passage-chip"
+            [routerLink]="['/arabic/quran', surahId(), 'passage', p.passage_index]"
+          >
+            {{ p.ayah_from }}–{{ p.ayah_to }}
+          </a>
+        }
+      </div>
+    }
 
     <!-- Loading -->
     @if (loading()) {
@@ -30,7 +58,7 @@
         <p class="state-message__detail">{{ error() }}</p>
         <div class="state-message__actions">
           <button class="back-btn" (click)="retry()">&#8635; Retry</button>
-          <button class="back-btn" (click)="back()">← Back</button>
+          <button class="back-btn" (click)="back()">&#8592; Back</button>
         </div>
       </div>
     }

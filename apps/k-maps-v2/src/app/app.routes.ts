@@ -57,6 +57,14 @@ export const routes: Routes = [
             title: 'Edit Lesson — K-MAPS',
           },
           {
+            path: ':surahId/passage/:passageIndex',
+            loadComponent: () =>
+              import('./features/arabic/quran/passage/quran-passage.component').then(
+                (m) => m.QuranPassageComponent
+              ),
+            title: 'Passage — K-MAPS',
+          },
+          {
             path: ':surahId',
             loadComponent: () =>
               import('./features/arabic/quran/text/quran-text.component').then(

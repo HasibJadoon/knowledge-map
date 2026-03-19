@@ -32,13 +32,42 @@ export interface QuranAyah {
   words?: QuranAyahWord[];
 }
 
+export interface AyahsSurah {
+  surah: number;
+  name_ar: string;
+  name_en: string | null;
+  ayah_count: number | null;
+}
+
+export interface TranslationPassage {
+  id: number;
+  source_key: string;
+  surah: number;
+  ayah_from: number;
+  ayah_to: number;
+  passage_index: number;
+  page_pdf: number | null;
+  page_book: number | null;
+  text: string | null;
+}
+
 export interface AyahsResponse {
   ok: boolean;
+  surah?: AyahsSurah;
+  translation_passages?: TranslationPassage[];
   total: number;
   page: number;
   pageSize: number;
   results?: QuranAyah[];
   verses?: QuranAyah[];
+}
+
+export interface PassagesResponse {
+  ok: boolean;
+  surah?: AyahsSurah;
+  source_key?: string;
+  passages: TranslationPassage[];
+  passage?: TranslationPassage | null;
 }
 
 // ── Lesson models ───────────────────────────────────────────────────────────
@@ -83,6 +112,15 @@ export class KMapsService {
       .set('surah', String(surah))
       .set('pageSize', String(pageSize));
     return this.http.get<AyahsResponse>(`${this.base}/ar/quran/ayahs`, { params });
+  }
+
+  // ── v2: Quran Passages ─────────────────────────────────────────────────────
+  getPassages(surah: number, passageIndex?: number): Observable<PassagesResponse> {
+    let params = new HttpParams().set('surah', String(surah));
+    if (passageIndex !== undefined) {
+      params = params.set('passage', String(passageIndex));
+    }
+    return this.http.get<PassagesResponse>(`${this.base}/ar/quran/passages`, { params });
   }
 
   // ── v1: Lesson ─────────────────────────────────────────────────────────────

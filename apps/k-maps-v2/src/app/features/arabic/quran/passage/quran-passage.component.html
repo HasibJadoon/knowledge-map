@@ -1,0 +1,111 @@
+<div class="passage-page">
+  <div class="passage-page__inner">
+
+    <!-- Navigation -->
+    <nav class="top-nav">
+      <button class="back-btn" (click)="backToSurah()">
+        <span>&#8592;</span>
+        <span>
+          @if (surahInfo()) {
+            {{ surahInfo()!.name_en ?? 'Surah ' + surahId() }}
+          } @else {
+            Surah {{ surahId() }}
+          }
+        </span>
+      </button>
+      <span class="breadcrumb">Passage {{ passageIndex() }}</span>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+      <div class="page-header__meta">
+        <span class="page-header__surah-num">{{ surahId() }}</span>
+        @if (surahInfo()) {
+          <div class="page-header__names">
+            <span class="page-header__name-en">{{ surahInfo()!.name_en }}</span>
+            <span class="page-header__name-ar">{{ surahInfo()!.name_ar }}</span>
+          </div>
+        }
+      </div>
+      <div class="page-header__passage-num">Passage {{ passageIndex() }}</div>
+    </header>
+
+    <!-- Loading -->
+    @if (loading()) {
+      <div class="state-message">
+        <div class="state-message__spinner"></div>
+        <p>Loading passage…</p>
+      </div>
+    }
+
+    <!-- Error -->
+    @if (!loading() && error()) {
+      <div class="state-message state-message--error">
+        <p>{{ error() }}</p>
+        <div class="state-message__actions">
+          <button class="back-btn" (click)="retry()">&#8635; Retry</button>
+          <button class="back-btn" (click)="backToSurah()">&#8592; Back</button>
+        </div>
+      </div>
+    }
+
+    <!-- Passage content -->
+    @if (!loading() && !error()) {
+      @if (passage()) {
+        <div class="passage">
+
+          <!-- Ayah range badge -->
+          <div class="passage__range">
+            <span class="range-badge">
+              Ayahs {{ passage()!.ayah_from }}–{{ passage()!.ayah_to }}
+            </span>
+            @if (passage()!.page_book) {
+              <span class="page-badge">p. {{ passage()!.page_book }}</span>
+            }
+          </div>
+
+          <!-- Passage text -->
+          <div class="passage__text">
+            {{ passage()!.text }}
+          </div>
+
+        </div>
+
+        <!-- Passage navigation -->
+        <div class="passage-nav">
+          <button
+            class="passage-nav__btn"
+            (click)="prevPassage()"
+            [disabled]="passageIndex() <= 1"
+          >&#8592; Prev</button>
+
+          <!-- Passage index dots -->
+          @if (allPassages().length > 0) {
+            <div class="passage-nav__dots">
+              @for (p of allPassages(); track p.passage_index) {
+                <a
+                  class="dot"
+                  [class.dot--active]="p.passage_index === passageIndex()"
+                  [routerLink]="['/arabic/quran', surahId(), 'passage', p.passage_index]"
+                ></a>
+              }
+            </div>
+          }
+
+          <button
+            class="passage-nav__btn"
+            (click)="nextPassage()"
+            [disabled]="allPassages().length > 0 && passageIndex() >= allPassages()[allPassages().length - 1]!.passage_index"
+          >Next &#8594;</button>
+        </div>
+
+      } @else {
+        <div class="state-message">
+          <p>No passage found at index {{ passageIndex() }}.</p>
+          <button class="back-btn" (click)="backToSurah()">&#8592; Back to Surah</button>
+        </div>
+      }
+    }
+
+  </div>
+</div>
