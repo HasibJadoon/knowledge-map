@@ -16,13 +16,18 @@ build/
 .cache/
 .eslintcache
 coverage/
+**/*.js.map
+
+# TypeScript / Angular
+*.tsbuildinfo
+.angular/
+angular-compiler.db
 
 # Cloudflare / Wrangler
 .wrangler/
 .worker/
 *.wrangler/state*/
-wrangler.toml
-functions
+/functions/
 # D1 exports/dumps
 *.sqlite
 *.db
@@ -34,7 +39,8 @@ functions
 
 # Env & secrets
 .env
-.env.*         # .env.local, .env.production, etc.
+.env.*
+.dev.vars
 
 # Editors/OS
 .DS_Store
