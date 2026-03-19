@@ -41,14 +41,6 @@ export const routes: Routes = [
             title: 'Quran — K-MAPS',
           },
           {
-            path: 'data/text/:surahId',
-            loadComponent: () =>
-              import('./features/arabic/quran/text/quran-text.component').then(
-                (m) => m.QuranTextComponent
-              ),
-            title: 'Surah Text — K-MAPS',
-          },
-          {
             path: 'lessons/:lessonId/study',
             loadComponent: () =>
               import('./features/arabic/quran/lessons/study/lesson-study.component').then(
@@ -67,10 +59,10 @@ export const routes: Routes = [
           {
             path: ':surahId',
             loadComponent: () =>
-              import('./features/arabic/quran/surah/surah.component').then(
-                (m) => m.SurahComponent
+              import('./features/arabic/quran/text/quran-text.component').then(
+                (m) => m.QuranTextComponent
               ),
-            title: 'Surah — K-MAPS',
+            title: 'Quran — K-MAPS',
           },
         ],
       },

@@ -200,7 +200,7 @@ export class QuranLandingComponent implements AfterViewInit {
   }
 
   navigateToSurah(id: number): void {
-    this.router.navigate(['/arabic/quran/data/text', id]);
+    this.router.navigate(['/arabic/quran', id]);
   }
 
   openInNewTab(event: Event, id: number): void {
