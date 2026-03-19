@@ -1,30 +1,5 @@
-<!--sidebar-->
-<c-sidebar
-  #sidebar1="cSidebar"
-  class="d-print-none sidebar sidebar-fixed border-end"
-  colorScheme="dark"
-  id="sidebar1"
-  visible
-  [narrow]="sidebarCollapsed"
-  (mouseenter)="onSidebarEnter()"
-  (mouseleave)="onSidebarLeave()"
->
-
-  <ng-scrollbar pointerEventsMethod="scrollbar" visibility="hover">
-    <c-sidebar-nav [navItems]="navItems" dropdownMode="close" compact />
-  </ng-scrollbar>
-
-  @if (!sidebar1.narrow) {
-    <c-sidebar-footer cSidebarToggle="sidebar1" class="border-top d-none d-lg-flex" toggle="unfoldable" style="cursor: pointer;">
-      <button cSidebarToggler aria-label="Toggle sidebar fold"></button>
-    </c-sidebar-footer>
-  }
-</c-sidebar>
-
-<!--main-->
 <div class="wrapper d-flex flex-column min-vh-100">
   <app-toast-host />
-  <!--app-body-->
   <div class="body flex-grow-1">
     <c-container [fluid]="true" class="h-auto px-2 px-md-3">
       <div #pageContent>
@@ -32,6 +7,5 @@
       </div>
     </c-container>
   </div>
-  <!--app footer-->
   <app-default-footer />
 </div>
