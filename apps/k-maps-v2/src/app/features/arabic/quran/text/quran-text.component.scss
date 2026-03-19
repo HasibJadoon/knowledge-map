@@ -9,7 +9,7 @@
   padding: 2rem 2rem 4rem;
 
   &__inner {
-    max-width: 860px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 }
@@ -232,6 +232,34 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
+// ── Ayah end badge (inline circle with verse number) ─────
+.ayah-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  border: 1.5px solid var(--km-gold);
+  background: transparent;
+  font-family: var(--km-font-heading);
+  font-size: 0.45em;
+  color: var(--km-gold);
+  vertical-align: middle;
+  margin: 0 0.35em;
+  user-select: none;
+  flex-shrink: 0;
+  letter-spacing: 0;
+
+  &--inline {
+    font-size: 0.38em;
+    width: 2.2em;
+    height: 2.2em;
+    margin: 0 0.4em;
+    opacity: 0.9;
+  }
+}
+
 // ── Shared Arabic word hover ──────────────────────────────
 .ar-word {
   display: inline;
@@ -246,15 +274,6 @@
   }
 }
 
-.verse-marker {
-  display: inline;
-  font-family: var(--km-font-arabic, 'Scheherazade New', serif);
-  font-size: 0.85em;
-  color: var(--km-gold);
-  opacity: 0.6;
-  margin-right: 0.25rem;
-  user-select: none;
-}
 
 // ── Verse by Verse table ──────────────────────────────────
 .reader-table {
@@ -271,11 +290,13 @@
 
   &__arabic {
     font-family: var(--km-font-arabic, 'Scheherazade New', serif);
-    font-size: clamp(1.35rem, 2.8vw, 1.75rem);
-    line-height: 2.2;
-    text-align: right;
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    line-height: 2.6;
+    direction: rtl;
+    text-align: justify;
+    text-justify: inter-word;
     color: var(--km-text);
-    word-spacing: 0.15em;
+    word-spacing: 0.08em;
     margin-bottom: 0.85rem;
   }
 
@@ -310,12 +331,15 @@
 // ── Arabic Mushaf continuous flow ─────────────────────────
 .mushaf-flow {
   font-family: var(--km-font-arabic, 'Scheherazade New', serif);
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  line-height: 2.6;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  line-height: 2.8;
+  direction: rtl;
   text-align: justify;
+  text-justify: inter-word;
   color: var(--km-text);
-  word-spacing: 0.2em;
-  padding: 1.5rem 0;
+  word-spacing: 0.08em;
+  letter-spacing: 0.01em;
+  padding: 1.5rem 0 2rem;
 }
 
 .ar-word--lg {
@@ -323,9 +347,14 @@
 }
 
 .verse-marker--lg {
-  font-size: 0.75em;
-  opacity: 0.5;
-  margin: 0 0.2rem;
+  display: inline-block;
+  font-family: var(--km-font-arabic, 'Scheherazade New', serif);
+  font-size: 0.55em;
+  color: var(--km-gold);
+  opacity: 0.85;
+  margin: 0 0.3em;
+  vertical-align: middle;
+  user-select: none;
 }
 
 // ── Translation list ──────────────────────────────────────

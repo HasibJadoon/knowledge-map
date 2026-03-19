@@ -104,7 +104,7 @@
               @for (word of getWords(ayah); track $index) {
                 <span class="ar-word">{{ word }}</span>
               }
-              <span class="verse-marker">﴿{{ ayah.ayah }}﴾</span>
+              <span class="ayah-badge">{{ ayah.ayah }}</span>
             </div>
             @if (ayah.translation) {
               <div class="vrow__translation">
@@ -119,12 +119,11 @@
 
     <!-- ── ARABIC MUSHAF VIEW ──────────────────────────────── -->
     @if (!loading() && !error() && viewMode() === 'arabic') {
-      <div class="mushaf-flow" dir="rtl">
+      <div class="mushaf-flow">
         @for (ayah of ayahs(); track ayah.ayah) {
           @for (word of getWords(ayah); track $index) {
             <span class="ar-word ar-word--lg">{{ word }}</span>
-          }
-          <span class="verse-marker verse-marker--lg">﴿{{ ayah.ayah }}﴾</span>
+          }<span class="ayah-badge ayah-badge--inline">{{ ayah.ayah }}</span>
         }
       </div>
     }

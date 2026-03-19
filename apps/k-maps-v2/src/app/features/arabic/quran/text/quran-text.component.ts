@@ -23,7 +23,7 @@ export class QuranTextComponent implements OnInit {
   passages = signal<TranslationPassage[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
-  viewMode = signal<ViewMode>('verse');
+  viewMode = signal<ViewMode>('arabic');
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('surahId')) || 1;
