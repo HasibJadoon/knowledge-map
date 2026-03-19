@@ -153,14 +153,14 @@ export class PodcastEpisodeViewComponent implements OnInit {
     this.router.navigate(['/podcast', this.item.id, 'edit']);
   }
 
-  private asRecord(value: unknown): Record<string, unknown> {
+  protected asRecord(value: unknown): Record<string, unknown> {
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
       return {};
     }
     return value as Record<string, unknown>;
   }
 
-  private readText(value: unknown): string {
+  protected readText(value: unknown): string {
     return typeof value === 'string' ? value.trim() : '';
   }
 }

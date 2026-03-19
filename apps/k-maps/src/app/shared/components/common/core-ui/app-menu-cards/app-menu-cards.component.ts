@@ -12,7 +12,7 @@ export interface AppMenuCardItem {
   id: string;
   title: string;
   description: string;
-  route?: string | any[];
+  route?: any[];
   image: string;
   imageAlt?: string;
   themeClass?: string;

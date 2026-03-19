@@ -1,0 +1,209 @@
+.arabic-home {
+  width: 100%;
+  min-height: 100dvh;
+  background: var(--km-bg);
+  color: var(--km-text);
+  font-family: var(--km-font-body);
+  padding: 2rem 2rem 4rem;
+  overflow-x: hidden;
+
+  &__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+}
+
+// ── Navigation ──────────────────────────────────────────
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3.5rem;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: 1px solid var(--km-border);
+  border-radius: 6px;
+  color: var(--km-text-2);
+  font-family: var(--km-font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: var(--km-border-gold);
+    color: var(--km-gold);
+  }
+
+  &__arrow {
+    font-size: 1rem;
+    line-height: 1;
+  }
+}
+
+.breadcrumb {
+  font-family: var(--km-font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--km-gold);
+  opacity: 0.7;
+}
+
+// ── Header ───────────────────────────────────────────────
+.page-header {
+  margin-bottom: 3.5rem;
+  text-align: center;
+
+  &__ornament {
+    font-size: 1.2rem;
+    color: var(--km-gold);
+    opacity: 0.5;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  &__title {
+    font-family: var(--km-font-heading);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--km-gold);
+    margin: 0 0 0.6rem;
+    text-shadow: 0 0 40px rgba(201, 168, 76, 0.25);
+  }
+
+  &__subtitle {
+    font-family: var(--km-font-body);
+    font-size: 0.9rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--km-text-2);
+    margin: 0;
+  }
+}
+
+// ── Sections Grid ────────────────────────────────────────
+.sections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.section-card {
+  position: relative;
+  background: var(--km-surface);
+  border: 1px solid var(--km-border-gold);
+  border-radius: 12px;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--km-gold-glow) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  &:hover {
+    border-color: var(--km-gold);
+    background: rgba(201, 168, 76, 0.04);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(201, 168, 76, 0.12);
+
+    &::before {
+      opacity: 1;
+    }
+
+    .section-card__arrow {
+      color: var(--km-gold);
+      transform: translateX(4px);
+    }
+
+    .section-card__arabic-bg {
+      opacity: 0.06;
+    }
+  }
+
+  &__arabic-bg {
+    position: absolute;
+    top: 50%;
+    right: -0.5rem;
+    transform: translateY(-50%);
+    font-family: var(--km-font-arabic);
+    font-size: 5rem;
+    color: var(--km-gold);
+    opacity: 0.04;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    user-select: none;
+    direction: rtl;
+  }
+
+  &__icon {
+    font-family: var(--km-font-arabic);
+    font-size: 1.6rem;
+    color: var(--km-gold);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+    direction: rtl;
+  }
+
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  &__label {
+    font-family: var(--km-font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--km-gold-bright);
+    margin: 0;
+  }
+
+  &__desc {
+    font-size: 0.82rem;
+    color: var(--km-text-2);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  &__arabic {
+    font-family: var(--km-font-arabic);
+    font-size: 1rem;
+    color: var(--km-text-3);
+    direction: rtl;
+    text-align: right;
+    margin-top: 0.25rem;
+  }
+
+  &__arrow {
+    font-size: 1rem;
+    color: rgba(201, 168, 76, 0.4);
+    margin-top: 0.25rem;
+    transition: color 0.2s, transform 0.2s;
+    align-self: flex-end;
+  }
+}

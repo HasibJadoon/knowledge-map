@@ -23,3 +23,4 @@ export { AppJsonCodeEditorComponent } from './app-json-code-editor/app-json-code
 export { AppJsonEditorModalComponent } from './app-json-editor-modal/app-json-editor-modal.component';
 export { AppViewJsonModalComponent } from './app-view-json-modal/app-view-json-modal.component';
 export { HeaderSearchComponent } from './header-search/header-search.component';
+export { AppWorkspaceSwitcherComponent } from './app-workspace-switcher/app-workspace-switcher.component';

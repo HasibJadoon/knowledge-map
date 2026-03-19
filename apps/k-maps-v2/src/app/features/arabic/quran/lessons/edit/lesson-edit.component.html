@@ -1,0 +1,73 @@
+<div class="lesson-edit">
+
+  <div class="lesson-edit__inner">
+
+    <!-- Navigation -->
+    <nav class="top-nav">
+      <button class="back-btn" (click)="back()">
+        <span class="back-btn__arrow">&#8592;</span>
+        <span class="back-btn__label">Quran</span>
+      </button>
+      <span class="breadcrumb">Edit Lesson</span>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+      <div class="page-header__label">Lesson Editor</div>
+      <h1 class="page-header__title">Lesson {{ lessonId() }}</h1>
+    </header>
+
+    <!-- Step Tabs -->
+    <div class="steps-bar">
+      @for (step of steps; track step.id) {
+        <button
+          class="step-tab"
+          [class.step-tab--active]="activeStep() === step.id"
+          [class.step-tab--done]="getStepIndex(step.id) < activeStepIndex"
+          (click)="setStep(step.id)"
+        >
+          <span class="step-tab__number">{{ step.number }}</span>
+          <span class="step-tab__label">{{ step.label }}</span>
+        </button>
+        @if (step.number < steps.length) {
+          <div
+            class="step-connector"
+            [class.step-connector--done]="getStepIndex(step.id) < activeStepIndex"
+          ></div>
+        }
+      }
+    </div>
+
+    <!-- Step Content -->
+    <div class="step-content">
+      @for (step of steps; track step.id) {
+        @if (activeStep() === step.id) {
+          <div class="step-panel">
+            <div class="step-panel__placeholder">
+              <div class="step-panel__step-label">Step {{ step.number }} of {{ steps.length }}</div>
+              <h2 class="step-panel__title">{{ step.label }}</h2>
+              <p class="step-panel__message">Tab content coming soon</p>
+              <p class="step-panel__sub">
+                The <strong>{{ step.label }}</strong> editor is under active development
+              </p>
+              <div class="step-nav">
+                @if (getStepIndex(step.id) > 0) {
+                  <button class="step-nav-btn step-nav-btn--prev" (click)="setStep(steps[getStepIndex(step.id) - 1].id)">
+                    &#8592; Previous
+                  </button>
+                }
+                @if (getStepIndex(step.id) < steps.length - 1) {
+                  <button class="step-nav-btn step-nav-btn--next" (click)="setStep(steps[getStepIndex(step.id) + 1].id)">
+                    Next &#8594;
+                  </button>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+  </div>
+
+</div>

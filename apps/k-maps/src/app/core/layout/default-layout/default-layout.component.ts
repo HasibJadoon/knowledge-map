@@ -1,57 +1,50 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { NgScrollbar } from 'ngx-scrollbar';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
+import gsap from 'gsap';
 
-import {
-  ContainerComponent,
-  ShadowOnScrollDirective,
-  SidebarComponent,
-  SidebarFooterComponent,
-  SidebarNavComponent,
-  SidebarToggleDirective,
-  SidebarTogglerDirective
-} from '@coreui/angular';
+import { ContainerComponent } from '@coreui/angular';
 
 import { DefaultFooterComponent } from './default-footer/default-footer.component';
-import { DefaultHeaderComponent } from './default-header/default-header.component';
-import { navItems } from './_nav';
 import { ToastHostComponent } from '../../../shared/components/toast-host/toast-host.component';
-
-function isOverflown(element: HTMLElement) {
-  return (
-    element.scrollHeight > element.clientHeight ||
-    element.scrollWidth > element.clientWidth
-  );
-}
+import { AppWorkspaceSwitcherComponent } from '../../../shared/components/common/core-ui/app-workspace-switcher/app-workspace-switcher.component';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
   styleUrls: ['./default-layout.component.scss'],
   imports: [
-    SidebarComponent,
-    SidebarNavComponent,
-    SidebarFooterComponent,
-    SidebarToggleDirective,
-    SidebarTogglerDirective,
     ContainerComponent,
     DefaultFooterComponent,
-    DefaultHeaderComponent,
     ToastHostComponent,
-    NgScrollbar,
     RouterOutlet,
-    ShadowOnScrollDirective
+    AppWorkspaceSwitcherComponent,
   ]
 })
-export class DefaultLayoutComponent {
-  public navItems = [...navItems];
-  public sidebarCollapsed = false;
+export class DefaultLayoutComponent implements OnInit, OnDestroy {
+  private readonly router = inject(Router);
 
-  onSidebarEnter() {
-    this.sidebarCollapsed = false;
+  @ViewChild('pageContent', { static: true }) pageContent!: ElementRef<HTMLDivElement>;
+
+  private routerSub?: Subscription;
+
+  ngOnInit(): void {
+    this.routerSub = this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => this.animatePage());
   }
 
-  onSidebarLeave() {
-    this.sidebarCollapsed = true;
+  ngOnDestroy(): void {
+    this.routerSub?.unsubscribe();
+  }
+
+  private animatePage(): void {
+    const el = this.pageContent?.nativeElement;
+    if (!el) return;
+    gsap.fromTo(
+      el,
+      { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.38, ease: 'power2.out', clearProps: 'all' }
+    );
   }
 }

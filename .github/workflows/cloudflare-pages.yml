@@ -20,18 +20,21 @@ jobs:
         with:
           node-version: "20.19.0"
 
-      - name: Install and build
+      - name: Install dependencies
         run: |
-          npm install --legacy-peer-deps --workspace apps/k-maps
-          npm run build -w apps/k-maps
+          npm install --legacy-peer-deps --workspace apps/k-maps-v2
+          npm install --legacy-peer-deps --ignore-scripts
 
-      - name: Sync Functions
-        run: npm run sync:functions
+      - name: Build app
+        run: npm run build -w apps/k-maps-v2
 
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy app + functions to Cloudflare Pages
         run: |
           for i in 1 2 3; do
-            npx wrangler@4.66.0 pages deploy ${{ github.workspace }}/apps/k-maps/dist/k-maps/browser --project-name k-maps --branch main && exit 0
+            npx wrangler@4.66.0 pages deploy ${{ github.workspace }}/apps/k-maps-v2/dist/k-maps-v2/browser \
+              --project-name k-maps \
+              --branch main \
+              --functions-dir ${{ github.workspace }}/api && exit 0
             echo "Deploy attempt $i failed. Retrying in 15s..."
             sleep 15
           done

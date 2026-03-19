@@ -1,0 +1,127 @@
+:host {
+  display: block;
+}
+
+.ws-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--km-core-text, rgba(241, 246, 255, 0.9));
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease;
+
+  &:hover {
+    border-color: rgba(249, 177, 21, 0.5);
+    background: rgba(249, 177, 21, 0.08);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(249, 177, 21, 0.7);
+    outline-offset: 2px;
+  }
+}
+
+.ws-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.ws-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ws-caret {
+  font-size: 0.65rem;
+  opacity: 0.6;
+  margin-left: 0.1rem;
+}
+
+.ws-menu {
+  min-width: 200px;
+  padding: 0.35rem 0;
+  background: var(--cui-dropdown-bg, #1e2230);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  list-style: none;
+  margin: 0;
+}
+
+.ws-menu-label {
+  padding: 0.4rem 0.9rem 0.3rem;
+  font-size: 0.67rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+.ws-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-radius: 6px;
+  margin: 0 0.25rem;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  &--active {
+    background: rgba(249, 177, 21, 0.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(249, 177, 21, 0.7);
+    outline-offset: -2px;
+  }
+}
+
+.ws-item-icon {
+  font-size: 1rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.ws-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.ws-item-title {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--km-core-text, rgba(241, 246, 255, 0.95));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws-item-role {
+  font-size: 0.67rem;
+  color: rgba(255, 255, 255, 0.38);
+  text-transform: capitalize;
+}
+
+.ws-item-check {
+  margin-left: auto;
+  color: rgba(249, 177, 21, 0.9);
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
