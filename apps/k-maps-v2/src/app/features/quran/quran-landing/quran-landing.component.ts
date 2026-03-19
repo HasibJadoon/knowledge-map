@@ -12,22 +12,19 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
 import gsap from 'gsap';
-import { LessonCardComponent } from '../lesson-card/lesson-card.component';
 import { QuranStateService } from '../../../shared/services/quran-state.service';
+import { SurahActionsComponent } from '../surah-actions/surah-actions.component';
 
 @Component({
   selector: 'km-quran-landing',
   standalone: true,
-  imports: [FormsModule, LessonCardComponent, TitleCasePipe],
+  imports: [FormsModule, TitleCasePipe, SurahActionsComponent],
   templateUrl: './quran-landing.component.html',
   styleUrl: './quran-landing.component.scss',
 })
 export class QuranLandingComponent implements OnInit, AfterViewInit {
   private router = inject(Router);
   readonly quranState = inject(QuranStateService);
-
-  studyMenuId = signal<number | null>(null);
-  lessonCardSurahId = signal<number | null>(null);
 
   @ViewChild('cardsContainer') cardsContainer!: ElementRef<HTMLElement>;
 
@@ -69,44 +66,12 @@ export class QuranLandingComponent implements OnInit, AfterViewInit {
     }
   }
 
-  setSearch(value: string): void {
-    this.searchQuery.set(value);
-  }
-
-  setTypeFilter(value: 'all' | 'makki' | 'madani'): void {
-    this.typeFilter.set(value);
-  }
-
-  setViewMode(mode: 'grid' | 'list'): void {
-    this.viewMode.set(mode);
-  }
+  setSearch(value: string): void { this.searchQuery.set(value); }
+  setTypeFilter(value: 'all' | 'makki' | 'madani'): void { this.typeFilter.set(value); }
+  setViewMode(mode: 'grid' | 'list'): void { this.viewMode.set(mode); }
 
   navigateToSurah(surahNumber: number): void {
     this.router.navigate(['/quran', surahNumber]);
-  }
-
-  openInNewTab(event: Event, surahNumber: number): void {
-    event.stopPropagation();
-    window.open(`${window.location.origin}/quran/${surahNumber}`, '_blank');
-  }
-
-  toggleStudyMenu(event: Event, surahNumber: number): void {
-    event.stopPropagation();
-    this.studyMenuId.set(this.studyMenuId() === surahNumber ? null : surahNumber);
-  }
-
-  openLesson(event: Event, surahNumber: number): void {
-    event.stopPropagation();
-    this.studyMenuId.set(null);
-    this.lessonCardSurahId.set(surahNumber);
-  }
-
-  closeLessonCard(): void {
-    this.lessonCardSurahId.set(null);
-  }
-
-  closeStudyMenu(): void {
-    this.studyMenuId.set(null);
   }
 
   back(): void {

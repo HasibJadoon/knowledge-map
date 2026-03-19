@@ -1,0 +1,90 @@
+// ── Shared state / header helpers ─────────────────────────
+.mod-header { margin-bottom: 2rem; }
+.mod-header__title { font-family: var(--km-font-heading); font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--km-gold); letter-spacing: .08em; margin: 0 0 .3rem; }
+.mod-header__sub { color: var(--km-text-3); font-size: .88rem; margin: 0; }
+
+.qstate { display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 5rem 0; color: var(--km-text-3); font-size: .9rem; }
+.qstate--error { color: rgba(255, 100, 100, .85); }
+.qstate__spinner { width: 28px; height: 28px; border: 2px solid var(--km-border); border-top-color: var(--km-gold); border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// ── List ──────────────────────────────────────────────────
+.wv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.wv-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  flex-wrap: wrap;
+  transition: border-color 0.2s;
+
+  &:hover { border-color: var(--km-border-gold); }
+
+  &__main { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+
+  &__top { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+
+  &__title {
+    font-family: var(--km-font-heading);
+    font-size: 0.95rem;
+    color: var(--km-text);
+    margin: 0;
+    letter-spacing: 0.03em;
+  }
+
+  &__summary {
+    font-size: 0.83rem;
+    color: var(--km-text-2);
+    line-height: 1.6;
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    align-self: center;
+  }
+}
+
+// ── Badge ─────────────────────────────────────────────────
+.wv-badge {
+  font-size: 0.6rem;
+  font-family: var(--km-font-heading);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid var(--km-border-gold);
+  color: var(--km-gold);
+  background: rgba(201, 168, 76, 0.08);
+  white-space: nowrap;
+}
+
+// ── Stat chip ─────────────────────────────────────────────
+.wv-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--km-border);
+  border-radius: 20px;
+  font-size: 0.72rem;
+
+  &__n { color: var(--km-text); font-family: var(--km-font-heading); }
+  &__l { color: var(--km-text-3); font-size: 0.62rem; letter-spacing: 0.06em; }
+}

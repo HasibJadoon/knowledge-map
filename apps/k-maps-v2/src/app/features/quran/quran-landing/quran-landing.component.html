@@ -99,26 +99,8 @@
                   <span class="surah-card__juz">Juz {{ surah.juz }}</span>
                 }
               </div>
-              <!-- Card icons -->
-              <div class="surah-card__icons" (click)="$event.stopPropagation()">
-                <button
-                  class="card-icon-btn"
-                  title="Open in new tab"
-                  (click)="openInNewTab($event, surah.surahNumber)"
-                >&#8599;</button>
-                <div class="study-menu-wrap">
-                  <button
-                    class="card-icon-btn"
-                    title="Study"
-                    (click)="toggleStudyMenu($event, surah.surahNumber)"
-                  >&#128214;</button>
-                  @if (studyMenuId() === surah.surahNumber) {
-                    <div class="study-menu">
-                      <button class="study-menu__item" (click)="openLesson($event, surah.surahNumber)">Lesson</button>
-                    </div>
-                  }
-                </div>
-              </div>
+              <!-- Action icon tiles -->
+              <km-surah-actions [surahId]="surah.surahNumber" />
             </div>
           }
         </div>
@@ -141,25 +123,7 @@
                   <span class="surah-row__juz">Juz {{ surah.juz }}</span>
                 }
               </div>
-              <div class="surah-row__icons" (click)="$event.stopPropagation()">
-                <button
-                  class="card-icon-btn"
-                  title="Open in new tab"
-                  (click)="openInNewTab($event, surah.surahNumber)"
-                >&#8599;</button>
-                <div class="study-menu-wrap">
-                  <button
-                    class="card-icon-btn"
-                    title="Study"
-                    (click)="toggleStudyMenu($event, surah.surahNumber)"
-                  >&#128214;</button>
-                  @if (studyMenuId() === surah.surahNumber) {
-                    <div class="study-menu">
-                      <button class="study-menu__item" (click)="openLesson($event, surah.surahNumber)">Lesson</button>
-                    </div>
-                  }
-                </div>
-              </div>
+              <km-surah-actions [surahId]="surah.surahNumber" class="surah-row__actions" />
               <span class="surah-row__arrow">&#8594;</span>
             </div>
           }
@@ -178,10 +142,3 @@
 
 </div>
 
-<!-- Lesson Card Modal -->
-@if (lessonCardSurahId() !== null) {
-  <km-lesson-card
-    [surahId]="lessonCardSurahId()!"
-    (closed)="closeLessonCard()"
-  />
-}

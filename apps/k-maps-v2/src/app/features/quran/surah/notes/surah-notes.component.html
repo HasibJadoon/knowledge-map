@@ -1,0 +1,30 @@
+<km-quran-page-shell breadcrumb="Surah {{ surahId() }}" title="Notes" (goBack)="back()">
+  <header class="mod-header">
+    <h1 class="mod-header__title">Notes</h1>
+    <p class="mod-header__sub">Annotations for Surah {{ surahId() }}</p>
+  </header>
+
+  @if (loading()) { <div class="qstate"><div class="qstate__spinner"></div><p>Loading notes…</p></div> }
+  @if (!loading() && error()) { <div class="qstate qstate--error"><p>{{ error() }}</p></div> }
+  @if (!loading() && !error() && notes().length === 0) {
+    <div class="qstate"><p>No notes found for this surah.</p></div>
+  }
+
+  @if (!loading() && !error() && notes().length > 0) {
+    <div class="notes-grid">
+      @for (note of notes(); track note.id) {
+        <div class="note-card">
+          <div class="note-card__top">
+            @if (note.ref) { <span class="note-chip">{{ note.ref }}</span> }
+            @if (note.status) { <span class="note-chip">{{ note.status }}</span> }
+          </div>
+          <h3 class="note-card__title">{{ note.title || 'Untitled Note' }}</h3>
+          <p class="note-card__excerpt">{{ excerpt(note) }}</p>
+          @if (note.created_at) {
+            <div class="note-card__date">{{ note.created_at | slice:0:10 }}</div>
+          }
+        </div>
+      }
+    </div>
+  }
+</km-quran-page-shell>

@@ -1,0 +1,48 @@
+<km-quran-page-shell breadcrumb="Surah {{ surahId() }}" title="Study" (goBack)="back()">
+
+  <header class="mod-header">
+    <h1 class="mod-header__title">Study</h1>
+    <p class="mod-header__sub">Lessons for Surah {{ surahId() }}</p>
+  </header>
+
+  @if (loading()) {
+    <div class="qstate"><div class="qstate__spinner"></div><p>Loading lessons…</p></div>
+  }
+  @if (!loading() && error()) {
+    <div class="qstate qstate--error"><p>{{ error() }}</p></div>
+  }
+  @if (!loading() && !error() && lessons().length === 0) {
+    <div class="qstate"><p class="qstate__empty">No lessons found for this surah.</p></div>
+  }
+
+  @if (!loading() && !error() && lessons().length > 0) {
+    <div class="lesson-grid" #gridEl>
+      @for (lesson of lessons(); track lesson.id) {
+        <div class="lesson-card" (click)="openLesson(lesson)" tabindex="0" (keydown.enter)="openLesson(lesson)">
+          <div class="lesson-card__top">
+            @if (lesson.lesson_type) {
+              <span class="lesson-card__type">{{ lesson.lesson_type }}</span>
+            }
+            @if (lesson.status) {
+              <span class="lesson-card__status" [ngClass]="'lesson-card__status--' + lesson.status">{{ lesson.status }}</span>
+            }
+          </div>
+          <h3 class="lesson-card__title">{{ lesson.title }}</h3>
+          @if (lesson.title_ar) {
+            <p class="lesson-card__arabic" dir="rtl">{{ lesson.title_ar }}</p>
+          }
+          <div class="lesson-card__meta">
+            @if (ayahRange(lesson)) {
+              <span class="meta-chip">Ayah {{ ayahRange(lesson) }}</span>
+            }
+            @if (difficultyLabel(lesson.difficulty)) {
+              <span class="meta-chip meta-chip--diff">{{ difficultyLabel(lesson.difficulty) }}</span>
+            }
+          </div>
+          <span class="lesson-card__arrow">&#8594;</span>
+        </div>
+      }
+    </div>
+  }
+
+</km-quran-page-shell>
