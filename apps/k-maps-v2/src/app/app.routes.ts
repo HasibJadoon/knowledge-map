@@ -9,12 +9,12 @@ export const routes: Routes = [
   {
     path: 'landing',
     loadChildren: () =>
-      import('./features/landing/landing.routes').then((m) => m.LANDING_ROUTES),
+      import('./core/landing/landing.routes').then((m) => m.LANDING_ROUTES),
   },
   {
     path: 'login',
     loadComponent: () =>
-      import('./features/login/login.component').then((m) => m.LoginComponent),
+      import('./core/login/login.component').then((m) => m.LoginComponent),
   },
   {
     path: 'hub',
