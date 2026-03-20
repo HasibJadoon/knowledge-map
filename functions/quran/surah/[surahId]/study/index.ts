@@ -1,8 +1,3 @@
-// functions/quran/surah/[surahId]/study.ts
-// Layer 1 — Study grid for a surah
-// GET /quran/surah/:surahId/study
-// Returns all passage cards with vocab counts and section flags.
-
 interface Env {
   DB: D1Database;
 }
