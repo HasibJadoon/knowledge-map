@@ -9,7 +9,7 @@ WITH surah_container AS (
   SELECT *
   FROM ar_containers
   WHERE container_type = 'quran_surah'
-    AND id = 'C:QURAN:' || ?1
+    AND CAST(json_extract(meta_json, '$.surah') AS INTEGER) = ?1
   LIMIT 1
 ),
 unit_rows AS (
@@ -28,19 +28,31 @@ unit_rows AS (
     MAX(CASE WHEN t.task_type = 'sentence_structure' THEN 1 ELSE 0 END) AS has_sentence_structure,
     MAX(CASE WHEN t.task_type = 'expressions' THEN 1 ELSE 0 END)        AS has_expressions,
     MAX(CASE WHEN t.task_type = 'passage_structure' THEN 1 ELSE 0 END)  AS has_passage_structure,
-    COUNT(DISTINCT CASE WHEN lower(ifnull(qw.class_name, '')) LIKE '%noun%' THEN qw.word_id END) AS noun_count,
-    COUNT(DISTINCT CASE WHEN lower(ifnull(qw.class_name, '')) LIKE '%verb%' THEN qw.word_id END) AS verb_count,
+    COUNT(DISTINCT CASE
+      WHEN lower(ifnull(qw.class_name, '')) LIKE '%noun%' THEN qw.word_id
+    END) AS noun_count,
+    COUNT(DISTINCT CASE
+      WHEN lower(ifnull(qw.class_name, '')) LIKE '%verb%' THEN qw.word_id
+    END) AS verb_count,
     COUNT(DISTINCT qw.word_id) AS total_word_count
   FROM surah_container c
-  JOIN ar_container_units u ON u.container_id = c.id
-  LEFT JOIN ar_container_unit_task t ON t.unit_id = u.id
+  JOIN ar_container_units u
+    ON u.container_id = c.id
+  LEFT JOIN ar_container_unit_task t
+    ON t.unit_id = u.id
   LEFT JOIN ar_u_quran_ayah_words qw
     ON qw.surah = ?1
    AND qw.ayah BETWEEN u.ayah_from AND u.ayah_to
   GROUP BY
-    u.id, u.container_id, u.order_index,
-    u.ayah_from, u.ayah_to, u.start_ref, u.end_ref,
-    u.text_cache, u.meta_json
+    u.id,
+    u.container_id,
+    u.order_index,
+    u.ayah_from,
+    u.ayah_to,
+    u.start_ref,
+    u.end_ref,
+    u.text_cache,
+    u.meta_json
 )
 SELECT json_object(
   'surah', (
@@ -48,7 +60,7 @@ SELECT json_object(
       'container_id', c.id,
       'container_key', c.container_key,
       'title', c.title,
-      'surah', ?1,
+      'surah', CAST(json_extract(c.meta_json, '$.surah') AS INTEGER),
       'name_ar', json_extract(c.meta_json, '$.name_ar'),
       'name_en', json_extract(c.meta_json, '$.name_en'),
       'meta_json', c.meta_json
@@ -69,7 +81,11 @@ SELECT json_object(
           'label', COALESCE(label, 'Passage ' || order_index),
           'theme', theme,
           'reading', json_object('has', has_reading),
-          'vocabulary', json_object('nouns', noun_count, 'verbs', verb_count, 'total', total_word_count),
+          'vocabulary', json_object(
+            'nouns', noun_count,
+            'verbs', verb_count,
+            'total', total_word_count
+          ),
           'sentence_structure', json_object('has', has_sentence_structure),
           'expressions', json_object('has', has_expressions),
           'passage_structure', json_object('has', has_passage_structure)
