@@ -22,14 +22,23 @@ type StudyGridRow = {
   total_word_count: number | null;
 };
 
+const SURAH_SQL = `
+SELECT
+  id AS container_id,
+  container_type,
+  container_key,
+  title,
+  meta_json
+FROM ar_containers
+WHERE id = 'C:QURAN:' || ?1
+  AND container_type = 'quran_surah'
+LIMIT 1
+`;
+
 const SQL = `
 WITH surah_container AS (
   SELECT
-    id AS container_id,
-    container_type,
-    container_key,
-    title,
-    meta_json
+    id AS container_id
   FROM ar_containers
   WHERE id = 'C:QURAN:' || ?1
     AND container_type = 'quran_surah'
@@ -81,19 +90,6 @@ GROUP BY
   u.text_cache,
   u.meta_json
 ORDER BY u.order_index
-`;
-
-const SURAH_SQL = `
-SELECT
-  id AS container_id,
-  container_type,
-  container_key,
-  title,
-  meta_json
-FROM ar_containers
-WHERE id = 'C:QURAN:' || ?1
-  AND container_type = 'quran_surah'
-LIMIT 1
 `;
 
 function parseJsonSafe(value: string | null): Record<string, unknown> {
@@ -153,23 +149,15 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       text_cache: r.text_cache,
       label: r.label ?? `Passage ${r.order_index}`,
       theme: r.theme,
-      reading: {
-        has: !!r.has_reading,
-      },
+      reading: { has: !!r.has_reading },
       vocabulary: {
         nouns: r.noun_count ?? 0,
         verbs: r.verb_count ?? 0,
         total_words: r.total_word_count ?? 0,
       },
-      sentence_structure: {
-        has: !!r.has_sentence_structure,
-      },
-      expressions: {
-        has: !!r.has_expressions,
-      },
-      passage_structure: {
-        has: !!r.has_passage_structure,
-      },
+      sentence_structure: { has: !!r.has_sentence_structure },
+      expressions: { has: !!r.has_expressions },
+      passage_structure: { has: !!r.has_passage_structure },
     }));
 
     return Response.json({
