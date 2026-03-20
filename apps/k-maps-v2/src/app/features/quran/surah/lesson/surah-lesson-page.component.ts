@@ -1,6 +1,6 @@
 import {
   Component, OnInit, AfterViewInit, OnDestroy,
-  ViewChild, ElementRef, inject, signal, computed,
+  ElementRef, inject, signal, computed, effect,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -30,7 +30,6 @@ const TABS: Tab[] = [
   { id: 'passage-structure', label: 'Passage Structure' },
 ];
 
-/** Parsed hero configuration from container meta_json */
 interface HeroConfig {
   quoteAr?: string;
   quoteRef?: string;
@@ -57,25 +56,7 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   private router = inject(Router);
   private svc = inject(SurahModulesService);
   private quranState = inject(QuranStateService);
-
-  // ── Entry hero refs ──────────────────────────────────────
-  @ViewChild('entryEl') entryEl!: ElementRef<HTMLElement>;
-  @ViewChild('entryBg') entryBg!: ElementRef<HTMLElement>;
-  @ViewChild('goldSweep') goldSweep!: ElementRef<HTMLElement>;
-  @ViewChild('entryAr') entryAr!: ElementRef<HTMLElement>;
-  @ViewChild('entryTitles') entryTitles!: ElementRef<HTMLElement>;
-  @ViewChild('entryTheme') entryTheme!: ElementRef<HTMLElement>;
-  @ViewChild('entryQuote') entryQuote!: ElementRef<HTMLElement>;
-  @ViewChild('startBtn') startBtn!: ElementRef<HTMLElement>;
-
-  // ── Workspace refs ───────────────────────────────────────
-  @ViewChild('workspaceEl') workspaceEl!: ElementRef<HTMLElement>;
-  @ViewChild('heroEl') heroEl!: ElementRef<HTMLElement>;
-  @ViewChild('heroBg') heroBg!: ElementRef<HTMLElement>;
-  @ViewChild('heroAr') heroAr!: ElementRef<HTMLElement>;
-  @ViewChild('heroEn') heroEn!: ElementRef<HTMLElement>;
-  @ViewChild('heroDivider') heroDivider!: ElementRef<HTMLElement>;
-  @ViewChild('tabsEl') tabsEl!: ElementRef<HTMLElement>;
+  private elRef = inject(ElementRef);
 
   readonly tabs = TABS;
 
@@ -90,12 +71,23 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   error = signal<string | null>(null);
 
   private entryTl: gsap.core.Timeline | null = null;
+  private tabAnimTimeout: ReturnType<typeof setTimeout> | null = null;
 
   surahName = computed(() => {
     const surahs = this.quranState.surahs();
     const id = this.surahId();
     return surahs.find(s => s.surahNumber === id) ?? null;
   });
+
+  constructor() {
+    // Animate tab content in whenever active tab changes (after workspace is live)
+    effect(() => {
+      const _ = this.activeTab(); // track
+      if (this.phase() !== 'workspace') return;
+      if (this.tabAnimTimeout) clearTimeout(this.tabAnimTimeout);
+      this.tabAnimTimeout = setTimeout(() => this.animateTabContent(), 60);
+    });
+  }
 
   // ── Lifecycle ────────────────────────────────────────────
 
@@ -105,23 +97,19 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     this.surahId.set(surahId);
     this.passageNo.set(passageNo);
 
-    // Restore tab from query param
     const tabParam = this.route.snapshot.queryParamMap.get('tab') as TabId | null;
     if (tabParam && TABS.some(t => t.id === tabParam)) {
       this.activeTab.set(tabParam);
     }
 
-    // Ensure surah list loaded for hero meta
     this.quranState.load();
 
-    // Load lesson data
     this.svc.getStudyLesson(surahId, passageNo).subscribe({
       next: (res) => {
         this.lesson.set(res);
         this.loading.set(false);
-
-        // Fire entry animation once data is ready
-        setTimeout(() => this.runEntryAnimation(), 32);
+        // Give Angular a full render cycle before querying DOM
+        setTimeout(() => this.runEntryAnimation(), 120);
       },
       error: () => {
         this.error.set('Failed to load lesson');
@@ -129,22 +117,20 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
       },
     });
 
-    // Optionally load container meta for hero quote
     this.svc.getStudyGrid(surahId).subscribe({
       next: (grid) => this.parseContainerMeta(grid.surah),
-      error: () => { /* quote is optional — no error surfacing */ },
+      error: () => {},
     });
   }
 
-  ngAfterViewInit(): void {
-    // Entry animation is triggered after data loads
-  }
+  ngAfterViewInit(): void {}
 
   ngOnDestroy(): void {
     this.entryTl?.kill();
+    if (this.tabAnimTimeout) clearTimeout(this.tabAnimTimeout);
   }
 
-  // ── Container meta parsing ───────────────────────────────
+  // ── Container meta ───────────────────────────────────────
 
   private parseContainerMeta(surah: StudySurahMeta): void {
     if (!surah.meta_json) return;
@@ -156,109 +142,56 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
         surahTitle: meta?.title,
         surahSubtitle: meta?.subtitle,
       });
-    } catch { /* malformed JSON — ignore */ }
+    } catch {}
   }
 
-  // ── Entry animation timeline ─────────────────────────────
+  // ── Entry animation — query DOM directly (reliable with @if + OnPush) ──
 
   private runEntryAnimation(): void {
     if (this.phase() !== 'entry') return;
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    const root = this.elRef.nativeElement as HTMLElement;
+    const entryBg   = root.querySelector<HTMLElement>('.entry__bg');
+    const goldSweep = root.querySelector<HTMLElement>('.entry__gold-sweep');
+    const entryAr   = root.querySelector<HTMLElement>('.entry__arabic');
+    const entryTitles = root.querySelector<HTMLElement>('.entry__titles');
+    const entryTheme  = root.querySelector<HTMLElement>('.entry__theme');
+    const entryQuote  = root.querySelector<HTMLElement>('.entry__quote');
+    const startBtn    = root.querySelector<HTMLElement>('.entry__start');
+
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     this.entryTl = tl;
 
-    // 1. Background fades in from near-black
-    if (this.entryBg?.nativeElement) {
-      tl.fromTo(this.entryBg.nativeElement,
-        { opacity: 0 },
-        { opacity: 1, duration: 1.0 }
-      );
-    }
-
-    // 2. Gold sweep line
-    if (this.goldSweep?.nativeElement) {
-      tl.fromTo(this.goldSweep.nativeElement,
-        { scaleX: 0, opacity: 0 },
-        { scaleX: 1, opacity: 1, duration: 0.8, ease: 'power2.inOut' },
-        '-=0.5'
-      );
-    }
-
-    // 3. Arabic surah name
-    if (this.entryAr?.nativeElement) {
-      tl.fromTo(this.entryAr.nativeElement,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.65 },
-        '-=0.3'
-      );
-    }
-
-    // 4. English title + passage info
-    if (this.entryTitles?.nativeElement) {
-      tl.fromTo(this.entryTitles.nativeElement,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.55 },
-        '-=0.2'
-      );
-    }
-
-    // 5. Theme/subtitle
-    if (this.entryTheme?.nativeElement) {
-      tl.fromTo(this.entryTheme.nativeElement,
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.45 },
-        '-=0.15'
-      );
-    }
-
-    // 6. Quote
-    if (this.entryQuote?.nativeElement) {
-      tl.fromTo(this.entryQuote.nativeElement,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.6 },
-        '-=0.1'
-      );
-    }
-
-    // 7. Start button — appears last with subtle scale
-    if (this.startBtn?.nativeElement) {
-      tl.fromTo(this.startBtn.nativeElement,
-        { opacity: 0, scale: 0.85, y: 10 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.4)' },
-        '-=0.1'
-      );
-    }
+    if (entryBg)      tl.fromTo(entryBg,      { opacity: 0 },              { opacity: 1, duration: 1.0 });
+    if (goldSweep)    tl.fromTo(goldSweep,     { scaleX: 0, opacity: 0 },  { scaleX: 1, opacity: 1, duration: 0.8, ease: 'power2.inOut' }, '-=0.5');
+    if (entryAr)      tl.fromTo(entryAr,       { opacity: 0, y: 30 },      { opacity: 1, y: 0, duration: 0.65 }, '-=0.3');
+    if (entryTitles)  tl.fromTo(entryTitles,   { opacity: 0, y: 20 },      { opacity: 1, y: 0, duration: 0.55 }, '-=0.2');
+    if (entryTheme)   tl.fromTo(entryTheme,    { opacity: 0, y: 14 },      { opacity: 1, y: 0, duration: 0.45 }, '-=0.15');
+    if (entryQuote)   tl.fromTo(entryQuote,    { opacity: 0 },              { opacity: 1, duration: 0.6 }, '-=0.1');
+    if (startBtn)     tl.fromTo(startBtn,      { opacity: 0, scale: 0.85, y: 10 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.4)' }, '-=0.1');
   }
 
-  // ── Start button click ───────────────────────────────────
+  // ── Start button ─────────────────────────────────────────
 
   startStudy(): void {
     if (this.phase() !== 'entry') return;
-
-    const entryEl = this.entryEl?.nativeElement;
-    if (!entryEl) {
-      this.phase.set('workspace');
-      return;
-    }
-
-    // Kill entry timeline
     this.entryTl?.kill();
 
-    // Cinematic exit: content slides up and fades
-    const tl = gsap.timeline({
-      onComplete: () => {
-        this.phase.set('workspace');
-        // Wait a frame for workspace DOM to render, then animate it in
-        setTimeout(() => this.runWorkspaceAnimation(), 32);
-      },
-    });
+    const root = this.elRef.nativeElement as HTMLElement;
+    const entryEl = root.querySelector<HTMLElement>('.entry');
 
-    tl.to(entryEl, {
-      opacity: 0,
-      y: -50,
-      duration: 0.45,
-      ease: 'power3.in',
+    const proceed = () => {
+      this.phase.set('workspace');
+      setTimeout(() => this.runWorkspaceAnimation(), 60);
+    };
+
+    if (!entryEl) { proceed(); return; }
+
+    gsap.to(entryEl, {
+      opacity: 0, y: -50,
+      duration: 0.45, ease: 'power3.in',
+      onComplete: proceed,
     });
   }
 
@@ -267,27 +200,69 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   private runWorkspaceAnimation(): void {
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    const root = this.elRef.nativeElement as HTMLElement;
+    const heroBg     = root.querySelector<HTMLElement>('.hero__bg');
+    const heroAr     = root.querySelector<HTMLElement>('.hero__ar');
+    const heroEn     = root.querySelector<HTMLElement>('.hero__en');
+    const heroDivider = root.querySelector<HTMLElement>('.hero__divider');
+    const tabsEl     = root.querySelector<HTMLElement>('.tab-bar');
+
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-    if (this.heroBg?.nativeElement) {
-      tl.fromTo(this.heroBg.nativeElement, { opacity: 0 }, { opacity: 1, duration: 0.7 });
-    }
-    if (this.heroAr?.nativeElement) {
-      tl.fromTo(this.heroAr.nativeElement, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55 }, '-=0.3');
-    }
-    if (this.heroEn?.nativeElement) {
-      tl.fromTo(this.heroEn.nativeElement, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45 }, '-=0.2');
-    }
-    if (this.heroDivider?.nativeElement) {
-      tl.fromTo(this.heroDivider.nativeElement,
-        { scaleX: 0, opacity: 0 },
-        { scaleX: 1, opacity: 1, duration: 0.4, transformOrigin: 'left center' },
-        '-=0.1'
-      );
-    }
-    if (this.tabsEl?.nativeElement) {
-      tl.fromTo(this.tabsEl.nativeElement, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, '-=0.05');
-    }
+    if (heroBg)      tl.fromTo(heroBg,      { opacity: 0 },             { opacity: 1, duration: 0.7 });
+    if (heroAr)      tl.fromTo(heroAr,      { opacity: 0, y: 20 },      { opacity: 1, y: 0, duration: 0.55 }, '-=0.3');
+    if (heroEn)      tl.fromTo(heroEn,      { opacity: 0, y: 14 },      { opacity: 1, y: 0, duration: 0.45 }, '-=0.2');
+    if (heroDivider) tl.fromTo(heroDivider, { scaleX: 0, opacity: 0 },  { scaleX: 1, opacity: 1, duration: 0.4, transformOrigin: 'left center' }, '-=0.1');
+    if (tabsEl)      tl.fromTo(tabsEl,      { opacity: 0, y: 10 },      { opacity: 1, y: 0, duration: 0.4 }, '-=0.05');
+
+    // Animate first tab content after workspace animates in
+    tl.add(() => this.animateTabContent(), '+=0.05');
+  }
+
+  // ── Tab content animation — fires on every tab switch ────
+
+  private animateTabContent(): void {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const root = this.elRef.nativeElement as HTMLElement;
+    const tabContent = root.querySelector<HTMLElement>('.tab-content');
+    if (!tabContent) return;
+
+    // Kill any running animations on child elements
+    gsap.killTweensOf(tabContent.querySelectorAll('*'));
+
+    // Fade + slide the whole tab-content wrapper
+    gsap.fromTo(tabContent,
+      { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out',
+        onComplete: () => this.animateTabCards(tabContent)
+      }
+    );
+  }
+
+  /** Stagger-animate individual cards/items inside the active tab */
+  private animateTabCards(tabContent: HTMLElement): void {
+    // Selectors that match cards/items in each tab
+    const cardSel = [
+      '.word-card',       // vocabulary
+      '.expr-card',       // expressions
+      '.rt-passage',      // reading
+      '.ss-block',        // sentence structure
+      '.ps-block',        // passage structure
+    ].join(', ');
+
+    const cards = tabContent.querySelectorAll<HTMLElement>(cardSel);
+    if (!cards.length) return;
+
+    gsap.fromTo(cards,
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.35,
+        ease: 'power2.out',
+        stagger: 0.04,
+      }
+    );
   }
 
   // ── Tab management ───────────────────────────────────────
@@ -322,4 +297,5 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
       ? `${u.ayah_from}\u2013${u.ayah_to}`
       : `${u.ayah_from}`;
   }
+
 }

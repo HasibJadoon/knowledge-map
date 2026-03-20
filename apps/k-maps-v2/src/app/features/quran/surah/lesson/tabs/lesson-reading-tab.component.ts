@@ -1,9 +1,7 @@
 import {
-  Component, Input, signal, inject,
-  ElementRef, AfterViewInit, OnDestroy,
+  Component, Input, signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import gsap from 'gsap';
 import { StudyLessonResponse, AyahVm, AyahWordToken } from '../../../../../shared/services/surah-modules.service';
 
 // Arabic diacritic codepoints (harakat + Quranic marks) — fallback stripping
@@ -187,39 +185,10 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
     }
   `],
 })
-export class LessonReadingTabComponent implements AfterViewInit, OnDestroy {
+export class LessonReadingTabComponent {
   @Input({ required: true }) lesson!: StudyLessonResponse;
 
-  private elRef = inject(ElementRef);
-
   showDiacritics = signal(false);
-
-  private gsapCtx: gsap.Context | null = null;
-
-  // ── Lifecycle ───────────────────────────────────────────
-
-  ngAfterViewInit(): void {
-    setTimeout(() => this.animateIn(), 50);
-  }
-
-  ngOnDestroy(): void {
-    this.gsapCtx?.revert();
-  }
-
-  // ── Entrance animation — direct fade-in (already in viewport) ──
-
-  private animateIn(): void {
-    const passageEl = this.elRef.nativeElement.querySelector('.rt-passage') as HTMLElement | null;
-    if (!passageEl) return;
-
-    this.gsapCtx = gsap.context(() => {
-      gsap.fromTo(
-        passageEl,
-        { opacity: 0, y: 32 },
-        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
-      );
-    });
-  }
 
   // ── Word token helpers ────────────────────────────────────
 
