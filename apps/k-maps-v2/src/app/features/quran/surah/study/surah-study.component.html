@@ -1,45 +1,49 @@
 <km-quran-page-shell breadcrumb="Surah {{ surahId() }}" title="Study" (goBack)="back()">
 
-  <header class="mod-header">
-    <h1 class="mod-header__title">Study</h1>
-    <p class="mod-header__sub">Lessons for Surah {{ surahId() }}</p>
-  </header>
-
   @if (loading()) {
-    <div class="qstate"><div class="qstate__spinner"></div><p>Loading lessons…</p></div>
+    <div class="qstate"><div class="qstate__spinner"></div><p>Loading units…</p></div>
   }
   @if (!loading() && error()) {
     <div class="qstate qstate--error"><p>{{ error() }}</p></div>
   }
-  @if (!loading() && !error() && lessons().length === 0) {
-    <div class="qstate"><p class="qstate__empty">No lessons found for this surah.</p></div>
+  @if (!loading() && !error() && units().length === 0) {
+    <div class="qstate"><p class="qstate__empty">No study units found for this surah.</p></div>
   }
 
-  @if (!loading() && !error() && lessons().length > 0) {
-    <div class="lesson-grid" #gridEl>
-      @for (lesson of lessons(); track lesson.id) {
-        <div class="lesson-card" (click)="openLesson(lesson)" tabindex="0" (keydown.enter)="openLesson(lesson)">
-          <div class="lesson-card__top">
-            @if (lesson.lesson_type) {
-              <span class="lesson-card__type">{{ lesson.lesson_type }}</span>
-            }
-            @if (lesson.status) {
-              <span class="lesson-card__status" [ngClass]="'lesson-card__status--' + lesson.status">{{ lesson.status }}</span>
+  @if (!loading() && !error() && units().length > 0) {
+    <div class="unit-count">{{ units().length }} unit{{ units().length !== 1 ? 's' : '' }}</div>
+    <div class="unit-grid">
+      @for (unit of units(); track unit.unit_id) {
+        <div class="unit-card" #cardEl (click)="openUnit(unit)" tabindex="0" (keydown.enter)="openUnit(unit)">
+
+          <!-- Header row -->
+          <div class="unit-card__head">
+            <span class="unit-card__ref">{{ ayahRange(unit) }}</span>
+            @if (unit.unit_label) {
+              <span class="unit-card__label">{{ unit.unit_label }}</span>
             }
           </div>
-          <h3 class="lesson-card__title">{{ lesson.title }}</h3>
-          @if (lesson.title_ar) {
-            <p class="lesson-card__arabic" dir="rtl">{{ lesson.title_ar }}</p>
+
+          @if (unit.unit_theme) {
+            <p class="unit-card__theme">{{ unit.unit_theme }}</p>
           }
-          <div class="lesson-card__meta">
-            @if (ayahRange(lesson)) {
-              <span class="meta-chip">Ayah {{ ayahRange(lesson) }}</span>
-            }
-            @if (difficultyLabel(lesson.difficulty)) {
-              <span class="meta-chip meta-chip--diff">{{ difficultyLabel(lesson.difficulty) }}</span>
-            }
+
+          <!-- Vocabulary counts -->
+          <div class="unit-card__vocab">
+            <span class="vocab-chip vocab-chip--noun">{{ unit.vocabulary.nouns }} nouns</span>
+            <span class="vocab-chip vocab-chip--verb">{{ unit.vocabulary.verbs }} verbs</span>
+            <span class="vocab-chip">{{ unit.vocabulary.total_words }} words</span>
           </div>
-          <span class="lesson-card__arrow">&#8594;</span>
+
+          <!-- Task presence chips -->
+          <div class="unit-card__tasks">
+            <span class="task-chip" [class.task-chip--on]="unit.reading.has">Reading</span>
+            <span class="task-chip" [class.task-chip--on]="unit.sentence_structure.has">Structure</span>
+            <span class="task-chip" [class.task-chip--on]="unit.expressions.has">Expressions</span>
+            <span class="task-chip" [class.task-chip--on]="unit.passage_structure.has">Passage</span>
+          </div>
+
+          <span class="unit-card__arrow">&#8594;</span>
         </div>
       }
     </div>

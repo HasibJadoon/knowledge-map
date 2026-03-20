@@ -148,6 +148,94 @@ export interface ReviewItemVm {
 
 // ── Response wrappers ─────────────────────────────────────
 
+// ── Lesson grid (Layer 1) ────────────────────────────────────────────────────
+
+export interface UnitTaskPresence {
+  has: boolean;
+  count: number;
+}
+
+export interface UnitVocabCounts {
+  nouns: number;
+  verbs: number;
+  total_words: number;
+}
+
+export interface UnitGridItemVm {
+  unit_id: string;
+  container_id: string;
+  order_index: number;
+  ayah_from: number;
+  ayah_to: number;
+  start_ref: string;
+  end_ref: string;
+  text_cache?: string;
+  unit_label?: string;
+  unit_theme?: string;
+  reading: UnitTaskPresence;
+  vocabulary: UnitVocabCounts;
+  sentence_structure: UnitTaskPresence;
+  expressions: UnitTaskPresence;
+  passage_structure: UnitTaskPresence;
+}
+
+export interface UnitGridResponse { ok: boolean; surahId: number; containerId: string; total: number; units: UnitGridItemVm[]; }
+
+// ── Lesson detail (Layer 2) ──────────────────────────────────────────────────
+
+export interface AyahVm {
+  surah: number;
+  ayah: number;
+  surah_ayah?: string;
+  page?: number;
+  juz?: number;
+  text: string;
+  text_simple?: string;
+  translation_haleem?: string;
+  translation_asad?: string;
+  translation_sahih?: string;
+}
+
+export interface UnitTaskVm {
+  task_id: string;
+  task_type: string;
+  task_name?: string;
+  status?: string;
+  task_json?: string;
+}
+
+export interface WordVm {
+  word_id: string;
+  ayah: number;
+  position: number;
+  text: string;
+  simple?: string;
+  lemma?: string;
+  root?: string;
+  class_name?: string;
+}
+
+export interface UnitDetailVm {
+  unit_id: string;
+  container_id: string;
+  unit_type?: string;
+  order_index: number;
+  ayah_from: number;
+  ayah_to: number;
+  start_ref: string;
+  end_ref: string;
+  text_cache?: string;
+  meta_json?: string;
+}
+
+export interface LessonDetailResponse {
+  ok: boolean;
+  unit: UnitDetailVm;
+  ayahs: AyahVm[];
+  tasks: UnitTaskVm[];
+  vocabulary: { nouns: WordVm[]; verbs: WordVm[] };
+}
+
 export interface LessonsResponse { ok: boolean; surahId: number; total: number; lessons: LessonListItemVm[]; }
 export interface NotesResponse { ok: boolean; surahId: number; total: number; notes: NoteListItemVm[]; }
 export interface WorldviewHubResponse { ok: boolean; surahId: number; counts: WorldviewHubVm['counts']; }
@@ -168,6 +256,16 @@ export class SurahModulesService {
 
   private url(surahId: number, ...segments: string[]): string {
     return `${this.base}/quran/surah/${surahId}/${segments.join('/')}`;
+  }
+
+  // Layer 1 — unit grid for a surah
+  getSurahLessonGrid(surahId: number): Observable<UnitGridResponse> {
+    return this.http.get<UnitGridResponse>(this.url(surahId, 'lessons'));
+  }
+
+  // Layer 2 — full detail for one unit
+  getLessonDetail(unitId: string): Observable<LessonDetailResponse> {
+    return this.http.get<LessonDetailResponse>(`${this.base}/quran/lesson/${encodeURIComponent(unitId)}`);
   }
 
   getSurahLessons(surahId: number): Observable<LessonsResponse> {

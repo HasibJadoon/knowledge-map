@@ -1,15 +1,13 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgClass } from '@angular/common';
-import gsap from 'gsap';
-import { SurahModulesService, LessonListItemVm } from '../../../../shared/services/surah-modules.service';
+import { SurahModulesService, UnitGridItemVm } from '../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
 import { QuranGsapService } from '../../shared/quran-gsap.service';
 
 @Component({
   selector: 'km-surah-study',
   standalone: true,
-  imports: [NgClass, QuranPageShellComponent],
+  imports: [QuranPageShellComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './surah-study.component.html',
   styleUrl: './surah-study.component.scss',
@@ -19,37 +17,40 @@ export class SurahStudyComponent implements OnInit, AfterViewInit {
   private router = inject(Router);
   private svc = inject(SurahModulesService);
   private gsapSvc = inject(QuranGsapService);
-  @ViewChild('gridEl') gridEl!: ElementRef<HTMLElement>;
+
+  @ViewChildren('cardEl') cardEls!: QueryList<ElementRef>;
 
   surahId = signal(0);
-  lessons = signal<LessonListItemVm[]>([]);
+  units = signal<UnitGridItemVm[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('surahId')) || 0;
     this.surahId.set(id);
-    this.svc.getSurahLessons(id).subscribe({
-      next: (res) => { this.lessons.set(res.lessons); this.loading.set(false); },
-      error: (e) => { this.error.set(e?.message ?? 'Failed to load'); this.loading.set(false); },
+    this.svc.getSurahLessonGrid(id).subscribe({
+      next: (res) => { this.units.set(res.units); this.loading.set(false); },
+      error: () => { this.error.set('Failed to load lessons'); this.loading.set(false); },
     });
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.cardEls.changes.subscribe((list: QueryList<ElementRef>) => {
+      const els = list.toArray().map(e => e.nativeElement);
+      if (els.length) this.gsapSvc.revealCards(els, 0.1);
+    });
+  }
 
-  openLesson(lesson: LessonListItemVm): void {
-    this.router.navigate(['/quran', 'lessons', lesson.id, 'study']);
+  openUnit(unit: UnitGridItemVm): void {
+    this.router.navigate(['/quran', 'lesson', unit.unit_id]);
   }
 
   back(): void { this.router.navigate(['/quran']); }
 
-  ayahRange(l: LessonListItemVm): string {
-    if (!l.ayah_from) return l.start_ref ?? '';
-    return l.ayah_to && l.ayah_to !== l.ayah_from ? `${l.ayah_from}–${l.ayah_to}` : String(l.ayah_from);
-  }
-
-  difficultyLabel(d?: number): string {
-    if (!d) return '';
-    return ['', 'Beginner', 'Elementary', 'Intermediate', 'Advanced', 'Expert'][Math.min(d, 5)] ?? '';
+  ayahRange(u: UnitGridItemVm): string {
+    if (!u.ayah_from) return u.start_ref ?? '';
+    return u.ayah_to && u.ayah_to !== u.ayah_from
+      ? `${this.surahId()}:${u.ayah_from}–${u.ayah_to}`
+      : `${this.surahId()}:${u.ayah_from}`;
   }
 }
