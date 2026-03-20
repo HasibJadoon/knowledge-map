@@ -347,15 +347,25 @@
 }
 
 // ── Verse marker (mushaf view) ────────────────────────────
-// Scheherazade New renders U+06DD as an ornamental rosette — we keep that
-// beautiful glyph and simply colour it gold. No custom circle needed.
+// Displays the ayah number as an Arabic-Indic numeral inside a gold circle
 .verse-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 168, 76, 0.7);
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.10), inset 0 0 6px rgba(201, 168, 76, 0.06);
+  font-family: var(--km-font-heading);
+  font-size: 0.38em;
   color: var(--km-gold);
-  margin-right: 0.25em;  // space between last word and ornament
-  margin-left: 0;        // no extra gap before next ayah
   vertical-align: middle;
+  margin: 0 0.5em;
   user-select: none;
-  font-size: inherit;
+  letter-spacing: 0;
+  background: transparent;
+  flex-shrink: 0;
 }
 
 
