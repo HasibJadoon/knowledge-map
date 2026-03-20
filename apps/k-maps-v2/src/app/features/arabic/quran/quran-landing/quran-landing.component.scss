@@ -106,8 +106,9 @@
     top: 50%;
     transform: translateY(-50%);
     color: var(--km-text-3);
-    font-size: 0.9rem;
     pointer-events: none;
+    display: flex;
+    align-items: center;
   }
 }
 
