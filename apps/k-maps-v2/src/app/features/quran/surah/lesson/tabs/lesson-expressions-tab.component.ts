@@ -72,9 +72,10 @@ import { StudyLessonResponse, StudyExpressionVm } from '../../../../../shared/se
       }
 
       &__ar {
-        font-family: var(--km-font-heading);
-        font-size: 1.3rem; color: var(--km-text);
+        font-family: var(--km-font-arabic, 'Scheherazade New', serif);
+        font-size: 1.5rem; color: var(--km-text);
         direction: rtl;
+        line-height: 1.7;
       }
 
       &__label {

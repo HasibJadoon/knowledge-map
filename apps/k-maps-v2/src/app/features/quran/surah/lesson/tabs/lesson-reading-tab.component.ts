@@ -21,16 +21,6 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
   template: `
     <div class="rt">
 
-      <!-- ── Task card ────────────────────────────────────── -->
-      @if (readingTask()) {
-        <div class="rt-task">
-          <span class="rt-task__label">{{ readingTask()!.task_name ?? 'Reading Task' }}</span>
-          @if (taskHtml()) {
-            <div class="rt-task__body" [innerHTML]="taskHtml()"></div>
-          }
-        </div>
-      }
-
       <!-- ── Controls ─────────────────────────────────────── -->
       <div class="rt-controls">
         <span class="rt-controls__info">
@@ -135,10 +125,11 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
     }
     .rt-tashkeel__icon {
       font-family: var(--km-font-arabic, 'Scheherazade New', serif);
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: var(--km-gold);
       direction: rtl;
       line-height: 1;
+      letter-spacing: 0;
     }
     .rt-tashkeel__dot {
       width: 6px;
@@ -263,12 +254,13 @@ export class LessonReadingTabComponent implements AfterViewInit, OnDestroy {
   // ── Text processing ───────────────────────────────────────
 
   displayText(ayah: AyahVm): string {
+    // Always use the full uthmani text as base — strip end-of-ayah markers
+    const raw = this.clean(ayah.text ?? '');
     if (!this.showDiacritics()) {
-      // Prefer text_simple (pre-stripped by API), otherwise strip inline
-      const base = ayah.text_simple ?? ayah.text ?? '';
-      return this.clean(base.replace(DIACRITICS_RE, ''));
+      // Strip all Arabic diacritics (harakat + Quranic annotation marks)
+      return raw.replace(DIACRITICS_RE, '');
     }
-    return this.clean(ayah.text ?? '');
+    return raw;
   }
 
   /** Remove end-of-ayah U+06DD markers (we render our own circles) */

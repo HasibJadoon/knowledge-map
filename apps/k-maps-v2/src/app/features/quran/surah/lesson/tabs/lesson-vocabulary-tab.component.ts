@@ -111,9 +111,10 @@ import { StudyLessonResponse, StudyWordVm } from '../../../../../shared/services
       &--verb:hover { border-color: rgba(77, 217, 168, 0.4); }
 
       &__ar {
-        font-family: var(--km-font-heading);
-        font-size: 1.35rem; color: var(--km-text);
+        font-family: var(--km-font-arabic, 'Scheherazade New', serif);
+        font-size: 1.5rem; color: var(--km-text);
         direction: rtl; text-align: right;
+        line-height: 1.6;
       }
 
       &__trans {

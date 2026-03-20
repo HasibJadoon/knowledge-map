@@ -359,11 +359,12 @@
   }
 
   &__ar {
-    font-family: var(--km-font-heading);
-    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-family: var(--km-font-arabic, 'Scheherazade New', serif);
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
     color: var(--km-gold);
     direction: rtl;
     margin: 0;
+    line-height: 1.5;
     opacity: 0; // GSAP reveals
     text-shadow: 0 0 40px rgba(201,168,76,0.25);
   }
