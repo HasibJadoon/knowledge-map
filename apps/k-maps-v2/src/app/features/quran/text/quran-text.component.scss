@@ -351,10 +351,10 @@
 // ornamental rosette glyph — we just colour it gold and add equal spacing.
 .verse-marker {
   font-family: var(--km-font-arabic, 'Scheherazade New', serif);
-  font-size: inherit;
+  font-size: 0.62em;   // smaller than surrounding text
   color: var(--km-gold);
   vertical-align: middle;
-  margin: 0 0.45em;   // equal gap on both sides
+  margin: 0 0.25em;    // tighter equal gap on both sides
   user-select: none;
   display: inline;
   letter-spacing: 0;
