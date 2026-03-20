@@ -173,7 +173,7 @@ const ARABIC_INDIC_ONLY_RE = /^[\u0660-\u0669]+$/;
       font-size: 0.4em;
       color: var(--km-gold);
       vertical-align: middle;
-      margin: 0 0.45em;
+      margin: 0 0.15em 0 0.55em; /* RTL: right=before(shorter), left=after(wider) */
       user-select: none;
       letter-spacing: 0;
       flex-shrink: 0;
