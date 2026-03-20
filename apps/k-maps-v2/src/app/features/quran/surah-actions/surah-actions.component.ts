@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { ActionIconTileComponent, ActionIconVm } from '../action-icon-tile/action-icon-tile.component';
 
 // stroke attrs must live on <svg> itself — Angular encapsulation doesn't pierce innerHTML
-const S = `fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
+const S = `width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
 
 const SVG = {
   study: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ${S}>

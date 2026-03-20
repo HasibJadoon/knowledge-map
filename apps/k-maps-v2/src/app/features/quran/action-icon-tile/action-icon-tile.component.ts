@@ -1,9 +1,8 @@
 import {
-  Component, Input, Output, EventEmitter, ElementRef,
-  OnInit, OnDestroy, inject, ChangeDetectionStrategy,
+  Component, Input, Output, EventEmitter,
+  inject, ChangeDetectionStrategy,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { QuranGsapService } from '../shared/quran-gsap.service';
 
 export interface ActionIconVm {
   id: string;
@@ -29,31 +28,14 @@ export interface ActionIconVm {
   `,
   styleUrl: './action-icon-tile.component.scss',
 })
-export class ActionIconTileComponent implements OnInit, OnDestroy {
+export class ActionIconTileComponent {
   @Input() config!: ActionIconVm;
   @Output() tileClick = new EventEmitter<void>();
 
-  private readonly elRef = inject(ElementRef<HTMLElement>);
-  private readonly gsap = inject(QuranGsapService);
   private readonly sanitizer = inject(DomSanitizer);
-  private cleanupHover!: () => void;
-  private cleanupPress!: () => void;
 
   get safeIcon(): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(this.config.svgPath);
-  }
-
-  ngOnInit(): void {
-    const btn = this.elRef.nativeElement.querySelector('.icon-tile') as HTMLElement;
-    if (btn) {
-      this.cleanupHover = this.gsap.setupIconHover(btn);
-      this.cleanupPress = this.gsap.setupIconPress(btn);
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.cleanupHover?.();
-    this.cleanupPress?.();
   }
 
   onClick(e: Event): void {
