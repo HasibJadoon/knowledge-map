@@ -16,7 +16,7 @@
         <h2 class="review-section__heading">SRS Items</h2>
         <div class="review-grid">
           @for (item of srsItems(); track item.id) {
-            <div class="review-card" [ngClass]="{ 'review-card--due': isDue(item) }">
+            <div class="review-card" #reviewEl [ngClass]="{ 'review-card--due': isDue(item) }">
               <div class="review-card__type">{{ item.item_type }}</div>
               <div class="review-card__key">{{ item.item_key }}</div>
               <div class="review-card__meta">
@@ -35,7 +35,7 @@
         <h2 class="review-section__heading">Lesson Progress</h2>
         <div class="review-grid">
           @for (p of progress(); track p.id) {
-            <div class="review-card">
+            <div class="review-card" #reviewEl>
               <div class="review-card__type">{{ p.lesson_type }}</div>
               <div class="review-card__key">{{ p.title }}</div>
               <div class="review-card__meta">

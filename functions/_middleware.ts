@@ -3,7 +3,6 @@
 import { verifyToken } from './_utils/jwt';
 
 interface Env {
-  JWT_SECRET: string;
 }
 
 const staticAssetPattern = /\.(?:css|js|mjs|map|ico|png|jpg|jpeg|svg|webp|woff2?|ttf|eot|webmanifest)$/i;

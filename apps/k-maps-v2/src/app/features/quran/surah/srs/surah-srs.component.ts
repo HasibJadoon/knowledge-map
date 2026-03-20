@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgClass, TitleCasePipe } from '@angular/common';
 import { SurahModulesService, SrsCardVm } from '../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
+import { QuranGsapService } from '../../shared/quran-gsap.service';
 
 type SrsFilter = 'due' | 'upcoming' | 'all' | 'suspended';
 
@@ -14,10 +15,13 @@ type SrsFilter = 'due' | 'upcoming' | 'all' | 'suspended';
   templateUrl: './surah-srs.component.html',
   styleUrl: './surah-srs.component.scss',
 })
-export class SurahSrsComponent implements OnInit {
+export class SurahSrsComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private svc = inject(SurahModulesService);
+  private gsapSvc = inject(QuranGsapService);
+
+  @ViewChildren('srsEl') srsEls!: QueryList<ElementRef>;
 
   surahId = signal(0);
   items = signal<SrsCardVm[]>([]);
@@ -26,6 +30,13 @@ export class SurahSrsComponent implements OnInit {
   activeFilter = signal<SrsFilter>('due');
 
   readonly filters: SrsFilter[] = ['due', 'upcoming', 'all', 'suspended'];
+
+  ngAfterViewInit(): void {
+    this.srsEls.changes.subscribe((list: QueryList<ElementRef>) => {
+      const els = list.toArray().map(e => e.nativeElement);
+      if (els.length) this.gsapSvc.revealOnScroll(els);
+    });
+  }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('surahId')) || 0;

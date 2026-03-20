@@ -1,6 +1,5 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
 
-import { requireAuth } from '../../_utils/auth';
 import { runOpenAITextPrompt } from '../../_utils/openai';
 import { asRecord, json, parseBody, readOptionalString, readTrimmed } from '../../_utils/sprint';
 import {
@@ -18,7 +17,6 @@ import {
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
   OPENAI_API_KEY?: string;
 }
 
@@ -52,7 +50,6 @@ const PROMPT_VERSION = 'wv_distill_v1';
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
     if (!user) {
       return json({ ok: false, error: 'Unauthorized' }, 401);
     }

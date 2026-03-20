@@ -3,7 +3,6 @@ import { signToken } from './_utils/jwt';
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 type LoginBody = { email: string; password: string };

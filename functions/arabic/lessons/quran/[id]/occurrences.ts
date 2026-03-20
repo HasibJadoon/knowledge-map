@@ -6,7 +6,6 @@ const jsonHeaders = {
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 export const onRequestPost: PagesFunction<Env> = async () => {

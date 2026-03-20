@@ -1,7 +1,8 @@
-import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SurahModulesService, VocabularyLemmaVm } from '../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
+import { QuranGsapService } from '../../shared/quran-gsap.service';
 
 @Component({
   selector: 'km-surah-vocabulary',
@@ -11,15 +12,25 @@ import { QuranPageShellComponent } from '../../shared/quran-page-shell.component
   templateUrl: './surah-vocabulary.component.html',
   styleUrl: './surah-vocabulary.component.scss',
 })
-export class SurahVocabularyComponent implements OnInit {
+export class SurahVocabularyComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private svc = inject(SurahModulesService);
+  private gsapSvc = inject(QuranGsapService);
+
+  @ViewChildren('vocabEl') vocabEls!: QueryList<ElementRef>;
 
   surahId = signal(0);
   items = signal<VocabularyLemmaVm[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+
+  ngAfterViewInit(): void {
+    this.vocabEls.changes.subscribe((list: QueryList<ElementRef>) => {
+      const els = list.toArray().map(e => e.nativeElement);
+      if (els.length) this.gsapSvc.revealOnScroll(els);
+    });
+  }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('surahId')) || 0;

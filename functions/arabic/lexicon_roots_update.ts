@@ -1,6 +1,4 @@
 // api/lexicon_roots_update.ts
-import { requireAuth } from '../_utils/auth';
-
 interface Env {
   DB: D1Database;
   ASSETS: Fetcher;
@@ -26,7 +24,6 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
 
   try {
     // ---------------- AUTH ----------------
-    const user = await requireAuth(ctx as any);
     if (!user) {
       return Response.json(
         { ok: false, error: 'Unauthorized or token expired' },

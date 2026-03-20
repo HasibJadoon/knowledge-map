@@ -1,9 +1,6 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
-import { requireAuth } from '../../_utils/auth';
-
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 const jsonHeaders = {
@@ -72,7 +69,6 @@ async function sha256Hex(input: string) {
 }
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
-  const user = await requireAuth(ctx);
   if (!user) {
     return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
       status: 401,
@@ -146,7 +142,6 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 };
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
-  const user = await requireAuth(ctx);
   if (!user) {
     return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
       status: 401,
@@ -298,7 +293,6 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
 };
 
 export const onRequestPut: PagesFunction<Env> = async (ctx) => {
-  const user = await requireAuth(ctx);
   if (!user) {
     return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
       status: 401,

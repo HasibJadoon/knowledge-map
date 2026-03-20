@@ -1,9 +1,7 @@
-import { requireAuth } from '../../../_utils/auth';
 import { canonicalize, upsertArUSentence } from '../../../_utils/universal';
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 const jsonHeaders: Record<string, string> = {
@@ -22,7 +20,6 @@ type ResolveSentenceBody = {
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
     if (!user) {
       return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
         status: 401,

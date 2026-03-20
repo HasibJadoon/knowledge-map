@@ -1,18 +1,15 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
 
-import { requireAuth } from '../_utils/auth';
 import { json } from '../_utils/sprint';
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 type Row = Record<string, unknown>;
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
     if (!user) {
       return json({ ok: false, error: 'Unauthorized' }, 401);
     }

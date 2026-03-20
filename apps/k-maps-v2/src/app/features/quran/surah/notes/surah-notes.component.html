@@ -13,7 +13,7 @@
   @if (!loading() && !error() && notes().length > 0) {
     <div class="notes-grid">
       @for (note of notes(); track note.id) {
-        <div class="note-card">
+        <div class="note-card" #noteEl>
           <div class="note-card__top">
             @if (note.ref) { <span class="note-chip">{{ note.ref }}</span> }
             @if (note.status) { <span class="note-chip">{{ note.status }}</span> }

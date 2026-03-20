@@ -1,11 +1,9 @@
 import type { PagesFunction } from '@cloudflare/workers-types';
 
-import { requireAuth } from '../_utils/auth';
 import { json, parseBody, readOptionalString, readTrimmed } from '../_utils/sprint';
 import { runOpenAITextPrompt } from '../_utils/openai';
 
 interface Env {
-  JWT_SECRET: string;
   OPENAI_API_KEY?: string;
 }
 
@@ -19,7 +17,6 @@ type TestInput = {
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
     if (!user) {
       return json({ ok: false, error: 'Unauthorized' }, 401);
     }

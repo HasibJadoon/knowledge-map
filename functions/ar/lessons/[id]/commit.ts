@@ -1,4 +1,3 @@
-import { requireAuth } from '../../../_utils/auth';
 import {
   canonicalize,
   sha256Hex,
@@ -11,7 +10,6 @@ import {
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 const jsonHeaders: Record<string, string> = {
@@ -1362,7 +1360,6 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   });
 
   try {
-    const user = await requireAuth(ctx);
     if (!user) {
       return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
         status: 401,

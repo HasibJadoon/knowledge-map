@@ -21,7 +21,7 @@
   @if (!loading() && !error() && items().length > 0) {
     <div class="srs-grid">
       @for (item of items(); track item.id) {
-        <div class="srs-card">
+        <div class="srs-card" #srsEl>
           <div class="srs-card__type">{{ item.item_type }}</div>
           <div class="srs-card__key">{{ item.item_key }}</div>
           <div class="srs-card__stats">

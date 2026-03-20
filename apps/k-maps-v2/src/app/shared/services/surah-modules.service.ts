@@ -236,6 +236,137 @@ export interface LessonDetailResponse {
   vocabulary: { nouns: WordVm[]; verbs: WordVm[] };
 }
 
+// ── Study API (new layer 1 + 2) ───────────────────────────────────────────────
+
+export interface StudySurahMeta {
+  container_id: string;
+  container_key?: string;
+  title?: string;
+  surah: number;
+  name_ar?: string;
+  name_en?: string;
+  meta_json?: string;
+}
+
+export interface StudyUnitCardVm {
+  unit_id: string;
+  order_index: number;
+  ayah_from: number;
+  ayah_to: number;
+  start_ref?: string;
+  end_ref?: string;
+  text_cache?: string;
+  label?: string;
+  theme?: string;
+  reading: { has: number };
+  vocabulary: { nouns: number; verbs: number; total: number };
+  sentence_structure: { has: number };
+  expressions: { has: number };
+  passage_structure: { has: number };
+}
+
+export interface StudyGridResponse {
+  ok: boolean;
+  surahId: number;
+  surah: StudySurahMeta;
+  units: StudyUnitCardVm[];
+}
+
+export interface StudyWordVm {
+  word_id: string;
+  ayah: number;
+  position: number;
+  word: string;
+  simple?: string;
+  translation?: string;
+  lemma?: string;
+  root?: string;
+  gloss?: string;
+  meanings?: string;
+  verb_form?: string;
+  pattern?: string;
+  transitivity?: string;
+  morphology?: { verb_form?: string; derived_pattern?: string; noun_number?: string; transitivity?: string };
+}
+
+export interface StudyExpressionVm {
+  expression_id: string;
+  ayah: number;
+  label?: string;
+  text?: string;
+  sequence_json?: string;
+  expression_type?: string;
+  expression_text?: string;
+  expression_meaning?: string;
+  gloss?: string;
+  meanings?: string;
+  meaning?: string;
+}
+
+export interface StudyUnitVm {
+  unit_id: string;
+  order_index: number;
+  ayah_from: number;
+  ayah_to: number;
+  start_ref?: string;
+  end_ref?: string;
+  text_cache?: string;
+  label?: string;
+  theme?: string;
+}
+
+export interface StudyLessonResponse {
+  ok: boolean;
+  surahId: number;
+  passageNo: number;
+  unit: StudyUnitVm;
+  ayahs: AyahVm[];
+  vocabulary: { nouns: StudyWordVm[]; verbs: StudyWordVm[] };
+  expressions: StudyExpressionVm[];
+  tasks: UnitTaskVm[];
+}
+
+export interface StudyReadingResponse {
+  ok: boolean;
+  surahId: number;
+  passageNo: number;
+  unit: StudyUnitVm;
+  ayahs: AyahVm[];
+  task: UnitTaskVm | null;
+}
+
+export interface StudyVocabularyResponse {
+  ok: boolean;
+  surahId: number;
+  passageNo: number;
+  unit: StudyUnitVm;
+  nouns: StudyWordVm[];
+  verbs: StudyWordVm[];
+}
+
+export interface StudyExpressionsResponse {
+  ok: boolean;
+  surahId: number;
+  passageNo: number;
+  unit: StudyUnitVm;
+  expressions: StudyExpressionVm[];
+}
+
+export interface StudyTaskResponse {
+  ok: boolean;
+  surahId: number;
+  passageNo: number;
+  unit: StudyUnitVm;
+  task: UnitTaskVm | null;
+}
+
+export interface StudyTasksResponse {
+  ok: boolean;
+  surahId: number;
+  passageNo: number;
+  tasks: UnitTaskVm[];
+}
+
 export interface LessonsResponse { ok: boolean; surahId: number; total: number; lessons: LessonListItemVm[]; }
 export interface NotesResponse { ok: boolean; surahId: number; total: number; notes: NoteListItemVm[]; }
 export interface WorldviewHubResponse { ok: boolean; surahId: number; counts: WorldviewHubVm['counts']; }
@@ -317,5 +448,39 @@ export class SurahModulesService {
 
   getWorldviewLinks(surahId: number): Observable<WorldviewLinksResponse> {
     return this.http.get<WorldviewLinksResponse>(this.url(surahId, 'worldview', 'links'));
+  }
+
+  // ── Study API ────────────────────────────────────────────────────────────────
+
+  getStudyGrid(surahId: number): Observable<StudyGridResponse> {
+    return this.http.get<StudyGridResponse>(this.url(surahId, 'study'));
+  }
+
+  getStudyLesson(surahId: number, passageNo: number): Observable<StudyLessonResponse> {
+    return this.http.get<StudyLessonResponse>(this.url(surahId, 'study', String(passageNo)));
+  }
+
+  getStudyReading(surahId: number, passageNo: number): Observable<StudyReadingResponse> {
+    return this.http.get<StudyReadingResponse>(this.url(surahId, 'study', String(passageNo), 'reading'));
+  }
+
+  getStudyVocabulary(surahId: number, passageNo: number): Observable<StudyVocabularyResponse> {
+    return this.http.get<StudyVocabularyResponse>(this.url(surahId, 'study', String(passageNo), 'vocabulary'));
+  }
+
+  getStudyExpressions(surahId: number, passageNo: number): Observable<StudyExpressionsResponse> {
+    return this.http.get<StudyExpressionsResponse>(this.url(surahId, 'study', String(passageNo), 'expressions'));
+  }
+
+  getStudySentenceStructure(surahId: number, passageNo: number): Observable<StudyTaskResponse> {
+    return this.http.get<StudyTaskResponse>(this.url(surahId, 'study', String(passageNo), 'sentence-structure'));
+  }
+
+  getStudyPassageStructure(surahId: number, passageNo: number): Observable<StudyTaskResponse> {
+    return this.http.get<StudyTaskResponse>(this.url(surahId, 'study', String(passageNo), 'passage-structure'));
+  }
+
+  getStudyTasks(surahId: number, passageNo: number): Observable<StudyTasksResponse> {
+    return this.http.get<StudyTasksResponse>(this.url(surahId, 'study', String(passageNo), 'tasks'));
   }
 }

@@ -3,8 +3,9 @@ import {
   Component,
   ElementRef,
   ViewChild,
+  inject,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import gsap from 'gsap';
 
 interface HubSection {
@@ -17,11 +18,13 @@ interface HubSection {
 @Component({
   selector: 'km-hub',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './hub.component.html',
   styleUrl: './hub.component.scss',
 })
 export class HubComponent implements AfterViewInit {
+  private router = inject(Router);
+
   @ViewChild('page') pageRef!: ElementRef<HTMLElement>;
 
   readonly sections: HubSection[] = [
@@ -56,6 +59,10 @@ export class HubComponent implements AfterViewInit {
       tag: 'EDITORIAL',
     },
   ];
+
+  openSection(): void {
+    this.router.navigate(['/login']);
+  }
 
   ngAfterViewInit(): void {
     const el = this.pageRef.nativeElement;

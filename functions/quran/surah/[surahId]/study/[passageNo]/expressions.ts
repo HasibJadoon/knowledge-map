@@ -1,0 +1,73 @@
+// Expressions tab only
+// GET /quran/surah/:surahId/study/:passageNo/expressions
+
+interface Env { DB: D1Database }
+
+const SQL = `
+WITH surah_container AS (
+  SELECT id
+  FROM ar_containers
+  WHERE container_type = 'quran_surah'
+    AND CAST(json_extract(meta_json, '$.surah') AS INTEGER) = ?1
+  LIMIT 1
+),
+unit_row AS (
+  SELECT u.*
+  FROM ar_container_units u
+  JOIN surah_container c ON c.id = u.container_id
+  WHERE u.order_index = ?2
+  LIMIT 1
+)
+SELECT json_object(
+  'unit', (
+    SELECT json_object(
+      'unit_id',    id,
+      'order_index',order_index,
+      'ayah_from',  ayah_from,
+      'ayah_to',    ayah_to,
+      'label',      json_extract(meta_json, '$.label')
+    )
+    FROM unit_row
+  ),
+  'expressions', (
+    SELECT json_group_array(
+      json_object(
+        'expression_id',      expr.ar_u_expression,
+        'ayah',               expr.ayah,
+        'label',              expr.label,
+        'text',               expr.text_ar,
+        'sequence_json',      expr.sequence_json,
+        'expression_type',    lx.expression_type,
+        'expression_text',    lx.expression_text,
+        'expression_meaning', lx.expression_meaning,
+        'gloss',              lx.gloss_primary,
+        'meanings',           lx.meanings_json
+      )
+    )
+    FROM unit_row u
+    JOIN ar_u_expressions expr
+      ON expr.surah = ?1
+     AND expr.ayah BETWEEN u.ayah_from AND u.ayah_to
+    LEFT JOIN ar_u_lexicon lx ON lx.ar_u_lexicon = expr.ar_u_lexicon
+    ORDER BY expr.ayah, expr.label
+  )
+) AS expressions_json
+`;
+
+export const onRequestGet: PagesFunction<Env> = async (ctx) => {
+  const surahId   = Number(ctx.params['surahId']);
+  const passageNo = Number(ctx.params['passageNo']);
+  if (!surahId || !passageNo) {
+    return Response.json({ ok: false, error: 'Invalid params' }, { status: 400 });
+  }
+  try {
+    const row = await ctx.env.DB.prepare(SQL).bind(surahId, passageNo).first<{ expressions_json: string }>();
+    if (!row?.expressions_json) {
+      return Response.json({ ok: false, error: 'Passage not found' }, { status: 404 });
+    }
+    const data = JSON.parse(row.expressions_json);
+    return Response.json({ ok: true, surahId, passageNo, ...data });
+  } catch (e) {
+    return Response.json({ ok: false, error: String(e) }, { status: 500 });
+  }
+};

@@ -13,7 +13,7 @@
   @if (!loading() && !error() && items().length > 0) {
     <div class="vocab-grid">
       @for (item of items(); track item.lemma_id) {
-        <div class="vocab-card">
+        <div class="vocab-card" #vocabEl>
           <div class="vocab-card__arabic" dir="rtl">{{ item.surface_ar || item.lemma_text || item.lemma_text_clean }}</div>
           @if (item.root_norm) {
             <div class="vocab-card__root" dir="rtl">{{ item.root_norm }}</div>

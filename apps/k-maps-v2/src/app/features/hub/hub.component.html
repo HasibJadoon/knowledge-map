@@ -1,7 +1,7 @@
 <div class="km-page" #page>
 
   <!-- Back Button -->
-  <a class="km-back-btn" [routerLink]="['/landing']">
+  <a class="km-back-btn" href="/landing">
     <span class="km-back-btn__arrow">←</span>
     <span class="km-back-btn__label">Home</span>
   </a>
@@ -19,7 +19,7 @@
     <!-- Cards Grid -->
     <div class="km-grid">
       @for (section of sections; track section.label) {
-        <div class="km-card">
+        <div class="km-card" (click)="openSection()" role="button" tabindex="0" (keydown.enter)="openSection()">
           <div class="km-card__tag">{{ section.tag }}</div>
           <div class="km-card__icon">{{ section.icon }}</div>
           <h3 class="km-card__title">{{ section.label }}</h3>

@@ -1,8 +1,5 @@
-import { requireAuth } from '../../_utils/auth';
-
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 const jsonHeaders = {
@@ -13,7 +10,6 @@ const jsonHeaders = {
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
     if (!user) {
       return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
         status: 401,

@@ -1,8 +1,5 @@
-import { requireAuth } from '../../../_utils/auth';
-
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 const jsonHeaders = {
@@ -33,7 +30,6 @@ function buildPassageUnitId(containerId: string, surah: number, start: number, e
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
     if (!user) {
       return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
         status: 401,

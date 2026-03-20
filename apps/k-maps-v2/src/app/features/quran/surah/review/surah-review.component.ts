@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { SurahModulesService, SrsCardVm, ReviewItemVm } from '../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
+import { QuranGsapService } from '../../shared/quran-gsap.service';
 
 @Component({
   selector: 'km-surah-review',
@@ -12,16 +13,26 @@ import { QuranPageShellComponent } from '../../shared/quran-page-shell.component
   templateUrl: './surah-review.component.html',
   styleUrl: './surah-review.component.scss',
 })
-export class SurahReviewComponent implements OnInit {
+export class SurahReviewComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private svc = inject(SurahModulesService);
+  private gsapSvc = inject(QuranGsapService);
+
+  @ViewChildren('reviewEl') reviewEls!: QueryList<ElementRef>;
 
   surahId = signal(0);
   srsItems = signal<SrsCardVm[]>([]);
   progress = signal<ReviewItemVm[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+
+  ngAfterViewInit(): void {
+    this.reviewEls.changes.subscribe((list: QueryList<ElementRef>) => {
+      const els = list.toArray().map(e => e.nativeElement);
+      if (els.length) this.gsapSvc.revealOnScroll(els);
+    });
+  }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('surahId')) || 0;

@@ -1,10 +1,8 @@
-import { requireAuth } from '../_utils/auth';
 import { canonicalize, ArURootPayload, upsertArURoot } from '../_utils/universal';
 
 interface Env {
   DB: D1Database;
   ASSETS: Fetcher;
-  JWT_SECRET: string;
 }
 
 const jsonHeaders = {
@@ -100,7 +98,6 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     // =====================================================
     // AUTH (JWT)
     // =====================================================
-    const user = await requireAuth(ctx);
     if (!user) {
       return new Response(
         JSON.stringify({ ok: false, error: 'Unauthorized' }),
@@ -266,7 +263,6 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
     if (!user) {
       return new Response(
         JSON.stringify({ ok: false, error: 'Unauthorized' }),

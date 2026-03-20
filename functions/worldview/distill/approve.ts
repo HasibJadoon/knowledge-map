@@ -1,6 +1,5 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
 
-import { requireAuth } from '../../_utils/auth';
 import { json, parseBody, readTrimmed } from '../../_utils/sprint';
 import {
   applyDecisionsToDraft,
@@ -13,7 +12,6 @@ import {
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 type ApproveInput = {
@@ -22,7 +20,6 @@ type ApproveInput = {
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
     if (!user) {
       return json({ ok: false, error: 'Unauthorized' }, 401);
     }

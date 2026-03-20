@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const prefersReducedMotion = (): boolean =>
   typeof window !== 'undefined' &&
@@ -92,7 +95,7 @@ export class QuranGsapService {
     );
   }
 
-  /** Stagger-reveal card grid items */
+  /** Stagger-reveal card grid items (immediate, no scroll) */
   revealCards(elements: Element[], delay = 0): void {
     if (!elements.length) return;
     if (prefersReducedMotion()) { gsap.set(elements, { opacity: 1 }); return; }
@@ -101,5 +104,29 @@ export class QuranGsapService {
       { opacity: 0, y: 18 },
       { opacity: 1, y: 0, duration: 0.38, stagger: 0.04, delay, ease: 'power2.out', clearProps: 'transform' }
     );
+  }
+
+  /** ScrollTrigger-based reveal: each element fades in as it enters viewport */
+  revealOnScroll(elements: Element[]): void {
+    if (!elements.length) return;
+    if (prefersReducedMotion()) { gsap.set(elements, { opacity: 1, y: 0 }); return; }
+    elements.forEach((el, i) => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 22 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.42,
+          delay: (i % 4) * 0.06,
+          ease: 'power2.out',
+          clearProps: 'transform',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            once: true,
+          },
+        }
+      );
+    });
   }
 }

@@ -37,7 +37,7 @@ export class SurahStudyComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.cardEls.changes.subscribe((list: QueryList<ElementRef>) => {
       const els = list.toArray().map(e => e.nativeElement);
-      if (els.length) this.gsapSvc.revealCards(els, 0.1);
+      if (els.length) this.gsapSvc.revealOnScroll(els);
     });
   }
 
