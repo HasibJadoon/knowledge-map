@@ -335,32 +335,26 @@
   cursor: pointer;
   transition: color 0.18s ease;
 
+  // Adds a normal breakable space after each word so lines wrap correctly
+  // and individual words are hoverable
+  &::after {
+    content: '\0020';
+  }
+
   &:hover {
     color: var(--km-gold);
   }
 }
 
-// ── Verse-end ornament (mushaf continuous view) ───────────
-// Rendered as: space · gold circle with Arabic-Indic verse number · space
-.verse-end {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2em;
-  height: 2em;
-  border-radius: 50%;
-  border: 1px solid rgba(201, 168, 76, 0.65);
-  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.1);
-  font-family: var(--km-font-heading);
-  font-size: 0.38em;
+// ── Verse marker (mushaf view) ────────────────────────────
+// Scheherazade New renders U+06DD as an ornamental rosette — we keep that
+// beautiful glyph and simply colour it gold. No custom circle needed.
+.verse-marker {
   color: var(--km-gold);
+  margin: 0 0.4em;
   vertical-align: middle;
-  margin: 0 0.55em;
   user-select: none;
-  letter-spacing: 0;
-  background: transparent;
-  position: relative;
-  top: -0.05em;
+  font-size: inherit;
 }
 
 
@@ -434,28 +428,6 @@
   word-break: keep-all;
 }
 
-.ayah-text {
-  display: inline;
-}
-
-.mushaf-badge {
-  display: inline-block;
-  width: 2.2em;
-  height: 2.2em;
-  line-height: 2.2em;
-  border-radius: 50%;
-  border: 1.5px solid var(--km-gold);
-  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.12);
-  font-family: var(--km-font-heading);
-  font-size: 0.36em;
-  color: var(--km-gold);
-  text-align: center;
-  vertical-align: middle;
-  margin: 0 0.45em;
-  user-select: none;
-  letter-spacing: 0;
-  background: transparent;
-}
 
 // ── Translation list ──────────────────────────────────────
 .translation-list {

@@ -118,10 +118,7 @@
                   <span class="ayah-badge">{{ ayah.ayah }}</span>
                 </div>
                 @if (ayah.translation) {
-                  <div class="vrow__translation">
-                    <span class="vrow__num">{{ ayah.ayah }}</span>
-                    {{ ayah.translation }}
-                  </div>
+                  <div class="vrow__translation">{{ ayah.translation }}</div>
                 }
               </div>
             }
@@ -144,7 +141,7 @@
           <div class="mushaf-flow">
             @for (ayah of group.ayahs; track ayah.ayah) {
               @if (!(surahId() === 1 && ayah.ayah === 1)) {
-                {{ getAyahText(ayah) }}<span class="verse-end">{{ toArabicIndic(ayah.ayah) }}</span>
+                {{ getAyahBody(ayah) }}<span class="verse-marker">{{ getAyahMarker(ayah) }}</span>
               }
             }
           </div>

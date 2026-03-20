@@ -91,12 +91,20 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
   // Prepared for morphology / lexicon lookup — full logic to be added later
   onWordClick(_word: string, _ayah: QuranAyah): void {}
 
-  /** Clean ayah text for the mushaf continuous view — strips the U+06DD
-   *  end-of-ayah marker so the verse-end span handles the ornament instead */
-  getAyahText(ayah: QuranAyah): string {
-    return (ayah.text_uthmani ?? ayah.text ?? '')
-      .replace(/[\u06DD][٠-٩]*/g, '')   // strip ۝ + any trailing Arabic-Indic digits
-      .trim();
+  /** Text before the U+06DD end-of-ayah marker (the readable verse body) */
+  getAyahBody(ayah: QuranAyah): string {
+    const raw = ayah.text_uthmani ?? ayah.text ?? '';
+    const idx = raw.indexOf('\u06DD');
+    return (idx >= 0 ? raw.slice(0, idx) : raw).trim();
+  }
+
+  /** The U+06DD marker + any following Arabic-Indic digits.
+   *  Scheherazade New renders U+06DD as a beautiful ornamental rosette —
+   *  we keep it and colour it gold via .verse-marker CSS */
+  getAyahMarker(ayah: QuranAyah): string {
+    const raw = ayah.text_uthmani ?? ayah.text ?? '';
+    const idx = raw.indexOf('\u06DD');
+    return idx >= 0 ? raw.slice(idx).trim() : '';
   }
 
   getWords(ayah: QuranAyah): string[] {
