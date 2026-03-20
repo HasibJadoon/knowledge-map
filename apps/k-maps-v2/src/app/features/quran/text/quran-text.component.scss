@@ -347,21 +347,27 @@
 }
 
 // ── Verse marker (mushaf view) ────────────────────────────
-// Gold circle with Arabic-Indic verse number — same aesthetic as .ayah-badge
+// Single ornamental gold circle with Arabic-Indic verse number inside.
+// Double outer ring gives the classic medallion feel without U+06DD's
+// built-in empty twin frame.
 .verse-marker {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2em;
-  height: 2em;
+  // sizes are relative to THIS element's font-size (0.4em of parent)
+  width: 2.2em;
+  height: 2.2em;
   border-radius: 50%;
-  border: 1.5px solid var(--km-gold);
+  border: 1px solid rgba(201, 168, 76, 0.85);
+  outline: 1.5px solid rgba(201, 168, 76, 0.25);
+  outline-offset: 2px;
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.15), inset 0 0 4px rgba(201, 168, 76, 0.06);
   background: transparent;
   font-family: var(--km-font-heading);
-  font-size: 0.42em;
+  font-size: 0.4em;
   color: var(--km-gold);
   vertical-align: middle;
-  margin: 0 0.4em;
+  margin: 0 0.5em;
   user-select: none;
   letter-spacing: 0;
   flex-shrink: 0;

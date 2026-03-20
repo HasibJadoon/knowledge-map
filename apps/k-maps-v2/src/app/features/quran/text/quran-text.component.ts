@@ -35,7 +35,7 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
 
   readonly bismillah = BISMILLAH;
 
-  /** Returns Arabic-Indic numeral for verse marker circle */
+  /** Arabic-Indic verse number for the ornamental circle marker */
   verseMarker(n: number): string {
     return this.toArabicIndic(n);
   }
