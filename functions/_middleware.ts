@@ -1,9 +1,6 @@
-// api/_middleware.ts
+// _middleware.ts — CORS only, all routes are public
 
-import { verifyToken } from './_utils/jwt';
-
-interface Env {
-}
+interface Env {}
 
 const staticAssetPattern = /\.(?:css|js|mjs|map|ico|png|jpg|jpeg|svg|webp|woff2?|ttf|eot|webmanifest)$/i;
 
@@ -72,61 +69,16 @@ const maybeConvertMissingAssetFallback = (
 };
 
 export const onRequest: PagesFunction<Env> = async (ctx) => {
-  const { request, env } = ctx;
+  const { request } = ctx;
   const url = new URL(request.url);
   const origin = request.headers.get('origin');
 
-  // ✅ Allow preflight requests
+  // Allow preflight requests
   if (request.method === 'OPTIONS') {
     return new Response(null, { status: 204, headers: corsHeaders(origin) });
   }
 
-  // ✅ Public routes
-  const isStaticAsset = request.method === 'GET' && staticAssetPattern.test(url.pathname);
-
-  if (
-    url.pathname === '/' ||
-    url.pathname.startsWith('/login') ||
-    url.pathname.startsWith('/api-docs') ||
-    url.pathname.startsWith('/openapi') ||
-    url.pathname.startsWith('/assets') ||
-    url.pathname.startsWith('/favicon') ||
-    url.pathname.startsWith('/api/quran') ||
-    url.pathname.startsWith('/api/ar/quran') ||
-    isStaticAsset
-  ) {
-    const response = await ctx.next();
-    const hardened = maybeConvertMissingAssetFallback(url.pathname, response);
-    return withCors(hardened, origin);
-  }
-
-  // ✅ Require Authorization header
-  const auth = request.headers.get('authorization');
-  if (!auth || !auth.startsWith('Bearer ')) {
-    return withCors(
-      Response.json({ error: 'Unauthorized' }, { status: 401 }),
-      origin
-    );
-  }
-
-  const token = auth.slice(7).trim();
-  const payload = await verifyToken(token, env.JWT_SECRET);
-  const rawExp = payload && typeof payload === 'object' ? (payload as Record<string, unknown>)['exp'] : null;
-  const exp =
-    typeof rawExp === 'number'
-      ? rawExp
-      : (typeof rawExp === 'string' && rawExp.trim() ? Number(rawExp) : NaN);
-
-  if (!payload || !Number.isFinite(exp) || Date.now() >= exp * 1000) {
-    return withCors(
-      Response.json({ error: 'Invalid or expired token' }, { status: 401 }),
-      origin
-    );
-  }
-
-  // ✅ Attach user to request context
-  ctx.data.user = payload;
-
+  // All routes are public — pass through with CORS
   const response = await ctx.next();
   const hardened = maybeConvertMissingAssetFallback(url.pathname, response);
   return withCors(hardened, origin);
