@@ -144,13 +144,7 @@
           <div class="mushaf-flow">
             @for (ayah of group.ayahs; track ayah.ayah) {
               @if (!(surahId() === 1 && ayah.ayah === 1)) {
-                @for (word of getWords(ayah); track $index; let last = $last) {
-                  <span
-                    class="ar-word ar-word--lg q-word"
-                    [class.ar-word--last]="last"
-                    (click)="onWordClick(word, ayah)"
-                  >{{ word }}</span>
-                }<span class="verse-end">{{ toArabicIndic(ayah.ayah) }}</span>
+                {{ getAyahText(ayah) }}<span class="verse-end">{{ toArabicIndic(ayah.ayah) }}</span>
               }
             }
           </div>

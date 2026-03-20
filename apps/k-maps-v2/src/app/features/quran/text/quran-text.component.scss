@@ -329,23 +329,38 @@
   }
 }
 
-// ── Shared Arabic word hover ──────────────────────────────
+// ── Shared Arabic word hover (verse-by-verse view) ───────
 .ar-word {
   display: inline;
   cursor: pointer;
   transition: color 0.18s ease;
 
-  &::after {
-    content: '\00A0'; // non-breaking space as word gap
-  }
-
-  &--last::after {
-    content: '';
-  }
-
   &:hover {
     color: var(--km-gold);
   }
+}
+
+// ── Verse-end ornament (mushaf continuous view) ───────────
+// Rendered as: space · gold circle with Arabic-Indic verse number · space
+.verse-end {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 168, 76, 0.65);
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.1);
+  font-family: var(--km-font-heading);
+  font-size: 0.38em;
+  color: var(--km-gold);
+  vertical-align: middle;
+  margin: 0 0.55em;
+  user-select: none;
+  letter-spacing: 0;
+  background: transparent;
+  position: relative;
+  top: -0.05em;
 }
 
 
@@ -413,7 +428,10 @@
   unicode-bidi: plaintext;
   color: var(--km-text);
   padding: 2rem 0 3rem;
-  overflow-wrap: break-word;
+  // Never break inside an Arabic word — overflow-wrap:break-word was
+  // splitting individual words mid-glyph across lines
+  overflow-wrap: normal;
+  word-break: keep-all;
 }
 
 .ayah-text {

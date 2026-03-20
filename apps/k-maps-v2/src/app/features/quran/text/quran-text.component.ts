@@ -91,6 +91,14 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
   // Prepared for morphology / lexicon lookup — full logic to be added later
   onWordClick(_word: string, _ayah: QuranAyah): void {}
 
+  /** Clean ayah text for the mushaf continuous view — strips the U+06DD
+   *  end-of-ayah marker so the verse-end span handles the ornament instead */
+  getAyahText(ayah: QuranAyah): string {
+    return (ayah.text_uthmani ?? ayah.text ?? '')
+      .replace(/[\u06DD][٠-٩]*/g, '')   // strip ۝ + any trailing Arabic-Indic digits
+      .trim();
+  }
+
   getWords(ayah: QuranAyah): string[] {
     const src = ayah.text_uthmani ?? ayah.text ?? '';
     return src
