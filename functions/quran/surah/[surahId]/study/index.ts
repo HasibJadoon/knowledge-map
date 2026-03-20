@@ -24,16 +24,13 @@ unit_rows AS (
     u.text_cache,
     json_extract(u.meta_json, '$.label') AS label,
     json_extract(u.meta_json, '$.theme') AS theme,
-
     MAX(CASE WHEN t.task_type = 'reading' THEN 1 ELSE 0 END)            AS has_reading,
     MAX(CASE WHEN t.task_type = 'sentence_structure' THEN 1 ELSE 0 END) AS has_sentence_structure,
     MAX(CASE WHEN t.task_type = 'expressions' THEN 1 ELSE 0 END)        AS has_expressions,
     MAX(CASE WHEN t.task_type = 'passage_structure' THEN 1 ELSE 0 END)  AS has_passage_structure,
-
     COUNT(DISTINCT CASE WHEN lower(ifnull(qw.class_name, '')) LIKE '%noun%' THEN qw.word_id END) AS noun_count,
     COUNT(DISTINCT CASE WHEN lower(ifnull(qw.class_name, '')) LIKE '%verb%' THEN qw.word_id END) AS verb_count,
     COUNT(DISTINCT qw.word_id) AS total_word_count
-
   FROM surah_container c
   JOIN ar_container_units u ON u.container_id = c.id
   LEFT JOIN ar_container_unit_task t ON t.unit_id = u.id
