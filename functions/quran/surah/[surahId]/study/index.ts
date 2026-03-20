@@ -1,101 +1,203 @@
+// functions/quran/surah/[surahId]/study.ts
 // Layer 1 — Study grid for a surah
 // GET /quran/surah/:surahId/study
-// Returns surah meta + all passage cards with vocab counts and section flags.
+// Returns all passage cards with vocab counts and section flags.
 
-interface Env { DB: D1Database }
+interface Env {
+  DB: D1Database;
+}
+
+type StudyGridRow = {
+  unit_id: string;
+  container_id: string;
+  order_index: number;
+  ayah_from: number;
+  ayah_to: number;
+  start_ref: string | null;
+  end_ref: string | null;
+  text_cache: string | null;
+  label: string | null;
+  theme: string | null;
+  has_reading: number | null;
+  has_sentence_structure: number | null;
+  has_expressions: number | null;
+  has_passage_structure: number | null;
+  noun_count: number | null;
+  verb_count: number | null;
+  total_word_count: number | null;
+};
 
 const SQL = `
 WITH surah_container AS (
-  SELECT *
-  FROM ar_containers
-  WHERE container_type = 'quran_surah'
-    AND CAST(json_extract(meta_json, '$.surah') AS INTEGER) = ?1
-  LIMIT 1
-),
-unit_rows AS (
   SELECT
-    u.id AS unit_id,
-    u.container_id,
-    u.order_index,
-    u.ayah_from,
-    u.ayah_to,
-    u.start_ref,
-    u.end_ref,
-    u.text_cache,
-    json_extract(u.meta_json, '$.label') AS label,
-    json_extract(u.meta_json, '$.theme') AS theme,
-
-    MAX(CASE WHEN t.task_type = 'reading' THEN 1 ELSE 0 END)            AS has_reading,
-    MAX(CASE WHEN t.task_type = 'sentence_structure' THEN 1 ELSE 0 END) AS has_sentence_structure,
-    MAX(CASE WHEN t.task_type = 'expressions' THEN 1 ELSE 0 END)        AS has_expressions,
-    MAX(CASE WHEN t.task_type = 'passage_structure' THEN 1 ELSE 0 END)  AS has_passage_structure,
-
-    COUNT(DISTINCT CASE WHEN lower(ifnull(qw.class_name, '')) LIKE '%noun%' THEN qw.word_id END) AS noun_count,
-    COUNT(DISTINCT CASE WHEN lower(ifnull(qw.class_name, '')) LIKE '%verb%' THEN qw.word_id END) AS verb_count,
-    COUNT(DISTINCT qw.word_id) AS total_word_count
-
-  FROM surah_container c
-  JOIN ar_container_units u ON u.container_id = c.id
-  LEFT JOIN ar_container_unit_task t ON t.unit_id = u.id
-  LEFT JOIN ar_u_quran_ayah_words qw
-    ON qw.surah = ?1
-   AND qw.ayah BETWEEN u.ayah_from AND u.ayah_to
-  GROUP BY
-    u.id, u.container_id, u.order_index,
-    u.ayah_from, u.ayah_to, u.start_ref, u.end_ref,
-    u.text_cache, u.meta_json
+    id AS container_id,
+    container_type,
+    container_key,
+    title,
+    meta_json
+  FROM ar_containers
+  WHERE id = 'C:QURAN:' || ?1
+    AND container_type = 'quran_surah'
+  LIMIT 1
 )
-SELECT json_object(
-  'surah', (
-    SELECT json_object(
-      'container_id', c.id,
-      'container_key', c.container_key,
-      'title', c.title,
-      'surah', CAST(json_extract(c.meta_json, '$.surah') AS INTEGER),
-      'name_ar', json_extract(c.meta_json, '$.name_ar'),
-      'name_en', json_extract(c.meta_json, '$.name_en'),
-      'meta_json', c.meta_json
-    )
-    FROM surah_container c
-  ),
-  'units', (
-    SELECT json_group_array(
-      json_object(
-        'unit_id',   unit_id,
-        'order_index', order_index,
-        'ayah_from', ayah_from,
-        'ayah_to',   ayah_to,
-        'start_ref', start_ref,
-        'end_ref',   end_ref,
-        'text_cache',text_cache,
-        'label',     label,
-        'theme',     theme,
-        'reading',   json_object('has', has_reading),
-        'vocabulary', json_object('nouns', noun_count, 'verbs', verb_count, 'total', total_word_count),
-        'sentence_structure', json_object('has', has_sentence_structure),
-        'expressions',        json_object('has', has_expressions),
-        'passage_structure',  json_object('has', has_passage_structure)
-      )
-    )
-    FROM unit_rows
-    ORDER BY order_index
-  )
-) AS study_grid_json
+SELECT
+  u.id AS unit_id,
+  u.container_id,
+  u.order_index,
+  u.ayah_from,
+  u.ayah_to,
+  u.start_ref,
+  u.end_ref,
+  u.text_cache,
+  json_extract(u.meta_json, '$.label') AS label,
+  json_extract(u.meta_json, '$.theme') AS theme,
+
+  MAX(CASE WHEN t.task_type = 'reading' THEN 1 ELSE 0 END) AS has_reading,
+  MAX(CASE WHEN t.task_type = 'sentence_structure' THEN 1 ELSE 0 END) AS has_sentence_structure,
+  MAX(CASE WHEN t.task_type = 'expressions' THEN 1 ELSE 0 END) AS has_expressions,
+  MAX(CASE WHEN t.task_type = 'passage_structure' THEN 1 ELSE 0 END) AS has_passage_structure,
+
+  COUNT(DISTINCT CASE
+    WHEN lower(ifnull(qw.class_name, '')) LIKE '%noun%' THEN qw.word_id
+  END) AS noun_count,
+
+  COUNT(DISTINCT CASE
+    WHEN lower(ifnull(qw.class_name, '')) LIKE '%verb%' THEN qw.word_id
+  END) AS verb_count,
+
+  COUNT(DISTINCT qw.word_id) AS total_word_count
+
+FROM surah_container c
+JOIN ar_container_units u
+  ON u.container_id = c.container_id
+LEFT JOIN ar_container_unit_task t
+  ON t.unit_id = u.id
+LEFT JOIN ar_u_quran_ayah_words qw
+  ON qw.surah = ?1
+ AND qw.ayah BETWEEN u.ayah_from AND u.ayah_to
+GROUP BY
+  u.id,
+  u.container_id,
+  u.order_index,
+  u.ayah_from,
+  u.ayah_to,
+  u.start_ref,
+  u.end_ref,
+  u.text_cache,
+  u.meta_json
+ORDER BY u.order_index
 `;
+
+const SURAH_SQL = `
+SELECT
+  id AS container_id,
+  container_type,
+  container_key,
+  title,
+  meta_json
+FROM ar_containers
+WHERE id = 'C:QURAN:' || ?1
+  AND container_type = 'quran_surah'
+LIMIT 1
+`;
+
+function parseJsonSafe(value: string | null): Record<string, unknown> {
+  if (!value) return {};
+  try {
+    const parsed = JSON.parse(value);
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch {
+    return {};
+  }
+}
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   const surahId = Number(ctx.params['surahId']);
-  if (!surahId || surahId < 1 || surahId > 114) {
-    return Response.json({ ok: false, error: 'Invalid surahId' }, { status: 400 });
+
+  if (!Number.isInteger(surahId) || surahId < 1 || surahId > 114) {
+    return Response.json(
+      { ok: false, error: 'Invalid surahId' },
+      { status: 400 }
+    );
   }
+
   try {
-    const row = await ctx.env.DB.prepare(SQL).bind(surahId).first<{ study_grid_json: string }>();
-    if (!row?.study_grid_json) {
-      return Response.json({ ok: false, error: 'Surah not found' }, { status: 404 });
+    const surah = await ctx.env.DB
+      .prepare(SURAH_SQL)
+      .bind(surahId)
+      .first<{
+        container_id: string;
+        container_type: string;
+        container_key: string | null;
+        title: string | null;
+        meta_json: string | null;
+      }>();
+
+    if (!surah) {
+      return Response.json(
+        { ok: false, error: 'Surah not found' },
+        { status: 404 }
+      );
     }
-    const data = JSON.parse(row.study_grid_json);
-    return Response.json({ ok: true, surahId, ...data });
+
+    const { results } = await ctx.env.DB
+      .prepare(SQL)
+      .bind(surahId)
+      .all<StudyGridRow>();
+
+    const meta = parseJsonSafe(surah.meta_json);
+
+    const units = (results ?? []).map((r) => ({
+      unit_id: r.unit_id,
+      container_id: r.container_id,
+      order_index: r.order_index,
+      ayah_from: r.ayah_from,
+      ayah_to: r.ayah_to,
+      start_ref: r.start_ref,
+      end_ref: r.end_ref,
+      text_cache: r.text_cache,
+      label: r.label ?? `Passage ${r.order_index}`,
+      theme: r.theme,
+      reading: {
+        has: !!r.has_reading,
+      },
+      vocabulary: {
+        nouns: r.noun_count ?? 0,
+        verbs: r.verb_count ?? 0,
+        total_words: r.total_word_count ?? 0,
+      },
+      sentence_structure: {
+        has: !!r.has_sentence_structure,
+      },
+      expressions: {
+        has: !!r.has_expressions,
+      },
+      passage_structure: {
+        has: !!r.has_passage_structure,
+      },
+    }));
+
+    return Response.json({
+      ok: true,
+      surahId,
+      containerId: surah.container_id,
+      surah: {
+        container_id: surah.container_id,
+        container_type: surah.container_type,
+        container_key: surah.container_key,
+        title: surah.title,
+        ...meta,
+      },
+      total: units.length,
+      units,
+    });
   } catch (e) {
-    return Response.json({ ok: false, error: String(e) }, { status: 500 });
+    return Response.json(
+      {
+        ok: false,
+        error: e instanceof Error ? e.message : String(e),
+      },
+      { status: 500 }
+    );
   }
 };
