@@ -4,10 +4,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { StudyLessonResponse, AyahVm, AyahWordToken } from '../../../../../shared/services/surah-modules.service';
-
-gsap.registerPlugin(ScrollTrigger);
 
 // Arabic diacritic codepoints (harakat + Quranic marks) — fallback stripping
 const DIACRITICS_RE = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g;
@@ -197,43 +194,31 @@ export class LessonReadingTabComponent implements AfterViewInit, OnDestroy {
 
   showDiacritics = signal(false);
 
-  private scrollTriggers: ScrollTrigger[] = [];
+  private gsapCtx: gsap.Context | null = null;
 
   // ── Lifecycle ───────────────────────────────────────────
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.setupScrollAnimation(), 50);
+    setTimeout(() => this.animateIn(), 50);
   }
 
   ngOnDestroy(): void {
-    this.scrollTriggers.forEach(st => st.kill());
-    this.scrollTriggers = [];
+    this.gsapCtx?.revert();
   }
 
-  // ── Scroll animation — reveal passage block on enter ──────
+  // ── Entrance animation — direct fade-in (already in viewport) ──
 
-  private setupScrollAnimation(): void {
+  private animateIn(): void {
     const passageEl = this.elRef.nativeElement.querySelector('.rt-passage') as HTMLElement | null;
     if (!passageEl) return;
 
-    gsap.set(passageEl, { opacity: 0, y: 32 });
-
-    const st = ScrollTrigger.create({
-      trigger: passageEl,
-      start: 'top 85%',
-      onEnter: () => {
-        gsap.to(passageEl, {
-          opacity: 1, y: 0,
-          duration: 0.75,
-          ease: 'power2.out',
-        });
-      },
-      onLeaveBack: () => {
-        gsap.set(passageEl, { opacity: 0, y: 32 });
-      },
+    this.gsapCtx = gsap.context(() => {
+      gsap.fromTo(
+        passageEl,
+        { opacity: 0, y: 32 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+      );
     });
-
-    this.scrollTriggers.push(st);
   }
 
   // ── Word token helpers ────────────────────────────────────
