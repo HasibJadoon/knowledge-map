@@ -1,0 +1,47 @@
+<div class="empty-state">
+
+  <!-- Ornamental SVG medallion -->
+  <div class="empty-state__medallion" aria-hidden="true">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer decorative ring -->
+      <circle cx="60" cy="60" r="56" stroke="rgba(201,168,76,0.18)" stroke-width="1"/>
+      <!-- Middle ring -->
+      <circle cx="60" cy="60" r="46" stroke="rgba(201,168,76,0.35)" stroke-width="1"/>
+      <!-- Inner ring -->
+      <circle cx="60" cy="60" r="36" stroke="rgba(201,168,76,0.55)" stroke-width="1.2"/>
+
+      <!-- Four ornamental diamond petals -->
+      <path d="M60 14 L63 24 L60 34 L57 24 Z" fill="rgba(201,168,76,0.25)"/>
+      <path d="M60 86 L63 96 L60 106 L57 96 Z" fill="rgba(201,168,76,0.25)"/>
+      <path d="M14 60 L24 63 L34 60 L24 57 Z" fill="rgba(201,168,76,0.25)"/>
+      <path d="M86 60 L96 63 L106 60 L96 57 Z" fill="rgba(201,168,76,0.25)"/>
+
+      <!-- Four corner small circles -->
+      <circle cx="60" cy="14" r="2.5" fill="rgba(201,168,76,0.5)"/>
+      <circle cx="60" cy="106" r="2.5" fill="rgba(201,168,76,0.5)"/>
+      <circle cx="14" cy="60" r="2.5" fill="rgba(201,168,76,0.5)"/>
+      <circle cx="106" cy="60" r="2.5" fill="rgba(201,168,76,0.5)"/>
+
+      <!-- Diagonal dots -->
+      <circle cx="27" cy="27" r="1.8" fill="rgba(201,168,76,0.3)"/>
+      <circle cx="93" cy="27" r="1.8" fill="rgba(201,168,76,0.3)"/>
+      <circle cx="27" cy="93" r="1.8" fill="rgba(201,168,76,0.3)"/>
+      <circle cx="93" cy="93" r="1.8" fill="rgba(201,168,76,0.3)"/>
+
+      <!-- Centre dot glow -->
+      <circle cx="60" cy="60" r="4" fill="rgba(201,168,76,0.12)"/>
+      <circle cx="60" cy="60" r="2" fill="rgba(201,168,76,0.5)"/>
+    </svg>
+
+    @if (arabicWord()) {
+      <span class="empty-state__arabic">{{ arabicWord() }}</span>
+    }
+  </div>
+
+  <!-- Text -->
+  <h3 class="empty-state__title">{{ title() }}</h3>
+  @if (message()) {
+    <p class="empty-state__msg">{{ message() }}</p>
+  }
+
+</div>

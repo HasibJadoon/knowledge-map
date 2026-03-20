@@ -10,7 +10,11 @@
     <div class="qstate qstate--error"><p>{{ error() }}</p></div>
   }
   @if (!loading() && !error() && units().length === 0) {
-    <div class="qstate"><p class="qstate__empty">No study passages found for this surah.</p></div>
+    <km-empty-state
+      title="No Passages Found"
+      message="No study passages have been added for this surah yet."
+      arabicWord="دَرْس"
+    />
   }
 
   @if (!loading() && !error() && units().length > 0) {

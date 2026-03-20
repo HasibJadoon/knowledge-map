@@ -6,11 +6,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SurahModulesService, StudyUnitCardVm, StudySurahMeta } from '../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
 import { QuranGsapService } from '../../shared/quran-gsap.service';
+import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
 
 @Component({
   selector: 'km-surah-study',
   standalone: true,
-  imports: [QuranPageShellComponent],
+  imports: [QuranPageShellComponent, EmptyStateComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './surah-study.component.html',
   styleUrl: './surah-study.component.scss',
