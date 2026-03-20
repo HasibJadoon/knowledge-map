@@ -5,11 +5,11 @@ import {
 } from '@angular/core';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { StudyLessonResponse, AyahVm } from '../../../../../shared/services/surah-modules.service';
+import { StudyLessonResponse, AyahVm, AyahWordToken } from '../../../../../shared/services/surah-modules.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Arabic diacritic codepoints (harakat + Quranic marks)
+// Arabic diacritic codepoints (harakat + Quranic marks) — used as fallback
 const DIACRITICS_RE = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g;
 // End-of-ayah marker + any following Arabic-Indic digits
 const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
@@ -43,8 +43,22 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
         @for (ayah of lesson.ayahs; track ayah.ayah) {
           <div class="rt-ayah" #ayahEl>
             <div class="rt-ayah__body" dir="rtl">
-              <span class="rt-ayah__text">{{ displayText(ayah) }}</span>
+
+              @if (hasWordTokens(ayah)) {
+                <!-- Word-by-word rendering using DB token data -->
+                @for (word of wordTokens(ayah); track word.position) {
+                  <span class="ar-word">{{ showDiacritics() ? word.text : word.simple }}</span>
+                }
+              } @else {
+                <!-- Fallback: split full text by spaces -->
+                @for (word of splitWords(ayah); track $index) {
+                  <span class="ar-word">{{ word }}</span>
+                }
+              }
+
+              <!-- Verse marker circle -->
               <span class="rt-ayah__marker">{{ toArabicIndic(ayah.ayah) }}</span>
+
             </div>
           </div>
         }
@@ -62,30 +76,6 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
       display: flex;
       flex-direction: column;
       gap: 2rem;
-    }
-
-    /* ── Task card ─────────────────────────────────────── */
-    .rt-task {
-      background: var(--km-surface);
-      border: 1px solid var(--km-border-gold);
-      border-radius: 10px;
-      padding: 1.1rem 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .rt-task__label {
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--km-gold);
-      opacity: 0.75;
-      font-family: var(--km-font-heading);
-    }
-    .rt-task__body {
-      font-size: 0.875rem;
-      color: var(--km-text-2);
-      line-height: 1.65;
     }
 
     /* ── Controls row ──────────────────────────────────── */
@@ -153,7 +143,6 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
     .rt-ayah {
       padding: 1.75rem 0;
       border-bottom: 1px solid var(--km-border);
-      /* GSAP sets opacity=0 initially via JS */
     }
     .rt-ayah:last-child {
       border-bottom: none;
@@ -171,6 +160,21 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
       word-break: keep-all;
     }
 
+    /* ── Individual word spans ─────────────────────────── */
+    .ar-word {
+      display: inline;
+      cursor: pointer;
+      transition: color 0.18s ease;
+
+      &::after {
+        content: '\\0020';
+      }
+
+      &:hover {
+        color: var(--km-gold);
+      }
+    }
+
     /* ── Verse marker circle ───────────────────────────── */
     .rt-ayah__marker {
       display: inline-flex;
@@ -180,12 +184,14 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
       height: 2em;
       border-radius: 50%;
       border: 1.5px solid var(--km-gold);
+      outline: 1.5px solid rgba(201,168,76,0.25);
+      outline-offset: 2px;
       background: transparent;
       font-family: var(--km-font-heading);
       font-size: 0.42em;
       color: var(--km-gold);
       vertical-align: middle;
-      margin: 0 0.4em;
+      margin: 0 0.5em;
       user-select: none;
       letter-spacing: 0;
       flex-shrink: 0;
@@ -213,7 +219,6 @@ export class LessonReadingTabComponent implements AfterViewInit, OnDestroy {
   // ── Lifecycle ───────────────────────────────────────────
 
   ngAfterViewInit(): void {
-    // Set initial opacity=0 on all ayah blocks, then ScrollTrigger reveals each
     setTimeout(() => this.setupScrollAnimations(), 50);
   }
 
@@ -225,11 +230,10 @@ export class LessonReadingTabComponent implements AfterViewInit, OnDestroy {
   // ── Scroll animations ────────────────────────────────────
 
   private setupScrollAnimations(): void {
-    const ayahEls = this.elRef.nativeElement.querySelectorAll<HTMLElement>('.rt-ayah');
+    const ayahEls = this.elRef.nativeElement.querySelectorAll('.rt-ayah') as NodeListOf<HTMLElement>;
     if (!ayahEls.length) return;
 
     ayahEls.forEach((el: HTMLElement) => {
-      // Set to invisible before scroll reveal
       gsap.set(el, { opacity: 0, y: 28 });
 
       const st = ScrollTrigger.create({
@@ -251,39 +255,31 @@ export class LessonReadingTabComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  // ── Text processing ───────────────────────────────────────
+  // ── Word token helpers ────────────────────────────────────
 
-  displayText(ayah: AyahVm): string {
-    // Always use the full uthmani text as base — strip end-of-ayah markers
-    const raw = this.clean(ayah.text ?? '');
-    if (!this.showDiacritics()) {
-      // Strip all Arabic diacritics (harakat + Quranic annotation marks)
-      return raw.replace(DIACRITICS_RE, '');
-    }
-    return raw;
+  /** True when the API returned the word-level token array */
+  hasWordTokens(ayah: AyahVm): boolean {
+    return Array.isArray(ayah.words) && ayah.words.length > 0;
   }
 
-  /** Remove end-of-ayah U+06DD markers (we render our own circles) */
-  private clean(text: string): string {
-    return text.replace(END_MARKER_RE, '').trim();
+  /** Return only 'word' char_type tokens (filter out 'end' markers) */
+  wordTokens(ayah: AyahVm): AyahWordToken[] {
+    return (ayah.words ?? []).filter(w => w.char_type !== 'end' && (w.text || w.simple));
+  }
+
+  /** Fallback: split the full text into individual word strings */
+  splitWords(ayah: AyahVm): string[] {
+    let src = (ayah.text ?? '').replace(END_MARKER_RE, '');
+    if (!this.showDiacritics()) {
+      // Prefer text_simple from API; otherwise strip diacritics from uthmani text
+      src = ayah.text_simple
+        ? ayah.text_simple.replace(END_MARKER_RE, '')
+        : src.replace(DIACRITICS_RE, '');
+    }
+    return src.split(/\s+/).filter(w => w.length > 0);
   }
 
   toArabicIndic(n: number): string {
     return n.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[+d]);
-  }
-
-  // ── Task helpers ─────────────────────────────────────────
-
-  readingTask() {
-    return this.lesson.tasks.find(t => t.task_type === 'reading') ?? null;
-  }
-
-  taskHtml(): string | null {
-    const task = this.readingTask();
-    if (!task?.task_json) return null;
-    try {
-      const parsed = JSON.parse(task.task_json);
-      return parsed.content ?? parsed.text ?? null;
-    } catch { return null; }
   }
 }

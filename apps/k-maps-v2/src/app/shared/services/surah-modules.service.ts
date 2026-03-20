@@ -183,6 +183,22 @@ export interface UnitGridResponse { ok: boolean; surahId: number; containerId: s
 
 // ── Lesson detail (Layer 2) ──────────────────────────────────────────────────
 
+export interface AyahWordToken {
+  id?: number;
+  position: number;
+  verse_key?: string;
+  text?: string;        // with diacritics (harakāt)
+  simple?: string;      // plain text, no diacritics
+  char_type?: string;   // 'word' | 'end'
+  translation?: string;
+  lemma?: string;
+  root?: string;
+  class_name?: string;
+  line?: number;
+  code?: string;
+  audio?: string;
+}
+
 export interface AyahVm {
   surah: number;
   ayah: number;
@@ -191,6 +207,7 @@ export interface AyahVm {
   juz?: number;
   text: string;
   text_simple?: string;
+  words?: AyahWordToken[];  // word-by-word tokens from ar_quran_ayah.words
   translation_haleem?: string;
   translation_asad?: string;
   translation_sahih?: string;
