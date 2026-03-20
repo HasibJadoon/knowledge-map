@@ -6,8 +6,10 @@ import { StudyLessonResponse, AyahVm, AyahWordToken } from '../../../../../share
 
 // Arabic diacritic codepoints (harakat + Quranic marks) — fallback stripping
 const DIACRITICS_RE = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g;
-// End-of-ayah marker + any following Arabic-Indic digits
-const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
+// Quranic structural ornament characters we always strip (we render our own markers):
+//   U+06DD = Arabic End of Ayah       (ornamental circle with ayah number)
+//   U+06DE = Arabic Start of Rub El Hizb (large ornamental circle, quarter-division marker)
+const END_MARKER_RE = /[\u06DD\u06DE][\u0660-\u0669]*/g;
 
 @Component({
   selector: 'km-lesson-reading-tab',
