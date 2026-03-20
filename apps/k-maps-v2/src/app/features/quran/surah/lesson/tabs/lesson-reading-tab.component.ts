@@ -40,9 +40,9 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
           @for (ayah of lesson.ayahs; track ayah.ayah) {
 
             @if (hasWordTokens(ayah)) {
-              <!-- Word-by-word from DB token array -->
+              <!-- Word-by-word from DB token array (U+06DD stripped in wordText()) -->
               @for (word of wordTokens(ayah); track word.position) {
-                <span class="ar-word">{{ showDiacritics() ? word.text : word.simple }}</span>
+                <span class="ar-word">{{ wordText(word) }}</span>
               }
             } @else {
               <!-- Fallback: split full text -->
@@ -197,7 +197,16 @@ export class LessonReadingTabComponent {
   }
 
   wordTokens(ayah: AyahVm): AyahWordToken[] {
-    return (ayah.words ?? []).filter(w => w.char_type !== 'end' && (w.text || w.simple));
+    return (ayah.words ?? []).filter(
+      // exclude end-of-ayah tokens (char_type='end' or text contains only U+06DD)
+      w => w.char_type !== 'end' && (w.text || w.simple)
+    );
+  }
+
+  /** Get the display text for a single word token — always strip U+06DD */
+  wordText(word: AyahWordToken): string {
+    const raw = (this.showDiacritics() ? word.text : word.simple) ?? '';
+    return raw.replace(END_MARKER_RE, '').trim();
   }
 
   splitWords(ayah: AyahVm): string[] {
