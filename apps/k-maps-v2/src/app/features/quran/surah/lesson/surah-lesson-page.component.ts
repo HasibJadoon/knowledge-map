@@ -5,6 +5,9 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 import {
   SurahModulesService,
   StudyLessonResponse,
@@ -128,6 +131,7 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   ngOnDestroy(): void {
     this.entryTl?.kill();
     if (this.tabAnimTimeout) clearTimeout(this.tabAnimTimeout);
+    ScrollTrigger.getAll().forEach(st => st.kill());
   }
 
   // ── Container meta ───────────────────────────────────────
@@ -240,29 +244,48 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     );
   }
 
-  /** Stagger-animate individual cards/items inside the active tab */
+  /** ScrollTrigger-animate individual cards/items inside the active tab */
   private animateTabCards(tabContent: HTMLElement): void {
+    // Kill any previous ScrollTriggers scoped to this tab content
+    ScrollTrigger.getAll()
+      .filter(st => tabContent.contains(st.trigger as Node))
+      .forEach(st => st.kill());
+
     // Selectors that match cards/items in each tab
     const cardSel = [
-      '.word-card',       // vocabulary
-      '.expr-card',       // expressions
-      '.rt-passage',      // reading
-      '.ss-block',        // sentence structure
-      '.ps-block',        // passage structure
+      '.word-card',    // vocabulary
+      '.expr-card',    // expressions
+      '.rt-passage',   // reading passage block
+      '.ss-block',     // sentence structure
+      '.ps-block',     // passage structure
     ].join(', ');
 
-    const cards = tabContent.querySelectorAll<HTMLElement>(cardSel);
+    const cards = Array.from(tabContent.querySelectorAll<HTMLElement>(cardSel));
     if (!cards.length) return;
 
-    gsap.fromTo(cards,
-      { opacity: 0, y: 20 },
-      {
-        opacity: 1, y: 0,
-        duration: 0.35,
-        ease: 'power2.out',
-        stagger: 0.04,
-      }
-    );
+    // Set all invisible first
+    gsap.set(cards, { opacity: 0, y: 24 });
+
+    cards.forEach((card, i) => {
+      ScrollTrigger.create({
+        trigger: card,
+        scroller: document.body,          // ← key: body is the scroll container
+        start: 'top 90%',
+        once: true,
+        onEnter: () => {
+          gsap.to(card, {
+            opacity: 1,
+            y: 0,
+            duration: 0.45,
+            ease: 'power2.out',
+            delay: Math.min(i * 0.04, 0.3), // cap total stagger at 300ms
+          });
+        },
+      });
+    });
+
+    // Refresh so ScrollTrigger picks up correct positions
+    ScrollTrigger.refresh();
   }
 
   // ── Tab management ───────────────────────────────────────

@@ -8,10 +8,17 @@
   padding: 0;
 }
 
-html, body {
+html {
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow: hidden; // prevent double scrollbar
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;  // allow vertical scroll
+  overflow-x: hidden;
 }
 
 body {
