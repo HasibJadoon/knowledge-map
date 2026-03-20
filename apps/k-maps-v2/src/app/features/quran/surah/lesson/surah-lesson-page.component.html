@@ -1,17 +1,8 @@
 <div class="lesson-page">
 
-  <!-- Back nav -->
-  <nav class="lesson-page__nav">
-    <button class="btn-back" (click)="back()">&#8592; Back</button>
-    @if (surahName()) {
-      <span class="nav-crumb">{{ surahName()!.transliteratedName }}</span>
-    }
-    <span class="nav-crumb nav-crumb--dim">Passage {{ passageNo() }}</span>
-  </nav>
-
   <!-- Loading -->
   @if (loading()) {
-    <div class="qstate"><div class="qstate__spinner"></div><p>Loading passage…</p></div>
+    <div class="qstate"><div class="qstate__spinner"></div><p>Loading passage...</p></div>
   }
 
   <!-- Error -->
@@ -21,64 +12,150 @@
 
   @if (!loading() && !error() && lesson()) {
 
-    <!-- Hero -->
-    <div class="hero" #heroEl>
-      <div class="hero__bg" #heroBg></div>
-      <div class="hero__content">
-        @if (surahName()) {
-          <p class="hero__ar" #heroAr>{{ surahName()!.arabicName }}</p>
-          <h1 class="hero__en" #heroEn>{{ surahName()!.englishName }}</h1>
-        }
+    <!-- ════════════════════════════════════════════════════════
+         CINEMATIC ENTRY
+         ════════════════════════════════════════════════════════ -->
+    @if (phase() === 'entry') {
+      <div class="entry" #entryEl>
 
-        <div class="hero__meta">
-          <span class="hero__passage">Passage {{ passageNo() }}</span>
-          @if (lesson()!.unit.label) {
-            <span class="hero__sep">·</span>
-            <span class="hero__label">{{ lesson()!.unit.label }}</span>
-          }
-          <span class="hero__sep">·</span>
-          <span class="hero__range">{{ ayahRange() }}</span>
+        <!-- Background cinematic layer -->
+        <div class="entry__bg" #entryBg>
+          <div class="entry__radial"></div>
+          <div class="entry__dust"></div>
+          <div class="entry__vignette"></div>
         </div>
 
-        @if (lesson()!.unit.theme) {
-          <p class="hero__theme">{{ lesson()!.unit.theme }}</p>
-        }
+        <!-- Gold sweep line -->
+        <div class="entry__gold-sweep" #goldSweep></div>
+
+        <!-- Back nav (subtle, top-left) -->
+        <button class="entry__back" (click)="back()">&#8592; Back</button>
+
+        <!-- Content column -->
+        <div class="entry__content">
+
+          <!-- Arabic surah name -->
+          @if (surahName()) {
+            <p class="entry__arabic" #entryAr>{{ surahName()!.arabicName }}</p>
+          }
+
+          <!-- Titles block -->
+          <div class="entry__titles" #entryTitles>
+            @if (surahName()) {
+              <h1 class="entry__en">{{ surahName()!.englishName }}</h1>
+            }
+            @if (heroConfig().surahSubtitle) {
+              <p class="entry__subtitle">{{ heroConfig().surahSubtitle }}</p>
+            }
+            <div class="entry__meta">
+              @if (lesson()!.unit.label) {
+                <span class="entry__chip">{{ lesson()!.unit.label }}</span>
+              }
+              <span class="entry__chip entry__chip--range">Ayah {{ ayahDisplay() }}</span>
+            </div>
+          </div>
+
+          <!-- Theme -->
+          @if (lesson()!.unit.theme) {
+            <p class="entry__theme" #entryTheme>{{ lesson()!.unit.theme }}</p>
+          }
+
+          <!-- Quote from container meta -->
+          @if (heroConfig().quoteAr) {
+            <blockquote class="entry__quote" #entryQuote dir="rtl">
+              <span class="entry__quote-text">{{ heroConfig().quoteAr }}</span>
+              @if (heroConfig().quoteRef) {
+                <cite class="entry__quote-ref">{{ heroConfig().quoteRef }}</cite>
+              }
+            </blockquote>
+          }
+
+          <!-- Start button -->
+          <button class="entry__start" #startBtn (click)="startStudy()">
+            <span class="entry__start-label">Start</span>
+            <span class="entry__start-glow"></span>
+          </button>
+        </div>
+
       </div>
-      <div class="hero__divider" #heroDivider></div>
-    </div>
+    }
 
-    <!-- Tab bar -->
-    <div class="tab-bar" #tabsEl>
-      @for (tab of tabs; track tab.id) {
-        <button
-          class="tab-btn"
-          [class.tab-btn--active]="activeTab() === tab.id"
-          (click)="selectTab(tab.id)">
-          {{ tab.label }}
-        </button>
-      }
-    </div>
+    <!-- ════════════════════════════════════════════════════════
+         STUDY WORKSPACE
+         ════════════════════════════════════════════════════════ -->
+    @if (phase() === 'workspace') {
+      <div class="workspace" #workspaceEl>
 
-    <!-- Tab content -->
-    <div class="tab-content">
-      @switch (activeTab()) {
-        @case ('reading') {
-          <km-lesson-reading-tab [lesson]="lesson()!" />
-        }
-        @case ('vocabulary') {
-          <km-lesson-vocabulary-tab [lesson]="lesson()!" />
-        }
-        @case ('sentence-structure') {
-          <km-lesson-sentence-structure-tab [lesson]="lesson()!" />
-        }
-        @case ('expressions') {
-          <km-lesson-expressions-tab [lesson]="lesson()!" />
-        }
-        @case ('passage-structure') {
-          <km-lesson-passage-structure-tab [lesson]="lesson()!" />
-        }
-      }
-    </div>
+        <!-- Back nav -->
+        <nav class="lesson-page__nav">
+          <button class="btn-back" (click)="back()">&#8592; Back</button>
+          @if (surahName()) {
+            <span class="nav-crumb">{{ surahName()!.transliteratedName }}</span>
+          }
+          <span class="nav-crumb nav-crumb--dim">Passage {{ passageNo() }}</span>
+        </nav>
+
+        <!-- Hero -->
+        <div class="hero" #heroEl>
+          <div class="hero__bg" #heroBg></div>
+          <div class="hero__content">
+            @if (surahName()) {
+              <p class="hero__ar" #heroAr>{{ surahName()!.arabicName }}</p>
+              <h1 class="hero__en" #heroEn>{{ surahName()!.englishName }}</h1>
+            }
+
+            <div class="hero__meta">
+              <span class="hero__passage">Passage {{ passageNo() }}</span>
+              @if (lesson()!.unit.label) {
+                <span class="hero__sep">&middot;</span>
+                <span class="hero__label">{{ lesson()!.unit.label }}</span>
+              }
+              <span class="hero__sep">&middot;</span>
+              <span class="hero__range">{{ ayahRange() }}</span>
+            </div>
+
+            @if (lesson()!.unit.theme) {
+              <p class="hero__theme">{{ lesson()!.unit.theme }}</p>
+            }
+          </div>
+          <div class="hero__divider" #heroDivider></div>
+        </div>
+
+        <!-- Tab bar -->
+        <div class="tab-bar" #tabsEl>
+          @for (tab of tabs; track tab.id) {
+            <button
+              class="tab-btn"
+              [class.tab-btn--active]="activeTab() === tab.id"
+              (click)="selectTab(tab.id)">
+              {{ tab.label }}
+            </button>
+          }
+        </div>
+
+        <!-- Tab content -->
+        <div class="tab-content">
+          @switch (activeTab()) {
+            @case ('reading') {
+              <km-lesson-reading-tab [lesson]="lesson()!" />
+            }
+            @case ('vocabulary') {
+              <km-lesson-vocabulary-tab [lesson]="lesson()!" />
+            }
+            @case ('sentence-structure') {
+              <km-lesson-sentence-structure-tab [lesson]="lesson()!" />
+            }
+            @case ('expressions') {
+              <km-lesson-expressions-tab [lesson]="lesson()!" />
+            }
+            @case ('passage-structure') {
+              <km-lesson-passage-structure-tab [lesson]="lesson()!" />
+            }
+          }
+        </div>
+
+      </div>
+    }
 
   }
 
