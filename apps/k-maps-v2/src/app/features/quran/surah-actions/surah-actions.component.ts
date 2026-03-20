@@ -1,11 +1,9 @@
 import {
-  Component, Input, OnInit, AfterViewInit,
-  ViewChildren, QueryList, ElementRef,
+  Component, Input,
   inject, ChangeDetectionStrategy,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionIconTileComponent, ActionIconVm } from '../action-icon-tile/action-icon-tile.component';
-import { QuranGsapService } from '../shared/quran-gsap.service';
 
 // stroke attrs must live on <svg> itself — Angular encapsulation doesn't pierce innerHTML
 const S = `fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
@@ -63,23 +61,12 @@ const ACTIONS: ActionIconVm[] = [
   templateUrl: './surah-actions.component.html',
   styleUrl: './surah-actions.component.scss',
 })
-export class SurahActionsComponent implements OnInit, AfterViewInit {
+export class SurahActionsComponent {
   @Input({ required: true }) surahId!: number;
 
-  @ViewChildren(ActionIconTileComponent, { read: ElementRef })
-  private tileRefs!: QueryList<ElementRef<HTMLElement>>;
-
   private readonly router = inject(Router);
-  private readonly gsap = inject(QuranGsapService);
 
   readonly actions = ACTIONS;
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    const els = this.tileRefs.map((r) => r.nativeElement);
-    this.gsap.revealIconTiles(els, 0.12);
-  }
 
   navigate(actionId: string): void {
     const base = ['/quran', 'surah', String(this.surahId)];

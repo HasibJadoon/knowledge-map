@@ -205,18 +205,18 @@
 // ── Grid Layout ──────────────────────────────────────────
 .surahs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
 }
 
 .surah-card {
   background: var(--km-surface);
   border: 1px solid var(--km-border-gold);
-  border-radius: 10px;
-  padding: 1.1rem 1rem;
+  border-radius: 14px;
+  padding: 1.25rem 1.1rem 1.1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.5rem;
   cursor: pointer;
   text-align: left;
   color: inherit;
@@ -233,21 +233,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.4rem;
   }
 
   &__arabic {
     font-family: var(--km-font-arabic);
-    font-size: 1.4rem;
+    font-size: 1.7rem;
     color: var(--km-gold);
     direction: rtl;
     text-align: right;
     line-height: 1.4;
+    margin: 0.25rem 0;
   }
 
   &__name {
     font-family: var(--km-font-heading);
-    font-size: 0.78rem;
+    font-size: 0.85rem;
     letter-spacing: 0.07em;
     color: var(--km-text);
     text-transform: uppercase;
@@ -257,24 +258,24 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 0.2rem;
+    margin-top: 0.25rem;
   }
 
   &__ayahs {
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     color: var(--km-text-2);
   }
 
   &__juz {
-    font-size: 0.7rem;
+    font-size: 0.74rem;
     color: var(--km-text-3);
   }
 }
 
 // ── Number Badge ─────────────────────────────────────────
 .surah-number {
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: transparent;
   border: 1.5px solid var(--km-gold);
@@ -282,15 +283,15 @@
   align-items: center;
   justify-content: center;
   font-family: var(--km-font-heading);
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   letter-spacing: 0.03em;
   color: var(--km-gold);
   flex-shrink: 0;
 
   &--sm {
-    width: 28px;
-    height: 28px;
-    font-size: 0.6rem;
+    width: 30px;
+    height: 30px;
+    font-size: 0.62rem;
   }
 }
 

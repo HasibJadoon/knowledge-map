@@ -34,12 +34,43 @@
   }
 }
 
+// ── View toggle ───────────────────────────────────────────────────────────────
+.view-toggle {
+  display: flex; align-items: center; gap: 2px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--km-border);
+  border-radius: 8px; padding: 3px;
+
+  &__btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 5px;
+    border: none; cursor: pointer;
+    background: transparent; color: var(--km-text-3);
+    font-size: 0.85rem;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover { color: var(--km-text); }
+
+    &--active {
+      background: rgba(201, 168, 76, 0.14);
+      color: var(--km-gold);
+    }
+  }
+}
+
+// ── Grid layout ───────────────────────────────────────────────────────────────
 .unit-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: 1rem;
+
+  &--list {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
 }
 
+// ── Card ──────────────────────────────────────────────────────────────────────
 .unit-card {
   background: var(--km-surface);
   border: 1px solid var(--km-border-gold);
@@ -57,6 +88,28 @@
     transform: translateY(-3px);
     box-shadow: 0 8px 28px rgba(201, 168, 76, 0.14);
   }
+
+  // ── List variant ────────────────────────────────────────────────────────────
+  &--list {
+    flex-direction: row;
+    align-items: center;
+    padding: 0.7rem 3rem 0.7rem 2.5rem;
+    gap: 1rem;
+    border-radius: 10px;
+
+    &:hover, &:focus-visible { transform: translateX(3px) translateY(0); }
+
+    .unit-card__head { min-width: 130px; flex-shrink: 0; margin-top: 0; }
+    .unit-card__theme {
+      flex: 1; margin: 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .unit-card__chips { flex-shrink: 0; margin-top: 0; }
+    .unit-card__tasks { flex-shrink: 0; }
+    .unit-card__badge { top: 50%; left: 0.75rem; transform: translateY(-50%); }
+    .unit-card__arrow { bottom: auto; top: 50%; transform: translateY(-50%); }
+  }
+  &--list:hover .unit-card__arrow { transform: translateY(-50%) translateX(3px); }
 
   &__badge {
     position: absolute; top: -10px; left: 1rem;

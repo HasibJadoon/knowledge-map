@@ -28,6 +28,7 @@ export class SurahStudyComponent implements OnInit, AfterViewInit {
   units = signal<StudyUnitCardVm[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+  viewMode = signal<'grid' | 'list'>('grid');
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('surahId')) || 0;
