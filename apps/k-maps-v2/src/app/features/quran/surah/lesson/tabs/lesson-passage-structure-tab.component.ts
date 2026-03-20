@@ -1,150 +1,110 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { StudyLessonResponse, UnitTaskVm } from '../../../../../shared/services/surah-modules.service';
+import {
+  Component, Input, OnInit, AfterViewInit, OnDestroy,
+  ElementRef, inject, ChangeDetectionStrategy,
+} from '@angular/core';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { StudyLessonResponse } from '../../../../../shared/services/surah-modules.service';
+
+gsap.registerPlugin(ScrollTrigger);
+
+export interface PassageSection {
+  key: string;
+  title: string;
+  badge: string;
+  tone: 'info' | 'primary' | 'warning' | 'danger' | 'success' | 'secondary';
+  renderer: 'keyvalue' | 'chiasm' | 'clusters' | 'timeline';
+  data: any;
+}
 
 @Component({
   selector: 'km-lesson-passage-structure-tab',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div class="ps-tab">
-      @if (task()) {
-        <div class="task-header">
-          <span class="task-type">Passage Structure</span>
-          @if (task()!.task_name) {
-            <h2 class="task-name">{{ task()!.task_name }}</h2>
-          }
-        </div>
-
-        @if (sections().length > 0) {
-          <div class="section-list">
-            @for (section of sections(); track $index) {
-              <div class="section-card">
-                @if (section.label || section.title) {
-                  <h3 class="section-card__title">{{ section.label ?? section.title }}</h3>
-                }
-                @if (section.ayahs) {
-                  <span class="section-card__range">Ayahs: {{ section.ayahs }}</span>
-                }
-                @if (section.description || section.content || section.text) {
-                  <p class="section-card__desc">
-                    {{ section.description ?? section.content ?? section.text }}
-                  </p>
-                }
-              </div>
-            }
-          </div>
-        } @else if (content()) {
-          <div class="task-body" [innerHTML]="content()"></div>
-        } @else if (task()!.task_json) {
-          <pre class="task-raw">{{ prettyJson() }}</pre>
-        } @else {
-          <p class="empty">No content available for this task.</p>
-        }
-      } @else {
-        <div class="no-task">
-          <span class="no-task__icon">—</span>
-          <p>No passage structure task for this passage.</p>
-        </div>
-      }
-    </div>
-  `,
-  styles: [`
-    .ps-tab { display: flex; flex-direction: column; gap: 1.25rem; }
-
-    .task-header { display: flex; flex-direction: column; gap: 0.4rem; }
-
-    .task-type {
-      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--km-gold); opacity: 0.7; font-family: var(--km-font-heading);
-    }
-
-    .task-name {
-      font-size: 1.05rem; font-weight: 500; color: var(--km-text);
-      margin: 0; letter-spacing: 0.02em;
-    }
-
-    .section-list { display: flex; flex-direction: column; gap: 0.75rem; }
-
-    .section-card {
-      background: var(--km-surface);
-      border: 1px solid var(--km-border);
-      border-left: 3px solid var(--km-border-gold);
-      border-radius: 0 10px 10px 0;
-      padding: 0.85rem 1.1rem;
-      display: flex; flex-direction: column; gap: 0.35rem;
-
-      &__title {
-        font-size: 0.9rem; font-weight: 600; color: var(--km-text);
-        margin: 0; letter-spacing: 0.02em;
-      }
-
-      &__range {
-        font-size: 0.68rem; color: var(--km-gold);
-        font-family: var(--km-font-heading); opacity: 0.7;
-        letter-spacing: 0.06em;
-      }
-
-      &__desc {
-        font-size: 0.85rem; color: var(--km-text-2); line-height: 1.6;
-        margin: 0;
-      }
-    }
-
-    .task-body {
-      font-size: 0.9rem; color: var(--km-text-2); line-height: 1.7;
-      p { margin: 0 0 0.75rem; }
-    }
-
-    .task-raw {
-      background: var(--km-surface); border: 1px solid var(--km-border);
-      border-radius: 8px; padding: 1rem;
-      font-size: 0.78rem; color: var(--km-text-3);
-      overflow-x: auto; white-space: pre-wrap; word-break: break-word;
-    }
-
-    .no-task {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; padding: 4rem 1rem; gap: 0.75rem;
-      color: var(--km-text-3); text-align: center;
-
-      &__icon { font-size: 2rem; opacity: 0.25; }
-      p { font-size: 0.875rem; font-style: italic; }
-    }
-
-    .empty { color: var(--km-text-3); font-size: 0.875rem; font-style: italic; }
-  `],
+  templateUrl: './lesson-passage-structure-tab.component.html',
+  styleUrl: './lesson-passage-structure-tab.component.scss',
 })
-export class LessonPassageStructureTabComponent {
+export class LessonPassageStructureTabComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input({ required: true }) lesson!: StudyLessonResponse;
 
-  task(): UnitTaskVm | null {
-    return this.lesson.tasks.find(t => t.task_type === 'passage_structure') ?? null;
-  }
+  private elRef = inject(ElementRef);
 
-  sections(): any[] {
-    const t = this.task();
-    if (!t?.task_json) return [];
+  sections: PassageSection[] = [];
+  ref = '';
+
+  private scrollTriggers: ScrollTrigger[] = [];
+
+  // ── Lifecycle ─────────────────────────────────────────
+
+  ngOnInit(): void {
+    const task = this.lesson?.tasks?.find(t => t.task_type === 'passage_structure');
+    if (!task?.task_json) return;
     try {
-      const parsed = JSON.parse(t.task_json);
-      return Array.isArray(parsed.sections) ? parsed.sections
-           : Array.isArray(parsed) ? parsed
-           : [];
-    } catch { return []; }
+      const parsed = typeof task.task_json === 'string'
+        ? JSON.parse(task.task_json)
+        : task.task_json;
+      this.sections = parsed?.analysis?.sections ?? [];
+      const s = parsed?.scope?.ref;
+      this.ref = s ? `${s.surah}:${s.verses}` : '';
+    } catch { /* malformed JSON */ }
   }
 
-  content(): string | null {
-    const t = this.task();
-    if (!t?.task_json) return null;
-    try {
-      const parsed = JSON.parse(t.task_json);
-      return parsed.content ?? parsed.text ?? parsed.html ?? null;
-    } catch { return null; }
+  ngAfterViewInit(): void {
+    setTimeout(() => this.setupScrollAnimations(), 80);
   }
 
-  prettyJson(): string {
-    const t = this.task();
-    if (!t?.task_json) return '';
-    try { return JSON.stringify(JSON.parse(t.task_json), null, 2); }
-    catch { return t.task_json; }
+  ngOnDestroy(): void {
+    this.scrollTriggers.forEach(st => st.kill());
+    this.scrollTriggers = [];
+  }
+
+  // ── Scroll animations ─────────────────────────────────
+
+  private setupScrollAnimations(): void {
+    const cards = this.elRef.nativeElement
+      .querySelectorAll('.section-card') as NodeListOf<HTMLElement>;
+    if (!cards.length) return;
+
+    cards.forEach((card, i) => {
+      gsap.set(card, { opacity: 0, y: 28 });
+      const st = ScrollTrigger.create({
+        trigger: card,
+        scroller: document.body,
+        start: 'top 90%',
+        once: true,
+        onEnter: () => {
+          gsap.to(card, {
+            opacity: 1, y: 0,
+            duration: 0.55,
+            ease: 'power3.out',
+            delay: Math.min(i * 0.07, 0.28),
+          });
+        },
+      });
+      this.scrollTriggers.push(st);
+    });
+    ScrollTrigger.refresh();
+  }
+
+  // ── Template helpers ──────────────────────────────────
+
+  kvPairs(data: Record<string, string>): { key: string; value: string }[] {
+    return Object.entries(data ?? {}).map(([key, value]) => ({ key, value }));
+  }
+
+  chiasmLevels(data: any): any[] {
+    return data?.levels ?? [];
+  }
+
+  isCenter(idx: number, total: number): boolean {
+    return idx === Math.floor(total / 2);
+  }
+
+  clusters(data: any): any[] {
+    return data?.clusters ?? [];
+  }
+
+  timelineSteps(data: any): any[] {
+    return data?.steps ?? [];
   }
 }
