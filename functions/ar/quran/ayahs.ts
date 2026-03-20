@@ -1,9 +1,7 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
-import { requireAuth } from '../../_utils/auth';
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 const jsonHeaders = {
@@ -109,14 +107,6 @@ type TranslationPassageRow = {
 };
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
-  const user = await requireAuth(ctx);
-  if (!user) {
-    return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
-      status: 401,
-      headers: jsonHeaders,
-    });
-  }
-
   const url = new URL(ctx.request.url);
   const surah = Number.parseInt(String(url.searchParams.get('surah') ?? ''), 10);
   if (!Number.isFinite(surah) || surah < 1 || surah > 114) {
@@ -140,18 +130,12 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   }
 
   try {
-    // 1) Surah header (top envelope)
-    const surahStmt = ctx.env.DB
-      .prepare(
-        `
-        SELECT surah, name_ar, name_en, ayah_count, meta_json
-        FROM ar_quran_surahs
-        WHERE surah = ?1
-      `
-      )
-      .bind(surah);
+    // 1) Surah header
+    const surahRow = (await ctx.env.DB
+      .prepare(`SELECT surah, name_ar, name_en, ayah_count, meta_json FROM ar_quran_surahs WHERE surah = ?1`)
+      .bind(surah)
+      .first()) as SurahRow | null;
 
-    const surahRow = (await surahStmt.first()) as SurahRow | null;
     if (!surahRow) {
       return new Response(JSON.stringify({ ok: false, error: `Surah ${surah} not found.` }), {
         status: 404,
@@ -159,142 +143,67 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       });
     }
 
-    // 2) Total verses count (for pagination UI)
-    const countStmt = ctx.env.DB.prepare(`SELECT COUNT(*) AS total FROM ar_quran_ayah WHERE surah = ?1`).bind(surah);
-    const countRes = await countStmt.first();
+    // 2) Total verses count
+    const countRes = await ctx.env.DB
+      .prepare(`SELECT COUNT(*) AS total FROM ar_quran_ayah WHERE surah = ?1`)
+      .bind(surah)
+      .first();
     const total = Number(countRes?.total ?? 0);
 
-    // 3) Fetch the verse window
-    const ayahStmt = ctx.env.DB.prepare(
-      `
-      SELECT
-        id,
-        surah,
-        ayah,
-        surah_ayah,
-        page,
-        juz,
-        hizb,
-        ruku,
-        surah_name_ar,
-        surah_name_en,
-        text,
-        text_simple,
-        text_normalized,
-        text_diacritics,
-        text_no_diacritics,
-        verse_mark,
-        verse_full,
-        word_count,
-        char_count,
-        words
-      FROM ar_quran_ayah
-      WHERE surah = ?1
-      ORDER BY ayah ASC
-      LIMIT ?2
-      OFFSET ?3
-    `
-    );
+    // 3) Fetch verse window
+    const { results: ayahRowsRaw = [] } = await ctx.env.DB.prepare(
+      `SELECT id, surah, ayah, surah_ayah, page, juz, hizb, ruku,
+              surah_name_ar, surah_name_en,
+              text, text_simple, text_normalized,
+              text_diacritics, text_no_diacritics,
+              verse_mark, verse_full, word_count, char_count, words
+       FROM ar_quran_ayah
+       WHERE surah = ?1
+       ORDER BY ayah ASC
+       LIMIT ?2 OFFSET ?3`
+    ).bind(surah, limit, offset).all<AyahRow>();
 
-    const { results: ayahRowsRaw = [] } = await ayahStmt.bind(surah, limit, offset).all<AyahRow>();
     const ayahRows = (ayahRowsRaw ?? []) as AyahRow[];
 
-    // If no verses, still return envelope
     if (!ayahRows.length) {
       return new Response(
         JSON.stringify({
           ok: true,
-          surah: {
-            surah: surahRow.surah,
-            name_ar: surahRow.name_ar,
-            name_en: surahRow.name_en ?? null,
-            ayah_count: surahRow.ayah_count ?? null,
-            meta: safeJson(surahRow.meta_json),
-          },
-          total,
-          page,
-          pageSize: limit,
-          verses: [],
+          surah: { surah: surahRow.surah, name_ar: surahRow.name_ar, name_en: surahRow.name_en ?? null, ayah_count: surahRow.ayah_count ?? null, meta: safeJson(surahRow.meta_json) },
+          total, page, pageSize: limit, verses: [],
         }),
         { headers: jsonHeaders }
       );
     }
 
-    // Compute min/max ayah in the window so we can fetch words+translations by range
-    let minAyah = ayahRows[0]!.ayah;
-    let maxAyah = ayahRows[ayahRows.length - 1]!.ayah;
+    const minAyah = ayahRows[0]!.ayah;
+    const maxAyah = ayahRows[ayahRows.length - 1]!.ayah;
 
-    // 4) Fetch translations for the window
-    const trStmt = ctx.env.DB.prepare(
-      `
-      SELECT
-        surah,
-        ayah,
-        translation_haleem,
-        footnotes_haleem,
-        translation_asad,
-        translation_sahih,
-        translation_usmani,
-        footnotes_sahih,
-        footnotes_usmani,
-        meta_json
-      FROM ar_quran_translations
-      WHERE surah = ?1
-        AND ayah BETWEEN ?2 AND ?3
-      ORDER BY ayah ASC
-    `
-    );
-
-    const { results: trRowsRaw = [] } = await trStmt.bind(surah, minAyah, maxAyah).all<TranslationRow>();
-    const trRows = (trRowsRaw ?? []) as TranslationRow[];
+    // 4) Translations
+    const { results: trRowsRaw = [] } = await ctx.env.DB.prepare(
+      `SELECT surah, ayah, translation_haleem, footnotes_haleem, translation_asad,
+              translation_sahih, translation_usmani, footnotes_sahih, footnotes_usmani, meta_json
+       FROM ar_quran_translations
+       WHERE surah = ?1 AND ayah BETWEEN ?2 AND ?3
+       ORDER BY ayah ASC`
+    ).bind(surah, minAyah, maxAyah).all<TranslationRow>();
 
     const trByAyah = new Map<number, TranslationRow>();
-    for (const t of trRows) trByAyah.set(t.ayah, t);
+    for (const t of (trRowsRaw ?? [])) trByAyah.set(t.ayah, t);
 
     const translationSourceKey = 'haleem-2004';
-    const sourceStmt = ctx.env.DB.prepare(
-      `
-      SELECT
-        source_key,
-        title,
-        translator,
-        language,
-        publisher,
-        year,
-        isbn,
-        edition,
-        rights,
-        source_path,
-        meta_json
-      FROM ar_quran_translation_sources
-      WHERE source_key = ?1
-    `
-    );
-    const sourceRow = (await sourceStmt.bind(translationSourceKey).first()) as TranslationSourceRow | null;
 
-    const passageStmt = ctx.env.DB.prepare(
-      `
-      SELECT
-        id,
-        source_key,
-        surah,
-        ayah_from,
-        ayah_to,
-        passage_index,
-        page_pdf,
-        page_book,
-        text,
-        meta_json
-      FROM ar_quran_translation_passages
-      WHERE source_key = ?1
-        AND surah = ?2
-      ORDER BY passage_index ASC
-    `
-    );
-    const { results: passageRowsRaw = [] } = await passageStmt
-      .bind(translationSourceKey, surah)
-      .all<TranslationPassageRow>();
-    const passageRows = (passageRowsRaw ?? []) as TranslationPassageRow[];
+    const sourceRow = (await ctx.env.DB.prepare(
+      `SELECT source_key, title, translator, language, publisher, year, isbn, edition, rights, source_path, meta_json
+       FROM ar_quran_translation_sources WHERE source_key = ?1`
+    ).bind(translationSourceKey).first()) as TranslationSourceRow | null;
+
+    const { results: passageRowsRaw = [] } = await ctx.env.DB.prepare(
+      `SELECT id, source_key, surah, ayah_from, ayah_to, passage_index, page_pdf, page_book, text, meta_json
+       FROM ar_quran_translation_passages
+       WHERE source_key = ?1 AND surah = ?2
+       ORDER BY passage_index ASC`
+    ).bind(translationSourceKey, surah).all<TranslationPassageRow>();
 
     const translationSource = sourceRow
       ? {
@@ -312,7 +221,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         }
       : null;
 
-    const translationPassages = passageRows.map((row) => ({
+    const translationPassages = (passageRowsRaw ?? []).map((row) => ({
       id: row.id,
       source_key: row.source_key,
       surah: row.surah,
@@ -325,10 +234,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       meta: safeJson(row.meta_json),
     }));
 
-    // 5) Build final envelope
+    // 5) Build verses
     const verses = ayahRows.map((v) => {
       const t = trByAyah.get(v.ayah) ?? null;
-
       const translations = t
         ? {
             haleem: t.translation_haleem ?? null,
@@ -343,55 +251,40 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         : null;
 
       const translation =
-        t?.translation_haleem ??
-        t?.translation_asad ??
-        t?.translation_sahih ??
-        t?.translation_usmani ??
-        null;
-
-      const words = (safeJson(v.words) as any[]) ?? [];
+        t?.translation_haleem ?? t?.translation_asad ?? t?.translation_sahih ?? t?.translation_usmani ?? null;
 
       return {
         id: v.id,
         surah: v.surah,
         ayah: v.ayah,
         surah_ayah: v.surah_ayah,
-
         page: v.page ?? null,
         juz: v.juz ?? null,
         hizb: v.hizb ?? null,
         ruku: v.ruku ?? null,
-
         surah_name_ar: v.surah_name_ar ?? surahRow.name_ar,
         surah_name_en: v.surah_name_en ?? surahRow.name_en ?? null,
-
         text: v.text,
         text_simple: v.text_simple ?? null,
         text_normalized: v.text_normalized ?? null,
         text_diacritics: v.text_diacritics ?? null,
         text_no_diacritics: v.text_no_diacritics ?? null,
-
         verse_mark: v.verse_mark ?? null,
         verse_full: v.verse_full ?? null,
-
         word_count: v.word_count ?? null,
         char_count: v.char_count ?? null,
-
         verse_key: `${v.surah}:${v.ayah}`,
         verse_number: v.ayah,
         chapter_id: v.surah,
-
         text_uthmani: v.text,
         text_imlaei_simple: v.text_simple ?? null,
-
         page_number: v.page ?? null,
         juz_number: v.juz ?? null,
         hizb_number: v.hizb ?? null,
         ruku_number: v.ruku ?? null,
-
         translation,
         translations,
-        words,
+        words: (safeJson(v.words) as unknown[]) ?? [],
       };
     });
 
@@ -415,8 +308,8 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       { headers: jsonHeaders }
     );
   } catch (err) {
-    console.error('surah envelope error', err);
-    return new Response(JSON.stringify({ ok: false, error: 'Failed to load surah envelope' }), {
+    console.error('ayahs error', err);
+    return new Response(JSON.stringify({ ok: false, error: 'Failed to load surah' }), {
       status: 500,
       headers: jsonHeaders,
     });

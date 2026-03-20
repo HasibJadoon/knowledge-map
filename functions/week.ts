@@ -1,1 +1,1 @@
-export { onRequestGet, onRequestPost } from './week/ensure';
+export { onRequestGet, onRequestPost } from '../week';
