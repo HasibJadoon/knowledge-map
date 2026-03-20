@@ -11,15 +11,32 @@
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.unit-count {
-  font-size: 0.75rem; color: var(--km-text-3);
-  letter-spacing: 0.08em; text-transform: uppercase;
-  margin-bottom: 1.25rem;
+.surah-header {
+  display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+  margin-bottom: 2rem; padding-bottom: 1rem;
+  border-bottom: 1px solid var(--km-border);
+
+  &__ar {
+    font-family: var(--km-font-heading);
+    font-size: 1.5rem; color: var(--km-gold);
+    direction: rtl;
+  }
+
+  &__en {
+    font-size: 0.9rem; color: var(--km-text-2);
+    font-weight: 500; letter-spacing: 0.04em;
+  }
+
+  &__count {
+    font-size: 0.72rem; color: var(--km-text-3);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-left: auto;
+  }
 }
 
 .unit-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: 1rem;
 }
 
@@ -27,21 +44,35 @@
   background: var(--km-surface);
   border: 1px solid var(--km-border-gold);
   border-radius: 12px;
-  padding: 1.1rem 1.1rem 2rem;
+  padding: 1.1rem 1.1rem 2.6rem;
   display: flex; flex-direction: column; gap: 0.6rem;
   cursor: pointer;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
   outline: none;
   position: relative;
+  opacity: 0; // GSAP will reveal
 
   &:hover, &:focus-visible {
     border-color: var(--km-gold);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(201, 168, 76, 0.12);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(201, 168, 76, 0.14);
+  }
+
+  &__badge {
+    position: absolute; top: -10px; left: 1rem;
+    background: var(--km-bg);
+    border: 1px solid var(--km-border-gold);
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.62rem; color: var(--km-gold);
+    font-family: var(--km-font-heading);
+    letter-spacing: 0.04em;
   }
 
   &__head {
     display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap;
+    margin-top: 0.25rem;
   }
 
   &__ref {
@@ -52,33 +83,36 @@
   }
 
   &__label {
-    font-size: 0.82rem; font-weight: 500;
+    font-size: 0.82rem; font-weight: 600;
     color: var(--km-text); letter-spacing: 0.02em;
   }
 
   &__theme {
     font-size: 0.78rem; color: var(--km-text-2);
-    font-style: italic; margin: 0; line-height: 1.4;
+    font-style: italic; margin: 0; line-height: 1.45;
   }
 
-  &__vocab {
+  &__chips {
     display: flex; flex-wrap: wrap; gap: 0.35rem;
     margin-top: 0.1rem;
   }
 
   &__tasks {
-    display: flex; flex-wrap: wrap; gap: 0.35rem;
+    display: flex; gap: 0.35rem; align-items: center;
   }
 
   &__arrow {
     position: absolute; right: 1rem; bottom: 0.9rem;
     color: var(--km-text-3); font-size: 0.9rem;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.2s;
   }
-  &:hover &__arrow { color: var(--km-gold); }
+  &:hover &__arrow {
+    color: var(--km-gold);
+    transform: translateX(3px);
+  }
 }
 
-.vocab-chip {
+.chip {
   font-size: 0.68rem; letter-spacing: 0.05em;
   padding: 0.2rem 0.55rem; border-radius: 20px;
   background: rgba(255,255,255,0.04);
@@ -89,17 +123,18 @@
   &--verb { border-color: rgba(77, 217, 168, 0.3); color: #4dd9a8; }
 }
 
-.task-chip {
-  font-size: 0.65rem; letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 0.18rem 0.5rem; border-radius: 20px;
+.task-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--km-border);
-  color: var(--km-text-3); white-space: nowrap;
+  color: var(--km-text-3);
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 
   &--on {
-    border-color: rgba(201, 168, 76, 0.4);
+    border-color: rgba(201, 168, 76, 0.45);
     color: var(--km-gold);
-    background: rgba(201, 168, 76, 0.07);
+    background: rgba(201, 168, 76, 0.08);
   }
 }

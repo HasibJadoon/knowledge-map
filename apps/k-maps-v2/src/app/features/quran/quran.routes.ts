@@ -27,6 +27,14 @@ export const QURAN_ROUTES: Routes = [
   },
   // ── Surah module routes ──────────────────────────────────
   {
+    path: 'surah/:surahId/study/:passageNo',
+    loadComponent: () =>
+      import('./surah/lesson/surah-lesson-page.component').then(
+        (m) => m.SurahLessonPageComponent
+      ),
+    title: 'Lesson — K-MAPS',
+  },
+  {
     path: 'surah/:surahId/study',
     loadComponent: () =>
       import('./surah/study/surah-study.component').then(

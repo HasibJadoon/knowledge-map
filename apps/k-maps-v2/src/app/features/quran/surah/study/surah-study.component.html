@@ -1,46 +1,66 @@
-<km-quran-page-shell breadcrumb="Surah {{ surahId() }}" title="Study" (goBack)="back()">
+<km-quran-page-shell
+  [breadcrumb]="(surahMeta()?.name_en ?? ('Surah ' + surahId()))"
+  title="Study"
+  (goBack)="back()">
 
   @if (loading()) {
-    <div class="qstate"><div class="qstate__spinner"></div><p>Loading units…</p></div>
+    <div class="qstate"><div class="qstate__spinner"></div><p>Loading passages…</p></div>
   }
   @if (!loading() && error()) {
     <div class="qstate qstate--error"><p>{{ error() }}</p></div>
   }
   @if (!loading() && !error() && units().length === 0) {
-    <div class="qstate"><p class="qstate__empty">No study units found for this surah.</p></div>
+    <div class="qstate"><p class="qstate__empty">No study passages found for this surah.</p></div>
   }
 
   @if (!loading() && !error() && units().length > 0) {
-    <div class="unit-count">{{ units().length }} unit{{ units().length !== 1 ? 's' : '' }}</div>
+
+    <!-- Surah header -->
+    @if (surahMeta()) {
+      <div class="surah-header">
+        <span class="surah-header__ar">{{ surahMeta()!.name_ar }}</span>
+        <span class="surah-header__en">{{ surahMeta()!.name_en }}</span>
+        <span class="surah-header__count">{{ units().length }} passage{{ units().length !== 1 ? 's' : '' }}</span>
+      </div>
+    }
+
     <div class="unit-grid">
-      @for (unit of units(); track unit.unit_id) {
-        <div class="unit-card" #cardEl (click)="openUnit(unit)" tabindex="0" (keydown.enter)="openUnit(unit)">
+      @for (unit of units(); track unit.unit_id; let i = $index) {
+        <div class="unit-card" #cardEl
+             (click)="openUnit(unit)"
+             tabindex="0"
+             role="button"
+             [attr.aria-label]="'Open passage ' + unit.order_index"
+             (keydown.enter)="openUnit(unit)">
+
+          <!-- Order badge -->
+          <span class="unit-card__badge">{{ unit.order_index }}</span>
 
           <!-- Header row -->
           <div class="unit-card__head">
             <span class="unit-card__ref">{{ ayahRange(unit) }}</span>
-            @if (unit.unit_label) {
-              <span class="unit-card__label">{{ unit.unit_label }}</span>
+            @if (unit.label) {
+              <span class="unit-card__label">{{ unit.label }}</span>
             }
           </div>
 
-          @if (unit.unit_theme) {
-            <p class="unit-card__theme">{{ unit.unit_theme }}</p>
+          @if (unit.theme) {
+            <p class="unit-card__theme">{{ unit.theme }}</p>
           }
 
           <!-- Vocabulary counts -->
-          <div class="unit-card__vocab">
-            <span class="vocab-chip vocab-chip--noun">{{ unit.vocabulary.nouns }} nouns</span>
-            <span class="vocab-chip vocab-chip--verb">{{ unit.vocabulary.verbs }} verbs</span>
-            <span class="vocab-chip">{{ unit.vocabulary.total_words }} words</span>
+          <div class="unit-card__chips">
+            <span class="chip chip--noun">{{ unit.vocabulary.nouns }} nouns</span>
+            <span class="chip chip--verb">{{ unit.vocabulary.verbs }} verbs</span>
+            <span class="chip">{{ unit.vocabulary.total }} words</span>
           </div>
 
-          <!-- Task presence chips -->
+          <!-- Task presence -->
           <div class="unit-card__tasks">
-            <span class="task-chip" [class.task-chip--on]="unit.reading.has">Reading</span>
-            <span class="task-chip" [class.task-chip--on]="unit.sentence_structure.has">Structure</span>
-            <span class="task-chip" [class.task-chip--on]="unit.expressions.has">Expressions</span>
-            <span class="task-chip" [class.task-chip--on]="unit.passage_structure.has">Passage</span>
+            <span class="task-dot" [class.task-dot--on]="unit.reading.has" title="Reading">R</span>
+            <span class="task-dot" [class.task-dot--on]="unit.sentence_structure.has" title="Sentence Structure">S</span>
+            <span class="task-dot" [class.task-dot--on]="unit.expressions.has" title="Expressions">E</span>
+            <span class="task-dot" [class.task-dot--on]="unit.passage_structure.has" title="Passage Structure">P</span>
           </div>
 
           <span class="unit-card__arrow">&#8594;</span>

@@ -1,0 +1,85 @@
+<div class="lesson-page">
+
+  <!-- Back nav -->
+  <nav class="lesson-page__nav">
+    <button class="btn-back" (click)="back()">&#8592; Back</button>
+    @if (surahName()) {
+      <span class="nav-crumb">{{ surahName()!.transliteratedName }}</span>
+    }
+    <span class="nav-crumb nav-crumb--dim">Passage {{ passageNo() }}</span>
+  </nav>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="qstate"><div class="qstate__spinner"></div><p>Loading passage…</p></div>
+  }
+
+  <!-- Error -->
+  @if (!loading() && error()) {
+    <div class="qstate qstate--error"><p>{{ error() }}</p></div>
+  }
+
+  @if (!loading() && !error() && lesson()) {
+
+    <!-- Hero -->
+    <div class="hero" #heroEl>
+      <div class="hero__bg" #heroBg></div>
+      <div class="hero__content">
+        @if (surahName()) {
+          <p class="hero__ar" #heroAr>{{ surahName()!.arabicName }}</p>
+          <h1 class="hero__en" #heroEn>{{ surahName()!.englishName }}</h1>
+        }
+
+        <div class="hero__meta">
+          <span class="hero__passage">Passage {{ passageNo() }}</span>
+          @if (lesson()!.unit.label) {
+            <span class="hero__sep">·</span>
+            <span class="hero__label">{{ lesson()!.unit.label }}</span>
+          }
+          <span class="hero__sep">·</span>
+          <span class="hero__range">{{ ayahRange() }}</span>
+        </div>
+
+        @if (lesson()!.unit.theme) {
+          <p class="hero__theme">{{ lesson()!.unit.theme }}</p>
+        }
+      </div>
+      <div class="hero__divider" #heroDivider></div>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tab-bar" #tabsEl>
+      @for (tab of tabs; track tab.id) {
+        <button
+          class="tab-btn"
+          [class.tab-btn--active]="activeTab() === tab.id"
+          (click)="selectTab(tab.id)">
+          {{ tab.label }}
+        </button>
+      }
+    </div>
+
+    <!-- Tab content -->
+    <div class="tab-content">
+      @switch (activeTab()) {
+        @case ('reading') {
+          <km-lesson-reading-tab [lesson]="lesson()!" />
+        }
+        @case ('vocabulary') {
+          <km-lesson-vocabulary-tab [lesson]="lesson()!" />
+        }
+        @case ('sentence-structure') {
+          <km-lesson-sentence-structure-tab [lesson]="lesson()!" />
+        }
+        @case ('expressions') {
+          <km-lesson-expressions-tab [lesson]="lesson()!" />
+        }
+        @case ('passage-structure') {
+          <km-lesson-passage-structure-tab [lesson]="lesson()!" />
+        }
+      }
+    </div>
+
+  }
+
+</div>
