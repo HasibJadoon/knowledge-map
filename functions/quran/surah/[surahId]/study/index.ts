@@ -9,7 +9,7 @@ WITH surah_container AS (
   SELECT *
   FROM ar_containers
   WHERE container_type = 'quran_surah'
-    AND CAST(json_extract(meta_json, '$.surah') AS INTEGER) = ?1
+    AND id = 'C:QURAN:' || ?1
   LIMIT 1
 ),
 unit_rows AS (
@@ -48,7 +48,7 @@ SELECT json_object(
       'container_id', c.id,
       'container_key', c.container_key,
       'title', c.title,
-      'surah', CAST(json_extract(c.meta_json, '$.surah') AS INTEGER),
+      'surah', ?1,
       'name_ar', json_extract(c.meta_json, '$.name_ar'),
       'name_en', json_extract(c.meta_json, '$.name_en'),
       'meta_json', c.meta_json
@@ -56,26 +56,28 @@ SELECT json_object(
     FROM surah_container c
   ),
   'units', (
-    SELECT json_group_array(
-      json_object(
-        'unit_id',   unit_id,
-        'order_index', order_index,
-        'ayah_from', ayah_from,
-        'ayah_to',   ayah_to,
-        'start_ref', start_ref,
-        'end_ref',   end_ref,
-        'text_cache',text_cache,
-        'label',     label,
-        'theme',     theme,
-        'reading',   json_object('has', has_reading),
-        'vocabulary', json_object('nouns', noun_count, 'verbs', verb_count, 'total', total_word_count),
-        'sentence_structure', json_object('has', has_sentence_structure),
-        'expressions',        json_object('has', has_expressions),
-        'passage_structure',  json_object('has', has_passage_structure)
-      )
+    SELECT COALESCE(
+      json_group_array(
+        json_object(
+          'unit_id', unit_id,
+          'order_index', order_index,
+          'ayah_from', ayah_from,
+          'ayah_to', ayah_to,
+          'start_ref', start_ref,
+          'end_ref', end_ref,
+          'text_cache', text_cache,
+          'label', COALESCE(label, 'Passage ' || order_index),
+          'theme', theme,
+          'reading', json_object('has', has_reading),
+          'vocabulary', json_object('nouns', noun_count, 'verbs', verb_count, 'total', total_word_count),
+          'sentence_structure', json_object('has', has_sentence_structure),
+          'expressions', json_object('has', has_expressions),
+          'passage_structure', json_object('has', has_passage_structure)
+        )
+      ),
+      json('[]')
     )
     FROM unit_rows
-    ORDER BY order_index
   )
 ) AS study_grid_json
 `;
