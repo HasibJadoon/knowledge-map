@@ -167,7 +167,7 @@ export class SurahModulesService {
   private readonly base = environment.apiBase;
 
   private url(surahId: number, ...segments: string[]): string {
-    return `${this.base}/ar/quran/surah/${surahId}/${segments.join('/')}`;
+    return `${this.base}/quran/surah/${surahId}/${segments.join('/')}`;
   }
 
   getSurahLessons(surahId: number): Observable<LessonsResponse> {
