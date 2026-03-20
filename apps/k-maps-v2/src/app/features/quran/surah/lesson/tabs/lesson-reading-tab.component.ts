@@ -9,7 +9,7 @@ import { StudyLessonResponse, AyahVm, AyahWordToken } from '../../../../../share
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Arabic diacritic codepoints (harakat + Quranic marks) — used as fallback
+// Arabic diacritic codepoints (harakat + Quranic marks) — fallback stripping
 const DIACRITICS_RE = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g;
 // End-of-ayah marker + any following Arabic-Indic digits
 const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
@@ -38,33 +38,31 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
         </button>
       </div>
 
-      <!-- ── Ayah flow ─────────────────────────────────────── -->
-      <div class="rt-flow" #flowEl>
-        @for (ayah of lesson.ayahs; track ayah.ayah) {
-          <div class="rt-ayah" #ayahEl>
-            <div class="rt-ayah__body" dir="rtl">
+      <!-- ── Continuous mushaf flow ────────────────────────── -->
+      @if (lesson.ayahs.length > 0) {
+        <div class="rt-passage" #passageEl dir="rtl">
 
-              @if (hasWordTokens(ayah)) {
-                <!-- Word-by-word rendering using DB token data -->
-                @for (word of wordTokens(ayah); track word.position) {
-                  <span class="ar-word">{{ showDiacritics() ? word.text : word.simple }}</span>
-                }
-              } @else {
-                <!-- Fallback: split full text by spaces -->
-                @for (word of splitWords(ayah); track $index) {
-                  <span class="ar-word">{{ word }}</span>
-                }
+          @for (ayah of lesson.ayahs; track ayah.ayah) {
+
+            @if (hasWordTokens(ayah)) {
+              <!-- Word-by-word from DB token array -->
+              @for (word of wordTokens(ayah); track word.position) {
+                <span class="ar-word">{{ showDiacritics() ? word.text : word.simple }}</span>
               }
+            } @else {
+              <!-- Fallback: split full text -->
+              @for (word of splitWords(ayah); track $index) {
+                <span class="ar-word">{{ word }}</span>
+              }
+            }
 
-              <!-- Verse marker circle -->
-              <span class="rt-ayah__marker">{{ toArabicIndic(ayah.ayah) }}</span>
+            <!-- Inline verse marker circle after each ayah's last word -->
+            <span class="verse-marker">{{ toArabicIndic(ayah.ayah) }}</span>
 
-            </div>
-          </div>
-        }
-      </div>
+          }
 
-      @if (lesson.ayahs.length === 0) {
+        </div>
+      } @else {
         <p class="rt-empty">No ayahs found for this passage.</p>
       }
 
@@ -106,9 +104,7 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
       cursor: pointer;
       transition: border-color 0.25s, background 0.25s;
     }
-    .rt-tashkeel:hover {
-      border-color: var(--km-border-gold);
-    }
+    .rt-tashkeel:hover { border-color: var(--km-border-gold); }
     .rt-tashkeel--on {
       border-color: rgba(201,168,76,0.5);
       background: rgba(201,168,76,0.05);
@@ -122,8 +118,7 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
       letter-spacing: 0;
     }
     .rt-tashkeel__dot {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--km-border);
       transition: background 0.25s;
@@ -133,31 +128,18 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
       box-shadow: 0 0 6px rgba(201,168,76,0.5);
     }
 
-    /* ── Ayah flow ─────────────────────────────────────── */
-    .rt-flow {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .rt-ayah {
-      padding: 1.75rem 0;
-      border-bottom: 1px solid var(--km-border);
-    }
-    .rt-ayah:last-child {
-      border-bottom: none;
-    }
-
-    .rt-ayah__body {
+    /* ── Continuous passage block ──────────────────────── */
+    .rt-passage {
       font-family: var(--km-font-arabic, 'Scheherazade New', serif);
-      font-size: clamp(1.7rem, 3.2vw, 2.6rem);
-      line-height: 2.8;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      line-height: 2.9;
       direction: rtl;
       text-align: justify;
       text-justify: inter-word;
       color: var(--km-text);
       overflow-wrap: normal;
       word-break: keep-all;
+      /* GSAP sets opacity=0 initially */
     }
 
     /* ── Individual word spans ─────────────────────────── */
@@ -175,23 +157,24 @@ const END_MARKER_RE = /\u06DD[\u0660-\u0669]*/g;
       }
     }
 
-    /* ── Verse marker circle ───────────────────────────── */
-    .rt-ayah__marker {
+    /* ── Inline verse marker ───────────────────────────── */
+    .verse-marker {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 2em;
-      height: 2em;
+      width: 2.2em;
+      height: 2.2em;
       border-radius: 50%;
-      border: 1.5px solid var(--km-gold);
+      border: 1px solid rgba(201,168,76,0.85);
       outline: 1.5px solid rgba(201,168,76,0.25);
       outline-offset: 2px;
+      box-shadow: 0 0 8px rgba(201,168,76,0.15), inset 0 0 4px rgba(201,168,76,0.06);
       background: transparent;
       font-family: var(--km-font-heading);
-      font-size: 0.42em;
+      font-size: 0.4em;
       color: var(--km-gold);
       vertical-align: middle;
-      margin: 0 0.5em;
+      margin: 0 0.45em;
       user-select: none;
       letter-spacing: 0;
       flex-shrink: 0;
@@ -219,7 +202,7 @@ export class LessonReadingTabComponent implements AfterViewInit, OnDestroy {
   // ── Lifecycle ───────────────────────────────────────────
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.setupScrollAnimations(), 50);
+    setTimeout(() => this.setupScrollAnimation(), 50);
   }
 
   ngOnDestroy(): void {
@@ -227,51 +210,45 @@ export class LessonReadingTabComponent implements AfterViewInit, OnDestroy {
     this.scrollTriggers = [];
   }
 
-  // ── Scroll animations ────────────────────────────────────
+  // ── Scroll animation — reveal passage block on enter ──────
 
-  private setupScrollAnimations(): void {
-    const ayahEls = this.elRef.nativeElement.querySelectorAll('.rt-ayah') as NodeListOf<HTMLElement>;
-    if (!ayahEls.length) return;
+  private setupScrollAnimation(): void {
+    const passageEl = this.elRef.nativeElement.querySelector('.rt-passage') as HTMLElement | null;
+    if (!passageEl) return;
 
-    ayahEls.forEach((el: HTMLElement) => {
-      gsap.set(el, { opacity: 0, y: 28 });
+    gsap.set(passageEl, { opacity: 0, y: 32 });
 
-      const st = ScrollTrigger.create({
-        trigger: el,
-        start: 'top 88%',
-        onEnter: () => {
-          gsap.to(el, {
-            opacity: 1, y: 0,
-            duration: 0.6,
-            ease: 'power2.out',
-          });
-        },
-        onLeaveBack: () => {
-          gsap.set(el, { opacity: 0, y: 28 });
-        },
-      });
-
-      this.scrollTriggers.push(st);
+    const st = ScrollTrigger.create({
+      trigger: passageEl,
+      start: 'top 85%',
+      onEnter: () => {
+        gsap.to(passageEl, {
+          opacity: 1, y: 0,
+          duration: 0.75,
+          ease: 'power2.out',
+        });
+      },
+      onLeaveBack: () => {
+        gsap.set(passageEl, { opacity: 0, y: 32 });
+      },
     });
+
+    this.scrollTriggers.push(st);
   }
 
   // ── Word token helpers ────────────────────────────────────
 
-  /** True when the API returned the word-level token array */
   hasWordTokens(ayah: AyahVm): boolean {
     return Array.isArray(ayah.words) && ayah.words.length > 0;
   }
 
-  /** Return only 'word' char_type tokens (filter out 'end' markers) */
   wordTokens(ayah: AyahVm): AyahWordToken[] {
     return (ayah.words ?? []).filter(w => w.char_type !== 'end' && (w.text || w.simple));
   }
 
-  /** Fallback: split the full text into individual word strings */
   splitWords(ayah: AyahVm): string[] {
     let src = (ayah.text ?? '').replace(END_MARKER_RE, '');
     if (!this.showDiacritics()) {
-      // Prefer text_simple from API; otherwise strip diacritics from uthmani text
       src = ayah.text_simple
         ? ayah.text_simple.replace(END_MARKER_RE, '')
         : src.replace(DIACRITICS_RE, '');
