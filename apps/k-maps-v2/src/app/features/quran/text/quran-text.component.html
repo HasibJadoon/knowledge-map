@@ -140,7 +140,9 @@
         @for (group of ayahsByPage; track group.page; let last = $last) {
           <div class="mushaf-flow">
             @for (ayah of group.ayahs; track ayah.ayah) {
-              @if (!(surahId() === 1 && ayah.ayah === 1)) {{{ getAyahBody(ayah) }}<span class="verse-marker">{{ getAyahMarker(ayah) }}</span>}
+              @if (!(surahId() === 1 && ayah.ayah === 1)) {
+                @for (word of getWords(ayah); track $index) {<span class="ar-word q-word" (click)="onWordClick(word, ayah)">{{ word }}</span>}<span class="verse-marker">{{ getAyahMarker(ayah) }}</span>
+              }
             }
           </div>
           @if (!last && group.page > 0) {
