@@ -10,6 +10,8 @@ const DIACRITICS_RE = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06
 //   U+06DD = Arabic End of Ayah       (ornamental circle with ayah number)
 //   U+06DE = Arabic Start of Rub El Hizb (large ornamental circle, quarter-division marker)
 const END_MARKER_RE = /[\u06DD\u06DE][\u0660-\u0669]*/g;
+// Arabic-Indic digit-only tokens (٠١٢٣٤٥٦٧٨٩) — ayah numbers embedded in text without U+06DD prefix
+const ARABIC_INDIC_ONLY_RE = /^[\u0660-\u0669]+$/;
 
 @Component({
   selector: 'km-lesson-reading-tab',
@@ -199,10 +201,13 @@ export class LessonReadingTabComponent {
   }
 
   wordTokens(ayah: AyahVm): AyahWordToken[] {
-    return (ayah.words ?? []).filter(
-      // exclude end-of-ayah tokens (char_type='end' or text contains only U+06DD)
-      w => w.char_type !== 'end' && (w.text || w.simple)
-    );
+    return (ayah.words ?? []).filter(w => {
+      if (w.char_type === 'end') return false;
+      const display = (w.text || w.simple || '').replace(END_MARKER_RE, '').trim();
+      if (!display) return false;
+      if (ARABIC_INDIC_ONLY_RE.test(display)) return false; // bare ayah-number digit
+      return true;
+    });
   }
 
   /** Get the display text for a single word token — always strip U+06DD */
@@ -218,7 +223,10 @@ export class LessonReadingTabComponent {
         ? ayah.text_simple.replace(END_MARKER_RE, '')
         : src.replace(DIACRITICS_RE, '');
     }
-    return src.split(/\s+/).filter(w => w.length > 0);
+    return src
+      .split(/\s+/)
+      .filter(w => w.length > 0)
+      .filter(w => !ARABIC_INDIC_ONLY_RE.test(w)); // drop bare ayah-number digits
   }
 
   toArabicIndic(n: number): string {
