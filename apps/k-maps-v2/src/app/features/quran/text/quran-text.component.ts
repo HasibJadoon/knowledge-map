@@ -35,6 +35,12 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
 
   readonly bismillah = BISMILLAH;
 
+  /** Returns U+06DD + Arabic-Indic digits — Scheherazade New renders this
+   *  as the ornamental rosette end-of-ayah marker with the number inside */
+  verseMarker(n: number): string {
+    return '\u06DD' + this.toArabicIndic(n);
+  }
+
   surahId = signal<number>(1);
   surahInfo = signal<AyahsSurah | null>(null);
   ayahs = signal<QuranAyah[]>([]);

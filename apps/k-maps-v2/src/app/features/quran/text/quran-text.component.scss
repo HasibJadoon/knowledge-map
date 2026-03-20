@@ -347,25 +347,17 @@
 }
 
 // ── Verse marker (mushaf view) ────────────────────────────
-// Displays the ayah number as an Arabic-Indic numeral inside a gold circle
+// Scheherazade New renders U+06DD (Arabic End of Ayah) as a beautiful
+// ornamental rosette glyph — we just colour it gold and add equal spacing.
 .verse-marker {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.8em;
-  height: 1.8em;
-  border-radius: 50%;
-  border: 1px solid rgba(201, 168, 76, 0.7);
-  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.10), inset 0 0 6px rgba(201, 168, 76, 0.06);
-  font-family: var(--km-font-heading);
-  font-size: 0.38em;
+  font-family: var(--km-font-arabic, 'Scheherazade New', serif);
+  font-size: inherit;
   color: var(--km-gold);
   vertical-align: middle;
-  margin: 0 0.5em;
+  margin: 0 0.45em;   // equal gap on both sides
   user-select: none;
+  display: inline;
   letter-spacing: 0;
-  background: transparent;
-  flex-shrink: 0;
 }
 
 
