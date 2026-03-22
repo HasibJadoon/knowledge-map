@@ -301,16 +301,16 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-// ── Ayah end badge (verse-by-verse + mushaf views) ───────
-// AmiriQuran renders U+06DD + Arabic-Indic digit as a SINGLE ornate medallion.
-// display:inline keeps the glyph in the text run (no block formatting context).
+// ── Ayah number badge — plain digit, no circle ───────────
+// Arabic-Indic digit only (U+06DD stripped). UthmanicHafs/AmiriQuran
+// auto-renders the digit in the correct Quranic numeral style.
 .ayah-badge {
   display: inline;
-  font-family: 'AmiriQuran', var(--km-font-arabic);
-  font-size: 0.9em;
+  font-family: var(--km-font-arabic);
+  font-size: 0.85em;
   color: var(--km-gold);
   vertical-align: middle;
-  margin: 0 0.2em;
+  margin: 0 0.25em;
   user-select: none;
   letter-spacing: 0;
   line-height: 1;
@@ -334,10 +334,10 @@
 }
 
 // ── Verse marker (mushaf continuous-flow view) ────────────
-// AmiriQuran renders ۝ + Arabic-Indic digit as a single ornate medallion glyph.
+// Arabic-Indic digit only in UthmanicHafs — no circle, no U+06DD.
 .verse-marker {
   display: inline;
-  font-family: 'AmiriQuran', var(--km-font-arabic);
+  font-family: var(--km-font-arabic);
   font-size: 1em;
   color: var(--km-gold);
   vertical-align: middle;
