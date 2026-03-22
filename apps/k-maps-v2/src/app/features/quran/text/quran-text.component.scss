@@ -301,37 +301,19 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-// ── Ayah end badge (verse-by-verse view) ─────────────────
-// U+06DD renders as an ornate EMPTY circle frame in UthmanicHafs.
-// __frame shows that frame; __num is absolutely centred on top of it.
+// ── Ayah end badge (verse-by-verse + mushaf views) ───────
+// AmiriQuran renders U+06DD + Arabic-Indic digit as a SINGLE ornate medallion.
+// display:inline keeps the glyph in the text run (no block formatting context).
 .ayah-badge {
-  position: relative;
-  display: inline-block;
+  display: inline;
+  font-family: 'AmiriQuran', var(--km-font-arabic);
+  font-size: 0.9em;
+  color: var(--km-gold);
   vertical-align: middle;
-  margin: 0 0.3em;
+  margin: 0 0.2em;
   user-select: none;
+  letter-spacing: 0;
   line-height: 1;
-
-  &__frame {
-    display: block;
-    font-family: var(--km-font-arabic);
-    font-size: 0.9em;
-    color: var(--km-gold);
-    line-height: 1;
-  }
-
-  &__num {
-    position: absolute;
-    top: 48%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: var(--km-font-arabic);
-    font-size: 0.65em;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1;
-    pointer-events: none;
-  }
 }
 
 // ── Shared Arabic word hover (verse-by-verse view) ───────
@@ -352,36 +334,17 @@
 }
 
 // ── Verse marker (mushaf continuous-flow view) ────────────
-// Same overlay approach as .ayah-badge — U+06DD = ornate frame,
-// digit centred on top. inline-block so it flows within the Arabic text run.
+// AmiriQuran renders ۝ + Arabic-Indic digit as a single ornate medallion glyph.
 .verse-marker {
-  position: relative;
-  display: inline-block;
+  display: inline;
+  font-family: 'AmiriQuran', var(--km-font-arabic);
+  font-size: 1em;
+  color: var(--km-gold);
   vertical-align: middle;
-  margin: 0 0.3em;
+  margin: 0 0.2em;
   user-select: none;
+  letter-spacing: 0;
   line-height: 1;
-
-  &__frame {
-    display: block;
-    font-family: var(--km-font-arabic);
-    font-size: 1.1em;
-    color: var(--km-gold);
-    line-height: 1;
-  }
-
-  &__num {
-    position: absolute;
-    top: 48%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: var(--km-font-arabic);
-    font-size: 0.65em;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1;
-    pointer-events: none;
-  }
 }
 
 

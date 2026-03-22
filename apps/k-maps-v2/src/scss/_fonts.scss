@@ -49,6 +49,15 @@
   src: url('/assets/fonts/UthmanicHafs_V22.woff2') format('woff2');
 }
 
+// ─── Amiri Quran (verse end-marker U+06DD renders as single ornate medallion)
+@font-face {
+  font-family: 'AmiriQuran';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/AmiriQuran.woff2') format('woff2');
+}
+
 // ─── QCF Surah Header ─────────────────────────────────────
 @font-face {
   font-family: 'QCFSurahHeader';

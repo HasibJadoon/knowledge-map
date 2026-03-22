@@ -115,10 +115,7 @@
                   @for (word of getWords(ayah); track $index) {
                     <span class="ar-word q-word" (click)="onWordClick(word, ayah)">{{ word }}</span>
                   }
-                  <span class="ayah-badge" [attr.aria-label]="'Verse ' + ayah.ayah">
-                    <span class="ayah-badge__frame">{{ getVerseMarkFrame() }}</span>
-                    <span class="ayah-badge__num">{{ getVerseMarkDigits(ayah) }}</span>
-                  </span>
+                  <span class="ayah-badge" [attr.aria-label]="'Verse ' + ayah.ayah">{{ getVerseMark(ayah) }}</span>
                 </div>
                 @if (ayah.translation) {
                   <div class="vrow__translation">{{ ayah.translation }}</div>
@@ -144,7 +141,7 @@
           <div class="mushaf-flow">
             @for (ayah of group.ayahs; track ayah.ayah) {
               @if (!(surahId() === 1 && ayah.ayah === 1)) {
-                @for (word of getWords(ayah); track $index) {<span class="ar-word q-word" (click)="onWordClick(word, ayah)">{{ word }}</span>}<span class="verse-marker" [attr.aria-label]="'Verse ' + ayah.ayah"><span class="verse-marker__frame">{{ getVerseMarkFrame() }}</span><span class="verse-marker__num">{{ getVerseMarkDigits(ayah) }}</span></span>
+                @for (word of getWords(ayah); track $index) {<span class="ar-word q-word" (click)="onWordClick(word, ayah)">{{ word }}</span>}<span class="verse-marker" [attr.aria-label]="'Verse ' + ayah.ayah">{{ getVerseMark(ayah) }}</span>
               }
             }
           </div>
