@@ -301,20 +301,36 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-// ── Ayah end badge (verse-by-verse + mushaf views) ───────
-// display:inline is critical — inline-flex/fixed dimensions break
-// UthmanicHafs OpenType glyph composition for U+06DD end-of-ayah.
-// Tarteel/qul.tarteel.ai confirmed: ۝٢ inline in UthmanicHafs = native medallion.
+// ── Ayah end badge (verse-by-verse view) ─────────────────
+// U+06DD renders as an ornate EMPTY circle frame in UthmanicHafs.
+// __frame shows that frame; __num is absolutely centred on top of it.
 .ayah-badge {
-  display: inline;
-  font-family: var(--km-font-arabic);
-  font-size: 0.75em;
-  color: var(--km-gold);
+  position: relative;
+  display: inline-block;
   vertical-align: middle;
-  margin: 0 0.25em;
+  margin: 0 0.3em;
   user-select: none;
-  letter-spacing: 0;
   line-height: 1;
+
+  &__frame {
+    display: block;
+    font-family: var(--km-font-arabic);
+    font-size: 0.9em;
+    color: var(--km-gold);
+    line-height: 1;
+  }
+
+  &__num {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--km-font-arabic);
+    font-size: 0.38em;
+    color: var(--km-gold);
+    line-height: 1;
+    pointer-events: none;
+  }
 }
 
 // ── Shared Arabic word hover (verse-by-verse view) ───────
@@ -335,19 +351,35 @@
 }
 
 // ── Verse marker (mushaf continuous-flow view) ────────────
-// Ornate medallion matching the Tarteel/quran.com style.
-// Uses ۝ + Arabic-Indic digits from DB — rendered inline in UthmanicHafs.
-// display:inline lets the font's OpenType end-of-ayah feature fire naturally.
+// Same overlay approach as .ayah-badge — U+06DD = ornate frame,
+// digit centred on top. inline-block so it flows within the Arabic text run.
 .verse-marker {
-  display: inline;
-  font-family: var(--km-font-arabic);
-  font-size: 1em;
-  color: var(--km-gold);
+  position: relative;
+  display: inline-block;
   vertical-align: middle;
-  margin: 0 0.15em;
+  margin: 0 0.3em;
   user-select: none;
-  letter-spacing: 0;
   line-height: 1;
+
+  &__frame {
+    display: block;
+    font-family: var(--km-font-arabic);
+    font-size: 1.1em;
+    color: var(--km-gold);
+    line-height: 1;
+  }
+
+  &__num {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--km-font-arabic);
+    font-size: 0.42em;
+    color: var(--km-gold);
+    line-height: 1;
+    pointer-events: none;
+  }
 }
 
 
