@@ -35,9 +35,15 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
 
   readonly bismillah = BISMILLAH;
 
-  /** Arabic-Indic verse number for the ornamental circle marker */
-  verseMarker(n: number): string {
-    return this.toArabicIndic(n);
+  /** Verse mark from DB: U+06DD ۝ + Arabic-Indic digits (e.g. ۝٢).
+   *  UthmanicHafs font renders this as the traditional decorative medallion. */
+  getVerseMark(ayah: QuranAyah): string {
+    return ayah.verse_mark ?? '';
+  }
+
+  /** @deprecated Use getVerseMark(ayah) — DB now serves verse_mark directly */
+  verseMarker(_n: number): string {
+    return '';
   }
 
   surahId = signal<number>(1);
@@ -96,33 +102,20 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
   // Prepared for morphology / lexicon lookup — full logic to be added later
   onWordClick(_word: string, _ayah: QuranAyah): void {}
 
-  /** Text before the U+06DD end-of-ayah marker (the readable verse body) */
+  /** Clean verse body — text_uthmani_clean has no verse number or U+06DD. */
   getAyahBody(ayah: QuranAyah): string {
-    const raw = ayah.text_uthmani ?? ayah.text ?? '';
-    const idx = raw.indexOf('\u06DD');
-    return (idx >= 0 ? raw.slice(0, idx) : raw).trim();
+    return (ayah.text_uthmani_clean ?? ayah.text_uthmani ?? ayah.text ?? '').trimEnd();
   }
 
-  /** The U+06DD marker + any following Arabic-Indic digits.
-   *  Scheherazade New renders U+06DD as a beautiful ornamental rosette —
-   *  we keep it and colour it gold via .verse-marker CSS */
+  /** @deprecated verse_mark is now served directly from DB via getVerseMark(). */
   getAyahMarker(ayah: QuranAyah): string {
-    const raw = ayah.text_uthmani ?? ayah.text ?? '';
-    const idx = raw.indexOf('\u06DD');
-    return idx >= 0 ? raw.slice(idx).trim() : '';
+    return ayah.verse_mark ?? '';
   }
 
   getWords(ayah: QuranAyah): string[] {
-    const src = ayah.text_uthmani ?? ayah.text ?? '';
-    return src
-      // Replace U+06DD (۝ Arabic End of Ayah) with a space so adjacent text
-      // separates cleanly — same approach as v1's splitAyahWords()
-      .replace(/\u06DD/g, ' ')
-      .split(/\s+/)
-      .filter(w => w.length > 0)
-      // Drop any bare Arabic-Indic numerals left over from the marker
-      // (API may return ۝٢ → after replace → ' ٢' → '٢' as a token)
-      .filter(w => !/^[٠-٩]+$/.test(w));
+    // text_uthmani_clean is pre-stripped (no verse number, no U+06DD)
+    const src = ayah.text_uthmani_clean ?? ayah.text_uthmani ?? ayah.text ?? '';
+    return src.split(/\s+/).filter(w => w.length > 0);
   }
 
   toArabicIndic(n: number): string {

@@ -147,13 +147,19 @@ CREATE TABLE workspace_group_roles (
 );
 
 CREATE TABLE ar_quran_surahs (
-  surah INTEGER PRIMARY KEY,
-  name_ar TEXT NOT NULL,
-  name_en TEXT,
-  ayah_count INTEGER,
-  meta_json JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
-  created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT
+  surah                  INTEGER PRIMARY KEY,
+  name_ar                TEXT    NOT NULL,
+  name_en                TEXT,
+  name_transliteration   TEXT,              -- "Al-Yusuf", "Al-Baqarah"
+  ayah_count             INTEGER,
+  revelation_place       TEXT    CHECK (revelation_place IS NULL OR revelation_place IN ('meccan', 'medinan', 'both')),
+  revelation_order       INTEGER,           -- chronological order of revelation
+  juz_start              INTEGER,
+  juz_end                INTEGER,
+  theme_summary          TEXT,              -- one-line thematic summary
+  meta_json              JSON    CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at             TEXT    NOT NULL DEFAULT (datetime('now')),
+  updated_at             TEXT
 );
 
 CREATE TABLE ar_quran_page_layout_lines (
@@ -182,47 +188,84 @@ CREATE TABLE ar_containers (
 );
 
 CREATE TABLE ar_container_units (
-  id TEXT PRIMARY KEY,
-  container_id TEXT NOT NULL,
-  unit_type TEXT NOT NULL,
-  order_index INTEGER NOT NULL DEFAULT 0,
-  ayah_from INTEGER,
-  ayah_to INTEGER,
-  start_ref TEXT,
-  end_ref TEXT,
-  text_cache TEXT,
-  meta_json JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
-  created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT,
+  id           TEXT    PRIMARY KEY,
+  container_id TEXT    NOT NULL,
+  unit_type    TEXT    NOT NULL,       -- 'chapter', 'passage', 'surah'
+  order_index  INTEGER NOT NULL DEFAULT 0,
+  ayah_from    INTEGER,
+  ayah_to      INTEGER,
+  surah        INTEGER,                -- denormalised for fast lookup
+  surah_ref    TEXT,                   -- "12:1-7" display reference
+  start_ref    TEXT,
+  end_ref      TEXT,
+  text_cache   TEXT,
+  meta_json    JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at   TEXT,
   FOREIGN KEY (container_id) REFERENCES ar_containers(id) ON DELETE CASCADE
 );
 
+-- ──────────────────────────────────────────────────────────────
+-- TEXT COLUMN STANDARD (critical — read before using any text column)
+--
+--  Column               Diacritics  Verse Mark  Use
+--  -------------------  ----------  ----------  ----------------------------
+--  text                 YES         YES(embed)  RAW SOURCE — never display
+--  text_uthmani_clean   YES         NO          → DISPLAY (diacritic mode)
+--  text_simple          NO          NO          → DISPLAY (clean mode)
+--  text_bare            NO          NO          → SEARCH / normalization
+--  text_normalized      NO          UNCLEAR     legacy — use text_bare
+--  text_diacritics      YES         UNCLEAR     legacy — use text_uthmani_clean
+--  text_non_diacritics  NO          UNCLEAR     legacy — use text_simple
+--  text_no_diacritics   NO          UNCLEAR     DEPRECATED dup — use text_simple
+--  verse_mark           —           ISOLATED    display circle separately
+--  verse_full           YES         YES         raw full-verse reference
+--
+--  Verse mark Unicode:
+--    U+06DD ۝  END OF AYAH
+--    U+06DE ۞  RUB EL HIZB (section marker)
+--    U+0660–U+0669  Arabic-Indic digits after mark
+--    Strip pattern: /[\u06DD\u06DE][\u0660-\u0669]*/g
+-- ──────────────────────────────────────────────────────────────
 CREATE TABLE ar_quran_ayah (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  surah INTEGER NOT NULL,
-  ayah INTEGER NOT NULL,
-  surah_ayah INTEGER NOT NULL UNIQUE,
-  page INTEGER,
-  juz INTEGER,
-  hizb INTEGER,
-  ruku INTEGER,
-  surah_name_ar TEXT,
-  surah_name_en TEXT,
-  text TEXT NOT NULL,
-  text_simple TEXT NOT NULL,
-  text_normalized TEXT NOT NULL,
-  text_diacritics TEXT,
-  text_non_diacritics TEXT,
-  text_no_diacritics TEXT,
-  first_word TEXT,
-  last_word TEXT,
-  word_count INTEGER,
-  char_count INTEGER,
-  verse_mark TEXT,
-  verse_full TEXT,
-  words JSON CHECK (words IS NULL OR json_valid(words)),
-  created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT,
+  id                   INTEGER PRIMARY KEY AUTOINCREMENT,
+  surah                INTEGER NOT NULL,
+  ayah                 INTEGER NOT NULL,
+  surah_ayah           INTEGER NOT NULL UNIQUE,
+  page                 INTEGER,
+  juz                  INTEGER,
+  hizb                 INTEGER,
+  ruku                 INTEGER,
+  surah_name_ar        TEXT,
+  surah_name_en        TEXT,
+
+  -- RAW SOURCE (has embedded verse mark U+06DD) — do not use for display
+  text                 TEXT    NOT NULL,
+
+  -- CANONICAL DISPLAY COLUMNS
+  text_uthmani_clean   TEXT,              -- ✓ Uthmani + diacritics, NO verse mark → USE FOR DIACRITIC DISPLAY
+  text_simple          TEXT    NOT NULL,  -- ✓ simple script, no diacritics, no mark → USE FOR CLEAN DISPLAY
+  text_bare            TEXT,              -- ✓ fully normalised, no diacritics, no marks → USE FOR SEARCH
+
+  -- LEGACY (kept for backward compat — do not use in new code)
+  text_normalized      TEXT    NOT NULL,  -- legacy: use text_bare instead
+  text_diacritics      TEXT,              -- legacy: use text_uthmani_clean instead
+  text_non_diacritics  TEXT,              -- legacy: use text_simple instead
+  text_no_diacritics   TEXT,              -- DEPRECATED: duplicate of text_non_diacritics
+
+  -- Word boundaries
+  first_word           TEXT,
+  last_word            TEXT,
+  word_count           INTEGER,
+  char_count           INTEGER,
+
+  -- Verse mark (isolated — for rendering the end-of-ayah circle separately)
+  verse_mark           TEXT,              -- isolated U+06DD + Arabic-Indic digit(s)
+  verse_full           TEXT,              -- full raw verse with mark (reference only)
+
+  words                JSON CHECK (words IS NULL OR json_valid(words)),
+  created_at           TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at           TEXT,
   UNIQUE (surah, ayah),
   FOREIGN KEY (surah) REFERENCES ar_quran_surahs(surah) ON DELETE RESTRICT
 );
@@ -380,14 +423,43 @@ CREATE TABLE ar_lesson_unit_progress (
 );
 
 CREATE TABLE ar_container_unit_task (
-  task_id TEXT PRIMARY KEY,
-  unit_id TEXT NOT NULL,
-  task_type TEXT NOT NULL CHECK (task_type IN ('reading', 'sentence_structure', 'morphology', 'grammar_concepts', 'expressions', 'comprehension', 'passage_structure')),
-  task_name TEXT NOT NULL,
-  task_json JSON NOT NULL CHECK (json_valid(task_json)),
-  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'review', 'approved', 'published')),
+  task_id    TEXT PRIMARY KEY,
+  unit_id    TEXT NOT NULL,
+
+  -- All task types across all 6 domains
+  task_type  TEXT NOT NULL CHECK (task_type IN (
+    -- Core Quran passage tasks (kid learning)
+    'reading',
+    'sentence_structure',
+    'morphology',
+    'grammar_concepts',
+    'expressions',
+    'comprehension',
+    'passage_structure',
+    -- Quranic linguistics & meaning depth
+    'worldview',
+    'translation_semantics',
+    'near_synonyms',
+    'surah_analysis',
+    -- Cross-domain & comparative
+    'cross_corpus',
+    -- Children-specific lesson plan
+    'children_lesson'
+  )),
+
+  task_name  TEXT NOT NULL,
+  task_json  JSON NOT NULL CHECK (json_valid(task_json)),
+
+  status     TEXT NOT NULL DEFAULT 'draft' CHECK (status IN (
+    'draft', 'ai_generated', 'review', 'approved', 'published', 'archived'
+  )),
+
+  version_no INTEGER NOT NULL DEFAULT 1,
+  deleted_at TEXT,
+
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+
   UNIQUE (unit_id, task_type),
   FOREIGN KEY (unit_id) REFERENCES ar_container_units(id) ON DELETE CASCADE
 );
@@ -1568,28 +1640,77 @@ CREATE TABLE ar_reviews (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
+-- ──────────────────────────────────────────────────────────────
+-- Mutaradifaat al-Qur'an (المترادفات القرآنية)
+-- Source: https://qurandev.github.io/synonyms/
+-- Book:   Mutaradifaat al-Qur'aan (Urdu primary source)
+--         + Tafseer Maariful Qur'aan, Mohar Ali Word-for-Word
+--
+-- Each topic = a concept (EN + UR label)
+-- Each word  = an Arabic near-synonym for that concept
+--              with its unique semantic nuance + ayah evidence
+-- ──────────────────────────────────────────────────────────────
 CREATE TABLE ar_quran_synonym_topics (
-  topic_id TEXT PRIMARY KEY,
-  topic_en TEXT NOT NULL,
-  topic_ur TEXT,
-  meta_json JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
-  created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT
+  topic_id         TEXT    PRIMARY KEY,   -- "A1", "A3", "k43"…
+  topic_en         TEXT    NOT NULL,      -- "To settle"
+  topic_ur         TEXT,                  -- "آباد ہونا"
+  description_en   TEXT,                  -- brief concept description (EN)
+  description_ur   TEXT,                  -- brief concept description (UR)
+  source_id        TEXT,                  -- FK ar_u_sources (Mutaradifaat book)
+  page_no          INTEGER,               -- page in source book
+  cross_refs_json  JSON CHECK (cross_refs_json IS NULL OR json_valid(cross_refs_json)),
+                                          -- related topic IDs: ["A7", "k43"]
+  surahs_json      JSON CHECK (surahs_json IS NULL OR json_valid(surahs_json)),
+                                          -- surah scope: [2, 4, 12]
+  word_count       INTEGER NOT NULL DEFAULT 0,  -- denormalised
+  deleted_at       TEXT,
+  meta_json        JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at       TEXT
 );
 
 CREATE TABLE ar_quran_synonym_topic_words (
-  topic_id TEXT NOT NULL,
-  word_norm TEXT NOT NULL,
-  word_ar TEXT,
-  word_en TEXT,
-  root_norm TEXT,
-  root_ar TEXT,
-  order_index INTEGER NOT NULL DEFAULT 0,
-  meta_json JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
-  created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT,
+  topic_id           TEXT    NOT NULL,
+  word_norm          TEXT    NOT NULL,   -- normalised Arabic (no diacritics)
+
+  -- Arabic forms
+  word_ar            TEXT,              -- with full diacritics (tashkeel)
+  word_ar_pattern    TEXT,              -- morphological pattern (مَفعَل etc.)
+
+  -- Root
+  root_norm          TEXT,
+  root_ar            TEXT,
+
+  -- Multilingual glosses
+  word_en            TEXT,              -- English meaning
+  word_ur            TEXT,              -- Urdu meaning (from source book)
+
+  -- THE core value of this resource:
+  -- what makes THIS word semantically unique vs its near-synonyms
+  -- e.g. "سَكَنَ = settlement after migration from elsewhere (≠ inherited dwelling)"
+  semantic_nuance_en TEXT,
+  semantic_nuance_ur TEXT,
+
+  -- Quranic evidence: ayah refs with context
+  -- [{"surah": 2, "ayah": 35, "text_ar": "...", "note": "Allah commanded Adam…"}]
+  ayah_refs_json     JSON CHECK (ayah_refs_json IS NULL OR json_valid(ayah_refs_json)),
+
+  -- Link to canonical lexicon entry
+  ar_u_lexicon       TEXT,              -- FK ar_u_lexicon
+
+  -- Source tracking within book
+  source_id          TEXT,              -- FK ar_u_sources
+  page_no            INTEGER,
+
+  order_index        INTEGER NOT NULL DEFAULT 0,
+
+  meta_json          JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at         TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at         TEXT,
+
   PRIMARY KEY (topic_id, word_norm),
-  FOREIGN KEY (topic_id) REFERENCES ar_quran_synonym_topics(topic_id) ON DELETE CASCADE
+  FOREIGN KEY (topic_id)     REFERENCES ar_quran_synonym_topics(topic_id) ON DELETE CASCADE,
+  FOREIGN KEY (ar_u_lexicon) REFERENCES ar_u_lexicon(ar_u_lexicon)        ON DELETE SET NULL
 );
 
 CREATE INDEX idx_users_email ON users(email);
@@ -1759,8 +1880,11 @@ CREATE INDEX idx_sp_planner_workspace_period ON sp_planner(workspace_id, period_
 
 CREATE INDEX idx_ar_reviews_target ON ar_reviews(target_type, target_id);
 CREATE INDEX idx_ar_reviews_user ON ar_reviews(user_id, created_at);
-CREATE INDEX idx_syn_topic_words_word ON ar_quran_synonym_topic_words(word_norm);
-CREATE INDEX idx_syn_topic_words_topic ON ar_quran_synonym_topic_words(topic_id);
+CREATE INDEX idx_syn_topics_source           ON ar_quran_synonym_topics(source_id);
+CREATE INDEX idx_syn_topic_words_word         ON ar_quran_synonym_topic_words(word_norm);
+CREATE INDEX idx_syn_topic_words_topic_order  ON ar_quran_synonym_topic_words(topic_id, order_index);
+CREATE INDEX idx_syn_topic_words_root         ON ar_quran_synonym_topic_words(root_norm);
+CREATE INDEX idx_syn_topic_words_lexicon      ON ar_quran_synonym_topic_words(ar_u_lexicon);
 
 CREATE TRIGGER trg_users_updated_at
 AFTER UPDATE ON users
@@ -2359,4 +2483,321 @@ BEGIN
   SET updated_at = datetime('now')
   WHERE topic_id = OLD.topic_id
     AND word_norm = OLD.word_norm;
+END;
+
+-- ═══════════════════════════════════════════════════════════════
+-- ar_quran_ayah TEXT COLUMN GUIDE (2026-03-22)
+-- Use ar_quran_ayah directly — no separate view needed.
+--
+--   Column              | Use
+--   --------------------|----------------------------------------------
+--   text_uthmani_clean  | UI diacritic display (Uthmani, no verse mark)
+--   text_simple         | UI plain display (no diacritics, no mark)
+--   text_bare           | FTS / search / matching
+--   verse_mark          | Separate verse marker: ۝١  ۝٢١  ۝٢٨٦
+--                       | U+06DD + Arabic-Indic digits
+--                       | Renders as decorative medallion in Quran fonts
+--   text                | RAW — Uthmani + trailing digit — never display
+--   text_no_diacritics  | DEPRECATED — use text_simple instead
+-- ═══════════════════════════════════════════════════════════════
+
+-- ═══════════════════════════════════════════════════════════════
+-- PASSAGE STRUCTURE INDEPENDENT TABLE (added 2026-03-22)
+-- ═══════════════════════════════════════════════════════════════
+
+-- ──────────────────────────────────────────────────────────────
+-- ar_quran_surah_passage
+-- Stores parsed passage structure analysis independently of the
+-- task system. Populated when passage_structure task is approved.
+-- Queryable by surah+range without joining ar_container_unit_task.
+--
+-- Pushed from: ar_container_unit_task WHERE task_type = 'passage_structure'
+-- Sections schema: [{title, type, tone, renderer, data}]
+-- Renderer types: keyvalue | chiasm | clusters | timeline
+-- ──────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS ar_quran_surah_passage (
+  id               TEXT    PRIMARY KEY,
+  canonical_input  TEXT    NOT NULL UNIQUE,
+
+  surah            INTEGER NOT NULL,
+  ayah_from        INTEGER NOT NULL,
+  ayah_to          INTEGER NOT NULL,
+  scope_ref        TEXT,              -- "12:1–7"
+
+  unit_id          TEXT,              -- FK ar_container_units (optional)
+  task_id          TEXT,              -- FK ar_container_unit_task (optional)
+
+  passage_title    TEXT,
+  sections_json    JSON    NOT NULL DEFAULT '[]' CHECK (json_valid(sections_json)),
+
+  -- Denormalised flags for fast filtering
+  has_chiasm       INTEGER NOT NULL DEFAULT 0 CHECK (has_chiasm   IN (0, 1)),
+  has_timeline     INTEGER NOT NULL DEFAULT 0 CHECK (has_timeline IN (0, 1)),
+  has_clusters     INTEGER NOT NULL DEFAULT 0 CHECK (has_clusters IN (0, 1)),
+  has_keyvalue     INTEGER NOT NULL DEFAULT 0 CHECK (has_keyvalue IN (0, 1)),
+  section_count    INTEGER NOT NULL DEFAULT 0,
+
+  schema_version   INTEGER NOT NULL DEFAULT 2,
+  status           TEXT    NOT NULL DEFAULT 'draft' CHECK (status IN (
+    'draft', 'published', 'archived'
+  )),
+  deleted_at       TEXT,
+  meta_json        JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at       TEXT NOT NULL DEFAULT (datetime('now')),
+
+  UNIQUE (surah, ayah_from, ayah_to),
+
+  FOREIGN KEY (surah)   REFERENCES ar_quran_surahs(surah)          ON DELETE RESTRICT,
+  FOREIGN KEY (unit_id) REFERENCES ar_container_units(id)          ON DELETE SET NULL,
+  FOREIGN KEY (task_id) REFERENCES ar_container_unit_task(task_id) ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_ar_qsp_surah       ON ar_quran_surah_passage(surah);
+CREATE INDEX IF NOT EXISTS idx_ar_qsp_surah_range ON ar_quran_surah_passage(surah, ayah_from, ayah_to);
+CREATE INDEX IF NOT EXISTS idx_ar_qsp_status      ON ar_quran_surah_passage(status);
+CREATE INDEX IF NOT EXISTS idx_ar_qsp_chiasm      ON ar_quran_surah_passage(has_chiasm) WHERE has_chiasm = 1;
+CREATE INDEX IF NOT EXISTS idx_ar_qsp_timeline    ON ar_quran_surah_passage(has_timeline) WHERE has_timeline = 1;
+
+CREATE TRIGGER trg_ar_quran_surah_passage_updated_at
+AFTER UPDATE ON ar_quran_surah_passage
+FOR EACH ROW
+WHEN NEW.updated_at IS OLD.updated_at
+BEGIN
+  UPDATE ar_quran_surah_passage SET updated_at = datetime('now') WHERE id = OLD.id;
+END;
+
+-- ═══════════════════════════════════════════════════════════════
+-- 6-DOMAIN LIFELONG TABLES (added 2026-03-22)
+-- ═══════════════════════════════════════════════════════════════
+
+-- ──────────────────────────────────────────────────────────────
+-- km_surah_analysis
+-- Surah-level analysis: ring composition, arches, worldview,
+-- inter-surah parallels (prev surah pairs), translation delta
+-- ──────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS km_surah_analysis (
+  surah                  INTEGER PRIMARY KEY,
+  structure_json         JSON CHECK (structure_json IS NULL OR json_valid(structure_json)),
+  worldview_json         JSON CHECK (worldview_json IS NULL OR json_valid(worldview_json)),
+  parallels_json         JSON CHECK (parallels_json IS NULL OR json_valid(parallels_json)),
+  unique_concepts_json   JSON CHECK (unique_concepts_json IS NULL OR json_valid(unique_concepts_json)),
+  translation_delta_json JSON CHECK (translation_delta_json IS NULL OR json_valid(translation_delta_json)),
+  surah_podcast_doc_id   TEXT,
+  surah_overview_doc_id  TEXT,
+  status                 TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'reviewed', 'published')),
+  notes                  TEXT,
+  deleted_at             TEXT,
+  created_at             TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at             TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (surah)                 REFERENCES ar_quran_surahs(surah) ON DELETE CASCADE,
+  FOREIGN KEY (surah_podcast_doc_id)  REFERENCES wv_documents(id)       ON DELETE SET NULL,
+  FOREIGN KEY (surah_overview_doc_id) REFERENCES wv_documents(id)       ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_km_surah_analysis_status ON km_surah_analysis(status);
+
+CREATE TRIGGER trg_km_surah_analysis_updated_at
+AFTER UPDATE ON km_surah_analysis
+FOR EACH ROW
+WHEN NEW.updated_at IS OLD.updated_at
+BEGIN
+  UPDATE km_surah_analysis SET updated_at = datetime('now') WHERE surah = OLD.surah;
+END;
+
+
+-- ──────────────────────────────────────────────────────────────
+-- sp_passage_planner
+-- Weekly 3-passage learning tracker with children.
+-- Tracks tasks, podcast, study doc and children's lesson per passage.
+-- ──────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS sp_passage_planner (
+  id                   TEXT PRIMARY KEY,
+  canonical_input      TEXT NOT NULL UNIQUE,
+  workspace_id         TEXT NOT NULL,
+  group_id             TEXT,
+  user_id              INTEGER,
+
+  week_start           TEXT NOT NULL,   -- ISO Monday: YYYY-MM-DD
+  unit_id              TEXT NOT NULL,   -- FK ar_container_units
+  container_id         TEXT,
+  surah                INTEGER NOT NULL,
+  ayah_from            INTEGER NOT NULL,
+  ayah_to              INTEGER NOT NULL,
+  display_ref          TEXT,            -- "12:1–7"
+
+  with_children        INTEGER NOT NULL DEFAULT 1 CHECK (with_children IN (0, 1)),
+
+  status               TEXT NOT NULL DEFAULT 'planned' CHECK (status IN (
+    'planned', 'in_progress', 'tasks_done', 'complete', 'skipped'
+  )),
+  tasks_done           INTEGER NOT NULL DEFAULT 0,
+  tasks_total          INTEGER NOT NULL DEFAULT 0,
+  podcast_done         INTEGER NOT NULL DEFAULT 0 CHECK (podcast_done         IN (0, 1)),
+  document_done        INTEGER NOT NULL DEFAULT 0 CHECK (document_done        IN (0, 1)),
+  children_lesson_done INTEGER NOT NULL DEFAULT 0 CHECK (children_lesson_done IN (0, 1)),
+
+  podcast_doc_id       TEXT,
+  study_doc_id         TEXT,
+  children_doc_id      TEXT,
+
+  notes                TEXT,
+  planner_json         JSON CHECK (planner_json IS NULL OR json_valid(planner_json)),
+  created_at           TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at           TEXT NOT NULL DEFAULT (datetime('now')),
+
+  UNIQUE (workspace_id, week_start, unit_id),
+
+  FOREIGN KEY (workspace_id)    REFERENCES workspaces(id)          ON DELETE CASCADE,
+  FOREIGN KEY (group_id)        REFERENCES workspace_groups(id)    ON DELETE SET NULL,
+  FOREIGN KEY (user_id)         REFERENCES users(id)               ON DELETE SET NULL,
+  FOREIGN KEY (unit_id)         REFERENCES ar_container_units(id)  ON DELETE CASCADE,
+  FOREIGN KEY (container_id)    REFERENCES ar_containers(id)       ON DELETE SET NULL,
+  FOREIGN KEY (surah)           REFERENCES ar_quran_surahs(surah)  ON DELETE RESTRICT,
+  FOREIGN KEY (podcast_doc_id)  REFERENCES wv_documents(id)        ON DELETE SET NULL,
+  FOREIGN KEY (study_doc_id)    REFERENCES wv_documents(id)        ON DELETE SET NULL,
+  FOREIGN KEY (children_doc_id) REFERENCES wv_documents(id)        ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_sp_planner_workspace_week ON sp_passage_planner(workspace_id, week_start);
+CREATE INDEX IF NOT EXISTS idx_sp_planner_surah          ON sp_passage_planner(surah);
+CREATE INDEX IF NOT EXISTS idx_sp_planner_status         ON sp_passage_planner(status);
+CREATE INDEX IF NOT EXISTS idx_sp_planner_user_week      ON sp_passage_planner(user_id, week_start);
+
+CREATE TRIGGER trg_sp_passage_planner_updated_at
+AFTER UPDATE ON sp_passage_planner
+FOR EACH ROW
+WHEN NEW.updated_at IS OLD.updated_at
+BEGIN
+  UPDATE sp_passage_planner SET updated_at = datetime('now') WHERE id = OLD.id;
+END;
+
+
+-- ──────────────────────────────────────────────────────────────
+-- km_audio_scenes
+-- Arabic language audio/video pipeline.
+-- source (book/podcast) → source_unit (episode) → scenes
+-- Each scene: transcript → subtitle → translation → annotation
+-- ──────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS km_audio_scenes (
+  id               TEXT PRIMARY KEY,
+  canonical_input  TEXT NOT NULL UNIQUE,
+  workspace_id     TEXT NOT NULL,
+  group_id         TEXT,
+  user_id          INTEGER,
+
+  source_id        TEXT NOT NULL,   -- FK wv_sources
+  source_unit_id   TEXT,            -- FK wv_source_units (episode)
+
+  scene_number     INTEGER NOT NULL,
+  season_number    INTEGER,
+  episode_number   INTEGER,
+
+  timestamp_start  TEXT,
+  timestamp_end    TEXT,
+  transcript_ar    TEXT,            -- raw Arabic
+  subtitle_ar      TEXT,            -- cleaned subtitled Arabic
+  translation_en   TEXT,
+  transliteration  TEXT,
+
+  linguistic_notes TEXT,
+  vocab_json       JSON CHECK (vocab_json   IS NULL OR json_valid(vocab_json)),
+  grammar_json     JSON CHECK (grammar_json IS NULL OR json_valid(grammar_json)),
+
+  status           TEXT NOT NULL DEFAULT 'raw' CHECK (status IN (
+    'raw', 'transcribed', 'subtitled', 'translated', 'annotated', 'published'
+  )),
+  meta_json        JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at       TEXT NOT NULL DEFAULT (datetime('now')),
+
+  UNIQUE (source_unit_id, scene_number),
+
+  FOREIGN KEY (workspace_id)   REFERENCES workspaces(id)       ON DELETE CASCADE,
+  FOREIGN KEY (group_id)       REFERENCES workspace_groups(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_id)        REFERENCES users(id)            ON DELETE SET NULL,
+  FOREIGN KEY (source_id)      REFERENCES wv_sources(id)       ON DELETE CASCADE,
+  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id)  ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_km_audio_scenes_source    ON km_audio_scenes(source_id);
+CREATE INDEX IF NOT EXISTS idx_km_audio_scenes_unit      ON km_audio_scenes(source_unit_id, scene_number);
+CREATE INDEX IF NOT EXISTS idx_km_audio_scenes_status    ON km_audio_scenes(status);
+CREATE INDEX IF NOT EXISTS idx_km_audio_scenes_workspace ON km_audio_scenes(workspace_id, status);
+
+CREATE TRIGGER trg_km_audio_scenes_updated_at
+AFTER UPDATE ON km_audio_scenes
+FOR EACH ROW
+WHEN NEW.updated_at IS OLD.updated_at
+BEGIN
+  UPDATE km_audio_scenes SET updated_at = datetime('now') WHERE id = OLD.id;
+END;
+
+
+-- ──────────────────────────────────────────────────────────────
+-- km_cross_corpus_links
+-- Torah / Tanakh / Gospel / Syriac ↔ Quran cross-mapping.
+-- Domain 4 (Jewish WV), Domain 5 (Christian WV), Domain 6 (History).
+-- ──────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS km_cross_corpus_links (
+  id                     TEXT PRIMARY KEY,
+  canonical_input        TEXT NOT NULL UNIQUE,
+  workspace_id           TEXT NOT NULL,
+  group_id               TEXT,
+  user_id                INTEGER,
+
+  quran_target_type      TEXT NOT NULL DEFAULT 'ayah' CHECK (quran_target_type IN (
+    'ayah', 'surah', 'passage', 'unit'
+  )),
+  quran_target_id        TEXT NOT NULL,
+  quran_arabic           TEXT,
+
+  corpus                 TEXT NOT NULL CHECK (corpus IN (
+    'torah', 'tanakh', 'gospel_matthew', 'gospel_mark',
+    'gospel_luke', 'gospel_john', 'pauline', 'revelation', 'nt_other',
+    'syriac', 'dead_sea_scrolls', 'rabbinic_midrash', 'talmud',
+    'patristic', 'septuagint', 'aramaic_targum', 'other'
+  )),
+  corpus_ref             TEXT NOT NULL,
+  corpus_text            TEXT,
+  corpus_text_en         TEXT,
+
+  relation_type          TEXT NOT NULL CHECK (relation_type IN (
+    'parallel_narrative', 'transformation', 'correction',
+    'allusion', 'cognate_term', 'covenantal_echo',
+    'eschatological_parallel', 'typological', 'genealogical',
+    'polemical_response', 'shared_tradition', 'other'
+  )),
+  quranic_transformation TEXT,
+  scholarly_note         TEXT,
+
+  wv_node_id             TEXT,
+  evidence_source_id     TEXT,
+
+  confidence             TEXT NOT NULL DEFAULT 'medium' CHECK (confidence IN (
+    'high', 'medium', 'low', 'speculative'
+  )),
+  deleted_at             TEXT,
+  meta_json              JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  created_at             TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at             TEXT NOT NULL DEFAULT (datetime('now')),
+
+  FOREIGN KEY (workspace_id)       REFERENCES workspaces(id)      ON DELETE CASCADE,
+  FOREIGN KEY (group_id)           REFERENCES workspace_groups(id) ON DELETE SET NULL,
+  FOREIGN KEY (user_id)            REFERENCES users(id)            ON DELETE SET NULL,
+  FOREIGN KEY (wv_node_id)         REFERENCES wv_nodes(id)         ON DELETE SET NULL,
+  FOREIGN KEY (evidence_source_id) REFERENCES wv_sources(id)       ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_km_cross_corpus_quran     ON km_cross_corpus_links(quran_target_id);
+CREATE INDEX IF NOT EXISTS idx_km_cross_corpus_corpus    ON km_cross_corpus_links(corpus, relation_type);
+CREATE INDEX IF NOT EXISTS idx_km_cross_corpus_node      ON km_cross_corpus_links(wv_node_id);
+CREATE INDEX IF NOT EXISTS idx_km_cross_corpus_workspace ON km_cross_corpus_links(workspace_id);
+
+CREATE TRIGGER trg_km_cross_corpus_links_updated_at
+AFTER UPDATE ON km_cross_corpus_links
+FOR EACH ROW
+WHEN NEW.updated_at IS OLD.updated_at
+BEGIN
+  UPDATE km_cross_corpus_links SET updated_at = datetime('now') WHERE id = OLD.id;
 END;

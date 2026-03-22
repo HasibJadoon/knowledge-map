@@ -301,30 +301,24 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-// ── Ayah end badge (inline circle with verse number) ─────
+// ── Ayah verse-mark badge ─────────────────────────────────
+// Renders U+06DD ۝ + Arabic-Indic digits as the traditional
+// Quranic medallion using UthmanicHafs font (local font file).
+// No manual circle needed — the glyph IS the decorative circle.
 .ayah-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2em;
-  height: 2em;
-  border-radius: 50%;
-  border: 1.5px solid var(--km-gold);
-  background: transparent;
-  font-family: var(--km-font-heading);
-  font-size: 0.45em;
+  display: inline;
+  font-family: var(--km-font-arabic);   // UthmanicHafs — renders ۝ as medallion
+  font-size: 0.72em;
   color: var(--km-gold);
   vertical-align: middle;
-  margin: 0 0.35em;
+  margin: 0 0.25em;
   user-select: none;
-  flex-shrink: 0;
   letter-spacing: 0;
+  line-height: 1;
 
   &--inline {
-    font-size: 0.38em;
-    width: 2.2em;
-    height: 2.2em;
-    margin: 0 0.4em;
+    font-size: 0.65em;
+    margin: 0 0.3em;
     opacity: 0.9;
   }
 }
@@ -347,30 +341,19 @@
 }
 
 // ── Verse marker (mushaf view) ────────────────────────────
-// Single ornamental gold circle with Arabic-Indic verse number inside.
-// Double outer ring gives the classic medallion feel without U+06DD's
-// built-in empty twin frame.
+// Renders U+06DD ۝ + Arabic-Indic digits as the traditional
+// Quranic medallion using UthmanicHafs font (local font file).
+// No manual circle needed — the glyph IS the decorative circle.
 .verse-marker {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  // sizes are relative to THIS element's font-size (0.4em of parent)
-  width: 2.2em;
-  height: 2.2em;
-  border-radius: 50%;
-  border: 1px solid rgba(201, 168, 76, 0.85);
-  outline: 1.5px solid rgba(201, 168, 76, 0.25);
-  outline-offset: 2px;
-  box-shadow: 0 0 8px rgba(201, 168, 76, 0.15), inset 0 0 4px rgba(201, 168, 76, 0.06);
-  background: transparent;
-  font-family: var(--km-font-heading);
-  font-size: 0.4em;
+  display: inline;
+  font-family: var(--km-font-arabic);   // UthmanicHafs — renders ۝ as medallion
+  font-size: 1em;                        // same scale as surrounding Arabic text
   color: var(--km-gold);
   vertical-align: middle;
-  margin: 0 0.5em;
+  margin: 0 0.2em;
   user-select: none;
   letter-spacing: 0;
-  flex-shrink: 0;
+  line-height: 1;
 }
 
 
@@ -444,6 +427,9 @@
   word-break: keep-all;
 }
 
+.ayah-text {
+  display: inline;
+}
 
 // ── Translation list ──────────────────────────────────────
 .translation-list {

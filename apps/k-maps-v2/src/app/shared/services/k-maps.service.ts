@@ -25,8 +25,11 @@ export interface QuranAyah {
   surah: number;
   ayah: number;
   text: string;
-  text_uthmani?: string | null;
-  text_simple?: string | null;
+  text_uthmani?: string | null;       // clean Uthmani diacritics (use for display)
+  text_uthmani_clean?: string | null; // alias — same as text_uthmani
+  text_simple?: string | null;        // plain script, no diacritics
+  text_bare?: string | null;          // search/FTS normalised
+  verse_mark?: string | null;         // U+06DD + Arabic-Indic digits — renders as medallion
   translation?: string | null;
   word_count?: number | null;
   page_number?: number | null;

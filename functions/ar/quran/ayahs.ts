@@ -52,7 +52,9 @@ type AyahRow = {
   surah_name_en: string | null;
 
   text: string;
+  text_uthmani_clean: string | null;   // clean diacritics, no verse number
   text_simple: string | null;
+  text_bare: string | null;            // search/FTS normalised
   text_normalized: string | null;
 
   text_diacritics: string | null;
@@ -154,7 +156,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const { results: ayahRowsRaw = [] } = await ctx.env.DB.prepare(
       `SELECT id, surah, ayah, surah_ayah, page, juz, hizb, ruku,
               surah_name_ar, surah_name_en,
-              text, text_simple, text_normalized,
+              text, text_uthmani_clean, text_simple, text_bare, text_normalized,
               text_diacritics, text_no_diacritics,
               verse_mark, verse_full, word_count, char_count, words
        FROM ar_quran_ayah
@@ -265,7 +267,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         surah_name_ar: v.surah_name_ar ?? surahRow.name_ar,
         surah_name_en: v.surah_name_en ?? surahRow.name_en ?? null,
         text: v.text,
+        text_uthmani_clean: v.text_uthmani_clean ?? null,
         text_simple: v.text_simple ?? null,
+        text_bare: v.text_bare ?? null,
         text_normalized: v.text_normalized ?? null,
         text_diacritics: v.text_diacritics ?? null,
         text_no_diacritics: v.text_no_diacritics ?? null,
@@ -276,7 +280,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         verse_key: `${v.surah}:${v.ayah}`,
         verse_number: v.ayah,
         chapter_id: v.surah,
-        text_uthmani: v.text,
+        text_uthmani: v.text_uthmani_clean ?? v.text,  // serve clean column
         text_imlaei_simple: v.text_simple ?? null,
         page_number: v.page ?? null,
         juz_number: v.juz ?? null,
