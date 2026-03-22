@@ -135,7 +135,7 @@
       </aside>
 
       <!-- ── Right: Reader pane ── -->
-      <main class="wvl__reader-pane">
+      <main class="wvl__reader-pane" #readerPane [class.wvl__reader-pane--resizing]="isResizingReader()">
 
         @if (!selectedUnit()) {
           <div class="wvl__reader-empty">
@@ -146,7 +146,7 @@
         } @else {
 
           <!-- ── Upper: Passage text ── -->
-          <section class="wvl__text-pane">
+          <section class="wvl__text-pane" [style.flex-basis.%]="textPaneHeight()">
             <div class="wvl__text-pane-head">
               <span class="wvl__text-pane-label">Passage Text</span>
               <button class="wvl__btn wvl__btn--ghost wvl__btn--xs" (click)="editingText.set(!editingText())">
@@ -177,19 +177,58 @@
             }
           </section>
 
+          <button
+            type="button"
+            class="wvl__reader-resizer"
+            aria-label="Resize reader panels"
+            aria-orientation="horizontal"
+            (pointerdown)="startReaderResize($event)"
+            (keydown)="onReaderResizeKeydown($event)"
+          >
+            <span class="wvl__reader-resizer-line" aria-hidden="true"></span>
+            <span class="wvl__reader-resizer-grip" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+
           <!-- ── Lower: WV Notes ── -->
           <section class="wvl__notes-pane">
             <div class="wvl__notes-pane-head">
-              <span class="wvl__notes-pane-label">
-                WV Notes
-                <span class="wvl__notes-pane-count">
-                  ◆ {{ notes().length }}
-                  @if (hasInsights()) { &nbsp;✦ {{ insightCount() }} insights }
+              <div class="wvl__notes-pane-meta">
+                <span class="wvl__notes-pane-label">
+                  Reader Tabs
+                  <span class="wvl__notes-pane-count">
+                    ◆ {{ notes().length }}
+                    @if (hasInsights()) { &nbsp;✦ {{ insightCount() }} WV }
+                  </span>
                 </span>
-              </span>
-              <button class="wvl__toggle-form-btn" (click)="noteFormOpen.set(!noteFormOpen())">
-                {{ noteFormOpen() ? '↑ Hide' : '+ Add' }}
-              </button>
+                <p class="wvl__notes-pane-subtitle">Highlights, notes, and worldview distillations for the selected passage.</p>
+              </div>
+
+              <div class="wvl__notes-pane-actions">
+                <div class="wvl__reader-tabs" role="tablist" aria-label="Reader tabs">
+                  @for (tab of bottomTabs; track tab.id; let last = $last) {
+                    <button
+                      class="wvl__reader-tab"
+                      [class.wvl__reader-tab--active]="bottomTab() === tab.id"
+                      (click)="setBottomTab(tab.id)"
+                    >
+                      <span class="wvl__reader-tab-icon">{{ tab.icon }}</span>
+                      <span class="wvl__reader-tab-label">{{ tab.label }}</span>
+                      <span class="wvl__reader-tab-count">{{ tabCount(tab.id) }}</span>
+                    </button>
+                    @if (!last) {
+                      <div class="wvl__reader-tabs-divider" aria-hidden="true"></div>
+                    }
+                  }
+                </div>
+
+                <button class="wvl__toggle-form-btn" (click)="noteFormOpen.set(!noteFormOpen())">
+                  {{ noteFormOpen() ? '↑ Hide' : '+ Add' }}
+                </button>
+              </div>
             </div>
 
             <!-- Add note form -->
@@ -233,35 +272,96 @@
             <div class="wvl__notes-scroll">
               @if (notesLoading()) {
                 <div class="wvl__loading wvl__loading--sm"><span class="wvl__spinner"></span> Loading…</div>
-              } @else if (notes().length === 0) {
-                <div class="wvl__notes-empty">
-                  <p>No notes yet for this passage.</p>
-                  <p class="wvl__hint">Highlight worldview-relevant content above.</p>
-                </div>
               } @else {
-                <div class="wvl__notes-list">
-                  @for (note of notes(); track note.id) {
-                    <div class="wvl__note" [attr.data-kind]="note.note_kind">
-                      <div class="wvl__note-header">
-                        <span class="wvl__note-icon">{{ kindIcon(note.note_kind) }}</span>
-                        <span class="wvl__note-kind">{{ note.note_kind }}</span>
-                        <span class="wvl__note-date">{{ formatDate(note.created_at) }}</span>
-                        <button class="wvl__distill-btn" (click)="distill(note)">✦ Distill</button>
-                      </div>
-                      @if (note.excerpt_text) {
-                        <blockquote class="wvl__note-excerpt">{{ note.excerpt_text }}</blockquote>
+                <div class="wvl__tab-panel" [attr.data-tab]="bottomTab()">
+                  @switch (bottomTab()) {
+                    @case ('highlights') {
+                      @if (highlightEntries().length === 0) {
+                        <div class="wvl__empty-card">
+                          <p>No highlights yet for this passage.</p>
+                          <p class="wvl__hint">Use a highlight note to capture the exact passage worth returning to.</p>
+                        </div>
+                      } @else {
+                        <div class="wvl__notes-list">
+                          @for (entry of highlightEntries(); track entry.id) {
+                            <div class="wvl__note" [attr.data-kind]="entry.note_kind">
+                              <div class="wvl__note-header">
+                                <span class="wvl__note-icon">{{ kindIcon(entry.note_kind) }}</span>
+                                <span class="wvl__note-kind">{{ kindLabelText(entry.note_kind) }}</span>
+                                <span class="wvl__note-date">{{ formatDate(entry.created_at) }}</span>
+                                <button class="wvl__distill-btn" (click)="distillHighlight(entry)">✦ Distill</button>
+                              </div>
+                              @if (entry.excerpt_text) {
+                                <blockquote class="wvl__note-excerpt">{{ entry.excerpt_text }}</blockquote>
+                              }
+                              <p class="wvl__note-body">{{ entry.body_md }}</p>
+                            </div>
+                          }
+                        </div>
                       }
-                      <p class="wvl__note-body">{{ note.body_md }}</p>
-                    </div>
+                    }
+
+                    @case ('notes') {
+                      @if (regularNotes().length === 0) {
+                        <div class="wvl__empty-card">
+                          <p>No notes yet for this passage.</p>
+                          <p class="wvl__hint">Reflections, questions, and observations will collect here.</p>
+                        </div>
+                      } @else {
+                        <div class="wvl__notes-list">
+                          @for (note of regularNotes(); track note.id) {
+                            <div class="wvl__note" [attr.data-kind]="note.note_kind">
+                              <div class="wvl__note-header">
+                                <span class="wvl__note-icon">{{ kindIcon(note.note_kind) }}</span>
+                                <span class="wvl__note-kind">{{ kindLabelText(note.note_kind) }}</span>
+                                <span class="wvl__note-date">{{ formatDate(note.created_at) }}</span>
+                                @if (canDistill(note)) {
+                                  <button class="wvl__distill-btn" (click)="distill(note)">✦ Distill</button>
+                                }
+                              </div>
+                              @if (note.excerpt_text) {
+                                <blockquote class="wvl__note-excerpt">{{ note.excerpt_text }}</blockquote>
+                              }
+                              <p class="wvl__note-body">{{ note.body_md }}</p>
+                            </div>
+                          }
+                        </div>
+                      }
+
+                      @if (highlightEntries().length + regularNotes().length >= 2) {
+                        <div class="wvl__distill-bar">
+                          <span>{{ highlightEntries().length + regularNotes().length }} source notes</span>
+                          <button class="wvl__btn wvl__btn--gold wvl__btn--sm" (click)="distillAll()">✦ Distill All</button>
+                        </div>
+                      }
+                    }
+
+                    @case ('wv') {
+                      @if (wvNotes().length === 0) {
+                        <div class="wvl__empty-card">
+                          <p>No worldview distillations yet.</p>
+                          <p class="wvl__hint">Insights and claims distilled from highlights and notes will appear here.</p>
+                        </div>
+                      } @else {
+                        <div class="wvl__notes-list">
+                          @for (note of wvNotes(); track note.id) {
+                            <div class="wvl__note" [attr.data-kind]="note.note_kind">
+                              <div class="wvl__note-header">
+                                <span class="wvl__note-icon">{{ kindIcon(note.note_kind) }}</span>
+                                <span class="wvl__note-kind">{{ kindLabelText(note.note_kind) }}</span>
+                                <span class="wvl__note-date">{{ formatDate(note.created_at) }}</span>
+                              </div>
+                              @if (note.excerpt_text) {
+                                <blockquote class="wvl__note-excerpt">{{ note.excerpt_text }}</blockquote>
+                              }
+                              <p class="wvl__note-body">{{ note.body_md }}</p>
+                            </div>
+                          }
+                        </div>
+                      }
+                    }
                   }
                 </div>
-
-                @if (notes().length >= 2) {
-                  <div class="wvl__distill-bar">
-                    <span>{{ notes().length }} notes</span>
-                    <button class="wvl__btn wvl__btn--gold wvl__btn--sm" (click)="distillAll()">✦ Distill All</button>
-                  </div>
-                }
               }
             </div>
           </section>
@@ -269,56 +369,6 @@
         }
       </main>
     </div>
-
-    <!-- ── Bottom: Tabs ── -->
-    @if (selectedUnit()) {
-      <section class="wvl__bottom">
-        <div class="wvl__bottom-tabs">
-          @for (tab of bottomTabs; track tab.id) {
-            <button
-              class="wvl__bottom-tab"
-              [class.wvl__bottom-tab--active]="bottomTab() === tab.id"
-              (click)="bottomTab.set(tab.id)"
-            >{{ tab.icon }} {{ tab.label }}</button>
-          }
-        </div>
-        <div class="wvl__bottom-body">
-          @if (bottomTab() === 'highlights') {
-            <div class="wvl__chips">
-              @for (note of quoteNotes(); track note.id) {
-                <div class="wvl__chip wvl__chip--quote">
-                  <span class="wvl__chip-icon">◆</span>
-                  <span class="wvl__chip-text">{{ note.excerpt_text || note.body_md }}</span>
-                </div>
-              }
-              @if (quoteNotes().length === 0) {
-                <span class="wvl__bottom-empty">No highlights yet.</span>
-              }
-            </div>
-          }
-          @if (bottomTab() === 'notes') {
-            <div class="wvl__chips">
-              @for (note of nonQuoteNotes(); track note.id) {
-                <div class="wvl__chip" [attr.data-kind]="note.note_kind">
-                  <span class="wvl__chip-icon">{{ kindIcon(note.note_kind) }}</span>
-                  <span class="wvl__chip-kind">{{ note.note_kind }}</span>
-                  <span class="wvl__chip-text">{{ note.body_md }}</span>
-                </div>
-              }
-              @if (nonQuoteNotes().length === 0) {
-                <span class="wvl__bottom-empty">No reflections or insights yet.</span>
-              }
-            </div>
-          }
-          @if (bottomTab() === 'graph') {
-            <div class="wvl__graph-placeholder">
-              <span class="wvl__graph-icon">◈</span>
-              <span>WV Graph — concept connections coming soon</span>
-            </div>
-          }
-        </div>
-      </section>
-    }
   }
 
   <!-- ══ Modals ══ -->

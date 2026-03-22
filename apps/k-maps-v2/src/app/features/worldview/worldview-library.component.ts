@@ -3,15 +3,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
+  effect,
   computed,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 // ── Interfaces ──────────────────────────────────────────────────────────────
 
@@ -46,7 +48,28 @@ interface WvNote {
   created_at?: string;
 }
 
+interface WvHighlight {
+  id: string;
+  source_unit_id?: string;
+  locator?: string | null;
+  anchor_text?: string | null;
+  selected_text: string;
+  color?: string | null;
+  created_at?: string;
+}
+
+interface ReaderHighlightEntry {
+  id: string;
+  note_kind: string;
+  excerpt_text?: string;
+  body_md: string;
+  created_at?: string;
+  locator?: string | null;
+  source: 'highlight' | 'note';
+}
+
 type NoteKind = 'highlight' | 'reflection' | 'question' | 'insight' | 'claim_seed';
+type ReaderTab = 'highlights' | 'notes' | 'wv';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -66,8 +89,9 @@ const KIND_ICON: Record<string, string> = {
   templateUrl: './worldview-library.component.html',
   styleUrl: './worldview-library.component.scss',
 })
-export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
+export class WorldviewLibraryComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('page') pageRef!: ElementRef<HTMLElement>;
+  @ViewChild('readerPane') readerPaneRef!: ElementRef<HTMLElement>;
 
   // ── Loading states ──────────────────────────────────────────────────────
   readonly loading       = signal(true);
@@ -85,6 +109,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   readonly selectedParentUnit = signal<WvUnit | null>(null);
   readonly selectedUnit   = signal<WvUnit | null>(null);
   readonly notes          = signal<WvNote[]>([]);
+  readonly highlights     = signal<WvHighlight[]>([]);
 
   // ── Passage text ────────────────────────────────────────────────────────
   readonly anchorText      = signal<string | null>(null);
@@ -99,9 +124,14 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   readonly excerptInput   = signal('');
   readonly noteBodyInput  = signal('');
   readonly collapsedUnits = signal<Set<string>>(new Set());
-  readonly bottomTab      = signal<'highlights' | 'notes' | 'graph'>('highlights');
+  readonly bottomTab      = signal<ReaderTab>('highlights');
+  readonly textPaneHeight = signal(38);
+  readonly isResizingReader = signal(false);
 
   private searchQuery = signal('');
+  private tabAnimTimeout: ReturnType<typeof setTimeout> | null = null;
+  private resizePointerId: number | null = null;
+  private removeResizeListeners: (() => void) | null = null;
 
   // ── Computed ─────────────────────────────────────────────────────────────
   readonly filteredSources = computed(() => {
@@ -113,11 +143,35 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
     );
   });
 
-  readonly hasInsights  = computed(() => this.notes().some(n => n.note_kind === 'insight' || n.note_kind === 'claim_seed'));
-  readonly insightCount = computed(() => this.notes().filter(n => n.note_kind === 'insight' || n.note_kind === 'claim_seed').length);
+  readonly highlightNotes = computed(() => this.notes().filter(n => this.isHighlightKind(n.note_kind)));
+  readonly highlightEntries = computed<ReaderHighlightEntry[]>(() => {
+    const directHighlights = this.highlights().map<ReaderHighlightEntry>(highlight => ({
+      id: highlight.id,
+      note_kind: 'highlight',
+      excerpt_text: highlight.anchor_text ?? undefined,
+      body_md: highlight.selected_text,
+      created_at: highlight.created_at,
+      locator: highlight.locator,
+      source: 'highlight',
+    }));
+
+    const noteHighlights = this.highlightNotes().map<ReaderHighlightEntry>(note => ({
+      id: note.id,
+      note_kind: note.note_kind,
+      excerpt_text: note.excerpt_text,
+      body_md: note.body_md,
+      created_at: note.created_at,
+      locator: null,
+      source: 'note',
+    }));
+
+    return [...directHighlights, ...noteHighlights].sort((left, right) => this.compareCreatedAt(left.created_at, right.created_at));
+  });
+  readonly wvNotes        = computed(() => this.notes().filter(n => this.isWvKind(n.note_kind)));
+  readonly regularNotes   = computed(() => this.notes().filter(n => !this.isHighlightKind(n.note_kind) && !this.isWvKind(n.note_kind)));
+  readonly hasInsights    = computed(() => this.wvNotes().length > 0);
+  readonly insightCount   = computed(() => this.wvNotes().length);
   readonly kindLabel    = computed(() => this.noteKinds.find(k => k.value === this.selectedKind())?.label ?? 'Note');
-  readonly quoteNotes   = computed(() => this.notes().filter(n => n.note_kind === 'quote'));
-  readonly nonQuoteNotes = computed(() => this.notes().filter(n => n.note_kind !== 'quote'));
 
   readonly notePlaceholder = computed(() => {
     const m: Record<string, string> = {
@@ -134,7 +188,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   readonly bottomTabs = [
     { id: 'highlights' as const, label: 'Highlights', icon: '◆' },
     { id: 'notes'      as const, label: 'Notes',      icon: '◎' },
-    { id: 'graph'      as const, label: 'WV Graph',   icon: '◈' },
+    { id: 'wv'         as const, label: 'WV',         icon: '◈' },
   ];
 
   readonly noteKinds: { value: NoteKind; label: string; icon: string }[] = [
@@ -148,12 +202,25 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   newSource = { title: '', creator: '', source_type: 'book', publication_year: '' };
   newUnit   = { title: '', unit_type: 'chapter', order_index: 1, summary: '' };
 
+  constructor() {
+    effect(() => {
+      const _ = this.bottomTab();
+      if (this.tabAnimTimeout) clearTimeout(this.tabAnimTimeout);
+      this.tabAnimTimeout = setTimeout(() => this.animateReaderTab(), 50);
+    });
+  }
+
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
   ngOnInit(): void { void this.loadSources(); }
 
   ngAfterViewInit(): void {
     gsap.fromTo(this.pageRef.nativeElement, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' });
+  }
+
+  ngOnDestroy(): void {
+    if (this.tabAnimTimeout) clearTimeout(this.tabAnimTimeout);
+    this.stopReaderResize();
   }
 
   // ── Navigation ────────────────────────────────────────────────────────────
@@ -167,6 +234,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
     this.selectedParentUnit.set(null);
     this.selectedUnit.set(null);
     this.notes.set([]);
+    this.highlights.set([]);
     this.units.set([]);
     this.anchorText.set(null);
     void this.loadUnits(src.id);
@@ -177,6 +245,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
     this.selectedParentUnit.set(null);
     this.selectedUnit.set(null);
     this.notes.set([]);
+    this.highlights.set([]);
     this.units.set([]);
     this.anchorText.set(null);
     this.editingText.set(false);
@@ -188,8 +257,65 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
     this.anchorTextInput.set(unit.anchor_text ?? '');
     this.editingText.set(false);
     this.notes.set([]);
+    this.highlights.set([]);
     this.bottomTab.set('highlights');
-    void this.loadNotes(unit.id);
+    void this.loadReaderData(unit.id);
+  }
+
+  setBottomTab(tab: ReaderTab): void {
+    if (this.bottomTab() === tab) return;
+    this.bottomTab.set(tab);
+  }
+
+  startReaderResize(event: PointerEvent): void {
+    if (!this.readerPaneRef?.nativeElement) return;
+
+    event.preventDefault();
+    this.stopReaderResize();
+
+    this.resizePointerId = event.pointerId;
+    this.isResizingReader.set(true);
+
+    if (typeof document !== 'undefined') {
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'row-resize';
+    }
+
+    const onMove = (moveEvent: PointerEvent) => {
+      if (this.resizePointerId !== null && moveEvent.pointerId !== this.resizePointerId) return;
+      this.updateReaderSplit(moveEvent.clientY);
+    };
+
+    const onUp = (endEvent: PointerEvent) => {
+      if (this.resizePointerId !== null && endEvent.pointerId !== this.resizePointerId) return;
+      this.stopReaderResize();
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+    }
+
+    this.removeResizeListeners = () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        window.removeEventListener('pointercancel', onUp);
+      }
+    };
+
+    this.updateReaderSplit(event.clientY);
+  }
+
+  onReaderResizeKeydown(event: KeyboardEvent): void {
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.adjustReaderSplit(-4);
+    } else if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.adjustReaderSplit(4);
+    }
   }
 
   toggleCollapse(unitId: string): void {
@@ -214,6 +340,39 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   }
 
   kindIcon(kind: string): string { return KIND_ICON[kind] ?? '◆'; }
+
+  kindLabelText(kind: string): string {
+    const labels: Record<string, string> = {
+      quote: 'Highlight',
+      highlight: 'Highlight',
+      reflection: 'Reflection',
+      question: 'Question',
+      insight: 'Insight',
+      claim_seed: 'Claim',
+      summary: 'Summary',
+      observation: 'Observation',
+    };
+    return labels[kind] ?? kind.replace(/_/g, ' ');
+  }
+
+  canDistill(note: WvNote): boolean {
+    return !this.isWvKind(note.note_kind);
+  }
+
+  distillHighlight(entry: ReaderHighlightEntry): void {
+    this.selectedKind.set('insight');
+    this.excerptInput.set(entry.body_md);
+    this.noteBodyInput.set('');
+    this.noteFormOpen.set(true);
+  }
+
+  tabCount(tab: ReaderTab): number {
+    switch (tab) {
+      case 'highlights': return this.highlightEntries().length;
+      case 'notes': return this.regularNotes().length;
+      case 'wv': return this.wvNotes().length;
+    }
+  }
 
   formatDate(dt?: string): string {
     if (!dt) return '';
@@ -242,7 +401,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
       });
       if (res.ok) {
         this.clearNoteForm();
-        if (unit) void this.loadNotes(unit.id);
+        if (unit) void this.loadReaderData(unit.id);
       }
     } finally {
       this.savingNote.set(false);
@@ -279,7 +438,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   }
 
   distillAll(): void {
-    const all = this.notes().map(n => n.body_md).join('\n\n');
+    const all = [...this.highlightEntries(), ...this.regularNotes()].map(n => n.body_md).join('\n\n');
     this.selectedKind.set('insight');
     this.excerptInput.set(all.slice(0, 500));
     this.noteBodyInput.set('');
@@ -377,15 +536,87 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private async loadNotes(unitId: string): Promise<void> {
+  private async loadReaderData(unitId: string): Promise<void> {
     this.notesLoading.set(true);
     try {
       const res = await fetch(`${environment.wvBase}/wv/notes?source_unit_id=${unitId}&limit=100`);
       if (!res.ok) return;
-      const data = await res.json() as { ok: boolean; notes: WvNote[] };
-      if (data.ok) this.notes.set(data.notes);
+
+      const data = await res.json() as { ok: boolean; notes: WvNote[]; highlights?: WvHighlight[] };
+      if (!data.ok) return;
+
+      this.notes.set(data.notes ?? []);
+      this.highlights.set(data.highlights ?? []);
     } finally {
       this.notesLoading.set(false);
+    }
+  }
+
+  private isHighlightKind(kind: string): boolean {
+    return kind === 'quote' || kind === 'highlight';
+  }
+
+  private isWvKind(kind: string): boolean {
+    return kind === 'insight' || kind === 'claim_seed';
+  }
+
+  private adjustReaderSplit(delta: number): void {
+    const next = Math.max(22, Math.min(72, this.textPaneHeight() + delta));
+    this.textPaneHeight.set(next);
+  }
+
+  private updateReaderSplit(clientY: number): void {
+    if (!this.readerPaneRef?.nativeElement) return;
+
+    const rect = this.readerPaneRef.nativeElement.getBoundingClientRect();
+    if (rect.height <= 0) return;
+
+    const next = ((clientY - rect.top) / rect.height) * 100;
+    this.textPaneHeight.set(Math.max(22, Math.min(72, next)));
+  }
+
+  private stopReaderResize(): void {
+    this.resizePointerId = null;
+    this.isResizingReader.set(false);
+    this.removeResizeListeners?.();
+    this.removeResizeListeners = null;
+
+    if (typeof document !== 'undefined') {
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+    }
+  }
+
+  private compareCreatedAt(left?: string, right?: string): number {
+    const leftTs = left ? Date.parse(left) : 0;
+    const rightTs = right ? Date.parse(right) : 0;
+    return leftTs - rightTs;
+  }
+
+  private animateReaderTab(): void {
+    if (!this.pageRef?.nativeElement) return;
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const root = this.pageRef.nativeElement;
+    const panel = root.querySelector<HTMLElement>('.wvl__tab-panel');
+    if (!panel) return;
+
+    const items = panel.querySelectorAll<HTMLElement>('.wvl__note, .wvl__chip, .wvl__empty-card, .wvl__distill-bar');
+    gsap.killTweensOf(panel);
+    gsap.killTweensOf(items);
+
+    gsap.fromTo(
+      panel,
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 0.38, ease: 'power2.out' }
+    );
+
+    if (items.length) {
+      gsap.fromTo(
+        items,
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.36, stagger: 0.05, ease: 'power2.out' }
+      );
     }
   }
 }

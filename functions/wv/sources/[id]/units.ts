@@ -16,11 +16,12 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       SELECT
         su.id, su.unit_type, su.title, su.order_index, su.parent_unit_id,
         su.start_ref, su.end_ref, su.summary, su.created_at,
-        COUNT(n.id) AS note_count
+        (
+          COALESCE((SELECT COUNT(*) FROM wv_notes n WHERE n.source_unit_id = su.id), 0) +
+          COALESCE((SELECT COUNT(*) FROM wv_highlights h WHERE h.source_unit_id = su.id), 0)
+        ) AS note_count
       FROM wv_source_units su
-      LEFT JOIN wv_notes n ON n.source_unit_id = su.id
       WHERE su.source_id = ?1
-      GROUP BY su.id
       ORDER BY su.order_index ASC, su.created_at ASC
     `).bind(sourceId).all();
 

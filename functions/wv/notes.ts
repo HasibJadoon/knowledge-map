@@ -16,27 +16,62 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const noteKind = url.searchParams.get('note_kind') ?? '';
     const limit = Math.min(parseInt(url.searchParams.get('limit') ?? '100', 10), 500);
 
-    const conditions: string[] = ["status != 'archived'"];
-    const binds: (string | number)[] = [];
-    let idx = 1;
+    const noteConditions: string[] = ["status != 'archived'"];
+    const noteBinds: (string | number)[] = [];
+    let noteIdx = 1;
 
-    if (sourceId) { conditions.push(`source_id = ?${idx++}`); binds.push(sourceId); }
-    if (sourceUnitId) { conditions.push(`source_unit_id = ?${idx++}`); binds.push(sourceUnitId); }
-    if (noteKind) { conditions.push(`note_kind = ?${idx++}`); binds.push(noteKind); }
-    binds.push(limit);
+    const highlightConditions: string[] = [];
+    const highlightBinds: (string | number)[] = [];
+    let highlightIdx = 1;
 
-    const where = `WHERE ${conditions.join(' AND ')}`;
+    if (sourceId) {
+      noteConditions.push(`source_id = ?${noteIdx++}`);
+      noteBinds.push(sourceId);
+      highlightConditions.push(`source_id = ?${highlightIdx++}`);
+      highlightBinds.push(sourceId);
+    }
 
-    const { results } = await ctx.env.DB.prepare(`
-      SELECT id, source_id, source_unit_id, note_kind, title, body_md, excerpt_text, status, created_at
-      FROM wv_notes
-      ${where}
-      ORDER BY created_at ASC
-      LIMIT ?${idx}
-    `).bind(...binds).all();
+    if (sourceUnitId) {
+      noteConditions.push(`source_unit_id = ?${noteIdx++}`);
+      noteBinds.push(sourceUnitId);
+      highlightConditions.push(`source_unit_id = ?${highlightIdx++}`);
+      highlightBinds.push(sourceUnitId);
+    }
+
+    if (noteKind) {
+      noteConditions.push(`note_kind = ?${noteIdx++}`);
+      noteBinds.push(noteKind);
+    }
+
+    noteBinds.push(limit);
+    highlightBinds.push(limit);
+
+    const noteWhere = `WHERE ${noteConditions.join(' AND ')}`;
+    const highlightWhere = highlightConditions.length ? `WHERE ${highlightConditions.join(' AND ')}` : '';
+
+    const [notesResult, highlightsResult] = await Promise.all([
+      ctx.env.DB.prepare(`
+        SELECT id, source_id, source_unit_id, note_kind, title, body_md, excerpt_text, status, created_at
+        FROM wv_notes
+        ${noteWhere}
+        ORDER BY created_at ASC
+        LIMIT ?${noteIdx}
+      `).bind(...noteBinds).all(),
+      ctx.env.DB.prepare(`
+        SELECT id, source_id, source_unit_id, locator, anchor_text, selected_text, start_offset, end_offset, color, meta_json, created_at
+        FROM wv_highlights
+        ${highlightWhere}
+        ORDER BY created_at ASC
+        LIMIT ?${highlightIdx}
+      `).bind(...highlightBinds).all(),
+    ]);
 
     return new Response(
-      JSON.stringify({ ok: true, notes: results ?? [] }),
+      JSON.stringify({
+        ok: true,
+        notes: notesResult.results ?? [],
+        highlights: highlightsResult.results ?? [],
+      }),
       { headers: jsonHeaders }
     );
   } catch (err: any) {

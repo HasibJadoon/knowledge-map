@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 type ViewMode = 'calendar' | 'kanban' | 'timeline';
 type PlanStatus = 'active' | 'completed' | 'paused';
