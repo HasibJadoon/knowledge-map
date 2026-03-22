@@ -8,7 +8,6 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import { SlicePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
@@ -61,7 +60,7 @@ const KIND_ICON: Record<string, string> = {
 @Component({
   selector: 'km-worldview-library',
   standalone: true,
-  imports: [RouterLink, FormsModule, SlicePipe],
+  imports: [RouterLink, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './worldview-library.component.html',
   styleUrl: './worldview-library.component.scss',

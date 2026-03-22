@@ -7,7 +7,10 @@ import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withViewTransitions()),
+    provideRouter(routes, withViewTransitions({
+      skipInitialTransition: true,
+      onViewTransitionCreated: ({ transition }) => { transition.ready.catch(() => {}); },
+    })),
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),
   ],
