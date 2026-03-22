@@ -1,0 +1,279 @@
+import {
+  Component, ChangeDetectionStrategy, AfterViewInit,
+  ElementRef, ViewChild, inject
+} from '@angular/core';
+import { Router } from '@angular/router';
+import gsap from 'gsap';
+import { HubSectionDef } from './models/hub.models';
+
+const SECTION_DEFS: HubSectionDef[] = [
+  {
+    id: 'quran',
+    icon: '☽',
+    glyph: '☽',
+    title: 'Quran',
+    subtitle: '5 data points',
+    description: 'Surahs, passages, tafsir notes, highlights and SRS review queue.',
+    tag: 'SCRIPTURE',
+    accentColor: '#1a6e3a',
+    route: '/hub/quran',
+  },
+  {
+    id: 'arabic',
+    icon: 'ع',
+    glyph: 'ع',
+    title: 'Arabic',
+    subtitle: '8 data points',
+    description: 'Content library, grammar, balagha rhetoric, vocabulary domains and SRS.',
+    tag: 'LANGUAGE',
+    accentColor: '#8a3a1a',
+    route: '/hub/arabic',
+  },
+  {
+    id: 'worldview',
+    icon: '◎',
+    glyph: '◎',
+    title: 'Worldview',
+    subtitle: '11 data points',
+    description: 'Sources, highlights, brainstorm sessions, comparisons, podcasts and plans.',
+    tag: 'KNOWLEDGE',
+    accentColor: '#1a3a6e',
+    route: '/hub/worldview',
+  },
+  {
+    id: 'workspace',
+    icon: '⊞',
+    glyph: '⊞',
+    title: 'Workspace',
+    subtitle: '4 data points',
+    description: 'Collaborative workspaces, members, documents and activity log.',
+    tag: 'EXECUTION',
+    accentColor: '#3a1a6e',
+    route: '/hub/workspace',
+  },
+];
+
+@Component({
+  selector: 'km-hub-home',
+  standalone: true,
+  imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div class="hh" #page>
+      <!-- Ambient particles -->
+      <div class="hh__particles" aria-hidden="true">
+        @for (i of particles; track i) {
+          <span class="hh__particle" [style.--i]="i"></span>
+        }
+      </div>
+
+      <header class="hh__header" #header>
+        <p class="hh__eyebrow">Command Center</p>
+        <h1 class="hh__title">Hub</h1>
+        <p class="hh__subtitle">Scholarly Data Management</p>
+        <div class="hh__rule"></div>
+      </header>
+
+      <main class="hh__grid" #grid>
+        @for (s of sections; track s.id) {
+          <button
+            class="hh__card"
+            [class]="'hh__card--' + s.id"
+            [style.--accent]="s.accentColor"
+            (click)="navigate(s.route)"
+            [attr.aria-label]="'Open ' + s.title + ' management'"
+          >
+            <div class="hh__card-artwork">
+              <span class="hh__glyph">{{ s.glyph }}</span>
+              <div class="hh__shimmer"></div>
+            </div>
+            <div class="hh__bottom-glow"></div>
+            <div class="hh__card-body">
+              <span class="hh__tag">{{ s.tag }}</span>
+              <span class="hh__card-title">{{ s.title }}</span>
+              <p class="hh__card-desc">{{ s.description }}</p>
+              <span class="hh__subtitle-badge">{{ s.subtitle }}</span>
+            </div>
+          </button>
+        }
+      </main>
+
+      <footer class="hh__footer" #footer>
+        <span class="hh__footer-text">Select a domain to manage data</span>
+      </footer>
+    </div>
+  `,
+  styles: [`
+    .hh {
+      position: relative;
+      width: 100%; min-height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0; overflow: hidden; padding: 2rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 30%, #111005 0%, #080808 60%, #000 100%);
+    }
+
+    .hh__particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .hh__particle {
+      position: absolute; width: 2px; height: 2px; border-radius: 50%;
+      background: var(--km-gold); opacity: 0;
+      animation: floatP calc(8s + var(--i,0) * 1.3s) infinite linear;
+      left: calc(var(--i,0) * 7% + 5%); top: 100%;
+      animation-delay: calc(var(--i,0) * 0.6s);
+    }
+    @keyframes floatP {
+      0%   { transform: translateY(0) scale(1); opacity: 0; }
+      10%  { opacity: .6; }
+      80%  { opacity: .15; }
+      100% { transform: translateY(-100vh) scale(.3); opacity: 0; }
+    }
+
+    .hh__header { text-align: center; margin-bottom: 3rem; }
+
+    .hh__eyebrow {
+      font-family: var(--km-font-body); font-size: .7rem; font-weight: 600;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--km-gold); opacity: .7; margin-bottom: .75rem;
+    }
+
+    .hh__title {
+      font-family: var(--km-font-heading);
+      font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 700; letter-spacing: .08em; line-height: 1;
+      background: linear-gradient(135deg, var(--km-gold-bright) 0%, var(--km-gold) 55%, #a07830 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 1rem;
+    }
+
+    .hh__subtitle {
+      font-size: .95rem; color: var(--km-text-2); letter-spacing: .04em; margin-bottom: 2rem;
+    }
+
+    .hh__rule {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--km-gold), transparent);
+      margin: 0 auto;
+    }
+
+    .hh__grid {
+      display: flex; gap: 1.4rem; align-items: stretch; flex-wrap: wrap;
+      justify-content: center; max-width: 920px; width: 100%;
+    }
+
+    .hh__card {
+      position: relative;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      width: clamp(160px, 18vw, 210px); min-height: 240px;
+      padding: 0 1.2rem 1.4rem;
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--km-radius-lg, 14px);
+      cursor: pointer; overflow: hidden; text-align: center;
+      transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+
+      &:hover {
+        border-color: var(--km-border-gold);
+        box-shadow: 0 0 48px rgba(201,168,76,.18), 0 0 1px rgba(201,168,76,.4) inset;
+        transform: translateY(-6px);
+        .hh__card-artwork { opacity: .9; }
+        .hh__shimmer { opacity: 1; }
+        .hh__bottom-glow { opacity: 1; }
+        .hh__card-title { color: var(--km-gold-bright); letter-spacing: .2em; }
+      }
+
+      &:active { transform: translateY(-3px); }
+    }
+
+    .hh__card-artwork {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 80px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: .5; transition: opacity .3s;
+    }
+
+    .hh__glyph {
+      font-size: 4rem; line-height: 1;
+      background: linear-gradient(180deg, #c9a84c 0%, #6b5520 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 0 14px rgba(201,168,76,.3));
+      font-family: var(--km-font-arabic, inherit);
+    }
+
+    .hh__shimmer {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,.08) 0%, transparent 70%);
+      opacity: 0; transition: opacity .4s; pointer-events: none;
+    }
+
+    .hh__bottom-glow {
+      position: absolute; bottom: 0; left: 10%; right: 10%;
+      height: 2px; background: linear-gradient(90deg, transparent, var(--km-gold), transparent);
+      opacity: .35; transition: opacity .3s; border-radius: 1px;
+    }
+
+    .hh__card-body {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: .2rem; width: 100%;
+    }
+
+    .hh__tag {
+      font-size: .58rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--km-gold); opacity: .6;
+    }
+
+    .hh__card-title {
+      font-family: var(--km-font-heading); font-size: .9rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--km-text-2);
+      transition: color .3s, letter-spacing .3s;
+    }
+
+    .hh__card-desc {
+      font-size: .72rem; color: var(--km-text-3); line-height: 1.5;
+      margin: .3rem 0 .2rem; max-width: 180px;
+    }
+
+    .hh__subtitle-badge {
+      font-size: .6rem; color: var(--km-gold); opacity: .5;
+      letter-spacing: .1em; font-weight: 600;
+    }
+
+    .hh__footer {
+      margin-top: 3rem;
+      .hh__footer-text {
+        font-size: .62rem; letter-spacing: .28em; color: var(--km-text-3); text-transform: uppercase;
+      }
+    }
+  `]
+})
+export class HubHomeComponent implements AfterViewInit {
+  private router = inject(Router);
+
+  @ViewChild('page') pageRef!: ElementRef<HTMLElement>;
+  @ViewChild('header') headerRef!: ElementRef<HTMLElement>;
+  @ViewChild('grid') gridRef!: ElementRef<HTMLElement>;
+  @ViewChild('footer') footerRef!: ElementRef<HTMLElement>;
+
+  readonly particles = Array.from({ length: 12 }, (_, i) => i);
+  readonly sections = SECTION_DEFS;
+
+  ngAfterViewInit(): void {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.fromTo(this.headerRef.nativeElement,
+      { opacity: 0, y: -24, filter: 'blur(6px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, clearProps: 'filter' }
+    )
+    .fromTo('.hh__card',
+      { opacity: 0, y: 36, scale: .94 },
+      { opacity: 1, y: 0, scale: 1, duration: .6, stagger: .1, clearProps: 'transform' },
+      '-=.4'
+    )
+    .fromTo(this.footerRef.nativeElement,
+      { opacity: 0 }, { opacity: 1, duration: .5 }, '-=.1'
+    );
+  }
+
+  navigate(route: string): void {
+    gsap.to('.hh__card', {
+      opacity: 0, y: -16, stagger: .04, duration: .28, ease: 'power2.in',
+      onComplete: () => { void this.router.navigateByUrl(route); }
+    });
+  }
+}

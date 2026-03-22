@@ -2,24 +2,21 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'km-hub',
+  selector: 'km-arabic-shell',
   standalone: true,
-  imports: [RouterOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterOutlet],
   template: `
-    <div class="hub-shell">
+    <div class="arabic-shell">
       <router-outlet />
     </div>
   `,
   styles: [`
-    .hub-shell {
+    .arabic-shell {
       width: 100%;
-      height: 100dvh;
-      overflow: hidden;
+      min-height: 100dvh;
       background: var(--km-bg);
-      display: flex;
-      flex-direction: column;
     }
-  `]
+  `],
 })
-export class HubComponent {}
+export class ArabicShellComponent {}

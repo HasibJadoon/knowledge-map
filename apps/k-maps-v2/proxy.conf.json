@@ -1,7 +1,12 @@
 {
   "/api": {
-    "target": "http://localhost:8788",
-    "secure": false,
+    "target": "https://dev.knowledge-map.pages.dev",
+    "secure": true,
+    "changeOrigin": true
+  },
+  "/wv": {
+    "target": "https://dev.knowledge-map.pages.dev",
+    "secure": true,
     "changeOrigin": true
   }
 }

@@ -1,7 +1,7 @@
 <div class="arabic-home" #pageRef>
-
   <div class="arabic-home__inner">
 
+    <!-- Navigation -->
     <nav class="top-nav">
       <button class="back-btn" (click)="back()">
         <span class="back-btn__arrow">&#8592;</span>
@@ -10,27 +10,54 @@
       <span class="breadcrumb">Arabic</span>
     </nav>
 
-    <header class="page-header">
+    <!-- Header -->
+    <header class="page-header" #headerRef>
       <div class="page-header__ornament">&#10023;</div>
+      <div class="page-header__arabic-title">العربية</div>
       <h1 class="page-header__title">Arabic</h1>
-      <p class="page-header__subtitle">Roots · Lexicon · Library · Grammar</p>
+      <p class="page-header__subtitle">Classical Arabic Mastery</p>
     </header>
 
-    <div class="sections-grid" #cardsRef>
-      @for (section of sections; track section.route) {
-        <a class="section-card" [routerLink]="section.route">
-          <div class="section-card__arabic-bg">{{ section.arabicLabel }}</div>
-          <div class="section-card__icon">{{ section.icon }}</div>
-          <div class="section-card__content">
-            <h2 class="section-card__label">{{ section.label }}</h2>
-            <p class="section-card__desc">{{ section.desc }}</p>
+    <!-- Stats Row -->
+    <div class="stats-row" #statsRef>
+      <div class="stat-item">
+        <span class="stat-item__value">{{ counts().containers }}</span>
+        <span class="stat-item__label">Containers</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-item__value">{{ counts().vocabRoots }}</span>
+        <span class="stat-item__label">Vocab Roots</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-item__value">{{ counts().grammarConcepts }}</span>
+        <span class="stat-item__label">Grammar Concepts</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-item__value">{{ counts().balaghaTerms }}</span>
+        <span class="stat-item__label">Balagha Terms</span>
+      </div>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="feature-grid" #cardsRef>
+      @for (card of cards; track card.route) {
+        <a class="feature-card" [routerLink]="card.route">
+          <div class="feature-card__bg-glyph">{{ card.glyph }}</div>
+          <div class="feature-card__glyph">{{ card.glyph }}</div>
+          <div class="feature-card__content">
+            <h2 class="feature-card__title">{{ card.title }}</h2>
+            <p class="feature-card__desc">{{ card.desc }}</p>
           </div>
-          <div class="section-card__arabic">{{ section.arabicLabel }}</div>
-          <div class="section-card__arrow">&#8594;</div>
+          <div class="feature-card__footer">
+            <span class="feature-card__arabic">{{ card.arabicTitle }}</span>
+            <span class="feature-card__arrow">&#8594;</span>
+          </div>
         </a>
       }
     </div>
 
   </div>
-
 </div>

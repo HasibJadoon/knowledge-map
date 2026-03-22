@@ -59,50 +59,105 @@
 
 // ── Header ───────────────────────────────────────────────
 .page-header {
-  margin-bottom: 3.5rem;
+  margin-bottom: 2.75rem;
   text-align: center;
 
   &__ornament {
     font-size: 1.2rem;
     color: var(--km-gold);
     opacity: 0.5;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     display: block;
+  }
+
+  &__arabic-title {
+    font-family: var(--km-font-arabic);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    color: var(--km-gold);
+    opacity: 0.85;
+    direction: rtl;
+    line-height: 1.1;
+    margin-bottom: 0.25rem;
+    text-shadow: 0 0 60px rgba(201, 168, 76, 0.3);
   }
 
   &__title {
     font-family: var(--km-font-heading);
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
     font-weight: 600;
-    letter-spacing: 0.15em;
-    color: var(--km-gold);
-    margin: 0 0 0.6rem;
-    text-shadow: 0 0 40px rgba(201, 168, 76, 0.25);
+    letter-spacing: 0.22em;
+    color: var(--km-text-2);
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
   }
 
   &__subtitle {
     font-family: var(--km-font-body);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--km-text-2);
+    color: var(--km-text-3);
     margin: 0;
   }
 }
 
-// ── Sections Grid ────────────────────────────────────────
-.sections-grid {
+// ── Stats Row ─────────────────────────────────────────────
+.stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 3rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius-lg, 12px);
+  padding: 1.25rem 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 2rem;
+
+  &__value {
+    font-family: var(--km-font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--km-gold);
+    line-height: 1;
+  }
+
+  &__label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--km-text-3);
+  }
+}
+
+.stat-divider {
+  width: 1px;
+  height: 2.5rem;
+  background: var(--km-border);
+  flex-shrink: 0;
+}
+
+// ── Feature Grid ─────────────────────────────────────────
+.feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1.25rem;
 }
 
-.section-card {
+.feature-card {
   position: relative;
-  background: var(--km-surface);
-  border: 1px solid var(--km-border-gold);
-  border-radius: 12px;
-  padding: 1.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius-lg, 12px);
+  padding: 1.75rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -112,57 +167,44 @@
   cursor: pointer;
   transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
 
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--km-gold-glow) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-  }
-
   &:hover {
-    border-color: var(--km-gold);
+    border-color: var(--km-border-gold);
     background: rgba(201, 168, 76, 0.04);
     transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(201, 168, 76, 0.12);
+    box-shadow: 0 8px 32px rgba(201, 168, 76, 0.1);
 
-    &::before {
-      opacity: 1;
+    .feature-card__bg-glyph {
+      opacity: 0.07;
     }
 
-    .section-card__arrow {
+    .feature-card__arrow {
       color: var(--km-gold);
       transform: translateX(4px);
     }
-
-    .section-card__arabic-bg {
-      opacity: 0.06;
-    }
   }
 
-  &__arabic-bg {
+  &__bg-glyph {
     position: absolute;
     top: 50%;
-    right: -0.5rem;
+    right: -0.25rem;
     transform: translateY(-50%);
     font-family: var(--km-font-arabic);
-    font-size: 5rem;
+    font-size: 6rem;
     color: var(--km-gold);
-    opacity: 0.04;
+    opacity: 0.03;
     pointer-events: none;
     transition: opacity 0.3s;
     user-select: none;
     direction: rtl;
+    line-height: 1;
   }
 
-  &__icon {
+  &__glyph {
     font-family: var(--km-font-arabic);
-    font-size: 1.6rem;
+    font-size: 2rem;
     color: var(--km-gold);
     line-height: 1;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
     direction: rtl;
   }
 
@@ -170,12 +212,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.35rem;
   }
 
-  &__label {
+  &__title {
     font-family: var(--km-font-heading);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -186,8 +228,15 @@
   &__desc {
     font-size: 0.82rem;
     color: var(--km-text-2);
-    line-height: 1.55;
+    line-height: 1.6;
     margin: 0;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
   }
 
   &__arabic {
@@ -195,15 +244,11 @@
     font-size: 1rem;
     color: var(--km-text-3);
     direction: rtl;
-    text-align: right;
-    margin-top: 0.25rem;
   }
 
   &__arrow {
     font-size: 1rem;
     color: rgba(201, 168, 76, 0.4);
-    margin-top: 0.25rem;
     transition: color 0.2s, transform 0.2s;
-    align-self: flex-end;
   }
 }

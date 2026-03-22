@@ -11,6 +11,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
+import { environment } from '../../../../environments/environment';
 
 // ── Interfaces ──────────────────────────────────────────────────────────────
 
@@ -228,7 +229,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
 
     this.savingNote.set(true);
     try {
-      const res = await fetch('/wv/notes', {
+      const res = await fetch(`${environment.wvBase}/wv/notes`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -256,7 +257,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
     this.savingText.set(true);
     try {
       const text = this.anchorTextInput().trim();
-      const res = await fetch(`/wv/sources/${src.id}/units/${unit.id}`, {
+      const res = await fetch(`${environment.wvBase}/wv/sources/${src.id}/units/${unit.id}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ anchor_text: text }),
@@ -291,7 +292,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
     if (!this.newSource.title.trim()) return;
     this.addingSource.set(true);
     try {
-      const res = await fetch('/wv/sources', {
+      const res = await fetch(`${environment.wvBase}/wv/sources`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -316,7 +317,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
     if (!src) return;
     this.addingUnit.set(true);
     try {
-      const res = await fetch(`/wv/sources/${src.id}/units`, {
+      const res = await fetch(`${environment.wvBase}/wv/sources/${src.id}/units`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
@@ -341,7 +342,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   private async loadSources(): Promise<void> {
     this.loading.set(true);
     try {
-      const res = await fetch('/wv/sources?limit=100');
+      const res = await fetch(`${environment.wvBase}/wv/sources?limit=100`);
       if (!res.ok) return;
       const data = await res.json() as { ok: boolean; sources: WvSource[] };
       if (data.ok) this.sources.set(data.sources);
@@ -353,7 +354,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   private async loadUnits(sourceId: string): Promise<void> {
     this.unitsLoading.set(true);
     try {
-      const res = await fetch(`/wv/sources/${sourceId}/units`);
+      const res = await fetch(`${environment.wvBase}/wv/sources/${sourceId}/units`);
       if (!res.ok) return;
       const data = await res.json() as { ok: boolean; units: WvUnit[] };
       if (!data.ok) return;
@@ -379,7 +380,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   private async loadNotes(unitId: string): Promise<void> {
     this.notesLoading.set(true);
     try {
-      const res = await fetch(`/wv/notes?source_unit_id=${unitId}&limit=100`);
+      const res = await fetch(`${environment.wvBase}/wv/notes?source_unit_id=${unitId}&limit=100`);
       if (!res.ok) return;
       const data = await res.json() as { ok: boolean; notes: WvNote[] };
       if (data.ok) this.notes.set(data.notes);
