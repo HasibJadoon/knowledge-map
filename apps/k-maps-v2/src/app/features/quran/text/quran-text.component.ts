@@ -35,11 +35,11 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
 
   readonly bismillah = BISMILLAH;
 
-  /** Arabic-Indic digits only (strip U+06DD prefix from DB value).
-   *  U+06DD renders as a double-circle in UthmanicHafs — CSS provides the single
-   *  ornamental circle instead, matching quran.com's approach. */
+  /** Returns ۝ + Arabic-Indic digits from DB (e.g. ۝٢).
+   *  UthmanicHafs renders U+06DD as the native ornate medallion when the
+   *  span is display:inline — do NOT use inline-flex/fixed dimensions. */
   getVerseMark(ayah: QuranAyah): string {
-    return (ayah.verse_mark ?? '').replace(/^\u06DD/, '');
+    return ayah.verse_mark ?? '';
   }
 
   /** @deprecated Use getVerseMark(ayah) — DB now serves verse_mark directly */

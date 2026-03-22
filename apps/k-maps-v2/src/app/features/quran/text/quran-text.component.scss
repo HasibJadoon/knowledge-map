@@ -301,34 +301,20 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-// ── Ayah end badge (verse-by-verse view) ─────────────────
-// CSS circle with Arabic-Indic digits inside — same approach as quran.com.
-// U+06DD is stripped before render; font provides digit glyphs only.
+// ── Ayah end badge (verse-by-verse + mushaf views) ───────
+// display:inline is critical — inline-flex/fixed dimensions break
+// UthmanicHafs OpenType glyph composition for U+06DD end-of-ayah.
+// Tarteel/qul.tarteel.ai confirmed: ۝٢ inline in UthmanicHafs = native medallion.
 .ayah-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2em;
-  height: 2em;
-  border-radius: 50%;
-  border: 1.5px solid var(--km-gold);
-  background: transparent;
+  display: inline;
   font-family: var(--km-font-arabic);
-  font-size: 0.45em;
+  font-size: 0.75em;
   color: var(--km-gold);
   vertical-align: middle;
-  margin: 0 0.35em;
+  margin: 0 0.25em;
   user-select: none;
-  flex-shrink: 0;
   letter-spacing: 0;
-
-  &--inline {
-    font-size: 0.38em;
-    width: 2.2em;
-    height: 2.2em;
-    margin: 0 0.4em;
-    opacity: 0.9;
-  }
+  line-height: 1;
 }
 
 // ── Shared Arabic word hover (verse-by-verse view) ───────
@@ -349,28 +335,19 @@
 }
 
 // ── Verse marker (mushaf continuous-flow view) ────────────
-// CSS circle with Arabic-Indic digits — quran.com approach.
-// U+06DD stripped at render time; UthmanicHafs styles the digits.
+// Ornate medallion matching the Tarteel/quran.com style.
+// Uses ۝ + Arabic-Indic digits from DB — rendered inline in UthmanicHafs.
+// display:inline lets the font's OpenType end-of-ayah feature fire naturally.
 .verse-marker {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.2em;
-  height: 2.2em;
-  border-radius: 50%;
-  border: 1px solid rgba(201, 168, 76, 0.85);
-  outline: 1.5px solid rgba(201, 168, 76, 0.25);
-  outline-offset: 2px;
-  box-shadow: 0 0 8px rgba(201, 168, 76, 0.15), inset 0 0 4px rgba(201, 168, 76, 0.06);
-  background: transparent;
+  display: inline;
   font-family: var(--km-font-arabic);
-  font-size: 0.4em;
+  font-size: 1em;
   color: var(--km-gold);
   vertical-align: middle;
-  margin: 0 0.5em;
+  margin: 0 0.15em;
   user-select: none;
   letter-spacing: 0;
-  flex-shrink: 0;
+  line-height: 1;
 }
 
 
