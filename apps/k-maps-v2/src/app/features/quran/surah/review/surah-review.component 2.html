@@ -1,0 +1,51 @@
+<km-quran-page-shell breadcrumb="Surah {{ surahId() }}" title="Review" (goBack)="back()">
+  <header class="mod-header">
+    <h1 class="mod-header__title">Review</h1>
+    <p class="mod-header__sub">Progress and revision for Surah {{ surahId() }}</p>
+  </header>
+
+  @if (loading()) { <div class="qstate"><div class="qstate__spinner"></div><p>Loading review…</p></div> }
+  @if (!loading() && error()) { <div class="qstate qstate--error"><p>{{ error() }}</p></div> }
+  @if (!loading() && !error() && srsItems().length === 0 && progress().length === 0) {
+    <div class="qstate"><p>No review data for this surah yet.</p></div>
+  }
+
+  @if (!loading() && !error()) {
+    @if (srsItems().length > 0) {
+      <section class="review-section">
+        <h2 class="review-section__heading">SRS Items</h2>
+        <div class="review-grid">
+          @for (item of srsItems(); track item.id) {
+            <div class="review-card" #reviewEl [ngClass]="{ 'review-card--due': isDue(item) }">
+              <div class="review-card__type">{{ item.item_type }}</div>
+              <div class="review-card__key">{{ item.item_key }}</div>
+              <div class="review-card__meta">
+                @if (isDue(item)) { <span class="due-badge">Due</span> }
+                <span>Reps: {{ item.reps ?? 0 }}</span>
+                <span>Ease: {{ (item.ease ?? 2.5).toFixed(1) }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+    @if (progress().length > 0) {
+      <section class="review-section">
+        <h2 class="review-section__heading">Lesson Progress</h2>
+        <div class="review-grid">
+          @for (p of progress(); track p.id) {
+            <div class="review-card" #reviewEl>
+              <div class="review-card__type">{{ p.lesson_type }}</div>
+              <div class="review-card__key">{{ p.title }}</div>
+              <div class="review-card__meta">
+                @if (p.score != null) { <span>Score: {{ p.score }}</span> }
+                <span [ngClass]="'status--' + p.status">{{ p.status }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+    }
+  }
+</km-quran-page-shell>

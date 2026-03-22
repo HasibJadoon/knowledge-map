@@ -1,0 +1,275 @@
+.lesson-edit {
+  width: 100%;
+  min-height: 100dvh;
+  background: var(--km-bg);
+  color: var(--km-text);
+  font-family: var(--km-font-body);
+  padding: 2rem 2rem 4rem;
+
+  &__inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+
+// ── Navigation ──────────────────────────────────────────
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: 1px solid var(--km-border);
+  border-radius: 6px;
+  color: var(--km-text-2);
+  font-family: var(--km-font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: var(--km-border-gold);
+    color: var(--km-gold);
+  }
+}
+
+.breadcrumb {
+  font-family: var(--km-font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--km-gold);
+  opacity: 0.7;
+}
+
+// ── Header ───────────────────────────────────────────────
+.page-header {
+  margin-bottom: 2.5rem;
+
+  &__label {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--km-text-3);
+    margin-bottom: 0.35rem;
+  }
+
+  &__title {
+    font-family: var(--km-font-heading);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--km-gold);
+    margin: 0;
+  }
+}
+
+// ── Steps Bar ────────────────────────────────────────────
+.steps-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 2.5rem;
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  overflow-x: auto;
+}
+
+.step-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--km-text-3);
+  font-family: var(--km-font-body);
+  font-size: 0.85rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  &:hover {
+    color: var(--km-text-2);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  &--done {
+    color: var(--km-text-2);
+
+    .step-tab__number {
+      background: rgba(201, 168, 76, 0.15);
+      border-color: var(--km-gold);
+      color: var(--km-gold);
+
+      &::after {
+        content: '✓';
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        background: var(--km-surface);
+        color: var(--km-gold);
+        border-radius: 50%;
+      }
+    }
+  }
+
+  &--active {
+    color: var(--km-gold-bright);
+    border-color: var(--km-border-gold);
+    background: var(--km-gold-glow);
+    box-shadow: 0 0 12px rgba(201, 168, 76, 0.1);
+
+    .step-tab__number {
+      background: var(--km-gold);
+      border-color: var(--km-gold);
+      color: #080808;
+    }
+  }
+
+  &__number {
+    position: relative;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--km-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--km-font-heading);
+    font-size: 0.7rem;
+    color: var(--km-text-3);
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  &__label {
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+.step-connector {
+  flex: 1;
+  height: 1px;
+  background: var(--km-border);
+  min-width: 16px;
+  transition: background 0.2s;
+
+  &--done {
+    background: rgba(201, 168, 76, 0.3);
+  }
+}
+
+// ── Step Content ─────────────────────────────────────────
+.step-content {
+  min-height: 500px;
+}
+
+.step-panel {
+  animation: fadeSlide 0.25s ease;
+
+  &__placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 5rem 2rem;
+    background: var(--km-surface);
+    border: 1px dashed var(--km-border-gold);
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  &__step-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--km-text-3);
+  }
+
+  &__title {
+    font-family: var(--km-font-heading);
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--km-gold);
+    margin: 0;
+  }
+
+  &__message {
+    font-family: var(--km-font-heading);
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    color: var(--km-text-2);
+    margin: 0;
+  }
+
+  &__sub {
+    font-size: 0.82rem;
+    color: var(--km-text-3);
+    margin: 0;
+    max-width: 380px;
+    line-height: 1.6;
+
+    strong {
+      color: var(--km-text-2);
+    }
+  }
+}
+
+.step-nav {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.step-nav-btn {
+  background: transparent;
+  border: 1px solid var(--km-border-gold);
+  border-radius: 6px;
+  color: var(--km-gold);
+  font-family: var(--km-font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    background: var(--km-gold-glow);
+    box-shadow: 0 0 10px rgba(201, 168, 76, 0.12);
+  }
+
+  &--next {
+    background: rgba(201, 168, 76, 0.08);
+  }
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

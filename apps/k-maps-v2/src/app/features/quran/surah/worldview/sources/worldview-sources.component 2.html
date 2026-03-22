@@ -1,0 +1,47 @@
+<km-quran-page-shell breadcrumb="Worldview / Sources" [title]="'Surah ' + surahId()" (goBack)="goBack()">
+  <header class="mod-header">
+    <h1 class="mod-header__title">Sources</h1>
+    <p class="mod-header__sub">{{ items().length }} sources for Surah {{ surahId() }}</p>
+  </header>
+
+  @if (loading()) {
+    <div class="qstate"><div class="qstate__spinner"></div><p>Loading sources…</p></div>
+  }
+  @if (!loading() && error()) {
+    <div class="qstate qstate--error"><p>{{ error() }}</p></div>
+  }
+  @if (!loading() && !error() && items().length === 0) {
+    <div class="qstate"><p>No sources found for this surah.</p></div>
+  }
+
+  @if (!loading() && !error() && items().length > 0) {
+    <div class="wv-list">
+      @for (src of items(); track src.id) {
+        <div class="wv-row" #cardEl>
+          <div class="wv-row__main">
+            <div class="wv-row__top">
+              @if (src.source_type) {
+                <span class="wv-badge">{{ src.source_type }}</span>
+              }
+              <h3 class="wv-row__title">{{ src.title }}</h3>
+            </div>
+            <div class="wv-row__meta">
+              @if (src.creator) { <span class="wv-row__creator">{{ src.creator }}</span> }
+              @if (src.publication_year) { <span class="wv-row__year">{{ src.publication_year }}</span> }
+            </div>
+          </div>
+          <div class="wv-row__chips">
+            <span class="wv-chip">
+              <span class="wv-chip__n">{{ src.unit_count }}</span>
+              <span class="wv-chip__l">Units</span>
+            </span>
+            <span class="wv-chip">
+              <span class="wv-chip__n">{{ src.node_count }}</span>
+              <span class="wv-chip__l">Nodes</span>
+            </span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</km-quran-page-shell>

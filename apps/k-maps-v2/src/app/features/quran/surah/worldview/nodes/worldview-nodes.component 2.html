@@ -1,0 +1,46 @@
+<km-quran-page-shell breadcrumb="Worldview / Nodes" [title]="'Surah ' + surahId()" (goBack)="goBack()">
+  <header class="mod-header">
+    <h1 class="mod-header__title">Worldview Nodes</h1>
+    <p class="mod-header__sub">{{ items().length }} nodes for Surah {{ surahId() }}</p>
+  </header>
+
+  @if (loading()) {
+    <div class="qstate"><div class="qstate__spinner"></div><p>Loading nodes…</p></div>
+  }
+  @if (!loading() && error()) {
+    <div class="qstate qstate--error"><p>{{ error() }}</p></div>
+  }
+  @if (!loading() && !error() && items().length === 0) {
+    <div class="qstate"><p>No nodes found for this surah.</p></div>
+  }
+
+  @if (!loading() && !error() && items().length > 0) {
+    <div class="wv-nodes-grid">
+      @for (node of items(); track node.id) {
+        <div class="wv-node-card" #cardEl>
+          <div class="wv-node-card__top">
+            <span class="wv-badge wv-badge--type">{{ node.node_type }}</span>
+          </div>
+          <h3 class="wv-node-card__title">{{ node.title }}</h3>
+          @if (node.summary) {
+            <p class="wv-node-card__summary">{{ node.summary }}</p>
+          }
+          <div class="wv-node-card__chips">
+            <span class="wv-chip">
+              <span class="wv-chip__n">{{ node.edge_count }}</span>
+              <span class="wv-chip__l">Edges</span>
+            </span>
+            <span class="wv-chip">
+              <span class="wv-chip__n">{{ node.evidence_count }}</span>
+              <span class="wv-chip__l">Evidence</span>
+            </span>
+            <span class="wv-chip">
+              <span class="wv-chip__n">{{ node.quran_link_count }}</span>
+              <span class="wv-chip__l">Quran Links</span>
+            </span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</km-quran-page-shell>

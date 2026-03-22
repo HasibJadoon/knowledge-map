@@ -1,0 +1,42 @@
+<km-quran-page-shell breadcrumb="Worldview / Notes" [title]="'Surah ' + surahId()" (goBack)="goBack()">
+  <header class="mod-header">
+    <h1 class="mod-header__title">Worldview Notes</h1>
+    <p class="mod-header__sub">{{ items().length }} notes for Surah {{ surahId() }}</p>
+  </header>
+
+  @if (loading()) {
+    <div class="qstate"><div class="qstate__spinner"></div><p>Loading notes…</p></div>
+  }
+  @if (!loading() && error()) {
+    <div class="qstate qstate--error"><p>{{ error() }}</p></div>
+  }
+  @if (!loading() && !error() && items().length === 0) {
+    <div class="qstate"><p>No notes found for this surah.</p></div>
+  }
+
+  @if (!loading() && !error() && items().length > 0) {
+    <div class="wv-list">
+      @for (note of items(); track note.id) {
+        <div class="wv-note-row" #cardEl>
+          <div class="wv-note-row__top">
+            @if (note.note_kind) {
+              <span class="wv-badge">{{ note.note_kind }}</span>
+            }
+            <h3 class="wv-note-row__title">{{ note.title || '(untitled)' }}</h3>
+          </div>
+          @if (note.excerpt_text) {
+            <p class="wv-note-row__excerpt">{{ note.excerpt_text }}</p>
+          }
+          <div class="wv-note-row__footer">
+            @if (note.source_title) {
+              <span class="wv-note-row__source">{{ note.source_title }}</span>
+            }
+            @if (note.created_at) {
+              <span class="wv-note-row__date">{{ note.created_at | slice:0:10 }}</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</km-quran-page-shell>

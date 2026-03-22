@@ -1,0 +1,40 @@
+<km-quran-page-shell breadcrumb="Surah {{ surahId() }}" title="SRS" (goBack)="back()">
+  <header class="mod-header">
+    <h1 class="mod-header__title">Spaced Repetition</h1>
+    <p class="mod-header__sub">Review cards for Surah {{ surahId() }}</p>
+  </header>
+
+  <div class="filter-bar">
+    @for (f of filters; track f) {
+      <button class="filter-btn" [ngClass]="{ 'filter-btn--active': activeFilter() === f }" (click)="load(f)">
+        {{ f | titlecase }}
+      </button>
+    }
+  </div>
+
+  @if (loading()) { <div class="qstate"><div class="qstate__spinner"></div><p>Loading cards…</p></div> }
+  @if (!loading() && error()) { <div class="qstate qstate--error"><p>{{ error() }}</p></div> }
+  @if (!loading() && !error() && items().length === 0) {
+    <div class="qstate"><p>No {{ activeFilter() }} cards for this surah.</p></div>
+  }
+
+  @if (!loading() && !error() && items().length > 0) {
+    <div class="srs-grid">
+      @for (item of items(); track item.id) {
+        <div class="srs-card" #srsEl>
+          <div class="srs-card__type">{{ item.item_type }}</div>
+          <div class="srs-card__key">{{ item.item_key }}</div>
+          <div class="srs-card__stats">
+            <span class="stat">{{ daysUntil(item) }}</span>
+            <span class="stat">Reps: {{ item.reps ?? 0 }}</span>
+            <span class="stat">Ease: {{ (item.ease ?? 2.5).toFixed(1) }}</span>
+            <span class="stat">Int: {{ item.interval_days ?? 0 }}d</span>
+          </div>
+          @if (item.last_rating) {
+            <div class="srs-card__rating" [ngClass]="'rating--' + item.last_rating">{{ item.last_rating }}</div>
+          }
+        </div>
+      }
+    </div>
+  }
+</km-quran-page-shell>
