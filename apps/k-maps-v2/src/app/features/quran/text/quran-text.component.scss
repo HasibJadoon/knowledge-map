@@ -322,12 +322,13 @@
 
   &__num {
     position: absolute;
-    top: 50%;
+    top: 48%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: var(--km-font-arabic);
-    font-size: 0.38em;
-    color: var(--km-gold);
+    font-size: 0.65em;
+    font-weight: 700;
+    color: #fff;
     line-height: 1;
     pointer-events: none;
   }
@@ -371,12 +372,13 @@
 
   &__num {
     position: absolute;
-    top: 50%;
+    top: 48%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: var(--km-font-arabic);
-    font-size: 0.42em;
-    color: var(--km-gold);
+    font-size: 0.65em;
+    font-weight: 700;
+    color: #fff;
     line-height: 1;
     pointer-events: none;
   }
