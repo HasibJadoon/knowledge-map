@@ -47,9 +47,9 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
     return (ayah.verse_mark ?? '').replace(/^\u06DD/, '');
   }
 
-  /** Arabic-Indic digits only — U+06DD stripped, rendered in AmiriQuran font. */
+  /** Arabic-Indic digits from DB (U+06DD already stripped at DB level). */
   getVerseMark(ayah: QuranAyah): string {
-    return (ayah.verse_mark ?? '').replace(/^\u06DD/, '');
+    return ayah.verse_mark ?? '';
   }
 
   /** @deprecated */
