@@ -1,0 +1,30 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="kmapsGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(128 128) rotate(90) scale(112)">
+      <stop offset="0" stop-color="#DAB85A" stop-opacity="0.2"/>
+      <stop offset="0.55" stop-color="#C9A84C" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#C9A84C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="kmapsRing" x1="44" y1="44" x2="212" y2="212" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8A6E2A"/>
+      <stop offset="0.5" stop-color="#D9BA60"/>
+      <stop offset="1" stop-color="#8A6E2A"/>
+    </linearGradient>
+    <linearGradient id="kmapsStar" x1="84" y1="62" x2="172" y2="182" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E8C96A"/>
+      <stop offset="1" stop-color="#C9A84C"/>
+    </linearGradient>
+    <filter id="kmapsSoftGlow" x="0" y="0" width="256" height="256" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+      <feGaussianBlur stdDeviation="14" result="effect1_foregroundBlur"/>
+    </filter>
+  </defs>
+
+  <circle cx="128" cy="128" r="112" fill="url(#kmapsGlow)"/>
+  <g filter="url(#kmapsSoftGlow)">
+    <circle cx="128" cy="128" r="64" stroke="#DAB85A" stroke-opacity="0.3" stroke-width="2"/>
+  </g>
+  <circle cx="128" cy="128" r="64" stroke="url(#kmapsRing)" stroke-width="3"/>
+  <path d="M128 62L144.438 111.575H196.753L154.431 142.225L170.73 191.425L128 160.512L85.2698 191.425L101.569 142.225L59.2474 111.575H111.562L128 62Z" fill="url(#kmapsStar)"/>
+</svg>
