@@ -73,6 +73,9 @@ type ReaderTab = 'highlights' | 'notes' | 'wv';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
+const ARABIC_SCRIPT_RE = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+const LATIN_SCRIPT_RE = /[A-Za-z]/;
+
 const KIND_ICON: Record<string, string> = {
   highlight: '◆', quote: '"', reflection: '◎',
   question: '?', insight: '✦', claim_seed: '⊕',
@@ -378,6 +381,29 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit, OnDestr
     if (!dt) return '';
     try { return new Date(dt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }); }
     catch { return dt; }
+  }
+
+  isArabicText(value?: string | null): boolean {
+    return this.textDirection(value) === 'rtl';
+  }
+
+  textDirection(value?: string | null): 'rtl' | 'ltr' {
+    if (!value) return 'ltr';
+
+    let arabicCount = 0;
+    let latinCount = 0;
+
+    // Only flip to RTL when Arabic dominates, so mixed English notes
+    // that include a single Arabic term keep their expected flow.
+    for (const char of value) {
+      if (ARABIC_SCRIPT_RE.test(char)) {
+        arabicCount += 1;
+      } else if (LATIN_SCRIPT_RE.test(char)) {
+        latinCount += 1;
+      }
+    }
+
+    return arabicCount > 0 && arabicCount >= latinCount ? 'rtl' : 'ltr';
   }
 
   async saveNote(): Promise<void> {

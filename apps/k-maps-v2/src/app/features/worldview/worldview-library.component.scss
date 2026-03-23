@@ -8,6 +8,7 @@ $text-3: var(--km-text-3);
 $bg: var(--km-bg);
 $font-body: var(--km-font-body);
 $font-heading: var(--km-font-heading);
+$font-arabic: var(--km-font-arabic);
 
 // ── Root shell ─────────────────────────────────────────────────────────────
 .wvl {
@@ -19,6 +20,40 @@ $font-heading: var(--km-font-heading);
   color: $text;
   font-family: $font-body;
   overflow: hidden;
+}
+
+.wvl__arabic-text {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: plaintext;
+  letter-spacing: normal;
+  font-family: 'Noto Naskh Arabic', 'Amiri', $font-arabic, serif;
+}
+
+.wvl__arabic-text--inline {
+  font-size: 1.08em;
+  line-height: 1.55;
+}
+
+.wvl__arabic-text--reading {
+  font-size: 1.2rem;
+  line-height: 2.05;
+  color: $text;
+}
+
+.wvl__arabic-text--editor {
+  font-size: 1.02rem;
+  line-height: 1.95;
+}
+
+.wvl__arabic-text--note {
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
+input.wvl__arabic-text,
+textarea.wvl__arabic-text {
+  text-align: right;
 }
 
 // ══════════════════════════════════════════════════════════════════════════

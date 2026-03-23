@@ -39,9 +39,19 @@
                 {{ src.publication_year || '—' }}
               </div>
               <div class="wvl__source-row-body">
-                <span class="wvl__source-row-title">{{ src.title }}</span>
+                <span
+                  class="wvl__source-row-title"
+                  [class.wvl__arabic-text]="isArabicText(src.title)"
+                  [class.wvl__arabic-text--inline]="isArabicText(src.title)"
+                  [attr.dir]="textDirection(src.title)"
+                >{{ src.title }}</span>
                 @if (src.creator) {
-                  <span class="wvl__source-row-creator">{{ src.creator }}</span>
+                  <span
+                    class="wvl__source-row-creator"
+                    [class.wvl__arabic-text]="isArabicText(src.creator)"
+                    [class.wvl__arabic-text--inline]="isArabicText(src.creator)"
+                    [attr.dir]="textDirection(src.creator)"
+                  >{{ src.creator }}</span>
                 }
               </div>
               <div class="wvl__source-row-meta">
@@ -65,10 +75,20 @@
     <header class="wvl__topbar">
       <button class="wvl__back" (click)="clearSource()">← Sources</button>
       <div class="wvl__topbar-title">
-        <span class="wvl__topbar-source">{{ selectedSource()!.title }}</span>
+        <span
+          class="wvl__topbar-source"
+          [class.wvl__arabic-text]="isArabicText(selectedSource()!.title)"
+          [class.wvl__arabic-text--inline]="isArabicText(selectedSource()!.title)"
+          [attr.dir]="textDirection(selectedSource()!.title)"
+        >{{ selectedSource()!.title }}</span>
         @if (selectedUnit()) {
           <span class="wvl__topbar-sep">›</span>
-          <span class="wvl__topbar-chapter">{{ selectedUnit()!.title || 'Passage' }}</span>
+          <span
+            class="wvl__topbar-chapter"
+            [class.wvl__arabic-text]="isArabicText(selectedUnit()!.title)"
+            [class.wvl__arabic-text--inline]="isArabicText(selectedUnit()!.title)"
+            [attr.dir]="textDirection(selectedUnit()!.title)"
+          >{{ selectedUnit()!.title || 'Passage' }}</span>
         }
       </div>
       <button class="wvl__btn wvl__btn--ghost wvl__btn--sm" (click)="showAddUnit.set(true)">+ Chapter</button>
@@ -105,7 +125,12 @@
                 } @else {
                   <span class="wvl__tree-leaf">◦</span>
                 }
-                <span class="wvl__tree-ch-title">{{ unit.title || '(Untitled)' }}</span>
+                <span
+                  class="wvl__tree-ch-title"
+                  [class.wvl__arabic-text]="isArabicText(unit.title)"
+                  [class.wvl__arabic-text--inline]="isArabicText(unit.title)"
+                  [attr.dir]="textDirection(unit.title)"
+                >{{ unit.title || '(Untitled)' }}</span>
                 @if (totalNotes(unit)) {
                   <span class="wvl__tree-notes">◆ {{ totalNotes(unit) }}</span>
                 }
@@ -120,7 +145,12 @@
                     tabindex="0"
                   >
                     <span class="wvl__tree-leaf wvl__tree-leaf--indent">└</span>
-                    <span class="wvl__tree-ch-title">{{ child.title || '(Untitled)' }}</span>
+                    <span
+                      class="wvl__tree-ch-title"
+                      [class.wvl__arabic-text]="isArabicText(child.title)"
+                      [class.wvl__arabic-text--inline]="isArabicText(child.title)"
+                      [attr.dir]="textDirection(child.title)"
+                    >{{ child.title || '(Untitled)' }}</span>
                     @if (child.note_count) {
                       <span class="wvl__tree-notes">◆ {{ child.note_count }}</span>
                     }
@@ -157,6 +187,9 @@
             @if (editingText()) {
               <textarea
                 class="wvl__text-editor"
+                [class.wvl__arabic-text]="isArabicText(anchorTextInput())"
+                [class.wvl__arabic-text--editor]="isArabicText(anchorTextInput())"
+                [attr.dir]="textDirection(anchorTextInput())"
                 placeholder="Paste the relevant passage text here…"
                 [value]="anchorTextInput()"
                 (input)="anchorTextInput.set($any($event.target).value)"
@@ -168,7 +201,12 @@
                 </button>
               </div>
             } @else if (anchorText()) {
-              <div class="wvl__text-body">{{ anchorText() }}</div>
+              <div
+                class="wvl__text-body"
+                [class.wvl__arabic-text]="isArabicText(anchorText())"
+                [class.wvl__arabic-text--reading]="isArabicText(anchorText())"
+                [attr.dir]="textDirection(anchorText())"
+              >{{ anchorText() }}</div>
             } @else {
               <div class="wvl__text-placeholder">
                 <p>No passage text yet.</p>
@@ -245,6 +283,9 @@
                 </div>
                 <textarea
                   class="wvl__note-input"
+                  [class.wvl__arabic-text]="isArabicText(excerptInput())"
+                  [class.wvl__arabic-text--editor]="isArabicText(excerptInput())"
+                  [attr.dir]="textDirection(excerptInput())"
                   placeholder="Paste excerpt from text (optional)…"
                   rows="2"
                   (input)="excerptInput.set($any($event.target).value)"
@@ -252,6 +293,9 @@
                 ></textarea>
                 <textarea
                   class="wvl__note-input wvl__note-input--primary"
+                  [class.wvl__arabic-text]="isArabicText(noteBodyInput())"
+                  [class.wvl__arabic-text--editor]="isArabicText(noteBodyInput())"
+                  [attr.dir]="textDirection(noteBodyInput())"
                   [placeholder]="notePlaceholder()"
                   rows="3"
                   (input)="noteBodyInput.set($any($event.target).value)"
@@ -292,9 +336,19 @@
                                 <button class="wvl__distill-btn" (click)="distillHighlight(entry)">✦ Distill</button>
                               </div>
                               @if (entry.excerpt_text) {
-                                <blockquote class="wvl__note-excerpt">{{ entry.excerpt_text }}</blockquote>
+                                <blockquote
+                                  class="wvl__note-excerpt"
+                                  [class.wvl__arabic-text]="isArabicText(entry.excerpt_text)"
+                                  [class.wvl__arabic-text--note]="isArabicText(entry.excerpt_text)"
+                                  [attr.dir]="textDirection(entry.excerpt_text)"
+                                >{{ entry.excerpt_text }}</blockquote>
                               }
-                              <p class="wvl__note-body">{{ entry.body_md }}</p>
+                              <p
+                                class="wvl__note-body"
+                                [class.wvl__arabic-text]="isArabicText(entry.body_md)"
+                                [class.wvl__arabic-text--note]="isArabicText(entry.body_md)"
+                                [attr.dir]="textDirection(entry.body_md)"
+                              >{{ entry.body_md }}</p>
                             </div>
                           }
                         </div>
@@ -320,9 +374,19 @@
                                 }
                               </div>
                               @if (note.excerpt_text) {
-                                <blockquote class="wvl__note-excerpt">{{ note.excerpt_text }}</blockquote>
+                                <blockquote
+                                  class="wvl__note-excerpt"
+                                  [class.wvl__arabic-text]="isArabicText(note.excerpt_text)"
+                                  [class.wvl__arabic-text--note]="isArabicText(note.excerpt_text)"
+                                  [attr.dir]="textDirection(note.excerpt_text)"
+                                >{{ note.excerpt_text }}</blockquote>
                               }
-                              <p class="wvl__note-body">{{ note.body_md }}</p>
+                              <p
+                                class="wvl__note-body"
+                                [class.wvl__arabic-text]="isArabicText(note.body_md)"
+                                [class.wvl__arabic-text--note]="isArabicText(note.body_md)"
+                                [attr.dir]="textDirection(note.body_md)"
+                              >{{ note.body_md }}</p>
                             </div>
                           }
                         </div>
@@ -352,9 +416,19 @@
                                 <span class="wvl__note-date">{{ formatDate(note.created_at) }}</span>
                               </div>
                               @if (note.excerpt_text) {
-                                <blockquote class="wvl__note-excerpt">{{ note.excerpt_text }}</blockquote>
+                                <blockquote
+                                  class="wvl__note-excerpt"
+                                  [class.wvl__arabic-text]="isArabicText(note.excerpt_text)"
+                                  [class.wvl__arabic-text--note]="isArabicText(note.excerpt_text)"
+                                  [attr.dir]="textDirection(note.excerpt_text)"
+                                >{{ note.excerpt_text }}</blockquote>
                               }
-                              <p class="wvl__note-body">{{ note.body_md }}</p>
+                              <p
+                                class="wvl__note-body"
+                                [class.wvl__arabic-text]="isArabicText(note.body_md)"
+                                [class.wvl__arabic-text--note]="isArabicText(note.body_md)"
+                                [attr.dir]="textDirection(note.body_md)"
+                              >{{ note.body_md }}</p>
                             </div>
                           }
                         </div>
@@ -381,10 +455,24 @@
         </div>
         <div class="wvl__modal-body">
           <label class="wvl__label">Title *
-            <input class="wvl__input" [(ngModel)]="newSource.title" placeholder="The Impossible State" />
+            <input
+              class="wvl__input"
+              [(ngModel)]="newSource.title"
+              [class.wvl__arabic-text]="isArabicText(newSource.title)"
+              [class.wvl__arabic-text--inline]="isArabicText(newSource.title)"
+              [attr.dir]="textDirection(newSource.title)"
+              placeholder="The Impossible State"
+            />
           </label>
           <label class="wvl__label">Author / Creator
-            <input class="wvl__input" [(ngModel)]="newSource.creator" placeholder="Wael B. Hallaq" />
+            <input
+              class="wvl__input"
+              [(ngModel)]="newSource.creator"
+              [class.wvl__arabic-text]="isArabicText(newSource.creator)"
+              [class.wvl__arabic-text--inline]="isArabicText(newSource.creator)"
+              [attr.dir]="textDirection(newSource.creator)"
+              placeholder="Wael B. Hallaq"
+            />
           </label>
           <div class="wvl__form-row">
             <label class="wvl__label">Type
@@ -421,7 +509,14 @@
         </div>
         <div class="wvl__modal-body">
           <label class="wvl__label">Title
-            <input class="wvl__input" [(ngModel)]="newUnit.title" placeholder="Chapter 1 — Premises" />
+            <input
+              class="wvl__input"
+              [(ngModel)]="newUnit.title"
+              [class.wvl__arabic-text]="isArabicText(newUnit.title)"
+              [class.wvl__arabic-text--inline]="isArabicText(newUnit.title)"
+              [attr.dir]="textDirection(newUnit.title)"
+              placeholder="Chapter 1 — Premises"
+            />
           </label>
           <div class="wvl__form-row">
             <label class="wvl__label">Type
@@ -438,7 +533,15 @@
             </label>
           </div>
           <label class="wvl__label">Summary (optional)
-            <textarea class="wvl__input" [(ngModel)]="newUnit.summary" rows="2" placeholder="Brief summary…"></textarea>
+            <textarea
+              class="wvl__input"
+              [(ngModel)]="newUnit.summary"
+              [class.wvl__arabic-text]="isArabicText(newUnit.summary)"
+              [class.wvl__arabic-text--editor]="isArabicText(newUnit.summary)"
+              [attr.dir]="textDirection(newUnit.summary)"
+              rows="2"
+              placeholder="Brief summary…"
+            ></textarea>
           </label>
         </div>
         <div class="wvl__modal-foot">
