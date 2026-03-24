@@ -53,6 +53,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         t.task_json
       FROM ar_container_unit_task t
       WHERE t.unit_id = ?
+        AND t.parent_task_id IS NULL
       ORDER BY
         CASE t.task_type
           WHEN 'reading'            THEN 1

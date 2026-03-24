@@ -28,7 +28,9 @@ SELECT json_group_array(
   )
 ) AS tasks_json
 FROM unit_row u
-LEFT JOIN ar_container_unit_task t ON t.unit_id = u.id
+LEFT JOIN ar_container_unit_task t
+  ON t.unit_id = u.id
+ AND t.parent_task_id IS NULL
 ORDER BY CASE t.task_type
   WHEN 'reading'            THEN 1
   WHEN 'sentence_structure' THEN 2

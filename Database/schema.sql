@@ -425,6 +425,7 @@ CREATE TABLE ar_lesson_unit_progress (
 CREATE TABLE ar_container_unit_task (
   task_id    TEXT PRIMARY KEY,
   unit_id    TEXT NOT NULL,
+  parent_task_id TEXT,
 
   -- All task types across all 6 domains
   task_type  TEXT NOT NULL CHECK (task_type IN (
@@ -1748,6 +1749,7 @@ CREATE INDEX idx_ar_lesson_enroll_user ON ar_lesson_enrollments(user_id, status)
 CREATE INDEX idx_ar_lesson_user_state_user ON ar_lesson_user_state(user_id, last_seen_at);
 CREATE INDEX idx_ar_lesson_unit_progress_user ON ar_lesson_unit_progress(user_id, lesson_id, status);
 CREATE INDEX idx_ar_container_unit_task_unit ON ar_container_unit_task(unit_id);
+CREATE INDEX idx_ar_container_unit_task_parent ON ar_container_unit_task(parent_task_id);
 CREATE INDEX idx_ar_container_unit_task_type ON ar_container_unit_task(task_type);
 CREATE INDEX idx_ar_sources_type ON ar_sources(source_type);
 CREATE INDEX idx_ar_sources_title ON ar_sources(title);

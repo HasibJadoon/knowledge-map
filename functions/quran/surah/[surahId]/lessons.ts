@@ -44,6 +44,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       FROM ar_container_units u
       LEFT JOIN ar_container_unit_task t
         ON t.unit_id = u.id
+       AND t.parent_task_id IS NULL
       LEFT JOIN ar_u_quran_ayah_words qw
         ON qw.surah = ?
        AND qw.ayah BETWEEN u.ayah_from AND u.ayah_to

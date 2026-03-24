@@ -38,7 +38,9 @@ SELECT json_object(
       'task_json', t.task_json
     )
     FROM unit_row u
-    LEFT JOIN ar_container_unit_task t ON t.unit_id = u.id
+    LEFT JOIN ar_container_unit_task t
+      ON t.unit_id = u.id
+     AND t.parent_task_id IS NULL
     WHERE t.task_type = 'passage_structure'
     LIMIT 1
   )
