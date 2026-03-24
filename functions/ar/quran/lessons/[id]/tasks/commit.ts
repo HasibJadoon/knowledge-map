@@ -1005,7 +1005,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
           INSERT INTO ar_container_unit_task (
             task_id, unit_id, task_type, task_name, task_json, status
           ) VALUES (?1, ?2, ?3, ?4, json(?5), 'draft')
-          ON CONFLICT(unit_id, task_type)
+          ON CONFLICT(task_id)
           DO UPDATE SET
             task_name = excluded.task_name,
             task_json = excluded.task_json,
@@ -1715,7 +1715,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
           INSERT INTO ar_container_unit_task (
             task_id, unit_id, task_type, task_name, task_json, status
           ) VALUES (?1, ?2, ?3, ?4, json(?5), 'draft')
-          ON CONFLICT(unit_id, task_type)
+          ON CONFLICT(task_id)
           DO UPDATE SET
             task_name = excluded.task_name,
             task_json = excluded.task_json,
@@ -2052,7 +2052,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
         INSERT INTO ar_container_unit_task (
           task_id, unit_id, task_type, task_name, task_json, status
         ) VALUES (?1, ?2, ?3, ?4, json(?5), 'draft')
-        ON CONFLICT(unit_id, task_type)
+        ON CONFLICT(task_id)
         DO UPDATE SET
           task_name = excluded.task_name,
           task_json = excluded.task_json,

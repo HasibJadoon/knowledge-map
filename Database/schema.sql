@@ -461,7 +461,6 @@ CREATE TABLE ar_container_unit_task (
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now')),
 
-  UNIQUE (unit_id, task_type),
   FOREIGN KEY (unit_id) REFERENCES ar_container_units(id) ON DELETE CASCADE
 );
 
@@ -1751,6 +1750,8 @@ CREATE INDEX idx_ar_lesson_unit_progress_user ON ar_lesson_unit_progress(user_id
 CREATE INDEX idx_ar_container_unit_task_unit ON ar_container_unit_task(unit_id);
 CREATE INDEX idx_ar_container_unit_task_parent ON ar_container_unit_task(parent_task_id);
 CREATE INDEX idx_ar_container_unit_task_type ON ar_container_unit_task(task_type);
+CREATE UNIQUE INDEX idx_ar_container_unit_task_root_type_unique ON ar_container_unit_task(unit_id, task_type)
+  WHERE parent_task_id IS NULL AND deleted_at IS NULL;
 CREATE INDEX idx_ar_sources_type ON ar_sources(source_type);
 CREATE INDEX idx_ar_sources_title ON ar_sources(title);
 CREATE INDEX idx_ar_notes_type ON ar_notes(note_type);

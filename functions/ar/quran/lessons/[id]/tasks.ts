@@ -91,6 +91,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         SELECT task_id, unit_id, task_type, task_name, task_json, status, updated_at
         FROM ar_container_unit_task
         WHERE unit_id = ?1
+          AND parent_task_id IS NULL
         ORDER BY task_type
       `
       )
@@ -220,7 +221,7 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
         INSERT INTO ar_container_unit_task (
           task_id, unit_id, task_type, task_name, task_json, status
         ) VALUES (?1, ?2, ?3, ?4, json(?5), ?6)
-        ON CONFLICT(unit_id, task_type)
+        ON CONFLICT(task_id)
         DO UPDATE SET
           task_name = excluded.task_name,
           task_json = excluded.task_json,

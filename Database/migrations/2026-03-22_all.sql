@@ -509,7 +509,6 @@ CREATE TABLE IF NOT EXISTS ar_container_unit_task_v2 (
   created_at     TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at     TEXT NOT NULL DEFAULT (datetime('now')),
 
-  UNIQUE (unit_id, task_type),
   FOREIGN KEY (unit_id) REFERENCES ar_container_units(id) ON DELETE CASCADE
 );
 
@@ -544,6 +543,9 @@ CREATE INDEX IF NOT EXISTS idx_ar_container_unit_task_parent
   ON ar_container_unit_task(parent_task_id);
 CREATE INDEX IF NOT EXISTS idx_ar_container_unit_task_type
   ON ar_container_unit_task(task_type);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_ar_container_unit_task_root_type_unique
+  ON ar_container_unit_task(unit_id, task_type)
+  WHERE parent_task_id IS NULL AND deleted_at IS NULL;
 CREATE INDEX IF NOT EXISTS idx_ar_container_unit_task_status
   ON ar_container_unit_task(status);
 CREATE INDEX IF NOT EXISTS idx_ar_container_unit_task_active
