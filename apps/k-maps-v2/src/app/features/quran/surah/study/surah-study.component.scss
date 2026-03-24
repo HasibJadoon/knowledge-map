@@ -174,6 +174,7 @@
 
   &--noun { border-color: rgba(107, 186, 255, 0.3); color: #6bbaf0; }
   &--verb { border-color: rgba(77, 217, 168, 0.3); color: #4dd9a8; }
+  &--pending { border-color: rgba(201, 168, 76, 0.24); color: var(--km-gold); }
 }
 
 .task-dot {

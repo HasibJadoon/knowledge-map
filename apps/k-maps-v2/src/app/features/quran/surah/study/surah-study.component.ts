@@ -63,4 +63,12 @@ export class SurahStudyComponent implements OnInit, AfterViewInit {
       ? `${this.surahId()}:${u.ayah_from}–${u.ayah_to}`
       : `${this.surahId()}:${u.ayah_from}`;
   }
+
+  hasVocabularyBreakdown(unit: StudyUnitCardVm): boolean {
+    return (unit.vocabulary.nouns ?? 0) > 0 || (unit.vocabulary.verbs ?? 0) > 0;
+  }
+
+  hasVocabularyTotal(unit: StudyUnitCardVm): boolean {
+    return (unit.vocabulary.total ?? 0) > 0;
+  }
 }

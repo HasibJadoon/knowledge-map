@@ -8,16 +8,26 @@ import { StudyLessonResponse, StudyWordVm } from '../../../../../shared/services
   template: `
     <div class="vocab-tab">
 
-      <div class="vocab-toggle">
-        <button class="toggle-btn" [class.toggle-btn--active]="showNouns()" (click)="showNouns.set(true)">
-          Nouns <span class="badge">{{ lesson.vocabulary.nouns.length }}</span>
-        </button>
-        <button class="toggle-btn" [class.toggle-btn--active]="!showNouns()" (click)="showNouns.set(false)">
-          Verbs <span class="badge">{{ lesson.vocabulary.verbs.length }}</span>
-        </button>
-      </div>
+      @if (hasVocabularySplit()) {
+        <div class="vocab-toggle">
+          <button class="toggle-btn" [class.toggle-btn--active]="showNouns()" (click)="showNouns.set(true)">
+            Nouns <span class="badge">{{ lesson.vocabulary.nouns.length }}</span>
+          </button>
+          <button class="toggle-btn" [class.toggle-btn--active]="!showNouns()" (click)="showNouns.set(false)">
+            Verbs <span class="badge">{{ lesson.vocabulary.verbs.length }}</span>
+          </button>
+        </div>
+      } @else if (splitPending()) {
+        <div class="vocab-status">
+          Vocabulary split is still pending from the study API for this passage.
+        </div>
+      } @else {
+        <div class="vocab-status">
+          No vocabulary data is available for this passage.
+        </div>
+      }
 
-      @if (showNouns()) {
+      @if (hasVocabularySplit() && showNouns()) {
         <div class="word-grid">
           @for (word of lesson.vocabulary.nouns; track word.word_id) {
             <div class="word-card">
@@ -38,7 +48,7 @@ import { StudyLessonResponse, StudyWordVm } from '../../../../../shared/services
             <p class="empty">No nouns found for this passage.</p>
           }
         </div>
-      } @else {
+      } @else if (hasVocabularySplit()) {
         <div class="word-grid">
           @for (word of lesson.vocabulary.verbs; track word.word_id) {
             <div class="word-card word-card--verb">
@@ -67,6 +77,16 @@ import { StudyLessonResponse, StudyWordVm } from '../../../../../shared/services
 
     .vocab-toggle {
       display: flex; gap: 0.5rem;
+    }
+
+    .vocab-status {
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(201,168,76,0.2);
+      background: rgba(201,168,76,0.06);
+      color: var(--km-text-2);
+      font-size: 0.82rem;
+      line-height: 1.6;
     }
 
     .toggle-btn {
@@ -146,4 +166,12 @@ import { StudyLessonResponse, StudyWordVm } from '../../../../../shared/services
 export class LessonVocabularyTabComponent {
   @Input({ required: true }) lesson!: StudyLessonResponse;
   showNouns = signal(true);
+
+  hasVocabularySplit(): boolean {
+    return this.lesson.vocabulary.nouns.length > 0 || this.lesson.vocabulary.verbs.length > 0;
+  }
+
+  splitPending(): boolean {
+    return !this.hasVocabularySplit() && !!this.lesson.unit?.text_cache?.trim();
+  }
 }

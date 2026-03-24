@@ -22,9 +22,6 @@ import { StudyLessonResponse, StudyExpressionVm } from '../../../../../shared/se
                 @if (expr.expression_text || expr.text) {
                   <span class="expr-card__ar">{{ expr.expression_text ?? expr.text }}</span>
                 }
-                @if (expr.label) {
-                  <span class="expr-card__label">{{ expr.label }}</span>
-                }
               </div>
 
               @if (expr.expression_meaning || expr.meaning || expr.gloss) {
@@ -66,23 +63,24 @@ import { StudyLessonResponse, StudyExpressionVm } from '../../../../../shared/se
       &:hover { border-color: var(--km-border-gold); }
 
       &__top {
-        display: flex; align-items: baseline;
-        gap: 1rem; flex-wrap: wrap;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
         justify-content: space-between;
+        flex-direction: row-reverse;
       }
 
       &__ar {
+        display: block;
+        flex: 1 1 auto;
+        min-width: 0;
         font-family: var(--km-font-arabic, 'Scheherazade New', serif);
         font-size: 1.5rem; color: var(--km-text);
         direction: rtl;
+        text-align: right;
+        unicode-bidi: plaintext;
         line-height: 1.7;
       }
-
-      &__label {
-        font-size: 0.8rem; color: var(--km-text-2);
-        font-weight: 500;
-      }
-
       &__meaning {
         font-size: 0.875rem; color: var(--km-text-2);
         font-style: italic; line-height: 1.55; margin: 0;
@@ -108,6 +106,13 @@ import { StudyLessonResponse, StudyExpressionVm } from '../../../../../shared/se
 
       &__icon { font-size: 2rem; opacity: 0.25; }
       p { font-size: 0.875rem; font-style: italic; }
+    }
+
+    @media (max-width: 720px) {
+      .expr-card__top {
+        flex-direction: column;
+        align-items: stretch;
+      }
     }
   `],
 })

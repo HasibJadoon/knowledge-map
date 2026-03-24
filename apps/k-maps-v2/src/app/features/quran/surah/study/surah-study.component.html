@@ -58,9 +58,20 @@
 
           <!-- Vocabulary counts -->
           <div class="unit-card__chips">
-            <span class="chip chip--noun">{{ unit.vocabulary.nouns }} nouns</span>
-            <span class="chip chip--verb">{{ unit.vocabulary.verbs }} verbs</span>
-            <span class="chip">{{ unit.vocabulary.total }} words</span>
+            @if (hasVocabularyBreakdown(unit)) {
+              @if (unit.vocabulary.nouns > 0) {
+                <span class="chip chip--noun">{{ unit.vocabulary.nouns }} nouns</span>
+              }
+              @if (unit.vocabulary.verbs > 0) {
+                <span class="chip chip--verb">{{ unit.vocabulary.verbs }} verbs</span>
+              }
+            } @else if (hasVocabularyTotal(unit)) {
+              <span class="chip chip--pending">split pending</span>
+            }
+
+            @if (hasVocabularyTotal(unit)) {
+              <span class="chip">{{ unit.vocabulary.total }} words</span>
+            }
           </div>
 
           <!-- Task presence -->
