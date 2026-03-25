@@ -6,12 +6,14 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { forkJoin } from 'rxjs';
 
 gsap.registerPlugin(ScrollTrigger);
 import {
   SurahModulesService,
   StudyLessonResponse,
   StudySurahMeta,
+  UnitTaskVm,
 } from '../../../../shared/services/surah-modules.service';
 import { QuranStateService } from '../../../../shared/services/quran-state.service';
 import { LessonReadingStepComponent } from './steps/reading/lesson-reading-step.component';
@@ -20,7 +22,7 @@ import { LessonSentenceStructureStepComponent } from './steps/sentence-structure
 import { LessonExpressionsStepComponent } from './steps/expressions/lesson-expressions-step.component';
 import { LessonPassageStructureStepComponent } from './steps/passage-structure/lesson-passage-structure-step.component';
 
-type StepId = 'reading' | 'vocabulary' | 'sentence-structure' | 'expressions' | 'passage-structure';
+type StepId = 'reading' | 'morphology' | 'sentence-structure' | 'expressions' | 'passage-structure';
 type Phase = 'entry' | 'workspace';
 
 interface StepDef {
@@ -32,6 +34,30 @@ interface StepDef {
 
 type StepState = 'complete' | 'active' | 'upcoming';
 
+interface StepIntroPayload {
+  titles?: {
+    arabic?: string;
+    english?: string;
+    subtitle?: string;
+  };
+  description?: string;
+  labels?: {
+    passage?: string;
+    ayah?: string;
+    action?: string;
+  };
+}
+
+interface StepIntroView {
+  arabicTitle: string | null;
+  englishTitle: string;
+  subtitle: string | null;
+  description: string;
+  passageLabel: string;
+  ayahLabel: string;
+  actionLabel: string;
+}
+
 const STEPS: StepDef[] = [
   {
     id: 'reading',
@@ -40,10 +66,10 @@ const STEPS: StepDef[] = [
     summary: 'Begin with the ayat in a clean reading panel and enter the passage before analysis.',
   },
   {
-    id: 'vocabulary',
-    label: 'Vocabulary',
+    id: 'morphology',
+    label: 'Morphology',
     kicker: 'Step 02',
-    summary: 'Move into the core nouns and verbs that shape the passage vocabulary field.',
+    summary: 'Move into the word forms, roots, and patterns that shape the passage.',
   },
   {
     id: 'sentence-structure',
@@ -100,13 +126,19 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   surahId = signal(0);
   passageNo = signal(0);
   activeStep = signal<StepId>('reading');
+  unit = signal<StudyLessonResponse['unit'] | null>(null);
+  tasks = signal<UnitTaskVm[]>([]);
   lesson = signal<StudyLessonResponse | null>(null);
   heroConfig = signal<HeroConfig>({});
+  unlockedSteps = signal<StepId[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+  stepLoading = signal(false);
+  stepError = signal<string | null>(null);
 
   private entryTl: gsap.core.Timeline | null = null;
   private stepAnimTimeout: ReturnType<typeof setTimeout> | null = null;
+  private readonly stepDataCache = new Map<StepId, StudyLessonResponse>();
 
   surahName = computed(() => {
     const surahs = this.quranState.surahs();
@@ -115,12 +147,14 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   });
 
   constructor() {
-    // Animate step content whenever the current step changes after the workspace is live.
+    // Animate the visible workspace state whenever the current step changes.
     effect(() => {
       const _step = this.activeStep();
+      const _unlocked = this.isStepUnlocked(_step);
       if (this.phase() !== 'workspace') return;
+      if (_unlocked) this.ensureStepDataLoaded(_step);
       if (this.stepAnimTimeout) clearTimeout(this.stepAnimTimeout);
-      this.stepAnimTimeout = setTimeout(() => this.animateStepPanel(), 60);
+      this.stepAnimTimeout = setTimeout(() => this.animateCurrentStage(), 60);
     });
   }
 
@@ -132,30 +166,48 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     this.surahId.set(surahId);
     this.passageNo.set(passageNo);
 
-    const stepParam = (this.route.snapshot.queryParamMap.get('step')
-      ?? this.route.snapshot.queryParamMap.get('tab')) as StepId | null;
+    const rawStepParam = this.route.snapshot.queryParamMap.get('step')
+      ?? this.route.snapshot.queryParamMap.get('tab');
+    const stepParam = this.normalizeStepParam(rawStepParam);
     if (stepParam && STEPS.some(step => step.id === stepParam)) {
       this.activeStep.set(stepParam);
     }
 
     this.quranState.load();
 
-    this.svc.getStudyLesson(surahId, passageNo).subscribe({
-      next: (res) => {
-        this.lesson.set(res);
+    forkJoin({
+      grid: this.svc.getStudyGrid(surahId),
+      tasks: this.svc.getStudyTasks(surahId, passageNo),
+    }).subscribe({
+      next: ({ grid, tasks }) => {
+        this.parseContainerMeta(grid.surah);
+
+        const currentUnit = grid.units.find((unit) => unit.order_index === passageNo);
+        if (!currentUnit) {
+          this.error.set('Passage not found');
+          this.loading.set(false);
+          return;
+        }
+
+        this.unit.set({
+          unit_id: currentUnit.unit_id,
+          order_index: currentUnit.order_index,
+          ayah_from: currentUnit.ayah_from,
+          ayah_to: currentUnit.ayah_to,
+          start_ref: currentUnit.start_ref,
+          end_ref: currentUnit.end_ref,
+          text_cache: currentUnit.text_cache,
+          label: currentUnit.label,
+          theme: currentUnit.theme,
+        });
+        this.tasks.set(tasks.tasks ?? []);
         this.loading.set(false);
-        // Give Angular a full render cycle before querying DOM
         setTimeout(() => this.runEntryAnimation(), 120);
       },
       error: () => {
         this.error.set('Failed to load lesson');
         this.loading.set(false);
       },
-    });
-
-    this.svc.getStudyGrid(surahId).subscribe({
-      next: (grid) => this.parseContainerMeta(grid.surah),
-      error: () => {},
     });
   }
 
@@ -180,6 +232,149 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
         surahSubtitle: meta?.subtitle,
       });
     } catch {}
+  }
+
+  private ensureStepDataLoaded(stepId: StepId): void {
+    const cached = this.stepDataCache.get(stepId);
+    if (cached) {
+      this.lesson.set(cached);
+      this.stepLoading.set(false);
+      this.stepError.set(null);
+      return;
+    }
+
+    const unit = this.unit();
+    if (!unit) return;
+
+    this.stepLoading.set(true);
+    this.stepError.set(null);
+    this.lesson.set(null);
+
+    const surahId = this.surahId();
+    const passageNo = this.passageNo();
+    const onSuccess = (lesson: StudyLessonResponse) => {
+      this.stepDataCache.set(stepId, lesson);
+      if (this.activeStep() === stepId) {
+        this.lesson.set(lesson);
+      }
+      this.stepLoading.set(false);
+      this.stepError.set(null);
+    };
+    const onError = () => {
+      if (this.activeStep() === stepId) {
+        this.lesson.set(null);
+      }
+      this.stepLoading.set(false);
+      this.stepError.set('Failed to load this step.');
+    };
+
+    switch (stepId) {
+      case 'reading':
+        this.svc.getStudyReading(surahId, passageNo).subscribe({
+          next: (response) => onSuccess({
+            ok: response.ok,
+            lessonId: null,
+            surahId,
+            passageNo,
+            unit: this.mergeShellUnit(response.unit),
+            ayahs: response.ayahs ?? [],
+            vocabulary: { nouns: [], verbs: [] },
+            expressions: [],
+            tasks: this.replaceTask(response.task),
+          }),
+          error: onError,
+        });
+        break;
+      case 'morphology':
+        this.svc.getStudyMorphology(surahId, passageNo).subscribe({
+          next: (response) => onSuccess({
+            ok: response.ok,
+            lessonId: null,
+            surahId,
+            passageNo,
+            unit: this.mergeShellUnit(response.unit),
+            ayahs: [],
+            vocabulary: {
+              nouns: response.nouns ?? [],
+              verbs: response.verbs ?? [],
+            },
+            expressions: [],
+            tasks: this.replaceTask(response.task),
+          }),
+          error: onError,
+        });
+        break;
+      case 'sentence-structure':
+        this.svc.getStudySentenceStructure(surahId, passageNo).subscribe({
+          next: (response) => onSuccess({
+            ok: response.ok,
+            lessonId: null,
+            surahId,
+            passageNo,
+            unit: this.mergeShellUnit(response.unit),
+            ayahs: [],
+            vocabulary: { nouns: [], verbs: [] },
+            expressions: [],
+            tasks: this.replaceTask(response.task),
+          }),
+          error: onError,
+        });
+        break;
+      case 'expressions':
+        this.svc.getStudyExpressions(surahId, passageNo).subscribe({
+          next: (response) => onSuccess({
+            ok: response.ok,
+            lessonId: null,
+            surahId,
+            passageNo,
+            unit: this.mergeShellUnit(response.unit),
+            ayahs: [],
+            vocabulary: { nouns: [], verbs: [] },
+            expressions: response.expressions ?? [],
+            tasks: this.replaceTask(response.task),
+          }),
+          error: onError,
+        });
+        break;
+      case 'passage-structure':
+        this.svc.getStudyPassageStructure(surahId, passageNo).subscribe({
+          next: (response) => onSuccess({
+            ok: response.ok,
+            lessonId: null,
+            surahId,
+            passageNo,
+            unit: this.mergeShellUnit(response.unit),
+            ayahs: [],
+            vocabulary: { nouns: [], verbs: [] },
+            expressions: [],
+            tasks: this.replaceTask(response.task),
+          }),
+          error: onError,
+        });
+        break;
+    }
+  }
+
+  private mergeShellUnit(stepUnit: StudyLessonResponse['unit'] | null | undefined): StudyLessonResponse['unit'] {
+    const shellUnit = this.unit();
+    return {
+      unit_id: stepUnit?.unit_id ?? shellUnit?.unit_id ?? '',
+      order_index: stepUnit?.order_index ?? shellUnit?.order_index ?? this.passageNo(),
+      ayah_from: stepUnit?.ayah_from ?? shellUnit?.ayah_from ?? 0,
+      ayah_to: stepUnit?.ayah_to ?? shellUnit?.ayah_to ?? 0,
+      start_ref: stepUnit?.start_ref ?? shellUnit?.start_ref,
+      end_ref: stepUnit?.end_ref ?? shellUnit?.end_ref,
+      text_cache: shellUnit?.text_cache ?? stepUnit?.text_cache,
+      label: shellUnit?.label ?? stepUnit?.label,
+      theme: shellUnit?.theme ?? stepUnit?.theme,
+    };
+  }
+
+  private replaceTask(task: UnitTaskVm | null | undefined): UnitTaskVm[] {
+    if (!task) return this.tasks();
+    const current = this.tasks();
+    const next = current.map((entry) => (entry.task_type === task.task_type ? task : entry));
+    return next.some((entry) => entry.task_type === task.task_type) ? next : [...next, task];
   }
 
   // ── Entry animation — query DOM directly (reliable with @if + OnPush) ──
@@ -207,6 +402,7 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     if (entryTheme)   tl.fromTo(entryTheme,    { opacity: 0, y: 14 },      { opacity: 1, y: 0, duration: 0.45 }, '-=0.15');
     if (entryQuote)   tl.fromTo(entryQuote,    { opacity: 0 },              { opacity: 1, duration: 0.6 }, '-=0.1');
     if (startBtn)     tl.fromTo(startBtn,      { opacity: 0, scale: 0.85, y: 10 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.4)' }, '-=0.1');
+    tl.add(() => this.animateLoopingArrow('.entry__start-arrow'), '+=0.05');
   }
 
   // ── Start button ─────────────────────────────────────────
@@ -220,7 +416,7 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
 
     const proceed = () => {
       this.phase.set('workspace');
-      this.activeStep.set('reading');
+      this.unlockedSteps.set([]);
       setTimeout(() => this.runWorkspaceAnimation(), 60);
     };
 
@@ -243,8 +439,6 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     const heroAr     = root.querySelector<HTMLElement>('.hero__ar');
     const heroEn     = root.querySelector<HTMLElement>('.hero__en');
     const heroDivider = root.querySelector<HTMLElement>('.hero__divider');
-    const stepsEl    = root.querySelector<HTMLElement>('.lesson-steps');
-    const stepIntro  = root.querySelector<HTMLElement>('.step-intro');
     const stepPanel  = root.querySelector<HTMLElement>('.step-panel');
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -253,11 +447,49 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     if (heroAr)      tl.fromTo(heroAr,      { opacity: 0, y: 20 },      { opacity: 1, y: 0, duration: 0.55 }, '-=0.3');
     if (heroEn)      tl.fromTo(heroEn,      { opacity: 0, y: 14 },      { opacity: 1, y: 0, duration: 0.45 }, '-=0.2');
     if (heroDivider) tl.fromTo(heroDivider, { scaleX: 0, opacity: 0 },  { scaleX: 1, opacity: 1, duration: 0.4, transformOrigin: 'left center' }, '-=0.1');
-    if (stepsEl)     tl.fromTo(stepsEl,     { opacity: 0, y: 10 },      { opacity: 1, y: 0, duration: 0.4 }, '-=0.05');
-    if (stepIntro)   tl.fromTo(stepIntro,   { opacity: 0, y: 16 },      { opacity: 1, y: 0, duration: 0.42 }, '-=0.05');
     if (stepPanel)   tl.fromTo(stepPanel,   { opacity: 0, y: 18 },      { opacity: 1, y: 0, duration: 0.45 }, '-=0.08');
 
-    tl.add(() => this.animateStepPanel(), '+=0.05');
+    tl.add(() => this.animateCurrentStage(), '+=0.05');
+  }
+
+  private animateCurrentStage(): void {
+    if (this.currentStepLocked()) {
+      this.animateStepGate();
+      return;
+    }
+    this.animateStepPanel();
+  }
+
+  private animateStepGate(): void {
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const root = this.elRef.nativeElement as HTMLElement;
+    const panel = root.querySelector<HTMLElement>('.step-panel');
+    const gate = root.querySelector<HTMLElement>('.step-gate');
+    if (!panel || !gate) return;
+
+    const pieces = Array.from(gate.querySelectorAll<HTMLElement>(
+      '.step-gate__arabic, .step-gate__title, .step-gate__subtitle, .step-gate__chips, .step-gate__divider, .step-gate__description, .step-gate__button',
+    ));
+
+    gsap.killTweensOf(panel.querySelectorAll('*'));
+    gsap.set(pieces, { opacity: 0, y: 18 });
+    gsap.fromTo(
+      panel,
+      { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+    );
+    if (pieces.length) {
+      gsap.to(pieces, {
+        opacity: 1,
+        y: 0,
+        duration: 0.46,
+        ease: 'power3.out',
+        stagger: 0.08,
+        delay: 0.12,
+        onComplete: () => this.animateLoopingArrow('.step-gate__button-arrow'),
+      });
+    }
   }
 
   // ── Step panel animation — fires on every step change ─────
@@ -266,19 +498,10 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const root = this.elRef.nativeElement as HTMLElement;
-    const stepIntro = root.querySelector<HTMLElement>('.step-intro');
     const panel = root.querySelector<HTMLElement>('.step-panel');
     if (!panel) return;
 
     gsap.killTweensOf(panel.querySelectorAll('*'));
-    if (stepIntro) {
-      gsap.fromTo(
-        stepIntro,
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.34, ease: 'power2.out' },
-      );
-    }
-
     gsap.fromTo(panel,
       { opacity: 0, y: 18 },
       { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out',
@@ -331,6 +554,31 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
 
   // ── Step management ──────────────────────────────────────
 
+  beginCurrentStep(): void {
+    const stepId = this.activeStep();
+    if (this.isStepUnlocked(stepId)) {
+      this.replayCurrentStep();
+      return;
+    }
+
+    const root = this.elRef.nativeElement as HTMLElement;
+    const gate = root.querySelector<HTMLElement>('.step-gate');
+    const unlock = () => this.unlockStep(stepId);
+
+    if (!gate) {
+      unlock();
+      return;
+    }
+
+    gsap.to(gate, {
+      opacity: 0,
+      y: -20,
+      duration: 0.34,
+      ease: 'power3.in',
+      onComplete: unlock,
+    });
+  }
+
   selectStep(id: StepId): void {
     this.activeStep.set(id);
     this.router.navigate([], {
@@ -375,6 +623,29 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     return this.steps[this.currentStepIndex()] ?? this.steps[0];
   }
 
+  currentStepLocked(): boolean {
+    return !this.isStepUnlocked(this.activeStep());
+  }
+
+  currentStepIntro(): StepIntroView {
+    const step = this.currentStep();
+    const task = this.rootTaskForStep(step.id);
+    const payload = this.parseStepIntroPayload(task?.task_json);
+    const titles = payload?.titles ?? {};
+    const labels = payload?.labels ?? {};
+
+    return {
+      arabicTitle: this.cleanString(titles.arabic),
+      englishTitle: this.cleanString(titles.english) ?? task?.task_name?.trim() ?? step.label,
+      subtitle: this.cleanString(titles.subtitle),
+      description: this.cleanString(payload?.description) ?? step.summary,
+      passageLabel: this.cleanString(labels.passage) ?? `Passage ${this.passageNo()}`,
+      ayahLabel: this.cleanString(labels.ayah) ?? `Ayah ${this.ayahDisplay()}`,
+      actionLabel: this.cleanString(labels.action)
+        ?? `BEGIN ${(task?.task_name?.trim() ?? step.label).toUpperCase()}`,
+    };
+  }
+
   stepState(index: number): StepState {
     const current = this.currentStepIndex();
     if (index < current) return 'complete';
@@ -416,7 +687,7 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ayahRange(): string {
-    const u = this.lesson()?.unit;
+    const u = this.unit();
     if (!u) return '';
     const sid = this.surahId();
     return u.ayah_to && u.ayah_to !== u.ayah_from
@@ -425,11 +696,84 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   ayahDisplay(): string {
-    const u = this.lesson()?.unit;
+    const u = this.unit();
     if (!u) return '';
     return u.ayah_to && u.ayah_to !== u.ayah_from
       ? `${u.ayah_from}\u2013${u.ayah_to}`
       : `${u.ayah_from}`;
+  }
+
+  private rootTaskForStep(stepId: StepId): UnitTaskVm | null {
+    const taskType = this.taskTypeForStep(stepId);
+    return this.tasks().find((task) => task.task_type === taskType) ?? null;
+  }
+
+  private taskTypeForStep(stepId: StepId): UnitTaskVm['task_type'] {
+    switch (stepId) {
+      case 'morphology':
+        return 'morphology';
+      case 'sentence-structure':
+        return 'sentence_structure';
+      case 'passage-structure':
+        return 'passage_structure';
+      default:
+        return stepId;
+    }
+  }
+
+  private isStepUnlocked(stepId: StepId): boolean {
+    return this.unlockedSteps().includes(stepId);
+  }
+
+  private unlockStep(stepId: StepId): void {
+    this.unlockedSteps.update((steps) => (steps.includes(stepId) ? steps : [...steps, stepId]));
+  }
+
+  private parseStepIntroPayload(raw: unknown): StepIntroPayload | null {
+    const parsed = this.parseJsonLike(raw);
+    if (!parsed || Array.isArray(parsed) || typeof parsed !== 'object') return null;
+    return parsed as StepIntroPayload;
+  }
+
+  private parseJsonLike(raw: unknown): unknown {
+    if (typeof raw === 'string') {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
+    }
+    return raw;
+  }
+
+  private cleanString(value: unknown): string | null {
+    if (typeof value !== 'string') return null;
+    const trimmed = value.trim();
+    return trimmed ? trimmed : null;
+  }
+
+  private animateLoopingArrow(selector: string): void {
+    const root = this.elRef.nativeElement as HTMLElement;
+    const arrow = root.querySelector<HTMLElement>(selector);
+    if (!arrow) return;
+    gsap.killTweensOf(arrow);
+    gsap.set(arrow, { x: 0 });
+    gsap.to(arrow, {
+      x: 8,
+      duration: 1.05,
+      ease: 'power1.inOut',
+      repeat: -1,
+      yoyo: true,
+    });
+  }
+
+  private normalizeStepParam(value: string | null): StepId | null {
+    if (!value) return null;
+    if (value === 'vocabulary') return 'morphology';
+    if (STEPS.some((step) => step.id === value)) {
+      return value as StepId;
+    }
+    return null;
   }
 
 }

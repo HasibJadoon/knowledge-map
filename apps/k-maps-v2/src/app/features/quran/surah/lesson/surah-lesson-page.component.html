@@ -10,7 +10,7 @@
     <div class="qstate qstate--error"><p>{{ error() }}</p></div>
   }
 
-  @if (!loading() && !error() && lesson()) {
+  @if (!loading() && !error() && unit()) {
 
     <!-- ════════════════════════════════════════════════════════
          CINEMATIC ENTRY
@@ -48,16 +48,16 @@
               <p class="entry__subtitle">{{ heroConfig().surahSubtitle }}</p>
             }
             <div class="entry__meta">
-              @if (lesson()!.unit.label) {
-                <span class="entry__chip">{{ lesson()!.unit.label }}</span>
+              @if (unit()!.label) {
+                <span class="entry__chip">{{ unit()!.label }}</span>
               }
               <span class="entry__chip entry__chip--range">Ayah {{ ayahDisplay() }}</span>
             </div>
           </div>
 
           <!-- Theme -->
-          @if (lesson()!.unit.theme) {
-            <p class="entry__theme" #entryTheme>{{ lesson()!.unit.theme }}</p>
+          @if (unit()!.theme) {
+            <p class="entry__theme" #entryTheme>{{ unit()!.theme }}</p>
           }
 
           <!-- Quote from container meta -->
@@ -72,7 +72,8 @@
 
           <!-- Start button -->
           <button class="entry__start" #startBtn (click)="startStudy()">
-            <span class="entry__start-label">Begin Reading</span>
+            <span class="entry__start-label">Start</span>
+            <span class="entry__start-arrow" aria-hidden="true">&#8594;</span>
             <span class="entry__start-glow"></span>
           </button>
         </div>
@@ -106,119 +107,83 @@
 
             <div class="hero__meta">
               <span class="hero__passage">Passage {{ passageNo() }}</span>
-              @if (lesson()!.unit.label) {
+              @if (unit()!.label) {
                 <span class="hero__sep">&middot;</span>
-                <span class="hero__label">{{ lesson()!.unit.label }}</span>
+                <span class="hero__label">{{ unit()!.label }}</span>
               }
               <span class="hero__sep">&middot;</span>
               <span class="hero__range">{{ ayahRange() }}</span>
             </div>
 
-            @if (lesson()!.unit.theme) {
-              <p class="hero__theme">{{ lesson()!.unit.theme }}</p>
+            @if (unit()!.theme) {
+              <p class="hero__theme">{{ unit()!.theme }}</p>
             }
           </div>
           <div class="hero__divider" #heroDivider></div>
         </div>
 
-        <section class="lesson-steps-shell">
-          <aside class="lesson-steps" #stepsEl>
-            <div class="lesson-steps__head">
-              <span class="lesson-steps__eyebrow">Lesson Flow</span>
-              <h2 class="lesson-steps__title">Study Steps</h2>
-              <p class="lesson-steps__text">Move through the passage in order. Each step opens in the workspace on the right.</p>
-            </div>
+        <div class="lesson-stage">
+          <section class="step-panel">
+            <div class="step-panel__body">
+              @if (currentStepLocked()) {
+                @let intro = currentStepIntro();
+                <div class="step-gate">
+                  <div class="step-gate__glow" aria-hidden="true"></div>
+                  @if (intro.arabicTitle) {
+                    <p class="step-gate__arabic">{{ intro.arabicTitle }}</p>
+                  }
+                  <h2 class="step-gate__title">{{ intro.englishTitle }}</h2>
+                  @if (intro.subtitle) {
+                    <p class="step-gate__subtitle">{{ intro.subtitle }}</p>
+                  }
+                  <div class="step-gate__chips">
+                    <span class="step-gate__chip step-gate__chip--active">{{ intro.passageLabel }}</span>
+                    <span class="step-gate__chip">{{ intro.ayahLabel }}</span>
+                  </div>
+                  <div class="step-gate__divider" aria-hidden="true"></div>
+                  <p class="step-gate__description">{{ intro.description }}</p>
+                  <button class="step-gate__button" (click)="beginCurrentStep()">
+                    <span class="step-gate__button-label">Start</span>
+                    <span class="step-gate__button-arrow" aria-hidden="true">&#8594;</span>
+                    <span class="step-gate__button-glow"></span>
+                  </button>
+                </div>
+              } @else if (stepLoading()) {
+                <div class="qstate"><div class="qstate__spinner"></div><p>Loading step...</p></div>
+              } @else if (stepError()) {
+                <div class="qstate qstate--error"><p>{{ stepError() }}</p></div>
+              } @else if (lesson()) {
+                @switch (activeStep()) {
+                  @case ('reading') {
+                  <km-lesson-reading-step [lesson]="lesson()!" />
+                  }
+                  @case ('morphology') {
+                  <km-lesson-vocabulary-step [lesson]="lesson()!" />
+                  }
+                  @case ('sentence-structure') {
+                  <km-lesson-sentence-structure-step [lesson]="lesson()!" />
+                  }
+                  @case ('expressions') {
+                  <km-lesson-expressions-step [lesson]="lesson()!" />
+                  }
+                  @case ('passage-structure') {
+                  <km-lesson-passage-structure-step [lesson]="lesson()!" />
+                  }
+                }
 
-            <div class="lesson-steps__list">
-              @for (step of steps; track step.id; let i = $index) {
-                <button
-                  class="step-card"
-                  [class.step-card--active]="stepState(i) === 'active'"
-                  [class.step-card--complete]="stepState(i) === 'complete'"
-                  [class.step-card--upcoming]="stepState(i) === 'upcoming'"
-                  (click)="selectStep(step.id)"
-                >
-                  <span class="step-card__marker">
-                    <span class="step-card__dot"></span>
-                  </span>
-
-                  <span class="step-card__content">
-                    <span class="step-card__meta">
-                      <span class="step-card__index">{{ stepNumber(i) }}</span>
-                      <span class="step-card__state">{{ stepStateLabel(i) }}</span>
-                    </span>
-                    <strong class="step-card__label">{{ step.label }}</strong>
-                    <span class="step-card__kicker">{{ step.kicker }}</span>
-                    <span class="step-card__summary">{{ step.summary }}</span>
-                  </span>
-                </button>
+                @if (canGoNext()) {
+                  <div class="step-footer">
+                    <button class="step-footer__next" (click)="nextStep()">
+                      <span class="step-footer__eyebrow">Next Step</span>
+                      <span class="step-footer__label">{{ nextStepLabel() }}</span>
+                      <span class="step-footer__arrow" aria-hidden="true">&#8594;</span>
+                    </button>
+                  </div>
+                }
               }
             </div>
-          </aside>
-
-          <div class="lesson-stage">
-            <section class="step-intro">
-              <div class="step-intro__topline">
-                <span class="step-intro__eyebrow">{{ currentStep().kicker }}</span>
-                <span class="step-intro__progress">Step {{ stepNumber(currentStepIndex()) }} / {{ steps.length }}</span>
-              </div>
-
-              <div class="step-intro__main">
-                <div class="step-intro__copy">
-                  <h2 class="step-intro__title">{{ currentStep().label }}</h2>
-                  <p class="step-intro__text">{{ currentStep().summary }}</p>
-                </div>
-
-                <div class="step-intro__actions">
-                  <button class="step-nav-btn" [disabled]="!canGoPrevious()" (click)="previousStep()">Previous</button>
-                  <button class="step-open-btn" (click)="replayCurrentStep()">Replay Step</button>
-                  <button class="step-nav-btn" [disabled]="!canGoNext()" (click)="nextStep()">Next</button>
-                </div>
-              </div>
-
-              <div class="step-intro__bar" aria-hidden="true">
-                <span class="step-intro__bar-fill" [style.width.%]="progressPercent()"></span>
-              </div>
-
-              <div class="step-intro__flow">
-                <span class="step-intro__chip">Previous: {{ previousStepLabel() }}</span>
-                <span class="step-intro__chip">Current: {{ currentStep().label }}</span>
-                <span class="step-intro__chip">Next: {{ nextStepLabel() }}</span>
-              </div>
-            </section>
-
-            <section class="step-panel">
-              <div class="step-panel__head">
-                <div>
-                  <span class="step-panel__eyebrow">Step Workspace</span>
-                  <h3 class="step-panel__title">{{ currentStep().label }}</h3>
-                  <p class="step-panel__summary">{{ currentStep().summary }}</p>
-                </div>
-                <span class="step-panel__ref">{{ currentStep().kicker }} · {{ ayahRange() }}</span>
-              </div>
-
-                <div class="step-panel__body">
-                  @switch (activeStep()) {
-                    @case ('reading') {
-                    <km-lesson-reading-step [lesson]="lesson()!" />
-                    }
-                    @case ('vocabulary') {
-                    <km-lesson-vocabulary-step [lesson]="lesson()!" />
-                    }
-                    @case ('sentence-structure') {
-                    <km-lesson-sentence-structure-step [lesson]="lesson()!" />
-                    }
-                    @case ('expressions') {
-                    <km-lesson-expressions-step [lesson]="lesson()!" />
-                    }
-                    @case ('passage-structure') {
-                    <km-lesson-passage-structure-step [lesson]="lesson()!" />
-                    }
-                  }
-                </div>
-            </section>
-          </div>
-        </section>
+          </section>
+        </div>
 
       </div>
     }

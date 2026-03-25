@@ -54,17 +54,21 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
 
   ngOnInit(): void {
     const task = this.lesson?.tasks?.find(t => t.task_type === 'passage_structure');
-    if (!task?.task_json) return;
-    try {
-      const parsed = typeof task.task_json === 'string'
-        ? JSON.parse(task.task_json)
-        : task.task_json;
-      // Schema v2: { analysis: { sections: [...] } }
-      // Fallback: sections at root
-      this.sections = parsed?.analysis?.sections ?? parsed?.sections ?? [];
+    if (!task) return;
+
+    const payloads = [task.task_json, ...(task.children ?? []).map((child) => child.task_json)];
+    for (const raw of payloads) {
+      const parsed = this.parsePayload(raw);
+      if (!parsed) continue;
+
+      const sections = parsed?.analysis?.sections ?? parsed?.sections ?? [];
+      if (!Array.isArray(sections) || !sections.length) continue;
+
+      this.sections = sections;
       const s = parsed?.scope?.ref;
       this.ref = s ? `${s.surah}:${s.verses}` : '';
-    } catch { /* malformed JSON — leave sections empty */ }
+      break;
+    }
   }
 
   ngAfterViewInit(): void {
@@ -129,4 +133,16 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
   clusters(data: any): any[] { return data?.clusters ?? []; }
 
   timelineSteps(data: any): any[] { return data?.steps ?? []; }
+
+  private parsePayload(raw: unknown): any {
+    if (!raw) return null;
+    if (typeof raw === 'string') {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
+    }
+    return raw;
+  }
 }

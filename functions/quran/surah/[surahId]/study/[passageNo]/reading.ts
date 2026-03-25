@@ -53,11 +53,12 @@ SELECT json_object(
   'task', (
     SELECT json_object(
       'task_id',   t.task_id,
+      'parent_task_id', t.parent_task_id,
       'task_type', t.task_type,
       'task_name', t.task_name,
       'step_no',   t.step_no,
       'status',    t.status,
-      'task_json', t.task_json,
+      'task_json', json(COALESCE(t.task_json, 'null')),
       'children', json(COALESCE((
         SELECT json_group_array(
           json_object(
@@ -68,7 +69,7 @@ SELECT json_object(
             'task_name',      child.task_name,
             'step_no',        child.step_no,
             'status',         child.status,
-            'task_json',      child.task_json,
+            'task_json',      json(COALESCE(child.task_json, 'null')),
             'updated_at',     child.updated_at
           )
         )

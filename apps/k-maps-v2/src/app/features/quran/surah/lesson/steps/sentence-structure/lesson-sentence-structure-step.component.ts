@@ -531,7 +531,8 @@ export class LessonSentenceStructureStepComponent implements OnChanges, AfterVie
       return;
     }
 
-    const payload = this.normalizeRootPayload(task.task_json);
+    const payload = this.normalizeRootPayload(task.task_json)
+      ?? this.normalizeChildrenPayload(task.children ?? []);
     if (!payload) {
       this.rootPayload = null;
       this.sentences = [];
@@ -650,6 +651,22 @@ export class LessonSentenceStructureStepComponent implements OnChanges, AfterVie
     }
 
     return null;
+  }
+
+  private normalizeChildrenPayload(children: UnitTaskVm[]): JsonRecord | null {
+    const items = [...children]
+      .sort((a, b) => (a.step_no ?? 99999) - (b.step_no ?? 99999))
+      .map((child) => this.parseUnknown(child.task_json))
+      .map((parsed) => this.asRecord(parsed))
+      .filter((record): record is JsonRecord => Boolean(record && this.looksLikeSentencePayload(record)));
+
+    if (!items.length) return null;
+
+    return {
+      task_type: 'sentence_structure',
+      schema_version: 2,
+      items: items.map((item) => this.cloneValue(item)),
+    };
   }
 
   private extractSentences(payload: JsonRecord): SentenceSceneVm[] {

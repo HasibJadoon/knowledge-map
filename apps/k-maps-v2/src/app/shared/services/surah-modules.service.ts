@@ -377,7 +377,10 @@ export interface StudyVocabularyResponse {
   unit: StudyUnitVm;
   nouns: StudyWordVm[];
   verbs: StudyWordVm[];
+  task: UnitTaskVm | null;
 }
+
+export type StudyMorphologyResponse = StudyVocabularyResponse;
 
 export interface StudyExpressionsResponse {
   ok: boolean;
@@ -385,6 +388,7 @@ export interface StudyExpressionsResponse {
   passageNo: number;
   unit: StudyUnitVm;
   expressions: StudyExpressionVm[];
+  task: UnitTaskVm | null;
 }
 
 export interface StudyTaskResponse {
@@ -499,8 +503,12 @@ export class SurahModulesService {
     return this.http.get<StudyReadingResponse>(this.url(surahId, 'study', String(passageNo), 'reading'));
   }
 
+  getStudyMorphology(surahId: number, passageNo: number): Observable<StudyMorphologyResponse> {
+    return this.http.get<StudyMorphologyResponse>(this.url(surahId, 'study', String(passageNo), 'morphology'));
+  }
+
   getStudyVocabulary(surahId: number, passageNo: number): Observable<StudyVocabularyResponse> {
-    return this.http.get<StudyVocabularyResponse>(this.url(surahId, 'study', String(passageNo), 'vocabulary'));
+    return this.getStudyMorphology(surahId, passageNo);
   }
 
   getStudyExpressions(surahId: number, passageNo: number): Observable<StudyExpressionsResponse> {

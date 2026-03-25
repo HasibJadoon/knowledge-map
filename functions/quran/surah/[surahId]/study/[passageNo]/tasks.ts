@@ -25,32 +25,12 @@ unit_row AS (
 SELECT json_group_array(
   json_object(
     'task_id',   t.task_id,
+    'parent_task_id', t.parent_task_id,
     'task_type', t.task_type,
     'task_name', t.task_name,
     'step_no',   t.step_no,
     'status',    t.status,
-    'task_json', t.task_json,
-    'children', json(COALESCE((
-      SELECT json_group_array(
-        json_object(
-          'task_id',        child.task_id,
-          'unit_id',        child.unit_id,
-          'parent_task_id', child.parent_task_id,
-          'task_type',      child.task_type,
-          'task_name',      child.task_name,
-          'step_no',        child.step_no,
-          'status',         child.status,
-          'task_json',      child.task_json,
-          'updated_at',     child.updated_at
-        )
-      )
-      FROM (
-        SELECT c.task_id, c.unit_id, c.parent_task_id, c.task_type, c.task_name, c.step_no, c.status, c.task_json, c.updated_at
-        FROM ar_container_unit_task c
-        WHERE c.parent_task_id = t.task_id
-        ORDER BY COALESCE(c.step_no, 99999), c.task_id
-      ) child
-    ), '[]'))
+    'task_json', json(COALESCE(t.task_json, 'null'))
   )
 ) AS tasks_json
 FROM unit_row u

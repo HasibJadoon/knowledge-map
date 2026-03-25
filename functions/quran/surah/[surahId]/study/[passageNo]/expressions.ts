@@ -54,6 +54,44 @@ SELECT json_object(
      AND expr.ayah BETWEEN u.ayah_from AND u.ayah_to
     LEFT JOIN ar_u_lexicon lx ON lx.ar_u_lexicon = expr.ar_u_lexicon
     ORDER BY expr.ayah, expr.label
+  ),
+  'task', (
+    SELECT json_object(
+      'task_id',   t.task_id,
+      'parent_task_id', t.parent_task_id,
+      'task_type', t.task_type,
+      'task_name', t.task_name,
+      'step_no',   t.step_no,
+      'status',    t.status,
+      'task_json', json(COALESCE(t.task_json, 'null')),
+      'children', json(COALESCE((
+        SELECT json_group_array(
+          json_object(
+            'task_id',        child.task_id,
+            'unit_id',        child.unit_id,
+            'parent_task_id', child.parent_task_id,
+            'task_type',      child.task_type,
+            'task_name',      child.task_name,
+            'step_no',        child.step_no,
+            'status',         child.status,
+            'task_json',      json(COALESCE(child.task_json, 'null')),
+            'updated_at',     child.updated_at
+          )
+        )
+        FROM (
+          SELECT c.task_id, c.unit_id, c.parent_task_id, c.task_type, c.task_name, c.step_no, c.status, c.task_json, c.updated_at
+          FROM ar_container_unit_task c
+          WHERE c.parent_task_id = t.task_id
+          ORDER BY COALESCE(c.step_no, 99999), c.task_id
+        ) child
+      ), '[]'))
+    )
+    FROM unit_row u
+    LEFT JOIN ar_container_unit_task t
+      ON t.unit_id = u.id
+     AND t.parent_task_id IS NULL
+    WHERE t.task_type = 'expressions'
+    LIMIT 1
   )
 ) AS expressions_json
 `;
