@@ -16,16 +16,7 @@ export interface ActionIconVm {
   selector: 'km-action-icon-tile',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <button
-      class="icon-tile"
-      [attr.aria-label]="config.ariaLabel"
-      [style.color]="config.color || null"
-      (click)="onClick($event)"
-    >
-      <span class="icon-tile__icon" [innerHTML]="safeIcon"></span>
-    </button>
-  `,
+  templateUrl: './action-icon-tile.component.html',
   styleUrl: './action-icon-tile.component.scss',
 })
 export class ActionIconTileComponent {

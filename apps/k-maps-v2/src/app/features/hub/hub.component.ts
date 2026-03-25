@@ -6,20 +6,7 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div class="hub-shell">
-      <router-outlet />
-    </div>
-  `,
-  styles: [`
-    .hub-shell {
-      width: 100%;
-      height: 100dvh;
-      overflow: hidden;
-      background: var(--km-bg);
-      display: flex;
-      flex-direction: column;
-    }
-  `]
+  templateUrl: './hub.component.html',
+  styleUrl: './hub.component.scss'
 })
 export class HubComponent {}

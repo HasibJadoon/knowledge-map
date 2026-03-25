@@ -5,8 +5,8 @@ import { RouterOutlet } from '@angular/router';
   selector: 'km-worldview',
   standalone: true,
   imports: [RouterOutlet],
-  template: `<div class="wv-shell"><router-outlet /></div>`,
-  styles: [`.wv-shell { width: 100%; height: 100dvh; overflow: hidden; background: var(--km-bg); }`],
+  templateUrl: './worldview.component.html',
+  styleUrl: './worldview.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorldviewComponent {}

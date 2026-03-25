@@ -6,7 +6,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurahModulesService, WorldviewHubResponse } from '../../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../../shared/quran-gsap.service';
+import { QuranGsapService } from '../../../shared/services/quran-gsap.service';
 import { ActionIconTileComponent, ActionIconVm } from '../../../action-icon-tile/action-icon-tile.component';
 
 const SVG_NODES = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm-7 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm14 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM5 14l7-3m0 0l7 3"/></svg>`;

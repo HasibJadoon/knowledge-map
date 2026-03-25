@@ -291,7 +291,7 @@ const TABLE_CONFIGS = [
       'user_id',
       'node_id',
       'target_type',
-      'target_id',
+      'target_ref',
       'relation',
       'quran_evidence_json',
       'note',

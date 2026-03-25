@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, 
 import { Router, ActivatedRoute } from '@angular/router';
 import { SurahModulesService, VocabularyLemmaVm } from '../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../shared/quran-gsap.service';
+import { QuranGsapService } from '../../shared/services/quran-gsap.service';
 
 @Component({
   selector: 'km-surah-vocabulary',

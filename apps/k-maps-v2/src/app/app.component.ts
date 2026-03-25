@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'km-root',
   standalone: true,
   imports: [RouterOutlet],
-  template: `<router-outlet />`,
-  styles: [`:host { display: block; width: 100%; height: 100%; }`],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {}

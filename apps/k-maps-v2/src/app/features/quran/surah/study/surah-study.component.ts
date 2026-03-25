@@ -5,7 +5,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { SurahModulesService, StudyUnitCardVm, StudySurahMeta } from '../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../shared/quran-gsap.service';
+import { QuranGsapService } from '../../shared/services/quran-gsap.service';
 import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
 
 @Component({

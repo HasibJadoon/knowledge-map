@@ -3,19 +3,23 @@
 
 interface Env { DB: D1Database }
 
+const QURAN_CONTAINER_ID = 'C:QURAN';
+
 const SQL = `
-WITH surah_container AS (
+WITH surah_unit AS (
   SELECT id
-  FROM ar_containers
-  WHERE container_type = 'quran_surah'
-    AND CAST(json_extract(meta_json, '$.surah') AS INTEGER) = ?1
+  FROM ar_container_units
+  WHERE id = ?4
+    AND container_id = ?3
+    AND unit_type = 'surah'
   LIMIT 1
 ),
 unit_row AS (
   SELECT u.*
   FROM ar_container_units u
-  JOIN surah_container c ON c.id = u.container_id
-  WHERE u.order_index = ?2
+  JOIN surah_unit s ON s.id = u.parent_unit_id
+  WHERE u.unit_type = 'passage'
+    AND u.order_index = ?2
   LIMIT 1
 )
 SELECT json_object(
@@ -61,7 +65,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     return Response.json({ ok: false, error: 'Invalid params' }, { status: 400 });
   }
   try {
-    const row = await ctx.env.DB.prepare(SQL).bind(surahId, passageNo).first<{ expressions_json: string }>();
+    const containerId = QURAN_CONTAINER_ID;
+    const surahUnitId = `U:${containerId}:${surahId}`;
+    const row = await ctx.env.DB.prepare(SQL).bind(surahId, passageNo, containerId, surahUnitId).first<{ expressions_json: string }>();
     if (!row?.expressions_json) {
       return Response.json({ ok: false, error: 'Passage not found' }, { status: 404 });
     }

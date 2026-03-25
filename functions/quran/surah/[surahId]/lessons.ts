@@ -4,6 +4,8 @@
 
 interface Env { DB: D1Database; }
 
+const QURAN_CONTAINER_ID = 'C:QURAN';
+
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   const { params, env } = ctx;
   try {
@@ -12,7 +14,8 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       return Response.json({ ok: false, error: 'Invalid surah' }, { status: 400 });
     }
 
-    const containerId = `C:QURAN:${surahId}`;
+    const containerId = QURAN_CONTAINER_ID;
+    const surahUnitId = `U:${containerId}:${surahId}`;
 
     const { results } = await env.DB.prepare(`
       SELECT
@@ -49,12 +52,14 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         ON qw.surah = ?
        AND qw.ayah BETWEEN u.ayah_from AND u.ayah_to
       WHERE u.container_id = ?
+        AND u.parent_unit_id = ?
+        AND u.unit_type = 'passage'
       GROUP BY
         u.id, u.container_id, u.order_index,
         u.ayah_from, u.ayah_to, u.start_ref, u.end_ref,
         u.text_cache, u.meta_json
       ORDER BY u.order_index
-    `).bind(surahId, containerId).all().catch(() => ({ results: [] }));
+    `).bind(surahId, containerId, surahUnitId).all().catch(() => ({ results: [] }));
 
     // Shape each row into the UI structure
     const units = (results ?? []).map((r: Record<string, unknown>) => ({
@@ -75,7 +80,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       passage_structure:  { has: !!r['has_passage_structure'],  count: r['passage_structure_task_count'] ?? 0 },
     }));
 
-    return Response.json({ ok: true, surahId, containerId, total: units.length, units });
+    return Response.json({ ok: true, surahId, containerId, surahUnitId, total: units.length, units });
   } catch (e) {
     return Response.json({ ok: false, error: String(e) }, { status: 500 });
   }

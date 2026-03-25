@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { SurahModulesService, SrsCardVm, ReviewItemVm } from '../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../shared/quran-gsap.service';
+import { QuranGsapService } from '../../shared/services/quran-gsap.service';
 
 @Component({
   selector: 'km-surah-review',

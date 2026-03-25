@@ -14,23 +14,55 @@ import {
   StudySurahMeta,
 } from '../../../../shared/services/surah-modules.service';
 import { QuranStateService } from '../../../../shared/services/quran-state.service';
-import { LessonReadingTabComponent } from './tabs/lesson-reading-tab.component';
-import { LessonVocabularyTabComponent } from './tabs/lesson-vocabulary-tab.component';
-import { LessonSentenceStructureTabComponent } from './tabs/lesson-sentence-structure-tab.component';
-import { LessonExpressionsTabComponent } from './tabs/lesson-expressions-tab.component';
-import { LessonPassageStructureTabComponent } from './tabs/lesson-passage-structure-tab.component';
+import { LessonReadingStepComponent } from './steps/reading/lesson-reading-step.component';
+import { LessonVocabularyStepComponent } from './steps/vocabulary/lesson-vocabulary-step.component';
+import { LessonSentenceStructureStepComponent } from './steps/sentence-structure/lesson-sentence-structure-step.component';
+import { LessonExpressionsStepComponent } from './steps/expressions/lesson-expressions-step.component';
+import { LessonPassageStructureStepComponent } from './steps/passage-structure/lesson-passage-structure-step.component';
 
-type TabId = 'reading' | 'vocabulary' | 'sentence-structure' | 'expressions' | 'passage-structure';
+type StepId = 'reading' | 'vocabulary' | 'sentence-structure' | 'expressions' | 'passage-structure';
 type Phase = 'entry' | 'workspace';
 
-interface Tab { id: TabId; label: string; }
+interface StepDef {
+  id: StepId;
+  label: string;
+  kicker: string;
+  summary: string;
+}
 
-const TABS: Tab[] = [
-  { id: 'reading', label: 'Reading' },
-  { id: 'vocabulary', label: 'Vocabulary' },
-  { id: 'sentence-structure', label: 'Sentence Structure' },
-  { id: 'expressions', label: 'Expressions' },
-  { id: 'passage-structure', label: 'Passage Structure' },
+type StepState = 'complete' | 'active' | 'upcoming';
+
+const STEPS: StepDef[] = [
+  {
+    id: 'reading',
+    label: 'Reading',
+    kicker: 'Step 01',
+    summary: 'Begin with the ayat in a clean reading panel and enter the passage before analysis.',
+  },
+  {
+    id: 'vocabulary',
+    label: 'Vocabulary',
+    kicker: 'Step 02',
+    summary: 'Move into the core nouns and verbs that shape the passage vocabulary field.',
+  },
+  {
+    id: 'sentence-structure',
+    label: 'Sentence Structure',
+    kicker: 'Step 03',
+    summary: 'Unpack the sentence flow, structure tree, and treebank relationships.',
+  },
+  {
+    id: 'expressions',
+    label: 'Expressions',
+    kicker: 'Step 04',
+    summary: 'Review the expressions and recurring phrasal units anchored in this passage.',
+  },
+  {
+    id: 'passage-structure',
+    label: 'Passage Structure',
+    kicker: 'Step 05',
+    summary: 'Finish with the higher-level structure and how the passage is architected as a whole.',
+  },
 ];
 
 interface HeroConfig {
@@ -44,11 +76,11 @@ interface HeroConfig {
   selector: 'km-surah-lesson-page',
   standalone: true,
   imports: [
-    LessonReadingTabComponent,
-    LessonVocabularyTabComponent,
-    LessonSentenceStructureTabComponent,
-    LessonExpressionsTabComponent,
-    LessonPassageStructureTabComponent,
+    LessonReadingStepComponent,
+    LessonVocabularyStepComponent,
+    LessonSentenceStructureStepComponent,
+    LessonExpressionsStepComponent,
+    LessonPassageStructureStepComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './surah-lesson-page.component.html',
@@ -61,20 +93,20 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   private quranState = inject(QuranStateService);
   private elRef = inject(ElementRef);
 
-  readonly tabs = TABS;
+  readonly steps = STEPS;
 
   // ── State ────────────────────────────────────────────────
   phase = signal<Phase>('entry');
   surahId = signal(0);
   passageNo = signal(0);
-  activeTab = signal<TabId>('reading');
+  activeStep = signal<StepId>('reading');
   lesson = signal<StudyLessonResponse | null>(null);
   heroConfig = signal<HeroConfig>({});
   loading = signal(true);
   error = signal<string | null>(null);
 
   private entryTl: gsap.core.Timeline | null = null;
-  private tabAnimTimeout: ReturnType<typeof setTimeout> | null = null;
+  private stepAnimTimeout: ReturnType<typeof setTimeout> | null = null;
 
   surahName = computed(() => {
     const surahs = this.quranState.surahs();
@@ -83,12 +115,12 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   });
 
   constructor() {
-    // Animate tab content in whenever active tab changes (after workspace is live)
+    // Animate step content whenever the current step changes after the workspace is live.
     effect(() => {
-      const _ = this.activeTab(); // track
+      const _step = this.activeStep();
       if (this.phase() !== 'workspace') return;
-      if (this.tabAnimTimeout) clearTimeout(this.tabAnimTimeout);
-      this.tabAnimTimeout = setTimeout(() => this.animateTabContent(), 60);
+      if (this.stepAnimTimeout) clearTimeout(this.stepAnimTimeout);
+      this.stepAnimTimeout = setTimeout(() => this.animateStepPanel(), 60);
     });
   }
 
@@ -100,9 +132,10 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     this.surahId.set(surahId);
     this.passageNo.set(passageNo);
 
-    const tabParam = this.route.snapshot.queryParamMap.get('tab') as TabId | null;
-    if (tabParam && TABS.some(t => t.id === tabParam)) {
-      this.activeTab.set(tabParam);
+    const stepParam = (this.route.snapshot.queryParamMap.get('step')
+      ?? this.route.snapshot.queryParamMap.get('tab')) as StepId | null;
+    if (stepParam && STEPS.some(step => step.id === stepParam)) {
+      this.activeStep.set(stepParam);
     }
 
     this.quranState.load();
@@ -130,7 +163,7 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
 
   ngOnDestroy(): void {
     this.entryTl?.kill();
-    if (this.tabAnimTimeout) clearTimeout(this.tabAnimTimeout);
+    if (this.stepAnimTimeout) clearTimeout(this.stepAnimTimeout);
     ScrollTrigger.getAll().forEach(st => st.kill());
   }
 
@@ -187,6 +220,7 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
 
     const proceed = () => {
       this.phase.set('workspace');
+      this.activeStep.set('reading');
       setTimeout(() => this.runWorkspaceAnimation(), 60);
     };
 
@@ -209,7 +243,9 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     const heroAr     = root.querySelector<HTMLElement>('.hero__ar');
     const heroEn     = root.querySelector<HTMLElement>('.hero__en');
     const heroDivider = root.querySelector<HTMLElement>('.hero__divider');
-    const tabsEl     = root.querySelector<HTMLElement>('.tab-bar');
+    const stepsEl    = root.querySelector<HTMLElement>('.lesson-steps');
+    const stepIntro  = root.querySelector<HTMLElement>('.step-intro');
+    const stepPanel  = root.querySelector<HTMLElement>('.step-panel');
 
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
@@ -217,59 +253,65 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
     if (heroAr)      tl.fromTo(heroAr,      { opacity: 0, y: 20 },      { opacity: 1, y: 0, duration: 0.55 }, '-=0.3');
     if (heroEn)      tl.fromTo(heroEn,      { opacity: 0, y: 14 },      { opacity: 1, y: 0, duration: 0.45 }, '-=0.2');
     if (heroDivider) tl.fromTo(heroDivider, { scaleX: 0, opacity: 0 },  { scaleX: 1, opacity: 1, duration: 0.4, transformOrigin: 'left center' }, '-=0.1');
-    if (tabsEl)      tl.fromTo(tabsEl,      { opacity: 0, y: 10 },      { opacity: 1, y: 0, duration: 0.4 }, '-=0.05');
+    if (stepsEl)     tl.fromTo(stepsEl,     { opacity: 0, y: 10 },      { opacity: 1, y: 0, duration: 0.4 }, '-=0.05');
+    if (stepIntro)   tl.fromTo(stepIntro,   { opacity: 0, y: 16 },      { opacity: 1, y: 0, duration: 0.42 }, '-=0.05');
+    if (stepPanel)   tl.fromTo(stepPanel,   { opacity: 0, y: 18 },      { opacity: 1, y: 0, duration: 0.45 }, '-=0.08');
 
-    // Animate first tab content after workspace animates in
-    tl.add(() => this.animateTabContent(), '+=0.05');
+    tl.add(() => this.animateStepPanel(), '+=0.05');
   }
 
-  // ── Tab content animation — fires on every tab switch ────
+  // ── Step panel animation — fires on every step change ─────
 
-  private animateTabContent(): void {
+  private animateStepPanel(): void {
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const root = this.elRef.nativeElement as HTMLElement;
-    const tabContent = root.querySelector<HTMLElement>('.tab-content');
-    if (!tabContent) return;
+    const stepIntro = root.querySelector<HTMLElement>('.step-intro');
+    const panel = root.querySelector<HTMLElement>('.step-panel');
+    if (!panel) return;
 
-    // Kill any running animations on child elements
-    gsap.killTweensOf(tabContent.querySelectorAll('*'));
+    gsap.killTweensOf(panel.querySelectorAll('*'));
+    if (stepIntro) {
+      gsap.fromTo(
+        stepIntro,
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.34, ease: 'power2.out' },
+      );
+    }
 
-    // Fade + slide the whole tab-content wrapper
-    gsap.fromTo(tabContent,
+    gsap.fromTo(panel,
       { opacity: 0, y: 18 },
       { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out',
-        onComplete: () => this.animateTabCards(tabContent)
+        onComplete: () => this.animateStepCards(panel)
       }
     );
   }
 
-  /** ScrollTrigger-animate individual cards/items inside the active tab */
-  private animateTabCards(tabContent: HTMLElement): void {
-    // Kill any previous ScrollTriggers scoped to this tab content
+  private animateStepCards(panel: HTMLElement): void {
     ScrollTrigger.getAll()
-      .filter(st => tabContent.contains(st.trigger as Node))
+      .filter(st => panel.contains(st.trigger as Node))
       .forEach(st => st.kill());
 
-    // Selectors that match cards/items in each tab
     const cardSel = [
-      '.word-card',    // vocabulary
-      '.expr-card',    // expressions
-      '.rt-passage',   // reading passage block
-      '.ss-block',     // sentence structure
-      '.ps-block',     // passage structure
+      '.word-card',
+      '.expr-card',
+      '.rt-passage',
+      '.section-card',
+      '.sst__hero',
+      '.sst__task-card',
+      '.sst__panel',
+      '.sst-node',
     ].join(', ');
 
-    const cards = Array.from(tabContent.querySelectorAll<HTMLElement>(cardSel));
+    const cards = Array.from(panel.querySelectorAll<HTMLElement>(cardSel));
     if (!cards.length) return;
 
-    // Set all invisible first
     gsap.set(cards, { opacity: 0, y: 24 });
 
     cards.forEach((card, i) => {
       ScrollTrigger.create({
         trigger: card,
-        scroller: document.body,          // ← key: body is the scroll container
+        scroller: document.body,
         start: 'top 90%',
         once: true,
         onEnter: () => {
@@ -278,26 +320,95 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
             y: 0,
             duration: 0.45,
             ease: 'power2.out',
-            delay: Math.min(i * 0.04, 0.3), // cap total stagger at 300ms
+            delay: Math.min(i * 0.04, 0.3),
           });
         },
       });
     });
 
-    // Refresh so ScrollTrigger picks up correct positions
     ScrollTrigger.refresh();
   }
 
-  // ── Tab management ───────────────────────────────────────
+  // ── Step management ──────────────────────────────────────
 
-  selectTab(id: TabId): void {
-    this.activeTab.set(id);
+  selectStep(id: StepId): void {
+    this.activeStep.set(id);
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { tab: id },
+      queryParams: { step: id, tab: null },
       queryParamsHandling: 'merge',
       replaceUrl: true,
     });
+  }
+
+  replayCurrentStep(): void {
+    if (this.stepAnimTimeout) clearTimeout(this.stepAnimTimeout);
+    this.stepAnimTimeout = setTimeout(() => this.animateStepPanel(), 30);
+  }
+
+  previousStep(): void {
+    const index = this.currentStepIndex();
+    if (index <= 0) return;
+    this.selectStep(this.steps[index - 1].id);
+  }
+
+  nextStep(): void {
+    const index = this.currentStepIndex();
+    if (index >= this.steps.length - 1) return;
+    this.selectStep(this.steps[index + 1].id);
+  }
+
+  canGoPrevious(): boolean {
+    return this.currentStepIndex() > 0;
+  }
+
+  canGoNext(): boolean {
+    return this.currentStepIndex() < this.steps.length - 1;
+  }
+
+  currentStepIndex(): number {
+    const index = this.steps.findIndex((step) => step.id === this.activeStep());
+    return index >= 0 ? index : 0;
+  }
+
+  currentStep(): StepDef {
+    return this.steps[this.currentStepIndex()] ?? this.steps[0];
+  }
+
+  stepState(index: number): StepState {
+    const current = this.currentStepIndex();
+    if (index < current) return 'complete';
+    if (index === current) return 'active';
+    return 'upcoming';
+  }
+
+  stepStateLabel(index: number): string {
+    switch (this.stepState(index)) {
+      case 'complete':
+        return 'Completed';
+      case 'active':
+        return 'Current';
+      default:
+        return 'Upcoming';
+    }
+  }
+
+  progressPercent(): number {
+    return ((this.currentStepIndex() + 1) / this.steps.length) * 100;
+  }
+
+  previousStepLabel(): string {
+    if (!this.canGoPrevious()) return 'Beginning';
+    return this.steps[this.currentStepIndex() - 1].label;
+  }
+
+  nextStepLabel(): string {
+    if (!this.canGoNext()) return 'Completed';
+    return this.steps[this.currentStepIndex() + 1].label;
+  }
+
+  stepNumber(index: number): string {
+    return String(index + 1).padStart(2, '0');
   }
 
   back(): void {

@@ -139,6 +139,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       sourceUnitId: input.sourceUnitId,
       sourceTitle: source.title,
       unitTitle: unit.title,
+      locatorLabel: unit.locatorLabel,
       workspaceId: source.workspaceId,
       groupId: source.groupId,
       userId: user.id,

@@ -2,7 +2,63 @@ import type { D1Database } from '@cloudflare/workers-types';
 
 import { asRecord, readOptionalString, readTrimmed } from '../_utils/sprint';
 
-export type DistillNodeType = 'concept' | 'claim' | 'theme' | 'lesson';
+export const WORLDVIEW_NODE_TYPES = [
+  'cluster',
+  'subcluster',
+  'group',
+  'collection',
+  'theme',
+  'concept',
+  'principle',
+  'law',
+  'pattern',
+  'framework',
+  'claim',
+  'evidence',
+  'proof_step',
+  'counter_claim',
+  'assumption',
+  'inference',
+  'flow',
+  'process',
+  'sequence_step',
+  'transition',
+  'cause',
+  'effect',
+  'state',
+  'event',
+  'actor',
+  'role',
+  'trait',
+  'intention',
+  'emotion',
+  'decision',
+  'psych_state',
+  'cognitive_bias',
+  'moral_state',
+  'spiritual_state',
+  'ayah_ref',
+  'surah_ref',
+  'quranic_pattern',
+  'source',
+  'source_unit',
+  'quote',
+  'reference',
+  'question',
+  'reflection',
+  'insight',
+  'warning',
+  'lesson',
+  'content_piece',
+  'podcast_segment',
+  'lesson_block',
+  'short_clip',
+  'diagram_anchor',
+  'highlight',
+  'focus_node',
+] as const;
+
+export type DistillNodeType = (typeof WORLDVIEW_NODE_TYPES)[number];
 export type DistillEdgeType = 'supports' | 'illustrates' | 'related_to' | 'defines' | 'derived_from' | 'about';
 export type DistillBlockType = 'heading' | 'paragraph' | 'bullet_item' | 'numbered_item' | 'quote' | 'callout' | 'divider';
 export type DistillBlockRelation = 'mentions' | 'supports' | 'defines' | 'references' | 'illustrates' | 'feeds';
@@ -140,7 +196,7 @@ export interface DistillPromptContext {
   notes: Array<Record<string, unknown>>;
 }
 
-const NODE_TYPES = new Set<DistillNodeType>(['concept', 'claim', 'theme', 'lesson']);
+const NODE_TYPES = new Set<DistillNodeType>(WORLDVIEW_NODE_TYPES);
 const EDGE_TYPES = new Set<DistillEdgeType>(['supports', 'illustrates', 'related_to', 'defines', 'derived_from', 'about']);
 const BLOCK_TYPES = new Set<DistillBlockType>(['heading', 'paragraph', 'bullet_item', 'numbered_item', 'quote', 'callout', 'divider']);
 const BLOCK_RELATIONS = new Set<DistillBlockRelation>(['mentions', 'supports', 'defines', 'references', 'illustrates', 'feeds']);
@@ -354,7 +410,7 @@ export function buildDistillPrompt(context: DistillPromptContext): string {
     '- Do not include explanations before or after the JSON.',
     '',
     'WORLDVIEW RULES',
-    '- Node types allowed: concept, claim, theme, lesson.',
+    `- Node types allowed: ${WORLDVIEW_NODE_TYPES.join(', ')}.`,
     '- Edge relation types allowed: supports, illustrates, related_to, defines, derived_from, about.',
     '- Block types allowed: heading, paragraph, bullet_item, numbered_item, quote, callout, divider.',
     '- Block-node link relations allowed: mentions, supports, defines, references, illustrates, feeds.',
@@ -377,7 +433,8 @@ export function buildDistillPrompt(context: DistillPromptContext): string {
     '- Do not return objects inside main_points.',
     '',
     'ID RULES',
-    '- Use deterministic-looking ids based on the passage/source unit where possible.',
+    '- Use short local ids like n01, n02, e01 when you provide ids.',
+    '- The server will normalize ids into passage-scoped stable ids automatically.',
     '- Keep all ids internally consistent within the returned JSON.',
     '',
     'RETURN JSON WITH EXACTLY THIS TOP-LEVEL SHAPE',
@@ -386,7 +443,7 @@ export function buildDistillPrompt(context: DistillPromptContext): string {
     '    {',
     '      "id": "string",',
     '      "canonical_input": "string",',
-    '      "node_type": "concept | claim | theme | lesson",',
+    '      "node_type": "one of the allowed worldview node types",',
     '      "title": "string",',
     '      "text_plain": "string",',
     '      "summary": "string",',
@@ -473,6 +530,7 @@ export function normalizeDistillOutput(
     sourceUnitId: string;
     sourceTitle: string;
     unitTitle: string;
+    locatorLabel: string | null;
     workspaceId: string;
     groupId: string | null;
     userId: number;
@@ -484,14 +542,16 @@ export function normalizeDistillOutput(
   }
 
   const rawNodes = readArray(parsed['wv_nodes']);
+  const nodeIdsInUse = new Set<string>();
+  const nodeIdMap = new Map<string, string>();
   const nodes = rawNodes
-    .map((entry, index) => normalizeNode(entry, index, context))
+    .map((entry, index) => normalizeNode(entry, index, context, nodeIdsInUse, nodeIdMap))
     .filter((node): node is DistillNodeDraft => node !== null);
 
   const nodeIdSet = new Set(nodes.map((node) => node.id));
   const rawEdges = readArray(parsed['wv_node_edges']);
   const edges = rawEdges
-    .map((entry, index) => normalizeEdge(entry, index, context, nodeIdSet))
+    .map((entry, index) => normalizeEdge(entry, index, context, nodeIdSet, nodeIdMap))
     .filter((edge): edge is DistillEdgeDraft => edge !== null);
 
   const rawDocuments = readArray(parsed['wv_documents']);
@@ -508,7 +568,7 @@ export function normalizeDistillOutput(
 
   const rawLinks = readArray(parsed['wv_block_node_links']);
   const links = rawLinks
-    .map((entry, index) => normalizeBlockNodeLink(entry, index, context, blockIdSet, nodeIdSet))
+    .map((entry, index) => normalizeBlockNodeLink(entry, index, context, blockIdSet, nodeIdSet, nodeIdMap))
     .filter((link): link is DistillBlockNodeLinkDraft => link !== null);
 
   const podcast = normalizePodcastEpisode(parsed['podcast_episode'], context);
@@ -872,10 +932,13 @@ function normalizeNode(
     batchId: string;
     sourceId: string;
     sourceUnitId: string;
+    locatorLabel: string | null;
     workspaceId: string;
     groupId: string | null;
     userId: number;
   },
+  usedIds: Set<string>,
+  idMap: Map<string, string>,
 ): DistillNodeDraft | null {
   const row = asRecord(value);
   const title = sanitizeSentence(row?.['title'], 120);
@@ -884,13 +947,26 @@ function normalizeNode(
     return null;
   }
 
+  const rawId = readOptionalString(row?.['id']);
   const slug = slugify(readOptionalString(row?.['slug']) || title, `node-${index + 1}`);
-  const id = readOptionalString(row?.['id']) || `wv_node_${slug}_${context.batchId.slice(-8)}_${index + 1}`;
   const nodeType = normalizeNodeType(row?.['node_type']) ?? 'concept';
+  const idPrefix = buildWorldviewNodeIdPrefix(row, context);
+  let localKey = buildWorldviewNodeLocalKey(rawId, idPrefix, nodeType, slug, index);
+  let id = `wv_node_${idPrefix}_${localKey}`;
+  if (usedIds.has(id)) {
+    localKey = `${localKey}-${String(index + 1).padStart(2, '0')}`;
+    id = `wv_node_${idPrefix}_${localKey}`;
+  }
+
+  usedIds.add(id);
+  if (rawId) {
+    idMap.set(rawId, id);
+  }
+  idMap.set(id, id);
 
   return {
     id,
-    canonical_input: readOptionalString(row?.['canonical_input']) || `wv_node:${context.sourceUnitId}:${slug}`,
+    canonical_input: `wv_node:${idPrefix}:${localKey}`,
     workspace_id: context.workspaceId,
     group_id: context.groupId,
     user_id: context.userId,
@@ -907,6 +983,8 @@ function normalizeNode(
       source_id: context.sourceId,
       source_unit_id: context.sourceUnitId,
       order_index: index + 1,
+      node_id_prefix: idPrefix,
+      ...(rawId ? { local_node_id: rawId } : {}),
     },
   };
 }
@@ -916,10 +994,11 @@ function normalizeEdge(
   index: number,
   context: { batchId: string; workspaceId: string; groupId: string | null },
   nodeIds: Set<string>,
+  nodeIdMap: Map<string, string>,
 ): DistillEdgeDraft | null {
   const row = asRecord(value);
-  const fromNodeId = readOptionalString(row?.['from_node_id']);
-  const toNodeId = readOptionalString(row?.['to_node_id']);
+  const fromNodeId = resolveMappedId(readOptionalString(row?.['from_node_id']), nodeIdMap);
+  const toNodeId = resolveMappedId(readOptionalString(row?.['to_node_id']), nodeIdMap);
   if (!fromNodeId || !toNodeId || !nodeIds.has(fromNodeId) || !nodeIds.has(toNodeId)) {
     return null;
   }
@@ -1034,10 +1113,11 @@ function normalizeBlockNodeLink(
   context: { batchId: string; workspaceId: string; groupId: string | null; userId: number },
   blockIds: Set<string>,
   nodeIds: Set<string>,
+  nodeIdMap: Map<string, string>,
 ): DistillBlockNodeLinkDraft | null {
   const row = asRecord(value);
   const blockId = readOptionalString(row?.['block_id']);
-  const nodeId = readOptionalString(row?.['node_id']);
+  const nodeId = resolveMappedId(readOptionalString(row?.['node_id']), nodeIdMap);
   if (!blockId || !nodeId || !blockIds.has(blockId) || !nodeIds.has(nodeId)) {
     return null;
   }
@@ -1099,6 +1179,90 @@ function normalizeBlockType(value: unknown): DistillBlockType | null {
 function normalizeBlockRelation(value: unknown): DistillBlockRelation | null {
   const normalized = readOptionalString(value)?.toLowerCase() as DistillBlockRelation | undefined;
   return normalized && BLOCK_RELATIONS.has(normalized) ? normalized : null;
+}
+
+function buildWorldviewNodeIdPrefix(
+  row: Record<string, unknown> | null,
+  context: {
+    sourceUnitId: string;
+    locatorLabel: string | null;
+  },
+): string {
+  const dataJson = parseJsonObject(row?.['data_json']);
+  const metaJson = parseJsonObject(row?.['meta_json']);
+  const candidates = [
+    readOptionalString(row?.['passage_ref']),
+    readOptionalString(dataJson?.['passage_ref']),
+    readOptionalString(metaJson?.['passage_ref']),
+    context.locatorLabel,
+    extractPassageRefFromSourceUnitId(context.sourceUnitId),
+  ];
+
+  for (const candidate of candidates) {
+    const prefix = normalizeWorldviewScopePrefix(candidate);
+    if (prefix) {
+      return prefix;
+    }
+  }
+
+  return `su_${slugify(context.sourceUnitId, 'source-unit')}`;
+}
+
+function buildWorldviewNodeLocalKey(
+  rawId: string | null,
+  idPrefix: string,
+  nodeType: DistillNodeType,
+  slug: string,
+  index: number,
+): string {
+  if (!rawId) {
+    return `${nodeType}-${slug}`;
+  }
+
+  const expectedPrefix = `wv_node_${idPrefix}_`;
+  if (rawId.startsWith(expectedPrefix)) {
+    return rawId.slice(expectedPrefix.length) || `${nodeType}-${slug}`;
+  }
+
+  return slugify(rawId, `${nodeType}-${index + 1}`);
+}
+
+function extractPassageRefFromSourceUnitId(sourceUnitId: string): string | null {
+  const match = sourceUnitId
+    .trim()
+    .toLowerCase()
+    .match(/(?:^|[_-])q(\d+)[_-](\d+)(?:[_-](\d+))?(?:$|[_-])/);
+  if (!match) {
+    return null;
+  }
+
+  const [, surah, ayahFrom, ayahTo] = match;
+  return ayahTo ? `${surah}:${ayahFrom}-${ayahTo}` : `${surah}:${ayahFrom}`;
+}
+
+function normalizeWorldviewScopePrefix(value: string | null): string | null {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const compact = trimmed.replace(/\s+/g, '');
+  const refMatch = compact.match(/^(\d+):(\d+)(?:[-–](\d+))?$/);
+  if (refMatch) {
+    const [, surah, ayahFrom, ayahTo] = refMatch;
+    return ayahTo ? `qs${surah}_${ayahFrom}_${ayahTo}` : `qs${surah}_${ayahFrom}`;
+  }
+
+  const slug = slugify(compact, '');
+  return slug ? `ref_${slug}` : null;
+}
+
+function resolveMappedId(value: string | null, idMap: Map<string, string>): string | null {
+  if (!value) {
+    return null;
+  }
+
+  return idMap.get(value) ?? value;
 }
 
 function parseDistillOutput(value: unknown): DistillOutputDraft | null {

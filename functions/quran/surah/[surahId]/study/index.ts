@@ -4,12 +4,21 @@
 
 interface Env { DB: D1Database }
 
+const QURAN_CONTAINER_ID = 'C:QURAN';
+
 const SQL = `
-WITH surah_container AS (
+WITH quran_container AS (
   SELECT *
   FROM ar_containers
-  WHERE container_type = 'quran_surah'
-    AND CAST(json_extract(meta_json, '$.surah') AS INTEGER) = ?1
+  WHERE id = ?2
+  LIMIT 1
+),
+surah_unit AS (
+  SELECT *
+  FROM ar_container_units
+  WHERE id = ?3
+    AND container_id = ?2
+    AND unit_type = 'surah'
   LIMIT 1
 ),
 unit_rows AS (
@@ -35,9 +44,10 @@ unit_rows AS (
       WHEN lower(ifnull(qw.class_name, '')) LIKE '%verb%' THEN qw.word_id
     END) AS verb_count,
     COUNT(DISTINCT qw.word_id) AS total_word_count
-  FROM surah_container c
+  FROM surah_unit s
   JOIN ar_container_units u
-    ON u.container_id = c.id
+    ON u.parent_unit_id = s.id
+   AND u.unit_type = 'passage'
   LEFT JOIN ar_container_unit_task t
     ON t.unit_id = u.id
    AND t.parent_task_id IS NULL
@@ -60,13 +70,15 @@ SELECT json_object(
     SELECT json_object(
       'container_id', c.id,
       'container_key', c.container_key,
-      'title', c.title,
-      'surah', CAST(json_extract(c.meta_json, '$.surah') AS INTEGER),
-      'name_ar', json_extract(c.meta_json, '$.name_ar'),
-      'name_en', json_extract(c.meta_json, '$.name_en'),
-      'meta_json', c.meta_json
+      'surah_unit_id', s.id,
+      'title', COALESCE(json_extract(s.meta_json, '$.title'), 'Surah ' || s.surah),
+      'surah', s.surah,
+      'name_ar', json_extract(s.meta_json, '$.name_ar'),
+      'name_en', json_extract(s.meta_json, '$.name_en'),
+      'meta_json', s.meta_json
     )
-    FROM surah_container c
+    FROM quran_container c
+    JOIN surah_unit s ON 1 = 1
   ),
   'units', (
     SELECT COALESCE(
@@ -105,7 +117,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     return Response.json({ ok: false, error: 'Invalid surahId' }, { status: 400 });
   }
   try {
-    const row = await ctx.env.DB.prepare(SQL).bind(surahId).first<{ study_grid_json: string }>();
+    const containerId = QURAN_CONTAINER_ID;
+    const surahUnitId = `U:${containerId}:${surahId}`;
+    const row = await ctx.env.DB.prepare(SQL).bind(surahId, containerId, surahUnitId).first<{ study_grid_json: string }>();
     if (!row?.study_grid_json) {
       return Response.json({ ok: false, error: 'Surah not found' }, { status: 404 });
     }

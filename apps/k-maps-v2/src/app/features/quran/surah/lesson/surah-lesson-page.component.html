@@ -72,7 +72,7 @@
 
           <!-- Start button -->
           <button class="entry__start" #startBtn (click)="startStudy()">
-            <span class="entry__start-label">Start</span>
+            <span class="entry__start-label">Begin Reading</span>
             <span class="entry__start-glow"></span>
           </button>
         </div>
@@ -121,38 +121,104 @@
           <div class="hero__divider" #heroDivider></div>
         </div>
 
-        <!-- Tab bar -->
-        <div class="tab-bar" #tabsEl>
-          @for (tab of tabs; track tab.id) {
-            <button
-              class="tab-btn"
-              [class.tab-btn--active]="activeTab() === tab.id"
-              (click)="selectTab(tab.id)">
-              {{ tab.label }}
-            </button>
-          }
-        </div>
+        <section class="lesson-steps-shell">
+          <aside class="lesson-steps" #stepsEl>
+            <div class="lesson-steps__head">
+              <span class="lesson-steps__eyebrow">Lesson Flow</span>
+              <h2 class="lesson-steps__title">Study Steps</h2>
+              <p class="lesson-steps__text">Move through the passage in order. Each step opens in the workspace on the right.</p>
+            </div>
 
-        <!-- Tab content -->
-        <div class="tab-content">
-          @switch (activeTab()) {
-            @case ('reading') {
-              <km-lesson-reading-tab [lesson]="lesson()!" />
-            }
-            @case ('vocabulary') {
-              <km-lesson-vocabulary-tab [lesson]="lesson()!" />
-            }
-            @case ('sentence-structure') {
-              <km-lesson-sentence-structure-tab [lesson]="lesson()!" />
-            }
-            @case ('expressions') {
-              <km-lesson-expressions-tab [lesson]="lesson()!" />
-            }
-            @case ('passage-structure') {
-              <km-lesson-passage-structure-tab [lesson]="lesson()!" />
-            }
-          }
-        </div>
+            <div class="lesson-steps__list">
+              @for (step of steps; track step.id; let i = $index) {
+                <button
+                  class="step-card"
+                  [class.step-card--active]="stepState(i) === 'active'"
+                  [class.step-card--complete]="stepState(i) === 'complete'"
+                  [class.step-card--upcoming]="stepState(i) === 'upcoming'"
+                  (click)="selectStep(step.id)"
+                >
+                  <span class="step-card__marker">
+                    <span class="step-card__dot"></span>
+                  </span>
+
+                  <span class="step-card__content">
+                    <span class="step-card__meta">
+                      <span class="step-card__index">{{ stepNumber(i) }}</span>
+                      <span class="step-card__state">{{ stepStateLabel(i) }}</span>
+                    </span>
+                    <strong class="step-card__label">{{ step.label }}</strong>
+                    <span class="step-card__kicker">{{ step.kicker }}</span>
+                    <span class="step-card__summary">{{ step.summary }}</span>
+                  </span>
+                </button>
+              }
+            </div>
+          </aside>
+
+          <div class="lesson-stage">
+            <section class="step-intro">
+              <div class="step-intro__topline">
+                <span class="step-intro__eyebrow">{{ currentStep().kicker }}</span>
+                <span class="step-intro__progress">Step {{ stepNumber(currentStepIndex()) }} / {{ steps.length }}</span>
+              </div>
+
+              <div class="step-intro__main">
+                <div class="step-intro__copy">
+                  <h2 class="step-intro__title">{{ currentStep().label }}</h2>
+                  <p class="step-intro__text">{{ currentStep().summary }}</p>
+                </div>
+
+                <div class="step-intro__actions">
+                  <button class="step-nav-btn" [disabled]="!canGoPrevious()" (click)="previousStep()">Previous</button>
+                  <button class="step-open-btn" (click)="replayCurrentStep()">Replay Step</button>
+                  <button class="step-nav-btn" [disabled]="!canGoNext()" (click)="nextStep()">Next</button>
+                </div>
+              </div>
+
+              <div class="step-intro__bar" aria-hidden="true">
+                <span class="step-intro__bar-fill" [style.width.%]="progressPercent()"></span>
+              </div>
+
+              <div class="step-intro__flow">
+                <span class="step-intro__chip">Previous: {{ previousStepLabel() }}</span>
+                <span class="step-intro__chip">Current: {{ currentStep().label }}</span>
+                <span class="step-intro__chip">Next: {{ nextStepLabel() }}</span>
+              </div>
+            </section>
+
+            <section class="step-panel">
+              <div class="step-panel__head">
+                <div>
+                  <span class="step-panel__eyebrow">Step Workspace</span>
+                  <h3 class="step-panel__title">{{ currentStep().label }}</h3>
+                  <p class="step-panel__summary">{{ currentStep().summary }}</p>
+                </div>
+                <span class="step-panel__ref">{{ currentStep().kicker }} · {{ ayahRange() }}</span>
+              </div>
+
+                <div class="step-panel__body">
+                  @switch (activeStep()) {
+                    @case ('reading') {
+                    <km-lesson-reading-step [lesson]="lesson()!" />
+                    }
+                    @case ('vocabulary') {
+                    <km-lesson-vocabulary-step [lesson]="lesson()!" />
+                    }
+                    @case ('sentence-structure') {
+                    <km-lesson-sentence-structure-step [lesson]="lesson()!" />
+                    }
+                    @case ('expressions') {
+                    <km-lesson-expressions-step [lesson]="lesson()!" />
+                    }
+                    @case ('passage-structure') {
+                    <km-lesson-passage-structure-step [lesson]="lesson()!" />
+                    }
+                  }
+                </div>
+            </section>
+          </div>
+        </section>
 
       </div>
     }

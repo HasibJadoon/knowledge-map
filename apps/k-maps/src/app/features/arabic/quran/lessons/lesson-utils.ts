@@ -1,7 +1,7 @@
 import { QuranLesson, QuranLessonTokenV2 } from "../../../../shared/models/arabic/quran-lesson.model";
 import { DRAFT_KEY_PREFIX, DRAFT_ID_KEY_PREFIX } from "./edit/state/builder-tabs.const";
 
-export const composeContainerId = (surah: number) => `C:QURAN:${surah}`;
+export const composeContainerId = (_surah: number) => `C:QURAN`;
 export const composePassageUnitId = (surah: number, ayahFrom: number, ayahTo: number) =>
   `U:C:QURAN:${surah}:${ayahFrom}-${ayahTo}`;
 export const composeAyahUnitId = (surah: number, ayah: number) =>
