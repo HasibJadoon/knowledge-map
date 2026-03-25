@@ -407,12 +407,13 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
 
   // ── Start button ─────────────────────────────────────────
 
-  startStudy(): void {
+  startStudy(event?: MouseEvent): void {
     if (this.phase() !== 'entry') return;
     this.entryTl?.kill();
 
     const root = this.elRef.nativeElement as HTMLElement;
     const entryEl = root.querySelector<HTMLElement>('.entry');
+    const button = this.resolveButtonTarget(event, '.entry__start');
 
     const proceed = () => {
       this.phase.set('workspace');
@@ -422,11 +423,20 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
 
     if (!entryEl) { proceed(); return; }
 
-    gsap.to(entryEl, {
-      opacity: 0, y: -50,
-      duration: 0.45, ease: 'power3.in',
-      onComplete: proceed,
-    });
+    const animateOut = () => {
+      gsap.to(entryEl, {
+        opacity: 0, y: -50,
+        duration: 0.45, ease: 'power3.in',
+        onComplete: proceed,
+      });
+    };
+
+    if (!button) {
+      animateOut();
+      return;
+    }
+
+    this.animateAdvanceButton(button, animateOut);
   }
 
   // ── Workspace animation ──────────────────────────────────
@@ -554,7 +564,7 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
 
   // ── Step management ──────────────────────────────────────
 
-  beginCurrentStep(): void {
+  beginCurrentStep(event?: MouseEvent): void {
     const stepId = this.activeStep();
     if (this.isStepUnlocked(stepId)) {
       this.replayCurrentStep();
@@ -563,6 +573,7 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
 
     const root = this.elRef.nativeElement as HTMLElement;
     const gate = root.querySelector<HTMLElement>('.step-gate');
+    const button = this.resolveButtonTarget(event, '.step-gate__button');
     const unlock = () => this.unlockStep(stepId);
 
     if (!gate) {
@@ -570,13 +581,22 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
       return;
     }
 
-    gsap.to(gate, {
-      opacity: 0,
-      y: -20,
-      duration: 0.34,
-      ease: 'power3.in',
-      onComplete: unlock,
-    });
+    const animateOut = () => {
+      gsap.to(gate, {
+        opacity: 0,
+        y: -20,
+        duration: 0.34,
+        ease: 'power3.in',
+        onComplete: unlock,
+      });
+    };
+
+    if (!button) {
+      animateOut();
+      return;
+    }
+
+    this.animateAdvanceButton(button, animateOut);
   }
 
   selectStep(id: StepId): void {
@@ -765,6 +785,51 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
       repeat: -1,
       yoyo: true,
     });
+  }
+
+  private animateAdvanceButton(button: HTMLElement, onComplete: () => void): void {
+    const arrow = button.querySelector<HTMLElement>('.entry__start-arrow, .step-gate__button-arrow');
+    const label = button.querySelector<HTMLElement>('.entry__start-label, .step-gate__button-label');
+
+    if (arrow) gsap.killTweensOf(arrow);
+
+    const tl = gsap.timeline({ onComplete });
+    tl.to(button, {
+      scale: 0.985,
+      duration: 0.12,
+      ease: 'power2.out',
+    });
+    if (label) {
+      tl.to(label, {
+        letterSpacing: '0.28em',
+        duration: 0.18,
+        ease: 'power2.out',
+      }, 0);
+    }
+    if (arrow) {
+      tl.to(arrow, {
+        x: 26,
+        y: -4,
+        opacity: 0,
+        duration: 0.26,
+        ease: 'power2.in',
+      }, 0.02);
+    }
+    tl.to(button, {
+      x: 16,
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.in',
+    }, 0.08);
+  }
+
+  private resolveButtonTarget(event: MouseEvent | undefined, selector: string): HTMLElement | null {
+    const currentTarget = event?.currentTarget;
+    if (currentTarget instanceof HTMLElement) {
+      return currentTarget.closest(selector) as HTMLElement ?? currentTarget;
+    }
+    const root = this.elRef.nativeElement as HTMLElement;
+    return root.querySelector<HTMLElement>(selector);
   }
 
   private normalizeStepParam(value: string | null): StepId | null {

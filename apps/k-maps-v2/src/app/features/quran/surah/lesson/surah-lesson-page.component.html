@@ -71,9 +71,9 @@
           }
 
           <!-- Start button -->
-          <button class="entry__start" #startBtn (click)="startStudy()">
+          <button class="entry__start" #startBtn (click)="startStudy($event)">
             <span class="entry__start-label">Start</span>
-            <span class="entry__start-arrow" aria-hidden="true">&#8594;</span>
+            <span class="entry__start-arrow" aria-hidden="true">&#8599;</span>
             <span class="entry__start-glow"></span>
           </button>
         </div>
@@ -142,9 +142,9 @@
                   </div>
                   <div class="step-gate__divider" aria-hidden="true"></div>
                   <p class="step-gate__description">{{ intro.description }}</p>
-                  <button class="step-gate__button" (click)="beginCurrentStep()">
+                  <button class="step-gate__button" (click)="beginCurrentStep($event)">
                     <span class="step-gate__button-label">Start</span>
-                    <span class="step-gate__button-arrow" aria-hidden="true">&#8594;</span>
+                    <span class="step-gate__button-arrow" aria-hidden="true">&#8599;</span>
                     <span class="step-gate__button-glow"></span>
                   </button>
                 </div>
