@@ -47,12 +47,6 @@
             @if (heroConfig().surahSubtitle) {
               <p class="entry__subtitle">{{ heroConfig().surahSubtitle }}</p>
             }
-            <div class="entry__meta">
-              @if (unit()!.label) {
-                <span class="entry__chip">{{ unit()!.label }}</span>
-              }
-              <span class="entry__chip entry__chip--range">Ayah {{ ayahDisplay() }}</span>
-            </div>
           </div>
 
           <!-- Theme -->
@@ -93,34 +87,25 @@
           @if (surahName()) {
             <span class="nav-crumb">{{ surahName()!.transliteratedName }}</span>
           }
-          <span class="nav-crumb nav-crumb--dim">Passage {{ passageNo() }}</span>
         </nav>
 
         <!-- Hero -->
-        <div class="hero" #heroEl>
-          <div class="hero__bg" #heroBg></div>
-          <div class="hero__content">
-            @if (surahName()) {
-              <p class="hero__ar" #heroAr>{{ surahName()!.arabicName }}</p>
-              <h1 class="hero__en" #heroEn>{{ surahName()!.englishName }}</h1>
-            }
-
-            <div class="hero__meta">
-              <span class="hero__passage">Passage {{ passageNo() }}</span>
-              @if (unit()!.label) {
-                <span class="hero__sep">&middot;</span>
-                <span class="hero__label">{{ unit()!.label }}</span>
+        @if (!currentStepLocked()) {
+          <div class="hero" #heroEl>
+            <div class="hero__bg" #heroBg></div>
+            <div class="hero__content">
+              @if (surahName()) {
+                <p class="hero__ar" #heroAr>{{ surahName()!.arabicName }}</p>
+                <h1 class="hero__en" #heroEn>{{ surahName()!.englishName }}</h1>
               }
-              <span class="hero__sep">&middot;</span>
-              <span class="hero__range">{{ ayahRange() }}</span>
-            </div>
 
-            @if (unit()!.theme) {
-              <p class="hero__theme">{{ unit()!.theme }}</p>
-            }
+              @if (unit()!.theme) {
+                <p class="hero__theme">{{ unit()!.theme }}</p>
+              }
+            </div>
+            <div class="hero__divider" #heroDivider></div>
           </div>
-          <div class="hero__divider" #heroDivider></div>
-        </div>
+        }
 
         <div class="lesson-stage">
           <section class="step-panel">

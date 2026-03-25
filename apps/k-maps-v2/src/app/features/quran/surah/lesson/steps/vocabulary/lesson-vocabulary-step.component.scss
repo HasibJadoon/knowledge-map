@@ -46,17 +46,38 @@
     }
 
     .word-card {
-      background: var(--km-surface);
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%),
+        radial-gradient(circle at top right, rgba(201,168,76,0.08) 0%, transparent 42%),
+        var(--km-surface);
       border: 1px solid var(--km-border);
-      border-radius: 10px;
-      padding: 0.85rem 0.9rem;
-      display: flex; flex-direction: column; gap: 0.3rem;
-      transition: border-color 0.2s;
+      border-radius: 14px;
+      padding: 0.95rem 1rem;
+      display: flex; flex-direction: column; gap: 0.36rem;
+      transform-style: preserve-3d;
+      transition: border-color 0.2s, background 0.2s;
 
-      &:hover { border-color: rgba(107, 186, 255, 0.4); }
-      &--verb:hover { border-color: rgba(77, 217, 168, 0.4); }
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, transparent 38%);
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      &--verb {
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%),
+          radial-gradient(circle at top right, rgba(77,217,168,0.09) 0%, transparent 42%),
+          var(--km-surface);
+      }
 
       &__ar {
+        position: relative;
+        z-index: 1;
         font-family: var(--km-font-arabic, 'Scheherazade New', serif);
         font-size: 1.5rem; color: var(--km-text);
         direction: rtl; text-align: right;
@@ -64,19 +85,27 @@
       }
 
       &__trans {
+        position: relative;
+        z-index: 1;
         font-size: 0.8rem; color: var(--km-text-2); font-style: italic;
       }
 
       &__root {
+        position: relative;
+        z-index: 1;
         font-size: 0.68rem; color: #6bbaf0;
         letter-spacing: 0.04em;
       }
 
       &__gloss, &__morph {
+        position: relative;
+        z-index: 1;
         font-size: 0.68rem; color: var(--km-text-3); letter-spacing: 0.03em;
       }
 
       &__ref {
+        position: relative;
+        z-index: 1;
         font-size: 0.62rem; color: var(--km-gold);
         font-family: var(--km-font-heading); opacity: 0.6;
         margin-top: auto;

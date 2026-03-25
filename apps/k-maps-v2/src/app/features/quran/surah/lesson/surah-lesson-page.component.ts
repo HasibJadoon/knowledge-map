@@ -3,6 +3,7 @@ import {
   ElementRef, inject, signal, computed, effect,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -115,6 +116,7 @@ interface HeroConfig {
 export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private location = inject(Location);
   private svc = inject(SurahModulesService);
   private quranState = inject(QuranStateService);
   private elRef = inject(ElementRef);
@@ -703,6 +705,10 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   }
 
   back(): void {
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      this.location.back();
+      return;
+    }
     this.router.navigate(['/quran', 'surah', this.surahId(), 'study']);
   }
 

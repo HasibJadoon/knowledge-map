@@ -3,10 +3,10 @@
   @if (hasVocabularySplit()) {
     <div class="vocab-toggle">
       <button class="toggle-btn" [class.toggle-btn--active]="showNouns()" (click)="showNouns.set(true)">
-        Nouns <span class="badge">{{ lesson.vocabulary.nouns.length }}</span>
+        Nouns <span class="badge">{{ nouns().length }}</span>
       </button>
       <button class="toggle-btn" [class.toggle-btn--active]="!showNouns()" (click)="showNouns.set(false)">
-        Verbs <span class="badge">{{ lesson.vocabulary.verbs.length }}</span>
+        Verbs <span class="badge">{{ verbs().length }}</span>
       </button>
     </div>
   } @else if (splitPending()) {
@@ -21,7 +21,7 @@
 
   @if (hasVocabularySplit() && showNouns()) {
     <div class="word-grid">
-      @for (word of lesson.vocabulary.nouns; track word.word_id) {
+      @for (word of nouns(); track word.word_id) {
         <div class="word-card">
           <span class="word-card__ar">{{ word.word }}</span>
           @if (word.translation) {
@@ -36,13 +36,13 @@
           <span class="word-card__ref">{{ lesson.surahId }}:{{ word.ayah }}</span>
         </div>
       }
-      @if (lesson.vocabulary.nouns.length === 0) {
+      @if (nouns().length === 0) {
         <p class="empty">No nouns found for this passage.</p>
       }
     </div>
   } @else if (hasVocabularySplit()) {
     <div class="word-grid">
-      @for (word of lesson.vocabulary.verbs; track word.word_id) {
+      @for (word of verbs(); track word.word_id) {
         <div class="word-card word-card--verb">
           <span class="word-card__ar">{{ word.word }}</span>
           @if (word.translation) {
@@ -57,7 +57,7 @@
           <span class="word-card__ref">{{ lesson.surahId }}:{{ word.ayah }}</span>
         </div>
       }
-      @if (lesson.vocabulary.verbs.length === 0) {
+      @if (verbs().length === 0) {
         <p class="empty">No verbs found for this passage.</p>
       }
     </div>
