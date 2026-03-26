@@ -1,10 +1,22 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
   font-family: var(--km-font-body), var(--km-font-arabic, 'Scheherazade New', serif);
+}
+
+.sst {
+  flex: 1;
+  min-height: 0;
 }
 
 .sst__canvas-wrap {
   position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .sst__nav {

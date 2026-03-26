@@ -393,6 +393,35 @@
   min-height: 100dvh;
 }
 
+// ── Full-page canvas mode (sentence-structure step) ───────────
+.workspace--canvas-full {
+  height: 100dvh;
+  overflow: hidden;
+
+  .lesson-page__nav {
+    flex-shrink: 0;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .lesson-stage {
+    flex: 1;
+    min-height: 0;
+    padding: 0 0 0.5rem;
+    gap: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step-panel,
+  .step-panel__body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 // ── Nav ──────────────────────────────────────────────────────
 .lesson-page__nav {
   display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
