@@ -147,6 +147,7 @@ function buildLayout(
               [style.left.px]="n.x"
               [style.top.px]="n.y"
               [style.border-left-color]="nodeUi(n).bg"
+              (click)="onNodeClick($event, n)"
             >
               <div class="ss-node__strip" [style.background]="nodeUi(n).bg"></div>
 
@@ -254,7 +255,7 @@ function buildLayout(
       border-radius: 10px;
       display: flex;
       overflow: hidden;
-      cursor: grab;
+      cursor: pointer;
       transition: border-color 0.15s, box-shadow 0.15s;
       will-change: transform, opacity;
 
@@ -395,6 +396,7 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
   private zone  = inject(NgZone);
   private animTl: gsap.core.Timeline | null = null;
   private canvasElRef: HTMLElement | null = null;  // direct DOM ref for pan
+  private _lastInteractionWasDrag = false;          // suppress click after drag
 
   // ── Internal treebank signal ──────────────────────────────────────────────
   private readonly _tb = signal<TreebankNode | null>(null);
@@ -588,24 +590,25 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
           next.set(nodeId, { x: finalX, y: finalY });
           return next;
         });
+        this._lastInteractionWasDrag = true;  // suppress next click event
       }
       this.draggingId.set(null);
-
-      // Tap (no movement) on a node → expand/collapse children leaf-by-leaf
-      if (!moved && nodeId) {
-        this.toggleCollapse(nodeId);
-      }
+      // Collapse/expand is handled by (click) on the node element
     }
   }
 
   // ── Collapse / expand ─────────────────────────────────────────────────────
 
-  // Positions of all visible nodes before the last layout change
-  private prevPositions = new Map<string, { x: number; y: number }>();
-  // Position of the parent node before the last layout change
-  private prevParentPos = { x: 0, y: 0 };
+  /** Click handler on node card — toggles collapse/expand. */
+  onNodeClick(e: MouseEvent, n: LayoutNode): void {
+    // Suppress click that follows a drag release
+    if (this._lastInteractionWasDrag) { this._lastInteractionWasDrag = false; return; }
+    if (!n.hasChildren) return;
+    e.stopPropagation();
+    this.toggleCollapse(n.id);
+  }
 
-  /** Collect all descendant IDs from the original treebank (not pruned). */
+  /** Collect all descendant IDs from the original (unpruned) treebank. */
   private getDescendantIds(rootId: string): Set<string> {
     const tb = this._tb();
     if (!tb) return new Set();
@@ -625,44 +628,119 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
   }
 
   toggleCollapse(id: string): void {
+    const tb = this._tb();
+    if (!tb) return;
     const n = this.displayNodes().find(n => n.id === id);
     if (!n?.hasChildren) return;
 
     const wasCollapsed = this.collapsedIds().has(id);
 
-    // Snapshot current positions + parent position
-    this.prevPositions = new Map(this.displayNodes().map(node => [node.id, { x: node.x, y: node.y }]));
-    this.prevParentPos = { x: n.x, y: n.y };
+    // ── Snapshot current (old) positions ──────────────────────────────────
+    const oldPositions = new Map(this.displayNodes().map(node => [node.id, { x: node.x, y: node.y }]));
+    const parentOldPos = { x: n.x, y: n.y };
+
+    // ── Pre-compute NEW layout so we know exact target positions ───────────
+    const nextCollapsed = new Set(this.collapsedIds());
+    if (wasCollapsed) nextCollapsed.delete(id); else nextCollapsed.add(id);
+    const { nodes: newLayoutNodes } = buildLayout(tb, nextCollapsed);
+    const newPositions = new Map(newLayoutNodes.map(node => [node.id, { x: node.x, y: node.y }]));
+    const parentNewPos = newPositions.get(id) ?? parentOldPos;
+
+    const canvas = this.canvasElRef;
+    const DURATION = 0.45;
 
     if (!wasCollapsed) {
-      // ── Collapse: animate children out → then update signal ────────────────
+      // ── COLLAPSE: exit descendants → update signal → slide remaining ──────
       const descendantIds = this.getDescendantIds(id);
-      const canvas = this.canvasElRef;
       if (!canvas || !descendantIds.size) {
-        this.collapsedIds.update(s => { const next = new Set(s); next.add(id); return next; });
+        this.collapsedIds.set(nextCollapsed);
         this._userPos.set(new Map());
         return;
       }
+
+      // Exit elements sorted deepest-first for a "tree folding" feel
       const exitEls = Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node'))
-        .filter(el => descendantIds.has(el.dataset['nodeId'] ?? ''));
-      const sorted = [...exitEls].sort(
-        (a, b) => Number(b.dataset['depth'] ?? 0) - Number(a.dataset['depth'] ?? 0), // deepest first
-      );
-      gsap.to(sorted, {
-        opacity: 0, scale: 0.6, duration: 0.18, ease: 'power2.in', stagger: 0.03,
-        onComplete: () => {
-          this.zone.run(() => {
-            this.collapsedIds.update(s => { const next = new Set(s); next.add(id); return next; });
-            this._userPos.set(new Map());
-            setTimeout(() => this.animateReposition(), 20);
-          });
-        },
+        .filter(el => descendantIds.has(el.dataset['nodeId'] ?? ''))
+        .sort((a, b) => Number(b.dataset['depth'] ?? 0) - Number(a.dataset['depth'] ?? 0));
+
+      // Animate each exit node toward parent's new position
+      exitEls.forEach((el, i) => {
+        const nodeId = el.dataset['nodeId'] ?? '';
+        const op = oldPositions.get(nodeId) ?? { x: 0, y: 0 };
+        const targetDx = parentNewPos.x - op.x;
+        const targetDy = parentNewPos.y - op.y;
+        gsap.to(el, {
+          x: targetDx, y: targetDy, opacity: 0, scale: 0.65,
+          duration: DURATION, delay: i * 0.025, ease: 'power2.in',
+        });
       });
+
+      const exitDuration = DURATION + exitEls.length * 0.025;
+      setTimeout(() => {
+        this.zone.run(() => {
+          this.collapsedIds.set(nextCollapsed);
+          this._userPos.set(new Map());
+
+          // Wait one frame for Angular to re-render, then slide remaining nodes
+          requestAnimationFrame(() => {
+            if (!canvas) return;
+            Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node')).forEach(el => {
+              const nodeId = el.dataset['nodeId'];
+              if (!nodeId) return;
+              const op = oldPositions.get(nodeId);
+              const np = newPositions.get(nodeId);
+              if (!op || !np) return;
+              if (Math.abs(op.x - np.x) > 0.5 || Math.abs(op.y - np.y) > 0.5) {
+                gsap.fromTo(el,
+                  { x: op.x - np.x, y: op.y - np.y },
+                  { x: 0, y: 0, duration: DURATION, ease: 'power2.out' },
+                );
+              }
+            });
+          });
+        });
+      }, exitDuration * 1000); // wait for full exit animation
+
     } else {
-      // ── Expand: update signal → animate new nodes from parent + reposition ──
-      this.collapsedIds.update(s => { const next = new Set(s); next.delete(id); return next; });
+      // ── EXPAND: update signal first → animate entering + moved nodes ──────
+      this.collapsedIds.set(nextCollapsed);
       this._userPos.set(new Map());
-      setTimeout(() => this.animateExpandIn(id), 20);
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (!canvas) return;
+        Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node')).forEach((el, i) => {
+          const nodeId = el.dataset['nodeId'];
+          if (!nodeId) return;
+          const op = oldPositions.get(nodeId);
+          const np = newPositions.get(nodeId);
+
+          if (!op) {
+            // New node — enter from parent's old position
+            const dx = parentOldPos.x - (np?.x ?? 0);
+            const dy = parentOldPos.y - (np?.y ?? 0);
+            gsap.fromTo(el,
+              { opacity: 0, x: dx, y: dy, scale: 0.65 },
+              { opacity: 1, x: 0, y: 0, scale: 1,
+                duration: DURATION, delay: i * 0.02, ease: 'back.out(1.4)',
+                transformOrigin: 'top center' },
+            );
+          } else if (np && (Math.abs(op.x - np.x) > 0.5 || Math.abs(op.y - np.y) > 0.5)) {
+            // Existing node that moved — slide from old to new
+            gsap.fromTo(el,
+              { x: op.x - np.x, y: op.y - np.y },
+              { x: 0, y: 0, duration: DURATION, ease: 'power2.out' },
+            );
+          }
+        });
+
+        // Fade in new links
+        const allLinks = Array.from(canvas.querySelectorAll<SVGPathElement>('.ss-link'));
+        const prevCount = oldPositions.size;
+        const newLinks = allLinks.slice(prevCount - 1);
+        if (newLinks.length) {
+          gsap.fromTo(newLinks, { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.03 });
+        }
+      }));
     }
   }
 
@@ -676,7 +754,7 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     if (!canvas) return;
 
     // Cache DOM ref and auto-center tree horizontally in viewport
-    if (!this.canvasElRef) this.canvasElRef = canvas;
+    this.canvasElRef = canvas;
     const vp = this.viewport?.nativeElement as HTMLElement | null;
     const vpW = vp?.clientWidth ?? 800;
     const allNodes = this.displayNodes();
@@ -712,81 +790,6 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
         ease: 'back.out(1.5)', transformOrigin: 'top center' },
       '-=0.15',
     );
-  }
-
-  /** After expand: new nodes fly from parent position; moved nodes slide to new position. */
-  private animateExpandIn(parentId: string): void {
-    const canvas = this.canvasElRef;
-    if (!canvas) return;
-
-    const allNodeEls = Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node'));
-    const newEls: HTMLElement[] = [];
-    const movedEls: Array<{ el: HTMLElement; dx: number; dy: number }> = [];
-
-    allNodeEls.forEach(el => {
-      const nodeId = el.dataset['nodeId'];
-      if (!nodeId) return;
-      const n = this.displayNodes().find(node => node.id === nodeId);
-      if (!n) return;
-      const prev = this.prevPositions.get(nodeId);
-      if (!prev) {
-        newEls.push(el);
-      } else if (Math.abs(prev.x - n.x) > 0.5 || Math.abs(prev.y - n.y) > 0.5) {
-        movedEls.push({ el, dx: prev.x - n.x, dy: prev.y - n.y });
-      }
-    });
-
-    // Sort new nodes by depth (parent before children for natural stagger)
-    const sortedNew = [...newEls].sort(
-      (a, b) => Number(a.dataset['depth'] ?? 0) - Number(b.dataset['depth'] ?? 0),
-    );
-
-    sortedNew.forEach((el, i) => {
-      const nodeId = el.dataset['nodeId'];
-      const n = this.displayNodes().find(node => node.id === nodeId);
-      if (!n) return;
-      const dx = this.prevParentPos.x - n.x;
-      const dy = this.prevParentPos.y - n.y;
-      gsap.fromTo(el,
-        { opacity: 0, x: dx, y: dy, scale: 0.7 },
-        { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.35,
-          delay: i * 0.06, ease: 'back.out(1.5)', transformOrigin: 'top center' },
-      );
-    });
-
-    movedEls.forEach(({ el, dx, dy }) => {
-      gsap.fromTo(el,
-        { x: dx, y: dy },
-        { x: 0, y: 0, duration: 0.38, ease: 'power2.out' },
-      );
-    });
-
-    // Fade in new links
-    const newLinkEls = Array.from(canvas.querySelectorAll<SVGPathElement>('.ss-link'))
-      .slice(Math.max(0, this.prevPositions.size - 1));
-    if (newLinkEls.length) {
-      gsap.fromTo(newLinkEls, { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.03 });
-    }
-  }
-
-  /** After collapse: remaining nodes that shifted animate from prev → new position. */
-  private animateReposition(): void {
-    const canvas = this.canvasElRef;
-    if (!canvas) return;
-
-    Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node')).forEach(el => {
-      const nodeId = el.dataset['nodeId'];
-      if (!nodeId) return;
-      const n = this.displayNodes().find(node => node.id === nodeId);
-      const prev = this.prevPositions.get(nodeId);
-      if (!n || !prev) return;
-      if (Math.abs(prev.x - n.x) > 0.5 || Math.abs(prev.y - n.y) > 0.5) {
-        gsap.fromTo(el,
-          { x: prev.x - n.x, y: prev.y - n.y },
-          { x: 0, y: 0, duration: 0.38, ease: 'power2.out' },
-        );
-      }
-    });
   }
 
   // ── Template helpers ──────────────────────────────────────────────────────
