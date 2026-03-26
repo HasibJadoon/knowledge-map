@@ -40,12 +40,13 @@ interface LayoutLink {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const NODE_W = 220;
-const NODE_H = 76;
-const H_SEP  = 44;
-const V_SEP  = 80;
-const PAD_X  = 60;
-const PAD_Y  = 40;
+const NODE_W   = 220;
+const NODE_H   = 76;
+const H_SEP    = 44;
+const V_SEP    = 80;
+const PAD_X    = 60;
+const PAD_Y    = 40;
+const DURATION = 0.45; // seconds — D3 example uses 250 ms
 
 // ── Tree helpers ──────────────────────────────────────────────────────────────
 
@@ -68,11 +69,9 @@ function buildLayout(
   collectOriginalHasChildren(treebank, hasChildrenMap);
 
   const root = hierarchy<TreebankNode>(pruned, d => d.children?.length ? d.children : undefined);
-  // Top-down vertical layout: nodeSize[0] = horizontal spread, nodeSize[1] = vertical depth
   const treeLayout = tree<TreebankNode>().nodeSize([NODE_W + H_SEP, NODE_H + V_SEP]);
   treeLayout(root);
 
-  // d3.x = breadth (horizontal spread), d3.y = depth (top-down)
   let minD3X = Infinity;
   root.each(n => { const nx = (n as any).x; if (nx < minD3X) minD3X = nx; });
 
@@ -81,8 +80,8 @@ function buildLayout(
     nodes.push({
       id:          n.data.id,
       data:        n.data,
-      x:           (n as any).x - minD3X + PAD_X,        // horizontal, left-aligned
-      y:           (n as any).y + PAD_Y,                  // vertical depth
+      x:           (n as any).x - minD3X + PAD_X,
+      y:           (n as any).y + PAD_Y,
       depth:       n.depth,
       hasChildren: hasChildrenMap.get(n.data.id) ?? false,
     });
@@ -120,16 +119,15 @@ function buildLayout(
 
       @if (hasTb() && displayNodes().length) {
 
-        <!-- Pannable canvas layer -->
         <div class="ss-canvas" #canvasEl>
-          <!-- SVG bezier links -->
+          <!-- SVG bezier links — always opacity 1 -->
           <svg class="ss-links-svg" aria-hidden="true">
             @for (link of displayLinks(); track link.targetId) {
               <path
                 class="ss-link"
                 [attr.d]="cubicPath(link)"
                 fill="none"
-                stroke="rgba(201,168,76,0.22)"
+                stroke="rgba(201,168,76,0.30)"
                 stroke-width="1.5"
                 stroke-linecap="round"
               />
@@ -193,12 +191,11 @@ function buildLayout(
           }
         </div>
 
-        <p class="ss-hint">Tap to expand &nbsp;•&nbsp; Drag canvas to pan &nbsp;•&nbsp; Drag node to move</p>
+        <p class="ss-hint">Tap node to expand/collapse &nbsp;•&nbsp; Drag to pan</p>
       }
     </div>
   `,
   styles: [`
-    /* ── Host fills parent flex container ──────────────────────────────────── */
     :host {
       display: flex;
       flex-direction: column;
@@ -206,7 +203,6 @@ function buildLayout(
       min-height: 0;
     }
 
-    /* ── Viewport ──────────────────────────────────────────────────────────── */
     .ss-viewport {
       position: relative;
       width: 100%;
@@ -225,14 +221,12 @@ function buildLayout(
     .ss-viewport--panning { cursor: grabbing; }
     .ss-viewport--dragging { cursor: none; }
 
-    /* ── Canvas (pan transform applied here) ──────────────────────────────── */
     .ss-canvas {
       position: absolute;
       top: 0; left: 0;
       will-change: transform;
     }
 
-    /* ── SVG links ────────────────────────────────────────────────────────── */
     .ss-links-svg {
       position: absolute;
       top: 0; left: 0;
@@ -241,9 +235,6 @@ function buildLayout(
       overflow: visible;
     }
 
-    .ss-link { transition: stroke 0.15s; }
-
-    /* ── Node cards ───────────────────────────────────────────────────────── */
     .ss-node {
       position: absolute;
       width: 220px;
@@ -263,11 +254,6 @@ function buildLayout(
         box-shadow: 0 4px 24px rgba(0, 0, 0, 0.55);
       }
 
-      &--selected {
-        box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.55), 0 6px 28px rgba(0, 0, 0, 0.65);
-        border-color: rgba(201, 168, 76, 0.5) !important;
-      }
-
       &--dragging {
         cursor: grabbing;
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
@@ -275,7 +261,6 @@ function buildLayout(
       }
     }
 
-    /* Left accent strip */
     .ss-node__strip {
       width: 3px;
       flex-shrink: 0;
@@ -341,7 +326,6 @@ function buildLayout(
       white-space: nowrap;
     }
 
-    /* Caret indicator on nodes with children */
     .ss-node__caret {
       position: absolute;
       bottom: 4px;
@@ -356,7 +340,6 @@ function buildLayout(
       border-bottom: 2px dashed rgba(201, 168, 76, 0.22);
     }
 
-    /* ── Hint ─────────────────────────────────────────────────────────────── */
     .ss-hint {
       position: absolute;
       bottom: 10px;
@@ -369,7 +352,6 @@ function buildLayout(
       white-space: nowrap;
     }
 
-    /* ── Empty state ─────────────────────────────────────────────────────── */
     .ss-empty {
       display: flex;
       flex-direction: column;
@@ -389,37 +371,29 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
 
   @Input() treebank: TreebankNode | null = null;
 
-  @ViewChild('canvasEl')  private canvasEl!:  ElementRef<HTMLElement>;
-  @ViewChild('viewport')  private viewport!:  ElementRef<HTMLElement>;
+  @ViewChild('canvasEl') private canvasEl!: ElementRef<HTMLElement>;
+  @ViewChild('viewport') private viewport!: ElementRef<HTMLElement>;
 
-  private zone  = inject(NgZone);
+  private zone = inject(NgZone);
   private animTl: gsap.core.Timeline | null = null;
-  private canvasElRef: HTMLElement | null = null;  // direct DOM ref for pan
+  private canvasElRef: HTMLElement | null = null;
 
-  // ── Internal treebank signal ──────────────────────────────────────────────
-  private readonly _tb = signal<TreebankNode | null>(null);
-  readonly hasTb = computed(() => !!this._tb());
-
-  // ── Pan state ─────────────────────────────────────────────────────────────
-  readonly panX      = signal(PAD_X);
-  readonly panY      = signal(PAD_Y);
-  readonly isPanning = signal(false);
-
-  // ── Drag state ────────────────────────────────────────────────────────────
-  readonly draggingId = signal<string | null>(null);
-
-  // ── Collapse state ────────────────────────────────────────────────────────
-  readonly collapsedIds = signal<Set<string>>(new Set());
-
-  // ── User-dragged positions ────────────────────────────────────────────────
-  private readonly _userPos = signal<Map<string, { x: number; y: number }>>(new Map());
+  // ── Signals ───────────────────────────────────────────────────────────────
+  private readonly _tb       = signal<TreebankNode | null>(null);
+  readonly hasTb             = computed(() => !!this._tb());
+  readonly panX              = signal(PAD_X);
+  readonly panY              = signal(PAD_Y);
+  readonly isPanning         = signal(false);
+  readonly draggingId        = signal<string | null>(null);
+  readonly collapsedIds      = signal<Set<string>>(new Set());
+  private readonly _userPos  = signal<Map<string, { x: number; y: number }>>(new Map());
 
   // ── Pointer tracking ──────────────────────────────────────────────────────
   private ptr: {
     type: 'pan' | 'node';
     pointerId: number;
     nodeId?: string;
-    nodeEl?: HTMLElement;       // reference for direct DOM transform during drag
+    nodeEl?: HTMLElement;
     startClientX: number;
     startClientY: number;
     origPanX: number;
@@ -430,7 +404,6 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
   } | null = null;
 
   // ── Layout computeds ──────────────────────────────────────────────────────
-
   private readonly _base = computed(() => {
     const tb = this._tb();
     const collapsed = this.collapsedIds();
@@ -440,7 +413,7 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
 
   readonly displayNodes = computed<LayoutNode[]>(() => {
     const { nodes } = this._base();
-    const overrides  = this._userPos();
+    const overrides = this._userPos();
     if (!overrides.size) return nodes;
     return nodes.map(n => {
       const p = overrides.get(n.id);
@@ -456,17 +429,13 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
       const t = nodeMap.get(targetId);
       if (!s || !t) return [];
       return [{ sourceId, targetId,
-        // Top-down: parent bottom center → child top center
-        sx: s.x + NODE_W / 2,
-        sy: s.y + NODE_H,
-        tx: t.x + NODE_W / 2,
-        ty: t.y,
+        sx: s.x + NODE_W / 2, sy: s.y + NODE_H,
+        tx: t.x + NODE_W / 2, ty: t.y,
       }];
     });
   });
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
-
   ngOnChanges(changes: SimpleChanges): void {
     if ('treebank' in changes) {
       this._tb.set(this.treebank);
@@ -481,32 +450,29 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
   ngAfterViewInit(): void {
     if (this.treebank) setTimeout(() => this.runAnimation(), 90);
 
-    this.canvasElRef = this.canvasEl?.nativeElement ?? null;
-
-    // All hot-path events run outside Angular zone — zero CD on move/scroll frames
     this.zone.runOutsideAngular(() => {
       const vp = this.viewport?.nativeElement as HTMLElement | undefined;
       if (!vp) return;
 
-      // Wheel → pan canvas. panX/panY not in template so no CD triggered.
+      // Wheel → pan
       vp.addEventListener('wheel', (e: WheelEvent) => {
         e.preventDefault();
         const x = this.panX() - e.deltaX;
         const y = this.panY() - e.deltaY;
         this.panX.set(x);
         this.panY.set(y);
-        if (this.canvasElRef) this.canvasElRef.style.transform = `translate(${x}px,${y}px)`;
+        if (this.canvasElRef) gsap.set(this.canvasElRef, { x, y });
       }, { passive: false });
 
+      // Pointer move → pan or drag
       vp.addEventListener('pointermove', (e: PointerEvent) => {
         if (!this.ptr || e.pointerId !== this.ptr.pointerId) return;
         const dx = e.clientX - this.ptr.startClientX;
         const dy = e.clientY - this.ptr.startClientY;
 
-        if (!this.ptr.moved && Math.hypot(dx, dy) > 4) {
+        if (!this.ptr.moved && Math.hypot(dx, dy) > 5) {
           this.ptr.moved = true;
           if (this.ptr.type === 'node' && this.ptr.nodeId) {
-            // Single signal update when drag begins
             this.zone.run(() => this.draggingId.set(this.ptr!.nodeId!));
           }
         }
@@ -514,12 +480,10 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
         if (!this.ptr.moved) return;
 
         if (this.ptr.type === 'pan' && this.canvasElRef) {
-          // Direct DOM for pan too — commit to signal only on pointerup
           const x = this.ptr.origPanX + dx;
           const y = this.ptr.origPanY + dy;
-          this.canvasElRef.style.transform = `translate(${x}px,${y}px)`;
+          gsap.set(this.canvasElRef, { x, y });
         } else if (this.ptr.type === 'node' && this.ptr.nodeEl) {
-          // Direct DOM — zero Angular CD
           this.ptr.nodeEl.style.transform = `translate(${dx}px,${dy}px)`;
         }
       });
@@ -531,31 +495,24 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
   }
 
   // ── Pointer events ────────────────────────────────────────────────────────
-
   onViewportDown(e: PointerEvent): void {
     if (e.button !== 0) return;
     const target = e.target as HTMLElement;
-    if (target.closest('.ss-drawer') || target.closest('.ss-node__collapse')) return;
-
-    // Always capture to the viewport so all move/up events come here
     const vp = this.viewport?.nativeElement as HTMLElement | undefined;
     vp?.setPointerCapture(e.pointerId);
 
     const nodeEl = target.closest<HTMLElement>('[data-node-id]');
-
     if (nodeEl) {
       const nodeId = nodeEl.dataset['nodeId'];
       if (!nodeId) return;
       const n = this.displayNodes().find(n => n.id === nodeId);
       if (!n) return;
-
       this.ptr = {
         type: 'node', pointerId: e.pointerId, nodeId, nodeEl,
         startClientX: e.clientX, startClientY: e.clientY,
         origPanX: this.panX(), origPanY: this.panY(),
         origNx: n.x, origNy: n.y, moved: false,
       };
-      // Don't set draggingId yet — wait until actually moved (avoids re-render on tap)
     } else {
       this.ptr = {
         type: 'pan', pointerId: e.pointerId,
@@ -581,11 +538,9 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     } else if (type === 'node') {
       if (moved && nodeEl && nodeId) {
         nodeEl.style.transform = '';
-        const finalX = (origNx ?? 0) + dx;
-        const finalY = (origNy ?? 0) + dy;
         this._userPos.update(m => {
           const next = new Map(m);
-          next.set(nodeId, { x: finalX, y: finalY });
+          next.set(nodeId, { x: (origNx ?? 0) + dx, y: (origNy ?? 0) + dy });
           return next;
         });
       }
@@ -598,9 +553,8 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     }
   }
 
-  // ── Collapse / expand ─────────────────────────────────────────────────────
+  // ── Collapse / expand — D3-style ──────────────────────────────────────────
 
-  /** Collect all descendant IDs from the original (unpruned) treebank. */
   private getDescendantIds(rootId: string): Set<string> {
     const tb = this._tb();
     if (!tb) return new Set();
@@ -627,117 +581,159 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
 
     const wasCollapsed = this.collapsedIds().has(id);
 
-    // ── Snapshot current (old) positions ──────────────────────────────────
-    const oldPositions = new Map(this.displayNodes().map(node => [node.id, { x: node.x, y: node.y }]));
+    // Snapshot current positions (like D3's x0, y0)
+    const oldPos = new Map(this.displayNodes().map(node => [node.id, { x: node.x, y: node.y }]));
     const parentOldPos = { x: n.x, y: n.y };
 
-    // ── Pre-compute NEW layout so we know exact target positions ───────────
+    // Pre-compute target layout
     const nextCollapsed = new Set(this.collapsedIds());
     if (wasCollapsed) nextCollapsed.delete(id); else nextCollapsed.add(id);
-    const { nodes: newLayoutNodes } = buildLayout(tb, nextCollapsed);
-    const newPositions = new Map(newLayoutNodes.map(node => [node.id, { x: node.x, y: node.y }]));
-    const parentNewPos = newPositions.get(id) ?? parentOldPos;
+    const { nodes: newNodes } = buildLayout(tb, nextCollapsed);
+    const newPos = new Map(newNodes.map(node => [node.id, { x: node.x, y: node.y }]));
+    const parentNewPos = newPos.get(id) ?? parentOldPos;
 
     const canvas = this.canvasElRef;
-    const DURATION = 0.45;
 
     if (!wasCollapsed) {
-      // ── COLLAPSE: exit descendants → update signal → slide remaining ──────
+      // ── COLLAPSE ────────────────────────────────────────────────────────
       const descendantIds = this.getDescendantIds(id);
       if (!canvas || !descendantIds.size) {
         this.collapsedIds.set(nextCollapsed);
         this._userPos.set(new Map());
+        this.recenterCanvas(newNodes);
         return;
       }
 
-      // Exit elements sorted deepest-first for a "tree folding" feel
+      // Animate exit nodes toward parent's new position (D3 exit pattern)
       const exitEls = Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node'))
-        .filter(el => descendantIds.has(el.dataset['nodeId'] ?? ''))
-        .sort((a, b) => Number(b.dataset['depth'] ?? 0) - Number(a.dataset['depth'] ?? 0));
+        .filter(el => descendantIds.has(el.dataset['nodeId'] ?? ''));
 
-      // Animate each exit node toward parent's new position
-      exitEls.forEach((el, i) => {
-        const nodeId = el.dataset['nodeId'] ?? '';
-        const op = oldPositions.get(nodeId) ?? { x: 0, y: 0 };
-        const targetDx = parentNewPos.x - op.x;
-        const targetDy = parentNewPos.y - op.y;
+      exitEls.forEach(el => {
+        const op = oldPos.get(el.dataset['nodeId'] ?? '') ?? { x: 0, y: 0 };
         gsap.to(el, {
-          x: targetDx, y: targetDy, opacity: 0, scale: 0.65,
-          duration: DURATION, delay: i * 0.025, ease: 'power2.in',
+          x: parentNewPos.x - op.x,
+          y: parentNewPos.y - op.y,
+          opacity: 0,
+          scale: 0.7,
+          duration: DURATION,
+          ease: 'power2.in',
+          overwrite: true,
         });
       });
 
-      const exitDuration = DURATION + exitEls.length * 0.025;
+      // After exit animation: update signal, slide remaining, recenter
       setTimeout(() => {
         this.zone.run(() => {
           this.collapsedIds.set(nextCollapsed);
           this._userPos.set(new Map());
 
-          // Wait one frame for Angular to re-render, then slide remaining nodes
           requestAnimationFrame(() => {
             if (!canvas) return;
+            // Slide remaining nodes from old → new positions
             Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node')).forEach(el => {
-              const nodeId = el.dataset['nodeId'];
-              if (!nodeId) return;
-              const op = oldPositions.get(nodeId);
-              const np = newPositions.get(nodeId);
+              const nid = el.dataset['nodeId'];
+              if (!nid) return;
+              const op = oldPos.get(nid);
+              const np = newPos.get(nid);
               if (!op || !np) return;
               if (Math.abs(op.x - np.x) > 0.5 || Math.abs(op.y - np.y) > 0.5) {
                 gsap.fromTo(el,
                   { x: op.x - np.x, y: op.y - np.y },
-                  { x: 0, y: 0, duration: DURATION, ease: 'power2.out' },
+                  { x: 0, y: 0, duration: DURATION, ease: 'power2.out', overwrite: true },
                 );
+              } else {
+                gsap.set(el, { x: 0, y: 0, opacity: 1, scale: 1 });
               }
             });
+            this.recenterCanvas(newNodes);
           });
         });
-      }, exitDuration * 1000); // wait for full exit animation
+      }, DURATION * 1000);
 
     } else {
-      // ── EXPAND: update signal first → animate entering + moved nodes ──────
+      // ── EXPAND ──────────────────────────────────────────────────────────
       this.collapsedIds.set(nextCollapsed);
       this._userPos.set(new Map());
 
-      requestAnimationFrame(() => requestAnimationFrame(() => {
+      // Wait for Angular to re-render the new nodes
+      setTimeout(() => {
         if (!canvas) return;
-        Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node')).forEach((el, i) => {
-          const nodeId = el.dataset['nodeId'];
-          if (!nodeId) return;
-          const op = oldPositions.get(nodeId);
-          const np = newPositions.get(nodeId);
 
-          if (!op) {
-            // New node — enter from parent's old position
-            const dx = parentOldPos.x - (np?.x ?? 0);
-            const dy = parentOldPos.y - (np?.y ?? 0);
+        const allNodeEls = Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node'));
+
+        // Group ENTERING nodes by depth for one-by-one reveal (D3 enter pattern)
+        const enterByDepth = new Map<number, HTMLElement[]>();
+        allNodeEls.forEach(el => {
+          const nid = el.dataset['nodeId'];
+          if (!nid || oldPos.has(nid)) return; // skip existing nodes
+          const depth = Number(el.dataset['depth'] ?? 0);
+          if (!enterByDepth.has(depth)) enterByDepth.set(depth, []);
+          enterByDepth.get(depth)!.push(el);
+        });
+
+        // Enter each depth level sequentially
+        const depthLevels = Array.from(enterByDepth.keys()).sort((a, b) => a - b);
+        depthLevels.forEach((depth, depthIdx) => {
+          const els = enterByDepth.get(depth)!;
+          els.forEach((el, i) => {
+            const nid = el.dataset['nodeId'];
+            const np = newPos.get(nid ?? '') ?? { x: 0, y: 0 };
+            // Start from parent's old position (D3 enter pattern)
+            const dx = parentOldPos.x - np.x;
+            const dy = parentOldPos.y - np.y;
             gsap.fromTo(el,
-              { opacity: 0, x: dx, y: dy, scale: 0.65 },
-              { opacity: 1, x: 0, y: 0, scale: 1,
-                duration: DURATION, delay: i * 0.02, ease: 'back.out(1.4)',
-                transformOrigin: 'top center' },
+              { opacity: 0, x: dx, y: dy, scale: 0.75 },
+              {
+                opacity: 1, x: 0, y: 0, scale: 1,
+                duration: DURATION,
+                delay: depthIdx * 0.12 + i * 0.04,
+                ease: 'back.out(1.2)',
+                transformOrigin: 'top center',
+                overwrite: true,
+              },
             );
-          } else if (np && (Math.abs(op.x - np.x) > 0.5 || Math.abs(op.y - np.y) > 0.5)) {
-            // Existing node that moved — slide from old to new
+          });
+        });
+
+        // Slide existing nodes that moved (D3 update pattern)
+        allNodeEls.forEach(el => {
+          const nid = el.dataset['nodeId'];
+          if (!nid) return;
+          const op = oldPos.get(nid);
+          const np = newPos.get(nid);
+          if (!op || !np) return; // new node handled above
+          if (Math.abs(op.x - np.x) > 0.5 || Math.abs(op.y - np.y) > 0.5) {
             gsap.fromTo(el,
               { x: op.x - np.x, y: op.y - np.y },
-              { x: 0, y: 0, duration: DURATION, ease: 'power2.out' },
+              { x: 0, y: 0, duration: DURATION, ease: 'power2.out', overwrite: true },
             );
           }
         });
 
-        // Fade in new links
-        const allLinks = Array.from(canvas.querySelectorAll<SVGPathElement>('.ss-link'));
-        const prevCount = oldPositions.size;
-        const newLinks = allLinks.slice(prevCount - 1);
-        if (newLinks.length) {
-          gsap.fromTo(newLinks, { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.03 });
-        }
-      }));
+        this.recenterCanvas(newNodes);
+      }, 50);
     }
   }
 
-  // ── GSAP animations ───────────────────────────────────────────────────────
+  // ── Re-center canvas to keep tree in view ─────────────────────────────────
+  private recenterCanvas(nodes: LayoutNode[]): void {
+    const canvas = this.canvasElRef;
+    const vp = this.viewport?.nativeElement as HTMLElement | null;
+    if (!canvas || !vp || !nodes.length) return;
 
+    const vpW = vp.clientWidth;
+    const minX = Math.min(...nodes.map(n => n.x));
+    const maxX = Math.max(...nodes.map(n => n.x + NODE_W));
+    const treeW = maxX - minX;
+    const cx = Math.max(PAD_X, (vpW - treeW) / 2) - minX;
+    const cy = PAD_Y;
+
+    this.panX.set(cx);
+    this.panY.set(cy);
+    gsap.to(canvas, { x: cx, y: cy, duration: DURATION, ease: 'power2.out', overwrite: true });
+  }
+
+  // ── Initial entrance animation ────────────────────────────────────────────
   private runAnimation(): void {
     if (typeof window !== 'undefined' &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -745,8 +741,9 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     const canvas = this.canvasEl?.nativeElement;
     if (!canvas) return;
 
-    // Cache DOM ref and auto-center tree horizontally in viewport
     this.canvasElRef = canvas;
+
+    // Center tree horizontally
     const vp = this.viewport?.nativeElement as HTMLElement | null;
     const vpW = vp?.clientWidth ?? 800;
     const allNodes = this.displayNodes();
@@ -758,34 +755,34 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
       const cy = PAD_Y;
       this.panX.set(cx);
       this.panY.set(cy);
-      canvas.style.transform = `translate(${cx}px,${cy}px)`;
-    } else if (!canvas.style.transform) {
-      canvas.style.transform = `translate(${this.panX()}px,${this.panY()}px)`;
+      gsap.set(canvas, { x: cx, y: cy });
+    } else {
+      gsap.set(canvas, { x: this.panX(), y: this.panY() });
     }
 
-    const nodeEls = Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node'));
+    // Stagger nodes in by depth
+    const nodeEls = Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node'))
+      .sort((a, b) => Number(a.dataset['depth'] ?? 0) - Number(b.dataset['depth'] ?? 0));
     const linkEls = Array.from(canvas.querySelectorAll<SVGPathElement>('.ss-link'));
     if (!nodeEls.length) return;
 
     this.animTl?.kill();
-    const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+    const tl = gsap.timeline();
     this.animTl = tl;
 
-    tl.fromTo(linkEls, { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.02 });
-
-    const sorted = [...nodeEls].sort(
-      (a, b) => Number(a.dataset['depth'] ?? 0) - Number(b.dataset['depth'] ?? 0),
+    tl.fromTo(linkEls,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.25, stagger: 0.02 },
     );
-    tl.fromTo(sorted,
-      { opacity: 0, y: 16, scale: 0.88 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.36, stagger: 0.055,
-        ease: 'back.out(1.5)', transformOrigin: 'top center' },
-      '-=0.15',
+    tl.fromTo(nodeEls,
+      { opacity: 0, y: 20, scale: 0.85 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.06,
+        ease: 'back.out(1.4)', transformOrigin: 'top center' },
+      '-=0.1',
     );
   }
 
   // ── Template helpers ──────────────────────────────────────────────────────
-
   nodeUi(n: LayoutNode): NodeUiDef { return resolveNodeUi(n.data.registry_refs); }
 
   chipUi(n: LayoutNode, featureKey: string): NodeUiDef | null {
@@ -799,5 +796,4 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     const midY = (link.sy + link.ty) / 2;
     return `M ${link.sx} ${link.sy} C ${link.sx} ${midY}, ${link.tx} ${midY}, ${link.tx} ${link.ty}`;
   }
-
 }
