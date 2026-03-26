@@ -1,36 +1,26 @@
 <div class="sst">
   <ng-container *ngIf="sentences.length > 0; else emptyState">
 
-    <header class="sst__header">
-      <div>
-        <span class="sst__eyebrow">Sentence Structure</span>
-        <h2 class="sst__title">{{ taskTitle }}</h2>
-      </div>
+    <div class="sst__canvas-wrap">
+      <km-sentence-structure-canvas [treebank]="canvasTreebank" />
 
-      <div class="sst__sentence-nav" *ngIf="sentences.length > 1">
-        <span class="sst__sentence-nav-progress">
-          {{ selectedSentenceIndex + 1 }} / {{ sentences.length }}
-        </span>
+      <div class="sst__nav" *ngIf="sentences.length > 1">
+        <span class="sst__nav-count">{{ selectedSentenceIndex + 1 }} / {{ sentences.length }}</span>
         <button
           type="button"
-          class="sst__sentence-nav-btn"
+          class="sst__nav-next"
           *ngIf="selectedSentenceIndex < sentences.length - 1"
           (click)="selectSentence(selectedSentenceIndex + 1)"
-        >
-          <span class="sst__sentence-nav-label">Next Sentence</span>
-          <span class="sst__sentence-nav-arrow" aria-hidden="true">&#8594;</span>
-        </button>
+        >Next &#8594;</button>
       </div>
-    </header>
-
-    <km-sentence-structure-canvas [treebank]="canvasTreebank" />
+    </div>
 
   </ng-container>
 
   <ng-template #emptyState>
     <div class="sst__empty" *ngIf="hasTaskPayload; else noTask">
       <span class="sst__empty-icon">~</span>
-      <p class="sst__empty-title">Sentence payload found, but no renderable tree is ready yet.</p>
+      <p class="sst__empty-title">No renderable tree ready yet.</p>
     </div>
   </ng-template>
 
