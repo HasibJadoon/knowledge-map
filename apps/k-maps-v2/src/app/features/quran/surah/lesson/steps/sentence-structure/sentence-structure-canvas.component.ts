@@ -1,13 +1,13 @@
 import {
   Component, Input, OnChanges, AfterViewInit, OnDestroy,
-  ElementRef, ViewChild, signal, computed,
-  ChangeDetectionStrategy, NgZone, inject,
+  ElementRef, ViewChild, signal, computed, SimpleChanges,
+  ChangeDetectionStrategy, inject, NgZone,
 } from '@angular/core';
-import { hierarchy, tree, HierarchyNode } from 'd3-hierarchy';
+import { hierarchy, tree } from 'd3-hierarchy';
 import gsap from 'gsap';
 import { resolveNodeUi, lookupUi, DEFAULT_UI, NodeUiDef } from './ss-ui-registry';
 
-// ── Domain types ─────────────────────────────────────────────────────────────
+// ── Domain types ──────────────────────────────────────────────────────────────
 
 export interface TreebankNode {
   id: string;
@@ -25,32 +25,75 @@ export interface TreebankNode {
 interface LayoutNode {
   id: string;
   data: TreebankNode;
-  /** left edge in px */
   x: number;
-  /** top edge in px */
   y: number;
   depth: number;
+  hasChildren: boolean;
 }
 
 interface LayoutLink {
   sourceId: string;
   targetId: string;
-  /** bottom-centre of source card */
-  sx: number;
-  sy: number;
-  /** top-centre of target card */
-  tx: number;
-  ty: number;
+  sx: number; sy: number;
+  tx: number; ty: number;
 }
 
-// ── Layout constants ──────────────────────────────────────────────────────────
+// ── Constants ─────────────────────────────────────────────────────────────────
 
-const NODE_W  = 220;   // card width px
-const NODE_H  = 76;    // card height px (fixed for link math)
-const H_SEP   = 28;    // horizontal gap between sibling cards
-const V_SEP   = 64;    // vertical gap between depth levels
-const PAD_X   = 32;    // canvas horizontal padding
-const PAD_Y   = 24;    // canvas vertical padding
+const NODE_W = 220;
+const NODE_H = 76;
+const H_SEP  = 44;
+const V_SEP  = 80;
+const PAD_X  = 60;
+const PAD_Y  = 40;
+
+// ── Tree helpers ──────────────────────────────────────────────────────────────
+
+function pruneForCollapsed(node: TreebankNode, collapsed: Set<string>): TreebankNode {
+  if (collapsed.has(node.id)) return { ...node, children: [] };
+  return { ...node, children: node.children?.map(c => pruneForCollapsed(c, collapsed)) ?? [] };
+}
+
+function collectOriginalHasChildren(node: TreebankNode, out: Map<string, boolean>): void {
+  out.set(node.id, (node.children?.length ?? 0) > 0);
+  node.children?.forEach(c => collectOriginalHasChildren(c, out));
+}
+
+function buildLayout(
+  treebank: TreebankNode,
+  collapsed: Set<string>,
+): { nodes: LayoutNode[]; linkPairs: Array<{ sourceId: string; targetId: string }> } {
+  const pruned = pruneForCollapsed(treebank, collapsed);
+  const hasChildrenMap = new Map<string, boolean>();
+  collectOriginalHasChildren(treebank, hasChildrenMap);
+
+  const root = hierarchy<TreebankNode>(pruned, d => d.children?.length ? d.children : undefined);
+  const treeLayout = tree<TreebankNode>().nodeSize([NODE_W + H_SEP, NODE_H + V_SEP]);
+  treeLayout(root);
+
+  let minX = Infinity;
+  root.each(n => { const nx = (n as any).x; if (nx < minX) minX = nx; });
+  const offsetX = -minX + PAD_X + NODE_W / 2;
+
+  const nodes: LayoutNode[] = [];
+  root.each(n => {
+    nodes.push({
+      id:          n.data.id,
+      data:        n.data,
+      x:           (n as any).x + offsetX - NODE_W / 2,
+      y:           (n as any).y + PAD_Y,
+      depth:       n.depth,
+      hasChildren: hasChildrenMap.get(n.data.id) ?? false,
+    });
+  });
+
+  const linkPairs = root.links().map(lk => ({
+    sourceId: lk.source.data.id,
+    targetId: lk.target.data.id,
+  }));
+
+  return { nodes, linkPairs };
+}
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -59,115 +102,113 @@ const PAD_Y   = 24;    // canvas vertical padding
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="ss-canvas-outer" #canvasOuter (click)="deselectAll()">
+    <div class="ss-viewport" #viewport
+      [class.ss-viewport--panning]="isPanning()"
+      [class.ss-viewport--dragging]="!!draggingId()"
+      (pointerdown)="onViewportDown($event)"
+      (pointermove)="onViewportMove($event)"
+      (pointerup)="onViewportUp($event)"
+      (pointercancel)="onViewportUp($event)"
+    >
 
-      @if (!treebank) {
+      @if (!hasTb()) {
         <div class="ss-empty">
           <span class="ss-empty__icon">⊙</span>
           <p>No treebank data for this passage.</p>
         </div>
       }
 
-      @if (treebank && layoutNodes().length) {
-        <!-- Scrollable inner -->
-        <div class="ss-canvas-scroll">
-          <div
-            class="ss-canvas"
-            [style.width.px]="canvasW()"
-            [style.height.px]="canvasH()"
-            #canvasEl
-          >
-            <!-- SVG: links only ────────────────────────── -->
-            <svg
-              class="ss-links-svg"
-              [attr.width]="canvasW()"
-              [attr.height]="canvasH()"
-              aria-hidden="true"
+      @if (hasTb() && displayNodes().length) {
+
+        <!-- Pannable canvas layer -->
+        <div class="ss-canvas"
+          [style.transform]="'translate(' + panX() + 'px,' + panY() + 'px)'"
+          #canvasEl
+        >
+          <!-- SVG bezier links -->
+          <svg class="ss-links-svg" aria-hidden="true">
+            @for (link of displayLinks(); track link.targetId) {
+              <path
+                class="ss-link"
+                [attr.d]="cubicPath(link)"
+                fill="none"
+                stroke="rgba(201,168,76,0.22)"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            }
+          </svg>
+
+          <!-- Node cards -->
+          @for (n of displayNodes(); track n.id) {
+            <div
+              class="ss-node"
+              [class.ss-node--selected]="selectedId() === n.id"
+              [class.ss-node--dragging]="draggingId() === n.id"
+              [attr.data-node-id]="n.id"
+              [attr.data-depth]="n.depth"
+              [style.left.px]="n.x"
+              [style.top.px]="n.y"
+              [style.border-left-color]="nodeUi(n).bg"
             >
-              @for (link of layoutLinks(); track link.targetId) {
-                <path
-                  class="ss-link"
-                  [attr.d]="cubicPath(link)"
-                  fill="none"
-                  stroke="rgba(201,168,76,0.18)"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                />
-              }
-            </svg>
+              <div class="ss-node__strip" [style.background]="nodeUi(n).bg"></div>
 
-            <!-- HTML cards overlay ──────────────────────── -->
-            @for (n of layoutNodes(); track n.id) {
-              <div
-                class="ss-node"
-                [class.ss-node--selected]="selectedId() === n.id"
-                [attr.data-depth]="n.depth"
-                [style.left.px]="n.x"
-                [style.top.px]="n.y"
-                [style.border-left-color]="nodeUi(n).bg"
-                (click)="selectNode($event, n)"
-              >
-                <!-- Left accent strip -->
-                <div class="ss-node__strip" [style.background]="nodeUi(n).bg"></div>
-
-                <div class="ss-node__body">
-                  <!-- Arabic grammatical label (colored) -->
-                  @if (n.data.label_ar) {
-                    <span class="ss-node__label-ar" [style.color]="nodeUi(n).bg">
-                      {{ n.data.label_ar }}
-                    </span>
+              <div class="ss-node__body">
+                @if (n.data.label_ar) {
+                  <span class="ss-node__label-ar" [style.color]="nodeUi(n).bg">
+                    {{ n.data.label_ar }}
+                  </span>
+                }
+                @if (n.data.label_en) {
+                  <span class="ss-node__label-en">{{ n.data.label_en }}</span>
+                }
+                @if (n.data.text_ar) {
+                  <span class="ss-node__text-ar">{{ n.data.text_ar }}</span>
+                }
+                <div class="ss-node__chips">
+                  @if (chipUi(n, 'case'); as u) {
+                    <span class="ss-node__chip"
+                      [style.background]="u.bg + '26'"
+                      [style.color]="u.bg"
+                      [style.border-color]="u.bg + '40'">{{ u.label_ar }}</span>
                   }
-
-                  <!-- English gloss -->
-                  @if (n.data.label_en) {
-                    <span class="ss-node__label-en">{{ n.data.label_en }}</span>
+                  @if (chipUi(n, 'verb_tense'); as u) {
+                    <span class="ss-node__chip"
+                      [style.background]="u.bg + '26'"
+                      [style.color]="u.bg"
+                      [style.border-color]="u.bg + '40'">{{ u.label_ar }}</span>
                   }
-
-                  <!-- Arabic text (word nodes) -->
-                  @if (n.data.text_ar) {
-                    <span class="ss-node__text-ar">{{ n.data.text_ar }}</span>
+                  @if (chipUi(n, 'number'); as u) {
+                    <span class="ss-node__chip"
+                      [style.background]="u.bg + '26'"
+                      [style.color]="u.bg"
+                      [style.border-color]="u.bg + '40'">{{ u.label_ar }}</span>
                   }
-
-                  <!-- Feature chips row -->
-                  <div class="ss-node__chips">
-                    @if (chipUi(n, 'case'); as u) {
-                      <span class="ss-node__chip"
-                        [style.background]="u.bg + '26'"
-                        [style.color]="u.bg"
-                        [style.border-color]="u.bg + '40'">
-                        {{ u.label_ar }}
-                      </span>
-                    }
-                    @if (chipUi(n, 'verb_tense'); as u) {
-                      <span class="ss-node__chip"
-                        [style.background]="u.bg + '26'"
-                        [style.color]="u.bg"
-                        [style.border-color]="u.bg + '40'">
-                        {{ u.label_ar }}
-                      </span>
-                    }
-                    @if (chipUi(n, 'number'); as u) {
-                      <span class="ss-node__chip"
-                        [style.background]="u.bg + '26'"
-                        [style.color]="u.bg"
-                        [style.border-color]="u.bg + '40'">
-                        {{ u.label_ar }}
-                      </span>
-                    }
-                  </div>
                 </div>
               </div>
-            }
-          </div>
+
+              <!-- Collapse / expand toggle -->
+              @if (n.hasChildren) {
+                <button
+                  class="ss-node__collapse"
+                  (pointerdown)="$event.stopPropagation()"
+                  (click)="toggleCollapse($event, n.id)"
+                  [title]="collapsedIds().has(n.id) ? 'Expand' : 'Collapse'"
+                >{{ collapsedIds().has(n.id) ? '+' : '−' }}</button>
+              }
+            </div>
+          }
         </div>
 
-        <!-- Detail drawer ───────────────────────────────── -->
+        <!-- Detail drawer (fixed — outside pan layer) -->
         @if (selected()) {
-          <div class="ss-drawer" (click)="$event.stopPropagation()" #drawerEl>
-            <div class="ss-drawer__header" [style.border-left-color]="nodeUi(selectedLayoutNode()!).bg">
+          <div class="ss-drawer" (pointerdown)="$event.stopPropagation()" #drawerEl>
+            <div class="ss-drawer__header"
+              [style.border-left-color]="nodeUi(selectedLayoutNode()!).bg">
               <div class="ss-drawer__header-text">
                 @if (selected()!.label_ar) {
-                  <span class="ss-drawer__label-ar" [style.color]="nodeUi(selectedLayoutNode()!).bg">
+                  <span class="ss-drawer__label-ar"
+                    [style.color]="nodeUi(selectedLayoutNode()!).bg">
                     {{ selected()!.label_ar }}
                   </span>
                 }
@@ -181,7 +222,6 @@ const PAD_Y   = 24;    // canvas vertical padding
             @if (selected()!.text_ar) {
               <p class="ss-drawer__text-ar">{{ selected()!.text_ar }}</p>
             }
-
             @if (selected()!.notes) {
               <p class="ss-drawer__notes">{{ selected()!.notes }}</p>
             }
@@ -192,7 +232,8 @@ const PAD_Y   = 24;    // canvas vertical padding
                 @for (row of morphRows(selected()!); track row.key) {
                   <div class="ss-drawer__row">
                     <span class="ss-drawer__key">{{ row.key }}</span>
-                    <span class="ss-drawer__val" [class.ss-drawer__val--ar]="row.ar">{{ row.val }}</span>
+                    <span class="ss-drawer__val"
+                      [class.ss-drawer__val--ar]="row.ar">{{ row.val }}</span>
                   </div>
                 }
               </div>
@@ -216,74 +257,78 @@ const PAD_Y   = 24;    // canvas vertical padding
             }
           </div>
         }
+
+        <p class="ss-hint">Drag canvas to pan &nbsp;•&nbsp; Drag node to move &nbsp;•&nbsp; Click to inspect</p>
       }
     </div>
   `,
   styles: [`
-    /* ── Outer wrap ───────────────────────────────────────────────────────── */
-    .ss-canvas-outer {
+    /* ── Viewport ──────────────────────────────────────────────────────────── */
+    .ss-viewport {
       position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
       width: 100%;
-      min-height: 320px;
+      height: 620px;
+      min-height: 400px;
+      overflow: hidden;
+      cursor: grab;
+      border-radius: 16px;
+      background: rgba(6, 9, 18, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
-    /* ── Horizontal scroll container ─────────────────────────────────────── */
-    .ss-canvas-scroll {
-      width: 100%;
-      overflow-x: auto;
-      overflow-y: visible;
-      /* custom scrollbar */
-      scrollbar-width: thin;
-      scrollbar-color: rgba(201,168,76,0.25) transparent;
-      &::-webkit-scrollbar { height: 4px; }
-      &::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.25); border-radius: 2px; }
-    }
+    .ss-viewport--panning { cursor: grabbing; }
+    .ss-viewport--dragging { cursor: none; }
 
-    /* ── Canvas (absolute positioning context) ───────────────────────────── */
+    /* ── Canvas (pan transform applied here) ──────────────────────────────── */
     .ss-canvas {
-      position: relative;
-      /* width & height set via [style] */
+      position: absolute;
+      top: 0; left: 0;
+      will-change: transform;
     }
 
     /* ── SVG links ────────────────────────────────────────────────────────── */
     .ss-links-svg {
       position: absolute;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
+      width: 1px; height: 1px;
       pointer-events: none;
       overflow: visible;
     }
 
-    .ss-link {
-      transition: stroke 0.2s;
-    }
+    .ss-link { transition: stroke 0.15s; }
 
-    /* ── Node card ────────────────────────────────────────────────────────── */
+    /* ── Node cards ───────────────────────────────────────────────────────── */
     .ss-node {
       position: absolute;
       width: 220px;
       min-height: 76px;
-      background: #111;
-      border: 1px solid #252525;
+      background: #0e1018;
+      border: 1px solid #1e2030;
       border-left: 3px solid transparent;
-      border-radius: 9px;
+      border-radius: 10px;
       display: flex;
       overflow: hidden;
-      cursor: pointer;
+      cursor: grab;
       transition: border-color 0.15s, box-shadow 0.15s;
       will-change: transform, opacity;
 
       &:hover {
-        border-color: rgba(201,168,76,0.35);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        border-color: rgba(201, 168, 76, 0.35);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.55);
       }
 
       &--selected {
-        box-shadow: 0 0 0 2px rgba(201,168,76,0.55), 0 6px 28px rgba(0,0,0,0.6);
-        border-color: rgba(201,168,76,0.5) !important;
+        box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.55), 0 6px 28px rgba(0, 0, 0, 0.65);
+        border-color: rgba(201, 168, 76, 0.5) !important;
+      }
+
+      &--dragging {
+        cursor: grabbing;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+        z-index: 10;
       }
     }
 
@@ -291,12 +336,12 @@ const PAD_Y   = 24;    // canvas vertical padding
     .ss-node__strip {
       width: 3px;
       flex-shrink: 0;
-      border-radius: 9px 0 0 9px;
+      border-radius: 10px 0 0 10px;
     }
 
     .ss-node__body {
       flex: 1;
-      padding: 7px 9px 7px 7px;
+      padding: 8px 10px 8px 8px;
       display: flex;
       flex-direction: column;
       gap: 2px;
@@ -304,32 +349,32 @@ const PAD_Y   = 24;    // canvas vertical padding
     }
 
     .ss-node__label-ar {
-      font-family: var(--km-font-arabic, 'UthmanicHafs'), serif;
-      font-size: 0.82rem;
+      font-family: var(--km-font-arabic, serif);
+      font-size: 0.83rem;
       font-weight: 600;
       direction: rtl;
       text-align: right;
-      line-height: 1.3;
-      white-space: nowrap;
+      line-height: 1.35;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .ss-node__label-en {
       font-size: 0.65rem;
-      color: #6b7280;
+      color: #5a6070;
       font-style: italic;
-      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .ss-node__text-ar {
-      font-family: var(--km-font-arabic, 'UthmanicHafs'), serif;
+      font-family: var(--km-font-arabic, serif);
       font-size: 1.0rem;
       direction: rtl;
       text-align: right;
-      color: #e5e7eb;
+      color: #dde4f0;
       line-height: 1.55;
       margin-top: 2px;
       white-space: normal;
@@ -353,14 +398,45 @@ const PAD_Y   = 24;    // canvas vertical padding
       white-space: nowrap;
     }
 
+    /* Collapse / expand button */
+    .ss-node__collapse {
+      position: absolute;
+      bottom: 5px;
+      right: 6px;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      color: #6b7280;
+      font-size: 0.7rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.15s, color 0.15s;
+
+      &:hover {
+        background: rgba(201, 168, 76, 0.15);
+        color: #c9a84c;
+        border-color: rgba(201, 168, 76, 0.3);
+      }
+    }
+
     /* ── Detail drawer ───────────────────────────────────────────────────── */
     .ss-drawer {
-      background: #111;
-      border: 1px solid #252525;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 240px;
+      background: #0e1018;
+      border: 1px solid #1e2030;
       border-radius: 12px;
-      padding: 0;
       overflow: hidden;
       will-change: opacity, transform;
+      z-index: 20;
     }
 
     .ss-drawer__header {
@@ -369,7 +445,7 @@ const PAD_Y   = 24;    // canvas vertical padding
       justify-content: space-between;
       padding: 12px 14px;
       border-left: 3px solid var(--km-gold, #c9a84c);
-      border-bottom: 1px solid #1e1e1e;
+      border-bottom: 1px solid #1a1c26;
     }
 
     .ss-drawer__header-text {
@@ -388,14 +464,14 @@ const PAD_Y   = 24;    // canvas vertical padding
 
     .ss-drawer__label-en {
       font-size: 0.72rem;
-      color: #6b7280;
+      color: #5a6070;
       font-style: italic;
     }
 
     .ss-drawer__close {
       background: none;
       border: none;
-      color: #4b5563;
+      color: #3d4455;
       font-size: 0.78rem;
       cursor: pointer;
       padding: 0 0 0 12px;
@@ -406,18 +482,19 @@ const PAD_Y   = 24;    // canvas vertical padding
 
     .ss-drawer__text-ar {
       font-family: var(--km-font-arabic, serif);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       direction: rtl;
       text-align: right;
-      color: #e5e7eb;
-      padding: 10px 14px 4px;
+      color: #dde4f0;
+      padding: 10px 14px 6px;
       margin: 0;
-      border-bottom: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1c26;
+      line-height: 1.7;
     }
 
     .ss-drawer__notes {
       font-size: 0.82rem;
-      color: #6b7280;
+      color: #5a6070;
       font-style: italic;
       padding: 8px 14px;
       margin: 0;
@@ -425,7 +502,7 @@ const PAD_Y   = 24;    // canvas vertical padding
 
     .ss-drawer__section {
       padding: 8px 14px 10px;
-      border-top: 1px solid #1a1a1a;
+      border-top: 1px solid #1a1c26;
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -449,20 +526,20 @@ const PAD_Y   = 24;    // canvas vertical padding
 
     .ss-drawer__key {
       font-size: 0.7rem;
-      color: #4b5563;
+      color: #3d4455;
       text-transform: capitalize;
       white-space: nowrap;
     }
 
     .ss-drawer__val {
       font-size: 0.78rem;
-      color: #9ca3af;
+      color: #8890a4;
       text-align: right;
       &--ar {
         font-family: var(--km-font-arabic, serif);
         direction: rtl;
         font-size: 0.9rem;
-        color: #e5e7eb;
+        color: #dde4f0;
       }
     }
 
@@ -475,15 +552,28 @@ const PAD_Y   = 24;    // canvas vertical padding
       direction: rtl;
     }
 
+    /* ── Hint ─────────────────────────────────────────────────────────────── */
+    .ss-hint {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.62rem;
+      color: rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
     /* ── Empty state ─────────────────────────────────────────────────────── */
     .ss-empty {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      height: 100%;
       gap: 0.75rem;
-      padding: 4rem 1rem;
-      color: #374151;
+      color: #2a3040;
       text-align: center;
 
       &__icon { font-size: 2.5rem; opacity: 0.2; }
@@ -495,124 +585,202 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
 
   @Input() treebank: TreebankNode | null = null;
 
-  @ViewChild('canvasEl')  canvasEl!:  ElementRef<HTMLElement>;
-  @ViewChild('canvasOuter') canvasOuter!: ElementRef<HTMLElement>;
-  @ViewChild('drawerEl')  drawerEl?:  ElementRef<HTMLElement>;
+  @ViewChild('canvasEl')  private canvasEl!:  ElementRef<HTMLElement>;
+  @ViewChild('viewport')  private viewport!:  ElementRef<HTMLElement>;
+  @ViewChild('drawerEl')  private drawerEl?:  ElementRef<HTMLElement>;
 
-  private zone   = inject(NgZone);
+  private zone  = inject(NgZone);
   private animTl: gsap.core.Timeline | null = null;
 
-  // ── Layout state ───────────────────────────────────────────────────────────
+  // ── Internal treebank signal ──────────────────────────────────────────────
+  private readonly _tb = signal<TreebankNode | null>(null);
+  readonly hasTb = computed(() => !!this._tb());
 
-  layoutNodes = signal<LayoutNode[]>([]);
-  layoutLinks = signal<LayoutLink[]>([]);
-  canvasW     = signal(800);
-  canvasH     = signal(400);
-  selectedId  = signal<string | null>(null);
+  // ── Pan state ─────────────────────────────────────────────────────────────
+  readonly panX      = signal(PAD_X);
+  readonly panY      = signal(PAD_Y);
+  readonly isPanning = signal(false);
 
-  selected = computed<TreebankNode | null>(() => {
-    const id = this.selectedId();
-    if (!id) return null;
-    return this.layoutNodes().find(n => n.id === id)?.data ?? null;
+  // ── Drag / selection ──────────────────────────────────────────────────────
+  readonly draggingId = signal<string | null>(null);
+  readonly selectedId = signal<string | null>(null);
+
+  // ── Collapse state ────────────────────────────────────────────────────────
+  readonly collapsedIds = signal<Set<string>>(new Set());
+
+  // ── User-dragged positions ────────────────────────────────────────────────
+  private readonly _userPos = signal<Map<string, { x: number; y: number }>>(new Map());
+
+  // ── Pointer tracking ──────────────────────────────────────────────────────
+  private ptr: {
+    type: 'pan' | 'node';
+    pointerId: number;
+    nodeId?: string;
+    startClientX: number;
+    startClientY: number;
+    origPanX: number;
+    origPanY: number;
+    origNx?: number;
+    origNy?: number;
+    moved: boolean;
+  } | null = null;
+
+  // ── Layout computeds ──────────────────────────────────────────────────────
+
+  private readonly _base = computed(() => {
+    const tb = this._tb();
+    const collapsed = this.collapsedIds();
+    if (!tb) return { nodes: [] as LayoutNode[], linkPairs: [] as Array<{ sourceId: string; targetId: string }> };
+    return buildLayout(tb, collapsed);
   });
 
-  selectedLayoutNode = computed<LayoutNode | null>(() => {
-    const id = this.selectedId();
-    if (!id) return null;
-    return this.layoutNodes().find(n => n.id === id) ?? null;
+  readonly displayNodes = computed<LayoutNode[]>(() => {
+    const { nodes } = this._base();
+    const overrides  = this._userPos();
+    if (!overrides.size) return nodes;
+    return nodes.map(n => {
+      const p = overrides.get(n.id);
+      return p ? { ...n, x: p.x, y: p.y } : n;
+    });
   });
 
-  // ── Lifecycle ──────────────────────────────────────────────────────────────
+  readonly displayLinks = computed<LayoutLink[]>(() => {
+    const { linkPairs } = this._base();
+    const nodeMap = new Map(this.displayNodes().map(n => [n.id, n]));
+    return linkPairs.flatMap(({ sourceId, targetId }) => {
+      const s = nodeMap.get(sourceId);
+      const t = nodeMap.get(targetId);
+      if (!s || !t) return [];
+      return [{ sourceId, targetId,
+        sx: s.x + NODE_W / 2,
+        sy: s.y + NODE_H,
+        tx: t.x + NODE_W / 2,
+        ty: t.y,
+      }];
+    });
+  });
 
-  ngOnChanges(): void {
-    this.selectedId.set(null);
-    this.computeLayout();
-    setTimeout(() => this.runAnimation(), 90);
+  readonly selected = computed<TreebankNode | null>(() => {
+    const id = this.selectedId();
+    if (!id) return null;
+    return this.displayNodes().find(n => n.id === id)?.data ?? null;
+  });
+
+  readonly selectedLayoutNode = computed<LayoutNode | null>(() => {
+    const id = this.selectedId();
+    if (!id) return null;
+    return this.displayNodes().find(n => n.id === id) ?? null;
+  });
+
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('treebank' in changes) {
+      this._tb.set(this.treebank);
+      this.collapsedIds.set(new Set());
+      this._userPos.set(new Map());
+      this.panX.set(PAD_X);
+      this.panY.set(PAD_Y);
+      this.selectedId.set(null);
+      setTimeout(() => this.runAnimation(), 90);
+    }
   }
 
   ngAfterViewInit(): void {
-    if (this.treebank) {
-      this.computeLayout();
-      setTimeout(() => this.runAnimation(), 90);
-    }
+    if (this.treebank) setTimeout(() => this.runAnimation(), 90);
   }
 
   ngOnDestroy(): void {
     this.animTl?.kill();
   }
 
-  // ── D3 layout (pure computation — no DOM) ─────────────────────────────────
+  // ── Pointer events ────────────────────────────────────────────────────────
 
-  private computeLayout(): void {
-    if (!this.treebank) {
-      this.layoutNodes.set([]);
-      this.layoutLinks.set([]);
-      return;
+  onViewportDown(e: PointerEvent): void {
+    if (e.button !== 0) return;
+    const target = e.target as HTMLElement;
+    if (target.closest('.ss-drawer') || target.closest('.ss-node__collapse')) return;
+
+    const nodeEl = target.closest<HTMLElement>('[data-node-id]');
+
+    if (nodeEl) {
+      const nodeId = nodeEl.dataset['nodeId'];
+      if (!nodeId) return;
+      const n = this.displayNodes().find(n => n.id === nodeId);
+      if (!n) return;
+
+      nodeEl.setPointerCapture(e.pointerId);
+      this.ptr = {
+        type: 'node', pointerId: e.pointerId, nodeId,
+        startClientX: e.clientX, startClientY: e.clientY,
+        origPanX: this.panX(), origPanY: this.panY(),
+        origNx: n.x, origNy: n.y, moved: false,
+      };
+      this.draggingId.set(nodeId);
+    } else {
+      const vp = this.viewport?.nativeElement as HTMLElement | undefined;
+      vp?.setPointerCapture(e.pointerId);
+      this.ptr = {
+        type: 'pan', pointerId: e.pointerId,
+        startClientX: e.clientX, startClientY: e.clientY,
+        origPanX: this.panX(), origPanY: this.panY(),
+        moved: false,
+      };
+      this.isPanning.set(true);
     }
-
-    // Build d3 hierarchy
-    const root: HierarchyNode<TreebankNode> = hierarchy<TreebankNode>(
-      this.treebank,
-      d => d.children,
-    );
-
-    // Tree layout: nodeSize = [horizontal-step, vertical-step]
-    const treeLayout = tree<TreebankNode>()
-      .nodeSize([NODE_W + H_SEP, NODE_H + V_SEP]);
-
-    treeLayout(root);
-
-    // Find x bounds to normalize to positive coordinates
-    let minX = Infinity, maxX = -Infinity;
-    root.each(n => {
-      const nx = (n as unknown as { x: number }).x;
-      if (nx < minX) minX = nx;
-      if (nx > maxX) maxX = nx;
-    });
-
-    const offsetX = -minX + PAD_X + NODE_W / 2;
-
-    const nodes: LayoutNode[] = [];
-    const links: LayoutLink[] = [];
-
-    root.each(n => {
-      const nx = (n as unknown as { x: number }).x;
-      const ny = (n as unknown as { y: number }).y;
-      nodes.push({
-        id:    n.data.id,
-        data:  n.data,
-        x:     nx + offsetX - NODE_W / 2,   // left edge
-        y:     ny + PAD_Y,                   // top edge
-        depth: n.depth,
-      });
-    });
-
-    root.links().forEach(lk => {
-      const sx = (lk.source as unknown as { x: number }).x;
-      const sy = (lk.source as unknown as { y: number }).y;
-      const tx = (lk.target as unknown as { x: number }).x;
-      const ty = (lk.target as unknown as { y: number }).y;
-      links.push({
-        sourceId: lk.source.data.id,
-        targetId: lk.target.data.id,
-        sx: sx + offsetX,               // bottom-centre of source card
-        sy: sy + PAD_Y + NODE_H,
-        tx: tx + offsetX,               // top-centre of target card
-        ty: ty + PAD_Y,
-      });
-    });
-
-    const maxDepth = nodes.reduce((m, n) => Math.max(m, n.depth), 0);
-    const totalW   = (maxX - minX) + 2 * PAD_X + NODE_W;
-    const totalH   = (maxDepth + 1) * (NODE_H + V_SEP) + 2 * PAD_Y;
-
-    this.canvasW.set(Math.max(totalW, 600));
-    this.canvasH.set(Math.max(totalH, 300));
-    this.layoutNodes.set(nodes);
-    this.layoutLinks.set(links);
   }
 
-  // ── GSAP animation ────────────────────────────────────────────────────────
+  onViewportMove(e: PointerEvent): void {
+    if (!this.ptr || e.pointerId !== this.ptr.pointerId) return;
+    const dx = e.clientX - this.ptr.startClientX;
+    const dy = e.clientY - this.ptr.startClientY;
+    if (!this.ptr.moved && Math.hypot(dx, dy) > 3) this.ptr.moved = true;
+
+    if (this.ptr.type === 'pan') {
+      this.panX.set(this.ptr.origPanX + dx);
+      this.panY.set(this.ptr.origPanY + dy);
+    } else if (this.ptr.type === 'node' && this.ptr.nodeId != null) {
+      const newX = (this.ptr.origNx ?? 0) + dx;
+      const newY = (this.ptr.origNy ?? 0) + dy;
+      this._userPos.update(m => {
+        const next = new Map(m);
+        next.set(this.ptr!.nodeId!, { x: newX, y: newY });
+        return next;
+      });
+    }
+  }
+
+  onViewportUp(e: PointerEvent): void {
+    if (!this.ptr || e.pointerId !== this.ptr.pointerId) return;
+    const { moved, type, nodeId } = this.ptr;
+    this.ptr = null;
+    this.isPanning.set(false);
+    this.draggingId.set(null);
+
+    // Tap on node → toggle selection
+    if (type === 'node' && !moved && nodeId) {
+      const wasSelected = this.selectedId() === nodeId;
+      this.selectedId.set(wasSelected ? null : nodeId);
+      if (!wasSelected) setTimeout(() => this.animateDrawerIn(), 20);
+    }
+  }
+
+  // ── Collapse / expand ─────────────────────────────────────────────────────
+
+  toggleCollapse(event: Event, id: string): void {
+    event.stopPropagation();
+    this.collapsedIds.update(s => {
+      const next = new Set(s);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+    this._userPos.set(new Map()); // reset drag positions on re-layout
+    setTimeout(() => this.runAnimation(), 90);
+  }
+
+  deselectAll(): void { this.selectedId.set(null); }
+
+  // ── GSAP animations ───────────────────────────────────────────────────────
 
   private runAnimation(): void {
     if (typeof window !== 'undefined' &&
@@ -629,59 +797,29 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
     this.animTl = tl;
 
-    // Links: fade in quickly
-    tl.fromTo(linkEls,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.35, stagger: 0.025 }
-    );
+    tl.fromTo(linkEls, { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.02 });
 
-    // Sort nodes by depth so root animates first
     const sorted = [...nodeEls].sort(
-      (a, b) => Number(a.dataset['depth'] ?? 0) - Number(b.dataset['depth'] ?? 0)
+      (a, b) => Number(a.dataset['depth'] ?? 0) - Number(b.dataset['depth'] ?? 0),
     );
-
     tl.fromTo(sorted,
-      { opacity: 0, y: 18, scale: 0.85 },
-      {
-        opacity: 1, y: 0, scale: 1,
-        duration: 0.38, stagger: 0.06,
-        ease: 'back.out(1.4)',
-        transformOrigin: 'top center',
-      },
-      '-=0.2'
+      { opacity: 0, y: 16, scale: 0.88 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.36, stagger: 0.055,
+        ease: 'back.out(1.5)', transformOrigin: 'top center' },
+      '-=0.15',
     );
   }
 
   private animateDrawerIn(): void {
     const el = this.drawerEl?.nativeElement;
     if (!el) return;
-    gsap.fromTo(el,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
-    );
-  }
-
-  // ── Interaction ───────────────────────────────────────────────────────────
-
-  selectNode(event: MouseEvent, n: LayoutNode): void {
-    event.stopPropagation();
-    const wasSelected = this.selectedId() === n.id;
-    this.selectedId.set(wasSelected ? null : n.id);
-    if (!wasSelected) setTimeout(() => this.animateDrawerIn(), 20);
-  }
-
-  deselectAll(): void {
-    this.selectedId.set(null);
+    gsap.fromTo(el, { opacity: 0, x: 12 }, { opacity: 1, x: 0, duration: 0.28, ease: 'power2.out' });
   }
 
   // ── Template helpers ──────────────────────────────────────────────────────
 
-  /** Primary card colour for a layout node. */
-  nodeUi(n: LayoutNode): NodeUiDef {
-    return resolveNodeUi(n.data.registry_refs);
-  }
+  nodeUi(n: LayoutNode): NodeUiDef { return resolveNodeUi(n.data.registry_refs); }
 
-  /** Chip colour for a specific feature key on a node. Returns null if no value. */
   chipUi(n: LayoutNode, featureKey: string): NodeUiDef | null {
     const val = n.data.features?.[featureKey];
     if (!val) return null;
@@ -689,16 +827,12 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     return ui === DEFAULT_UI ? null : ui;
   }
 
-  /** Cubic bezier SVG path between parent bottom-centre and child top-centre. */
   cubicPath(link: LayoutLink): string {
     const midY = (link.sy + link.ty) / 2;
     return `M ${link.sx} ${link.sy} C ${link.sx} ${midY}, ${link.tx} ${midY}, ${link.tx} ${link.ty}`;
   }
 
-  /** Look up a raw feature value in the registry. */
-  lookupVal(val: string): NodeUiDef {
-    return lookupUi(val);
-  }
+  lookupVal(val: string): NodeUiDef { return lookupUi(val); }
 
   morphRows(node: TreebankNode): Array<{ key: string; val: string; ar: boolean }> {
     if (!node.morphology) return [];

@@ -1,322 +1,36 @@
-<div
-  class="sst"
-  [class.sst--light]="appearanceMode === 'light_soft'"
-  [class.sst--dark]="appearanceMode === 'dark_transparent'"
->
+<div class="sst">
   <ng-container *ngIf="sentences.length > 0; else emptyState">
+
     <header class="sst__header">
       <div>
         <span class="sst__eyebrow">Sentence Structure</span>
         <h2 class="sst__title">{{ taskTitle }}</h2>
       </div>
 
-      <div class="sst__toolbar">
-        <div class="sst__appearance" role="group" aria-label="Background mode">
-          <span class="sst__appearance-track" [style.transform]="appearanceSliderTransform"></span>
-          <button
-            type="button"
-            class="sst__appearance-btn"
-            [class.sst__appearance-btn--active]="appearanceMode === 'light_soft'"
-            (click)="setAppearance('light_soft')"
-          >
-            Light Soft
-          </button>
-          <button
-            type="button"
-            class="sst__appearance-btn"
-            [class.sst__appearance-btn--active]="appearanceMode === 'dark_transparent'"
-            (click)="setAppearance('dark_transparent')"
-          >
-            Dark Transparent
-          </button>
-        </div>
-
-        <div class="sst__toolbar-actions">
-          <button
-            type="button"
-            class="sst__ghost-btn sst__graph-toggle"
-            [class.sst__graph-toggle--active]="graphMode"
-            (click)="toggleGraphMode()"
-          >{{ graphMode ? '⊞ Cards' : '⟁ Graph' }}</button>
-          <button type="button" class="sst__ghost-btn" (click)="openRootEditor()">Edit Task JSON</button>
-          <button type="button" class="sst__ghost-btn" (click)="openSentenceEditor()">Edit Sentence JSON</button>
-          <button
-            type="button"
-            class="sst__ghost-btn"
-            [disabled]="!activeNode"
-            (click)="openSelectedNodeEditor()"
-          >
-            Edit Node JSON
-          </button>
-        </div>
+      <div class="sst__sentence-nav" *ngIf="sentences.length > 1">
+        <span class="sst__sentence-nav-progress">
+          {{ selectedSentenceIndex + 1 }} / {{ sentences.length }}
+        </span>
+        <button
+          type="button"
+          class="sst__sentence-nav-btn"
+          *ngIf="selectedSentenceIndex < sentences.length - 1"
+          (click)="selectSentence(selectedSentenceIndex + 1)"
+        >
+          <span class="sst__sentence-nav-label">Next Sentence</span>
+          <span class="sst__sentence-nav-arrow" aria-hidden="true">&#8594;</span>
+        </button>
       </div>
     </header>
 
-    <!-- ── D3 Graph View ────────────────────────────── -->
-    <div *ngIf="graphMode" class="sst__graph-view">
-      <km-sentence-structure-canvas [treebank]="canvasTreebank" />
-    </div>
+    <km-sentence-structure-canvas [treebank]="canvasTreebank" />
 
-    <!-- ── Cards / Panels View ──────────────────────── -->
-    <ng-container *ngIf="!graphMode">
-
-    <section class="sst__hero">
-      <div class="sst__hero-copy" *ngIf="currentSentence as sentence">
-        <span class="sst__hero-kicker">Sentence Root</span>
-        <div class="sst__hero-meta">
-          <span class="sst__hero-chip">{{ sentence.ref }}</span>
-          <span class="sst__hero-chip">{{ sentences.length }} sentence{{ sentences.length !== 1 ? 's' : '' }}</span>
-          <span class="sst__hero-chip" *ngIf="sentence.legacy">Legacy Payload</span>
-          <span class="sst__hero-chip" *ngIf="!sentence.legacy">Tree + Treebank</span>
-        </div>
-
-        <h3 class="sst__hero-label" dir="rtl">{{ sentence.treebank.labelAr || 'الجملة' }}</h3>
-        <p class="sst__hero-name">{{ sentence.treebank.labelEn || 'Sentence' }}</p>
-        <p class="sst__hero-ar" dir="rtl">{{ sentence.textAr }}</p>
-        <p class="sst__hero-en" *ngIf="sentence.translationEn">{{ sentence.translationEn }}</p>
-      </div>
-
-      <div class="sst__hero-actions">
-        <button type="button" class="sst__primary-btn" (click)="beginScene()">
-          {{ workspaceStarted ? 'Replay Scene' : 'Start Scene' }}
-        </button>
-        <button
-          type="button"
-          class="sst__ghost-btn"
-          *ngIf="currentSentence?.morphologyToggle?.enabled"
-          (click)="showMorphology = !showMorphology"
-        >
-          {{ showMorphology ? 'Hide Morphology' : 'Show Morphology' }}
-        </button>
-      </div>
-    </section>
-
-    <section class="sst__sentence-rail" *ngIf="sentences.length > 1">
-      <button
-        type="button"
-        class="sst__sentence-card"
-        *ngFor="let sentence of sentences; let i = index; trackBy: trackSentence"
-        [class.sst__sentence-card--active]="i === selectedSentenceIndex"
-        (click)="selectSentence(i)"
-      >
-        <span class="sst__sentence-ref">{{ sentence.ref }}</span>
-        <span class="sst__sentence-text" dir="rtl">{{ sentence.textAr }}</span>
-      </button>
-    </section>
-
-    <ng-container *ngIf="currentSentence as sentence">
-      <section class="sst__task-stage">
-        <div class="sst__task-stage-head">
-          <div>
-            <span class="sst__panel-kicker">Task Sequence</span>
-            <h3 class="sst__panel-title">Structure Tasks</h3>
-          </div>
-          <span class="sst__panel-pill">{{ sentence.structureCards.length }} cards</span>
-        </div>
-
-        <div class="sst__task-rail">
-          <button
-            type="button"
-            class="sst__task-card"
-            *ngFor="let node of sentence.structureCards; trackBy: trackNode"
-            [class.sst__task-card--active]="isStructureActive(node)"
-            (click)="focusStructure(node)"
-          >
-            <span class="sst__task-badge">{{ node.labelAr || node.labelEn || node.nodeType }}</span>
-            <strong class="sst__task-title">{{ nodeSecondaryLabel(node) }}</strong>
-            <span
-              class="sst__task-text"
-              *ngIf="nodeBodyText(node)"
-              [attr.dir]="nodeBodyDir(node)"
-            >
-              {{ nodeBodyText(node) }}
-            </span>
-            <span class="sst__task-targets">{{ sentence.targetMap.get(node.id)?.length ?? 0 }} treebank target{{ (sentence.targetMap.get(node.id)?.length ?? 0) !== 1 ? 's' : '' }}</span>
-          </button>
-        </div>
-      </section>
-
-      <section class="sst__overlay" *ngIf="workspaceStarted && structureOverlay">
-        <span class="sst__panel-kicker">Focused Task</span>
-        <p class="sst__overlay-ar" *ngIf="structureOverlay.textAr" dir="rtl">{{ structureOverlay.textAr }}</p>
-        <p class="sst__overlay-en" *ngIf="structureOverlay.translationEn">{{ structureOverlay.translationEn }}</p>
-      </section>
-
-      <section class="sst__diagram" *ngIf="workspaceStarted">
-        <div class="sst__diagram-bridge" aria-hidden="true">
-          <span class="sst__diagram-bridge-core"></span>
-        </div>
-
-        <div class="sst__workspace">
-          <section class="sst__panel sst__panel--structure">
-            <div class="sst__panel-head">
-              <div>
-                <span class="sst__panel-kicker">Tree 01</span>
-                <h3 class="sst__panel-title">Structure</h3>
-                <p class="sst__panel-subtitle">{{ sentence.structureTree.labelAr || sentence.structureTree.labelEn }}</p>
-              </div>
-              <span class="sst__panel-pill">{{ sentence.structureCards.length }} tasks</span>
-            </div>
-
-            <ng-container *ngIf="sentence.structureTree.children.length > 0; else structureRootNode">
-              <ng-container *ngFor="let child of sentence.structureTree.children; trackBy: trackNode">
-                <ng-container *ngTemplateOutlet="nodeTree; context: { $implicit: child, kind: 'structure' }"></ng-container>
-              </ng-container>
-            </ng-container>
-            <ng-template #structureRootNode>
-              <ng-container *ngTemplateOutlet="nodeTree; context: { $implicit: sentence.structureTree, kind: 'structure' }"></ng-container>
-            </ng-template>
-          </section>
-
-          <section class="sst__panel sst__panel--treebank">
-            <div class="sst__panel-head">
-              <div>
-                <span class="sst__panel-kicker">Tree 02</span>
-                <h3 class="sst__panel-title">Bank</h3>
-                <p class="sst__panel-subtitle">{{ sentence.treebank.labelAr || sentence.treebank.labelEn }}</p>
-              </div>
-              <span class="sst__panel-pill">{{ activeTargetIds.size }} active</span>
-            </div>
-
-            <ng-container *ngIf="sentence.treebank.children.length > 0; else treebankRootNode">
-              <ng-container *ngFor="let child of sentence.treebank.children; trackBy: trackNode">
-                <ng-container *ngTemplateOutlet="nodeTree; context: { $implicit: child, kind: 'treebank' }"></ng-container>
-              </ng-container>
-            </ng-container>
-            <ng-template #treebankRootNode>
-              <ng-container *ngTemplateOutlet="nodeTree; context: { $implicit: sentence.treebank, kind: 'treebank' }"></ng-container>
-            </ng-template>
-          </section>
-        </div>
-
-        <aside class="sst__editor" *ngIf="editorVisible">
-          <div class="sst__editor-head">
-            <div>
-              <span class="sst__panel-kicker">Node Editor</span>
-              <h3 class="sst__panel-title">{{ editorTargetLabel }}</h3>
-            </div>
-            <button type="button" class="sst__icon-btn" (click)="closeEditor()">Close</button>
-          </div>
-
-          <p class="sst__editor-caption">
-            Edit the selected JSON fragment, apply locally, then commit to <code>ar_container_unit_task</code>.
-          </p>
-
-          <textarea
-            class="sst__editor-textarea"
-            [value]="editorText"
-            (input)="onEditorInput($event)"
-            spellcheck="false"
-          ></textarea>
-
-          <p class="sst__editor-error" *ngIf="editorError">{{ editorError }}</p>
-          <p class="sst__editor-status" [class.sst__editor-status--error]="commitState === 'error'">
-            {{ commitMessage }}
-          </p>
-
-          <div class="sst__editor-actions">
-            <button type="button" class="sst__ghost-btn" (click)="resetEditor()">Reset</button>
-            <button type="button" class="sst__ghost-btn" [disabled]="!editorDirty" (click)="applyEditorLocally()">Apply Local</button>
-            <button
-              type="button"
-              class="sst__primary-btn"
-              [disabled]="!canCommit || commitState === 'saving'"
-              (click)="commitEditorChanges()"
-            >
-              {{ commitState === 'saving' ? 'Committing...' : 'Commit Task' }}
-            </button>
-          </div>
-        </aside>
-      </section>
-    </ng-container>
   </ng-container>
-
-  <ng-template #nodeTree let-node let-kind="kind">
-    <article
-      class="sst-node"
-      [style.--depth]="visualDepth(node)"
-      [attr.data-structure-id]="kind === 'structure' ? node.id : null"
-      [attr.data-treebank-id]="kind === 'treebank' ? node.id : null"
-      [class.sst-node--structure]="kind === 'structure'"
-      [class.sst-node--treebank]="kind === 'treebank'"
-      [class.sst-node--structure-active]="kind === 'structure' && isStructureActive(node)"
-      [class.sst-node--treebank-active]="kind === 'treebank' && isTreebankActive(node)"
-      [class.sst-node--dimmed]="kind === 'treebank' && isTreebankDimmed(node)"
-      [class.sst-node--selected]="isEditorTarget(node)"
-    >
-      <button type="button" class="sst-node__surface" (click)="onNodeSelected(kind, node)">
-        <span class="sst-node__indent"></span>
-
-        <span class="sst-node__content">
-          <span class="sst-node__topline">
-            <span class="sst-node__label">{{ node.labelAr || node.labelEn || node.nodeType }}</span>
-            <span class="sst-node__meta" *ngIf="nodeSecondaryLabel(node)">{{ nodeSecondaryLabel(node) }}</span>
-          </span>
-
-          <span
-            class="sst-node__text"
-            *ngIf="nodeBodyText(node)"
-            [class.sst-node__text--arabic]="isArabic(nodeBodyText(node))"
-            [attr.dir]="nodeBodyDir(node)"
-          >
-            {{ nodeBodyText(node) }}
-          </span>
-
-          <span class="sst-node__function" *ngIf="node.functionLabel">{{ node.functionLabel }}</span>
-
-          <span class="sst-node__chips" *ngIf="featureEntries(node).length > 0">
-            <span class="sst-node__chip" *ngFor="let entry of featureEntries(node); trackBy: trackEntry">
-              {{ entry.key }}: {{ entry.value }}
-            </span>
-          </span>
-
-          <span class="sst-node__chips" *ngIf="showMorphologyFor(node)">
-            <span class="sst-node__chip sst-node__chip--morph" *ngFor="let entry of morphologyEntries(node); trackBy: trackEntry">
-              {{ entry.key }}: {{ entry.value }}
-            </span>
-          </span>
-        </span>
-
-        <span
-          class="sst-node__toggle"
-          *ngIf="node.children.length > 0"
-          (click)="$event.stopPropagation(); toggleCollapsed(kind, node.id)"
-        >
-          {{ isCollapsed(kind, node.id) ? '+' : '-' }}
-        </span>
-      </button>
-
-      <div class="sst-node__children" *ngIf="node.children.length > 0 && !isCollapsed(kind, node.id)">
-        <ng-container *ngFor="let child of node.children; trackBy: trackNode">
-          <ng-container *ngTemplateOutlet="nodeTree; context: { $implicit: child, kind: kind }"></ng-container>
-        </ng-container>
-      </div>
-    </article>
-  </ng-template>
-
-  <!-- ── Sentence navigation ──────────────────────── -->
-  <div class="sst__sentence-nav" *ngIf="sentences.length > 0">
-    <span class="sst__sentence-nav-progress" *ngIf="sentences.length > 1">
-      {{ selectedSentenceIndex + 1 }} / {{ sentences.length }}
-    </span>
-    <button
-      type="button"
-      class="sst__sentence-nav-btn"
-      *ngIf="selectedSentenceIndex < sentences.length - 1"
-      (click)="selectSentence(selectedSentenceIndex + 1)"
-    >
-      <span class="sst__sentence-nav-label">Next Sentence</span>
-      <span class="sst__sentence-nav-arrow" aria-hidden="true">&#8594;</span>
-    </button>
-  </div>
-
-  </ng-container><!-- end cards view -->
 
   <ng-template #emptyState>
     <div class="sst__empty" *ngIf="hasTaskPayload; else noTask">
       <span class="sst__empty-icon">~</span>
       <p class="sst__empty-title">Sentence payload found, but no renderable tree is ready yet.</p>
-      <p class="sst__empty-detail">The new UI expects either <code>structure_tree</code>/<code>treebank</code> nodes or a legacy sentence payload it can transform.</p>
     </div>
   </ng-template>
 
