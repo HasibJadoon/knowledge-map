@@ -147,7 +147,6 @@ function buildLayout(
               [style.left.px]="n.x"
               [style.top.px]="n.y"
               [style.border-left-color]="nodeUi(n).bg"
-              (click)="onNodeClick($event, n)"
             >
               <div class="ss-node__strip" [style.background]="nodeUi(n).bg"></div>
 
@@ -396,7 +395,6 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
   private zone  = inject(NgZone);
   private animTl: gsap.core.Timeline | null = null;
   private canvasElRef: HTMLElement | null = null;  // direct DOM ref for pan
-  private _lastInteractionWasDrag = false;          // suppress click after drag
 
   // ── Internal treebank signal ──────────────────────────────────────────────
   private readonly _tb = signal<TreebankNode | null>(null);
@@ -590,23 +588,17 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
           next.set(nodeId, { x: finalX, y: finalY });
           return next;
         });
-        this._lastInteractionWasDrag = true;  // suppress next click event
       }
       this.draggingId.set(null);
-      // Collapse/expand is handled by (click) on the node element
+
+      // Tap (no drag) → collapse / expand
+      if (!moved && nodeId) {
+        this.toggleCollapse(nodeId);
+      }
     }
   }
 
   // ── Collapse / expand ─────────────────────────────────────────────────────
-
-  /** Click handler on node card — toggles collapse/expand. */
-  onNodeClick(e: MouseEvent, n: LayoutNode): void {
-    // Suppress click that follows a drag release
-    if (this._lastInteractionWasDrag) { this._lastInteractionWasDrag = false; return; }
-    if (!n.hasChildren) return;
-    e.stopPropagation();
-    this.toggleCollapse(n.id);
-  }
 
   /** Collect all descendant IDs from the original (unpruned) treebank. */
   private getDescendantIds(rootId: string): Set<string> {
