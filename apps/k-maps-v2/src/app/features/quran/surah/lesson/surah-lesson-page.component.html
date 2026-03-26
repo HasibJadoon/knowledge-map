@@ -1,4 +1,7 @@
-<div class="lesson-page">
+<div
+  class="lesson-page"
+  [class.lesson-page--obs-overlay]="obsOverlayEnabled()"
+  [class.lesson-page--obs-top-right]="obsOverlayTopRight()">
 
   <!-- Loading -->
   @if (loading()) {

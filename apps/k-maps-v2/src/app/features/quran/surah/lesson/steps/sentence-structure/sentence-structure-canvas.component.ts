@@ -106,7 +106,6 @@ function buildLayout(
       [class.ss-viewport--panning]="isPanning()"
       [class.ss-viewport--dragging]="!!draggingId()"
       (pointerdown)="onViewportDown($event)"
-      (pointermove)="onViewportMove($event)"
       (pointerup)="onViewportUp($event)"
       (pointercancel)="onViewportUp($event)"
     >
@@ -121,10 +120,7 @@ function buildLayout(
       @if (hasTb() && displayNodes().length) {
 
         <!-- Pannable canvas layer -->
-        <div class="ss-canvas"
-          [style.transform]="'translate(' + panX() + 'px,' + panY() + 'px)'"
-          #canvasEl
-        >
+        <div class="ss-canvas" #canvasEl>
           <!-- SVG bezier links -->
           <svg class="ss-links-svg" aria-hidden="true">
             @for (link of displayLinks(); track link.targetId) {
@@ -591,6 +587,7 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
 
   private zone  = inject(NgZone);
   private animTl: gsap.core.Timeline | null = null;
+  private canvasElRef: HTMLElement | null = null;  // direct DOM ref for pan
 
   // ── Internal treebank signal ──────────────────────────────────────────────
   private readonly _tb = signal<TreebankNode | null>(null);
@@ -616,6 +613,7 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     type: 'pan' | 'node';
     pointerId: number;
     nodeId?: string;
+    nodeEl?: HTMLElement;       // reference for direct DOM transform during drag
     startClientX: number;
     startClientY: number;
     origPanX: number;
@@ -682,12 +680,52 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
       this.panX.set(PAD_X);
       this.panY.set(PAD_Y);
       this.selectedId.set(null);
+      this.resetCanvasTransform();
       setTimeout(() => this.runAnimation(), 90);
     }
   }
 
+  private resetCanvasTransform(): void {
+    const el = this.canvasElRef ?? this.canvasEl?.nativeElement;
+    if (el) el.style.transform = `translate(${PAD_X}px,${PAD_Y}px)`;
+  }
+
   ngAfterViewInit(): void {
     if (this.treebank) setTimeout(() => this.runAnimation(), 90);
+
+    this.canvasElRef = this.canvasEl?.nativeElement ?? null;
+    this.resetCanvasTransform();
+
+    // Run pointermove outside Angular zone to avoid CD on every frame
+    this.zone.runOutsideAngular(() => {
+      const vp = this.viewport?.nativeElement as HTMLElement | undefined;
+      if (!vp) return;
+      vp.addEventListener('pointermove', (e: PointerEvent) => {
+        if (!this.ptr || e.pointerId !== this.ptr.pointerId) return;
+        const dx = e.clientX - this.ptr.startClientX;
+        const dy = e.clientY - this.ptr.startClientY;
+
+        if (!this.ptr.moved && Math.hypot(dx, dy) > 4) {
+          this.ptr.moved = true;
+          if (this.ptr.type === 'node' && this.ptr.nodeId) {
+            // Single signal update when drag begins
+            this.zone.run(() => this.draggingId.set(this.ptr!.nodeId!));
+          }
+        }
+
+        if (!this.ptr.moved) return;
+
+        if (this.ptr.type === 'pan' && this.canvasElRef) {
+          // Direct DOM for pan too — commit to signal only on pointerup
+          const x = this.ptr.origPanX + dx;
+          const y = this.ptr.origPanY + dy;
+          this.canvasElRef.style.transform = `translate(${x}px,${y}px)`;
+        } else if (this.ptr.type === 'node' && this.ptr.nodeEl) {
+          // Direct DOM — zero Angular CD
+          this.ptr.nodeEl.style.transform = `translate(${dx}px,${dy}px)`;
+        }
+      });
+    });
   }
 
   ngOnDestroy(): void {
@@ -701,6 +739,10 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     const target = e.target as HTMLElement;
     if (target.closest('.ss-drawer') || target.closest('.ss-node__collapse')) return;
 
+    // Always capture to the viewport so all move/up events come here
+    const vp = this.viewport?.nativeElement as HTMLElement | undefined;
+    vp?.setPointerCapture(e.pointerId);
+
     const nodeEl = target.closest<HTMLElement>('[data-node-id]');
 
     if (nodeEl) {
@@ -709,17 +751,14 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
       const n = this.displayNodes().find(n => n.id === nodeId);
       if (!n) return;
 
-      nodeEl.setPointerCapture(e.pointerId);
       this.ptr = {
-        type: 'node', pointerId: e.pointerId, nodeId,
+        type: 'node', pointerId: e.pointerId, nodeId, nodeEl,
         startClientX: e.clientX, startClientY: e.clientY,
         origPanX: this.panX(), origPanY: this.panY(),
         origNx: n.x, origNy: n.y, moved: false,
       };
-      this.draggingId.set(nodeId);
+      // Don't set draggingId yet — wait until actually moved (avoids re-render on tap)
     } else {
-      const vp = this.viewport?.nativeElement as HTMLElement | undefined;
-      vp?.setPointerCapture(e.pointerId);
       this.ptr = {
         type: 'pan', pointerId: e.pointerId,
         startClientX: e.clientX, startClientY: e.clientY,
@@ -730,38 +769,39 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     }
   }
 
-  onViewportMove(e: PointerEvent): void {
-    if (!this.ptr || e.pointerId !== this.ptr.pointerId) return;
-    const dx = e.clientX - this.ptr.startClientX;
-    const dy = e.clientY - this.ptr.startClientY;
-    if (!this.ptr.moved && Math.hypot(dx, dy) > 3) this.ptr.moved = true;
-
-    if (this.ptr.type === 'pan') {
-      this.panX.set(this.ptr.origPanX + dx);
-      this.panY.set(this.ptr.origPanY + dy);
-    } else if (this.ptr.type === 'node' && this.ptr.nodeId != null) {
-      const newX = (this.ptr.origNx ?? 0) + dx;
-      const newY = (this.ptr.origNy ?? 0) + dy;
-      this._userPos.update(m => {
-        const next = new Map(m);
-        next.set(this.ptr!.nodeId!, { x: newX, y: newY });
-        return next;
-      });
-    }
-  }
-
   onViewportUp(e: PointerEvent): void {
     if (!this.ptr || e.pointerId !== this.ptr.pointerId) return;
-    const { moved, type, nodeId } = this.ptr;
+    const { moved, type, nodeId, nodeEl, origNx, origNy, origPanX, origPanY, startClientX, startClientY } = this.ptr;
+    const dx = e.clientX - startClientX;
+    const dy = e.clientY - startClientY;
     this.ptr = null;
     this.isPanning.set(false);
-    this.draggingId.set(null);
 
-    // Tap on node → toggle selection
-    if (type === 'node' && !moved && nodeId) {
-      const wasSelected = this.selectedId() === nodeId;
-      this.selectedId.set(wasSelected ? null : nodeId);
-      if (!wasSelected) setTimeout(() => this.animateDrawerIn(), 20);
+    if (type === 'pan') {
+      // Commit final pan position to signals
+      this.panX.set(origPanX + dx);
+      this.panY.set(origPanY + dy);
+    } else if (type === 'node') {
+      if (moved && nodeEl && nodeId) {
+        // Clear the imperative transform
+        nodeEl.style.transform = '';
+        // Commit final node position to signal — single re-render
+        const finalX = (origNx ?? 0) + dx;
+        const finalY = (origNy ?? 0) + dy;
+        this._userPos.update(m => {
+          const next = new Map(m);
+          next.set(nodeId, { x: finalX, y: finalY });
+          return next;
+        });
+      }
+      this.draggingId.set(null);
+
+      // Tap (no movement) → toggle selection
+      if (!moved && nodeId) {
+        const wasSelected = this.selectedId() === nodeId;
+        this.selectedId.set(wasSelected ? null : nodeId);
+        if (!wasSelected) setTimeout(() => this.animateDrawerIn(), 20);
+      }
     }
   }
 
@@ -788,6 +828,13 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
 
     const canvas = this.canvasEl?.nativeElement;
     if (!canvas) return;
+
+    // Cache ref and ensure initial pan transform is applied (canvasElRef may not
+    // have been set yet if @if rendered after ngAfterViewInit)
+    if (!this.canvasElRef) this.canvasElRef = canvas;
+    if (!canvas.style.transform) {
+      canvas.style.transform = `translate(${this.panX()}px,${this.panY()}px)`;
+    }
 
     const nodeEls = Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node'));
     const linkEls = Array.from(canvas.querySelectorAll<SVGPathElement>('.ss-link'));

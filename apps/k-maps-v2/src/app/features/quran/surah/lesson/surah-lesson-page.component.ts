@@ -17,6 +17,7 @@ import {
   UnitTaskVm,
 } from '../../../../shared/services/surah-modules.service';
 import { QuranStateService } from '../../../../shared/services/quran-state.service';
+import { UiSettingsService } from '../../../../shared/services/ui-settings.service';
 import { LessonReadingStepComponent } from './steps/reading/lesson-reading-step.component';
 import { LessonVocabularyStepComponent } from './steps/vocabulary/lesson-vocabulary-step.component';
 import { LessonSentenceStructureStepComponent } from './steps/sentence-structure/lesson-sentence-structure-step.component';
@@ -119,6 +120,7 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   private location = inject(Location);
   private svc = inject(SurahModulesService);
   private quranState = inject(QuranStateService);
+  private uiSettings = inject(UiSettingsService);
   private elRef = inject(ElementRef);
 
   readonly steps = STEPS;
@@ -137,6 +139,10 @@ export class SurahLessonPageComponent implements OnInit, AfterViewInit, OnDestro
   error = signal<string | null>(null);
   stepLoading = signal(false);
   stepError = signal<string | null>(null);
+  obsOverlayEnabled = this.uiSettings.obsOverlayEnabled;
+  obsOverlayTopRight = computed(
+    () => this.uiSettings.obsOverlayEnabled() && this.uiSettings.obsOverlayPosition() === 'top-right',
+  );
 
   private entryTl: gsap.core.Timeline | null = null;
   private stepAnimTimeout: ReturnType<typeof setTimeout> | null = null;

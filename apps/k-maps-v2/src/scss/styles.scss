@@ -3,3 +3,18 @@
 @use 'reset';
 @use 'typography';
 @use 'utilities';
+
+html.km-ui-obs-overlay,
+body.km-ui-obs-overlay {
+  background: transparent !important;
+}
+
+body.km-ui-obs-overlay {
+  min-height: 100vh;
+}
+
+body.km-ui-obs-overlay km-root {
+  display: block;
+  min-height: 100vh;
+  background: transparent !important;
+}

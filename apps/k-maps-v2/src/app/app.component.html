@@ -1,1 +1,70 @@
 <router-outlet />
+
+<button
+  type="button"
+  class="app-ui-trigger"
+  [class.app-ui-trigger--active]="settingsOpen()"
+  (click)="toggleSettingsPanel()"
+  aria-label="Open UI settings">
+  UI
+</button>
+
+@if (settingsOpen()) {
+  <div class="app-ui-backdrop" (click)="closeSettingsPanel()"></div>
+
+  <aside class="app-ui-panel" aria-label="UI settings panel">
+    <div class="app-ui-panel__header">
+      <div>
+        <p class="app-ui-panel__eyebrow">Global UI</p>
+        <h2 class="app-ui-panel__title">Overlay Settings</h2>
+      </div>
+      <button type="button" class="app-ui-panel__close" (click)="closeSettingsPanel()" aria-label="Close settings">
+        ×
+      </button>
+    </div>
+
+    <section class="app-ui-section">
+      <p class="app-ui-section__label">OBS Glass Mode</p>
+      <div class="app-ui-toggle-row">
+        <button
+          type="button"
+          class="app-ui-pill"
+          [class.app-ui-pill--active]="!obsOverlayEnabled()"
+          (click)="setObsOverlayEnabled(false)">
+          Off
+        </button>
+        <button
+          type="button"
+          class="app-ui-pill"
+          [class.app-ui-pill--active]="obsOverlayEnabled()"
+          (click)="setObsOverlayEnabled(true)">
+          On
+        </button>
+      </div>
+    </section>
+
+    <section class="app-ui-section">
+      <p class="app-ui-section__label">Overlay Position</p>
+      <div class="app-ui-toggle-row">
+        <button
+          type="button"
+          class="app-ui-pill"
+          [class.app-ui-pill--active]="obsOverlayPosition() === 'center'"
+          (click)="setObsOverlayPosition('center')">
+          Center
+        </button>
+        <button
+          type="button"
+          class="app-ui-pill"
+          [class.app-ui-pill--active]="obsOverlayPosition() === 'top-right'"
+          (click)="setObsOverlayPosition('top-right')">
+          Top Right
+        </button>
+      </div>
+    </section>
+
+    <p class="app-ui-panel__note">
+      These settings are saved globally in local storage and applied across the app.
+    </p>
+  </aside>
+}
