@@ -294,6 +294,22 @@
     </article>
   </ng-template>
 
+  <!-- ── Sentence navigation ──────────────────────── -->
+  <div class="sst__sentence-nav" *ngIf="sentences.length > 0">
+    <span class="sst__sentence-nav-progress" *ngIf="sentences.length > 1">
+      {{ selectedSentenceIndex + 1 }} / {{ sentences.length }}
+    </span>
+    <button
+      type="button"
+      class="sst__sentence-nav-btn"
+      *ngIf="selectedSentenceIndex < sentences.length - 1"
+      (click)="selectSentence(selectedSentenceIndex + 1)"
+    >
+      <span class="sst__sentence-nav-label">Next Sentence</span>
+      <span class="sst__sentence-nav-arrow" aria-hidden="true">&#8594;</span>
+    </button>
+  </div>
+
   </ng-container><!-- end cards view -->
 
   <ng-template #emptyState>
