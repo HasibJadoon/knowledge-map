@@ -1,33 +1,43 @@
 <div class="sst">
-  <ng-container *ngIf="sentences.length > 0; else emptyState">
 
-    <div class="sst__canvas-wrap">
-      <km-sentence-structure-canvas [treebank]="canvasTreebank" />
+  @if (sentences.length) {
 
-      <div class="sst__nav" *ngIf="sentences.length > 1">
-        <span class="sst__nav-count">{{ selectedSentenceIndex + 1 }} / {{ sentences.length }}</span>
-        <button
-          type="button"
-          class="sst__nav-next"
-          *ngIf="selectedSentenceIndex < sentences.length - 1"
-          (click)="selectSentence(selectedSentenceIndex + 1)"
-        >Next &#8594;</button>
+    <!-- Multi-sentence navigation -->
+    @if (sentences.length > 1) {
+      <div class="sst__nav">
+        @for (s of sentences; track $index) {
+          <button
+            type="button"
+            class="sst__nav-btn"
+            [class.sst__nav-btn--on]="$index === activeIdx"
+            (click)="select($index)"
+          >{{ $index + 1 }}</button>
+        }
       </div>
+    }
+
+    <!-- D3 canvas: sentence card + collapsible RTL tree -->
+    <div class="sst__canvas">
+      <km-sentence-structure-canvas
+        [treeData]="current?.tree ?? null"
+        [termColors]="current?.term_colors ?? {}"
+      />
     </div>
 
-  </ng-container>
+    <p class="sst__tip">انقر على عقدة للتوسيع أو الطي &nbsp;·&nbsp; Click node to expand / collapse</p>
 
-  <ng-template #emptyState>
-    <div class="sst__empty" *ngIf="hasTaskPayload; else noTask">
-      <span class="sst__empty-icon">~</span>
-      <p class="sst__empty-title">No renderable tree ready yet.</p>
-    </div>
-  </ng-template>
+  } @else if (hasTask) {
 
-  <ng-template #noTask>
     <div class="sst__empty">
-      <span class="sst__empty-icon">-</span>
-      <p class="sst__empty-title">No sentence structure task for this passage.</p>
+      <p>No tree data attached to this task yet.</p>
     </div>
-  </ng-template>
+
+  } @else {
+
+    <div class="sst__empty">
+      <p>No sentence structure task for this passage.</p>
+    </div>
+
+  }
+
 </div>

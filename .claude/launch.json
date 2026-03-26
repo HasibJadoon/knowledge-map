@@ -4,8 +4,8 @@
     {
       "name": "k-maps-v2",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "-w", "apps/k-maps-v2"],
-      "port": 4200
+      "runtimeArgs": ["run", "start", "-w", "apps/k-maps-v2", "--", "--port", "4201"],
+      "port": 4201
     }
   ]
 }
