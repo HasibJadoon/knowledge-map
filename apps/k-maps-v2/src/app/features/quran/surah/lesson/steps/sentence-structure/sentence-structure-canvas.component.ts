@@ -239,7 +239,7 @@ export class SentenceStructureCanvasComponent
   private refresh(evt: MouseEvent | null, src: any): void {
     if (!this.svg || !this.root) return;
 
-    const dur = evt?.altKey ? 2500 : 300;
+    const dur = evt?.altKey ? 1500 : 160;
 
     // Layout: nodeSize([x-gap, y-depth]) — top-down
     d3Tree<SsTreeNode>().nodeSize([XSEP, YDEP])(this.root);
@@ -296,13 +296,13 @@ export class SentenceStructureCanvasComponent
       .on('mouseenter', (e: MouseEvent) => {
         select(e.currentTarget as SVGGElement)
           .select<SVGRectElement>('.kss-bg')
-          .transition().duration(140)
+          .transition().duration(80)
           .attr('filter', 'url(#kss-glow)');
       })
       .on('mouseleave', (e: MouseEvent) => {
         select(e.currentTarget as SVGGElement)
           .select<SVGRectElement>('.kss-bg')
-          .transition().duration(220)
+          .transition().duration(120)
           .attr('filter', null as any);
       });
 
