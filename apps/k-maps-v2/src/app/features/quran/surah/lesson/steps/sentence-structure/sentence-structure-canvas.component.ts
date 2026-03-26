@@ -68,20 +68,21 @@ function buildLayout(
   collectOriginalHasChildren(treebank, hasChildrenMap);
 
   const root = hierarchy<TreebankNode>(pruned, d => d.children?.length ? d.children : undefined);
+  // Top-down vertical layout: nodeSize[0] = horizontal spread, nodeSize[1] = vertical depth
   const treeLayout = tree<TreebankNode>().nodeSize([NODE_W + H_SEP, NODE_H + V_SEP]);
   treeLayout(root);
 
-  let minX = Infinity;
-  root.each(n => { const nx = (n as any).x; if (nx < minX) minX = nx; });
-  const offsetX = -minX + PAD_X + NODE_W / 2;
+  // d3.x = breadth (horizontal spread), d3.y = depth (top-down)
+  let minD3X = Infinity;
+  root.each(n => { const nx = (n as any).x; if (nx < minD3X) minD3X = nx; });
 
   const nodes: LayoutNode[] = [];
   root.each(n => {
     nodes.push({
       id:          n.data.id,
       data:        n.data,
-      x:           (n as any).x + offsetX - NODE_W / 2,
-      y:           (n as any).y + PAD_Y,
+      x:           (n as any).x - minD3X + PAD_X,        // horizontal, left-aligned
+      y:           (n as any).y + PAD_Y,                  // vertical depth
       depth:       n.depth,
       hasChildren: hasChildrenMap.get(n.data.id) ?? false,
     });
@@ -197,17 +198,25 @@ function buildLayout(
     </div>
   `,
   styles: [`
+    /* ── Host fills parent flex container ──────────────────────────────────── */
+    :host {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+
     /* ── Viewport ──────────────────────────────────────────────────────────── */
     .ss-viewport {
       position: relative;
       width: 100%;
-      height: 620px;
+      flex: 1;
       min-height: 400px;
       overflow: hidden;
       cursor: grab;
-      border-radius: 16px;
-      background: rgba(6, 9, 18, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 0;
+      background: transparent;
+      border: none;
       touch-action: none;
       user-select: none;
       -webkit-user-select: none;
@@ -447,6 +456,7 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
       const t = nodeMap.get(targetId);
       if (!s || !t) return [];
       return [{ sourceId, targetId,
+        // Top-down: parent bottom center → child top center
         sx: s.x + NODE_W / 2,
         sy: s.y + NODE_H,
         tx: t.x + NODE_W / 2,
@@ -473,10 +483,21 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
 
     this.canvasElRef = this.canvasEl?.nativeElement ?? null;
 
-    // Run pointermove outside Angular zone to avoid CD on every frame
+    // All hot-path events run outside Angular zone — zero CD on move/scroll frames
     this.zone.runOutsideAngular(() => {
       const vp = this.viewport?.nativeElement as HTMLElement | undefined;
       if (!vp) return;
+
+      // Wheel → pan canvas. panX/panY not in template so no CD triggered.
+      vp.addEventListener('wheel', (e: WheelEvent) => {
+        e.preventDefault();
+        const x = this.panX() - e.deltaX;
+        const y = this.panY() - e.deltaY;
+        this.panX.set(x);
+        this.panY.set(y);
+        if (this.canvasElRef) this.canvasElRef.style.transform = `translate(${x}px,${y}px)`;
+      }, { passive: false });
+
       vp.addEventListener('pointermove', (e: PointerEvent) => {
         if (!this.ptr || e.pointerId !== this.ptr.pointerId) return;
         const dx = e.clientX - this.ptr.startClientX;
@@ -577,28 +598,71 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     }
   }
 
-  // ── Collapse / expand (leaf-by-leaf) ─────────────────────────────────────
+  // ── Collapse / expand ─────────────────────────────────────────────────────
 
-  private prevNodeIds = new Set<string>();
+  // Positions of all visible nodes before the last layout change
+  private prevPositions = new Map<string, { x: number; y: number }>();
+  // Position of the parent node before the last layout change
+  private prevParentPos = { x: 0, y: 0 };
+
+  /** Collect all descendant IDs from the original treebank (not pruned). */
+  private getDescendantIds(rootId: string): Set<string> {
+    const tb = this._tb();
+    if (!tb) return new Set();
+    const result = new Set<string>();
+    const find = (node: TreebankNode): boolean => {
+      if (node.id === rootId) {
+        const collect = (n: TreebankNode) => {
+          n.children?.forEach(c => { result.add(c.id); collect(c); });
+        };
+        collect(node);
+        return true;
+      }
+      return node.children?.some(c => find(c)) ?? false;
+    };
+    find(tb);
+    return result;
+  }
 
   toggleCollapse(id: string): void {
     const n = this.displayNodes().find(n => n.id === id);
-    if (!n?.hasChildren) return; // leaf nodes — nothing to expand
+    if (!n?.hasChildren) return;
 
     const wasCollapsed = this.collapsedIds().has(id);
-    // Snapshot visible node IDs before change (to detect new nodes on expand)
-    this.prevNodeIds = new Set(this.displayNodes().map(n => n.id));
 
-    this.collapsedIds.update(s => {
-      const next = new Set(s);
-      if (next.has(id)) next.delete(id); else next.add(id);
-      return next;
-    });
-    this._userPos.set(new Map());
+    // Snapshot current positions + parent position
+    this.prevPositions = new Map(this.displayNodes().map(node => [node.id, { x: node.x, y: node.y }]));
+    this.prevParentPos = { x: n.x, y: n.y };
 
-    if (wasCollapsed) {
-      // Expanding — animate new children in leaf-by-leaf
-      setTimeout(() => this.animateNewNodes(), 20);
+    if (!wasCollapsed) {
+      // ── Collapse: animate children out → then update signal ────────────────
+      const descendantIds = this.getDescendantIds(id);
+      const canvas = this.canvasElRef;
+      if (!canvas || !descendantIds.size) {
+        this.collapsedIds.update(s => { const next = new Set(s); next.add(id); return next; });
+        this._userPos.set(new Map());
+        return;
+      }
+      const exitEls = Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node'))
+        .filter(el => descendantIds.has(el.dataset['nodeId'] ?? ''));
+      const sorted = [...exitEls].sort(
+        (a, b) => Number(b.dataset['depth'] ?? 0) - Number(a.dataset['depth'] ?? 0), // deepest first
+      );
+      gsap.to(sorted, {
+        opacity: 0, scale: 0.6, duration: 0.18, ease: 'power2.in', stagger: 0.03,
+        onComplete: () => {
+          this.zone.run(() => {
+            this.collapsedIds.update(s => { const next = new Set(s); next.add(id); return next; });
+            this._userPos.set(new Map());
+            setTimeout(() => this.animateReposition(), 20);
+          });
+        },
+      });
+    } else {
+      // ── Expand: update signal → animate new nodes from parent + reposition ──
+      this.collapsedIds.update(s => { const next = new Set(s); next.delete(id); return next; });
+      this._userPos.set(new Map());
+      setTimeout(() => this.animateExpandIn(id), 20);
     }
   }
 
@@ -611,7 +675,7 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     const canvas = this.canvasEl?.nativeElement;
     if (!canvas) return;
 
-    // Cache DOM ref and auto-center tree in viewport
+    // Cache DOM ref and auto-center tree horizontally in viewport
     if (!this.canvasElRef) this.canvasElRef = canvas;
     const vp = this.viewport?.nativeElement as HTMLElement | null;
     const vpW = vp?.clientWidth ?? 800;
@@ -650,27 +714,79 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     );
   }
 
-  private animateNewNodes(): void {
+  /** After expand: new nodes fly from parent position; moved nodes slide to new position. */
+  private animateExpandIn(parentId: string): void {
     const canvas = this.canvasElRef;
     if (!canvas) return;
-    const nodeEls = Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node'));
-    const newEls = nodeEls.filter(el => !this.prevNodeIds.has(el.dataset['nodeId'] ?? ''));
-    const newLinkEls = Array.from(canvas.querySelectorAll<SVGPathElement>('.ss-link'))
-      .slice(this.prevNodeIds.size - 1); // rough approximation of new links
 
-    if (!newEls.length) return;
+    const allNodeEls = Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node'));
+    const newEls: HTMLElement[] = [];
+    const movedEls: Array<{ el: HTMLElement; dx: number; dy: number }> = [];
 
-    // Sort by depth so parent appears before children
-    const sorted = [...newEls].sort(
+    allNodeEls.forEach(el => {
+      const nodeId = el.dataset['nodeId'];
+      if (!nodeId) return;
+      const n = this.displayNodes().find(node => node.id === nodeId);
+      if (!n) return;
+      const prev = this.prevPositions.get(nodeId);
+      if (!prev) {
+        newEls.push(el);
+      } else if (Math.abs(prev.x - n.x) > 0.5 || Math.abs(prev.y - n.y) > 0.5) {
+        movedEls.push({ el, dx: prev.x - n.x, dy: prev.y - n.y });
+      }
+    });
+
+    // Sort new nodes by depth (parent before children for natural stagger)
+    const sortedNew = [...newEls].sort(
       (a, b) => Number(a.dataset['depth'] ?? 0) - Number(b.dataset['depth'] ?? 0),
     );
 
-    gsap.fromTo(newLinkEls, { opacity: 0 }, { opacity: 1, duration: 0.25, stagger: 0.03 });
-    gsap.fromTo(sorted,
-      { opacity: 0, scale: 0.65, y: -14 },
-      { opacity: 1, scale: 1, y: 0, duration: 0.32, stagger: 0.07,
-        ease: 'back.out(1.6)', transformOrigin: 'top center' },
-    );
+    sortedNew.forEach((el, i) => {
+      const nodeId = el.dataset['nodeId'];
+      const n = this.displayNodes().find(node => node.id === nodeId);
+      if (!n) return;
+      const dx = this.prevParentPos.x - n.x;
+      const dy = this.prevParentPos.y - n.y;
+      gsap.fromTo(el,
+        { opacity: 0, x: dx, y: dy, scale: 0.7 },
+        { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.35,
+          delay: i * 0.06, ease: 'back.out(1.5)', transformOrigin: 'top center' },
+      );
+    });
+
+    movedEls.forEach(({ el, dx, dy }) => {
+      gsap.fromTo(el,
+        { x: dx, y: dy },
+        { x: 0, y: 0, duration: 0.38, ease: 'power2.out' },
+      );
+    });
+
+    // Fade in new links
+    const newLinkEls = Array.from(canvas.querySelectorAll<SVGPathElement>('.ss-link'))
+      .slice(Math.max(0, this.prevPositions.size - 1));
+    if (newLinkEls.length) {
+      gsap.fromTo(newLinkEls, { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: 0.03 });
+    }
+  }
+
+  /** After collapse: remaining nodes that shifted animate from prev → new position. */
+  private animateReposition(): void {
+    const canvas = this.canvasElRef;
+    if (!canvas) return;
+
+    Array.from(canvas.querySelectorAll<HTMLElement>('.ss-node')).forEach(el => {
+      const nodeId = el.dataset['nodeId'];
+      if (!nodeId) return;
+      const n = this.displayNodes().find(node => node.id === nodeId);
+      const prev = this.prevPositions.get(nodeId);
+      if (!n || !prev) return;
+      if (Math.abs(prev.x - n.x) > 0.5 || Math.abs(prev.y - n.y) > 0.5) {
+        gsap.fromTo(el,
+          { x: prev.x - n.x, y: prev.y - n.y },
+          { x: 0, y: 0, duration: 0.38, ease: 'power2.out' },
+        );
+      }
+    });
   }
 
   // ── Template helpers ──────────────────────────────────────────────────────

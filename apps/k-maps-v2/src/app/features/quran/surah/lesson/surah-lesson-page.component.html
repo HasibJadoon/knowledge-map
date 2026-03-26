@@ -82,7 +82,9 @@
          STUDY WORKSPACE
          ════════════════════════════════════════════════════════ -->
     @if (phase() === 'workspace') {
-      <div class="workspace" #workspaceEl>
+      <div class="workspace"
+        [class.workspace--canvas-full]="activeStep() === 'sentence-structure' && !currentStepLocked()"
+        #workspaceEl>
 
         <!-- Back nav -->
         <nav class="lesson-page__nav">
@@ -92,8 +94,8 @@
           }
         </nav>
 
-        <!-- Hero -->
-        @if (!currentStepLocked()) {
+        <!-- Hero — hidden for canvas-full steps -->
+        @if (!currentStepLocked() && activeStep() !== 'sentence-structure') {
           <div class="hero" #heroEl>
             <div class="hero__bg" #heroBg></div>
             <div class="hero__content">
