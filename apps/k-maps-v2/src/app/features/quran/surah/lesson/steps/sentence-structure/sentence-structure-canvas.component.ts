@@ -45,7 +45,7 @@ interface LayoutLink {
 
 // ── Layout constants ──────────────────────────────────────────────────────────
 
-const NODE_W  = 168;   // card width px
+const NODE_W  = 220;   // card width px
 const NODE_H  = 76;    // card height px (fixed for link math)
 const H_SEP   = 28;    // horizontal gap between sibling cards
 const V_SEP   = 64;    // vertical gap between depth levels
@@ -264,7 +264,7 @@ const PAD_Y   = 24;    // canvas vertical padding
     /* ── Node card ────────────────────────────────────────────────────────── */
     .ss-node {
       position: absolute;
-      width: 168px;
+      width: 220px;
       min-height: 76px;
       background: #111;
       border: 1px solid #252525;
@@ -330,11 +330,10 @@ const PAD_Y   = 24;    // canvas vertical padding
       direction: rtl;
       text-align: right;
       color: #e5e7eb;
-      line-height: 1.4;
+      line-height: 1.55;
       margin-top: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: normal;
+      word-break: break-word;
     }
 
     .ss-node__chips {
