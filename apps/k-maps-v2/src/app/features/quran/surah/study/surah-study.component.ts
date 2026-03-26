@@ -5,7 +5,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { SurahModulesService, StudyUnitCardVm, StudySurahMeta } from '../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../shared/quran-gsap.service';
+import { QuranGsapService } from '../../shared/services/quran-gsap.service';
 import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
 
 @Component({
@@ -62,5 +62,13 @@ export class SurahStudyComponent implements OnInit, AfterViewInit {
     return u.ayah_to && u.ayah_to !== u.ayah_from
       ? `${this.surahId()}:${u.ayah_from}–${u.ayah_to}`
       : `${this.surahId()}:${u.ayah_from}`;
+  }
+
+  hasVocabularyBreakdown(unit: StudyUnitCardVm): boolean {
+    return (unit.vocabulary.nouns ?? 0) > 0 || (unit.vocabulary.verbs ?? 0) > 0;
+  }
+
+  hasVocabularyTotal(unit: StudyUnitCardVm): boolean {
+    return (unit.vocabulary.total ?? 0) > 0;
   }
 }

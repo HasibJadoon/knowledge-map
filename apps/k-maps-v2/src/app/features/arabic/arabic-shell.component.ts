@@ -6,17 +6,7 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet],
-  template: `
-    <div class="arabic-shell">
-      <router-outlet />
-    </div>
-  `,
-  styles: [`
-    .arabic-shell {
-      width: 100%;
-      min-height: 100dvh;
-      background: var(--km-bg);
-    }
-  `],
+  templateUrl: './arabic-shell.component.html',
+  styleUrl: './arabic-shell.component.scss',
 })
 export class ArabicShellComponent {}

@@ -425,6 +425,7 @@ CREATE TABLE ar_lesson_unit_progress (
 CREATE TABLE ar_container_unit_task (
   task_id    TEXT PRIMARY KEY,
   unit_id    TEXT NOT NULL,
+  parent_task_id TEXT,
 
   -- All task types across all 6 domains
   task_type  TEXT NOT NULL CHECK (task_type IN (
@@ -448,6 +449,7 @@ CREATE TABLE ar_container_unit_task (
   )),
 
   task_name  TEXT NOT NULL,
+  step_no    INTEGER,
   task_json  JSON NOT NULL CHECK (json_valid(task_json)),
 
   status     TEXT NOT NULL DEFAULT 'draft' CHECK (status IN (
@@ -460,7 +462,6 @@ CREATE TABLE ar_container_unit_task (
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now')),
 
-  UNIQUE (unit_id, task_type),
   FOREIGN KEY (unit_id) REFERENCES ar_container_units(id) ON DELETE CASCADE
 );
 
@@ -1422,7 +1423,7 @@ CREATE TABLE wv_nodes (
   workspace_id TEXT NOT NULL,
   group_id TEXT,
   user_id INTEGER,
-  node_type TEXT NOT NULL CHECK (node_type IN ('concept', 'claim', 'cluster', 'output', 'theme', 'argument', 'question', 'quote', 'lesson', 'episode', 'source_ref', 'person_ref', 'research_topic', 'other')),
+  node_type TEXT NOT NULL CHECK (node_type IN ('cluster', 'subcluster', 'group', 'collection', 'theme', 'concept', 'principle', 'law', 'pattern', 'framework', 'claim', 'evidence', 'proof_step', 'counter_claim', 'assumption', 'inference', 'flow', 'process', 'sequence_step', 'transition', 'cause', 'effect', 'state', 'event', 'actor', 'role', 'trait', 'intention', 'emotion', 'decision', 'psych_state', 'cognitive_bias', 'moral_state', 'spiritual_state', 'ayah_ref', 'surah_ref', 'quranic_pattern', 'source', 'source_unit', 'quote', 'reference', 'question', 'reflection', 'insight', 'warning', 'lesson', 'content_piece', 'podcast_segment', 'lesson_block', 'short_clip', 'diagram_anchor', 'highlight', 'focus_node')),
   title TEXT,
   text_plain TEXT,
   summary TEXT,
@@ -1487,7 +1488,7 @@ CREATE TABLE wv_node_quran_links (
   user_id INTEGER,
   node_id TEXT NOT NULL,
   target_type TEXT NOT NULL CHECK (target_type IN ('ayah', 'surah_ayah_meta', 'translation_passage', 'synonym_topic', 'other')),
-  target_id TEXT NOT NULL,
+  target_ref TEXT NOT NULL,
   relation TEXT NOT NULL CHECK (relation IN ('cites', 'supports', 'about', 'illustrates', 'defines', 'other')),
   quran_evidence_json JSON CHECK (quran_evidence_json IS NULL OR json_valid(quran_evidence_json)),
   note TEXT,
@@ -1748,7 +1749,12 @@ CREATE INDEX idx_ar_lesson_enroll_user ON ar_lesson_enrollments(user_id, status)
 CREATE INDEX idx_ar_lesson_user_state_user ON ar_lesson_user_state(user_id, last_seen_at);
 CREATE INDEX idx_ar_lesson_unit_progress_user ON ar_lesson_unit_progress(user_id, lesson_id, status);
 CREATE INDEX idx_ar_container_unit_task_unit ON ar_container_unit_task(unit_id);
+CREATE INDEX idx_ar_container_unit_task_parent ON ar_container_unit_task(parent_task_id);
 CREATE INDEX idx_ar_container_unit_task_type ON ar_container_unit_task(task_type);
+CREATE INDEX idx_ar_container_unit_task_step ON ar_container_unit_task(unit_id, step_no, task_id);
+CREATE UNIQUE INDEX idx_ar_container_unit_task_root_type_unique
+  ON ar_container_unit_task(unit_id, task_type)
+  WHERE parent_task_id IS NULL AND deleted_at IS NULL;
 CREATE INDEX idx_ar_sources_type ON ar_sources(source_type);
 CREATE INDEX idx_ar_sources_title ON ar_sources(title);
 CREATE INDEX idx_ar_notes_type ON ar_notes(note_type);
@@ -2566,6 +2572,113 @@ WHEN NEW.updated_at IS OLD.updated_at
 BEGIN
   UPDATE ar_quran_surah_passage SET updated_at = datetime('now') WHERE id = OLD.id;
 END;
+
+-- ──────────────────────────────────────────────────────────────
+-- ui_passage_diagrams
+-- Passage-scoped diagram registry. Each unit can expose multiple
+-- diagram renderings over the same ayah range.
+-- ──────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS ui_passage_diagrams (
+  id               TEXT PRIMARY KEY,
+  canonical_input  TEXT NOT NULL UNIQUE,
+
+  unit_id          TEXT NOT NULL,              -- FK ar_container_units
+  surah            INTEGER NOT NULL,
+  ayah_from        INTEGER NOT NULL,
+  ayah_to          INTEGER NOT NULL,
+  passage_ref      TEXT,                       -- "12:1-18"
+
+  diagram_key      TEXT NOT NULL,              -- cluster_map / proof_tree / flow / graph
+  title            TEXT NOT NULL,
+  description      TEXT,
+
+  renderer         TEXT NOT NULL,              -- rect_3d_grid / vertical_proof_tree / animated_path_flow / node_graph
+  diagram_type     TEXT NOT NULL CHECK (diagram_type IN (
+    'cluster_map',
+    'claim_evidence_tree',
+    'sequence_flow',
+    'law_derivation',
+    'ayah_focus_strip',
+    'constellation_graph',
+    'custom'
+  )),
+
+  order_index      INTEGER NOT NULL DEFAULT 0,
+  is_default       INTEGER NOT NULL DEFAULT 0 CHECK (is_default IN (0, 1)),
+  status           TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('draft', 'active', 'archived')),
+
+  layout_json      JSON CHECK (layout_json  IS NULL OR json_valid(layout_json)),
+  gsap_json        JSON CHECK (gsap_json    IS NULL OR json_valid(gsap_json)),
+  filters_json     JSON CHECK (filters_json IS NULL OR json_valid(filters_json)),
+  meta_json        JSON CHECK (meta_json    IS NULL OR json_valid(meta_json)),
+
+  created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at       TEXT NOT NULL DEFAULT (datetime('now')),
+
+  UNIQUE (unit_id, diagram_key),
+
+  FOREIGN KEY (unit_id) REFERENCES ar_container_units(id) ON DELETE CASCADE,
+  FOREIGN KEY (surah)   REFERENCES ar_quran_surahs(surah) ON DELETE RESTRICT
+);
+
+CREATE INDEX IF NOT EXISTS idx_ui_passage_diagrams_unit
+  ON ui_passage_diagrams(unit_id, order_index);
+CREATE INDEX IF NOT EXISTS idx_ui_passage_diagrams_surah_range
+  ON ui_passage_diagrams(surah, ayah_from, ayah_to);
+CREATE INDEX IF NOT EXISTS idx_ui_passage_diagrams_status
+  ON ui_passage_diagrams(status);
+CREATE INDEX IF NOT EXISTS idx_ui_passage_diagrams_default
+  ON ui_passage_diagrams(unit_id, is_default)
+  WHERE is_default = 1;
+
+CREATE TRIGGER trg_ui_passage_diagrams_updated_at
+AFTER UPDATE ON ui_passage_diagrams
+FOR EACH ROW
+WHEN NEW.updated_at IS OLD.updated_at
+BEGIN
+  UPDATE ui_passage_diagrams SET updated_at = datetime('now') WHERE id = OLD.id;
+END;
+
+-- ──────────────────────────────────────────────────────────────
+-- ui_passage_diagram_nodes
+-- Bridge table between a passage diagram instance and worldview
+-- nodes included in that rendering.
+-- ──────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS ui_passage_diagram_nodes (
+  id               INTEGER PRIMARY KEY AUTOINCREMENT,
+  diagram_id       TEXT NOT NULL,
+  node_id          TEXT NOT NULL,
+
+  role             TEXT CHECK (role IN (
+    'primary',
+    'secondary',
+    'supporting',
+    'claim',
+    'evidence',
+    'law',
+    'flow_step',
+    'theme',
+    'concept',
+    'hidden'
+  )),
+
+  order_index      INTEGER NOT NULL DEFAULT 0,
+  is_entry         INTEGER NOT NULL DEFAULT 0 CHECK (is_entry IN (0, 1)),
+  is_exit          INTEGER NOT NULL DEFAULT 0 CHECK (is_exit IN (0, 1)),
+
+  ui_json          JSON CHECK (ui_json IS NULL OR json_valid(ui_json)),
+  created_at       TEXT NOT NULL DEFAULT (datetime('now')),
+
+  UNIQUE (diagram_id, node_id),
+
+  FOREIGN KEY (diagram_id) REFERENCES ui_passage_diagrams(id) ON DELETE CASCADE,
+  FOREIGN KEY (node_id)    REFERENCES wv_nodes(id)            ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_ui_passage_diagram_nodes_diagram
+  ON ui_passage_diagram_nodes(diagram_id, order_index);
+CREATE INDEX IF NOT EXISTS idx_ui_passage_diagram_nodes_node
+  ON ui_passage_diagram_nodes(node_id);
 
 -- ═══════════════════════════════════════════════════════════════
 -- 6-DOMAIN LIFELONG TABLES (added 2026-03-22)

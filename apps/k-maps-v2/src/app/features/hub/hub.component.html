@@ -1,33 +1,5 @@
-<div class="km-page" #page>
 
-  <!-- Back Button -->
-  <a class="km-back-btn" href="/landing">
-    <span class="km-back-btn__arrow">←</span>
-    <span class="km-back-btn__label">Home</span>
-  </a>
-
-  <div class="km-page__inner">
-
-    <!-- Header -->
-    <header class="km-page-header">
-      <p class="km-page-header__eyebrow">Command Center</p>
-      <h1 class="km-page-header__title">Hub</h1>
-      <p class="km-page-header__subtitle">Scholarly Command &amp; Data Management</p>
-      <div class="km-page-header__rule"></div>
-    </header>
-
-    <!-- Cards Grid -->
-    <div class="km-grid">
-      @for (section of sections; track section.label) {
-        <div class="km-card" (click)="openSection()" role="button" tabindex="0" (keydown.enter)="openSection()">
-          <div class="km-card__tag">{{ section.tag }}</div>
-          <div class="km-card__icon">{{ section.icon }}</div>
-          <h3 class="km-card__title">{{ section.label }}</h3>
-          <p class="km-card__desc">{{ section.desc }}</p>
-          <div class="km-card__arrow">→</div>
-        </div>
-      }
+    <div class="hub-shell">
+      <router-outlet />
     </div>
-
-  </div>
-</div>
+  

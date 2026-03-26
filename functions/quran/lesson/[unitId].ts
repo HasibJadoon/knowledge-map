@@ -47,22 +47,81 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const { results: taskRows } = await env.DB.prepare(`
       SELECT
         t.task_id,
+        t.unit_id,
         t.task_type,
         t.task_name,
+        t.step_no,
         t.status,
-        t.task_json
+        t.task_json,
+        t.updated_at
       FROM ar_container_unit_task t
       WHERE t.unit_id = ?
-      ORDER BY
+        AND t.parent_task_id IS NULL
+      ORDER BY COALESCE(
+        t.step_no,
         CASE t.task_type
-          WHEN 'reading'            THEN 1
-          WHEN 'morphology'         THEN 2
-          WHEN 'sentence_structure' THEN 3
-          WHEN 'expressions'        THEN 4
-          WHEN 'passage_structure'  THEN 5
-          ELSE 99
+          WHEN 'reading'            THEN 100
+          WHEN 'morphology'         THEN 200
+          WHEN 'sentence_structure' THEN 300
+          WHEN 'expressions'        THEN 400
+          WHEN 'comprehension'      THEN 500
+          WHEN 'passage_structure'  THEN 600
+          ELSE 99000
         END
+      ), t.task_id
     `).bind(unitId).all().catch(() => ({ results: [] }));
+
+    const { results: childTaskRows } = await env.DB.prepare(`
+      SELECT
+        t.task_id,
+        t.unit_id,
+        t.parent_task_id,
+        t.task_type,
+        t.task_name,
+        t.step_no,
+        t.status,
+        t.task_json,
+        t.updated_at
+      FROM ar_container_unit_task t
+      WHERE t.unit_id = ?
+        AND t.parent_task_id IS NOT NULL
+      ORDER BY t.parent_task_id, COALESCE(t.step_no, 99999), t.task_id
+    `).bind(unitId).all().catch(() => ({ results: [] }));
+
+    const childrenByParent = new Map<string, Record<string, unknown>[]>();
+    for (const raw of childTaskRows ?? []) {
+      const row = raw as Record<string, unknown>;
+      const parentTaskId = String(row['parent_task_id'] ?? '').trim();
+      if (!parentTaskId) continue;
+      const group = childrenByParent.get(parentTaskId) ?? [];
+      group.push({
+        task_id: row['task_id'],
+        unit_id: row['unit_id'],
+        parent_task_id: row['parent_task_id'],
+        task_type: row['task_type'],
+        task_name: row['task_name'],
+        step_no: row['step_no'],
+        status: row['status'],
+        task_json: row['task_json'],
+        updated_at: row['updated_at'],
+      });
+      childrenByParent.set(parentTaskId, group);
+    }
+
+    const tasks = (taskRows ?? []).map((raw) => {
+      const row = raw as Record<string, unknown>;
+      return {
+        task_id: row['task_id'],
+        unit_id: row['unit_id'],
+        task_type: row['task_type'],
+        task_name: row['task_name'],
+        step_no: row['step_no'],
+        status: row['status'],
+        task_json: row['task_json'],
+        updated_at: row['updated_at'],
+        children: childrenByParent.get(String(row['task_id'] ?? '')) ?? [],
+      };
+    });
 
     // ── 3. Ayah text + translations ──────────────────────────────────────────
     const { results: ayahRows } = await env.DB.prepare(`
@@ -137,7 +196,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         meta_json:    unit['unit_meta_json'],
       },
       ayahs:      ayahRows  ?? [],
-      tasks:      taskRows  ?? [],
+      tasks,
       vocabulary: {
         nouns: nounRows ?? [],
         verbs: verbRows ?? [],

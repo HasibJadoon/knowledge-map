@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgClass, TitleCasePipe } from '@angular/common';
 import { SurahModulesService, SrsCardVm } from '../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../shared/quran-gsap.service';
+import { QuranGsapService } from '../../shared/services/quran-gsap.service';
 
 type SrsFilter = 'due' | 'upcoming' | 'all' | 'suspended';
 

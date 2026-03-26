@@ -6,7 +6,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurahModulesService, WorldviewDocumentVm } from '../../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../../shared/quran-gsap.service';
+import { QuranGsapService } from '../../../shared/services/quran-gsap.service';
 
 @Component({
   selector: 'km-worldview-documents',

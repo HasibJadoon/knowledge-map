@@ -482,6 +482,7 @@ ALTER TABLE ar_quran_synonym_topics ADD COLUMN deleted_at TEXT;
 CREATE TABLE IF NOT EXISTS ar_container_unit_task_v2 (
   task_id        TEXT PRIMARY KEY,
   unit_id        TEXT NOT NULL,
+  parent_task_id TEXT,
 
   task_type      TEXT NOT NULL CHECK (task_type IN (
     -- Core Quran passage tasks
@@ -508,17 +509,16 @@ CREATE TABLE IF NOT EXISTS ar_container_unit_task_v2 (
   created_at     TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at     TEXT NOT NULL DEFAULT (datetime('now')),
 
-  UNIQUE (unit_id, task_type),
   FOREIGN KEY (unit_id) REFERENCES ar_container_units(id) ON DELETE CASCADE
 );
 
 -- Copy all existing rows — status values mapped to new enum
 INSERT OR IGNORE INTO ar_container_unit_task_v2 (
-  task_id, unit_id, task_type, task_name, task_json,
+  task_id, unit_id, parent_task_id, task_type, task_name, task_json,
   status, version_no, deleted_at, created_at, updated_at
 )
 SELECT
-  task_id, unit_id, task_type, task_name, task_json,
+  task_id, unit_id, NULL, task_type, task_name, task_json,
   CASE status
     WHEN 'draft'        THEN 'draft'
     WHEN 'ai_generated' THEN 'ai_generated'
@@ -539,8 +539,13 @@ ALTER TABLE ar_container_unit_task_v2 RENAME TO ar_container_unit_task;
 
 CREATE INDEX IF NOT EXISTS idx_ar_container_unit_task_unit
   ON ar_container_unit_task(unit_id);
+CREATE INDEX IF NOT EXISTS idx_ar_container_unit_task_parent
+  ON ar_container_unit_task(parent_task_id);
 CREATE INDEX IF NOT EXISTS idx_ar_container_unit_task_type
   ON ar_container_unit_task(task_type);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_ar_container_unit_task_root_type_unique
+  ON ar_container_unit_task(unit_id, task_type)
+  WHERE parent_task_id IS NULL AND deleted_at IS NULL;
 CREATE INDEX IF NOT EXISTS idx_ar_container_unit_task_status
   ON ar_container_unit_task(status);
 CREATE INDEX IF NOT EXISTS idx_ar_container_unit_task_active

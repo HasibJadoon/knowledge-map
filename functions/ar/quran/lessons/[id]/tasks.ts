@@ -5,6 +5,11 @@ import {
   normalizeIsoDate,
   readString,
 } from '../../../../_utils/sprint';
+import {
+  buildTaskRootId,
+  getTaskRootStepNo,
+  syncChildTasks,
+} from '../_task-children';
 
 interface Env {
   DB: D1Database;
@@ -27,6 +32,25 @@ const TASK_LABELS: Record<string, string> = {
 };
 
 const TASK_TYPES = new Set(Object.keys(TASK_LABELS));
+
+const TASK_STEP_ORDER_SQL = `
+CASE task_type
+  WHEN 'reading' THEN 100
+  WHEN 'morphology' THEN 200
+  WHEN 'sentence_structure' THEN 300
+  WHEN 'expressions' THEN 400
+  WHEN 'comprehension' THEN 500
+  WHEN 'passage_structure' THEN 600
+  WHEN 'grammar_concepts' THEN 700
+  WHEN 'worldview' THEN 800
+  WHEN 'translation_semantics' THEN 900
+  WHEN 'near_synonyms' THEN 1000
+  WHEN 'surah_analysis' THEN 1100
+  WHEN 'cross_corpus' THEN 1200
+  WHEN 'children_lesson' THEN 1300
+  ELSE 99000
+END
+`;
 
 function safeJsonParse(text: string | null) {
   if (!text) return null;
@@ -88,23 +112,58 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const rows = await ctx.env.DB
       .prepare(
         `
-        SELECT task_id, unit_id, task_type, task_name, task_json, status, updated_at
+        SELECT task_id, unit_id, task_type, task_name, step_no, task_json, status, updated_at
         FROM ar_container_unit_task
         WHERE unit_id = ?1
-        ORDER BY task_type
+          AND parent_task_id IS NULL
+        ORDER BY COALESCE(step_no, ${TASK_STEP_ORDER_SQL}), task_id
       `
       )
       .bind(unitId)
       .all<any>();
+
+    const childRows = await ctx.env.DB
+      .prepare(
+        `
+        SELECT task_id, unit_id, parent_task_id, task_type, task_name, step_no, task_json, status, updated_at
+        FROM ar_container_unit_task
+        WHERE unit_id = ?1
+          AND parent_task_id IS NOT NULL
+        ORDER BY parent_task_id, COALESCE(step_no, ${TASK_STEP_ORDER_SQL}), task_id
+      `
+      )
+      .bind(unitId)
+      .all<any>();
+
+    const childrenByParent = new Map<string, any[]>();
+    for (const row of childRows?.results ?? []) {
+      const parentTaskId = typeof row.parent_task_id === 'string' ? row.parent_task_id : '';
+      if (!parentTaskId) continue;
+      const group = childrenByParent.get(parentTaskId) ?? [];
+      group.push({
+        task_id: row.task_id,
+        unit_id: row.unit_id,
+        parent_task_id: row.parent_task_id,
+        task_type: row.task_type,
+        task_name: row.task_name,
+        step_no: row.step_no,
+        task_json: safeJsonParse(row.task_json) ?? {},
+        status: row.status,
+        updated_at: row.updated_at,
+      });
+      childrenByParent.set(parentTaskId, group);
+    }
 
     const tasks = (rows?.results ?? []).map((row: any) => ({
       task_id: row.task_id,
       unit_id: row.unit_id,
       task_type: row.task_type,
       task_name: row.task_name,
+      step_no: row.step_no,
       task_json: safeJsonParse(row.task_json) ?? {},
       status: row.status,
       updated_at: row.updated_at,
+      children: childrenByParent.get(row.task_id) ?? [],
     }));
 
     return new Response(JSON.stringify({ ok: true, result: { tasks } }), { headers: jsonHeaders });
@@ -200,7 +259,6 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
       });
     }
 
-    const taskId = `UT:${unitId}:${taskType}`;
     const taskRecord = asRecord(taskJson);
     const weekStart = computeWeekStartSydney(normalizeIsoDate(readString(taskRecord?.['week_start'])));
     const taskJsonForStorage = taskRecord
@@ -212,23 +270,31 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
           ar_lesson_id: id,
         }
       : taskJson;
+    const taskId = buildTaskRootId({
+      unitId,
+      taskType,
+      taskJson: taskJsonForStorage,
+    });
     const taskJsonText = JSON.stringify(taskJsonForStorage);
+    const stepNo = getTaskRootStepNo(taskType);
 
     const row = await ctx.env.DB
       .prepare(
         `
         INSERT INTO ar_container_unit_task (
-          task_id, unit_id, task_type, task_name, task_json, status
-        ) VALUES (?1, ?2, ?3, ?4, json(?5), ?6)
-        ON CONFLICT(unit_id, task_type)
+          task_id, unit_id, task_type, task_name, step_no, task_json, status
+        ) VALUES (?1, ?2, ?3, ?4, ?5, json(?6), ?7)
+        ON CONFLICT(task_id)
         DO UPDATE SET
           task_name = excluded.task_name,
+          step_no = excluded.step_no,
           task_json = excluded.task_json,
-          status = excluded.status
-        RETURNING task_id, unit_id, task_type, task_name, task_json, status, updated_at
+          status = excluded.status,
+          deleted_at = NULL
+        RETURNING task_id, unit_id, task_type, task_name, step_no, task_json, status, updated_at
       `
       )
-      .bind(taskId, unitId, taskType, taskName, taskJsonText, status)
+      .bind(taskId, unitId, taskType, taskName, stepNo, taskJsonText, status)
       .first<any>();
 
     if (!row) {
@@ -256,6 +322,15 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
       },
     });
 
+    const children = await syncChildTasks(ctx.env.DB, {
+      unitId,
+      parentTaskId: taskId,
+      taskType,
+      taskName,
+      taskJson: taskJsonForStorage,
+      status,
+    });
+
     return new Response(
       JSON.stringify({
         ok: true,
@@ -264,9 +339,20 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
           unit_id: row.unit_id,
           task_type: row.task_type,
           task_name: row.task_name,
+          step_no: row.step_no,
           task_json: safeJsonParse(row.task_json) ?? taskJson,
           status: row.status,
           updated_at: row.updated_at,
+          children: children.map((child) => ({
+            task_id: child.taskId,
+            parent_task_id: taskId,
+            unit_id: unitId,
+            task_type: taskType,
+            task_name: child.taskName,
+            step_no: child.stepNo,
+            task_json: child.taskJson,
+            status,
+          })),
         },
       }),
       { headers: jsonHeaders }

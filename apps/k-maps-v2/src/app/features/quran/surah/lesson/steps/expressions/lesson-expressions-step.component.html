@@ -1,0 +1,34 @@
+<div class="expr-tab">
+  @if (lesson.expressions.length === 0) {
+    <div class="no-content">
+      <span class="no-content__icon">—</span>
+      <p>No expressions found for this passage.</p>
+    </div>
+  } @else {
+    <p class="count">{{ lesson.expressions.length }} expression{{ lesson.expressions.length !== 1 ? 's' : '' }}</p>
+
+    <div class="expr-list">
+      @for (expr of lesson.expressions; track expr.expression_id) {
+        <div class="expr-card">
+          <div class="expr-card__top">
+            @if (expr.expression_text || expr.text) {
+              <span class="expr-card__ar">{{ expr.expression_text ?? expr.text }}</span>
+            }
+          </div>
+
+          @if (expr.expression_meaning || expr.meaning || expr.gloss) {
+            <p class="expr-card__meaning">
+              {{ expr.expression_meaning ?? expr.meaning ?? expr.gloss }}
+            </p>
+          }
+
+          @if (expr.expression_type) {
+            <span class="expr-card__type">{{ expr.expression_type }}</span>
+          }
+
+          <span class="expr-card__ref">{{ lesson.surahId }}:{{ expr.ayah }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

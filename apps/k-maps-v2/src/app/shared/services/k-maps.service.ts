@@ -138,7 +138,9 @@ type RawLessonDetailResponse = {
     container?: { id?: string };
     units?: Array<{
       id?: string;
+      parent_unit_id?: string | null;
       unit_type?: string;
+      surah?: number | null;
       ayah_from?: number;
       ayah_to?: number;
       start_ref?: string;
@@ -217,11 +219,19 @@ export class KMapsService {
           return Number.isFinite(val) && val > 0 ? val : null;
         };
 
+        const parseSurahFromUnitId = (unitId: string | undefined): number | null => {
+          if (!unitId) return null;
+          const match = String(unitId).match(/^U:C:QURAN:(\d+)(?::|$)/);
+          if (!match) return null;
+          const value = Number(match[1]);
+          return Number.isFinite(value) && value > 0 ? value : null;
+        };
+
         return {
           id: String(id),
           title: meta.title ?? '',
           title_ar: meta.title_ar ?? '',
-          surah: parseRef(passageUnit?.start_ref, 0),
+          surah: passageUnit?.surah ?? parseRef(passageUnit?.start_ref, 0) ?? parseSurahFromUnitId(passageUnit?.id),
           ayah_from: passageUnit?.ayah_from ?? parseRef(passageUnit?.start_ref, 1),
           ayah_to: passageUnit?.ayah_to ?? parseRef(passageUnit?.end_ref, 1),
           container_id: lessonRow.container_id ?? container.id ?? null,

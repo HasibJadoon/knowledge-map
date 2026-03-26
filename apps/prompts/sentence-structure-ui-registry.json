@@ -1,0 +1,324 @@
+{
+  "registry_groups": [
+    { "key": "node_types", "label_ar": "أنواع العقد", "label_en": "Node Types" },
+    { "key": "sentence_types", "label_ar": "أنواع الجمل", "label_en": "Sentence Types" },
+    { "key": "clause_types", "label_ar": "أنواع الجمل الفرعية", "label_en": "Clause Types" },
+    { "key": "embedded_clause_functions", "label_ar": "وظائف الجمل الفرعية", "label_en": "Embedded Clause Functions" },
+    { "key": "phrase_types", "label_ar": "أنواع العبارات", "label_en": "Phrase Types" },
+    { "key": "word_types", "label_ar": "أنواع الكلمة", "label_en": "Word Types" },
+    { "key": "particle_types", "label_ar": "أنواع الحروف", "label_en": "Particle Types" },
+    { "key": "syntactic_functions", "label_ar": "الوظائف النحوية", "label_en": "Syntactic Functions" },
+    { "key": "dependent_functions", "label_ar": "الوظائف التابعة", "label_en": "Dependent Functions" },
+    { "key": "clause_slot_status", "label_ar": "حالة المحل الإعرابي للجملة", "label_en": "Clause Slot Status" },
+    { "key": "case", "label_ar": "الحالة الإعرابية", "label_en": "Case" },
+    { "key": "case_mark_realization", "label_ar": "تحقق علامة الإعراب", "label_en": "Case Mark Realization" },
+    { "key": "number", "label_ar": "العدد", "label_en": "Number" },
+    { "key": "gender", "label_ar": "الجنس", "label_en": "Gender" },
+    { "key": "person", "label_ar": "الشخص", "label_en": "Person" },
+    { "key": "definiteness", "label_ar": "التعريف والتنكير", "label_en": "Definiteness" },
+    { "key": "verb_tense", "label_ar": "زمن الفعل", "label_en": "Verb Tense" },
+    { "key": "verb_voice", "label_ar": "بناء الفعل", "label_en": "Verb Voice" },
+    { "key": "verb_mood", "label_ar": "حالة الفعل المضارع", "label_en": "Verb Mood" },
+    { "key": "nominal_state", "label_ar": "حالة الاسم", "label_en": "Nominal State" },
+    { "key": "relation_types", "label_ar": "أنواع العلاقات", "label_en": "Relation Types" },
+    { "key": "polyfunctional_surface_forms", "label_ar": "الألفاظ متعددة الوظائف", "label_en": "Polyfunctional Surface Forms" },
+    { "key": "ui_color_tokens", "label_ar": "رموز الألوان", "label_en": "UI Color Tokens" },
+    { "key": "ui_animation_tokens", "label_ar": "رموز الحركة", "label_en": "UI Animation Tokens" }
+  ],
+  "registry": {
+    "node_types": [
+      { "id": "sentence", "term_ar": "جملة", "term_en": "sentence" },
+      { "id": "clause", "term_ar": "جملة فرعية", "term_en": "clause" },
+      { "id": "phrase", "term_ar": "عبارة", "term_en": "phrase" },
+      { "id": "word", "term_ar": "كلمة", "term_en": "word" },
+      { "id": "particle", "term_ar": "حرف", "term_en": "particle" },
+      { "id": "clitic", "term_ar": "لصيقة", "term_en": "clitic" },
+      { "id": "ellipsis", "term_ar": "محذوف", "term_en": "ellipsis" }
+    ],
+    "sentence_types": [
+      { "id": "nominal_sentence", "term_ar": "جملة اسمية", "term_en": "nominal sentence" },
+      { "id": "verbal_sentence", "term_ar": "جملة فعلية", "term_en": "verbal sentence" },
+      { "id": "conditional_sentence", "term_ar": "جملة شرطية", "term_en": "conditional sentence" },
+      { "id": "oath_sentence", "term_ar": "جملة قسم", "term_en": "oath sentence" },
+      { "id": "supplicative_sentence", "term_ar": "جملة دعائية", "term_en": "supplicative sentence" },
+      { "id": "exclamatory_sentence", "term_ar": "جملة تعجبية", "term_en": "exclamatory sentence" },
+      { "id": "interrogative_sentence", "term_ar": "جملة استفهامية", "term_en": "interrogative sentence" },
+      { "id": "prohibitive_sentence", "term_ar": "جملة نهي", "term_en": "prohibitive sentence" },
+      { "id": "imperative_sentence", "term_ar": "جملة أمر", "term_en": "imperative sentence" },
+      { "id": "vocative_sentence", "term_ar": "جملة نداء", "term_en": "vocative sentence" },
+      { "id": "resumptive_sentence", "term_ar": "جملة استئنافية", "term_en": "resumptive sentence" },
+      { "id": "parenthetical_sentence", "term_ar": "جملة اعتراضية", "term_en": "parenthetical sentence" }
+    ],
+    "clause_types": [
+      { "id": "nominal_clause", "term_ar": "جملة اسمية", "term_en": "nominal clause" },
+      { "id": "verbal_clause", "term_ar": "جملة فعلية", "term_en": "verbal clause" },
+      { "id": "conditional_clause", "term_ar": "جملة شرط", "term_en": "conditional clause" },
+      { "id": "answer_clause", "term_ar": "جملة جواب", "term_en": "answer clause" },
+      { "id": "resumptive_clause", "term_ar": "جملة استئناف", "term_en": "resumptive clause" },
+      { "id": "parenthetical_clause", "term_ar": "جملة اعتراض", "term_en": "parenthetical clause" },
+      { "id": "explanatory_clause", "term_ar": "جملة تفسير", "term_en": "explanatory clause" }
+    ],
+    "embedded_clause_functions": [
+      { "id": "predicate_clause", "term_ar": "جملة خبر", "term_en": "predicate clause" },
+      { "id": "circumstantial_clause", "term_ar": "جملة حال", "term_en": "circumstantial clause" },
+      { "id": "adjectival_clause", "term_ar": "جملة صفة", "term_en": "adjectival clause" },
+      { "id": "relative_clause", "term_ar": "جملة صلة الموصول", "term_en": "relative clause" },
+      { "id": "conditional_answer_clause", "term_ar": "جملة جواب الشرط", "term_en": "conditional answer clause" },
+      { "id": "oath_answer_clause", "term_ar": "جملة جواب القسم", "term_en": "oath answer clause" },
+      { "id": "object_slot_clause", "term_ar": "جملة في محل مفعول به", "term_en": "object-slot clause" },
+      { "id": "coordinated_clause", "term_ar": "جملة معطوفة", "term_en": "coordinated clause" },
+      { "id": "independent_clause", "term_ar": "جملة مستأنفة", "term_en": "independent clause" },
+      { "id": "interjected_clause", "term_ar": "جملة اعتراضية", "term_en": "interjected clause" },
+      { "id": "tafsir_clause", "term_ar": "جملة تفسيرية", "term_en": "tafsir clause" },
+      { "id": "quoted_speech", "term_ar": "مقول القول", "term_en": "quoted speech" }
+    ],
+    "phrase_types": [
+      { "id": "prepositional_generic", "term_ar": "شبه جملة", "term_en": "semi-sentence / quasi-phrase" },
+      { "id": "jar_majrur", "term_ar": "جار ومجرور", "term_en": "prepositional phrase" },
+      { "id": "zarf", "term_ar": "ظرف", "term_en": "adverbial ظرف" },
+      { "id": "zarf_zaman", "term_ar": "ظرف زمان", "term_en": "temporal adverbial" },
+      { "id": "zarf_makan", "term_ar": "ظرف مكان", "term_en": "locative adverbial" },
+      { "id": "idafa_phrase", "term_ar": "مركب إضافي", "term_en": "idafa phrase" },
+      { "id": "adjectival_phrase", "term_ar": "مركب وصفي", "term_en": "adjectival phrase" },
+      { "id": "coordinative_phrase", "term_ar": "مركب عطفي", "term_en": "coordinative phrase" },
+      { "id": "substitution_phrase", "term_ar": "مركب بدلي", "term_en": "substitution phrase" },
+      { "id": "emphatic_phrase", "term_ar": "مركب توكيدي", "term_en": "emphatic phrase" },
+      { "id": "vocative_construction", "term_ar": "تركيب ندائي", "term_en": "vocative construction" },
+      { "id": "exception_construction", "term_ar": "تركيب استثنائي", "term_en": "exception construction" },
+      { "id": "masdar_muawwal", "term_ar": "مصدر مؤول", "term_en": "interpreted verbal noun" }
+    ],
+    "word_types": [
+      { "id": "noun", "term_ar": "اسم", "term_en": "noun" },
+      { "id": "verb", "term_ar": "فعل", "term_en": "verb" },
+      { "id": "particle", "term_ar": "حرف", "term_en": "particle" }
+    ],
+    "particle_types": [
+      { "id": "harf_jar", "term_ar": "حرف جر", "term_en": "preposition" },
+      { "id": "harf_nasb", "term_ar": "حرف نصب", "term_en": "subjunctive particle" },
+      { "id": "harf_jazm", "term_ar": "حرف جزم", "term_en": "jussive particle" },
+      { "id": "harf_atf", "term_ar": "حرف عطف", "term_en": "coordinating particle" },
+      { "id": "adat_shart", "term_ar": "أداة شرط", "term_en": "conditional particle" },
+      { "id": "adat_istifham", "term_ar": "أداة استفهام", "term_en": "interrogative particle" },
+      { "id": "adat_nafy", "term_ar": "أداة نفي", "term_en": "negative particle" },
+      { "id": "adat_nida", "term_ar": "أداة نداء", "term_en": "vocative particle" },
+      { "id": "adat_istithna", "term_ar": "أداة استثناء", "term_en": "exception particle" },
+      { "id": "adat_jawab", "term_ar": "أداة جواب", "term_en": "answer particle" },
+      { "id": "adat_tanbih", "term_ar": "أداة تنبيه", "term_en": "attention particle" },
+      { "id": "harf_tawkid", "term_ar": "حرف توكيد", "term_en": "emphatic particle" },
+      { "id": "harf_tafsir", "term_ar": "حرف تفسير", "term_en": "explanatory particle" },
+      { "id": "harf_masdari", "term_ar": "حرف مصدري", "term_en": "masdari particle" }
+    ],
+    "syntactic_functions": [
+      { "id": "mubtada", "term_ar": "مبتدأ", "term_en": "topic / subject" },
+      { "id": "khabar", "term_ar": "خبر", "term_en": "predicate" },
+      { "id": "ism_kana", "term_ar": "اسم كان", "term_en": "subject of kana" },
+      { "id": "khabar_kana", "term_ar": "خبر كان", "term_en": "predicate of kana" },
+      { "id": "ism_inna", "term_ar": "اسم إن", "term_en": "subject of inna" },
+      { "id": "khabar_inna", "term_ar": "خبر إن", "term_en": "predicate of inna" },
+      { "id": "verb_function", "term_ar": "فعل", "term_en": "verb function" },
+      { "id": "fail", "term_ar": "فاعل", "term_en": "agent / subject" },
+      { "id": "naib_fail", "term_ar": "نائب فاعل", "term_en": "deputy subject" },
+      { "id": "maful_bih", "term_ar": "مفعول به", "term_en": "direct object" },
+      { "id": "maful_mutlaq", "term_ar": "مفعول مطلق", "term_en": "cognate accusative" },
+      { "id": "maful_fih", "term_ar": "مفعول فيه", "term_en": "adverbial object" },
+      { "id": "maful_li_ajlih", "term_ar": "مفعول لأجله", "term_en": "causal object" },
+      { "id": "maful_maah", "term_ar": "مفعول معه", "term_en": "comitative object" },
+      { "id": "maful_awwal", "term_ar": "مفعول أول", "term_en": "first object" },
+      { "id": "maful_thani", "term_ar": "مفعول ثان", "term_en": "second object" },
+      { "id": "maful_thalith", "term_ar": "مفعول ثالث", "term_en": "third object" },
+      { "id": "hal", "term_ar": "حال", "term_en": "circumstantial accusative" },
+      { "id": "tamyiz", "term_ar": "تمييز", "term_en": "specification" },
+      { "id": "mustathna", "term_ar": "مستثنى", "term_en": "exception term" },
+      { "id": "munada", "term_ar": "منادى", "term_en": "vocative noun" },
+      { "id": "ism_la", "term_ar": "اسم لا", "term_en": "noun of la" },
+      { "id": "khabar_la", "term_ar": "خبر لا", "term_en": "predicate of la" },
+      { "id": "mudaf", "term_ar": "مضاف", "term_en": "annexed noun" },
+      { "id": "mudaf_ilayh", "term_ar": "مضاف إليه", "term_en": "genitive annex" },
+      { "id": "ism_majrur", "term_ar": "اسم مجرور", "term_en": "genitive noun" },
+      { "id": "jar", "term_ar": "جار", "term_en": "governing preposition" },
+      { "id": "majrur", "term_ar": "مجرور", "term_en": "governed genitive" },
+      { "id": "silat_almawsul", "term_ar": "صلة الموصول", "term_en": "relative clause link" },
+      { "id": "jawab_alshart", "term_ar": "جواب الشرط", "term_en": "condition answer" },
+      { "id": "jawab_alqasm", "term_ar": "جواب القسم", "term_en": "oath answer" }
+    ],
+    "dependent_functions": [
+      { "id": "naat", "term_ar": "نعت", "term_en": "adjective" },
+      { "id": "mawsuf", "term_ar": "منعوت", "term_en": "qualified noun" },
+      { "id": "tawkid", "term_ar": "توكيد", "term_en": "emphasis" },
+      { "id": "badal", "term_ar": "بدل", "term_en": "substitute / apposition" },
+      { "id": "atf_bayan", "term_ar": "عطف بيان", "term_en": "explicative apposition" },
+      { "id": "atf_nasaq", "term_ar": "عطف نسق", "term_en": "coordination" },
+      { "id": "maatuf", "term_ar": "معطوف", "term_en": "conjunct" },
+      { "id": "maatuf_alayh", "term_ar": "معطوف عليه", "term_en": "conjunct base" }
+    ],
+    "clause_slot_status": [
+      { "id": "has_i3rab_slot", "term_ar": "له محل من الإعراب", "term_en": "has syntactic slot" },
+      { "id": "no_i3rab_slot", "term_ar": "لا محل له من الإعراب", "term_en": "has no syntactic slot" }
+    ],
+    "case": [
+      { "id": "raf", "term_ar": "مرفوع", "term_en": "nominative / raised" },
+      { "id": "nasb", "term_ar": "منصوب", "term_en": "accusative / set in nasb" },
+      { "id": "jarr", "term_ar": "مجرور", "term_en": "genitive" },
+      { "id": "jazm", "term_ar": "مجزوم", "term_en": "jussive" },
+      { "id": "mabni", "term_ar": "مبني", "term_en": "indeclinable" }
+    ],
+    "case_mark_realization": [
+      { "id": "damma", "term_ar": "ضمة", "term_en": "damma" },
+      { "id": "fatha", "term_ar": "فتحة", "term_en": "fatha" },
+      { "id": "kasra", "term_ar": "كسرة", "term_en": "kasra" },
+      { "id": "sukun", "term_ar": "سكون", "term_en": "sukun" },
+      { "id": "alif", "term_ar": "ألف", "term_en": "alif" },
+      { "id": "waw", "term_ar": "واو", "term_en": "waw" },
+      { "id": "ya", "term_ar": "ياء", "term_en": "ya" },
+      { "id": "hadhf_alnun", "term_ar": "حذف النون", "term_en": "deletion of nun" },
+      { "id": "hadhf_harf_illa", "term_ar": "حذف حرف العلة", "term_en": "deletion of weak letter" },
+      { "id": "estimated", "term_ar": "مقدر", "term_en": "estimated" },
+      { "id": "mahalli", "term_ar": "محلي", "term_en": "positional / mahalli" }
+    ],
+    "number": [
+      { "id": "singular", "term_ar": "مفرد", "term_en": "singular" },
+      { "id": "dual", "term_ar": "مثنى", "term_en": "dual" },
+      { "id": "plural", "term_ar": "جمع", "term_en": "plural" }
+    ],
+    "gender": [
+      { "id": "masculine", "term_ar": "مذكر", "term_en": "masculine" },
+      { "id": "feminine", "term_ar": "مؤنث", "term_en": "feminine" },
+      { "id": "common", "term_ar": "مشترك", "term_en": "common" }
+    ],
+    "person": [
+      { "id": "first_person", "term_ar": "متكلم", "term_en": "speaker / first person" },
+      { "id": "second_person", "term_ar": "مخاطب", "term_en": "addressee / second person" },
+      { "id": "third_person", "term_ar": "غائب", "term_en": "third person / absent" }
+    ],
+    "definiteness": [
+      { "id": "definite", "term_ar": "معرفة", "term_en": "definite" },
+      { "id": "indefinite", "term_ar": "نكرة", "term_en": "indefinite" }
+    ],
+    "verb_tense": [
+      { "id": "past", "term_ar": "ماض", "term_en": "past" },
+      { "id": "present", "term_ar": "مضارع", "term_en": "present / imperfect" },
+      { "id": "imperative", "term_ar": "أمر", "term_en": "imperative" }
+    ],
+    "verb_voice": [
+      { "id": "active", "term_ar": "معلوم", "term_en": "active" },
+      { "id": "passive", "term_ar": "مجهول", "term_en": "passive" }
+    ],
+    "verb_mood": [
+      { "id": "indicative", "term_ar": "مرفوع", "term_en": "indicative" },
+      { "id": "subjunctive", "term_ar": "منصوب", "term_en": "subjunctive" },
+      { "id": "jussive", "term_ar": "مجزوم", "term_en": "jussive" }
+    ],
+    "nominal_state": [
+      { "id": "standalone", "term_ar": "مفرد", "term_en": "standalone nominal" },
+      { "id": "mudaf_state", "term_ar": "مضاف", "term_en": "annexed state" },
+      { "id": "shibh_mudaf", "term_ar": "شبيه بالمضاف", "term_en": "similar to annexed state" }
+    ],
+    "relation_types": [
+      { "id": "dominates", "term_ar": "يهيمن على", "term_en": "dominates" },
+      { "id": "head_of", "term_ar": "رأس لـ", "term_en": "head of" },
+      { "id": "dependent_on", "term_ar": "تابع لـ", "term_en": "dependent on" },
+      { "id": "governs", "term_ar": "يعمل في", "term_en": "governs" },
+      { "id": "governed_by", "term_ar": "معمول لـ", "term_en": "governed by" },
+      { "id": "modifies", "term_ar": "يعدل", "term_en": "modifies" },
+      { "id": "attached_to", "term_ar": "متعلق بـ", "term_en": "attached to" },
+      { "id": "conjunct_of", "term_ar": "معطوف على", "term_en": "conjunct of" },
+      { "id": "substituted_for", "term_ar": "بدل من", "term_en": "substituted for" },
+      { "id": "apposition_of", "term_ar": "عطف بيان لـ", "term_en": "apposition of" },
+      { "id": "resumes", "term_ar": "يستأنف", "term_en": "resumes" },
+      { "id": "answers", "term_ar": "يجيب", "term_en": "answers" },
+      { "id": "explains", "term_ar": "يفسر", "term_en": "explains" },
+      { "id": "refers_to", "term_ar": "يشير إلى", "term_en": "refers to" }
+    ],
+    "polyfunctional_surface_forms": {
+      "ما": [
+        { "id": "ma_mawsula", "term_ar": "ما الموصولة", "term_en": "relative ma" },
+        { "id": "ma_shartiyya", "term_ar": "ما الشرطية", "term_en": "conditional ma" },
+        { "id": "ma_istifhamiyya", "term_ar": "ما الاستفهامية", "term_en": "interrogative ma" },
+        { "id": "ma_nafiya", "term_ar": "ما النافية", "term_en": "negative ma" },
+        { "id": "ma_hijaziyya", "term_ar": "ما الحجازية", "term_en": "Hijazi ma" },
+        { "id": "ma_tamimiyya", "term_ar": "ما التميمية", "term_en": "Tamimi ma" },
+        { "id": "ma_masdariyya", "term_ar": "ما المصدرية", "term_en": "masdari ma" },
+        { "id": "ma_masdariyya_zarfiyya", "term_ar": "ما المصدرية الظرفية", "term_en": "adverbial masdari ma" },
+        { "id": "ma_kaffa", "term_ar": "ما الكافة", "term_en": "suspending ma" },
+        { "id": "ma_zaida", "term_ar": "ما الزائدة", "term_en": "extra ma" },
+        { "id": "ma_taajjubiyya", "term_ar": "ما التعجبية", "term_en": "exclamatory ma" },
+        { "id": "ma_nakira_mawsufa", "term_ar": "ما النكرة الموصوفة", "term_en": "indefinite qualified ma" }
+      ],
+      "إن": [
+        { "id": "inna_nasikha", "term_ar": "إن الناسخة", "term_en": "inna the particle of emphasis" },
+        { "id": "in_shartiyya", "term_ar": "إن الشرطية", "term_en": "conditional in" },
+        { "id": "in_nafiya", "term_ar": "إن النافية", "term_en": "negative in" },
+        { "id": "in_mukhaffafa", "term_ar": "إن المخففة من الثقيلة", "term_en": "خفيفة inna" },
+        { "id": "in_zaida", "term_ar": "إن الزائدة", "term_en": "extra in" }
+      ],
+      "أن": [
+        { "id": "anna_nasikha", "term_ar": "أن الناسخة", "term_en": "anna / nasikha particle" },
+        { "id": "an_masdariyya_nasiba", "term_ar": "أن المصدرية الناصبة", "term_en": "subjunctive masdari an" },
+        { "id": "an_mufassira", "term_ar": "أن المفسرة", "term_en": "explanatory an" },
+        { "id": "an_mukhaffafa", "term_ar": "أن المخففة من الثقيلة", "term_en": "خفيفة anna" },
+        { "id": "an_zaida", "term_ar": "أن الزائدة", "term_en": "extra an" }
+      ],
+      "ب": [
+        { "id": "ba_jar_asliyya", "term_ar": "باء الجر الأصلية", "term_en": "basic prepositional ba" },
+        { "id": "ba_ilsaq", "term_ar": "باء الإلصاق", "term_en": "ba of adhesion" },
+        { "id": "ba_istiana", "term_ar": "باء الاستعانة", "term_en": "ba of instrumentality" },
+        { "id": "ba_sababiyya", "term_ar": "باء السببية", "term_en": "causal ba" },
+        { "id": "ba_zarfiyya", "term_ar": "باء الظرفية", "term_en": "locative ba" },
+        { "id": "ba_musahaba", "term_ar": "باء المصاحبة", "term_en": "comitative ba" },
+        { "id": "ba_tadiya", "term_ar": "باء التعدية", "term_en": "transitivizing ba" },
+        { "id": "ba_qasam", "term_ar": "باء القسم", "term_en": "oath ba" },
+        { "id": "ba_muqabala", "term_ar": "باء المقابلة", "term_en": "ba of مقابلة" },
+        { "id": "ba_badaliyya", "term_ar": "باء البدلية", "term_en": "substitution ba" },
+        { "id": "ba_zaida", "term_ar": "باء زائدة", "term_en": "extra ba" }
+      ],
+      "لا": [
+        { "id": "la_nafiyah_liljins", "term_ar": "لا النافية للجنس", "term_en": "la of absolute negation" },
+        { "id": "la_nafiyah_ghayr_amilah", "term_ar": "لا النافية غير العاملة", "term_en": "non-governing negative la" },
+        { "id": "la_nahiya", "term_ar": "لا الناهية", "term_en": "prohibitive la" },
+        { "id": "la_atifa", "term_ar": "لا العاطفة", "term_en": "coordinating la" },
+        { "id": "la_zaida", "term_ar": "لا الزائدة", "term_en": "extra la" },
+        { "id": "la_jawabiyya", "term_ar": "لا الجوابية", "term_en": "answering la" }
+      ],
+      "و": [
+        { "id": "waw_atf", "term_ar": "واو العطف", "term_en": "coordinating waw" },
+        { "id": "waw_hal", "term_ar": "واو الحال", "term_en": "circumstantial waw" },
+        { "id": "waw_maiyya", "term_ar": "واو المعية", "term_en": "comitative waw" },
+        { "id": "waw_qasam", "term_ar": "واو القسم", "term_en": "oath waw" },
+        { "id": "waw_istinaf", "term_ar": "واو الاستئناف", "term_en": "resumptive waw" }
+      ],
+      "ف": [
+        { "id": "fa_atf", "term_ar": "فاء العطف", "term_en": "coordinating fa" },
+        { "id": "fa_sababiyya", "term_ar": "فاء السببية", "term_en": "causal fa" },
+        { "id": "fa_jawab_shart", "term_ar": "فاء جواب الشرط", "term_en": "fa of condition answer" },
+        { "id": "fa_fasiha", "term_ar": "فاء الفصيحة", "term_en": "eloquent fa" },
+        { "id": "fa_istinaf", "term_ar": "فاء الاستئناف", "term_en": "resumptive fa" },
+        { "id": "fa_tafri", "term_ar": "فاء التفريع", "term_en": "consequential fa" }
+      ],
+      "ل": [
+        { "id": "lam_jar", "term_ar": "لام الجر", "term_en": "prepositional lam" },
+        { "id": "lam_talil", "term_ar": "لام التعليل", "term_en": "lam of purpose" },
+        { "id": "lam_amr", "term_ar": "لام الأمر", "term_en": "imperative lam" },
+        { "id": "lam_ibtida", "term_ar": "لام الابتداء", "term_en": "initial/emphatic lam" },
+        { "id": "lam_juhud", "term_ar": "لام الجحود", "term_en": "lam of denial" },
+        { "id": "lam_jawab", "term_ar": "لام الجواب", "term_en": "lam of answer" },
+        { "id": "lam_qasam", "term_ar": "لام القسم", "term_en": "lam of oath" }
+      ]
+    },
+    "ui_color_tokens": [
+      { "id": "sentence", "term_ar": "لون الجملة", "term_en": "sentence color token" },
+      { "id": "clause", "term_ar": "لون الجملة الفرعية", "term_en": "clause color token" },
+      { "id": "phrase", "term_ar": "لون العبارة", "term_en": "phrase color token" },
+      { "id": "اسم", "term_ar": "لون الاسم", "term_en": "noun color token" },
+      { "id": "فعل", "term_ar": "لون الفعل", "term_en": "verb color token" },
+      { "id": "حرف", "term_ar": "لون الحرف", "term_en": "particle color token" },
+      { "id": "محذوف", "term_ar": "لون المحذوف", "term_en": "ellipsis color token" }
+    ],
+    "ui_animation_tokens": [
+      { "id": "sentence_enter", "term_ar": "دخول الجملة", "term_en": "sentence enter" },
+      { "id": "clause_expand", "term_ar": "توسعة الجملة الفرعية", "term_en": "clause expand" },
+      { "id": "phrase_fade", "term_ar": "تلاشي العبارة", "term_en": "phrase fade" },
+      { "id": "word_pop", "term_ar": "ظهور الكلمة", "term_en": "word pop" },
+      { "id": "highlight", "term_ar": "إبراز", "term_en": "highlight" }
+    ]
+  }
+}

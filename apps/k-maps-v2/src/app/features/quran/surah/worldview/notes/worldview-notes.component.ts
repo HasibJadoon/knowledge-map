@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SlicePipe } from '@angular/common';
 import { SurahModulesService, WorldviewNoteVm } from '../../../../../shared/services/surah-modules.service';
 import { QuranPageShellComponent } from '../../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../../shared/quran-gsap.service';
+import { QuranGsapService } from '../../../shared/services/quran-gsap.service';
 
 @Component({
   selector: 'km-worldview-notes',

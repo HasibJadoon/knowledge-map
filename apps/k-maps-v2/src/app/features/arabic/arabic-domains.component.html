@@ -1,0 +1,99 @@
+
+    <div class="dom-page">
+      <div class="dom-page__inner">
+
+        <!-- Nav -->
+        <nav class="dom-nav">
+          <button class="back-btn" (click)="back()">&#8592; Arabic</button>
+          <span class="dom-nav__crumb">Domains</span>
+          @if (activeDomain()) {
+            <span class="dom-nav__sep">›</span>
+            <span class="dom-nav__domain">{{ activeDomain()!.name_ar ?? activeDomain()!.name }}</span>
+          }
+        </nav>
+
+        <!-- Header -->
+        @if (!activeDomain()) {
+          <header class="dom-header">
+            <span class="dom-header__ar">المجالات</span>
+            <h1 class="dom-header__title">Domains</h1>
+            <p class="dom-header__sub">Context-specific vocabulary across real-life situations</p>
+          </header>
+        }
+
+        <!-- Domain grid -->
+        @if (!activeDomain()) {
+          @if (domainsLoading()) {
+            <div class="domain-grid">
+              @for (s of skeletons; track s) {
+                <div class="skeleton-domain"></div>
+              }
+            </div>
+          }
+          @if (!domainsLoading() && domains().length === 0) {
+            <div class="empty-state">
+              <div class="empty-state__icon">م</div>
+              <p class="empty-state__title">No domains yet</p>
+              <p class="empty-state__sub">Add domains via the Hub to build your vocabulary domains.</p>
+            </div>
+          }
+          @if (!domainsLoading() && domains().length > 0) {
+            <div class="domain-grid">
+              @for (d of domains(); track d.id) {
+                <button class="domain-card" (click)="openDomain(d)">
+                  <div class="domain-card__icon">{{ d.icon ?? domainIcon(d) }}</div>
+                  <div class="domain-card__ar">{{ d.name_ar ?? d.name }}</div>
+                  <div class="domain-card__en">{{ d.name_en ?? d.name }}</div>
+                </button>
+              }
+            </div>
+          }
+        }
+
+        <!-- Phrase view -->
+        @if (activeDomain()) {
+          <div class="phrase-view">
+            <div class="phrase-view__header">
+              <button class="back-domain-btn" (click)="closeDomain()">&#8592; All Domains</button>
+              <div class="phrase-view__title-block">
+                <span class="phrase-view__ar">{{ activeDomain()!.name_ar ?? activeDomain()!.name }}</span>
+                <span class="phrase-view__en">{{ activeDomain()!.name_en ?? activeDomain()!.name }}</span>
+              </div>
+            </div>
+
+            @if (phrasesLoading()) {
+              <div class="phrase-grid">
+                @for (s of skeletons; track s) {
+                  <div class="skeleton-phrase"></div>
+                }
+              </div>
+            }
+            @if (!phrasesLoading() && phrases().length === 0) {
+              <div class="empty-state">
+                <div class="empty-state__icon">م</div>
+                <p class="empty-state__title">No phrases yet</p>
+                <p class="empty-state__sub">No phrases have been added to this domain.</p>
+              </div>
+            }
+            @if (!phrasesLoading() && phrases().length > 0) {
+              <div class="phrase-grid">
+                @for (p of phrases(); track p.id) {
+                  <div class="phrase-card">
+                    <div class="phrase-card__arabic">{{ p.arabic ?? p.text_ar }}</div>
+                    @if (p.transliteration) {
+                      <div class="phrase-card__translit">{{ p.transliteration }}</div>
+                    }
+                    <div class="phrase-card__english">{{ p.english ?? p.text_en ?? p.translation }}</div>
+                    @if (p.level) {
+                      <span class="badge badge--level" [attr.data-level]="p.level">{{ p.level }}</span>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+
+      </div>
+    </div>
+  

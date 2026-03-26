@@ -8,6 +8,11 @@ import {
   upsertArUToken,
 } from '../../../../../_utils/universal';
 import { computeWeekStartSydney, ensureLessonWeeklyTask, normalizeIsoDate } from '../../../../../_utils/sprint';
+import {
+  buildTaskRootId,
+  getTaskRootStepNo,
+  syncChildTasks,
+} from '../../_task-children';
 
 interface Env {
   DB: D1Database;
@@ -118,6 +123,26 @@ function asRecord(value: unknown): Record<string, unknown> | null {
   return value as Record<string, unknown>;
 }
 
+function readNestedString(source: Record<string, unknown> | null, ...path: string[]): string | null {
+  let current: unknown = source;
+  for (const key of path) {
+    const record = asRecord(current);
+    if (!record) return null;
+    current = record[key];
+  }
+  return asString(current);
+}
+
+function resolveSentenceCanonicalText(item: Record<string, unknown>): string | null {
+  return (
+    asString(item['canonical_sentence'])
+    ?? readNestedString(item, 'text', 'text_ar')
+    ?? readNestedString(item, 'structure_tree', 'text_ar')
+    ?? readNestedString(item, 'treebank', 'text_ar')
+    ?? asString(asRecord(item['structure_summary'])?.['full_text'])
+  );
+}
+
 function withWeeklyMeta(
   taskJson: Record<string, unknown>,
   userId: number,
@@ -131,6 +156,56 @@ function withWeeklyMeta(
     week_start: weekStart,
     ar_lesson_id: lessonId,
   };
+}
+
+async function upsertTaskTree(
+  db: D1Database,
+  args: {
+    unitId: string;
+    taskId: string;
+    taskType: string;
+    taskName: string;
+    taskJson: Record<string, unknown>;
+    status?: string;
+  }
+) {
+  const status = args.status ?? 'draft';
+  const stepNo = getTaskRootStepNo(args.taskType);
+
+  await db
+    .prepare(
+      `
+      INSERT INTO ar_container_unit_task (
+        task_id, unit_id, task_type, task_name, step_no, task_json, status
+      ) VALUES (?1, ?2, ?3, ?4, ?5, json(?6), ?7)
+      ON CONFLICT(task_id)
+      DO UPDATE SET
+        task_name = excluded.task_name,
+        step_no = excluded.step_no,
+        task_json = excluded.task_json,
+        status = excluded.status,
+        deleted_at = NULL
+    `
+    )
+    .bind(
+      args.taskId,
+      args.unitId,
+      args.taskType,
+      args.taskName,
+      stepNo,
+      JSON.stringify(args.taskJson),
+      status,
+    )
+    .run();
+
+  return syncChildTasks(db, {
+    unitId: args.unitId,
+    parentTaskId: args.taskId,
+    taskType: args.taskType,
+    taskName: args.taskName,
+    taskJson: args.taskJson,
+    status,
+  });
 }
 
 function asString(value: unknown): string | null {
@@ -994,26 +1069,22 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
         u_expressions: normalizedRows,
       };
 
-      const taskId = `UT:${unitId}:${taskType}`;
       const enrichedForStorage = withWeeklyMeta(enriched, user.id, id);
-      const taskJsonText = JSON.stringify(enrichedForStorage);
+      const taskId = buildTaskRootId({
+        unitId,
+        taskType,
+        taskJson: enrichedForStorage,
+      });
       const taskName = TASK_LABELS[taskType] ?? taskType;
 
-      await ctx.env.DB
-        .prepare(
-          `
-          INSERT INTO ar_container_unit_task (
-            task_id, unit_id, task_type, task_name, task_json, status
-          ) VALUES (?1, ?2, ?3, ?4, json(?5), 'draft')
-          ON CONFLICT(unit_id, task_type)
-          DO UPDATE SET
-            task_name = excluded.task_name,
-            task_json = excluded.task_json,
-            status = excluded.status
-        `
-        )
-        .bind(taskId, unitId, taskType, taskName, taskJsonText)
-        .run();
+      await upsertTaskTree(ctx.env.DB, {
+        unitId,
+        taskId,
+        taskType,
+        taskName,
+        taskJson: enrichedForStorage,
+        status: 'draft',
+      });
 
       await ensureLessonWeeklyTask({
         db: ctx.env.DB,
@@ -1704,26 +1775,22 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
         lexicon_morphology: lexiconMorphologyItems,
       };
 
-      const taskId = `UT:${unitId}:${taskType}`;
       const enrichedForStorage = withWeeklyMeta(enriched, user.id, id);
-      const taskJsonText = JSON.stringify(enrichedForStorage);
+      const taskId = buildTaskRootId({
+        unitId,
+        taskType,
+        taskJson: enrichedForStorage,
+      });
       const taskName = TASK_LABELS[taskType] ?? taskType;
 
-      await ctx.env.DB
-        .prepare(
-          `
-          INSERT INTO ar_container_unit_task (
-            task_id, unit_id, task_type, task_name, task_json, status
-          ) VALUES (?1, ?2, ?3, ?4, json(?5), 'draft')
-          ON CONFLICT(unit_id, task_type)
-          DO UPDATE SET
-            task_name = excluded.task_name,
-            task_json = excluded.task_json,
-            status = excluded.status
-        `
-        )
-        .bind(taskId, unitId, taskType, taskName, taskJsonText)
-        .run();
+      await upsertTaskTree(ctx.env.DB, {
+        unitId,
+        taskId,
+        taskType,
+        taskName,
+        taskJson: enrichedForStorage,
+        status: 'draft',
+      });
 
       await ensureLessonWeeklyTask({
         db: ctx.env.DB,
@@ -1776,11 +1843,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
 
     for (const rawItem of rawItems) {
       const item = asRecord(rawItem) ?? {};
-      let canonicalSentence = asString(item.canonical_sentence) ?? '';
-      if (!canonicalSentence) {
-        const summary = asRecord(item.structure_summary) ?? {};
-        canonicalSentence = asString(summary.full_text) ?? '';
-      }
+      let canonicalSentence = resolveSentenceCanonicalText(item) ?? '';
       if (!canonicalSentence) {
         return new Response(
           JSON.stringify({ ok: false, error: 'Each item requires canonical_sentence.' }),
@@ -2041,26 +2104,22 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       items,
     };
 
-    const taskId = `UT:${unitId}:${taskType}`;
     const enrichedForStorage = withWeeklyMeta(enriched, user.id, id);
-    const taskJsonText = JSON.stringify(enrichedForStorage);
+    const taskId = buildTaskRootId({
+      unitId,
+      taskType,
+      taskJson: enrichedForStorage,
+    });
     const taskName = TASK_LABELS[taskType] ?? taskType;
 
-    await ctx.env.DB
-      .prepare(
-        `
-        INSERT INTO ar_container_unit_task (
-          task_id, unit_id, task_type, task_name, task_json, status
-        ) VALUES (?1, ?2, ?3, ?4, json(?5), 'draft')
-        ON CONFLICT(unit_id, task_type)
-        DO UPDATE SET
-          task_name = excluded.task_name,
-          task_json = excluded.task_json,
-          status = excluded.status
-      `
-      )
-      .bind(taskId, unitId, taskType, taskName, taskJsonText)
-      .run();
+    await upsertTaskTree(ctx.env.DB, {
+      unitId,
+      taskId,
+      taskType,
+      taskName,
+      taskJson: enrichedForStorage,
+      status: 'draft',
+    });
 
     await ensureLessonWeeklyTask({
       db: ctx.env.DB,

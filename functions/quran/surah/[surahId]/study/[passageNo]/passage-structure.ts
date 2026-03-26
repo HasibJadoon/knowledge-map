@@ -3,19 +3,23 @@
 
 interface Env { DB: D1Database }
 
+const QURAN_CONTAINER_ID = 'C:QURAN';
+
 const SQL = `
-WITH surah_container AS (
+WITH surah_unit AS (
   SELECT id
-  FROM ar_containers
-  WHERE container_type = 'quran_surah'
-    AND CAST(json_extract(meta_json, '$.surah') AS INTEGER) = ?1
+  FROM ar_container_units
+  WHERE id = ?4
+    AND container_id = ?3
+    AND unit_type = 'surah'
   LIMIT 1
 ),
 unit_row AS (
   SELECT u.*
   FROM ar_container_units u
-  JOIN surah_container c ON c.id = u.container_id
-  WHERE u.order_index = ?2
+  JOIN surah_unit s ON s.id = u.parent_unit_id
+  WHERE u.unit_type = 'passage'
+    AND u.order_index = ?2
   LIMIT 1
 )
 SELECT json_object(
@@ -32,13 +36,38 @@ SELECT json_object(
   'task', (
     SELECT json_object(
       'task_id',   t.task_id,
+      'parent_task_id', t.parent_task_id,
       'task_type', t.task_type,
       'task_name', t.task_name,
+      'step_no',   t.step_no,
       'status',    t.status,
-      'task_json', t.task_json
+      'task_json', json(COALESCE(t.task_json, 'null')),
+      'children', json(COALESCE((
+        SELECT json_group_array(
+          json_object(
+            'task_id',        child.task_id,
+            'unit_id',        child.unit_id,
+            'parent_task_id', child.parent_task_id,
+            'task_type',      child.task_type,
+            'task_name',      child.task_name,
+            'step_no',        child.step_no,
+            'status',         child.status,
+            'task_json',      json(COALESCE(child.task_json, 'null')),
+            'updated_at',     child.updated_at
+          )
+        )
+        FROM (
+          SELECT c.task_id, c.unit_id, c.parent_task_id, c.task_type, c.task_name, c.step_no, c.status, c.task_json, c.updated_at
+          FROM ar_container_unit_task c
+          WHERE c.parent_task_id = t.task_id
+          ORDER BY COALESCE(c.step_no, 99999), c.task_id
+        ) child
+      ), '[]'))
     )
     FROM unit_row u
-    LEFT JOIN ar_container_unit_task t ON t.unit_id = u.id
+    LEFT JOIN ar_container_unit_task t
+      ON t.unit_id = u.id
+     AND t.parent_task_id IS NULL
     WHERE t.task_type = 'passage_structure'
     LIMIT 1
   )
@@ -52,7 +81,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     return Response.json({ ok: false, error: 'Invalid params' }, { status: 400 });
   }
   try {
-    const row = await ctx.env.DB.prepare(SQL).bind(surahId, passageNo).first<{ passage_structure_json: string }>();
+    const containerId = QURAN_CONTAINER_ID;
+    const surahUnitId = `U:${containerId}:${surahId}`;
+    const row = await ctx.env.DB.prepare(SQL).bind(surahId, passageNo, containerId, surahUnitId).first<{ passage_structure_json: string }>();
     if (!row?.passage_structure_json) {
       return Response.json({ ok: false, error: 'Passage not found' }, { status: 404 });
     }

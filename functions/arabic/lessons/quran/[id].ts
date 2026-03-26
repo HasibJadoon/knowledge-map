@@ -46,9 +46,9 @@ function normStr(value: unknown) {
 
 function parseSurahFromUnitId(unitId: string | null): number | null {
   if (!unitId) return null;
-  const parts = unitId.split(':');
-  if (parts.length < 3) return null;
-  const surah = Number.parseInt(parts[2], 10);
+  const match = unitId.match(/^U:C:QURAN:(\d+)(?::|$)/);
+  if (!match) return null;
+  const surah = Number.parseInt(match[1], 10);
   return Number.isFinite(surah) ? surah : null;
 }
 
@@ -88,6 +88,7 @@ function parseMetaLabel(metaJson: string | null): string | null {
 interface LessonUnitRow {
   container_id: string | null;
   unit_id: string | null;
+  parent_unit_id: string | null;
   link_scope: string | null;
   order_index: number | null;
   role: string | null;
@@ -213,10 +214,8 @@ function safeJson(text: string | null) {
 }
 
 function buildUnitQueryPattern(unitId: string | null): string | null {
-  if (!unitId) return null;
-  const parts = unitId.split(':');
-  if (parts.length < 3) return null;
-  return `${parts[0]}:${parts[1]}:${parts[2]}:%`;
+  const surah = parseSurahFromUnitId(unitId);
+  return surah ? `U:C:QURAN:${surah}:%` : null;
 }
 
 function parseTokenFeatures(text: string | null) {
@@ -269,6 +268,7 @@ async function loadLessonUnits(db: D1Database, containerId: string, lessonUnitId
       `
       SELECT
         id AS unit_id,
+        parent_unit_id,
         unit_type,
         order_index,
         ayah_from,
@@ -281,6 +281,7 @@ async function loadLessonUnits(db: D1Database, containerId: string, lessonUnitId
       WHERE container_id = ?1
         AND (
           id = ?2
+          OR parent_unit_id = ?2
           OR (?3 IS NOT NULL AND id LIKE ?3)
         )
       ORDER BY

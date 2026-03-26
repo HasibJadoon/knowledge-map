@@ -215,10 +215,15 @@ export interface AyahVm {
 
 export interface UnitTaskVm {
   task_id: string;
+  unit_id?: string;
+  parent_task_id?: string;
   task_type: string;
   task_name?: string;
+  step_no?: number;
   status?: string;
-  task_json?: string;
+  task_json?: unknown;
+  updated_at?: string;
+  children?: UnitTaskVm[];
 }
 
 export interface WordVm {
@@ -334,6 +339,7 @@ export interface StudyUnitVm {
 
 export interface StudyLessonResponse {
   ok: boolean;
+  lessonId?: number | null;
   surahId: number;
   passageNo: number;
   unit: StudyUnitVm;
@@ -341,6 +347,18 @@ export interface StudyLessonResponse {
   vocabulary: { nouns: StudyWordVm[]; verbs: StudyWordVm[] };
   expressions: StudyExpressionVm[];
   tasks: UnitTaskVm[];
+}
+
+export interface StudyTaskCommitResponse {
+  ok: boolean;
+  error?: string;
+  result?: {
+    task_json?: unknown;
+    occ_summary?: {
+      sentences_upserted?: number;
+      grammar_upserted?: number;
+    };
+  };
 }
 
 export interface StudyReadingResponse {
@@ -359,7 +377,10 @@ export interface StudyVocabularyResponse {
   unit: StudyUnitVm;
   nouns: StudyWordVm[];
   verbs: StudyWordVm[];
+  task: UnitTaskVm | null;
 }
+
+export type StudyMorphologyResponse = StudyVocabularyResponse;
 
 export interface StudyExpressionsResponse {
   ok: boolean;
@@ -367,6 +388,7 @@ export interface StudyExpressionsResponse {
   passageNo: number;
   unit: StudyUnitVm;
   expressions: StudyExpressionVm[];
+  task: UnitTaskVm | null;
 }
 
 export interface StudyTaskResponse {
@@ -481,8 +503,12 @@ export class SurahModulesService {
     return this.http.get<StudyReadingResponse>(this.url(surahId, 'study', String(passageNo), 'reading'));
   }
 
+  getStudyMorphology(surahId: number, passageNo: number): Observable<StudyMorphologyResponse> {
+    return this.http.get<StudyMorphologyResponse>(this.url(surahId, 'study', String(passageNo), 'morphology'));
+  }
+
   getStudyVocabulary(surahId: number, passageNo: number): Observable<StudyVocabularyResponse> {
-    return this.http.get<StudyVocabularyResponse>(this.url(surahId, 'study', String(passageNo), 'vocabulary'));
+    return this.getStudyMorphology(surahId, passageNo);
   }
 
   getStudyExpressions(surahId: number, passageNo: number): Observable<StudyExpressionsResponse> {
@@ -499,5 +525,20 @@ export class SurahModulesService {
 
   getStudyTasks(surahId: number, passageNo: number): Observable<StudyTasksResponse> {
     return this.http.get<StudyTasksResponse>(this.url(surahId, 'study', String(passageNo), 'tasks'));
+  }
+
+  commitLessonTask(
+    lessonId: number,
+    payload: {
+      task_type: 'sentence_structure' | 'morphology' | 'expressions';
+      task_json: unknown;
+      container_id?: string | null;
+      unit_id?: string | null;
+    },
+  ): Observable<StudyTaskCommitResponse> {
+    return this.http.put<StudyTaskCommitResponse>(
+      `${this.base}/ar/quran/lessons/${encodeURIComponent(String(lessonId))}/tasks/commit`,
+      payload,
+    );
   }
 }
