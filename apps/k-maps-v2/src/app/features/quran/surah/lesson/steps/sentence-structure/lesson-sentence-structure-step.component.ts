@@ -18,7 +18,12 @@ import {
   StudyLessonResponse,
   SurahModulesService,
   UnitTaskVm,
+  AyahVm,
 } from '../../../../../../shared/services/surah-modules.service';
+import {
+  SentenceStructureCanvasComponent,
+  TreebankNode,
+} from './sentence-structure-canvas.component';
 
 const ARABIC_SCRIPT_RE = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
 
@@ -129,10 +134,50 @@ const DEFAULT_OVERLAY_ENTER: MotionConfig = {
   to: { opacity: 1, y: 0, duration: 0.24, ease: 'power2.out' },
 };
 
+// ── SentenceNodeVm → TreebankNode converter ───────────────────────────────────
+function vmToTreebankNode(vm: SentenceNodeVm): TreebankNode {
+  return {
+    id:        vm.id,
+    node_type: vm.nodeType,
+    label_ar:  vm.labelAr   || undefined,
+    label_en:  vm.labelEn   || undefined,
+    text_ar:   vm.textAr    || undefined,
+    registry_refs: vm.subtypeRef ? { syntactic_function: vm.subtypeRef } : {},
+    features:  vm.features  as Record<string, string | null> | undefined,
+    morphology: vm.morphology as Record<string, unknown> | undefined,
+    children:  vm.children?.map(vmToTreebankNode) ?? [],
+  };
+}
+
+function buildFallbackTreebank(ayahs: AyahVm[]): TreebankNode {
+  const clauses: TreebankNode[] = ayahs
+    .filter(a => !!(a.text || a.text_simple))
+    .map((a): TreebankNode => ({
+      id: `ayah_${a.ayah}`,
+      node_type: 'clause',
+      label_ar: `آية ${a.ayah}`,
+      label_en: `Verse ${a.ayah}`,
+      registry_refs: { clause_type: 'nominal_clause' },
+      children: (a.text ?? a.text_simple ?? '').split(/\s+/).filter(Boolean)
+        .map((tok, i): TreebankNode => ({
+          id: `w_${a.ayah}_${i}`,
+          node_type: 'word',
+          text_ar: tok,
+          registry_refs: {},
+        })),
+    }));
+  return {
+    id: 'root', node_type: 'sentence',
+    label_ar: 'الجُمْلَة', label_en: 'Sentence',
+    registry_refs: { clause_type: 'nominal_clause' },
+    children: clauses,
+  };
+}
+
 @Component({
   selector: 'km-lesson-sentence-structure-step',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SentenceStructureCanvasComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './lesson-sentence-structure-step.component.html',
   styleUrl: './lesson-sentence-structure-step.component.scss',
@@ -176,6 +221,23 @@ export class LessonSentenceStructureStepComponent implements OnChanges, AfterVie
 
   readonly collapsedStructureIds = new Set<string>();
   readonly collapsedTreebankIds = new Set<string>();
+
+  /** Toggle between Cards view and D3 Graph view */
+  graphMode = false;
+
+  toggleGraphMode(): void {
+    this.graphMode = !this.graphMode;
+  }
+
+  /** Returns treebank for current sentence as TreebankNode, or fallback from ayahs */
+  get canvasTreebank(): TreebankNode | null {
+    const s = this.currentSentence;
+    if (s && !s.legacy) return vmToTreebankNode(s.treebank);
+    // fallback: build from ayah text tokens
+    const ayahs = this.lesson?.ayahs?.filter(a => !!(a.text || a.text_simple));
+    if (ayahs?.length) return buildFallbackTreebank(ayahs);
+    return null;
+  }
 
   get currentSentence(): SentenceSceneVm | null {
     return this.sentences[this.selectedSentenceIndex] ?? null;

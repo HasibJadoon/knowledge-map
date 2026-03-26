@@ -944,3 +944,19 @@
     padding-inline-start: 0.9rem;
   }
 }
+
+// ── Graph view ─────────────────────────────────────────────────
+.sst__graph-view {
+  width: 100%;
+}
+
+.sst__graph-toggle {
+  font-weight: 500;
+  letter-spacing: 0.04em;
+
+  &--active {
+    color: var(--km-gold);
+    border-color: var(--km-gold);
+    opacity: 1;
+  }
+}

@@ -32,6 +32,12 @@
         </div>
 
         <div class="sst__toolbar-actions">
+          <button
+            type="button"
+            class="sst__ghost-btn sst__graph-toggle"
+            [class.sst__graph-toggle--active]="graphMode"
+            (click)="toggleGraphMode()"
+          >{{ graphMode ? '⊞ Cards' : '⟁ Graph' }}</button>
           <button type="button" class="sst__ghost-btn" (click)="openRootEditor()">Edit Task JSON</button>
           <button type="button" class="sst__ghost-btn" (click)="openSentenceEditor()">Edit Sentence JSON</button>
           <button
@@ -45,6 +51,14 @@
         </div>
       </div>
     </header>
+
+    <!-- ── D3 Graph View ────────────────────────────── -->
+    <div *ngIf="graphMode" class="sst__graph-view">
+      <km-sentence-structure-canvas [treebank]="canvasTreebank" />
+    </div>
+
+    <!-- ── Cards / Panels View ──────────────────────── -->
+    <ng-container *ngIf="!graphMode">
 
     <section class="sst__hero">
       <div class="sst__hero-copy" *ngIf="currentSentence as sentence">
@@ -279,6 +293,8 @@
       </div>
     </article>
   </ng-template>
+
+  </ng-container><!-- end cards view -->
 
   <ng-template #emptyState>
     <div class="sst__empty" *ngIf="hasTaskPayload; else noTask">
