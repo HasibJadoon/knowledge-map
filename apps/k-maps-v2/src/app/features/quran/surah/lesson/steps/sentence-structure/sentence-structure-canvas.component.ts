@@ -119,21 +119,24 @@ function buildLayout(
 
       @if (hasTb() && displayNodes().length) {
 
-        <div class="ss-canvas" #canvasEl>
-          <!-- SVG bezier links — always opacity 1 -->
-          <svg class="ss-links-svg" aria-hidden="true">
+        <!-- SVG links sit at the viewport level, translated with the canvas -->
+        <svg #linkssvg class="ss-links-svg" aria-hidden="true"
+          style="position:absolute;top:0;left:0;width:6000px;height:6000px;pointer-events:none;overflow:visible">
+          <g #linkGroup>
             @for (link of displayLinks(); track link.targetId) {
               <path
                 class="ss-link"
                 [attr.d]="cubicPath(link)"
                 fill="none"
-                stroke="rgba(201,168,76,0.30)"
+                stroke="rgba(201,168,76,0.35)"
                 stroke-width="1.5"
                 stroke-linecap="round"
               />
             }
-          </svg>
+          </g>
+        </svg>
 
+        <div class="ss-canvas" #canvasEl>
           <!-- Node cards -->
           @for (n of displayNodes(); track n.id) {
             <div
@@ -225,14 +228,6 @@ function buildLayout(
       position: absolute;
       top: 0; left: 0;
       will-change: transform;
-    }
-
-    .ss-links-svg {
-      position: absolute;
-      top: 0; left: 0;
-      width: 1px; height: 1px;
-      pointer-events: none;
-      overflow: visible;
     }
 
     .ss-node {
@@ -371,12 +366,14 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
 
   @Input() treebank: TreebankNode | null = null;
 
-  @ViewChild('canvasEl') private canvasEl!: ElementRef<HTMLElement>;
-  @ViewChild('viewport') private viewport!: ElementRef<HTMLElement>;
+  @ViewChild('canvasEl')  private canvasEl!:   ElementRef<HTMLElement>;
+  @ViewChild('viewport')  private viewport!:   ElementRef<HTMLElement>;
+  @ViewChild('linkGroup') private linkGroup!:  ElementRef<SVGGElement>;
 
   private zone = inject(NgZone);
   private animTl: gsap.core.Timeline | null = null;
   private canvasElRef: HTMLElement | null = null;
+  private linkGroupRef: SVGGElement | null = null;
 
   // ── Signals ───────────────────────────────────────────────────────────────
   private readonly _tb       = signal<TreebankNode | null>(null);
@@ -462,6 +459,7 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
         this.panX.set(x);
         this.panY.set(y);
         if (this.canvasElRef) gsap.set(this.canvasElRef, { x, y });
+        this.syncLinkGroup(x, y);
       }, { passive: false });
 
       // Pointer move → pan or drag
@@ -483,6 +481,7 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
           const x = this.ptr.origPanX + dx;
           const y = this.ptr.origPanY + dy;
           gsap.set(this.canvasElRef, { x, y });
+          this.syncLinkGroup(x, y);
         } else if (this.ptr.type === 'node' && this.ptr.nodeEl) {
           this.ptr.nodeEl.style.transform = `translate(${dx}px,${dy}px)`;
         }
@@ -715,6 +714,13 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     }
   }
 
+  /** Sync SVG link group transform to match canvas pan. */
+  private syncLinkGroup(x: number, y: number): void {
+    if (this.linkGroupRef) {
+      this.linkGroupRef.setAttribute('transform', `translate(${x},${y})`);
+    }
+  }
+
   // ── Re-center canvas to keep tree in view ─────────────────────────────────
   private recenterCanvas(nodes: LayoutNode[]): void {
     const canvas = this.canvasElRef;
@@ -730,7 +736,14 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
 
     this.panX.set(cx);
     this.panY.set(cy);
-    gsap.to(canvas, { x: cx, y: cy, duration: DURATION, ease: 'power2.out', overwrite: true });
+    gsap.to(canvas, {
+      x: cx, y: cy, duration: DURATION, ease: 'power2.out', overwrite: true,
+      onUpdate: () => this.syncLinkGroup(
+        gsap.getProperty(canvas, 'x') as number,
+        gsap.getProperty(canvas, 'y') as number,
+      ),
+      onComplete: () => this.syncLinkGroup(cx, cy),
+    });
   }
 
   // ── Initial entrance animation ────────────────────────────────────────────
@@ -742,6 +755,7 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
     if (!canvas) return;
 
     this.canvasElRef = canvas;
+    this.linkGroupRef = this.linkGroup?.nativeElement ?? null;
 
     // Center tree horizontally
     const vp = this.viewport?.nativeElement as HTMLElement | null;
@@ -756,8 +770,11 @@ export class SentenceStructureCanvasComponent implements OnChanges, AfterViewIni
       this.panX.set(cx);
       this.panY.set(cy);
       gsap.set(canvas, { x: cx, y: cy });
+      this.syncLinkGroup(cx, cy);
     } else {
-      gsap.set(canvas, { x: this.panX(), y: this.panY() });
+      const px = this.panX(), py = this.panY();
+      gsap.set(canvas, { x: px, y: py });
+      this.syncLinkGroup(px, py);
     }
 
     // Stagger nodes in by depth
