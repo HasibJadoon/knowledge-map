@@ -43,6 +43,8 @@
             <span class="pss-card-title">{{ currentSection()?.title }}</span>
           </div>
 
+          <div class="pss-renderer-wrap">
+
           <!-- ── Discourse ──────────────────────────────── -->
           @if (currentSection()?.renderer === 'discourse') {
             <div class="renderer-discourse">
@@ -245,6 +247,8 @@
               }
             </div>
           }
+
+          </div><!-- /pss-renderer-wrap -->
 
         </div>
       </div>
