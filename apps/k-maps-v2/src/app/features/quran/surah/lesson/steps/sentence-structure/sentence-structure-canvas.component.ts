@@ -174,7 +174,6 @@ export class SentenceStructureCanvasComponent
     this.wrap.selectAll('.kss__svg-host').remove();
     const host = this.wrap.append('div').attr('class', 'kss__svg-host');
     this.svg   = host.append('svg');
-    this.addDefs();
     this.gL    = this.svg.append('g').attr('fill', 'none');
     this.gN    = this.svg.append('g');
   }
@@ -295,18 +294,6 @@ export class SentenceStructureCanvasComponent
       .on('click', (e: MouseEvent, d: any) => {
         d.children = d.children ? null : d._children;
         this.refresh(e, d);
-      })
-      .on('mouseenter', (e: MouseEvent) => {
-        select(e.currentTarget as SVGGElement)
-          .select<SVGRectElement>('.kss-bg')
-          .transition().duration(80)
-          .attr('filter', 'url(#kss-glow)');
-      })
-      .on('mouseleave', (e: MouseEvent) => {
-        select(e.currentTarget as SVGGElement)
-          .select<SVGRectElement>('.kss-bg')
-          .transition().duration(120)
-          .attr('filter', null as any);
       });
 
     // Card background
@@ -330,7 +317,7 @@ export class SentenceStructureCanvasComponent
     // Bottom-center collapse dot (children expand downward)
     nEnter.append('circle').attr('class', 'kss-dot')
       .attr('cx', 0)
-      .attr('cy', CH / 2 - 10)
+      .attr('cy', CH / 2 - 7)
       .attr('r',  4.5)
       .attr('fill',         (d: any) => (d._children && !d.children) ? this.tc(d) : 'none')
       .attr('stroke',       (d: any) =>  d._children                 ? this.tc(d) : 'none')
@@ -346,39 +333,27 @@ export class SentenceStructureCanvasComponent
       .attr('stroke-width',     4)
       .attr('stroke-linejoin',  'round')
       .each(function(this: SVGTextElement, d: any) {
-        const name: string  = d.data.name;
-        const fs: number    = d.depth === 0 ? 14 : 13;
-        // Approx chars that fit in card text area (Arabic ~0.55em wide per char)
-        const maxCh = Math.floor((CW - 24) / (fs * 0.55));
-        const words = name.split(' ');
-        const lines: string[] = [];
-        let cur = '';
-        for (const w of words) {
-          const test = cur ? cur + ' ' + w : w;
-          if (test.length > maxCh && cur) { lines.push(cur); cur = w; }
-          else                            { cur = test; }
-        }
-        if (cur) lines.push(cur);
-
-        const lineH  = fs * 1.55;
+        const name: string = d.data.name;
+        const fs: number   = d.depth === 0 ? 14 : 13;
         const hasLbl = !!d.data.label_ar;
-        // Vertical text area centre
+        // Single line — vertically centred in the text area
         const areaTop = -CH / 2 + AH + 4;
-        const areaBot = hasLbl ? CH / 2 - 22 : CH / 2 - 8;
+        const areaBot = hasLbl ? CH / 2 - 30 : CH / 2 - 8;
         const midY    = (areaTop + areaBot) / 2;
-        const startY  = midY - ((lines.length - 1) * lineH) / 2;
-
+        const maxW    = CW - 16;   // max pixel width before compressing glyphs
         const el = select(this).attr('font-size', fs);
-        lines.forEach((ln, i) =>
-          el.append('tspan').attr('x', 0).attr('y', startY + i * lineH).text(ln)
-        );
+        el.append('tspan')
+          .attr('x', 0).attr('y', midY)
+          .attr('textLength', maxW)
+          .attr('lengthAdjust', 'spacingAndGlyphs')
+          .text(name);
       });
 
     // Grammar label (SVG text, bottom of card)
     nEnter.append('text').attr('class', 'kss-lbl')
       .attr('text-anchor',       'middle')
       .attr('dominant-baseline', 'middle')
-      .attr('y',  CH / 2 - 13)
+      .attr('y',  CH / 2 - 22)
       .attr('font-family', 'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('font-size',   10)
       .attr('fill',        (d: any) => this.tc(d))
@@ -492,22 +467,4 @@ export class SentenceStructureCanvasComponent
     return `rgba(${r},${g},${b},${a})`;
   }
 
-  // ── SVG defs — hover glow filter ──────────────────────────────────────────
-
-  private addDefs(): void {
-    const defs = this.svg.append('defs');
-    const f = defs.append('filter')
-      .attr('id',     'kss-glow')
-      .attr('x',      '-28%').attr('y',      '-28%')
-      .attr('width',  '156%').attr('height', '156%');
-    f.append('feGaussianBlur')
-      .attr('in', 'SourceAlpha').attr('stdDeviation', 8).attr('result', 'b');
-    f.append('feFlood')
-      .attr('flood-color', 'rgba(201,168,76,.55)').attr('result', 'c');
-    f.append('feComposite')
-      .attr('in', 'c').attr('in2', 'b').attr('operator', 'in').attr('result', 'g');
-    const m = f.append('feMerge');
-    m.append('feMergeNode').attr('in', 'g');
-    m.append('feMergeNode').attr('in', 'SourceGraphic');
-  }
 }
