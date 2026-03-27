@@ -323,9 +323,10 @@ export class SentenceStructureCanvasComponent
       .attr('stroke',       (d: any) =>  d._children                 ? this.tc(d) : 'none')
       .attr('stroke-width', 1.5);
 
-    // Arabic name — word-wrapped, centred
+    // Arabic name — word-wrapped, centred, explicit RTL direction
     nEnter.append('text').attr('class', 'kss-name')
       .attr('text-anchor',  'middle')
+      .attr('direction',    'rtl')
       .attr('font-family',  'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('fill',             '#dce8ff')
       .attr('paint-order',      'stroke')
@@ -352,8 +353,8 @@ export class SentenceStructureCanvasComponent
           if (baseLen(test) > maxCh && line) break;
           line = test;
         }
-        // Append ellipsis if text was clipped
-        const display = line.length < name.length ? line + ' ...' : line;
+        // Ellipsis right after last visible word — no leading space so BiDi keeps it adjacent
+        const display = line.length < name.length ? line + '...' : line;
 
         const areaTop = -CH / 2 + AH + 4;
         const areaBot = hasLbl ? CH / 2 - 28 : CH / 2 - 8;
