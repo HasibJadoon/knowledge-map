@@ -29,7 +29,11 @@ SELECT json_object(
       'order_index',order_index,
       'ayah_from',  ayah_from,
       'ayah_to',    ayah_to,
-      'label',      json_extract(meta_json, '$.label')
+      'start_ref',  start_ref,
+      'end_ref',    end_ref,
+      'text_cache', text_cache,
+      'label',      json_extract(meta_json, '$.label'),
+      'theme',      json_extract(meta_json, '$.theme')
     )
     FROM unit_row
   ),
