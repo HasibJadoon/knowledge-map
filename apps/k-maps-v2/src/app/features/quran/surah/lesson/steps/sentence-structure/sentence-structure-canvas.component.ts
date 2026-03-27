@@ -114,11 +114,10 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
       opacity:     .88;
     }
 
-    /* ── SVG scroll host ─────────────────────────────────────── */
+    /* ── SVG host — no own scroll, parent canvas handles it ─── */
     .kss__svg-host {
-      width:      100%;
-      overflow-x: auto;
-      overflow-y: visible;
+      width:    100%;
+      overflow: visible;
     }
     .kss__svg-host svg {
       display:     block;
@@ -263,7 +262,8 @@ export class SentenceStructureCanvasComponent
     const ox = -x0 + ML + CW / 2;   // horizontal
     const oy = -y0 + MT + CH / 2;   // vertical
 
-    this.wrap.select('.kss__svg-host').style('min-width', `${vW}px`);
+    // Set min-width on the wrap div so the parent scroll container sees full width
+    this.wrap.style('min-width', `${vW}px`);
 
     const T = this.svg.transition().duration(dur)
       .attr('width',   vW)
@@ -418,6 +418,13 @@ export class SentenceStructureCanvasComponent
 
     // Stash
     this.root.eachBefore((d: any) => { d.x0 = d.x; d.y0 = d.y; });
+
+    // Scroll parent to top-right so root node is visible (RTL: root is rightmost)
+    const scrollEl = this.wrapRef.nativeElement.parentElement?.parentElement as HTMLElement | null;
+    if (scrollEl && !evt) {
+      scrollEl.scrollTop  = 0;
+      scrollEl.scrollLeft = scrollEl.scrollWidth;
+    }
   }
 
   // ── Cubic bezier: parent bottom-edge → child top-edge (top-down) ─────────

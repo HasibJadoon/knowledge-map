@@ -18,12 +18,12 @@
   gap:            .75rem;
 }
 
-// ── Canvas scroll wrapper (horizontal overflow) ───────────────────────────────
+// ── Canvas scroll wrapper — single container for both axes ───────────────────
 
 .sst__canvas {
-  width:      100%;
-  overflow-x: auto;
-  overflow-y: visible;
+  flex:       1;
+  min-height: 0;
+  overflow:   auto;
 }
 
 // ── Multi-sentence navigation pills ──────────────────────────────────────────
