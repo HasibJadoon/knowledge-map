@@ -129,9 +129,10 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
 
     /* ── SVG grammar label — warm gold neon glow ────────────── */
     .kss-lbl {
-      filter: drop-shadow(0 0 3px rgba(255,220, 60,.95))
-              drop-shadow(0 0 8px rgba(240,160,  0,.75))
-              drop-shadow(0 0 16px rgba(200,100,  0,.45));
+      filter: drop-shadow(0 0 2px rgba(255,255,180,1))
+              drop-shadow(0 0 6px rgba(255,215,  0,.9))
+              drop-shadow(0 0 14px rgba(255,160,  0,.65))
+              drop-shadow(0 0 24px rgba(200, 80,  0,.35));
     }
 
     /* ── SVG host — centres tree horizontally, parent scrolls ─ */
@@ -347,14 +348,15 @@ export class SentenceStructureCanvasComponent
       .attr('stroke-width', 1.5);
 
     // Arabic name — word-wrapped, centred, explicit RTL direction
+    // Pure white fill + thick black stroke = readable on ANY card color
     nEnter.append('text').attr('class', 'kss-name')
       .attr('text-anchor',  'middle')
       .attr('direction',    'rtl')
       .attr('font-family',  'var(--km-font-arabic,"Scheherazade New",serif)')
-      .attr('fill',             '#dce8ff')
+      .attr('fill',             '#ffffff')
       .attr('paint-order',      'stroke')
-      .attr('stroke',           'rgba(8,12,28,.9)')
-      .attr('stroke-width',     4)
+      .attr('stroke',           'rgba(0,0,0,1)')
+      .attr('stroke-width',     5)
       .attr('stroke-linejoin',  'round')
       .each(function(this: SVGTextElement, d: any) {
         const name: string = d.data.name;
@@ -396,11 +398,11 @@ export class SentenceStructureCanvasComponent
       .attr('y',  CH / 2 - 24)
       .attr('font-family', 'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('font-size',   13)
-      .attr('fill',        '#f5d060')   /* warm gold, matches neon glow */
+      .attr('fill',        '#FFD700')   /* pure gold — max contrast via thick black stroke */
       .attr('opacity',     1)
       .attr('paint-order',     'stroke')
-      .attr('stroke',          'rgba(8,12,28,.9)')
-      .attr('stroke-width',    3)
+      .attr('stroke',          'rgba(0,0,0,1)')
+      .attr('stroke-width',    5)
       .attr('stroke-linejoin', 'round')
       .text((d: any) => d.data.label_ar ?? '');
 
