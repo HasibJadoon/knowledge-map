@@ -116,10 +116,13 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
       opacity:     .88;
     }
 
-    /* ── SVG host — no own scroll, parent canvas handles it ─── */
+    /* ── SVG host — centres tree horizontally, parent scrolls ─ */
     .kss__svg-host {
-      width:    100%;
-      overflow: visible;
+      width:           100%;
+      overflow:        visible;
+      display:         flex;
+      justify-content: center;
+      align-items:     flex-start;
     }
     .kss__svg-host svg {
       display:     block;
