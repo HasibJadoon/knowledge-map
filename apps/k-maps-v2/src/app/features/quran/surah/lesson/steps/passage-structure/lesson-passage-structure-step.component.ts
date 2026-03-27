@@ -37,8 +37,15 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
   revealed   = signal(false);
   hintText   = signal('Tap to reveal');
   private animating = false;
+  private swipeStartX = 0;
+  private swipeStartY = 0;
 
   currentSection = computed(() => this.sections[this.currentIdx()] as PassageSection);
+
+  // ── Chiasm hover mirror ───────────────────────────────
+  chiasmHover = signal<string | null>(null);
+  onChiasmEnter(variant: string): void { if (this.revealed()) this.chiasmHover.set(variant); }
+  onChiasmLeave(): void { this.chiasmHover.set(null); }
 
   // ── Font scale ───────────────────────────────────────
   fontScale = signal(1);
@@ -85,8 +92,30 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
 
   ngOnDestroy(): void {}
 
+  // ── Scene touch/mouse swipe ──────────────────────────
+  onSwipeStart(e: TouchEvent | MouseEvent): void {
+    const pt = e instanceof TouchEvent ? e.touches[0] : e;
+    this.swipeStartX = pt.clientX;
+    this.swipeStartY = pt.clientY;
+  }
+
+  onSwipeEnd(e: TouchEvent | MouseEvent): void {
+    const pt = e instanceof TouchEvent ? e.changedTouches[0] : e;
+    const dx = pt.clientX - this.swipeStartX;
+    const dy = pt.clientY - this.swipeStartY;
+    // Only count as swipe if mostly horizontal and > 50px
+    if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx) * 0.8) return;
+    if (dx < 0) { // swipe left → next
+      if (this.currentIdx() < this.sections.length - 1) this.goTo(this.currentIdx() + 1, true);
+    } else { // swipe right → prev
+      if (this.currentIdx() > 0) this.goTo(this.currentIdx() - 1, false);
+    }
+  }
+
   // ── Scene click: reveal ──────────────────────────────
-  onSceneClick(): void {
+  onSceneClick(e: MouseEvent): void {
+    const dx = Math.abs((e as any).clientX - this.swipeStartX);
+    if (dx > 10) return; // was a drag, not a tap
     if (this.animating || this.revealed()) return;
     this.doReveal();
   }
@@ -106,6 +135,7 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
     if (this.animating) return;
     this.revealed.set(false);
     this.hintText.set('');
+    this.chiasmHover.set(null);
     this.swipeOut(forward, () => {
       this.zone.run(() => {
         this.currentIdx.set(newIdx);
