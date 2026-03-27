@@ -9,8 +9,10 @@ export interface PassageSection {
   key: string;
   title: string;
   badge: string;
-  tone: 'info' | 'primary' | 'warning' | 'danger' | 'success' | 'secondary';
-  renderer: 'keyvalue' | 'chiasm' | 'clusters' | 'timeline';
+  tone: 'gold' | 'purple' | 'ember' | 'moss' | 'sky' | 'narrative'
+      | 'info' | 'primary' | 'warning' | 'danger' | 'success' | 'secondary';
+  renderer: 'discourse' | 'chiasm' | 'conflict' | 'lexicon' | 'purpose' | 'narrative_seed'
+           | 'keyvalue' | 'clusters' | 'timeline';
   data: any;
 }
 
@@ -44,21 +46,12 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
   decreaseFontScale(): void { this.fontScale.update(v => Math.max(v - 0.1, 0.7)); }
   resetFontScale(): void    { this.fontScale.set(1); }
 
-  // ── Chiasm pair hover ────────────────────────────────
-  hoveredPair = signal<number | null>(null);
-  onPairEnter(i: number, total: number): void { this.hoveredPair.set(Math.min(i, total - 1 - i)); }
-  onPairLeave(): void { this.hoveredPair.set(null); }
-  isPairHighlighted(i: number, total: number): boolean {
-    const active = this.hoveredPair();
-    return active !== null && Math.min(i, total - 1 - i) === active;
-  }
-
   ngOnInit(): void {
     this.ref = this.refFromUnit();
     const task = this.lesson?.tasks?.find(t => t.task_type === 'passage_structure');
     if (!task) return;
 
-    // 1. Check if root task_json contains all sections in one payload
+    // 1. Check if root task_json contains all sections
     const rootParsed = this.parsePayload(task.task_json);
     const rootSections = rootParsed?.analysis?.sections ?? rootParsed?.sections ?? [];
     if (Array.isArray(rootSections) && rootSections.length) {
@@ -68,7 +61,7 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
       return;
     }
 
-    // 2. Aggregate one section per child (each child carries its own analysis.sections[0])
+    // 2. Aggregate one section per child
     const aggregated: PassageSection[] = [];
     for (const child of task.children ?? []) {
       const parsed = this.parsePayload(child.task_json);
@@ -133,7 +126,7 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
         duration: 0.55, ease: 'back.out(1.2)',
         onComplete: () => {
           this.animating = false;
-          this.zone.run(() => this.hintText.set('Tap to reveal'));
+          this.zone.run(() => this.hintText.set('Tap card to reveal'));
         },
       }
     );
@@ -152,7 +145,7 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
     });
   }
 
-  // ── GSAP: reveal renderer content ────────────────────
+  // ── GSAP: reveal ─────────────────────────────────────
   private doReveal(): void {
     if (!this.cardRef) return;
     const el = this.cardRef.nativeElement;
@@ -162,27 +155,101 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
     this.revealed.set(true);
     this.hintText.set('');
 
-    const items = Array.from(el.querySelectorAll<HTMLElement>('.pss-anim-item'));
-    if (!items.length) return;
+    switch (sec.renderer) {
 
-    if (sec.renderer === 'chiasm') {
-      const rows = items.filter(i => !i.classList.contains('chiasm-note'));
-      const note = items.find(i => i.classList.contains('chiasm-note'));
-      gsap.fromTo(rows, { opacity: 0, x: -14 },
-        { opacity: 1, x: 0, duration: 0.3, stagger: 0.07, ease: 'power2.out' });
-      if (note) {
-        gsap.fromTo(note, { opacity: 0 },
-          { opacity: 1, duration: 0.4, delay: rows.length * 0.07 + 0.1 });
+      case 'discourse': {
+        const tl = gsap.timeline();
+        const rows  = Array.from(el.querySelectorAll<HTMLElement>('.disc-row'));
+        const hinge = el.querySelector<HTMLElement>('.disc-hinge');
+        const dir   = el.querySelector<HTMLElement>('.disc-dir');
+        if (rows[0]) tl.fromTo(rows[0], { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: .45, ease: 'power2.out' });
+        if (hinge)   tl.fromTo(hinge,   { opacity: 0 },          { opacity: 1,       duration: .5,  ease: 'power1.in' }, '+=.08');
+        if (rows[1]) tl.fromTo(rows[1], { opacity: 0, x: -18 }, { opacity: 1, x: 0, duration: .45, ease: 'power2.out' }, '+=.05');
+        if (dir)     tl.fromTo(dir,     { opacity: 0 },          { opacity: 1,       duration: .5  }, '+=.15');
+        break;
       }
-    } else if (sec.renderer === 'clusters') {
-      gsap.fromTo(items, { opacity: 0, scale: 0.84 },
-        { opacity: 1, scale: 1, duration: 0.32, stagger: 0.08, ease: 'back.out(1.5)' });
-    } else if (sec.renderer === 'timeline') {
-      gsap.fromTo(items, { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.38, stagger: 0.1, ease: 'power2.out' });
-    } else {
-      gsap.fromTo(items, { opacity: 0, x: -14 },
-        { opacity: 1, x: 0, duration: 0.38, stagger: 0.08, ease: 'power2.out' });
+
+      case 'chiasm': {
+        const tl   = gsap.timeline();
+        const rows = Array.from(el.querySelectorAll<HTMLElement>('.ch-row'));
+        const note = el.querySelector<HTMLElement>('.ch-center');
+        rows.forEach((r, i) => tl.fromTo(r, { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: .32, ease: 'power2.out' }, i * .11));
+        if (note) tl.fromTo(note, { opacity: 0 }, { opacity: 1, duration: .45 }, '+=.08');
+        const glowDelay = rows.length * 110 + 200;
+        setTimeout(() => {
+          const outerA = el.querySelectorAll<HTMLElement>('.cl-a');
+          if (outerA.length) gsap.to(Array.from(outerA), { boxShadow: '0 0 10px rgba(201,168,76,.5)', duration: .4, yoyo: true, repeat: 1, stagger: 0 });
+        }, glowDelay);
+        break;
+      }
+
+      case 'conflict': {
+        const tl     = gsap.timeline();
+        const levels = Array.from(el.querySelectorAll<HTMLElement>('.cf-level'));
+        if (levels[0]) tl.fromTo(levels[0], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .45, ease: 'back.out(1.2)' });
+        if (levels[1]) {
+          tl.fromTo(levels[1], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .45, ease: 'back.out(1.2)' }, '+=.12');
+          const arabic = levels[1].querySelector<HTMLElement>('.cf-arabic');
+          if (arabic) tl.add(() => { gsap.to(arabic, { color: '#e07050', textShadow: '0 0 14px rgba(192,80,48,.4)', duration: .4, yoyo: true, repeat: 1 }); });
+        }
+        if (levels[2]) tl.fromTo(levels[2], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .45, ease: 'back.out(1.2)' }, '+=.12');
+        break;
+      }
+
+      case 'lexicon': {
+        const tl     = gsap.timeline();
+        const fields = Array.from(el.querySelectorAll<HTMLElement>('.lx-field'));
+        fields.forEach((f, fi) => {
+          tl.fromTo(f, { opacity: 0 }, { opacity: 1, duration: .35 }, fi === 0 ? 0 : '+=.05');
+          const chips = Array.from(f.querySelectorAll<HTMLElement>('.lx-chip'));
+          if (chips.length) tl.fromTo(chips, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: .28, stagger: .07, ease: 'back.out(1.4)' }, '+=.05');
+        });
+        break;
+      }
+
+      case 'purpose': {
+        const tl   = gsap.timeline();
+        const rows = Array.from(el.querySelectorAll<HTMLElement>('.pu-row'));
+        rows.forEach((r, i) => tl.fromTo(r, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .38, ease: 'power2.out' }, i * .16));
+        break;
+      }
+
+      case 'narrative_seed': {
+        const tl        = gsap.timeline();
+        const seedEl    = el.querySelector<HTMLElement>('.sd-seed');
+        const bpEl      = el.querySelector<HTMLElement>('.sd-blueprint');
+        const bpRows    = Array.from(el.querySelectorAll<HTMLElement>('.bp-row'));
+        const flowEl    = el.querySelector<HTMLElement>('.sd-flow');
+        const flowNodes = Array.from(el.querySelectorAll<HTMLElement>('.fl-node'));
+        const flowArrows= Array.from(el.querySelectorAll<HTMLElement>('.fl-arr'));
+        const closeEl   = el.querySelector<HTMLElement>('.sd-close');
+        if (seedEl) tl.fromTo(seedEl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .4,  ease: 'power2.out' });
+        if (bpEl)   tl.fromTo(bpEl,   { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .35 }, '+=.08');
+        bpRows.forEach(r => tl.fromTo(r, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: .25 }, '+=.06'));
+        if (flowEl) tl.fromTo(flowEl, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .35 }, '+=.1');
+        flowNodes.forEach((node, i) => {
+          tl.fromTo(node, { opacity: 0 }, { opacity: 1, duration: .2 }, '+=.02');
+          if (flowArrows[i]) tl.fromTo(flowArrows[i], { opacity: 0 }, { opacity: 1, duration: .15 }, '+=.02');
+        });
+        if (closeEl) {
+          tl.fromTo(closeEl, { opacity: 0 }, { opacity: 1, duration: .5, ease: 'power1.in' }, '+=.1');
+          tl.add(() => { gsap.to(closeEl, { borderColor: '#c9a84c', boxShadow: '0 0 18px rgba(201,168,76,.12)', duration: .5 }); });
+        }
+        break;
+      }
+
+      // Legacy renderers
+      default: {
+        const items = Array.from(el.querySelectorAll<HTMLElement>('.pss-anim-item'));
+        if (!items.length) return;
+        if (sec.renderer === 'clusters') {
+          gsap.fromTo(items, { opacity: 0, scale: 0.84 }, { opacity: 1, scale: 1, duration: .32, stagger: .08, ease: 'back.out(1.5)' });
+        } else if (sec.renderer === 'timeline') {
+          gsap.fromTo(items, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .38, stagger: .1, ease: 'power2.out' });
+        } else {
+          gsap.fromTo(items, { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: .38, stagger: .08, ease: 'power2.out' });
+        }
+      }
     }
   }
 
@@ -199,6 +266,13 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
   // ── Renderer helpers ─────────────────────────────────
   barGradient(tone: string): string {
     const map: Record<string, string> = {
+      gold:      'linear-gradient(90deg,transparent,#c9a84c,transparent)',
+      purple:    'linear-gradient(90deg,transparent,#a090d8,transparent)',
+      ember:     'linear-gradient(90deg,transparent,#c05030,transparent)',
+      moss:      'linear-gradient(90deg,transparent,#2e7c40,transparent)',
+      sky:       'linear-gradient(90deg,transparent,#3a6a9a,transparent)',
+      narrative: 'linear-gradient(90deg,transparent,rgba(201,168,76,.5),#a090d8,rgba(201,168,76,.5),transparent)',
+      // legacy
       info:      'linear-gradient(90deg,transparent,rgba(58,106,154,0.85),transparent)',
       primary:   'linear-gradient(90deg,transparent,rgba(160,144,216,0.85),transparent)',
       warning:   'linear-gradient(90deg,transparent,rgba(201,168,76,0.9),transparent)',
@@ -209,40 +283,22 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
     return map[tone] ?? map['secondary'];
   }
 
+  discourseRows(data: any): any[]  { return data?.rows ?? []; }
+  chiasmLevels(data: any): any[]   { return data?.levels ?? []; }
+  conflictLevels(data: any): any[] { return data?.levels ?? []; }
+  lexiconFields(data: any): any[]  { return data?.fields ?? []; }
+  purposeRows(data: any): any[]    { return data?.rows ?? []; }
+  flowNodes(data: any): Array<{ text: string; highlight: boolean }> {
+    const flow = data?.flow ?? [];
+    const highlights: number[] = data?.flow_highlights ?? [];
+    return flow.map((text: string, i: number) => ({ text, highlight: highlights.includes(i) }));
+  }
+
+  // Legacy helpers kept for backwards compatibility
   kvPairs(data: Record<string, string>): { key: string; value: string }[] {
     return Object.entries(data ?? {}).map(([key, value]) => ({ key, value }));
   }
-
-  chiasmLevels(data: any): any[] { return data?.levels ?? []; }
-
-  chiasmIndent(i: number, total: number): string {
-    return `${Math.min(i, total - 1 - i) * 1.25}rem`;
-  }
-
-  isOddAxis(i: number, total: number): boolean {
-    return total % 2 === 1 && i === Math.floor(total / 2);
-  }
-
-  isEvenCenter(i: number, total: number): boolean {
-    if (total % 2 !== 0) return false;
-    const mid = total / 2;
-    return i === mid - 1 || i === mid;
-  }
-
-  pairColor(i: number, total: number): string {
-    const depth = Math.min(i, total - 1 - i);
-    const palette = [
-      'rgba(100,160,230,0.75)',
-      'rgba(140,100,220,0.75)',
-      'rgba(80,180,150,0.75)',
-      'rgba(220,140,80,0.75)',
-      'rgba(200,80,120,0.75)',
-    ];
-    return palette[Math.min(depth, palette.length - 1)];
-  }
-
-  clusters(data: any): any[] { return data?.clusters ?? []; }
-
+  clusters(data: any): any[]      { return data?.clusters ?? []; }
   timelineSteps(data: any): any[] { return data?.steps ?? []; }
 
   private parsePayload(raw: unknown): any {
