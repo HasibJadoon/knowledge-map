@@ -146,6 +146,7 @@ $border-l:  #4a3e28;
   &.tone-moss      { background: rgba(46,124,64,.1);   border: 1px solid rgba(46,124,64,.3);  color: #6ab878; }
   &.tone-sky       { background: rgba(42,74,122,.1);   border: 1px solid rgba(42,74,122,.35); color: #6090c0; }
   &.tone-narrative { background: rgba(201,168,76,.08); border: 1px solid rgba(201,168,76,.25); color: $gold; }
+  &.tone-indigo    { background: rgba(96,112,216,.12); border: 1px solid rgba(96,112,216,.3);  color: #8898f0; }
   // legacy tones
   &.tone-info      { background: rgba(100,160,230,.15); color: #8ec4f5; border: 1px solid rgba(100,160,230,.25); }
   &.tone-primary   { background: rgba(140,100,220,.15); color: #be9ef5; border: 1px solid rgba(140,100,220,.25); }
@@ -440,6 +441,56 @@ $border-l:  #4a3e28;
 }
 .cluster-items { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .cluster-item  { font-size: 1.3em; color: $text-p; background: rgba(255,255,255,.06); padding: 0.25rem 0.65rem; border-radius: 5px; direction: rtl; font-family: 'AmiriQuran', serif; line-height: 2; }
+
+/* symbol maps */
+.renderer-symbol-maps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.sm-group {
+  border-left: 2px solid rgba(96,112,216,.35);
+  padding-left: 0.85rem;
+}
+.sm-group-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62em;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #8898f0;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+}
+.sm-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.4fr;
+  gap: 0 0.6rem;
+  align-items: baseline;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  opacity: 0;
+  &:last-child { border-bottom: none; }
+}
+.sm-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.95em;
+  font-weight: 500;
+  color: $text-p;
+}
+.sm-role {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58em;
+  letter-spacing: 0.08em;
+  color: rgba(136,152,240,.7);
+  text-transform: uppercase;
+}
+.sm-meaning {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.88em;
+  font-style: italic;
+  color: $text-d;
+  line-height: 1.5;
+}
 
 /* timeline */
 .renderer-timeline { display: flex; flex-direction: column; }
