@@ -362,7 +362,7 @@ export class SentenceStructureCanvasComponent
         const display = line.length < name.length ? line + '...' : line;
 
         const areaTop = -CH / 2 + AH + 4;
-        const areaBot = hasLbl ? CH / 2 - 28 : CH / 2 - 8;
+        const areaBot = hasLbl ? CH / 2 - 36 : CH / 2 - 8;
         const midY    = (areaTop + areaBot) / 2;
 
         const el = select(this).attr('font-size', fs);
@@ -373,9 +373,9 @@ export class SentenceStructureCanvasComponent
     nEnter.append('text').attr('class', 'kss-lbl')
       .attr('text-anchor',       'middle')
       .attr('dominant-baseline', 'middle')
-      .attr('y',  CH / 2 - 22)
+      .attr('y',  CH / 2 - 24)
       .attr('font-family', 'var(--km-font-arabic,"Scheherazade New",serif)')
-      .attr('font-size',   10)
+      .attr('font-size',   13)
       .attr('fill',        (d: any) => this.tc(d))
       .attr('opacity',     .9)
       .attr('paint-order',     'stroke')
