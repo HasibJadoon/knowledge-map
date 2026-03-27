@@ -352,13 +352,15 @@ export class SentenceStructureCanvasComponent
           if (baseLen(test) > maxCh && line) break;
           line = test;
         }
+        // Append ellipsis if text was clipped
+        const display = line.length < name.length ? line + ' ...' : line;
 
         const areaTop = -CH / 2 + AH + 4;
         const areaBot = hasLbl ? CH / 2 - 28 : CH / 2 - 8;
         const midY    = (areaTop + areaBot) / 2;
 
         const el = select(this).attr('font-size', fs);
-        el.append('tspan').attr('x', 0).attr('y', midY).text(line);
+        el.append('tspan').attr('x', 0).attr('y', midY).text(display);
       });
 
     // Grammar label (SVG text, bottom of card)
