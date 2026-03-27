@@ -51,10 +51,12 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
   styles: [`
 
     /* ── Component shell ──────────────────────────────────────── */
-    km-sentence-structure-canvas { display: block; width: 100%; }
+    km-sentence-structure-canvas { display: flex; flex-direction: column; flex: 1; min-height: 0; width: 100%; }
     .kss {
       display:        flex;
       flex-direction: column;
+      flex:           1;
+      min-height:     0;
       gap:            .9rem;
       width:          100%;
     }
