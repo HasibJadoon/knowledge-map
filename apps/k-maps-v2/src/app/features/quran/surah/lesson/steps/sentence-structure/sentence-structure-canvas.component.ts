@@ -24,8 +24,8 @@ export interface SsTreeNode {
 
 // ── Card geometry ─────────────────────────────────────────────────────────────
 
-const CW  = 182;   // card width
-const CH  =  74;   // card height
+const CW  = 190;   // card width
+const CH  =  90;   // card height (taller to fit wrapped Arabic text)
 const CR  =  10;   // corner radius
 const AH  =   5;   // accent strip height (top edge, toward parent above)
 
@@ -33,8 +33,8 @@ const AH  =   5;   // accent strip height (top edge, toward parent above)
 // nodeSize([x-separation, y-depth])
 // x = horizontal sibling gap, y = vertical depth per level
 
-const XSEP = 220;  // horizontal gap between node centres
-const YDEP = 155;  // vertical depth per level
+const XSEP = 230;  // horizontal gap between node centres
+const YDEP = 172;  // vertical depth per level
 
 // ── Viewport margins ──────────────────────────────────────────────────────────
 
@@ -145,7 +145,6 @@ export class SentenceStructureCanvasComponent
   private obs:    ResizeObserver | null = null;
   private lastOx  = NaN;        // visual offset from previous layout (for exit targeting)
   private lastOy  = NaN;
-  private tip:    HTMLDivElement | null = null;  // hover tooltip
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -167,7 +166,7 @@ export class SentenceStructureCanvasComponent
       this.zone.runOutsideAngular(() => this.build());
   }
 
-  ngOnDestroy(): void { this.obs?.disconnect(); this.tip?.remove(); }
+  ngOnDestroy(): void { this.obs?.disconnect(); }
 
   // ── Mount SVG (once) ──────────────────────────────────────────────────────
 
@@ -178,44 +177,6 @@ export class SentenceStructureCanvasComponent
     this.addDefs();
     this.gL    = this.svg.append('g').attr('fill', 'none');
     this.gN    = this.svg.append('g');
-
-    // Floating hover tooltip (appended to body so it escapes all clipping)
-    this.tip?.remove();
-    this.tip = document.createElement('div');
-    Object.assign(this.tip.style, {
-      position:       'fixed',
-      zIndex:         '9999',
-      pointerEvents:  'none',
-      background:     'rgba(6,10,26,.96)',
-      border:         '1px solid rgba(201,168,76,.4)',
-      borderRadius:   '12px',
-      padding:        '.65rem 1rem',
-      fontFamily:     'var(--km-font-arabic,"Scheherazade New",serif)',
-      direction:      'rtl',
-      textAlign:      'right',
-      boxShadow:      '0 8px 36px rgba(0,0,0,.55)',
-      backdropFilter: 'blur(14px)',
-      maxWidth:       '340px',
-      display:        'none',
-      lineHeight:     '1.7',
-    });
-    document.body.appendChild(this.tip);
-  }
-
-  private moveTip(e: MouseEvent): void {
-    if (!this.tip) return;
-    const tw = this.tip.offsetWidth  || 260;
-    const th = this.tip.offsetHeight || 64;
-    // Place BELOW the node card (card is ~74px tall, cursor ≈ centre → +50 clears it)
-    let x = e.clientX - tw / 2;
-    let y = e.clientY + 52;
-    // Flip above if tooltip would run off the bottom of the viewport
-    if (y + th > window.innerHeight - 12) y = e.clientY - th - 52;
-    // Clamp to viewport edges
-    x = Math.max(8, Math.min(x, window.innerWidth - tw - 8));
-    y = Math.max(8, y);
-    this.tip.style.left = `${x}px`;
-    this.tip.style.top  = `${y}px`;
   }
 
   // ── Build / rebuild ───────────────────────────────────────────────────────
@@ -233,7 +194,7 @@ export class SentenceStructureCanvasComponent
     this.root.descendants().forEach((d: any) => {
       d.uid       = uid++;
       d._children = d.children ?? null;
-      if (d.depth > 1) d.children = null;
+      if (d.depth > 0) d.children = null;   // start fully collapsed
     });
     this.root.x0 = 0;
     this.root.y0 = 0;
@@ -335,29 +296,17 @@ export class SentenceStructureCanvasComponent
         d.children = d.children ? null : d._children;
         this.refresh(e, d);
       })
-      .on('mouseenter', (e: MouseEvent, d: any) => {
+      .on('mouseenter', (e: MouseEvent) => {
         select(e.currentTarget as SVGGElement)
           .select<SVGRectElement>('.kss-bg')
           .transition().duration(80)
           .attr('filter', 'url(#kss-glow)');
-        if (this.tip && d.data.name) {
-          const color = this.tc(d);
-          this.tip.innerHTML =
-            `<div style="font-size:1.05rem;color:#dce8ff">${d.data.name}</div>` +
-            (d.data.label_ar
-              ? `<div style="font-size:.75rem;color:${color};margin-top:.2rem;opacity:.9">${d.data.label_ar}</div>`
-              : '');
-          this.tip.style.display = 'block';
-          this.moveTip(e);
-        }
       })
-      .on('mousemove', (e: MouseEvent) => { this.moveTip(e); })
       .on('mouseleave', (e: MouseEvent) => {
         select(e.currentTarget as SVGGElement)
           .select<SVGRectElement>('.kss-bg')
           .transition().duration(120)
           .attr('filter', null as any);
-        if (this.tip) this.tip.style.display = 'none';
       });
 
     // Card background
@@ -381,31 +330,55 @@ export class SentenceStructureCanvasComponent
     // Bottom-center collapse dot (children expand downward)
     nEnter.append('circle').attr('class', 'kss-dot')
       .attr('cx', 0)
-      .attr('cy', CH / 2 - 9)
+      .attr('cy', CH / 2 - 10)
       .attr('r',  4.5)
       .attr('fill',         (d: any) => (d._children && !d.children) ? this.tc(d) : 'none')
       .attr('stroke',       (d: any) =>  d._children                 ? this.tc(d) : 'none')
       .attr('stroke-width', 1.5);
 
-    // Arabic name
+    // Arabic name — multi-line SVG text (tspan per word-wrapped line)
     nEnter.append('text').attr('class', 'kss-name')
-      .attr('text-anchor',       'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('y', (d: any) => d.data.label_ar ? -11 : 2)
-      .attr('font-family', 'var(--km-font-arabic,"Scheherazade New",serif)')
-      .attr('font-size',   (d: any) => d.depth === 0 ? 16 : 15)
+      .attr('text-anchor',  'middle')
+      .attr('font-family',  'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('fill',             '#dce8ff')
       .attr('paint-order',      'stroke')
       .attr('stroke',           'rgba(8,12,28,.9)')
       .attr('stroke-width',     4)
       .attr('stroke-linejoin',  'round')
-      .text((d: any) => this.clip(d.data.name, d.depth === 0 ? 26 : 18));
+      .each(function(this: SVGTextElement, d: any) {
+        const name: string  = d.data.name;
+        const fs: number    = d.depth === 0 ? 14 : 13;
+        // Approx chars that fit in card text area (Arabic ~0.55em wide per char)
+        const maxCh = Math.floor((CW - 24) / (fs * 0.55));
+        const words = name.split(' ');
+        const lines: string[] = [];
+        let cur = '';
+        for (const w of words) {
+          const test = cur ? cur + ' ' + w : w;
+          if (test.length > maxCh && cur) { lines.push(cur); cur = w; }
+          else                            { cur = test; }
+        }
+        if (cur) lines.push(cur);
 
-    // Grammar label
+        const lineH  = fs * 1.55;
+        const hasLbl = !!d.data.label_ar;
+        // Vertical text area centre
+        const areaTop = -CH / 2 + AH + 4;
+        const areaBot = hasLbl ? CH / 2 - 22 : CH / 2 - 8;
+        const midY    = (areaTop + areaBot) / 2;
+        const startY  = midY - ((lines.length - 1) * lineH) / 2;
+
+        const el = select(this).attr('font-size', fs);
+        lines.forEach((ln, i) =>
+          el.append('tspan').attr('x', 0).attr('y', startY + i * lineH).text(ln)
+        );
+      });
+
+    // Grammar label (SVG text, bottom of card)
     nEnter.append('text').attr('class', 'kss-lbl')
       .attr('text-anchor',       'middle')
       .attr('dominant-baseline', 'middle')
-      .attr('y',  17)
+      .attr('y',  CH / 2 - 13)
       .attr('font-family', 'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('font-size',   10)
       .attr('fill',        (d: any) => this.tc(d))
@@ -517,10 +490,6 @@ export class SentenceStructureCanvasComponent
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
     return `rgba(${r},${g},${b},${a})`;
-  }
-
-  private clip(s: string, max: number): string {
-    return s.length > max ? s.slice(0, max) + '…' : s;
   }
 
   // ── SVG defs — hover glow filter ──────────────────────────────────────────
