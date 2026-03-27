@@ -51,12 +51,19 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
   styles: [`
 
     /* ── Component shell ──────────────────────────────────────── */
-    km-sentence-structure-canvas { display: flex; flex-direction: column; flex: 1; min-height: 0; width: 100%; }
+    /* min-height:100% lets content grow beyond the scroll-viewport  */
+    /* so the parent overflow:auto container actually scrolls.       */
+    km-sentence-structure-canvas {
+      display:        flex;
+      flex-direction: column;
+      min-height:     100%;
+      width:          100%;
+    }
     .kss {
       display:        flex;
       flex-direction: column;
-      flex:           1;
-      min-height:     0;
+      flex:           1;           /* fills host height */
+      min-height:     100%;        /* but at least as tall as scroll-viewport */
       gap:            .9rem;
       width:          100%;
     }
@@ -70,6 +77,7 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
       display:        flex;
       flex-direction: column;
       gap:            .7rem;
+      margin-top:     0.5rem;   /* clear the fixed top bar */
     }
 
     .kss__sentence {
@@ -105,15 +113,16 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
 
     .kss__chip-w {
       font-family: var(--km-font-arabic, "Scheherazade New", serif);
-      font-size:   .95rem;
+      font-size:   1.05rem;
       color:       #dce8ff;
       line-height: 1.9;
     }
 
     .kss__chip-l {
       font-family: var(--km-font-arabic, "Scheherazade New", serif);
-      font-size:   .58rem;
-      opacity:     .88;
+      font-size:   .82rem;
+      opacity:     1;
+      filter:      brightness(1.6) saturate(1.2);
     }
 
     /* ── SVG host — centres tree horizontally, parent scrolls ─ */
@@ -370,16 +379,18 @@ export class SentenceStructureCanvasComponent
       });
 
     // Grammar label (SVG text, bottom of card)
+    // Fill uses a bright light-blue (#dce8ff) so it's always readable on
+    // dark cards regardless of the term accent color.
     nEnter.append('text').attr('class', 'kss-lbl')
       .attr('text-anchor',       'middle')
       .attr('dominant-baseline', 'middle')
       .attr('y',  CH / 2 - 24)
       .attr('font-family', 'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('font-size',   13)
-      .attr('fill',        (d: any) => this.tc(d))
-      .attr('opacity',     .9)
+      .attr('fill',        '#dce8ff')
+      .attr('opacity',     1)
       .attr('paint-order',     'stroke')
-      .attr('stroke',          'rgba(8,12,28,.8)')
+      .attr('stroke',          'rgba(8,12,28,.9)')
       .attr('stroke-width',    3)
       .attr('stroke-linejoin', 'round')
       .text((d: any) => d.data.label_ar ?? '');
@@ -397,8 +408,7 @@ export class SentenceStructureCanvasComponent
     nUpdate.select('.kss-dot')
       .attr('fill',   (d: any) => (d._children && !d.children) ? this.tc(d) : 'none')
       .attr('stroke', (d: any) =>  d._children                 ? this.tc(d) : 'none');
-    nUpdate.select('.kss-lbl')
-      .attr('fill', (d: any) => this.tc(d));
+    // kss-lbl fill is fixed to #dce8ff (set on enter) — no update needed
 
     // EXIT — collapse back to source's old visual position (not re-layout position)
     node.exit().transition(T)
