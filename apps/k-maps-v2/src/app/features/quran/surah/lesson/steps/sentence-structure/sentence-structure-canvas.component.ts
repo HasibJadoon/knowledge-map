@@ -145,6 +145,7 @@ export class SentenceStructureCanvasComponent
   private obs:    ResizeObserver | null = null;
   private lastOx  = NaN;        // visual offset from previous layout (for exit targeting)
   private lastOy  = NaN;
+  private tip:    HTMLDivElement | null = null;  // hover tooltip
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -166,7 +167,7 @@ export class SentenceStructureCanvasComponent
       this.zone.runOutsideAngular(() => this.build());
   }
 
-  ngOnDestroy(): void { this.obs?.disconnect(); }
+  ngOnDestroy(): void { this.obs?.disconnect(); this.tip?.remove(); }
 
   // ── Mount SVG (once) ──────────────────────────────────────────────────────
 
@@ -177,6 +178,36 @@ export class SentenceStructureCanvasComponent
     this.addDefs();
     this.gL    = this.svg.append('g').attr('fill', 'none');
     this.gN    = this.svg.append('g');
+
+    // Floating hover tooltip (appended to body so it escapes all clipping)
+    this.tip?.remove();
+    this.tip = document.createElement('div');
+    Object.assign(this.tip.style, {
+      position:       'fixed',
+      zIndex:         '9999',
+      pointerEvents:  'none',
+      background:     'rgba(6,10,26,.96)',
+      border:         '1px solid rgba(201,168,76,.4)',
+      borderRadius:   '12px',
+      padding:        '.65rem 1rem',
+      fontFamily:     'var(--km-font-arabic,"Scheherazade New",serif)',
+      direction:      'rtl',
+      textAlign:      'right',
+      boxShadow:      '0 8px 36px rgba(0,0,0,.55)',
+      backdropFilter: 'blur(14px)',
+      maxWidth:       '340px',
+      display:        'none',
+      lineHeight:     '1.7',
+    });
+    document.body.appendChild(this.tip);
+  }
+
+  private moveTip(e: MouseEvent): void {
+    if (!this.tip) return;
+    const x = Math.min(e.clientX + 18, window.innerWidth  - 360);
+    const y = Math.max(e.clientY - 56, 8);
+    this.tip.style.left = `${x}px`;
+    this.tip.style.top  = `${y}px`;
   }
 
   // ── Build / rebuild ───────────────────────────────────────────────────────
@@ -296,17 +327,29 @@ export class SentenceStructureCanvasComponent
         d.children = d.children ? null : d._children;
         this.refresh(e, d);
       })
-      .on('mouseenter', (e: MouseEvent) => {
+      .on('mouseenter', (e: MouseEvent, d: any) => {
         select(e.currentTarget as SVGGElement)
           .select<SVGRectElement>('.kss-bg')
           .transition().duration(80)
           .attr('filter', 'url(#kss-glow)');
+        if (this.tip && d.data.name) {
+          const color = this.tc(d);
+          this.tip.innerHTML =
+            `<div style="font-size:1.05rem;color:#dce8ff">${d.data.name}</div>` +
+            (d.data.label_ar
+              ? `<div style="font-size:.75rem;color:${color};margin-top:.2rem;opacity:.9">${d.data.label_ar}</div>`
+              : '');
+          this.tip.style.display = 'block';
+          this.moveTip(e);
+        }
       })
+      .on('mousemove', (e: MouseEvent) => { this.moveTip(e); })
       .on('mouseleave', (e: MouseEvent) => {
         select(e.currentTarget as SVGGElement)
           .select<SVGRectElement>('.kss-bg')
           .transition().duration(120)
           .attr('filter', null as any);
+        if (this.tip) this.tip.style.display = 'none';
       });
 
     // Card background

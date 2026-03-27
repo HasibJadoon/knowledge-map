@@ -422,13 +422,13 @@
     flex-direction: column;
   }
 
-  // "NEXT STEP" floats top-right, out of document flow
+  // "NEXT STEP" fixed to viewport top-right
   .step-footer {
-    position: absolute;
+    position: fixed;
     top: 1rem;
     right: 1.25rem;
     padding-top: 0;
-    z-index: 20;
+    z-index: 200;
   }
 }
 
