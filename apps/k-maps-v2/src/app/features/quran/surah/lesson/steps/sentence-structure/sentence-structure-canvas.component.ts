@@ -127,11 +127,11 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
                    0 0 22px currentColor;
     }
 
-    /* ── SVG grammar label — neon glow ──────────────────────── */
+    /* ── SVG grammar label — warm gold neon glow ────────────── */
     .kss-lbl {
-      filter: drop-shadow(0 0 4px rgba(180,210,255,.85))
-              drop-shadow(0 0 10px rgba(180,210,255,.55))
-              drop-shadow(0 0 18px rgba(140,180,255,.35));
+      filter: drop-shadow(0 0 3px rgba(255,220, 60,.95))
+              drop-shadow(0 0 8px rgba(240,160,  0,.75))
+              drop-shadow(0 0 16px rgba(200,100,  0,.45));
     }
 
     /* ── SVG host — centres tree horizontally, parent scrolls ─ */
@@ -396,7 +396,7 @@ export class SentenceStructureCanvasComponent
       .attr('y',  CH / 2 - 24)
       .attr('font-family', 'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('font-size',   13)
-      .attr('fill',        '#dce8ff')
+      .attr('fill',        '#f5d060')   /* warm gold, matches neon glow */
       .attr('opacity',     1)
       .attr('paint-order',     'stroke')
       .attr('stroke',          'rgba(8,12,28,.9)')
