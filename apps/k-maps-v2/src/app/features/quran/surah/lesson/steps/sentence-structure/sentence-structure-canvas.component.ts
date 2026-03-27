@@ -174,11 +174,6 @@ export class SentenceStructureCanvasComponent
     this.wrap.selectAll('.kss__svg-host').remove();
     const host = this.wrap.append('div').attr('class', 'kss__svg-host');
     this.svg   = host.append('svg');
-    // Shared clip path — clips node text to card interior (same bounds for all nodes)
-    this.svg.append('defs').append('clipPath').attr('id', 'kss-clip')
-      .append('rect')
-      .attr('x', -CW / 2 + 6).attr('y', -CH / 2 + AH)
-      .attr('width', CW - 12).attr('height', CH - AH - 4);
     this.gL    = this.svg.append('g').attr('fill', 'none');
     this.gN    = this.svg.append('g');
   }
@@ -328,10 +323,9 @@ export class SentenceStructureCanvasComponent
       .attr('stroke',       (d: any) =>  d._children                 ? this.tc(d) : 'none')
       .attr('stroke-width', 1.5);
 
-    // Arabic name — single line, RTL anchored to right edge, left clips off
+    // Arabic name — word-wrapped, centred
     nEnter.append('text').attr('class', 'kss-name')
-      .attr('text-anchor',  'start')   // RTL: 'start' = right side
-      .attr('clip-path',    'url(#kss-clip)')
+      .attr('text-anchor',  'middle')
       .attr('font-family',  'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('fill',             '#dce8ff')
       .attr('paint-order',      'stroke')
@@ -342,14 +336,34 @@ export class SentenceStructureCanvasComponent
         const name: string = d.data.name;
         const fs: number   = d.depth === 0 ? 14 : 13;
         const hasLbl = !!d.data.label_ar;
-        // Single line — vertically centred in the text area
+
+        // Strip Arabic diacritics before measuring so harakat don't over-wrap
+        const baseLen = (s: string) => [...s].filter(c => {
+          const cp = c.codePointAt(0)!;
+          return !((cp >= 0x064B && cp <= 0x065F) || (cp >= 0x0610 && cp <= 0x061A));
+        }).length;
+        const maxCh = Math.floor((CW - 20) / (fs * 0.62));
+
+        const words  = name.split(' ');
+        const lines: string[] = [];
+        let cur = '';
+        for (const w of words) {
+          const test = cur ? cur + ' ' + w : w;
+          if (baseLen(test) > maxCh && cur) { lines.push(cur); cur = w; }
+          else                              { cur = test; }
+        }
+        if (cur) lines.push(cur);
+
+        const lineH   = fs * 1.5;
         const areaTop = -CH / 2 + AH + 4;
-        const areaBot = hasLbl ? CH / 2 - 30 : CH / 2 - 8;
+        const areaBot = hasLbl ? CH / 2 - 28 : CH / 2 - 8;
         const midY    = (areaTop + areaBot) / 2;
+        const startY  = midY - ((lines.length - 1) * lineH) / 2;
+
         const el = select(this).attr('font-size', fs);
-        el.append('tspan')
-          .attr('x', CW / 2 - 8).attr('y', midY)   // RTL: anchor text start at right edge
-          .text(name);
+        lines.forEach((ln, i) =>
+          el.append('tspan').attr('x', 0).attr('y', startY + i * lineH).text(ln)
+        );
       });
 
     // Grammar label (SVG text, bottom of card)
