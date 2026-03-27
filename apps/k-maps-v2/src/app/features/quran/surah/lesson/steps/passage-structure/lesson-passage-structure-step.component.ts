@@ -328,7 +328,13 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
 
   symbolGroups(data: any): any[]   { return data?.groups ?? []; }
   discourseRows(data: any): any[]  { return data?.rows ?? []; }
-  chiasmLevels(data: any): any[]   { return data?.levels ?? []; }
+  chiasmLevels(data: any): any[] {
+    const levels: any[] = data?.levels ?? [];
+    return levels.map((l, i) => ({
+      ...l,
+      indent: Math.min(i, levels.length - 1 - i),
+    }));
+  }
   conflictLevels(data: any): any[] { return data?.levels ?? []; }
   lexiconFields(data: any): any[]  { return data?.fields ?? []; }
   purposeRows(data: any): any[]    { return data?.rows ?? []; }
