@@ -174,6 +174,11 @@ export class SentenceStructureCanvasComponent
     this.wrap.selectAll('.kss__svg-host').remove();
     const host = this.wrap.append('div').attr('class', 'kss__svg-host');
     this.svg   = host.append('svg');
+    // Shared clip path — clips node text to card interior (same bounds for all nodes)
+    this.svg.append('defs').append('clipPath').attr('id', 'kss-clip')
+      .append('rect')
+      .attr('x', -CW / 2 + 6).attr('y', -CH / 2 + AH)
+      .attr('width', CW - 12).attr('height', CH - AH - 4);
     this.gL    = this.svg.append('g').attr('fill', 'none');
     this.gN    = this.svg.append('g');
   }
@@ -323,9 +328,10 @@ export class SentenceStructureCanvasComponent
       .attr('stroke',       (d: any) =>  d._children                 ? this.tc(d) : 'none')
       .attr('stroke-width', 1.5);
 
-    // Arabic name — single line, vertically centred, compressed to fit card width
+    // Arabic name — single line, clipped to card width
     nEnter.append('text').attr('class', 'kss-name')
       .attr('text-anchor',  'middle')
+      .attr('clip-path',    'url(#kss-clip)')
       .attr('font-family',  'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('fill',             '#dce8ff')
       .attr('paint-order',      'stroke')
