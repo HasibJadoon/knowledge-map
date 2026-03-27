@@ -281,7 +281,13 @@ $border-l:  #4a3e28;
 .disc-dir-eng    { font-size: 0.75em; font-style: italic; color: $text-d; margin-top: 3px; }
 
 /* ── CHIASM ─────────────────────────────────────────────── */
-.renderer-chiasm { display: flex; flex-direction: column; gap: 2px; }
+.renderer-chiasm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 1px solid rgba(255,255,255,.06);
+  padding-left: 2px;
+}
 .ch-row {
   display: flex;
   align-items: center;

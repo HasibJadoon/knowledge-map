@@ -77,6 +77,7 @@
             <div class="renderer-chiasm">
               @for (level of chiasmLevels(currentSection()?.data); track level.label + level.ref) {
                 <div class="ch-row"
+                     [style.padding-left]="(level.indent * 1.5) + 'em'"
                      [class.ch-row--hi]="chiasmHover() === level.variant"
                      [class.ch-row--dim]="chiasmHover() !== null && chiasmHover() !== level.variant && level.variant !== 'x'"
                      [class.var-a]="level.variant === 'a'"
