@@ -176,6 +176,24 @@
             </div>
           }
 
+          <!-- ── Symbol Maps ────────────────────────────── -->
+          @if (currentSection()?.renderer === 'symbol_maps') {
+            <div class="renderer-symbol-maps">
+              @for (group of symbolGroups(currentSection()?.data); track group.name) {
+                <div class="sm-group">
+                  <div class="sm-group-name">{{ group.name }}</div>
+                  @for (item of group.items; track item.label) {
+                    <div class="sm-item">
+                      <span class="sm-label">{{ item.label }}</span>
+                      <span class="sm-role">{{ item.role }}</span>
+                      <span class="sm-meaning">{{ item.meaning }}</span>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
           <!-- ── Legacy: keyvalue ───────────────────────── -->
           @if (currentSection()?.renderer === 'keyvalue') {
             <div class="renderer-kv">
