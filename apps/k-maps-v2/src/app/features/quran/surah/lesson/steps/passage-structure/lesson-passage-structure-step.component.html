@@ -23,7 +23,10 @@
 
   @if (sections.length > 0) {
 
-    <div class="pss-scene" (click)="onSceneClick()">
+    <div class="pss-scene"
+         (click)="onSceneClick($event)"
+         (touchstart)="onSwipeStart($event)" (touchend)="onSwipeEnd($event)"
+         (mousedown)="onSwipeStart($event)" (mouseup)="onSwipeEnd($event)">
       <div class="pss-sh pss-sh1"></div>
       <div class="pss-sh pss-sh2"></div>
       <div class="pss-sh pss-sh3"></div>
@@ -71,7 +74,15 @@
           @if (currentSection()?.renderer === 'chiasm') {
             <div class="renderer-chiasm">
               @for (level of chiasmLevels(currentSection()?.data); track level.label + level.ref) {
-                <div class="ch-row">
+                <div class="ch-row"
+                     [class.ch-row--hi]="chiasmHover() === level.variant"
+                     [class.ch-row--dim]="chiasmHover() !== null && chiasmHover() !== level.variant && level.variant !== 'x'"
+                     [class.var-a]="level.variant === 'a'"
+                     [class.var-b]="level.variant === 'b'"
+                     [class.var-c]="level.variant === 'c'"
+                     [class.var-x]="level.variant === 'x'"
+                     (mouseenter)="onChiasmEnter(level.variant)"
+                     (mouseleave)="onChiasmLeave()">
                   <div class="ch-letter"
                        [class.cl-a]="level.variant === 'a'"
                        [class.cl-b]="level.variant === 'b'"
