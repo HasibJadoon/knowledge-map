@@ -340,12 +340,9 @@ export class SentenceStructureCanvasComponent
         const areaTop = -CH / 2 + AH + 4;
         const areaBot = hasLbl ? CH / 2 - 30 : CH / 2 - 8;
         const midY    = (areaTop + areaBot) / 2;
-        const maxW    = CW - 16;   // max pixel width before compressing glyphs
         const el = select(this).attr('font-size', fs);
         el.append('tspan')
           .attr('x', 0).attr('y', midY)
-          .attr('textLength', maxW)
-          .attr('lengthAdjust', 'spacingAndGlyphs')
           .text(name);
       });
 
