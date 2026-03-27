@@ -399,66 +399,56 @@
   height: 100dvh;
   overflow: hidden;
 
-  // ── Single fixed top bar: Back | breadcrumb (left) ──────────
+  // ── Fixed top bar: Back | breadcrumb (left) ─────────────────
   .lesson-page__nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3rem;
-    padding: 0 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: rgba(6, 6, 6, 0.88);
+    position:        fixed;
+    top:             0;
+    left:            0;
+    right:           0;
+    height:          3rem;
+    padding:         0 1.25rem;
+    display:         flex;
+    align-items:     center;
+    gap:             0.75rem;
+    background:      rgba(6, 6, 6, 0.88);
     backdrop-filter: blur(8px);
-    z-index: 200;
-    flex-shrink: 0;
-    max-width: none;
-    margin: 0;
+    z-index:         200;
+    flex-shrink:     0;
+    max-width:       none;
+    margin:          0;
   }
 
-  // ── Step pills centred in the same bar (::ng-deep crosses encapsulation) ──
-  ::ng-deep .sst__nav {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    z-index: 201;
-    flex-wrap: nowrap;
-  }
-
-  // ── NEXT STEP aligned right in the same bar ──────────────────
+  // ── NEXT STEP: same bar height, right edge ───────────────────
+  // (Step pills centred in bar are handled via global styles.scss)
   .step-footer {
-    position: fixed;
-    top: 0.5rem;
-    right: 1.25rem;
+    position:    fixed;
+    top:         0;
+    right:       1.25rem;
+    height:      3rem;
+    display:     flex;
+    align-items: center;
     padding-top: 0;
-    z-index: 200;
+    z-index:     200;
   }
 
   // ── Push canvas content below the fixed bar ──────────────────
   .lesson-stage {
-    flex: 1;
-    min-height: 0;
-    padding: 3rem 0 0;
-    gap: 0;
-    display: flex;
+    flex:           1;
+    min-height:     0;
+    padding:        3rem 0 0;
+    gap:            0;
+    display:        flex;
     flex-direction: column;
-    max-width: none;
-    margin: 0;
-    width: 100%;
+    max-width:      none;
+    margin:         0;
+    width:          100%;
   }
 
   .step-panel,
   .step-panel__body {
-    flex: 1;
-    min-height: 0;
-    display: flex;
+    flex:           1;
+    min-height:     0;
+    display:        flex;
     flex-direction: column;
   }
 }

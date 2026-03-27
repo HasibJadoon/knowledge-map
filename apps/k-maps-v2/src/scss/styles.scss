@@ -4,6 +4,25 @@
 @use 'typography';
 @use 'utilities';
 
+// ── Sentence-structure canvas-full: step pills in fixed top bar ────────────
+// ::ng-deep doesn't pierce the step component's encapsulation reliably,
+// so we target .sst__nav here globally within .workspace--canvas-full.
+.workspace--canvas-full {
+  .sst__nav {
+    position:  fixed;
+    top:       0;
+    left:      50%;
+    transform: translateX(-50%);
+    height:    3rem;
+    display:   flex;
+    align-items: center;
+    gap:       0.45rem;
+    z-index:   201;
+    flex-wrap: nowrap;
+    padding:   0;
+  }
+}
+
 html.km-ui-obs-overlay,
 body.km-ui-obs-overlay {
   background: transparent !important;
