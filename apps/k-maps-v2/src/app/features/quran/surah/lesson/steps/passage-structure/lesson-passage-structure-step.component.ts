@@ -9,10 +9,10 @@ export interface PassageSection {
   key: string;
   title: string;
   badge: string;
-  tone: 'gold' | 'purple' | 'ember' | 'moss' | 'sky' | 'narrative'
+  tone: 'gold' | 'purple' | 'ember' | 'moss' | 'sky' | 'narrative' | 'indigo'
       | 'info' | 'primary' | 'warning' | 'danger' | 'success' | 'secondary';
   renderer: 'discourse' | 'chiasm' | 'conflict' | 'lexicon' | 'purpose' | 'narrative_seed'
-           | 'keyvalue' | 'clusters' | 'timeline';
+           | 'symbol_maps' | 'keyvalue' | 'clusters' | 'timeline';
   data: any;
 }
 
@@ -238,6 +238,18 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
         break;
       }
 
+      case 'symbol_maps': {
+        const tl     = gsap.timeline();
+        const groups = Array.from(el.querySelectorAll<HTMLElement>('.sm-group'));
+        groups.forEach((g, gi) => {
+          const header = g.querySelector<HTMLElement>('.sm-group-name');
+          const items  = Array.from(g.querySelectorAll<HTMLElement>('.sm-item'));
+          if (header) tl.fromTo(header, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .3, ease: 'power2.out' }, gi === 0 ? 0 : '+=.04');
+          if (items.length) tl.fromTo(items, { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: .28, stagger: .05, ease: 'power2.out' }, '+=.04');
+        });
+        break;
+      }
+
       // Legacy renderers
       default: {
         const items = Array.from(el.querySelectorAll<HTMLElement>('.pss-anim-item'));
@@ -272,6 +284,7 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
       moss:      'linear-gradient(90deg,transparent,#2e7c40,transparent)',
       sky:       'linear-gradient(90deg,transparent,#3a6a9a,transparent)',
       narrative: 'linear-gradient(90deg,transparent,rgba(201,168,76,.5),#a090d8,rgba(201,168,76,.5),transparent)',
+      indigo:    'linear-gradient(90deg,transparent,#6070d8,transparent)',
       // legacy
       info:      'linear-gradient(90deg,transparent,rgba(58,106,154,0.85),transparent)',
       primary:   'linear-gradient(90deg,transparent,rgba(160,144,216,0.85),transparent)',
@@ -283,6 +296,7 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
     return map[tone] ?? map['secondary'];
   }
 
+  symbolGroups(data: any): any[]   { return data?.groups ?? []; }
   discourseRows(data: any): any[]  { return data?.rows ?? []; }
   chiasmLevels(data: any): any[]   { return data?.levels ?? []; }
   conflictLevels(data: any): any[] { return data?.levels ?? []; }
