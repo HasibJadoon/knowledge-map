@@ -204,8 +204,16 @@ export class SentenceStructureCanvasComponent
 
   private moveTip(e: MouseEvent): void {
     if (!this.tip) return;
-    const x = Math.min(e.clientX + 18, window.innerWidth  - 360);
-    const y = Math.max(e.clientY - 56, 8);
+    const tw = this.tip.offsetWidth  || 260;
+    const th = this.tip.offsetHeight || 64;
+    // Place BELOW the node card (card is ~74px tall, cursor ≈ centre → +50 clears it)
+    let x = e.clientX - tw / 2;
+    let y = e.clientY + 52;
+    // Flip above if tooltip would run off the bottom of the viewport
+    if (y + th > window.innerHeight - 12) y = e.clientY - th - 52;
+    // Clamp to viewport edges
+    x = Math.max(8, Math.min(x, window.innerWidth - tw - 8));
+    y = Math.max(8, y);
     this.tip.style.left = `${x}px`;
     this.tip.style.top  = `${y}px`;
   }
