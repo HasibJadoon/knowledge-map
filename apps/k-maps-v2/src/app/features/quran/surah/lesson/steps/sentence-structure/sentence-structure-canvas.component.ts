@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 //  SentenceStructureCanvasComponent
-//  D3 horizontal collapsible tree — card-based nodes, RTL, cinematic dark theme
+//  D3 top-down collapsible tree — card-based nodes, RTL, cinematic dark theme
 // ─────────────────────────────────────────────────────────────────────────────
 
 import {
@@ -24,19 +24,21 @@ export interface SsTreeNode {
 
 // ── Card geometry ─────────────────────────────────────────────────────────────
 
-const CW   = 182;  // card width
-const CH   = 74;   // card height
-const CR   = 10;   // corner radius
-const AW   =  5;   // accent strip width (right edge, toward parent in RTL)
+const CW  = 182;   // card width
+const CH  =  74;   // card height
+const CR  =  10;   // corner radius
+const AH  =   5;   // accent strip height (top edge, toward parent above)
 
 // ── Tree spacing ──────────────────────────────────────────────────────────────
+// nodeSize([x-separation, y-depth])
+// x = horizontal sibling gap, y = vertical depth per level
 
-const SIB  = 112;  // vertical gap between siblings   (nodeSize[0])
-const DEP  = 292;  // horizontal depth per level      (nodeSize[1])
+const XSEP = 220;  // horizontal gap between node centres
+const YDEP = 155;  // vertical depth per level
 
 // ── Viewport margins ──────────────────────────────────────────────────────────
 
-const MT = 44, MB = 44, ML = 36, MR = 36;
+const MT = 40, MB = 56, ML = 40, MR = 40;
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -44,7 +46,7 @@ const MT = 44, MB = 44, ML = 36, MR = 36;
   selector:        'km-sentence-structure-canvas',
   standalone:      true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation:   ViewEncapsulation.None,        // D3 HTML elements get styles
+  encapsulation:   ViewEncapsulation.None,
   template:        `<div #wrap class="kss"></div>`,
   styles: [`
 
@@ -88,14 +90,14 @@ const MT = 44, MB = 44, ML = 36, MR = 36;
     }
 
     .kss__chip {
-      display:     inline-flex;
-      align-items: center;
-      gap:         .28rem;
-      padding:     .22rem .58rem;
+      display:       inline-flex;
+      align-items:   center;
+      gap:           .28rem;
+      padding:       .22rem .58rem;
       border-radius: 999px;
-      border:      1px solid transparent;
-      transition:  filter .2s;
-      cursor:      default;
+      border:        1px solid transparent;
+      transition:    filter .2s;
+      cursor:        default;
     }
     .kss__chip:hover { filter: brightness(1.2); }
 
@@ -112,11 +114,10 @@ const MT = 44, MB = 44, ML = 36, MR = 36;
       opacity:     .88;
     }
 
-    /* ── SVG scroll host ─────────────────────────────────────── */
+    /* ── SVG host — no own scroll, parent canvas handles it ─── */
     .kss__svg-host {
-      width:      100%;
-      overflow-x: auto;
-      overflow-y: visible;
+      width:    100%;
+      overflow: visible;
     }
     .kss__svg-host svg {
       display:     block;
@@ -136,9 +137,9 @@ export class SentenceStructureCanvasComponent
 
   private readonly zone = inject(NgZone);
 
-  private wrap: any = null;   // D3 selection of host div
+  private wrap: any = null;
   private svg:  any = null;
-  private gL:   any = null;   // link layer (below nodes)
+  private gL:   any = null;   // link layer
   private gN:   any = null;   // node layer
   private root: any = null;
   private obs:  ResizeObserver | null = null;
@@ -169,33 +170,29 @@ export class SentenceStructureCanvasComponent
 
   private mountSvg(): void {
     this.wrap.selectAll('.kss__svg-host').remove();
-    const host  = this.wrap.append('div').attr('class', 'kss__svg-host');
-    this.svg    = host.append('svg');
+    const host = this.wrap.append('div').attr('class', 'kss__svg-host');
+    this.svg   = host.append('svg');
     this.addDefs();
-    this.gL     = this.svg.append('g').attr('fill', 'none');
-    this.gN     = this.svg.append('g');
+    this.gL    = this.svg.append('g').attr('fill', 'none');
+    this.gN    = this.svg.append('g');
   }
 
   // ── Build / rebuild ───────────────────────────────────────────────────────
 
   private build(): void {
-    // 1. D3-rendered sentence card
     this.renderCard();
-
-    // 2. Clear tree layers
     this.gL.selectAll('*').remove();
     this.gN.selectAll('*').remove();
     this.root = null;
 
     if (!this.treeData) return;
 
-    // 3. Hierarchy + stash
     this.root = hierarchy(this.treeData);
     let uid   = 0;
     this.root.descendants().forEach((d: any) => {
       d.uid       = uid++;
       d._children = d.children ?? null;
-      if (d.depth > 1) d.children = null;   // collapse beyond first level
+      if (d.depth > 1) d.children = null;
     });
     this.root.x0 = 0;
     this.root.y0 = 0;
@@ -204,7 +201,6 @@ export class SentenceStructureCanvasComponent
   }
 
   // ── D3 sentence card ──────────────────────────────────────────────────────
-  // Renders the full Arabic sentence + color-coded word chips above the tree.
 
   private renderCard(): void {
     this.wrap.selectAll('.kss__card').remove();
@@ -213,26 +209,21 @@ export class SentenceStructureCanvasComponent
     const card = this.wrap.insert('div', '.kss__svg-host')
       .attr('class', 'kss__card');
 
-    // Full sentence text
     card.append('p')
       .attr('class', 'kss__sentence')
       .text(this.treeData.name);
 
-    // First-level children as color-coded chips
     const kids = this.treeData.children ?? [];
     if (!kids.length) return;
 
     const row = card.append('div').attr('class', 'kss__chips');
-
     kids.forEach(ch => {
-      const clr = ch.term_id ? (this.termColors[ch.term_id] ?? '#888') : '#888';
+      const clr  = ch.term_id ? (this.termColors[ch.term_id] ?? '#888') : '#888';
       const chip = row.append('span')
         .attr('class', 'kss__chip')
-        .style('background',   this.rgba(clr, .12))
-        .style('border-color', this.rgba(clr, .42));
-
+        .style('background',   this.rgba(clr, .18))
+        .style('border-color', this.rgba(clr, .55));
       chip.append('span').attr('class', 'kss__chip-w').text(ch.name);
-
       if (ch.label_ar) {
         chip.append('span')
           .attr('class', 'kss__chip-l')
@@ -242,18 +233,20 @@ export class SentenceStructureCanvasComponent
     });
   }
 
-  // ── Core update — Observable HQ pattern, horizontal RTL ──────────────────
+  // ── Core update — Observable HQ pattern, top-down RTL ────────────────────
 
   private refresh(evt: MouseEvent | null, src: any): void {
     if (!this.svg || !this.root) return;
 
-    const dur = evt?.altKey ? 2500 : 300;
+    const dur = evt?.altKey ? 1500 : 160;
 
-    // Standard D3 layout → flip y for RTL (root on right, children to left)
-    d3Tree<SsTreeNode>().nodeSize([SIB, DEP])(this.root);
-    this.root.eachBefore((d: any) => { d.y = -d.y; });
+    // Layout: nodeSize([x-gap, y-depth]) — top-down
+    d3Tree<SsTreeNode>().nodeSize([XSEP, YDEP])(this.root);
 
-    // Extents (after flip)
+    // RTL: negate x so first Arabic word lands on the right
+    this.root.eachBefore((d: any) => { d.x = -d.x; });
+
+    // Extents after RTL flip
     let x0 =  Infinity, x1 = -Infinity;
     let y0 =  Infinity, y1 = -Infinity;
     this.root.eachBefore((d: any) => {
@@ -261,15 +254,16 @@ export class SentenceStructureCanvasComponent
       if (d.y < y0) y0 = d.y;  if (d.y > y1) y1 = d.y;
     });
 
-    const vH = x1 - x0 + CH + MT + MB;
-    const vW = y1 - y0 + CW + ML + MR;
+    // SVG viewport
+    const vW = x1 - x0 + CW + ML + MR;
+    const vH = y1 - y0 + CH + MT + MB;
 
-    // offsets so card centres land inside margins
-    const ox = -y0 + ML + CW / 2;   // horizontal (y-axis after flip = screen x)
-    const oy = -x0 + MT + CH / 2;   // vertical
+    // Offsets: card centres land inside margins
+    const ox = -x0 + ML + CW / 2;   // horizontal
+    const oy = -y0 + MT + CH / 2;   // vertical
 
-    // keep host div wide enough for horizontal scroll
-    this.wrap.select('.kss__svg-host').style('min-width', `${vW}px`);
+    // Set min-width on the wrap div so the parent scroll container sees full width
+    this.wrap.style('min-width', `${vW}px`);
 
     const T = this.svg.transition().duration(dur)
       .attr('width',   vW)
@@ -281,17 +275,17 @@ export class SentenceStructureCanvasComponent
 
     // ── Nodes ──────────────────────────────────────────────────────────────
 
-    const node = this.gN
-      .selectAll<SVGGElement, any>('g.kss-n')
+    const node = (this.gN as any)
+      .selectAll('g.kss-n')
       .data(nodes, (d: any) => d.uid);
 
-    // ENTER — start at source's stashed position
+    // ENTER — collapse-in from source position
     const nEnter = node.enter().append('g')
       .attr('class',     'kss-n')
       .attr('cursor',    'pointer')
       .attr('transform', () => {
-        const ix = (src.y0 ?? src.y) + ox;
-        const iy = (src.x0 ?? src.x) + oy;
+        const ix = (src.x0 ?? src.x) + ox;
+        const iy = (src.y0 ?? src.y) + oy;
         return `translate(${ix},${iy})`;
       })
       .attr('opacity', 0)
@@ -302,17 +296,17 @@ export class SentenceStructureCanvasComponent
       .on('mouseenter', (e: MouseEvent) => {
         select(e.currentTarget as SVGGElement)
           .select<SVGRectElement>('.kss-bg')
-          .transition().duration(140)
+          .transition().duration(80)
           .attr('filter', 'url(#kss-glow)');
       })
       .on('mouseleave', (e: MouseEvent) => {
         select(e.currentTarget as SVGGElement)
           .select<SVGRectElement>('.kss-bg')
-          .transition().duration(220)
+          .transition().duration(120)
           .attr('filter', null as any);
       });
 
-    // Card background rect
+    // Card background
     nEnter.append('rect').attr('class', 'kss-bg')
       .attr('x',      -CW / 2).attr('y', -CH / 2)
       .attr('width',  CW).attr('height', CH)
@@ -321,31 +315,31 @@ export class SentenceStructureCanvasComponent
       .attr('stroke',       (d: any) => this.cardBorder(d))
       .attr('stroke-width', 1.5);
 
-    // Right-side accent strip (parent connection side in RTL)
+    // Top accent strip (parent connection side — link enters from above)
     nEnter.append('rect').attr('class', 'kss-ac')
-      .attr('x',      CW / 2 - AW)
-      .attr('y',      -CH / 2 + CR)
-      .attr('width',  AW)
-      .attr('height', CH - CR * 2)
+      .attr('x',      -CW / 2 + CR)
+      .attr('y',      -CH / 2)
+      .attr('width',  CW - CR * 2)
+      .attr('height', AH)
       .attr('rx', 2)
       .attr('fill', (d: any) => this.tc(d));
 
-    // Left-edge collapse indicator (children expand leftward)
+    // Bottom-center collapse dot (children expand downward)
     nEnter.append('circle').attr('class', 'kss-dot')
-      .attr('cx', -(CW / 2) + 10)
-      .attr('cy', 0)
+      .attr('cx', 0)
+      .attr('cy', CH / 2 - 9)
       .attr('r',  4.5)
       .attr('fill',         (d: any) => (d._children && !d.children) ? this.tc(d) : 'none')
-      .attr('stroke',       (d: any) => d._children                  ? this.tc(d) : 'none')
+      .attr('stroke',       (d: any) =>  d._children                 ? this.tc(d) : 'none')
       .attr('stroke-width', 1.5);
 
-    // Arabic name — dominant text
+    // Arabic name
     nEnter.append('text').attr('class', 'kss-name')
-      .attr('text-anchor',      'middle')
-      .attr('dominant-baseline','middle')
+      .attr('text-anchor',       'middle')
+      .attr('dominant-baseline', 'middle')
       .attr('y', (d: any) => d.data.label_ar ? -11 : 2)
-      .attr('font-family',      'var(--km-font-arabic,"Scheherazade New",serif)')
-      .attr('font-size',        (d: any) => d.depth === 0 ? 16 : 15)
+      .attr('font-family', 'var(--km-font-arabic,"Scheherazade New",serif)')
+      .attr('font-size',   (d: any) => d.depth === 0 ? 16 : 15)
       .attr('fill',             '#dce8ff')
       .attr('paint-order',      'stroke')
       .attr('stroke',           'rgba(8,12,28,.9)')
@@ -353,10 +347,10 @@ export class SentenceStructureCanvasComponent
       .attr('stroke-linejoin',  'round')
       .text((d: any) => this.clip(d.data.name, d.depth === 0 ? 26 : 18));
 
-    // Grammar label — subtle subtitle
+    // Grammar label
     nEnter.append('text').attr('class', 'kss-lbl')
-      .attr('text-anchor',      'middle')
-      .attr('dominant-baseline','middle')
+      .attr('text-anchor',       'middle')
+      .attr('dominant-baseline', 'middle')
       .attr('y',  17)
       .attr('font-family', 'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('font-size',   10)
@@ -368,9 +362,9 @@ export class SentenceStructureCanvasComponent
       .attr('stroke-linejoin', 'round')
       .text((d: any) => d.data.label_ar ?? '');
 
-    // UPDATE — transition to new positions
+    // UPDATE — transition to final positions
     const nUpdate = node.merge(nEnter).transition(T)
-      .attr('transform', (d: any) => `translate(${d.y + ox},${d.x + oy})`)
+      .attr('transform', (d: any) => `translate(${d.x + ox},${d.y + oy})`)
       .attr('opacity', 1);
 
     nUpdate.select('.kss-bg')
@@ -384,19 +378,19 @@ export class SentenceStructureCanvasComponent
     nUpdate.select('.kss-lbl')
       .attr('fill', (d: any) => this.tc(d));
 
-    // EXIT — collapse toward source
+    // EXIT — collapse back toward source
     node.exit().transition(T)
-      .attr('transform', () => `translate(${src.y + ox},${src.x + oy})`)
+      .attr('transform', () => `translate(${src.x + ox},${src.y + oy})`)
       .attr('opacity', 0)
       .remove();
 
     // ── Links ──────────────────────────────────────────────────────────────
 
-    const link = this.gL
-      .selectAll<SVGPathElement, any>('path.kss-l')
+    const link = (this.gL as any)
+      .selectAll('path.kss-l')
       .data(links, (d: any) => d.target.uid);
 
-    const ip = { y: (src.y0 ?? src.y) + ox, x: (src.x0 ?? src.x) + oy };
+    const ip = { x: (src.x0 ?? src.x) + ox, y: (src.y0 ?? src.y) + oy };
 
     // ENTER — collapsed at source
     const lEnter = link.enter().append('path')
@@ -406,62 +400,64 @@ export class SentenceStructureCanvasComponent
       .attr('stroke-opacity', .48)
       .attr('d', () => this.curve(ip, ip));
 
-    // UPDATE — animate to final positions
+    // UPDATE
     (link.merge(lEnter) as any).transition(T)
       .attr('stroke', (d: any) => this.tc(d.target))
       .attr('d', (d: any) => this.curve(
-        { y: d.source.y + ox, x: d.source.x + oy },
-        { y: d.target.y + ox, x: d.target.x + oy },
+        { x: d.source.x + ox, y: d.source.y + oy },
+        { x: d.target.x + ox, y: d.target.y + oy },
       ));
 
-    // EXIT — collapse toward source
+    // EXIT
     link.exit().transition(T)
       .attr('d', () => {
-        const p = { y: src.y + ox, x: src.x + oy };
+        const p = { x: src.x + ox, y: src.y + oy };
         return this.curve(p, p);
       })
       .remove();
 
-    // Stash current positions for next transition
+    // Stash
     this.root.eachBefore((d: any) => { d.x0 = d.x; d.y0 = d.y; });
+
+    // Scroll parent to top-right so root node is visible (RTL: root is rightmost)
+    const scrollEl = this.wrapRef.nativeElement.parentElement?.parentElement as HTMLElement | null;
+    if (scrollEl && !evt) {
+      scrollEl.scrollTop  = 0;
+      scrollEl.scrollLeft = scrollEl.scrollWidth;
+    }
   }
 
-  // ── Cubic bezier: parent left-edge → child right-edge (RTL) ──────────────
-  // In RTL layout: parent is to the RIGHT, children expand LEFT.
-  // src.y = parent screen-x (larger), tgt.y = child screen-x (smaller).
-  // Connect: parent left edge → midpoint → child right edge.
+  // ── Cubic bezier: parent bottom-edge → child top-edge (top-down) ─────────
 
   private curve(
-    s: { y: number; x: number },
-    t: { y: number; x: number },
+    s: { x: number; y: number },
+    t: { x: number; y: number },
   ): string {
-    const sx = s.y - CW / 2;          // parent left edge
-    const tx = t.y + CW / 2;          // child  right edge
-    const mx = (sx + tx) / 2;
-    return `M${sx},${s.x} C${mx},${s.x} ${mx},${t.x} ${tx},${t.x}`;
+    const sy = s.y + CH / 2;         // parent bottom edge
+    const ty = t.y - CH / 2;         // child  top edge
+    const my = (sy + ty) / 2;
+    return `M${s.x},${sy} C${s.x},${my} ${t.x},${my} ${t.x},${ty}`;
   }
 
   // ── Color helpers ─────────────────────────────────────────────────────────
 
-  /** Term color from termColors map, or gold fallback. */
   private tc(d: any): string {
     const c = d.data?.term_id ? this.termColors[d.data.term_id] : null;
-    return c ?? 'rgba(201,168,76,.78)';
+    return c ?? 'rgba(201,168,76,.92)';
   }
 
   private cardBg(d: any): string {
     const c = d.data?.term_id ? this.termColors[d.data.term_id] : null;
-    if (c) return this.rgba(c, .10);
-    return d.depth === 0 ? 'rgba(201,168,76,.07)' : 'rgba(18,23,52,.88)';
+    if (c) return this.rgba(c, .18);
+    return d.depth === 0 ? 'rgba(201,168,76,.13)' : 'rgba(14,18,42,.95)';
   }
 
   private cardBorder(d: any): string {
     const c = d.data?.term_id ? this.termColors[d.data.term_id] : null;
-    if (c) return this.rgba(c, .36);
-    return d.depth === 0 ? 'rgba(201,168,76,.36)' : 'rgba(255,255,255,.09)';
+    if (c) return this.rgba(c, .55);
+    return d.depth === 0 ? 'rgba(201,168,76,.55)' : 'rgba(255,255,255,.16)';
   }
 
-  /** Convert #RRGGBB to rgba(r,g,b,a). Safe for all SVG attr values. */
   private rgba(hex: string, a: number): string {
     if (!hex?.startsWith('#')) return `rgba(128,128,128,${a})`;
     const r = parseInt(hex.slice(1, 3), 16);
