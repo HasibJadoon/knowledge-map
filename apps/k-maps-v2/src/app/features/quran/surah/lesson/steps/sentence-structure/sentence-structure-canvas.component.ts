@@ -337,33 +337,28 @@ export class SentenceStructureCanvasComponent
         const fs: number   = d.depth === 0 ? 14 : 13;
         const hasLbl = !!d.data.label_ar;
 
-        // Strip Arabic diacritics before measuring so harakat don't over-wrap
+        // Strip Arabic diacritics before measuring so harakat don't inflate char count
         const baseLen = (s: string) => [...s].filter(c => {
           const cp = c.codePointAt(0)!;
           return !((cp >= 0x064B && cp <= 0x065F) || (cp >= 0x0610 && cp <= 0x061A));
         }).length;
         const maxCh = Math.floor((CW - 20) / (fs * 0.62));
 
-        const words  = name.split(' ');
-        const lines: string[] = [];
-        let cur = '';
+        // Build first line only — stop as soon as adding the next word would overflow
+        const words = name.split(' ');
+        let line = '';
         for (const w of words) {
-          const test = cur ? cur + ' ' + w : w;
-          if (baseLen(test) > maxCh && cur) { lines.push(cur); cur = w; }
-          else                              { cur = test; }
+          const test = line ? line + ' ' + w : w;
+          if (baseLen(test) > maxCh && line) break;
+          line = test;
         }
-        if (cur) lines.push(cur);
 
-        const lineH   = fs * 1.5;
         const areaTop = -CH / 2 + AH + 4;
         const areaBot = hasLbl ? CH / 2 - 28 : CH / 2 - 8;
         const midY    = (areaTop + areaBot) / 2;
-        const startY  = midY - ((lines.length - 1) * lineH) / 2;
 
         const el = select(this).attr('font-size', fs);
-        lines.forEach((ln, i) =>
-          el.append('tspan').attr('x', 0).attr('y', startY + i * lineH).text(ln)
-        );
+        el.append('tspan').attr('x', 0).attr('y', midY).text(line);
       });
 
     // Grammar label (SVG text, bottom of card)
