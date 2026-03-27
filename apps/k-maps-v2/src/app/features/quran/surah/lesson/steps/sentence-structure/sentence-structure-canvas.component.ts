@@ -121,7 +121,17 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
       font-family: var(--km-font-arabic, "Scheherazade New", serif);
       font-size:   .82rem;
       opacity:     1;
-      filter:      brightness(1.6) saturate(1.2);
+      filter:      brightness(1.8) saturate(1.4);
+      text-shadow: 0 0 6px currentColor,
+                   0 0 12px currentColor,
+                   0 0 22px currentColor;
+    }
+
+    /* ── SVG grammar label — neon glow ──────────────────────── */
+    .kss-lbl {
+      filter: drop-shadow(0 0 4px rgba(180,210,255,.85))
+              drop-shadow(0 0 10px rgba(180,210,255,.55))
+              drop-shadow(0 0 18px rgba(140,180,255,.35));
     }
 
     /* ── SVG host — centres tree horizontally, parent scrolls ─ */
