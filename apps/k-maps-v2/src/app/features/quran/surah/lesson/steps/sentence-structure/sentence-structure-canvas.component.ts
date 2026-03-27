@@ -77,7 +77,6 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
       display:        flex;
       flex-direction: column;
       gap:            .7rem;
-      margin-top:     0.5rem;   /* clear the fixed top bar */
     }
 
     .kss__sentence {
