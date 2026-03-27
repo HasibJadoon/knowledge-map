@@ -1,144 +1,341 @@
+:host {
+  display: block;
+  font-family: var(--km-font-body), var(--km-font-arabic, 'Scheherazade New', serif);
+}
 
-    /* Global Arabic fallback — browser auto-selects this font for Arabic codepoints */
-    :host { font-family: var(--km-font-body), var(--km-font-arabic, 'Scheherazade New', 'KFGQPC Hafs Uthmanic', serif); }
+/* ── Outer layout ──────────────────────────────────────── */
+.pss-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 1rem 0 3rem;
+}
 
-    .ps-tab { display: flex; flex-direction: column; gap: 1.5rem; padding: 0.5rem 0 3rem; }
+/* ── Header ────────────────────────────────────────────── */
+.pss-outer-header {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.pss-eyebrow {
+  font-family: var(--km-font-heading);
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: var(--km-text-3);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.pss-ref {
+  font-family: var(--km-font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--km-gold);
+  letter-spacing: 0.05em;
+}
 
-    .ps-header { margin-bottom: 0.5rem; }
-    .ps-header__top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-    .ps-ref { font-size: 0.72em; letter-spacing: 0.15em; color: var(--km-gold); text-transform: uppercase; font-family: var(--km-font-heading); opacity: 0.85; display: block; margin-bottom: 0.2rem; }
-    .ps-title { font-size: 1.35em; font-weight: 300; color: var(--km-text); letter-spacing: 0.05em; margin: 0; }
-    .ps-font-controls {
-      display: flex; align-items: center; gap: 0.15rem; flex-shrink: 0;
-    }
-    .ps-font-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-      color: var(--km-text-3); border-radius: 5px; padding: 0.3rem 0.5rem;
-      font-size: 0.72rem; font-family: var(--km-font-heading); font-weight: 600;
-      cursor: pointer; letter-spacing: 0.04em;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-      &:hover { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.35); color: var(--km-gold); }
-      &--reset { font-size: 0.78rem; }
-    }
+/* ── Font controls ─────────────────────────────────────── */
+.pss-font-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+.pss-font-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--km-text-3);
+  border-radius: 5px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.72rem;
+  font-family: var(--km-font-heading);
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  &:hover { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.35); color: var(--km-gold); }
+  &--reset { font-size: 0.78rem; }
+}
 
-    .section-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 14px;
-      padding: 1.5rem 1.75rem;
-      transition: border-color 0.3s;
-      &:hover { border-color: rgba(255,255,255,0.16); }
-      &.tone-info    { border-left: 3px solid rgba(100,160,230,0.6); }
-      &.tone-primary { border-left: 3px solid rgba(140,100,220,0.6); }
-      &.tone-warning { border-left: 3px solid rgba(201,168,76,0.7); }
-      &.tone-danger  { border-left: 3px solid rgba(200,80,80,0.6); }
-      &.tone-success { border-left: 3px solid rgba(80,180,120,0.6); }
-      &.tone-secondary { border-left: 3px solid rgba(160,160,160,0.5); }
-    }
+/* ── Scene (card stack) ────────────────────────────────── */
+.pss-scene {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  cursor: pointer;
+}
 
-    .card-header { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.2rem; }
+/* shadow stack cards */
+.pss-sh {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.01);
+  pointer-events: none;
+}
+.pss-sh1 { transform: rotate(3.5deg) translateY(13px) translateX(3px); z-index: 1; }
+.pss-sh2 { transform: rotate(2deg)   translateY(7px)  translateX(1.5px); z-index: 2; }
+.pss-sh3 { transform: rotate(-0.8deg) translateY(3px); z-index: 3; }
 
-    .badge {
-      font-size: 0.63em; letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 0.22rem 0.65rem; border-radius: 4px; font-weight: 700;
-      font-family: var(--km-font-heading); flex-shrink: 0;
-      &.tone-info    { background: rgba(100,160,230,0.18); color: #8ec4f5; }
-      &.tone-primary { background: rgba(140,100,220,0.18); color: #be9ef5; }
-      &.tone-warning { background: rgba(201,168,76,0.22);  color: var(--km-gold); }
-      &.tone-danger  { background: rgba(200,80,80,0.18);   color: #f08080; }
-      &.tone-success { background: rgba(80,180,120,0.18);  color: #70d4a0; }
-      &.tone-secondary { background: rgba(160,160,160,0.12); color: #b0b0b0; }
-    }
-    .card-title { font-size: 1em; font-weight: 500; color: var(--km-text); letter-spacing: 0.02em; }
+/* ── Main card ─────────────────────────────────────────── */
+.pss-card {
+  position: relative;
+  z-index: 10;
+  background: var(--km-surface, #0e0d0a);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.4),
+    0 12px 50px rgba(0,0,0,0.65),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  overflow: hidden;
+}
 
-    /* key-value */
-    .renderer-kv { display: flex; flex-direction: column; gap: 0.8rem; }
-    .kv-row { display: grid; grid-template-columns: 180px 1fr; gap: 1rem; align-items: baseline; }
-    .kv-key { font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.08em; color: var(--km-text-3); white-space: nowrap; font-weight: 600; }
-    .kv-value { font-size: 0.95em; color: var(--km-text); line-height: 1.8; font-family: var(--km-font-body), var(--km-font-arabic, 'Scheherazade New', 'KFGQPC Hafs Uthmanic', serif); }
+.pss-card-bar {
+  height: 2px;
+  flex-shrink: 0;
+}
 
-    /* chiasm */
-    .renderer-chiasm { display: flex; flex-direction: column; gap: 0.3rem; }
-    .chiasm-level {
-      display: flex; align-items: center; gap: 0.85rem;
-      padding: 0.5rem 0.7rem; border-radius: 7px;
-      transition: background 0.2s;
-      border-left: 2.5px solid var(--pair-clr, transparent);
-      &:hover { background: rgba(255,255,255,0.04); }
-      /* odd-count: single center axis */
-      &.chiasm-axis {
-        background: rgba(201,168,76,0.09);
-        border-left-color: var(--km-gold) !important;
-        outline: 1px solid rgba(201,168,76,0.22);
-        margin: 0.35rem 0;
-      }
-      /* even-count: paired center rows */
-      &.chiasm-even-center {
-        background: rgba(201,168,76,0.05);
-        border-left-color: var(--km-gold) !important;
-      }
-    }
-    .chiasm-pair-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--pair-clr, rgba(255,255,255,0.15));
-      flex-shrink: 0;
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-    .chiasm-label { font-size: 0.92em; font-weight: 700; color: var(--km-gold); min-width: 1.8rem; font-style: italic; }
-    .chiasm-ref { font-size: 0.75em; color: rgba(255,255,255,0.45); min-width: 2.8rem; font-family: var(--km-font-heading); letter-spacing: 0.04em; }
-    .chiasm-text { font-size: 0.97em; color: var(--km-text); line-height: 1.8; font-family: var(--km-font-body), var(--km-font-arabic, 'Scheherazade New', 'KFGQPC Hafs Uthmanic', serif); }
-    .chiasm-note { font-size: 0.83em; color: var(--km-text-2); font-style: italic; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.07); line-height: 1.8; font-family: var(--km-font-body), var(--km-font-arabic, 'Scheherazade New', 'KFGQPC Hafs Uthmanic', serif); }
-    /* pair highlight — activated when sibling is hovered */
-    .chiasm-pair-hl {
-      background: color-mix(in srgb, var(--pair-clr, rgba(255,255,255,0.3)) 18%, transparent) !important;
-      border-left-color: var(--pair-clr, rgba(255,255,255,0.5)) !important;
-      .chiasm-pair-dot { opacity: 1; transform: scale(1.35); }
-      .chiasm-label { text-shadow: 0 0 10px var(--pair-clr, transparent); }
-    }
+.pss-card-body {
+  padding: 1.5rem 1.75rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
 
-    /* clusters */
-    .renderer-clusters { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.85rem; }
-    .cluster { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 1rem; }
-    .cluster-name {
-      font-size: 0.68em; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;
-      display: block; margin-bottom: 0.65rem; font-family: var(--km-font-heading);
-      &.color-blue { color: #8ec4f5; }
-      &.color-gold { color: var(--km-gold); }
-      &.color-red  { color: #f08080; }
-      &.color-teal { color: #70d4b0; }
-      &.color-green { color: #70d4a0; }
-      &.color-purple { color: #be9ef5; }
-    }
-    .cluster-items { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .cluster-item {
-      font-size: 1.3em; color: var(--km-text); background: rgba(255,255,255,0.06);
-      padding: 0.25rem 0.65rem; border-radius: 5px;
-      direction: rtl; font-family: var(--km-font-arabic, 'Scheherazade New', serif); line-height: 2;
-    }
+/* ── Card header ───────────────────────────────────────── */
+.pss-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+.pss-badge {
+  font-family: var(--km-font-heading);
+  font-size: 0.63em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: 4px;
+  font-weight: 700;
+  flex-shrink: 0;
+  &.tone-info      { background: rgba(100,160,230,0.15); color: #8ec4f5; border: 1px solid rgba(100,160,230,0.25); }
+  &.tone-primary   { background: rgba(140,100,220,0.15); color: #be9ef5; border: 1px solid rgba(140,100,220,0.25); }
+  &.tone-warning   { background: rgba(201,168,76,0.15);  color: var(--km-gold); border: 1px solid rgba(201,168,76,0.3); }
+  &.tone-danger    { background: rgba(192,80,48,0.15);   color: #e07060; border: 1px solid rgba(192,80,48,0.3); }
+  &.tone-success   { background: rgba(46,124,64,0.15);   color: #70d4a0; border: 1px solid rgba(46,124,64,0.3); }
+  &.tone-secondary { background: rgba(160,160,160,0.1);  color: #b0b0b0; border: 1px solid rgba(160,160,160,0.2); }
+}
+.pss-card-title {
+  font-size: 1em;
+  font-weight: 500;
+  color: var(--km-text);
+  letter-spacing: 0.02em;
+  font-family: var(--km-font-heading);
+}
 
-    /* timeline */
-    .renderer-timeline { display: flex; flex-direction: column; }
-    .timeline-step { display: grid; grid-template-columns: 32px 2px 1fr; gap: 0 1rem; align-items: start; }
-    .timeline-node {
-      display: flex; align-items: center; justify-content: center;
-      width: 32px; height: 32px;
-      border: 1px solid rgba(201,168,76,0.45); border-radius: 50%;
-      background: rgba(201,168,76,0.06); margin-top: 0.15rem; flex-shrink: 0;
-    }
-    .timeline-n { font-size: 0.7em; color: var(--km-gold); font-weight: 700; font-family: var(--km-font-heading); }
-    .timeline-connector {
-      width: 1px; background: linear-gradient(to bottom, rgba(201,168,76,0.3), transparent);
-      margin: 32px auto 0; align-self: stretch;
-      &--last { background: transparent; }
-    }
-    .timeline-text { font-size: 0.95em; color: var(--km-text); line-height: 1.8; padding: 0.35rem 0 1.25rem; margin: 0; font-family: var(--km-font-body), var(--km-font-arabic, 'Scheherazade New', 'KFGQPC Hafs Uthmanic', serif); }
+/* ── Anim items start hidden ───────────────────────────── */
+.pss-anim-item { opacity: 0; }
 
-    /* empty */
-    .no-task {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 4rem 1rem; gap: 0.75rem; color: var(--km-text-3); text-align: center;
-      &__icon { font-size: 2rem; opacity: 0.25; }
-      p { font-size: 0.875rem; font-style: italic; }
-    }
-  
+/* ── Hint ──────────────────────────────────────────────── */
+.pss-hint {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--km-text-3);
+  letter-spacing: 0.08em;
+  height: 16px;
+  text-align: center;
+}
+
+/* ── Controls ──────────────────────────────────────────── */
+.pss-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.pss-btn {
+  font-family: var(--km-font-heading);
+  font-size: 0.7em;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--km-text-3);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 8px 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  &:hover   { color: var(--km-gold); border-color: rgba(201,168,76,0.4); }
+  &:disabled { opacity: 0.2; pointer-events: none; }
+}
+.pss-dots { display: flex; gap: 7px; align-items: center; }
+.pss-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  transition: background 0.3s, transform 0.3s;
+  &.active { background: var(--km-gold); transform: scale(1.4); }
+}
+
+/* ── Empty state ───────────────────────────────────────── */
+.pss-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 1rem;
+  gap: 0.75rem;
+  color: var(--km-text-3);
+  text-align: center;
+  &__icon { font-size: 2rem; opacity: 0.25; }
+  p { font-size: 0.875rem; font-style: italic; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   Renderer styles (unchanged logic, updated context)
+   ═══════════════════════════════════════════════════════ */
+
+/* key-value */
+.renderer-kv { display: flex; flex-direction: column; gap: 0.8rem; }
+.kv-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+.kv-key {
+  font-size: 0.72em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--km-text-3);
+  white-space: nowrap;
+  font-weight: 600;
+}
+.kv-value {
+  font-size: 0.95em;
+  color: var(--km-text);
+  line-height: 1.8;
+  font-family: var(--km-font-body), var(--km-font-arabic, 'Scheherazade New', serif);
+}
+
+/* chiasm */
+.renderer-chiasm { display: flex; flex-direction: column; gap: 0.3rem; }
+.chiasm-level {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 7px;
+  transition: background 0.2s;
+  border-left: 2.5px solid var(--pair-clr, transparent);
+  &:hover { background: rgba(255,255,255,0.04); }
+  &.chiasm-axis {
+    background: rgba(201,168,76,0.09);
+    border-left-color: var(--km-gold) !important;
+    outline: 1px solid rgba(201,168,76,0.22);
+    margin: 0.35rem 0;
+  }
+  &.chiasm-even-center {
+    background: rgba(201,168,76,0.05);
+    border-left-color: var(--km-gold) !important;
+  }
+  &.chiasm-pair-hl {
+    background: color-mix(in srgb, var(--pair-clr, rgba(255,255,255,0.3)) 18%, transparent) !important;
+    border-left-color: var(--pair-clr, rgba(255,255,255,0.5)) !important;
+    .chiasm-pair-dot { opacity: 1; transform: scale(1.35); }
+    .chiasm-label    { text-shadow: 0 0 10px var(--pair-clr, transparent); }
+  }
+}
+.chiasm-pair-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pair-clr, rgba(255,255,255,0.15));
+  flex-shrink: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.chiasm-label { font-size: 0.92em; font-weight: 700; color: var(--km-gold); min-width: 1.8rem; font-style: italic; }
+.chiasm-ref   { font-size: 0.75em; color: rgba(255,255,255,0.45); min-width: 2.8rem; font-family: var(--km-font-heading); letter-spacing: 0.04em; }
+.chiasm-text  { font-size: 0.97em; color: var(--km-text); line-height: 1.8; font-family: var(--km-font-body), var(--km-font-arabic, 'Scheherazade New', serif); }
+.chiasm-note  { font-size: 0.83em; color: var(--km-text-2); font-style: italic; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.07); line-height: 1.8; }
+
+/* clusters */
+.renderer-clusters { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.85rem; }
+.cluster {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.cluster-name {
+  font-size: 0.68em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.65rem;
+  font-family: var(--km-font-heading);
+  &.color-blue   { color: #8ec4f5; }
+  &.color-gold   { color: var(--km-gold); }
+  &.color-red    { color: #f08080; }
+  &.color-teal   { color: #70d4b0; }
+  &.color-green  { color: #70d4a0; }
+  &.color-purple { color: #be9ef5; }
+}
+.cluster-items { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.cluster-item {
+  font-size: 1.3em;
+  color: var(--km-text);
+  background: rgba(255,255,255,0.06);
+  padding: 0.25rem 0.65rem;
+  border-radius: 5px;
+  direction: rtl;
+  font-family: var(--km-font-arabic, 'Scheherazade New', serif);
+  line-height: 2;
+}
+
+/* timeline */
+.renderer-timeline { display: flex; flex-direction: column; }
+.timeline-step {
+  display: grid;
+  grid-template-columns: 32px 2px 1fr;
+  gap: 0 1rem;
+  align-items: start;
+}
+.timeline-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(201,168,76,0.45);
+  border-radius: 50%;
+  background: rgba(201,168,76,0.06);
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+.timeline-n { font-size: 0.7em; color: var(--km-gold); font-weight: 700; font-family: var(--km-font-heading); }
+.timeline-connector {
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(201,168,76,0.3), transparent);
+  margin: 32px auto 0;
+  align-self: stretch;
+  &--last { background: transparent; }
+}
+.timeline-text {
+  font-size: 0.95em;
+  color: var(--km-text);
+  line-height: 1.8;
+  padding: 0.35rem 0 1.25rem;
+  margin: 0;
+  font-family: var(--km-font-body), var(--km-font-arabic, 'Scheherazade New', serif);
+}

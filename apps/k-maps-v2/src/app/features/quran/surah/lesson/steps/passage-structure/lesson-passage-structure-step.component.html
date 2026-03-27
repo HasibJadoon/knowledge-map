@@ -1,98 +1,122 @@
-<div class="ps-tab" [style.font-size]="fontScale() + 'rem'">
+<div class="pss-wrap">
 
   @if (ref) {
-    <div class="ps-header">
-      <div class="ps-header__top">
-        <div>
-          <span class="ps-ref">{{ ref }}</span>
-          <h2 class="ps-title">Passage Structure</h2>
-        </div>
-        <div class="ps-font-controls">
-          <button class="ps-font-btn" (click)="decreaseFontScale()" title="Decrease font size">A−</button>
-          <button class="ps-font-btn ps-font-btn--reset" (click)="resetFontScale()" title="Reset font size">A</button>
-          <button class="ps-font-btn" (click)="increaseFontScale()" title="Increase font size">A+</button>
-        </div>
+    <div class="pss-outer-header">
+      <div>
+        <div class="pss-eyebrow">Passage Structure</div>
+        <div class="pss-ref">{{ ref }}</div>
+      </div>
+      <div class="pss-font-controls">
+        <button class="pss-font-btn" (click)="decreaseFontScale()" title="Decrease font size">A−</button>
+        <button class="pss-font-btn pss-font-btn--reset" (click)="resetFontScale()" title="Reset font size">A</button>
+        <button class="pss-font-btn" (click)="increaseFontScale()" title="Increase font size">A+</button>
       </div>
     </div>
   }
 
   @if (sections.length === 0) {
-    <div class="no-task">
-      <span class="no-task__icon">—</span>
+    <div class="pss-empty">
+      <span class="pss-empty__icon">—</span>
       <p>No passage structure analysis for this passage.</p>
     </div>
   }
 
-  @for (section of sections; track section.key) {
-    <div class="section-card tone-{{ section.tone }}">
+  @if (sections.length > 0) {
 
-      <div class="card-header">
-        <span class="badge tone-{{ section.tone }}">{{ section.badge }}</span>
-        <span class="card-title">{{ section.title }}</span>
+    <div class="pss-scene" (click)="onSceneClick()">
+      <div class="pss-sh pss-sh1"></div>
+      <div class="pss-sh pss-sh2"></div>
+      <div class="pss-sh pss-sh3"></div>
+
+      <div class="pss-card" #cardRef [style.font-size]="fontScale() + 'rem'">
+
+        <div class="pss-card-bar"
+             [style.background]="barGradient(currentSection()?.tone ?? 'secondary')"></div>
+
+        <div class="pss-card-body">
+
+          <div class="pss-card-head">
+            <span class="pss-badge tone-{{ currentSection()?.tone }}">{{ currentSection()?.badge }}</span>
+            <span class="pss-card-title">{{ currentSection()?.title }}</span>
+          </div>
+
+          @if (currentSection()?.renderer === 'keyvalue') {
+            <div class="renderer-kv">
+              @for (pair of kvPairs(currentSection()?.data); track pair.key) {
+                <div class="kv-row pss-anim-item">
+                  <span class="kv-key">{{ pair.key }}</span>
+                  <span class="kv-value">{{ pair.value }}</span>
+                </div>
+              }
+            </div>
+          }
+
+          @if (currentSection()?.renderer === 'chiasm') {
+            <div class="renderer-chiasm">
+              @for (level of chiasmLevels(currentSection()?.data); track level.label; let i = $index; let count = $count) {
+                <div class="chiasm-level pss-anim-item"
+                     [class.chiasm-axis]="isOddAxis(i, count)"
+                     [class.chiasm-even-center]="isEvenCenter(i, count)"
+                     [class.chiasm-pair-hl]="isPairHighlighted(i, count)"
+                     [style.padding-left]="chiasmIndent(i, count)"
+                     [style.--pair-clr]="pairColor(i, count)"
+                     (mouseenter)="onPairEnter(i, count)"
+                     (mouseleave)="onPairLeave()">
+                  <span class="chiasm-pair-dot"></span>
+                  <span class="chiasm-label">{{ level.label }}</span>
+                  <span class="chiasm-ref">{{ level.ref }}</span>
+                  <span class="chiasm-text">{{ level.text }}</span>
+                </div>
+              }
+              @if (currentSection()?.data?.axis_note) {
+                <p class="chiasm-note pss-anim-item">{{ currentSection()?.data?.axis_note }}</p>
+              }
+            </div>
+          }
+
+          @if (currentSection()?.renderer === 'clusters') {
+            <div class="renderer-clusters">
+              @for (cluster of clusters(currentSection()?.data); track cluster.name) {
+                <div class="cluster pss-anim-item">
+                  <span class="cluster-name color-{{ cluster.color }}">{{ cluster.name }}</span>
+                  <div class="cluster-items">
+                    @for (item of cluster.items; track item) {
+                      <span class="cluster-item">{{ item }}</span>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          @if (currentSection()?.renderer === 'timeline') {
+            <div class="renderer-timeline">
+              @for (step of timelineSteps(currentSection()?.data); track step.n; let last = $last) {
+                <div class="timeline-step pss-anim-item">
+                  <div class="timeline-node"><span class="timeline-n">{{ step.n }}</span></div>
+                  <div class="timeline-connector" [class.timeline-connector--last]="last"></div>
+                  <p class="timeline-text">{{ step.text }}</p>
+                </div>
+              }
+            </div>
+          }
+
+        </div>
       </div>
-
-      @if (section.renderer === 'keyvalue') {
-        <div class="renderer-kv">
-          @for (pair of kvPairs(section.data); track pair.key) {
-            <div class="kv-row">
-              <span class="kv-key">{{ pair.key }}</span>
-              <span class="kv-value">{{ pair.value }}</span>
-            </div>
-          }
-        </div>
-      }
-
-      @if (section.renderer === 'chiasm') {
-        <div class="renderer-chiasm">
-          @for (level of chiasmLevels(section.data); track level.label; let i = $index; let count = $count) {
-            <div class="chiasm-level"
-                 [class.chiasm-axis]="isOddAxis(i, count)"
-                 [class.chiasm-even-center]="isEvenCenter(i, count)"
-                 [class.chiasm-pair-hl]="isPairHighlighted(i, count)"
-                 [style.padding-left]="chiasmIndent(i, count)"
-                 [style.--pair-clr]="pairColor(i, count)"
-                 (mouseenter)="onPairEnter(i, count)"
-                 (mouseleave)="onPairLeave()">
-              <span class="chiasm-pair-dot"></span>
-              <span class="chiasm-label">{{ level.label }}</span>
-              <span class="chiasm-ref">{{ level.ref }}</span>
-              <span class="chiasm-text">{{ level.text }}</span>
-            </div>
-          }
-          @if (section.data?.axis_note) {
-            <p class="chiasm-note">{{ section.data.axis_note }}</p>
-          }
-        </div>
-      }
-
-      @if (section.renderer === 'clusters') {
-        <div class="renderer-clusters">
-          @for (cluster of clusters(section.data); track cluster.name) {
-            <div class="cluster">
-              <span class="cluster-name color-{{ cluster.color }}">{{ cluster.name }}</span>
-              <div class="cluster-items">
-                @for (item of cluster.items; track item) {
-                  <span class="cluster-item">{{ item }}</span>
-                }
-              </div>
-            </div>
-          }
-        </div>
-      }
-
-      @if (section.renderer === 'timeline') {
-        <div class="renderer-timeline">
-          @for (step of timelineSteps(section.data); track step.n; let last = $last) {
-            <div class="timeline-step">
-              <div class="timeline-node"><span class="timeline-n">{{ step.n }}</span></div>
-              <div class="timeline-connector" [class.timeline-connector--last]="last"></div>
-              <p class="timeline-text">{{ step.text }}</p>
-            </div>
-          }
-        </div>
-      }
-
     </div>
+
+    <div class="pss-hint">{{ hintText() }}</div>
+
+    <div class="pss-controls">
+      <button class="pss-btn" (click)="goPrev($event)" [disabled]="currentIdx() === 0">← Prev</button>
+      <div class="pss-dots">
+        @for (s of sections; track s.key; let i = $index) {
+          <div class="pss-dot" [class.active]="i === currentIdx()"></div>
+        }
+      </div>
+      <button class="pss-btn" (click)="goNext($event)" [disabled]="currentIdx() === sections.length - 1">Next →</button>
+    </div>
+
   }
 
 </div>
