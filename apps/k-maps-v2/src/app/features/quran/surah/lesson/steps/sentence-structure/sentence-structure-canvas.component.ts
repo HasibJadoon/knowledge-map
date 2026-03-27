@@ -137,12 +137,14 @@ export class SentenceStructureCanvasComponent
 
   private readonly zone = inject(NgZone);
 
-  private wrap: any = null;
-  private svg:  any = null;
-  private gL:   any = null;   // link layer
-  private gN:   any = null;   // node layer
-  private root: any = null;
-  private obs:  ResizeObserver | null = null;
+  private wrap:   any = null;
+  private svg:    any = null;
+  private gL:     any = null;   // link layer
+  private gN:     any = null;   // node layer
+  private root:   any = null;
+  private obs:    ResizeObserver | null = null;
+  private lastOx  = NaN;        // visual offset from previous layout (for exit targeting)
+  private lastOy  = NaN;
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -279,15 +281,16 @@ export class SentenceStructureCanvasComponent
       .selectAll('g.kss-n')
       .data(nodes, (d: any) => d.uid);
 
-    // ENTER — collapse-in from source position
+    // Source's old visual position (stable reference for enter/exit animations).
+    // On first build lastOx is NaN — fall back to src's final position in new layout.
+    const srcOldX = isNaN(this.lastOx) ? src.x + ox : (src.x0 ?? src.x) + this.lastOx;
+    const srcOldY = isNaN(this.lastOy) ? src.y + oy : (src.y0 ?? src.y) + this.lastOy;
+
+    // ENTER — expand from source's old visual position
     const nEnter = node.enter().append('g')
       .attr('class',     'kss-n')
       .attr('cursor',    'pointer')
-      .attr('transform', () => {
-        const ix = (src.x0 ?? src.x) + ox;
-        const iy = (src.y0 ?? src.y) + oy;
-        return `translate(${ix},${iy})`;
-      })
+      .attr('transform', () => `translate(${srcOldX},${srcOldY})`)
       .attr('opacity', 0)
       .on('click', (e: MouseEvent, d: any) => {
         d.children = d.children ? null : d._children;
@@ -378,9 +381,9 @@ export class SentenceStructureCanvasComponent
     nUpdate.select('.kss-lbl')
       .attr('fill', (d: any) => this.tc(d));
 
-    // EXIT — collapse back toward source
+    // EXIT — collapse back to source's old visual position (not re-layout position)
     node.exit().transition(T)
-      .attr('transform', () => `translate(${src.x + ox},${src.y + oy})`)
+      .attr('transform', () => `translate(${srcOldX},${srcOldY})`)
       .attr('opacity', 0)
       .remove();
 
@@ -390,9 +393,9 @@ export class SentenceStructureCanvasComponent
       .selectAll('path.kss-l')
       .data(links, (d: any) => d.target.uid);
 
-    const ip = { x: (src.x0 ?? src.x) + ox, y: (src.y0 ?? src.y) + oy };
+    const ip = { x: srcOldX, y: srcOldY };
 
-    // ENTER — collapsed at source
+    // ENTER — collapsed at source's old visual position
     const lEnter = link.enter().append('path')
       .attr('class',          'kss-l')
       .attr('stroke',         (d: any) => this.tc(d.target))
@@ -408,16 +411,15 @@ export class SentenceStructureCanvasComponent
         { x: d.target.x + ox, y: d.target.y + oy },
       ));
 
-    // EXIT
+    // EXIT — collapse to source's old visual position
     link.exit().transition(T)
-      .attr('d', () => {
-        const p = { x: src.x + ox, y: src.y + oy };
-        return this.curve(p, p);
-      })
+      .attr('d', () => this.curve(ip, ip))
       .remove();
 
-    // Stash
+    // Stash positions + offsets for next refresh
     this.root.eachBefore((d: any) => { d.x0 = d.x; d.y0 = d.y; });
+    this.lastOx = ox;
+    this.lastOy = oy;
 
     // Scroll parent to top-right so root node is visible (RTL: root is rightmost)
     const scrollEl = this.wrapRef.nativeElement.parentElement?.parentElement as HTMLElement | null;
