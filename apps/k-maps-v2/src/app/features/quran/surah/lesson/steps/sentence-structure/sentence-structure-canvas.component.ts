@@ -328,9 +328,9 @@ export class SentenceStructureCanvasComponent
       .attr('stroke',       (d: any) =>  d._children                 ? this.tc(d) : 'none')
       .attr('stroke-width', 1.5);
 
-    // Arabic name — single line, clipped to card width
+    // Arabic name — single line, RTL anchored to right edge, left clips off
     nEnter.append('text').attr('class', 'kss-name')
-      .attr('text-anchor',  'middle')
+      .attr('text-anchor',  'start')   // RTL: 'start' = right side
       .attr('clip-path',    'url(#kss-clip)')
       .attr('font-family',  'var(--km-font-arabic,"Scheherazade New",serif)')
       .attr('fill',             '#dce8ff')
@@ -348,7 +348,7 @@ export class SentenceStructureCanvasComponent
         const midY    = (areaTop + areaBot) / 2;
         const el = select(this).attr('font-size', fs);
         el.append('tspan')
-          .attr('x', 0).attr('y', midY)
+          .attr('x', CW / 2 - 8).attr('y', midY)   // RTL: anchor text start at right edge
           .text(name);
       });
 
