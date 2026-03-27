@@ -114,13 +114,24 @@ $border-l:  #4a3e28;
 
 .pss-card-body {
   flex: 1;
-  padding: 22px 22px 18px;
+  min-height: 0; // critical: allow flex child to shrink and enable overflow scroll
+  padding: 22px 22px 0;
   display: flex;
   flex-direction: column;
   gap: 14px;
+  overflow: hidden;
+  font-family: 'EB Garamond', 'Amiri', serif;
+}
+
+// Header stays pinned; renderer content scrolls
+.pss-card-head { flex-shrink: 0; }
+
+.pss-renderer-wrap {
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  font-family: 'EB Garamond', 'Amiri', serif;
+  padding-bottom: 18px;
   // thin gold scrollbar
   scrollbar-width: thin;
   scrollbar-color: rgba(201,168,76,.25) transparent;
