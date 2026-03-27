@@ -1,0 +1,163 @@
+
+    <div class="wvb" #page>
+
+      <!-- Top Bar -->
+      <header class="wvb__topbar">
+        <a class="wvb__back" [routerLink]="['/worldview']">
+          <span>←</span>
+          <span>Worldview</span>
+        </a>
+        <h1 class="wvb__title">Brainstorm</h1>
+        <div class="wvb__topbar-spacer"></div>
+        <button class="wvb__btn wvb__btn--primary" (click)="openCreateForm()">
+          <span>+</span>
+          <span>New Session</span>
+        </button>
+      </header>
+
+      <div class="wvb__body">
+
+        <!-- Left: Session List -->
+        <aside class="wvb__sidebar">
+          @if (loading()) {
+            <div class="wvb__state">
+              <span class="wvb__spinner"></span>
+              <span>Loading sessions…</span>
+            </div>
+          } @else if (sessions().length === 0) {
+            <div class="wvb__state wvb__state--empty">
+              <span class="wvb__empty-glyph">⚡</span>
+              <p>No sessions yet</p>
+              <button class="wvb__btn wvb__btn--ghost wvb__btn--sm" (click)="openCreateForm()">+ Create one</button>
+            </div>
+          } @else {
+            <ul class="wvb__session-list">
+              @for (session of sessions(); track session.id) {
+                <li
+                  class="wvb__session-item"
+                  [class.wvb__session-item--active]="selectedSession()?.id === session.id"
+                  (click)="selectSession(session)"
+                  (keydown.enter)="selectSession(session)"
+                  tabindex="0"
+                  role="button"
+                >
+                  <div class="wvb__session-title">{{ session.title || 'Untitled Session' }}</div>
+                  <div class="wvb__session-tags">
+                    @if (session.topic) {
+                      <span class="wvb__tag wvb__tag--topic">{{ session.topic }}</span>
+                    }
+                    @if (session.worldview) {
+                      <span class="wvb__tag wvb__tag--worldview">{{ session.worldview }}</span>
+                    }
+                  </div>
+                  @if (session.created_at) {
+                    <div class="wvb__session-date">{{ formatDate(session.created_at) }}</div>
+                  }
+                </li>
+              }
+            </ul>
+          }
+        </aside>
+
+        <!-- Right: Session Detail / Create Form -->
+        <main class="wvb__detail">
+
+          @if (showCreateForm()) {
+            <div class="wvb__create-form" #createFormEl>
+              <h2 class="wvb__form-title">New Research Session</h2>
+              <div class="wvb__form-group">
+                <label class="wvb__form-label" for="bs-title">Session Title</label>
+                <input
+                  id="bs-title"
+                  class="wvb__form-input"
+                  type="text"
+                  placeholder="e.g. Tawhid across traditions"
+                  #titleInput
+                />
+              </div>
+              <div class="wvb__form-row">
+                <div class="wvb__form-group">
+                  <label class="wvb__form-label" for="bs-topic">Topic</label>
+                  <input
+                    id="bs-topic"
+                    class="wvb__form-input"
+                    type="text"
+                    placeholder="Topic tag"
+                    #topicInput
+                  />
+                </div>
+                <div class="wvb__form-group">
+                  <label class="wvb__form-label" for="bs-worldview">Worldview</label>
+                  <input
+                    id="bs-worldview"
+                    class="wvb__form-input"
+                    type="text"
+                    placeholder="Worldview tag"
+                    #worldviewInput
+                  />
+                </div>
+              </div>
+              <div class="wvb__form-group">
+                <label class="wvb__form-label" for="bs-content">Initial Notes</label>
+                <textarea
+                  id="bs-content"
+                  class="wvb__form-textarea"
+                  placeholder="Start capturing your ideas…"
+                  rows="8"
+                  #contentInput
+                ></textarea>
+              </div>
+              <div class="wvb__form-actions">
+                <button class="wvb__btn wvb__btn--ghost" (click)="cancelCreate()">Cancel</button>
+                <button
+                  class="wvb__btn wvb__btn--primary"
+                  (click)="createSession(titleInput.value, topicInput.value, worldviewInput.value, contentInput.value)"
+                  [disabled]="creating()"
+                >
+                  @if (creating()) {
+                    <span class="wvb__spinner wvb__spinner--sm"></span>
+                  }
+                  <span>{{ creating() ? 'Saving…' : 'Create Session' }}</span>
+                </button>
+              </div>
+            </div>
+          } @else if (selectedSession()) {
+            <div class="wvb__session-detail" #sessionDetail>
+              <div class="wvb__sd-header">
+                <h2 class="wvb__sd-title">{{ selectedSession()!.title || 'Untitled Session' }}</h2>
+                <div class="wvb__sd-meta">
+                  @if (selectedSession()!.topic) {
+                    <span class="wvb__tag wvb__tag--topic">{{ selectedSession()!.topic }}</span>
+                  }
+                  @if (selectedSession()!.worldview) {
+                    <span class="wvb__tag wvb__tag--worldview">{{ selectedSession()!.worldview }}</span>
+                  }
+                  @if (selectedSession()!.created_at) {
+                    <span class="wvb__sd-date">{{ formatDate(selectedSession()!.created_at!) }}</span>
+                  }
+                </div>
+              </div>
+
+              <div class="wvb__sd-rule"></div>
+
+              @if (selectedSession()!.content) {
+                <div class="wvb__sd-content">{{ selectedSession()!.content }}</div>
+              } @else {
+                <div class="wvb__sd-no-content">
+                  <span>No content recorded for this session.</span>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="wvb__detail-empty">
+              <div class="wvb__detail-glyph">⚡</div>
+              <h2 class="wvb__detail-empty-title">Research Journal</h2>
+              <p class="wvb__detail-empty-desc">Select a session from the list or create a new one to start capturing your ideas.</p>
+              <button class="wvb__btn wvb__btn--primary" (click)="openCreateForm()">+ New Session</button>
+            </div>
+          }
+
+        </main>
+      </div>
+    </div>
+  

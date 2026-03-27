@@ -137,12 +137,15 @@ export class SentenceStructureCanvasComponent
 
   private readonly zone = inject(NgZone);
 
-  private wrap: any = null;
-  private svg:  any = null;
-  private gL:   any = null;   // link layer
-  private gN:   any = null;   // node layer
-  private root: any = null;
-  private obs:  ResizeObserver | null = null;
+  private wrap:   any = null;
+  private svg:    any = null;
+  private gL:     any = null;   // link layer
+  private gN:     any = null;   // node layer
+  private root:   any = null;
+  private obs:    ResizeObserver | null = null;
+  private lastOx  = NaN;        // visual offset from previous layout (for exit targeting)
+  private lastOy  = NaN;
+  private tip:    HTMLDivElement | null = null;  // hover tooltip
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -164,7 +167,7 @@ export class SentenceStructureCanvasComponent
       this.zone.runOutsideAngular(() => this.build());
   }
 
-  ngOnDestroy(): void { this.obs?.disconnect(); }
+  ngOnDestroy(): void { this.obs?.disconnect(); this.tip?.remove(); }
 
   // ── Mount SVG (once) ──────────────────────────────────────────────────────
 
@@ -175,6 +178,36 @@ export class SentenceStructureCanvasComponent
     this.addDefs();
     this.gL    = this.svg.append('g').attr('fill', 'none');
     this.gN    = this.svg.append('g');
+
+    // Floating hover tooltip (appended to body so it escapes all clipping)
+    this.tip?.remove();
+    this.tip = document.createElement('div');
+    Object.assign(this.tip.style, {
+      position:       'fixed',
+      zIndex:         '9999',
+      pointerEvents:  'none',
+      background:     'rgba(6,10,26,.96)',
+      border:         '1px solid rgba(201,168,76,.4)',
+      borderRadius:   '12px',
+      padding:        '.65rem 1rem',
+      fontFamily:     'var(--km-font-arabic,"Scheherazade New",serif)',
+      direction:      'rtl',
+      textAlign:      'right',
+      boxShadow:      '0 8px 36px rgba(0,0,0,.55)',
+      backdropFilter: 'blur(14px)',
+      maxWidth:       '340px',
+      display:        'none',
+      lineHeight:     '1.7',
+    });
+    document.body.appendChild(this.tip);
+  }
+
+  private moveTip(e: MouseEvent): void {
+    if (!this.tip) return;
+    const x = Math.min(e.clientX + 18, window.innerWidth  - 360);
+    const y = Math.max(e.clientY - 56, 8);
+    this.tip.style.left = `${x}px`;
+    this.tip.style.top  = `${y}px`;
   }
 
   // ── Build / rebuild ───────────────────────────────────────────────────────
@@ -221,8 +254,8 @@ export class SentenceStructureCanvasComponent
       const clr  = ch.term_id ? (this.termColors[ch.term_id] ?? '#888') : '#888';
       const chip = row.append('span')
         .attr('class', 'kss__chip')
-        .style('background',   this.rgba(clr, .12))
-        .style('border-color', this.rgba(clr, .42));
+        .style('background',   this.rgba(clr, .18))
+        .style('border-color', this.rgba(clr, .55));
       chip.append('span').attr('class', 'kss__chip-w').text(ch.name);
       if (ch.label_ar) {
         chip.append('span')
@@ -279,31 +312,44 @@ export class SentenceStructureCanvasComponent
       .selectAll('g.kss-n')
       .data(nodes, (d: any) => d.uid);
 
-    // ENTER — collapse-in from source position
+    // Source's old visual position (stable reference for enter/exit animations).
+    // On first build lastOx is NaN — fall back to src's final position in new layout.
+    const srcOldX = isNaN(this.lastOx) ? src.x + ox : (src.x0 ?? src.x) + this.lastOx;
+    const srcOldY = isNaN(this.lastOy) ? src.y + oy : (src.y0 ?? src.y) + this.lastOy;
+
+    // ENTER — expand from source's old visual position
     const nEnter = node.enter().append('g')
       .attr('class',     'kss-n')
       .attr('cursor',    'pointer')
-      .attr('transform', () => {
-        const ix = (src.x0 ?? src.x) + ox;
-        const iy = (src.y0 ?? src.y) + oy;
-        return `translate(${ix},${iy})`;
-      })
+      .attr('transform', () => `translate(${srcOldX},${srcOldY})`)
       .attr('opacity', 0)
       .on('click', (e: MouseEvent, d: any) => {
         d.children = d.children ? null : d._children;
         this.refresh(e, d);
       })
-      .on('mouseenter', (e: MouseEvent) => {
+      .on('mouseenter', (e: MouseEvent, d: any) => {
         select(e.currentTarget as SVGGElement)
           .select<SVGRectElement>('.kss-bg')
           .transition().duration(80)
           .attr('filter', 'url(#kss-glow)');
+        if (this.tip && d.data.name) {
+          const color = this.tc(d);
+          this.tip.innerHTML =
+            `<div style="font-size:1.05rem;color:#dce8ff">${d.data.name}</div>` +
+            (d.data.label_ar
+              ? `<div style="font-size:.75rem;color:${color};margin-top:.2rem;opacity:.9">${d.data.label_ar}</div>`
+              : '');
+          this.tip.style.display = 'block';
+          this.moveTip(e);
+        }
       })
+      .on('mousemove', (e: MouseEvent) => { this.moveTip(e); })
       .on('mouseleave', (e: MouseEvent) => {
         select(e.currentTarget as SVGGElement)
           .select<SVGRectElement>('.kss-bg')
           .transition().duration(120)
           .attr('filter', null as any);
+        if (this.tip) this.tip.style.display = 'none';
       });
 
     // Card background
@@ -378,9 +424,9 @@ export class SentenceStructureCanvasComponent
     nUpdate.select('.kss-lbl')
       .attr('fill', (d: any) => this.tc(d));
 
-    // EXIT — collapse back toward source
+    // EXIT — collapse back to source's old visual position (not re-layout position)
     node.exit().transition(T)
-      .attr('transform', () => `translate(${src.x + ox},${src.y + oy})`)
+      .attr('transform', () => `translate(${srcOldX},${srcOldY})`)
       .attr('opacity', 0)
       .remove();
 
@@ -390,9 +436,9 @@ export class SentenceStructureCanvasComponent
       .selectAll('path.kss-l')
       .data(links, (d: any) => d.target.uid);
 
-    const ip = { x: (src.x0 ?? src.x) + ox, y: (src.y0 ?? src.y) + oy };
+    const ip = { x: srcOldX, y: srcOldY };
 
-    // ENTER — collapsed at source
+    // ENTER — collapsed at source's old visual position
     const lEnter = link.enter().append('path')
       .attr('class',          'kss-l')
       .attr('stroke',         (d: any) => this.tc(d.target))
@@ -408,16 +454,15 @@ export class SentenceStructureCanvasComponent
         { x: d.target.x + ox, y: d.target.y + oy },
       ));
 
-    // EXIT
+    // EXIT — collapse to source's old visual position
     link.exit().transition(T)
-      .attr('d', () => {
-        const p = { x: src.x + ox, y: src.y + oy };
-        return this.curve(p, p);
-      })
+      .attr('d', () => this.curve(ip, ip))
       .remove();
 
-    // Stash
+    // Stash positions + offsets for next refresh
     this.root.eachBefore((d: any) => { d.x0 = d.x; d.y0 = d.y; });
+    this.lastOx = ox;
+    this.lastOy = oy;
 
     // Scroll parent to top-right so root node is visible (RTL: root is rightmost)
     const scrollEl = this.wrapRef.nativeElement.parentElement?.parentElement as HTMLElement | null;
@@ -443,19 +488,19 @@ export class SentenceStructureCanvasComponent
 
   private tc(d: any): string {
     const c = d.data?.term_id ? this.termColors[d.data.term_id] : null;
-    return c ?? 'rgba(201,168,76,.78)';
+    return c ?? 'rgba(201,168,76,.92)';
   }
 
   private cardBg(d: any): string {
     const c = d.data?.term_id ? this.termColors[d.data.term_id] : null;
-    if (c) return this.rgba(c, .10);
-    return d.depth === 0 ? 'rgba(201,168,76,.07)' : 'rgba(18,23,52,.88)';
+    if (c) return this.rgba(c, .18);
+    return d.depth === 0 ? 'rgba(201,168,76,.13)' : 'rgba(14,18,42,.95)';
   }
 
   private cardBorder(d: any): string {
     const c = d.data?.term_id ? this.termColors[d.data.term_id] : null;
-    if (c) return this.rgba(c, .36);
-    return d.depth === 0 ? 'rgba(201,168,76,.36)' : 'rgba(255,255,255,.09)';
+    if (c) return this.rgba(c, .55);
+    return d.depth === 0 ? 'rgba(201,168,76,.55)' : 'rgba(255,255,255,.16)';
   }
 
   private rgba(hex: string, a: number): string {
