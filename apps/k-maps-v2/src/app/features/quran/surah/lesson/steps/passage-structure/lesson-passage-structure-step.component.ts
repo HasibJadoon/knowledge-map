@@ -40,7 +40,7 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
   private swipeStartX = 0;
   private swipeStartY = 0;
 
-  currentSection = computed(() => this.sections[this.currentIdx()] as PassageSection);
+  currentSection = computed((): PassageSection | undefined => this.sections[this.currentIdx()]);
 
   // ── Chiasm hover mirror ───────────────────────────────
   chiasmHover = signal<string | null>(null);
