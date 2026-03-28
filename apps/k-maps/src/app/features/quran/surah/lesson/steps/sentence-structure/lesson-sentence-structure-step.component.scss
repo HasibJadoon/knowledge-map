@@ -1,0 +1,99 @@
+:host {
+  display:        flex;
+  flex-direction: column;
+  flex:           1;
+  min-height:     0;
+  width:          100%;
+}
+
+// ── Step shell ────────────────────────────────────────────────────────────────
+
+.sst {
+  display:        flex;
+  flex-direction: column;
+  flex:           1;
+  min-height:     0;
+  width:          100%;
+  padding:        0 1.25rem 1.5rem;  /* parent .lesson-stage already adds 3rem top clearance */
+  gap:            .75rem;
+}
+
+// ── Canvas scroll wrapper — single container for both axes ───────────────────
+
+.sst__canvas {
+  flex:       1;
+  min-height: 0;
+  overflow:   auto;
+}
+
+// ── Multi-sentence navigation pills ──────────────────────────────────────────
+
+.sst__nav {
+  display:     flex;
+  flex-wrap:   wrap;
+  align-items: center;
+  gap:         .45rem;
+}
+
+.sst__nav-btn {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  min-width:       2rem;
+  height:          2rem;
+  padding:         0 .6rem;
+  border-radius:   999px;
+  border:          1px solid rgba(201, 168, 76, .22);
+  background:      rgba(255, 255, 255, .03);
+  color:           var(--km-text-3);
+  font-size:       .73rem;
+  font-family:     var(--km-font-body, Poppins, sans-serif);
+  cursor:          pointer;
+  transition:      border-color .18s, background .18s, color .18s;
+
+  &:hover {
+    border-color: rgba(201, 168, 76, .5);
+    background:   rgba(201, 168, 76, .08);
+    color:        var(--km-gold);
+  }
+
+  &--on {
+    border-color: rgba(201, 168, 76, .55);
+    background:   rgba(201, 168, 76, .12);
+    color:        var(--km-gold);
+  }
+}
+
+// ── Hint line ─────────────────────────────────────────────────────────────────
+
+.sst__tip {
+  margin:         0;
+  font-size:      .62rem;
+  letter-spacing: .06em;
+  color:          rgba(255, 255, 255, .15);
+  text-align:     center;
+  font-family:    var(--km-font-body, Poppins, sans-serif);
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+
+.sst__empty {
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  flex:            1;
+  padding:         3.5rem 1rem;
+  border:          1px dashed rgba(196, 217, 255, .1);
+  border-radius:   18px;
+  background:      rgba(255, 255, 255, .02);
+  color:           var(--km-text-3);
+  text-align:      center;
+
+  p {
+    margin:     0;
+    font-size:  .875rem;
+    font-style: italic;
+    opacity:    .55;
+  }
+}
