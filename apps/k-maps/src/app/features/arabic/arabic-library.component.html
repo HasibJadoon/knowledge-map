@@ -23,8 +23,23 @@
       <aside class="lib-panel lib-panel--containers">
         <div class="lib-panel__head">
           <h2 class="lib-panel__title">المكتبة</h2>
-          <span class="lib-panel__count">{{ containers().length }}</span>
+          <div class="lib-panel__head-right">
+            <span class="lib-panel__count">{{ filteredContainers().length }}</span>
+            <button class="group-btn" [class.group-btn--active]="groupByType()" (click)="groupByType.set(!groupByType())" title="Group by type">⊞</button>
+          </div>
         </div>
+
+        @if (containers().length > 0) {
+          <div class="filter-bar">
+            @for (t of containerTypes(); track t) {
+              <button class="filter-chip"
+                      [class.filter-chip--active]="activeTypeFilter() === t"
+                      (click)="activeTypeFilter.set(t)">
+                @if (t !== 'all') { {{ typeIcon(t) }} } {{ t === 'all' ? 'All' : typeLabel(t) }}
+              </button>
+            }
+          </div>
+        }
 
         @if (containersLoading()) {
           <div class="skeleton-list">
@@ -36,37 +51,57 @@
             <p>No containers yet.</p>
             <p class="panel-empty__hint">Hub → Arabic → Content Library</p>
           </div>
+        } @else if (groupByType() && groupedContainers()) {
+          <div class="item-list">
+            @for (type of objectKeys(groupedContainers()!); track type) {
+              <div class="type-group">
+                <div class="type-group__header">
+                  <span>{{ typeIcon(type) }}</span>
+                  <span class="type-group__label">{{ typeLabel(type) }}</span>
+                  <span class="task-group__count">{{ groupedContainers()![type].length }}</span>
+                </div>
+                @for (c of groupedContainers()![type]; track c.id) {
+                  <ng-container *ngTemplateOutlet="containerRow; context: { $implicit: c }"></ng-container>
+                }
+              </div>
+            }
+          </div>
         } @else {
           <ul class="item-list">
-            @for (c of containers(); track c.id) {
-              <li class="container-item"
-                  [class.container-item--active]="selectedContainer()?.id === c.id"
-                  (click)="selectContainer(c)">
-                <div class="container-item__row">
-                  <div class="container-item__texts">
-                    <span class="container-item__title">
-                      <span class="container-item__icon">{{ typeIcon(c.container_type) }}</span>
-                      {{ c.title }}
-                    </span>
-                    @if (containerArabicTitle(c)) {
-                      <span class="container-item__ar">{{ containerArabicTitle(c) }}</span>
-                    }
-                  </div>
-                  <div class="container-item__badges">
-                    <span class="badge" [attr.data-color]="typeColor(c.container_type)">{{ c.container_type }}</span>
-                    @if (c.meta?.level) {
-                      <span class="badge badge--level">{{ c.meta!.level }}</span>
-                    }
-                  </div>
-                </div>
-                @if (c.meta?.author) {
-                  <span class="container-item__author">{{ c.meta!.author }}</span>
-                }
-              </li>
+            @for (c of filteredContainers(); track c.id) {
+              <ng-container *ngTemplateOutlet="containerRow; context: { $implicit: c }"></ng-container>
             }
           </ul>
         }
       </aside>
+
+      <!-- Container row template -->
+      <ng-template #containerRow let-c>
+        <li class="container-item"
+            [class.container-item--active]="selectedContainer()?.id === c.id"
+            (click)="selectContainer(c)">
+          <div class="container-item__row">
+            <div class="container-item__texts">
+              <span class="container-item__title">
+                <span class="container-item__icon">{{ typeIcon(c.container_type) }}</span>
+                {{ c.title }}
+              </span>
+              @if (containerArabicTitle(c)) {
+                <span class="container-item__ar">{{ containerArabicTitle(c) }}</span>
+              }
+            </div>
+            <div class="container-item__badges">
+              <span class="badge" [attr.data-color]="typeColor(c.container_type)">{{ typeLabel(c.container_type) }}</span>
+              @if (c.meta?.level) {
+                <span class="badge badge--level">{{ c.meta!.level }}</span>
+              }
+            </div>
+          </div>
+          @if (c.meta?.author) {
+            <span class="container-item__author">{{ c.meta!.author }}</span>
+          }
+        </li>
+      </ng-template>
 
       <!-- ── Panel 2: Units ──────────────────────────── -->
       <section class="lib-panel lib-panel--units">

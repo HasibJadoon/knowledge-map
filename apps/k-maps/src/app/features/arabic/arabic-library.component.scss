@@ -86,12 +86,83 @@
   margin: 0;
   direction: rtl;
 }
+.lib-panel__head-right {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
 .lib-panel__count {
   font-size: 0.72rem;
   color: var(--km-text-3);
   background: rgba(255,255,255,0.06);
   border-radius: 20px;
   padding: 0.12rem 0.55rem;
+}
+.group-btn {
+  background: transparent;
+  border: 1px solid var(--km-border);
+  border-radius: 5px;
+  color: var(--km-text-3);
+  font-size: 0.78rem;
+  padding: 0.1rem 0.35rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: border-color 0.15s, color 0.15s;
+  &:hover { border-color: var(--km-border-gold); color: var(--km-gold); }
+  &.group-btn--active { border-color: var(--km-gold); color: var(--km-gold); background: rgba(201,168,76,0.07); }
+}
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid var(--km-border);
+  overflow-x: auto;
+  flex-shrink: 0;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+.filter-chip {
+  background: transparent;
+  border: 1px solid var(--km-border);
+  border-radius: 20px;
+  color: var(--km-text-3);
+  font-family: var(--km-font-body);
+  font-size: 0.67rem;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  &:hover { border-color: var(--km-border-gold); color: var(--km-text); }
+  &.filter-chip--active {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--km-gold);
+    color: var(--km-gold);
+  }
+}
+
+/* Type groups (group-by view) */
+.type-group { padding-bottom: 0.25rem; }
+.type-group__header {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.1rem 0.35rem;
+  position: sticky;
+  top: 0;
+  background: var(--km-bg);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  z-index: 1;
+}
+.type-group__label {
+  font-family: var(--km-font-heading);
+  font-size: 0.67rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--km-text-2);
 }
 
 /* Skeleton */

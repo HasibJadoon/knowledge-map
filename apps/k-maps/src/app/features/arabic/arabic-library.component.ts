@@ -81,7 +81,30 @@ export class ArabicLibraryComponent implements OnInit, AfterViewInit {
   unitsLoading = signal(false);
   tasksLoading = signal(false);
 
+  // Filter + group-by state
+  activeTypeFilter = signal<string>('all');
+  groupByType = signal(false);
+
   readonly skeletons = [1, 2, 3, 4, 5];
+
+  readonly containerTypes = computed(() => {
+    const types = new Set(this.containers().map(c => c.container_type));
+    return ['all', ...Array.from(types)];
+  });
+
+  readonly filteredContainers = computed(() => {
+    const f = this.activeTypeFilter();
+    return f === 'all' ? this.containers() : this.containers().filter(c => c.container_type === f);
+  });
+
+  readonly groupedContainers = computed(() => {
+    if (!this.groupByType()) return null;
+    const groups: Record<string, ArContainer[]> = {};
+    for (const c of this.filteredContainers()) {
+      (groups[c.container_type] ??= []).push(c);
+    }
+    return groups;
+  });
 
   readonly tasksByStatus = computed(() => {
     const all = this.tasks();
@@ -184,6 +207,16 @@ export class ArabicLibraryComponent implements OnInit, AfterViewInit {
     return map[t] ?? 'default';
   }
 
+  typeLabel(t: string): string {
+    const map: Record<string, string> = {
+      book: 'Book', literature: 'Literature', poetry: 'Poetry', classical: 'Classical',
+      grammar: 'Grammar', balagha: 'Rhetoric',
+      podcast: 'Podcast', podcast_episode: 'Podcast',
+      video: 'Video', video_series: 'Series',
+    };
+    return map[t] ?? t;
+  }
+
   typeIcon(t: string): string {
     const map: Record<string, string> = {
       book: '📖', literature: '📖', poetry: '🖊', classical: '📜',
@@ -218,6 +251,8 @@ export class ArabicLibraryComponent implements OnInit, AfterViewInit {
     };
     return m[s] ?? 'dim';
   }
+
+  readonly objectKeys = Object.keys;
 
   back(): void {
     this.router.navigate(['/arabic']);
