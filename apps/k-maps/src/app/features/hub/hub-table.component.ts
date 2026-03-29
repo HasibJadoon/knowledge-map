@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { HubPanelComponent } from './hub-panel.component';
 import { HubPanelService } from './hub-panel.service';
 import { HubCard } from './models/hub.models';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'km-hub-table',
@@ -70,14 +71,14 @@ export class HubTableComponent implements OnInit {
     const base = card.table.replace(/_/g, '/');
     const mode = card.panelMode;
     const p = `limit=50&offset=${this.offset}`;
-    if (mode.startsWith('wv-')) return `/wv/${mode.substring(3)}s?${p}`;
-    if (mode === 'ar-grammar')   return `/ar/grammar/concepts?${p}`;
-    if (mode === 'ar-balagha')   return `/ar/balagha?${p}`;
-    if (mode === 'ar-srs')       return `/ar/srs?${p}`;
-    if (mode === 'ar-vocab')     return `/ar/roots?${p}`;
-    if (mode.startsWith('ar-')) return `/ar/${mode.substring(3)}s?${p}`;
-    if (mode === 'workspace') return `/workspaces?limit=50`;
-    return `/${base}?${p}`;
+    if (mode.startsWith('wv-')) return `${environment.apiBase}/wv/${mode.substring(3)}s?${p}`;
+    if (mode === 'ar-grammar') return `${environment.apiBase}/ar/grammar/concepts?${p}`;
+    if (mode === 'ar-balagha') return `${environment.apiBase}/ar/balagha?${p}`;
+    if (mode === 'ar-srs') return `${environment.apiBase}/ar/srs?${p}`;
+    if (mode === 'ar-vocab') return `${environment.apiBase}/ar/roots?${p}`;
+    if (mode.startsWith('ar-')) return `${environment.apiBase}/ar/${mode.substring(3)}s?${p}`;
+    if (mode === 'workspace') return `${environment.apiBase}/workspaces?limit=50`;
+    return `${environment.apiBase}/${base}?${p}`;
   }
 
   formatCell(val: unknown): string {

@@ -4,13 +4,12 @@ import {
   Component,
   ElementRef,
   OnInit,
-  QueryList,
   ViewChild,
-  ViewChildren,
   signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
+import { environment } from '../../../environments/environment';
 
 interface StatCounter {
   label: string;
@@ -44,10 +43,10 @@ export class WorldviewHomeComponent implements OnInit, AfterViewInit {
   readonly particles = Array.from({ length: 15 }, (_, i) => i);
 
   readonly stats = signal<StatCounter[]>([
+    { label: 'Worldviews', key: 'worldviews', value: 0, target: 0, display: '—' },
     { label: 'Sources', key: 'sources', value: 0, target: 0, display: '—' },
-    { label: 'Highlights', key: 'highlights', value: 0, target: 0, display: '—' },
-    { label: 'Sessions', key: 'brainstorm', value: 0, target: 0, display: '—' },
-    { label: 'Comparisons', key: 'comparisons', value: 0, target: 0, display: '—' },
+    { label: 'Units', key: 'source_units', value: 0, target: 0, display: '—' },
+    { label: 'People', key: 'people', value: 0, target: 0, display: '—' },
   ]);
 
   readonly cards: FeatureCard[] = [
@@ -84,7 +83,7 @@ export class WorldviewHomeComponent implements OnInit, AfterViewInit {
 
   private async loadCounts(): Promise<void> {
     try {
-      const res = await fetch('/hub/counts');
+      const res = await fetch(`${environment.apiBase}/hub/counts`);
       if (!res.ok) return;
       const data = await res.json() as { ok: boolean; counts: Record<string, number> };
       if (!data.ok || !data.counts) return;

@@ -13,6 +13,79 @@ function safeJson(s: string | null) {
   try { return JSON.parse(s); } catch { return null; }
 }
 
+function readReadingBlocks(unitJson: any): Array<Record<string, string>> | null {
+  const value = unitJson?.reading_blocks ?? unitJson?.readingBlocks ?? null;
+  if (!Array.isArray(value)) return null;
+
+  const blocks = value
+    .map((entry) => {
+      if (!entry || typeof entry !== 'object') return null;
+      const type = typeof entry.type === 'string' ? entry.type.trim() : '';
+      const text = typeof entry.text === 'string' ? entry.text.trim() : '';
+      const href = typeof entry.href === 'string' ? entry.href.trim() : '';
+      const label = typeof entry.label === 'string' ? entry.label.trim() : '';
+      const cite = typeof entry.cite === 'string' ? entry.cite.trim() : '';
+
+      if (!type) return null;
+
+      return {
+        type,
+        ...(text ? { text } : {}),
+        ...(href ? { href } : {}),
+        ...(label ? { label } : {}),
+        ...(cite ? { cite } : {}),
+      };
+    })
+    .filter((entry): entry is Record<string, string> => !!entry);
+
+  return blocks.length ? blocks : null;
+}
+
+function flattenReadingBlocks(blocks: Array<Record<string, string>>): string | null {
+  const parts = blocks
+    .map((block) => {
+      switch (block.type) {
+        case 'heading':
+          return block.text ? `## ${block.text}` : '';
+        case 'subheading':
+          return block.text ? `### ${block.text}` : '';
+        case 'separator':
+          return '---';
+        case 'link':
+          if (block.label && block.href) return `[${block.label}](${block.href})`;
+          return block.text || '';
+        case 'quote':
+          return [block.text, block.cite].filter(Boolean).join('\n\n');
+        default:
+          return block.text || '';
+      }
+    })
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+
+  return parts.length ? parts.join('\n\n') : null;
+}
+
+function readReadingBody(unitJson: any): string | null {
+  const value = unitJson?.reading_body ?? unitJson?.readingBody ?? null;
+
+  if (typeof value === 'string') {
+    const text = value.trim();
+    return text || null;
+  }
+
+  if (Array.isArray(value)) {
+    const parts = value
+      .map((entry) => (typeof entry === 'string' ? entry.trim() : ''))
+      .filter((entry): entry is string => !!entry);
+
+    return parts.length ? parts.join('\n\n') : null;
+  }
+
+  const blocks = readReadingBlocks(unitJson);
+  return blocks ? flattenReadingBlocks(blocks) : null;
+}
+
 // GET /worldview/units/:id  — single unit with full reading body + child units
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   try {
@@ -44,7 +117,8 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const unitJson = safeJson(unitRow.unit_json);
     const result = {
       ...unitRow,
-      reading_body: unitJson?.reading_body ?? null,
+      reading_body: readReadingBody(unitJson),
+      reading_blocks: readReadingBlocks(unitJson),
       unit_json: undefined,
       meta: safeJson(unitRow.meta_json),
       meta_json: undefined,

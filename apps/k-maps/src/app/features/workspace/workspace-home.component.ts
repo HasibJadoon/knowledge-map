@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
+import { environment } from '../../../environments/environment';
 
 interface Workspace {
   id: string;
@@ -56,7 +57,7 @@ export class WorkspaceHomeComponent implements OnInit, AfterViewInit {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const res = await fetch('/workspaces?limit=20');
+      const res = await fetch(`${environment.apiBase}/workspaces?limit=20`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json() as { ok: boolean; workspaces: Workspace[] };
       this.workspaces.set(data.workspaces ?? []);

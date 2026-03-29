@@ -10,11 +10,18 @@
     </div>
   </header>
 
-  <div class="reader-body">
-    <aside class="left-panel">
+  <div class="reader-body" #readerBody>
+    <aside
+      class="left-panel"
+      [class.left-panel--hidden]="tocHidden()"
+      [style.flex-basis.px]="tocHidden() ? 0 : tocWidth()"
+    >
       <div class="left-panel__head">
-        <span class="left-panel__label">Chapters</span>
-        <span class="count-badge">{{ rawUnits().length }}</span>
+        <span class="left-panel__label">Table of contents</span>
+        <div class="left-panel__actions">
+          <span class="count-badge">{{ rawUnits().length }}</span>
+          <button type="button" class="pane-toggle" (click)="toggleTocHidden()">Hide</button>
+        </div>
       </div>
 
       @if (sourceLoading()) {
@@ -23,55 +30,78 @@
             <div class="skel-row"></div>
           }
         </div>
-      } @else if (rootUnits().length === 0) {
-        <div class="empty-hint">No chapters found for this source.</div>
+      } @else if (tocItems().length === 0) {
+        <div class="empty-hint">No units found for this source.</div>
       } @else {
         <div class="unit-scroll">
-          @for (chapter of rootUnits(); track chapter.id; let chapterIndex = $index) {
+          @for (item of tocItems(); track item.unit.id) {
             <div
-              class="u-row"
-              [class.u-row--active]="selectedUnit()?.id === chapter.id"
-              (click)="selectUnit(chapter)"
+              class="toc-row"
+              [class.toc-row--active]="selectedUnit()?.id === item.unit.id"
+              [class.toc-row--child]="item.depth > 0"
+              [style.--toc-depth]="item.depth"
+              [attr.aria-expanded]="hasChildren(item.unit) ? !isCollapsed(item.unit.id) : null"
+              (click)="onTocRowClick(item.unit)"
             >
-              <div class="u-row__num" [class.u-row__num--active]="selectedUnit()?.id === chapter.id">
-                {{ chapterIndex + 1 }}
+              <div
+                class="toc-row__rail"
+                [class.toc-row__rail--toggle]="hasChildren(item.unit)"
+                (click)="hasChildren(item.unit) ? onTocToggle($event, item.unit) : $event.stopPropagation()"
+              >
+                @if (hasChildren(item.unit)) {
+                  <button
+                    type="button"
+                    class="toc-row__toggle"
+                    [attr.aria-label]="isCollapsed(item.unit.id) ? 'Expand section' : 'Collapse section'"
+                  >
+                    {{ isCollapsed(item.unit.id) ? '▶' : '▼' }}
+                  </button>
+                } @else {
+                  <span class="toc-row__dot"></span>
+                }
+
+                <span class="toc-row__number">{{ item.numbering }}</span>
               </div>
 
-              <div class="u-row__body">
-                <span class="u-row__title">{{ unitLabel(chapter, chapterIndex + 1) }}</span>
-                <span class="u-row__meta">{{ unitTypeLabel(chapter.unit_type) }}</span>
-                @if (refLine(chapter)) {
-                  <span class="u-row__ref">{{ refLine(chapter) }}</span>
-                } @else if (summaryPreview(chapter)) {
-                  <span class="u-row__ref">{{ summaryPreview(chapter) }}</span>
+              <div class="toc-row__body">
+                <span class="toc-row__eyebrow">{{ tocOrdinalLabel(item) }}</span>
+                <span
+                  class="toc-row__title"
+                  [class.toc-row__title--arabic]="isArabicText(item.unit.title)"
+                  [attr.dir]="textDirection(item.unit.title)"
+                >{{ unitLabel(item.unit, item.siblingIndex) }}</span>
+
+                @if (refLine(item.unit)) {
+                  <span class="toc-row__meta">{{ refLine(item.unit) }}</span>
+                } @else if (summaryPreview(item.unit)) {
+                  <span class="toc-row__meta">{{ summaryPreview(item.unit) }}</span>
                 }
               </div>
-
-              <span class="u-row__chevron">›</span>
             </div>
-
-            @for (section of chapter.children; track section.id; let sectionIndex = $index) {
-              <div
-                class="s-row"
-                [class.s-row--active]="selectedUnit()?.id === section.id"
-                (click)="selectUnit(section)"
-              >
-                <span class="s-row__marker">{{ chapterIndex + 1 }}.{{ sectionIndex + 1 }}</span>
-
-                <div class="s-row__body">
-                  <span class="s-row__title">{{ unitLabel(section, sectionIndex + 1) }}</span>
-                  @if (refLine(section)) {
-                    <span class="s-row__meta">{{ refLine(section) }}</span>
-                  } @else if (summaryPreview(section)) {
-                    <span class="s-row__meta">{{ summaryPreview(section) }}</span>
-                  }
-                </div>
-              </div>
-            }
           }
         </div>
       }
     </aside>
+
+    @if (!tocHidden()) {
+      <button
+        type="button"
+        class="toc-resizer"
+        aria-label="Resize table of contents"
+        aria-orientation="vertical"
+        (pointerdown)="startTocResize($event)"
+        (keydown)="onTocResizeKeydown($event)"
+      >
+        <span class="toc-resizer__line" aria-hidden="true"></span>
+        <span class="toc-resizer__grip" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    } @else {
+      <button type="button" class="toc-reveal" (click)="toggleTocHidden()">Contents</button>
+    }
 
     <main class="right-panel">
       @if (!selectedUnit()) {
@@ -85,8 +115,12 @@
         </div>
 
         <div class="read-controls">
-          <span class="badge" [attr.data-color]="sourceTypeColor(source()?.source_type)">{{ sourceTypeLabel(source()?.source_type) }}</span>
-          <span class="badge" [attr.data-color]="unitTypeColor(selectedUnit()?.unit_type)">{{ unitTypeLabel(selectedUnit()?.unit_type) }}</span>
+          <span class="badge" [attr.data-color]="sourceTypeColor(source()?.source_type)">
+            {{ sourceTypeLabel(source()?.source_type) }}
+          </span>
+          <span class="badge" [attr.data-color]="unitTypeColor(selectedUnit()?.unit_type)">
+            {{ unitTypeLabel(selectedUnit()?.unit_type) }}
+          </span>
           @if (source()?.publication_year) {
             <span class="badge">{{ source()!.publication_year }}</span>
           }
@@ -95,18 +129,29 @@
           }
         </div>
 
-        <div class="split-container">
-          <section class="read-area">
-            <div class="story-header">
-              <div class="story-kicker">{{ source()?.creator || source()?.subtitle || 'Worldview Source' }}</div>
+        <div class="split-container" #splitContainer [class.split-container--workspace-hidden]="workspaceHidden()">
+          <section class="read-area" #readArea [style.flex-basis.%]="workspaceHidden() ? 100 : textPaneHeight()">
+            <button
+              type="button"
+              class="workspace-toggle"
+              [class.workspace-toggle--hidden]="workspaceHidden()"
+              [attr.aria-label]="workspaceHidden() ? 'Show reader workspace' : 'Hide reader workspace'"
+              (click)="toggleWorkspaceHidden()"
+            >
+              {{ workspaceHidden() ? '▴' : '▾' }}
+            </button>
+
+            <div
+              class="story-header scroll-reveal scroll-reveal--hero"
+              [class.story-header--arabic]="isArabicText(selectedUnit()?.title)"
+            >
+              <div class="story-kicker">{{ sourcePeopleLine() || source()?.creator || source()?.subtitle || 'Worldview Source' }}</div>
               <div
                 class="story-title"
                 [class.story-title--arabic]="isArabicText(selectedUnit()?.title)"
                 [attr.dir]="textDirection(selectedUnit()?.title)"
               >{{ unitLabel(selectedUnit()!) }}</div>
-              @if (selectedSummary()) {
-                <div class="story-summary">{{ selectedSummary() }}</div>
-              }
+              <div class="story-header__line" aria-hidden="true"></div>
             </div>
 
             @if (detailLoading()) {
@@ -116,52 +161,254 @@
                 <div class="skel-text skel-text--short"></div>
               </div>
             } @else if (displayBody()) {
-              <div
-                class="story-para"
-                [class.story-para--arabic]="isArabicText(displayBody())"
-                [attr.dir]="textDirection(displayBody())"
-              >{{ displayBody() }}</div>
-            } @else {
-              <div class="empty-hint empty-hint--inline">No reading body saved for this {{ unitTypeLabel(selectedUnit()?.unit_type).toLowerCase() }} yet.</div>
-            }
-          </section>
-
-          <div class="drag-handle">
-            <div class="drag-handle__bar"></div>
-            <span class="drag-handle__label">{{ sectionPanelLabel() }} · {{ relatedSections().length }}</span>
-            <div class="drag-handle__bar"></div>
-          </div>
-
-          <section class="tasks-panel">
-            @if (relatedSections().length === 0) {
-              <div class="empty-hint">No sections mapped to this chapter.</div>
-            } @else {
-              @for (section of relatedSections(); track section.id; let sectionIndex = $index) {
-                <div
-                  class="section-row"
-                  [class.section-row--active]="selectedUnit()?.id === section.id"
-                  (click)="selectUnit(section)"
-                >
-                  <span class="section-row__marker">{{ sectionIndex + 1 }}</span>
-
-                  <div class="section-row__body">
-                    <div class="section-row__top">
-                      <span class="section-row__title">{{ unitLabel(section, sectionIndex + 1) }}</span>
-                      <span class="badge" [attr.data-color]="unitTypeColor(section.unit_type)">{{ unitTypeLabel(section.unit_type) }}</span>
-                    </div>
-
-                    @if (refLine(section)) {
-                      <span class="section-row__meta">{{ refLine(section) }}</span>
-                    } @else if (summaryPreview(section)) {
-                      <span class="section-row__meta">{{ summaryPreview(section) }}</span>
-                    }
-                  </div>
-
-                  <span class="section-row__chevron">→</span>
+              @if (summaryBlocks().length > 0) {
+                <div class="story-summary-wrap scroll-reveal">
+                  @for (block of summaryBlocks(); track block.id) {
+                    <p
+                      class="story-summary"
+                      [class.story-summary--arabic]="block.arabic"
+                      [attr.dir]="block.direction"
+                    >{{ block.text }}</p>
+                  }
                 </div>
               }
+
+              @if (hasArabicPassage()) {
+                <div class="story-passage story-passage--arabic scroll-reveal" dir="rtl">
+                  <div class="story-passage__flow">
+                    @for (block of passageBlocks(); track block.id) {
+                      @for (word of arabicWords(block.text); track $index) {
+                        <span class="story-passage__word">{{ word }}</span>
+                      }
+                      @if (block.marker) {
+                        <span class="story-passage__marker">{{ block.marker }}</span>
+                      }
+                    }
+                  </div>
+                </div>
+              } @else {
+                <div class="story-passage story-passage--ltr">
+                  @for (block of passageBlocks(); track block.id) {
+                    @switch (block.kind) {
+                      @case ('heading') {
+                        <h2
+                          class="story-heading scroll-reveal scroll-reveal--heading"
+                          [class.story-heading--arabic]="block.arabic"
+                          [attr.dir]="block.direction"
+                        >
+                          <span class="story-heading__text">{{ block.text }}</span>
+                          <span class="story-heading__line" aria-hidden="true"></span>
+                        </h2>
+                      }
+
+                      @case ('subheading') {
+                        <h3
+                          class="story-subheading scroll-reveal scroll-reveal--heading"
+                          [class.story-subheading--arabic]="block.arabic"
+                          [attr.dir]="block.direction"
+                        >
+                          <span class="story-subheading__text">{{ block.text }}</span>
+                          <span class="story-subheading__line" aria-hidden="true"></span>
+                        </h3>
+                      }
+
+                      @case ('separator') {
+                        <div class="story-divider scroll-reveal" aria-hidden="true"></div>
+                      }
+
+                      @case ('link') {
+                        <a class="story-link scroll-reveal" [href]="block.href" target="_blank" rel="noreferrer">{{ block.label || block.text }}</a>
+                      }
+
+                      @case ('quote') {
+                        <figure class="story-quote scroll-reveal">
+                          <blockquote class="story-quote__text" dir="ltr">{{ block.text }}</blockquote>
+                          @if (block.cite) {
+                            <figcaption class="story-quote__cite">{{ block.cite }}</figcaption>
+                          }
+                          @if (block.href) {
+                            <a class="story-link story-link--quote" [href]="block.href" target="_blank" rel="noreferrer">
+                              {{ block.label || 'Open reference' }}
+                            </a>
+                          }
+                        </figure>
+                      }
+
+                      @default {
+                        <p class="story-para scroll-reveal" dir="ltr">{{ block.text }}</p>
+                      }
+                    }
+                  }
+                </div>
+              }
+            } @else {
+              <div class="empty-hint empty-hint--inline">
+                No full passage saved for this {{ unitTypeLabel(selectedUnit()?.unit_type).toLowerCase() }} yet.
+              </div>
             }
           </section>
+
+          @if (!workspaceHidden()) {
+            <button
+              type="button"
+              class="reader-resizer"
+              aria-label="Resize reader panels"
+              aria-orientation="horizontal"
+              (pointerdown)="startReaderResize($event)"
+              (keydown)="onReaderResizeKeydown($event)"
+            >
+              <span class="reader-resizer__line" aria-hidden="true"></span>
+              <span class="reader-resizer__grip" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </button>
+
+            <section class="tasks-panel" [style.flex-basis.%]="100 - textPaneHeight()" [class.tasks-panel--resizing]="isResizingReader()">
+              <div class="tasks-panel__body">
+                @if (visibleReaderSections().length === 0) {
+                  <div class="empty-hint empty-hint--workspace">No highlights, notes, or worldview material saved for this unit yet.</div>
+                } @else {
+                  @for (sectionTab of visibleReaderSections(); track sectionTab.id) {
+                    <section class="reader-stack reader-stack--open">
+                    <div class="reader-stack__head">
+                      <span class="reader-stack__label">{{ sectionTab.label }}</span>
+                      <span class="reader-stack__count">{{ tabCount(sectionTab.id) }}</span>
+                    </div>
+
+                    <div class="reader-stack__body">
+                      @switch (sectionTab.id) {
+                        @case ('highlights') {
+                          @if (notesLoading()) {
+                            <div class="text-loading text-loading--panel">
+                              <div class="skel-text"></div>
+                              <div class="skel-text skel-text--med"></div>
+                              <div class="skel-text skel-text--short"></div>
+                            </div>
+                          } @else if (highlightEntries().length === 0) {
+                            <div class="empty-hint">No highlights saved for this unit yet.</div>
+                          } @else {
+                            @for (entry of highlightEntries(); track entry.id) {
+                              <article class="reader-card reader-card--highlight">
+                                <div class="reader-card__top">
+                                  <span class="reader-card__kind">{{ kindIcon(entry.note_kind) }} {{ kindLabelText(entry.note_kind) }}</span>
+                                  @if (entry.locator) {
+                                    <span class="reader-card__locator">{{ entry.locator }}</span>
+                                  }
+                                </div>
+
+                                @if (entry.excerpt_text) {
+                                  <div
+                                    class="reader-card__excerpt"
+                                    [class.reader-card__excerpt--arabic]="isArabicText(entry.excerpt_text)"
+                                    [attr.dir]="textDirection(entry.excerpt_text)"
+                                  >{{ entry.excerpt_text }}</div>
+                                }
+
+                                <div
+                                  class="reader-card__body"
+                                  [class.reader-card__body--arabic]="isArabicText(entry.body_md)"
+                                  [attr.dir]="textDirection(entry.body_md)"
+                                >{{ entry.body_md }}</div>
+
+                                @if (formatDate(entry.created_at)) {
+                                  <div class="reader-card__footer">{{ formatDate(entry.created_at) }}</div>
+                                }
+                              </article>
+                            }
+                          }
+                        }
+
+                        @case ('notes') {
+                          @if (notesLoading()) {
+                            <div class="text-loading text-loading--panel">
+                              <div class="skel-text"></div>
+                              <div class="skel-text skel-text--med"></div>
+                              <div class="skel-text skel-text--short"></div>
+                            </div>
+                          } @else if (regularNotes().length === 0) {
+                            <div class="empty-hint">No notes saved for this unit yet.</div>
+                          } @else {
+                            @for (note of regularNotes(); track note.id) {
+                              <article class="reader-card">
+                                <div class="reader-card__top">
+                                  <span class="reader-card__kind">{{ kindIcon(note.note_kind) }} {{ kindLabelText(note.note_kind) }}</span>
+                                  @if (note.title) {
+                                    <span class="reader-card__title">{{ note.title }}</span>
+                                  }
+                                </div>
+
+                                @if (note.excerpt_text) {
+                                  <div
+                                    class="reader-card__excerpt"
+                                    [class.reader-card__excerpt--arabic]="isArabicText(note.excerpt_text)"
+                                    [attr.dir]="textDirection(note.excerpt_text)"
+                                  >{{ note.excerpt_text }}</div>
+                                }
+
+                                <div
+                                  class="reader-card__body"
+                                  [class.reader-card__body--arabic]="isArabicText(note.body_md)"
+                                  [attr.dir]="textDirection(note.body_md)"
+                                >{{ note.body_md }}</div>
+
+                                @if (formatDate(note.created_at)) {
+                                  <div class="reader-card__footer">{{ formatDate(note.created_at) }}</div>
+                                }
+                              </article>
+                            }
+                          }
+                        }
+
+                        @case ('wv') {
+                          @if (notesLoading()) {
+                            <div class="text-loading text-loading--panel">
+                              <div class="skel-text"></div>
+                              <div class="skel-text skel-text--med"></div>
+                              <div class="skel-text skel-text--short"></div>
+                            </div>
+                          } @else if (wvNotes().length === 0) {
+                            <div class="empty-hint">No worldview distillations saved for this unit yet.</div>
+                          } @else {
+                            @for (note of wvNotes(); track note.id) {
+                              <article class="reader-card reader-card--wv">
+                                <div class="reader-card__top">
+                                  <span class="reader-card__kind">{{ kindIcon(note.note_kind) }} {{ kindLabelText(note.note_kind) }}</span>
+                                  @if (note.title) {
+                                    <span class="reader-card__title">{{ note.title }}</span>
+                                  }
+                                </div>
+
+                                @if (note.excerpt_text) {
+                                  <div
+                                    class="reader-card__excerpt"
+                                    [class.reader-card__excerpt--arabic]="isArabicText(note.excerpt_text)"
+                                    [attr.dir]="textDirection(note.excerpt_text)"
+                                  >{{ note.excerpt_text }}</div>
+                                }
+
+                                <div
+                                  class="reader-card__body"
+                                  [class.reader-card__body--arabic]="isArabicText(note.body_md)"
+                                  [attr.dir]="textDirection(note.body_md)"
+                                >{{ note.body_md }}</div>
+
+                                @if (formatDate(note.created_at)) {
+                                  <div class="reader-card__footer">{{ formatDate(note.created_at) }}</div>
+                                }
+                              </article>
+                            }
+                          }
+                        }
+                      }
+                    </div>
+                    </section>
+                  }
+                }
+              </div>
+            </section>
+          }
         </div>
       }
     </main>

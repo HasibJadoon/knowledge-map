@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import gsap from 'gsap';
+import { environment } from '../../../environments/environment';
 
 type TabId = 'overview' | 'members' | 'documents' | 'activity';
 
@@ -106,7 +107,7 @@ export class WorkspaceDetailComponent implements OnInit, AfterViewInit {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const res = await fetch(`/workspaces/${this.workspaceId}`);
+      const res = await fetch(`${environment.apiBase}/workspaces/${this.workspaceId}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json() as { ok: boolean; workspace: WorkspaceDetail };
       this.workspace.set(data.workspace ?? null);
@@ -123,7 +124,7 @@ export class WorkspaceDetailComponent implements OnInit, AfterViewInit {
   private async loadMembers(): Promise<void> {
     this.membersLoading.set(true);
     try {
-      const res = await fetch(`/workspaces/${this.workspaceId}/members`);
+      const res = await fetch(`${environment.apiBase}/workspaces/${this.workspaceId}/members`);
       if (!res.ok) return;
       const data = await res.json() as { ok: boolean; members: Member[] };
       this.members.set(data.members ?? []);
@@ -136,7 +137,7 @@ export class WorkspaceDetailComponent implements OnInit, AfterViewInit {
 
   private async loadActivity(): Promise<void> {
     try {
-      const res = await fetch(`/wv/activity?workspace_id=${this.workspaceId}`);
+      const res = await fetch(`${environment.apiBase}/wv/activity?workspace_id=${this.workspaceId}`);
       if (!res.ok) return;
       const data = await res.json() as { ok: boolean; activity: Activity[] };
       this.activities.set(data.activity ?? []);
