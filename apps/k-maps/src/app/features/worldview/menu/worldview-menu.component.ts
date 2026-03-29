@@ -41,6 +41,15 @@ export class WorldviewMenuComponent {
           themeClass: 'theme-crossref',
         },
         {
+          id: 'library',
+          title: 'Source Library',
+          description: 'Books, papers and articles — read passages, capture highlights, distil insights.',
+          route: ['/worldview/library'],
+          image: 'assets/images/app-icons/dashboard/card-worldview.svg',
+          imageAlt: 'assets/images/app-icons/dashboard/card-podcast.svg',
+          themeClass: 'theme-worldview',
+        },
+        {
           id: 'sources-documents',
           title: 'Sources & Documents',
           description: 'Browse sources with generated study notes, podcast drafts, concepts, and claims.',

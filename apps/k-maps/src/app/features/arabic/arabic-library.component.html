@@ -1,0 +1,113 @@
+<div class="lib-page" dir="ltr">
+
+  <!-- NAV -->
+  <header class="lib-nav">
+    <button class="back-btn" (click)="back()">← Arabic</button>
+    <div class="lib-nav__right">
+      <div class="srs-pill">
+        <span class="srs-dot"></span>
+        <span>12 Due</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE HEADER -->
+  <div class="lib-hero">
+    <div class="lib-hero__ar">المكتبة</div>
+    <h1 class="lib-hero__title">Content Library</h1>
+    <p class="lib-hero__sub">Arabic immersion · Read · Listen · Watch · Capture</p>
+  </div>
+
+  <!-- FILTER BAR -->
+  @if (!loading() && containers().length > 0) {
+    <div class="filter-bar">
+      @for (t of containerTypes(); track t) {
+        <button class="filter-chip"
+                [class.filter-chip--active]="activeTypeFilter() === t"
+                (click)="activeTypeFilter.set(t)">
+          @if (t !== 'all') { <span>{{ typeIcon(t) }}</span> }
+          <span>{{ t === 'all' ? 'All' : typeLabel(t) }}</span>
+        </button>
+      }
+      <div class="filter-bar__right">
+        <button class="icon-btn" [class.icon-btn--on]="groupByType()" (click)="groupByType.set(!groupByType())">⊞</button>
+      </div>
+    </div>
+  }
+
+  <!-- CONTENT -->
+  <div class="lib-content">
+
+    <!-- Loading skeletons -->
+    @if (loading()) {
+      <div class="card-grid">
+        @for (i of skeletons; track i) {
+          <div class="skel-card"></div>
+        }
+      </div>
+
+    <!-- Empty -->
+    } @else if (filteredContainers().length === 0) {
+      <div class="empty-state">
+        <span class="empty-state__ar">لا يوجد محتوى</span>
+        <p>No content found.</p>
+      </div>
+
+    <!-- Grouped -->
+    } @else if (groupByType() && groupedContainers()) {
+      @for (type of objectKeys(groupedContainers()!); track type) {
+        <div class="type-section">
+          <div class="type-section__head">
+            <span>{{ typeIcon(type) }}</span>
+            <span class="type-section__label">{{ typeLabel(type) }}</span>
+            <span class="type-section__count">{{ groupedContainers()![type].length }}</span>
+          </div>
+          <div class="card-grid">
+            @for (c of groupedContainers()![type]; track c.id) {
+              <ng-container *ngTemplateOutlet="courseCard; context: { $implicit: c }"></ng-container>
+            }
+          </div>
+        </div>
+      }
+
+    <!-- Flat grid -->
+    } @else {
+      <div class="card-grid">
+        @for (c of filteredContainers(); track c.id) {
+          <ng-container *ngTemplateOutlet="courseCard; context: { $implicit: c }"></ng-container>
+        }
+      </div>
+    }
+
+  </div>
+</div>
+
+<!-- ── COURSE CARD TEMPLATE ── -->
+<ng-template #courseCard let-c>
+  <div class="c-card" (click)="openContainer(c)">
+    <div class="c-card__top">
+      <div class="c-card__icon-box">{{ typeIcon(c.container_type) }}</div>
+      <div class="c-card__badges">
+        <span class="badge" [attr.data-color]="typeColor(c.container_type)">{{ typeLabel(c.container_type) }}</span>
+        @if (c.meta?.level) {
+          <span class="badge" [attr.data-color]="levelColor(c.meta!.level)">{{ c.meta!.level }}</span>
+        }
+      </div>
+    </div>
+
+    <div class="c-card__body">
+      @if (containerAr(c)) {
+        <div class="c-card__title-ar" dir="rtl">{{ containerAr(c) }}</div>
+      }
+      <div class="c-card__title-en">{{ c.title }}</div>
+      @if (c.meta?.author) {
+        <div class="c-card__author">{{ c.meta!.author }}</div>
+      }
+    </div>
+
+    <div class="c-card__footer">
+      <div class="c-card__bar"><div class="c-card__fill"></div></div>
+      <span class="c-card__arrow">→</span>
+    </div>
+  </div>
+</ng-template>

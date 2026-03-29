@@ -69,10 +69,15 @@ export class HubTableComponent implements OnInit {
   private buildEndpoint(card: HubCard): string {
     const base = card.table.replace(/_/g, '/');
     const mode = card.panelMode;
-    if (mode.startsWith('wv-')) return `/wv/${mode.substring(3)}s?limit=50&offset=${this.offset}`;
-    if (mode.startsWith('ar-')) return `/ar/${mode.substring(3)}s?limit=50&offset=${this.offset}`;
+    const p = `limit=50&offset=${this.offset}`;
+    if (mode.startsWith('wv-')) return `/wv/${mode.substring(3)}s?${p}`;
+    if (mode === 'ar-grammar')   return `/ar/grammar/concepts?${p}`;
+    if (mode === 'ar-balagha')   return `/ar/balagha?${p}`;
+    if (mode === 'ar-srs')       return `/ar/srs?${p}`;
+    if (mode === 'ar-vocab')     return `/ar/roots?${p}`;
+    if (mode.startsWith('ar-')) return `/ar/${mode.substring(3)}s?${p}`;
     if (mode === 'workspace') return `/workspaces?limit=50`;
-    return `/${base}?limit=50&offset=${this.offset}`;
+    return `/${base}?${p}`;
   }
 
   formatCell(val: unknown): string {

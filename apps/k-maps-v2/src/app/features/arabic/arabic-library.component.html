@@ -1,125 +1,172 @@
+<div class="lib-page">
+  <div class="lib-page__inner">
 
-    <div class="lib-page">
-      <div class="lib-page__inner">
-
-        <!-- Nav -->
-        <nav class="lib-nav">
-          <button class="back-btn" (click)="back()">&#8592; Arabic</button>
-          <span class="lib-nav__crumb">Content Library</span>
-        </nav>
-
-        <div class="lib-layout">
-
-          <!-- Sidebar -->
-          <aside class="lib-sidebar">
-            <div class="lib-sidebar__header">
-              <h2 class="lib-sidebar__title">Containers</h2>
-              <span class="lib-sidebar__count">{{ containers().length }}</span>
-            </div>
-
-            @if (loading()) {
-              <div class="lib-sidebar__loading">
-                @for (i of skeletons; track i) {
-                  <div class="skeleton-row"></div>
-                }
-              </div>
-            }
-
-            @if (!loading() && containers().length === 0) {
-              <div class="lib-sidebar__empty">
-                <p>No containers found.</p>
-                <p class="lib-sidebar__hint">Use Hub → Arabic → Content Library to add containers.</p>
-              </div>
-            }
-
-            @if (!loading() && containers().length > 0) {
-              <ul class="container-list">
-                @for (c of containers(); track c.id) {
-                  <li
-                    class="container-item"
-                    [class.container-item--active]="selected()?.id === c.id"
-                    (click)="select(c)"
-                  >
-                    <div class="container-item__top">
-                      <span class="container-item__title">{{ c.title }}</span>
-                      @if (c.type) {
-                        <span class="badge badge--type" [attr.data-type]="c.type">{{ c.type }}</span>
-                      }
-                    </div>
-                    @if (c.level) {
-                      <span class="badge badge--level">{{ c.level }}</span>
-                    }
-                  </li>
-                }
-              </ul>
-            }
-          </aside>
-
-          <!-- Main panel -->
-          <main class="lib-main">
-            @if (!selected()) {
-              <div class="lib-main__empty">
-                <div class="lib-main__empty-icon">ك</div>
-                <p class="lib-main__empty-title">Select a container</p>
-                <p class="lib-main__empty-sub">Choose a book, podcast, or poetry collection from the sidebar to view its units.</p>
-                <div class="lib-main__add-hint">
-                  <span class="lib-main__add-icon">ℹ</span>
-                  Use <strong>Hub → Arabic → Content Library</strong> to add new containers.
-                </div>
-              </div>
-            }
-
-            @if (selected()) {
-              <div class="lib-main__content">
-                <div class="lib-main__header">
-                  <div>
-                    <h1 class="lib-main__title">{{ selected()!.title }}</h1>
-                    <div class="lib-main__badges">
-                      @if (selected()!.type) {
-                        <span class="badge badge--type" [attr.data-type]="selected()!.type">{{ selected()!.type }}</span>
-                      }
-                      @if (selected()!.level) {
-                        <span class="badge badge--level">{{ selected()!.level }}</span>
-                      }
-                    </div>
-                    @if (selected()!.description) {
-                      <p class="lib-main__desc">{{ selected()!.description }}</p>
-                    }
-                  </div>
-                </div>
-
-                @if (unitsLoading()) {
-                  <div class="units-loading">
-                    @for (i of skeletons; track i) {
-                      <div class="skeleton-unit"></div>
-                    }
-                  </div>
-                }
-
-                @if (!unitsLoading() && units().length === 0) {
-                  <div class="units-empty">No units found for this container.</div>
-                }
-
-                @if (!unitsLoading() && units().length > 0) {
-                  <ul class="units-list">
-                    @for (u of units(); track u.id; let idx = $index) {
-                      <li class="unit-item">
-                        <span class="unit-item__num">{{ idx + 1 }}</span>
-                        <div class="unit-item__body">
-                          <span class="unit-item__title">{{ u.title }}</span>
-                          @if (u.description) {
-                            <span class="unit-item__desc">{{ u.description }}</span>
-                          }
-                        </div>
-                      </li>
-                    }
-                  </ul>
-                }
-              </div>
-            }
-          </main>
-
-        </div>
+    <!-- Nav -->
+    <nav class="lib-nav">
+      <button class="back-btn" (click)="back()">&#8592; Arabic</button>
+      <div class="lib-nav__breadcrumb">
+        <span class="crumb">Content Library</span>
+        @if (selectedContainer()) {
+          <span class="crumb-sep">›</span>
+          <span class="crumb crumb--active">{{ selectedContainer()!.title }}</span>
+        }
+        @if (selectedUnit()) {
+          <span class="crumb-sep">›</span>
+          <span class="crumb crumb--active">{{ unitLabel(selectedUnit()!) }}</span>
+        }
       </div>
+    </nav>
+
+    <div class="lib-layout" [class.lib-layout--three]="selectedUnit()">
+
+      <!-- ── Panel 1: Containers ─────────────────────── -->
+      <aside class="lib-panel lib-panel--containers">
+        <div class="lib-panel__head">
+          <h2 class="lib-panel__title">المكتبة</h2>
+          <span class="lib-panel__count">{{ containers().length }}</span>
+        </div>
+
+        @if (containersLoading()) {
+          <div class="skeleton-list">
+            @for (i of skeletons; track i) { <div class="skel-row"></div> }
+          </div>
+        } @else if (containers().length === 0) {
+          <div class="panel-empty">
+            <span class="panel-empty__glyph">ك</span>
+            <p>No containers yet.</p>
+            <p class="panel-empty__hint">Hub → Arabic → Content Library</p>
+          </div>
+        } @else {
+          <ul class="item-list">
+            @for (c of containers(); track c.id) {
+              <li class="container-item"
+                  [class.container-item--active]="selectedContainer()?.id === c.id"
+                  (click)="selectContainer(c)">
+                <div class="container-item__row">
+                  <div class="container-item__texts">
+                    <span class="container-item__title">{{ c.title }}</span>
+                    @if (containerArabicTitle(c)) {
+                      <span class="container-item__ar">{{ containerArabicTitle(c) }}</span>
+                    }
+                  </div>
+                  <div class="container-item__badges">
+                    <span class="badge" [attr.data-color]="typeColor(c.container_type)">{{ c.container_type }}</span>
+                    @if (c.meta?.level) {
+                      <span class="badge badge--level">{{ c.meta!.level }}</span>
+                    }
+                  </div>
+                </div>
+                @if (c.meta?.author) {
+                  <span class="container-item__author">{{ c.meta!.author }}</span>
+                }
+              </li>
+            }
+          </ul>
+        }
+      </aside>
+
+      <!-- ── Panel 2: Units ──────────────────────────── -->
+      <section class="lib-panel lib-panel--units">
+        @if (!selectedContainer()) {
+          <div class="panel-empty panel-empty--center">
+            <span class="panel-empty__glyph">📖</span>
+            <p>Select a container</p>
+            <p class="panel-empty__hint">Choose a book or story from the library.</p>
+          </div>
+        } @else {
+          <div class="lib-panel__head">
+            <h2 class="lib-panel__title">الفصول</h2>
+            <span class="lib-panel__count">{{ units().length }}</span>
+          </div>
+
+          @if (unitsLoading()) {
+            <div class="skeleton-list">
+              @for (i of skeletons; track i) { <div class="skel-row skel-row--unit"></div> }
+            </div>
+          } @else if (units().length === 0) {
+            <div class="panel-empty">
+              <p>No units yet.</p>
+              <p class="panel-empty__hint">Hub → Arabic → Units & Chapters</p>
+            </div>
+          } @else {
+            <ul class="item-list">
+              @for (u of units(); track u.id; let idx = $index) {
+                <li class="unit-item"
+                    [class.unit-item--active]="selectedUnit()?.id === u.id"
+                    (click)="selectUnit(u)">
+                  <span class="unit-item__num">{{ idx + 1 }}</span>
+                  <div class="unit-item__body">
+                    <div class="unit-item__titles">
+                      <span class="unit-item__title">{{ unitLabel(u) }}</span>
+                      @if (u.meta?.title_ar) {
+                        <span class="unit-item__ar">{{ u.meta!.title_ar }}</span>
+                      }
+                    </div>
+                    <div class="unit-item__meta">
+                      <span class="badge badge--type-sm">{{ u.unit_type }}</span>
+                      @if (u.start_ref || u.end_ref) {
+                        <span class="unit-item__ref">{{ u.start_ref }}{{ u.end_ref ? ' – ' + u.end_ref : '' }}</span>
+                      }
+                    </div>
+                    @if (u.text_preview) {
+                      <p class="unit-item__preview" dir="rtl">{{ u.text_preview }}…</p>
+                    }
+                  </div>
+                  <span class="unit-item__chevron">›</span>
+                </li>
+              }
+            </ul>
+          }
+        }
+      </section>
+
+      <!-- ── Panel 3: Tasks ──────────────────────────── -->
+      @if (selectedUnit()) {
+        <section class="lib-panel lib-panel--tasks">
+          <div class="lib-panel__head">
+            <h2 class="lib-panel__title">المهام</h2>
+            <span class="lib-panel__count">{{ tasks().length }}</span>
+          </div>
+
+          @if (tasksLoading()) {
+            <div class="skeleton-list">
+              @for (i of skeletons; track i) { <div class="skel-row skel-row--task"></div> }
+            </div>
+          } @else if (tasks().length === 0) {
+            <div class="panel-empty">
+              <span class="panel-empty__glyph">✅</span>
+              <p>No tasks yet.</p>
+              <p class="panel-empty__hint">Hub → Arabic → Tasks to add.</p>
+            </div>
+          } @else {
+            <div class="tasks-body">
+              @for (status of STATUS_ORDER; track status) {
+                @if (tasksByStatus()[status]?.length) {
+                  <div class="task-group">
+                    <div class="task-group__header">
+                      <span class="status-dot" [attr.data-color]="statusColor(status)"></span>
+                      <span class="task-group__label">{{ STATUS_LABELS[status] }}</span>
+                      <span class="task-group__count">{{ tasksByStatus()[status].length }}</span>
+                    </div>
+                    @for (t of tasksByStatus()[status]; track t.task_id) {
+                      <div class="task-item">
+                        <div class="task-item__top">
+                          <span class="task-item__name">{{ t.task_name }}</span>
+                          <span class="badge badge--task-type">{{ t.task_type }}</span>
+                        </div>
+                        @if (t.step_no != null) {
+                          <span class="task-item__step">Step {{ t.step_no }}</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              }
+            </div>
+          }
+        </section>
+      }
+
     </div>
-  
+  </div>
+</div>
