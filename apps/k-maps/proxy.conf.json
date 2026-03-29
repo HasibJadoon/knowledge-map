@@ -7,8 +7,13 @@
       "^/api": ""
     }
   },
+  "/worldview": {
+    "target": "https://dev.knowledge-map.pages.dev",
+    "secure": true,
+    "changeOrigin": true
+  },
   "/wv": {
-    "target": "https://k-maps.com",
+    "target": "https://dev.knowledge-map.pages.dev",
     "secure": true,
     "changeOrigin": true
   }

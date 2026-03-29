@@ -4,6 +4,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { HubPanelService } from './hub-panel.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'km-hub-panel',
@@ -124,16 +125,16 @@ export class HubPanelComponent {
     };
 
     const endpointMap: Record<string, string> = {
-      'wv-worldview': '/wv/worldviews',
-      'wv-topic': '/wv/topics',
-      'wv-source': '/wv/sources',
-      'wv-person': '/wv/people',
-      'ar-balagha': '/ar/balagha',
-      'ar-domain': '/ar/domains',
-      'wv-podcast': '/wv/podcasts',
-      'wv-plan': '/wv/plans',
-      'ar-container': '/ar/containers',
-      'workspace': '/workspaces'
+      'wv-worldview': `${environment.apiBase}/wv/worldviews`,
+      'wv-topic': `${environment.apiBase}/wv/topics`,
+      'wv-source': `${environment.apiBase}/wv/sources`,
+      'wv-person': `${environment.apiBase}/wv/people`,
+      'ar-balagha': `${environment.apiBase}/ar/balagha`,
+      'ar-domain': `${environment.apiBase}/ar/domains`,
+      'wv-podcast': `${environment.apiBase}/wv/podcasts`,
+      'wv-plan': `${environment.apiBase}/wv/plans`,
+      'ar-container': `${environment.apiBase}/ar/containers`,
+      'workspace': `${environment.apiBase}/workspaces`
     };
 
     const form = formMap[mode];

@@ -13,6 +13,7 @@ import { QURAN_CARDS } from './cards/quran.cards';
 import { ARABIC_CARDS } from './cards/arabic.cards';
 import { WORLDVIEW_CARDS } from './cards/worldview.cards';
 import { WORKSPACE_CARDS } from './cards/workspace.cards';
+import { environment } from '../../../environments/environment';
 
 const CARD_MAP: Record<string, HubCard[]> = {
   quran: QURAN_CARDS,
@@ -65,7 +66,7 @@ export class HubSectionComponent implements OnInit, AfterViewInit {
 
   private async loadCounts(): Promise<void> {
     try {
-      const res = await fetch('/hub/counts');
+      const res = await fetch(`${environment.apiBase}/hub/counts`);
       const data = await res.json() as { ok: boolean; counts: Record<string, number> };
       if (data.ok) this.counts.set(data.counts);
     } catch { /* silent */ }

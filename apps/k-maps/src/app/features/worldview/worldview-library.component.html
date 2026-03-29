@@ -108,6 +108,9 @@
       @if (source.creator) {
         <div class="wv-card__creator">{{ source.creator }}</div>
       }
+      @if (sourcePeopleLine(source)) {
+        <div class="wv-card__people">{{ sourcePeopleLine(source) }}</div>
+      }
       @if (sourceMetaLine(source)) {
         <div class="wv-card__meta">{{ sourceMetaLine(source) }}</div>
       }
@@ -118,6 +121,9 @@
         <div class="wv-card__fill"></div>
       </div>
       <div class="wv-card__footer-meta">
+        @if (source.unit_count) {
+          <span>{{ source.unit_count }} {{ source.unit_count === 1 ? 'unit' : 'units' }}</span>
+        }
         @if (source.publication_year) {
           <span>{{ source.publication_year }}</span>
         }

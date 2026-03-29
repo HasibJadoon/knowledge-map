@@ -115,7 +115,7 @@ export class WorldviewCompareComponent implements OnInit, AfterViewInit {
   private async loadComparisons(): Promise<void> {
     this.loading.set(true);
     try {
-      const res = await fetch(`${environment.wvBase}/wv/comparisons?limit=20`);
+      const res = await fetch(`${environment.apiBase}/wv/comparisons?limit=20`);
       if (!res.ok) { this.loading.set(false); return; }
       const data = await res.json() as { ok: boolean; comparisons: WvComparison[] };
       if (data.ok && Array.isArray(data.comparisons)) {
@@ -131,7 +131,7 @@ export class WorldviewCompareComponent implements OnInit, AfterViewInit {
   private async loadDetail(id: number | string): Promise<void> {
     this.detailLoading.set(true);
     try {
-      const res = await fetch(`${environment.wvBase}/wv/comparisons/${id}`);
+      const res = await fetch(`${environment.apiBase}/wv/comparisons/${id}`);
       if (!res.ok) { this.detailLoading.set(false); return; }
       const data = await res.json() as {
         ok: boolean;

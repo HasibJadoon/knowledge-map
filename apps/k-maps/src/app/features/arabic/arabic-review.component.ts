@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 interface SrsCard { id: number; entity_type: string; entity_id: number; front: string; back: string; due_at: string; }
 
@@ -26,7 +27,7 @@ export class ArabicReviewComponent implements OnInit {
 
   private async fetchCards(): Promise<void> {
     try {
-      const res = await fetch('/ar/srs?entity_type=vocab&limit=20');
+      const res = await fetch(`${environment.apiBase}/ar/srs?entity_type=vocab&limit=20`);
       const data = await res.json() as { ok: boolean; items?: SrsCard[] };
       if (data.ok && data.items) this.cards.set(data.items);
     } catch { /* silent */ } finally { this.loading.set(false); }

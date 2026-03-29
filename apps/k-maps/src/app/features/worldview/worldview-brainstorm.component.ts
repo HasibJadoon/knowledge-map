@@ -68,7 +68,7 @@ export class WorldviewBrainstormComponent implements OnInit, AfterViewInit {
     if (!title.trim()) return;
     this.creating.set(true);
     try {
-      const res = await fetch(`${environment.wvBase}/wv/brainstorm`, {
+      const res = await fetch(`${environment.apiBase}/wv/brainstorm`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: title.trim(), topic: topic.trim() || undefined, worldview: worldview.trim() || undefined, content: content.trim() || undefined }),
@@ -98,7 +98,7 @@ export class WorldviewBrainstormComponent implements OnInit, AfterViewInit {
   private async loadSessions(): Promise<void> {
     this.loading.set(true);
     try {
-      const res = await fetch(`${environment.wvBase}/wv/brainstorm?limit=30`);
+      const res = await fetch(`${environment.apiBase}/wv/brainstorm?limit=30`);
       if (!res.ok) { this.loading.set(false); return; }
       const data = await res.json() as { ok: boolean; sessions: BrainstormSession[] };
       if (data.ok && Array.isArray(data.sessions)) {
