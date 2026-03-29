@@ -16,5 +16,10 @@ export const routes: Routes = [
     path: 'knowledge',
     loadChildren: () => import('./knowledge-desk/routes').then(m => m.routes),
     data: { title: 'Knowledge Desk' }
+  },
+  {
+    path: 'library',
+    loadComponent: () => import('./worldview-library.component').then(m => m.WorldviewLibraryComponent),
+    data: { title: 'Library — Worldview' }
   }
 ];

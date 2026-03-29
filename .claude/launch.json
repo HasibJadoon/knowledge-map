@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "k-maps-v2",
+      "name": "k-maps",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start", "-w", "apps/k-maps-v2", "--", "--port", "4201"],
+      "runtimeArgs": ["run", "start", "-w", "apps/k-maps", "--", "--port", "4201"],
       "port": 4201
     }
   ]

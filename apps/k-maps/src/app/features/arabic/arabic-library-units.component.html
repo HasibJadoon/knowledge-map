@@ -1,0 +1,227 @@
+<div class="reader-page" dir="ltr">
+
+  <!-- ── TOP BAR ──────────────────────── -->
+  <header class="reader-nav">
+    <button class="back-btn" (click)="back()">← Library</button>
+    <div class="reader-nav__title" dir="rtl">
+      {{ containerTitle() }}
+    </div>
+    <div class="reader-nav__right">
+      <div class="srs-pill">
+        <span class="srs-dot"></span>
+        <span>12 Due</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── TWO-PANEL BODY ────────────────── -->
+  <div class="reader-body">
+
+    <!-- ── LEFT: UNITS LIST ──────────── -->
+    <aside class="left-panel">
+      <div class="left-panel__head">
+        <span class="left-panel__label">الفصول</span>
+        <span class="count-badge">{{ units().length }}</span>
+      </div>
+
+      @if (unitsLoading()) {
+        <div class="skel-list">
+          @for (i of skeletons; track i) { <div class="skel-row"></div> }
+        </div>
+      } @else if (units().length === 0) {
+        <div class="empty-hint">No units found.</div>
+      } @else {
+        <div class="unit-scroll">
+          @for (u of units(); track u.id; let idx = $index) {
+            <div class="u-row"
+                 [class.u-row--active]="selectedUnit()?.id === u.id"
+                 (click)="selectUnit(u)">
+              <div class="u-row__num" [class.u-row__num--active]="selectedUnit()?.id === u.id">
+                {{ idx + 1 }}
+              </div>
+              <div class="u-row__body">
+                <span class="u-row__title-ar" dir="rtl">{{ u.meta?.title_ar || unitLabel(u) }}</span>
+                @if (u.meta?.title_ar && u.meta?.title) {
+                  <span class="u-row__title-en">{{ u.meta!.title }}</span>
+                }
+                @if (u.start_ref) {
+                  <span class="u-row__ref">{{ u.start_ref }}{{ u.end_ref ? ' – ' + u.end_ref : '' }}</span>
+                }
+              </div>
+              <span class="u-row__chevron">›</span>
+            </div>
+          }
+        </div>
+      }
+    </aside>
+
+    <!-- ── RIGHT: INTERACTION ────────── -->
+    <main class="right-panel">
+
+      @if (!selectedUnit()) {
+        <!-- Empty state -->
+        <div class="interact-empty">
+          <span class="interact-empty__ar">اختر فصلاً</span>
+          <p>Select a unit from the left</p>
+        </div>
+      } @else {
+
+        <!-- Mode tabs -->
+        <div class="mode-bar">
+          <button class="mode-tab" [class.mode-tab--on]="activeMode()==='read'"    (click)="setMode('read')">📖 Read</button>
+          <button class="mode-tab" [class.mode-tab--on]="activeMode()==='capture'" (click)="setMode('capture')">✦ Capture</button>
+        </div>
+
+        <!-- READ MODE ──────────────────── -->
+        @if (activeMode() === 'read') {
+
+          <!-- Read controls -->
+          <div class="read-controls">
+            <button class="rc-btn" [class.rc-btn--on]="diacriticsOn()" (click)="diacriticsOn.set(!diacriticsOn())">
+              تشكيل {{ diacriticsOn() ? '✓' : '✗' }}
+            </button>
+            <span class="rc-sep"></span>
+            <button class="rc-btn" (click)="adjustFont(-1)">A−</button>
+            <button class="rc-btn" (click)="adjustFont(1)">A+</button>
+            <span class="rc-sep"></span>
+            <span class="rc-hint">tap word · select to capture</span>
+          </div>
+
+          <!-- Vertical split: read area + drag handle + tasks -->
+          <div class="split-container">
+
+            <!-- Read area -->
+            <div class="read-area" [style.height.%]="readAreaHeightPct()" (mouseup)="onReadAreaMouseUp()">
+              <div class="story-header">
+                <div class="story-title" dir="rtl">{{ selectedUnit()!.meta?.title_ar || unitLabel(selectedUnit()!) }}</div>
+                @if (selectedUnit()!.meta?.title) {
+                  <div class="story-meta">{{ selectedUnit()!.meta!.title }}</div>
+                }
+              </div>
+
+              @if (unitTextLoading()) {
+                <div class="text-loading">
+                  <div class="skel-text"></div>
+                  <div class="skel-text skel-text--med"></div>
+                  <div class="skel-text skel-text--short"></div>
+                </div>
+              } @else if (readWords().length > 0) {
+                <p class="story-para" dir="rtl"
+                   [class.no-diac]="!diacriticsOn()"
+                   [style.font-size.rem]="fontSize()">
+                  @for (word of readWords(); track $index) {
+                    <span class="w-span" (click)="onWordClick($event, word)">{{ word }}</span>{{ ' ' }}
+                  }
+                </p>
+              } @else {
+                <div class="empty-hint" style="padding:1.5rem">No text available for this unit.</div>
+              }
+            </div>
+
+            <!-- DRAG HANDLE -->
+            <div class="drag-handle" (mousedown)="startDrag($event)">
+              <div class="drag-handle__bar"></div>
+              <span class="drag-handle__label">Learning Tasks · {{ tasks().length }}</span>
+              <div class="drag-handle__bar"></div>
+            </div>
+
+            <!-- Tasks panel (fills remaining height) -->
+            <div class="tasks-panel">
+              @if (tasksLoading()) {
+                <div class="skel-list">
+                  @for (i of skeletons; track i) { <div class="skel-row skel-row--task"></div> }
+                </div>
+              } @else if (tasks().length === 0) {
+                <div class="empty-hint">No tasks for this unit.</div>
+              } @else {
+                @for (status of STATUS_ORDER; track status) {
+                  @if (tasksByStatus()[status]?.length) {
+                    @for (t of tasksByStatus()[status]; track t.task_id) {
+                      <div class="task-row" [class.task-row--reaction]="t.task_type === 'reaction'">
+                        <span class="status-dot" [attr.data-c]="statusColor(t.status)"></span>
+                        <div class="task-row__body">
+                          <span class="task-row__name">{{ t.task_name }}</span>
+                          @if (t.task_type === 'reaction') {
+                            <span class="task-row__hint">🎙 Script in OBS React</span>
+                          }
+                        </div>
+                        <span class="badge" [attr.data-color]="taskTypeColor(t.task_type)">{{ taskTypeLabel(t.task_type) }}</span>
+                      </div>
+                    }
+                  }
+                }
+              }
+            </div>
+
+          </div><!-- /split-container -->
+        }
+
+        <!-- CAPTURE MODE ────────────────── -->
+        @if (activeMode() === 'capture') {
+          <div class="capture-view">
+            <div class="capture-view__hint">
+              <p>Switch to <strong>Read</strong> mode, select any Arabic text, then save to your SRS pipeline.</p>
+            </div>
+            <div class="srs-section">
+              <div class="srs-section__head">
+                <span class="srs-section__title">✦ Saved This Unit</span>
+                <span class="count-badge">3</span>
+              </div>
+              <div class="srs-cards">
+                <div class="srs-card srs-card--new"><div class="srs-card__ar">عَجِيبٌ</div><div class="srs-card__en">wondrous</div></div>
+                <div class="srs-card"><div class="srs-card__ar">الْأَيَّامِ</div><div class="srs-card__en">the days</div></div>
+                <div class="srs-card"><div class="srs-card__ar">أَبْحَرَ</div><div class="srs-card__en">set sail</div></div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- FLUENCY STRIP ───────────────── -->
+        <div class="fluency-strip">
+          <span class="fluency-strip__label">Progress</span>
+          <div class="fluency-strip__bar">
+            <div class="fluency-strip__fill" [style.width.%]="unitProgress()"></div>
+          </div>
+          <span class="fluency-strip__pct">{{ unitProgress() }}%</span>
+          <span class="fluency-strip__streak">🔥 6</span>
+        </div>
+
+      }
+    </main>
+  </div>
+</div>
+
+<!-- ── WORD POPUP ──────────────────────── -->
+@if (wordPopup()) {
+  <div class="word-popup"
+       [style.left.px]="wordPopup()!.x"
+       [style.top.px]="wordPopup()!.y - 118">
+    <div class="wp-word" dir="rtl">{{ wordPopup()!.word }}</div>
+    <div class="wp-root">Tap to save to SRS pipeline</div>
+    <div class="wp-actions">
+      <button class="wp-btn" (click)="saveWord()">+ Save to SRS</button>
+      <button class="wp-btn wp-btn--dim" (click)="wordPopup.set(null)">✕</button>
+    </div>
+  </div>
+}
+
+<!-- ── CAPTURE BAR ─────────────────────── -->
+@if (captureBar()) {
+  <div class="capture-bar"
+       [style.left.px]="captureBar()!.x"
+       [style.top.px]="captureBar()!.y">
+    <span class="capture-bar__label">save as:</span>
+    <button class="cb-btn cb-word"     (click)="captureAs('word')">+ Word</button>
+    <button class="cb-btn cb-phrase"   (click)="captureAs('phrase')">+ Phrase</button>
+    <button class="cb-btn cb-sentence" (click)="captureAs('sentence')">+ Sentence</button>
+    <button class="cb-close" (click)="captureBar.set(null)">✕</button>
+  </div>
+}
+
+<!-- ── TOAST ──────────────────────────── -->
+@if (captureToast()) {
+  <div class="capture-toast">
+    <span>✦</span>
+    <span>{{ captureToast() }}</span>
+  </div>
+}

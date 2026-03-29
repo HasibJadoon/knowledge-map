@@ -19,7 +19,6 @@ interface ContainerMeta {
   level?: string;
   author?: string;
   description?: string;
-  word_count?: number;
 }
 
 interface ArContainer {
@@ -28,33 +27,6 @@ interface ArContainer {
   container_key: string;
   title: string;
   meta?: ContainerMeta | null;
-}
-
-interface UnitMeta {
-  title?: string;
-  title_ar?: string;
-}
-
-interface ArUnit {
-  id: string;
-  container_id: string;
-  unit_type: string;
-  order_index: number;
-  start_ref?: string | null;
-  end_ref?: string | null;
-  text_preview?: string | null;
-  meta?: UnitMeta | null;
-  container_title?: string;
-}
-
-interface ArTask {
-  task_id: string;
-  unit_id: string;
-  task_type: string;
-  task_name: string;
-  status: string;
-  step_no?: number | null;
-  task_json?: Record<string, unknown> | null;
 }
 
 @Component({
@@ -72,29 +44,27 @@ export class ArabicLibraryComponent implements OnInit, AfterViewInit {
   private readonly base = environment.apiBase;
 
   containers = signal<ArContainer[]>([]);
-  selectedContainer = signal<ArContainer | null>(null);
-  units = signal<ArUnit[]>([]);
-  selectedUnit = signal<ArUnit | null>(null);
-  tasks = signal<ArTask[]>([]);
-
-  containersLoading = signal(true);
-  unitsLoading = signal(false);
-  tasksLoading = signal(false);
-
-  // Filter + group-by state
+  loading = signal(true);
   activeTypeFilter = signal<string>('all');
   groupByType = signal(false);
 
-  readonly skeletons = [1, 2, 3, 4, 5];
+  readonly skeletons = [1, 2, 3, 4, 5, 6, 7, 8];
+
+  // Quran is a separate section — excluded from Arabic Hub
+  private readonly nonQuranContainers = computed(() =>
+    this.containers().filter(c => c.container_type !== 'quran')
+  );
 
   readonly containerTypes = computed(() => {
-    const types = new Set(this.containers().map(c => c.container_type));
+    const types = new Set(this.nonQuranContainers().map(c => c.container_type));
     return ['all', ...Array.from(types)];
   });
 
   readonly filteredContainers = computed(() => {
     const f = this.activeTypeFilter();
-    return f === 'all' ? this.containers() : this.containers().filter(c => c.container_type === f);
+    return f === 'all'
+      ? this.nonQuranContainers()
+      : this.nonQuranContainers().filter(c => c.container_type === f);
   });
 
   readonly groupedContainers = computed(() => {
@@ -106,153 +76,67 @@ export class ArabicLibraryComponent implements OnInit, AfterViewInit {
     return groups;
   });
 
-  readonly tasksByStatus = computed(() => {
-    const all = this.tasks();
-    const groups: Record<string, ArTask[]> = {};
-    for (const t of all) {
-      (groups[t.status] ??= []).push(t);
-    }
-    return groups;
-  });
-
-  readonly STATUS_ORDER = ['draft', 'ai_generated', 'review', 'approved', 'published'];
-  readonly STATUS_LABELS: Record<string, string> = {
-    draft: 'Draft', ai_generated: 'AI Generated', review: 'In Review',
-    approved: 'Approved', published: 'Published', archived: 'Archived',
-  };
+  readonly objectKeys = Object.keys;
 
   ngOnInit(): void {
-    this.loadContainers();
+    this.http.get<any>(`${this.base}/ar/containers?limit=100`).subscribe({
+      next: (res) => {
+        if (res?.ok) this.containers.set(res.results ?? []);
+        this.loading.set(false);
+        this.cdr.markForCheck();
+        setTimeout(() => {
+          gsap.fromTo('.c-card',
+            { opacity: 0, y: 16 },
+            { opacity: 1, y: 0, duration: 0.4, stagger: 0.055, ease: 'power2.out' }
+          );
+        });
+      },
+      error: () => { this.loading.set(false); this.cdr.markForCheck(); },
+    });
   }
 
   ngAfterViewInit(): void {
-    gsap.fromTo('.lib-page', { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' });
+    gsap.fromTo('.lib-page', { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
   }
 
-  private loadContainers(): void {
-    this.containersLoading.set(true);
-    this.http.get<any>(`${this.base}/ar/containers?limit=100`).subscribe({
-      next: (res) => {
-        if (res?.ok) {
-          this.containers.set(res.results ?? []);
-        }
-        this.containersLoading.set(false);
-        this.cdr.markForCheck();
-        gsap.fromTo('.container-item',
-          { opacity: 0, x: -12 },
-          { opacity: 1, x: 0, duration: 0.35, stagger: 0.04, ease: 'power2.out' }
-        );
-      },
-      error: () => { this.containersLoading.set(false); this.cdr.markForCheck(); },
-    });
+  openContainer(c: ArContainer): void {
+    this.router.navigate(['/arabic/library', c.id]);
   }
 
-  selectContainer(c: ArContainer): void {
-    if (this.selectedContainer()?.id === c.id) return;
-    this.selectedContainer.set(c);
-    this.selectedUnit.set(null);
-    this.units.set([]);
-    this.tasks.set([]);
-    this.unitsLoading.set(true);
-
-    this.http.get<any>(`${this.base}/ar/units?container_id=${c.id}&limit=100`).subscribe({
-      next: (res) => {
-        if (res?.ok) this.units.set(res.results ?? []);
-        this.unitsLoading.set(false);
-        this.cdr.markForCheck();
-        gsap.fromTo('.unit-item',
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.3, stagger: 0.04, ease: 'power2.out' }
-        );
-      },
-      error: () => { this.unitsLoading.set(false); this.cdr.markForCheck(); },
-    });
-  }
-
-  selectUnit(u: ArUnit): void {
-    if (this.selectedUnit()?.id === u.id) { this.selectedUnit.set(null); this.tasks.set([]); return; }
-    this.selectedUnit.set(u);
-    this.tasks.set([]);
-    this.tasksLoading.set(true);
-
-    this.http.get<any>(`${this.base}/ar/tasks?unit_id=${u.id}&limit=100`).subscribe({
-      next: (res) => {
-        if (res?.ok) this.tasks.set(res.results ?? []);
-        this.tasksLoading.set(false);
-        this.cdr.markForCheck();
-        gsap.fromTo('.task-item',
-          { opacity: 0, y: 8 },
-          { opacity: 1, y: 0, duration: 0.28, stagger: 0.035, ease: 'power2.out' }
-        );
-      },
-      error: () => { this.tasksLoading.set(false); this.cdr.markForCheck(); },
-    });
-  }
-
-  unitLabel(u: ArUnit): string {
-    return u.meta?.title ?? u.meta?.title_ar ?? u.unit_type;
-  }
-
-  containerArabicTitle(c: ArContainer): string {
+  containerAr(c: ArContainer): string {
     return c.meta?.title_ar ?? '';
   }
 
-  typeColor(t: string): string {
-    const map: Record<string, string> = {
-      book: 'gold', literature: 'gold', poetry: 'purple', classical: 'ember',
-      grammar: 'blue', balagha: 'purple',
-      podcast: 'sage', podcast_episode: 'sage',
-      video: 'blue', video_series: 'blue',
+  typeIcon(t: string): string {
+    const m: Record<string, string> = {
+      book: '📖', literature: '📖', story: '📖', poetry: '✒', classical: '📜',
+      podcast: '🎙', podcast_episode: '🎙', video: '▶', video_series: '▶',
     };
-    return map[t] ?? 'default';
+    return m[t] ?? '📁';
   }
 
   typeLabel(t: string): string {
-    const map: Record<string, string> = {
-      book: 'Book', literature: 'Literature', poetry: 'Poetry', classical: 'Classical',
-      grammar: 'Grammar', balagha: 'Rhetoric',
-      podcast: 'Podcast', podcast_episode: 'Podcast',
+    const m: Record<string, string> = {
+      book: 'Book', literature: 'Literature', story: 'Story', poetry: 'Poetry',
+      classical: 'Classical', podcast: 'Podcast', podcast_episode: 'Podcast',
       video: 'Video', video_series: 'Series',
     };
-    return map[t] ?? t;
+    return m[t] ?? t;
   }
 
-  typeIcon(t: string): string {
-    const map: Record<string, string> = {
-      book: '📖', literature: '📖', poetry: '🖊', classical: '📜',
-      grammar: '⚙', balagha: '💬',
-      podcast: '🎙', podcast_episode: '🎙',
-      video: '▶', video_series: '▶',
-    };
-    return map[t] ?? '📁';
-  }
-
-  taskTypeLabel(t: string): string {
-    const map: Record<string, string> = {
-      reading: 'Reading', comprehension: 'Comprehension', vocabulary: 'Vocabulary',
-      reaction: 'Reaction', grammar_concepts: 'Grammar', morphology: 'Morphology',
-      expressions: 'Expressions', passage_structure: 'Structure',
-    };
-    return map[t] ?? t;
-  }
-
-  taskTypeBadgeColor(t: string): string {
-    const map: Record<string, string> = {
-      reading: 'blue', comprehension: 'sage', vocabulary: 'gold',
-      reaction: 'purple', grammar_concepts: 'blue', morphology: 'ember',
-    };
-    return map[t] ?? '';
-  }
-
-  statusColor(s: string): string {
+  typeColor(t: string): string {
     const m: Record<string, string> = {
-      draft: 'dim', ai_generated: 'blue', review: 'amber',
-      approved: 'sage', published: 'gold',
+      book: 'gold', literature: 'gold', story: 'gold', poetry: 'purple',
+      classical: 'ember', podcast: 'sage', podcast_episode: 'sage',
+      video: 'blue', video_series: 'blue',
     };
-    return m[s] ?? 'dim';
+    return m[t] ?? '';
   }
 
-  readonly objectKeys = Object.keys;
+  levelColor(l?: string): string {
+    const m: Record<string, string> = { A1: 'sage', A2: 'sage', B1: 'gold', B2: 'amber', C1: 'ember', C2: 'ember' };
+    return l ? (m[l] ?? '') : '';
+  }
 
   back(): void {
     this.router.navigate(['/arabic']);

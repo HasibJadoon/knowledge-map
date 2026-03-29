@@ -1,215 +1,113 @@
-<div class="lib-page">
-  <div class="lib-page__inner">
+<div class="lib-page" dir="ltr">
 
-    <!-- Nav -->
-    <nav class="lib-nav">
-      <button class="back-btn" (click)="back()">&#8592; Arabic</button>
-      <div class="lib-nav__breadcrumb">
-        <span class="crumb">Content Library</span>
-        @if (selectedContainer()) {
-          <span class="crumb-sep">›</span>
-          <span class="crumb crumb--active">{{ selectedContainer()!.title }}</span>
-        }
-        @if (selectedUnit()) {
-          <span class="crumb-sep">›</span>
-          <span class="crumb crumb--active">{{ unitLabel(selectedUnit()!) }}</span>
+  <!-- NAV -->
+  <header class="lib-nav">
+    <button class="back-btn" (click)="back()">← Arabic</button>
+    <div class="lib-nav__right">
+      <div class="srs-pill">
+        <span class="srs-dot"></span>
+        <span>12 Due</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE HEADER -->
+  <div class="lib-hero">
+    <div class="lib-hero__ar">المكتبة</div>
+    <h1 class="lib-hero__title">Content Library</h1>
+    <p class="lib-hero__sub">Arabic immersion · Read · Listen · Watch · Capture</p>
+  </div>
+
+  <!-- FILTER BAR -->
+  @if (!loading() && containers().length > 0) {
+    <div class="filter-bar">
+      @for (t of containerTypes(); track t) {
+        <button class="filter-chip"
+                [class.filter-chip--active]="activeTypeFilter() === t"
+                (click)="activeTypeFilter.set(t)">
+          @if (t !== 'all') { <span>{{ typeIcon(t) }}</span> }
+          <span>{{ t === 'all' ? 'All' : typeLabel(t) }}</span>
+        </button>
+      }
+      <div class="filter-bar__right">
+        <button class="icon-btn" [class.icon-btn--on]="groupByType()" (click)="groupByType.set(!groupByType())">⊞</button>
+      </div>
+    </div>
+  }
+
+  <!-- CONTENT -->
+  <div class="lib-content">
+
+    <!-- Loading skeletons -->
+    @if (loading()) {
+      <div class="card-grid">
+        @for (i of skeletons; track i) {
+          <div class="skel-card"></div>
         }
       </div>
-    </nav>
 
-    <div class="lib-layout" [class.lib-layout--three]="selectedUnit()">
+    <!-- Empty -->
+    } @else if (filteredContainers().length === 0) {
+      <div class="empty-state">
+        <span class="empty-state__ar">لا يوجد محتوى</span>
+        <p>No content found.</p>
+      </div>
 
-      <!-- ── Panel 1: Containers ─────────────────────── -->
-      <aside class="lib-panel lib-panel--containers">
-        <div class="lib-panel__head">
-          <h2 class="lib-panel__title">المكتبة</h2>
-          <div class="lib-panel__head-right">
-            <span class="lib-panel__count">{{ filteredContainers().length }}</span>
-            <button class="group-btn" [class.group-btn--active]="groupByType()" (click)="groupByType.set(!groupByType())" title="Group by type">⊞</button>
+    <!-- Grouped -->
+    } @else if (groupByType() && groupedContainers()) {
+      @for (type of objectKeys(groupedContainers()!); track type) {
+        <div class="type-section">
+          <div class="type-section__head">
+            <span>{{ typeIcon(type) }}</span>
+            <span class="type-section__label">{{ typeLabel(type) }}</span>
+            <span class="type-section__count">{{ groupedContainers()![type].length }}</span>
+          </div>
+          <div class="card-grid">
+            @for (c of groupedContainers()![type]; track c.id) {
+              <ng-container *ngTemplateOutlet="courseCard; context: { $implicit: c }"></ng-container>
+            }
           </div>
         </div>
-
-        @if (containers().length > 0) {
-          <div class="filter-bar">
-            @for (t of containerTypes(); track t) {
-              <button class="filter-chip"
-                      [class.filter-chip--active]="activeTypeFilter() === t"
-                      (click)="activeTypeFilter.set(t)">
-                @if (t !== 'all') { {{ typeIcon(t) }} } {{ t === 'all' ? 'All' : typeLabel(t) }}
-              </button>
-            }
-          </div>
-        }
-
-        @if (containersLoading()) {
-          <div class="skeleton-list">
-            @for (i of skeletons; track i) { <div class="skel-row"></div> }
-          </div>
-        } @else if (containers().length === 0) {
-          <div class="panel-empty">
-            <span class="panel-empty__glyph">ك</span>
-            <p>No containers yet.</p>
-            <p class="panel-empty__hint">Hub → Arabic → Content Library</p>
-          </div>
-        } @else if (groupByType() && groupedContainers()) {
-          <div class="item-list">
-            @for (type of objectKeys(groupedContainers()!); track type) {
-              <div class="type-group">
-                <div class="type-group__header">
-                  <span>{{ typeIcon(type) }}</span>
-                  <span class="type-group__label">{{ typeLabel(type) }}</span>
-                  <span class="task-group__count">{{ groupedContainers()![type].length }}</span>
-                </div>
-                @for (c of groupedContainers()![type]; track c.id) {
-                  <ng-container *ngTemplateOutlet="containerRow; context: { $implicit: c }"></ng-container>
-                }
-              </div>
-            }
-          </div>
-        } @else {
-          <ul class="item-list">
-            @for (c of filteredContainers(); track c.id) {
-              <ng-container *ngTemplateOutlet="containerRow; context: { $implicit: c }"></ng-container>
-            }
-          </ul>
-        }
-      </aside>
-
-      <!-- Container row template -->
-      <ng-template #containerRow let-c>
-        <li class="container-item"
-            [class.container-item--active]="selectedContainer()?.id === c.id"
-            (click)="selectContainer(c)">
-          <div class="container-item__row">
-            <div class="container-item__texts">
-              <span class="container-item__title">
-                <span class="container-item__icon">{{ typeIcon(c.container_type) }}</span>
-                {{ c.title }}
-              </span>
-              @if (containerArabicTitle(c)) {
-                <span class="container-item__ar">{{ containerArabicTitle(c) }}</span>
-              }
-            </div>
-            <div class="container-item__badges">
-              <span class="badge" [attr.data-color]="typeColor(c.container_type)">{{ typeLabel(c.container_type) }}</span>
-              @if (c.meta?.level) {
-                <span class="badge badge--level">{{ c.meta!.level }}</span>
-              }
-            </div>
-          </div>
-          @if (c.meta?.author) {
-            <span class="container-item__author">{{ c.meta!.author }}</span>
-          }
-        </li>
-      </ng-template>
-
-      <!-- ── Panel 2: Units ──────────────────────────── -->
-      <section class="lib-panel lib-panel--units">
-        @if (!selectedContainer()) {
-          <div class="panel-empty panel-empty--center">
-            <span class="panel-empty__glyph">📖</span>
-            <p>Select a container</p>
-            <p class="panel-empty__hint">Choose a book or story from the library.</p>
-          </div>
-        } @else {
-          <div class="lib-panel__head">
-            <h2 class="lib-panel__title">الفصول</h2>
-            <span class="lib-panel__count">{{ units().length }}</span>
-          </div>
-
-          @if (unitsLoading()) {
-            <div class="skeleton-list">
-              @for (i of skeletons; track i) { <div class="skel-row skel-row--unit"></div> }
-            </div>
-          } @else if (units().length === 0) {
-            <div class="panel-empty">
-              <p>No units yet.</p>
-              <p class="panel-empty__hint">Hub → Arabic → Units & Chapters</p>
-            </div>
-          } @else {
-            <ul class="item-list">
-              @for (u of units(); track u.id; let idx = $index) {
-                <li class="unit-item"
-                    [class.unit-item--active]="selectedUnit()?.id === u.id"
-                    (click)="selectUnit(u)">
-                  <span class="unit-item__num">{{ idx + 1 }}</span>
-                  <div class="unit-item__body">
-                    <div class="unit-item__titles">
-                      <span class="unit-item__title">{{ unitLabel(u) }}</span>
-                      @if (u.meta?.title_ar) {
-                        <span class="unit-item__ar">{{ u.meta!.title_ar }}</span>
-                      }
-                    </div>
-                    <div class="unit-item__meta">
-                      <span class="badge badge--type-sm">{{ u.unit_type }}</span>
-                      @if (u.start_ref || u.end_ref) {
-                        <span class="unit-item__ref">{{ u.start_ref }}{{ u.end_ref ? ' – ' + u.end_ref : '' }}</span>
-                      }
-                    </div>
-                    @if (u.text_preview) {
-                      <p class="unit-item__preview" dir="rtl">{{ u.text_preview }}…</p>
-                    }
-                  </div>
-                  <span class="unit-item__chevron">›</span>
-                </li>
-              }
-            </ul>
-          }
-        }
-      </section>
-
-      <!-- ── Panel 3: Tasks ──────────────────────────── -->
-      @if (selectedUnit()) {
-        <section class="lib-panel lib-panel--tasks">
-          <div class="lib-panel__head">
-            <h2 class="lib-panel__title">المهام</h2>
-            <span class="lib-panel__count">{{ tasks().length }}</span>
-          </div>
-
-          @if (tasksLoading()) {
-            <div class="skeleton-list">
-              @for (i of skeletons; track i) { <div class="skel-row skel-row--task"></div> }
-            </div>
-          } @else if (tasks().length === 0) {
-            <div class="panel-empty">
-              <span class="panel-empty__glyph">✅</span>
-              <p>No tasks yet.</p>
-              <p class="panel-empty__hint">Hub → Arabic → Tasks to add.</p>
-            </div>
-          } @else {
-            <div class="tasks-body">
-              @for (status of STATUS_ORDER; track status) {
-                @if (tasksByStatus()[status]?.length) {
-                  <div class="task-group">
-                    <div class="task-group__header">
-                      <span class="status-dot" [attr.data-color]="statusColor(status)"></span>
-                      <span class="task-group__label">{{ STATUS_LABELS[status] }}</span>
-                      <span class="task-group__count">{{ tasksByStatus()[status].length }}</span>
-                    </div>
-                    @for (t of tasksByStatus()[status]; track t.task_id) {
-                      <div class="task-item" [class.task-item--reaction]="t.task_type === 'reaction'">
-                        <div class="task-item__top">
-                          <span class="task-item__name">{{ t.task_name }}</span>
-                          <span class="badge badge--task-type" [attr.data-color]="taskTypeBadgeColor(t.task_type)">
-                            {{ taskTypeLabel(t.task_type) }}
-                          </span>
-                        </div>
-                        @if (t.step_no != null) {
-                          <span class="task-item__step">Step {{ t.step_no }}</span>
-                        }
-                        @if (t.task_type === 'reaction') {
-                          <span class="task-item__reaction-hint">🎙 Script in OBS React</span>
-                        }
-                      </div>
-                    }
-                  </div>
-                }
-              }
-            </div>
-          }
-        </section>
       }
 
-    </div>
+    <!-- Flat grid -->
+    } @else {
+      <div class="card-grid">
+        @for (c of filteredContainers(); track c.id) {
+          <ng-container *ngTemplateOutlet="courseCard; context: { $implicit: c }"></ng-container>
+        }
+      </div>
+    }
+
   </div>
 </div>
+
+<!-- ── COURSE CARD TEMPLATE ── -->
+<ng-template #courseCard let-c>
+  <div class="c-card" (click)="openContainer(c)">
+    <div class="c-card__top">
+      <div class="c-card__icon-box">{{ typeIcon(c.container_type) }}</div>
+      <div class="c-card__badges">
+        <span class="badge" [attr.data-color]="typeColor(c.container_type)">{{ typeLabel(c.container_type) }}</span>
+        @if (c.meta?.level) {
+          <span class="badge" [attr.data-color]="levelColor(c.meta!.level)">{{ c.meta!.level }}</span>
+        }
+      </div>
+    </div>
+
+    <div class="c-card__body">
+      @if (containerAr(c)) {
+        <div class="c-card__title-ar" dir="rtl">{{ containerAr(c) }}</div>
+      }
+      <div class="c-card__title-en">{{ c.title }}</div>
+      @if (c.meta?.author) {
+        <div class="c-card__author">{{ c.meta!.author }}</div>
+      }
+    </div>
+
+    <div class="c-card__footer">
+      <div class="c-card__bar"><div class="c-card__fill"></div></div>
+      <span class="c-card__arrow">→</span>
+    </div>
+  </div>
+</ng-template>
