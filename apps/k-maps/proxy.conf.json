@@ -1,92 +1,15 @@
 {
-  "/login": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/logout": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/arabic/lesson-generate": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/arabic/lesson-generate-raw": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/arabic/lexicon_roots": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/arabic/lexicon_roots_update": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/arabic/lexicon-roots-update": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/arabic/grammar_notes": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/health": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/arabic/lessons": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/arabic/lessons/quran": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/vocabulary": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/wv_claims": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/wv_cross_references": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/podcast_episodes": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
   "/api": {
     "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
   },
-  "/sp_weekly_plans": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/sp_weekly_tasks": {
-    "target": "https://api.k-maps.com",
-    "secure": false,
+  "/wv": {
+    "target": "https://k-maps.com",
+    "secure": true,
     "changeOrigin": true
   }
 }

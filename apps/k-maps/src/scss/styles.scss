@@ -1,47 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'fonts';
+@use 'tokens';
+@use 'reset';
+@use 'typography';
+@use 'utilities';
 
-// Import styles with default layout.
-@use "@coreui/coreui/scss/coreui" as * with (
-  $enable-deprecation-messages: false
-);
+// ── Sentence-structure canvas-full: step pills in fixed top bar ────────────
+// ::ng-deep doesn't pierce the step component's encapsulation reliably,
+// so we target .sst__nav here globally within .workspace--canvas-full.
+.workspace--canvas-full {
+  .sst__nav {
+    position:  fixed;
+    top:       0;
+    left:      50%;
+    transform: translateX(-50%);
+    height:    3rem;
+    display:   flex;
+    align-items: center;
+    gap:       0.45rem;
+    z-index:   201;
+    flex-wrap: nowrap;
+    padding:   0;
+  }
+}
 
-// Import Chart.js custom tooltips styles
-@use "@coreui/chartjs/scss/coreui-chartjs";
+html.km-ui-obs-overlay,
+body.km-ui-obs-overlay {
+  background: transparent !important;
+}
 
-// Custom styles for this theme
-@use "theme";
+body.km-ui-obs-overlay {
+  min-height: 100vh;
+}
 
-// Some temp fixes
-//@use "fixes";
-
-// If you want to add custom CSS you can put it here.
-@use "custom";
-
-// Shared Core UI theme tokens (dark/light).
-@use "../app/shared/components/common/core-ui/theme" as core-ui-theme;
-
-// Global styles for the settings panel dropdown.
-@use "settings-panel";
-
-// Global styles for the Quran study view.
-@use "quran-lesson-study";
-
-// Global styles for the Quran lesson editor (authoring).
-@use "quran-lesson-editor-new";
-
-// Global styles for Arabic lexicon desk.
-@use "lexicon-desk";
-
-// Global styles for source chunks continuous reader.
-@use "source-chunks-reader";
-
-// Reusable sprint/notes glass theme primitives.
-@use "sprint-ui";
-
-// Examples
-// We use those styles to show code examples, you should remove them in your application.
-@use "examples";
-
-@import "codemirror/lib/codemirror.css";
-@import "codemirror/addon/fold/foldgutter.css";
-@import "codemirror/theme/material-darker.css";
+body.km-ui-obs-overlay km-root {
+  display: block;
+  min-height: 100vh;
+  background: transparent !important;
+}

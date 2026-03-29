@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-Map Arabic Hub</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+/* ── RESET + FONTS ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;1,400&display=swap');
+
+:root {
+  --bg:          #0d0c0b;
+  --surface:     #131210;
+  --surface-2:   #1a1815;
+  --surface-3:   #201e1a;
+  --gold:        #c9a84c;
+  --gold-dim:    rgba(201,168,76,0.18);
+  --gold-glow:   rgba(201,168,76,0.08);
+  --amber:       #d4912a;
+  --sage:        #4e8c61;
+  --ember:       #c44b2a;
+  --blue:        #4a7eb5;
+  --purple:      #8c5cc8;
+  --border:      rgba(255,255,255,0.07);
+  --border-gold: rgba(201,168,76,0.3);
+  --text:        #e8e2d8;
+  --text-2:      #b8b0a4;
+  --text-3:      #7a7268;
+  --font-ar:     'Amiri', serif;
+  --font-head:   'Cinzel', serif;
+  --font-body:   'EB Garamond', serif;
+  --panel-left:  260px;
+  --panel-mid:   320px;
+}
+
+html, body {
+  height: 100%; width: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  overflow: hidden;
+}
+
+/* ── TOPBAR ─────────────────────────────────────── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 48px;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: relative; z-index: 10;
+  direction: ltr;
+}
+.topbar__brand {
+  font-family: var(--font-head);
+  font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold);
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.topbar__brand-ar {
+  font-family: var(--font-ar); font-size: 1.1rem; color: var(--gold); opacity: 0.8;
+  direction: rtl;
+}
+.topbar__tabs {
+  display: flex; align-items: center; gap: 0.2rem;
+  direction: ltr;
+}
+.tab {
+  font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-3);
+  padding: 0.35rem 0.85rem; border-radius: 4px; cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+  border: 1px solid transparent;
+}
+.tab:hover { color: var(--text-2); }
+.tab.active { color: var(--gold); border-color: var(--border-gold); background: var(--gold-glow); }
+.topbar__actions { display: flex; align-items: center; gap: 0.5rem; direction: ltr; }
+.topbar__srs-pill {
+  display: flex; align-items: center; gap: 0.35rem;
+  background: rgba(201,168,76,0.1); border: 1px solid var(--border-gold);
+  border-radius: 20px; padding: 0.22rem 0.7rem;
+  font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 0.1em;
+  color: var(--gold); cursor: pointer;
+  transition: background 0.2s;
+}
+.topbar__srs-pill:hover { background: rgba(201,168,76,0.18); }
+.srs-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ember); animation: pulse-dot 1.8s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
+
+/* ── LAYOUT ─────────────────────────────────────── */
+.hub {
+  display: grid;
+  grid-template-columns: var(--panel-left) var(--panel-mid) 1fr;
+  height: calc(100vh - 48px);
+}
+
+/* ── PANEL BASE ─────────────────────────────────── */
+.panel {
+  display: flex; flex-direction: column;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+.panel:last-child { border-right: none; }
+.panel__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  direction: ltr;
+}
+.panel__title {
+  font-family: var(--font-ar); font-size: 1.05rem; color: var(--gold);
+  direction: rtl;
+}
+.panel__subtitle {
+  font-family: var(--font-head); font-size: 0.56rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-3); margin-top: 0.1rem;
+  direction: ltr;
+}
+.panel__count {
+  font-size: 0.68rem; color: var(--text-3);
+  background: rgba(255,255,255,0.05); border-radius: 20px; padding: 0.1rem 0.45rem;
+}
+.panel__body { flex: 1; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.08) transparent; }
+
+/* ── LEFT: CONTAINERS ───────────────────────────── */
+.filter-strip {
+  display: flex; align-items: center; gap: 0.25rem;
+  padding: 0.45rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto; flex-shrink: 0;
+  scrollbar-width: none;
+}
+.fc {
+  font-size: 0.62rem; padding: 0.2rem 0.55rem;
+  border-radius: 20px; border: 1px solid var(--border);
+  color: var(--text-3); cursor: pointer; white-space: nowrap;
+  transition: all 0.15s; font-family: var(--font-body);
+}
+.fc:hover { border-color: var(--border-gold); color: var(--text-2); }
+.fc.on { background: rgba(201,168,76,0.1); border-color: var(--border-gold); color: var(--gold); }
+
+.c-item {
+  padding: 0.7rem 1rem 0.65rem;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+  direction: rtl;
+}
+.c-item:hover { background: rgba(255,255,255,0.03); }
+.c-item.sel { background: rgba(201,168,76,0.06); border-left-color: var(--gold); }
+.c-item__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+.c-item__icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
+.c-item__info { flex: 1; min-width: 0; }
+.c-item__title-ar { font-family: var(--font-ar); font-size: 0.95rem; color: var(--text); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.c-item__title-en { font-size: 0.68rem; color: var(--text-3); margin-top: 0.1rem; direction: ltr; }
+.c-badge {
+  font-size: 0.55rem; letter-spacing: 0.06em; padding: 0.1rem 0.35rem;
+  border-radius: 20px; border: 1px solid var(--border); white-space: nowrap;
+  font-family: var(--font-head);
+  &.gold   { background: rgba(201,168,76,0.1); color: var(--gold); border-color: rgba(201,168,76,0.3); }
+  &.sage   { background: rgba(78,140,97,0.1); color: var(--sage); border-color: rgba(78,140,97,0.3); }
+  &.blue   { background: rgba(74,126,181,0.1); color: var(--blue); border-color: rgba(74,126,181,0.3); }
+  &.purple { background: rgba(140,92,200,0.1); color: var(--purple); border-color: rgba(140,92,200,0.3); }
+  &.ember  { background: rgba(196,75,42,0.1); color: var(--ember); border-color: rgba(196,75,42,0.3); }
+  &.dim    { color: var(--text-3); }
+}
+.c-item__progress { margin-top: 0.45rem; height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+.c-item__bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.6s ease; }
+
+/* ── CENTER: UNITS ──────────────────────────────── */
+.u-item {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  cursor: pointer; direction: rtl;
+  border-left: 3px solid transparent;
+  transition: background 0.12s, border-color 0.12s;
+  position: relative;
+}
+.u-item:hover { background: rgba(255,255,255,0.03); }
+.u-item.sel { background: rgba(201,168,76,0.06); border-left-color: var(--gold); }
+.u-item__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+.u-item__meta { flex: 1; min-width: 0; }
+.u-item__title-ar { font-family: var(--font-ar); font-size: 1rem; color: var(--text); line-height: 1.35; }
+.u-item__title-en { font-size: 0.7rem; color: var(--text-3); margin-top: 0.1rem; direction: ltr; font-style: italic; }
+.u-item__chips { display: flex; align-items: center; gap: 0.3rem; margin-top: 0.45rem; flex-wrap: wrap; direction: ltr; }
+.u-chip { font-size: 0.58rem; padding: 0.1rem 0.4rem; border-radius: 20px; border: 1px solid var(--border); color: var(--text-3); }
+.u-item__actions {
+  display: flex; gap: 0.3rem; margin-top: 0.6rem; direction: ltr;
+  opacity: 0; transform: translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+.u-item:hover .u-item__actions,
+.u-item.sel .u-item__actions { opacity: 1; transform: translateY(0); }
+.u-btn {
+  font-family: var(--font-head); font-size: 0.56rem; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 0.3rem 0.7rem;
+  border-radius: 4px; border: 1px solid var(--border); cursor: pointer;
+  transition: all 0.15s; background: transparent; color: var(--text-3);
+  &:hover { border-color: var(--border-gold); color: var(--gold); }
+  &.primary { background: rgba(201,168,76,0.12); border-color: var(--border-gold); color: var(--gold); }
+}
+.u-progress-bar { margin-top: 0.5rem; height: 2px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; direction: ltr; }
+.u-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--amber)); border-radius: 2px; }
+
+/* ── RIGHT: INTERACTION ─────────────────────────── */
+.interact { display: flex; flex-direction: column; height: 100%; }
+
+/* Mode tabs */
+.mode-bar {
+  display: flex; align-items: center; gap: 0; border-bottom: 1px solid var(--border);
+  flex-shrink: 0; direction: ltr;
+}
+.mode-tab {
+  flex: 1; padding: 0.65rem 0.5rem; text-align: center; cursor: pointer;
+  font-family: var(--font-head); font-size: 0.58rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-3);
+  border-right: 1px solid var(--border); border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.mode-tab:last-child { border-right: none; }
+.mode-tab:hover { color: var(--text-2); }
+.mode-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* Reading area */
+.read-area {
+  flex: 1; overflow-y: auto; padding: 2rem 2.5rem;
+  direction: rtl; position: relative;
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.06) transparent;
+}
+.read-controls {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0; direction: ltr;
+}
+.rc-btn {
+  font-size: 0.62rem; padding: 0.22rem 0.6rem;
+  border-radius: 4px; border: 1px solid var(--border);
+  cursor: pointer; background: transparent; color: var(--text-3);
+  font-family: var(--font-body); transition: all 0.15s;
+}
+.rc-btn:hover { border-color: var(--border-gold); color: var(--gold); }
+.rc-btn.on { background: rgba(201,168,76,0.1); border-color: var(--border-gold); color: var(--gold); }
+.rc-sep { width: 1px; height: 16px; background: var(--border); margin: 0 0.2rem; }
+
+/* Arabic text rendering */
+.story-title {
+  font-family: var(--font-ar); font-size: 1.8rem; color: var(--gold);
+  text-align: center; margin-bottom: 0.4rem; line-height: 1.4;
+}
+.story-meta {
+  text-align: center; font-size: 0.72rem; color: var(--text-3);
+  margin-bottom: 2rem; direction: ltr; font-style: italic;
+}
+.story-para {
+  font-family: var(--font-ar); font-size: 1.25rem; line-height: 2.2;
+  color: var(--text); margin-bottom: 1.5rem;
+  letter-spacing: 0.01em;
+}
+.w {
+  cursor: pointer; border-radius: 2px;
+  transition: background 0.1s, color 0.1s;
+  padding: 0 0.05em;
+  display: inline;
+}
+.w:hover { background: rgba(201,168,76,0.15); color: var(--gold); }
+.w.hl { background: rgba(201,168,76,0.2); border-bottom: 1.5px solid var(--gold); }
+.w.saved { background: rgba(78,140,97,0.2); border-bottom: 1.5px solid var(--sage); color: var(--sage); }
+
+/* Word popup */
+.word-popup {
+  position: fixed; z-index: 100;
+  background: var(--surface-3);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  min-width: 200px; max-width: 260px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.1);
+  display: none; direction: rtl;
+}
+.word-popup.show { display: block; }
+.wp-word { font-family: var(--font-ar); font-size: 1.6rem; color: var(--gold); line-height: 1.3; }
+.wp-root { font-size: 0.68rem; color: var(--text-3); margin-top: 0.15rem; direction: ltr; letter-spacing: 0.08em; }
+.wp-meaning { font-size: 0.82rem; color: var(--text); margin-top: 0.5rem; direction: ltr; font-style: italic; }
+.wp-actions { display: flex; gap: 0.3rem; margin-top: 0.7rem; direction: ltr; }
+.wp-btn {
+  font-size: 0.6rem; padding: 0.25rem 0.6rem; border-radius: 20px;
+  border: 1px solid var(--border-gold); cursor: pointer; background: transparent;
+  color: var(--gold); font-family: var(--font-head); letter-spacing: 0.08em;
+  transition: background 0.15s;
+}
+.wp-btn:hover { background: rgba(201,168,76,0.12); }
+.wp-btn.saved { background: rgba(78,140,97,0.15); border-color: rgba(78,140,97,0.4); color: var(--sage); }
+
+/* Capture bar (selection) */
+.capture-bar {
+  position: fixed; z-index: 90;
+  background: var(--surface-3); border: 1px solid var(--border-gold);
+  border-radius: 8px; padding: 0.45rem 0.7rem;
+  display: flex; align-items: center; gap: 0.35rem;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+  display: none; direction: ltr;
+}
+.capture-bar.show { display: flex; }
+.cb-label { font-size: 0.6rem; color: var(--text-3); font-style: italic; margin-right: 0.2rem; font-family: var(--font-body); }
+.cb-btn {
+  font-size: 0.62rem; padding: 0.22rem 0.65rem; border-radius: 20px;
+  border: 1px solid; cursor: pointer; background: transparent;
+  font-family: var(--font-head); letter-spacing: 0.07em; transition: background 0.15s;
+  &.word  { color: var(--blue);   border-color: rgba(74,126,181,0.4); }
+  &.phrase{ color: var(--gold);   border-color: var(--border-gold); }
+  &.sent  { color: var(--purple); border-color: rgba(140,92,200,0.4); }
+  &:hover { opacity: 0.8; background: rgba(255,255,255,0.04); }
+}
+
+/* SRS tray */
+.srs-tray {
+  border-top: 1px solid var(--border);
+  flex-shrink: 0; background: var(--surface-2);
+  direction: ltr;
+}
+.srs-tray__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.55rem 1rem 0.4rem;
+  cursor: pointer;
+}
+.srs-tray__title { font-family: var(--font-head); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); }
+.srs-tray__stats { display: flex; gap: 0.5rem; }
+.srs-stat { display: flex; align-items: center; gap: 0.25rem; font-size: 0.65rem; }
+.srs-stat__dot { width: 6px; height: 6px; border-radius: 50%; }
+.srs-tray__body { padding: 0.3rem 1rem 0.7rem; display: flex; gap: 0.4rem; flex-wrap: wrap; overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+.srs-tray.open .srs-tray__body { max-height: 200px; }
+.srs-card {
+  background: var(--surface-3); border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.4rem 0.65rem;
+  direction: rtl; cursor: pointer; transition: border-color 0.15s;
+}
+.srs-card:hover { border-color: var(--border-gold); }
+.srs-card__ar { font-family: var(--font-ar); font-size: 0.9rem; color: var(--gold); }
+.srs-card__en { font-size: 0.62rem; color: var(--text-3); direction: ltr; }
+.srs-card__due { width: 6px; height: 6px; border-radius: 50%; background: var(--ember); margin-bottom: 0.2rem; }
+
+/* Audio player */
+.audio-player {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+  flex-shrink: 0; direction: ltr;
+}
+.ap-track { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.65rem; }
+.ap-play {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(201,168,76,0.12); border: 1px solid var(--border-gold);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--gold); font-size: 0.85rem;
+  transition: background 0.15s; flex-shrink: 0;
+}
+.ap-play:hover { background: rgba(201,168,76,0.22); }
+.ap-info { flex: 1; }
+.ap-title { font-size: 0.75rem; color: var(--text-2); }
+.ap-time { font-size: 0.65rem; color: var(--text-3); margin-top: 0.1rem; }
+.ap-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; cursor: pointer; position: relative; margin-bottom: 0.55rem; }
+.ap-fill { height: 100%; width: 32%; background: linear-gradient(90deg, var(--gold), var(--amber)); border-radius: 2px; position: relative; }
+.ap-fill::after { content: ''; position: absolute; right: -4px; top: -3px; width: 9px; height: 9px; background: var(--gold); border-radius: 50%; }
+.ap-controls { display: flex; align-items: center; justify-content: space-between; }
+.ap-speed-btns { display: flex; gap: 0.25rem; }
+.ap-sp {
+  font-size: 0.58rem; padding: 0.15rem 0.4rem; border-radius: 4px;
+  border: 1px solid var(--border); cursor: pointer; background: transparent; color: var(--text-3);
+  font-family: var(--font-head); transition: all 0.12s;
+}
+.ap-sp:hover { border-color: var(--border-gold); color: var(--gold); }
+.ap-sp.on { background: rgba(201,168,76,0.1); border-color: var(--border-gold); color: var(--gold); }
+.ap-right-btns { display: flex; gap: 0.3rem; }
+.ap-btn { font-size: 0.7rem; color: var(--text-3); cursor: pointer; padding: 0.2rem 0.35rem; border-radius: 4px; transition: color 0.12s; }
+.ap-btn:hover { color: var(--gold); }
+
+/* CAPTURE COUNTER TOAST */
+.capture-toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+  background: var(--surface-3); border: 1px solid var(--border-gold);
+  border-radius: 10px; padding: 0.7rem 1rem;
+  display: flex; align-items: center; gap: 0.7rem;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+  opacity: 0; transform: translateY(12px); pointer-events: none;
+  direction: ltr;
+}
+.ct-icon { font-size: 1.1rem; }
+.ct-text { font-size: 0.75rem; color: var(--text-2); }
+.ct-word { font-family: var(--font-ar); font-size: 0.95rem; color: var(--gold); direction: rtl; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 2px; }
+
+/* Empty right state */
+.right-empty {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.5rem; color: var(--text-3); direction: rtl;
+}
+.right-empty__glyph { font-family: var(--font-ar); font-size: 3.5rem; color: var(--gold); opacity: 0.12; }
+.right-empty__hint { font-size: 0.78rem; opacity: 0.5; direction: ltr; font-style: italic; }
+
+/* Highlight active sentence in transcript */
+.sent-line {
+  padding: 0.3rem 0.5rem; border-radius: 4px; cursor: pointer;
+  transition: background 0.15s;
+  border-left: 2px solid transparent; margin-bottom: 0.25rem;
+}
+.sent-line:hover { background: rgba(255,255,255,0.04); }
+.sent-line.active { background: rgba(201,168,76,0.07); border-left-color: var(--gold); }
+
+/* Reaction / video mode */
+.video-stub {
+  background: #0a0908; border-radius: 8px;
+  aspect-ratio: 16/9; width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem; cursor: pointer; position: relative;
+  border: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.video-stub::after {
+  content: '▶';
+  font-size: 2rem; color: rgba(201,168,76,0.5);
+}
+.transcript-panel { flex: 1; overflow-y: auto; padding: 0.7rem 1rem; direction: rtl; }
+
+/* Fluency bar at bottom of right */
+.fluency-strip {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.45rem 1.2rem;
+  border-top: 1px solid var(--border);
+  background: rgba(0,0,0,0.2);
+  flex-shrink: 0; direction: ltr;
+}
+.fl-label { font-family: var(--font-head); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); flex-shrink: 0; }
+.fl-bar { flex: 1; height: 3px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+.fl-fill { height: 100%; background: linear-gradient(90deg, var(--sage), var(--gold)); border-radius: 2px; }
+.fl-pct { font-size: 0.68rem; color: var(--gold); font-family: var(--font-head); flex-shrink: 0; }
+.fl-streak { font-size: 0.68rem; color: var(--amber); flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar__brand">
+    <span class="topbar__brand-ar">مركز العربية</span>
+    <span>K-MAP ARABIC HUB</span>
+  </div>
+  <div class="topbar__tabs">
+    <div class="tab active">Library</div>
+    <div class="tab">Review</div>
+    <div class="tab">Progress</div>
+  </div>
+  <div class="topbar__actions">
+    <div class="topbar__srs-pill">
+      <span class="srs-dot"></span>
+      <span>12 DUE TODAY</span>
+    </div>
+  </div>
+</header>
+
+<!-- HUB LAYOUT -->
+<div class="hub">
+
+  <!-- ── LEFT: CONTAINERS ─────────── -->
+  <aside class="panel" id="panelLeft">
+    <div class="panel__head">
+      <div>
+        <div class="panel__title">المكتبة</div>
+        <div class="panel__subtitle">Content Library</div>
+      </div>
+      <span class="panel__count">11</span>
+    </div>
+
+    <div class="filter-strip">
+      <div class="fc on" onclick="setFilter(this,'all')">All</div>
+      <div class="fc" onclick="setFilter(this,'story')">📖 قصص</div>
+      <div class="fc" onclick="setFilter(this,'poem')">✒ شعر</div>
+      <div class="fc" onclick="setFilter(this,'podcast')">🎙 بودكاست</div>
+      <div class="fc" onclick="setFilter(this,'video')">▶ مقاطع</div>
+      <div class="fc" onclick="setFilter(this,'essay')">📝 مقالات</div>
+    </div>
+
+    <div class="panel__body" id="containerList">
+
+      <div class="c-item sel" onclick="selectContainer(this, 'story', 'الملك العجيب', 'The Wondrous King')">
+        <div class="c-item__top">
+          <div class="c-item__icon">📖</div>
+          <div class="c-item__info">
+            <div class="c-item__title-ar">الْمَلِكُ الْعَجِيبُ</div>
+            <div class="c-item__title-en">The Wondrous King</div>
+          </div>
+          <span class="c-badge gold">B1</span>
+        </div>
+        <div class="c-item__progress"><div class="c-item__bar" style="width:65%"></div></div>
+      </div>
+
+      <div class="c-item" onclick="selectContainer(this,'story','الحسود والبخيل','The Envious & Miser')">
+        <div class="c-item__top">
+          <div class="c-item__icon">📖</div>
+          <div class="c-item__info">
+            <div class="c-item__title-ar">الْحَسُودُ وَالْبَخِيلُ</div>
+            <div class="c-item__title-en">The Envious & the Miser</div>
+          </div>
+          <span class="c-badge gold">B1</span>
+        </div>
+        <div class="c-item__progress"><div class="c-item__bar" style="width:100%"></div></div>
+      </div>
+
+      <div class="c-item" onclick="selectContainer(this,'story','قصة جحا','Juha & the Hot Soup')">
+        <div class="c-item__top">
+          <div class="c-item__icon">📖</div>
+          <div class="c-item__info">
+            <div class="c-item__title-ar">قِصَّةُ جُحَا وَالْحَسَاءِ</div>
+            <div class="c-item__title-en">Juha & the Hot Soup</div>
+          </div>
+          <span class="c-badge sage">A2</span>
+        </div>
+        <div class="c-item__progress"><div class="c-item__bar" style="width:40%"></div></div>
+      </div>
+
+      <div class="c-item" onclick="selectContainer(this,'poem','حكم شعرية','Poetic Wisdoms')">
+        <div class="c-item__top">
+          <div class="c-item__icon">✒</div>
+          <div class="c-item__info">
+            <div class="c-item__title-ar">حِكَمٌ شِعْرِيَّةٌ</div>
+            <div class="c-item__title-en">Poetic Wisdoms</div>
+          </div>
+          <span class="c-badge ember">C1</span>
+        </div>
+        <div class="c-item__progress"><div class="c-item__bar" style="width:20%"></div></div>
+      </div>
+
+      <div class="c-item" onclick="selectContainer(this,'podcast','تعليقات المحتوى','Arabic Content Reactions')">
+        <div class="c-item__top">
+          <div class="c-item__icon">🎙</div>
+          <div class="c-item__info">
+            <div class="c-item__title-ar">تَعْلِيقَاتُ الْمُحْتَوَى</div>
+            <div class="c-item__title-en">Arabic Content Reactions</div>
+          </div>
+          <span class="c-badge blue">B2</span>
+        </div>
+        <div class="c-item__progress"><div class="c-item__bar" style="width:10%"></div></div>
+      </div>
+
+      <div class="c-item" onclick="selectContainer(this,'video','أكثر الكلمات شيوعاً','Common Words Video')">
+        <div class="c-item__top">
+          <div class="c-item__icon">▶</div>
+          <div class="c-item__info">
+            <div class="c-item__title-ar">أَكْثَرُ الْكَلِمَاتِ شُيُوعاً</div>
+            <div class="c-item__title-en">Most Common Words</div>
+          </div>
+          <span class="c-badge sage">A1</span>
+        </div>
+        <div class="c-item__progress"><div class="c-item__bar" style="width:0%"></div></div>
+      </div>
+
+      <div class="c-item" onclick="selectContainer(this,'story','قصص الأنبياء','Stories of Prophets')">
+        <div class="c-item__top">
+          <div class="c-item__icon">📜</div>
+          <div class="c-item__info">
+            <div class="c-item__title-ar">قِصَصُ الْأَنْبِيَاءِ</div>
+            <div class="c-item__title-en">Stories of the Prophets</div>
+          </div>
+          <span class="c-badge ember">B2</span>
+        </div>
+        <div class="c-item__progress"><div class="c-item__bar" style="width:5%"></div></div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- ── CENTER: UNITS ─────────────── -->
+  <section class="panel" id="panelMid">
+    <div class="panel__head">
+      <div>
+        <div class="panel__title" id="midTitle">الْمَلِكُ الْعَجِيبُ</div>
+        <div class="panel__subtitle">4 UNITS · STORY · B1</div>
+      </div>
+      <span class="panel__count">4</span>
+    </div>
+
+    <div class="panel__body" id="unitList">
+
+      <div class="u-item sel" onclick="selectUnit(this, 'read', 'الْبِدَايَةُ وَالْإِبْحَارُ', 'The Beginning and Setting Sail')">
+        <div class="u-item__header">
+          <div class="u-item__meta">
+            <div class="u-item__title-ar">الْبِدَايَةُ وَالْإِبْحَارُ</div>
+            <div class="u-item__title-en">The Beginning and Setting Sail</div>
+          </div>
+        </div>
+        <div class="u-item__chips">
+          <span class="u-chip">📖 Text</span>
+          <span class="u-chip">~8 min</span>
+          <span class="u-chip c-badge sage">A2→B1</span>
+          <span class="u-chip">155 words</span>
+        </div>
+        <div class="u-item__actions">
+          <button class="u-btn primary">▶ Read</button>
+          <button class="u-btn">🎧 Listen</button>
+          <button class="u-btn">Resume 65%</button>
+        </div>
+        <div class="u-progress-bar"><div class="u-bar" style="width:65%"></div></div>
+      </div>
+
+      <div class="u-item" onclick="selectUnit(this,'read','جَبَلُ الْمَغْنَاطِيسِ','The Magnetic Mountain')">
+        <div class="u-item__header">
+          <div class="u-item__meta">
+            <div class="u-item__title-ar">جَبَلُ الْمَغْنَاطِيسِ وَالْحُلْمُ</div>
+            <div class="u-item__title-en">The Magnetic Mountain & the Dream</div>
+          </div>
+        </div>
+        <div class="u-item__chips">
+          <span class="u-chip">📖 Text</span>
+          <span class="u-chip">~10 min</span>
+          <span class="u-chip c-badge gold">B1</span>
+          <span class="u-chip">175 words</span>
+        </div>
+        <div class="u-item__actions">
+          <button class="u-btn primary">▶ Read</button>
+          <button class="u-btn">🎧 Listen</button>
+        </div>
+        <div class="u-progress-bar"><div class="u-bar" style="width:0%"></div></div>
+      </div>
+
+      <div class="u-item" onclick="selectUnit(this,'read','الزَّوْرَقُ الْمَسْحُورُ','The Enchanted Boat')">
+        <div class="u-item__header">
+          <div class="u-item__meta">
+            <div class="u-item__title-ar">الزَّوْرَقُ الْمَسْحُورُ وَالْفَتَى</div>
+            <div class="u-item__title-en">The Enchanted Boat & the Boy</div>
+          </div>
+        </div>
+        <div class="u-item__chips">
+          <span class="u-chip">📖 Text</span>
+          <span class="u-chip">~11 min</span>
+          <span class="u-chip c-badge gold">B1</span>
+          <span class="u-chip">185 words</span>
+        </div>
+        <div class="u-item__actions">
+          <button class="u-btn primary">▶ Read</button>
+          <button class="u-btn">🎧 Listen</button>
+        </div>
+        <div class="u-progress-bar"><div class="u-bar" style="width:0%"></div></div>
+      </div>
+
+      <div class="u-item" onclick="selectUnit(this,'read','قَصْرُ الْعَجَائِبِ','The Palace of Wonders')">
+        <div class="u-item__header">
+          <div class="u-item__meta">
+            <div class="u-item__title-ar">قَصْرُ الْعَجَائِبِ وَالْعَوْدَةُ</div>
+            <div class="u-item__title-en">The Palace of Wonders & Return</div>
+          </div>
+        </div>
+        <div class="u-item__chips">
+          <span class="u-chip">📖 Text</span>
+          <span class="u-chip">~10 min</span>
+          <span class="u-chip c-badge gold">B1</span>
+          <span class="u-chip">170 words</span>
+        </div>
+        <div class="u-item__actions">
+          <button class="u-btn primary">▶ Read</button>
+          <button class="u-btn">🎧 Listen</button>
+        </div>
+        <div class="u-progress-bar"><div class="u-bar" style="width:0%"></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── RIGHT: INTERACTION ─────────── -->
+  <main class="panel" style="border-right:none">
+    <div class="interact" id="interactPanel">
+
+      <!-- Mode bar -->
+      <div class="mode-bar">
+        <div class="mode-tab active" onclick="setMode(this,'read')">📖 Read</div>
+        <div class="mode-tab" onclick="setMode(this,'listen')">🎧 Listen</div>
+        <div class="mode-tab" onclick="setMode(this,'watch')">▶ Watch</div>
+        <div class="mode-tab" onclick="setMode(this,'capture')">✦ Capture</div>
+      </div>
+
+      <!-- Reading controls -->
+      <div class="read-controls" id="readControls">
+        <button class="rc-btn on" id="diacBtn" onclick="toggleDiac(this)">تشكيل ✓</button>
+        <div class="rc-sep"></div>
+        <button class="rc-btn" onclick="zoomText(-1)">A-</button>
+        <button class="rc-btn" onclick="zoomText(1)">A+</button>
+        <div class="rc-sep"></div>
+        <button class="rc-btn" id="hlMode" onclick="toggleHL(this)">✦ Highlight</button>
+        <div class="rc-sep"></div>
+        <span style="font-size:0.62rem;color:var(--text-3);margin-left:auto;">tap word for meaning · select text to capture</span>
+      </div>
+
+      <!-- Story text -->
+      <div class="read-area" id="readArea" onmouseup="checkSelection()">
+        <div class="story-title" id="storyTitle">الْبِدَايَةُ وَالْإِبْحَارُ</div>
+        <div class="story-meta">Unit 1 · The Wondrous King · B1</div>
+
+        <div class="story-para" id="para1">
+          <span class="w" onclick="showWord(event,'فِي','in / within','ف-ي','preposition')">فِي</span>
+          <span class="w" onclick="showWord(event,'قَدِيمِ','ancient','ق-د-م','broken plural: old times')">قَدِيمِ</span>
+          <span class="w" onclick="showWord(event,'الزَّمَانِ','of time','ز-م-ن','time, era')">الزَّمَانِ،</span>
+          <span class="w" onclick="showWord(event,'عَاشَ','there lived','ع-ي-ش','to live')">عَاشَ</span>
+          <span class="w" onclick="showWord(event,'مَلِكٌ','a king','م-ل-ك','king, ruler')">مَلِكٌ</span>
+          <span class="w" onclick="showWord(event,'اسْمُهُ','whose name was','س-م-و','name + possessive')">اسْمُهُ</span>
+          <span class="w" onclick="showWord(event,'عَجِيبٌ','Wondrous','ع-ج-ب','adj: wonderful, amazing')">عَجِيبٌ،</span>
+          <span class="w" onclick="showWord(event,'وَكَانَ','and he was','ك-و-ن','to be')">وَكَانَ</span>
+          <span class="w" onclick="showWord(event,'يُحِبُّ','he loves','ح-ب-ب','to love, to like')">يُحِبُّ</span>
+          <span class="w" onclick="showWord(event,'السَّفَرَ','travel','س-ف-ر','journey, travel')">السَّفَرَ</span>
+          <span class="w" onclick="showWord(event,'وَالْمَغَامَرَاتِ','and adventures','غ-م-ر','adventures, risks')">وَالْمَغَامَرَاتِ</span>
+          <span class="w" onclick="showWord(event,'فَوْقَ','upon','ف-و-ق','above, over')">فَوْقَ</span>
+          <span class="w" onclick="showWord(event,'الْبِحَارِ','the seas','ب-ح-ر','seas, oceans')">الْبِحَارِ.</span>
+        </div>
+
+        <div class="story-para" id="para2">
+          <span class="w" onclick="showWord(event,'يَوْمٌ','one day','ي-و-م','day')">يَوْمٌ</span>
+          <span class="w" onclick="showWord(event,'مِنَ','from','م-ن','from, of')">مِنَ</span>
+          <span class="w saved" onclick="showWord(event,'الْأَيَّامِ','the days','ي-و-م','days (plural)')">الْأَيَّامِ،</span>
+          <span class="w" onclick="showWord(event,'أَمَرَ','he commanded','أ-م-ر','to command, order')">أَمَرَ</span>
+          <span class="w" onclick="showWord(event,'الْمَلِكُ','the king','م-ل-ك','king')">الْمَلِكُ</span>
+          <span class="w" onclick="showWord(event,'بِتَجْهِيزِ','to prepare','ج-ه-ز','to equip, prepare')">بِتَجْهِيزِ</span>
+          <span class="w" onclick="showWord(event,'سَفِينَتِهِ','his ship','س-ف-ن','ship + possessive')">سَفِينَتِهِ</span>
+          <span class="w" onclick="showWord(event,'الضَّخْمَةِ','the great','ض-خ-م','huge, massive')">الضَّخْمَةِ</span>
+          <span class="w" onclick="showWord(event,'لِلْإِبْحَارِ','to set sail','ب-ح-ر','to sail, navigate')">لِلْإِبْحَارِ</span>
+          <span class="w" onclick="showWord(event,'نَحْوَ','towards','ن-ح-و','direction, towards')">نَحْوَ</span>
+          <span class="w hl" onclick="showWord(event,'الْمَجْهُولِ','the unknown','ج-ه-ل','unknown, mysterious')">الْمَجْهُولِ.</span>
+        </div>
+
+        <div class="story-para" id="para3">
+          <span class="w" onclick="showWord(event,'حَمَلَ','he carried','ح-م-ل','to carry, to hold')">حَمَلَ</span>
+          <span class="w" onclick="showWord(event,'مَعَهُ','with him','م-ع','with + him')">مَعَهُ</span>
+          <span class="w" onclick="showWord(event,'خَمْسِينَ','fifty','خ-م-س','50')">خَمْسِينَ</span>
+          <span class="w" onclick="showWord(event,'بَحَّاراً','sailors','ب-ح-ر','sailors')">بَحَّاراً</span>
+          <span class="w" onclick="showWord(event,'شُجْعَاناً','brave','ش-ج-ع','brave, courageous')">شُجْعَاناً</span>
+          <span class="w" onclick="showWord(event,'وَمُؤَوَّنَةً','and provisions','أ-و-ن','provisions, supplies')">وَمُؤَوَّنَةً</span>
+          <span class="w" onclick="showWord(event,'كَافِيَةً','sufficient','ك-ف-ي','enough, sufficient')">كَافِيَةً</span>
+          <span class="w" onclick="showWord(event,'لِأَشْهُرٍ','for months','ش-ه-ر','months')">لِأَشْهُرٍ.</span>
+          <span class="w" onclick="showWord(event,'وَأَبْحَرَ','And he set sail','ب-ح-ر','to sail out')">وَأَبْحَرَ</span>
+          <span class="w" onclick="showWord(event,'بَاسِماً','smiling','ب-س-م','smiling')">بَاسِماً،</span>
+          <span class="w" onclick="showWord(event,'لَا','not','ل-ا','negation')">لَا</span>
+          <span class="w" onclick="showWord(event,'يَعْلَمُ','knowing','ع-ل-م','to know')">يَعْلَمُ</span>
+          <span class="w" onclick="showWord(event,'مَا','what','م-ا','what')">مَا</span>
+          <span class="w" onclick="showWord(event,'يَنْتَظِرُهُ','awaits him','ن-ظ-ر','to await, to wait for')">يَنْتَظِرُهُ.</span>
+        </div>
+      </div>
+
+      <!-- SRS Tray -->
+      <div class="srs-tray" id="srsTray" onclick="toggleSRS()">
+        <div class="srs-tray__head">
+          <span class="srs-tray__title">✦ SRS Pipeline — This Unit</span>
+          <div class="srs-tray__stats">
+            <div class="srs-stat">
+              <div class="srs-stat__dot" style="background:var(--gold)"></div>
+              <span style="color:var(--gold)">3 new</span>
+            </div>
+            <div class="srs-stat">
+              <div class="srs-stat__dot" style="background:var(--ember)"></div>
+              <span style="color:var(--ember)">2 due</span>
+            </div>
+            <div class="srs-stat">
+              <div class="srs-stat__dot" style="background:var(--sage)"></div>
+              <span style="color:var(--sage)">8 retained</span>
+            </div>
+          </div>
+        </div>
+        <div class="srs-tray__body">
+          <div class="srs-card">
+            <div class="srs-card__due"></div>
+            <div class="srs-card__ar">الْمَجْهُولُ</div>
+            <div class="srs-card__en">the unknown</div>
+          </div>
+          <div class="srs-card">
+            <div class="srs-card__due"></div>
+            <div class="srs-card__ar">أَبْحَرَ</div>
+            <div class="srs-card__en">set sail</div>
+          </div>
+          <div class="srs-card" style="border-color:rgba(201,168,76,0.25)">
+            <div class="srs-card__ar">عَجِيبٌ</div>
+            <div class="srs-card__en">wondrous</div>
+          </div>
+          <div class="srs-card" style="border-color:rgba(201,168,76,0.25)">
+            <div class="srs-card__ar">يُحِبُّ</div>
+            <div class="srs-card__en">he loves</div>
+          </div>
+          <div class="srs-card" style="border-color:rgba(78,140,97,0.3)">
+            <div class="srs-card__ar">الْأَيَّامِ</div>
+            <div class="srs-card__en">the days</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fluency strip -->
+      <div class="fluency-strip">
+        <span class="fl-label">Unit Progress</span>
+        <div class="fl-bar"><div class="fl-fill" style="width:65%"></div></div>
+        <span class="fl-pct">65%</span>
+        <span class="fl-streak">🔥 6 day streak</span>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<!-- Word popup -->
+<div class="word-popup" id="wordPopup">
+  <div class="wp-word" id="wpWord">عَجِيبٌ</div>
+  <div class="wp-root" id="wpRoot">ROOT: ع-ج-ب · adjective فَعِيل</div>
+  <div class="wp-meaning" id="wpMeaning">wondrous, amazing, marvellous</div>
+  <div class="wp-actions">
+    <button class="wp-btn" id="wpSaveBtn" onclick="saveWordFromPopup()">+ Save Word</button>
+    <button class="wp-btn" onclick="closePopup()">✕</button>
+  </div>
+</div>
+
+<!-- Capture bar -->
+<div class="capture-bar" id="captureBar">
+  <span class="cb-label">save as:</span>
+  <button class="cb-btn word" onclick="captureAs('word')">+ Word</button>
+  <button class="cb-btn phrase" onclick="captureAs('phrase')">+ Phrase</button>
+  <button class="cb-btn sent" onclick="captureAs('sentence')">+ Sentence</button>
+  <button style="font-size:0.65rem;color:var(--text-3);cursor:pointer;margin-left:0.2rem;background:none;border:none" onclick="hideCaptureBar()">✕</button>
+</div>
+
+<!-- Capture toast -->
+<div class="capture-toast" id="captureToast">
+  <span class="ct-icon">✦</span>
+  <div>
+    <div class="ct-text">Saved to SRS</div>
+    <div class="ct-word" id="toastWord">الْمَجْهُولُ</div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────
+let currentWord = null;
+let hlMode = false;
+let fontSize = 1.25;
+
+// ── FILTER ────────────────────────────────────────
+function setFilter(el, type) {
+  document.querySelectorAll('.fc').forEach(f => f.classList.remove('on'));
+  el.classList.add('on');
+  gsap.fromTo('.c-item', { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.25, stagger: 0.04, ease: 'power2.out' });
+}
+
+// ── SELECT CONTAINER ──────────────────────────────
+function selectContainer(el, type, arTitle, enTitle) {
+  document.querySelectorAll('.c-item').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('midTitle').textContent = arTitle;
+  gsap.fromTo('.u-item', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out' });
+}
+
+// ── SELECT UNIT ───────────────────────────────────
+function selectUnit(el, mode, arTitle, enTitle) {
+  document.querySelectorAll('.u-item').forEach(u => u.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('storyTitle').textContent = arTitle;
+  gsap.fromTo('#readArea', { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+}
+
+// ── WORD POPUP ────────────────────────────────────
+function showWord(e, word, meaning, root, form) {
+  e.stopPropagation();
+  if (hlMode) { e.target.classList.toggle('hl'); return; }
+  currentWord = { word, meaning, root };
+  document.getElementById('wpWord').textContent = word;
+  document.getElementById('wpRoot').textContent = `ROOT: ${root}  ·  ${form}`;
+  document.getElementById('wpMeaning').textContent = meaning;
+  const btn = document.getElementById('wpSaveBtn');
+  btn.textContent = e.target.classList.contains('saved') ? '✓ Saved' : '+ Save Word';
+  btn.className = e.target.classList.contains('saved') ? 'wp-btn saved' : 'wp-btn';
+
+  const popup = document.getElementById('wordPopup');
+  popup.style.display = 'none';
+  popup.classList.add('show');
+
+  const rect = e.target.getBoundingClientRect();
+  let top = rect.top - 10;
+  let left = rect.left + rect.width / 2;
+  if (top < 80) top = rect.bottom + 10;
+  left = Math.min(left, window.innerWidth - 280);
+  left = Math.max(left, 10);
+  popup.style.top = (top - popup.offsetHeight) + 'px';
+  popup.style.left = left + 'px';
+  popup.style.display = 'block';
+
+  gsap.fromTo(popup, { opacity: 0, y: 6, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.2, ease: 'power2.out' });
+}
+
+function closePopup() {
+  gsap.to('#wordPopup', { opacity: 0, y: 4, scale: 0.97, duration: 0.15, ease: 'power2.in', onComplete: () => {
+    document.getElementById('wordPopup').style.display = 'none';
+  }});
+}
+
+function saveWordFromPopup() {
+  if (!currentWord) return;
+  const btn = document.getElementById('wpSaveBtn');
+  btn.textContent = '✓ Saved';
+  btn.className = 'wp-btn saved';
+  showToast(currentWord.word);
+  gsap.to('#wordPopup', { opacity: 0, y: 4, duration: 0.18, delay: 0.4, onComplete: () => document.getElementById('wordPopup').style.display = 'none' });
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#wordPopup') && !e.target.closest('.w')) closePopup();
+  if (!e.target.closest('#captureBar')) hideCaptureBar();
+});
+
+// ── CAPTURE BAR (selection) ───────────────────────
+function checkSelection() {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || sel.toString().trim().length < 2) return;
+  const range = sel.getRangeAt(0);
+  const rect = range.getBoundingClientRect();
+  const bar = document.getElementById('captureBar');
+  bar.style.display = 'flex';
+  bar.style.top = (rect.top - 48) + 'px';
+  bar.style.left = (rect.left + rect.width / 2 - 120) + 'px';
+  gsap.fromTo(bar, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.18, ease: 'power2.out' });
+}
+
+function hideCaptureBar() {
+  const bar = document.getElementById('captureBar');
+  gsap.to(bar, { opacity: 0, y: 4, duration: 0.15, onComplete: () => bar.style.display = 'none' });
+  window.getSelection()?.removeAllRanges();
+}
+
+function captureAs(type) {
+  const sel = window.getSelection()?.toString().trim();
+  if (sel) showToast(sel, type);
+  hideCaptureBar();
+}
+
+// ── TOAST ─────────────────────────────────────────
+function showToast(word, type = 'word') {
+  const toast = document.getElementById('captureToast');
+  document.getElementById('toastWord').textContent = word;
+  toast.querySelector('.ct-text').textContent = `Saved ${type} to SRS`;
+  gsap.killTweensOf(toast);
+  gsap.fromTo(toast, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' });
+  gsap.to(toast, { opacity: 0, y: 8, duration: 0.3, ease: 'power2.in', delay: 2.2 });
+}
+
+// ── SRS TRAY ──────────────────────────────────────
+function toggleSRS() {
+  const tray = document.getElementById('srsTray');
+  tray.classList.toggle('open');
+  gsap.fromTo('.srs-card', { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.2, stagger: 0.04, ease: 'back.out(2)' });
+}
+
+// ── MODE TABS ─────────────────────────────────────
+function setMode(el, mode) {
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  gsap.fromTo('#readArea', { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power2.out' });
+}
+
+// ── READ CONTROLS ─────────────────────────────────
+function toggleDiac(btn) {
+  btn.classList.toggle('on');
+  const hasDiac = btn.classList.contains('on');
+  btn.textContent = hasDiac ? 'تشكيل ✓' : 'تشكيل ✗';
+  // simple demo: blur vs clear
+  document.querySelectorAll('.w').forEach(w => {
+    w.style.filter = hasDiac ? '' : 'blur(0)';
+  });
+}
+
+function toggleHL(btn) {
+  hlMode = !hlMode;
+  btn.classList.toggle('on');
+}
+
+function zoomText(dir) {
+  fontSize = Math.max(1, Math.min(1.7, fontSize + dir * 0.08));
+  document.getElementById('readArea').style.fontSize = fontSize + 'rem';
+}
+
+// ── INIT ANIMATIONS ───────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  gsap.fromTo('.c-item',  { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out' });
+  gsap.fromTo('.u-item',  { opacity: 0, y: 10  }, { opacity: 1, y: 0, duration: 0.35, stagger: 0.07, ease: 'power2.out', delay: 0.1 });
+  gsap.fromTo('#readArea',{ opacity: 0          }, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.2 });
+  gsap.fromTo('.topbar',  { opacity: 0, y: -8  }, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' });
+  gsap.fromTo('.fluency-strip', { opacity: 0 }, { opacity: 1, duration: 0.4, delay: 0.4 });
+});
+</script>
+</body>
+</html>

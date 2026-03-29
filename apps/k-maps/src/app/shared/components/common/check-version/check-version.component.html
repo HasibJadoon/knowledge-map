@@ -1,8 +1,0 @@
-<div *ngIf="env$ | async as env" class="my-env-container" [ngClass]="env">
-  <span class="text-uppercase">{{ env }}</span>
-</div>
-<div *ngIf="showNewVersion$ | async" class="my-version-container">
-  <div class="d-flex justify-content-center align-items-center m-2 text-center">
-    <a href="javascript:location.reload()">{{ 'CHECK_VERSION.RELOAD_MESSAGE' | translate }}</a>
-  </div>
-</div>

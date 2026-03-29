@@ -6,12 +6,6 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "start", "-w", "apps/k-maps", "--", "--port", "4201"],
       "port": 4201
-    },
-    {
-      "name": "k-maps-v2",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start", "--workspace=apps/k-maps-v2", "--", "--port", "52125", "--host", "localhost"],
-      "port": 52125
     }
   ]
 }

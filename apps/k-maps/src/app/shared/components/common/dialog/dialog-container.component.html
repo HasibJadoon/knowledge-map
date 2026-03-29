@@ -1,7 +1,0 @@
-<div *ngIf="hasBackdrop && showBackdrop" [ngClass]="backdropClass" [@dialogBackdrop]="state"></div>
-<div role="document" class="modal-dialog my-force-transform-z" [ngClass]="dialogClass" [@dialogContainer]="state" (@dialogContainer.start)="onAnimationStart($event)" (@dialogContainer.done)="onAnimationDone($event)">
-  <div class="modal-content" cdkDrag [cdkDragDisabled]="disableDrag">
-    <div *ngIf="!disableDrag" cdkDragHandle class="ml-1 text-center my-drag"><i class="fas fa-up-down-left-right"></i></div>
-    <ng-template cdkPortalOutlet></ng-template>
-  </div>
-</div>

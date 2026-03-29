@@ -1,0 +1,43 @@
+<div class="sst">
+
+  @if (sentences.length) {
+
+    <!-- Multi-sentence navigation pills -->
+    @if (sentences.length > 1) {
+      <div class="sst__nav">
+        @for (s of sentences; track $index) {
+          <button
+            type="button"
+            class="sst__nav-btn"
+            [class.sst__nav-btn--on]="$index === activeIdx"
+            (click)="select($index)"
+          >{{ $index + 1 }}</button>
+        }
+      </div>
+    }
+
+    <!-- D3 canvas: sentence card + collapsible RTL tree -->
+    <div class="sst__canvas">
+      <km-sentence-structure-canvas
+        [treeData]="current?.tree ?? null"
+        [termColors]="current?.term_colors ?? {}"
+        [lessonMeta]="currentMeta"
+      />
+    </div>
+
+
+  } @else if (hasTask) {
+
+    <div class="sst__empty">
+      <p>No tree data attached to this task yet.</p>
+    </div>
+
+  } @else {
+
+    <div class="sst__empty">
+      <p>No sentence structure task for this passage.</p>
+    </div>
+
+  }
+
+</div>

@@ -1,9 +1,0 @@
-<div class="modal-body">
-  <div class="list-group row" *ngIf="values?.length">
-    <ng-container *ngFor="let val of values; let i = index">
-      <div class="col-11 bg-primary text-white text-center my-2 py-2 mx-auto font-weight-bold cursor-pointer" (click)="doSelect(val)">
-        {{ val?.name | meaning }}
-      </div>
-    </ng-container>
-  </div>
-</div>

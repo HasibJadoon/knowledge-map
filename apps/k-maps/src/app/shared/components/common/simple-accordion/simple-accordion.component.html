@@ -1,9 +1,0 @@
-<div class="my-header" [class.my-sticky-top]="sticky" [class.disabled]="disabled" (click)="doToggleOpen()">
-  <ng-content select="[simple-accordion-header]"></ng-content>
-</div>
-<div [ngClass]="open ? (useHeight ? 'my-height show' : isGrid ? 'd-grid' : 'd-block') : useHeight ? 'my-height' : 'd-none'">
-  <ng-content></ng-content>
-</div>
-<div class="my-header" [class.disabled]="disabled" (click)="doToggleOpen()">
-  <ng-content select="[simple-accordion-footer]"></ng-content>
-</div>
