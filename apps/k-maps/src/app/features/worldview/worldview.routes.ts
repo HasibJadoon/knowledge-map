@@ -20,6 +20,12 @@ export const WORLDVIEW_ROUTES: Routes = [
         title: 'Library — Worldview',
       },
       {
+        path: 'library/:id',
+        loadComponent: () =>
+          import('./worldview-library-units.component').then((m) => m.WorldviewLibraryUnitsComponent),
+        title: 'Reader — Worldview',
+      },
+      {
         path: 'compare',
         loadComponent: () =>
           import('./worldview-compare.component').then((m) => m.WorldviewCompareComponent),
