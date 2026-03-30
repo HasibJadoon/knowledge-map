@@ -219,7 +219,7 @@ export class PlannerComponent implements OnInit, AfterViewInit {
   }
 
   goBack(): void {
-    void this.router.navigateByUrl('/landing');
+    void this.router.navigateByUrl('/home');
   }
 
   addTask(): void {
