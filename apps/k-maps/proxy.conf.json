@@ -6,5 +6,10 @@
     "pathRewrite": {
       "^/api": ""
     }
+  },
+  "/wv": {
+    "target": "https://k-maps.com",
+    "secure": true,
+    "changeOrigin": true
   }
 }

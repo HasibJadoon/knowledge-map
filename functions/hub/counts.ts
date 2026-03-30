@@ -25,11 +25,6 @@ async function tryCountTable(db: D1Database, table: string): Promise<number> {
   }
 }
 
-async function bestCountTable(db: D1Database, tables: string[]): Promise<number> {
-  const counts = await Promise.all(tables.map((table) => tryCountTable(db, table)));
-  return counts.reduce((max, count) => Math.max(max, count), 0);
-}
-
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   try {
     const db = ctx.env.DB;
@@ -48,7 +43,6 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       wvWorldviews,
       wvTopics,
       wvComparisons,
-      wvBrainstorm,
       wvPeople,
       wvPodcasts,
       wvPlans,
@@ -70,8 +64,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       tryCountTable(db, 'wv_worldview'),
       tryCountTable(db, 'wv_topic'),
       tryCountTable(db, 'wv_comparison'),
-      bestCountTable(db, ['wv_brainstorm_session', 'wv_brainstorm_sessions']),
-      bestCountTable(db, ['wv_person', 'wv_people']),
+      tryCountTable(db, 'wv_person'),
       tryCountTable(db, 'wv_podcast'),
       tryCountTable(db, 'wv_plan'),
       tryCountTable(db, 'ar_balagha'),
@@ -102,7 +95,6 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
           source_units: wvSourceUnits,
           highlights: wvHighlights,
           notes: wvNotes,
-          brainstorm: wvBrainstorm,
           comparisons: wvComparisons,
           people: wvPeople,
           podcasts: wvPodcasts,

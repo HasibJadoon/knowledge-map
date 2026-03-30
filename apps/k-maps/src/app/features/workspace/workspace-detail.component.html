@@ -1,0 +1,211 @@
+
+    <div class="wd" #page>
+      <!-- Ambient background -->
+      <div class="wd__bg" aria-hidden="true">
+        <div class="wd__bg-glow"></div>
+      </div>
+
+      <!-- Header -->
+      <header class="wd__header" #header>
+        <button class="wd__back" (click)="goBack()" aria-label="Back to workspaces">
+          <span>←</span>
+          <span>Workspaces</span>
+        </button>
+
+        <div class="wd__title-group">
+          @if (loading()) {
+            <div class="wd__skeleton-title"></div>
+          } @else {
+            <p class="wd__eyebrow">Workspace</p>
+            <h1 class="wd__title">{{ workspace()?.name ?? 'Workspace' }}</h1>
+            @if (workspace()?.status) {
+              <span class="wd__status" [class]="'wd__status--' + workspace()!.status">
+                {{ workspace()!.status }}
+              </span>
+            }
+          }
+        </div>
+
+        <div class="wd__header-actions">
+          @if (workspace()?.type) {
+            <span class="wd__type-badge">{{ workspace()!.type }}</span>
+          }
+        </div>
+      </header>
+
+      <!-- Tabs -->
+      <nav class="wd__tabs" #tabs>
+        @for (tab of tabDefs; track tab.id) {
+          <button
+            class="wd__tab"
+            [class.wd__tab--active]="activeTab() === tab.id"
+            (click)="switchTab(tab.id)"
+            [attr.aria-current]="activeTab() === tab.id ? 'page' : null"
+          >
+            <span class="wd__tab-icon">{{ tab.icon }}</span>
+            <span>{{ tab.label }}</span>
+          </button>
+        }
+        <div class="wd__tab-indicator" #tabIndicator></div>
+      </nav>
+
+      <!-- Tab content -->
+      <main class="wd__content" #content>
+
+        <!-- Overview -->
+        @if (activeTab() === 'overview') {
+          <div class="wd__panel wd__panel--overview" #panel>
+            @if (loading()) {
+              <div class="wd__state">
+                <div class="wd__spinner"></div>
+                <p class="wd__state-text">Loading workspace…</p>
+              </div>
+            } @else if (error()) {
+              <div class="wd__state wd__state--error">
+                <span class="wd__state-icon">⚠</span>
+                <p class="wd__state-text">{{ error() }}</p>
+                <button class="wd__retry-btn" (click)="loadWorkspace()">Retry</button>
+              </div>
+            } @else if (workspace()) {
+              <div class="wd__overview-grid">
+                <div class="wd__info-card">
+                  <h3 class="wd__info-card-title">Details</h3>
+                  <div class="wd__info-rows">
+                    <div class="wd__info-row">
+                      <span class="wd__info-label">Name</span>
+                      <span class="wd__info-value">{{ workspace()!.name }}</span>
+                    </div>
+                    @if (workspace()!.type) {
+                      <div class="wd__info-row">
+                        <span class="wd__info-label">Type</span>
+                        <span class="wd__info-value">{{ workspace()!.type }}</span>
+                      </div>
+                    }
+                    @if (workspace()!.status) {
+                      <div class="wd__info-row">
+                        <span class="wd__info-label">Status</span>
+                        <span class="wd__info-value wd__info-status" [class]="'wd__info-status--' + workspace()!.status">
+                          {{ workspace()!.status }}
+                        </span>
+                      </div>
+                    }
+                    @if (workspace()!.owner) {
+                      <div class="wd__info-row">
+                        <span class="wd__info-label">Owner</span>
+                        <span class="wd__info-value">{{ workspace()!.owner }}</span>
+                      </div>
+                    }
+                    @if (workspace()!.created_at) {
+                      <div class="wd__info-row">
+                        <span class="wd__info-label">Created</span>
+                        <span class="wd__info-value">{{ formatDate(workspace()!.created_at!) }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+                @if (workspace()!.description) {
+                  <div class="wd__info-card wd__info-card--full">
+                    <h3 class="wd__info-card-title">Description</h3>
+                    <p class="wd__description">{{ workspace()!.description }}</p>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Members -->
+        @if (activeTab() === 'members') {
+          <div class="wd__panel" #panel>
+            @if (membersLoading()) {
+              <div class="wd__state">
+                <div class="wd__spinner"></div>
+                <p class="wd__state-text">Loading members…</p>
+              </div>
+            } @else if (members().length === 0) {
+              <div class="wd__state">
+                <span class="wd__state-icon">◉</span>
+                <p class="wd__state-title">No Members</p>
+                <p class="wd__state-text">This workspace has no members yet.</p>
+              </div>
+            } @else {
+              <div class="wd__members-list">
+                @for (m of members(); track m.id) {
+                  <div class="wd__member-row">
+                    <div class="wd__member-avatar">
+                      {{ (m.name || 'U').charAt(0).toUpperCase() }}
+                    </div>
+                    <div class="wd__member-info">
+                      <span class="wd__member-name">{{ m.name }}</span>
+                      @if (m.email) {
+                        <span class="wd__member-email">{{ m.email }}</span>
+                      }
+                    </div>
+                    @if (m.role) {
+                      <span class="wd__member-role">{{ m.role }}</span>
+                    }
+                    @if (m.joined_at) {
+                      <span class="wd__member-date">{{ formatDate(m.joined_at) }}</span>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Documents -->
+        @if (activeTab() === 'documents') {
+          <div class="wd__panel" #panel>
+            <div class="wd__state wd__state--placeholder">
+              <span class="wd__state-icon">◈</span>
+              <p class="wd__state-title">Documents Coming Soon</p>
+              <p class="wd__state-text">
+                Document management and collaborative editing will be available in an upcoming release.
+              </p>
+            </div>
+          </div>
+        }
+
+        <!-- Activity -->
+        @if (activeTab() === 'activity') {
+          <div class="wd__panel" #panel>
+            @if (activityLoading()) {
+              <div class="wd__state">
+                <div class="wd__spinner"></div>
+                <p class="wd__state-text">Loading activity…</p>
+              </div>
+            } @else if (activities().length === 0) {
+              <div class="wd__state">
+                <span class="wd__state-icon">◎</span>
+                <p class="wd__state-title">No Activity Yet</p>
+                <p class="wd__state-text">Activity for this workspace will appear here.</p>
+              </div>
+            } @else {
+              <div class="wd__activity-list">
+                @for (a of activities(); track a.id) {
+                  <div class="wd__activity-row">
+                    <div class="wd__activity-dot"></div>
+                    <div class="wd__activity-line"></div>
+                    <div class="wd__activity-body">
+                      <span class="wd__activity-action">{{ a.action }}</span>
+                      @if (a.actor) {
+                        <span class="wd__activity-actor">by {{ a.actor }}</span>
+                      }
+                      @if (a.details) {
+                        <p class="wd__activity-details">{{ a.details }}</p>
+                      }
+                      @if (a.created_at) {
+                        <span class="wd__activity-date">{{ formatDate(a.created_at) }}</span>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+
+      </main>
+    </div>
+  

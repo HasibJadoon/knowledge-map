@@ -3,20 +3,13 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () =>
-      import('./core/atlas/atlas-landing.component').then((m) => m.AtlasLandingComponent),
-    title: 'K-MAPS — Worldview Atlas',
+    redirectTo: 'landing',
     pathMatch: 'full',
-  },
-  {
-    path: 'home',
-    loadChildren: () =>
-      import('./core/home/home.routes').then((m) => m.HOME_ROUTES),
   },
   {
     path: 'landing',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    loadChildren: () =>
+      import('./core/landing/landing.routes').then((m) => m.LANDING_ROUTES),
   },
   {
     path: 'login',
@@ -68,6 +61,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'landing',
   },
 ];

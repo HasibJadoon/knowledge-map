@@ -137,6 +137,6 @@ export class ArabicHomeComponent implements OnInit, AfterViewInit {
   }
 
   back(): void {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/landing']);
   }
 }
