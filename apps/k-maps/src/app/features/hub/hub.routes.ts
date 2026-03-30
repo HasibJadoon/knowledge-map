@@ -7,19 +7,19 @@ import { WORKSPACE_CARDS } from './cards/workspace.cards';
 const tableRoute = (card: (typeof QURAN_CARDS)[0]) => ({
   path: card.route,
   data: { card },
-  loadComponent: () => import('./hub-table/hub-table.component').then(m => m.HubTableComponent),
+  loadComponent: () => import('./hub-table.component').then(m => m.HubTableComponent),
   title: `${card.title} — Hub`,
 });
 
 export const HUB_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./hub-shell/hub.component').then(m => m.HubComponent),
+    loadComponent: () => import('./hub.component').then(m => m.HubComponent),
     title: 'Hub — K-MAPS',
     children: [
       {
         path: '',
-        loadComponent: () => import('./hub-home/hub-home.component').then(m => m.HubHomeComponent),
+        loadComponent: () => import('./hub-home.component').then(m => m.HubHomeComponent),
         title: 'Hub — K-MAPS',
       },
 
@@ -29,7 +29,7 @@ export const HUB_ROUTES: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./hub-section/hub-section.component').then(m => m.HubSectionComponent),
+            loadComponent: () => import('./hub-section.component').then(m => m.HubSectionComponent),
             data: { section: 'quran' },
             title: 'Quran — Hub',
           },
@@ -43,7 +43,7 @@ export const HUB_ROUTES: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./hub-section/hub-section.component').then(m => m.HubSectionComponent),
+            loadComponent: () => import('./hub-section.component').then(m => m.HubSectionComponent),
             data: { section: 'arabic' },
             title: 'Arabic — Hub',
           },
@@ -57,7 +57,7 @@ export const HUB_ROUTES: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./hub-section/hub-section.component').then(m => m.HubSectionComponent),
+            loadComponent: () => import('./hub-section.component').then(m => m.HubSectionComponent),
             data: { section: 'worldview' },
             title: 'Worldview — Hub',
           },
@@ -71,7 +71,7 @@ export const HUB_ROUTES: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./hub-section/hub-section.component').then(m => m.HubSectionComponent),
+            loadComponent: () => import('./hub-section.component').then(m => m.HubSectionComponent),
             data: { section: 'workspace' },
             title: 'Workspace — Hub',
           },

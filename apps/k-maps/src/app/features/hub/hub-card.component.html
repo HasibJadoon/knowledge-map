@@ -1,0 +1,29 @@
+
+    <button
+      class="hc"
+      [class.hc--new]="card.badge === 'NEW'"
+      [class.hc--updated]="card.badge === 'UPDATED'"
+      [style.--accent]="card.accentColor ?? 'rgba(201,168,76,0.15)'"
+      (click)="cardClick.emit(card)"
+      [attr.aria-label]="'Open ' + card.title"
+    >
+      @if (card.badge) {
+        <span class="hc__badge">{{ card.badge }}</span>
+      }
+      <div class="hc__artwork">
+        <span class="hc__glyph">{{ card.glyph ?? card.icon }}</span>
+        <div class="hc__shimmer"></div>
+      </div>
+      <div class="hc__bottom-glow"></div>
+      <div class="hc__body">
+        <span class="hc__tag">{{ card.tag }}</span>
+        <span class="hc__title">{{ card.title }}</span>
+        @if (showDesc) {
+          <p class="hc__desc">{{ card.description }}</p>
+        }
+      </div>
+      @if (count !== null) {
+        <span class="hc__count">{{ count }}</span>
+      }
+    </button>
+  
