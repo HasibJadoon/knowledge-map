@@ -1,0 +1,46 @@
+
+    <div class="ar">
+      <div class="ar__header">
+        <button class="ar__back" (click)="goBack()">← Arabic</button>
+        <h1 class="ar__title">SRS Review</h1>
+        <p class="ar__sub">{{ remaining() }} cards remaining</p>
+      </div>
+
+      <div class="ar__stage">
+        @if (loading()) {
+          <div class="ar__loading"><div class="ar__spinner"></div></div>
+        } @else if (cards().length === 0) {
+          <div class="ar__done">
+            <span class="ar__done-icon">✓</span>
+            <h2>All done!</h2>
+            <p>No cards due for review right now.</p>
+            <button class="ar__back-btn" (click)="goBack()">← Back to Arabic</button>
+          </div>
+        } @else {
+          <div class="ar__card" [class.ar__card--flipped]="flipped()" (click)="flip()">
+            <div class="ar__card-inner">
+              <div class="ar__card-front">
+                <span class="ar__card-label">Arabic</span>
+                <p class="ar__card-ar">{{ currentCard()!.front }}</p>
+                <span class="ar__card-tap">Tap to reveal</span>
+              </div>
+              <div class="ar__card-back">
+                <span class="ar__card-label">Meaning</span>
+                <p class="ar__card-en">{{ currentCard()!.back }}</p>
+                <span class="ar__card-type">{{ currentCard()!.entity_type }}</span>
+              </div>
+            </div>
+          </div>
+
+          @if (flipped()) {
+            <div class="ar__rating-btns">
+              <button class="ar__btn ar__btn--again" (click)="rate('again')">Again</button>
+              <button class="ar__btn ar__btn--hard" (click)="rate('hard')">Hard</button>
+              <button class="ar__btn ar__btn--good" (click)="rate('good')">Good</button>
+              <button class="ar__btn ar__btn--easy" (click)="rate('easy')">Easy</button>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  
