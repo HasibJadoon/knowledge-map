@@ -3,7 +3,9 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    loadComponent: () =>
+      import('./core/atlas/atlas-landing.component').then((m) => m.AtlasLandingComponent),
+    title: 'K-MAPS — Worldview Atlas',
     pathMatch: 'full',
   },
   {
@@ -66,6 +68,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'home',
+    redirectTo: '',
   },
 ];

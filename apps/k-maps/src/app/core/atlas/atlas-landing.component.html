@@ -1,0 +1,432 @@
+<div class="atlas">
+  <section class="atlas__hero" #hero>
+    <div class="atlas__atmosphere" aria-hidden="true">
+      <div class="atlas__nebula"></div>
+      <div class="atlas__grain"></div>
+      <div class="atlas__glow atlas__glow--left"></div>
+      <div class="atlas__glow atlas__glow--right"></div>
+      <div class="atlas__glow atlas__glow--bottom"></div>
+      <div class="atlas__stars">
+        @for (particle of particles; track particle) {
+          <span
+            class="atlas__star"
+            [style.left.%]="(particle * 11) % 100"
+            [style.top.%]="(particle * 7) % 100"
+            [style.width.px]="1 + (particle % 3)"
+            [style.height.px]="1 + (particle % 3)"
+            [style.opacity]="0.12 + (particle % 8) * 0.05"
+            [style.animationDuration.s]="18 + particle * 0.35"
+          ></span>
+        }
+      </div>
+    </div>
+
+    <header class="atlas__chrome">
+      <div class="atlas__brand">
+        <span class="atlas__brand-mark">K</span>
+        <div>
+          <p class="atlas__brand-kicker">K-Maps</p>
+          <p class="atlas__brand-title">Worldview Atlas</p>
+        </div>
+      </div>
+
+      <div class="atlas__chrome-actions">
+        <div class="atlas__metrics">
+          <span>{{ atlasCounts().domains }} domains</span>
+          <span>{{ atlasCounts().concepts }} concepts</span>
+          <span>{{ atlasCounts().claims }} claims</span>
+          <span>{{ atlasCounts().evidence }} evidence anchors</span>
+        </div>
+        <button type="button" class="atlas__enter-btn" (click)="enterHome()">
+          Enter Home
+        </button>
+      </div>
+    </header>
+
+    <div class="atlas__hero-grid">
+      <div class="atlas__viewport" #graphFrame [attr.data-stage]="stage()">
+        <div class="atlas__sphere">
+          <div class="atlas__sphere-ring atlas__sphere-ring--outer"></div>
+          <div class="atlas__sphere-ring atlas__sphere-ring--mid"></div>
+          <div class="atlas__sphere-ring atlas__sphere-ring--inner"></div>
+          <div class="atlas__sphere-grid atlas__sphere-grid--vertical"></div>
+          <div class="atlas__sphere-grid atlas__sphere-grid--horizontal"></div>
+        </div>
+
+        <svg class="atlas__connections" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          @for (edge of worldEdges(); track edge.id) {
+            <line
+              class="atlas__world-line"
+              [attr.x1]="edge.x1"
+              [attr.y1]="edge.y1"
+              [attr.x2]="edge.x2"
+              [attr.y2]="edge.y2"
+            />
+          }
+
+          @if (stage() === 'domain') {
+            @for (edge of domainEdges(); track edge.id) {
+              <line
+                class="atlas__focus-line"
+                [attr.x1]="edge.x1"
+                [attr.y1]="edge.y1"
+                [attr.x2]="edge.x2"
+                [attr.y2]="edge.y2"
+              />
+            }
+          }
+
+          @if (stage() === 'concept' || stage() === 'claim') {
+            @for (edge of conceptEdges(); track edge.id) {
+              <line
+                class="atlas__focus-line atlas__focus-line--claim"
+                [attr.x1]="edge.x1"
+                [attr.y1]="edge.y1"
+                [attr.x2]="edge.x2"
+                [attr.y2]="edge.y2"
+              />
+            }
+          }
+
+          @if (stage() === 'evidence') {
+            @for (edge of evidenceEdges(); track edge.id) {
+              <line
+                class="atlas__focus-line atlas__focus-line--evidence"
+                [attr.x1]="edge.x1"
+                [attr.y1]="edge.y1"
+                [attr.x2]="edge.x2"
+                [attr.y2]="edge.y2"
+              />
+            }
+          }
+        </svg>
+
+        <div class="atlas__world-layer" [class.is-dimmed]="stage() !== 'world'">
+          @for (domain of domains; track domain.id) {
+            <button
+              type="button"
+              class="atlas-node atlas-node--domain"
+              [class.is-selected]="selectedDomain()?.id === domain.id"
+              [style.left.%]="domain.x"
+              [style.top.%]="domain.y"
+              [style.--tone]="domain.tone"
+              (click)="selectDomain(domain)"
+            >
+              <span class="atlas-node__halo"></span>
+              <span class="atlas-node__dot"></span>
+              <span class="atlas-node__label">{{ domain.label }}</span>
+            </button>
+          }
+        </div>
+
+        @if (selectedDomain()) {
+          <div class="atlas__domain-layer">
+            <div class="atlas-node atlas-node--anchor atlas-node--domain-anchor" [style.--tone]="selectedDomain()!.tone">
+              <span class="atlas-node__halo"></span>
+              <span class="atlas-node__dot"></span>
+              <span class="atlas-node__label atlas-node__label--anchor">{{ selectedDomain()!.label }}</span>
+            </div>
+
+            @if (stage() === 'domain') {
+              @for (conceptNode of conceptNodes(); track conceptNode.item.id) {
+                <button
+                  type="button"
+                  class="atlas-node atlas-node--concept"
+                  [style.left.%]="conceptNode.x"
+                  [style.top.%]="conceptNode.y"
+                  [style.--tone]="selectedDomain()!.tone"
+                  (click)="selectConcept(conceptNode.item)"
+                >
+                  <span class="atlas-node__halo"></span>
+                  <span class="atlas-node__dot"></span>
+                  <span class="atlas-node__label">{{ conceptNode.item.label }}</span>
+                </button>
+              }
+            }
+          </div>
+        }
+
+        @if (selectedConcept()) {
+          <div class="atlas__concept-layer">
+            <div class="atlas-node atlas-node--anchor atlas-node--concept-anchor" [style.--tone]="currentTone()">
+              <span class="atlas-node__halo"></span>
+              <span class="atlas-node__dot"></span>
+              <span class="atlas-node__label atlas-node__label--anchor">{{ selectedConcept()!.label }}</span>
+            </div>
+
+            @if (stage() === 'concept' || stage() === 'claim') {
+              @for (claimNode of claimNodes(); track claimNode.item.id) {
+                <button
+                  type="button"
+                  class="atlas-node atlas-node--claim"
+                  [class.is-preview]="stage() === 'concept'"
+                  [style.left.%]="claimNode.x"
+                  [style.top.%]="claimNode.y"
+                  [style.--tone]="currentTone()"
+                  (click)="stage() === 'concept' ? showClaims() : selectClaim(claimNode.item)"
+                >
+                  <span class="atlas-node__halo"></span>
+                  <span class="atlas-node__dot"></span>
+                  <span class="atlas-node__label">{{ claimNode.item.label }}</span>
+                </button>
+              }
+            }
+          </div>
+        }
+
+        @if (selectedClaim() && stage() === 'evidence') {
+          <div class="atlas__evidence-layer">
+            <div class="atlas-node atlas-node--anchor atlas-node--claim-anchor" [style.--tone]="currentTone()">
+              <span class="atlas-node__halo"></span>
+              <span class="atlas-node__dot"></span>
+              <span class="atlas-node__label atlas-node__label--anchor">{{ selectedClaim()!.label }}</span>
+            </div>
+
+            @for (evidenceNode of evidenceNodes(); track evidenceNode.item.id) {
+              <div
+                class="atlas-node atlas-node--evidence"
+                [style.left.%]="evidenceNode.x"
+                [style.top.%]="evidenceNode.y"
+                [style.--tone]="currentTone()"
+              >
+                <span class="atlas-node__halo"></span>
+                <span class="atlas-node__dot"></span>
+                <span class="atlas-node__label">{{ evidenceNode.item.label }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <aside class="atlas__panel" #detailPanel [style.--tone]="currentTone()">
+        <p class="atlas__panel-kicker">Map the world beneath ideas</p>
+        <h1 class="atlas__panel-title">{{ detailTitle() }}</h1>
+        <p class="atlas__panel-summary">{{ detailSummary() }}</p>
+
+        <div class="atlas__breadcrumbs" aria-label="Atlas focus path">
+          @for (label of breadcrumbLabels(); track label; let last = $last) {
+            <span class="atlas__breadcrumb">{{ label }}</span>
+            @if (!last) {
+              <span class="atlas__breadcrumb-sep">/</span>
+            }
+          }
+        </div>
+
+        <div class="atlas__panel-actions">
+          @if (stage() !== 'world') {
+            <button type="button" class="atlas__ghost-btn" (click)="goBackOneLevel()">
+              Step Back
+            </button>
+          }
+          @if (stage() !== 'world') {
+            <button type="button" class="atlas__ghost-btn" (click)="resetWorld()">
+              Reset World
+            </button>
+          }
+          <button type="button" class="atlas__primary-btn" (click)="enterHome()">
+            Continue to Candle Home
+          </button>
+        </div>
+
+        <div class="atlas__panel-section">
+          @if (stage() === 'world') {
+            <div class="atlas__panel-stack">
+              <div class="atlas__panel-card atlas__panel-card--hero">
+                <p class="atlas__panel-card-kicker">First Impression</p>
+                <p class="atlas__panel-card-copy">
+                  Enter the world of meaning through a full-screen intellectual globe: revelation, law,
+                  power, knowledge, civilization, and moral order arranged as a living atlas.
+                </p>
+              </div>
+
+              <div class="atlas__panel-list">
+                <div class="atlas__mini-step">
+                  <span>World</span>
+                  <p>Major domains always readable, with smaller layers withheld until focus.</p>
+                </div>
+                <div class="atlas__mini-step">
+                  <span>Zoom</span>
+                  <p>Move inward from domain to concept, then into claim and evidence without losing context.</p>
+                </div>
+                <div class="atlas__mini-step">
+                  <span>Surface</span>
+                  <p>A research panel keeps the graph cinematic while structured text remains usable.</p>
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (stage() === 'domain' && selectedDomain()) {
+            <div class="atlas__panel-stack">
+              <div class="atlas__panel-card">
+                <p class="atlas__panel-card-kicker">{{ selectedDomain()!.eyebrow }}</p>
+                <p class="atlas__panel-card-copy">{{ selectedDomain()!.summary }}</p>
+              </div>
+
+              <div class="atlas__selection-grid">
+                @for (concept of selectedDomain()!.concepts; track concept.id) {
+                  <button type="button" class="atlas__selection-chip" (click)="selectConcept(concept)">
+                    <span>{{ concept.label }}</span>
+                    <small>{{ concept.claims.length }} claims</small>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          @if (stage() === 'concept' && selectedConcept()) {
+            <div class="atlas__panel-stack">
+              <div class="atlas__panel-card">
+                <p class="atlas__panel-card-kicker">Concept Focus</p>
+                <p class="atlas__panel-card-copy">{{ selectedConcept()!.summary }}</p>
+              </div>
+
+              <div class="atlas__selection-grid">
+                @for (claim of currentClaims(); track claim.id) {
+                  <div class="atlas__selection-chip atlas__selection-chip--passive">
+                    <span>{{ claim.label }}</span>
+                    <small>{{ claim.evidence.length }} evidence anchors</small>
+                  </div>
+                }
+              </div>
+
+              <button type="button" class="atlas__primary-btn atlas__primary-btn--wide" (click)="showClaims()">
+                Trace Claims
+              </button>
+            </div>
+          }
+
+          @if (stage() === 'claim' && selectedConcept()) {
+            <div class="atlas__panel-stack">
+              <div class="atlas__panel-card">
+                <p class="atlas__panel-card-kicker">Claim Orbit</p>
+                <p class="atlas__panel-card-copy">
+                  Claims now carry the reasoning load. Select one to reveal the evidence ring beneath it.
+                </p>
+              </div>
+
+              <div class="atlas__selection-grid">
+                @for (claim of currentClaims(); track claim.id) {
+                  <button type="button" class="atlas__selection-chip" (click)="selectClaim(claim)">
+                    <span>{{ claim.label }}</span>
+                    <small>{{ claim.evidence.length }} anchors</small>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          @if (stage() === 'evidence' && selectedClaim()) {
+            <div class="atlas__panel-stack">
+              <div class="atlas__panel-card atlas__panel-card--hero">
+                <p class="atlas__panel-card-kicker">Evidence Surface</p>
+                <p class="atlas__panel-card-copy">{{ selectedClaim()!.summary }}</p>
+              </div>
+
+              <div class="atlas__evidence-list">
+                @for (evidence of currentEvidence(); track evidence.id) {
+                  <article class="atlas__evidence-card">
+                    <p class="atlas__evidence-type">{{ evidence.type }}</p>
+                    <h3>{{ evidence.label }}</h3>
+                    <p>{{ evidence.note }}</p>
+                  </article>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </aside>
+    </div>
+
+    <div class="atlas__hero-caption">
+      <span>Trace concepts, claims, and evidence.</span>
+      <span>Then continue into K-Maps home.</span>
+    </div>
+  </section>
+
+  <section class="atlas__section">
+    <div class="atlas__section-header">
+      <p class="atlas__section-index">01</p>
+      <div>
+        <p class="atlas__section-kicker">Section-by-section UI breakdown</p>
+        <h2>World to evidence without losing the map</h2>
+      </div>
+    </div>
+
+    <div class="atlas__breakdown-grid">
+      @for (card of breakdownCards; track card.title) {
+        <article class="atlas__breakdown-card">
+          <span class="atlas__breakdown-stage">{{ card.stage }}</span>
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.summary }}</p>
+          <ul>
+            @for (point of card.points; track point) {
+              <li>{{ point }}</li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="atlas__section atlas__section--motion">
+    <div class="atlas__section-header">
+      <p class="atlas__section-index">02</p>
+      <div>
+        <p class="atlas__section-kicker">Motion direction</p>
+        <h2>Cinematic, controlled, and legible</h2>
+      </div>
+    </div>
+
+    <div class="atlas__motion-list">
+      @for (step of motionSteps; track step; let idx = $index) {
+        <article class="atlas__motion-card">
+          <span>{{ idx + 1 }}</span>
+          <p>{{ step }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="atlas__section atlas__section--system">
+    <div class="atlas__section-header">
+      <p class="atlas__section-index">03</p>
+      <div>
+        <p class="atlas__section-kicker">Visual system and schema</p>
+        <h2>Premium research interface rules</h2>
+      </div>
+    </div>
+
+    <div class="atlas__system-grid">
+      @for (card of systemCards; track card.title) {
+        <article class="atlas__system-card">
+          <p class="atlas__system-kicker">{{ card.eyebrow }}</p>
+          <h3>{{ card.title }}</h3>
+          <ul>
+            @for (point of card.points; track point) {
+              <li>{{ point }}</li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+
+    <article class="atlas__schema-card">
+      <p class="atlas__system-kicker">Optional node and edge schema</p>
+      <pre><code>{{ schemaSample }}</code></pre>
+    </article>
+  </section>
+
+  <section class="atlas__final-cta">
+    <div>
+      <p class="atlas__section-kicker">K-Maps</p>
+      <h2>Enter the world of meaning</h2>
+      <p>
+        The atlas stays the prologue. Your existing candle home remains the next step.
+      </p>
+    </div>
+    <button type="button" class="atlas__primary-btn atlas__primary-btn--wide" (click)="enterHome()">
+      Continue to Home
+    </button>
+  </section>
+</div>
