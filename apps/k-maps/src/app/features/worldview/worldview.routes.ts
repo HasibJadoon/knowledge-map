@@ -4,37 +4,37 @@ export const WORLDVIEW_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./worldview.component').then((m) => m.WorldviewComponent),
+      import('./worldview-shell/worldview.component').then((m) => m.WorldviewComponent),
     title: 'Worldview — K-MAPS',
     children: [
       {
         path: '',
         loadComponent: () =>
-          import('./worldview-home.component').then((m) => m.WorldviewHomeComponent),
+          import('./worldview-home/worldview-home.component').then((m) => m.WorldviewHomeComponent),
         title: 'Worldview',
       },
       {
         path: 'library',
         loadComponent: () =>
-          import('./worldview-library.component').then((m) => m.WorldviewLibraryComponent),
+          import('./worldview-library/worldview-library.component').then((m) => m.WorldviewLibraryComponent),
         title: 'Library — Worldview',
       },
       {
         path: 'library/:id',
         loadComponent: () =>
-          import('./worldview-library-units.component').then((m) => m.WorldviewLibraryUnitsComponent),
+          import('./worldview-library-units/worldview-library-units.component').then((m) => m.WorldviewLibraryUnitsComponent),
         title: 'Reader — Worldview',
       },
       {
         path: 'compare',
         loadComponent: () =>
-          import('./worldview-compare.component').then((m) => m.WorldviewCompareComponent),
+          import('./worldview-compare/worldview-compare.component').then((m) => m.WorldviewCompareComponent),
         title: 'Comparison — Worldview',
       },
       {
         path: 'brainstorm',
         loadComponent: () =>
-          import('./worldview-brainstorm.component').then((m) => m.WorldviewBrainstormComponent),
+          import('./worldview-brainstorm/worldview-brainstorm.component').then((m) => m.WorldviewBrainstormComponent),
         title: 'Brainstorm — Worldview',
       },
     ],

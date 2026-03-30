@@ -168,7 +168,7 @@ export class PlannerComponent implements OnInit, AfterViewInit {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const res = await fetch(`${environment.wvBase}/wv/plans?limit=50`);
+      const res = await fetch(`${environment.apiBase}/wv/plans?limit=50`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json() as { ok: boolean; plans: Plan[] };
       this.plans.set(data.plans ?? []);
@@ -219,7 +219,7 @@ export class PlannerComponent implements OnInit, AfterViewInit {
   }
 
   goBack(): void {
-    void this.router.navigateByUrl('/landing');
+    void this.router.navigateByUrl('/home');
   }
 
   addTask(): void {
