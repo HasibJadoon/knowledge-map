@@ -3,6 +3,10 @@
 
     <!-- Navigation -->
     <nav class="top-nav">
+      <button class="back-btn" (click)="back()">
+        <span class="back-btn__arrow">&#8592;</span>
+        <span class="back-btn__label">K-Maps</span>
+      </button>
       <span class="breadcrumb">Arabic</span>
     </nav>
 
@@ -42,8 +46,7 @@
       @for (card of cards; track card.route) {
         <a class="feature-card" [routerLink]="card.route">
           <div class="feature-card__bg-glyph">{{ card.glyph }}</div>
-          <div class="feature-card__shimmer"></div>
-          <div class="feature-card__bottom-glow"></div>
+          <div class="feature-card__glyph">{{ card.glyph }}</div>
           <div class="feature-card__content">
             <h2 class="feature-card__title">{{ card.title }}</h2>
             <p class="feature-card__desc">{{ card.desc }}</p>

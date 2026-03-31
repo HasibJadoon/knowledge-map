@@ -6,10 +6,9 @@ import {
   inject,
   signal,
   OnInit,
-  OnDestroy,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import gsap from 'gsap';
@@ -38,6 +37,7 @@ interface ArabicCounts {
   styleUrl: './arabic-home.component.scss',
 })
 export class ArabicHomeComponent implements OnInit, AfterViewInit {
+  private router = inject(Router);
   private http = inject(HttpClient);
   private readonly base = environment.apiBase;
 
@@ -45,8 +45,6 @@ export class ArabicHomeComponent implements OnInit, AfterViewInit {
   @ViewChild('headerRef') headerRef!: ElementRef<HTMLElement>;
   @ViewChild('statsRef') statsRef!: ElementRef<HTMLElement>;
   @ViewChild('cardsRef') cardsRef!: ElementRef<HTMLElement>;
-
-  private cleanupCardTilts: Array<() => void> = [];
 
   counts = signal<ArabicCounts>({
     containers: 0,
@@ -76,6 +74,13 @@ export class ArabicHomeComponent implements OnInit, AfterViewInit {
       arabicTitle: 'المجالات',
       desc: 'Context-specific vocabulary — home, market, mosque, travel',
       route: '/arabic/domains',
+    },
+    {
+      glyph: '↻',
+      title: 'Review',
+      arabicTitle: 'المراجعة',
+      desc: 'Spaced repetition flashcards for all Arabic content',
+      route: '/arabic/review',
     },
   ];
 
@@ -129,49 +134,9 @@ export class ArabicHomeComponent implements OnInit, AfterViewInit {
         delay: 0.4,
       }
     );
-
-    cards.forEach((cardElement) => {
-      const card = cardElement as HTMLElement;
-
-      const onMove = (event: PointerEvent) => {
-        const rect = card.getBoundingClientRect();
-        const px = (event.clientX - rect.left) / rect.width - 0.5;
-        const py = (event.clientY - rect.top) / rect.height - 0.5;
-
-        gsap.to(card, {
-          rotateX: py * -10,
-          rotateY: px * 12,
-          y: -6,
-          duration: 0.32,
-          ease: 'power2.out',
-          transformPerspective: 1000,
-          transformOrigin: 'center',
-          overwrite: true,
-        });
-      };
-
-      const onLeave = () => {
-        gsap.to(card, {
-          rotateX: 0,
-          rotateY: 0,
-          y: 0,
-          duration: 0.42,
-          ease: 'power3.out',
-          overwrite: true,
-        });
-      };
-
-      card.addEventListener('pointermove', onMove);
-      card.addEventListener('pointerleave', onLeave);
-      this.cleanupCardTilts.push(() => {
-        card.removeEventListener('pointermove', onMove);
-        card.removeEventListener('pointerleave', onLeave);
-      });
-    });
   }
 
-  ngOnDestroy(): void {
-    this.cleanupCardTilts.forEach((cleanup) => cleanup());
-    this.cleanupCardTilts = [];
+  back(): void {
+    this.router.navigate(['/landing']);
   }
 }

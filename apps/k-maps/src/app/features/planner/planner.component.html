@@ -1,6 +1,5 @@
 
     <div class="pl" #page>
-      <km-home-plane-button />
 
       <!-- Ambient background -->
       <div class="pl__bg" aria-hidden="true">
@@ -11,6 +10,11 @@
 
       <!-- Header -->
       <header class="pl__header" #header>
+        <button class="pl__back" (click)="goBack()" aria-label="Back to landing">
+          <span>←</span>
+          <span>Landing</span>
+        </button>
+
         <div class="pl__title-group">
           <p class="pl__eyebrow">Study Plans</p>
           <h1 class="pl__title">Planner</h1>
@@ -62,149 +66,42 @@
           <!-- ── CALENDAR VIEW ── -->
           @if (activeView() === 'calendar') {
             <div class="pl__calendar" #viewEl>
-              <div class="pl__calendar-toolbar">
-                <div class="pl__cal-mode-toggle" role="group" aria-label="Calendar range">
-                  <span class="pl__cal-mode-pill" #calModePill aria-hidden="true"></span>
-                  @for (mode of calendarModes; track mode.id) {
-                    <button
-                      #calModeBtn
-                      class="pl__cal-mode-btn"
-                      [attr.data-mode]="mode.id"
-                      [class.pl__cal-mode-btn--active]="calendarMode() === mode.id"
-                      (click)="switchCalendarMode(mode.id)"
-                      [attr.aria-pressed]="calendarMode() === mode.id"
-                    >
-                      <span class="pl__cal-mode-icon">{{ mode.icon }}</span>
-                      <span>{{ mode.label }}</span>
-                    </button>
-                  }
-                </div>
 
-                <div class="pl__cal-nav">
-                  <button class="pl__cal-nav-btn" (click)="prevMonth()" [attr.aria-label]="'Previous ' + calendarMode()">‹</button>
-                  <h2 class="pl__cal-month">{{ calendarRangeLabel() }}</h2>
-                  <button class="pl__cal-nav-btn" (click)="nextMonth()" [attr.aria-label]="'Next ' + calendarMode()">›</button>
-                </div>
-
-                <button class="pl__cal-today-btn" (click)="goToToday()">Today</button>
+              <!-- Month nav -->
+              <div class="pl__cal-nav">
+                <button class="pl__cal-nav-btn" (click)="prevMonth()" aria-label="Previous month">‹</button>
+                <h2 class="pl__cal-month">{{ MONTHS[calendarMonth()] }} {{ calendarYear() }}</h2>
+                <button class="pl__cal-nav-btn" (click)="nextMonth()" aria-label="Next month">›</button>
               </div>
 
-              <div class="pl__calendar-stage">
-                @if (calendarMode() === 'month') {
-                  <div class="pl__cal-grid pl__cal-grid--header">
-                    @for (d of DAYS; track d) {
-                      <div class="pl__cal-day-label">{{ d }}</div>
-                    }
-                  </div>
-
-                  <div class="pl__cal-grid pl__cal-grid--cells">
-                    @for (day of calendarDays(); track day.date.getTime()) {
-                      <button
-                        class="pl__cal-cell"
-                        [class.pl__cal-cell--today]="day.isToday"
-                        [class.pl__cal-cell--other-month]="!day.isCurrentMonth"
-                        [class.pl__cal-cell--selected]="day.date.getTime() === focusDate().getTime()"
-                        (click)="openDay(day.date)"
-                      >
-                        <span class="pl__cal-date">{{ day.date.getDate() }}</span>
-                        @for (plan of day.plans.slice(0, 3); track plan.id) {
-                          <div
-                            class="pl__cal-plan-bar"
-                            [style.background]="typeColor(plan.type)"
-                            [style.color]="typeTextColor(plan.type)"
-                            [attr.title]="plan.title"
-                          >
-                            {{ plan.title }}
-                          </div>
-                        }
-                        @if (day.plans.length > 3) {
-                          <div class="pl__cal-more">+{{ day.plans.length - 3 }} more</div>
-                        }
-                      </button>
-                    }
-                  </div>
+              <!-- Day headers -->
+              <div class="pl__cal-grid pl__cal-grid--header">
+                @for (d of DAYS; track d) {
+                  <div class="pl__cal-day-label">{{ d }}</div>
                 }
+              </div>
 
-                @if (calendarMode() === 'week') {
-                  <div class="pl__week-grid">
-                    @for (day of weekDays(); track day.date.getTime()) {
-                      <section
-                        class="pl__week-day"
-                        [class.pl__week-day--today]="day.isToday"
-                        [class.pl__week-day--selected]="day.date.getTime() === focusDate().getTime()"
+              <!-- Day cells -->
+              <div class="pl__cal-grid pl__cal-grid--cells">
+                @for (day of calendarDays(); track day.date.getTime()) {
+                  <div
+                    class="pl__cal-cell"
+                    [class.pl__cal-cell--today]="day.isToday"
+                    [class.pl__cal-cell--other-month]="!day.isCurrentMonth"
+                  >
+                    <span class="pl__cal-date">{{ day.date.getDate() }}</span>
+                    @for (plan of day.plans.slice(0, 3); track plan.id) {
+                      <div
+                        class="pl__cal-plan-bar"
+                        [style.background]="typeColor(plan.type)"
+                        [style.color]="typeTextColor(plan.type)"
+                        [attr.title]="plan.title"
                       >
-                        <button class="pl__week-head" (click)="openDay(day.date)">
-                          <span class="pl__week-dayname">{{ formatWeekdayShort(day.date) }}</span>
-                          <span class="pl__week-date">{{ formatMonthDay(day.date) }}</span>
-                        </button>
-
-                        <div class="pl__week-list">
-                          @if (day.plans.length === 0) {
-                            <div class="pl__week-empty">No plans</div>
-                          }
-
-                          @for (plan of day.plans; track plan.id) {
-                            <article class="pl__week-card">
-                              <span
-                                class="pl__type-badge"
-                                [style.background]="typeColor(plan.type)"
-                                [style.color]="typeTextColor(plan.type)"
-                              >
-                                {{ typeLabel(plan.type) }}
-                              </span>
-                              <h3 class="pl__week-card-title">{{ plan.title }}</h3>
-                              @if (plan.description) {
-                                <p class="pl__week-card-desc">{{ plan.description }}</p>
-                              }
-                              <span class="pl__week-card-status">{{ statusLabel(plan.status) }}</span>
-                            </article>
-                          }
-                        </div>
-                      </section>
+                        {{ plan.title }}
+                      </div>
                     }
-                  </div>
-                }
-
-                @if (calendarMode() === 'day') {
-                  <div class="pl__day-view">
-                    <div class="pl__day-header">
-                      <p class="pl__day-eyebrow">{{ formatWeekdayShort(focusDate()) }}</p>
-                      <h3 class="pl__day-title">{{ formatDayTitle(focusDate()) }}</h3>
-                      <p class="pl__day-caption">{{ dayPlans().length }} scheduled {{ dayPlans().length === 1 ? 'plan' : 'plans' }}</p>
-                    </div>
-
-                    @if (dayPlans().length === 0) {
-                      <div class="pl__day-empty">
-                        <span class="pl__day-empty-icon">◇</span>
-                        <span>No plans scheduled for {{ formatAgendaDate(focusDate()) }}</span>
-                      </div>
-                    } @else {
-                      <div class="pl__day-list">
-                        @for (plan of dayPlans(); track plan.id) {
-                          <article class="pl__day-card">
-                            <div class="pl__day-card-top">
-                              <span
-                                class="pl__type-badge"
-                                [style.background]="typeColor(plan.type)"
-                                [style.color]="typeTextColor(plan.type)"
-                              >
-                                {{ typeLabel(plan.type) }}
-                              </span>
-                              <span class="pl__day-card-status">{{ statusLabel(plan.status) }}</span>
-                            </div>
-                            <h3 class="pl__day-card-title">{{ plan.title }}</h3>
-                            @if (plan.description) {
-                              <p class="pl__day-card-desc">{{ plan.description }}</p>
-                            }
-                            <p class="pl__day-card-meta">
-                              @if (plan.start_date) { <span>{{ formatShortDate(plan.start_date) }}</span> }
-                              @if (plan.end_date) {
-                                <span> → {{ formatShortDate(plan.end_date) }}</span>
-                              }
-                            </p>
-                          </article>
-                        }
-                      </div>
+                    @if (day.plans.length > 3) {
+                      <div class="pl__cal-more">+{{ day.plans.length - 3 }} more</div>
                     }
                   </div>
                 }
@@ -215,108 +112,42 @@
           <!-- ── KANBAN VIEW ── -->
           @if (activeView() === 'kanban') {
             <div class="pl__kanban" #viewEl>
-              <div class="pl__kanban-shell">
-                <div class="pl__kanban-board">
-                  @for (col of kanbanColumns; track col.status) {
-                    <section class="pl__col" [class]="'pl__col--' + col.status">
-                      <div class="pl__col-header">
-                        <div class="pl__col-pill">
-                          <span class="pl__col-icon" aria-hidden="true">{{ col.icon }}</span>
-                          <div class="pl__col-copy">
-                            <span class="pl__col-title">{{ col.label }}</span>
-                            <span class="pl__col-caption">{{ col.caption }}</span>
-                          </div>
-                          <span class="pl__col-count">{{ plansByStatus(col.status).length }}</span>
+              @for (col of kanbanColumns; track col.status) {
+                <div class="pl__col">
+                  <div class="pl__col-header">
+                    <span class="pl__col-title">{{ col.label }}</span>
+                    <span class="pl__col-count">{{ plansByStatus(col.status).length }}</span>
+                  </div>
+                  <div class="pl__col-body">
+                    @if (plansByStatus(col.status).length === 0) {
+                      <div class="pl__col-empty">No plans</div>
+                    }
+                    @for (plan of plansByStatus(col.status); track plan.id) {
+                      <div class="pl__kanban-card">
+                        <div class="pl__kanban-card-top">
+                          <span
+                            class="pl__type-badge"
+                            [style.background]="typeColor(plan.type)"
+                            [style.color]="typeTextColor(plan.type)"
+                          >{{ plan.type }}</span>
+                          <span class="pl__drag-handle" aria-hidden="true">⠿</span>
                         </div>
-                      </div>
-
-                      <div
-                        class="pl__col-body"
-                        [class.pl__col-body--drop-target]="isDropTarget(col.status)"
-                        (dragover)="onColumnDragOver($event, col.status)"
-                        (dragleave)="clearDropTarget()"
-                        (drop)="onColumnDrop($event, col.status)"
-                      >
-                        @if (plansByStatus(col.status).length === 0) {
-                          <div class="pl__col-empty">
-                            <span class="pl__col-empty-icon">◇</span>
-                            <span>No plans yet</span>
-                          </div>
+                        <p class="pl__kanban-card-title">{{ plan.title }}</p>
+                        @if (plan.start_date || plan.end_date) {
+                          <p class="pl__kanban-card-dates">
+                            @if (plan.start_date) { <span>{{ formatShortDate(plan.start_date) }}</span> }
+                            @if (plan.start_date && plan.end_date) { <span> → </span> }
+                            @if (plan.end_date) { <span>{{ formatShortDate(plan.end_date) }}</span> }
+                          </p>
                         }
-
-                        @for (plan of plansByStatus(col.status); track plan.id) {
-                          <article
-                            class="pl__kanban-card"
-                            [class.pl__kanban-card--dragging]="isDragging(plan.id)"
-                            [class.pl__kanban-card--saving]="savingPlanId() === plan.id"
-                            draggable="true"
-                            (dragstart)="onPlanDragStart(plan.id)"
-                            (dragend)="onPlanDragEnd()"
-                          >
-                            <div class="pl__kanban-card-glow" [style.--pl-card-accent]="typeTextColor(plan.type)"></div>
-
-                            <div class="pl__kanban-card-top">
-                              <div class="pl__kanban-card-type">
-                                <span
-                                  class="pl__kanban-card-icon"
-                                  [style.background]="typeColor(plan.type)"
-                                  [style.color]="typeTextColor(plan.type)"
-                                  aria-hidden="true"
-                                >
-                                  {{ typeGlyph(plan.type) }}
-                                </span>
-                                <div class="pl__kanban-card-copy">
-                                  <span
-                                    class="pl__type-badge"
-                                    [style.background]="typeColor(plan.type)"
-                                    [style.color]="typeTextColor(plan.type)"
-                                  >
-                                    {{ typeLabel(plan.type) }}
-                                  </span>
-                                  <span class="pl__kanban-card-status">{{ statusLabel(plan.status) }}</span>
-                                </div>
-                              </div>
-
-                              <span class="pl__drag-handle" aria-hidden="true">⋮⋮</span>
-                            </div>
-
-                            <p class="pl__kanban-card-title">{{ plan.title }}</p>
-
-                            @if (plan.description) {
-                              <p class="pl__kanban-card-desc">{{ plan.description }}</p>
-                            }
-
-                            <div class="pl__kanban-card-meta">
-                              @if (plan.start_date || plan.end_date) {
-                                <p class="pl__kanban-card-dates">
-                                  @if (plan.start_date) { <span>{{ formatShortDate(plan.start_date) }}</span> }
-                                  @if (plan.start_date && plan.end_date) { <span> → </span> }
-                                  @if (plan.end_date) { <span>{{ formatShortDate(plan.end_date) }}</span> }
-                                </p>
-                              } @else {
-                                <p class="pl__kanban-card-dates">Unscheduled</p>
-                              }
-                            </div>
-
-                            <div class="pl__kanban-card-actions">
-                              @for (target of kanbanColumns; track target.status) {
-                                <button
-                                  class="pl__move-btn"
-                                  [class.pl__move-btn--active]="normalizeStatus(plan.status) === target.status"
-                                  [disabled]="normalizeStatus(plan.status) === target.status || savingPlanId() === plan.id"
-                                  (click)="movePlanToStatus(plan.id, target.status)"
-                                >
-                                  {{ target.label }}
-                                </button>
-                              }
-                            </div>
-                          </article>
+                        @if (plan.description) {
+                          <p class="pl__kanban-card-desc">{{ plan.description }}</p>
                         }
                       </div>
-                    </section>
-                  }
+                    }
+                  </div>
                 </div>
-              </div>
+              }
             </div>
           }
 
