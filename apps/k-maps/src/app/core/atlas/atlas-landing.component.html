@@ -1,4 +1,8 @@
 <div class="atlas" #host>
+  <div class="atlas__fire-stage" aria-hidden="true">
+    <div #fireHost class="atlas__fire-webgl"></div>
+  </div>
+
   <svg #svgRoot class="atlas__canvas"></svg>
 
   <div class="atlas__edge-words atlas__edge-words--top" aria-hidden="true">
@@ -54,8 +58,8 @@
   </div>
 
   <button #homePlaneButton class="atlas__home-plane" type="button" aria-label="Enter home" (click)="launchHome()">
-    <span class="atlas__home-plane-ring"></span>
     <span class="atlas__home-plane-glow"></span>
+    <span class="atlas__home-plane-shadow"></span>
 
     <svg class="atlas__home-plane-icon" viewBox="0 0 72 72" aria-hidden="true">
       <path class="atlas__plane-trail" d="M 10 49 C 22 44, 30 36, 36 24" />

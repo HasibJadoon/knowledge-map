@@ -40,12 +40,38 @@
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 2;
+}
+
+.atlas__fire-stage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8rem;
+  margin: 0 auto;
+  width: min(100%, 1100px);
+  height: clamp(380px, 48vh, 560px);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.94;
+}
+
+.atlas__fire-webgl {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.atlas__fire-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .atlas__edge-words {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
@@ -130,36 +156,23 @@
   position: absolute;
   right: 1.5rem;
   bottom: 1.5rem;
-  z-index: 3;
+  z-index: 4;
   display: grid;
   place-items: center;
-  width: 5.1rem;
-  height: 5.1rem;
+  width: 7.25rem;
+  height: 7.25rem;
   padding: 0;
-  border: 1px solid rgba(246, 225, 183, 0.22);
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 35% 28%, rgba(255, 243, 215, 0.14), rgba(7, 11, 16, 0.74)),
-    rgba(8, 11, 16, 0.52);
-  box-shadow:
-    0 16px 44px rgba(0, 0, 0, 0.32),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   cursor: pointer;
   transition:
     transform 0.24s ease,
-    border-color 0.24s ease,
-    box-shadow 0.24s ease,
     opacity 0.24s ease;
 
   &:hover {
-    transform: translateY(-2px) scale(1.02);
-    border-color: rgba(246, 225, 183, 0.4);
-    box-shadow:
-      0 20px 52px rgba(0, 0, 0, 0.36),
-      0 0 32px rgba(242, 184, 116, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px) scale(1.03);
   }
 
   &.is-launching {
@@ -167,40 +180,50 @@
   }
 }
 
-.atlas__home-plane-ring,
-.atlas__home-plane-glow {
+.atlas__home-plane-glow,
+.atlas__home-plane-shadow {
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
   pointer-events: none;
 }
 
-.atlas__home-plane-ring {
-  border: 1px solid rgba(255, 213, 149, 0.32);
-  opacity: 0.5;
+.atlas__home-plane-glow {
+  inset: 0.35rem;
+  opacity: 0.34;
+  background:
+    radial-gradient(circle at center, rgba(255, 189, 114, 0.18), transparent 0 46%),
+    radial-gradient(circle at 58% 36%, rgba(130, 175, 255, 0.14), transparent 0 62%);
+  filter: blur(22px);
 }
 
-.atlas__home-plane-glow {
-  opacity: 0.3;
-  background:
-    radial-gradient(circle at center, rgba(255, 189, 114, 0.22), transparent 0 54%),
-    radial-gradient(circle at 55% 40%, rgba(130, 175, 255, 0.14), transparent 0 68%);
+.atlas__home-plane-shadow {
+  left: 50%;
+  bottom: 0.4rem;
+  width: 3rem;
+  height: 0.9rem;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.42), transparent 72%);
+  filter: blur(6px);
+  opacity: 0.34;
 }
 
 .atlas__home-plane-icon {
   position: relative;
-  width: 3rem;
-  height: 3rem;
+  width: 5.1rem;
+  height: 5.1rem;
   overflow: visible;
+  filter:
+    drop-shadow(0 16px 22px rgba(0, 0, 0, 0.28))
+    drop-shadow(0 0 16px rgba(242, 184, 116, 0.08));
 }
 
 .atlas__plane-trail {
   fill: none;
   stroke: rgba(249, 230, 183, 0.62);
-  stroke-width: 1.2;
+  stroke-width: 1.05;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
-  opacity: 0.14;
+  opacity: 0.1;
 }
 
 .atlas__plane-body,
@@ -243,31 +266,6 @@
 
 :host ::ng-deep .atlas-canvas__star {
   fill: rgba(255, 255, 255, 0.92);
-}
-
-:host ::ng-deep .atlas-canvas__flame-field {
-  opacity: 0.8;
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-:host ::ng-deep .atlas-canvas__flame {
-  opacity: 0.7;
-}
-
-:host ::ng-deep .atlas-canvas__flame-haze {
-  opacity: 0.08;
-  filter: blur(28px);
-}
-
-:host ::ng-deep .atlas-canvas__flame-body {
-  opacity: 0.18;
-  filter: blur(10px);
-}
-
-:host ::ng-deep .atlas-canvas__flame-core {
-  opacity: 0.76;
-  filter: blur(8px);
 }
 
 :host ::ng-deep .atlas-canvas__territory-ring {
@@ -372,11 +370,22 @@
     min-height: 100svh;
   }
 
+  .atlas__fire-stage {
+    width: min(100%, 920px);
+    height: clamp(320px, 42vh, 480px);
+    bottom: -6rem;
+  }
+
   .atlas__home-plane {
     right: 1rem;
     bottom: 1rem;
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 5.8rem;
+    height: 5.8rem;
+  }
+
+  .atlas__home-plane-icon {
+    width: 4.15rem;
+    height: 4.15rem;
   }
 
   .atlas__edge-words--top,
