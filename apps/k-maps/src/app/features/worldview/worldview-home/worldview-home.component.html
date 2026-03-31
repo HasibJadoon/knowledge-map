@@ -1,0 +1,46 @@
+
+    <div class="wvh" #page>
+
+      <!-- Particles -->
+      <div class="wvh__particles" aria-hidden="true">
+        @for (p of particles; track p) {
+          <span class="particle" [style.--i]="p"></span>
+        }
+      </div>
+      <div class="wvh__inner">
+
+        <!-- Header -->
+        <header class="wvh__header" #header>
+          <p class="wvh__eyebrow">Knowledge Research Engine</p>
+          <h1 class="wvh__title">Worldview</h1>
+          <p class="wvh__subtitle">Sources · Comparisons · Research</p>
+          <div class="wvh__rule"></div>
+        </header>
+
+        <!-- Stats Row -->
+        <div class="wvh__stats" #statsRow>
+          @for (stat of stats(); track stat.key) {
+            <div class="wvh__stat">
+              <span class="wvh__stat-value" [attr.data-key]="stat.key">{{ stat.display }}</span>
+              <span class="wvh__stat-label">{{ stat.label }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="wvh__cards">
+          @for (card of cards; track card.route) {
+            <a class="wvh__card" [routerLink]="[card.route]" #cardEl>
+              <div class="wvh__card-glow"></div>
+              <div class="wvh__card-tag">{{ card.tag }}</div>
+              <div class="wvh__card-glyph">{{ card.glyph }}</div>
+              <h2 class="wvh__card-title">{{ card.title }}</h2>
+              <p class="wvh__card-desc">{{ card.desc }}</p>
+              <div class="wvh__card-arrow">→</div>
+            </a>
+          }
+        </div>
+
+      </div>
+    </div>
+  

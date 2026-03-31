@@ -9,21 +9,22 @@ import {
   signal,
   computed,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import gsap from 'gsap';
 import { environment } from '../../../environments/environment';
+import { HomePlaneButtonComponent } from '../../shared/components/home-plane-button/home-plane-button.component';
 
 type ViewMode = 'calendar' | 'kanban' | 'timeline';
 type PlanStatus = 'active' | 'completed' | 'paused';
 type PlanType = 'reading' | 'research' | 'memorisation' | 'mixed' | string;
 
 interface Plan {
-  id: string;
+  id: string | number;
   title: string;
   type: PlanType;
   start_date?: string;
   end_date?: string;
-  status: PlanStatus;
+  status: PlanStatus | string;
   description?: string;
 }
 
@@ -57,13 +58,14 @@ const MONTHS = [
 @Component({
   selector: 'km-planner',
   standalone: true,
-  imports: [],
+  imports: [HomePlaneButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './planner.component.html',
   styleUrl: './planner.component.scss',
 })
 export class PlannerComponent implements OnInit, AfterViewInit {
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   @ViewChild('header') headerRef!: ElementRef<HTMLElement>;
   @ViewChild('main') mainRef!: ElementRef<HTMLElement>;
@@ -72,6 +74,9 @@ export class PlannerComponent implements OnInit, AfterViewInit {
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly activeView = signal<ViewMode>('calendar');
+  readonly draggingPlanId = signal<Plan['id'] | null>(null);
+  readonly dropTargetStatus = signal<PlanStatus | null>(null);
+  readonly savingPlanId = signal<Plan['id'] | null>(null);
 
   readonly calendarMonth = signal(new Date().getMonth());
   readonly calendarYear = signal(new Date().getFullYear());
@@ -147,7 +152,25 @@ export class PlannerComponent implements OnInit, AfterViewInit {
     })
   );
 
+  readonly kanbanPlans = computed<Record<PlanStatus, Plan[]>>(() => {
+    const grouped: Record<PlanStatus, Plan[]> = {
+      active: [],
+      paused: [],
+      completed: [],
+    };
+
+    for (const plan of this.sortedPlans()) {
+      grouped[this.normalizeStatus(plan.status)].push(plan);
+    }
+
+    return grouped;
+  });
+
   ngOnInit(): void {
+    const view = this.route.snapshot.queryParamMap.get('view');
+    if (view === 'calendar' || view === 'kanban' || view === 'timeline') {
+      this.activeView.set(view);
+    }
     void this.loadPlans();
   }
 
@@ -168,10 +191,13 @@ export class PlannerComponent implements OnInit, AfterViewInit {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const res = await fetch(`${environment.wvBase}/wv/plans?limit=50`);
+      const res = await fetch(`${environment.apiBase}/wv/plans?limit=50`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json() as { ok: boolean; plans: Plan[] };
-      this.plans.set(data.plans ?? []);
+      this.plans.set((data.plans ?? []).map((plan) => ({
+        ...plan,
+        status: this.normalizeStatus(plan.status),
+      })));
     } catch (e) {
       this.error.set(e instanceof Error ? e.message : 'Failed to load plans');
     } finally {
@@ -180,7 +206,7 @@ export class PlannerComponent implements OnInit, AfterViewInit {
   }
 
   plansByStatus(status: PlanStatus): Plan[] {
-    return this.plans().filter((p) => p.status === status);
+    return this.kanbanPlans()[status];
   }
 
   switchView(view: ViewMode): void {
@@ -188,6 +214,12 @@ export class PlannerComponent implements OnInit, AfterViewInit {
     const main = this.mainRef.nativeElement;
     gsap.fromTo(main, { opacity: .4 }, { opacity: 1, duration: .35, ease: 'power2.out' });
     this.activeView.set(view);
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { view },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
     setTimeout(() => {
       const viewEl = main.querySelector('.pl__calendar, .pl__kanban, .pl__timeline');
       if (viewEl) {
@@ -218,13 +250,76 @@ export class PlannerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  goBack(): void {
-    void this.router.navigateByUrl('/landing');
-  }
-
   addTask(): void {
     // Navigate to hub planner section for data entry
     void this.router.navigateByUrl('/hub/worldview/plans');
+  }
+
+  onPlanDragStart(planId: Plan['id']): void {
+    this.draggingPlanId.set(planId);
+  }
+
+  onPlanDragEnd(): void {
+    this.draggingPlanId.set(null);
+    this.dropTargetStatus.set(null);
+  }
+
+  onColumnDragOver(event: DragEvent, status: PlanStatus): void {
+    event.preventDefault();
+    this.dropTargetStatus.set(status);
+  }
+
+  onColumnDrop(event: DragEvent, status: PlanStatus): void {
+    event.preventDefault();
+    const planId = this.draggingPlanId();
+    this.dropTargetStatus.set(null);
+    if (planId === null) return;
+    this.movePlanToStatus(planId, status);
+    this.draggingPlanId.set(null);
+  }
+
+  clearDropTarget(): void {
+    this.dropTargetStatus.set(null);
+  }
+
+  async movePlanToStatus(planId: Plan['id'], status: PlanStatus): Promise<void> {
+    const current = this.plans().find((plan) => plan.id === planId);
+    if (!current) return;
+
+    const normalizedCurrent = this.normalizeStatus(current.status);
+    if (normalizedCurrent === status) return;
+
+    this.plans.update((plans) =>
+      plans.map((plan) =>
+        plan.id === planId ? { ...plan, status } : plan
+      )
+    );
+
+    this.savingPlanId.set(planId);
+
+    try {
+      const res = await fetch(`${environment.apiBase}/wv/plans/${planId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+    } catch (error) {
+      console.warn('Planner status update failed; keeping local state.', error);
+    } finally {
+      this.savingPlanId.set(null);
+    }
+  }
+
+  isDragging(planId: Plan['id']): boolean {
+    return this.draggingPlanId() === planId;
+  }
+
+  isDropTarget(status: PlanStatus): boolean {
+    return this.dropTargetStatus() === status;
   }
 
   typeColor(type: PlanType): string {
@@ -264,6 +359,25 @@ export class PlannerComponent implements OnInit, AfterViewInit {
       return String(new Date(dateStr).getFullYear());
     } catch {
       return '';
+    }
+  }
+
+  normalizeStatus(status?: string): PlanStatus {
+    switch ((status ?? '').toLowerCase()) {
+      case 'completed':
+      case 'done':
+      case 'published':
+        return 'completed';
+      case 'paused':
+      case 'on_hold':
+      case 'on-hold':
+        return 'paused';
+      case 'planning':
+      case 'in_progress':
+      case 'in-progress':
+      case 'active':
+      default:
+        return 'active';
     }
   }
 }

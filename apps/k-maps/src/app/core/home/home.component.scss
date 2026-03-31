@@ -1,0 +1,288 @@
+// ══════════════════════════════════════════════════════════
+// Home Page — K-MAPS V2
+// ══════════════════════════════════════════════════════════
+
+.home {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  background: radial-gradient(ellipse 78% 54% at 50% 28%, rgba(18, 16, 10, 0.88) 0%, rgba(6, 6, 6, 0.98) 58%, #000 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+// ─── Particles ─────────────────────────────────────────────
+.home__particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: var(--km-gold);
+  opacity: 0;
+  animation: floatParticle calc(8s + var(--i, 0) * 1.3s) infinite linear;
+  left: calc(var(--i, 0) * 6.5% + 5%);
+  top: 100%;
+  animation-delay: calc(var(--i, 0) * 0.6s);
+}
+
+@keyframes floatParticle {
+  0%   { transform: translateY(0) scale(1); opacity: 0; }
+  10%  { opacity: 0.6; }
+  80%  { opacity: 0.15; }
+  100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+}
+
+// ─── Fire ──────────────────────────────────────────────────
+.home__fire-stage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8rem;
+  margin: 0 auto;
+  width: min(100%, 1100px);
+  height: clamp(380px, 48vh, 560px);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.94;
+}
+
+.home__fire-webgl {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.home__fire-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+// ─── Header / Logo ─────────────────────────────────────────
+.home__header {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.home__logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.home__logo-emblem {
+  width: 56px;
+  height: 56px;
+  filter: drop-shadow(0 0 16px rgba(201, 168, 76, 0.5));
+}
+
+.home__logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.logo-name {
+  font-family: var(--km-font-heading);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  background: linear-gradient(180deg, #e8c96a 0%, #c9a84c 40%, #8a6e2a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 0 20px rgba(201, 168, 76, 0.35));
+}
+
+.logo-sub {
+  font-family: var(--km-font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--km-text-3);
+}
+
+// ─── Tagline ───────────────────────────────────────────────
+.home__tagline {
+  position: relative;
+  z-index: 2;
+  font-family: var(--km-font-body);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: var(--km-text-3);
+  text-transform: uppercase;
+  margin-bottom: 3.5rem;
+}
+
+// ─── Module Cards ─────────────────────────────────────────
+.home__cards {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 1.2rem;
+  align-items: stretch;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1180px;
+  width: 100%;
+}
+
+.km-module-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: clamp(130px, 14vw, 175px);
+  min-height: 200px;
+  padding: 0 1rem 1.2rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--km-radius-lg);
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+
+  &:hover {
+    border-color: var(--km-border-gold);
+    box-shadow: 0 0 40px rgba(201, 168, 76, 0.16), 0 0 1px rgba(201, 168, 76, 0.4) inset;
+    transform: translateY(-4px);
+
+    .km-module-card__artwork { opacity: 0.9; }
+    .km-module-card__shimmer { opacity: 1; }
+    .km-module-card__bottom-glow { opacity: 1; }
+    .km-module-card__label { color: var(--km-gold-bright); letter-spacing: 0.2em; }
+  }
+
+  &:active { transform: translateY(-2px); }
+}
+
+.km-module-card__artwork {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.km-module-card__glyph {
+  font-size: 3.5rem;
+  line-height: 1;
+  background: linear-gradient(180deg, #c9a84c 0%, #6b5520 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 12px rgba(201, 168, 76, 0.3));
+}
+
+// Arabic module gets larger glyph
+.km-module-card--arabic .km-module-card__glyph {
+  font-family: var(--km-font-arabic);
+  font-size: 4rem;
+}
+
+.km-module-card__shimmer {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(201, 168, 76, 0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.km-module-card__bottom-glow {
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--km-gold), transparent);
+  opacity: 0.35;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+}
+
+.km-module-card__label {
+  position: relative;
+  z-index: 2;
+  font-family: var(--km-font-heading);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--km-text-2);
+  transition: color 0.3s, letter-spacing 0.3s;
+}
+
+// ─── Footer ────────────────────────────────────────────────
+.home__footer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 480px;
+  margin-top: 3rem;
+
+  .km-divider-text {
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    color: var(--km-text-3);
+  }
+}
+
+@media (max-width: 960px) {
+  .home {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .home__fire-stage {
+    bottom: -6rem;
+    width: min(100%, 760px);
+    height: clamp(300px, 34vh, 420px);
+  }
+
+  .home__tagline {
+    margin-bottom: 2.8rem;
+  }
+
+  .home__cards {
+    width: 100%;
+    justify-content: center;
+    gap: 0.9rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .home__fire-stage {
+    opacity: 0.8;
+    bottom: -4.5rem;
+    width: min(100%, 540px);
+    height: clamp(240px, 26vh, 320px);
+  }
+}

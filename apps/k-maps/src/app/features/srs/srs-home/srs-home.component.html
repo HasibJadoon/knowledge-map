@@ -1,0 +1,242 @@
+<div class="srs" #page [style.--srs-accent]="selectedDeck().accent">
+  <km-home-plane-button />
+
+  @if (currentScreen() !== 'decks') {
+    <div class="srs-screen-nav" aria-label="SRS navigation">
+      <button class="srs-screen-nav__icon" type="button" (click)="setScreen('decks')" aria-label="Back to decks">
+        <span class="srs-screen-nav__icon-shadow"></span>
+        <svg class="srs-screen-nav__icon-glyph" viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M 30 12 L 18 24 L 30 36" />
+          <path d="M 19 24 H 34" />
+        </svg>
+      </button>
+
+      @if (currentScreen() === 'study') {
+        <button class="srs-screen-nav__icon" type="button" (click)="openDashboardScreen()" aria-label="Open dashboard">
+          <span class="srs-screen-nav__icon-shadow"></span>
+          <svg class="srs-screen-nav__icon-glyph" viewBox="0 0 48 48" aria-hidden="true">
+            <rect x="9" y="9" width="12" height="12" rx="2.5" />
+            <rect x="27" y="9" width="12" height="12" rx="2.5" />
+            <rect x="9" y="27" width="12" height="12" rx="2.5" />
+            <rect x="27" y="27" width="12" height="12" rx="2.5" />
+          </svg>
+        </button>
+      } @else {
+        <button class="srs-screen-nav__icon" type="button" (click)="openStudyScreen()" aria-label="Open study">
+          <span class="srs-screen-nav__icon-shadow"></span>
+          <svg class="srs-screen-nav__icon-glyph" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M 16 10 H 32 A 4 4 0 0 1 36 14 V 34 A 4 4 0 0 1 32 38 H 16 A 4 4 0 0 1 12 34 V 14 A 4 4 0 0 1 16 10 Z" />
+            <path d="M 19 16 H 29" />
+            <path d="M 19 22 H 29" />
+            <path d="M 19 28 H 25" />
+          </svg>
+        </button>
+      }
+    </div>
+  }
+
+  @if (error()) {
+    <div class="srs__error">{{ error() }}</div>
+  }
+
+  @if (currentScreen() === 'decks') {
+    <section class="srs-stage srs-stage--decks">
+      <div class="srs-intro srs-intro--center">
+        <p class="srs-intro__eyebrow">Spaced Repetition</p>
+        <h1 class="srs-intro__title">Six Study Decks</h1>
+        <p class="srs-intro__subtitle">Choose a deck to enter review, study, and progress analytics.</p>
+      </div>
+
+      <div class="srs-decks__grid">
+        @for (deck of deckCards(); track trackByDeck($index, deck)) {
+          <button
+            #deckCard
+            class="srs-deck"
+            type="button"
+            [attr.data-deck-id]="deck.id"
+            [class.srs-deck--active]="selectedDeckId() === deck.id"
+            [style.--deck-accent]="deck.accent"
+            (click)="selectDeck(deck.id)"
+          >
+            <div class="srs-deck__artwork">
+              <span class="srs-deck__glyph">{{ deck.monogram }}</span>
+              <div class="srs-deck__shimmer"></div>
+            </div>
+            <div class="srs-deck__bottom-glow"></div>
+            <span class="srs-deck__label">{{ deck.label }}</span>
+          </button>
+        }
+      </div>
+    </section>
+  } @else if (currentScreen() === 'study') {
+    <section class="srs-stage srs-stage--study">
+      <div class="srs-intro srs-intro--center srs-intro--compact">
+        <p class="srs-intro__eyebrow">{{ selectedDeck().shortLabel }}</p>
+        <h1 class="srs-intro__title">{{ selectedDeck().label }}</h1>
+        <p class="srs-intro__subtitle">{{ selectedDeck().description }}</p>
+      </div>
+
+      <div class="srs-controls">
+        <div class="srs__filters">
+          @for (filter of filters; track filter) {
+            <button
+              class="srs-filter"
+              type="button"
+              [ngClass]="{ 'srs-filter--active': activeFilter() === filter }"
+              (click)="setFilter(filter)"
+            >
+              {{ formatRating(filter) }}
+            </button>
+          }
+        </div>
+
+        <label class="srs-select">
+          <span class="srs-select__label">Surah scope</span>
+          <select [value]="selectedSurahId() ?? ''" (change)="setSurahFilter(($any($event.target).value))">
+            <option value="">All scopes</option>
+            @for (surah of surahs(); track surah.id) {
+              <option [value]="surah.surahNumber">
+                {{ surah.surahNumber }}. {{ surah.englishName }}
+              </option>
+            }
+          </select>
+        </label>
+      </div>
+
+      @if (loading()) {
+        <div class="srs-review__state">
+          <div class="srs-review__spinner"></div>
+          <p>Loading deck…</p>
+        </div>
+      } @else if (!currentItem()) {
+        <div class="srs-review__state srs-review__state--empty">
+          <p>No card available in this deck for the current filter.</p>
+          <span>Pick another filter or another deck.</span>
+        </div>
+      } @else {
+        <div class="srs-study">
+          <div class="srs-study__review">
+            <div class="srs-review-card" #studyCard>
+              <div class="srs-review-card__inner" #reviewCardInner>
+                <div class="srs-review-card__face srs-review-card__face--front">
+                  <div class="srs-review-card__top">
+                    <span class="srs-review-card__deck">{{ currentItem()!.deck_label }}</span>
+                    <span class="srs-review-card__state">{{ formatDueState(currentItem()!) }}</span>
+                  </div>
+                  <div class="srs-review-card__body">
+                    <span class="srs-review-card__title">{{ currentItem()!.title }}</span>
+                    <strong class="srs-review-card__ref">{{ currentItem()!.reference }}</strong>
+                    <p>{{ currentItem()!.prompt }}</p>
+                  </div>
+                  <button class="srs-review-card__reveal" type="button" (click)="toggleCard()">
+                    {{ flipped() ? 'Hide answer' : 'Reveal answer' }}
+                  </button>
+                </div>
+
+                <div class="srs-review-card__face srs-review-card__face--back">
+                  <div class="srs-review-card__top">
+                    <span class="srs-review-card__deck">Answer</span>
+                    <span class="srs-review-card__state">{{ formatRating(currentItem()!.last_rating) }}</span>
+                  </div>
+                  <div class="srs-review-card__body">
+                    <span class="srs-review-card__title">{{ currentItem()!.title }}</span>
+                    <strong class="srs-review-card__ref">{{ currentItem()!.reference }}</strong>
+                    <p>{{ currentItem()!.answer }}</p>
+                  </div>
+                  <button class="srs-review-card__reveal" type="button" (click)="toggleCard()">
+                    Show prompt
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="srs-review__actions">
+              <button class="srs-rate srs-rate--again" type="button" [disabled]="!flipped() || reviewing()" (click)="rateCurrent('again')">Again</button>
+              <button class="srs-rate srs-rate--hard" type="button" [disabled]="!flipped() || reviewing()" (click)="rateCurrent('hard')">Hard</button>
+              <button class="srs-rate srs-rate--good" type="button" [disabled]="!flipped() || reviewing()" (click)="rateCurrent('good')">Good</button>
+              <button class="srs-rate srs-rate--easy" type="button" [disabled]="!flipped() || reviewing()" (click)="rateCurrent('easy')">Easy</button>
+            </div>
+          </div>
+
+          <div class="srs-study__queue">
+            @for (item of queueItems(); track trackByItem($index, item)) {
+              <article class="srs-queue-row">
+                <div class="srs-queue-row__main">
+                  <p class="srs-queue-row__title">{{ item.title }}</p>
+                  <p class="srs-queue-row__ref">{{ item.reference }}</p>
+                  <p class="srs-queue-row__prompt">{{ item.prompt }}</p>
+                </div>
+
+                <div class="srs-queue-row__meta">
+                  <span class="srs-queue-row__state" [ngClass]="'srs-queue-row__state--' + item.due_state">
+                    {{ formatDueState(item) }}
+                  </span>
+                  <span>Reps {{ item.reps ?? 0 }}</span>
+                  <span>Ease {{ (item.ease ?? 2.5).toFixed(1) }}</span>
+                  @if (item.surah_id) {
+                    <button class="srs-queue-row__link" type="button" (click)="openSurah(item)">
+                      Surah {{ item.surah_id }}
+                    </button>
+                  }
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      }
+    </section>
+  } @else {
+    <section class="srs-stage srs-stage--dashboard">
+      <div class="srs-intro srs-intro--center srs-intro--compact">
+        <p class="srs-intro__eyebrow">Progress Analytics</p>
+        <h1 class="srs-intro__title">{{ selectedDeck().label }}</h1>
+        <p class="srs-intro__subtitle">Due load, forecast, and repetition patterns for the active study deck.</p>
+      </div>
+
+      <div class="srs-progress__summary">
+        <div class="srs-progress__metric">
+          <span>Due</span>
+          <strong>{{ selectedDeck().due }}</strong>
+        </div>
+        <div class="srs-progress__metric">
+          <span>Queue</span>
+          <strong>{{ selectedDeck().upcoming }}</strong>
+        </div>
+        <div class="srs-progress__metric">
+          <span>Done</span>
+          <strong>{{ selectedDeck().mastered }}</strong>
+        </div>
+        <div class="srs-progress__metric">
+          <span>Total</span>
+          <strong>{{ selectedDeck().total }}</strong>
+        </div>
+      </div>
+
+      <div class="srs-progress__charts">
+        <div class="srs-progress__chart">
+          <p class="srs-stage__eyebrow">Distribution</p>
+          <svg #deckChart class="srs-chart" aria-label="Deck distribution chart"></svg>
+        </div>
+        <div class="srs-progress__chart">
+          <p class="srs-stage__eyebrow">Forecast</p>
+          <svg #forecastChart class="srs-chart" aria-label="Forecast chart"></svg>
+        </div>
+        <div class="srs-progress__chart srs-progress__chart--wide">
+          <p class="srs-stage__eyebrow">Repetition Histogram</p>
+          <svg #histogramChart class="srs-chart srs-chart--short" aria-label="Repetition histogram"></svg>
+        </div>
+      </div>
+
+      @if (recentReviews().length > 0) {
+        <div class="srs-progress__trail">
+          @for (entry of recentReviews(); track entry.id) {
+            <div class="srs-trail">
+              <strong>{{ entry.prompt }}</strong>
+              <span>{{ formatRating(entry.rating) }} · {{ entry.nextDue }}</span>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  }
+</div>

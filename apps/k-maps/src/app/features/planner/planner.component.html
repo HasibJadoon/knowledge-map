@@ -1,5 +1,6 @@
 
     <div class="pl" #page>
+      <km-home-plane-button />
 
       <!-- Ambient background -->
       <div class="pl__bg" aria-hidden="true">
@@ -10,11 +11,6 @@
 
       <!-- Header -->
       <header class="pl__header" #header>
-        <button class="pl__back" (click)="goBack()" aria-label="Back to landing">
-          <span>←</span>
-          <span>Landing</span>
-        </button>
-
         <div class="pl__title-group">
           <p class="pl__eyebrow">Study Plans</p>
           <h1 class="pl__title">Planner</h1>
@@ -118,12 +114,25 @@
                     <span class="pl__col-title">{{ col.label }}</span>
                     <span class="pl__col-count">{{ plansByStatus(col.status).length }}</span>
                   </div>
-                  <div class="pl__col-body">
+                  <div
+                    class="pl__col-body"
+                    [class.pl__col-body--drop-target]="isDropTarget(col.status)"
+                    (dragover)="onColumnDragOver($event, col.status)"
+                    (dragleave)="clearDropTarget()"
+                    (drop)="onColumnDrop($event, col.status)"
+                  >
                     @if (plansByStatus(col.status).length === 0) {
                       <div class="pl__col-empty">No plans</div>
                     }
                     @for (plan of plansByStatus(col.status); track plan.id) {
-                      <div class="pl__kanban-card">
+                      <div
+                        class="pl__kanban-card"
+                        [class.pl__kanban-card--dragging]="isDragging(plan.id)"
+                        [class.pl__kanban-card--saving]="savingPlanId() === plan.id"
+                        draggable="true"
+                        (dragstart)="onPlanDragStart(plan.id)"
+                        (dragend)="onPlanDragEnd()"
+                      >
                         <div class="pl__kanban-card-top">
                           <span
                             class="pl__type-badge"
@@ -143,6 +152,18 @@
                         @if (plan.description) {
                           <p class="pl__kanban-card-desc">{{ plan.description }}</p>
                         }
+                        <div class="pl__kanban-card-actions">
+                          @for (target of kanbanColumns; track target.status) {
+                            <button
+                              class="pl__move-btn"
+                              [class.pl__move-btn--active]="normalizeStatus(plan.status) === target.status"
+                              [disabled]="normalizeStatus(plan.status) === target.status || savingPlanId() === plan.id"
+                              (click)="movePlanToStatus(plan.id, target.status)"
+                            >
+                              {{ target.label }}
+                            </button>
+                          }
+                        </div>
                       </div>
                     }
                   </div>

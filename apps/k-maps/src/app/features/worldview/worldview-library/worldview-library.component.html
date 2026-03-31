@@ -1,0 +1,134 @@
+<div class="wv-lib-page" dir="ltr">
+  <header class="lib-nav">
+    <button class="back-btn" (click)="back()">← Worldview</button>
+    <div class="lib-nav__right">
+      <div class="stat-pill">
+        <span class="stat-pill__dot"></span>
+        <span>{{ sources().length }} Sources</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="lib-hero">
+    <div class="lib-hero__eyebrow">Worldview Library</div>
+    <h1 class="lib-hero__title">Source Catalog</h1>
+    <p class="lib-hero__sub">Research sources · Chapters · Sections</p>
+  </div>
+
+  <div class="filter-shell">
+    <div class="search-row">
+      <input
+        class="search-input"
+        type="search"
+        placeholder="Search sources, creators, traditions…"
+        [value]="searchQuery()"
+        (input)="onSearch($event)"
+      />
+    </div>
+
+    @if (!loading() && sources().length > 0) {
+      <div class="filter-bar">
+        @for (type of sourceTypes(); track type) {
+          <button
+            class="filter-chip"
+            [class.filter-chip--active]="activeTypeFilter() === type"
+            (click)="activeTypeFilter.set(type)"
+          >
+            @if (type !== 'all') {
+              <span>{{ typeIcon(type) }}</span>
+            }
+            <span>{{ type === 'all' ? 'All' : typeLabel(type) }}</span>
+          </button>
+        }
+
+        <div class="filter-bar__right">
+          <button
+            class="icon-btn"
+            [class.icon-btn--on]="groupByType()"
+            (click)="groupByType.set(!groupByType())"
+            title="Group by source type"
+          >⊞</button>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="lib-content">
+    @if (loading()) {
+      <div class="card-grid">
+        @for (i of skeletons; track i) {
+          <div class="skel-card"></div>
+        }
+      </div>
+    } @else if (filteredSources().length === 0) {
+      <div class="empty-state">
+        <span class="empty-state__glyph">◎</span>
+        <p>No worldview sources found.</p>
+      </div>
+    } @else if (groupByType() && groupedSources()) {
+      @for (type of objectKeys(groupedSources()!); track type) {
+        <div class="type-section">
+          <div class="type-section__head">
+            <span>{{ typeIcon(type) }}</span>
+            <span class="type-section__label">{{ typeLabel(type) }}</span>
+            <span class="type-section__count">{{ groupedSources()![type].length }}</span>
+          </div>
+
+          <div class="card-grid">
+            @for (source of groupedSources()![type]; track source.id) {
+              <ng-container *ngTemplateOutlet="sourceCard; context: { $implicit: source }"></ng-container>
+            }
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="card-grid">
+        @for (source of filteredSources(); track source.id) {
+          <ng-container *ngTemplateOutlet="sourceCard; context: { $implicit: source }"></ng-container>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<ng-template #sourceCard let-source>
+  <div class="wv-card" (click)="openSource(source)">
+    <div class="wv-card__top">
+      <div class="wv-card__icon-box">{{ typeIcon(source.source_type) }}</div>
+      <div class="wv-card__badges">
+        <span class="badge" [attr.data-color]="typeColor(source.source_type)">{{ typeLabel(source.source_type) }}</span>
+        @if (source.language) {
+          <span class="meta-pill">{{ source.language }}</span>
+        }
+      </div>
+    </div>
+
+    <div class="wv-card__body">
+      <div class="wv-card__title">{{ source.title }}</div>
+      @if (source.creator) {
+        <div class="wv-card__creator">{{ source.creator }}</div>
+      }
+      @if (sourcePeopleLine(source)) {
+        <div class="wv-card__people">{{ sourcePeopleLine(source) }}</div>
+      }
+      @if (sourceMetaLine(source)) {
+        <div class="wv-card__meta">{{ sourceMetaLine(source) }}</div>
+      }
+    </div>
+
+    <div class="wv-card__footer">
+      <div class="wv-card__bar">
+        <div class="wv-card__fill"></div>
+      </div>
+      <div class="wv-card__footer-meta">
+        @if (source.unit_count) {
+          <span>{{ source.unit_count }} {{ source.unit_count === 1 ? 'unit' : 'units' }}</span>
+        }
+        @if (source.publication_year) {
+          <span>{{ source.publication_year }}</span>
+        }
+        <span class="wv-card__arrow">→</span>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -47,8 +47,6 @@ angular-compiler.db
 Thumbs.db
 .idea/
 .vscode/
-.claire/
-.claude/worktrees/
 *.swp
 *.swo
 

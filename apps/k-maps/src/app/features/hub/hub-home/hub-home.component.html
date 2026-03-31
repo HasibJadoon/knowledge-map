@@ -1,0 +1,46 @@
+    <div class="hh" #page>
+      <!-- Ambient particles -->
+      <div class="hh__particles" aria-hidden="true">
+        @for (i of particles; track i) {
+          <span class="hh__particle" [style.--i]="i"></span>
+        }
+      </div>
+
+      <div class="hh__frame">
+        <header class="hh__header" #header>
+          <p class="hh__eyebrow">Command Center</p>
+          <h1 class="hh__title">Hub</h1>
+          <p class="hh__subtitle">Structured access to Quran, Arabic, worldview, and workspace data.</p>
+          <div class="hh__rule"></div>
+        </header>
+
+        <main class="hh__grid" #grid>
+          @for (s of sections; track s.id) {
+            <button
+              class="hh__card"
+              [class]="'hh__card--' + s.id"
+              [style.--accent]="s.accentColor"
+              (click)="navigate(s.route)"
+              [attr.aria-label]="'Open ' + s.title + ' management'"
+            >
+              <div class="hh__card-artwork">
+                <span class="hh__glyph">{{ s.glyph }}</span>
+                <div class="hh__shimmer"></div>
+              </div>
+              <div class="hh__bottom-glow"></div>
+              <div class="hh__card-body">
+                <span class="hh__tag">{{ s.tag }}</span>
+                <span class="hh__card-title">{{ s.title }}</span>
+                <p class="hh__card-desc">{{ s.description }}</p>
+                <span class="hh__subtitle-badge">{{ s.subtitle }}</span>
+              </div>
+            </button>
+          }
+        </main>
+
+        <footer class="hh__footer" #footer>
+          <span class="hh__footer-text">Select a domain to manage data</span>
+        </footer>
+      </div>
+    </div>
+  
