@@ -13,12 +13,13 @@ import { FormsModule } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
 import gsap from 'gsap';
 import { QuranStateService } from '../../../shared/services/quran-state.service';
+import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
 import { SurahActionsComponent } from '../surah-actions/surah-actions.component';
 
 @Component({
   selector: 'km-quran-landing',
   standalone: true,
-  imports: [FormsModule, TitleCasePipe, SurahActionsComponent],
+  imports: [FormsModule, TitleCasePipe, SurahActionsComponent, HomePlaneButtonComponent],
   templateUrl: './quran-landing.component.html',
   styleUrl: './quran-landing.component.scss',
 })
@@ -72,9 +73,5 @@ export class QuranLandingComponent implements OnInit, AfterViewInit {
 
   navigateToSurah(surahNumber: number): void {
     this.router.navigate(['/quran', surahNumber]);
-  }
-
-  back(): void {
-    this.router.navigate(['/landing']);
   }
 }

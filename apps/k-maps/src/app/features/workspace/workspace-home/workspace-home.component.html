@@ -1,0 +1,93 @@
+
+    <div class="wh" #page>
+      <!-- Ambient background -->
+      <div class="wh__bg" aria-hidden="true">
+        @for (p of particles; track p) {
+          <span class="wh__particle" [style.--i]="p"></span>
+        }
+      </div>
+
+      <!-- Header -->
+      <header class="wh__header" #header>
+        <button class="wh__back" (click)="goBack()" aria-label="Back to home">
+          <span class="wh__back-arrow">←</span>
+          <span>Home</span>
+        </button>
+        <div class="wh__title-group">
+          <p class="wh__eyebrow">Collaborative Projects</p>
+          <h1 class="wh__title">Workspace</h1>
+          <div class="wh__rule"></div>
+        </div>
+        <button class="wh__new-btn" (click)="goToHub()" aria-label="Create new workspace">
+          <span>＋ New Workspace</span>
+        </button>
+      </header>
+
+      <!-- Main content -->
+      <main class="wh__main" #main>
+        @if (loading()) {
+          <div class="wh__state">
+            <div class="wh__spinner"></div>
+            <p class="wh__state-text">Loading workspaces…</p>
+          </div>
+        }
+
+        @if (!loading() && error()) {
+          <div class="wh__state wh__state--error">
+            <span class="wh__state-icon">⚠</span>
+            <p class="wh__state-text">{{ error() }}</p>
+            <button class="wh__retry-btn" (click)="load()">Retry</button>
+          </div>
+        }
+
+        @if (!loading() && !error() && workspaces().length === 0) {
+          <div class="wh__state wh__state--empty">
+            <span class="wh__state-icon">⊞</span>
+            <p class="wh__state-title">No Workspaces Yet</p>
+            <p class="wh__state-text">Create your first workspace to start collaborating.</p>
+            <button class="wh__new-btn wh__new-btn--lg" (click)="goToHub()">＋ New Workspace</button>
+          </div>
+        }
+
+        @if (!loading() && !error() && workspaces().length > 0) {
+          <div class="wh__grid" #grid>
+            @for (ws of workspaces(); track ws.id) {
+              <button
+                class="wh__card"
+                (click)="openWorkspace(ws.id)"
+                [attr.aria-label]="'Open workspace ' + ws.name"
+              >
+                <div class="wh__card-top">
+                  <span class="wh__card-type">{{ ws.type || 'general' }}</span>
+                  @if (ws.status) {
+                    <span class="wh__card-status" [class]="'wh__card-status--' + ws.status">
+                      {{ ws.status }}
+                    </span>
+                  }
+                </div>
+                <div class="wh__card-glyph" aria-hidden="true">⊞</div>
+                <div class="wh__card-body">
+                  <h2 class="wh__card-name">{{ ws.name }}</h2>
+                  @if (ws.description) {
+                    <p class="wh__card-desc">{{ ws.description }}</p>
+                  }
+                </div>
+                <div class="wh__card-footer">
+                  @if (ws.member_count !== undefined) {
+                    <span class="wh__card-meta">
+                      <span class="wh__card-meta-icon">◉</span>
+                      {{ ws.member_count }} {{ ws.member_count === 1 ? 'member' : 'members' }}
+                    </span>
+                  }
+                  @if (ws.created_at) {
+                    <span class="wh__card-meta">{{ formatDate(ws.created_at) }}</span>
+                  }
+                </div>
+                <div class="wh__card-glow"></div>
+              </button>
+            }
+          </div>
+        }
+      </main>
+    </div>
+  

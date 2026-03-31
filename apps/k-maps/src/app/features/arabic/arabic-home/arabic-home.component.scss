@@ -148,7 +148,8 @@
 // ── Feature Grid ─────────────────────────────────────────
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
+  justify-content: center;
   gap: 1.25rem;
 }
 
@@ -165,22 +166,46 @@
   color: inherit;
   overflow: hidden;
   cursor: pointer;
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 14px 30px rgba(0, 0, 0, 0.22);
   transition: border-color 0.25s, background 0.25s, transform 0.25s, box-shadow 0.25s;
 
   &:hover {
     border-color: var(--km-border-gold);
     background: rgba(201, 168, 76, 0.04);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(201, 168, 76, 0.1);
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 40px rgba(201, 168, 76, 0.16),
+      0 0 1px rgba(201, 168, 76, 0.4) inset,
+      0 18px 44px rgba(0, 0, 0, 0.28);
 
     .feature-card__bg-glyph {
       opacity: 0.07;
+    }
+
+    .feature-card__shimmer {
+      opacity: 1;
+    }
+
+    .feature-card__bottom-glow {
+      opacity: 1;
     }
 
     .feature-card__arrow {
       color: var(--km-gold);
       transform: translateX(4px);
     }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 22%);
+    pointer-events: none;
   }
 
   &__bg-glyph {
@@ -199,13 +224,25 @@
     line-height: 1;
   }
 
-  &__glyph {
-    font-family: var(--km-font-arabic);
-    font-size: 2rem;
-    color: var(--km-gold);
-    line-height: 1;
-    margin-bottom: 0.5rem;
-    direction: rtl;
+  &__shimmer {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(201, 168, 76, 0.08) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+
+  &__bottom-glow {
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--km-gold), transparent);
+    opacity: 0.35;
+    transition: opacity 0.3s;
+    border-radius: 1px;
   }
 
   &__content {
@@ -213,6 +250,9 @@
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
+    position: relative;
+    z-index: 1;
+    transform: translateZ(22px);
   }
 
   &__title {
@@ -237,6 +277,9 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 0.5rem;
+    position: relative;
+    z-index: 1;
+    transform: translateZ(18px);
   }
 
   &__arabic {
