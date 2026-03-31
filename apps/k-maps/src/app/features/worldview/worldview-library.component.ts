@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
 import { environment } from '../../../environments/environment';
+import { StatusPillComponent } from '../../shared/components/status-pill/status-pill.component';
 
 interface WvSourceMeta {
   tradition?: string;
@@ -31,13 +32,16 @@ interface WvSource {
   language?: string | null;
   source_domain?: string | null;
   meta?: WvSourceMeta | null;
+  unit_count?: number | null;
+  people_count?: number | null;
+  people_names?: string[] | null;
 }
 
 @Component({
   selector: 'km-worldview-library',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [CommonModule, StatusPillComponent],
   templateUrl: './worldview-library.component.html',
   styleUrl: './worldview-library.component.scss',
 })
@@ -45,7 +49,7 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   private router = inject(Router);
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
-  private readonly base = environment.wvBase;
+  private readonly base = environment.apiBase;
 
   readonly sources = signal<WvSource[]>([]);
   readonly loading = signal(true);
@@ -202,6 +206,15 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
       source.source_domain,
     ].filter(Boolean);
     return parts.join(' · ');
+  }
+
+  sourcePeopleLine(source: WvSource): string {
+    const peopleNames = (source.people_names ?? []).filter(Boolean);
+    if (peopleNames.length) return peopleNames.join(' · ');
+    if ((source.people_count ?? 0) > 0) {
+      return `${source.people_count} ${source.people_count === 1 ? 'person' : 'people'}`;
+    }
+    return '';
   }
 
   private startCase(value: string): string {

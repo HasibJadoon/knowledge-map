@@ -7,7 +7,7 @@
     /* Toolbar */
     .ht__toolbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 1rem var(--km-home-button-clearance) 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.06);
       gap: 1rem; flex-shrink: 0;
     }
 

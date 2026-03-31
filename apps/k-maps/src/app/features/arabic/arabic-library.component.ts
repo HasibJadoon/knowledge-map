@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import gsap from 'gsap';
+import { StatusPillComponent } from '../../shared/components/status-pill/status-pill.component';
 
 interface ContainerMeta {
   title_ar?: string;
@@ -33,7 +34,7 @@ interface ArContainer {
   selector: 'km-arabic-library',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [CommonModule, StatusPillComponent],
   templateUrl: './arabic-library.component.html',
   styleUrl: './arabic-library.component.scss',
 })

@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import gsap from 'gsap';
+import { StatusPillComponent } from '../../shared/components/status-pill/status-pill.component';
 
 interface ArContainer {
   id: string; container_type: string; title: string;
@@ -30,7 +31,7 @@ type Mode = 'read' | 'listen' | 'watch' | 'capture';
   selector: 'km-arabic-library-units',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [CommonModule, StatusPillComponent],
   templateUrl: './arabic-library-units.component.html',
   styleUrl: './arabic-library-units.component.scss',
 })

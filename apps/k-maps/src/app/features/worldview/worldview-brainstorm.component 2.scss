@@ -13,7 +13,7 @@
         display: flex;
         align-items: center;
         gap: 1.25rem;
-        padding: 0 1.5rem;
+        padding: 0 var(--km-home-button-clearance) 0 1.5rem;
         height: 56px;
         min-height: 56px;
         border-bottom: 1px solid var(--km-border);

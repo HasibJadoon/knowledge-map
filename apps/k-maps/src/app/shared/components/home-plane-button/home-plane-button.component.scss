@@ -1,0 +1,108 @@
+:host {
+  position: fixed;
+  top: var(--km-home-button-top);
+  right: var(--km-home-button-right);
+  bottom: auto;
+  z-index: 120;
+  display: block;
+}
+
+.km-home-plane-button {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--km-home-button-size);
+  height: var(--km-home-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.km-home-plane-button:hover {
+  transform: none;
+}
+
+.km-home-plane-button__shadow {
+  position: absolute;
+  bottom: 0.24rem;
+  left: 50%;
+  width: 1.9rem;
+  height: 0.62rem;
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translateX(-50%);
+  opacity: 0.36;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.46), rgba(0, 0, 0, 0) 74%);
+  filter: blur(4px);
+}
+
+.km-home-plane-button__icon {
+  position: relative;
+  width: var(--km-home-button-icon-size);
+  height: var(--km-home-button-icon-size);
+  overflow: visible;
+  filter:
+    drop-shadow(0 6px 10px rgba(0, 0, 0, 0.28))
+    drop-shadow(0 0 8px rgba(241, 179, 85, 0.08));
+}
+
+.km-home-plane-button__roof-shadow,
+.km-home-plane-button__house-front,
+.km-home-plane-button__roof,
+.km-home-plane-button__door,
+.km-home-plane-button__door-line {
+  vector-effect: non-scaling-stroke;
+  transition: transform 0.22s ease, fill 0.22s ease, stroke 0.22s ease;
+}
+
+.km-home-plane-button__roof-shadow {
+  fill: rgba(122, 83, 33, 0.28);
+}
+
+.km-home-plane-button__house-front {
+  fill: rgba(16, 19, 24, 0.9);
+  stroke: rgba(245, 211, 137, 0.9);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+}
+
+.km-home-plane-button__roof {
+  fill: none;
+  stroke: rgba(245, 197, 106, 0.96);
+  stroke-width: 4.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.km-home-plane-button__door {
+  fill: rgba(214, 169, 88, 0.92);
+}
+
+.km-home-plane-button__door-line {
+  fill: none;
+  stroke: rgba(122, 84, 27, 0.9);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+@media (max-width: 760px) {
+  :host {
+    top: 0.14rem;
+    right: 0.12rem;
+    bottom: auto;
+  }
+
+  .km-home-plane-button {
+    width: var(--km-home-button-size-mobile);
+    height: var(--km-home-button-size-mobile);
+  }
+
+  .km-home-plane-button__icon {
+    width: var(--km-home-button-icon-size-mobile);
+    height: var(--km-home-button-icon-size-mobile);
+  }
+}

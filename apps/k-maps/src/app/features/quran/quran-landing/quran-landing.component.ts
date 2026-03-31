@@ -13,12 +13,14 @@ import { FormsModule } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
 import gsap from 'gsap';
 import { QuranStateService } from '../../../shared/services/quran-state.service';
+import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
+import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { SurahActionsComponent } from '../surah-actions/surah-actions.component';
 
 @Component({
   selector: 'km-quran-landing',
   standalone: true,
-  imports: [FormsModule, TitleCasePipe, SurahActionsComponent],
+  imports: [FormsModule, TitleCasePipe, SurahActionsComponent, HomePlaneButtonComponent, BackButtonComponent],
   templateUrl: './quran-landing.component.html',
   styleUrl: './quran-landing.component.scss',
 })

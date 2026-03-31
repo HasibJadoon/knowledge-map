@@ -12,6 +12,7 @@ import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import gsap from 'gsap';
+import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 interface FeatureCard {
   glyph: string;
@@ -32,7 +33,7 @@ interface ArabicCounts {
   selector: 'km-arabic-home',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, BackButtonComponent],
   templateUrl: './arabic-home.component.html',
   styleUrl: './arabic-home.component.scss',
 })

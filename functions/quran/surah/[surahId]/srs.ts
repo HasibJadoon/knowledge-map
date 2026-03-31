@@ -1,3 +1,5 @@
+import { resolveSrsTable } from '../../../_utils/srs';
+
 interface Env { DB: D1Database; }
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
@@ -12,6 +14,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const filter = url.searchParams.get('filter') ?? 'due';
     const now = new Date().toISOString();
     const prefix = `${surahId}:`;
+    const srsTable = await resolveSrsTable(env.DB);
 
     let where = `item_key LIKE ?`;
     const binds: unknown[] = [`${prefix}%`];
@@ -29,7 +32,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const { results } = await env.DB.prepare(`
       SELECT id, item_type, item_key, card_json, status, due_at,
              last_review_at, interval_days, ease, reps, lapses, last_rating
-      FROM ar_srs
+      FROM ${srsTable}
       WHERE ${where}
       ORDER BY due_at ASC
       LIMIT 100

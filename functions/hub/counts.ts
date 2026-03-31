@@ -54,7 +54,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       tryCountTable(db, 'ar_containers'),
       tryCountTable(db, 'ar_container_units'),
       tryCountTable(db, 'ar_container_unit_task'),
-      tryCountTable(db, 'ar_srs'),
+      bestCountTable(db, ['km_srs', 'ar_srs']),
       tryCountTable(db, 'ar_quran_surah'),
       tryCountTable(db, 'ar_quran_surah_passage'),
       tryCountTable(db, 'wv_sources'),

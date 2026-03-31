@@ -1,5 +1,6 @@
 
     <div class="wvh" #page>
+      <km-back-button />
 
       <!-- Particles -->
       <div class="wvh__particles" aria-hidden="true">
@@ -7,12 +8,6 @@
           <span class="particle" [style.--i]="p"></span>
         }
       </div>
-
-      <!-- Back Button -->
-      <a class="wvh__back" [routerLink]="['/landing']">
-        <span class="wvh__back-arrow">←</span>
-        <span class="wvh__back-label">Home</span>
-      </a>
 
       <div class="wvh__inner">
 

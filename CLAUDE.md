@@ -636,8 +636,8 @@ CREATE TABLE ar_task (
 ### Shared SRS Table
 ```sql
 -- SHARED spaced repetition table — used by BOTH Quran and Arabic learning systems
--- ar_srs already exists for Quran; Arabic reuses the same table with entity_type
-CREATE TABLE ar_srs (
+-- km_srs already exists for Quran; Arabic reuses the same table with entity_type
+CREATE TABLE km_srs (
   id            INTEGER PRIMARY KEY AUTOINCREMENT,
   entity_type   TEXT NOT NULL,  -- 'vocab'|'grammar'|'balagha'|'phrase'|'task'|'ayah'
   entity_id     INTEGER NOT NULL,
@@ -650,7 +650,7 @@ CREATE TABLE ar_srs (
   updated_at    TEXT DEFAULT (datetime('now')),
   UNIQUE (entity_type, entity_id)
 );
-CREATE INDEX idx_ar_srs_review ON ar_srs(next_review, entity_type);
+CREATE INDEX idx_km_srs_review ON km_srs(next_review, entity_type);
 ```
 **NOTE**: Quran SRS and Arabic learning SRS share this table. Do NOT embed SRS fields directly in ar_vocab or ar_task.
 
@@ -667,7 +667,7 @@ CREATE TABLE ar_vocab (
   level          TEXT DEFAULT 'beginner',
   domain         TEXT,
   frequency_rank INTEGER,
-  -- NO SRS fields here — use ar_srs table with entity_type='vocab'
+  -- NO SRS fields here — use km_srs table with entity_type='vocab'
   created_at     TEXT DEFAULT (datetime('now'))
 );
 
