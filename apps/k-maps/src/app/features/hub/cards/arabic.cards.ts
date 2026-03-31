@@ -99,7 +99,7 @@ export const ARABIC_CARDS: HubCard[] = [
     glyph: '↻',
     title: 'Arabic SRS',
     description: 'Spaced repetition queue for Arabic vocabulary, grammar, and phrases.',
-    table: 'ar_srs',
+    table: 'km_srs',
     route: 'arabic-srs',
     panelMode: 'ar-srs',
     countKey: 'srs',

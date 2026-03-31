@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
 import { environment } from '../../../../environments/environment';
+import { StatusPillComponent } from '../../../shared/components/status-pill/status-pill.component';
 
 interface WvSourceMeta {
   tradition?: string;
@@ -40,7 +41,7 @@ interface WvSource {
   selector: 'km-worldview-library',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [CommonModule, StatusPillComponent],
   templateUrl: './worldview-library.component.html',
   styleUrl: './worldview-library.component.scss',
 })

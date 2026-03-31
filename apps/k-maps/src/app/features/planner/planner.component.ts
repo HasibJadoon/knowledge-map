@@ -13,6 +13,7 @@ import {
   computed,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import gsap from 'gsap';
 import { environment } from '../../../environments/environment';
 import { HomePlaneButtonComponent } from '../../shared/components/home-plane-button/home-plane-button.component';
@@ -89,6 +90,8 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly particles = Array.from({ length: 12 }, (_, i) => i);
   private cleanupCalendarCardTilts: Array<() => void> = [];
+  private queryParamSubscription?: Subscription;
+  private hasViewInitialized = false;
 
   readonly DAYS = DAYS;
   readonly MONTHS = MONTHS;
@@ -225,18 +228,45 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    const view = this.route.snapshot.queryParamMap.get('view');
-    if (view === 'calendar' || view === 'kanban' || view === 'timeline') {
-      this.activeView.set(view);
-    }
-    const calendar = this.route.snapshot.queryParamMap.get('calendar');
-    if (calendar === 'month' || calendar === 'week' || calendar === 'day') {
-      this.calendarMode.set(calendar);
-    }
+    this.queryParamSubscription = this.route.queryParamMap.subscribe((params) => {
+      const previousView = this.activeView();
+      const previousCalendarMode = this.calendarMode();
+      const nextView = this.parseViewMode(params.get('view'));
+      const nextCalendarMode = this.parseCalendarMode(params.get('calendar'));
+
+      this.activeView.set(nextView);
+      this.calendarMode.set(nextCalendarMode);
+
+      if (!this.hasViewInitialized) {
+        return;
+      }
+
+      if (previousView !== nextView) {
+        if (nextView !== 'calendar' && nextView !== 'timeline') {
+          this.clearCalendarCardTilts();
+        }
+
+        setTimeout(() => {
+          if (nextView === 'calendar') {
+            this.positionCalendarModePill();
+            this.animateCalendarStage();
+          } else if (nextView === 'timeline') {
+            this.animateTimelineStage();
+          }
+        }, 0);
+        return;
+      }
+
+      if (nextView === 'calendar' && previousCalendarMode !== nextCalendarMode) {
+        this.positionCalendarModePill();
+        this.animateCalendarStage();
+      }
+    });
     void this.loadPlans();
   }
 
   ngAfterViewInit(): void {
+    this.hasViewInitialized = true;
     gsap.fromTo(
       this.headerRef.nativeElement,
       { opacity: 0, y: -24, filter: 'blur(6px)' },
@@ -249,11 +279,16 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     setTimeout(() => {
       this.positionCalendarModePill();
-      this.animateCalendarStage();
+      if (this.activeView() === 'calendar') {
+        this.animateCalendarStage();
+      } else if (this.activeView() === 'timeline') {
+        this.animateTimelineStage();
+      }
     }, 450);
   }
 
   ngOnDestroy(): void {
+    this.queryParamSubscription?.unsubscribe();
     this.clearCalendarCardTilts();
   }
 
@@ -284,7 +319,7 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
     const main = this.mainRef.nativeElement;
     gsap.fromTo(main, { opacity: .4 }, { opacity: 1, duration: .35, ease: 'power2.out' });
     this.activeView.set(view);
-    if (view !== 'calendar') {
+    if (view !== 'calendar' && view !== 'timeline') {
       this.clearCalendarCardTilts();
     }
     void this.router.navigate([], {
@@ -301,6 +336,8 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
       if (view === 'calendar') {
         this.positionCalendarModePill();
         this.animateCalendarStage();
+      } else if (view === 'timeline') {
+        this.animateTimelineStage();
       }
     }, 0);
   }
@@ -332,8 +369,7 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goToToday(): void {
-    this.focusDate.set(this.startOfDay(new Date()));
-    this.animateCalendarStage();
+    this.openDay(new Date());
   }
 
   focusOnDate(date: Date): void {
@@ -456,6 +492,20 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  moveActionLabel(status: PlanStatus): string {
+    switch (status) {
+      case 'to_do':
+        return 'To Do';
+      case 'completed':
+        return 'Done';
+      case 'review':
+        return 'Review';
+      case 'active':
+      default:
+        return 'Active';
+    }
+  }
+
   typeColor(type: PlanType): string {
     return TYPE_COLORS[type] ?? 'rgba(201,168,76,.15)';
   }
@@ -504,12 +554,16 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
     return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
   }
 
-  formatDayTitle(date: Date): string {
-    return date.toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    });
+  formatCalendarCellMeta(date: Date, isCurrentMonth: boolean): string {
+    if (!isCurrentMonth || date.getDate() === 1) {
+      return date
+        .toLocaleDateString('en-GB', { month: 'short' })
+        .toUpperCase();
+    }
+
+    return date
+      .toLocaleDateString('en-GB', { weekday: 'short' })
+      .toUpperCase();
   }
 
   formatAgendaDate(date: Date): string {
@@ -518,6 +572,22 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
       day: 'numeric',
       month: 'long',
     });
+  }
+
+  formatTimelineRange(plan: Plan): string {
+    if (plan.start_date && plan.end_date) {
+      return `${this.formatShortDate(plan.start_date)} → ${this.formatShortDate(plan.end_date)}`;
+    }
+
+    if (plan.start_date) {
+      return `Starts ${this.formatShortDate(plan.start_date)}`;
+    }
+
+    if (plan.end_date) {
+      return `Open until ${this.formatShortDate(plan.end_date)}`;
+    }
+
+    return 'Open schedule';
   }
 
   normalizeStatus(status?: string): PlanStatus {
@@ -553,6 +623,22 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  private parseViewMode(view: string | null): ViewMode {
+    if (view === 'calendar' || view === 'kanban' || view === 'timeline') {
+      return view;
+    }
+
+    return 'calendar';
+  }
+
+  private parseCalendarMode(mode: string | null): CalendarMode {
+    if (mode === 'month' || mode === 'week' || mode === 'day') {
+      return mode;
+    }
+
+    return 'month';
+  }
+
   private shiftCalendar(direction: -1 | 1): void {
     const root = this.mainRef?.nativeElement;
     const stage = root?.querySelector<HTMLElement>('.pl__calendar-stage');
@@ -570,7 +656,17 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
           break;
         case 'month':
         default:
-          next.setMonth(current.getMonth() + direction);
+          {
+            const currentDay = current.getDate();
+            next.setDate(1);
+            next.setMonth(current.getMonth() + direction);
+            const lastDayOfTargetMonth = new Date(
+              next.getFullYear(),
+              next.getMonth() + 1,
+              0
+            ).getDate();
+            next.setDate(Math.min(currentDay, lastDayOfTargetMonth));
+          }
           break;
       }
 
@@ -597,15 +693,36 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
       const root = this.mainRef?.nativeElement;
       if (!root || this.activeView() !== 'calendar') return;
 
+      const stage = root.querySelector<HTMLElement>('.pl__calendar-stage');
       const toolbarItems = Array.from(
         root.querySelectorAll<HTMLElement>('.pl__calendar-toolbar > *')
       );
       const stageItems = Array.from(
         root.querySelectorAll<HTMLElement>(
-          '.pl__cal-day-label, .pl__cal-cell, .pl__week-day, .pl__day-header, .pl__day-card'
+          '.pl__cal-day-label, .pl__cal-cell, .pl__week-day, .pl__day-card, .pl__day-empty'
         )
       );
       const weekCards = Array.from(root.querySelectorAll<HTMLElement>('.pl__week-card'));
+      const ambientDetails = Array.from(
+        root.querySelectorAll<HTMLElement>(
+          '.pl__cal-date, .pl__cal-date-meta, .pl__cal-empty, .pl__week-empty, .pl__day-empty > *'
+        )
+      );
+
+      if (stage) {
+        gsap.fromTo(
+          stage,
+          { opacity: 0, x: direction * 18 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.32,
+            ease: 'power2.out',
+            overwrite: 'auto',
+            clearProps: 'opacity,transform',
+          }
+        );
+      }
 
       if (toolbarItems.length > 0) {
         gsap.fromTo(
@@ -662,6 +779,117 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
         );
       }
 
+      if (ambientDetails.length > 0) {
+        gsap.fromTo(
+          ambientDetails,
+          { opacity: 0, y: 10, filter: 'blur(5px)' },
+          {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 0.42,
+            stagger: 0.018,
+            delay: 0.12,
+            ease: 'power2.out',
+            overwrite: 'auto',
+            clearProps: 'opacity,transform,filter',
+          }
+        );
+      }
+
+      this.bindCalendarCardTilts(root);
+    }, 0);
+  }
+
+  private animateTimelineStage(): void {
+    setTimeout(() => {
+      const root = this.mainRef?.nativeElement;
+      if (!root || this.activeView() !== 'timeline') return;
+
+      const headItems = Array.from(
+        root.querySelectorAll<HTMLElement>('.pl__timeline-head > *')
+      );
+      const items = Array.from(
+        root.querySelectorAll<HTMLElement>('.pl__timeline-item')
+      );
+      const railItems = Array.from(
+        root.querySelectorAll<HTMLElement>('.pl__timeline-date-panel, .pl__timeline-dot, .pl__timeline-line')
+      );
+      const cards = Array.from(
+        root.querySelectorAll<HTMLElement>('.pl__timeline-card')
+      );
+
+      if (headItems.length > 0) {
+        gsap.fromTo(
+          headItems,
+          { opacity: 0, y: -14, filter: 'blur(6px)' },
+          {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 0.48,
+            stagger: 0.06,
+            ease: 'power3.out',
+            overwrite: 'auto',
+            clearProps: 'opacity,transform,filter',
+          }
+        );
+      }
+
+      if (items.length > 0) {
+        gsap.fromTo(
+          items,
+          { opacity: 0, y: 26, filter: 'blur(8px)' },
+          {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 0.58,
+            stagger: 0.08,
+            ease: 'power3.out',
+            overwrite: 'auto',
+            clearProps: 'opacity,transform,filter',
+          }
+        );
+      }
+
+      if (railItems.length > 0) {
+        gsap.fromTo(
+          railItems,
+          { opacity: 0, scaleY: 0.84, y: 12 },
+          {
+            opacity: 1,
+            scaleY: 1,
+            y: 0,
+            duration: 0.48,
+            stagger: 0.03,
+            delay: 0.1,
+            ease: 'power2.out',
+            overwrite: 'auto',
+            clearProps: 'opacity,transform',
+          }
+        );
+      }
+
+      if (cards.length > 0) {
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 18, scale: 0.985, filter: 'blur(8px)' },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: 'blur(0px)',
+            duration: 0.52,
+            stagger: 0.06,
+            delay: 0.12,
+            ease: 'power3.out',
+            overwrite: 'auto',
+            clearProps: 'opacity,transform,filter',
+          }
+        );
+      }
+
       this.bindCalendarCardTilts(root);
     }, 0);
   }
@@ -670,7 +898,7 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.clearCalendarCardTilts();
 
     const cards = Array.from(
-      root.querySelectorAll<HTMLElement>('.pl__week-card, .pl__day-card')
+      root.querySelectorAll<HTMLElement>('.pl__cal-cell, .pl__week-card, .pl__day-card, .pl__timeline-card')
     );
 
     cards.forEach((card) => {
@@ -678,15 +906,21 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
         const rect = card.getBoundingClientRect();
         const px = (event.clientX - rect.left) / rect.width - 0.5;
         const py = (event.clientY - rect.top) / rect.height - 0.5;
+        const isMonthCell = card.classList.contains('pl__cal-cell');
+        const isTimelineCard = card.classList.contains('pl__timeline-card');
+        const tiltX = isMonthCell ? py * -7 : isTimelineCard ? py * -8 : py * -10;
+        const tiltY = isMonthCell ? px * 8 : isTimelineCard ? px * 10 : px * 12;
+        const lift = isMonthCell ? -5 : isTimelineCard ? -6 : -8;
+        const scale = isMonthCell ? 1.012 : isTimelineCard ? 1.014 : 1.018;
 
         card.style.setProperty('--pl-card-glow-x', `${(px + 0.5) * 100}%`);
         card.style.setProperty('--pl-card-glow-y', `${(py + 0.5) * 100}%`);
 
         gsap.to(card, {
-          rotateX: py * -10,
-          rotateY: px * 12,
-          y: -8,
-          scale: 1.018,
+          rotateX: tiltX,
+          rotateY: tiltY,
+          y: lift,
+          scale,
           duration: 0.32,
           ease: 'power2.out',
           transformPerspective: 1100,

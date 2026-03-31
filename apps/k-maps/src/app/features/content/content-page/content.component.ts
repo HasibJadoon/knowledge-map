@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import gsap from 'gsap';
 import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
+import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 interface ContentSection {
   label: string;
@@ -17,7 +18,7 @@ interface ContentSection {
 @Component({
   selector: 'km-content',
   standalone: true,
-  imports: [HomePlaneButtonComponent],
+  imports: [HomePlaneButtonComponent, BackButtonComponent],
   templateUrl: './content.component.html',
   styleUrl: './content.component.scss',
 })

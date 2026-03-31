@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { environment } from '../../../../environments/environment';
+import { StatusPillComponent } from '../../../shared/components/status-pill/status-pill.component';
 
 interface WvSource {
   id: string;
@@ -140,7 +141,7 @@ const KIND_ICON: Record<string, string> = {
   selector: 'km-worldview-library-units',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [CommonModule, StatusPillComponent],
   templateUrl: './worldview-library-units.component.html',
   styleUrl: './worldview-library-units.component.scss',
 })

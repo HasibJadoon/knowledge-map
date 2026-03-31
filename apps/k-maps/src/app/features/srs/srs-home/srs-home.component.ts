@@ -771,6 +771,13 @@ export class SrsHomeComponent implements AfterViewInit, OnDestroy {
     }
 
     gsap.killTweensOf(card);
+    gsap.set(card, {
+      clearProps: 'opacity,visibility,x,y,scale',
+      rotateX: 2,
+      rotateY: -1.5,
+      transformPerspective: 1800,
+      transformOrigin: 'center center',
+    });
     gsap.fromTo(
       card,
       { opacity: 0, y: 30, rotateX: 6, rotateY: -4, scale: 0.975 },
@@ -827,7 +834,7 @@ export class SrsHomeComponent implements AfterViewInit, OnDestroy {
     const subtitle = page.querySelector('.srs-intro__subtitle');
     const navIcons = page.querySelectorAll('.srs-screen-nav__icon');
     const stageBlocks = page.querySelectorAll(
-      '.srs-controls, .srs-review-card, .srs-review__actions, .srs-study__queue, .srs-progress__summary, .srs-progress__chart, .srs-trail',
+      '.srs-controls, .srs-review__state, .srs-review__actions, .srs-study__queue, .srs-progress__summary, .srs-progress__chart, .srs-trail',
     );
     const deckCards = page.querySelectorAll('.srs-deck');
 

@@ -46,7 +46,7 @@ export const QURAN_CARDS: HubCard[] = [
     glyph: '↻',
     title: 'SRS Queue',
     description: 'Spaced repetition review queue — ayahs due for memorisation review.',
-    table: 'ar_srs',
+    table: 'km_srs',
     route: 'srs',
     panelMode: 'ar-srs',
     countKey: 'srs',

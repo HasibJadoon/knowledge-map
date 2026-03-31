@@ -1,3 +1,5 @@
+import { resolveSrsTable } from '../../../_utils/srs';
+
 interface Env { DB: D1Database; }
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
@@ -8,12 +10,13 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       return Response.json({ ok: false, error: 'Invalid surah' }, { status: 400 });
     }
     const prefix = `${surahId}:`;
+    const srsTable = await resolveSrsTable(env.DB);
 
     // SRS items keyed to this surah
     const { results: srsItems } = await env.DB.prepare(`
       SELECT id, item_type, item_key, status, due_at, last_review_at,
              interval_days, ease, reps, lapses, last_rating
-      FROM ar_srs
+      FROM ${srsTable}
       WHERE item_key LIKE ?
       ORDER BY due_at ASC
       LIMIT 50

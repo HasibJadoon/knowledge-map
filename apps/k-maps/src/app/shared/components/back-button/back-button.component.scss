@@ -1,0 +1,68 @@
+:host {
+  position: fixed;
+  top: var(--km-back-button-top, 1rem);
+  left: var(--km-back-button-left, 1rem);
+  z-index: 118;
+  display: block;
+}
+
+.km-back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.48rem;
+  min-height: 2.7rem;
+  padding: 0.52rem 1rem 0.52rem 0.82rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  background: rgba(9, 11, 14, 0.82);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 14px 30px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(14px);
+  color: var(--km-text-2);
+  font-family: var(--km-font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.km-back-button:hover {
+  border-color: var(--km-border-gold);
+  color: var(--km-gold);
+  background: rgba(16, 18, 22, 0.94);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 18px 34px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(201, 168, 76, 0.06);
+}
+
+.km-back-button__icon {
+  font-size: 0.94rem;
+  line-height: 1;
+}
+
+.km-back-button__label {
+  font-weight: 500;
+}
+
+@media (max-width: 760px) {
+  :host {
+    top: var(--km-back-button-top-mobile, 0.82rem);
+    left: var(--km-back-button-left-mobile, 0.82rem);
+  }
+
+  .km-back-button {
+    min-height: 2.45rem;
+    padding: 0.46rem 0.85rem 0.46rem 0.7rem;
+    font-size: 0.72rem;
+  }
+}

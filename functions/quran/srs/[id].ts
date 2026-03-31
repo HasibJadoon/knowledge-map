@@ -1,4 +1,5 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
+import { resolveSrsTable } from '../../_utils/srs';
 
 interface Env {
   DB: D1Database;
@@ -55,6 +56,8 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
       );
     }
 
+    const srsTable = await resolveSrsTable(ctx.env.DB);
+
     const current = await ctx.env.DB.prepare(`
       SELECT
         id,
@@ -69,7 +72,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
         reps,
         lapses,
         last_rating
-      FROM ar_srs
+      FROM ${srsTable}
       WHERE id = ?
     `)
       .bind(id)
@@ -85,7 +88,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     const scheduled = scheduleNextReview(current, rating);
 
     await ctx.env.DB.prepare(`
-      UPDATE ar_srs
+      UPDATE ${srsTable}
       SET
         status = ?,
         due_at = ?,

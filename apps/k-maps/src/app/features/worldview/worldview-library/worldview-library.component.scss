@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: space-between;
   height: 48px;
-  padding: 0 1.5rem;
+  padding: 0 var(--km-home-button-clearance) 0 1.5rem;
   border-bottom: 1px solid var(--km-border);
   background: rgba(0, 0, 0, 0.15);
   flex-shrink: 0;
@@ -39,38 +39,6 @@
   &:hover {
     border-color: var(--km-border-gold);
     color: var(--km-gold);
-  }
-}
-
-.stat-pill {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  background: rgba(201, 168, 76, 0.07);
-  border: 1px solid var(--km-border-gold);
-  border-radius: 20px;
-  padding: 0.2rem 0.65rem;
-  font-size: 0.68rem;
-  color: var(--km-gold);
-  letter-spacing: 0.06em;
-}
-
-.stat-pill__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #4e8c61;
-  animation: pulse-dot 1.8s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.3;
   }
 }
 
@@ -453,12 +421,16 @@
 }
 
 @media (max-width: 720px) {
-  .lib-nav,
   .filter-bar,
   .search-row,
   .lib-content {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+
+  .lib-nav {
+    padding-left: 1rem;
+    padding-right: var(--km-home-button-clearance);
   }
 
   .lib-hero {

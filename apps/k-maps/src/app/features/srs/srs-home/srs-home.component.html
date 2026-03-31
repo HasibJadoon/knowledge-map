@@ -157,31 +157,6 @@
               <button class="srs-rate srs-rate--easy" type="button" [disabled]="!flipped() || reviewing()" (click)="rateCurrent('easy')">Easy</button>
             </div>
           </div>
-
-          <div class="srs-study__queue">
-            @for (item of queueItems(); track trackByItem($index, item)) {
-              <article class="srs-queue-row">
-                <div class="srs-queue-row__main">
-                  <p class="srs-queue-row__title">{{ item.title }}</p>
-                  <p class="srs-queue-row__ref">{{ item.reference }}</p>
-                  <p class="srs-queue-row__prompt">{{ item.prompt }}</p>
-                </div>
-
-                <div class="srs-queue-row__meta">
-                  <span class="srs-queue-row__state" [ngClass]="'srs-queue-row__state--' + item.due_state">
-                    {{ formatDueState(item) }}
-                  </span>
-                  <span>Reps {{ item.reps ?? 0 }}</span>
-                  <span>Ease {{ (item.ease ?? 2.5).toFixed(1) }}</span>
-                  @if (item.surah_id) {
-                    <button class="srs-queue-row__link" type="button" (click)="openSurah(item)">
-                      Surah {{ item.surah_id }}
-                    </button>
-                  }
-                </div>
-              </article>
-            }
-          </div>
         </div>
       }
     </section>
@@ -226,17 +201,6 @@
           <svg #histogramChart class="srs-chart srs-chart--short" aria-label="Repetition histogram"></svg>
         </div>
       </div>
-
-      @if (recentReviews().length > 0) {
-        <div class="srs-progress__trail">
-          @for (entry of recentReviews(); track entry.id) {
-            <div class="srs-trail">
-              <strong>{{ entry.prompt }}</strong>
-              <span>{{ formatRating(entry.rating) }} · {{ entry.nextDue }}</span>
-            </div>
-          }
-        </div>
-      }
     </section>
   }
 </div>

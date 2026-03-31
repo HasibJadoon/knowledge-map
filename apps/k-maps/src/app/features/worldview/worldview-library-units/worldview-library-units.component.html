@@ -3,10 +3,7 @@
     <button class="back-btn" (click)="back()">← Library</button>
     <div class="reader-nav__title">{{ source()?.title || 'Worldview Source' }}</div>
     <div class="reader-nav__right">
-      <div class="srs-pill">
-        <span class="srs-dot"></span>
-        <span>{{ rootUnits().length }} Chapters</span>
-      </div>
+      <km-status-pill [label]="rootUnits().length + ' Chapters'"></km-status-pill>
     </div>
   </header>
 

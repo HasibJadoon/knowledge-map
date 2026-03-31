@@ -1,4 +1,5 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
+import { resolveSrsTable } from '../_utils/srs';
 
 interface Env {
   DB: D1Database;
@@ -27,8 +28,9 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
     const surahId = normalizeSurahId(url.searchParams.get('surah_id'));
     const limit = normalizeLimit(url.searchParams.get('limit'));
     const now = new Date().toISOString();
+    const srsTable = await resolveSrsTable(ctx.env.DB);
 
-    const scopeWhere = [`item_key GLOB '[0-9]*:*'`];
+    const scopeWhere = [`status != 'archived'`];
     const scopeBinds: Array<string | number> = [];
 
     if (surahId) {
@@ -58,6 +60,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         item_type,
         item_key,
         card_json,
+        json_extract(card_json, '$.deck_id') AS deck_id,
         status,
         due_at,
         last_review_at,
@@ -65,9 +68,15 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         ease,
         reps,
         lapses,
+        again_count,
+        hard_count,
+        good_count,
+        easy_count,
         last_rating,
+        created_at,
+        updated_at,
         ${surahExpr} AS surah_id
-      FROM ar_srs
+      FROM ${srsTable}
       WHERE ${filterWhere.join(' AND ')}
       ORDER BY
         CASE
@@ -85,7 +94,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         SUM(CASE WHEN status = 'active' AND (due_at IS NULL OR due_at > ?) THEN 1 ELSE 0 END) AS upcoming,
         SUM(CASE WHEN status = 'suspended' THEN 1 ELSE 0 END) AS suspended,
         COUNT(*) AS total
-      FROM ar_srs
+      FROM ${srsTable}
       WHERE ${scopeWhere.join(' AND ')}
     `).bind(now, now, ...scopeBinds);
 

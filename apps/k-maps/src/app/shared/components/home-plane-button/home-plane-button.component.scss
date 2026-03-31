@@ -1,7 +1,7 @@
 :host {
   position: fixed;
-  top: 0.85rem;
-  right: 0.08rem;
+  top: var(--km-home-button-top);
+  right: var(--km-home-button-right);
   bottom: auto;
   z-index: 120;
   display: block;
@@ -11,8 +11,8 @@
   position: relative;
   display: inline-grid;
   place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: var(--km-home-button-size);
+  height: var(--km-home-button-size);
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -28,10 +28,10 @@
 
 .km-home-plane-button__shadow {
   position: absolute;
-  bottom: 0.18rem;
+  bottom: 0.24rem;
   left: 50%;
-  width: 1.5rem;
-  height: 0.5rem;
+  width: 1.9rem;
+  height: 0.62rem;
   border-radius: 999px;
   pointer-events: none;
   transform: translateX(-50%);
@@ -42,8 +42,8 @@
 
 .km-home-plane-button__icon {
   position: relative;
-  width: 1.9rem;
-  height: 1.9rem;
+  width: var(--km-home-button-icon-size);
+  height: var(--km-home-button-icon-size);
   overflow: visible;
   filter:
     drop-shadow(0 6px 10px rgba(0, 0, 0, 0.28))
@@ -91,18 +91,18 @@
 
 @media (max-width: 760px) {
   :host {
-    top: 0.7rem;
-    right: 0.02rem;
+    top: 0.14rem;
+    right: 0.12rem;
     bottom: auto;
   }
 
   .km-home-plane-button {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: var(--km-home-button-size-mobile);
+    height: var(--km-home-button-size-mobile);
   }
 
   .km-home-plane-button__icon {
-    width: 1.65rem;
-    height: 1.65rem;
+    width: var(--km-home-button-icon-size-mobile);
+    height: var(--km-home-button-icon-size-mobile);
   }
 }

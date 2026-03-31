@@ -5,6 +5,7 @@ import {
 import { Router } from '@angular/router';
 import gsap from 'gsap';
 import { HubSectionDef } from '../models/hub.models';
+import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 const SECTION_DEFS: HubSectionDef[] = [
   {
@@ -56,7 +57,7 @@ const SECTION_DEFS: HubSectionDef[] = [
 @Component({
   selector: 'km-hub-home',
   standalone: true,
-  imports: [],
+  imports: [BackButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './hub-home.component.html',
   styleUrl: './hub-home.component.scss'

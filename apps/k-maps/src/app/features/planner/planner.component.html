@@ -106,7 +106,21 @@
                         [class.pl__cal-cell--selected]="day.date.getTime() === focusDate().getTime()"
                         (click)="openDay(day.date)"
                       >
-                        <span class="pl__cal-date">{{ day.date.getDate() }}</span>
+                        <div class="pl__cal-cell-head">
+                          <div class="pl__cal-date-stack">
+                            <span class="pl__cal-date">{{ day.date.getDate() }}</span>
+                            <span class="pl__cal-date-meta">
+                              {{ formatCalendarCellMeta(day.date, day.isCurrentMonth) }}
+                            </span>
+                          </div>
+
+                          @if (day.date.getTime() === focusDate().getTime()) {
+                            <span class="pl__cal-focus-mark">Focus</span>
+                          } @else if (day.isToday) {
+                            <span class="pl__cal-focus-mark">Today</span>
+                          }
+                        </div>
+
                         @for (plan of day.plans.slice(0, 3); track plan.id) {
                           <div
                             class="pl__cal-plan-bar"
@@ -119,6 +133,13 @@
                         }
                         @if (day.plans.length > 3) {
                           <div class="pl__cal-more">+{{ day.plans.length - 3 }} more</div>
+                        }
+
+                        @if (day.plans.length === 0 && day.isCurrentMonth) {
+                          <div class="pl__cal-empty">
+                            <span class="pl__cal-empty-glyph">◇</span>
+                            <span class="pl__cal-empty-text">No plans</span>
+                          </div>
                         }
                       </button>
                     }
@@ -140,7 +161,11 @@
 
                         <div class="pl__week-list">
                           @if (day.plans.length === 0) {
-                            <div class="pl__week-empty">No plans</div>
+                            <div class="pl__week-empty">
+                              <span class="pl__week-empty-glyph">◇</span>
+                              <span class="pl__week-empty-title">Open</span>
+                              <span class="pl__week-empty-copy">No plans</span>
+                            </div>
                           }
 
                           @for (plan of day.plans; track plan.id) {
@@ -167,45 +192,42 @@
 
                 @if (calendarMode() === 'day') {
                   <div class="pl__day-view">
-                    <div class="pl__day-header">
-                      <p class="pl__day-eyebrow">{{ formatWeekdayShort(focusDate()) }}</p>
-                      <h3 class="pl__day-title">{{ formatDayTitle(focusDate()) }}</h3>
-                      <p class="pl__day-caption">{{ dayPlans().length }} scheduled {{ dayPlans().length === 1 ? 'plan' : 'plans' }}</p>
-                    </div>
-
-                    @if (dayPlans().length === 0) {
-                      <div class="pl__day-empty">
-                        <span class="pl__day-empty-icon">◇</span>
-                        <span>No plans scheduled for {{ formatAgendaDate(focusDate()) }}</span>
-                      </div>
-                    } @else {
-                      <div class="pl__day-list">
-                        @for (plan of dayPlans(); track plan.id) {
-                          <article class="pl__day-card">
-                            <div class="pl__day-card-top">
-                              <span
-                                class="pl__type-badge"
-                                [style.background]="typeColor(plan.type)"
-                                [style.color]="typeTextColor(plan.type)"
-                              >
-                                {{ typeLabel(plan.type) }}
-                              </span>
-                              <span class="pl__day-card-status">{{ statusLabel(plan.status) }}</span>
-                            </div>
-                            <h3 class="pl__day-card-title">{{ plan.title }}</h3>
-                            @if (plan.description) {
-                              <p class="pl__day-card-desc">{{ plan.description }}</p>
-                            }
-                            <p class="pl__day-card-meta">
-                              @if (plan.start_date) { <span>{{ formatShortDate(plan.start_date) }}</span> }
-                              @if (plan.end_date) {
-                                <span> → {{ formatShortDate(plan.end_date) }}</span>
+                    <div class="pl__day-stage">
+                      @if (dayPlans().length === 0) {
+                        <div class="pl__day-empty">
+                          <span class="pl__day-empty-icon">◇</span>
+                          <p class="pl__day-empty-title">Day is open</p>
+                          <p class="pl__day-empty-copy">No plans scheduled for {{ formatAgendaDate(focusDate()) }}</p>
+                        </div>
+                      } @else {
+                        <div class="pl__day-list">
+                          @for (plan of dayPlans(); track plan.id) {
+                            <article class="pl__day-card">
+                              <div class="pl__day-card-top">
+                                <span
+                                  class="pl__type-badge"
+                                  [style.background]="typeColor(plan.type)"
+                                  [style.color]="typeTextColor(plan.type)"
+                                >
+                                  {{ typeLabel(plan.type) }}
+                                </span>
+                                <span class="pl__day-card-status">{{ statusLabel(plan.status) }}</span>
+                              </div>
+                              <h3 class="pl__day-card-title">{{ plan.title }}</h3>
+                              @if (plan.description) {
+                                <p class="pl__day-card-desc">{{ plan.description }}</p>
                               }
-                            </p>
-                          </article>
-                        }
-                      </div>
-                    }
+                              <p class="pl__day-card-meta">
+                                @if (plan.start_date) { <span>{{ formatShortDate(plan.start_date) }}</span> }
+                                @if (plan.end_date) {
+                                  <span> → {{ formatShortDate(plan.end_date) }}</span>
+                                }
+                              </p>
+                            </article>
+                          }
+                        </div>
+                      }
+                    </div>
                   </div>
                 }
               </div>
@@ -305,8 +327,10 @@
                                   [class.pl__move-btn--active]="normalizeStatus(plan.status) === target.status"
                                   [disabled]="normalizeStatus(plan.status) === target.status || savingPlanId() === plan.id"
                                   (click)="movePlanToStatus(plan.id, target.status)"
+                                  [attr.aria-label]="target.label"
+                                  [attr.title]="target.label"
                                 >
-                                  {{ target.label }}
+                                  <span class="pl__move-btn-icon" aria-hidden="true">{{ target.icon }}</span>
                                 </button>
                               }
                             </div>
@@ -331,46 +355,69 @@
                   <button class="pl__add-btn" (click)="addTask()">＋ Add Task</button>
                 </div>
               } @else {
-                <div class="pl__timeline-list">
-                  @for (plan of sortedPlans(); track plan.id) {
-                    <div class="pl__timeline-item">
-                      <div class="pl__timeline-left">
-                        @if (plan.start_date) {
-                          <span class="pl__timeline-date-day">{{ formatDayNum(plan.start_date) }}</span>
-                          <span class="pl__timeline-date-mon">{{ formatMonAbbr(plan.start_date) }}</span>
-                          <span class="pl__timeline-date-yr">{{ formatYear(plan.start_date) }}</span>
-                        } @else {
-                          <span class="pl__timeline-date-mon">—</span>
-                        }
-                      </div>
-                      <div class="pl__timeline-connector">
-                        <div class="pl__timeline-dot" [style.background]="typeTextColor(plan.type)"></div>
-                        <div class="pl__timeline-line"></div>
-                      </div>
-                      <div class="pl__timeline-card">
-                        <div class="pl__timeline-card-top">
-                          <span
-                            class="pl__type-badge"
-                            [style.background]="typeColor(plan.type)"
-                            [style.color]="typeTextColor(plan.type)"
-                          >{{ plan.type }}</span>
-                          <span
-                            class="pl__status-pill"
-                            [class]="'pl__status-pill--' + plan.status"
-                          >{{ plan.status }}</span>
+                <div class="pl__timeline-shell">
+                  <header class="pl__timeline-head">
+                    <p class="pl__timeline-eyebrow">Project Sequence</p>
+                    <h2 class="pl__timeline-title">Study Timeline</h2>
+                    <p class="pl__timeline-copy">
+                      {{ sortedPlans().length }} scheduled {{ sortedPlans().length === 1 ? 'plan' : 'plans' }} arranged by start date
+                    </p>
+                  </header>
+
+                  <div class="pl__timeline-list">
+                    @for (plan of sortedPlans(); track plan.id) {
+                      <div class="pl__timeline-item">
+                        <div class="pl__timeline-left">
+                          <div class="pl__timeline-date-panel">
+                            @if (plan.start_date) {
+                              <span class="pl__timeline-date-day">{{ formatDayNum(plan.start_date) }}</span>
+                              <span class="pl__timeline-date-mon">{{ formatMonAbbr(plan.start_date) }}</span>
+                              <span class="pl__timeline-date-yr">{{ formatYear(plan.start_date) }}</span>
+                            } @else {
+                              <span class="pl__timeline-date-mon">OPEN</span>
+                              <span class="pl__timeline-date-yr">NO DATE</span>
+                            }
+                          </div>
                         </div>
-                        <h3 class="pl__timeline-card-title">{{ plan.title }}</h3>
-                        @if (plan.description) {
-                          <p class="pl__timeline-card-desc">{{ plan.description }}</p>
-                        }
-                        @if (plan.end_date) {
-                          <p class="pl__timeline-card-end">
-                            Ends {{ formatShortDate(plan.end_date) }}
-                          </p>
-                        }
+
+                        <div class="pl__timeline-connector" aria-hidden="true">
+                          <div class="pl__timeline-dot" [style.background]="typeTextColor(plan.type)"></div>
+                          <div class="pl__timeline-line"></div>
+                        </div>
+
+                        <article class="pl__timeline-card">
+                          <div class="pl__timeline-card-top">
+                            <div class="pl__timeline-card-badges">
+                              <span
+                                class="pl__type-badge"
+                                [style.background]="typeColor(plan.type)"
+                                [style.color]="typeTextColor(plan.type)"
+                              >{{ typeLabel(plan.type) }}</span>
+                              <span
+                                class="pl__status-pill"
+                                [class]="'pl__status-pill--' + normalizeStatus(plan.status)"
+                              >{{ statusLabel(plan.status) }}</span>
+                            </div>
+
+                            <span class="pl__timeline-card-glyph" aria-hidden="true">{{ typeGlyph(plan.type) }}</span>
+                          </div>
+
+                          <h3 class="pl__timeline-card-title">{{ plan.title }}</h3>
+
+                          @if (plan.description) {
+                            <p class="pl__timeline-card-desc">{{ plan.description }}</p>
+                          }
+
+                          <div class="pl__timeline-card-bottom">
+                            <p class="pl__timeline-card-range">{{ formatTimelineRange(plan) }}</p>
+                            @if (plan.end_date) {
+                              <p class="pl__timeline-card-end">Closes {{ formatShortDate(plan.end_date) }}</p>
+                            }
+                          </div>
+                        </article>
                       </div>
-                    </div>
-                  }
+                    }
+                  </div>
                 </div>
               }
             </div>

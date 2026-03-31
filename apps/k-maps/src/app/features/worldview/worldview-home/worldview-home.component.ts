@@ -10,6 +10,7 @@ import {
 import { RouterLink } from '@angular/router';
 import gsap from 'gsap';
 import { environment } from '../../../../environments/environment';
+import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 interface StatCounter {
   label: string;
@@ -30,7 +31,7 @@ interface FeatureCard {
 @Component({
   selector: 'km-worldview-home',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, BackButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './worldview-home.component.html',
   styleUrl: './worldview-home.component.scss',

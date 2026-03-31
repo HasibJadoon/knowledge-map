@@ -2,10 +2,7 @@
   <header class="lib-nav">
     <button class="back-btn" (click)="back()">← Worldview</button>
     <div class="lib-nav__right">
-      <div class="stat-pill">
-        <span class="stat-pill__dot"></span>
-        <span>{{ sources().length }} Sources</span>
-      </div>
+      <km-status-pill [label]="sources().length + ' Sources'"></km-status-pill>
     </div>
   </header>
 

@@ -516,7 +516,7 @@ CREATE TABLE ar_note_targets (
   FOREIGN KEY (unit_id) REFERENCES ar_container_units(id) ON DELETE SET NULL
 );
 
-CREATE TABLE ar_srs (
+CREATE TABLE km_srs (
   id TEXT PRIMARY KEY,
   canonical_input TEXT NOT NULL UNIQUE,
   user_id INTEGER NOT NULL,
@@ -1763,9 +1763,9 @@ CREATE INDEX idx_ar_note_targets_target ON ar_note_targets(target_type, target_i
 CREATE INDEX idx_ar_note_targets_relation ON ar_note_targets(relation);
 CREATE INDEX idx_ar_note_targets_share ON ar_note_targets(share_scope);
 CREATE INDEX idx_ar_note_targets_container ON ar_note_targets(container_id, unit_id);
-CREATE INDEX idx_ar_srs_user_due ON ar_srs(user_id, status, due_at);
-CREATE INDEX idx_ar_srs_user_lesson ON ar_srs(user_id, lesson_id);
-CREATE INDEX idx_ar_srs_type_key ON ar_srs(item_type, item_key);
+CREATE INDEX idx_km_srs_user_due ON km_srs(user_id, status, due_at);
+CREATE INDEX idx_km_srs_user_lesson ON km_srs(user_id, lesson_id);
+CREATE INDEX idx_km_srs_type_key ON km_srs(item_type, item_key);
 CREATE INDEX idx_wiki_docs_status ON wiki_docs(status);
 CREATE INDEX idx_ar_u_roots_root_norm ON ar_u_roots(root_norm);
 CREATE INDEX idx_ar_u_roots_root ON ar_u_roots(root);
@@ -2049,12 +2049,12 @@ BEGIN
     AND target_id = OLD.target_id;
 END;
 
-CREATE TRIGGER trg_ar_srs_updated_at
-AFTER UPDATE ON ar_srs
+CREATE TRIGGER trg_km_srs_updated_at
+AFTER UPDATE ON km_srs
 FOR EACH ROW
 WHEN NEW.updated_at IS OLD.updated_at
 BEGIN
-  UPDATE ar_srs
+  UPDATE km_srs
   SET updated_at = datetime('now')
   WHERE id = OLD.id;
 END;
