@@ -18,6 +18,49 @@
   gap:            .75rem;
 }
 
+.sst__header {
+  position:       sticky;
+  top:            0;
+  z-index:        4;
+  display:        flex;
+  align-items:    flex-start;
+  justify-content: space-between;
+  gap:            1rem;
+  padding:        .2rem 0 .9rem;
+  background:
+    linear-gradient(180deg, rgba(14, 10, 8, .96) 0%, rgba(14, 10, 8, .88) 68%, rgba(14, 10, 8, 0) 100%);
+  backdrop-filter: blur(10px);
+}
+
+.sst__header-copy {
+  display:        grid;
+  gap:            .32rem;
+}
+
+.sst__eyebrow,
+.sst__current {
+  margin:         0;
+}
+
+.sst__eyebrow {
+  color:          var(--km-text-3);
+  font-family:    var(--km-font-heading, 'Cinzel', serif);
+  font-size:      .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.sst__current {
+  color:          var(--km-text-2);
+  font-family:    var(--km-font-body, 'EB Garamond', serif);
+  font-size:      1rem;
+  line-height:    1.2;
+}
+
+.sst__current-total {
+  color:          var(--km-text-3);
+}
+
 // ── Canvas scroll wrapper — single container for both axes ───────────────────
 
 .sst__canvas {
@@ -32,6 +75,7 @@
   display:     flex;
   flex-wrap:   wrap;
   align-items: center;
+  justify-content: flex-end;
   gap:         .45rem;
 }
 
@@ -61,6 +105,22 @@
     border-color: rgba(201, 168, 76, .55);
     background:   rgba(201, 168, 76, .12);
     color:        var(--km-gold);
+  }
+}
+
+@media (max-width: 960px) {
+  .sst {
+    padding-inline: 0;
+  }
+
+  .sst__header {
+    flex-direction: column;
+    align-items: stretch;
+    padding-bottom: .8rem;
+  }
+
+  .sst__nav {
+    justify-content: flex-start;
   }
 }
 

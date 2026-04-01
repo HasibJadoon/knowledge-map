@@ -2,19 +2,33 @@
 
   @if (sentences.length) {
 
-    <!-- Multi-sentence navigation pills -->
-    @if (sentences.length > 1) {
-      <div class="sst__nav">
-        @for (s of sentences; track $index) {
-          <button
-            type="button"
-            class="sst__nav-btn"
-            [class.sst__nav-btn--on]="$index === activeIdx"
-            (click)="select($index)"
-          >{{ $index + 1 }}</button>
-        }
+    <header class="sst__header">
+      <div class="sst__header-copy">
+        <p class="sst__eyebrow">Sentence Focus</p>
+        <p class="sst__current">
+          Sentence {{ activeIdx + 1 }}
+          @if (sentences.length > 1) {
+            <span class="sst__current-total">of {{ sentences.length }}</span>
+          }
+        </p>
       </div>
-    }
+
+      <!-- Multi-sentence navigation pills -->
+      @if (sentences.length > 1) {
+        <div class="sst__nav" role="tablist" aria-label="Sentence navigation">
+          @for (s of sentences; track $index) {
+            <button
+              type="button"
+              class="sst__nav-btn"
+              [class.sst__nav-btn--on]="$index === activeIdx"
+              [attr.aria-selected]="$index === activeIdx"
+              [attr.aria-label]="'Show sentence ' + ($index + 1)"
+              (click)="select($index)"
+            >{{ $index + 1 }}</button>
+          }
+        </div>
+      }
+    </header>
 
     <!-- D3 canvas: sentence card + collapsible RTL tree -->
     <div class="sst__canvas">

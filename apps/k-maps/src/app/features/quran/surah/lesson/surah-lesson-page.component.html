@@ -1,183 +1,250 @@
 <div
   class="lesson-page"
   [class.lesson-page--obs-overlay]="obsOverlayEnabled()"
-  [class.lesson-page--obs-top-right]="obsOverlayTopRight()">
+  [class.lesson-page--obs-top-right]="obsOverlayTopRight()"
+  [style.--km-accent-start]="activeStep().accentStart"
+  [style.--km-accent-end]="activeStep().accentEnd"
+  [style.--km-accent-strong]="activeStep().accentStrong">
 
-  <!-- Loading -->
   @if (loading()) {
-    <div class="qstate"><div class="qstate__spinner"></div><p>Loading passage...</p></div>
+    <div class="qstate">
+      <div class="qstate__spinner"></div>
+      <p>Loading passage...</p>
+    </div>
   }
 
-  <!-- Error -->
   @if (!loading() && error()) {
-    <div class="qstate qstate--error"><p>{{ error() }}</p></div>
+    <div class="qstate qstate--error">
+      <p>{{ error() }}</p>
+    </div>
   }
 
   @if (!loading() && !error() && unit()) {
-
-    <!-- ════════════════════════════════════════════════════════
-         CINEMATIC ENTRY
-         ════════════════════════════════════════════════════════ -->
-    @if (phase() === 'entry') {
-      <div class="entry" #entryEl>
-
-        <!-- Background cinematic layer -->
-        <div class="entry__bg" #entryBg>
-          <div class="entry__radial"></div>
-          <div class="entry__dust"></div>
-          <div class="entry__vignette"></div>
-        </div>
-
-        <!-- Gold sweep line -->
-        <div class="entry__gold-sweep" #goldSweep></div>
-
-        <!-- Back nav (subtle, top-left) -->
-        <button class="entry__back" (click)="back()">&#8592; Back</button>
-
-        <!-- Content column -->
-        <div class="entry__content">
-
-          <!-- Arabic surah name -->
-          @if (surahName()) {
-            <p class="entry__arabic" #entryAr>{{ surahName()!.arabicName }}</p>
-          }
-
-          <!-- Titles block -->
-          <div class="entry__titles" #entryTitles>
-            @if (surahName()) {
-              <h1 class="entry__en">{{ surahName()!.englishName }}</h1>
-            }
-            @if (heroConfig().surahSubtitle) {
-              <p class="entry__subtitle">{{ heroConfig().surahSubtitle }}</p>
-            }
-          </div>
-
-          <!-- Theme -->
-          @if (unit()!.theme) {
-            <p class="entry__theme" #entryTheme>{{ unit()!.theme }}</p>
-          }
-
-          <!-- Quote from container meta -->
-          @if (heroConfig().quoteAr) {
-            <blockquote class="entry__quote" #entryQuote dir="rtl">
-              <span class="entry__quote-text">{{ heroConfig().quoteAr }}</span>
-              @if (heroConfig().quoteRef) {
-                <cite class="entry__quote-ref">{{ heroConfig().quoteRef }}</cite>
-              }
-            </blockquote>
-          }
-
-          <!-- Start button -->
-          <button class="entry__start" #startBtn (click)="startStudy($event)">
-            <span class="entry__start-label">Start</span>
-            <span class="entry__start-arrow" aria-hidden="true">&#8599;</span>
-            <span class="entry__start-glow"></span>
-          </button>
-        </div>
-
+    <section
+      class="ceremony-scene"
+      #sceneEl
+      [class.ceremony-scene--open]="panelOpen()"
+      (wheel)="onSceneWheel($event)">
+      <div class="ceremony-scene__bg" aria-hidden="true">
+        <div class="ceremony-scene__wash"></div>
+        <div class="ceremony-scene__glow ceremony-scene__glow--a" #ambientEl></div>
+        <div class="ceremony-scene__glow ceremony-scene__glow--b" #ambientEl></div>
+        <div class="ceremony-scene__grain"></div>
       </div>
-    }
 
-    <!-- ════════════════════════════════════════════════════════
-         STUDY WORKSPACE
-         ════════════════════════════════════════════════════════ -->
-    @if (phase() === 'workspace') {
-      <div class="workspace"
-        [class.workspace--canvas-full]="activeStep() === 'sentence-structure' && !currentStepLocked()"
-        #workspaceEl>
+      <header class="scene-toolbar">
+        <button class="scene-toolbar__back" type="button" (click)="back()">
+          <span aria-hidden="true">&#8592;</span>
+          <span>Back</span>
+        </button>
 
-        <!-- Back nav -->
-        <nav class="lesson-page__nav">
-          <button class="btn-back" (click)="back()">&#8592; Back</button>
-          @if (surahName()) {
-            <span class="nav-crumb">{{ surahName()!.transliteratedName }}</span>
-          }
-        </nav>
+        <div class="scene-toolbar__meta">
+          <span>{{ surahName()?.englishName ?? ('Surah ' + surahId()) }}</span>
+          <span>Passage {{ passageNo() }}</span>
+          <span>{{ ayahRange() }}</span>
+        </div>
+      </header>
 
-        <!-- Hero — hidden for canvas-full steps -->
-        @if (!currentStepLocked() && activeStep() !== 'sentence-structure') {
-          <div class="hero" #heroEl>
-            <div class="hero__bg" #heroBg></div>
-            <div class="hero__content">
-              @if (surahName()) {
-                <p class="hero__ar" #heroAr>{{ surahName()!.arabicName }}</p>
-                <h1 class="hero__en" #heroEn>{{ surahName()!.englishName }}</h1>
-              }
+      <section class="scene-chamber" #closedHeroEl [attr.aria-hidden]="panelOpen()">
+        <p class="scene-chamber__eyebrow">
+          K-maps Study Chamber · Six Layers · {{ ayahRange() }}
+        </p>
+        <h1 class="scene-chamber__title">
+          {{ heroConfig().surahTitle ?? (surahName()?.englishName ?? 'Study Chamber') }}
+        </h1>
+        <p class="scene-chamber__arabic" dir="rtl" lang="ar">
+          {{ surahName()?.arabicName ?? activeStep().arabicTitle }}
+        </p>
+        <p class="scene-chamber__lead">{{ chamberLead() }}</p>
+        <p class="scene-chamber__theme">{{ themeText() }}</p>
 
-              @if (unit()!.theme) {
-                <p class="hero__theme">{{ unit()!.theme }}</p>
-              }
-            </div>
-            <div class="hero__divider" #heroDivider></div>
-          </div>
+        @if (chamberQuote(); as quote) {
+          <p class="scene-chamber__quote" dir="rtl" lang="ar">{{ quote }}</p>
         }
 
-        <div class="lesson-stage">
-          <section class="step-panel">
-            <div class="step-panel__body">
-              @if (currentStepLocked()) {
-                @let intro = currentStepIntro();
-                <div class="step-gate">
-                  <div class="step-gate__glow" aria-hidden="true"></div>
-                  @if (intro.arabicTitle) {
-                    <p class="step-gate__arabic">{{ intro.arabicTitle }}</p>
-                  }
-                  <h2 class="step-gate__title">{{ intro.englishTitle }}</h2>
-                  @if (intro.subtitle) {
-                    <p class="step-gate__subtitle">{{ intro.subtitle }}</p>
-                  }
-                  <div class="step-gate__chips">
-                    <span class="step-gate__chip step-gate__chip--active">{{ intro.passageLabel }}</span>
-                    <span class="step-gate__chip">{{ intro.ayahLabel }}</span>
-                  </div>
-                  <div class="step-gate__divider" aria-hidden="true"></div>
-                  <p class="step-gate__description">{{ intro.description }}</p>
-                  <button class="step-gate__button" (click)="beginCurrentStep($event)">
-                    <span class="step-gate__button-label">Start</span>
-                    <span class="step-gate__button-arrow" aria-hidden="true">&#8599;</span>
-                    <span class="step-gate__button-glow"></span>
-                  </button>
-                </div>
-              } @else if (stepLoading()) {
-                <div class="qstate"><div class="qstate__spinner"></div><p>Loading step...</p></div>
-              } @else if (stepError()) {
-                <div class="qstate qstate--error"><p>{{ stepError() }}</p></div>
-              } @else if (lesson()) {
-                @switch (activeStep()) {
-                  @case ('reading') {
-                  <km-lesson-reading-step [lesson]="lesson()!" />
-                  }
-                  @case ('morphology') {
-                  <km-lesson-vocabulary-step [lesson]="lesson()!" />
-                  }
-                  @case ('sentence-structure') {
-                  <km-lesson-sentence-structure-step [lesson]="lesson()!" />
-                  }
-                  @case ('expressions') {
-                  <km-lesson-expressions-step [lesson]="lesson()!" />
-                  }
-                  @case ('passage-structure') {
-                  <km-lesson-passage-structure-step [lesson]="lesson()!" />
-                  }
-                }
+        <div class="scene-chamber__actions">
+          <button
+            class="scene-chamber__enter"
+            type="button"
+            [disabled]="transitioning()"
+            (click)="openNextStep()">
+            Begin with Reading
+          </button>
+        </div>
+      </section>
 
-                @if (canGoNext()) {
-                  <div class="step-footer">
-                    <button class="step-footer__next" (click)="nextStep()">
-                      <span class="step-footer__eyebrow">Next Step</span>
-                      <span class="step-footer__label">{{ nextStepLabel() }}</span>
-                      <span class="step-footer__arrow" aria-hidden="true">&#8594;</span>
-                    </button>
-                  </div>
+      <div class="scene-rails" role="tablist" aria-label="Study task units">
+        @for (step of steps; track step.id; let i = $index) {
+          <button
+            #stripEl
+            class="study-rail"
+            type="button"
+            role="tab"
+            [class.study-rail--opened]="isOpened(i)"
+            [class.study-rail--frontier]="isFrontier(i)"
+            [class.study-rail--active]="isActive(i)"
+            [class.study-rail--future]="isFuture(i)"
+            [style.--strip-start]="step.accentStart"
+            [style.--strip-end]="step.accentEnd"
+            [style.--strip-strong]="step.accentStrong"
+            [attr.aria-selected]="isActive(i)"
+            [attr.aria-label]="stripAriaLabel(i)"
+            tabindex="0"
+            aria-controls="study-reveal-panel"
+            [disabled]="transitioning()"
+            (click)="activateStrip(i)"
+            (keydown)="onStripKeydown($event, i)">
+
+            <span class="study-rail__wash" aria-hidden="true"></span>
+            <span class="study-rail__index">{{ stepNumber(i) }}</span>
+            <span class="study-rail__title">{{ step.title }}</span>
+            <span class="study-rail__badge">{{ step.badge }}</span>
+            <span class="study-rail__subtitle">{{ step.subtitle }}</span>
+          </button>
+        }
+      </div>
+
+      <section
+        id="study-reveal-panel"
+        #panelEl
+        class="study-panel"
+        role="tabpanel"
+        [attr.aria-hidden]="!panelOpen()">
+        <div class="study-panel__surface" #panelSurfaceEl>
+          <div class="study-panel__inner" #panelInnerEl>
+            <div class="study-panel__topline">
+              <p class="study-panel__eyebrow">
+                {{ activeStep().badge }} · {{ currentStepIntro().passageLabel }} · {{ currentStepIntro().ayahLabel }}
+              </p>
+
+              <div class="study-panel__actions">
+                <button
+                  class="study-action"
+                  type="button"
+                  [disabled]="!canGoPrevious() || transitioning()"
+                  (click)="previousStep()">
+                  &#8592; Previous
+                </button>
+                <button
+                  class="study-action"
+                  type="button"
+                  [disabled]="!canGoNext() || transitioning()"
+                  (click)="nextStep()">
+                  Next &#8594;
+                </button>
+                <button
+                  class="study-action study-action--ghost"
+                  type="button"
+                  [disabled]="!canReset() || transitioning()"
+                  (click)="resetScene()">
+                  Reset
+                </button>
+              </div>
+            </div>
+
+            <header class="study-panel__hero">
+              <div class="study-panel__titles">
+                <p class="study-panel__kicker">{{ currentStepIntro().subtitle }}</p>
+                <h2 class="study-panel__title">{{ currentStepIntro().englishTitle }}</h2>
+                <p class="study-panel__arabic" dir="rtl" lang="ar">
+                  {{ currentStepIntro().arabicTitle }}
+                </p>
+                <p class="study-panel__lead">{{ currentStepIntro().description }}</p>
+              </div>
+
+              <div class="study-panel__chips">
+                <span class="study-chip">{{ activeStep().accent }}</span>
+                <span class="study-chip">{{ activeStep().category ?? activeStep().title }}</span>
+                <span class="study-chip">{{ ayahRange() }}</span>
+              </div>
+            </header>
+
+            <section class="study-panel__metrics">
+              <article class="study-note">
+                <p class="study-note__label">Opened Layers</p>
+                <p class="study-note__text">{{ currentStepLabel() }}</p>
+              </article>
+              <article class="study-note">
+                <p class="study-note__label">Active Lens</p>
+                <p class="study-note__text">{{ activeStep().title }}</p>
+              </article>
+              <article class="study-note">
+                <p class="study-note__label">Next Gate</p>
+                <p class="study-note__text">{{ nextFrontierLabel() }}</p>
+              </article>
+            </section>
+
+            <div class="study-panel__workspace" #panelWorkspaceEl>
+              @if (stepLoading()) {
+                <div class="qstate qstate--panel">
+                  <div class="qstate__spinner"></div>
+                  <p>Loading {{ activeStep().title.toLowerCase() }}...</p>
+                </div>
+              } @else if (stepError()) {
+                <div class="qstate qstate--panel qstate--error">
+                  <p>{{ stepError() }}</p>
+                </div>
+              } @else if (panelOpen()) {
+                @if (activeStepId(); as activeStepIdValue) {
+                  @switch (activeStepIdValue) {
+                    @case ('reading') {
+                      @if (lesson()) {
+                        <km-lesson-reading-step [lesson]="lesson()!" />
+                      }
+                    }
+                    @case ('morphology') {
+                      @if (lesson()) {
+                        <km-lesson-vocabulary-step [lesson]="lesson()!" />
+                      }
+                    }
+                    @case ('sentence-structure') {
+                      @if (lesson()) {
+                        <km-lesson-sentence-structure-step [lesson]="lesson()!" />
+                      }
+                    }
+                    @case ('expressions') {
+                      @if (lesson()) {
+                        <km-lesson-expressions-step [lesson]="lesson()!" />
+                      }
+                    }
+                    @case ('passage-structure') {
+                      @if (lesson()) {
+                        <km-lesson-passage-structure-step [lesson]="lesson()!" />
+                      }
+                    }
+                    @case ('worldview') {
+                      <section class="worldview-board">
+                        <div class="worldview-board__counts">
+                          @for (card of worldviewSummary().cards; track card.label) {
+                            <article class="worldview-card">
+                              <p class="worldview-card__label">{{ card.label }}</p>
+                              <p class="worldview-card__value">{{ card.value }}</p>
+                              <p class="worldview-card__text">{{ card.description }}</p>
+                            </article>
+                          }
+                        </div>
+
+                        <div class="worldview-board__prompts">
+                          @for (prompt of worldviewSummary().prompts; track prompt) {
+                            <article class="worldview-prompt">
+                              <p class="worldview-prompt__label">Reflection</p>
+                              <p class="worldview-prompt__text">{{ prompt }}</p>
+                            </article>
+                          }
+                        </div>
+                      </section>
+                    }
+                  }
                 }
+              } @else {
+                <div class="qstate qstate--panel">
+                  <p>Advance the next strip to reveal the study workspace.</p>
+                </div>
               }
             </div>
-          </section>
+          </div>
         </div>
-
-      </div>
-    }
-
+      </section>
+    </section>
   }
-
 </div>

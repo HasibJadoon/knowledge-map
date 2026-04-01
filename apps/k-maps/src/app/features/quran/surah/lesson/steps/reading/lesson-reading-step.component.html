@@ -17,23 +17,21 @@
   </div>
 
   @if (lesson.ayahs.length > 0) {
-    <div class="rt-passage" #passageEl dir="rtl">
-
+    <div class="rt-passage" #passageEl dir="rtl" lang="ar">
       @for (ayah of lesson.ayahs; track ayah.ayah) {
-
-        @if (hasWordTokens(ayah)) {
-          @for (word of wordTokens(ayah); track word.position) {
-            <span class="ar-word">{{ wordText(word) }}</span>
+        <span class="rt-ayah-fragment" dir="rtl">
+          @if (hasWordTokens(ayah)) {
+            @for (word of wordTokens(ayah); track word.position) {
+              <span class="ar-word">{{ wordText(word) }}</span>
+            }
+          } @else {
+            @for (word of splitWords(ayah); track $index) {
+              <span class="ar-word">{{ word }}</span>
+            }
           }
-        } @else {
-          @for (word of splitWords(ayah); track $index) {
-            <span class="ar-word">{{ word }}</span>
-          }
-        }
-
-        <span class="verse-marker">{{ toArabicIndic(ayah.ayah) }}</span>
+          <span class="verse-marker" [attr.aria-label]="'Verse ' + ayah.ayah">{{ toArabicIndic(ayah.ayah) }}</span>
+        </span>
       }
-
     </div>
   } @else {
     <p class="rt-empty">No ayahs found for this passage.</p>
