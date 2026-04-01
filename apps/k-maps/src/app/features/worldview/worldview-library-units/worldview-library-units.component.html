@@ -157,7 +157,7 @@
                 <div class="skel-text skel-text--med"></div>
                 <div class="skel-text skel-text--short"></div>
               </div>
-            } @else if (displayBody()) {
+            } @else if (hasReadableContent()) {
               @if (summaryBlocks().length > 0) {
                 <div class="story-summary-wrap scroll-reveal">
                   @for (block of summaryBlocks(); track block.id) {
@@ -279,7 +279,8 @@
               </section>
             } @else {
               <div class="empty-hint empty-hint--inline">
-                No full passage saved for this {{ unitTypeLabel(selectedUnit()?.unit_type).toLowerCase() }} yet.
+                No passage body or verse reconstruction is available for this
+                {{ unitTypeLabel(selectedUnit()?.unit_type).toLowerCase() }} yet.
               </div>
             }
           </section>

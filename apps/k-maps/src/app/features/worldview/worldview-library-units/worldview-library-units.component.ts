@@ -60,7 +60,7 @@ interface WvUnitDetail extends WvUnit {
   source_title?: string | null;
   creator?: string | null;
   source_type?: string | null;
-  reading_body?: string | null;
+  reading_body?: string | string[] | null;
   reading_blocks?: WvReadingBlock[] | null;
   children: WvUnit[];
 }
@@ -154,7 +154,8 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   private router = inject(Router);
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
-  private readonly base = environment.apiBase;
+  private readonly apiBase = environment.apiBase;
+  private readonly wvBase = environment.wvBase;
 
   private routeSub?: Subscription;
   private resizePointerId: number | null = null;
@@ -237,17 +238,27 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   readonly displayBody = computed(() => {
     const detail = this.selectedDetail();
     const unit = this.selectedTreeUnit() ?? this.selectedUnit();
-    return detail?.reading_body ?? detail?.anchor_text ?? unit?.anchor_text ?? unit?.body_preview ?? null;
+    return detail?.reading_body ?? unit?.body_preview ?? null;
   });
 
   readonly summaryBlocks = computed(() => this.buildPassageBlocks(this.selectedSummary()));
+  readonly derivedPassageBlocks = computed(() => this.buildHighlightPassageBlocks(this.highlights()));
   readonly passageBlocks = computed(() => {
     const detail = this.selectedDetail();
     if (detail?.reading_blocks?.length) {
       return this.normalizeStructuredBlocks(detail.reading_blocks);
     }
-    return this.buildPassageBlocks(this.displayBody());
+    const directBlocks = this.buildPassageBlocks(this.displayBody());
+    if (directBlocks.length) return directBlocks;
+
+    if (this.derivedPassageBlocks().length) {
+      return this.derivedPassageBlocks();
+    }
+
+    const fallbackAnchor = this.cleanAnchorFallback(detail?.anchor_text ?? this.selectedUnit()?.anchor_text ?? null);
+    return this.buildPassageBlocks(fallbackAnchor);
   });
+  readonly hasReadableContent = computed(() => this.summaryBlocks().length > 0 || this.passageBlocks().length > 0);
   readonly hasArabicPassage = computed(() => {
     const blocks = this.passageBlocks();
     return blocks.length > 0 && blocks.every((block) => block.arabic && block.kind === 'paragraph');
@@ -350,7 +361,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
 
     this.detailLoading.set(true);
 
-    this.http.get<any>(`${this.base}/worldview/units/${unit.id}`).subscribe({
+    this.http.get<any>(`${this.apiBase}/worldview/units/${unit.id}`).subscribe({
       next: (res) => {
         if (res?.ok && res.result) {
           const detail = this.normalizeUnit(res.result) as WvUnitDetail;
@@ -710,7 +721,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     this.tocWidth.set(310);
     this.workspaceHidden.set(false);
 
-    this.http.get<any>(`${this.base}/worldview/sources/${id}`).subscribe({
+    this.http.get<any>(`${this.apiBase}/worldview/sources/${id}`).subscribe({
       next: (res) => {
         if (res?.ok) {
           this.source.set(res.source ?? null);
@@ -759,7 +770,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     this.notesLoading.set(true);
 
     try {
-      const res = await fetch(`${this.base}/wv/notes?source_unit_id=${unitId}&limit=100`);
+      const res = await fetch(`${this.wvBase}/wv/notes?source_unit_id=${unitId}&limit=100`);
       const data = await res.json();
       if (this.selectedUnit()?.id !== unitId) return;
 
@@ -865,13 +876,57 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     return match?.[1] ?? null;
   }
 
-  private buildPassageBlocks(value?: string | null): PassageBlock[] {
+  private buildPassageBlocks(value?: string | string[] | null): PassageBlock[] {
+    if (Array.isArray(value)) {
+      return value
+        .map((part, index) => this.normalizeArrayPassageBlock(part, index, value.length))
+        .filter((block): block is PassageBlock => !!block);
+    }
+
     const source = value?.trim() ?? '';
     if (!source) return [];
 
     return source
       .split(/\n\s*\n+/)
       .map((part) => this.normalizePassageBlock(part))
+      .filter((block): block is PassageBlock => !!block);
+  }
+
+  private buildHighlightPassageBlocks(highlights: WvHighlight[]): PassageBlock[] {
+    if (!highlights.length) return [];
+
+    const grouped = new Map<string, string[]>();
+
+    for (const highlight of highlights) {
+      const locator = (highlight.locator ?? '').trim();
+      const anchor = (highlight.anchor_text ?? '').trim();
+      if (!locator || !anchor) continue;
+
+      const bucket = grouped.get(locator) ?? [];
+      if (!bucket.includes(anchor)) {
+        bucket.push(anchor);
+      }
+      grouped.set(locator, bucket);
+    }
+
+    return [...grouped.entries()]
+      .sort(([left], [right]) => this.compareLocators(left, right))
+      .map<PassageBlock | null>(([locator, anchors]) => {
+        const text = anchors.join(' ').trim();
+        if (!text) return null;
+
+        return {
+          id: `highlight-${locator}`,
+          text,
+          marker: locator.split(':').pop() ?? null,
+          direction: this.isArabicText(text) ? 'rtl' : 'ltr',
+          arabic: this.isArabicText(text),
+          kind: 'paragraph' as const,
+          href: null,
+          label: null,
+          cite: null,
+        };
+      })
       .filter((block): block is PassageBlock => !!block);
   }
 
@@ -1001,6 +1056,45 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
       label: null,
       cite: null,
     };
+  }
+
+  private normalizeArrayPassageBlock(part: string, index: number, total: number): PassageBlock | null {
+    const text = part.trim();
+    if (!text) return null;
+
+    const arabic = this.isArabicText(text);
+    const headingLike =
+      !arabic
+      && !/[.!?]$/.test(text)
+      && !text.includes(' - http')
+      && text.length <= 88
+      && text.split(/\s+/).length <= 12;
+
+    return {
+      id: `array-block-${index}-${text.slice(0, 24)}`,
+      text,
+      marker: null,
+      direction: arabic ? 'rtl' : 'ltr',
+      arabic,
+      kind: headingLike ? (index === 0 || total <= 2 ? 'heading' : 'subheading') : 'paragraph',
+      href: null,
+      label: null,
+      cite: null,
+    };
+  }
+
+  private cleanAnchorFallback(value?: string | null): string | null {
+    const text = value?.trim() ?? '';
+    if (!text) return null;
+    if (text.includes('...') || text.includes('…')) return null;
+    return text;
+  }
+
+  private compareLocators(left: string, right: string): number {
+    const [leftSurah, leftAyah] = left.split(':').map((part) => Number(part) || 0);
+    const [rightSurah, rightAyah] = right.split(':').map((part) => Number(part) || 0);
+    if (leftSurah !== rightSurah) return leftSurah - rightSurah;
+    return leftAyah - rightAyah;
   }
 
   private normalizeStructuredKind(type: string): PassageBlock['kind'] {

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   apiBase: 'https://api.k-maps.com',
-  wvBase: '',
+  wvBase: 'https://k-maps.com',
 };

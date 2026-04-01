@@ -1,6 +1,6 @@
 import {
   Component, ChangeDetectionStrategy, AfterViewInit,
-  ElementRef, ViewChild, inject
+  ElementRef, ViewChild, inject, OnDestroy
 } from '@angular/core';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
@@ -62,7 +62,7 @@ const SECTION_DEFS: HubSectionDef[] = [
   templateUrl: './hub-home.component.html',
   styleUrl: './hub-home.component.scss'
 })
-export class HubHomeComponent implements AfterViewInit {
+export class HubHomeComponent implements AfterViewInit, OnDestroy {
   private router = inject(Router);
 
   @ViewChild('page') pageRef!: ElementRef<HTMLElement>;
@@ -72,21 +72,62 @@ export class HubHomeComponent implements AfterViewInit {
 
   readonly particles = Array.from({ length: 12 }, (_, i) => i);
   readonly sections = SECTION_DEFS;
+  private animationContext: gsap.Context | null = null;
 
   ngAfterViewInit(): void {
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    tl.fromTo(this.headerRef.nativeElement,
-      { opacity: 0, y: -24, filter: 'blur(6px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, clearProps: 'filter' }
-    )
-    .fromTo('.hh__card',
-      { opacity: 0, y: 36, scale: .94 },
-      { opacity: 1, y: 0, scale: 1, duration: .6, stagger: .1, clearProps: 'transform' },
-      '-=.4'
-    )
-    .fromTo(this.footerRef.nativeElement,
-      { opacity: 0 }, { opacity: 1, duration: .5 }, '-=.1'
-    );
+    this.animationContext?.revert();
+    this.animationContext = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      tl.fromTo(this.headerRef.nativeElement,
+        { opacity: 0, y: -24, filter: 'blur(6px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1, clearProps: 'filter' }
+      )
+      .fromTo('.hh__card',
+        { opacity: 0, y: 36, scale: .94, rotateX: -10 },
+        { opacity: 1, y: 0, scale: 1, rotateX: 0, duration: .62, stagger: .08, clearProps: 'transform' },
+        '-=.4'
+      )
+      .fromTo(this.footerRef.nativeElement,
+        { opacity: 0 }, { opacity: 1, duration: .5 }, '-=.1'
+      );
+
+      gsap.to('.hh__rule', {
+        scaleX: 1.18,
+        opacity: 1,
+        duration: 2.6,
+        ease: 'sine.inOut',
+        repeat: -1,
+        yoyo: true,
+        transformOrigin: '50% 50%',
+      });
+
+      gsap.utils.toArray<HTMLElement>('.hh__card').forEach((card, index) => {
+        gsap.to(card, {
+          y: index % 2 === 0 ? -8 : -4,
+          duration: 2.8 + index * 0.2,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+          delay: 0.9 + index * 0.06,
+        });
+      });
+
+      gsap.utils.toArray<HTMLElement>('.hh__glyph').forEach((glyph, index) => {
+        gsap.to(glyph, {
+          scale: 1.05,
+          duration: 2.2 + index * 0.14,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+          delay: 1.1 + index * 0.05,
+          transformOrigin: '50% 50%',
+        });
+      });
+    }, this.pageRef.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    this.animationContext?.revert();
   }
 
   navigate(route: string): void {

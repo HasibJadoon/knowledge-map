@@ -22,7 +22,9 @@ export const WORLDVIEW_ROUTES: Routes = [
       {
         path: 'library/:id',
         loadComponent: () =>
-          import('./worldview-library-units.component').then((m) => m.WorldviewLibraryUnitsComponent),
+          import('./worldview-library-units/worldview-library-units.component').then(
+            (m) => m.WorldviewLibraryUnitsComponent,
+          ),
         title: 'Reader — Worldview',
       },
       {

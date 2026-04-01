@@ -86,14 +86,24 @@ interface HeroConfig {
 }
 
 interface WorldviewCard {
+  accent: 'gold' | 'sky' | 'ember' | 'moss';
   label: string;
   value: string;
   description: string;
 }
 
+interface WorldviewGuide {
+  label: string;
+  title: string;
+  description: string;
+}
+
 interface WorldviewSummaryView {
   cards: WorldviewCard[];
+  guides: WorldviewGuide[];
+  overview: string;
   prompts: string[];
+  totalAssets: string;
 }
 
 const prefersReducedMotion = (): boolean =>
@@ -252,40 +262,72 @@ export class SurahLessonPageComponent
     };
     const surahTitle = this.surahName()?.englishName ?? `Surah ${this.surahId()}`;
     const passageLabel = `Passage ${this.passageNo()}`;
+    const totalAssets =
+      counts.nodes +
+      counts.sources +
+      counts.notes +
+      counts.documents;
 
     return {
       cards: [
         {
+          accent: 'gold',
           label: 'Concept Nodes',
           value: String(counts.nodes),
           description:
             'Named concepts and connected claims that map the conceptual terrain of the surah.',
         },
         {
+          accent: 'sky',
           label: 'Evidence Sources',
           value: String(counts.sources),
           description:
             'Supporting references, research trails, and interpretive evidence linked into the worldview graph.',
         },
         {
+          accent: 'ember',
           label: 'Reflection Notes',
           value: String(counts.notes),
           description:
             'Captured reflections that move from textual observation toward belief, orientation, and judgment.',
         },
         {
+          accent: 'moss',
           label: 'Study Documents',
           value: String(counts.documents),
           description:
             'Long-form documents that frame higher-order ideas emerging from the text.',
         },
       ],
+      guides: [
+        {
+          label: 'Claims',
+          title: 'Name the governing ideas',
+          description:
+            'Identify which concepts in the passage rise from observation into thesis, worldview, and moral orientation.',
+        },
+        {
+          label: 'Evidence',
+          title: 'Anchor each claim in proof',
+          description:
+            'Trace the ayat, linked sources, and supporting notes that keep higher-order interpretation attached to the text.',
+        },
+        {
+          label: 'Orientation',
+          title: 'Turn study into direction',
+          description:
+            'Use the mapped material to move from explanation toward judgment, posture, and practical reflection.',
+        },
+      ],
+      overview:
+        `${surahTitle} opens a higher-order reading surface where ${passageLabel.toLowerCase()} can be studied as a set of claims, evidences, and reflective directions instead of isolated notes.`,
       prompts: [
         `How does ${surahTitle} move from image to meaning inside ${passageLabel}?`,
         'Which claim about knowledge, guidance, or human perception is being formed by these ayat?',
         'What evidence inside the passage anchors that claim and turns it into a worldview statement?',
         'Which later study channels should open next: nodes, notes, documents, or sources?',
       ],
+      totalAssets: String(totalAssets),
     };
   });
 

@@ -731,31 +731,61 @@
 
 .worldview-board {
   display: grid;
-  gap: 1rem;
+  gap: 1.15rem;
   min-height: 100%;
 }
 
-.worldview-board__counts,
-.worldview-board__prompts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.worldview-card,
-.worldview-prompt {
-  display: grid;
-  gap: 0.45rem;
-  padding: 1.15rem 1.15rem 1.2rem;
+.worldview-hero,
+.worldview-section {
+  position: relative;
+  overflow: hidden;
   border: 1px solid rgba(212, 177, 96, 0.14);
-  border-radius: 1.2rem;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01)),
-    rgba(10, 8, 6, 0.52);
+    radial-gradient(circle at top right, rgba(200, 155, 90, 0.1), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0.01)),
+    rgba(10, 8, 6, 0.54);
   box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.22);
 }
 
+.worldview-hero::before,
+.worldview-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent 22%, transparent 78%, rgba(212, 177, 96, 0.06)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 18%);
+}
+
+.worldview-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(15rem, 0.85fr);
+  gap: 1rem;
+  padding: 1.35rem;
+}
+
+.worldview-hero__copy,
+.worldview-index,
+.worldview-section__head,
+.worldview-card,
+.worldview-guide__item,
+.worldview-prompt {
+  position: relative;
+  z-index: 1;
+}
+
+.worldview-hero__copy {
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
+}
+
+.worldview-hero__eyebrow,
+.worldview-section__eyebrow,
+.worldview-index__label,
 .worldview-card__label,
+.worldview-guide__label,
 .worldview-prompt__label {
   margin: 0;
   color: var(--km-text-3);
@@ -765,21 +795,193 @@
   text-transform: uppercase;
 }
 
-.worldview-card__value {
+.worldview-hero__title,
+.worldview-section__title {
+  margin: 0;
+  font-family: var(--km-font-heading);
+  color: var(--km-parchment-100);
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.worldview-hero__title {
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  line-height: 0.94;
+  max-width: 11ch;
+}
+
+.worldview-hero__text {
+  margin: 0;
+  max-width: 44rem;
+  color: var(--km-text-2);
+  font-family: var(--km-font-body);
+  font-size: 1.08rem;
+  line-height: 1.62;
+}
+
+.worldview-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.worldview-hero__meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.38rem 0.72rem;
+  border: 1px solid rgba(212, 177, 96, 0.16);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--km-text-2);
+  font-family: var(--km-font-heading);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.worldview-index {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  padding: 1.05rem 1.1rem 1.15rem;
+  border-left: 1px solid rgba(212, 177, 96, 0.12);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(112, 131, 106, 0.16), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.012));
+}
+
+.worldview-index__value {
   margin: 0;
   color: var(--km-gold-300);
   font-family: var(--km-font-heading);
-  font-size: clamp(2rem, 3vw, 2.8rem);
-  line-height: 1;
+  font-size: clamp(3rem, 5vw, 4.6rem);
+  line-height: 0.9;
+  text-shadow: 0 0 1.6rem rgba(200, 155, 90, 0.14);
+}
+
+.worldview-index__text {
+  margin: 0;
+  color: var(--km-text-2);
+  font-family: var(--km-font-body);
+  font-size: 0.98rem;
+  line-height: 1.58;
+}
+
+.worldview-board__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
+  gap: 1rem;
+}
+
+.worldview-section {
+  display: grid;
+  gap: 0.95rem;
+  padding: 1.2rem;
+}
+
+.worldview-section__head {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.worldview-section__title {
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  line-height: 1.02;
+}
+
+.worldview-board__counts,
+.worldview-board__prompts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.worldview-guide {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.worldview-card,
+.worldview-guide__item,
+.worldview-prompt {
+  position: relative;
+  display: grid;
+  gap: 0.42rem;
+  min-height: 100%;
+  padding: 1rem 1rem 1.05rem;
+  border: 1px solid rgba(212, 177, 96, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0.01)),
+    rgba(8, 7, 5, 0.52);
+}
+
+.worldview-card::before,
+.worldview-guide__item::before,
+.worldview-prompt::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.22rem;
+  background: var(--worldview-accent, rgba(200, 155, 90, 0.54));
+  opacity: 0.95;
+}
+
+.worldview-card--gold { --worldview-accent: rgba(226, 196, 141, 0.92); }
+.worldview-card--sky { --worldview-accent: rgba(125, 170, 214, 0.88); }
+.worldview-card--ember { --worldview-accent: rgba(205, 120, 98, 0.9); }
+.worldview-card--moss { --worldview-accent: rgba(131, 167, 120, 0.88); }
+
+.worldview-card__value {
+  margin: 0;
+  color: var(--km-parchment-100);
+  font-family: var(--km-font-heading);
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 0.92;
 }
 
 .worldview-card__text,
+.worldview-guide__text,
 .worldview-prompt__text {
   margin: 0;
   color: var(--km-text-2);
   font-family: var(--km-font-body);
-  font-size: 1rem;
-  line-height: 1.52;
+  font-size: 0.98rem;
+  line-height: 1.58;
+}
+
+.worldview-guide__label {
+  color: var(--km-gold-300);
+}
+
+.worldview-guide__title {
+  margin: 0;
+  color: var(--km-parchment-100);
+  font-family: var(--km-font-heading);
+  font-size: 1.02rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.worldview-prompt {
+  padding-left: 3.3rem;
+}
+
+.worldview-prompt__count {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: rgba(226, 196, 141, 0.42);
+  font-family: var(--km-font-heading);
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.worldview-prompt__label {
+  color: var(--km-gold-300);
+}
+
+.worldview-section--reflection .worldview-board__prompts {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .qstate {
@@ -985,6 +1187,16 @@
   .worldview-board__counts,
   .worldview-board__prompts {
     grid-template-columns: 1fr;
+  }
+
+  .worldview-hero,
+  .worldview-board__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .worldview-index {
+    border-left: 0;
+    border-top: 1px solid rgba(212, 177, 96, 0.12);
   }
 }
 
@@ -1401,8 +1613,8 @@
   gap: 0.9rem;
 }
 
-.worldview-card,
-.worldview-prompt {
+.worldview-hero,
+.worldview-section {
   padding: 1rem 1.05rem 1.08rem;
   border: 1px solid rgba(201, 153, 84, 0.18);
   border-radius: 0;
@@ -1414,9 +1626,17 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
+.worldview-hero__title {
+  font-size: clamp(2rem, 8vw, 3rem);
+}
+
+.worldview-index__value,
 .worldview-card__value {
   font-size: 1.42rem;
-  color: var(--km-gold-300);
+}
+
+.worldview-prompt {
+  padding-left: 2.9rem;
 }
 
 @media (max-width: 960px) {

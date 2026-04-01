@@ -1,56 +1,18 @@
-<div class="landing" #page>
+<div class="home" #page>
 
-  <!-- Ambient particles -->
-  <div class="landing__particles" aria-hidden="true">
+  <div class="home__particles" aria-hidden="true">
     @for (i of particles; track i) {
       <span class="particle" [style.--i]="i"></span>
     }
   </div>
 
-  <!-- Candle left -->
-  <div class="landing__candle landing__candle--left" aria-hidden="true">
-    <div class="candle-flame"><div class="flame-inner"></div></div>
-    <div class="candle-body"></div>
-    <div class="candle-glow"></div>
+  <div class="home__fire-stage" aria-hidden="true">
+    <div #fireHost class="home__fire-webgl"></div>
   </div>
 
-  <!-- Candle right -->
-  <div class="landing__candle landing__candle--right" aria-hidden="true">
-    <div class="candle-flame"><div class="flame-inner"></div></div>
-    <div class="candle-body"></div>
-    <div class="candle-glow"></div>
-  </div>
-
-  <div class="landing__concept-graph" aria-hidden="true">
-    <svg class="landing__concept-links" viewBox="0 0 100 100" preserveAspectRatio="none">
-      @for (link of conceptLinks; track link.id) {
-        <line
-          [attr.x1]="link.x1"
-          [attr.y1]="link.y1"
-          [attr.x2]="link.x2"
-          [attr.y2]="link.y2"
-        />
-      }
-    </svg>
-
-    @for (node of conceptNodes; track node.id) {
-      <div
-        #conceptNode
-        class="landing__concept-node"
-        [class]="'landing__concept-node landing__concept-node--' + node.tone + ' landing__concept-node--' + node.size"
-        [style.left.%]="node.x"
-        [style.top.%]="node.y"
-      >
-        <span class="landing__concept-core"></span>
-        <span class="landing__concept-label">{{ node.label }}</span>
-      </div>
-    }
-  </div>
-
-  <!-- Logo -->
-  <header class="landing__header" #logo>
-    <div class="landing__logo-wrap">
-      <div class="landing__logo-emblem" aria-hidden="true">
+  <header class="home__header" #logo>
+    <div class="home__logo-wrap">
+      <div class="home__logo-emblem" aria-hidden="true">
         <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="24" cy="24" r="22" stroke="url(#goldRing)" stroke-width="1"/>
           <path d="M24 8 L28 18 L38 18 L30 26 L33 36 L24 30 L15 36 L18 26 L10 18 L20 18 Z"
@@ -68,19 +30,18 @@
           </defs>
         </svg>
       </div>
-      <div class="landing__logo-text">
+      <div class="home__logo-text">
         <span class="logo-name">K-MAPS</span>
         <span class="logo-sub">Knowledge Command Center</span>
       </div>
     </div>
   </header>
 
-  <p class="landing__tagline" #subtitle>
+  <p class="home__tagline" #subtitle>
     Quranic Lens &nbsp;|&nbsp; Worldview Mapping
   </p>
 
-  <!-- Module cards -->
-  <main class="landing__cards" #cardsRow>
+  <main class="home__cards" #cardsRow>
     @for (mod of modules; track mod.id) {
       <button
         class="km-module-card"
@@ -98,8 +59,7 @@
     }
   </main>
 
-  <!-- Domain footer -->
-  <footer class="landing__footer" #domainLabel>
+  <footer class="home__footer" #domainLabel>
     <span class="km-divider-text">Select a Domain</span>
   </footer>
 

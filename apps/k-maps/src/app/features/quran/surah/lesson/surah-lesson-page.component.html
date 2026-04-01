@@ -125,24 +125,80 @@
                     }
                     @case ('worldview') {
                       <section class="worldview-board">
-                        <div class="worldview-board__counts">
-                          @for (card of worldviewSummary().cards; track card.label) {
-                            <article class="worldview-card">
-                              <p class="worldview-card__label">{{ card.label }}</p>
-                              <p class="worldview-card__value">{{ card.value }}</p>
-                              <p class="worldview-card__text">{{ card.description }}</p>
-                            </article>
-                          }
+                        <header class="worldview-hero">
+                          <div class="worldview-hero__copy">
+                            <p class="worldview-hero__eyebrow">Worldview Layer</p>
+                            <h2 class="worldview-hero__title">From Passage To Orientation</h2>
+                            <p class="worldview-hero__text">{{ worldviewSummary().overview }}</p>
+
+                            <div class="worldview-hero__meta">
+                              <span>{{ surahName()?.englishName ?? ('Surah ' + surahId()) }}</span>
+                              <span>Passage {{ passageNo() }}</span>
+                              <span>{{ activeStep().subtitle }}</span>
+                            </div>
+                          </div>
+
+                          <aside class="worldview-index">
+                            <p class="worldview-index__label">Mapped Assets</p>
+                            <p class="worldview-index__value">{{ worldviewSummary().totalAssets }}</p>
+                            <p class="worldview-index__text">
+                              Nodes, sources, notes, and documents available for higher-order synthesis.
+                            </p>
+                          </aside>
+                        </header>
+
+                        <div class="worldview-board__layout">
+                          <section class="worldview-section worldview-section--metrics">
+                            <div class="worldview-section__head">
+                              <p class="worldview-section__eyebrow">Knowledge Surfaces</p>
+                              <h3 class="worldview-section__title">Study Inventory</h3>
+                            </div>
+
+                            <div class="worldview-board__counts">
+                              @for (card of worldviewSummary().cards; track card.label) {
+                                <article class="worldview-card" [class]="'worldview-card worldview-card--' + card.accent">
+                                  <p class="worldview-card__label">{{ card.label }}</p>
+                                  <p class="worldview-card__value">{{ card.value }}</p>
+                                  <p class="worldview-card__text">{{ card.description }}</p>
+                                </article>
+                              }
+                            </div>
+                          </section>
+
+                          <section class="worldview-section worldview-section--guide">
+                            <div class="worldview-section__head">
+                              <p class="worldview-section__eyebrow">Reading Posture</p>
+                              <h3 class="worldview-section__title">Interpretive Guide</h3>
+                            </div>
+
+                            <div class="worldview-guide">
+                              @for (guide of worldviewSummary().guides; track guide.label) {
+                                <article class="worldview-guide__item">
+                                  <p class="worldview-guide__label">{{ guide.label }}</p>
+                                  <h4 class="worldview-guide__title">{{ guide.title }}</h4>
+                                  <p class="worldview-guide__text">{{ guide.description }}</p>
+                                </article>
+                              }
+                            </div>
+                          </section>
                         </div>
 
-                        <div class="worldview-board__prompts">
-                          @for (prompt of worldviewSummary().prompts; track prompt) {
-                            <article class="worldview-prompt">
-                              <p class="worldview-prompt__label">Reflection</p>
-                              <p class="worldview-prompt__text">{{ prompt }}</p>
-                            </article>
-                          }
-                        </div>
+                        <section class="worldview-section worldview-section--reflection">
+                          <div class="worldview-section__head">
+                            <p class="worldview-section__eyebrow">Reflection Prompts</p>
+                            <h3 class="worldview-section__title">Questions To Open The Layer</h3>
+                          </div>
+
+                          <div class="worldview-board__prompts">
+                            @for (prompt of worldviewSummary().prompts; track prompt; let i = $index) {
+                              <article class="worldview-prompt">
+                                <span class="worldview-prompt__count">{{ i + 1 }}</span>
+                                <p class="worldview-prompt__label">Prompt</p>
+                                <p class="worldview-prompt__text">{{ prompt }}</p>
+                              </article>
+                            }
+                          </div>
+                        </section>
                       </section>
                     }
                   }

@@ -7,6 +7,11 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'home',
+    loadChildren: () =>
+      import('./core/home/home.routes').then((m) => m.HOME_ROUTES),
+  },
+  {
     path: 'landing',
     loadChildren: () =>
       import('./core/landing/landing.routes').then((m) => m.LANDING_ROUTES),
