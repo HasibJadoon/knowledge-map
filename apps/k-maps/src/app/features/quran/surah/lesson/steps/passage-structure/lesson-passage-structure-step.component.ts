@@ -16,6 +16,11 @@ export interface PassageSection {
   data: any;
 }
 
+const PASSAGE_FONT_SCALE_STORAGE_KEY = 'k-maps:passage-structure:font-scale';
+const PASSAGE_FONT_SCALE_DEFAULT = 1;
+const PASSAGE_FONT_SCALE_MIN = 0.7;
+const PASSAGE_FONT_SCALE_MAX = 2.05;
+
 @Component({
   selector: 'km-lesson-passage-structure-step',
   standalone: true,
@@ -35,12 +40,23 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
   // ── Card deck state ──────────────────────────────────
   currentIdx = signal(0);
   revealed   = signal(false);
-  hintText   = signal('Tap to reveal');
+  hintText   = signal('');
   private animating = false;
   private swipeStartX = 0;
   private swipeStartY = 0;
 
   currentSection = computed((): PassageSection | undefined => this.sections[this.currentIdx()]);
+  private readonly compactRenderers = new Set<PassageSection['renderer']>([
+    'chiasm',
+    'purpose',
+    'keyvalue',
+    'clusters',
+  ]);
+  private readonly roomyRenderers = new Set<PassageSection['renderer']>([
+    'narrative_seed',
+    'symbol_maps',
+    'timeline',
+  ]);
 
   // ── Chiasm hover mirror ───────────────────────────────
   chiasmHover = signal<string | null>(null);
@@ -48,12 +64,46 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
   onChiasmLeave(): void { this.chiasmHover.set(null); }
 
   // ── Font scale ───────────────────────────────────────
-  fontScale = signal(1);
-  increaseFontScale(): void { this.fontScale.update(v => Math.min(v + 0.1, 1.6)); }
-  decreaseFontScale(): void { this.fontScale.update(v => Math.max(v - 0.1, 0.7)); }
-  resetFontScale(): void    { this.fontScale.set(1); }
+  fontScale = signal(PASSAGE_FONT_SCALE_DEFAULT);
+  sceneMinHeightRem = computed(() => {
+    const renderer = this.currentSection()?.renderer;
+    const scaleDelta = Math.max(0, this.fontScale() - PASSAGE_FONT_SCALE_DEFAULT);
+    const base = renderer && this.compactRenderers.has(renderer)
+      ? 29
+      : renderer && this.roomyRenderers.has(renderer)
+        ? 35
+        : 32;
+    const gain = renderer && this.compactRenderers.has(renderer) ? 8 : 12;
+    const ceiling = renderer && this.compactRenderers.has(renderer)
+      ? 38
+      : renderer && this.roomyRenderers.has(renderer)
+        ? 48
+        : 42;
+    return Math.min(base + scaleDelta * gain, ceiling);
+  });
+  sceneHeightStyle = computed(() => {
+    const renderer = this.currentSection()?.renderer;
+    const scaleDelta = Math.max(0, this.fontScale() - PASSAGE_FONT_SCALE_DEFAULT);
+    const base = renderer && this.compactRenderers.has(renderer)
+      ? 33
+      : renderer && this.roomyRenderers.has(renderer)
+        ? 43
+        : 38;
+    const gain = renderer && this.compactRenderers.has(renderer) ? 12 : 16;
+    const ceiling = renderer && this.compactRenderers.has(renderer)
+      ? 46
+      : renderer && this.roomyRenderers.has(renderer)
+        ? 60
+        : 50;
+    return `min(80dvh, ${Math.min(base + scaleDelta * gain, ceiling).toFixed(2)}rem)`;
+  });
+
+  increaseFontScale(): void { this.setFontScale(this.fontScale() + 0.1); }
+  decreaseFontScale(): void { this.setFontScale(this.fontScale() - 0.1); }
+  resetFontScale(): void    { this.setFontScale(PASSAGE_FONT_SCALE_DEFAULT); }
 
   ngOnInit(): void {
+    this.loadStoredFontScale();
     this.ref = this.refFromUnit();
     const task = this.lesson?.tasks?.find(t => t.task_type === 'passage_structure');
     if (!task) return;
@@ -100,6 +150,8 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
   }
 
   onSwipeEnd(e: TouchEvent | MouseEvent): void {
+    if (e instanceof MouseEvent && this.hasMouseTextSelection()) return;
+
     const pt = e instanceof TouchEvent ? e.changedTouches[0] : e;
     const dx = pt.clientX - this.swipeStartX;
     const dy = pt.clientY - this.swipeStartY;
@@ -110,14 +162,6 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
     } else { // swipe right → prev
       if (this.currentIdx() > 0) this.goTo(this.currentIdx() - 1, false);
     }
-  }
-
-  // ── Scene click: reveal ──────────────────────────────
-  onSceneClick(e: MouseEvent): void {
-    const dx = Math.abs((e as any).clientX - this.swipeStartX);
-    if (dx > 10) return; // was a drag, not a tap
-    if (this.animating || this.revealed()) return;
-    this.doReveal();
   }
 
   // ── Navigation ───────────────────────────────────────
@@ -156,10 +200,22 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
         duration: 0.55, ease: 'back.out(1.2)',
         onComplete: () => {
           this.animating = false;
-          this.zone.run(() => this.hintText.set('Tap card to reveal'));
+          this.zone.run(() => {
+            this.hintText.set(this.sections.length > 1 ? 'Swipe or use arrows to navigate' : '');
+            this.doReveal();
+          });
         },
       }
     );
+  }
+
+  private hasMouseTextSelection(): boolean {
+    if (typeof window === 'undefined') return false;
+
+    const selection = window.getSelection();
+    if (!selection) return false;
+
+    return selection.type === 'Range' || !selection.isCollapsed;
   }
 
   // ── GSAP: swipe out ───────────────────────────────────
@@ -357,5 +413,32 @@ export class LessonPassageStructureStepComponent implements OnInit, AfterViewIni
       try { return JSON.parse(raw); } catch { return null; }
     }
     return raw;
+  }
+
+  private setFontScale(value: number): void {
+    const nextValue = Number(
+      Math.min(PASSAGE_FONT_SCALE_MAX, Math.max(PASSAGE_FONT_SCALE_MIN, value)).toFixed(2),
+    );
+    this.fontScale.set(nextValue);
+    this.storeFontScale(nextValue);
+  }
+
+  private loadStoredFontScale(): void {
+    if (typeof localStorage === 'undefined') return;
+
+    const rawValue = localStorage.getItem(PASSAGE_FONT_SCALE_STORAGE_KEY);
+    if (!rawValue) return;
+
+    const parsed = Number(rawValue);
+    if (Number.isNaN(parsed)) return;
+
+    this.fontScale.set(
+      Math.min(PASSAGE_FONT_SCALE_MAX, Math.max(PASSAGE_FONT_SCALE_MIN, parsed)),
+    );
+  }
+
+  private storeFontScale(value: number): void {
+    if (typeof localStorage === 'undefined') return;
+    localStorage.setItem(PASSAGE_FONT_SCALE_STORAGE_KEY, String(value));
   }
 }

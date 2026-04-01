@@ -1,5 +1,5 @@
 import {
-  Component, Input, signal,
+  Component, Input, OnChanges, SimpleChanges, signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { StudyLessonResponse, AyahVm, AyahWordToken } from '../../../../../../shared/services/surah-modules.service';
@@ -20,10 +20,18 @@ const ARABIC_INDIC_ONLY_RE = /^[\u0660-\u0669]+$/;
   templateUrl: './lesson-reading-step.component.html',
   styleUrl: './lesson-reading-step.component.scss',
 })
-export class LessonReadingStepComponent {
+export class LessonReadingStepComponent implements OnChanges {
   @Input({ required: true }) lesson!: StudyLessonResponse;
 
   showDiacritics = signal(false);
+  orderedAyahs: AyahVm[] = [];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('lesson' in changes) {
+      this.orderedAyahs = [...(this.lesson?.ayahs ?? [])]
+        .sort((left, right) => left.ayah - right.ayah);
+    }
+  }
 
   // ── Word token helpers ────────────────────────────────────
 
@@ -62,5 +70,9 @@ export class LessonReadingStepComponent {
 
   toArabicIndic(n: number): string {
     return n.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[+d]);
+  }
+
+  verseMark(ayahNo: number): string {
+    return this.toArabicIndic(ayahNo);
   }
 }

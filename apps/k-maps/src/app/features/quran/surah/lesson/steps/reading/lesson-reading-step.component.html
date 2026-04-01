@@ -2,7 +2,7 @@
 
   <div class="rt-controls">
     <span class="rt-controls__info">
-      Passage · Ayah {{ lesson.ayahs[0]?.ayah }}–{{ lesson.ayahs[lesson.ayahs.length - 1]?.ayah }}
+      Passage · Ayah {{ orderedAyahs[0]?.ayah }}–{{ orderedAyahs[orderedAyahs.length - 1]?.ayah }}
     </span>
     <button
       class="rt-tashkeel"
@@ -16,21 +16,19 @@
     </button>
   </div>
 
-  @if (lesson.ayahs.length > 0) {
+  @if (orderedAyahs.length > 0) {
     <div class="rt-passage" #passageEl dir="rtl" lang="ar">
-      @for (ayah of lesson.ayahs; track ayah.ayah) {
-        <span class="rt-ayah-fragment" dir="rtl">
-          @if (hasWordTokens(ayah)) {
-            @for (word of wordTokens(ayah); track word.position) {
-              <span class="ar-word">{{ wordText(word) }}</span>
-            }
-          } @else {
-            @for (word of splitWords(ayah); track $index) {
-              <span class="ar-word">{{ word }}</span>
-            }
+      @for (ayah of orderedAyahs; track ayah.ayah) {
+        @if (hasWordTokens(ayah)) {
+          @for (word of wordTokens(ayah); track word.position) {
+            <span class="ar-word">{{ wordText(word) }}</span>
           }
-          <span class="verse-marker" [attr.aria-label]="'Verse ' + ayah.ayah">{{ toArabicIndic(ayah.ayah) }}</span>
-        </span>
+        } @else {
+          @for (word of splitWords(ayah); track $index) {
+            <span class="ar-word">{{ word }}</span>
+          }
+        }
+        <span class="verse-marker" [attr.aria-label]="'Verse ' + ayah.ayah">{{ verseMark(ayah.ayah) }}</span>
       }
     </div>
   } @else {

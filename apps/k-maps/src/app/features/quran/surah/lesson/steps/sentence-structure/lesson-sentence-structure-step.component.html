@@ -2,41 +2,38 @@
 
   @if (sentences.length) {
 
-    <header class="sst__header">
-      <div class="sst__header-copy">
-        <p class="sst__eyebrow">Sentence Focus</p>
-        <p class="sst__current">
-          Sentence {{ activeIdx + 1 }}
-          @if (sentences.length > 1) {
-            <span class="sst__current-total">of {{ sentences.length }}</span>
-          }
-        </p>
+    <div class="sst__stage" [class.sst__stage--with-nav]="sentences.length > 1">
+      <div class="sst__canvas-shell">
+        <div
+          class="sst__canvas"
+          [attr.id]="'sentence-structure-panel-' + activeIdx"
+          tabindex="0"
+          role="tabpanel"
+          [attr.aria-label]="'Sentence ' + (activeIdx + 1)"
+        >
+          <km-sentence-structure-canvas
+            [treeData]="current?.tree ?? null"
+            [termColors]="current?.term_colors ?? {}"
+            [lessonMeta]="currentMeta"
+          />
+        </div>
       </div>
 
-      <!-- Multi-sentence navigation pills -->
       @if (sentences.length > 1) {
-        <div class="sst__nav" role="tablist" aria-label="Sentence navigation">
-          @for (s of sentences; track $index) {
-            <button
-              type="button"
-              class="sst__nav-btn"
-              [class.sst__nav-btn--on]="$index === activeIdx"
-              [attr.aria-selected]="$index === activeIdx"
-              [attr.aria-label]="'Show sentence ' + ($index + 1)"
-              (click)="select($index)"
-            >{{ $index + 1 }}</button>
-          }
-        </div>
-      }
-    </header>
+        <aside class="sst__rail" aria-label="Sentence selector">
+          <div class="sst__rail-head">
+            <p class="sst__eyebrow">Sentence Reel</p>
+            <p class="sst__current">{{ activeIdx + 1 }} / {{ sentences.length }}</p>
+          </div>
 
-    <!-- D3 canvas: sentence card + collapsible RTL tree -->
-    <div class="sst__canvas">
-      <km-sentence-structure-canvas
-        [treeData]="current?.tree ?? null"
-        [termColors]="current?.term_colors ?? {}"
-        [lessonMeta]="currentMeta"
-      />
+          <km-sentence-structure-nav3d
+            class="sst__side-nav"
+            [count]="sentences.length"
+            [activeIndex]="activeIdx"
+            (selectIndex)="select($event)"
+          />
+        </aside>
+      }
     </div>
 
 

@@ -80,8 +80,8 @@ $border-l:  #4a3e28;
   position: relative;
   width: 100%;
   max-width: 460px;
-  height: 600px;
-  cursor: pointer;
+  height: 680px;
+  cursor: default;
 }
 
 /* shadow cards */
@@ -387,16 +387,37 @@ $border-l:  #4a3e28;
 /* ── PURPOSE ─────────────────────────────────────────────── */
 .renderer-purpose { display: flex; flex-direction: column; }
 .pu-row {
-  display: flex;
-  gap: 12px;
-  padding: 9px 0;
+  display: grid;
+  grid-template-columns: clamp(7rem, 10vw, 8.75rem) minmax(0, 1fr);
+  column-gap: clamp(0.85rem, 1.3vw, 1.2rem);
+  align-items: start;
+  padding: 0.8rem 0;
   border-bottom: 1px solid $border;
   opacity: 0; // GSAP (y:10 → y:0)
   &:last-child { border-bottom: none; }
 }
-.pu-label { font-family: 'Cinzel', serif; font-size: 0.44em; letter-spacing: 0.22em; text-transform: uppercase; color: $sky; min-width: 5.5em; padding-top: 2px; flex-shrink: 0; }
-.pu-h4    { font-size: 0.81em; color: $text-p; font-weight: 500; margin-bottom: 2px; }
+.pu-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.4em;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: $sky;
+  padding-top: 0.2rem;
+}
+.pu-copy  { min-width: 0; }
+.pu-h4    { font-size: 0.81em; color: $text-p; font-weight: 500; margin-bottom: 0.18rem; }
 .pu-p     { font-size: 0.69em; color: $text-d; font-style: italic; line-height: 1.4; }
+
+@media (max-width: 900px) {
+  .pu-row {
+    grid-template-columns: 1fr;
+    row-gap: 0.35rem;
+  }
+
+  .pu-label {
+    padding-top: 0;
+  }
+}
 
 /* ── NARRATIVE SEED ─────────────────────────────────────── */
 .renderer-narrative-seed { display: flex; flex-direction: column; gap: 10px; }

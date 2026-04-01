@@ -47,11 +47,11 @@ export interface SsLessonMeta {
 
 const CW   = 220;   // card width
 const CH   = 116;   // card height
-const CR   =  10;   // corner radius
+const CR   =   0;   // corner radius
 const AH   =   5;   // accent strip height
 const XSEP = 270;   // horizontal gap between nodes
 const YDEP = 210;   // vertical depth per level
-const MT = 40, MB = 56, ML = 40, MR = 40;
+const MT = 24, MB = 32, ML = 8, MR = 8;
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -70,29 +70,39 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
     .kss {
       display: flex; flex-direction: column;
       flex: 1; min-height: 100%;
-      gap: .9rem; width: 100%;
+      gap: .72rem; width: 100%;
     }
 
     /* ── Top sentence card ──────────────────────────────────── */
     .kss__card {
       position: relative;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(201,168,76,.22);
-      border-radius: 14px;
-      padding: 1.05rem 1.4rem .95rem;
+      background:
+        linear-gradient(180deg, rgba(22,18,16,.88) 0%, rgba(13,11,10,.96) 100%);
+      border: 1px solid rgba(201,155,84,.16);
+      border-radius: 0;
+      padding: .85rem 1rem .78rem;
       display: flex; flex-direction: column; gap: .7rem;
     }
+    .kss__card::before {
+      content: '';
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(226,196,141,.42), rgba(226,196,141,.08) 52%, transparent 86%);
+      pointer-events: none;
+    }
     .kss__card-actions {
-      position: absolute; top: .55rem; right: .65rem;
-      display: flex; gap: .35rem;
+      position: absolute; top: .48rem; right: .55rem;
+      display: flex; gap: .28rem;
     }
     .kss__card-btn {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 1.7rem; height: 1.7rem;
+      width: 1.5rem; height: 1.5rem;
       background: rgba(201,168,76,.08);
       border: 1px solid rgba(201,168,76,.2);
-      border-radius: 6px;
-      cursor: pointer; font-size: .82rem; line-height: 1;
+      border-radius: 4px;
+      cursor: pointer; font-size: .72rem; line-height: 1;
       transition: color .15s, background .15s, border-color .15s;
     }
     .kss__card-btn--edit { color: rgba(201,168,76,.6); }
@@ -104,11 +114,11 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
     }
 
     .kss__sentence {
-      margin: 0; padding-right: 4.4rem; /* space for action buttons */
+      margin: 0; padding-right: 3.5rem; /* space for action buttons */
       font-family: var(--km-font-arabic,"Scheherazade New",serif);
-      font-size: 2.1rem; line-height: 2.1;
+      font-size: 1.78rem; line-height: 1.86;
       color: #dce8ff; text-align: center;
-      direction: rtl; letter-spacing: .02em;
+      direction: rtl; letter-spacing: 0;
       border-radius: 4px; transition: outline .15s;
     }
     .kss__sentence[contenteditable="true"] {
@@ -117,32 +127,32 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
     }
 
     .kss__chips {
-      display: flex; flex-wrap: wrap; gap: .42rem;
+      display: flex; flex-wrap: wrap; gap: .34rem;
       justify-content: center; direction: rtl;
     }
     .kss__chip {
       display: inline-flex; align-items: center; gap: .28rem;
-      padding: .28rem .7rem; border-radius: 999px;
+      padding: .2rem .56rem; border-radius: 999px;
       border: 1px solid transparent; transition: filter .2s; cursor: default;
     }
     .kss__chip:hover { filter: brightness(1.2); }
     .kss__chip-w {
       font-family: var(--km-font-arabic,"Scheherazade New",serif);
-      font-size: 1.35rem; color: #dce8ff; line-height: 1.9;
+      font-size: 1.14rem; color: #dce8ff; line-height: 1.58;
     }
     .kss__chip-l {
       font-family: var(--km-font-arabic,"Scheherazade New",serif);
-      font-size: 1.05rem;
+      font-size: .88rem;
       filter: brightness(1.8) saturate(1.4);
       text-shadow: 0 0 6px currentColor, 0 0 12px currentColor, 0 0 22px currentColor;
     }
 
     /* ── SVG grammar label neon glow ─────────────────────────── */
     .kss-lbl {
-      filter: drop-shadow(0 0 2px rgba(255,255,180,1))
-              drop-shadow(0 0 6px rgba(255,215,0,.9))
-              drop-shadow(0 0 14px rgba(255,160,0,.65))
-              drop-shadow(0 0 24px rgba(200,80,0,.35));
+      filter: drop-shadow(0 1px 0 rgba(0,0,0,.96))
+              drop-shadow(0 0 2px rgba(0,0,0,.88))
+              drop-shadow(0 0 6px rgba(82,42,0,.72))
+              drop-shadow(0 0 12px rgba(155,91,0,.32));
     }
 
     /* ── SVG action icons (edit ✏ + note 📝) ────────────────── */
@@ -152,9 +162,15 @@ const MT = 40, MB = 56, ML = 40, MR = 40;
     /* ── SVG host ─────────────────────────────────────────────── */
     .kss__svg-host {
       width: 100%; overflow: visible;
-      display: flex; justify-content: center; align-items: flex-start;
+      display: flex;
+      justify-content: center;
     }
-    .kss__svg-host svg { display: block; overflow: visible; user-select: none; }
+    .kss__svg-host svg {
+      display: block;
+      flex: 0 0 auto;
+      overflow: visible;
+      user-select: none;
+    }
 
   `],
 })
@@ -409,9 +425,9 @@ export class SentenceStructureCanvasComponent
       .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
       .attr('y', CH/2 - 26)
       .attr('font-family', 'var(--km-font-arabic,"Scheherazade New",serif)')
-      .attr('font-size', 16).attr('fill', '#FFD700')
+      .attr('font-size', 16).attr('fill', '#f0c94a')
       .attr('paint-order', 'stroke').attr('stroke', 'rgba(0,0,0,1)')
-      .attr('stroke-width', 5).attr('stroke-linejoin', 'round')
+      .attr('stroke-width', 5.8).attr('stroke-linejoin', 'round')
       .text((d: any) => d.data.label_ar ?? '');
 
     // ── Action icons group (visible on hover) ───────────────────────────────
@@ -494,10 +510,10 @@ export class SentenceStructureCanvasComponent
     this.lastOx = ox;
     this.lastOy = oy;
 
-    const scrollEl = this.wrapRef.nativeElement.parentElement?.parentElement as HTMLElement | null;
+    const scrollEl = this.wrapRef.nativeElement.closest('.sst__canvas') as HTMLElement | null;
     if (scrollEl && !evt) {
       scrollEl.scrollTop  = 0;
-      scrollEl.scrollLeft = scrollEl.scrollWidth;
+      scrollEl.scrollLeft = Math.max((scrollEl.scrollWidth - scrollEl.clientWidth) / 2, 0);
     }
   }
 
@@ -1111,13 +1127,13 @@ export class SentenceStructureCanvasComponent
   }
   private cardBg(d: any): string {
     const c = d.data?.term_id ? this.termColors[d.data.term_id] : null;
-    if (c) return this.rgba(c, .18);
-    return d.depth === 0 ? 'rgba(201,168,76,.13)' : 'rgba(14,18,42,.95)';
+    if (c) return this.rgba(c, .12);
+    return d.depth === 0 ? 'rgba(200,155,90,.08)' : 'rgba(20,17,15,.92)';
   }
   private cardBorder(d: any): string {
     const c = d.data?.term_id ? this.termColors[d.data.term_id] : null;
-    if (c) return this.rgba(c, .55);
-    return d.depth === 0 ? 'rgba(201,168,76,.55)' : 'rgba(255,255,255,.16)';
+    if (c) return this.rgba(c, .42);
+    return d.depth === 0 ? 'rgba(200,155,90,.44)' : 'rgba(200,155,90,.18)';
   }
   private rgba(hex: string, a: number): string {
     if (!hex?.startsWith('#')) return `rgba(128,128,128,${a})`;

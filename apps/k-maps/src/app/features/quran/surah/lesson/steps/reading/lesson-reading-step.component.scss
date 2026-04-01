@@ -1,7 +1,7 @@
 .rt {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 1.9rem;
 }
 
 .rt-controls {
@@ -9,43 +9,64 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding-bottom: 0.85rem;
-  border-bottom: 1px solid var(--km-border);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(201, 153, 84, 0.18);
 }
 
 .rt-controls__info {
   font-family: var(--km-font-heading);
   font-size: 0.68rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--km-text-3);
+  color: var(--km-text-2);
 }
 
 .rt-tashkeel {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: transparent;
-  border: 1px solid var(--km-border);
-  border-radius: 999px;
-  padding: 0.35rem 0.85rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01)),
+    rgba(17, 14, 12, 0.88);
+  border: 1px solid rgba(201, 153, 84, 0.2);
+  border-radius: 0.42rem;
+  padding: 0.42rem 0.92rem;
   cursor: pointer;
-  transition: border-color 0.25s ease, background 0.25s ease;
+  color: var(--km-text-2);
+  box-shadow:
+    0 0.75rem 1.55rem rgba(0, 0, 0, 0.16),
+    0 0 0 1px rgba(95, 69, 37, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .rt-tashkeel:hover {
-  border-color: var(--km-border-gold);
+  border-color: var(--km-border-bright);
+  background:
+    linear-gradient(180deg, rgba(200, 155, 90, 0.08), rgba(255, 255, 255, 0.012)),
+    rgba(17, 14, 12, 0.94);
+  box-shadow:
+    0 0.95rem 1.9rem rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(200, 155, 90, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transform: translateY(-1px);
 }
 
 .rt-tashkeel--on {
-  border-color: rgba(214, 179, 90, 0.5);
-  background: rgba(214, 179, 90, 0.06);
+  border-color: rgba(200, 155, 90, 0.5);
+  background:
+    linear-gradient(180deg, rgba(200, 155, 90, 0.12), rgba(255, 255, 255, 0.014)),
+    rgba(17, 14, 12, 0.96);
+  box-shadow:
+    0 0.95rem 1.95rem rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(200, 155, 90, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .rt-tashkeel__icon {
   font-family: var(--km-font-arabic, 'UthmanicHafs', 'AmiriQuran', 'Amiri', serif);
   font-size: 1rem;
-  color: var(--km-gold);
+  color: var(--km-gold-300);
   direction: rtl;
   line-height: 1;
   letter-spacing: 0;
@@ -55,72 +76,55 @@
   width: 0.38rem;
   height: 0.38rem;
   border-radius: 50%;
-  background: var(--km-border);
+  background: rgba(201, 153, 84, 0.28);
   transition: background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .rt-tashkeel--on .rt-tashkeel__dot {
-  background: var(--km-gold);
-  box-shadow: 0 0 0.45rem rgba(214, 179, 90, 0.45);
+  background: var(--km-gold-500);
+  box-shadow: 0 0 0.45rem rgba(200, 155, 90, 0.4);
 }
 
 .rt-passage {
   width: 100%;
   font-family: var(--km-font-arabic, 'UthmanicHafs', 'AmiriQuran', 'Amiri', serif);
-  font-size: clamp(2rem, 3.6vw, 3.25rem);
-  line-height: 2.55;
+  font-size: clamp(2.25rem, 3.9vw, 3.65rem);
+  line-height: 2.72;
   direction: rtl;
   text-align: justify;
   text-justify: inter-word;
-  unicode-bidi: plaintext;
-  color: var(--km-text);
-  padding: 0.4rem 0 1.6rem;
+  color: var(--km-text-arabic);
+  text-shadow: 0 10px 34px rgba(0, 0, 0, 0.18);
+  padding: 0.6rem 0 1.8rem;
   overflow-wrap: normal;
   word-break: keep-all;
-  word-spacing: 0.02em;
-}
-
-.rt-ayah-fragment {
-  display: inline;
-  direction: rtl;
-  unicode-bidi: isolate;
+  word-spacing: 0.04em;
 }
 
 .ar-word {
   display: inline;
   cursor: pointer;
   transition: color 0.18s ease;
-  unicode-bidi: isolate;
 
   &::after {
     content: '\0020';
   }
 
   &:hover {
-    color: var(--km-gold-bright);
+    color: var(--km-gold-300);
   }
 }
 
 .verse-marker {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.7em;
-  height: 1.7em;
-  margin-inline: 0.22em 0.12em;
-  border-radius: 50%;
-  border: 1px solid rgba(214, 179, 90, 0.68);
-  box-shadow:
-    inset 0 0 0 1px rgba(214, 179, 90, 0.14),
-    0 0 0.7rem rgba(214, 179, 90, 0.08);
-  color: var(--km-gold);
-  font-family: var(--km-font-heading);
-  font-size: 0.4em;
+  display: inline;
+  color: var(--km-gold-300);
+  font-family: var(--km-font-arabic, 'UthmanicHafs', 'AmiriQuran', 'Amiri', serif);
+  font-size: 1em;
   line-height: 1;
   vertical-align: middle;
+  margin: 0 0.18em;
   user-select: none;
   letter-spacing: 0;
-  unicode-bidi: isolate;
 }
 
 .rt-empty {
@@ -142,8 +146,8 @@
   }
 
   .rt-passage {
-    font-size: clamp(1.65rem, 8vw, 2.35rem);
-    line-height: 2.35;
+    font-size: clamp(1.8rem, 8vw, 2.7rem);
+    line-height: 2.45;
     text-align: right;
     text-justify: auto;
   }

@@ -24,7 +24,8 @@
   @if (sections.length > 0) {
 
     <div class="pss-scene"
-         (click)="onSceneClick($event)"
+         [style.min-height.rem]="sceneMinHeightRem()"
+         [style.height]="sceneHeightStyle()"
          (touchstart)="onSwipeStart($event)" (touchend)="onSwipeEnd($event)"
          (mousedown)="onSwipeStart($event)" (mouseup)="onSwipeEnd($event)">
       <div class="pss-sh pss-sh1"></div>
@@ -146,7 +147,7 @@
               @for (row of purposeRows(currentSection()?.data); track row.label) {
                 <div class="pu-row">
                   <div class="pu-label">{{ row.label }}</div>
-                  <div>
+                  <div class="pu-copy">
                     <div class="pu-h4">{{ row.h }}</div>
                     <div class="pu-p">{{ row.p }}</div>
                   </div>

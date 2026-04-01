@@ -12,7 +12,7 @@
     .expr-card {
       background: var(--km-surface);
       border: 1px solid var(--km-border);
-      border-radius: 10px;
+      border-radius: 0;
       padding: 0.9rem 1.1rem;
       display: flex; flex-direction: column; gap: 0.4rem;
       transition: border-color 0.2s;

@@ -5,13 +5,13 @@ import {
 
 import {
   StudyLessonResponse,
-  UnitTaskVm,
 } from '../../../../../../shared/services/surah-modules.service';
 import {
   SentenceStructureCanvasComponent,
   SsLessonMeta,
   SsTreeNode,
 } from './sentence-structure-canvas.component';
+import { SentenceStructureNav3dComponent } from './sentence-structure-nav3d.component';
 
 // ── Payload shape from DB ─────────────────────────────────────────────────────
 
@@ -27,7 +27,7 @@ interface SsPayload {
 @Component({
   selector:        'km-lesson-sentence-structure-step',
   standalone:      true,
-  imports:         [SentenceStructureCanvasComponent],
+  imports:         [SentenceStructureCanvasComponent, SentenceStructureNav3dComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl:     './lesson-sentence-structure-step.component.html',
   styleUrl:        './lesson-sentence-structure-step.component.scss',

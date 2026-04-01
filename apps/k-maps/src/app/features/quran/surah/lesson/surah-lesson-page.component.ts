@@ -112,9 +112,9 @@ const STEPS: StepDef[] = [
     accent: 'Recitation',
     category: 'Foundational Reading',
     iconName: 'book-open',
-    accentStart: '#4b271a',
-    accentEnd: '#8a5236',
-    accentStrong: '#d6a177',
+    accentStart: '#5d7268',
+    accentEnd: '#7c9185',
+    accentStrong: '#b4c5bc',
   },
   {
     id: 'morphology',
@@ -127,9 +127,9 @@ const STEPS: StepDef[] = [
     accent: 'Word Forms',
     category: 'Lexical Study',
     iconName: 'branch',
-    accentStart: '#403116',
-    accentEnd: '#756128',
-    accentStrong: '#d0b56b',
+    accentStart: '#6d5360',
+    accentEnd: '#8b6674',
+    accentStrong: '#baa0aa',
   },
   {
     id: 'sentence-structure',
@@ -142,9 +142,9 @@ const STEPS: StepDef[] = [
     accent: 'Syntax',
     category: 'Grammar Architecture',
     iconName: 'network',
-    accentStart: '#172635',
-    accentEnd: '#284862',
-    accentStrong: '#7ea7d8',
+    accentStart: '#6e5347',
+    accentEnd: '#8a695a',
+    accentStrong: '#c0a18f',
   },
   {
     id: 'expressions',
@@ -157,9 +157,9 @@ const STEPS: StepDef[] = [
     accent: 'Semantics',
     category: 'Meaning Layers',
     iconName: 'spark',
-    accentStart: '#311624',
-    accentEnd: '#5d3048',
-    accentStrong: '#c78cab',
+    accentStart: '#7b643f',
+    accentEnd: '#9a7c52',
+    accentStrong: '#cfbb8d',
   },
   {
     id: 'passage-structure',
@@ -172,9 +172,9 @@ const STEPS: StepDef[] = [
     accent: 'Architecture',
     category: 'Discourse Flow',
     iconName: 'layout',
-    accentStart: '#231c3f',
-    accentEnd: '#44376f',
-    accentStrong: '#9a8ce0',
+    accentStart: '#546274',
+    accentEnd: '#66758a',
+    accentStrong: '#a9b5c6',
   },
   {
     id: 'worldview',
@@ -187,9 +187,9 @@ const STEPS: StepDef[] = [
     accent: 'Worldview',
     category: 'Reflection Layer',
     iconName: 'compass',
-    accentStart: '#1c2335',
-    accentEnd: '#38456b',
-    accentStrong: '#9eb6ec',
+    accentStart: '#5f6e58',
+    accentEnd: '#70836a',
+    accentStrong: '#afbeaa',
   },
 ];
 
@@ -229,7 +229,7 @@ export class SurahLessonPageComponent
   readonly steps = STEPS;
   readonly totalSteps = STEPS.length;
   readonly panelOpen = computed(
-    () => this.currentStep() > 0 && this.activeStepId() !== null,
+    () => this.activeStepId() !== null,
   );
   readonly activeStep = computed(() => {
     const stepId = this.activeStepId();
@@ -315,7 +315,7 @@ export class SurahLessonPageComponent
   private ambientTimeline: gsap.core.Timeline | null = null;
   private landingTimeline: gsap.core.Timeline | null = null;
   private routeQuerySub?: Subscription;
-  private routeStepParam: StepId | null = null;
+  private routeStepParam: StepId = 'reading';
   private viewReady = false;
   private landingPlayed = false;
 
@@ -331,7 +331,7 @@ export class SurahLessonPageComponent
     const rawStepParam =
       this.route.snapshot.queryParamMap.get('step') ??
       this.route.snapshot.queryParamMap.get('tab');
-    const stepParam = this.normalizeStepParam(rawStepParam);
+    const stepParam = this.normalizeStepParam(rawStepParam) ?? 'reading';
     const stepIndex = stepParam
       ? this.steps.findIndex((step) => step.id === stepParam)
       : -1;
@@ -339,8 +339,8 @@ export class SurahLessonPageComponent
     this.surahId.set(surahId);
     this.passageNo.set(passageNo);
     this.routeStepParam = stepParam;
-    this.currentStep.set(stepIndex >= 0 ? stepIndex + 1 : 0);
-    this.activeStepId.set(stepIndex >= 0 ? stepParam : null);
+    this.currentStep.set(stepIndex >= 0 ? stepIndex + 1 : 1);
+    this.activeStepId.set(stepIndex >= 0 ? stepParam : 'reading');
     this.watchRouteStepParam();
 
     this.quranState.load();
@@ -410,11 +410,11 @@ export class SurahLessonPageComponent
   onWindowKeydown(event: KeyboardEvent): void {
     if (
       event.key === 'Escape' &&
-      this.currentStep() > 0 &&
+      this.currentStep() > 1 &&
       !this.transitioning()
     ) {
       event.preventDefault();
-      this.resetScene();
+      this.previousStep();
     }
   }
 
@@ -442,8 +442,7 @@ export class SurahLessonPageComponent
   activateStrip(index: number): void {
     if (this.transitioning()) return;
     if (index < 0 || index >= this.steps.length) return;
-    const targetStep = index < this.currentStep() ? index : index + 1;
-    void this.transitionToStepCount(targetStep);
+    void this.transitionToStepCount(index + 1);
   }
 
   openNextStep(): void {
@@ -457,21 +456,21 @@ export class SurahLessonPageComponent
   }
 
   previousStep(): void {
-    if (this.transitioning() || this.currentStep() === 0) return;
+    if (this.transitioning() || this.currentStep() <= 1) return;
     void this.transitionToStepCount(this.currentStep() - 1);
   }
 
   resetScene(immediate = false): void {
-    if (!this.currentStep() && !immediate) return;
-    void this.transitionToStepCount(0, immediate);
+    if (this.currentStep() <= 1 && !immediate) return;
+    void this.transitionToStepCount(1, immediate);
   }
 
   canReset(): boolean {
-    return this.currentStep() > 0;
+    return this.currentStep() > 1;
   }
 
   canGoPrevious(): boolean {
-    return this.currentStep() > 0;
+    return this.currentStep() > 1;
   }
 
   canGoNext(): boolean {
@@ -485,26 +484,26 @@ export class SurahLessonPageComponent
   }
 
   isOpened(index: number): boolean {
-    return index < this.currentStep();
+    return index < this.currentStep() - 1;
   }
 
   isFrontier(index: number): boolean {
-    return this.currentStep() < this.steps.length && index === this.currentStep();
+    return index === this.currentStep() - 1;
   }
 
   isFuture(index: number): boolean {
-    return index > this.currentStep();
+    return index > this.currentStep() - 1;
   }
 
   isActive(index: number): boolean {
-    return this.currentStep() > 0 && index === this.currentStep() - 1;
+    return index === this.currentStep() - 1;
   }
 
   stripAriaLabel(index: number): string {
     const step = this.steps[index];
-    const status = index < this.currentStep()
-      ? 'opened, click to close back from here'
-      : 'closed, click to open to this layer';
+    const status = index === this.currentStep() - 1
+      ? 'active layer'
+      : 'inactive layer';
     return `${step.title}, ${step.badge}, ${status}`;
   }
 
@@ -648,37 +647,32 @@ export class SurahLessonPageComponent
     this.routeQuerySub = this.route.queryParamMap.subscribe((queryParamMap) => {
       const rawStepParam =
         queryParamMap.get('step') ?? queryParamMap.get('tab');
-      const stepParam = this.normalizeStepParam(rawStepParam);
+      const stepParam = this.normalizeStepParam(rawStepParam) ?? 'reading';
       this.routeStepParam = stepParam;
       this.applyRouteStepState(stepParam);
     });
   }
 
   private applyRouteStepState(stepParam: StepId | null): void {
-    const stepIndex = stepParam
-      ? this.steps.findIndex((step) => step.id === stepParam)
+    const normalizedStep = stepParam ?? 'reading';
+    const stepIndex = normalizedStep
+      ? this.steps.findIndex((step) => step.id === normalizedStep)
       : -1;
-    const targetStep = stepIndex >= 0 ? stepIndex + 1 : 0;
+    const targetStep = stepIndex >= 0 ? stepIndex + 1 : 1;
 
     if (this.loading() || !this.unit()) {
       this.currentStep.set(targetStep);
-      this.activeStepId.set(stepParam);
+      this.activeStepId.set(normalizedStep);
       return;
     }
 
     if (this.transitioning()) return;
 
     if (targetStep === this.currentStep()) {
-      if (this.activeStepId() === stepParam) return;
+      if (this.activeStepId() === normalizedStep) return;
 
-      this.activeStepId.set(stepParam);
-      if (stepParam) {
-        void this.ensureStepDataLoaded(stepParam);
-      } else {
-        this.lesson.set(null);
-        this.stepLoading.set(false);
-        this.stepError.set(null);
-      }
+      this.activeStepId.set(normalizedStep);
+      void this.ensureStepDataLoaded(normalizedStep);
       this.syncSceneAfterRender(true);
       return;
     }
@@ -712,36 +706,26 @@ export class SurahLessonPageComponent
   ): Promise<void> {
     if (this.loading() || !this.unit() || this.transitioning()) return;
 
-    const normalizedTarget = this.clamp(targetStep, 0, this.steps.length);
+    const normalizedTarget = this.clamp(targetStep, 1, this.steps.length);
     const startingStep = this.currentStep();
-    if (normalizedTarget === startingStep) return;
-
     const finalStepId = this.stepIdForCount(normalizedTarget);
-    const direction = normalizedTarget > startingStep ? 1 : -1;
+    if (normalizedTarget === startingStep && finalStepId === this.activeStepId()) {
+      return;
+    }
+
+    if (!finalStepId) return;
 
     this.transitioning.set(true);
     this.stepError.set(null);
     this.activeStepId.set(finalStepId);
+    this.currentStep.set(normalizedTarget);
 
-    let previousStep = startingStep;
-    while (previousStep !== normalizedTarget) {
-      const nextStep = previousStep + direction;
-      this.currentStep.set(nextStep);
-      await this.animateSceneStep(nextStep, previousStep, immediate, false);
-      previousStep = nextStep;
-    }
+    await Promise.all([
+      this.animateSceneStep(normalizedTarget, startingStep, immediate, false),
+      this.ensureStepDataLoaded(finalStepId),
+    ]);
 
-    if (finalStepId) {
-      await this.ensureStepDataLoaded(finalStepId);
-      if (!immediate) {
-        this.pulseStrip(normalizedTarget - 1);
-      }
-      this.animatePanelContentSwap(immediate);
-    } else {
-      this.activeStepId.set(null);
-      this.stepLoading.set(false);
-      this.stepError.set(null);
-    }
+    this.animatePanelContentSwap(immediate);
 
     this.syncStepQuery(finalStepId);
     this.transitioning.set(false);
@@ -766,7 +750,6 @@ export class SurahLessonPageComponent
       !panel ||
       !panelSurface ||
       !panelInner ||
-      !chamber ||
       strips.length !== this.steps.length
     ) {
       if (!onComplete) {
@@ -794,55 +777,71 @@ export class SurahLessonPageComponent
     }
 
     const width = scene.clientWidth;
-    const railWidth = this.clamp(width * 0.078, 84, 112);
-    const panelGap = this.clamp(width * 0.02, 24, 36);
-    const leftCount = stepCount;
-    const rightCount = this.steps.length - stepCount;
-    const rightClusterStart = width - rightCount * railWidth;
-    const panelX = stepCount > 0 ? leftCount * railWidth + panelGap : panelGap;
-    const panelRightEdge =
-      stepCount === this.steps.length
-        ? width - panelGap
-        : rightClusterStart - panelGap;
-    const panelWidth =
-      stepCount > 0 ? Math.max(panelRightEdge - panelX, width * 0.2) : 0;
-    const stripTargets = this.steps.map((_, index) => {
-      if (index < leftCount) {
-        return { x: index * railWidth, width: railWidth };
-      }
+    const restRailWidth = this.clamp(width * 0.04, 46, 62);
+    const panelGap = this.clamp(width * 0.014, 16, 24);
+    const restRailClusterWidth = restRailWidth * this.steps.length;
+    const panelX = panelGap;
+    const panelWidth = Math.max(
+      width - restRailClusterWidth - panelGap * 2,
+      width * 0.44,
+    );
 
-      const rightIndex = index - leftCount;
+    const restTargets = this.steps.map((_, index) => ({
+      x: width - restRailClusterWidth + index * restRailWidth,
+      width: restRailWidth,
+    }));
+    const expandedTargets = this.steps.map((_, index) => {
+      const left = Math.round((width * index) / this.steps.length);
+      const right = Math.round((width * (index + 1)) / this.steps.length);
       return {
-        x: width - (rightCount - rightIndex) * railWidth,
-        width: railWidth,
+        x: left,
+        width: right - left,
       };
     });
+    const railTitles = strips
+      .map((strip) => strip.querySelector<HTMLElement>('.study-rail__title'))
+      .filter((title): title is HTMLElement => !!title);
+    const railIndices = strips
+      .map((strip) => strip.querySelector<HTMLElement>('.study-rail__index'))
+      .filter((label): label is HTMLElement => !!label);
+    const railBadges = strips
+      .map((strip) => strip.querySelector<HTMLElement>('.study-rail__badge'))
+      .filter((label): label is HTMLElement => !!label);
 
     if (immediate) {
       strips.forEach((strip, index) => {
         gsap.set(strip, {
-          x: stripTargets[index].x,
-          width: stripTargets[index].width,
+          x: restTargets[index].x,
+          width: restTargets[index].width,
         });
       });
+      gsap.set(railTitles, { y: 0, clearProps: 'y' });
+      gsap.set(railTitles, { opacity: 1, clearProps: 'opacity' });
+      gsap.set(railTitles, { filter: 'blur(0px) brightness(1)', clearProps: 'filter' });
+      gsap.set(railIndices, { y: 0, clearProps: 'y' });
+      gsap.set(railIndices, { opacity: 1, clearProps: 'opacity' });
+      gsap.set(railIndices, { filter: 'blur(0px) brightness(1)', clearProps: 'filter' });
+      gsap.set(railBadges, { y: 0, clearProps: 'y' });
+      gsap.set(railBadges, { opacity: 1, clearProps: 'opacity' });
+      gsap.set(railBadges, { filter: 'blur(0px) brightness(1)', clearProps: 'filter' });
       gsap.set(panel, {
         x: panelX,
         width: panelWidth,
-        opacity: stepCount > 0 ? 1 : 0,
-        pointerEvents: stepCount > 0 ? 'auto' : 'none',
+        opacity: 1,
+        pointerEvents: 'auto',
       });
       gsap.set(panelSurface, {
-        clipPath:
-          stepCount > 0
-            ? 'inset(0 0 0 0 round 1.85rem)'
-            : 'inset(0 100% 0 0 round 1.85rem)',
+        clipPath: 'inset(0 0 0 0 round 0)',
       });
-      gsap.set(panelInner, { opacity: stepCount > 0 ? 1 : 0, y: 0 });
-      gsap.set(chamber, {
-        opacity: stepCount > 0 ? 0 : 1,
-        y: stepCount > 0 ? -26 : 0,
-      });
-      if (stepCount > 0 && revealContentOnComplete) {
+      gsap.set(panelInner, { opacity: 1, y: 0 });
+      if (chamber) {
+        gsap.set(chamber, {
+          opacity: 0,
+          y: -18,
+          pointerEvents: 'none',
+        });
+      }
+      if (revealContentOnComplete) {
         this.animatePanelContentIn(true);
       }
       if (!onComplete) {
@@ -852,147 +851,111 @@ export class SurahLessonPageComponent
       return;
     }
 
-    const openingFromZero = previousStep === 0 && stepCount > 0;
-    const closingToZero = stepCount === 0;
     const timeline = gsap.timeline({
       defaults: { ease: 'power4.inOut' },
       onComplete: () => {
         if (!onComplete) {
           this.transitioning.set(false);
         }
-        if (stepCount > 0 && revealContentOnComplete) {
+        if (revealContentOnComplete) {
           this.animatePanelContentIn();
-        } else if (stepCount === 0) {
-          gsap.set(chamber, { opacity: 1, y: 0 });
         }
         onComplete?.();
       },
     });
     this.sceneTimeline = timeline;
 
-    if (closingToZero) {
-      timeline.to(
-        panelInner,
-        {
-          opacity: 0,
-          y: 22,
-          duration: 0.22,
-          ease: 'power2.in',
-        },
-        0,
-      );
+    timeline.set(panel, { x: panelX, width: panelWidth, opacity: 1, pointerEvents: 'auto' }, 0);
+    timeline.set(panelSurface, { clipPath: 'inset(0 0 0 0 round 0)' }, 0);
 
-      timeline.to(
-        panelSurface,
-        {
-          clipPath: 'inset(0 100% 0 0 round 1.85rem)',
-          duration: 0.78,
-        },
-        0.06,
-      );
-
-      timeline.to(
-        panel,
-        {
-          x: panelX,
-          width: panelWidth,
-          opacity: 0,
-          duration: 0.95,
-          onStart: () => {
-            gsap.set(panel, { pointerEvents: 'none' });
-          },
-        },
-        0,
-      );
-
-      strips.forEach((strip, index) => {
-        timeline.to(
-          strip,
-          {
-            x: stripTargets[index].x,
-            width: stripTargets[index].width,
-            duration: 1.04,
-          },
-          0.05,
-        );
-      });
-
-      timeline.fromTo(
-        chamber,
-        { opacity: 0, y: 28 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.82,
-          ease: 'power3.out',
-        },
-        0.34,
-      );
-
-      return;
+    if (chamber) {
+      timeline.set(chamber, { opacity: 0, y: -18, pointerEvents: 'none' }, 0);
     }
 
-    gsap.set(panel, { pointerEvents: 'auto' });
     timeline.to(
-      chamber,
+      panelInner,
       {
         opacity: 0,
-        y: -22,
-        duration: 0.28,
-        ease: 'power2.out',
+        y: 10,
+        duration: 0.22,
+        ease: 'power2.in',
       },
       0,
     );
 
-    if (openingFromZero) {
-      gsap.set(panel, { opacity: 1 });
-      gsap.set(panelInner, { opacity: 0, y: 28 });
-      gsap.set(panelSurface, {
-        clipPath: 'inset(0 100% 0 0 round 1.85rem)',
-      });
-    } else {
-      timeline.to(
-        panelInner,
-        {
-          opacity: 0,
-          y: 16,
-          duration: 0.18,
-          ease: 'power2.in',
-        },
-        0,
-      );
-    }
+    timeline.to(
+      railTitles,
+      {
+        y: 30,
+        opacity: 0,
+        filter: 'blur(8px) brightness(0.35)',
+        duration: 0.9,
+        stagger: 0.05,
+        ease: 'power2.in',
+      },
+      0,
+    );
+    timeline.to(
+      [...railIndices, ...railBadges],
+      {
+        y: 18,
+        opacity: 0,
+        filter: 'blur(5px) brightness(0.45)',
+        duration: 0.72,
+        stagger: 0.04,
+        ease: 'power2.in',
+      },
+      0.12,
+    );
 
     strips.forEach((strip, index) => {
       timeline.to(
         strip,
         {
-          x: stripTargets[index].x,
-          width: stripTargets[index].width,
-          duration: 1.12,
+          x: expandedTargets[index].x,
+          width: expandedTargets[index].width,
+          duration: 0.92,
+          ease: 'power2.inOut',
         },
         0,
+      );
+      timeline.to(
+        strip,
+        {
+          x: restTargets[index].x,
+          width: restTargets[index].width,
+          duration: 1.38,
+          ease: 'power3.inOut',
+        },
+        0.98,
       );
     });
 
     timeline.to(
-      panel,
+      railTitles,
       {
-        x: panelX,
-        width: panelWidth,
+        y: 0,
         opacity: 1,
-        duration: 1.08,
+        filter: 'blur(0px) brightness(1)',
+        duration: 1.04,
+        stagger: 0.05,
+        ease: 'power3.out',
+        clearProps: 'y,opacity,filter',
       },
-      0.06,
+      1.26,
     );
-
     timeline.to(
-      panelSurface,
+      [...railIndices, ...railBadges],
       {
-        clipPath: 'inset(0 0 0 0 round 1.85rem)',
-        duration: 0.92,
+        y: 0,
+        opacity: 1,
+        filter: 'blur(0px) brightness(1)',
+        duration: 0.98,
+        stagger: 0.04,
+        ease: 'power3.out',
+        clearProps: 'y,opacity,filter',
       },
-      openingFromZero ? 0.24 : 0.12,
+      1.22,
     );
   }
 
@@ -1003,24 +966,26 @@ export class SurahLessonPageComponent
     panel: HTMLElement,
     panelSurface: HTMLElement,
     panelInner: HTMLElement,
-    chamber: HTMLElement,
+    chamber: HTMLElement | undefined,
     revealContentOnComplete = true,
     onComplete?: () => void,
   ): void {
     gsap.set(strips, { clearProps: 'all' });
     gsap.set(panel, {
       clearProps: 'x,width',
-      opacity: stepCount > 0 ? 1 : 0,
-      pointerEvents: stepCount > 0 ? 'auto' : 'none',
+      opacity: 1,
+      pointerEvents: 'auto',
     });
     gsap.set(panelSurface, { clearProps: 'clipPath' });
     gsap.set(panelInner, { clearProps: 'all' });
-    gsap.set(chamber, { clearProps: 'all' });
+    if (chamber) {
+      gsap.set(chamber, { opacity: 0, pointerEvents: 'none' });
+    }
     if (!onComplete) {
       this.transitioning.set(false);
     }
 
-    if (stepCount > 0 && revealContentOnComplete) {
+    if (revealContentOnComplete) {
       this.animatePanelContentIn(immediate);
     }
 
@@ -1058,24 +1023,7 @@ export class SurahLessonPageComponent
 
   private animatePanelContentSwap(immediate = false): void {
     requestAnimationFrame(() => {
-      if (immediate || prefersReducedMotion()) {
-        this.animatePanelContentIn(true);
-        return;
-      }
-
-      const panelInner = this.panelInnerEl?.nativeElement;
-      if (!panelInner) {
-        this.animatePanelContentIn();
-        return;
-      }
-
-      gsap.to(panelInner, {
-        opacity: 0,
-        y: 12,
-        duration: 0.16,
-        ease: 'power2.in',
-        onComplete: () => this.animatePanelContentIn(false),
-      });
+      this.animatePanelContentIn(immediate || prefersReducedMotion());
     });
   }
 
@@ -1172,7 +1120,12 @@ export class SurahLessonPageComponent
 
     this.landingTimeline = gsap.timeline({
       onComplete: () => {
-        gsap.set(strips, { clearProps: 'transform,opacity,visibility' });
+        gsap.set(strips, {
+          y: 0,
+          scale: 1,
+          opacity: 1,
+          clearProps: 'opacity,visibility',
+        });
         this.transitioning.set(false);
       },
     });

@@ -42,36 +42,9 @@
           <span>{{ surahName()?.englishName ?? ('Surah ' + surahId()) }}</span>
           <span>Passage {{ passageNo() }}</span>
           <span>{{ ayahRange() }}</span>
+          <span>{{ activeStep().title }}</span>
         </div>
       </header>
-
-      <section class="scene-chamber" #closedHeroEl [attr.aria-hidden]="panelOpen()">
-        <p class="scene-chamber__eyebrow">
-          K-maps Study Chamber · Six Layers · {{ ayahRange() }}
-        </p>
-        <h1 class="scene-chamber__title">
-          {{ heroConfig().surahTitle ?? (surahName()?.englishName ?? 'Study Chamber') }}
-        </h1>
-        <p class="scene-chamber__arabic" dir="rtl" lang="ar">
-          {{ surahName()?.arabicName ?? activeStep().arabicTitle }}
-        </p>
-        <p class="scene-chamber__lead">{{ chamberLead() }}</p>
-        <p class="scene-chamber__theme">{{ themeText() }}</p>
-
-        @if (chamberQuote(); as quote) {
-          <p class="scene-chamber__quote" dir="rtl" lang="ar">{{ quote }}</p>
-        }
-
-        <div class="scene-chamber__actions">
-          <button
-            class="scene-chamber__enter"
-            type="button"
-            [disabled]="transitioning()"
-            (click)="openNextStep()">
-            Begin with Reading
-          </button>
-        </div>
-      </section>
 
       <div class="scene-rails" role="tablist" aria-label="Study task units">
         @for (step of steps; track step.id; let i = $index) {
@@ -112,68 +85,6 @@
         [attr.aria-hidden]="!panelOpen()">
         <div class="study-panel__surface" #panelSurfaceEl>
           <div class="study-panel__inner" #panelInnerEl>
-            <div class="study-panel__topline">
-              <p class="study-panel__eyebrow">
-                {{ activeStep().badge }} · {{ currentStepIntro().passageLabel }} · {{ currentStepIntro().ayahLabel }}
-              </p>
-
-              <div class="study-panel__actions">
-                <button
-                  class="study-action"
-                  type="button"
-                  [disabled]="!canGoPrevious() || transitioning()"
-                  (click)="previousStep()">
-                  &#8592; Previous
-                </button>
-                <button
-                  class="study-action"
-                  type="button"
-                  [disabled]="!canGoNext() || transitioning()"
-                  (click)="nextStep()">
-                  Next &#8594;
-                </button>
-                <button
-                  class="study-action study-action--ghost"
-                  type="button"
-                  [disabled]="!canReset() || transitioning()"
-                  (click)="resetScene()">
-                  Reset
-                </button>
-              </div>
-            </div>
-
-            <header class="study-panel__hero">
-              <div class="study-panel__titles">
-                <p class="study-panel__kicker">{{ currentStepIntro().subtitle }}</p>
-                <h2 class="study-panel__title">{{ currentStepIntro().englishTitle }}</h2>
-                <p class="study-panel__arabic" dir="rtl" lang="ar">
-                  {{ currentStepIntro().arabicTitle }}
-                </p>
-                <p class="study-panel__lead">{{ currentStepIntro().description }}</p>
-              </div>
-
-              <div class="study-panel__chips">
-                <span class="study-chip">{{ activeStep().accent }}</span>
-                <span class="study-chip">{{ activeStep().category ?? activeStep().title }}</span>
-                <span class="study-chip">{{ ayahRange() }}</span>
-              </div>
-            </header>
-
-            <section class="study-panel__metrics">
-              <article class="study-note">
-                <p class="study-note__label">Opened Layers</p>
-                <p class="study-note__text">{{ currentStepLabel() }}</p>
-              </article>
-              <article class="study-note">
-                <p class="study-note__label">Active Lens</p>
-                <p class="study-note__text">{{ activeStep().title }}</p>
-              </article>
-              <article class="study-note">
-                <p class="study-note__label">Next Gate</p>
-                <p class="study-note__text">{{ nextFrontierLabel() }}</p>
-              </article>
-            </section>
-
             <div class="study-panel__workspace" #panelWorkspaceEl>
               @if (stepLoading()) {
                 <div class="qstate qstate--panel">
@@ -184,7 +95,7 @@
                 <div class="qstate qstate--panel qstate--error">
                   <p>{{ stepError() }}</p>
                 </div>
-              } @else if (panelOpen()) {
+              } @else {
                 @if (activeStepId(); as activeStepIdValue) {
                   @switch (activeStepIdValue) {
                     @case ('reading') {
@@ -236,10 +147,6 @@
                     }
                   }
                 }
-              } @else {
-                <div class="qstate qstate--panel">
-                  <p>Advance the next strip to reveal the study workspace.</p>
-                </div>
               }
             </div>
           </div>
