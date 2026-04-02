@@ -1,63 +1,49 @@
 <div class="atlas" #host>
+  <div class="atlas__star-stage" aria-hidden="true">
+    <div #starHost class="atlas__star-webgl"></div>
+  </div>
+
+  @for (side of edgeWordSides; track side) {
+    <div class="atlas__edge-words" [class]="'atlas__edge-words atlas__edge-words--' + side" aria-hidden="true">
+      @for (word of edgeWords[side]; track word.text) {
+        <span
+          class="atlas__edge-word"
+          [style.fontSize.px]="word.size"
+          [style.opacity]="word.alpha"
+          [style.--atlas-word-rotate]="word.tilt + 'deg'"
+          [attr.data-side]="side"
+          [attr.data-delay]="word.delay"
+          [attr.data-tilt]="word.tilt"
+          [style.left.%]="side === 'top' || side === 'bottom' ? word.offset : null"
+          [style.top.%]="side === 'left' || side === 'right' ? word.offset : null"
+        >
+          {{ word.text }}
+        </span>
+      }
+    </div>
+  }
+
   <div class="atlas__fire-stage" aria-hidden="true">
     <div #fireHost class="atlas__fire-webgl"></div>
   </div>
 
   <svg #svgRoot class="atlas__canvas"></svg>
 
-  <div class="atlas__edge-words atlas__edge-words--top" aria-hidden="true">
-    <span
-      *ngFor="let word of edgeWordCloud.top"
-      class="atlas__edge-word"
-      [style.left.%]="word.offset"
-      [style.fontSize.px]="word.size"
-      [style.opacity]="word.alpha"
-      [style.animationDelay.s]="-word.delay"
-      [style.--atlas-word-rotate]="word.tilt + 'deg'">
-      {{ word.text }}
-    </span>
-  </div>
-
-  <div class="atlas__edge-words atlas__edge-words--right" aria-hidden="true">
-    <span
-      *ngFor="let word of edgeWordCloud.right"
-      class="atlas__edge-word"
-      [style.top.%]="word.offset"
-      [style.fontSize.px]="word.size"
-      [style.opacity]="word.alpha"
-      [style.animationDelay.s]="-word.delay"
-      [style.--atlas-word-rotate]="word.tilt + 'deg'">
-      {{ word.text }}
-    </span>
-  </div>
-
-  <div class="atlas__edge-words atlas__edge-words--bottom" aria-hidden="true">
-    <span
-      *ngFor="let word of edgeWordCloud.bottom"
-      class="atlas__edge-word"
-      [style.left.%]="word.offset"
-      [style.fontSize.px]="word.size"
-      [style.opacity]="word.alpha"
-      [style.animationDelay.s]="-word.delay"
-      [style.--atlas-word-rotate]="word.tilt + 'deg'">
-      {{ word.text }}
-    </span>
-  </div>
-
-  <div class="atlas__edge-words atlas__edge-words--left" aria-hidden="true">
-    <span
-      *ngFor="let word of edgeWordCloud.left"
-      class="atlas__edge-word"
-      [style.top.%]="word.offset"
-      [style.fontSize.px]="word.size"
-      [style.opacity]="word.alpha"
-      [style.animationDelay.s]="-word.delay"
-      [style.--atlas-word-rotate]="word.tilt + 'deg'">
-      {{ word.text }}
-    </span>
+  <div class="atlas__zoom-controls" aria-label="Zoom controls">
+    <button class="atlas__zoom-button" type="button" aria-label="Zoom in" (click)="zoomIn()">+</button>
+    <button class="atlas__zoom-button" type="button" aria-label="Zoom out" (click)="zoomOut()">−</button>
+    <button class="atlas__zoom-button atlas__zoom-button--reset" type="button" aria-label="Reset view" (click)="resetZoom()">◎</button>
   </div>
 
   <button #homePlaneButton class="atlas__home-plane" type="button" aria-label="Enter home" (click)="launchHome()">
+    <span class="atlas__home-plane-aura"></span>
+    <span class="atlas__home-plane-orbit atlas__home-plane-orbit--outer"></span>
+    <span class="atlas__home-plane-shell"></span>
+    <span class="atlas__home-plane-world"></span>
+    <span class="atlas__home-plane-continents"></span>
+    <span class="atlas__home-plane-clouds"></span>
+    <span class="atlas__home-plane-atmosphere"></span>
+    <span class="atlas__home-plane-glint"></span>
     <span class="atlas__home-plane-glow"></span>
     <span class="atlas__home-plane-shadow"></span>
 

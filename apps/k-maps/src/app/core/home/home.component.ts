@@ -183,6 +183,8 @@ void main() {
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
+  private static readonly BASE_FLAME_SCALE = 8.6;
+
   private readonly router = inject(Router);
   private readonly ngZone = inject(NgZone);
 
@@ -320,7 +322,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     });
 
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), material);
-    mesh.scale.set(8.6, 8.6, 8.6);
+    mesh.scale.set(
+      HomeComponent.BASE_FLAME_SCALE,
+      HomeComponent.BASE_FLAME_SCALE,
+      HomeComponent.BASE_FLAME_SCALE,
+    );
     mesh.position.set(0, -0.2, 0);
     scene.add(mesh);
 
@@ -357,10 +363,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.flameInstances.forEach((instance) => {
       const width = Math.max(instance.host.clientWidth, 360);
       const height = Math.max(instance.host.clientHeight, 360);
+      const aspect = width / height;
+      const horizontalScale = HomeComponent.BASE_FLAME_SCALE * Math.max(1.2, aspect * 1.08);
 
       instance.renderer.setSize(width, height, false);
       instance.camera.aspect = width / height;
       instance.camera.updateProjectionMatrix();
+      instance.mesh.scale.set(
+        horizontalScale,
+        HomeComponent.BASE_FLAME_SCALE,
+        HomeComponent.BASE_FLAME_SCALE,
+      );
     });
   }
 

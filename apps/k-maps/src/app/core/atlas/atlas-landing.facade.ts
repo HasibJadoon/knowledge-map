@@ -3,6 +3,12 @@ import { Injectable, inject } from '@angular/core';
 import * as d3 from 'd3';
 import { firstValueFrom } from 'rxjs';
 import {
+  DEEP_SKY_CLUSTERS,
+  DEEP_SKY_EDGES,
+  DEEP_SKY_NODES,
+  DEEP_SKY_VIEWS,
+  RESEARCH_THEME_EDGES,
+  RESEARCH_THEME_NODES,
   SUPPLEMENTAL_CLUSTERS,
   SUPPLEMENTAL_EDGES,
   SUPPLEMENTAL_NODES,
@@ -30,10 +36,10 @@ export class AtlasLandingFacade {
 
     return {
       ...rawData,
-      clusters: [...rawData.clusters, ...SUPPLEMENTAL_CLUSTERS],
-      nodes: [...rawData.nodes, ...SUPPLEMENTAL_NODES],
-      edges: [...rawData.edges, ...SUPPLEMENTAL_EDGES],
-      zoom_views: [...rawData.zoom_views, ...SUPPLEMENTAL_VIEWS],
+      clusters: [...rawData.clusters, ...SUPPLEMENTAL_CLUSTERS, ...DEEP_SKY_CLUSTERS],
+      nodes: [...rawData.nodes, ...SUPPLEMENTAL_NODES, ...DEEP_SKY_NODES, ...RESEARCH_THEME_NODES],
+      edges: [...rawData.edges, ...SUPPLEMENTAL_EDGES, ...DEEP_SKY_EDGES, ...RESEARCH_THEME_EDGES],
+      zoom_views: [...rawData.zoom_views, ...SUPPLEMENTAL_VIEWS, ...DEEP_SKY_VIEWS],
     };
   }
 

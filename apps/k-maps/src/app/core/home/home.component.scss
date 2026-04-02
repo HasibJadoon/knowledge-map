@@ -41,11 +41,12 @@
 
 .home__fire-stage {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 50%;
+  right: auto;
   bottom: -8rem;
-  margin: 0 auto;
-  width: min(100%, 1100px);
+  transform: translateX(-50%);
+  width: calc(100vw + 8rem);
+  max-width: none;
   height: clamp(380px, 48vh, 560px);
   pointer-events: none;
   z-index: 1;
@@ -252,7 +253,7 @@
 
   .home__fire-stage {
     bottom: -6rem;
-    width: min(100%, 760px);
+    width: calc(100vw + 4rem);
     height: clamp(300px, 34vh, 420px);
   }
 
@@ -271,7 +272,7 @@
   .home__fire-stage {
     opacity: 0.8;
     bottom: -4.5rem;
-    width: min(100%, 540px);
+    width: calc(100vw + 2rem);
     height: clamp(240px, 26vh, 320px);
   }
 }
