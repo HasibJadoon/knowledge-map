@@ -4,7 +4,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-package-lock.json
 pnpm-lock.yaml
 # keep yarn.lock if you use Yarn; otherwise ignore lockfiles you don't use
 # yarn.lock
