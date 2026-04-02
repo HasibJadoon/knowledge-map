@@ -1,0 +1,18 @@
+<nav class="planner-strips" role="tablist" aria-label="Planner workspaces">
+  @for (item of items; track item.id) {
+    <button
+      class="planner-strip"
+      type="button"
+      role="tab"
+      [class.planner-strip--active]="activeWorkspace === item.id"
+      [style.--planner-strip-fill]="item.accent"
+      [attr.aria-selected]="activeWorkspace === item.id"
+      (click)="workspaceSelected.emit(item.id)"
+    >
+      <span class="planner-strip__index">{{ item.indexLabel }}</span>
+      <span class="planner-strip__title">{{ item.label }}</span>
+      <span class="planner-strip__badge">{{ item.badge }}</span>
+      <span class="planner-strip__subtitle">{{ item.caption }}</span>
+    </button>
+  }
+</nav>
