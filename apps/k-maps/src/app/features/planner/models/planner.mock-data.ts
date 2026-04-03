@@ -1,4 +1,4 @@
-import type { PlannerAccordionNote, PlannerPlanState, PlannerSection } from './planner-workspace.models';
+import type { PlannerAccordionNote, PlannerPlanState, PlannerSection } from './planner.models';
 
 export const PLANNER_SECTION_BLUEPRINT: PlannerSection[] = [
   { id: 'main-thought', title: 'Main Thought', body: '' },

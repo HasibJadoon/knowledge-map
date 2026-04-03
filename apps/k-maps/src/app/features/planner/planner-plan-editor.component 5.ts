@@ -12,16 +12,16 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import gsap from 'gsap';
-import type { CaptureItem, PlannerAccordionNote, PlannerPlanState, PlannerSection } from '../models/planner.models';
-import { PlannerActionBarComponent } from '../planner-action-bar.component';
+import type { CaptureItem, PlannerAccordionNote, PlannerPlanState, PlannerSection } from './planner-workspace.models';
+import { PlannerActionBarComponent } from './planner-action-bar.component';
 
 @Component({
-  selector: 'km-plan-editor',
+  selector: 'km-planner-plan-editor',
   standalone: true,
   imports: [CommonModule, FormsModule, PlannerActionBarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './plan-editor.component.html',
-  styleUrl: './plan-editor.component.scss',
+  templateUrl: './planner-plan-editor.component.html',
+  styleUrl: './planner-plan-editor.component.scss',
 })
 export class PlannerPlanEditorComponent implements AfterViewInit {
   @Input({ required: true }) item!: CaptureItem;
