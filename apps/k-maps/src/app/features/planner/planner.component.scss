@@ -184,6 +184,13 @@
   will-change: transform, width;
 }
 
+/* Structural anchor for GSAP clip-path animation — no visual card styling */
+.planner-shell__surface {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
 .planner-shell__inner {
   position: relative;
   height: 100%;
