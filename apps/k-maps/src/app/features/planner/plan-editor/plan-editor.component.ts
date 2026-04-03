@@ -12,8 +12,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import gsap from 'gsap';
-import type { CaptureItem, PlannerAccordionNote, PlannerPlanState, PlannerSection } from './planner-workspace.models';
-import { PlannerActionBarComponent } from './planner-action-bar.component';
+import type { CaptureItem, PlannerAccordionNote, PlannerPlanState, PlannerSection } from '../models/planner.models';
+import { PlannerActionBarComponent } from '../planner-action-bar.component';
 
 @Component({
   selector: 'km-plan-editor',

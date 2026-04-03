@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import type { CaptureDraft, CaptureDomain, CaptureStage } from './planner-workspace.models';
+import type { CaptureDraft, CaptureDomain, CaptureStage } from '../models/planner.models';
 
 interface CaptureDomainOption {
   id: CaptureDomain;
@@ -183,8 +183,8 @@ export class PlannerCaptureModalComponent {
     const note = this.draft.note.trim();
     const resources = this.draft.resourcesText
       .split('\n')
-      .map((entry) => entry.replace(/^[-*•]\s*/, '').trim())
-      .filter((entry) => entry.length > 0);
+      .map((entry: string) => entry.replace(/^[-*•]\s*/, '').trim())
+      .filter((entry: string) => entry.length > 0);
     const footnotes = this.draft.source.trim()
       ? [{ label: 'Source', value: this.draft.source.trim(), href: this.extractUrl(this.draft.source.trim()) }]
       : [];
