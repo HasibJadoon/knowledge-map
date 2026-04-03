@@ -843,6 +843,10 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!plannerRes.ok) {
         throw new Error(`HTTP ${plannerRes.status}`);
       }
+      const plannerCt = plannerRes.headers.get('content-type') ?? '';
+      if (!plannerCt.includes('application/json')) {
+        throw new Error('API unavailable');
+      }
 
       const data = await plannerRes.json() as SprintWeekResponse;
       this.plannerWeekPlan.set(data.weekPlan ?? null);
@@ -893,6 +897,10 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
       const res = await fetch(`${environment.apiBase}/captures?limit=200`);
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
+      }
+      const ct = res.headers.get('content-type') ?? '';
+      if (!ct.includes('application/json')) {
+        throw new Error('API unavailable');
       }
 
       const data = await res.json() as { ok: boolean; captures?: CaptureItem[] };

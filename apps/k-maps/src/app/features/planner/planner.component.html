@@ -31,9 +31,8 @@
 
   <main class="planner-shell" #main>
     <section class="planner-shell__panel">
-      <div class="planner-shell__surface">
-        <div class="planner-shell__inner">
-          @if (captureLoading() && activeView() === 'capture') {
+      <div class="planner-shell__inner">
+        @if (captureLoading() && activeView() === 'capture') {
             <div class="planner-shell__state">Loading captures…</div>
           } @else if (loading() && activeView() === 'kanban') {
             <div class="planner-shell__state">Loading execution workspace…</div>
@@ -146,7 +145,6 @@
               }
             }
           }
-        </div>
       </div>
     </section>
 
