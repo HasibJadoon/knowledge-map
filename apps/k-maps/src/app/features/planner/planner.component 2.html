@@ -37,6 +37,8 @@
             <div class="planner-shell__state">Loading captures…</div>
           } @else if (loading() && activeView() === 'kanban') {
             <div class="planner-shell__state">Loading execution workspace…</div>
+          } @else if (error() && activeView() === 'kanban') {
+            <div class="planner-shell__state planner-shell__state--error">{{ error() }}</div>
           } @else {
             @switch (activeView()) {
               @case ('capture') {

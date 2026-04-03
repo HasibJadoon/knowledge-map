@@ -871,17 +871,6 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
       this.reviewDraft = this.createReviewDraftFromApi(data.review);
     } catch (e) {
       this.error.set(e instanceof Error ? e.message : 'Failed to load plans');
-      // Fallback mock data so the kanban renders during local dev / offline
-      this.plans.set([
-        { id: 'mock-1', title: 'Lesson Session 1 (with kid)', type: 'reading', status: 'to_do', description: 'lesson unit task', start_date: '2026-04-01', end_date: '2026-04-07' },
-        { id: 'mock-2', title: 'Lesson Session 2 (with kid)', type: 'reading', status: 'to_do', description: 'lesson unit task', start_date: '2026-04-02', end_date: '2026-04-07' },
-        { id: 'mock-3', title: 'Podcast Research Block', type: 'research', status: 'to_do', description: 'Deep research session', start_date: '2026-04-03', end_date: '2026-04-07' },
-        { id: 'mock-4', title: 'Memorise Surah Al-Mulk (v1–15)', type: 'memorisation', status: 'to_do', description: 'Spaced repetition review', start_date: '2026-04-04', end_date: '2026-04-07' },
-        { id: 'mock-5', title: 'Mixed Study: Worldview Notes', type: 'mixed', status: 'to_do', description: 'Cross-reference notes', start_date: '2026-04-05', end_date: '2026-04-07' },
-        { id: 'mock-6', title: 'Arabic Grammar Review', type: 'research', status: 'active', description: 'Study balagha chapter 4', start_date: '2026-04-01', end_date: '2026-04-05' },
-        { id: 'mock-7', title: 'Tafsir Reading — Ibn Kathir', type: 'reading', status: 'review', description: 'Notes to finalise', start_date: '2026-03-28', end_date: '2026-04-02' },
-        { id: 'mock-8', title: 'Podcast Episode 1 Outline', type: 'mixed', status: 'completed', description: 'Script fully drafted', start_date: '2026-03-25', end_date: '2026-03-31' },
-      ]);
     } finally {
       this.loading.set(false);
     }

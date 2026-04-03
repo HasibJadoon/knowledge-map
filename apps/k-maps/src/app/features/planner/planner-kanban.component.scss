@@ -4,7 +4,6 @@
   gap: 1.2rem;
   height: 100%;
   overflow: hidden;
-  perspective: 1200px;
 }
 
 .pl__kanban-shell {
@@ -36,10 +35,12 @@
   color: rgba(248, 238, 218, 0.96);
 }
 
+// ── Board grid ──────────────────────────────────────────────────────────────
+
 .pl__kanban-board {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 0.95rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.1rem;
   min-height: 0;
   flex: 1;
   overflow-y: auto;
@@ -59,136 +60,128 @@
     border-radius: 3px;
 
     &:hover {
-      background: rgba(201, 168, 76, 0.3);
+      background: rgba(201, 168, 76, 0.35);
     }
   }
 }
+
+// ── Column ───────────────────────────────────────────────────────────────────
 
 .pl__col {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.85rem;
   min-height: 0;
-  min-width: 240px;
-  border-radius: 8px;
-  border: 1px solid;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.005));
+  min-width: 260px;
 
+  // Column accent variables set per-status
   &.pl__col--to_do {
-    border-color: rgba(65, 105, 225, 0.3);
-    background: linear-gradient(135deg, rgba(65, 105, 225, 0.08), rgba(65, 105, 225, 0.02));
-
-    .pl__col-pill {
-      border-color: rgba(65, 105, 225, 0.4);
-    }
-
-    .pl__col-icon {
-      color: rgba(100, 149, 237, 0.9);
-    }
+    --col-bg: rgba(82, 116, 212, 0.9);
+    --col-bg-full: #4169E1;
+    --col-icon-bg: rgba(255, 255, 255, 0.15);
+    --col-badge-bg: rgba(255, 255, 255, 0.2);
   }
 
   &.pl__col--active {
-    border-color: rgba(201, 168, 76, 0.4);
-    background: linear-gradient(135deg, rgba(201, 168, 76, 0.08), rgba(201, 168, 76, 0.02));
-
-    .pl__col-pill {
-      border-color: rgba(201, 168, 76, 0.5);
-    }
-
-    .pl__col-icon {
-      color: rgba(226, 196, 141, 0.9);
-    }
+    --col-bg: rgba(193, 145, 60, 0.9);
+    --col-bg-full: #c9a84c;
+    --col-icon-bg: rgba(255, 255, 255, 0.15);
+    --col-badge-bg: rgba(255, 255, 255, 0.2);
   }
 
   &.pl__col--review {
-    border-color: rgba(185, 113, 230, 0.3);
-    background: linear-gradient(135deg, rgba(185, 113, 230, 0.08), rgba(185, 113, 230, 0.02));
-
-    .pl__col-pill {
-      border-color: rgba(185, 113, 230, 0.4);
-    }
-
-    .pl__col-icon {
-      color: rgba(216, 162, 255, 0.9);
-    }
+    --col-bg: rgba(139, 92, 246, 0.9);
+    --col-bg-full: #8b5cf6;
+    --col-icon-bg: rgba(255, 255, 255, 0.15);
+    --col-badge-bg: rgba(255, 255, 255, 0.2);
   }
 
   &.pl__col--completed {
-    border-color: rgba(76, 175, 80, 0.3);
-    background: linear-gradient(135deg, rgba(76, 175, 80, 0.08), rgba(76, 175, 80, 0.02));
-
-    .pl__col-pill {
-      border-color: rgba(76, 175, 80, 0.4);
-    }
-
-    .pl__col-icon {
-      color: rgba(129, 199, 132, 0.9);
-    }
+    --col-bg: rgba(52, 185, 150, 0.9);
+    --col-bg-full: #3cb28a;
+    --col-icon-bg: rgba(255, 255, 255, 0.15);
+    --col-badge-bg: rgba(255, 255, 255, 0.2);
   }
 }
 
+// ── Column header banner ──────────────────────────────────────────────────────
+
 .pl__col-header {
-  padding: 0.85rem;
-  border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .pl__col-pill {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  padding: 0.65rem 0.85rem;
-  border: 1px solid;
-  border-radius: 6px;
-  background: rgba(17, 14, 12, 0.6);
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  background: var(--col-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
 }
 
 .pl__col-icon {
-  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--col-icon-bg);
+  font-size: 1rem;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
 }
 
 .pl__col-copy {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.15rem;
   flex: 1;
+  min-width: 0;
 }
 
 .pl__col-title {
   display: block;
   font-family: var(--km-font-heading);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(248, 238, 218, 0.92);
+  color: #fff;
+  line-height: 1;
 }
 
 .pl__col-caption {
   display: block;
   font-family: var(--km-font-body);
-  font-size: 0.58rem;
-  color: rgba(201, 168, 76, 0.68);
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .pl__col-count {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.8rem;
-  height: 1.8rem;
-  border-radius: 4px;
-  background: rgba(201, 168, 76, 0.12);
+  min-width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: var(--col-badge-bg);
   font-family: var(--km-font-heading);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: rgba(201, 168, 76, 0.82);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
 }
+
+// ── Column body ───────────────────────────────────────────────────────────────
 
 .pl__col-body {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-  padding: 0.65rem;
+  gap: 0.75rem;
+  padding: 0.25rem 0.1rem;
   min-height: 180px;
   flex: 1;
   min-width: 0;
@@ -197,7 +190,7 @@
   perspective: 1000px;
 
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
   }
 
   &::-webkit-scrollbar-track {
@@ -205,55 +198,63 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(201, 168, 76, 0.2);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 3px;
 
     &:hover {
-      background: rgba(201, 168, 76, 0.3);
+      background: rgba(255, 255, 255, 0.2);
     }
   }
 
   &.pl__col-body--drop-target {
-    background: rgba(201, 168, 76, 0.08);
-    border-radius: 4px;
+    background: rgba(201, 168, 76, 0.06);
+    border-radius: 8px;
     border: 1px dashed rgba(201, 168, 76, 0.3);
   }
 }
+
+// ── Empty state ───────────────────────────────────────────────────────────────
 
 .pl__col-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   height: 100%;
-  color: rgba(201, 168, 76, 0.4);
+  min-height: 120px;
+  color: rgba(255, 255, 255, 0.2);
+  font-family: var(--km-font-body);
   font-size: 0.72rem;
 }
 
 .pl__col-empty-icon {
-  font-size: 1.8rem;
-  opacity: 0.5;
+  font-size: 1.1rem;
+  opacity: 0.4;
 }
+
+// ── Kanban card ───────────────────────────────────────────────────────────────
 
 .pl__kanban-card {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-  padding: 0.85rem;
-  border: 1px solid var(--planner-border);
-  border-radius: 6px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.005));
+  gap: 0.6rem;
+  padding: 1rem 1rem 0.85rem;
+  border-radius: 10px;
+  background: #1a1e2e;
+  border: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.03),
-    0 0 0 1px rgba(201, 168, 76, 0.05),
-    0 8px 24px rgba(0, 0, 0, 0.12),
-    0 12px 32px rgba(0, 0, 0, 0.08);
-  color: var(--planner-text);
+    0 2px 8px rgba(0, 0, 0, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  color: #fff;
   cursor: grab;
   position: relative;
   overflow: hidden;
-  transition: all 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition:
+    transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 260ms ease,
+    border-color 200ms ease;
   transform-style: preserve-3d;
   transform: translateZ(0);
 
@@ -262,24 +263,23 @@
     position: absolute;
     inset: 0;
     background: radial-gradient(
-      circle at 50% -20%,
-      var(--pl-card-accent, rgba(201, 168, 76, 0.08)) 0%,
-      transparent 60%
+      ellipse at 50% -30%,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 65%
     );
-    opacity: 0;
-    transition: opacity 280ms ease;
     pointer-events: none;
-    border-radius: 6px;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 260ms ease;
   }
 
   &:hover {
-    border-color: rgba(201, 168, 76, 0.5);
+    border-color: rgba(255, 255, 255, 0.16);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      0 0 20px rgba(201, 168, 76, 0.15),
-      0 16px 40px rgba(0, 0, 0, 0.3),
-      0 20px 48px rgba(0, 0, 0, 0.15);
-    transform: translateY(-8px) translateZ(20px) rotateX(2deg);
+      0 4px 16px rgba(0, 0, 0, 0.3),
+      0 16px 40px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    transform: translateY(-6px) translateZ(16px) rotateX(1.5deg);
 
     &::before {
       opacity: 1;
@@ -287,31 +287,35 @@
   }
 
   &.pl__kanban-card--dragging {
-    opacity: 0.6;
+    opacity: 0.55;
     cursor: grabbing;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.05),
-      0 24px 48px rgba(201, 168, 76, 0.25),
-      0 12px 24px rgba(0, 0, 0, 0.2);
-    transform: translateY(-12px) scale(1.02) rotateX(4deg) rotateZ(-1deg);
+      0 20px 48px rgba(0, 0, 0, 0.35),
+      0 10px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px) scale(1.02) rotateZ(-0.5deg);
   }
 
   &.pl__kanban-card--saving {
     pointer-events: none;
-    opacity: 0.7;
+    opacity: 0.65;
   }
 }
 
+// Card lighting overlay (set via --pl-card-accent)
 .pl__kanban-card-glow {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 50% -10%, var(--pl-card-accent, rgba(201, 168, 76, 0.3)) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 100%, var(--pl-card-accent, rgba(201, 168, 76, 0.1)) 0%, transparent 70%);
-  opacity: 0.15;
+  background: radial-gradient(
+    circle at 50% -10%,
+    var(--pl-card-accent, rgba(201, 168, 76, 0.2)) 0%,
+    transparent 55%
+  );
+  opacity: 0.12;
   pointer-events: none;
-  border-radius: 6px;
+  border-radius: 10px;
 }
+
+// ── Card top row: icon + type/status ─────────────────────────────────────────
 
 .pl__kanban-card-top {
   position: relative;
@@ -320,55 +324,75 @@
 
 .pl__kanban-card-type {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 0.65rem;
 }
 
 .pl__kanban-card-icon {
-  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.1rem;
 }
 
 .pl__kanban-card-copy {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.25rem;
   flex: 1;
+  min-width: 0;
 }
 
 .pl__type-badge {
   display: inline-block;
-  padding: 0.35rem 0.65rem;
-  border-radius: 3px;
   font-family: var(--km-font-heading);
-  font-size: 0.55rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  width: fit-content;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1;
 }
 
 .pl__kanban-card-status {
   font-family: var(--km-font-body);
   font-size: 0.62rem;
-  color: rgba(201, 168, 76, 0.72);
+  color: rgba(255, 255, 255, 0.38);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
+
+// ── Card title & description ──────────────────────────────────────────────────
 
 .pl__kanban-card-title {
   margin: 0;
   font-family: var(--km-font-body);
-  font-size: 0.88rem;
-  font-weight: 500;
-  line-height: 1.4;
-  color: rgba(248, 238, 218, 0.92);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.95);
+  position: relative;
+  z-index: 1;
 }
 
 .pl__kanban-card-desc {
-  margin: 0.2rem 0 0;
+  margin: 0;
   font-family: var(--km-font-body);
   font-size: 0.72rem;
-  line-height: 1.3;
-  color: rgba(201, 168, 76, 0.68);
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.42);
+  position: relative;
+  z-index: 1;
 }
+
+// ── Card meta (dates) ─────────────────────────────────────────────────────────
 
 .pl__kanban-card-meta {
   position: relative;
@@ -378,36 +402,40 @@
 .pl__kanban-card-dates {
   margin: 0;
   font-family: var(--km-font-body);
-  font-size: 0.58rem;
-  color: rgba(201, 168, 76, 0.58);
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.35);
 }
+
+// ── Card action buttons ───────────────────────────────────────────────────────
 
 .pl__kanban-card-actions {
   display: flex;
   gap: 0.4rem;
-  margin-top: 0.45rem;
-  padding-top: 0.65rem;
-  border-top: 1px solid rgba(201, 168, 76, 0.1);
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  position: relative;
+  z-index: 1;
 }
 
 .pl__move-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 2rem;
-  height: 1.8rem;
-  border: 1px solid rgba(201, 168, 76, 0.2);
-  border-radius: 3px;
-  background: rgba(201, 168, 76, 0.06);
-  color: rgba(201, 168, 76, 0.6);
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.35);
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   transition: all 160ms ease;
+  flex-shrink: 0;
 
   &:hover:not(:disabled) {
-    border-color: rgba(201, 168, 76, 0.4);
-    background: rgba(201, 168, 76, 0.12);
-    color: rgba(201, 168, 76, 0.9);
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.85);
   }
 
   &.pl__move-btn--active {
@@ -417,7 +445,7 @@
   }
 
   &:disabled {
-    opacity: 0.3;
+    opacity: 0.25;
     cursor: not-allowed;
   }
 }
