@@ -26,7 +26,6 @@ import { CaptureComponent as PlannerCaptureWorkspaceComponent } from './capture/
 import { ExecuteKanbanComponent as PlannerKanbanComponent } from './execute-kanban/execute-kanban.component';
 import { EMPTY_PLAN_STATE, PLANNER_ACCORDION_BLUEPRINT, PLANNER_SECTION_BLUEPRINT } from './models/planner.mock-data';
 import { PlanComponent as PlannerPlanBoardComponent } from './plan/plan.component';
-import { PlannerPlanEditorComponent } from './plan-editor/plan-editor.component';
 import { ReviewComponent as PlannerReviewComponent, type PlannerReviewPayload } from './review/review.component';
 import { PlannerStripMenuComponent } from './strip-menu/strip-menu.component';
 import { PlannerTimelineComponent } from './timeline/timeline.component';
@@ -343,8 +342,7 @@ const CAPTURE_DOMAINS: CaptureDomainOption[] = [
     PlannerCaptureWorkspaceComponent, // km-capture
     PlannerCaptureModalComponent,    // km-capture-modal
     PlannerPlanBoardComponent,       // km-plan
-    PlannerPlanEditorComponent,      // km-plan-editor
-    PlannerCalendarComponent,        // km-calendar
+PlannerCalendarComponent,        // km-calendar
     PlannerKanbanComponent,          // km-execute-kanban
     PlannerReviewComponent,          // km-review
     PlannerTimelineComponent,        // km-timeline
