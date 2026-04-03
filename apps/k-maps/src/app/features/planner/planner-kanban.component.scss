@@ -1,455 +1,361 @@
-.pl__kanban {
+// ── Status accent colours (thin bar only — no dominant fills) ─────────────
+:host {
+  --col-to_do:    rgba(82, 116, 212, 0.9);
+  --col-active:   var(--km-gold);
+  --col-review:   rgba(139, 92, 246, 0.9);
+  --col-completed:rgba(52, 185, 150, 0.9);
+}
+
+// ── Shell ────────────────────────────────────────────────────────────────────
+
+.pk {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
   height: 100%;
   overflow: hidden;
 }
 
-.pl__kanban-shell {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  min-height: 0;
-  flex: 1;
+.pk__intro {
+  flex-shrink: 0;
 }
 
-.pl__kanban-intro {
-  padding: 0.2rem 0;
-}
-
-.pl__eyebrow {
+.pk__eyebrow {
   margin: 0;
   font-family: var(--km-font-heading);
   font-size: 0.62rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(226, 196, 141, 0.76);
+  color: var(--km-text-gold);
+  opacity: 0.76;
 }
 
-.pl__weekly-title {
-  margin: 0.35rem 0 0;
+.pk__week {
+  margin: 0.3rem 0 0;
   font-family: var(--km-font-heading);
-  font-size: clamp(1.35rem, 1.9vw, 1.85rem);
+  font-size: clamp(1.2rem, 1.8vw, 1.75rem);
   letter-spacing: 0.06em;
-  color: rgba(248, 238, 218, 0.96);
+  color: var(--km-text);
 }
 
-// ── Board grid ──────────────────────────────────────────────────────────────
+// ── Board — always 4 columns, no wrapping ────────────────────────────────────
 
-.pl__kanban-board {
+.pk__board {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.1rem;
-  min-height: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
   flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 0.5rem;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba(201, 168, 76, 0.2);
-    border-radius: 3px;
-
-    &:hover {
-      background: rgba(201, 168, 76, 0.35);
-    }
-  }
-}
-
-// ── Column ───────────────────────────────────────────────────────────────────
-
-.pl__col {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
   min-height: 0;
-  min-width: 260px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 0.5rem;
 
-  // Column accent variables set per-status
-  &.pl__col--to_do {
-    --col-bg: rgba(82, 116, 212, 0.9);
-    --col-bg-full: #4169E1;
-    --col-icon-bg: rgba(255, 255, 255, 0.15);
-    --col-badge-bg: rgba(255, 255, 255, 0.2);
-  }
-
-  &.pl__col--active {
-    --col-bg: rgba(193, 145, 60, 0.9);
-    --col-bg-full: #c9a84c;
-    --col-icon-bg: rgba(255, 255, 255, 0.15);
-    --col-badge-bg: rgba(255, 255, 255, 0.2);
-  }
-
-  &.pl__col--review {
-    --col-bg: rgba(139, 92, 246, 0.9);
-    --col-bg-full: #8b5cf6;
-    --col-icon-bg: rgba(255, 255, 255, 0.15);
-    --col-badge-bg: rgba(255, 255, 255, 0.2);
-  }
-
-  &.pl__col--completed {
-    --col-bg: rgba(52, 185, 150, 0.9);
-    --col-bg-full: #3cb28a;
-    --col-icon-bg: rgba(255, 255, 255, 0.15);
-    --col-badge-bg: rgba(255, 255, 255, 0.2);
+  &::-webkit-scrollbar { height: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb {
+    background: var(--km-border-gold);
+    border-radius: 2px;
   }
 }
 
-// ── Column header banner ──────────────────────────────────────────────────────
+// ── Column ────────────────────────────────────────────────────────────────────
 
-.pl__col-header {
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.pl__col-pill {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  padding: 0.85rem 1rem;
-  background: var(--col-bg);
-  backdrop-filter: blur(10px);
-  border-radius: 10px;
-}
-
-.pl__col-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 50%;
-  background: var(--col-icon-bg);
-  font-size: 1rem;
-  flex-shrink: 0;
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
-}
-
-.pl__col-copy {
+.pk__col {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.75rem;
+  min-height: 0;
+  min-width: 220px;
+
+  &--to_do    { --col-accent: var(--col-to_do); }
+  &--active   { --col-accent: var(--col-active); }
+  &--review   { --col-accent: var(--col-review); }
+  &--completed{ --col-accent: var(--col-completed); }
+
+  &--drop .pk__col-body {
+    background: rgba(201, 168, 76, 0.04);
+    border-radius: var(--km-radius-sm);
+    outline: 1px dashed var(--km-border-gold);
+  }
+}
+
+// ── Column header — matches quran toggle style ───────────────────────────────
+
+.pk__col-head {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border-gold);
+  border-radius: var(--km-radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  // Initial state — GSAP reveals
+  opacity: 0;
+}
+
+.pk__col-accent {
+  height: 3px;
+  background: var(--col-accent, var(--km-gold));
+  width: 100%;
+}
+
+.pk__col-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem 0.85rem;
+}
+
+.pk__col-icon {
+  font-size: 1rem;
+  color: var(--col-accent, var(--km-gold));
+  flex-shrink: 0;
+}
+
+.pk__col-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
   flex: 1;
   min-width: 0;
 }
 
-.pl__col-title {
-  display: block;
+.pk__col-label {
   font-family: var(--km-font-heading);
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--km-text);
   line-height: 1;
 }
 
-.pl__col-caption {
-  display: block;
+.pk__col-caption {
   font-family: var(--km-font-body);
-  font-size: 0.62rem;
-  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.58rem;
+  color: var(--km-text-3);
 }
 
-.pl__col-count {
+.pk__col-count {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.9rem;
-  height: 1.9rem;
+  min-width: 1.6rem;
+  height: 1.6rem;
   border-radius: 50%;
-  background: var(--col-badge-bg);
+  border: 1px solid var(--km-border-gold);
+  background: rgba(201, 168, 76, 0.06);
   font-family: var(--km-font-heading);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #fff;
+  font-size: 0.65rem;
+  color: var(--km-gold);
   flex-shrink: 0;
 }
 
 // ── Column body ───────────────────────────────────────────────────────────────
 
-.pl__col-body {
+.pk__col-body {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 0.25rem 0.1rem;
-  min-height: 180px;
+  gap: 0.65rem;
   flex: 1;
-  min-width: 0;
+  min-height: 80px;
   overflow-y: auto;
   overflow-x: hidden;
-  perspective: 1000px;
+  padding: 0.1rem 0.05rem;
 
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
   &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-  }
-
-  &.pl__col-body--drop-target {
-    background: rgba(201, 168, 76, 0.06);
-    border-radius: 8px;
-    border: 1px dashed rgba(201, 168, 76, 0.3);
+    background: var(--km-border-gold);
+    border-radius: 2px;
   }
 }
 
 // ── Empty state ───────────────────────────────────────────────────────────────
 
-.pl__col-empty {
+.pk__empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  height: 100%;
+  gap: 0.4rem;
   min-height: 120px;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--km-text-3);
   font-family: var(--km-font-body);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
 }
 
-.pl__col-empty-icon {
-  font-size: 1.1rem;
-  opacity: 0.4;
+.pk__empty-icon {
+  font-size: 1rem;
+  color: var(--km-border-gold);
 }
 
-// ── Kanban card ───────────────────────────────────────────────────────────────
+.pk__empty-label {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.58rem;
+}
 
-.pl__kanban-card {
+// ── Card — mirrors .unit-card from quran study ────────────────────────────────
+
+.pk__card {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border-gold);
+  border-radius: var(--km-radius-sm);
+  padding: 0.9rem 0.9rem 0.75rem;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  padding: 1rem 1rem 0.85rem;
-  border-radius: 10px;
-  background: #1a1e2e;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.25),
-    0 8px 24px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  color: #fff;
+  gap: 0.5rem;
   cursor: grab;
   position: relative;
-  overflow: hidden;
-  transition:
-    transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 260ms ease,
-    border-color 200ms ease;
-  transform-style: preserve-3d;
-  transform: translateZ(0);
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      ellipse at 50% -30%,
-      rgba(255, 255, 255, 0.05) 0%,
-      transparent 65%
-    );
-    pointer-events: none;
-    border-radius: 10px;
-    opacity: 0;
-    transition: opacity 260ms ease;
-  }
+  // Initial state — GSAP reveals
+  opacity: 0;
+  // CSS fallback shadow (GSAP overrides on hover)
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  // border-color is animated by GSAP, but transition covers CSS hover
+  transition: border-color 0.2s var(--km-ease);
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.16);
-    box-shadow:
-      0 4px 16px rgba(0, 0, 0, 0.3),
-      0 16px 40px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.07);
-    transform: translateY(-6px) translateZ(16px) rotateX(1.5deg);
-
-    &::before {
-      opacity: 1;
-    }
+    border-color: var(--km-gold);
   }
 
-  &.pl__kanban-card--dragging {
-    opacity: 0.55;
+  &.pk__card--dragging {
+    opacity: 0.5 !important;
     cursor: grabbing;
-    box-shadow:
-      0 20px 48px rgba(0, 0, 0, 0.35),
-      0 10px 24px rgba(0, 0, 0, 0.2);
-    transform: translateY(-10px) scale(1.02) rotateZ(-0.5deg);
   }
 
-  &.pl__kanban-card--saving {
+  &.pk__card--saving {
     pointer-events: none;
-    opacity: 0.65;
+    opacity: 0.6 !important;
   }
 }
 
-// Card lighting overlay (set via --pl-card-accent)
-.pl__kanban-card-glow {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at 50% -10%,
-    var(--pl-card-accent, rgba(201, 168, 76, 0.2)) 0%,
-    transparent 55%
-  );
-  opacity: 0.12;
-  pointer-events: none;
-  border-radius: 10px;
-}
+// ── Card top row ──────────────────────────────────────────────────────────────
 
-// ── Card top row: icon + type/status ─────────────────────────────────────────
-
-.pl__kanban-card-top {
-  position: relative;
-  z-index: 1;
-}
-
-.pl__kanban-card-type {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.65rem;
-}
-
-.pl__kanban-card-icon {
+.pk__card-top {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
-  font-size: 0.9rem;
-  flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 0.1rem;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
-.pl__kanban-card-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  flex: 1;
-  min-width: 0;
+// Type chip — mirrors .chip from quran study
+.pk__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  font-family: var(--km-font-body);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--km-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--km-text-3);
+
+  &.chip--reading    { border-color: rgba(107, 186, 255, 0.3); color: #6bbaf0; }
+  &.chip--research   { border-color: rgba(139, 92, 246, 0.3);  color: #a78bfa; }
+  &.chip--memo       { border-color: rgba(77, 217, 168, 0.3);  color: #4dd9a8; }
+  &.chip--mixed      { border-color: var(--km-border-gold);    color: var(--km-gold); }
 }
 
-.pl__type-badge {
-  display: inline-block;
-  font-family: var(--km-font-heading);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.85);
+.pk__chip-glyph {
+  font-size: 0.72rem;
   line-height: 1;
 }
 
-.pl__kanban-card-status {
+.pk__card-status {
   font-family: var(--km-font-body);
-  font-size: 0.62rem;
-  color: rgba(255, 255, 255, 0.38);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  color: var(--km-text-3);
+  white-space: nowrap;
 }
 
-// ── Card title & description ──────────────────────────────────────────────────
+// ── Card body ─────────────────────────────────────────────────────────────────
 
-.pl__kanban-card-title {
+.pk__card-title {
   margin: 0;
   font-family: var(--km-font-body);
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.95);
-  position: relative;
-  z-index: 1;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--km-text);
 }
 
-.pl__kanban-card-desc {
+.pk__card-desc {
   margin: 0;
   font-family: var(--km-font-body);
   font-size: 0.72rem;
+  font-style: italic;
   line-height: 1.4;
-  color: rgba(255, 255, 255, 0.42);
-  position: relative;
-  z-index: 1;
+  color: var(--km-text-2);
 }
 
-// ── Card meta (dates) ─────────────────────────────────────────────────────────
-
-.pl__kanban-card-meta {
-  position: relative;
-  z-index: 1;
-}
-
-.pl__kanban-card-dates {
+.pk__card-dates {
   margin: 0;
-  font-family: var(--km-font-body);
-  font-size: 0.62rem;
-  color: rgba(255, 255, 255, 0.35);
+  font-family: var(--km-font-heading);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--km-text-gold);
+  opacity: 0.72;
 }
 
-// ── Card action buttons ───────────────────────────────────────────────────────
+// ── Card actions row ──────────────────────────────────────────────────────────
 
-.pl__kanban-card-actions {
-  display: flex;
-  gap: 0.4rem;
-  padding-top: 0.55rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-  position: relative;
-  z-index: 1;
-}
-
-.pl__move-btn {
+.pk__card-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 2.2rem;
-  height: 2.2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.35);
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: all 160ms ease;
-  flex-shrink: 0;
-
-  &:hover:not(:disabled) {
-    border-color: rgba(255, 255, 255, 0.25);
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.85);
-  }
-
-  &.pl__move-btn--active {
-    border-color: rgba(201, 168, 76, 0.5);
-    background: rgba(201, 168, 76, 0.15);
-    color: rgba(226, 196, 141, 0.9);
-  }
-
-  &:disabled {
-    opacity: 0.25;
-    cursor: not-allowed;
-  }
+  gap: 0.35rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--km-border);
 }
 
-.pl__move-btn-icon {
-  display: block;
+// Move dots — mirrors .task-dot from quran study
+.pk__move-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.62rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--km-border);
+  color: var(--km-text-3);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+
+  &:hover:not(:disabled) {
+    border-color: var(--km-border-gold);
+    color: var(--km-gold);
+    background: rgba(201, 168, 76, 0.08);
+  }
+
+  &--active,
+  &.pk__move-dot--active {
+    border-color: var(--km-border-gold-bright);
+    color: var(--km-gold);
+    background: rgba(201, 168, 76, 0.12);
+    pointer-events: none;
+  }
+
+  &--to_do.pk__move-dot--active    { border-color: var(--col-to_do); color: #60a5fa; }
+  &--active.pk__move-dot--active   { border-color: var(--km-gold);   color: var(--km-gold); }
+  &--review.pk__move-dot--active   { border-color: rgba(139,92,246,0.7); color: #a78bfa; }
+  &--completed.pk__move-dot--active{ border-color: rgba(52,185,150,0.7); color: #4dd9a8; }
+
+  &:disabled { opacity: 0.25; cursor: not-allowed; }
+}
+
+.pk__card-arrow {
+  margin-left: auto;
+  color: var(--km-text-3);
+  font-size: 0.9rem;
+  transition: color 0.2s, transform 0.2s;
+
+  .pk__card:hover & {
+    color: var(--km-gold);
+    transform: translateX(3px);
+  }
 }

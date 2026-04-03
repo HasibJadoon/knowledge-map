@@ -6,381 +6,565 @@
   min-height: 0;
 }
 
+// ── Shell ────────────────────────────────────────────────────────────────────
+
 .pl__calendar {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 100%;
-  min-height: 0;
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
-.pl__cal-toolbar {
+// ── Toolbar ──────────────────────────────────────────────────────────────────
+
+.pl__calendar-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.85rem 0;
+  flex-shrink: 0;
 }
 
-.pl__cal-modes {
+// Mode toggle — mirrors .view-toggle from quran study
+.pl__cal-mode-toggle {
+  position: relative;
   display: flex;
-  gap: 0.45rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius-sm);
+  padding: 3px;
+}
+
+.pl__cal-mode-pill {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  border-radius: 5px;
+  background: rgba(201, 168, 76, 0.14);
+  transition: transform 220ms var(--km-ease), width 220ms var(--km-ease);
+  pointer-events: none;
 }
 
 .pl__cal-mode-btn {
-  padding: 0.55rem 0.95rem;
-  border: 1px solid var(--planner-border);
-  border-radius: 4px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008));
-  color: rgba(201, 168, 76, 0.72);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--km-text-3);
   font-family: var(--km-font-heading);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 180ms ease;
+  transition: color 180ms;
+  position: relative;
+  z-index: 1;
 
-  &:hover {
-    color: rgba(248, 238, 218, 0.9);
-    border-color: var(--planner-border-strong);
-  }
-
-  &.pl__cal-mode-btn--active {
-    border-color: rgba(201, 168, 76, 0.4);
-    background: rgba(201, 168, 76, 0.1);
-    color: rgba(248, 238, 218, 0.95);
-  }
+  .pl__cal-mode-icon { font-size: 0.72rem; }
+  &:hover { color: var(--km-text-2); }
+  &.pl__cal-mode-btn--active { color: var(--km-gold); }
 }
 
 .pl__cal-nav {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.6rem;
 }
 
 .pl__cal-nav-btn {
-  min-width: 2rem;
-  padding: 0.5rem;
-  border: 1px solid var(--planner-border);
-  border-radius: 3px;
-  background: rgba(17, 14, 12, 0.9);
-  color: rgba(201, 168, 76, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 1px solid var(--km-border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--km-text-3);
   cursor: pointer;
-  font-size: 0.85rem;
-  transition: all 160ms ease;
+  font-size: 1rem;
+  transition: border-color 160ms, color 160ms;
+
+  &:hover { border-color: var(--km-border-gold); color: var(--km-gold); }
+}
+
+.pl__cal-month {
+  font-family: var(--km-font-heading);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--km-text-2);
+  min-width: 130px;
+  text-align: center;
+  margin: 0;
+}
+
+.pl__cal-today-btn {
+  padding: 0.38rem 0.85rem;
+  border: 1px solid var(--km-border-gold);
+  border-radius: 6px;
+  background: rgba(201, 168, 76, 0.06);
+  color: var(--km-gold);
+  font-family: var(--km-font-heading);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 180ms, border-color 180ms;
 
   &:hover {
-    color: rgba(248, 238, 218, 0.9);
-    border-color: var(--planner-border-strong);
-    background: rgba(20, 17, 15, 0.95);
+    background: rgba(201, 168, 76, 0.14);
+    border-color: var(--km-gold);
   }
 }
 
-.pl__cal-label {
-  font-family: var(--km-font-heading);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(201, 168, 76, 0.8);
-  min-width: 120px;
-  text-align: center;
-}
+// ── Stage container ───────────────────────────────────────────────────────────
 
-.pl__cal-view {
+.pl__calendar-stage {
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
 }
 
-.pl__cal-grid--cells {
-  gap: 0.75rem;
+// ── Month view ────────────────────────────────────────────────────────────────
+
+.pl__cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  flex: 1;
-}
 
-.pl__cal-cell {
-  min-height: 128px;
-  padding: 0.8rem 0.95rem;
-  justify-content: space-between;
-  border: 1px solid var(--planner-border);
-  border-radius: 4px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.005));
-  transition: all 180ms ease;
+  &.pl__cal-grid--header {
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+  }
 
-  &:hover {
-    border-color: rgba(201, 168, 76, 0.3);
-    background: linear-gradient(180deg, rgba(201, 168, 76, 0.04), rgba(201, 168, 76, 0.01));
+  &.pl__cal-grid--cells {
+    gap: 0.5rem;
+    align-content: start;
+    overflow-y: auto;
+    min-height: 0;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: var(--km-border-gold); border-radius: 2px; }
   }
 }
 
-.plc__cell-top,
-.plc__cell-body,
-.plc__plan-stack,
-.plc__empty-state {
+.pl__cal-day-label {
+  text-align: center;
+  font-family: var(--km-font-heading);
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--km-text-3);
+  padding: 0.3rem 0;
+}
+
+// Month cell — same card feel as quran study
+.pl__cal-cell {
   display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 90px;
+  padding: 0.6rem;
+  border: 1px solid var(--km-border-gold);
+  border-radius: var(--km-radius-sm);
+  background: var(--km-surface);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s var(--km-ease), transform 0.2s var(--km-ease), box-shadow 0.2s;
+
+  &:hover {
+    border-color: var(--km-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(201, 168, 76, 0.14);
+  }
+
+  &.pl__cal-cell--today {
+    border-color: var(--km-gold);
+    background: rgba(201, 168, 76, 0.04);
+  }
+
+  &.pl__cal-cell--other-month { opacity: 0.38; }
+  &.pl__cal-cell--selected { box-shadow: 0 0 0 1.5px var(--km-gold); }
 }
 
 .plc__cell-top {
+  display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
 
-.plc__date-badge {
-  display: inline-grid;
-  gap: 0.08rem;
-  min-width: 3.3rem;
-  padding: 0.45rem 0.55rem 0.5rem;
-  border-radius: 14px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015)),
-    rgba(20, 20, 26, 0.72);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 10px 18px rgba(0, 0, 0, 0.18);
-}
+.plc__date-badge { display: flex; flex-direction: column; gap: 0.04rem; }
 
 .plc__date-num {
   font-family: var(--km-font-heading);
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1;
-  color: rgba(248, 241, 228, 0.95);
+  color: var(--km-text);
 }
 
 .plc__date-meta {
   font-family: var(--km-font-body);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(201, 168, 76, 0.82);
+  color: var(--km-text-gold);
+  opacity: 0.7;
 }
 
 .plc__focus-pill {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-height: 1.7rem;
-  padding: 0.2rem 0.65rem;
+  padding: 0.15rem 0.45rem;
   border-radius: 999px;
   background: rgba(201, 168, 76, 0.12);
-  border: 1px solid rgba(201, 168, 76, 0.18);
-  color: rgba(201, 168, 76, 0.92);
+  border: 1px solid var(--km-border-gold);
+  color: var(--km-gold);
   font-family: var(--km-font-body);
-  font-size: 0.58rem;
+  font-size: 0.48rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .plc__cell-body {
   flex: 1;
-  min-height: 0;
-  align-items: flex-end;
-}
-
-.plc__empty-state,
-.plc__plan-stack {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.25rem;
   min-height: 0;
 }
 
 .plc__empty-state {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.45rem;
+  flex: 1;
+  gap: 0.25rem;
 }
 
 .plc__empty-mark {
-  color: rgba(201, 168, 76, 0.72);
-  font-size: 0.78rem;
-  line-height: 1;
+  color: var(--km-border-gold);
+  font-size: 0.6rem;
 }
 
 .plc__empty-copy {
   font-family: var(--km-font-body);
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(228, 220, 202, 0.28);
+  color: var(--km-text-3);
 }
 
-.plc__plan-stack {
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 0.4rem;
+.plc__plan-stack { display: flex; flex-direction: column; gap: 0.22rem; }
+
+.pl__cal-plan-bar {
+  display: block;
+  padding: 0.18rem 0.38rem;
+  border-radius: 4px;
+  font-family: var(--km-font-body);
+  font-size: 0.54rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid transparent;
 }
 
-.plc__plan-bar {
-  max-width: 100%;
+.pl__cal-more {
+  font-family: var(--km-font-body);
+  font-size: 0.52rem;
+  color: var(--km-text-3);
+  padding-left: 0.2rem;
 }
 
-.plc__plan-more {
-  margin-top: 0;
-}
+// ── Week view — 7 vertical lanes ─────────────────────────────────────────────
 
-// Week View
-.pl__cal-week {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.pl__week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(140px, 1fr));
+  gap: 0.75rem;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
 
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba(201, 168, 76, 0.2);
-    border-radius: 3px;
-  }
+  &::-webkit-scrollbar { height: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--km-border-gold); border-radius: 2px; }
 }
 
 .pl__week-day {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-  padding: 0.85rem;
-  border: 1px solid var(--planner-border);
-  border-radius: 4px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0.005));
+  gap: 0.6rem;
+  min-height: 0;
+  height: 100%;
 }
 
-.pl__week-day-header {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  padding-bottom: 0.65rem;
-  border-bottom: 1px solid rgba(201, 168, 76, 0.1);
-}
-
-.pl__week-day-label {
-  font-family: var(--km-font-heading);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(248, 238, 218, 0.92);
-}
-
-.pl__week-day-date {
-  font-family: var(--km-font-body);
-  font-size: 0.65rem;
-  color: rgba(201, 168, 76, 0.72);
-}
-
-.pl__week-day-body {
+.pl__week-head {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  align-items: center;
+  gap: 0.12rem;
+  padding: 0.65rem;
+  border: 1px solid var(--km-border-gold);
+  border-radius: var(--km-radius-sm);
+  background: var(--km-surface);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+  flex-shrink: 0;
+  width: 100%;
+
+  &:hover { border-color: var(--km-gold); background: rgba(201, 168, 76, 0.04); }
+
+  .pl__week-day--today & { border-color: var(--km-gold); background: rgba(201, 168, 76, 0.06); }
+  .pl__week-day--selected & { box-shadow: 0 0 0 1.5px var(--km-gold); }
 }
 
-.pl__week-task {
-  padding: 0.65rem;
-  border-radius: 3px;
-  background: rgba(17, 14, 12, 0.7);
-  border: 1px solid rgba(201, 168, 76, 0.15);
-  font-size: 0.72rem;
-  color: rgba(201, 168, 76, 0.85);
-  transition: all 160ms ease;
+.pl__week-dayname {
+  font-family: var(--km-font-heading);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--km-text);
+}
+
+.pl__week-date {
+  font-family: var(--km-font-body);
+  font-size: 0.55rem;
+  color: var(--km-text-gold);
+  opacity: 0.8;
+}
+
+.pl__week-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar { width: 3px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--km-border-gold); border-radius: 2px; }
+}
+
+.pl__week-empty {
+  text-align: center;
+  padding: 1.8rem 0.5rem;
+  font-family: var(--km-font-body);
+  font-size: 0.6rem;
+  color: var(--km-text-3);
+}
+
+// Week card — matches .unit-card
+.pl__week-card {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border-gold);
+  border-radius: var(--km-radius-sm);
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--km-ease), transform 0.2s var(--km-ease), box-shadow 0.2s;
 
   &:hover {
-    border-color: rgba(201, 168, 76, 0.3);
-    background: rgba(201, 168, 76, 0.08);
+    border-color: var(--km-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(201, 168, 76, 0.14);
   }
 }
 
-// Day View
-.pl__cal-day {
+.pl__week-card-title {
+  margin: 0;
+  font-family: var(--km-font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--km-text);
+}
+
+.pl__week-card-desc {
+  margin: 0;
+  font-family: var(--km-font-body);
+  font-size: 0.62rem;
+  font-style: italic;
+  color: var(--km-text-2);
+}
+
+.pl__week-card-status {
+  font-family: var(--km-font-body);
+  font-size: 0.54rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--km-text-3);
+}
+
+// ── Day view — single lane ────────────────────────────────────────────────────
+
+.pl__day-view {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.9rem;
   flex: 1;
   min-height: 0;
 }
 
 .pl__day-header {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  padding-bottom: 0.85rem;
-  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+  flex-shrink: 0;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--km-border-gold);
 }
 
-.pl__day-name {
+.pl__day-eyebrow {
+  margin: 0;
   font-family: var(--km-font-heading);
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(248, 238, 218, 0.92);
+  color: var(--km-text-gold);
+  opacity: 0.76;
 }
 
-.pl__day-date {
+.pl__day-title {
+  margin: 0.2rem 0 0.12rem;
+  font-family: var(--km-font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--km-text);
+}
+
+.pl__day-caption {
+  margin: 0;
   font-family: var(--km-font-body);
-  font-size: 0.72rem;
-  color: rgba(201, 168, 76, 0.72);
+  font-size: 0.64rem;
+  color: var(--km-text-3);
 }
 
-.pl__day-body {
+.pl__day-empty {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex: 1;
+  color: var(--km-text-3);
+  font-family: var(--km-font-body);
+  font-size: 0.68rem;
+}
+
+.pl__day-empty-icon {
+  font-size: 1rem;
+  color: var(--km-border-gold);
+}
+
+.pl__day-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  padding-right: 0.3rem;
 
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba(201, 168, 76, 0.2);
-    border-radius: 3px;
-  }
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--km-border-gold); border-radius: 2px; }
 }
 
-.pl__day-task {
-  padding: 0.75rem 0.85rem;
-  border-radius: 4px;
-  border: 1px solid var(--planner-border);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.005));
-  transition: all 180ms ease;
+// Day card — matches .unit-card
+.pl__day-card {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border-gold);
+  border-radius: var(--km-radius-sm);
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  cursor: pointer;
+  transition: border-color 0.2s var(--km-ease), transform 0.2s var(--km-ease), box-shadow 0.2s;
 
   &:hover {
-    border-color: rgba(201, 168, 76, 0.3);
-    background: linear-gradient(180deg, rgba(201, 168, 76, 0.05), rgba(201, 168, 76, 0.01));
+    border-color: var(--km-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(201, 168, 76, 0.14);
   }
 }
 
-.pl__day-task-title {
-  margin: 0;
-  font-family: var(--km-font-body);
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: rgba(248, 238, 218, 0.9);
-  line-height: 1.4;
+.pl__day-card-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.pl__day-task-meta {
-  margin: 0.25rem 0 0;
+.pl__day-card-status {
+  font-family: var(--km-font-body);
+  font-size: 0.56rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--km-text-3);
+}
+
+.pl__day-card-title {
+  margin: 0;
+  font-family: var(--km-font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.38;
+  color: var(--km-text);
+}
+
+.pl__day-card-desc {
+  margin: 0;
+  font-family: var(--km-font-body);
+  font-size: 0.7rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--km-text-2);
+}
+
+.pl__day-card-meta {
+  margin: 0;
+  font-family: var(--km-font-heading);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--km-text-gold);
+  opacity: 0.7;
+}
+
+// ── Shared type badge (used in week + day cards) ──────────────────────────────
+
+.pl__type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
   font-family: var(--km-font-body);
   font-size: 0.62rem;
-  color: rgba(201, 168, 76, 0.68);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--km-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--km-text-3);
+  width: fit-content;
 }

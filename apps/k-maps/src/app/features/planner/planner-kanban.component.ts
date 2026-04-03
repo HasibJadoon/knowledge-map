@@ -1,4 +1,18 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  QueryList,
+  ViewChildren,
+  inject,
+} from '@angular/core';
+import { PlannerGsapService } from './planner-gsap.service';
 
 type PlanStatus = 'to_do' | 'active' | 'review' | 'completed';
 type PlanType = 'reading' | 'research' | 'memorisation' | 'mixed' | string;
@@ -20,7 +34,10 @@ interface Plan {
   templateUrl: './planner-kanban.component.html',
   styleUrl: './planner-kanban.component.scss',
 })
-export class PlannerKanbanComponent {
+export class PlannerKanbanComponent implements AfterViewInit, OnChanges, OnDestroy {
+  @ViewChildren('cardEl') cardEls!: QueryList<ElementRef<HTMLElement>>;
+  @ViewChildren('colHeaderEl') colHeaderEls!: QueryList<ElementRef<HTMLElement>>;
+
   @Input({ required: true }) weekLabel!: string;
   @Input({ required: true }) columns!: { status: PlanStatus; label: string; icon: string; caption: string }[];
   @Input({ required: true }) groupedPlans!: Record<PlanStatus, Plan[]>;
@@ -35,90 +52,90 @@ export class PlannerKanbanComponent {
   @Output() columnDropped = new EventEmitter<{ event: DragEvent; status: PlanStatus }>();
   @Output() dropTargetCleared = new EventEmitter<void>();
 
+  private readonly gsap = inject(PlannerGsapService);
+  private hoverCleanups: Array<() => void> = [];
+  private animated = false;
+
+  ngAfterViewInit(): void {
+    this.runAnimations();
+    // Re-run if new cards appear (e.g. data loads after init)
+    this.cardEls.changes.subscribe(() => {
+      this.hoverCleanups.forEach(fn => fn());
+      this.hoverCleanups = [];
+      this.runAnimations(true);
+    });
+  }
+
+  ngOnChanges(): void {
+    // Trigger re-animation when data arrives if already viewed
+    if (this.animated) {
+      setTimeout(() => {
+        this.hoverCleanups.forEach(fn => fn());
+        this.hoverCleanups = [];
+        this.runAnimations(true);
+      }, 0);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.hoverCleanups.forEach(fn => fn());
+  }
+
+  private runAnimations(cardsOnly = false): void {
+    const cards = this.cardEls.map(r => r.nativeElement);
+
+    if (!cardsOnly) {
+      const headers = this.colHeaderEls.map(r => r.nativeElement);
+      this.gsap.revealColumns(headers);
+      this.gsap.revealCards(cards, 0.18);
+    } else {
+      this.gsap.revealCards(cards);
+    }
+
+    cards.forEach(el => {
+      this.hoverCleanups.push(this.gsap.setupCardHover(el));
+    });
+
+    this.animated = true;
+  }
+
+  // ── Template helpers ──────────────────────────────────────────────────────
+
   plansByStatus(status: PlanStatus): Plan[] {
     return this.groupedPlans[status] ?? [];
   }
 
   typeLabel(type: PlanType): string {
-    return String(type ?? 'mixed')
-      .replace(/[_-]+/g, ' ')
-      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+    return String(type ?? 'mixed').replace(/[_-]+/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   }
 
   typeGlyph(type: PlanType): string {
     switch ((type ?? '').toLowerCase()) {
-      case 'reading':
-        return '◫';
-      case 'research':
-        return '◎';
-      case 'memorisation':
-        return '◉';
-      case 'mixed':
-        return '✦';
-      default:
-        return '◆';
+      case 'reading':      return '◫';
+      case 'research':     return '◎';
+      case 'memorisation': return '◉';
+      case 'mixed':        return '✦';
+      default:             return '◆';
+    }
+  }
+
+  /** CSS class modifier for type chip colouring */
+  typeChipMod(type: PlanType): string {
+    switch ((type ?? '').toLowerCase()) {
+      case 'reading':      return 'chip--reading';
+      case 'research':     return 'chip--research';
+      case 'memorisation': return 'chip--memo';
+      case 'mixed':        return 'chip--mixed';
+      default:             return '';
     }
   }
 
   statusLabel(status?: string): string {
     switch ((status ?? '').toLowerCase()) {
-      case 'completed':
-      case 'done':
-      case 'published':
-        return 'Done';
-      case 'review':
-      case 'reviewed':
-      case 'paused':
-      case 'on_hold':
-      case 'on-hold':
-        return 'Under review';
-      case 'in_progress':
-      case 'in-progress':
-      case 'active':
-      case 'current':
-      case 'doing':
-        return 'In motion';
-      case 'todo':
-      case 'to_do':
-      case 'to-do':
-      case 'queued':
-      case 'queue':
-      case 'planning':
-      case 'planned':
-      case 'draft':
-      case 'backlog':
-      default:
-        return 'Queued';
-    }
-  }
-
-  typeColor(type: PlanType): string {
-    switch (type) {
-      case 'reading':
-        return '#1a3a6e';
-      case 'research':
-        return '#3a1a6e';
-      case 'memorisation':
-        return '#1a6e3a';
-      case 'mixed':
-        return '#6e4a1a';
-      default:
-        return 'rgba(201,168,76,.15)';
-    }
-  }
-
-  typeTextColor(type: PlanType): string {
-    switch (type) {
-      case 'reading':
-        return '#60a5fa';
-      case 'research':
-        return '#a78bfa';
-      case 'memorisation':
-        return '#4ade80';
-      case 'mixed':
-        return '#fbbf24';
-      default:
-        return '#c9a84c';
+      case 'completed': case 'done': case 'published': return 'Done';
+      case 'review': case 'reviewed': case 'paused':   return 'Under review';
+      case 'active': case 'in_progress': case 'doing': return 'In motion';
+      default: return 'Queued';
     }
   }
 
@@ -126,35 +143,18 @@ export class PlannerKanbanComponent {
     if (plan.start_date && plan.end_date) {
       return `${this.formatShortDate(plan.start_date)} → ${this.formatShortDate(plan.end_date)}`;
     }
-
-    if (plan.start_date) {
-      return `Starts ${this.formatShortDate(plan.start_date)}`;
-    }
-
-    if (plan.end_date) {
-      return `Open until ${this.formatShortDate(plan.end_date)}`;
-    }
-
-    return 'Open schedule';
+    if (plan.start_date) return `Starts ${this.formatShortDate(plan.start_date)}`;
+    if (plan.end_date)   return `Until ${this.formatShortDate(plan.end_date)}`;
+    return '';
   }
 
   formatShortDate(dateStr: string): string {
     try {
       return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-    } catch {
-      return dateStr;
-    }
+    } catch { return dateStr; }
   }
 
-  cardSaving(planId: Plan['id']): boolean {
-    return this.savingPlanId === planId;
-  }
-
-  cardDragging(planId: Plan['id']): boolean {
-    return this.draggingPlanId === planId;
-  }
-
-  isDropTarget(status: PlanStatus): boolean {
-    return this.dropTargetStatus === status;
-  }
+  cardSaving(planId: Plan['id']): boolean { return this.savingPlanId === planId; }
+  cardDragging(planId: Plan['id']): boolean { return this.draggingPlanId === planId; }
+  isDropTarget(status: PlanStatus): boolean { return this.dropTargetStatus === status; }
 }
