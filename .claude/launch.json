@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "k-maps",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "start", "-w", "apps/k-maps", "--", "--port", "4201"],
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-ic", "cd apps/k-maps && /opt/homebrew/bin/node /opt/homebrew/bin/ng.js serve --port 4201 --poll 2000"],
       "port": 4201
     }
   ]

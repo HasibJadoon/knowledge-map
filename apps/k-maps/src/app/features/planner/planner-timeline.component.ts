@@ -18,20 +18,7 @@ interface Plan {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './planner-timeline.component.html',
-  styleUrl: './planner.component.scss',
-  styles: [`
-    :host {
-      display: flex;
-      flex: 1;
-      min-width: 0;
-      min-height: 0;
-    }
-
-    .pl__timeline {
-      width: 100%;
-      min-height: 0;
-    }
-  `],
+  styleUrl: './planner-timeline.component.scss',
 })
 export class PlannerTimelineComponent {
   @Input({ required: true }) plans!: Plan[];

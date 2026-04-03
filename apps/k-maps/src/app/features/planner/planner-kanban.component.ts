@@ -18,19 +18,7 @@ interface Plan {
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './planner-kanban.component.html',
-  styleUrl: './planner.component.scss',
-  styles: [`
-    :host {
-      display: flex;
-      flex: 1;
-      min-width: 0;
-      min-height: 0;
-    }
-
-    .pl__kanban {
-      width: 100%;
-    }
-  `],
+  styleUrl: './planner-kanban.component.scss',
 })
 export class PlannerKanbanComponent {
   @Input({ required: true }) weekLabel!: string;
