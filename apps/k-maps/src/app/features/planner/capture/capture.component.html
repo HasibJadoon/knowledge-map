@@ -1,0 +1,139 @@
+<div class="cap">
+
+  <!-- ── Inbox (left rail) ──────────────────────────────── -->
+  <aside class="cap__inbox">
+    <header class="cap__inbox-head">
+      <p class="cap__eyebrow">Inbox</p>
+      <button class="cap__new-btn" type="button" (click)="createRequested.emit()" title="New capture">+</button>
+    </header>
+
+    @if (loading) {
+      <div class="cap__state">Loading…</div>
+    } @else if (error) {
+      <div class="cap__state cap__state--error">{{ error }}</div>
+    } @else if (items.length === 0) {
+      <div class="cap__state">No captures yet.</div>
+    } @else {
+      <ul class="cap__list">
+        @for (item of items; track item.id) {
+          <li>
+            <button
+              #inboxItem
+              class="cap__item"
+              [class.cap__item--active]="isSelected(item.id)"
+              type="button"
+              (click)="selectItem(item.id)"
+            >
+              <span class="cap__item-glyph">{{ domainGlyph[item.domain] }}</span>
+              <span class="cap__item-body">
+                <span class="cap__item-title">{{ item.title }}</span>
+                <span class="cap__item-meta">{{ domainLabels[item.domain] }} · {{ formatTime(item.updatedAt) }}</span>
+              </span>
+              @if (item.stage === 'done') {
+                <span class="cap__item-done" aria-label="Done">✓</span>
+              }
+            </button>
+          </li>
+        }
+      </ul>
+    }
+  </aside>
+
+  <!-- ── Detail renderer (right) ───────────────────────── -->
+  <div class="cap__main">
+    <div class="cap__detail" #detailEl>
+      @if (!selectedItem) {
+        <div class="cap__detail-empty">
+          <p class="cap__detail-empty-glyph">◇</p>
+          <p class="cap__detail-empty-label">Select a capture</p>
+          <p class="cap__detail-empty-copy">Click any entry in the inbox to render its document here.</p>
+        </div>
+      } @else {
+        <header class="cap__doc-head">
+          <div>
+            <p class="cap__eyebrow">{{ domainLabels[selectedItem.domain] }}</p>
+            <h2 class="cap__doc-title">{{ selectedItem.title }}</h2>
+          </div>
+          <div class="cap__doc-meta">
+            <span class="cap__chip cap__chip--stage">{{ selectedItem.stage }}</span>
+            @if (saveState === 'saved') {
+              <span class="cap__chip">Saved</span>
+            }
+            <span class="cap__doc-time">{{ formatTime(selectedItem.updatedAt) }}</span>
+          </div>
+        </header>
+
+        @if (summary(selectedItem); as s) {
+          <p class="cap__doc-summary">{{ s }}</p>
+        }
+
+        @if (documentSections(selectedItem).length > 0) {
+          <div class="cap__sections">
+            @for (section of documentSections(selectedItem); track section.id) {
+              <article class="cap__section">
+                <p class="cap__section-label">{{ section.label }}</p>
+                <h3 class="cap__section-title">{{ section.title }}</h3>
+                <p class="cap__section-body">{{ section.body }}</p>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="cap__raw">
+            @if (selectedItem.note) {
+              <div class="cap__raw-block">
+                <p class="cap__eyebrow">Note</p>
+                <p class="cap__raw-text">{{ selectedItem.note }}</p>
+              </div>
+            }
+            @if (selectedItem.quote) {
+              <div class="cap__raw-block">
+                <p class="cap__eyebrow">Quote</p>
+                <p class="cap__raw-text cap__raw-text--quote">"{{ selectedItem.quote }}"</p>
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+
+    <!-- ── Bottom: Resources / Footnotes ──────────────── -->
+    @if (bottomState() !== 'hidden') {
+      <div class="cap__bottom" [class.cap__bottom--contracted]="bottomState() === 'contracted'" #bottomEl>
+        <div class="cap__bottom-bar">
+          <p class="cap__eyebrow">Resources</p>
+          <div class="cap__bottom-actions">
+            <button class="cap__bottom-btn" type="button" title="Expand" (click)="toggleBottomExpand()">
+              {{ bottomExpanded() ? '▾' : '▴' }}
+            </button>
+            <button class="cap__bottom-btn" type="button" title="Contract" (click)="setBottomState('contracted')">—</button>
+            <button class="cap__bottom-btn" type="button" title="Hide" (click)="setBottomState('hidden')">✕</button>
+          </div>
+        </div>
+
+        @if (bottomState() === 'visible') {
+          <div class="cap__footnotes">
+            @if (!selectedItem || footnotes(selectedItem).length === 0) {
+              <p class="cap__footnotes-empty">No resources attached to this capture.</p>
+            } @else {
+              @for (fn of footnotes(selectedItem); track fn.id) {
+                <div class="cap__fn">
+                  <span class="cap__fn-label">{{ fn.label }}</span>
+                  @if (fn.href) {
+                    <a class="cap__fn-value cap__fn-value--link" [href]="fn.href" target="_blank" rel="noopener">{{ fn.value }}</a>
+                  } @else {
+                    <span class="cap__fn-value">{{ fn.value }}</span>
+                  }
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (bottomState() === 'hidden') {
+      <button class="cap__bottom-dot" type="button" title="Show resources" (click)="remountBottom()">◦</button>
+    }
+  </div>
+
+</div>

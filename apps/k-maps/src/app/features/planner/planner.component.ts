@@ -20,16 +20,16 @@ import { Subscription } from 'rxjs';
 import gsap from 'gsap';
 import { environment } from '../../../environments/environment';
 import { HomePlaneButtonComponent } from '../../shared/components/home-plane-button/home-plane-button.component';
-import { PlannerCalendarComponent } from './planner-calendar.component';
-import { PlannerCaptureModalComponent } from './planner-capture-modal.component';
-import { PlannerCaptureWorkspaceComponent } from './planner-capture-workspace.component';
-import { PlannerKanbanComponent } from './planner-kanban.component';
-import { EMPTY_PLAN_STATE, PLANNER_ACCORDION_BLUEPRINT, PLANNER_SECTION_BLUEPRINT } from './planner.mock-data';
-import { PlannerPlanBoardComponent } from './planner-plan-board.component';
-import { PlannerPlanEditorComponent } from './planner-plan-editor.component';
-import { PlannerReviewComponent, type PlannerReviewPayload } from './planner-review.component';
-import { PlannerStripMenuComponent } from './planner-strip-menu.component';
-import { PlannerTimelineComponent } from './planner-timeline.component';
+import { PlannerCalendarComponent } from './calendar/calendar.component';
+import { PlannerCaptureModalComponent } from './capture-modal/capture-modal.component';
+import { CaptureComponent as PlannerCaptureWorkspaceComponent } from './capture/capture.component';
+import { ExecuteKanbanComponent as PlannerKanbanComponent } from './execute-kanban/execute-kanban.component';
+import { EMPTY_PLAN_STATE, PLANNER_ACCORDION_BLUEPRINT, PLANNER_SECTION_BLUEPRINT } from './models/planner.mock-data';
+import { PlanComponent as PlannerPlanBoardComponent } from './plan/plan.component';
+import { PlannerPlanEditorComponent } from './plan-editor/plan-editor.component';
+import { ReviewComponent as PlannerReviewComponent, type PlannerReviewPayload } from './review/review.component';
+import { PlannerStripMenuComponent } from './strip-menu/strip-menu.component';
+import { PlannerTimelineComponent } from './timeline/timeline.component';
 import type {
   CaptureDomain,
   CaptureDraft,
@@ -43,7 +43,7 @@ import type {
   PlannerSection,
   PlannerStripItem,
   PlannerWorkspace,
-} from './planner-workspace.models';
+} from './models/planner.models';
 
 type ViewMode = PlannerWorkspace | 'calendar' | 'timeline' | 'sprint';
 type CalendarMode = 'month' | 'week' | 'day';
@@ -339,15 +339,15 @@ const CAPTURE_DOMAINS: CaptureDomainOption[] = [
   imports: [
     FormsModule,
     HomePlaneButtonComponent,
-    PlannerStripMenuComponent,
-    PlannerCaptureWorkspaceComponent,
-    PlannerCaptureModalComponent,
-    PlannerPlanBoardComponent,
-    PlannerPlanEditorComponent,
-    PlannerCalendarComponent,
-    PlannerKanbanComponent,
-    PlannerReviewComponent,
-    PlannerTimelineComponent,
+    PlannerStripMenuComponent,       // km-strip-menu
+    PlannerCaptureWorkspaceComponent, // km-capture
+    PlannerCaptureModalComponent,    // km-capture-modal
+    PlannerPlanBoardComponent,       // km-plan
+    PlannerPlanEditorComponent,      // km-plan-editor
+    PlannerCalendarComponent,        // km-calendar
+    PlannerKanbanComponent,          // km-execute-kanban
+    PlannerReviewComponent,          // km-review
+    PlannerTimelineComponent,        // km-timeline
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './planner.component.html',

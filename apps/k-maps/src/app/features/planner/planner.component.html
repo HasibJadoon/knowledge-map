@@ -40,7 +40,7 @@
           } @else {
             @switch (activeView()) {
               @case ('capture') {
-                <km-planner-capture-workspace
+                <km-capture
                   [items]="captureItems()"
                   [selectedItem]="selectedCapture()"
                   [loading]="captureLoading()"
@@ -51,10 +51,21 @@
                 />
               }
               @case ('plan') {
-                <km-planner-plan-board
+                <km-plan
                   [items]="planBoardItems()"
                   [weekLabel]="plannerWeekLabel()"
+                  [selectedItem]="selectedCapture()"
+                  [planEditorDraft]="planEditorDraft"
+                  [planEditorTitle]="planEditorTitle"
+                  [planEditorBusy]="planEditorBusy()"
                   (itemOpened)="openPlanEditor($event)"
+                  (closeRequested)="closePlanEditor()"
+                  (titleChanged)="updatePlanTitle($event)"
+                  (summaryChanged)="updatePlanSummary($event)"
+                  (pushToFeed)="pushPlanToFeed()"
+                  (pushToKanban)="pushPlanToKanban()"
+                  (saveDraft)="savePlanDraft()"
+                  (archive)="archivePlanItem()"
                 />
               }
               @case ('kanban') {
@@ -63,9 +74,6 @@
                     <div>
                       <p class="planner-execution__eyebrow">Kanban</p>
                       <h2 class="planner-execution__title">Execution surface for the active week</h2>
-                      <p class="planner-execution__copy">
-                        The existing board, calendar, and timeline stay intact here and now live inside the same planner shell.
-                      </p>
                     </div>
 
                     <div class="planner-execution__modes">
@@ -84,7 +92,7 @@
 
                   <div class="planner-execution__stage">
                     @if (executionView() === 'board') {
-                      <km-planner-kanban
+                      <km-execute-kanban
                         [weekLabel]="plannerWeekLabel()"
                         [columns]="kanbanColumns"
                         [groupedPlans]="kanbanPlans()"
@@ -101,7 +109,7 @@
                     }
 
                     @if (executionView() === 'calendar') {
-                      <km-planner-calendar
+                      <km-calendar
                         [calendarMode]="calendarMode()"
                         [calendarModes]="calendarModes"
                         [days]="DAYS"
@@ -119,24 +127,22 @@
                     }
 
                     @if (executionView() === 'timeline') {
-                      <km-planner-timeline [plans]="sortedPlans()" />
+                      <km-timeline [plans]="sortedPlans()" />
                     }
                   </div>
                 </section>
               }
               @case ('review') {
-                <div class="planner-review-shell">
-                  <km-planner-review
-                    [weekLabel]="plannerWeekLabel()"
-                    [draft]="reviewDraft"
-                    [summary]="plannerSummary()"
-                    [tasks]="plannerTasks()"
-                    [review]="plannerReview()"
-                    [saving]="plannerSaving()"
-                    (draftChange)="reviewDraft = $event"
-                    (saveRequested)="savePlannerReview()"
-                  />
-                </div>
+                <km-review
+                  [weekLabel]="plannerWeekLabel()"
+                  [draft]="reviewDraft"
+                  [summary]="plannerSummary()"
+                  [tasks]="plannerTasks()"
+                  [review]="plannerReview()"
+                  [saving]="plannerSaving()"
+                  (draftChange)="reviewDraft = $event"
+                  (saveRequested)="savePlannerReview()"
+                />
               }
             }
           }
@@ -145,7 +151,7 @@
     </section>
 
     <aside class="planner-shell__strips" [class.planner-shell__strips--ready]="stripLayoutReady">
-      <km-planner-strip-menu
+      <km-strip-menu
         [items]="stripMenuItems"
         [activeWorkspace]="activeStripWorkspace()"
         (workspaceSelected)="switchView($event)"
@@ -154,32 +160,13 @@
   </main>
 
   @if (captureStudioMode() === 'composer') {
-    <km-planner-capture-modal
+    <km-capture-modal
       [draft]="captureDraft"
       [domains]="captureDomains"
       [saving]="captureSaving()"
       (draftChange)="updateCaptureDraft($event)"
       (saveRequested)="finalizeCaptureDraft()"
       (closeRequested)="showCaptureOverview()"
-    />
-  }
-
-  @if (activeView() === 'plan' && selectedPlanItem(); as selectedPlanItemValue) {
-    <km-planner-plan-editor
-      [item]="selectedPlanItemValue"
-      [draft]="planEditorDraft"
-      [title]="planEditorTitle"
-      [busy]="planEditorBusy()"
-      (closeRequested)="closePlanEditor()"
-      (titleChanged)="updatePlanTitle($event)"
-      (summaryChanged)="updatePlanSummary($event)"
-      (sectionChanged)="updatePlanSection($event.index, $event.key, $event.value)"
-      (noteChanged)="updatePlanAccordionNote($event.index, $event.value)"
-      (sectionAdded)="addPlanSection()"
-      (pushToFeed)="pushPlanToFeed()"
-      (pushToKanban)="pushPlanToKanban()"
-      (saveDraft)="savePlanDraft()"
-      (archive)="archivePlanItem()"
     />
   }
 </div>

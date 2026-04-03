@@ -44,6 +44,16 @@
           <span>{{ ayahRange() }}</span>
           <span>{{ activeStep().title }}</span>
         </div>
+
+        <button
+          class="scene-toolbar__push-btn"
+          type="button"
+          [disabled]="pushingToWeekly()"
+          (click)="pushToWeeklyTask()"
+          title="Push this unit to your weekly plan"
+        >
+          {{ pushingToWeekly() ? '…' : '→ Plan' }}
+        </button>
       </header>
 
       <div class="scene-rails" role="tablist" aria-label="Study task units">

@@ -1,0 +1,102 @@
+<div class="pln">
+
+  <!-- ── Left pane (GSAP reveal) ──────────────────────── -->
+  @if (selectedItem) {
+    <aside class="pln__pane" #paneEl>
+      <header class="pln__pane-head">
+        <div>
+          <p class="pln__eyebrow">{{ domainLabels[selectedItem.domain] }}</p>
+          <h2 class="pln__pane-title">{{ planEditorTitle || selectedItem.title }}</h2>
+        </div>
+        <button class="pln__close" type="button" (click)="closePane()" title="Close">✕</button>
+      </header>
+
+      <!-- Edit Note -->
+      <div class="pln__pane-note">
+        <p class="pln__eyebrow">Edit Note</p>
+        <textarea
+          class="pln__note-area"
+          rows="6"
+          placeholder="Write your planning note here…"
+          [value]="planEditorDraft?.summary || ''"
+          (input)="summaryChanged.emit($any($event.target).value)"
+        ></textarea>
+      </div>
+
+      <!-- Action chips -->
+      <div class="pln__chips">
+        @for (chip of actionChips; track chip.id) {
+          <button
+            class="pln__chip"
+            type="button"
+            [class.pln__chip--active]="activeChip() === chip.id"
+            [style.--chip-accent]="chip.accent"
+            (click)="selectChip(chip.id)"
+            [title]="chip.label"
+          >
+            <span class="pln__chip-glyph">{{ chip.glyph }}</span>
+            <span class="pln__chip-label">{{ chip.label }}</span>
+          </button>
+        }
+      </div>
+
+      <!-- Pane actions -->
+      <div class="pln__pane-actions">
+        <button class="pln__action" type="button" (click)="saveDraft.emit()" [disabled]="planEditorBusy">
+          {{ planEditorBusy ? 'Saving…' : 'Save Draft' }}
+        </button>
+        <button class="pln__action pln__action--ghost" type="button" (click)="pushToKanban.emit()">→ Kanban</button>
+        <button class="pln__action pln__action--ghost" type="button" (click)="pushToFeed.emit()">→ Feed</button>
+        <button class="pln__action pln__action--danger" type="button" (click)="archive.emit()">Archive</button>
+      </div>
+    </aside>
+  }
+
+  <!-- ── Card grid ──────────────────────────────────────── -->
+  <div class="pln__grid-wrap" [class.pln__grid-wrap--shifted]="!!selectedItem">
+    <header class="pln__hero">
+      <div>
+        <p class="pln__eyebrow">Plan</p>
+        <h2 class="pln__hero-title">Refinement board</h2>
+      </div>
+      <div class="pln__hero-meta">
+        <span>{{ weekLabel }}</span>
+        <span>{{ items.length }} cards</span>
+      </div>
+    </header>
+
+    @if (items.length === 0) {
+      <div class="pln__empty">
+        <span class="pln__empty-glyph">◇</span>
+        <p>No captures to plan yet.</p>
+      </div>
+    } @else {
+      <div class="pln__grid" #gridEl>
+        @for (item of items; track item.id) {
+          <button
+            #cardEl
+            class="pln__card"
+            [class.pln__card--selected]="isSelected(item.id)"
+            type="button"
+            (click)="selectCard(item, cardEl)"
+          >
+            <div class="pln__card-top">
+              <span class="pln__card-domain">{{ domainLabels[item.domain] }}</span>
+              <span class="pln__card-stage pln__card-stage--{{ stageLabel(item).toLowerCase() }}">{{ stageLabel(item) }}</span>
+            </div>
+            <h3 class="pln__card-title">{{ item.title }}</h3>
+            @if (summary(item)) {
+              <p class="pln__card-summary">{{ summary(item) }}</p>
+            }
+            <div class="pln__card-foot">
+              <span>{{ formatTime(item.updatedAt) }}</span>
+              @if (item.payload.plan_state?.pushed_to_feed_at) { <span class="pln__card-badge">Feed</span> }
+              @if (item.payload.plan_state?.pushed_to_kanban_at) { <span class="pln__card-badge pln__card-badge--kanban">Kanban</span> }
+            </div>
+          </button>
+        }
+      </div>
+    }
+  </div>
+
+</div>

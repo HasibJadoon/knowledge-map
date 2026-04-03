@@ -1,0 +1,98 @@
+<div class="pk">
+  <div class="pk__intro">
+    <p class="pk__eyebrow">Kanban State</p>
+    <h2 class="pk__week">{{ weekLabel }}</h2>
+  </div>
+
+  <div class="pk__board">
+    @for (col of columns; track col.status) {
+      <section
+        class="pk__col"
+        [class.pk__col--to_do]="col.status === 'to_do'"
+        [class.pk__col--active]="col.status === 'active'"
+        [class.pk__col--review]="col.status === 'review'"
+        [class.pk__col--completed]="col.status === 'completed'"
+        [class.pk__col--drop]="isDropTarget(col.status)"
+        (dragover)="columnDragOver.emit({ event: $event, status: col.status })"
+        (drop)="columnDropped.emit({ event: $event, status: col.status })"
+        (dragleave)="dropTargetCleared.emit()"
+      >
+        <!-- Column header -->
+        <header class="pk__col-head" #colHeaderEl>
+          <div class="pk__col-accent"></div>
+          <div class="pk__col-meta">
+            <span class="pk__col-icon" aria-hidden="true">{{ col.icon }}</span>
+            <div class="pk__col-copy">
+              <span class="pk__col-label">{{ col.label }}</span>
+              <span class="pk__col-caption">{{ col.caption }}</span>
+            </div>
+            <span class="pk__col-count">{{ plansByStatus(col.status).length }}</span>
+          </div>
+        </header>
+
+        <!-- Cards -->
+        <div class="pk__col-body">
+          @if (plansByStatus(col.status).length === 0) {
+            <div class="pk__empty">
+              <span class="pk__empty-icon">◇</span>
+              <span class="pk__empty-label">No plans</span>
+            </div>
+          }
+
+          @for (plan of plansByStatus(col.status); track plan.id) {
+            <article
+              #cardEl
+              class="pk__card"
+              [class.pk__card--dragging]="cardDragging(plan.id)"
+              [class.pk__card--saving]="cardSaving(plan.id)"
+              draggable="true"
+              (dragstart)="planDragStarted.emit(plan.id)"
+              (dragend)="planDragEnded.emit()"
+            >
+              <!-- Top row: type + status -->
+              <div class="pk__card-top">
+                <span class="pk__chip" [class]="typeChipMod(plan.type)">
+                  <span class="pk__chip-glyph" aria-hidden="true">{{ typeGlyph(plan.type) }}</span>
+                  {{ typeLabel(plan.type) }}
+                </span>
+                <span class="pk__card-status">{{ statusLabel(plan.status) }}</span>
+              </div>
+
+              <!-- Title -->
+              <h3 class="pk__card-title">{{ plan.title }}</h3>
+
+              <!-- Description -->
+              @if (plan.description) {
+                <p class="pk__card-desc">{{ plan.description }}</p>
+              }
+
+              <!-- Dates -->
+              @if (formatTimelineRange(plan)) {
+                <p class="pk__card-dates">{{ formatTimelineRange(plan) }}</p>
+              }
+
+              <!-- Move actions -->
+              <div class="pk__card-actions">
+                @for (target of columns; track target.status) {
+                  <button
+                    class="pk__move-dot"
+                    [class.pk__move-dot--active]="plan.status === target.status"
+                    [class]="'pk__move-dot pk__move-dot--' + target.status + (plan.status === target.status ? ' pk__move-dot--active' : '')"
+                    [disabled]="plan.status === target.status || cardSaving(plan.id)"
+                    type="button"
+                    (click)="moveRequested.emit({ planId: plan.id, status: target.status })"
+                    [attr.aria-label]="target.label"
+                    [attr.title]="target.label"
+                  >
+                    <span aria-hidden="true">{{ target.icon }}</span>
+                  </button>
+                }
+                <span class="pk__card-arrow" aria-hidden="true">›</span>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</div>

@@ -1,0 +1,277 @@
+:host {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.pl__timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  overflow: hidden;
+}
+
+.pl__timeline-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.pl__timeline-head {
+  flex-shrink: 0;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--km-border-gold);
+}
+
+.pl__timeline-eyebrow {
+  margin: 0;
+  font-family: var(--km-font-heading);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--km-text-gold);
+  opacity: 0.76;
+}
+
+.pl__timeline-title {
+  margin: 0.3rem 0 0;
+  font-family: var(--km-font-heading);
+  font-size: clamp(1.2rem, 1.8vw, 1.75rem);
+  letter-spacing: 0.06em;
+  color: var(--km-text);
+}
+
+.pl__timeline-copy {
+  margin: 0.3rem 0 0;
+  font-family: var(--km-font-body);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--km-text-2);
+}
+
+// ── State ─────────────────────────────────────────────────────────────────────
+
+.pl__state {
+  display: grid;
+  place-items: center;
+  gap: 0.6rem;
+  height: 100%;
+  min-height: 160px;
+  color: var(--km-text-3);
+  font-family: var(--km-font-body);
+  font-size: 0.72rem;
+}
+
+.pl__state-icon {
+  font-size: 1.2rem;
+  color: var(--km-border-gold);
+}
+
+// ── List ──────────────────────────────────────────────────────────────────────
+
+.pl__timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.4rem;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--km-border-gold); border-radius: 2px; }
+}
+
+// ── Row ───────────────────────────────────────────────────────────────────────
+
+.pl__timeline-item {
+  display: grid;
+  grid-template-columns: 56px 40px 1fr;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+// ── Left date panel ───────────────────────────────────────────────────────────
+
+.pl__timeline-left {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pl__timeline-date-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.12rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: var(--km-radius-sm);
+  background: var(--km-surface);
+  border: 1px solid var(--km-border-gold);
+  min-width: 44px;
+}
+
+.pl__timeline-date-day {
+  font-family: var(--km-font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--km-text);
+}
+
+.pl__timeline-date-mon {
+  font-family: var(--km-font-body);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--km-text-gold);
+  opacity: 0.8;
+}
+
+.pl__timeline-date-yr {
+  font-family: var(--km-font-body);
+  font-size: 0.46rem;
+  color: var(--km-text-3);
+}
+
+// ── Connector ─────────────────────────────────────────────────────────────────
+
+.pl__timeline-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pl__timeline-dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--km-border-gold);
+  background: var(--km-gold);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  margin-top: 0.3rem;
+}
+
+.pl__timeline-line {
+  display: block;
+  width: 1px;
+  flex: 1;
+  background: linear-gradient(180deg, var(--km-border-gold), transparent 85%);
+  margin-top: 0.4rem;
+}
+
+// ── Timeline card — mirrors .unit-card ───────────────────────────────────────
+
+.pl__timeline-card {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border-gold);
+  border-radius: var(--km-radius-sm);
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s var(--km-ease), transform 0.2s var(--km-ease), box-shadow 0.2s;
+
+  &:hover {
+    border-color: var(--km-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(201, 168, 76, 0.14);
+  }
+}
+
+.pl__timeline-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.pl__timeline-card-title {
+  margin: 0;
+  font-family: var(--km-font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--km-text);
+}
+
+.pl__timeline-card-desc {
+  margin: 0;
+  font-family: var(--km-font-body);
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--km-text-2);
+}
+
+.pl__timeline-card-meta {
+  font-family: var(--km-font-heading);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--km-text-gold);
+  opacity: 0.7;
+}
+
+.pl__timeline-card-arrow {
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.75rem;
+  color: var(--km-text-3);
+  font-size: 0.9rem;
+  transition: color 0.2s, transform 0.2s;
+
+  .pl__timeline-card:hover & {
+    color: var(--km-gold);
+    transform: translateX(3px);
+  }
+}
+
+// ── Status pill (shared) ──────────────────────────────────────────────────────
+
+.pl__status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  font-family: var(--km-font-body);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--km-border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--km-text-3);
+
+  &--to_do     { border-color: rgba(82,116,212,0.4); color: #60a5fa; }
+  &--active    { border-color: var(--km-border-gold); color: var(--km-gold); }
+  &--review    { border-color: rgba(139,92,246,0.4);  color: #a78bfa; }
+  &--completed { border-color: rgba(52,185,150,0.4);  color: #4dd9a8; }
+}
+
+// ── Type chip (shared) ────────────────────────────────────────────────────────
+
+.pl__type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  font-family: var(--km-font-body);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--km-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--km-text-3);
+  width: fit-content;
+}
