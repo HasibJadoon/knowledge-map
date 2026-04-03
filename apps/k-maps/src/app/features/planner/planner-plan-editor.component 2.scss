@@ -1,0 +1,188 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+}
+
+.planner-editor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.planner-editor__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(200, 155, 90, 0.16), transparent 26%),
+    rgba(4, 4, 5, 0.78);
+  backdrop-filter: blur(12px);
+}
+
+.planner-editor__panel {
+  position: absolute;
+  inset: 1rem 1rem 1rem 1rem;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  border: 1px solid rgba(226, 196, 141, 0.16);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(200, 155, 90, 0.08), transparent 26%),
+    linear-gradient(180deg, rgba(11, 10, 9, 0.98), rgba(7, 7, 6, 0.99));
+  box-shadow: 0 34px 84px rgba(0, 0, 0, 0.48);
+}
+
+.planner-editor__head,
+.planner-editor__section-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.planner-editor__head {
+  padding: 1.1rem 1.2rem 0.9rem;
+  border-bottom: 1px solid rgba(226, 196, 141, 0.12);
+}
+
+.planner-editor__eyebrow,
+.planner-editor__label {
+  margin: 0 0 0.45rem;
+  font-family: var(--km-font-heading);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(226, 196, 141, 0.76);
+}
+
+.planner-editor__title,
+.planner-editor__section-title,
+.planner-editor__section-head h3 {
+  font-family: var(--km-font-heading);
+  color: rgba(248, 238, 218, 0.96);
+}
+
+.planner-editor__title {
+  width: min(44rem, 100%);
+  border: none;
+  background: transparent;
+  font-size: clamp(1.45rem, 2.3vw, 2.35rem);
+  letter-spacing: 0.05em;
+}
+
+.planner-editor__caption {
+  margin: 0.4rem 0 0;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.96rem;
+  line-height: 1.55;
+  color: rgba(214, 203, 184, 0.68);
+}
+
+.planner-editor__close,
+.planner-editor__add {
+  border: 1px solid rgba(226, 196, 141, 0.16);
+  background: rgba(22, 18, 16, 0.92);
+  color: rgba(248, 238, 218, 0.88);
+  padding: 0.72rem 1rem;
+  font-family: var(--km-font-heading);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.planner-editor__body {
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem 1.2rem 0;
+}
+
+.planner-editor__summary textarea,
+.planner-editor__section textarea,
+.planner-editor__note-body textarea,
+.planner-editor__section-title {
+  width: 100%;
+  border: 1px solid rgba(226, 196, 141, 0.12);
+  background: rgba(13, 12, 11, 0.84);
+  color: rgba(248, 238, 218, 0.92);
+  padding: 0.82rem 0.9rem;
+  font-size: 0.94rem;
+  line-height: 1.58;
+}
+
+.planner-editor__summary textarea,
+.planner-editor__section textarea,
+.planner-editor__note-body textarea {
+  font-family: 'EB Garamond', serif;
+}
+
+.planner-editor__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(18rem, 0.85fr);
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-bottom: 1.1rem;
+}
+
+.planner-editor__sections,
+.planner-editor__notes,
+.planner-editor__summary {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.planner-editor__section,
+.planner-editor__note,
+.planner-editor__summary {
+  padding: 1rem;
+  border: 1px solid rgba(226, 196, 141, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.024), transparent 20%),
+    rgba(12, 10, 10, 0.68);
+}
+
+.planner-editor__section-head h3 {
+  margin: 0;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+}
+
+.planner-editor__section-title {
+  margin-bottom: 0.7rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+}
+
+.planner-editor__note-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(248, 238, 218, 0.9);
+  font-family: var(--km-font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.planner-editor__note-body {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0.8rem;
+}
+
+.planner-editor__actions {
+  position: sticky;
+  bottom: 0;
+  padding: 0.9rem 1rem 1rem;
+  background: linear-gradient(180deg, rgba(11, 10, 9, 0), rgba(11, 10, 9, 0.96) 24%, rgba(11, 10, 9, 0.98));
+}
+
+@media (max-width: 980px) {
+  .planner-editor__panel {
+    inset: 0.5rem;
+  }
+
+  .planner-editor__content {
+    grid-template-columns: 1fr;
+  }
+}
