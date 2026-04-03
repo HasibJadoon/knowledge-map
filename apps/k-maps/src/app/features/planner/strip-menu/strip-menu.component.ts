@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import type { PlannerStripItem, PlannerWorkspace } from './planner-workspace.models';
+import type { PlannerStripItem, PlannerWorkspace } from '../models/planner.models';
 
 @Component({
   selector: 'km-strip-menu',

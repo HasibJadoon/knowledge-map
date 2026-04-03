@@ -12,13 +12,12 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import gsap from 'gsap';
-import type { CaptureItem, PlannerAccordionNote, PlannerPlanState, PlannerSection } from './planner-workspace.models';
-import { PlannerActionBarComponent } from './planner-action-bar.component';
+import type { CaptureItem, PlannerAccordionNote, PlannerPlanState, PlannerSection } from '../models/planner.models';
 
 @Component({
   selector: 'km-plan-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule, PlannerActionBarComponent],
+  imports: [CommonModule, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './plan-editor.component.html',
   styleUrl: './plan-editor.component.scss',
