@@ -104,35 +104,26 @@
         <div class="cw__json-header">
           <span class="cw__json-header-label">JSON</span>
           <div class="cw__json-header-actions">
-            <button class="cw__json-hbtn" type="button" (click)="toggleJsonExpand()" [title]="jsonExpanded() ? 'Collapse' : 'Expand'">
-              {{ jsonExpanded() ? '▾' : '▴' }}
-            </button>
             <button class="cw__json-hbtn cw__json-hbtn--close" type="button" (click)="toggleJson()" title="Hide JSON panel">✕</button>
           </div>
         </div>
 
-        <div class="cw__json-expandable" #jsonExpandable>
-          <div
-            class="cw__json-body"
-            [innerHTML]="highlightJson(jsonText())"
-          ></div>
+        <textarea
+          class="cw__json-editor"
+          spellcheck="false"
+          autocomplete="off"
+          placeholder="Paste or edit Tiptap JSON…"
+          [ngModel]="jsonText()"
+          (ngModelChange)="jsonText.set($event); jsonError.set(null)"
+        ></textarea>
 
-          @if (jsonError()) {
-            <div class="cw__json-error">{{ jsonError() }}</div>
-          }
+        @if (jsonError()) {
+          <div class="cw__json-error">{{ jsonError() }}</div>
+        }
 
-          <div class="cw__json-footer">
-            <textarea
-              class="cw__json-input"
-              placeholder='Paste Tiptap JSON here, then click Apply'
-              [ngModel]="jsonText()"
-              (ngModelChange)="jsonText.set($event); jsonError.set(null)"
-            ></textarea>
-            <button class="cw__btn cw__btn--apply" type="button" (click)="applyJson()">
-              Apply JSON
-            </button>
-          </div>
-        </div>
+        <button class="cw__json-apply" type="button" (click)="applyJson()">
+          Apply JSON
+        </button>
       </div>
     }
 

@@ -306,11 +306,44 @@
   &--close:hover { color: #f1c2c2; border-color: rgba(228, 107, 122, 0.3); }
 }
 
-.cw__json-expandable {
+// Full-height JSON editor textarea
+.cw__json-editor {
   flex: 1;
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto auto;
-  overflow: hidden;
+  width: 100%;
+  min-height: 0;
+  background: rgba(8, 7, 6, 0.95);
+  border: none;
+  color: rgba(214, 203, 184, 0.88);
+  padding: 1rem 1.1rem;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 0.74rem;
+  line-height: 1.72;
+  resize: none;
+  outline: none;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 168, 76, 0.18) transparent;
+
+  &::placeholder { color: rgba(181, 176, 167, 0.28); }
+}
+
+// Apply button — sits at the bottom of the panel
+.cw__json-apply {
+  flex-shrink: 0;
+  width: 100%;
+  padding: 0.72rem 1rem;
+  background: rgba(201, 168, 76, 0.06);
+  border: none;
+  border-top: 1px solid rgba(226, 196, 141, 0.12);
+  color: rgba(201, 168, 76, 0.82);
+  font-family: var(--km-font-heading);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+
+  &:hover { background: rgba(201, 168, 76, 0.12); color: rgba(201, 168, 76, 1); }
 }
 
 .cw__json-panel {
@@ -364,42 +397,14 @@
   border-bottom: 1px solid rgba(226, 196, 141, 0.08);
 }
 
-.cw__json-body {
-  overflow-y: auto;
-  padding: 1rem 1.1rem;
-  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-  font-size: 0.74rem;
-  line-height: 1.72;
-  white-space: pre;
-  color: rgba(214, 203, 184, 0.7);
-}
-
 .cw__json-error {
-  padding: 0.6rem 1rem;
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
   background: rgba(73, 22, 22, 0.32);
   border-top: 1px solid rgba(229, 170, 170, 0.18);
   color: #f1c2c2;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-family: var(--km-font-heading);
-}
-
-.cw__json-footer {
-  padding: 0.7rem 0.9rem 0.85rem;
-  border-top: 1px solid rgba(226, 196, 141, 0.08);
-  background: rgba(6, 5, 4, 0.88);
-}
-
-.cw__json-input {
-  width: 100%;
-  min-height: 5rem;
-  background: rgba(11, 10, 9, 0.82);
-  border: 1px solid rgba(226, 196, 141, 0.12);
-  color: rgba(248, 238, 218, 0.82);
-  padding: 0.65rem 0.8rem;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 0.72rem;
-  line-height: 1.6;
-  resize: vertical;
 }
 
 // ── Status strip ──────────────────────────────────────────────────────────────
