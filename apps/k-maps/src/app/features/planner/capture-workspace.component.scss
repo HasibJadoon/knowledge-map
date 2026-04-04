@@ -315,13 +315,43 @@
 
 .cw__json-panel {
   width: 36%;
-  min-width: 260px;
+  min-width: 200px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   background: linear-gradient(180deg, rgba(4, 4, 5, 0.98), rgba(6, 5, 4, 0.99));
   border-left: 1px solid rgba(226, 196, 141, 0.1);
+  position: relative;
+}
+
+.cw__json-resize-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  bottom: 0;
+  cursor: ew-resize;
+  z-index: 10;
+  transition: background 0.15s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 1px;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 2.5rem;
+    border-radius: 2px;
+    background: rgba(201, 168, 76, 0);
+    transition: background 0.18s;
+  }
+
+  &:hover::after,
+  &:active::after {
+    background: rgba(201, 168, 76, 0.45);
+  }
 }
 
 .cw__json-header {

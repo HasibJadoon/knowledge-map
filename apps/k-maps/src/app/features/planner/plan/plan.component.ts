@@ -92,6 +92,37 @@ export class PlanComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.resetCardPositions();
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  }
+
+  // ── Pane drag-to-resize ────────────────────────────────────────────────────
+
+  startPaneResize(e: MouseEvent): void {
+    e.preventDefault();
+    const pane = this.paneEl?.nativeElement;
+    if (!pane) return;
+    const startX = e.clientX;
+    const startW = pane.offsetWidth;
+    const container = pane.parentElement;
+    if (!container) return;
+    const containerW = container.offsetWidth;
+
+    const onMove = (ev: MouseEvent) => {
+      const newW = Math.min(Math.max(startW + (ev.clientX - startX), 200), containerW * 0.65);
+      gsap.set(pane, { width: newW });
+    };
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+
+    document.body.style.cursor = 'ew-resize';
+    document.body.style.userSelect = 'none';
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
   }
 
   private animateGridEntrance(): void {

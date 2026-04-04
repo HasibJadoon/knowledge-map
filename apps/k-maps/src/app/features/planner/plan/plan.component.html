@@ -10,6 +10,10 @@
     <aside class="pln__pane" #paneEl [class.pln__pane--collapsed]="isPaneCollapsed">
 
       <!-- Collapsed rail — click to expand -->
+      @if (!isPaneCollapsed) {
+        <div class="pln__resize-handle" (mousedown)="startPaneResize($event)"></div>
+      }
+
       @if (isPaneCollapsed) {
         <button class="pln__rail" type="button" (click)="expandPane()" title="Expand panel">
           <span class="pln__rail-title">{{ planEditorTitle || selectedItem.title }}</span>

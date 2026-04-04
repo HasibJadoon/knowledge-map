@@ -167,6 +167,47 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
 
   ngOnDestroy(): void {
     if (this.debounceTimer) clearTimeout(this.debounceTimer);
+    this.stopJsonResize();
+  }
+
+  // ── JSON panel drag-to-resize ─────────────────────────────────────────────
+
+  private jsonResizeBound = {
+    move: (e: MouseEvent) => this.onJsonResizeMove(e),
+    up: () => this.stopJsonResize(),
+  };
+
+  startJsonResize(e: MouseEvent): void {
+    e.preventDefault();
+    const panel = this.jsonPanelEl?.nativeElement;
+    if (!panel) return;
+    const startX = e.clientX;
+    const startW = panel.offsetWidth;
+    const container = panel.parentElement;
+    if (!container) return;
+    const containerW = container.offsetWidth;
+
+    const onMove = (ev: MouseEvent) => {
+      const delta = startX - ev.clientX; // dragging left edge: move left = wider
+      const newW = Math.min(Math.max(startW + delta, 200), containerW * 0.7);
+      gsap.set(panel, { width: newW });
+    };
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+
+    document.body.style.cursor = 'ew-resize';
+    document.body.style.userSelect = 'none';
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  }
+
+  private stopJsonResize(): void {
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
   }
 
   onEditorReady(editor: Editor): void {

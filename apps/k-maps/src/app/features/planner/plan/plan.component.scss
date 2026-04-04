@@ -63,6 +63,36 @@
   opacity: 0;
 }
 
+// ── Drag-to-resize handle ─────────────────────────────────────────────────────
+
+.pln__resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  bottom: 0;
+  cursor: ew-resize;
+  z-index: 20;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 1px;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 2.5rem;
+    border-radius: 2px;
+    background: rgba(201, 168, 76, 0);
+    transition: background 0.18s;
+  }
+
+  &:hover::after,
+  &:active::after {
+    background: rgba(201, 168, 76, 0.45);
+  }
+}
+
 // ── Collapsed rail ────────────────────────────────────────────────────────────
 
 .pln__pane--collapsed {
