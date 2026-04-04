@@ -1149,6 +1149,7 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openCaptureEditor(): void {
     this.captureNoteDraft.set({ area: 'quran', stage: 'inbox', title: '', editor_json: { type: 'doc', content: [] } });
+    this.selectedCaptureNote.set(null);
     this.captureMode.set('editor');
   }
 
