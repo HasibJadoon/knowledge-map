@@ -1,15 +1,15 @@
 {
   "/api": {
-    "target": "http://localhost:8788",
-    "secure": false,
+    "target": "https://api.k-maps.com",
+    "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
       "^/api": ""
     }
   },
   "/wv": {
-    "target": "http://localhost:8788",
-    "secure": false,
+    "target": "https://api.k-maps.com",
+    "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
       "^/wv": "/wv"
