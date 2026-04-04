@@ -1241,6 +1241,8 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
       plain_text: (item['plain_text'] as string) ?? legacyNote,
       created_at: (item['createdAt'] as string) ?? (item['created_at'] as string) ?? '',
       updated_at: (item['updatedAt'] as string) ?? (item['updated_at'] as string) ?? '',
+      r2_resources: (item['r2_resources'] as CaptureNote['r2_resources']) ?? [],
+      capture_refs: (item['capture_refs'] as CaptureNote['capture_refs']) ?? [],
     };
   }
 
