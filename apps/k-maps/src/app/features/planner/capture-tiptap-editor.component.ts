@@ -103,7 +103,7 @@ export class CaptureTiptapEditorComponent implements AfterViewInit, OnChanges, O
       ],
       editable: this.editable,
       content: this.doc ?? { type: 'doc', content: [] },
-      onUpdate: ({ editor }) => {
+      onUpdate: ({ editor }: { editor: Editor }) => {
         if (this.suppressUpdate) return;
         this.docChange.emit(editor.getJSON() as TiptapDoc);
       },
