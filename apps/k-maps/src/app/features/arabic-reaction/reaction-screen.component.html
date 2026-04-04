@@ -1,0 +1,69 @@
+<div class="rs" [class.rs--left-collapsed]="leftCollapsed()">
+
+  <!-- ── Top bar ──────────────────────────────────────────────────────────── -->
+  <header class="rs__topbar">
+    <button class="rs__back" (click)="back()">← Arabic</button>
+
+    <div class="rs__topbar-center">
+      <span class="rs__badge">⬛ Reaction Studio</span>
+      @if (lesson()) {
+        <span class="rs__title" dir="rtl">{{ lesson()!.title }}</span>
+      }
+    </div>
+
+    <div class="rs__topbar-right">
+      <button class="rs__icon-btn" title="Toggle scene panel" (click)="toggleLeft()">
+        {{ leftCollapsed() ? '▶▶' : '◀◀' }}
+      </button>
+    </div>
+  </header>
+
+  <!-- ── 3-column body ─────────────────────────────────────────────────────── -->
+  <div class="rs__body">
+
+    <!-- LEFT — scene list -->
+    <aside class="rs__left">
+      @if (lesson()) {
+        <km-scene-list
+          [scenes]="lesson()!.scenes"
+          [activeSceneId]="activeSceneId()"
+          (sceneSelect)="onSceneSelect($event)"
+        />
+      }
+    </aside>
+
+    <!-- CENTER — player + camera + transcript -->
+    <main class="rs__center">
+
+      <!-- YouTube player -->
+      <div class="rs__player-wrap">
+        @if (lesson()) {
+          <km-youtube-player [videoId]="lesson()!.youtubeId" />
+        }
+      </div>
+
+      <!-- Camera / OBS placeholder -->
+      <div class="rs__camera-wrap">
+        <km-camera-placeholder />
+      </div>
+
+      <!-- Transcript -->
+      <div class="rs__transcript-wrap">
+        @if (lesson()) {
+          <km-transcript-panel
+            [lines]="lesson()!.transcript"
+            [activeLineId]="activeLineId()"
+            (seekRequest)="onTranscriptSeek($event)"
+          />
+        }
+      </div>
+
+    </main>
+
+    <!-- RIGHT — vocab / idioms / sentences / notes -->
+    <aside class="rs__right">
+      <km-vocab-panel [content]="activeContent()" />
+    </aside>
+
+  </div>
+</div>

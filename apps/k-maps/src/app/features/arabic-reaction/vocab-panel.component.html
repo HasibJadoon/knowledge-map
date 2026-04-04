@@ -1,0 +1,96 @@
+<div class="vp">
+
+  <!-- Tab bar -->
+  <div class="vp__tabs">
+    <button class="vp__tab" [class.vp__tab--active]="activeTab() === 'vocab'"
+            (click)="setTab('vocab')">
+      Vocab <span class="vp__badge">{{ vocabCount }}</span>
+    </button>
+    <button class="vp__tab" [class.vp__tab--active]="activeTab() === 'idioms'"
+            (click)="setTab('idioms')">
+      Idioms <span class="vp__badge">{{ idiomsCount }}</span>
+    </button>
+    <button class="vp__tab" [class.vp__tab--active]="activeTab() === 'sentences'"
+            (click)="setTab('sentences')">
+      Sentences <span class="vp__badge">{{ sentencesCount }}</span>
+    </button>
+    <button class="vp__tab" [class.vp__tab--active]="activeTab() === 'notes'"
+            (click)="setTab('notes')">
+      Notes
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="vp__body">
+
+    @if (!content) {
+      <div class="vp__empty">
+        <span class="vp__empty-icon">◈</span>
+        <p>No scene selected yet.</p>
+      </div>
+    }
+
+    <!-- ── Vocab ── -->
+    @if (content && activeTab() === 'vocab') {
+      @if (content.vocab.length === 0) {
+        <div class="vp__empty"><p>No vocabulary for this scene.</p></div>
+      }
+      @for (item of content.vocab; track item.id) {
+        <div class="vp__vocab-card">
+          <div class="vp__vocab-top">
+            <span class="vp__vocab-word" dir="rtl">{{ item.word }}</span>
+            @if (item.root) {
+              <span class="vp__vocab-root" dir="rtl">{{ item.root }}</span>
+            }
+          </div>
+          <div class="vp__vocab-meaning">{{ item.meaning }}</div>
+          @if (item.example) {
+            <div class="vp__vocab-example" dir="rtl">{{ item.example }}</div>
+          }
+        </div>
+      }
+    }
+
+    <!-- ── Idioms ── -->
+    @if (content && activeTab() === 'idioms') {
+      @if (content.idioms.length === 0) {
+        <div class="vp__empty"><p>No idioms for this scene.</p></div>
+      }
+      @for (item of content.idioms; track item.id) {
+        <div class="vp__idiom-card">
+          <div class="vp__idiom-phrase" dir="rtl">{{ item.phrase }}</div>
+          <div class="vp__idiom-meaning">{{ item.meaning }}</div>
+          @if (item.context) {
+            <span class="vp__idiom-ctx">{{ item.context }}</span>
+          }
+        </div>
+      }
+    }
+
+    <!-- ── Sentences ── -->
+    @if (content && activeTab() === 'sentences') {
+      @if (content.sentences.length === 0) {
+        <div class="vp__empty"><p>No key sentences for this scene.</p></div>
+      }
+      @for (item of content.sentences; track item.id) {
+        <div class="vp__sentence-card">
+          <div class="vp__sentence-ar" dir="rtl">{{ item.text }}</div>
+          <div class="vp__sentence-en">{{ item.translation }}</div>
+          @if (item.note) {
+            <div class="vp__sentence-note">📌 {{ item.note }}</div>
+          }
+        </div>
+      }
+    }
+
+    <!-- ── Notes ── -->
+    @if (content && activeTab() === 'notes') {
+      @if (!content.notes) {
+        <div class="vp__empty"><p>No notes for this scene.</p></div>
+      } @else {
+        <div class="vp__notes-body">{{ content.notes }}</div>
+      }
+    }
+
+  </div>
+</div>

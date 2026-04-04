@@ -1,0 +1,26 @@
+<div class="scene-list">
+  <div class="scene-list__header">
+    <span class="scene-list__icon">⬛</span>
+    <span class="scene-list__label">Scenes</span>
+    <span class="scene-list__count">{{ scenes.length }}</span>
+  </div>
+
+  <ul class="scene-list__items">
+    @for (scene of scenes; track scene.id; let i = $index) {
+      <li
+        class="scene-item"
+        [class.scene-item--active]="scene.id === activeSceneId"
+        (click)="sceneSelect.emit(scene)"
+      >
+        <span class="scene-item__index">{{ i + 1 }}</span>
+        <div class="scene-item__body">
+          <span class="scene-item__title" dir="rtl">{{ scene.title }}</span>
+          <span class="scene-item__time">
+            {{ formatTime(scene.start) }} — {{ formatTime(scene.end) }}
+          </span>
+        </div>
+        <span class="scene-item__arrow">▶</span>
+      </li>
+    }
+  </ul>
+</div>

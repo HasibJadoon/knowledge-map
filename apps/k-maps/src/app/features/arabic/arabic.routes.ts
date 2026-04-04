@@ -64,6 +64,17 @@ export const ARABIC_ROUTES: Routes = [
           import('./unit-study/arabic-unit-study.component').then((m) => m.ArabicUnitStudyComponent),
         title: 'Section — Arabic',
       },
+      // ── Reaction Studio ─────────────────────────────────
+      // Opened automatically when unit.unit_type === 'youtube_video'
+      // /arabic/reaction/:unitId
+      {
+        path: 'reaction/:unitId',
+        loadComponent: () =>
+          import('../arabic-reaction/reaction-screen.component').then(
+            (m) => m.ReactionScreenComponent
+          ),
+        title: 'Reaction Studio — Arabic',
+      },
     ],
   },
 ];
