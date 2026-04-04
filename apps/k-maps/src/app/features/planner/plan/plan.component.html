@@ -87,7 +87,7 @@
             </div>
 
             <!-- Accordion Notes -->
-            @if (planEditorDraft.accordion_notes?.length) {
+            @if (planEditorDraft.accordion_notes.length) {
               <div class="pln__pane-section">
                 <p class="pln__section-label">Notes</p>
                 @for (note of planEditorDraft.accordion_notes; track note.id; let i = $index) {

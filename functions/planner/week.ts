@@ -152,7 +152,10 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
       { headers: JSON_HEADERS }
     );
   } catch (err) {
-    return new Response(JSON.stringify({ ok: false, error: String(err) }), {
+    const message = err instanceof Error ? err.message : String(err);
+    const stack = err instanceof Error ? err.stack : undefined;
+    console.error('[planner/week] error:', message, stack);
+    return new Response(JSON.stringify({ ok: false, error: message }), {
       status: 500,
       headers: JSON_HEADERS,
     });
