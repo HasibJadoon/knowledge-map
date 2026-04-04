@@ -172,11 +172,6 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
 
   // ── JSON panel drag-to-resize ─────────────────────────────────────────────
 
-  private jsonResizeBound = {
-    move: (e: MouseEvent) => this.onJsonResizeMove(e),
-    up: () => this.stopJsonResize(),
-  };
-
   startJsonResize(e: MouseEvent): void {
     e.preventDefault();
     const panel = this.jsonPanelEl?.nativeElement;
