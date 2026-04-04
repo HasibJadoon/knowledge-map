@@ -150,6 +150,13 @@ export class ArabicLibraryUnitsComponent implements OnInit, OnDestroy {
   // ── Unit selection
   selectUnit(u: ArUnit): void {
     if (this.selectedUnit()?.id === u.id) return;
+
+    // YouTube video units open Reaction Studio instead of the default reader
+    if (u.unit_type === 'youtube_video') {
+      this.router.navigate(['/arabic/reaction', u.id]);
+      return;
+    }
+
     this.selectedUnit.set(u);
     this.tasks.set([]);
     this.wordPopup.set(null);

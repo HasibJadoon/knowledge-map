@@ -21,18 +21,22 @@ import gsap from 'gsap';
 import { environment } from '../../../environments/environment';
 import { HomePlaneButtonComponent } from '../../shared/components/home-plane-button/home-plane-button.component';
 import { PlannerCalendarComponent } from './calendar/calendar.component';
-import { PlannerCaptureModalComponent } from './capture-modal/capture-modal.component';
-import { CaptureComponent as PlannerCaptureWorkspaceComponent } from './capture/capture.component';
+import { CaptureWorkspaceComponent } from './capture-workspace.component';
+import { CaptureEditorComponent } from './capture-editor.component';
 import { ExecuteKanbanComponent as PlannerKanbanComponent } from './execute-kanban/execute-kanban.component';
 import { EMPTY_PLAN_STATE, PLANNER_ACCORDION_BLUEPRINT, PLANNER_SECTION_BLUEPRINT } from './models/planner.mock-data';
 import { PlanComponent as PlannerPlanBoardComponent } from './plan/plan.component';
+import { PlannerPlanEditorComponent } from './plan-editor/plan-editor.component';
 import { ReviewComponent as PlannerReviewComponent, type PlannerReviewPayload } from './review/review.component';
 import { PlannerStripMenuComponent } from './strip-menu/strip-menu.component';
 import { PlannerTimelineComponent } from './timeline/timeline.component';
 import type {
+  CaptureArea,
   CaptureDomain,
   CaptureDraft,
   CaptureItem,
+  CaptureNote,
+  CaptureNoteDraft,
   CapturePayloadSnapshot,
   CaptureStage,
   CaptureStatus,
@@ -43,6 +47,7 @@ import type {
   PlannerStripItem,
   PlannerWorkspace,
 } from './models/planner.models';
+import { legacyNoteToTiptap } from './models/planner.models';
 
 type ViewMode = PlannerWorkspace | 'calendar' | 'timeline' | 'sprint';
 type CalendarMode = 'month' | 'week' | 'day';
@@ -338,14 +343,15 @@ const CAPTURE_DOMAINS: CaptureDomainOption[] = [
   imports: [
     FormsModule,
     HomePlaneButtonComponent,
-    PlannerStripMenuComponent,       // km-strip-menu
-    PlannerCaptureWorkspaceComponent, // km-capture
-    PlannerCaptureModalComponent,    // km-capture-modal
-    PlannerPlanBoardComponent,       // km-plan
-PlannerCalendarComponent,        // km-calendar
-    PlannerKanbanComponent,          // km-execute-kanban
-    PlannerReviewComponent,          // km-review
-    PlannerTimelineComponent,        // km-timeline
+    PlannerStripMenuComponent,
+    CaptureWorkspaceComponent,
+    CaptureEditorComponent,
+    PlannerPlanBoardComponent,
+    PlannerPlanEditorComponent,
+    PlannerCalendarComponent,
+    PlannerKanbanComponent,
+    PlannerReviewComponent,
+    PlannerTimelineComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './planner.component.html',
@@ -377,6 +383,11 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly captureStudioMode = signal<CaptureStudioMode>('overview');
   readonly captureFilter = signal<CaptureFilter>('all');
   readonly selectedCaptureId = signal<string | null>(null);
+  // New Tiptap-based capture mode: 'workspace' = Screen 1, 'editor' = Screen 2
+  readonly captureMode = signal<'workspace' | 'editor'>('workspace');
+  captureNoteDraft = signal<CaptureNoteDraft>({ area: 'quran', stage: 'inbox', title: '', editor_json: { type: 'doc', content: [] } });
+  readonly captureNotes = signal<CaptureNote[]>([]);
+  readonly selectedCaptureNote = signal<CaptureNote | null>(null);
   readonly plannerWeekStart = signal(this.computePlannerWeekStart(new Date()));
   readonly plannerWeekPlan = signal<SprintWeekPlanData | null>(null);
   readonly plannerTasks = signal<SprintTaskData[]>([]);
@@ -773,7 +784,7 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
         void this.loadPlans();
       }
     });
-    void this.loadCaptures();
+    void this.loadCaptureNotes();
     void this.loadPlans();
   }
 
@@ -843,6 +854,10 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!plannerRes.ok) {
         throw new Error(`HTTP ${plannerRes.status}`);
       }
+      const plannerCt = plannerRes.headers.get('content-type') ?? '';
+      if (!plannerCt.includes('application/json')) {
+        throw new Error('API unavailable');
+      }
 
       const data = await plannerRes.json() as SprintWeekResponse;
       this.plannerWeekPlan.set(data.weekPlan ?? null);
@@ -893,6 +908,10 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
       const res = await fetch(`${environment.apiBase}/captures?limit=200`);
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);
+      }
+      const ct = res.headers.get('content-type') ?? '';
+      if (!ct.includes('application/json')) {
+        throw new Error('API unavailable');
       }
 
       const data = await res.json() as { ok: boolean; captures?: CaptureItem[] };
@@ -1125,6 +1144,118 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.captureSaveState.set('idle');
     this.animateCaptureWorkspaceFocus();
   }
+
+  // ── New Tiptap capture screen handlers ──────────────────────────────────────
+
+  openCaptureEditor(): void {
+    this.captureNoteDraft.set({ area: 'quran', stage: 'inbox', title: '', editor_json: { type: 'doc', content: [] } });
+    this.selectedCaptureNote.set(null);
+    this.captureMode.set('editor');
+  }
+
+  onCaptureNoteSelected(id: string): void {
+    const note = this.captureNotes().find(n => n.id === id) ?? null;
+    this.selectedCaptureNote.set(note);
+  }
+
+  async onCaptureNoteSaved(draft: CaptureNoteDraft): Promise<void> {
+    this.captureSaveState.set('saving');
+    try {
+      const body = {
+        area: draft.area,
+        stage: draft.stage,
+        title: draft.title || 'Untitled',
+        editor_json: draft.editor_json,
+        plain_text: this.tiptapToPlainText(draft.editor_json),
+      };
+      const selectedId = this.selectedCaptureNote()?.id;
+      const url = selectedId
+        ? `${environment.apiBase}/captures/${encodeURIComponent(selectedId)}`
+        : `${environment.apiBase}/captures`;
+      const res = await fetch(url, {
+        method: selectedId ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json() as { ok: boolean; capture?: CaptureNote };
+      if (data.capture) {
+        const existing = this.captureNotes();
+        const idx = existing.findIndex(n => n.id === data.capture!.id);
+        if (idx >= 0) {
+          this.captureNotes.set([...existing.slice(0, idx), data.capture, ...existing.slice(idx + 1)]);
+        } else {
+          this.captureNotes.set([data.capture, ...existing]);
+        }
+        this.selectedCaptureNote.set(data.capture);
+      }
+      this.captureSaveState.set('saved');
+      if (this.captureMode() === 'editor') this.captureMode.set('workspace');
+    } catch {
+      this.captureSaveState.set('error');
+    }
+  }
+
+  private tiptapToPlainText(doc: { type: string; content?: unknown[] }): string {
+    if (!doc?.content) return '';
+    const walk = (nodes: unknown[]): string =>
+      nodes.map((n: unknown) => {
+        const node = n as { type: string; text?: string; content?: unknown[] };
+        if (node.text) return node.text;
+        if (node.content) return walk(node.content);
+        return '';
+      }).join(' ');
+    return walk(doc.content).trim();
+  }
+
+  async loadCaptureNotes(): Promise<void> {
+    this.captureLoading.set(true);
+    try {
+      const res = await fetch(`${environment.apiBase}/captures?limit=200`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json() as { ok: boolean; captures?: (CaptureNote | CaptureItem)[] };
+      const notes: CaptureNote[] = (data.captures ?? []).map(item => this.normalizeCaptureToNote(item));
+      this.captureNotes.set(notes);
+      this.captureItems.set(this.sortCaptureItems((data.captures ?? []).map(i => this.normalizeCaptureItem(i as CaptureItem))));
+    } catch (e) {
+      this.captureError.set(e instanceof Error ? e.message : 'Failed to load captures');
+    } finally {
+      this.captureLoading.set(false);
+    }
+  }
+
+  private normalizeCaptureToNote(raw: unknown): CaptureNote {
+    const item = raw as Record<string, unknown>;
+    const legacyNote = (item['note'] as string) ?? (item['plain_text'] as string) ?? '';
+    const editorJson = (item['editor_json'] as CaptureNote['editor_json'])
+      ?? legacyNoteToTiptap(legacyNote);
+    const area = (item['area'] as CaptureNote['area'])
+      ?? this.mapLegacyDomain(item['domain'] as string);
+    return {
+      id: String(item['id'] ?? ''),
+      area,
+      stage: (item['stage'] as CaptureNote['stage']) ?? 'inbox',
+      status: (item['status'] as CaptureNote['status']) ?? 'draft',
+      title: (item['title'] as string) ?? '',
+      editor_json: editorJson,
+      plain_text: (item['plain_text'] as string) ?? legacyNote,
+      created_at: (item['createdAt'] as string) ?? (item['created_at'] as string) ?? '',
+      updated_at: (item['updatedAt'] as string) ?? (item['updated_at'] as string) ?? '',
+    };
+  }
+
+  private mapLegacyDomain(domain: string): CaptureArea {
+    const map: Record<string, CaptureArea> = {
+      arabic_media: 'arabic',
+      arabic_linguistics: 'arabic',
+      quranic_concepts: 'quran',
+      worldview: 'wv',
+      english_expression: 'vocabulary',
+    };
+    return map[domain] ?? 'quran';
+  }
+
+  // ── End new capture handlers ─────────────────────────────────────────────────
 
   async moveCaptureToStage(id: string, stage: CaptureStage): Promise<void> {
     const current = this.captureItems().find((item) => item.id === id);

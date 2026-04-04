@@ -1,0 +1,21 @@
+<div class="transcript">
+  <div class="transcript__header">
+    <span class="transcript__label">Transcript</span>
+    <span class="transcript__count">{{ lines.length }} lines</span>
+  </div>
+
+  <div class="transcript__scroll">
+    @for (line of lines; track line.id) {
+      <div
+        #lineEl
+        class="transcript__line"
+        [class.transcript__line--active]="line.id === activeLineId"
+        [attr.data-line-id]="line.id"
+        (click)="seekToLine(line)"
+      >
+        <span class="transcript__ts">{{ formatTime(line.start) }}</span>
+        <span class="transcript__text" dir="rtl">{{ line.text }}</span>
+      </div>
+    }
+  </div>
+</div>
