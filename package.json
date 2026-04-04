@@ -10,7 +10,13 @@
     "deploy:ionic": "npm run build -w apps/app-k-maps && npx wrangler pages deploy apps/app-k-maps/www --project-name app-k-maps --branch main",
     "deploy:all": "npm run deploy:pages && npm run deploy:ionic"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@tiptap/core": "^3.22.1",
+    "@tiptap/extension-placeholder": "^3.22.1",
+    "@tiptap/extension-typography": "^3.22.1",
+    "@tiptap/pm": "^3.22.1",
+    "@tiptap/starter-kit": "^3.22.1"
+  },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260120.0",
     "pdfjs-dist": "^5.4.624",
