@@ -2887,11 +2887,13 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  private captureNoteTitle(note: string): string {
+  private captureNoteTitle(note: string | undefined | null): string {
+    if (!note) return '';
     return this.extractStructuredCaptureNote(note)?.title ?? '';
   }
 
-  private captureNoteText(note: string): string {
+  private captureNoteText(note: string | undefined | null): string {
+    if (!note) return '';
     return this.extractStructuredCaptureNote(note)?.text ?? note.trim();
   }
 
