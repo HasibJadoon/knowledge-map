@@ -276,12 +276,49 @@
 
 // ── JSON panel ────────────────────────────────────────────────────────────────
 
+.cw__json-header-label {
+  font-family: var(--km-font-heading);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(226, 196, 141, 0.62);
+}
+
+.cw__json-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.cw__json-hbtn {
+  width: 1.8rem;
+  height: 1.8rem;
+  background: transparent;
+  border: 1px solid rgba(226, 196, 141, 0.1);
+  color: rgba(214, 203, 184, 0.4);
+  font-size: 0.68rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: color 140ms, border-color 140ms;
+
+  &:hover { color: rgba(226, 196, 141, 0.82); border-color: rgba(226, 196, 141, 0.28); }
+  &--close:hover { color: #f1c2c2; border-color: rgba(228, 107, 122, 0.3); }
+}
+
+.cw__json-expandable {
+  flex: 1;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  overflow: hidden;
+}
+
 .cw__json-panel {
   width: 36%;
   min-width: 260px;
   flex-shrink: 0;
-  display: grid;
-  grid-template-rows: 2.4rem minmax(0, 1fr) auto auto;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   background: linear-gradient(180deg, rgba(4, 4, 5, 0.98), rgba(6, 5, 4, 0.99));
   border-left: 1px solid rgba(226, 196, 141, 0.1);
@@ -290,13 +327,11 @@
 .cw__json-header {
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  justify-content: space-between;
+  padding: 0 0.6rem 0 1rem;
+  height: 2.4rem;
+  flex-shrink: 0;
   border-bottom: 1px solid rgba(226, 196, 141, 0.08);
-  font-family: var(--km-font-heading);
-  font-size: 0.58rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(226, 196, 141, 0.62);
 }
 
 .cw__json-body {

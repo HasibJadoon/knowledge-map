@@ -54,6 +54,8 @@ export class PlanComponent implements AfterViewInit, OnDestroy {
   @Output() chipClicked = new EventEmitter<ActionChipId>();
 
   @ViewChild('paneEl') paneEl?: ElementRef<HTMLElement>;
+  @ViewChild('backdropEl') backdropEl?: ElementRef<HTMLElement>;
+  @ViewChild('gridWrapEl') gridWrapEl?: ElementRef<HTMLElement>;
   @ViewChild('gridEl') gridEl?: ElementRef<HTMLElement>;
   @ViewChildren('cardEl') cardEls?: QueryList<ElementRef<HTMLElement>>;
 
@@ -105,28 +107,48 @@ export class PlanComponent implements AfterViewInit, OnDestroy {
     this.selectedCardEl = cardEl;
     this.itemOpened.emit(item.id);
 
-    // Shift card right
-    gsap.to(cardEl, { x: 12, duration: 0.22, ease: 'power2.out' });
+    // Brief card flash
+    gsap.fromTo(cardEl, { scale: 0.97 }, { scale: 1, duration: 0.22, ease: 'back.out(2)' });
 
-    // Open pane
-    const pane = this.paneEl?.nativeElement;
+    this.cdr.detectChanges(); // ensure pane + backdrop are in DOM
+
+    const pane     = this.paneEl?.nativeElement;
+    const backdrop = this.backdropEl?.nativeElement;
+    const grid     = this.gridWrapEl?.nativeElement;
+
+    // Backdrop
+    if (backdrop) {
+      gsap.fromTo(backdrop, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+    }
+
+    // Grid dims and scales slightly
+    if (grid) {
+      gsap.to(grid, { scale: 0.985, opacity: 0.45, duration: 0.35, ease: 'power2.out' });
+    }
+
     if (pane && !this.paneOpen) {
       this.paneOpen = true;
       gsap.fromTo(pane,
-        { x: -360, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.38, ease: 'expo.out' }
+        { x: '-100%', opacity: 0 },
+        { x: '0%', opacity: 1, duration: 0.42, ease: 'expo.out' }
       );
     } else if (pane) {
-      // Already open — morph transition
-      gsap.fromTo(pane, { opacity: 0.6, y: -6 }, { opacity: 1, y: 0, duration: 0.22, ease: 'power2.out' });
+      // Already open — content morph
+      gsap.fromTo(pane, { opacity: 0.7, y: -8 }, { opacity: 1, y: 0, duration: 0.24, ease: 'power2.out' });
     }
   }
 
   closePane(): void {
-    const pane = this.paneEl?.nativeElement;
+    const pane     = this.paneEl?.nativeElement;
+    const backdrop = this.backdropEl?.nativeElement;
+    const grid     = this.gridWrapEl?.nativeElement;
+
+    if (grid) gsap.to(grid, { scale: 1, opacity: 1, duration: 0.3, ease: 'power2.inOut' });
+    if (backdrop) gsap.to(backdrop, { opacity: 0, duration: 0.22, ease: 'power2.in' });
+
     if (pane) {
-      gsap.to(pane, { x: -360, opacity: 0, duration: 0.28, ease: 'expo.in',
-        onComplete: () => { this.paneOpen = false; this.closeRequested.emit(); }
+      gsap.to(pane, { x: '-100%', opacity: 0, duration: 0.3, ease: 'expo.in',
+        onComplete: () => { this.paneOpen = false; this.closeRequested.emit(); this.cdr.markForCheck(); }
       });
     } else {
       this.paneOpen = false;
@@ -134,7 +156,7 @@ export class PlanComponent implements AfterViewInit, OnDestroy {
     }
 
     if (this.selectedCardEl) {
-      gsap.to(this.selectedCardEl, { x: 0, duration: 0.22, ease: 'power2.inOut' });
+      gsap.to(this.selectedCardEl, { scale: 1, duration: 0.2, ease: 'power2.out' });
       this.selectedCardEl = null;
     }
   }
