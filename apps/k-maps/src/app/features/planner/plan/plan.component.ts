@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import gsap from 'gsap';
-import type { CaptureDomain, CaptureItem, PlannerPlanState } from '../models/planner.models';
+import type { CaptureDomain, CaptureItem, PlannerAccordionNote, PlannerPlanState, PlannerSection } from '../models/planner.models';
 
 type ActionChipId = 'wv' | 'arabic' | 'english' | 'quran' | 'srs';
 
@@ -47,6 +47,9 @@ export class PlanComponent implements AfterViewInit, OnDestroy {
   @Output() closeRequested = new EventEmitter<void>();
   @Output() titleChanged = new EventEmitter<string>();
   @Output() summaryChanged = new EventEmitter<string>();
+  @Output() sectionChanged = new EventEmitter<{ index: number; key: keyof PlannerSection; value: string }>();
+  @Output() noteChanged = new EventEmitter<{ index: number; value: string }>();
+  @Output() sectionAdded = new EventEmitter<void>();
   @Output() pushToFeed = new EventEmitter<void>();
   @Output() pushToKanban = new EventEmitter<void>();
   @Output() saveDraft = new EventEmitter<void>();
@@ -61,9 +64,11 @@ export class PlanComponent implements AfterViewInit, OnDestroy {
 
   private cdr = inject(ChangeDetectorRef);
   private paneOpen = false;
+  private paneCollapsed = false;
   private selectedCardEl: HTMLElement | null = null;
 
   readonly activeChip = signal<ActionChipId | null>(null);
+  readonly openAccordions = signal<Set<string>>(new Set());
 
   readonly domainLabels: Record<CaptureDomain, string> = {
     arabic_media: 'Arabic Media',
@@ -106,6 +111,7 @@ export class PlanComponent implements AfterViewInit, OnDestroy {
   selectCard(item: CaptureItem, cardEl: HTMLElement): void {
     this.selectedCardEl = cardEl;
     this.itemOpened.emit(item.id);
+    this.paneCollapsed = false;
 
     // Brief card flash
     gsap.fromTo(cardEl, { scale: 0.97 }, { scale: 1, duration: 0.22, ease: 'back.out(2)' });
@@ -148,10 +154,11 @@ export class PlanComponent implements AfterViewInit, OnDestroy {
 
     if (pane) {
       gsap.to(pane, { x: '-100%', opacity: 0, duration: 0.3, ease: 'expo.in',
-        onComplete: () => { this.paneOpen = false; this.closeRequested.emit(); this.cdr.markForCheck(); }
+        onComplete: () => { this.paneOpen = false; this.paneCollapsed = false; this.closeRequested.emit(); this.cdr.markForCheck(); }
       });
     } else {
       this.paneOpen = false;
+      this.paneCollapsed = false;
       this.closeRequested.emit();
     }
 
@@ -161,9 +168,44 @@ export class PlanComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  collapsePane(): void {
+    const pane = this.paneEl?.nativeElement;
+    if (!pane || this.paneCollapsed) return;
+    this.paneCollapsed = true;
+    gsap.to(pane, { width: '3rem', duration: 0.32, ease: 'expo.inOut' });
+    // restore grid
+    const grid = this.gridWrapEl?.nativeElement;
+    if (grid) gsap.to(grid, { scale: 1, opacity: 1, duration: 0.28, ease: 'power2.out' });
+    const backdrop = this.backdropEl?.nativeElement;
+    if (backdrop) gsap.to(backdrop, { opacity: 0, duration: 0.22, ease: 'power2.in' });
+  }
+
+  expandPane(): void {
+    const pane = this.paneEl?.nativeElement;
+    if (!pane || !this.paneCollapsed) return;
+    this.paneCollapsed = false;
+    gsap.to(pane, { width: 'min(40%, 28rem)', duration: 0.35, ease: 'expo.out' });
+    const grid = this.gridWrapEl?.nativeElement;
+    if (grid) gsap.to(grid, { scale: 0.985, opacity: 0.45, duration: 0.28, ease: 'power2.out' });
+    const backdrop = this.backdropEl?.nativeElement;
+    if (backdrop) gsap.to(backdrop, { opacity: 1, duration: 0.25, ease: 'power2.out' });
+  }
+
+  get isPaneCollapsed(): boolean { return this.paneCollapsed; }
+
   selectChip(id: ActionChipId): void {
     this.activeChip.set(this.activeChip() === id ? null : id);
     this.chipClicked.emit(id);
+  }
+
+  toggleAccordion(note: PlannerAccordionNote): void {
+    const next = new Set(this.openAccordions());
+    if (next.has(note.id)) { next.delete(note.id); } else { next.add(note.id); }
+    this.openAccordions.set(next);
+  }
+
+  isAccordionOpen(note: PlannerAccordionNote): boolean {
+    return this.openAccordions().has(note.id);
   }
 
   summary(item: CaptureItem): string {

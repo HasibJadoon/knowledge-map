@@ -26,7 +26,6 @@ import { CaptureEditorComponent } from './capture-editor.component';
 import { ExecuteKanbanComponent as PlannerKanbanComponent } from './execute-kanban/execute-kanban.component';
 import { EMPTY_PLAN_STATE, PLANNER_ACCORDION_BLUEPRINT, PLANNER_SECTION_BLUEPRINT } from './models/planner.mock-data';
 import { PlanComponent as PlannerPlanBoardComponent } from './plan/plan.component';
-import { PlannerPlanEditorComponent } from './plan-editor/plan-editor.component';
 import { ReviewComponent as PlannerReviewComponent, type PlannerReviewPayload } from './review/review.component';
 import { PlannerStripMenuComponent } from './strip-menu/strip-menu.component';
 import { PlannerTimelineComponent } from './timeline/timeline.component';
@@ -347,7 +346,6 @@ const CAPTURE_DOMAINS: CaptureDomainOption[] = [
     CaptureWorkspaceComponent,
     CaptureEditorComponent,
     PlannerPlanBoardComponent,
-    PlannerPlanEditorComponent,
     PlannerCalendarComponent,
     PlannerKanbanComponent,
     PlannerReviewComponent,
@@ -1341,7 +1339,6 @@ export class PlannerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.planEditorTitle = item.title;
     this.planEditorDraft = this.buildPlanStateForItem(item);
     this.switchView('plan');
-    this.animatePlanEditorOpen();
   }
 
   closePlanEditor(): void {
