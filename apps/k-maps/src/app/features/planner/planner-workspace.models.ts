@@ -3,12 +3,68 @@ export type PlannerExecutionView = 'board' | 'calendar' | 'timeline';
 
 export type CaptureStage = 'inbox' | 'review' | 'done';
 export type CaptureStatus = 'draft' | 'active' | 'archived';
+
+/** Legacy domain values — used throughout existing planner/kanban/plan code */
 export type CaptureDomain =
   | 'arabic_media'
   | 'arabic_linguistics'
   | 'quranic_concepts'
   | 'worldview'
   | 'english_expression';
+
+/** New simplified area used by the Tiptap capture system */
+export type CaptureArea = 'quran' | 'arabic' | 'wv' | 'vocabulary';
+
+// Tiptap canonical document format
+export interface TiptapDoc {
+  type: 'doc';
+  content: TiptapNode[];
+}
+
+export interface TiptapNode {
+  type: string;
+  attrs?: Record<string, unknown>;
+  content?: TiptapNode[];
+  marks?: Array<{ type: string; attrs?: Record<string, unknown> }>;
+  text?: string;
+}
+
+export function emptyTiptapDoc(): TiptapDoc {
+  return { type: 'doc', content: [] };
+}
+
+/** Convert a legacy plain-text note to a minimal Tiptap doc */
+export function legacyNoteToTiptap(note: string): TiptapDoc {
+  if (!note?.trim()) return emptyTiptapDoc();
+  const paragraphs = note.split(/\n{2,}/).filter(Boolean).map(chunk => ({
+    type: 'paragraph',
+    content: [{ type: 'text', text: chunk.replace(/\n/g, ' ').trim() }],
+  }));
+  return { type: 'doc', content: paragraphs.length ? paragraphs : [] };
+}
+
+// New canonical note shape — saved to DB and returned from API
+export interface CaptureNote {
+  id: string;
+  area: CaptureArea;
+  stage: CaptureStage;
+  status: CaptureStatus;
+  title: string;
+  editor_json: TiptapDoc;
+  plain_text: string;
+  created_at: string;
+  updated_at: string;
+}
+
+// In-flight draft used during editing
+export interface CaptureNoteDraft {
+  area: CaptureArea;
+  stage: CaptureStage;
+  title: string;
+  editor_json: TiptapDoc;
+}
+
+// ── Legacy types kept for planner/kanban/review subsystems ───────────────────
 
 export interface PlannerSection {
   id: string;
@@ -61,6 +117,7 @@ export interface CaptureItem {
   payload: CapturePayloadSnapshot;
 }
 
+/** @deprecated use CaptureNoteDraft */
 export interface CaptureDraft {
   domain: CaptureDomain;
   stage: CaptureStage;

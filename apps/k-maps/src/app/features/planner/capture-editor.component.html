@@ -1,0 +1,91 @@
+<div class="ce" #root>
+
+  <!-- Top bar -->
+  <div class="ce__topbar">
+    <div class="ce__topbar-left">
+      <select class="ce__area-select" [ngModel]="draft.area" (ngModelChange)="updateArea($event)">
+        @for (a of areas; track a.id) {
+          <option [value]="a.id">{{ a.label }}</option>
+        }
+      </select>
+      <input
+        class="ce__title-input"
+        type="text"
+        placeholder="Start writing your note…"
+        [ngModel]="draft.title"
+        (ngModelChange)="updateTitle($event)"
+      />
+    </div>
+    <div class="ce__topbar-right">
+      <button class="ce__btn ce__btn--ghost" type="button" (click)="toggleJson()">
+        {{ jsonCollapsed() ? 'Show JSON' : 'Hide JSON' }}
+      </button>
+      <button
+        class="ce__btn ce__btn--save"
+        type="button"
+        [disabled]="saving"
+        (click)="onSave()"
+      >
+        <span class="ce__btn-icon">▣</span>
+        {{ saving ? 'Saving…' : 'Save Draft' }}
+      </button>
+      <button class="ce__btn ce__btn--back" type="button" (click)="onBack()">
+        ← Back
+      </button>
+    </div>
+  </div>
+
+  <!-- Toolbar row -->
+  <div class="ce__toolbar-row">
+    <km-capture-toolbar [editor]="tiptapEditor()"></km-capture-toolbar>
+  </div>
+
+  <!-- Main panels -->
+  <div class="ce__body">
+
+    <!-- Editor panel -->
+    <div class="ce__editor-panel">
+      <km-capture-tiptap-editor
+        [doc]="draft.editor_json"
+        placeholder="Start writing your note…"
+        (docChange)="onDocChange($event)"
+        (editorReady)="onEditorReady($event)"
+      ></km-capture-tiptap-editor>
+    </div>
+
+    <!-- JSON panel -->
+    @if (!jsonCollapsed()) {
+      <div class="ce__json-panel" #jsonPanel>
+        <div class="ce__json-header">JSON</div>
+        <div
+          class="ce__json-body"
+          [innerHTML]="highlightJson(jsonText())"
+        ></div>
+
+        @if (jsonError()) {
+          <div class="ce__json-error">{{ jsonError() }}</div>
+        }
+
+        <div class="ce__json-footer">
+          <textarea
+            class="ce__json-input"
+            placeholder='Paste Tiptap JSON here, then click Apply'
+            [ngModel]="jsonText()"
+            (ngModelChange)="jsonText.set($event); jsonError.set(null)"
+          ></textarea>
+          <button class="ce__btn ce__btn--apply" type="button" (click)="applyJson()">
+            Apply JSON
+          </button>
+        </div>
+      </div>
+    }
+
+  </div>
+
+  <!-- Status strip -->
+  <div class="ce__strip">
+    <span class="ce__strip-status">{{ saving ? 'Saving…' : 'Draft' }}</span>
+    <span class="ce__strip-hint">JSON panel mirrors editor in real-time · Apply JSON to load pasted content into the editor</span>
+  </div>
+
+</div>

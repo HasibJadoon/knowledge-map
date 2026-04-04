@@ -42,15 +42,26 @@
           } @else {
             @switch (activeView()) {
               @case ('capture') {
-                <km-planner-capture-workspace
-                  [items]="captureItems()"
-                  [selectedItem]="selectedCapture()"
-                  [loading]="captureLoading()"
-                  [error]="captureError()"
-                  [saveState]="captureSaveState()"
-                  (selectedItemChange)="selectCaptureItem($event)"
-                  (createRequested)="openNewCapturePane(true)"
-                />
+                @if (captureMode() === 'editor') {
+                  <km-capture-editor
+                    [draft]="captureNoteDraft()"
+                    [saving]="captureMode() === 'editor' && captureSaveState() === 'saving'"
+                    (draftChange)="captureNoteDraft.set($event)"
+                    (saveRequested)="onCaptureNoteSaved($event)"
+                    (backRequested)="captureMode.set('workspace')"
+                  />
+                } @else {
+                  <km-capture-workspace
+                    [notes]="captureNotes()"
+                    [selectedNote]="selectedCaptureNote()"
+                    [loading]="captureLoading()"
+                    [saveState]="captureSaveState()"
+                    (noteSelected)="onCaptureNoteSelected($event)"
+                    (createRequested)="openCaptureEditor()"
+                    (draftSaved)="onCaptureNoteSaved($event)"
+                    (backRequested)="switchView('plan')"
+                  />
+                }
               }
               @case ('plan') {
                 <km-planner-plan-board
@@ -155,16 +166,6 @@
     </aside>
   </main>
 
-  @if (captureStudioMode() === 'composer') {
-    <km-planner-capture-modal
-      [draft]="captureDraft"
-      [domains]="captureDomains"
-      [saving]="captureSaving()"
-      (draftChange)="updateCaptureDraft($event)"
-      (saveRequested)="finalizeCaptureDraft()"
-      (closeRequested)="showCaptureOverview()"
-    />
-  }
 
   @if (activeView() === 'plan' && selectedPlanItem(); as selectedPlanItemValue) {
     <km-planner-plan-editor
