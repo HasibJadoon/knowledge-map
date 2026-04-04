@@ -110,6 +110,49 @@ export function legacyNoteToTiptap(note: string): TiptapDoc {
   return { type: 'doc', content: paragraphs.length ? paragraphs : [] };
 }
 
+export interface R2Resource {
+  resource_id: string;
+  resource_type: string;   // 'image'|'pdf'|'audio'|'video'|'json'|'thumbnail'
+  bucket: string;
+  key: string;
+  url: string;
+  mime_type: string;
+  size_bytes: number;
+  title: string;
+  alt: string;
+  usage: string;
+  capture_id: string;
+  owner_type: string;
+  owner_id: string;
+  placement: string;
+  uploaded_at: string;
+  meta: Record<string, unknown>;
+}
+
+export type RefType = 'quran_ayah' | 'hadith' | 'book' | 'article' | 'youtube' | 'url' | 'capture' | 'wv_node' | 'note';
+export type RefRelation = 'primary_source' | 'secondary_source' | 'background' | 'related' | 'quote_source' | 'inspiration' | 'derived_from';
+
+export interface CaptureRef {
+  ref_id: string;
+  ref_type: RefType;
+  label: string;
+  relation: RefRelation;
+  locator: { surah?: number; ayah?: number } | null;
+  url: string | null;
+  target_id: string | null;
+  context: { owner_type: string; owner_id: string };
+  meta: Record<string, unknown>;
+}
+
+export interface CaptureRefDraft {
+  ref_type: RefType;
+  label: string;
+  relation: RefRelation;
+  url: string;
+  surah: string;
+  ayah: string;
+}
+
 export interface CaptureNote {
   id: string;
   area: CaptureArea;
@@ -118,6 +161,8 @@ export interface CaptureNote {
   title: string;
   editor_json: TiptapDoc;
   plain_text: string;
+  r2_resources: R2Resource[];
+  capture_refs: CaptureRef[];
   created_at: string;
   updated_at: string;
 }

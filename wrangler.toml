@@ -9,3 +9,7 @@ binding = "DB"
 database_name = "knowledgemap"
 database_id = "ef164d27-6e98-41c5-beca-03903d658976"
 migrations_dir = "database/migrations"
+
+[[r2_buckets]]
+binding = "ASSETS"
+bucket_name = "kmaps-assets"

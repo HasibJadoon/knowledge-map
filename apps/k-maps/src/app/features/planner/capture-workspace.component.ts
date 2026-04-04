@@ -24,9 +24,13 @@ import type {
   CaptureArea,
   CaptureNote,
   CaptureNoteDraft,
+  CaptureRef,
+  CaptureRefDraft,
+  R2Resource,
   TiptapDoc,
 } from './models/planner.models';
 import { emptyTiptapDoc, legacyNoteToTiptap } from './models/planner.models';
+import { environment } from '../../../environments/environment';
 
 export interface CaptureAreaOption {
   id: CaptureArea;
@@ -47,6 +51,8 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
   @ViewChild('root') rootEl!: ElementRef<HTMLDivElement>;
   @ViewChild('inboxPanel') inboxPanelEl!: ElementRef<HTMLDivElement>;
   @ViewChild('jsonPanel') jsonPanelEl!: ElementRef<HTMLDivElement>;
+  @ViewChild('bottomPanel') bottomPanelEl!: ElementRef<HTMLDivElement>;
+  @ViewChild('fileInput') fileInputEl!: ElementRef<HTMLInputElement>;
   @ViewChild(CaptureTiptapEditorComponent) tiptap!: CaptureTiptapEditorComponent;
 
   @Input() notes: CaptureNote[] = [];
@@ -78,6 +84,51 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
   jsonError = signal<string | null>(null);
   inboxCollapsed = signal(false);
   jsonCollapsed = signal(false);
+
+  // ── Resources & References panel ──────────────────────────────────────────
+  bottomPanelVisible = signal(false);
+  bottomPanelExpanded = signal(false);
+  activeBottomTab = signal<'resources' | 'refs'>('resources');
+
+  resources = signal<R2Resource[]>([]);
+  captureRefs = signal<CaptureRef[]>([]);
+  uploadState = signal<'idle' | 'uploading' | 'error'>('idle');
+  uploadError = signal<string | null>(null);
+  refsState = signal<'idle' | 'saving' | 'error'>('idle');
+
+  refDraft = signal<CaptureRefDraft>({
+    ref_type: 'url',
+    label: '',
+    relation: 'related',
+    url: '',
+    surah: '',
+    ayah: '',
+  });
+
+  readonly refTypes: Array<{ id: CaptureRef['ref_type']; label: string }> = [
+    { id: 'quran_ayah', label: 'Quran Ayah' },
+    { id: 'youtube', label: 'YouTube' },
+    { id: 'url', label: 'URL / Article' },
+    { id: 'book', label: 'Book' },
+    { id: 'hadith', label: 'Hadith' },
+    { id: 'note', label: 'Note' },
+    { id: 'capture', label: 'Capture' },
+    { id: 'wv_node', label: 'WV Node' },
+  ];
+
+  readonly relations: Array<{ id: CaptureRef['relation']; label: string }> = [
+    { id: 'related', label: 'Related' },
+    { id: 'primary_source', label: 'Primary Source' },
+    { id: 'secondary_source', label: 'Secondary Source' },
+    { id: 'quote_source', label: 'Quote Source' },
+    { id: 'inspiration', label: 'Inspiration' },
+    { id: 'background', label: 'Background' },
+    { id: 'derived_from', label: 'Derived From' },
+  ];
+
+  readonly resourceIcons: Record<string, string> = {
+    image: '🖼', pdf: '📄', audio: '🎵', video: '🎬', json: '{ }', thumbnail: '🖼',
+  };
 
   readonly areaLabels: Record<CaptureArea, string> = {
     quran: 'Quran',
@@ -211,8 +262,154 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
         });
   }
 
+  // ── Bottom panel: Resources & References ──────────────────────────────────
+
+  showBottomPanel(tab: 'resources' | 'refs' = 'resources'): void {
+    this.activeBottomTab.set(tab);
+    if (this.bottomPanelVisible()) { return; }
+    this.bottomPanelVisible.set(true);
+    this.bottomPanelExpanded.set(false);
+    this.cdr.detectChanges();
+    const el = this.bottomPanelEl?.nativeElement;
+    if (el) gsap.fromTo(el, { height: 0, opacity: 0 }, { height: '2.6rem', opacity: 1, duration: 0.28, ease: 'expo.out' });
+  }
+
+  hideBottomPanel(): void {
+    const el = this.bottomPanelEl?.nativeElement;
+    if (!el) { this.bottomPanelVisible.set(false); return; }
+    gsap.to(el, { height: 0, opacity: 0, duration: 0.2, ease: 'expo.in', onComplete: () => {
+      this.bottomPanelVisible.set(false);
+      this.cdr.markForCheck();
+    }});
+  }
+
+  toggleBottomExpand(): void {
+    const el = this.bottomPanelEl?.nativeElement;
+    if (!el) return;
+    if (this.bottomPanelExpanded()) {
+      this.bottomPanelExpanded.set(false);
+      gsap.to(el, { height: '2.6rem', duration: 0.28, ease: 'expo.in' });
+    } else {
+      this.bottomPanelExpanded.set(true);
+      gsap.to(el, { height: '16rem', duration: 0.32, ease: 'expo.out' });
+    }
+  }
+
+  setBottomTab(tab: 'resources' | 'refs'): void {
+    this.activeBottomTab.set(tab);
+    if (!this.bottomPanelExpanded()) this.toggleBottomExpand();
+  }
+
+  triggerFileUpload(): void {
+    this.fileInputEl?.nativeElement.click();
+  }
+
+  async onFileSelected(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file || !this.selectedNote) return;
+    input.value = '';
+
+    this.uploadState.set('uploading');
+    this.uploadError.set(null);
+    this.cdr.markForCheck();
+
+    try {
+      const form = new FormData();
+      form.append('file', file);
+      form.append('resource_type', file.type.startsWith('image/') ? 'image' : file.type === 'application/pdf' ? 'pdf' : file.type.startsWith('audio/') ? 'audio' : file.type.startsWith('video/') ? 'video' : 'image');
+      form.append('usage', 'attachment');
+
+      const res = await fetch(`${environment.apiBase}/captures/${encodeURIComponent(this.selectedNote.id)}/r2`, {
+        method: 'POST',
+        body: form,
+      });
+      const data = await res.json() as { ok: boolean; resource?: R2Resource; error?: string };
+      if (!data.ok) throw new Error(data.error ?? 'Upload failed');
+      this.resources.update(r => [...r, data.resource!]);
+      this.uploadState.set('idle');
+    } catch (err) {
+      this.uploadState.set('error');
+      this.uploadError.set(err instanceof Error ? err.message : 'Upload failed');
+    }
+    this.cdr.markForCheck();
+  }
+
+  async deleteResource(resourceId: string): Promise<void> {
+    if (!this.selectedNote) return;
+    try {
+      const res = await fetch(
+        `${environment.apiBase}/captures/${encodeURIComponent(this.selectedNote.id)}/r2?resourceId=${encodeURIComponent(resourceId)}`,
+        { method: 'DELETE' }
+      );
+      const data = await res.json() as { ok: boolean };
+      if (data.ok) this.resources.update(r => r.filter(x => x.resource_id !== resourceId));
+    } catch { /* silently ignore */ }
+    this.cdr.markForCheck();
+  }
+
+  updateRefDraft(partial: Partial<CaptureRefDraft>): void {
+    this.refDraft.update(d => ({ ...d, ...partial }));
+  }
+
+  async addRef(): Promise<void> {
+    if (!this.selectedNote) return;
+    const d = this.refDraft();
+    if (!d.label.trim()) return;
+
+    const locator = d.ref_type === 'quran_ayah' && d.surah
+      ? { surah: Number(d.surah), ayah: Number(d.ayah) }
+      : null;
+
+    this.refsState.set('saving');
+    this.cdr.markForCheck();
+
+    try {
+      const res = await fetch(
+        `${environment.apiBase}/captures/${encodeURIComponent(this.selectedNote.id)}/refs`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            ref_type: d.ref_type,
+            label: d.label,
+            relation: d.relation,
+            url: d.url || null,
+            locator,
+          }),
+        }
+      );
+      const data = await res.json() as { ok: boolean; ref?: CaptureRef; error?: string };
+      if (!data.ok) throw new Error(data.error ?? 'Failed to add reference');
+      this.captureRefs.update(refs => [...refs, data.ref!]);
+      this.refDraft.set({ ref_type: 'url', label: '', relation: 'related', url: '', surah: '', ayah: '' });
+      this.refsState.set('idle');
+    } catch {
+      this.refsState.set('error');
+    }
+    this.cdr.markForCheck();
+  }
+
+  async deleteRef(refId: string): Promise<void> {
+    if (!this.selectedNote) return;
+    try {
+      const res = await fetch(
+        `${environment.apiBase}/captures/${encodeURIComponent(this.selectedNote.id)}/refs?refId=${encodeURIComponent(refId)}`,
+        { method: 'DELETE' }
+      );
+      const data = await res.json() as { ok: boolean };
+      if (data.ok) this.captureRefs.update(r => r.filter(x => x.ref_id !== refId));
+    } catch { /* silently ignore */ }
+    this.cdr.markForCheck();
+  }
+
+  formatBytes(bytes: number): string {
+    if (bytes < 1024) return `${bytes}B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)}KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+  }
+
   private loadNoteToDraft(note: CaptureNote): void {
-    // Support legacy notes that might not have editor_json yet
     const editorJson: TiptapDoc = note.editor_json ?? legacyNoteToTiptap(note.plain_text ?? '');
     this.draft.set({
       area: note.area,
@@ -220,6 +417,8 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
       title: note.title,
       editor_json: editorJson,
     });
+    this.resources.set(note.r2_resources ?? []);
+    this.captureRefs.set(note.capture_refs ?? []);
     this.refreshJson();
     this.cdr.markForCheck();
   }
