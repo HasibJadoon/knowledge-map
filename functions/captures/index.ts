@@ -95,6 +95,8 @@ interface CaptureRow {
   title: string;
   editor_json: string;
   plain_text: string;
+  r2_resources: string | null;
+  capture_refs: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -110,7 +112,11 @@ interface CapturePayload {
 
 function rowToNote(row: CaptureRow) {
   let editor_json: unknown;
+  let r2_resources: unknown[];
+  let capture_refs: unknown[];
   try { editor_json = JSON.parse(row.editor_json); } catch { editor_json = { type: 'doc', content: [] }; }
+  try { r2_resources = JSON.parse(row.r2_resources ?? '[]'); } catch { r2_resources = []; }
+  try { capture_refs = JSON.parse(row.capture_refs ?? '[]'); } catch { capture_refs = []; }
   return {
     id: row.id,
     area: row.area,
@@ -119,6 +125,8 @@ function rowToNote(row: CaptureRow) {
     title: row.title,
     editor_json,
     plain_text: row.plain_text,
+    r2_resources,
+    capture_refs,
     created_at: row.created_at,
     updated_at: row.updated_at,
   };

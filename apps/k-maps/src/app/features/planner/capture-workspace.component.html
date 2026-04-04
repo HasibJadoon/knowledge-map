@@ -20,6 +20,12 @@
       />
     </div>
     <div class="cw__topbar-right">
+      <button class="cw__btn cw__btn--ghost" type="button" (click)="showBottomPanel('resources')" [class.cw__btn--active]="bottomPanelVisible() && activeBottomTab() === 'resources'" title="Resources">
+        📎 Resources @if (resources().length) {<span class="cw__badge">{{ resources().length }}</span>}
+      </button>
+      <button class="cw__btn cw__btn--ghost" type="button" (click)="showBottomPanel('refs')" [class.cw__btn--active]="bottomPanelVisible() && activeBottomTab() === 'refs'" title="References">
+        🔗 Refs @if (captureRefs().length) {<span class="cw__badge">{{ captureRefs().length }}</span>}
+      </button>
       <button class="cw__btn cw__btn--ghost" type="button" (click)="toggleJson()">
         {{ jsonCollapsed() ? 'Show JSON' : 'Hide JSON' }}
       </button>
@@ -119,6 +125,124 @@
     }
 
   </div>
+
+  <!-- Hidden file input -->
+  <input #fileInput type="file" class="cw__file-hidden" accept="image/*,application/pdf,audio/*,video/*" (change)="onFileSelected($event)" />
+
+  <!-- Bottom panel: Resources & References -->
+  @if (bottomPanelVisible()) {
+    <div class="cw__bottom" #bottomPanel>
+      <!-- Panel header bar -->
+      <div class="cw__bottom-bar">
+        <button class="cw__bottom-tab" [class.cw__bottom-tab--active]="activeBottomTab() === 'resources'" type="button" (click)="setBottomTab('resources')">
+          📎 Resources @if (resources().length) {<span class="cw__badge">{{ resources().length }}</span>}
+        </button>
+        <button class="cw__bottom-tab" [class.cw__bottom-tab--active]="activeBottomTab() === 'refs'" type="button" (click)="setBottomTab('refs')">
+          🔗 References @if (captureRefs().length) {<span class="cw__badge">{{ captureRefs().length }}</span>}
+        </button>
+        <span class="cw__bottom-spacer"></span>
+        <button class="cw__bottom-action" type="button" (click)="toggleBottomExpand()" [title]="bottomPanelExpanded() ? 'Collapse' : 'Expand'">
+          {{ bottomPanelExpanded() ? '▾' : '▴' }}
+        </button>
+        <button class="cw__bottom-action cw__bottom-action--close" type="button" (click)="hideBottomPanel()" title="Hide panel">✕</button>
+      </div>
+
+      <!-- Panel body (only visible when expanded) -->
+      @if (bottomPanelExpanded()) {
+        <div class="cw__bottom-body">
+
+          <!-- ── RESOURCES TAB ─────────────────────────────── -->
+          @if (activeBottomTab() === 'resources') {
+            <div class="cw__res">
+              <div class="cw__res-toolbar">
+                <button class="cw__btn cw__btn--upload" type="button" (click)="triggerFileUpload()" [disabled]="uploadState() === 'uploading' || !selectedNote">
+                  {{ uploadState() === 'uploading' ? '⏳ Uploading…' : '+ Upload File' }}
+                </button>
+                @if (uploadError()) {
+                  <span class="cw__res-error">{{ uploadError() }}</span>
+                }
+              </div>
+
+              @if (resources().length === 0) {
+                <div class="cw__res-empty">No files uploaded yet. Click "Upload File" to attach an image, PDF, audio or video.</div>
+              } @else {
+                <div class="cw__res-list">
+                  @for (r of resources(); track r.resource_id) {
+                    <div class="cw__res-item">
+                      <span class="cw__res-icon">{{ resourceIcons[r.resource_type] ?? '📁' }}</span>
+                      <a class="cw__res-name" [href]="r.url" target="_blank" rel="noopener">{{ r.title }}</a>
+                      <span class="cw__res-meta">{{ r.resource_type }} · {{ formatBytes(r.size_bytes) }}</span>
+                      <button class="cw__res-del" type="button" (click)="deleteResource(r.resource_id)" title="Remove">✕</button>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ── REFS TAB ──────────────────────────────────── -->
+          @if (activeBottomTab() === 'refs') {
+            <div class="cw__refs">
+              <!-- Add ref form -->
+              <div class="cw__refs-form">
+                <select class="cw__refs-sel" [ngModel]="refDraft().ref_type" (ngModelChange)="updateRefDraft({ref_type: $event})">
+                  @for (t of refTypes; track t.id) {
+                    <option [value]="t.id">{{ t.label }}</option>
+                  }
+                </select>
+
+                <input class="cw__refs-input cw__refs-input--label" type="text" placeholder="Label *"
+                  [ngModel]="refDraft().label" (ngModelChange)="updateRefDraft({label: $event})" />
+
+                @if (refDraft().ref_type === 'quran_ayah') {
+                  <input class="cw__refs-input cw__refs-input--sm" type="number" placeholder="Surah"
+                    [ngModel]="refDraft().surah" (ngModelChange)="updateRefDraft({surah: $event})" />
+                  <input class="cw__refs-input cw__refs-input--sm" type="number" placeholder="Ayah"
+                    [ngModel]="refDraft().ayah" (ngModelChange)="updateRefDraft({ayah: $event})" />
+                } @else {
+                  <input class="cw__refs-input cw__refs-input--url" type="url" placeholder="URL (optional)"
+                    [ngModel]="refDraft().url" (ngModelChange)="updateRefDraft({url: $event})" />
+                }
+
+                <select class="cw__refs-sel cw__refs-sel--rel" [ngModel]="refDraft().relation" (ngModelChange)="updateRefDraft({relation: $event})">
+                  @for (r of relations; track r.id) {
+                    <option [value]="r.id">{{ r.label }}</option>
+                  }
+                </select>
+
+                <button class="cw__btn cw__btn--add-ref" type="button" (click)="addRef()" [disabled]="!refDraft().label.trim() || refsState() === 'saving' || !selectedNote">
+                  {{ refsState() === 'saving' ? '…' : '+ Add' }}
+                </button>
+              </div>
+
+              <!-- Refs list -->
+              @if (captureRefs().length === 0) {
+                <div class="cw__refs-empty">No references yet.</div>
+              } @else {
+                <div class="cw__refs-list">
+                  @for (ref of captureRefs(); track ref.ref_id) {
+                    <div class="cw__refs-item">
+                      <span class="cw__refs-type">{{ ref.ref_type }}</span>
+                      <span class="cw__refs-label">{{ ref.label }}</span>
+                      @if (ref.locator?.surah) {
+                        <span class="cw__refs-loc">{{ ref.locator!.surah }}:{{ ref.locator!.ayah }}</span>
+                      }
+                      @if (ref.url) {
+                        <a class="cw__refs-url" [href]="ref.url" target="_blank" rel="noopener">↗</a>
+                      }
+                      <span class="cw__refs-rel">{{ ref.relation }}</span>
+                      <button class="cw__res-del" type="button" (click)="deleteRef(ref.ref_id)" title="Remove">✕</button>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+        </div>
+      }
+    </div>
+  }
 
   <!-- Status strip -->
   <div class="cw__strip">
