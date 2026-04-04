@@ -51,6 +51,7 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
   @ViewChild('root') rootEl!: ElementRef<HTMLDivElement>;
   @ViewChild('inboxPanel') inboxPanelEl!: ElementRef<HTMLDivElement>;
   @ViewChild('jsonPanel') jsonPanelEl!: ElementRef<HTMLDivElement>;
+  @ViewChild('jsonExpandable') jsonExpandableEl!: ElementRef<HTMLDivElement>;
   @ViewChild('bottomPanel') bottomPanelEl!: ElementRef<HTMLDivElement>;
   @ViewChild('fileInput') fileInputEl!: ElementRef<HTMLInputElement>;
   @ViewChild(CaptureTiptapEditorComponent) tiptap!: CaptureTiptapEditorComponent;
@@ -84,6 +85,7 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
   jsonError = signal<string | null>(null);
   inboxCollapsed = signal(false);
   jsonCollapsed = signal(false);
+  jsonExpanded = signal(true);
 
   // ── Resources & References panel ──────────────────────────────────────────
   bottomPanelVisible = signal(false);
@@ -232,12 +234,32 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
     if (!panel) { this.jsonCollapsed.update(v => !v); return; }
     if (this.jsonCollapsed()) {
       this.jsonCollapsed.set(false);
+      this.jsonExpanded.set(true);
+      this.cdr.detectChanges();
       gsap.fromTo(panel, { width: 0, opacity: 0 }, { width: '36%', opacity: 1, duration: 0.32, ease: 'expo.out' });
     } else {
       gsap.to(panel, {
         width: 0, opacity: 0, duration: 0.22, ease: 'expo.in',
-        onComplete: () => this.jsonCollapsed.set(true),
+        onComplete: () => { this.jsonCollapsed.set(true); this.cdr.markForCheck(); },
       });
+    }
+  }
+
+  toggleJsonExpand(): void {
+    const el = this.jsonExpandableEl?.nativeElement;
+    if (!el) { this.jsonExpanded.update(v => !v); return; }
+    if (this.jsonExpanded()) {
+      gsap.to(el, {
+        height: 0, opacity: 0, duration: 0.26, ease: 'expo.in',
+        onComplete: () => { this.jsonExpanded.set(false); this.cdr.markForCheck(); },
+      });
+    } else {
+      this.jsonExpanded.set(true);
+      this.cdr.detectChanges();
+      gsap.fromTo(el,
+        { height: 0, opacity: 0 },
+        { height: 'auto', opacity: 1, duration: 0.32, ease: 'expo.out' }
+      );
     }
   }
 
