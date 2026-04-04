@@ -172,7 +172,7 @@
 
 
   @if (activeView() === 'plan' && selectedPlanItem(); as selectedPlanItemValue) {
-    <km-planner-plan-editor
+    <km-plan-editor
       [item]="selectedPlanItemValue"
       [draft]="planEditorDraft"
       [title]="planEditorTitle"
@@ -189,4 +189,5 @@
       (archive)="archivePlanItem()"
     />
   }
+
 </div>
