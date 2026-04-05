@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { HubPanelService } from './hub-panel.service';
+import { HubPanelService } from '../hub-panel.service';
 
 @Component({
   selector: 'km-hub-panel',

@@ -5,14 +5,14 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import gsap from 'gsap';
-import { HubCardComponent } from './hub-card.component';
-import { HubPanelComponent } from './hub-panel.component';
-import { HubPanelService } from './hub-panel.service';
-import { HubCard } from './models/hub.models';
-import { QURAN_CARDS } from './cards/quran.cards';
-import { ARABIC_CARDS } from './cards/arabic.cards';
-import { WORLDVIEW_CARDS } from './cards/worldview.cards';
-import { WORKSPACE_CARDS } from './cards/workspace.cards';
+import { HubCardComponent } from '../hub-card/hub-card.component';
+import { HubPanelComponent } from '../hub-panel/hub-panel.component';
+import { HubPanelService } from '../hub-panel.service';
+import { HubCard } from '../models/hub.models';
+import { QURAN_CARDS } from '../cards/quran.cards';
+import { ARABIC_CARDS } from '../cards/arabic.cards';
+import { WORLDVIEW_CARDS } from '../cards/worldview.cards';
+import { WORKSPACE_CARDS } from '../cards/workspace.cards';
 
 const CARD_MAP: Record<string, HubCard[]> = {
   quran: QURAN_CARDS,

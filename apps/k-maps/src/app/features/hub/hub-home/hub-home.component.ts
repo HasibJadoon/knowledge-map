@@ -4,8 +4,8 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
-import { HubSectionDef } from './models/hub.models';
-import { BackButtonComponent } from '../../shared/components/back-button/back-button.component';
+import { HubSectionDef } from '../models/hub.models';
+import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 const SECTION_DEFS: HubSectionDef[] = [
   {

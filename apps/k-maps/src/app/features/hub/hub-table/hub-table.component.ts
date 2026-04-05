@@ -4,9 +4,9 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HubPanelComponent } from './hub-panel.component';
-import { HubPanelService } from './hub-panel.service';
-import { HubCard } from './models/hub.models';
+import { HubPanelComponent } from '../hub-panel/hub-panel.component';
+import { HubPanelService } from '../hub-panel.service';
+import { HubCard } from '../models/hub.models';
 
 @Component({
   selector: 'km-hub-table',

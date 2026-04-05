@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HubCard } from './models/hub.models';
+import { HubCard } from '../models/hub.models';
 
 @Component({
   selector: 'km-hub-card',
