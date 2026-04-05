@@ -110,14 +110,10 @@
           </div>
         </div>
 
-        <textarea
-          class="cw__json-editor"
-          spellcheck="false"
-          autocomplete="off"
-          placeholder="Paste or edit Tiptap JSON…"
-          [ngModel]="jsonText()"
-          (ngModelChange)="jsonText.set($event); jsonError.set(null)"
-        ></textarea>
+        <km-json-monaco-editor
+          [value]="jsonText()"
+          (valueChange)="jsonText.set($event); jsonError.set(null)"
+        ></km-json-monaco-editor>
 
         @if (jsonError()) {
           <div class="cw__json-error">{{ jsonError() }}</div>

@@ -20,6 +20,7 @@ import gsap from 'gsap';
 import type { Editor } from '@tiptap/core';
 import { CaptureTiptapEditorComponent } from '../capture-tiptap-editor/capture-tiptap-editor.component';
 import { CaptureToolbarComponent } from '../capture-toolbar/capture-toolbar.component';
+import { JsonMonacoEditorComponent } from '../../../shared/components/json-monaco-editor/json-monaco-editor.component';
 import type {
   CaptureArea,
   CaptureNote,
@@ -40,7 +41,7 @@ export interface CaptureAreaOption {
 @Component({
   selector: 'km-capture-workspace',
   standalone: true,
-  imports: [FormsModule, CaptureTiptapEditorComponent, CaptureToolbarComponent],
+  imports: [FormsModule, CaptureTiptapEditorComponent, CaptureToolbarComponent, JsonMonacoEditorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './capture-workspace.component.html',
   styleUrl: './capture-workspace.component.scss',
@@ -87,6 +88,7 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
   jsonCollapsed = signal(false);
   jsonExpanded = signal(true);
 
+
   // ── Resources & References panel ──────────────────────────────────────────
   bottomPanelVisible = signal(false);
   bottomPanelExpanded = signal(false);
@@ -128,7 +130,7 @@ export class CaptureWorkspaceComponent implements AfterViewInit, OnChanges, OnDe
     { id: 'derived_from', label: 'Derived From' },
   ];
 
-  readonly resourceIcons: Record<string, string> = {
+  readonly resourceIcons: Record<string, string | undefined> = {
     image: '🖼', pdf: '📄', audio: '🎵', video: '🎬', json: '{ }', thumbnail: '🖼',
   };
 

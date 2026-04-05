@@ -314,25 +314,12 @@
   &--close:hover { color: #f1c2c2; border-color: rgba(228, 107, 122, 0.3); }
 }
 
-// Full-height JSON editor textarea
-.cw__json-editor {
+// Monaco JSON editor — fills flex column via :host in the component
+km-json-monaco-editor {
   flex: 1;
-  width: 100%;
   min-height: 0;
-  background: rgba(8, 7, 6, 0.95);
-  border: none;
-  color: rgba(214, 203, 184, 0.88);
-  padding: 1rem 1.1rem;
-  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-  font-size: 0.74rem;
-  line-height: 1.72;
-  resize: none;
-  outline: none;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(201, 168, 76, 0.18) transparent;
+  overflow: hidden;
 
-  &::placeholder { color: rgba(181, 176, 167, 0.28); }
 }
 
 // Apply button — sits at the bottom of the panel
