@@ -4,7 +4,7 @@ export const PLANNER_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./planner.component').then((m) => m.PlannerComponent),
+      import('./planner/planner.component').then((m) => m.PlannerComponent),
     title: 'Planner — K-MAPS',
   },
 ];

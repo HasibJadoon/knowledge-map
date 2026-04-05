@@ -141,38 +141,40 @@ export class PlanComponent implements AfterViewInit, OnDestroy {
 
   selectCard(item: CaptureItem, cardEl: HTMLElement): void {
     this.selectedCardEl = cardEl;
-    this.itemOpened.emit(item.id);
     this.paneCollapsed = false;
 
     // Brief card flash
     gsap.fromTo(cardEl, { scale: 0.97 }, { scale: 1, duration: 0.22, ease: 'back.out(2)' });
 
-    this.cdr.detectChanges(); // ensure pane + backdrop are in DOM
+    // Emit AFTER card flash starts so parent signal change schedules CD
+    this.itemOpened.emit(item.id);
 
-    const pane     = this.paneEl?.nativeElement;
-    const backdrop = this.backdropEl?.nativeElement;
-    const grid     = this.gridWrapEl?.nativeElement;
+    // Defer pane animation — wait for parent signal to propagate + Angular to render @if block
+    setTimeout(() => {
+      this.cdr.detectChanges();
 
-    // Backdrop
-    if (backdrop) {
-      gsap.fromTo(backdrop, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
-    }
+      const pane     = this.paneEl?.nativeElement;
+      const backdrop = this.backdropEl?.nativeElement;
+      const grid     = this.gridWrapEl?.nativeElement;
 
-    // Grid dims and scales slightly
-    if (grid) {
-      gsap.to(grid, { scale: 0.985, opacity: 0.45, duration: 0.35, ease: 'power2.out' });
-    }
+      if (backdrop) {
+        gsap.fromTo(backdrop, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+      }
 
-    if (pane && !this.paneOpen) {
-      this.paneOpen = true;
-      gsap.fromTo(pane,
-        { x: '-100%', opacity: 0 },
-        { x: '0%', opacity: 1, duration: 0.42, ease: 'expo.out' }
-      );
-    } else if (pane) {
-      // Already open — content morph
-      gsap.fromTo(pane, { opacity: 0.7, y: -8 }, { opacity: 1, y: 0, duration: 0.24, ease: 'power2.out' });
-    }
+      if (grid) {
+        gsap.to(grid, { scale: 0.985, opacity: 0.45, duration: 0.35, ease: 'power2.out' });
+      }
+
+      if (pane && !this.paneOpen) {
+        this.paneOpen = true;
+        gsap.fromTo(pane,
+          { x: '-100%', opacity: 0 },
+          { x: '0%', opacity: 1, duration: 0.42, ease: 'expo.out' }
+        );
+      } else if (pane) {
+        gsap.fromTo(pane, { opacity: 0.7, y: -8 }, { opacity: 1, y: 0, duration: 0.24, ease: 'power2.out' });
+      }
+    }, 0);
   }
 
   closePane(): void {

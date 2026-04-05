@@ -69,11 +69,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
 
     // --- Tasks ---
     const tasksResult = await env.DB
-      .prepare('SELECT * FROM sp_weekly_tasks WHERE week_start = ? AND user_id = ? ORDER BY order_index ASC')
+      .prepare('SELECT * FROM sp_weekly_tasks WHERE week_start = ? AND created_by = ? ORDER BY order_index ASC')
       .bind(weekStart, userId)
       .all<{
-        id: number; user_id: number; week_start: string; title: string; task_type: string;
-        kanban_state: string; status: string; priority: number; points: number | null;
+        id: string; created_by: number; week_start: string; title: string; task_type: string;
+        kanban_state: string; status: string; priority: string; points: number | null;
         due_date: string | null; order_index: number; task_json: string;
         source_task_id: string | null; created_at: string; updated_at: string | null;
       }>();
@@ -86,7 +86,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
         title: row.title,
         task_type: row.task_type,
         kanban_state: row.kanban_state,
-        priority: row.priority === 1 ? 'high' : row.priority === 2 ? 'medium' : 'low',
+        priority: row.priority,
         points: row.points,
         due_date: row.due_date,
         order_index: row.order_index,

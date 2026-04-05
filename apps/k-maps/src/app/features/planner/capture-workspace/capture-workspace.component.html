@@ -1,0 +1,268 @@
+<div class="cw" #root>
+
+  <!-- Top bar -->
+  <div class="cw__topbar">
+    <div class="cw__topbar-left">
+      <button class="cw__inbox-toggle" type="button" (click)="toggleInbox()" [title]="inboxCollapsed() ? 'Show Inbox' : 'Collapse Inbox'">
+        ☰
+      </button>
+      <select class="cw__area-select" [ngModel]="draft().area" (ngModelChange)="updateArea($event)">
+        @for (a of areas; track a.id) {
+          <option [value]="a.id">{{ a.label }}</option>
+        }
+      </select>
+      <input
+        class="cw__title-input"
+        type="text"
+        placeholder="Note title…"
+        [ngModel]="draft().title"
+        (ngModelChange)="updateTitle($event)"
+      />
+    </div>
+    <div class="cw__topbar-right">
+      <button class="cw__btn cw__btn--ghost" type="button" (click)="showBottomPanel('resources')" [class.cw__btn--active]="bottomPanelVisible() && activeBottomTab() === 'resources'" title="Resources">
+        📎 Resources @if (resources().length) {<span class="cw__badge">{{ resources().length }}</span>}
+      </button>
+      <button class="cw__btn cw__btn--ghost" type="button" (click)="showBottomPanel('refs')" [class.cw__btn--active]="bottomPanelVisible() && activeBottomTab() === 'refs'" title="References">
+        🔗 Refs @if (captureRefs().length) {<span class="cw__badge">{{ captureRefs().length }}</span>}
+      </button>
+      <button class="cw__btn cw__btn--ghost" type="button" (click)="toggleJson()">
+        {{ jsonCollapsed() ? 'Show JSON' : 'Hide JSON' }}
+      </button>
+      <button
+        class="cw__btn cw__btn--save"
+        type="button"
+        [disabled]="saveState === 'saving'"
+        (click)="onSave()"
+      >
+        <span class="cw__btn-icon">▣</span>
+        {{ saveState === 'saving' ? 'Saving…' : 'Save Draft' }}
+      </button>
+      <button class="cw__btn cw__btn--back" type="button" (click)="onBack()">
+        ← Back
+      </button>
+    </div>
+  </div>
+
+  <!-- Toolbar row -->
+  <div class="cw__toolbar-row">
+    <km-capture-toolbar [editor]="tiptapEditor()"></km-capture-toolbar>
+  </div>
+
+  <!-- Main 3-column body -->
+  <div class="cw__body">
+
+    <!-- Inbox panel -->
+    @if (!inboxCollapsed()) {
+      <div class="cw__inbox" #inboxPanel>
+        <div class="cw__inbox-head">
+          <span class="cw__inbox-label">Inbox</span>
+          <button class="cw__fab" type="button" (click)="createRequested.emit()" title="New note">+</button>
+        </div>
+
+        <div class="cw__inbox-list">
+          @if (loading) {
+            <div class="cw__inbox-empty">Loading…</div>
+          } @else if (notes.length === 0) {
+            <div class="cw__inbox-empty">No notes yet</div>
+          } @else {
+            @for (note of notes; track note.id) {
+              <button
+                class="cw__inbox-item"
+                type="button"
+                [class.cw__inbox-item--active]="selectedNote?.id === note.id"
+                (click)="selectNote(note.id)"
+              >
+                <span class="cw__inbox-item-area">{{ areaLabels[note.area] }}</span>
+                <span class="cw__inbox-item-title">{{ note.title || 'Untitled' }}</span>
+                <span class="cw__inbox-item-date">{{ formatDate(note.updated_at) }}</span>
+              </button>
+            }
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Editor panel -->
+    <div class="cw__editor-panel">
+      @if (!selectedNote && notes.length > 0) {
+        <div class="cw__editor-empty">
+          Select a note from the inbox or create a new one
+        </div>
+      } @else {
+        <km-capture-tiptap-editor
+          [doc]="draft().editor_json"
+          placeholder="Start writing your note…"
+          (docChange)="onDocChange($event)"
+          (editorReady)="onEditorReady($event)"
+        ></km-capture-tiptap-editor>
+      }
+    </div>
+
+    <!-- JSON panel -->
+    @if (!jsonCollapsed()) {
+      <div class="cw__json-panel" #jsonPanel>
+        <div class="cw__json-resize-handle" (mousedown)="startJsonResize($event)"></div>
+        <div class="cw__json-header">
+          <span class="cw__json-header-label">JSON</span>
+          <div class="cw__json-header-actions">
+            <button class="cw__json-hbtn cw__json-hbtn--close" type="button" (click)="toggleJson()" title="Hide JSON panel">✕</button>
+          </div>
+        </div>
+
+        <textarea
+          class="cw__json-editor"
+          spellcheck="false"
+          autocomplete="off"
+          placeholder="Paste or edit Tiptap JSON…"
+          [ngModel]="jsonText()"
+          (ngModelChange)="jsonText.set($event); jsonError.set(null)"
+        ></textarea>
+
+        @if (jsonError()) {
+          <div class="cw__json-error">{{ jsonError() }}</div>
+        }
+
+        <button class="cw__json-apply" type="button" (click)="applyJson()">
+          Apply JSON
+        </button>
+      </div>
+    }
+
+  </div>
+
+  <!-- Hidden file input -->
+  <input #fileInput type="file" class="cw__file-hidden" accept="image/*,application/pdf,audio/*,video/*" (change)="onFileSelected($event)" />
+
+  <!-- Bottom panel: Resources & References -->
+  @if (bottomPanelVisible()) {
+    <div class="cw__bottom" #bottomPanel>
+      <!-- Panel header bar -->
+      <div class="cw__bottom-bar">
+        <button class="cw__bottom-tab" [class.cw__bottom-tab--active]="activeBottomTab() === 'resources'" type="button" (click)="setBottomTab('resources')">
+          📎 Resources @if (resources().length) {<span class="cw__badge">{{ resources().length }}</span>}
+        </button>
+        <button class="cw__bottom-tab" [class.cw__bottom-tab--active]="activeBottomTab() === 'refs'" type="button" (click)="setBottomTab('refs')">
+          🔗 References @if (captureRefs().length) {<span class="cw__badge">{{ captureRefs().length }}</span>}
+        </button>
+        <span class="cw__bottom-spacer"></span>
+        <button class="cw__bottom-action" type="button" (click)="toggleBottomExpand()" [title]="bottomPanelExpanded() ? 'Collapse' : 'Expand'">
+          {{ bottomPanelExpanded() ? '▾' : '▴' }}
+        </button>
+        <button class="cw__bottom-action cw__bottom-action--close" type="button" (click)="hideBottomPanel()" title="Hide panel">✕</button>
+      </div>
+
+      <!-- Panel body (only visible when expanded) -->
+      @if (bottomPanelExpanded()) {
+        <div class="cw__bottom-body">
+
+          <!-- ── RESOURCES TAB ─────────────────────────────── -->
+          @if (activeBottomTab() === 'resources') {
+            <div class="cw__res">
+              <div class="cw__res-toolbar">
+                <button class="cw__btn cw__btn--upload" type="button" (click)="triggerFileUpload()" [disabled]="uploadState() === 'uploading' || !selectedNote">
+                  {{ uploadState() === 'uploading' ? '⏳ Uploading…' : '+ Upload File' }}
+                </button>
+                @if (uploadError()) {
+                  <span class="cw__res-error">{{ uploadError() }}</span>
+                }
+              </div>
+
+              @if (resources().length === 0) {
+                <div class="cw__res-empty">No files uploaded yet. Click "Upload File" to attach an image, PDF, audio or video.</div>
+              } @else {
+                <div class="cw__res-list">
+                  @for (r of resources(); track r.resource_id) {
+                    <div class="cw__res-item">
+                      <span class="cw__res-icon">{{ resourceIcons[r.resource_type] ?? '📁' }}</span>
+                      <a class="cw__res-name" [href]="r.url" target="_blank" rel="noopener">{{ r.title }}</a>
+                      <span class="cw__res-meta">{{ r.resource_type }} · {{ formatBytes(r.size_bytes) }}</span>
+                      <button class="cw__res-del" type="button" (click)="deleteResource(r.resource_id)" title="Remove">✕</button>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ── REFS TAB ──────────────────────────────────── -->
+          @if (activeBottomTab() === 'refs') {
+            <div class="cw__refs">
+              <!-- Add ref form -->
+              <div class="cw__refs-form">
+                <select class="cw__refs-sel" [ngModel]="refDraft().ref_type" (ngModelChange)="updateRefDraft({ref_type: $event})">
+                  @for (t of refTypes; track t.id) {
+                    <option [value]="t.id">{{ t.label }}</option>
+                  }
+                </select>
+
+                <input class="cw__refs-input cw__refs-input--label" type="text" placeholder="Label *"
+                  [ngModel]="refDraft().label" (ngModelChange)="updateRefDraft({label: $event})" />
+
+                @if (refDraft().ref_type === 'quran_ayah') {
+                  <input class="cw__refs-input cw__refs-input--sm" type="number" placeholder="Surah"
+                    [ngModel]="refDraft().surah" (ngModelChange)="updateRefDraft({surah: $event})" />
+                  <input class="cw__refs-input cw__refs-input--sm" type="number" placeholder="Ayah"
+                    [ngModel]="refDraft().ayah" (ngModelChange)="updateRefDraft({ayah: $event})" />
+                } @else {
+                  <input class="cw__refs-input cw__refs-input--url" type="url" placeholder="URL (optional)"
+                    [ngModel]="refDraft().url" (ngModelChange)="updateRefDraft({url: $event})" />
+                }
+
+                <select class="cw__refs-sel cw__refs-sel--rel" [ngModel]="refDraft().relation" (ngModelChange)="updateRefDraft({relation: $event})">
+                  @for (r of relations; track r.id) {
+                    <option [value]="r.id">{{ r.label }}</option>
+                  }
+                </select>
+
+                <button class="cw__btn cw__btn--add-ref" type="button" (click)="addRef()" [disabled]="!refDraft().label.trim() || refsState() === 'saving' || !selectedNote">
+                  {{ refsState() === 'saving' ? '…' : '+ Add' }}
+                </button>
+              </div>
+
+              <!-- Refs list -->
+              @if (captureRefs().length === 0) {
+                <div class="cw__refs-empty">No references yet.</div>
+              } @else {
+                <div class="cw__refs-list">
+                  @for (ref of captureRefs(); track ref.ref_id) {
+                    <div class="cw__refs-item">
+                      <span class="cw__refs-type">{{ ref.ref_type }}</span>
+                      <span class="cw__refs-label">{{ ref.label }}</span>
+                      @if (ref.locator?.surah) {
+                        <span class="cw__refs-loc">{{ ref.locator!.surah }}:{{ ref.locator!.ayah }}</span>
+                      }
+                      @if (ref.url) {
+                        <a class="cw__refs-url" [href]="ref.url" target="_blank" rel="noopener">↗</a>
+                      }
+                      <span class="cw__refs-rel">{{ ref.relation }}</span>
+                      <button class="cw__res-del" type="button" (click)="deleteRef(ref.ref_id)" title="Remove">✕</button>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Status strip -->
+  <div class="cw__strip">
+    <span class="cw__strip-status">
+      @if (saveState === 'saving') { Saving… }
+      @else if (saveState === 'saved') { Saved }
+      @else if (saveState === 'error') { Save failed }
+      @else { Draft }
+    </span>
+    <span class="cw__strip-hint">Editor updates JSON in real-time · Apply JSON loads pasted content into the editor</span>
+  </div>
+
+  <!-- Floating + button (only when inbox is collapsed) -->
+  @if (inboxCollapsed()) {
+    <button class="cw__fab-float" type="button" (click)="createRequested.emit()" title="New note">+</button>
+  }
+
+</div>
