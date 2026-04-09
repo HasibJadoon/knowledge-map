@@ -1,0 +1,215 @@
+// ── Toolbar ───────────────────────────────────────────────
+ion-toolbar {
+  --background: rgba(8,8,8,0.9);
+  --color: rgba(255,255,255,0.9);
+  --border-color: rgba(255,255,255,0.06);
+}
+
+ion-back-button { --color: #c9a84c; }
+
+.title-ar {
+  font-family: var(--km-font-arabic);
+  font-size: 1.1rem;
+  color: #c9a84c;
+}
+.title-sep { color: rgba(255,255,255,0.2); margin: 0 4px; font-size: 0.8rem; }
+.title-en  { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+
+// ── Identity toolbar ──────────────────────────────────────
+ion-toolbar.identity-toolbar {
+  --min-height: auto;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --border-color: rgba(201,168,76,0.1);
+}
+
+.surah-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px 12px;
+
+  &__num {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(201,168,76,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.62rem; font-weight: 600;
+    color: #c9a84c; flex-shrink: 0;
+  }
+
+  &__names {
+    flex: 1; min-width: 0;
+    display: flex; align-items: baseline; gap: 8px;
+  }
+
+  &__arabic {
+    font-family: var(--km-font-arabic);
+    font-size: 1.2rem;
+    color: #c9a84c;
+  }
+
+  &__latin {
+    font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.03em;
+    color: rgba(255,255,255,0.35);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  &__count {
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.22);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+}
+
+// ── Content ───────────────────────────────────────────────
+.study-content {
+  --background: var(--app-page-background, #080808);
+}
+
+// ── States ────────────────────────────────────────────────
+.state-center {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px; padding: 72px 16px;
+  color: rgba(255,255,255,0.28); font-size: 0.86rem; text-align: center;
+  &--error { color: rgba(255,100,100,0.65); }
+}
+
+.state-label { margin: 0; }
+
+.empty-ar {
+  font-family: var(--km-font-arabic);
+  font-size: 3rem;
+  color: rgba(201,168,76,0.4);
+  margin-bottom: 4px;
+}
+
+// ── Unit list ─────────────────────────────────────────────
+.unit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 14px 40px;
+}
+
+.unit-card {
+  background: rgba(255,255,255,0.022);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 18px;
+  padding: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:active {
+    background: rgba(201,168,76,0.05);
+    border-color: rgba(201,168,76,0.3);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  &__badge {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.1);
+    border: 1.5px solid rgba(201,168,76,0.35);
+    color: #c9a84c;
+    font-size: 0.7rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__refs {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+
+  &__ref {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: rgba(201,168,76,0.65);
+    font-weight: 600;
+  }
+
+  &__label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+  }
+
+  &__arrow {
+    color: rgba(201,168,76,0.3);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  &__theme {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.42);
+    margin: 0 0 10px;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  &__chips {
+    display: flex; flex-wrap: wrap; gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  &__tasks {
+    display: flex; flex-wrap: wrap; gap: 5px;
+  }
+}
+
+// ── Vocab chips ───────────────────────────────────────────
+.chip {
+  display: inline-flex; align-items: center;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 20px;
+  padding: 2px 9px;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.45);
+
+  &--noun {
+    background: rgba(107,186,255,0.08);
+    border-color: rgba(107,186,255,0.22);
+    color: #6bbaff;
+  }
+  &--verb {
+    background: rgba(77,217,168,0.08);
+    border-color: rgba(77,217,168,0.22);
+    color: #4dd9a8;
+  }
+}
+
+// ── Task pills ────────────────────────────────────────────
+.task-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  padding: 3px 9px;
+  font-size: 0.66rem;
+  color: rgba(255,255,255,0.22);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+  ion-icon { font-size: 0.78rem; }
+
+  &--on {
+    background: rgba(201,168,76,0.1);
+    border-color: rgba(201,168,76,0.3);
+    color: #c9a84c;
+  }
+}

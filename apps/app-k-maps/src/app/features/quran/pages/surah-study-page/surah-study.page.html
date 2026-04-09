@@ -1,0 +1,111 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/quran/' + surahId()" text="" />
+    </ion-buttons>
+    <ion-title>
+      @if (surahMeta()) {
+        <span class="title-ar" dir="rtl">{{ surahMeta()!.name_ar }}</span>
+        <span class="title-sep"> · </span>
+        <span class="title-en">Study</span>
+      } @else { Study }
+    </ion-title>
+  </ion-toolbar>
+
+  @if (!loading() && surahMeta()) {
+    <ion-toolbar class="identity-toolbar">
+      <div class="surah-identity">
+        <div class="surah-identity__num">{{ surahId() }}</div>
+        <div class="surah-identity__names">
+          <span class="surah-identity__arabic" dir="rtl">{{ surahMeta()!.name_ar }}</span>
+          <span class="surah-identity__latin">{{ surahMeta()!.name_en }}</span>
+        </div>
+        <span class="surah-identity__count">{{ units().length }} passages</span>
+      </div>
+    </ion-toolbar>
+  }
+</ion-header>
+
+<ion-content [fullscreen]="true" class="study-content">
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="state-center">
+      <ion-spinner name="crescent" color="warning" />
+      <p class="state-label">Loading passages…</p>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (!loading() && error()) {
+    <div class="state-center state-center--error"><p>{{ error() }}</p></div>
+  }
+
+  <!-- Empty -->
+  @if (!loading() && !error() && units().length === 0) {
+    <div class="state-center">
+      <div class="empty-ar" dir="rtl">دَرْس</div>
+      <p>No study passages yet for this surah.</p>
+    </div>
+  }
+
+  <!-- Unit list -->
+  @if (!loading() && !error() && units().length > 0) {
+    <div class="unit-list">
+      @for (unit of units(); track unit.unit_id) {
+        <div class="unit-card" (click)="openUnit(unit)">
+
+          <!-- Card header: passage badge + ref + arrow -->
+          <div class="unit-card__header">
+            <div class="unit-card__badge">{{ unit.order_index }}</div>
+            <div class="unit-card__refs">
+              <span class="unit-card__ref">{{ ayahRange(unit) }}</span>
+              @if (unit.label) {
+                <span class="unit-card__label">{{ unit.label }}</span>
+              }
+            </div>
+            <ion-icon name="chevron-forward-outline" class="unit-card__arrow" />
+          </div>
+
+          <!-- Theme -->
+          @if (unit.theme) {
+            <p class="unit-card__theme">{{ unit.theme }}</p>
+          }
+
+          <!-- Vocab chips -->
+          @if ((unit.vocabulary.nouns ?? 0) > 0 || (unit.vocabulary.verbs ?? 0) > 0 || (unit.vocabulary.total ?? 0) > 0) {
+            <div class="unit-card__chips">
+              @if ((unit.vocabulary.nouns ?? 0) > 0) {
+                <span class="chip chip--noun">{{ unit.vocabulary.nouns }} nouns</span>
+              }
+              @if ((unit.vocabulary.verbs ?? 0) > 0) {
+                <span class="chip chip--verb">{{ unit.vocabulary.verbs }} verbs</span>
+              }
+              @if ((unit.vocabulary.total ?? 0) > 0) {
+                <span class="chip">{{ unit.vocabulary.total }} words</span>
+              }
+            </div>
+          }
+
+          <!-- Task availability: Reading · Morphology · Sentence · Passage -->
+          <div class="unit-card__tasks">
+            <span class="task-pill" [class.task-pill--on]="unit.reading.has">
+              <ion-icon name="book-outline" /> Reading
+            </span>
+            <span class="task-pill" [class.task-pill--on]="unit.sentence_structure.has">
+              <ion-icon name="layers-outline" /> Structure
+            </span>
+            <span class="task-pill" [class.task-pill--on]="unit.expressions.has">
+              <ion-icon name="chatbubble-outline" /> Expressions
+            </span>
+            <span class="task-pill" [class.task-pill--on]="unit.passage_structure.has">
+              <ion-icon name="git-branch-outline" /> Passage
+            </span>
+          </div>
+
+        </div>
+      }
+    </div>
+  }
+
+</ion-content>

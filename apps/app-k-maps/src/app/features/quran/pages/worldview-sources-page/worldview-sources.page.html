@@ -1,0 +1,42 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/quran/surah/' + surahId() + '/worldview'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sources</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="wv-content">
+  <div class="wv-page">
+    <header class="mod-header">
+      <h1 class="mod-header__title">Sources</h1>
+      <p class="mod-header__sub">{{ items().length }} sources for Surah {{ surahId() }}</p>
+    </header>
+
+    @if (loading()) { <div class="state-msg"><ion-spinner name="crescent"></ion-spinner><p>Loading sources…</p></div> }
+    @if (!loading() && error()) { <div class="state-msg state-msg--error"><p>{{ error() }}</p></div> }
+    @if (!loading() && !error() && items().length === 0) { <div class="state-msg"><p>No sources found for this surah.</p></div> }
+
+    @if (!loading() && !error() && items().length > 0) {
+      <div class="wv-list">
+        @for (src of items(); track src.id) {
+          <div class="wv-row">
+            <div class="wv-row__main">
+              @if (src.source_type) { <span class="wv-badge">{{ src.source_type }}</span> }
+              <h3 class="wv-row__title">{{ src.title }}</h3>
+              <div class="wv-row__meta">
+                @if (src.creator) { <span>{{ src.creator }}</span> }
+                @if (src.publication_year) { <span>{{ src.publication_year }}</span> }
+              </div>
+            </div>
+            <div class="wv-row__chips">
+              <span class="wv-chip"><span class="wv-chip__n">{{ src.unit_count }}</span><span class="wv-chip__l">Units</span></span>
+              <span class="wv-chip"><span class="wv-chip__n">{{ src.node_count }}</span><span class="wv-chip__l">Nodes</span></span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</ion-content>

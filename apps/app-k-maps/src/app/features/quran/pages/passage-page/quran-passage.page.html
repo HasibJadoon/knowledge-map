@@ -1,0 +1,88 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/quran/' + surahId()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      @if (surahInfo()) { {{ surahInfo()!.name_en ?? 'Surah ' + surahId() }} }
+      @else { Surah {{ surahId() }} }
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="passage-content">
+  <div class="passage-page">
+
+    <header class="page-header">
+      <div class="page-header__meta">
+        <span class="page-header__surah-num">{{ surahId() }}</span>
+        @if (surahInfo()) {
+          <div class="page-header__names">
+            <span class="page-header__name-en">{{ surahInfo()!.name_en }}</span>
+            <span class="page-header__name-ar" dir="rtl">{{ surahInfo()!.name_ar }}</span>
+          </div>
+        }
+      </div>
+      <div class="page-header__passage-num">Passage {{ passageIndex() }}</div>
+    </header>
+
+    @if (loading()) {
+      <div class="state-msg">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Loading passage…</p>
+      </div>
+    }
+
+    @if (!loading() && error()) {
+      <div class="state-msg state-msg--error">
+        <p>{{ error() }}</p>
+        <div class="state-msg__actions">
+          <ion-button fill="outline" size="small" (click)="retry()">Retry</ion-button>
+        </div>
+      </div>
+    }
+
+    @if (!loading() && !error()) {
+      @if (passage()) {
+        <div class="passage">
+          <div class="passage__range">
+            <span class="range-badge">Ayahs {{ passage()!.ayah_from }}–{{ passage()!.ayah_to }}</span>
+          </div>
+        </div>
+
+        <div class="passage-nav">
+          <ion-button
+            fill="outline"
+            size="small"
+            [disabled]="passageIndex() <= 1"
+            (click)="prevPassage()"
+          >← Prev</ion-button>
+
+          @if (allPassages().length > 0) {
+            <div class="passage-nav__dots">
+              @for (p of allPassages(); track p.passage_index) {
+                <span
+                  class="dot"
+                  [class.dot--active]="p.passage_index === passageIndex()"
+                ></span>
+              }
+            </div>
+          }
+
+          <ion-button
+            fill="outline"
+            size="small"
+            [disabled]="isLastPassage"
+            (click)="nextPassage()"
+          >Next →</ion-button>
+        </div>
+
+      } @else {
+        <div class="state-msg">
+          <p>No passage found at index {{ passageIndex() }}.</p>
+        </div>
+      }
+    }
+
+  </div>
+</ion-content>

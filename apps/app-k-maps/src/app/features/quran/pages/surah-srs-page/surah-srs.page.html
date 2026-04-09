@@ -1,0 +1,61 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/quran/' + surahId()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>SRS — Surah {{ surahId() }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="srs-content">
+  <div class="srs-page">
+
+    <header class="mod-header">
+      <h1 class="mod-header__title">Spaced Repetition</h1>
+      <p class="mod-header__sub">Review cards for Surah {{ surahId() }}</p>
+    </header>
+
+    <div class="filter-bar">
+      @for (f of filters; track f) {
+        <button
+          class="filter-btn"
+          [ngClass]="{ 'filter-btn--active': activeFilter() === f }"
+          (click)="load(f)"
+        >{{ f | titlecase }}</button>
+      }
+    </div>
+
+    @if (loading()) {
+      <div class="state-msg"><ion-spinner name="crescent"></ion-spinner><p>Loading cards…</p></div>
+    }
+    @if (!loading() && error()) {
+      <div class="state-msg state-msg--error"><p>{{ error() }}</p></div>
+    }
+    @if (!loading() && !error() && items().length === 0) {
+      <div class="state-msg"><p>No {{ activeFilter() }} cards for this surah.</p></div>
+    }
+
+    @if (!loading() && !error() && items().length > 0) {
+      <div class="srs-list">
+        @for (item of items(); track item.id) {
+          <div class="srs-card">
+            <div class="srs-card__top">
+              <span class="srs-card__type">{{ item.item_type }}</span>
+              @if (item.last_rating) {
+                <span class="rating-badge" [ngClass]="'rating-badge--' + item.last_rating">{{ item.last_rating }}</span>
+              }
+            </div>
+            <div class="srs-card__key">{{ item.item_key }}</div>
+            <div class="srs-card__stats">
+              <span class="stat">{{ daysUntil(item) }}</span>
+              <span class="stat">Reps: {{ item.reps ?? 0 }}</span>
+              <span class="stat">Ease: {{ (item.ease ?? 2.5).toFixed(1) }}</span>
+              <span class="stat">Int: {{ item.interval_days ?? 0 }}d</span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</ion-content>

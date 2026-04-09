@@ -1,0 +1,280 @@
+// Home — Three.js fire + GSAP entrance, same as k-maps desktop
+
+.home-content {
+  --background: radial-gradient(ellipse 78% 54% at 50% 28%, rgba(18,16,10,0.88) 0%, rgba(6,6,6,0.98) 58%, #000 100%);
+}
+
+.home {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  background: radial-gradient(ellipse 78% 54% at 50% 28%, rgba(18,16,10,0.88) 0%, rgba(6,6,6,0.98) 58%, #000 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding:
+    max(env(safe-area-inset-top), 2.5rem)
+    1.25rem
+    max(env(safe-area-inset-bottom), 2rem);
+  box-sizing: border-box;
+}
+
+// ── CSS Particles ─────────────────────────────────────────────────────────────
+.home__particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #c9a84c;
+  opacity: 0;
+  animation: floatParticle calc(8s + var(--i, 0) * 1.3s) infinite linear;
+  left: calc(var(--i, 0) * 6.5% + 5%);
+  top: 100%;
+  animation-delay: calc(var(--i, 0) * 0.6s);
+}
+
+@keyframes floatParticle {
+  0%   { transform: translateY(0) scale(1);      opacity: 0;    }
+  10%  {                                          opacity: 0.6;  }
+  80%  {                                          opacity: 0.15; }
+  100% { transform: translateY(-100vh) scale(0.3); opacity: 0;  }
+}
+
+// ── Three.js fire ─────────────────────────────────────────────────────────────
+.home__fire-stage {
+  position: absolute;
+  left: 50%;
+  bottom: -6rem;
+  transform: translateX(-50%);
+  width: calc(100vw + 6rem);
+  max-width: none;
+  height: clamp(240px, 34vh, 420px);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.92;
+}
+
+.home__fire-webgl {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.home__fire-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+// ── Header / logo ─────────────────────────────────────────────────────────────
+.home__header {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 1.6rem;
+  text-align: center;
+  opacity: 0; // GSAP animates to 1
+}
+
+.home__logo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.home__logo-emblem {
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(0 0 14px rgba(201,168,76,0.5));
+}
+
+.home__logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.08rem;
+}
+
+.logo-name {
+  font-family: var(--ion-font-family);
+  font-size: clamp(1.9rem, 8.5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  background: linear-gradient(180deg, #e8c96a 0%, #c9a84c 40%, #8a6e2a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(201,168,76,0.35));
+}
+
+.logo-sub {
+  font-family: var(--ion-font-family);
+  font-size: 0.54rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  white-space: nowrap;
+  opacity: 0; // GSAP animates to 1
+}
+
+// ── Cards ─────────────────────────────────────────────────────────────────────
+.home__cards {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.5rem, 2vw, 0.8rem);
+  width: 100%;
+  max-width: 370px;
+
+  // Last card alone: center it in the 3-col grid
+  .km-module-card:last-child:nth-child(3n + 1) {
+    grid-column: 2 / 3;
+  }
+}
+
+.km-module-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  aspect-ratio: 1 / 1.08;
+  padding: 0 0.3rem 0.65rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1.3rem;
+  cursor: pointer;
+  overflow: hidden;
+  opacity: 0; // GSAP animates to 1
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    border-color: rgba(201,168,76,0.4);
+    box-shadow: 0 0 28px rgba(201,168,76,0.16), inset 0 0 1px rgba(201,168,76,0.4);
+    transform: scale(0.97);
+
+    .km-module-card__artwork     { opacity: 0.9; }
+    .km-module-card__shimmer     { opacity: 1; }
+    .km-module-card__bottom-glow { opacity: 1; }
+    .km-module-card__label       { color: #e8c96a; }
+  }
+
+  &:hover {
+    border-color: rgba(201,168,76,0.35);
+    box-shadow:
+      0 0 40px rgba(201,168,76,0.16),
+      inset 0 0 1px rgba(201,168,76,0.4);
+    transform: translateY(-4px);
+
+    .km-module-card__artwork     { opacity: 0.9; }
+    .km-module-card__shimmer     { opacity: 1; }
+    .km-module-card__bottom-glow { opacity: 1; }
+    .km-module-card__label       { color: #e8c96a; letter-spacing: 0.18em; }
+  }
+}
+
+.km-module-card__artwork {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.km-module-card__glyph {
+  font-size: clamp(1.9rem, 7.5vw, 3rem);
+  line-height: 1;
+  background: linear-gradient(180deg, #c9a84c 0%, #6b5520 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(201,168,76,0.3));
+}
+
+.km-module-card--arabic .km-module-card__glyph {
+  font-family: 'Uthmanic Hafs', 'Scheherazade New', serif;
+  font-size: clamp(2.1rem, 8.5vw, 3.4rem);
+}
+
+.km-module-card__shimmer {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.km-module-card__bottom-glow {
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+  opacity: 0.35;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+}
+
+.km-module-card__label {
+  position: relative;
+  z-index: 2;
+  font-family: var(--ion-font-family);
+  font-size: clamp(0.5rem, 1.6vw, 0.62rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  transition: color 0.3s, letter-spacing 0.3s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+}
+
+// ── Footer ────────────────────────────────────────────────────────────────────
+.home__footer {
+  position: relative;
+  z-index: 2;
+  margin-top: 1.8rem;
+  text-align: center;
+  opacity: 0; // GSAP animates to 1
+}
+
+.km-divider-text {
+  font-size: 0.58rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.18);
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: 360px) {
+  .home__cards { max-width: 310px; gap: 0.45rem; }
+  .km-module-card { border-radius: 1.1rem; }
+}
+
+@media (min-width: 600px) {
+  .home__cards { max-width: 460px; }
+  .home__fire-stage { bottom: -8rem; height: clamp(320px, 42vh, 520px); }
+}

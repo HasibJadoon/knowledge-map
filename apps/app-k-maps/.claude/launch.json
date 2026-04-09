@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "app-k-maps",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["ionic", "serve", "--no-open", "--port", "8100"],
+      "port": 8100
+    }
+  ]
+}

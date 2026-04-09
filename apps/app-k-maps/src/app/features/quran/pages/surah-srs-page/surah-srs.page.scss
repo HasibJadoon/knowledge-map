@@ -1,0 +1,70 @@
+.srs-content { --background: var(--km-bg); }
+.srs-page { padding: 16px 16px 40px; }
+
+.mod-header {
+  margin-bottom: 16px;
+  &__title { font-size: 22px; font-weight: 700; color: var(--km-text); margin: 0 0 4px; }
+  &__sub { font-size: 13px; color: var(--km-text-3); margin: 0; }
+}
+
+.filter-bar {
+  display: flex; gap: 6px; overflow-x: auto; margin-bottom: 20px;
+  padding-bottom: 2px;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.filter-btn {
+  flex-shrink: 0;
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px; font-weight: 500;
+  color: var(--km-text-2);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+
+  &--active {
+    background: rgba(201,168,76,0.12);
+    border-color: var(--km-border-gold, rgba(201,168,76,0.35));
+    color: var(--km-gold, #c9a84c);
+  }
+}
+
+.state-msg {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 48px 16px; color: var(--km-text-2); text-align: center;
+  &--error { color: var(--ion-color-danger); }
+}
+
+.srs-list { display: flex; flex-direction: column; gap: 8px; }
+
+.srs-card {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+
+  &__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  &__type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--km-text-3); }
+  &__key { font-size: 15px; font-weight: 600; color: var(--km-text); margin-bottom: 8px; }
+  &__stats { display: flex; flex-wrap: wrap; gap: 8px; }
+}
+
+.stat {
+  font-size: 12px; color: var(--km-text-3);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--km-border);
+  border-radius: 8px;
+  padding: 2px 8px;
+}
+
+.rating-badge {
+  border-radius: 20px; padding: 2px 8px; font-size: 11px; font-weight: 600;
+  background: rgba(255,255,255,0.07); border: 1px solid var(--km-border); color: var(--km-text-3);
+  &--good { background: rgba(77,217,168,0.12); border-color: rgba(77,217,168,0.3); color: #4dd9a8; }
+  &--hard { background: rgba(255,159,107,0.12); border-color: rgba(255,159,107,0.3); color: #ff9f6b; }
+  &--again { background: rgba(255,123,172,0.12); border-color: rgba(255,123,172,0.3); color: #ff7bac; }
+  &--easy { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.3); color: var(--km-gold); }
+}

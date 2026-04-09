@@ -1,4 +1,8 @@
+// K-MAPS Mobile — Foundation Design System
+// Gold-Dark Premium · Mobile-First · Cinematic
+
 :root {
+  // ── Spacing scale ─────────────────────────────────────────────────────────
   --app-space-1: 0.25rem;
   --app-space-2: 0.5rem;
   --app-space-3: 0.75rem;
@@ -6,106 +10,139 @@
   --app-space-5: 1.25rem;
   --app-space-6: 1.5rem;
   --app-space-8: 2rem;
+  --app-space-10: 2.5rem;
+  --app-space-12: 3rem;
 
-  --app-radius-sm: 0.8rem;
-  --app-radius-md: 1rem;
-  --app-radius-lg: 1.2rem;
-  --app-radius-xl: 1.45rem;
+  // ── Radius ────────────────────────────────────────────────────────────────
+  --app-radius-xs: 0.5rem;
+  --app-radius-sm: 0.85rem;
+  --app-radius-md: 1.1rem;
+  --app-radius-lg: 1.4rem;
+  --app-radius-xl: 1.75rem;
+  --app-radius-2xl: 2.2rem;
 
-  --app-text-strong: #f5f8ff;
-  --app-text-muted: #9cadc7;
-  --app-text-soft: #7f93b2;
+  // ── Typography ────────────────────────────────────────────────────────────
+  --app-text-strong: rgba(255, 255, 255, 0.94);
+  --app-text-body: rgba(255, 255, 255, 0.78);
+  --app-text-muted: rgba(255, 255, 255, 0.44);
+  --app-text-soft: rgba(255, 255, 255, 0.28);
+  --app-text-gold: #c9a84c;
+  --app-text-gold-bright: #e8c96a;
+  --app-text-gold-dim: rgba(201, 168, 76, 0.6);
 
-  --app-surface-1: rgba(24, 38, 61, 0.96);
-  --app-surface-2: rgba(18, 30, 51, 0.94);
-  --app-surface-3: rgba(10, 18, 31, 0.72);
-  --app-surface-soft: rgba(120, 157, 219, 0.08);
-  --app-surface-soft-strong: rgba(120, 157, 219, 0.14);
+  // ── Surfaces ──────────────────────────────────────────────────────────────
+  --app-surface-0: #080808;
+  --app-surface-1: rgba(16, 16, 16, 0.98);
+  --app-surface-2: rgba(22, 22, 22, 0.96);
+  --app-surface-3: rgba(28, 28, 28, 0.92);
+  --app-surface-soft: rgba(201, 168, 76, 0.05);
+  --app-surface-gold: rgba(201, 168, 76, 0.08);
+  --app-surface-gold-strong: rgba(201, 168, 76, 0.13);
 
-  --app-border-soft: rgba(143, 171, 208, 0.18);
-  --app-border-strong: rgba(143, 171, 208, 0.28);
+  // ── Borders ───────────────────────────────────────────────────────────────
+  --app-border-soft: rgba(201, 168, 76, 0.10);
+  --app-border-mid: rgba(201, 168, 76, 0.18);
+  --app-border-strong: rgba(201, 168, 76, 0.28);
+  --app-border-white-soft: rgba(255, 255, 255, 0.07);
+  --app-border-white-mid: rgba(255, 255, 255, 0.12);
 
-  --app-shadow-1: 0 16px 34px rgba(4, 10, 21, 0.14);
-  --app-shadow-2: 0 20px 42px rgba(4, 10, 21, 0.18);
+  // ── Shadows / Glows ───────────────────────────────────────────────────────
+  --app-shadow-1: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --app-shadow-2: 0 16px 40px rgba(0, 0, 0, 0.55);
+  --app-glow-gold: 0 0 24px rgba(201, 168, 76, 0.18);
+  --app-glow-gold-strong: 0 0 40px rgba(201, 168, 76, 0.28);
+  --app-glow-gold-inner: inset 0 1px 0 rgba(232, 201, 106, 0.1);
 
+  // ── Page background ───────────────────────────────────────────────────────
   --app-page-background:
-    radial-gradient(circle at top center, rgba(var(--ion-color-primary-rgb), 0.16) 0%, transparent 38%),
-    radial-gradient(circle at top left, rgba(150, 192, 255, 0.08) 0%, transparent 24%),
-    linear-gradient(180deg, #16253e 0%, #111a2c 18%, #0f1829 55%, #0d1524 100%);
-  --app-toolbar-background: rgba(15, 26, 43, 0.78);
-  --app-toolbar-background-strong: rgba(15, 26, 43, 0.9);
-  --app-top-fade: linear-gradient(180deg, rgba(17, 28, 47, 0.94) 0%, rgba(17, 28, 47, 0.78) 52%, rgba(17, 28, 47, 0) 100%);
-  --app-toolbar-blur: 18px;
+    radial-gradient(ellipse at 50% 0%, rgba(201, 168, 76, 0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(201, 168, 76, 0.04) 0%, transparent 40%),
+    linear-gradient(180deg, #0c0c0c 0%, #080808 40%, #060606 100%);
 
-  --app-content-width: 42rem;
-  --app-content-width-wide: 64rem;
-  --app-content-padding-inline: 0.9rem;
-  --app-content-padding-block: 0.85rem;
+  // ── Toolbar ───────────────────────────────────────────────────────────────
+  --app-toolbar-background: rgba(8, 8, 8, 0.82);
+  --app-toolbar-background-strong: rgba(6, 6, 6, 0.94);
+  --app-toolbar-blur: 20px;
+  --app-top-fade: linear-gradient(180deg, rgba(8, 8, 8, 0.95) 0%, rgba(8, 8, 8, 0.72) 50%, transparent 100%);
 
+  // ── Layout ────────────────────────────────────────────────────────────────
+  --app-content-width: 44rem;
+  --app-content-width-wide: 68rem;
+  --app-content-padding-inline: 1rem;
+  --app-content-padding-block: 1rem;
+
+  // ── Gold accent ───────────────────────────────────────────────────────────
+  --app-gold: #c9a84c;
+  --app-gold-rgb: 201, 168, 76;
+  --app-gold-bright: #e8c96a;
+  --app-gold-dim: rgba(201, 168, 76, 0.55);
+
+  // ── KM component aliases ──────────────────────────────────────────────────
   --km-shell-bg: var(--app-page-background);
-  --km-surface: linear-gradient(180deg, rgba(24, 38, 61, 0.96), rgba(18, 30, 51, 0.94));
-  --km-surface-elevated: linear-gradient(180deg, rgba(28, 44, 69, 0.98), rgba(20, 32, 54, 0.96));
+  --km-surface: var(--app-surface-1);
+  --km-surface-elevated: var(--app-surface-2);
   --km-surface-soft: var(--app-surface-soft);
-  --km-surface-muted: rgba(10, 19, 33, 0.48);
+  --km-surface-muted: rgba(6, 6, 6, 0.6);
   --km-border: var(--app-border-soft);
   --km-border-strong: var(--app-border-strong);
-  --km-text: var(--ion-text-color);
+  --km-border-gold: var(--app-border-mid);
+  --km-text: var(--app-text-strong);
   --km-text-dim: var(--app-text-muted);
-  --km-highlight-surface: rgba(var(--ion-color-primary-rgb), 0.1);
+  --km-text-gold: var(--app-gold);
+  --km-highlight-surface: var(--app-surface-gold);
   --km-footer-surface:
-    linear-gradient(180deg, rgba(15, 26, 43, 0) 0%, rgba(15, 26, 43, 0.68) 34%, rgba(12, 22, 38, 0.96) 100%);
+    linear-gradient(180deg, rgba(8, 8, 8, 0) 0%, rgba(8, 8, 8, 0.72) 34%, rgba(6, 6, 6, 0.97) 100%);
 
   --km-ion-card-background: var(--km-surface);
   --km-ion-card-border-color: var(--app-border-soft);
-  --km-ion-card-radius: var(--app-radius-xl);
+  --km-ion-card-radius: var(--app-radius-lg);
   --km-ion-card-shadow: var(--app-shadow-1);
   --km-panel-radius: var(--km-ion-card-radius);
-  --km-panel-padding: 0.95rem;
+  --km-panel-padding: 1rem;
   --km-soft-surface: var(--app-surface-soft);
   --km-soft-border: var(--app-border-soft);
-  --km-soft-border-strong: var(--app-border-strong);
-  --km-accent-surface: rgba(var(--ion-color-primary-rgb), 0.1);
-  --km-accent-border: rgba(var(--ion-color-primary-rgb), 0.28);
-  --km-accent-text-soft: color-mix(in srgb, var(--ion-text-color) 88%, var(--ion-color-primary-tint) 12%);
-  --km-accent-text: color-mix(in srgb, var(--ion-text-color) 92%, var(--ion-color-primary-tint) 8%);
-  --km-lane-lesson: var(--ion-color-primary-tint);
+  --km-soft-border-strong: var(--app-border-mid);
+  --km-accent-surface: var(--app-surface-gold);
+  --km-accent-border: var(--app-border-mid);
+  --km-accent-text: var(--app-gold-bright);
+
+  // ── Lane / status colors ──────────────────────────────────────────────────
+  --km-lane-lesson: var(--app-gold);
   --km-lane-podcast: var(--ion-color-warning);
   --km-lane-notes: var(--ion-color-success);
-  --km-lane-admin: var(--ion-color-secondary);
+  --km-lane-admin: var(--app-gold-bright);
 
-  --app-gold: #9dc2ff;
-  --app-gold-rgb: 157, 194, 255;
-  --app-heading-blue: var(--ion-color-primary-tint);
-
+  // ── Study surface aliases (reused by study/quran components) ──────────────
   --study-bg: var(--app-page-background);
   --study-surface: var(--km-surface);
   --study-surface-2: var(--km-surface-elevated);
-  --study-border: var(--app-border-strong);
+  --study-border: var(--app-border-mid);
   --study-border-soft: var(--app-border-soft);
-  --study-text: var(--ion-text-color);
+  --study-text: var(--app-text-strong);
   --study-muted: var(--app-text-muted);
-  --study-label: var(--ion-color-primary-tint);
-  --study-blue: var(--ion-color-primary);
+  --study-label: var(--app-gold);
+  --study-blue: var(--app-gold);
   --study-green: var(--ion-color-success);
   --study-orange: var(--ion-color-warning);
-  --study-violet: var(--ion-color-tertiary);
+  --study-violet: var(--app-gold-dim);
   --study-gray: var(--app-text-soft);
 }
 
 .ios {
-  --app-toolbar-background: rgba(15, 26, 43, 0.72);
-  --app-toolbar-background-strong: rgba(15, 26, 43, 0.84);
-  --app-toolbar-blur: 24px;
-  --km-ion-card-radius: 1.55rem;
+  --app-toolbar-background: rgba(8, 8, 8, 0.76);
+  --app-toolbar-background-strong: rgba(6, 6, 6, 0.90);
+  --app-toolbar-blur: 28px;
+  --km-ion-card-radius: 1.6rem;
 }
 
 .md {
-  --app-toolbar-background: rgba(15, 26, 43, 0.86);
-  --app-toolbar-background-strong: rgba(15, 26, 43, 0.94);
+  --app-toolbar-background: rgba(8, 8, 8, 0.88);
+  --app-toolbar-background-strong: rgba(6, 6, 6, 0.96);
   --app-toolbar-blur: 18px;
-  --km-ion-card-radius: 1.25rem;
+  --km-ion-card-radius: 1.3rem;
 }
 
+// ── Base resets ──────────────────────────────────────────────────────────────
 html,
 body,
 ion-app {
@@ -146,91 +183,72 @@ ion-toolbar {
   --background: var(--app-toolbar-background);
   --border-color: var(--app-border-soft);
   --color: var(--ion-text-color);
-  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(160%);
+  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(130%);
 }
 
 ion-toolbar ion-button,
 ion-toolbar ion-back-button,
 ion-toolbar ion-menu-button {
-  --color: var(--ion-color-primary);
+  --color: var(--app-gold);
 }
 
 ion-toolbar ion-title,
 ion-title {
   color: var(--app-text-strong);
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
+ion-back-button {
+  --color: var(--app-gold);
+}
+
+// ── Searchbar ────────────────────────────────────────────────────────────────
 ion-searchbar,
 .km-searchbar {
-  --background: rgba(7, 16, 30, 0.46);
+  --background: rgba(255, 255, 255, 0.04);
   --box-shadow: none;
-  --border-radius: var(--app-radius-lg);
+  --border-radius: var(--app-radius-md);
   --color: var(--ion-text-color);
-  --icon-color: var(--app-text-soft);
-  --placeholder-color: var(--app-text-muted);
-  --clear-button-color: var(--app-text-soft);
-  --cancel-button-color: var(--ion-text-color);
+  --icon-color: var(--app-text-muted);
+  --placeholder-color: var(--app-text-soft);
+  --clear-button-color: var(--app-text-muted);
+  --cancel-button-color: var(--app-gold);
+  border: 1px solid var(--app-border-soft);
+  border-radius: var(--app-radius-md);
   padding: 0;
 }
 
+// ── Lists ────────────────────────────────────────────────────────────────────
 ion-list {
   background: transparent;
 }
 
+// ── Chips ────────────────────────────────────────────────────────────────────
 ion-chip {
-  --background: rgba(var(--ion-color-primary-rgb), 0.1);
-  --color: var(--ion-text-color);
+  --background: var(--app-surface-gold);
+  --color: var(--app-text-body);
   margin: 0;
   border: 1px solid var(--app-border-soft);
   border-radius: 999px;
   box-shadow: none;
 }
 
+ion-chip.chip-gold {
+  --background: rgba(201, 168, 76, 0.15);
+  --color: var(--app-gold-bright);
+  border-color: var(--app-border-mid);
+}
+
+// ── Badges ───────────────────────────────────────────────────────────────────
 ion-badge {
   border-radius: 999px;
 }
 
-ion-menu {
-  --background: linear-gradient(180deg, rgba(19, 31, 52, 0.98), rgba(11, 20, 35, 0.98));
-  --width: min(19.5rem, 82vw);
-  --backdrop-opacity: 0.34;
-}
-
-ion-menu ion-toolbar {
-  --background: var(--app-toolbar-background-strong);
-}
-
-ion-menu ion-content {
-  --background: linear-gradient(180deg, rgba(19, 31, 52, 0.98), rgba(11, 20, 35, 0.98));
-}
-
-ion-menu ion-list {
-  padding: 0.5rem 0 0.8rem;
-}
-
-ion-menu ion-item {
-  --background: transparent;
-  --color: var(--ion-text-color);
-  --padding-start: 1rem;
-  --inner-padding-end: 0.9rem;
-  --min-height: 3.5rem;
-  --inner-border-width: 0;
-  border-radius: 0.95rem;
-  margin-inline: 0.5rem;
-}
-
-ion-menu ion-item.item-button.activated,
-ion-menu ion-item.ion-activated {
-  --background: var(--app-surface-soft-strong);
-}
-
-ion-menu ion-icon {
-  color: var(--ion-color-primary);
-}
-
+// ── Page layout helpers ───────────────────────────────────────────────────────
 .app-page-toolbar--search {
-  --padding-top: 0.15rem;
-  --padding-bottom: 0.3rem;
+  --padding-top: 0.1rem;
+  --padding-bottom: 0.28rem;
   --padding-start: 0.5rem;
   --padding-end: 0.5rem;
 }
@@ -258,8 +276,8 @@ ion-menu ion-icon {
   margin-inline: auto;
   padding:
     var(--app-space-3)
-    clamp(0.52rem, 2.6vw, var(--app-content-padding-inline))
-    calc(env(safe-area-inset-bottom) + var(--app-space-6));
+    clamp(0.6rem, 2.8vw, var(--app-content-padding-inline))
+    calc(env(safe-area-inset-bottom) + var(--app-space-8));
 }
 
 .app-page-content--wide {
@@ -274,6 +292,7 @@ ion-menu ion-icon {
   line-height: 1.3;
 }
 
+// ── Toolbars by page class ────────────────────────────────────────────────────
 .dashboard-toolbar,
 .library-page__toolbar,
 .library-page__search-toolbar,
@@ -297,9 +316,10 @@ ion-menu ion-icon {
   --background: var(--app-toolbar-background);
   --border-color: var(--app-border-soft);
   --color: var(--ion-text-color);
-  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(160%);
+  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(130%);
 }
 
+// ── Study shell fixes ─────────────────────────────────────────────────────────
 app-ar-quran-study,
 app-planner-tabs-page {
   background: var(--app-page-background);
@@ -311,12 +331,12 @@ app-planner-tabs-page .study-toolbar {
   --background: var(--app-toolbar-background);
   --border-color: var(--app-border-soft);
   --color: var(--ion-text-color);
-  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(160%);
+  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(130%);
 }
 
 app-ar-quran-study .study-back-button,
 app-planner-tabs-page .study-back-button {
-  --color: var(--ion-color-primary);
+  --color: var(--app-gold);
 }
 
 app-ar-quran-study ion-content.study-content,
@@ -333,17 +353,18 @@ app-planner-tabs-page .study-state {
 
 app-ar-quran-study .study-state--error,
 app-planner-tabs-page .study-state--error {
-  --background: rgba(var(--ion-color-danger-rgb), 0.12);
-  border-color: rgba(var(--ion-color-danger-rgb), 0.28);
+  --background: rgba(var(--ion-color-danger-rgb), 0.1);
+  border-color: rgba(var(--ion-color-danger-rgb), 0.22);
 }
 
 app-ar-quran-study .study-footer,
 app-planner-tabs-page .study-footer {
   border-top: 1px solid var(--app-border-soft);
   background: var(--app-toolbar-background-strong);
-  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(160%);
+  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(130%);
 }
 
+// ── Footer bars ───────────────────────────────────────────────────────────────
 .notes-tabs__footer,
 .brainstorm-tabs__footer,
 .quran-browse-footer,
@@ -354,7 +375,7 @@ app-planner-tabs-page .study-footer {
 .km-native-page__footer {
   background: var(--app-toolbar-background-strong);
   border-top: 1px solid var(--app-border-soft);
-  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(160%);
+  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(130%);
 }
 
 .notes-tab-footer-bar,
@@ -364,9 +385,10 @@ app-planner-tabs-page .study-footer {
   --background: var(--km-footer-surface);
   --border-color: transparent;
   box-shadow: none;
-  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(160%);
+  backdrop-filter: blur(var(--app-toolbar-blur)) saturate(130%);
 }
 
+// ── Composers ─────────────────────────────────────────────────────────────────
 .notes-composer,
 .brainstorm-topics__composer,
 .editor-comments-composer {
@@ -376,6 +398,7 @@ app-planner-tabs-page .study-footer {
   box-shadow: var(--app-shadow-1);
 }
 
+// ── Shell / page helpers ──────────────────────────────────────────────────────
 .km-shell {
   --background: var(--app-page-background);
   background: var(--app-page-background);
@@ -421,6 +444,7 @@ ion-content.note-workspace-modal__content::part(scroll) {
   margin-inline: auto;
 }
 
+// ── Card / panel system ───────────────────────────────────────────────────────
 .km-glass,
 .km-panel,
 .km-card,
@@ -440,46 +464,56 @@ ion-card.km-ion-card {
 
 .km-subcard {
   border: 1px solid var(--app-border-soft);
-  border-radius: calc(var(--km-panel-radius) - 0.2rem);
-  background: rgba(255, 255, 255, 0.03);
+  border-radius: calc(var(--km-panel-radius) - 0.25rem);
+  background: rgba(255, 255, 255, 0.02);
 }
 
+// ── Chip system ───────────────────────────────────────────────────────────────
 .km-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  min-height: 1.95rem;
-  padding: 0.16rem 0.6rem;
+  min-height: 1.9rem;
+  padding: 0.14rem 0.6rem;
   border-radius: 999px;
   border: 1px solid var(--app-border-soft);
-  background: rgba(var(--ion-color-primary-rgb), 0.1);
-  color: var(--ion-text-color);
+  background: var(--app-surface-gold);
+  color: var(--app-text-body);
   font-size: 0.74rem;
 }
 
+.km-chip--gold {
+  background: rgba(201, 168, 76, 0.14);
+  border-color: var(--app-border-mid);
+  color: var(--app-gold-bright);
+}
+
+// ── Buttons ───────────────────────────────────────────────────────────────────
 .km-btn {
-  --border-radius: 0.95rem;
-  --background: rgba(var(--ion-color-primary-rgb), 0.18);
-  --background-activated: rgba(var(--ion-color-primary-rgb), 0.24);
-  --background-focused: rgba(var(--ion-color-primary-rgb), 0.24);
-  --color: var(--ion-text-color);
-  --border-color: var(--app-border-strong);
+  --border-radius: var(--app-radius-sm);
+  --background: var(--app-surface-gold);
+  --background-activated: var(--app-surface-gold-strong);
+  --background-focused: var(--app-surface-gold-strong);
+  --color: var(--app-text-strong);
+  --border-color: var(--app-border-mid);
 }
 
 .km-primary-btn {
-  --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%);
-  --background-activated: linear-gradient(135deg, var(--ion-color-primary-shade) 0%, var(--ion-color-secondary) 100%);
-  --background-focused: linear-gradient(135deg, var(--ion-color-primary-shade) 0%, var(--ion-color-secondary) 100%);
-  --color: #f7fbff;
+  --background: linear-gradient(135deg, #c9a84c 0%, #e8c96a 100%);
+  --background-activated: linear-gradient(135deg, #b0943f 0%, #d4b558 100%);
+  --background-focused: linear-gradient(135deg, #b0943f 0%, #d4b558 100%);
+  --color: #080808;
   --border-radius: var(--app-radius-md);
-  box-shadow: 0 14px 28px rgba(var(--ion-color-primary-rgb), 0.18);
-  font-weight: 600;
+  box-shadow: 0 8px 28px rgba(201, 168, 76, 0.28);
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
+// ── Entry / task rows ─────────────────────────────────────────────────────────
 .km-quick-card,
 .km-entry-row,
 .km-task-row {
-  --background: rgba(10, 19, 33, 0.48);
+  --background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--app-border-soft);
   box-shadow: none;
 }
@@ -496,23 +530,26 @@ ion-card.km-ion-card {
   border-color: var(--app-border-soft);
 }
 
+// ── Segment ───────────────────────────────────────────────────────────────────
 .km-status-segment {
-  background: rgba(10, 19, 33, 0.48);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .km-status-segment ion-segment-button {
   --color: var(--app-text-muted);
-  --color-checked: var(--app-text-strong);
-  --background-checked: rgba(var(--ion-color-primary-rgb), 0.18);
+  --color-checked: var(--app-gold-bright);
+  --background-checked: rgba(201, 168, 76, 0.12);
   --indicator-color: transparent;
-  min-height: 2.55rem;
+  min-height: 2.5rem;
 }
 
+// ── Metric card ───────────────────────────────────────────────────────────────
 .km-metric-card {
-  background: rgba(10, 19, 33, 0.46);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.02);
+  box-shadow: inset 0 1px 0 rgba(201, 168, 76, 0.06);
 }
 
+// ── Text helpers ──────────────────────────────────────────────────────────────
 .km-metric-card h3,
 .km-panel--hero h1,
 .km-panel-header h2,
@@ -537,15 +574,18 @@ ion-card.km-ion-card {
   color: var(--app-text-muted);
 }
 
+// ── Progress bar ──────────────────────────────────────────────────────────────
 .km-progress-bar {
-  --background: rgba(var(--ion-color-primary-rgb), 0.16);
-  --progress-background: linear-gradient(90deg, var(--ion-color-secondary) 0%, var(--ion-color-primary) 100%);
+  --background: rgba(201, 168, 76, 0.10);
+  --progress-background: linear-gradient(90deg, #c9a84c 0%, #e8c96a 100%);
 }
 
+// ── Form fields ───────────────────────────────────────────────────────────────
 .km-form-field {
-  --background: rgba(7, 16, 30, 0.4);
+  --background: rgba(255, 255, 255, 0.03);
   border-radius: var(--app-radius-md);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  box-shadow: inset 0 1px 0 rgba(201, 168, 76, 0.05);
+  border: 1px solid var(--app-border-soft);
 }
 
 .km-form-field ion-input,
@@ -557,12 +597,13 @@ ion-card.km-ion-card {
 }
 
 .km-task-status-select {
-  --background: rgba(var(--ion-color-primary-rgb), 0.12);
+  --background: var(--app-surface-gold);
   --placeholder-color: var(--app-text-muted);
   --color: var(--ion-text-color);
   border-radius: 0.72rem;
 }
 
+// ── Empty state ───────────────────────────────────────────────────────────────
 .km-empty-state {
   text-align: center;
 }
@@ -572,6 +613,7 @@ ion-card.km-ion-card {
   font-size: 0.84rem;
 }
 
+// ── Modals ────────────────────────────────────────────────────────────────────
 .font-sheet-modal,
 .ion-page ion-modal {
   --background: var(--km-surface-elevated);
@@ -584,9 +626,10 @@ ion-popover::part(content) {
   color: var(--ion-text-color);
 }
 
+// ── Responsive ────────────────────────────────────────────────────────────────
 @media (max-width: 680px) {
   .km-native-page__body,
   .km-native-page__footer-stack {
-    padding-inline: 0.82rem;
+    padding-inline: 0.9rem;
   }
 }

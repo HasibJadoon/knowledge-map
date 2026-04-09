@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { Component } from '@angular/core';
 import { addIcons } from 'ionicons';
 import {
   alertCircleOutline,
@@ -35,6 +34,21 @@ import {
   arrowBackOutline,
   chevronForward,
   settingsOutline,
+  gridOutline,
+  telescopeOutline,
+  flashOutline,
+  statsChartOutline,
+  layersOutline,
+  starOutline,
+  repeatOutline,
+  readerOutline,
+  albumsOutline,
+  chevronForwardOutline,
+  chevronBackOutline,
+  ellipsisHorizontalOutline,
+  timeOutline,
+  checkmarkCircleOutline,
+  closeOutline,
 } from 'ionicons/icons';
 
 @Component({
@@ -43,8 +57,6 @@ import {
   standalone: false,
 })
 export class AppComponent {
-  private readonly menu = inject(MenuController);
-
   constructor() {
     this.applyFontSettings();
     this.applyLanguage();
@@ -82,6 +94,21 @@ export class AppComponent {
       bookmarksOutline,
       compassOutline,
       settingsOutline,
+      gridOutline,
+      telescopeOutline,
+      flashOutline,
+      statsChartOutline,
+      layersOutline,
+      starOutline,
+      repeatOutline,
+      readerOutline,
+      albumsOutline,
+      chevronForwardOutline,
+      chevronBackOutline,
+      ellipsisHorizontalOutline,
+      timeOutline,
+      checkmarkCircleOutline,
+      closeOutline,
     });
   }
 
@@ -106,12 +133,7 @@ export class AppComponent {
 
   private applyLanguage() {
     const saved = localStorage.getItem('appLanguage');
-    const lang = saved == 'ar' ? 'ar' : 'en';
+    const lang = saved === 'ar' ? 'ar' : 'en';
     document.documentElement.setAttribute('data-lang', lang);
-  }
-
-  async onRouteChange() {
-    await this.menu.close('main-menu');
-    await this.menu.close();
   }
 }
