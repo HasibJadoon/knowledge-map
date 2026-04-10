@@ -1,0 +1,156 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/quran" text="" />
+    </ion-buttons>
+    <ion-title>
+      @if (surahInfo()) {
+        {{ surahInfo()!.name_en ?? 'Surah ' + surahId() }}
+      } @else {
+        Surah {{ surahId() }}
+      }
+    </ion-title>
+  </ion-toolbar>
+
+  <!-- Surah identity bar -->
+  @if (!loading() && surahInfo()) {
+    <ion-toolbar class="surah-identity-toolbar">
+      <div class="surah-identity">
+        <div class="surah-identity__num">{{ surahId() }}</div>
+        <div class="surah-identity__names">
+          <span class="surah-identity__arabic" dir="rtl">{{ surahInfo()!.name_ar }}</span>
+          <span class="surah-identity__latin">{{ surahInfo()!.name_en }}</span>
+        </div>
+        @if (passages().length > 0) {
+          <div class="surah-identity__passages">
+            @for (p of passages(); track p.passage_index) {
+              <span class="passage-chip">{{ p.ayah_from }}–{{ p.ayah_to }}</span>
+            }
+          </div>
+        }
+      </div>
+    </ion-toolbar>
+  }
+</ion-header>
+
+<ion-content [fullscreen]="true" class="quran-text-content" #contentEl>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="state-center">
+      <ion-spinner name="crescent" color="warning" />
+      <p class="state-label">Loading ayahs…</p>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (!loading() && error()) {
+    <div class="state-center state-center--error">
+      <p>{{ error() }}</p>
+      <button class="retry-btn" (click)="retry()">↻ Retry</button>
+    </div>
+  }
+
+  @if (!loading() && !error()) {
+
+    <!-- Bismillah -->
+    @if (shouldShowBismillah) {
+      <div class="bismillah-block">
+        <div class="bismillah-text">{{ bismillah }}</div>
+      </div>
+    }
+
+    <!-- ── VERSE BY VERSE ── -->
+    @if (viewMode() === 'verse') {
+      <div class="reader-table">
+        @for (group of ayahsByPage; track group.page; let last = $last) {
+          @for (ayah of group.ayahs; track ayah.ayah) {
+            @if (!(surahId() === 1 && ayah.ayah === 1)) {
+              <div class="vrow">
+                <div class="vrow__arabic" dir="rtl">
+                  @for (word of getWords(ayah); track $index) {
+                    <span class="ar-word">{{ word }}</span>
+                  }
+                  <span class="ayah-badge">{{ getVerseMark(ayah) }}</span>
+                </div>
+                @if (ayah.translation) {
+                  <div class="vrow__translation">{{ ayah.translation }}</div>
+                }
+              </div>
+            }
+          }
+          @if (!last && group.page > 0) {
+            <div class="page-break">
+              <div class="page-break__line"></div>
+              <span class="page-break__num">{{ group.page }}</span>
+              <div class="page-break__line"></div>
+            </div>
+          }
+        }
+      </div>
+    }
+
+    <!-- ── ARABIC MUSHAF ── -->
+    @if (viewMode() === 'arabic') {
+      <div class="mushaf-wrap">
+        @for (group of ayahsByPage; track group.page; let last = $last) {
+          <div class="mushaf-flow">
+            @for (ayah of group.ayahs; track ayah.ayah) {
+              @if (!(surahId() === 1 && ayah.ayah === 1)) {
+                @for (word of getWords(ayah); track $index) {<span class="ar-word">{{ word }}</span>}<span class="verse-marker">{{ getVerseMark(ayah) }}</span>
+              }
+            }
+          </div>
+          @if (!last && group.page > 0) {
+            <div class="page-break">
+              <div class="page-break__line"></div>
+              <span class="page-break__num">{{ group.page }}</span>
+              <div class="page-break__line"></div>
+            </div>
+          }
+        }
+      </div>
+    }
+
+    <!-- ── TRANSLATION ── -->
+    @if (viewMode() === 'translation') {
+      <div class="translation-list">
+        @for (group of ayahsByPage; track group.page; let last = $last) {
+          @for (ayah of group.ayahs; track ayah.ayah) {
+            @if (ayah.translation) {
+              <div class="t-row">
+                <span class="t-row__num">{{ ayah.ayah }}</span>
+                <p class="t-row__text">{{ ayah.translation }}</p>
+              </div>
+            }
+          }
+          @if (!last && group.page > 0) {
+            <div class="page-break">
+              <div class="page-break__line"></div>
+              <span class="page-break__num">{{ group.page }}</span>
+              <div class="page-break__line"></div>
+            </div>
+          }
+        }
+      </div>
+    }
+
+  }
+</ion-content>
+
+<!-- View mode tab bar -->
+@if (!loading() && !error()) {
+  <ion-footer class="view-footer">
+    <ion-tab-bar class="view-tab-bar">
+      <ion-tab-button [class.tab-active]="viewMode() === 'verse'" (click)="setView('verse')" title="Verse">
+        <ion-icon name="list-outline" />
+      </ion-tab-button>
+      <ion-tab-button [class.tab-active]="viewMode() === 'arabic'" (click)="setView('arabic')" title="Arabic">
+        <span class="tab-ar-icon">ع</span>
+      </ion-tab-button>
+      <ion-tab-button [class.tab-active]="viewMode() === 'translation'" (click)="setView('translation')" title="Translation">
+        <ion-icon name="language-outline" />
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-footer>
+}

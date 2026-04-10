@@ -92,6 +92,12 @@
   --app-font-ar-size: 32px;
   --app-font-sans: "Poppins", "Helvetica Neue", Arial, sans-serif;
   --app-font-ar: "Uthmanic Hafs", "Scheherazade New", serif;
+
+  // k-maps aliases — same names as desktop app
+  --km-font-arabic: "Uthmanic Hafs", "Scheherazade New", serif;
+  --km-font-arabic-amiri: "Uthmanic Hafs", "Scheherazade New", serif;
+  --km-font-body: "Poppins", "Helvetica Neue", Arial, sans-serif;
+  --km-font-heading: "Poppins", "Helvetica Neue", Arial, sans-serif;
 }
 
 body {

@@ -1,0 +1,40 @@
+<div class="arabic-menu">
+  <header class="arabic-menu__header">
+    <div class="arabic-menu__title-block">
+      <p class="arabic-menu__eyebrow">Arabic Study</p>
+      <h2 class="arabic-menu__title">Learn Arabic</h2>
+    </div>
+    <div class="arabic-menu__stats">
+      <div class="arabic-menu__stat">
+        <span class="arabic-menu__stat-label">Books</span>
+        <span class="arabic-menu__stat-value">{{ stats.containers }}</span>
+      </div>
+      <div class="arabic-menu__stat">
+        <span class="arabic-menu__stat-label">Vocab</span>
+        <span class="arabic-menu__stat-value">{{ stats.vocab }}</span>
+      </div>
+      <div class="arabic-menu__stat">
+        <span class="arabic-menu__stat-label">Grammar</span>
+        <span class="arabic-menu__stat-value">{{ stats.grammar }}</span>
+      </div>
+      <div class="arabic-menu__stat">
+        <span class="arabic-menu__stat-label">Balagha</span>
+        <span class="arabic-menu__stat-value">{{ stats.balagha }}</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="arabic-menu__features">
+    @for (feature of features; track feature.route) {
+      <a [routerLink]="feature.route" class="arabic-menu__feature">
+        <span class="arabic-menu__feature-icon">{{ feature.icon }}</span>
+        <div class="arabic-menu__feature-text">
+          <span class="arabic-menu__feature-title">{{ feature.title }}</span>
+          <span class="arabic-menu__feature-arabic">{{ feature.arabicTitle }}</span>
+          <span class="arabic-menu__feature-desc">{{ feature.description }}</span>
+        </div>
+        <span class="arabic-menu__feature-arrow">→</span>
+      </a>
+    }
+  </div>
+</div>

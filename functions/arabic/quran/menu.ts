@@ -78,13 +78,6 @@ function summarizeSurahMeta(value: unknown) {
 }
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
-  if (!user) {
-    return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
-      status: 401,
-      headers: jsonHeaders,
-    });
-  }
-
   try {
     const surahStmt = ctx.env.DB.prepare(
       `

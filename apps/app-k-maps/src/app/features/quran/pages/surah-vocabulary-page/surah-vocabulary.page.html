@@ -1,0 +1,46 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/quran/' + surahId()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Vocabulary — Surah {{ surahId() }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="vocab-content">
+  <div class="vocab-page">
+
+    <header class="mod-header">
+      <h1 class="mod-header__title">Vocabulary</h1>
+      <p class="mod-header__sub">{{ items().length }} word forms in Surah {{ surahId() }}</p>
+    </header>
+
+    @if (loading()) {
+      <div class="state-msg"><ion-spinner name="crescent"></ion-spinner><p>Loading vocabulary…</p></div>
+    }
+    @if (!loading() && error()) {
+      <div class="state-msg state-msg--error"><p>{{ error() }}</p></div>
+    }
+    @if (!loading() && !error() && items().length === 0) {
+      <div class="state-msg"><p>No vocabulary data found.</p></div>
+    }
+
+    @if (!loading() && !error() && items().length > 0) {
+      <div class="vocab-grid">
+        @for (item of items(); track item.lemma_id) {
+          <div class="vocab-card">
+            <div class="vocab-card__arabic" dir="rtl">{{ item.surface_ar || item.lemma_text || item.lemma_text_clean }}</div>
+            @if (item.root_norm) {
+              <div class="vocab-card__root" dir="rtl">{{ item.root_norm }}</div>
+            }
+            @if (item.pos) { <span class="vocab-chip">{{ item.pos }}</span> }
+            @if (primaryMeaning(item)) {
+              <p class="vocab-card__meaning">{{ primaryMeaning(item) }}</p>
+            }
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</ion-content>

@@ -1,0 +1,331 @@
+// ── Toolbar theming ──────────────────────────────────────
+ion-toolbar {
+  --background: rgba(8,8,8,0.88);
+  --color: rgba(255,255,255,0.9);
+  --border-color: rgba(255,255,255,0.06);
+}
+
+ion-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.85);
+}
+
+ion-back-button { --color: #c9a84c; }
+
+// ── Surah identity toolbar ────────────────────────────────
+ion-toolbar.surah-identity-toolbar {
+  --min-height: auto;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --border-color: rgba(201,168,76,0.12);
+}
+
+.surah-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px 12px;
+
+  &__num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(201,168,76,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.64rem;
+    font-weight: 600;
+    color: #c9a84c;
+    flex-shrink: 0;
+    box-shadow: 0 0 10px rgba(201,168,76,0.12);
+  }
+
+  &__names {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  &__arabic {
+    font-family: var(--km-font-arabic);
+    font-size: 1.35rem;
+    color: #c9a84c;
+    line-height: 1.5;
+    text-shadow: 0 0 14px rgba(201,168,76,0.2);
+  }
+
+  &__latin {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.38);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__passages {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+}
+
+.passage-chip {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 20px;
+  border: 1px solid rgba(201,168,76,0.25);
+  color: rgba(201,168,76,0.75);
+  background: rgba(201,168,76,0.06);
+  white-space: nowrap;
+}
+
+// ── Content ───────────────────────────────────────────────
+.quran-text-content {
+  --background: var(--app-page-background, #080808);
+  --padding-bottom: 80px;
+}
+
+// ── Bismillah ─────────────────────────────────────────────
+.bismillah-block {
+  display: flex;
+  justify-content: center;
+  padding: 16px 16px 24px;
+}
+
+.bismillah-text {
+  font-family: var(--km-font-arabic);
+  font-size: clamp(1.4rem, 5vw, 1.9rem);
+  direction: rtl;
+  text-align: center;
+  color: rgba(255,255,255,0.82);
+  padding: 14px 20px;
+  border-top: 1px solid rgba(201,168,76,0.2);
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  line-height: 2;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+// ── Page break ────────────────────────────────────────────
+.page-break {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 16px;
+  opacity: 0; // GSAP animates in
+
+  &__line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to var(--dir, right), transparent, rgba(201,168,76,0.3) 40%, rgba(201,168,76,0.3));
+    transform-origin: center;
+  }
+  &__line:first-child { --dir: right; }
+  &__line:last-child  { --dir: left; }
+
+  &__num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.58rem;
+    color: #c9a84c;
+    flex-shrink: 0;
+    opacity: 0; // GSAP animates in
+    box-shadow: 0 0 8px rgba(201,168,76,0.08);
+  }
+}
+
+// ── Shared Arabic word ────────────────────────────────────
+.ar-word {
+  display: inline;
+  cursor: pointer;
+  &::after { content: '\0020'; }
+  &:active { color: #c9a84c; }
+}
+
+// ── Ayah / verse markers ──────────────────────────────────
+.ayah-badge,
+.verse-marker {
+  display: inline;
+  font-family: var(--km-font-arabic);
+  font-size: 0.85em;
+  color: #c9a84c;
+  vertical-align: middle;
+  margin: 0 0.18em;
+  user-select: none;
+}
+
+// ── Verse by verse ────────────────────────────────────────
+.reader-table {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.vrow {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.055);
+  &:last-child { border-bottom: none; }
+
+  &__arabic {
+    font-family: var(--km-font-arabic);
+    font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+    line-height: 2.6;
+    direction: rtl;
+    text-align: justify;
+    text-justify: inter-word;
+    color: rgba(255,255,255,0.92);
+    word-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+
+  &__translation {
+    font-size: 0.86rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.38);
+    font-style: italic;
+    padding-left: 10px;
+    border-left: 2px solid rgba(201,168,76,0.18);
+  }
+}
+
+// ── Arabic Mushaf ─────────────────────────────────────────
+.mushaf-wrap {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.mushaf-flow {
+  font-family: var(--km-font-arabic);
+  font-size: clamp(1.6rem, 5.8vw, 2.5rem);
+  line-height: 2.8;
+  direction: rtl;
+  text-align: justify;
+  text-justify: inter-word;
+  unicode-bidi: plaintext;
+  color: rgba(255,255,255,0.92);
+  padding: 16px 0 28px;
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+
+// ── Translation ───────────────────────────────────────────
+.translation-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.t-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.055);
+  &:last-child { border-bottom: none; }
+
+  &__num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.58rem;
+    color: #c9a84c;
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+
+  &__text {
+    font-size: 0.9rem;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.5);
+    margin: 0;
+  }
+}
+
+// ── States ────────────────────────────────────────────────
+.state-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 72px 16px;
+  color: rgba(255,255,255,0.28);
+  font-size: 0.88rem;
+  text-align: center;
+  &--error { color: rgba(255,100,100,0.65); }
+}
+
+.state-label { margin: 0; }
+
+.retry-btn {
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 8px;
+  color: #c9a84c;
+  font-family: inherit;
+  font-size: 0.82rem;
+  padding: 8px 20px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+// ── View mode footer tab bar ──────────────────────────────
+ion-footer.view-footer {
+  --background: transparent;
+  box-shadow: none;
+}
+
+ion-tab-bar.view-tab-bar {
+  --background: rgba(10,10,10,0.94);
+  --border: 1px solid rgba(255,255,255,0.07);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  height: calc(60px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+
+  ion-tab-button {
+    --color: rgba(255,255,255,0.32);
+    --color-selected: #c9a84c;
+    --background: transparent;
+    --ripple-color: rgba(201,168,76,0.15);
+
+    ion-icon { font-size: 1.3rem; }
+    ion-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.04em; margin-top: 3px; }
+
+    &.tab-active {
+      --color: #c9a84c;
+      ion-icon { filter: drop-shadow(0 0 6px rgba(201,168,76,0.45)); }
+      .tab-ar-icon { color: #c9a84c; filter: drop-shadow(0 0 6px rgba(201,168,76,0.45)); }
+    }
+  }
+}
+
+.tab-ar-icon {
+  font-family: var(--km-font-arabic);
+  font-size: 1.4rem;
+  color: rgba(255,255,255,0.32);
+  line-height: 1;
+  margin-bottom: 2px;
+  transition: color 0.18s;
+}

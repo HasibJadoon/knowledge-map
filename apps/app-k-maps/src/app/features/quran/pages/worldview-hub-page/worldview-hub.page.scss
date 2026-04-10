@@ -1,0 +1,31 @@
+.wv-hub-content { --background: var(--km-bg); }
+.wv-hub-page { padding: 20px 16px 40px; }
+
+.state-msg {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 48px 16px; color: var(--km-text-2); text-align: center;
+  &--error { color: var(--ion-color-danger); }
+}
+
+.wv-counts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 28px;
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.wv-count {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  &__n { font-size: 24px; font-weight: 700; color: var(--km-gold, #c9a84c); line-height: 1; }
+  &__l { font-size: 11px; color: var(--km-text-3); letter-spacing: 0.04em; }
+}
+
+.wv-hub__tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}

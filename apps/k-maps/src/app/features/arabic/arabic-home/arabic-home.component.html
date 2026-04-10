@@ -19,46 +19,8 @@
       <p class="page-header__subtitle">Classical Arabic Mastery</p>
     </header>
 
-    <!-- Stats Row -->
-    <div class="stats-row" #statsRef>
-      <div class="stat-item">
-        <span class="stat-item__value">{{ counts().containers }}</span>
-        <span class="stat-item__label">Containers</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
-        <span class="stat-item__value">{{ counts().vocabRoots }}</span>
-        <span class="stat-item__label">Vocab Roots</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
-        <span class="stat-item__value">{{ counts().grammarConcepts }}</span>
-        <span class="stat-item__label">Grammar Concepts</span>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
-        <span class="stat-item__value">{{ counts().balaghaTerms }}</span>
-        <span class="stat-item__label">Balagha Terms</span>
-      </div>
-    </div>
-
-    <!-- Feature Cards -->
-    <div class="feature-grid" #cardsRef>
-      @for (card of cards; track card.route) {
-        <a class="feature-card" [routerLink]="card.route">
-          <div class="feature-card__bg-glyph">{{ card.glyph }}</div>
-          <div class="feature-card__glyph">{{ card.glyph }}</div>
-          <div class="feature-card__content">
-            <h2 class="feature-card__title">{{ card.title }}</h2>
-            <p class="feature-card__desc">{{ card.desc }}</p>
-          </div>
-          <div class="feature-card__footer">
-            <span class="feature-card__arabic">{{ card.arabicTitle }}</span>
-            <span class="feature-card__arrow">&#8594;</span>
-          </div>
-        </a>
-      }
-    </div>
+    <!-- Arabic Menu Card -->
+    <km-arabic-menu-card #cardsRef></km-arabic-menu-card>
 
   </div>
 </div>

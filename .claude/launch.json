@@ -7,6 +7,13 @@
       "runtimeArgs": ["/opt/homebrew/lib/node_modules/@angular/cli/bin/ng.js", "serve", "--port", "4201", "--poll", "2000"],
       "cwd": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/apps/k-maps",
       "port": 4201
+    },
+    {
+      "name": "app-k-maps",
+      "runtimeExecutable": "/opt/homebrew/opt/node/bin/node",
+      "runtimeArgs": ["/opt/homebrew/lib/node_modules/@angular/cli/bin/ng.js", "serve", "--port", "8100", "--poll", "2000"],
+      "cwd": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/apps/app-k-maps",
+      "port": 8100
     }
   ]
 }

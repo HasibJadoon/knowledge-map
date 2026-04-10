@@ -1,0 +1,543 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="backHref()" text="" />
+    </ion-buttons>
+    <ion-title>
+      <span class="title-passage">Passage {{ passageNo() }}</span>
+      @if (unit()?.label) {
+        <span class="title-sep"> · </span>
+        <span class="title-label">{{ unit()!.label }}</span>
+      }
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="study-content">
+
+  @if (loading()) {
+    <div class="state-center"><ion-spinner name="crescent" color="warning" /></div>
+  }
+
+  @if (!loading() && error()) {
+    <div class="state-center state-err"><p>{{ error() }}</p></div>
+  }
+
+  @if (!loading() && !error() && lesson()) {
+
+    <!-- ══ 01 · READING ══════════════════════════════════════════════ -->
+    @if (activeTab() === 'reading') {
+      <div class="step-content">
+
+        <div class="rt-bar">
+          <span class="rt-bar__ref">{{ ayahRange() }}</span>
+          <button class="tashkeel-btn" [class.tashkeel-btn--on]="showDiacritics()"
+            (click)="showDiacritics.set(!showDiacritics())">
+            <span dir="rtl">{{ showDiacritics() ? 'تَشْكِيل' : 'تشكيل' }}</span>
+            <span class="tashkeel-btn__dot"></span>
+          </button>
+        </div>
+
+        <div class="rt-passage" dir="rtl" lang="ar">
+          @for (tokens of passageTokens(); track $index) {
+            @for (t of tokens; track $index) {
+              @if (t.type === 'word') {
+                <span class="ar-word">{{ t.text }}</span>
+              } @else {
+                <span class="verse-num">{{ t.text }}</span>
+              }
+            }
+          }
+        </div>
+
+        @if (ayahs().length > 0 && ayahs()[0].translation_haleem) {
+          <div class="rt-trans">
+            <p class="section-label">Translation · Haleem</p>
+            @for (a of ayahs(); track a.ayah) {
+              @if (a.translation_haleem) {
+                <div class="rt-trans__row">
+                  <span class="rt-trans__ref">{{ surahId() }}:{{ a.ayah }}</span>
+                  <p class="rt-trans__text">{{ a.translation_haleem }}</p>
+                </div>
+              }
+            }
+          </div>
+        }
+
+      </div>
+    }
+
+    <!-- ══ 02 · MORPHOLOGY ═══════════════════════════════════════════ -->
+    @if (activeTab() === 'vocab') {
+      <div class="step-content">
+        @if (nouns().length > 0 || verbs().length > 0) {
+
+          <div class="seg-ctrl">
+            <button class="seg-btn" [class.seg-btn--on]="showNouns()" (click)="showNouns.set(true)">
+              Nouns <span class="seg-badge">{{ nouns().length }}</span>
+            </button>
+            <button class="seg-btn" [class.seg-btn--on]="!showNouns()" (click)="showNouns.set(false)">
+              Verbs <span class="seg-badge">{{ verbs().length }}</span>
+            </button>
+          </div>
+
+          <div class="word-list">
+            @for (w of (showNouns() ? nouns() : verbs()); track w.word_id) {
+              <div class="word-row" [class.word-row--verb]="!showNouns()">
+                <div class="word-row__left">
+                  <span class="word-row__ar" dir="rtl">{{ w.word }}</span>
+                  @if (w.root) { <span class="word-row__root" dir="rtl">{{ w.root }}</span> }
+                </div>
+                <div class="word-row__right">
+                  @if (w.translation) { <span class="word-row__trans">{{ w.translation }}</span> }
+                  @if (w.gloss && w.gloss !== w.translation) { <span class="word-row__gloss">{{ w.gloss }}</span> }
+                  <div class="word-row__meta">
+                    @if (w.pattern) { <span class="meta-chip">{{ w.pattern }}</span> }
+                    @if (w.verb_form) { <span class="meta-chip">{{ w.verb_form }}</span> }
+                    <span class="meta-ref">{{ surahId() }}:{{ w.ayah }}</span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+
+        } @else {
+          <div class="step-empty">No morphology data for this passage.</div>
+        }
+      </div>
+    }
+
+    <!-- ══ 03 · SENTENCE STRUCTURE ══════════════════════════════════ -->
+    @if (activeTab() === 'sentence') {
+      <div class="step-content step-sentence">
+
+        @if (ssSentences().length === 0) {
+          <div class="step-empty">No sentence structure data for this passage.</div>
+        } @else {
+
+          <!-- Sentence selector (multiple sentences) -->
+          @if (ssSentences().length > 1) {
+            <div class="ss-reel">
+              @for (s of ssSentences(); track $index; let i = $index) {
+                <button class="ss-reel__btn" [class.ss-reel__btn--on]="ssIdx() === i"
+                  (click)="ssSelectIdx(i)">{{ i + 1 }}</button>
+              }
+            </div>
+          }
+
+          <!-- Miro-style graph -->
+          @if (ssGraph(); as graph) {
+            <div class="ss-graph-wrap">
+              <div class="ss-graph-scroll">
+                <div class="ss-graph-canvas"
+                  [style.width.px]="graph.canvasW"
+                  [style.height.px]="graph.canvasH">
+
+                  <!-- SVG edges -->
+                  <svg class="ss-graph-svg"
+                    [attr.width]="graph.canvasW"
+                    [attr.height]="graph.canvasH"
+                    xmlns="http://www.w3.org/2000/svg">
+                    @for (e of graph.edges; track $index) {
+                      <path
+                        [attr.d]="edgePath(e)"
+                        [attr.stroke]="e.color"
+                        stroke-width="1.5"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-opacity="0.5"/>
+                    }
+                  </svg>
+
+                  <!-- Node cards -->
+                  @for (n of graph.nodes; track n.uid) {
+                    <div class="ss-node"
+                      [class.ss-node--root]="n.depth === 0"
+                      [class.ss-node--has-children]="n.hasChildren"
+                      [class.ss-node--collapsed]="n.isCollapsed"
+                      [style.left.px]="n.x"
+                      [style.top.px]="n.y"
+                      [style.width.px]="n.w"
+                      [style.height.px]="n.h"
+                      [style.border-color]="n.termColor"
+                      (click)="n.hasChildren ? ssToggleNode(n.uid) : null">
+
+                      <!-- Arabic clause text -->
+                      <div class="ss-node__ar" dir="rtl">{{ n.name }}</div>
+
+                      <!-- Grammar label — always visible -->
+                      @if (n.label_ar) {
+                        <div class="ss-node__lbl" [style.color]="n.termColor"
+                          [style.text-shadow]="'0 0 12px ' + n.termColor">{{ n.label_ar }}</div>
+                      }
+
+                      <!-- Collapse/expand badge — peeks below the node -->
+                      @if (n.hasChildren) {
+                        <div class="ss-node__toggle" [style.background]="n.termColor">
+                          {{ n.isCollapsed ? ('+' + n.childCount) : '−' }}
+                        </div>
+                      }
+
+                    </div>
+                  }
+
+                </div>
+              </div>
+              <p class="ss-graph-hint">tap to expand · scroll → for depth</p>
+            </div>
+          }
+
+        }
+      </div>
+    }
+
+    <!-- ══ 04 · EXPRESSIONS ══════════════════════════════════════════ -->
+    @if (activeTab() === 'expressions') {
+      <div class="step-content">
+        @if (expressions().length > 0) {
+          <p class="section-label">{{ expressions().length }} expression{{ expressions().length !== 1 ? 's' : '' }}</p>
+          <div class="expr-list">
+            @for (e of expressions(); track e.expression_id) {
+              <div class="expr-card">
+                <div class="expr-card__top">
+                  <span class="expr-card__ar" dir="rtl">{{ e.text }}</span>
+                </div>
+                @if (e.meaning || e.gloss) {
+                  <p class="expr-card__meaning">{{ e.meaning ?? e.gloss }}</p>
+                }
+                <div class="expr-card__foot">
+                  @if (e.label) { <span class="expr-card__tag">{{ e.label }}</span> }
+                  <span class="expr-card__ref">{{ surahId() }}:{{ e.ayah }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="step-empty">No expressions for this passage.</div>
+        }
+      </div>
+    }
+
+    <!-- ══ 05 · PASSAGE STRUCTURE ════════════════════════════════════ -->
+    @if (activeTab() === 'structure') {
+      <div class="step-content step-structure">
+        @if (psSections().length === 0) {
+          <div class="step-empty">No passage structure analysis for this passage.</div>
+        } @else {
+
+          <!-- Header row -->
+          <div class="ps-header">
+            <div>
+              <p class="section-label">Passage Structure</p>
+              @if (psRef()) { <p class="ps-ref">{{ psRef() }}</p> }
+            </div>
+            <!-- Dot nav -->
+            <div class="ps-dots">
+              @for (s of psSections(); track $index; let i = $index) {
+                <button class="ps-dot" [class.ps-dot--on]="psIdx() === i"
+                  (click)="psGoTo_public(i)"></button>
+              }
+            </div>
+          </div>
+
+          <!-- Swipeable card -->
+          <div class="ps-stage"
+            (touchstart)="onPsSwipeStart($event)"
+            (touchend)="onPsSwipeEnd($event)">
+
+            @if (psActive(); as sec) {
+              <div class="ps-card">
+
+                <div class="ps-card__bar" [style.background]="barGradient(sec.tone)"></div>
+
+                <div class="ps-card__head">
+                  <span class="ps-card__badge ps-tone-{{ sec.tone }}">{{ sec.badge }}</span>
+                  <span class="ps-card__title">{{ sec.title }}</span>
+                </div>
+
+                <div class="ps-card__body">
+
+                  <!-- discourse -->
+                  @if (sec.renderer === 'discourse') {
+                    <div class="r-discourse">
+                      @for (row of discourseRows(sec.data); track $index) {
+                        @if (row.type === 'disc_row') {
+                          <div class="disc-row">
+                            <span class="disc-lbl" [class.disc-lbl--a]="row.variant==='a'" [class.disc-lbl--c]="row.variant==='c'">{{ row.letter }}</span>
+                            <div class="disc-text">
+                              @if (row.h) { <p class="disc-text__h">{{ row.h }}</p> }
+                              @if (row.p) { <p class="disc-text__p">{{ row.p }}</p> }
+                            </div>
+                          </div>
+                        }
+                        @if (row.type === 'hinge') { <div class="disc-hinge" dir="rtl">{{ row.arabic }}</div> }
+                        @if (row.type === 'direction') {
+                          <div class="disc-dir">
+                            @if (row.label) { <p class="disc-dir__lbl">{{ row.label }}</p> }
+                            @if (row.arabic) { <p class="disc-dir__ar" dir="rtl">{{ row.arabic }}</p> }
+                            @if (row.eng) { <p class="disc-dir__en">{{ row.eng }}</p> }
+                          </div>
+                        }
+                      }
+                    </div>
+                  }
+
+                  <!-- chiasm -->
+                  @if (sec.renderer === 'chiasm') {
+                    <div class="r-chiasm">
+                      @for (lv of chiasmLevels(sec.data); track $index) {
+                        <div class="ch-row" [style.padding-left]="(lv.indent * 18) + 'px'"
+                          [class.ch-a]="lv.variant==='a'" [class.ch-b]="lv.variant==='b'"
+                          [class.ch-c]="lv.variant==='c'" [class.ch-x]="lv.variant==='x'">
+                          <span class="ch-lbl" [class.ch-lbl--a]="lv.variant==='a'"
+                            [class.ch-lbl--b]="lv.variant==='b'" [class.ch-lbl--c]="lv.variant==='c'">{{ lv.label }}</span>
+                          @if (lv.ref) { <span class="ch-ref">{{ lv.ref }}</span> }
+                          @if (lv.text) { <span class="ch-txt">{{ lv.text }}</span> }
+                        </div>
+                      }
+                      @if (sec.data?.axis_note) {
+                        <div class="ch-axis"><p class="ch-axis__lbl">Center</p><p>{{ sec.data.axis_note }}</p></div>
+                      }
+                    </div>
+                  }
+
+                  <!-- conflict -->
+                  @if (sec.renderer === 'conflict') {
+                    <div class="r-conflict">
+                      @for (lv of conflictLevels(sec.data); track $index) {
+                        <div class="cf-block">
+                          @if (lv.label) { <p class="cf-lbl">{{ lv.label }}</p> }
+                          @if (lv.arabic) { <p class="cf-ar" dir="rtl">{{ lv.arabic }}</p> }
+                          @if (lv.text) { <p class="cf-txt">{{ lv.text }}</p> }
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  <!-- lexicon -->
+                  @if (sec.renderer === 'lexicon') {
+                    <div class="r-lexicon">
+                      @for (f of lexiconFields(sec.data); track $index) {
+                        <div class="lx-field">
+                          @if (f.label) { <p class="lx-lbl">{{ f.label }}</p> }
+                          @if (f.chips?.length) {
+                            <div class="lx-chips">
+                              @for (chip of f.chips; track $index) { <span class="lx-chip">{{ chip }}</span> }
+                            </div>
+                          }
+                          @if (f.text) { <p class="lx-txt">{{ f.text }}</p> }
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  <!-- purpose -->
+                  @if (sec.renderer === 'purpose') {
+                    <div class="r-purpose">
+                      @for (row of purposeRows(sec.data); track $index) {
+                        <div class="pu-row">
+                          @if (row.label) { <p class="pu-lbl">{{ row.label }}</p> }
+                          @if (row.text) { <p class="pu-txt">{{ row.text }}</p> }
+                          @if (!row.label && !row.text && row) { <p class="pu-txt">{{ row }}</p> }
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  <!-- narrative_seed -->
+                  @if (sec.renderer === 'narrative_seed') {
+                    <div class="r-narrative">
+
+                      <!-- Seed header -->
+                      @if (sec.data?.seed_label || sec.data?.seed) {
+                        <div class="nd-header">
+                          @if (sec.data?.seed_label) {
+                            <p class="nd-eyebrow">{{ sec.data.seed_label }}</p>
+                          }
+                          @if (sec.data?.seed) {
+                            <p class="nd-seed-title">{{ sec.data.seed }}</p>
+                          }
+                        </div>
+                      }
+
+                      <!-- Blueprint table -->
+                      @if (sec.data?.blueprint?.length) {
+                        <div class="nd-bp">
+                          <div class="nd-bp__head">
+                            <span>Symbol</span><span>Meaning</span><span>Narrative Role</span>
+                          </div>
+                          @for (r of sec.data.blueprint; track $index) {
+                            <div class="nd-bp__row">
+                              <span class="nd-bp__sym">{{ r.symbol ?? r.label ?? '' }}</span>
+                              <span class="nd-bp__mean">{{ r.meaning ?? r.text ?? '' }}</span>
+                              <span class="nd-bp__role">{{ r.role ?? r.narrative_role ?? '' }}</span>
+                            </div>
+                          }
+                        </div>
+                      }
+
+                      <!-- Narrative flow -->
+                      @if (flowNodes(sec.data).length) {
+                        <div class="nd-flow-wrap">
+                          <p class="section-label">Narrative Flow</p>
+                          <div class="nd-flow">
+                            @for (n of flowNodes(sec.data); track $index) {
+                              <span class="fl-node" [class.fl-node--hi]="n.highlight">{{ n.text }}</span>
+                              @if (!$last) { <span class="fl-arr">→</span> }
+                            }
+                          </div>
+                        </div>
+                      }
+
+                      <!-- Quote -->
+                      @if (sec.data?.quote) {
+                        <div class="nd-quote"><p>{{ sec.data.quote }}</p></div>
+                      }
+
+                    </div>
+                  }
+
+                  <!-- symbol_maps -->
+                  @if (sec.renderer === 'symbol_maps') {
+                    <div class="r-symbols">
+                      @for (g of symbolGroups(sec.data); track $index) {
+                        <div class="sm-grp">
+                          @if (g.name) { <p class="sm-grp__name">{{ g.name }}</p> }
+                          @for (item of (g.items ?? []); track $index) {
+                            <div class="sm-item">
+                              <span class="sm-ar" dir="rtl">{{ item.arabic }}</span>
+                              <span class="sm-arr">→</span>
+                              <span class="sm-en">{{ item.meaning }}</span>
+                            </div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  <!-- keyvalue -->
+                  @if (sec.renderer === 'keyvalue') {
+                    <div class="r-kv">
+                      @for (p of kvPairs(sec.data); track $index) {
+                        <div class="kv-row"><span class="kv-k">{{ p.key }}</span><span class="kv-v">{{ p.value }}</span></div>
+                      }
+                    </div>
+                  }
+
+                  <!-- clusters -->
+                  @if (sec.renderer === 'clusters') {
+                    <div class="r-clusters">
+                      @for (cl of clusters(sec.data); track $index) {
+                        <div class="cl-item">
+                          @if (cl.label) { <p class="cl-lbl">{{ cl.label }}</p> }
+                          @if (cl.theme) { <p class="cl-theme">{{ cl.theme }}</p> }
+                          @if (cl.verses?.length) {
+                            <div class="cl-refs">
+                              @for (v of cl.verses; track $index) { <span class="cl-ref">{{ v }}</span> }
+                            </div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  <!-- timeline -->
+                  @if (sec.renderer === 'timeline') {
+                    <div class="r-timeline">
+                      @for (s of timelineSteps(sec.data); track $index) {
+                        <div class="tl-item">
+                          <div class="tl-dot"></div>
+                          <div class="tl-body">
+                            @if (s.label) { <p class="tl-lbl">{{ s.label }}</p> }
+                            @if (s.text) { <p class="tl-txt">{{ s.text }}</p> }
+                            @if (s.ref) { <span class="tl-ref">{{ s.ref }}</span> }
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+
+                </div><!-- /ps-card__body -->
+              </div><!-- /ps-card -->
+            }
+          </div><!-- /ps-stage -->
+
+          <!-- Nav -->
+          <div class="ps-nav">
+            <button class="ps-nav__btn" [disabled]="psIdx() === 0" (click)="psGoPrev()">‹</button>
+            <span class="ps-nav__count">{{ psIdx() + 1 }} / {{ psSections().length }}</span>
+            <button class="ps-nav__btn" [disabled]="psIdx() === psSections().length - 1" (click)="psGoNext()">›</button>
+          </div>
+
+        }
+      </div>
+    }
+
+    <!-- ══ 06 · WORLDVIEW ════════════════════════════════════════════ -->
+    @if (activeTab() === 'worldview') {
+      <div class="step-content step-worldview">
+
+        <p class="section-label">Worldview · Surah {{ surahId() }}</p>
+
+        @if (wvHub()) {
+          <div class="wv-grid">
+            <div class="wv-card" (click)="goWorldview()">
+              <span class="wv-card__n">{{ wvHub()!.counts.nodes }}</span>
+              <span class="wv-card__l">Nodes</span>
+            </div>
+            <div class="wv-card" (click)="goWorldview()">
+              <span class="wv-card__n">{{ wvHub()!.counts.sources }}</span>
+              <span class="wv-card__l">Sources</span>
+            </div>
+            <div class="wv-card" (click)="goWorldview()">
+              <span class="wv-card__n">{{ wvHub()!.counts.notes }}</span>
+              <span class="wv-card__l">Notes</span>
+            </div>
+            <div class="wv-card" (click)="goWorldview()">
+              <span class="wv-card__n">{{ wvHub()!.counts.documents }}</span>
+              <span class="wv-card__l">Docs</span>
+            </div>
+          </div>
+        }
+
+        <button class="wv-open-btn" (click)="goWorldview()">
+          <ion-icon name="globe-outline" />
+          Open Worldview Hub
+        </button>
+
+        @if (unit()?.theme) {
+          <div class="wv-theme-card">
+            <p class="section-label">Passage Theme</p>
+            <p class="wv-range">{{ ayahRange() }}</p>
+            <p class="wv-theme">{{ unit()!.theme }}</p>
+          </div>
+        }
+
+      </div>
+    }
+
+  }
+</ion-content>
+
+<ion-footer class="study-footer">
+  <ion-tab-bar class="study-tabs">
+    <ion-tab-button [class.tab--on]="activeTab()==='reading'"     (click)="setTab('reading')"     title="Reading">
+      <ion-icon name="book-outline" />
+    </ion-tab-button>
+    <ion-tab-button [class.tab--on]="activeTab()==='vocab'"       (click)="setTab('vocab')"       title="Morphology">
+      <span class="tab-ar">م</span>
+    </ion-tab-button>
+    <ion-tab-button [class.tab--on]="activeTab()==='sentence'"    (click)="setTab('sentence')"    title="Sentence Structure">
+      <ion-icon name="analytics-outline" />
+    </ion-tab-button>
+    <ion-tab-button [class.tab--on]="activeTab()==='expressions'" (click)="setTab('expressions')" title="Expressions">
+      <ion-icon name="chatbubble-outline" />
+    </ion-tab-button>
+    <ion-tab-button [class.tab--on]="activeTab()==='structure'"   (click)="setTab('structure')"   title="Passage Structure">
+      <ion-icon name="git-branch-outline" />
+    </ion-tab-button>
+    <ion-tab-button [class.tab--on]="activeTab()==='worldview'"   (click)="setTab('worldview')"   title="Worldview">
+      <ion-icon name="globe-outline" />
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

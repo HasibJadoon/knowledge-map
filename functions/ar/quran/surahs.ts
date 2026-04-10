@@ -25,13 +25,6 @@ function parseJson(value: string | null) {
 }
 
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
-  if (!user) {
-    return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
-      status: 401,
-      headers: jsonHeaders,
-    });
-  }
-
   const url = new URL(ctx.request.url);
   const q = (url.searchParams.get('q') ?? '').trim();
 

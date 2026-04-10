@@ -1,0 +1,62 @@
+.wv-content { --background: var(--km-bg); }
+
+.wv-page { padding: 16px 16px 40px; }
+
+.mod-header {
+  margin-bottom: 20px;
+  &__title { font-size: 22px; font-weight: 700; color: var(--km-text); margin: 0 0 4px; }
+  &__sub { font-size: 13px; color: var(--km-text-3); margin: 0; }
+}
+
+.state-msg {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 48px 16px; color: var(--km-text-2); text-align: center;
+  &--error { color: var(--ion-color-danger); }
+}
+
+.wv-list { display: flex; flex-direction: column; gap: 10px; }
+
+.wv-row {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: 14px;
+  padding: 14px;
+
+  &__main { margin-bottom: 10px; }
+  &__title { font-size: 15px; font-weight: 600; color: var(--km-text); margin: 6px 0 4px; }
+  &__summary { font-size: 13px; color: var(--km-text-2); margin: 4px 0 0; line-height: 1.5; }
+  &__meta { display: flex; gap: 8px; font-size: 12px; color: var(--km-text-3); margin-top: 4px; }
+  &__chips { display: flex; gap: 8px; }
+}
+
+.wv-badge {
+  display: inline-block;
+  background: rgba(107,186,255,0.1);
+  border: 1px solid rgba(107,186,255,0.2);
+  color: #6bbaff;
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+
+.wv-chip {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--km-border);
+  border-radius: 10px;
+  padding: 6px 12px;
+  min-width: 54px;
+
+  &__n { font-size: 18px; font-weight: 700; color: var(--km-gold, #c9a84c); line-height: 1; }
+  &__l { font-size: 10px; color: var(--km-text-3); }
+}
+
+.wv-status {
+  display: inline-block;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--km-border);
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 11px; color: var(--km-text-3);
+}

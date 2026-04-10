@@ -5,8 +5,7 @@ import { AuthGuard } from './core/auth/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
+    loadComponent: () => import('./features/home/home.page').then(m => m.HomePage),
   },
   {
     path: 'login',
@@ -72,25 +71,75 @@ const routes: Routes = [
     redirectTo: 'podcast',
     pathMatch: 'full',
   },
+  // ── Quran surah sub-pages (more specific first) ─────────────────────────────
   {
-    path: 'quran/page/:page',
-    loadComponent: () => import('./features/quran/pages/reader-page/quran-reader.page').then(m => m.QuranReaderPage),
-    canActivate: [AuthGuard]
+    path: 'quran/surah/:surahId/worldview/nodes',
+    loadComponent: () => import('./features/quran/pages/worldview-nodes-page/worldview-nodes.page').then(m => m.WorldviewNodesPage),
   },
   {
-    path: 'quran/surah/:surah/notes',
+    path: 'quran/surah/:surahId/worldview/sources',
+    loadComponent: () => import('./features/quran/pages/worldview-sources-page/worldview-sources.page').then(m => m.WorldviewSourcesPage),
+  },
+  {
+    path: 'quran/surah/:surahId/worldview/podcasts',
+    loadComponent: () => import('./features/quran/pages/worldview-podcasts-page/worldview-podcasts.page').then(m => m.WorldviewPodcastsPage),
+  },
+  {
+    path: 'quran/surah/:surahId/worldview/documents',
+    loadComponent: () => import('./features/quran/pages/worldview-documents-page/worldview-documents.page').then(m => m.WorldviewDocumentsPage),
+  },
+  {
+    path: 'quran/surah/:surahId/worldview/notes',
+    loadComponent: () => import('./features/quran/pages/worldview-notes-page/worldview-notes.page').then(m => m.WorldviewNotesPage),
+  },
+  {
+    path: 'quran/surah/:surahId/worldview/links',
+    loadComponent: () => import('./features/quran/pages/worldview-links-page/worldview-links.page').then(m => m.WorldviewLinksPage),
+  },
+  {
+    path: 'quran/surah/:surahId/worldview',
+    loadComponent: () => import('./features/quran/pages/worldview-hub-page/worldview-hub.page').then(m => m.WorldviewHubPage),
+  },
+  {
+    path: 'quran/surah/:surahId/study/:passageNo',
+    loadComponent: () => import('./features/quran/pages/passage-study-page/passage-study.page').then(m => m.PassageStudyPage),
+  },
+  {
+    path: 'quran/surah/:surahId/study',
+    loadComponent: () => import('./features/quran/pages/surah-study-page/surah-study.page').then(m => m.SurahStudyPage),
+  },
+  {
+    path: 'quran/surah/:surahId/notes',
     loadComponent: () => import('./features/quran/pages/surah-notes-page/quran-surah-notes.page').then(m => m.QuranSurahNotesPage),
-    canActivate: [AuthGuard]
   },
   {
-    path: 'quran/surah/:surah',
+    path: 'quran/surah/:surahId/vocabulary',
+    loadComponent: () => import('./features/quran/pages/surah-vocabulary-page/surah-vocabulary.page').then(m => m.SurahVocabularyPage),
+  },
+  {
+    path: 'quran/surah/:surahId/review',
+    loadComponent: () => import('./features/quran/pages/surah-review-page/surah-review.page').then(m => m.SurahReviewPage),
+  },
+  {
+    path: 'quran/surah/:surahId/srs',
+    loadComponent: () => import('./features/quran/pages/surah-srs-page/surah-srs.page').then(m => m.SurahSrsPage),
+  },
+  // ── Quran passage & text ──────────────────────────────────────────────────────
+  {
+    path: 'quran/:surahId/passage/:passageIndex',
+    loadComponent: () => import('./features/quran/pages/passage-page/quran-passage.page').then(m => m.QuranPassagePage),
+  },
+  {
+    path: 'quran/reader',
     loadComponent: () => import('./features/quran/pages/reader-page/quran-reader.page').then(m => m.QuranReaderPage),
-    canActivate: [AuthGuard]
+  },
+  {
+    path: 'quran/:surahId',
+    loadComponent: () => import('./features/quran/pages/text-page/quran-text.page').then(m => m.QuranTextPage),
   },
   {
     path: 'quran',
     loadComponent: () => import('./features/quran/pages/browse-page/quran-browse.page').then(m => m.QuranBrowsePage),
-    canActivate: [AuthGuard]
   },
   {
     path: 'settings',
@@ -149,7 +198,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { title: 'Flows', subtitle: 'Coming soon.' }
   },
-  { path: '**', redirectTo: 'dashboard' }
+  { path: '**', redirectTo: '' }
 ];
 @NgModule({
   imports: [

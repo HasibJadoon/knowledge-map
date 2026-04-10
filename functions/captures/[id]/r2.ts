@@ -2,7 +2,7 @@ import type { D1Database, PagesFunction, R2Bucket } from '@cloudflare/workers-ty
 
 interface Env {
   DB: D1Database;
-  ASSETS: R2Bucket;
+  KMAPS_ASSETS: R2Bucket;
 }
 
 const JSON_HEADERS = {
@@ -66,7 +66,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ env, params, request }
     const url = `${CDN_BASE}/${key}`;
 
     const arrayBuf = await file.arrayBuffer();
-    await env.ASSETS.put(key, arrayBuf, {
+    await env.KMAPS_ASSETS.put(key, arrayBuf, {
       httpMetadata: { contentType: file.type || 'application/octet-stream' },
     });
 
@@ -119,7 +119,7 @@ export const onRequestDelete: PagesFunction<Env> = async ({ env, params, request
     if (!target) return json({ ok: false, error: 'Resource not found' }, 404);
 
     // Delete from R2
-    await env.ASSETS.delete(target.key);
+    await env.KMAPS_ASSETS.delete(target.key);
 
     const updated = resources.filter((r: { resource_id: string }) => r.resource_id !== resourceId);
     await env.DB.prepare(
