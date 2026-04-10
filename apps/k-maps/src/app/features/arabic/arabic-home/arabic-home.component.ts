@@ -6,7 +6,7 @@ import {
   inject,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import gsap from 'gsap';
 import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { ArabicMenuCardComponent } from '../arabic-menu-card/arabic-menu-card.component';
@@ -16,7 +16,7 @@ import { ArabicMenuCardComponent } from '../arabic-menu-card/arabic-menu-card.co
   selector: 'km-arabic-home',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, BackButtonComponent, ArabicMenuCardComponent],
+  imports: [BackButtonComponent, ArabicMenuCardComponent],
   templateUrl: './arabic-home.component.html',
   styleUrl: './arabic-home.component.scss',
 })
