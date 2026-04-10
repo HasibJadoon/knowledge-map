@@ -10,13 +10,15 @@ export const WORLDVIEW_ROUTES: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./worldview-home.component').then((m) => m.WorldviewHomeComponent),
+          import('./worldview-home/worldview-home.component').then((m) => m.WorldviewHomeComponent),
         title: 'Worldview',
       },
       {
         path: 'library',
         loadComponent: () =>
-          import('./worldview-library.component').then((m) => m.WorldviewLibraryComponent),
+          import('./worldview-library/worldview-library.component').then(
+            (m) => m.WorldviewLibraryComponent,
+          ),
         title: 'Library — Worldview',
       },
       {
@@ -30,13 +32,17 @@ export const WORLDVIEW_ROUTES: Routes = [
       {
         path: 'compare',
         loadComponent: () =>
-          import('./worldview-compare.component').then((m) => m.WorldviewCompareComponent),
+          import('./worldview-compare/worldview-compare.component').then(
+            (m) => m.WorldviewCompareComponent,
+          ),
         title: 'Comparison — Worldview',
       },
       {
         path: 'brainstorm',
         loadComponent: () =>
-          import('./worldview-brainstorm.component').then((m) => m.WorldviewBrainstormComponent),
+          import('./worldview-brainstorm/worldview-brainstorm.component').then(
+            (m) => m.WorldviewBrainstormComponent,
+          ),
         title: 'Brainstorm — Worldview',
       },
     ],

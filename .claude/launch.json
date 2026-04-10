@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "k-maps",
-      "runtimeExecutable": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/.claude/start-k-maps.sh",
+      "runtimeExecutable": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/.claude/worktrees/sharp-kepler/.claude/start-k-maps.sh",
       "runtimeArgs": [],
       "port": 4201
     }
