@@ -19,13 +19,14 @@ export class AtlasMotionService {
   // ─── Entry / first-load ──────────────────────────────────────────────────
 
   /**
-   * Entry animation: sky fades in, title resolves, Qur'an constellation pulses once.
+   * Entry animation: sky fades in and the mode indicator resolves.
+   * Optional header elements can still be animated when present.
    */
   entrySequence(
     starHost: HTMLElement,
-    titleEl: HTMLElement,
-    subtitleEl: HTMLElement,
     modeIndicatorEl: HTMLElement,
+    titleEl?: HTMLElement | null,
+    subtitleEl?: HTMLElement | null,
   ): gsap.core.Timeline {
     this.kill();
 
@@ -34,21 +35,23 @@ export class AtlasMotionService {
     // Starfield fades in slowly
     tl.fromTo(starHost, { opacity: 0 }, { opacity: 1, duration: 2.2 }, 0);
 
-    // Title resolves from blur
-    tl.fromTo(
-      titleEl,
-      { opacity: 0, filter: 'blur(12px)', y: 6 },
-      { opacity: 1, filter: 'blur(0px)', y: 0, duration: 1.4 },
-      0.8,
-    );
+    if (titleEl) {
+      tl.fromTo(
+        titleEl,
+        { opacity: 0, filter: 'blur(12px)', y: 6 },
+        { opacity: 1, filter: 'blur(0px)', y: 0, duration: 1.4 },
+        0.8,
+      );
+    }
 
-    // Subtitle drifts up
-    tl.fromTo(
-      subtitleEl,
-      { opacity: 0, y: 10, letterSpacing: '0.25em' },
-      { opacity: 0.68, y: 0, letterSpacing: '0.06em', duration: 1.1 },
-      1.4,
-    );
+    if (subtitleEl) {
+      tl.fromTo(
+        subtitleEl,
+        { opacity: 0, y: 10, letterSpacing: '0.25em' },
+        { opacity: 0.68, y: 0, letterSpacing: '0.06em', duration: 1.1 },
+        1.4,
+      );
+    }
 
     // Mode indicator whispers in
     tl.fromTo(
@@ -80,16 +83,24 @@ export class AtlasMotionService {
       onComplete,
     });
 
-    // Brief dim then resolve
-    tl.to(svgCanvas, { opacity: 0.6, duration: 0.18 })
-      .to(svgCanvas, { opacity: 1, duration: 0.55 }, '+=0.1');
+    // Gentle density shift without a flash or blur pulse.
+    tl.fromTo(
+      svgCanvas,
+      { opacity: 0.9 },
+      { opacity: 0.78, duration: 0.34, ease: 'sine.inOut' },
+      0,
+    ).to(
+      svgCanvas,
+      { opacity: 1, duration: 1.05, ease: 'expo.out' },
+      0.14,
+    );
 
     // Focus label fades in
     tl.fromTo(
       focusLabel,
-      { opacity: 0, y: 6 },
-      { opacity: 1, y: 0, duration: 0.42 },
-      0.2,
+      { opacity: 0, y: 10, letterSpacing: '0.18em' },
+      { opacity: 1, y: 0, letterSpacing: '0.08em', duration: 0.62, ease: 'power2.out' },
+      0.24,
     );
 
     this.activeTransition = tl;
@@ -289,6 +300,10 @@ export class AtlasMotionService {
   }
 
   // ─── Utility ─────────────────────────────────────────────────────────────
+
+  dispose(): void {
+    this.kill();
+  }
 
   private kill(): void {
     this.activeTransition?.kill();

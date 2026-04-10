@@ -36,16 +36,11 @@ interface ModuleShortcut {
   id: string;
   label: string;
   route: string;
-  glyph: string;
+  meta: string;
 }
 
 const MODULE_SHORTCUTS: ModuleShortcut[] = [
-  { id: 'hub',       label: 'Hub',       route: '/hub',       glyph: '⬡' },
-  { id: 'quran',     label: 'Qur\'an',   route: '/quran',     glyph: '◎' },
-  { id: 'arabic',    label: 'Arabic',    route: '/arabic',    glyph: 'ع' },
-  { id: 'worldview', label: 'Worldview', route: '/worldview', glyph: '◈' },
-  { id: 'planner',   label: 'Planner',   route: '/planner',   glyph: '◧' },
-  { id: 'srs',       label: 'Review',    route: '/srs',       glyph: '◰' },
+  { id: 'start', label: 'Start', route: '/home', meta: 'Home' },
 ];
 
 @Component({
@@ -63,8 +58,6 @@ export class AtlasLandingComponent implements AfterViewInit, OnDestroy {
   @ViewChild('host',           { static: true }) private hostRef!:           ElementRef<HTMLElement>;
   @ViewChild('starHost',       { static: true }) private starHostRef!:       ElementRef<HTMLElement>;
   @ViewChild('svgRoot',        { static: true }) private svgRef!:            ElementRef<SVGSVGElement>;
-  @ViewChild('titleEl',        { static: true }) private titleRef!:          ElementRef<HTMLElement>;
-  @ViewChild('subtitleEl',     { static: true }) private subtitleRef!:       ElementRef<HTMLElement>;
   @ViewChild('modeLabelEl',    { static: true }) private modeLabelRef!:      ElementRef<HTMLElement>;
   @ViewChild('focusCardEl',    { static: false }) private focusCardRef?:     ElementRef<HTMLElement>;
 
@@ -100,6 +93,7 @@ export class AtlasLandingComponent implements AfterViewInit, OnDestroy {
   private resizeObserver?: ResizeObserver;
   private quranBreathTween?: gsap.core.Tween;
   private cancelAutoTour?: () => void;
+  private focusCardRevealTimerId: number | null = null;
   private initialised = false;
 
   // ─── Lifecycle ───────────────────────────────────────────────────────────
@@ -116,6 +110,7 @@ export class AtlasLandingComponent implements AfterViewInit, OnDestroy {
   async ngAfterViewInit(): Promise<void> {
     this.ngZone.runOutsideAngular(() => {
       this.starfield.init(this.starHostRef.nativeElement);
+      this.starfield.setSceneLayer('sky');
     });
 
     this.graphData = await this.facade.loadGraphData();
@@ -150,8 +145,6 @@ export class AtlasLandingComponent implements AfterViewInit, OnDestroy {
     // Entry animation — auto-tour begins once it completes
     const entryTl = this.motion.entrySequence(
       this.starHostRef.nativeElement,
-      this.titleRef.nativeElement,
-      this.subtitleRef.nativeElement,
       this.modeLabelRef.nativeElement,
     );
 
@@ -171,15 +164,26 @@ export class AtlasLandingComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.initialised = false;
+    if (this.focusCardRevealTimerId !== null) {
+      window.clearTimeout(this.focusCardRevealTimerId);
+      this.focusCardRevealTimerId = null;
+    }
     this.resizeObserver?.disconnect();
     this.quranBreathTween?.kill();
     this.cancelAutoTour?.();
+    this.motion.dispose();
+    this.graph.dispose();
     this.starfield.dispose();
+    this.scene.reset();
+    this.graphData = null;
   }
 
   // ─── Scene change handler ────────────────────────────────────────────────
 
   private onSceneChange(state: SceneState): void {
+    this.starfield.setSceneLayer(state.layer);
+
     const legacyFocus = this.adapter.toLegacyFocusState(state);
     this.graph.setFocusAttr(legacyFocus);
     this.graph.renderScene(state, legacyFocus);
@@ -245,7 +249,7 @@ export class AtlasLandingComponent implements AfterViewInit, OnDestroy {
   private beginAutoTour(): void {
     // Wait a beat so the sky render settles before moving
     const warmup = window.setTimeout(() => {
-      this.cancelAutoTour = this.scene.startAutoTour(3200, 1000);
+      this.cancelAutoTour = this.scene.startAutoTour(4000, 1250);
     }, 600);
     // If destroyed before warmup fires, clear it too
     const origCancel = this.cancelAutoTour;
@@ -342,9 +346,13 @@ export class AtlasLandingComponent implements AfterViewInit, OnDestroy {
     });
 
     // Animate card in (deferred one frame so the DOM element exists)
-    setTimeout(() => {
+    if (this.focusCardRevealTimerId !== null) {
+      window.clearTimeout(this.focusCardRevealTimerId);
+    }
+    this.focusCardRevealTimerId = window.setTimeout(() => {
       const cardEl = this.focusCardRef?.nativeElement;
       if (cardEl) this.motion.revealCard(cardEl);
+      this.focusCardRevealTimerId = null;
     });
   }
 

@@ -16,14 +16,6 @@
 
   <!-- ── UI Overlay ────────────────────────────────────────────────────── -->
 
-  <header class="atlas__header">
-    <h1 class="atlas__title" #titleEl>
-      <span class="atlas__title-ar" lang="ar">القرآن الكريم</span>
-      <span class="atlas__title-en">K·MAPS</span>
-    </h1>
-    <p class="atlas__subtitle" #subtitleEl>Sacred Knowledge Atlas</p>
-  </header>
-
   <!-- Mode indicator (top-right) -->
   <div class="atlas__mode" aria-live="polite">
     <span class="atlas__mode-dot"></span>
@@ -95,24 +87,33 @@
     </aside>
   }
 
-  <!-- Module shortcuts (bottom bar) -->
-  <nav class="atlas__shortcuts" aria-label="Module shortcuts">
-    @for (mod of moduleShortcuts; track mod.id) {
-      <button
-        class="atlas__shortcut"
-        type="button"
-        [attr.aria-label]="'Go to ' + mod.label"
-        (click)="navigateTo(mod.route)"
-      >
-        <span class="atlas__shortcut-glyph" aria-hidden="true">{{ mod.glyph }}</span>
-        <span class="atlas__shortcut-label">{{ mod.label }}</span>
-      </button>
+  <div class="atlas__dock" [attr.data-layer]="currentLayer()">
+    @if (currentLayer() === 'sky') {
+      <p class="atlas__hint" aria-hidden="true">Click a cluster to explore · scroll to zoom</p>
     }
-  </nav>
 
-  <!-- Sky hint -->
-  @if (currentLayer() === 'sky') {
-    <p class="atlas__hint" aria-hidden="true">Click a cluster to explore · scroll to zoom</p>
-  }
+    <!-- Module shortcuts (bottom dock) -->
+    <nav class="atlas__shortcuts" aria-label="Module shortcuts">
+      @for (mod of moduleShortcuts; track mod.id) {
+        <button
+          class="atlas__shortcut"
+          type="button"
+          [attr.data-module]="mod.id"
+          [attr.aria-label]="'Go to ' + mod.label"
+          (click)="navigateTo(mod.route)"
+        >
+          <span class="atlas__shortcut-sky" aria-hidden="true">
+            <span class="atlas__shortcut-sky-arc"></span>
+            <span class="atlas__shortcut-sky-star atlas__shortcut-sky-star--1"></span>
+            <span class="atlas__shortcut-sky-star atlas__shortcut-sky-star--2"></span>
+            <span class="atlas__shortcut-sky-star atlas__shortcut-sky-star--3"></span>
+            <span class="atlas__shortcut-sky-star atlas__shortcut-sky-star--4"></span>
+          </span>
+          <span class="atlas__shortcut-label">{{ mod.label }}</span>
+          <span class="atlas__shortcut-meta">{{ mod.meta }}</span>
+        </button>
+      }
+    </nav>
+  </div>
 
 </div>
