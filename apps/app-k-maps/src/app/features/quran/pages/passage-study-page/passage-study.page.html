@@ -69,41 +69,55 @@
 
     <!-- ══ 02 · MORPHOLOGY ═══════════════════════════════════════════ -->
     @if (activeTab() === 'vocab') {
-      <div class="step-content">
+      <div class="step-content vocab-tab">
+
         @if (nouns().length > 0 || verbs().length > 0) {
 
-          <div class="seg-ctrl">
-            <button class="seg-btn" [class.seg-btn--on]="showNouns()" (click)="showNouns.set(true)">
-              Nouns <span class="seg-badge">{{ nouns().length }}</span>
+          <div class="vocab-toggle">
+            <button class="toggle-btn" [class.toggle-btn--active]="showNouns()" (click)="showNouns.set(true)">
+              Nouns <span class="badge">{{ nouns().length }}</span>
             </button>
-            <button class="seg-btn" [class.seg-btn--on]="!showNouns()" (click)="showNouns.set(false)">
-              Verbs <span class="seg-badge">{{ verbs().length }}</span>
+            <button class="toggle-btn" [class.toggle-btn--active]="!showNouns()" (click)="showNouns.set(false)">
+              Verbs <span class="badge">{{ verbs().length }}</span>
             </button>
           </div>
 
-          <div class="word-list">
-            @for (w of (showNouns() ? nouns() : verbs()); track w.word_id) {
-              <div class="word-row" [class.word-row--verb]="!showNouns()">
-                <div class="word-row__left">
-                  <span class="word-row__ar" dir="rtl">{{ w.word }}</span>
-                  @if (w.root) { <span class="word-row__root" dir="rtl">{{ w.root }}</span> }
+          @if (showNouns()) {
+            <div class="word-grid">
+              @for (w of nouns(); track w.word_id) {
+                <div class="word-card">
+                  <span class="word-card__ar" dir="rtl">{{ w.word }}</span>
+                  @if (w.translation) { <span class="word-card__trans">{{ w.translation }}</span> }
+                  @if (w.root) {
+                    <span class="word-card__root">Root: <span class="word-card__root-value" dir="rtl">{{ w.root }}</span></span>
+                  }
+                  @if (w.gloss && w.gloss !== w.translation) { <span class="word-card__gloss">{{ w.gloss }}</span> }
+                  <span class="word-card__ref">{{ surahId() }}:{{ w.ayah }}</span>
                 </div>
-                <div class="word-row__right">
-                  @if (w.translation) { <span class="word-row__trans">{{ w.translation }}</span> }
-                  @if (w.gloss && w.gloss !== w.translation) { <span class="word-row__gloss">{{ w.gloss }}</span> }
-                  <div class="word-row__meta">
-                    @if (w.pattern) { <span class="meta-chip">{{ w.pattern }}</span> }
-                    @if (w.verb_form) { <span class="meta-chip">{{ w.verb_form }}</span> }
-                    <span class="meta-ref">{{ surahId() }}:{{ w.ayah }}</span>
-                  </div>
+              }
+              @if (nouns().length === 0) { <p class="vocab-empty">No nouns found.</p> }
+            </div>
+          } @else {
+            <div class="word-grid">
+              @for (w of verbs(); track w.word_id) {
+                <div class="word-card word-card--verb">
+                  <span class="word-card__ar" dir="rtl">{{ w.word }}</span>
+                  @if (w.translation) { <span class="word-card__trans">{{ w.translation }}</span> }
+                  @if (w.root) {
+                    <span class="word-card__root">Root: <span class="word-card__root-value" dir="rtl">{{ w.root }}</span></span>
+                  }
+                  @if (w.verb_form) { <span class="word-card__morph">{{ w.verb_form }}</span> }
+                  <span class="word-card__ref">{{ surahId() }}:{{ w.ayah }}</span>
                 </div>
-              </div>
-            }
-          </div>
+              }
+              @if (verbs().length === 0) { <p class="vocab-empty">No verbs found.</p> }
+            </div>
+          }
 
         } @else {
-          <div class="step-empty">No morphology data for this passage.</div>
+          <div class="step-empty">No morphology data available for this passage.</div>
         }
+
       </div>
     }
 
@@ -305,10 +319,15 @@
                   @if (sec.renderer === 'conflict') {
                     <div class="r-conflict">
                       @for (lv of conflictLevels(sec.data); track $index) {
-                        <div class="cf-block">
+                        <div class="cf-block"
+                          [class.cf-block--human]="lv.type==='human'"
+                          [class.cf-block--meta]="lv.type==='meta'"
+                          [class.cf-block--interp]="lv.type==='interp'">
                           @if (lv.label) { <p class="cf-lbl">{{ lv.label }}</p> }
+                          @if (lv.primary) { <p class="cf-primary">{{ lv.primary }}</p> }
+                          @if (lv.sub) { <p class="cf-sub">{{ lv.sub }}</p> }
                           @if (lv.arabic) { <p class="cf-ar" dir="rtl">{{ lv.arabic }}</p> }
-                          @if (lv.text) { <p class="cf-txt">{{ lv.text }}</p> }
+                          @if (!lv.primary && lv.text) { <p class="cf-primary">{{ lv.text }}</p> }
                         </div>
                       }
                     </div>
@@ -317,15 +336,18 @@
                   <!-- lexicon -->
                   @if (sec.renderer === 'lexicon') {
                     <div class="r-lexicon">
-                      @for (f of lexiconFields(sec.data); track $index) {
+                      @for (f of lexiconFields(sec.data); track $index; let last = $last) {
                         <div class="lx-field">
-                          @if (f.label) { <p class="lx-lbl">{{ f.label }}</p> }
+                          <div class="lx-head">
+                            @if (f.name ?? f.label) { <span class="lx-name">{{ f.name ?? f.label }}</span> }
+                            @if (f.desc) { <span class="lx-desc">{{ f.desc }}</span> }
+                          </div>
                           @if (f.chips?.length) {
                             <div class="lx-chips">
                               @for (chip of f.chips; track $index) { <span class="lx-chip">{{ chip }}</span> }
                             </div>
                           }
-                          @if (f.text) { <p class="lx-txt">{{ f.text }}</p> }
+                          @if (!last) { <div class="lx-divider"></div> }
                         </div>
                       }
                     </div>
@@ -336,9 +358,12 @@
                     <div class="r-purpose">
                       @for (row of purposeRows(sec.data); track $index) {
                         <div class="pu-row">
-                          @if (row.label) { <p class="pu-lbl">{{ row.label }}</p> }
-                          @if (row.text) { <p class="pu-txt">{{ row.text }}</p> }
-                          @if (!row.label && !row.text && row) { <p class="pu-txt">{{ row }}</p> }
+                          @if (row.label) { <div class="pu-label">{{ row.label }}</div> }
+                          <div class="pu-copy">
+                            @if (row.h) { <div class="pu-h">{{ row.h }}</div> }
+                            @if (row.p) { <div class="pu-p">{{ row.p }}</div> }
+                            @if (!row.h && !row.p && row.text) { <div class="pu-p">{{ row.text }}</div> }
+                          </div>
                         </div>
                       }
                     </div>
@@ -348,25 +373,22 @@
                   @if (sec.renderer === 'narrative_seed') {
                     <div class="r-narrative">
 
-                      <!-- Seed header -->
-                      @if (sec.data?.seed_label || sec.data?.seed) {
+                      <!-- Seed header: handles both {seed:{label,title}} and {seed_label, seed} flat formats -->
+                      @if (sec.data?.seed?.label || sec.data?.seed?.title || sec.data?.seed_label || (typeof sec.data?.seed === 'string' && sec.data?.seed)) {
                         <div class="nd-header">
-                          @if (sec.data?.seed_label) {
-                            <p class="nd-eyebrow">{{ sec.data.seed_label }}</p>
-                          }
-                          @if (sec.data?.seed) {
-                            <p class="nd-seed-title">{{ sec.data.seed }}</p>
-                          }
+                          <p class="nd-eyebrow">{{ sec.data?.seed?.label ?? sec.data?.seed_label }}</p>
+                          <p class="nd-seed-title">{{ sec.data?.seed?.title ?? (typeof sec.data?.seed === 'string' ? sec.data?.seed : null) }}</p>
                         </div>
                       }
 
-                      <!-- Blueprint table -->
-                      @if (sec.data?.blueprint?.length) {
+                      <!-- Blueprint table: handles {blueprint:{rows:[]}} and {blueprint:[]} -->
+                      @if ((sec.data?.blueprint?.rows ?? sec.data?.blueprint)?.length) {
                         <div class="nd-bp">
+                          <p class="nd-bp__eyebrow">Blueprint Mapping</p>
                           <div class="nd-bp__head">
-                            <span>Symbol</span><span>Meaning</span><span>Narrative Role</span>
+                            <span>Symbol</span><span>Meaning</span><span>Role</span>
                           </div>
-                          @for (r of sec.data.blueprint; track $index) {
+                          @for (r of (sec.data?.blueprint?.rows ?? sec.data?.blueprint); track $index) {
                             <div class="nd-bp__row">
                               <span class="nd-bp__sym">{{ r.symbol ?? r.label ?? '' }}</span>
                               <span class="nd-bp__mean">{{ r.meaning ?? r.text ?? '' }}</span>
@@ -379,7 +401,7 @@
                       <!-- Narrative flow -->
                       @if (flowNodes(sec.data).length) {
                         <div class="nd-flow-wrap">
-                          <p class="section-label">Narrative Flow</p>
+                          <p class="nd-flow-lbl">Narrative Flow</p>
                           <div class="nd-flow">
                             @for (n of flowNodes(sec.data); track $index) {
                               <span class="fl-node" [class.fl-node--hi]="n.highlight">{{ n.text }}</span>
@@ -389,9 +411,9 @@
                         </div>
                       }
 
-                      <!-- Quote -->
-                      @if (sec.data?.quote) {
-                        <div class="nd-quote"><p>{{ sec.data.quote }}</p></div>
+                      <!-- Close / Quote -->
+                      @if (sec.data?.close || sec.data?.quote) {
+                        <div class="nd-close"><p>{{ sec.data?.close ?? sec.data?.quote }}</p></div>
                       }
 
                     </div>
@@ -405,9 +427,10 @@
                           @if (g.name) { <p class="sm-grp__name">{{ g.name }}</p> }
                           @for (item of (g.items ?? []); track $index) {
                             <div class="sm-item">
-                              <span class="sm-ar" dir="rtl">{{ item.arabic }}</span>
-                              <span class="sm-arr">→</span>
-                              <span class="sm-en">{{ item.meaning }}</span>
+                              @if (item.label) { <span class="sm-label">{{ item.label }}</span> }
+                              @else if (item.arabic) { <span class="sm-label" dir="rtl" style="font-family:var(--km-font-arabic)">{{ item.arabic }}</span> }
+                              @if (item.role) { <span class="sm-role">{{ item.role }}</span> }
+                              @if (item.meaning) { <span class="sm-meaning">{{ item.meaning }}</span> }
                             </div>
                           }
                         </div>
