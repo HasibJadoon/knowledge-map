@@ -84,7 +84,7 @@ SELECT json_object(
         )
       )
       FROM unit_row u
-      JOIN ar_u_quran_ayah_words qw
+      JOIN ar_quran_word_occurrences qw
         ON qw.surah = ?1
        AND qw.ayah BETWEEN u.ayah_from AND u.ayah_to
       LEFT JOIN ar_u_tokens tok
@@ -114,7 +114,7 @@ SELECT json_object(
         )
       )
       FROM unit_row u
-      JOIN ar_u_quran_ayah_words qw
+      JOIN ar_quran_word_occurrences qw
         ON qw.surah = ?1
        AND qw.ayah BETWEEN u.ayah_from AND u.ayah_to
       LEFT JOIN ar_u_tokens tok

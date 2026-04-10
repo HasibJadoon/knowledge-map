@@ -51,7 +51,7 @@ unit_rows AS (
   LEFT JOIN ar_container_unit_task t
     ON t.unit_id = u.id
    AND t.parent_task_id IS NULL
-  LEFT JOIN ar_u_quran_ayah_words qw
+  LEFT JOIN ar_quran_word_occurrences qw
     ON qw.surah = ?1
    AND qw.ayah BETWEEN u.ayah_from AND u.ayah_to
   GROUP BY

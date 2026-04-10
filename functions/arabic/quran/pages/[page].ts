@@ -319,7 +319,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         root,
         page,
         line
-      FROM ar_u_quran_ayah_words
+      FROM ar_quran_word_occurrences
       WHERE ${wordConditions}
       ORDER BY word_id ASC, surah ASC, ayah ASC, position ASC
     `

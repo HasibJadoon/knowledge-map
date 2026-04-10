@@ -126,6 +126,7 @@ type ReaderTab = 'highlights' | 'notes' | 'wv';
 const ARABIC_SCRIPT_RE = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
 const END_MARKER_RE = /[\u06DD\u06DE][\u0660-\u0669]*/g;
 const ARABIC_INDIC_ONLY_RE = /^[\u0660-\u0669]+$/;
+const WV_ORIGIN = 'https://k-maps.com';
 const KIND_ICON: Record<string, string> = {
   highlight: '◆',
   quote: '"',
@@ -155,7 +156,6 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   private http = inject(HttpClient);
   private cdr = inject(ChangeDetectorRef);
   private readonly apiBase = environment.apiBase;
-  private readonly wvBase = environment.wvBase;
 
   private routeSub?: Subscription;
   private resizePointerId: number | null = null;
@@ -770,7 +770,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     this.notesLoading.set(true);
 
     try {
-      const res = await fetch(`${this.wvBase}/wv/notes?source_unit_id=${unitId}&limit=100`);
+      const res = await fetch(`${WV_ORIGIN}/wv/notes?source_unit_id=${unitId}&limit=100`);
       const data = await res.json();
       if (this.selectedUnit()?.id !== unitId) return;
 

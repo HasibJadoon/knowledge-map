@@ -156,7 +156,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         qw.lemma,
         qw.root,
         qw.class_name
-      FROM ar_u_quran_ayah_words qw
+      FROM ar_quran_word_occurrences qw
       WHERE qw.surah = ?
         AND qw.ayah BETWEEN ? AND ?
         AND lower(qw.class_name) LIKE '%noun%'
@@ -174,7 +174,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         qw.lemma,
         qw.root,
         qw.class_name
-      FROM ar_u_quran_ayah_words qw
+      FROM ar_quran_word_occurrences qw
       WHERE qw.surah = ?
         AND qw.ayah BETWEEN ? AND ?
         AND lower(qw.class_name) LIKE '%verb%'

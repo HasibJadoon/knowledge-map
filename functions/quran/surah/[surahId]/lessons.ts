@@ -1,6 +1,6 @@
 // Layer 1 — Surah lesson grid
 // Returns one row per ar_container_unit for the surah with task presence/counts
-// and vocabulary word counts (nouns, verbs) from ar_u_quran_ayah_words.
+// and vocabulary word counts (nouns, verbs) from ar_quran_word_occurrences.
 
 interface Env { DB: D1Database; }
 
@@ -48,7 +48,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       LEFT JOIN ar_container_unit_task t
         ON t.unit_id = u.id
        AND t.parent_task_id IS NULL
-      LEFT JOIN ar_u_quran_ayah_words qw
+      LEFT JOIN ar_quran_word_occurrences qw
         ON qw.surah = ?
        AND qw.ayah BETWEEN u.ayah_from AND u.ayah_to
       WHERE u.container_id = ?
