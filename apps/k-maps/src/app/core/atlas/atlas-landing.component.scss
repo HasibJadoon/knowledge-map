@@ -1,69 +1,93 @@
+// ═══════════════════════════════════════════════════════════════════════════
+// atlas-landing.component.scss  — v3 Sacred Night Sky
+//
+// Design language:
+//   · Pitch-black cosmos with layers of cold stellar dust
+//   · Warm gold revelation field centred on the Qur'an orb
+//   · Qur'an as the single dominant glowing body — three corona rings
+//   · Four sacred books orbit the Qur'an at fixed radius with individual hues
+//   · All UI chrome is minimal, glass-frosted, never competing with the sky
+//   · Zero fantasy effects — no fire, no candles, no sparkles
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─── Root container ──────────────────────────────────────────────────────────
+
 .atlas {
   position: relative;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 100dvh;
   overflow: hidden;
   isolation: isolate;
+
+  // Deep stratified night sky.
+  // Innermost layer: warm gold revelation glow centred exactly on the orb.
+  // Then: cool blue-purple nebula hazes in opposing quadrants.
+  // Base: near-absolute black with the faintest midnight navy tint.
   background:
-    radial-gradient(circle at 51% 16%, rgba(255, 206, 128, 0.12), transparent 0 18%),
-    radial-gradient(circle at 49% 18%, rgba(157, 210, 255, 0.12), transparent 0 26%),
-    radial-gradient(circle at 18% 16%, rgba(52, 87, 152, 0.11), transparent 0 24%),
-    radial-gradient(circle at 74% 18%, rgba(76, 116, 150, 0.08), transparent 0 26%),
-    radial-gradient(circle at 52% 62%, rgba(25, 54, 92, 0.1), transparent 0 28%),
-    linear-gradient(180deg, #010207 0%, #020610 42%, #02040b 76%, #010205 100%);
-  color: rgba(239, 243, 251, 0.92);
+    // Revelation warmth — tight inner core
+    radial-gradient(ellipse 32% 24% at 50% 50%, rgba(210, 158, 52, 0.11) 0%, rgba(170, 118, 32, 0.05) 60%, transparent 100%),
+    // Revelation warmth — soft outer envelope
+    radial-gradient(ellipse 62% 48% at 50% 50%, rgba(140, 95, 28, 0.05) 0%, transparent 100%),
+    // Cool nebula — upper-left (prophets / revelation zone)
+    radial-gradient(ellipse 36% 28% at 17% 28%, rgba(40, 66, 165, 0.08) 0%, transparent 100%),
+    // Cool nebula — upper-right (worldview zone)
+    radial-gradient(ellipse 30% 22% at 82% 22%, rgba(55, 90, 170, 0.06) 0%, transparent 100%),
+    // Deep abyss — lower third
+    radial-gradient(ellipse 80% 44% at 50% 88%, rgba(4, 2, 12, 0.15) 0%, transparent 100%),
+    // Base: pitch dark with faint navy cast
+    linear-gradient(180deg,
+      #01020a  0%,
+      #020610 24%,
+      #02070e 52%,
+      #010407  80%,
+      #010206 100%
+    );
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-
-  &::before {
-    opacity: 0.14;
-    background:
-      radial-gradient(circle at 50% 46%, rgba(255, 255, 255, 0.018), transparent 0 34%),
-      linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.008) 46%, transparent 60%);
-    mix-blend-mode: screen;
-  }
-
-  &::after {
-    background:
-      radial-gradient(circle at center, transparent 38%, rgba(0, 0, 0, 0.5) 82%, rgba(0, 0, 0, 0.88) 100%),
-      linear-gradient(180deg, rgba(2, 4, 9, 0.18) 0%, rgba(2, 4, 9, 0.02) 30%, rgba(2, 4, 9, 0.22) 100%);
-  }
+  color: rgba(215, 228, 255, 0.92);
+  font-family: var(--km-font-body, 'Poppins', system-ui, sans-serif);
 }
 
-.atlas__star-stage,
-.atlas__fire-stage {
+
+// ─── Layer A: WebGL starfield ─────────────────────────────────────────────────
+
+.atlas__star-stage {
   position: absolute;
+  inset: -3%;
+  z-index: 0;
   pointer-events: none;
 }
 
-.atlas__star-stage {
-  inset: -4%;
-  z-index: 0;
-  opacity: 1;
-}
-
-.atlas__star-webgl,
-.atlas__fire-webgl {
+.atlas__star-webgl {
   position: absolute;
   inset: 0;
   overflow: hidden;
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
 }
 
-.atlas__star-canvas,
-.atlas__fire-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
+
+// ─── Layer B: Atmosphere ──────────────────────────────────────────────────────
+
+// Edge vignette — frames the cosmos with natural darkness
+.atlas__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    transparent 38%,
+    rgba(1, 2, 9, 0.36) 68%,
+    rgba(1, 2, 9, 0.78) 100%
+  );
 }
 
-.atlas__fire-stage {
-  display: none;
-}
+
+// ─── Layer C: D3 SVG canvas ────────────────────────────────────────────────────
 
 .atlas__canvas {
   position: absolute;
@@ -71,815 +95,740 @@
   width: 100%;
   height: 100%;
   z-index: 2;
-}
+  cursor: default;
 
-.atlas__edge-words {
-  position: absolute;
-  z-index: 3;
-  display: block;
-  overflow: hidden;
-  pointer-events: none;
-}
+  .atlas-node          { cursor: pointer; }
+  .atlas-edge          { pointer-events: none; }
+  .atlas-edge--contrasts,
+  .atlas-edge--questions { stroke-dasharray: 3 3; }
+  .atlas-edge--scriptural_anchor,
+  .atlas-edge--ritual_anchor { stroke: rgba(201, 168, 76, 0.40); }
 
-.atlas__edge-words--top,
-.atlas__edge-words--bottom {
-  left: 0;
-  right: 0;
-  height: 6.8rem;
-}
+  .atlas-node--concept  { cursor: pointer; transition: filter 0.18s; &:hover { filter: brightness(1.32); } }
+  .atlas-node--claim    { cursor: pointer; }
+  .atlas-node--evidence { cursor: default; }
 
-.atlas__edge-words--top {
-  top: 0;
-  mask-image: linear-gradient(180deg, black 68%, transparent 100%);
-}
-
-.atlas__edge-words--bottom {
-  bottom: 0;
-  mask-image: linear-gradient(0deg, black 70%, transparent 100%);
-}
-
-.atlas__edge-words--left,
-.atlas__edge-words--right {
-  top: 0;
-  bottom: 0;
-  width: 6rem;
-}
-
-.atlas__edge-words--left {
-  left: 0;
-  mask-image: linear-gradient(90deg, black 72%, transparent 100%);
-}
-
-.atlas__edge-words--right {
-  right: 0;
-  mask-image: linear-gradient(270deg, black 72%, transparent 100%);
-}
-
-.atlas__edge-word {
-  --atlas-word-rotate: 0deg;
-  position: absolute;
-  color: rgba(214, 224, 241, 0.1);
-  font-family: var(--km-font-heading);
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  mix-blend-mode: screen;
-  text-shadow: 0 0 18px rgba(0, 0, 0, 0.46);
-  filter: blur(0.12px);
-  will-change: transform, opacity;
-}
-
-.atlas__edge-words--top .atlas__edge-word,
-.atlas__edge-words--bottom .atlas__edge-word {
-  transform: translateX(-50%) rotate(var(--atlas-word-rotate));
-}
-
-.atlas__edge-words--top .atlas__edge-word {
-  top: 1rem;
-}
-
-.atlas__edge-words--bottom .atlas__edge-word {
-  bottom: 1.2rem;
-}
-
-.atlas__edge-words--left .atlas__edge-word,
-.atlas__edge-words--right .atlas__edge-word {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  transform: translateY(-50%) rotate(var(--atlas-word-rotate));
-}
-
-.atlas__edge-words--left .atlas__edge-word {
-  left: 0.9rem;
-}
-
-.atlas__edge-words--right .atlas__edge-word {
-  right: 0.9rem;
-}
-
-.atlas__zoom-controls {
-  position: absolute;
-  right: 1.65rem;
-  top: 1.45rem;
-  z-index: 4;
-  display: grid;
-  gap: 0.55rem;
-}
-
-.atlas__zoom-button {
-  display: grid;
-  place-items: center;
-  width: 2.9rem;
-  height: 2.9rem;
-  border: 1px solid rgba(165, 204, 255, 0.18);
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 32% 28%, rgba(187, 225, 255, 0.16), transparent 0 24%),
-    rgba(8, 18, 36, 0.76);
-  color: rgba(238, 245, 255, 0.9);
-  font-family: var(--km-font-heading);
-  font-size: 1.25rem;
-  line-height: 1;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
-    0 10px 24px rgba(0, 0, 0, 0.26);
-  cursor: pointer;
-  transition:
-    transform 0.18s ease,
-    border-color 0.18s ease,
-    background-color 0.18s ease,
-    box-shadow 0.18s ease;
-
-  &:hover {
-    transform: translateY(-1px);
-    border-color: rgba(179, 221, 255, 0.28);
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-      0 12px 28px rgba(0, 0, 0, 0.3),
-      0 0 24px rgba(116, 181, 255, 0.08);
-  }
-
-  &:focus-visible {
-    outline: 0;
-    border-color: rgba(179, 221, 255, 0.34);
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-      0 0 0 2px rgba(121, 180, 255, 0.18),
-      0 12px 28px rgba(0, 0, 0, 0.3);
-  }
-}
-
-.atlas__zoom-button--reset {
-  font-size: 1.02rem;
-}
-
-.atlas__home-plane {
-  position: absolute;
-  right: 1.4rem;
-  bottom: 1.2rem;
-  z-index: 4;
-  display: grid;
-  place-items: center;
-  width: 10.6rem;
-  height: 10.6rem;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  box-shadow: none;
-  overflow: visible;
-  isolation: isolate;
-  cursor: pointer;
-  transition:
-    transform 0.36s ease,
-    opacity 0.28s ease,
-    filter 0.36s ease;
-
-  &:hover {
-    transform: translateY(-2px) scale(1.018);
-    filter: drop-shadow(0 0 28px rgba(91, 160, 255, 0.16));
-  }
-
-  &:focus-visible {
-    outline: 0;
-    filter:
-      drop-shadow(0 0 0 2px rgba(122, 176, 255, 0.28))
-      drop-shadow(0 0 28px rgba(108, 170, 255, 0.2));
-  }
-
-  &.is-launching {
+  .atlas-label {
+    font-family: var(--km-font-body, 'Poppins', sans-serif);
+    font-size: 10px;
+    letter-spacing: 0.02em;
+    user-select: none;
     pointer-events: none;
   }
+
+  .atlas-territory__label {
+    font-family: var(--km-font-body, 'Poppins', sans-serif);
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .atlas-history__label,
+  .atlas-history__year { font-family: var(--km-font-body, 'Poppins', sans-serif); pointer-events: none; }
+  .atlas-history__wp   { cursor: pointer; }
 }
 
-.atlas__home-plane-aura,
-.atlas__home-plane-orbit,
-.atlas__home-plane-shell,
-.atlas__home-plane-world,
-.atlas__home-plane-atmosphere,
-.atlas__home-plane-continents,
-.atlas__home-plane-clouds,
-.atlas__home-plane-glint,
-.atlas__home-plane-glow,
-.atlas__home-plane-shadow {
+
+// ─── Layer D: Sacred Zone — Qur'an orb + sacred books ────────────────────────
+// The entire zone is pointer-events: none — it is purely atmospheric.
+// Centering is handled by the wrapper; GSAP only touches the inner element.
+
+.atlas__sacred-zone-wrap {
   position: absolute;
-  pointer-events: none;
-}
-
-.atlas__home-plane-aura {
-  inset: 0.2rem;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 54%, rgba(66, 139, 237, 0.2), transparent 0 42%),
-    radial-gradient(circle at 50% 52%, rgba(170, 221, 255, 0.08), transparent 0 62%);
-  filter: blur(18px);
-  opacity: 0.74;
-}
-
-.atlas__home-plane-orbit {
-  border-radius: 50%;
-  border: 1px solid rgba(130, 171, 235, 0.22);
-  mix-blend-mode: screen;
-}
-
-.atlas__home-plane-orbit--outer {
-  inset: 0.35rem;
-  box-shadow: 0 0 16px rgba(107, 162, 255, 0.06);
-}
-
-.atlas__home-plane-shell {
-  inset: 1.3rem;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 42%, rgba(9, 20, 42, 0.56), rgba(2, 6, 18, 0.92) 76%),
-    radial-gradient(circle at 32% 22%, rgba(132, 178, 255, 0.1), transparent 0 26%);
-  box-shadow:
-    inset 0 0 0 1px rgba(184, 220, 255, 0.08),
-    0 18px 34px rgba(0, 0, 0, 0.42);
-}
-
-.atlas__home-plane-world,
-.atlas__home-plane-atmosphere,
-.atlas__home-plane-continents,
-.atlas__home-plane-clouds,
-.atlas__home-plane-glint {
-  inset: 1.92rem;
-  border-radius: 50%;
-}
-
-.atlas__home-plane-world {
-  background:
-    radial-gradient(circle at 30% 26%, rgba(154, 209, 255, 0.36), transparent 0 18%),
-    radial-gradient(circle at 28% 30%, rgba(97, 167, 238, 0.18), transparent 0 34%),
-    radial-gradient(circle at 68% 74%, rgba(7, 18, 41, 0.46), transparent 0 34%),
-    radial-gradient(circle at 42% 38%, rgba(48, 126, 214, 0.94), rgba(8, 29, 77, 0.98) 60%, rgba(3, 12, 36, 1) 100%);
-  box-shadow:
-    inset -0.9rem -1rem 1.4rem rgba(2, 9, 24, 0.56),
-    inset 0.7rem 0.85rem 1.2rem rgba(183, 232, 255, 0.1);
-}
-
-.atlas__home-plane-atmosphere {
-  inset: 1.82rem;
-  border: 1px solid rgba(182, 224, 255, 0.22);
-  box-shadow:
-    0 0 18px rgba(108, 173, 255, 0.18),
-    0 0 40px rgba(64, 136, 222, 0.08),
-    inset 0 0 14px rgba(169, 216, 255, 0.08);
-}
-
-.atlas__home-plane-continents {
-  opacity: 0.72;
-  background:
-    radial-gradient(ellipse at 34% 34%, rgba(82, 155, 110, 0.9) 0 14%, transparent 15%),
-    radial-gradient(ellipse at 52% 48%, rgba(105, 174, 119, 0.84) 0 16%, transparent 17%),
-    radial-gradient(ellipse at 36% 66%, rgba(88, 157, 104, 0.76) 0 10%, transparent 11%),
-    radial-gradient(ellipse at 68% 34%, rgba(112, 179, 126, 0.7) 0 8%, transparent 9%),
-    radial-gradient(ellipse at 60% 72%, rgba(99, 167, 110, 0.62) 0 7%, transparent 8%);
-  filter: blur(0.45px);
-}
-
-.atlas__home-plane-clouds {
-  opacity: 0.52;
-  background:
-    radial-gradient(ellipse at 34% 28%, rgba(255, 255, 255, 0.74) 0 12%, transparent 13%),
-    radial-gradient(ellipse at 54% 42%, rgba(245, 251, 255, 0.58) 0 16%, transparent 17%),
-    radial-gradient(ellipse at 44% 66%, rgba(255, 255, 255, 0.46) 0 12%, transparent 13%),
-    radial-gradient(ellipse at 68% 56%, rgba(250, 253, 255, 0.36) 0 10%, transparent 11%);
-  filter: blur(2px);
-  mix-blend-mode: screen;
-}
-
-.atlas__home-plane-glint {
-  background:
-    radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.68), transparent 0 12%),
-    radial-gradient(circle at 34% 30%, rgba(169, 221, 255, 0.18), transparent 0 24%);
-  opacity: 0.66;
-  mix-blend-mode: screen;
-}
-
-.atlas__home-plane-glow {
-  inset: 1.2rem;
-  opacity: 0.4;
-  background:
-    radial-gradient(circle at center, rgba(88, 159, 255, 0.2), transparent 0 44%),
-    radial-gradient(circle at 44% 42%, rgba(176, 221, 255, 0.12), transparent 0 56%);
-  filter: blur(16px);
-}
-
-.atlas__home-plane-shadow {
+  top: calc(50% - 28px); // offset upward slightly — bottom nav eats ~56px
   left: 50%;
-  bottom: 0.25rem;
-  width: 5.7rem;
-  height: 1.2rem;
-  transform: translateX(-50%);
-  border-radius: 999px;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.42), transparent 74%);
-  filter: blur(10px);
-  opacity: 0.36;
-}
-
-.atlas__home-plane-icon {
-  position: relative;
+  transform: translate(-50%, -50%);
   z-index: 3;
-  width: 4.45rem;
-  height: 4.45rem;
-  overflow: visible;
-  filter:
-    drop-shadow(0 10px 18px rgba(0, 0, 0, 0.34))
-    drop-shadow(0 0 12px rgba(114, 164, 255, 0.1));
+  pointer-events: none;
+  width: 0;
+  height: 0;
 }
 
-.atlas__plane-trail {
-  fill: none;
-  stroke: rgba(171, 209, 255, 0.54);
-  stroke-width: 1.05;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-  opacity: 0.12;
+.atlas__sacred-zone {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  top: -210px;
+  left: -210px;
+  transform-origin: center center;
+  // Opacity + scale animated by GSAP on init and layer transitions
 }
 
-.atlas__plane-body,
-.atlas__plane-wing,
-.atlas__plane-fold {
-  vector-effect: non-scaling-stroke;
-  stroke: rgba(238, 247, 255, 0.78);
-  stroke-width: 0.9;
-  stroke-linejoin: round;
-}
+// ── Orb atmospheric fields (outermost → inward) ──────────────────────────────
 
-.atlas__plane-body {
-  fill: rgba(221, 234, 255, 0.9);
-}
-
-.atlas__plane-wing {
-  fill: rgba(146, 186, 255, 0.7);
-}
-
-.atlas__plane-fold {
-  fill: rgba(236, 181, 112, 0.62);
-}
-
-:host ::ng-deep .atlas-canvas__sacred-ring {
-  display: none;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-ring--divine,
-:host ::ng-deep .atlas-canvas__sacred-ring--revelation-core {
-  stroke-width: 1.3;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-ring-halo {
-  filter: blur(140px);
-  mix-blend-mode: screen;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-solar-halo {
-  filter: blur(26px);
-  mix-blend-mode: screen;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-solar-halo--divine {
-  filter: blur(52px);
-}
-
-:host ::ng-deep .atlas-canvas__sacred-solar-halo--revelation {
-  filter: blur(24px);
-}
-
-:host ::ng-deep .atlas-canvas__sacred-solar-ray {
-  display: none;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-solar-ray--secondary {
-  display: none;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-ring-label {
-  display: none;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-link {
-  display: none;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-link--reveals,
-:host ::ng-deep .atlas-canvas__sacred-link--guides,
-:host ::ng-deep .atlas-canvas__sacred-link--emanates {
-  stroke: rgba(211, 236, 255, 0.34);
-}
-
-:host ::ng-deep .atlas-canvas__sacred-link--echoes {
-  stroke: rgba(238, 214, 165, 0.24);
-}
-
-:host ::ng-deep .atlas-canvas__sacred-link--restoration {
-  stroke: rgba(177, 238, 214, 0.26);
-}
-
-:host ::ng-deep .atlas-canvas__sacred-link--warning {
-  stroke: rgba(240, 190, 122, 0.22);
-}
-
-:host ::ng-deep .atlas-canvas__sacred-link--corruption,
-:host ::ng-deep .atlas-canvas__sacred-link--distorts {
-  stroke: rgba(191, 96, 102, 0.22);
-  stroke-dasharray: 5 8;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node {
-  cursor: pointer;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node-halo {
-  filter: blur(34px);
-  mix-blend-mode: screen;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node-orbit {
-  display: none;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node-symbol {
-  vector-effect: non-scaling-stroke;
-  stroke-width: 0.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 7px rgba(255, 247, 224, 0.1));
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node-core {
-  filter: drop-shadow(0 0 8px rgba(255, 250, 236, 0.18));
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node-label {
-  font-family: var(--km-font-body);
-  font-size: 10px;
-  letter-spacing: 0.03em;
-  paint-order: stroke;
-  stroke: rgba(4, 8, 18, 0.9);
-  stroke-width: 4px;
-  stroke-linejoin: round;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node--divine_center .atlas-canvas__sacred-node-label,
-:host ::ng-deep .atlas-canvas__sacred-node--revelation_core .atlas-canvas__sacred-node-label,
-:host ::ng-deep .atlas-canvas__sacred-node--prophet .atlas-canvas__sacred-node-label,
-:host ::ng-deep .atlas-canvas__sacred-node--book .atlas-canvas__sacred-node-label {
-  font-weight: 600;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node--divine_center .atlas-canvas__sacred-node-symbol {
-  display: none;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node--divine_center .atlas-canvas__sacred-node-core,
-:host ::ng-deep .atlas-canvas__sacred-node--divine_center .atlas-canvas__sacred-node-label {
-  display: none;
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node--divine_center .atlas-canvas__sacred-node-halo {
-  filter:
-    blur(48px)
-    drop-shadow(0 0 48px rgba(255, 233, 178, 0.38))
-    drop-shadow(0 0 120px rgba(164, 211, 255, 0.16));
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node--divine_center .atlas-canvas__sacred-node-symbol {
-  filter:
-    drop-shadow(0 0 14px rgba(255, 246, 212, 0.32))
-    drop-shadow(0 0 28px rgba(255, 246, 212, 0.14));
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node--revelation_core .atlas-canvas__sacred-node-symbol {
-  filter:
-    drop-shadow(0 0 22px rgba(255, 243, 198, 0.46))
-    drop-shadow(0 0 48px rgba(192, 239, 255, 0.26));
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node--book .atlas-canvas__sacred-node-symbol {
-  filter:
-    drop-shadow(0 0 16px rgba(176, 219, 255, 0.34))
-    drop-shadow(0 0 34px rgba(122, 190, 255, 0.22));
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node--book .atlas-canvas__sacred-node-halo {
-  filter:
-    blur(24px)
-    drop-shadow(0 0 18px rgba(166, 213, 255, 0.22));
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node--book .atlas-canvas__sacred-node-core {
-  filter:
-    drop-shadow(0 0 8px rgba(223, 241, 255, 0.24))
-    drop-shadow(0 0 18px rgba(124, 193, 255, 0.16));
-}
-
-:host ::ng-deep .atlas-canvas__sacred-node--opposition_core .atlas-canvas__sacred-node-symbol,
-:host ::ng-deep .atlas-canvas__sacred-node--corruption_vector .atlas-canvas__sacred-node-symbol {
-  filter: drop-shadow(0 0 10px rgba(190, 94, 101, 0.18));
-}
-
-:host ::ng-deep .atlas-canvas__halo {
-  opacity: 0.05;
-  filter: blur(150px);
-}
-
-:host ::ng-deep .atlas-canvas__halo.is-blue {
-  fill: rgba(74, 110, 185, 0.14);
-}
-
-:host ::ng-deep .atlas-canvas__halo.is-gold {
-  fill: rgba(154, 128, 82, 0.08);
-}
-
-:host ::ng-deep .atlas-canvas__halo.is-solar {
-  fill: rgba(255, 198, 108, 0.14);
-}
-
-:host ::ng-deep .atlas-canvas__halo.is-cyan {
-  fill: rgba(68, 136, 158, 0.08);
-}
-
-:host ::ng-deep .atlas-canvas__halo.is-violet {
-  fill: rgba(104, 90, 160, 0.08);
-}
-
-:host ::ng-deep .atlas-canvas__dust {
-  fill: rgba(132, 156, 208, 0.16);
-  filter: blur(34px);
-}
-
-:host ::ng-deep .atlas-canvas__star {
-  fill: rgba(255, 255, 255, 0.88);
-}
-
-:host ::ng-deep .atlas-canvas__constellation-title {
-  font-family: var(--km-font-heading);
-  font-size: 10px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  fill: rgba(214, 225, 245, 0.32);
-  paint-order: stroke;
-  stroke: rgba(2, 5, 11, 0.9);
-  stroke-width: 4px;
-  stroke-linejoin: round;
-}
-
-:host ::ng-deep .atlas-canvas__constellation-ray {
-  display: none;
-}
-
-:host ::ng-deep .atlas-canvas__constellation-halo {
-  opacity: 0.12;
-  filter: blur(24px);
-  mix-blend-mode: screen;
-}
-
-:host ::ng-deep .atlas-canvas__constellation-star {
-  mix-blend-mode: screen;
-  filter:
-    drop-shadow(0 0 8px rgba(255, 255, 255, 0.18))
-    drop-shadow(0 0 18px rgba(174, 214, 255, 0.1));
-}
-
-:host ::ng-deep .atlas-canvas__constellation-star--primary {
-  filter:
-    drop-shadow(0 0 16px rgba(181, 221, 255, 0.48))
-    drop-shadow(0 0 34px rgba(181, 221, 255, 0.26));
-}
-
-:host ::ng-deep .atlas-canvas__constellation-star--prophet {
-  filter:
-    drop-shadow(0 0 10px rgba(246, 210, 134, 0.28))
-    drop-shadow(0 0 22px rgba(255, 234, 186, 0.16));
-}
-
-:host ::ng-deep .atlas-canvas__constellation-star--scholar {
-  filter:
-    drop-shadow(0 0 10px rgba(228, 176, 255, 0.26))
-    drop-shadow(0 0 18px rgba(197, 132, 255, 0.16));
-}
-
-:host ::ng-deep .atlas-canvas__constellation-star--book {
-  filter:
-    drop-shadow(0 0 8px rgba(196, 228, 255, 0.32))
-    drop-shadow(0 0 16px rgba(114, 189, 255, 0.18));
-}
-
-:host ::ng-deep .atlas-canvas__constellation-star--satellite {
-  filter:
-    drop-shadow(0 0 8px rgba(210, 234, 255, 0.24))
-    drop-shadow(0 0 18px rgba(112, 190, 255, 0.12));
-}
-
-:host ::ng-deep .atlas-canvas__constellation-star--event {
-  filter:
-    drop-shadow(0 0 8px rgba(181, 245, 232, 0.24))
-    drop-shadow(0 0 18px rgba(118, 225, 205, 0.14));
-}
-
-:host ::ng-deep .atlas-canvas__constellation-star--attribute {
-  filter:
-    drop-shadow(0 0 8px rgba(224, 255, 241, 0.24))
-    drop-shadow(0 0 18px rgba(152, 240, 199, 0.14));
-}
-
-:host ::ng-deep .atlas-canvas__constellation-label {
-  font-family: var(--km-font-body);
-  paint-order: stroke;
-  stroke: rgba(3, 8, 16, 0.88);
-  stroke-width: 3px;
-  stroke-linejoin: round;
-  letter-spacing: 0.04em;
-  text-anchor: middle;
-}
-
-:host ::ng-deep .atlas-canvas__constellation-label--primary,
-:host ::ng-deep .atlas-canvas__constellation-label--prophet,
-:host ::ng-deep .atlas-canvas__constellation-label--scholar {
-  font-weight: 600;
-}
-
-:host ::ng-deep .atlas-canvas__constellation-label--book {
-  font-weight: 500;
-}
-
-:host ::ng-deep .atlas-canvas__territory-nebula {
-  fill-opacity: 0.12;
-  stroke-width: 1.05;
-  stroke-opacity: 0.26;
-  vector-effect: non-scaling-stroke;
-  mix-blend-mode: screen;
-}
-
-:host ::ng-deep .atlas-canvas__territory-track {
-  display: none;
-}
-
-:host ::ng-deep .atlas-canvas__territory-star {
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.24));
-  mix-blend-mode: screen;
-}
-
-:host ::ng-deep .atlas-canvas__territory-label {
-  fill: rgba(245, 247, 252, 0.82);
-  font-size: 18px;
-  font-family: var(--km-font-heading);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  paint-order: stroke;
-  stroke: rgba(3, 7, 14, 0.86);
-  stroke-width: 5px;
-  stroke-linejoin: round;
+.atlas__orb-field-3,
+.atlas__orb-field-2,
+.atlas__orb-field-1 {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
-:host ::ng-deep .atlas-canvas__territory.is-focused .atlas-canvas__territory-nebula {
-  fill-opacity: 0.18;
-  stroke-opacity: 0.44;
+// Outermost: large diffuse breath, barely visible but sets the warm floor
+.atlas__orb-field-3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle,
+    rgba(200, 152, 48, 0.055) 0%,
+    rgba(160, 110, 30, 0.025) 48%,
+    transparent 72%
+  );
+  filter: blur(28px);
+  animation: atlas-field-breathe 8.4s ease-in-out infinite alternate;
 }
 
-:host ::ng-deep .atlas-canvas__territory.is-focused .atlas-canvas__territory-track {
-  stroke-opacity: 0.62;
+// Mid: corona bloom
+.atlas__orb-field-2 {
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle,
+    rgba(218, 165, 55, 0.10) 0%,
+    rgba(185, 130, 40, 0.055) 52%,
+    transparent 80%
+  );
+  filter: blur(18px);
+  animation: atlas-field-breathe 6.2s ease-in-out infinite alternate 0.8s;
 }
 
-:host ::ng-deep .atlas-canvas__link {
-  display: none;
+// Inner: bright corona immediately surrounding the core
+.atlas__orb-field-1 {
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle,
+    rgba(235, 185, 70, 0.18) 0%,
+    rgba(210, 158, 50, 0.09) 55%,
+    transparent 100%
+  );
+  filter: blur(10px);
+  animation: atlas-field-breathe 4.6s ease-in-out infinite alternate 0.4s;
 }
 
-:host ::ng-deep .atlas-canvas__link--contrasts,
-:host ::ng-deep .atlas-canvas__link--questions {
-  stroke-dasharray: 4 7;
+@keyframes atlas-field-breathe {
+  from { transform: translate(-50%, -50%) scale(0.93); opacity: 0.72; }
+  to   { transform: translate(-50%, -50%) scale(1.08); opacity: 1.00; }
 }
 
-:host ::ng-deep .atlas-canvas__link--scriptural-anchor,
-:host ::ng-deep .atlas-canvas__link--ritual-anchor {
-  stroke-dasharray: 2 5;
+
+// ── Qur'an core orb ──────────────────────────────────────────────────────────
+
+.atlas__quran-orb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 92px;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-:host ::ng-deep .atlas-canvas__node {
+// Three concentric corona rings (rendered as scaled circles with box-shadow)
+.atlas__quran-corona-3,
+.atlas__quran-corona-2,
+.atlas__quran-corona-1 {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.atlas__quran-corona-3 {
+  width: 140px;
+  height: 140px;
+  border: 1px solid rgba(210, 162, 58, 0.10);
+  box-shadow:
+    0 0 42px 16px rgba(210, 158, 50, 0.07),
+    inset 0 0 24px rgba(210, 158, 50, 0.04);
+  animation: atlas-corona-pulse 7.2s ease-in-out infinite alternate;
+}
+
+.atlas__quran-corona-2 {
+  width: 110px;
+  height: 110px;
+  border: 1px solid rgba(220, 172, 64, 0.18);
+  box-shadow:
+    0 0 28px 10px rgba(215, 163, 52, 0.12),
+    inset 0 0 16px rgba(215, 163, 52, 0.06);
+  animation: atlas-corona-pulse 5.4s ease-in-out infinite alternate 0.6s;
+}
+
+.atlas__quran-corona-1 {
+  width: 82px;
+  height: 82px;
+  border: 1px solid rgba(235, 185, 72, 0.28);
+  box-shadow:
+    0 0 18px 7px rgba(225, 172, 58, 0.18),
+    inset 0 0 10px rgba(230, 178, 60, 0.10);
+  animation: atlas-corona-pulse 3.8s ease-in-out infinite alternate 0.2s;
+}
+
+@keyframes atlas-corona-pulse {
+  from { transform: translate(-50%, -50%) scale(0.96); opacity: 0.75; }
+  to   { transform: translate(-50%, -50%) scale(1.04); opacity: 1.00; }
+}
+
+// Core sphere
+.atlas__quran-core {
+  position: relative;
+  z-index: 2;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 36%,
+    rgba(248, 208, 108, 0.30) 0%,
+    rgba(218, 168, 62, 0.22) 38%,
+    rgba(170, 120, 38, 0.14) 70%,
+    rgba(110, 76, 24, 0.06) 100%
+  );
+  border: 1px solid rgba(218, 172, 65, 0.42);
+  box-shadow:
+    0 0 14px 6px rgba(210, 158, 50, 0.20),
+    inset 0 1px 0 rgba(255, 230, 140, 0.22),
+    inset 0 0 14px rgba(220, 172, 60, 0.10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.atlas__quran-title {
+  margin: 0;
+  font-family: var(--km-font-arabic, 'UthmanicHafs_V22', serif);
+  font-size: 12px;
+  line-height: 1.3;
+  color: rgba(248, 218, 112, 0.94);
+  text-align: center;
+  direction: rtl;
+  text-shadow: 0 0 8px rgba(230, 175, 60, 0.55);
+  letter-spacing: 0.01em;
+}
+
+.atlas__quran-title-sub {
+  margin: 0;
+  font-family: var(--km-font-arabic, 'UthmanicHafs_V22', serif);
+  font-size: 10px;
+  line-height: 1.2;
+  color: rgba(230, 195, 88, 0.72);
+  text-align: center;
+  direction: rtl;
+}
+
+
+// ── Sacred books ring ─────────────────────────────────────────────────────────
+// Four revealed books orbit the Qur'an at r ≈ 155px.
+// Each has a distinct hue; all are subordinate to the central gold.
+//
+// Zone is 420×420, centre at (210, 210).
+// Positions (book centre, 44×44): top = y - 22, left = x - 22
+//   Tawrat  angle=210° → x=75,  y=132 → top=110, left=53
+//   Zabur   angle=330° → x=344, y=132 → top=110, left=322
+//   Injeel  angle=60°  → x=287, y=344 → top=322, left=265
+//   Suhuf   angle=120° → x=132, y=344 → top=322, left=110
+
+.atlas__sacred-book {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  &--tawrat {
+    top: 110px; left: 53px;
+    background: radial-gradient(circle, rgba(68, 145, 108, 0.20) 0%, transparent 70%);
+    box-shadow: 0 0 16px 4px rgba(68, 145, 108, 0.10), inset 0 0 8px rgba(68, 145, 108, 0.08);
+    border-color: rgba(68, 145, 108, 0.22);
+    animation: atlas-book-float 7.4s ease-in-out infinite;
+  }
+  &--zabur {
+    top: 110px; left: 322px;
+    background: radial-gradient(circle, rgba(120, 80, 185, 0.20) 0%, transparent 70%);
+    box-shadow: 0 0 16px 4px rgba(120, 80, 185, 0.10), inset 0 0 8px rgba(120, 80, 185, 0.08);
+    border-color: rgba(120, 80, 185, 0.22);
+    animation: atlas-book-float 8.8s ease-in-out infinite 1.2s;
+  }
+  &--injeel {
+    top: 322px; left: 265px;
+    background: radial-gradient(circle, rgba(60, 110, 190, 0.20) 0%, transparent 70%);
+    box-shadow: 0 0 16px 4px rgba(60, 110, 190, 0.10), inset 0 0 8px rgba(60, 110, 190, 0.08);
+    border-color: rgba(60, 110, 190, 0.22);
+    animation: atlas-book-float 6.6s ease-in-out infinite 2.4s;
+  }
+  &--suhuf {
+    top: 322px; left: 110px;
+    background: radial-gradient(circle, rgba(185, 148, 70, 0.18) 0%, transparent 70%);
+    box-shadow: 0 0 16px 4px rgba(185, 148, 70, 0.09), inset 0 0 8px rgba(185, 148, 70, 0.07);
+    border-color: rgba(185, 148, 70, 0.20);
+    animation: atlas-book-float 9.2s ease-in-out infinite 0.7s;
+  }
+}
+
+@keyframes atlas-book-float {
+  0%, 100% { transform: translateY(0);    opacity: 0.72; }
+  50%       { transform: translateY(-5px); opacity: 1.00; }
+}
+
+.atlas__sacred-book-glyph {
+  font-size: 9px;
+  line-height: 1;
+  opacity: 0.55;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.atlas__sacred-book-label {
+  font-family: var(--km-font-arabic, 'UthmanicHafs_V22', serif);
+  font-size: 8.5px;
+  line-height: 1.1;
+  color: rgba(215, 225, 255, 0.68);
+  direction: rtl;
+  text-align: center;
+}
+
+// ── Sacred connector SVG ─────────────────────────────────────────────────────
+
+.atlas__book-connectors {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.atlas__connector {
+  stroke: rgba(210, 162, 55, 0.12);
+  stroke-width: 0.8;
+  stroke-dasharray: 4 6;
+  animation: atlas-connector-fade 5s ease-in-out infinite alternate;
+}
+
+@keyframes atlas-connector-fade {
+  from { opacity: 0.5; }
+  to   { opacity: 1.0; }
+}
+
+
+// ─── UI Chrome — z-index 10+ ──────────────────────────────────────────────────
+
+// App identity — top-left
+.atlas__identity {
+  position: absolute;
+  top: clamp(20px, 3.5vh, 38px);
+  left: clamp(20px, 3vw, 40px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.atlas__identity-mark {
+  font-size: clamp(10px, 1.3vw, 14px);
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(210, 225, 255, 0.82);
+}
+
+.atlas__identity-sub {
+  font-size: clamp(8px, 0.9vw, 10px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(130, 158, 215, 0.48);
+}
+
+
+// Mode indicator — top-right
+.atlas__mode {
+  position: absolute;
+  top: clamp(20px, 3.5vh, 38px);
+  right: clamp(20px, 3vw, 40px);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  pointer-events: none;
+}
+
+.atlas__mode-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(210, 162, 55, 0.78);
+  animation: atlas-dot-pulse 3.4s ease-in-out infinite;
+}
+
+@keyframes atlas-dot-pulse {
+  0%, 100% { opacity: 0.48; transform: scale(1);    }
+  50%       { opacity: 1.00; transform: scale(1.24); }
+}
+
+.atlas__mode-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(155, 182, 230, 0.52);
+}
+
+
+// Back button — top-left (when not sky)
+.atlas__back {
+  position: absolute;
+  top: clamp(20px, 3.5vh, 38px);
+  left: clamp(20px, 3vw, 40px);
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px 6px 9px;
+  background: rgba(5, 12, 30, 0.65);
+  border: 1px solid rgba(90, 118, 195, 0.18);
+  border-radius: 22px;
+  color: rgba(175, 198, 240, 0.72);
+  font-size: 11px;
+  letter-spacing: 0.06em;
   cursor: pointer;
+  backdrop-filter: blur(7px);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+
+  &:hover {
+    background: rgba(10, 22, 52, 0.80);
+    color: rgba(210, 225, 255, 0.92);
+    border-color: rgba(110, 140, 215, 0.32);
+  }
+
+  svg { flex-shrink: 0; }
 }
 
-:host ::ng-deep .atlas-canvas__node-halo {
-  opacity: 0.1;
-  filter: blur(12px);
+
+// Breadcrumb — upper-centre
+.atlas__breadcrumb {
+  position: absolute;
+  top: clamp(60px, 9vh, 80px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
 }
 
-:host ::ng-deep .atlas-canvas__node-orbit {
-  display: none;
+.atlas__crumb {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(130, 155, 215, 0.44);
+  transition: color 0.3s;
+  &--active { color: rgba(200, 215, 255, 0.80); }
 }
 
-:host ::ng-deep .atlas-canvas__node-symbol {
-  vector-effect: non-scaling-stroke;
-  stroke-width: 0.92;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.08));
+.atlas__crumb-sep {
+  color: rgba(90, 115, 175, 0.30);
+  font-size: 10px;
 }
 
-:host ::ng-deep .atlas-canvas__node-core-dot {
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.35));
+
+// Zoom controls — right-bottom
+.atlas__zoom {
+  position: absolute;
+  bottom: clamp(84px, 13vh, 116px);
+  right: clamp(18px, 2.8vw, 32px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-:host ::ng-deep .atlas-canvas__node--concept .atlas-canvas__node-symbol {
-  stroke-width: 1.3;
-}
-
-:host ::ng-deep .atlas-canvas__node--evidence .atlas-canvas__node-symbol {
-  stroke-width: 0.9;
-}
-
-:host ::ng-deep .atlas-canvas__node.is-focused .atlas-canvas__node-halo {
-  opacity: 0.24;
-}
-
-:host ::ng-deep .atlas-canvas__node.is-focused .atlas-canvas__node-symbol {
-  stroke-width: 1.8;
-}
-
-:host ::ng-deep .atlas-canvas__node.is-focused .atlas-canvas__node-orbit {
-  stroke-opacity: 0.46;
-}
-
-:host ::ng-deep .atlas-canvas__label {
-  fill: rgba(245, 247, 252, 0.9);
-  font-family: var(--km-font-body);
-  paint-order: stroke;
-  stroke: rgba(3, 8, 16, 0.88);
-  stroke-width: 4px;
-  stroke-linejoin: round;
-  pointer-events: auto;
+.atlas__zoom-btn {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 12, 30, 0.60);
+  border: 1px solid rgba(90, 118, 195, 0.16);
+  border-radius: 6px;
+  color: rgba(155, 180, 230, 0.65);
+  font-size: 14px;
   cursor: pointer;
+  backdrop-filter: blur(5px);
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+
+  &:hover {
+    background: rgba(12, 26, 58, 0.75);
+    color: rgba(200, 220, 255, 0.92);
+    border-color: rgba(110, 140, 215, 0.28);
+  }
+
+  &--reset {
+    margin-top: 4px;
+    font-size: 12px;
+    color: rgba(210, 162, 55, 0.58);
+    border-color: rgba(210, 162, 55, 0.14);
+    &:hover {
+      color: rgba(230, 180, 68, 0.92);
+      border-color: rgba(210, 162, 55, 0.36);
+    }
+  }
+}
+
+
+// Focus card — lower-left
+.atlas__focus-card {
+  position: absolute;
+  bottom: clamp(84px, 13vh, 116px);
+  left: clamp(18px, 2.8vw, 32px);
+  z-index: 10;
+  width: clamp(220px, 26vw, 290px);
+  padding: 18px 20px;
+  background: rgba(4, 9, 24, 0.84);
+  border: 1px solid rgba(90, 118, 195, 0.18);
+  border-radius: 10px;
+  backdrop-filter: blur(12px);
+  color: rgba(200, 215, 255, 0.88);
+}
+
+.atlas__focus-card-close {
+  position: absolute;
+  top: 10px; right: 12px;
+  background: none; border: none;
+  color: rgba(130, 155, 215, 0.45);
+  font-size: 16px; cursor: pointer;
+  line-height: 1; padding: 2px;
+  transition: color 0.18s;
+  &:hover { color: rgba(200, 215, 255, 0.82); }
+}
+
+.atlas__focus-card-title {
+  margin: 0 0 5px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(218, 230, 255, 0.94);
+}
+
+.atlas__focus-card-ar {
+  margin: 0 0 10px;
+  font-family: var(--km-font-arabic-amiri, 'AmiriQuran', serif);
+  font-size: 16px;
+  color: rgba(218, 170, 65, 0.78);
+  direction: rtl;
+  text-align: right;
+}
+
+.atlas__focus-card-summary {
+  margin: 0 0 10px;
+  font-size: 11px;
+  line-height: 1.62;
+  color: rgba(160, 182, 230, 0.72);
+}
+
+.atlas__focus-card-meta {
+  margin: 0;
+  display: grid;
+  gap: 2px;
+  font-size: 10px;
+
+  dt {
+    color: rgba(130, 158, 215, 0.50);
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  dd {
+    margin: 0;
+    color: rgba(185, 205, 255, 0.76);
+    line-height: 1.55;
+  }
+}
+
+
+// History legend — right-middle
+.atlas__history-legend {
+  position: absolute;
+  top: 50%;
+  right: clamp(18px, 2.8vw, 32px);
+  transform: translateY(-50%);
+  z-index: 10;
+  padding: 14px 16px;
+  background: rgba(4, 9, 24, 0.78);
+  border: 1px solid rgba(90, 118, 195, 0.14);
+  border-radius: 10px;
+  backdrop-filter: blur(9px);
+  min-width: 178px;
+}
+
+.atlas__history-legend-title {
+  margin: 0 0 10px;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(130, 155, 215, 0.44);
+}
+
+.atlas__era-item {
+  display: grid;
+  grid-template-columns: 8px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 8px;
+  margin-bottom: 9px;
+  align-items: start;
+  &:last-child { margin-bottom: 0; }
+}
+
+.atlas__era-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-top: 2px;
+  grid-row: 1 / 3;
+  align-self: center;
+}
+
+.atlas__era-label {
+  font-size: 11px;
+  color: rgba(188, 208, 255, 0.80);
+  letter-spacing: 0.02em;
+}
+
+.atlas__era-years {
+  font-size: 9px;
+  color: rgba(120, 145, 198, 0.45);
   letter-spacing: 0.04em;
 }
 
-:host ::ng-deep .atlas-canvas__label--concept {
-  font-size: 12px;
-  font-weight: 600;
-  fill: rgba(245, 247, 252, 0.94);
+
+// Module shortcuts — bottom-centre
+.atlas__shortcuts {
+  position: absolute;
+  bottom: clamp(18px, 3vh, 30px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: clamp(3px, 1vw, 10px);
 }
 
-:host ::ng-deep .atlas-canvas__label--claim {
-  font-size: 10px;
-  fill: rgba(224, 232, 245, 0.78);
+.atlas__shortcut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(5, 11, 27, 0.58);
+  border: 1px solid rgba(90, 118, 195, 0.14);
+  border-radius: 8px;
+  color: rgba(148, 174, 232, 0.62);
+  cursor: pointer;
+  backdrop-filter: blur(7px);
+  transition: background 0.22s, color 0.22s, border-color 0.22s, transform 0.18s;
+
+  &:hover {
+    background: rgba(12, 24, 56, 0.78);
+    color: rgba(200, 220, 255, 0.92);
+    border-color: rgba(110, 140, 215, 0.28);
+    transform: translateY(-2px);
+  }
+
+  // Qur'an shortcut gets gold accent
+  &--quran {
+    border-color: rgba(210, 162, 55, 0.18);
+    color: rgba(210, 168, 72, 0.72);
+    &:hover {
+      border-color: rgba(210, 162, 55, 0.38);
+      color: rgba(232, 185, 80, 0.95);
+    }
+  }
 }
 
-:host ::ng-deep .atlas-canvas__label--evidence {
-  font-size: 9px;
-  fill: rgba(208, 218, 232, 0.58);
+.atlas__shortcut-glyph {
+  font-size: clamp(13px, 1.9vw, 17px);
+  line-height: 1;
 }
 
-@media (max-width: 1100px) {
-  .atlas {
-    min-height: 100svh;
-  }
+.atlas__shortcut-label {
+  font-size: clamp(7.5px, 0.95vw, 9.5px);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
 
-  .atlas__fire-stage {
-    width: calc(100vw + 5rem);
-    height: clamp(300px, 40vh, 460px);
-    bottom: -7rem;
-  }
 
-  .atlas__home-plane {
-    right: 1rem;
-    bottom: 1rem;
-    width: 8.7rem;
-    height: 8.7rem;
-  }
+// Sky hint — centre bottom (sky layer only)
+.atlas__hint {
+  position: absolute;
+  bottom: clamp(66px, 10.5vh, 86px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  margin: 0;
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(110, 138, 200, 0.36);
+  pointer-events: none;
+  white-space: nowrap;
+  animation: atlas-hint-breathe 5.5s ease-in-out infinite alternate;
+}
 
-  .atlas__zoom-controls {
-    right: 1rem;
-    top: 1rem;
-  }
+@keyframes atlas-hint-breathe {
+  from { opacity: 0.55; }
+  to   { opacity: 1.00; }
+}
 
-  .atlas__zoom-button {
-    width: 2.55rem;
-    height: 2.55rem;
-  }
 
-  .atlas__home-plane-icon {
-    width: 4.5rem;
-    height: 4.5rem;
-  }
+// ─── Responsive ───────────────────────────────────────────────────────────────
 
-  .atlas__edge-words--top,
-  .atlas__edge-words--bottom {
-    height: 5rem;
+@media (max-width: 480px) {
+  .atlas__sacred-zone-wrap {
+    top: calc(50% - 18px);
   }
+  .atlas__sacred-zone {
+    transform: scale(0.62);
+    transform-origin: center center;
+  }
+  .atlas__shortcuts {
+    gap: 2px;
+  }
+  .atlas__shortcut {
+    padding: 6px 8px;
+  }
+}
 
-  .atlas__edge-words--left,
-  .atlas__edge-words--right {
-    width: 4.4rem;
+@media (min-width: 481px) and (max-width: 768px) {
+  .atlas__sacred-zone-wrap {
+    top: calc(50% - 22px);
   }
+  .atlas__sacred-zone {
+    transform: scale(0.78);
+    transform-origin: center center;
+  }
+}
 
-  .atlas__edge-word {
-    letter-spacing: 0.16em;
-  }
 
-  :host ::ng-deep .atlas-canvas__territory-label {
-    font-size: 15px;
-  }
+// ─── Reduced motion ───────────────────────────────────────────────────────────
+
+@media (prefers-reduced-motion: reduce) {
+  .atlas__orb-field-1,
+  .atlas__orb-field-2,
+  .atlas__orb-field-3,
+  .atlas__quran-corona-1,
+  .atlas__quran-corona-2,
+  .atlas__quran-corona-3,
+  .atlas__sacred-book,
+  .atlas__connector,
+  .atlas__mode-dot,
+  .atlas__hint { animation: none; }
 }
