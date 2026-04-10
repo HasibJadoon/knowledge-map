@@ -31,11 +31,14 @@ import { AtlasLandingFacade } from './atlas-landing.facade';
  */
 @Injectable({ providedIn: 'root' })
 export class AtlasGraphRenderer {
+  private static readonly CAMERA_TRANSITION_NAME = 'atlas-camera';
+
   private svg!: d3.Selection<SVGSVGElement, unknown, null, undefined>;
   private root!: d3.Selection<SVGGElement, unknown, null, undefined>;
   private zoomBehavior!: d3.ZoomBehavior<SVGSVGElement, unknown>;
 
   private simulation!: d3.Simulation<SimulationNode, SimulationLink>;
+  private simulationStopTimerId: number | null = null;
   private nodes: SimulationNode[] = [];
   private links: SimulationLink[] = [];
   private clusterMap = new Map<string, AtlasCluster>();
@@ -44,12 +47,15 @@ export class AtlasGraphRenderer {
   private currentScale = 1;
   private width = 0;
   private height = 0;
+  private lastCameraTarget: { x: number; y: number; k: number } | null = null;
 
   constructor(private readonly facade: AtlasLandingFacade) {}
 
   // ─── Initialisation ──────────────────────────────────────────────────────
 
   init(svgEl: SVGSVGElement, width: number, height: number): void {
+    this.dispose();
+
     this.width = width;
     this.height = height;
     this.svg = d3.select(svgEl);
@@ -63,19 +69,54 @@ export class AtlasGraphRenderer {
     this.zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.25, 8])
       .on('zoom', (event) => {
-        this.currentScale = event.transform.k;
-        this.root.attr('transform', event.transform.toString());
-        this.onZoomUpdate();
+        this.applyTransform(event.transform);
       });
 
     this.svg.call(this.zoomBehavior);
     this.svg.on('click.deselect', () => this.onBackgroundClick());
+    this.applyTransform(this.createCameraTransform(0, 0, 0.72));
   }
 
   resize(width: number, height: number): void {
     this.width = width;
     this.height = height;
     this.svg?.attr('width', width).attr('height', height);
+  }
+
+  dispose(): void {
+    if (this.simulationStopTimerId !== null) {
+      window.clearTimeout(this.simulationStopTimerId);
+      this.simulationStopTimerId = null;
+    }
+
+    if (this.simulation) {
+      this.simulation.on('tick', null);
+      this.simulation.on('end', null);
+      this.simulation.stop();
+    }
+
+    if (this.svg) {
+      this.stopCameraTransition();
+      this.svg.on('.zoom', null);
+      this.svg.on('.deselect', null);
+      this.svg.selectAll('*').interrupt();
+      this.svg.selectAll('*').remove();
+    }
+
+    this.nodeClickHandlers = [];
+    this.bgClickHandlers = [];
+    this.nodes = [];
+    this.links = [];
+    this.clusterMap.clear();
+    this.linksByNode.clear();
+    this.lastCameraTarget = null;
+    this.currentScale = 1;
+    this.width = 0;
+    this.height = 0;
+    this.svg = undefined as unknown as d3.Selection<SVGSVGElement, unknown, null, undefined>;
+    this.root = undefined as unknown as d3.Selection<SVGGElement, unknown, null, undefined>;
+    this.zoomBehavior = undefined as unknown as d3.ZoomBehavior<SVGSVGElement, unknown>;
+    this.simulation = undefined as unknown as d3.Simulation<SimulationNode, SimulationLink>;
   }
 
   // ─── Data load ───────────────────────────────────────────────────────────
@@ -133,7 +174,7 @@ export class AtlasGraphRenderer {
     if (focus.clusterId) {
       const cluster = this.clusterMap.get(focus.clusterId);
       if (cluster) {
-        this.panTo(cluster.world_x, cluster.world_y, 2.2, 700);
+        this.panTo(cluster.world_x, cluster.world_y, 2.2, 820);
       }
     }
   }
@@ -151,7 +192,7 @@ export class AtlasGraphRenderer {
     if (focus.nodeId) {
       const node = this.nodes.find((n) => n.id === focus.nodeId);
       if (node?.x != null && node?.y != null) {
-        this.panTo(node.x, node.y, 3.8, 600);
+        this.panTo(node.x, node.y, 3.8, 760);
       }
     }
   }
@@ -291,28 +332,41 @@ export class AtlasGraphRenderer {
   // ─── Zoom controls ───────────────────────────────────────────────────────
 
   zoomIn(): void {
-    this.svg.transition().duration(260).call(this.zoomBehavior.scaleBy, 1.5);
+    const current = this.getCurrentTransform();
+    const centerX = (this.width / 2 - current.x) / current.k;
+    const centerY = (this.height / 2 - current.y) / current.k;
+    const targetK = Math.min(8, current.k * 1.18);
+    this.lastCameraTarget = { x: centerX, y: centerY, k: targetK };
+    this.transitionCameraTo(this.createCameraTransform(centerX, centerY, targetK), 560, 0.012);
   }
 
   zoomOut(): void {
-    this.svg.transition().duration(260).call(this.zoomBehavior.scaleBy, 0.67);
+    const current = this.getCurrentTransform();
+    const centerX = (this.width / 2 - current.x) / current.k;
+    const centerY = (this.height / 2 - current.y) / current.k;
+    const targetK = Math.max(0.25, current.k * 0.84);
+    this.lastCameraTarget = { x: centerX, y: centerY, k: targetK };
+    this.transitionCameraTo(this.createCameraTransform(centerX, centerY, targetK), 560, 0.012);
   }
 
   resetZoom(): void {
-    this.svg.transition().duration(480).ease(d3.easeCubicInOut).call(
-      this.zoomBehavior.transform,
-      d3.zoomIdentity.translate(this.width / 2, this.height / 2).scale(0.72),
-    );
+    this.lastCameraTarget = null;
+    this.transitionCameraTo(this.createCameraTransform(0, 0, 0.72), 1120, 0.018);
   }
 
   panTo(x: number, y: number, k: number, duration = 600): void {
-    this.svg.transition().duration(duration).ease(d3.easeCubicInOut).call(
-      this.zoomBehavior.transform,
-      d3.zoomIdentity
-        .translate(this.width / 2, this.height / 2)
-        .scale(k)
-        .translate(-x, -y),
-    );
+    const target = { x, y, k };
+    if (
+      this.lastCameraTarget
+      && Math.abs(this.lastCameraTarget.x - target.x) < 0.5
+      && Math.abs(this.lastCameraTarget.y - target.y) < 0.5
+      && Math.abs(this.lastCameraTarget.k - target.k) < 0.02
+    ) {
+      return;
+    }
+
+    this.lastCameraTarget = target;
+    this.transitionCameraTo(this.createCameraTransform(x, y, k), duration, 0.045);
   }
 
   // ─── Force simulation ────────────────────────────────────────────────────
@@ -342,7 +396,7 @@ export class AtlasGraphRenderer {
       .on('end', () => this.onSimulationEnd());
 
     // Freeze after warmup
-    setTimeout(() => {
+    this.simulationStopTimerId = window.setTimeout(() => {
       if (this.simulation) this.simulation.stop();
     }, 4000);
   }
@@ -591,5 +645,84 @@ export class AtlasGraphRenderer {
 
   setFocusAttr(focus: FocusState): void {
     this.svg?.node()?.setAttribute('data-focus', JSON.stringify(focus));
+  }
+
+  private stopCameraTransition(): void {
+    this.svg?.interrupt(AtlasGraphRenderer.CAMERA_TRANSITION_NAME);
+  }
+
+  private createCameraTransform(x: number, y: number, k: number): d3.ZoomTransform {
+    return d3.zoomIdentity
+      .translate(this.width / 2, this.height / 2)
+      .scale(k)
+      .translate(-x, -y);
+  }
+
+  private transitionCameraTo(
+    targetTransform: d3.ZoomTransform,
+    duration: number,
+    arcRatio: number,
+  ): void {
+    const startTransform = this.getCurrentTransform();
+    const startView = this.viewFromTransform(startTransform);
+    const endView = this.viewFromTransform(targetTransform);
+    const deltaX = endView[0] - startView[0];
+    const deltaY = endView[1] - startView[1];
+    const travelDistance = Math.hypot(deltaX, deltaY);
+    const zoomDelta = Math.abs(Math.log((targetTransform.k || 1) / (startTransform.k || 1)));
+    if (travelDistance < 0.5 && zoomDelta < 0.01) {
+      this.applyTransform(targetTransform);
+      return;
+    }
+    const normalX = travelDistance > 0.001 ? -deltaY / travelDistance : 0;
+    const normalY = travelDistance > 0.001 ? deltaX / travelDistance : 0;
+    const baseArc = Math.min(72, travelDistance * arcRatio);
+    const arcAmplitude = baseArc * Math.min(1, 0.5 + zoomDelta * 0.45);
+    const interpolateView = d3.interpolateZoom(startView, endView);
+    const ease = d3.easePolyInOut.exponent(1.4);
+
+    this.stopCameraTransition();
+    this.svg
+      .transition(AtlasGraphRenderer.CAMERA_TRANSITION_NAME)
+      .duration(duration)
+      .ease(d3.easeLinear)
+      .tween('atlas-camera-flight', () => {
+        return (time) => {
+          const eased = ease(time);
+          const view = interpolateView(eased);
+          const arcLift = Math.sin(Math.PI * eased);
+          const dreamOffset = arcAmplitude * arcLift * arcLift;
+          const viewX = view[0] + normalX * dreamOffset;
+          const viewY = view[1] + normalY * dreamOffset * 0.68;
+          this.applyTransform(this.transformFromView([viewX, viewY, view[2]]));
+        };
+      });
+  }
+
+  private getCurrentTransform(): d3.ZoomTransform {
+    const svgNode = this.svg.node();
+    return svgNode ? d3.zoomTransform(svgNode) : d3.zoomIdentity;
+  }
+
+  private viewFromTransform(transform: d3.ZoomTransform): [number, number, number] {
+    return [
+      (this.width / 2 - transform.x) / transform.k,
+      (this.height / 2 - transform.y) / transform.k,
+      this.width / transform.k,
+    ];
+  }
+
+  private transformFromView(view: [number, number, number]): d3.ZoomTransform {
+    return d3.zoomIdentity
+      .translate(this.width / 2, this.height / 2)
+      .scale(this.width / view[2])
+      .translate(-view[0], -view[1]);
+  }
+
+  private applyTransform(transform: d3.ZoomTransform): void {
+    this.currentScale = transform.k;
+    this.svg.property('__zoom', transform);
+    this.root.attr('transform', transform.toString());
+    this.onZoomUpdate();
   }
 }

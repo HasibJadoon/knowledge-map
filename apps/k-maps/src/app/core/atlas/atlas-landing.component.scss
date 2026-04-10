@@ -178,7 +178,7 @@
     rgba(160, 110, 30, 0.025) 48%,
     transparent 72%
   );
-  filter: blur(28px);
+  filter: blur(22px);
   animation: atlas-field-breathe 8.4s ease-in-out infinite alternate;
 }
 
@@ -191,7 +191,7 @@
     rgba(185, 130, 40, 0.055) 52%,
     transparent 80%
   );
-  filter: blur(18px);
+  filter: blur(14px);
   animation: atlas-field-breathe 6.2s ease-in-out infinite alternate 0.8s;
 }
 
@@ -204,7 +204,7 @@
     rgba(210, 158, 50, 0.09) 55%,
     transparent 100%
   );
-  filter: blur(10px);
+  filter: blur(8px);
   animation: atlas-field-breathe 4.6s ease-in-out infinite alternate 0.4s;
 }
 
@@ -468,12 +468,9 @@
   height: 5px;
   border-radius: 50%;
   background: rgba(210, 162, 55, 0.78);
-  animation: atlas-dot-pulse 3.4s ease-in-out infinite;
-}
-
-@keyframes atlas-dot-pulse {
-  0%, 100% { opacity: 0.48; transform: scale(1);    }
-  50%       { opacity: 1.00; transform: scale(1.24); }
+  box-shadow:
+    0 0 8px rgba(210, 162, 55, 0.34),
+    0 0 18px rgba(210, 162, 55, 0.18);
 }
 
 .atlas__mode-label {
@@ -564,7 +561,7 @@
   color: rgba(155, 180, 230, 0.65);
   font-size: 14px;
   cursor: pointer;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(4px);
   transition: background 0.18s, color 0.18s, border-color 0.18s;
 
   &:hover {
@@ -597,7 +594,7 @@
   background: rgba(4, 9, 24, 0.84);
   border: 1px solid rgba(90, 118, 195, 0.18);
   border-radius: 10px;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(9px);
   color: rgba(200, 215, 255, 0.88);
 }
 
@@ -667,7 +664,7 @@
   background: rgba(4, 9, 24, 0.78);
   border: 1px solid rgba(90, 118, 195, 0.14);
   border-radius: 10px;
-  backdrop-filter: blur(9px);
+  backdrop-filter: blur(7px);
   min-width: 178px;
 }
 
@@ -710,69 +707,333 @@
 }
 
 
-// Module shortcuts — bottom-centre
-.atlas__shortcuts {
+// Bottom dock — integrated hint + home control
+.atlas__dock {
   position: absolute;
-  bottom: clamp(18px, 3vh, 30px);
+  bottom: clamp(14px, 2.6vh, 24px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(3px, 1vw, 10px);
+  gap: 10px;
+  padding: 0;
+  transition:
+    transform 0.38s ease,
+    opacity 0.32s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -26px;
+    width: clamp(220px, 28vw, 320px);
+    height: clamp(120px, 16vh, 170px);
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(216, 181, 103, 0.16) 0%, rgba(216, 181, 103, 0.05) 34%, transparent 68%),
+      radial-gradient(circle at 24% 72%, rgba(70, 126, 214, 0.11) 0%, transparent 44%),
+      radial-gradient(circle at 78% 78%, rgba(70, 126, 214, 0.08) 0%, transparent 44%);
+    filter: blur(20px);
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  &[data-layer='constellation'],
+  &[data-layer='node'],
+  &[data-layer='history'] {
+    transform: translateX(-50%) scale(0.92);
+    opacity: 0.92;
+  }
+}
+
+.atlas__shortcuts {
+  position: static;
+  transform: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
 }
 
 .atlas__shortcut {
+  --shortcut-rgb: 118 148 228;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 8px 12px;
-  background: rgba(5, 11, 27, 0.58);
-  border: 1px solid rgba(90, 118, 195, 0.14);
-  border-radius: 8px;
-  color: rgba(148, 174, 232, 0.62);
+  justify-content: flex-start;
+  gap: 8px;
+  min-width: clamp(94px, 9vw, 118px);
+  padding: 10px 12px 12px;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(7, 15, 34, 0.72) 0%, rgba(3, 8, 22, 0.78) 100%);
+  border: 1px solid rgba(var(--shortcut-rgb), 0.16);
+  border-radius: 22px;
+  color: rgba(188, 210, 255, 0.82);
   cursor: pointer;
-  backdrop-filter: blur(7px);
-  transition: background 0.22s, color 0.22s, border-color 0.22s, transform 0.18s;
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 0 22px rgba(var(--shortcut-rgb), 0.06);
+  transition:
+    background 0.22s,
+    color 0.22s,
+    border-color 0.22s,
+    transform 0.18s,
+    box-shadow 0.22s;
 
-  &:hover {
-    background: rgba(12, 24, 56, 0.78);
-    color: rgba(200, 220, 255, 0.92);
-    border-color: rgba(110, 140, 215, 0.28);
-    transform: translateY(-2px);
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 16%, rgba(var(--shortcut-rgb), 0.18) 0%, transparent 58%);
+    opacity: 0.68;
+    pointer-events: none;
   }
 
-  // Qur'an shortcut gets gold accent
-  &--quran {
-    border-color: rgba(210, 162, 55, 0.18);
-    color: rgba(210, 168, 72, 0.72);
+  &::after {
+    content: '';
+    position: absolute;
+    left: 16%;
+    right: 16%;
+    bottom: 0;
+    height: 1px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(var(--shortcut-rgb), 0.92), transparent);
+    opacity: 0.68;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background:
+      linear-gradient(180deg, rgba(10, 22, 48, 0.84) 0%, rgba(5, 12, 30, 0.88) 100%);
+    color: rgba(200, 220, 255, 0.92);
+    border-color: rgba(var(--shortcut-rgb), 0.34);
+    transform: translateY(-2px);
+    box-shadow:
+      0 22px 44px rgba(0, 0, 0, 0.26),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 0 32px rgba(var(--shortcut-rgb), 0.14);
+  }
+
+  &[data-module='hub']       { --shortcut-rgb: 112 142 222; }
+  &[data-module='quran']     { --shortcut-rgb: 210 166 74; }
+  &[data-module='arabic']    { --shortcut-rgb: 156 169 235; }
+  &[data-module='worldview'] { --shortcut-rgb: 122 152 230; }
+  &[data-module='planner']   { --shortcut-rgb: 145 165 235; }
+  &[data-module='srs']       { --shortcut-rgb: 180 194 244; }
+  &[data-module='start'] {
+    --shortcut-rgb: 118 148 228;
+    min-width: clamp(142px, 14vw, 190px);
+    padding: 10px 14px 14px;
+    border-radius: 30px;
+    background:
+      linear-gradient(180deg, rgba(10, 17, 36, 0.24) 0%, rgba(6, 10, 24, 0.12) 100%);
+    border-color: rgba(126, 156, 228, 0.1);
+    box-shadow:
+      0 12px 32px rgba(0, 0, 0, 0.16),
+      0 0 26px rgba(64, 102, 194, 0.08);
+
+    &::before {
+      background:
+        radial-gradient(circle at 50% 10%, rgba(112, 151, 240, 0.18) 0%, transparent 62%);
+      opacity: 0.66;
+    }
+
     &:hover {
-      border-color: rgba(210, 162, 55, 0.38);
-      color: rgba(232, 185, 80, 0.95);
+      border-color: rgba(140, 176, 240, 0.22);
+      box-shadow:
+        0 16px 36px rgba(0, 0, 0, 0.2),
+        0 0 34px rgba(96, 142, 234, 0.14);
     }
   }
 }
 
+.atlas__shortcut-aura {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  width: 76px;
+  height: 76px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(var(--shortcut-rgb), 0.14) 0%, rgba(var(--shortcut-rgb), 0.05) 42%, transparent 72%);
+  filter: blur(12px);
+  pointer-events: none;
+  opacity: 0.74;
+}
+
+.atlas__shortcut-icon {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  border: 1px solid rgba(var(--shortcut-rgb), 0.18);
+  background:
+    radial-gradient(circle at 50% 34%, rgba(var(--shortcut-rgb), 0.18) 0%, rgba(15, 24, 48, 0.32) 48%, rgba(4, 9, 24, 0.88) 100%);
+  box-shadow:
+    inset 0 0 22px rgba(var(--shortcut-rgb), 0.08),
+    0 0 22px rgba(var(--shortcut-rgb), 0.11);
+  z-index: 1;
+}
+
+.atlas__shortcut-orbit {
+  position: absolute;
+  inset: -7px;
+  border-radius: 20px;
+  border: 1px solid rgba(var(--shortcut-rgb), 0.2);
+  box-shadow:
+    0 0 14px rgba(var(--shortcut-rgb), 0.12),
+    inset 0 0 12px rgba(var(--shortcut-rgb), 0.07);
+  opacity: 0.88;
+}
+
+.atlas__shortcut-star {
+  position: absolute;
+  top: 6px;
+  right: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 237, 194, 0.94);
+  box-shadow:
+    0 0 8px rgba(255, 228, 158, 0.86),
+    0 0 18px rgba(196, 162, 92, 0.52);
+}
+
+.atlas__shortcut-svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: rgba(232, 240, 255, 0.95);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 12px rgba(var(--shortcut-rgb), 0.34));
+}
+
 .atlas__shortcut-glyph {
-  font-size: clamp(13px, 1.9vw, 17px);
+  font-size: 30px;
   line-height: 1;
+  color: rgba(235, 242, 255, 0.95);
+  filter: drop-shadow(0 0 12px rgba(var(--shortcut-rgb), 0.34));
+
+  &--arabic {
+    font-family: var(--km-font-arabic-amiri, 'AmiriQuran', serif);
+    font-size: 34px;
+    transform: translateY(-1px);
+  }
 }
 
 .atlas__shortcut-label {
-  font-size: clamp(7.5px, 0.95vw, 9.5px);
-  letter-spacing: 0.10em;
+  position: relative;
+  z-index: 1;
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
+  color: rgba(222, 232, 255, 0.94);
+}
+
+.atlas__shortcut-meta {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(7px, 0.82vw, 8.5px);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(166, 186, 230, 0.58);
+}
+
+.atlas__shortcut[data-module='start'] {
+  .atlas__shortcut-label {
+    color: rgba(238, 244, 255, 0.96);
+    text-shadow: 0 0 18px rgba(136, 174, 250, 0.18);
+  }
+
+  .atlas__shortcut-meta {
+    color: rgba(188, 205, 242, 0.52);
+  }
+}
+
+.atlas__shortcut-sky {
+  position: relative;
+  width: clamp(124px, 12vw, 152px);
+  height: clamp(42px, 5.4vh, 52px);
+  border-radius: 999px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 40%, rgba(244, 248, 255, 0.95) 0 1px, transparent 2.2px),
+    radial-gradient(circle at 72% 32%, rgba(255, 239, 205, 0.82) 0 1.3px, transparent 2.4px),
+    radial-gradient(circle at 52% 66%, rgba(182, 208, 255, 0.78) 0 1px, transparent 2px),
+    linear-gradient(180deg, rgba(10, 18, 40, 0.82) 0%, rgba(7, 13, 31, 0.68) 100%);
+  border: 1px solid rgba(126, 156, 228, 0.18);
+  box-shadow:
+    inset 0 0 28px rgba(42, 84, 172, 0.14),
+    inset 0 -10px 22px rgba(2, 6, 18, 0.36),
+    0 0 28px rgba(52, 94, 184, 0.12);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, transparent 0%, rgba(150, 182, 244, 0.09) 48%, transparent 100%);
+    opacity: 0.72;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    bottom: 8px;
+    height: 18px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 50% 0%, rgba(104, 146, 236, 0.16) 0%, transparent 68%);
+    filter: blur(8px);
+    pointer-events: none;
+  }
+}
+
+.atlas__shortcut-sky-arc {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 72%;
+  height: 20px;
+  transform: translateX(-50%);
+  border-top: 1px solid rgba(178, 203, 248, 0.34);
+  border-radius: 50%;
+  opacity: 0.75;
+}
+
+.atlas__shortcut-sky-star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(242, 247, 255, 0.94);
+  box-shadow: 0 0 10px rgba(164, 198, 255, 0.44);
+
+  &--1 { top: 10px; left: 22px; }
+  &--2 { top: 16px; right: 28px; width: 4px; height: 4px; }
+  &--3 { bottom: 12px; left: 50%; transform: translateX(-50%); }
+  &--4 { top: 12px; right: 18px; background: rgba(255, 237, 199, 0.92); }
 }
 
 
-// Sky hint — centre bottom (sky layer only)
+// Sky hint — dock-local whisper
 .atlas__hint {
-  position: absolute;
-  bottom: clamp(66px, 10.5vh, 86px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
   margin: 0;
   font-size: 9.5px;
   letter-spacing: 0.15em;
@@ -780,12 +1041,8 @@
   color: rgba(110, 138, 200, 0.36);
   pointer-events: none;
   white-space: nowrap;
-  animation: atlas-hint-breathe 5.5s ease-in-out infinite alternate;
-}
-
-@keyframes atlas-hint-breathe {
-  from { opacity: 0.55; }
-  to   { opacity: 1.00; }
+  text-align: center;
+  opacity: 0.72;
 }
 
 
@@ -799,11 +1056,59 @@
     transform: scale(0.62);
     transform-origin: center center;
   }
+  .atlas__dock {
+    bottom: 14px;
+    gap: 10px;
+    padding: 0;
+  }
   .atlas__shortcuts {
-    gap: 2px;
+    gap: 4px;
   }
   .atlas__shortcut {
-    padding: 6px 8px;
+    min-width: 78px;
+    padding: 10px 10px 9px;
+    border-radius: 12px;
+  }
+  .atlas__shortcut-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+  .atlas__shortcut-svg {
+    width: 24px;
+    height: 24px;
+  }
+  .atlas__shortcut-glyph {
+    font-size: 24px;
+  }
+  .atlas__shortcut-glyph--arabic {
+    font-size: 28px;
+  }
+  .atlas__shortcut-label {
+    font-size: 7.5px;
+    letter-spacing: 0.18em;
+  }
+  .atlas__shortcut-meta {
+    font-size: 6.5px;
+    letter-spacing: 0.22em;
+  }
+  .atlas__shortcut[data-module='start'] {
+    min-width: 126px;
+    padding: 8px 10px 11px;
+  }
+  .atlas__shortcut-sky {
+    width: 118px;
+    height: 38px;
+  }
+  .atlas__shortcut-sky-arc {
+    top: 7px;
+    height: 16px;
+  }
+  .atlas__hint {
+    font-size: 7.5px;
+    letter-spacing: 0.11em;
+    white-space: normal;
+    max-width: min(78vw, 240px);
   }
 }
 

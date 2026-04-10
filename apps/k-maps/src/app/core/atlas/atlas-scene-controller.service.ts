@@ -10,6 +10,29 @@ import {
   HistoricalEra,
 } from './atlas.models';
 
+const AUTO_TOUR_HOPS: string[] = [
+  'scriptures',
+  'prophets',
+  'quranic_events',
+  'scriptures',
+  'prophetic_attributes',
+  'hadith_companions',
+  'scriptures',
+  'biblical_events',
+  'prophets',
+  'scholars_books',
+  'scriptures',
+  'enlightenment',
+  'quranic_events',
+  'prophets',
+  'hadith_companions',
+  'scriptures',
+  'scholars_books',
+  'prophets',
+  'scriptures',
+  'scriptures',
+];
+
 /**
  * AtlasSceneController owns scene-mode transitions for the 4-layer navigation model:
  *
@@ -223,8 +246,8 @@ export class AtlasSceneController {
   // ─── Auto-tour ───────────────────────────────────────────────────────────
 
   /**
-   * Automatically cycles through every registered constellation in order of
-   * quran_centrality (Qur'an first), zooming in and back to sky between each.
+   * Runs a curated 20-hop tour that repeatedly returns to Scriptures/Qur'an
+   * and Prophets instead of drifting through a flat one-pass sequence.
    *
    * @param dwellMs   How long to stay on each constellation (default 2800 ms)
    * @param returnMs  How long to pause at sky between constellations (default 900 ms)
@@ -232,36 +255,34 @@ export class AtlasSceneController {
    */
   startAutoTour(dwellMs = 2800, returnMs = 900): () => void {
     let cancelled = false;
-    const sequence = this.getConstellationsSorted();
+    const sequence = this.getAutoTourSequence();
     let index = 0;
 
     const step = (): void => {
       if (cancelled || sequence.length === 0) return;
 
-      const constellation = sequence[index % sequence.length];
+      const constellation = sequence[index];
       this.goToConstellation(constellation.id);
 
       // After dwell, return to sky, then advance
       const dwellTimer = window.setTimeout(() => {
+        this.forgetTimer(dwellTimer);
         if (cancelled) return;
         this.goToSky();
 
+        const isLoopBoundary = index === sequence.length - 1;
+        const skyPause = isLoopBoundary ? returnMs + 450 : returnMs;
         const returnTimer = window.setTimeout(() => {
+          this.forgetTimer(returnTimer);
           if (cancelled) return;
-          index++;
-          // Loop back once all constellations visited
-          if (index < sequence.length) {
-            step();
-          } else {
-            // One full cycle done — remain at sky
-            this.goToSky();
-          }
-        }, returnMs);
+          index = (index + 1) % sequence.length;
+          step();
+        }, skyPause);
 
-        this._tourTimers.push(returnTimer);
+        this.rememberTimer(returnTimer);
       }, dwellMs);
 
-      this._tourTimers.push(dwellTimer);
+      this.rememberTimer(dwellTimer);
     };
 
     step();
@@ -276,10 +297,36 @@ export class AtlasSceneController {
 
   private _tourTimers: number[] = [];
 
+  private rememberTimer(id: number): void {
+    this._tourTimers.push(id);
+  }
+
+  private forgetTimer(id: number): void {
+    this._tourTimers = this._tourTimers.filter((timerId) => timerId !== id);
+  }
+
   /** Cancel any running auto-tour without resetting scene state. */
   stopAutoTour(): void {
     this._tourTimers.forEach((id) => window.clearTimeout(id));
     this._tourTimers = [];
+  }
+
+  reset(): void {
+    this.stopAutoTour();
+    this.state.set({ layer: 'sky' });
+    this.constellations = [];
+    this.graphData = null;
+    this.waypoints = [];
+    this.eras = [];
+  }
+
+  private getAutoTourSequence(): ConstellationLayer[] {
+    const byId = new Map(this.constellations.map((constellation) => [constellation.id, constellation]));
+    const curated = AUTO_TOUR_HOPS
+      .map((id) => byId.get(id))
+      .filter((constellation): constellation is ConstellationLayer => Boolean(constellation));
+
+    return curated.length ? curated : this.getConstellationsSorted();
   }
 
   /** Human-readable breadcrumb for the current state. */
