@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, ElementRef, OnInit,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, NgZone, OnInit,
   computed, effect, inject, signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -118,6 +118,8 @@ export class PassageStudyPage implements OnInit {
   private readonly router = inject(Router);
   private readonly svc    = inject(SurahModulesService);
   private readonly host   = inject(ElementRef<HTMLElement>);
+  private readonly zone   = inject(NgZone);
+  private readonly cdr    = inject(ChangeDetectorRef);
 
   // ── Route params ─────────────────────────────────────────────────────────
 
@@ -242,16 +244,16 @@ export class PassageStudyPage implements OnInit {
   readonly ayahs = computed<StudyAyahVm[]>(() =>
     [...(this.lesson()?.ayahs ?? [])].sort((a, b) => a.ayah - b.ayah));
 
-  /** Nouns — with fallback to morphology task words */
+  /** Nouns — with fallback to morphology task words. Filters D1 [null] artifacts. */
   readonly nouns = computed<StudyWordVm[]>(() => {
-    const voc = this.lesson()?.vocabulary?.nouns;
-    if (Array.isArray(voc) && voc.length > 0) return voc;
+    const voc = (this.lesson()?.vocabulary?.nouns ?? []).filter((w): w is StudyWordVm => !!w);
+    if (voc.length > 0) return voc;
     return this.morphTaskWords('noun');
   });
 
   readonly verbs = computed<StudyWordVm[]>(() => {
-    const voc = this.lesson()?.vocabulary?.verbs;
-    if (Array.isArray(voc) && voc.length > 0) return voc;
+    const voc = (this.lesson()?.vocabulary?.verbs ?? []).filter((w): w is StudyWordVm => !!w);
+    if (voc.length > 0) return voc;
     return this.morphTaskWords('verb');
   });
 
@@ -410,29 +412,46 @@ export class PassageStudyPage implements OnInit {
 
   private psGoTo(newIdx: number, forward: boolean): void {
     if (this.psAnimating) return;
-    const card = this.hostQuery('.ps-card');
-    if (!card) { this.psIdx.set(newIdx); return; }
     this.psAnimating = true;
-    gsap.to(card, {
-      x: forward ? -340 : 340, opacity: 0, rotationZ: forward ? -5 : 5, scale: 0.95,
-      duration: 0.28, ease: 'power2.in',
-      onComplete: () => {
-        this.psIdx.set(newIdx);
+
+    const card = this.hostQuery('.ps-card');
+    if (!card) {
+      this.psIdx.set(newIdx);
+      this.psAnimating = false;
+      return;
+    }
+
+    // Exit: CSS transition out
+    card.style.transition = 'opacity 0.18s ease-in, transform 0.18s ease-in';
+    card.style.opacity = '0';
+    card.style.transform = `translateX(${forward ? -56 : 56}px) scale(0.96)`;
+
+    setTimeout(() => {
+      // Update index + force synchronous re-render
+      this.psIdx.set(newIdx);
+      this.cdr.detectChanges();
+
+      const next = this.hostQuery('.ps-card');
+      if (!next) { this.psAnimating = false; return; }
+
+      // Enter: snap to start position, then transition to resting
+      next.style.transition = 'none';
+      next.style.opacity = '0';
+      next.style.transform = `translateX(${forward ? 56 : -56}px) scale(0.96)`;
+      next.getBoundingClientRect(); // force reflow
+      next.style.transition = 'opacity 0.28s ease-out, transform 0.28s ease-out';
+      next.style.opacity = '1';
+      next.style.transform = 'none';
+
+      setTimeout(() => {
+        next.style.transition = '';
         this.psAnimating = false;
-        setTimeout(() => this.dealInPsCard(forward), 0);
-      },
-    });
+      }, 300);
+    }, 190);
   }
 
-  private dealInPsCard(fromRight: boolean): void {
-    const card = this.hostQuery('.ps-card');
-    if (!card) return;
-    this.psAnimating = true;
-    gsap.fromTo(card,
-      { x: fromRight ? 340 : -340, opacity: 0, rotationZ: fromRight ? 5 : -5, scale: 0.94 },
-      { x: 0, opacity: 1, rotationZ: 0, scale: 1, duration: 0.45, ease: 'back.out(1.2)',
-        onComplete: () => { this.psAnimating = false; } });
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private dealInPsCard(_fromRight: boolean): void {}
 
   // Touch swipe — passage structure
   private psSwipeX = 0; private psSwipeY = 0;
@@ -493,28 +512,54 @@ export class PassageStudyPage implements OnInit {
   // ── Vocab fallback ────────────────────────────────────────────────────────
 
   private morphTaskWords(type: 'noun' | 'verb'): StudyWordVm[] {
-    const task = this.lesson()?.tasks?.find(t => t.task_type === 'morphology');
+    const tasks = this.lesson()?.tasks ?? [];
+    const task  = tasks.find(t => t.task_type === 'morphology');
     if (!task) return [];
-    const raw = this.parsePayload(task.task_json);
-    const words: any[] = raw?.words ?? raw?.vocabulary ?? raw?.items ?? [];
-    return words
-      .filter((w: any) => type === 'noun'
-        ? String(w.class_name ?? w.pos ?? '').toLowerCase().includes('noun')
-        : String(w.class_name ?? w.pos ?? '').toLowerCase().includes('verb'))
-      .map((w: any) => ({
-        word_id:     w.word_id ?? w.id ?? '',
-        ayah:        w.ayah ?? 0,
-        position:    w.position ?? 0,
-        word:        w.word ?? w.text ?? w.surface ?? '',
-        simple:      w.simple ?? '',
-        translation: w.translation ?? w.meaning ?? '',
-        lemma:       w.lemma ?? '',
-        root:        w.root ?? '',
-        gloss:       w.gloss ?? '',
-        meanings:    w.meanings ?? '',
-        verb_form:   w.verb_form ?? '',
-        pattern:     w.pattern ?? '',
-      }));
+
+    // Collect payloads: parent + children (same as desktop fallback)
+    const payloads = [
+      this.parsePayload(task.task_json),
+      ...(task.children ?? []).map(c => this.parsePayload(c.task_json)),
+    ];
+
+    const items: any[] = [];
+    for (const p of payloads) {
+      if (!p || typeof p !== 'object') continue;
+      const arr: any[] = Array.isArray(p['items'])              ? p['items'] :
+                         Array.isArray(p['lexicon_morphology']) ? p['lexicon_morphology'] :
+                         Array.isArray(p['words'])              ? p['words'] :
+                         Array.isArray(p['vocabulary'])         ? p['vocabulary'] : [];
+      for (const x of arr) { if (x && typeof x === 'object') items.push(x); }
+    }
+
+    const normalizePos = (v: unknown): 'noun' | 'verb' | null => {
+      const s = (typeof v === 'string' ? v : '').toLowerCase();
+      if (s === 'noun') return 'noun';
+      if (s === 'verb') return 'verb';
+      return null;
+    };
+
+    return items
+      .filter(w => normalizePos(w['pos'] ?? w['class_name']) === type)
+      .map(w => {
+        const tr   = w['translation'] && typeof w['translation'] === 'object' ? w['translation'] : null;
+        const mf   = w['morph_features'] ?? {};
+        return {
+          word_id:     w['ar_token_occ_id'] ?? w['word_location'] ?? w['word_id'] ?? w['id'] ?? '',
+          ayah:        w['ayah'] ?? 0,
+          position:    w['token_index'] ?? w['position'] ?? 0,
+          word:        w['surface_ar'] ?? w['word'] ?? w['text'] ?? w['surface'] ?? '',
+          simple:      w['surface_norm'] ?? w['simple'] ?? undefined,
+          translation: (tr ? tr['primary'] : null) ?? w['translation'] ?? w['meaning'] ?? undefined,
+          lemma:       w['lemma_ar'] ?? w['lemma'] ?? undefined,
+          root:        w['root_norm'] ?? w['root'] ?? undefined,
+          gloss:       (tr ? tr['primary'] : null) ?? w['gloss'] ?? undefined,
+          meanings:    Array.isArray(w['meanings']) ? w['meanings'][0] : (w['meanings'] ?? undefined),
+          verb_form:   mf['form_number'] ?? w['verb_form'] ?? undefined,
+          pattern:     w['morph_pattern'] ?? w['pattern'] ?? undefined,
+          transitivity:mf['transitivity'] ?? w['transitivity'] ?? undefined,
+        } as StudyWordVm;
+      });
   }
 
   // ── Nav ───────────────────────────────────────────────────────────────────

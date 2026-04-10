@@ -1,59 +1,118 @@
 <div class="atlas" #host>
+
+  <!-- ── Layer A: Realistic starfield ─────────────────────────────────── -->
   <div class="atlas__star-stage" aria-hidden="true">
     <div #starHost class="atlas__star-webgl"></div>
   </div>
 
-  @for (side of edgeWordSides; track side) {
-    <div class="atlas__edge-words" [class]="'atlas__edge-words atlas__edge-words--' + side" aria-hidden="true">
-      @for (word of edgeWords[side]; track word.text) {
-        <span
-          class="atlas__edge-word"
-          [style.fontSize.px]="word.size"
-          [style.opacity]="word.alpha"
-          [style.--atlas-word-rotate]="word.tilt + 'deg'"
-          [attr.data-side]="side"
-          [attr.data-delay]="word.delay"
-          [attr.data-tilt]="word.tilt"
-          [style.left.%]="side === 'top' || side === 'bottom' ? word.offset : null"
-          [style.top.%]="side === 'left' || side === 'right' ? word.offset : null"
-        >
-          {{ word.text }}
-        </span>
-      }
-    </div>
+  <!-- ── Atmospheric vignette ──────────────────────────────────────────── -->
+  <div class="atlas__vignette" aria-hidden="true"></div>
+
+  <!-- ── Revelation veil — faint aurora near Qur'an focus ─────────────── -->
+  <div class="atlas__revelation-veil" aria-hidden="true"></div>
+
+  <!-- ── Layer B: D3 graph canvas ─────────────────────────────────────── -->
+  <svg #svgRoot class="atlas__canvas" aria-label="Knowledge constellation map"></svg>
+
+  <!-- ── UI Overlay ────────────────────────────────────────────────────── -->
+
+  <header class="atlas__header">
+    <h1 class="atlas__title" #titleEl>
+      <span class="atlas__title-ar" lang="ar">القرآن الكريم</span>
+      <span class="atlas__title-en">K·MAPS</span>
+    </h1>
+    <p class="atlas__subtitle" #subtitleEl>Sacred Knowledge Atlas</p>
+  </header>
+
+  <!-- Mode indicator (top-right) -->
+  <div class="atlas__mode" aria-live="polite">
+    <span class="atlas__mode-dot"></span>
+    <span class="atlas__mode-label" #modeLabelEl>Sky</span>
+  </div>
+
+  <!-- Back button (hidden at sky layer) -->
+  @if (canGoBack()) {
+    <button class="atlas__back" type="button" aria-label="Step back" (click)="stepBack()">
+      <svg viewBox="0 0 20 20" width="14" height="14" aria-hidden="true">
+        <path d="M13 4 L7 10 L13 16" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span>{{ breadcrumb().at(-2) || 'Sky' }}</span>
+    </button>
   }
 
-  <div class="atlas__fire-stage" aria-hidden="true">
-    <div #fireHost class="atlas__fire-webgl"></div>
+  <!-- Breadcrumb -->
+  @if (breadcrumb().length > 1) {
+    <nav class="atlas__breadcrumb" aria-label="Navigation breadcrumb">
+      @for (crumb of breadcrumb(); track crumb; let last = $last) {
+        <span class="atlas__crumb" [class.atlas__crumb--active]="last">{{ crumb }}</span>
+        @if (!last) { <span class="atlas__crumb-sep" aria-hidden="true">·</span> }
+      }
+    </nav>
+  }
+
+  <!-- Zoom controls -->
+  <div class="atlas__zoom" aria-label="Zoom controls">
+    <button class="atlas__zoom-btn" type="button" aria-label="Zoom in"   (click)="zoomIn()">+</button>
+    <button class="atlas__zoom-btn" type="button" aria-label="Zoom out"  (click)="zoomOut()">−</button>
+    <button class="atlas__zoom-btn atlas__zoom-btn--reset" type="button" aria-label="Reset view" (click)="resetView()">◎</button>
   </div>
 
-  <svg #svgRoot class="atlas__canvas"></svg>
+  <!-- Focus info card (node / history layers) -->
+  @if (focusCard()) {
+    <aside class="atlas__focus-card" #focusCardEl role="complementary" aria-label="Node details">
+      <button class="atlas__focus-card-close" type="button" aria-label="Close" (click)="dismissFocusCard()">×</button>
+      <h2 class="atlas__focus-card-title">{{ focusCard()!.title }}</h2>
+      @if (focusCard()!.subtitle) {
+        <p class="atlas__focus-card-ar" lang="ar">{{ focusCard()!.subtitle }}</p>
+      }
+      @if (focusCard()!.summary) {
+        <p class="atlas__focus-card-summary">{{ focusCard()!.summary }}</p>
+      }
+      @if (focusCard()!.relationToQuran) {
+        <dl class="atlas__focus-card-meta">
+          <dt>Relation to Qur'an</dt>
+          <dd>{{ focusCard()!.relationToQuran }}</dd>
+        </dl>
+      }
+    </aside>
+  }
 
-  <div class="atlas__zoom-controls" aria-label="Zoom controls">
-    <button class="atlas__zoom-button" type="button" aria-label="Zoom in" (click)="zoomIn()">+</button>
-    <button class="atlas__zoom-button" type="button" aria-label="Zoom out" (click)="zoomOut()">−</button>
-    <button class="atlas__zoom-button atlas__zoom-button--reset" type="button" aria-label="Reset view" (click)="resetZoom()">◎</button>
-  </div>
+  <!-- History era legend (history layer) -->
+  @if (isHistoryMode && historyEras().length) {
+    <aside class="atlas__history-legend" aria-label="Historical eras">
+      <p class="atlas__history-legend-title">Eras</p>
+      @for (era of historyEras(); track era.era_id) {
+        <div class="atlas__era-item">
+          <span class="atlas__era-dot" [style.background]="era.color ?? '#c9a84c'"></span>
+          <span class="atlas__era-label">{{ era.era_label }}</span>
+          <span class="atlas__era-years">
+            {{ era.time_start > 0 ? era.time_start + ' CE' : (-era.time_start) + ' BCE' }}
+            –
+            {{ era.time_end > 0 ? era.time_end + ' CE' : (-era.time_end) + ' BCE' }}
+          </span>
+        </div>
+      }
+    </aside>
+  }
 
-  <button #homePlaneButton class="atlas__home-plane" type="button" aria-label="Enter home" (click)="launchHome()">
-    <span class="atlas__home-plane-aura"></span>
-    <span class="atlas__home-plane-orbit atlas__home-plane-orbit--outer"></span>
-    <span class="atlas__home-plane-shell"></span>
-    <span class="atlas__home-plane-world"></span>
-    <span class="atlas__home-plane-continents"></span>
-    <span class="atlas__home-plane-clouds"></span>
-    <span class="atlas__home-plane-atmosphere"></span>
-    <span class="atlas__home-plane-glint"></span>
-    <span class="atlas__home-plane-glow"></span>
-    <span class="atlas__home-plane-shadow"></span>
+  <!-- Module shortcuts (bottom bar) -->
+  <nav class="atlas__shortcuts" aria-label="Module shortcuts">
+    @for (mod of moduleShortcuts; track mod.id) {
+      <button
+        class="atlas__shortcut"
+        type="button"
+        [attr.aria-label]="'Go to ' + mod.label"
+        (click)="navigateTo(mod.route)"
+      >
+        <span class="atlas__shortcut-glyph" aria-hidden="true">{{ mod.glyph }}</span>
+        <span class="atlas__shortcut-label">{{ mod.label }}</span>
+      </button>
+    }
+  </nav>
 
-    <svg class="atlas__home-plane-icon" viewBox="0 0 72 72" aria-hidden="true">
-      <path class="atlas__plane-trail" d="M 10 49 C 22 44, 30 36, 36 24" />
-      <g class="atlas__home-plane-ship">
-        <path class="atlas__plane-body" d="M 14 40 L 58 14 L 37 57 L 30 42 Z" />
-        <path class="atlas__plane-wing" d="M 14 40 L 58 14 L 33 32 Z" />
-        <path class="atlas__plane-fold" d="M 30 42 L 37 57 L 33 32 Z" />
-      </g>
-    </svg>
-  </button>
+  <!-- Sky hint -->
+  @if (currentLayer() === 'sky') {
+    <p class="atlas__hint" aria-hidden="true">Click a cluster to explore · scroll to zoom</p>
+  }
+
 </div>
