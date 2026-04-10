@@ -15,31 +15,41 @@ export const ARABIC_ROUTES: Routes = [
       {
         path: 'library',
         loadComponent: () =>
-          import('./arabic-library/arabic-library.component').then((m) => m.ArabicLibraryComponent),
+          import('./arabic-library/arabic-library.component').then(
+            (m) => m.ArabicLibraryComponent,
+          ),
         title: 'Library — Arabic',
       },
       {
         path: 'library/:id',
         loadComponent: () =>
-          import('./arabic-library-units/arabic-library-units.component').then((m) => m.ArabicLibraryUnitsComponent),
+          import('./arabic-library-units/arabic-library-units.component').then(
+            (m) => m.ArabicLibraryUnitsComponent,
+          ),
         title: 'Reader — Arabic',
       },
       {
         path: 'linguistics',
         loadComponent: () =>
-          import('./arabic-linguistics/arabic-linguistics.component').then((m) => m.ArabicLinguisticsComponent),
+          import('./arabic-linguistics/arabic-linguistics.component').then(
+            (m) => m.ArabicLinguisticsComponent,
+          ),
         title: 'Linguistics — Arabic',
       },
       {
         path: 'domains',
         loadComponent: () =>
-          import('./arabic-domains/arabic-domains.component').then((m) => m.ArabicDomainsComponent),
+          import('./arabic-domains/arabic-domains.component').then(
+            (m) => m.ArabicDomainsComponent,
+          ),
         title: 'Domains — Arabic',
       },
       {
         path: 'review',
         loadComponent: () =>
-          import('./arabic-review/arabic-review.component').then((m) => m.ArabicReviewComponent),
+          import('./arabic-review/arabic-review.component').then(
+            (m) => m.ArabicReviewComponent,
+          ),
         title: 'Review — Arabic',
       },
       // ── Independent unit study routes ───────────────────
@@ -71,7 +81,7 @@ export const ARABIC_ROUTES: Routes = [
         path: 'reaction/:unitId',
         loadComponent: () =>
           import('../arabic-reaction/reaction-screen.component').then(
-            (m) => m.ReactionScreenComponent
+            (m) => m.ReactionScreenComponent,
           ),
         title: 'Reaction Studio — Arabic',
       },
