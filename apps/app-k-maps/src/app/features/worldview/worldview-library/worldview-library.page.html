@@ -99,7 +99,7 @@
 
 <!-- Source card: horizontal row layout (Kindle / modern reading style) -->
 <ng-template #sourceCard let-source>
-  <a class="wv-lib__card" [routerLink]="['/worldview', 'sources', source.id]">
+  <a class="wv-lib__card" [routerLink]="['/worldview', 'library', source.id]">
 
     <!-- Left: icon -->
     <div class="wv-lib__card-icon">{{ typeIcon(source.source_type) }}</div>

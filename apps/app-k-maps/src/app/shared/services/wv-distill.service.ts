@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
-import { KmapsNote } from '../../features/kmaps/kmaps-shared/models/kmaps.models';
-import { WvDistillBatch, WvDistillBatchItem, WvDistillItemRole } from '../../features/kmaps/kmaps-shared/models/wv-workspace.models';
+import { KmapsNote } from '../../features/worldview/worldview/models/kmaps.models';
+import { WvDistillBatch, WvDistillBatchItem, WvDistillItemRole } from '../../features/worldview/worldview/models/wv-workspace.models';
 
 @Injectable({ providedIn: 'root' })
 export class WvDistillService {

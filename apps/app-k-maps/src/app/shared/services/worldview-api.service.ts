@@ -16,13 +16,13 @@ import {
   KmapsSourceType,
   KmapsSourceUnit,
   KmapsUnitType,
-} from '../../features/kmaps/kmaps-shared/models/kmaps.models';
+} from '../../features/worldview/worldview/models/kmaps.models';
 import {
   WvDistillBatch,
   WvDistillBatchItem,
   WvInsightDecision,
   WvInsightSuggestion,
-} from '../../features/kmaps/kmaps-shared/models/wv-workspace.models';
+} from '../../features/worldview/worldview/models/wv-workspace.models';
 
 type WorkflowApiResponse = {
   ok?: boolean;

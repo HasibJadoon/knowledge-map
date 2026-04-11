@@ -12,7 +12,7 @@ import {
   KMAPS_SOURCE_DETAILS,
   KMAPS_SOURCE_PEOPLE,
   KMAPS_SOURCE_UNITS,
-} from '../../features/kmaps/kmaps-shared/data/kmaps-workflow.data';
+} from '../../features/worldview/worldview/data/kmaps-workflow.data';
 import {
   KmapsClaim,
   KmapsConcept,
@@ -34,7 +34,7 @@ import {
   formatContentBlockLabel,
   formatNoteKindLabel,
   formatTokenLabel,
-} from '../../features/kmaps/kmaps-shared/models/kmaps.models';
+} from '../../features/worldview/worldview/models/kmaps.models';
 import {
   CreateWorldviewSourceInput,
   CreateWorldviewUnitInput,

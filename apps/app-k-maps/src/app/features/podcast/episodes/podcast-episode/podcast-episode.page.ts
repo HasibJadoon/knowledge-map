@@ -482,15 +482,9 @@ export class PodcastEpisodePage {
       return;
     }
 
-    const route = this.router.url.startsWith('/wv')
-      ? unitId
-        ? ['/wv', 'source', sourceId, 'unit', unitId, 'content']
-        : ['/wv', 'source', sourceId, 'content']
-      : unitId
-        ? ['/worldview', 'sources', sourceId, 'units', unitId, 'content']
-        : ['/worldview', 'sources', sourceId, 'content'];
-
-    void this.router.navigate(route);
+    void this.router.navigate(['/worldview', 'library', sourceId], {
+      queryParams: unitId ? { unit: unitId } : undefined,
+    });
   }
 
   private async loadEpisode(episodeId: string): Promise<void> {
