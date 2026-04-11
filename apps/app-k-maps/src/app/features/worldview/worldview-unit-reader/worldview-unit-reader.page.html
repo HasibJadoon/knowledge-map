@@ -1,0 +1,215 @@
+<ion-header class="ur-header" translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/worldview/library/' + sourceId()" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ur-header__title">{{ source()?.title ?? 'Reader' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" (click)="openToc()" aria-label="Table of contents">
+        <ion-icon name="list-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <div class="read-progress-bar">
+    <div class="read-progress-bar__fill" [style.width.%]="readProgressPercent()"></div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ur-content" #contentRef>
+
+  <!-- ─── LOADING ─────────────────────────────────────────── -->
+  @if (loading()) {
+    <div class="rp rp--loading">
+      <div class="skel-heading"></div>
+      <div class="skel-rule"></div>
+      @for (s of skeletons; track s) {
+        <div class="skel-line" [style.width.%]="s % 3 === 0 ? 72 : 100"></div>
+      }
+    </div>
+  }
+
+  <!-- ─── EMPTY ─────────────────────────────────────────────── -->
+  @else if (!unit()) {
+    <div class="rp rp--empty">
+      <span class="empty-glyph">◎</span>
+      <p class="empty-msg">Unit not found.</p>
+      <button class="back-btn" (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon> Back to contents
+      </button>
+    </div>
+  }
+
+  <!-- ─── READING PAGE ──────────────────────────────────────── -->
+  @else {
+    <div class="rp" dir="ltr">
+      <article class="reading" #readerEl>
+
+        <!-- Unit header -->
+        <header class="reading__header" #headerEl>
+          <p class="reading__kicker">{{ kicker() }}</p>
+          <h1 class="reading__title">{{ unitTitle(unit()) }}</h1>
+          <div class="reading__rule" aria-hidden="true"></div>
+          <div class="reading__meta">
+            <span class="meta-chip" [attr.data-color]="typeColor(source()?.source_type)">{{ typeLabel(source()?.source_type) }}</span>
+            <span class="meta-chip">{{ unitTypeLabel(unit()!.unit_type) }}</span>
+            @if (unitRef(unit())) { <span class="meta-chip">{{ unitRef(unit()) }}</span> }
+            <span class="meta-chip meta-chip--dim">{{ readingMinutes(unit()) }}</span>
+          </div>
+        </header>
+
+        <!-- Summary (intro abstract) -->
+        @if (summaryBlocks().length > 0) {
+          <div class="reading__summary" #summaryEl>
+            @for (block of summaryBlocks(); track block) {
+              <p class="summary__para">{{ block }}</p>
+            }
+          </div>
+        }
+
+        <!-- Body: structured blocks -->
+        @if (blocks().length > 0) {
+          <div class="reading__body" #proseEl>
+            @for (block of blocks(); track $index) {
+              @switch (block.type) {
+                @case ('heading') {
+                  <div class="prose-heading-wrap">
+                    <h2 class="prose-h1">{{ block.text }}</h2>
+                    <div class="prose-h1-line"></div>
+                  </div>
+                }
+                @case ('subheading') {
+                  <div class="prose-heading-wrap prose-heading-wrap--sub">
+                    <h3 class="prose-h2">{{ block.text }}</h3>
+                    <div class="prose-h2-line"></div>
+                  </div>
+                }
+                @case ('quote') {
+                  <blockquote class="prose-quote">{{ block.text }}</blockquote>
+                  @if (block.cite) {
+                    <div class="prose-cite-row">
+                      <p class="prose-attribution">— {{ block.cite }}</p>
+                      @if (block.href) {
+                        <a class="prose-notion-link" [href]="block.href" target="_blank" rel="noopener noreferrer">
+                          <ion-icon name="open-outline"></ion-icon> Deep dive
+                        </a>
+                      }
+                    </div>
+                  }
+                }
+                @case ('link') {
+                  <a class="prose-link" [href]="block.href" target="_blank" rel="noopener noreferrer">
+                    <ion-icon name="open-outline" class="prose-link__icon"></ion-icon>
+                    {{ block.label || block.text || block.href }}
+                  </a>
+                }
+                @case ('separator') {
+                  <div class="prose-sep" aria-hidden="true"></div>
+                }
+                @case ('cite-line') {
+                  <p class="prose-attribution">— {{ block.text }}</p>
+                }
+                @default {
+                  <p class="prose-para">{{ block.text }}</p>
+                }
+              }
+            }
+          </div>
+        } @else {
+          <div class="no-excerpt">
+            <span class="no-excerpt__icon">◎</span>
+            No reading excerpt available for this {{ unitTypeLabel(unit()!.unit_type).toLowerCase() }} yet.
+          </div>
+        }
+
+        <!-- Sub-sections -->
+        @if (children().length > 0) {
+          <section class="sub-sections" #subEl>
+            <div class="sub-sections__label">Subsections</div>
+            @for (child of children(); track child.id) {
+              <button class="sub-row" (click)="goToUnit(child.id)">
+                <span class="sub-row__kind">{{ unitTypeLabel(child.unit_type) }}</span>
+                <span class="sub-row__title">{{ unitTitle(child) }}</span>
+                @if (child.summary) {
+                  <span class="sub-row__preview">{{ child.summary | slice:0:80 }}{{ child.summary.length > 80 ? '…' : '' }}</span>
+                }
+                <ion-icon name="arrow-forward-outline" class="sub-row__arrow"></ion-icon>
+              </button>
+            }
+          </section>
+        }
+
+        <!-- End ornament -->
+        <div class="doc-end" aria-label="End of unit">
+          <div class="doc-end__aura" aria-hidden="true">
+            <span class="doc-end__ray"></span>
+            <span class="doc-end__seal">✦</span>
+            <span class="doc-end__ray"></span>
+          </div>
+          <p class="doc-end__label">End of {{ unitTypeLabel(unit()!.unit_type).toLowerCase() }}</p>
+        </div>
+
+        <!-- Chapter navigation -->
+        <nav class="chapter-nav">
+          @if (prevUnit(); as prev) {
+            <button class="chapter-nav__btn chapter-nav__btn--prev" (click)="goToUnit(prev.id)">
+              <ion-icon name="chevron-back-outline"></ion-icon>
+              <span class="chapter-nav__info">
+                <span class="chapter-nav__dir">Previous</span>
+                <span class="chapter-nav__name">{{ unitTitle(prev) }}</span>
+              </span>
+            </button>
+          } @else { <div></div> }
+
+          @if (nextUnit(); as next) {
+            <button class="chapter-nav__btn chapter-nav__btn--next" (click)="goToUnit(next.id)">
+              <span class="chapter-nav__info chapter-nav__info--r">
+                <span class="chapter-nav__dir">Next</span>
+                <span class="chapter-nav__name">{{ unitTitle(next) }}</span>
+              </span>
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </button>
+          } @else { <div></div> }
+        </nav>
+
+      </article>
+    </div>
+  }
+
+</ion-content>
+
+<!-- ─── TOC backdrop ─────────────────────────────────────────── -->
+@if (tocOpen()) {
+  <div class="toc-backdrop" (click)="closeToc()" aria-hidden="true"></div>
+  <div class="toc-sheet" #tocSheetEl role="dialog" aria-label="Table of contents">
+    <div class="toc-sheet__handle" aria-hidden="true"></div>
+    <div class="toc-sheet__head">
+      <span class="toc-sheet__title">Table of Contents</span>
+      <span class="toc-count">{{ tocItems().length }}</span>
+      <button class="toc-sheet__close" (click)="closeToc()" aria-label="Close">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+    </div>
+    <div class="toc-sheet__scroll">
+      @for (item of tocItems(); track item.unit.id) {
+        <button
+          class="toc-item"
+          [class.toc-item--active]="item.unit.id === unitId()"
+          [style.--depth]="item.depth"
+          (click)="selectFromToc(item.unit.id)"
+        >
+          <span class="toc-item__num">{{ item.numbering }}</span>
+          <span class="toc-item__body">
+            <span class="toc-item__eyebrow">{{ unitTypeLabel(item.unit.unit_type) }}</span>
+            <span class="toc-item__title">{{ unitTitle(item.unit) }}</span>
+            @if (tocMeta(item.unit)) {
+              <span class="toc-item__meta">{{ tocMeta(item.unit) }}</span>
+            }
+          </span>
+          @if (item.unit.id === unitId()) {
+            <ion-icon name="radio-button-on-outline" class="toc-item__check"></ion-icon>
+          }
+        </button>
+      }
+    </div>
+  </div>
+}

@@ -25,6 +25,13 @@ export const WORLDVIEW_ROUTES: Routes = [
           ),
       },
       {
+        path: 'library/:sourceId/read/:unitId',
+        loadComponent: () =>
+          import('./worldview-unit-reader/worldview-unit-reader.page').then(
+            (m) => m.WorldviewUnitReaderPage,
+          ),
+      },
+      {
         path: 'compare',
         loadComponent: () =>
           import('./worldview-compare/worldview-compare.page').then((m) => m.WorldviewComparePage),

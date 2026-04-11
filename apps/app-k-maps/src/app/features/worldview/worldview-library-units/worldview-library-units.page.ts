@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import gsap from 'gsap';
 
 import { environment } from '../../../../environments/environment';
 
@@ -47,9 +48,12 @@ interface TocItem {
   templateUrl: './worldview-library-units.page.html',
   styleUrl: './worldview-library-units.page.scss',
 })
-export class WorldviewLibraryUnitsPage implements OnInit {
+export class WorldviewLibraryUnitsPage implements OnInit, AfterViewInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+
+  @ViewChild('heroEl') heroEl?: ElementRef<HTMLElement>;
+  @ViewChild('tocEl') tocEl?: ElementRef<HTMLElement>;
 
   readonly sourceId = signal('');
   readonly selectedUnitId = signal('');
@@ -63,195 +67,114 @@ export class WorldviewLibraryUnitsPage implements OnInit {
   readonly unitsById = computed(() => new Map(this.units().map((unit) => [unit.id, unit] as const)));
   readonly tocItems = computed(() => flattenUnits(this.rootUnits()));
 
-  readonly selectedUnit = computed(() => {
-    const selectedId = this.selectedUnitId();
-    if (selectedId) {
-      const explicit = this.unitsById().get(selectedId);
-      if (explicit) {
-        return explicit;
-      }
-    }
-
-    return this.rootUnits()[0] ?? null;
-  });
-
-  readonly selectedChapter = computed(() => {
-    const unit = this.selectedUnit();
-    if (!unit) {
-      return null;
-    }
-
-    let current = this.unitsById().get(unit.id) ?? unit;
-    while (current.parent_unit_id) {
-      const parent = this.unitsById().get(current.parent_unit_id);
-      if (!parent) {
-        break;
-      }
-      current = parent;
-    }
-
-    return current;
-  });
-
-  readonly selectedChildren = computed(() => {
-    const current = this.selectedUnit();
-    if (!current) {
-      return [];
-    }
-
-    return sortUnits(
-      this.units().filter((unit) => unit.parent_unit_id === current.id),
-    );
-  });
-
-  readonly summaryBlocks = computed(() => splitParagraphs(this.selectedUnit()?.summary ?? ''));
-
-  readonly readingBlocks = computed(() => {
-    const unit = this.selectedUnit();
-    if (!unit) {
-      return [];
-    }
-
-    const blocks = [
-      ...splitParagraphs(unit.body_preview ?? ''),
-      ...splitParagraphs(unit.anchor_text ?? ''),
-    ];
-
-    return blocks.filter((block, index) => blocks.indexOf(block) === index);
-  });
-
   ngOnInit(): void {
     const sourceId = this.route.snapshot.paramMap.get('id') ?? '';
     this.sourceId.set(sourceId);
-    this.selectedUnitId.set(this.route.snapshot.queryParamMap.get('unit') ?? '');
-
     if (!sourceId) {
       this.loading.set(false);
       return;
     }
-
     void this.load(sourceId);
+  }
+
+  ngAfterViewInit(): void {
+    // Entrance animations run once data is loaded (polled via rAF)
+  }
+
+  private runEntranceAnimation(): void {
+    // Use a stable timeout so Angular finishes rendering before GSAP touches the DOM
+    setTimeout(() => {
+      const hero = this.heroEl?.nativeElement;
+      const toc = this.tocEl?.nativeElement;
+      if (!hero && !toc) return;
+
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      if (hero) {
+        tl.fromTo(hero, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45 });
+      }
+      if (toc) {
+        tl.fromTo(toc, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4 }, '-=0.22');
+        const rows = toc.querySelectorAll('.toc-row');
+        if (rows.length) {
+          tl.fromTo(rows, { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.28, stagger: 0.03 }, '-=0.18');
+        }
+      }
+    }, 80);
   }
 
   private async load(id: string): Promise<void> {
     try {
       const res = await fetch(`${environment.apiBase}/worldview/sources/${id}`);
-      if (!res.ok) {
-        return;
-      }
-
+      if (!res.ok) return;
       const data = (await res.json()) as { ok: boolean; source: WvSource; units: WvUnit[] };
-      if (!data.ok) {
-        return;
-      }
-
+      if (!data.ok) return;
       this.source.set(data.source);
       this.units.set(data.units ?? []);
-      this.ensureSelectedUnit();
     } catch {
-      // ignore network errors for now
+      // ignore
     } finally {
       this.loading.set(false);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => this.runEntranceAnimation());
+      });
     }
   }
 
   selectUnit(unitId: string): void {
-    this.selectedUnitId.set(unitId);
-    void this.router.navigate(['/worldview', 'library', this.sourceId()], {
-      queryParams: { unit: unitId },
-      replaceUrl: true,
-    });
+    void this.router.navigate(['/worldview', 'library', this.sourceId(), 'read', unitId]);
   }
 
-  isActive(unitId: string): boolean {
-    return this.selectedUnit()?.id === unitId;
-  }
 
   typeIcon(type?: string | null): string {
     const map: Record<string, string> = {
-      book: '📚',
-      article: '📰',
-      essay: '✍',
-      paper: '🧾',
-      lecture: '🎓',
-      podcast: '🎙',
-      video: '▶',
-      scripture: '✧',
-      report: '▣',
-      document: '◎',
-      other: '◎',
+      book: '📚', article: '📰', essay: '✍', paper: '🧾',
+      lecture: '🎓', podcast: '🎙', video: '▶', scripture: '✧',
+      report: '▣', document: '◎', other: '◎',
     };
     return map[(type ?? '').toLowerCase()] ?? '◎';
   }
 
   typeLabel(type?: string | null): string {
     const map: Record<string, string> = {
-      book: 'Book',
-      article: 'Article',
-      essay: 'Essay',
-      paper: 'Paper',
-      lecture: 'Lecture',
-      podcast: 'Podcast',
-      video: 'Video',
-      scripture: 'Scripture',
-      report: 'Report',
-      document: 'Document',
+      book: 'Book', article: 'Article', essay: 'Essay', paper: 'Paper',
+      lecture: 'Lecture', podcast: 'Podcast', video: 'Video',
+      scripture: 'Scripture', report: 'Report', document: 'Document',
     };
     return map[(type ?? '').toLowerCase()] ?? 'Source';
   }
 
   typeColor(type?: string | null): string {
     const map: Record<string, string> = {
-      book: 'gold',
-      article: 'blue',
-      essay: 'ember',
-      paper: 'purple',
-      lecture: 'sage',
-      podcast: 'sage',
-      video: 'blue',
-      scripture: 'gold',
-      report: 'purple',
-      document: '',
+      book: 'gold', article: 'blue', essay: 'ember', paper: 'purple',
+      lecture: 'sage', podcast: 'sage', video: 'blue',
+      scripture: 'gold', report: 'purple', document: '',
     };
     return map[(type ?? '').toLowerCase()] ?? '';
   }
 
   unitTypeLabel(type?: string | null): string {
     const map: Record<string, string> = {
-      chapter: 'Chapter',
-      section: 'Section',
-      part: 'Part',
-      preface: 'Preface',
-      introduction: 'Introduction',
-      appendix: 'Appendix',
-      conclusion: 'Conclusion',
-      verse: 'Verse',
+      chapter: 'Chapter', section: 'Section', part: 'Part',
+      preface: 'Preface', introduction: 'Introduction',
+      appendix: 'Appendix', conclusion: 'Conclusion', verse: 'Verse',
     };
     return map[(type ?? '').toLowerCase()] ?? 'Unit';
   }
 
   sourcePeopleLine(): string {
     const src = this.source();
-    if (!src) {
-      return '';
-    }
-
+    if (!src) return '';
     if (src.people?.length) {
-      return src.people.map((person) => person.display_name).filter(Boolean).join(' · ');
+      return src.people.map((p) => p.display_name).filter(Boolean).join(' · ');
     }
-
     return src.creator ?? '';
   }
 
   sourceMetaLine(): string {
     const src = this.source();
-    if (!src) {
-      return '';
-    }
-
+    if (!src) return '';
     return [src.publisher, src.publication_year, src.language?.toUpperCase(), src.source_domain]
-      .filter(Boolean)
-      .join(' · ');
+      .filter(Boolean).join(' · ');
   }
 
   unitTitle(unit: WvUnit | null | undefined): string {
@@ -259,71 +182,31 @@ export class WorldviewLibraryUnitsPage implements OnInit {
   }
 
   unitRef(unit: WvUnit | null | undefined): string {
-    if (!unit) {
-      return '';
-    }
-
+    if (!unit) return '';
     if (unit.start_ref && unit.end_ref && unit.start_ref !== unit.end_ref) {
-      return `${unit.start_ref} - ${unit.end_ref}`;
+      return `${unit.start_ref} – ${unit.end_ref}`;
     }
-
     return unit.start_ref || unit.end_ref || '';
   }
 
-  tocLabel(item: TocItem): string {
-    return `${item.numbering} ${this.unitTitle(item.unit)}`;
-  }
-
-  childSummary(unit: WvUnit): string {
-    return unit.summary?.trim() || this.unitRef(unit) || 'Open this section in the reader.';
-  }
-
-  storyKicker(): string {
-    const unit = this.selectedUnit();
-    const chapter = this.selectedChapter();
-
-    if (unit && chapter && chapter.id !== unit.id) {
-      return `${this.unitTypeLabel(chapter.unit_type)} · ${this.unitTitle(chapter)}`;
-    }
-
-    return this.sourcePeopleLine() || this.source()?.subtitle || 'Worldview Source';
-  }
-
   tocMeta(unit: WvUnit): string {
-    return [this.unitTypeLabel(unit.unit_type), this.unitRef(unit)]
-      .filter(Boolean)
-      .join(' · ');
+    return [this.unitTypeLabel(unit.unit_type), this.unitRef(unit)].filter(Boolean).join(' · ');
   }
 
   readingMinutes(unit: WvUnit | null | undefined): string {
     const text = [unit?.summary, unit?.body_preview, unit?.anchor_text].filter(Boolean).join(' ');
     const words = text.trim().split(/\s+/).filter(Boolean).length;
-    if (!words) {
-      return 'Quick read';
-    }
-
+    if (!words) return 'Quick read';
     return `${Math.max(1, Math.round(words / 180))} min read`;
   }
 
-  private ensureSelectedUnit(): void {
-    const selectedId = this.selectedUnitId();
-    if (selectedId && this.unitsById().get(selectedId)) {
-      return;
-    }
-
-    const firstUnit = this.rootUnits()[0];
-    this.selectedUnitId.set(firstUnit?.id ?? '');
-  }
 }
 
 function sortUnits(units: WvUnit[]): WvUnit[] {
-  return [...units].sort((left, right) => {
-    const orderDelta = (left.order_index ?? 0) - (right.order_index ?? 0);
-    if (orderDelta !== 0) {
-      return orderDelta;
-    }
-
-    return (left.title ?? left.anchor_text ?? '').localeCompare(right.title ?? right.anchor_text ?? '');
+  return [...units].sort((l, r) => {
+    const d = (l.order_index ?? 0) - (r.order_index ?? 0);
+    if (d !== 0) return d;
+    return (l.title ?? l.anchor_text ?? '').localeCompare(r.title ?? r.anchor_text ?? '');
   });
 }
 
@@ -332,26 +215,16 @@ function buildUnitTree(units: WvUnit[]): WvUnit[] {
   for (const unit of units) {
     byId.set(unit.id, { ...unit, children: [] });
   }
-
   const roots: WvUnit[] = [];
   for (const unit of byId.values()) {
     if (unit.parent_unit_id) {
       const parent = byId.get(unit.parent_unit_id);
-      if (parent) {
-        parent.children = [...(parent.children ?? []), unit];
-        continue;
-      }
+      if (parent) { parent.children = [...(parent.children ?? []), unit]; continue; }
     }
-
     roots.push(unit);
   }
-
   const sortTree = (items: WvUnit[]): WvUnit[] =>
-    sortUnits(items).map((item) => ({
-      ...item,
-      children: sortTree(item.children ?? []),
-    }));
-
+    sortUnits(items).map((item) => ({ ...item, children: sortTree(item.children ?? []) }));
   return sortTree(roots);
 }
 
