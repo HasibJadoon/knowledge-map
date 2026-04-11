@@ -1,0 +1,56 @@
+<div class="wv-toolbar" [class.wv-toolbar--compact]="compact">
+
+  <!-- Mode pills -->
+  <div class="wv-toolbar__section" role="group" aria-label="Graph mode">
+    @for (m of modes; track m.id) {
+      <button
+        class="wv-tb-btn"
+        [class.wv-tb-btn--active]="mode === m.id"
+        (click)="modeChange.emit(m.id)"
+        [title]="m.label"
+        [attr.aria-pressed]="mode === m.id"
+      >
+        <span class="wv-tb-btn__icon">{{ m.icon }}</span>
+        @if (!compact) { <span class="wv-tb-btn__label">{{ m.label }}</span> }
+      </button>
+    }
+  </div>
+
+  <div class="wv-toolbar__sep"></div>
+
+  <!-- Node type filters -->
+  <div class="wv-toolbar__section wv-toolbar__types" role="group" aria-label="Filter node types">
+    @for (type of allTypes; track type) {
+      <button
+        class="wv-type-pill"
+        [class.wv-type-pill--off]="!typeActive(type)"
+        [style.--type-color]="typeColor(type)"
+        (click)="typeToggle.emit(type)"
+        [title]="typeLabel(type)"
+        [attr.aria-pressed]="typeActive(type)"
+      >
+        <span class="wv-type-pill__dot"></span>
+        @if (!compact) { <span class="wv-type-pill__label">{{ typeLabel(type) }}</span> }
+      </button>
+    }
+  </div>
+
+  <div class="wv-toolbar__sep"></div>
+
+  <!-- Actions -->
+  <div class="wv-toolbar__section">
+    <button class="wv-tb-btn" (click)="labelsToggle.emit()" [title]="showLabels ? 'Hide labels' : 'Show labels'">
+      <span class="wv-tb-btn__icon">{{ showLabels ? '𝐓' : '𝐓̷' }}</span>
+      @if (!compact) { <span class="wv-tb-btn__label">Labels</span> }
+    </button>
+    <button class="wv-tb-btn" (click)="centerSelected.emit()" title="Center selected">
+      <span class="wv-tb-btn__icon">⊕</span>
+      @if (!compact) { <span class="wv-tb-btn__label">Center</span> }
+    </button>
+    <button class="wv-tb-btn" (click)="resetZoom.emit()" title="Reset zoom">
+      <span class="wv-tb-btn__icon">⤢</span>
+      @if (!compact) { <span class="wv-tb-btn__label">Reset</span> }
+    </button>
+  </div>
+
+</div>

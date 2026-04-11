@@ -1,0 +1,57 @@
+@if (node) {
+  <aside class="wv-panel" role="complementary" aria-label="Node detail">
+
+    <!-- Header -->
+    <div class="wv-panel__head" [style.border-left-color]="nodeColor">
+      <div class="wv-panel__head-top">
+        <span class="wv-panel__type-pill" [style.color]="nodeColor" [style.border-color]="nodeColor">
+          {{ nodeLabel }}
+        </span>
+        <button class="wv-panel__close" (click)="close.emit()" aria-label="Close">✕</button>
+      </div>
+      <h2 class="wv-panel__title">{{ node.label }}</h2>
+      @if (node.chapterRole) {
+        <span class="wv-panel__role">{{ node.chapterRole | titlecase }}</span>
+      }
+    </div>
+
+    <!-- Body -->
+    <div class="wv-panel__body">
+
+      @if (node.summary) {
+        <section class="wv-panel__section">
+          <p class="wv-panel__summary">{{ node.summary }}</p>
+        </section>
+        <div class="wv-panel__rule"></div>
+      }
+
+      <!-- Connections -->
+      @if (connections.length > 0) {
+        <section class="wv-panel__section">
+          <h3 class="wv-panel__section-label">Connections <span class="wv-panel__count">{{ connections.length }}</span></h3>
+          <div class="wv-conn-list">
+            @for (conn of connections; track conn.node.id) {
+              <button class="wv-conn-row" (click)="navigateTo.emit(conn.node)">
+                <span class="wv-conn-row__dot" [style.background]="connColor(conn.node.type)"></span>
+                <span class="wv-conn-row__body">
+                  <span class="wv-conn-row__rel" [class.wv-conn-row__rel--in]="conn.dir === 'in'">
+                    {{ conn.dir === 'in' ? '← ' : '→ ' }}{{ relationLabel(conn.relation) }}
+                  </span>
+                  <span class="wv-conn-row__label">{{ conn.node.label }}</span>
+                </span>
+                <span class="wv-conn-row__arrow">›</span>
+              </button>
+            }
+          </div>
+        </section>
+      }
+
+    </div>
+
+  </aside>
+} @else {
+  <div class="wv-panel wv-panel--empty">
+    <div class="wv-panel__empty-glyph">◎</div>
+    <p class="wv-panel__empty-msg">Select a node to explore its connections</p>
+  </div>
+}

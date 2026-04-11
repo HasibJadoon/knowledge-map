@@ -5,6 +5,7 @@ import { IonicModule, IonContent } from '@ionic/angular';
 import gsap from 'gsap';
 
 import { environment } from '../../../../environments/environment';
+import { WvGraphShellComponent } from '../wv-graph/wv-graph-shell/wv-graph-shell.component';
 
 interface WvSource {
   id: string;
@@ -85,7 +86,7 @@ interface ClassifiedBlock { text: string; type: BlockType; url?: string; }
 @Component({
   selector: 'app-worldview-unit-reader',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, WvGraphShellComponent],
   templateUrl: './worldview-unit-reader.page.html',
   styleUrl: './worldview-unit-reader.page.scss',
 })
@@ -434,6 +435,10 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
 
   setSheetTab(tab: ReaderSheetTab): void {
     this.sheetTab.set(tab);
+    // WV graph needs full height — auto-expand sheet
+    if (tab === 'wv') {
+      this.sheetExpanded.set(true);
+    }
   }
 
   toggleSheetExpanded(): void {

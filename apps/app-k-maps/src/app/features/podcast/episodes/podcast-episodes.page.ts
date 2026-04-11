@@ -86,7 +86,7 @@ export class PodcastEpisodesPage {
             void this.loadEpisodes();
           },
         },
-        ...this.statusOptions.map((status) => ({
+        ...this.statusOptions.map((status: CreatorEpisodeStatus) => ({
           text: episodeStatusLabel(status),
           icon: this.statusFilter() === status ? 'checkmark-outline' : 'ellipse-outline',
           handler: () => {

@@ -349,7 +349,7 @@ export class PodcastSegmentEditorPage {
       const saved = await this.builder.saveEpisode(next);
       const segmentId = currentSegment.id;
       this.episode.set(saved);
-      const nextIndex = saved.segments.findIndex((segment) => segment.id === segmentId);
+      const nextIndex = saved.segments.findIndex((segment: CreatorEpisodeSegment) => segment.id === segmentId);
       this.segmentIndex.set(nextIndex);
       if (nextIndex >= 0) {
         this.patchForm(saved.segments[nextIndex]);
@@ -370,7 +370,7 @@ export class PodcastSegmentEditorPage {
     }
 
     const next = this.builder.updateEpisode(episode, (draft) => {
-      draft.segments = draft.segments.filter((segment) => segment.id !== currentSegment.id);
+      draft.segments = draft.segments.filter((segment: CreatorEpisodeSegment) => segment.id !== currentSegment.id);
       normalizeSegments(draft.segments, draft.id);
     });
 
@@ -403,7 +403,7 @@ export class PodcastSegmentEditorPage {
 
     try {
       const episode = await this.builder.getEpisode(episodeId);
-      const index = episode.segments.findIndex((segment) => segment.id === segmentId);
+      const index = episode.segments.findIndex((segment: CreatorEpisodeSegment) => segment.id === segmentId);
       if (index < 0) {
         const fallbackSegment = episode.segments[0];
         if (!fallbackSegment) {
@@ -447,9 +447,9 @@ export class PodcastSegmentEditorPage {
   }
 
   private patchForm(segment: CreatorEpisodeSegment): void {
-    replaceFormArray(this.dialogueItems, segment.dialogueItems.map((item) => this.createDialogueGroup(item)));
-    replaceFormArray(this.talkingPoints, segment.talkingPoints.map((item) => this.createTalkingPointGroup(item)));
-    replaceFormArray(this.doneItems, segment.doneItems.map((item) => this.createChecklistGroup(item)));
+    replaceFormArray(this.dialogueItems, segment.dialogueItems.map((item: CreatorDialogueItem) => this.createDialogueGroup(item)));
+    replaceFormArray(this.talkingPoints, segment.talkingPoints.map((item: CreatorTalkingPoint) => this.createTalkingPointGroup(item)));
+    replaceFormArray(this.doneItems, segment.doneItems.map((item: CreatorChecklistItem) => this.createChecklistGroup(item)));
   }
 
   private buildSegment(currentSegment: CreatorEpisodeSegment, episodeType: CreatorEpisodeType): CreatorEpisodeSegment {

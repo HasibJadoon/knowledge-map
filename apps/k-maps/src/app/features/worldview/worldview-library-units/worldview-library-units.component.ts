@@ -19,6 +19,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { environment } from '../../../../environments/environment';
 import { StatusPillComponent } from '../../../shared/components/status-pill/status-pill.component';
+import { WvGraphShellComponent } from '../wv-graph/wv-graph-shell/wv-graph-shell.component';
 
 interface WvSource {
   id: string;
@@ -143,7 +144,7 @@ const KIND_ICON: Record<string, string> = {
   selector: 'km-worldview-library-units',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, StatusPillComponent],
+  imports: [CommonModule, StatusPillComponent, WvGraphShellComponent],
   templateUrl: './worldview-library-units.component.html',
   styleUrl: './worldview-library-units.component.scss',
 })
@@ -158,11 +159,20 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   private cdr = inject(ChangeDetectorRef);
   private readonly apiBase = environment.apiBase;
 
+  @ViewChild('tasksPanelBody') tasksPanelBodyRef?: ElementRef<HTMLElement>;
+
   private routeSub?: Subscription;
   private resizePointerId: number | null = null;
   private removeResizeListeners: (() => void) | null = null;
   private tocResizePointerId: number | null = null;
   private removeTocResizeListeners: (() => void) | null = null;
+
+  // Panel column resize (highlights / notes / wv)
+  private panelResizeIndex: number | null = null;
+  private panelResizeStartX = 0;
+  private panelResizeStartWidths: number[] = [];
+  private panelResizeContainerWidth = 0;
+  private removePanelResizeListeners: (() => void) | null = null;
   private pageAnimationContext: gsap.Context | null = null;
   private scrollAnimationContext: gsap.Context | null = null;
   private workspaceAnimationFrame: number | null = null;
@@ -198,6 +208,16 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   readonly visibleReaderSections = computed(() =>
     this.readerSections.filter((section) => this.tabCount(section.id) > 0),
   );
+
+  // Widths (percentages) for the visible reader section columns
+  readonly panelWidths = signal<number[]>([]);
+  readonly resolvedWidths = computed(() => {
+    const sections = this.visibleReaderSections();
+    const widths = this.panelWidths();
+    if (widths.length === sections.length) return widths;
+    const w = 100 / sections.length;
+    return sections.map(() => w);
+  });
 
   readonly unitsById = computed(() => new Map(this.rawUnits().map((unit) => [unit.id, unit] as const)));
 
@@ -312,6 +332,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     this.routeSub?.unsubscribe();
     this.stopReaderResize();
     this.stopTocResize();
+    this.stopPanelResize();
     this.cancelScheduledAnimations();
     this.pageAnimationContext?.revert();
     this.scrollAnimationContext?.revert();
@@ -1274,6 +1295,70 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     }
 
     this.scheduleScrollTriggerRefresh();
+  }
+
+  startPanelResize(index: number, event: PointerEvent): void {
+    const container = this.tasksPanelBodyRef?.nativeElement;
+    if (!container) return;
+
+    event.preventDefault();
+    this.stopPanelResize();
+
+    this.panelResizeIndex = index;
+    this.panelResizeStartX = event.clientX;
+    this.panelResizeStartWidths = [...this.resolvedWidths()];
+    this.panelResizeContainerWidth = container.offsetWidth;
+
+    if (typeof document !== 'undefined') {
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'col-resize';
+    }
+
+    const onMove = (moveEvent: PointerEvent) => { this.updatePanelWidth(moveEvent.clientX); };
+    const onUp = () => { this.stopPanelResize(); };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+    }
+
+    this.removePanelResizeListeners = () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        window.removeEventListener('pointercancel', onUp);
+      }
+    };
+  }
+
+  private updatePanelWidth(clientX: number): void {
+    const index = this.panelResizeIndex;
+    if (index === null || !this.panelResizeContainerWidth) return;
+
+    const delta = clientX - this.panelResizeStartX;
+    const deltaPercent = (delta / this.panelResizeContainerWidth) * 100;
+    const minPct = 15;
+
+    const widths = [...this.panelResizeStartWidths];
+    const newLeft = Math.max(minPct, Math.min(widths[index] + deltaPercent, 100 - minPct * (widths.length - index - 1)));
+    const diff = newLeft - widths[index];
+    widths[index] = newLeft;
+    widths[index + 1] = Math.max(minPct, widths[index + 1] - diff);
+
+    this.panelWidths.set(widths);
+    this.cdr.markForCheck();
+  }
+
+  private stopPanelResize(): void {
+    this.panelResizeIndex = null;
+    this.removePanelResizeListeners?.();
+    this.removePanelResizeListeners = null;
+
+    if (typeof document !== 'undefined') {
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+    }
   }
 
   private animateWorkspace(): void {

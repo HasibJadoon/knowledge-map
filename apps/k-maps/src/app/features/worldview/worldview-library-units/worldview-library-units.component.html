@@ -303,12 +303,16 @@
             </button>
 
             <section class="tasks-panel" [style.flex-basis.%]="100 - textPaneHeight()" [class.tasks-panel--resizing]="isResizingReader()">
-              <div class="tasks-panel__body">
+              <div class="tasks-panel__body" #tasksPanelBody>
                 @if (visibleReaderSections().length === 0) {
                   <div class="empty-hint empty-hint--workspace">No highlights, notes, or worldview material saved for this unit yet.</div>
                 } @else {
-                  @for (sectionTab of visibleReaderSections(); track sectionTab.id) {
-                    <section class="reader-stack reader-stack--open">
+                  @for (sectionTab of visibleReaderSections(); track sectionTab.id; let i = $index; let last = $last) {
+                    <section
+                      class="reader-stack reader-stack--open"
+                      [style.flex-basis.%]="resolvedWidths()[i]"
+                      [style.min-width.%]="15"
+                    >
                     <div class="reader-stack__head">
                       <span class="reader-stack__label">{{ sectionTab.label }}</span>
                       <span class="reader-stack__count">{{ tabCount(sectionTab.id) }}</span>
@@ -399,48 +403,25 @@
                         }
 
                         @case ('wv') {
-                          @if (notesLoading()) {
-                            <div class="text-loading text-loading--panel">
-                              <div class="skel-text"></div>
-                              <div class="skel-text skel-text--med"></div>
-                              <div class="skel-text skel-text--short"></div>
-                            </div>
-                          } @else if (wvNotes().length === 0) {
-                            <div class="empty-hint">No worldview distillations saved for this unit yet.</div>
-                          } @else {
-                            @for (note of wvNotes(); track note.id) {
-                              <article class="reader-card reader-card--wv">
-                                <div class="reader-card__top">
-                                  <span class="reader-card__kind">{{ kindIcon(note.note_kind) }} {{ kindLabelText(note.note_kind) }}</span>
-                                  @if (note.title) {
-                                    <span class="reader-card__title">{{ note.title }}</span>
-                                  }
-                                </div>
-
-                                @if (note.excerpt_text) {
-                                  <div
-                                    class="reader-card__excerpt"
-                                    [class.reader-card__excerpt--arabic]="isArabicText(note.excerpt_text)"
-                                    [attr.dir]="textDirection(note.excerpt_text)"
-                                  >{{ note.excerpt_text }}</div>
-                                }
-
-                                <div
-                                  class="reader-card__body"
-                                  [class.reader-card__body--arabic]="isArabicText(note.body_md)"
-                                  [attr.dir]="textDirection(note.body_md)"
-                                >{{ note.body_md }}</div>
-
-                                @if (formatDate(note.created_at)) {
-                                  <div class="reader-card__footer">{{ formatDate(note.created_at) }}</div>
-                                }
-                              </article>
-                            }
-                          }
+                          <app-wv-graph-shell class="wv-graph-embed" />
                         }
                       }
                     </div>
                     </section>
+
+                    @if (!last) {
+                      <button
+                        type="button"
+                        class="panel-vsplit"
+                        aria-label="Drag to resize panels"
+                        (pointerdown)="startPanelResize(i, $event)"
+                      >
+                        <span class="panel-vsplit__line" aria-hidden="true"></span>
+                        <span class="panel-vsplit__grip" aria-hidden="true">
+                          <span></span><span></span><span></span>
+                        </span>
+                      </button>
+                    }
                   }
                 }
               </div>

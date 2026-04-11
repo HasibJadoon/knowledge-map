@@ -1,0 +1,46 @@
+@if (visible) {
+  <div class="wv-bs-backdrop" (click)="dismiss()"></div>
+  <div class="wv-bs" #sheetEl role="dialog" aria-modal="true" aria-label="Node detail">
+
+    <div class="wv-bs__handle" (click)="dismiss()">
+      <div class="wv-bs__handle-bar"></div>
+    </div>
+
+    <!-- Node header -->
+    <div class="wv-bs__head" [style.border-left-color]="nodeColor">
+      <span class="wv-bs__type" [style.color]="nodeColor">{{ nodeLabel }}</span>
+      <h2 class="wv-bs__title">{{ node!.label }}</h2>
+      @if (node!.chapterRole) {
+        <span class="wv-bs__role">{{ node!.chapterRole }}</span>
+      }
+    </div>
+
+    <!-- Scrollable body -->
+    <div class="wv-bs__scroll">
+
+      @if (node!.summary) {
+        <p class="wv-bs__summary">{{ node!.summary }}</p>
+        <div class="wv-bs__rule"></div>
+      }
+
+      @if (connections.length > 0) {
+        <h3 class="wv-bs__conn-label">
+          Connections
+          <span class="wv-bs__conn-count">{{ connections.length }}</span>
+        </h3>
+        @for (conn of connections; track conn.node.id) {
+          <button class="wv-bs-conn" (click)="navigateTo.emit(conn.node)">
+            <span class="wv-bs-conn__dot" [style.background]="connColor(conn.node.type)"></span>
+            <span class="wv-bs-conn__body">
+              <span class="wv-bs-conn__rel">{{ conn.dir === 'in' ? '← ' : '→ ' }}{{ relationLabel(conn.relation) }}</span>
+              <span class="wv-bs-conn__name">{{ conn.node.label }}</span>
+            </span>
+            <span class="wv-bs-conn__arrow">›</span>
+          </button>
+        }
+      }
+
+    </div>
+
+  </div>
+}

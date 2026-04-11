@@ -1,0 +1,67 @@
+<div class="wv-shell" [class.wv-shell--mobile]="isMobile()">
+
+  <!-- ── Toolbar ─────────────────────────────────────────────────── -->
+  <app-wv-graph-toolbar
+    class="wv-shell__toolbar"
+    [mode]="mode()"
+    [activeTypes]="activeTypes()"
+    [showLabels]="showLabels()"
+    [compact]="isMobile()"
+    (modeChange)="setMode($event)"
+    (typeToggle)="toggleType($event)"
+    (labelsToggle)="toggleLabels()"
+    (resetZoom)="resetZoom()"
+    (centerSelected)="centerSelected()"
+  />
+
+  <!-- ── Main area ───────────────────────────────────────────────── -->
+  <div class="wv-shell__main">
+
+    <!-- Canvas -->
+    <div class="wv-shell__canvas-wrap">
+      <app-wv-graph-canvas
+        #canvasComp
+        class="wv-shell__canvas"
+        [data]="graph()"
+        [selectedId]="selectedNode()?.id ?? null"
+        [mode]="mode()"
+        [activeTypes]="activeTypes()"
+        [showLabels]="showLabels()"
+        (nodeClick)="onNodeClick($event)"
+        (bgClick)="onBgClick()"
+        (nodeDblClick)="centerSelected()"
+      />
+    </div>
+
+    <!-- Desktop side panel with draggable resize handle -->
+    @if (!isMobile()) {
+      <div class="wv-shell__panel-wrap" [style.width.px]="panelWidth()">
+        <!-- Resize drag handle -->
+        <div
+          class="wv-shell__resize-handle"
+          title="Drag to resize"
+          (mousedown)="onResizeStart($event)"
+        ></div>
+        <app-wv-graph-sidepanel
+          class="wv-shell__panel"
+          [node]="selectedNode()"
+          [graphData]="graph()"
+          (close)="onBgClick()"
+          (navigateTo)="navigateTo($event)"
+        />
+      </div>
+    }
+
+  </div>
+
+  <!-- Mobile bottom sheet -->
+  @if (isMobile()) {
+    <app-wv-graph-bottomsheet
+      [node]="selectedNode()"
+      [graphData]="graph()"
+      (close)="onBgClick()"
+      (navigateTo)="navigateTo($event)"
+    />
+  }
+
+</div>

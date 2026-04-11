@@ -210,7 +210,7 @@
         <ion-icon name="close-outline"></ion-icon>
       </button>
     </div>
-    <div class="toc-sheet__scroll">
+    <div class="toc-sheet__scroll" [class.toc-sheet__scroll--graph]="sheetTab() === 'wv'">
       @if (sheetTab() === 'highlights') {
         @if (highlightEntries().length === 0) {
           <div class="sheet-empty">
@@ -278,38 +278,8 @@
           </div>
         }
       } @else {
-        @if (wvEntries().length === 0) {
-          <div class="sheet-empty">
-            No worldview entries saved for this unit yet.
-          </div>
-        } @else {
-          <div class="sheet-stack">
-            @for (note of wvEntries(); track note.id) {
-              <article class="sheet-card sheet-card--wv">
-                <div class="sheet-card__top">
-                  <span class="sheet-card__kind">{{ noteKindLabel(note.noteKind) }}</span>
-                  @if (formatNoteDate(note.createdAt)) {
-                    <span class="sheet-card__meta">{{ formatNoteDate(note.createdAt) }}</span>
-                  }
-                </div>
-
-                @if (note.title) {
-                  <h3 class="sheet-card__title">{{ note.title }}</h3>
-                }
-
-                @if (note.excerptText) {
-                  <p class="sheet-card__excerpt">{{ note.excerptText }}</p>
-                }
-
-                <p class="sheet-card__body">{{ note.bodyMd }}</p>
-
-                @if (note.locator) {
-                  <p class="sheet-card__meta">{{ note.locator }}</p>
-                }
-              </article>
-            }
-          </div>
-        }
+        <!-- WV Graph — replaces flat text cards -->
+        <app-wv-graph-shell class="wv-graph-mobile" [forceMobile]="true" />
       }
     </div>
   </div>
