@@ -99,10 +99,41 @@ interface ReaderHighlightEntry {
   source: 'highlight' | 'note';
 }
 
+interface WvGraphApiNode {
+  id: string;
+  node_type: string;
+  title: string;
+  text_plain: string;
+  summary?: string | null;
+  slug?: string | null;
+  data_json?: unknown;
+  meta_json?: unknown;
+  created_at?: string | null;
+}
+
+interface WvGraphApiEdge {
+  id: string;
+  from_node_id: string;
+  to_node_id: string;
+  relation_type: string;
+  strength?: number | null;
+}
+
+interface WvGraphApiEvidenceLink {
+  id: string;
+  source_type: string;
+  source_id: string;
+  target_node_id: string;
+  relation: string;
+  evidence_text?: string | null;
+}
+
 interface WvReaderData {
   notes: WvNote[];
   highlights: ReaderHighlightEntry[];
-  wv: WvNote[];
+  wv: WvGraphApiNode[];
+  wv_node_edges: WvGraphApiEdge[];
+  wv_evidence_links: WvGraphApiEvidenceLink[];
 }
 
 interface TocItem {
@@ -186,7 +217,9 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   readonly readerDataCache = signal<Record<string, WvReaderData>>({});
   readonly notes = signal<WvNote[]>([]);
   readonly highlights = signal<ReaderHighlightEntry[]>([]);
-  readonly worldviewNotes = signal<WvNote[]>([]);
+  readonly worldviewNodes = signal<WvGraphApiNode[]>([]);
+  readonly worldviewEdges = signal<WvGraphApiEdge[]>([]);
+  readonly worldviewEvidenceLinks = signal<WvGraphApiEvidenceLink[]>([]);
 
   readonly sourceLoading = signal(true);
   readonly detailLoading = signal(false);
@@ -310,7 +343,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
 
   readonly regularNotes = computed(() => this.notes());
 
-  readonly wvNotes = computed(() => this.worldviewNotes());
+  readonly wvNotes = computed(() => this.worldviewNodes());
 
   ngOnInit(): void {
     gsap.registerPlugin(ScrollTrigger);
@@ -355,7 +388,9 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     } else if (!sameUnit) {
       this.notes.set([]);
       this.highlights.set([]);
-      this.worldviewNotes.set([]);
+      this.worldviewNodes.set([]);
+      this.worldviewEdges.set([]);
+      this.worldviewEvidenceLinks.set([]);
       void this.loadReaderData(unit.id);
     } else if (!this.notes().length && !this.highlights().length && !this.wvNotes().length && !this.notesLoading()) {
       void this.loadReaderData(unit.id);
@@ -723,7 +758,9 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     this.readerDataCache.set({});
     this.notes.set([]);
     this.highlights.set([]);
-    this.worldviewNotes.set([]);
+    this.worldviewNodes.set([]);
+    this.worldviewEdges.set([]);
+    this.worldviewEvidenceLinks.set([]);
     this.collapsedUnits.set(new Set());
     this.textPaneHeight.set(60);
     this.tocHidden.set(false);
@@ -807,20 +844,28 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
         const readerData: WvReaderData = {
           notes: this.normalizeNotesPayload(data.notes),
           highlights: this.normalizeHighlightsPayload(data.highlights),
-          wv: this.normalizeWorldviewPayload(data.wv),
+          wv: this.normalizeWvNodesPayload(data.wv),
+          wv_node_edges: this.normalizeWvEdgesPayload(data.wv_node_edges),
+          wv_evidence_links: this.normalizeWvEvidenceLinksPayload(data.wv_evidence_links),
         };
+        console.log('WV nodes:', readerData.wv.map((n) => n.title));
+        console.log('WV edges:', readerData.wv_node_edges);
         this.readerDataCache.update((cache) => ({ ...cache, [unitId]: readerData }));
         this.applyReaderData(readerData);
       } else {
         this.notes.set([]);
         this.highlights.set([]);
-        this.worldviewNotes.set([]);
+        this.worldviewNodes.set([]);
+        this.worldviewEdges.set([]);
+        this.worldviewEvidenceLinks.set([]);
       }
     } catch {
       if (this.selectedUnit()?.id !== unitId) return;
       this.notes.set([]);
       this.highlights.set([]);
-      this.worldviewNotes.set([]);
+      this.worldviewNodes.set([]);
+      this.worldviewEdges.set([]);
+      this.worldviewEvidenceLinks.set([]);
     } finally {
       if (this.selectedUnit()?.id === unitId) {
         this.notesLoading.set(false);
@@ -1175,7 +1220,9 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   private applyReaderData(readerData: WvReaderData): void {
     this.notes.set(readerData.notes);
     this.highlights.set(readerData.highlights);
-    this.worldviewNotes.set(readerData.wv);
+    this.worldviewNodes.set(readerData.wv);
+    this.worldviewEdges.set(readerData.wv_node_edges);
+    this.worldviewEvidenceLinks.set(readerData.wv_evidence_links);
   }
 
   private normalizeNotesPayload(value: unknown): WvNote[] {
@@ -1218,23 +1265,48 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
       .filter((highlight) => !!highlight.id && !!highlight.body_md);
   }
 
-  private normalizeWorldviewPayload(value: unknown): WvNote[] {
-    if (!Array.isArray(value)) {
-      return [];
-    }
-
+  private normalizeWvNodesPayload(value: unknown): WvGraphApiNode[] {
+    if (!Array.isArray(value)) return [];
     return value
       .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
       .map((node) => ({
-        id: typeof node['id'] === 'string' ? node['id'] : '',
-        note_kind: typeof node['node_type'] === 'string' ? node['node_type'] : 'insight',
-        title: typeof node['title'] === 'string' ? node['title'] : null,
-        body_md: typeof node['text_plain'] === 'string' ? node['text_plain'] : '',
-        excerpt_text: typeof node['summary'] === 'string' ? node['summary'] : null,
-        locator: typeof node['slug'] === 'string' ? node['slug'] : null,
-        created_at: typeof node['created_at'] === 'string' ? node['created_at'] : null,
-      }))
-      .filter((node) => !!node.id && !!node.body_md);
+        id: String(node['id'] ?? ''),
+        node_type: String(node['node_type'] ?? 'insight'),
+        title: String(node['title'] ?? ''),
+        text_plain: String(node['text_plain'] ?? ''),
+        summary: (node['summary'] as string | null) ?? null,
+        slug: (node['slug'] as string | null) ?? null,
+        data_json: node['data_json'] ?? null,
+        meta_json: node['meta_json'] ?? null,
+        created_at: (node['created_at'] as string | null) ?? null,
+      }));
+  }
+
+  private normalizeWvEdgesPayload(value: unknown): WvGraphApiEdge[] {
+    if (!Array.isArray(value)) return [];
+    return value
+      .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
+      .map((edge) => ({
+        id: String(edge['id'] ?? ''),
+        from_node_id: String(edge['from_node_id'] ?? ''),
+        to_node_id: String(edge['to_node_id'] ?? ''),
+        relation_type: String(edge['relation_type'] ?? 'related_to'),
+        strength: (edge['strength'] as number | null) ?? null,
+      }));
+  }
+
+  private normalizeWvEvidenceLinksPayload(value: unknown): WvGraphApiEvidenceLink[] {
+    if (!Array.isArray(value)) return [];
+    return value
+      .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
+      .map((link) => ({
+        id: String(link['id'] ?? ''),
+        source_type: String(link['source_type'] ?? ''),
+        source_id: String(link['source_id'] ?? ''),
+        target_node_id: String(link['target_node_id'] ?? ''),
+        relation: String(link['relation'] ?? ''),
+        evidence_text: (link['evidence_text'] as string | null) ?? null,
+      }));
   }
 
   private adjustReaderSplit(delta: number): void {

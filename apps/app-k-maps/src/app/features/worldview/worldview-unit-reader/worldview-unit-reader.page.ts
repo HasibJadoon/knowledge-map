@@ -63,6 +63,35 @@ interface ReaderHighlightEntry {
   source: 'highlight' | 'note';
 }
 
+interface WvGraphApiNode {
+  id: string;
+  node_type: string;
+  title: string;
+  text_plain: string;
+  summary?: string | null;
+  slug?: string | null;
+  data_json?: unknown;
+  meta_json?: unknown;
+  created_at?: string | null;
+}
+
+interface WvGraphApiEdge {
+  id: string;
+  from_node_id: string;
+  to_node_id: string;
+  relation_type: string;
+  strength?: number | null;
+}
+
+interface WvGraphApiEvidenceLink {
+  id: string;
+  source_type: string;
+  source_id: string;
+  target_node_id: string;
+  relation: string;
+  evidence_text?: string | null;
+}
+
 interface TocItem {
   unit: WvUnit;
   depth: number;
@@ -116,7 +145,9 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   readonly sheetTab = signal<ReaderSheetTab>('highlights');
   readonly readerNotes = signal<ReaderNoteEntry[]>([]);
   readonly readerHighlights = signal<ReaderHighlightEntry[]>([]);
-  readonly readerWv = signal<ReaderNoteEntry[]>([]);
+  readonly worldviewNodes = signal<WvGraphApiNode[]>([]);
+  readonly worldviewEdges = signal<WvGraphApiEdge[]>([]);
+  readonly worldviewEvidenceLinks = signal<WvGraphApiEvidenceLink[]>([]);
   readonly skeletons = [1, 2, 3, 4, 5, 6];
   readonly sheetTabs: { id: ReaderSheetTab; label: string; icon: string }[] = [
     { id: 'highlights', label: 'Highlights', icon: 'sparkles-outline' },
@@ -213,7 +244,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   );
 
   readonly wvEntries = computed(() =>
-    [...this.readerWv()].sort((left, right) => this.compareCreatedAt(left.createdAt, right.createdAt)),
+    [...this.worldviewNodes()].sort((left, right) => this.compareCreatedAt(left.created_at, right.created_at)),
   );
 
   readonly kicker = computed(() => {
@@ -285,12 +316,21 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
           notes?: unknown;
           highlights?: unknown;
           wv?: unknown;
+          wv_node_edges?: unknown;
+          wv_evidence_links?: unknown;
         };
 
         if (data.ok) {
           this.readerNotes.set(this.normalizeNotes(data.notes));
           this.readerHighlights.set(this.normalizeHighlights(data.highlights));
-          this.readerWv.set(this.normalizeWorldview(data.wv));
+          const wvNodes = this.normalizeWvNodesPayload(data.wv);
+          const wvEdges = this.normalizeWvEdgesPayload(data.wv_node_edges);
+          const wvEvidenceLinks = this.normalizeWvEvidenceLinksPayload(data.wv_evidence_links);
+          console.log('WV nodes:', wvNodes.map((n) => n.title));
+          console.log('WV edges:', wvEdges);
+          this.worldviewNodes.set(wvNodes);
+          this.worldviewEdges.set(wvEdges);
+          this.worldviewEvidenceLinks.set(wvEvidenceLinks);
         }
       }
     } catch { /* ignore */ } finally {
@@ -531,7 +571,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
       case 'notes':
         return this.noteEntries().length;
       case 'wv':
-        return this.wvEntries().length;
+        return this.worldviewNodes().length;
     }
   }
 
@@ -641,23 +681,48 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
       .filter((highlight) => !!highlight.id && !!highlight.bodyMd);
   }
 
-  private normalizeWorldview(value: unknown): ReaderNoteEntry[] {
-    if (!Array.isArray(value)) {
-      return [];
-    }
-
+  private normalizeWvNodesPayload(value: unknown): WvGraphApiNode[] {
+    if (!Array.isArray(value)) return [];
     return value
       .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
       .map((node) => ({
-        id: typeof node['id'] === 'string' ? node['id'] : '',
-        noteKind: typeof node['node_type'] === 'string' ? node['node_type'] : 'insight',
-        title: typeof node['title'] === 'string' ? node['title'] : null,
-        bodyMd: typeof node['text_plain'] === 'string' ? node['text_plain'] : '',
-        excerptText: typeof node['summary'] === 'string' ? node['summary'] : null,
-        locator: typeof node['slug'] === 'string' ? node['slug'] : null,
-        createdAt: typeof node['created_at'] === 'string' ? node['created_at'] : null,
-      }))
-      .filter((node) => !!node.id && !!node.bodyMd);
+        id: String(node['id'] ?? ''),
+        node_type: String(node['node_type'] ?? 'insight'),
+        title: String(node['title'] ?? ''),
+        text_plain: String(node['text_plain'] ?? ''),
+        summary: (node['summary'] as string | null) ?? null,
+        slug: (node['slug'] as string | null) ?? null,
+        data_json: node['data_json'] ?? null,
+        meta_json: node['meta_json'] ?? null,
+        created_at: (node['created_at'] as string | null) ?? null,
+      }));
+  }
+
+  private normalizeWvEdgesPayload(value: unknown): WvGraphApiEdge[] {
+    if (!Array.isArray(value)) return [];
+    return value
+      .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
+      .map((edge) => ({
+        id: String(edge['id'] ?? ''),
+        from_node_id: String(edge['from_node_id'] ?? ''),
+        to_node_id: String(edge['to_node_id'] ?? ''),
+        relation_type: String(edge['relation_type'] ?? 'related_to'),
+        strength: (edge['strength'] as number | null) ?? null,
+      }));
+  }
+
+  private normalizeWvEvidenceLinksPayload(value: unknown): WvGraphApiEvidenceLink[] {
+    if (!Array.isArray(value)) return [];
+    return value
+      .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
+      .map((link) => ({
+        id: String(link['id'] ?? ''),
+        source_type: String(link['source_type'] ?? ''),
+        source_id: String(link['source_id'] ?? ''),
+        target_node_id: String(link['target_node_id'] ?? ''),
+        relation: String(link['relation'] ?? ''),
+        evidence_text: (link['evidence_text'] as string | null) ?? null,
+      }));
   }
 }
 

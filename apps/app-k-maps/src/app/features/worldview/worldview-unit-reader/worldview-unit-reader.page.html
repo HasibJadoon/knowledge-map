@@ -279,7 +279,13 @@
         }
       } @else {
         <!-- WV Graph — replaces flat text cards -->
-        <app-wv-graph-shell class="wv-graph-mobile" [forceMobile]="true" />
+        <app-wv-graph-shell
+          class="wv-graph-mobile"
+          [forceMobile]="true"
+          [nodes]="worldviewNodes()"
+          [edges]="worldviewEdges()"
+          [evidenceLinks]="worldviewEvidenceLinks()"
+        />
       }
     </div>
   </div>

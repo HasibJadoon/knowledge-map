@@ -403,7 +403,12 @@
                         }
 
                         @case ('wv') {
-                          <app-wv-graph-shell class="wv-graph-embed" />
+                          <app-wv-graph-shell
+                            class="wv-graph-embed"
+                            [nodes]="worldviewNodes()"
+                            [edges]="worldviewEdges()"
+                            [evidenceLinks]="worldviewEvidenceLinks()"
+                          />
                         }
                       }
                     </div>
