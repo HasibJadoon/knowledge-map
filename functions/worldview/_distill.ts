@@ -75,6 +75,8 @@ export interface DistillNodeDraft {
   summary: string;
   slug: string;
   status: 'active';
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
   data_json: Record<string, unknown>;
   meta_json: Record<string, unknown>;
 }
@@ -90,6 +92,8 @@ export interface DistillEdgeDraft {
   strength: number | null;
   order_index: number;
   note: string | null;
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
   meta_json: Record<string, unknown>;
 }
 
@@ -398,6 +402,7 @@ export function buildDistillPrompt(context: DistillPromptContext): string {
     '- Keep titles concise and usually under 6 words.',
     '- Keep summaries short but meaningful and usually under 18 words.',
     '- Keep text_plain short and usually under 28 words.',
+    '- Preserve the canonical concept in title. Use display_label_short only for compact graph rendering when helpful.',
     '- Prefer concept and claim nodes first.',
     '- Keep the total output compact enough to fit in one response.',
     '- Generate 4 to 6 nodes total.',
@@ -448,6 +453,8 @@ export function buildDistillPrompt(context: DistillPromptContext): string {
     '      "text_plain": "string",',
     '      "summary": "string",',
     '      "slug": "string",',
+    '      "display_label_short": "string or null",',
+    '      "display_label_medium": "string or null",',
     '      "data_json": {},',
     '      "meta_json": {}',
     '    }',
@@ -462,6 +469,8 @@ export function buildDistillPrompt(context: DistillPromptContext): string {
     '      "strength": 0.0,',
     '      "order_index": 1,',
     '      "note": "string or null",',
+    '      "display_label_short": "string or null",',
+    '      "display_label_medium": "string or null",',
     '      "meta_json": {}',
     '    }',
     '  ],',
@@ -626,6 +635,14 @@ export function applyDecisionsToDraft(
       title,
       summary,
       text_plain: sanitizeSentence(edited?.['text_plain'], 420) || node.text_plain,
+      display_label_short:
+        sanitizeSentence(edited?.['display_label_short'], 80)
+        || node.display_label_short
+        || null,
+      display_label_medium:
+        sanitizeSentence(edited?.['display_label_medium'], 140)
+        || node.display_label_medium
+        || null,
       meta_json: {
         ...node.meta_json,
         batch_id: batchId,
@@ -964,6 +981,10 @@ function normalizeNode(
   }
   idMap.set(id, id);
 
+  const displayLabelShort = readDisplayLabelValue(row, 'display_label_short');
+  const displayLabelMedium = readDisplayLabelValue(row, 'display_label_medium');
+  const dataJson = parseJsonObject(row?.['data_json']) ?? {};
+
   return {
     id,
     canonical_input: `wv_node:${idPrefix}:${localKey}`,
@@ -976,7 +997,13 @@ function normalizeNode(
     summary,
     slug,
     status: 'active',
-    data_json: parseJsonObject(row?.['data_json']) ?? {},
+    display_label_short: displayLabelShort,
+    display_label_medium: displayLabelMedium,
+    data_json: {
+      ...dataJson,
+      ...(displayLabelShort ? { display_label_short: displayLabelShort } : {}),
+      ...(displayLabelMedium ? { display_label_medium: displayLabelMedium } : {}),
+    },
     meta_json: {
       ...(parseJsonObject(row?.['meta_json']) ?? {}),
       batch_id: context.batchId,
@@ -1005,6 +1032,8 @@ function normalizeEdge(
 
   const relationType = normalizeEdgeType(row?.['relation_type']) ?? 'related_to';
   const id = readOptionalString(row?.['id']) || `wv_edge_${context.batchId.slice(-8)}_${index + 1}`;
+  const displayLabelShort = readDisplayLabelValue(row, 'display_label_short');
+  const displayLabelMedium = readDisplayLabelValue(row, 'display_label_medium');
   return {
     id,
     canonical_input:
@@ -1017,12 +1046,35 @@ function normalizeEdge(
     strength: clampStrength(row?.['strength']),
     order_index: index + 1,
     note: sanitizeSentence(row?.['note'], 240),
+    display_label_short: displayLabelShort,
+    display_label_medium: displayLabelMedium,
     meta_json: {
       ...(parseJsonObject(row?.['meta_json']) ?? {}),
       batch_id: context.batchId,
       order_index: index + 1,
+      ...(displayLabelShort ? { display_label_short: displayLabelShort } : {}),
+      ...(displayLabelMedium ? { display_label_medium: displayLabelMedium } : {}),
     },
   };
+}
+
+function readDisplayLabelValue(
+  row: Record<string, unknown> | null,
+  key: 'display_label_short' | 'display_label_medium',
+): string | null {
+  if (!row) {
+    return null;
+  }
+
+  const maxLength = key === 'display_label_short' ? 80 : 140;
+  const direct = sanitizeSentence(row[key], maxLength);
+  if (direct) {
+    return direct;
+  }
+
+  const dataJson = parseJsonObject(row['data_json']);
+  const metaJson = parseJsonObject(row['meta_json']);
+  return sanitizeSentence(dataJson?.[key], maxLength) || sanitizeSentence(metaJson?.[key], maxLength) || null;
 }
 
 function normalizeDocument(

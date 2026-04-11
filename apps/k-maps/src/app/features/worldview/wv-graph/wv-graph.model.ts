@@ -24,6 +24,9 @@ export type WvGraphMode = 'force' | 'focus' | 'cluster';
 export interface WvGraphNode {
   id: string;
   label: string;
+  canonicalLabel?: string;
+  displayLabelShort?: string | null;
+  displayLabelMedium?: string | null;
   type: WvNodeType;
   summary?: string;
   chapterRole?: string;

@@ -204,6 +204,12 @@ async function insertCommittedRows(
   draft: ReturnType<typeof applyDecisionsToDraft>,
 ): Promise<void> {
   for (const node of draft.wv_nodes) {
+    const dataJson = {
+      ...node.data_json,
+      ...(node.display_label_short ? { display_label_short: node.display_label_short } : {}),
+      ...(node.display_label_medium ? { display_label_medium: node.display_label_medium } : {}),
+    };
+
     await db
       .prepare(
         `
@@ -237,13 +243,19 @@ async function insertCommittedRows(
         node.summary,
         node.slug,
         node.status,
-        JSON.stringify(node.data_json),
+        JSON.stringify(dataJson),
         JSON.stringify(node.meta_json),
       )
       .run();
   }
 
   for (const edge of draft.wv_node_edges) {
+    const metaJson = {
+      ...edge.meta_json,
+      ...(edge.display_label_short ? { display_label_short: edge.display_label_short } : {}),
+      ...(edge.display_label_medium ? { display_label_medium: edge.display_label_medium } : {}),
+    };
+
     await db
       .prepare(
         `
@@ -274,7 +286,7 @@ async function insertCommittedRows(
         edge.strength,
         edge.order_index,
         edge.note,
-        JSON.stringify(edge.meta_json),
+        JSON.stringify(metaJson),
       )
       .run();
   }

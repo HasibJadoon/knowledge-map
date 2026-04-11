@@ -18,6 +18,13 @@ export const WORLDVIEW_ROUTES: Routes = [
           import('./worldview-library/worldview-library.page').then((m) => m.WorldviewLibraryPage),
       },
       {
+        path: 'library/:sourceId/graph/:unitId',
+        loadComponent: () =>
+          import('./worldview-unit-graph/worldview-unit-graph.page').then(
+            (m) => m.WorldviewUnitGraphPage,
+          ),
+      },
+      {
         path: 'library/:id',
         loadComponent: () =>
           import('./worldview-library-units/worldview-library-units.page').then(

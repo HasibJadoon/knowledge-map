@@ -1,0 +1,68 @@
+<div class="graph-page">
+  <header class="graph-page__nav">
+    <button type="button" class="back-btn" (click)="goBack()">← Reader</button>
+
+    <div class="graph-page__titles">
+      <div class="graph-page__eyebrow">Worldview Graph</div>
+      <div class="graph-page__title">{{ source()?.title || 'Worldview Source' }}</div>
+    </div>
+
+    @if (tocItems().length > 0) {
+      <label class="graph-select">
+        <span class="graph-select__label">Unit</span>
+        <select class="graph-select__control" [value]="unitId()" (change)="onUnitChange($event)">
+          @for (item of tocItems(); track item.unit.id) {
+            <option [value]="item.unit.id">{{ optionLabel(item) }}</option>
+          }
+        </select>
+      </label>
+    }
+  </header>
+
+  <section class="graph-page__meta">
+    @if (selectedUnit()) {
+      <div class="graph-page__meta-main">
+        <h1 class="graph-page__unit">{{ unitLabel(selectedUnit()) }}</h1>
+
+        <div class="graph-page__chips">
+          <span class="badge" [attr.data-color]="sourceTypeColor(source()?.source_type)">
+            {{ sourceTypeLabel(source()?.source_type) }}
+          </span>
+          <span class="badge">{{ unitTypeLabel(selectedUnit()?.unit_type) }}</span>
+          @if (source()?.publication_year) {
+            <span class="badge">{{ source()!.publication_year }}</span>
+          }
+          @if (unitRef(selectedUnit())) {
+            <span class="badge">{{ unitRef(selectedUnit()) }}</span>
+          }
+        </div>
+      </div>
+    }
+  </section>
+
+  <main class="graph-page__body">
+    @if (loading()) {
+      <div class="graph-state">
+        <div class="graph-state__glyph">◎</div>
+        <p>Loading worldview graph...</p>
+      </div>
+    } @else if (!selectedUnit()) {
+      <div class="graph-state">
+        <div class="graph-state__glyph">◎</div>
+        <p>Unable to find this unit in the source contents.</p>
+      </div>
+    } @else if (!hasGraph()) {
+      <div class="graph-state">
+        <div class="graph-state__glyph">◌</div>
+        <p>No worldview graph has been saved for this unit yet.</p>
+      </div>
+    } @else {
+      <app-wv-graph-shell
+        class="graph-page__shell"
+        [nodes]="worldviewNodes()"
+        [edges]="worldviewEdges()"
+        [evidenceLinks]="worldviewEvidenceLinks()"
+      />
+    }
+  </main>
+</div>

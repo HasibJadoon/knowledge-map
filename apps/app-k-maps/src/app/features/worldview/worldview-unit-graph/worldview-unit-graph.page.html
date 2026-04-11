@@ -1,0 +1,71 @@
+<ion-header class="wvg-header" translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="readerHref()" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title class="wvg-header__title">Worldview Graph</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="wvg-content">
+  <div class="wvg">
+    <section class="wvg__top">
+      <p class="wvg__eyebrow">{{ source()?.title ?? 'Worldview Source' }}</p>
+
+      @if (selectedUnit()) {
+        <h1 class="wvg__title">{{ unitLabel(selectedUnit()) }}</h1>
+      }
+
+      <div class="wvg__chips">
+        @if (source()) {
+          <span class="meta-chip" [attr.data-color]="typeColor(source()?.source_type)">
+            {{ typeLabel(source()?.source_type) }}
+          </span>
+        }
+        @if (selectedUnit()) {
+          <span class="meta-chip">{{ unitTypeLabel(selectedUnit()?.unit_type) }}</span>
+          @if (unitRef(selectedUnit())) {
+            <span class="meta-chip">{{ unitRef(selectedUnit()) }}</span>
+          }
+        }
+      </div>
+
+      @if (tocItems().length > 0) {
+        <ion-item lines="none" class="wvg__select">
+          <ion-label position="stacked">Unit</ion-label>
+          <ion-select [value]="unitId()" interface="popover" (ionChange)="onUnitChange($event)">
+            @for (item of tocItems(); track item.unit.id) {
+              <ion-select-option [value]="item.unit.id">{{ optionLabel(item) }}</ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+      }
+    </section>
+
+    <section class="wvg__body">
+      @if (loading()) {
+        <div class="wvg-state">
+          <div class="wvg-state__glyph">◎</div>
+          <p>Loading worldview graph...</p>
+        </div>
+      } @else if (!selectedUnit()) {
+        <div class="wvg-state">
+          <div class="wvg-state__glyph">◎</div>
+          <p>Unable to find this unit in the source contents.</p>
+        </div>
+      } @else if (!hasGraph()) {
+        <div class="wvg-state">
+          <div class="wvg-state__glyph">◌</div>
+          <p>No worldview graph has been saved for this unit yet.</p>
+        </div>
+      } @else {
+        <app-wv-graph-shell
+          class="wvg__shell"
+          [nodes]="worldviewNodes()"
+          [edges]="worldviewEdges()"
+          [evidenceLinks]="worldviewEvidenceLinks()"
+        />
+      }
+    </section>
+  </div>
+</ion-content>

@@ -5,6 +5,9 @@
     </ion-buttons>
     <ion-title class="ur-header__title">{{ source()?.title ?? 'Reader' }}</ion-title>
     <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" (click)="openGraphPage()" aria-label="Open worldview graph">
+        <ion-icon name="git-network-outline" slot="icon-only"></ion-icon>
+      </ion-button>
       <ion-button fill="clear" size="small" (click)="openToc()" aria-label="Reader annotations">
         <ion-icon name="layers-outline" slot="icon-only"></ion-icon>
       </ion-button>
@@ -279,13 +282,18 @@
         }
       } @else {
         <!-- WV Graph — replaces flat text cards -->
-        <app-wv-graph-shell
-          class="wv-graph-mobile"
-          [forceMobile]="true"
-          [nodes]="worldviewNodes()"
-          [edges]="worldviewEdges()"
-          [evidenceLinks]="worldviewEvidenceLinks()"
-        />
+        <div class="wv-graph-mobile-wrap">
+          <button type="button" class="wv-graph-mobile__open" (click)="openGraphPage()">
+            Open full graph
+          </button>
+          <app-wv-graph-shell
+            class="wv-graph-mobile"
+            [forceMobile]="true"
+            [nodes]="worldviewNodes()"
+            [edges]="worldviewEdges()"
+            [evidenceLinks]="worldviewEvidenceLinks()"
+          />
+        </div>
       }
     </div>
   </div>

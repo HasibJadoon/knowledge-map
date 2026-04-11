@@ -9,7 +9,7 @@
     <!-- Node header -->
     <div class="wv-bs__head" [style.border-left-color]="nodeColor">
       <span class="wv-bs__type" [style.color]="nodeColor">{{ nodeLabel }}</span>
-      <h2 class="wv-bs__title">{{ node!.label }}</h2>
+      <h2 class="wv-bs__title">{{ node!.canonicalLabel || node!.label }}</h2>
       @if (node!.chapterRole) {
         <span class="wv-bs__role">{{ node!.chapterRole }}</span>
       }

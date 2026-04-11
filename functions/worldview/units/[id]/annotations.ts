@@ -1,5 +1,11 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
 
+import {
+  enrichWorldviewEvidenceLinkRows,
+  enrichWorldviewNodeEdgeRows,
+  enrichWorldviewNodeRows,
+} from '../../graph-display-labels';
+
 interface Env {
   DB: D1Database;
 }
@@ -155,6 +161,14 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
                   n.summary,
                   n.slug,
                   n.status,
+                  COALESCE(
+                    json_extract(n.data_json, '$.display_label_short'),
+                    json_extract(n.meta_json, '$.display_label_short')
+                  ) AS display_label_short,
+                  COALESCE(
+                    json_extract(n.data_json, '$.display_label_medium'),
+                    json_extract(n.meta_json, '$.display_label_medium')
+                  ) AS display_label_medium,
                   n.data_json,
                   n.meta_json,
                   n.created_at
@@ -200,6 +214,8 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
                   evidence_text,
                   locator,
                   note,
+                  json_extract(meta_json, '$.display_label_short') AS display_label_short,
+                  json_extract(meta_json, '$.display_label_medium') AS display_label_medium,
                   meta_json,
                   created_at
                 FROM wv_evidence_links
@@ -239,6 +255,8 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
                   strength,
                   order_index,
                   note,
+                  json_extract(meta_json, '$.display_label_short') AS display_label_short,
+                  json_extract(meta_json, '$.display_label_medium') AS display_label_medium,
                   meta_json,
                   created_at
                 FROM wv_node_edges
@@ -273,9 +291,15 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
     const noteRows = (notesResult.results ?? []) as Array<Record<string, unknown>>;
     const highlightRows = (highlightsResult.results ?? []) as Array<Record<string, unknown>>;
-    const worldviewRows = (worldviewResult.results ?? []) as Array<Record<string, unknown>>;
-    const wvEvidenceLinks = (evidenceLinksResult.results ?? []) as Array<Record<string, unknown>>;
-    const wvNodeEdges = (nodeEdgesResult.results ?? []) as Array<Record<string, unknown>>;
+    const worldviewRows = enrichWorldviewNodeRows(
+      (worldviewResult.results ?? []) as Array<Record<string, unknown>>,
+    );
+    const wvEvidenceLinks = enrichWorldviewEvidenceLinkRows(
+      (evidenceLinksResult.results ?? []) as Array<Record<string, unknown>>,
+    );
+    const wvNodeEdges = enrichWorldviewNodeEdgeRows(
+      (nodeEdgesResult.results ?? []) as Array<Record<string, unknown>>,
+    );
 
     const highlights = [
       ...highlightRows.map((highlight) => ({

@@ -26,6 +26,8 @@ interface WvGraphApiNode {
   title: string;
   text_plain: string;
   summary?: string | null;
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
   slug?: string | null;
   data_json?: unknown;
   meta_json?: unknown;
@@ -38,6 +40,8 @@ interface WvGraphApiEdge {
   to_node_id: string;
   relation_type: string;
   strength?: number | null;
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
 }
 
 interface WvGraphApiEvidenceLink {
@@ -47,6 +51,8 @@ interface WvGraphApiEvidenceLink {
   target_node_id: string;
   relation: string;
   evidence_text?: string | null;
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
 }
 
 // ── Type maps ──────────────────────────────────────────────────────────────────
@@ -110,20 +116,28 @@ export class WvGraphShellComponent implements OnInit, OnChanges {
   readonly mode           = signal<WvGraphMode>('force');
   readonly activeTypes    = signal<Set<WvNodeType> | null>(null);
   readonly showLabels     = signal(true);
+  readonly useShortLabels = signal(false);
   readonly isMobile       = signal(false);
   readonly panelWidth     = signal(PANEL_DEFAULT);
+  readonly hasShortLabels = computed(() =>
+    this.apiNodes().some((node) => !!(node.display_label_short || node.display_label_medium)),
+  );
 
   // Resolved graph — build from API inputs, fall back to mock or graphData
   readonly graph = computed((): WvGraphData => {
     const apiNodes = this.apiNodes();
     const apiEdges = this.apiEdges();
+    const useShortLabels = this.useShortLabels();
 
     if (!apiNodes.length) return this.graphData ?? MOCK_WV_GRAPH;
 
     const nodes = apiNodes.map((n): WvGraphNode => ({
       id: n.id,
       type: (NODE_TYPE_MAP[n.node_type] ?? 'insight') as WvNodeType,
-      label: n.title,
+      label: resolveNodeLabel(n, useShortLabels),
+      canonicalLabel: n.title,
+      displayLabelShort: n.display_label_short ?? null,
+      displayLabelMedium: n.display_label_medium ?? null,
       summary: n.text_plain || n.summary || '',
     }));
 
@@ -205,6 +219,10 @@ export class WvGraphShellComponent implements OnInit, OnChanges {
   }
 
   toggleLabels(): void { this.showLabels.update(v => !v); }
+  toggleShortLabels(): void {
+    if (!this.hasShortLabels()) return;
+    this.useShortLabels.update((value) => !value);
+  }
 
   // ── Zoom ────────────────────────────────────────────────────────────────────
   resetZoom(): void       { this.canvasComp?.resetZoom(); }
@@ -229,4 +247,12 @@ export class WvGraphShellComponent implements OnInit, OnChanges {
 
   @HostListener('window:mouseup')
   onMouseUp(): void { this.dragging = false; }
+}
+
+function resolveNodeLabel(node: WvGraphApiNode, useShortLabels: boolean): string {
+  if (!useShortLabels) {
+    return node.title;
+  }
+
+  return node.display_label_short || node.display_label_medium || node.title;
 }

@@ -124,6 +124,9 @@
           @if (refLine(selectedUnit()!)) {
             <span class="rc-hint">{{ refLine(selectedUnit()!) }}</span>
           }
+          <button type="button" class="pane-toggle graph-launch" (click)="openSelectedUnitGraph()">
+            Open graph
+          </button>
         </div>
 
         <div class="split-container" #splitContainer [class.split-container--workspace-hidden]="workspaceHidden()">
@@ -403,12 +406,17 @@
                         }
 
                         @case ('wv') {
-                          <app-wv-graph-shell
-                            class="wv-graph-embed"
-                            [nodes]="worldviewNodes()"
-                            [edges]="worldviewEdges()"
-                            [evidenceLinks]="worldviewEvidenceLinks()"
-                          />
+                          <div class="wv-graph-embed-wrap">
+                            <button type="button" class="wv-graph-open-btn" (click)="openSelectedUnitGraph()">
+                              Open full graph
+                            </button>
+                            <app-wv-graph-shell
+                              class="wv-graph-embed"
+                              [nodes]="worldviewNodes()"
+                              [edges]="worldviewEdges()"
+                              [evidenceLinks]="worldviewEvidenceLinks()"
+                            />
+                          </div>
                         }
                       }
                     </div>

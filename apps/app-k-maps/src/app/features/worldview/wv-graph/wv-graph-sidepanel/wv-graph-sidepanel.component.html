@@ -9,7 +9,7 @@
         </span>
         <button class="wv-panel__close" (click)="close.emit()" aria-label="Close">✕</button>
       </div>
-      <h2 class="wv-panel__title">{{ node.label }}</h2>
+      <h2 class="wv-panel__title">{{ node.canonicalLabel || node.label }}</h2>
       @if (node.chapterRole) {
         <span class="wv-panel__role">{{ node.chapterRole | titlecase }}</span>
       }

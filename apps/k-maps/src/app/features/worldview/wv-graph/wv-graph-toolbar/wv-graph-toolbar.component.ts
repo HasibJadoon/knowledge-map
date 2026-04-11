@@ -14,11 +14,14 @@ export class WvGraphToolbarComponent {
   @Input() mode: WvGraphMode = 'force';
   @Input() activeTypes: Set<WvNodeType> | null = null;
   @Input() showLabels = true;
+  @Input() useShortLabels = false;
+  @Input() shortLabelsAvailable = false;
   @Input() compact = false; // mobile: collapse to icons only
 
   @Output() modeChange       = new EventEmitter<WvGraphMode>();
   @Output() typeToggle       = new EventEmitter<WvNodeType>();
   @Output() labelsToggle     = new EventEmitter<void>();
+  @Output() shortLabelsToggle = new EventEmitter<void>();
   @Output() resetZoom        = new EventEmitter<void>();
   @Output() centerSelected   = new EventEmitter<void>();
 

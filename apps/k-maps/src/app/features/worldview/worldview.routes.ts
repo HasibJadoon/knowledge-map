@@ -22,6 +22,14 @@ export const WORLDVIEW_ROUTES: Routes = [
         title: 'Library — Worldview',
       },
       {
+        path: 'library/:sourceId/graph/:unitId',
+        loadComponent: () =>
+          import('./worldview-unit-graph/worldview-unit-graph.component').then(
+            (m) => m.WorldviewUnitGraphComponent,
+          ),
+        title: 'Graph — Worldview',
+      },
+      {
         path: 'library/:id',
         loadComponent: () =>
           import('./worldview-library-units/worldview-library-units.component').then(

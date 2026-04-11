@@ -43,6 +43,19 @@
       <span class="wv-tb-btn__icon">{{ showLabels ? '𝐓' : '𝐓̷' }}</span>
       @if (!compact) { <span class="wv-tb-btn__label">Labels</span> }
     </button>
+    @if (!compact) {
+      <button
+        class="wv-tb-btn"
+        [class.wv-tb-btn--active]="useShortLabels"
+        [disabled]="!shortLabelsAvailable"
+        (click)="shortLabelsToggle.emit()"
+        [title]="useShortLabels ? 'Use canonical graph labels' : 'Use short graph labels'"
+        [attr.aria-pressed]="useShortLabels"
+      >
+        <span class="wv-tb-btn__icon">≣</span>
+        <span class="wv-tb-btn__label">Short</span>
+      </button>
+    }
     <button class="wv-tb-btn" (click)="centerSelected.emit()" title="Center selected">
       <span class="wv-tb-btn__icon">⊕</span>
       @if (!compact) { <span class="wv-tb-btn__label">Center</span> }

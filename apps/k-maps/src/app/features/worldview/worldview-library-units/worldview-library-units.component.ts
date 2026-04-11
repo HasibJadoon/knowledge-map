@@ -105,6 +105,8 @@ interface WvGraphApiNode {
   title: string;
   text_plain: string;
   summary?: string | null;
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
   slug?: string | null;
   data_json?: unknown;
   meta_json?: unknown;
@@ -117,6 +119,8 @@ interface WvGraphApiEdge {
   to_node_id: string;
   relation_type: string;
   strength?: number | null;
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
 }
 
 interface WvGraphApiEvidenceLink {
@@ -126,6 +130,8 @@ interface WvGraphApiEvidenceLink {
   target_node_id: string;
   relation: string;
   evidence_text?: string | null;
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
 }
 
 interface WvReaderData {
@@ -373,6 +379,13 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
 
   back(): void {
     void this.router.navigate(['/worldview/library']);
+  }
+
+  openSelectedUnitGraph(): void {
+    const sourceId = this.source()?.id;
+    const unitId = this.selectedUnit()?.id;
+    if (!sourceId || !unitId) return;
+    void this.router.navigate(['/worldview/library', sourceId, 'graph', unitId]);
   }
 
   selectUnit(unit: WvUnit): void {
@@ -774,7 +787,11 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
           const units = (res.units ?? []).map((unit: any) => this.normalizeUnit(unit));
           this.rawUnits.set(units);
 
-          const first = this.firstSelectableUnit(units);
+          const requestedUnitId = this.route.snapshot.queryParamMap.get('unit');
+          const requestedUnit = requestedUnitId
+            ? units.find((unit: WvUnit) => unit.id === requestedUnitId) ?? null
+            : null;
+          const first = requestedUnit ?? this.firstSelectableUnit(units);
           if (first) this.selectUnit(first);
         }
 
@@ -1275,6 +1292,8 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
         title: String(node['title'] ?? ''),
         text_plain: String(node['text_plain'] ?? ''),
         summary: (node['summary'] as string | null) ?? null,
+        display_label_short: (node['display_label_short'] as string | null) ?? null,
+        display_label_medium: (node['display_label_medium'] as string | null) ?? null,
         slug: (node['slug'] as string | null) ?? null,
         data_json: node['data_json'] ?? null,
         meta_json: node['meta_json'] ?? null,
@@ -1292,6 +1311,8 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
         to_node_id: String(edge['to_node_id'] ?? ''),
         relation_type: String(edge['relation_type'] ?? 'related_to'),
         strength: (edge['strength'] as number | null) ?? null,
+        display_label_short: (edge['display_label_short'] as string | null) ?? null,
+        display_label_medium: (edge['display_label_medium'] as string | null) ?? null,
       }));
   }
 
@@ -1306,6 +1327,8 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
         target_node_id: String(link['target_node_id'] ?? ''),
         relation: String(link['relation'] ?? ''),
         evidence_text: (link['evidence_text'] as string | null) ?? null,
+        display_label_short: (link['display_label_short'] as string | null) ?? null,
+        display_label_medium: (link['display_label_medium'] as string | null) ?? null,
       }));
   }
 

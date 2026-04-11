@@ -6,6 +6,7 @@
   display: block;
   background: transparent;
   cursor: grab;
+  touch-action: none;
   &:active { cursor: grabbing; }
 }
 
@@ -39,6 +40,8 @@
   stroke: rgba(0, 0, 0, 0.75);
   stroke-width: 3px;
   stroke-linejoin: round;
+  dominant-baseline: hanging;
+  text-rendering: geometricPrecision;
   transition: opacity 0.22s ease;
   user-select: none;
 }

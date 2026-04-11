@@ -69,6 +69,8 @@ interface WvGraphApiNode {
   title: string;
   text_plain: string;
   summary?: string | null;
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
   slug?: string | null;
   data_json?: unknown;
   meta_json?: unknown;
@@ -81,6 +83,8 @@ interface WvGraphApiEdge {
   to_node_id: string;
   relation_type: string;
   strength?: number | null;
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
 }
 
 interface WvGraphApiEvidenceLink {
@@ -90,6 +94,8 @@ interface WvGraphApiEvidenceLink {
   target_node_id: string;
   relation: string;
   evidence_text?: string | null;
+  display_label_short?: string | null;
+  display_label_medium?: string | null;
 }
 
 interface TocItem {
@@ -435,6 +441,11 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
     void this.contentRef?.scrollToTop(0);
   }
 
+  openGraphPage(): void {
+    if (!this.sourceId() || !this.unitId()) return;
+    void this.router.navigate(['/worldview', 'library', this.sourceId(), 'graph', this.unitId()]);
+  }
+
   goBack(): void {
     void this.router.navigate(['/worldview', 'library', this.sourceId()]);
   }
@@ -691,6 +702,8 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
         title: String(node['title'] ?? ''),
         text_plain: String(node['text_plain'] ?? ''),
         summary: (node['summary'] as string | null) ?? null,
+        display_label_short: (node['display_label_short'] as string | null) ?? null,
+        display_label_medium: (node['display_label_medium'] as string | null) ?? null,
         slug: (node['slug'] as string | null) ?? null,
         data_json: node['data_json'] ?? null,
         meta_json: node['meta_json'] ?? null,
@@ -708,6 +721,8 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
         to_node_id: String(edge['to_node_id'] ?? ''),
         relation_type: String(edge['relation_type'] ?? 'related_to'),
         strength: (edge['strength'] as number | null) ?? null,
+        display_label_short: (edge['display_label_short'] as string | null) ?? null,
+        display_label_medium: (edge['display_label_medium'] as string | null) ?? null,
       }));
   }
 
@@ -722,6 +737,8 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
         target_node_id: String(link['target_node_id'] ?? ''),
         relation: String(link['relation'] ?? ''),
         evidence_text: (link['evidence_text'] as string | null) ?? null,
+        display_label_short: (link['display_label_short'] as string | null) ?? null,
+        display_label_medium: (link['display_label_medium'] as string | null) ?? null,
       }));
   }
 }

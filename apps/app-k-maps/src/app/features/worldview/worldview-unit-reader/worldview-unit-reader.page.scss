@@ -943,6 +943,14 @@
 }
 
 // ── WV Graph mobile embed ─────────────────────────────────────────
+.wv-graph-mobile-wrap {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+}
+
 .wv-graph-mobile {
   display: flex;
   flex-direction: column;
@@ -950,4 +958,21 @@
   flex: 1 1 0;
   min-height: 0;
   width: 100%;
+}
+
+.wv-graph-mobile__open {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  z-index: 4;
+  border: 1px solid rgba(201, 168, 76, 0.24);
+  background: rgba(7, 8, 10, 0.88);
+  color: var(--r-gold);
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  font-family: var(--r-font-head);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.26);
 }

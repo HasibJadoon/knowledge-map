@@ -6,10 +6,13 @@
     [mode]="mode()"
     [activeTypes]="activeTypes()"
     [showLabels]="showLabels()"
+    [useShortLabels]="useShortLabels()"
+    [shortLabelsAvailable]="hasShortLabels()"
     [compact]="isMobile()"
     (modeChange)="setMode($event)"
     (typeToggle)="toggleType($event)"
     (labelsToggle)="toggleLabels()"
+    (shortLabelsToggle)="toggleShortLabels()"
     (resetZoom)="resetZoom()"
     (centerSelected)="centerSelected()"
   />
