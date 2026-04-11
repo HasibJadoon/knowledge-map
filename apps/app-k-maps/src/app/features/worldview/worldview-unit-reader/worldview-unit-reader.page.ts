@@ -1,13 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, IonContent } from '@ionic/angular';
 import gsap from 'gsap';
 
 import { environment } from '../../../../environments/environment';
-import { KmapsNote, formatNoteKindLabel } from '../worldview/models/kmaps.models';
-import { WvHighlightsService } from '../../../shared/services/wv-highlights.service';
-import { WvNotesService } from '../../../shared/services/wv-notes.service';
 
 interface WvSource {
   id: string;
@@ -43,6 +40,28 @@ interface WvUnit {
   children?: WvUnit[];
 }
 
+interface ReaderNoteEntry {
+  id: string;
+  noteKind: string;
+  title?: string | null;
+  bodyMd: string;
+  excerptText?: string | null;
+  locator?: string | null;
+  createdAt?: string | null;
+}
+
+interface ReaderHighlightEntry {
+  id: string;
+  noteKind: string;
+  title?: string | null;
+  bodyMd: string;
+  excerptText?: string | null;
+  locator?: string | null;
+  color?: string | null;
+  createdAt?: string | null;
+  source: 'highlight' | 'note';
+}
+
 interface TocItem {
   unit: WvUnit;
   depth: number;
@@ -57,7 +76,7 @@ interface ReadingBlock {
   href?: string;
 }
 
-type ReaderSheetTab = 'highlights' | 'notes';
+type ReaderSheetTab = 'highlights' | 'notes' | 'wv';
 
 // Used only for heuristic fallback classification of flat readingBody[]
 type BlockType = 'h1' | 'h2' | 'h3' | 'blockquote' | 'attribution' | 'link' | 'para';
@@ -70,11 +89,13 @@ interface ClassifiedBlock { text: string; type: BlockType; url?: string; }
   templateUrl: './worldview-unit-reader.page.html',
   styleUrl: './worldview-unit-reader.page.scss',
 })
-export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
+export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly highlightsService = inject(WvHighlightsService);
-  private readonly notesService = inject(WvNotesService);
+  private sheetDragPointerId: number | null = null;
+  private sheetDragStartY = 0;
+  private sheetDragStartExpanded = false;
+  private removeSheetDragListeners: (() => void) | null = null;
 
   @ViewChild('readerEl') readerEl?: ElementRef<HTMLElement>;
   @ViewChild('headerEl') headerEl?: ElementRef<HTMLElement>;
@@ -90,11 +111,16 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
   readonly allUnits = signal<WvUnit[]>([]);
   readonly loading = signal(true);
   readonly tocOpen = signal(false);
+  readonly sheetExpanded = signal(false);
   readonly sheetTab = signal<ReaderSheetTab>('highlights');
+  readonly readerNotes = signal<ReaderNoteEntry[]>([]);
+  readonly readerHighlights = signal<ReaderHighlightEntry[]>([]);
+  readonly readerWv = signal<ReaderNoteEntry[]>([]);
   readonly skeletons = [1, 2, 3, 4, 5, 6];
-  readonly sheetTabs: { id: ReaderSheetTab; label: string }[] = [
-    { id: 'highlights', label: 'Highlights' },
-    { id: 'notes', label: 'Notes' },
+  readonly sheetTabs: { id: ReaderSheetTab; label: string; icon: string }[] = [
+    { id: 'highlights', label: 'Highlights', icon: 'sparkles-outline' },
+    { id: 'notes', label: 'Notes', icon: 'document-text-outline' },
+    { id: 'wv', label: 'Worldview', icon: 'git-network-outline' },
   ];
 
   readonly rootUnits = computed(() => buildUnitTree(this.allUnits()));
@@ -178,15 +204,15 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
   });
 
   readonly highlightEntries = computed(() =>
-    this.sourceId() && this.unitId()
-      ? this.highlightsService.listForUnit(this.sourceId(), this.unitId())
-      : [],
+    [...this.readerHighlights()].sort((left, right) => this.compareCreatedAt(left.createdAt, right.createdAt)),
   );
 
   readonly noteEntries = computed(() =>
-    this.sourceId() && this.unitId()
-      ? this.notesService.listForUnit(this.sourceId(), this.unitId())
-      : [],
+    [...this.readerNotes()].sort((left, right) => this.compareCreatedAt(left.createdAt, right.createdAt)),
+  );
+
+  readonly wvEntries = computed(() =>
+    [...this.readerWv()].sort((left, right) => this.compareCreatedAt(left.createdAt, right.createdAt)),
   );
 
   readonly kicker = computed(() => {
@@ -214,12 +240,17 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
     // Animations run after data loads
   }
 
+  ngOnDestroy(): void {
+    this.stopSheetDrag();
+  }
+
   private async load(sourceId: string, unitId: string): Promise<void> {
     try {
-      // Fetch source + all units (for TOC/nav) AND full unit content in parallel
-      const [sourceRes, unitRes] = await Promise.all([
+      // Fetch source + all units (for TOC/nav), full unit content, and reader annotations in parallel.
+      const [sourceRes, unitRes, annotationsRes] = await Promise.all([
         fetch(`${environment.apiBase}/worldview/sources/${sourceId}`),
         fetch(`${environment.apiBase}/worldview/units/${unitId}`),
+        fetch(`${environment.apiBase}/worldview/units/${unitId}/annotations`),
       ]);
 
       if (sourceRes.ok) {
@@ -244,6 +275,21 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
             // Unit not in list yet — add it
             return [...units, data.result];
           });
+        }
+      }
+
+      if (annotationsRes.ok) {
+        const data = (await annotationsRes.json()) as {
+          ok: boolean;
+          notes?: unknown;
+          highlights?: unknown;
+          wv?: unknown;
+        };
+
+        if (data.ok) {
+          this.readerNotes.set(this.normalizeNotes(data.notes));
+          this.readerHighlights.set(this.normalizeHighlights(data.highlights));
+          this.readerWv.set(this.normalizeWorldview(data.wv));
         }
       }
     } catch { /* ignore */ } finally {
@@ -353,7 +399,8 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
   }
 
   openToc(): void {
-    this.sheetTab.set(this.highlightEntries().length > 0 || this.noteEntries().length === 0 ? 'highlights' : 'notes');
+    this.sheetExpanded.set(false);
+    this.sheetTab.set(this.defaultSheetTab());
     this.tocOpen.set(true);
     requestAnimationFrame(() => {
       const sheet = this.tocSheetEl?.nativeElement;
@@ -364,13 +411,18 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
   }
 
   closeToc(): void {
+    this.stopSheetDrag();
     const sheet = this.tocSheetEl?.nativeElement;
     if (sheet) {
       gsap.to(sheet, {
         y: '100%', opacity: 0, duration: 0.26, ease: 'expo.in',
-        onComplete: () => this.tocOpen.set(false),
+        onComplete: () => {
+          this.sheetExpanded.set(false);
+          this.tocOpen.set(false);
+        },
       });
     } else {
+      this.sheetExpanded.set(false);
       this.tocOpen.set(false);
     }
   }
@@ -382,6 +434,47 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
 
   setSheetTab(tab: ReaderSheetTab): void {
     this.sheetTab.set(tab);
+  }
+
+  toggleSheetExpanded(): void {
+    this.sheetExpanded.update((expanded) => !expanded);
+  }
+
+  startSheetDrag(event: PointerEvent): void {
+    if (this.sheetDragPointerId !== null) return;
+
+    event.preventDefault();
+    this.stopSheetDrag();
+    this.sheetDragPointerId = event.pointerId;
+    this.sheetDragStartY = event.clientY;
+    this.sheetDragStartExpanded = this.sheetExpanded();
+
+    const onPointerUp = (pointerEvent: PointerEvent) => {
+      if (pointerEvent.pointerId !== this.sheetDragPointerId) return;
+
+      const delta = pointerEvent.clientY - this.sheetDragStartY;
+      if (delta <= -36) {
+        this.sheetExpanded.set(true);
+      } else if (delta >= 36) {
+        this.sheetExpanded.set(false);
+      } else {
+        this.sheetExpanded.set(this.sheetDragStartExpanded);
+      }
+
+      this.stopSheetDrag();
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('pointerup', onPointerUp);
+      window.addEventListener('pointercancel', onPointerUp);
+    }
+
+    this.removeSheetDragListeners = () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('pointerup', onPointerUp);
+        window.removeEventListener('pointercancel', onPointerUp);
+      }
+    };
   }
 
   unitTitle(unit: WvUnit | null | undefined): string {
@@ -427,11 +520,33 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
   }
 
   tabCount(tab: ReaderSheetTab): number {
-    return tab === 'highlights' ? this.highlightEntries().length : this.noteEntries().length;
+    switch (tab) {
+      case 'highlights':
+        return this.highlightEntries().length;
+      case 'notes':
+        return this.noteEntries().length;
+      case 'wv':
+        return this.wvEntries().length;
+    }
   }
 
-  noteKindLabel(kind: KmapsNote['noteKind']): string {
-    return formatNoteKindLabel(kind);
+  noteKindLabel(kind: string): string {
+    const labels: Record<string, string> = {
+      highlight: 'Highlight',
+      quote: 'Highlight',
+      reflection: 'Reflection',
+      question: 'Question',
+      insight: 'Insight',
+      claim_seed: 'Claim',
+      worldview: 'Worldview',
+      summary: 'Summary',
+      observation: 'Observation',
+      reference: 'Reference',
+      todo: 'Todo',
+      idea: 'Idea',
+    };
+
+    return labels[kind] ?? kind.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
   formatNoteDate(iso: string | null | undefined): string {
@@ -457,6 +572,87 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
     const words = text.trim().split(/\s+/).filter(Boolean).length;
     if (!words) return 'Quick read';
     return `${Math.max(1, Math.round(words / 180))} min read`;
+  }
+
+  private defaultSheetTab(): ReaderSheetTab {
+    for (const tab of this.sheetTabs) {
+      if (this.tabCount(tab.id) > 0) {
+        return tab.id;
+      }
+    }
+
+    return 'highlights';
+  }
+
+  private stopSheetDrag(): void {
+    this.removeSheetDragListeners?.();
+    this.removeSheetDragListeners = null;
+    this.sheetDragPointerId = null;
+  }
+
+  private compareCreatedAt(left?: string | null, right?: string | null): number {
+    const leftTs = left ? Date.parse(left) : 0;
+    const rightTs = right ? Date.parse(right) : 0;
+    return leftTs - rightTs;
+  }
+
+  private normalizeNotes(value: unknown): ReaderNoteEntry[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
+      .map((note) => ({
+        id: typeof note['id'] === 'string' ? note['id'] : '',
+        noteKind: typeof note['note_kind'] === 'string' ? note['note_kind'] : 'reflection',
+        title: typeof note['title'] === 'string' ? note['title'] : null,
+        bodyMd: typeof note['body_md'] === 'string' ? note['body_md'] : '',
+        excerptText: typeof note['excerpt_text'] === 'string' ? note['excerpt_text'] : null,
+        locator: typeof note['locator'] === 'string' ? note['locator'] : null,
+        createdAt: typeof note['created_at'] === 'string' ? note['created_at'] : null,
+      }))
+      .filter((note) => !!note.id && !!note.bodyMd);
+  }
+
+  private normalizeHighlights(value: unknown): ReaderHighlightEntry[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
+      .map((highlight) => ({
+        id: typeof highlight['id'] === 'string' ? highlight['id'] : '',
+        noteKind: typeof highlight['note_kind'] === 'string' ? highlight['note_kind'] : 'highlight',
+        title: typeof highlight['title'] === 'string' ? highlight['title'] : null,
+        bodyMd: typeof highlight['body_md'] === 'string' ? highlight['body_md'] : '',
+        excerptText: typeof highlight['excerpt_text'] === 'string' ? highlight['excerpt_text'] : null,
+        locator: typeof highlight['locator'] === 'string' ? highlight['locator'] : null,
+        color: typeof highlight['color'] === 'string' ? highlight['color'] : null,
+        createdAt: typeof highlight['created_at'] === 'string' ? highlight['created_at'] : null,
+        source: (highlight['source'] === 'note' ? 'note' : 'highlight') as 'note' | 'highlight',
+      }))
+      .filter((highlight) => !!highlight.id && !!highlight.bodyMd);
+  }
+
+  private normalizeWorldview(value: unknown): ReaderNoteEntry[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
+      .map((node) => ({
+        id: typeof node['id'] === 'string' ? node['id'] : '',
+        noteKind: typeof node['node_type'] === 'string' ? node['node_type'] : 'insight',
+        title: typeof node['title'] === 'string' ? node['title'] : null,
+        bodyMd: typeof node['text_plain'] === 'string' ? node['text_plain'] : '',
+        excerptText: typeof node['summary'] === 'string' ? node['summary'] : null,
+        locator: typeof node['slug'] === 'string' ? node['slug'] : null,
+        createdAt: typeof node['created_at'] === 'string' ? node['created_at'] : null,
+      }))
+      .filter((node) => !!node.id && !!node.bodyMd);
   }
 }
 

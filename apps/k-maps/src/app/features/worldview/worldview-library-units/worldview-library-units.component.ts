@@ -82,27 +82,26 @@ interface WvNote {
   title?: string | null;
   body_md: string;
   excerpt_text?: string | null;
-  created_at?: string | null;
-}
-
-interface WvHighlight {
-  id: string;
-  source_unit_id?: string | null;
   locator?: string | null;
-  anchor_text?: string | null;
-  selected_text: string;
-  color?: string | null;
   created_at?: string | null;
 }
 
 interface ReaderHighlightEntry {
   id: string;
   note_kind: string;
+  title?: string | null;
   excerpt_text?: string | null;
   body_md: string;
   created_at?: string | null;
   locator?: string | null;
+  color?: string | null;
   source: 'highlight' | 'note';
+}
+
+interface WvReaderData {
+  notes: WvNote[];
+  highlights: ReaderHighlightEntry[];
+  wv: WvNote[];
 }
 
 interface TocItem {
@@ -129,7 +128,6 @@ type ReaderTab = 'highlights' | 'notes' | 'wv';
 const ARABIC_SCRIPT_RE = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
 const END_MARKER_RE = /[\u06DD\u06DE][\u0660-\u0669]*/g;
 const ARABIC_INDIC_ONLY_RE = /^[\u0660-\u0669]+$/;
-const WV_ORIGIN = 'https://k-maps.com';
 const KIND_ICON: Record<string, string> = {
   highlight: '◆',
   quote: '"',
@@ -175,8 +173,10 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   readonly rawUnits = signal<WvUnit[]>([]);
   readonly selectedUnit = signal<WvUnit | null>(null);
   readonly detailCache = signal<Record<string, WvUnitDetail>>({});
+  readonly readerDataCache = signal<Record<string, WvReaderData>>({});
   readonly notes = signal<WvNote[]>([]);
-  readonly highlights = signal<WvHighlight[]>([]);
+  readonly highlights = signal<ReaderHighlightEntry[]>([]);
+  readonly worldviewNotes = signal<WvNote[]>([]);
 
   readonly sourceLoading = signal(true);
   readonly detailLoading = signal(false);
@@ -284,39 +284,13 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     return parentId ? (this.unitsById().get(parentId) ?? null) : null;
   });
 
-  readonly highlightEntries = computed<ReaderHighlightEntry[]>(() => {
-    const directHighlights = this.highlights().map<ReaderHighlightEntry>((highlight) => ({
-      id: highlight.id,
-      note_kind: 'highlight',
-      excerpt_text: highlight.anchor_text,
-      body_md: highlight.selected_text,
-      created_at: highlight.created_at,
-      locator: highlight.locator,
-      source: 'highlight',
-    }));
-
-    const noteHighlights = this.notes()
-      .filter((note) => this.isHighlightKind(note.note_kind))
-      .map<ReaderHighlightEntry>((note) => ({
-        id: note.id,
-        note_kind: note.note_kind,
-        excerpt_text: note.excerpt_text,
-        body_md: note.body_md,
-        created_at: note.created_at,
-        locator: null,
-        source: 'note',
-      }));
-
-    return [...directHighlights, ...noteHighlights].sort((left, right) =>
-      this.compareCreatedAt(left.created_at, right.created_at),
-    );
-  });
-
-  readonly regularNotes = computed(() =>
-    this.notes().filter((note) => !this.isHighlightKind(note.note_kind) && !this.isWvKind(note.note_kind)),
+  readonly highlightEntries = computed<ReaderHighlightEntry[]>(() =>
+    [...this.highlights()].sort((left, right) => this.compareCreatedAt(left.created_at, right.created_at)),
   );
 
-  readonly wvNotes = computed(() => this.notes().filter((note) => this.isWvKind(note.note_kind)));
+  readonly regularNotes = computed(() => this.notes());
+
+  readonly wvNotes = computed(() => this.worldviewNotes());
 
   ngOnInit(): void {
     gsap.registerPlugin(ScrollTrigger);
@@ -352,11 +326,17 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
 
     const sameUnit = this.selectedUnit()?.id === unit.id;
     this.selectedUnit.set(unit);
-    if (!sameUnit) {
+    const cachedReaderData = this.readerDataCache()[unit.id];
+
+    if (cachedReaderData) {
+      this.applyReaderData(cachedReaderData);
+      this.notesLoading.set(false);
+    } else if (!sameUnit) {
       this.notes.set([]);
       this.highlights.set([]);
+      this.worldviewNotes.set([]);
       void this.loadReaderData(unit.id);
-    } else if (!this.notes().length && !this.highlights().length && !this.notesLoading()) {
+    } else if (!this.notes().length && !this.highlights().length && !this.wvNotes().length && !this.notesLoading()) {
       void this.loadReaderData(unit.id);
     }
 
@@ -719,8 +699,10 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     this.rawUnits.set([]);
     this.selectedUnit.set(null);
     this.detailCache.set({});
+    this.readerDataCache.set({});
     this.notes.set([]);
     this.highlights.set([]);
+    this.worldviewNotes.set([]);
     this.collapsedUnits.set(new Set());
     this.textPaneHeight.set(60);
     this.tocHidden.set(false);
@@ -796,21 +778,28 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     this.notesLoading.set(true);
 
     try {
-      const res = await fetch(`${WV_ORIGIN}/wv/notes?source_unit_id=${unitId}&limit=100`);
+      const res = await fetch(`${this.apiBase}/worldview/units/${unitId}/annotations`);
       const data = await res.json();
       if (this.selectedUnit()?.id !== unitId) return;
 
       if (data?.ok) {
-        this.notes.set(data.notes ?? []);
-        this.highlights.set(data.highlights ?? []);
+        const readerData: WvReaderData = {
+          notes: this.normalizeNotesPayload(data.notes),
+          highlights: this.normalizeHighlightsPayload(data.highlights),
+          wv: this.normalizeWorldviewPayload(data.wv),
+        };
+        this.readerDataCache.update((cache) => ({ ...cache, [unitId]: readerData }));
+        this.applyReaderData(readerData);
       } else {
         this.notes.set([]);
         this.highlights.set([]);
+        this.worldviewNotes.set([]);
       }
     } catch {
       if (this.selectedUnit()?.id !== unitId) return;
       this.notes.set([]);
       this.highlights.set([]);
+      this.worldviewNotes.set([]);
     } finally {
       if (this.selectedUnit()?.id === unitId) {
         this.notesLoading.set(false);
@@ -918,14 +907,14 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
       .filter((block): block is PassageBlock => !!block);
   }
 
-  private buildHighlightPassageBlocks(highlights: WvHighlight[]): PassageBlock[] {
+  private buildHighlightPassageBlocks(highlights: ReaderHighlightEntry[]): PassageBlock[] {
     if (!highlights.length) return [];
 
     const grouped = new Map<string, string[]>();
 
     for (const highlight of highlights) {
       const locator = (highlight.locator ?? '').trim();
-      const anchor = (highlight.anchor_text ?? '').trim();
+      const anchor = (highlight.excerpt_text ?? '').trim();
       if (!locator || !anchor) continue;
 
       const bucket = grouped.get(locator) ?? [];
@@ -1160,6 +1149,71 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     const leftTs = left ? Date.parse(left) : 0;
     const rightTs = right ? Date.parse(right) : 0;
     return leftTs - rightTs;
+  }
+
+  private applyReaderData(readerData: WvReaderData): void {
+    this.notes.set(readerData.notes);
+    this.highlights.set(readerData.highlights);
+    this.worldviewNotes.set(readerData.wv);
+  }
+
+  private normalizeNotesPayload(value: unknown): WvNote[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
+      .map((note) => ({
+        id: typeof note['id'] === 'string' ? note['id'] : '',
+        note_kind: typeof note['note_kind'] === 'string' ? note['note_kind'] : 'reflection',
+        title: typeof note['title'] === 'string' ? note['title'] : null,
+        body_md: typeof note['body_md'] === 'string' ? note['body_md'] : '',
+        excerpt_text: typeof note['excerpt_text'] === 'string' ? note['excerpt_text'] : null,
+        locator: typeof note['locator'] === 'string' ? note['locator'] : null,
+        created_at: typeof note['created_at'] === 'string' ? note['created_at'] : null,
+      }))
+      .filter((note) => !!note.id && !!note.body_md);
+  }
+
+  private normalizeHighlightsPayload(value: unknown): ReaderHighlightEntry[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
+      .map((highlight) => ({
+        id: typeof highlight['id'] === 'string' ? highlight['id'] : '',
+        note_kind: typeof highlight['note_kind'] === 'string' ? highlight['note_kind'] : 'highlight',
+        title: typeof highlight['title'] === 'string' ? highlight['title'] : null,
+        excerpt_text: typeof highlight['excerpt_text'] === 'string' ? highlight['excerpt_text'] : null,
+        body_md: typeof highlight['body_md'] === 'string' ? highlight['body_md'] : '',
+        created_at: typeof highlight['created_at'] === 'string' ? highlight['created_at'] : null,
+        locator: typeof highlight['locator'] === 'string' ? highlight['locator'] : null,
+        color: typeof highlight['color'] === 'string' ? highlight['color'] : null,
+        source: (highlight['source'] === 'note' ? 'note' : 'highlight') as 'note' | 'highlight',
+      }))
+      .filter((highlight) => !!highlight.id && !!highlight.body_md);
+  }
+
+  private normalizeWorldviewPayload(value: unknown): WvNote[] {
+    if (!Array.isArray(value)) {
+      return [];
+    }
+
+    return value
+      .filter((entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry))
+      .map((node) => ({
+        id: typeof node['id'] === 'string' ? node['id'] : '',
+        note_kind: typeof node['node_type'] === 'string' ? node['node_type'] : 'insight',
+        title: typeof node['title'] === 'string' ? node['title'] : null,
+        body_md: typeof node['text_plain'] === 'string' ? node['text_plain'] : '',
+        excerpt_text: typeof node['summary'] === 'string' ? node['summary'] : null,
+        locator: typeof node['slug'] === 'string' ? node['slug'] : null,
+        created_at: typeof node['created_at'] === 'string' ? node['created_at'] : null,
+      }))
+      .filter((node) => !!node.id && !!node.body_md);
   }
 
   private adjustReaderSplit(delta: number): void {

@@ -5,8 +5,8 @@
     </ion-buttons>
     <ion-title class="ur-header__title">{{ source()?.title ?? 'Reader' }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" size="small" (click)="openToc()" aria-label="Highlights and notes">
-        <ion-icon name="list-outline" slot="icon-only"></ion-icon>
+      <ion-button fill="clear" size="small" (click)="openToc()" aria-label="Reader annotations">
+        <ion-icon name="layers-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -180,8 +180,16 @@
 <!-- ─── TOC backdrop ─────────────────────────────────────────── -->
 @if (tocOpen()) {
   <div class="toc-backdrop" (click)="closeToc()" aria-hidden="true"></div>
-  <div class="toc-sheet" #tocSheetEl role="dialog" aria-label="Reader notes and highlights">
-    <div class="toc-sheet__handle" aria-hidden="true"></div>
+  <div class="toc-sheet" [class.toc-sheet--expanded]="sheetExpanded()" #tocSheetEl role="dialog" aria-label="Reader annotations">
+    <button
+      type="button"
+      class="toc-sheet__handle"
+      (click)="toggleSheetExpanded()"
+      (pointerdown)="startSheetDrag($event)"
+      aria-label="Expand or collapse sheet"
+    >
+      <span class="toc-sheet__handle-bar" aria-hidden="true"></span>
+    </button>
     <div class="toc-sheet__head">
       <div class="toc-sheet__tabs" role="tablist" aria-label="Reader sections">
         @for (tab of sheetTabs; track tab.id) {
@@ -190,9 +198,10 @@
             class="toc-sheet__tab"
             [class.toc-sheet__tab--active]="sheetTab() === tab.id"
             [attr.aria-selected]="sheetTab() === tab.id"
+            [attr.aria-label]="tab.label"
             (click)="setSheetTab(tab.id)"
           >
-            <span class="toc-sheet__tab-label">{{ tab.label }}</span>
+            <ion-icon [name]="tab.icon" class="toc-sheet__tab-icon"></ion-icon>
             <span class="toc-sheet__tab-count">{{ tabCount(tab.id) }}</span>
           </button>
         }
@@ -212,11 +221,15 @@
             @for (highlight of highlightEntries(); track highlight.id) {
               <article class="sheet-card sheet-card--highlight">
                 <div class="sheet-card__top">
-                  <span class="sheet-card__kind">Highlight</span>
+                  <span class="sheet-card__kind">{{ noteKindLabel(highlight.noteKind) }}</span>
                   @if (highlight.locator) {
                     <span class="sheet-card__meta">{{ highlight.locator }}</span>
                   }
                 </div>
+
+                @if (highlight.title) {
+                  <h3 class="sheet-card__title">{{ highlight.title }}</h3>
+                }
 
                 @if (highlight.excerptText && highlight.excerptText !== highlight.bodyMd) {
                   <p class="sheet-card__excerpt">{{ highlight.excerptText }}</p>
@@ -231,7 +244,7 @@
             }
           </div>
         }
-      } @else {
+      } @else if (sheetTab() === 'notes') {
         @if (noteEntries().length === 0) {
           <div class="sheet-empty">
             No notes saved for this unit yet.
@@ -240,6 +253,39 @@
           <div class="sheet-stack">
             @for (note of noteEntries(); track note.id) {
               <article class="sheet-card sheet-card--note">
+                <div class="sheet-card__top">
+                  <span class="sheet-card__kind">{{ noteKindLabel(note.noteKind) }}</span>
+                  @if (formatNoteDate(note.createdAt)) {
+                    <span class="sheet-card__meta">{{ formatNoteDate(note.createdAt) }}</span>
+                  }
+                </div>
+
+                @if (note.title) {
+                  <h3 class="sheet-card__title">{{ note.title }}</h3>
+                }
+
+                @if (note.excerptText) {
+                  <p class="sheet-card__excerpt">{{ note.excerptText }}</p>
+                }
+
+                <p class="sheet-card__body">{{ note.bodyMd }}</p>
+
+                @if (note.locator) {
+                  <p class="sheet-card__meta">{{ note.locator }}</p>
+                }
+              </article>
+            }
+          </div>
+        }
+      } @else {
+        @if (wvEntries().length === 0) {
+          <div class="sheet-empty">
+            No worldview entries saved for this unit yet.
+          </div>
+        } @else {
+          <div class="sheet-stack">
+            @for (note of wvEntries(); track note.id) {
+              <article class="sheet-card sheet-card--wv">
                 <div class="sheet-card__top">
                   <span class="sheet-card__kind">{{ noteKindLabel(note.noteKind) }}</span>
                   @if (formatNoteDate(note.createdAt)) {
