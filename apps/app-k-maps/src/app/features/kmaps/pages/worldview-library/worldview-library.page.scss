@@ -1,0 +1,377 @@
+// ─── host / page shell ──────────────────────────────────────────────────────
+:host {
+  display: block;
+}
+
+.wv-lib {
+  --background: var(--ion-background-color);
+}
+
+.wv-lib__count-badge {
+  font-size: 0.65rem;
+  --padding-start: 0.45rem;
+  --padding-end: 0.45rem;
+  margin-inline-end: 0.25rem;
+}
+
+// ─── Sections share the same horizontal rhythm ──────────────────────────────
+$pad: 1rem;
+
+// ─── Hero ────────────────────────────────────────────────────────────────────
+.wv-lib__hero {
+  padding: 1.4rem $pad 1rem;
+  border-bottom: 1px solid var(--ion-color-light-shade);
+}
+
+.wv-lib__eyebrow {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ion-color-primary);
+  opacity: 0.85;
+  margin: 0 0 0.3rem;
+}
+
+.wv-lib__title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem;
+  color: var(--ion-color-dark);
+  line-height: 1.2;
+}
+
+.wv-lib__subtitle {
+  font-size: 0.78rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
+// ─── Search ──────────────────────────────────────────────────────────────────
+.wv-lib__searchbar {
+  --background: var(--ion-color-light);
+  --border-radius: 12px;
+  --box-shadow: none;
+  --placeholder-color: var(--ion-color-medium);
+  --color: var(--ion-color-dark);
+  --icon-color: var(--ion-color-medium);
+  --clear-button-color: var(--ion-color-medium);
+  padding: 0.5rem 0.75rem 0.25rem;
+}
+
+// ─── Filter chips ─────────────────────────────────────────────────────────────
+.wv-lib__filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem $pad 0.65rem;
+  overflow-x: auto;
+  width: 100%;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--ion-color-light-shade);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.wv-lib__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 20px;
+  color: var(--ion-color-medium);
+  font-size: 0.72rem;
+  font-family: inherit;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &--active {
+    background: rgba(var(--ion-color-primary-rgb), 0.1);
+    border-color: var(--ion-color-primary);
+    color: var(--ion-color-primary);
+    font-weight: 600;
+  }
+}
+
+.wv-lib__chip-icon {
+  font-size: 0.82rem;
+}
+
+.wv-lib__group-btn {
+  margin-left: auto;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 6px;
+  color: var(--ion-color-medium);
+  font-size: 0.85rem;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  font-family: inherit;
+
+  &--on {
+    background: rgba(var(--ion-color-primary-rgb), 0.08);
+    border-color: var(--ion-color-primary);
+    color: var(--ion-color-primary);
+  }
+}
+
+// ─── Skeleton ────────────────────────────────────────────────────────────────
+.wv-lib__grid {
+  padding: 0.85rem $pad 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.wv-lib__skel {
+  height: 90px;
+  border-radius: 14px;
+  background: var(--ion-color-light);
+  width: 100%;
+  animation: wv-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes wv-pulse {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 0.85; }
+}
+
+// ─── Empty state ─────────────────────────────────────────────────────────────
+.wv-lib__empty {
+  padding: 3.5rem $pad;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wv-lib__empty-glyph {
+  font-size: 2rem;
+  color: var(--ion-color-primary);
+  opacity: 0.22;
+}
+
+.wv-lib__empty-text {
+  font-size: 0.875rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
+// ─── Type sections ────────────────────────────────────────────────────────────
+.wv-lib__type-section {
+  padding: 1rem $pad 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.wv-lib__type-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--ion-color-light-shade);
+}
+
+.wv-lib__type-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ion-color-medium);
+  flex: 1;
+  font-weight: 600;
+}
+
+.wv-lib__type-count {
+  font-size: 0.62rem;
+  color: var(--ion-color-medium);
+  background: var(--ion-color-light);
+  border-radius: 20px;
+  padding: 0.05rem 0.45rem;
+  border: 1px solid var(--ion-color-light-shade);
+}
+
+// ─── Source card (Kindle / modern reading platform style) ─────────────────────
+// Horizontal row layout: icon | body (title+meta) | year
+.wv-lib__card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  background: var(--ion-card-background, var(--ion-color-light));
+  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+
+  &:active {
+    border-color: var(--ion-color-primary-shade);
+    opacity: 0.85;
+  }
+}
+
+// Icon box (left column)
+.wv-lib__card-icon {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 10px;
+  background: rgba(var(--ion-color-primary-rgb), 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+// Middle body (flex: 1, shrinks)
+.wv-lib__card-body {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+// Badge row (type + language) above title
+.wv-lib__card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.wv-lib__card-title {
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: var(--ion-color-dark);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.wv-lib__card-creator {
+  font-size: 0.74rem;
+  color: var(--ion-color-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wv-lib__card-people {
+  font-size: 0.68rem;
+  color: var(--ion-color-medium);
+  opacity: 0.75;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wv-lib__card-meta {
+  font-size: 0.66rem;
+  color: var(--ion-color-medium);
+  opacity: 0.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Right column: year + arrow (stacked)
+.wv-lib__card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  align-self: stretch;
+  flex-shrink: 0;
+  gap: 0.5rem;
+}
+
+.wv-lib__card-year {
+  font-size: 0.65rem;
+  color: var(--ion-color-medium);
+  white-space: nowrap;
+}
+
+.wv-lib__card-units {
+  font-size: 0.62rem;
+  color: var(--ion-color-medium);
+  white-space: nowrap;
+}
+
+.wv-lib__arrow {
+  color: var(--ion-color-primary);
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+// ─── Badges ──────────────────────────────────────────────────────────────────
+.wv-lib__badge,
+.wv-lib__pill {
+  display: inline-block;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.45rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  background: var(--ion-color-light-shade);
+  color: var(--ion-color-medium);
+  border: 1px solid var(--ion-color-light-shade);
+}
+
+.wv-lib__badge[data-color='gold'] {
+  background: rgba(var(--ion-color-warning-rgb, 255, 196, 9), 0.12);
+  color: var(--ion-color-warning-shade, #c4a200);
+  border-color: rgba(var(--ion-color-warning-rgb, 255, 196, 9), 0.35);
+}
+
+.wv-lib__badge[data-color='blue'] {
+  background: rgba(var(--ion-color-primary-rgb), 0.1);
+  color: var(--ion-color-primary);
+  border-color: rgba(var(--ion-color-primary-rgb), 0.3);
+}
+
+.wv-lib__badge[data-color='purple'] {
+  background: rgba(140, 92, 200, 0.1);
+  color: #9c6ecf;
+  border-color: rgba(140, 92, 200, 0.3);
+}
+
+.wv-lib__badge[data-color='ember'] {
+  background: rgba(196, 75, 42, 0.1);
+  color: #c4502a;
+  border-color: rgba(196, 75, 42, 0.3);
+}
+
+.wv-lib__badge[data-color='sage'] {
+  background: rgba(78, 140, 97, 0.1);
+  color: #4e8c61;
+  border-color: rgba(78, 140, 97, 0.3);
+}
+
+.wv-lib__badge[data-color='amber'] {
+  background: rgba(212, 145, 42, 0.1);
+  color: #d4912a;
+  border-color: rgba(212, 145, 42, 0.3);
+}

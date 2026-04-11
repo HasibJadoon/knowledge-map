@@ -1,0 +1,124 @@
+.wv-brainstorm {
+  &__center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 4rem 1.5rem;
+  }
+
+  &__loading-text {
+    font-size: 0.875rem;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  &__empty-glyph {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.4;
+  }
+
+  &__empty-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    color: var(--ion-color-dark);
+  }
+
+  &__empty-desc {
+    font-size: 0.875rem;
+    color: var(--ion-color-medium);
+    margin: 0 0 1rem;
+    line-height: 1.5;
+  }
+
+  &__list {
+    margin-top: 0.5rem;
+  }
+
+  &__form {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  &__form-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 1rem;
+    padding: 0 0.25rem;
+    color: var(--ion-color-dark);
+  }
+
+  &__form-list {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+
+  &__form-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    padding: 0 0.25rem;
+  }
+
+  &__detail {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  &__detail-header {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--ion-color-light-shade);
+  }
+
+  &__detail-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: var(--ion-color-dark);
+  }
+
+  &__detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__detail-date {
+    font-size: 0.8rem;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+
+  &__detail-body {
+    margin-top: 0.75rem;
+  }
+
+  &__content {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--ion-color-dark);
+    white-space: pre-wrap;
+    margin: 0;
+  }
+
+  &__no-content {
+    font-size: 0.875rem;
+    color: var(--ion-color-medium);
+    font-style: italic;
+    margin: 0;
+  }
+}

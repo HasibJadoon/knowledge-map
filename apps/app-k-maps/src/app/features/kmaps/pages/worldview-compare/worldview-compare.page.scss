@@ -1,0 +1,108 @@
+.wv-compare {
+  &__center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 4rem 1.5rem;
+  }
+
+  &__loading-text {
+    font-size: 0.875rem;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  &__empty-glyph {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.4;
+  }
+
+  &__empty-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: var(--ion-color-dark);
+  }
+
+  &__empty-desc {
+    font-size: 0.875rem;
+    color: var(--ion-color-medium);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  &__list {
+    margin-top: 0.5rem;
+  }
+
+  &__item {
+    --padding-start: 1rem;
+  }
+
+  &__detail {
+    padding-bottom: 2rem;
+  }
+
+  &__tab-bar {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--ion-color-light-shade);
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__tab-btn {
+    flex-shrink: 0;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    border: 1px solid var(--ion-color-light-shade);
+    background: transparent;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ion-color-medium);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &--active {
+      background: var(--ion-color-primary);
+      border-color: var(--ion-color-primary);
+      color: var(--ion-color-primary-contrast);
+    }
+  }
+
+  &__rows {
+    margin-top: 0;
+  }
+
+  &__row-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ion-color-medium);
+    margin-bottom: 0.25rem;
+  }
+
+  &__row-content {
+    font-size: 0.9rem;
+    color: var(--ion-color-dark);
+    line-height: 1.5;
+  }
+}

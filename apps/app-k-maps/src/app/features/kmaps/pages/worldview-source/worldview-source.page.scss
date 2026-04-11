@@ -1,0 +1,290 @@
+.wv-source {
+  --background: var(--ion-background-color);
+}
+
+// ── Skeletons ─────────────────────────────────────────────────────────────────
+.wv-source__skel-hero {
+  height: 160px;
+  margin: 1rem;
+  border-radius: 16px;
+  background: var(--ion-color-light);
+  animation: src-pulse 1.4s ease-in-out infinite;
+}
+
+.wv-source__skel-list {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.wv-source__skel-row {
+  height: 72px;
+  border-radius: 12px;
+  background: var(--ion-color-light);
+  animation: src-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes src-pulse {
+  0%, 100% { opacity: 0.45; }
+  50%       { opacity: 0.85; }
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.wv-source__empty {
+  padding: 3.5rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ion-color-medium);
+  font-size: 0.875rem;
+}
+
+.wv-source__empty-glyph {
+  font-size: 2rem;
+  color: var(--ion-color-primary);
+  opacity: 0.22;
+}
+
+// ── Hero / source info card ──────────────────────────────────────────────────
+.wv-source__hero {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem 1rem 1.1rem;
+  border-bottom: 1px solid var(--ion-color-light-shade);
+}
+
+.wv-source__cover {
+  width: 64px;
+  height: 80px;
+  min-width: 64px;
+  border-radius: 10px;
+  background: rgba(var(--ion-color-primary-rgb), 0.08);
+  border: 1px solid var(--ion-color-light-shade);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+
+.wv-source__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.wv-source__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: 0.2rem;
+}
+
+.wv-source__badge,
+.wv-source__pill {
+  display: inline-block;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.45rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  background: var(--ion-color-light-shade);
+  color: var(--ion-color-medium);
+  border: 1px solid var(--ion-color-light-shade);
+}
+
+.wv-source__badge[data-color='gold'] {
+  background: rgba(var(--ion-color-warning-rgb, 255, 196, 9), 0.12);
+  color: var(--ion-color-warning-shade, #c4a200);
+  border-color: rgba(var(--ion-color-warning-rgb, 255, 196, 9), 0.35);
+}
+.wv-source__badge[data-color='blue'] {
+  background: rgba(var(--ion-color-primary-rgb), 0.1);
+  color: var(--ion-color-primary);
+  border-color: rgba(var(--ion-color-primary-rgb), 0.3);
+}
+.wv-source__badge[data-color='purple'] {
+  background: rgba(140, 92, 200, 0.1); color: #9c6ecf;
+  border-color: rgba(140, 92, 200, 0.3);
+}
+.wv-source__badge[data-color='ember'] {
+  background: rgba(196, 75, 42, 0.1); color: #c4502a;
+  border-color: rgba(196, 75, 42, 0.3);
+}
+.wv-source__badge[data-color='sage'] {
+  background: rgba(78, 140, 97, 0.1); color: #4e8c61;
+  border-color: rgba(78, 140, 97, 0.3);
+}
+
+.wv-source__title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--ion-color-dark);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.wv-source__subtitle {
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+  font-style: italic;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.wv-source__creator {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  margin: 0.1rem 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wv-source__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.15rem;
+}
+
+.wv-source__meta-item {
+  font-size: 0.7rem;
+  color: var(--ion-color-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wv-source__meta-sep {
+  font-size: 0.7rem;
+  color: var(--ion-color-light-shade);
+}
+
+// ── TOC header ────────────────────────────────────────────────────────────────
+.wv-source__toc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem 0.5rem;
+}
+
+.wv-source__toc-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ion-color-medium);
+}
+
+.wv-source__toc-count {
+  font-size: 0.65rem;
+  color: var(--ion-color-medium);
+  background: var(--ion-color-light);
+  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 20px;
+  padding: 0.05rem 0.5rem;
+}
+
+// ── Chapter list ──────────────────────────────────────────────────────────────
+.wv-source__chapters {
+  padding: 0 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.wv-source__chapter {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  width: 100%;
+  background: var(--ion-card-background, var(--ion-color-light));
+  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 14px;
+  padding: 0.9rem 0.85rem 0.9rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  color: inherit;
+
+  &:active {
+    background: var(--ion-color-light-shade);
+    border-color: var(--ion-color-primary-shade);
+  }
+}
+
+.wv-source__chapter-num {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  background: rgba(var(--ion-color-primary-rgb), 0.09);
+  color: var(--ion-color-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+}
+
+.wv-source__chapter-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.wv-source__chapter-type {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ion-color-primary);
+  opacity: 0.8;
+}
+
+.wv-source__chapter-title {
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: var(--ion-color-dark);
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.wv-source__chapter-summary {
+  font-size: 0.74rem;
+  color: var(--ion-color-medium);
+  line-height: 1.5;
+  margin: 0.15rem 0 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.wv-source__chapter-arrow {
+  color: var(--ion-color-medium);
+  font-size: 1rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}

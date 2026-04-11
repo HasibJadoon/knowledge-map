@@ -7,7 +7,8 @@ export const KMAPS_ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'library',
+    loadComponent: () =>
+      import('./pages/worldview-home/worldview-home.page').then((m) => m.WorldviewHomePage),
   },
   {
     // Legacy desktop-style deep link.
@@ -18,7 +19,17 @@ export const KMAPS_ROUTES: Routes = [
   {
     path: 'library',
     loadComponent: () =>
-      import('./kmaps-library/pages/library-page/library-page').then((m) => m.LibraryPage),
+      import('./pages/worldview-library/worldview-library.page').then((m) => m.WorldviewLibraryPage),
+  },
+  {
+    path: 'compare',
+    loadComponent: () =>
+      import('./pages/worldview-compare/worldview-compare.page').then((m) => m.WorldviewComparePage),
+  },
+  {
+    path: 'brainstorm',
+    loadComponent: () =>
+      import('./pages/worldview-brainstorm/worldview-brainstorm.page').then((m) => m.WorldviewBrainstormPage),
   },
   {
     path: 'source/:sourceId',
@@ -53,7 +64,7 @@ export const KMAPS_ROUTES: Routes = [
   {
     path: 'sources/:sourceId',
     loadComponent: () =>
-      import('./kmaps-sources/pages/source-detail-page/source-detail-page').then((m) => m.SourceDetailPage),
+      import('./pages/worldview-source/worldview-source.page').then((m) => m.WorldviewSourcePage),
   },
   {
     path: 'sources/:sourceId/content',

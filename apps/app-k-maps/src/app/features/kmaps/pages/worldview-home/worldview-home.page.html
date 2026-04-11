@@ -1,0 +1,48 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Worldview</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" routerLink="/dashboard" routerDirection="root" aria-label="Dashboard">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="wv-home">
+
+  <!-- Hero -->
+  <div class="wv-home__hero">
+    <p class="wv-home__eyebrow">Knowledge Research Engine</p>
+    <h1 class="wv-home__title">Worldview</h1>
+    <p class="wv-home__subtitle">Sources · Comparisons · Research</p>
+    <div class="wv-home__rule"></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="wv-home__stats">
+    @for (stat of stats(); track stat.key) {
+      <div class="wv-home__stat">
+        <span class="wv-home__stat-value">{{ stat.value }}</span>
+        <span class="wv-home__stat-label">{{ stat.label }}</span>
+      </div>
+    }
+  </div>
+
+  <!-- Feature cards -->
+  <div class="wv-home__cards">
+    @for (card of cards; track card.route) {
+      <a class="wv-home__card" [routerLink]="[card.route]">
+        <div class="wv-home__card-tag">{{ card.tag }}</div>
+        <div class="wv-home__card-glyph">{{ card.glyph }}</div>
+        <h2 class="wv-home__card-title">{{ card.title }}</h2>
+        <p class="wv-home__card-desc">{{ card.desc }}</p>
+        <div class="wv-home__card-arrow">→</div>
+      </a>
+    }
+  </div>
+
+</ion-content>

@@ -4,6 +4,7 @@ import {
   calendarOutline,
   chatbubblesOutline,
   documentTextOutline,
+  flashOutline,
   gitCompareOutline,
   globeOutline,
   leafOutline,
@@ -62,11 +63,13 @@ export const DASHBOARD_MENU_SECTIONS: ReadonlyArray<DashboardMenuSection> = [
   {
     key: 'worldview',
     title: 'Worldview',
-    subtitle: 'Reading Workflow',
+    subtitle: 'Sources · Comparisons · Research',
     icon: globeOutline,
     tone: 'mint',
     items: [
-      { title: 'Library', subtitle: 'K-Maps', icon: globeOutline, route: ['/worldview', 'library'] },
+      { title: 'Library', subtitle: 'Worldview', icon: libraryOutline, route: ['/worldview', 'library'] },
+      { title: 'Comparison', subtitle: 'Worldview', icon: gitCompareOutline, route: ['/worldview', 'compare'] },
+      { title: 'Brainstorm', subtitle: 'Worldview', icon: flashOutline, route: ['/worldview', 'brainstorm'] },
     ],
   },
   {

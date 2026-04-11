@@ -1,0 +1,106 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      @if (detail()) {
+        <ion-button fill="clear" (click)="exitDetail()">
+          <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      } @else {
+        <ion-back-button defaultHref="/dashboard"></ion-back-button>
+      }
+    </ion-buttons>
+    <ion-title>{{ detail() ? (detail()!.comparison.title || 'Comparison') : 'Comparison' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" routerLink="/dashboard" routerDirection="root" aria-label="Dashboard">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="wv-compare">
+
+  <!-- Loading list -->
+  @if (loading()) {
+    <div class="wv-compare__center">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p class="wv-compare__loading-text">Loading comparisons…</p>
+    </div>
+
+  <!-- List view -->
+  } @else if (!detail()) {
+    @if (comparisons().length === 0) {
+      <div class="wv-compare__empty">
+        <div class="wv-compare__empty-glyph">↔</div>
+        <h2 class="wv-compare__empty-title">No Comparisons Yet</h2>
+        <p class="wv-compare__empty-desc">Create a parallel scripture comparison on the desktop to view it here.</p>
+      </div>
+    } @else {
+      <ion-list lines="full" class="wv-compare__list">
+        @for (comp of comparisons(); track comp.id) {
+          <ion-item button detail="false" class="wv-compare__item" (click)="openDetail(comp)">
+            <ion-icon name="git-compare-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <h2>{{ comp.title || 'Untitled Comparison' }}</h2>
+              @if (comp.tab_count !== undefined) {
+                <p>{{ comp.tab_count }} tab{{ comp.tab_count === 1 ? '' : 's' }}
+                  @if (comp.updated_at) { · {{ formatDate(comp.updated_at) }} }
+                </p>
+              }
+            </ion-label>
+            @if (comp.status) {
+              <ion-badge slot="end" [color]="comp.status === 'draft' ? 'medium' : 'primary'">{{ comp.status }}</ion-badge>
+            }
+            <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
+          </ion-item>
+        }
+      </ion-list>
+    }
+
+  <!-- Detail view -->
+  } @else if (detailLoading()) {
+    <div class="wv-compare__center">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p class="wv-compare__loading-text">Loading comparison…</p>
+    </div>
+
+  } @else {
+    <div class="wv-compare__detail">
+      @if (detail()!.tabs.length === 0) {
+        <div class="wv-compare__empty">
+          <p>No tabs in this comparison yet.</p>
+        </div>
+      } @else {
+        <!-- Tab bar -->
+        <div class="wv-compare__tab-bar">
+          @for (tab of detail()!.tabs; track tab.id) {
+            <button
+              class="wv-compare__tab-btn"
+              [class.wv-compare__tab-btn--active]="activeTab()?.id === tab.id"
+              (click)="setActiveTab(tab)"
+            >
+              {{ tab.label || ('Tab ' + ($index + 1)) }}
+            </button>
+          }
+        </div>
+
+        <!-- Active tab rows -->
+        @if (activeTab()) {
+          <ion-list lines="full" class="wv-compare__rows">
+            @for (row of detail()!.rows; track row.id) {
+              <ion-item class="wv-compare__row">
+                <ion-label class="ion-text-wrap">
+                  @if (row.label) {
+                    <p class="wv-compare__row-label">{{ row.label }}</p>
+                  }
+                  <p class="wv-compare__row-content">{{ getCellContent(activeTab()!.id, row.id) || '—' }}</p>
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        }
+      }
+    </div>
+  }
+
+</ion-content>
