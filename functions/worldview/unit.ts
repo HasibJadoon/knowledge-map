@@ -27,7 +27,11 @@ type NormalizedUnitInput = {
   summary: string | null;
   locatorLabel: string | null;
   readingMinutes: number | null;
+  readingSchema: string | null;
+  hasReadingSchema: boolean;
   readingBody: string[];
+  readingBlocks: Record<string, unknown>[] | null;
+  hasReadingBlocks: boolean;
 };
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
@@ -305,6 +309,12 @@ function normalizeUnitInput(value: unknown): NormalizedUnitInput | null {
   const unitType = parseUnitType(row?.['unitType'] ?? row?.['unit_type']);
   const title = readTrimmed(row?.['title']);
   const readingBody = normalizeReadingBody(row?.['readingBody'] ?? row?.['reading_body']);
+  const hasReadingSchema = Object.prototype.hasOwnProperty.call(row ?? {}, 'readingSchema')
+    || Object.prototype.hasOwnProperty.call(row ?? {}, 'reading_schema');
+  const readingSchema = readOptionalString(row?.['readingSchema'] ?? row?.['reading_schema']);
+  const hasReadingBlocks = Object.prototype.hasOwnProperty.call(row ?? {}, 'readingBlocks')
+    || Object.prototype.hasOwnProperty.call(row ?? {}, 'reading_blocks');
+  const readingBlocks = normalizeReadingBlocks(row?.['readingBlocks'] ?? row?.['reading_blocks']);
 
   if (!sourceId || !unitType || !title) {
     return null;
@@ -322,7 +332,11 @@ function normalizeUnitInput(value: unknown): NormalizedUnitInput | null {
     summary: readOptionalString(row?.['summary']),
     locatorLabel: readOptionalString(row?.['locatorLabel'] ?? row?.['locator_label']),
     readingMinutes: Math.max(0, readInteger(row?.['readingMinutes'] ?? row?.['reading_minutes']) ?? estimateReadingMinutes(readingBody)),
+    readingSchema,
+    hasReadingSchema,
     readingBody,
+    readingBlocks,
+    hasReadingBlocks,
   };
 }
 
@@ -337,11 +351,20 @@ function buildUnitJson(unit: NormalizedUnitInput, existingJson: string | null): 
     delete unitJson['locator_label'];
   }
 
-  if (unit.readingMinutes) {
+  if (unit.readingMinutes != null) {
     unitJson['readingMinutes'] = unit.readingMinutes;
   } else {
     delete unitJson['readingMinutes'];
     delete unitJson['reading_minutes'];
+  }
+
+  if (unit.hasReadingSchema) {
+    if (unit.readingSchema) {
+      unitJson['readingSchema'] = unit.readingSchema;
+    } else {
+      delete unitJson['readingSchema'];
+      delete unitJson['reading_schema'];
+    }
   }
 
   if (unit.readingBody.length) {
@@ -349,6 +372,15 @@ function buildUnitJson(unit: NormalizedUnitInput, existingJson: string | null): 
   } else {
     delete unitJson['readingBody'];
     delete unitJson['reading_body'];
+  }
+
+  if (unit.hasReadingBlocks) {
+    if (unit.readingBlocks?.length) {
+      unitJson['readingBlocks'] = unit.readingBlocks;
+    } else {
+      delete unitJson['readingBlocks'];
+      delete unitJson['reading_blocks'];
+    }
   }
 
   return Object.keys(unitJson).length ? JSON.stringify(unitJson) : null;
@@ -387,6 +419,18 @@ function estimateReadingMinutes(readingBody: string[]): number {
   }
 
   return Math.max(1, Math.round(wordCount / 180));
+}
+
+function normalizeReadingBlocks(value: unknown): Record<string, unknown>[] | null {
+  if (!Array.isArray(value)) {
+    return null;
+  }
+
+  const blocks = value.filter(
+    (entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry),
+  );
+
+  return blocks.length ? blocks : null;
 }
 
 function parseUnitType(value: unknown): UnitType | null {

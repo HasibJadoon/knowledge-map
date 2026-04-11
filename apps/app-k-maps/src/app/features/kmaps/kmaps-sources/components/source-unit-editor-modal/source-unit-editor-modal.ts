@@ -102,6 +102,8 @@ export class SourceUnitEditorModalComponent {
       anchorText: normalizeOptional(this.form.controls.anchorText.value),
       summary: normalizeOptional(this.form.controls.summary.value),
       readingBody: splitReadingBody(this.form.controls.readingBodyText.value),
+      readingSchema: this.unit()?.readingSchema ?? null,
+      readingBlocks: this.unit()?.readingBlocks ?? null,
       locatorLabel: composeLocatorLabel(
         normalizeOptional(this.form.controls.startRef.value),
         normalizeOptional(this.form.controls.endRef.value),

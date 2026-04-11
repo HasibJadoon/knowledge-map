@@ -41,20 +41,22 @@ const routes: Routes = [
     loadChildren: () => import('./features/arabic/memory/arabic-memory.module').then(m => m.ArabicMemoryPageModule),
     canActivate: [AuthGuard]
   },
+  // ── Worldview (mobile-first Ionic module) ────────────────────────────────────
   {
+    // Legacy alias — redirect into the new module's library tab
     path: 'worldview/lessons',
-    loadChildren: () => import('./features/kmaps/kmaps.routes').then((m) => m.KMAPS_ROUTES),
-    canActivate: [AuthGuard]
+    redirectTo: 'worldview/library',
+    pathMatch: 'full',
   },
   {
     path: 'worldview',
     loadChildren: () => import('./features/kmaps/kmaps.routes').then((m) => m.KMAPS_ROUTES),
-    canActivate: [AuthGuard]
   },
   {
+    // Short alias kept for backwards compatibility
     path: 'wv',
-    loadChildren: () => import('./features/kmaps/kmaps.routes').then((m) => m.KMAPS_ROUTES),
-    canActivate: [AuthGuard]
+    redirectTo: 'worldview',
+    pathMatch: 'prefix',
   },
   {
     path: 'crossref',

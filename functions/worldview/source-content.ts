@@ -341,6 +341,7 @@ function normalizeSource(row: Row): Row {
 
 function normalizeUnit(row: Row): Row {
   const unitJson = parseJsonObject(row['unit_json']);
+  const locatorLabel = readNullableText(unitJson['locatorLabel']) ?? readNullableText(unitJson['locator_label']);
   return {
     id: readText(row['id']),
     canonical_input: readText(row['canonical_input']),
@@ -353,7 +354,7 @@ function normalizeUnit(row: Row): Row {
     end_ref: readNullableText(row['end_ref']),
     anchor_text: readNullableText(row['anchor_text']),
     summary: readNullableText(row['summary']),
-    locator_label: readNullableText(unitJson['locator_label']),
+    locatorLabel,
     unit_json: unitJson,
     meta_json: parseJsonObject(row['meta_json']),
     created_at: readText(row['created_at']),

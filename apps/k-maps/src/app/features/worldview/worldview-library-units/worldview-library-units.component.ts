@@ -60,8 +60,11 @@ interface WvUnitDetail extends WvUnit {
   source_title?: string | null;
   creator?: string | null;
   source_type?: string | null;
-  reading_body?: string | string[] | null;
-  reading_blocks?: WvReadingBlock[] | null;
+  locatorLabel?: string | null;
+  readingMinutes?: number | null;
+  readingSchema?: string | null;
+  readingBody?: string[] | null;
+  readingBlocks?: WvReadingBlock[] | null;
   children: WvUnit[];
 }
 
@@ -238,15 +241,15 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   readonly displayBody = computed(() => {
     const detail = this.selectedDetail();
     const unit = this.selectedTreeUnit() ?? this.selectedUnit();
-    return detail?.reading_body ?? unit?.body_preview ?? null;
+    return detail?.readingBody ?? unit?.body_preview ?? null;
   });
 
   readonly summaryBlocks = computed(() => this.buildPassageBlocks(this.selectedSummary()));
   readonly derivedPassageBlocks = computed(() => this.buildHighlightPassageBlocks(this.highlights()));
   readonly passageBlocks = computed(() => {
     const detail = this.selectedDetail();
-    if (detail?.reading_blocks?.length) {
-      return this.normalizeStructuredBlocks(detail.reading_blocks);
+    if (detail?.readingBlocks?.length) {
+      return this.normalizeStructuredBlocks(detail.readingBlocks);
     }
     const directBlocks = this.buildPassageBlocks(this.displayBody());
     if (directBlocks.length) return directBlocks;
@@ -365,8 +368,11 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
       next: (res) => {
         if (res?.ok && res.result) {
           const detail = this.normalizeUnit(res.result) as WvUnitDetail;
-          detail.reading_body = res.result.reading_body ?? null;
-          detail.reading_blocks = Array.isArray(res.result.reading_blocks) ? res.result.reading_blocks : null;
+          detail.locatorLabel = res.result.locatorLabel ?? null;
+          detail.readingMinutes = res.result.readingMinutes ?? null;
+          detail.readingSchema = res.result.readingSchema ?? null;
+          detail.readingBody = this.normalizeReaderBodyPayload(res.result.readingBody ?? null);
+          detail.readingBlocks = this.normalizeReaderBlocksPayload(res.result.readingBlocks ?? null);
           detail.children = (res.result.children ?? []).map((child: any) => this.normalizeUnit(child));
 
           this.detailCache.update((cache) => ({ ...cache, [unit.id]: detail }));
@@ -764,6 +770,26 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
       meta: unit.meta ?? null,
       children: unit.children ?? [],
     };
+  }
+
+  private normalizeReaderBodyPayload(value: unknown): string[] | null {
+    if (!Array.isArray(value)) {
+      return null;
+    }
+
+    return value
+      .map((entry) => (typeof entry === 'string' ? entry.trim() : ''))
+      .filter((entry): entry is string => !!entry);
+  }
+
+  private normalizeReaderBlocksPayload(value: unknown): WvReadingBlock[] | null {
+    if (!Array.isArray(value)) {
+      return null;
+    }
+
+    return value.filter(
+      (entry): entry is WvReadingBlock => !!entry && typeof entry === 'object' && !Array.isArray(entry),
+    );
   }
 
   private async loadReaderData(unitId: string): Promise<void> {

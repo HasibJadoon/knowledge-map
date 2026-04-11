@@ -184,6 +184,8 @@ export type WorldviewSourceUnitDraftInput = {
   summary?: string | null;
   readingBody?: string[];
   readingMinutes?: number | null;
+  readingSchema?: string | null;
+  readingBlocks?: Record<string, unknown>[] | null;
   locatorLabel?: string | null;
 };
 
@@ -199,6 +201,8 @@ export type WorldviewSourceUnitInput = {
   summary?: string | null;
   readingBody?: string[];
   readingMinutes?: number | null;
+  readingSchema?: string | null;
+  readingBlocks?: Record<string, unknown>[] | null;
   locatorLabel?: string | null;
 };
 
@@ -691,6 +695,10 @@ function mapUnit(value: unknown): KmapsSourceUnit | null {
   const readingMinutes = readInteger(unitJson?.['readingMinutes'])
     ?? readInteger(unitJson?.['reading_minutes'])
     ?? estimateReadingMinutes(readingBody);
+  const readingSchema = readNullableString(unitJson?.['readingSchema'])
+    ?? readNullableString(unitJson?.['reading_schema']);
+  const readingBlocks = readRecordArray(unitJson?.['readingBlocks'])
+    ?? readRecordArray(unitJson?.['reading_blocks']);
   const locatorLabel = readNullableString(unitJson?.['locatorLabel'])
     ?? readNullableString(unitJson?.['locator_label'])
     ?? readNullableString(metaJson?.['locatorLabel'])
@@ -710,7 +718,9 @@ function mapUnit(value: unknown): KmapsSourceUnit | null {
     anchorText: readNullableString(row?.['anchor_text']),
     summary: readNullableString(row?.['summary']),
     readingMinutes,
+    readingSchema,
     readingBody,
+    readingBlocks,
     unitJson,
     metaJson,
     createdAt: readTrimmed(row?.['created_at']) ?? new Date().toISOString(),
@@ -963,6 +973,18 @@ function readStringArray(value: unknown): string[] | null {
   return value
     .map((item) => (typeof item === 'string' ? item.trim() : ''))
     .filter((item) => item.length > 0);
+}
+
+function readRecordArray(value: unknown): Record<string, unknown>[] | null {
+  if (!Array.isArray(value)) {
+    return null;
+  }
+
+  const items = value.filter(
+    (entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry),
+  );
+
+  return items.length ? items : null;
 }
 
 function mergeNotes(...groups: KmapsNote[][]): KmapsNote[] {

@@ -13,6 +13,41 @@ function safeJson(s: string | null) {
   try { return JSON.parse(s); } catch { return null; }
 }
 
+function readOptionalString(value: unknown): string | null {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  return trimmed || null;
+}
+
+function readInteger(value: unknown): number | null {
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    return Math.trunc(value);
+  }
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) return null;
+    const parsed = Number(trimmed);
+    if (Number.isFinite(parsed)) {
+      return Math.trunc(parsed);
+    }
+  }
+  return null;
+}
+
+function readStringArray(value: unknown): string[] | null {
+  if (!Array.isArray(value)) return null;
+  return value
+    .map((entry) => readOptionalString(entry))
+    .filter((entry): entry is string => entry != null);
+}
+
+function readObjectArray(value: unknown): Record<string, unknown>[] | null {
+  if (!Array.isArray(value)) return null;
+  return value.filter(
+    (entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry),
+  );
+}
+
 // GET /worldview/units/:id  — single unit with full reading body + child units
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
   try {
@@ -41,12 +76,28 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       return new Response(JSON.stringify({ ok: false, error: 'Unit not found' }), { status: 404, headers: h });
     }
 
-    const unitJson = safeJson(unitRow.unit_json);
+    const unitJson = safeJson(unitRow.unit_json) as Record<string, unknown> | null;
+    const metaJson = safeJson(unitRow.meta_json) as Record<string, unknown> | null;
+    const locatorLabel =
+      readOptionalString(unitJson?.['locatorLabel']) ||
+      readOptionalString(unitJson?.['locator_label']) ||
+      readOptionalString(metaJson?.['locatorLabel']) ||
+      readOptionalString(metaJson?.['locator_label']);
+    const readingMinutes = readInteger(unitJson?.['readingMinutes']) ?? readInteger(unitJson?.['reading_minutes']);
+    const readingSchema =
+      readOptionalString(unitJson?.['readingSchema']) || readOptionalString(unitJson?.['reading_schema']);
+    const readingBody = readStringArray(unitJson?.['readingBody']) ?? readStringArray(unitJson?.['reading_body']);
+    const readingBlocks =
+      readObjectArray(unitJson?.['readingBlocks']) ?? readObjectArray(unitJson?.['reading_blocks']);
     const result = {
       ...unitRow,
-      reading_body: unitJson?.reading_body ?? null,
+      locatorLabel,
+      readingMinutes,
+      readingSchema,
+      readingBody,
+      readingBlocks,
       unit_json: undefined,
-      meta: safeJson(unitRow.meta_json),
+      meta: metaJson,
       meta_json: undefined,
       children: childrenRes.results ?? [],
     };

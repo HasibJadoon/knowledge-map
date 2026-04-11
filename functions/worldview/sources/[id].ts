@@ -30,7 +30,12 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       ctx.env.DB.prepare(
         `SELECT id, source_id, parent_unit_id, unit_type, title,
                 order_index, start_ref, end_ref, anchor_text, summary,
-                SUBSTR(unit_json->>'$.reading_body', 1, 200) AS body_preview,
+                COALESCE(
+                  json_extract(unit_json, '$.readingBody[0]'),
+                  json_extract(unit_json, '$.reading_body[0]'),
+                  summary,
+                  anchor_text
+                ) AS body_preview,
                 meta_json
          FROM wv_source_units
          WHERE source_id = ?1

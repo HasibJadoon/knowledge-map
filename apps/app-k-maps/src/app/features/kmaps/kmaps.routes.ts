@@ -10,6 +10,12 @@ export const KMAPS_ROUTES: Routes = [
     redirectTo: 'library',
   },
   {
+    // Legacy desktop-style deep link.
+    path: 'library/:sourceId',
+    redirectTo: 'sources/:sourceId',
+    pathMatch: 'full',
+  },
+  {
     path: 'library',
     loadComponent: () =>
       import('./kmaps-library/pages/library-page/library-page').then((m) => m.LibraryPage),

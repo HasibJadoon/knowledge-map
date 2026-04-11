@@ -183,7 +183,9 @@ export interface KmapsSourceUnit {
   anchorText: string | null;
   summary: string | null;
   readingMinutes: number;
+  readingSchema?: string | null;
   readingBody: string[];
+  readingBlocks?: Record<string, unknown>[] | null;
   unitJson: Record<string, unknown> | null;
   metaJson: Record<string, unknown> | null;
   createdAt: string;
