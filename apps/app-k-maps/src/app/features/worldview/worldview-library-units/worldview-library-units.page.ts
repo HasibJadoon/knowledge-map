@@ -278,6 +278,23 @@ export class WorldviewLibraryUnitsPage implements OnInit {
     return unit.summary?.trim() || this.unitRef(unit) || 'Open this section in the reader.';
   }
 
+  storyKicker(): string {
+    const unit = this.selectedUnit();
+    const chapter = this.selectedChapter();
+
+    if (unit && chapter && chapter.id !== unit.id) {
+      return `${this.unitTypeLabel(chapter.unit_type)} · ${this.unitTitle(chapter)}`;
+    }
+
+    return this.sourcePeopleLine() || this.source()?.subtitle || 'Worldview Source';
+  }
+
+  tocMeta(unit: WvUnit): string {
+    return [this.unitTypeLabel(unit.unit_type), this.unitRef(unit)]
+      .filter(Boolean)
+      .join(' · ');
+  }
+
   readingMinutes(unit: WvUnit | null | undefined): string {
     const text = [unit?.summary, unit?.body_preview, unit?.anchor_text].filter(Boolean).join(' ');
     const words = text.trim().split(/\s+/).filter(Boolean).length;

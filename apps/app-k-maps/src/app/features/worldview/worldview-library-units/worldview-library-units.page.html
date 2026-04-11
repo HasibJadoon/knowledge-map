@@ -1,4 +1,4 @@
-<ion-header translucent="true">
+<ion-header translucent="true" class="wv-reader-header">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/worldview/library" text="Library"></ion-back-button>
@@ -14,140 +14,198 @@
 
 <ion-content [fullscreen]="true" class="wv-reader">
   @if (loading()) {
-    <div class="wv-reader__skeleton-card wv-reader__skeleton-card--hero"></div>
-    <div class="wv-reader__skeleton-stack">
-      @for (item of skeletons; track item) {
-        <div class="wv-reader__skeleton-card"></div>
-      }
+    <div class="reader-page">
+      <div class="reader-hero reader-hero--skeleton"></div>
+      <div class="reader-shell reader-shell--loading">
+        <div class="left-panel left-panel--skeleton">
+          <div class="skel-row"></div>
+          <div class="skel-row"></div>
+          <div class="skel-row"></div>
+          <div class="skel-row"></div>
+        </div>
+        <div class="right-panel right-panel--skeleton">
+          <div class="skel-text"></div>
+          <div class="skel-text skel-text--med"></div>
+          <div class="skel-text skel-text--short"></div>
+          <div class="skel-text"></div>
+        </div>
+      </div>
     </div>
   } @else if (!source()) {
-    <div class="wv-reader__empty">
-      <span class="wv-reader__empty-glyph">◎</span>
-      <p>Source not found.</p>
+    <div class="reader-page">
+      <div class="interact-empty">
+        <span class="interact-empty__glyph">◎</span>
+        <p>Source not found.</p>
+      </div>
     </div>
   } @else {
-    <section class="wv-reader__hero">
-      <div class="wv-reader__hero-mark">{{ typeIcon(source()!.source_type) }}</div>
-      <div class="wv-reader__hero-copy">
-        <div class="wv-reader__hero-badges">
-          <span class="wv-reader__badge" [attr.data-color]="typeColor(source()!.source_type)">
-            {{ typeLabel(source()!.source_type) }}
-          </span>
-          @if (source()!.language) {
-            <span class="wv-reader__pill">{{ source()!.language!.toUpperCase() }}</span>
+    <div class="reader-page" dir="ltr">
+      <section class="reader-hero">
+        <div class="reader-hero__mark">{{ typeIcon(source()!.source_type) }}</div>
+        <div class="reader-hero__copy">
+          <div class="reader-hero__eyebrow">Worldview Reader</div>
+          <h1 class="reader-hero__title">{{ source()!.title }}</h1>
+
+          @if (source()!.subtitle) {
+            <p class="reader-hero__subtitle">{{ source()!.subtitle }}</p>
           }
-          <span class="wv-reader__pill">{{ chapterCount() }} {{ chapterCount() === 1 ? 'unit' : 'units' }}</span>
-        </div>
 
-        <h1 class="wv-reader__hero-title">{{ source()!.title }}</h1>
-
-        @if (source()!.subtitle) {
-          <p class="wv-reader__hero-subtitle">{{ source()!.subtitle }}</p>
-        }
-
-        @if (sourcePeopleLine()) {
-          <p class="wv-reader__hero-people">{{ sourcePeopleLine() }}</p>
-        }
-
-        @if (sourceMetaLine()) {
-          <p class="wv-reader__hero-meta">{{ sourceMetaLine() }}</p>
-        }
-      </div>
-    </section>
-
-    @if (selectedUnit(); as unit) {
-      <section class="wv-reader__spotlight">
-        <div class="wv-reader__spotlight-head">
-          <div>
-            <div class="wv-reader__eyebrow">Now Reading</div>
-            <h2 class="wv-reader__spotlight-title">{{ unitTitle(unit) }}</h2>
-          </div>
-          <button class="wv-reader__resume" (click)="selectUnit(unit.id)">Resume</button>
-        </div>
-
-        <div class="wv-reader__spotlight-meta">
-          <span class="wv-reader__mini-badge">{{ unitTypeLabel(unit.unit_type) }}</span>
-          @if (unitRef(unit)) {
-            <span class="wv-reader__mini-badge">{{ unitRef(unit) }}</span>
+          @if (sourcePeopleLine()) {
+            <p class="reader-hero__people">{{ sourcePeopleLine() }}</p>
           }
-          <span class="wv-reader__mini-badge">{{ readingMinutes(unit) }}</span>
+
+          @if (sourceMetaLine()) {
+            <p class="reader-hero__meta">{{ sourceMetaLine() }}</p>
+          }
+
+          <div class="read-controls">
+            <span class="badge" [attr.data-color]="typeColor(source()!.source_type)">
+              {{ typeLabel(source()!.source_type) }}
+            </span>
+            @if (source()!.language) {
+              <span class="badge">{{ source()!.language!.toUpperCase() }}</span>
+            }
+            <span class="badge">{{ chapterCount() }} {{ chapterCount() === 1 ? 'Unit' : 'Units' }}</span>
+          </div>
         </div>
-
-        @if (summaryBlocks().length > 0) {
-          <div class="wv-reader__summary">
-            @for (block of summaryBlocks(); track block) {
-              <p>{{ block }}</p>
-            }
-          </div>
-        }
-
-        @if (readingBlocks().length > 0) {
-          <article class="wv-reader__article">
-            @for (block of readingBlocks(); track block) {
-              <p>{{ block }}</p>
-            }
-          </article>
-        } @else {
-          <div class="wv-reader__empty-inline">
-            No reading excerpt is available for this unit yet.
-          </div>
-        }
       </section>
 
-      @if (selectedChildren().length > 0) {
-        <section class="wv-reader__section">
-          <div class="wv-reader__section-head">
-            <span class="wv-reader__section-label">Sections</span>
-            <span class="wv-reader__section-count">{{ selectedChildren().length }}</span>
-          </div>
+      <div class="reader-shell">
+        <main class="right-panel">
+          @if (selectedUnit(); as unit) {
+            <div class="story-header">
+              <div class="story-kicker">{{ storyKicker() }}</div>
+              <div class="story-title">{{ unitTitle(unit) }}</div>
+              <div class="story-header__line" aria-hidden="true"></div>
+            </div>
 
-          <div class="wv-reader__child-list">
-            @for (child of selectedChildren(); track child.id) {
-              <button class="wv-reader__child-card" (click)="selectUnit(child.id)">
-                <div class="wv-reader__child-copy">
-                  <span class="wv-reader__child-type">{{ unitTypeLabel(child.unit_type) }}</span>
-                  <span class="wv-reader__child-title">{{ unitTitle(child) }}</span>
-                  <span class="wv-reader__child-summary">{{ childSummary(child) }}</span>
-                </div>
-                <span class="wv-reader__child-arrow">›</span>
-              </button>
-            }
-          </div>
-        </section>
-      }
-    }
-
-    <section class="wv-reader__section">
-      <div class="wv-reader__section-head">
-        <span class="wv-reader__section-label">Table of Contents</span>
-        <span class="wv-reader__section-count">{{ tocItems().length }}</span>
-      </div>
-
-      @if (tocItems().length === 0) {
-        <div class="wv-reader__empty-inline">No units available for this source.</div>
-      } @else {
-        <div class="wv-reader__toc">
-          @for (item of tocItems(); track item.unit.id) {
-            <button
-              class="wv-reader__toc-item"
-              [class.wv-reader__toc-item--active]="isActive(item.unit.id)"
-              [style.--wv-depth]="item.depth"
-              (click)="selectUnit(item.unit.id)"
-            >
-              <span class="wv-reader__toc-number">{{ item.numbering }}</span>
-              <span class="wv-reader__toc-copy">
-                <span class="wv-reader__toc-title">{{ unitTitle(item.unit) }}</span>
-                <span class="wv-reader__toc-meta">
-                  {{ unitTypeLabel(item.unit.unit_type) }}
-                  @if (unitRef(item.unit)) {
-                    <span>· {{ unitRef(item.unit) }}</span>
-                  }
-                </span>
+            <div class="read-controls read-controls--unit">
+              <span class="badge" [attr.data-color]="typeColor(source()?.source_type)">
+                {{ typeLabel(source()?.source_type) }}
               </span>
-            </button>
+              <span class="badge">{{ unitTypeLabel(unit.unit_type) }}</span>
+              @if (unitRef(unit)) {
+                <span class="badge">{{ unitRef(unit) }}</span>
+              }
+              <span class="badge">{{ readingMinutes(unit) }}</span>
+            </div>
+
+            @if (summaryBlocks().length > 0) {
+              <div class="story-summary-wrap">
+                @for (block of summaryBlocks(); track block) {
+                  <p class="story-summary">{{ block }}</p>
+                }
+              </div>
+            }
+
+            @if (readingBlocks().length > 0) {
+              <div class="story-passage story-passage--ltr">
+                @for (block of readingBlocks(); track block) {
+                  <p class="story-para">{{ block }}</p>
+                }
+              </div>
+            } @else {
+              <div class="empty-hint empty-hint--inline">
+                No reading excerpt is available for this {{ unitTypeLabel(unit.unit_type).toLowerCase() }} yet.
+              </div>
+            }
+
+            @if (selectedChildren().length > 0) {
+              <section class="reader-stack reader-stack--open">
+                <div class="reader-stack__head">
+                  <span class="reader-stack__label">Subsections</span>
+                  <span class="reader-stack__count">{{ selectedChildren().length }}</span>
+                </div>
+
+                <div class="reader-stack__body">
+                  @for (child of selectedChildren(); track child.id) {
+                    <button class="reader-card reader-card--section" (click)="selectUnit(child.id)">
+                      <div class="reader-card__top">
+                        <span class="reader-card__kind">{{ unitTypeLabel(child.unit_type) }}</span>
+                        @if (unitRef(child)) {
+                          <span class="reader-card__locator">{{ unitRef(child) }}</span>
+                        }
+                      </div>
+
+                      <div class="reader-card__title">{{ unitTitle(child) }}</div>
+                      <div class="reader-card__body">{{ childSummary(child) }}</div>
+                    </button>
+                  }
+                </div>
+              </section>
+            }
+
+            <section class="document-end" aria-label="End of document">
+              <div class="document-end__aura" aria-hidden="true">
+                <span class="document-end__ray document-end__ray--left"></span>
+                <span class="document-end__seal">
+                  <span class="document-end__seal-core">✦</span>
+                  <span class="document-end__seal-ring"></span>
+                </span>
+                <span class="document-end__ray document-end__ray--right"></span>
+              </div>
+
+              <div class="document-end__eyebrow">End of document</div>
+
+              <div class="document-end__meta">
+                @if (selectedChapter(); as chapter) {
+                  @if (chapter.id !== unit.id) {
+                    <span class="document-end__chip">
+                      {{ unitTypeLabel(chapter.unit_type) }} · {{ unitTitle(chapter) }}
+                    </span>
+                  }
+                }
+
+                @if (unitRef(unit)) {
+                  <span class="document-end__chip">{{ unitRef(unit) }}</span>
+                }
+
+                @if (source()?.publication_year) {
+                  <span class="document-end__chip">{{ source()!.publication_year }}</span>
+                }
+
+                <span class="document-end__chip">{{ readingMinutes(unit) }}</span>
+              </div>
+            </section>
+          } @else {
+            <div class="interact-empty">
+              <span class="interact-empty__glyph">◎</span>
+              <p>Select a chapter or section from the table of contents.</p>
+            </div>
           }
-        </div>
-      }
-    </section>
+        </main>
+
+        <aside class="left-panel">
+          <div class="left-panel__head">
+            <span class="left-panel__label">Table of Contents</span>
+            <span class="count-badge">{{ tocItems().length }}</span>
+          </div>
+
+          @if (tocItems().length === 0) {
+            <div class="empty-hint">No units found for this source.</div>
+          } @else {
+            <div class="unit-scroll">
+              @for (item of tocItems(); track item.unit.id) {
+                <button
+                  class="toc-row"
+                  [class.toc-row--active]="isActive(item.unit.id)"
+                  [style.--toc-depth]="item.depth"
+                  (click)="selectUnit(item.unit.id)"
+                >
+                  <span class="toc-row__number">{{ item.numbering }}</span>
+                  <span class="toc-row__body">
+                    <span class="toc-row__eyebrow">{{ unitTypeLabel(item.unit.unit_type) }}</span>
+                    <span class="toc-row__title">{{ unitTitle(item.unit) }}</span>
+                    @if (tocMeta(item.unit)) {
+                      <span class="toc-row__meta">{{ tocMeta(item.unit) }}</span>
+                    }
+                  </span>
+                </button>
+              }
+            </div>
+          }
+        </aside>
+      </div>
+    </div>
   }
 </ion-content>
