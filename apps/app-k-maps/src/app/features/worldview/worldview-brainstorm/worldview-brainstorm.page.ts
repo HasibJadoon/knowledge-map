@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 interface BrainstormSession {
   id: number | string;

@@ -2,7 +2,7 @@ import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 interface WvSource {
   id: string;

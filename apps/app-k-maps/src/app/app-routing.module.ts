@@ -44,7 +44,7 @@ const routes: Routes = [
   // ── Worldview ────────────────────────────────────────────────────────────────
   {
     path: 'worldview',
-    loadChildren: () => import('./features/kmaps/kmaps.routes').then((m) => m.KMAPS_ROUTES),
+    loadChildren: () => import('./features/worldview/worldview.routes').then((m) => m.WORLDVIEW_ROUTES),
   },
   {
     // Short alias kept for backwards compatibility

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 interface WvSourceMeta {
   tradition?: string;

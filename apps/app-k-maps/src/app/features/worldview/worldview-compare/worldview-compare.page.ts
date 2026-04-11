@@ -2,7 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 interface WvComparison {
   id: number | string;

@@ -165,6 +165,51 @@ export class SourceUnitPage {
     await this.openUnitEditorModal({ event, unitId });
   }
 
+  editCurrentUnit(event?: Event): void {
+    void this.editUnit(this.unitId(), event);
+  }
+
+  heroLocator(): string {
+    const currentUnit = this.unit();
+    return currentUnit?.locatorLabel || composeLocatorLabel(currentUnit?.startRef ?? null, currentUnit?.endRef ?? null) || '';
+  }
+
+  sourceMetaLine(): string {
+    const source = this.source();
+    if (!source) {
+      return '';
+    }
+
+    return [source.creator, source.publisher, source.publicationYear ? String(source.publicationYear) : '']
+      .filter(Boolean)
+      .join(' · ');
+  }
+
+  childTitle(unit: KmapsSourceUnit): string {
+    return unit.title || unit.anchorText || 'Untitled section';
+  }
+
+  childSummary(unit: KmapsSourceUnit): string {
+    return unit.summary || unit.anchorText || 'Open this section to continue reading in the workspace.';
+  }
+
+  childActionLabel(unit: KmapsSourceUnit): string {
+    return this.hasChildUnits(unit.id) ? 'Open section' : 'Read now';
+  }
+
+  childMeta(unit: KmapsSourceUnit): string {
+    return [unit.locatorLabel, this.readingTimeLabel(unit)].filter(Boolean).join(' · ');
+  }
+
+  readingTimeLabel(unit: KmapsSourceUnit): string {
+    const minutes = Math.max(0, Math.round(unit.readingMinutes || 0));
+    return minutes ? `${minutes} min` : '';
+  }
+
+  unitTypeLabel(unit: KmapsSourceUnit | null | undefined): string {
+    return formatUnitTypeLabel(unit?.unitType ?? 'other');
+  }
+
   private hasChildUnits(unitId: string): boolean {
     return this.allUnits().some((unit) => unit.parentUnitId === unitId);
   }
