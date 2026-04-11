@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title class="ur-header__title">{{ source()?.title ?? 'Reader' }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="clear" size="small" (click)="openToc()" aria-label="Table of contents">
+      <ion-button fill="clear" size="small" (click)="openToc()" aria-label="Highlights and notes">
         <ion-icon name="list-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -180,35 +180,90 @@
 <!-- ─── TOC backdrop ─────────────────────────────────────────── -->
 @if (tocOpen()) {
   <div class="toc-backdrop" (click)="closeToc()" aria-hidden="true"></div>
-  <div class="toc-sheet" #tocSheetEl role="dialog" aria-label="Table of contents">
+  <div class="toc-sheet" #tocSheetEl role="dialog" aria-label="Reader notes and highlights">
     <div class="toc-sheet__handle" aria-hidden="true"></div>
     <div class="toc-sheet__head">
-      <span class="toc-sheet__title">Table of Contents</span>
-      <span class="toc-count">{{ tocItems().length }}</span>
+      <div class="toc-sheet__tabs" role="tablist" aria-label="Reader sections">
+        @for (tab of sheetTabs; track tab.id) {
+          <button
+            type="button"
+            class="toc-sheet__tab"
+            [class.toc-sheet__tab--active]="sheetTab() === tab.id"
+            [attr.aria-selected]="sheetTab() === tab.id"
+            (click)="setSheetTab(tab.id)"
+          >
+            <span class="toc-sheet__tab-label">{{ tab.label }}</span>
+            <span class="toc-sheet__tab-count">{{ tabCount(tab.id) }}</span>
+          </button>
+        }
+      </div>
       <button class="toc-sheet__close" (click)="closeToc()" aria-label="Close">
         <ion-icon name="close-outline"></ion-icon>
       </button>
     </div>
     <div class="toc-sheet__scroll">
-      @for (item of tocItems(); track item.unit.id) {
-        <button
-          class="toc-item"
-          [class.toc-item--active]="item.unit.id === unitId()"
-          [style.--depth]="item.depth"
-          (click)="selectFromToc(item.unit.id)"
-        >
-          <span class="toc-item__num">{{ item.numbering }}</span>
-          <span class="toc-item__body">
-            <span class="toc-item__eyebrow">{{ unitTypeLabel(item.unit.unit_type) }}</span>
-            <span class="toc-item__title">{{ unitTitle(item.unit) }}</span>
-            @if (tocMeta(item.unit)) {
-              <span class="toc-item__meta">{{ tocMeta(item.unit) }}</span>
+      @if (sheetTab() === 'highlights') {
+        @if (highlightEntries().length === 0) {
+          <div class="sheet-empty">
+            No highlights saved for this unit yet.
+          </div>
+        } @else {
+          <div class="sheet-stack">
+            @for (highlight of highlightEntries(); track highlight.id) {
+              <article class="sheet-card sheet-card--highlight">
+                <div class="sheet-card__top">
+                  <span class="sheet-card__kind">Highlight</span>
+                  @if (highlight.locator) {
+                    <span class="sheet-card__meta">{{ highlight.locator }}</span>
+                  }
+                </div>
+
+                @if (highlight.excerptText && highlight.excerptText !== highlight.bodyMd) {
+                  <p class="sheet-card__excerpt">{{ highlight.excerptText }}</p>
+                }
+
+                <p class="sheet-card__body">{{ highlight.bodyMd }}</p>
+
+                @if (formatNoteDate(highlight.createdAt)) {
+                  <p class="sheet-card__meta">{{ formatNoteDate(highlight.createdAt) }}</p>
+                }
+              </article>
             }
-          </span>
-          @if (item.unit.id === unitId()) {
-            <ion-icon name="radio-button-on-outline" class="toc-item__check"></ion-icon>
-          }
-        </button>
+          </div>
+        }
+      } @else {
+        @if (noteEntries().length === 0) {
+          <div class="sheet-empty">
+            No notes saved for this unit yet.
+          </div>
+        } @else {
+          <div class="sheet-stack">
+            @for (note of noteEntries(); track note.id) {
+              <article class="sheet-card sheet-card--note">
+                <div class="sheet-card__top">
+                  <span class="sheet-card__kind">{{ noteKindLabel(note.noteKind) }}</span>
+                  @if (formatNoteDate(note.createdAt)) {
+                    <span class="sheet-card__meta">{{ formatNoteDate(note.createdAt) }}</span>
+                  }
+                </div>
+
+                @if (note.title) {
+                  <h3 class="sheet-card__title">{{ note.title }}</h3>
+                }
+
+                @if (note.excerptText) {
+                  <p class="sheet-card__excerpt">{{ note.excerptText }}</p>
+                }
+
+                <p class="sheet-card__body">{{ note.bodyMd }}</p>
+
+                @if (note.locator) {
+                  <p class="sheet-card__meta">{{ note.locator }}</p>
+                }
+              </article>
+            }
+          </div>
+        }
       }
     </div>
   </div>

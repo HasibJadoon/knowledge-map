@@ -5,6 +5,9 @@ import { IonicModule, IonContent } from '@ionic/angular';
 import gsap from 'gsap';
 
 import { environment } from '../../../../environments/environment';
+import { KmapsNote, formatNoteKindLabel } from '../worldview/models/kmaps.models';
+import { WvHighlightsService } from '../../../shared/services/wv-highlights.service';
+import { WvNotesService } from '../../../shared/services/wv-notes.service';
 
 interface WvSource {
   id: string;
@@ -54,6 +57,8 @@ interface ReadingBlock {
   href?: string;
 }
 
+type ReaderSheetTab = 'highlights' | 'notes';
+
 // Used only for heuristic fallback classification of flat readingBody[]
 type BlockType = 'h1' | 'h2' | 'h3' | 'blockquote' | 'attribution' | 'link' | 'para';
 interface ClassifiedBlock { text: string; type: BlockType; url?: string; }
@@ -68,6 +73,8 @@ interface ClassifiedBlock { text: string; type: BlockType; url?: string; }
 export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly highlightsService = inject(WvHighlightsService);
+  private readonly notesService = inject(WvNotesService);
 
   @ViewChild('readerEl') readerEl?: ElementRef<HTMLElement>;
   @ViewChild('headerEl') headerEl?: ElementRef<HTMLElement>;
@@ -83,7 +90,12 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
   readonly allUnits = signal<WvUnit[]>([]);
   readonly loading = signal(true);
   readonly tocOpen = signal(false);
+  readonly sheetTab = signal<ReaderSheetTab>('highlights');
   readonly skeletons = [1, 2, 3, 4, 5, 6];
+  readonly sheetTabs: { id: ReaderSheetTab; label: string }[] = [
+    { id: 'highlights', label: 'Highlights' },
+    { id: 'notes', label: 'Notes' },
+  ];
 
   readonly rootUnits = computed(() => buildUnitTree(this.allUnits()));
   readonly unitsById = computed(() => new Map(this.allUnits().map((u) => [u.id, u] as const)));
@@ -164,6 +176,18 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
     const idx = this.currentTocIndex();
     return idx < items.length - 1 ? (items[idx + 1]?.unit ?? null) : null;
   });
+
+  readonly highlightEntries = computed(() =>
+    this.sourceId() && this.unitId()
+      ? this.highlightsService.listForUnit(this.sourceId(), this.unitId())
+      : [],
+  );
+
+  readonly noteEntries = computed(() =>
+    this.sourceId() && this.unitId()
+      ? this.notesService.listForUnit(this.sourceId(), this.unitId())
+      : [],
+  );
 
   readonly kicker = computed(() => {
     const u = this.unit();
@@ -329,6 +353,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
   }
 
   openToc(): void {
+    this.sheetTab.set(this.highlightEntries().length > 0 || this.noteEntries().length === 0 ? 'highlights' : 'notes');
     this.tocOpen.set(true);
     requestAnimationFrame(() => {
       const sheet = this.tocSheetEl?.nativeElement;
@@ -353,6 +378,10 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
   selectFromToc(unitId: string): void {
     this.closeToc();
     setTimeout(() => this.goToUnit(unitId), 160);
+  }
+
+  setSheetTab(tab: ReaderSheetTab): void {
+    this.sheetTab.set(tab);
   }
 
   unitTitle(unit: WvUnit | null | undefined): string {
@@ -395,6 +424,27 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit {
 
   childSummary(unit: WvUnit): string {
     return unit.summary?.trim() || this.unitRef(unit) || 'Open this section.';
+  }
+
+  tabCount(tab: ReaderSheetTab): number {
+    return tab === 'highlights' ? this.highlightEntries().length : this.noteEntries().length;
+  }
+
+  noteKindLabel(kind: KmapsNote['noteKind']): string {
+    return formatNoteKindLabel(kind);
+  }
+
+  formatNoteDate(iso: string | null | undefined): string {
+    if (!iso) return '';
+    try {
+      return new Date(iso).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    } catch {
+      return '';
+    }
   }
 
   tocMeta(unit: WvUnit): string {

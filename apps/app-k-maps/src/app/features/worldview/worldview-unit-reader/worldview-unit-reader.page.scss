@@ -594,10 +594,11 @@
   }
 
   &__head {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.78rem 1.1rem 0.62rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     flex-shrink: 0;
   }
@@ -615,25 +616,88 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.9rem;
-    height: 1.9rem;
+    min-width: 3.6rem;
+    height: auto;
+    padding: 0 0.9rem;
     border: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.06);
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.03);
     color: var(--r-text-2);
     cursor: pointer;
     font-size: 1.1rem;
+    flex-shrink: 0;
     &:active { background: rgba(255, 255, 255, 0.1); }
   }
 
   &__scroll {
     flex: 1;
     overflow-y: auto;
-    padding: 0.4rem 0.5rem 1rem;
+    padding: 0.7rem 0.85rem 1rem;
     overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.07) transparent;
   }
+}
+
+.toc-sheet__tabs {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+}
+
+.toc-sheet__tab {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.7rem;
+  min-width: 0;
+  min-height: 4rem;
+  padding: 0.95rem 1rem 0.9rem;
+  border: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.015);
+  color: var(--r-text-3);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+  &--active {
+    background:
+      linear-gradient(180deg, rgba(201, 168, 76, 0.08), rgba(201, 168, 76, 0.02)),
+      rgba(255, 255, 255, 0.015);
+    color: var(--r-gold);
+    box-shadow: inset 0 2px 0 rgba(201, 168, 76, 0.82);
+  }
+}
+
+.toc-sheet__tab-label,
+.toc-sheet__tab-count {
+  font-family: var(--r-font-head);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.toc-sheet__tab-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-sheet__tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  opacity: 0.78;
+  flex-shrink: 0;
 }
 
 // ── TOC count badge ──────────────────────────────────────────────
@@ -649,6 +713,90 @@
   color: var(--r-text-3);
   font-family: var(--r-font-head);
   font-size: 0.55rem;
+}
+
+.sheet-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.sheet-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1.05rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.025);
+
+  &--highlight {
+    border-color: rgba(84, 144, 200, 0.22);
+    background: rgba(84, 144, 200, 0.08);
+  }
+
+  &--note {
+    border-color: rgba(201, 168, 76, 0.18);
+    background: rgba(201, 168, 76, 0.05);
+  }
+
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  &__kind {
+    color: var(--r-gold);
+    font-family: var(--r-font-head);
+    font-size: 0.56rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin: 0;
+    color: var(--r-text);
+    font-family: var(--r-font-head);
+    font-size: 0.96rem;
+    line-height: 1.3;
+  }
+
+  &__excerpt {
+    margin: 0;
+    padding-left: 0.82rem;
+    border-left: 2px solid rgba(201, 168, 76, 0.24);
+    color: var(--r-text-2);
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+
+  &__body {
+    margin: 0;
+    color: var(--r-text);
+    font-size: 0.84rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+
+  &__meta {
+    margin: 0;
+    color: var(--r-text-3);
+    font-family: var(--r-font-head);
+    font-size: 0.6rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+.sheet-empty {
+  padding: 1.25rem 1rem;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  color: var(--r-text-3);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  text-align: center;
 }
 
 // ── TOC items ────────────────────────────────────────────────────
@@ -742,4 +890,26 @@
   .rp { max-width: 680px; margin: 0 auto; }
   .reading { padding: 2rem 1.75rem 0; }
   .prose-para { font-size: 1.07rem; line-height: 2.1; }
+}
+
+@media (max-width: 420px) {
+  .toc-sheet__tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .toc-sheet__tab {
+    min-height: 3.5rem;
+    padding: 0.82rem 0.9rem;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .toc-sheet__close {
+    grid-row: 1 / span 2;
+    min-width: 3.2rem;
+  }
+
+  .toc-sheet__scroll {
+    padding-inline: 0.7rem;
+  }
 }
