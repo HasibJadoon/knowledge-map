@@ -3,8 +3,8 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RefresherCustomEvent, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { PodcastEpisode } from '../../sprint/models/sprint.models';
-import { PodcastService } from '../../sprint/services/podcast.service';
+import { PodcastEpisode } from '../../../shared/sprint/models/sprint.models';
+import { PodcastService } from '../../../shared/sprint/services/podcast.service';
 
 @Component({
   selector: 'app-planner-podcast-page',

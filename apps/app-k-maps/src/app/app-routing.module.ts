@@ -5,6 +5,11 @@ import { AuthGuard } from './core/auth/auth.guard';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
     loadComponent: () => import('./features/home/home.page').then(m => m.HomePage),
   },
   {
@@ -51,11 +56,6 @@ const routes: Routes = [
     path: 'wv',
     redirectTo: 'worldview',
     pathMatch: 'prefix',
-  },
-  {
-    path: 'crossref',
-    loadChildren: () => import('./features/crossref/crossref.module').then(m => m.CrossrefPageModule),
-    canActivate: [AuthGuard]
   },
   {
     path: 'podcast',

@@ -1,4 +1,4 @@
-import { PodcastEpisode } from '../../sprint/models/sprint.models';
+import { PodcastEpisode } from '../../../shared/sprint/models/sprint.models';
 
 export type CreatorEpisodeType = 'discussion' | 'solo' | 'lesson_log';
 export type CreatorEpisodeStatus = 'draft' | 'script' | 'ready' | 'published' | 'completed';

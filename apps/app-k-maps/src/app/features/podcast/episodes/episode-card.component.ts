@@ -10,7 +10,7 @@ import { CreatorEpisode, episodeStatusLabel, episodeTypeLabel } from './podcast-
         <span class="episode-card__type">{{ typeLabel }}</span>
         <span class="episode-card__status">{{ statusLabel }}</span>
       </div>
-      <h3 class="episode-card__title">{{ episode?.title }}</h3>
+      <h3 class="episode-card__title">{{ episode.title }}</h3>
       <p class="episode-card__meta">{{ summaryLine }}</p>
     </div>
   `,

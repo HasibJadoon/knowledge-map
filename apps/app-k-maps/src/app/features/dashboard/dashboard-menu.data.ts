@@ -4,7 +4,6 @@ import {
   calendarOutline,
   chatbubblesOutline,
   documentTextOutline,
-  gitCompareOutline,
   globeOutline,
   leafOutline,
   libraryOutline,
@@ -79,16 +78,6 @@ export const DASHBOARD_MENU_SECTIONS: ReadonlyArray<DashboardMenuSection> = [
       { title: 'Quranic', subtitle: 'Discourse', icon: chatbubblesOutline, route: ['/discourse', 'quranic'] },
       { title: 'Concepts', subtitle: 'Discourse', icon: pricetagsOutline, route: ['/discourse', 'wv_concepts'] },
       { title: 'Flows', subtitle: 'Discourse', icon: shuffleOutline, route: ['/discourse', 'flows'] },
-    ],
-  },
-  {
-    key: 'crossref',
-    title: 'Crossref',
-    subtitle: 'Reference Links',
-    icon: gitCompareOutline,
-    tone: 'sky',
-    items: [
-      { title: 'Cross References', subtitle: 'Crossref', icon: gitCompareOutline, route: ['/crossref'] },
     ],
   },
   {

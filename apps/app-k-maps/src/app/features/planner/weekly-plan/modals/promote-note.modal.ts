@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { CaptureNote, PromotionRequest } from '../../../sprint/models/sprint.models';
+import { CaptureNote, PromotionRequest } from '../../../../shared/sprint/models/sprint.models';
 
 @Component({
   selector: 'app-promote-note-modal',

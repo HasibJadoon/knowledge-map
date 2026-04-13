@@ -85,16 +85,6 @@ export const DASHBOARD_MENU_SECTIONS: ReadonlyArray<DashboardMenuSection> = [
     ],
   },
   {
-    key: 'crossref',
-    title: 'Crossref',
-    subtitle: 'Reference Links',
-    icon: gitCompareOutline,
-    tone: 'sky',
-    items: [
-      { title: 'Cross References', subtitle: 'Crossref', icon: gitCompareOutline, route: ['/crossref'] },
-    ],
-  },
-  {
     key: 'podcast',
     title: 'Podcast',
     subtitle: 'Audio Review And Ideas',

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { resolveApiRoot } from '../../sprint/services/api-root.util';
+import { resolveApiRoot } from '../../../shared/sprint/services/api-root.util';
 
 export interface PodcastUser {
   id: number;

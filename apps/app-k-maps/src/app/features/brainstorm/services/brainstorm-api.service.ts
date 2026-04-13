@@ -5,7 +5,7 @@ import {
   BrainstormApiTopicDto,
   BrainstormIdeaDraft,
 } from '../brainstorm.models';
-import { resolveApiRoot } from '../../sprint/services/api-root.util';
+import { resolveApiRoot } from '../../../shared/sprint/services/api-root.util';
 
 @Injectable({ providedIn: 'root' })
 export class BrainstormApiService {

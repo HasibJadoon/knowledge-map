@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { PodcastService } from '../../sprint/services/podcast.service';
+import { PodcastService } from '../../../shared/sprint/services/podcast.service';
 import {
   CreatorEpisode,
   CreatorEpisodeStatus,

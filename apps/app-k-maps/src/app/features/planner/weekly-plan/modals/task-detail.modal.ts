@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { PlannerTask, PlannerTaskRow, PlannerTaskStatus } from '../../../sprint/models/sprint.models';
+import { PlannerTask, PlannerTaskRow, PlannerTaskStatus } from '../../../../shared/sprint/models/sprint.models';
 
 @Component({
   selector: 'app-task-detail-modal',

@@ -36,7 +36,7 @@ export interface WeeklyTask {
   updated_at: string | null;
 }
 
-export type WeeklyTaskType = 'arabic' | 'worldview' | 'content' | 'crossref' | 'admin';
+export type WeeklyTaskType = 'arabic' | 'worldview' | 'content' | 'admin';
 
 export type WeeklyKanbanState = 'backlog' | 'planned' | 'doing' | 'blocked' | 'done';
 

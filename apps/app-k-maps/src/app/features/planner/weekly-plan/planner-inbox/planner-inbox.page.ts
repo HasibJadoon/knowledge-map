@@ -2,9 +2,9 @@ import { Component, inject, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IonItemSliding, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { CaptureNote, CaptureNoteMeta } from '../../../sprint/models/sprint.models';
-import { CaptureNotesService } from '../../../sprint/services/capture-notes.service';
-import { PlannerService } from '../../../sprint/services/planner.service';
+import { CaptureNote, CaptureNoteMeta } from '../../../../shared/sprint/models/sprint.models';
+import { CaptureNotesService } from '../../../../shared/sprint/services/capture-notes.service';
+import { PlannerService } from '../../../../shared/sprint/services/planner.service';
 
 @Component({
   selector: 'app-planner-inbox-page',
