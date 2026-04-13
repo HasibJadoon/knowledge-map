@@ -8,6 +8,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Underline from '@tiptap/extension-underline';
+import Highlight from '@tiptap/extension-highlight';
 import { KmDocumentToolbarComponent } from './km-document-toolbar.component';
 import { KmSlashMenuComponent } from './km-slash-menu.component';
 import { KmLinkDialogComponent } from './km-link-dialog.component';
@@ -174,6 +175,7 @@ import type { TiptapDoc } from '../../../../shared/models/document-editor.models
       margin: 0.8em 0;
     }
     :host ::ng-deep .ProseMirror ::selection { background: rgba(201,168,76,0.2); }
+    :host ::ng-deep .ProseMirror mark { border-radius: 2px; padding: 0 1px; }
 
     /* Callout */
     :host ::ng-deep .km-callout {
@@ -237,6 +239,7 @@ export class KmDocumentEditorComponent implements AfterViewInit, OnChanges, OnDe
         Placeholder.configure({ placeholder: this.placeholder }),
         Link.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
         Underline,
+        Highlight.configure({ multicolor: true }),
         Callout,
         SlashCommand,
         TextDirection,

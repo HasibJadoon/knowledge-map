@@ -5,12 +5,12 @@ import {
 import type { Editor } from '@tiptap/core';
 import type { CalloutType } from './extensions/callout.extension';
 
+// ── Item & Group types ────────────────────────────────────────────────────────
+
 export interface SlashMenuItem {
   id: string;
   label: string;
-  description: string;
-  svg: string;
-  shortcut: string;
+  svg: string;      // rendered via [innerHTML]
   keywords: string[];
   run: (editor: Editor) => void;
 }
@@ -20,114 +20,108 @@ export interface SlashMenuGroup {
   items: SlashMenuItem[];
 }
 
-// ── SVGs ───────────────────────────────────────────────────────────────────────
+// ── Compact inline SVGs (Notion-style glyph look) ─────────────────────────────
 
-const SVG = {
-  text: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V5h16v2M9 5v14M15 5v14M9 19h6"/></svg>`,
-  h1:   `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4h2v7h5V4h2v16h-2v-7H5v7H3zM15 8l2-1v13h-2zm4-1h-5v2h2v12h2V9h1z"/></svg>`,
-  h2:   `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4h2v7h5V4h2v16h-2v-7H5v7H3zm14 8c0-2.2 1.8-4 4-4v2c-1.1 0-2 .9-2 2s.9 2 2 2l-2 4h-2l1.5-3A4 4 0 0 1 17 12z"/></svg>`,
-  h3:   `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4h2v7h5V4h2v16h-2v-7H5v7H3zm14 4c1.7 0 3 1.3 3 3 0 .9-.4 1.7-1 2.2.6.5 1 1.3 1 2.2 0 1.7-1.3 3-3 3h-3v-2h3c.6 0 1-.4 1-1s-.4-1-1-1h-2v-2h2c.6 0 1-.4 1-1s-.4-1-1-1h-3V8h3z"/></svg>`,
-  h4:   `<svg viewBox="0 0 24 24" fill="currentColor"><text x="2" y="18" font-size="15" font-weight="700">H4</text></svg>`,
-  ul:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="7" r="1.5" fill="currentColor" stroke="none"/><path d="M9 7h11M9 12h11M9 17h11"/><circle cx="5" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="5" cy="17" r="1.5" fill="currentColor" stroke="none"/></svg>`,
-  ol:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7h11M9 12h11M9 17h11"/><text x="2" y="9" font-size="6" fill="currentColor" stroke="none" font-weight="700">1.</text><text x="2" y="14" font-size="6" fill="currentColor" stroke="none" font-weight="700">2.</text><text x="2" y="19" font-size="6" fill="currentColor" stroke="none" font-weight="700">3.</text></svg>`,
-  quote:`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>`,
-  code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg>`,
-  hr:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h4M17 6h4M3 18h4M17 18h4"/></svg>`,
-  callout: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M9 9h6M9 13h4"/></svg>`,
-  warning: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 19h20z"/><path d="M12 10v5M12 17v1"/></svg>`,
-  tip:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 15v1"/></svg>`,
-  definition: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5h10l1 2H4M4 12h11M13 19l3-14h4"/></svg>`,
-  rtl:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h13M3 12h9M3 19h13M19 3l3 3-3 3"/></svg>`,
+const IC = {
+  text: `<svg viewBox="0 0 20 20" fill="currentColor"><text x="2" y="15" font-size="13" font-weight="700" font-family="Georgia,serif">T</text></svg>`,
+  h1:   `<svg viewBox="0 0 20 20" fill="currentColor"><text x="1" y="14" font-size="10" font-weight="800">H</text><text x="10" y="15" font-size="7" font-weight="800">1</text></svg>`,
+  h2:   `<svg viewBox="0 0 20 20" fill="currentColor"><text x="1" y="14" font-size="10" font-weight="800">H</text><text x="10" y="15" font-size="7" font-weight="800">2</text></svg>`,
+  h3:   `<svg viewBox="0 0 20 20" fill="currentColor"><text x="1" y="14" font-size="10" font-weight="800">H</text><text x="10" y="15" font-size="7" font-weight="800">3</text></svg>`,
+  ul:   `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="3.5" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="3.5" cy="10.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="3.5" cy="15" r="1.5" fill="currentColor" stroke="none"/><path d="M7 6h11M7 10.5h11M7 15h11"/></svg>`,
+  ol:   `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 6h11M7 10.5h11M7 15h11" stroke="currentColor"/><text x="1" y="8" font-size="5" font-weight="800" fill="currentColor" stroke="none">1.</text><text x="1" y="12.5" font-size="5" font-weight="800" fill="currentColor" stroke="none">2.</text><text x="1" y="17" font-size="5" font-weight="800" fill="currentColor" stroke="none">3.</text></svg>`,
+  quote:`<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5h14v10H3z" stroke-dasharray="0 3 10 3"/><path d="M3 5v10" stroke-width="3" stroke-linecap="round"/></svg>`,
+  code: `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 7l-4 4 4 4M13 7l4 4-4 4M11 5l-2 10"/></svg>`,
+  hr:   `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 10h16" stroke-dasharray="1 2"/></svg>`,
+  callout:`<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="16" height="12" rx="2"/><path d="M6 8h8M6 11h5"/></svg>`,
+  warn: `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 3L1 17h18z"/><path d="M10 9v4M10 15v1"/></svg>`,
+  tip:  `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="10" r="7"/><path d="M10 7v4M10 13v1"/></svg>`,
+  def:  `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 16V4h8l1.5 2H4M4 10h9M12 16l2.5-12h3"/></svg>`,
+  rtl:  `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 5h12M2 10h8M2 15h12M16 3l3 3-3 3"/></svg>`,
 };
 
-// ── Items & Groups ─────────────────────────────────────────────────────────────
+// ── Groups ────────────────────────────────────────────────────────────────────
 
 function buildGroups(): SlashMenuGroup[] {
   return [
     {
-      label: 'Basic blocks',
+      label: 'Style',
       items: [
         {
-          id: 'text', label: 'Text', description: 'Plain paragraph', svg: SVG.text, shortcut: '',
-          keywords: ['text', 'paragraph', 'p'],
+          id: 'text', label: 'Text', svg: IC.text,
+          keywords: ['text', 'paragraph', 'p', 'body'],
           run: ed => ed.chain().focus().setParagraph().run(),
         },
         {
-          id: 'h1', label: 'Heading 1', description: 'Big section title', svg: SVG.h1, shortcut: '#',
-          keywords: ['h1', 'heading', 'title'],
+          id: 'h1', label: 'Heading 1', svg: IC.h1,
+          keywords: ['h1', 'heading', 'title', '#'],
           run: ed => ed.chain().focus().toggleHeading({ level: 1 }).run(),
         },
         {
-          id: 'h2', label: 'Heading 2', description: 'Section subtitle', svg: SVG.h2, shortcut: '##',
-          keywords: ['h2', 'heading', 'sub'],
+          id: 'h2', label: 'Heading 2', svg: IC.h2,
+          keywords: ['h2', 'heading', 'sub', '##'],
           run: ed => ed.chain().focus().toggleHeading({ level: 2 }).run(),
         },
         {
-          id: 'h3', label: 'Heading 3', description: 'Small section heading', svg: SVG.h3, shortcut: '###',
-          keywords: ['h3', 'heading'],
+          id: 'h3', label: 'Heading 3', svg: IC.h3,
+          keywords: ['h3', 'heading', '###'],
           run: ed => ed.chain().focus().toggleHeading({ level: 3 }).run(),
         },
         {
-          id: 'ul', label: 'Bulleted list', description: 'Unordered bullet points', svg: SVG.ul, shortcut: '-',
-          keywords: ['bullet', 'list', 'ul', 'unordered'],
+          id: 'ul', label: 'Bullet List', svg: IC.ul,
+          keywords: ['bullet', 'list', 'ul', '-'],
           run: ed => ed.chain().focus().toggleBulletList().run(),
         },
         {
-          id: 'ol', label: 'Numbered list', description: 'Ordered numbered list', svg: SVG.ol, shortcut: '1.',
-          keywords: ['numbered', 'ordered', 'list', 'ol'],
+          id: 'ol', label: 'Numbered List', svg: IC.ol,
+          keywords: ['numbered', 'ordered', 'ol', '1.'],
           run: ed => ed.chain().focus().toggleOrderedList().run(),
         },
         {
-          id: 'quote', label: 'Quote', description: 'Highlighted blockquote', svg: SVG.quote, shortcut: '>',
-          keywords: ['quote', 'blockquote'],
+          id: 'quote', label: 'Blockquote', svg: IC.quote,
+          keywords: ['quote', 'blockquote', '>'],
           run: ed => ed.chain().focus().toggleBlockquote().run(),
         },
         {
-          id: 'divider', label: 'Divider', description: 'Horizontal separator line', svg: SVG.hr, shortcut: '---',
-          keywords: ['divider', 'hr', 'rule', 'line'],
-          run: ed => ed.chain().focus().setHorizontalRule().run(),
-        },
-      ],
-    },
-    {
-      label: 'Advanced blocks',
-      items: [
-        {
-          id: 'code', label: 'Code block', description: 'Monospace code snippet', svg: SVG.code, shortcut: '```',
-          keywords: ['code', 'block', 'pre', 'mono'],
+          id: 'code', label: 'Code Block', svg: IC.code,
+          keywords: ['code', 'block', 'pre', '```'],
           run: ed => ed.chain().focus().toggleCodeBlock().run(),
         },
-        {
-          id: 'callout-info', label: 'Callout', description: 'Info or note highlight box', svg: SVG.callout, shortcut: '',
-          keywords: ['callout', 'info', 'note', 'box', 'highlight'],
-          run: ed => (ed.commands as unknown as { setCallout: (a: { calloutType: CalloutType }) => void }).setCallout({ calloutType: 'info' }),
-        },
-        {
-          id: 'callout-tip', label: 'Tip', description: 'Tip or insight callout', svg: SVG.tip, shortcut: '',
-          keywords: ['tip', 'callout', 'insight'],
-          run: ed => (ed.commands as unknown as { setCallout: (a: { calloutType: CalloutType }) => void }).setCallout({ calloutType: 'tip' }),
-        },
-        {
-          id: 'callout-warning', label: 'Warning', description: 'Caution or alert callout', svg: SVG.warning, shortcut: '',
-          keywords: ['warning', 'callout', 'alert', 'caution'],
-          run: ed => (ed.commands as unknown as { setCallout: (a: { calloutType: CalloutType }) => void }).setCallout({ calloutType: 'warning' }),
-        },
-        {
-          id: 'definition', label: 'Definition', description: 'Arabic term definition box', svg: SVG.definition, shortcut: '',
-          keywords: ['definition', 'term', 'arabic', 'callout'],
-          run: ed => (ed.commands as unknown as { setCallout: (a: { calloutType: CalloutType }) => void }).setCallout({ calloutType: 'definition' }),
-        },
       ],
     },
     {
-      label: 'Arabic',
+      label: 'Insert',
       items: [
         {
-          id: 'rtl', label: 'Arabic block', description: 'RTL paragraph with Arabic font', svg: SVG.rtl, shortcut: '',
+          id: 'hr', label: 'Separator', svg: IC.hr,
+          keywords: ['separator', 'divider', 'hr', '---', 'rule'],
+          run: ed => ed.chain().focus().setHorizontalRule().run(),
+        },
+        {
+          id: 'callout', label: 'Callout', svg: IC.callout,
+          keywords: ['callout', 'info', 'note', 'box'],
+          run: ed => (ed.commands as any).setCallout({ calloutType: 'info' as CalloutType }),
+        },
+        {
+          id: 'tip', label: 'Tip', svg: IC.tip,
+          keywords: ['tip', 'insight', 'callout'],
+          run: ed => (ed.commands as any).setCallout({ calloutType: 'tip' as CalloutType }),
+        },
+        {
+          id: 'warning', label: 'Warning', svg: IC.warn,
+          keywords: ['warning', 'alert', 'caution'],
+          run: ed => (ed.commands as any).setCallout({ calloutType: 'warning' as CalloutType }),
+        },
+        {
+          id: 'definition', label: 'Definition', svg: IC.def,
+          keywords: ['definition', 'term', 'arabic'],
+          run: ed => (ed.commands as any).setCallout({ calloutType: 'definition' as CalloutType }),
+        },
+        {
+          id: 'rtl', label: 'Arabic Block', svg: IC.rtl,
           keywords: ['arabic', 'rtl', 'quran', 'right'],
           run: ed => {
             ed.chain().focus().setParagraph().run();
-            (ed.commands as unknown as { setTextDirection: (d: 'rtl') => void }).setTextDirection('rtl');
+            (ed.commands as any).setTextDirection('rtl');
           },
         },
       ],
@@ -146,189 +140,134 @@ const ALL_ITEMS  = ALL_GROUPS.flatMap(g => g.items);
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (show()) {
-      <div class="km-slash" [style.top.px]="top()" [style.left.px]="left()">
+      <div class="km-sm" [style.top.px]="top()" [style.left.px]="left()">
 
-        <!-- Search input -->
-        <div class="km-slash__search">
-          <svg class="km-slash__search-icon" viewBox="0 0 20 20" fill="none">
-            <circle cx="8.5" cy="8.5" r="5" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M13 13l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <span class="km-slash__search-label">{{ query() || 'Type to search…' }}</span>
-          <span class="km-slash__esc" (mousedown)="$event.preventDefault(); closed.emit()">esc</span>
+        <!-- Filter bar -->
+        <div class="km-sm__filter">
+          <span class="km-sm__slash">/</span>
+          <span class="km-sm__query">{{ query() || 'Filter…' }}</span>
         </div>
 
-        <!-- Groups -->
-        <div class="km-slash__list">
+        <!-- List -->
+        <div class="km-sm__list">
           @if (query()) {
-            <!-- Flat filtered list -->
+            <!-- Flat filtered -->
             @for (item of filtered(); track item.id; let i = $index) {
-              <button
-                class="km-slash__item"
-                [class.km-slash__item--active]="i === selectedIndex()"
+              <button class="km-sm__item"
+                [class.km-sm__item--active]="i === selectedIndex()"
                 (mousedown)="$event.preventDefault(); select(item)">
-                <span class="km-slash__ico" [innerHTML]="item.svg"></span>
-                <span class="km-slash__body">
-                  <span class="km-slash__label">{{ item.label }}</span>
-                  <span class="km-slash__desc">{{ item.description }}</span>
-                </span>
-                @if (item.shortcut) {
-                  <kbd class="km-slash__shortcut">{{ item.shortcut }}</kbd>
-                }
+                <span class="km-sm__ico" [innerHTML]="item.svg"></span>
+                <span class="km-sm__label">{{ item.label }}</span>
               </button>
             }
             @if (filtered().length === 0) {
-              <div class="km-slash__empty">No blocks matching "{{ query() }}"</div>
+              <div class="km-sm__empty">No results for "{{ query() }}"</div>
             }
           } @else {
-            <!-- Grouped list -->
+            <!-- Grouped -->
             @for (group of ALL_GROUPS; track group.label) {
-              <div class="km-slash__group-label">{{ group.label }}</div>
+              <div class="km-sm__group">{{ group.label }}</div>
               @for (item of group.items; track item.id; let i = $index) {
-                <button
-                  class="km-slash__item"
-                  [class.km-slash__item--active]="flatIndex(group, i) === selectedIndex()"
+                <button class="km-sm__item"
+                  [class.km-sm__item--active]="flatIdx(group, i) === selectedIndex()"
                   (mousedown)="$event.preventDefault(); select(item)">
-                  <span class="km-slash__ico" [innerHTML]="item.svg"></span>
-                  <span class="km-slash__body">
-                    <span class="km-slash__label">{{ item.label }}</span>
-                    <span class="km-slash__desc">{{ item.description }}</span>
-                  </span>
-                  @if (item.shortcut) {
-                    <kbd class="km-slash__shortcut">{{ item.shortcut }}</kbd>
-                  }
+                  <span class="km-sm__ico" [innerHTML]="item.svg"></span>
+                  <span class="km-sm__label">{{ item.label }}</span>
                 </button>
               }
             }
           }
         </div>
 
-        <!-- Footer -->
-        <div class="km-slash__footer">
-          <span>↑↓ navigate</span><span class="km-slash__footer-sep">·</span>
-          <span>↵ select</span><span class="km-slash__footer-sep">·</span>
-          <span>esc close</span>
-        </div>
-
       </div>
     }
   `,
   styles: [`
-    .km-slash {
+    .km-sm {
       position: fixed; z-index: 9999;
-      background: #18181c;
-      border: 1px solid rgba(255,255,255,0.09);
+      background: #1a1a1e;
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 4px 16px rgba(0,0,0,0.4);
-      width: 300px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.65), 0 2px 12px rgba(0,0,0,0.4);
+      width: 240px;
       overflow: hidden;
-      animation: slashIn 0.13s cubic-bezier(0.16,1,0.3,1);
-      user-select: none;
+      animation: smIn 0.12s cubic-bezier(0.16,1,0.3,1);
     }
-    @keyframes slashIn {
-      from { opacity: 0; transform: translateY(-8px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+    @keyframes smIn {
+      from { opacity:0; transform: translateY(-6px) scale(0.97); }
+      to   { opacity:1; transform: translateY(0) scale(1); }
     }
 
-    /* Search bar */
-    .km-slash__search {
-      display: flex; align-items: center; gap: 8px;
-      padding: 10px 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+    /* Filter bar */
+    .km-sm__filter {
+      display: flex; align-items: center; gap: 4px;
+      padding: 9px 12px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
     }
-    .km-slash__search-icon {
-      width: 14px; height: 14px; flex-shrink: 0;
-      color: rgba(255,255,255,0.3);
+    .km-sm__slash {
+      font-size: 0.82rem; font-weight: 600;
+      color: rgba(255,255,255,0.25);
     }
-    .km-slash__search-label {
-      flex: 1; font-size: 0.8rem;
-      color: rgba(255,255,255,0.4);
-      font-family: var(--km-font-body, system-ui);
-      letter-spacing: 0.01em;
-    }
-    .km-slash__esc {
-      font-size: 0.65rem; font-weight: 600;
-      padding: 2px 5px;
-      background: rgba(255,255,255,0.07);
-      border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);
+    .km-sm__query {
+      font-size: 0.8rem;
       color: rgba(255,255,255,0.35);
-      cursor: pointer; letter-spacing: 0.05em;
+      font-family: var(--km-font-body, system-ui);
     }
-    .km-slash__esc:hover { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
 
-    /* Scrollable list */
-    .km-slash__list { max-height: 300px; overflow-y: auto; padding: 6px 0; }
-    .km-slash__list::-webkit-scrollbar { width: 4px; }
-    .km-slash__list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    /* Scroll list */
+    .km-sm__list {
+      max-height: 290px; overflow-y: auto;
+      padding: 4px 4px;
+    }
+    .km-sm__list::-webkit-scrollbar { width: 3px; }
+    .km-sm__list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
 
     /* Group label */
-    .km-slash__group-label {
-      padding: 8px 14px 4px;
-      font-size: 0.66rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: rgba(255,255,255,0.28);
+    .km-sm__group {
+      padding: 8px 10px 3px;
+      font-size: 0.63rem; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      user-select: none;
     }
 
-    /* Item */
-    .km-slash__item {
-      display: flex; align-items: center; gap: 10px;
-      width: 100%; padding: 6px 10px;
+    /* Item row */
+    .km-sm__item {
+      display: flex; align-items: center; gap: 9px;
+      width: 100%; padding: 5px 8px;
       border: none; background: transparent;
-      cursor: pointer; border-radius: 0;
-      text-align: left; color: var(--km-text, rgba(236,228,216,0.9));
-      transition: background 0.08s;
-      margin: 0 4px; width: calc(100% - 8px); border-radius: 6px;
+      cursor: pointer; border-radius: 6px;
+      text-align: left;
+      transition: background 0.07s;
+      color: rgba(255,255,255,0.82);
     }
-    .km-slash__item:hover { background: rgba(255,255,255,0.05); }
-    .km-slash__item--active { background: rgba(201,168,76,0.12) !important; }
-    .km-slash__item--active .km-slash__label { color: #c9a84c; }
+    .km-sm__item:hover  { background: rgba(255,255,255,0.06); }
+    .km-sm__item--active { background: rgba(201,168,76,0.13); }
+    .km-sm__item--active .km-sm__label { color: #c9a84c; }
+    .km-sm__item--active .km-sm__ico   { color: #c9a84c; }
 
-    /* Icon box */
-    .km-slash__ico {
-      width: 32px; height: 32px; flex-shrink: 0;
+    /* Icon */
+    .km-sm__ico {
+      width: 28px; height: 28px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 6px;
-      color: rgba(255,255,255,0.6);
+      color: rgba(255,255,255,0.55);
     }
-    .km-slash__ico svg { width: 15px; height: 15px; }
-    .km-slash__item--active .km-slash__ico {
-      background: rgba(201,168,76,0.1);
-      border-color: rgba(201,168,76,0.2);
-      color: #c9a84c;
-    }
+    .km-sm__ico svg { width: 14px; height: 14px; }
 
-    /* Text */
-    .km-slash__body { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-    .km-slash__label { font-size: 0.82rem; font-weight: 500; line-height: 1.3; }
-    .km-slash__desc  { font-size: 0.68rem; color: rgba(255,255,255,0.35); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    /* Shortcut */
-    .km-slash__shortcut {
-      font-size: 0.65rem; font-weight: 600;
-      padding: 2px 5px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.3);
-      font-family: 'JetBrains Mono', monospace;
-      flex-shrink: 0; white-space: nowrap;
+    /* Label */
+    .km-sm__label {
+      font-size: 0.83rem; font-weight: 450;
+      line-height: 1.2;
     }
 
     /* Empty */
-    .km-slash__empty {
-      padding: 16px 14px; font-size: 0.78rem;
+    .km-sm__empty {
+      padding: 14px 12px; font-size: 0.76rem;
       color: rgba(255,255,255,0.3); text-align: center;
     }
-
-    /* Footer */
-    .km-slash__footer {
-      display: flex; align-items: center; gap: 4px;
-      padding: 7px 12px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      font-size: 0.65rem; color: rgba(255,255,255,0.25);
-    }
-    .km-slash__footer-sep { color: rgba(255,255,255,0.12); }
   `],
 })
 export class KmSlashMenuComponent implements OnChanges {
@@ -356,8 +295,7 @@ export class KmSlashMenuComponent implements OnChanges {
     );
   });
 
-  /** When in grouped mode, returns the flat index of item[i] in group g. */
-  flatIndex(group: SlashMenuGroup, itemIdx: number): number {
+  flatIdx(group: SlashMenuGroup, itemIdx: number): number {
     let offset = 0;
     for (const g of ALL_GROUPS) {
       if (g === group) return offset + itemIdx;
