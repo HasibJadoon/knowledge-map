@@ -5,8 +5,10 @@ import {
 } from '@angular/core';
 import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
+import Color from '@tiptap/extension-color';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
+import { TextStyle } from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight';
 import { KmDocumentToolbarComponent } from './km-document-toolbar.component';
@@ -14,7 +16,7 @@ import { KmSlashMenuComponent } from './km-slash-menu.component';
 import { KmLinkDialogComponent } from './km-link-dialog.component';
 import { KmBubbleMenuComponent } from './km-bubble-menu.component';
 import { Callout } from './extensions/callout.extension';
-import { SlashCommand } from './extensions/slash-command.extension';
+import { SLASH_KEY, SlashCommand } from './extensions/slash-command.extension';
 import { TextDirection } from './extensions/text-direction.extension';
 import type { TiptapDoc } from '../../../../shared/models/document-editor.models';
 
@@ -71,14 +73,14 @@ import type { TiptapDoc } from '../../../../shared/models/document-editor.models
     <input #audioInput type="file" accept="audio/*" hidden (change)="onAudioSelected($event)" />
   `,
   styles: [`
-    :host { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+    :host { display: flex; flex-direction: column; height: 100%; min-height: 0; overflow: hidden; }
 
     .km-editor-wrap {
       display: flex; flex-direction: column;
-      height: 100%; overflow: hidden;
+      height: 100%; min-height: 0; overflow: hidden;
       position: relative;
     }
-    .km-editor-body { flex: 1; overflow-y: auto; position: relative; }
+    .km-editor-body { flex: 1; min-height: 0; overflow-y: auto; position: relative; }
     .km-link-dialog-anchor {
       position: sticky; top: 0; z-index: 100;
       display: flex; justify-content: center;
@@ -87,7 +89,7 @@ import type { TiptapDoc } from '../../../../shared/models/document-editor.models
     }
     .km-link-dialog-anchor > * { pointer-events: all; }
 
-    .km-editor-host { height: 100%; }
+    .km-editor-host { flex: 1 1 auto; min-height: 100%; }
 
     :host ::ng-deep .ProseMirror {
       min-height: calc(100vh - 200px);
@@ -144,8 +146,8 @@ import type { TiptapDoc } from '../../../../shared/models/document-editor.models
     :host ::ng-deep .ProseMirror ul,
     :host ::ng-deep .ProseMirror ol { padding-left: 1.6em; margin: 0.6em 0; }
     :host ::ng-deep .ProseMirror li { margin-bottom: 0.3em; }
-    :host ::ng-deep .ProseMirror strong { color: var(--km-text); font-weight: 600; }
-    :host ::ng-deep .ProseMirror em { color: rgba(220,196,155,0.85); }
+    :host ::ng-deep .ProseMirror strong { font-weight: 600; }
+    :host ::ng-deep .ProseMirror em { font-style: italic; }
     :host ::ng-deep .ProseMirror u { text-decoration-color: rgba(201,168,76,0.5); }
     :host ::ng-deep .ProseMirror s { opacity: 0.55; }
     :host ::ng-deep .ProseMirror code {
@@ -235,7 +237,12 @@ export class KmDocumentEditorComponent implements AfterViewInit, OnChanges, OnDe
     this.editor = new Editor({
       element: this.editorHost.nativeElement,
       extensions: [
-        StarterKit,
+        StarterKit.configure({
+          link: false,
+          underline: false,
+        }),
+        TextStyle,
+        Color,
         Placeholder.configure({ placeholder: this.placeholder }),
         Link.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
         Underline,
@@ -249,6 +256,12 @@ export class KmDocumentEditorComponent implements AfterViewInit, OnChanges, OnDe
       onUpdate: ({ editor }) => {
         if (this.suppressUpdate) return;
         this.docChange.emit(editor.getJSON() as TiptapDoc);
+      },
+      onSelectionUpdate: ({ editor }) => {
+        const { from, to, empty } = editor.state.selection;
+        if (!empty) {
+          (editor as any).__kmLastSelection = { from, to };
+        }
       },
     });
 
@@ -303,6 +316,13 @@ export class KmDocumentEditorComponent implements AfterViewInit, OnChanges, OnDe
 
   closeSlash(): void {
     this.slashOpen.set(false);
+    if (this.editor) {
+      this.editor.view.dispatch(this.editor.state.tr.setMeta(SLASH_KEY, {
+        active: false,
+        query: '',
+        range: null,
+      }));
+    }
     this.editor?.commands.focus();
   }
 

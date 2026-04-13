@@ -21,7 +21,7 @@ declare module '@tiptap/core' {
 const BLOCK_NODES = ['paragraph', 'heading', 'blockquote', 'listItem', 'codeBlock'];
 
 export const TextDirection = Extension.create({
-  name: 'textDirection',
+  name: 'kmTextDirection',
 
   addGlobalAttributes() {
     return [

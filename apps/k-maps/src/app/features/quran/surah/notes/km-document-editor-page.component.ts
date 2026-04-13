@@ -27,6 +27,7 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
             [activeId]="svc.activeId()"
             [loading]="svc.loadState() === 'loading'"
             [scope]="scope"
+            [createRequest]="createRequest()"
             (select)="onSelectDocument($event)"
             (create)="onCreateDocument($event)">
           </km-document-list>
@@ -78,6 +79,9 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
             <div class="km-editor-page__empty-icon">📄</div>
             <p class="km-editor-page__empty-text">Select a note or create a new one</p>
             <button class="km-editor-page__empty-btn" (click)="onNewDocClick()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
               New Note
             </button>
           </div>
@@ -86,18 +90,19 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
     </div>
   `,
   styles: [`
-    :host { display: flex; height: 100%; overflow: hidden; }
+    :host { display: flex; height: 100%; min-height: 0; overflow: hidden; }
 
     .km-editor-page {
       display: flex; width: 100%; height: 100%;
       background: var(--km-bg); overflow: hidden;
-      position: relative;
+      position: relative; min-height: 0;
     }
 
     /* Sidebar */
     .km-editor-page__sidebar {
       width: 240px; flex-shrink: 0;
       overflow: hidden;
+      min-height: 0;
       transition: width 0.28s cubic-bezier(0.4,0,0.2,1);
     }
     .km-editor-page__sidebar--collapsed { width: 0; }
@@ -121,6 +126,7 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
     .km-editor-page__main {
       flex: 1; overflow: hidden;
       display: flex; flex-direction: column;
+      min-height: 0;
     }
 
     /* Doc header */
@@ -155,11 +161,13 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
     .km-editor-page__empty-icon { font-size: 2.4rem; opacity: 0.5; }
     .km-editor-page__empty-text { font-size: 0.88rem; }
     .km-editor-page__empty-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 8px 20px; border-radius: 6px;
       border: 1px solid var(--km-border-gold, rgba(201,168,76,0.3));
       background: transparent; color: var(--km-gold);
       font-size: 0.82rem; cursor: pointer;
     }
+    .km-editor-page__empty-btn svg { width: 14px; height: 14px; }
     .km-editor-page__empty-btn:hover { background: rgba(201,168,76,0.1); }
   `],
 })
@@ -174,6 +182,7 @@ export class KmDocumentEditorPageComponent implements OnInit, AfterViewInit, OnD
   private cdr = inject(ChangeDetectorRef);
 
   sidebarCollapsed = signal(false);
+  createRequest = signal(0);
   saveState = signal<SaveState>('idle');
 
   private pendingDoc: TiptapDoc | null = null;
@@ -220,8 +229,8 @@ export class KmDocumentEditorPageComponent implements OnInit, AfterViewInit, OnD
   }
 
   onNewDocClick(): void {
-    // Expand sidebar so the user can use the "New" button
     this.sidebarCollapsed.set(false);
+    this.createRequest.update((value) => value + 1);
   }
 
   // ── Title change ───────────────────────────────────────────────────────────

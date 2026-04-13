@@ -48,7 +48,17 @@ export class DocumentEditorService {
       );
       if (res.ok) {
         this.documents.set(res.documents);
-        this.loadState.set('loaded');
+        const currentId = this.activeId();
+        const currentStillVisible = !!currentId && res.documents.some((doc) => doc.id === currentId);
+
+        if (currentStillVisible) {
+          this.loadState.set('loaded');
+        } else if (res.documents.length > 0) {
+          await this.loadDocument(res.documents[0].id);
+        } else {
+          this.activeDocument.set(null);
+          this.loadState.set('loaded');
+        }
       } else {
         throw new Error(res.error ?? 'Failed to load documents');
       }

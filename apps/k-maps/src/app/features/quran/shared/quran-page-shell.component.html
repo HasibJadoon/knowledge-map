@@ -6,7 +6,9 @@
           <span class="qpage__breadcrumb">{{ breadcrumb }}</span>
           @if (title) { <span class="qpage__title-crumb">{{ title }}</span> }
         </nav>
-        <ng-content />
+        <div class="qpage__content">
+          <ng-content />
+        </div>
       </div>
     </div>
   

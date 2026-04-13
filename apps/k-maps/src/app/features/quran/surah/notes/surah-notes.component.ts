@@ -20,8 +20,9 @@ import type { DocumentEditorScope } from '../../../../shared/models/document-edi
     </km-quran-page-shell>
   `,
   styles: [`
-    :host { display: flex; height: 100%; overflow: hidden; }
-    km-quran-page-shell { width: 100%; }
+    :host { display: block; min-height: 100dvh; }
+    km-quran-page-shell { display: block; width: 100%; min-height: 100dvh; }
+    km-document-editor-page { flex: 1 1 auto; min-height: 0; }
   `],
 })
 export class SurahNotesComponent implements OnInit {

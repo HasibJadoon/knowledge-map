@@ -31,11 +31,32 @@ export const SlashCommand = Extension.create({
           apply(tr, prev): SlashCommandState {
             const meta = tr.getMeta(SLASH_KEY);
             if (meta !== undefined) return meta as SlashCommandState;
-            // If selection changed without explicit meta, close
-            if (tr.selectionSet && prev.active) {
+            if (!prev.active || !prev.range) {
+              return prev;
+            }
+
+            const slashFrom = tr.mapping.map(prev.range.from);
+            const cursorPos = tr.selection.from;
+
+            if (cursorPos <= slashFrom) {
               return { active: false, query: '', range: null };
             }
-            return prev;
+
+            const text = tr.doc.textBetween(slashFrom, cursorPos, '\n', '\0');
+            if (!text.startsWith('/')) {
+              return { active: false, query: '', range: null };
+            }
+
+            const query = text.slice(1);
+            if (/\s/.test(query)) {
+              return { active: false, query: '', range: null };
+            }
+
+            return {
+              active: true,
+              query,
+              range: { from: slashFrom, to: cursorPos },
+            };
           },
         },
 
@@ -64,32 +85,20 @@ export const SlashCommand = Extension.create({
         },
 
         props: {
-          handleTextInput(view, _from, _to, text) {
+          handleTextInput(view, from, to, text) {
             const { state, dispatch } = view;
             const { $from } = state.selection;
 
-            // Only trigger slash at start of a paragraph or after a space
-            const nodeBefore = $from.nodeBefore;
-            const textBefore = nodeBefore?.text ?? '';
-            const atStart = textBefore === '' || textBefore.endsWith(' ');
+            const textBefore = $from.parent.textBetween(0, $from.parentOffset, '\n', '\0');
+            const atStart = textBefore.length === 0 || /\s$/.test(textBefore);
 
             if (text === '/' && atStart) {
-              dispatch(state.tr.setMeta(SLASH_KEY, {
+              dispatch(state.tr.insertText('/', from, to).setMeta(SLASH_KEY, {
                 active: true,
                 query: '',
-                range: { from: $from.pos, to: $from.pos + 1 },
+                range: { from, to: from + 1 },
               }));
-              return false; // allow normal insert to happen
-            }
-
-            const pluginState = SLASH_KEY.getState(state);
-            if (pluginState?.active) {
-              const query = pluginState.query + text;
-              dispatch(state.tr.setMeta(SLASH_KEY, {
-                active: true,
-                query,
-                range: pluginState.range,
-              }));
+              return true;
             }
 
             return false;
@@ -105,20 +114,14 @@ export const SlashCommand = Extension.create({
             }
 
             if (event.key === 'Backspace') {
-              const query = pluginState.query;
-              if (query.length === 0) {
-                // Close — user deleted the slash itself
+              if (pluginState.range && view.state.selection.from <= pluginState.range.from + 1) {
                 view.dispatch(view.state.tr.setMeta(SLASH_KEY, {
-                  active: false, query: '', range: null,
+                  active: false,
+                  query: '',
+                  range: null,
                 }));
-              } else {
-                view.dispatch(view.state.tr.setMeta(SLASH_KEY, {
-                  active: true,
-                  query: query.slice(0, -1),
-                  range: pluginState.range,
-                }));
+                return false;
               }
-              return false;
             }
 
             return false;

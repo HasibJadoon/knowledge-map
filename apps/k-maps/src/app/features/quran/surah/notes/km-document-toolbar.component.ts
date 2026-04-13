@@ -1,25 +1,16 @@
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Input, Output,
+  ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output, signal,
 } from '@angular/core';
 import type { Editor } from '@tiptap/core';
-
-export const HIGHLIGHT_COLORS = [
-  { label: 'Yellow',  value: 'rgba(255,212,0,0.35)',   dot: '#ffd400' },
-  { label: 'Green',   value: 'rgba(0,214,120,0.28)',   dot: '#00d678' },
-  { label: 'Blue',    value: 'rgba(45,170,255,0.28)',  dot: '#2daaff' },
-  { label: 'Pink',    value: 'rgba(255,100,180,0.28)', dot: '#ff64b4' },
-  { label: 'Purple',  value: 'rgba(168,110,255,0.28)', dot: '#a86eff' },
-  { label: 'Orange',  value: 'rgba(255,160,50,0.30)',  dot: '#ffa032' },
-];
+import { HIGHLIGHT_COLORS, TEXT_COLORS } from './km-document-style-palette';
 
 @Component({
   selector: 'km-document-toolbar',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="km-tb">
+    <div class="km-tb" (mousedown)="$event.stopPropagation()">
 
-      <!-- Undo / Redo -->
       <div class="km-tb__group">
         <button class="km-tb__btn" title="Undo (⌘Z)" (mousedown)="$event.preventDefault(); undo()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -35,7 +26,6 @@ export const HIGHLIGHT_COLORS = [
 
       <div class="km-tb__sep"></div>
 
-      <!-- Inline marks -->
       <div class="km-tb__group">
         <button class="km-tb__btn" [class.km-tb__btn--on]="isActive('bold')"
           title="Bold (⌘B)" (mousedown)="$event.preventDefault(); toggleBold()">
@@ -61,34 +51,9 @@ export const HIGHLIGHT_COLORS = [
 
       <div class="km-tb__sep"></div>
 
-      <!-- Highlight swatches -->
-      <div class="km-tb__group km-tb__group--hl">
-        @for (c of hlColors; track c.value) {
-          <button class="km-tb__swatch"
-            [class.km-tb__swatch--on]="isHlActive(c.value)"
-            [style.background]="c.dot"
-            [title]="'Highlight: ' + c.label"
-            (mousedown)="$event.preventDefault(); toggleHighlight(c.value)">
-          </button>
-        }
-        <button class="km-tb__btn km-tb__btn--xs" title="Remove highlight"
-          (mousedown)="$event.preventDefault(); removeHighlight()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 6l18 12M3 18L21 6"/>
-          </svg>
-        </button>
-      </div>
-
-      <div class="km-tb__sep"></div>
-
-      <!-- Block type -->
       <div class="km-tb__group">
         <button class="km-tb__lbl" [class.km-tb__btn--on]="isActive('paragraph')"
-          title="Paragraph" (mousedown)="$event.preventDefault(); setParagraph()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 7V5h16v2M9 5v14M15 5v14M9 19h6"/>
-          </svg>
-        </button>
+          title="Paragraph" (mousedown)="$event.preventDefault(); setParagraph()">Text</button>
         <button class="km-tb__lbl" [class.km-tb__btn--on]="isActive('heading',{level:1})"
           title="Heading 1" (mousedown)="$event.preventDefault(); toggleH(1)">H1</button>
         <button class="km-tb__lbl" [class.km-tb__btn--on]="isActive('heading',{level:2})"
@@ -99,7 +64,62 @@ export const HIGHLIGHT_COLORS = [
 
       <div class="km-tb__sep"></div>
 
-      <!-- Block types -->
+      <div class="km-tb__group">
+        <div class="km-tb__menu-wrap">
+          <button class="km-tb__combo"
+            [class.km-tb__combo--on]="hasTextColor() || textColorMenuOpen()"
+            title="Text color"
+            (mousedown)="toggleTextColorMenu($event)">
+            <span class="km-tb__combo-glyph">A</span>
+            <span class="km-tb__combo-line" [style.background]="currentTextColorDot()"></span>
+          </button>
+          @if (textColorMenuOpen()) {
+            <div class="km-tb__menu" (mousedown)="$event.stopPropagation()">
+              <div class="km-tb__menu-label">Text color</div>
+              <div class="km-tb__swatches">
+                @for (c of textColors; track c.value) {
+                  <button class="km-tb__swatch"
+                    [class.km-tb__swatch--on]="isTextColorActive(c.value)"
+                    [style.background]="c.dot"
+                    [title]="c.label"
+                    (mousedown)="setTextColor($event, c.value)">
+                  </button>
+                }
+              </div>
+              <button class="km-tb__menu-clear" (mousedown)="clearTextColor($event)">Default text</button>
+            </div>
+          }
+        </div>
+
+        <div class="km-tb__menu-wrap">
+          <button class="km-tb__combo"
+            [class.km-tb__combo--on]="hasHighlight() || highlightMenuOpen()"
+            title="Background color"
+            (mousedown)="toggleHighlightMenu($event)">
+            <svg viewBox="0 0 24 24"><path d="M4 16l5-5m0 0l6-6 4 4-6 6m-4-4l4 4m-8 1h10v3H5z"/></svg>
+            <span class="km-tb__combo-chip" [style.background]="currentHighlightDot()"></span>
+          </button>
+          @if (highlightMenuOpen()) {
+            <div class="km-tb__menu" (mousedown)="$event.stopPropagation()">
+              <div class="km-tb__menu-label">Background</div>
+              <div class="km-tb__swatches">
+                @for (c of highlightColors; track c.value) {
+                  <button class="km-tb__swatch"
+                    [class.km-tb__swatch--on]="isHighlightActive(c.value)"
+                    [style.background]="c.dot"
+                    [title]="c.label"
+                    (mousedown)="setHighlight($event, c.value)">
+                  </button>
+                }
+              </div>
+              <button class="km-tb__menu-clear" (mousedown)="clearHighlight($event)">Clear background</button>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="km-tb__sep"></div>
+
       <div class="km-tb__group">
         <button class="km-tb__btn" [class.km-tb__btn--on]="isActive('bulletList')"
           title="Bullet list" (mousedown)="$event.preventDefault(); toggleBulletList()">
@@ -125,7 +145,6 @@ export const HIGHLIGHT_COLORS = [
 
       <div class="km-tb__sep"></div>
 
-      <!-- Link / media -->
       <div class="km-tb__group">
         <button class="km-tb__btn" [class.km-tb__btn--on]="isActive('link')"
           title="Link" (mousedown)="$event.preventDefault(); linkClick.emit()">
@@ -146,85 +165,322 @@ export const HIGHLIGHT_COLORS = [
           </svg>
         </button>
       </div>
-
     </div>
   `,
   styles: [`
     .km-tb {
-      display: flex; align-items: center; gap: 1px;
-      padding: 5px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      gap: 1px;
+      padding: 8px 12px;
       border-bottom: 1px solid rgba(255,255,255,0.07);
-      background: rgba(15,15,18,0.98);
-      height: 40px; flex-shrink: 0;
-      overflow-x: auto; overflow-y: hidden;
+      background: rgba(13, 13, 15, 0.96);
+      backdrop-filter: blur(12px);
+      min-height: 48px;
+      overflow-x: auto;
+      overflow-y: visible;
       scrollbar-width: none;
     }
     .km-tb::-webkit-scrollbar { display: none; }
 
-    .km-tb__group { display: flex; align-items: center; gap: 1px; flex-shrink: 0; }
-    .km-tb__group--hl { gap: 4px; }
-
+    .km-tb__group { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
     .km-tb__sep {
-      width: 1px; height: 16px;
+      width: 1px;
+      height: 18px;
       background: rgba(255,255,255,0.1);
-      margin: 0 5px; flex-shrink: 0;
+      margin: 0 6px;
+      flex-shrink: 0;
     }
 
-    .km-tb__btn {
-      display: flex; align-items: center; justify-content: center;
-      width: 28px; height: 28px;
-      border: none; background: transparent;
-      color: rgba(255,255,255,0.55);
-      border-radius: 5px; cursor: pointer;
-      transition: background 0.1s, color 0.1s;
-      padding: 0; flex-shrink: 0;
+    .km-tb__btn,
+    .km-tb__lbl,
+    .km-tb__combo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 32px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: rgba(255,255,255,0.64);
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s, color 0.12s;
+      flex-shrink: 0;
     }
-    .km-tb__btn svg { width: 14px; height: 14px; fill: currentColor; }
-    .km-tb__btn--xs { width: 22px; height: 22px; }
-    .km-tb__btn--xs svg { width: 11px; height: 11px; }
-    .km-tb__btn:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
-    .km-tb__btn--on { color: #c9a84c; background: rgba(201,168,76,0.12); }
+    .km-tb__btn {
+      width: 32px;
+      padding: 0;
+    }
+    .km-tb__btn svg { width: 15px; height: 15px; fill: currentColor; }
+    .km-tb__btn:hover,
+    .km-tb__lbl:hover,
+    .km-tb__combo:hover {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.96);
+    }
+    .km-tb__btn--on,
+    .km-tb__combo--on,
+    .km-tb__lbl.km-tb__btn--on {
+      background: rgba(201,168,76,0.14);
+      border-color: rgba(201,168,76,0.18);
+      color: #d8bc6e;
+    }
 
     .km-tb__lbl {
-      display: flex; align-items: center; justify-content: center;
-      min-width: 28px; height: 28px; padding: 0 5px;
-      border: none; background: transparent;
-      color: rgba(255,255,255,0.55);
-      border-radius: 5px; cursor: pointer;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em;
-      transition: background 0.1s, color 0.1s; flex-shrink: 0;
+      min-width: 38px;
+      padding: 0 10px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
     }
-    .km-tb__lbl svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; }
-    .km-tb__lbl:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
-    .km-tb__lbl.km-tb__btn--on { color: #c9a84c; background: rgba(201,168,76,0.12); }
 
-    .km-tb__swatch {
-      width: 14px; height: 14px; border-radius: 50%;
-      border: 2px solid transparent; cursor: pointer;
-      transition: transform 0.12s, border-color 0.12s; flex-shrink: 0;
+    .km-tb__menu-wrap {
+      position: relative;
+      flex-shrink: 0;
     }
-    .km-tb__swatch:hover { transform: scale(1.25); }
-    .km-tb__swatch--on { border-color: rgba(255,255,255,0.6); transform: scale(1.15); }
+    .km-tb__combo {
+      gap: 8px;
+      min-width: 44px;
+      padding: 0 10px;
+    }
+    .km-tb__combo svg {
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
+    }
+    .km-tb__combo-glyph {
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .km-tb__combo-line {
+      width: 12px;
+      height: 3px;
+      border-radius: 999px;
+      background: rgba(236,228,216,0.88);
+    }
+    .km-tb__combo-chip {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: transparent;
+    }
+
+    .km-tb__menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      min-width: 170px;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      background: rgba(24, 24, 28, 0.98);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+    }
+    .km-tb__menu-label {
+      margin-bottom: 8px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.36);
+    }
+    .km-tb__swatches {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .km-tb__swatch {
+      width: 24px;
+      height: 24px;
+      border: 2px solid transparent;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.12s, border-color 0.12s;
+    }
+    .km-tb__swatch:hover { transform: scale(1.08); }
+    .km-tb__swatch--on { border-color: rgba(255,255,255,0.72); }
+    .km-tb__menu-clear {
+      margin-top: 10px;
+      width: 100%;
+      height: 32px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.72);
+      font-size: 0.76rem;
+      cursor: pointer;
+    }
+    .km-tb__menu-clear:hover {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.92);
+    }
   `],
 })
 export class KmDocumentToolbarComponent {
   @Input() editor: Editor | null = null;
-  @Output() linkClick  = new EventEmitter<void>();
+  @Output() linkClick = new EventEmitter<void>();
   @Output() imageClick = new EventEmitter<void>();
   @Output() audioClick = new EventEmitter<void>();
 
-  readonly hlColors = HIGHLIGHT_COLORS;
+  readonly textColors = TEXT_COLORS;
+  readonly highlightColors = HIGHLIGHT_COLORS;
 
-  // ── Active state helpers ──────────────────────────────────────────────────
+  readonly textColorMenuOpen = signal(false);
+  readonly highlightMenuOpen = signal(false);
+  private savedSelection: { from: number; to: number } | null = null;
+
+  @HostListener('document:mousedown', ['$event'])
+  onDocumentMouseDown(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    if (!target?.closest('.km-tb__menu-wrap')) {
+      this.closeMenus();
+    }
+  }
+
   isActive(name: string, attrs?: Record<string, unknown>): boolean {
     return this.editor?.isActive(name, attrs) ?? false;
   }
-  isHlActive(color: string): boolean {
+
+  isTextColorActive(color: string): boolean {
+    return this.currentTextColor() === color;
+  }
+
+  isHighlightActive(color: string): boolean {
     return this.editor?.isActive('highlight', { color }) ?? false;
   }
 
-  // ── Commands ──────────────────────────────────────────────────────────────
+  hasTextColor(): boolean {
+    return !!this.currentTextColor();
+  }
+
+  hasHighlight(): boolean {
+    return !!this.currentHighlight();
+  }
+
+  currentTextColorDot(): string {
+    return this.currentTextColor() || 'rgba(236,228,216,0.88)';
+  }
+
+  currentHighlightDot(): string {
+    return this.currentHighlight() || 'rgba(255,255,255,0.16)';
+  }
+
   private get e(): Editor | null { return this.editor; }
+
+  private currentTextColor(): string {
+    const color = this.editor?.getAttributes('textStyle')['color'];
+    return typeof color === 'string' ? color : '';
+  }
+
+  private currentHighlight(): string {
+    const color = this.editor?.getAttributes('highlight')['color'];
+    return typeof color === 'string' ? color : '';
+  }
+
+  private closeMenus(): void {
+    this.textColorMenuOpen.set(false);
+    this.highlightMenuOpen.set(false);
+  }
+
+  private rememberSelection(): void {
+    const selection = this.e?.state.selection;
+    if (selection && !selection.empty) {
+      this.savedSelection = { from: selection.from, to: selection.to };
+    }
+  }
+
+  private selectionRange(): { from: number; to: number } | null {
+    const current = this.e?.state.selection;
+    if (current && !current.empty) {
+      return { from: current.from, to: current.to };
+    }
+
+    const remembered = (this.e as any)?.__kmLastSelection as { from: number; to: number } | undefined;
+    if (remembered && remembered.from < remembered.to) {
+      return remembered;
+    }
+
+    return this.savedSelection;
+  }
+
+  private runOnSelection(run: (editor: Editor) => boolean): boolean {
+    if (!this.e) return false;
+
+    const range = this.selectionRange();
+    if (range) {
+      this.e.commands.setTextSelection(range);
+      (this.e as any).__kmLastSelection = range;
+    }
+
+    return run(this.e);
+  }
+
+  private collapseSelectionAfterApply(): void {
+    if (!this.e) return;
+
+    const range = this.selectionRange();
+    const position = range?.to;
+    if (typeof position === 'number') {
+      this.e.commands.setTextSelection(position);
+    }
+    this.e.commands.focus(position ?? undefined);
+  }
+
+  toggleTextColorMenu(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.rememberSelection();
+    this.highlightMenuOpen.set(false);
+    this.textColorMenuOpen.update((open) => !open);
+  }
+
+  toggleHighlightMenu(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.rememberSelection();
+    this.textColorMenuOpen.set(false);
+    this.highlightMenuOpen.update((open) => !open);
+  }
+
+  setTextColor(event: MouseEvent, color: string): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.runOnSelection((editor) => (editor.commands as any).setColor(color));
+    this.collapseSelectionAfterApply();
+    this.closeMenus();
+  }
+
+  clearTextColor(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.runOnSelection((editor) => (editor.commands as any).unsetColor());
+    this.collapseSelectionAfterApply();
+    this.closeMenus();
+  }
+
+  setHighlight(event: MouseEvent, color: string): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!this.e) return;
+    this.runOnSelection((editor) => editor.isActive('highlight', { color })
+      ? editor.commands.unsetHighlight()
+      : (editor.commands as any).setHighlight({ color }));
+    this.collapseSelectionAfterApply();
+    this.closeMenus();
+  }
+
+  clearHighlight(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.runOnSelection((editor) => editor.commands.unsetHighlight());
+    this.collapseSelectionAfterApply();
+    this.closeMenus();
+  }
 
   undo()             { this.e?.chain().focus().undo().run(); }
   redo()             { this.e?.chain().focus().redo().run(); }
@@ -240,14 +496,4 @@ export class KmDocumentToolbarComponent {
   toggleBlockquote() { this.e?.chain().focus().toggleBlockquote().run(); }
   toggleCodeBlock()  { this.e?.chain().focus().toggleCodeBlock().run(); }
   setHr()            { this.e?.chain().focus().setHorizontalRule().run(); }
-
-  toggleHighlight(color: string): void {
-    if (!this.e) return;
-    if (this.e.isActive('highlight', { color })) {
-      this.e.chain().focus().unsetHighlight().run();
-    } else {
-      (this.e.chain().focus() as any).setHighlight({ color }).run();
-    }
-  }
-  removeHighlight()  { this.e?.chain().focus().unsetHighlight().run(); }
 }

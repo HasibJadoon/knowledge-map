@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Input, Output, signal,
+  ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, signal, SimpleChanges,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import type {
@@ -177,11 +177,12 @@ import { QURAN_DOC_TYPES } from '../../../../shared/models/document-editor.model
     .km-doc-list__empty-icon { width: 36px; height: 36px; opacity: 0.3; }
   `],
 })
-export class KmDocumentListComponent {
+export class KmDocumentListComponent implements OnChanges {
   @Input() documents: DocumentListItem[] = [];
   @Input() activeId: string | null = null;
   @Input() loading = false;
   @Input() scope!: DocumentEditorScope;
+  @Input() createRequest = 0;
 
   @Output() select = new EventEmitter<string>();
   @Output() create = new EventEmitter<{ title: string; docType: QuranDocType }>();
@@ -190,6 +191,12 @@ export class KmDocumentListComponent {
   creating = signal(false);
   newTitle = '';
   newDocType: QuranDocType = 'running_notes';
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['createRequest'] && !changes['createRequest'].firstChange && this.createRequest > 0) {
+      this.openCreate();
+    }
+  }
 
   openCreate(): void {
     this.newTitle = '';
