@@ -1,5 +1,4 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
-import { requireAuth } from '../_utils/auth';
 import { json, parseBody, readTrimmed, readInteger, asRecord } from '../_utils/sprint';
 import {
   deriveWorldviewDocumentBlocksFromTiptap,
@@ -7,7 +6,6 @@ import {
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 type Row = Record<string, unknown>;
@@ -40,13 +38,14 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 
     const documentJson = safeJson(row['document_json'] as string | null);
     const metaJson = safeJson(row['meta_json'] as string | null);
+    const metaRecord = asRecord(metaJson) ?? {};
 
     return json({
       ok: true,
       document: {
         id: String(row['id']),
         title: String(row['title'] ?? ''),
-        doc_type: String(row['doc_type'] ?? 'draft'),
+        doc_type: resolveResponseDocType(String(row['doc_type'] ?? 'draft'), metaRecord),
         summary: readTrimmed(row['summary']),
         status: String(row['status'] ?? 'active'),
         is_published: Number(row['is_published'] ?? 0) === 1,
@@ -56,7 +55,7 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         source_unit_id: readTrimmed(row['source_unit_id']),
         unit_id: readTrimmed(row['unit_id']),
         document_json: isTiptapDoc(documentJson) ? documentJson : { type: 'doc', content: [] },
-        meta_json: asRecord(metaJson) ?? {},
+        meta_json: metaRecord,
         workspace_id: String(row['workspace_id'] ?? ''),
         created_at: String(row['created_at'] ?? ''),
         updated_at: readTrimmed(row['updated_at']),
@@ -70,9 +69,6 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 // PUT /documents/:id — save document JSON + sync blocks
 export const onRequestPut: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
-    if (!user) return json({ ok: false, error: 'Unauthorized' }, 401);
-
     const id = String(ctx.params['id']);
     const body = await parseBody(ctx.request);
     if (!body) return json({ ok: false, error: 'Invalid JSON' }, 400);
@@ -101,7 +97,7 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
     const now = new Date().toISOString();
     const workspaceId = String(existing['workspace_id'] ?? '');
     const groupId = readTrimmed(existing['group_id']);
-    const docUserId = readInteger(existing['user_id']) ?? user.id;
+    const docUserId = readInteger(existing['user_id']);
 
     // Derive blocks from the tiptap document
     const derivedBlocks = deriveWorldviewDocumentBlocksFromTiptap(documentJson);
@@ -172,9 +168,6 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
 // PATCH /documents/:id — update metadata only (title, status, summary)
 export const onRequestPatch: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
-    if (!user) return json({ ok: false, error: 'Unauthorized' }, 401);
-
     const id = String(ctx.params['id']);
     const body = await parseBody(ctx.request);
     if (!body) return json({ ok: false, error: 'Invalid JSON' }, 400);
@@ -207,9 +200,6 @@ export const onRequestPatch: PagesFunction<Env> = async (ctx) => {
 // DELETE /documents/:id — soft delete
 export const onRequestDelete: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
-    if (!user) return json({ ok: false, error: 'Unauthorized' }, 401);
-
     const id = String(ctx.params['id']);
     await ctx.env.DB.prepare(
       `UPDATE wv_documents SET deleted_at = ?1 WHERE id = ?2`
@@ -237,4 +227,8 @@ function slugify(value: string): string {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 40) || 'doc';
+}
+
+function resolveResponseDocType(storedDocType: string, meta: Record<string, unknown> | null): string {
+  return readTrimmed(meta?.['requested_doc_type']) ?? storedDocType;
 }

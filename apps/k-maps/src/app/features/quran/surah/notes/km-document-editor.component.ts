@@ -11,14 +11,16 @@ import Underline from '@tiptap/extension-underline';
 import { KmDocumentToolbarComponent } from './km-document-toolbar.component';
 import { KmSlashMenuComponent } from './km-slash-menu.component';
 import { KmLinkDialogComponent } from './km-link-dialog.component';
+import { KmBubbleMenuComponent } from './km-bubble-menu.component';
 import { Callout } from './extensions/callout.extension';
 import { SlashCommand } from './extensions/slash-command.extension';
+import { TextDirection } from './extensions/text-direction.extension';
 import type { TiptapDoc } from '../../../../shared/models/document-editor.models';
 
 @Component({
   selector: 'km-document-editor',
   standalone: true,
-  imports: [KmDocumentToolbarComponent, KmSlashMenuComponent, KmLinkDialogComponent],
+  imports: [KmDocumentToolbarComponent, KmSlashMenuComponent, KmLinkDialogComponent, KmBubbleMenuComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="km-editor-wrap">
@@ -46,6 +48,11 @@ import type { TiptapDoc } from '../../../../shared/models/document-editor.models
 
         <div class="km-editor-host" #editorHost></div>
       </div>
+
+      <!-- Selection bubble menu -->
+      @if (editorReady$() && editor) {
+        <km-bubble-menu [editor]="editor" />
+      }
 
       <!-- Slash command floating menu -->
       <km-slash-menu
@@ -85,13 +92,23 @@ import type { TiptapDoc } from '../../../../shared/models/document-editor.models
       min-height: calc(100vh - 200px);
       padding: 2.4rem 3rem;
       outline: none;
-      font-family: 'EB Garamond', 'Palatino Linotype', Georgia, serif;
-      font-size: 1.06rem;
-      line-height: 1.85;
+      font-family: var(--km-font-body, 'Poppins', system-ui, sans-serif);
+      font-size: 1rem;
+      line-height: 1.9;
       color: var(--km-text, rgba(236,228,216,0.92));
       caret-color: var(--km-gold, #c9a84c);
-      max-width: 720px;
+      max-width: 740px;
       margin: 0 auto;
+    }
+
+    /* RTL / Arabic paragraphs */
+    :host ::ng-deep .ProseMirror [dir="rtl"],
+    :host ::ng-deep .ProseMirror [lang="ar"] {
+      direction: rtl;
+      text-align: right;
+      font-family: var(--km-font-arabic, 'UthmanicHafs', 'Amiri', serif);
+      font-size: 1.32rem;
+      line-height: 2.1;
     }
 
     /* Placeholder */
@@ -196,6 +213,7 @@ export class KmDocumentEditorComponent implements AfterViewInit, OnChanges, OnDe
   @Output() audioUpload = new EventEmitter<File>();
 
   editor: Editor | null = null;
+  editorReady$ = signal(false); // triggers bubble menu mount
 
   // Slash menu state
   slashOpen  = signal(false);
@@ -221,6 +239,7 @@ export class KmDocumentEditorComponent implements AfterViewInit, OnChanges, OnDe
         Underline,
         Callout,
         SlashCommand,
+        TextDirection,
       ],
       editable: this.editable,
       content: this.doc ?? { type: 'doc', content: [] },
@@ -244,6 +263,7 @@ export class KmDocumentEditorComponent implements AfterViewInit, OnChanges, OnDe
       this.cdr.markForCheck();
     });
 
+    this.editorReady$.set(true);
     this.editorReady.emit(this.editor);
   }
 

@@ -1,11 +1,9 @@
 import type { D1Database, PagesFunction, R2Bucket } from '@cloudflare/workers-types';
-import { requireAuth } from '../../_utils/auth';
-import { json } from '../../_utils/sprint';
+import { json, readInteger } from '../../_utils/sprint';
 
 interface Env {
   DB: D1Database;
   KMAPS_ASSETS: R2Bucket;
-  JWT_SECRET: string;
 }
 
 const CDN_BASE = 'https://cdn.k-maps.com';
@@ -17,15 +15,12 @@ const MAX_AUDIO_BYTES = 100 * 1024 * 1024; // 100 MB
 // POST /documents/:id/upload
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   try {
-    const user = await requireAuth(ctx);
-    if (!user) return json({ ok: false, error: 'Unauthorized' }, 401);
-
     const documentId = String(ctx.params['id']);
 
-    // Verify document exists and belongs to user
+    // Verify document exists
     const doc = await ctx.env.DB.prepare(
-      `SELECT id, workspace_id FROM wv_documents WHERE id = ?1 AND deleted_at IS NULL LIMIT 1`
-    ).bind(documentId).first<{ id: string; workspace_id: string }>();
+      `SELECT id, workspace_id, user_id FROM wv_documents WHERE id = ?1 AND deleted_at IS NULL LIMIT 1`
+    ).bind(documentId).first<{ id: string; workspace_id: string; user_id: number | null }>();
 
     if (!doc) return json({ ok: false, error: 'Document not found' }, 404);
 
@@ -62,7 +57,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
         document_id: documentId,
         resource_id: resourceId,
         resource_type: resourceType,
-        uploaded_by: String(user.id),
+        uploaded_by: String(readInteger(doc.user_id) ?? ''),
         original_name: file.name,
       },
     });

@@ -1,11 +1,9 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
-import { requireAuth } from '../_utils/auth';
-import { json, parseBody, readTrimmed, readInteger, asRecord } from '../_utils/sprint';
+import { asRecord, json, parseBody, readTrimmed, readInteger } from '../_utils/sprint';
 import { createEmptyWorldviewStudyNoteDocument } from '../worldview/_document-tiptap';
 
 interface Env {
   DB: D1Database;
-  JWT_SECRET: string;
 }
 
 const ALLOWED_DOC_TYPES = new Set([
@@ -14,10 +12,24 @@ const ALLOWED_DOC_TYPES = new Set([
   'running_notes', 'morphology', 'nahw', 'passage_notes', 'tafsir',
 ]);
 
+const STORED_DOC_TYPE_BY_REQUESTED: Record<string, string> = {
+  running_notes: 'study_note',
+  morphology: 'study_note',
+  nahw: 'study_note',
+  passage_notes: 'study_note',
+  tafsir: 'study_note',
+};
+
 const ALLOWED_DOMAINS = new Set([
   'quran', 'arabic', 'worldview', 'classical_theology',
   'jewish_wv', 'christian_wv', 'history', 'planner', 'workspace', 'other',
 ]);
+
+const DEFAULT_WORKSPACE_IDS_BY_DOMAIN: Record<string, string[]> = {
+  quran: ['ws_quran'],
+};
+
+const FALLBACK_WORKSPACE_IDS = ['ws_user_1'];
 
 // GET /documents — list documents by scope
 export const onRequestGet: PagesFunction<Env> = async (ctx) => {
@@ -55,15 +67,22 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
       binds.push(unitId);
     }
     if (docType) {
-      whereClauses.push(`doc_type = ?${idx++}`);
-      binds.push(docType);
+      const storedDocType = mapRequestedDocTypeToStoredDocType(docType);
+      if (storedDocType === docType) {
+        whereClauses.push(`doc_type = ?${idx++}`);
+        binds.push(docType);
+      } else {
+        whereClauses.push(`doc_type = ?${idx} AND json_extract(meta_json, '$.requested_doc_type') = ?${idx + 1}`);
+        binds.push(storedDocType, docType);
+        idx += 2;
+      }
     }
 
     const where = whereClauses.length ? `WHERE ${whereClauses.join(' AND ')}` : '';
 
     const { results } = await ctx.env.DB.prepare(`
       SELECT id, title, doc_type, summary, status, is_published, domain, surah,
-             source_id, source_unit_id, unit_id, created_at, updated_at
+             source_id, source_unit_id, unit_id, meta_json, created_at, updated_at
       FROM wv_documents
       ${where}
       ORDER BY COALESCE(updated_at, created_at) DESC
@@ -83,9 +102,6 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
 // POST /documents — create a new document
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   try {
-    //const user = await requireAuth(ctx);
-    //if (!user) return json({ ok: false, error: 'Unauthorized' }, 401);
-
     const body = await parseBody(ctx.request);
     if (!body) return json({ ok: false, error: 'Invalid JSON' }, 400);
 
@@ -98,45 +114,56 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     const unitId = readTrimmed(body['unit_id'] ?? body['unitId']);
     const summary = readTrimmed(body['summary']);
     const workspaceId = readTrimmed(body['workspace_id'] ?? body['workspaceId']);
+    const userId = readInteger(body['user_id'] ?? body['userId']);
 
     if (!title) return json({ ok: false, error: 'title is required' }, 400);
     if (!ALLOWED_DOC_TYPES.has(docType)) return json({ ok: false, error: `Invalid doc_type: ${docType}` }, 400);
     if (!ALLOWED_DOMAINS.has(domain)) return json({ ok: false, error: `Invalid domain: ${domain}` }, 400);
 
-    // Resolve workspace_id — try to derive from source if not provided
-    let finalWorkspaceId = workspaceId;
-    if (!finalWorkspaceId && sourceId) {
-      const src = await ctx.env.DB.prepare(
-        'SELECT workspace_id FROM wv_sources WHERE id = ?1 LIMIT 1'
-      ).bind(sourceId).first<{ workspace_id?: string }>();
-      finalWorkspaceId = readTrimmed(src?.workspace_id);
-    }
-    if (!finalWorkspaceId) {
-      const ws = await ctx.env.DB.prepare(
-        'SELECT id FROM workspaces WHERE user_id = ?1 ORDER BY created_at ASC LIMIT 1'
-      ).bind(user.id).first<{ id?: string }>();
-      finalWorkspaceId = readTrimmed(ws?.id);
-    }
-    if (!finalWorkspaceId) return json({ ok: false, error: 'No workspace found for this user' }, 400);
+    if (workspaceId) {
+      const requestedWorkspace = await ctx.env.DB.prepare(
+        `SELECT id
+         FROM workspaces
+         WHERE id = ?1
+           AND status = 'active'
+         LIMIT 1`
+      ).bind(workspaceId).first<{ id?: string }>();
 
+      if (!readTrimmed(requestedWorkspace?.id)) {
+        return json({ ok: false, error: `Invalid workspace_id: ${workspaceId}` }, 400);
+      }
+    }
+
+    const finalWorkspaceId = await resolveDocumentWorkspaceId(ctx.env.DB, {
+      requestedWorkspaceId: workspaceId,
+      sourceId,
+      domain,
+    });
+    if (!finalWorkspaceId) {
+      return json({ ok: false, error: 'No active workspace available for document creation' }, 400);
+    }
+
+    const storedDocType = mapRequestedDocTypeToStoredDocType(docType);
     const slug = slugify(title);
     const uuid8 = crypto.randomUUID().replace(/-/g, '').slice(0, 8);
     const scopeKey = surah ? `q${surah}` : sourceId ? slugify(sourceId) : domain;
     const docId = `wv_doc_${scopeKey}_${slug}_${uuid8}`;
     const canonicalInput = `wv_document:${domain}:${scopeKey}:${slugify(docType)}:${uuid8}`;
     const emptyDoc = createEmptyWorldviewStudyNoteDocument();
+    const metaJson = buildDocumentMetaJson(docType, storedDocType);
 
     await ctx.env.DB.prepare(`
       INSERT INTO wv_documents (
         id, canonical_input, workspace_id, user_id, doc_type, title, summary,
         status, domain, surah, source_id, source_unit_id, unit_id, document_json, meta_json
       )
-      VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, 'active', ?8, ?9, ?10, ?11, ?12, ?13, NULL)
+      VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, 'active', ?8, ?9, ?10, ?11, ?12, ?13, ?14)
     `).bind(
-      docId, canonicalInput, finalWorkspaceId, user.id,
-      docType, title, summary,
+      docId, canonicalInput, finalWorkspaceId, userId,
+      storedDocType, title, summary,
       domain, surah, sourceId, sourceUnitId, unitId,
       JSON.stringify(emptyDoc),
+      metaJson ? JSON.stringify(metaJson) : null,
     ).run();
 
     return json({ ok: true, document_id: docId, document: {
@@ -169,10 +196,11 @@ export const onRequestOptions: PagesFunction = async () =>
   });
 
 function normalizeListItem(row: Record<string, unknown>) {
+  const meta = parseMetaJson(row['meta_json']);
   return {
     id: String(row['id'] ?? ''),
     title: String(row['title'] ?? ''),
-    doc_type: String(row['doc_type'] ?? 'draft'),
+    doc_type: resolveResponseDocType(String(row['doc_type'] ?? 'draft'), meta),
     summary: readTrimmed(row['summary']),
     status: String(row['status'] ?? 'active'),
     is_published: Number(row['is_published'] ?? 0) === 1,
@@ -184,6 +212,78 @@ function normalizeListItem(row: Record<string, unknown>) {
     created_at: String(row['created_at'] ?? ''),
     updated_at: readTrimmed(row['updated_at']),
   };
+}
+
+function mapRequestedDocTypeToStoredDocType(docType: string): string {
+  return STORED_DOC_TYPE_BY_REQUESTED[docType] ?? docType;
+}
+
+function buildDocumentMetaJson(requestedDocType: string, storedDocType: string): Record<string, string> | null {
+  if (requestedDocType === storedDocType) return null;
+  return { requested_doc_type: requestedDocType };
+}
+
+function parseMetaJson(value: unknown): Record<string, unknown> | null {
+  if (typeof value !== 'string' || !value.trim()) return null;
+  try {
+    return asRecord(JSON.parse(value));
+  } catch {
+    return null;
+  }
+}
+
+function resolveResponseDocType(storedDocType: string, meta: Record<string, unknown> | null): string {
+  return readTrimmed(meta?.['requested_doc_type']) ?? storedDocType;
+}
+
+async function resolveDocumentWorkspaceId(
+  db: D1Database,
+  input: { requestedWorkspaceId: string | null; sourceId: string | null; domain: string }
+): Promise<string | null> {
+  if (input.requestedWorkspaceId) return input.requestedWorkspaceId;
+
+  if (input.sourceId) {
+    const sourceWorkspace = await db.prepare(
+      `SELECT s.workspace_id
+       FROM wv_sources s
+       INNER JOIN workspaces w
+         ON w.id = s.workspace_id
+       WHERE s.id = ?1
+         AND w.status = 'active'
+       LIMIT 1`
+    ).bind(input.sourceId).first<{ workspace_id?: string }>();
+
+    const sourceWorkspaceId = readTrimmed(sourceWorkspace?.workspace_id);
+    if (sourceWorkspaceId) return sourceWorkspaceId;
+  }
+
+  const candidateIds = [
+    ...(DEFAULT_WORKSPACE_IDS_BY_DOMAIN[input.domain] ?? []),
+    ...FALLBACK_WORKSPACE_IDS,
+  ];
+
+  for (const candidateId of candidateIds) {
+    const workspace = await db.prepare(
+      `SELECT id
+       FROM workspaces
+       WHERE id = ?1
+         AND status = 'active'
+       LIMIT 1`
+    ).bind(candidateId).first<{ id?: string }>();
+
+    const workspaceId = readTrimmed(workspace?.id);
+    if (workspaceId) return workspaceId;
+  }
+
+  const firstWorkspace = await db.prepare(
+    `SELECT id
+     FROM workspaces
+     WHERE status = 'active'
+     ORDER BY created_at ASC
+     LIMIT 1`
+  ).first<{ id?: string }>();
+
+  return readTrimmed(firstWorkspace?.id);
 }
 
 function slugify(value: string): string {
