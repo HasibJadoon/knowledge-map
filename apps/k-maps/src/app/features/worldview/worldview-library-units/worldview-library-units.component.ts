@@ -66,6 +66,12 @@ interface WvUnitDetail extends WvUnit {
   readingSchema?: string | null;
   readingBody?: string[] | null;
   readingBlocks?: WvReadingBlock[] | null;
+  documentId?: string | null;
+  documentTitle?: string | null;
+  documentSummary?: string | null;
+  documentJson?: Record<string, unknown> | null;
+  documentText?: string | null;
+  documentBlocks?: WvDocumentBlock[] | null;
   children: WvUnit[];
 }
 
@@ -75,6 +81,21 @@ interface WvReadingBlock {
   href?: string | null;
   label?: string | null;
   cite?: string | null;
+  src?: string | null;
+  alt?: string | null;
+  title?: string | null;
+}
+
+interface WvDocumentBlock {
+  id?: string | null;
+  order_index?: number | null;
+  block_type?: string | null;
+  block_level?: number | null;
+  text_plain?: string | null;
+  content_json?: Record<string, unknown> | null;
+  attrs_json?: Record<string, unknown> | null;
+  block_kind?: string | null;
+  renderer?: string | null;
 }
 
 interface WvNote {
@@ -155,10 +176,13 @@ interface PassageBlock {
   marker?: string | null;
   direction: 'rtl' | 'ltr';
   arabic: boolean;
-  kind: 'paragraph' | 'heading' | 'subheading' | 'separator' | 'link' | 'quote';
+  kind: 'paragraph' | 'heading' | 'subheading' | 'separator' | 'link' | 'quote' | 'callout' | 'image' | 'audio';
   href?: string | null;
   label?: string | null;
   cite?: string | null;
+  src?: string | null;
+  alt?: string | null;
+  title?: string | null;
 }
 
 type ReaderTab = 'highlights' | 'notes' | 'wv';
@@ -294,19 +318,26 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   });
 
   readonly selectedSummary = computed(() => {
-    return this.selectedDetail()?.summary ?? this.selectedTreeUnit()?.summary ?? this.selectedUnit()?.summary ?? null;
+    return this.selectedDetail()?.summary
+      ?? this.selectedDetail()?.documentSummary
+      ?? this.selectedTreeUnit()?.summary
+      ?? this.selectedUnit()?.summary
+      ?? null;
   });
 
   readonly displayBody = computed(() => {
     const detail = this.selectedDetail();
     const unit = this.selectedTreeUnit() ?? this.selectedUnit();
-    return detail?.readingBody ?? unit?.body_preview ?? null;
+    return detail?.documentText ?? detail?.readingBody ?? unit?.body_preview ?? null;
   });
 
   readonly summaryBlocks = computed(() => this.buildPassageBlocks(this.selectedSummary()));
   readonly derivedPassageBlocks = computed(() => this.buildHighlightPassageBlocks(this.highlights()));
   readonly passageBlocks = computed(() => {
     const detail = this.selectedDetail();
+    if (detail?.documentBlocks?.length) {
+      return this.normalizeDocumentBlocks(detail.documentBlocks);
+    }
     if (detail?.readingBlocks?.length) {
       return this.normalizeStructuredBlocks(detail.readingBlocks);
     }
@@ -420,6 +451,12 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
           detail.locatorLabel = res.result.locatorLabel ?? null;
           detail.readingMinutes = res.result.readingMinutes ?? null;
           detail.readingSchema = res.result.readingSchema ?? null;
+          detail.documentId = this.readTrimmed(res.result.documentId);
+          detail.documentTitle = this.readTrimmed(res.result.documentTitle);
+          detail.documentSummary = this.readTrimmed(res.result.documentSummary);
+          detail.documentJson = this.normalizeRecordPayload(res.result.documentJson);
+          detail.documentText = this.readTrimmed(res.result.documentText);
+          detail.documentBlocks = this.normalizeDocumentBlocksPayload(res.result.documentBlocks ?? null);
           detail.readingBody = this.normalizeReaderBodyPayload(res.result.readingBody ?? null);
           detail.readingBlocks = this.normalizeReaderBlocksPayload(res.result.readingBlocks ?? null);
           detail.children = (res.result.children ?? []).map((child: any) => this.normalizeUnit(child));
@@ -849,6 +886,24 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     );
   }
 
+  private normalizeDocumentBlocksPayload(value: unknown): WvDocumentBlock[] | null {
+    if (!Array.isArray(value)) {
+      return null;
+    }
+
+    return value.filter(
+      (entry): entry is WvDocumentBlock => !!entry && typeof entry === 'object' && !Array.isArray(entry),
+    );
+  }
+
+  private normalizeRecordPayload(value: unknown): Record<string, unknown> | null {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      return null;
+    }
+
+    return value as Record<string, unknown>;
+  }
+
   private async loadReaderData(unitId: string): Promise<void> {
     this.notesLoading.set(true);
 
@@ -1036,9 +1091,12 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
         const href = (block.href ?? '').trim();
         const label = (block.label ?? '').trim();
         const cite = (block.cite ?? '').trim();
+        const src = (block.src ?? '').trim();
+        const alt = (block.alt ?? '').trim();
+        const title = (block.title ?? '').trim();
 
         if (!type) return null;
-        if (type !== 'separator' && !text && !href) return null;
+        if (type !== 'separator' && !text && !href && !src) return null;
 
         if (type === 'separator') {
           return {
@@ -1062,13 +1120,55 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
           direction: arabic ? 'rtl' : 'ltr',
           arabic,
           kind: this.normalizeStructuredKind(type),
-          href: href || null,
+          href: href || src || null,
           label: label || null,
           cite: cite || null,
+          src: src || href || null,
+          alt: alt || null,
+          title: title || null,
         };
         return passageBlock;
       })
       .filter((block): block is PassageBlock => !!block);
+  }
+
+  private normalizeDocumentBlocks(blocks: WvDocumentBlock[]): PassageBlock[] {
+    return blocks
+      .map<PassageBlock | null>((block, index) => {
+        const blockType = this.readTrimmed(block.block_type)?.toLowerCase() ?? 'paragraph';
+        const blockKind = this.readTrimmed(block.block_kind)?.toLowerCase() ?? null;
+        const renderer = this.readTrimmed(block.renderer)?.toLowerCase() ?? null;
+        const text = this.readTrimmed(block.text_plain) ?? '';
+        const blockLevel = typeof block.block_level === 'number' ? block.block_level : null;
+        const attrs = this.normalizeRecordPayload(block.attrs_json) ?? {};
+        const content = this.normalizeRecordPayload(block.content_json) ?? {};
+        const link = this.resolveDocumentBlockLink(attrs, content);
+        const media = this.resolveDocumentBlockMedia(attrs, content);
+        const cite = this.readTrimmed(attrs['cite']) ?? this.readTrimmed(content['cite']);
+        const source = media.src ?? link.href;
+        const kind = this.normalizeDocumentBlockKind(blockType, blockKind, renderer, blockLevel);
+        const displayText = text || media.title || media.alt || link.label || source || '';
+
+        if (kind !== 'separator' && !displayText && !source) {
+          return null;
+        }
+
+        return {
+          id: this.readTrimmed(block.id) ?? `document-block-${index + 1}`,
+          text: kind === 'separator' ? '' : displayText,
+          marker: null,
+          direction: this.isArabicText(displayText) ? 'rtl' : 'ltr',
+          arabic: this.isArabicText(displayText),
+          kind,
+          href: kind === 'image' ? media.src : source,
+          label: link.label,
+          cite,
+          src: kind === 'image' || kind === 'audio' ? source : null,
+          alt: media.alt,
+          title: media.title,
+        };
+      })
+      .filter((block): block is PassageBlock => block !== null);
   }
 
   private normalizePassageBlock(part: string): PassageBlock | null {
@@ -1202,10 +1302,119 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
       case 'separator':
       case 'link':
       case 'quote':
+      case 'callout':
+      case 'image':
+      case 'audio':
         return type;
       default:
         return 'paragraph';
     }
+  }
+
+  private normalizeDocumentBlockKind(
+    blockType: string,
+    blockKind: string | null,
+    renderer: string | null,
+    blockLevel: number | null,
+  ): PassageBlock['kind'] {
+    if (renderer === 'audio' || blockKind === 'audio') {
+      return 'audio';
+    }
+
+    if (blockType === 'heading') {
+      return (blockLevel ?? 1) > 1 ? 'subheading' : 'heading';
+    }
+
+    switch (blockKind ?? blockType) {
+      case 'subheading':
+      case 'link':
+      case 'quote':
+      case 'separator':
+      case 'callout':
+      case 'image':
+        return blockKind === 'separator' ? 'separator' : (blockKind ?? blockType) as PassageBlock['kind'];
+      default:
+        break;
+    }
+
+    if (blockType === 'divider') {
+      return 'separator';
+    }
+
+    return 'paragraph';
+  }
+
+  private resolveDocumentBlockLink(
+    attrs: Record<string, unknown>,
+    content: Record<string, unknown>,
+  ): { href: string | null; label: string | null } {
+    const contentAttrs = this.normalizeRecordPayload(content['attrs']) ?? {};
+    const href = this.readTrimmed(attrs['href'])
+      ?? this.readTrimmed(contentAttrs['href']);
+    const label = this.readTrimmed(attrs['label'])
+      ?? this.readTrimmed(attrs['title'])
+      ?? this.readTrimmed(contentAttrs['label'])
+      ?? this.readTrimmed(contentAttrs['title']);
+
+    if (href) {
+      return { href, label };
+    }
+
+    const nodeContent = Array.isArray(content['content']) ? content['content'] : [];
+    let derivedHref: string | null = null;
+    let derivedLabel = '';
+
+    for (const node of nodeContent) {
+      const row = this.normalizeRecordPayload(node);
+      if (!row || row['type'] !== 'text') {
+        continue;
+      }
+
+      const nodeText = typeof row['text'] === 'string' ? row['text'] : '';
+      derivedLabel += nodeText;
+
+      const marks = Array.isArray(row['marks']) ? row['marks'] : [];
+      for (const mark of marks) {
+        const markRow = this.normalizeRecordPayload(mark);
+        if (!markRow || markRow['type'] !== 'link') {
+          continue;
+        }
+        const markAttrs = this.normalizeRecordPayload(markRow['attrs']) ?? {};
+        const markHref = this.readTrimmed(markAttrs['href']);
+        if (markHref) {
+          derivedHref = markHref;
+          break;
+        }
+      }
+    }
+
+    return {
+      href: derivedHref,
+      label: this.readTrimmed(derivedLabel),
+    };
+  }
+
+  private resolveDocumentBlockMedia(
+    attrs: Record<string, unknown>,
+    content: Record<string, unknown>,
+  ): { src: string | null; alt: string | null; title: string | null } {
+    const contentAttrs = this.normalizeRecordPayload(content['attrs']) ?? {};
+
+    return {
+      src: this.readTrimmed(attrs['src'])
+        ?? this.readTrimmed(contentAttrs['src'])
+        ?? this.readTrimmed(attrs['href'])
+        ?? this.readTrimmed(contentAttrs['href']),
+      alt: this.readTrimmed(attrs['alt']) ?? this.readTrimmed(contentAttrs['alt']),
+      title: this.readTrimmed(attrs['title'])
+        ?? this.readTrimmed(contentAttrs['title'])
+        ?? this.readTrimmed(attrs['label'])
+        ?? this.readTrimmed(contentAttrs['label']),
+    };
+  }
+
+  private readTrimmed(value: unknown): string | null {
+    return typeof value === 'string' && value.trim() ? value.trim() : null;
   }
 
   private expandAncestors(unit: WvUnit): void {

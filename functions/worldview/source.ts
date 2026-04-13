@@ -8,6 +8,10 @@ import {
   readOptionalString,
   readTrimmed,
 } from '../_utils/sprint';
+import {
+  buildChapterDocumentTitle,
+  createEmptyWorldviewStudyNoteDocument,
+} from './_document-tiptap';
 
 interface Env {
   DB: D1Database;
@@ -40,10 +44,6 @@ type NormalizedUnitInput = {
   anchorText: string | null;
   summary: string | null;
   locatorLabel: string | null;
-  readingMinutes: number | null;
-  readingSchema: string | null;
-  readingBody: string[];
-  readingBlocks: Record<string, unknown>[] | null;
 };
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
@@ -186,6 +186,56 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
             unitJson,
           ),
       );
+
+      if (unit.unitType === 'chapter') {
+        const documentId = `wv_doc_${slugify(sourceId, 'source')}_${slugify(unitId, 'unit')}_study`;
+        const documentCanonicalInput = `wv_document:worldview:${slugify(sourceId, 'source')}:${slugify(unitId, 'unit')}:study_note`;
+        const documentMetaJson = JSON.stringify({
+          auto_created_from_unit: true,
+          source_id: sourceId,
+          source_unit_id: unitId,
+        });
+
+        statements.push(
+          ctx.env.DB
+            .prepare(
+              `
+              INSERT INTO wv_documents (
+                id,
+                canonical_input,
+                workspace_id,
+                group_id,
+                user_id,
+                doc_type,
+                title,
+                summary,
+                status,
+                unit_id,
+                domain,
+                source_id,
+                source_unit_id,
+                document_json,
+                meta_json
+              )
+              VALUES (?1, ?2, ?3, ?4, ?5, 'study_note', ?6, ?7, 'active', ?8, 'worldview', ?9, ?10, ?11, ?12)
+              `
+            )
+            .bind(
+              documentId,
+              documentCanonicalInput,
+              scope.workspaceId,
+              scope.groupId,
+              user.id,
+              buildChapterDocumentTitle(unit.title),
+              unit.summary,
+              unitId,
+              sourceId,
+              unitId,
+              JSON.stringify(createEmptyWorldviewStudyNoteDocument()),
+              documentMetaJson,
+            ),
+        );
+      }
     }
 
     await ctx.env.DB.batch(statements);
@@ -377,15 +427,10 @@ function normalizeUnitInput(value: unknown, index: number): NormalizedUnitInput 
   const row = asRecord(value);
   const unitType = parseUnitType(row?.['unitType'] ?? row?.['unit_type']);
   const title = readTrimmed(row?.['title']);
-  const readingBody = normalizeReadingBody(row?.['readingBody'] ?? row?.['reading_body']);
-  const readingSchema = readOptionalString(row?.['readingSchema'] ?? row?.['reading_schema']);
-  const readingBlocks = normalizeReadingBlocks(row?.['readingBlocks'] ?? row?.['reading_blocks']);
   const hasContent =
     !!title ||
     !!readTrimmed(row?.['startRef'] ?? row?.['start_ref']) ||
-    !!readTrimmed(row?.['summary']) ||
-    readingBody.length > 0 ||
-    (readingBlocks?.length ?? 0) > 0;
+    !!readTrimmed(row?.['summary']);
 
   if (!hasContent) {
     return null;
@@ -406,10 +451,6 @@ function normalizeUnitInput(value: unknown, index: number): NormalizedUnitInput 
     anchorText: readOptionalString(row?.['anchorText'] ?? row?.['anchor_text']),
     summary: readOptionalString(row?.['summary']),
     locatorLabel: readOptionalString(row?.['locatorLabel'] ?? row?.['locator_label']),
-    readingMinutes: Math.max(0, readInteger(row?.['readingMinutes'] ?? row?.['reading_minutes']) ?? estimateReadingMinutes(readingBody)),
-    readingSchema,
-    readingBody,
-    readingBlocks,
   };
 }
 
@@ -419,54 +460,8 @@ function buildUnitJson(unit: NormalizedUnitInput): string | null {
   if (unit.locatorLabel) {
     unitJson['locatorLabel'] = unit.locatorLabel;
   }
-  if (unit.readingMinutes != null) {
-    unitJson['readingMinutes'] = unit.readingMinutes;
-  }
-  if (unit.readingSchema) {
-    unitJson['readingSchema'] = unit.readingSchema;
-  }
-  if (unit.readingBody.length) {
-    unitJson['readingBody'] = unit.readingBody;
-  }
-  if (unit.readingBlocks?.length) {
-    unitJson['readingBlocks'] = unit.readingBlocks;
-  }
 
   return Object.keys(unitJson).length ? JSON.stringify(unitJson) : null;
-}
-
-function normalizeReadingBody(value: unknown): string[] {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-
-  return value.map((entry) => readTrimmed(entry)).filter((entry): entry is string => entry != null);
-}
-
-function normalizeReadingBlocks(value: unknown): Record<string, unknown>[] | null {
-  if (!Array.isArray(value)) {
-    return null;
-  }
-
-  const blocks = value.filter(
-    (entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry),
-  );
-
-  return blocks.length ? blocks : null;
-}
-
-function estimateReadingMinutes(readingBody: string[]): number {
-  const wordCount = readingBody
-    .join(' ')
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean).length;
-
-  if (!wordCount) {
-    return 0;
-  }
-
-  return Math.max(1, Math.round(wordCount / 180));
 }
 
 function parseSourceType(value: unknown): SourceType | null {

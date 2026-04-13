@@ -186,6 +186,11 @@ export interface KmapsSourceUnit {
   readingSchema?: string | null;
   readingBody: string[];
   readingBlocks?: Record<string, unknown>[] | null;
+  documentId?: string | null;
+  documentTitle?: string | null;
+  documentSummary?: string | null;
+  documentJson?: Record<string, unknown> | null;
+  documentBlocks?: Record<string, unknown>[] | null;
   unitJson: Record<string, unknown> | null;
   metaJson: Record<string, unknown> | null;
   createdAt: string;

@@ -14,6 +14,7 @@ import {
   slugify,
   upsertPodcastEpisode,
 } from '../_distill';
+import { extractPlainTextFromTiptap } from '../_document-tiptap';
 
 interface Env {
   DB: D1Database;
@@ -313,12 +314,31 @@ async function readUnitScope(db: D1Database, sourceId: string, unitId: string): 
     readOptionalString(unitJson?.['locator_label']) ||
     readOptionalString(metaJson?.['locatorLabel']) ||
     joinLocator(readOptionalString(row?.['start_ref']), readOptionalString(row?.['end_ref']));
+  const documentRow = await db
+    .prepare(
+      `
+      SELECT document_json
+      FROM wv_documents
+      WHERE doc_type = 'study_note'
+        AND domain = 'worldview'
+        AND source_id = ?1
+        AND (source_unit_id = ?2 OR unit_id = ?2)
+      ORDER BY COALESCE(updated_at, created_at) DESC
+      LIMIT 1
+      `
+    )
+    .bind(sourceId, unitId)
+    .first<Record<string, unknown>>();
+  const documentJson = parseJson(documentRow?.['document_json']);
+  const documentText = extractPlainTextFromTiptap(documentJson);
 
   return {
     id,
     title,
     locatorLabel,
-    readingBody: readStringArray(unitJson?.['readingBody']) ?? readStringArray(unitJson?.['reading_body']) ?? [],
+    readingBody: documentText
+      ? documentText.split(/\n\s*\n+/).map((entry) => entry.trim()).filter(Boolean)
+      : readStringArray(unitJson?.['readingBody']) ?? readStringArray(unitJson?.['reading_body']) ?? [],
   };
 }
 

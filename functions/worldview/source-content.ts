@@ -133,6 +133,10 @@ async function listDocuments(
         title,
         summary,
         doc_type,
+        domain,
+        source_id,
+        source_unit_id,
+        unit_id,
         related_node_id,
         document_json,
         meta_json,
@@ -141,8 +145,9 @@ async function listDocuments(
       FROM wv_documents
       WHERE (user_id = ?1 OR user_id IS NULL)
         AND doc_type = 'study_note'
-        AND json_extract(document_json, '$.source_id') = ?2
-        AND (?3 IS NULL OR json_extract(document_json, '$.source_unit_id') = ?3)
+        AND domain = 'worldview'
+        AND source_id = ?2
+        AND (?3 IS NULL OR source_unit_id = ?3 OR unit_id = ?3)
       ORDER BY COALESCE(updated_at, created_at) DESC, title ASC
       `,
     )
@@ -154,6 +159,10 @@ async function listDocuments(
     title: readText(row['title']),
     summary: readNullableText(row['summary']),
     doc_type: readText(row['doc_type']),
+    domain: readNullableText(row['domain']),
+    source_id: readNullableText(row['source_id']),
+    source_unit_id: readNullableText(row['source_unit_id']),
+    unit_id: readNullableText(row['unit_id']),
     related_node_id: readNullableText(row['related_node_id']),
     document_json: parseJsonObject(row['document_json']),
     meta_json: parseJsonObject(row['meta_json']),
@@ -181,15 +190,17 @@ async function listDocumentBlocks(
         b.text_plain,
         b.content_json,
         b.attrs_json,
-        b.meta_json,
+        b.block_kind,
+        b.renderer,
         b.created_at,
         b.updated_at
       FROM wv_document_blocks b
       INNER JOIN wv_documents d ON d.id = b.document_id
       WHERE (d.user_id = ?1 OR d.user_id IS NULL)
         AND d.doc_type = 'study_note'
-        AND json_extract(d.document_json, '$.source_id') = ?2
-        AND (?3 IS NULL OR json_extract(d.document_json, '$.source_unit_id') = ?3)
+        AND d.domain = 'worldview'
+        AND d.source_id = ?2
+        AND (?3 IS NULL OR d.source_unit_id = ?3 OR d.unit_id = ?3)
       ORDER BY b.document_id ASC, b.order_index ASC, b.created_at ASC
       `,
     )
@@ -213,7 +224,8 @@ async function listDocumentBlocks(
       text_plain: readText(row['text_plain']),
       content_json: parseJsonObject(row['content_json']),
       attrs_json: parseJsonObject(row['attrs_json']),
-      meta_json: parseJsonObject(row['meta_json']),
+      block_kind: readNullableText(row['block_kind']),
+      renderer: readNullableText(row['renderer']),
       created_at: readText(row['created_at']),
       updated_at: readNullableText(row['updated_at']),
     };

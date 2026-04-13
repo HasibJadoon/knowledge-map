@@ -34,11 +34,29 @@ interface WvUnit {
   body_preview?: string | null;
   // Full unit fields from /worldview/units/:id
   readingBody?: string[] | null;
-  readingBlocks?: Array<{ type?: string; text?: string; [k: string]: unknown }> | null;
+  readingBlocks?: ReadingBlock[] | null;
   readingSchema?: string | null;
   locatorLabel?: string | null;
   readingMinutes?: number | null;
+  documentId?: string | null;
+  documentTitle?: string | null;
+  documentSummary?: string | null;
+  documentJson?: Record<string, unknown> | null;
+  documentText?: string | null;
+  documentBlocks?: WvDocumentBlock[] | null;
   children?: WvUnit[];
+}
+
+interface WvDocumentBlock {
+  id?: string | null;
+  order_index?: number | null;
+  block_type?: string | null;
+  block_level?: number | null;
+  text_plain?: string | null;
+  content_json?: Record<string, unknown> | null;
+  attrs_json?: Record<string, unknown> | null;
+  block_kind?: string | null;
+  renderer?: string | null;
 }
 
 interface ReaderNoteEntry {
@@ -105,11 +123,14 @@ interface TocItem {
 }
 
 interface ReadingBlock {
-  type: string; // 'heading' | 'subheading' | 'paragraph' | 'quote' | 'link' | 'separator'
+  type: string; // 'heading' | 'subheading' | 'paragraph' | 'quote' | 'link' | 'separator' | 'callout' | 'image' | 'audio'
   text?: string;
   cite?: string;
   label?: string;
   href?: string;
+  src?: string;
+  alt?: string;
+  title?: string;
 }
 
 type ReaderSheetTab = 'highlights' | 'notes' | 'wv';
@@ -185,16 +206,23 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
     return current;
   });
 
-  readonly summaryBlocks = computed(() => splitParagraphs(this.unit()?.summary ?? ''));
+  readonly summaryBlocks = computed(() => splitParagraphs(this.unit()?.summary ?? this.unit()?.documentSummary ?? ''));
 
   // Use structured readingBlocks when available, fall back to heuristic classification
   readonly blocks = computed((): ReadingBlock[] => {
     const u = this.unit();
     if (!u) return [];
 
+    if (u.documentBlocks?.length) {
+      const normalized = this.mapDocumentBlocksToReadingBlocks(u.documentBlocks);
+      if (normalized.length) {
+        return normalized;
+      }
+    }
+
     // Prefer rich structured blocks from the API
     if (u.readingBlocks?.length) {
-      return u.readingBlocks as ReadingBlock[];
+      return u.readingBlocks;
     }
 
     // Fall back: classify flat readingBody[] or body_preview
@@ -302,16 +330,17 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
       if (unitRes.ok) {
         const data = (await unitRes.json()) as { ok: boolean; result: WvUnit };
         if (data.ok && data.result) {
+          const normalizedResult = this.normalizeUnitDetail(data.result);
           // Merge full unit data into allUnits so the computed unit() signal picks it up
           this.allUnits.update((units) => {
-            const idx = units.findIndex((u) => u.id === data.result.id);
+            const idx = units.findIndex((u) => u.id === normalizedResult.id);
             if (idx >= 0) {
               const updated = [...units];
-              updated[idx] = { ...updated[idx], ...data.result };
+              updated[idx] = { ...updated[idx], ...normalizedResult };
               return updated;
             }
             // Unit not in list yet — add it
-            return [...units, data.result];
+            return [...units, normalizedResult];
           });
         }
       }
@@ -381,7 +410,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
       if (prose) {
         const firstBlocks = Array.from(
           prose.querySelectorAll<HTMLElement>(
-            '.prose-heading-wrap, .prose-para, .prose-quote, .prose-link, .prose-sep'
+            '.prose-heading-wrap, .prose-para, .prose-quote, .prose-link, .prose-callout, .prose-media, .prose-sep'
           )
         ).slice(0, 8); // only first 8 blocks (what's roughly above the fold)
 
@@ -624,10 +653,194 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
 
   readingMinutes(unit: WvUnit | null | undefined): string {
     if (unit?.readingMinutes) return `${unit.readingMinutes} min read`;
-    const text = [unit?.summary, unit?.body_preview, unit?.anchor_text].filter(Boolean).join(' ');
+    const text = [unit?.summary, unit?.documentText, unit?.body_preview, unit?.anchor_text].filter(Boolean).join(' ');
     const words = text.trim().split(/\s+/).filter(Boolean).length;
     if (!words) return 'Quick read';
     return `${Math.max(1, Math.round(words / 180))} min read`;
+  }
+
+  private normalizeUnitDetail(unit: WvUnit): WvUnit {
+    return {
+      ...unit,
+      documentId: this.readTrimmed(unit.documentId),
+      documentTitle: this.readTrimmed(unit.documentTitle),
+      documentSummary: this.readTrimmed(unit.documentSummary),
+      documentJson: this.asRecord(unit.documentJson),
+      documentText: this.readTrimmed(unit.documentText),
+      documentBlocks: this.normalizeDocumentBlocksPayload(unit.documentBlocks),
+      readingBody: Array.isArray(unit.readingBody)
+        ? unit.readingBody.filter((entry): entry is string => typeof entry === 'string' && !!entry.trim())
+        : null,
+      readingBlocks: this.normalizeReadingBlocksPayload(unit.readingBlocks),
+    };
+  }
+
+  private normalizeReadingBlocksPayload(value: unknown): ReadingBlock[] | null {
+    if (!Array.isArray(value)) {
+      return null;
+    }
+
+    return value.filter(
+      (entry): entry is ReadingBlock => !!entry && typeof entry === 'object' && !Array.isArray(entry),
+    );
+  }
+
+  private normalizeDocumentBlocksPayload(value: unknown): WvDocumentBlock[] | null {
+    if (!Array.isArray(value)) {
+      return null;
+    }
+
+    return value.filter(
+      (entry): entry is WvDocumentBlock => !!entry && typeof entry === 'object' && !Array.isArray(entry),
+    );
+  }
+
+  private mapDocumentBlocksToReadingBlocks(blocks: WvDocumentBlock[]): ReadingBlock[] {
+    return blocks
+      .map((block) => this.mapDocumentBlockToReadingBlock(block))
+      .filter((entry): entry is ReadingBlock => entry !== null);
+  }
+
+  private mapDocumentBlockToReadingBlock(block: WvDocumentBlock): ReadingBlock | null {
+    const blockType = this.readTrimmed(block.block_type)?.toLowerCase() ?? 'paragraph';
+    const blockKind = this.readTrimmed(block.block_kind)?.toLowerCase() ?? null;
+    const renderer = this.readTrimmed(block.renderer)?.toLowerCase() ?? null;
+    const blockLevel = typeof block.block_level === 'number' ? block.block_level : null;
+    const text = this.readTrimmed(block.text_plain) ?? '';
+    const attrs = this.asRecord(block.attrs_json) ?? {};
+    const content = this.asRecord(block.content_json) ?? {};
+    const link = this.resolveDocumentBlockLink(attrs, content);
+    const media = this.resolveDocumentBlockMedia(attrs, content);
+    const cite = this.readTrimmed(attrs['cite']) ?? this.readTrimmed(content['cite']);
+    const source = media.src ?? link.href;
+    const normalizedType = this.normalizeDocumentBlockType(blockType, blockKind, renderer, blockLevel);
+    const displayText = text || media.title || media.alt || link.label || source || '';
+
+    if (normalizedType !== 'separator' && !displayText && !source) {
+      return null;
+    }
+
+    return {
+      type: normalizedType,
+      text: normalizedType === 'separator' ? undefined : displayText,
+      cite: cite ?? undefined,
+      label: link.label ?? undefined,
+      href: normalizedType === 'image' ? media.src ?? undefined : source ?? undefined,
+      src: normalizedType === 'image' || normalizedType === 'audio' ? source ?? undefined : undefined,
+      alt: media.alt ?? undefined,
+      title: media.title ?? undefined,
+    };
+  }
+
+  private normalizeDocumentBlockType(
+    blockType: string,
+    blockKind: string | null,
+    renderer: string | null,
+    blockLevel: number | null,
+  ): ReadingBlock['type'] {
+    if (renderer === 'audio' || blockKind === 'audio') {
+      return 'audio';
+    }
+
+    if (blockType === 'heading') {
+      return (blockLevel ?? 1) > 1 ? 'subheading' : 'heading';
+    }
+
+    switch (blockKind ?? blockType) {
+      case 'link':
+      case 'quote':
+      case 'separator':
+      case 'callout':
+      case 'image':
+        return (blockKind ?? blockType) as ReadingBlock['type'];
+      default:
+        break;
+    }
+
+    if (blockType === 'divider') {
+      return 'separator';
+    }
+
+    return 'paragraph';
+  }
+
+  private resolveDocumentBlockLink(
+    attrs: Record<string, unknown>,
+    content: Record<string, unknown>,
+  ): { href: string | null; label: string | null } {
+    const contentAttrs = this.asRecord(content['attrs']) ?? {};
+    const href = this.readTrimmed(attrs['href'])
+      ?? this.readTrimmed(contentAttrs['href']);
+    const label = this.readTrimmed(attrs['label'])
+      ?? this.readTrimmed(attrs['title'])
+      ?? this.readTrimmed(contentAttrs['label'])
+      ?? this.readTrimmed(contentAttrs['title']);
+
+    if (href) {
+      return { href, label };
+    }
+
+    const nodeContent = Array.isArray(content['content']) ? content['content'] : [];
+    let derivedHref: string | null = null;
+    let derivedLabel = '';
+
+    for (const node of nodeContent) {
+      const row = this.asRecord(node);
+      if (!row || row['type'] !== 'text') {
+        continue;
+      }
+
+      const nodeText = typeof row['text'] === 'string' ? row['text'] : '';
+      derivedLabel += nodeText;
+
+      const marks = Array.isArray(row['marks']) ? row['marks'] : [];
+      for (const mark of marks) {
+        const markRow = this.asRecord(mark);
+        if (!markRow || markRow['type'] !== 'link') {
+          continue;
+        }
+        const markAttrs = this.asRecord(markRow['attrs']) ?? {};
+        const markHref = this.readTrimmed(markAttrs['href']);
+        if (markHref) {
+          derivedHref = markHref;
+          break;
+        }
+      }
+    }
+
+    return {
+      href: derivedHref,
+      label: this.readTrimmed(derivedLabel),
+    };
+  }
+
+  private resolveDocumentBlockMedia(
+    attrs: Record<string, unknown>,
+    content: Record<string, unknown>,
+  ): { src: string | null; alt: string | null; title: string | null } {
+    const contentAttrs = this.asRecord(content['attrs']) ?? {};
+
+    return {
+      src: this.readTrimmed(attrs['src'])
+        ?? this.readTrimmed(contentAttrs['src'])
+        ?? this.readTrimmed(attrs['href'])
+        ?? this.readTrimmed(contentAttrs['href']),
+      alt: this.readTrimmed(attrs['alt']) ?? this.readTrimmed(contentAttrs['alt']),
+      title: this.readTrimmed(attrs['title'])
+        ?? this.readTrimmed(contentAttrs['title'])
+        ?? this.readTrimmed(attrs['label'])
+        ?? this.readTrimmed(contentAttrs['label']),
+    };
+  }
+
+  private asRecord(value: unknown): Record<string, unknown> | null {
+    return value && typeof value === 'object' && !Array.isArray(value)
+      ? value as Record<string, unknown>
+      : null;
+  }
+
+  private readTrimmed(value: unknown): string | null {
+    return typeof value === 'string' && value.trim() ? value.trim() : null;
   }
 
   private defaultSheetTab(): ReaderSheetTab {

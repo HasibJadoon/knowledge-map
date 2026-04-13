@@ -107,12 +107,13 @@ export type WorldviewSourceContentBlock = {
   documentId: string;
   parentBlockId: string | null;
   orderIndex: number;
-  blockType: 'heading' | 'paragraph' | 'bullet_item' | 'numbered_item' | 'quote' | 'callout' | 'divider';
+  blockType: 'heading' | 'paragraph' | 'bullet_item' | 'numbered_item' | 'quote' | 'callout' | 'image' | 'divider';
   blockLevel: number;
   textPlain: string;
   contentJson: Record<string, unknown>;
   attrsJson: Record<string, unknown>;
-  metaJson: Record<string, unknown>;
+  blockKind: 'heading' | 'subheading' | 'paragraph' | 'quote' | 'link' | 'separator' | 'callout' | 'image' | 'audio' | 'list_item' | null;
+  renderer: string | null;
   createdAt: string;
   updatedAt: string | null;
 };
@@ -182,10 +183,6 @@ export type WorldviewSourceUnitDraftInput = {
   endRef?: string | null;
   anchorText?: string | null;
   summary?: string | null;
-  readingBody?: string[];
-  readingMinutes?: number | null;
-  readingSchema?: string | null;
-  readingBlocks?: Record<string, unknown>[] | null;
   locatorLabel?: string | null;
 };
 
@@ -199,10 +196,6 @@ export type WorldviewSourceUnitInput = {
   endRef?: string | null;
   anchorText?: string | null;
   summary?: string | null;
-  readingBody?: string[];
-  readingMinutes?: number | null;
-  readingSchema?: string | null;
-  readingBlocks?: Record<string, unknown>[] | null;
   locatorLabel?: string | null;
 };
 
@@ -577,7 +570,8 @@ function mapSourceContentBlock(value: unknown): WorldviewSourceContentBlock | nu
     textPlain: readTrimmed(row?.['text_plain']) ?? '',
     contentJson: parseRecord(row?.['content_json']) ?? {},
     attrsJson: parseRecord(row?.['attrs_json']) ?? {},
-    metaJson: parseRecord(row?.['meta_json']) ?? {},
+    blockKind: normalizeSourceContentBlockKind(row?.['block_kind']),
+    renderer: readNullableString(row?.['renderer']),
     createdAt,
     updatedAt: readNullableString(row?.['updated_at']),
   };
@@ -689,16 +683,12 @@ function mapUnit(value: unknown): KmapsSourceUnit | null {
   const metaJson = parseRecord(row?.['meta_json']);
   const startRef = readNullableString(row?.['start_ref']);
   const endRef = readNullableString(row?.['end_ref']);
-  const readingBody = readStringArray(unitJson?.['readingBody'])
-    ?? readStringArray(unitJson?.['reading_body'])
-    ?? [];
-  const readingMinutes = readInteger(unitJson?.['readingMinutes'])
-    ?? readInteger(unitJson?.['reading_minutes'])
-    ?? estimateReadingMinutes(readingBody);
-  const readingSchema = readNullableString(unitJson?.['readingSchema'])
-    ?? readNullableString(unitJson?.['reading_schema']);
-  const readingBlocks = readRecordArray(unitJson?.['readingBlocks'])
-    ?? readRecordArray(unitJson?.['reading_blocks']);
+  const summary = readNullableString(row?.['summary']);
+  const anchorText = readNullableString(row?.['anchor_text']);
+  const readingBody: string[] = [];
+  const readingMinutes = estimateReadingMinutes([summary ?? '', anchorText ?? ''].filter(Boolean));
+  const readingSchema = null;
+  const readingBlocks = null;
   const locatorLabel = readNullableString(unitJson?.['locatorLabel'])
     ?? readNullableString(unitJson?.['locator_label'])
     ?? readNullableString(metaJson?.['locatorLabel'])
@@ -715,8 +705,8 @@ function mapUnit(value: unknown): KmapsSourceUnit | null {
     startRef,
     endRef,
     locatorLabel,
-    anchorText: readNullableString(row?.['anchor_text']),
-    summary: readNullableString(row?.['summary']),
+    anchorText,
+    summary,
     readingMinutes,
     readingSchema,
     readingBody,
@@ -1143,7 +1133,26 @@ function normalizeSourceContentBlockType(value: unknown): WorldviewSourceContent
     case 'numbered_item':
     case 'quote':
     case 'callout':
+    case 'image':
     case 'divider':
+      return value;
+    default:
+      return null;
+  }
+}
+
+function normalizeSourceContentBlockKind(value: unknown): WorldviewSourceContentBlock['blockKind'] {
+  switch (value) {
+    case 'heading':
+    case 'subheading':
+    case 'paragraph':
+    case 'quote':
+    case 'link':
+    case 'separator':
+    case 'callout':
+    case 'image':
+    case 'audio':
+    case 'list_item':
       return value;
     default:
       return null;

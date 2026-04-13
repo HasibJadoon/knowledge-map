@@ -31,8 +31,18 @@ export const onRequestGet: PagesFunction<Env> = async (ctx) => {
         `SELECT id, source_id, parent_unit_id, unit_type, title,
                 order_index, start_ref, end_ref, anchor_text, summary,
                 COALESCE(
-                  json_extract(unit_json, '$.readingBody[0]'),
-                  json_extract(unit_json, '$.reading_body[0]'),
+                  (
+                    SELECT b.text_plain
+                    FROM wv_documents d
+                    LEFT JOIN wv_document_blocks b ON b.document_id = d.id
+                    WHERE d.doc_type = 'study_note'
+                      AND d.domain = 'worldview'
+                      AND d.source_id = ?1
+                      AND (d.source_unit_id = wv_source_units.id OR d.unit_id = wv_source_units.id)
+                      AND b.text_plain IS NOT NULL
+                    ORDER BY b.order_index ASC, b.created_at ASC
+                    LIMIT 1
+                  ),
                   summary,
                   anchor_text
                 ) AS body_preview,

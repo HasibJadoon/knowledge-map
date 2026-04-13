@@ -234,6 +234,48 @@
                         </figure>
                       }
 
+                      @case ('callout') {
+                        <aside class="story-callout scroll-reveal" [attr.dir]="block.direction">
+                          <div class="story-callout__eyebrow">Callout</div>
+                          <p class="story-callout__text">{{ block.text }}</p>
+                          @if (block.cite) {
+                            <p class="story-callout__cite">{{ block.cite }}</p>
+                          }
+                          @if (block.href) {
+                            <a class="story-link story-link--callout" [href]="block.href" target="_blank" rel="noreferrer">
+                              {{ block.label || 'Open reference' }}
+                            </a>
+                          }
+                        </aside>
+                      }
+
+                      @case ('image') {
+                        <figure class="story-media story-media--image scroll-reveal">
+                          <img
+                            class="story-media__image"
+                            [src]="block.src || block.href || ''"
+                            [attr.alt]="block.alt || block.text || block.title || 'Worldview image block'"
+                            loading="lazy"
+                          />
+                          @if (block.title || block.text) {
+                            <figcaption class="story-media__caption">{{ block.title || block.text }}</figcaption>
+                          }
+                        </figure>
+                      }
+
+                      @case ('audio') {
+                        <figure class="story-media story-media--audio scroll-reveal">
+                          <div class="story-media__eyebrow">Audio</div>
+                          <div class="story-media__title">{{ block.title || block.text || 'Listen' }}</div>
+                          <audio class="story-media__audio" controls preload="none" [src]="block.src || block.href || ''"></audio>
+                          @if (block.href) {
+                            <a class="story-link story-link--audio" [href]="block.href" target="_blank" rel="noreferrer">
+                              {{ block.label || 'Open audio source' }}
+                            </a>
+                          }
+                        </figure>
+                      }
+
                       @default {
                         <p class="story-para scroll-reveal" dir="ltr">{{ block.text }}</p>
                       }

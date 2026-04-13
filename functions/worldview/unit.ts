@@ -8,6 +8,10 @@ import {
   readOptionalString,
   readTrimmed,
 } from '../_utils/sprint';
+import {
+  buildChapterDocumentTitle,
+  createEmptyWorldviewStudyNoteDocument,
+} from './_document-tiptap';
 
 interface Env {
   DB: D1Database;
@@ -26,12 +30,11 @@ type NormalizedUnitInput = {
   anchorText: string | null;
   summary: string | null;
   locatorLabel: string | null;
-  readingMinutes: number | null;
-  readingSchema: string | null;
-  hasReadingSchema: boolean;
-  readingBody: string[];
-  readingBlocks: Record<string, unknown>[] | null;
-  hasReadingBlocks: boolean;
+};
+
+type UnitScope = {
+  workspaceId: string;
+  groupId: string | null;
 };
 
 export const onRequestPost: PagesFunction<Env> = async (ctx) => {
@@ -104,9 +107,20 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
         unit.endRef,
         unit.anchorText,
         unit.summary,
-        buildUnitJson(unit, null),
+        buildUnitJson(unit),
       )
       .run();
+
+    if (unit.unitType === 'chapter') {
+      await ensureChapterStudyDocument(ctx.env.DB, {
+        ...scope,
+        userId: user.id,
+        sourceId: unit.sourceId,
+        sourceUnitId: unitId,
+        unitTitle: unit.title,
+        unitSummary: unit.summary,
+      });
+    }
 
     return json({ ok: true, unit_id: unitId }, 201);
   } catch (error: unknown) {
@@ -158,6 +172,11 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
       return json({ ok: false, error: 'Unit source cannot be changed.' }, 400);
     }
 
+    const scope = await readUnitScope(ctx.env.DB, unit.sourceId, user.id);
+    if (!scope) {
+      return json({ ok: false, error: 'Worldview source not found.' }, 404);
+    }
+
     if (unit.parentUnitId && !(await validateParent(ctx.env.DB, unit.sourceId, unit.parentUnitId, user.id))) {
       return json({ ok: false, error: 'Selected parent unit was not found in this source.' }, 400);
     }
@@ -197,9 +216,20 @@ export const onRequestPut: PagesFunction<Env> = async (ctx) => {
         unit.endRef,
         unit.anchorText,
         unit.summary,
-        buildUnitJson(unit, existing.unit_json),
+        buildUnitJson(unit),
       )
       .run();
+
+    if (unit.unitType === 'chapter') {
+      await ensureChapterStudyDocument(ctx.env.DB, {
+        ...scope,
+        userId: user.id,
+        sourceId: unit.sourceId,
+        sourceUnitId: unitId,
+        unitTitle: unit.title,
+        unitSummary: unit.summary,
+      });
+    }
 
     return json({ ok: true, unit_id: unitId });
   } catch (error: unknown) {
@@ -212,7 +242,7 @@ async function readUnitScope(
   db: D1Database,
   sourceId: string,
   userId: number,
-): Promise<{ workspaceId: string; groupId: string | null } | null> {
+): Promise<UnitScope | null> {
   const row = await db
     .prepare(
       `
@@ -308,13 +338,6 @@ function normalizeUnitInput(value: unknown): NormalizedUnitInput | null {
   const sourceId = readTrimmed(row?.['sourceId'] ?? row?.['source_id']);
   const unitType = parseUnitType(row?.['unitType'] ?? row?.['unit_type']);
   const title = readTrimmed(row?.['title']);
-  const readingBody = normalizeReadingBody(row?.['readingBody'] ?? row?.['reading_body']);
-  const hasReadingSchema = Object.prototype.hasOwnProperty.call(row ?? {}, 'readingSchema')
-    || Object.prototype.hasOwnProperty.call(row ?? {}, 'reading_schema');
-  const readingSchema = readOptionalString(row?.['readingSchema'] ?? row?.['reading_schema']);
-  const hasReadingBlocks = Object.prototype.hasOwnProperty.call(row ?? {}, 'readingBlocks')
-    || Object.prototype.hasOwnProperty.call(row ?? {}, 'reading_blocks');
-  const readingBlocks = normalizeReadingBlocks(row?.['readingBlocks'] ?? row?.['reading_blocks']);
 
   if (!sourceId || !unitType || !title) {
     return null;
@@ -331,59 +354,142 @@ function normalizeUnitInput(value: unknown): NormalizedUnitInput | null {
     anchorText: readOptionalString(row?.['anchorText'] ?? row?.['anchor_text']),
     summary: readOptionalString(row?.['summary']),
     locatorLabel: readOptionalString(row?.['locatorLabel'] ?? row?.['locator_label']),
-    readingMinutes: Math.max(0, readInteger(row?.['readingMinutes'] ?? row?.['reading_minutes']) ?? estimateReadingMinutes(readingBody)),
-    readingSchema,
-    hasReadingSchema,
-    readingBody,
-    readingBlocks,
-    hasReadingBlocks,
   };
 }
 
-function buildUnitJson(unit: NormalizedUnitInput, existingJson: string | null): string | null {
-  const current = parseJsonRecord(existingJson);
-  const unitJson: Record<string, unknown> = { ...current };
+function buildUnitJson(unit: NormalizedUnitInput): string | null {
+  const unitJson: Record<string, unknown> = {};
 
   if (unit.locatorLabel) {
     unitJson['locatorLabel'] = unit.locatorLabel;
-  } else {
-    delete unitJson['locatorLabel'];
-    delete unitJson['locator_label'];
-  }
-
-  if (unit.readingMinutes != null) {
-    unitJson['readingMinutes'] = unit.readingMinutes;
-  } else {
-    delete unitJson['readingMinutes'];
-    delete unitJson['reading_minutes'];
-  }
-
-  if (unit.hasReadingSchema) {
-    if (unit.readingSchema) {
-      unitJson['readingSchema'] = unit.readingSchema;
-    } else {
-      delete unitJson['readingSchema'];
-      delete unitJson['reading_schema'];
-    }
-  }
-
-  if (unit.readingBody.length) {
-    unitJson['readingBody'] = unit.readingBody;
-  } else {
-    delete unitJson['readingBody'];
-    delete unitJson['reading_body'];
-  }
-
-  if (unit.hasReadingBlocks) {
-    if (unit.readingBlocks?.length) {
-      unitJson['readingBlocks'] = unit.readingBlocks;
-    } else {
-      delete unitJson['readingBlocks'];
-      delete unitJson['reading_blocks'];
-    }
   }
 
   return Object.keys(unitJson).length ? JSON.stringify(unitJson) : null;
+}
+
+async function ensureChapterStudyDocument(
+  db: D1Database,
+  input: UnitScope & {
+    userId: number;
+    sourceId: string;
+    sourceUnitId: string;
+    unitTitle: string;
+    unitSummary: string | null;
+  },
+): Promise<void> {
+  const existing = await db
+    .prepare(
+      `
+      SELECT id, title, summary, meta_json
+      FROM wv_documents
+      WHERE doc_type = 'study_note'
+        AND domain = 'worldview'
+        AND (
+          source_unit_id = ?1
+          OR unit_id = ?1
+        )
+      ORDER BY COALESCE(updated_at, created_at) DESC
+      LIMIT 1
+      `
+    )
+    .bind(input.sourceUnitId)
+    .first<{ id?: string; title?: string; summary?: string | null; meta_json?: string | null }>();
+
+  const defaultTitle = buildChapterDocumentTitle(input.unitTitle);
+  const defaultMeta = JSON.stringify({
+    auto_created_from_unit: true,
+    source_id: input.sourceId,
+    source_unit_id: input.sourceUnitId,
+  });
+
+  if (!existing?.id) {
+    const docId = `wv_doc_${slugify(input.sourceId, 'source')}_${slugify(input.sourceUnitId, 'unit')}_study`;
+    const canonicalInput = `wv_document:worldview:${slugify(input.sourceId, 'source')}:${slugify(input.sourceUnitId, 'unit')}:study_note`;
+
+    await db
+      .prepare(
+        `
+        INSERT OR IGNORE INTO wv_documents (
+          id,
+          canonical_input,
+          workspace_id,
+          group_id,
+          user_id,
+          doc_type,
+          title,
+          summary,
+          status,
+          unit_id,
+          domain,
+          source_id,
+          source_unit_id,
+          document_json,
+          meta_json
+        )
+        VALUES (?1, ?2, ?3, ?4, ?5, 'study_note', ?6, ?7, 'active', ?8, 'worldview', ?9, ?10, ?11, ?12)
+        `
+      )
+      .bind(
+        docId,
+        canonicalInput,
+        input.workspaceId,
+        input.groupId,
+        input.userId,
+        defaultTitle,
+        input.unitSummary,
+        input.sourceUnitId,
+        input.sourceId,
+        input.sourceUnitId,
+        JSON.stringify(createEmptyWorldviewStudyNoteDocument()),
+        defaultMeta,
+      )
+      .run();
+    return;
+  }
+
+  const metaJson = parseJsonRecord(existing.meta_json);
+  const autoCreated = metaJson['auto_created_from_unit'] === true
+    || metaJson['auto_created_from_unit'] === 1
+    || metaJson['auto_created_from_unit'] === '1';
+
+  await db
+    .prepare(
+      `
+      UPDATE wv_documents
+      SET
+        title = CASE
+          WHEN ?2 = 1 THEN ?3
+          ELSE title
+        END,
+        summary = COALESCE(?4, summary),
+        unit_id = ?5,
+        source_id = ?6,
+        source_unit_id = ?7,
+        domain = 'worldview',
+        meta_json = COALESCE(
+          json_set(
+            COALESCE(meta_json, json('{}')),
+            '$.source_id', ?6,
+            '$.source_unit_id', ?7,
+            '$.auto_created_from_unit', COALESCE(json_extract(meta_json, '$.auto_created_from_unit'), true)
+          ),
+          ?8
+        ),
+        updated_at = datetime('now')
+      WHERE id = ?1
+      `
+    )
+    .bind(
+      existing.id,
+      autoCreated ? 1 : 0,
+      defaultTitle,
+      input.unitSummary,
+      input.sourceUnitId,
+      input.sourceId,
+      input.sourceUnitId,
+      defaultMeta,
+    )
+    .run();
 }
 
 function parseJsonRecord(value: unknown): Record<string, unknown> {
@@ -397,40 +503,6 @@ function parseJsonRecord(value: unknown): Record<string, unknown> {
   } catch {
     return {};
   }
-}
-
-function normalizeReadingBody(value: unknown): string[] {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-
-  return value.map((entry) => readTrimmed(entry)).filter((entry): entry is string => entry != null);
-}
-
-function estimateReadingMinutes(readingBody: string[]): number {
-  const wordCount = readingBody
-    .join(' ')
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean).length;
-
-  if (!wordCount) {
-    return 0;
-  }
-
-  return Math.max(1, Math.round(wordCount / 180));
-}
-
-function normalizeReadingBlocks(value: unknown): Record<string, unknown>[] | null {
-  if (!Array.isArray(value)) {
-    return null;
-  }
-
-  const blocks = value.filter(
-    (entry): entry is Record<string, unknown> => !!entry && typeof entry === 'object' && !Array.isArray(entry),
-  );
-
-  return blocks.length ? blocks : null;
 }
 
 function parseUnitType(value: unknown): UnitType | null {

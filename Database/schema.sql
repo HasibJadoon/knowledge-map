@@ -1364,6 +1364,8 @@ CREATE TABLE wv_documents (
   published_at    TEXT,
   surah           INTEGER,
   unit_id         TEXT,
+  source_id       TEXT,
+  source_unit_id  TEXT,
   domain          TEXT CHECK (domain IN ('quran', 'arabic', 'worldview', 'planner', 'workspace', 'other')),
   deleted_at      TEXT,
   -- Added 2026-04-10: Qur'an / content scope
@@ -1941,6 +1943,7 @@ CREATE INDEX idx_wv_insight_suggestions_batch_type_status ON wv_insight_suggesti
 CREATE INDEX idx_wv_insight_decisions_suggestion_user ON wv_insight_decisions(suggestion_id, user_id);
 CREATE INDEX idx_wv_documents_workspace_user_status_created ON wv_documents(workspace_id, user_id, status, created_at);
 CREATE INDEX idx_wv_documents_doc_type ON wv_documents(doc_type);
+CREATE INDEX idx_wv_documents_source_scope ON wv_documents(domain, doc_type, source_id, source_unit_id);
 CREATE INDEX idx_wv_document_blocks_document_order ON wv_document_blocks(document_id, order_index);
 CREATE INDEX idx_wv_document_blocks_parent ON wv_document_blocks(parent_block_id);
 CREATE INDEX idx_wv_document_blocks_block_type ON wv_document_blocks(block_type);

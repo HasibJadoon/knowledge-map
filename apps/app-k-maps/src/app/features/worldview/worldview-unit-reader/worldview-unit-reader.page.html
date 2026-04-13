@@ -105,6 +105,45 @@
                     {{ block.label || block.text || block.href }}
                   </a>
                 }
+                @case ('callout') {
+                  <aside class="prose-callout">
+                    <div class="prose-callout__eyebrow">Callout</div>
+                    <p class="prose-callout__text">{{ block.text }}</p>
+                    @if (block.cite) {
+                      <p class="prose-callout__cite">{{ block.cite }}</p>
+                    }
+                    @if (block.href) {
+                      <a class="prose-notion-link prose-notion-link--callout" [href]="block.href" target="_blank" rel="noopener noreferrer">
+                        <ion-icon name="open-outline"></ion-icon> {{ block.label || 'Open reference' }}
+                      </a>
+                    }
+                  </aside>
+                }
+                @case ('image') {
+                  <figure class="prose-media prose-media--image">
+                    <img
+                      class="prose-media__image"
+                      [src]="block.src || block.href || ''"
+                      [attr.alt]="block.alt || block.text || block.title || 'Worldview image block'"
+                      loading="lazy"
+                    />
+                    @if (block.title || block.text) {
+                      <figcaption class="prose-media__caption">{{ block.title || block.text }}</figcaption>
+                    }
+                  </figure>
+                }
+                @case ('audio') {
+                  <figure class="prose-media prose-media--audio">
+                    <div class="prose-media__eyebrow">Audio</div>
+                    <div class="prose-media__title">{{ block.title || block.text || 'Listen' }}</div>
+                    <audio class="prose-media__audio" controls preload="none" [src]="block.src || block.href || ''"></audio>
+                    @if (block.href) {
+                      <a class="prose-notion-link prose-notion-link--audio" [href]="block.href" target="_blank" rel="noopener noreferrer">
+                        <ion-icon name="open-outline"></ion-icon> {{ block.label || 'Open audio source' }}
+                      </a>
+                    }
+                  </figure>
+                }
                 @case ('separator') {
                   <div class="prose-sep" aria-hidden="true"></div>
                 }
