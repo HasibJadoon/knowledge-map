@@ -194,7 +194,11 @@ async function readDocumentBlocks(db: D1Database, documentId: string): Promise<R
     .bind(documentId)
     .all<Row>();
 
-  return result.results ?? [];
+  return (result.results ?? []).map((row) => ({
+    ...row,
+    content_json: safeJson((row.content_json as string | null) ?? null),
+    attrs_json: safeJson((row.attrs_json as string | null) ?? null) ?? {},
+  }));
 }
 
 function toStoredBlockShape(block: {

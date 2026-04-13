@@ -1,180 +1,301 @@
-import { CommonModule } from '@angular/common';
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
-import { IonicModule, RefresherCustomEvent } from '@ionic/angular';
-import { checkmarkDoneOutline, createOutline, flagOutline } from 'ionicons/icons';
-import { BehaviorSubject, combineLatest, of } from 'rxjs';
-import { catchError, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { AppIconTabsComponent, IconTabItem } from '../../../../shared/components/icon-tabs/icon-tabs.component';
-import { QuranSurahNotesListComponent } from '../../components/quran-surah-notes-list/quran-surah-notes-list.component';
 import {
-  QuranSurahNotesMode,
-  QuranSurahNotesResponse,
-} from '../../models/quran-surah-notes.model';
-import { QuranSurahNotesService } from '../../../../shared/services/quran-surah-notes.service';
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef,
+  ElementRef, inject, OnDestroy, signal, ViewChild,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { map, distinctUntilChanged } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+import { Editor } from '@tiptap/core';
+import StarterKit from '@tiptap/starter-kit';
+import Placeholder from '@tiptap/extension-placeholder';
+import Link from '@tiptap/extension-link';
+import Underline from '@tiptap/extension-underline';
+import { environment } from '../../../../../environments/environment';
 
-type LoadResult =
-  | { kind: 'data'; response: QuranSurahNotesResponse }
-  | { kind: 'error'; message: string };
+// ── Minimal models ─────────────────────────────────────────────────────────────
+
+interface TiptapDoc { type: 'doc'; content: unknown[] }
+
+interface DocListItem {
+  id: string;
+  title: string;
+  doc_type: string;
+  updated_at: string | null;
+  created_at: string;
+}
+
+interface DocDetail extends DocListItem {
+  document_json: TiptapDoc;
+}
+
+const DOC_TYPES = [
+  { value: 'running_notes', label: 'Running Notes' },
+  { value: 'morphology',    label: 'Morphology' },
+  { value: 'nahw',          label: 'Nahw / Structure' },
+  { value: 'passage_notes', label: 'Passage Notes' },
+  { value: 'tafsir',        label: 'Tafsir' },
+  { value: 'draft',         label: 'Draft' },
+];
+
+type SaveState = 'idle' | 'saving' | 'saved' | 'error';
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 @Component({
   selector: 'app-quran-surah-notes-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, QuranSurahNotesListComponent, AppIconTabsComponent],
+  imports: [IonicModule, FormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './quran-surah-notes.page.html',
   styleUrl: './quran-surah-notes.page.scss',
 })
-export class QuranSurahNotesPage {
-  private readonly route = inject(ActivatedRoute);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly surahNotes = inject(QuranSurahNotesService);
-  private readonly modeChanges = new BehaviorSubject<QuranSurahNotesMode>('draft');
-  private readonly refreshTick = new BehaviorSubject(0);
-  private refreshComplete: (() => void) | null = null;
+export class QuranSurahNotesPage implements AfterViewInit, OnDestroy {
+  @ViewChild('editorHost') editorHost?: ElementRef<HTMLDivElement>;
+  @ViewChild('imageInput') imageInput?: ElementRef<HTMLInputElement>;
 
-  readonly loading = signal(true);
-  readonly error = signal<string | null>(null);
-  readonly response = signal<QuranSurahNotesResponse | null>(null);
-  readonly mode = signal<QuranSurahNotesMode>('draft');
-  readonly modeTabs: ReadonlyArray<IconTabItem> = [
-    { key: 'draft', label: 'Draft', icon: createOutline },
-    { key: 'flag', label: 'Flag', icon: flagOutline },
-    { key: 'published', label: 'Published', icon: checkmarkDoneOutline },
-  ];
+  private route     = inject(ActivatedRoute);
+  private http      = inject(HttpClient);
+  private cdr       = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
+  private base      = `${environment.apiBase}/documents`;
 
-  readonly totalNotes = computed(() => {
-    const response = this.response();
-    if (!response) {
-      return 0;
-    }
+  // ── State ──────────────────────────────────────────────────────────────────
+  surah      = signal(0);
+  documents  = signal<DocListItem[]>([]);
+  activeDoc  = signal<DocDetail | null>(null);
+  listLoading  = signal(true);
+  docLoading   = signal(false);
+  saveState    = signal<SaveState>('idle');
+  listOpen     = signal(true);
 
-    return response.verses.reduce((sum, verse) => sum + verse.notes.length, 0);
-  });
+  // Create form
+  creating     = signal(false);
+  newTitle     = '';
+  newDocType   = 'running_notes';
+  docTypes     = DOC_TYPES;
 
-  readonly pageTitle = computed(() => {
-    const surah = this.response()?.surah;
-    if (!surah) {
-      return 'Surah Notes';
-    }
-
-    return surah.name_simple || surah.name_en || `Surah ${surah.surah}`;
-  });
-
-  readonly summaryLabel = computed(() => {
-    const count = this.totalNotes();
-    if (count === 0) {
-      return 'No targeted notes';
-    }
-
-    return count === 1 ? '1 targeted note' : `${count} targeted notes`;
-  });
-
-  readonly emptyTitle = computed(() => {
-    if (this.mode() === 'published') {
-      return 'No published notes';
-    }
-
-    if (this.mode() === 'flag') {
-      return 'No flagged notes';
-    }
-
-    return 'No drafts for this surah';
-  });
-
-  readonly emptyMessage = computed(() => {
-    if (this.mode() === 'published') {
-      return 'Move a targeted note to Published to collect it here under its verse.';
-    }
-
-    if (this.mode() === 'flag') {
-      return 'Move a targeted note to Flag to surface it here.';
-    }
-
-    return 'Long-press a verse or word in the reader to capture a note for this surah.';
-  });
-
-  readonly errorTitle = computed(() => 'Unable to load surah notes');
+  private editor: Editor | null = null;
+  private pendingDoc: TiptapDoc | null = null;
+  private saveTimer: ReturnType<typeof setTimeout> | null = null;
+  private savedTimer: ReturnType<typeof setTimeout> | null = null;
+  private suppressUpdate = false;
 
   constructor() {
-    const surah$ = this.route.paramMap.pipe(
-      map((params) => parseSurah(params.get('surah'))),
-      distinctUntilChanged()
-    );
-
-    combineLatest([
-      surah$,
-      this.modeChanges.pipe(distinctUntilChanged()),
-      this.refreshTick,
-    ]).pipe(
-      tap(([surah, mode]) => {
-        this.mode.set(mode);
-        this.loading.set(true);
-        this.error.set(surah == null ? 'Surah is missing or invalid.' : null);
-        if (surah == null) {
-          this.response.set(null);
-        }
-      }),
-      switchMap(([surah, mode]) => {
-        if (surah == null) {
-          return of<LoadResult>({ kind: 'error', message: 'Surah is missing or invalid.' });
-        }
-
-        return this.surahNotes.getSurahNotes(surah, mode).pipe(
-          map((response) => ({ kind: 'data', response }) as LoadResult),
-          catchError((error: unknown) => {
-            const message = error instanceof Error ? error.message : 'Could not load surah notes.';
-            return of<LoadResult>({ kind: 'error', message });
-          })
-        );
-      }),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe((result) => {
-      this.loading.set(false);
-
-      if (result.kind === 'error') {
-        this.response.set(null);
-        this.error.set(result.message);
-        this.refreshComplete?.();
-        this.refreshComplete = null;
-        return;
+    this.route.paramMap.pipe(
+      map(p => parseSurah(p.get('surah'))),
+      distinctUntilChanged(),
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe(s => {
+      if (s != null) {
+        this.surah.set(s);
+        this.loadDocuments(s);
       }
-
-      this.error.set(null);
-      this.response.set(result.response);
-      this.refreshComplete?.();
-      this.refreshComplete = null;
     });
   }
 
-  onModeTabSelected(tabKey: string): void {
-    const nextMode = parseMode(tabKey);
-    if (nextMode === this.mode()) {
-      return;
+  // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+  ngAfterViewInit(): void {
+    // editor is lazily mounted when a document is selected
+  }
+
+  ngOnDestroy(): void {
+    if (this.saveTimer) clearTimeout(this.saveTimer);
+    if (this.savedTimer) clearTimeout(this.savedTimer);
+    this.flushSave();
+    this.editor?.destroy();
+  }
+
+  // ── Document list ─────────────────────────────────────────────────────────
+
+  async loadDocuments(surah: number): Promise<void> {
+    this.listLoading.set(true);
+    try {
+      const params = new HttpParams().set('domain', 'quran').set('surah', String(surah));
+      const res = await firstValueFrom(
+        this.http.get<{ ok: boolean; documents: DocListItem[] }>(this.base, { params })
+      );
+      if (res.ok) this.documents.set(res.documents);
+    } catch { /* ignore */ }
+    this.listLoading.set(false);
+    this.cdr.markForCheck();
+  }
+
+  async selectDocument(id: string): Promise<void> {
+    if (this.activeDoc()?.id === id) { this.listOpen.set(false); return; }
+    this.flushSave();
+    this.docLoading.set(true);
+    this.listOpen.set(false);
+    this.cdr.markForCheck();
+
+    try {
+      const res = await firstValueFrom(
+        this.http.get<{ ok: boolean; document: DocDetail }>(`${this.base}/${id}`)
+      );
+      if (res.ok) {
+        this.activeDoc.set(res.document);
+        this.mountEditor(res.document.document_json);
+      }
+    } catch { /* ignore */ }
+    this.docLoading.set(false);
+    this.cdr.markForCheck();
+  }
+
+  // ── Create ────────────────────────────────────────────────────────────────
+
+  async submitCreate(): Promise<void> {
+    const title = this.newTitle.trim();
+    if (!title) return;
+    this.creating.set(false);
+    try {
+      const res = await firstValueFrom(
+        this.http.post<{ ok: boolean; document_id: string; document: DocDetail }>(this.base, {
+          title, doc_type: this.newDocType, domain: 'quran', surah: this.surah(),
+        })
+      );
+      if (res.ok) {
+        const item: DocListItem = {
+          id: res.document.id, title: res.document.title,
+          doc_type: res.document.doc_type, updated_at: null,
+          created_at: new Date().toISOString(),
+        };
+        this.documents.update(d => [item, ...d]);
+        await this.selectDocument(res.document_id);
+      }
+    } catch { /* ignore */ }
+    this.newTitle = '';
+    this.cdr.markForCheck();
+  }
+
+  // ── Editor ────────────────────────────────────────────────────────────────
+
+  private mountEditor(doc: TiptapDoc): void {
+    this.editor?.destroy();
+    // Wait for view to render the host element
+    setTimeout(() => {
+      if (!this.editorHost?.nativeElement) return;
+      this.editor = new Editor({
+        element: this.editorHost.nativeElement,
+        extensions: [
+          StarterKit,
+          Placeholder.configure({ placeholder: 'Start writing… (type / for commands)' }),
+          Link.configure({ openOnClick: false }),
+          Underline,
+        ],
+        editable: true,
+        content: doc ?? { type: 'doc', content: [] },
+        onUpdate: ({ editor }) => {
+          if (this.suppressUpdate) return;
+          this.pendingDoc = editor.getJSON() as TiptapDoc;
+          this.scheduleSave();
+        },
+      });
+      this.cdr.markForCheck();
+    }, 80);
+  }
+
+  // ── Save ──────────────────────────────────────────────────────────────────
+
+  private scheduleSave(): void {
+    if (this.saveTimer) clearTimeout(this.saveTimer);
+    this.saveState.set('idle');
+    this.saveTimer = setTimeout(() => this.doSave(), 1500);
+  }
+
+  private flushSave(): void {
+    if (this.saveTimer) { clearTimeout(this.saveTimer); this.saveTimer = null; }
+    if (this.pendingDoc && this.activeDoc()) this.doSave();
+  }
+
+  private async doSave(): Promise<void> {
+    const id  = this.activeDoc()?.id;
+    const doc = this.pendingDoc ?? this.activeDoc()?.document_json;
+    if (!id || !doc) return;
+
+    this.saveState.set('saving');
+    this.cdr.markForCheck();
+
+    try {
+      const res = await firstValueFrom(
+        this.http.put<{ ok: boolean }>(`${this.base}/${id}`, { document_json: doc })
+      );
+      this.saveState.set(res.ok ? 'saved' : 'error');
+    } catch {
+      this.saveState.set('error');
     }
 
-    this.modeChanges.next(nextMode);
+    this.pendingDoc = null;
+    this.cdr.markForCheck();
+
+    if (this.saveState() === 'saved') {
+      if (this.savedTimer) clearTimeout(this.savedTimer);
+      this.savedTimer = setTimeout(() => {
+        this.saveState.set('idle');
+        this.cdr.markForCheck();
+      }, 2000);
+    }
   }
 
-  onRefresh(event: RefresherCustomEvent): void {
-    this.refreshComplete = () => event.target.complete();
-    this.refreshTick.next(this.refreshTick.value + 1);
+  // ── Title ─────────────────────────────────────────────────────────────────
+
+  async onTitleBlur(e: Event): Promise<void> {
+    const newTitle = (e.target as HTMLInputElement).value.trim();
+    const active = this.activeDoc();
+    if (!active || !newTitle || newTitle === active.title) return;
+
+    try {
+      await firstValueFrom(
+        this.http.patch<{ ok: boolean }>(`${this.base}/${active.id}`, { title: newTitle })
+      );
+      this.documents.update(docs =>
+        docs.map(d => d.id === active.id ? { ...d, title: newTitle } : d)
+      );
+      this.activeDoc.update(d => d ? { ...d, title: newTitle } : d);
+      this.cdr.markForCheck();
+    } catch { /* ignore */ }
   }
+
+  // ── Image upload ──────────────────────────────────────────────────────────
+
+  triggerImage(): void { this.imageInput?.nativeElement.click(); }
+
+  async onImageSelected(e: Event): Promise<void> {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    const id   = this.activeDoc()?.id;
+    if (!file || !id) return;
+
+    const form = new FormData();
+    form.append('file', file);
+    form.append('resource_type', 'image');
+    try {
+      const res = await firstValueFrom(
+        this.http.post<{ ok: boolean; url: string }>(`${this.base}/${id}/upload`, form)
+      );
+      if (res.ok && this.editor) {
+        this.editor.chain().focus().setImage({ src: res.url, alt: file.name }).run();
+      }
+    } catch { /* ignore */ }
+    (e.target as HTMLInputElement).value = '';
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+
+  docTypeLabel(t: string): string {
+    return DOC_TYPES.find(d => d.value === t)?.label ?? t;
+  }
+  formatDate(iso: string | null): string {
+    if (!iso) return '';
+    try { return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); }
+    catch { return ''; }
+  }
+  goBack(): void { this.listOpen.set(true); }
 }
 
-function parseSurah(value: string | null): number | null {
-  const parsed = Number(value);
-  if (!Number.isInteger(parsed) || parsed < 1 || parsed > 114) {
-    return null;
-  }
-
-  return parsed;
-}
-
-function parseMode(value: string | null | undefined): QuranSurahNotesMode {
-  if (value === 'flag' || value === 'published') {
-    return value;
-  }
-
-  return 'draft';
+function parseSurah(v: string | null): number | null {
+  const n = Number(v);
+  return Number.isInteger(n) && n >= 1 && n <= 114 ? n : null;
 }

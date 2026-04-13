@@ -6,98 +6,236 @@
   --background: var(--app-page-background);
 }
 
-.quran-surah-notes__footer {
-  --app-icon-tabs-bg: transparent;
-  --app-icon-tabs-color: rgba(205, 220, 241, 0.72);
-  --app-icon-tabs-selected: var(--ion-color-primary-tint);
-  --app-icon-tabs-border-color: transparent;
+// ── Document list ─────────────────────────────────────────────────────────────
+
+.km-notes-list {
+  padding: 8px;
 }
 
-.quran-surah-notes {
-  width: min(100%, 960px);
-  min-height: 100%;
-  margin-inline: auto;
-  padding: calc(env(safe-area-inset-top) + 0.8rem) 1rem calc(env(safe-area-inset-bottom) + 5.8rem);
+.km-notes-new-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 14px;
+  margin-bottom: 6px;
+  border: 1px dashed rgba(201, 168, 76, 0.35);
+  border-radius: 8px;
+  background: rgba(201, 168, 76, 0.05);
+  color: #c9a84c;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  ion-icon { font-size: 1.1rem; }
 }
 
-.quran-surah-notes__hero {
-  padding: 0.15rem 0 1rem;
-  border-bottom: 1px solid var(--app-border-soft);
-  margin-bottom: 0.35rem;
+.km-notes-create {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.quran-surah-notes__eyebrow {
-  margin: 0;
-  color: color-mix(in srgb, var(--ion-color-primary-tint) 82%, #fff 18%);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+.km-notes-create__input,
+.km-notes-create__select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 8px 11px;
+  color: var(--ion-text-color, #fff);
+  font-size: 0.85rem;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus { border-color: #c9a84c; }
 }
 
-.quran-surah-notes__hero h1 {
-  margin: 0.35rem 0 0;
-  color: var(--app-text-strong);
-  font-size: clamp(1.75rem, 4vw, 2.45rem);
-  line-height: 1.1;
-}
+.km-notes-create__actions { display: flex; gap: 7px; }
 
-.quran-surah-notes__arabic {
-  margin: 0.45rem 0 0;
-  color: color-mix(in srgb, var(--app-text-strong) 88%, var(--ion-color-primary-tint) 12%);
-  font-family: var(--app-font-ar);
-  font-size: clamp(1.9rem, 5vw, 3rem);
-  line-height: 1.5;
-  text-align: right;
-}
+.km-notes-create__btn {
+  flex: 1;
+  padding: 7px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: var(--ion-text-color, #fff);
+  font-size: 0.8rem;
+  cursor: pointer;
 
-.quran-surah-notes__state {
-  padding: 1.25rem 0;
-  color: var(--app-text-muted);
-}
-
-.quran-surah-notes__state h2,
-.quran-surah-notes__state p {
-  margin: 0;
-}
-
-.quran-surah-notes__state h2 {
-  color: var(--app-text-strong);
-  font-size: 1.08rem;
-}
-
-.quran-surah-notes__state p {
-  margin-top: 0.45rem;
-  line-height: 1.7;
-}
-
-.quran-surah-notes__skeleton-block {
-  padding-block: 1rem;
-  border-bottom: 1px solid rgba(var(--ion-color-primary-rgb), 0.12);
-}
-
-.quran-surah-notes__skeleton-line {
-  height: 0.9rem;
-  border-radius: 999px;
-  margin-bottom: 0.68rem;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), rgba(var(--ion-color-primary-rgb), 0.16), rgba(255, 255, 255, 0.03));
-}
-
-.quran-surah-notes__skeleton-line--short {
-  width: 30%;
-}
-
-.quran-surah-notes__skeleton-line--medium {
-  width: 55%;
-}
-
-.quran-surah-notes__skeleton-line--title {
-  width: 42%;
-  height: 1.6rem;
-}
-
-@media (max-width: 680px) {
-  .quran-surah-notes {
-    padding-inline: 0.85rem;
+  &--primary {
+    background: #c9a84c;
+    color: #1a1a1a;
+    border-color: #c9a84c;
+    font-weight: 600;
   }
+
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+.km-notes-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  padding: 11px 12px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  color: var(--ion-text-color, #fff);
+  transition: background 0.15s;
+
+  &:hover, &:active { background: rgba(255, 255, 255, 0.05); }
+}
+
+.km-notes-item__title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.km-notes-item__meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.72rem;
+  color: var(--ion-color-medium, rgba(255,255,255,0.4));
+}
+
+.km-notes-item__type {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.km-notes-state {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--ion-color-medium, rgba(255,255,255,0.4));
+  font-size: 0.85rem;
+
+  &--empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  p { margin: 0; }
+}
+
+.km-notes-state__icon {
+  font-size: 2.2rem;
+  opacity: 0.3;
+}
+
+// ── Editor ────────────────────────────────────────────────────────────────────
+
+.km-notes-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.km-notes-title-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  outline: none;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ion-text-color, #fff);
+  padding: 14px 16px 10px;
+  width: 100%;
+  box-sizing: border-box;
+
+  &::placeholder { color: rgba(255, 255, 255, 0.25); }
+}
+
+.km-notes-tiptap {
+  flex: 1;
+  overflow-y: auto;
+
+  ::ng-deep .ProseMirror {
+    min-height: 60vh;
+    padding: 16px 16px 60px;
+    outline: none;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: var(--ion-text-color, rgba(255, 255, 255, 0.88));
+    caret-color: #c9a84c;
+  }
+
+  ::ng-deep .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: rgba(255, 255, 255, 0.25);
+    pointer-events: none;
+    height: 0;
+    font-style: italic;
+  }
+
+  ::ng-deep .ProseMirror p { margin: 0 0 0.9em; }
+
+  ::ng-deep .ProseMirror h1 { font-size: 1.5rem; margin: 1.3em 0 0.5em; font-weight: 600; }
+  ::ng-deep .ProseMirror h2 { font-size: 1.2rem; margin: 1.1em 0 0.4em; font-weight: 600; }
+  ::ng-deep .ProseMirror h3 { font-size: 1rem; margin: 1em 0 0.35em; color: #c9a84c; font-weight: 600; }
+
+  ::ng-deep .ProseMirror blockquote {
+    border-left: 3px solid rgba(201, 168, 76, 0.4);
+    margin: 1em 0; padding: 0.5em 1em;
+    color: rgba(255, 255, 255, 0.65); font-style: italic;
+  }
+
+  ::ng-deep .ProseMirror ul,
+  ::ng-deep .ProseMirror ol { padding-left: 1.5em; margin: 0.5em 0; }
+  ::ng-deep .ProseMirror li { margin-bottom: 0.25em; }
+
+  ::ng-deep .ProseMirror strong { font-weight: 600; }
+  ::ng-deep .ProseMirror em { color: rgba(220, 196, 155, 0.85); }
+
+  ::ng-deep .ProseMirror code {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    padding: 0.12em 0.4em; border-radius: 3px;
+    font-size: 0.84em; color: rgba(201, 168, 76, 0.88);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  ::ng-deep .ProseMirror hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 2em 0;
+  }
+
+  ::ng-deep .ProseMirror a { color: #c9a84c; text-decoration: underline; }
+  ::ng-deep .ProseMirror img { max-width: 100%; border-radius: 6px; margin: 0.6em 0; }
+}
+
+// ── Save badge ────────────────────────────────────────────────────────────────
+
+.ion-save-badge {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}
+
+.save-badge {
+  font-size: 0.7rem;
+  padding: 2px 7px;
+  border-radius: 10px;
+
+  &--saving { color: rgba(255,255,255,0.4); }
+  &--saved  { color: rgba(120,200,120,0.8); }
+  &--error  { color: rgba(220,100,100,0.9); background: rgba(220,100,100,0.1); }
 }

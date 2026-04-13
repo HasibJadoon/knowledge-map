@@ -1,60 +1,117 @@
 <ion-header translucent="true">
-  <ion-toolbar class="quran-surah-notes__toolbar">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/quran"></ion-back-button>
+      @if (!listOpen()) {
+        <ion-button (click)="goBack()">
+          <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      } @else {
+        <ion-back-button defaultHref="/quran"></ion-back-button>
+      }
     </ion-buttons>
-    <ion-title>{{ pageTitle() }}</ion-title>
+    <ion-title>
+      @if (listOpen()) {
+        Notes · Surah {{ surah() }}
+      } @else if (activeDoc(); as doc) {
+        {{ doc.title }}
+      }
+    </ion-title>
+    @if (!listOpen() && activeDoc()) {
+      <ion-buttons slot="end">
+        <ion-button (click)="triggerImage()" title="Upload image">
+          <ion-icon name="image-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <span class="ion-save-badge">
+          @switch (saveState()) {
+            @case ('saving') { <span class="save-badge save-badge--saving">Saving…</span> }
+            @case ('saved')  { <span class="save-badge save-badge--saved">Saved</span> }
+            @case ('error')  { <span class="save-badge save-badge--error">!</span> }
+          }
+        </span>
+      </ion-buttons>
+    }
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="quran-surah-notes__content">
-  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+<ion-content [fullscreen]="true">
 
-  <div class="quran-surah-notes">
-    <section class="quran-surah-notes__hero" *ngIf="response() as data">
-      <p class="quran-surah-notes__eyebrow">{{ summaryLabel() }}</p>
-      <h1>{{ data.surah.name_simple || data.surah.name_en || ('Surah ' + data.surah.surah) }}</h1>
-      <p class="quran-surah-notes__arabic" lang="ar" dir="rtl" translate="no">{{ data.surah.name_ar }}</p>
-    </section>
+  <!-- ─── Document list ───────────────────────────────────────────────── -->
+  @if (listOpen()) {
+    <div class="km-notes-list">
 
-    <section class="quran-surah-notes__state" *ngIf="loading()">
-      <div class="quran-surah-notes__skeleton-line quran-surah-notes__skeleton-line--short"></div>
-      <div class="quran-surah-notes__skeleton-line quran-surah-notes__skeleton-line--title"></div>
-      <div class="quran-surah-notes__skeleton-line quran-surah-notes__skeleton-line--medium"></div>
-      <div class="quran-surah-notes__skeleton-block" *ngFor="let row of [1, 2, 3]">
-        <div class="quran-surah-notes__skeleton-line quran-surah-notes__skeleton-line--medium"></div>
-        <div class="quran-surah-notes__skeleton-line"></div>
-        <div class="quran-surah-notes__skeleton-line"></div>
-      </div>
-    </section>
+      <!-- New document form -->
+      @if (creating()) {
+        <div class="km-notes-create">
+          <input class="km-notes-create__input" [(ngModel)]="newTitle"
+            placeholder="Note title…"
+            (keydown.enter)="submitCreate()"
+            (keydown.escape)="creating.set(false)" autofocus />
+          <select class="km-notes-create__select" [(ngModel)]="newDocType">
+            @for (dt of docTypes; track dt.value) {
+              <option [value]="dt.value">{{ dt.label }}</option>
+            }
+          </select>
+          <div class="km-notes-create__actions">
+            <button class="km-notes-create__btn km-notes-create__btn--primary"
+              (click)="submitCreate()" [disabled]="!newTitle.trim()">Create</button>
+            <button class="km-notes-create__btn" (click)="creating.set(false)">Cancel</button>
+          </div>
+        </div>
+      }
 
-    <section class="quran-surah-notes__state" *ngIf="!loading() && error()">
-      <h2>{{ errorTitle() }}</h2>
-      <p>{{ error() }}</p>
-    </section>
+      <!-- New note CTA button -->
+      @if (!creating()) {
+        <button class="km-notes-new-btn" (click)="creating.set(true)">
+          <ion-icon name="add-outline"></ion-icon>
+          New Note
+        </button>
+      }
 
-    <ng-container *ngIf="!loading() && !error() && response() as data">
-      <section class="quran-surah-notes__state" *ngIf="data.verses.length === 0">
-        <h2>{{ emptyTitle() }}</h2>
-        <p>{{ emptyMessage() }}</p>
-      </section>
+      <!-- Loading -->
+      @if (listLoading()) {
+        <div class="km-notes-state">Loading…</div>
+      }
 
-      <app-quran-surah-notes-list
-        *ngIf="data.verses.length > 0"
-        [verses]="data.verses"
-        [expandedVerseKey]="data.verses[0]?.verseKey ?? null"
-      ></app-quran-surah-notes-list>
-    </ng-container>
-  </div>
+      <!-- Empty -->
+      @if (!listLoading() && documents().length === 0) {
+        <div class="km-notes-state km-notes-state--empty">
+          <ion-icon name="document-text-outline" class="km-notes-state__icon"></ion-icon>
+          <p>No notes yet for Surah {{ surah() }}</p>
+        </div>
+      }
+
+      <!-- List -->
+      @for (doc of documents(); track doc.id) {
+        <button class="km-notes-item" (click)="selectDocument(doc.id)">
+          <div class="km-notes-item__title">{{ doc.title }}</div>
+          <div class="km-notes-item__meta">
+            <span class="km-notes-item__type">{{ docTypeLabel(doc.doc_type) }}</span>
+            @if (doc.updated_at || doc.created_at) {
+              <span class="km-notes-item__date">{{ formatDate(doc.updated_at || doc.created_at) }}</span>
+            }
+          </div>
+        </button>
+      }
+    </div>
+  }
+
+  <!-- ─── Editor ───────────────────────────────────────────────────────── -->
+  @if (!listOpen()) {
+    <div class="km-notes-editor">
+      @if (docLoading()) {
+        <div class="km-notes-state">Loading document…</div>
+      } @else if (activeDoc()) {
+        <input class="km-notes-title-input"
+          [value]="activeDoc()!.title"
+          placeholder="Untitled"
+          (blur)="onTitleBlur($event)"
+          (keydown.enter)="$any($event.target).blur()" />
+        <div class="km-notes-tiptap" #editorHost></div>
+      }
+    </div>
+  }
+
 </ion-content>
 
-<ion-footer class="quran-surah-notes__footer">
-  <app-icon-tabs
-    [tabs]="modeTabs"
-    [activeKey]="mode()"
-    [manual]="true"
-    (tabSelected)="onModeTabSelected($event)"
-  ></app-icon-tabs>
-</ion-footer>
+<!-- Hidden image input -->
+<input #imageInput type="file" accept="image/*" hidden (change)="onImageSelected($event)" />
