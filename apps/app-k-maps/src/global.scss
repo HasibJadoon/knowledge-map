@@ -72,6 +72,14 @@
 }
 
 @font-face {
+  font-family: "AmiriQuran";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("assets/fonts/AmiriQuran.woff2") format("woff2");
+}
+
+@font-face {
   font-family: "Surah Name V2";
   font-style: normal;
   font-weight: 400;
@@ -94,8 +102,8 @@
   --app-font-ar: "Uthmanic Hafs", "Scheherazade New", serif;
 
   // k-maps aliases — same names as desktop app
-  --km-font-arabic: "Uthmanic Hafs", "Scheherazade New", serif;
-  --km-font-arabic-amiri: "Uthmanic Hafs", "Scheherazade New", serif;
+  --km-font-arabic: "Uthmanic Hafs", "Noto Naskh Arabic", serif;
+  --km-font-arabic-amiri: "AmiriQuran", "Noto Naskh Arabic", serif;
   --km-font-body: "Poppins", "Helvetica Neue", Arial, sans-serif;
   --km-font-heading: "Poppins", "Helvetica Neue", Arial, sans-serif;
 }

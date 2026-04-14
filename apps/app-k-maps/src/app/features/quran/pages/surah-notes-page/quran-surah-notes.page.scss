@@ -169,11 +169,28 @@
     min-height: 60vh;
     padding: 16px 16px 60px;
     outline: none;
-    font-family: 'EB Garamond', Georgia, serif;
+    font-family: var(--km-font-body, 'Poppins', sans-serif);
     font-size: 1.02rem;
     line-height: 1.8;
     color: var(--ion-text-color, rgba(255, 255, 255, 0.88));
     caret-color: #c9a84c;
+  }
+
+  // ── Arabic auto-direction ─────────────────────────────────────────────────
+  // AutoDirection extension sets dir="rtl" on blocks when Arabic text dominates.
+  // Apply locally-loaded AmiriQuran font + RTL metrics for those blocks.
+  ::ng-deep .ProseMirror p[dir="rtl"],
+  ::ng-deep .ProseMirror li[dir="rtl"],
+  ::ng-deep .ProseMirror blockquote[dir="rtl"],
+  ::ng-deep .ProseMirror h1[dir="rtl"],
+  ::ng-deep .ProseMirror h2[dir="rtl"],
+  ::ng-deep .ProseMirror h3[dir="rtl"] {
+    font-family: var(--km-font-arabic-amiri, 'AmiriQuran', serif) !important;
+    font-size: 1.45rem;
+    line-height: 2.2;
+    letter-spacing: 0;
+    word-spacing: 0.04em;
+    text-align: right;
   }
 
   ::ng-deep .ProseMirror p.is-editor-empty:first-child::before {

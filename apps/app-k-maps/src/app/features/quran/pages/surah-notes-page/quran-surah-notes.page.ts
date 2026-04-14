@@ -14,6 +14,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Link from '@tiptap/extension-link';
 import Underline from '@tiptap/extension-underline';
+import { AutoDirection } from './auto-direction.extension';
 import { environment } from '../../../../../environments/environment';
 
 // ── Minimal models ─────────────────────────────────────────────────────────────
@@ -185,9 +186,10 @@ export class QuranSurahNotesPage implements AfterViewInit, OnDestroy {
           Placeholder.configure({ placeholder: 'Start writing… (type / for commands)' }),
           Link.configure({ openOnClick: false }),
           Underline,
+          AutoDirection,
         ],
         editable: true,
-        content: doc ?? { type: 'doc', content: [] },
+        content: (doc ?? { type: 'doc', content: [] }) as never,
         onUpdate: ({ editor }) => {
           if (this.suppressUpdate) return;
           this.pendingDoc = editor.getJSON() as TiptapDoc;
@@ -276,7 +278,8 @@ export class QuranSurahNotesPage implements AfterViewInit, OnDestroy {
         this.http.post<{ ok: boolean; url: string }>(`${this.base}/${id}/upload`, form)
       );
       if (res.ok && this.editor) {
-        this.editor.chain().focus().setImage({ src: res.url, alt: file.name }).run();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (this.editor.chain().focus() as any).setImage({ src: res.url, alt: file.name }).run();
       }
     } catch { /* ignore */ }
     (e.target as HTMLInputElement).value = '';
