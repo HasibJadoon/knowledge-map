@@ -139,7 +139,8 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
     }
 
     .km-doc-editor-el {
-      padding: 20px 20px 100px;
+      /* 56px left = 20px outer + 36px for the + ⠿ handle to sit in */
+      padding: 20px 20px 100px 56px;
 
       /* ── ProseMirror core ─────────────────────────────────────────── */
       :global(.ProseMirror) {

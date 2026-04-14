@@ -22,6 +22,7 @@ import {
 import { SlashCommandExtension } from '../doc-editor/tiptap-extensions/slash-command.extension';
 import { Callout } from '../doc-editor/tiptap-extensions/callout.extension';
 import { PageLink } from '../doc-editor/tiptap-extensions/page-link.extension';
+import { MobileBlockHandle } from '../doc-editor/tiptap-extensions/mobile-block-handle.extension';
 import { environment } from '../../../../environments/environment';
 
 export interface DocContext {
@@ -115,6 +116,7 @@ export class DocEditorService {
         PageLink,
         Callout,
         SlashCommandExtension,
+        MobileBlockHandle,
         // Tab = indent list, Shift-Tab = outdent
         Extension.create({
           name: 'tabIndent',
