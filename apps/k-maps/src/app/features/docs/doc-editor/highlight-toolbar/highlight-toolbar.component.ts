@@ -93,6 +93,13 @@ const TEXT_COLORS = [
           </svg>
         </button>
 
+        <!-- Indent/Outdent (list context) -->
+        @if (currentBlock() === 'bulletList' || currentBlock() === 'orderedList') {
+          <div class="km-bubble__sep"></div>
+          <button class="km-bubble__btn" title="Outdent (Shift+Tab)" (click)="outdent()">⇤</button>
+          <button class="km-bubble__btn" title="Indent (Tab)" (click)="indent()">⇥</button>
+        }
+
         <div class="km-bubble__sep"></div>
 
         <!-- More (K-MAPS extract) -->
@@ -552,6 +559,18 @@ export class HighlightToolbarComponent implements OnDestroy {
     e.preventDefault();
     this.editorSvc.editor?.chain().focus().unsetHighlight().run();
     this.colorMenuOpen.set(false);
+    this.cdr.markForCheck();
+  }
+
+  // ── Indent / Outdent ─────────────────────────────────────────────────────
+
+  indent(): void {
+    this.editorSvc.editor?.chain().focus().sinkListItem('listItem').run();
+    this.cdr.markForCheck();
+  }
+
+  outdent(): void {
+    this.editorSvc.editor?.chain().focus().liftListItem('listItem').run();
     this.cdr.markForCheck();
   }
 

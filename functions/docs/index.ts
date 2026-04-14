@@ -11,6 +11,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const offset = parseInt(url.searchParams.get('offset') ?? '0');
 
   let query = `SELECT id, title, doc_type, domain, status, word_count,
+                      parent_doc_id, sort_order,
                       surah, ayah_from, ayah_to, canonical_ref,
                       source_id, container_id, tags_json,
                       created_at, updated_at
@@ -21,7 +22,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   if (domain)      { query += ` AND domain = ?`;        params.push(domain); }
   if (status !== 'all') { query += ` AND status = ?`;   params.push(status); }
 
-  query += ` ORDER BY updated_at DESC LIMIT ? OFFSET ?`;
+  query += ` ORDER BY sort_order ASC, updated_at DESC LIMIT ? OFFSET ?`;
   params.push(limit, offset);
 
   const { results } = await env.DB.prepare(query).bind(...params).all();
@@ -36,10 +37,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   await env.DB.prepare(`
     INSERT INTO km_documents
       (id, workspace_id, title, doc_type, domain, document_json,
-       container_id, unit_id, source_id, source_unit_id,
+       parent_doc_id, container_id, unit_id, source_id, source_unit_id,
        surah, ayah_from, ayah_to, canonical_ref,
        production_type, target_audience, tags_json, created_at, updated_at)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
   `).bind(
     id,
     body.workspace_id ?? null,
@@ -47,6 +48,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     body.doc_type ?? 'note',
     body.domain ?? 'general',
     JSON.stringify({ type: 'doc', content: [] }),
+    body.parent_doc_id ?? null,
     body.container_id ?? null,
     body.unit_id ?? null,
     body.source_id ?? null,

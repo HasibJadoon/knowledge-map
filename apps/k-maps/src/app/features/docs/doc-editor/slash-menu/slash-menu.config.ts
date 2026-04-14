@@ -90,16 +90,17 @@ export const SLASH_COMMANDS: SlashCommand[] = [
       if (!ref) return;
       const [s, a] = ref.split(':').map(Number);
       if (!s || !a) return;
-      fetch(`/api/ar/quran/ayahs?surah=${s}&ayah=${a}`)
+      // API returns `verses` array; use limit=1 + offset=ayah-1 to get the specific verse
+      fetch(`/api/ar/quran/ayahs?surah=${s}&limit=1&offset=${a - 1}`)
         .then(r => r.json())
-        .then((data: { ayahs?: Array<{ text_uthmani_clean?: string; text_uthmani?: string; translation?: string }> }) => {
-          const ayah = data.ayahs?.[0];
+        .then((data: { verses?: Array<{ text_uthmani_clean?: string; text_uthmani?: string; text?: string; translation?: string }> }) => {
+          const verse = data.verses?.[0];
           editor.commands.insertContent({
             type: 'ayah_embed',
             attrs: {
               id: crypto.randomUUID(), surah: s, ayah: a,
-              text_uthmani: ayah?.text_uthmani_clean ?? ayah?.text_uthmani ?? '',
-              translation: ayah?.translation ?? '',
+              text_uthmani: verse?.text_uthmani_clean ?? verse?.text_uthmani ?? verse?.text ?? '',
+              translation: verse?.translation ?? '',
               show_translation: true, dir: 'rtl', lang: 'ar'
             }
           });

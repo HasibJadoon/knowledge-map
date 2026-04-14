@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, signal, effect, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +6,8 @@ import { DocEditorService } from '../services/doc-editor.service';
 
 interface HeadingNode { text: string; level: number; }
 interface BlockLink { id: number; block_id: string; entity_type?: string; entity_id?: number; surah?: number; ayah_from?: number; ayah_to?: number; }
+interface PageLinkItem { doc_id: string; title: string; }
+interface AyahItem { surah: number; ayah: number; text: string; }
 
 @Component({
   selector: 'km-doc-right-panel',
@@ -39,24 +41,44 @@ interface BlockLink { id: number; block_id: string; entity_type?: string; entity
 
         @if (activeTab() === 'Links') {
           <div class="km-rp-links">
-            @if (quranLinks().length) {
-              <div class="km-rp-link-group">
-                <div class="km-rp-link-group-label">Quran</div>
-                @for (l of quranLinks(); track l.id) {
-                  <div class="km-rp-link-item">{{ l.surah }}:{{ l.ayah_from }}{{ l.ayah_to !== l.ayah_from ? '–'+l.ayah_to : '' }}</div>
+
+            @if (pageLinks().length) {
+              <div class="km-rp-link-section">
+                <div class="km-rp-link-group-label">📄 Linked Pages</div>
+                @for (p of pageLinks(); track p.doc_id) {
+                  <a class="km-rp-page-link" [href]="'/docs/' + p.doc_id">
+                    <span>{{ p.title || 'Untitled' }}</span>
+                    <span class="km-rp-link-arrow">→</span>
+                  </a>
                 }
               </div>
             }
+
+            @if (ayahItems().length) {
+              <div class="km-rp-link-section">
+                <div class="km-rp-link-group-label">📖 Quran</div>
+                @for (a of ayahItems(); track a.surah + ':' + a.ayah) {
+                  <div class="km-rp-link-item">
+                    <span class="km-rp-ref">{{ a.surah }}:{{ a.ayah }}</span>
+                    <span class="km-rp-ayah-text">{{ a.text }}</span>
+                  </div>
+                }
+              </div>
+            }
+
             @if (wvLinks().length) {
-              <div class="km-rp-link-group">
-                <div class="km-rp-link-group-label">Worldview</div>
+              <div class="km-rp-link-section">
+                <div class="km-rp-link-group-label">🌍 Worldview</div>
                 @for (l of wvLinks(); track l.id) {
                   <div class="km-rp-link-item">{{ l.entity_type }} #{{ l.entity_id }}</div>
                 }
               </div>
             }
-            @if (!quranLinks().length && !wvLinks().length) {
-              <p class="km-rp-empty">No links yet</p>
+
+            @if (!pageLinks().length && !ayahItems().length && !wvLinks().length) {
+              <p class="km-rp-empty">No links yet.<br>
+                <span class="km-rp-hint">Insert an Ayah embed or Page link via /</span>
+              </p>
             }
           </div>
         }
@@ -76,10 +98,17 @@ interface BlockLink { id: number; block_id: string; entity_type?: string; entity
             <label class="km-rp-field">
               <span>Doc Type</span>
               <select [(ngModel)]="metaDocType" (ngModelChange)="saveMeta()">
+                @if (metaDocType && !['note','tafsir','lesson','analysis','script','essay','running_notes','journal','summary','reflection'].includes(metaDocType)) {
+                  <option [value]="metaDocType">{{ metaDocType }}</option>
+                }
                 <option>note</option>
+                <option>running_notes</option>
+                <option>journal</option>
+                <option>summary</option>
                 <option>tafsir</option>
                 <option>lesson</option>
                 <option>analysis</option>
+                <option>reflection</option>
                 <option>script</option>
                 <option>essay</option>
               </select>
@@ -134,10 +163,45 @@ interface BlockLink { id: number; block_id: string; entity_type?: string; entity
       color: var(--km-text-3);
       margin: 8px 0 4px;
     }
+    .km-rp-link-section { margin-bottom: 14px; }
+    .km-rp-page-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 6px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      color: rgba(201,168,76,0.85);
+      transition: background 0.1s;
+      &:hover { background: rgba(201,168,76,0.08); color: rgba(201,168,76,1); }
+    }
+    .km-rp-link-arrow { opacity: 0.5; font-size: 0.75rem; margin-left: auto; }
     .km-rp-link-item {
-      font-size: 0.78rem;
+      padding: 4px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .km-rp-ref {
+      font-size: 0.72rem;
+      color: var(--km-gold);
+      font-weight: 600;
+    }
+    .km-rp-ayah-text {
+      font-family: var(--km-font-arabic-amiri);
+      font-size: 1rem;
+      line-height: 1.8;
       color: var(--km-text-2);
-      padding: 3px 0;
+      direction: rtl;
+      text-align: right;
+      user-select: text;
+      cursor: text;
+    }
+    .km-rp-hint {
+      font-size: 0.72rem;
+      color: var(--km-text-3);
+      font-style: normal;
     }
     .km-rp-field {
       display: flex;
@@ -160,10 +224,13 @@ interface BlockLink { id: number; block_id: string; entity_type?: string; entity
 export class DocRightPanelComponent implements OnInit {
   private editorSvc = inject(DocEditorService);
   private http      = inject(HttpClient);
+  private cdr       = inject(ChangeDetectorRef);
 
   readonly tabs = ['Outline', 'Links', 'Metadata'] as const;
   activeTab  = signal<'Outline' | 'Links' | 'Metadata'>('Outline');
   headings   = signal<HeadingNode[]>([]);
+  pageLinks  = signal<PageLinkItem[]>([]);
+  ayahItems  = signal<AyahItem[]>([]);
   quranLinks = signal<BlockLink[]>([]);
   wvLinks    = signal<BlockLink[]>([]);
 
@@ -171,15 +238,25 @@ export class DocRightPanelComponent implements OnInit {
   metaDocType  = 'note';
   metaAudience = '';
 
-  ngOnInit(): void {
-    // Rebuild outline whenever editor updates
-    const editor = this.editorSvc.editor;
-    if (editor) {
-      editor.on('update', () => this.buildOutline());
-      this.buildOutline();
-    }
-    this.loadLinks();
+  private boundBuild = () => { this.buildOutline(); this.buildLinks(); this.cdr.markForCheck(); };
+
+  constructor() {
+    effect(() => {
+      const ready = this.editorSvc.editorReady();
+      const editor = this.editorSvc.editor;
+      if (ready && editor) {
+        editor.off('update', this.boundBuild);
+        editor.on('update', this.boundBuild);
+        this.buildOutline();
+        this.buildLinks();
+        this.loadDbLinks();
+        this.loadMeta();
+        this.cdr.markForCheck();
+      }
+    });
   }
+
+  ngOnInit(): void { /* intentionally empty — init handled in constructor effect */ }
 
   buildOutline(): void {
     const json = this.editorSvc.getJSON() as { content?: Array<{ type: string; attrs?: { level?: number }; content?: Array<{ text?: string }> }> };
@@ -193,11 +270,51 @@ export class DocRightPanelComponent implements OnInit {
     this.headings.set(heads);
   }
 
-  loadLinks(): void {
+  /** Extract page_link and ayah_embed nodes directly from editor content. */
+  buildLinks(): void {
+    type DocNode = { type: string; attrs?: Record<string, unknown>; content?: DocNode[] };
+    const json = this.editorSvc.getJSON() as { content?: DocNode[] };
+
+    const pages: PageLinkItem[] = [];
+    const ayahs: AyahItem[] = [];
+
+    const walk = (nodes: DocNode[]) => {
+      for (const node of nodes) {
+        if (node.type === 'page_link' && node.attrs?.['doc_id']) {
+          pages.push({ doc_id: node.attrs['doc_id'] as string, title: (node.attrs['title'] as string) || 'Untitled' });
+        }
+        if (node.type === 'ayah_embed' && node.attrs?.['surah']) {
+          ayahs.push({
+            surah: node.attrs['surah'] as number,
+            ayah: node.attrs['ayah'] as number,
+            text: (node.attrs['text_uthmani'] as string) || '',
+          });
+        }
+        if (node.content?.length) walk(node.content);
+      }
+    };
+
+    walk(json.content ?? []);
+    this.pageLinks.set(pages);
+    this.ayahItems.set(ayahs);
+  }
+
+  loadDbLinks(): void {
     const id = this.editorSvc.docId();
     if (!id) return;
     this.http.get<{ links: BlockLink[] }>(`/api/docs/${id}/links/quran`).subscribe(r => this.quranLinks.set(r.links ?? []));
     this.http.get<{ links: BlockLink[] }>(`/api/docs/${id}/links/wv`).subscribe(r => this.wvLinks.set(r.links ?? []));
+  }
+
+  loadMeta(): void {
+    const id = this.editorSvc.docId();
+    if (!id) return;
+    this.http.get<Record<string, unknown>>(`/api/docs/${id}`).subscribe(doc => {
+      this.metaDomain   = (doc['domain']           as string) || 'general';
+      this.metaDocType  = (doc['doc_type']          as string) || 'note';
+      this.metaAudience = (doc['target_audience']   as string) || '';
+      this.cdr.markForCheck();
+    });
   }
 
   scrollToHeading(text: string): void {

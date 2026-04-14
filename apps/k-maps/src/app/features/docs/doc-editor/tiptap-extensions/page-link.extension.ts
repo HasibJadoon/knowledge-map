@@ -36,42 +36,57 @@ export const PageLink = Node.create({
         style.id = 'km-page-link-styles';
         style.textContent = `
           .km-page-link {
-            display: flex; align-items: center; gap: 10px;
-            padding: 8px 12px; margin: 2px 0;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 14px; margin: 4px 0;
+            border-radius: 9px;
+            background: linear-gradient(90deg, rgba(201,168,76,0.06) 0%, rgba(201,168,76,0.02) 100%);
+            border: 1px solid rgba(201,168,76,0.18);
             cursor: pointer;
-            transition: background 0.15s, border-color 0.15s;
+            transition: background 0.18s, border-color 0.18s, box-shadow 0.18s;
             user-select: none;
           }
           .km-page-link:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(255,255,255,0.14);
+            background: linear-gradient(90deg, rgba(201,168,76,0.11) 0%, rgba(201,168,76,0.04) 100%);
+            border-color: rgba(201,168,76,0.38);
+            box-shadow: 0 2px 16px rgba(201,168,76,0.08);
           }
           .km-page-link__icon {
             font-size: 1rem; flex-shrink: 0;
-            width: 24px; text-align: center;
+            width: 26px; height: 26px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(201,168,76,0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(201,168,76,0.18);
           }
           .km-page-link__title {
             flex: 1; font-size: 0.92rem;
-            color: rgba(255,255,255,0.85);
+            color: rgba(201,168,76,0.9);
             font-weight: 500;
+            letter-spacing: 0.01em;
           }
           .km-page-link__arrow {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.25);
+            font-size: 0.8rem;
+            color: rgba(201,168,76,0.4);
+            transition: transform 0.15s, color 0.15s;
+          }
+          .km-page-link:hover .km-page-link__arrow {
+            transform: translateX(3px);
+            color: rgba(201,168,76,0.8);
           }
           .km-page-link__edit {
-            font-size: 0.7rem; padding: 2px 7px;
-            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.68rem; padding: 2px 8px;
+            border: 1px solid rgba(201,168,76,0.2);
             border-radius: 4px; background: transparent;
-            color: rgba(255,255,255,0.35); cursor: pointer;
-            transition: color 0.1s, border-color 0.1s;
-            display: none;
+            color: rgba(201,168,76,0.5); cursor: pointer;
+            transition: color 0.12s, border-color 0.12s, background 0.12s;
+            display: none; font-family: inherit;
           }
           .km-page-link:hover .km-page-link__edit { display: inline-block; }
-          .km-page-link__edit:hover { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3); }
+          .km-page-link__edit:hover {
+            color: rgba(201,168,76,1);
+            border-color: rgba(201,168,76,0.5);
+            background: rgba(201,168,76,0.08);
+          }
         `;
         document.head.appendChild(style);
       }
@@ -108,6 +123,28 @@ export const PageLink = Node.create({
 
       dom.addEventListener('click', navigate);
       editBtn.addEventListener('mousedown', (e) => { e.stopPropagation(); navigate(); });
+
+      // Sync latest title from the API so renames are reflected
+      const docId = node.attrs['doc_id'];
+      if (docId) {
+        fetch(`/api/docs/${docId}`)
+          .then(r => r.json() as Promise<{ title?: string }>)
+          .then(data => {
+            if (editor.isDestroyed) return;
+            if (data.title && data.title !== title.textContent) {
+              title.textContent = data.title;
+              // Update stored attr so it persists on next save
+              const pos = typeof getPos === 'function' ? getPos() : null;
+              if (pos != null) {
+                editor.chain().command(({ tr }) => {
+                  tr.setNodeAttribute(pos, 'title', data.title);
+                  return true;
+                }).run();
+              }
+            }
+          })
+          .catch(() => {});
+      }
 
       return { dom };
     };

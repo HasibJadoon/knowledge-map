@@ -1,7 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { Editor } from '@tiptap/core';
+import { Editor, Extension } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import DragHandle from '@tiptap/extension-drag-handle';
 import { createBlockHandleElement, type EditorRef } from '../doc-editor/block-handle/block-handle';
@@ -93,8 +93,11 @@ export class DocEditorService {
 
     this._editor = new Editor({
       element,
+      // Exclude core textDirection — we use tiptap-text-direction for per-node RTL support
+      enableCoreExtensions: { textDirection: false } as Record<string, boolean>,
       extensions: [
-        StarterKit,
+        // StarterKit v3 already includes Link + Underline — exclude to avoid duplicates
+        StarterKit.configure({ link: false, underline: false }),
         DragHandle.configure({
           render: () => handleEl,
           onNodeChange: (data: { node: unknown; editor: Editor; pos?: number }) => {
@@ -147,6 +150,16 @@ export class DocEditorService {
         PageLink,
         Callout,
         SlashCommandExtension,
+        // Tab = sink list item (indent), Shift-Tab = lift (outdent)
+        Extension.create({
+          name: 'tabIndent',
+          addKeyboardShortcuts() {
+            return {
+              'Tab':       () => this.editor.commands.sinkListItem('listItem'),
+              'Shift-Tab': () => this.editor.commands.liftListItem('listItem'),
+            };
+          },
+        }),
       ],
       onUpdate: ({ editor }) => {
         this.isDirty.set(true);

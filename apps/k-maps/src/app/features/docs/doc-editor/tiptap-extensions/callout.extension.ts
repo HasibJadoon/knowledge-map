@@ -28,22 +28,35 @@ export const Callout = Node.create({
         style.id = 'km-callout-styles';
         style.textContent = `
           .km-callout {
-            display: flex; gap: 12px;
-            padding: 12px 16px; margin: 4px 0;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-left: 3px solid rgba(201,168,76,0.5);
-            border-radius: 8px;
+            display: flex; gap: 14px;
+            padding: 14px 18px 14px 16px; margin: 6px 0;
+            background: linear-gradient(135deg, rgba(201,168,76,0.07) 0%, rgba(201,168,76,0.02) 100%);
+            border: 1px solid rgba(201,168,76,0.18);
+            border-left: none;
+            border-radius: 10px;
+            position: relative;
+          }
+          .km-callout::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 3px;
+            background: linear-gradient(180deg, rgba(201,168,76,0.95) 0%, rgba(201,168,76,0.3) 100%);
+            border-radius: 10px 0 0 10px;
           }
           .km-callout__emoji {
-            font-size: 1.2rem; line-height: 1.6;
+            font-size: 1.25rem; line-height: 1.55;
             cursor: pointer; user-select: none;
-            flex-shrink: 0; min-width: 1.5rem;
+            flex-shrink: 0; min-width: 1.6rem;
             text-align: center;
             transition: transform 0.15s;
+            margin-top: 1px;
           }
-          .km-callout__emoji:hover { transform: scale(1.2); }
-          .km-callout__content { flex: 1; min-width: 0; }
+          .km-callout__emoji:hover { transform: scale(1.2) rotate(-5deg); }
+          .km-callout__content {
+            flex: 1; min-width: 0; min-height: 1.6em;
+            color: rgba(255,255,255,0.9);
+            cursor: text;
+          }
           .km-callout__content .ProseMirror-trailingBreak { display: none; }
           .km-callout__emoji-picker {
             position: fixed; z-index: 15000;
@@ -131,6 +144,20 @@ export const Callout = Node.create({
             }
           });
         }, 0);
+      });
+
+      // Clicking on the outer wrapper padding (not the emoji or content area)
+      // should redirect the cursor inside the callout's paragraph content.
+      // Uses 'click' (fires after mouseup) so ProseMirror's own positioning
+      // has already settled; pos+2 = inside the first child paragraph.
+      dom.addEventListener('click', (e) => {
+        if (emojiEl.contains(e.target as globalThis.Node)) return;
+        if (pickerEl?.contains(e.target as globalThis.Node)) return;
+        if (contentEl.contains(e.target as globalThis.Node)) return;
+        const pos = typeof getPos === 'function' ? getPos() : null;
+        if (pos !== null && pos !== undefined) {
+          editor.chain().focus().setTextSelection(pos + 2).run();
+        }
       });
 
       return {
