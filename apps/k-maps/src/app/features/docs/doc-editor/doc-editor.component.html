@@ -1,0 +1,21 @@
+<div class="km-docs-shell">
+  <header class="km-doc-topbar">
+    <input class="km-doc-title"
+           [(ngModel)]="titleModel"
+           (ngModelChange)="onTitleChange($event)"
+           placeholder="Untitled" />
+    <span class="km-doc-save-status">
+      {{ editorSvc.isSaving() ? 'Saving…' : editorSvc.isDirty() ? 'Unsaved' : 'Saved' }}
+    </span>
+    <span class="km-doc-wordcount">{{ editorSvc.wordCount() }} words</span>
+  </header>
+
+  <div class="km-doc-body">
+    <main class="km-doc-editor-wrap">
+      <div #editorEl class="km-doc-editor-el"></div>
+    </main>
+    <km-doc-right-panel />
+  </div>
+
+  <km-highlight-toolbar />
+</div>

@@ -22,6 +22,20 @@
   margin-bottom: 2.5rem;
 }
 
+.new-doc-btn {
+  margin-left: auto;
+  background: var(--km-gold);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--km-font-body);
+  &:hover { opacity: 0.85; }
+}
+
 .back-btn {
   display: inline-flex;
   align-items: center;

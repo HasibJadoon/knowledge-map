@@ -12,6 +12,7 @@ import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import gsap from 'gsap';
 import { KMapsService, QuranAyah, AyahsSurah, TranslationPassage } from '../../../shared/services/k-maps.service';
+import { DocContextService } from '../../docs/services/doc-context.service';
 
 export type ViewMode = 'verse' | 'arabic' | 'translation';
 
@@ -30,6 +31,7 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly kmaps = inject(KMapsService);
+  private readonly docCtx = inject(DocContextService);
 
   @ViewChild('contentEl') contentEl!: ElementRef<HTMLElement>;
 
@@ -112,6 +114,10 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
 
   // Prepared for morphology / lexicon lookup — full logic to be added later
   onWordClick(_word: string, _ayah: QuranAyah): void {}
+
+  newDoc(): void {
+    this.docCtx.openNewDocWithContext(`quran/${this.surahId()}`);
+  }
 
   /** Clean verse body — text_uthmani_clean has no verse number or U+06DD. */
   getAyahBody(ayah: QuranAyah): string {

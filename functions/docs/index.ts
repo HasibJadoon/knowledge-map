@@ -1,107 +1,65 @@
 import type { D1Database, PagesFunction } from '@cloudflare/workers-types';
 
-interface Env {
-  DB: D1Database;
-}
+interface Env { DB: D1Database; }
 
-const jsonHeaders: Record<string, string> = {
-  'content-type': 'application/json; charset=utf-8',
-  'cache-control': 'no-store',
-  'access-control-allow-origin': '*',
+export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+  const url = new URL(request.url);
+  const workspaceId = url.searchParams.get('workspace_id');
+  const domain = url.searchParams.get('domain');
+  const status = url.searchParams.get('status') ?? 'draft';
+  const limit = parseInt(url.searchParams.get('limit') ?? '50');
+  const offset = parseInt(url.searchParams.get('offset') ?? '0');
+
+  let query = `SELECT id, title, doc_type, domain, status, word_count,
+                      surah, ayah_from, ayah_to, canonical_ref,
+                      source_id, container_id, tags_json,
+                      created_at, updated_at
+               FROM km_documents WHERE status != 'archived'`;
+  const params: unknown[] = [];
+
+  if (workspaceId) { query += ` AND workspace_id = ?`; params.push(workspaceId); }
+  if (domain)      { query += ` AND domain = ?`;        params.push(domain); }
+  if (status !== 'all') { query += ` AND status = ?`;   params.push(status); }
+
+  query += ` ORDER BY updated_at DESC LIMIT ? OFFSET ?`;
+  params.push(limit, offset);
+
+  const { results } = await env.DB.prepare(query).bind(...params).all();
+  return Response.json({ docs: results, limit, offset });
 };
 
-const toInt = (value: string | null, def: number) => {
-  const candidate = Number.parseInt(String(value ?? ''), 10);
-  return Number.isFinite(candidate) ? candidate : def;
-};
+export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+  const body = await request.json() as Record<string, unknown>;
+  const id = crypto.randomUUID();
+  const now = new Date().toISOString();
 
-const parseTags = (text: string | null) => {
-  if (!text) return [];
-  try {
-    const parsed = JSON.parse(text);
-    return Array.isArray(parsed) ? parsed.filter((item) => typeof item === 'string') : [];
-  } catch {
-    return [];
-  }
-};
+  await env.DB.prepare(`
+    INSERT INTO km_documents
+      (id, workspace_id, title, doc_type, domain, document_json,
+       container_id, unit_id, source_id, source_unit_id,
+       surah, ayah_from, ayah_to, canonical_ref,
+       production_type, target_audience, tags_json, created_at, updated_at)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+  `).bind(
+    id,
+    body.workspace_id ?? null,
+    body.title ?? 'Untitled',
+    body.doc_type ?? 'note',
+    body.domain ?? 'general',
+    JSON.stringify({ type: 'doc', content: [] }),
+    body.container_id ?? null,
+    body.unit_id ?? null,
+    body.source_id ?? null,
+    body.source_unit_id ?? null,
+    body.surah ?? null,
+    body.ayah_from ?? null,
+    body.ayah_to ?? null,
+    body.canonical_ref ?? null,
+    body.production_type ?? null,
+    body.target_audience ?? null,
+    JSON.stringify(body.tags ?? []),
+    now, now
+  ).run();
 
-export const onRequestGet: PagesFunction<Env> = async (ctx) => {
-  try {
-    if (!user) {
-      return new Response(JSON.stringify({ ok: false, error: 'Unauthorized' }), {
-        status: 401,
-        headers: jsonHeaders,
-      });
-    }
-
-    const url = new URL(ctx.request.url);
-    const search = (url.searchParams.get('q') ?? '').trim();
-    const limitParam = url.searchParams.get('limit');
-    const limit = limitParam === null ? -1 : Math.max(1, toInt(limitParam, 50));
-    const offset = Math.max(0, toInt(url.searchParams.get('offset'), 0));
-    const statusParam = (url.searchParams.get('status') ?? 'published').trim().toLowerCase();
-    const statusFilter = statusParam === 'all' ? null : statusParam;
-
-    const whereClauses: string[] = [];
-    const params: (string | number)[] = [];
-
-    if (statusFilter) {
-      whereClauses.push('status = ?');
-      params.push(statusFilter);
-    }
-
-    if (search) {
-      whereClauses.push('(slug LIKE ? OR title LIKE ?)');
-      params.push(`%${search}%`, `%${search}%`);
-    }
-
-    const whereSql = whereClauses.length ? `WHERE ${whereClauses.join(' AND ')}` : '';
-
-    const docsStmt = ctx.env.DB
-      .prepare(
-        `
-          SELECT slug, title, parent_slug, sort_order, tags_json, status, created_at, updated_at
-          FROM docs
-          ${whereSql}
-          ORDER BY datetime(updated_at) DESC, id DESC
-          LIMIT ?
-          OFFSET ?
-        `
-      )
-      .bind(...params, limit, offset);
-
-    const countStmt = ctx.env.DB
-      .prepare(`SELECT COUNT(*) AS total FROM docs ${whereSql}`)
-      .bind(...params);
-
-    const docsRes = await docsStmt.all();
-    const countRes = await countStmt.first<{ total?: number }>();
-
-    const results = (docsRes.results ?? []).map((row) => ({
-      slug: row.slug,
-      title: row.title,
-      status: row.status,
-      tags: parseTags(row.tags_json),
-      created_at: row.created_at,
-      updated_at: row.updated_at,
-      parent_slug: row.parent_slug ?? null,
-      sort_order: row.sort_order ?? 0,
-    }));
-
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        total: Number(countRes?.total ?? 0),
-        limit: limitParam === null ? null : limit,
-        offset,
-        results,
-      }),
-      { headers: jsonHeaders }
-    );
-  } catch (err: any) {
-    return new Response(
-      JSON.stringify({ ok: false, error: err?.message ?? String(err) }),
-      { status: 500, headers: jsonHeaders }
-    );
-  }
+  return Response.json({ id }, { status: 201 });
 };

@@ -1,0 +1,267 @@
+.km-docs-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--km-bg);
+}
+
+.km-doc-topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--km-border);
+  flex-shrink: 0;
+}
+
+.km-doc-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--km-text);
+  background: transparent;
+  border: none;
+  outline: none;
+  flex: 1;
+  font-family: var(--km-font-body);
+}
+
+.km-doc-save-status {
+  font-size: 0.75rem;
+  color: var(--km-text-3);
+}
+
+.km-doc-wordcount {
+  font-size: 0.72rem;
+  color: var(--km-text-3);
+}
+
+.km-doc-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.km-doc-editor-wrap {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: visible;
+  padding: 48px 48px 48px 64px; /* extra left space for drag handle */
+}
+
+.km-doc-editor-el {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+
+  :global(.ProseMirror) {
+    outline: none;
+    min-height: 400px;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--km-text);
+    font-family: var(--km-font-body);
+
+    p.is-editor-empty:first-child::before {
+      content: attr(data-placeholder);
+      color: var(--km-text-3);
+      pointer-events: none;
+      float: left;
+      height: 0;
+    }
+
+    // ── Typography ───────────────────────────────────────────────────────
+    p {
+      margin: 0.25em 0;
+      letter-spacing: 0.01em;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin: 1.4em 0 0.35em;
+      letter-spacing: -0.025em;
+      background: linear-gradient(135deg, var(--km-text, #e0e0e0) 60%, rgba(201,168,76,0.65) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 1.2em 0 0.3em;
+      letter-spacing: -0.015em;
+      color: rgba(255,255,255,0.92);
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin: 1em 0 0.25em;
+      letter-spacing: -0.01em;
+      color: rgba(255,255,255,0.82);
+    }
+
+    // ── Blockquote ──────────────────────────────────────────────────────
+    blockquote {
+      border-left: 3px solid rgba(201,168,76,0.5);
+      padding: 0.5em 0 0.5em 1.2em;
+      margin: 0.75em 0;
+      color: rgba(255,255,255,0.65);
+      font-style: italic;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 3px;
+        background: linear-gradient(180deg, rgba(201,168,76,0.8) 0%, rgba(201,168,76,0.2) 100%);
+        border-radius: 2px;
+      }
+    }
+
+    // ── Code block ──────────────────────────────────────────────────────
+    pre {
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 1em 1.25em;
+      margin: 0.75em 0;
+      font-size: 0.875rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(201,168,76,0.25), transparent);
+      }
+
+      code { background: none; padding: 0; font-size: inherit; }
+    }
+
+    code {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 0.15em 0.4em;
+      font-size: 0.875em;
+      font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+    }
+
+    // ── Lists ────────────────────────────────────────────────────────────
+    ul, ol {
+      padding-left: 1.6em;
+      margin: 0.4em 0;
+    }
+
+    li {
+      margin: 0.2em 0;
+      line-height: 1.75;
+    }
+
+    ul li::marker { color: rgba(201,168,76,0.6); }
+    ol li::marker { color: rgba(201,168,76,0.5); font-weight: 600; }
+
+    // ── Horizontal Rule (Divider) ────────────────────────────────────────
+    hr {
+      border: none;
+      margin: 2em 0;
+      height: 1px;
+      position: relative;
+      overflow: visible;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0; right: 0; top: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(201,168,76,0.15) 10%,
+          rgba(201,168,76,0.55) 40%,
+          rgba(201,168,76,0.55) 60%,
+          rgba(201,168,76,0.15) 90%,
+          transparent 100%
+        );
+      }
+
+      &::after {
+        content: '✦';
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0.55rem;
+        color: rgba(201,168,76,0.7);
+        background: var(--km-bg, #0f0f0f);
+        padding: 0 10px;
+        letter-spacing: 6px;
+      }
+    }
+
+    // ── Links ────────────────────────────────────────────────────────────
+    a {
+      color: rgba(201,168,76,0.9);
+      text-decoration: underline;
+      text-decoration-color: rgba(201,168,76,0.35);
+      text-underline-offset: 3px;
+      transition: color 0.15s, text-decoration-color 0.15s;
+
+      &:hover {
+        color: rgba(201,168,76,1);
+        text-decoration-color: rgba(201,168,76,0.7);
+      }
+    }
+
+    // ── Inline marks ────────────────────────────────────────────────────
+    mark {
+      border-radius: 3px;
+      padding: 0.05em 0.2em;
+    }
+
+    strong { font-weight: 700; color: rgba(255,255,255,0.95); }
+    em { font-style: italic; color: rgba(255,255,255,0.85); }
+
+    // ── RTL / Arabic ─────────────────────────────────────────────────────
+    [dir="rtl"] {
+      font-family: var(--km-font-arabic-amiri);
+      font-size: 1.3rem;
+      line-height: 2.2;
+      text-align: right;
+    }
+
+    // ── Block hover highlight (Notion-style) ─────────────────────────────
+    .km-block--hovered {
+      background: rgba(255, 255, 255, 0.028);
+      border-radius: 4px;
+      transition: background 0.1s;
+    }
+
+    // ── Block selected / dragging ────────────────────────────────────────
+    .ProseMirror-selectednode {
+      outline: 2px solid rgba(201, 168, 76, 0.4) !important;
+      border-radius: 4px;
+    }
+
+    // ── Drop cursor (insertion line) ─────────────────────────────────────
+    .ProseMirror-dropcursor {
+      border-color: var(--km-gold) !important;
+      border-width: 2px !important;
+      border-radius: 1px;
+    }
+
+    // ── GSAP entrance — blocks animate in ────────────────────────────────
+    .km-block-enter {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+}

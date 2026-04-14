@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://api.k-maps.com",
+    "target": "https://k-maps.app",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {

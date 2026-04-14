@@ -16,6 +16,7 @@
       </span>
 
       @if (!loading() && !error()) {
+        <button class="new-doc-btn" (click)="newDoc()" title="New document for this surah">+ Doc</button>
         <div class="view-tabs">
           <button
             class="view-tab"

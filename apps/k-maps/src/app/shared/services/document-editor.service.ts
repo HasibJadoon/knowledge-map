@@ -8,13 +8,19 @@ import type {
   DocumentDetail,
   TiptapDoc,
   QuranDocType,
-  DocumentListResponse,
   DocumentDetailResponse,
   DocumentCreateResponse,
   DocumentSaveResponse,
   DocumentUploadResponse,
   SaveState,
 } from '../models/document-editor.models';
+
+interface KmDoc {
+  id: string; title: string; doc_type: string; domain: string;
+  status: string; surah?: number | null; source_id?: string | null;
+  unit_id?: string | null; word_count?: number;
+  created_at: string; updated_at?: string | null;
+}
 
 @Injectable({ providedIn: 'root' })
 export class DocumentEditorService {
@@ -30,38 +36,40 @@ export class DocumentEditorService {
 
   activeId = computed(() => this.activeDocument()?.id ?? null);
 
-  // ── List ───────────────────────────────────────────────────────────────────
+  // ── List — loads from new /api/docs endpoint ──────────────────────────────
 
   async loadDocuments(scope: DocumentEditorScope): Promise<void> {
     this.loadState.set('loading');
     this.loadError.set(null);
 
     let params = new HttpParams().set('domain', scope.domain);
-    if (scope.surah != null)         params = params.set('surah', String(scope.surah));
-    if (scope.source_id)             params = params.set('source_id', scope.source_id);
-    if (scope.source_unit_id)        params = params.set('source_unit_id', scope.source_unit_id);
-    if (scope.unit_id)               params = params.set('unit_id', scope.unit_id);
+    if (scope.surah != null)    params = params.set('surah', String(scope.surah));
+    if (scope.source_id)        params = params.set('source_id', scope.source_id);
+    if (scope.unit_id)          params = params.set('unit_id', scope.unit_id);
 
     try {
+      // New endpoint: GET /api/docs → { docs: [...], total: N }
       const res = await firstValueFrom(
-        this.http.get<DocumentListResponse>(this.base, { params })
+        this.http.get<{ docs: KmDoc[]; total: number }>('/api/docs', { params })
       );
-      if (res.ok) {
-        this.documents.set(res.documents);
-        const currentId = this.activeId();
-        const currentStillVisible = !!currentId && res.documents.some((doc) => doc.id === currentId);
-
-        if (currentStillVisible) {
-          this.loadState.set('loaded');
-        } else if (res.documents.length > 0) {
-          await this.loadDocument(res.documents[0].id);
-        } else {
-          this.activeDocument.set(null);
-          this.loadState.set('loaded');
-        }
-      } else {
-        throw new Error(res.error ?? 'Failed to load documents');
-      }
+      const mapped: DocumentListItem[] = (res.docs ?? []).map(d => ({
+        id: d.id,
+        title: d.title,
+        doc_type: d.doc_type,
+        summary: null,
+        status: d.status,
+        is_published: false,
+        domain: d.domain,
+        surah: d.surah ?? null,
+        source_id: d.source_id ?? null,
+        source_unit_id: null,
+        unit_id: d.unit_id ?? null,
+        created_at: d.created_at,
+        updated_at: d.updated_at ?? null,
+      }));
+      this.documents.set(mapped);
+      this.activeDocument.set(null);
+      this.loadState.set('loaded');
     } catch (err: unknown) {
       this.loadError.set(err instanceof Error ? err.message : String(err));
       this.loadState.set('error');

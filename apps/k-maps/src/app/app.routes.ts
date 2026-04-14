@@ -61,6 +61,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/srs/srs.routes').then((m) => m.SRS_ROUTES),
   },
+  {
+    path: 'docs',
+    loadChildren: () =>
+      import('./features/docs/docs.routes').then((m) => m.DOCS_ROUTES),
+  },
   // Backwards-compatible redirects from old /arabic/quran routes
   { path: 'arabic/quran', redirectTo: 'quran', pathMatch: 'full' },
   { path: 'arabic/quran/:surahId', redirectTo: 'quran/:surahId', pathMatch: 'full' },
