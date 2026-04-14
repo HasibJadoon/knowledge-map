@@ -378,7 +378,9 @@ class BlockHandleView {
     this.ghost = null;
     this.dropLine?.remove();
     this.dropLine = null;
-    if (this.activeBlock) this.activeBlock.style.opacity = '';
+    if (this.activeBlock) {
+      this.activeBlock.style.opacity = '';
+    }
   }
 
   private findDropSlot(y: number): { index: number; lineY: number } {
@@ -396,13 +398,19 @@ class BlockHandleView {
   // ── Handle positioning ─────────────────────────────────────────────────
 
   private showHandle(block: HTMLElement) {
+    // Remove active class from previously active block
+    if (this.activeBlock && this.activeBlock !== block) {
+      this.activeBlock.classList.remove('km-block-active');
+    }
     this.activeBlock = block;
+    this.activeBlock.classList.add('km-block-active');
     this.activeBlockIndex = Array.from(this.view.dom.children).indexOf(block);
     this.positionHandle(block);
     this.handle.style.display = 'flex';
   }
 
   hideHandle() {
+    this.activeBlock?.classList.remove('km-block-active');
     this.activeBlock = null;
     this.activeBlockIndex = -1;
     this.handle.style.display = 'none';
@@ -449,6 +457,7 @@ class BlockHandleView {
   }
 
   destroy() {
+    this.activeBlock?.classList.remove('km-block-active');
     this.cleanupDrag();
     closeSheet();
     this.handle.remove();

@@ -142,15 +142,29 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
       /* 56px left = 20px outer + 36px for the + ⠿ handle to sit in */
       padding: 20px 20px 100px 56px;
 
+      /* ── Kill Ionic's primary-color focus ring on contenteditable ─── */
+      --highlight-color-focused: transparent;
+      --highlight-color-invalid: transparent;
+
       /* ── ProseMirror core ─────────────────────────────────────────── */
       :global(.ProseMirror) {
-        outline: none;
+        outline: none !important;
+        border: none !important;
+        box-shadow: none !important;
         min-height: 60vh;
         font-size: 1.02rem;
         line-height: 1.85;
         color: var(--ion-text-color, rgba(255,255,255,0.88));
         font-family: var(--km-font-body, 'Poppins', sans-serif);
         caret-color: #c9a84c;
+      }
+
+      /* ── Per-block active highlight (set by MobileBlockHandle) ─── */
+      :global(.ProseMirror > .km-block-active) {
+        background: rgba(255,255,255,0.028);
+        border-radius: 6px;
+        outline: 1px solid rgba(255,255,255,0.07);
+        outline-offset: 1px;
       }
 
       :global(.ProseMirror p.is-editor-empty:first-child::before) {

@@ -3153,6 +3153,18 @@ ion-modal.km-note-workspace-modal::part(content) {
 
 @include meta.load-css("./theme/app-foundation");
 
+// ── Docs: kill Ionic primary-colour focus ring on contenteditable ──────────
+// Ionic sets --highlight-color-focused = primary (gold) which draws a gold
+// border around the whole ProseMirror container. We kill it globally for the
+// doc editor and let individual blocks show their own active state instead.
+[contenteditable].ProseMirror,
+.km-doc-editor-el [contenteditable] {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  --highlight-color-focused: transparent !important;
+}
+
 // ── Docs feature — global ProseMirror overrides ────────────────────────────
 // Slash menu (rendered into document.body by SlashCommandExtension)
 .km-slash-menu {
