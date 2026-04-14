@@ -3241,29 +3241,34 @@ ion-modal.km-note-workspace-modal::part(content) {
 
     .ayah-text {
       font-family: var(--km-font-arabic, 'Uthmanic Hafs', serif);
-      font-size: 1.65rem; line-height: 2.5; color: var(--ion-text-color);
+      font-size: 1.25rem; line-height: 1.95; color: var(--ion-text-color);
       user-select: text !important; -webkit-user-select: text !important; cursor: text;
+      word-break: keep-all; overflow-wrap: break-word;
     }
     .ayah-translation {
-      font-size: 0.88rem; color: rgba(255,255,255,0.55); margin-top: 8px;
-      font-style: italic;
+      direction: ltr; text-align: left;
+      font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-top: 8px;
+      font-style: italic; line-height: 1.55;
       user-select: text !important; -webkit-user-select: text !important; cursor: text;
     }
-    .ayah-ref { font-size: 0.72rem; color: #c9a84c; margin-top: 4px; font-weight: 600; }
+    .ayah-ref {
+      direction: ltr; text-align: left;
+      font-size: 0.7rem; color: #c9a84c; margin-top: 4px; font-weight: 600;
+    }
 
+    /* Copy button: always visible on mobile (no hover on touch screens) */
     .km-ayah-copy {
       position: absolute; top: 8px; left: 8px; direction: ltr;
       display: flex; align-items: center; gap: 4px;
       background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
       border-radius: 6px; padding: 5px 8px; cursor: pointer;
       color: rgba(255,255,255,0.45); font-size: 0.7rem; line-height: 1;
-      opacity: 0; transition: opacity 0.18s, background 0.14s, color 0.14s;
+      opacity: 0.55; transition: background 0.14s, color 0.14s;
       user-select: none; pointer-events: all;
       &::after { content: 'Copy'; margin-left: 2px; }
-      &:hover { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.3); color: rgba(201,168,76,0.9); }
+      &:active { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.3); color: rgba(201,168,76,0.9); }
       &--done { color: #c9a84c !important; border-color: rgba(201,168,76,0.5) !important; background: rgba(201,168,76,0.1) !important; &::after { content: 'Copied!'; } }
     }
-    &:hover .km-ayah-copy { opacity: 1; }
   }
 
   &--vocab { background: rgba(255,255,255,0.03); border-left: 3px solid #81c784; }

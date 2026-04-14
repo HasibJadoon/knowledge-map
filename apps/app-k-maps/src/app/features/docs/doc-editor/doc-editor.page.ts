@@ -54,10 +54,8 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
       <div #editorEl class="km-doc-editor-el"></div>
     </ion-content>
 
-    <!-- ── Selection highlight toolbar ──────────────────────────────────── -->
-    @if (toolbarVisible()) {
-      <km-highlight-toolbar></km-highlight-toolbar>
-    }
+    <!-- ── Floating selection bubble (always mounted, positions itself) ─── -->
+    <km-highlight-toolbar></km-highlight-toolbar>
 
     <!-- ── Bottom formatting toolbar ─────────────────────────────────────── -->
     <ion-footer class="km-doc-footer" [class.km-doc-footer--visible]="toolbarVisible()">
@@ -236,13 +234,26 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
       :global(.ProseMirror strong) { font-weight: 700; color: rgba(255,255,255,0.95); }
       :global(.ProseMirror em) { font-style: italic; color: rgba(255,255,255,0.85); }
 
-      /* ── Arabic auto-direction ──────────────────────────────────────── */
-      :global(.ProseMirror [dir="rtl"]) {
+      /* ── Arabic auto-direction (paragraphs/headings only, not embed blocks) ── */
+      :global(.ProseMirror p[dir="rtl"]),
+      :global(.ProseMirror h1[dir="rtl"]),
+      :global(.ProseMirror h2[dir="rtl"]),
+      :global(.ProseMirror h3[dir="rtl"]),
+      :global(.ProseMirror li[dir="rtl"]),
+      :global(.ProseMirror blockquote[dir="rtl"]) {
         font-family: var(--km-font-arabic-amiri, 'AmiriQuran', serif) !important;
-        font-size: 1.4rem;
-        line-height: 2.2;
+        font-size: 1.25rem;
+        line-height: 2.1;
         letter-spacing: 0;
         word-spacing: 0.04em;
+        text-align: right;
+      }
+
+      /* ── Ayah embed — tighter on mobile ─────────────────────────────── */
+      :global(.ProseMirror .km-block--ayah .ayah-text) {
+        font-family: var(--km-font-arabic, 'Uthmanic Hafs', serif) !important;
+        font-size: 1.25rem !important;
+        line-height: 1.95 !important;
         text-align: right;
       }
 
