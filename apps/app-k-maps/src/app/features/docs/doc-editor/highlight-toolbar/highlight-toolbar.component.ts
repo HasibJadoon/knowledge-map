@@ -81,11 +81,31 @@ interface ToolbarSheetItem {
         <!-- Row divider -->
         <div class="km-bubble__divider"></div>
 
-        <!-- Row 2 — block type picker (full-width pill) -->
+        <!-- Row 2 — block type + link + clear formatting -->
         <div class="km-bubble__row km-bubble__row--type">
           <button class="km-bb km-bb--type" (touchend)="openBlockSheet(); $event.preventDefault()">
             <span class="km-bb__label">{{ blockLabel() }}</span>
             <svg viewBox="0 0 10 6" fill="currentColor" width="7" height="4" style="opacity:.35"><path d="M0 0l5 6 5-6z"/></svg>
+          </button>
+
+          <span class="km-bsep"></span>
+
+          <!-- Link -->
+          <button class="km-bb" [class.km-bb--on]="isLink()" title="Link"
+                  (touchend)="openLinkSheet(); $event.preventDefault()">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+              <path d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"/>
+            </svg>
+          </button>
+
+          <!-- Clear formatting -->
+          <button class="km-bb" title="Clear formatting"
+                  (touchend)="clearFormatting(); $event.preventDefault()">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+              <path fill-rule="evenodd" d="M4 4a1 1 0 011-1h10a1 1 0 110 2H9.236l-1 4H14a1 1 0 110 2H7.836l-.5 2H11a1 1 0 110 2H4a1 1 0 110-2h1.836l.5-2H4a1 1 0 110-2h2.736l1-4H5a1 1 0 01-1-1z" clip-rule="evenodd"/>
+              <path d="M16.707 15.293a1 1 0 010 1.414l-1 1a1 1 0 01-1.414-1.414l1-1a1 1 0 011.414 0z"/>
+              <line x1="3" y1="17" x2="17" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
           </button>
         </div>
       </div>
@@ -301,6 +321,7 @@ export class HighlightToolbarComponent implements OnDestroy {
   isItalic        = signal(false);
   isUnderline     = signal(false);
   isStrike        = signal(false);
+  isLink          = signal(false);
   currentBlock    = signal<BlockType>('paragraph');
   currentHighlight = signal('rgba(201,168,76,0.35)');
   currentTextColor = signal('rgba(255,255,255,0.82)');
@@ -380,6 +401,7 @@ export class HighlightToolbarComponent implements OnDestroy {
     const italic    = editor.isActive('italic');
     const underline = editor.isActive('underline');
     const strike    = editor.isActive('strike');
+    const link      = editor.isActive('link');
     const block     = this.resolveBlock(editor);
 
     this.zone.run(() => {
@@ -389,6 +411,7 @@ export class HighlightToolbarComponent implements OnDestroy {
       this.isItalic.set(italic);
       this.isUnderline.set(underline);
       this.isStrike.set(strike);
+      this.isLink.set(link);
       this.currentBlock.set(block);
       this.visible.set(true);
       this.cdr.markForCheck();
@@ -435,10 +458,16 @@ export class HighlightToolbarComponent implements OnDestroy {
 
   blockLabel(): string {
     const MAP: Record<BlockType, string> = {
-      paragraph: 'Text', heading1: 'H1', heading2: 'H2', heading3: 'H3',
-      bulletList: '•≡', orderedList: '1≡', blockquote: '❝', codeBlock: '</>'
+      paragraph:   '¶  Text',
+      heading1:    'H1  Heading 1',
+      heading2:    'H2  Heading 2',
+      heading3:    'H3  Heading 3',
+      bulletList:  '•≡  Bullet List',
+      orderedList: '1≡  Numbered',
+      blockquote:  '❝  Blockquote',
+      codeBlock:   '</>  Code',
     };
-    return MAP[this.currentBlock()] ?? 'Text';
+    return MAP[this.currentBlock()] ?? '¶  Text';
   }
 
   cmd(mark: string): void {
@@ -505,6 +534,44 @@ export class HighlightToolbarComponent implements OnDestroy {
         }
       },
     })));
+  }
+
+  openLinkSheet(): void {
+    const e = this.editorSvc.editor;
+    if (!e) return;
+    if (e.isActive('link')) {
+      this.presentSheet('Link', [
+        {
+          label: '✏️  Edit link',
+          action: () => {
+            const url = prompt('URL:', (e.getAttributes('link') as { href?: string }).href ?? '');
+            if (url !== null) e.chain().focus().setLink({ href: url }).run();
+          },
+        },
+        {
+          label: '✕  Remove link',
+          action: () => e.chain().focus().unsetLink().run(),
+          tone: 'danger',
+        },
+      ]);
+    } else {
+      const url = prompt('Enter URL:');
+      if (url) e.chain().focus().setLink({ href: url }).run();
+    }
+  }
+
+  clearFormatting(): void {
+    const e = this.editorSvc.editor;
+    if (!e) return;
+    e.chain().focus()
+      .unsetBold().unsetItalic().unsetUnderline().unsetStrike()
+      .unsetHighlight().unsetColor()
+      .run();
+    this.isBold.set(false);
+    this.isItalic.set(false);
+    this.isUnderline.set(false);
+    this.isStrike.set(false);
+    this.cdr.markForCheck();
   }
 
   openExtractSheet(): void {
