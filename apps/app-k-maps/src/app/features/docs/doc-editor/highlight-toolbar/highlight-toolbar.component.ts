@@ -15,13 +15,18 @@ const HIGHLIGHT_COLORS = [
   { color: 'rgba(255,200,80,0.35)',  label: '🟠 Yellow' },
 ];
 
-const TEXT_COLORS = [
-  { color: '#c9a84c',                label: '🟡 Gold'    },
-  { color: '#64b4ff',                label: '🔵 Blue'    },
-  { color: '#64dc82',                label: '🟢 Green'   },
-  { color: '#ff7864',                label: '🔴 Red'     },
-  { color: '#c882ff',                label: '🟣 Purple'  },
-  { color: 'rgba(255,255,255,0.82)', label: '⬜ Default' },
+// null = call unsetColor() to restore the inherited heading/paragraph colour
+const TEXT_COLORS: Array<{ color: string | null; label: string }> = [
+  { color: null,      label: '✕  Default (reset)'  },
+  { color: '#ffffff', label: '⬜ White'             },
+  { color: '#c9a84c', label: '🟡 Gold'              },
+  { color: '#e8c96a', label: '🟠 Amber'             },
+  { color: '#5aad88', label: '🟢 Green'             },
+  { color: '#60a5fa', label: '🔵 Blue'              },
+  { color: '#a78bfa', label: '🟣 Purple'            },
+  { color: '#f87171', label: '🔴 Red'               },
+  { color: '#fb923c', label: '🟠 Orange'            },
+  { color: '#94a3b8', label: '🩶 Muted'             },
 ];
 
 type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
@@ -458,22 +463,20 @@ export class HighlightToolbarComponent implements OnInit, OnDestroy {
   }
 
   openTextColorSheet(): void {
-    this.presentSheet('Text Color', [
-      ...TEXT_COLORS.map(c => ({
-        label: c.label,
-        action: () => {
-          this.editorSvc.editor?.chain().focus().setColor(c.color).run();
+    this.presentSheet('Text Color', TEXT_COLORS.map(c => ({
+      label: c.label,
+      action: () => {
+        const e = this.editorSvc.editor;
+        if (!e) return;
+        if (c.color === null) {
+          e.chain().focus().unsetColor().run();
+          this.currentTextColor.set('rgba(255,255,255,0.82)');
+        } else {
+          e.chain().focus().setColor(c.color).run();
           this.currentTextColor.set(c.color);
         }
-      })),
-      {
-        label: '✕  Clear color',
-        action: () => {
-          this.editorSvc.editor?.chain().focus().unsetColor().run();
-          this.currentTextColor.set('rgba(255,255,255,0.82)');
-        }
       },
-    ]);
+    })));
   }
 
   openExtractSheet(): void {

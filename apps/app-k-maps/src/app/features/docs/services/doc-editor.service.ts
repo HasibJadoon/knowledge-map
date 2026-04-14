@@ -1,8 +1,9 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { Editor, Extension } from '@tiptap/core';
+import { Editor, Extension, InputRule } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
+import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
 import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 import Underline from '@tiptap/extension-underline';
@@ -40,6 +41,25 @@ export interface DocContext {
 }
 
 const API = `${environment.apiBase}/docs`;
+
+/**
+ * Custom HorizontalRule that fires on `--- ` (space after three dashes)
+ * rather than only on Enter.  The StarterKit default changed in Tiptap 3
+ * and no longer reliably triggers on mobile soft-keyboard input.
+ */
+const KmHorizontalRule = HorizontalRule.extend({
+  addInputRules() {
+    return [
+      new InputRule({
+        find: /^(?:---|\u2014-|━━━)\s$/,   // --- , —-, ━━━ + space
+        handler: ({ state, range, chain }) => {
+          void state; // suppress unused-var lint
+          chain().deleteRange(range).setHorizontalRule().run();
+        },
+      }),
+    ];
+  },
+});
 
 @Injectable({ providedIn: 'root' })
 export class DocEditorService {
@@ -92,7 +112,12 @@ export class DocEditorService {
       // Exclude core textDirection — we use tiptap-text-direction for per-node RTL support
       enableCoreExtensions: { textDirection: false } as Record<string, boolean>,
       extensions: [
-        StarterKit.configure({ link: false, underline: false }),
+        StarterKit.configure({
+          link: false,
+          underline: false,
+          horizontalRule: false,  // replaced by KmHorizontalRule below
+        }),
+        KmHorizontalRule,
         // Quran
         AyahEmbed,
         PassageEmbed,
