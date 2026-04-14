@@ -1,11 +1,13 @@
 import {
   Component, OnInit, inject, signal,
-  effect, ChangeDetectionStrategy, ChangeDetectorRef
+  effect, ChangeDetectionStrategy, ChangeDetectorRef,
+  EventEmitter, Output
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { DocEditorService } from '../services/doc-editor.service';
 import { environment } from '../../../../environments/environment';
 
@@ -38,24 +40,48 @@ interface BlockLink     { id: number; entity_type?: string; entity_id?: number; 
 
     <ion-content class="km-rp-content">
 
-      <!-- ── Outline ─────────────────────────────────────────────────── -->
+      <!-- ── Outline / TOC ─────────────────────────────────────────── -->
       @if (activeTab === 'outline') {
         @if (headings().length === 0) {
           <div class="km-rp-empty">
-            <ion-icon name="list-outline"></ion-icon>
+            <div class="km-rp-empty__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28">
+                <path d="M4 6h16M4 10h10M4 14h12M4 18h8"/>
+              </svg>
+            </div>
             <p>No headings yet</p>
+            <small>Use H1, H2, H3 in your document</small>
           </div>
-        }
-        @for (h of headings(); track h.text) {
-          <ion-item button detail="false" lines="none"
-                    class="km-rp-heading"
-                    [style.--indent]="(h.level - 1) * 16 + 'px'"
-                    (click)="scrollToHeading(h.text)">
-            <ion-label>
-              <span class="km-rp-h-level">H{{ h.level }}</span>
-              {{ h.text }}
-            </ion-label>
-          </ion-item>
+        } @else {
+          <div class="km-toc">
+
+            <div class="km-toc__meta">
+              <span class="km-toc__meta-count">{{ headings().length }} heading{{ headings().length !== 1 ? 's' : '' }}</span>
+            </div>
+
+            @for (h of headings(); track h.text + $index) {
+              <button class="km-toc__item"
+                      [ngClass]="'km-toc__item--h' + h.level"
+                      (click)="scrollToHeading(h.text)">
+
+                @if (h.level > 1) {
+                  <span class="km-toc__track"></span>
+                }
+
+                <span class="km-toc__badge"
+                      [ngClass]="'km-toc__badge--h' + h.level">H{{ h.level }}</span>
+
+                <span class="km-toc__text">{{ h.text }}</span>
+
+                <svg class="km-toc__arrow" viewBox="0 0 8 14" fill="none"
+                     stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                     width="6" height="10">
+                  <path d="M1 1l6 6-6 6"/>
+                </svg>
+              </button>
+            }
+
+          </div>
         }
       }
 
@@ -102,48 +128,46 @@ interface BlockLink     { id: number; entity_type?: string; entity_id?: number; 
 
       <!-- ── Metadata ─────────────────────────────────────────────────── -->
       @if (activeTab === 'meta') {
-        <ion-list class="km-rp-meta-list">
-          <ion-item>
-            <ion-label position="stacked">Domain</ion-label>
-            <ion-select [(ngModel)]="metaDomain" (ionChange)="saveMeta()" interface="action-sheet">
-              <ion-select-option value="general">General</ion-select-option>
-              <ion-select-option value="quran">Quran</ion-select-option>
-              <ion-select-option value="arabic">Arabic</ion-select-option>
-              <ion-select-option value="worldview">Worldview</ion-select-option>
-              <ion-select-option value="workspace">Workspace</ion-select-option>
-            </ion-select>
-          </ion-item>
+        <div class="km-rp-meta-list">
+          <label class="km-rp-field">
+            <span class="km-rp-field-label">Domain</span>
+            <select class="km-rp-field-control" [(ngModel)]="metaDomain" (ngModelChange)="saveMeta()">
+              <option value="general">General</option>
+              <option value="quran">Quran</option>
+              <option value="arabic">Arabic</option>
+              <option value="worldview">Worldview</option>
+              <option value="workspace">Workspace</option>
+            </select>
+          </label>
 
-          <ion-item>
-            <ion-label position="stacked">Doc Type</ion-label>
-            <ion-select [(ngModel)]="metaDocType" (ionChange)="saveMeta()" interface="action-sheet">
-              <ion-select-option value="note">Note</ion-select-option>
-              <ion-select-option value="running_notes">Running Notes</ion-select-option>
-              <ion-select-option value="journal">Journal</ion-select-option>
-              <ion-select-option value="summary">Summary</ion-select-option>
-              <ion-select-option value="tafsir">Tafsir</ion-select-option>
-              <ion-select-option value="lesson">Lesson</ion-select-option>
-              <ion-select-option value="analysis">Analysis</ion-select-option>
-              <ion-select-option value="reflection">Reflection</ion-select-option>
-              <ion-select-option value="script">Script</ion-select-option>
-              <ion-select-option value="essay">Essay</ion-select-option>
-            </ion-select>
-          </ion-item>
+          <label class="km-rp-field">
+            <span class="km-rp-field-label">Doc Type</span>
+            <select class="km-rp-field-control" [(ngModel)]="metaDocType" (ngModelChange)="saveMeta()">
+              <option value="note">Note</option>
+              <option value="running_notes">Running Notes</option>
+              <option value="journal">Journal</option>
+              <option value="summary">Summary</option>
+              <option value="tafsir">Tafsir</option>
+              <option value="lesson">Lesson</option>
+              <option value="analysis">Analysis</option>
+              <option value="reflection">Reflection</option>
+              <option value="script">Script</option>
+              <option value="essay">Essay</option>
+            </select>
+          </label>
 
-          <ion-item>
-            <ion-label position="stacked">Audience</ion-label>
-            <ion-input [(ngModel)]="metaAudience"
-                       (ionBlur)="saveMeta()"
-                       placeholder="e.g. general, scholars">
-            </ion-input>
-          </ion-item>
+          <label class="km-rp-field">
+            <span class="km-rp-field-label">Audience</span>
+            <input class="km-rp-field-control"
+                   [(ngModel)]="metaAudience"
+                   (blur)="saveMeta()"
+                   placeholder="e.g. general, scholars" />
+          </label>
 
-          <ion-item lines="none">
-            <ion-label class="km-rp-word-count">
-              {{ editorSvc.wordCount() }} words
-            </ion-label>
-          </ion-item>
-        </ion-list>
+          <div class="km-rp-word-count">
+            {{ editorSvc.wordCount() }} words
+          </div>
+        </div>
       }
 
     </ion-content>
@@ -153,47 +177,221 @@ interface BlockLink     { id: number; entity_type?: string; entity_id?: number; 
 
     .km-rp-content { --background: var(--app-page-background, #080808); }
 
+    /* ── Empty state ────────────────────────────────────────────── */
     .km-rp-empty {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      padding: 48px 24px;
-      color: var(--ion-color-medium);
+      gap: 8px;
+      padding: 56px 24px;
       text-align: center;
-      ion-icon { font-size: 2.5rem; opacity: 0.35; }
-      p { margin: 0; font-size: 0.85rem; line-height: 1.6; }
+    }
+    .km-rp-empty__icon {
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 4px;
+    }
+    .km-rp-empty p {
+      margin: 0;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+    }
+    .km-rp-empty small {
+      font-size: 0.76rem;
+      color: rgba(255,255,255,0.25);
     }
 
+    /* ── TOC / Outline ──────────────────────────────────────────── */
+    .km-toc {
+      padding: 6px 0 28px;
+    }
+
+    .km-toc__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+      margin-bottom: 4px;
+    }
+    .km-toc__meta-count {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+    }
+
+    /* ── TOC row ────────────────────────────────────────────────── */
+    .km-toc__item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      border: none;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      font-family: var(--km-font-body, 'Poppins', sans-serif);
+      transition: background 0.1s;
+      position: relative;
+    }
+    .km-toc__item:active {
+      background: rgba(255,255,255,0.04);
+    }
+
+    /* ── H1 row ─────────────────────────────────────────────────── */
+    .km-toc__item--h1 {
+      gap: 10px;
+      padding: 11px 14px 11px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .km-toc__item--h1 .km-toc__text {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: -0.012em;
+    }
+    .km-toc__item--h1 .km-toc__badge--h1 {
+      background: rgba(201,168,76,0.15);
+      color: #c9a84c;
+      border-color: rgba(201,168,76,0.28);
+      font-size: 0.6rem;
+    }
+
+    /* ── H2 row ─────────────────────────────────────────────────── */
+    .km-toc__item--h2 {
+      gap: 9px;
+      padding: 9px 14px 9px 32px;
+    }
+    .km-toc__item--h2 .km-toc__text {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.74);
+      letter-spacing: -0.008em;
+    }
+    .km-toc__item--h2 .km-toc__badge--h2 {
+      background: rgba(201,168,76,0.08);
+      color: rgba(201,168,76,0.78);
+      border-color: rgba(201,168,76,0.16);
+      font-size: 0.57rem;
+    }
+    .km-toc__item--h2 .km-toc__track {
+      position: absolute;
+      left: 18px; top: 0; bottom: 0;
+      width: 1.5px;
+      background: rgba(201,168,76,0.22);
+    }
+
+    /* ── H3 row ─────────────────────────────────────────────────── */
+    .km-toc__item--h3 {
+      gap: 8px;
+      padding: 8px 14px 8px 48px;
+    }
+    .km-toc__item--h3 .km-toc__text {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.52);
+    }
+    .km-toc__item--h3 .km-toc__badge--h3 {
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.38);
+      border-color: rgba(255,255,255,0.09);
+      font-size: 0.54rem;
+    }
+    .km-toc__item--h3 .km-toc__track {
+      position: absolute;
+      left: 18px; top: 0; bottom: 0;
+      width: 1.5px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    /* ── H4 row ─────────────────────────────────────────────────── */
+    .km-toc__item--h4 {
+      gap: 8px;
+      padding: 7px 14px 7px 62px;
+    }
+    .km-toc__item--h4 .km-toc__text {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.38);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .km-toc__item--h4 .km-toc__badge--h4 {
+      background: transparent;
+      color: rgba(255,255,255,0.25);
+      border-color: rgba(255,255,255,0.07);
+      font-size: 0.52rem;
+    }
+    .km-toc__item--h4 .km-toc__track {
+      position: absolute;
+      left: 18px; top: 0; bottom: 0;
+      width: 1.5px;
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* ── Shared badge ───────────────────────────────────────────── */
+    .km-toc__badge {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 17px;
+      padding: 0 4px;
+      border-radius: 4px;
+      border: 1px solid;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Heading text ───────────────────────────────────────────── */
+    .km-toc__text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 1.4;
+    }
+
+    /* ── Chevron ────────────────────────────────────────────────── */
+    .km-toc__arrow {
+      flex-shrink: 0;
+      color: rgba(255,255,255,0.16);
+      transition: color 0.12s;
+    }
+    .km-toc__item:active .km-toc__arrow {
+      color: rgba(201,168,76,0.55);
+    }
+
+    /* ── Links tab ──────────────────────────────────────────────── */
     .km-rp-section-label {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--ion-color-medium);
-      padding: 16px 20px 6px;
+      letter-spacing: 0.09em;
+      color: rgba(255,255,255,0.28);
+      padding: 16px 18px 6px;
     }
 
-    .km-rp-heading {
-      --padding-start: calc(16px + var(--indent, 0px));
-      --min-height: 38px;
+    .km-rp-link-item {
+      --min-height: 44px;
+      --padding-start: 18px;
       font-size: 0.88rem;
     }
 
-    .km-rp-h-level {
-      font-size: 0.65rem;
-      color: #c9a84c;
-      font-weight: 700;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-
-    .km-rp-link-item { --min-height: 44px; font-size: 0.88rem; }
-
     .km-rp-ayah-item {
       --min-height: 44px;
+      --padding-start: 18px;
       .km-rp-ref {
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         color: #c9a84c;
         font-weight: 600;
         margin: 0 0 2px;
@@ -209,21 +407,57 @@ interface BlockLink     { id: number; entity_type?: string; entity_id?: number; 
       }
     }
 
-    .km-rp-meta-list { --ion-background-color: transparent; }
+    /* ── Meta tab ───────────────────────────────────────────────── */
+    .km-rp-meta-list {
+      display: grid;
+      gap: 14px;
+      padding: 18px 16px 28px;
+    }
+
+    .km-rp-field { display: grid; gap: 7px; }
+
+    .km-rp-field-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.42);
+    }
+
+    .km-rp-field-control {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      color: var(--ion-text-color, #fff);
+      font: inherit;
+      padding: 0.7rem 0.9rem;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .km-rp-field-control:focus {
+      border-color: rgba(201,168,76,0.42);
+      box-shadow: 0 0 0 2px rgba(201,168,76,0.12);
+    }
 
     .km-rp-word-count {
-      font-size: 0.8rem;
-      color: var(--ion-color-medium);
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.28);
       text-align: center;
-      margin-top: 8px;
+      margin-top: 4px;
     }
   `]
 })
 export class DocRightPanelComponent implements OnInit {
+  @Output() closeRequested = new EventEmitter<void>();
+
   readonly editorSvc = inject(DocEditorService);
   private http       = inject(HttpClient);
   readonly cdr       = inject(ChangeDetectorRef);
-  private modalCtrl  = inject(ModalController);
+  private router     = inject(Router);
   private readonly API = `${environment.apiBase}/docs`;
 
   activeTab  = 'outline';
@@ -334,9 +568,8 @@ export class DocRightPanelComponent implements OnInit {
 
   navigateToDoc(docId: string): void {
     this.dismiss();
-    // Navigate after modal closes
-    setTimeout(() => window.location.href = `/docs/${docId}`, 300);
+    void this.router.navigate(['/docs', docId]);
   }
 
-  dismiss(): void { this.modalCtrl.dismiss(); }
+  dismiss(): void { this.closeRequested.emit(); }
 }

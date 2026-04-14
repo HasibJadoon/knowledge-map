@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, NgZone
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActionSheetController } from '@ionic/angular';
 import { DocEditorService } from '../../services/doc-editor.service';
 import { DocExtractService } from '../../services/doc-extract.service';
 
@@ -27,6 +26,12 @@ const TEXT_COLORS = [
 
 type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
                | 'bulletList' | 'orderedList' | 'blockquote' | 'codeBlock';
+
+interface ToolbarSheetItem {
+  label: string;
+  action: () => void;
+  tone?: 'default' | 'danger';
+}
 
 @Component({
   selector: 'km-highlight-toolbar',
@@ -80,6 +85,29 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
                 (touchend)="openExtractSheet(); $event.preventDefault()">···</button>
       </div>
     }
+
+    @if (sheetOpen()) {
+      <div class="km-sheet-backdrop" (click)="closeSheet()">
+        <div class="km-sheet" (click)="$event.stopPropagation()">
+          <div class="km-sheet__header">{{ sheetTitle() }}</div>
+
+          @for (item of sheetItems(); track item.label) {
+            <button class="km-sheet__item"
+                    [class.km-sheet__item--danger]="item.tone === 'danger'"
+                    (touchend)="runSheetItem(item); $event.preventDefault()"
+                    (click)="runSheetItem(item)">
+              {{ item.label }}
+            </button>
+          }
+
+          <button class="km-sheet__item km-sheet__item--cancel"
+                  (touchend)="closeSheet(); $event.preventDefault()"
+                  (click)="closeSheet()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    }
   `,
   styles: [`
     :host {
@@ -96,19 +124,19 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
       display: flex;
       align-items: center;
       gap: 1px;
-      background: #1e1e1e;
-      border: 1px solid rgba(255,255,255,0.12);
+      background: #1c1c1e;
+      border: 1px solid rgba(255,255,255,0.11);
       border-radius: 12px;
       padding: 4px 6px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.75), 0 2px 8px rgba(0,0,0,0.45), 0 0 0 0.5px rgba(255,255,255,0.05);
       pointer-events: all;
       white-space: nowrap;
       overflow: visible;
-      animation: km-bub-in 0.14s ease;
+      animation: km-bub-in 0.16s cubic-bezier(0.22,1,0.36,1);
     }
 
     @keyframes km-bub-in {
-      from { opacity: 0; transform: translateX(-50%) translateY(4px) scale(0.96); }
+      from { opacity: 0; transform: translateX(-50%) translateY(6px) scale(0.94); }
       to   { opacity: 1; transform: translateX(-50%) translateY(0)   scale(1); }
     }
 
@@ -181,12 +209,61 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
     }
 
     .km-bb__label { pointer-events: none; }
+
+    .km-sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.42);
+      pointer-events: all;
+      display: flex;
+      align-items: flex-end;
+      z-index: 10000;
+    }
+
+    .km-sheet {
+      width: 100%;
+      background: #1c1c1e;
+      border-radius: 18px 18px 0 0;
+      padding: 0 0 calc(env(safe-area-inset-bottom, 0px) + 14px);
+      box-shadow: 0 -12px 40px rgba(0,0,0,0.55);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .km-sheet__header {
+      padding: 14px 20px 10px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.32);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .km-sheet__item {
+      display: block;
+      width: 100%;
+      padding: 16px 20px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+      color: rgba(255,255,255,0.84);
+      text-align: left;
+      font-size: 0.95rem;
+      font-family: inherit;
+      pointer-events: all;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition: background 0.1s;
+      &:active { background: rgba(255,255,255,0.05); }
+    }
+
+    .km-sheet__item--danger { color: rgba(255,82,82,0.92); }
+    .km-sheet__item--cancel { font-weight: 600; color: #c9a84c; border-bottom: none; }
   `]
 })
 export class HighlightToolbarComponent implements OnInit, OnDestroy {
   private editorSvc   = inject(DocEditorService);
   private extractSvc  = inject(DocExtractService);
-  private actionSheet = inject(ActionSheetController);
   private cdr         = inject(ChangeDetectorRef);
   private zone        = inject(NgZone);
 
@@ -202,6 +279,9 @@ export class HighlightToolbarComponent implements OnInit, OnDestroy {
   currentBlock    = signal<BlockType>('paragraph');
   currentHighlight = signal('rgba(201,168,76,0.35)');
   currentTextColor = signal('rgba(255,255,255,0.82)');
+  sheetOpen       = signal(false);
+  sheetTitle      = signal('');
+  sheetItems      = signal<ToolbarSheetItem[]>([]);
 
   private selectionChangeHandler = () => this.zone.run(() => this.onSelectionChange());
   private hideTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -289,6 +369,25 @@ export class HighlightToolbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  private presentSheet(title: string, items: ToolbarSheetItem[]): void {
+    this.sheetTitle.set(title);
+    this.sheetItems.set(items);
+    this.sheetOpen.set(true);
+    this.cdr.markForCheck();
+  }
+
+  closeSheet(): void {
+    if (!this.sheetOpen()) return;
+    this.sheetOpen.set(false);
+    this.sheetItems.set([]);
+    this.cdr.markForCheck();
+  }
+
+  runSheetItem(item: ToolbarSheetItem): void {
+    this.closeSheet();
+    item.action();
+  }
+
   blockLabel(): string {
     const MAP: Record<BlockType, string> = {
       paragraph: 'Text', heading1: 'H1', heading2: 'H2', heading3: 'H3',
@@ -314,78 +413,66 @@ export class HighlightToolbarComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
-  async openBlockSheet(): Promise<void> {
-    const sheet = await this.actionSheet.create({
-      header: 'Turn into',
-      cssClass: 'km-action-sheet',
-      buttons: [
-        { text: '¶  Text',          handler: () => this.setBlock('paragraph')   },
-        { text: 'H1  Heading 1',    handler: () => this.setBlock('heading1')    },
-        { text: 'H2  Heading 2',    handler: () => this.setBlock('heading2')    },
-        { text: 'H3  Heading 3',    handler: () => this.setBlock('heading3')    },
-        { text: '•≡  Bullet List',  handler: () => this.setBlock('bulletList')  },
-        { text: '1≡  Numbered',     handler: () => this.setBlock('orderedList') },
-        { text: '❝  Blockquote',   handler: () => this.setBlock('blockquote')  },
-        { text: '</>  Code Block',  handler: () => this.setBlock('codeBlock')   },
-        { text: 'Cancel', role: 'cancel' },
-      ]
-    });
-    await sheet.present();
+  openBlockSheet(): void {
+    this.presentSheet('Turn into', [
+      { label: '¶  Text',         action: () => this.setBlock('paragraph') },
+      { label: 'H1  Heading 1',   action: () => this.setBlock('heading1') },
+      { label: 'H2  Heading 2',   action: () => this.setBlock('heading2') },
+      { label: 'H3  Heading 3',   action: () => this.setBlock('heading3') },
+      { label: '•≡  Bullet List', action: () => this.setBlock('bulletList') },
+      { label: '1≡  Numbered',    action: () => this.setBlock('orderedList') },
+      { label: '❝  Blockquote',   action: () => this.setBlock('blockquote') },
+      { label: '</>  Code Block', action: () => this.setBlock('codeBlock') },
+    ]);
   }
 
-  async openHighlightSheet(): Promise<void> {
-    const sheet = await this.actionSheet.create({
-      header: 'Highlight',
-      cssClass: 'km-action-sheet',
-      buttons: [
-        ...HIGHLIGHT_COLORS.map(c => ({
-          text: c.label,
-          handler: () => {
-            this.editorSvc.editor?.chain().focus().setHighlight({ color: c.color }).run();
-            this.currentHighlight.set(c.color);
-          }
-        })),
-        { text: '✕  Clear highlight', handler: () => this.editorSvc.editor?.chain().focus().unsetHighlight().run() },
-        { text: 'Cancel', role: 'cancel' },
-      ]
-    });
-    await sheet.present();
+  openHighlightSheet(): void {
+    this.presentSheet('Highlight', [
+      ...HIGHLIGHT_COLORS.map(c => ({
+        label: c.label,
+        action: () => {
+          this.editorSvc.editor?.chain().focus().setHighlight({ color: c.color }).run();
+          this.currentHighlight.set(c.color);
+        }
+      })),
+      {
+        label: '✕  Clear highlight',
+        action: () => {
+          this.editorSvc.editor?.chain().focus().unsetHighlight().run();
+          this.currentHighlight.set('rgba(201,168,76,0.35)');
+        }
+      },
+    ]);
   }
 
-  async openTextColorSheet(): Promise<void> {
-    const sheet = await this.actionSheet.create({
-      header: 'Text Color',
-      cssClass: 'km-action-sheet',
-      buttons: [
-        ...TEXT_COLORS.map(c => ({
-          text: c.label,
-          handler: () => {
-            this.editorSvc.editor?.chain().focus().setColor(c.color).run();
-            this.currentTextColor.set(c.color);
-          }
-        })),
-        { text: '✕  Clear color', handler: () => this.editorSvc.editor?.chain().focus().unsetColor().run() },
-        { text: 'Cancel', role: 'cancel' },
-      ]
-    });
-    await sheet.present();
+  openTextColorSheet(): void {
+    this.presentSheet('Text Color', [
+      ...TEXT_COLORS.map(c => ({
+        label: c.label,
+        action: () => {
+          this.editorSvc.editor?.chain().focus().setColor(c.color).run();
+          this.currentTextColor.set(c.color);
+        }
+      })),
+      {
+        label: '✕  Clear color',
+        action: () => {
+          this.editorSvc.editor?.chain().focus().unsetColor().run();
+          this.currentTextColor.set('rgba(255,255,255,0.82)');
+        }
+      },
+    ]);
   }
 
-  async openExtractSheet(): Promise<void> {
+  openExtractSheet(): void {
     const text = this.selectedText();
     if (!text) return;
-    const sheet = await this.actionSheet.create({
-      header: 'Extract to K-MAPS',
-      cssClass: 'km-action-sheet',
-      buttons: [
-        { text: '🌍  WV Topic',    handler: () => this.extractSvc.extractToWvTopic(text) },
-        { text: 'ع  Vocabulary',  handler: () => this.extractSvc.extractToVocab(text)    },
-        { text: '☑  Task',        handler: () => this.extractSvc.extractToTask(text)     },
-        { text: '🃏  SRS Card',   handler: () => this.extractSvc.createSrsCard(text)     },
-        { text: 'Cancel', role: 'cancel' },
-      ]
-    });
-    await sheet.present();
+    this.presentSheet('Extract to K-MAPS', [
+      { label: '🌍  WV Topic',   action: () => this.extractSvc.extractToWvTopic(text) },
+      { label: 'ع  Vocabulary', action: () => this.extractSvc.extractToVocab(text) },
+      { label: '☑  Task',       action: () => this.extractSvc.extractToTask(text) },
+      { label: '🃏  SRS Card',  action: () => this.extractSvc.createSrsCard(text) },
+    ]);
   }
 
   private setBlock(type: BlockType): void {

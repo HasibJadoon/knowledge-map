@@ -1,0 +1,54 @@
+:host {
+  display: block;
+}
+
+.review-content {
+  --padding: 0.72rem;
+}
+
+.review-card {
+  border-radius: 0.84rem;
+  margin: 0.52rem 0;
+  padding: 0.55rem;
+}
+
+.review-week {
+  margin: 0 0 0.44rem;
+  font-weight: 600;
+  color: var(--km-text, #e6edf8);
+}
+
+.review-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.3rem 0.6rem;
+  color: var(--km-text-dim, #9eb2ce);
+  font-size: 0.84rem;
+}
+
+ion-item {
+  --background: transparent;
+  --inner-padding-start: 0.1rem;
+  --inner-padding-end: 0.1rem;
+}
+
+ion-label[position="stacked"] {
+  color: var(--km-text-dim, #9eb2ce);
+  margin-bottom: 0.3rem;
+}
+
+ion-textarea {
+  --background: rgba(8, 15, 29, 0.9);
+  --padding-start: 0.6rem;
+  --padding-end: 0.6rem;
+  --padding-top: 0.5rem;
+  --padding-bottom: 0.5rem;
+  border: 1px solid rgba(149, 181, 227, 0.29);
+  border-radius: 0.64rem;
+}
+
+.review-footer {
+  --background: rgba(10, 18, 34, 0.94);
+  padding-inline: 0.5rem;
+  padding-bottom: calc(0.16rem + env(safe-area-inset-bottom));
+}

@@ -2,15 +2,41 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { homeOutline, settingsOutline } from 'ionicons/icons';
-import { DASHBOARD_MENU_SECTIONS } from '../../features/dashboard/data/dashboard-menu.data';
-import { dashboardSectionRoute } from '../../features/dashboard/models/dashboard-card.model';
+import {
+  bookOutline,
+  calendarOutline,
+  documentTextOutline,
+  filmOutline,
+  flashOutline,
+  globeOutline,
+  homeOutline,
+  layersOutline,
+  libraryOutline,
+  micOutline,
+  peopleOutline,
+  repeatOutline,
+} from 'ionicons/icons';
 
 type MenuEntry = {
   title: string;
   icon: string;
   route: string[];
 };
+
+const MENU_ENTRIES: ReadonlyArray<MenuEntry> = [
+  { title: 'Home',       icon: homeOutline,        route: ['/home'] },
+  { title: 'Quran',      icon: bookOutline,         route: ['/quran'] },
+  { title: 'Arabic',     icon: flashOutline,        route: ['/arabic', 'lessons'] },
+  { title: 'Worldview',  icon: globeOutline,        route: ['/worldview'] },
+  { title: 'Planner',    icon: calendarOutline,     route: ['/planner'] },
+  { title: 'Docs',       icon: documentTextOutline, route: ['/docs'] },
+  { title: 'Hub',        icon: layersOutline,       route: ['/hub'] },
+  { title: 'Workspace',  icon: peopleOutline,       route: ['/workspace'] },
+  { title: 'SRS',        icon: repeatOutline,       route: ['/srs'] },
+  { title: 'Content',    icon: filmOutline,         route: ['/content'] },
+  { title: 'Reaction',   icon: micOutline,          route: ['/arabic', 'reaction'] },
+  { title: 'Library',    icon: libraryOutline,      route: ['/worldview', 'library'] },
+];
 
 @Component({
   selector: 'app-menu',
@@ -19,31 +45,9 @@ type MenuEntry = {
   imports: [CommonModule, IonicModule, RouterModule],
 })
 export class AppMenuComponent {
-  readonly menuEntries = this.buildMenuEntries();
+  readonly menuEntries: ReadonlyArray<MenuEntry> = MENU_ENTRIES;
 
   trackEntry(_: number, entry: MenuEntry): string {
     return entry.route.join('/');
-  }
-
-  private buildMenuEntries(): ReadonlyArray<MenuEntry> {
-    return [
-      {
-        title: 'Home',
-        icon: homeOutline,
-        route: ['/dashboard'],
-      },
-      ...DASHBOARD_MENU_SECTIONS
-        .filter((section) => section.key !== 'settings')
-        .map((section) => ({
-          title: section.title,
-          icon: section.icon,
-          route: dashboardSectionRoute(section),
-        })),
-      {
-        title: 'Settings',
-        icon: settingsOutline,
-        route: ['/settings'],
-      },
-    ];
   }
 }

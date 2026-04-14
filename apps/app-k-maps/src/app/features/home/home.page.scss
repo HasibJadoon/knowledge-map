@@ -150,8 +150,8 @@
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  aspect-ratio: 1 / 1.08;
-  padding: 0 0.3rem 0.65rem;
+  aspect-ratio: 1 / 1.15;
+  padding: 0 0.3rem 0.85rem;
   background: rgba(255,255,255,0.025);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 1.3rem;
@@ -182,7 +182,7 @@
     .km-module-card__artwork     { opacity: 0.9; }
     .km-module-card__shimmer     { opacity: 1; }
     .km-module-card__bottom-glow { opacity: 1; }
-    .km-module-card__label       { color: #e8c96a; letter-spacing: 0.18em; }
+    .km-module-card__label       { color: #e8c96a; letter-spacing: 0.07em; }
   }
 }
 
@@ -191,7 +191,7 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 34px;
+  bottom: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -200,18 +200,18 @@
 }
 
 .km-module-card__glyph {
-  font-size: clamp(1.9rem, 7.5vw, 3rem);
+  font-size: clamp(2.2rem, 9vw, 3.5rem);
   line-height: 1;
   background: linear-gradient(180deg, #c9a84c 0%, #6b5520 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 10px rgba(201,168,76,0.3));
+  filter: drop-shadow(0 0 12px rgba(201,168,76,0.3));
 }
 
 .km-module-card--arabic .km-module-card__glyph {
   font-family: 'Uthmanic Hafs', 'Scheherazade New', serif;
-  font-size: clamp(2.1rem, 8.5vw, 3.4rem);
+  font-size: clamp(2.5rem, 10vw, 4rem);
 }
 
 .km-module-card__shimmer {
@@ -239,15 +239,14 @@
   position: relative;
   z-index: 2;
   font-family: var(--ion-font-family);
-  font-size: clamp(0.5rem, 1.6vw, 0.62rem);
+  font-size: clamp(0.52rem, 2vw, 0.62rem);
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.55);
   transition: color 0.3s, letter-spacing 0.3s;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
   width: 100%;
   text-align: center;
 }
@@ -272,6 +271,9 @@
 @media (max-width: 360px) {
   .home__cards { max-width: 310px; gap: 0.45rem; }
   .km-module-card { border-radius: 1.1rem; }
+  .km-module-card__label { font-size: 0.48rem; letter-spacing: 0.02em; }
+  .km-module-card__glyph { font-size: 1.9rem; }
+  .km-module-card--arabic .km-module-card__glyph { font-size: 2.2rem; }
 }
 
 @media (min-width: 600px) {

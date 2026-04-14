@@ -25,7 +25,7 @@
         <ion-item
           class="quran-surah-notes-list__note"
           *ngFor="let note of verse.notes; trackBy: trackByNote"
-          [routerLink]="['/notes', note.id]"
+          [routerLink]="['/docs', note.id]"
           button="true"
         >
           <ion-label>

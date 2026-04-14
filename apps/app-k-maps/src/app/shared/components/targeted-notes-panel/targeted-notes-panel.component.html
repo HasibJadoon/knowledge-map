@@ -1,0 +1,65 @@
+<section class="targeted-notes-panel">
+  @if (open()) {
+    <div class="targeted-notes-panel__body">
+      <div class="targeted-notes-panel__summary">
+        <div class="targeted-notes-panel__summary-copy">
+          <p class="targeted-notes-panel__eyebrow">Target Notes</p>
+          <p class="targeted-notes-panel__meta">{{ noteCountLabel }}</p>
+        </div>
+        <ion-button fill="clear" size="small" (click)="refresh()" [disabled]="loading() || adding()" aria-label="Refresh notes">
+          <ion-icon [icon]="icons.refreshOutline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+
+      <div class="targeted-notes-panel__composer">
+        <ion-textarea
+          #composerField
+          [formControl]="composerControl"
+          [placeholder]="placeholder"
+          rows="1"
+          [autoGrow]="true"
+          enterkeyhint="send"
+          [maxlength]="4000"
+          (keydown)="onComposerKeydown($event)"
+        ></ion-textarea>
+        <ion-button fill="clear" (click)="addNote()" [disabled]="!canSubmit" aria-label="Save targeted note">
+          <ion-icon [icon]="icons.paperPlaneOutline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+
+      @if (error()) {
+        <p class="targeted-notes-panel__error">{{ error() }}</p>
+      }
+
+      @if (loading()) {
+        <div class="targeted-notes-panel__list">
+          @for (row of skeletonRows; track row) {
+            <article class="targeted-notes-panel__item targeted-notes-panel__item--skeleton">
+              <ion-skeleton-text animated style="width: 58%; height: 1.3rem"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 94%; height: 0.95rem"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 82%; height: 0.95rem"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 32%; height: 0.8rem"></ion-skeleton-text>
+            </article>
+          }
+        </div>
+      } @else {
+        @if (notes().length > 0) {
+          <div class="targeted-notes-panel__list">
+            @for (note of notes(); track trackById($index, note)) {
+              <article class="targeted-notes-panel__item">
+                <h4>{{ titleFor(note) }}</h4>
+                <p>{{ previewFor(note) }}</p>
+                <p class="targeted-notes-panel__time">{{ note.updated_at | date: 'MMM d, h:mm a' }}</p>
+              </article>
+            }
+          </div>
+        } @else {
+          <section class="targeted-notes-panel__state">
+            <h3>No notes yet</h3>
+            <p>Capture the first note for this target below.</p>
+          </section>
+        }
+      }
+    </div>
+  }
+</section>

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
-import { TargetedNotesModalService } from '../../../../notes/targeting/targeted-notes-modal.service';
-import { makeAyahTarget, makeWordTarget } from '../../../../notes/targeting/targeting.models';
+import { TargetedNotesModalService } from '../../../../shared/targeting/targeted-notes-modal.service';
+import { makeAyahTarget, makeWordTarget } from '../../../../shared/targeting/targeting.models';
 import { LongPressDirective } from '../../../../shared/directives/long-press.directive';
 import {
   QuranReaderFallbackVerseViewModel,

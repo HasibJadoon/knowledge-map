@@ -5,7 +5,7 @@ import { AuthGuard } from './core/auth/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
   {
@@ -16,11 +16,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./core/login/login.module').then(m => m.LoginPageModule)
   },
-  {
-    path: 'dashboard',
-    loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardPageModule),
-    canActivate: [AuthGuard]
-  },
+  // ── Arabic ──────────────────────────────────────────────────────────────────
   {
     path: 'arabic/lessons',
     loadChildren: () => import('./features/arabic/lessons/arabic-lessons.module').then(m => m.ArabicLessonsPageModule),
@@ -32,8 +28,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'arabic/lexicon',
-    loadChildren: () => import('./features/arabic/lexicon/arabic-lexicon.module').then(m => m.ArabicLexiconPageModule),
+    path: 'arabic/vocabulary',
+    loadChildren: () => import('./features/arabic/vocabulary/arabic-vocabulary.module').then(m => m.ArabicVocabularyPageModule),
     canActivate: [AuthGuard]
   },
   {
@@ -52,49 +48,38 @@ const routes: Routes = [
     loadChildren: () => import('./features/worldview/worldview.routes').then((m) => m.WORLDVIEW_ROUTES),
   },
   {
-    // Short alias kept for backwards compatibility
     path: 'wv',
     redirectTo: 'worldview',
     pathMatch: 'prefix',
   },
-  {
-    path: 'podcast',
-    loadChildren: () => import('./features/podcast/episodes/podcast-episodes.module').then(m => m.PodcastEpisodesPageModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'episodes',
-    redirectTo: 'podcast',
-    pathMatch: 'full',
-  },
   // ── Quran surah sub-pages (more specific first) ─────────────────────────────
   {
     path: 'quran/surah/:surahId/worldview/nodes',
-    loadComponent: () => import('./features/quran/pages/worldview-nodes-page/worldview-nodes.page').then(m => m.WorldviewNodesPage),
+    loadComponent: () => import('./features/worldview/quran-context/worldview-nodes-page/worldview-nodes.page').then(m => m.WorldviewNodesPage),
   },
   {
     path: 'quran/surah/:surahId/worldview/sources',
-    loadComponent: () => import('./features/quran/pages/worldview-sources-page/worldview-sources.page').then(m => m.WorldviewSourcesPage),
+    loadComponent: () => import('./features/worldview/quran-context/worldview-sources-page/worldview-sources.page').then(m => m.WorldviewSourcesPage),
   },
   {
     path: 'quran/surah/:surahId/worldview/podcasts',
-    loadComponent: () => import('./features/quran/pages/worldview-podcasts-page/worldview-podcasts.page').then(m => m.WorldviewPodcastsPage),
+    loadComponent: () => import('./features/worldview/quran-context/worldview-podcasts-page/worldview-podcasts.page').then(m => m.WorldviewPodcastsPage),
   },
   {
     path: 'quran/surah/:surahId/worldview/documents',
-    loadComponent: () => import('./features/quran/pages/worldview-documents-page/worldview-documents.page').then(m => m.WorldviewDocumentsPage),
+    loadComponent: () => import('./features/worldview/quran-context/worldview-documents-page/worldview-documents.page').then(m => m.WorldviewDocumentsPage),
   },
   {
     path: 'quran/surah/:surahId/worldview/notes',
-    loadComponent: () => import('./features/quran/pages/worldview-notes-page/worldview-notes.page').then(m => m.WorldviewNotesPage),
+    loadComponent: () => import('./features/worldview/quran-context/worldview-notes-page/worldview-notes.page').then(m => m.WorldviewNotesPage),
   },
   {
     path: 'quran/surah/:surahId/worldview/links',
-    loadComponent: () => import('./features/quran/pages/worldview-links-page/worldview-links.page').then(m => m.WorldviewLinksPage),
+    loadComponent: () => import('./features/worldview/quran-context/worldview-links-page/worldview-links.page').then(m => m.WorldviewLinksPage),
   },
   {
     path: 'quran/surah/:surahId/worldview',
-    loadComponent: () => import('./features/quran/pages/worldview-hub-page/worldview-hub.page').then(m => m.WorldviewHubPage),
+    loadComponent: () => import('./features/worldview/quran-context/worldview-hub-page/worldview-hub.page').then(m => m.WorldviewHubPage),
   },
   {
     path: 'quran/surah/:surahId/study/:passageNo',
@@ -120,7 +105,7 @@ const routes: Routes = [
     path: 'quran/surah/:surahId/srs',
     loadComponent: () => import('./features/quran/pages/surah-srs-page/surah-srs.page').then(m => m.SurahSrsPage),
   },
-  // ── Quran passage & text ──────────────────────────────────────────────────────
+  // ── Quran passage & text ─────────────────────────────────────────────────────
   {
     path: 'quran/:surahId/passage/:passageIndex',
     loadComponent: () => import('./features/quran/pages/passage-page/quran-passage.page').then(m => m.QuranPassagePage),
@@ -137,69 +122,49 @@ const routes: Routes = [
     path: 'quran',
     loadComponent: () => import('./features/quran/pages/browse-page/quran-browse.page').then(m => m.QuranBrowsePage),
   },
-  {
-    path: 'settings',
-    loadComponent: () => import('./features/settings/pages/settings/settings.page').then(m => m.SettingsPage),
-    canActivate: [AuthGuard]
-  },
+  // ── Planner ──────────────────────────────────────────────────────────────────
   {
     path: 'planner',
     loadChildren: () => import('./features/planner/weekly-plan/weekly-plan.module').then(m => m.WeeklyPlanPageModule),
     canActivate: [AuthGuard]
   },
   {
-    path: 'brainstorm',
-    loadChildren: () => import('./features/brainstorm/brainstorm.routes').then((m) => m.BRAINSTORM_ROUTES),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'review/:weekStart',
-    loadComponent: () => import('./features/planner/sprint-review/sprint-review.page').then((m) => m.SprintReviewPage),
+    loadComponent: () => import('./features/planner/review/review.page').then((m) => m.ReviewPage),
     canActivate: [AuthGuard]
   },
-  {
-    path: 'notes',
-    loadChildren: () => import('./notes/notes.routes').then((m) => m.NOTES_ROUTES),
-    canActivate: [AuthGuard]
-  },
+  // ── Docs ─────────────────────────────────────────────────────────────────────
   {
     path: 'docs',
     loadChildren: () => import('./features/docs/docs.routes').then((m) => m.DOCS_ROUTES),
   },
+  // ── Content ──────────────────────────────────────────────────────────────────
   {
-    path: 'discourse/quranic',
-    loadComponent: () =>
-      import('./features/discourse/discourse-placeholder/discourse-placeholder.page').then(m => m.DiscoursePlaceholderPage),
-    canActivate: [AuthGuard],
-    data: { title: "Qur'anic Discourse", subtitle: 'Coming soon.' }
-  },
-  {
-    path: 'discourse/wv_concepts',
-    loadComponent: () =>
-      import('./features/discourse/discourse-concepts/discourse-concepts.page').then(m => m.DiscourseConceptsPage),
+    path: 'content',
+    loadChildren: () => import('./features/content/content.routes').then((m) => m.CONTENT_ROUTES),
     canActivate: [AuthGuard]
   },
+  // ── Hub ──────────────────────────────────────────────────────────────────────
   {
-    path: 'discourse/wv_concepts/:slug',
-    loadComponent: () =>
-      import('./features/discourse/discourse-concept-detail/discourse-concept-detail.page').then(m => m.DiscourseConceptDetailPage),
+    path: 'hub',
+    loadChildren: () => import('./features/hub/hub.routes').then((m) => m.HUB_ROUTES),
     canActivate: [AuthGuard]
   },
+  // ── Workspace ────────────────────────────────────────────────────────────────
   {
-    path: 'discourse/relations/:id',
-    loadComponent: () =>
-      import('./features/discourse/discourse-relation-detail/discourse-relation-detail.page').then(m => m.DiscourseRelationDetailPage),
+    path: 'workspace',
+    loadChildren: () => import('./features/workspace/workspace.routes').then((m) => m.WORKSPACE_ROUTES),
     canActivate: [AuthGuard]
   },
+  // ── SRS ──────────────────────────────────────────────────────────────────────
   {
-    path: 'discourse/flows',
-    loadComponent: () =>
-      import('./features/discourse/discourse-placeholder/discourse-placeholder.page').then(m => m.DiscoursePlaceholderPage),
-    canActivate: [AuthGuard],
-    data: { title: 'Flows', subtitle: 'Coming soon.' }
+    path: 'srs',
+    loadChildren: () => import('./features/srs/srs.routes').then((m) => m.SRS_ROUTES),
+    canActivate: [AuthGuard]
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'home' }
 ];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })

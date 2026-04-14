@@ -162,13 +162,15 @@ export class HomePage implements AfterViewInit, OnDestroy {
   readonly particles = Array.from({ length: 15 }, (_, i) => i);
 
   readonly modules: ModuleCard[] = [
-    { id: 'quran',      label: 'Quran',      route: '/quran',             glyph: '☽' },
-    { id: 'arabic',     label: 'Arabic',     route: '/arabic/lessons',    glyph: 'ع' },
-    { id: 'worldview',  label: 'Worldview',  route: '/worldview',         glyph: '◉' },
-    { id: 'planner',    label: 'Planner',    route: '/planner',           glyph: '⊞' },
-    { id: 'notes',      label: 'Notes',      route: '/notes/inbox',       glyph: '✦' },
-    { id: 'podcast',    label: 'Podcast',    route: '/podcast',           glyph: '▶' },
-    { id: 'brainstorm', label: 'Brainstorm', route: '/brainstorm/topics', glyph: '◈' },
+    { id: 'quran',          label: 'Quran',     route: '/quran',              glyph: '☽' },
+    { id: 'arabic',         label: 'Arabic',    route: '/arabic/lessons',     glyph: 'ع' },
+    { id: 'worldview',      label: 'Worldview', route: '/worldview',          glyph: '◉' },
+    { id: 'planner',        label: 'Planner',   route: '/planner',            glyph: '⊞' },
+    { id: 'hub',            label: 'Hub',       route: '/hub',                glyph: '⬡' },
+    { id: 'workspace',      label: 'Workspace', route: '/workspace',          glyph: '◈' },
+    { id: 'srs',            label: 'SRS',       route: '/srs',                glyph: '▣' },
+    { id: 'content',        label: 'Content',   route: '/content',            glyph: '▶' },
+    { id: 'docs',           label: 'Docs',      route: '/docs',               glyph: '✦' },
   ];
 
   ngAfterViewInit(): void {

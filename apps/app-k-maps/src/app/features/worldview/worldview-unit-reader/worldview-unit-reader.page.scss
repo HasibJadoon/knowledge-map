@@ -107,7 +107,7 @@
 
 // ── Reading article — FLAT, no card ─────────────────────────────
 .reading {
-  padding: 1.6rem 1.25rem 0;
+  padding: 1.8rem 1.5rem 0;
 }
 
 // ── Unit header ──────────────────────────────────────────────────
@@ -182,13 +182,14 @@
 }
 
 .summary__para {
-  margin: 0 0 0.65rem;
+  margin: 0 0 0.75rem;
   color: var(--r-text-2);
   font-family: var(--r-font-serif);
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.9;
   font-style: italic;
   text-align: justify;
+  text-justify: inter-word;
   hyphens: auto;
   -webkit-hyphens: auto;
   word-break: break-word;
@@ -267,18 +268,19 @@
 
 // Blockquote
 .prose-quote {
-  margin: 1.4rem 0;
-  padding: 0.9rem 1.1rem 0.9rem 1.25rem;
+  margin: 1.6rem 0;
+  padding: 1rem 1.1rem 1rem 1.3rem;
   border: 0;
   border-left: 3px solid var(--r-gold);
   background: rgba(201, 168, 76, 0.04);
   border-radius: 0 0.5rem 0.5rem 0;
   color: var(--r-text-2);
   font-family: var(--r-font-serif);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-style: italic;
-  line-height: 1.62;
+  line-height: 1.85;
   text-align: justify;
+  text-justify: inter-word;
   hyphens: auto;
   -webkit-hyphens: auto;
   word-break: break-word;
@@ -432,14 +434,16 @@
 
 // Regular paragraph
 .prose-para {
-  margin: 0 0 1rem;
+  margin: 0 0 1.1rem;
   color: var(--r-text);
   font-family: var(--r-font-serif);
-  font-size: 0.95rem;
-  line-height: 1.62;
+  font-size: 1rem;
+  line-height: 1.95;
   text-align: justify;
+  text-justify: inter-word;
   hyphens: auto;
   -webkit-hyphens: auto;
+  white-space: pre-wrap;
   word-break: break-word;
   overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
@@ -1000,8 +1004,10 @@
 // ── Tablet+ ──────────────────────────────────────────────────────
 @media (min-width: 768px) {
   .rp { max-width: 680px; margin: 0 auto; }
-  .reading { padding: 2rem 1.75rem 0; }
-  .prose-para { font-size: 1.07rem; line-height: 2.1; }
+  .reading { padding: 2.2rem 2rem 0; }
+  .prose-para { font-size: 1.05rem; line-height: 2.05; }
+  .summary__para { font-size: 1.05rem; line-height: 2.0; }
+  .prose-quote { font-size: 1.05rem; line-height: 1.95; }
 }
 
 @media (max-width: 420px) {

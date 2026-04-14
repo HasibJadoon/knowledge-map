@@ -52,15 +52,15 @@ export class PlannerTabsPage implements OnInit {
       return;
     }
 
-    void this.router.navigate(['/dashboard'], { replaceUrl: true });
+    void this.router.navigate(['/home'], { replaceUrl: true });
   }
 
   goHome(): void {
-    void this.router.navigate(['/dashboard'], { replaceUrl: true });
+    void this.router.navigate(['/home'], { replaceUrl: true });
   }
 
   openSettings(): void {
-    void this.router.navigate(['/settings']);
+    void this.router.navigate(['/home']);
   }
 
   onPlannerTabSelected(tabKey: string): void {

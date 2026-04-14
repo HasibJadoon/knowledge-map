@@ -28,58 +28,67 @@ export const Callout = Node.create({
         style.id = 'km-callout-styles';
         style.textContent = `
           .km-callout {
-            display: flex; gap: 14px;
-            padding: 14px 18px 14px 16px; margin: 6px 0;
-            background: linear-gradient(135deg, rgba(201,168,76,0.07) 0%, rgba(201,168,76,0.02) 100%);
-            border: 1px solid rgba(201,168,76,0.18);
+            display: flex; gap: 12px;
+            padding: 13px 16px 13px 14px; margin: 8px 0;
+            background: rgba(201,168,76,0.05);
+            border: 1px solid rgba(201,168,76,0.16);
             border-left: none;
             border-radius: 10px;
             position: relative;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.18);
           }
           .km-callout::before {
             content: '';
             position: absolute;
-            left: 0; top: 0; bottom: 0; width: 3px;
-            background: linear-gradient(180deg, rgba(201,168,76,0.95) 0%, rgba(201,168,76,0.3) 100%);
+            left: 0; top: 0; bottom: 0; width: 4px;
+            background: rgba(201,168,76,0.8);
             border-radius: 10px 0 0 10px;
           }
           .km-callout__emoji {
-            font-size: 1.25rem; line-height: 1.55;
+            font-size: 1.3rem; line-height: 1.5;
             cursor: pointer; user-select: none;
-            flex-shrink: 0; min-width: 1.6rem;
+            flex-shrink: 0; min-width: 1.75rem;
             text-align: center;
-            transition: transform 0.15s;
-            margin-top: 1px;
+            transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
+            margin-top: 0;
+            -webkit-tap-highlight-color: transparent;
           }
-          .km-callout__emoji:hover { transform: scale(1.2) rotate(-5deg); }
+          .km-callout__emoji:active { transform: scale(1.25) rotate(-8deg); }
           .km-callout__content {
-            flex: 1; min-width: 0; min-height: 1.6em;
-            color: rgba(255,255,255,0.9);
+            flex: 1; min-width: 0; min-height: 2em;
+            color: rgba(255,255,255,0.88);
             cursor: text;
+            font-size: 0.975rem;
+            line-height: 1.75;
+            /* iOS: must override any parent user-select:none so text is tappable */
+            -webkit-user-select: text !important;
+            user-select: text !important;
           }
           .km-callout__content .ProseMirror-trailingBreak { display: none; }
           .km-callout__emoji-picker {
             position: fixed; z-index: 15000;
-            background: #1e1e1e;
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 10px; padding: 8px;
+            background: #1c1c1e;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: 10px;
             display: flex; flex-wrap: wrap; gap: 4px;
-            max-width: 240px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-            animation: km-ep-in 0.1s ease;
+            max-width: 252px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.65), 0 2px 8px rgba(0,0,0,0.3);
+            animation: km-ep-in 0.12s cubic-bezier(0.22,1,0.36,1);
           }
           @keyframes km-ep-in {
-            from { opacity: 0; transform: scale(0.95) translateY(-4px); }
+            from { opacity: 0; transform: scale(0.92) translateY(-6px); }
             to   { opacity: 1; transform: scale(1) translateY(0); }
           }
           .km-callout__ep-btn {
-            width: 32px; height: 32px; border: none;
-            background: transparent; border-radius: 6px;
-            cursor: pointer; font-size: 1.1rem;
+            width: 34px; height: 34px; border: none;
+            background: transparent; border-radius: 8px;
+            cursor: pointer; font-size: 1.15rem;
             display: flex; align-items: center; justify-content: center;
-            transition: background 0.1s;
+            transition: background 0.12s;
+            -webkit-tap-highlight-color: transparent;
           }
-          .km-callout__ep-btn:hover { background: rgba(255,255,255,0.1); }
+          .km-callout__ep-btn:hover,
+          .km-callout__ep-btn:active { background: rgba(255,255,255,0.1); }
         `;
         document.head.appendChild(style);
       }
@@ -146,18 +155,34 @@ export const Callout = Node.create({
         }, 0);
       });
 
-      // Clicking on the outer wrapper padding (not the emoji or content area)
-      // should redirect the cursor inside the callout's paragraph content.
-      // Uses 'click' (fires after mouseup) so ProseMirror's own positioning
-      // has already settled; pos+2 = inside the first child paragraph.
-      dom.addEventListener('click', (e) => {
+      // ── Focus routing ────────────────────────────────────────────────────
+      // Tapping the outer padding (not emoji, not content) moves cursor inside.
+      // Also handles touchend so iOS keyboard activates on the first tap.
+      const routeFocus = (e: Event) => {
         if (emojiEl.contains(e.target as globalThis.Node)) return;
         if (pickerEl?.contains(e.target as globalThis.Node)) return;
         if (contentEl.contains(e.target as globalThis.Node)) return;
         const pos = typeof getPos === 'function' ? getPos() : null;
         if (pos !== null && pos !== undefined) {
+          // pos+2 = start of first child paragraph inside the callout
           editor.chain().focus().setTextSelection(pos + 2).run();
         }
+      };
+
+      dom.addEventListener('click', routeFocus);
+
+      // touchend: needed on iOS — without it the keyboard never opens when
+      // tapping the callout padding on first touch.
+      dom.addEventListener('touchend', (e) => {
+        if (emojiEl.contains(e.target as globalThis.Node)) return;
+        if (pickerEl?.contains(e.target as globalThis.Node)) return;
+        if (contentEl.contains(e.target as globalThis.Node)) {
+          // User tapped the text itself — just ensure the editor is focused.
+          if (!editor.isFocused) editor.commands.focus();
+          return;
+        }
+        e.preventDefault();
+        routeFocus(e);
       });
 
       return {

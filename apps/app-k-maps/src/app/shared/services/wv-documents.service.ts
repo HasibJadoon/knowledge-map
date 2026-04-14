@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 
-import { KmapsContentItem } from '../../features/worldview/worldview/models/kmaps.models';
-import { WvDocumentDraft } from '../../features/worldview/worldview/models/wv-workspace.models';
+import { KmapsContentItem } from '../../features/worldview/models/kmaps.models';
+import { WvDocumentDraft } from '../../features/worldview/models/wv-workspace.models';
 import { KmapsWorkflowService } from './kmaps-workflow.service';
 
 @Injectable({ providedIn: 'root' })

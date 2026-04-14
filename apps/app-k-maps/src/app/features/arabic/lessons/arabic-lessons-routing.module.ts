@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ArabicLessonsPage } from './arabic-lessons/arabic-lessons.page';
+import { ArabicLessonsPage } from './arabic-lessons.page';
 
 const routes: Routes = [
   {

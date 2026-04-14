@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 import { filter, Subscription } from 'rxjs';
@@ -54,10 +54,15 @@ const DOMAINS = [
   selector: 'app-docs-list',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IonicModule, FormsModule],
+  imports: [CommonModule, IonicModule, FormsModule, RouterModule],
   template: `
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button fill="clear" routerLink="/home" routerDirection="root" aria-label="Home">
+            <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
         <ion-title>Documents</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="newDoc()" fill="clear">

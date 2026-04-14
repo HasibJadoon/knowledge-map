@@ -210,6 +210,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     { id: 'planner', label: 'Planner', route: '/planner', icon: '▦', glyph: '⊞' },
     { id: 'srs', label: 'SRS', route: '/srs', icon: '↻', glyph: '↻' },
     { id: 'content', label: 'Content', route: '/content', icon: '▷', glyph: '▶' },
+    { id: 'docs', label: 'Docs', route: '/docs', icon: '✦', glyph: '✦' },
   ];
 
   ngAfterViewInit(): void {

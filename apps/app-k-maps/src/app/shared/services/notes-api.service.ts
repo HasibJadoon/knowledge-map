@@ -9,7 +9,7 @@ import {
   NoteLink,
   NoteLinkTargetType,
   NoteStatus,
-} from '../../notes/models/notes.models';
+} from '../models/notes.model';
 
 interface CreateNotePayload {
   body_md: string;

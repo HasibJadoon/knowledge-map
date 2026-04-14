@@ -23,6 +23,6 @@ export class AdminGuard implements CanActivate {
       return true;
     }
 
-    return this.router.parseUrl('/dashboard');
+    return this.router.parseUrl('/home');
   }
 }

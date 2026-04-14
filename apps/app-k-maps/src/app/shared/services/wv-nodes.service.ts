@@ -1,8 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 
-import { KmapsNote } from '../../features/worldview/worldview/models/kmaps.models';
+import { KmapsNote } from '../../features/worldview/models/kmaps.models';
 import { KmapsWorkflowService } from './kmaps-workflow.service';
-import { WvDistillBatch, WvDistillBatchItem, WvInsightDecision, WvInsightSuggestion } from '../../features/worldview/worldview/models/wv-workspace.models';
+import { WvDistillBatch, WvDistillBatchItem, WvInsightDecision, WvInsightSuggestion } from '../../features/worldview/models/wv-workspace.models';
 
 @Injectable({ providedIn: 'root' })
 export class WvNodesService {

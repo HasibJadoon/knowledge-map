@@ -1,0 +1,11 @@
+<section
+  *ngIf="target as resolvedTarget"
+  class="targeted-notes-block"
+  [class.targeted-notes-block--inline]="variant === 'inline'"
+>
+  <app-targeted-notes-panel
+    [target]="resolvedTarget"
+    [placeholder]="placeholder"
+    [collapsed]="collapsed"
+  ></app-targeted-notes-panel>
+</section>

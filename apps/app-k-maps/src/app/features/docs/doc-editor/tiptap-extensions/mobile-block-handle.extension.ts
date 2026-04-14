@@ -6,7 +6,7 @@
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
 import type { EditorView } from '@tiptap/pm/view';
-import type { Node as PmNode } from '@tiptap/pm/model';
+import { Fragment, type Node as PmNode } from '@tiptap/pm/model';
 import type { Editor } from '@tiptap/core';
 
 // ── Block picker items ─────────────────────────────────────────────────────
@@ -15,6 +15,18 @@ interface PickerItem {
   icon: string;
   label: string;
   run: (editor: Editor, afterPos: number) => void;
+}
+
+interface BlockTarget {
+  anchorEl: HTMLElement;
+  from: number;
+  to: number;
+  depth: number;
+  node: PmNode;
+  indexInParent: number;
+  parentDepth: number;
+  parentFrom: number;
+  parentTo: number;
 }
 
 const PICKER_ITEMS: PickerItem[] = [
@@ -95,22 +107,10 @@ function openBlockPicker(editor: Editor, afterPos: number) {
 function openBlockMenu(
   editor: Editor,
   view: EditorView,
-  blockIndex: number,
+  target: BlockTarget,
 ) {
   closeSheet();
   injectStyles();
-
-  const state = view.state;
-  const children: PmNode[] = [];
-  state.doc.forEach(child => children.push(child));
-  const node = children[blockIndex];
-  if (!node) return;
-
-  // Compute afterPos for this block
-  let pos = 0;
-  for (let i = 0; i < blockIndex; i++) pos += children[i].nodeSize;
-  const fromPos = pos;
-  const toPos   = pos + node.nodeSize;
 
   const backdrop = document.createElement('div');
   backdrop.className = 'km-mbh-backdrop';
@@ -129,19 +129,19 @@ function openBlockMenu(
   const actions: Array<{ icon: string; label: string; danger?: boolean; run: () => void }> = [
     {
       icon: '⎘', label: 'Duplicate',
-      run: () => editor.chain().focus().insertContentAt(toPos, node.toJSON()).run(),
+      run: () => editor.chain().focus().insertContentAt(target.to, target.node.toJSON()).run(),
     },
     {
       icon: '↑', label: 'Move up',
-      run: () => blockIndex > 0 ? applyMove(view, blockIndex, blockIndex - 1) : undefined,
+      run: () => target.indexInParent > 0 ? applyMoveWithinParent(view, target, target.indexInParent - 1) : undefined,
     },
     {
       icon: '↓', label: 'Move down',
-      run: () => blockIndex < children.length - 1 ? applyMove(view, blockIndex, blockIndex + 1) : undefined,
+      run: () => applyMoveWithinParent(view, target, target.indexInParent + 1),
     },
     {
       icon: '🗑', label: 'Delete', danger: true,
-      run: () => editor.chain().focus().deleteRange({ from: fromPos, to: toPos }).run(),
+      run: () => editor.chain().focus().deleteRange({ from: target.from, to: target.to }).run(),
     },
   ];
 
@@ -160,31 +160,35 @@ function openBlockMenu(
   requestAnimationFrame(() => sheet.classList.add('km-mbh-sheet--open'));
 }
 
-// ── Move block (works on top-level doc children) ───────────────────────────
+// ── Move block within its current parent container ──────────────────────────
 
-function applyMove(view: EditorView, fromIndex: number, toIndex: number) {
+function applyMoveWithinParent(view: EditorView, target: BlockTarget, toIndex: number) {
   const { state } = view;
+  const $from = state.doc.resolve(target.from);
+  const parentNode = target.parentDepth === 0 ? state.doc : $from.node(target.parentDepth);
   const children: PmNode[] = [];
-  state.doc.forEach(child => children.push(child));
-  if (fromIndex < 0 || fromIndex >= children.length) return;
+  parentNode.forEach(child => children.push(child));
 
-  const moved = children.splice(fromIndex, 1)[0];
+  if (target.indexInParent < 0 || target.indexInParent >= children.length) return;
+
+  const moved = children.splice(target.indexInParent, 1)[0];
   const insertIdx = Math.min(Math.max(toIndex, 0), children.length);
   children.splice(insertIdx, 0, moved);
 
-  const tr = state.tr.replaceWith(0, state.doc.content.size, children);
+  const fragment = Fragment.fromArray(children);
+  const tr = state.tr.replaceWith(target.parentFrom, target.parentTo, fragment);
   view.dispatch(tr.scrollIntoView());
 }
 
 // ── Main Plugin View ────────────────────────────────────────────────────────
 
 class BlockHandleView {
+  private hostEl: HTMLElement;
   private handle: HTMLElement;
   private addBtn: HTMLElement;
   private gripBtn: HTMLElement;
 
-  private activeBlock: HTMLElement | null = null;
-  private activeBlockIndex = -1;
+  private activeTarget: BlockTarget | null = null;
 
   // Touch drag state
   private dragging = false;
@@ -198,6 +202,7 @@ class BlockHandleView {
 
   constructor(private view: EditorView, private editor: Editor) {
     injectStyles();
+    this.hostEl = (view.dom.parentElement as HTMLElement | null) ?? document.body;
 
     // ── Build handle ───────────────────────────────────────────────────────
     this.handle = document.createElement('div');
@@ -230,7 +235,7 @@ class BlockHandleView {
 
     this.handle.appendChild(this.addBtn);
     this.handle.appendChild(this.gripBtn);
-    document.body.appendChild(this.handle);
+    this.hostEl.appendChild(this.handle);
 
     // Show handle on editor tap
     view.dom.addEventListener('click',   this.onEditorClick);
@@ -241,15 +246,15 @@ class BlockHandleView {
   // ── Editor tap: show handle next to tapped block ───────────────────────
 
   private onEditorClick = (e: MouseEvent) => {
-    const block = this.topLevelBlockAt(e.target as HTMLElement);
-    if (block) this.showHandle(block);
+    const target = this.resolveHandleTarget(e.target as HTMLElement | null);
+    if (target) this.showHandle(target);
   };
 
   private onEditorTouch = (e: TouchEvent) => {
     const touch = e.changedTouches[0];
     const el = document.elementFromPoint(touch.clientX, touch.clientY) as HTMLElement | null;
-    const block = el ? this.topLevelBlockAt(el) : null;
-    if (block) this.showHandle(block);
+    const target = this.resolveHandleTarget(el);
+    if (target) this.showHandle(target);
   };
 
   private onDocTouchOutside = (e: TouchEvent) => {
@@ -299,7 +304,7 @@ class BlockHandleView {
       this.dragging = true;
       this.dragMoved = true;
       if (this.menuTimer) { clearTimeout(this.menuTimer); this.menuTimer = null; }
-      if (this.activeBlock) this.startGhost(this.activeBlock);
+      if (this.activeTarget?.anchorEl) this.startGhost(this.activeTarget.anchorEl);
       this.createDropLine();
     }
 
@@ -322,18 +327,24 @@ class BlockHandleView {
     this.cleanupDrag();
 
     const info = this.findDropSlot(y);
-    if (info.index !== -1 && info.index !== this.activeBlockIndex) {
-      applyMove(this.view, this.activeBlockIndex, info.index);
-      // Re-anchor handle
+    const activeTarget = this.activeTarget;
+    const siblingContainer = this.currentSiblingContainer();
+    if (activeTarget && info.index !== -1 && info.index !== activeTarget.indexInParent) {
+      applyMoveWithinParent(this.view, activeTarget, info.index);
       requestAnimationFrame(() => {
-        const newBlock = this.view.dom.children[info.index] as HTMLElement;
-        if (newBlock) this.showHandle(newBlock);
+        const nextAnchor = siblingContainer
+          ? (Array.from(siblingContainer.children).filter(child => child instanceof HTMLElement) as HTMLElement[])[info.index] ?? null
+          : null;
+        const nextTarget = this.resolveHandleTarget(nextAnchor);
+        if (nextTarget) this.showHandle(nextTarget);
+        else this.hideHandle();
       });
     }
   };
 
   private openMenu() {
-    openBlockMenu(this.editor, this.view, this.activeBlockIndex);
+    if (!this.activeTarget) return;
+    openBlockMenu(this.editor, this.view, this.activeTarget);
   }
 
   // ── Ghost + drop line ──────────────────────────────────────────────────
@@ -366,11 +377,11 @@ class BlockHandleView {
 
   private showDropLine(lineY: number) {
     if (!this.dropLine) return;
-    const editorRect = this.view.dom.getBoundingClientRect();
+    const containerRect = (this.currentSiblingContainer() ?? this.view.dom).getBoundingClientRect();
     this.dropLine.style.display = 'block';
     this.dropLine.style.top    = `${lineY}px`;
-    this.dropLine.style.left   = `${editorRect.left}px`;
-    this.dropLine.style.width  = `${editorRect.width}px`;
+    this.dropLine.style.left   = `${containerRect.left}px`;
+    this.dropLine.style.width  = `${containerRect.width}px`;
   }
 
   private cleanupDrag() {
@@ -378,13 +389,13 @@ class BlockHandleView {
     this.ghost = null;
     this.dropLine?.remove();
     this.dropLine = null;
-    if (this.activeBlock) {
-      this.activeBlock.style.opacity = '';
+    if (this.activeTarget?.anchorEl) {
+      this.activeTarget.anchorEl.style.opacity = '';
     }
   }
 
   private findDropSlot(y: number): { index: number; lineY: number } {
-    const blocks = Array.from(this.view.dom.children) as HTMLElement[];
+    const blocks = this.currentSiblingElements();
     for (let i = 0; i < blocks.length; i++) {
       const rect = blocks[i].getBoundingClientRect();
       if (y < rect.top + rect.height / 2) {
@@ -395,35 +406,14 @@ class BlockHandleView {
     return { index: blocks.length - 1, lineY: last?.bottom ?? y };
   }
 
-  // ── Handle positioning ─────────────────────────────────────────────────
-
-  private showHandle(block: HTMLElement) {
-    // Remove active class from previously active block
-    if (this.activeBlock && this.activeBlock !== block) {
-      this.activeBlock.classList.remove('km-block-active');
-    }
-    this.activeBlock = block;
-    this.activeBlock.classList.add('km-block-active');
-    this.activeBlockIndex = Array.from(this.view.dom.children).indexOf(block);
-    this.positionHandle(block);
-    this.handle.style.display = 'flex';
-  }
-
-  hideHandle() {
-    this.activeBlock?.classList.remove('km-block-active');
-    this.activeBlock = null;
-    this.activeBlockIndex = -1;
-    this.handle.style.display = 'none';
-  }
-
   private positionHandle(block: HTMLElement) {
     const rect = block.getBoundingClientRect();
     const H = 28; // handle height
-    const top = rect.top + Math.max(0, (rect.height / 2) - (H / 2));
-    // Position inside editor left padding (editor has 20px padding)
-    const editorRect = this.view.dom.getBoundingClientRect();
+    const hostRect = this.hostEl.getBoundingClientRect();
+    const top = rect.top - hostRect.top + Math.max(0, (rect.height / 2) - (H / 2));
+    const left = Math.max(2, rect.left - hostRect.left - 34);
     this.handle.style.top  = `${top}px`;
-    this.handle.style.left = `${editorRect.left + 2}px`;
+    this.handle.style.left = `${left}px`;
   }
 
   private topLevelBlockAt(el: HTMLElement | null): HTMLElement | null {
@@ -436,28 +426,118 @@ class BlockHandleView {
     return cur?.parentElement === this.view.dom ? cur : null;
   }
 
-  private activeBlockAfterPos(): number {
-    if (this.activeBlockIndex < 0) return -1;
-    let pos = 0;
-    const children: PmNode[] = [];
-    this.view.state.doc.forEach(c => children.push(c));
-    for (let i = 0; i <= this.activeBlockIndex && i < children.length; i++) {
-      if (i === this.activeBlockIndex) return pos + children[i].nodeSize;
-      pos += children[i].nodeSize;
+  private clampPos(pos: number): number {
+    return Math.max(0, Math.min(pos, this.view.state.doc.content.size));
+  }
+
+  private createTarget(anchorEl: HTMLElement, depth: number, pos: number): BlockTarget | null {
+    const safePos = this.clampPos(pos);
+    const $pos = this.view.state.doc.resolve(safePos);
+    if (depth < 1 || depth > $pos.depth) return null;
+
+    const parentDepth = depth - 1;
+    const parentFrom = parentDepth === 0 ? 0 : $pos.start(parentDepth);
+    const parentTo = parentDepth === 0 ? this.view.state.doc.content.size : $pos.end(parentDepth);
+
+    return {
+      anchorEl,
+      from: $pos.before(depth),
+      to: $pos.after(depth),
+      depth,
+      node: $pos.node(depth),
+      indexInParent: $pos.index(parentDepth),
+      parentDepth,
+      parentFrom,
+      parentTo,
+    };
+  }
+
+  private resolveHandleTarget(el: HTMLElement | null): BlockTarget | null {
+    if (!el) return null;
+
+    const listItem = el.closest('li');
+    if (listItem instanceof HTMLElement && this.view.dom.contains(listItem)) {
+      const listPos = this.clampPos(this.view.posAtDOM(listItem, 0) + 1);
+      const $pos = this.view.state.doc.resolve(listPos);
+      for (let depth = $pos.depth; depth > 0; depth--) {
+        const type = $pos.node(depth).type.name;
+        if (type === 'listItem' || type === 'taskItem') {
+          return this.createTarget(listItem, depth, listPos);
+        }
+      }
     }
-    return -1;
+
+    const topLevel = this.topLevelBlockAt(el);
+    if (!topLevel) return null;
+
+    const topPos = this.clampPos(this.view.posAtDOM(topLevel, 0) + 1);
+    const topTarget = this.createTarget(topLevel, 1, topPos);
+    return topTarget;
+  }
+
+  private currentSiblingContainer(): HTMLElement | null {
+    if (!this.activeTarget) return null;
+    if (this.activeTarget.node.type.name === 'listItem' || this.activeTarget.node.type.name === 'taskItem') {
+      return this.activeTarget.anchorEl.parentElement;
+    }
+    return this.view.dom;
+  }
+
+  private currentSiblingElements(): HTMLElement[] {
+    const container = this.currentSiblingContainer();
+    if (!container) return [];
+    const children = Array.from(container.children).filter(
+      child => child instanceof HTMLElement
+    ) as HTMLElement[];
+    if (container === this.view.dom) return children;
+    return children.filter(child => child.tagName === 'LI');
+  }
+
+  private activeBlockAfterPos(): number {
+    const target = this.activeTarget;
+    if (!target) return -1;
+
+    if (target.node.type.name === 'listItem' || target.node.type.name === 'taskItem') {
+      const $from = this.view.state.doc.resolve(target.from);
+      for (let depth = target.depth - 1; depth > 0; depth--) {
+        const type = $from.node(depth).type.name;
+        if (type === 'bulletList' || type === 'orderedList' || type === 'taskList') {
+          return $from.after(depth);
+        }
+      }
+    }
+
+    return target.to;
+  }
+
+  // ── Handle positioning ─────────────────────────────────────────────────
+
+  private showHandle(target: BlockTarget) {
+    if (this.activeTarget?.anchorEl && this.activeTarget.anchorEl !== target.anchorEl) {
+      this.activeTarget.anchorEl.classList.remove('km-block-active');
+    }
+    this.activeTarget = target;
+    this.activeTarget.anchorEl.classList.add('km-block-active');
+    this.positionHandle(target.anchorEl);
+    this.handle.style.display = 'flex';
   }
 
   // ── ProseMirror view lifecycle ─────────────────────────────────────────
 
   update() {
-    if (this.activeBlock && this.handle.style.display !== 'none') {
-      this.positionHandle(this.activeBlock);
+    if (this.activeTarget?.anchorEl && this.handle.style.display !== 'none') {
+      this.positionHandle(this.activeTarget.anchorEl);
     }
   }
 
+  hideHandle() {
+    this.activeTarget?.anchorEl.classList.remove('km-block-active');
+    this.activeTarget = null;
+    this.handle.style.display = 'none';
+  }
+
   destroy() {
-    this.activeBlock?.classList.remove('km-block-active');
+    this.activeTarget?.anchorEl.classList.remove('km-block-active');
     this.cleanupDrag();
     closeSheet();
     this.handle.remove();
@@ -476,7 +556,7 @@ function injectStyles() {
   s.textContent = `
     /* ── Floating handle ──────────────────────────────────────── */
     .km-mbh {
-      position: fixed;
+      position: absolute;
       display: flex;
       align-items: center;
       gap: 1px;
@@ -490,25 +570,26 @@ function injectStyles() {
       justify-content: center;
       width: 26px;
       height: 26px;
-      border: none;
-      border-radius: 6px;
-      background: rgba(30,30,30,0.85);
-      color: rgba(255,255,255,0.45);
+      border-radius: 7px;
+      background: rgba(28,28,30,0.9);
+      color: rgba(255,255,255,0.4);
       cursor: pointer;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
       touch-action: none;
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.09);
+      transition: background 0.12s, color 0.12s;
     }
-    .km-mbh__add:active  { background: rgba(201,168,76,0.15); color: #c9a84c; }
+    .km-mbh__add:active  { background: rgba(201,168,76,0.2); color: #c9a84c; border-color: rgba(201,168,76,0.3); }
     .km-mbh__grip        { cursor: grab; }
-    .km-mbh__grip:active { cursor: grabbing; background: rgba(201,168,76,0.15); color: #c9a84c; }
+    .km-mbh__grip:active { cursor: grabbing; background: rgba(201,168,76,0.2); color: #c9a84c; border-color: rgba(201,168,76,0.3); }
 
     /* ── Bottom sheet backdrop ────────────────────────────────── */
     .km-mbh-backdrop {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.45);
+      background: rgba(0,0,0,0.48);
       z-index: 10000;
       display: flex; align-items: flex-end;
     }
@@ -516,22 +597,23 @@ function injectStyles() {
     .km-mbh-sheet {
       width: 100%;
       background: #1c1c1e;
-      border-radius: 18px 18px 0 0;
-      padding: 0 0 env(safe-area-inset-bottom, 16px);
-      max-height: 75vh;
+      border-radius: 20px 20px 0 0;
+      padding: 0 0 env(safe-area-inset-bottom, 20px);
+      max-height: 78vh;
       overflow-y: auto;
       transform: translateY(100%);
-      transition: transform 0.28s cubic-bezier(0.32,0.72,0,1);
+      transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
+      border-top: 1px solid rgba(255,255,255,0.08);
     }
     .km-mbh-sheet--open { transform: translateY(0); }
 
     .km-mbh-sheet__header {
-      padding: 16px 20px 10px;
-      font-size: 0.72rem;
+      padding: 14px 20px 10px;
+      font-size: 0.68rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.28);
       border-bottom: 1px solid rgba(255,255,255,0.07);
     }
 
@@ -539,39 +621,45 @@ function injectStyles() {
     .km-mbh-sheet__grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 4px;
-      padding: 10px 12px;
+      gap: 6px;
+      padding: 12px 14px;
     }
 
     .km-mbh-sheet__item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
+      gap: 11px;
+      padding: 11px 13px;
       background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      transition: background 0.1s, border-color 0.1s;
     }
-    .km-mbh-sheet__item:active { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.25); }
+    .km-mbh-sheet__item:active {
+      background: rgba(201,168,76,0.1);
+      border-color: rgba(201,168,76,0.28);
+    }
 
     .km-mbh-sheet__icon {
       font-size: 0.82rem;
       font-weight: 700;
-      width: 28px; height: 28px;
+      width: 30px; height: 30px;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.07);
-      border-radius: 7px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 8px;
       flex-shrink: 0;
-      color: rgba(255,255,255,0.7);
+      color: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.07);
     }
 
     .km-mbh-sheet__label {
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.8);
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.78);
       font-weight: 500;
+      letter-spacing: -0.005em;
     }
 
     /* action list (context menu) */
@@ -580,27 +668,34 @@ function injectStyles() {
       align-items: center;
       gap: 14px;
       width: 100%;
-      padding: 15px 20px;
+      padding: 16px 20px;
       background: transparent;
       border: none;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.82);
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+      color: rgba(255,255,255,0.84);
       font-size: 0.95rem;
+      font-family: -apple-system, 'Poppins', sans-serif;
       cursor: pointer;
       text-align: left;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      transition: background 0.1s;
     }
     .km-mbh-sheet__action:last-child { border-bottom: none; }
     .km-mbh-sheet__action:active { background: rgba(255,255,255,0.05); }
-    .km-mbh-sheet__action--danger { color: rgba(255,70,70,0.9); }
+    .km-mbh-sheet__action--danger { color: rgba(255,72,72,0.92); }
     .km-mbh-sheet__action--danger:active { background: rgba(200,40,40,0.1); }
 
     .km-mbh-sheet__ai {
       font-size: 1rem;
-      width: 24px;
-      text-align: center;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
+      background: rgba(255,255,255,0.06);
+      border-radius: 7px;
     }
   `;
   document.head.appendChild(s);

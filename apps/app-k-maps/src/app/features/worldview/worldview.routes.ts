@@ -4,7 +4,7 @@ export const WORLDVIEW_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./worldview/worldview.page').then((m) => m.WorldviewPage),
+      import('./worldview.page').then((m) => m.WorldviewPage),
     children: [
       {
         path: '',
