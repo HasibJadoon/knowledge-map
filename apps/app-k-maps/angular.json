@@ -36,7 +36,7 @@
                 "output": "."
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": ["src/global.scss", "src/theme/variables.scss", "src/app/features/docs/doc-editor/_editor.scss"],
             "scripts": []
           },
           "configurations": {
@@ -125,7 +125,7 @@
                 "output": "."
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": ["src/global.scss", "src/theme/variables.scss", "src/app/features/docs/doc-editor/_editor.scss"],
             "scripts": []
           },
           "configurations": {

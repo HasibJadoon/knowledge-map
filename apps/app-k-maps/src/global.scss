@@ -3322,5 +3322,3 @@ ion-modal.km-note-workspace-modal::part(content) {
 .km-page-link__title { flex: 1; font-size: 0.88rem; font-weight: 500; }
 .km-page-link__arrow { font-size: 0.85rem; color: rgba(255,255,255,0.3); }
 
-// ── Doc editor — ProseMirror styles (global, bypasses Angular encapsulation) ──
-@use './app/features/docs/doc-editor/editor';
