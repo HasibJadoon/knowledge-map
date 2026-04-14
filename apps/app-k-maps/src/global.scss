@@ -3152,3 +3152,155 @@ ion-modal.km-note-workspace-modal::part(content) {
 }
 
 @include meta.load-css("./theme/app-foundation");
+
+// ── Docs feature — global ProseMirror overrides ────────────────────────────
+// Slash menu (rendered into document.body by SlashCommandExtension)
+.km-slash-menu {
+  position: fixed;
+  z-index: 9999;
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.65);
+  min-width: 240px;
+  max-width: 300px;
+  max-height: 65vh;
+  overflow-y: auto;
+  font-family: "Poppins", sans-serif;
+}
+
+.km-slash-group { margin-bottom: 4px; }
+
+.km-slash-group-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.3);
+  padding: 4px 10px 2px;
+}
+
+.km-slash-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.82);
+  border-radius: 7px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+
+  &--active, &:active { background: rgba(201,168,76,0.12); }
+}
+
+.km-slash-icon {
+  font-size: 1.05rem;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.km-slash-text { display: flex; flex-direction: column; gap: 1px; flex: 1; }
+
+.km-slash-title { font-size: 0.85rem; font-weight: 500; }
+
+.km-slash-desc {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.38);
+}
+
+.km-slash-shortcut {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.07);
+  border-radius: 4px;
+  padding: 1px 5px;
+  flex-shrink: 0;
+}
+
+// ── Docs km-block styles (shared with desktop) ────────────────────────────
+// These are rendered as node views into the ProseMirror DOM
+.km-block {
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 10px 0;
+  user-select: none;
+  cursor: default;
+
+  &--ayah {
+    position: relative;
+    background: rgba(255,255,255,0.03);
+    border-right: 3px solid #c9a84c;
+
+    .km-ayah-content { direction: rtl; }
+
+    .ayah-text {
+      font-family: var(--km-font-arabic, 'Uthmanic Hafs', serif);
+      font-size: 1.65rem; line-height: 2.5; color: var(--ion-text-color);
+      user-select: text !important; -webkit-user-select: text !important; cursor: text;
+    }
+    .ayah-translation {
+      font-size: 0.88rem; color: rgba(255,255,255,0.55); margin-top: 8px;
+      font-style: italic;
+      user-select: text !important; -webkit-user-select: text !important; cursor: text;
+    }
+    .ayah-ref { font-size: 0.72rem; color: #c9a84c; margin-top: 4px; font-weight: 600; }
+
+    .km-ayah-copy {
+      position: absolute; top: 8px; left: 8px; direction: ltr;
+      display: flex; align-items: center; gap: 4px;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px; padding: 5px 8px; cursor: pointer;
+      color: rgba(255,255,255,0.45); font-size: 0.7rem; line-height: 1;
+      opacity: 0; transition: opacity 0.18s, background 0.14s, color 0.14s;
+      user-select: none; pointer-events: all;
+      &::after { content: 'Copy'; margin-left: 2px; }
+      &:hover { background: rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.3); color: rgba(201,168,76,0.9); }
+      &--done { color: #c9a84c !important; border-color: rgba(201,168,76,0.5) !important; background: rgba(201,168,76,0.1) !important; &::after { content: 'Copied!'; } }
+    }
+    &:hover .km-ayah-copy { opacity: 1; }
+  }
+
+  &--vocab { background: rgba(255,255,255,0.03); border-left: 3px solid #81c784; }
+  &--morphology { background: rgba(255,255,255,0.03); border-left: 3px solid #4fc3f7; }
+  &--nahw { background: rgba(255,255,255,0.03); border-left: 3px solid #ce93d8; }
+  &--root-analysis { background: rgba(255,255,255,0.03); border-left: 3px solid #ffb74d; }
+  &--claim { background: rgba(255,255,255,0.03); border-left: 3px solid #c9a84c; }
+  &--evidence { background: rgba(255,255,255,0.03); border-left: 3px solid #4db6ac; }
+  &--reflection { background: rgba(255,255,255,0.03); display: flex; gap: 10px; align-items: flex-start; }
+  &--task { background: rgba(255,255,255,0.03); display: flex; align-items: center; gap: 10px; }
+  &--scene { background: rgba(255,255,255,0.03); border-left: 3px solid #f48fb1; }
+  &--timeline { background: rgba(255,255,255,0.03); display: flex; gap: 10px; align-items: flex-start; }
+  &--comprehension { background: rgba(255,255,255,0.03); border-left: 3px solid #80cbc4; }
+  &--children { background: rgba(255,255,255,0.03); border-left: 3px solid #fff176; }
+}
+
+// Callout block
+.km-callout {
+  display: flex; gap: 10px; align-items: flex-start;
+  border-left: 3px solid rgba(201,168,76,0.5);
+  background: rgba(201,168,76,0.05);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 14px;
+  margin: 10px 0;
+}
+.km-callout__emoji { font-size: 1.3rem; cursor: pointer; flex-shrink: 0; padding-top: 2px; }
+.km-callout__content { flex: 1; min-width: 0; min-height: 1.5em; color: rgba(255,255,255,0.9); p { margin: 0.15em 0; } }
+
+// Page link block
+.km-page-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 8px; margin: 6px 0;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer; text-decoration: none; color: var(--ion-text-color);
+  transition: background 0.15s;
+  &:hover { background: rgba(201,168,76,0.07); border-color: rgba(201,168,76,0.2); }
+}
+.km-page-link__icon { font-size: 0.9rem; opacity: 0.7; }
+.km-page-link__title { flex: 1; font-size: 0.88rem; font-weight: 500; }
+.km-page-link__arrow { font-size: 0.85rem; color: rgba(255,255,255,0.3); }

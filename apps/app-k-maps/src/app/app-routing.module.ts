@@ -163,6 +163,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'docs',
+    loadChildren: () => import('./features/docs/docs.routes').then((m) => m.DOCS_ROUTES),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'discourse/quranic',
     loadComponent: () =>
       import('./features/discourse/discourse-placeholder/discourse-placeholder.page').then(m => m.DiscoursePlaceholderPage),
