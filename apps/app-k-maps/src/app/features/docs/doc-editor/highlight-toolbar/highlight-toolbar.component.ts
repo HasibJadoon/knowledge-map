@@ -81,31 +81,41 @@ interface ToolbarSheetItem {
         <!-- Row divider -->
         <div class="km-bubble__divider"></div>
 
-        <!-- Row 2 — block type + link + clear formatting -->
+        <!-- Row 2 — compact block type + inline tools -->
         <div class="km-bubble__row km-bubble__row--type">
+
+          <!-- Block type: icon badge + chevron only (compact) -->
           <button class="km-bb km-bb--type" (touchend)="openBlockSheet(); $event.preventDefault()">
             <span class="km-bb__block-icon km-bb__block-icon--{{ currentBlock() }}">{{ blockIcon() }}</span>
-            <span class="km-bb__type-name">{{ blockName() }}</span>
-            <svg viewBox="0 0 10 6" fill="currentColor" width="7" height="4" style="opacity:.35; margin-left: auto; flex-shrink:0"><path d="M0 0l5 6 5-6z"/></svg>
+            <svg viewBox="0 0 10 6" fill="currentColor" width="6" height="4" style="opacity:.35; flex-shrink:0"><path d="M0 0l5 6 5-6z"/></svg>
           </button>
+
+          <span class="km-bsep"></span>
+
+          <!-- Superscript -->
+          <button class="km-bb km-bb--sup" [class.km-bb--on]="isSuperscript()"
+                  (touchend)="cmd('superscript'); $event.preventDefault()">x<sup>2</sup></button>
+
+          <!-- Subscript -->
+          <button class="km-bb km-bb--sub" [class.km-bb--on]="isSubscript()"
+                  (touchend)="cmd('subscript'); $event.preventDefault()">x<sub>2</sub></button>
 
           <span class="km-bsep"></span>
 
           <!-- Link -->
           <button class="km-bb" [class.km-bb--on]="isLink()" title="Link"
                   (touchend)="openLinkSheet(); $event.preventDefault()">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
               <path d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"/>
             </svg>
           </button>
 
           <!-- Clear formatting -->
-          <button class="km-bb" title="Clear formatting"
+          <button class="km-bb" title="Clear"
                   (touchend)="clearFormatting(); $event.preventDefault()">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
-              <path fill-rule="evenodd" d="M4 4a1 1 0 011-1h10a1 1 0 110 2H9.236l-1 4H14a1 1 0 110 2H7.836l-.5 2H11a1 1 0 110 2H4a1 1 0 110-2h1.836l.5-2H4a1 1 0 110-2h2.736l1-4H5a1 1 0 01-1-1z" clip-rule="evenodd"/>
-              <path d="M16.707 15.293a1 1 0 010 1.414l-1 1a1 1 0 01-1.414-1.414l1-1a1 1 0 011.414 0z"/>
-              <line x1="3" y1="17" x2="17" y2="3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13">
+              <path d="M1 2.5A1.5 1.5 0 012.5 1h8.586a1.5 1.5 0 011.06.44l2.915 2.914A1.5 1.5 0 0115.5 5.5v1.086a1.5 1.5 0 01-.44 1.06L9.707 13H13.5a.5.5 0 010 1h-8a.5.5 0 010-1h2.293l-3.147-3.146A1.5 1.5 0 014.5 8.793V4.207A1.5 1.5 0 011 2.5z"/>
+              <line x1="2" y1="14" x2="14" y2="2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
             </svg>
           </button>
         </div>
@@ -170,8 +180,6 @@ interface ToolbarSheetItem {
 
     .km-bubble__row--type {
       padding: 2px 5px 4px;
-      width: 100%;
-      box-sizing: border-box;
     }
 
     .km-bubble__divider {
@@ -211,12 +219,16 @@ interface ToolbarSheetItem {
       }
 
       &--type {
-        width: 100%;
-        min-width: unset;
-        justify-content: space-between;
-        font-size: 0.75rem;
-        font-weight: 600;
+        gap: 4px;
         padding: 0 6px;
+        flex-shrink: 0;
+      }
+
+      &--sup, &--sub {
+        font-size: 0.78rem;
+        font-weight: 700;
+        min-width: 28px;
+        sup, sub { font-size: 0.6em; }
       }
 
       &--more {
@@ -281,15 +293,6 @@ interface ToolbarSheetItem {
     .km-bb__block-icon--codeBlock  { font-size: 0.64rem; font-family: monospace; color: #e8c96a; background: rgba(232,201,106,0.1); }
     .km-bb__block-icon--callout    { background: rgba(255,200,60,0.12); }
 
-    .km-bb__type-name {
-      pointer-events: none;
-      font-size: 0.76rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.72);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
 
     .km-sheet-backdrop {
       position: fixed;
@@ -357,6 +360,8 @@ export class HighlightToolbarComponent implements OnDestroy {
   isUnderline     = signal(false);
   isStrike        = signal(false);
   isLink          = signal(false);
+  isSuperscript   = signal(false);
+  isSubscript     = signal(false);
   currentBlock    = signal<BlockType>('paragraph');
   currentHighlight = signal('rgba(201,168,76,0.35)');
   currentTextColor = signal('rgba(255,255,255,0.82)');
@@ -432,12 +437,14 @@ export class HighlightToolbarComponent implements OnDestroy {
     // Position left edge so bubble is centered on selection but stays on-screen
     const left = Math.max(8, Math.min(vw - BUBBLE_W - 8, centerX - BUBBLE_W / 2));
 
-    const bold      = editor.isActive('bold');
-    const italic    = editor.isActive('italic');
-    const underline = editor.isActive('underline');
-    const strike    = editor.isActive('strike');
-    const link      = editor.isActive('link');
-    const block     = this.resolveBlock(editor);
+    const bold        = editor.isActive('bold');
+    const italic      = editor.isActive('italic');
+    const underline   = editor.isActive('underline');
+    const strike      = editor.isActive('strike');
+    const link        = editor.isActive('link');
+    const superscript = editor.isActive('superscript');
+    const subscript   = editor.isActive('subscript');
+    const block       = this.resolveBlock(editor);
 
     this.zone.run(() => {
       this.bubbleTop.set(top);
@@ -447,6 +454,8 @@ export class HighlightToolbarComponent implements OnDestroy {
       this.isUnderline.set(underline);
       this.isStrike.set(strike);
       this.isLink.set(link);
+      this.isSuperscript.set(superscript);
+      this.isSubscript.set(subscript);
       this.currentBlock.set(block);
       this.visible.set(true);
       this.cdr.markForCheck();
@@ -526,16 +535,19 @@ export class HighlightToolbarComponent implements OnDestroy {
     const e = this.editorSvc.editor;
     if (!e) return;
     switch (mark) {
-      case 'bold':      e.chain().focus().toggleBold().run();      break;
-      case 'italic':    e.chain().focus().toggleItalic().run();    break;
-      case 'underline': e.chain().focus().toggleUnderline().run(); break;
-      case 'strike':    e.chain().focus().toggleStrike().run();    break;
+      case 'bold':        e.chain().focus().toggleBold().run();        break;
+      case 'italic':      e.chain().focus().toggleItalic().run();      break;
+      case 'underline':   e.chain().focus().toggleUnderline().run();   break;
+      case 'strike':      e.chain().focus().toggleStrike().run();      break;
+      case 'superscript': e.chain().focus().toggleSuperscript().run(); break;
+      case 'subscript':   e.chain().focus().toggleSubscript().run();   break;
     }
-    // Refresh state after command
     this.isBold.set(e.isActive('bold'));
     this.isItalic.set(e.isActive('italic'));
     this.isUnderline.set(e.isActive('underline'));
     this.isStrike.set(e.isActive('strike'));
+    this.isSuperscript.set(e.isActive('superscript'));
+    this.isSubscript.set(e.isActive('subscript'));
     this.cdr.markForCheck();
   }
 

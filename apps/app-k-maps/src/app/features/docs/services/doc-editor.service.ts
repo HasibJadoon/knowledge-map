@@ -7,6 +7,8 @@ import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
 import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 import Underline from '@tiptap/extension-underline';
+import Superscript from '@tiptap/extension-superscript';
+import Subscript from '@tiptap/extension-subscript';
 import Highlight from '@tiptap/extension-highlight';
 import Link from '@tiptap/extension-link';
 import { TextStyle } from '@tiptap/extension-text-style';
@@ -139,6 +141,8 @@ export class DocEditorService {
         ChildrenBlock,
         // Rich text formatting
         Underline,
+        Superscript,
+        Subscript,
         Highlight.configure({ multicolor: true }),
         Link.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
         TextStyle,
