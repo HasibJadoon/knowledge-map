@@ -30,7 +30,7 @@ const TEXT_COLORS: Array<{ color: string | null; label: string }> = [
 ];
 
 type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
-               | 'bulletList' | 'orderedList' | 'blockquote' | 'codeBlock';
+               | 'bulletList' | 'orderedList' | 'blockquote' | 'codeBlock' | 'callout';
 
 interface ToolbarSheetItem {
   label: string;
@@ -84,8 +84,9 @@ interface ToolbarSheetItem {
         <!-- Row 2 — block type + link + clear formatting -->
         <div class="km-bubble__row km-bubble__row--type">
           <button class="km-bb km-bb--type" (touchend)="openBlockSheet(); $event.preventDefault()">
-            <span class="km-bb__label">{{ blockLabel() }}</span>
-            <svg viewBox="0 0 10 6" fill="currentColor" width="7" height="4" style="opacity:.35"><path d="M0 0l5 6 5-6z"/></svg>
+            <span class="km-bb__block-icon km-bb__block-icon--{{ currentBlock() }}">{{ blockIcon() }}</span>
+            <span class="km-bb__type-name">{{ blockName() }}</span>
+            <svg viewBox="0 0 10 6" fill="currentColor" width="7" height="4" style="opacity:.35; margin-left: auto; flex-shrink:0"><path d="M0 0l5 6 5-6z"/></svg>
           </button>
 
           <span class="km-bsep"></span>
@@ -255,6 +256,40 @@ interface ToolbarSheetItem {
     }
 
     .km-bb__label { pointer-events: none; }
+
+    /* Block type icon badge in row 2 */
+    .km-bb__block-icon {
+      pointer-events: none;
+      font-weight: 800;
+      font-size: 0.72rem;
+      line-height: 1;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      height: 20px;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.07);
+      padding: 0 4px;
+      letter-spacing: -0.02em;
+    }
+    .km-bb__block-icon--heading1 { font-size: 0.82rem; color: #c9a84c; background: rgba(201,168,76,0.12); }
+    .km-bb__block-icon--heading2 { font-size: 0.76rem; color: rgba(255,255,255,0.8); }
+    .km-bb__block-icon--heading3 { font-size: 0.7rem;  color: rgba(255,255,255,0.65); }
+    .km-bb__block-icon--blockquote { font-size: 0.9rem; color: rgba(201,168,76,0.7); background: rgba(201,168,76,0.08); }
+    .km-bb__block-icon--codeBlock  { font-size: 0.64rem; font-family: monospace; color: #e8c96a; background: rgba(232,201,106,0.1); }
+    .km-bb__block-icon--callout    { background: rgba(255,200,60,0.12); }
+
+    .km-bb__type-name {
+      pointer-events: none;
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.72);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     .km-sheet-backdrop {
       position: fixed;
@@ -426,6 +461,7 @@ export class HighlightToolbarComponent implements OnDestroy {
     else if (editor.isActive('orderedList'))            return 'orderedList';
     else if (editor.isActive('blockquote'))             return 'blockquote';
     else if (editor.isActive('codeBlock'))              return 'codeBlock';
+    else if (editor.isActive('callout'))                return 'callout';
     return 'paragraph';
   }
 
@@ -456,18 +492,34 @@ export class HighlightToolbarComponent implements OnDestroy {
     item.action();
   }
 
-  blockLabel(): string {
+  blockIcon(): string {
     const MAP: Record<BlockType, string> = {
-      paragraph:   '¶  Text',
-      heading1:    'H1  Heading 1',
-      heading2:    'H2  Heading 2',
-      heading3:    'H3  Heading 3',
-      bulletList:  '•≡  Bullet List',
-      orderedList: '1≡  Numbered',
-      blockquote:  '❝  Blockquote',
-      codeBlock:   '</>  Code',
+      paragraph:   '¶',
+      heading1:    'H1',
+      heading2:    'H2',
+      heading3:    'H3',
+      bulletList:  '•',
+      orderedList: '1.',
+      blockquote:  '❝',
+      codeBlock:   '</>',
+      callout:     '💡',
     };
-    return MAP[this.currentBlock()] ?? '¶  Text';
+    return MAP[this.currentBlock()] ?? '¶';
+  }
+
+  blockName(): string {
+    const MAP: Record<BlockType, string> = {
+      paragraph:   'Text',
+      heading1:    'Heading 1',
+      heading2:    'Heading 2',
+      heading3:    'Heading 3',
+      bulletList:  'Bullet List',
+      orderedList: 'Numbered',
+      blockquote:  'Blockquote',
+      codeBlock:   'Code Block',
+      callout:     'Callout',
+    };
+    return MAP[this.currentBlock()] ?? 'Text';
   }
 
   cmd(mark: string): void {
@@ -489,14 +541,15 @@ export class HighlightToolbarComponent implements OnDestroy {
 
   openBlockSheet(): void {
     this.presentSheet('Turn into', [
-      { label: '¶  Text',         action: () => this.setBlock('paragraph') },
-      { label: 'H1  Heading 1',   action: () => this.setBlock('heading1') },
-      { label: 'H2  Heading 2',   action: () => this.setBlock('heading2') },
-      { label: 'H3  Heading 3',   action: () => this.setBlock('heading3') },
-      { label: '•≡  Bullet List', action: () => this.setBlock('bulletList') },
-      { label: '1≡  Numbered',    action: () => this.setBlock('orderedList') },
-      { label: '❝  Blockquote',   action: () => this.setBlock('blockquote') },
-      { label: '</>  Code Block', action: () => this.setBlock('codeBlock') },
+      { label: '¶   Text',         action: () => this.setBlock('paragraph') },
+      { label: 'H1  Heading 1',    action: () => this.setBlock('heading1') },
+      { label: 'H2  Heading 2',    action: () => this.setBlock('heading2') },
+      { label: 'H3  Heading 3',    action: () => this.setBlock('heading3') },
+      { label: '•    Bullet List', action: () => this.setBlock('bulletList') },
+      { label: '1.   Numbered',    action: () => this.setBlock('orderedList') },
+      { label: '❝   Blockquote',   action: () => this.setBlock('blockquote') },
+      { label: '</>  Code Block',  action: () => this.setBlock('codeBlock') },
+      { label: '💡  Callout',      action: () => this.setBlock('callout') },
     ]);
   }
 
@@ -597,6 +650,7 @@ export class HighlightToolbarComponent implements OnDestroy {
       case 'orderedList': e.chain().focus().toggleOrderedList().run(); break;
       case 'blockquote':  e.chain().focus().toggleBlockquote().run(); break;
       case 'codeBlock':   e.chain().focus().toggleCodeBlock().run(); break;
+      case 'callout':     e.chain().focus().insertContent({ type: 'callout', attrs: { emoji: '💡' }, content: [{ type: 'paragraph' }] }).run(); break;
     }
   }
 
