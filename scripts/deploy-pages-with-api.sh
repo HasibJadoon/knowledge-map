@@ -11,4 +11,18 @@ directory="$1"
 project_name="$2"
 branch="${3:-main}"
 
-npx wrangler pages deploy "$directory" --project-name "$project_name" --branch "$branch"
+# Build Pages Functions into _worker.js alongside static assets
+echo "Building Pages Functions..."
+npx wrangler pages functions build functions \
+  --outdir dist-worker \
+  --compatibility-date 2025-01-01 \
+  --minify
+
+cp dist-worker/index.js "$directory/_worker.js"
+rm -rf dist-worker
+echo "Worker bundled → $directory/_worker.js"
+
+npx wrangler pages deploy "$directory" \
+  --project-name "$project_name" \
+  --branch "$branch" \
+  --commit-dirty=true
