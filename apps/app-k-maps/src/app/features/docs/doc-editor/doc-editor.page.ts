@@ -26,10 +26,6 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
     <!-- ── Header ─────────────────────────────────────────────────────────── -->
     <ion-header>
       <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/docs" text="Docs"></ion-back-button>
-        </ion-buttons>
-
         <ion-title>
           <input class="km-doc-title-input"
                  [(ngModel)]="titleModel"
