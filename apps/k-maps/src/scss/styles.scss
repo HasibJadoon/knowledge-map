@@ -44,6 +44,21 @@ body.km-ui-obs-overlay km-root {
 .ProseMirror {
   outline: none;
 
+  // ── Arabic auto-direction — font + metrics for RTL blocks ─────────────────
+  // AutoDirection extension sets dir="rtl" when Arabic dominates the block.
+  // Uses locally-loaded AmiriQuran font (AmiriQuran.woff2) for correct rendering.
+  p[dir="rtl"], li[dir="rtl"],
+  blockquote[dir="rtl"],
+  h1[dir="rtl"], h2[dir="rtl"], h3[dir="rtl"],
+  h4[dir="rtl"], h5[dir="rtl"], h6[dir="rtl"] {
+    font-family: var(--km-font-arabic-amiri, 'AmiriQuran', serif) !important;
+    font-size: 1.4rem;
+    line-height: 2.15;
+    letter-spacing: 0;
+    word-spacing: 0.04em;
+    text-align: right;
+  }
+
   // ── Lists — restore markers stripped by global reset ─────────────────────
   ul, ol { padding-left: 1.75em; margin: 0.5em 0; }
   ul { list-style-type: disc !important; }
@@ -147,7 +162,7 @@ body.km-ui-obs-overlay km-root {
     .km-ayah-content { direction: rtl; }
 
     .ayah-text {
-      font-family: var(--km-font-arabic); font-size: 1.8rem; line-height: 2.6; color: var(--km-text);
+      font-family: var(--km-font-arabic, 'UthmanicHafs', serif); font-size: 1.8rem; line-height: 2.6; color: var(--km-text);
       user-select: text !important; -webkit-user-select: text !important; cursor: text;
     }
     .ayah-translation {

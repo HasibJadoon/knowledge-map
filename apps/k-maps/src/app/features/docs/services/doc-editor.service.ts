@@ -15,6 +15,7 @@ import Link from '@tiptap/extension-link';
 import { TextStyle } from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
 import { TextDirection } from 'tiptap-text-direction';
+import { AutoDirection } from '../doc-editor/tiptap-extensions/auto-direction.extension';
 import { AyahEmbed } from '../doc-editor/tiptap-extensions/ayah-embed.extension';
 import { VocabBlock, MorphologyBlock, NahwBlock, RootAnalysisBlock } from '../doc-editor/tiptap-extensions/arabic-blocks.extension';
 import {
@@ -147,6 +148,7 @@ export class DocEditorService {
         Placeholder.configure({ placeholder: 'Start writing, or type / for commands…' }),
         CharacterCount,
         TextDirection.configure({ types: ['heading', 'paragraph', 'blockquote', 'listItem'] }),
+        AutoDirection,
         PageLink,
         Callout,
         SlashCommandExtension,
