@@ -1,293 +1,204 @@
-// ═══════════════════════════════════════════════════════════════════════════
-// K-MAPS TIPTAP EDITOR — Global Styles
-// Imported in global.scss — bypasses Angular encapsulation entirely.
-// ═══════════════════════════════════════════════════════════════════════════
+// ── K-MAPS Doc Editor — Global ProseMirror styles ───────────────────────────
+// Imported in global.scss so rules reach Angular-encapsulated components.
+// All selectors are scoped under .km-doc-editor-el to avoid bleed.
+// ─────────────────────────────────────────────────────────────────────────────
 
-// ── Editor mount wrapper ──────────────────────────────────────────────────
+// ── Root editor shell ────────────────────────────────────────────────────────
 .km-doc-editor-el {
-  position: relative;
-  // 56px left = 20px outer + 36px for the block handle column
-  padding: 24px 20px 120px 54px;
-
-  // Kill Ionic's primary-colour focus ring on contenteditable
-  --highlight-color-focused: transparent;
-  --highlight-color-invalid: transparent;
+  padding: 16px 20px 120px;
+  min-height: 100%;
+  box-sizing: border-box;
 }
 
-// ── ProseMirror root ──────────────────────────────────────────────────────
+// ── ProseMirror base ─────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror {
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  min-height: 60vh;
-  font-size: 1.02rem;
-  line-height: 1.82;
-  color: rgba(255, 255, 255, 0.88);
-  font-family: var(--ion-font-family, 'Poppins', sans-serif);
+  outline: none;
   caret-color: #c9a84c;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: rgba(255, 255, 255, 0.92);
+  font-family: "Poppins", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px; // ≥16px prevents iOS viewport zoom on focus
+  line-height: 1.75;
   -webkit-user-select: text;
   user-select: text;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
-// Gold selection tint throughout the editor
-.km-doc-editor-el .ProseMirror *::selection {
-  background: rgba(201, 168, 76, 0.25);
-}
-
-// ── Placeholder ───────────────────────────────────────────────────────────
+// ── Placeholder ──────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
-  color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.25);
   pointer-events: none;
   float: left;
   height: 0;
   font-style: italic;
 }
 
-// ── Paragraphs ────────────────────────────────────────────────────────────
-.km-doc-editor-el .ProseMirror p {
-  margin: 0.1em 0 0.65em;
-  line-height: 1.82;
-}
-
-// ── Per-block active highlight (set by MobileBlockHandle) ─────────────────
-.km-doc-editor-el .ProseMirror > .km-block-active,
-.km-doc-editor-el .ProseMirror li.km-block-active {
-  background: rgba(255, 255, 255, 0.028);
-  border-radius: 6px;
-  outline: 1px solid rgba(255, 255, 255, 0.07);
-  outline-offset: 1px;
-}
-
-// ────────────────────────────────────────────────────────────────────────
-// HEADINGS
-// No gradient — solid white. -webkit-text-fill-color must NOT be set here
-// so that the Tiptap Color extension can apply user-chosen colours freely.
-// ────────────────────────────────────────────────────────────────────────
+// ── Headings ─────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror h1 {
-  font-size: 1.92rem;
+  font-size: 2.2rem;
   font-weight: 800;
-  line-height: 1.18;
-  margin: 1.5em 0 0.4em;
-  letter-spacing: -0.03em;
-  color: rgba(255, 255, 255, 0.97);
-  // ── No background-clip, no -webkit-text-fill-color ──
-}
-
-.km-doc-editor-el .ProseMirror h1:first-child {
-  margin-top: 0.4em;
+  line-height: 1.2;
+  margin: 1.1em 0 0.25em;
+  letter-spacing: -0.01em;
+  // GOLD — no gradient, no -webkit-text-fill-color, so Color extension works
+  color: #c9a84c;
+  -webkit-text-fill-color: unset;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
 }
 
 .km-doc-editor-el .ProseMirror h2 {
-  font-size: 1.38rem;
+  font-size: 1.55rem;
   font-weight: 700;
-  line-height: 1.28;
-  margin: 1.4em 0 0.4em;
-  letter-spacing: -0.018em;
-  color: rgba(255, 255, 255, 0.92);
-  padding-bottom: 0.32em;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  line-height: 1.3;
+  margin: 0.9em 0 0.2em;
+  color: rgba(255, 255, 255, 0.88);
+  -webkit-text-fill-color: unset;
 }
 
 .km-doc-editor-el .ProseMirror h3 {
-  font-size: 1.14rem;
+  font-size: 1.22rem;
   font-weight: 600;
-  line-height: 1.38;
-  margin: 1.2em 0 0.3em;
-  letter-spacing: -0.01em;
-  color: rgba(255, 255, 255, 0.76);
-}
-
-.km-doc-editor-el .ProseMirror h4 {
-  font-size: 0.76rem;
-  font-weight: 700;
-  margin: 1em 0 0.25em;
-  color: rgba(201, 168, 76, 0.82);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-}
-
-// ────────────────────────────────────────────────────────────────────────
-// COLOUR EXTENSION — universal override
-// span[style*="color"] must always display its colour, even inside elements
-// that previously used -webkit-text-fill-color (e.g. old gradient H1).
-// ────────────────────────────────────────────────────────────────────────
-.km-doc-editor-el .ProseMirror span[style*="color"] {
-  -webkit-text-fill-color: currentColor !important;
-}
-
-// ────────────────────────────────────────────────────────────────────────
-// BLOCKQUOTE — Poppins, gold left border, no monospace
-// ────────────────────────────────────────────────────────────────────────
-.km-doc-editor-el .ProseMirror blockquote {
-  border-left: 3.5px solid rgba(201, 168, 76, 0.8);
-  padding: 10px 16px 10px 18px;
-  margin: 12px 0;
+  line-height: 1.35;
+  margin: 0.7em 0 0.18em;
   color: rgba(255, 255, 255, 0.82);
-  background: rgba(201, 168, 76, 0.055);
-  border-radius: 0 10px 10px 0;
-  font-family: var(--ion-font-family, 'Poppins', sans-serif) !important;
-  font-style: normal;
-  position: relative;
+  -webkit-text-fill-color: unset;
 }
 
-.km-doc-editor-el .ProseMirror blockquote p {
-  margin: 0;
-  font-family: inherit !important;
+// Allow Color extension to override heading color via <span style="color:…">
+.km-doc-editor-el .ProseMirror h1 span[style*="color"],
+.km-doc-editor-el .ProseMirror h2 span[style*="color"],
+.km-doc-editor-el .ProseMirror h3 span[style*="color"] {
+  -webkit-text-fill-color: currentColor \!important;
 }
 
-.km-doc-editor-el .ProseMirror blockquote::before {
-  content: '"';
-  position: absolute;
-  top: 2px;
-  left: 6px;
-  font-size: 1.8rem;
-  color: rgba(201, 168, 76, 0.2);
-  font-family: Georgia, serif;
-  line-height: 1;
-  pointer-events: none;
+// ── Paragraph ────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror p {
+  margin: 0 0 0.55em;
 }
 
-// ────────────────────────────────────────────────────────────────────────
-// CODE
-// ────────────────────────────────────────────────────────────────────────
+// ── Divider (HR) ─────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror hr {
+  border: none;
+  height: 1px;
+  margin: 1.2em 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.22) 15%,
+    rgba(255, 255, 255, 0.22) 85%,
+    transparent
+  );
+}
+
+.km-doc-editor-el .ProseMirror hr.ProseMirror-selectednode {
+  border-top-color: rgba(201, 168, 76, 0.6);
+}
+
+// ── Blockquote ───────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror blockquote {
+  border-left: 3px solid rgba(201, 168, 76, 0.55);
+  margin: 0.8em 0;
+  padding: 0.4em 0 0.4em 1.1em;
+  color: rgba(255, 255, 255, 0.65);
+  font-style: italic;
+  font-family: "Poppins", "Helvetica Neue", Arial, sans-serif \!important;
+  background: rgba(201, 168, 76, 0.05);
+  border-radius: 0 6px 6px 0;
+}
+
+// ── Code inline ──────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror code {
+  font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
+  font-size: 0.85em;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
-  padding: 0.1em 0.4em;
-  font-size: 0.86em;
-  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-  color: #e8a87c;
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  color: #e8c96a;
 }
 
+// ── Code block ───────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror pre {
-  background: rgba(0, 0, 0, 0.42);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 14px 16px;
-  margin: 10px 0;
-  font-size: 0.84rem;
-  line-height: 1.7;
+  margin: 0.8em 0;
   overflow-x: auto;
-  position: relative;
+  -webkit-overflow-scrolling: touch;
+
+  code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
 }
 
-.km-doc-editor-el .ProseMirror pre::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.2), transparent);
-  border-radius: 10px 10px 0 0;
-}
-
-.km-doc-editor-el .ProseMirror pre code {
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: inherit;
-  color: rgba(255, 255, 255, 0.88);
-}
-
-// ────────────────────────────────────────────────────────────────────────
-// DIVIDER / HORIZONTAL RULE — diamond ornament
-// ────────────────────────────────────────────────────────────────────────
-.km-doc-editor-el .ProseMirror hr {
-  display: block;
-  width: 100%;
-  border: none;
-  margin: 2.2em 0;
-  height: 20px;
-  position: relative;
-  overflow: visible;
-  cursor: default;
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(201, 168, 76, 0.12) 8%,
-      rgba(201, 168, 76, 0.62) 42%,
-      transparent 48%
-    ) center left / 50% 1px no-repeat,
-    linear-gradient(
-      90deg,
-      transparent 52%,
-      rgba(201, 168, 76, 0.62) 58%,
-      rgba(201, 168, 76, 0.12) 92%,
-      transparent 100%
-    ) center right / 50% 1px no-repeat;
-}
-
-.km-doc-editor-el .ProseMirror hr::after {
-  content: '';
-  display: block;
-  position: absolute;
-  left: 50%; top: 50%;
-  width: 8px; height: 8px;
-  transform: translate(-50%, -50%) rotate(45deg);
-  border: 1.5px solid rgba(201, 168, 76, 0.72);
-  // Use the page background colour so the diamond has a transparent-looking fill
-  background: var(--ion-background-color, #080808);
-}
-
-// ────────────────────────────────────────────────────────────────────────
-// LISTS
-// ────────────────────────────────────────────────────────────────────────
+// ── Lists ────────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror ul,
 .km-doc-editor-el .ProseMirror ol {
-  padding-left: 1.55em;
-  margin: 0.4em 0 0.6em;
+  padding-left: 1.5em;
+  margin: 0.4em 0;
 }
 
-.km-doc-editor-el .ProseMirror ul { list-style-type: disc !important; }
-.km-doc-editor-el .ProseMirror ol { list-style-type: decimal !important; }
-.km-doc-editor-el .ProseMirror li { margin: 0.28em 0; line-height: 1.78; }
+.km-doc-editor-el .ProseMirror li {
+  margin: 0.2em 0;
+  line-height: 1.75;
+}
 
-.km-doc-editor-el .ProseMirror li > p,
-.km-doc-editor-el .ProseMirror li p { margin: 0; }
-
-.km-doc-editor-el .ProseMirror li > ul,
-.km-doc-editor-el .ProseMirror li > ol { margin: 0.2em 0 0.1em; }
-
-.km-doc-editor-el .ProseMirror ul li::marker        { color: rgba(201, 168, 76, 0.75); font-size: 0.82em; }
-.km-doc-editor-el .ProseMirror ol li::marker        { color: rgba(201, 168, 76, 0.65); font-weight: 700; }
-.km-doc-editor-el .ProseMirror ul ul                { list-style-type: circle !important; }
-.km-doc-editor-el .ProseMirror ul ul ul             { list-style-type: square !important; }
-.km-doc-editor-el .ProseMirror ul ul li::marker     { color: rgba(201, 168, 76, 0.45); }
-.km-doc-editor-el .ProseMirror ul ul ul li::marker  { color: rgba(201, 168, 76, 0.28); }
-
-// ────────────────────────────────────────────────────────────────────────
-// TASK LIST (checkboxes)
-// ────────────────────────────────────────────────────────────────────────
+// ── Task list ────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror ul[data-type="taskList"] {
-  list-style: none !important;
-  padding-left: 4px;
+  list-style: none;
+  padding-left: 0.25em;
 }
 
 .km-doc-editor-el .ProseMirror ul[data-type="taskList"] li {
   display: flex;
-  gap: 10px;
   align-items: flex-start;
-  padding: 3px 0;
-  margin: 2px 0;
+  gap: 0.6em;
 }
 
 .km-doc-editor-el .ProseMirror ul[data-type="taskList"] li > label {
   flex-shrink: 0;
-  margin-top: 3px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
+  margin-top: 0.22em;
 
-.km-doc-editor-el .ProseMirror ul[data-type="taskList"] li input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: #c9a84c;
-  cursor: pointer;
+  input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    display: block;
+    transition: border-color 0.15s, background 0.15s;
+
+    &:checked {
+      background: #c9a84c;
+      border-color: #c9a84c;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 1px;
+        width: 6px;
+        height: 10px;
+        border: 2px solid #080808;
+        border-top: none;
+        border-left: none;
+        transform: rotate(45deg);
+      }
+    }
+  }
 }
 
 .km-doc-editor-el .ProseMirror ul[data-type="taskList"] li > div {
@@ -295,307 +206,146 @@
   min-width: 0;
 }
 
-.km-doc-editor-el .ProseMirror ul[data-type="taskList"] li > div p { margin: 0; }
-
 .km-doc-editor-el .ProseMirror ul[data-type="taskList"] li[data-checked="true"] > div {
-  opacity: 0.45;
+  opacity: 0.5;
   text-decoration: line-through;
-  text-decoration-color: rgba(255, 255, 255, 0.3);
 }
 
-// ────────────────────────────────────────────────────────────────────────
-// INLINE MARKS
-// ────────────────────────────────────────────────────────────────────────
-.km-doc-editor-el .ProseMirror strong {
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.97);
+// ── Link ─────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror a {
+  color: #c9a84c;
+  text-decoration: underline;
+  text-decoration-color: rgba(201, 168, 76, 0.4);
+  text-underline-offset: 2px;
 }
 
-.km-doc-editor-el .ProseMirror em {
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.84);
-}
-
-.km-doc-editor-el .ProseMirror u {
-  text-decoration-color: rgba(255, 255, 255, 0.38);
-  text-underline-offset: 3px;
-}
-
-.km-doc-editor-el .ProseMirror s {
-  text-decoration-color: rgba(255, 255, 255, 0.28);
-}
-
+// ── Highlight marks ──────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror mark {
   border-radius: 3px;
-  padding: 0.06em 0.22em;
+  padding: 0.05em 0.2em;
+  background-color: rgba(201, 168, 76, 0.3);
+  color: inherit;
 }
 
-.km-doc-editor-el .ProseMirror a {
-  color: rgba(201, 168, 76, 0.92);
-  text-decoration: underline;
-  text-decoration-color: rgba(201, 168, 76, 0.3);
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-  transition: color 0.12s, text-decoration-color 0.12s;
+// ── Color spans — fix WebKit -webkit-text-fill-color override ────────────────
+.km-doc-editor-el .ProseMirror span[style*="color"] {
+  -webkit-text-fill-color: currentColor \!important;
 }
 
-// ────────────────────────────────────────────────────────────────────────
-// ARABIC AUTO-DIRECTION
-// ────────────────────────────────────────────────────────────────────────
-.km-doc-editor-el .ProseMirror p[dir="rtl"],
-.km-doc-editor-el .ProseMirror h1[dir="rtl"],
-.km-doc-editor-el .ProseMirror h2[dir="rtl"],
-.km-doc-editor-el .ProseMirror h3[dir="rtl"],
-.km-doc-editor-el .ProseMirror li[dir="rtl"],
-.km-doc-editor-el .ProseMirror blockquote[dir="rtl"] {
-  font-family: var(--km-font-arabic-amiri, 'AmiriQuran', serif) !important;
-  font-size: 1.25rem;
-  line-height: 2.1;
-  letter-spacing: 0;
-  word-spacing: 0.04em;
-  text-align: right;
+// ── Selection ────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror ::selection {
+  background: rgba(201, 168, 76, 0.25);
 }
 
-// ────────────────────────────────────────────────────────────────────────
-// SELECTED NODE OUTLINE
-// ────────────────────────────────────────────────────────────────────────
-.km-doc-editor-el .ProseMirror-selectednode {
-  outline: 2px solid rgba(201, 168, 76, 0.4) !important;
-  border-radius: 4px;
-}
-
-// ────────────────────────────────────────────────────────────────────────
-// CALLOUT — supplement the JS-injected styles in callout.extension.ts
-// Global rules here guarantee they apply even if the JS style tag is late.
-// ────────────────────────────────────────────────────────────────────────
-.km-callout {
-  display: flex;
-  gap: 12px;
-  padding: 13px 16px 13px 14px;
-  margin: 8px 0;
-  border-radius: 10px;
-  position: relative;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
-}
-
-.km-callout::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 4px;
-  border-radius: 10px 0 0 10px;
-}
-
-.km-callout--tip     { background: rgba(201, 168, 76, 0.10); }
-.km-callout--tip::before     { background: #c9a84c; }
-.km-callout--info    { background: rgba(59, 130, 246, 0.09); }
-.km-callout--info::before    { background: #3b82f6; }
-.km-callout--warning { background: rgba(245, 158, 11, 0.09); }
-.km-callout--warning::before { background: #f59e0b; }
-.km-callout--danger  { background: rgba(239, 68, 68, 0.09); }
-.km-callout--danger::before  { background: #ef4444; }
-.km-callout--success { background: rgba(34, 197, 94, 0.09); }
-.km-callout--success::before { background: #22c55e; }
-.km-callout--quote   { background: rgba(255, 255, 255, 0.04); font-style: italic; }
-.km-callout--quote::before   { background: rgba(255, 255, 255, 0.18); }
-
-.km-callout__emoji {
-  font-size: 1.3rem;
-  line-height: 1.5;
-  cursor: pointer;
-  user-select: none;
-  flex-shrink: 0;
-  min-width: 1.75rem;
-  text-align: center;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.km-callout__content {
-  flex: 1;
-  min-width: 0;
-  min-height: 1.75em;
-  color: rgba(255, 255, 255, 0.88);
-  cursor: text;
-  font-size: 0.975rem;
-  line-height: 1.75;
-  -webkit-user-select: text !important;
-  user-select: text !important;
-  font-family: var(--ion-font-family, 'Poppins', sans-serif) !important;
-}
-
-.km-callout__content p {
-  margin: 0 0 2px;
-  font-family: inherit !important;
-}
-
-// Placeholder for empty callout
-.km-callout__content > p.is-empty::before,
-.km-callout__content > p:first-child:last-child:empty::before {
-  content: 'Write a note…';
-  color: rgba(255, 255, 255, 0.2);
-  pointer-events: none;
-  float: left;
-  height: 0;
-  font-style: italic;
-}
-
-// Colour extension must work inside callouts too
-.km-callout__content span[style*="color"] {
-  -webkit-text-fill-color: currentColor !important;
-}
-
-// ────────────────────────────────────────────────────────────────────────
-// AYAH EMBED
-// ────────────────────────────────────────────────────────────────────────
-.km-doc-editor-el .ProseMirror .km-block--ayah {
-  position: relative;
+// ── Arabic text in editor body (NOT Quran embed) ─────────────────────────────
+.km-doc-editor-el .ProseMirror [dir="rtl"],
+.km-doc-editor-el .ProseMirror [lang="ar"] {
+  font-family: "AmiriQuran", "Noto Naskh Arabic", serif \!important;
+  font-size: 1.3em;
+  line-height: 2;
   direction: rtl;
-  background: rgba(201, 168, 76, 0.04);
-  border-right: 3px solid rgba(201, 168, 76, 0.72);
-  border-radius: 10px;
-  padding: 14px 18px 12px;
-  margin: 10px 0;
-  user-select: text;
-  -webkit-user-select: text;
-}
-
-.km-doc-editor-el .ProseMirror .km-block--ayah .ayah-text {
-  font-family: var(--km-font-arabic, 'Uthmanic Hafs', serif) !important;
-  font-size: 1.3rem !important;
-  line-height: 2.1 !important;
+  text-align: right;
   color: rgba(255, 255, 255, 0.92);
-  text-align: right;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.92);
+}
+
+// ── Ayah embed — Quran text always white, NOT blue ──────────────────────────
+.km-doc-editor-el .ProseMirror .km-block--ayah .ayah-text,
+.km-doc-editor-el .ProseMirror .ayah-text {
+  font-family: "Uthmanic Hafs", serif \!important;
+  color: rgba(255, 255, 255, 0.93) \!important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.93) \!important;
   direction: rtl;
+  text-align: center;
 }
 
-.km-doc-editor-el .ProseMirror .km-block--ayah .ayah-translation {
-  direction: ltr;
-  font-size: 0.84rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 8px;
-  font-style: italic;
-  line-height: 1.6;
-  text-align: left;
-  font-family: var(--ion-font-family, 'Poppins', sans-serif) !important;
+// ── Arabic extension blocks (vocab, grammar, etc.) ───────────────────────────
+.km-doc-editor-el .ProseMirror .km-block--arabic {
+  font-family: "AmiriQuran", "Noto Naskh Arabic", serif;
 }
 
-.km-doc-editor-el .ProseMirror .km-block--ayah .ayah-ref {
-  direction: ltr;
-  font-size: 0.7rem;
-  color: rgba(201, 168, 76, 0.72);
-  margin-top: 5px;
-  font-weight: 600;
-  text-align: left;
-  font-family: var(--ion-font-family, 'Poppins', sans-serif) !important;
-}
+// ─────────────────────────────────────────────────────────────────────────────
+// Bottom formatting toolbar
+// ─────────────────────────────────────────────────────────────────────────────
 
-.km-doc-editor-el .ProseMirror .km-ayah-copy {
-  position: absolute;
-  top: 10px; left: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  padding: 5px 7px;
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.38);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-
-.km-doc-editor-el .ProseMirror .km-ayah-copy:active,
-.km-doc-editor-el .ProseMirror .km-ayah-copy--done {
-  color: rgba(201, 168, 76, 0.9);
-  border-color: rgba(201, 168, 76, 0.35);
-  background: rgba(201, 168, 76, 0.08);
-}
-
-// ────────────────────────────────────────────────────────────────────────
-// SHARED DOMAIN BLOCK BASE
-// ────────────────────────────────────────────────────────────────────────
-.km-doc-editor-el .ProseMirror .km-block {
-  margin: 6px 0;
-  border-radius: 10px;
-  overflow: hidden;
-  position: relative;
-  font-size: 0.92rem;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.82);
-  font-family: var(--ion-font-family, 'Poppins', sans-serif) !important;
-}
-
-// ────────────────────────────────────────────────────────────────────────
-// BOTTOM FORMAT BAR (ion-footer)
-// ────────────────────────────────────────────────────────────────────────
+// Footer visibility
 .km-doc-footer {
-  --background: transparent;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  opacity: 0;
   transform: translateY(100%);
-  transition: opacity 0.2s, transform 0.2s;
-  pointer-events: none;
+  transition: transform 0.2s ease;
+  will-change: transform;
+
+  &.km-doc-footer--visible {
+    transform: translateY(0);
+  }
 }
 
-.km-doc-footer--visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: all;
+// Ion footer toolbar reset
+.km-doc-footer ion-toolbar.km-fmt-bar {
+  --background: rgba(12, 12, 12, 0.96);
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-.km-fmt-bar {
-  --background: rgba(10, 10, 10, 0.95);
-  --border-color: transparent;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
+// Scrollable button row
 .km-fmt-scroll {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 2px;
   overflow-x: auto;
-  padding: 6px 12px;
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  padding: 6px 10px;
+  min-height: 44px;
+
+  &::-webkit-scrollbar { display: none; }
 }
 
-.km-fmt-scroll::-webkit-scrollbar { display: none; }
-
+// Individual formatting buttons
 .km-fmt-btn {
-  flex-shrink: 0;
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-width: 36px;
-  min-height: 36px;
-  border: none;
-  background: none;
+  height: 36px;
+  padding: 0 6px;
   border-radius: 8px;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.62);
-  display: grid;
-  place-items: center;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: "Poppins", sans-serif;
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
   transition: background 0.12s, color 0.12s;
-  padding: 0 4px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+
+  svg { display: block; }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  &--active {
+    color: #c9a84c;
+    background: rgba(201, 168, 76, 0.12);
+  }
 }
 
-.km-fmt-btn:active { background: rgba(255, 255, 255, 0.06); }
-
-.km-fmt-btn--active {
-  color: #c9a84c !important;
-  background: rgba(201, 168, 76, 0.1) !important;
-}
-
-.km-fmt-btn svg { display: block; }
-
+// Separator between button groups
 .km-fmt-sep {
   width: 1px;
-  height: 22px;
-  background: rgba(255, 255, 255, 0.09);
-  margin: 0 6px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 3px;
   flex-shrink: 0;
 }

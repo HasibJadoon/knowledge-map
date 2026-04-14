@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, OnDestroy, inject, signal,
+  Component, OnDestroy, inject, signal, effect,
   ChangeDetectionStrategy, ChangeDetectorRef, NgZone
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -266,7 +266,7 @@ interface ToolbarSheetItem {
     .km-sheet__item--cancel { font-weight: 600; color: #c9a84c; border-bottom: none; }
   `]
 })
-export class HighlightToolbarComponent implements OnInit, OnDestroy {
+export class HighlightToolbarComponent implements OnDestroy {
   private editorSvc   = inject(DocEditorService);
   private extractSvc  = inject(DocExtractService);
   private cdr         = inject(ChangeDetectorRef);
@@ -288,80 +288,88 @@ export class HighlightToolbarComponent implements OnInit, OnDestroy {
   sheetTitle      = signal('');
   sheetItems      = signal<ToolbarSheetItem[]>([]);
 
-  /*
-   * selectionchange fires constantly while the user drags a selection.
-   * Run the raw handler OUTSIDE zone — we only re-enter zone inside
-   * evaluateSelection() when we actually need to update signals/view.
-   */
-  private selectionChangeHandler = () => this.zone.runOutsideAngular(() => this.onSelectionChange());
   private hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  ngOnInit(): void {
-    document.addEventListener('selectionchange', this.selectionChangeHandler, { passive: true });
+  /**
+   * Tiptap selectionUpdate handler — runs outside Angular zone.
+   * More reliable than document.selectionchange on iOS/WKWebView:
+   * coordsAtPos() gives accurate viewport coords even when the DOM
+   * selection API (getBoundingClientRect, isCollapsed) is inconsistent.
+   */
+  private readonly selUpdateFn = () => {
+    if (this.hideTimeout) clearTimeout(this.hideTimeout);
+    this.hideTimeout = setTimeout(() => this.evaluateFromEditor(), 50);
+  };
+
+  /** Track which editor instance we are currently registered with. */
+  private registeredEditor: import('@tiptap/core').Editor | null = null;
+
+  constructor() {
+    // Re-register whenever the editor is created or recreated.
+    effect(() => {
+      const ready  = this.editorSvc.editorReady();
+      const editor = ready ? this.editorSvc.editor : null;
+
+      if (this.registeredEditor && this.registeredEditor !== editor) {
+        this.registeredEditor.off('selectionUpdate', this.selUpdateFn);
+        this.registeredEditor = null;
+      }
+      if (editor && editor !== this.registeredEditor) {
+        editor.on('selectionUpdate', this.selUpdateFn);
+        this.registeredEditor = editor;
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    document.removeEventListener('selectionchange', this.selectionChangeHandler);
+    this.registeredEditor?.off('selectionUpdate', this.selUpdateFn);
     if (this.hideTimeout) clearTimeout(this.hideTimeout);
   }
 
-  private onSelectionChange(): void {
-    // Small delay — let the selection rect stabilise after touch
-    if (this.hideTimeout) clearTimeout(this.hideTimeout);
-    this.hideTimeout = setTimeout(() => this.evaluateSelection(), 80);
-  }
-
-  private evaluateSelection(): void {
-    // All DOM reads happen outside zone — no CD triggered just for reading
+  /**
+   * Evaluate using ProseMirror's internal selection + coordsAtPos.
+   * Runs outside Angular zone; re-enters zone once for all signal updates.
+   */
+  private evaluateFromEditor(): void {
     const editor = this.editorSvc.editor;
     if (!editor) { this.zone.run(() => this.hide()); return; }
 
-    const domSel = window.getSelection();
-    if (!domSel || domSel.isCollapsed || domSel.rangeCount === 0) {
-      this.zone.run(() => this.hide());
-      return;
-    }
+    const { from, to } = editor.state.selection;
+    if (from === to) { this.zone.run(() => this.hide()); return; }
 
-    const range = domSel.getRangeAt(0);
-    const editorEl = editor.options.element as HTMLElement | null;
-    if (!editorEl || !(editorEl as HTMLElement).contains(range.commonAncestorContainer)) {
-      this.zone.run(() => this.hide());
-      return;
-    }
+    // coordsAtPos returns viewport-relative coordinates (no scroll offset issues)
+    const fromCoords = editor.view.coordsAtPos(from);
+    const toCoords   = editor.view.coordsAtPos(to);
 
-    const rect = range.getBoundingClientRect();
-    if (!rect || rect.width === 0) { this.zone.run(() => this.hide()); return; }
+    const BUBBLE_H = 44;
+    const MARGIN   = 8;
 
-    // Compute position outside zone (pure math, no DOM writes)
-    const BUBBLE_HEIGHT = 44;
-    const MARGIN = 8;
-    let top  = rect.top - BUBBLE_HEIGHT - MARGIN;
-    let left = rect.left + rect.width / 2;
+    const selTop    = Math.min(fromCoords.top,    toCoords.top);
+    const selBottom = Math.max(fromCoords.bottom, toCoords.bottom);
+    // Center bubble over selection midpoint
+    const centerX   = (fromCoords.left + toCoords.left) / 2;
+
+    let top  = selTop - BUBBLE_H - MARGIN;
+    let left = centerX;
     const vw = window.innerWidth;
-    if (top < 60) top = rect.bottom + MARGIN;
+    if (top < 60) top = selBottom + MARGIN;
     left = Math.max(80, Math.min(vw - 80, left));
 
-    // Sync mark state outside zone (isActive reads ProseMirror state, no DOM write)
-    const { from, to } = editor.state.selection;
-    const hasSel = from !== to;
-    const bold      = hasSel ? editor.isActive('bold')      : false;
-    const italic    = hasSel ? editor.isActive('italic')    : false;
-    const underline = hasSel ? editor.isActive('underline') : false;
-    const strike    = hasSel ? editor.isActive('strike')    : false;
-    const block     = hasSel ? this.resolveBlock(editor)    : this.currentBlock();
+    const bold      = editor.isActive('bold');
+    const italic    = editor.isActive('italic');
+    const underline = editor.isActive('underline');
+    const strike    = editor.isActive('strike');
+    const block     = this.resolveBlock(editor);
 
-    // Re-enter zone ONCE to batch all signal updates → single CD cycle
     this.zone.run(() => {
       this.bubbleTop.set(top);
       this.bubbleLeft.set(left);
       this.bubbleTransform.set('translateX(-50%)');
-      if (hasSel) {
-        this.isBold.set(bold);
-        this.isItalic.set(italic);
-        this.isUnderline.set(underline);
-        this.isStrike.set(strike);
-        this.currentBlock.set(block);
-      }
+      this.isBold.set(bold);
+      this.isItalic.set(italic);
+      this.isUnderline.set(underline);
+      this.isStrike.set(strike);
+      this.currentBlock.set(block);
       this.visible.set(true);
       this.cdr.markForCheck();
     });

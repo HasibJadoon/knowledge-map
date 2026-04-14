@@ -227,11 +227,11 @@ class BlockHandleView {
     </svg>`;
     this.gripBtn.setAttribute('title', 'Drag to move · Tap for menu');
 
-    // Touch events for drag + tap-menu
+    // Touch events for drag + tap-menu (touch only — no click handler to avoid
+    // desktop left-click unintentionally opening the block context menu)
     this.gripBtn.addEventListener('touchstart',  this.onGripTouchStart,  { passive: false });
     this.gripBtn.addEventListener('touchmove',   this.onGripTouchMove,   { passive: false });
     this.gripBtn.addEventListener('touchend',    this.onGripTouchEnd,    { passive: false });
-    this.gripBtn.addEventListener('click',       () => this.onGripClick());
 
     this.handle.appendChild(this.addBtn);
     this.handle.appendChild(this.gripBtn);
