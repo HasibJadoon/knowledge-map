@@ -1,1496 +1,1288 @@
-# K-MAPS Doc Editor — Notion-Like Refactor Prompt
-## Precise implementation guide — Ionic Mobile App
+# K-MAPS Doc Editor — Complete Visual Fix Prompt
+## Deep Analysis of Screenshots + All Fixes
 
-> **Primary target**: `apps/app-k-maps/src/app/features/docs/` (Ionic 8 / Angular 20 / Capacitor 8)
-> **Secondary reference**: `apps/k-maps/src/app/features/docs/` (web app — same logic, adapt for mobile)
-> **Framework**: Angular 20 + **Ionic 8** + Capacitor 8
-> **⚠️ Mobile-first**: ALL components, layouts, and interactions must be designed for iOS/Android touch
-> **Reference style**: [Hasib's Notion Notes](https://abdul-brain.notion.site/Notes-6e5f9139c7284823a7e188ef6467b598)
-> **Tiptap template ref**: https://tiptap.dev/docs/ui-components/templates/notion-like-editor
+> **Target**: `apps/app-k-maps/src/app/features/docs/doc-editor/doc-editor.page.ts`
+> **Framework**: Ionic 8 + Angular 20 + Tiptap 3.22
+> **Status**: Working editor with visual bugs that need precise fixes
 
 ---
 
-## What Already Exists (Do NOT Rewrite)
+## PART A — Root Cause Analysis (What's Actually Wrong)
 
-The doc editor is already a sophisticated Tiptap implementation. These are **working and should be kept**:
+### Issue 0 — Divider `---` Not Working (Input Rule Bug)
 
-| File | Status |
-|---|---|
-| `doc-editor.component.ts` | Keep — fix rAF violations only |
-| `doc-editor.service.ts` | Keep — fix rAF violations only |
-| `doc-save.service.ts` | Keep as-is |
-| `doc-context.service.ts` | Keep as-is |
-| `doc-extract.service.ts` | Keep as-is |
-| `tiptap-extensions/auto-direction.extension.ts` | Keep — fix debounce |
-| `tiptap-extensions/ayah-embed.extension.ts` | Keep as-is |
-| `tiptap-extensions/arabic-blocks.extension.ts` | Keep as-is |
-| `tiptap-extensions/worldview-blocks.extension.ts` | Keep as-is |
-| `tiptap-extensions/page-link.extension.ts` | Keep as-is |
-| `tiptap-extensions/callout.extension.ts` | Refactor styling only |
-| `tiptap-extensions/slash-command.extension.ts` | Extend with missing blocks |
-| `block-handle/block-handle.ts` | Keep as-is |
-| `highlight-toolbar/highlight-toolbar.component.ts` | Keep as-is |
+**What you see**: Typing `---` in the editor does NOT produce a horizontal rule / divider.
 
-**This prompt is about**:
-1. Fixing the `requestAnimationFrame` violation spam
-2. Upgrading typography to match Notion's clean hierarchy
-3. Adding missing base blocks: Task List, better Code Block, improved Callout variants
-4. Polishing the slash command menu UI
+**Root cause**: Tiptap 3's StarterKit includes `HorizontalRule` but its input rule fires on `---` followed by a **newline** (Enter key), not on typing `---` alone. On mobile, the soft keyboard behavior can prevent the rule from triggering. Also, `StarterKit.configure({ ... })` in the service doesn't explicitly configure HorizontalRule, so the default config is used — which in Tiptap 3 changed the input rule pattern.
 
----
+**Fix — Explicit HorizontalRule with custom input rule** in `doc-editor.service.ts`:
 
-## 1. Fix — requestAnimationFrame Violations
-
-### Root Cause Analysis
-
-The spam comes from **two specific places** in `doc-editor.component.ts`:
-
-**Problem 1 — Nested rAF in `animateContentIn()`**
 ```typescript
-// CURRENT (bad) — nested rAF causes cascading frame budget overruns
-private animateContentIn(): void {
-  const pm = this.editorEl.nativeElement.querySelector('.ProseMirror');
-  if (!pm) return;
-  const blocks = (Array.from(pm.children) as HTMLElement[]).slice(0, 20);
-  if (blocks.length <= 1) return;
+// Add this import at top
+import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
+import { InputRule } from '@tiptap/core';
 
-  requestAnimationFrame(() => {  // ← outer rAF (caller already in rAF)
-    gsap.fromTo(blocks,          // ← GSAP creates another rAF internally
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.35, stagger: 0.03, ease: 'power2.out', clearProps: 'transform,opacity' }
-    );
-  });
-}
-```
-The caller already runs inside `requestAnimationFrame(...)`, so wrapping GSAP in another rAF creates cascading frames that overrun their budget.
-
-**Problem 2 — MutationObserver firing on every keystroke**
-```typescript
-// CURRENT (bad) — MutationObserver fires on EVERY text change (typing)
-this.mutationObserver = new MutationObserver((mutations) => {
-  for (const m of mutations) {
-    m.addedNodes.forEach(node => {
-      if (!(node instanceof HTMLElement)) return;
-      if (node.tagName === 'HR') {
-        // GSAP runs here, inside the MutationObserver callback
-        // which itself is triggered by every keystroke
-        gsap.fromTo(node, { scaleX: 0, opacity: 0 }, { ... });
-      }
-    });
-  }
+// Create a custom HorizontalRule with explicit input rule
+const KmHorizontalRule = HorizontalRule.extend({
+  addInputRules() {
+    return [
+      new InputRule({
+        find: /^(?:---|—-|━━━)\s$/,  // matches: --- , —-, ━━━ followed by space
+        handler: ({ state, range, chain }) => {
+          chain()
+            .deleteRange(range)
+            .setHorizontalRule()
+            .run();
+        },
+      }),
+    ];
+  },
 });
-this.mutationObserver.observe(pm, { childList: true });
+
+// In initEditor extensions array — replace any implicit StarterKit HR:
+StarterKit.configure({
+  link: false,
+  underline: false,
+  horizontalRule: false,  // ← disable StarterKit's built-in HR
+}),
+KmHorizontalRule,         // ← use our custom version
 ```
-ProseMirror re-creates block DOM nodes on every edit, so the MutationObserver fires constantly, consuming the rAF budget even though the GSAP code only runs for HR.
 
-### Fix — `doc-editor.component.ts`
+**Mobile trigger**: On touch keyboards, users often don't press Enter immediately. Add the Divider button `—` to the bottom toolbar (already done in Part B Section 4) so it's always accessible with one tap.
 
-Replace `watchForNewBlocks()` and `animateContentIn()` with these corrected versions:
+**Slash command** `/divider` also works regardless of keyboard behavior.
 
-```typescript
-// ── FIXED animateContentIn ──────────────────────────────────
-// Remove the inner requestAnimationFrame — caller is already in rAF
-private animateContentIn(): void {
-  const pm = this.editorEl.nativeElement.querySelector('.ProseMirror');
-  if (!pm) return;
-  const blocks = (Array.from(pm.children) as HTMLElement[]).slice(0, 20);
-  if (blocks.length <= 1) return;
+---
 
-  // GSAP is called directly — no extra rAF wrapper
-  gsap.fromTo(blocks,
-    { opacity: 0, y: 10 },
-    { opacity: 1, y: 0, duration: 0.35, stagger: 0.03, ease: 'power2.out', clearProps: 'transform,opacity' }
-  );
+### Issue 1 — H1 Color is Overriding User's Text Color
+
+**What you see**: H1 heading appears with gradient/fixed color; when you apply a color via the toolbar (blue, purple, etc.) it shows on the text. The gradient CSS **blocks** the Color extension from displaying properly.
+
+**Root cause**: The H1 style uses:
+```css
+background: linear-gradient(115deg, #ffffff 38%, rgba(201,168,76,0.9) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;   /* ← THIS blocks Color extension */
+```
+
+`-webkit-text-fill-color: transparent` makes ALL text in H1 transparent (showing the background gradient). When Tiptap's Color extension adds `style="color: blue"` inline, it sets CSS `color` property — but `-webkit-text-fill-color` takes precedence over `color` in WebKit, so the user's chosen color is invisible.
+
+**Fix**: Use `:not([style*="color"])` to only apply gradient when no user color is present:
+
+```css
+/* H1 gradient ONLY when user has not applied a custom color */
+:global(.ProseMirror h1:not([style*="color"])),
+:global(.ProseMirror h1 > span:not([style*="color"])) {
+  background: linear-gradient(115deg, #ffffff 38%, rgba(201,168,76,0.9) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-// ── FIXED watchForNewBlocks ─────────────────────────────────
-// Use a debounce gate so GSAP only fires once per slash-command insert,
-// not on every single keystroke.
-private lastHrCount = 0;
-private animateDebounce: ReturnType<typeof setTimeout> | null = null;
-
-private watchForNewBlocks(): void {
-  const pm = this.editorEl.nativeElement.querySelector('.ProseMirror');
-  if (!pm || this.mutationObserver) return;
-
-  this.lastHrCount = pm.querySelectorAll('hr').length;
-
-  this.mutationObserver = new MutationObserver(() => {
-    // Cheap check — count HRs without touching the mutation records
-    if (this.animateDebounce) return;  // gate: ignore burst of mutations
-    this.animateDebounce = setTimeout(() => {
-      this.animateDebounce = null;
-      const hrs = Array.from(pm.querySelectorAll('hr')) as HTMLElement[];
-      if (hrs.length > this.lastHrCount) {
-        const newHr = hrs[hrs.length - 1];
-        this.lastHrCount = hrs.length;
-        gsap.fromTo(newHr,
-          { scaleX: 0, opacity: 0 },
-          { scaleX: 1, opacity: 1, duration: 0.5, ease: 'power3.out', clearProps: 'transform,opacity' }
-        );
-      }
-    }, 50);  // 50ms debounce — fast enough to catch slash command, invisible to typing
-  });
-
-  this.mutationObserver.observe(pm, { childList: true, subtree: false });
+/* When user applies color via toolbar: respect it */
+:global(.ProseMirror h1[style*="color"]),
+:global(.ProseMirror h1 span[style*="color"]) {
+  -webkit-text-fill-color: unset !important;
+  background: none !important;
+  background-clip: unset !important;
 }
 ```
 
-### Fix — `auto-direction.extension.ts`
+But wait — Tiptap's Color extension applies color to `<span>` elements INSIDE the heading, not to the heading element itself. So we need to reset the gradient on the heading when any child span has a color:
 
-The AutoDirection extension runs on every `appendTransaction`, which is called on every keystroke. Wrap the scan in a microtask:
+**Better fix — remove gradient from H1 entirely (professional & clean)**:
 
-```typescript
-// In the Plugin's appendTransaction handler:
-appendTransaction(transactions, _old, newState) {
-  const docChanged = transactions.some(t => t.docChanged);
-  if (!docChanged) return null;
-
-  // Defer the expensive node-scan out of the PM render cycle
-  queueMicrotask(() => this.runDirectionScan(newState));
-
-  return null;  // Always return null here — no synchronous transaction
-},
+```css
+/* H1 — NO gradient, clean white. User can apply any color they want. */
+:global(.ProseMirror h1) {
+  font-size: 1.92rem;
+  font-weight: 800;
+  line-height: 1.18;
+  margin: 1.6em 0 0.45em;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.96);  /* ← solid color, no gradient */
+  /* NO background-clip, NO -webkit-text-fill-color */
+}
 ```
 
-The actual `runDirectionScan` function that traverses nodes and dispatches direction-setting transactions runs in the microtask queue, after PM has finished rendering. This eliminates the rAF budget overrun.
+The Notion aesthetic does NOT use gradient headings. Clean white on black is the correct approach.
 
-### Fix — `doc-editor.service.ts`
+---
 
-The `onUpdate` callback fires on every keystroke. Move signal updates out of it:
+### Issue 2 — Color Extension Must Work on ALL Text Including Headings
 
+**What you see**: When you pick a color from the toolbar, it applies to paragraph text. For headings, either the color is hidden (gradient conflict) or doesn't apply.
+
+**Root cause**: The H1 uses `-webkit-text-fill-color: transparent` which prevents any `color` CSS property from showing. Additionally, Tiptap's Color extension wraps selected text in `<span style="color: ...">`. For this to work on headings, the heading must NOT use `-webkit-text-fill-color`.
+
+**Fix**: After removing gradient from H1 (Issue 1 fix), the Color extension will work automatically on all headings. No additional changes needed.
+
+**Also ensure TextStyle + Color are in the extension list** (they already are in `doc-editor.service.ts`):
 ```typescript
-// CURRENT (causes issues if signals trigger change detection mid-frame)
-onUpdate: ({ editor }) => {
-  this.wordCount.set(editor.storage.characterCount.words());
-  this.isDirty.set(true);
-  this.saveFn?.();
-},
-
-// FIXED — defer signal updates to microtask
-onUpdate: ({ editor }) => {
-  this.isDirty.set(true);               // simple boolean, fast ✓
-  this.saveFn?.();                       // schedules async save ✓
-  queueMicrotask(() => {                 // defer heavy count after PM renders
-    this.wordCount.set(editor.storage['characterCount']?.words() ?? 0);
-  });
-},
+TextStyle,
+Color,
 ```
 
 ---
 
-## 2. Typography — Full Notion-Like Hierarchy
+### Issue 3 — Blockquote Shows Wrong Font ("Qutie" in Monospace)
 
-Replace the typography section in `doc-editor.component.scss`. Keep the existing file structure, replace/merge the content block:
+**What you see**: The blockquote block displays text in what appears to be a code/monospace font instead of Poppins.
 
-### The Notion Style Reference (from your Notion page)
+**Root cause**: The `:global(.ProseMirror blockquote)` styles in the component's inline `styles: []` may not apply correctly in all build environments. The `:global()` pseudo-class is a CSS Modules concept — Angular's build system may or may not strip it. When it fails, the blockquote falls back to browser defaults which on some platforms use a monospace or serif font.
 
-Your Notion page uses:
-- **H1**: Very large, bold, no underline border — serves as page title inside content
-- **H2**: Bold, clear step-down from H1, acts as section header
-- **H3**: Medium weight, slightly muted, acts as sub-section
-- **Text**: 16px Poppins, line-height 1.75, comfortable reading
-- **Quotes**: Left border, italic, slightly muted
-- **Callouts**: Colored background with emoji, rounded corners
-- **Dividers**: Thin, centered, with subtle diamond ornament (you already have this)
-- **Code**: Mono font, dark surface background
-- **Lists**: Clean with proper indentation
+**Fix — move ALL ProseMirror styles out of the component and into `global.scss`**:
 
-### Updated Typography SCSS
+Create a new file `apps/app-k-maps/src/app/features/docs/doc-editor/_editor.scss` and import it in `global.scss`. This guarantees 100% reliable CSS application without any Angular encapsulation interference.
 
-Update `doc-editor.component.scss` — the `.km-editor .ProseMirror` scope:
+See Part B Section 1 for the complete `_editor.scss` file.
+
+---
+
+### Issue 4 — Empty Callout Has Large Blank Space
+
+**What you see**: A callout block with just the 💡 emoji and a large empty gray area below it with no text.
+
+**Root cause**: The `contentDOM` (`.km-callout__content`) has `min-height: 2em` but when empty, ProseMirror inserts a trailing break. The Placeholder extension only shows a placeholder on the first paragraph of the document, not inside block nodes.
+
+**Fix**: Add a callout-specific placeholder via CSS:
+
+```css
+/* Callout placeholder — shown when empty */
+.km-callout__content > p.is-empty::before,
+.km-callout__content > p:first-child:only-child:empty::before {
+  content: 'Write something…';
+  color: rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+  float: left;
+  height: 0;
+  font-style: italic;
+}
+```
+
+---
+
+### Issue 5 — Callout Content Text Color (Green Text in Callout)
+
+**What you see**: The callout "Thats is great / Test thats" shows in GREEN color.
+
+**Root cause**: The user manually applied green color using the Color extension. This is CORRECT behavior — the Color extension working inside a callout. This is NOT a bug.
+
+**However**, there's a related styling issue: the callout content uses hardcoded `color: rgba(255,255,255,0.88)` which is then overridden by Tiptap's inline `color` spans. This chain works correctly.
+
+**If the user wants to reset colors**: Add a "Reset color" option to the highlight toolbar. This calls `editor.chain().focus().unsetColor().run()`.
+
+---
+
+### Issue 6 — `styles: [...]` with `:global()` — Unreliable in Angular
+
+**Root cause**: Using `:global()` in Angular component's inline `styles: [...]` array is not guaranteed to work across all builds, Ionic versions, and Capacitor bundling. Some styles apply, some don't, depending on how the Angular/esbuild pipeline handles the pseudo-class.
+
+**Fix**: Move ALL `.ProseMirror` styles to a file imported in `global.scss`. This bypasses Angular's encapsulation entirely and guarantees all styles apply.
+
+---
+
+## PART B — Complete File Replacements
+
+### B1 — Create `_editor.scss` (Global Editor Styles)
+
+Create this new file:
+**`apps/app-k-maps/src/app/features/docs/doc-editor/_editor.scss`**
 
 ```scss
-// ── Base prose ────────────────────────────────────────────────
-.km-editor .ProseMirror {
-  outline: none;
-  caret-color: var(--km-gold);
-  font-family: var(--km-font-body);  // Poppins
-  font-size: 16px;
-  color: var(--km-text);
+// ═══════════════════════════════════════════════════════════════════════════
+// K-MAPS TIPTAP EDITOR — Global Styles
+// Imported in global.scss — NOT in a component (avoids Angular encapsulation)
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── Editor mount wrapper ──────────────────────────────────────────────────
+.km-doc-editor-el {
+  position: relative;
+  padding: 24px 20px 120px 54px;
+
+  // Kill Ionic's primary-color focus ring on contenteditable
+  --highlight-color-focused: transparent;
+  --highlight-color-invalid: transparent;
+}
+
+// ── ProseMirror root ──────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  min-height: 60vh;
+  font-size: 1.02rem;
+  line-height: 1.82;
+  color: rgba(255, 255, 255, 0.88);
+  font-family: var(--ion-font-family, 'Poppins', sans-serif);
+  caret-color: #c9a84c;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+// ── Selection highlight ───────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror *::selection {
+  background: rgba(201, 168, 76, 0.25);
+}
+
+// ── Placeholder ───────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+  float: left;
+  height: 0;
+  font-style: italic;
+}
+
+// ── Paragraphs ────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror p {
+  margin: 0.1em 0 0.65em;
+  line-height: 1.82;
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// HEADINGS
+// No gradient — clean white. Color extension works fully on all headings.
+// ────────────────────────────────────────────────────────────────────────
+
+.km-doc-editor-el .ProseMirror h1 {
+  font-size: 1.92rem;
+  font-weight: 800;
+  line-height: 1.18;
+  margin: 1.5em 0 0.4em;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.97);
+  // ── NO gradient, NO -webkit-text-fill-color ──
+  // This lets the Color extension apply user-chosen colors freely
+}
+
+.km-doc-editor-el .ProseMirror h1:first-child {
+  margin-top: 0.4em;
+}
+
+.km-doc-editor-el .ProseMirror h2 {
+  font-size: 1.38rem;
+  font-weight: 700;
+  line-height: 1.28;
+  margin: 1.4em 0 0.4em;
+  letter-spacing: -0.018em;
+  color: rgba(255, 255, 255, 0.92);
+  padding-bottom: 0.32em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.km-doc-editor-el .ProseMirror h3 {
+  font-size: 1.14rem;
+  font-weight: 600;
+  line-height: 1.38;
+  margin: 1.2em 0 0.3em;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.km-doc-editor-el .ProseMirror h4 {
+  font-size: 0.76rem;
+  font-weight: 700;
+  margin: 1em 0 0.25em;
+  color: rgba(201, 168, 76, 0.82);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+// ── Block active state (MobileBlockHandle) ────────────────────────────────
+.km-doc-editor-el .ProseMirror > .km-block-active,
+.km-doc-editor-el .ProseMirror li.km-block-active {
+  background: rgba(255, 255, 255, 0.028);
+  border-radius: 6px;
+  outline: 1px solid rgba(255, 255, 255, 0.07);
+  outline-offset: 1px;
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// BLOCKQUOTE
+// Clean gold-border Notion-style. Poppins font (inherits parent).
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror blockquote {
+  border-left: 3.5px solid rgba(201, 168, 76, 0.8);
+  padding: 10px 16px 10px 18px;
+  margin: 12px 0;
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(201, 168, 76, 0.055);
+  border-radius: 0 10px 10px 0;
+  font-family: var(--ion-font-family, 'Poppins', sans-serif) !important; // ← force Poppins
+  font-style: normal; // Not italic — cleaner
+  position: relative;
+}
+
+.km-doc-editor-el .ProseMirror blockquote p {
+  margin: 0;
+  font-family: inherit !important;
+}
+
+// Optional: faint opening quote ornament
+.km-doc-editor-el .ProseMirror blockquote::before {
+  content: '"';
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  font-size: 1.8rem;
+  color: rgba(201, 168, 76, 0.22);
+  font-family: Georgia, serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// CODE
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror code {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 0.1em 0.4em;
+  font-size: 0.86em;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  color: #e8a87c; // warm orange — readable on dark bg
+}
+
+.km-doc-editor-el .ProseMirror pre {
+  background: rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 10px 0;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  position: relative;
+}
+
+// Gold shimmer top edge on code blocks
+.km-doc-editor-el .ProseMirror pre::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.2), transparent);
+  border-radius: 10px 10px 0 0;
+}
+
+.km-doc-editor-el .ProseMirror pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// DIVIDER / HORIZONTAL RULE
+// Diamond ornament divider — keep original design
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror hr {
+  display: block;
+  width: 100%;
+  border: none;
+  margin: 2.2em 0;
+  height: 20px;
+  position: relative;
+  overflow: visible;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(201, 168, 76, 0.12) 8%,
+      rgba(201, 168, 76, 0.62) 42%,
+      transparent 48%
+    ) center left / 50% 1px no-repeat,
+    linear-gradient(
+      90deg,
+      transparent 52%,
+      rgba(201, 168, 76, 0.62) 58%,
+      rgba(201, 168, 76, 0.12) 92%,
+      transparent 100%
+    ) center right / 50% 1px no-repeat;
+  cursor: default;
+}
+
+.km-doc-editor-el .ProseMirror hr::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 8px; height: 8px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: 1.5px solid rgba(201, 168, 76, 0.72);
+  background: var(--ion-background-color, #080808); // same as page bg
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// LISTS
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror ul,
+.km-doc-editor-el .ProseMirror ol {
+  padding-left: 1.55em;
+  margin: 0.4em 0 0.6em;
+}
+
+.km-doc-editor-el .ProseMirror ul { list-style-type: disc !important; }
+.km-doc-editor-el .ProseMirror ol { list-style-type: decimal !important; }
+.km-doc-editor-el .ProseMirror li { margin: 0.28em 0; line-height: 1.78; }
+
+.km-doc-editor-el .ProseMirror li > p,
+.km-doc-editor-el .ProseMirror li p { margin: 0; }
+
+.km-doc-editor-el .ProseMirror li > ul,
+.km-doc-editor-el .ProseMirror li > ol { margin: 0.2em 0 0.1em; }
+
+// Bullet markers — gold accent with levels
+.km-doc-editor-el .ProseMirror ul li::marker         { color: rgba(201, 168, 76, 0.75); font-size: 0.82em; }
+.km-doc-editor-el .ProseMirror ol li::marker         { color: rgba(201, 168, 76, 0.65); font-weight: 700; }
+.km-doc-editor-el .ProseMirror ul ul                 { list-style-type: circle !important; }
+.km-doc-editor-el .ProseMirror ul ul ul              { list-style-type: square !important; }
+.km-doc-editor-el .ProseMirror ul ul li::marker      { color: rgba(201, 168, 76, 0.45); }
+.km-doc-editor-el .ProseMirror ul ul ul li::marker   { color: rgba(201, 168, 76, 0.28); }
+
+// ────────────────────────────────────────────────────────────────────────
+// TASK LIST (checkboxes)
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror ul[data-type="taskList"] {
+  list-style: none !important;
+  padding-left: 4px;
+}
+
+.km-doc-editor-el .ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 3px 0;
+  margin: 2px 0;
+}
+
+.km-doc-editor-el .ProseMirror ul[data-type="taskList"] li > label {
+  flex-shrink: 0;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.km-doc-editor-el .ProseMirror ul[data-type="taskList"] li input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #c9a84c;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.km-doc-editor-el .ProseMirror ul[data-type="taskList"] li > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.km-doc-editor-el .ProseMirror ul[data-type="taskList"] li > div p {
+  margin: 0;
+}
+
+.km-doc-editor-el .ProseMirror ul[data-type="taskList"] li[data-checked="true"] > div {
+  opacity: 0.45;
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// INLINE MARKS
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror strong {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.km-doc-editor-el .ProseMirror em {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.km-doc-editor-el .ProseMirror u {
+  text-decoration-color: rgba(255, 255, 255, 0.38);
+  text-underline-offset: 3px;
+}
+
+.km-doc-editor-el .ProseMirror s {
+  text-decoration-color: rgba(255, 255, 255, 0.28);
+}
+
+.km-doc-editor-el .ProseMirror mark {
+  border-radius: 3px;
+  padding: 0.06em 0.22em;
+  // color set inline by Tiptap highlight extension
+}
+
+.km-doc-editor-el .ProseMirror a {
+  color: rgba(201, 168, 76, 0.92);
+  text-decoration: underline;
+  text-decoration-color: rgba(201, 168, 76, 0.3);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.12s, text-decoration-color 0.12s;
+}
+
+// ── IMPORTANT: span[style*="color"] must always show through ─────────────
+// This ensures the Color extension always works on all elements
+.km-doc-editor-el .ProseMirror span[style*="color"] {
+  -webkit-text-fill-color: currentColor !important; // override any gradient clip
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// CALLOUT BLOCK
+// Styles defined here supplement the JS-injected styles in callout.extension.ts
+// ────────────────────────────────────────────────────────────────────────
+.km-callout {
+  display: flex;
+  gap: 12px;
+  padding: 13px 16px 13px 14px;
+  margin: 8px 0;
+  border-left: none;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+}
+
+.km-callout::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  border-radius: 10px 0 0 10px;
+}
+
+// Variants
+.km-callout--tip     { background: rgba(201, 168, 76, 0.10); }
+.km-callout--tip::before     { background: #c9a84c; }
+.km-callout--info    { background: rgba(59, 130, 246, 0.09); }
+.km-callout--info::before    { background: #3b82f6; }
+.km-callout--warning { background: rgba(245, 158, 11, 0.09); }
+.km-callout--warning::before { background: #f59e0b; }
+.km-callout--danger  { background: rgba(239, 68, 68, 0.09); }
+.km-callout--danger::before  { background: #ef4444; }
+.km-callout--success { background: rgba(34, 197, 94, 0.09); }
+.km-callout--success::before { background: #22c55e; }
+.km-callout--quote   { background: rgba(255, 255, 255, 0.04); font-style: italic; }
+.km-callout--quote::before   { background: rgba(255, 255, 255, 0.18); }
+
+// Emoji
+.km-callout__emoji {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  min-width: 1.75rem;
+  text-align: center;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-top: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.km-callout__emoji:active {
+  transform: scale(1.25) rotate(-8deg);
+}
+
+// Content area
+.km-callout__content {
+  flex: 1;
+  min-width: 0;
+  min-height: 1.75em;
+  color: rgba(255, 255, 255, 0.88);
+  cursor: text;
+  font-size: 0.975rem;
   line-height: 1.75;
-  padding-bottom: 30vh;  // breathing room at bottom
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  font-family: var(--ion-font-family, 'Poppins', sans-serif) !important;
+}
 
-  // ── Paragraphs ──────────────────────────────────────────────
-  > p {
-    margin: 0 0 2px;
-    min-height: 1.75em;
-  }
+.km-callout__content p {
+  margin: 0 0 2px;
+  font-family: inherit !important;
+}
 
-  // ── Placeholders ────────────────────────────────────────────
-  p.is-empty:first-child::before,
-  h1.is-empty::before,
-  h2.is-empty::before,
-  h3.is-empty::before {
-    content: attr(data-placeholder);
-    color: var(--km-text-3);
-    pointer-events: none;
-    float: left;
-    height: 0;
-  }
+// Placeholder for empty callout
+.km-callout__content > p.is-empty::before,
+.km-callout__content > p:first-child:last-child:empty::before {
+  content: 'Write a note…';
+  color: rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  float: left;
+  height: 0;
+  font-style: italic;
+}
 
-  // ── Headings ────────────────────────────────────────────────
-  h1, h2, h3 {
-    font-family: var(--km-font-body);
-    font-weight: 700;
-    color: var(--km-text);
-    margin: 0;
-    line-height: 1.25;
-  }
+// Color extension works inside callout — span[style*="color"] override
+.km-callout__content span[style*="color"] {
+  -webkit-text-fill-color: currentColor !important;
+}
 
-  // H1 — page-section title
-  h1 {
-    font-size: 1.875rem;    // 30px
-    font-weight: 700;
-    margin-top: 1.5em;
-    margin-bottom: 4px;
-    letter-spacing: -0.02em;
-    color: var(--km-text);
+// ────────────────────────────────────────────────────────────────────────
+// ARABIC AUTO-DIRECTION
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror p[dir="rtl"],
+.km-doc-editor-el .ProseMirror h1[dir="rtl"],
+.km-doc-editor-el .ProseMirror h2[dir="rtl"],
+.km-doc-editor-el .ProseMirror h3[dir="rtl"],
+.km-doc-editor-el .ProseMirror li[dir="rtl"],
+.km-doc-editor-el .ProseMirror blockquote[dir="rtl"] {
+  font-family: var(--km-font-arabic-amiri, 'AmiriQuran', serif) !important;
+  font-size: 1.25rem;
+  line-height: 2.1;
+  letter-spacing: 0;
+  word-spacing: 0.04em;
+  text-align: right;
+}
 
-    &:first-child { margin-top: 0.5em; }
-  }
+// ────────────────────────────────────────────────────────────────────────
+// SELECTED NODE OUTLINE
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror-selectednode {
+  outline: 2px solid rgba(201, 168, 76, 0.4) !important;
+  border-radius: 4px;
+}
 
-  // H2 — section header
-  h2 {
-    font-size: 1.375rem;    // 22px
-    font-weight: 600;
-    margin-top: 1.3em;
-    margin-bottom: 3px;
-    letter-spacing: -0.01em;
-    color: var(--km-text);
-  }
+// ────────────────────────────────────────────────────────────────────────
+// AYAH EMBED BLOCK
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror .km-block--ayah {
+  position: relative;
+  direction: rtl;
+  background: rgba(201, 168, 76, 0.04);
+  border-right: 3px solid rgba(201, 168, 76, 0.72);
+  border-radius: 10px;
+  padding: 14px 18px 12px;
+  margin: 10px 0;
+  user-select: text;
+  -webkit-user-select: text;
+}
 
-  // H3 — sub-section (slightly muted)
-  h3 {
-    font-size: 1.125rem;    // 18px
-    font-weight: 600;
-    margin-top: 1.1em;
-    margin-bottom: 2px;
-    color: var(--km-text-2);
-    letter-spacing: 0;
-  }
+.km-doc-editor-el .ProseMirror .km-block--ayah .ayah-text {
+  font-family: var(--km-font-arabic, 'Uthmanic Hafs', serif) !important;
+  font-size: 1.3rem !important;
+  line-height: 2.1 !important;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: right;
+  direction: rtl;
+}
 
-  // ── Divider / HR ─────────────────────────────────────────────
-  // Keep your existing diamond ornament style — it's great already.
-  // Only ensure margin is generous
-  hr {
-    border: none;
-    margin: 28px auto;
-    // ... keep existing diamond ::before/::after ornament
-  }
+.km-doc-editor-el .ProseMirror .km-block--ayah .ayah-translation {
+  direction: ltr;
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 8px;
+  font-style: italic;
+  line-height: 1.6;
+  text-align: left;
+  font-family: var(--ion-font-family, 'Poppins', sans-serif) !important;
+}
 
-  // ── Blockquote / Quote ───────────────────────────────────────
-  blockquote {
-    border-left: 3px solid var(--km-gold);
-    margin: 12px 0;
-    padding: 6px 0 6px 18px;
-    color: var(--km-text-2);
-    font-style: italic;
-    background: rgba(201, 168, 76, 0.055);
-    border-radius: 0 8px 8px 0;
-    position: relative;
+.km-doc-editor-el .ProseMirror .km-block--ayah .ayah-ref {
+  direction: ltr;
+  font-size: 0.7rem;
+  color: rgba(201, 168, 76, 0.72);
+  margin-top: 5px;
+  font-weight: 600;
+  text-align: left;
+  font-family: var(--ion-font-family, 'Poppins', sans-serif) !important;
+}
 
-    p {
-      margin: 0;
-      color: inherit;
-      font-style: inherit;
-    }
+.km-doc-editor-el .ProseMirror .km-ayah-copy {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 5px 7px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.38);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
 
-    &::before {
-      content: '"';
-      position: absolute;
-      top: -4px;
-      left: -2px;
-      font-size: 2.5rem;
-      color: var(--km-gold);
-      opacity: 0.3;
-      font-family: Georgia, serif;
-      line-height: 1;
-    }
-  }
+.km-doc-editor-el .ProseMirror .km-ayah-copy:active,
+.km-doc-editor-el .ProseMirror .km-ayah-copy--done {
+  color: rgba(201, 168, 76, 0.9);
+  border-color: rgba(201, 168, 76, 0.35);
+  background: rgba(201, 168, 76, 0.08);
+}
 
-  // ── Callout ──────────────────────────────────────────────────
-  // See Section 3 below for full callout spec
+// ────────────────────────────────────────────────────────────────────────
+// SHARED DOMAIN BLOCK BASE
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-editor-el .ProseMirror .km-block {
+  margin: 6px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--ion-font-family, 'Poppins', sans-serif) !important;
+}
 
-  // ── Code ─────────────────────────────────────────────────────
-  code:not(pre code) {
-    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-    font-size: 0.85em;
-    background: var(--km-surface-2);
-    border: 1px solid var(--km-border);
-    border-radius: 4px;
-    padding: 0.1em 0.4em;
-    color: #e07b54;  // warm orange — Notion code color
-  }
+// ────────────────────────────────────────────────────────────────────────
+// HIGHLIGHT TOOLBAR (floating bubble on selection)
+// ────────────────────────────────────────────────────────────────────────
+.km-hl-toolbar {
+  position: fixed;
+  z-index: 9000;
+  background: #1a1a1a;
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  border-radius: 12px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
 
-  pre {
-    background: var(--km-surface-2);
-    border: 1px solid var(--km-border);
-    border-radius: 10px;
-    padding: 16px 20px;
-    overflow-x: auto;
-    margin: 12px 0;
+.km-hl-btn {
+  min-width: 32px;
+  min-height: 32px;
+  border: none;
+  background: none;
+  border-radius: 7px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s, color 0.12s;
+}
 
-    code {
-      font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      font-size: 0.875rem;
-      background: none;
-      border: none;
-      padding: 0;
-      border-radius: 0;
-      color: var(--km-text);
-    }
-  }
+.km-hl-btn:hover,
+.km-hl-btn:active { background: rgba(255, 255, 255, 0.08); }
 
-  // ── Lists ─────────────────────────────────────────────────────
-  ul, ol {
-    padding-left: 1.6em;
-    margin: 2px 0;
+.km-hl-btn.active {
+  background: rgba(201, 168, 76, 0.18);
+  color: #c9a84c;
+}
 
-    li {
-      margin: 1px 0;
-      line-height: 1.75;
-      padding-left: 2px;
+.km-hl-sep {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 2px;
+  flex-shrink: 0;
+}
 
-      // Nested lists
-      ul, ol { margin: 1px 0; }
-    }
-  }
+// Color swatches in toolbar
+.km-hl-color-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  transition: transform 0.12s, border-color 0.12s;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
 
-  // Bullet custom marker
-  ul li::marker { color: var(--km-gold); }
+.km-hl-color-dot:active { transform: scale(0.9); }
+.km-hl-color-dot.selected { border-color: rgba(255, 255, 255, 0.7); }
 
-  // Numbered list marker
-  ol { counter-reset: list-counter; }
-  ol li::marker { color: var(--km-text-2); font-size: 0.95em; }
+// ────────────────────────────────────────────────────────────────────────
+// BOTTOM FORMAT BAR (ion-footer)
+// ────────────────────────────────────────────────────────────────────────
+.km-doc-footer {
+  --background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
 
-  // ── Task List ────────────────────────────────────────────────
-  ul[data-type="taskList"] {
-    list-style: none;
-    padding-left: 2px;
+.km-doc-footer--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
 
-    li {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      padding: 2px 0;
-      margin: 0;
+.km-fmt-bar {
+  --background: rgba(10, 10, 10, 0.95);
+  --border-color: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
 
-      > label {
-        flex-shrink: 0;
-        margin-top: 4px;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-      }
+.km-fmt-scroll {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  padding: 6px 12px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
 
-      input[type="checkbox"] {
-        width: 16px;
-        height: 16px;
-        accent-color: var(--km-gold);
-        border-radius: 4px;
-        cursor: pointer;
-      }
+.km-fmt-btn {
+  flex-shrink: 0;
+  min-width: 36px;
+  min-height: 36px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.62);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s, color 0.12s;
+  padding: 0 4px;
+}
 
-      > div {
-        flex: 1;
-        p { margin: 0; }
-      }
+.km-fmt-btn:active      { background: rgba(255, 255, 255, 0.06); }
+.km-fmt-btn--active     { color: #c9a84c !important; background: rgba(201, 168, 76, 0.1) !important; border-radius: 8px; }
 
-      &[data-checked="true"] > div {
-        opacity: 0.45;
-        text-decoration: line-through;
-        text-decoration-color: var(--km-text-3);
-      }
-    }
-  }
+.km-fmt-sep {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.09);
+  margin: 0 6px;
+  flex-shrink: 0;
+}
 
-  // ── Inline Formatting ─────────────────────────────────────────
-  strong { font-weight: 700; }
-  em     { font-style: italic; }
-  s      { text-decoration: line-through; opacity: 0.55; }
-  u      { text-decoration-color: var(--km-gold); text-underline-offset: 3px; }
-  mark   { background: rgba(201, 168, 76, 0.28); border-radius: 3px; padding: 0.05em 2px; }
+// ────────────────────────────────────────────────────────────────────────
+// SLASH MENU
+// ────────────────────────────────────────────────────────────────────────
+.km-slash-menu {
+  position: fixed;
+  z-index: 10000;
+  background: #111111;
+  border: 1px solid rgba(201, 168, 76, 0.14);
+  border-radius: 14px;
+  padding: 6px;
+  box-shadow: 0 16px 60px rgba(0, 0, 0, 0.65), 0 4px 16px rgba(0, 0, 0, 0.4);
+  min-width: 260px;
+  max-width: min(320px, calc(100vw - 32px));
+  max-height: 50vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 
-  // Links
-  a {
-    color: var(--km-gold);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-    transition: opacity 0.15s;
-    &:hover { opacity: 0.75; }
-  }
+.km-slash-group-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.28);
+  padding: 8px 10px 4px;
+}
 
-  // ── Images ───────────────────────────────────────────────────
-  img {
-    max-width: 100%;
-    border-radius: 8px;
-    display: block;
-    margin: 12px 0;
-  }
+.km-slash-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+  min-height: 50px; // 44px+ touch target
+  -webkit-tap-highlight-color: transparent;
+}
 
-  // ── Arabic text (domain blocks) ───────────────────────────────
-  [data-arabic], .km-arabic, [dir="rtl"] > p {
-    font-family: var(--km-font-arabic);
-    font-size: 1.4em;
-    line-height: 2.1;
-    direction: rtl;
-    text-align: right;
-  }
+.km-slash-item:active,
+.km-slash-item--selected { background: rgba(201, 168, 76, 0.1); }
 
-  // ── Selection ────────────────────────────────────────────────
-  ::selection {
-    background: rgba(201, 168, 76, 0.22);
-  }
+.km-slash-item__icon {
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.km-slash-item--selected .km-slash-item__icon,
+.km-slash-item:active .km-slash-item__icon {
+  background: rgba(201, 168, 76, 0.15);
+  border-color: rgba(201, 168, 76, 0.3);
+}
+
+.km-slash-item__title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+  display: block;
+}
+
+.km-slash-item__desc {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.35);
+  display: block;
+  margin-top: 1px;
 }
 ```
 
 ---
 
-## 3. Callout Block — Refactor `callout.extension.ts`
+### B2 — Add Import to `global.scss`
 
-### Current State
-The extension exists but may render with limited variant support.
-
-### Target: 6 Callout Types
-
-Update `callout.extension.ts` to support these variants, each with emoji + color:
-
-| Type | Default Emoji | Border Color | Background |
-|---|---|---|---|
-| `tip` | 💡 | `var(--km-gold)` | `rgba(201,168,76, 0.10)` |
-| `info` | ℹ️ | `#3b82f6` | `rgba(59,130,246, 0.08)` |
-| `warning` | ⚠️ | `#f59e0b` | `rgba(245,158,11, 0.08)` |
-| `danger` | 🚨 | `#ef4444` | `rgba(239,68,68, 0.08)` |
-| `success` | ✅ | `#22c55e` | `rgba(34,197,94, 0.08)` |
-| `quote` | 💬 | `var(--km-border)` | `var(--km-surface-2)` |
-
-### Updated Extension Attributes
-
-```typescript
-addAttributes() {
-  return {
-    type: {
-      default: 'tip',
-      parseHTML: el => el.getAttribute('data-callout-type') ?? 'tip',
-      renderHTML: attrs => ({ 'data-callout-type': attrs['type'] }),
-    },
-    emoji: {
-      default: '💡',
-      parseHTML: el => el.getAttribute('data-callout-emoji') ?? '💡',
-      renderHTML: attrs => ({ 'data-callout-emoji': attrs['emoji'] }),
-    },
-  };
-},
-
-renderHTML({ node, HTMLAttributes }) {
-  return [
-    'div',
-    mergeAttributes(HTMLAttributes, {
-      'data-callout': '',
-      'data-callout-type': node.attrs['type'],
-      'data-callout-emoji': node.attrs['emoji'],
-      class: `km-callout km-callout--${node.attrs['type']}`,
-    }),
-    ['span', { class: 'km-callout__emoji', contenteditable: 'false' }, node.attrs['emoji']],
-    ['div', { class: 'km-callout__body' }, 0],
-  ];
-},
-```
-
-### Callout SCSS
+Add this line at the END of `apps/app-k-maps/src/global.scss`:
 
 ```scss
-// In doc-editor.component.scss
-
-.km-editor .ProseMirror {
-  .km-callout {
-    display: flex;
-    gap: 12px;
-    padding: 12px 16px;
-    border-radius: 10px;
-    border-left: 3px solid transparent;
-    margin: 8px 0;
-    transition: background 0.2s;
-
-    &__emoji {
-      font-size: 1.15em;
-      flex-shrink: 0;
-      line-height: 1.75;
-      user-select: none;
-      cursor: pointer;  // clicking opens emoji picker
-    }
-
-    &__body {
-      flex: 1;
-      min-width: 0;
-      p { margin: 0; }
-    }
-
-    // Variants
-    &--tip     { background: rgba(201,168,76, 0.10); border-color: #c9a84c; }
-    &--info    { background: rgba(59,130,246,  0.08); border-color: #3b82f6; }
-    &--warning { background: rgba(245,158,11,  0.08); border-color: #f59e0b; }
-    &--danger  { background: rgba(239,68,68,   0.08); border-color: #ef4444; }
-    &--success { background: rgba(34,197,94,   0.08); border-color: #22c55e; }
-    &--quote   { background: var(--km-surface-2);     border-color: var(--km-border); font-style: italic; }
-  }
-}
+// ── Doc editor — ProseMirror styles (global, no Angular encapsulation) ──
+@use './app/features/docs/doc-editor/editor' as *;
 ```
 
-### Callout Type Picker
+Or using `@import` (if `@use` causes issues with your SCSS setup):
+```scss
+@import './app/features/docs/doc-editor/editor';
+```
 
-When the emoji is clicked, show a small floating picker to change the callout type:
+---
+
+### B3 — Remove All `:global()` Styles from `doc-editor.page.ts`
+
+In `doc-editor.page.ts`, the `styles: [...]` array currently contains ~600 lines of `:global(.ProseMirror ...)` rules. **Delete all of them** and replace the entire `styles` array with only the component-scoped rules:
+
+```typescript
+styles: [`
+  :host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* ── Header title input ─────────────────────────────── */
+  .km-doc-title-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ion-text-color, rgba(255,255,255,0.92));
+    width: 100%;
+    font-family: var(--ion-font-family, 'Poppins', sans-serif);
+  }
+  .km-doc-title-input::placeholder {
+    color: rgba(255,255,255,0.28);
+  }
+
+  /* ── Save indicator ─────────────────────────────────── */
+  .km-save-label {
+    font-size: 0.72rem;
+    color: rgba(201,168,76,0.7);
+    padding-right: 4px;
+    min-width: 16px;
+    display: inline-block;
+  }
+
+  /* ── Ion content background ─────────────────────────── */
+  .km-doc-content {
+    --background: var(--ion-background-color, #080808);
+  }
+
+  /* ── Panel backdrop ─────────────────────────────────── */
+  .km-doc-panel-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 200;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .km-doc-panel {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: min(340px, 92vw);
+    z-index: 201;
+    background: #0e0e0e;
+    border-left: 1px solid rgba(201,168,76,0.12);
+    overflow-y: auto;
+    box-shadow: -8px 0 40px rgba(0,0,0,0.5);
+  }
+`]
+```
+
+All ProseMirror styles now live in `_editor.scss` (globally applied, no encapsulation issues).
+
+---
+
+### B4 — Update Bottom Toolbar — Add Divider + Callout Buttons
+
+In `doc-editor.page.ts` template, update the `km-fmt-scroll` div to add Divider and Callout:
 
 ```html
-<!-- callout-type-picker.component.html -->
-<div class="km-callout-picker">
-  @for (variant of variants; track variant.type) {
-    <button class="km-callout-picker__item"
-            [title]="variant.label"
-            (click)="select(variant)">
-      {{ variant.emoji }}
+<div class="km-fmt-scroll">
+  <!-- Block types -->
+  <button class="km-fmt-btn" title="Text" (click)="setBlock('paragraph')">¶</button>
+  <button class="km-fmt-btn" title="Heading 1" (click)="setBlock('heading1')">H₁</button>
+  <button class="km-fmt-btn" title="Heading 2" (click)="setBlock('heading2')">H₂</button>
+  <button class="km-fmt-btn" title="Heading 3" (click)="setBlock('heading3')">H₃</button>
+
+  <div class="km-fmt-sep"></div>
+
+  <!-- Inline marks -->
+  <button class="km-fmt-btn" [class.km-fmt-btn--active]="isBold()"      (click)="cmd('bold')"><b>B</b></button>
+  <button class="km-fmt-btn" [class.km-fmt-btn--active]="isItalic()"    (click)="cmd('italic')"><i>I</i></button>
+  <button class="km-fmt-btn" [class.km-fmt-btn--active]="isUnderline()" (click)="cmd('underline')"><u>U</u></button>
+  <button class="km-fmt-btn" [class.km-fmt-btn--active]="isStrike()"    (click)="cmd('strike')"><s>S</s></button>
+  <button class="km-fmt-btn" [class.km-fmt-btn--active]="isCode()"      (click)="cmd('code')">&lt;/&gt;</button>
+
+  <div class="km-fmt-sep"></div>
+
+  <!-- Lists -->
+  <button class="km-fmt-btn" title="Bullet"   (click)="setBlock('bulletList')">•≡</button>
+  <button class="km-fmt-btn" title="Numbered" (click)="setBlock('orderedList')">1≡</button>
+  <button class="km-fmt-btn" title="Tasks"    (click)="setBlock('taskList')">☑</button>
+
+  <div class="km-fmt-sep"></div>
+
+  <!-- Block elements -->
+  <button class="km-fmt-btn" title="Quote"    (click)="setBlock('blockquote')">❝</button>
+  <button class="km-fmt-btn" title="Callout"  (click)="insertCallout()">💡</button>
+  <button class="km-fmt-btn" title="Divider"  (click)="insertDivider()">—</button>
+  <button class="km-fmt-btn" title="Code block" (click)="setBlock('codeBlock')">{ }</button>
+
+  <div class="km-fmt-sep"></div>
+
+  <!-- Link -->
+  <button class="km-fmt-btn" title="Link" (click)="setLink()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14">
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+    </svg>
+  </button>
+
+  <div class="km-fmt-sep"></div>
+
+  <!-- Indent / Outdent -->
+  <button class="km-fmt-btn" title="Outdent" (click)="outdent()">⇤</button>
+  <button class="km-fmt-btn" title="Indent"  (click)="indent()">⇥</button>
+</div>
+```
+
+Add these two methods to the `DocEditorPage` class:
+
+```typescript
+insertCallout(): void {
+  this.editorSvc.editor?.chain().focus().insertContent({
+    type: 'callout',
+    attrs: { type: 'tip', emoji: '💡' },
+    content: [{ type: 'paragraph' }],
+  }).run();
+}
+
+insertDivider(): void {
+  this.editorSvc.editor?.chain().focus().setHorizontalRule().run();
+}
+```
+
+Also add `taskList` handling to the existing `setBlock()` method:
+
+```typescript
+setBlock(type: BlockType | 'taskList' | 'codeBlock'): void {
+  const e = this.editorSvc.editor;
+  if (!e) return;
+  switch (type) {
+    case 'paragraph':   e.chain().focus().setParagraph().run();              break;
+    case 'heading1':    e.chain().focus().toggleHeading({ level: 1 }).run(); break;
+    case 'heading2':    e.chain().focus().toggleHeading({ level: 2 }).run(); break;
+    case 'heading3':    e.chain().focus().toggleHeading({ level: 3 }).run(); break;
+    case 'bulletList':  e.chain().focus().toggleBulletList().run();          break;
+    case 'orderedList': e.chain().focus().toggleOrderedList().run();         break;
+    case 'taskList':    e.chain().focus().toggleTaskList().run();            break;
+    case 'blockquote':  e.chain().focus().toggleBlockquote().run();          break;
+    case 'codeBlock':   e.chain().focus().toggleCodeBlock().run();           break;
+  }
+  this.cdr.markForCheck();
+}
+```
+
+---
+
+### B5 — Color Extension in Highlight Toolbar
+
+In `highlight-toolbar.component.ts`, ensure the color palette includes a **"Reset color"** button and a professional set of colors:
+
+```typescript
+// Color palette — professional, readable on dark background
+readonly colorPalette = [
+  { hex: null,       label: 'Default',  swatch: 'rgba(255,255,255,0.88)' },  // reset
+  { hex: '#ffffff',  label: 'White',    swatch: '#ffffff' },
+  { hex: '#c9a84c',  label: 'Gold',     swatch: '#c9a84c' },
+  { hex: '#e8c96a',  label: 'Amber',    swatch: '#e8c96a' },
+  { hex: '#5aad88',  label: 'Green',    swatch: '#5aad88' },
+  { hex: '#60a5fa',  label: 'Blue',     swatch: '#60a5fa' },
+  { hex: '#a78bfa',  label: 'Purple',   swatch: '#a78bfa' },
+  { hex: '#f87171',  label: 'Red',      swatch: '#f87171' },
+  { hex: '#fb923c',  label: 'Orange',   swatch: '#fb923c' },
+  { hex: '#94a3b8',  label: 'Muted',    swatch: '#94a3b8' },
+];
+
+// Apply or reset color
+applyColor(hex: string | null): void {
+  const e = this.editorService.editor;
+  if (!e) return;
+  if (hex === null) {
+    e.chain().focus().unsetColor().run();  // reset to default
+  } else {
+    e.chain().focus().setColor(hex).run();
+  }
+}
+```
+
+```html
+<!-- Color row in highlight toolbar template -->
+<div class="km-hl-colors">
+  @for (c of colorPalette; track c.label) {
+    <button class="km-hl-color-dot"
+            [style.background]="c.swatch"
+            [title]="c.label"
+            [class.selected]="currentColor() === c.hex"
+            (click)="applyColor(c.hex)">
+      @if (c.hex === null) {
+        <!-- Reset icon -->
+        <svg viewBox="0 0 10 10" width="10" height="10">
+          <line x1="2" y1="2" x2="8" y2="8" stroke="rgba(0,0,0,0.5)" stroke-width="1.5"/>
+          <line x1="8" y1="2" x2="2" y2="8" stroke="rgba(0,0,0,0.5)" stroke-width="1.5"/>
+        </svg>
+      }
     </button>
   }
 </div>
 ```
 
-```typescript
-readonly variants = [
-  { type: 'tip',     emoji: '💡', label: 'Tip' },
-  { type: 'info',    emoji: 'ℹ️', label: 'Info' },
-  { type: 'warning', emoji: '⚠️', label: 'Warning' },
-  { type: 'danger',  emoji: '🚨', label: 'Danger' },
-  { type: 'success', emoji: '✅', label: 'Success' },
-  { type: 'quote',   emoji: '💬', label: 'Quote' },
-];
+---
+
+## PART C — Issue-by-Issue Fix Checklist
+
+```
+══════════════════════════════════════════════════════
+PRIORITY 1 — Move styles to global (fixes all :global() unreliability)
+══════════════════════════════════════════════════════
+[ ] Create apps/app-k-maps/src/app/features/docs/doc-editor/_editor.scss
+    → Full content from Part B Section 1
+[ ] Add @use import at end of global.scss
+[ ] Delete all :global(.ProseMirror ...) rules from doc-editor.page.ts styles
+[ ] Keep only component-scoped rules in styles (title input, save label, panel)
+
+══════════════════════════════════════════════════════
+PRIORITY 2 — Fix H1 gradient + Color extension on headings
+══════════════════════════════════════════════════════
+[ ] Remove -webkit-text-fill-color: transparent from H1
+[ ] Remove background-clip: text from H1
+[ ] Set H1 color: rgba(255,255,255,0.97) — solid white, no gradient
+[ ] Add universal fix: span[style*="color"] { -webkit-text-fill-color: currentColor !important }
+    → This makes Color extension work on ALL elements including headings
+
+══════════════════════════════════════════════════════
+PRIORITY 3 — Fix blockquote font (was showing monospace)
+══════════════════════════════════════════════════════
+[ ] Add font-family: var(--ion-font-family) !important to blockquote
+[ ] Add font-family: inherit !important to blockquote p
+[ ] Once styles move to _editor.scss this will apply reliably
+
+══════════════════════════════════════════════════════
+PRIORITY 4 — Callout improvements
+══════════════════════════════════════════════════════
+[ ] Add callout placeholder CSS (empty state shows "Write a note…")
+[ ] Add font-family: var(--ion-font-family) !important to .km-callout__content
+[ ] Add font-family: inherit !important to .km-callout__content p
+[ ] Ensure Color extension works inside callout (span[style*="color"] override)
+
+══════════════════════════════════════════════════════
+PRIORITY 5 — Bottom toolbar additions
+══════════════════════════════════════════════════════
+[ ] Add Divider button (—) → calls insertDivider()
+[ ] Add Callout button (💡) → calls insertCallout()
+[ ] Add Task list button (☑) → calls setBlock('taskList')
+[ ] Add Code Block button ({ }) → calls setBlock('codeBlock')
+[ ] Add insertCallout() method to DocEditorPage
+[ ] Add insertDivider() method to DocEditorPage
+[ ] Update setBlock() to handle 'taskList' and 'codeBlock'
+
+══════════════════════════════════════════════════════
+PRIORITY 6 — Color picker in highlight toolbar
+══════════════════════════════════════════════════════
+[ ] Replace any ad-hoc color swatches with the professional palette
+[ ] Add "Default / Reset" swatch (null → unsetColor())
+[ ] Palette: Default, White, Gold, Amber, Green, Blue, Purple, Red, Orange, Muted
+[ ] Show current active color with border highlight on selected swatch
+
+══════════════════════════════════════════════════════
+PRIORITY 7 — Divider visual polish
+══════════════════════════════════════════════════════
+[ ] Ensure .km-doc-editor-el .ProseMirror hr ::after has same background
+    color as page background (rgba fill won't work — must match bg exactly)
+[ ] Add cursor: default to hr so clicking doesn't show text cursor
+[ ] Verify diamond ornament appears at 50% width on mobile screen widths
+
+══════════════════════════════════════════════════════
+VERIFY AFTER ALL CHANGES
+══════════════════════════════════════════════════════
+[ ] H1 appears white (not blue gradient)
+[ ] Apply blue color via toolbar → H1 text turns blue ✓
+[ ] Apply purple color via toolbar → H2 text turns purple ✓
+[ ] Clear/reset color → heading returns to white ✓
+[ ] Blockquote shows: gold left border + Poppins font (not monospace) ✓
+[ ] Callout empty → shows "Write a note…" placeholder ✓
+[ ] Callout with text → text shows in Poppins, correct color ✓
+[ ] Color applied inside callout → shows correctly ✓
+[ ] Divider button in footer → inserts diamond HR ✓
+[ ] Callout button in footer → inserts tip callout ✓
+[ ] Task list button → inserts checkbox list ✓
+[ ] Arabic text in paragraph → auto-detects RTL, shows AmiriQuran font ✓
+[ ] Quran embed → renders beautifully (already works, keep it) ✓
+[ ] No requestAnimationFrame violations in Safari/Chrome perf tab ✓
 ```
 
 ---
 
-## 4. Slash Command — Add Missing Base Blocks
+## PART D — Typography Reference (Final Numbers)
 
-Open `slash-menu/slash-menu.config.ts` and add these entries to the existing registry:
-
-### Missing Blocks to Add
-
-```typescript
-// Add to SLASH_ITEMS array — in the appropriate group
-
-// ── TEXT GROUP additions ──────────────────────────────────────
-{
-  id: 'callout-tip',
-  title: 'Callout',
-  description: 'Colored callout box with emoji',
-  icon: '💡',
-  keywords: ['callout', 'note', 'box', 'highlight'],
-  group: 'text',
-  command: (editor) => editor.chain().focus()
-    .insertContent({
-      type: 'callout',
-      attrs: { type: 'tip', emoji: '💡' },
-      content: [{ type: 'paragraph' }],
-    })
-    .run(),
-},
-{
-  id: 'callout-info',
-  title: 'Info',
-  description: 'Blue information callout',
-  icon: 'ℹ️',
-  keywords: ['info', 'information', 'callout'],
-  group: 'text',
-  command: (editor) => editor.chain().focus()
-    .insertContent({ type: 'callout', attrs: { type: 'info', emoji: 'ℹ️' }, content: [{ type: 'paragraph' }] })
-    .run(),
-},
-{
-  id: 'callout-warning',
-  title: 'Warning',
-  description: 'Yellow warning callout',
-  icon: '⚠️',
-  keywords: ['warning', 'caution', 'callout'],
-  group: 'text',
-  command: (editor) => editor.chain().focus()
-    .insertContent({ type: 'callout', attrs: { type: 'warning', emoji: '⚠️' }, content: [{ type: 'paragraph' }] })
-    .run(),
-},
-
-// ── LIST GROUP additions ──────────────────────────────────────
-{
-  id: 'todo',
-  title: 'Task List',
-  description: 'Checkboxes for to-do items',
-  icon: '☑',
-  keywords: ['todo', 'task', 'checklist', 'checkbox', 'check'],
-  group: 'list',
-  command: (editor) => editor.chain().focus().toggleTaskList().run(),
-},
-```
-
-### Slash Menu Visual Grouping
-
-Ensure groups are labeled and visually separated in `slash-command.extension.ts`:
-
-```typescript
-// Groups config — ordered display
-export const SLASH_GROUPS = [
-  { key: 'text',       label: 'Text & Media' },
-  { key: 'list',       label: 'Lists' },
-  { key: 'quran',      label: 'Quran ۝' },
-  { key: 'arabic',     label: 'Arabic ع' },
-  { key: 'worldview',  label: 'Worldview 🌍' },
-] as const;
-```
-
----
-
-## 5. Task List — Add to Extension List
-
-In `doc-editor.service.ts`, add TaskList and TaskItem to the Tiptap extensions array:
-
-```typescript
-import { TaskList } from '@tiptap/extension-task-list';
-import { TaskItem } from '@tiptap/extension-task-item';
-
-// In initEditor extensions array, add after StarterKit:
-TaskList,
-TaskItem.configure({ nested: true }),
-```
-
-Install packages if not already installed:
-
-```bash
-npm install @tiptap/extension-task-list @tiptap/extension-task-item
-```
-
----
-
-## 6. Document Header — Notion-Like Page Title
-
-Update `doc-editor.component.html` to add an emoji/icon slot before the title (like Notion):
-
-```html
-<div class="km-docs-shell">
-  <header class="km-doc-topbar">
-
-    <!-- Notion-style: emoji icon + expandable title -->
-    <div class="km-doc-header-row">
-      <!-- Emoji icon (optional, click to pick) -->
-      <button class="km-doc-icon" (click)="pickIcon()" title="Add icon">
-        {{ editorSvc.icon() || '📄' }}
-      </button>
-
-      <!-- Editable title -->
-      <input class="km-doc-title"
-             [(ngModel)]="titleModel"
-             (ngModelChange)="onTitleChange($event)"
-             placeholder="Untitled"
-             (keydown.enter)="focusEditor()" />
-    </div>
-
-    <!-- Status bar -->
-    <div class="km-doc-meta">
-      <span class="km-doc-save-status" [class.saving]="editorSvc.isSaving()" [class.dirty]="editorSvc.isDirty()">
-        @if (editorSvc.isSaving()) { Saving… }
-        @else if (editorSvc.isDirty()) { Unsaved }
-        @else { Saved ✓ }
-      </span>
-      <span class="km-doc-sep">·</span>
-      <span class="km-doc-wordcount">{{ editorSvc.wordCount() }} words</span>
-    </div>
-  </header>
-
-  <div class="km-doc-body">
-    <main class="km-doc-editor-wrap">
-      <div #editorEl class="km-doc-editor-el"></div>
-    </main>
-    <km-doc-right-panel />
-  </div>
-
-  <km-highlight-toolbar />
-</div>
-```
-
-### Header SCSS additions
-
-```scss
-.km-doc-header-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 32px 0 8px;
-}
-
-.km-doc-icon {
-  font-size: 2rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-  border-radius: 6px;
-  transition: background 0.15s;
-  flex-shrink: 0;
-
-  &:hover { background: var(--km-surface-2); }
-}
-
-.km-doc-title {
-  font-size: 2rem;
-  font-weight: 700;
-  font-family: var(--km-font-body);
-  color: var(--km-text);
-  background: none;
-  border: none;
-  outline: none;
-  width: 100%;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-
-  &::placeholder { color: var(--km-text-3); }
-}
-
-.km-doc-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 0 16px;
-  font-size: 0.78rem;
-  color: var(--km-text-3);
-}
-
-.km-doc-save-status {
-  &.saving { color: var(--km-text-3); }
-  &.dirty  { color: #f59e0b; }
-  &:not(.saving):not(.dirty) { color: #22c55e; }
-}
-```
-
----
-
-## 7. Heading Size Reference Table
-
-For the `doc-editor.component.html` title input and the Tiptap editor headings to feel cohesive:
-
-| Element | Font size | Weight | Line height | Color |
+| Element | Size | Weight | Color | Notes |
 |---|---|---|---|---|
-| **Page title** (input) | `2rem` (32px) | 700 | 1.25 | `--km-text` |
-| **H1** (in editor) | `1.875rem` (30px) | 700 | 1.25 | `--km-text` |
-| **H2** (in editor) | `1.375rem` (22px) | 600 | 1.3 | `--km-text` |
-| **H3** (in editor) | `1.125rem` (18px) | 600 | 1.35 | `--km-text-2` |
-| **Body text** | `1rem` (16px) | 400 | 1.75 | `--km-text` |
-| **Code** | `0.875rem` (14px) | 400 | 1.6 | `--km-text` |
-
-The page title is intentionally slightly larger than H1 to create a clear document → section hierarchy.
-
----
-
-## 8. Keyboard Shortcuts — Complete Reference
-
-Verify all these work after the refactor (StarterKit + domain extensions):
-
-| Block | Shortcut | Input Rule |
-|---|---|---|
-| H1 | `Mod+Alt+1` | `# ` |
-| H2 | `Mod+Alt+2` | `## ` |
-| H3 | `Mod+Alt+3` | `### ` |
-| Quote | `Mod+Shift+B` | `> ` |
-| Divider | — | `---` |
-| Bullet list | `Mod+Shift+8` | `- ` or `* ` |
-| Ordered list | `Mod+Shift+7` | `1. ` |
-| Task list | `Mod+Shift+9` | `[ ] ` |
-| Code block | `Mod+Alt+C` | ` ``` ` |
-| Bold | `Mod+B` | `**text**` |
-| Italic | `Mod+I` | `_text_` |
-| Code inline | `Mod+E` | `` `text` `` |
-| Underline | `Mod+U` | — |
-| Strike | `Mod+Shift+S` | `~~text~~` |
+| H1 | `1.92rem` | 800 | `rgba(255,255,255,0.97)` | No gradient. Color ext works. |
+| H2 | `1.38rem` | 700 | `rgba(255,255,255,0.92)` | Subtle bottom border |
+| H3 | `1.14rem` | 600 | `rgba(255,255,255,0.76)` | Slightly muted |
+| H4 | `0.76rem` | 700 | `rgba(201,168,76,0.82)` | Gold, all-caps label |
+| Body | `1.02rem` | 400 | `rgba(255,255,255,0.88)` | 1.82 line-height |
+| Blockquote | `1.02rem` | 400 | `rgba(255,255,255,0.82)` | Gold left border, Poppins |
+| Code inline | `0.86em` | 400 | `#e8a87c` | Warm orange on dark |
+| Code block | `0.84rem` | 400 | `rgba(255,255,255,0.88)` | Dark bg, gold shimmer top |
+| Callout body | `0.975rem` | 400 | `rgba(255,255,255,0.88)` | User color overrides apply |
 
 ---
 
-## 9. Migration Checklist
-
-```
-Fix rAF Violations (Priority 1)
-  [ ] Remove nested requestAnimationFrame in animateContentIn()
-  [ ] Add 50ms debounce gate to MutationObserver in watchForNewBlocks()
-  [ ] Wrap wordCount.set() in queueMicrotask() in doc-editor.service.ts
-  [ ] Wrap auto-direction scan in queueMicrotask() in auto-direction.extension.ts
-
-Typography Upgrade (Priority 2)
-  [ ] Update heading sizes (H1: 1.875rem, H2: 1.375rem, H3: 1.125rem)
-  [ ] Update blockquote styling with opening quote mark
-  [ ] Update code/pre block styling with warm orange inline code color
-  [ ] Add task list SCSS (checkbox + strikethrough on checked)
-  [ ] Keep existing HR diamond ornament
-
-Callout Refactor (Priority 3)
-  [ ] Add 'type' and 'emoji' attributes to callout.extension.ts
-  [ ] Add 6 callout variants with correct CSS classes
-  [ ] Add callout variant SCSS
-  [ ] (Optional) Add emoji picker for callout type switching
-
-Slash Command (Priority 4)
-  [ ] Add Callout (tip/info/warning) entries
-  [ ] Add Task List entry
-  [ ] Add group labels to menu UI
-
-Task List Extension (Priority 5)
-  [ ] npm install @tiptap/extension-task-list @tiptap/extension-task-item
-  [ ] Add to extension list in doc-editor.service.ts
-
-Page Header Polish (Priority 6)
-  [ ] Add icon/emoji slot before title input
-  [ ] Update save status display (colors: yellow=unsaved, green=saved)
-  [ ] Add focusEditor() method to jump from title to editor on Enter
-
-Verify
-  [ ] Open Chrome DevTools Performance tab — confirm zero rAF violations
-  [ ] Test slash menu: all 3 callout types, task list, heading shortcuts
-  [ ] Test Arabic content: RTL detection still works after debounce fix
-  [ ] Test Quran embed, vocab block, claim block — ensure no regressions
-```
-
----
-
-## 10. File-by-File Change Summary
-
-| File | Change type | What changes |
-|---|---|---|
-| `doc-editor.component.ts` | Fix | `animateContentIn` (remove nested rAF) + `watchForNewBlocks` (add debounce gate) |
-| `doc-editor.component.html` | Enhancement | Add emoji icon slot + richer save status |
-| `doc-editor.component.scss` | Restyle | Full typography update per Section 2 |
-| `doc-editor.service.ts` | Fix | `queueMicrotask` for wordCount in `onUpdate` |
-| `auto-direction.extension.ts` | Fix | `queueMicrotask` for direction scan in `appendTransaction` |
-| `callout.extension.ts` | Extend | Add type/emoji attrs + 6 variant classes |
-| `slash-menu/slash-menu.config.ts` | Extend | Add callout variants + task list |
-| `package.json` | Add deps | `@tiptap/extension-task-list`, `@tiptap/extension-task-item` |
-| All other files | No change | Domain extensions untouched |
-
----
-
-## 11. Ionic Mobile — Complete Component Architecture
-
-Since this is an **Ionic 8 mobile app** (iOS/Android via Capacitor), every component must be designed for touch. This section overrides any web-only patterns above.
-
-### 11a. Ionic Page Shell — `doc-editor.page.ts`
-
-Replace any `<div>` wrappers with proper Ionic components:
-
-```typescript
-@Component({
-  selector: 'app-doc-editor',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <!-- ── Header ─────────────────────────────────────────── -->
-    <ion-header class="ion-no-border km-doc-header" [translucent]="true">
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-back-button defaultHref="/docs" text="" />
-        </ion-buttons>
-
-        <ion-buttons slot="end">
-          <!-- Save indicator -->
-          <span class="km-save-pill"
-                [class.saving]="editorSvc.isSaving()"
-                [class.dirty]="editorSvc.isDirty()">
-            @if (editorSvc.isSaving()) { Saving… }
-            @else if (editorSvc.isDirty()) { • }
-            @else { ✓ }
-          </span>
-          <!-- More options -->
-          <ion-button fill="clear" (click)="openMoreSheet()">
-            <ion-icon slot="icon-only" name="ellipsis-horizontal" />
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-
-    <!-- ── Scrollable Content ─────────────────────────────── -->
-    <ion-content
-      class="km-doc-content"
-      [scrollY]="true"
-      [fullscreen]="true"
-      (ionScrollStart)="onScrollStart()"
-      (ionScrollEnd)="onScrollEnd()">
-
-      <!-- Page cover (optional) -->
-      @if (coverUrl()) {
-        <div class="km-doc-cover"
-             [style.background-image]="'url(' + coverUrl() + ')'">
-        </div>
-      }
-
-      <!-- Page header: icon + title -->
-      <div class="km-doc-header-area ion-padding-horizontal">
-        <button class="km-doc-emoji-btn" (click)="pickEmoji()" [attr.aria-label]="'Change icon'">
-          {{ emoji() }}
-        </button>
-        <ion-textarea
-          class="km-doc-title-area"
-          [(ngModel)]="title"
-          [autoGrow]="true"
-          [rows]="1"
-          placeholder="Untitled"
-          (ionInput)="onTitleChange()"
-          (keydown.enter)="$event.preventDefault(); focusEditor()"
-        />
-      </div>
-
-      <!-- Tiptap editor mount -->
-      <div #editorMount
-           class="km-editor-mount ion-padding-horizontal"
-           (click)="onEditorAreaClick($event)">
-      </div>
-
-    </ion-content>
-
-    <!-- ── Floating Formatting Toolbar (above keyboard) ────── -->
-    @if (showToolbar() && toolbarPos()) {
-      <div class="km-floating-toolbar"
-           [style.bottom.px]="keyboardHeight() + 8">
-        <km-format-toolbar [editor]="editor()" />
-      </div>
-    }
-
-    <!-- ── Slash Menu (positioned above cursor) ─────────────── -->
-    <km-slash-menu />
-
-    <!-- ── Word count — bottom safe area ────────────────────── -->
-    <div class="km-word-count-bar">
-      {{ editorSvc.wordCount() }} words
-    </div>
-  `,
-  imports: [
-    IonHeader, IonToolbar, IonButtons, IonBackButton,
-    IonButton, IonIcon, IonContent, IonTextarea,
-    NgModel, NgIf, AsyncPipe,
-    FormatToolbarComponent, SlashMenuComponent,
-  ],
-})
-export class DocEditorPage implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('editorMount') editorMount!: ElementRef<HTMLDivElement>;
-
-  readonly title        = signal('');
-  readonly emoji        = signal('📝');
-  readonly coverUrl     = signal<string | null>(null);
-  readonly showToolbar  = signal(false);
-  readonly toolbarPos   = signal<{ bottom: number } | null>(null);
-  readonly keyboardHeight = signal(0);
-  readonly editor       = computed(() => this.editorSvc.getEditor());
-
-  private keyboardListeners: PluginListenerHandle[] = [];
-
-  constructor(
-    readonly editorSvc: DocEditorService,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-  ) {}
-
-  async ngOnInit(): Promise<void> {
-    // Track virtual keyboard height (Capacitor Keyboard plugin)
-    this.keyboardListeners.push(
-      await Keyboard.addListener('keyboardWillShow', ({ keyboardHeight }) => {
-        this.keyboardHeight.set(keyboardHeight);
-      }),
-      await Keyboard.addListener('keyboardWillHide', () => {
-        this.keyboardHeight.set(0);
-        this.showToolbar.set(false);
-      }),
-    );
-  }
-
-  ngAfterViewInit(): void {
-    this.editorSvc.initEditor(this.editorMount.nativeElement);
-
-    // Selection → show formatting toolbar above keyboard
-    this.editorSvc.getEditor()?.on('selectionUpdate', ({ editor }) => {
-      const { from, to } = editor.state.selection;
-      this.showToolbar.set(from !== to);
-    });
-  }
-
-  focusEditor(): void {
-    this.editorSvc.getEditor()?.commands.focus('end');
-  }
-
-  onEditorAreaClick(event: Event): void {
-    // If click is in blank area below content, move cursor to end
-    const pm = this.editorMount.nativeElement.querySelector('.ProseMirror');
-    if (event.target === this.editorMount.nativeElement || event.target === pm) {
-      this.editorSvc.getEditor()?.commands.focus('end');
-    }
-  }
-
-  async openMoreSheet(): Promise<void> {
-    const sheet = await this.actionSheetCtrl.create({
-      buttons: [
-        { text: 'Export', icon: 'download-outline', handler: () => this.exportDoc() },
-        { text: 'Share', icon: 'share-outline', handler: () => this.shareDoc() },
-        { text: 'Delete', icon: 'trash-outline', role: 'destructive', handler: () => this.confirmDelete() },
-        { text: 'Cancel', role: 'cancel' },
-      ],
-    });
-    await sheet.present();
-  }
-
-  async pickEmoji(): Promise<void> {
-    // Use an Ionic modal for emoji picking on mobile
-    const modal = await this.modalCtrl.create({
-      component: EmojiPickerComponent,
-      breakpoints: [0, 0.5],
-      initialBreakpoint: 0.5,
-    });
-    await modal.present();
-    const { data } = await modal.onWillDismiss();
-    if (data?.emoji) this.emoji.set(data.emoji);
-  }
-
-  async ngOnDestroy(): Promise<void> {
-    this.editorSvc.destroyEditor();
-    for (const l of this.keyboardListeners) await l.remove();
-  }
-}
-```
-
-### 11b. Ionic-Specific SCSS
-
-The Ionic shell wraps the ProseMirror editor. Mobile styling must account for safe areas, dynamic keyboard height, and touch targets.
-
-```scss
-// doc-editor.page.scss
-
-// ── Ion Header ───────────────────────────────────────────────
-ion-header.km-doc-header {
-  --background: var(--km-bg);
-  border-bottom: 1px solid var(--km-border);
-}
-
-// ── Ion Content ──────────────────────────────────────────────
-ion-content.km-doc-content {
-  --background: var(--km-bg);
-  --padding-top: 0;
-  --padding-start: 0;
-  --padding-end: 0;
-  --padding-bottom: 0;
-}
-
-// ── Page Cover ───────────────────────────────────────────────
-.km-doc-cover {
-  width: 100%;
-  height: 180px;
-  background-size: cover;
-  background-position: center 30%;
-  background-color: var(--km-surface-2);
-}
-
-// ── Document Header Area ─────────────────────────────────────
-.km-doc-header-area {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding-top: 28px;
-  padding-bottom: 4px;
-}
-
-.km-doc-emoji-btn {
-  font-size: 2.2rem;
-  line-height: 1;
-  background: none;
-  border: none;
-  padding: 4px;
-  border-radius: 8px;
-  cursor: pointer;
-  flex-shrink: 0;
-  min-width: 44px;   // ← 44px minimum touch target (Apple HIG)
-  min-height: 44px;
-  display: grid;
-  place-items: center;
-  -webkit-tap-highlight-color: transparent;
-
-  &:active { background: var(--km-surface-2); }
-}
-
-.km-doc-title-area {
-  --background: transparent;
-  --padding-top: 4px;
-  --padding-bottom: 4px;
-  --padding-start: 0;
-  --padding-end: 0;
-  font-size: 1.875rem;
-  font-weight: 700;
-  font-family: var(--km-font-body);
-  color: var(--km-text);
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-  flex: 1;
-
-  &::part(native) {
-    padding: 0;
-    font-size: inherit;
-    font-weight: inherit;
-    font-family: inherit;
-    color: inherit;
-    letter-spacing: inherit;
-    line-height: inherit;
-  }
-
-  &::part(textarea) {
-    padding: 0;
-  }
-}
-
-// ── Editor Mount ─────────────────────────────────────────────
-.km-editor-mount {
-  padding-top: 12px;
-  // Bottom padding = keyboard height + formatting toolbar + safe area
-  padding-bottom: max(
-    env(safe-area-inset-bottom, 0px) + 120px,
-    calc(var(--kb-height, 0px) + 80px)
-  );
-  min-height: 60vh;  // ensure tappable empty space
-  cursor: text;
-}
-
-// ── Editor Content (ProseMirror) ─────────────────────────────
-.km-editor-mount .ProseMirror {
-  outline: none;
-  caret-color: var(--km-gold);
-  font-family: var(--km-font-body);
-  font-size: 16px;   // ← NEVER below 16px on mobile (prevents iOS zoom)
-  color: var(--km-text);
-  line-height: 1.75;
-
-  // Paragraph
-  p {
-    margin: 0 0 2px;
-    min-height: 1.75em;
-  }
-
-  // Headings — mobile sizes (slightly smaller than desktop)
-  h1 {
-    font-size: 1.625rem;   // 26px on mobile
-    font-weight: 700;
-    margin: 1.2em 0 4px;
-    line-height: 1.2;
-    &:first-child { margin-top: 0.4em; }
-  }
-  h2 {
-    font-size: 1.25rem;    // 20px on mobile
-    font-weight: 600;
-    margin: 1em 0 3px;
-  }
-  h3 {
-    font-size: 1.0625rem;  // 17px on mobile (stays above 16px base)
-    font-weight: 600;
-    margin: 0.9em 0 2px;
-    color: var(--km-text-2);
-  }
-
-  // All other typography: same as Section 2
-  // (blockquote, code, lists, callout, etc.)
-}
-
-// ── Floating Formatting Toolbar ──────────────────────────────
-.km-floating-toolbar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  padding: 0 8px;
-  pointer-events: none;
-
-  > km-format-toolbar {
-    pointer-events: all;
-    background: var(--km-surface);
-    border: 1px solid var(--km-border);
-    border-radius: 12px;
-    padding: 6px 10px;
-    display: flex;
-    gap: 4px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.22);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    max-width: 100%;
-    overflow-x: auto;
-
-    // Touch-friendly button size
-    button {
-      min-width: 36px;
-      min-height: 36px;
-      border: none;
-      background: none;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--km-text-2);
-      display: grid;
-      place-items: center;
-      -webkit-tap-highlight-color: transparent;
-
-      &:active  { background: var(--km-surface-2); }
-      &.is-active { background: var(--km-gold); color: #000; }
-    }
-
-    .sep {
-      width: 1px;
-      height: 22px;
-      background: var(--km-border);
-      margin: auto 2px;
-      flex-shrink: 0;
-    }
-  }
-}
-
-// ── Slash Menu (full-width bottom sheet on mobile) ────────────
-:host ::ng-deep .km-slash-menu {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
-  background: var(--km-surface);
-  border-radius: 16px 16px 0 0;
-  border: 1px solid var(--km-border);
-  border-bottom: none;
-  box-shadow: 0 -8px 40px rgba(0,0,0,0.25);
-  max-height: 55vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-
-  // Drag handle
-  &::before {
-    content: '';
-    display: block;
-    width: 36px;
-    height: 4px;
-    background: var(--km-border);
-    border-radius: 2px;
-    margin: 10px auto 4px;
-    flex-shrink: 0;
-  }
-
-  // Search input
-  .km-slash-search {
-    padding: 8px 16px 12px;
-    border-bottom: 1px solid var(--km-border);
-    flex-shrink: 0;
-
-    input {
-      width: 100%;
-      background: var(--km-surface-2);
-      border: none;
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 16px;  // ← prevent iOS zoom
-      color: var(--km-text);
-      outline: none;
-    }
-  }
-
-  // Scrollable items
-  .km-slash-items {
-    overflow-y: auto;
-    flex: 1;
-    padding: 8px 0 env(safe-area-inset-bottom, 16px);
-    -webkit-overflow-scrolling: touch;
-  }
-
-  // Group label
-  .km-slash-group-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--km-text-3);
-    padding: 10px 16px 4px;
-  }
-
-  // Item — full touch target
-  .km-slash-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 16px;   // generous touch target
-    min-height: 56px;
-    -webkit-tap-highlight-color: transparent;
-    cursor: pointer;
-
-    &__icon {
-      width: 36px;
-      height: 36px;
-      background: var(--km-surface-2);
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    &__title { font-size: 0.9375rem; font-weight: 500; color: var(--km-text); }
-    &__desc  { font-size: 0.8125rem; color: var(--km-text-3); margin-top: 1px; }
-
-    &:active, &--selected {
-      background: var(--km-surface-2);
-      .km-slash-item__icon { background: var(--km-gold); color: #000; }
-    }
-  }
-}
-
-// ── Save Indicator ────────────────────────────────────────────
-.km-save-pill {
-  font-size: 0.8rem;
-  padding: 3px 8px;
-  border-radius: 20px;
-  margin-right: 4px;
-
-  &.saving { color: var(--km-text-3); }
-  &.dirty  { color: #f59e0b; font-size: 1.2rem; line-height: 1; }
-  &:not(.saving):not(.dirty) { color: #22c55e; }
-}
-
-// ── Word Count ────────────────────────────────────────────────
-.km-word-count-bar {
-  position: fixed;
-  bottom: env(safe-area-inset-bottom, 8px);
-  right: 16px;
-  font-size: 0.72rem;
-  color: var(--km-text-3);
-  pointer-events: none;
-  z-index: 10;
-}
-```
-
-### 11c. Capacitor Keyboard Integration
-
-Install and configure the Capacitor Keyboard plugin:
-
-```bash
-npm install @capacitor/keyboard
-npx cap sync
-```
-
-In `doc-editor.page.ts` (already shown above) and in your global `app.component.ts` or `main.ts`, sync the keyboard height to a CSS variable so all components can respond:
-
-```typescript
-// app.component.ts — global keyboard CSS var
-import { Keyboard } from '@capacitor/keyboard';
-import { Capacitor } from '@capacitor/core';
-
-if (Capacitor.isNativePlatform()) {
-  Keyboard.addListener('keyboardWillShow', ({ keyboardHeight }) => {
-    document.documentElement.style.setProperty('--kb-height', `${keyboardHeight}px`);
-  });
-  Keyboard.addListener('keyboardWillHide', () => {
-    document.documentElement.style.setProperty('--kb-height', '0px');
-  });
-}
-```
-
-Then in SCSS you can use `var(--kb-height, 0px)` anywhere.
-
-### 11d. Touch Interactions
-
-**Long-press → Block Options (replace right-click)**
-
-On mobile, users can't right-click. The existing `block-handle.ts` uses a ⋮⋮ grip — keep it but ensure touch targets are `min 44×44px`:
-
-```scss
-// block-handle.ts rendered element
-.km-block-handle {
-  min-width: 44px;
-  min-height: 44px;
-  display: grid;
-  place-items: center;
-  -webkit-tap-highlight-color: transparent;
-}
-```
-
-**Tap to select block** — on iOS, the ProseMirror `contenteditable` tap behavior is correct by default. Ensure no `pointer-events: none` is accidentally applied to block wrappers.
-
-**Drag to reorder** — requires `touch-action: none` on the draggable element:
-
-```scss
-.km-block-grip { touch-action: none; }
-```
-
-### 11e. Mobile Slash Menu — Bottom Sheet Instead of Popover
-
-On web the slash menu appears near the cursor (floating popover). On mobile, always open as a **bottom sheet** — it's unreachable near the cursor when the keyboard is up.
-
-Detect platform in the slash command extension:
-
-```typescript
-import { Capacitor } from '@capacitor/core';
-
-// In slash-command.extension.ts renderMenu function:
-const isMobile = Capacitor.isNativePlatform();
-
-if (isMobile) {
-  // Open bottom sheet via SlashMenuService signal
-  slashMenuService.openBottomSheet(query);
-} else {
-  // Desktop: position near cursor
-  slashMenuService.openPopover(query, coordsAtCursor);
-}
-```
-
-### 11f. Font Size Safety
-
-**Never use font sizes below 16px inside `contenteditable` on iOS** — Safari auto-zooms the viewport if input font-size < 16px, which breaks the editor layout.
-
-```typescript
-// In Tiptap editorProps, ensure minimum font size
-editorProps: {
-  attributes: {
-    class: 'km-editor',
-    style: 'font-size: 16px',  // ← iOS zoom prevention
-  },
-},
-```
-
-### 11g. Safe Area Insets
-
-All bottom-fixed elements must respect the iPhone home indicator:
-
-```scss
-// Applied to: floating toolbar, slash menu, word count bar, any fixed bottom elements
-padding-bottom: env(safe-area-inset-bottom, 0px);
-// or
-bottom: max(16px, env(safe-area-inset-bottom, 16px));
-```
-
-In `capacitor.config.ts`:
-
-```typescript
-ios: {
-  contentInset: 'automatic',
-}
-```
-
----
-
-## 12. Mobile Migration Checklist (additions to Section 9)
-
-```
-Ionic / Capacitor Mobile (Priority 0 — before everything else)
-  [ ] Replace <div> page shell with ion-header + ion-content + ion-toolbar
-  [ ] Replace <input> title with ion-textarea (auto-grow)
-  [ ] Ensure no font-size < 16px in editor content (iOS zoom prevention)
-  [ ] Add Capacitor Keyboard plugin + sync --kb-height CSS var
-  [ ] Apply env(safe-area-inset-bottom) to all fixed bottom elements
-  [ ] Change slash menu to bottom sheet on native platform
-  [ ] Ensure all interactive elements have min 44×44px touch target
-  [ ] Add touch-action: none to draggable block grips
-  [ ] Test on real iOS device: verify no viewport zoom on tap
-  [ ] Test on real Android device: verify keyboard avoidance
-  [ ] Test slash menu bottom sheet: search, keyboard nav, dismiss
-  [ ] Test formatting toolbar: appears above keyboard, all buttons reachable
-  [ ] Test block handle: long-press menu works with touch
-```
+## PART E — What Is Already Working (Don't Touch)
+
+- ✅ Quran verse embed (beautiful — exactly right)
+- ✅ Ayah copy button  
+- ✅ Auto-direction RTL detection for Arabic paragraphs
+- ✅ Block handle (⠿ drag handle on long press)
+- ✅ Slash command menu (/ commands)
+- ✅ Callout picker (tap emoji → change type/emoji)
+- ✅ Nested bullet/ordered lists
+- ✅ Diamond divider ornament design
+- ✅ Word count (via queueMicrotask fix)
+- ✅ Tab/Shift-Tab indent for lists
+- ✅ All domain blocks (Claim, Evidence, Vocab, Morphology, etc.)
