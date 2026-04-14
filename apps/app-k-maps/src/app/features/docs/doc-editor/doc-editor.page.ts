@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnDestroy, ElementRef, ViewChild,
-  inject, ChangeDetectionStrategy, ChangeDetectorRef, signal
+  inject, ChangeDetectionStrategy, ChangeDetectorRef, NgZone, signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +11,6 @@ import { DocEditorService } from '../services/doc-editor.service';
 import { DocSaveService }   from '../services/doc-save.service';
 import { DocRightPanelComponent } from '../doc-right-panel/doc-right-panel.component';
 import { HighlightToolbarComponent } from './highlight-toolbar/highlight-toolbar.component';
-import gsap from 'gsap';
 import { environment } from '../../../../environments/environment';
 
 // ── Block types the bottom toolbar can set ───────────────────────────────────
@@ -895,6 +894,7 @@ export class DocEditorPage implements OnInit, OnDestroy {
   private route      = inject(ActivatedRoute);
   private http       = inject(HttpClient);
   private cdr        = inject(ChangeDetectorRef);
+  private ngZone     = inject(NgZone);
 
   titleModel = '';
   toolbarVisible = signal(false);
@@ -945,13 +945,33 @@ export class DocEditorPage implements OnInit, OnDestroy {
           const title = (doc['title'] as string) ?? 'Untitled';
           this.editorSvc.title.set(title);
           this.titleModel = title;
-          this.editorSvc.initEditor(this.editorEl.nativeElement);
-          try {
-            const json = typeof doc['document_json'] === 'string'
-              ? JSON.parse(doc['document_json'] as string)
-              : doc['document_json'];
-            this.editorSvc.editor?.commands.setContent(json as never);
-          } catch { /* empty doc */ }
+
+          /*
+           * Run editor init + setContent OUTSIDE Angular zone.
+           * HttpClient subscribes inside zone by default — every TipTap
+           * transaction fired by setContent would otherwise trigger a full
+           * Angular change-detection cycle, locking the main thread for
+           * hundreds of ms per node (15+ nodes = seconds of freeze).
+           */
+          this.ngZone.runOutsideAngular(() => {
+            this.editorSvc.initEditor(this.editorEl.nativeElement);
+
+            // Suppress onUpdate dirty/save during initial content load
+            this.editorSvc.isLoadingContent = true;
+            try {
+              const json = typeof doc['document_json'] === 'string'
+                ? JSON.parse(doc['document_json'] as string)
+                : doc['document_json'];
+              this.editorSvc.editor?.commands.setContent(json as never);
+            } catch { /* empty doc */ }
+            this.editorSvc.isLoadingContent = false;
+
+            // Sync word count once after load (don't need zone for signal)
+            const words = this.editorSvc.editor?.storage['characterCount']?.words() ?? 0;
+            this.editorSvc.wordCount.set(words);
+          });
+
+          // Re-enter zone for UI update + animations
           this.cdr.markForCheck();
           requestAnimationFrame(() => {
             this.animateContentIn();
@@ -959,7 +979,9 @@ export class DocEditorPage implements OnInit, OnDestroy {
           });
         });
       } else {
-        this.editorSvc.initEditor(this.editorEl.nativeElement);
+        this.ngZone.runOutsideAngular(() => {
+          this.editorSvc.initEditor(this.editorEl.nativeElement);
+        });
         requestAnimationFrame(() => this.animateContentIn());
       }
     });
@@ -1031,43 +1053,94 @@ export class DocEditorPage implements OnInit, OnDestroy {
   }
 
   // ── Animations ────────────────────────────────────────────────────────────
+  /**
+   * Fade-in blocks using CSS transitions, not GSAP.
+   * GSAP's global ticker runs outside Angular zone but still consumes rAF
+   * budget for ~0.8 s on a 20-block document.  CSS transitions are handled
+   * by the compositor thread and have no JS rAF cost.
+   */
   private animateContentIn(): void {
     const pm = this.editorEl.nativeElement.querySelector('.ProseMirror');
     if (!pm) return;
-    const blocks = (Array.from(pm.children) as HTMLElement[]).slice(0, 20);
+    const blocks = (Array.from(pm.children) as HTMLElement[]).slice(0, 24) as HTMLElement[];
     if (blocks.length <= 1) return;
+
+    // Prime: hide all blocks (synchronous — happens before paint)
+    for (const el of blocks) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(6px)';
+      el.style.transition = 'none';
+    }
+
+    // On next paint: start CSS transitions with staggered delay
     requestAnimationFrame(() => {
-      gsap.fromTo(blocks,
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.3, stagger: 0.025, ease: 'power2.out', clearProps: 'transform,opacity' }
-      );
+      for (let i = 0; i < blocks.length; i++) {
+        const delay = i * 20; // 20 ms stagger
+        blocks[i].style.transition = `opacity 0.26s ease ${delay}ms, transform 0.26s ease ${delay}ms`;
+        blocks[i].style.opacity    = '1';
+        blocks[i].style.transform  = 'translateY(0)';
+      }
+      // Strip inline styles once animation is done so they don't interfere
+      const cleanup = blocks.length * 20 + 300;
+      setTimeout(() => {
+        for (const el of blocks) {
+          el.style.opacity    = '';
+          el.style.transform  = '';
+          el.style.transition = '';
+        }
+      }, cleanup);
     });
   }
 
   private watchForNewBlocks(): void {
     const pm = this.editorEl.nativeElement.querySelector('.ProseMirror');
     if (!pm || this.mutationObserver) return;
+
     const animated = new WeakSet<Element>();
+    // Pending nodes accumulated across a burst of mutations — animated in one rAF
+    const pending: HTMLElement[] = [];
+    let rafId: number | null = null;
+
+    const flush = () => {
+      rafId = null;
+      const batch = pending.splice(0); // drain
+      for (const node of batch) {
+        if (node.tagName === 'HR') {
+          node.style.transform  = 'scaleX(0)';
+          node.style.opacity    = '0';
+          node.style.transition = 'none';
+          requestAnimationFrame(() => {
+            node.style.transition = 'transform 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease';
+            node.style.transform  = 'scaleX(1)';
+            node.style.opacity    = '1';
+            setTimeout(() => { node.style.transform = ''; node.style.opacity = ''; node.style.transition = ''; }, 450);
+          });
+        } else {
+          node.style.opacity    = '0';
+          node.style.transform  = 'translateY(8px)';
+          node.style.transition = 'none';
+          requestAnimationFrame(() => {
+            node.style.transition = 'opacity 0.24s ease, transform 0.24s ease';
+            node.style.opacity    = '1';
+            node.style.transform  = 'translateY(0)';
+            setTimeout(() => { node.style.opacity = ''; node.style.transform = ''; node.style.transition = ''; }, 280);
+          });
+        }
+      }
+    };
+
     this.mutationObserver = new MutationObserver(mutations => {
       for (const m of mutations) {
         m.addedNodes.forEach(node => {
           if (!(node instanceof HTMLElement)) return;
           if (animated.has(node)) return;
           animated.add(node);
-          if (node.tagName === 'HR') {
-            // Divider: scale in from center
-            gsap.fromTo(node,
-              { scaleX: 0, opacity: 0 },
-              { scaleX: 1, opacity: 1, duration: 0.45, ease: 'power3.out', clearProps: 'transform,opacity' }
-            );
-          } else {
-            // All other blocks: fade + slide up
-            gsap.fromTo(node,
-              { opacity: 0, y: 10 },
-              { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out', clearProps: 'transform,opacity' }
-            );
-          }
+          pending.push(node);
         });
+      }
+      // Batch all mutations arriving in the same frame into a single rAF
+      if (pending.length > 0 && rafId === null) {
+        rafId = requestAnimationFrame(flush);
       }
     });
     this.mutationObserver.observe(pm, { childList: true });

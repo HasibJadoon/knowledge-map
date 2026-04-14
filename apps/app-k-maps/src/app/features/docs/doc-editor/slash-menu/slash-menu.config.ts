@@ -44,7 +44,7 @@ export const SLASH_COMMANDS: SlashCommand[] = [
   {
     title: 'To-do List', description: 'Checklist items', icon: '☑≡', group: 'Style',
     command: ({ editor, range }) =>
-      editor.chain().focus().deleteRange(range).toggleBulletList().run(),
+      editor.chain().focus().deleteRange(range).toggleTaskList().run(),
   },
   {
     title: 'Blockquote', description: 'Indented quote block', icon: '❝', group: 'Style',

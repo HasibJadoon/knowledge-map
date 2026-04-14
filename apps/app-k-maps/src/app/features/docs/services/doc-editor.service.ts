@@ -23,6 +23,7 @@ import { SlashCommandExtension } from '../doc-editor/tiptap-extensions/slash-com
 import { Callout } from '../doc-editor/tiptap-extensions/callout.extension';
 import { PageLink } from '../doc-editor/tiptap-extensions/page-link.extension';
 import { MobileBlockHandle } from '../doc-editor/tiptap-extensions/mobile-block-handle.extension';
+import { TaskList, TaskItem } from '@tiptap/extension-list';
 import { environment } from '../../../../environments/environment';
 
 export interface DocContext {
@@ -56,6 +57,13 @@ export class DocEditorService {
 
   /** Set by DocEditorPage to trigger debounced save on content change. */
   saveFn: (() => void) | null = null;
+
+  /**
+   * Set to true while calling setContent() during initial document load.
+   * Prevents onUpdate from marking the doc dirty or scheduling a save
+   * for every TipTap transaction fired during content hydration.
+   */
+  isLoadingContent = false;
 
   readonly context = signal<DocContext>({
     domain: 'general', docType: 'note',
@@ -115,6 +123,8 @@ export class DocEditorService {
         AutoDirection,
         PageLink,
         Callout,
+        TaskList,
+        TaskItem.configure({ nested: true }),
         SlashCommandExtension,
         MobileBlockHandle,
         // Tab = indent list, Shift-Tab = outdent
@@ -129,9 +139,15 @@ export class DocEditorService {
         }),
       ],
       onUpdate: ({ editor }) => {
+        // Skip during initial setContent — avoids dirty/save on every hydration transaction
+        if (this.isLoadingContent) return;
         this.isDirty.set(true);
-        this.wordCount.set(editor.storage['characterCount']?.words() ?? 0);
         this.saveFn?.();
+        // Defer the character-count read to a microtask — it runs after ProseMirror's
+        // own render cycle finishes, so it doesn't contribute to rAF budget overruns.
+        queueMicrotask(() => {
+          this.wordCount.set(editor.storage['characterCount']?.words() ?? 0);
+        });
       }
     });
 

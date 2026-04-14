@@ -31,31 +31,51 @@ export const AutoDirection = Extension.create({
   name: 'autoDirection',
 
   addProseMirrorPlugins() {
+    // Gate flag: true while a microtask scan is already queued.
+    // Prevents scheduling multiple concurrent scans during a burst of
+    // transactions (e.g. paste inserting many nodes at once).
+    let pendingScan = false;
+    const editor = this.editor;
+
     return [
       new Plugin({
         key: autoDirectionKey,
 
-        appendTransaction(transactions, _oldState, newState) {
+        appendTransaction(transactions, _oldState, _newState) {
           // Only act on transactions that changed the document
           if (!transactions.some(tr => tr.docChanged)) return null;
 
-          const tr = newState.tr;
-          let changed = false;
+          // Defer the expensive node-scan to a microtask so it runs
+          // after ProseMirror has finished its own render cycle.
+          // This eliminates the synchronous CPU spike on every keystroke.
+          if (!pendingScan) {
+            pendingScan = true;
+            queueMicrotask(() => {
+              pendingScan = false;
+              const view = editor?.view;
+              if (!view || (view as unknown as { isDestroyed?: boolean }).isDestroyed) return;
 
-          newState.doc.descendants((node, pos) => {
-            if (!BLOCK_TYPES.has(node.type.name)) return;
+              const state = view.state;
+              const tr = state.tr;
+              let changed = false;
 
-            const text = node.textContent;
-            if (!text.trim()) return; // leave empty / placeholder nodes alone
+              state.doc.descendants((node, pos) => {
+                if (!BLOCK_TYPES.has(node.type.name)) return;
+                const text = node.textContent;
+                if (!text.trim()) return;
+                const dir = detectDir(text);
+                if (node.attrs['dir'] !== dir) {
+                  tr.setNodeMarkup(pos, undefined, { ...node.attrs, dir });
+                  changed = true;
+                }
+              });
 
-            const dir = detectDir(text);
-            if (node.attrs['dir'] !== dir) {
-              tr.setNodeMarkup(pos, undefined, { ...node.attrs, dir });
-              changed = true;
-            }
-          });
+              if (changed) view.dispatch(tr);
+            });
+          }
 
-          return changed ? tr : null;
+          // Always return null — direction is dispatched asynchronously above
+          return null;
         },
       }),
     ];
