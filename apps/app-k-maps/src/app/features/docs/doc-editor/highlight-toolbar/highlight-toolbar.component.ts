@@ -283,7 +283,12 @@ export class HighlightToolbarComponent implements OnInit, OnDestroy {
   sheetTitle      = signal('');
   sheetItems      = signal<ToolbarSheetItem[]>([]);
 
-  private selectionChangeHandler = () => this.zone.run(() => this.onSelectionChange());
+  /*
+   * selectionchange fires constantly while the user drags a selection.
+   * Run the raw handler OUTSIDE zone — we only re-enter zone inside
+   * evaluateSelection() when we actually need to update signals/view.
+   */
+  private selectionChangeHandler = () => this.zone.runOutsideAngular(() => this.onSelectionChange());
   private hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
@@ -302,65 +307,72 @@ export class HighlightToolbarComponent implements OnInit, OnDestroy {
   }
 
   private evaluateSelection(): void {
+    // All DOM reads happen outside zone — no CD triggered just for reading
     const editor = this.editorSvc.editor;
-    if (!editor) { this.hide(); return; }
+    if (!editor) { this.zone.run(() => this.hide()); return; }
 
     const domSel = window.getSelection();
     if (!domSel || domSel.isCollapsed || domSel.rangeCount === 0) {
-      this.hide();
+      this.zone.run(() => this.hide());
       return;
     }
 
-    // Make sure the selection is inside the editor
     const range = domSel.getRangeAt(0);
     const editorEl = editor.options.element as HTMLElement | null;
     if (!editorEl || !(editorEl as HTMLElement).contains(range.commonAncestorContainer)) {
-      this.hide();
+      this.zone.run(() => this.hide());
       return;
     }
 
     const rect = range.getBoundingClientRect();
-    if (!rect || rect.width === 0) { this.hide(); return; }
+    if (!rect || rect.width === 0) { this.zone.run(() => this.hide()); return; }
 
-    // Position: centre-X of selection, above the top of the selection
+    // Compute position outside zone (pure math, no DOM writes)
     const BUBBLE_HEIGHT = 44;
     const MARGIN = 8;
     let top  = rect.top - BUBBLE_HEIGHT - MARGIN;
     let left = rect.left + rect.width / 2;
-
-    // Clamp to viewport
     const vw = window.innerWidth;
-    if (top < 60) top = rect.bottom + MARGIN; // flip below if too close to top
+    if (top < 60) top = rect.bottom + MARGIN;
     left = Math.max(80, Math.min(vw - 80, left));
 
-    this.bubbleTop.set(top);
-    this.bubbleLeft.set(left);
-    this.bubbleTransform.set('translateX(-50%)');
-
-    // Sync mark state from ProseMirror
+    // Sync mark state outside zone (isActive reads ProseMirror state, no DOM write)
     const { from, to } = editor.state.selection;
-    if (from !== to) {
-      this.isBold.set(editor.isActive('bold'));
-      this.isItalic.set(editor.isActive('italic'));
-      this.isUnderline.set(editor.isActive('underline'));
-      this.isStrike.set(editor.isActive('strike'));
-      this.syncBlock(editor);
-    }
+    const hasSel = from !== to;
+    const bold      = hasSel ? editor.isActive('bold')      : false;
+    const italic    = hasSel ? editor.isActive('italic')    : false;
+    const underline = hasSel ? editor.isActive('underline') : false;
+    const strike    = hasSel ? editor.isActive('strike')    : false;
+    const block     = hasSel ? this.resolveBlock(editor)    : this.currentBlock();
 
-    this.visible.set(true);
-    this.cdr.markForCheck();
+    // Re-enter zone ONCE to batch all signal updates → single CD cycle
+    this.zone.run(() => {
+      this.bubbleTop.set(top);
+      this.bubbleLeft.set(left);
+      this.bubbleTransform.set('translateX(-50%)');
+      if (hasSel) {
+        this.isBold.set(bold);
+        this.isItalic.set(italic);
+        this.isUnderline.set(underline);
+        this.isStrike.set(strike);
+        this.currentBlock.set(block);
+      }
+      this.visible.set(true);
+      this.cdr.markForCheck();
+    });
   }
 
-  private syncBlock(editor: import('@tiptap/core').Editor): void {
-    if      (editor.isActive('heading', { level: 1 })) this.currentBlock.set('heading1');
-    else if (editor.isActive('heading', { level: 2 })) this.currentBlock.set('heading2');
-    else if (editor.isActive('heading', { level: 3 })) this.currentBlock.set('heading3');
-    else if (editor.isActive('bulletList'))             this.currentBlock.set('bulletList');
-    else if (editor.isActive('orderedList'))            this.currentBlock.set('orderedList');
-    else if (editor.isActive('blockquote'))             this.currentBlock.set('blockquote');
-    else if (editor.isActive('codeBlock'))              this.currentBlock.set('codeBlock');
-    else                                                this.currentBlock.set('paragraph');
+  private resolveBlock(editor: import('@tiptap/core').Editor): BlockType {
+    if      (editor.isActive('heading', { level: 1 })) return 'heading1';
+    else if (editor.isActive('heading', { level: 2 })) return 'heading2';
+    else if (editor.isActive('heading', { level: 3 })) return 'heading3';
+    else if (editor.isActive('bulletList'))             return 'bulletList';
+    else if (editor.isActive('orderedList'))            return 'orderedList';
+    else if (editor.isActive('blockquote'))             return 'blockquote';
+    else if (editor.isActive('codeBlock'))              return 'codeBlock';
+    return 'paragraph';
   }
+
 
   private hide(): void {
     if (this.visible()) {

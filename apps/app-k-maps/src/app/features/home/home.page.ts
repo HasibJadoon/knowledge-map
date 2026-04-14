@@ -8,7 +8,7 @@ import {
   inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 import gsap from 'gsap';
 import * as THREE from 'three';
 
@@ -141,7 +141,7 @@ void main(){
   standalone: true,
   imports: [IonicModule],
 })
-export class HomePage implements AfterViewInit, OnDestroy {
+export class HomePage implements AfterViewInit, OnDestroy, ViewWillLeave, ViewWillEnter {
   private static readonly FLAME_SCALE = 8.6;
 
   private readonly router = inject(Router);
@@ -206,6 +206,17 @@ export class HomePage implements AfterViewInit, OnDestroy {
     this.initFlame();
   }
 
+  // ── Ionic page lifecycle — pause/resume the WebGL loop on navigate ──────
+  ionViewWillLeave(): void {
+    this.destroyFlame();           // stop rAF loop before leaving the page
+  }
+
+  ionViewWillEnter(): void {
+    if (this.fireHostRef?.nativeElement) {
+      this.initFlame();            // restart it when coming back
+    }
+  }
+
   ngOnDestroy(): void {
     this.ctx?.revert();
     this.destroyFlame();
@@ -229,7 +240,10 @@ export class HomePage implements AfterViewInit, OnDestroy {
 
     this.ngZone.runOutsideAngular(() => {
       const loop = () => {
-        this.renderFlames(performance.now() * 0.001);
+        // Skip GPU work when tab/page is hidden to prevent rAF flooding
+        if (!document.hidden) {
+          this.renderFlames(performance.now() * 0.001);
+        }
         this.frameId = requestAnimationFrame(loop);
       };
       loop();
