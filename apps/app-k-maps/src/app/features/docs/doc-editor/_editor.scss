@@ -71,7 +71,7 @@
 .km-doc-editor-el .ProseMirror h1 span[style*="color"],
 .km-doc-editor-el .ProseMirror h2 span[style*="color"],
 .km-doc-editor-el .ProseMirror h3 span[style*="color"] {
-  -webkit-text-fill-color: currentColor \!important;
+  -webkit-text-fill-color: currentColor !important;
 }
 
 // ── Paragraph ────────────────────────────────────────────────────────────────
@@ -104,7 +104,7 @@
   padding: 0.4em 0 0.4em 1.1em;
   color: rgba(255, 255, 255, 0.65);
   font-style: italic;
-  font-family: "Poppins", "Helvetica Neue", Arial, sans-serif \!important;
+  font-family: "Poppins", "Helvetica Neue", Arial, sans-serif !important;
   background: rgba(201, 168, 76, 0.05);
   border-radius: 0 6px 6px 0;
 }
@@ -229,7 +229,7 @@
 
 // ── Color spans — fix WebKit -webkit-text-fill-color override ────────────────
 .km-doc-editor-el .ProseMirror span[style*="color"] {
-  -webkit-text-fill-color: currentColor \!important;
+  -webkit-text-fill-color: currentColor !important;
 }
 
 // ── Selection ────────────────────────────────────────────────────────────────
@@ -240,7 +240,7 @@
 // ── Arabic text in editor body (NOT Quran embed) ─────────────────────────────
 .km-doc-editor-el .ProseMirror [dir="rtl"],
 .km-doc-editor-el .ProseMirror [lang="ar"] {
-  font-family: "AmiriQuran", "Noto Naskh Arabic", serif \!important;
+  font-family: "AmiriQuran", "Noto Naskh Arabic", serif !important;
   font-size: 1.3em;
   line-height: 2;
   direction: rtl;
@@ -252,9 +252,9 @@
 // ── Ayah embed — Quran text always white, NOT blue ──────────────────────────
 .km-doc-editor-el .ProseMirror .km-block--ayah .ayah-text,
 .km-doc-editor-el .ProseMirror .ayah-text {
-  font-family: "Uthmanic Hafs", serif \!important;
-  color: rgba(255, 255, 255, 0.93) \!important;
-  -webkit-text-fill-color: rgba(255, 255, 255, 0.93) \!important;
+  font-family: "Uthmanic Hafs", serif !important;
+  color: rgba(255, 255, 255, 0.93) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.93) !important;
   direction: rtl;
   text-align: center;
 }

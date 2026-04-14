@@ -237,18 +237,26 @@ class BlockHandleView {
     this.handle.appendChild(this.gripBtn);
     this.hostEl.appendChild(this.handle);
 
-    // Show handle on editor tap
-    view.dom.addEventListener('click',   this.onEditorClick);
-    view.dom.addEventListener('touchend', this.onEditorTouch);
+    // Show handle: hover on desktop, tap on mobile
+    view.dom.addEventListener('mousemove',  this.onEditorMouseMove);
+    view.dom.addEventListener('mouseleave', this.onEditorMouseLeave);
+    view.dom.addEventListener('touchend',   this.onEditorTouch);
     document.addEventListener('touchstart', this.onDocTouchOutside, { passive: true });
   }
 
-  // ── Editor tap: show handle next to tapped block ───────────────────────
+  // ── Editor hover (desktop): show handle next to hovered block ────────────
 
-  private onEditorClick = (e: MouseEvent) => {
+  private onEditorMouseMove = (e: MouseEvent) => {
     const target = this.resolveHandleTarget(e.target as HTMLElement | null);
     if (target) this.showHandle(target);
+    else if (this.activeTarget) this.hideHandle();
   };
+
+  private onEditorMouseLeave = () => {
+    this.hideHandle();
+  };
+
+  // ── Editor touch (mobile): show handle next to tapped block ───────────────
 
   private onEditorTouch = (e: TouchEvent) => {
     const touch = e.changedTouches[0];
@@ -277,11 +285,7 @@ class BlockHandleView {
     openBlockPicker(this.editor, afterPos);
   }
 
-  // ── Grip: tap = menu, drag = reorder ───────────────────────────────────
-
-  private onGripClick() {
-    if (!this.dragMoved) this.openMenu();
-  }
+  // ── Grip: long-press = menu, drag = reorder ───────────────────────────────
 
   private onGripTouchStart = (e: TouchEvent) => {
     e.preventDefault();
@@ -342,7 +346,7 @@ class BlockHandleView {
     }
   };
 
-  private openMenu() {
+  private openMenu(): void {
     if (!this.activeTarget) return;
     openBlockMenu(this.editor, this.view, this.activeTarget);
   }
@@ -541,8 +545,9 @@ class BlockHandleView {
     this.cleanupDrag();
     closeSheet();
     this.handle.remove();
-    this.view.dom.removeEventListener('click',    this.onEditorClick);
-    this.view.dom.removeEventListener('touchend', this.onEditorTouch);
+    this.view.dom.removeEventListener('mousemove',  this.onEditorMouseMove);
+    this.view.dom.removeEventListener('mouseleave', this.onEditorMouseLeave);
+    this.view.dom.removeEventListener('touchend',   this.onEditorTouch);
     document.removeEventListener('touchstart', this.onDocTouchOutside);
   }
 }

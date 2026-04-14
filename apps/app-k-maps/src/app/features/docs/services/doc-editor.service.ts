@@ -115,7 +115,9 @@ export class DocEditorService {
         StarterKit.configure({
           link: false,
           underline: false,
-          horizontalRule: false,  // replaced by KmHorizontalRule below
+          // Disable StarterKit's built-in HR — we use KmHorizontalRule below
+          // which adds a proper InputRule for "--- " (space-triggered, works on mobile)
+          horizontalRule: false,
         }),
         KmHorizontalRule,
         // Quran

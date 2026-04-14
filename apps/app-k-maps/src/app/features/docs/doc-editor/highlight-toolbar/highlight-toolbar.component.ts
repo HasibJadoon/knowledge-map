@@ -45,49 +45,49 @@ interface ToolbarSheetItem {
   imports: [CommonModule],
   template: `
     @if (visible()) {
-      <!-- Floating bubble positioned above selection -->
+      <!-- 2-row floating bubble -->
       <div class="km-bubble"
            [style.top.px]="bubbleTop()"
-           [style.left.px]="bubbleLeft()"
-           [style.transform]="bubbleTransform()">
+           [style.left.px]="bubbleLeft()">
 
-        <!-- Block type pill -->
-        <button class="km-bb km-bb--type" (touchend)="openBlockSheet(); $event.preventDefault()">
-          <span class="km-bb__label">{{ blockLabel() }}</span>
-          <svg viewBox="0 0 10 6" fill="currentColor" width="7" height="4" style="opacity:.4"><path d="M0 0l5 6 5-6z"/></svg>
-        </button>
+        <!-- Row 1 — inline marks + color swatches -->
+        <div class="km-bubble__row">
+          <button class="km-bb" [class.km-bb--on]="isBold()"
+                  (touchend)="cmd('bold'); $event.preventDefault()"><b>B</b></button>
+          <button class="km-bb" [class.km-bb--on]="isItalic()"
+                  (touchend)="cmd('italic'); $event.preventDefault()"><i>I</i></button>
+          <button class="km-bb" [class.km-bb--on]="isUnderline()"
+                  (touchend)="cmd('underline'); $event.preventDefault()"><u>U</u></button>
+          <button class="km-bb" [class.km-bb--on]="isStrike()"
+                  (touchend)="cmd('strike'); $event.preventDefault()"><s>S</s></button>
 
-        <span class="km-bsep"></span>
+          <span class="km-bsep"></span>
 
-        <!-- B / I / U / S / Code -->
-        <button class="km-bb" [class.km-bb--on]="isBold()"
-                (touchend)="cmd('bold'); $event.preventDefault()"><b>B</b></button>
-        <button class="km-bb" [class.km-bb--on]="isItalic()"
-                (touchend)="cmd('italic'); $event.preventDefault()"><i>I</i></button>
-        <button class="km-bb" [class.km-bb--on]="isUnderline()"
-                (touchend)="cmd('underline'); $event.preventDefault()"><u>U</u></button>
-        <button class="km-bb" [class.km-bb--on]="isStrike()"
-                (touchend)="cmd('strike'); $event.preventDefault()"><s>S</s></button>
+          <button class="km-bb" title="Highlight"
+                  (touchend)="openHighlightSheet(); $event.preventDefault()">
+            <span class="km-hl" [style.background]="currentHighlight()">A</span>
+          </button>
+          <button class="km-bb" title="Text color"
+                  (touchend)="openTextColorSheet(); $event.preventDefault()">
+            <span class="km-tc" [style.color]="currentTextColor()">A</span>
+          </button>
 
-        <span class="km-bsep"></span>
+          <span class="km-bsep"></span>
 
-        <!-- Highlight -->
-        <button class="km-bb" title="Highlight"
-                (touchend)="openHighlightSheet(); $event.preventDefault()">
-          <span class="km-hl" [style.background]="currentHighlight()">A</span>
-        </button>
+          <button class="km-bb km-bb--more"
+                  (touchend)="openExtractSheet(); $event.preventDefault()">···</button>
+        </div>
 
-        <!-- Text color -->
-        <button class="km-bb" title="Color"
-                (touchend)="openTextColorSheet(); $event.preventDefault()">
-          <span class="km-tc" [style.color]="currentTextColor()">A</span>
-        </button>
+        <!-- Row divider -->
+        <div class="km-bubble__divider"></div>
 
-        <span class="km-bsep"></span>
-
-        <!-- More (extract) -->
-        <button class="km-bb km-bb--more"
-                (touchend)="openExtractSheet(); $event.preventDefault()">···</button>
+        <!-- Row 2 — block type picker (full-width pill) -->
+        <div class="km-bubble__row km-bubble__row--type">
+          <button class="km-bb km-bb--type" (touchend)="openBlockSheet(); $event.preventDefault()">
+            <span class="km-bb__label">{{ blockLabel() }}</span>
+            <svg viewBox="0 0 10 6" fill="currentColor" width="7" height="4" style="opacity:.35"><path d="M0 0l5 6 5-6z"/></svg>
+          </button>
+        </div>
       </div>
     }
 
@@ -127,22 +127,41 @@ interface ToolbarSheetItem {
     .km-bubble {
       position: fixed;
       display: flex;
-      align-items: center;
-      gap: 1px;
+      flex-direction: column;
       background: #1c1c1e;
       border: 1px solid rgba(255,255,255,0.11);
-      border-radius: 12px;
-      padding: 4px 6px;
+      border-radius: 14px;
+      padding: 0;
+      overflow: hidden;
       box-shadow: 0 8px 28px rgba(0,0,0,0.75), 0 2px 8px rgba(0,0,0,0.45), 0 0 0 0.5px rgba(255,255,255,0.05);
       pointer-events: all;
       white-space: nowrap;
-      overflow: visible;
       animation: km-bub-in 0.16s cubic-bezier(0.22,1,0.36,1);
+      min-width: 200px;
+    }
+
+    .km-bubble__row {
+      display: flex;
+      align-items: center;
+      gap: 1px;
+      padding: 3px 5px;
+    }
+
+    .km-bubble__row--type {
+      padding: 2px 5px 4px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .km-bubble__divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin: 0;
     }
 
     @keyframes km-bub-in {
-      from { opacity: 0; transform: translateX(-50%) translateY(6px) scale(0.94); }
-      to   { opacity: 1; transform: translateX(-50%) translateY(0)   scale(1); }
+      from { opacity: 0; transform: translateY(6px) scale(0.94); }
+      to   { opacity: 1; transform: translateY(0)   scale(1); }
     }
 
     /* ── Buttons ─────────────────────────────────────────────────── */
@@ -171,7 +190,9 @@ interface ToolbarSheetItem {
       }
 
       &--type {
-        min-width: 44px;
+        width: 100%;
+        min-width: unset;
+        justify-content: space-between;
         font-size: 0.75rem;
         font-weight: 600;
         padding: 0 6px;
@@ -272,10 +293,9 @@ export class HighlightToolbarComponent implements OnDestroy {
   private cdr         = inject(ChangeDetectorRef);
   private zone        = inject(NgZone);
 
-  visible         = signal(false);
-  bubbleTop       = signal(0);
-  bubbleLeft      = signal(0);
-  bubbleTransform = signal('translateX(-50%)');
+  visible    = signal(false);
+  bubbleTop  = signal(0);
+  bubbleLeft = signal(0);
 
   isBold          = signal(false);
   isItalic        = signal(false);
@@ -341,19 +361,20 @@ export class HighlightToolbarComponent implements OnDestroy {
     const fromCoords = editor.view.coordsAtPos(from);
     const toCoords   = editor.view.coordsAtPos(to);
 
-    const BUBBLE_H = 44;
+    const BUBBLE_H = 88;  // 2-row: ~44px each
+    const BUBBLE_W = 260; // approximate max width
     const MARGIN   = 8;
 
     const selTop    = Math.min(fromCoords.top,    toCoords.top);
     const selBottom = Math.max(fromCoords.bottom, toCoords.bottom);
-    // Center bubble over selection midpoint
+    // Center bubble over selection midpoint, clamped to viewport edges
     const centerX   = (fromCoords.left + toCoords.left) / 2;
 
     let top  = selTop - BUBBLE_H - MARGIN;
-    let left = centerX;
     const vw = window.innerWidth;
     if (top < 60) top = selBottom + MARGIN;
-    left = Math.max(80, Math.min(vw - 80, left));
+    // Position left edge so bubble is centered on selection but stays on-screen
+    const left = Math.max(8, Math.min(vw - BUBBLE_W - 8, centerX - BUBBLE_W / 2));
 
     const bold      = editor.isActive('bold');
     const italic    = editor.isActive('italic');
@@ -364,7 +385,6 @@ export class HighlightToolbarComponent implements OnDestroy {
     this.zone.run(() => {
       this.bubbleTop.set(top);
       this.bubbleLeft.set(left);
-      this.bubbleTransform.set('translateX(-50%)');
       this.isBold.set(bold);
       this.isItalic.set(italic);
       this.isUnderline.set(underline);
