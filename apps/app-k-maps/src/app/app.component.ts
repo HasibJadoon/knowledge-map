@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { addIcons } from 'ionicons';
 import {
+  addCircleOutline,
   alertCircleOutline,
   addOutline,
   attachOutline,
@@ -49,6 +50,11 @@ import {
   timeOutline,
   checkmarkCircleOutline,
   closeOutline,
+  chevronDown,
+  folder,
+  folderOpen,
+  informationCircleOutline,
+  linkOutline,
 } from 'ionicons/icons';
 
 @Component({
@@ -109,6 +115,12 @@ export class AppComponent {
       timeOutline,
       checkmarkCircleOutline,
       closeOutline,
+      addCircleOutline,
+      chevronDown,
+      folder,
+      folderOpen,
+      informationCircleOutline,
+      linkOutline,
     });
   }
 
