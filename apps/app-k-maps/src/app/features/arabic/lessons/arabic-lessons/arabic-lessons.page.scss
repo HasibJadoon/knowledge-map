@@ -1,0 +1,107 @@
+:host {
+  display: block;
+}
+
+:host ion-content {
+  --background: var(--app-page-background);
+}
+
+.arabic-lessons__list {
+  padding-top: 0.35rem;
+  background: transparent;
+}
+
+.state {
+  margin: 0.85rem;
+}
+
+.state ion-icon {
+  font-size: 1.45rem;
+}
+
+.state--error {
+  border-color: rgba(var(--ion-color-danger-rgb), 0.28);
+}
+
+.state--empty {
+  border-style: dashed;
+}
+
+.arabic-lessons__row {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  --inner-padding-end: 0;
+  --padding-top: 0.72rem;
+  --padding-bottom: 0.72rem;
+}
+
+.arabic-lessons__row h2,
+.arabic-lessons__row ion-label .lesson-title {
+  font-family: var(--app-font-sans);
+  font-weight: 800;
+}
+
+.lesson-title-ar,
+.arabic-lessons__row ion-label .lesson-title-ar {
+  font-family: var(--app-font-ar) !important;
+  font-size: var(--app-font-ar-size);
+}
+
+.arabic-lessons__row ion-badge {
+  text-transform: capitalize;
+  padding: 0.34rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.lesson-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.38rem;
+  margin-top: 0.3rem;
+}
+
+.subtype-chip {
+  --background: rgba(var(--ion-color-primary-rgb), 0.12);
+  --color: var(--ion-color-primary-tint);
+  border: 1px solid rgba(var(--ion-color-primary-rgb), 0.22);
+  box-shadow: none;
+}
+
+.subtype-chip ion-label {
+  color: inherit;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.status-draft {
+  --background: rgba(var(--ion-color-warning-rgb), 0.16);
+  --color: var(--ion-color-warning);
+  border-color: rgba(var(--ion-color-warning-rgb), 0.26);
+}
+
+.status-done {
+  --background: rgba(var(--ion-color-success-rgb), 0.16);
+  --color: var(--ion-color-success);
+  border-color: rgba(var(--ion-color-success-rgb), 0.26);
+}
+
+.status-published {
+  --background: rgba(var(--ion-color-primary-rgb), 0.16);
+  --color: var(--ion-color-primary-tint);
+  border-color: rgba(var(--ion-color-primary-rgb), 0.26);
+}
+
+.status-default {
+  --background: rgba(var(--ion-color-medium-rgb), 0.16);
+  --color: color-mix(in srgb, var(--ion-text-color) 84%, var(--ion-color-medium) 16%);
+  border-color: rgba(var(--ion-color-medium-rgb), 0.24);
+}
+
+.status-draft,
+.status-done,
+.status-published,
+.status-default {
+  box-shadow: none;
+}

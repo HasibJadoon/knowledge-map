@@ -1,0 +1,50 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/quran/' + surahId()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Worldview — Surah {{ surahId() }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="wv-hub-content">
+  <div class="wv-hub-page">
+
+    @if (loading()) {
+      <div class="state-msg"><ion-spinner name="crescent"></ion-spinner><p>Loading worldview…</p></div>
+    }
+    @if (!loading() && error()) {
+      <div class="state-msg state-msg--error"><p>{{ error() }}</p></div>
+    }
+
+    @if (!loading() && !error()) {
+      @if (counts()) {
+        <div class="wv-counts">
+          <div class="wv-count">
+            <span class="wv-count__n">{{ counts()!.nodes }}</span>
+            <span class="wv-count__l">Nodes</span>
+          </div>
+          <div class="wv-count">
+            <span class="wv-count__n">{{ counts()!.sources }}</span>
+            <span class="wv-count__l">Sources</span>
+          </div>
+          <div class="wv-count">
+            <span class="wv-count__n">{{ counts()!.notes }}</span>
+            <span class="wv-count__l">Notes</span>
+          </div>
+          <div class="wv-count">
+            <span class="wv-count__n">{{ counts()!.documents }}</span>
+            <span class="wv-count__l">Docs</span>
+          </div>
+        </div>
+      }
+
+      <div class="wv-hub__tiles" (click)="$event.stopPropagation()">
+        @for (a of actions; track a.id) {
+          <app-action-icon-tile [config]="a" (tileClick)="navigate(a.id)" />
+        }
+      </div>
+    }
+
+  </div>
+</ion-content>

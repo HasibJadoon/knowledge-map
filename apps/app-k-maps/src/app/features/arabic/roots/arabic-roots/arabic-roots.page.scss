@@ -1,0 +1,84 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.roots-content {
+  --background: var(--app-page-background);
+}
+
+.roots-list {
+  padding-top: 0.4rem;
+}
+
+.roots-row h2,
+.roots-row h2 span {
+  margin: 0;
+  font-family: var(--app-font-ar);
+  font-size: calc(var(--app-font-ar-size, 32px) * 0.62);
+  line-height: 1.3;
+  color: var(--app-text-strong);
+}
+
+.root-meta {
+  margin: 0.28rem 0 0;
+  color: var(--app-text-muted);
+  font-size: 0.77rem;
+}
+
+.root-badges {
+  display: flex;
+  gap: 0.38rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.roots-row ion-badge.badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.23rem 0.56rem;
+  border-radius: 999px;
+  text-transform: lowercase;
+}
+
+.roots-row ion-badge.status-edited {
+  background: rgba(var(--ion-color-danger-rgb), 0.9);
+  color: #0b0d12;
+}
+
+.roots-row ion-badge.status-pending {
+  background: rgba(var(--ion-color-warning-rgb), 0.9);
+  color: #1a1402;
+}
+
+.roots-row ion-badge.freq-high {
+  background: rgba(var(--ion-color-success-rgb), 0.9);
+  color: #052017;
+}
+
+.roots-row ion-badge.freq-medium {
+  background: rgba(var(--ion-color-warning-rgb), 0.82);
+  color: #3b2a00;
+}
+
+.roots-row ion-badge.freq-low {
+  background: rgba(var(--ion-color-primary-rgb), 0.88);
+  color: #03121f;
+}
+
+.state {
+  margin: 0.9rem;
+}
+
+.state ion-icon {
+  font-size: 1.45rem;
+  margin-bottom: 0.22rem;
+}
+
+.state--error {
+  border-color: rgba(var(--ion-color-danger-rgb), 0.3);
+}
+
+.state--empty {
+  border-style: dashed;
+}

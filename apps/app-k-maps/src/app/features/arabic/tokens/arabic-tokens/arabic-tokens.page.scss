@@ -1,0 +1,73 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.tokens-toolbar--pager ion-title {
+  font-size: 0.86rem;
+}
+
+.tokens-toolbar--pager ion-button {
+  --border-radius: 0.66rem;
+  --border-color: var(--app-border-strong);
+  --color: var(--ion-text-color);
+}
+
+.tokens-content {
+  --background: var(--app-page-background);
+}
+
+.filters {
+  margin: 0;
+  padding: 0.55rem 0.6rem 0.32rem;
+}
+
+.filters ion-item {
+  --background: rgba(10, 19, 33, 0.46);
+  --inner-border-width: 0;
+  border: 1px solid var(--app-border-soft);
+  border-radius: 0.9rem;
+}
+
+.filters ion-label {
+  color: var(--app-text-muted);
+}
+
+.filters ion-select {
+  --color: var(--ion-text-color);
+  --placeholder-color: var(--app-text-muted);
+}
+
+.tokens-list {
+  padding-top: 0.2rem;
+}
+
+.tokens-row h3 {
+  margin: 0;
+  font-family: var(--app-font-ar);
+  font-size: calc(var(--app-font-ar-size, 32px) * 0.66);
+  line-height: 1.3;
+  color: var(--app-text-strong);
+}
+
+.caption {
+  margin-top: 0.24rem;
+  color: var(--app-text-muted);
+  font-size: 0.8rem;
+}
+
+.root,
+.canonical {
+  margin-top: 0.22rem;
+  color: color-mix(in srgb, var(--app-text-muted) 72%, #dce8ff 28%);
+  font-size: 0.78rem;
+}
+
+.empty-card {
+  margin: 0.8rem 0.65rem;
+  color: var(--app-text-muted);
+}
+
+.loading-state {
+  margin: 0.9rem 0.65rem 0;
+}

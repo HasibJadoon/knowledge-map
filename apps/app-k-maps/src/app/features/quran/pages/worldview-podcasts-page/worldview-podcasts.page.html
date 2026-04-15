@@ -1,0 +1,35 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/quran/surah/' + surahId() + '/worldview'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Podcasts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="wv-content">
+  <div class="wv-page">
+    <header class="mod-header">
+      <h1 class="mod-header__title">Podcasts</h1>
+      <p class="mod-header__sub">{{ items().length }} podcasts for Surah {{ surahId() }}</p>
+    </header>
+
+    @if (loading()) { <div class="state-msg"><ion-spinner name="crescent"></ion-spinner><p>Loading podcasts…</p></div> }
+    @if (!loading() && error()) { <div class="state-msg state-msg--error"><p>{{ error() }}</p></div> }
+    @if (!loading() && !error() && items().length === 0) { <div class="state-msg"><p>No podcasts found for this surah.</p></div> }
+
+    @if (!loading() && !error() && items().length > 0) {
+      <div class="wv-list">
+        @for (pod of items(); track pod.id) {
+          <div class="wv-row">
+            <div class="wv-row__main">
+              <span class="wv-badge">{{ pod.content_type }}</span>
+              <h3 class="wv-row__title">{{ pod.title }}</h3>
+            </div>
+            @if (pod.status) { <span class="wv-status">{{ pod.status }}</span> }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</ion-content>
