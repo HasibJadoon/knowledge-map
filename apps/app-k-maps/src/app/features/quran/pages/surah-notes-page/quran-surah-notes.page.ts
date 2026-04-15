@@ -190,7 +190,7 @@ export class QuranSurahNotesPage implements AfterViewInit, OnDestroy {
         ],
         editable: true,
         content: (doc ?? { type: 'doc', content: [] }) as never,
-        onUpdate: ({ editor }) => {
+        onUpdate: ({ editor }: { editor: Editor }) => {
           if (this.suppressUpdate) return;
           this.pendingDoc = editor.getJSON() as TiptapDoc;
           this.scheduleSave();

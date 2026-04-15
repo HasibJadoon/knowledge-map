@@ -34,7 +34,12 @@
               }
             ],
             "styles": ["src/scss/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "externalDependencies": [
+              "@tiptap/extension-collaboration",
+              "@tiptap/extension-node-range",
+              "@tiptap/y-tiptap"
+            ]
           },
           "configurations": {
             "production": {

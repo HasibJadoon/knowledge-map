@@ -7,6 +7,7 @@
  */
 import { Extension } from '@tiptap/core';
 import { Plugin, PluginKey } from '@tiptap/pm/state';
+import type { Transaction, EditorState } from '@tiptap/pm/state';
 import { DecorationSet, Decoration } from '@tiptap/pm/view';
 import type { Node as PmNode } from '@tiptap/pm/model';
 
@@ -53,12 +54,12 @@ export const AutoDirection = Extension.create({
         key: autoDirectionKey,
 
         state: {
-          init(_, { doc }) { return buildDecorations(doc); },
-          apply(tr, old)   { return tr.docChanged ? buildDecorations(tr.doc) : old; },
+          init(_: unknown, { doc }: EditorState): DecorationSet { return buildDecorations(doc); },
+          apply(tr: Transaction, old: DecorationSet): DecorationSet { return tr.docChanged ? buildDecorations(tr.doc) : old; },
         },
 
         props: {
-          decorations(state) { return autoDirectionKey.getState(state); },
+          decorations(state: EditorState) { return autoDirectionKey.getState(state); },
         },
       }),
     ];
