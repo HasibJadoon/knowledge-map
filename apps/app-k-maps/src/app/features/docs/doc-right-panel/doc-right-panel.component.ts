@@ -470,7 +470,22 @@ export class DocRightPanelComponent implements OnInit {
   metaDocType  = 'note';
   metaAudience = '';
 
-  private boundBuild = () => { this.buildOutline(); this.buildLinks(); this.cdr.markForCheck(); };
+  private buildTimer: ReturnType<typeof setTimeout> | null = null;
+
+  /**
+   * Debounced rebuild — fires at most once per 800 ms.
+   * Without debounce, every keystroke triggers buildOutline() (full doc walk)
+   * + buildLinks() + markForCheck(), causing per-keystroke CD cycles.
+   */
+  private boundBuild = () => {
+    if (this.buildTimer) clearTimeout(this.buildTimer);
+    this.buildTimer = setTimeout(() => {
+      this.buildTimer = null;
+      this.buildOutline();
+      this.buildLinks();
+      this.cdr.markForCheck();
+    }, 800);
+  };
 
   constructor() {
     effect(() => {

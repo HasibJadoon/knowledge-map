@@ -237,10 +237,12 @@ class BlockHandleView {
     this.handle.appendChild(this.gripBtn);
     this.hostEl.appendChild(this.handle);
 
-    // Show handle: hover on desktop, tap on mobile
+    // Show handle: hover on desktop only.
+    // On mobile, the handle appears when the user taps the + or ⠿ button
+    // (already in the DOM) — we do NOT attach touchend to the entire editor
+    // because it fires on every tap and runs posAtDOM + doc.resolve (expensive).
     view.dom.addEventListener('mousemove',  this.onEditorMouseMove);
     view.dom.addEventListener('mouseleave', this.onEditorMouseLeave);
-    view.dom.addEventListener('touchend',   this.onEditorTouch);
     document.addEventListener('touchstart', this.onDocTouchOutside, { passive: true });
   }
 
@@ -547,7 +549,6 @@ class BlockHandleView {
     this.handle.remove();
     this.view.dom.removeEventListener('mousemove',  this.onEditorMouseMove);
     this.view.dom.removeEventListener('mouseleave', this.onEditorMouseLeave);
-    this.view.dom.removeEventListener('touchend',   this.onEditorTouch);
     document.removeEventListener('touchstart', this.onDocTouchOutside);
   }
 }
