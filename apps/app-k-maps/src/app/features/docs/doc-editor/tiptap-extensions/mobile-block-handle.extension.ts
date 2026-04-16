@@ -314,7 +314,14 @@ class BlockHandleView {
     // Swipe/scroll or long-press — let the browser handle natively
     if (dx > 10 || dy > 10 || dt > 500) return;
 
+    // If the tap landed on an interactive child (link, button, callout emoji
+    // picker, etc.), the browser handles focus + action correctly on its own.
+    // Intervening here would move the caret instead of activating the element.
+    const touchEl = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (touchEl?.closest('button, a, input, select, textarea')) return;
+
     const docSize = this.view.state.doc.content.size;
+    const alreadyFocused = this.view.hasFocus();
 
     // ── Strategy 1: WebKit-native caretRangeFromPoint ─────────────────────────
     // The same API Safari uses internally — most accurate on iPhone/iPad.
@@ -330,7 +337,14 @@ class BlockHandleView {
         this.view.dispatch(
           this.view.state.tr.setSelection(TextSelection.create(this.view.state.doc, clampedPos))
         );
-        requestAnimationFrame(() => this.view.focus());
+        // Only call focus() when the editor isn't already focused.
+        // Re-focusing an already-focused contenteditable signals iOS that a new
+        // "focus" just happened, which causes it to show the system text-editing
+        // menu (Paste / Select All) on every subsequent tap — even a plain
+        // caret-move tap that should be silent.
+        if (!alreadyFocused) {
+          requestAnimationFrame(() => this.view.focus());
+        }
         return;
       } catch {
         // posAtDOM throws if the DOM node isn't inside the ProseMirror doc
@@ -340,14 +354,17 @@ class BlockHandleView {
 
     // ── Strategy 2: posAtCoords fallback ─────────────────────────────────────
     const result = this.view.posAtCoords({ left: touch.clientX, top: touch.clientY });
-    const pos = result != null
-      ? Math.max(0, Math.min(result.pos, docSize))
-      : docSize;
+    // If neither strategy can resolve a position we're outside the document —
+    // bail out rather than defaulting to end-of-doc which would surprise the user.
+    if (result == null) return;
 
+    const pos = Math.max(0, Math.min(result.pos, docSize));
     this.view.dispatch(
       this.view.state.tr.setSelection(TextSelection.create(this.view.state.doc, pos))
     );
-    requestAnimationFrame(() => this.view.focus());
+    if (!alreadyFocused) {
+      requestAnimationFrame(() => this.view.focus());
+    }
   };
 
   // ── Editor touch (mobile): show handle next to tapped block ───────────────

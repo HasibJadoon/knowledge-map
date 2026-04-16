@@ -58,10 +58,9 @@ export const AutoDirection = Extension.create({
             // not the whole document — O(changed) instead of O(total).
             const ranges: Array<{ from: number; to: number }> = [];
             for (const tr of changingTrs) {
-              let mapping = tr.mapping;
-              tr.steps.forEach((step, i) => {
-                const stepMap = mapping.slice(i, i + 1);
-                stepMap.ranges.forEach((_offset, oldFrom, oldTo) => {
+              tr.steps.forEach((step) => {
+                const stepMap = step.getMap();
+                stepMap.forEach((oldFrom: number, oldTo: number) => {
                   // Map old positions forward to the post-transaction doc
                   const from = tr.mapping.map(oldFrom, -1);
                   const to   = tr.mapping.map(oldTo,    1);

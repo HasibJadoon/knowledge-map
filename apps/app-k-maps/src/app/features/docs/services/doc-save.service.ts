@@ -18,7 +18,13 @@ export class DocSaveService {
 
   flush(): void {
     if (this.timer) { clearTimeout(this.timer); this.timer = null; }
-    this.save();
+    // Only save if there's actually something dirty and we're not already mid-save.
+    // Without this guard: goBack() calls flush() then ngOnDestroy ALSO calls flush().
+    // The first save is still in-flight (async) so isDirty hasn't cleared yet,
+    // causing a second identical PATCH for the same content.
+    if (this.editor.isDirty() && !this.editor.isSaving()) {
+      this.save();
+    }
   }
 
   private save(): void {
