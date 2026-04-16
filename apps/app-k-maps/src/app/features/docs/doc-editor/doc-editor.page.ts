@@ -7,6 +7,7 @@ import { map, distinctUntilChanged } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
+import { Capacitor } from '@capacitor/core';
 import { Keyboard } from '@capacitor/keyboard';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
@@ -96,12 +97,10 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
   ngAfterViewInit(): void {
-    // Use Capacitor Keyboard events to drive toolbar visibility.
-    // This is more reliable than TipTap focus/blur on iOS:
-    //   • focus fires before keyboard animation completes
-    //   • blur fires when tapping accessory bar buttons (wrong)
-    // Also hide the native iOS ^ v ✓ input accessory bar so our
-    // custom bar has unobstructed space.
+    // Keyboard plugin only available on native iOS/Android.
+    // On web (dev server) skip entirely and fall back to focus/blur below.
+    if (!Capacitor.isNativePlatform()) return;
+
     void Keyboard.setAccessoryBarVisible({ isVisible: false }).catch(() => { /* non-iOS */ });
 
     void Keyboard.addListener('keyboardWillShow', () => {
@@ -119,7 +118,7 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     if (this.savedTimer) clearTimeout(this.savedTimer);
     this.flushSave();
     this.editor?.destroy();
-    void Keyboard.removeAllListeners();
+    if (Capacitor.isNativePlatform()) void Keyboard.removeAllListeners();
   }
 
   // ── Load ───────────────────────────────────────────────────────────────────
@@ -183,9 +182,22 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
           this.hasSelection.set(from !== to);
           this.cdr.markForCheck();
         },
-        // Toolbar visibility is now driven by Keyboard plugin events
-        // (keyboardWillShow / keyboardWillHide) set up in ngAfterViewInit.
-        // Focus/blur are kept only for selection tracking.
+        // On native: toolbar is driven by Keyboard plugin events (ngAfterViewInit).
+        // On web (dev): fall back to focus/blur so the bar still works in browser.
+        onFocus: () => {
+          if (Capacitor.isNativePlatform()) return;
+          this.toolbarVisible.set(true);
+          this.cdr.markForCheck();
+        },
+        onBlur: () => {
+          if (Capacitor.isNativePlatform()) return;
+          setTimeout(() => {
+            if (!this.editorHost?.nativeElement.contains(document.activeElement)) {
+              this.toolbarVisible.set(false);
+              this.cdr.markForCheck();
+            }
+          }, 150);
+        },
         });
 
       // iOS: `change` events on checkboxes inside contenteditable are unreliable.
