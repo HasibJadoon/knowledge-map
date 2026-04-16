@@ -164,20 +164,21 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
       background: transparent;
       border: none;
       outline: none;
-      font-size: 1rem;
+      font-size: 0.975rem;
       font-weight: 600;
-      color: var(--ion-text-color, rgba(255,255,255,0.92));
+      color: rgba(255,255,255,0.88);
       width: 100%;
       font-family: var(--ion-font-family, 'Poppins', sans-serif);
+      letter-spacing: -0.005em;
     }
-    .km-doc-title-input::placeholder { color: rgba(255,255,255,0.28); }
+    .km-doc-title-input::placeholder { color: rgba(255,255,255,0.22); }
 
     /* ── Save indicator ─────────────────────────────────────────────── */
     .km-save-label {
-      font-size: 0.72rem;
-      color: rgba(201,168,76,0.7);
+      font-size: 0.68rem;
+      color: rgba(201,168,76,0.6);
       padding-right: 4px;
-      min-width: 16px;
+      min-width: 14px;
       display: inline-block;
     }
 
@@ -186,36 +187,36 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
       --background: var(--ion-background-color, #080808);
     }
 
-    /* ── Panel backdrop + slide-up panel ────────────────────────────── */
+    /* ── Panel backdrop + slide-up sheet ────────────────────────────── */
     .km-doc-panel-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.55);
+      background: rgba(0,0,0,0.5);
       z-index: 200;
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
     }
 
     .km-doc-panel {
       position: fixed;
       inset: auto 0 0;
       height: min(82vh, 720px);
-      border-radius: 20px 20px 0 0;
+      border-radius: 18px 18px 0 0;
       overflow: hidden;
-      background: var(--ion-background-color, #080808);
-      box-shadow: 0 -16px 48px rgba(0,0,0,0.55);
-      border-top: 1px solid rgba(255,255,255,0.08);
+      background: #0c0c0c;
+      box-shadow: 0 -20px 60px rgba(0,0,0,0.6);
+      border-top: 1px solid rgba(255,255,255,0.07);
       z-index: 201;
     }
 
-    /* ── Tap-to-focus tail below last block (Apple Notes style) ─────── */
+    /* ── Tap-to-focus tail below last block ─────────────────────────── */
     .km-doc-tail {
-      min-height: 200px;
+      min-height: 160px;
       cursor: text;
     }
 
-    /* ── Intentionally empty placeholder so Angular sees a non-empty styles array ─ */
-    /* All .ProseMirror, .km-fmt-*, .km-doc-footer rules live in _editor.scss (global) */
+    /* Placeholder so Angular sees a non-empty styles array.
+       All .ProseMirror and .km-fmt-* rules live in _editor.scss (global). */
     .km-_noop { display: contents; }
   `]
 })

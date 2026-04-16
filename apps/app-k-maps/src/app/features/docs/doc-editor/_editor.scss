@@ -4,11 +4,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ── Scroll container ─────────────────────────────────────────────────────────
-// A plain div takes over scrolling from ion-content (which uses [scrollY]="false").
-// iOS WKWebView handles contenteditable tap-to-caret correctly inside a regular
-// overflow:auto div. Inside ion-content's shadow-DOM virtual scroller it defers
-// all touches for scroll/tap disambiguation — that's what makes caret placement
-// feel laggy. No JS touch intercept is needed when this div scrolls instead.
+// A plain div takes over scrolling from ion-content ([scrollY]="false").
+// iOS WKWebView handles tap-to-caret correctly in overflow:auto — the virtual
+// scroller inside ion-content defers all touches for disambiguation, causing
+// the laggy caret feel. No JS touch intercept needed here.
 .km-doc-body {
   height: 100%;
   overflow-y: auto;
@@ -16,18 +15,16 @@
   overscroll-behavior-y: contain;
   box-sizing: border-box;
   // padding-bottom is set dynamically by the visualViewport listener
-  // (keyboard height + accessory bar height) so the caret is never hidden.
-  // Initial value clears the accessory bar at rest.
+  // (keyboard height + accessory bar height). Initial value covers the bar at rest.
   padding-bottom: 52px;
 }
 
 // ── Root editor shell ────────────────────────────────────────────────────────
 .km-doc-editor-el {
-  padding: 16px 20px 120px;
+  padding: 24px 24px 140px;
   min-height: 100%;
   box-sizing: border-box;
-  // Eliminates 300ms iOS tap delay on the entire editor surface,
-  // so caret placement is instantaneous when tapping any padding area.
+  // Eliminates 300ms iOS tap delay — caret lands immediately on first tap.
   touch-action: manipulation;
   cursor: text;
 }
@@ -36,32 +33,27 @@
 .km-doc-editor-el .ProseMirror {
   outline: none;
   caret-color: #c9a84c;
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.88);
   font-family: "Poppins", "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px; // ≥16px prevents iOS viewport zoom on focus
-  line-height: 1.75;
+  font-size: 16px;      // ≥ 16px prevents iOS viewport zoom on focus
+  line-height: 1.8;
   -webkit-user-select: text;
   user-select: text;
   word-break: break-word;
   overflow-wrap: break-word;
-  // Eliminates 300ms iOS tap delay — caret appears on first tap, not second.
   touch-action: manipulation;
-  // Make the entire content area show a text cursor (helps on iPad)
   cursor: text;
 }
 
 // ── CSS Containment — performance isolation ───────────────────────────────────
-// Each block becomes an independent layout/style boundary.
-// Layout changes inside a block (e.g. typing) don't propagate up the tree,
-// which eliminates whole-document reflow on every keystroke on iPhone.
+// Each top-level block becomes an independent layout/style boundary,
+// preventing whole-document reflow on every keystroke on iPhone.
 .km-doc-editor-el .ProseMirror > * {
   contain: layout style;
 }
 
-// content-visibility: auto skips paint+layout for off-screen blocks entirely.
-// contain-intrinsic-size gives the browser a size hint so scrollbar height
-// stays stable while blocks are skipped.  Applied only to block-level nodes
-// that are tall enough to benefit (headings, lists, quotes, code, dividers).
+// content-visibility: auto skips paint+layout for off-screen blocks.
+// contain-intrinsic-size gives the browser a hint so scrollbar height stays stable.
 .km-doc-editor-el .ProseMirror > h1,
 .km-doc-editor-el .ProseMirror > h2,
 .km-doc-editor-el .ProseMirror > h3,
@@ -77,21 +69,22 @@
 // ── Placeholder ──────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.22);
   pointer-events: none;
   float: left;
   height: 0;
-  font-style: italic;
+  font-style: normal;
+  font-size: 16px;
 }
 
 // ── Headings ─────────────────────────────────────────────────────────────────
+// H1 — primary anchor: gold brand color, strong weight, generous breathing room
 .km-doc-editor-el .ProseMirror h1 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  line-height: 1.2;
-  margin: 1.1em 0 0.25em;
-  letter-spacing: -0.01em;
-  // GOLD — no gradient, no -webkit-text-fill-color, so Color extension works
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1.22;
+  margin: 1.5em 0 0.35em;
+  letter-spacing: -0.015em;
   color: #c9a84c;
   -webkit-text-fill-color: unset;
   background: none;
@@ -99,25 +92,28 @@
   background-clip: unset;
 }
 
+// H2 — section heading: warm white, clearly subordinate to H1
 .km-doc-editor-el .ProseMirror h2 {
-  font-size: 1.55rem;
-  font-weight: 700;
+  font-size: 1.35rem;
+  font-weight: 650;
   line-height: 1.3;
-  margin: 0.9em 0 0.2em;
-  color: rgba(255, 255, 255, 0.88);
-  -webkit-text-fill-color: unset;
-}
-
-.km-doc-editor-el .ProseMirror h3 {
-  font-size: 1.22rem;
-  font-weight: 600;
-  line-height: 1.35;
-  margin: 0.7em 0 0.18em;
+  margin: 1.4em 0 0.25em;
+  letter-spacing: -0.01em;
   color: rgba(255, 255, 255, 0.82);
   -webkit-text-fill-color: unset;
 }
 
-// Allow Color extension to override heading color via <span style="color:…">
+// H3 — sub-section: subtle gold tint, smaller, quieter
+.km-doc-editor-el .ProseMirror h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 1.1em 0 0.2em;
+  color: rgba(201, 168, 76, 0.72);
+  -webkit-text-fill-color: unset;
+}
+
+// Allow Color extension to override heading color via inline <span style="color:…">
 .km-doc-editor-el .ProseMirror h1 span[style*="color"],
 .km-doc-editor-el .ProseMirror h2 span[style*="color"],
 .km-doc-editor-el .ProseMirror h3 span[style*="color"] {
@@ -126,57 +122,63 @@
 
 // ── Paragraph ────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror p {
-  margin: 0 0 0.55em;
+  margin: 0 0 0.65em;
 }
 
 // ── Divider (HR) ─────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror hr {
   border: none;
   height: 1px;
-  margin: 1.2em 0;
+  margin: 1.6em 0;
   background: linear-gradient(
     to right,
     transparent,
-    rgba(255, 255, 255, 0.22) 15%,
-    rgba(255, 255, 255, 0.22) 85%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.15) 80%,
     transparent
   );
 }
 
 .km-doc-editor-el .ProseMirror hr.ProseMirror-selectednode {
-  border-top-color: rgba(201, 168, 76, 0.6);
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(201, 168, 76, 0.4) 20%,
+    rgba(201, 168, 76, 0.4) 80%,
+    transparent
+  );
 }
 
 // ── Blockquote ───────────────────────────────────────────────────────────────
+// Clean left-border only — no background card, no boxy feel.
 .km-doc-editor-el .ProseMirror blockquote {
-  border-left: 3px solid rgba(201, 168, 76, 0.55);
-  margin: 0.8em 0;
-  padding: 0.4em 0 0.4em 1.1em;
-  color: rgba(255, 255, 255, 0.65);
+  border-left: 2.5px solid rgba(201, 168, 76, 0.45);
+  margin: 0.9em 0;
+  padding: 0.3em 0 0.3em 1.1em;
+  color: rgba(255, 255, 255, 0.6);
   font-style: italic;
-  font-family: "Poppins", "Helvetica Neue", Arial, sans-serif !important;
-  background: rgba(201, 168, 76, 0.05);
-  border-radius: 0 6px 6px 0;
+  background: none;
+  border-radius: 0;
 }
 
 // ── Code inline ──────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror code {
   font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
-  font-size: 0.85em;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.84em;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 4px;
-  padding: 0.15em 0.4em;
-  color: #e8c96a;
+  padding: 0.13em 0.38em;
+  color: rgba(201, 168, 76, 0.85);
 }
 
 // ── Code block ───────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror pre {
-  background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   padding: 14px 16px;
-  margin: 0.8em 0;
+  margin: 0.9em 0;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 
@@ -184,7 +186,7 @@
     background: none;
     border: none;
     padding: 0;
-    color: rgba(255, 255, 255, 0.88);
+    color: rgba(255, 255, 255, 0.82);
     font-size: 0.875rem;
     line-height: 1.65;
   }
@@ -194,18 +196,18 @@
 .km-doc-editor-el .ProseMirror ul,
 .km-doc-editor-el .ProseMirror ol {
   padding-left: 1.5em;
-  margin: 0.4em 0;
+  margin: 0.5em 0;
 }
 
 .km-doc-editor-el .ProseMirror li {
-  margin: 0.2em 0;
+  margin: 0.25em 0;
   line-height: 1.75;
 }
 
 // ── Task list ────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror ul[data-type="taskList"] {
   list-style: none;
-  padding-left: 0.25em;
+  padding-left: 0.2em;
 }
 
 .km-doc-editor-el .ProseMirror ul[data-type="taskList"] li {
@@ -216,14 +218,14 @@
 
 .km-doc-editor-el .ProseMirror ul[data-type="taskList"] li > label {
   flex-shrink: 0;
-  margin-top: 0.22em;
+  margin-top: 0.24em;
 
   input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    width: 17px;
+    height: 17px;
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
     border-radius: 5px;
     background: transparent;
     cursor: pointer;
@@ -240,8 +242,8 @@
         position: absolute;
         left: 4px;
         top: 1px;
-        width: 6px;
-        height: 10px;
+        width: 5px;
+        height: 9px;
         border: 2px solid #080808;
         border-top: none;
         border-left: none;
@@ -257,7 +259,7 @@
 }
 
 .km-doc-editor-el .ProseMirror ul[data-type="taskList"] li[data-checked="true"] > div {
-  opacity: 0.5;
+  opacity: 0.45;
   text-decoration: line-through;
 }
 
@@ -265,15 +267,15 @@
 .km-doc-editor-el .ProseMirror a {
   color: #c9a84c;
   text-decoration: underline;
-  text-decoration-color: rgba(201, 168, 76, 0.4);
+  text-decoration-color: rgba(201, 168, 76, 0.35);
   text-underline-offset: 2px;
 }
 
 // ── Highlight marks ──────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror mark {
-  border-radius: 3px;
-  padding: 0.05em 0.2em;
-  background-color: rgba(201, 168, 76, 0.3);
+  border-radius: 2px;
+  padding: 0.04em 0.18em;
+  background-color: rgba(201, 168, 76, 0.25);
   color: inherit;
 }
 
@@ -284,7 +286,7 @@
 
 // ── Selection ────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror ::selection {
-  background: rgba(201, 168, 76, 0.25);
+  background: rgba(201, 168, 76, 0.22);
 }
 
 // ── Arabic text in editor body (NOT Quran embed) ─────────────────────────────
@@ -299,7 +301,7 @@
   -webkit-text-fill-color: rgba(255, 255, 255, 0.92);
 }
 
-// ── Ayah embed — Quran text always white, NOT blue ──────────────────────────
+// ── Ayah embed — Quran text always white ─────────────────────────────────────
 .km-doc-editor-el .ProseMirror .km-block--ayah .ayah-text,
 .km-doc-editor-el .ProseMirror .ayah-text {
   font-family: "Uthmanic Hafs", serif !important;
@@ -315,26 +317,25 @@
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Keyboard accessory bar (Obsidian-style)
+// Keyboard accessory bar
 // ─────────────────────────────────────────────────────────────────────────────
 
 // --kb-offset is set by the visualViewport resize listener in doc-editor.page.ts
 // to lift the bar above the keyboard on all iOS versions (incl. pre-15.4 where
-// window.innerHeight doesn't shrink with the keyboard).
+// window.innerHeight doesn't shrink when the keyboard appears).
 .km-accessory-bar {
   position: fixed;
   bottom: calc(var(--kb-offset, 0px) + env(safe-area-inset-bottom, 0px));
   left: 0;
   right: 0;
-  // hidden by default; slide in when editor focused (keyboard open)
   transform: translateY(100%);
-  transition: transform 0.18s ease;
+  transition: transform 0.16s ease;
   will-change: transform;
   z-index: 100;
-  background: rgba(12, 12, 12, 0.97);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(10, 10, 10, 0.96);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 
   &.km-accessory-bar--visible {
     transform: translateY(0);
@@ -345,12 +346,12 @@
 .km-fmt-scroll {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 1px;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 6px 10px;
+  padding: 5px 10px;
   min-height: 44px;
 
   &::-webkit-scrollbar { display: none; }
@@ -364,15 +365,15 @@
   justify-content: center;
   min-width: 36px;
   height: 36px;
-  padding: 0 6px;
-  border-radius: 8px;
-  font-size: 0.82rem;
+  padding: 0 7px;
+  border-radius: 7px;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.55);
   font-family: "Poppins", sans-serif;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.12s, color 0.12s;
+  transition: background 0.1s, color 0.1s;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
   -webkit-user-select: none;
@@ -380,21 +381,21 @@
   svg { display: block; }
 
   &:active {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.09);
+    color: rgba(255, 255, 255, 0.88);
   }
 
   &--active {
     color: #c9a84c;
-    background: rgba(201, 168, 76, 0.12);
+    background: rgba(201, 168, 76, 0.11);
   }
 }
 
 // Separator between button groups
 .km-fmt-sep {
   width: 1px;
-  height: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  margin: 0 3px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.09);
+  margin: 0 4px;
   flex-shrink: 0;
 }
