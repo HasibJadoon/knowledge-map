@@ -350,7 +350,17 @@ export class HighlightToolbarComponent implements OnDestroy {
   highlightColors = HIGHLIGHT_COLORS;
   textColors = TEXT_COLORS;
 
-  private selectionHandler = () => this.onSelection();
+  private raf: number | null = null;
+
+  // rAF-debounced: getBoundingClientRect + 10x isActive() run at most once
+  // per animation frame (≤16 ms) instead of once per keystroke transaction.
+  private selectionHandler = () => {
+    if (this.raf !== null) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(() => {
+      this.raf = null;
+      this.onSelection();
+    });
+  };
 
   constructor() {
     // Re-subscribe whenever the editor is (re)initialized
@@ -366,6 +376,9 @@ export class HighlightToolbarComponent implements OnDestroy {
 
       if (ready && this.editorSvc.editor) {
         this.attachedEditor = this.editorSvc.editor;
+        // 'selectionUpdate' covers cursor moves and range selections.
+        // 'transaction' covers mark changes while selection stays the same
+        // (e.g. clicking Bold while text is selected).
         this.attachedEditor.on('selectionUpdate', this.selectionHandler);
         this.attachedEditor.on('transaction',     this.selectionHandler);
       }
@@ -373,6 +386,7 @@ export class HighlightToolbarComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.raf !== null) cancelAnimationFrame(this.raf);
     if (this.attachedEditor) {
       this.attachedEditor.off('selectionUpdate', this.selectionHandler);
       this.attachedEditor.off('transaction',     this.selectionHandler);

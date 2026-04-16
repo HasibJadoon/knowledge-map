@@ -187,7 +187,12 @@ function rerenderPicker() {
           <span class="km-bp__desc">${item.desc}</span>
         </span>
       `;
-      btn.addEventListener('mouseenter', () => { pickerSelectedIdx = idx; rerenderPicker(); });
+      btn.addEventListener('mouseenter', () => {
+        if (pickerSelectedIdx === idx) return;
+        content.querySelector('.km-bp__item--active')?.classList.remove('km-bp__item--active');
+        btn.classList.add('km-bp__item--active');
+        pickerSelectedIdx = idx;
+      });
       btn.addEventListener('mousedown', (e) => { e.preventDefault(); pickerOnSelect?.(item); });
       groupEl.appendChild(btn);
     });

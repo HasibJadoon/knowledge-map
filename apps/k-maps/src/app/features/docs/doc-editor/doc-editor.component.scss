@@ -46,6 +46,9 @@
   overflow-y: auto;
   overflow-x: visible;
   padding: 48px 48px 48px 64px; /* extra left space for drag handle */
+  /* Isolate layout recalculations to this subtree — ProseMirror does many
+     small DOM mutations; containment prevents them from reflowing the shell. */
+  contain: layout style;
 }
 
 .km-doc-editor-el {
@@ -256,10 +259,11 @@
     }
 
     // ── Block hover highlight (Notion-style) ─────────────────────────────
+    // No transition — the class is added/removed on every cursor move so a
+    // transition would create a constant stream of repaints.
     .km-block--hovered {
       background: rgba(255, 255, 255, 0.028);
       border-radius: 4px;
-      transition: background 0.1s;
     }
 
     // ── Block selected / dragging ────────────────────────────────────────

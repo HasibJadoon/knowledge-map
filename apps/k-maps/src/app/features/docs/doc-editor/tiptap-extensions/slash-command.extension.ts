@@ -54,8 +54,12 @@ export const SlashCommandExtension = Extension.create({
                   currentCommand?.(item);
                 });
                 el.addEventListener('mouseenter', () => {
+                  if (selectedIndex === idx) return;
+                  // Update active class directly — no full innerHTML rebuild
+                  container?.querySelector('.km-slash-item--active')
+                    ?.classList.remove('km-slash-item--active');
+                  el.classList.add('km-slash-item--active');
                   selectedIndex = idx;
-                  rerender();
                 });
                 groupEl.appendChild(el);
               });

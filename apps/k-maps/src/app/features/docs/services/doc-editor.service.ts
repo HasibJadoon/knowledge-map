@@ -42,6 +42,10 @@ export interface DocContext {
 @Injectable({ providedIn: 'root' })
 export class DocEditorService {
   private _editor: Editor | null = null;
+  /** Cached DOM node for the currently-hovered block — avoids querySelectorAll. */
+  private _lastHoveredEl: HTMLElement | null = null;
+  /** Timer for debounced word-count update (walks whole doc — keep off hot path). */
+  private _wordCountTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(private http: HttpClient) {}
   get editor() { return this._editor; }
@@ -102,20 +106,21 @@ export class DocEditorService {
         DragHandle.configure({
           render: () => handleEl,
           onNodeChange: (data: { node: unknown; editor: Editor; pos?: number }) => {
-            // Remove previous hover highlight
-            this._editor?.view.dom
-              .querySelectorAll('.km-block--hovered')
-              .forEach(el => el.classList.remove('km-block--hovered'));
+            // Remove previous hover from cached reference — no querySelectorAll
+            if (this._lastHoveredEl) {
+              this._lastHoveredEl.classList.remove('km-block--hovered');
+              this._lastHoveredEl = null;
+            }
 
             const pos = typeof data.pos === 'number' && data.pos >= 0 ? data.pos : null;
             editorRef.hoveredBlockPos = pos;
             editorRef.hoveredBlockNodeSize = (data.node as { nodeSize?: number } | null)?.nodeSize ?? null;
 
-            // Add hover highlight to newly hovered block DOM element
             if (pos !== null && this._editor) {
               const domNode = this._editor.view.nodeDOM(pos);
               if (domNode instanceof HTMLElement) {
                 domNode.classList.add('km-block--hovered');
+                this._lastHoveredEl = domNode;
               }
             }
           },
@@ -165,8 +170,14 @@ export class DocEditorService {
       ],
       onUpdate: ({ editor }) => {
         this.isDirty.set(true);
-        this.wordCount.set(editor.storage['characterCount']?.words() ?? 0);
         this.saveFn?.();
+        // Debounce word-count: CharacterCount.words() walks the whole doc —
+        // no need to run it on every single keystroke.
+        if (this._wordCountTimer) clearTimeout(this._wordCountTimer);
+        this._wordCountTimer = setTimeout(() => {
+          this._wordCountTimer = null;
+          this.wordCount.set(editor.storage['characterCount']?.words() ?? 0);
+        }, 500);
       }
     });
 
@@ -205,6 +216,8 @@ export class DocEditorService {
 
   destroyEditor(): void {
     this.editorReady.set(false);
+    if (this._wordCountTimer) { clearTimeout(this._wordCountTimer); this._wordCountTimer = null; }
+    this._lastHoveredEl = null;
     this._editor?.destroy();
     this._editor = null;
   }
