@@ -49,8 +49,10 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
     </ion-header>
 
     <!-- ── Editor canvas ──────────────────────────────────────────────────── -->
-    <ion-content class="km-doc-content">
+    <ion-content class="km-doc-content" (click)="onContentTap($event)">
       <div #editorEl class="km-doc-editor-el"></div>
+      <!-- Tap-to-focus padding area below last block -->
+      <div class="km-doc-tail" (click)="focusEnd()"></div>
     </ion-content>
 
     @if (panelOpen()) {
@@ -173,6 +175,12 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
       box-shadow: 0 -16px 48px rgba(0,0,0,0.55);
       border-top: 1px solid rgba(255,255,255,0.08);
       z-index: 201;
+    }
+
+    /* ── Tap-to-focus tail below last block (Apple Notes style) ─────── */
+    .km-doc-tail {
+      min-height: 200px;
+      cursor: text;
     }
 
     /* ── Intentionally empty placeholder so Angular sees a non-empty styles array ─ */
@@ -347,6 +355,28 @@ export class DocEditorPage implements OnInit, OnDestroy {
 
   indent():  void { this.editorSvc.editor?.chain().focus().sinkListItem('listItem').run(); }
   outdent(): void { this.editorSvc.editor?.chain().focus().liftListItem('listItem').run(); }
+
+  /**
+   * Tap on ion-content area outside the editor (not on a block) → focus end.
+   * Also re-shows keyboard if iOS dismissed it while editor was still "focused".
+   */
+  onContentTap(e: Event): void {
+    const target = e.target as HTMLElement;
+    // Only act when the tap is outside the ProseMirror content itself
+    const pm = this.editorEl.nativeElement.querySelector('.ProseMirror');
+    if (pm?.contains(target)) return;
+    this.focusEnd();
+  }
+
+  /** Focus at end of document — shows keyboard + places caret after last block. */
+  focusEnd(): void {
+    const e = this.editorSvc.editor;
+    if (!e) return;
+    // .focus('end') positions the caret at the very end of the document
+    e.commands.focus('end');
+    this.toolbarVisible.set(true);
+    this.cdr.markForCheck();
+  }
 
   // ── Right panel ────────────────────────────────────────────────────────────
   openPanel(): void {

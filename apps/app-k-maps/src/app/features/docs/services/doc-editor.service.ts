@@ -5,7 +5,7 @@ import { Editor, Extension, InputRule } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
 import Placeholder from '@tiptap/extension-placeholder';
-import CharacterCount from '@tiptap/extension-character-count';
+// CharacterCount removed — ran queueMicrotask on every keystroke causing slowness
 import Underline from '@tiptap/extension-underline';
 import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
@@ -66,6 +66,7 @@ const KmHorizontalRule = HorizontalRule.extend({
 @Injectable({ providedIn: 'root' })
 export class DocEditorService {
   private _editor: Editor | null = null;
+  private _wordCountTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(private http: HttpClient) {}
   get editor() { return this._editor; }
@@ -149,7 +150,6 @@ export class DocEditorService {
         Color,
         // Core UX
         Placeholder.configure({ placeholder: 'Start writing, or type / for commands…' }),
-        CharacterCount,
         TextDirection.configure({ types: ['heading', 'paragraph', 'blockquote', 'listItem'] }),
         AutoDirection,
         PageLink,
@@ -169,16 +169,19 @@ export class DocEditorService {
           },
         }),
       ],
-      onUpdate: ({ editor }) => {
+      onUpdate: () => {
         // Skip during initial setContent — avoids dirty/save on every hydration transaction
         if (this.isLoadingContent) return;
         this.isDirty.set(true);
         this.saveFn?.();
-        // Defer the character-count read to a microtask — it runs after ProseMirror's
-        // own render cycle finishes, so it doesn't contribute to rAF budget overruns.
-        queueMicrotask(() => {
-          this.wordCount.set(editor.storage['characterCount']?.words() ?? 0);
-        });
+        // Word count deferred 2 s so it never competes with typing
+        if (this._wordCountTimer) clearTimeout(this._wordCountTimer);
+        this._wordCountTimer = setTimeout(() => {
+          this._wordCountTimer = null;
+          // Approximate word count from plain text (no CharacterCount extension)
+          const text = this._editor?.getText() ?? '';
+          this.wordCount.set(text.trim() ? text.trim().split(/\s+/).length : 0);
+        }, 2000);
       }
     });
 
@@ -212,6 +215,7 @@ export class DocEditorService {
 
   destroyEditor(): void {
     this.editorReady.set(false);
+    if (this._wordCountTimer) { clearTimeout(this._wordCountTimer); this._wordCountTimer = null; }
     this._editor?.destroy();
     this._editor = null;
   }

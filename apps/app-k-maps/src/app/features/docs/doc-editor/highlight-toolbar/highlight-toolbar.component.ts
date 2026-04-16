@@ -45,37 +45,45 @@ interface ToolbarSheetItem {
   imports: [CommonModule],
   template: `
     @if (visible()) {
-      <!-- 2-row floating bubble -->
+      <!--
+        mousedown.preventDefault() on the bubble container is critical:
+        it prevents the browser from blurring the editor (and dropping the
+        ProseMirror selection) when the user taps any button in the bubble.
+        Without this, iOS drops the selection before touchend fires, so
+        .focus() repositions the caret to position 0.
+      -->
       <div class="km-bubble"
            [style.top.px]="bubbleTop()"
-           [style.left.px]="bubbleLeft()">
+           [style.left.px]="bubbleLeft()"
+           (mousedown)="$event.preventDefault()"
+           (touchstart)="$event.preventDefault()">
 
         <!-- Row 1 — inline marks + color swatches -->
         <div class="km-bubble__row">
           <button class="km-bb" [class.km-bb--on]="isBold()"
-                  (touchend)="cmd('bold'); $event.preventDefault()"><b>B</b></button>
+                  (click)="cmd('bold')"><b>B</b></button>
           <button class="km-bb" [class.km-bb--on]="isItalic()"
-                  (touchend)="cmd('italic'); $event.preventDefault()"><i>I</i></button>
+                  (click)="cmd('italic')"><i>I</i></button>
           <button class="km-bb" [class.km-bb--on]="isUnderline()"
-                  (touchend)="cmd('underline'); $event.preventDefault()"><u>U</u></button>
+                  (click)="cmd('underline')"><u>U</u></button>
           <button class="km-bb" [class.km-bb--on]="isStrike()"
-                  (touchend)="cmd('strike'); $event.preventDefault()"><s>S</s></button>
+                  (click)="cmd('strike')"><s>S</s></button>
 
           <span class="km-bsep"></span>
 
           <button class="km-bb" title="Highlight"
-                  (touchend)="openHighlightSheet(); $event.preventDefault()">
+                  (click)="openHighlightSheet()">
             <span class="km-hl" [style.background]="currentHighlight()">A</span>
           </button>
           <button class="km-bb" title="Text color"
-                  (touchend)="openTextColorSheet(); $event.preventDefault()">
+                  (click)="openTextColorSheet()">
             <span class="km-tc" [style.color]="currentTextColor()">A</span>
           </button>
 
           <span class="km-bsep"></span>
 
           <button class="km-bb km-bb--more"
-                  (touchend)="openExtractSheet(); $event.preventDefault()">···</button>
+                  (click)="openExtractSheet()">···</button>
         </div>
 
         <!-- Row divider -->
@@ -85,7 +93,7 @@ interface ToolbarSheetItem {
         <div class="km-bubble__row km-bubble__row--type">
 
           <!-- Block type: icon badge + chevron only (compact) -->
-          <button class="km-bb km-bb--type" (touchend)="openBlockSheet(); $event.preventDefault()">
+          <button class="km-bb km-bb--type" (click)="openBlockSheet()">
             <span class="km-bb__block-icon km-bb__block-icon--{{ currentBlock() }}">{{ blockIcon() }}</span>
             <svg viewBox="0 0 10 6" fill="currentColor" width="6" height="4" style="opacity:.35; flex-shrink:0"><path d="M0 0l5 6 5-6z"/></svg>
           </button>
@@ -94,17 +102,17 @@ interface ToolbarSheetItem {
 
           <!-- Superscript -->
           <button class="km-bb km-bb--sup" [class.km-bb--on]="isSuperscript()"
-                  (touchend)="cmd('superscript'); $event.preventDefault()">x<sup>2</sup></button>
+                  (click)="cmd('superscript')">x<sup>2</sup></button>
 
           <!-- Subscript -->
           <button class="km-bb km-bb--sub" [class.km-bb--on]="isSubscript()"
-                  (touchend)="cmd('subscript'); $event.preventDefault()">x<sub>2</sub></button>
+                  (click)="cmd('subscript')">x<sub>2</sub></button>
 
           <span class="km-bsep"></span>
 
           <!-- Link -->
           <button class="km-bb" [class.km-bb--on]="isLink()" title="Link"
-                  (touchend)="openLinkSheet(); $event.preventDefault()">
+                  (click)="openLinkSheet()">
             <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
               <path d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z"/>
             </svg>
@@ -112,7 +120,7 @@ interface ToolbarSheetItem {
 
           <!-- Clear formatting -->
           <button class="km-bb" title="Clear"
-                  (touchend)="clearFormatting(); $event.preventDefault()">
+                  (click)="clearFormatting()">
             <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13">
               <path d="M1 2.5A1.5 1.5 0 012.5 1h8.586a1.5 1.5 0 011.06.44l2.915 2.914A1.5 1.5 0 0115.5 5.5v1.086a1.5 1.5 0 01-.44 1.06L9.707 13H13.5a.5.5 0 010 1h-8a.5.5 0 010-1h2.293l-3.147-3.146A1.5 1.5 0 014.5 8.793V4.207A1.5 1.5 0 011 2.5z"/>
               <line x1="2" y1="14" x2="14" y2="2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
@@ -372,12 +380,35 @@ export class HighlightToolbarComponent implements OnDestroy {
   private hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
   /**
+   * Saved TipTap selection (from/to) captured when the bubble is shown.
+   * iOS can drop the DOM selection between touchstart and when the command
+   * runs — we restore it via setTextSelection() before every command so
+   * formatting is always applied to the right range.
+   */
+  private savedFrom = 0;
+  private savedTo   = 0;
+
+  /**
    * Tiptap selectionUpdate handler — runs outside Angular zone.
-   * More reliable than document.selectionchange on iOS/WKWebView:
-   * coordsAtPos() gives accurate viewport coords even when the DOM
-   * selection API (getBoundingClientRect, isCollapsed) is inconsistent.
+   *
+   * Fast path: if the selection is collapsed (just a caret from typing),
+   * hide the bubble immediately without entering Angular zone or scheduling
+   * a 50 ms debounce. This removes per-keystroke zone re-entries that were
+   * causing CD cycles and making the editor feel slow.
    */
   private readonly selUpdateFn = () => {
+    const editor = this.editorSvc.editor;
+    if (editor) {
+      const { from, to } = editor.state.selection;
+      if (from === to) {
+        // Collapsed caret — hide inline, no debounce needed
+        if (this.visible()) {
+          this.zone.run(() => this.hide());
+        }
+        return;
+      }
+    }
+    // Non-collapsed selection — debounce to let iOS selection stabilise
     if (this.hideTimeout) clearTimeout(this.hideTimeout);
     this.hideTimeout = setTimeout(() => this.evaluateFromEditor(), 50);
   };
@@ -417,6 +448,10 @@ export class HighlightToolbarComponent implements OnDestroy {
 
     const { from, to } = editor.state.selection;
     if (from === to) { this.zone.run(() => this.hide()); return; }
+
+    // Save selection — used by cmd() to restore it if iOS dropped the DOM selection
+    this.savedFrom = from;
+    this.savedTo   = to;
 
     // coordsAtPos returns viewport-relative coordinates (no scroll offset issues)
     const fromCoords = editor.view.coordsAtPos(from);
@@ -534,13 +569,16 @@ export class HighlightToolbarComponent implements OnDestroy {
   cmd(mark: string): void {
     const e = this.editorSvc.editor;
     if (!e) return;
+    // Restore selection first — iOS drops the DOM selection between touchstart
+    // and the click event, so .focus() alone would put the caret at position 0.
+    const chain = e.chain().setTextSelection({ from: this.savedFrom, to: this.savedTo });
     switch (mark) {
-      case 'bold':        e.chain().focus().toggleBold().run();        break;
-      case 'italic':      e.chain().focus().toggleItalic().run();      break;
-      case 'underline':   e.chain().focus().toggleUnderline().run();   break;
-      case 'strike':      e.chain().focus().toggleStrike().run();      break;
-      case 'superscript': e.chain().focus().toggleSuperscript().run(); break;
-      case 'subscript':   e.chain().focus().toggleSubscript().run();   break;
+      case 'bold':        chain.toggleBold().run();        break;
+      case 'italic':      chain.toggleItalic().run();      break;
+      case 'underline':   chain.toggleUnderline().run();   break;
+      case 'strike':      chain.toggleStrike().run();      break;
+      case 'superscript': chain.toggleSuperscript().run(); break;
+      case 'subscript':   chain.toggleSubscript().run();   break;
     }
     this.isBold.set(e.isActive('bold'));
     this.isItalic.set(e.isActive('italic'));
@@ -628,7 +666,7 @@ export class HighlightToolbarComponent implements OnDestroy {
   clearFormatting(): void {
     const e = this.editorSvc.editor;
     if (!e) return;
-    e.chain().focus()
+    e.chain().setTextSelection({ from: this.savedFrom, to: this.savedTo })
       .unsetBold().unsetItalic().unsetUnderline().unsetStrike()
       .unsetHighlight().unsetColor()
       .run();
@@ -653,16 +691,17 @@ export class HighlightToolbarComponent implements OnDestroy {
   private setBlock(type: BlockType): void {
     const e = this.editorSvc.editor;
     if (!e) return;
+    const chain = e.chain().setTextSelection({ from: this.savedFrom, to: this.savedTo });
     switch (type) {
-      case 'paragraph':   e.chain().focus().setParagraph().run(); break;
-      case 'heading1':    e.chain().focus().setHeading({ level: 1 }).run(); break;
-      case 'heading2':    e.chain().focus().setHeading({ level: 2 }).run(); break;
-      case 'heading3':    e.chain().focus().setHeading({ level: 3 }).run(); break;
-      case 'bulletList':  e.chain().focus().toggleBulletList().run(); break;
-      case 'orderedList': e.chain().focus().toggleOrderedList().run(); break;
-      case 'blockquote':  e.chain().focus().toggleBlockquote().run(); break;
-      case 'codeBlock':   e.chain().focus().toggleCodeBlock().run(); break;
-      case 'callout':     e.chain().focus().insertContent({ type: 'callout', attrs: { emoji: '💡' }, content: [{ type: 'paragraph' }] }).run(); break;
+      case 'paragraph':   chain.setParagraph().run(); break;
+      case 'heading1':    chain.setHeading({ level: 1 }).run(); break;
+      case 'heading2':    chain.setHeading({ level: 2 }).run(); break;
+      case 'heading3':    chain.setHeading({ level: 3 }).run(); break;
+      case 'bulletList':  chain.toggleBulletList().run(); break;
+      case 'orderedList': chain.toggleOrderedList().run(); break;
+      case 'blockquote':  chain.toggleBlockquote().run(); break;
+      case 'codeBlock':   chain.toggleCodeBlock().run(); break;
+      case 'callout':     chain.insertContent({ type: 'callout', attrs: { emoji: '💡' }, content: [{ type: 'paragraph' }] }).run(); break;
     }
   }
 
