@@ -9,6 +9,9 @@ const config: CapacitorConfig = {
     Keyboard: {
       resize: KeyboardResize.Ionic,
       resizeOnFullScreen: true,
+      // Hide the native iOS "^ v ✓" input accessory bar so our custom
+      // ion-footer formatting bar has unobstructed space above the keyboard.
+      hideFormAccessoryBar: true,
     },
   },
 };

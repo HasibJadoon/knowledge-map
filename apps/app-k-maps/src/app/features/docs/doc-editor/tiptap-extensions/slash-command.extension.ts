@@ -19,6 +19,8 @@ export const SlashCommandExtension = Extension.create({
           let selectedIndex = 0;
           let currentItems: SlashCommand[] = [];
           let currentCommand: ((item: SlashCommand) => void) | null = null;
+          let currentClientRect: (() => DOMRect) | null = null;
+          let vpResizeHandler: (() => void) | null = null;
 
           const rerender = () => {
             if (!container || !currentItems.length) return;
@@ -77,6 +79,7 @@ export const SlashCommandExtension = Extension.create({
               selectedIndex = 0;
               currentItems = items;
               currentCommand = command;
+              currentClientRect = clientRect;
 
               container = document.createElement('div');
               container.className = 'km-slash-menu';
@@ -84,6 +87,13 @@ export const SlashCommandExtension = Extension.create({
               document.body.appendChild(container);
               updatePosition(container, clientRect);
               rerender();
+
+              // Reposition when the keyboard finishes animating in/out.
+              // On iOS the visualViewport resize fires after the keyboard
+              // animation completes, giving us the final usable height.
+              vpResizeHandler = () => { if (container) updatePosition(container, currentClientRect); };
+              window.visualViewport?.addEventListener('resize', vpResizeHandler);
+              window.visualViewport?.addEventListener('scroll', vpResizeHandler);
             },
 
             onUpdate: ({ items, command, clientRect }: { items: SlashCommand[]; command: (item: SlashCommand) => void; clientRect: (() => DOMRect) | null }) => {
@@ -91,6 +101,7 @@ export const SlashCommandExtension = Extension.create({
               selectedIndex = 0;
               currentItems = items;
               currentCommand = command;
+              currentClientRect = clientRect;
               updatePosition(container, clientRect);
 
               if (!items.length) {
@@ -133,10 +144,16 @@ export const SlashCommandExtension = Extension.create({
             },
 
             onExit: () => {
+              if (vpResizeHandler) {
+                window.visualViewport?.removeEventListener('resize', vpResizeHandler);
+                window.visualViewport?.removeEventListener('scroll', vpResizeHandler);
+                vpResizeHandler = null;
+              }
               container?.remove();
               container = null;
               currentCommand = null;
               currentItems = [];
+              currentClientRect = null;
             },
           };
         },
@@ -162,33 +179,54 @@ function scrollActiveIntoView(container: HTMLElement) {
 }
 
 /**
- * Position the slash menu using the visual viewport so it never hides
- * behind the iPhone keyboard.
+ * Position the slash menu so it never hides behind the iOS keyboard.
  *
- * Key insight: position:fixed coordinates are always viewport-relative,
- * matching getBoundingClientRect() directly — no scroll-offset math needed.
- * visualViewport.height is the visible area above the keyboard on iOS.
+ * On iOS Capacitor with KeyboardResize.Ionic:
+ *   - position:fixed top=0 is the top of the WKWebView frame
+ *   - getBoundingClientRect() coords are visual-viewport-relative
+ *   - visualViewport.offsetTop bridges the two coordinate spaces
+ *   - visualViewport.height is the visible area above the keyboard
+ *
+ * Our custom km-bar (ion-footer, ~52 px) sits inside visualViewport.height,
+ * so we subtract it from the safe-bottom boundary to avoid overlap.
  */
 function updatePosition(el: HTMLElement, clientRect: (() => DOMRect) | null): void {
   if (!clientRect) return;
-  const rect   = clientRect();
-  const vv     = window.visualViewport;
-  const vpH    = vv?.height ?? window.innerHeight;
-  const vpW    = vv?.width  ?? window.innerWidth;
+  const rect  = clientRect();
+  const vv    = window.visualViewport;
 
-  const MENU_H = 260;
+  // Visual viewport dimensions — correctly shrunk when keyboard is open
+  const vpH   = vv ? vv.height    : window.innerHeight;
+  const vpW   = vv ? vv.width     : window.innerWidth;
+  // offsetTop: distance from layout-viewport top to visual-viewport top.
+  // Usually 0 on iOS with keyboard; non-zero when the page is zoomed/scrolled.
+  const vvTop = vv ? vv.offsetTop : 0;
+
+  // Our ion-footer accessory bar consumes ~52 px at the bottom of the
+  // visual viewport. Menu must stay above it.
+  const KM_BAR_H = 52;
+  const MENU_MAX_H = 240;
   const MARGIN = 8;
 
-  const spaceBelow = vpH    - rect.bottom - MARGIN;
-  const spaceAbove = rect.top             - MARGIN;
+  // Coordinate conversion: rect is in visual-viewport space (0 = top of vv).
+  // For position:fixed, 0 = top of layout viewport.
+  // Offset by vvTop to align the two spaces.
+  const caretTop    = rect.top    + vvTop;
+  const caretBottom = rect.bottom + vvTop;
+
+  // Safe bottom: above the keyboard AND above our accessory bar
+  const safeBottom = vvTop + vpH - KM_BAR_H - MARGIN;
+
+  const spaceBelow = safeBottom - caretBottom;
+  const spaceAbove = caretTop   - vvTop - MARGIN;
 
   let top: number;
-  if (spaceBelow >= MENU_H || spaceBelow >= spaceAbove) {
-    // Enough room below — open downward, clamp so it never overflows
-    top = Math.min(rect.bottom + 4, vpH - MENU_H - MARGIN);
+  if (spaceBelow >= MENU_MAX_H && spaceBelow >= spaceAbove) {
+    // Open downward — clamp so bottom doesn't exceed safe area
+    top = Math.min(caretBottom + 4, safeBottom - MENU_MAX_H);
   } else {
-    // Not enough room below — open upward above the caret
-    top = Math.max(rect.top - MENU_H - 4, MARGIN);
+    // Open upward — preferred when keyboard is visible
+    top = Math.max(caretTop - MENU_MAX_H - 4, vvTop + MARGIN);
   }
 
   const left = Math.max(MARGIN, Math.min(rect.left, vpW - 292 - MARGIN));
@@ -196,11 +234,14 @@ function updatePosition(el: HTMLElement, clientRect: (() => DOMRect) | null): vo
   el.style.top  = `${top}px`;
   el.style.left = `${left}px`;
 
-  // Fine-tune once the real menu height is known
+  // Fine-tune once the menu's real rendered height is known
   requestAnimationFrame(() => {
+    if (!el.isConnected) return;
     const m = el.getBoundingClientRect();
-    if (m.bottom > vpH - MARGIN) {
-      el.style.top = `${Math.max(MARGIN, rect.top - m.height - 4)}px`;
+    // m coords are in visual-viewport space — convert for fixed comparison
+    const mBottom = m.bottom + vvTop;
+    if (mBottom > safeBottom) {
+      el.style.top = `${Math.max(vvTop + MARGIN, caretTop - m.height - 4)}px`;
     }
     if (m.right > vpW - MARGIN) {
       el.style.left = `${vpW - m.width - MARGIN}px`;
@@ -217,7 +258,7 @@ function applyContainerStyles(el: HTMLDivElement): void {
     borderRadius: '14px',
     padding:    '6px',
     minWidth:   '280px',
-    maxHeight:  '260px',
+    maxHeight:  '240px',
     overflowY:  'auto',
     overscrollBehavior: 'contain',
     boxShadow:  '0 8px 40px rgba(0,0,0,0.65), 0 2px 8px rgba(0,0,0,0.4)',
