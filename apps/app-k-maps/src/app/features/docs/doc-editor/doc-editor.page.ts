@@ -54,10 +54,15 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
          disambiguation even when [scrollY]="false" — that 300-400 ms hold is
          what makes caret placement feel sluggish on iOS.
          A regular overflow-y:auto div gives WKWebView unambiguous ownership
-         of contenteditable tap-to-caret with zero JS involvement. -->
-    <div class="km-canvas" #scrollEl (click)="onCanvasTap($event)">
+         of contenteditable tap-to-caret with zero JS involvement.
+
+         pointerdown/pointerup instead of click: pointerup fires the moment
+         the touch lifts — no synthetic-click delay, no 300 ms path. -->
+    <div class="km-canvas" #scrollEl
+         (pointerdown)="onCanvasPD($event)"
+         (pointerup)="onCanvasPU($event)">
       <div #editorEl class="km-doc-editor-el"></div>
-      <div class="km-doc-tail" (click)="focusEnd()"></div>
+      <div class="km-doc-tail" (pointerup)="onTailPU($event)"></div>
     </div>
 
     @if (panelOpen()) {
@@ -217,6 +222,13 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
     .km-doc-tail {
       min-height: 160px;
       cursor: text;
+      touch-action: manipulation;
+    }
+
+    /* ── Toolbar / header buttons — eliminate 300ms hold ─────────────── */
+    ion-button {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
   `]
 })
@@ -420,21 +432,40 @@ export class DocEditorPage implements OnInit, OnDestroy {
   indent():  void { this.editorSvc.editor?.chain().focus().sinkListItem('listItem').run(); }
   outdent(): void { this.editorSvc.editor?.chain().focus().liftListItem('listItem').run(); }
 
+  // ── Pointer-first canvas tap handling ─────────────────────────────────────
+  // Using pointerdown/pointerup instead of click eliminates the synthetic-click
+  // delay on iOS. We track the start position so we can distinguish a tap
+  // (pointer barely moved) from a scroll gesture (pointer moved >8 px).
+  private _tapX = 0;
+  private _tapY = 0;
+
+  onCanvasPD(ev: PointerEvent): void {
+    if (!ev.isPrimary) return;
+    this._tapX = ev.clientX;
+    this._tapY = ev.clientY;
+  }
+
   /**
-   * Tap on the canvas outside ProseMirror → find the nearest caret position
-   * using posAtCoords() so the caret lands close to where the user tapped,
-   * rather than always jumping to end. Falls back to end if out of range.
+   * pointerup on the canvas container: place caret near the tapped spot only
+   * when the tap landed outside the ProseMirror editable area (i.e. in the
+   * canvas padding). Taps inside ProseMirror are handled natively by the browser
+   * — we must not interfere with those.
    */
-  onCanvasTap(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
+  onCanvasPU(ev: PointerEvent): void {
+    if (!ev.isPrimary) return;
+    // Skip if the pointer moved enough to be a scroll/drag gesture
+    if (Math.abs(ev.clientX - this._tapX) > 8 ||
+        Math.abs(ev.clientY - this._tapY) > 8) return;
+
+    const target = ev.target as HTMLElement;
     const pm = this.editorEl.nativeElement.querySelector('.ProseMirror');
-    // If the tap landed inside ProseMirror, let the browser handle it natively
+    // Let native ProseMirror handling take care of taps inside the editor
     if (!pm || pm.contains(target)) return;
 
     const e = this.editorSvc.editor;
     if (!e) return;
 
-    const resolved = e.view.posAtCoords({ left: event.clientX, top: event.clientY });
+    const resolved = e.view.posAtCoords({ left: ev.clientX, top: ev.clientY });
     if (resolved != null) {
       e.chain().focus().setTextSelection(resolved.pos).run();
     } else {
@@ -442,6 +473,13 @@ export class DocEditorPage implements OnInit, OnDestroy {
     }
     this.toolbarVisible.set(true);
     this.cdr.markForCheck();
+  }
+
+  /** pointerup on the tail zone — always focus end, suppress synthetic click. */
+  onTailPU(ev: PointerEvent): void {
+    if (!ev.isPrimary) return;
+    ev.preventDefault(); // prevent the follow-up synthetic click
+    this.focusEnd();
   }
 
   focusEnd(): void {
@@ -459,13 +497,16 @@ export class DocEditorPage implements OnInit, OnDestroy {
   }
 
   /**
-   * Always navigate to /docs explicitly.
-   * window.history.length > 1 is unreliable in a mobile PWA (the browser's
-   * own history stack pre-exists the app), so navCtrl.back() has no safe
-   * fallback. navigateBack() is deterministic and always goes somewhere valid.
+   * Navigate back immediately. No flush() here — ngOnDestroy handles the exit
+   * save so the back button feels instant rather than waiting for the save
+   * path before the animation starts. The flush guard (isDirty && !isSaving)
+   * in DocSaveService prevents a duplicate PATCH if a save is already in-flight.
+   *
+   * Uses (click) on ion-button rather than (pointerup) because Ionic web
+   * components only expose declared outputs; (click) is always valid and fires
+   * with no 300 ms delay when touch-action:manipulation is set on the host.
    */
   goBack(): void {
-    this.saveSvc.flush();
     void this.navCtrl.navigateBack('/docs', { animated: true });
   }
 

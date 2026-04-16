@@ -209,8 +209,12 @@ export const Callout = Node.create({
         closePicker();
       };
 
-      emojiEl.addEventListener('click', (e) => {
+      // pointerup: fires immediately on touch-lift with no synthetic-click delay.
+      // stopPropagation keeps the canvas pointerup handler from also firing.
+      emojiEl.addEventListener('pointerup', (e: PointerEvent) => {
+        if (!e.isPrimary) return;
         e.stopPropagation();
+        e.preventDefault(); // suppress follow-up synthetic click
         if (pickerEl) { closePicker(); return; }
 
         pickerEl = document.createElement('div');
@@ -226,8 +230,9 @@ export const Callout = Node.create({
           const btn = document.createElement('button');
           btn.className = 'km-callout__variant-btn';
           btn.innerHTML = `<span>${v.emoji}</span>${v.label}`;
-          btn.addEventListener('mousedown', (ev) => { ev.preventDefault(); applyAttrs(v.type, v.emoji); });
-          btn.addEventListener('touchend',  (ev) => { ev.preventDefault(); applyAttrs(v.type, v.emoji); });
+          // Single pointerdown handler covers touch and mouse; preventDefault
+          // stops the editor from losing focus when the picker is tapped.
+          btn.addEventListener('pointerdown', (ev) => { ev.preventDefault(); applyAttrs(v.type, v.emoji); });
           pickerEl!.appendChild(btn);
         });
 
@@ -248,19 +253,7 @@ export const Callout = Node.create({
           const btn = document.createElement('button');
           btn.className = 'km-callout__ep-btn';
           btn.textContent = em;
-          btn.addEventListener('mousedown', (ev) => {
-            ev.preventDefault();
-            const pos = typeof getPos === 'function' ? getPos() : null;
-            if (pos !== null && pos !== undefined) {
-              editor.chain().focus().command(({ tr }) => {
-                tr.setNodeAttribute(pos, 'emoji', em);
-                return true;
-              }).run();
-            }
-            emojiEl.textContent = em;
-            closePicker();
-          });
-          btn.addEventListener('touchend', (ev) => {
+          btn.addEventListener('pointerdown', (ev) => {
             ev.preventDefault();
             const pos = typeof getPos === 'function' ? getPos() : null;
             if (pos !== null && pos !== undefined) {
@@ -287,47 +280,47 @@ export const Callout = Node.create({
         }
         document.body.appendChild(pickerEl);
 
+        // Close picker when tapping anywhere outside it.
+        // setTimeout(0) defers registration so the same pointerdown that
+        // opened the picker doesn't immediately close it.
         setTimeout(() => {
           const handler = (ev: Event) => {
             if (!pickerEl?.contains(ev.target as globalThis.Node)) {
               closePicker();
-              document.removeEventListener('mousedown', handler);
-              document.removeEventListener('touchstart', handler);
+              document.removeEventListener('pointerdown', handler);
             }
           };
-          document.addEventListener('mousedown', handler);
-          document.addEventListener('touchstart', handler);
+          document.addEventListener('pointerdown', handler);
         }, 0);
       });
 
       // ── Focus routing ────────────────────────────────────────────────────
-      // Tapping the outer padding (not emoji, not content) moves cursor inside.
-      // Also handles touchend so iOS keyboard activates on the first tap.
-      const routeFocus = (e: Event) => {
+      // Tapping the outer padding (not emoji, not editable content) moves the
+      // cursor to the start of the callout body.
+      //
+      // Single unified handler on pointerup (fires for both touch and mouse,
+      // no synthetic-click delay).  We only reroute focus for the dead zones
+      // (left-bar padding, emoji row outside the emoji itself) — taps on the
+      // actual content area are left to native ProseMirror handling.
+      dom.addEventListener('pointerup', (e: PointerEvent) => {
+        // Ignore non-primary pointers (multi-touch)
+        if (!e.isPrimary) return;
+        // Let native handling take care of taps on the emoji or inside the text
         if (emojiEl.contains(e.target as globalThis.Node)) return;
         if (pickerEl?.contains(e.target as globalThis.Node)) return;
-        if (contentEl.contains(e.target as globalThis.Node)) return;
+        if (contentEl.contains(e.target as globalThis.Node)) {
+          // Tap landed on editable text — native ProseMirror caret placement
+          // handles it; just ensure the editor is focused if it somehow lost it.
+          if (!editor.isFocused) editor.commands.focus();
+          return;
+        }
+        // Dead zone (left border / padding): route caret to first paragraph.
+        e.preventDefault(); // suppress follow-up synthetic click
         const pos = typeof getPos === 'function' ? getPos() : null;
         if (pos !== null && pos !== undefined) {
           // pos+2 = start of first child paragraph inside the callout
           editor.chain().focus().setTextSelection(pos + 2).run();
         }
-      };
-
-      dom.addEventListener('click', routeFocus);
-
-      // touchend: needed on iOS — without it the keyboard never opens when
-      // tapping the callout padding on first touch.
-      dom.addEventListener('touchend', (e) => {
-        if (emojiEl.contains(e.target as globalThis.Node)) return;
-        if (pickerEl?.contains(e.target as globalThis.Node)) return;
-        if (contentEl.contains(e.target as globalThis.Node)) {
-          // User tapped the text itself — just ensure the editor is focused.
-          if (!editor.isFocused) editor.commands.focus();
-          return;
-        }
-        e.preventDefault();
-        routeFocus(e);
       });
 
       return {

@@ -168,7 +168,12 @@ export class DocEditorService {
         }),
       ],
       onSelectionUpdate: ({ editor }) => {
-        this.hasSelection.set(!editor.state.selection.empty);
+        // Only write the signal when the boolean value actually changes.
+        // onSelectionUpdate fires on every caret movement (including plain
+        // typing), so skipping duplicate writes avoids triggering the
+        // accessory-bar @if re-evaluation on every keystroke.
+        const sel = !editor.state.selection.empty;
+        if (this.hasSelection() !== sel) this.hasSelection.set(sel);
       },
       onUpdate: () => {
         // Skip during initial setContent — avoids dirty/save on every hydration transaction
