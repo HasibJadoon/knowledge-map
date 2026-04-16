@@ -4,7 +4,7 @@
  */
 
 import { Extension } from '@tiptap/core';
-import { Plugin, PluginKey } from '@tiptap/pm/state';
+import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state';
 import type { EditorView } from '@tiptap/pm/view';
 import { Fragment, type Node as PmNode } from '@tiptap/pm/model';
 import type { Editor } from '@tiptap/core';
@@ -200,6 +200,11 @@ class BlockHandleView {
   // Long-press timer for grip
   private menuTimer: ReturnType<typeof setTimeout> | null = null;
 
+  // Tap-to-caret state (iOS WKWebView fix)
+  private tapStartX = 0;
+  private tapStartY = 0;
+  private tapStartTime = 0;
+
   constructor(private view: EditorView, private editor: Editor) {
     injectStyles();
     this.hostEl = (view.dom.parentElement as HTMLElement | null) ?? document.body;
@@ -238,12 +243,22 @@ class BlockHandleView {
     this.hostEl.appendChild(this.handle);
 
     // Show handle: hover on desktop only.
-    // On mobile, the handle appears when the user taps the + or ⠿ button
-    // (already in the DOM) — we do NOT attach touchend to the entire editor
-    // because it fires on every tap and runs posAtDOM + doc.resolve (expensive).
     view.dom.addEventListener('mousemove',  this.onEditorMouseMove);
     view.dom.addEventListener('mouseleave', this.onEditorMouseLeave);
     document.addEventListener('touchstart', this.onDocTouchOutside, { passive: true });
+
+    // ── iOS tap-to-caret fix ────────────────────────────────────────────────
+    // On iOS WKWebView (PWA), tapping a contenteditable inside ion-content's
+    // scroll container does NOT reliably trigger the browser's native focus +
+    // caret placement.  iOS defers event dispatch while deciding scroll vs tap,
+    // and that window breaks normal contenteditable focus.
+    //
+    // Fix: intercept touchstart/touchend on the ProseMirror DOM directly.
+    // If it's a single tap (< 10 px movement, < 500 ms), call posAtCoords to
+    // get the exact PM position and dispatch a TextSelection + view.focus().
+    // passive:true is critical — preventDefault() would suppress the keyboard.
+    view.dom.addEventListener('touchstart', this.onTapStart, { passive: true });
+    view.dom.addEventListener('touchend',   this.onTapEnd,   { passive: true });
   }
 
   // ── Editor hover (desktop): show handle next to hovered block ────────────
@@ -256,6 +271,51 @@ class BlockHandleView {
 
   private onEditorMouseLeave = () => {
     this.hideHandle();
+  };
+
+  // ── iOS tap-to-caret ───────────────────────────────────────────────────────
+
+  private onTapStart = (e: TouchEvent) => {
+    const t = e.touches[0];
+    if (!t) return;
+    this.tapStartX = t.clientX;
+    this.tapStartY = t.clientY;
+    this.tapStartTime = Date.now();
+  };
+
+  /**
+   * On a single tap inside the ProseMirror content area, manually place the
+   * caret at the tapped position via posAtCoords + TextSelection.
+   *
+   * This is required on iOS PWA: tapping a contenteditable inside
+   * ion-content's scroll container doesn't reliably trigger the browser's
+   * own focus+caret mechanism.  We replicate it here without preventDefault
+   * so the soft keyboard still appears.
+   */
+  private onTapEnd = (e: TouchEvent) => {
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+
+    const dx = Math.abs(touch.clientX - this.tapStartX);
+    const dy = Math.abs(touch.clientY - this.tapStartY);
+    const dt = Date.now() - this.tapStartTime;
+
+    // Swipe/scroll or long-press — let the browser handle natively
+    if (dx > 10 || dy > 10 || dt > 500) return;
+
+    // Single tap: resolve the nearest ProseMirror position
+    const result = this.view.posAtCoords({ left: touch.clientX, top: touch.clientY });
+    // pos can be null if the tap landed outside any node (should be rare inside view.dom)
+    const pos = result != null
+      ? Math.max(0, Math.min(result.pos, this.view.state.doc.content.size))
+      : this.view.state.doc.content.size;
+
+    // Focus first so the keyboard appears, then set selection
+    this.view.focus();
+    const tr = this.view.state.tr.setSelection(
+      TextSelection.create(this.view.state.doc, pos)
+    );
+    this.view.dispatch(tr);
   };
 
   // ── Editor touch (mobile): show handle next to tapped block ───────────────
@@ -549,6 +609,8 @@ class BlockHandleView {
     this.handle.remove();
     this.view.dom.removeEventListener('mousemove',  this.onEditorMouseMove);
     this.view.dom.removeEventListener('mouseleave', this.onEditorMouseLeave);
+    this.view.dom.removeEventListener('touchstart', this.onTapStart);
+    this.view.dom.removeEventListener('touchend',   this.onTapEnd);
     document.removeEventListener('touchstart', this.onDocTouchOutside);
   }
 }
