@@ -297,35 +297,25 @@ export const Callout = Node.create({
       });
 
       // ── Focus routing ────────────────────────────────────────────────────
-      // Tapping the outer padding (not emoji, not editable content) moves the
-      // cursor to the start of the callout body.
-      //
-      // Single unified handler on pointerup (fires for both touch and mouse,
-      // no synthetic-click delay).  We only reroute focus for the dead zones
-      // (left-bar padding, emoji row outside the emoji itself) — taps on the
-      // actual content area are left to native ProseMirror handling.
+      // Only intercept taps on dead zones (outer padding, left bar) or the
+      // raw contentEl background (empty callout). For everything inside the
+      // content area, ProseMirror handles caret placement natively.
       dom.addEventListener('pointerup', (e: PointerEvent) => {
-        // Ignore non-primary pointers (multi-touch)
         if (!e.isPrimary) return;
-        // Let native handling take care of taps on the emoji or inside the text
         if (emojiEl.contains(e.target as globalThis.Node)) return;
         if (pickerEl?.contains(e.target as globalThis.Node)) return;
-        if (contentEl.contains(e.target as globalThis.Node) && e.target !== contentEl) {
-          // Tap landed on an actual child node (text / paragraph) inside the
-          // content area — let ProseMirror place the caret natively.
-          // Do NOT call editor.commands.focus() here: on iOS, focus fires
-          // asynchronously so isFocused is false at pointerup time, and
-          // calling focus() would hijack the caret before the synthetic click.
-          return;
-        }
-        // Dead zone OR tap on contentEl background (empty callout / padding).
-        // Route caret explicitly to the first paragraph so an empty callout
-        // is always tappable.
+        // Tap on a real child inside the editable area — native ProseMirror.
+        if (contentEl.contains(e.target as globalThis.Node) && e.target !== contentEl) return;
+
+        // Dead zone or empty callout: route to the nearest document position
+        // so the caret lands where the user actually tapped, not always pos+2.
         e.preventDefault();
-        const pos = typeof getPos === 'function' ? getPos() : null;
-        if (pos !== null && pos !== undefined) {
-          editor.chain().focus().setTextSelection(pos + 2).run();
-        }
+        const nodePos = typeof getPos === 'function' ? getPos() : null;
+        if (nodePos === null || nodePos === undefined) return;
+        const resolved = editor.view.posAtCoords({ left: e.clientX, top: e.clientY });
+        editor.chain().focus()
+          .setTextSelection(resolved ? resolved.pos : nodePos + 2)
+          .run();
       });
 
       return {

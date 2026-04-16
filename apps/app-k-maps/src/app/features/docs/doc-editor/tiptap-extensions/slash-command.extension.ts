@@ -162,52 +162,55 @@ function scrollActiveIntoView(container: HTMLElement) {
 }
 
 /**
- * Position the slash menu using visualViewport-aware coordinates.
- * On mobile with keyboard open, visualViewport.height < window.innerHeight.
- * We prefer positioning above the cursor so the menu is not hidden by the keyboard.
+ * Position the slash menu using the visual viewport so it never hides
+ * behind the iPhone keyboard.
+ *
+ * Key insight: position:fixed coordinates are always viewport-relative,
+ * matching getBoundingClientRect() directly — no scroll-offset math needed.
+ * visualViewport.height is the visible area above the keyboard on iOS.
  */
 function updatePosition(el: HTMLElement, clientRect: (() => DOMRect) | null): void {
   if (!clientRect) return;
-  const rect       = clientRect();
-  const vv         = window.visualViewport;
-  const vpOffsetTop  = vv?.offsetTop  ?? window.scrollY;
-  const vpOffsetLeft = vv?.offsetLeft ?? window.scrollX;
-  const vpBottom     = vv ? (vv.offsetTop + vv.height) : window.innerHeight;
+  const rect   = clientRect();
+  const vv     = window.visualViewport;
+  const vpH    = vv?.height ?? window.innerHeight;
+  const vpW    = vv?.width  ?? window.innerWidth;
 
-  const MENU_APPROX_H = 280;
-  const MARGIN        = 8;
+  const MENU_H = 260;
+  const MARGIN = 8;
 
-  const spaceBelow = vpBottom - rect.bottom - MARGIN;
-  const spaceAbove = rect.top  - vpOffsetTop - MARGIN;
+  const spaceBelow = vpH    - rect.bottom - MARGIN;
+  const spaceAbove = rect.top             - MARGIN;
 
-  // Default: position below cursor. Fall back to above if keyboard would cover it.
   let top: number;
-  if (spaceBelow >= MENU_APPROX_H || spaceBelow >= spaceAbove) {
-    top = rect.bottom + vpOffsetTop + 4;
+  if (spaceBelow >= MENU_H || spaceBelow >= spaceAbove) {
+    // Enough room below — open downward, clamp so it never overflows
+    top = Math.min(rect.bottom + 4, vpH - MENU_H - MARGIN);
   } else {
-    top = rect.top + vpOffsetTop - MENU_APPROX_H - 4;
+    // Not enough room below — open upward above the caret
+    top = Math.max(rect.top - MENU_H - 4, MARGIN);
   }
 
-  const left = Math.max(MARGIN, Math.min(rect.left + vpOffsetLeft, window.innerWidth - 292 - MARGIN));
+  const left = Math.max(MARGIN, Math.min(rect.left, vpW - 292 - MARGIN));
 
   el.style.top  = `${top}px`;
   el.style.left = `${left}px`;
 
-  // Fine-tune after the menu has rendered and has a real height
+  // Fine-tune once the real menu height is known
   requestAnimationFrame(() => {
-    const menuRect = el.getBoundingClientRect();
-    if (menuRect.bottom > vpBottom - MARGIN) {
-      el.style.top = `${rect.top + vpOffsetTop - menuRect.height - 4}px`;
+    const m = el.getBoundingClientRect();
+    if (m.bottom > vpH - MARGIN) {
+      el.style.top = `${Math.max(MARGIN, rect.top - m.height - 4)}px`;
     }
-    if (menuRect.right > window.innerWidth - MARGIN) {
-      el.style.left = `${window.innerWidth - menuRect.width - MARGIN}px`;
+    if (m.right > vpW - MARGIN) {
+      el.style.left = `${vpW - m.width - MARGIN}px`;
     }
   });
 }
 
 function applyContainerStyles(el: HTMLDivElement): void {
   Object.assign(el.style, {
-    position:   'absolute',
+    position:   'fixed',   // fixed = visual-viewport-relative; never scrolls under keyboard
     zIndex:     '9999',
     background: '#161616',
     border:     '1px solid rgba(255,255,255,0.09)',

@@ -49,7 +49,7 @@ export const SLASH_COMMANDS: SlashCommand[] = [
   {
     title: 'Blockquote', description: 'Indented quote block', icon: '❝', group: 'Style',
     command: ({ editor, range }) =>
-      editor.chain().focus().deleteRange(range).setBlockquote().run(),
+      editor.chain().focus().deleteRange(range).toggleBlockquote().run(),
   },
   {
     title: 'Code Block', description: 'Monospace code block', icon: '</>', group: 'Style',
