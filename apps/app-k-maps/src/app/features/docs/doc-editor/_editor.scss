@@ -8,6 +8,10 @@
   padding: 16px 20px 120px;
   min-height: 100%;
   box-sizing: border-box;
+  // Eliminates 300ms iOS tap delay on the entire editor surface,
+  // so caret placement is instantaneous when tapping any padding area.
+  touch-action: manipulation;
+  cursor: text;
 }
 
 // ── ProseMirror base ─────────────────────────────────────────────────────────
@@ -22,6 +26,10 @@
   user-select: text;
   word-break: break-word;
   overflow-wrap: break-word;
+  // Eliminates 300ms iOS tap delay — caret appears on first tap, not second.
+  touch-action: manipulation;
+  // Make the entire content area show a text cursor (helps on iPad)
+  cursor: text;
 }
 
 // ── Placeholder ──────────────────────────────────────────────────────────────

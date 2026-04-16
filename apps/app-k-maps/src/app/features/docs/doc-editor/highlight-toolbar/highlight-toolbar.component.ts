@@ -1,6 +1,6 @@
 import {
   Component, OnDestroy, inject, signal, effect,
-  ChangeDetectionStrategy, ChangeDetectorRef, NgZone
+  ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ElementRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DocEditorService } from '../../services/doc-editor.service';
@@ -358,6 +358,7 @@ export class HighlightToolbarComponent implements OnDestroy {
   private extractSvc  = inject(DocExtractService);
   private cdr         = inject(ChangeDetectorRef);
   private zone        = inject(NgZone);
+  private elRef       = inject(ElementRef);
 
   visible    = signal(false);
   bubbleTop  = signal(0);
@@ -378,6 +379,22 @@ export class HighlightToolbarComponent implements OnDestroy {
   sheetItems      = signal<ToolbarSheetItem[]>([]);
 
   private hideTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  /**
+   * Document-level touchstart handler — hides bubble when user taps
+   * anywhere outside the bubble or sheet (e.g. in padding area, header,
+   * or any non-editor region). The selectionUpdate fast-path already handles
+   * taps inside the editor text, but misses taps completely outside the editor.
+   */
+  private readonly onDocTouchStart = (e: TouchEvent) => {
+    if (!this.visible() && !this.sheetOpen()) return;
+    // If the tap landed inside this component's DOM (bubble or sheet), ignore it
+    if (this.elRef.nativeElement.contains(e.target as Node)) return;
+    this.zone.run(() => {
+      this.hide();
+      this.closeSheet();
+    });
+  };
 
   /**
    * Saved TipTap selection (from/to) captured when the bubble is shown.
@@ -431,10 +448,15 @@ export class HighlightToolbarComponent implements OnDestroy {
         this.registeredEditor = editor;
       }
     });
+
+    // Hide bubble when tapping anywhere outside (captures taps in padding,
+    // header, or ion-content dead zones that don't trigger selectionUpdate).
+    document.addEventListener('touchstart', this.onDocTouchStart, { passive: true, capture: false });
   }
 
   ngOnDestroy(): void {
     this.registeredEditor?.off('selectionUpdate', this.selUpdateFn);
+    document.removeEventListener('touchstart', this.onDocTouchStart, false);
     if (this.hideTimeout) clearTimeout(this.hideTimeout);
   }
 

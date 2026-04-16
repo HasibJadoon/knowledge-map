@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { DocEditorService } from '../services/doc-editor.service';
 import { DocSaveService }   from '../services/doc-save.service';
 import { DocRightPanelComponent } from '../doc-right-panel/doc-right-panel.component';
@@ -27,7 +27,11 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/docs" text=""></ion-back-button>
+          <!-- Manual back button — more reliable than ion-back-button on iOS PWA
+               because ion-back-button only activates when Ionic has nav history. -->
+          <ion-button fill="clear" (click)="goBack()" aria-label="Back">
+            <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+          </ion-button>
         </ion-buttons>
 
         <ion-title>
@@ -197,6 +201,7 @@ export class DocEditorPage implements OnInit, OnDestroy {
   private http       = inject(HttpClient);
   private cdr        = inject(ChangeDetectorRef);
   private ngZone     = inject(NgZone);
+  private navCtrl    = inject(NavController);
 
   titleModel = '';
   toolbarVisible = signal(false);
@@ -376,6 +381,16 @@ export class DocEditorPage implements OnInit, OnDestroy {
     e.commands.focus('end');
     this.toolbarVisible.set(true);
     this.cdr.markForCheck();
+  }
+
+  /** Navigate back — uses Ionic nav stack if available, else falls back to /docs. */
+  goBack(): void {
+    this.saveSvc.flush();
+    if (window.history.length > 1) {
+      this.navCtrl.back({ animated: true });
+    } else {
+      void this.navCtrl.navigateBack('/docs', { animated: true });
+    }
   }
 
   // ── Right panel ────────────────────────────────────────────────────────────
