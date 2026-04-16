@@ -71,12 +71,14 @@ export class DocEditorService {
   constructor(private http: HttpClient) {}
   get editor() { return this._editor; }
 
-  readonly docId      = signal<string | null>(null);
-  readonly title      = signal('Untitled');
-  readonly isSaving   = signal(false);
-  readonly isDirty    = signal(false);
-  readonly wordCount  = signal(0);
+  readonly docId       = signal<string | null>(null);
+  readonly title       = signal('Untitled');
+  readonly isSaving    = signal(false);
+  readonly isDirty     = signal(false);
+  readonly wordCount   = signal(0);
   readonly editorReady = signal(false);
+  /** True when editor has a non-collapsed text selection. Used by the accessory bar. */
+  readonly hasSelection = signal(false);
 
   /** Set by DocEditorPage to trigger debounced save on content change. */
   saveFn: (() => void) | null = null;
@@ -167,6 +169,9 @@ export class DocEditorService {
           },
         }),
       ],
+      onSelectionUpdate: ({ editor }) => {
+        this.hasSelection.set(!editor.state.selection.empty);
+      },
       onUpdate: () => {
         // Skip during initial setContent — avoids dirty/save on every hydration transaction
         if (this.isLoadingContent) return;

@@ -56,7 +56,7 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
          A plain overflow-y:auto div lets iOS WKWebView handle tap-to-caret
          natively — no JS touch intercept needed. -->
     <ion-content class="km-doc-content" [scrollY]="false">
-      <div class="km-doc-body" (click)="onContentTap($event)">
+      <div class="km-doc-body" #bodyEl (click)="onContentTap($event)">
         <div #editorEl class="km-doc-editor-el"></div>
         <!-- Tap-to-focus padding area below last block -->
         <div class="km-doc-tail" (click)="focusEnd()"></div>
@@ -70,20 +70,18 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
       </aside>
     }
 
-    <!-- ── Bottom formatting toolbar ─────────────────────────────────────── -->
-    <ion-footer class="km-doc-footer" [class.km-doc-footer--visible]="toolbarVisible()">
-      <ion-toolbar class="km-fmt-bar">
-        <div class="km-fmt-scroll">
+    <!-- ── Keyboard accessory bar (Obsidian-style) ────────────────────────
+         position:fixed sits above the keyboard via visualViewport tracking.
+         Content switches between two modes:
+           • Caret (no selection)  → block-structure tools
+           • Selection             → inline-mark tools
+         No floating bubble menu — iOS native selection handles text picking. -->
+    <div class="km-accessory-bar" #accessoryBar
+         [class.km-accessory-bar--visible]="toolbarVisible()">
+      <div class="km-fmt-scroll">
 
-          <!-- Block type -->
-          <button class="km-fmt-btn" title="Text"      (click)="setBlock('paragraph')">¶</button>
-          <button class="km-fmt-btn" title="Heading 1" (click)="setBlock('heading1')">H₁</button>
-          <button class="km-fmt-btn" title="Heading 2" (click)="setBlock('heading2')">H₂</button>
-          <button class="km-fmt-btn" title="Heading 3" (click)="setBlock('heading3')">H₃</button>
-
-          <div class="km-fmt-sep"></div>
-
-          <!-- Inline marks -->
+        @if (editorSvc.hasSelection()) {
+          <!-- ── Selection mode: inline marks ──────────────────────────── -->
           <button class="km-fmt-btn" [class.km-fmt-btn--active]="isBold()"
                   (click)="cmd('bold')"><b>B</b></button>
           <button class="km-fmt-btn" [class.km-fmt-btn--active]="isItalic()"
@@ -97,22 +95,51 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
 
           <div class="km-fmt-sep"></div>
 
-          <!-- Lists -->
-          <button class="km-fmt-btn" title="Bullet list"  (click)="setBlock('bulletList')">•≡</button>
-          <button class="km-fmt-btn" title="Numbered list" (click)="setBlock('orderedList')">1≡</button>
-          <button class="km-fmt-btn" title="Task list"    (click)="setBlock('taskList')">☑</button>
+          <button class="km-fmt-btn" [class.km-fmt-btn--active]="isLink()"
+                  title="Link" (click)="setLink()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+          </button>
+          <button class="km-fmt-btn" title="Clear formatting"
+                  (click)="clearFormatting()">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13">
+              <path d="M1 2.5A1.5 1.5 0 012.5 1h8.586a1.5 1.5 0 011.06.44l2.915 2.914A1.5 1.5 0 0115.5 5.5v1.086a1.5 1.5 0 01-.44 1.06L9.707 13H13.5a.5.5 0 010 1h-8a.5.5 0 010-1h2.293l-3.147-3.146A1.5 1.5 0 014.5 8.793V4.207A1.5 1.5 0 011 2.5z"/>
+              <line x1="2" y1="14" x2="14" y2="2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </button>
 
           <div class="km-fmt-sep"></div>
 
-          <!-- Block elements -->
-          <button class="km-fmt-btn" title="Blockquote"  (click)="setBlock('blockquote')">❝</button>
-          <button class="km-fmt-btn" title="Callout"     (click)="insertCallout()">💡</button>
-          <button class="km-fmt-btn" title="Divider"     (click)="insertDivider()">—</button>
-          <button class="km-fmt-btn" title="Code block"  (click)="setBlock('codeBlock')">&#123; &#125;</button>
+          <!-- Block type still reachable while selected -->
+          <button class="km-fmt-btn" title="Text"      (click)="setBlock('paragraph')">¶</button>
+          <button class="km-fmt-btn" title="Heading 1" (click)="setBlock('heading1')">H₁</button>
+          <button class="km-fmt-btn" title="Heading 2" (click)="setBlock('heading2')">H₂</button>
+          <button class="km-fmt-btn" title="Heading 3" (click)="setBlock('heading3')">H₃</button>
+
+        } @else {
+          <!-- ── Caret mode: block-structure tools ──────────────────────── -->
+          <button class="km-fmt-btn" title="Text"      (click)="setBlock('paragraph')">¶</button>
+          <button class="km-fmt-btn" title="Heading 1" (click)="setBlock('heading1')">H₁</button>
+          <button class="km-fmt-btn" title="Heading 2" (click)="setBlock('heading2')">H₂</button>
+          <button class="km-fmt-btn" title="Heading 3" (click)="setBlock('heading3')">H₃</button>
 
           <div class="km-fmt-sep"></div>
 
-          <!-- Link -->
+          <button class="km-fmt-btn" title="Bullet list"   (click)="setBlock('bulletList')">•≡</button>
+          <button class="km-fmt-btn" title="Ordered list"  (click)="setBlock('orderedList')">1≡</button>
+          <button class="km-fmt-btn" title="Task list"     (click)="setBlock('taskList')">☑</button>
+
+          <div class="km-fmt-sep"></div>
+
+          <button class="km-fmt-btn" title="Blockquote" (click)="setBlock('blockquote')">❝</button>
+          <button class="km-fmt-btn" title="Callout"    (click)="insertCallout()">💡</button>
+          <button class="km-fmt-btn" title="Divider"    (click)="insertDivider()">—</button>
+          <button class="km-fmt-btn" title="Code block" (click)="setBlock('codeBlock')">{}</button>
+
+          <div class="km-fmt-sep"></div>
+
           <button class="km-fmt-btn" title="Link" (click)="setLink()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14">
               <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
@@ -122,13 +149,12 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
 
           <div class="km-fmt-sep"></div>
 
-          <!-- Indent / Outdent -->
           <button class="km-fmt-btn" title="Outdent" (click)="outdent()">⇤</button>
           <button class="km-fmt-btn" title="Indent"  (click)="indent()">⇥</button>
+        }
 
-        </div>
-      </ion-toolbar>
-    </ion-footer>
+      </div>
+    </div>
   `,
   styles: [`
     :host { display: flex; flex-direction: column; height: 100%; }
@@ -195,6 +221,8 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
 })
 export class DocEditorPage implements OnInit, OnDestroy {
   @ViewChild('editorEl', { static: true }) editorEl!: ElementRef<HTMLDivElement>;
+  @ViewChild('bodyEl')      bodyEl!:      ElementRef<HTMLDivElement>;
+  @ViewChild('accessoryBar') accessoryBar!: ElementRef<HTMLDivElement>;
 
   readonly editorSvc = inject(DocEditorService);
   private saveSvc    = inject(DocSaveService);
@@ -210,6 +238,7 @@ export class DocEditorPage implements OnInit, OnDestroy {
 
   private mutationObserver: MutationObserver | null = null;
   private readonly API = `${environment.apiBase}/docs`;
+  private vpRaf: number | null = null;  // rAF handle for visualViewport throttle
 
   // ── Computed editor state ───────────────────────────────────────────────
   isBold()      { return this.editorSvc.editor?.isActive('bold')      ?? false; }
@@ -217,6 +246,7 @@ export class DocEditorPage implements OnInit, OnDestroy {
   isUnderline() { return this.editorSvc.editor?.isActive('underline') ?? false; }
   isStrike()    { return this.editorSvc.editor?.isActive('strike')    ?? false; }
   isCode()      { return this.editorSvc.editor?.isActive('code')      ?? false; }
+  isLink()      { return this.editorSvc.editor?.isActive('link')      ?? false; }
 
   ngOnInit(): void {
     this.editorSvc.saveFn = () => this.saveSvc.scheduleSave();
@@ -226,7 +256,7 @@ export class DocEditorPage implements OnInit, OnDestroy {
       this.editorSvc.createPageBlock(e.detail.pos);
     }) as EventListener);
 
-    // Show toolbar when editor is focused
+    // Show accessory bar when editor is focused (= keyboard open on mobile)
     this.editorEl.nativeElement.addEventListener('focusin', () => {
       this.toolbarVisible.set(true);
       this.cdr.markForCheck();
@@ -238,6 +268,17 @@ export class DocEditorPage implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         }
       }, 150);
+    });
+
+    // ── visualViewport: keep accessory bar above the keyboard ──────────────
+    // On iOS PWA (< iOS 15.4) window.innerHeight does NOT shrink when the
+    // software keyboard appears, so position:fixed;bottom:0 lands UNDER the
+    // keyboard.  visualViewport.height always reflects the visible area, so
+    // we shift the bar up by the keyboard height on every resize event.
+    // Runs outside the Angular zone so it never triggers change detection.
+    this.ngZone.runOutsideAngular(() => {
+      window.visualViewport?.addEventListener('resize', this.onVpResize, { passive: true });
+      window.visualViewport?.addEventListener('scroll', this.onVpResize, { passive: true });
     });
 
     this.route.paramMap.subscribe(params => {
@@ -300,7 +341,32 @@ export class DocEditorPage implements OnInit, OnDestroy {
     this.mutationObserver?.disconnect();
     this.saveSvc.flush();
     this.editorSvc.destroyEditor();
+    window.visualViewport?.removeEventListener('resize', this.onVpResize);
+    window.visualViewport?.removeEventListener('scroll', this.onVpResize);
+    if (this.vpRaf !== null) cancelAnimationFrame(this.vpRaf);
   }
+
+  // ── visualViewport sync — throttled to one rAF per frame ─────────────────
+  private onVpResize = () => {
+    if (this.vpRaf !== null) return;
+    this.vpRaf = requestAnimationFrame(() => {
+      this.vpRaf = null;
+      const vv = window.visualViewport;
+      const bar = this.accessoryBar?.nativeElement;
+      const body = this.bodyEl?.nativeElement;
+      if (!vv || !bar) return;
+
+      // keyboardHeight = how far the keyboard pushes up from the layout bottom
+      const keyboardHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      // Lift the bar above the keyboard
+      bar.style.setProperty('--kb-offset', `${keyboardHeight}px`);
+      // Pad the scroll body so content is never hidden behind bar + keyboard
+      if (body) {
+        const BAR_H = 44;
+        body.style.paddingBottom = `${keyboardHeight + BAR_H + 8}px`;
+      }
+    });
+  };
 
   onTitleChange(val: string): void {
     this.editorSvc.title.set(val);
@@ -349,6 +415,11 @@ export class DocEditorPage implements OnInit, OnDestroy {
 
   insertDivider(): void {
     this.editorSvc.editor?.chain().focus().setHorizontalRule().run();
+  }
+
+  clearFormatting(): void {
+    this.editorSvc.editor?.chain().focus().unsetAllMarks().run();
+    this.cdr.markForCheck();
   }
 
   setLink(): void {
