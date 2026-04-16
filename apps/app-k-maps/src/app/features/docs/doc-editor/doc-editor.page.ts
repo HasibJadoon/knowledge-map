@@ -10,7 +10,6 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { DocEditorService } from '../services/doc-editor.service';
 import { DocSaveService }   from '../services/doc-save.service';
 import { DocRightPanelComponent } from '../doc-right-panel/doc-right-panel.component';
-import { HighlightToolbarComponent } from './highlight-toolbar/highlight-toolbar.component';
 import { environment } from '../../../../environments/environment';
 
 // ── Block types the bottom toolbar can set ───────────────────────────────────
@@ -21,7 +20,7 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
   selector: 'app-doc-editor',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, FormsModule, IonicModule, HighlightToolbarComponent, DocRightPanelComponent],
+  imports: [CommonModule, FormsModule, IonicModule, DocRightPanelComponent],
   template: `
     <!-- ── Header ─────────────────────────────────────────────────────────── -->
     <ion-header>
@@ -70,9 +69,6 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
         <km-doc-right-panel (closeRequested)="closePanel()"></km-doc-right-panel>
       </aside>
     }
-
-    <!-- ── Floating selection bubble (always mounted, positions itself) ─── -->
-    <km-highlight-toolbar></km-highlight-toolbar>
 
     <!-- ── Bottom formatting toolbar ─────────────────────────────────────── -->
     <ion-footer class="km-doc-footer" [class.km-doc-footer--visible]="toolbarVisible()">
