@@ -7,14 +7,13 @@ import { CommonModule } from '@angular/common';
 import { DocEditorService } from '../services/doc-editor.service';
 import { DocSaveService } from '../services/doc-save.service';
 import { DocRightPanelComponent } from '../doc-right-panel/doc-right-panel.component';
-import { HighlightToolbarComponent } from './highlight-toolbar/highlight-toolbar.component';
 import gsap from 'gsap';
 
 @Component({
   selector: 'km-doc-editor',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, FormsModule, DocRightPanelComponent, HighlightToolbarComponent],
+  imports: [CommonModule, FormsModule, DocRightPanelComponent],
   templateUrl: './doc-editor.component.html',
   styleUrl: './doc-editor.component.scss'
 })

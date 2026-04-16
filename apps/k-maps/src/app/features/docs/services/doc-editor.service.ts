@@ -1,10 +1,12 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Editor, Extension } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
+import BubbleMenu from '@tiptap/extension-bubble-menu';
 import DragHandle from '@tiptap/extension-drag-handle';
 import { createBlockHandleElement, type EditorRef } from '../doc-editor/block-handle/block-handle';
+import { createBubbleMenuElement } from '../doc-editor/bubble-menu/bubble-menu';
 import { PageLink } from '../doc-editor/tiptap-extensions/page-link.extension';
 import UniqueId from '@tiptap/extension-unique-id';
 import Placeholder from '@tiptap/extension-placeholder';
@@ -25,6 +27,7 @@ import {
 } from '../doc-editor/tiptap-extensions/worldview-blocks.extension';
 import { SlashCommandExtension } from '../doc-editor/tiptap-extensions/slash-command.extension';
 import { Callout } from '../doc-editor/tiptap-extensions/callout.extension';
+import { DocExtractService } from './doc-extract.service';
 
 export interface DocContext {
   domain: 'general' | 'quran' | 'arabic' | 'worldview' | 'workspace';
@@ -42,24 +45,24 @@ export interface DocContext {
 @Injectable({ providedIn: 'root' })
 export class DocEditorService {
   private _editor: Editor | null = null;
-  /** Cached DOM node for the currently-hovered block — avoids querySelectorAll. */
   private _lastHoveredEl: HTMLElement | null = null;
-  /** Timer for debounced word-count update (walks whole doc — keep off hot path). */
   private _wordCountTimer: ReturnType<typeof setTimeout> | null = null;
+  private _bubbleUpdateRaf: number | null = null;
 
-  constructor(private http: HttpClient) {}
+  private http       = inject(HttpClient);
+  private extractSvc = inject(DocExtractService);
+
   get editor() { return this._editor; }
 
-  readonly docId      = signal<string | null>(null);
-  readonly title      = signal('Untitled');
-  readonly isSaving   = signal(false);
-  readonly isDirty    = signal(false);
-  readonly wordCount  = signal(0);
+  readonly docId       = signal<string | null>(null);
+  readonly title       = signal('Untitled');
+  readonly isSaving    = signal(false);
+  readonly isDirty     = signal(false);
+  readonly wordCount   = signal(0);
   readonly rightPanel  = signal<'links' | 'metadata' | 'outline' | null>('outline');
   readonly leftOpen    = signal(true);
   readonly editorReady = signal(false);
 
-  /** Set by DocEditorComponent to trigger debounced save on content change. */
   saveFn: (() => void) | null = null;
 
   readonly context = signal<DocContext>({
@@ -67,7 +70,7 @@ export class DocEditorService {
     surah: null, ayahFrom: null, ayahTo: null,
     sourceId: null, sourceUnitId: null,
     containerId: null, unitId: null,
-    workspaceId: null
+    workspaceId: null,
   });
 
   readonly hasQuranContext  = computed(() => this.context().surah != null);
@@ -85,37 +88,46 @@ export class DocEditorService {
   }
 
   initEditor(element: HTMLElement): void {
-    // Use a mutable ref so render() can be called during Editor construction
-    // but button handlers still get the editor when they fire (after init)
     const editorRef: EditorRef = {
       current: null,
       hoveredBlockPos: null,
       hoveredBlockNodeSize: null,
     };
+
     const handleEl = createBlockHandleElement(editorRef, {
       onCreatePage: (afterPos) => this.createPageBlock(afterPos),
     });
 
+    // ── Native TipTap bubble menu ──────────────────────────────────────────
+    // createBubbleMenuElement returns a plain DOM element + an update() fn.
+    // BubbleMenu.configure({ element }) hands all show/hide/positioning to
+    // TipTap / tippy.js — no Angular event listeners, no preventDefault on
+    // the editor, so text selection and keyboard shortcuts are never blocked.
+    const bubbleRef = createBubbleMenuElement(
+      () => this._editor,
+      {
+        extractToTopic: (t) => this.extractSvc.extractToWvTopic(t),
+        extractToVocab: (t) => this.extractSvc.extractToVocab(t),
+        extractToTask:  (t) => this.extractSvc.extractToTask(t),
+        createSrsCard:  (t) => this.extractSvc.createSrsCard(t),
+      },
+    );
+
     this._editor = new Editor({
       element,
-      // Exclude core textDirection — we use tiptap-text-direction for per-node RTL support
       enableCoreExtensions: { textDirection: false } as Record<string, boolean>,
       extensions: [
-        // StarterKit v3 already includes Link + Underline — exclude to avoid duplicates
         StarterKit.configure({ link: false, underline: false }),
         DragHandle.configure({
           render: () => handleEl,
           onNodeChange: (data: { node: unknown; editor: Editor; pos?: number }) => {
-            // Remove previous hover from cached reference — no querySelectorAll
             if (this._lastHoveredEl) {
               this._lastHoveredEl.classList.remove('km-block--hovered');
               this._lastHoveredEl = null;
             }
-
             const pos = typeof data.pos === 'number' && data.pos >= 0 ? data.pos : null;
             editorRef.hoveredBlockPos = pos;
             editorRef.hoveredBlockNodeSize = (data.node as { nodeSize?: number } | null)?.nodeSize ?? null;
-
             if (pos !== null && this._editor) {
               const domNode = this._editor.view.nodeDOM(pos);
               if (domNode instanceof HTMLElement) {
@@ -123,6 +135,19 @@ export class DocEditorService {
                 this._lastHoveredEl = domNode;
               }
             }
+          },
+        }),
+        // Native bubble menu — TipTap handles all positioning + show/hide
+        BubbleMenu.configure({
+          element: bubbleRef.element,
+          updateDelay: 0,
+          options: {
+            placement: 'top',
+            offset: 10,
+          },
+          shouldShow: ({ editor }) => {
+            const { from, to } = editor.state.selection;
+            return from !== to && !editor.isActive('image');
           },
         }),
         // Quran
@@ -142,7 +167,7 @@ export class DocEditorService {
         TimelineBlock,
         ComprehensionBlock,
         ChildrenBlock,
-        // Rich text formatting
+        // Rich text
         Underline,
         Highlight.configure({ multicolor: true }),
         Link.configure({ openOnClick: false, HTMLAttributes: { rel: 'noopener noreferrer' } }),
@@ -157,7 +182,6 @@ export class DocEditorService {
         PageLink,
         Callout,
         SlashCommandExtension,
-        // Tab = sink list item (indent), Shift-Tab = lift (outdent)
         Extension.create({
           name: 'tabIndent',
           addKeyboardShortcuts() {
@@ -171,22 +195,30 @@ export class DocEditorService {
       onUpdate: ({ editor }) => {
         this.isDirty.set(true);
         this.saveFn?.();
-        // Debounce word-count: CharacterCount.words() walks the whole doc —
-        // no need to run it on every single keystroke.
         if (this._wordCountTimer) clearTimeout(this._wordCountTimer);
         this._wordCountTimer = setTimeout(() => {
           this._wordCountTimer = null;
           this.wordCount.set(editor.storage['characterCount']?.words() ?? 0);
         }, 500);
-      }
+      },
     });
 
-    // Wire up the ref so button handlers can access the now-ready editor
     editorRef.current = this._editor;
+
+    // rAF-debounced bubble active-state refresh on every selection change
+    const scheduleUpdate = () => {
+      if (this._bubbleUpdateRaf !== null) cancelAnimationFrame(this._bubbleUpdateRaf);
+      this._bubbleUpdateRaf = requestAnimationFrame(() => {
+        this._bubbleUpdateRaf = null;
+        bubbleRef.update();
+      });
+    };
+    this._editor.on('selectionUpdate', scheduleUpdate);
+    this._editor.on('transaction',     scheduleUpdate);
+
     this.editorReady.set(true);
   }
 
-  /** Creates a new child document and inserts a PageLink block at afterPos. */
   async createPageBlock(afterPos: number): Promise<void> {
     const ctx = this.context();
     const payload = {
@@ -200,7 +232,6 @@ export class DocEditorService {
       source_id: ctx.sourceId,
       workspace_id: ctx.workspaceId,
     };
-
     try {
       const res = await firstValueFrom(
         this.http.post<{ id: string; title: string }>('/api/docs', payload)
@@ -216,7 +247,8 @@ export class DocEditorService {
 
   destroyEditor(): void {
     this.editorReady.set(false);
-    if (this._wordCountTimer) { clearTimeout(this._wordCountTimer); this._wordCountTimer = null; }
+    if (this._wordCountTimer)    { clearTimeout(this._wordCountTimer); this._wordCountTimer = null; }
+    if (this._bubbleUpdateRaf !== null) { cancelAnimationFrame(this._bubbleUpdateRaf); this._bubbleUpdateRaf = null; }
     this._lastHoveredEl = null;
     this._editor?.destroy();
     this._editor = null;
@@ -235,8 +267,8 @@ export class DocEditorService {
         text_uthmani: textUthmani,
         translation,
         show_translation: true,
-        dir: 'rtl', lang: 'ar'
-      }
+        dir: 'rtl', lang: 'ar',
+      },
     });
   }
 }
