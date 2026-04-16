@@ -64,6 +64,7 @@ export const Callout = Node.create({
             position: relative;
             box-shadow: 0 1px 4px rgba(0,0,0,0.18);
             transition: background 0.2s;
+            touch-action: manipulation;
           }
           .km-callout::before {
             content: '';
@@ -103,6 +104,7 @@ export const Callout = Node.create({
             line-height: 1.75;
             -webkit-user-select: text !important;
             user-select: text !important;
+            touch-action: manipulation;
           }
           .km-callout__content .ProseMirror-trailingBreak { display: none; }
           /* ── Picker ── */
@@ -309,9 +311,11 @@ export const Callout = Node.create({
         if (emojiEl.contains(e.target as globalThis.Node)) return;
         if (pickerEl?.contains(e.target as globalThis.Node)) return;
         if (contentEl.contains(e.target as globalThis.Node)) {
-          // Tap landed on editable text — native ProseMirror caret placement
-          // handles it; just ensure the editor is focused if it somehow lost it.
-          if (!editor.isFocused) editor.commands.focus();
+          // Tap landed on editable content — let ProseMirror place the caret
+          // natively. Never call editor.commands.focus() here: on iOS, focus
+          // fires asynchronously so isFocused is false at pointerup time, and
+          // calling focus() would override the tap position before the synthetic
+          // click fires — making the callout appear un-tappable.
           return;
         }
         // Dead zone (left border / padding): route caret to first paragraph.
