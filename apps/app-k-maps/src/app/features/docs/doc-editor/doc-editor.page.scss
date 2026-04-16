@@ -371,6 +371,22 @@
   &.km-bar--show { display: block; }
 }
 
+// ion-toolbar inside the footer — strip all default chrome so the row
+// renders exactly as designed (no extra padding, no min-height, no border).
+.km-bar-toolbar {
+  --background: transparent;
+  --border-width: 0;
+  --border-style: none;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --min-height: 0;
+  --inner-padding-end: 0;
+  --inner-padding-start: 0;
+  contain: strict;
+}
+
 .km-bar-row {
   display: flex;
   align-items: center;
@@ -421,10 +437,11 @@
 
 .km-sep {
   width: 1px;
-  height: 18px;
-  background: rgba(255, 255, 255, 0.09);
-  margin: 0 4px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.16);
+  margin: 0 5px;
   flex-shrink: 0;
+  align-self: center;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
