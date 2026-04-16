@@ -136,7 +136,7 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
           <button class="km-fmt-btn" title="Blockquote" (click)="setBlock('blockquote')">❝</button>
           <button class="km-fmt-btn" title="Callout"    (click)="insertCallout()">💡</button>
           <button class="km-fmt-btn" title="Divider"    (click)="insertDivider()">—</button>
-          <button class="km-fmt-btn" title="Code block" (click)="setBlock('codeBlock')">{}</button>
+          <button class="km-fmt-btn" title="Code block" (click)="setBlock('codeBlock')">&#123;&#125;</button>
 
           <div class="km-fmt-sep"></div>
 
