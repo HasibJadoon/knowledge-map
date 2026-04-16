@@ -105,8 +105,33 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     if (!window.visualViewport) return;
 
     this.vpResizeHandler = () => {
-      const keyboardOpen = (window.innerHeight - window.visualViewport!.height) > 100;
+      const vv = window.visualViewport!;
+      // keyboardHeight = layout-viewport height minus visible area.
+      // offsetTop accounts for any page zoom/scroll offset.
+      const keyboardHeight = Math.max(0, window.innerHeight - vv.height - (vv.offsetTop ?? 0));
+      const keyboardOpen = keyboardHeight > 100;
+
       this.toolbarVisible.set(keyboardOpen);
+
+      // Move the fixed bar to sit exactly above the keyboard.
+      document.documentElement.style.setProperty('--km-bar-bottom', `${keyboardHeight}px`);
+
+      // Scroll the active caret into view above our toolbar (~52 px).
+      if (keyboardOpen) {
+        setTimeout(() => {
+          const sel = window.getSelection();
+          if (sel && sel.rangeCount) {
+            const r = sel.getRangeAt(0).getBoundingClientRect();
+            const barTop = vv.height + (vv.offsetTop ?? 0) - 52; // our bar top edge
+            if (r.bottom > barTop) {
+              window.scrollBy({ top: r.bottom - barTop + 8, behavior: 'smooth' });
+            }
+          }
+        }, 100);
+      } else {
+        document.documentElement.style.setProperty('--km-bar-bottom', '0px');
+      }
+
       this.cdr.markForCheck();
     };
     window.visualViewport.addEventListener('resize', this.vpResizeHandler);
@@ -120,6 +145,7 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     if (this.vpResizeHandler && window.visualViewport) {
       window.visualViewport.removeEventListener('resize', this.vpResizeHandler);
     }
+    document.documentElement.style.removeProperty('--km-bar-bottom');
   }
 
   // ── Load ───────────────────────────────────────────────────────────────────

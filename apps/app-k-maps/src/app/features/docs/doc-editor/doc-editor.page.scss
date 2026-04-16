@@ -370,31 +370,19 @@
 // making buttons look faded/recessed. Moving the blur into a ::before on
 // our own element keeps it strictly below the flex children.
 
-// ion-footer host — transparent, no stacking context side-effects
+// Accessory bar — plain fixed div, floats above keyboard on any context
+// (webview, Safari, Capacitor).  Bottom is driven by --km-bar-bottom which
+// TypeScript updates via visualViewport.resize so the bar always sits
+// exactly above the software keyboard regardless of KeyboardResize mode.
 .km-bar {
-  --background: transparent;
-  --border-color: transparent;
-  --box-shadow: none;
   display: none;
-  position: relative;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--km-bar-bottom, 0px);
+  z-index: 9000;
 
   &.km-bar--show { display: block; }
-}
-
-// ion-toolbar — strip every Ionic chrome variable so nothing from shadow DOM
-// overrides our layout
-.km-bar-toolbar {
-  --background: transparent;
-  --border-width: 0;
-  --border-style: none;
-  --box-shadow: none;
-  --padding-start: 0;
-  --padding-end: 0;
-  --padding-top: 0;
-  --padding-bottom: 0;
-  --min-height: 0;
-  --inner-padding-end: 0;
-  --inner-padding-start: 0;
 }
 
 // Content row — glass lives in ::before so flex children are always above it

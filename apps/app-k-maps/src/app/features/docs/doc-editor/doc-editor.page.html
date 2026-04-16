@@ -51,8 +51,7 @@
      the software keyboard. No manual viewport math required.
      All buttons use pointerdown + preventDefault so commands fire before any
      potential editor-blur on iOS (prevents blockquote / format failures). -->
-<ion-footer [class.km-bar--show]="toolbarVisible()" class="km-bar">
-  <ion-toolbar class="km-bar-toolbar">
+<div [class.km-bar--show]="toolbarVisible()" class="km-bar">
     <div class="km-bar-row">
 
       <button class="km-b" (pointerdown)="$event.preventDefault(); undo()" aria-label="Undo">↩</button>
@@ -122,8 +121,7 @@
       }
 
     </div>
-  </ion-toolbar>
-</ion-footer>
+</div>
 
 <!-- ── Insert sheet ─────────────────────────────────────────────────────────── -->
 @if (insertSheetOpen()) {
