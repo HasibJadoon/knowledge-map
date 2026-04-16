@@ -84,17 +84,6 @@
   overflow-wrap: break-word;
   touch-action: manipulation;
 
-  // CSS Containment: each top-level block is an independent layout/style
-  // boundary. Typing in one block does not reflow the rest of the document.
-  > * { contain: layout style; }
-
-  // content-visibility: auto skips paint + layout for off-screen blocks.
-  > h1, > h2, > h3,
-  > ul, > ol,
-  > blockquote, > pre, > hr {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 48px;
-  }
 }
 
 // ── Placeholder ───────────────────────────────────────────────────────────────
