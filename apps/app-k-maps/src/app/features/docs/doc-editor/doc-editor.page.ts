@@ -70,6 +70,7 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   private saveTimer:  ReturnType<typeof setTimeout> | null = null;
   private savedTimer: ReturnType<typeof setTimeout> | null = null;
   private vpResizeHandler: (() => void) | null = null;
+  private vpBaseHeight    = 0;
 
   constructor() {
     // Route params in constructor so takeUntilDestroyed has an injection context
@@ -96,43 +97,28 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
   ngAfterViewInit(): void {
-    // visualViewport.resize is the most reliable cross-platform signal for
-    // keyboard open/close — the same API the slash menu uses.
-    // On iOS with KeyboardResize.Ionic, visualViewport.height shrinks by the
-    // full keyboard height (including the native accessory bar) when the
-    // keyboard opens. A drop of >100 px from the base window height means
-    // the software keyboard is visible.
+    // Two-concern approach:
+    //   SHOW/HIDE → TipTap onFocus/onBlur (reliable in PWA + webview)
+    //   POSITION  → visualViewport.resize with a tracked base height
+    //
+    // In iOS standalone PWA, window.innerHeight ALSO shrinks when the
+    // keyboard opens, so innerHeight − vv.height ≈ 0. We fix this by
+    // tracking the largest vv.height ever seen as the "base" and comparing
+    // against that instead.
     if (!window.visualViewport) return;
+    this.vpBaseHeight = window.visualViewport.height;
 
     this.vpResizeHandler = () => {
       const vv = window.visualViewport!;
-      // keyboardHeight = layout-viewport height minus visible area.
-      // offsetTop accounts for any page zoom/scroll offset.
-      const keyboardHeight = Math.max(0, window.innerHeight - vv.height - (vv.offsetTop ?? 0));
-      const keyboardOpen = keyboardHeight > 100;
+      // Update base whenever viewport gets larger (keyboard dismissed)
+      if (vv.height > this.vpBaseHeight) this.vpBaseHeight = vv.height;
 
-      this.toolbarVisible.set(keyboardOpen);
+      const keyboardHeight = Math.max(0, this.vpBaseHeight - vv.height);
 
       // Move the fixed bar to sit exactly above the keyboard.
-      document.documentElement.style.setProperty('--km-bar-bottom', `${keyboardHeight}px`);
-
-      // Scroll the active caret into view above our toolbar (~52 px).
-      if (keyboardOpen) {
-        setTimeout(() => {
-          const sel = window.getSelection();
-          if (sel && sel.rangeCount) {
-            const r = sel.getRangeAt(0).getBoundingClientRect();
-            const barTop = vv.height + (vv.offsetTop ?? 0) - 52; // our bar top edge
-            if (r.bottom > barTop) {
-              window.scrollBy({ top: r.bottom - barTop + 8, behavior: 'smooth' });
-            }
-          }
-        }, 100);
-      } else {
-        document.documentElement.style.setProperty('--km-bar-bottom', '0px');
-      }
-
-      this.cdr.markForCheck();
+      document.documentElement.style.setProperty(
+        '--km-bar-bottom', `${keyboardHeight}px`
+      );
     };
     window.visualViewport.addEventListener('resize', this.vpResizeHandler);
   }
@@ -208,6 +194,19 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
           const { from, to } = editor.state.selection;
           this.hasSelection.set(from !== to);
           this.cdr.markForCheck();
+        },
+        onFocus: () => {
+          this.toolbarVisible.set(true);
+          this.cdr.markForCheck();
+        },
+        onBlur: () => {
+          // Delay so tapping a toolbar button doesn't close it before firing
+          setTimeout(() => {
+            if (!this.editorHost?.nativeElement.contains(document.activeElement)) {
+              this.toolbarVisible.set(false);
+              this.cdr.markForCheck();
+            }
+          }, 200);
         },
         });
 
