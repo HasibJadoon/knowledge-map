@@ -310,19 +310,20 @@ export const Callout = Node.create({
         // Let native handling take care of taps on the emoji or inside the text
         if (emojiEl.contains(e.target as globalThis.Node)) return;
         if (pickerEl?.contains(e.target as globalThis.Node)) return;
-        if (contentEl.contains(e.target as globalThis.Node)) {
-          // Tap landed on editable content — let ProseMirror place the caret
-          // natively. Never call editor.commands.focus() here: on iOS, focus
-          // fires asynchronously so isFocused is false at pointerup time, and
-          // calling focus() would override the tap position before the synthetic
-          // click fires — making the callout appear un-tappable.
+        if (contentEl.contains(e.target as globalThis.Node) && e.target !== contentEl) {
+          // Tap landed on an actual child node (text / paragraph) inside the
+          // content area — let ProseMirror place the caret natively.
+          // Do NOT call editor.commands.focus() here: on iOS, focus fires
+          // asynchronously so isFocused is false at pointerup time, and
+          // calling focus() would hijack the caret before the synthetic click.
           return;
         }
-        // Dead zone (left border / padding): route caret to first paragraph.
-        e.preventDefault(); // suppress follow-up synthetic click
+        // Dead zone OR tap on contentEl background (empty callout / padding).
+        // Route caret explicitly to the first paragraph so an empty callout
+        // is always tappable.
+        e.preventDefault();
         const pos = typeof getPos === 'function' ? getPos() : null;
         if (pos !== null && pos !== undefined) {
-          // pos+2 = start of first child paragraph inside the callout
           editor.chain().focus().setTextSelection(pos + 2).run();
         }
       });
