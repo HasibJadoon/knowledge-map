@@ -158,6 +158,9 @@ export class HomePage implements AfterViewInit, OnDestroy, ViewWillLeave, ViewWi
   private resizeObs?: ResizeObserver;
   private frameId: number | null = null;
   private readonly texLoader = new THREE.TextureLoader();
+  // Ionic keeps pages alive — ngAfterViewInit fires once, ionViewWillEnter fires on every return.
+  // Skip ionViewWillEnter re-animation the very first time (ngAfterViewInit already ran it).
+  private skipNextEnter = false;
 
   readonly particles = Array.from({ length: 15 }, (_, i) => i);
 
@@ -174,7 +177,34 @@ export class HomePage implements AfterViewInit, OnDestroy, ViewWillLeave, ViewWi
   ];
 
   ngAfterViewInit(): void {
-    // GSAP entrance — same timeline as k-maps desktop
+    this.skipNextEnter = true; // ionViewWillEnter will fire right after — skip it once
+    this.playEntrance();
+    this.initFlame();
+  }
+
+  // ── Ionic page lifecycle — pause/resume the WebGL loop on navigate ──────
+  ionViewWillLeave(): void {
+    this.destroyFlame(); // stop rAF loop before leaving the page
+  }
+
+  ionViewWillEnter(): void {
+    if (this.skipNextEnter) {
+      this.skipNextEnter = false;
+      return; // first entry already handled by ngAfterViewInit
+    }
+    // Re-entry: restart flame + replay entrance (Ionic cached the page, ngAfterViewInit won't re-fire)
+    if (this.fireHostRef?.nativeElement) {
+      this.initFlame();
+    }
+    this.playEntrance();
+  }
+
+  private playEntrance(): void {
+    this.ctx?.revert();
+    // Kill any lingering exit-animation tweens on cards (navigate() sets opacity:0)
+    const cards = this.pageRef?.nativeElement.querySelectorAll<HTMLElement>('.km-module-card');
+    if (cards?.length) gsap.killTweensOf(Array.from(cards));
+
     this.ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
       tl.fromTo(
@@ -201,20 +231,6 @@ export class HomePage implements AfterViewInit, OnDestroy, ViewWillLeave, ViewWi
         '-=0.1',
       );
     }, this.pageRef.nativeElement);
-
-    // Three.js fire
-    this.initFlame();
-  }
-
-  // ── Ionic page lifecycle — pause/resume the WebGL loop on navigate ──────
-  ionViewWillLeave(): void {
-    this.destroyFlame();           // stop rAF loop before leaving the page
-  }
-
-  ionViewWillEnter(): void {
-    if (this.fireHostRef?.nativeElement) {
-      this.initFlame();            // restart it when coming back
-    }
   }
 
   ngOnDestroy(): void {
