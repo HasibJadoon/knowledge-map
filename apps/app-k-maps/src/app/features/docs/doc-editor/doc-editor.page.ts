@@ -12,7 +12,6 @@ import { DocSaveService }   from '../services/doc-save.service';
 import { DocRightPanelComponent } from '../doc-right-panel/doc-right-panel.component';
 import { environment } from '../../../../environments/environment';
 
-// ── Block types the bottom toolbar can set ───────────────────────────────────
 type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
                | 'bulletList' | 'orderedList' | 'taskList' | 'blockquote' | 'codeBlock';
 
@@ -26,203 +25,204 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <!-- Manual back button — more reliable than ion-back-button on iOS PWA
-               because ion-back-button only activates when Ionic has nav history. -->
           <ion-button fill="clear" (click)="goBack()" aria-label="Back">
             <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
           </ion-button>
         </ion-buttons>
 
         <ion-title>
-          <input class="km-doc-title-input"
+          <input class="km-title-input"
                  [(ngModel)]="titleModel"
                  (ngModelChange)="onTitleChange($event)"
                  placeholder="Untitled" />
         </ion-title>
 
         <ion-buttons slot="end">
-          <span class="km-save-label">
+          <span class="km-save-dot">
             {{ editorSvc.isSaving() ? 'Saving…' : editorSvc.isDirty() ? '●' : '' }}
           </span>
-          <ion-button fill="clear" (click)="openPanel()">
+          <ion-button fill="clear" (click)="openPanel()" aria-label="Document info">
             <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
-    <!-- ── Editor canvas ──────────────────────────────────────────────────── -->
-    <!-- [scrollY]="false" hands scrolling to div.km-doc-body below.
-         A plain overflow-y:auto div lets iOS WKWebView handle tap-to-caret
-         natively — no JS touch intercept needed. -->
-    <ion-content class="km-doc-content" [scrollY]="false">
-      <div class="km-doc-body" #bodyEl (click)="onContentTap($event)">
-        <div #editorEl class="km-doc-editor-el"></div>
-        <!-- Tap-to-focus padding area below last block -->
-        <div class="km-doc-tail" (click)="focusEnd()"></div>
-      </div>
-    </ion-content>
+    <!-- ── Writing canvas ───────────────────────────────────────────────────
+         IMPORTANT: This is a plain <div>, NOT ion-content.
+         ion-content's shadow scroller intercepts touch events for scroll/tap
+         disambiguation even when [scrollY]="false" — that 300-400 ms hold is
+         what makes caret placement feel sluggish on iOS.
+         A regular overflow-y:auto div gives WKWebView unambiguous ownership
+         of contenteditable tap-to-caret with zero JS involvement. -->
+    <div class="km-canvas" #scrollEl (click)="onCanvasTap($event)">
+      <div #editorEl class="km-doc-editor-el"></div>
+      <div class="km-doc-tail" (click)="focusEnd()"></div>
+    </div>
 
     @if (panelOpen()) {
-      <div class="km-doc-panel-backdrop" (click)="closePanel()"></div>
-      <aside class="km-doc-panel" (click)="$event.stopPropagation()">
+      <div class="km-backdrop" (click)="closePanel()"></div>
+      <aside class="km-sheet" (click)="$event.stopPropagation()">
         <km-doc-right-panel (closeRequested)="closePanel()"></km-doc-right-panel>
       </aside>
     }
 
     <!-- ── Keyboard accessory bar (Obsidian-style) ────────────────────────
-         position:fixed sits above the keyboard via visualViewport tracking.
-         Content switches between two modes:
-           • Caret (no selection)  → block-structure tools
-           • Selection             → inline-mark tools
-         No floating bubble menu — iOS native selection handles text picking. -->
-    <div class="km-accessory-bar" #accessoryBar
-         [class.km-accessory-bar--visible]="toolbarVisible()">
-      <div class="km-fmt-scroll">
+         position:fixed + --kb-offset CSS var keeps it directly above the
+         software keyboard on all iOS versions via visualViewport tracking.
+         Two modes switch based on whether the editor has a text selection:
+           • No selection  → block-structure tools (undo/redo + paragraph/heading/list)
+           • Has selection → inline-mark tools (bold/italic/underline/code/link) -->
+    <div class="km-bar" #accessoryBar [class.km-bar--show]="toolbarVisible()">
+      <div class="km-bar-row">
+
+        <!-- Undo / Redo — always accessible, first in row (Obsidian convention) -->
+        <button class="km-b" (click)="undo()" aria-label="Undo">↩</button>
+        <button class="km-b" (click)="redo()" aria-label="Redo">↪</button>
+
+        <div class="km-sep"></div>
 
         @if (editorSvc.hasSelection()) {
+
           <!-- ── Selection mode: inline marks ──────────────────────────── -->
-          <button class="km-fmt-btn" [class.km-fmt-btn--active]="isBold()"
-                  (click)="cmd('bold')"><b>B</b></button>
-          <button class="km-fmt-btn" [class.km-fmt-btn--active]="isItalic()"
-                  (click)="cmd('italic')"><i>I</i></button>
-          <button class="km-fmt-btn" [class.km-fmt-btn--active]="isUnderline()"
-                  (click)="cmd('underline')"><u>U</u></button>
-          <button class="km-fmt-btn" [class.km-fmt-btn--active]="isStrike()"
-                  (click)="cmd('strike')"><s>S</s></button>
-          <button class="km-fmt-btn" [class.km-fmt-btn--active]="isCode()"
-                  (click)="cmd('code')">&lt;/&gt;</button>
+          <button class="km-b" [class.km-b--on]="isBold()"
+                  (click)="cmd('bold')" aria-label="Bold"><b>B</b></button>
+          <button class="km-b" [class.km-b--on]="isItalic()"
+                  (click)="cmd('italic')" aria-label="Italic"><i>I</i></button>
+          <button class="km-b" [class.km-b--on]="isUnderline()"
+                  (click)="cmd('underline')" aria-label="Underline"><u>U</u></button>
+          <button class="km-b" [class.km-b--on]="isStrike()"
+                  (click)="cmd('strike')" aria-label="Strikethrough"><s>S</s></button>
 
-          <div class="km-fmt-sep"></div>
+          <div class="km-sep"></div>
 
-          <button class="km-fmt-btn" [class.km-fmt-btn--active]="isLink()"
-                  title="Link" (click)="setLink()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14">
-              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          <button class="km-b" [class.km-b--on]="isCode()"
+                  (click)="cmd('code')" aria-label="Inline code">&lt;/&gt;</button>
+          <button class="km-b" [class.km-b--on]="isLink()"
+                  (click)="setLink()" aria-label="Link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                 width="13" height="13" aria-hidden="true">
+              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
             </svg>
           </button>
-          <button class="km-fmt-btn" title="Clear formatting"
-                  (click)="clearFormatting()">
-            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13">
-              <path d="M1 2.5A1.5 1.5 0 012.5 1h8.586a1.5 1.5 0 011.06.44l2.915 2.914A1.5 1.5 0 0115.5 5.5v1.086a1.5 1.5 0 01-.44 1.06L9.707 13H13.5a.5.5 0 010 1h-8a.5.5 0 010-1h2.293l-3.147-3.146A1.5 1.5 0 014.5 8.793V4.207A1.5 1.5 0 011 2.5z"/>
-              <line x1="2" y1="14" x2="14" y2="2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            </svg>
-          </button>
+          <button class="km-b" (click)="clearFormatting()" aria-label="Clear formatting">✕</button>
 
-          <div class="km-fmt-sep"></div>
+          <div class="km-sep"></div>
 
-          <!-- Block type still reachable while selected -->
-          <button class="km-fmt-btn" title="Text"      (click)="setBlock('paragraph')">¶</button>
-          <button class="km-fmt-btn" title="Heading 1" (click)="setBlock('heading1')">H₁</button>
-          <button class="km-fmt-btn" title="Heading 2" (click)="setBlock('heading2')">H₂</button>
-          <button class="km-fmt-btn" title="Heading 3" (click)="setBlock('heading3')">H₃</button>
+          <!-- Block type still reachable in selection mode -->
+          <button class="km-b" (click)="setBlock('paragraph')" aria-label="Paragraph">¶</button>
+          <button class="km-b" (click)="setBlock('heading1')">H1</button>
+          <button class="km-b" (click)="setBlock('heading2')">H2</button>
+          <button class="km-b" (click)="setBlock('heading3')">H3</button>
 
         } @else {
-          <!-- ── Caret mode: block-structure tools ──────────────────────── -->
-          <button class="km-fmt-btn" title="Text"      (click)="setBlock('paragraph')">¶</button>
-          <button class="km-fmt-btn" title="Heading 1" (click)="setBlock('heading1')">H₁</button>
-          <button class="km-fmt-btn" title="Heading 2" (click)="setBlock('heading2')">H₂</button>
-          <button class="km-fmt-btn" title="Heading 3" (click)="setBlock('heading3')">H₃</button>
 
-          <div class="km-fmt-sep"></div>
+          <!-- ── Caret mode: block structure ────────────────────────────── -->
+          <button class="km-b" (click)="setBlock('paragraph')" aria-label="Paragraph">¶</button>
+          <button class="km-b" (click)="setBlock('heading1')">H1</button>
+          <button class="km-b" (click)="setBlock('heading2')">H2</button>
+          <button class="km-b" (click)="setBlock('heading3')">H3</button>
 
-          <button class="km-fmt-btn" title="Bullet list"   (click)="setBlock('bulletList')">•≡</button>
-          <button class="km-fmt-btn" title="Ordered list"  (click)="setBlock('orderedList')">1≡</button>
-          <button class="km-fmt-btn" title="Task list"     (click)="setBlock('taskList')">☑</button>
+          <div class="km-sep"></div>
 
-          <div class="km-fmt-sep"></div>
+          <button class="km-b" (click)="setBlock('bulletList')" aria-label="Bullet list">•</button>
+          <button class="km-b" (click)="setBlock('orderedList')" aria-label="Ordered list">1.</button>
+          <button class="km-b" (click)="setBlock('taskList')" aria-label="Task list">☑</button>
 
-          <button class="km-fmt-btn" title="Blockquote" (click)="setBlock('blockquote')">❝</button>
-          <button class="km-fmt-btn" title="Callout"    (click)="insertCallout()">💡</button>
-          <button class="km-fmt-btn" title="Divider"    (click)="insertDivider()">—</button>
-          <button class="km-fmt-btn" title="Code block" (click)="setBlock('codeBlock')">&#123;&#125;</button>
+          <div class="km-sep"></div>
 
-          <div class="km-fmt-sep"></div>
+          <button class="km-b" (click)="setBlock('blockquote')" aria-label="Blockquote">❝</button>
+          <button class="km-b" (click)="insertCallout()" aria-label="Callout">💡</button>
+          <button class="km-b" (click)="insertDivider()" aria-label="Divider">—</button>
+          <button class="km-b" (click)="setBlock('codeBlock')" aria-label="Code block">&lt;/&gt;</button>
 
-          <button class="km-fmt-btn" title="Link" (click)="setLink()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14">
-              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          <div class="km-sep"></div>
+
+          <button class="km-b" (click)="setLink()" aria-label="Link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+                 width="13" height="13" aria-hidden="true">
+              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
             </svg>
           </button>
 
-          <div class="km-fmt-sep"></div>
+          <div class="km-sep"></div>
 
-          <button class="km-fmt-btn" title="Outdent" (click)="outdent()">⇤</button>
-          <button class="km-fmt-btn" title="Indent"  (click)="indent()">⇥</button>
+          <button class="km-b" (click)="outdent()" aria-label="Outdent">⇤</button>
+          <button class="km-b" (click)="indent()" aria-label="Indent">⇥</button>
+
         }
 
       </div>
     </div>
   `,
   styles: [`
-    :host { display: flex; flex-direction: column; height: 100%; }
+    :host {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      /* Explicit background prevents flicker when ion-content is absent */
+      background: #080808;
+    }
 
-    /* ── Header title input ─────────────────────────────────────────── */
-    .km-doc-title-input {
+    /* ── Header title input ──────────────────────────────────────────── */
+    .km-title-input {
       background: transparent;
       border: none;
       outline: none;
       font-size: 0.975rem;
       font-weight: 600;
-      color: rgba(255,255,255,0.88);
+      color: rgba(255, 255, 255, 0.88);
       width: 100%;
       font-family: var(--ion-font-family, 'Poppins', sans-serif);
       letter-spacing: -0.005em;
     }
-    .km-doc-title-input::placeholder { color: rgba(255,255,255,0.22); }
+    .km-title-input::placeholder { color: rgba(255, 255, 255, 0.22); }
 
-    /* ── Save indicator ─────────────────────────────────────────────── */
-    .km-save-label {
+    /* ── Save indicator ──────────────────────────────────────────────── */
+    .km-save-dot {
       font-size: 0.68rem;
-      color: rgba(201,168,76,0.6);
+      color: rgba(201, 168, 76, 0.6);
       padding-right: 4px;
       min-width: 14px;
       display: inline-block;
     }
 
-    /* ── Ion content background ─────────────────────────────────────── */
-    .km-doc-content {
-      --background: var(--ion-background-color, #080808);
-    }
-
-    /* ── Panel backdrop + slide-up sheet ────────────────────────────── */
-    .km-doc-panel-backdrop {
+    /* ── Panel backdrop + sheet ──────────────────────────────────────── */
+    .km-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       z-index: 200;
       backdrop-filter: blur(3px);
       -webkit-backdrop-filter: blur(3px);
     }
 
-    .km-doc-panel {
+    .km-sheet {
       position: fixed;
       inset: auto 0 0;
       height: min(82vh, 720px);
       border-radius: 18px 18px 0 0;
       overflow: hidden;
       background: #0c0c0c;
-      box-shadow: 0 -20px 60px rgba(0,0,0,0.6);
-      border-top: 1px solid rgba(255,255,255,0.07);
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.6);
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
       z-index: 201;
     }
 
-    /* ── Tap-to-focus tail below last block ─────────────────────────── */
+    /* ── Tap zone below last block ───────────────────────────────────── */
     .km-doc-tail {
       min-height: 160px;
       cursor: text;
     }
-
-    /* Placeholder so Angular sees a non-empty styles array.
-       All .ProseMirror and .km-fmt-* rules live in _editor.scss (global). */
-    .km-_noop { display: contents; }
   `]
 })
 export class DocEditorPage implements OnInit, OnDestroy {
   @ViewChild('editorEl', { static: true }) editorEl!: ElementRef<HTMLDivElement>;
-  @ViewChild('bodyEl')      bodyEl!:      ElementRef<HTMLDivElement>;
+  @ViewChild('scrollEl')   scrollEl!:   ElementRef<HTMLDivElement>;
   @ViewChild('accessoryBar') accessoryBar!: ElementRef<HTMLDivElement>;
 
   readonly editorSvc = inject(DocEditorService);
@@ -233,15 +233,15 @@ export class DocEditorPage implements OnInit, OnDestroy {
   private ngZone     = inject(NgZone);
   private navCtrl    = inject(NavController);
 
-  titleModel = '';
+  titleModel     = '';
   toolbarVisible = signal(false);
-  panelOpen = signal(false);
+  panelOpen      = signal(false);
 
   private mutationObserver: MutationObserver | null = null;
   private readonly API = `${environment.apiBase}/docs`;
-  private vpRaf: number | null = null;  // rAF handle for visualViewport throttle
+  private vpRaf: number | null = null;
 
-  // ── Computed editor state ───────────────────────────────────────────────
+  // ── Active mark queries ────────────────────────────────────────────────────
   isBold()      { return this.editorSvc.editor?.isActive('bold')      ?? false; }
   isItalic()    { return this.editorSvc.editor?.isActive('italic')    ?? false; }
   isUnderline() { return this.editorSvc.editor?.isActive('underline') ?? false; }
@@ -252,17 +252,19 @@ export class DocEditorPage implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.editorSvc.saveFn = () => this.saveSvc.scheduleSave();
 
-    // Handle slash command "New Page"
+    // Slash-command "New Page" event bubbles up from SlashCommandExtension
     this.editorEl.nativeElement.addEventListener('km:create-page', ((e: CustomEvent) => {
       this.editorSvc.createPageBlock(e.detail.pos);
     }) as EventListener);
 
-    // Show accessory bar when editor is focused (= keyboard open on mobile)
+    // Accessory bar tracks keyboard presence via focus events
     this.editorEl.nativeElement.addEventListener('focusin', () => {
       this.toolbarVisible.set(true);
       this.cdr.markForCheck();
     });
     this.editorEl.nativeElement.addEventListener('focusout', () => {
+      // Small delay so toolbar doesn't flicker when focus moves between
+      // the editor and an accessory bar button
       setTimeout(() => {
         if (!this.editorEl.nativeElement.contains(document.activeElement)) {
           this.toolbarVisible.set(false);
@@ -271,12 +273,8 @@ export class DocEditorPage implements OnInit, OnDestroy {
       }, 150);
     });
 
-    // ── visualViewport: keep accessory bar above the keyboard ──────────────
-    // On iOS PWA (< iOS 15.4) window.innerHeight does NOT shrink when the
-    // software keyboard appears, so position:fixed;bottom:0 lands UNDER the
-    // keyboard.  visualViewport.height always reflects the visible area, so
-    // we shift the bar up by the keyboard height on every resize event.
-    // Runs outside the Angular zone so it never triggers change detection.
+    // visualViewport: lifts the accessory bar above the software keyboard.
+    // Runs outside Angular zone — never triggers change detection.
     this.ngZone.runOutsideAngular(() => {
       window.visualViewport?.addEventListener('resize', this.onVpResize, { passive: true });
       window.visualViewport?.addEventListener('scroll', this.onVpResize, { passive: true });
@@ -296,32 +294,24 @@ export class DocEditorPage implements OnInit, OnDestroy {
           this.editorSvc.title.set(title);
           this.titleModel = title;
 
-          /*
-           * Run editor init + setContent OUTSIDE Angular zone.
-           * HttpClient subscribes inside zone by default — every TipTap
-           * transaction fired by setContent would otherwise trigger a full
-           * Angular change-detection cycle, locking the main thread for
-           * hundreds of ms per node (15+ nodes = seconds of freeze).
-           */
+          // Init + setContent outside zone: every Tiptap transaction during
+          // setContent would otherwise trigger a full change-detection cycle,
+          // causing seconds of main-thread freeze on a 20-block document.
           this.ngZone.runOutsideAngular(() => {
             this.editorSvc.initEditor(this.editorEl.nativeElement);
-
-            // Suppress onUpdate dirty/save during initial content load
             this.editorSvc.isLoadingContent = true;
             try {
               const json = typeof doc['document_json'] === 'string'
                 ? JSON.parse(doc['document_json'] as string)
                 : doc['document_json'];
               this.editorSvc.editor?.commands.setContent(json as never);
-            } catch { /* empty doc */ }
+            } catch { /* empty doc — editor starts blank */ }
             this.editorSvc.isLoadingContent = false;
 
-            // Sync word count once after load (don't need zone for signal)
             const words = this.editorSvc.editor?.storage['characterCount']?.words() ?? 0;
             this.editorSvc.wordCount.set(words);
           });
 
-          // Re-enter zone for UI update + animations
           this.cdr.markForCheck();
           requestAnimationFrame(() => {
             this.animateContentIn();
@@ -347,35 +337,28 @@ export class DocEditorPage implements OnInit, OnDestroy {
     if (this.vpRaf !== null) cancelAnimationFrame(this.vpRaf);
   }
 
-  // ── visualViewport sync — throttled to one rAF per frame ─────────────────
-  private onVpResize = () => {
+  // ── visualViewport sync — one rAF per frame ────────────────────────────────
+  private onVpResize = (): void => {
     if (this.vpRaf !== null) return;
     this.vpRaf = requestAnimationFrame(() => {
       this.vpRaf = null;
-      const vv = window.visualViewport;
-      const bar = this.accessoryBar?.nativeElement;
-      const body = this.bodyEl?.nativeElement;
+      const vv     = window.visualViewport;
+      const bar    = this.accessoryBar?.nativeElement;
+      const scroll = this.scrollEl?.nativeElement;
       if (!vv || !bar) return;
 
-      // keyboardHeight = how far the keyboard pushes up from the layout bottom
+      // How far the keyboard pushes up from the bottom of the layout viewport
       const keyboardHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
-      // Lift the bar above the keyboard
       bar.style.setProperty('--kb-offset', `${keyboardHeight}px`);
-      // Pad the scroll body so content is never hidden behind bar + keyboard
-      if (body) {
-        const BAR_H = 44;
-        body.style.paddingBottom = `${keyboardHeight + BAR_H + 8}px`;
+
+      // Pad the scroll container so the caret is never hidden behind bar + keyboard
+      if (scroll) {
+        scroll.style.paddingBottom = `${keyboardHeight + 52}px`;
       }
     });
   };
 
-  onTitleChange(val: string): void {
-    this.editorSvc.title.set(val);
-    this.editorSvc.isDirty.set(true);
-    this.saveSvc.scheduleSave();
-  }
-
-  // ── Formatting ────────────────────────────────────────────────────────────
+  // ── Editing commands ───────────────────────────────────────────────────────
   cmd(name: string): void {
     const e = this.editorSvc.editor;
     if (!e) return;
@@ -406,6 +389,9 @@ export class DocEditorPage implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  undo(): void { this.editorSvc.editor?.chain().focus().undo().run(); }
+  redo(): void { this.editorSvc.editor?.chain().focus().redo().run(); }
+
   insertCallout(): void {
     this.editorSvc.editor?.chain().focus().insertContent({
       type: 'callout',
@@ -435,85 +421,83 @@ export class DocEditorPage implements OnInit, OnDestroy {
   outdent(): void { this.editorSvc.editor?.chain().focus().liftListItem('listItem').run(); }
 
   /**
-   * Tap on ion-content area outside the editor (not on a block) → focus end.
-   * Also re-shows keyboard if iOS dismissed it while editor was still "focused".
+   * Tap on the canvas outside ProseMirror → find the nearest caret position
+   * using posAtCoords() so the caret lands close to where the user tapped,
+   * rather than always jumping to end. Falls back to end if out of range.
    */
-  onContentTap(e: Event): void {
-    const target = e.target as HTMLElement;
-    // Only act when the tap is outside the ProseMirror content itself
+  onCanvasTap(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
     const pm = this.editorEl.nativeElement.querySelector('.ProseMirror');
-    if (pm?.contains(target)) return;
-    this.focusEnd();
+    // If the tap landed inside ProseMirror, let the browser handle it natively
+    if (!pm || pm.contains(target)) return;
+
+    const e = this.editorSvc.editor;
+    if (!e) return;
+
+    const resolved = e.view.posAtCoords({ left: event.clientX, top: event.clientY });
+    if (resolved != null) {
+      e.chain().focus().setTextSelection(resolved.pos).run();
+    } else {
+      e.commands.focus('end');
+    }
+    this.toolbarVisible.set(true);
+    this.cdr.markForCheck();
   }
 
-  /** Focus at end of document — shows keyboard + places caret after last block. */
   focusEnd(): void {
     const e = this.editorSvc.editor;
     if (!e) return;
-    // .focus('end') positions the caret at the very end of the document
     e.commands.focus('end');
     this.toolbarVisible.set(true);
     this.cdr.markForCheck();
   }
 
-  /** Navigate back — uses Ionic nav stack if available, else falls back to /docs. */
+  onTitleChange(val: string): void {
+    this.editorSvc.title.set(val);
+    this.editorSvc.isDirty.set(true);
+    this.saveSvc.scheduleSave();
+  }
+
+  /**
+   * Always navigate to /docs explicitly.
+   * window.history.length > 1 is unreliable in a mobile PWA (the browser's
+   * own history stack pre-exists the app), so navCtrl.back() has no safe
+   * fallback. navigateBack() is deterministic and always goes somewhere valid.
+   */
   goBack(): void {
     this.saveSvc.flush();
-    if (window.history.length > 1) {
-      this.navCtrl.back({ animated: true });
-    } else {
-      void this.navCtrl.navigateBack('/docs', { animated: true });
-    }
+    void this.navCtrl.navigateBack('/docs', { animated: true });
   }
 
-  // ── Right panel ────────────────────────────────────────────────────────────
-  openPanel(): void {
-    this.panelOpen.set(true);
-    this.cdr.markForCheck();
-  }
+  openPanel(): void  { this.panelOpen.set(true);  this.cdr.markForCheck(); }
+  closePanel(): void { this.panelOpen.set(false); this.cdr.markForCheck(); }
 
-  closePanel(): void {
-    this.panelOpen.set(false);
-    this.cdr.markForCheck();
-  }
-
-  // ── Animations ────────────────────────────────────────────────────────────
-  /**
-   * Fade-in blocks using CSS transitions, not GSAP.
-   * GSAP's global ticker runs outside Angular zone but still consumes rAF
-   * budget for ~0.8 s on a 20-block document.  CSS transitions are handled
-   * by the compositor thread and have no JS rAF cost.
-   */
+  // ── Entry animations (CSS transitions, not GSAP) ──────────────────────────
+  // GSAP ticker consumes rAF budget for ~0.8 s on a 20-block document even
+  // when running outside the zone. Compositor-handled CSS transitions are free.
   private animateContentIn(): void {
     const pm = this.editorEl.nativeElement.querySelector('.ProseMirror');
     if (!pm) return;
-    const blocks = (Array.from(pm.children) as HTMLElement[]).slice(0, 24) as HTMLElement[];
+    const blocks = (Array.from(pm.children) as HTMLElement[]).slice(0, 24);
     if (blocks.length <= 1) return;
 
-    // Prime: hide all blocks (synchronous — happens before paint)
     for (const el of blocks) {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(6px)';
+      el.style.opacity    = '0';
+      el.style.transform  = 'translateY(6px)';
       el.style.transition = 'none';
     }
-
-    // On next paint: start CSS transitions with staggered delay
     requestAnimationFrame(() => {
       for (let i = 0; i < blocks.length; i++) {
-        const delay = i * 20; // 20 ms stagger
-        blocks[i].style.transition = `opacity 0.26s ease ${delay}ms, transform 0.26s ease ${delay}ms`;
+        const d = i * 20;
+        blocks[i].style.transition = `opacity 0.26s ease ${d}ms, transform 0.26s ease ${d}ms`;
         blocks[i].style.opacity    = '1';
         blocks[i].style.transform  = 'translateY(0)';
       }
-      // Strip inline styles once animation is done so they don't interfere
-      const cleanup = blocks.length * 20 + 300;
       setTimeout(() => {
         for (const el of blocks) {
-          el.style.opacity    = '';
-          el.style.transform  = '';
-          el.style.transition = '';
+          el.style.opacity = el.style.transform = el.style.transition = '';
         }
-      }, cleanup);
+      }, blocks.length * 20 + 300);
     });
   }
 
@@ -522,13 +506,12 @@ export class DocEditorPage implements OnInit, OnDestroy {
     if (!pm || this.mutationObserver) return;
 
     const animated = new WeakSet<Element>();
-    // Pending nodes accumulated across a burst of mutations — animated in one rAF
     const pending: HTMLElement[] = [];
     let rafId: number | null = null;
 
-    const flush = () => {
+    const flush = (): void => {
       rafId = null;
-      const batch = pending.splice(0); // drain
+      const batch = pending.splice(0);
       for (const node of batch) {
         if (node.tagName === 'HR') {
           node.style.transform  = 'scaleX(0)';
@@ -538,7 +521,9 @@ export class DocEditorPage implements OnInit, OnDestroy {
             node.style.transition = 'transform 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease';
             node.style.transform  = 'scaleX(1)';
             node.style.opacity    = '1';
-            setTimeout(() => { node.style.transform = ''; node.style.opacity = ''; node.style.transition = ''; }, 450);
+            setTimeout(() => {
+              node.style.transform = node.style.opacity = node.style.transition = '';
+            }, 450);
           });
         } else {
           node.style.opacity    = '0';
@@ -548,7 +533,9 @@ export class DocEditorPage implements OnInit, OnDestroy {
             node.style.transition = 'opacity 0.24s ease, transform 0.24s ease';
             node.style.opacity    = '1';
             node.style.transform  = 'translateY(0)';
-            setTimeout(() => { node.style.opacity = ''; node.style.transform = ''; node.style.transition = ''; }, 280);
+            setTimeout(() => {
+              node.style.opacity = node.style.transform = node.style.transition = '';
+            }, 280);
           });
         }
       }
@@ -557,13 +544,11 @@ export class DocEditorPage implements OnInit, OnDestroy {
     this.mutationObserver = new MutationObserver(mutations => {
       for (const m of mutations) {
         m.addedNodes.forEach(node => {
-          if (!(node instanceof HTMLElement)) return;
-          if (animated.has(node)) return;
+          if (!(node instanceof HTMLElement) || animated.has(node)) return;
           animated.add(node);
           pending.push(node);
         });
       }
-      // Batch all mutations arriving in the same frame into a single rAF
       if (pending.length > 0 && rafId === null) {
         rafId = requestAnimationFrame(flush);
       }

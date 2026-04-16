@@ -3,33 +3,32 @@
 // All selectors are scoped under .km-doc-editor-el to avoid bleed.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ── Scroll container ─────────────────────────────────────────────────────────
-// A plain div takes over scrolling from ion-content ([scrollY]="false").
-// iOS WKWebView handles tap-to-caret correctly in overflow:auto — the virtual
-// scroller inside ion-content defers all touches for disambiguation, causing
-// the laggy caret feel. No JS touch intercept needed here.
-.km-doc-body {
-  height: 100%;
+// ── Writing canvas (replaces ion-content + km-doc-body) ──────────────────────
+// Plain overflow-y:auto div — no Ionic shadow DOM between WKWebView and the
+// contenteditable element, so tap-to-caret is handled 100% natively.
+.km-canvas {
+  flex: 1;                           // fills remaining height after ion-header
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
   box-sizing: border-box;
-  // padding-bottom is set dynamically by the visualViewport listener
-  // (keyboard height + accessory bar height). Initial value covers the bar at rest.
+  // Initial bottom padding covers the accessory bar at rest (44px bar + 8px gap).
+  // onVpResize() updates this dynamically to keyboard-height + bar-height.
   padding-bottom: 52px;
+  background: #080808;
 }
 
-// ── Root editor shell ────────────────────────────────────────────────────────
+// ── Root editor shell ─────────────────────────────────────────────────────────
 .km-doc-editor-el {
-  padding: 24px 24px 140px;
+  padding: 24px 24px 0;
   min-height: 100%;
   box-sizing: border-box;
-  // Eliminates 300ms iOS tap delay — caret lands immediately on first tap.
+  // Eliminates 300ms iOS tap delay on the entire editor surface.
   touch-action: manipulation;
   cursor: text;
 }
 
-// ── ProseMirror base ─────────────────────────────────────────────────────────
+// ── ProseMirror base ──────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror {
   outline: none;
   caret-color: #c9a84c;
@@ -46,14 +45,15 @@
 }
 
 // ── CSS Containment — performance isolation ───────────────────────────────────
-// Each top-level block becomes an independent layout/style boundary,
-// preventing whole-document reflow on every keystroke on iPhone.
+// Each top-level block is an independent layout/style boundary.
+// Layout changes inside a block (typing) don't propagate up the tree,
+// eliminating whole-document reflow on every keystroke on iPhone.
 .km-doc-editor-el .ProseMirror > * {
   contain: layout style;
 }
 
-// content-visibility: auto skips paint+layout for off-screen blocks.
-// contain-intrinsic-size gives the browser a hint so scrollbar height stays stable.
+// content-visibility: auto skips paint + layout for off-screen blocks.
+// contain-intrinsic-size stabilises the scrollbar while blocks are skipped.
 .km-doc-editor-el .ProseMirror > h1,
 .km-doc-editor-el .ProseMirror > h2,
 .km-doc-editor-el .ProseMirror > h3,
@@ -66,19 +66,17 @@
   contain-intrinsic-size: auto 48px;
 }
 
-// ── Placeholder ──────────────────────────────────────────────────────────────
+// ── Placeholder ───────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   color: rgba(255, 255, 255, 0.22);
   pointer-events: none;
   float: left;
   height: 0;
-  font-style: normal;
-  font-size: 16px;
 }
 
-// ── Headings ─────────────────────────────────────────────────────────────────
-// H1 — primary anchor: gold brand color, strong weight, generous breathing room
+// ── Headings ──────────────────────────────────────────────────────────────────
+// H1 — page anchor: brand gold, generous spacing, dominant weight
 .km-doc-editor-el .ProseMirror h1 {
   font-size: 1.85rem;
   font-weight: 700;
@@ -103,7 +101,7 @@
   -webkit-text-fill-color: unset;
 }
 
-// H3 — sub-section: subtle gold tint, smaller, quieter
+// H3 — sub-section: quiet gold tint, smaller
 .km-doc-editor-el .ProseMirror h3 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -113,19 +111,19 @@
   -webkit-text-fill-color: unset;
 }
 
-// Allow Color extension to override heading color via inline <span style="color:…">
+// Allow Color extension to override heading color via <span style="color:…">
 .km-doc-editor-el .ProseMirror h1 span[style*="color"],
 .km-doc-editor-el .ProseMirror h2 span[style*="color"],
 .km-doc-editor-el .ProseMirror h3 span[style*="color"] {
   -webkit-text-fill-color: currentColor !important;
 }
 
-// ── Paragraph ────────────────────────────────────────────────────────────────
+// ── Paragraph ─────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror p {
   margin: 0 0 0.65em;
 }
 
-// ── Divider (HR) ─────────────────────────────────────────────────────────────
+// ── Divider (HR) ──────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror hr {
   border: none;
   height: 1px;
@@ -149,8 +147,8 @@
   );
 }
 
-// ── Blockquote ───────────────────────────────────────────────────────────────
-// Clean left-border only — no background card, no boxy feel.
+// ── Blockquote ────────────────────────────────────────────────────────────────
+// Left border only — no background card, no boxy feel.
 .km-doc-editor-el .ProseMirror blockquote {
   border-left: 2.5px solid rgba(201, 168, 76, 0.45);
   margin: 0.9em 0;
@@ -158,10 +156,9 @@
   color: rgba(255, 255, 255, 0.6);
   font-style: italic;
   background: none;
-  border-radius: 0;
 }
 
-// ── Code inline ──────────────────────────────────────────────────────────────
+// ── Code inline ───────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror code {
   font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
   font-size: 0.84em;
@@ -172,7 +169,7 @@
   color: rgba(201, 168, 76, 0.85);
 }
 
-// ── Code block ───────────────────────────────────────────────────────────────
+// ── Code block ────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror pre {
   background: rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -192,7 +189,7 @@
   }
 }
 
-// ── Lists ────────────────────────────────────────────────────────────────────
+// ── Lists ─────────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror ul,
 .km-doc-editor-el .ProseMirror ol {
   padding-left: 1.5em;
@@ -204,7 +201,7 @@
   line-height: 1.75;
 }
 
-// ── Task list ────────────────────────────────────────────────────────────────
+// ── Task list ─────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror ul[data-type="taskList"] {
   list-style: none;
   padding-left: 0.2em;
@@ -263,7 +260,7 @@
   text-decoration: line-through;
 }
 
-// ── Link ─────────────────────────────────────────────────────────────────────
+// ── Link ──────────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror a {
   color: #c9a84c;
   text-decoration: underline;
@@ -271,7 +268,7 @@
   text-underline-offset: 2px;
 }
 
-// ── Highlight marks ──────────────────────────────────────────────────────────
+// ── Highlight marks ───────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror mark {
   border-radius: 2px;
   padding: 0.04em 0.18em;
@@ -279,17 +276,17 @@
   color: inherit;
 }
 
-// ── Color spans — fix WebKit -webkit-text-fill-color override ────────────────
+// ── Color spans — fix WebKit -webkit-text-fill-color override ─────────────────
 .km-doc-editor-el .ProseMirror span[style*="color"] {
   -webkit-text-fill-color: currentColor !important;
 }
 
-// ── Selection ────────────────────────────────────────────────────────────────
+// ── Selection ─────────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror ::selection {
   background: rgba(201, 168, 76, 0.22);
 }
 
-// ── Arabic text in editor body (NOT Quran embed) ─────────────────────────────
+// ── Arabic text in editor body (NOT Quran embed) ──────────────────────────────
 .km-doc-editor-el .ProseMirror [dir="rtl"],
 .km-doc-editor-el .ProseMirror [lang="ar"] {
   font-family: "AmiriQuran", "Noto Naskh Arabic", serif !important;
@@ -301,7 +298,7 @@
   -webkit-text-fill-color: rgba(255, 255, 255, 0.92);
 }
 
-// ── Ayah embed — Quran text always white ─────────────────────────────────────
+// ── Ayah embed — Quran text always white ──────────────────────────────────────
 .km-doc-editor-el .ProseMirror .km-block--ayah .ayah-text,
 .km-doc-editor-el .ProseMirror .ayah-text {
   font-family: "Uthmanic Hafs", serif !important;
@@ -311,7 +308,7 @@
   text-align: center;
 }
 
-// ── Arabic extension blocks (vocab, grammar, etc.) ───────────────────────────
+// ── Arabic extension blocks (vocab, grammar, etc.) ────────────────────────────
 .km-doc-editor-el .ProseMirror .km-block--arabic {
   font-family: "AmiriQuran", "Noto Naskh Arabic", serif;
 }
@@ -320,10 +317,11 @@
 // Keyboard accessory bar
 // ─────────────────────────────────────────────────────────────────────────────
 
-// --kb-offset is set by the visualViewport resize listener in doc-editor.page.ts
-// to lift the bar above the keyboard on all iOS versions (incl. pre-15.4 where
-// window.innerHeight doesn't shrink when the keyboard appears).
-.km-accessory-bar {
+// --kb-offset is set by the visualViewport listener in doc-editor.page.ts.
+// It equals the keyboard height, keeping the bar immediately above the keys
+// on all iOS versions (including pre-15.4 where window.innerHeight doesn't
+// shrink when the keyboard opens).
+.km-bar {
   position: fixed;
   bottom: calc(var(--kb-offset, 0px) + env(safe-area-inset-bottom, 0px));
   left: 0;
@@ -332,18 +330,18 @@
   transition: transform 0.16s ease;
   will-change: transform;
   z-index: 100;
-  background: rgba(10, 10, 10, 0.96);
+  background: rgba(10, 10, 10, 0.97);
   border-top: 1px solid rgba(255, 255, 255, 0.07);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 
-  &.km-accessory-bar--visible {
+  &.km-bar--show {
     transform: translateY(0);
   }
 }
 
-// Scrollable button row
-.km-fmt-scroll {
+// Horizontally scrollable button row
+.km-bar-row {
   display: flex;
   align-items: center;
   gap: 1px;
@@ -351,26 +349,27 @@
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 5px 10px;
+  padding: 4px 10px;
   min-height: 44px;
 
   &::-webkit-scrollbar { display: none; }
 }
 
-// Individual formatting buttons
-.km-fmt-btn {
+// Individual toolbar button
+.km-b {
   all: unset;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 36px;
+  min-width: 34px;
   height: 36px;
   padding: 0 7px;
   border-radius: 7px;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.5);
   font-family: "Poppins", sans-serif;
+  letter-spacing: 0;
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.1s, color 0.1s;
@@ -382,20 +381,21 @@
 
   &:active {
     background: rgba(255, 255, 255, 0.09);
-    color: rgba(255, 255, 255, 0.88);
+    color: rgba(255, 255, 255, 0.9);
   }
 
-  &--active {
+  // Active / "lit" state — used for toggled marks (bold, italic, etc.)
+  &--on {
     color: #c9a84c;
     background: rgba(201, 168, 76, 0.11);
   }
 }
 
-// Separator between button groups
-.km-fmt-sep {
+// Hairline separator between button groups
+.km-sep {
   width: 1px;
   height: 18px;
   background: rgba(255, 255, 255, 0.09);
-  margin: 0 4px;
+  margin: 0 5px;
   flex-shrink: 0;
 }
