@@ -3,6 +3,22 @@
 // All selectors are scoped under .km-doc-editor-el to avoid bleed.
 // ─────────────────────────────────────────────────────────────────────────────
 
+// ── Scroll container ─────────────────────────────────────────────────────────
+// A plain div takes over scrolling from ion-content (which uses [scrollY]="false").
+// iOS WKWebView handles contenteditable tap-to-caret correctly inside a regular
+// overflow:auto div. Inside ion-content's shadow-DOM virtual scroller it defers
+// all touches for scroll/tap disambiguation — that's what makes caret placement
+// feel laggy. No JS touch intercept is needed when this div scrolls instead.
+.km-doc-body {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  // Respect the home indicator / safe-area at the bottom
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: border-box;
+}
+
 // ── Root editor shell ────────────────────────────────────────────────────────
 .km-doc-editor-el {
   padding: 16px 20px 120px;

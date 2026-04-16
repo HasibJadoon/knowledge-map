@@ -53,10 +53,15 @@ type BlockType = 'paragraph' | 'heading1' | 'heading2' | 'heading3'
     </ion-header>
 
     <!-- ── Editor canvas ──────────────────────────────────────────────────── -->
-    <ion-content class="km-doc-content" (click)="onContentTap($event)">
-      <div #editorEl class="km-doc-editor-el"></div>
-      <!-- Tap-to-focus padding area below last block -->
-      <div class="km-doc-tail" (click)="focusEnd()"></div>
+    <!-- [scrollY]="false" hands scrolling to div.km-doc-body below.
+         A plain overflow-y:auto div lets iOS WKWebView handle tap-to-caret
+         natively — no JS touch intercept needed. -->
+    <ion-content class="km-doc-content" [scrollY]="false">
+      <div class="km-doc-body" (click)="onContentTap($event)">
+        <div #editorEl class="km-doc-editor-el"></div>
+        <!-- Tap-to-focus padding area below last block -->
+        <div class="km-doc-tail" (click)="focusEnd()"></div>
+      </div>
     </ion-content>
 
     @if (panelOpen()) {
