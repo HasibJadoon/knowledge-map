@@ -285,12 +285,23 @@ class BlockHandleView {
 
   /**
    * On a single tap inside the ProseMirror content area, manually place the
-   * caret at the tapped position via posAtCoords + TextSelection.
+   * caret at the tapped position.
    *
    * This is required on iOS PWA: tapping a contenteditable inside
    * ion-content's scroll container doesn't reliably trigger the browser's
    * own focus+caret mechanism.  We replicate it here without preventDefault
    * so the soft keyboard still appears.
+   *
+   * KEY FIX — dispatch before focus:
+   * Calling view.focus() BEFORE dispatch causes iOS to fire a focusin event
+   * that resets the selection, so the caret snaps to the wrong position.
+   * The correct sequence is: dispatch the TextSelection first, then call
+   * view.focus() inside requestAnimationFrame so iOS honours our placement.
+   *
+   * Primary strategy — document.caretRangeFromPoint:
+   * This is the WebKit-native API Safari uses internally for tap-to-caret.
+   * It is more accurate than posAtCoords (which does elementFromPoint + math)
+   * especially near line-wraps and inside inline Arabic/RTL text on iPhone.
    */
   private onTapEnd = (e: TouchEvent) => {
     const touch = e.changedTouches[0];
@@ -303,19 +314,40 @@ class BlockHandleView {
     // Swipe/scroll or long-press — let the browser handle natively
     if (dx > 10 || dy > 10 || dt > 500) return;
 
-    // Single tap: resolve the nearest ProseMirror position
-    const result = this.view.posAtCoords({ left: touch.clientX, top: touch.clientY });
-    // pos can be null if the tap landed outside any node (should be rare inside view.dom)
-    const pos = result != null
-      ? Math.max(0, Math.min(result.pos, this.view.state.doc.content.size))
-      : this.view.state.doc.content.size;
+    const docSize = this.view.state.doc.content.size;
 
-    // Focus first so the keyboard appears, then set selection
-    this.view.focus();
-    const tr = this.view.state.tr.setSelection(
-      TextSelection.create(this.view.state.doc, pos)
+    // ── Strategy 1: WebKit-native caretRangeFromPoint ─────────────────────────
+    // The same API Safari uses internally — most accurate on iPhone/iPad.
+    const nativeRange = (document as Document & {
+      caretRangeFromPoint?(x: number, y: number): Range | null;
+    }).caretRangeFromPoint?.(touch.clientX, touch.clientY);
+
+    if (nativeRange) {
+      try {
+        const pmPos = this.view.posAtDOM(nativeRange.startContainer, nativeRange.startOffset);
+        const clampedPos = Math.max(0, Math.min(pmPos, docSize));
+        // Dispatch BEFORE focus — iOS focusin resets the caret if focus fires first
+        this.view.dispatch(
+          this.view.state.tr.setSelection(TextSelection.create(this.view.state.doc, clampedPos))
+        );
+        requestAnimationFrame(() => this.view.focus());
+        return;
+      } catch {
+        // posAtDOM throws if the DOM node isn't inside the ProseMirror doc
+        // (e.g. tapped a decoration widget) — fall through to posAtCoords
+      }
+    }
+
+    // ── Strategy 2: posAtCoords fallback ─────────────────────────────────────
+    const result = this.view.posAtCoords({ left: touch.clientX, top: touch.clientY });
+    const pos = result != null
+      ? Math.max(0, Math.min(result.pos, docSize))
+      : docSize;
+
+    this.view.dispatch(
+      this.view.state.tr.setSelection(TextSelection.create(this.view.state.doc, pos))
     );
-    this.view.dispatch(tr);
+    requestAnimationFrame(() => this.view.focus());
   };
 
   // ── Editor touch (mobile): show handle next to tapped block ───────────────

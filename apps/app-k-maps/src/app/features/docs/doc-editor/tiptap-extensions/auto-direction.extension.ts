@@ -41,36 +41,63 @@ export const AutoDirection = Extension.create({
       new Plugin({
         key: autoDirectionKey,
 
-        appendTransaction(transactions, _oldState, _newState) {
+        appendTransaction(transactions, _oldState, newState) {
           // Only act on transactions that changed the document
-          if (!transactions.some(tr => tr.docChanged)) return null;
+          const changingTrs = transactions.filter(tr => tr.docChanged);
+          if (changingTrs.length === 0) return null;
 
-          // Defer the expensive node-scan to a microtask so it runs
-          // after ProseMirror has finished its own render cycle.
-          // This eliminates the synchronous CPU spike on every keystroke.
+          // Defer the node-scan to a microtask so it runs after ProseMirror
+          // has finished its own render cycle, eliminating the synchronous
+          // CPU spike on every keystroke.
           if (!pendingScan) {
             pendingScan = true;
+
+            // Collect the affected ranges from all changing transactions
+            // BEFORE the microtask fires (state may advance by then).
+            // We union all step-mapped ranges so we only scan changed nodes,
+            // not the whole document — O(changed) instead of O(total).
+            const ranges: Array<{ from: number; to: number }> = [];
+            for (const tr of changingTrs) {
+              let mapping = tr.mapping;
+              tr.steps.forEach((step, i) => {
+                const stepMap = mapping.slice(i, i + 1);
+                stepMap.ranges.forEach((_offset, oldFrom, oldTo) => {
+                  // Map old positions forward to the post-transaction doc
+                  const from = tr.mapping.map(oldFrom, -1);
+                  const to   = tr.mapping.map(oldTo,    1);
+                  ranges.push({ from: Math.max(0, from - 1), to: Math.min(newState.doc.content.size, to + 1) });
+                });
+              });
+            }
+
             queueMicrotask(() => {
               pendingScan = false;
               const view = editor?.view;
               if (!view || (view as unknown as { isDestroyed?: boolean }).isDestroyed) return;
 
               const state = view.state;
-              const tr = state.tr;
+              const docTr = state.tr;
               let changed = false;
 
-              state.doc.descendants((node, pos) => {
-                if (!BLOCK_TYPES.has(node.type.name)) return;
-                const text = node.textContent;
-                if (!text.trim()) return;
-                const dir = detectDir(text);
-                if (node.attrs['dir'] !== dir) {
-                  tr.setNodeMarkup(pos, undefined, { ...node.attrs, dir });
-                  changed = true;
-                }
-              });
+              // Scan only the nodes within the changed ranges
+              for (const { from, to } of ranges) {
+                const safeFrom = Math.max(0, from);
+                const safeTo   = Math.min(state.doc.content.size, to);
+                if (safeFrom >= safeTo) continue;
 
-              if (changed) view.dispatch(tr);
+                state.doc.nodesBetween(safeFrom, safeTo, (node, pos) => {
+                  if (!BLOCK_TYPES.has(node.type.name)) return;
+                  const text = node.textContent;
+                  if (!text.trim()) return;
+                  const dir = detectDir(text);
+                  if (node.attrs['dir'] !== dir) {
+                    docTr.setNodeMarkup(pos, undefined, { ...node.attrs, dir });
+                    changed = true;
+                  }
+                });
+              }
+
+              if (changed) view.dispatch(docTr);
             });
           }
 

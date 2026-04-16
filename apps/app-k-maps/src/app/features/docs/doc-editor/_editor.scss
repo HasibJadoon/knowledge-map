@@ -32,6 +32,30 @@
   cursor: text;
 }
 
+// ── CSS Containment — performance isolation ───────────────────────────────────
+// Each block becomes an independent layout/style boundary.
+// Layout changes inside a block (e.g. typing) don't propagate up the tree,
+// which eliminates whole-document reflow on every keystroke on iPhone.
+.km-doc-editor-el .ProseMirror > * {
+  contain: layout style;
+}
+
+// content-visibility: auto skips paint+layout for off-screen blocks entirely.
+// contain-intrinsic-size gives the browser a size hint so scrollbar height
+// stays stable while blocks are skipped.  Applied only to block-level nodes
+// that are tall enough to benefit (headings, lists, quotes, code, dividers).
+.km-doc-editor-el .ProseMirror > h1,
+.km-doc-editor-el .ProseMirror > h2,
+.km-doc-editor-el .ProseMirror > h3,
+.km-doc-editor-el .ProseMirror > ul,
+.km-doc-editor-el .ProseMirror > ol,
+.km-doc-editor-el .ProseMirror > blockquote,
+.km-doc-editor-el .ProseMirror > pre,
+.km-doc-editor-el .ProseMirror > hr {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 48px;
+}
+
 // ── Placeholder ──────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
