@@ -7,8 +7,6 @@ import { map, distinctUntilChanged } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
-import { Capacitor } from '@capacitor/core';
-import { Keyboard } from '@capacitor/keyboard';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Editor } from '@tiptap/core';
@@ -71,6 +69,7 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   private pendingDoc: unknown = null;
   private saveTimer:  ReturnType<typeof setTimeout> | null = null;
   private savedTimer: ReturnType<typeof setTimeout> | null = null;
+  private vpResizeHandler: (() => void) | null = null;
 
   constructor() {
     // Route params in constructor so takeUntilDestroyed has an injection context
@@ -97,20 +96,20 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
   ngAfterViewInit(): void {
-    // Keyboard plugin only available on native iOS/Android.
-    // On web (dev server) skip entirely and fall back to focus/blur below.
-    if (!Capacitor.isNativePlatform()) return;
+    // visualViewport.resize is the most reliable cross-platform signal for
+    // keyboard open/close — the same API the slash menu uses.
+    // On iOS with KeyboardResize.Ionic, visualViewport.height shrinks by the
+    // full keyboard height (including the native accessory bar) when the
+    // keyboard opens. A drop of >100 px from the base window height means
+    // the software keyboard is visible.
+    if (!window.visualViewport) return;
 
-    void Keyboard.setAccessoryBarVisible({ isVisible: false }).catch(() => { /* non-iOS */ });
-
-    void Keyboard.addListener('keyboardWillShow', () => {
-      this.toolbarVisible.set(true);
+    this.vpResizeHandler = () => {
+      const keyboardOpen = (window.innerHeight - window.visualViewport!.height) > 100;
+      this.toolbarVisible.set(keyboardOpen);
       this.cdr.markForCheck();
-    });
-    void Keyboard.addListener('keyboardWillHide', () => {
-      this.toolbarVisible.set(false);
-      this.cdr.markForCheck();
-    });
+    };
+    window.visualViewport.addEventListener('resize', this.vpResizeHandler);
   }
 
   ngOnDestroy(): void {
@@ -118,7 +117,9 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     if (this.savedTimer) clearTimeout(this.savedTimer);
     this.flushSave();
     this.editor?.destroy();
-    if (Capacitor.isNativePlatform()) void Keyboard.removeAllListeners();
+    if (this.vpResizeHandler && window.visualViewport) {
+      window.visualViewport.removeEventListener('resize', this.vpResizeHandler);
+    }
   }
 
   // ── Load ───────────────────────────────────────────────────────────────────
@@ -181,22 +182,6 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
           const { from, to } = editor.state.selection;
           this.hasSelection.set(from !== to);
           this.cdr.markForCheck();
-        },
-        // On native: toolbar is driven by Keyboard plugin events (ngAfterViewInit).
-        // On web (dev): fall back to focus/blur so the bar still works in browser.
-        onFocus: () => {
-          if (Capacitor.isNativePlatform()) return;
-          this.toolbarVisible.set(true);
-          this.cdr.markForCheck();
-        },
-        onBlur: () => {
-          if (Capacitor.isNativePlatform()) return;
-          setTimeout(() => {
-            if (!this.editorHost?.nativeElement.contains(document.activeElement)) {
-              this.toolbarVisible.set(false);
-              this.cdr.markForCheck();
-            }
-          }, 150);
         },
         });
 

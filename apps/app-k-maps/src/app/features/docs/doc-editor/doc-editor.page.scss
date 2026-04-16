@@ -225,10 +225,11 @@
   -webkit-overflow-scrolling: touch;
 
   code {
-    background: none;
-    border: none;
-    padding: 0;
-    color: rgba(255, 255, 255, 0.80);
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    color: rgba(255, 255, 255, 0.82) !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.82) !important;
     font-size: 0.875rem;
     line-height: 1.65;
   }
