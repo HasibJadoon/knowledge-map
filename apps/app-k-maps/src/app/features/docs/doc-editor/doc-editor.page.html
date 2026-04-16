@@ -1,0 +1,178 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" aria-label="Back">
+        <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title>
+      @if (!loading()) {
+        <input class="km-title-input"
+               [value]="docTitle()"
+               placeholder="Untitled"
+               (blur)="onTitleBlur($event)"
+               (keydown.enter)="onTitleEnter($event)" />
+      }
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <span class="km-save-wrap">
+        @switch (saveState()) {
+          @case ('saving') { <span class="km-save km-save--saving">Saving…</span> }
+          @case ('saved')  { <span class="km-save km-save--saved">Saved</span> }
+          @case ('error')  { <span class="km-save km-save--error">!</span> }
+        }
+      </span>
+      <ion-button (click)="openInsertSheet()" aria-label="Insert block">
+        <ion-icon name="add-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!-- ion-content: same approach as Surah Notes.
+     Direct TipTap mount with a tail zone for tap-to-end. -->
+<ion-content [fullscreen]="true" #scrollEl>
+
+  @if (loading()) {
+    <div class="km-loading">Loading…</div>
+  } @else {
+    <div class="km-editor-wrap">
+      <div class="km-editor-el" #editorHost></div>
+      <div class="km-doc-tail" (pointerup)="onTailPU($event)"></div>
+    </div>
+  }
+
+</ion-content>
+
+<!-- ── Keyboard accessory bar ────────────────────────────────────────────────
+     position:fixed + --kb-offset tracks above the software keyboard.
+     Two modes: block-structure tools (no selection) / inline marks (selection). -->
+<div class="km-bar" #accessoryBar [class.km-bar--show]="toolbarVisible()">
+  <div class="km-bar-row">
+
+    <button class="km-b" (click)="undo()" aria-label="Undo">↩</button>
+    <button class="km-b" (click)="redo()" aria-label="Redo">↪</button>
+
+    <div class="km-sep"></div>
+
+    @if (hasSelection()) {
+
+      <!-- ── Selection mode: inline marks ──────────────────────────────── -->
+      <button class="km-b" [class.km-b--on]="isBold()"
+              (click)="cmd('bold')" aria-label="Bold"><b>B</b></button>
+      <button class="km-b" [class.km-b--on]="isItalic()"
+              (click)="cmd('italic')" aria-label="Italic"><i>I</i></button>
+      <button class="km-b" [class.km-b--on]="isUnderline()"
+              (click)="cmd('underline')" aria-label="Underline"><u>U</u></button>
+      <button class="km-b" [class.km-b--on]="isStrike()"
+              (click)="cmd('strike')" aria-label="Strikethrough"><s>S</s></button>
+
+      <div class="km-sep"></div>
+
+      <button class="km-b" [class.km-b--on]="isLink()"
+              (click)="setLink()" aria-label="Link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"
+             width="14" height="14" aria-hidden="true">
+          <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+        </svg>
+      </button>
+      <button class="km-b" [class.km-b--on]="isCode()"
+              (click)="cmd('code')" aria-label="Code">&lt;/&gt;</button>
+      <button class="km-b" (click)="clearFormatting()" aria-label="Clear marks">✕</button>
+
+      <div class="km-sep"></div>
+
+      <!-- Block type reachable in selection mode too -->
+      <button class="km-b" (click)="setBlock('heading1')">H1</button>
+      <button class="km-b" (click)="setBlock('heading2')">H2</button>
+      <button class="km-b" (click)="setBlock('heading3')">H3</button>
+
+    } @else {
+
+      <!-- ── Caret mode: block structure ────────────────────────────────── -->
+      <button class="km-b" (click)="setBlock('paragraph')" aria-label="Paragraph">¶</button>
+      <button class="km-b" (click)="setBlock('heading1')">H1</button>
+      <button class="km-b" (click)="setBlock('heading2')">H2</button>
+      <button class="km-b" (click)="setBlock('heading3')">H3</button>
+
+      <div class="km-sep"></div>
+
+      <button class="km-b" (click)="setBlock('bulletList')" aria-label="Bullet list">•≡</button>
+      <button class="km-b" (click)="setBlock('orderedList')" aria-label="Numbered list">1≡</button>
+      <button class="km-b" (click)="setBlock('taskList')" aria-label="Task list">☑</button>
+
+      <div class="km-sep"></div>
+
+      <button class="km-b" (click)="setBlock('blockquote')" aria-label="Quote">❝</button>
+      <button class="km-b" (click)="insertCallout()" aria-label="Callout">💡</button>
+      <button class="km-b" (click)="insertDivider()" aria-label="Divider">—</button>
+
+      <div class="km-sep"></div>
+
+      <button class="km-b" (click)="outdent()" aria-label="Outdent">⇤</button>
+      <button class="km-b" (click)="indent()" aria-label="Indent">⇥</button>
+
+    }
+
+  </div>
+</div>
+
+<!-- ── Insert sheet ─────────────────────────────────────────────────────────── -->
+@if (insertSheetOpen()) {
+  <div class="km-sheet-backdrop" (click)="closeInsertSheet()"></div>
+  <div class="km-insert-sheet" (click)="$event.stopPropagation()">
+    <div class="km-insert-sheet__handle"></div>
+    <div class="km-insert-sheet__title">Insert</div>
+    <div class="km-insert-sheet__grid">
+
+      <button class="km-ins-btn" (click)="insertFromSheet('heading1')">
+        <span class="km-ins-icon">H1</span>
+        <span class="km-ins-label">Heading 1</span>
+      </button>
+      <button class="km-ins-btn" (click)="insertFromSheet('heading2')">
+        <span class="km-ins-icon">H2</span>
+        <span class="km-ins-label">Heading 2</span>
+      </button>
+      <button class="km-ins-btn" (click)="insertFromSheet('heading3')">
+        <span class="km-ins-icon">H3</span>
+        <span class="km-ins-label">Heading 3</span>
+      </button>
+      <button class="km-ins-btn" (click)="insertFromSheet('bulletList')">
+        <span class="km-ins-icon">•≡</span>
+        <span class="km-ins-label">Bullet</span>
+      </button>
+      <button class="km-ins-btn" (click)="insertFromSheet('orderedList')">
+        <span class="km-ins-icon">1≡</span>
+        <span class="km-ins-label">Numbered</span>
+      </button>
+      <button class="km-ins-btn" (click)="insertFromSheet('taskList')">
+        <span class="km-ins-icon">☑</span>
+        <span class="km-ins-label">To-do</span>
+      </button>
+      <button class="km-ins-btn" (click)="insertFromSheet('blockquote')">
+        <span class="km-ins-icon">❝</span>
+        <span class="km-ins-label">Quote</span>
+      </button>
+      <button class="km-ins-btn" (click)="insertFromSheet('callout')">
+        <span class="km-ins-icon">💡</span>
+        <span class="km-ins-label">Callout</span>
+      </button>
+      <button class="km-ins-btn" (click)="insertFromSheet('divider')">
+        <span class="km-ins-icon">—</span>
+        <span class="km-ins-label">Divider</span>
+      </button>
+      <button class="km-ins-btn" (click)="insertFromSheet('image')">
+        <span class="km-ins-icon">📷</span>
+        <span class="km-ins-label">Image</span>
+      </button>
+
+    </div>
+  </div>
+}
+
+<!-- Hidden image input -->
+<input #imageInput type="file" accept="image/*" hidden (change)="onImageSelected($event)" />

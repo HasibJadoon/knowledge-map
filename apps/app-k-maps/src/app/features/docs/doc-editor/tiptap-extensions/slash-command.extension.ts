@@ -10,8 +10,8 @@ export const SlashCommandExtension = Extension.create({
       suggestion: {
         char: '/',
         startOfLine: false,
-        command: ({ editor, range, props }: { editor: any; range: any; props: SlashCommand }) => {
-          props.command({ editor, range });
+        command: ({ editor, range, props }: { editor: unknown; range: unknown; props: SlashCommand }) => {
+          props.command({ editor: editor as never, range: range as never });
         },
         items: ({ query }: { query: string }) => filterCommands(query),
         render: () => {
@@ -23,7 +23,6 @@ export const SlashCommandExtension = Extension.create({
           const rerender = () => {
             if (!container || !currentItems.length) return;
             container.innerHTML = '';
-            container.style.display = 'block';
 
             const groups = [...new Set(currentItems.map(i => i.group))];
             groups.forEach(group => {
@@ -47,16 +46,26 @@ export const SlashCommandExtension = Extension.create({
                     <span class="km-slash-title">${item.title}</span>
                     <span class="km-slash-desc">${item.description}</span>
                   </span>
-                  ${item.shortcut ? `<span class="km-slash-shortcut">${item.shortcut}</span>` : ''}
                 `;
+
+                // mousedown: works for mouse + iOS synthetic mouse events
                 el.addEventListener('mousedown', e => {
                   e.preventDefault();
                   currentCommand?.(item);
                 });
+
+                // touchend + preventDefault: fires instantly on tap-lift,
+                // prevents the follow-up mousedown/click from double-firing.
+                el.addEventListener('touchend', e => {
+                  e.preventDefault();
+                  currentCommand?.(item);
+                });
+
                 el.addEventListener('mouseenter', () => {
                   selectedIndex = idx;
                   rerender();
                 });
+
                 groupEl.appendChild(el);
               });
               container!.appendChild(groupEl);
@@ -64,7 +73,7 @@ export const SlashCommandExtension = Extension.create({
           };
 
           return {
-            onStart: ({ items, command, clientRect }: any) => {
+            onStart: ({ items, command, clientRect }: { items: SlashCommand[]; command: (item: SlashCommand) => void; clientRect: (() => DOMRect) | null }) => {
               selectedIndex = 0;
               currentItems = items;
               currentCommand = command;
@@ -77,7 +86,7 @@ export const SlashCommandExtension = Extension.create({
               rerender();
             },
 
-            onUpdate: ({ items, command, clientRect }: any) => {
+            onUpdate: ({ items, command, clientRect }: { items: SlashCommand[]; command: (item: SlashCommand) => void; clientRect: (() => DOMRect) | null }) => {
               if (!container) return;
               selectedIndex = 0;
               currentItems = items;
@@ -87,6 +96,7 @@ export const SlashCommandExtension = Extension.create({
               if (!items.length) {
                 container.style.display = 'none';
               } else {
+                container.style.display = 'block';
                 rerender();
               }
             },
@@ -144,86 +154,113 @@ export const SlashCommandExtension = Extension.create({
   },
 });
 
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
 function scrollActiveIntoView(container: HTMLElement) {
   const active = container.querySelector('.km-slash-item--active') as HTMLElement | null;
   active?.scrollIntoView({ block: 'nearest' });
 }
 
+/**
+ * Position the slash menu using visualViewport-aware coordinates.
+ * On mobile with keyboard open, visualViewport.height < window.innerHeight.
+ * We prefer positioning above the cursor so the menu is not hidden by the keyboard.
+ */
 function updatePosition(el: HTMLElement, clientRect: (() => DOMRect) | null): void {
   if (!clientRect) return;
-  const rect = clientRect();
-  let top = rect.bottom + window.scrollY + 6;
-  let left = rect.left + window.scrollX;
+  const rect       = clientRect();
+  const vv         = window.visualViewport;
+  const vpOffsetTop  = vv?.offsetTop  ?? window.scrollY;
+  const vpOffsetLeft = vv?.offsetLeft ?? window.scrollX;
+  const vpBottom     = vv ? (vv.offsetTop + vv.height) : window.innerHeight;
 
-  // Keep inside viewport
+  const MENU_APPROX_H = 280;
+  const MARGIN        = 8;
+
+  const spaceBelow = vpBottom - rect.bottom - MARGIN;
+  const spaceAbove = rect.top  - vpOffsetTop - MARGIN;
+
+  // Default: position below cursor. Fall back to above if keyboard would cover it.
+  let top: number;
+  if (spaceBelow >= MENU_APPROX_H || spaceBelow >= spaceAbove) {
+    top = rect.bottom + vpOffsetTop + 4;
+  } else {
+    top = rect.top + vpOffsetTop - MENU_APPROX_H - 4;
+  }
+
+  const left = Math.max(MARGIN, Math.min(rect.left + vpOffsetLeft, window.innerWidth - 292 - MARGIN));
+
+  el.style.top  = `${top}px`;
+  el.style.left = `${left}px`;
+
+  // Fine-tune after the menu has rendered and has a real height
   requestAnimationFrame(() => {
     const menuRect = el.getBoundingClientRect();
-    if (menuRect.bottom > window.innerHeight - 16) {
-      el.style.top = `${rect.top + window.scrollY - menuRect.height - 6}px`;
+    if (menuRect.bottom > vpBottom - MARGIN) {
+      el.style.top = `${rect.top + vpOffsetTop - menuRect.height - 4}px`;
     }
-    if (menuRect.right > window.innerWidth - 8) {
-      el.style.left = `${window.innerWidth - menuRect.width - 8}px`;
+    if (menuRect.right > window.innerWidth - MARGIN) {
+      el.style.left = `${window.innerWidth - menuRect.width - MARGIN}px`;
     }
   });
-
-  el.style.top = `${top}px`;
-  el.style.left = `${left}px`;
 }
 
 function applyContainerStyles(el: HTMLDivElement): void {
   Object.assign(el.style, {
-    position: 'absolute',
-    zIndex: '9999',
-    background: '#1c1c1c',
-    border: '1px solid rgba(255,255,255,0.1)',
-    borderRadius: '12px',
-    padding: '6px',
-    minWidth: '280px',
-    maxHeight: '400px',
-    overflowY: 'auto',
-    boxShadow: '0 8px 40px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4)',
-    fontFamily: 'var(--km-font-body, system-ui)',
+    position:   'absolute',
+    zIndex:     '9999',
+    background: '#161616',
+    border:     '1px solid rgba(255,255,255,0.09)',
+    borderRadius: '14px',
+    padding:    '6px',
+    minWidth:   '280px',
+    maxHeight:  '260px',
+    overflowY:  'auto',
+    overscrollBehavior: 'contain',
+    boxShadow:  '0 8px 40px rgba(0,0,0,0.65), 0 2px 8px rgba(0,0,0,0.4)',
+    fontFamily: "var(--km-font-body, 'Poppins', system-ui)",
+    WebkitOverflowScrolling: 'touch',
   });
 
   if (!document.getElementById('km-slash-styles')) {
     const style = document.createElement('style');
     style.id = 'km-slash-styles';
     style.textContent = `
-      .km-slash-menu::-webkit-scrollbar { width: 4px; }
-      .km-slash-menu::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
+      .km-slash-menu::-webkit-scrollbar { width: 3px; }
+      .km-slash-menu::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
 
       .km-slash-group-label {
-        font-size: 0.62rem; font-weight: 700;
+        font-size: 0.6rem; font-weight: 700;
         text-transform: uppercase; letter-spacing: 0.1em;
-        color: rgba(255,255,255,0.28);
+        color: rgba(255,255,255,0.25);
         padding: 6px 10px 2px;
       }
+
+      /* Mobile-first tap targets: 44px min height */
       .km-slash-item {
         display: flex; align-items: center; gap: 10px;
-        width: 100%; padding: 6px 8px;
+        width: 100%; min-height: 44px; padding: 8px 10px;
         background: transparent; border: none;
-        border-radius: 7px; cursor: pointer;
+        border-radius: 9px; cursor: pointer;
         text-align: left; color: rgba(255,255,255,0.85);
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
       }
       .km-slash-item--active { background: rgba(255,255,255,0.07); }
-      .km-slash-item:hover { background: rgba(255,255,255,0.07); }
+      .km-slash-item:hover   { background: rgba(255,255,255,0.06); }
 
       .km-slash-icon {
-        font-size: 0.82rem; font-weight: 700;
-        width: 30px; height: 30px;
+        font-size: 0.8rem; font-weight: 700;
+        width: 32px; height: 32px; flex-shrink: 0;
         display: flex; align-items: center; justify-content: center;
-        border-radius: 7px;
+        border-radius: 8px;
         background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.08);
-        flex-shrink: 0; color: rgba(255,255,255,0.7);
+        border: 1px solid rgba(255,255,255,0.07);
+        color: rgba(255,255,255,0.65);
       }
       .km-slash-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
       .km-slash-title { font-size: 0.84rem; font-weight: 600; }
-      .km-slash-desc { font-size: 0.7rem; color: rgba(255,255,255,0.35); margin-top: 1px; }
-      .km-slash-shortcut {
-        font-size: 0.68rem; color: rgba(255,255,255,0.25);
-        font-family: monospace; flex-shrink: 0;
-      }
+      .km-slash-desc  { font-size: 0.68rem; color: rgba(255,255,255,0.32); margin-top: 1px; }
     `;
     document.head.appendChild(style);
   }
