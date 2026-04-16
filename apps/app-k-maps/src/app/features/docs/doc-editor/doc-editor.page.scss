@@ -583,7 +583,7 @@
     color: rgba(255, 255, 255, 0.93);
     -webkit-text-fill-color: rgba(255, 255, 255, 0.93);
     direction: rtl;
-    text-align: center;
+    text-align: right;
     margin-bottom: 8px;
   }
 
@@ -591,7 +591,7 @@
     font-size: 0.82rem;
     color: rgba(255, 255, 255, 0.52);
     direction: ltr;
-    text-align: center;
+    text-align: left;
     font-style: italic;
     margin-bottom: 6px;
   }
@@ -600,7 +600,7 @@
     font-size: 0.72rem;
     color: rgba(201, 168, 76, 0.65);
     direction: ltr;
-    text-align: center;
+    text-align: left;
     letter-spacing: 0.04em;
   }
 }
