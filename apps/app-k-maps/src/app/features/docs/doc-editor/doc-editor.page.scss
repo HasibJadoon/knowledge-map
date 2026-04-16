@@ -358,25 +358,36 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Keyboard accessory bar — ion-footer
 // ─────────────────────────────────────────────────────────────────────────────
-// ion-footer + KeyboardResize.Ionic: Ionic pins this above the keyboard
-// automatically. No manual visualViewport math needed.
+// Layering contract:
+//   ion-footer (.km-bar)     → transparent host, no backdrop-filter here
+//   ion-toolbar (.km-bar-toolbar) → transparent, strips Ionic chrome
+//   .km-bar-row::before      → glass skin, z-index 0 (behind children)
+//   .km-bar-row flex items   → z-index 1, sit above the glass
+//   .km-b buttons            → z-index 2, fully crisp on top
+//
+// Why: backdrop-filter on a web-component host creates a stacking context
+// that can place Ionic's shadow-DOM background divs above slotted content,
+// making buttons look faded/recessed. Moving the blur into a ::before on
+// our own element keeps it strictly below the flex children.
 
+// ion-footer host — transparent, no stacking context side-effects
 .km-bar {
-  --background: rgba(10, 10, 10, 0.97);
-  --border-color: rgba(255, 255, 255, 0.07);
+  --background: transparent;
+  --border-color: transparent;
+  --box-shadow: none;
   display: none;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  position: relative;
 
   &.km-bar--show { display: block; }
 }
 
-// ion-toolbar inside the footer — strip all default chrome so the row
-// renders exactly as designed (no extra padding, no min-height, no border).
+// ion-toolbar — strip every Ionic chrome variable so nothing from shadow DOM
+// overrides our layout
 .km-bar-toolbar {
   --background: transparent;
   --border-width: 0;
   --border-style: none;
+  --box-shadow: none;
   --padding-start: 0;
   --padding-end: 0;
   --padding-top: 0;
@@ -384,10 +395,12 @@
   --min-height: 0;
   --inner-padding-end: 0;
   --inner-padding-start: 0;
-  contain: strict;
 }
 
+// Content row — glass lives in ::before so flex children are always above it
 .km-bar-row {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 1px;
@@ -399,10 +412,26 @@
   min-height: 44px;
 
   &::-webkit-scrollbar { display: none; }
+
+  // Glass skin — strictly behind flex children
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: rgba(12, 12, 14, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
 }
 
+// Buttons — explicitly above the glass layer
 .km-b {
   all: unset;
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -412,7 +441,7 @@
   border-radius: 7px;
   font-size: 0.82rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.72);
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
   flex-shrink: 0;
@@ -426,16 +455,19 @@
 
   &:active {
     background: rgba(255, 255, 255, 0.09);
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
   }
 
   &--on {
     color: #c9a84c;
-    background: rgba(201, 168, 76, 0.11);
+    background: rgba(201, 168, 76, 0.13);
   }
 }
 
+// Separator — also above glass layer
 .km-sep {
+  position: relative;
+  z-index: 2;
   width: 1px;
   height: 20px;
   background: rgba(255, 255, 255, 0.16);
