@@ -370,17 +370,19 @@
 // making buttons look faded/recessed. Moving the blur into a ::before on
 // our own element keeps it strictly below the flex children.
 
-// Accessory bar — plain fixed div, floats above keyboard on any context
-// (webview, Safari, Capacitor).  Bottom is driven by --km-bar-bottom which
-// TypeScript updates via visualViewport.resize so the bar always sits
-// exactly above the software keyboard regardless of KeyboardResize mode.
+// Accessory bar — fixed at bottom:0, lifted above keyboard via transform.
+// Using transform (GPU layer) instead of animating `bottom` prevents the
+// scroll-jitter that occurs when a CSS variable controlling `bottom` is
+// updated mid-scroll. will-change:transform pre-composites the layer.
 .km-bar {
   display: none;
   position: fixed;
   left: 0;
   right: 0;
-  bottom: var(--km-bar-bottom, 0px);
+  bottom: 0;
   z-index: 9000;
+  will-change: transform;
+  transform: translateY(var(--km-bar-lift, 0px));
 
   &.km-bar--show { display: block; }
 }

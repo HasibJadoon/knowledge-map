@@ -110,15 +110,19 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
 
     this.vpResizeHandler = () => {
       const vv = window.visualViewport!;
-      // Update base whenever viewport gets larger (keyboard dismissed)
-      if (vv.height > this.vpBaseHeight) this.vpBaseHeight = vv.height;
 
-      const keyboardHeight = Math.max(0, this.vpBaseHeight - vv.height);
+      // Only update base when the viewport GROWS by >100 px — that means the
+      // keyboard was dismissed. Ignoring smaller growth prevents elastic-scroll
+      // rubber-banding from corrupting vpBaseHeight and making the bar fly.
+      if (vv.height - this.vpBaseHeight > 100) this.vpBaseHeight = vv.height;
 
-      // Move the fixed bar to sit exactly above the keyboard.
-      document.documentElement.style.setProperty(
-        '--km-bar-bottom', `${keyboardHeight}px`
-      );
+      const keyboardHeight = this.vpBaseHeight - vv.height;
+
+      // lift = negative translateY that moves the bar above the keyboard.
+      // Using transform (GPU-composited) instead of `bottom` so scroll never
+      // triggers style recalculation that causes jitter.
+      const lift = keyboardHeight > 100 ? `-${keyboardHeight}px` : '0px';
+      document.documentElement.style.setProperty('--km-bar-lift', lift);
     };
     window.visualViewport.addEventListener('resize', this.vpResizeHandler);
   }
@@ -131,7 +135,7 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     if (this.vpResizeHandler && window.visualViewport) {
       window.visualViewport.removeEventListener('resize', this.vpResizeHandler);
     }
-    document.documentElement.style.removeProperty('--km-bar-bottom');
+    document.documentElement.style.removeProperty('--km-bar-lift');
   }
 
   // ── Load ───────────────────────────────────────────────────────────────────
