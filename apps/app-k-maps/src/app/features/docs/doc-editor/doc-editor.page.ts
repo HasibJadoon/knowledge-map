@@ -31,6 +31,7 @@ import {
   ComprehensionBlock, ChildrenBlock, PassageEmbed,
 } from './tiptap-extensions/worldview-blocks.extension';
 import { environment } from '../../../../environments/environment';
+import { mobilePrompt } from './mobile-prompt';
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
@@ -339,8 +340,9 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   setLink(): void {
     if (!this.editor) return;
     if (this.editor.isActive('link')) { this.editor.chain().focus().unsetLink().run(); return; }
-    const url = prompt('URL:');
-    if (url) this.editor.chain().focus().setLink({ href: url }).run();
+    void mobilePrompt('https://…', 'URL').then(url => {
+      if (url) this.editor?.chain().focus().setLink({ href: url }).run();
+    });
   }
 
   clearFormatting(): void {

@@ -1,4 +1,5 @@
 import { Editor, Range } from '@tiptap/core';
+import { mobilePrompt } from '../mobile-prompt';
 
 export interface SlashCommand {
   title: string;
@@ -92,25 +93,26 @@ export const SLASH_COMMANDS: SlashCommand[] = [
     title: 'Ayah Embed', description: 'Insert a Quran verse block', icon: 'آ', group: 'Quran',
     command: ({ editor, range }) => {
       editor.chain().focus().deleteRange(range).run();
-      const ref = window.prompt('Surah:Ayah (e.g. 12:3)');
-      if (!ref) return;
-      const [s, a] = ref.split(':').map(Number);
-      if (!s || !a) return;
-      // API returns `verses` array; use limit=1 + offset=ayah-1 to get the specific verse
-      fetch(`/api/ar/quran/ayahs?surah=${s}&limit=1&offset=${a - 1}`)
-        .then(r => r.json())
-        .then((data: { verses?: Array<{ text_uthmani_clean?: string; text_uthmani?: string; text?: string; translation?: string }> }) => {
-          const verse = data.verses?.[0];
-          editor.commands.insertContent({
-            type: 'ayah_embed',
-            attrs: {
-              id: crypto.randomUUID(), surah: s, ayah: a,
-              text_uthmani: verse?.text_uthmani_clean ?? verse?.text_uthmani ?? verse?.text ?? '',
-              translation: verse?.translation ?? '',
-              show_translation: true, dir: 'rtl', lang: 'ar'
-            }
+      void mobilePrompt('e.g. 12:3', 'Surah : Ayah').then(ref => {
+        if (!ref) return;
+        const [s, a] = ref.split(':').map(Number);
+        if (!s || !a) return;
+        // API returns `verses` array; use limit=1 + offset=ayah-1 to get the specific verse
+        fetch(`/api/ar/quran/ayahs?surah=${s}&limit=1&offset=${a - 1}`)
+          .then(r => r.json())
+          .then((data: { verses?: Array<{ text_uthmani_clean?: string; text_uthmani?: string; text?: string; translation?: string }> }) => {
+            const verse = data.verses?.[0];
+            editor.commands.insertContent({
+              type: 'ayah_embed',
+              attrs: {
+                id: crypto.randomUUID(), surah: s, ayah: a,
+                text_uthmani: verse?.text_uthmani_clean ?? verse?.text_uthmani ?? verse?.text ?? '',
+                translation: verse?.translation ?? '',
+                show_translation: true, dir: 'rtl', lang: 'ar'
+              }
+            });
           });
-        });
+      });
     },
   },
   {
