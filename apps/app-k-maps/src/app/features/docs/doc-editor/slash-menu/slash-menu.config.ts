@@ -48,8 +48,14 @@ export const SLASH_COMMANDS: SlashCommand[] = [
   },
   {
     title: 'Blockquote', description: 'Indented quote block', icon: '❝', group: 'Style',
-    command: ({ editor, range }) =>
-      editor.chain().focus().deleteRange(range).toggleBlockquote().run(),
+    command: ({ editor, range }) => {
+      // deleteRange must run first; then toggleBlockquote. If toggleBlockquote
+      // fails (cursor was in a list node), clearNodes() lifts it to a paragraph first.
+      editor.chain().focus().deleteRange(range).run();
+      if (!editor.chain().focus().toggleBlockquote().run()) {
+        editor.chain().focus().clearNodes().toggleBlockquote().run();
+      }
+    },
   },
   {
     title: 'Code Block', description: 'Monospace code block', icon: '</>', group: 'Style',

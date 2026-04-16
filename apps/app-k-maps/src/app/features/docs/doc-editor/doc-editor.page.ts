@@ -1,6 +1,6 @@
 import {
   AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef,
-  ElementRef, inject, OnDestroy, signal, ViewChild,
+  ElementRef, inject, OnDestroy, signal, ViewChild, ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, distinctUntilChanged } from 'rxjs/operators';
@@ -41,6 +41,7 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
   standalone: true,
   imports: [IonicModule, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './doc-editor.page.html',
   styleUrl: './doc-editor.page.scss',
 })
@@ -179,6 +180,18 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
             }, 150);
           },
         });
+
+      // iOS: `change` events on checkboxes inside contenteditable are unreliable.
+      // Delegate `touchend` on the editor root to toggle task items reliably.
+      this.editorHost!.nativeElement.addEventListener('touchend', (e: TouchEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.matches('input[type="checkbox"]')) {
+          e.preventDefault();
+          (target as HTMLInputElement).checked = !(target as HTMLInputElement).checked;
+          target.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }, { passive: false });
+
       this.cdr.markForCheck();
     }, 80);
   }
@@ -263,7 +276,14 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
       case 'bulletList':  this.editor.chain().focus().toggleBulletList().run();          break;
       case 'orderedList': this.editor.chain().focus().toggleOrderedList().run();         break;
       case 'taskList':    this.editor.chain().focus().toggleTaskList().run();            break;
-      case 'blockquote':  this.editor.chain().focus().toggleBlockquote().run();          break;
+      case 'blockquote':
+        // toggleBlockquote uses wrapIn which fails when the cursor is inside a
+        // list node (group:'listItem', not 'block'). clearNodes() lifts the node
+        // to a plain paragraph first so wrapIn can always succeed.
+        if (!this.editor.chain().focus().toggleBlockquote().run()) {
+          this.editor.chain().focus().clearNodes().toggleBlockquote().run();
+        }
+        break;
     }
     this.cdr.markForCheck();
   }
@@ -315,7 +335,11 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
         case 'bulletList':  this.editor.chain().focus().toggleBulletList().run();        break;
         case 'orderedList': this.editor.chain().focus().toggleOrderedList().run();       break;
         case 'taskList':    this.editor.chain().focus().toggleTaskList().run();          break;
-        case 'blockquote':  this.editor.chain().focus().toggleBlockquote().run();        break;
+        case 'blockquote':
+          if (!this.editor.chain().focus().toggleBlockquote().run()) {
+            this.editor.chain().focus().clearNodes().toggleBlockquote().run();
+          }
+          break;
         case 'callout':     this.insertCallout();  break;
         case 'divider':     this.insertDivider();  break;
         case 'image':       this.triggerImage();   break;

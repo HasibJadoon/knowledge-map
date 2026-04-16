@@ -305,7 +305,10 @@ export const Callout = Node.create({
         if (emojiEl.contains(e.target as globalThis.Node)) return;
         if (pickerEl?.contains(e.target as globalThis.Node)) return;
         // Tap on a real child inside the editable area — native ProseMirror.
-        if (contentEl.contains(e.target as globalThis.Node) && e.target !== contentEl) return;
+        // But if the target is an empty element (no text content), fall through
+        // so posAtCoords can route the caret accurately into empty callouts.
+        const targetEl = e.target as HTMLElement;
+        if (contentEl.contains(targetEl) && targetEl !== contentEl && (targetEl.textContent ?? '').trim() !== '') return;
 
         // Dead zone or empty callout: route to the nearest document position
         // so the caret lands where the user actually tapped, not always pos+2.
