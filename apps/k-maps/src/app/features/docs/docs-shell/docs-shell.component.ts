@@ -119,6 +119,7 @@ const DOMAINS = [
     .km-docs-layout {
       display: flex;
       height: 100vh;
+      height: 100dvh; /* iOS: excludes address bar + keyboard */
       background: var(--km-bg);
       overflow: hidden;
     }
@@ -132,6 +133,10 @@ const DOMAINS = [
       flex-direction: column;
       background: var(--km-surface);
       overflow: hidden;
+      /* iPhone: hide sidebar — editor needs the full width */
+      @media (max-width: 768px) {
+        display: none;
+      }
     }
 
     .km-docs-sidebar-header {

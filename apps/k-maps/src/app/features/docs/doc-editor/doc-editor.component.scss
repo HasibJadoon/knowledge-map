@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh; /* iOS: exclude address bar + keyboard */
   background: var(--km-bg);
 }
 
@@ -12,6 +13,12 @@
   padding: 12px 24px;
   border-bottom: 1px solid var(--km-border);
   flex-shrink: 0;
+  /* iOS safe area for notch */
+  padding-top: calc(12px + env(safe-area-inset-top));
+  @media (max-width: 768px) {
+    padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
+    gap: 8px;
+  }
 }
 
 .km-doc-title {
@@ -23,6 +30,10 @@
   outline: none;
   flex: 1;
   font-family: var(--km-font-body);
+  /* iOS: prevent zoom on focus (must be ≥16px) */
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 }
 
 .km-doc-save-status {
@@ -49,6 +60,14 @@
   /* Isolate layout recalculations to this subtree — ProseMirror does many
      small DOM mutations; containment prevents them from reflowing the shell. */
   contain: layout style;
+
+  /* iOS: remove contain (blocks touch events on mobile), use momentum scroll */
+  @media (max-width: 768px) {
+    contain: none;
+    padding: 24px 20px 80px; /* bottom pad for iOS home indicator */
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .km-doc-editor-el {
@@ -63,6 +82,17 @@
     line-height: 1.8;
     color: var(--km-text);
     font-family: var(--km-font-body);
+    /* iOS CRITICAL: allow text selection + editing */
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    /* Remove 300ms tap delay on iOS */
+    touch-action: manipulation;
+    /* iOS: font must be ≥16px to prevent auto-zoom on focus */
+    @media (max-width: 768px) {
+      font-size: 1rem; /* 16px — do NOT go below this on iOS */
+      line-height: 1.7;
+      min-height: 60vh;
+    }
 
     p.is-editor-empty:first-child::before {
       content: attr(data-placeholder);
