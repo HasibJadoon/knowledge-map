@@ -1,6 +1,6 @@
 import {
   AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef,
-  ElementRef, inject, NgZone, OnDestroy, signal, ViewChild,
+  ElementRef, inject, OnDestroy, signal, ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map, distinctUntilChanged } from 'rxjs/operators';
@@ -45,15 +45,13 @@ type SaveState = 'idle' | 'saving' | 'saved' | 'error';
   styleUrl: './doc-editor.page.scss',
 })
 export class DocEditorPage implements AfterViewInit, OnDestroy {
-  @ViewChild('editorHost')   editorHost?:   ElementRef<HTMLDivElement>;
-  @ViewChild('accessoryBar') accessoryBar?: ElementRef<HTMLDivElement>;
-  @ViewChild('imageInput')   imageInput?:   ElementRef<HTMLInputElement>;
+  @ViewChild('editorHost') editorHost?: ElementRef<HTMLDivElement>;
+  @ViewChild('imageInput') imageInput?: ElementRef<HTMLInputElement>;
 
   private route      = inject(ActivatedRoute);
   private http       = inject(HttpClient);
   private cdr        = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
-  private ngZone     = inject(NgZone);
   private navCtrl    = inject(NavController);
   private readonly API = `${environment.apiBase}/docs`;
 
@@ -70,7 +68,6 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   private pendingDoc: unknown = null;
   private saveTimer:  ReturnType<typeof setTimeout> | null = null;
   private savedTimer: ReturnType<typeof setTimeout> | null = null;
-  private vpRaf: number | null = null;
 
   constructor() {
     // Route params in constructor so takeUntilDestroyed has an injection context
@@ -97,20 +94,14 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
   ngAfterViewInit(): void {
-    this.ngZone.runOutsideAngular(() => {
-      window.visualViewport?.addEventListener('resize', this.onVpResize, { passive: true });
-      window.visualViewport?.addEventListener('scroll', this.onVpResize, { passive: true });
-    });
+    // ion-footer + KeyboardResize.Ionic handles bar positioning automatically.
   }
 
   ngOnDestroy(): void {
     if (this.saveTimer)  clearTimeout(this.saveTimer);
     if (this.savedTimer) clearTimeout(this.savedTimer);
-    if (this.vpRaf !== null) cancelAnimationFrame(this.vpRaf);
     this.flushSave();
     this.editor?.destroy();
-    window.visualViewport?.removeEventListener('resize', this.onVpResize);
-    window.visualViewport?.removeEventListener('scroll', this.onVpResize);
   }
 
   // ── Load ───────────────────────────────────────────────────────────────────
@@ -140,63 +131,54 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     // Small delay so Angular can render the host element before TipTap mounts
     setTimeout(() => {
       if (!this.editorHost?.nativeElement) return;
-      this.ngZone.runOutsideAngular(() => {
-        this.editor = new Editor({
-          element: this.editorHost!.nativeElement,
-          extensions: [
-            StarterKit.configure({ horizontalRule: false }),
-            HorizontalRule,
-            Placeholder.configure({ placeholder: 'Start writing… (type / for commands)' }),
-            Link.configure({ openOnClick: false }),
-            Underline,
-            TextStyle,
-            Color,
-            Highlight.configure({ multicolor: true }),
-            TaskList,
-            TaskItem.configure({ nested: true }),
-            AutoDirection,
-            Callout,
-            SlashCommandExtension,
-            PageLink,
-            AyahEmbed,
-            VocabBlock, MorphologyBlock, NahwBlock, RootAnalysisBlock,
-            ClaimBlock, EvidenceBlock, ReflectionBlock,
-            TaskBlock, SceneBlock, TimelineBlock,
-            ComprehensionBlock, ChildrenBlock, PassageEmbed,
-          ],
-          editable: true,
-          content: (content ?? { type: 'doc', content: [] }) as never,
-          onUpdate: ({ editor }) => {
-            this.pendingDoc = editor.getJSON();
-            this.scheduleSave();
-          },
-          onSelectionUpdate: ({ editor }) => {
-            const { from, to } = editor.state.selection;
-            const sel = from !== to;
-            this.ngZone.run(() => {
-              this.hasSelection.set(sel);
-              this.cdr.markForCheck();
-            });
-          },
-          onFocus: () => {
-            this.ngZone.run(() => {
-              this.toolbarVisible.set(true);
-              this.cdr.markForCheck();
-            });
-          },
+      this.editor = new Editor({
+        element: this.editorHost!.nativeElement,
+        extensions: [
+          StarterKit.configure({ horizontalRule: false }),
+          HorizontalRule,
+          Placeholder.configure({ placeholder: 'Start writing… (type / for commands)' }),
+          Link.configure({ openOnClick: false }),
+          Underline,
+          TextStyle,
+          Color,
+          Highlight.configure({ multicolor: true }),
+          TaskList,
+          TaskItem.configure({ nested: true }),
+          AutoDirection,
+          Callout,
+          SlashCommandExtension,
+          PageLink,
+          AyahEmbed,
+          VocabBlock, MorphologyBlock, NahwBlock, RootAnalysisBlock,
+          ClaimBlock, EvidenceBlock, ReflectionBlock,
+          TaskBlock, SceneBlock, TimelineBlock,
+          ComprehensionBlock, ChildrenBlock, PassageEmbed,
+        ],
+        editable: true,
+        content: (content ?? { type: 'doc', content: [] }) as never,
+        onUpdate: ({ editor }) => {
+          this.pendingDoc = editor.getJSON();
+          this.scheduleSave();
+        },
+        onSelectionUpdate: ({ editor }) => {
+          const { from, to } = editor.state.selection;
+          this.hasSelection.set(from !== to);
+          this.cdr.markForCheck();
+        },
+        onFocus: () => {
+          this.toolbarVisible.set(true);
+          this.cdr.markForCheck();
+        },
           onBlur: () => {
             // Delay so bar doesn't flicker when focus moves to an accessory button
             setTimeout(() => {
               if (!this.editorHost?.nativeElement.contains(document.activeElement)) {
-                this.ngZone.run(() => {
-                  this.toolbarVisible.set(false);
-                  this.cdr.markForCheck();
-                });
+                this.toolbarVisible.set(false);
+                this.cdr.markForCheck();
               }
             }, 150);
           },
         });
-      });
       this.cdr.markForCheck();
     }, 80);
   }
@@ -256,20 +238,6 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     (e.target as HTMLInputElement).blur();
     setTimeout(() => this.editor?.commands.focus('start'), 50);
   }
-
-  // ── visualViewport — keyboard offset ──────────────────────────────────────
-  // Runs outside Angular zone: never triggers change detection.
-  private onVpResize = (): void => {
-    if (this.vpRaf !== null) return;
-    this.vpRaf = requestAnimationFrame(() => {
-      this.vpRaf = null;
-      const vv  = window.visualViewport;
-      const bar = this.accessoryBar?.nativeElement;
-      if (!vv || !bar) return;
-      const keyboardHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
-      bar.style.setProperty('--kb-offset', `${keyboardHeight}px`);
-    });
-  };
 
   // ── Editing commands ───────────────────────────────────────────────────────
 

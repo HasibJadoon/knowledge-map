@@ -47,9 +47,9 @@
 </ion-content>
 
 <!-- ── Keyboard accessory bar ────────────────────────────────────────────────
-     position:fixed + --kb-offset tracks above the software keyboard.
-     Two modes: block-structure tools (no selection) / inline marks (selection). -->
-<div class="km-bar" #accessoryBar [class.km-bar--show]="toolbarVisible()">
+     ion-footer: Ionic + KeyboardResize.Ionic automatically pins this above
+     the software keyboard. No manual viewport math required. -->
+<ion-footer [class.km-bar--show]="toolbarVisible()" class="km-bar">
   <div class="km-bar-row">
 
     <button class="km-b" (click)="undo()" aria-label="Undo">↩</button>
@@ -119,7 +119,7 @@
     }
 
   </div>
-</div>
+</ion-footer>
 
 <!-- ── Insert sheet ─────────────────────────────────────────────────────────── -->
 @if (insertSheetOpen()) {
