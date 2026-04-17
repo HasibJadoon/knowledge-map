@@ -182,7 +182,11 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
           AutoDirection,
           Callout,
           SlashCommandExtension,
-          PageLink,
+          PageLink.configure({
+            onOpen: (docId: string) => {
+              void this.navCtrl.navigateForward(`/docs/${docId}`);
+            },
+          }),
           AyahEmbed,
           VocabBlock, MorphologyBlock, NahwBlock, RootAnalysisBlock,
           ClaimBlock, EvidenceBlock, ReflectionBlock,

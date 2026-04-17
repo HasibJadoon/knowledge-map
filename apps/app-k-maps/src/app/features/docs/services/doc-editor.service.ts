@@ -1,5 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Editor, Extension, InputRule } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
@@ -67,7 +68,10 @@ export class DocEditorService {
   private _editor: Editor | null = null;
   private _wordCountTimer: ReturnType<typeof setTimeout> | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
   get editor() { return this._editor; }
 
   readonly docId       = signal<string | null>(null);
@@ -151,7 +155,11 @@ export class DocEditorService {
         Placeholder.configure({ placeholder: 'Start writing, or type / for commands…' }),
         TextDirection.configure({ types: ['heading', 'paragraph', 'blockquote', 'listItem'] }),
         AutoDirection,
-        PageLink,
+        PageLink.configure({
+          onOpen: (docId: string) => {
+            void this.router.navigate(['/docs', docId]);
+          },
+        }),
         Callout,
         TaskList,
         TaskItem.configure({ nested: true }),
