@@ -34,6 +34,7 @@ interface FlatItem {
   icon: string;
   count: number;
   open: boolean;
+  loading: boolean;
 }
 
 interface FlatDoc extends DocNode {
@@ -41,6 +42,16 @@ interface FlatDoc extends DocNode {
 }
 
 type FlatRow = FlatItem | FlatDoc;
+
+interface DocSearchResult {
+  id: string;
+  title: string;
+  doc_type: string;
+  domain: string;
+  status: string;
+  updated_at: string | null;
+  excerpt?: string | null;
+}
 
 const DOMAINS = [
   { key: 'general',   label: 'General',   icon: '📝' },
@@ -87,7 +98,7 @@ const DOMAINS = [
         </div>
       }
 
-      @if (!loading() && docs().length === 0) {
+      @if (!loading() && !searchQuery.trim() && allDomainsLoaded() && docs().length === 0) {
         <div class="km-docs-empty">
           <ion-icon name="document-text-outline"></ion-icon>
           <p>No documents yet.</p>
@@ -95,7 +106,14 @@ const DOMAINS = [
         </div>
       }
 
-      @if (!loading() && docs().length > 0) {
+      @if (!loading() && searchQuery.trim() && !searching() && searchResults().length === 0) {
+        <div class="km-docs-empty">
+          <ion-icon name="search-outline"></ion-icon>
+          <p>No matching documents.</p>
+        </div>
+      }
+
+      @if (!loading()) {
         <ion-list lines="none" class="km-docs-list">
           @for (row of flatRows(); track trackRow(row)) {
 
@@ -106,10 +124,14 @@ const DOMAINS = [
                 @if (row.count > 0) {
                   <ion-badge class="km-domain-badge">{{ row.count }}</ion-badge>
                 }
-                <ion-icon
-                  [name]="row.open ? 'chevron-down' : 'chevron-forward'"
-                  class="km-domain-chevron">
-                </ion-icon>
+                @if (row.loading) {
+                  <ion-spinner name="crescent" class="km-domain-spinner"></ion-spinner>
+                } @else {
+                  <ion-icon
+                    [name]="row.open ? 'chevron-down' : 'chevron-forward'"
+                    class="km-domain-chevron">
+                  </ion-icon>
+                }
               </div>
             }
 
@@ -224,6 +246,12 @@ const DOMAINS = [
       color: var(--ion-color-medium);
     }
 
+    .km-domain-spinner {
+      width: 14px;
+      height: 14px;
+      color: var(--ion-color-medium);
+    }
+
     /* ── Doc item ───────────────────────────────────────────── */
     .km-doc-item {
       --padding-start: calc(16px + var(--indent, 0px));
@@ -285,15 +313,32 @@ export class DocsListPage implements OnInit, OnDestroy {
   private router = inject(Router);
   private cdr    = inject(ChangeDetectorRef);
   private readonly API = `${environment.apiBase}/docs`;
+  private readonly SEARCH_API = `${environment.apiBase}/docs/search`;
 
-  docs    = signal<DocSummary[]>([]);
-  loading = signal(true);
+  docsByDomain = signal<Record<string, DocSummary[]>>({});
+  loading = signal(false);
+  searching = signal(false);
   activeDocId = signal<string | null>(null);
+  searchResults = signal<DocSearchResult[]>([]);
   searchQuery = '';
 
-  private openDomains = signal<Set<string>>(new Set(DOMAINS.map(d => d.key)));
+  private openDomains = signal<Set<string>>(new Set());
   private openNodes   = signal<Set<string>>(new Set());
+  private loadingDomains = signal<Set<string>>(new Set());
+  private loadedDomains  = signal<Set<string>>(new Set());
   private routerSub!: Subscription;
+  private searchTimer: ReturnType<typeof setTimeout> | null = null;
+
+  docs = computed<DocSummary[]>(() => {
+    const byDomain = this.docsByDomain();
+    const result: DocSummary[] = [];
+    for (const domain of DOMAINS) {
+      result.push(...(byDomain[domain.key] ?? []));
+    }
+    return result;
+  });
+
+  allDomainsLoaded = computed(() => this.loadedDomains().size === DOMAINS.length);
 
   private treeByDomain = computed<Map<string, DocNode[]>>(() => {
     const all = this.docs();
@@ -327,13 +372,36 @@ export class DocsListPage implements OnInit, OnDestroy {
     for (const domain of DOMAINS) {
       const roots = this.treeByDomain().get(domain.key) ?? [];
       let count = this.docs().filter(d => d.domain === domain.key).length;
-      if (q) count = this.docs().filter(d => d.domain === domain.key && d.title.toLowerCase().includes(q)).length;
-      const open  = openDoms.has(domain.key);
+      if (q) {
+        count = this.searchResults().filter(d => d.domain === domain.key).length;
+      }
+      const open  = q ? count > 0 : openDoms.has(domain.key);
+      const loading = this.loadingDomains().has(domain.key);
 
-      result.push({ type: 'domain', ...domain, count, open });
+      result.push({ type: 'domain', ...domain, count, open, loading });
 
       if (open) {
-        this.collectVisible(roots, openNds, result, q);
+        if (q) {
+          for (const row of this.searchResults()) {
+            if (row.domain !== domain.key) continue;
+            result.push({
+              type: 'doc',
+              id: row.id,
+              title: row.title,
+              doc_type: row.doc_type,
+              domain: row.domain,
+              status: row.status,
+              word_count: 0,
+              updated_at: row.updated_at ?? '',
+              parent_doc_id: null,
+              sort_order: 0,
+              children: [],
+              depth: 0,
+            });
+          }
+        } else {
+          this.collectVisible(roots, openNds, result, q);
+        }
       }
     }
     return result;
@@ -354,43 +422,101 @@ export class DocsListPage implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadDocs();
     this.syncActiveFromUrl();
     this.routerSub = this.router.events
       .pipe(filter(e => e instanceof NavigationEnd))
       .subscribe(() => { this.syncActiveFromUrl(); this.cdr.markForCheck(); });
   }
 
-  ngOnDestroy(): void { this.routerSub?.unsubscribe(); }
+  ngOnDestroy(): void {
+    this.routerSub?.unsubscribe();
+    if (this.searchTimer) clearTimeout(this.searchTimer);
+  }
 
   private syncActiveFromUrl(): void {
     const match = this.router.url.match(/\/docs\/([^/?]+)/);
     this.activeDocId.set(match?.[1] ?? null);
   }
 
-  private loadDocs(): void {
-    this.http.get<{ docs: DocSummary[] }>(`${this.API}?status=all&limit=200`).subscribe({
+  private loadDomain(domain: string, force = false): void {
+    if (!force && (this.loadedDomains().has(domain) || this.loadingDomains().has(domain))) return;
+
+    this.loadingDomains.update(s => {
+      const next = new Set(s);
+      next.add(domain);
+      return next;
+    });
+
+    this.http.get<{ docs: DocSummary[] }>(`${this.API}?status=all&domain=${domain}&limit=200`).subscribe({
       next: res => {
-        this.docs.set(res.docs ?? []);
-        this.loading.set(false);
+        this.docsByDomain.update(current => ({ ...current, [domain]: res.docs ?? [] }));
+        this.loadedDomains.update(s => {
+          const next = new Set(s);
+          next.add(domain);
+          return next;
+        });
+        this.loadingDomains.update(s => {
+          const next = new Set(s);
+          next.delete(domain);
+          return next;
+        });
         this.cdr.markForCheck();
       },
-      error: () => { this.loading.set(false); this.cdr.markForCheck(); }
+      error: () => {
+        this.loadingDomains.update(s => {
+          const next = new Set(s);
+          next.delete(domain);
+          return next;
+        });
+        this.cdr.markForCheck();
+      }
     });
   }
 
   onSearch(_e: Event): void {
+    const q = this.searchQuery.trim();
+    if (this.searchTimer) clearTimeout(this.searchTimer);
+
+    if (!q) {
+      this.searching.set(false);
+      this.searchResults.set([]);
+      this.cdr.markForCheck();
+      return;
+    }
+
+    this.searching.set(true);
+    this.searchTimer = setTimeout(() => {
+      this.http.get<{ results: DocSearchResult[] }>(
+        `${this.SEARCH_API}?q=${encodeURIComponent(q)}&limit=50`
+      ).subscribe({
+        next: res => {
+          this.searchResults.set(res.results ?? []);
+          this.searching.set(false);
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.searchResults.set([]);
+          this.searching.set(false);
+          this.cdr.markForCheck();
+        }
+      });
+    }, 120);
     this.cdr.markForCheck();
   }
 
   isNodeOpen(id: string): boolean { return this.openNodes().has(id); }
 
   toggleDomain(key: string): void {
+    const wasOpen = this.openDomains().has(key);
     this.openDomains.update(s => {
       const n = new Set(s);
       n.has(key) ? n.delete(key) : n.add(key);
       return n;
     });
+    const willBeOpen = !wasOpen;
+    if (willBeOpen && !this.searchQuery.trim()) {
+      this.loadDomain(key);
+    }
   }
 
   toggleNode(id: string, e: Event): void {
@@ -410,7 +536,12 @@ export class DocsListPage implements OnInit, OnDestroy {
   newDoc(): void {
     this.http.post<{ id: string }>(this.API, { title: 'Untitled', domain: 'general', doc_type: 'note' })
       .subscribe(({ id }) => {
-        this.loadDocs();
+        this.loadDomain('general', true);
+        this.openDomains.update(s => {
+          const next = new Set(s);
+          next.add('general');
+          return next;
+        });
         this.router.navigate(['/docs', id]);
       });
   }
