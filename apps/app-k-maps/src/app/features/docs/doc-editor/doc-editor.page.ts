@@ -70,6 +70,8 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   private pendingDoc: unknown = null;
   private saveTimer:  ReturnType<typeof setTimeout> | null = null;
   private savedTimer: ReturnType<typeof setTimeout> | null = null;
+  private caretScrollTimer: ReturnType<typeof setTimeout> | null = null;
+  private caretScrollRaf: number | null = null;
   private vpResizeHandler: (() => void) | null = null;
   private vpBaseHeight    = 0;
 
@@ -122,8 +124,14 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
       // lift = negative translateY that moves the bar above the keyboard.
       // Using transform (GPU-composited) instead of `bottom` so scroll never
       // triggers style recalculation that causes jitter.
-      const lift = keyboardHeight > 100 ? `-${keyboardHeight}px` : '0px';
+      const keyboardOpen = keyboardHeight > 100;
+      const lift = keyboardOpen ? `-${keyboardHeight}px` : '0px';
       document.documentElement.style.setProperty('--km-bar-lift', lift);
+      document.documentElement.style.setProperty('--km-kb-offset', keyboardOpen ? `${keyboardHeight}px` : '0px');
+
+      if (keyboardOpen) {
+        this.keepCaretVisible(90);
+      }
     };
     window.visualViewport.addEventListener('resize', this.vpResizeHandler);
   }
@@ -131,12 +139,15 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.saveTimer)  clearTimeout(this.saveTimer);
     if (this.savedTimer) clearTimeout(this.savedTimer);
+    if (this.caretScrollTimer) clearTimeout(this.caretScrollTimer);
+    if (this.caretScrollRaf !== null) cancelAnimationFrame(this.caretScrollRaf);
     this.flushSave();
     this.editor?.destroy();
     if (this.vpResizeHandler && window.visualViewport) {
       window.visualViewport.removeEventListener('resize', this.vpResizeHandler);
     }
     document.documentElement.style.removeProperty('--km-bar-lift');
+    document.documentElement.style.removeProperty('--km-kb-offset');
   }
 
   // ── Load ───────────────────────────────────────────────────────────────────
@@ -202,10 +213,12 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
         onSelectionUpdate: ({ editor }) => {
           const { from, to } = editor.state.selection;
           this.hasSelection.set(from !== to);
+          this.keepCaretVisible();
           this.cdr.markForCheck();
         },
         onFocus: () => {
           this.toolbarVisible.set(true);
+          this.keepCaretVisible(120);
           this.cdr.markForCheck();
         },
         onBlur: () => {
@@ -392,8 +405,39 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     if (!ev.isPrimary) return;
     ev.preventDefault(); // suppress follow-up synthetic click
     this.editor?.commands.focus('end');
+    this.keepCaretVisible(80);
     this.toolbarVisible.set(true);
     this.cdr.markForCheck();
+  }
+
+  private keepCaretVisible(delay = 0): void {
+    if (!this.editor) return;
+    if (this.caretScrollTimer) {
+      clearTimeout(this.caretScrollTimer);
+      this.caretScrollTimer = null;
+    }
+    if (this.caretScrollRaf !== null) {
+      cancelAnimationFrame(this.caretScrollRaf);
+      this.caretScrollRaf = null;
+    }
+
+    const run = () => {
+      if (!this.editor) return;
+      this.caretScrollRaf = requestAnimationFrame(() => {
+        this.caretScrollRaf = null;
+        this.editor?.commands.scrollIntoView();
+      });
+    };
+
+    if (delay > 0) {
+      this.caretScrollTimer = setTimeout(() => {
+        this.caretScrollTimer = null;
+        run();
+      }, delay);
+      return;
+    }
+
+    run();
   }
 
   // ── Image ──────────────────────────────────────────────────────────────────
