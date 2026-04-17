@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal, effect, ChangeDetectionStrategy, Cha
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import { DocEditorService } from '../services/doc-editor.service';
 
 interface HeadingNode { text: string; level: number; }
@@ -13,7 +14,7 @@ interface AyahItem { surah: number; ayah: number; text: string; }
   selector: 'km-doc-right-panel',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   template: `
     <aside class="km-doc-rp">
       <div class="km-doc-rp-tabs">
@@ -46,7 +47,7 @@ interface AyahItem { surah: number; ayah: number; text: string; }
               <div class="km-rp-link-section">
                 <div class="km-rp-link-group-label">📄 Linked Pages</div>
                 @for (p of pageLinks(); track p.doc_id) {
-                  <a class="km-rp-page-link" [href]="'/docs/' + p.doc_id">
+                  <a class="km-rp-page-link" [routerLink]="['/docs', p.doc_id]">
                     <span>{{ p.title || 'Untitled' }}</span>
                     <span class="km-rp-link-arrow">→</span>
                   </a>

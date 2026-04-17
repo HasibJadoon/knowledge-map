@@ -1,5 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Editor, Extension } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
@@ -61,6 +62,7 @@ export class DocEditorService {
   readonly isMobile = isMobile();
 
   private http       = inject(HttpClient);
+  private router     = inject(Router);
   private extractSvc = inject(DocExtractService);
 
   get editor() { return this._editor; }
@@ -203,7 +205,11 @@ export class DocEditorService {
         Placeholder.configure({ placeholder: 'Start writing, or type / for commands…' }),
         TextDirection.configure({ types: ['heading', 'paragraph', 'blockquote', 'listItem'] }),
         AutoDirection,
-        PageLink,
+        PageLink.configure({
+          onOpen: (docId: string) => {
+            void this.router.navigate(['/docs', docId]);
+          },
+        }),
         Callout,
         SlashCommandExtension,
         Extension.create({

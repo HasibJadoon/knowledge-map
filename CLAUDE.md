@@ -1,6 +1,6 @@
 # K-MAPS — Claude Deep Memory
 
-> Last updated: 2026-03-22
+> Last updated: 2026-04-17
 > This file is the single source of truth for all architectural decisions,
 > brainstormed features, DB schema, and coding patterns for this project.
 > Read this at the start of every session.
@@ -161,612 +161,6 @@ idx_ar_qsp_surah_range  -- (surah, ayah_from, ayah_to)
 idx_ar_qsp_ayah_from    -- (surah, ayah_from)   ← added 2026-03-22
 idx_ar_qsp_ayah_to      -- (surah, ayah_to)     ← added 2026-03-22
 ```
-
----
-
-## 7. Full Database Schema — Worldview System
-
-> Migration file: Database/migrations/2026-03-22_wv_schema.sql (TO BE CREATED)
-
-### Publications & Authors
-```sql
-CREATE TABLE wv_publication (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  type TEXT NOT NULL,  -- 'publisher'|'journal'|'news'|'podcast_network'|'blog'|'magazine'
-  url TEXT,
-  created_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_author (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  name_ar TEXT,
-  bio TEXT,
-  url TEXT,
-  publication_id INTEGER REFERENCES wv_publication(id),
-  created_at TEXT DEFAULT (datetime('now'))
-);
-```
-
-### Sources (Library)
-```sql
-CREATE TABLE wv_source (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  title_ar TEXT,
-  type TEXT NOT NULL,  -- 'book'|'paper'|'article'|'podcast_ep'|'video'|'news'|'document'
-  publication_id INTEGER REFERENCES wv_publication(id),
-  published_date TEXT,
-  url TEXT,
-  isbn TEXT,
-  cover_url TEXT,
-  language TEXT DEFAULT 'en',
-  total_pages INTEGER,
-  status TEXT DEFAULT 'unread',  -- 'unread'|'reading'|'completed'|'reference'
-  created_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_source_author (
-  source_id INTEGER NOT NULL REFERENCES wv_source(id),
-  author_id INTEGER NOT NULL REFERENCES wv_author(id),
-  role TEXT DEFAULT 'author',  -- 'author'|'editor'|'translator'|'contributor'
-  PRIMARY KEY (source_id, author_id)
-);
-```
-
-### Units & Sub-Units
-```sql
-CREATE TABLE wv_unit (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  source_id INTEGER NOT NULL REFERENCES wv_source(id),
-  title TEXT NOT NULL,
-  number INTEGER,
-  page_from INTEGER,
-  page_to INTEGER,
-  sort_order INTEGER NOT NULL DEFAULT 0,
-  status TEXT DEFAULT 'unread',  -- 'unread'|'reading'|'completed'
-  created_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_sub_unit (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  unit_id INTEGER NOT NULL REFERENCES wv_unit(id),
-  title TEXT,
-  content_ref TEXT,
-  page_from INTEGER,
-  page_to INTEGER,
-  sort_order INTEGER NOT NULL DEFAULT 0,
-  created_at TEXT DEFAULT (datetime('now'))
-);
-```
-
-### Annotations
-```sql
-CREATE TABLE wv_highlight (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  source_id INTEGER NOT NULL REFERENCES wv_source(id),
-  unit_id INTEGER REFERENCES wv_unit(id),
-  sub_unit_id INTEGER REFERENCES wv_sub_unit(id),
-  text TEXT NOT NULL,
-  page INTEGER,
-  color TEXT DEFAULT 'gold',      -- 'gold'|'blue'|'green'|'red'|'purple'
-  category TEXT,                   -- 'key_idea'|'evidence'|'question'|'critique'|'definition'
-  created_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_note (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  source_id INTEGER REFERENCES wv_source(id),
-  unit_id INTEGER REFERENCES wv_unit(id),
-  sub_unit_id INTEGER REFERENCES wv_sub_unit(id),
-  highlight_id INTEGER REFERENCES wv_highlight(id),
-  content TEXT NOT NULL,
-  tags TEXT,  -- JSON array
-  created_at TEXT DEFAULT (datetime('now')),
-  updated_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_distillation (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  source_id INTEGER REFERENCES wv_source(id),
-  unit_id INTEGER REFERENCES wv_unit(id),
-  title TEXT,
-  thesis TEXT NOT NULL,
-  evidence TEXT,   -- JSON array of highlight IDs
-  tags TEXT,       -- JSON array
-  created_at TEXT DEFAULT (datetime('now')),
-  updated_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_quran_link (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  source_id INTEGER REFERENCES wv_source(id),
-  unit_id INTEGER REFERENCES wv_unit(id),
-  sub_unit_id INTEGER REFERENCES wv_sub_unit(id),
-  highlight_id INTEGER REFERENCES wv_highlight(id),
-  distillation_id INTEGER REFERENCES wv_distillation(id),
-  note_id INTEGER REFERENCES wv_note(id),
-  surah INTEGER NOT NULL,
-  ayah_from INTEGER NOT NULL,
-  ayah_to INTEGER NOT NULL,
-  relationship TEXT DEFAULT 'related',
-    -- 'supports'|'contradicts'|'context'|'illustrates'|'questions'|'related'
-  note TEXT,
-  created_at TEXT DEFAULT (datetime('now'))
-);
-```
-
-### People (PRIVACY CRITICAL)
-```sql
-CREATE TABLE wv_person (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  nickname TEXT,
-  relationship TEXT NOT NULL,  -- 'family'|'friend'|'colleague'|'scholar'|'mentor'
-  family_role TEXT,            -- 'father'|'mother'|'spouse'|'sibling'|'child' (family only)
-  visibility TEXT NOT NULL DEFAULT 'private',
-    -- 'private'  = FAMILY — never shown to workspace members, never in WS member picker
-    -- 'workspace' = friends/colleagues — can be added to workspaces
-  avatar_url TEXT,
-  bio TEXT,
-  author_id INTEGER REFERENCES wv_author(id),
-  created_at TEXT DEFAULT (datetime('now'))
-);
-
--- PRIVACY RULE: wv_person WHERE visibility='private' (family)
--- MUST NEVER appear in workspace member pickers or activity feeds
--- MUST NEVER be visible to other workspace members
--- Only the owner can see their own family contacts
-```
-
-### Worldview Research
-```sql
-CREATE TABLE wv_worldview (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,   -- 'Islam'|'Christianity'|'Judaism'|'Buddhism'|'Secular Humanism'
-  type TEXT NOT NULL,   -- 'religion'|'philosophy'|'ideology'|'school_of_thought'
-  parent_id INTEGER REFERENCES wv_worldview(id),
-  description TEXT,
-  color TEXT,  -- UI accent e.g. '#2C7A4B'
-  icon TEXT,   -- emoji
-  created_at TEXT DEFAULT (datetime('now'))
-);
-
--- Seed: Islam(1), Sunni→Islam(2), Shia→Islam(3),
---       Christianity(4), Catholic→Christianity(5), Protestant→Christianity(6),
---       Judaism(7), Orthodox→Judaism(8), Reform→Judaism(9)
-
-CREATE TABLE wv_topic (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,   -- 'Afterlife'|'God'|'Prayer'|'Justice'|'Creation'
-  description TEXT,
-  parent_id INTEGER REFERENCES wv_topic(id),
-  tags TEXT,  -- JSON
-  created_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_brainstorm (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  topic_id INTEGER REFERENCES wv_topic(id),
-  content TEXT,   -- markdown
-  status TEXT DEFAULT 'draft',  -- 'draft'|'developing'|'mature'|'distilled'
-  tags TEXT,      -- JSON
-  created_at TEXT DEFAULT (datetime('now')),
-  updated_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_brainstorm_worldview (
-  brainstorm_id INTEGER NOT NULL REFERENCES wv_brainstorm(id),
-  worldview_id INTEGER NOT NULL REFERENCES wv_worldview(id),
-  PRIMARY KEY (brainstorm_id, worldview_id)
-);
-
-CREATE TABLE wv_brainstorm_source (
-  brainstorm_id INTEGER NOT NULL REFERENCES wv_brainstorm(id),
-  source_id INTEGER NOT NULL REFERENCES wv_source(id),
-  PRIMARY KEY (brainstorm_id, source_id)
-);
-
-CREATE TABLE wv_brainstorm_quran (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  brainstorm_id INTEGER NOT NULL REFERENCES wv_brainstorm(id),
-  surah INTEGER NOT NULL,
-  ayah_from INTEGER NOT NULL,
-  ayah_to INTEGER NOT NULL,
-  note TEXT
-);
-```
-
-### Parallel Comparison
-```sql
-CREATE TABLE wv_comparison (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  topic_id INTEGER REFERENCES wv_topic(id),
-  description TEXT,
-  status TEXT DEFAULT 'draft',
-  created_at TEXT DEFAULT (datetime('now')),
-  updated_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_comparison_tab (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  comparison_id INTEGER NOT NULL REFERENCES wv_comparison(id),
-  label TEXT NOT NULL,   -- 'Quran'|'Bible (KJV)'|'Torah'|'Ibn Kathir'
-  source_type TEXT NOT NULL,
-    -- 'quran'|'bible'|'torah'|'hadith'|'wv_source'|'free'
-  worldview_id INTEGER REFERENCES wv_worldview(id),
-  wv_source_id INTEGER REFERENCES wv_source(id),
-  position INTEGER NOT NULL,
-  color TEXT
-);
-
-CREATE TABLE wv_comparison_row (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  comparison_id INTEGER NOT NULL REFERENCES wv_comparison(id),
-  theme TEXT,
-  position INTEGER NOT NULL
-);
-
-CREATE TABLE wv_comparison_cell (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  row_id INTEGER NOT NULL REFERENCES wv_comparison_row(id),
-  tab_id INTEGER NOT NULL REFERENCES wv_comparison_tab(id),
-  surah INTEGER,
-  ayah_from INTEGER,
-  ayah_to INTEGER,
-  scripture_ref TEXT,   -- 'John 3:16' | 'Genesis 1:1'
-  scripture_text TEXT,
-  highlight_id INTEGER REFERENCES wv_highlight(id),
-  sub_unit_id INTEGER REFERENCES wv_sub_unit(id),
-  free_text TEXT,
-  note TEXT,
-  created_at TEXT DEFAULT (datetime('now')),
-  UNIQUE (row_id, tab_id)
-);
-```
-
-### Workspace & People
-```sql
-CREATE TABLE wv_workspace (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  description TEXT,
-  type TEXT NOT NULL DEFAULT 'personal',
-    -- 'personal'|'study_group'|'research'|'podcast_season'|'course'
-  icon TEXT,
-  color TEXT,
-  status TEXT DEFAULT 'active',  -- 'active'|'archived'|'completed'
-  created_at TEXT DEFAULT (datetime('now')),
-  updated_at TEXT DEFAULT (datetime('now'))
-);
-
--- PRIVACY: Only wv_person WHERE visibility='workspace' can be workspace members
-CREATE TABLE wv_workspace_member (
-  workspace_id INTEGER NOT NULL REFERENCES wv_workspace(id),
-  person_id INTEGER NOT NULL REFERENCES wv_person(id),
-  role TEXT DEFAULT 'member',  -- 'owner'|'member'|'viewer'
-  joined_at TEXT DEFAULT (datetime('now')),
-  PRIMARY KEY (workspace_id, person_id)
-  -- DB CHECK: person must have visibility='workspace'
-);
-
-CREATE TABLE wv_workspace_source (
-  workspace_id INTEGER NOT NULL REFERENCES wv_workspace(id),
-  source_id INTEGER NOT NULL REFERENCES wv_source(id),
-  added_at TEXT DEFAULT (datetime('now')),
-  PRIMARY KEY (workspace_id, source_id)
-);
-
-CREATE TABLE wv_activity (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  workspace_id INTEGER NOT NULL REFERENCES wv_workspace(id),
-  person_id INTEGER REFERENCES wv_person(id),
-  action TEXT NOT NULL,
-    -- 'session_logged'|'highlight_added'|'note_added'|'distillation_created'
-    -- 'unit_completed'|'source_added'|'brainstorm_updated'|'comparison_updated'
-  entity_type TEXT,
-  entity_id INTEGER,
-  meta TEXT,  -- JSON
-  created_at TEXT DEFAULT (datetime('now'))
-);
-```
-
-### Planner
-```sql
-CREATE TABLE wv_plan (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  workspace_id INTEGER REFERENCES wv_workspace(id),
-  title TEXT NOT NULL,
-  description TEXT,
-  type TEXT DEFAULT 'reading',  -- 'reading'|'study'|'review'|'podcast_prep'
-  start_date TEXT NOT NULL,
-  end_date TEXT,
-  status TEXT DEFAULT 'active',  -- 'active'|'completed'|'paused'
-  created_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_plan_item (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  plan_id INTEGER NOT NULL REFERENCES wv_plan(id),
-  source_id INTEGER REFERENCES wv_source(id),
-  unit_id INTEGER REFERENCES wv_unit(id),
-  title TEXT,
-  target_date TEXT,
-  priority INTEGER DEFAULT 2,  -- 1=high 2=medium 3=low
-  status TEXT DEFAULT 'pending',  -- 'pending'|'in_progress'|'done'|'skipped'
-  notes TEXT,
-  sort_order INTEGER DEFAULT 0,
-  created_at TEXT DEFAULT (datetime('now')),
-  completed_at TEXT
-);
-
-CREATE TABLE wv_reading_session (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  plan_item_id INTEGER REFERENCES wv_plan_item(id),
-  source_id INTEGER NOT NULL REFERENCES wv_source(id),
-  unit_id INTEGER REFERENCES wv_unit(id),
-  sub_unit_id INTEGER REFERENCES wv_sub_unit(id),
-  date TEXT NOT NULL DEFAULT (date('now')),
-  duration_mins INTEGER,
-  page_from INTEGER,
-  page_to INTEGER,
-  reflection TEXT,
-  mood TEXT,  -- 'focused'|'distracted'|'inspired'|'confused'
-  created_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_reminder (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  distillation_id INTEGER REFERENCES wv_distillation(id),
-  note_id INTEGER REFERENCES wv_note(id),
-  highlight_id INTEGER REFERENCES wv_highlight(id),
-  due_date TEXT NOT NULL,
-  interval_days INTEGER DEFAULT 7,
-  status TEXT DEFAULT 'pending',  -- 'pending'|'done'|'snoozed'
-  created_at TEXT DEFAULT (datetime('now'))
-);
-```
-
-### Podcasts
-```sql
-CREATE TABLE wv_podcast (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  description TEXT,
-  type TEXT DEFAULT 'solo',     -- 'solo'|'dialogue'|'panel'
-  status TEXT DEFAULT 'planning', -- 'planning'|'recorded'|'published'
-  recorded_at TEXT,
-  published_url TEXT,
-  created_at TEXT DEFAULT (datetime('now')),
-  updated_at TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE wv_podcast_source (
-  podcast_id INTEGER NOT NULL REFERENCES wv_podcast(id),
-  source_id INTEGER NOT NULL REFERENCES wv_source(id),
-  PRIMARY KEY (podcast_id, source_id)
-);
-
-CREATE TABLE wv_podcast_participant (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  podcast_id INTEGER NOT NULL REFERENCES wv_podcast(id),
-  author_id INTEGER REFERENCES wv_author(id),
-  person_id INTEGER REFERENCES wv_person(id),
-  name TEXT,
-  role TEXT DEFAULT 'guest',  -- 'host'|'co-host'|'guest'|'interviewee'
-  sort_order INTEGER DEFAULT 0
-);
-
-CREATE TABLE wv_talking_point (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  podcast_id INTEGER NOT NULL REFERENCES wv_podcast(id),
-  content TEXT NOT NULL,
-  source_id INTEGER REFERENCES wv_source(id),
-  unit_id INTEGER REFERENCES wv_unit(id),
-  highlight_id INTEGER REFERENCES wv_highlight(id),
-  distillation_id INTEGER REFERENCES wv_distillation(id),
-  surah INTEGER,
-  ayah_from INTEGER,
-  ayah_to INTEGER,
-  sort_order INTEGER NOT NULL DEFAULT 0,
-  duration_mins INTEGER,
-  created_at TEXT DEFAULT (datetime('now'))
-);
-```
-
----
-
-## 7b. Arabic Language System — Full Schema
-
-> Migration: Database/migrations/2026-03-22_arabic_schema.sql (TO BE CREATED)
-> Goal: Arabic + Classical Arabic proficiency. Two tracks: Content Library + Linguistics.
-
-### Content Library
-```sql
--- Literature containers: book, podcast, poetry, classical text, etc.
-CREATE TABLE ar_container (
-  id           INTEGER PRIMARY KEY AUTOINCREMENT,
-  title        TEXT NOT NULL,
-  title_ar     TEXT,
-  type         TEXT NOT NULL,  -- 'book'|'podcast'|'poetry'|'essay'|'speech'|'article'|'classical_text'
-  author       TEXT,
-  level        TEXT NOT NULL,  -- 'beginner'|'intermediate'|'advanced'|'classical'
-  domain       TEXT,           -- 'religious'|'literary'|'contemporary'|'classical'
-  total_units  INTEGER,
-  description  TEXT,
-  url          TEXT,
-  created_at   TEXT DEFAULT (datetime('now'))
-);
-
--- Chapters / sections within a container
-CREATE TABLE ar_container_unit (
-  id           INTEGER PRIMARY KEY AUTOINCREMENT,
-  container_id INTEGER NOT NULL REFERENCES ar_container(id),
-  title        TEXT NOT NULL,
-  title_ar     TEXT,
-  number       INTEGER,
-  content_ref  TEXT,   -- page/timestamp reference
-  sort_order   INTEGER NOT NULL DEFAULT 0,
-  created_at   TEXT DEFAULT (datetime('now'))
-);
-
--- Tasks: reading, vocabulary, comprehension, spaced repetition
-CREATE TABLE ar_task (
-  id            INTEGER PRIMARY KEY AUTOINCREMENT,
-  container_id  INTEGER REFERENCES ar_container(id),
-  unit_id       INTEGER REFERENCES ar_container_unit(id),
-  type          TEXT NOT NULL,  -- 'reading'|'vocabulary'|'comprehension'|'srs'
-  title         TEXT NOT NULL,
-  content       TEXT,
-  answer        TEXT,
-  difficulty    INTEGER DEFAULT 2,  -- 1=easy 2=medium 3=hard
-  status        TEXT DEFAULT 'pending',  -- 'pending'|'in_progress'|'done'
-  due_date      TEXT,
-  next_review   TEXT,
-  interval_days INTEGER DEFAULT 1,
-  ease_factor   REAL DEFAULT 2.5,  -- SM-2 spaced repetition
-  created_at    TEXT DEFAULT (datetime('now')),
-  completed_at  TEXT
-);
-```
-
-### Shared SRS Table
-```sql
--- SHARED spaced repetition table — used by BOTH Quran and Arabic learning systems
--- km_srs already exists for Quran; Arabic reuses the same table with entity_type
-CREATE TABLE km_srs (
-  id            INTEGER PRIMARY KEY AUTOINCREMENT,
-  entity_type   TEXT NOT NULL,  -- 'vocab'|'grammar'|'balagha'|'phrase'|'task'|'ayah'
-  entity_id     INTEGER NOT NULL,
-  next_review   TEXT NOT NULL DEFAULT (date('now')),
-  interval_days INTEGER DEFAULT 1,
-  ease_factor   REAL DEFAULT 2.5,
-  repetitions   INTEGER DEFAULT 0,
-  last_quality  INTEGER,   -- 0-5 SM-2 quality rating
-  created_at    TEXT DEFAULT (datetime('now')),
-  updated_at    TEXT DEFAULT (datetime('now')),
-  UNIQUE (entity_type, entity_id)
-);
-CREATE INDEX idx_km_srs_review ON km_srs(next_review, entity_type);
-```
-**NOTE**: Quran SRS and Arabic learning SRS share this table. Do NOT embed SRS fields directly in ar_vocab or ar_task.
-
-### Vocabulary
-```sql
-CREATE TABLE ar_vocab (
-  id             INTEGER PRIMARY KEY AUTOINCREMENT,
-  root           TEXT,           -- trilateral root e.g. ك-ت-ب
-  word           TEXT NOT NULL,
-  pattern        TEXT,           -- morphological wazn (وزن)
-  meanings       TEXT NOT NULL,  -- JSON array
-  forms          TEXT,           -- JSON: { plural, dual, fem, verb_conjugations }
-  examples       TEXT,           -- JSON [{ sentence, translation }]
-  level          TEXT DEFAULT 'beginner',
-  domain         TEXT,
-  frequency_rank INTEGER,
-  -- NO SRS fields here — use km_srs table with entity_type='vocab'
-  created_at     TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE ar_vocab_unit (
-  vocab_id  INTEGER NOT NULL REFERENCES ar_vocab(id),
-  unit_id   INTEGER NOT NULL REFERENCES ar_container_unit(id),
-  PRIMARY KEY (vocab_id, unit_id)
-);
-
-CREATE TABLE ar_vocab_ayah (
-  vocab_id  INTEGER NOT NULL REFERENCES ar_vocab(id),
-  surah     INTEGER NOT NULL,
-  ayah      INTEGER NOT NULL,
-  PRIMARY KEY (vocab_id, surah, ayah)
-);
-```
-
-### Linguistics — 1. Grammar
-```sql
-CREATE TABLE ar_grammar_rule (
-  id           INTEGER PRIMARY KEY AUTOINCREMENT,
-  term_ar      TEXT NOT NULL,   -- e.g. مبتدأ, فاعل, مفعول به
-  term_en      TEXT NOT NULL,   -- e.g. Subject, Doer, Object
-  category     TEXT NOT NULL,   -- 'noun'|'verb'|'particle'|'sentence_structure'|'iraab'
-  sub_category TEXT,            -- e.g. 'raf'|'nasb'|'jarr' for إعراب
-  explanation  TEXT NOT NULL,
-  formula      TEXT,
-  examples     TEXT,            -- JSON [{ ar, en, source }]
-  tags         TEXT,            -- JSON
-  sort_order   INTEGER DEFAULT 0,
-  created_at   TEXT DEFAULT (datetime('now'))
-);
-
-CREATE TABLE ar_idiom (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  phrase_ar   TEXT NOT NULL,
-  phrase_en   TEXT NOT NULL,
-  context     TEXT,   -- 'formal'|'informal'|'classical'|'colloquial'
-  examples    TEXT,   -- JSON
-  created_at  TEXT DEFAULT (datetime('now'))
-);
-```
-
-### Linguistics — 2. Balagha (Arabic Rhetoric)
-```sql
-CREATE TABLE ar_balagha (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  term_ar     TEXT NOT NULL,  -- تشبيه | استعارة | كناية | طباق | جناس
-  term_en     TEXT NOT NULL,  -- Simile | Metaphor | Metonymy | Antithesis | Paronomasia
-  branch      TEXT NOT NULL,  -- 'bayan'|'maani'|'badi'
-    -- علم البيان (figurative) | علم المعاني (semantics) | علم البديع (embellishment)
-  definition  TEXT NOT NULL,
-  examples    TEXT,           -- JSON [{ ar, en, source }]
-  quran_refs  TEXT,           -- JSON [{ surah, ayah_from, ayah_to, note }]
-  created_at  TEXT DEFAULT (datetime('now'))
-);
-```
-
-### Linguistics — 3. Context Domains (Arabic Duolingo)
-```sql
-CREATE TABLE ar_domain (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  name        TEXT NOT NULL,   -- 'home'|'market'|'mosque'|'travel'|'medical'|'academic'
-  name_ar     TEXT NOT NULL,
-  description TEXT,
-  icon        TEXT,
-  sort_order  INTEGER DEFAULT 0
-);
-
-CREATE TABLE ar_domain_phrase (
-  id              INTEGER PRIMARY KEY AUTOINCREMENT,
-  domain_id       INTEGER NOT NULL REFERENCES ar_domain(id),
-  phrase_ar       TEXT NOT NULL,
-  phrase_en       TEXT NOT NULL,
-  transliteration TEXT,
-  audio_url       TEXT,
-  level           TEXT DEFAULT 'beginner',
-  sort_order      INTEGER DEFAULT 0,
-  created_at      TEXT DEFAULT (datetime('now'))
-);
-
--- Domain seeds: home(1), market(2), mosque(3), travel(4), medical(5), academic(6), dua(7)
-```
-
-### Arabic Indexes
-```sql
-CREATE INDEX idx_ar_container_type   ON ar_container(type, level);
-CREATE INDEX idx_ar_unit_container   ON ar_container_unit(container_id, sort_order);
-CREATE INDEX idx_ar_task_unit        ON ar_task(unit_id, status);
-CREATE INDEX idx_ar_task_review      ON ar_task(next_review, status);
-CREATE INDEX idx_ar_vocab_root       ON ar_vocab(root);
-CREATE INDEX idx_ar_vocab_level      ON ar_vocab(level, domain);
-CREATE INDEX idx_ar_vocab_review     ON ar_vocab(next_review);
-CREATE INDEX idx_ar_grammar_cat      ON ar_grammar_rule(category, sort_order);
-CREATE INDEX idx_ar_balagha_branch   ON ar_balagha(branch);
-CREATE INDEX idx_ar_domain_phrase    ON ar_domain_phrase(domain_id, sort_order);
-```
-
----
 
 ## 8. Angular Feature Architecture
 
@@ -965,3 +359,265 @@ Migrations:  YYYY-MM-DD_description.sql
 - CSS vars: `apps/k-maps-v2/src/scss/_variables.scss` (or similar)
 - Passage migration: `Database/migrations/2026-03-22_passage_indexes.sql`
 - Quran worker: `functions/ar/quran/ayahs.ts`
+
+---
+
+## 14. AI Pipeline — Architecture & Mac M4 Setup
+
+> Last updated: 2026-04-17
+> This section covers the offline Claude-powered extraction pipeline that reads
+> Islamic sources (tafsir, grammar books, etc.), chunks them, embeds them in
+> Qdrant, and extracts structured knowledge into the live D1 database.
+
+---
+
+### 14.1 Core Design Decision (SETTLED — do not revisit)
+
+**NO dedicated `km_tafsir_*` tables.** All extracted knowledge maps directly
+into the existing `wv_*` / `ar_*` tables. The pipeline writes to production
+tables, not a separate staging schema.
+
+| What Claude Extracts | Target Table | node_type / field |
+|---|---|---|
+| Source (tafsir book) | `wv_sources` | `source_domain='classical_text'` |
+| Chapter / section | `wv_source_units` | `unit_type='chapter'` |
+| Per-ayah tafsir entry | `ar_quran_tafsir_entries` | `entry_type='explanation'` |
+| Text chunk for embedding | `ar_source_chunks` | `chunk_type='other'` |
+| Concept / Claim / Theme | `wv_nodes` | `node_type='concept'\|'claim'\|'theme'\|'tafsir_view'` |
+| Edge between nodes | `wv_node_edges` | rich `relation_type` set |
+| Motif | `ar_quran_motif_index` + `ar_quran_motif_occurrences` | — |
+| Node ↔ Tafsir link | `wv_node_tafsir_links` | — |
+| Evidence | `wv_evidence_links` | — |
+| Claude AI suggestion (pending review) | `wv_insight_suggestions` | — |
+
+
+---
+
+### 14.2 The Only Migration Required
+
+```sql
+-- File: Database/migrations/2026-04-17_pipeline_columns.sql
+-- Adds embedding-pipeline tracking columns to ar_source_chunks
+
+ALTER TABLE ar_source_chunks ADD COLUMN is_embedded  INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE ar_source_chunks ADD COLUMN qdrant_id    TEXT;
+ALTER TABLE ar_source_chunks ADD COLUMN chunk_kind   TEXT;
+  -- 'discourse_link'|'rhetoric'|'lexical'|'syntax'|'grammar'|'semantic'|'theology'
+
+CREATE INDEX IF NOT EXISTS idx_asc_embedded ON ar_source_chunks(is_embedded);
+CREATE INDEX IF NOT EXISTS idx_asc_kind     ON ar_source_chunks(ar_u_source, chunk_kind);
+```
+
+Run with:
+```bash
+wrangler d1 execute knowledgemap \
+  --file=Database/migrations/2026-04-17_pipeline_columns.sql \
+  --remote
+```
+
+---
+
+### 14.3 Pipeline Flow
+
+```
+INGEST
+  wv_sources (classical_text)
+      └─ wv_source_units (chapters)
+            └─ ar_source_chunks (text chunks, ~500 tokens each)
+                    ↓ embed
+EMBED
+  Qdrant collection: "km_chunks"
+  ar_source_chunks.qdrant_id ← UUID stored back in D1
+  ar_source_chunks.is_embedded = 1
+                    ↓ extract
+EXTRACT  (Claude claude-opus-4-6 or sonnet-4-6)
+  For each chunk → structured JSON:
+    - nodes:  [ { node_type, title, text_plain, data_json } ]
+    - edges:  [ { from_title, to_title, relation_type, note } ]
+    - motifs: [ { motif_key, title, surah, ayah_from, ayah_to } ]
+                    ↓ stage
+STAGE (human-in-the-loop)
+  wv_insight_suggestions
+    suggestion_type: 'node' | 'edge' | 'cluster'
+    payload_json: { ...extracted data }
+    status: 'suggested'   ← Claude writes here
+                    ↓ review in Hub UI
+APPROVE
+  Hub Review Queue → user approves / edits / rejects each suggestion
+  status: 'approved' → pipeline writes to:
+    wv_nodes + wv_node_edges + wv_node_tafsir_links + wv_evidence_links
+    ar_quran_motif_index + ar_quran_motif_occurrences
+```
+
+---
+
+### 14.4 Mac M4 Local Setup
+
+#### Prerequisites
+
+```bash
+# 1. Install uv (fast Python package manager)
+curl -Lsf https://astral.sh/uv/install.sh | sh
+
+# 2. Create pipeline venv
+cd scripts/pipeline   # or wherever app.py lives
+uv venv .venv
+source .venv/bin/activate
+
+# 3. Install dependencies
+uv pip install anthropic qdrant-client python-dotenv ulid-py httpx
+```
+
+#### Qdrant on Mac M4
+
+```bash
+# Option A — Docker (recommended)
+docker run -d --name qdrant \
+  -p 6333:6333 -p 6334:6334 \
+  -v $(pwd)/qdrant_storage:/qdrant/storage \
+  qdrant/qdrant
+
+# Option B — Native binary (Apple Silicon)
+brew install qdrant   # if available, otherwise use Docker
+```
+
+#### `.env` file (in `scripts/pipeline/`)
+
+```env
+ANTHROPIC_API_KEY=sk-ant-...
+QDRANT_URL=http://localhost:6333
+QDRANT_COLLECTION=km_chunks
+D1_DATABASE_ID=<your-d1-db-id>
+CLOUDFLARE_ACCOUNT_ID=<your-cf-account-id>
+CLOUDFLARE_API_TOKEN=<your-cf-api-token>
+WORKSPACE_ID=<default-workspace-ulid>
+GROUP_ID=<default-group-ulid>
+```
+
+#### D1 Access from Python
+
+The pipeline reads/writes D1 via the Cloudflare REST API (not wrangler), since
+D1 doesn't have a direct TCP connection. Use the Cloudflare D1 HTTP API:
+
+```python
+import httpx, os
+
+CF_BASE = f"https://api.cloudflare.com/client/v4/accounts/{os.environ['CLOUDFLARE_ACCOUNT_ID']}"
+D1_URL  = f"{CF_BASE}/d1/database/{os.environ['D1_DATABASE_ID']}/query"
+HEADERS = {"Authorization": f"Bearer {os.environ['CLOUDFLARE_API_TOKEN']}"}
+
+def d1_query(sql: str, params: list = []) -> list[dict]:
+    r = httpx.post(D1_URL, headers=HEADERS,
+                   json={"sql": sql, "params": params})
+    r.raise_for_status()
+    return r.json()["result"][0]["results"]
+```
+
+---
+
+### 14.5 `app.py` Entry Points
+
+```
+scripts/pipeline/
+├── app.py            ← CLI entrypoint
+├── ingest.py         ← chunk source → ar_source_chunks
+├── embed.py          ← embed chunks → Qdrant + update qdrant_id
+├── extract.py        ← Claude extraction → wv_insight_suggestions
+├── approve.py        ← (optional) bulk-approve suggestions via CLI
+├── d1.py             ← D1 HTTP helper
+├── qdrant_client.py  ← Qdrant helpers
+└── prompts/
+    ├── concept_extract.md
+    ├── edge_extract.md
+    └── motif_extract.md
+```
+
+Key CLI commands:
+
+```bash
+# Chunk a source already in wv_sources
+python app.py ingest --source-id <wv_sources_id>
+
+# Embed all un-embedded chunks
+python app.py embed --batch 50
+
+# Run Claude extraction on a source's chunks
+python app.py extract --source-id <wv_sources_id> --model claude-sonnet-4-6
+
+# Approve all 'suggested' items for a batch
+python app.py approve --batch-id <wv_distill_batches_id>
+```
+
+---
+
+### 14.6 Claude Extraction Prompt Pattern
+
+```python
+SYSTEM = """
+You are an Islamic knowledge graph extractor.
+Given a passage from a tafsir or Arabic source, extract:
+1. Nodes (concepts, claims, themes, tafsir_views)
+2. Edges between nodes (from the wv_node_edges relation_type list)
+3. Motifs (recurring Quranic patterns)
+
+Return ONLY valid JSON matching the schema below. No prose.
+"""
+
+SCHEMA = {
+  "nodes": [{"node_type": str, "title": str, "summary": str, "data_json": dict}],
+  "edges": [{"from_title": str, "to_title": str, "relation_type": str, "note": str}],
+  "motifs": [{"motif_key": str, "title": str, "surah": int, "ayah_from": int, "ayah_to": int}]
+}
+```
+
+Valid `relation_type` values for edges (from `wv_node_edges`):
+`supports`, `contradicts`, `mentions`, `related_to`, `part_of`, `derived_from`,
+`feeds_output`, `questions`, `cites`, `about`, `illustrates`, `defines`,
+`parallels`, `sequence`, `leads_to`, `resolves`, `echoes`, `contrasts_with`,
+`completes`, `dovetails_with`, `center_of`, `framed_by`, `mirrors`,
+`anticipates`, `fulfilled_by`, `other`
+
+---
+
+### 14.7 Human-in-the-Loop Review (Hub UI)
+
+`wv_insight_suggestions` drives the review workflow:
+
+```
+status = 'suggested'   → shown in Hub Review Queue
+status = 'approved'    → pipeline writes to target wv_* tables
+status = 'edited'      → user modified payload, then approved
+status = 'rejected'    → discarded
+status = 'saved'       → written to DB, done
+```
+
+The `wv_distill_batches` table groups a set of suggestions into a named batch
+(one batch per extraction run). Hub shows batch-level progress.
+
+`wv_insight_decisions` records every approve/reject/edit action for audit.
+
+---
+
+### 14.8 Qdrant Collection Schema
+
+```python
+from qdrant_client.models import VectorParams, Distance
+
+client.recreate_collection(
+    collection_name="km_chunks",
+    vectors_config=VectorParams(size=1536, distance=Distance.COSINE),
+)
+
+# Payload stored per point:
+payload = {
+    "chunk_id":    str,   # ar_source_chunks.chunk_id
+    "ar_u_source": str,   # source key
+    "chunk_kind":  str,   # discourse_link | rhetoric | lexical | ...
+    "page_no":     int,
+    "heading_norm":str,
+    "text":        str,   # first 200 chars for display
+}
+```
+
+Embedding model: use `text-embedding-3-small` (OpenAI) or `voyage-3` (Voyage AI)
+— whichever is configured. Store model name in chunk `meta_json.embed_model`.

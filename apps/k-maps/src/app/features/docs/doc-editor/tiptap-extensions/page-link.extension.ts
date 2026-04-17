@@ -1,5 +1,9 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 
+interface PageLinkOptions {
+  onOpen: (docId: string) => void;
+}
+
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     pageLink: {
@@ -8,11 +12,21 @@ declare module '@tiptap/core' {
   }
 }
 
-export const PageLink = Node.create({
+export const PageLink = Node.create<PageLinkOptions>({
   name: 'page_link',
   group: 'block',
   atom: true,
   draggable: true,
+
+  addOptions() {
+    return {
+      onOpen: (docId: string) => {
+        if (typeof window !== 'undefined') {
+          window.location.assign(`/docs/${docId}`);
+        }
+      },
+    };
+  },
 
   addAttributes() {
     return {
@@ -30,6 +44,8 @@ export const PageLink = Node.create({
   },
 
   addNodeView() {
+    const openDoc = this.options.onOpen;
+
     return ({ node, getPos, editor }) => {
       if (!document.getElementById('km-page-link-styles')) {
         const style = document.createElement('style');
@@ -94,6 +110,8 @@ export const PageLink = Node.create({
       const dom = document.createElement('div');
       dom.className = 'km-page-link';
       dom.contentEditable = 'false';
+      dom.tabIndex = 0;
+      dom.setAttribute('role', 'link');
 
       const icon  = document.createElement('span');
       icon.className = 'km-page-link__icon';
@@ -108,6 +126,7 @@ export const PageLink = Node.create({
       arrow.textContent = '→';
 
       const editBtn = document.createElement('button');
+      editBtn.type = 'button';
       editBtn.className = 'km-page-link__edit';
       editBtn.textContent = 'Open';
 
@@ -116,13 +135,22 @@ export const PageLink = Node.create({
       dom.appendChild(arrow);
       dom.appendChild(editBtn);
 
-      const navigate = () => {
+      const navigate = (event?: Event) => {
+        event?.preventDefault();
+        event?.stopPropagation();
         const id = node.attrs['doc_id'];
-        if (id) window.location.href = `/docs/${id}`;
+        if (typeof id === 'string' && id) {
+          openDoc(id);
+        }
       };
 
       dom.addEventListener('click', navigate);
-      editBtn.addEventListener('mousedown', (e) => { e.stopPropagation(); navigate(); });
+      dom.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          navigate(event);
+        }
+      });
+      editBtn.addEventListener('click', navigate);
 
       // Sync latest title from the API so renames are reflected
       const docId = node.attrs['doc_id'];
@@ -146,7 +174,17 @@ export const PageLink = Node.create({
           .catch(() => {});
       }
 
-      return { dom };
+      return {
+        dom,
+        stopEvent: (event) => {
+          return event.type === 'click'
+            || event.type === 'keydown'
+            || event.type === 'mousedown'
+            || event.type === 'mouseup'
+            || event.type === 'touchstart'
+            || event.type === 'touchend';
+        },
+      };
     };
   },
 
