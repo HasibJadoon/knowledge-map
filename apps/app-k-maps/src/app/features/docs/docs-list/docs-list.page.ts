@@ -95,58 +95,60 @@ const DOMAINS = [
         </div>
       }
 
-      <ion-list lines="none" class="km-docs-list">
-        @for (row of flatRows(); track trackRow(row)) {
+      @if (!loading() && docs().length > 0) {
+        <ion-list lines="none" class="km-docs-list">
+          @for (row of flatRows(); track trackRow(row)) {
 
-          @if (row.type === 'domain') {
-            <div class="km-domain-row" (click)="toggleDomain(row.key)">
-              <span class="km-domain-icon">{{ row.icon }}</span>
-              <span class="km-domain-label">{{ row.label }}</span>
-              @if (row.count > 0) {
-                <ion-badge class="km-domain-badge">{{ row.count }}</ion-badge>
-              }
-              <ion-icon
-                [name]="row.open ? 'chevron-down' : 'chevron-forward'"
-                class="km-domain-chevron">
-              </ion-icon>
-            </div>
-          }
+            @if (row.type === 'domain') {
+              <div class="km-domain-row" (click)="toggleDomain(row.key)">
+                <span class="km-domain-icon">{{ row.icon }}</span>
+                <span class="km-domain-label">{{ row.label }}</span>
+                @if (row.count > 0) {
+                  <ion-badge class="km-domain-badge">{{ row.count }}</ion-badge>
+                }
+                <ion-icon
+                  [name]="row.open ? 'chevron-down' : 'chevron-forward'"
+                  class="km-domain-chevron">
+                </ion-icon>
+              </div>
+            }
 
-          @if (row.type === 'doc') {
-            <ion-item
-              button
-              detail="false"
-              class="km-doc-item"
-              [class.km-doc-item--active]="activeDocId() === row.id"
-              [style.--indent]="row.depth * 14 + 'px'"
-              (click)="openDoc(row.id)">
-              @if (row.children.length > 0) {
+            @if (row.type === 'doc') {
+              <ion-item
+                button
+                detail="false"
+                class="km-doc-item"
+                [class.km-doc-item--active]="activeDocId() === row.id"
+                [style.--indent]="row.depth * 14 + 'px'"
+                (click)="openDoc(row.id)">
+                @if (row.children.length > 0) {
+                  <ion-icon
+                    slot="start"
+                    class="km-doc-toggle"
+                    [name]="isNodeOpen(row.id) ? 'chevron-down' : 'chevron-forward'"
+                    (click)="toggleNode(row.id, $event)">
+                  </ion-icon>
+                } @else {
+                  <span slot="start" class="km-doc-toggle-ph"></span>
+                }
                 <ion-icon
                   slot="start"
-                  class="km-doc-toggle"
-                  [name]="isNodeOpen(row.id) ? 'chevron-down' : 'chevron-forward'"
-                  (click)="toggleNode(row.id, $event)">
+                  class="km-doc-icon"
+                  [name]="row.children.length > 0 ? (isNodeOpen(row.id) ? 'folder-open' : 'folder') : 'document-text'">
                 </ion-icon>
-              } @else {
-                <span slot="start" class="km-doc-toggle-ph"></span>
-              }
-              <ion-icon
-                slot="start"
-                class="km-doc-icon"
-                [name]="row.children.length > 0 ? (isNodeOpen(row.id) ? 'folder-open' : 'folder') : 'document-text'">
-              </ion-icon>
-              <ion-label class="km-doc-label">
-                <h3>{{ row.title || 'Untitled' }}</h3>
-                <p>{{ row.doc_type }} · {{ formatDate(row.updated_at) }}</p>
-              </ion-label>
-              @if (row.word_count > 0) {
-                <span slot="end" class="km-doc-wc">{{ row.word_count }}w</span>
-              }
-            </ion-item>
-          }
+                <ion-label class="km-doc-label">
+                  <h3>{{ row.title || 'Untitled' }}</h3>
+                  <p>{{ row.doc_type }} · {{ formatDate(row.updated_at) }}</p>
+                </ion-label>
+                @if (row.word_count > 0) {
+                  <span slot="end" class="km-doc-wc">{{ row.word_count }}w</span>
+                }
+              </ion-item>
+            }
 
-        }
-      </ion-list>
+          }
+        </ion-list>
+      }
     </ion-content>
   `,
   styles: [`
