@@ -1,1 +1,1 @@
-export { onRequestGet } from '../../arabic/quran/menu';
+export * from '../../../legacy/functions/ar/quran/menu';

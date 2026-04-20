@@ -1,5 +1,1 @@
-export {
-  onRequestGet,
-  onRequestPut,
-  onRequestDelete,
-} from '../../lessons/[id]';
+export * from '../../../../legacy/functions/ar/literature/lessons/[id]';

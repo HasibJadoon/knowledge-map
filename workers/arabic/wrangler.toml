@@ -1,0 +1,20 @@
+name = "km-arabic-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB_AR"
+database_name = "km_arabic"
+database_id = "7ffa77c9-2d6c-46cb-a360-b198da502252"
+
+[[services]]
+binding = "AR_LINGUISTICS"
+service = "km-ar-linguistics-worker"
+
+[[services]]
+binding = "QURAN"
+service = "km-quran-worker"
+
+[[services]]
+binding = "PLANNER"
+service = "km-planner-worker"

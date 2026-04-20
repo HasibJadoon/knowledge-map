@@ -621,3 +621,271 @@ payload = {
 
 Embedding model: use `text-embedding-3-small` (OpenAI) or `voyage-3` (Voyage AI)
 — whichever is configured. Store model name in chunk `meta_json.embed_model`.
+
+---
+
+## 15. Microservices Architecture — Multi-DB Topology (CANONICAL — 2026-04-20)
+
+> This is the SETTLED architecture. Each module owns its own Cloudflare D1 database.
+> No cross-DB SQL foreign keys. Cross-module links use domain-name-driven typed UIDs (MODULE:ULID).
+> See: `docs/architecture/multi-db-topology.md` for the full canonical table catalog.
+
+### 15.1 Module → Database Mapping (7 DBs — SETTLED 2026-04-20)
+
+| Module Code | Module Name              | D1 Database              | Table Prefix  | wrangler binding |
+|-------------|--------------------------|--------------------------|---------------|-----------------|
+| QR          | km_quran                 | `km_quran`               | `qr_*`        | `DB_QR`         |
+| AL          | km_arabic_linguistic     | `km_arabic_linguistic`   | `ar_ling_*`   | `DB_AL`         |
+| AR          | km_arabic                | `km_arabic`              | `ar_*`        | `DB_AR`         |
+| WV          | km_worldview             | `km_worldview`           | `wv_*`        | `DB_WV`         |
+| CM          | km_content               | `km_content`             | `cm_*`        | `DB_CM`         |
+| PL          | km_planner               | `km_planner`             | `pl_*`        | `DB_PL`         |
+| CORE        | km_core                  | `km_core`                | `core_*`      | `DB_CORE`       |
+
+**SETTLED corrections (2026-04-20):**
+- Module name is `km_arabic_linguistic` (singular — not "linguistics")
+- AL uses a **single prefix `ar_ling_*`** for ALL tables — backbone (nahw, sarf, balagha, particles, analysis vocab) AND dictionary (roots, lemmas, lexicon, expressions). There is NO `al_*` prefix.
+- km_lexicon is NOT a separate DB and has NO separate prefix. Everything is `ar_ling_*` in DB_AL.
+- CORE is the 7th module, making this 7 DBs total.
+- `'LX:<id>'` typed refs (legacy column names in qr_ss_*) resolve to `DB_AL`. New code uses `'AL:<id>'`.
+
+**Domain-name-driven UIDs (SETTLED):**
+All cross-module references use typed string IDs of the form `MODULE:ULID`. The module prefix IS the domain name. This is the integration contract. All typed ref columns store values in this format.
+
+### 15.2 Cross-Module Reference Format — Domain-Name-Driven UIDs
+
+No SQL FKs across databases. All cross-module links use **domain-name-driven typed IDs** of the form `MODULE:ULID`. The module prefix is the canonical domain name — this is the integration contract across all Workers and services.
+
+```
+QR:01HW3XXXXXXXXXXXXXXXXXXX    ← Quran entity (surah, passage, scope, claim…)
+AL:01HY2XXXXXXXXXXXXXXXXXXX    ← Arabic Linguistic entity (root, lemma, nahw, balagha…)
+AR:01HZ1XXXXXXXXXXXXXXXXXXX    ← Arabic learning entity (container, vocab, class…)
+WV:01JA3XXXXXXXXXXXXXXXXXXX    ← Worldview entity (node, claim, tradition, event…)
+CM:01JB4XXXXXXXXXXXXXXXXXXX    ← Content entity (document, note, media, source…)
+PL:01JC5XXXXXXXXXXXXXXXXXXX    ← Planner entity (plan, task, packet…)
+CORE:01JD6XXXXXXXXXXXXXXXXXXX  ← Core entity (user, workspace, group, role…)
+LX:01HY2XXXXXXXXXXXXXXXXXXX    ← Legacy alias for AL — resolves to DB_AL
+```
+
+**Sub-typed refs** (for human-readable shorthand inside QR):
+```
+QR:2:255        ← surah 2, ayah 255
+QR:2:255-257    ← surah 2, ayah range 255–257
+QR:36           ← entire surah 36
+```
+
+Validated at **service level** (Worker code), never at DB level.
+
+```typescript
+// functions/_shared/typed-ref.ts
+export function parseRef(ref: string): { module: string; id: string } {
+  const colonIdx = ref.indexOf(':');
+  return { module: ref.slice(0, colonIdx), id: ref.slice(colonIdx + 1) };
+}
+
+export function dbForModule(env: Env, module: string): D1Database {
+  const map: Record<string, D1Database> = {
+    QR:   env.DB_QR,
+    AL:   env.DB_AL,   // km_arabic_linguistic — ar_ling_* tables
+    LX:   env.DB_AL,   // legacy alias → DB_AL (resolves qr_ss_* column values)
+    AR:   env.DB_AR,
+    WV:   env.DB_WV,
+    CM:   env.DB_CM,
+    PL:   env.DB_PL,
+    CORE: env.DB_CORE,
+  };
+  return map[module] ?? (() => { throw new Error(`Unknown module: ${module}`); })();
+}
+```
+
+### 15.3 wrangler.toml Multi-DB Configuration
+
+```toml
+# 7 modules — each gets its own D1 binding
+[[d1_databases]]
+binding = "DB_QR"
+database_name = "km_quran"
+database_id = "<qr-db-uuid>"
+
+[[d1_databases]]
+binding = "DB_AL"
+database_name = "km_arabic_linguistic"   # singular — NOT km_arabic_linguistics
+database_id = "<al-db-uuid>"
+# ALL tables use ar_ling_* prefix (single prefix — no al_* prefix)
+# LX:... typed refs also resolve to DB_AL (legacy compat)
+
+[[d1_databases]]
+binding = "DB_AR"
+database_name = "km_arabic"
+database_id = "<ar-db-uuid>"
+
+[[d1_databases]]
+binding = "DB_WV"
+database_name = "km_worldview"
+database_id = "<wv-db-uuid>"
+
+[[d1_databases]]
+binding = "DB_CM"
+database_name = "km_content"
+database_id = "<cm-db-uuid>"
+
+[[d1_databases]]
+binding = "DB_PL"
+database_name = "km_planner"
+database_id = "<pl-db-uuid>"
+
+[[d1_databases]]
+binding = "DB_CORE"
+database_name = "km_core"
+database_id = "<core-db-uuid>"
+```
+
+### 15.4 Worker Service Structure (Multi-DB)
+
+Each module's Workers declare ONLY the bindings they need:
+
+```typescript
+// functions/qr/_middleware.ts  — DB_QR + DB_AL (lexical lookups via AL: typed refs)
+// functions/al/_middleware.ts  — DB_AL only
+// functions/ar/_middleware.ts  — DB_AR + DB_AL + DB_QR
+// functions/wv/_middleware.ts  — DB_WV + DB_CM + DB_CORE
+// functions/cm/_middleware.ts  — DB_CM + DB_CORE
+// functions/pl/_middleware.ts  — DB_PL + DB_QR (passage refs)
+// functions/core/_middleware.ts — DB_CORE only
+```
+
+### 15.5 Migration Strategy (Single DB → 7 DBs)
+
+Current state: all tables in single `knowledgemap` D1 DB.
+Target state: 7 independent module DBs.
+
+**Migration phases:**
+1. **Freeze + rename (done)** — canonical prefix renames applied on single DB (qr_*, ar_ling_*)
+2. **Schema design (done)** — all 7 module SQL files written, architecture settled
+3. **Provision 7 DBs** — `wrangler d1 create` for all 7 module databases
+4. **Schema deploy** — run `001_*.sql` migration files on each new DB (no data yet)
+5. **Data migration** — export from `knowledgemap`, filter by prefix, import to correct DB
+6. **Worker cutover** — update bindings per module, start with QR (read-heavy, safest)
+7. **Decommission** — archive `knowledgemap` after all 7 modules cut over
+
+**Provision command pattern:**
+```bash
+wrangler d1 create km_quran
+wrangler d1 create km_arabic_linguistic
+wrangler d1 create km_arabic
+wrangler d1 create km_worldview
+wrangler d1 create km_content
+wrangler d1 create km_planner
+wrangler d1 create km_core
+
+# Deploy schema in run-order (AL first — no deps)
+wrangler d1 execute km_arabic_linguistic \
+  --file=Database/migrations/km-arabic-linguistic/001_al_schema.sql --remote
+wrangler d1 execute km_core \
+  --file=Database/migrations/km-core/001_core_schema.sql --remote
+wrangler d1 execute km_quran \
+  --file=Database/migrations/km-quran/001_corpus_base.sql --remote
+# ...continue per run-order in §15.10
+```
+
+### 15.6 Canonical QR Module Layer Stack
+
+Based on final architecture docs (`km_quran_database_architecture_final_final_scan_v7.docx`):
+
+| Layer | Role | Key Families |
+|-------|------|-------------|
+| 1. Corpus base | Text + coordinate truth | `qr_surahs`, `qr_ayah`, `qr_word_occurrences`, `qr_lemmas`, `qr_lemma_occurrences`, `qr_translations`, `qr_translation_sources`, `qr_page_layout_lines` |
+| 2. Surah organism | Atomic identity + sections | `qr_surah_profiles`, `qr_surah_atomic_profiles`, `qr_surah_passages`, `qr_surah_openings`, `qr_surah_closures`, `qr_surah_structural_pivots` |
+| 3. Structure science | Patterned composition + bridges | `qr_surah_structure_units`, `qr_surah_structure_links`, `qr_surah_structure_readings`, `qr_surah_symmetry_patterns`, `qr_surah_diamond_patterns`, `qr_surah_sequence_patterns` |
+| 4. Literary + sonic | Topic flow, rhetoric, sound | `qr_surah_topic_flows`, `qr_surah_discourse_shifts`, `qr_surah_iltifat_events`, `qr_surah_rhetoric_profiles`, `qr_surah_rhyme_profiles`, `qr_surah_fawasil_patterns`, `qr_surah_coherence_signals` |
+| 5. Meaning profiles | Themes, motifs, theology, worldview | `qr_topic_registry`, `qr_scope_topics`, `qr_surah_theme_profiles`, `qr_surah_motif_clusters`, `qr_surah_theology_profiles`, `qr_surah_worldview_profiles` |
+| 6. Linguistic nuance | Sentence/clause/phrase/segment intelligence | `qr_ss_occ_segment`, `qr_ss_occ_sentence`, `qr_ss_occ_clause`, `qr_ss_occ_phrase`, `qr_ss_scope_member_map`, `qr_ss_scope_relations`, `qr_ss_syntax_relations`, `qr_ss_scope_morph_link`, `qr_ss_scope_grammar_link`, `qr_ss_scope_balagha_link`, `qr_ss_scope_nuance`, `qr_ss_ellipsis_event`, `qr_ss_scope_reading`, `qr_ss_tree`, `qr_ss_tree_node`, `qr_ss_tree_edge` |
+| 7. Reasoning + evidence | Claims, arguments, evidence ontology | `qr_analysis_scopes`, `qr_analysis_claims`, `qr_claim_evidence_links`, `qr_scope_nuances`, `qr_arguments`, `qr_argument_relations`, `qr_evidence_items` |
+| 8. Tafsir + reception | Scholarship, interpretive history, material witnesses | `qr_tafsir_entries`, `qr_scholar_profiles`, `qr_scholar_works`, `qr_scholar_positions`, `qr_scholarly_paradigms`, `qr_surah_scholar_readings`, `qr_interpretive_differences`, `qr_surah_reception_histories`, `qr_material_witnesses`, `qr_material_witness_observations` |
+| 9. Cross-surah | Relations, Quran-bil-Quran, comparison | `qr_surah_relations`, `qr_quran_bil_quran_relations`, `qr_tradition_sources`, `qr_comparative_claims`, `qr_civilizational_claims` |
+| 10. Projections | Graph nodes, diagrams, caches, doc links | `qr_worldview_nodes`, `qr_worldview_edges`, `qr_diagram_specs`, `qr_diagram_instances`, `qr_doc_links`, `qr_surah_analysis_cache`, `qr_passage_analysis_cache` |
+| 11. Outer horizon | Late antique, textual history, academic debate | `qr_context_topics`, `qr_context_claims`, `qr_context_evidence_items`, `qr_tradition_relations`, `qr_historical_context_profiles`, `qr_late_antique_contexts`, `qr_material_witness_links`, `qr_script_history_profiles`, `qr_text_history_profiles`, `qr_preservation_discourses`, `qr_academic_question_registry`, `qr_academic_positions` |
+
+**Critical sentence-structure rule (SETTLED):**
+- `qr_word_occurrences` = single canonical owner of visible Quranic word occurrences (do NOT create `qr_ss_occ_word`)
+- `qr_ss_occ_segment` = attached sub-word elements (particles, articles, pronouns)
+- `qr_ss_*` occurrence + scope families populate BEFORE `qr_ss_tree_*` rows are generated
+- Tree rows are downstream projections, NOT the primary store of truth
+
+### 15.7 AL Module — km_arabic_linguistic (SETTLED 2026-04-20)
+
+**`km_arabic_linguistic` is the shared Arabic linguistic truth module.** Single prefix `ar_ling_*`. No `al_*` prefix anywhere.
+
+10-layer canonical schema:
+
+| Layer | Name | Key families |
+|---|---|---|
+| 1 | Root science | `ar_ling_roots`, `ar_ling_root_variants`, `ar_ling_root_relations`, `ar_ling_root_semantic_fields` |
+| 2 | Lemma science | `ar_ling_lemmas`, `ar_ling_lemma_variants`, `ar_ling_lemma_root_links`, `ar_ling_lemma_registers` |
+| 3 | Sarf / morphology | `ar_ling_morphology`, `ar_ling_lemma_morphology`, `ar_ling_form_paradigms`, `ar_ling_inflection_rules`, `ar_ling_conjugation_templates` |
+| 4 | Nahw / syntax | `ar_ling_nahw_concepts`, `ar_ling_nahw_relations`, `ar_ling_sentence_types`, `ar_ling_clause_types`, `ar_ling_phrase_types` |
+| 5 | Balagha | `ar_ling_balagha_concepts`, `ar_ling_balagha_branches`, `ar_ling_rhetorical_relations`, `ar_ling_balagha_examples` |
+| 6 | Lexicon / semantics | `ar_ling_lexicon_entries`, `ar_ling_senses`, `ar_ling_sense_relations`, `ar_ling_semantic_fields`, `ar_ling_near_synonym_sets` |
+| 7 | Expressions | `ar_ling_expressions`, `ar_ling_expression_tokens`, `ar_ling_expression_types`, `ar_ling_collocations` |
+| 8 | Sources + evidence | `ar_ling_sources`, `ar_ling_source_editions`, `ar_ling_source_chunks`, `ar_ling_source_index`, `ar_ling_source_toc`, `ar_ling_evidence_items` |
+| 9 | Disciplinary trees | `ar_ling_discipline_containers`, `ar_ling_discipline_units`, `ar_ling_discipline_relations` |
+| 10 | Bridges + projections | `ar_ling_quran_links`, `ar_ling_arabic_links`, `ar_ling_content_links`, `ar_ling_projection_cache` |
+
+**Cross-module typed refs from AL:**
+- QR → AL: `qr_ss_occ_clause.lx_clause_type_ref = 'AL:ULID'`, `qr_ss_scope_grammar_link.lx_grammar_ref = 'AL:ULID'`, `qr_ss_scope_balagha_link.lx_balagha_ref = 'AL:ULID'`
+- AR → AL: `ar_vocabulary.lx_lemma_ref = 'AL:ULID'`, `ar_grammar.lx_nahw_ref = 'AL:ULID'`, `ar_applied_balagha.lx_balagha_ref = 'AL:ULID'`
+
+**RULE: Never duplicate roots/lemmas/nahw/sarf/balagha definitions in AR or QR. Always reference AL.**
+
+---
+
+### 15.8 Module Ownership Rules (HARD — do not violate)
+
+1. **QR owns** canonical Quranic text, claims, evidence, structure, rhetoric, tafsir, reception. Not WV.
+2. **AL owns** all Arabic linguistic truth: roots, lemmas, sarf, nahw, balagha, lexicon, expressions, disciplinary trees. Not AR, not QR.
+3. **AR owns** Arabic pedagogy: curriculum, classes, SRS, lessons, exercises, vocab (via AL:ULID refs). Not linguistic truth.
+4. **WV owns** civilizational reasoning engine: traditions, thinkers, moral ontology, claims, events, institutions, maps, diagrams. Not QR Quranic semantics.
+5. **CM owns** all authored artifacts: documents, notes, highlights, captures, sources, media, publications. Not WV, not AR.
+6. **PL owns** operational execution only: plans, tasks, lanes, reviews, packets, dependencies. Never stores canonical scholarly truth.
+7. **CORE owns** identity, workspaces, policies (workspace_policies, resource_policies, resource_grants, external_refs), roles, grants. No domain tables.
+8. **Anti-patterns (BLOCK THESE):**
+   - WV absorbing Quranic claims as its own canonical truth
+   - CM growing its own ACL instead of using CORE policy tables
+   - AR hard-coding grammar truth instead of pointing to AL
+   - PL duplicating canonical resource content instead of typed refs
+   - AL absorbing learner progression or pedagogy (that is AR's domain)
+
+---
+
+### 15.9 Canonical Module Schemas (per-DB migration files)
+
+```
+Database/migrations/
+├── km-arabic-linguistic/        ← ALL ar_ling_* (single prefix)
+│   └── 001_al_schema.sql        ← 10 layers: roots→lemmas→sarf→nahw→balagha→lexicon→expressions→sources→disciplinary_trees→bridges
+├── km-quran/                    ← FINALIZED — do not touch
+│   ├── 001_corpus_base.sql
+│   ├── 002_surah_spine.sql
+│   ├── 003_meaning_and_reasoning.sql
+│   ├── 004_sentence_structure.sql
+│   └── 005_reception_and_projections.sql
+├── km-arabic/
+│   └── 001_ar_schema.sql        ← curriculum→classes→containers→vocab(AL:refs)→grammar(AL:refs)→SRS→lessons→exercises
+├── km-worldview/
+│   └── 001_wv_schema.sql        ← 10-layer civilizational engine (L1 ontology → L10 workflow)
+├── km-content/
+│   └── 001_cm_schema.sql        ← docs+notes+captures+sources+media+publications+policy-aware sharing
+├── km-planner/
+│   └── 001_pl_schema.sql        ← plans+plan_scopes+tasks+task_resources+lanes+review_cycles+packets
+└── km-core/
+    └── 001_core_schema.sql      ← users+workspaces+workspace_policies+resource_policies+resource_grants+external_refs+roles+grants
+```
+
+**Run order** when provisioning a fresh instance (7 DBs):
+1. `km_arabic_linguistic` — no deps; shared backbone first
+2. `km_core` — no deps; identity + policy substrate
+3. `km_quran` — refs AL via typed refs (FINALIZED)
+4. `km_arabic` — refs AL, QR
+5. `km_worldview` — refs QR, AL, CM, CORE
+6. `km_content` — refs QR, WV, AL, AR, CORE
+7. `km_planner` — refs all modules via typed refs

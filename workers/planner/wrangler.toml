@@ -1,0 +1,20 @@
+name = "km-planner-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB_PL"
+database_name = "km_planner"
+database_id = "6a4bd15a-5471-4f87-8b33-902262b9a2f8"
+
+[[services]]
+binding = "QURAN"
+service = "km-quran-worker"
+
+[[services]]
+binding = "ARABIC"
+service = "km-arabic-worker"
+
+[[services]]
+binding = "CORE"
+service = "km-core-worker"

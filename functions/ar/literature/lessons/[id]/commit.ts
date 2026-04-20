@@ -1,1 +1,1 @@
-export { onRequestPost } from '../../../lessons/[id]/commit';
+export * from '../../../../../legacy/functions/ar/literature/lessons/[id]/commit';

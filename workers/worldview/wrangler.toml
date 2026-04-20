@@ -1,0 +1,20 @@
+name = "km-worldview-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB_WV"
+database_name = "km_worldview"
+database_id = "5640655e-0b0c-468d-b582-20b666f72d03"
+
+[[services]]
+binding = "CONTENT"
+service = "km-content-worker"
+
+[[services]]
+binding = "QURAN"
+service = "km-quran-worker"
+
+[[services]]
+binding = "CORE"
+service = "km-core-worker"

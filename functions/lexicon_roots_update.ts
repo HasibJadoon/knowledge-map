@@ -1,1 +1,1 @@
-export { onRequestPut } from './arabic/lexicon_roots_update';
+export * from '../legacy/functions/lexicon_roots_update';

@@ -1,0 +1,12 @@
+name = "km-ar-linguistics-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB_AL"
+database_name = "km_arabic_linguistic"
+database_id = "192f4792-deb3-4f2e-9204-532cf484ecd2"
+
+[[services]]
+binding = "CONTENT"
+service = "km-content-worker"

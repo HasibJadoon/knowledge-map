@@ -1,0 +1,12 @@
+name = "km-content-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB_CM"
+database_name = "km_content"
+database_id = "c59b9640-6e68-4068-8034-33a2fd66cd00"
+
+[[services]]
+binding = "CORE"
+service = "km-core-worker"

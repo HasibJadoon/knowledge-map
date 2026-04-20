@@ -1,1 +1,1 @@
-export { onRequestGet, onRequestPost } from './ar/roots';
+export * from '../legacy/functions/lexicon_roots';

@@ -1,15 +1,75 @@
-name = "k-maps"
+name = "k-maps-v2"
 compatibility_date = "2025-01-01"
 
 # Serve this folder as the site root
-pages_build_output_dir = "apps/k-maps/dist/k-maps/browser"
+pages_build_output_dir = "apps/k-maps-v2/dist/k-maps-v2/browser"
 
+# =============================================================================
+# LEGACY — single knowledgemap DB (kept for migration read access)
+# =============================================================================
 [[d1_databases]]
-binding = "DB"
+binding = "DB_LEGACY"
 database_name = "knowledgemap"
 database_id = "ef164d27-6e98-41c5-beca-03903d658976"
-migrations_dir = "database/migrations"
 
+# =============================================================================
+# MODULE DATABASES — 7-DB microservices topology (SETTLED 2026-04-20)
+# Run order for fresh provision: AL → CORE → QR → AR → WV → CM → PL
+# =============================================================================
+
+# QR — km_quran  (qr_* tables)
+[[d1_databases]]
+binding = "DB_QR"
+database_name = "km_quran"
+database_id = "8dbd5053-c9b8-4dd0-9e45-1d66d3a58fba"
+migrations_dir = "Database/migrations/km-quran"
+
+# AL — km_arabic_linguistic  (ar_ling_* tables — single prefix, no al_* prefix)
+# LX: typed refs also resolve here for backward compat
+[[d1_databases]]
+binding = "DB_AL"
+database_name = "km_arabic_linguistic"
+database_id = "192f4792-deb3-4f2e-9204-532cf484ecd2"
+migrations_dir = "Database/migrations/km-arabic-linguistic"
+
+# AR — km_arabic  (ar_* tables — learning layer only, refs AL via AL: typed refs)
+[[d1_databases]]
+binding = "DB_AR"
+database_name = "km_arabic"
+database_id = "7ffa77c9-2d6c-46cb-a360-b198da502252"
+migrations_dir = "Database/migrations/km-arabic"
+
+# WV — km_worldview  (wv_* tables — civilizational reasoning engine)
+[[d1_databases]]
+binding = "DB_WV"
+database_name = "km_worldview"
+database_id = "5640655e-0b0c-468d-b582-20b666f72d03"
+migrations_dir = "Database/migrations/km-worldview"
+
+# CM — km_content  (cm_* tables — authored artifact custody layer)
+[[d1_databases]]
+binding = "DB_CM"
+database_name = "km_content"
+database_id = "c59b9640-6e68-4068-8034-33a2fd66cd00"
+migrations_dir = "Database/migrations/km-content"
+
+# PL — km_planner  (pl_* tables — operational study planner)
+[[d1_databases]]
+binding = "DB_PL"
+database_name = "km_planner"
+database_id = "6a4bd15a-5471-4f87-8b33-902262b9a2f8"
+migrations_dir = "Database/migrations/km-planner"
+
+# CORE — km_core  (core_* tables — identity, workspaces, policy substrate)
+[[d1_databases]]
+binding = "DB_CORE"
+database_name = "km_core"
+database_id = "afe84ce7-04dd-45a1-99ac-f42ca53276d2"
+migrations_dir = "Database/migrations/km-core"
+
+# =============================================================================
+# STORAGE
+# =============================================================================
 [[r2_buckets]]
 binding = "KMAPS_ASSETS"
 bucket_name = "kmaps-assets"
