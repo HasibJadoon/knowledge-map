@@ -1,10 +1,7 @@
 {
   "/api": {
-    "target": "https://knowledge-map.pages.dev",
+    "target": "https://backend.k-maps.com",
     "secure": true,
-    "changeOrigin": true,
-    "pathRewrite": {
-      "^/api": ""
-    }
+    "changeOrigin": true
   }
 }

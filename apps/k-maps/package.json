@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:local-worker": "ng serve --configuration local-worker",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "lint": "tsc --noEmit -p tsconfig.app.json"

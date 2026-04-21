@@ -64,7 +64,11 @@
           "options": { "proxyConfig": "proxy.conf.json" },
           "configurations": {
             "production": { "buildTarget": "k-maps:build:production" },
-            "development": { "buildTarget": "k-maps:build:development" }
+            "development": { "buildTarget": "k-maps:build:development" },
+            "local-worker": {
+              "buildTarget": "k-maps:build:development",
+              "proxyConfig": "proxy.conf.local.json"
+            }
           },
           "defaultConfiguration": "development"
         }

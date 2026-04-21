@@ -10,8 +10,11 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
+import { forkJoin } from 'rxjs';
 import gsap from 'gsap';
-import { KMapsService, QuranAyah, AyahsSurah, TranslationPassage } from '../../../shared/services/k-maps.service';
+import { QuranAyah, AyahsSurah, TranslationPassage } from '../../../shared/models/quran.models';
+import { qrPassagesToResponse, qrReaderToAyahsResponse } from '../../../shared/services/qr-api.mapper';
+import { QrApiService } from '../../../shared/services/qr-api.service';
 import { DocContextService } from '../../docs/services/doc-context.service';
 
 export type ViewMode = 'verse' | 'arabic' | 'translation';
@@ -30,7 +33,7 @@ const BISMILLAH = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَ
 export class QuranTextComponent implements OnInit, AfterViewInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly kmaps = inject(KMapsService);
+  private readonly qrApi = inject(QrApiService);
   private readonly docCtx = inject(DocContextService);
 
   @ViewChild('contentEl') contentEl!: ElementRef<HTMLElement>;
@@ -142,8 +145,12 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
   private loadAyahs(surah: number): void {
     this.loading.set(true);
     this.error.set(null);
-    this.kmaps.getAyahs(surah).subscribe({
-      next: (res) => {
+    forkJoin({
+      reader: this.qrApi.getSurahReader(surah),
+      passages: this.qrApi.getSurahPassages(surah),
+    }).subscribe({
+      next: ({ reader, passages }) => {
+        const res = qrReaderToAyahsResponse(reader, qrPassagesToResponse(passages.data));
         this.surahInfo.set(res.surah ?? null);
         this.ayahs.set(res.results ?? res.verses ?? []);
         this.passages.set(res.translation_passages ?? []);

@@ -1,6 +1,8 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { KMapsService, AyahsSurah, TranslationPassage } from '../../../shared/services/k-maps.service';
+import { AyahsSurah, TranslationPassage } from '../../../shared/models/quran.models';
+import { qrPassagesToResponse } from '../../../shared/services/qr-api.mapper';
+import { QrApiService } from '../../../shared/services/qr-api.service';
 
 @Component({
   selector: 'km-quran-passage',
@@ -12,7 +14,7 @@ import { KMapsService, AyahsSurah, TranslationPassage } from '../../../shared/se
 export class QuranPassageComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly kmaps = inject(KMapsService);
+  private readonly qrApi = inject(QrApiService);
 
   surahId = signal<number>(1);
   passageIndex = signal<number>(1);
@@ -37,16 +39,14 @@ export class QuranPassageComponent implements OnInit {
   private load(surah: number, idx: number): void {
     this.loading.set(true);
     this.error.set(null);
-    this.kmaps.getPassages(surah, idx).subscribe({
-      next: (res) => {
+    this.qrApi.getSurahPassages(surah).subscribe({
+      next: (qrRes) => {
+        const res = qrPassagesToResponse(qrRes.data, idx);
         this.surahInfo.set(res.surah ?? null);
         this.passage.set(res.passage ?? (res.passages[0] ?? null));
         this.loading.set(false);
         // Also load all passages for navigation
-        this.kmaps.getPassages(surah).subscribe({
-          next: (all) => this.allPassages.set(all.passages),
-          error: () => {},
-        });
+        this.allPassages.set(res.passages);
       },
       error: (err: Error) => {
         this.error.set(err?.message ?? 'Failed to load passage');

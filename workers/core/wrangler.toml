@@ -1,6 +1,7 @@
 name = "km-core-worker"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
+workers_dev = false   # internal only — accessed via km-backend-worker service binding
 
 [[d1_databases]]
 binding = "DB_CORE"
@@ -11,4 +12,6 @@ migrations_dir = "migrations"
 [vars]
 JWT_EXPIRY_SECONDS = "3600"
 
-# Set secret via: wrangler secret put JWT_SECRET --name km-core-worker
+# Secrets (set via wrangler secret put):
+#   JWT_SECRET      — shared with km-backend-worker
+#   INTERNAL_SECRET — shared with km-backend-worker

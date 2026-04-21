@@ -1,0 +1,46 @@
+name = "km-backend-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+workers_dev = false
+
+# ─── Single public domain ──────────────────────────────────────────────────────
+[[routes]]
+pattern = "backend.k-maps.com"
+custom_domain = true
+
+# ─── Internal service bindings (all 7 domain workers) ─────────────────────────
+[[services]]
+binding = "QURAN"
+service = "km-quran-worker"
+
+[[services]]
+binding = "WORLDVIEW"
+service = "km-worldview-worker"
+
+[[services]]
+binding = "ARABIC"
+service = "km-arabic-worker"
+
+[[services]]
+binding = "AR_LINGUISTICS"
+service = "km-ar-linguistics-worker"
+
+[[services]]
+binding = "CONTENT"
+service = "km-content-worker"
+
+[[services]]
+binding = "PLANNER"
+service = "km-planner-worker"
+
+[[services]]
+binding = "CORE"
+service = "km-core-worker"
+
+[vars]
+# Comma-separated list of allowed CORS origins
+ALLOWED_ORIGINS = "https://k-maps.com,https://app.k-maps.com,http://localhost:4200,http://localhost:4201"
+
+# Secrets — set via:
+#   wrangler secret put JWT_SECRET --name km-backend-worker
+#   wrangler secret put INTERNAL_SECRET --name km-backend-worker

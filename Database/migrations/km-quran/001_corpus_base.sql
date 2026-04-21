@@ -41,6 +41,9 @@ CREATE TABLE IF NOT EXISTS qr_ayah (
   translation       TEXT,                       -- default EN translation
   verse_mark        TEXT,                       -- Arabic-Indic digits only (١٢٣ never ۝)
   page_number       INTEGER,
+  juz               INTEGER,
+  hizb              INTEGER,
+  ruku              INTEGER,
   created_at        TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at        TEXT NOT NULL DEFAULT (datetime('now')),
   UNIQUE (surah, ayah),

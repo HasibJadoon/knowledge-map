@@ -1,6 +1,7 @@
 name = "km-ar-linguistics-worker"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
+workers_dev = false   # internal only — accessed via km-backend-worker service binding
 
 [[d1_databases]]
 binding = "DB_AL"
