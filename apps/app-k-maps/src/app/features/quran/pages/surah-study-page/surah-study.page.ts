@@ -10,10 +10,10 @@ import {
   chatbubbleOutline, gitBranchOutline,
 } from 'ionicons/icons';
 import {
-  SurahModulesService,
+  QuranSurahService,
   StudyUnitCardVm,
   StudySurahMeta,
-} from '../../../../shared/services/surah-modules.service';
+} from '../../../../shared/services/quran/quran-surah.service';
 
 @Component({
   selector: 'app-surah-study-page',
@@ -29,7 +29,7 @@ import {
 export class SurahStudyPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly svc = inject(SurahModulesService);
+  private readonly svc = inject(QuranSurahService);
 
   readonly surahId = signal(0);
   readonly surahMeta = signal<StudySurahMeta | null>(null);

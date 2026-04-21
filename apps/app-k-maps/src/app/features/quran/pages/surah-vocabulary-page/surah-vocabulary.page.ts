@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { SurahModulesService, VocabularyLemmaVm } from '../../../../shared/services/surah-modules.service';
+import { QuranSurahService, VocabularyLemmaVm } from '../../../../shared/services/quran/quran-surah.service';
 
 @Component({
   selector: 'app-surah-vocabulary-page',
@@ -14,7 +14,7 @@ import { SurahModulesService, VocabularyLemmaVm } from '../../../../shared/servi
 export class SurahVocabularyPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly svc = inject(SurahModulesService);
+  private readonly svc = inject(QuranSurahService);
 
   readonly surahId = signal(0);
   readonly items = signal<VocabularyLemmaVm[]>([]);

@@ -90,7 +90,7 @@ export class PageRepo {
          WHERE a.page_number = ?
          ORDER BY w.surah, w.ayah, w.word_position`,
         [pageNo],
-      ),
+      ).catch(() => []),
       query<PageSurah>(
         this.db,
         `SELECT id, name_ar, name_en, name_transliteration,
@@ -99,7 +99,7 @@ export class PageRepo {
          WHERE id IN (${surahPh})
          ORDER BY id`,
         surahIds,
-      ),
+      ).catch(() => []),
       query<LayoutLineRow>(
         this.db,
         `SELECT line_number, line_type, is_centered, first_word_id, last_word_id, surah_number
@@ -107,11 +107,11 @@ export class PageRepo {
          WHERE page_number = ?
          ORDER BY line_number`,
         [pageNo],
-      ),
+      ).catch(() => []),
       queryOne<{ id: string }>(
         this.db,
         `SELECT id FROM qr_translation_sources WHERE is_default = 1 LIMIT 1`,
-      ),
+      ).catch(() => null),
     ]);
 
     // 3. Load default translations (may be empty if no default source is configured)
@@ -124,7 +124,7 @@ export class PageRepo {
            WHERE a.page_number = ? AND t.source_id = ?
            ORDER BY t.surah, t.ayah`,
           [pageNo, defaultSrc.id],
-        )
+        ).catch(() => [])
       : [];
 
     // 4. Build lookup maps

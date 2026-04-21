@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 
-import { environment } from '../../../environments/environment';
-import { QuranLesson, QuranLessonSentence, QuranLessonText } from '../models/arabic/quran-lesson.model';
+import { environment } from '../../../../environments/environment';
+import { QuranLesson, QuranLessonSentence, QuranLessonText } from '../../models/arabic/quran-lesson.model';
 
 type RawQuranLesson = {
   id?: number | string;

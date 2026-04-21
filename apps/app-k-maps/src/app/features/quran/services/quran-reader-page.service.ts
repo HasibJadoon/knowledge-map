@@ -9,7 +9,7 @@ import {
   QuranPageMeta,
   QuranPageResponse,
 } from '../../../shared/models/quran-reader.model';
-import { QuranReaderService } from '../../../shared/services/quran-reader.service';
+import { QuranReaderService } from '../../../shared/services/quran/quran-reader.service';
 import {
   QuranReaderPageAyahSliceViewModel,
   QuranReaderFallbackVerseViewModel,

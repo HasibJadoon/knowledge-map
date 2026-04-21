@@ -1,14 +1,14 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import {
   QuranSurahNotesMode,
   QuranSurahNotesResponse,
   QuranSurahNotesSurah,
   QuranSurahNotesVerse,
   QuranSurahTargetNote,
-} from '../../features/quran/models/quran-surah-notes.model';
+} from '../../../features/quran/models/quran-surah-notes.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuranSurahNotesService {

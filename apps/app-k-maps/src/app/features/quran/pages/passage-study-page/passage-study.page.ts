@@ -14,14 +14,14 @@ import {
 } from 'ionicons/icons';
 import gsap from 'gsap';
 import {
-  SurahModulesService,
+  QuranSurahService,
   StudyLessonResponse,
   StudyWordVm,
   StudyExpressionVm,
   StudyAyahVm,
   WorldviewHubResponse,
   StudyTaskVm,
-} from '../../../../shared/services/surah-modules.service';
+} from '../../../../shared/services/quran/quran-surah.service';
 
 // ── Arabic helpers ────────────────────────────────────────────────────────────
 
@@ -116,7 +116,7 @@ export class PassageStudyPage implements OnInit {
 
   private readonly route  = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly svc    = inject(SurahModulesService);
+  private readonly svc    = inject(QuranSurahService);
   private readonly host   = inject(ElementRef<HTMLElement>);
   private readonly zone   = inject(NgZone);
   private readonly cdr    = inject(ChangeDetectorRef);

@@ -6,7 +6,7 @@
 
 import type { BackendEnv } from './env';
 
-export type ModuleKey = 'qr' | 'wv' | 'ar' | 'al' | 'cm' | 'pl' | 'core';
+export type ModuleKey = 'qr' | 'wv' | 'worldview' | 'ar' | 'al' | 'cm' | 'pl' | 'core';
 
 export interface ModuleConfig {
   binding:   keyof Pick<BackendEnv, 'QURAN' | 'WORLDVIEW' | 'ARABIC' | 'AR_LINGUISTICS' | 'CONTENT' | 'PLANNER' | 'CORE'>;
@@ -16,6 +16,7 @@ export interface ModuleConfig {
 export const MODULE_MAP: Record<ModuleKey, ModuleConfig> = {
   qr:   { binding: 'QURAN',          publicGet: true  },
   wv:   { binding: 'WORLDVIEW',      publicGet: true  },
+  worldview: { binding: 'WORLDVIEW', publicGet: true  },
   ar:   { binding: 'ARABIC',         publicGet: false },
   al:   { binding: 'AR_LINGUISTICS', publicGet: false },
   cm:   { binding: 'CONTENT',        publicGet: false },

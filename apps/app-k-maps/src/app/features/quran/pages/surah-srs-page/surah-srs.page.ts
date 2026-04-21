@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgClass, TitleCasePipe } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { SurahModulesService, SrsCardVm } from '../../../../shared/services/surah-modules.service';
+import { QuranSurahService, SrsCardVm } from '../../../../shared/services/quran/quran-surah.service';
 
 type SrsFilter = 'due' | 'upcoming' | 'all' | 'suspended';
 
@@ -17,7 +17,7 @@ type SrsFilter = 'due' | 'upcoming' | 'all' | 'suspended';
 export class SurahSrsPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly svc = inject(SurahModulesService);
+  private readonly svc = inject(QuranSurahService);
 
   readonly surahId = signal(0);
   readonly items = signal<SrsCardVm[]>([]);

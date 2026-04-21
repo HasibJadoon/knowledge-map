@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  // Development uses the Angular proxy and the hosted backend. No local API
+  // worker is required for Ionic development.
   apiBase: '/api'
 };
 

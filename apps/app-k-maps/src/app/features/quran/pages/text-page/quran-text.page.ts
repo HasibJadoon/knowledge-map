@@ -20,7 +20,7 @@ import {
   QuranAyah,
   AyahsSurah,
   TranslationPassage,
-} from '../../../../shared/services/quran-reader.service';
+} from '../../../../shared/services/quran/quran-reader.service';
 
 export type ViewMode = 'verse' | 'arabic' | 'translation';
 

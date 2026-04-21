@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { SurahModulesService, WorldviewNoteVm } from '../../../../shared/services/surah-modules.service';
+import { QuranSurahService, WorldviewNoteVm } from '../../../../shared/services/quran/quran-surah.service';
 
 @Component({
   selector: 'app-worldview-notes-page',
@@ -13,7 +13,7 @@ import { SurahModulesService, WorldviewNoteVm } from '../../../../shared/service
 })
 export class WorldviewNotesPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  private readonly svc = inject(SurahModulesService);
+  private readonly svc = inject(QuranSurahService);
 
   readonly surahId = signal(0);
   readonly items = signal<WorldviewNoteVm[]>([]);

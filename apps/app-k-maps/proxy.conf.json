@@ -1,11 +1,7 @@
 {
   "/api": {
-    "target": "https://api.k-maps.com",
+    "target": "https://backend.k-maps.com",
     "secure": true,
-    "changeOrigin": true,
-    "logLevel": "debug",
-    "pathRewrite": {
-      "^/api": ""
-    }
+    "changeOrigin": true
   }
 }

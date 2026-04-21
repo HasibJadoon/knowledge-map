@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { SurahModulesService, SrsCardVm, ReviewItemVm } from '../../../../shared/services/surah-modules.service';
+import { QuranSurahService, SrsCardVm, ReviewItemVm } from '../../../../shared/services/quran/quran-surah.service';
 
 @Component({
   selector: 'app-surah-review-page',
@@ -15,7 +15,7 @@ import { SurahModulesService, SrsCardVm, ReviewItemVm } from '../../../../shared
 export class SurahReviewPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly svc = inject(SurahModulesService);
+  private readonly svc = inject(QuranSurahService);
 
   readonly surahId = signal(0);
   readonly srsItems = signal<SrsCardVm[]>([]);

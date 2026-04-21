@@ -22,7 +22,7 @@ import {
   gridOutline, reorderThreeOutline, searchOutline,
 } from 'ionicons/icons';
 import gsap from 'gsap';
-import { QuranReaderService, QuranSurahListItem } from '../../../../shared/services/quran-reader.service';
+import { QuranReaderService, QuranSurahListItem } from '../../../../shared/services/quran/quran-reader.service';
 import { SurahActionsComponent } from '../../components/surah-actions/surah-actions.component';
 
 @Component({

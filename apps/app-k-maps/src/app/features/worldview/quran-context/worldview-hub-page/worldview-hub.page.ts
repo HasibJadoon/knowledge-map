@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ActionIconTileComponent, ActionIconVm } from '../../../quran/components/action-icon-tile/action-icon-tile.component';
-import { SurahModulesService } from '../../../../shared/services/surah-modules.service';
+import { QuranSurahService } from '../../../../shared/services/quran/quran-surah.service';
 
 const S = `width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
 
@@ -26,7 +26,7 @@ const ACTIONS: ActionIconVm[] = [
 export class WorldviewHubPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly svc = inject(SurahModulesService);
+  private readonly svc = inject(QuranSurahService);
 
   readonly surahId = signal(0);
   readonly counts = signal<{ nodes: number; sources: number; notes: number; documents: number } | null>(null);

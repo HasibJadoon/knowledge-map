@@ -138,7 +138,7 @@ export function readerRoutes(router: Router<QuranEnv>) {
           .prepare(`SELECT COUNT(*) AS total FROM qr_ayah WHERE surah = ?`)
           .bind(surahId)
           .first<CountRow>(),
-        sourceSQL,
+        sourceSQL.catch(() => null),
       ]);
 
       if (!surahRow) return notFound(`surah ${surahId}`);
@@ -169,7 +169,7 @@ export function readerRoutes(router: Router<QuranEnv>) {
         SELECT surah, ayah,
                COALESCE(text_uthmani_clean, text_uthmani, text_bare, text) AS text_display,
                text_uthmani_clean, text_uthmani, text_bare,
-               translation, verse_mark, page_number, juz, hizb, ruku
+               translation, verse_mark, page_number
         FROM qr_ayah
         WHERE surah = ? AND ayah BETWEEN ? AND ?
         ORDER BY ayah`;
@@ -190,6 +190,7 @@ export function readerRoutes(router: Router<QuranEnv>) {
               )
               .bind(sourceRow.id, surahId, ayahFrom, ayahTo)
               .all<TranslationRow>()
+              .catch(() => ({ results: [] as TranslationRow[] }))
           : Promise.resolve({ results: [] as TranslationRow[] }),
       ]);
 
@@ -239,9 +240,9 @@ export function readerRoutes(router: Router<QuranEnv>) {
           text_bare:          row.text_bare           ?? null,
           verse_mark:         row.verse_mark          ?? null,
           page_number:        row.page_number         ?? null,
-          juz:                row.juz                 ?? null,
-          hizb:               row.hizb                ?? null,
-          ruku:               row.ruku                ?? null,
+          juz:                null,
+          hizb:               null,
+          ruku:               null,
           // Translation precedence: selected source → built-in column → null
           translation: trMap.get(row.ayah) ?? row.translation ?? null,
         })),

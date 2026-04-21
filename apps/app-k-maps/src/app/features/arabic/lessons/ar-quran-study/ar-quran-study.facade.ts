@@ -19,7 +19,7 @@ import {
   getQuranSentenceArabic,
   getQuranSentenceTranslation,
 } from '../../../../shared/models/arabic/quran-lesson.model';
-import { QuranLessonService } from '../../../../shared/services/quran-lesson.service';
+import { QuranLessonService } from '../../../../shared/services/quran/quran-lesson.service';
 
 const COMPREHENSION_GROUP_ORDER = [
   'comprehension',

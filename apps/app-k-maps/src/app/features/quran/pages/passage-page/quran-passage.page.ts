@@ -5,7 +5,7 @@ import {
   QuranReaderService,
   AyahsSurah,
   TranslationPassage,
-} from '../../../../shared/services/quran-reader.service';
+} from '../../../../shared/services/quran/quran-reader.service';
 
 @Component({
   selector: 'app-quran-passage-page',

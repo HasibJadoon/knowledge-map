@@ -106,6 +106,8 @@ export interface WorldviewLinkVm {
   to_id: string;
   to_title: string;
   to_type: string;
+  target_title?: string;
+  target_type?: string;
 }
 
 export interface VocabularyLemmaVm {
@@ -214,6 +216,8 @@ export interface AyahVm {
   translation_sahih?: string;
 }
 
+export type StudyAyahVm = AyahVm;
+
 export interface UnitTaskVm {
   task_id: string;
   unit_id?: string;
@@ -226,6 +230,8 @@ export interface UnitTaskVm {
   updated_at?: string;
   children?: UnitTaskVm[];
 }
+
+export type StudyTaskVm = UnitTaskVm;
 
 export interface WordVm {
   word_id: string;
@@ -454,7 +460,7 @@ export interface WorldviewNodesResponse { ok: boolean; surahId: number; total: n
 export interface WorldviewSourcesResponse { ok: boolean; surahId: number; total: number; sources: WorldviewSourceVm[]; }
 export interface WorldviewNotesResponse { ok: boolean; surahId: number; total: number; notes: WorldviewNoteVm[]; }
 export interface WorldviewDocumentsResponse { ok: boolean; surahId: number; total: number; documents: WorldviewDocumentVm[]; }
-export interface WorldviewPodcastsResponse { ok: boolean; surahId: number; total: number; items: WorldviewPodcastVm[]; }
+export interface WorldviewPodcastsResponse { ok: boolean; surahId: number; total: number; items: WorldviewPodcastVm[]; podcasts: WorldviewPodcastVm[]; }
 export interface WorldviewLinksResponse { ok: boolean; surahId: number; total: number; links: WorldviewLinkVm[]; }
 export interface VocabularyResponse { ok: boolean; surahId: number; total: number; lemmas: VocabularyLemmaVm[]; lexicon: VocabularyLemmaVm[]; }
 export interface ReviewResponse { ok: boolean; surahId: number; srsItems: SrsCardVm[]; lessonProgress: ReviewItemVm[]; total: number; }
@@ -885,9 +891,13 @@ export class QuranSurahService {
   }
 
   private normalizeVocabulary(surahId: number, data: WorkerVocabularyData): VocabularyResponse {
-    const items = Object.values(data.groups ?? {})
-      .flat()
-      .map((item, index) => ({
+    const groupedItems = Object.values(data.groups ?? {}).reduce<WorkerVocabularyItem[]>(
+      (allItems, group) => allItems.concat(group),
+      [],
+    );
+
+    const items = groupedItems
+      .map((item: WorkerVocabularyItem, index: number) => ({
         lemma_id: item.lx_lemma_ref ?? `${surahId}:${item.first_location?.ayah ?? index}:${index}`,
         lemma_text: item.sample_forms?.[0],
         lemma_text_clean: item.sample_forms?.[0],

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
-import { environment } from '../../../environments/environment';
+import { BackendApiService } from './backend-api.service';
 import {
   KmapsEntityStatus,
   KmapsNote,
@@ -228,8 +228,8 @@ export type WorldviewUnitMutationResult = {
 @Injectable({ providedIn: 'root' })
 export class WorldviewApiService {
   private readonly http = inject(HttpClient);
-  private readonly apiRoot = resolveApiRoot(environment.apiBase);
-  private readonly baseUrl = `${this.apiRoot}/worldview`;
+  private readonly backend = inject(BackendApiService);
+  private readonly baseUrl = this.backend.url('worldview');
 
   fetchWorkflow(): Observable<WorldviewWorkflowSnapshot> {
     return this.http.get<WorkflowApiResponse>(`${this.baseUrl}/workflow`).pipe(
@@ -856,18 +856,6 @@ function mapHighlight(value: unknown): KmapsNote | null {
   };
 }
 
-function resolveApiRoot(apiBase: string): string {
-  const normalized = apiBase.replace(/\/+$/, '');
-  if (!normalized) {
-    return '/api';
-  }
-
-  if (/^https?:\/\//i.test(normalized)) {
-    return normalized;
-  }
-
-  return normalized.endsWith('/api') ? normalized : `${normalized}/api`;
-}
 
 function asArray(value: unknown): unknown[] {
   return Array.isArray(value) ? value : [];

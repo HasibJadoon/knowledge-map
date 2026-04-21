@@ -18,6 +18,7 @@ import { srsRoutes } from './routes/srs';
 import { menuRoutes } from './routes/menu';
 import { readerRoutes } from './routes/reader';
 import { vocabularyRoutes } from './routes/vocabulary';
+import { worldviewRoutes } from './routes/worldview';
 
 const router = new Router<QuranEnv>();
 
@@ -31,6 +32,7 @@ menuRoutes(router);          // GET /qr/menu — navigation dataset
 surahRoutes(router);         // GET /qr/surahs, /qr/surahs/:id
 readerRoutes(router);        // GET /qr/surahs/:id/reader — combined ayah+translation payload
 vocabularyRoutes(router);    // GET /qr/surahs/:id/vocabulary — POS-grouped words
+worldviewRoutes(router);     // GET /qr/surahs/:id/worldview — Quran-scoped worldview projection data
 ayahRoutes(router);          // GET /qr/ayahs, /qr/ayahs/search, /qr/ayahs/:s/:a
 passageRoutes(router);       // GET /qr/passages, by-ayah, single, create, delete
 wordRoutes(router);          // GET /qr/words, by-lemma, by-root
