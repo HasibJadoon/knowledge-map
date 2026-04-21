@@ -4,9 +4,9 @@ import {
   inject, signal, ChangeDetectionStrategy,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SurahModulesService, WorldviewDocumentVm } from '../../../../../shared/services/surah-modules.service';
+import { SurahModulesApiService, WorldviewDocumentVm } from '../../../../../shared/services/quran/surah-modules-api.service';
 import { QuranPageShellComponent } from '../../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../../shared/services/quran-gsap.service';
+import { QuranGsapService } from '../../../../../shared/services/quran/quran-gsap.service';
 
 @Component({
   selector: 'km-worldview-documents',
@@ -19,7 +19,7 @@ import { QuranGsapService } from '../../../shared/services/quran-gsap.service';
 export class WorldviewDocumentsComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private svc = inject(SurahModulesService);
+  private svc = inject(SurahModulesApiService);
   private gsapSvc = inject(QuranGsapService);
 
   @ViewChildren('cardEl') cardEls!: QueryList<ElementRef>;

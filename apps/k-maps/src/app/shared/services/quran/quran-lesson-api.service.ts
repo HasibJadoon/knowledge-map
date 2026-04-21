@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
+import { BackendApiService } from '../backend-api.service';
 
 // ── Lesson models ───────────────────────────────────────────────────────────
 
@@ -89,13 +88,12 @@ type RawLessonTasksResponse = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class KMapsService {
-  private readonly http = inject(HttpClient);
-  private readonly base = environment.apiBase;
+export class QuranLessonApiService {
+  private readonly api = inject(BackendApiService);
 
   // ── v1: Lesson ─────────────────────────────────────────────────────────────
   getLesson(id: number | string): Observable<QuranLesson> {
-    return this.http.get<RawLessonResponse>(`${this.base}/arabic/lessons/quran/${id}`).pipe(
+    return this.api.getRaw<RawLessonResponse>(['arabic', 'lessons', 'quran', id]).pipe(
       map((res) => {
         const base = res.result;
         const payload = base.lesson_json ?? {};
@@ -113,7 +111,7 @@ export class KMapsService {
 
   // ── v2: Lesson full detail (surah, range, container) ───────────────────────
   getLessonDetail(id: string | number): Observable<LessonFullDetail> {
-    return this.http.get<RawLessonDetailResponse>(`${this.base}/ar/quran/lessons/${id}`).pipe(
+    return this.api.getRaw<RawLessonDetailResponse>(['ar', 'quran', 'lessons', id]).pipe(
       map((res) => {
         const result = res.result ?? {};
         const lessonRow = result.lesson_row ?? {};
@@ -155,7 +153,7 @@ export class KMapsService {
 
   // ── v2: Lesson tasks ────────────────────────────────────────────────────────
   getLessonTasks(id: string | number): Observable<LessonTask[]> {
-    return this.http.get<RawLessonTasksResponse>(`${this.base}/ar/quran/lessons/${id}/tasks`).pipe(
+    return this.api.getRaw<RawLessonTasksResponse>(['ar', 'quran', 'lessons', id, 'tasks']).pipe(
       map((res) => {
         const tasks = res.result?.tasks ?? [];
         const TASK_LABELS: Record<string, string> = {

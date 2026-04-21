@@ -3,15 +3,15 @@ import {
   PassagesResponse,
   QuranSurahListItemDto,
   TranslationPassage,
-} from '../models/quran.models';
+} from '../../models/quran/quran.models';
 import {
   QrApiResponse,
   QrMenuSurah,
   QrPassage,
   QrReaderPayload,
-} from '../models/qr.models';
+} from '../../models/quran/qr.models';
 
-export function qrMenuSurahToListItem(surah: QrMenuSurah): QuranSurahListItemDto {
+export function mapQrMenuSurahToListItem(surah: QrMenuSurah): QuranSurahListItemDto {
   const transliteratedName = surah.name_transliteration ?? surah.name_en ?? `Surah ${surah.id}`;
   return {
     id: String(surah.id),
@@ -26,7 +26,7 @@ export function qrMenuSurahToListItem(surah: QrMenuSurah): QuranSurahListItemDto
   };
 }
 
-export function qrReaderToAyahsResponse(
+export function mapQrReaderToAyahsResponse(
   reader: QrApiResponse<QrReaderPayload>,
   passages: PassagesResponse,
 ): AyahsResponse {
@@ -58,7 +58,7 @@ export function qrReaderToAyahsResponse(
   };
 }
 
-export function qrPassagesToResponse(
+export function mapQrPassagesToResponse(
   qrPassages: QrPassage[],
   passageIndex?: number,
 ): PassagesResponse {

@@ -5,9 +5,9 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SlicePipe } from '@angular/common';
-import { SurahModulesService, WorldviewNoteVm } from '../../../../../shared/services/surah-modules.service';
+import { SurahModulesApiService, WorldviewNoteVm } from '../../../../../shared/services/quran/surah-modules-api.service';
 import { QuranPageShellComponent } from '../../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../../shared/services/quran-gsap.service';
+import { QuranGsapService } from '../../../../../shared/services/quran/quran-gsap.service';
 
 @Component({
   selector: 'km-worldview-notes',
@@ -20,7 +20,7 @@ import { QuranGsapService } from '../../../shared/services/quran-gsap.service';
 export class WorldviewNotesComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private svc = inject(SurahModulesService);
+  private svc = inject(SurahModulesApiService);
   private gsapSvc = inject(QuranGsapService);
 
   @ViewChildren('cardEl') cardEls!: QueryList<ElementRef>;

@@ -2,9 +2,7 @@ import {
   AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef,
   inject, Input, OnDestroy, OnInit, signal, ViewChild,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
 import { DocumentEditorService } from '../../../../shared/services/document-editor.service';
 import { KmDocumentListComponent } from './km-document-list.component';
@@ -183,7 +181,6 @@ export class KmDocumentEditorPageComponent implements OnInit, AfterViewInit, OnD
 
   svc = inject(DocumentEditorService);
   private cdr = inject(ChangeDetectorRef);
-  private http = inject(HttpClient);
   private router = inject(Router);
 
   sidebarCollapsed = signal(false);
@@ -225,24 +222,17 @@ export class KmDocumentEditorPageComponent implements OnInit, AfterViewInit, OnD
     this.router.navigate(['/docs', id]);
   }
 
-  // ── Document creation → POST to /api/docs, navigate to full editor ────────
+  // ── Document creation → navigate to full editor ───────────────────────────
 
   async onCreateDocument(ev: { title: string; docType: QuranDocType }): Promise<void> {
     try {
-      const body: Record<string, unknown> = {
-        title: ev.title,
-        doc_type: ev.docType,
-        domain: this.scope.domain,
-      };
-      if (this.scope.surah != null) body['surah'] = this.scope.surah;
-      if (this.scope.source_id)    body['source_id'] = this.scope.source_id;
-
-      const res = await firstValueFrom(
-        this.http.post<{ id: string }>('/api/docs', body)
-      );
-      if (res?.id) {
-        this.router.navigate(['/docs', res.id]);
+      const docId = await this.svc.createDocumentRecord(ev.title, ev.docType, this.scope);
+      if (docId) {
+        this.router.navigate(['/docs', docId]);
+        return;
       }
+      await this.svc.createDocument(ev.title, ev.docType, this.scope);
+      this.cdr.markForCheck();
     } catch {
       // fallback: open create in old system
       await this.svc.createDocument(ev.title, ev.docType, this.scope);
@@ -252,17 +242,9 @@ export class KmDocumentEditorPageComponent implements OnInit, AfterViewInit, OnD
 
   onNewDocClick(): void {
     // Quick-create an untitled doc with context and navigate to full editor
-    const body: Record<string, unknown> = {
-      title: 'Untitled',
-      doc_type: 'running_notes',
-      domain: this.scope.domain,
-    };
-    if (this.scope.surah != null) body['surah'] = this.scope.surah;
-    if (this.scope.source_id)    body['source_id'] = this.scope.source_id;
-
-    firstValueFrom(this.http.post<{ id: string }>('/api/docs', body))
-      .then(res => {
-        if (res?.id) this.router.navigate(['/docs', res.id]);
+    this.svc.createDocumentRecord('Untitled', 'running_notes', this.scope)
+      .then(docId => {
+        if (docId) this.router.navigate(['/docs', docId]);
       })
       .catch(() => {
         // fallback to sidebar create form

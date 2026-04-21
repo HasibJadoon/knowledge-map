@@ -16,9 +16,9 @@ import { Router } from '@angular/router';
 import * as d3 from 'd3';
 import gsap from 'gsap';
 import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
-import { QrApiService } from '../../../shared/services/qr-api.service';
-import { qrMenuSurahToListItem } from '../../../shared/services/qr-api.mapper';
-import { QuranSurahListItemDto } from '../../../shared/models/quran.models';
+import { QuranApiService } from '../../../shared/services/quran/quran-api.service';
+import { mapQrMenuSurahToListItem } from '../../../shared/services/quran/quran-api.mapper';
+import { QuranSurahListItemDto } from '../../../shared/models/quran/quran.models';
 import {
   SRS_DECKS,
   SrsDeckId,
@@ -70,7 +70,7 @@ const EMPTY_SUMMARY: SrsSummary = {
 })
 export class SrsHomeComponent implements AfterViewInit, OnDestroy {
   private readonly router = inject(Router);
-  private readonly qrApi = inject(QrApiService);
+  private readonly qrApi = inject(QuranApiService);
   private readonly srs = inject(SrsService);
 
   @ViewChild('page') pageRef!: ElementRef<HTMLElement>;
@@ -356,7 +356,7 @@ export class SrsHomeComponent implements AfterViewInit, OnDestroy {
 
   private loadSurahs(): void {
     this.qrApi.getMenu().subscribe({
-      next: (response) => this.surahs.set(response.data.surahs.map(qrMenuSurahToListItem)),
+      next: (response) => this.surahs.set(response.data.surahs.map(mapQrMenuSurahToListItem)),
       error: () => this.surahs.set([]),
     });
   }

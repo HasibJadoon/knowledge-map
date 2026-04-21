@@ -20,11 +20,11 @@ import { Subscription, forkJoin } from 'rxjs';
 import {
   StudyLessonResponse,
   StudySurahMeta,
-  SurahModulesService,
+  SurahModulesApiService,
   UnitTaskVm,
   WorldviewHubResponse,
-} from '../../../../shared/services/surah-modules.service';
-import { QuranStateService } from '../../../../shared/services/quran-state.service';
+} from '../../../../shared/services/quran/surah-modules-api.service';
+import { QuranStateService } from '../../../../shared/services/quran/quran-state.service';
 import { UiSettingsService } from '../../../../shared/services/ui-settings.service';
 import { WeeklyTaskService } from '../../../planner/services/weekly-task.service';
 import { LessonExpressionsStepComponent } from './steps/expressions/lesson-expressions-step.component';
@@ -224,7 +224,7 @@ export class SurahLessonPageComponent
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly location = inject(Location);
-  private readonly svc = inject(SurahModulesService);
+  private readonly svc = inject(SurahModulesApiService);
   private readonly quranState = inject(QuranStateService);
   private readonly uiSettings = inject(UiSettingsService);
   private readonly weeklyTaskService = inject(WeeklyTaskService);

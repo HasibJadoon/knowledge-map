@@ -19,8 +19,8 @@ import { hierarchy, tree as d3Tree } from 'd3-hierarchy';
 import { select }                     from 'd3-selection';
 import 'd3-transition';
 import {
-  SurahModulesService,
-} from '../../../../../../shared/services/surah-modules.service';
+  SurahModulesApiService,
+} from '../../../../../../shared/services/quran/surah-modules-api.service';
 
 // ── Public types ──────────────────────────────────────────────────────────────
 
@@ -188,7 +188,7 @@ export class SentenceStructureCanvasComponent
   @ViewChild('wrap') private wrapRef!: ElementRef<HTMLDivElement>;
 
   private readonly zone    = inject(NgZone);
-  private readonly svc     = inject(SurahModulesService);
+  private readonly svc     = inject(SurahModulesApiService);
 
   private wrap:           any = null;
   private svg:            any = null;

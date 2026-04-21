@@ -1,11 +1,11 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { QrApiService } from './qr-api.service';
-import { QuranSurahListItemDto } from '../models/quran.models';
-import { qrMenuSurahToListItem } from './qr-api.mapper';
+import { QuranApiService } from './quran-api.service';
+import { QuranSurahListItemDto } from '../../models/quran/quran.models';
+import { mapQrMenuSurahToListItem } from './quran-api.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class QuranStateService {
-  private readonly qrApi = inject(QrApiService);
+  private readonly qrApi = inject(QuranApiService);
 
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
@@ -17,7 +17,7 @@ export class QuranStateService {
     this.error.set(null);
     this.qrApi.getMenu().subscribe({
       next: (res) => {
-        this.surahs.set(res.data.surahs.map(qrMenuSurahToListItem));
+        this.surahs.set(res.data.surahs.map(mapQrMenuSurahToListItem));
         this.loading.set(false);
       },
       error: () => {

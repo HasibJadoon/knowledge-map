@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { SrsCardVm } from '../../../shared/services/surah-modules.service';
+import { BackendApiService } from '../../../shared/services/backend-api.service';
+import { SrsCardVm } from '../../../shared/services/quran/surah-modules-api.service';
 
 export type SrsQueueFilter = 'due' | 'upcoming' | 'all' | 'suspended';
 export type SrsRating = 'again' | 'hard' | 'good' | 'easy';
@@ -158,22 +158,27 @@ interface CardPayload {
 
 @Injectable({ providedIn: 'root' })
 export class SrsService {
-  private readonly http = inject(HttpClient);
-  private readonly base = environment.apiBase;
+  private readonly api = inject(BackendApiService);
 
   listQueue(filter: SrsQueueFilter, surahId: number | null): Observable<SrsQueueResponse> {
     const params = new HttpParams()
       .set('filter', filter)
       .set('limit', '80')
-      .set('surah_id', surahId ? String(surahId) : '');
+      .set('surah', surahId ? String(surahId) : '');
 
-    return this.http.get<ApiQueueResponse>(`${this.base}/quran/srs`, { params }).pipe(
-      map((response) => this.normalizeApiResponse(response, filter)),
+    return this.api.getData<Omit<ApiQueueResponse, 'ok' | 'total'> & { summary?: Partial<SrsSummary> }>('qr', ['srs'], { params }).pipe(
+      map((data) => this.normalizeApiResponse({
+        ok: true,
+        filter,
+        total: data.summary?.total ?? data.items?.length ?? 0,
+        items: data.items ?? [],
+        summary: data.summary,
+      }, filter)),
     );
   }
 
   reviewCard(item: SrsQueueItem, rating: SrsRating): Observable<SrsQueueItem> {
-    return this.http.post<ApiReviewResponse>(`${this.base}/quran/srs/${encodeURIComponent(item.id)}`, { rating }).pipe(
+    return this.api.postRaw<ApiReviewResponse>(['quran', 'srs', item.id], { rating }).pipe(
       map((response) => this.decorateItem(response.item)),
     );
   }

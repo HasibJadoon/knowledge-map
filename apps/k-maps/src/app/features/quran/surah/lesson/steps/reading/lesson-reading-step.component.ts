@@ -2,7 +2,7 @@ import {
   Component, Input, OnChanges, SimpleChanges, signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { StudyLessonResponse, AyahVm, AyahWordToken } from '../../../../../../shared/services/surah-modules.service';
+import { StudyLessonResponse, AyahVm, AyahWordToken } from '../../../../../../shared/services/quran/surah-modules-api.service';
 
 // Arabic diacritic codepoints (harakat + Quranic marks) — fallback stripping
 const DIACRITICS_RE = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E8\u06EA-\u06ED]/g;

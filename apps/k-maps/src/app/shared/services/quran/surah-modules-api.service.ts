@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
+import { BackendApiService } from '../backend-api.service';
 
 // ── View models ───────────────────────────────────────────
 
@@ -459,92 +460,203 @@ export interface VocabularyResponse { ok: boolean; surahId: number; total: numbe
 export interface ReviewResponse { ok: boolean; surahId: number; srsItems: SrsCardVm[]; lessonProgress: ReviewItemVm[]; total: number; }
 export interface SrsResponse { ok: boolean; surahId: number; filter: string; total: number; items: SrsCardVm[]; }
 
-@Injectable({ providedIn: 'root' })
-export class SurahModulesService {
-  private readonly http = inject(HttpClient);
-  private readonly base = environment.apiBase;
+interface WorkerStudySurah {
+  container_id?: string;
+  container_key?: string;
+  title?: string;
+  surah?: number;
+  surah_id?: number;
+  name_ar?: string | null;
+  name_en?: string | null;
+  meta_json?: string;
+}
 
-  private url(surahId: number, ...segments: string[]): string {
-    return `${this.base}/quran/surah/${surahId}/${segments.join('/')}`;
+interface WorkerStudyUnit {
+  unit_id?: string;
+  passage_id?: string;
+  order_index?: number;
+  passage_no?: number;
+  ayah_from: number;
+  ayah_to: number;
+  start_ref?: string;
+  end_ref?: string;
+  text_cache?: string;
+  label?: string | null;
+  title?: string | null;
+  theme?: string | null;
+  reading?: { has?: number | boolean };
+  vocabulary?: { nouns?: number; verbs?: number; total?: number; total_words?: number };
+  sentence_structure?: { has?: number | boolean };
+  expressions?: { has?: number | boolean };
+  passage_structure?: { has?: number | boolean };
+}
+
+interface WorkerStudyGrid {
+  surah: WorkerStudySurah;
+  units: WorkerStudyUnit[];
+}
+
+interface WorkerStudyLesson {
+  unit_id?: string;
+  passage_id?: string;
+  order_index?: number;
+  passage_no?: number;
+  ayah_from?: number;
+  ayah_to?: number;
+  start_ref?: string;
+  end_ref?: string;
+  text_cache?: string;
+  label?: string | null;
+  title?: string | null;
+  theme?: string | null;
+  unit?: WorkerStudyUnit;
+  ayahs?: Array<Record<string, unknown>>;
+  vocabulary?: { nouns?: StudyWordVm[]; verbs?: StudyWordVm[] };
+  expressions?: StudyExpressionVm[];
+  tasks?: UnitTaskVm[];
+}
+
+interface WorkerVocabularyItem {
+  lx_lemma_ref?: string | null;
+  root_text?: string | null;
+  pos_tag?: string | null;
+  frequency?: number;
+  sample_forms?: string[];
+  first_location?: { surah?: number; ayah?: number };
+}
+
+interface WorkerVocabularyData {
+  surah_id: number;
+  total_unique_lemmas: number;
+  groups: Record<string, WorkerVocabularyItem[]>;
+}
+
+interface WorkerSrsData {
+  filter: string;
+  items: SrsCardVm[];
+  summary?: { total?: number };
+}
+
+@Injectable({ providedIn: 'root' })
+export class SurahModulesApiService {
+  private readonly api = inject(BackendApiService);
+
+  private legacySurahPath(surahId: number, ...segments: string[]): Array<string | number> {
+    return ['quran', 'surah', surahId, ...segments];
   }
 
   // Layer 1 — unit grid for a surah
   getSurahLessonGrid(surahId: number): Observable<UnitGridResponse> {
-    return this.http.get<UnitGridResponse>(this.url(surahId, 'lessons'));
+    return this.api.getRaw<UnitGridResponse>(this.legacySurahPath(surahId, 'lessons'));
   }
 
   // Layer 2 — full detail for one unit
   getLessonDetail(unitId: string): Observable<LessonDetailResponse> {
-    return this.http.get<LessonDetailResponse>(`${this.base}/quran/lesson/${encodeURIComponent(unitId)}`);
+    return this.api.getRaw<LessonDetailResponse>(['quran', 'lesson', unitId]);
   }
 
   getSurahLessons(surahId: number): Observable<LessonsResponse> {
-    return this.http.get<LessonsResponse>(this.url(surahId, 'lessons'));
+    return this.api.getRaw<LessonsResponse>(this.legacySurahPath(surahId, 'lessons'));
   }
 
   getSurahNotes(surahId: number): Observable<NotesResponse> {
-    return this.http.get<NotesResponse>(this.url(surahId, 'notes'));
+    return this.api.getRaw<NotesResponse>(this.legacySurahPath(surahId, 'notes'));
   }
 
   getSurahVocabulary(surahId: number): Observable<VocabularyResponse> {
-    return this.http.get<VocabularyResponse>(this.url(surahId, 'vocabulary'));
+    return this.api.getData<WorkerVocabularyData>('qr', ['surahs', surahId, 'vocabulary']).pipe(
+      map((data) => this.normalizeVocabulary(surahId, data)),
+    );
   }
 
   getSurahReview(surahId: number): Observable<ReviewResponse> {
-    return this.http.get<ReviewResponse>(this.url(surahId, 'review'));
+    return this.api.getRaw<ReviewResponse>(this.legacySurahPath(surahId, 'review'));
   }
 
   getSurahSrs(surahId: number, filter: 'due' | 'upcoming' | 'all' | 'suspended' = 'due'): Observable<SrsResponse> {
-    const params = new HttpParams().set('filter', filter);
-    return this.http.get<SrsResponse>(this.url(surahId, 'srs'), { params });
+    const params = new HttpParams()
+      .set('filter', filter)
+      .set('surah', String(surahId));
+    return this.api.getData<WorkerSrsData>('qr', ['srs'], { params }).pipe(
+      map((data) => ({
+        ok: true,
+        surahId,
+        filter: data.filter,
+        total: data.summary?.total ?? data.items.length,
+        items: data.items,
+      })),
+    );
   }
 
   // ── Worldview ─────────────────────────────────────────────────────
 
   getWorldviewHub(surahId: number): Observable<WorldviewHubResponse> {
-    return this.http.get<WorldviewHubResponse>(this.url(surahId, 'worldview'));
+    return this.api.getRaw<WorldviewHubResponse>(this.legacySurahPath(surahId, 'worldview'));
   }
 
   getWorldviewNodes(surahId: number): Observable<WorldviewNodesResponse> {
-    return this.http.get<WorldviewNodesResponse>(this.url(surahId, 'worldview', 'nodes'));
+    return this.api.getRaw<WorldviewNodesResponse>(this.legacySurahPath(surahId, 'worldview', 'nodes'));
   }
 
   getWorldviewSources(surahId: number): Observable<WorldviewSourcesResponse> {
-    return this.http.get<WorldviewSourcesResponse>(this.url(surahId, 'worldview', 'sources'));
+    return this.api.getRaw<WorldviewSourcesResponse>(this.legacySurahPath(surahId, 'worldview', 'sources'));
   }
 
   getWorldviewPodcasts(surahId: number): Observable<WorldviewPodcastsResponse> {
-    return this.http.get<WorldviewPodcastsResponse>(this.url(surahId, 'worldview', 'podcasts'));
+    return this.api.getRaw<WorldviewPodcastsResponse>(this.legacySurahPath(surahId, 'worldview', 'podcasts'));
   }
 
   getWorldviewDocuments(surahId: number): Observable<WorldviewDocumentsResponse> {
-    return this.http.get<WorldviewDocumentsResponse>(this.url(surahId, 'worldview', 'documents'));
+    return this.api.getRaw<WorldviewDocumentsResponse>(this.legacySurahPath(surahId, 'worldview', 'documents'));
   }
 
   getWorldviewNotes(surahId: number): Observable<WorldviewNotesResponse> {
-    return this.http.get<WorldviewNotesResponse>(this.url(surahId, 'worldview', 'notes'));
+    return this.api.getRaw<WorldviewNotesResponse>(this.legacySurahPath(surahId, 'worldview', 'notes'));
   }
 
   getWorldviewLinks(surahId: number): Observable<WorldviewLinksResponse> {
-    return this.http.get<WorldviewLinksResponse>(this.url(surahId, 'worldview', 'links'));
+    return this.api.getRaw<WorldviewLinksResponse>(this.legacySurahPath(surahId, 'worldview', 'links'));
   }
 
   // ── Study API ────────────────────────────────────────────────────────────────
 
   getStudyGrid(surahId: number): Observable<StudyGridResponse> {
-    return this.http.get<StudyGridResponse>(this.url(surahId, 'study'));
+    return this.api.getData<WorkerStudyGrid>('qr', ['study', 'surahs', surahId]).pipe(
+      map((data) => this.normalizeStudyGrid(surahId, data)),
+    );
   }
 
   getStudyLesson(surahId: number, passageNo: number): Observable<StudyLessonResponse> {
-    return this.http.get<StudyLessonResponse>(this.url(surahId, 'study', String(passageNo)));
+    return this.api
+      .getData<WorkerStudyLesson>('qr', ['study', 'surahs', surahId, 'passages', passageNo, 'lesson'])
+      .pipe(map((data) => this.normalizeStudyLesson(surahId, passageNo, data)));
   }
 
   getStudyReading(surahId: number, passageNo: number): Observable<StudyReadingResponse> {
-    return this.http.get<StudyReadingResponse>(this.url(surahId, 'study', String(passageNo), 'reading'));
+    return this.getStudyLesson(surahId, passageNo).pipe(
+      map((lesson) => ({
+        ok: true,
+        surahId,
+        passageNo,
+        unit: lesson.unit,
+        ayahs: lesson.ayahs,
+        task: this.findTask(lesson.tasks, 'reading'),
+      })),
+    );
   }
 
   getStudyMorphology(surahId: number, passageNo: number): Observable<StudyMorphologyResponse> {
-    return this.http.get<StudyMorphologyResponse>(this.url(surahId, 'study', String(passageNo), 'morphology'));
+    return this.getStudyLesson(surahId, passageNo).pipe(
+      map((lesson) => ({
+        ok: true,
+        surahId,
+        passageNo,
+        unit: lesson.unit,
+        nouns: lesson.vocabulary.nouns,
+        verbs: lesson.vocabulary.verbs,
+        task: this.findTask(lesson.tasks, 'morphology'),
+      })),
+    );
   }
 
   getStudyVocabulary(surahId: number, passageNo: number): Observable<StudyVocabularyResponse> {
@@ -552,26 +664,198 @@ export class SurahModulesService {
   }
 
   getStudyExpressions(surahId: number, passageNo: number): Observable<StudyExpressionsResponse> {
-    return this.http.get<StudyExpressionsResponse>(this.url(surahId, 'study', String(passageNo), 'expressions'));
+    return this.getStudyLesson(surahId, passageNo).pipe(
+      map((lesson) => ({
+        ok: true,
+        surahId,
+        passageNo,
+        unit: lesson.unit,
+        expressions: lesson.expressions,
+        task: this.findTask(lesson.tasks, 'expressions'),
+      })),
+    );
   }
 
   getStudySentenceStructure(surahId: number, passageNo: number): Observable<StudyTaskResponse> {
-    return this.http.get<StudyTaskResponse>(this.url(surahId, 'study', String(passageNo), 'sentence-structure'));
+    return this.getStudyLesson(surahId, passageNo).pipe(
+      map((lesson) => ({
+        ok: true,
+        surahId,
+        passageNo,
+        unit: lesson.unit,
+        task: this.findTask(lesson.tasks, 'sentence_structure'),
+      })),
+    );
   }
 
   getStudyPassageStructure(surahId: number, passageNo: number): Observable<StudyTaskResponse> {
-    return this.http.get<StudyTaskResponse>(this.url(surahId, 'study', String(passageNo), 'passage-structure'));
+    return this.getStudyLesson(surahId, passageNo).pipe(
+      map((lesson) => ({
+        ok: true,
+        surahId,
+        passageNo,
+        unit: lesson.unit,
+        task: this.findTask(lesson.tasks, 'passage_structure'),
+      })),
+    );
   }
 
   getStudyTasks(surahId: number, passageNo: number): Observable<StudyTasksResponse> {
-    return this.http.get<StudyTasksResponse>(this.url(surahId, 'study', String(passageNo), 'tasks'));
+    return this.api
+      .getData<UnitTaskVm[]>('qr', ['study', 'surahs', surahId, 'passages', passageNo, 'tasks'])
+      .pipe(map((tasks) => ({ ok: true, surahId, passageNo, tasks })));
+  }
+
+  private normalizeStudyGrid(surahId: number, data: WorkerStudyGrid): StudyGridResponse {
+    return {
+      ok: true,
+      surahId,
+      surah: {
+        container_id: data.surah.container_id ?? `QR:SURAH:${surahId}`,
+        container_key: data.surah.container_key,
+        title: data.surah.title ?? data.surah.name_en ?? `Surah ${surahId}`,
+        surah: data.surah.surah ?? data.surah.surah_id ?? surahId,
+        name_ar: data.surah.name_ar ?? undefined,
+        name_en: data.surah.name_en ?? undefined,
+        meta_json: data.surah.meta_json,
+      },
+      units: (data.units ?? []).map((unit) => this.normalizeStudyUnit(surahId, unit)),
+    };
+  }
+
+  private normalizeStudyLesson(
+    surahId: number,
+    passageNo: number,
+    data: WorkerStudyLesson,
+  ): StudyLessonResponse {
+    const unitSource = data.unit ?? data;
+    const unit: WorkerStudyUnit = {
+      unit_id: unitSource.unit_id,
+      passage_id: unitSource.passage_id,
+      order_index: unitSource.order_index,
+      passage_no: unitSource.passage_no ?? data.passage_no ?? passageNo,
+      ayah_from: unitSource.ayah_from ?? data.ayah_from ?? 0,
+      ayah_to: unitSource.ayah_to ?? data.ayah_to ?? unitSource.ayah_from ?? data.ayah_from ?? 0,
+      start_ref: unitSource.start_ref ?? data.start_ref,
+      end_ref: unitSource.end_ref ?? data.end_ref,
+      text_cache: unitSource.text_cache ?? data.text_cache,
+      label: unitSource.label ?? data.label,
+      title: unitSource.title ?? data.title,
+      theme: unitSource.theme ?? data.theme,
+    };
+    return {
+      ok: true,
+      lessonId: null,
+      surahId,
+      passageNo,
+      unit: this.normalizeStudyUnit(surahId, unit),
+      ayahs: (data.ayahs ?? []).map((ayah) => this.normalizeStudyAyah(surahId, ayah)),
+      vocabulary: {
+        nouns: data.vocabulary?.nouns ?? [],
+        verbs: data.vocabulary?.verbs ?? [],
+      },
+      expressions: data.expressions ?? [],
+      tasks: data.tasks ?? [],
+    };
+  }
+
+  private normalizeStudyUnit(surahId: number, unit: WorkerStudyUnit): StudyUnitCardVm & StudyUnitVm {
+    const orderIndex = unit.order_index ?? unit.passage_no ?? 0;
+    return {
+      unit_id: unit.unit_id ?? unit.passage_id ?? `QR:SURAH:${surahId}:PASSAGE:${orderIndex}`,
+      container_id: `QR:SURAH:${surahId}`,
+      order_index: orderIndex,
+      ayah_from: Number(unit.ayah_from ?? 0),
+      ayah_to: Number(unit.ayah_to ?? unit.ayah_from ?? 0),
+      start_ref: unit.start_ref ?? `${surahId}:${unit.ayah_from}`,
+      end_ref: unit.end_ref ?? `${surahId}:${unit.ayah_to}`,
+      text_cache: unit.text_cache,
+      label: unit.label ?? unit.title ?? undefined,
+      theme: unit.theme ?? undefined,
+      reading: { has: unit.reading?.has ? 1 : 0 },
+      vocabulary: {
+        nouns: unit.vocabulary?.nouns ?? 0,
+        verbs: unit.vocabulary?.verbs ?? 0,
+        total: unit.vocabulary?.total ?? unit.vocabulary?.total_words ?? 0,
+      },
+      sentence_structure: { has: unit.sentence_structure?.has ? 1 : 0 },
+      expressions: { has: unit.expressions?.has ? 1 : 0 },
+      passage_structure: { has: unit.passage_structure?.has ? 1 : 0 },
+    };
+  }
+
+  private normalizeStudyAyah(surahId: number, raw: Record<string, unknown>): AyahVm {
+    const ayah = Number(raw['ayah'] ?? 0);
+    const text =
+      this.asString(raw['text']) ??
+      this.asString(raw['text_arabic']) ??
+      this.asString(raw['text_uthmani_clean']) ??
+      this.asString(raw['text_uthmani']) ??
+      '';
+    return {
+      surah: Number(raw['surah'] ?? surahId),
+      ayah,
+      surah_ayah: this.asString(raw['surah_ayah']) ?? `${surahId}:${ayah}`,
+      page: this.asOptionalNumber(raw['page'] ?? raw['page_number']),
+      juz: this.asOptionalNumber(raw['juz']),
+      text,
+      text_simple:
+        this.asString(raw['text_simple']) ??
+        this.asString(raw['text_bare']) ??
+        this.asString(raw['text_clean']) ??
+        undefined,
+      words: Array.isArray(raw['words']) ? raw['words'] as AyahWordToken[] : undefined,
+      translation_haleem:
+        this.asString(raw['translation_haleem']) ??
+        this.asString(raw['translation']) ??
+        undefined,
+      translation_asad: this.asString(raw['translation_asad']) ?? undefined,
+      translation_sahih: this.asString(raw['translation_sahih']) ?? undefined,
+    };
+  }
+
+  private normalizeVocabulary(surahId: number, data: WorkerVocabularyData): VocabularyResponse {
+    const items = Object.values(data.groups ?? {})
+      .flat()
+      .map((item, index) => ({
+        lemma_id: item.lx_lemma_ref ?? `${surahId}:${item.first_location?.ayah ?? index}:${index}`,
+        lemma_text: item.sample_forms?.[0],
+        lemma_text_clean: item.sample_forms?.[0],
+        surface_ar: item.sample_forms?.[0],
+        lemma_ar: item.sample_forms?.[0],
+        pos: item.pos_tag ?? undefined,
+        root_norm: item.root_text ?? undefined,
+        meanings_json: undefined,
+        ayah: item.first_location?.ayah,
+      }));
+
+    return {
+      ok: true,
+      surahId,
+      total: data.total_unique_lemmas ?? items.length,
+      lemmas: items,
+      lexicon: items,
+    };
+  }
+
+  private findTask(tasks: UnitTaskVm[], taskType: string): UnitTaskVm | null {
+    return tasks.find((task) => task.task_type === taskType) ?? null;
+  }
+
+  private asString(value: unknown): string | null {
+    return typeof value === 'string' && value.trim() ? value : null;
+  }
+
+  private asOptionalNumber(value: unknown): number | undefined {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : undefined;
   }
 
   // ── Node notes ──────────────────────────────────────────────────────────────
 
   createNodeNote(payload: NodeNotePayload): Observable<NodeNoteCreateResponse> {
-    return this.http.post<NodeNoteCreateResponse>(
-      `${this.base}/ar/quran/node-notes`,
+    return this.api.postRaw<NodeNoteCreateResponse>(
+      ['ar', 'quran', 'node-notes'],
       payload,
     );
   }
@@ -585,10 +869,7 @@ export class SurahModulesService {
       .set('target_type', targetType)
       .set('target_id',   targetId);
     if (taskId) params = params.set('task_id', taskId);
-    return this.http.get<NodeNotesListResponse>(
-      `${this.base}/ar/quran/node-notes`,
-      { params },
-    );
+    return this.api.getRaw<NodeNotesListResponse>(['ar', 'quran', 'node-notes'], { params });
   }
 
   commitLessonTask(
@@ -600,8 +881,8 @@ export class SurahModulesService {
       unit_id?: string | null;
     },
   ): Observable<StudyTaskCommitResponse> {
-    return this.http.put<StudyTaskCommitResponse>(
-      `${this.base}/ar/quran/lessons/${encodeURIComponent(String(lessonId))}/tasks/commit`,
+    return this.api.putRaw<StudyTaskCommitResponse>(
+      ['ar', 'quran', 'lessons', lessonId, 'tasks', 'commit'],
       payload,
     );
   }
@@ -615,8 +896,8 @@ export class SurahModulesService {
   ): Observable<{ ok: boolean; task_id?: string; error?: string }> {
     const body: Record<string, unknown> = { task_id: taskId, tree };
     if (termColors) body['term_colors'] = termColors;
-    return this.http.put<{ ok: boolean; task_id?: string; error?: string }>(
-      `${this.base}/ar/quran/patch-task-tree`,
+    return this.api.putRaw<{ ok: boolean; task_id?: string; error?: string }>(
+      ['ar', 'quran', 'patch-task-tree'],
       body,
     );
   }

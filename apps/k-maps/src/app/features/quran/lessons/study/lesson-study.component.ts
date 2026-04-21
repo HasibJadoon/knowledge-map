@@ -16,14 +16,14 @@ import { NgClass } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import gsap from 'gsap';
 import {
-  KMapsService,
+  QuranLessonApiService,
   LessonFullDetail,
   LessonTask,
   TaskType,
-} from '../../../../shared/services/k-maps.service';
-import { QuranAyah } from '../../../../shared/models/quran.models';
-import { qrPassagesToResponse, qrReaderToAyahsResponse } from '../../../../shared/services/qr-api.mapper';
-import { QrApiService } from '../../../../shared/services/qr-api.service';
+} from '../../../../shared/services/quran/quran-lesson-api.service';
+import { QuranAyah } from '../../../../shared/models/quran/quran.models';
+import { mapQrPassagesToResponse, mapQrReaderToAyahsResponse } from '../../../../shared/services/quran/quran-api.mapper';
+import { QuranApiService } from '../../../../shared/services/quran/quran-api.service';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -141,8 +141,8 @@ export interface PassageSection {
 export class LessonStudyComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly kmaps = inject(KMapsService);
-  private readonly qrApi = inject(QrApiService);
+  private readonly kmaps = inject(QuranLessonApiService);
+  private readonly qrApi = inject(QuranApiService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   @ViewChild('panelEl') panelEl!: ElementRef<HTMLElement>;
@@ -242,7 +242,7 @@ export class LessonStudyComponent implements OnInit, AfterViewInit, OnDestroy {
             passages: this.qrApi.getSurahPassages(detail.surah),
           }).subscribe({
             next: ({ reader, passages }) => {
-              const res = qrReaderToAyahsResponse(reader, qrPassagesToResponse(passages.data));
+              const res = mapQrReaderToAyahsResponse(reader, mapQrPassagesToResponse(passages.data));
               const all = res.results ?? res.verses ?? [];
               const from = detail.ayah_from ?? 1;
               const to = detail.ayah_to ?? all.length;

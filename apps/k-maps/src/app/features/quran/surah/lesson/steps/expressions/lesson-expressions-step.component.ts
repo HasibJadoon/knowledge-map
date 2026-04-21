@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { StudyLessonResponse } from '../../../../../../shared/services/surah-modules.service';
+import { StudyLessonResponse } from '../../../../../../shared/services/quran/surah-modules-api.service';
 
 @Component({
   selector: 'km-lesson-expressions-step',

@@ -21,7 +21,7 @@ export class LessonCardComponent implements OnInit {
   readonly tabs: LessonTab[] = ['Roots', 'Lexicon', 'Morphology'];
 
   ngOnInit(): void {
-    // future: fetch root/lemma data for this surah via KMapsService
+    // future: fetch root/lemma data for this surah via QuranLessonApiService
   }
 
   setTab(tab: LessonTab): void {

@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  // workers.dev URL used until backend.k-maps.com custom domain DNS propagates.
-  // Switch to 'https://backend.k-maps.com/api' once `dig backend.k-maps.com` resolves.
-  apiBase: 'https://km-backend-worker.hasibjadoon.workers.dev/api',
+  // Development uses the Angular proxy so API calls stay same-origin.
+  // Run the backend worker locally on 127.0.0.1:8787.
+  apiBase: '/api',
 };

@@ -1,6 +1,6 @@
 // ─── StudyRepo — Quran study grid and lesson data ──────────────────────────────
 // Ports legacy/functions/quran/_study.ts into the repository pattern.
-// All column names are canonical new-schema names (qr_* prefix, surah_id, etc.).
+// All SQL targets the deployed qr_* D1 schema.
 //
 // Tables: qr_surah_study_passages, qr_surah_study_steps, qr_surah_study_tasks,
 //         qr_surah_study_task_json_chunks, qr_word_occurrences, qr_ayah,
@@ -207,12 +207,13 @@ export class StudyRepo {
   private async _passages(surahId: number): Promise<PassageRow[]> {
     const rows = await query<PassageRow>(
       this.db,
-      `SELECT p.id, p.surah_id, p.passage_no, p.ayah_from, p.ayah_to,
-              p.title, p.theme, p.status,
+      `SELECT p.id, p.surah AS surah_id, p.passage_no, p.ayah_from, p.ayah_to,
+              COALESCE(p.title_en, p.label) AS title,
+              p.theme, p.status,
               s.name_ar, s.name_en
        FROM qr_surah_study_passages p
-       LEFT JOIN qr_surahs s ON s.id = p.surah_id
-       WHERE p.surah_id = ? AND p.status != 'deleted'
+       LEFT JOIN qr_surahs s ON s.id = p.surah
+       WHERE p.surah = ? AND p.status != 'deleted'
        ORDER BY p.passage_no`,
       [surahId],
     );
@@ -229,18 +230,16 @@ export class StudyRepo {
     const rows = await query<RawTaskRow>(
       this.db,
       `SELECT t.id            AS task_id,
-              t.parent_id     AS parent_task_id,
+              t.parent_task_id,
               t.task_type,
-              t.task_key,
-              t.display_order,
+              t.task_name     AS task_key,
+              t.step_no       AS display_order,
               t.status,
-              t.payload_json,
+              t.task_json     AS payload_json,
               t.updated_at
        FROM qr_surah_study_tasks t
-       JOIN qr_surah_study_steps    st ON st.id = t.step_id
-       JOIN qr_surah_study_passages sp ON sp.id = st.passage_id
-       WHERE sp.id = ?
-       ORDER BY t.parent_id NULLS FIRST, COALESCE(t.display_order, 99999), t.id`,
+       WHERE t.passage_id = ?
+       ORDER BY t.parent_task_id NULLS FIRST, COALESCE(t.step_no, 99999), t.id`,
       [passageId],
     ).catch(() => []);
 
@@ -282,7 +281,7 @@ export class StudyRepo {
       ),
       query<{ ayah: number; text: string }>(
         this.db,
-        `SELECT t.ayah, t.text
+        `SELECT t.ayah, t.translation_text AS text
          FROM qr_translations t
          JOIN qr_translation_sources ts ON ts.id = t.source_id
          WHERE ts.is_default = 1
@@ -306,16 +305,16 @@ export class StudyRepo {
       this.db,
       `SELECT id            AS word_id,
               ayah,
-              word_position AS position,
-              text_uthmani  AS word,
-              text_clean    AS simple,
-              lx_lemma_ref  AS lemma,
-              root_text     AS root,
-              pos_tag       AS pos
+              word_index    AS position,
+              word_text     AS word,
+              word_text_bare AS simple,
+              lemma,
+              root,
+              pos
        FROM qr_word_occurrences
        WHERE surah = ? AND ayah BETWEEN ? AND ?
-         AND LOWER(COALESCE(pos_tag, '')) IN ('noun', 'verb')
-       ORDER BY ayah, word_position`,
+         AND LOWER(COALESCE(pos, '')) IN ('noun', 'verb')
+       ORDER BY ayah, word_index`,
       [passage.surah_id, passage.ayah_from, passage.ayah_to],
     );
     return {
@@ -332,9 +331,9 @@ export class StudyRepo {
     const out = new Map<string, { total: number; nouns: number; verbs: number }>();
     if (!passages.length) return out;
 
-    const words = await query<{ ayah: number; pos_tag: string | null }>(
+    const words = await query<{ ayah: number; pos: string | null }>(
       this.db,
-      `SELECT ayah, pos_tag FROM qr_word_occurrences WHERE surah = ?`,
+      `SELECT ayah, pos FROM qr_word_occurrences WHERE surah = ?`,
       [surahId],
     );
 
@@ -343,7 +342,7 @@ export class StudyRepo {
       for (const w of words) {
         if (w.ayah < p.ayah_from || w.ayah > p.ayah_to) continue;
         counts.total++;
-        const pos = w.pos_tag?.toLowerCase();
+        const pos = w.pos?.toLowerCase();
         if (pos === 'noun') counts.nouns++;
         if (pos === 'verb') counts.verbs++;
       }

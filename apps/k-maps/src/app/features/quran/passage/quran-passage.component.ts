@@ -1,8 +1,8 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { AyahsSurah, TranslationPassage } from '../../../shared/models/quran.models';
-import { qrPassagesToResponse } from '../../../shared/services/qr-api.mapper';
-import { QrApiService } from '../../../shared/services/qr-api.service';
+import { AyahsSurah, TranslationPassage } from '../../../shared/models/quran/quran.models';
+import { mapQrPassagesToResponse } from '../../../shared/services/quran/quran-api.mapper';
+import { QuranApiService } from '../../../shared/services/quran/quran-api.service';
 
 @Component({
   selector: 'km-quran-passage',
@@ -14,7 +14,7 @@ import { QrApiService } from '../../../shared/services/qr-api.service';
 export class QuranPassageComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly qrApi = inject(QrApiService);
+  private readonly qrApi = inject(QuranApiService);
 
   surahId = signal<number>(1);
   passageIndex = signal<number>(1);
@@ -41,7 +41,7 @@ export class QuranPassageComponent implements OnInit {
     this.error.set(null);
     this.qrApi.getSurahPassages(surah).subscribe({
       next: (qrRes) => {
-        const res = qrPassagesToResponse(qrRes.data, idx);
+        const res = mapQrPassagesToResponse(qrRes.data, idx);
         this.surahInfo.set(res.surah ?? null);
         this.passage.set(res.passage ?? (res.passages[0] ?? null));
         this.loading.set(false);

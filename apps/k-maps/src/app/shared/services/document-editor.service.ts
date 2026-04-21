@@ -1,7 +1,7 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { BackendApiService } from './backend-api.service';
 import type {
   DocumentEditorScope,
   DocumentListItem,
@@ -24,8 +24,7 @@ interface KmDoc {
 
 @Injectable({ providedIn: 'root' })
 export class DocumentEditorService {
-  private http = inject(HttpClient);
-  private base = `${environment.apiBase}/documents`;
+  private readonly api = inject(BackendApiService);
 
   // ── State signals ──────────────────────────────────────────────────────────
   documents = signal<DocumentListItem[]>([]);
@@ -50,7 +49,7 @@ export class DocumentEditorService {
     try {
       // New endpoint: GET /api/docs → { docs: [...], total: N }
       const res = await firstValueFrom(
-        this.http.get<{ docs: KmDoc[]; total: number }>('/api/docs', { params })
+        this.api.getRaw<{ docs: KmDoc[]; total: number }>(['docs'], { params })
       );
       const mapped: DocumentListItem[] = (res.docs ?? []).map(d => ({
         id: d.id,
@@ -82,7 +81,7 @@ export class DocumentEditorService {
     this.loadState.set('loading');
     try {
       const res = await firstValueFrom(
-        this.http.get<DocumentDetailResponse>(`${this.base}/${id}`)
+        this.api.getRaw<DocumentDetailResponse>(['documents', id])
       );
       if (res.ok) {
         this.activeDocument.set(res.document);
@@ -105,7 +104,7 @@ export class DocumentEditorService {
   ): Promise<DocumentDetail | null> {
     try {
       const res = await firstValueFrom(
-        this.http.post<DocumentCreateResponse>(this.base, {
+        this.api.postRaw<DocumentCreateResponse>(['documents'], {
           title,
           doc_type: docType,
           domain: scope.domain,
@@ -149,7 +148,7 @@ export class DocumentEditorService {
     this.saveState.set('saving');
     try {
       const res = await firstValueFrom(
-        this.http.put<DocumentSaveResponse>(`${this.base}/${id}`, {
+        this.api.putRaw<DocumentSaveResponse>(['documents', id], {
           document_json: doc,
           ...(title ? { title } : {}),
         })
@@ -189,10 +188,7 @@ export class DocumentEditorService {
 
     try {
       const res = await firstValueFrom(
-        this.http.post<DocumentUploadResponse>(
-          `${this.base}/${documentId}/upload`,
-          formData
-        )
+        this.api.postRaw<DocumentUploadResponse>(['documents', documentId, 'upload'], formData)
       );
       return res.ok ? res : null;
     } catch {
@@ -209,5 +205,26 @@ export class DocumentEditorService {
 
   clearActive(): void {
     this.activeDocument.set(null);
+  }
+
+  async createDocumentRecord(
+    title: string,
+    docType: QuranDocType,
+    scope: DocumentEditorScope,
+  ): Promise<string | null> {
+    const body: Record<string, unknown> = {
+      title,
+      doc_type: docType,
+      domain: scope.domain,
+    };
+    if (scope.surah != null) body['surah'] = scope.surah;
+    if (scope.source_id) body['source_id'] = scope.source_id;
+
+    try {
+      const res = await firstValueFrom(this.api.postRaw<{ id: string }>(['docs'], body));
+      return res.id ?? null;
+    } catch {
+      return null;
+    }
   }
 }

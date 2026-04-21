@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SurahModulesService, VocabularyLemmaVm } from '../../../../shared/services/surah-modules.service';
+import { SurahModulesApiService, VocabularyLemmaVm } from '../../../../shared/services/quran/surah-modules-api.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../shared/services/quran-gsap.service';
+import { QuranGsapService } from '../../../../shared/services/quran/quran-gsap.service';
 
 @Component({
   selector: 'km-surah-vocabulary',
@@ -15,7 +15,7 @@ import { QuranGsapService } from '../../shared/services/quran-gsap.service';
 export class SurahVocabularyComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private svc = inject(SurahModulesService);
+  private svc = inject(SurahModulesApiService);
   private gsapSvc = inject(QuranGsapService);
 
   @ViewChildren('vocabEl') vocabEls!: QueryList<ElementRef>;

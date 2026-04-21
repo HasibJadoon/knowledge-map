@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, effect, inject, signal } from '@angular/core';
 import gsap from 'gsap';
-import { StudyLessonResponse, StudyWordVm, UnitTaskVm } from '../../../../../../shared/services/surah-modules.service';
+import { StudyLessonResponse, StudyWordVm, UnitTaskVm } from '../../../../../../shared/services/quran/surah-modules-api.service';
 
 type JsonRecord = Record<string, unknown>;
 
