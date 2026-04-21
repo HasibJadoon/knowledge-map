@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { SprintReview } from '../../../shared/sprint/models/sprint.models';
-import { PlannerService } from '../../../shared/sprint/services/planner.service';
-import { computeWeekStartSydney } from '../../../shared/sprint/utils/week-start.util';
+import { SprintReview } from '../../../shared/models/planner/sprint.models';
+import { PlannerService } from '../../../shared/services/planner/planner.service';
+import { computeWeekStartSydney } from '../../../shared/utils/planner/week-start.util';
 
 @Component({
   selector: 'app-sprint-review-page',

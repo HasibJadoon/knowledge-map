@@ -3,8 +3,8 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ElementRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DocEditorService } from '../../services/doc-editor.service';
-import { DocExtractService } from '../../services/doc-extract.service';
+import { DocEditorService } from '../../../../shared/services/content/doc-editor.service';
+import { DocExtractService } from '../../../../shared/services/content/doc-extract.service';
 
 const HIGHLIGHT_COLORS = [
   { color: 'rgba(201,168,76,0.35)',  label: '🟡 Gold'   },

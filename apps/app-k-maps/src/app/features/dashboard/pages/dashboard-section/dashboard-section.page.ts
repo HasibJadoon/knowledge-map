@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { DashboardMenuSection, findDashboardMenuSection } from '../../data/dashboard-menu.data';
-import { toDashboardItemCard } from '../../models/dashboard-card.model';
+import { toDashboardItemCard } from '../../../../shared/models/core/dashboard-card-nested.model';
 
 @Component({
   selector: 'app-dashboard-section',

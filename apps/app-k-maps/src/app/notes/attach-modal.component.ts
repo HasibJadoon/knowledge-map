@@ -4,8 +4,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize, take } from 'rxjs';
-import { NotesApiService } from './notes-api.service';
-import { NoteLink, parseVerseRef, parseWordRef } from './notes.models';
+import { NotesApiService } from '../shared/services/content/notes-api.service';
+import { NoteLink, parseVerseRef, parseWordRef } from '../shared/models/content/notes.model';
 
 @Component({
   selector: 'app-attach-modal',

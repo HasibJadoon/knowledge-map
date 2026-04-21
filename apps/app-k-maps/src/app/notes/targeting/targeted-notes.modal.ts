@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { TargetRef } from './targeting.models';
+import { TargetRef } from '../../shared/models/content/targeting.models';
 import { TargetedNotesBlockComponent } from './targeted-notes-block/targeted-notes-block.component';
 
 @Component({

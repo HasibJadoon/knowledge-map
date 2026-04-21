@@ -5,8 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { IonTextarea } from '@ionic/angular/standalone';
 import { paperPlaneOutline, refreshOutline } from 'ionicons/icons';
 import { finalize, take } from 'rxjs';
-import { TargetedNotesApiService } from '../targeted-notes-api.service';
-import { CaptureNote, TargetRef, computeTitleFromMarkdown } from '../targeting.models';
+import { TargetedNotesApiService } from '../../../shared/services/content/targeted-notes-api.service';
+import { CaptureNote, TargetRef, computeTitleFromMarkdown } from '../../../shared/models/content/targeting.models';
 
 @Component({
   selector: 'app-targeted-notes-panel',

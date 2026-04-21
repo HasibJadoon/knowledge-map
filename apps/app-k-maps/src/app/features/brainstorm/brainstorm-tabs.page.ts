@@ -9,7 +9,7 @@ import { albumsOutline, arrowBackOutline, homeOutline, searchOutline, settingsOu
 import { filter } from 'rxjs';
 import { AppIconTabsComponent } from '../../shared/components/icon-tabs/icon-tabs.component';
 import { blurActiveElement } from '../../shared/focus-utils';
-import { BrainstormStoreService } from './services/brainstorm-store.service';
+import { BrainstormStoreService } from '../../shared/services/worldview/brainstorm-store.service';
 
 @Component({
   selector: 'app-brainstorm-tabs-page',

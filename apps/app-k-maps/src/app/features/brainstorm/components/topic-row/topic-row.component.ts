@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { IonItemSliding, IonicModule } from '@ionic/angular';
 import { LongPressDirective } from '../../../../shared/directives/long-press.directive';
-import { BrainstormSubtopic, BrainstormTopic } from '../../brainstorm.models';
+import { BrainstormSubtopic, BrainstormTopic } from '../../../../shared/models/worldview/brainstorm.models';
 
 @Component({
   selector: 'app-topic-row',

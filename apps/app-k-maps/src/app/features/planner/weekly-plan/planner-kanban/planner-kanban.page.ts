@@ -2,9 +2,9 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { PlannerLane, PlannerTask, PlannerTaskRow } from '../../../../shared/sprint/models/sprint.models';
-import { PlannerService } from '../../../../shared/sprint/services/planner.service';
-import { formatWeekRangeLabel } from '../../../../shared/sprint/utils/week-start.util';
+import { PlannerLane, PlannerTask, PlannerTaskRow } from '../../../../shared/models/planner/sprint.models';
+import { PlannerService } from '../../../../shared/services/planner/planner.service';
+import { formatWeekRangeLabel } from '../../../../shared/utils/planner/week-start.util';
 import { linkedPodcastEpisodeId } from '../planner-task-links.util';
 
 type BoardStatus = 'planned' | 'doing' | 'done';

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { TargetedNotesModalService } from '../../../../../shared/targeting/targeted-notes-modal.service';
-import { buildTaskItemTargetSafe, buildTaskTargetSafe } from '../../../../../shared/targeting/targeting-builders';
-import { TargetRef } from '../../../../../shared/targeting/targeting.models';
+import { TargetedNotesModalService } from '../../../../../shared/services/content/targeted-notes-modal.service';
+import { buildTaskItemTargetSafe, buildTaskTargetSafe } from '../../../../../shared/utils/content/targeting-builders';
+import { TargetRef } from '../../../../../shared/models/content/targeting.models';
 
 import { ComprehensionQuestionGroup } from '../ar-quran-study.facade';
 

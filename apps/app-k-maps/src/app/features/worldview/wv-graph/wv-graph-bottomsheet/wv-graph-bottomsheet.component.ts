@@ -7,7 +7,7 @@ import gsap from 'gsap';
 import {
   WvGraphNode, WvGraphEdge, WvGraphData,
   WV_NODE_COLORS, WV_NODE_LABELS, WvEdgeRelation,
-} from '../wv-graph.model';
+} from '../../../../shared/models/worldview/wv-graph.model';
 
 @Component({
   selector: 'app-wv-graph-bottomsheet',

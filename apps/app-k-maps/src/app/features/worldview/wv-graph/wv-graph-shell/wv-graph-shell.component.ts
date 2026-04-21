@@ -17,7 +17,7 @@ import { WvGraphSidepanelComponent } from '../wv-graph-sidepanel/wv-graph-sidepa
 import { WvGraphBottomsheetComponent } from '../wv-graph-bottomsheet/wv-graph-bottomsheet.component';
 import {
   WvGraphData, WvGraphEdge, WvGraphNode, WvGraphMode, WvNodeType, WvEdgeRelation, MOCK_WV_GRAPH,
-} from '../wv-graph.model';
+} from '../../../../shared/models/worldview/wv-graph.model';
 
 // ── API shape types ────────────────────────────────────────────────────────────
 interface WvGraphApiNode {

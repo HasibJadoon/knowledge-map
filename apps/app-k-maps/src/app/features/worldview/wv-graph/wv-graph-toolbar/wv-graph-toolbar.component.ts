@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WvGraphMode, WvNodeType, WV_NODE_COLORS, WV_NODE_LABELS } from '../wv-graph.model';
+import { WvGraphMode, WvNodeType, WV_NODE_COLORS, WV_NODE_LABELS } from '../../../../shared/models/worldview/wv-graph.model';
 
 @Component({
   selector: 'app-wv-graph-toolbar',

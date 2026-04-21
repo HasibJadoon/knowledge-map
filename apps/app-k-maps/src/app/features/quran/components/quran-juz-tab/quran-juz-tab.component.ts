@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { QuranBrowseJuz, QuranBrowseSurah } from '../../../../shared/models/quran-reader.model';
+import { QuranBrowseJuz, QuranBrowseSurah } from '../../../../shared/models/quran/quran-reader.model';
 
 @Component({
   selector: 'app-quran-juz-tab',

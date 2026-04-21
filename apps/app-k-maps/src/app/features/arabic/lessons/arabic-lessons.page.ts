@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ArLessonsService, ArLesson } from '../../../shared/services/ar-lessons.service';
+import { ArLessonsService, ArLesson } from '../../../shared/services/arabic/ar-lessons.service';
 
 @Component({
   selector: 'app-arabic-lessons',

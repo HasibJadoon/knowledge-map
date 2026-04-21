@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { KmapsWorkflowService } from '../../../../shared/services/kmaps-workflow.service';
-import { CreatorEpisode, episodeStatusLabel, episodeTypeLabel, resolveEpisodeWorldviewView } from '../podcast-builder.models';
+import { KmapsWorkflowService } from '../../../../shared/services/worldview/kmaps-workflow.service';
+import { CreatorEpisode, episodeStatusLabel, episodeTypeLabel, resolveEpisodeWorldviewView } from '../../../../shared/models/planner/podcast-builder.models';
 import { CreatorBadgeTone, StatusBadgeComponent } from './status-badge.component';
 
 @Component({

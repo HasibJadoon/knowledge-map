@@ -19,10 +19,10 @@ import type Swiper from 'swiper';
 import type { SwiperContainer } from 'swiper/element';
 import { register } from 'swiper/element/bundle';
 
-import { QURAN_TOTAL_PAGES } from '../../../../shared/models/quran-reader.model';
+import { QURAN_TOTAL_PAGES } from '../../../../shared/models/quran/quran-reader.model';
 import { QuranPageRendererComponent } from '../../components/quran-page-renderer/quran-page-renderer.component';
-import { QuranReaderPageViewModel } from '../../models/quran-reader-view.model';
-import { QuranReaderPageService } from '../../services/quran-reader-page.service';
+import { QuranReaderPageViewModel } from '../../../../shared/models/quran/quran-reader-view.model';
+import { QuranReaderPageService } from '../../../../shared/services/quran/quran-reader-page.service';
 
 register();
 

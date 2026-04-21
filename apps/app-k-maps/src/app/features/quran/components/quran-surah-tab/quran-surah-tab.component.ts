@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core
 import { Router, RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { documentTextOutline } from 'ionicons/icons';
-import { QuranBrowseSurah } from '../../../../shared/models/quran-reader.model';
+import { QuranBrowseSurah } from '../../../../shared/models/quran/quran-reader.model';
 
 @Component({
   selector: 'app-quran-surah-tab',

@@ -8,7 +8,7 @@ import {
   QuranSurahNotesSurah,
   QuranSurahNotesVerse,
   QuranSurahTargetNote,
-} from '../../../features/quran/models/quran-surah-notes.model';
+} from '../../models/quran/quran-surah-notes.model';
 
 @Injectable({ providedIn: 'root' })
 export class QuranSurahNotesService {

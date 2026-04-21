@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CreatorEpisodeSegment, CreatorEpisodeType } from './podcast-builder.models';
+import { CreatorEpisodeSegment, CreatorEpisodeType } from '../../../shared/models/planner/podcast-builder.models';
 
 @Component({
   selector: 'app-segment-card',

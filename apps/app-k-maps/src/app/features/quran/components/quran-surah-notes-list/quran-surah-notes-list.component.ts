@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { computePreview, computeTitleFromMarkdown } from '../../../../shared/models/notes.model';
-import { QuranSurahNotesVerse, QuranSurahTargetNote } from '../../models/quran-surah-notes.model';
+import { computePreview, computeTitleFromMarkdown } from '../../../../shared/models/content/notes.model';
+import { QuranSurahNotesVerse, QuranSurahTargetNote } from '../../../../shared/models/quran/quran-surah-notes.model';
 
 @Component({
   selector: 'app-quran-surah-notes-list',

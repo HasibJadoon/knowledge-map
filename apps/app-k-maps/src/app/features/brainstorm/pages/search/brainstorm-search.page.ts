@@ -6,8 +6,8 @@ import { ActionSheetController, AlertController, IonicModule, ToastController } 
 import { blurActiveElement } from '../../../../shared/focus-utils';
 import { IdeaRowComponent } from '../../components/idea-row/idea-row.component';
 import { TopicRowComponent } from '../../components/topic-row/topic-row.component';
-import { BrainstormIdeaSearchResult, BrainstormTopic } from '../../brainstorm.models';
-import { BrainstormStoreService } from '../../services/brainstorm-store.service';
+import { BrainstormIdeaSearchResult, BrainstormTopic } from '../../../../shared/models/worldview/brainstorm.models';
+import { BrainstormStoreService } from '../../../../shared/services/worldview/brainstorm-store.service';
 
 @Component({
   selector: 'app-brainstorm-search-page',

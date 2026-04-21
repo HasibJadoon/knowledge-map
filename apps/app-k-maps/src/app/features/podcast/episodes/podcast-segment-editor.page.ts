@@ -19,9 +19,9 @@ import {
   createChecklistItem,
   createDialogueItem,
   createTalkingPoint,
-} from './podcast-builder.models';
-import { PodcastBuilderService } from './podcast-builder.service';
-import { PodcastUsersService } from './podcast-users.service';
+} from '../../../shared/models/planner/podcast-builder.models';
+import { PodcastBuilderService } from '../../../shared/services/planner/podcast-builder.service';
+import { PodcastUsersService } from '../../../shared/services/core/podcast-users.service';
 
 @Component({
   selector: 'app-podcast-segment-editor-page',

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TargetedNotesPanelComponent } from '../targeted-notes-panel/targeted-notes-panel.component';
-import { TargetRef } from '../targeting.models';
+import { TargetRef } from '../../../shared/models/content/targeting.models';
 
 export type TargetedNotesBlockVariant = 'default' | 'inline';
 

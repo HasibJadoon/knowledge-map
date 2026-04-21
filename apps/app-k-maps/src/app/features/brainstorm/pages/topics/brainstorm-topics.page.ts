@@ -7,8 +7,8 @@ import { ActionSheetController, AlertController, IonTextarea, IonicModule, Toast
 import { paperPlaneOutline } from 'ionicons/icons';
 import { blurActiveElement } from '../../../../shared/focus-utils';
 import { TopicRowComponent } from '../../components/topic-row/topic-row.component';
-import { BrainstormTopic } from '../../brainstorm.models';
-import { BrainstormStoreService } from '../../services/brainstorm-store.service';
+import { BrainstormTopic } from '../../../../shared/models/worldview/brainstorm.models';
+import { BrainstormStoreService } from '../../../../shared/services/worldview/brainstorm-store.service';
 
 @Component({
   selector: 'app-brainstorm-topics-page',

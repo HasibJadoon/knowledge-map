@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { buildTaskTargetSafe } from '../../../../../shared/targeting/targeting-builders';
-import { TargetRef } from '../../../../../shared/targeting/targeting.models';
+import { buildTaskTargetSafe } from '../../../../../shared/utils/content/targeting-builders';
+import { TargetRef } from '../../../../../shared/models/content/targeting.models';
 
 import {
   PassageAccent,

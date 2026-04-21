@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { DashboardCardView, toDashboardSectionCard } from '../../models/dashboard-card.model';
+import { DashboardCardView, toDashboardSectionCard } from '../../../../shared/models/core/dashboard-card-nested.model';
 import { DASHBOARD_MENU_SECTIONS, DashboardMenuLink, DashboardMenuSection } from '../../data/dashboard-menu.data';
 
 @Component({

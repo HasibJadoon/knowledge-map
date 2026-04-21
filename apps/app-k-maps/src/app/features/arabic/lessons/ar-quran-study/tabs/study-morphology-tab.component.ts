@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { TargetedNotesModalService } from '../../../../../shared/targeting/targeted-notes-modal.service';
-import { buildTaskTargetSafe } from '../../../../../shared/targeting/targeting-builders';
-import { TargetRef, makeWordTarget } from '../../../../../shared/targeting/targeting.models';
+import { TargetedNotesModalService } from '../../../../../shared/services/content/targeted-notes-modal.service';
+import { buildTaskTargetSafe } from '../../../../../shared/utils/content/targeting-builders';
+import { TargetRef, makeWordTarget } from '../../../../../shared/models/content/targeting.models';
 
 import { StudyMorphologyItem } from '../ar-quran-study.facade';
 import {
@@ -13,7 +13,7 @@ import {
   QuranLexiconMorphologyLink,
   QuranLexiconMorphologyPayload,
   QuranLexiconSynonymWord,
-} from '../services/quran-lexicon-data.service';
+} from '../../../../../shared/services/ar-linguistics/quran-lexicon-data.service';
 
 type MorphologyDetailTab = 'lexicon' | 'morphology' | 'evidence';
 type WordLocationParts = {

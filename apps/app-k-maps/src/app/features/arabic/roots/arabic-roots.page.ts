@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ArabicRootsService, ArabicRoot } from '../../../shared/services/arabic-roots.service';
+import { ArabicRootsService, ArabicRoot } from '../../../shared/services/arabic/arabic-roots.service';
 import { RootCardsComponent } from './root-cards/root-cards.component';
 
 type RootCard = { front: string; back: string; tag?: string };

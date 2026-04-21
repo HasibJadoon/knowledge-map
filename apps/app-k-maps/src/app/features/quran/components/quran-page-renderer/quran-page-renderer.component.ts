@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
-import { TargetedNotesModalService } from '../../../../shared/targeting/targeted-notes-modal.service';
-import { makeAyahTarget, makeWordTarget } from '../../../../shared/targeting/targeting.models';
+import { TargetedNotesModalService } from '../../../../shared/services/content/targeted-notes-modal.service';
+import { makeAyahTarget, makeWordTarget } from '../../../../shared/models/content/targeting.models';
 import { LongPressDirective } from '../../../../shared/directives/long-press.directive';
 import {
   QuranReaderFallbackVerseViewModel,
@@ -10,7 +10,7 @@ import {
   QuranReaderPageLineViewModel,
   QuranReaderPageViewModel,
   QuranReaderWordViewModel,
-} from '../../models/quran-reader-view.model';
+} from '../../../../shared/models/quran/quran-reader-view.model';
 
 type QuranReadingWordViewModel = {
   id: string;

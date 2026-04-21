@@ -1,38 +1,38 @@
-export { AuiEnumsModel } from './aui-enums.model';
-export type { AuiEnums } from './aui-enums.model';
+export { AuiEnumsModel } from './core/aui-enums.model';
+export type { AuiEnums } from './core/aui-enums.model';
 
 export { ArabicLessonModel } from './arabic/arabic-lesson.model';
 export type { ArabicLesson } from './arabic/arabic-lesson.model';
 
-export { LexiconEntryModel } from './lexicon-entry.model';
-export type { LexiconEntry } from './lexicon-entry.model';
+export { LexiconEntryModel } from './arabic/lexicon-entry.model';
+export type { LexiconEntry } from './arabic/lexicon-entry.model';
 
-export { ContentItemModel } from './content-item.model';
-export type { ContentItem } from './content-item.model';
+export { ContentItemModel } from './content/content-item.model';
+export type { ContentItem } from './content/content-item.model';
 
-export { ContentLibraryLinkModel } from './content-library-link.model';
-export type { ContentLibraryLink } from './content-library-link.model';
+export { ContentLibraryLinkModel } from './content/content-library-link.model';
+export type { ContentLibraryLink } from './content/content-library-link.model';
 
-export { GrammaticalConceptModel } from './grammatical-concept.model';
-export type { GrammaticalConcept } from './grammatical-concept.model';
+export { GrammaticalConceptModel } from './arabic/grammatical-concept.model';
+export type { GrammaticalConcept } from './arabic/grammatical-concept.model';
 
 export { QuranRelationModel } from './arabic/quran-relation.model';
 export type { QuranRelation } from './arabic/quran-relation.model';
 
-export { RootModel } from './root.model';
-export type { Root } from './root.model';
+export { RootModel } from './arabic/root.model';
+export type { Root } from './arabic/root.model';
 
-export { SprintReviewModel } from './planner-review.model';
-export type { SprintReview } from './planner-review.model';
+export { SprintReviewModel } from './planner/planner-review.model';
+export type { SprintReview } from './planner/planner-review.model';
 
-export { UserActivityLogModel } from './user-activity-log.model';
-export type { UserActivityLog } from './user-activity-log.model';
+export { UserActivityLogModel } from './planner/user-activity-log.model';
+export type { UserActivityLog } from './planner/user-activity-log.model';
 
-export { UserStateModel } from './user-state.model';
-export type { UserState } from './user-state.model';
+export { UserStateModel } from './planner/user-state.model';
+export type { UserState } from './planner/user-state.model';
 
-export { UserModel } from './user.model';
-export type { User } from './user.model';
+export { UserModel } from './core/user.model';
+export type { User } from './core/user.model';
 
-export { WeeklyTaskModel } from './weekly-task.model';
-export type { WeeklyTask } from './weekly-task.model';
+export { WeeklyTaskModel } from './planner/weekly-task.model';
+export type { WeeklyTask } from './planner/weekly-task.model';

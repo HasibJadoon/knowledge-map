@@ -4,8 +4,8 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { arrowBackOutline } from 'ionicons/icons';
 
-import { ArLessonsService } from '../../../../shared/services/ar-lessons.service';
-import { GrammarNotesService } from '../../../../shared/services/grammar-notes.service';
+import { ArLessonsService } from '../../../../shared/services/arabic/ar-lessons.service';
+import { GrammarNotesService } from '../../../../shared/services/arabic/grammar-notes.service';
 
 type LessonJson = {
   text?: {

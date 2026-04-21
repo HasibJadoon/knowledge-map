@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { PlannerLane, PlannerPriority, PlannerTask, PlannerTaskStatus } from '../../../../shared/sprint/models/sprint.models';
+import { PlannerLane, PlannerPriority, PlannerTask, PlannerTaskStatus } from '../../../../shared/models/planner/sprint.models';
 
 @Component({
   selector: 'app-task-edit-modal',

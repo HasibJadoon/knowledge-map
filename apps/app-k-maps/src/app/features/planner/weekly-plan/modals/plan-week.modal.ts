@@ -3,8 +3,8 @@ import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { PlannerTaskRow, PlannerWeekPlan } from '../../../../shared/sprint/models/sprint.models';
-import { LessonsService } from '../../../../shared/sprint/services/lessons.service';
+import { PlannerTaskRow, PlannerWeekPlan } from '../../../../shared/models/planner/sprint.models';
+import { LessonsService } from '../../../../shared/services/planner/lessons.service';
 
 export type PlanWeekModalResult =
   | {

@@ -1,4 +1,4 @@
-import { PlannerTaskRow } from '../../../shared/sprint/models/sprint.models';
+import { PlannerTaskRow } from '../../../shared/models/planner/sprint.models';
 
 const PODCAST_RELATED_TYPES = new Set([
   'wv_content_item',

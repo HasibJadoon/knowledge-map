@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BackendApiService } from '../backend-api.service';
+import { BackendApiService } from '../core/backend-api.service';
 
 // ── View models ───────────────────────────────────────────
 

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CreatorEpisode, episodeStatusLabel, episodeTypeLabel } from './podcast-builder.models';
+import { CreatorEpisode, episodeStatusLabel, episodeTypeLabel } from '../../../shared/models/planner/podcast-builder.models';
 
 @Component({
   selector: 'app-episode-card',

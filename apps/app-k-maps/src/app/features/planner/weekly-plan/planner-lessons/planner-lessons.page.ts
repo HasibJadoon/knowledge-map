@@ -3,8 +3,8 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { LessonPickerItem } from '../../../../shared/sprint/models/sprint.models';
-import { LessonsService } from '../../../../shared/sprint/services/lessons.service';
+import { LessonPickerItem } from '../../../../shared/models/planner/sprint.models';
+import { LessonsService } from '../../../../shared/services/planner/lessons.service';
 
 @Component({
   selector: 'app-planner-lessons-page',

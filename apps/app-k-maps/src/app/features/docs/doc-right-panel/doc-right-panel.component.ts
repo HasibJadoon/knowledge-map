@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { DocEditorService } from '../services/doc-editor.service';
+import { DocEditorService } from '../../../shared/services/content/doc-editor.service';
 import { environment } from '../../../../environments/environment';
 
 interface HeadingNode   { text: string; level: number; }

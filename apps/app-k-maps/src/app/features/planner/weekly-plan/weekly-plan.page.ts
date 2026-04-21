@@ -3,9 +3,9 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RefresherCustomEvent, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { PlannerLane, PlannerTask, PlannerTaskRow, PlannerWeekPlan, PlannerWeekSummary } from '../../../shared/sprint/models/sprint.models';
-import { PlannerService } from '../../../shared/sprint/services/planner.service';
-import { computeWeekStartSydney, formatWeekRangeLabel } from '../../../shared/sprint/utils/week-start.util';
+import { PlannerLane, PlannerTask, PlannerTaskRow, PlannerWeekPlan, PlannerWeekSummary } from '../../../shared/models/planner/sprint.models';
+import { PlannerService } from '../../../shared/services/planner/planner.service';
+import { computeWeekStartSydney, formatWeekRangeLabel } from '../../../shared/utils/planner/week-start.util';
 import { linkedPodcastEpisodeId } from './planner-task-links.util';
 
 type TaskStatus = PlannerTask['status'];

@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, shareReplay, take, throwError } from 'rxjs';
-import { BackendApiService } from '../backend-api.service';
+import { BackendApiService } from '../core/backend-api.service';
 import {
   QURAN_MIN_PAGE,
   QURAN_TOTAL_PAGES,
@@ -12,7 +12,7 @@ import {
   QuranPageVerse,
   QuranPageWord,
   QuranPageResponse,
-} from '../../models/quran-reader.model';
+} from '../../models/quran/quran-reader.model';
 
 // ── Surah ayahs response (same shape as k-maps desktop) ──────────────────────
 export interface QuranAyah {

@@ -9,7 +9,7 @@ import {
   KmapsSourceDetail,
   KmapsSourcePerson,
   KmapsSourceUnit,
-} from '../models/kmaps.models';
+} from '../../../../shared/models/worldview/kmaps.models';
 
 export const KMAPS_SOURCES: KmapsSource[] = [
   {

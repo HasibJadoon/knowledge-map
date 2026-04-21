@@ -32,8 +32,8 @@ import {
   episodeStatusLabel,
   lessonStateLabel,
   speakerLabel,
-} from './podcast-builder.models';
-import { PodcastBuilderService } from './podcast-builder.service';
+} from '../../../shared/models/planner/podcast-builder.models';
+import { PodcastBuilderService } from '../../../shared/services/planner/podcast-builder.service';
 
 type EpisodeTab = 'segments' | 'review' | 'publish' | 'output';
 

@@ -13,8 +13,8 @@ import {
   CreatorEpisodeType,
   episodeStatusLabel,
   episodeTypeLabel,
-} from './podcast-builder.models';
-import { PodcastBuilderService } from './podcast-builder.service';
+} from '../../../shared/models/planner/podcast-builder.models';
+import { PodcastBuilderService } from '../../../shared/services/planner/podcast-builder.service';
 import { KM_OVERLAY_ACTION_SHEET_CLASS, KM_OVERLAY_ALERT_CLASS } from '../../../shared/overlay-classes';
 
 const PODCAST_STATUS_FILTER_SHEET_CLASS = 'podcast-status-filter-sheet';

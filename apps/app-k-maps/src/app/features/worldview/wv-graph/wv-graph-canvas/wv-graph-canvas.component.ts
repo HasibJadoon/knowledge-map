@@ -27,7 +27,7 @@ import {
   WV_EDGE_DASH,
   NODE_BASE_RADIUS,
   nodeRadius,
-} from '../wv-graph.model';
+} from '../../../../shared/models/worldview/wv-graph.model';
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  WvGraphCanvas — pure D3 SVG renderer

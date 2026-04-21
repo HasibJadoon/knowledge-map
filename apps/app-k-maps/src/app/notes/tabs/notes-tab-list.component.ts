@@ -6,8 +6,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IonicModule, RefresherCustomEvent, ToastController } from '@ionic/angular';
 import { paperPlaneOutline } from 'ionicons/icons';
 import { Observable, catchError, distinctUntilChanged, finalize, map, of, switchMap, take, tap } from 'rxjs';
-import { NotesApiService } from '../notes-api.service';
-import { Note, computePreview, computeTitleFromMarkdown } from '../notes.models';
+import { NotesApiService } from '../../shared/services/content/notes-api.service';
+import { Note, computePreview, computeTitleFromMarkdown } from '../../shared/models/content/notes.model';
 
 export type NotesTabMode = 'draft' | 'flag' | 'published';
 

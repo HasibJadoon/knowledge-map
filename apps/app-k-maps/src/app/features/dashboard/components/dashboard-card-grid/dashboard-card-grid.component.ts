@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { DashboardCardView } from '../../models/dashboard-card.model';
+import { DashboardCardView } from '../../../../shared/models/core/dashboard-card-nested.model';
 
 @Component({
   selector: 'app-dashboard-card-grid',

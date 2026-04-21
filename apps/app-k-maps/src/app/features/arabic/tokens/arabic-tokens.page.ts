@@ -3,8 +3,8 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
-import { TokensService } from '../../../shared/services/tokens.service';
-import { TokenRow } from '../../../shared/models/token.model';
+import { TokensService } from '../../../shared/services/ar-linguistics/tokens.service';
+import { TokenRow } from '../../../shared/models/ar-linguistics/token.model';
 
 @Component({
   selector: 'app-arabic-tokens',

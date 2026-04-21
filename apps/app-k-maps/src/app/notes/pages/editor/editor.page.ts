@@ -21,8 +21,8 @@ import {
 } from 'rxjs';
 import { AppIconTabsComponent, IconTabItem } from '../../../shared/components/icon-tabs/icon-tabs.component';
 import { AttachModalComponent } from '../../components/attach-modal/attach-modal.component';
-import { NotesApiService } from '../../../shared/services/notes-api.service';
-import { Comment as NoteComment, Note, NoteDetail, NoteLink, NoteStatus, computeTitleFromMarkdown } from '../../models/notes.models';
+import { NotesApiService } from '../../../shared/services/content/notes-api.service';
+import { Comment as NoteComment, Note, NoteDetail, NoteLink, NoteStatus, computeTitleFromMarkdown } from '../../../shared/models/content/notes.model';
 
 @Component({
   selector: 'app-note-editor-page',

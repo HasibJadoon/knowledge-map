@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewCh
 import { IonItemSliding, IonicModule } from '@ionic/angular';
 import { bookmarkOutline, sparklesOutline, trashOutline } from 'ionicons/icons';
 import { LongPressDirective } from '../../../../shared/directives/long-press.directive';
-import { BrainstormIdea } from '../../brainstorm.models';
+import { BrainstormIdea } from '../../../../shared/models/worldview/brainstorm.models';
 
 @Component({
   selector: 'app-idea-row',

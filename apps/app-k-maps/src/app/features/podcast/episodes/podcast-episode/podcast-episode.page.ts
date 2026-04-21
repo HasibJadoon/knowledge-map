@@ -22,7 +22,7 @@ import {
 } from 'ionicons/icons';
 import { IconTabItem } from '../../../../shared/components/icon-tabs/icon-tabs.component';
 import { KM_OVERLAY_ACTION_SHEET_CLASS, KM_OVERLAY_ALERT_CLASS } from '../../../../shared/overlay-classes';
-import { KmapsWorkflowService } from '../../../../shared/services/kmaps-workflow.service';
+import { KmapsWorkflowService } from '../../../../shared/services/worldview/kmaps-workflow.service';
 import {
   CREATOR_EPISODE_STATUSES,
   CreatorEpisode,
@@ -34,8 +34,8 @@ import {
   lessonStateLabel,
   resolveEpisodeWorldviewView,
   speakerLabel,
-} from '../podcast-builder.models';
-import { PodcastBuilderService } from '../podcast-builder.service';
+} from '../../../../shared/models/planner/podcast-builder.models';
+import { PodcastBuilderService } from '../../../../shared/services/planner/podcast-builder.service';
 
 type EpisodeTab = 'segments' | 'review' | 'publish' | 'output';
 type GeneratedEpisodeView = {

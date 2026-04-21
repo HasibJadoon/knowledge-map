@@ -1,4 +1,4 @@
-import { TargetRef, makeTaskItemTarget, makeTaskTarget } from './targeting.models';
+import { TargetRef, makeTaskItemTarget, makeTaskTarget } from '../../shared/models/content/targeting.models';
 
 export function buildTaskTargetSafe(unitId: string, taskType: string, rangeRef: string): TargetRef | null {
   const task = taskType.trim();

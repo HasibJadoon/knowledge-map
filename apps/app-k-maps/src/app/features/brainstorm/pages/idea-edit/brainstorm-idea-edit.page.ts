@@ -15,8 +15,8 @@ import {
   sparklesOutline,
 } from 'ionicons/icons';
 import { blurActiveElement } from '../../../../shared/focus-utils';
-import { BrainstormIdea, BrainstormSubtopic, BrainstormTopic } from '../../brainstorm.models';
-import { BrainstormStoreService } from '../../services/brainstorm-store.service';
+import { BrainstormIdea, BrainstormSubtopic, BrainstormTopic } from '../../../../shared/models/worldview/brainstorm.models';
+import { BrainstormStoreService } from '../../../../shared/services/worldview/brainstorm-store.service';
 
 type EditTab = 'idea' | 'details' | 'context';
 
