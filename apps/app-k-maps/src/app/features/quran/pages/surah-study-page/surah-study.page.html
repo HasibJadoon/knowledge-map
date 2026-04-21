@@ -73,15 +73,15 @@
           }
 
           <!-- Vocab chips -->
-          @if ((unit.vocabulary.nouns ?? 0) > 0 || (unit.vocabulary.verbs ?? 0) > 0 || (unit.vocabulary.total ?? 0) > 0) {
+          @if (unit.vocabulary.nouns > 0 || unit.vocabulary.verbs > 0 || unit.vocabulary.total > 0) {
             <div class="unit-card__chips">
-              @if ((unit.vocabulary.nouns ?? 0) > 0) {
+              @if (unit.vocabulary.nouns > 0) {
                 <span class="chip chip--noun">{{ unit.vocabulary.nouns }} nouns</span>
               }
-              @if ((unit.vocabulary.verbs ?? 0) > 0) {
+              @if (unit.vocabulary.verbs > 0) {
                 <span class="chip chip--verb">{{ unit.vocabulary.verbs }} verbs</span>
               }
-              @if ((unit.vocabulary.total ?? 0) > 0) {
+              @if (unit.vocabulary.total > 0) {
                 <span class="chip">{{ unit.vocabulary.total }} words</span>
               }
             </div>
