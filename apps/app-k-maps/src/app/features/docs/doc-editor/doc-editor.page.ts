@@ -19,7 +19,7 @@ import { TextStyle } from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
 import { TaskList, TaskItem } from '@tiptap/extension-list';
-import { AutoDirection } from '../../quran/pages/surah-notes-page/auto-direction.extension';
+import { AutoDirection } from '../../quran/surah/notes/auto-direction.extension';
 import { Callout } from './tiptap-extensions/callout.extension';
 import { SlashCommandExtension } from './tiptap-extensions/slash-command.extension';
 import { PageLink } from './tiptap-extensions/page-link.extension';

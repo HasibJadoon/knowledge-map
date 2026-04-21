@@ -29,10 +29,10 @@ export const QURAN_ROUTES: Routes = [
   {
     path: 'surah/:surahId/study/:passageNo',
     loadComponent: () =>
-      import('./surah/lesson/surah-lesson-page.component').then(
-        (m) => m.SurahLessonPageComponent
+      import('./surah/study/detail/surah-study-detail.component').then(
+        (m) => m.SurahStudyDetailComponent
       ),
-    title: 'Lesson — K-MAPS',
+    title: 'Study — K-MAPS',
   },
   {
     path: 'surah/:surahId/study',
@@ -135,7 +135,7 @@ export const QURAN_ROUTES: Routes = [
   {
     path: ':surahId/passage/:passageIndex',
     loadComponent: () =>
-      import('./passage/quran-passage.component').then(
+      import('./surah/passage/quran-passage.component').then(
         (m) => m.QuranPassageComponent
       ),
     title: 'Passage — K-MAPS',
@@ -143,7 +143,7 @@ export const QURAN_ROUTES: Routes = [
   {
     path: ':surahId',
     loadComponent: () =>
-      import('./text/quran-text.component').then(
+      import('./surah/text/quran-text.component').then(
         (m) => m.QuranTextComponent
       ),
     title: 'Quran — K-MAPS',
