@@ -182,3 +182,16 @@ export function validatePlanPatch(
 
   return { data };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface TaskSummary {
+  id: string;
+  plan_id: string;
+  title: string;
+  task_type: string;
+  status: string;
+  priority: string | null;
+  due_date: string | null;
+  resource_ref: string | null;
+}

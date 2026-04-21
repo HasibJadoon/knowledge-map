@@ -212,3 +212,180 @@ export function validateQrSurahAyahMetaUpsert(
 
   return { data };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface SurahProfile {
+  surah: number;
+  governing_movement: string | null;
+  central_claim: string | null;
+  opening_force: string | null;
+  closure_force: string | null;
+  dominant_addressee: string | null;
+  dominant_tone: string | null;
+  note_md: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SurahProfileUpsert {
+  governing_movement?: string | null;
+  central_claim?: string | null;
+  opening_force?: string | null;
+  closure_force?: string | null;
+  dominant_addressee?: string | null;
+  dominant_tone?: string | null;
+  note_md?: string | null;
+}
+
+export interface SurahAtomicProfile {
+  surah: number;
+  atomic_center: string;
+  atomic_center_ar: string | null;
+  structural_type: string;
+  structural_type_note: string | null;
+  resolution_pattern: string | null;
+  interpretive_lens: string | null;
+  note_md: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SurahAtomicProfileUpsert {
+  atomic_center?: string;
+  atomic_center_ar?: string | null;
+  structural_type?: string;
+  structural_type_note?: string | null;
+  resolution_pattern?: string | null;
+  interpretive_lens?: string | null;
+  note_md?: string | null;
+}
+
+export interface SurahAyahMeta {
+  surah: number;
+  ayah: number;
+  juz: number | null;
+  hizb: number | null;
+  ruku: number | null;
+  manzil: number | null;
+  sajda: number;
+}
+
+export interface SurahAyahMetaUpsert {
+  juz?: number | null;
+  hizb?: number | null;
+  ruku?: number | null;
+  manzil?: number | null;
+  sajda?: number;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateSurahProfileUpsert(body: unknown): SchemaValidationResult<SurahProfileUpsert> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('governing_movement' in b) {
+    if (b.governing_movement !== null && typeof b.governing_movement !== 'string') return { error: 'governing_movement must be a string or null' };
+    data.governing_movement = b.governing_movement;
+  }
+  if ('central_claim' in b) {
+    if (b.central_claim !== null && typeof b.central_claim !== 'string') return { error: 'central_claim must be a string or null' };
+    data.central_claim = b.central_claim;
+  }
+  if ('opening_force' in b) {
+    if (b.opening_force !== null && typeof b.opening_force !== 'string') return { error: 'opening_force must be a string or null' };
+    data.opening_force = b.opening_force;
+  }
+  if ('closure_force' in b) {
+    if (b.closure_force !== null && typeof b.closure_force !== 'string') return { error: 'closure_force must be a string or null' };
+    data.closure_force = b.closure_force;
+  }
+  if ('dominant_addressee' in b) {
+    if (b.dominant_addressee !== null && typeof b.dominant_addressee !== 'string') return { error: 'dominant_addressee must be a string or null' };
+    data.dominant_addressee = b.dominant_addressee;
+  }
+  if ('dominant_tone' in b) {
+    if (b.dominant_tone !== null && typeof b.dominant_tone !== 'string') return { error: 'dominant_tone must be a string or null' };
+    data.dominant_tone = b.dominant_tone;
+  }
+  if ('note_md' in b) {
+    if (b.note_md !== null && typeof b.note_md !== 'string') return { error: 'note_md must be a string or null' };
+    data.note_md = b.note_md;
+  }
+
+  return { data: data as unknown as SurahProfileUpsert };
+}
+
+export function validateSurahAtomicProfileUpsert(body: unknown): SchemaValidationResult<SurahAtomicProfileUpsert> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('atomic_center' in b) {
+    if (typeof b.atomic_center !== 'string') return { error: 'atomic_center must be a string' };
+    data.atomic_center = b.atomic_center;
+  }
+  if ('atomic_center_ar' in b) {
+    if (b.atomic_center_ar !== null && typeof b.atomic_center_ar !== 'string') return { error: 'atomic_center_ar must be a string or null' };
+    data.atomic_center_ar = b.atomic_center_ar;
+  }
+  if ('structural_type' in b) {
+    if (typeof b.structural_type !== 'string') return { error: 'structural_type must be a string' };
+    data.structural_type = b.structural_type;
+  }
+  if ('structural_type_note' in b) {
+    if (b.structural_type_note !== null && typeof b.structural_type_note !== 'string') return { error: 'structural_type_note must be a string or null' };
+    data.structural_type_note = b.structural_type_note;
+  }
+  if ('resolution_pattern' in b) {
+    if (b.resolution_pattern !== null && typeof b.resolution_pattern !== 'string') return { error: 'resolution_pattern must be a string or null' };
+    data.resolution_pattern = b.resolution_pattern;
+  }
+  if ('interpretive_lens' in b) {
+    if (b.interpretive_lens !== null && typeof b.interpretive_lens !== 'string') return { error: 'interpretive_lens must be a string or null' };
+    data.interpretive_lens = b.interpretive_lens;
+  }
+  if ('note_md' in b) {
+    if (b.note_md !== null && typeof b.note_md !== 'string') return { error: 'note_md must be a string or null' };
+    data.note_md = b.note_md;
+  }
+
+  return { data: data as unknown as SurahAtomicProfileUpsert };
+}
+
+export function validateSurahAyahMetaUpsert(body: unknown): SchemaValidationResult<SurahAyahMetaUpsert> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('juz' in b) {
+    if (b.juz !== null && (typeof b.juz !== 'number' || !Number.isFinite(b.juz))) return { error: 'juz must be a number or null' };
+    data.juz = b.juz;
+  }
+  if ('hizb' in b) {
+    if (b.hizb !== null && (typeof b.hizb !== 'number' || !Number.isFinite(b.hizb))) return { error: 'hizb must be a number or null' };
+    data.hizb = b.hizb;
+  }
+  if ('ruku' in b) {
+    if (b.ruku !== null && (typeof b.ruku !== 'number' || !Number.isFinite(b.ruku))) return { error: 'ruku must be a number or null' };
+    data.ruku = b.ruku;
+  }
+  if ('manzil' in b) {
+    if (b.manzil !== null && (typeof b.manzil !== 'number' || !Number.isFinite(b.manzil))) return { error: 'manzil must be a number or null' };
+    data.manzil = b.manzil;
+  }
+  if ('sajda' in b) {
+    if (typeof b.sajda !== 'number' || !Number.isFinite(b.sajda)) return { error: 'sajda must be a number' };
+    data.sajda = b.sajda;
+  }
+
+  return { data: data as unknown as SurahAyahMetaUpsert };
+}

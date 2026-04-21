@@ -3,6 +3,8 @@
 // core_srs_registry
 // CORE tracks which user has an SRS card for which resource.
 // Actual card data (stability, difficulty, FSRS state) lives in AR.
+import type { PaginateOptions } from '../../../shared/src/types';
+
 export interface SrsRegistryCard {
   id: string;                                           // CORE:ULID
   user_ref: string;                                     // 'CORE:<user_id>'
@@ -169,4 +171,90 @@ export function validateWorkspacePlanPatch(
     data.target_end_at = typeof b.target_end_at === 'string' ? b.target_end_at : null;
 
   return { data };
+}
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface SrsCardInput {
+  userRef: string;
+  workspaceId?: string;
+  resourceRef: string;
+  resourceType: SrsRegistryCard['resource_type'];
+  module: SrsRegistryCard['module'];
+  cardRef?: string;
+  nextReviewAt?: string;
+}
+
+export interface SrsCardUpdateInput {
+  cardRef?: string;
+  lastReviewAt?: string;
+  nextReviewAt?: string;
+  totalReviews?: number;
+}
+
+export interface WorkspacePlansListOptions extends PaginateOptions {
+  status?: WorkspacePlan['status'];
+  ownerUserRef?: string;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateSrsCardInput(body: unknown): SchemaValidationResult<SrsCardInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.userRef !== 'string' || !b.userRef.trim()) return { error: 'userRef is required and must be a non-empty string' };
+  data.userRef = b.userRef.trim();
+  if ('workspaceId' in b) {
+    if (typeof b.workspaceId !== 'string') return { error: 'workspaceId must be a string' };
+    data.workspaceId = b.workspaceId;
+  }
+  if (typeof b.resourceRef !== 'string' || !b.resourceRef.trim()) return { error: 'resourceRef is required and must be a non-empty string' };
+  data.resourceRef = b.resourceRef.trim();
+  if (typeof b.resourceType !== 'string' || !b.resourceType.trim()) return { error: 'resourceType is required and must be a non-empty string' };
+  data.resourceType = b.resourceType.trim();
+  if (typeof b.module !== 'string' || !b.module.trim()) return { error: 'module is required and must be a non-empty string' };
+  data.module = b.module.trim();
+  if ('cardRef' in b) {
+    if (typeof b.cardRef !== 'string') return { error: 'cardRef must be a string' };
+    data.cardRef = b.cardRef;
+  }
+  if ('nextReviewAt' in b) {
+    if (typeof b.nextReviewAt !== 'string') return { error: 'nextReviewAt must be a string' };
+    data.nextReviewAt = b.nextReviewAt;
+  }
+
+  return { data: data as unknown as SrsCardInput };
+}
+
+export function validateSrsCardUpdateInput(body: unknown): SchemaValidationResult<SrsCardUpdateInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('cardRef' in b) {
+    if (typeof b.cardRef !== 'string') return { error: 'cardRef must be a string' };
+    data.cardRef = b.cardRef;
+  }
+  if ('lastReviewAt' in b) {
+    if (typeof b.lastReviewAt !== 'string') return { error: 'lastReviewAt must be a string' };
+    data.lastReviewAt = b.lastReviewAt;
+  }
+  if ('nextReviewAt' in b) {
+    if (typeof b.nextReviewAt !== 'string') return { error: 'nextReviewAt must be a string' };
+    data.nextReviewAt = b.nextReviewAt;
+  }
+  if ('totalReviews' in b) {
+    if (typeof b.totalReviews !== 'number' || !Number.isFinite(b.totalReviews)) return { error: 'totalReviews must be a number' };
+    data.totalReviews = b.totalReviews;
+  }
+
+  return { data: data as unknown as SrsCardUpdateInput };
 }

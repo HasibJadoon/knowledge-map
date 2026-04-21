@@ -176,3 +176,176 @@ export function validateResourceGrantCreate(
 
   return { data };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface ResourcePolicyInput {
+  resourceRef: string;
+  resourceType: ResourcePolicy['resource_type'];
+  ownerUserRef: string;
+  workspaceRef?: string;
+  visibilityScope?: ResourcePolicy['visibility_scope'];
+  publicationState?: ResourcePolicy['publication_state'];
+  isDiscoverable?: boolean;
+  allowComments?: ResourcePolicy['allow_comments'];
+  allowDownloads?: boolean;
+  inheritsFromRef?: string;
+  overrideFlag?: boolean;
+  metaJson?: string;
+}
+
+export interface ResourceGrantInput {
+  resourceRef: string;
+  subjectRef: string;
+  subjectType?: ResourceGrant['subject_type'];
+  accessRole?: ResourceGrant['access_role'];
+  grantedByRef: string;
+  expiresAt?: string;
+  isInheritanceBreak?: boolean;
+  note?: string;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateResourcePolicyCreate(body: unknown): SchemaValidationResult<ResourcePolicyCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.resource_ref !== 'string' || !b.resource_ref.trim()) return { error: 'resource_ref is required and must be a non-empty string' };
+  data.resource_ref = b.resource_ref.trim();
+  if (typeof b.resource_type !== 'string' || !b.resource_type.trim()) return { error: 'resource_type is required and must be a non-empty string' };
+  data.resource_type = b.resource_type.trim();
+  if (typeof b.owner_user_ref !== 'string' || !b.owner_user_ref.trim()) return { error: 'owner_user_ref is required and must be a non-empty string' };
+  data.owner_user_ref = b.owner_user_ref.trim();
+  if ('workspace_ref' in b) {
+    if (typeof b.workspace_ref !== 'string') return { error: 'workspace_ref must be a string' };
+    data.workspace_ref = b.workspace_ref;
+  }
+  if ('visibility_scope' in b) {
+    if (typeof b.visibility_scope !== 'string') return { error: 'visibility_scope must be a string' };
+    data.visibility_scope = b.visibility_scope;
+  }
+  if ('publication_state' in b) {
+    if (typeof b.publication_state !== 'string') return { error: 'publication_state must be a string' };
+    data.publication_state = b.publication_state;
+  }
+  if ('is_discoverable' in b) {
+    if (typeof b.is_discoverable !== 'boolean') return { error: 'is_discoverable must be a boolean' };
+    data.is_discoverable = b.is_discoverable;
+  }
+  if ('allow_comments' in b) {
+    if (typeof b.allow_comments !== 'string') return { error: 'allow_comments must be a string' };
+    data.allow_comments = b.allow_comments;
+  }
+  if ('allow_downloads' in b) {
+    if (typeof b.allow_downloads !== 'boolean') return { error: 'allow_downloads must be a boolean' };
+    data.allow_downloads = b.allow_downloads;
+  }
+  if ('inherits_from_ref' in b) {
+    if (typeof b.inherits_from_ref !== 'string') return { error: 'inherits_from_ref must be a string' };
+    data.inherits_from_ref = b.inherits_from_ref;
+  }
+  if ('override_flag' in b) {
+    if (typeof b.override_flag !== 'boolean') return { error: 'override_flag must be a boolean' };
+    data.override_flag = b.override_flag;
+  }
+  if ('meta_json' in b) {
+    if (typeof b.meta_json !== 'string') return { error: 'meta_json must be a string' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as ResourcePolicyCreate };
+}
+
+export function validateResourcePolicyInput(body: unknown): SchemaValidationResult<ResourcePolicyInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.resourceRef !== 'string' || !b.resourceRef.trim()) return { error: 'resourceRef is required and must be a non-empty string' };
+  data.resourceRef = b.resourceRef.trim();
+  if (typeof b.resourceType !== 'string' || !b.resourceType.trim()) return { error: 'resourceType is required and must be a non-empty string' };
+  data.resourceType = b.resourceType.trim();
+  if (typeof b.ownerUserRef !== 'string' || !b.ownerUserRef.trim()) return { error: 'ownerUserRef is required and must be a non-empty string' };
+  data.ownerUserRef = b.ownerUserRef.trim();
+  if ('workspaceRef' in b) {
+    if (typeof b.workspaceRef !== 'string') return { error: 'workspaceRef must be a string' };
+    data.workspaceRef = b.workspaceRef;
+  }
+  if ('visibilityScope' in b) {
+    if (typeof b.visibilityScope !== 'string') return { error: 'visibilityScope must be a string' };
+    data.visibilityScope = b.visibilityScope;
+  }
+  if ('publicationState' in b) {
+    if (typeof b.publicationState !== 'string') return { error: 'publicationState must be a string' };
+    data.publicationState = b.publicationState;
+  }
+  if ('isDiscoverable' in b) {
+    if (typeof b.isDiscoverable !== 'boolean') return { error: 'isDiscoverable must be a boolean' };
+    data.isDiscoverable = b.isDiscoverable;
+  }
+  if ('allowComments' in b) {
+    if (typeof b.allowComments !== 'string') return { error: 'allowComments must be a string' };
+    data.allowComments = b.allowComments;
+  }
+  if ('allowDownloads' in b) {
+    if (typeof b.allowDownloads !== 'boolean') return { error: 'allowDownloads must be a boolean' };
+    data.allowDownloads = b.allowDownloads;
+  }
+  if ('inheritsFromRef' in b) {
+    if (typeof b.inheritsFromRef !== 'string') return { error: 'inheritsFromRef must be a string' };
+    data.inheritsFromRef = b.inheritsFromRef;
+  }
+  if ('overrideFlag' in b) {
+    if (typeof b.overrideFlag !== 'boolean') return { error: 'overrideFlag must be a boolean' };
+    data.overrideFlag = b.overrideFlag;
+  }
+  if ('metaJson' in b) {
+    if (typeof b.metaJson !== 'string') return { error: 'metaJson must be a string' };
+    data.metaJson = b.metaJson;
+  }
+
+  return { data: data as unknown as ResourcePolicyInput };
+}
+
+export function validateResourceGrantInput(body: unknown): SchemaValidationResult<ResourceGrantInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.resourceRef !== 'string' || !b.resourceRef.trim()) return { error: 'resourceRef is required and must be a non-empty string' };
+  data.resourceRef = b.resourceRef.trim();
+  if (typeof b.subjectRef !== 'string' || !b.subjectRef.trim()) return { error: 'subjectRef is required and must be a non-empty string' };
+  data.subjectRef = b.subjectRef.trim();
+  if ('subjectType' in b) {
+    if (typeof b.subjectType !== 'string') return { error: 'subjectType must be a string' };
+    data.subjectType = b.subjectType;
+  }
+  if ('accessRole' in b) {
+    if (typeof b.accessRole !== 'string') return { error: 'accessRole must be a string' };
+    data.accessRole = b.accessRole;
+  }
+  if (typeof b.grantedByRef !== 'string' || !b.grantedByRef.trim()) return { error: 'grantedByRef is required and must be a non-empty string' };
+  data.grantedByRef = b.grantedByRef.trim();
+  if ('expiresAt' in b) {
+    if (typeof b.expiresAt !== 'string') return { error: 'expiresAt must be a string' };
+    data.expiresAt = b.expiresAt;
+  }
+  if ('isInheritanceBreak' in b) {
+    if (typeof b.isInheritanceBreak !== 'boolean') return { error: 'isInheritanceBreak must be a boolean' };
+    data.isInheritanceBreak = b.isInheritanceBreak;
+  }
+  if ('note' in b) {
+    if (typeof b.note !== 'string') return { error: 'note must be a string' };
+    data.note = b.note;
+  }
+
+  return { data: data as unknown as ResourceGrantInput };
+}

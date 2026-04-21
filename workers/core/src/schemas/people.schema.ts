@@ -2,6 +2,8 @@
 
 // core_people
 // NOTE: personal address book / social profile — NOT the scholarly/historical registry (wv_people)
+import type { PaginateOptions } from '../../../shared/src/types';
+
 export interface Person {
   id: string;                                           // CORE:ULID
   workspace_id: string;                                 // CORE:ULID → core_workspaces
@@ -113,4 +115,11 @@ export function validatePersonPatch(
     data.meta_json = typeof b.meta_json === 'string' ? b.meta_json : null;
 
   return { data };
+}
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface PeopleListOptions extends PaginateOptions {
+  visibility?: 'private' | 'workspace';
+  relationship?: string;
 }

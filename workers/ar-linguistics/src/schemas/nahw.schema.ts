@@ -288,3 +288,172 @@ export function validateArLingSyntaxRelationTypeCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface NahwConcept {
+  id: string;           // AL:ULID
+  concept_key: string;  // e.g. 'mubtada', 'khabar', 'fail'
+  label_ar: string;
+  label_en: string;
+  category: string;     // syntax | morphology | grammar
+  description: string | null;
+  parent_id: string | null;  // AL:ULID (for hierarchical tree)
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateArLingNahwConceptPatch(body: unknown): SchemaValidationResult<ArLingNahwConceptPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('concept_name_ar' in b) {
+    if (typeof b.concept_name_ar !== 'string') return { error: 'concept_name_ar must be a string' };
+    data.concept_name_ar = b.concept_name_ar;
+  }
+  if ('concept_name_en' in b) {
+    if (typeof b.concept_name_en !== 'string') return { error: 'concept_name_en must be a string' };
+    data.concept_name_en = b.concept_name_en;
+  }
+  if ('concept_type' in b) {
+    if (typeof b.concept_type !== 'string') return { error: 'concept_type must be a string' };
+    data.concept_type = b.concept_type;
+  }
+  if ('parent_id' in b) {
+    if (typeof b.parent_id !== 'string') return { error: 'parent_id must be a string' };
+    data.parent_id = b.parent_id;
+  }
+  if ('definition_ar' in b) {
+    if (typeof b.definition_ar !== 'string') return { error: 'definition_ar must be a string' };
+    data.definition_ar = b.definition_ar;
+  }
+  if ('definition_en' in b) {
+    if (typeof b.definition_en !== 'string') return { error: 'definition_en must be a string' };
+    data.definition_en = b.definition_en;
+  }
+  if ('example_ar' in b) {
+    if (typeof b.example_ar !== 'string') return { error: 'example_ar must be a string' };
+    data.example_ar = b.example_ar;
+  }
+  if ('irab_label' in b) {
+    if (typeof b.irab_label !== 'string') return { error: 'irab_label must be a string' };
+    data.irab_label = b.irab_label;
+  }
+  if ('discipline_unit_id' in b) {
+    if (typeof b.discipline_unit_id !== 'string') return { error: 'discipline_unit_id must be a string' };
+    data.discipline_unit_id = b.discipline_unit_id;
+  }
+  if ('source_ref' in b) {
+    if (typeof b.source_ref !== 'string') return { error: 'source_ref must be a string' };
+    data.source_ref = b.source_ref;
+  }
+  if ('note_md' in b) {
+    if (typeof b.note_md !== 'string') return { error: 'note_md must be a string' };
+    data.note_md = b.note_md;
+  }
+
+  return { data: data as unknown as ArLingNahwConceptPatch };
+}
+
+export function validateArLingSentenceTypePatch(body: unknown): SchemaValidationResult<ArLingSentenceTypePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('name_ar' in b) {
+    if (typeof b.name_ar !== 'string') return { error: 'name_ar must be a string' };
+    data.name_ar = b.name_ar;
+  }
+  if ('name_en' in b) {
+    if (typeof b.name_en !== 'string') return { error: 'name_en must be a string' };
+    data.name_en = b.name_en;
+  }
+  if ('sentence_class' in b) {
+    if (typeof b.sentence_class !== 'string') return { error: 'sentence_class must be a string' };
+    data.sentence_class = b.sentence_class;
+  }
+  if ('description_md' in b) {
+    if (typeof b.description_md !== 'string') return { error: 'description_md must be a string' };
+    data.description_md = b.description_md;
+  }
+
+  return { data: data as unknown as ArLingSentenceTypePatch };
+}
+
+export function validateArLingClauseTypePatch(body: unknown): SchemaValidationResult<ArLingClauseTypePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('name_ar' in b) {
+    if (typeof b.name_ar !== 'string') return { error: 'name_ar must be a string' };
+    data.name_ar = b.name_ar;
+  }
+  if ('name_en' in b) {
+    if (typeof b.name_en !== 'string') return { error: 'name_en must be a string' };
+    data.name_en = b.name_en;
+  }
+  if ('clause_function' in b) {
+    if (typeof b.clause_function !== 'string') return { error: 'clause_function must be a string' };
+    data.clause_function = b.clause_function;
+  }
+  if ('description_md' in b) {
+    if (typeof b.description_md !== 'string') return { error: 'description_md must be a string' };
+    data.description_md = b.description_md;
+  }
+
+  return { data: data as unknown as ArLingClauseTypePatch };
+}
+
+export function validateArLingPhraseTypePatch(body: unknown): SchemaValidationResult<ArLingPhraseTypePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('name_ar' in b) {
+    if (typeof b.name_ar !== 'string') return { error: 'name_ar must be a string' };
+    data.name_ar = b.name_ar;
+  }
+  if ('name_en' in b) {
+    if (typeof b.name_en !== 'string') return { error: 'name_en must be a string' };
+    data.name_en = b.name_en;
+  }
+  if ('phrase_class' in b) {
+    if (typeof b.phrase_class !== 'string') return { error: 'phrase_class must be a string' };
+    data.phrase_class = b.phrase_class;
+  }
+  if ('description_md' in b) {
+    if (typeof b.description_md !== 'string') return { error: 'description_md must be a string' };
+    data.description_md = b.description_md;
+  }
+
+  return { data: data as unknown as ArLingPhraseTypePatch };
+}
+
+export function validateArLingSyntaxRelationTypePatch(body: unknown): SchemaValidationResult<ArLingSyntaxRelationTypePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('name_ar' in b) {
+    if (typeof b.name_ar !== 'string') return { error: 'name_ar must be a string' };
+    data.name_ar = b.name_ar;
+  }
+  if ('name_en' in b) {
+    if (typeof b.name_en !== 'string') return { error: 'name_en must be a string' };
+    data.name_en = b.name_en;
+  }
+  if ('description_md' in b) {
+    if (typeof b.description_md !== 'string') return { error: 'description_md must be a string' };
+    data.description_md = b.description_md;
+  }
+
+  return { data: data as unknown as ArLingSyntaxRelationTypePatch };
+}

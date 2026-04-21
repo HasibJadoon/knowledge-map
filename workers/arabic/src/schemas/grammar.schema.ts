@@ -108,3 +108,129 @@ export function validateArGrammarCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface GrammarItem {
+  id: string;             // AR:ULID
+  container_id: string;   // AR:ULID
+  lx_nahw_ref: string;    // AL:ULID → ar_ling_nahw_concepts
+  label: string;          // short display label (e.g. "فاعل")
+  example_ar: string | null;
+  explanation: string | null;
+  sort_order: number;
+  status: string;
+  created_at: string;
+}
+
+export interface GrammarCreate {
+  container_id: string;
+  lx_nahw_ref: string;
+  label: string;
+  example_ar?: string | null;
+  explanation?: string | null;
+  sort_order?: number;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateArGrammarPatch(body: unknown): SchemaValidationResult<ArGrammarPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('title_ar' in b) {
+    if (b.title_ar !== null && typeof b.title_ar !== 'string') return { error: 'title_ar must be a string or null' };
+    data.title_ar = b.title_ar;
+  }
+  if ('al_nahw_ref' in b) {
+    if (b.al_nahw_ref !== null && typeof b.al_nahw_ref !== 'string') return { error: 'al_nahw_ref must be a string or null' };
+    data.al_nahw_ref = b.al_nahw_ref;
+  }
+  if ('al_morph_ref' in b) {
+    if (b.al_morph_ref !== null && typeof b.al_morph_ref !== 'string') return { error: 'al_morph_ref must be a string or null' };
+    data.al_morph_ref = b.al_morph_ref;
+  }
+  if ('grammar_type' in b) {
+    data.grammar_type = b.grammar_type;
+  }
+  if ('level' in b) {
+    if (b.level !== null && typeof b.level !== 'string') return { error: 'level must be a string or null' };
+    data.level = b.level;
+  }
+  if ('explanation_md' in b) {
+    if (typeof b.explanation_md !== 'string') return { error: 'explanation_md must be a string' };
+    data.explanation_md = b.explanation_md;
+  }
+  if ('examples_json' in b) {
+    if (b.examples_json !== null && typeof b.examples_json !== 'string') return { error: 'examples_json must be a string or null' };
+    data.examples_json = b.examples_json;
+  }
+  if ('rule_summary' in b) {
+    if (b.rule_summary !== null && typeof b.rule_summary !== 'string') return { error: 'rule_summary must be a string or null' };
+    data.rule_summary = b.rule_summary;
+  }
+  if ('qr_scope_ref' in b) {
+    if (b.qr_scope_ref !== null && typeof b.qr_scope_ref !== 'string') return { error: 'qr_scope_ref must be a string or null' };
+    data.qr_scope_ref = b.qr_scope_ref;
+  }
+  if ('meta_json' in b) {
+    if (b.meta_json !== null && typeof b.meta_json !== 'string') return { error: 'meta_json must be a string or null' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as ArGrammarPatch };
+}
+
+export function validateArGrammarVocabularyLinkCreate(body: unknown): SchemaValidationResult<ArGrammarVocabularyLinkCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.grammar_id !== 'string' || !b.grammar_id.trim()) return { error: 'grammar_id is required and must be a non-empty string' };
+  data.grammar_id = b.grammar_id.trim();
+  if (typeof b.vocab_id !== 'string' || !b.vocab_id.trim()) return { error: 'vocab_id is required and must be a non-empty string' };
+  data.vocab_id = b.vocab_id.trim();
+  if ('link_role' in b) {
+    data.link_role = b.link_role;
+  }
+
+  return { data: data as unknown as ArGrammarVocabularyLinkCreate };
+}
+
+export function validateGrammarCreate(body: unknown): SchemaValidationResult<GrammarCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.container_id !== 'string' || !b.container_id.trim()) return { error: 'container_id is required and must be a non-empty string' };
+  data.container_id = b.container_id.trim();
+  if (typeof b.lx_nahw_ref !== 'string' || !b.lx_nahw_ref.trim()) return { error: 'lx_nahw_ref is required and must be a non-empty string' };
+  data.lx_nahw_ref = b.lx_nahw_ref.trim();
+  if (typeof b.label !== 'string' || !b.label.trim()) return { error: 'label is required and must be a non-empty string' };
+  data.label = b.label.trim();
+  if ('example_ar' in b) {
+    if (b.example_ar !== null && typeof b.example_ar !== 'string') return { error: 'example_ar must be a string or null' };
+    data.example_ar = b.example_ar;
+  }
+  if ('explanation' in b) {
+    if (b.explanation !== null && typeof b.explanation !== 'string') return { error: 'explanation must be a string or null' };
+    data.explanation = b.explanation;
+  }
+  if ('sort_order' in b) {
+    if (typeof b.sort_order !== 'number' || !Number.isFinite(b.sort_order)) return { error: 'sort_order must be a number' };
+    data.sort_order = b.sort_order;
+  }
+
+  return { data: data as unknown as GrammarCreate };
+}

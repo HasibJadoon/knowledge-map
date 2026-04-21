@@ -138,3 +138,81 @@ export function validateCmDocumentPatch(
 
   return { data };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface Document {
+  id: string;            // CM:ULID
+  title: string;
+  doc_type: string;      // note | essay | guide | report
+  resource_ref: string | null; // typed ref to linked entity (QR:, WV:, etc.)
+  body_md: string | null;
+  status: string;        // draft | published | archived
+  created_at: string;
+  updated_at: string | null;
+}
+
+export interface DocumentCreate {
+  title: string;
+  doc_type?: string;
+  resource_ref?: string | null;
+  body_md?: string | null;
+}
+
+export interface DocumentPatch {
+  title?: string;
+  body_md?: string;
+  status?: 'draft' | 'published' | 'archived';
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateDocumentCreate(body: unknown): SchemaValidationResult<DocumentCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.title !== 'string' || !b.title.trim()) return { error: 'title is required and must be a non-empty string' };
+  data.title = b.title.trim();
+  if ('doc_type' in b) {
+    if (typeof b.doc_type !== 'string') return { error: 'doc_type must be a string' };
+    data.doc_type = b.doc_type;
+  }
+  if ('resource_ref' in b) {
+    if (b.resource_ref !== null && typeof b.resource_ref !== 'string') return { error: 'resource_ref must be a string or null' };
+    data.resource_ref = b.resource_ref;
+  }
+  if ('body_md' in b) {
+    if (b.body_md !== null && typeof b.body_md !== 'string') return { error: 'body_md must be a string or null' };
+    data.body_md = b.body_md;
+  }
+
+  return { data: data as unknown as DocumentCreate };
+}
+
+export function validateDocumentPatch(body: unknown): SchemaValidationResult<DocumentPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('body_md' in b) {
+    if (typeof b.body_md !== 'string') return { error: 'body_md must be a string' };
+    data.body_md = b.body_md;
+  }
+  if ('status' in b) {
+    if (typeof b.status !== 'string') return { error: 'status must be a string' };
+    data.status = b.status;
+  }
+
+  return { data: data as unknown as DocumentPatch };
+}

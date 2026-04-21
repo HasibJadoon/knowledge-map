@@ -70,3 +70,60 @@ export function validateCmHighlightCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface Highlight {
+  id: string;                // CM:ULID
+  resource_ref: string;      // typed ref — e.g. QR:2:255, WV:ULID
+  anchor_start: string;      // serialised DOM/text position (e.g. "p3:c12")
+  anchor_end: string;
+  text_excerpt: string | null;
+  color: string | null;      // UI colour tag: yellow | green | blue | pink
+  note_ref: string | null;   // CM:ULID → cm_notes (optional linked note)
+  created_at: string;
+}
+
+export interface HighlightCreate {
+  resource_ref: string;
+  anchor_start: string;
+  anchor_end: string;
+  text_excerpt?: string | null;
+  color?: string | null;
+  note_ref?: string | null;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateHighlightCreate(body: unknown): SchemaValidationResult<HighlightCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.resource_ref !== 'string' || !b.resource_ref.trim()) return { error: 'resource_ref is required and must be a non-empty string' };
+  data.resource_ref = b.resource_ref.trim();
+  if (typeof b.anchor_start !== 'string' || !b.anchor_start.trim()) return { error: 'anchor_start is required and must be a non-empty string' };
+  data.anchor_start = b.anchor_start.trim();
+  if (typeof b.anchor_end !== 'string' || !b.anchor_end.trim()) return { error: 'anchor_end is required and must be a non-empty string' };
+  data.anchor_end = b.anchor_end.trim();
+  if ('text_excerpt' in b) {
+    if (b.text_excerpt !== null && typeof b.text_excerpt !== 'string') return { error: 'text_excerpt must be a string or null' };
+    data.text_excerpt = b.text_excerpt;
+  }
+  if ('color' in b) {
+    if (b.color !== null && typeof b.color !== 'string') return { error: 'color must be a string or null' };
+    data.color = b.color;
+  }
+  if ('note_ref' in b) {
+    if (b.note_ref !== null && typeof b.note_ref !== 'string') return { error: 'note_ref must be a string or null' };
+    data.note_ref = b.note_ref;
+  }
+
+  return { data: data as unknown as HighlightCreate };
+}

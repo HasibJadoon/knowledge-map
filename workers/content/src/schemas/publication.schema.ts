@@ -164,3 +164,225 @@ export function validateCmShareLinkCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface CmPublicationInput {
+  core_user_ref: string;
+  doc_ref?: string | null;
+  asset_ref?: string | null;
+  pub_type?: string;
+  title: string;
+  slug?: string | null;
+  excerpt?: string | null;
+  cover_image_url?: string | null;
+  publication_state?: string;
+  policy_ref?: string | null;
+  workspace_ref?: string | null;
+  tags_json?: string;
+  canonical_url?: string | null;
+  meta_json?: string;
+}
+
+export interface CmShareLinkInput {
+  resource_ref: string;
+  core_user_ref: string;
+  token: string;
+  access_level?: string;
+  expires_at?: string | null;
+  max_uses?: number | null;
+  meta_json?: string;
+}
+
+export interface CmDistributionInput {
+  pub_id: string;
+  channel: string;
+  channel_config_json?: string;
+  meta_json?: string;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateCmPublicationPatch(body: unknown): SchemaValidationResult<CmPublicationPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('pub_type' in b) {
+    if (typeof b.pub_type !== 'string') return { error: 'pub_type must be a string' };
+    data.pub_type = b.pub_type;
+  }
+  if ('doc_ref' in b) {
+    if (typeof b.doc_ref !== 'string') return { error: 'doc_ref must be a string' };
+    data.doc_ref = b.doc_ref;
+  }
+  if ('asset_ref' in b) {
+    if (typeof b.asset_ref !== 'string') return { error: 'asset_ref must be a string' };
+    data.asset_ref = b.asset_ref;
+  }
+  if ('slug' in b) {
+    if (typeof b.slug !== 'string') return { error: 'slug must be a string' };
+    data.slug = b.slug;
+  }
+  if ('excerpt' in b) {
+    if (typeof b.excerpt !== 'string') return { error: 'excerpt must be a string' };
+    data.excerpt = b.excerpt;
+  }
+  if ('cover_image_url' in b) {
+    if (typeof b.cover_image_url !== 'string') return { error: 'cover_image_url must be a string' };
+    data.cover_image_url = b.cover_image_url;
+  }
+  if ('publication_state' in b) {
+    if (typeof b.publication_state !== 'string') return { error: 'publication_state must be a string' };
+    data.publication_state = b.publication_state;
+  }
+  if ('published_at' in b) {
+    if (typeof b.published_at !== 'string') return { error: 'published_at must be a string' };
+    data.published_at = b.published_at;
+  }
+  if ('policy_ref' in b) {
+    if (typeof b.policy_ref !== 'string') return { error: 'policy_ref must be a string' };
+    data.policy_ref = b.policy_ref;
+  }
+  if ('workspace_ref' in b) {
+    if (typeof b.workspace_ref !== 'string') return { error: 'workspace_ref must be a string' };
+    data.workspace_ref = b.workspace_ref;
+  }
+  if ('tags_json' in b) {
+    if (typeof b.tags_json !== 'string') return { error: 'tags_json must be a string' };
+    data.tags_json = b.tags_json;
+  }
+  if ('canonical_url' in b) {
+    if (typeof b.canonical_url !== 'string') return { error: 'canonical_url must be a string' };
+    data.canonical_url = b.canonical_url;
+  }
+  if ('meta_json' in b) {
+    if (typeof b.meta_json !== 'string') return { error: 'meta_json must be a string' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as CmPublicationPatch };
+}
+
+export function validateCmPublicationInput(body: unknown): SchemaValidationResult<CmPublicationInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.core_user_ref !== 'string' || !b.core_user_ref.trim()) return { error: 'core_user_ref is required and must be a non-empty string' };
+  data.core_user_ref = b.core_user_ref.trim();
+  if ('doc_ref' in b) {
+    if (b.doc_ref !== null && typeof b.doc_ref !== 'string') return { error: 'doc_ref must be a string or null' };
+    data.doc_ref = b.doc_ref;
+  }
+  if ('asset_ref' in b) {
+    if (b.asset_ref !== null && typeof b.asset_ref !== 'string') return { error: 'asset_ref must be a string or null' };
+    data.asset_ref = b.asset_ref;
+  }
+  if ('pub_type' in b) {
+    if (typeof b.pub_type !== 'string') return { error: 'pub_type must be a string' };
+    data.pub_type = b.pub_type;
+  }
+  if (typeof b.title !== 'string' || !b.title.trim()) return { error: 'title is required and must be a non-empty string' };
+  data.title = b.title.trim();
+  if ('slug' in b) {
+    if (b.slug !== null && typeof b.slug !== 'string') return { error: 'slug must be a string or null' };
+    data.slug = b.slug;
+  }
+  if ('excerpt' in b) {
+    if (b.excerpt !== null && typeof b.excerpt !== 'string') return { error: 'excerpt must be a string or null' };
+    data.excerpt = b.excerpt;
+  }
+  if ('cover_image_url' in b) {
+    if (b.cover_image_url !== null && typeof b.cover_image_url !== 'string') return { error: 'cover_image_url must be a string or null' };
+    data.cover_image_url = b.cover_image_url;
+  }
+  if ('publication_state' in b) {
+    if (typeof b.publication_state !== 'string') return { error: 'publication_state must be a string' };
+    data.publication_state = b.publication_state;
+  }
+  if ('policy_ref' in b) {
+    if (b.policy_ref !== null && typeof b.policy_ref !== 'string') return { error: 'policy_ref must be a string or null' };
+    data.policy_ref = b.policy_ref;
+  }
+  if ('workspace_ref' in b) {
+    if (b.workspace_ref !== null && typeof b.workspace_ref !== 'string') return { error: 'workspace_ref must be a string or null' };
+    data.workspace_ref = b.workspace_ref;
+  }
+  if ('tags_json' in b) {
+    if (typeof b.tags_json !== 'string') return { error: 'tags_json must be a string' };
+    data.tags_json = b.tags_json;
+  }
+  if ('canonical_url' in b) {
+    if (b.canonical_url !== null && typeof b.canonical_url !== 'string') return { error: 'canonical_url must be a string or null' };
+    data.canonical_url = b.canonical_url;
+  }
+  if ('meta_json' in b) {
+    if (typeof b.meta_json !== 'string') return { error: 'meta_json must be a string' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as CmPublicationInput };
+}
+
+export function validateCmShareLinkInput(body: unknown): SchemaValidationResult<CmShareLinkInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.resource_ref !== 'string' || !b.resource_ref.trim()) return { error: 'resource_ref is required and must be a non-empty string' };
+  data.resource_ref = b.resource_ref.trim();
+  if (typeof b.core_user_ref !== 'string' || !b.core_user_ref.trim()) return { error: 'core_user_ref is required and must be a non-empty string' };
+  data.core_user_ref = b.core_user_ref.trim();
+  if (typeof b.token !== 'string' || !b.token.trim()) return { error: 'token is required and must be a non-empty string' };
+  data.token = b.token.trim();
+  if ('access_level' in b) {
+    if (typeof b.access_level !== 'string') return { error: 'access_level must be a string' };
+    data.access_level = b.access_level;
+  }
+  if ('expires_at' in b) {
+    if (b.expires_at !== null && typeof b.expires_at !== 'string') return { error: 'expires_at must be a string or null' };
+    data.expires_at = b.expires_at;
+  }
+  if ('max_uses' in b) {
+    if (b.max_uses !== null && (typeof b.max_uses !== 'number' || !Number.isFinite(b.max_uses))) return { error: 'max_uses must be a number or null' };
+    data.max_uses = b.max_uses;
+  }
+  if ('meta_json' in b) {
+    if (typeof b.meta_json !== 'string') return { error: 'meta_json must be a string' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as CmShareLinkInput };
+}
+
+export function validateCmDistributionInput(body: unknown): SchemaValidationResult<CmDistributionInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.pub_id !== 'string' || !b.pub_id.trim()) return { error: 'pub_id is required and must be a non-empty string' };
+  data.pub_id = b.pub_id.trim();
+  if (typeof b.channel !== 'string' || !b.channel.trim()) return { error: 'channel is required and must be a non-empty string' };
+  data.channel = b.channel.trim();
+  if ('channel_config_json' in b) {
+    if (typeof b.channel_config_json !== 'string') return { error: 'channel_config_json must be a string' };
+    data.channel_config_json = b.channel_config_json;
+  }
+  if ('meta_json' in b) {
+    if (typeof b.meta_json !== 'string') return { error: 'meta_json must be a string' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as CmDistributionInput };
+}

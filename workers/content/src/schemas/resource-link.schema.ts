@@ -77,3 +77,64 @@ export function validateCmResourceLinkCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface CmResourceLinkInput {
+  source_ref: string;
+  target_ref: string;
+  link_type: string;
+  anchor_text?: string | null;
+  note?: string | null;
+  core_user_ref?: string | null;
+  confidence?: number;
+  is_ai_suggested?: number;
+  meta_json?: string;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateCmResourceLinkInput(body: unknown): SchemaValidationResult<CmResourceLinkInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.source_ref !== 'string' || !b.source_ref.trim()) return { error: 'source_ref is required and must be a non-empty string' };
+  data.source_ref = b.source_ref.trim();
+  if (typeof b.target_ref !== 'string' || !b.target_ref.trim()) return { error: 'target_ref is required and must be a non-empty string' };
+  data.target_ref = b.target_ref.trim();
+  if (typeof b.link_type !== 'string' || !b.link_type.trim()) return { error: 'link_type is required and must be a non-empty string' };
+  data.link_type = b.link_type.trim();
+  if ('anchor_text' in b) {
+    if (b.anchor_text !== null && typeof b.anchor_text !== 'string') return { error: 'anchor_text must be a string or null' };
+    data.anchor_text = b.anchor_text;
+  }
+  if ('note' in b) {
+    if (b.note !== null && typeof b.note !== 'string') return { error: 'note must be a string or null' };
+    data.note = b.note;
+  }
+  if ('core_user_ref' in b) {
+    if (b.core_user_ref !== null && typeof b.core_user_ref !== 'string') return { error: 'core_user_ref must be a string or null' };
+    data.core_user_ref = b.core_user_ref;
+  }
+  if ('confidence' in b) {
+    if (typeof b.confidence !== 'number' || !Number.isFinite(b.confidence)) return { error: 'confidence must be a number' };
+    data.confidence = b.confidence;
+  }
+  if ('is_ai_suggested' in b) {
+    if (typeof b.is_ai_suggested !== 'number' || !Number.isFinite(b.is_ai_suggested)) return { error: 'is_ai_suggested must be a number' };
+    data.is_ai_suggested = b.is_ai_suggested;
+  }
+  if ('meta_json' in b) {
+    if (typeof b.meta_json !== 'string') return { error: 'meta_json must be a string' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as CmResourceLinkInput };
+}

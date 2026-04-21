@@ -306,3 +306,89 @@ export function validateStreakUpsert(
 
   return { data };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface Goal {
+  id: string;                  // PL:ULID
+  core_user_ref: string;       // 'CORE:<user_id>'
+  core_ws_ref: string | null;  // 'CORE:<workspace_id>'
+  plan_id: string | null;      // PL:ULID
+  title: string;
+  goal_type: string;           // 'habit'|'milestone'|'quota'|'completion'|'other'
+  metric: string;              // 'sessions'|'minutes'|'pages'|'ayahs'|'tasks'|'other'
+  target_value: number;
+  current_value: number;
+  cadence: string;             // 'daily'|'weekly'|'monthly'|'total'
+  period_start: string | null;
+  period_end: string | null;
+  status: string;              // 'active'|'completed'|'paused'|'archived'
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Streak {
+  id: string;                  // PL:ULID
+  core_user_ref: string;       // 'CORE:<user_id>'
+  plan_id: string | null;      // PL:ULID
+  streak_type: string;         // 'daily_session'|'weekly_goal'|'task_chain'|'other'
+  current_count: number;
+  longest_count: number;
+  last_active_date: string | null;
+  started_date: string | null;
+  meta_json: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface StreakUpsertInput {
+  core_user_ref: string;
+  plan_id?: string | null;
+  streak_type: string;
+  current_count: number;
+  longest_count: number;
+  last_active_date?: string | null;
+  started_date?: string | null;
+  meta_json?: string | null;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateStreakUpsertInput(body: unknown): SchemaValidationResult<StreakUpsertInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.core_user_ref !== 'string' || !b.core_user_ref.trim()) return { error: 'core_user_ref is required and must be a non-empty string' };
+  data.core_user_ref = b.core_user_ref.trim();
+  if ('plan_id' in b) {
+    if (b.plan_id !== null && typeof b.plan_id !== 'string') return { error: 'plan_id must be a string or null' };
+    data.plan_id = b.plan_id;
+  }
+  if (typeof b.streak_type !== 'string' || !b.streak_type.trim()) return { error: 'streak_type is required and must be a non-empty string' };
+  data.streak_type = b.streak_type.trim();
+  if (typeof b.current_count !== 'number' || !Number.isFinite(b.current_count)) return { error: 'current_count is required and must be a number' };
+  data.current_count = b.current_count;
+  if (typeof b.longest_count !== 'number' || !Number.isFinite(b.longest_count)) return { error: 'longest_count is required and must be a number' };
+  data.longest_count = b.longest_count;
+  if ('last_active_date' in b) {
+    if (b.last_active_date !== null && typeof b.last_active_date !== 'string') return { error: 'last_active_date must be a string or null' };
+    data.last_active_date = b.last_active_date;
+  }
+  if ('started_date' in b) {
+    if (b.started_date !== null && typeof b.started_date !== 'string') return { error: 'started_date must be a string or null' };
+    data.started_date = b.started_date;
+  }
+  if ('meta_json' in b) {
+    if (b.meta_json !== null && typeof b.meta_json !== 'string') return { error: 'meta_json must be a string or null' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as StreakUpsertInput };
+}

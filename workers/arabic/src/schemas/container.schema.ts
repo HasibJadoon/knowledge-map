@@ -222,3 +222,159 @@ export function validateArContainerUnitTaskCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface Container {
+  id: string;               // AR:ULID
+  title: string;
+  container_type: string;   // course | book | unit | chapter
+  parent_id: string | null; // AR:ULID of parent container
+  sort_order: number;
+  status: string;           // active | archived | draft
+  created_at: string;
+}
+
+export interface ContainerCreate {
+  title: string;
+  container_type: string;
+  parent_id?: string | null;
+  sort_order?: number;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateArContainerPatch(body: unknown): SchemaValidationResult<ArContainerPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('container_type' in b) {
+    data.container_type = b.container_type;
+  }
+  if ('slug' in b) {
+    if (typeof b.slug !== 'string') return { error: 'slug must be a string' };
+    data.slug = b.slug;
+  }
+  if ('title_ar' in b) {
+    if (b.title_ar !== null && typeof b.title_ar !== 'string') return { error: 'title_ar must be a string or null' };
+    data.title_ar = b.title_ar;
+  }
+  if ('track_id' in b) {
+    if (b.track_id !== null && typeof b.track_id !== 'string') return { error: 'track_id must be a string or null' };
+    data.track_id = b.track_id;
+  }
+  if ('level' in b) {
+    if (b.level !== null && typeof b.level !== 'string') return { error: 'level must be a string or null' };
+    data.level = b.level;
+  }
+  if ('description_md' in b) {
+    if (b.description_md !== null && typeof b.description_md !== 'string') return { error: 'description_md must be a string or null' };
+    data.description_md = b.description_md;
+  }
+  if ('cover_ref' in b) {
+    if (b.cover_ref !== null && typeof b.cover_ref !== 'string') return { error: 'cover_ref must be a string or null' };
+    data.cover_ref = b.cover_ref;
+  }
+  if ('source_ref' in b) {
+    if (b.source_ref !== null && typeof b.source_ref !== 'string') return { error: 'source_ref must be a string or null' };
+    data.source_ref = b.source_ref;
+  }
+  if ('sort_order' in b) {
+    if (typeof b.sort_order !== 'number' || !Number.isFinite(b.sort_order)) return { error: 'sort_order must be a number' };
+    data.sort_order = b.sort_order;
+  }
+  if ('is_published' in b) {
+    if (typeof b.is_published !== 'boolean') return { error: 'is_published must be a boolean' };
+    data.is_published = b.is_published;
+  }
+  if ('meta_json' in b) {
+    if (b.meta_json !== null && typeof b.meta_json !== 'string') return { error: 'meta_json must be a string or null' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as ArContainerPatch };
+}
+
+export function validateArContainerUnitPatch(body: unknown): SchemaValidationResult<ArContainerUnitPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('title_ar' in b) {
+    if (b.title_ar !== null && typeof b.title_ar !== 'string') return { error: 'title_ar must be a string or null' };
+    data.title_ar = b.title_ar;
+  }
+  if ('unit_type' in b) {
+    data.unit_type = b.unit_type;
+  }
+  if ('unit_index' in b) {
+    if (typeof b.unit_index !== 'number' || !Number.isFinite(b.unit_index)) return { error: 'unit_index must be a number' };
+    data.unit_index = b.unit_index;
+  }
+  if ('description_md' in b) {
+    if (b.description_md !== null && typeof b.description_md !== 'string') return { error: 'description_md must be a string or null' };
+    data.description_md = b.description_md;
+  }
+  if ('estimated_mins' in b) {
+    if (b.estimated_mins !== null && (typeof b.estimated_mins !== 'number' || !Number.isFinite(b.estimated_mins))) return { error: 'estimated_mins must be a number or null' };
+    data.estimated_mins = b.estimated_mins;
+  }
+  if ('skill_focus' in b) {
+    if (b.skill_focus !== null && typeof b.skill_focus !== 'string') return { error: 'skill_focus must be a string or null' };
+    data.skill_focus = b.skill_focus;
+  }
+  if ('al_concept_refs' in b) {
+    if (b.al_concept_refs !== null && typeof b.al_concept_refs !== 'string') return { error: 'al_concept_refs must be a string or null' };
+    data.al_concept_refs = b.al_concept_refs;
+  }
+  if ('qr_scope_ref' in b) {
+    if (b.qr_scope_ref !== null && typeof b.qr_scope_ref !== 'string') return { error: 'qr_scope_ref must be a string or null' };
+    data.qr_scope_ref = b.qr_scope_ref;
+  }
+  if ('parent_id' in b) {
+    if (b.parent_id !== null && typeof b.parent_id !== 'string') return { error: 'parent_id must be a string or null' };
+    data.parent_id = b.parent_id;
+  }
+  if ('meta_json' in b) {
+    if (b.meta_json !== null && typeof b.meta_json !== 'string') return { error: 'meta_json must be a string or null' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as ArContainerUnitPatch };
+}
+
+export function validateContainerCreate(body: unknown): SchemaValidationResult<ContainerCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.title !== 'string' || !b.title.trim()) return { error: 'title is required and must be a non-empty string' };
+  data.title = b.title.trim();
+  if (typeof b.container_type !== 'string' || !b.container_type.trim()) return { error: 'container_type is required and must be a non-empty string' };
+  data.container_type = b.container_type.trim();
+  if ('parent_id' in b) {
+    if (b.parent_id !== null && typeof b.parent_id !== 'string') return { error: 'parent_id must be a string or null' };
+    data.parent_id = b.parent_id;
+  }
+  if ('sort_order' in b) {
+    if (typeof b.sort_order !== 'number' || !Number.isFinite(b.sort_order)) return { error: 'sort_order must be a number' };
+    data.sort_order = b.sort_order;
+  }
+
+  return { data: data as unknown as ContainerCreate };
+}

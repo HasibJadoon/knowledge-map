@@ -357,3 +357,184 @@ export function validateWvMovementCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface Tradition {
+  id: string;           // WV:ULID
+  slug: string;
+  label_en: string;
+  label_ar: string | null;
+  category: string;     // abrahamic | eastern | secular | tribal | other
+  parent_id: string | null;
+  created_at: string;
+}
+
+export interface TraditionCreate {
+  slug: string;
+  label_en: string;
+  label_ar?: string | null;
+  category?: string;
+  parent_id?: string | null;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateWvTraditionBranchPatch(body: unknown): SchemaValidationResult<WvTraditionBranchPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('slug' in b) {
+    if (typeof b.slug !== 'string') return { error: 'slug must be a string' };
+    data.slug = b.slug;
+  }
+  if ('tradition_id' in b) {
+    if (typeof b.tradition_id !== 'string') return { error: 'tradition_id must be a string' };
+    data.tradition_id = b.tradition_id;
+  }
+  if ('branch_type' in b) {
+    data.branch_type = b.branch_type;
+  }
+  if ('title_ar' in b) {
+    if (b.title_ar !== null && typeof b.title_ar !== 'string') return { error: 'title_ar must be a string or null' };
+    data.title_ar = b.title_ar;
+  }
+  if ('parent_id' in b) {
+    if (b.parent_id !== null && typeof b.parent_id !== 'string') return { error: 'parent_id must be a string or null' };
+    data.parent_id = b.parent_id;
+  }
+  if ('description_md' in b) {
+    if (b.description_md !== null && typeof b.description_md !== 'string') return { error: 'description_md must be a string or null' };
+    data.description_md = b.description_md;
+  }
+  if ('period_range' in b) {
+    if (b.period_range !== null && typeof b.period_range !== 'string') return { error: 'period_range must be a string or null' };
+    data.period_range = b.period_range;
+  }
+
+  return { data: data as unknown as WvTraditionBranchPatch };
+}
+
+export function validateWvSchoolPatch(body: unknown): SchemaValidationResult<WvSchoolPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('slug' in b) {
+    if (typeof b.slug !== 'string') return { error: 'slug must be a string' };
+    data.slug = b.slug;
+  }
+  if ('school_type' in b) {
+    data.school_type = b.school_type;
+  }
+  if ('title_ar' in b) {
+    if (b.title_ar !== null && typeof b.title_ar !== 'string') return { error: 'title_ar must be a string or null' };
+    data.title_ar = b.title_ar;
+  }
+  if ('tradition_id' in b) {
+    if (b.tradition_id !== null && typeof b.tradition_id !== 'string') return { error: 'tradition_id must be a string or null' };
+    data.tradition_id = b.tradition_id;
+  }
+  if ('branch_id' in b) {
+    if (b.branch_id !== null && typeof b.branch_id !== 'string') return { error: 'branch_id must be a string or null' };
+    data.branch_id = b.branch_id;
+  }
+  if ('founded_year' in b) {
+    if (b.founded_year !== null && (typeof b.founded_year !== 'number' || !Number.isFinite(b.founded_year))) return { error: 'founded_year must be a number or null' };
+    data.founded_year = b.founded_year;
+  }
+  if ('founder_name' in b) {
+    if (b.founder_name !== null && typeof b.founder_name !== 'string') return { error: 'founder_name must be a string or null' };
+    data.founder_name = b.founder_name;
+  }
+  if ('description_md' in b) {
+    if (b.description_md !== null && typeof b.description_md !== 'string') return { error: 'description_md must be a string or null' };
+    data.description_md = b.description_md;
+  }
+  if ('meta_json' in b) {
+    if (b.meta_json !== null && typeof b.meta_json !== 'string') return { error: 'meta_json must be a string or null' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as WvSchoolPatch };
+}
+
+export function validateWvMovementPatch(body: unknown): SchemaValidationResult<WvMovementPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('slug' in b) {
+    if (typeof b.slug !== 'string') return { error: 'slug must be a string' };
+    data.slug = b.slug;
+  }
+  if ('movement_type' in b) {
+    data.movement_type = b.movement_type;
+  }
+  if ('tradition_id' in b) {
+    if (b.tradition_id !== null && typeof b.tradition_id !== 'string') return { error: 'tradition_id must be a string or null' };
+    data.tradition_id = b.tradition_id;
+  }
+  if ('period_id' in b) {
+    if (b.period_id !== null && typeof b.period_id !== 'string') return { error: 'period_id must be a string or null' };
+    data.period_id = b.period_id;
+  }
+  if ('region_id' in b) {
+    if (b.region_id !== null && typeof b.region_id !== 'string') return { error: 'region_id must be a string or null' };
+    data.region_id = b.region_id;
+  }
+  if ('description_md' in b) {
+    if (b.description_md !== null && typeof b.description_md !== 'string') return { error: 'description_md must be a string or null' };
+    data.description_md = b.description_md;
+  }
+  if ('meta_json' in b) {
+    if (b.meta_json !== null && typeof b.meta_json !== 'string') return { error: 'meta_json must be a string or null' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as WvMovementPatch };
+}
+
+export function validateTraditionCreate(body: unknown): SchemaValidationResult<TraditionCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.slug !== 'string' || !b.slug.trim()) return { error: 'slug is required and must be a non-empty string' };
+  data.slug = b.slug.trim();
+  if (typeof b.label_en !== 'string' || !b.label_en.trim()) return { error: 'label_en is required and must be a non-empty string' };
+  data.label_en = b.label_en.trim();
+  if ('label_ar' in b) {
+    if (b.label_ar !== null && typeof b.label_ar !== 'string') return { error: 'label_ar must be a string or null' };
+    data.label_ar = b.label_ar;
+  }
+  if ('category' in b) {
+    if (typeof b.category !== 'string') return { error: 'category must be a string' };
+    data.category = b.category;
+  }
+  if ('parent_id' in b) {
+    if (b.parent_id !== null && typeof b.parent_id !== 'string') return { error: 'parent_id must be a string or null' };
+    data.parent_id = b.parent_id;
+  }
+
+  return { data: data as unknown as TraditionCreate };
+}

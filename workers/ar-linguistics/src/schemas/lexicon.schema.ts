@@ -355,3 +355,139 @@ export function validateArLingLexiconMorphologyCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface LexiconEntry {
+  id: string;           // AL:ULID
+  lemma_id: string;     // AL:ULID
+  headword_ar: string;
+  pos: string | null;
+  register: string | null;   // classical | modern | quranic
+}
+
+export interface LexiconSense {
+  id: string;           // AL:ULID
+  entry_id: string;     // AL:ULID
+  sense_number: number;
+  definition_ar: string | null;
+  definition_en: string | null;
+  domain: string | null;
+  example_ar: string | null;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateArLingLexiconEntryPatch(body: unknown): SchemaValidationResult<ArLingLexiconEntryPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('entry_text' in b) {
+    if (typeof b.entry_text !== 'string') return { error: 'entry_text must be a string' };
+    data.entry_text = b.entry_text;
+  }
+  if ('definition_ar' in b) {
+    if (typeof b.definition_ar !== 'string') return { error: 'definition_ar must be a string' };
+    data.definition_ar = b.definition_ar;
+  }
+  if ('definition_en' in b) {
+    if (typeof b.definition_en !== 'string') return { error: 'definition_en must be a string' };
+    data.definition_en = b.definition_en;
+  }
+  if ('definition_source' in b) {
+    if (typeof b.definition_source !== 'string') return { error: 'definition_source must be a string' };
+    data.definition_source = b.definition_source;
+  }
+  if ('usage_register' in b) {
+    if (typeof b.usage_register !== 'string') return { error: 'usage_register must be a string' };
+    data.usage_register = b.usage_register;
+  }
+  if ('note_md' in b) {
+    if (typeof b.note_md !== 'string') return { error: 'note_md must be a string' };
+    data.note_md = b.note_md;
+  }
+
+  return { data: data as unknown as ArLingLexiconEntryPatch };
+}
+
+export function validateArLingSensePatch(body: unknown): SchemaValidationResult<ArLingSensePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('sense_number' in b) {
+    if (typeof b.sense_number !== 'number' || !Number.isFinite(b.sense_number)) return { error: 'sense_number must be a number' };
+    data.sense_number = b.sense_number;
+  }
+  if ('gloss_ar' in b) {
+    if (typeof b.gloss_ar !== 'string') return { error: 'gloss_ar must be a string' };
+    data.gloss_ar = b.gloss_ar;
+  }
+  if ('gloss_en' in b) {
+    if (typeof b.gloss_en !== 'string') return { error: 'gloss_en must be a string' };
+    data.gloss_en = b.gloss_en;
+  }
+  if ('context_note' in b) {
+    if (typeof b.context_note !== 'string') return { error: 'context_note must be a string' };
+    data.context_note = b.context_note;
+  }
+  if ('qr_ref' in b) {
+    if (typeof b.qr_ref !== 'string') return { error: 'qr_ref must be a string' };
+    data.qr_ref = b.qr_ref;
+  }
+  if ('note_md' in b) {
+    if (typeof b.note_md !== 'string') return { error: 'note_md must be a string' };
+    data.note_md = b.note_md;
+  }
+
+  return { data: data as unknown as ArLingSensePatch };
+}
+
+export function validateArLingSemanticFieldPatch(body: unknown): SchemaValidationResult<ArLingSemanticFieldPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('field_name_ar' in b) {
+    if (typeof b.field_name_ar !== 'string') return { error: 'field_name_ar must be a string' };
+    data.field_name_ar = b.field_name_ar;
+  }
+  if ('field_name_en' in b) {
+    if (typeof b.field_name_en !== 'string') return { error: 'field_name_en must be a string' };
+    data.field_name_en = b.field_name_en;
+  }
+  if ('parent_field_id' in b) {
+    if (typeof b.parent_field_id !== 'string') return { error: 'parent_field_id must be a string' };
+    data.parent_field_id = b.parent_field_id;
+  }
+  if ('description_md' in b) {
+    if (typeof b.description_md !== 'string') return { error: 'description_md must be a string' };
+    data.description_md = b.description_md;
+  }
+
+  return { data: data as unknown as ArLingSemanticFieldPatch };
+}
+
+export function validateArLingNearSynonymSetPatch(body: unknown): SchemaValidationResult<ArLingNearSynonymSetPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('set_name' in b) {
+    if (typeof b.set_name !== 'string') return { error: 'set_name must be a string' };
+    data.set_name = b.set_name;
+  }
+  if ('description_md' in b) {
+    if (typeof b.description_md !== 'string') return { error: 'description_md must be a string' };
+    data.description_md = b.description_md;
+  }
+
+  return { data: data as unknown as ArLingNearSynonymSetPatch };
+}

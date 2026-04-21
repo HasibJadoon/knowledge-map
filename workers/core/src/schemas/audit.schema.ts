@@ -1,6 +1,8 @@
 // ─── Audit, Feature Flags & Platform Config schemas & types ───────────────────
 
 // core_audit_log
+import type { PaginateOptions } from '../../../shared/src/types';
+
 export interface AuditLogEntry {
   id: string;                                           // CORE:ULID
   workspace_id: string | null;
@@ -147,4 +149,25 @@ export function validatePlatformConfigPatch(
     data.updated_by_ref = b.updated_by_ref;
 
   return { data };
+}
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export type AuditAction =
+  | 'policy_changed'
+  | 'grant_issued'
+  | 'grant_revoked'
+  | 'member_removed'
+  | 'visibility_changed'
+  | 'publication_state_changed'
+  | 'auth_token_issued'
+  | 'auth_token_revoked'
+  | 'user_suspended'
+  | 'workspace_archived'
+  | 'other';
+
+export interface AuditListOptions extends PaginateOptions {
+  action?: AuditAction;
+  actorUserRef?: string;
+  resourceRef?: string;
 }

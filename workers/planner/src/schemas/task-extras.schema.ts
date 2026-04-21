@@ -193,3 +193,46 @@ export function validateTaskDependencyAdd(
 
   return { data };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface TaskResourceCreate {
+  resource_ref: string;
+  resource_type: string;
+  resource_label?: string | null;
+  role?: string;
+  sort_order?: number;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateTaskResourceCreate(body: unknown): SchemaValidationResult<TaskResourceCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.resource_ref !== 'string' || !b.resource_ref.trim()) return { error: 'resource_ref is required and must be a non-empty string' };
+  data.resource_ref = b.resource_ref.trim();
+  if (typeof b.resource_type !== 'string' || !b.resource_type.trim()) return { error: 'resource_type is required and must be a non-empty string' };
+  data.resource_type = b.resource_type.trim();
+  if ('resource_label' in b) {
+    if (b.resource_label !== null && typeof b.resource_label !== 'string') return { error: 'resource_label must be a string or null' };
+    data.resource_label = b.resource_label;
+  }
+  if ('role' in b) {
+    if (typeof b.role !== 'string') return { error: 'role must be a string' };
+    data.role = b.role;
+  }
+  if ('sort_order' in b) {
+    if (typeof b.sort_order !== 'number' || !Number.isFinite(b.sort_order)) return { error: 'sort_order must be a number' };
+    data.sort_order = b.sort_order;
+  }
+
+  return { data: data as unknown as TaskResourceCreate };
+}

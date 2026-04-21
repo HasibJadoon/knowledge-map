@@ -182,3 +182,89 @@ export function validateQrTranslationPassageCreate(
 
   return { data };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface TranslationSource {
+  id: string;          // QR:ULID
+  slug: string;
+  language: string;
+  author: string;
+  title: string;
+  is_default: number;  // 1 | 0
+}
+
+export interface Translation {
+  id: string;          // QR:ULID
+  surah: number;
+  ayah: number;
+  source_id: string;
+  text: string;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateQrTranslationSourcePatch(body: unknown): SchemaValidationResult<QrTranslationSourcePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('translator_name' in b) {
+    if (typeof b.translator_name !== 'string') return { error: 'translator_name must be a string' };
+    data.translator_name = b.translator_name;
+  }
+  if ('language' in b) {
+    if (typeof b.language !== 'string') return { error: 'language must be a string' };
+    data.language = b.language;
+  }
+  if ('edition' in b) {
+    if (b.edition !== null && typeof b.edition !== 'string') return { error: 'edition must be a string or null' };
+    data.edition = b.edition;
+  }
+  if ('is_default' in b) {
+    if (typeof b.is_default !== 'boolean') return { error: 'is_default must be a boolean' };
+    data.is_default = b.is_default;
+  }
+
+  return { data: data as unknown as QrTranslationSourcePatch };
+}
+
+export function validateQrTranslationPatch(body: unknown): SchemaValidationResult<QrTranslationPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('translation_text' in b) {
+    if (typeof b.translation_text !== 'string') return { error: 'translation_text must be a string' };
+    data.translation_text = b.translation_text;
+  }
+  if ('footnote_md' in b) {
+    if (b.footnote_md !== null && typeof b.footnote_md !== 'string') return { error: 'footnote_md must be a string or null' };
+    data.footnote_md = b.footnote_md;
+  }
+
+  return { data: data as unknown as QrTranslationPatch };
+}
+
+export function validateQrTranslationPassagePatch(body: unknown): SchemaValidationResult<QrTranslationPassagePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('passage_translation' in b) {
+    if (typeof b.passage_translation !== 'string') return { error: 'passage_translation must be a string' };
+    data.passage_translation = b.passage_translation;
+  }
+  if ('note_md' in b) {
+    if (b.note_md !== null && typeof b.note_md !== 'string') return { error: 'note_md must be a string or null' };
+    data.note_md = b.note_md;
+  }
+
+  return { data: data as unknown as QrTranslationPassagePatch };
+}

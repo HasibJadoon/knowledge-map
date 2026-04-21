@@ -209,3 +209,119 @@ export function validateArVocabularyRelationCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface VocabCard {
+  id: string;               // AR:ULID
+  container_id: string;     // AR:ULID
+  lx_lemma_ref: string;     // AL:ULID → ar_ling_lemmas
+  display_ar: string;
+  gloss_en: string | null;
+  sort_order: number;
+  srs_level: number;        // 0-5
+  next_review_at: string | null;
+  created_at: string;
+}
+
+export interface VocabCreate {
+  container_id: string;
+  lx_lemma_ref: string;
+  display_ar: string;
+  gloss_en?: string | null;
+  sort_order?: number;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateArVocabularyPatch(body: unknown): SchemaValidationResult<ArVocabularyPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('arabic' in b) {
+    if (typeof b.arabic !== 'string') return { error: 'arabic must be a string' };
+    data.arabic = b.arabic;
+  }
+  if ('transliteration' in b) {
+    if (b.transliteration !== null && typeof b.transliteration !== 'string') return { error: 'transliteration must be a string or null' };
+    data.transliteration = b.transliteration;
+  }
+  if ('meaning_en' in b) {
+    if (typeof b.meaning_en !== 'string') return { error: 'meaning_en must be a string' };
+    data.meaning_en = b.meaning_en;
+  }
+  if ('meaning_notes' in b) {
+    if (b.meaning_notes !== null && typeof b.meaning_notes !== 'string') return { error: 'meaning_notes must be a string or null' };
+    data.meaning_notes = b.meaning_notes;
+  }
+  if ('al_lemma_ref' in b) {
+    if (b.al_lemma_ref !== null && typeof b.al_lemma_ref !== 'string') return { error: 'al_lemma_ref must be a string or null' };
+    data.al_lemma_ref = b.al_lemma_ref;
+  }
+  if ('al_root_ref' in b) {
+    if (b.al_root_ref !== null && typeof b.al_root_ref !== 'string') return { error: 'al_root_ref must be a string or null' };
+    data.al_root_ref = b.al_root_ref;
+  }
+  if ('al_morph_ref' in b) {
+    if (b.al_morph_ref !== null && typeof b.al_morph_ref !== 'string') return { error: 'al_morph_ref must be a string or null' };
+    data.al_morph_ref = b.al_morph_ref;
+  }
+  if ('word_class' in b) {
+    data.word_class = b.word_class;
+  }
+  if ('level' in b) {
+    data.level = b.level;
+  }
+  if ('domain_id' in b) {
+    if (b.domain_id !== null && typeof b.domain_id !== 'string') return { error: 'domain_id must be a string or null' };
+    data.domain_id = b.domain_id;
+  }
+  if ('frequency_rank' in b) {
+    if (b.frequency_rank !== null && (typeof b.frequency_rank !== 'number' || !Number.isFinite(b.frequency_rank))) return { error: 'frequency_rank must be a number or null' };
+    data.frequency_rank = b.frequency_rank;
+  }
+  if ('qr_scope_ref' in b) {
+    if (b.qr_scope_ref !== null && typeof b.qr_scope_ref !== 'string') return { error: 'qr_scope_ref must be a string or null' };
+    data.qr_scope_ref = b.qr_scope_ref;
+  }
+  if ('tags_json' in b) {
+    if (b.tags_json !== null && typeof b.tags_json !== 'string') return { error: 'tags_json must be a string or null' };
+    data.tags_json = b.tags_json;
+  }
+  if ('meta_json' in b) {
+    if (b.meta_json !== null && typeof b.meta_json !== 'string') return { error: 'meta_json must be a string or null' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as ArVocabularyPatch };
+}
+
+export function validateVocabCreate(body: unknown): SchemaValidationResult<VocabCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.container_id !== 'string' || !b.container_id.trim()) return { error: 'container_id is required and must be a non-empty string' };
+  data.container_id = b.container_id.trim();
+  if (typeof b.lx_lemma_ref !== 'string' || !b.lx_lemma_ref.trim()) return { error: 'lx_lemma_ref is required and must be a non-empty string' };
+  data.lx_lemma_ref = b.lx_lemma_ref.trim();
+  if (typeof b.display_ar !== 'string' || !b.display_ar.trim()) return { error: 'display_ar is required and must be a non-empty string' };
+  data.display_ar = b.display_ar.trim();
+  if ('gloss_en' in b) {
+    if (b.gloss_en !== null && typeof b.gloss_en !== 'string') return { error: 'gloss_en must be a string or null' };
+    data.gloss_en = b.gloss_en;
+  }
+  if ('sort_order' in b) {
+    if (typeof b.sort_order !== 'number' || !Number.isFinite(b.sort_order)) return { error: 'sort_order must be a number' };
+    data.sort_order = b.sort_order;
+  }
+
+  return { data: data as unknown as VocabCreate };
+}

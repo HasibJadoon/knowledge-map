@@ -242,3 +242,73 @@ export function validateSessionItemLogAdd(
 
   return { data };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface Session {
+  id: string;                 // PL:ULID
+  plan_id: string | null;     // PL:ULID
+  task_id: string | null;     // PL:ULID
+  core_user_ref: string;      // 'CORE:<user_id>'
+  core_ws_ref: string | null; // 'CORE:<workspace_id>'
+  session_type: string;       // 'reading'|'memorization'|'revision'|'exercise'|'lecture'|'class'|'podcast'|'research'|'other'
+  resource_ref: string | null;    // primary resource studied
+  resource_type: string | null;
+  resource_label: string | null;  // denormalized
+  qr_scope_ref: string | null;    // 'QR:2:1-10' if Quran session
+  started_at: string;
+  ended_at: string | null;
+  duration_mins: number | null;
+  pages_covered: string | null;   // e.g. '45-60'
+  ayahs_covered: string | null;   // e.g. '1-15'
+  rating: number | null;          // 1–5 quality/focus rating
+  notes_md: string | null;
+  meta_json: string | null;
+  created_at: string;
+}
+
+export interface SessionItemLogCreate {
+  resource_ref: string;
+  resource_type: string;
+  resource_label?: string | null;
+  item_status?: string;
+  time_spent_mins?: number | null;
+  notes?: string | null;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateSessionItemLogCreate(body: unknown): SchemaValidationResult<SessionItemLogCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.resource_ref !== 'string' || !b.resource_ref.trim()) return { error: 'resource_ref is required and must be a non-empty string' };
+  data.resource_ref = b.resource_ref.trim();
+  if (typeof b.resource_type !== 'string' || !b.resource_type.trim()) return { error: 'resource_type is required and must be a non-empty string' };
+  data.resource_type = b.resource_type.trim();
+  if ('resource_label' in b) {
+    if (b.resource_label !== null && typeof b.resource_label !== 'string') return { error: 'resource_label must be a string or null' };
+    data.resource_label = b.resource_label;
+  }
+  if ('item_status' in b) {
+    if (typeof b.item_status !== 'string') return { error: 'item_status must be a string' };
+    data.item_status = b.item_status;
+  }
+  if ('time_spent_mins' in b) {
+    if (b.time_spent_mins !== null && (typeof b.time_spent_mins !== 'number' || !Number.isFinite(b.time_spent_mins))) return { error: 'time_spent_mins must be a number or null' };
+    data.time_spent_mins = b.time_spent_mins;
+  }
+  if ('notes' in b) {
+    if (b.notes !== null && typeof b.notes !== 'string') return { error: 'notes must be a string or null' };
+    data.notes = b.notes;
+  }
+
+  return { data: data as unknown as SessionItemLogCreate };
+}

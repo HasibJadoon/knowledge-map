@@ -1,6 +1,8 @@
 // ─── Podcast schemas & types ───────────────────────────────────────────────────
 
 // core_podcasts
+import type { PaginateOptions } from '../../../shared/src/types';
+
 export interface Podcast {
   id: string;                                           // CORE:ULID
   workspace_id: string;                                 // CORE:ULID → core_workspaces
@@ -195,4 +197,85 @@ export function validateTalkingPointAdd(
   if (typeof b.sort_order === 'number') data.sort_order = b.sort_order;
 
   return { data };
+}
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface PodcastListOptions extends PaginateOptions {
+  status?: Podcast['status'];
+}
+
+export interface ParticipantInput {
+  personId?: string;
+  userRef?: string;
+  role?: PodcastParticipant['role'];
+  displayName?: string;
+}
+
+export interface TalkingPointInput {
+  speakerRef?: string;
+  timestampSecs?: number;
+  content: string;
+  topicRef?: string;
+  sortOrder?: number;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateParticipantInput(body: unknown): SchemaValidationResult<ParticipantInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('personId' in b) {
+    if (typeof b.personId !== 'string') return { error: 'personId must be a string' };
+    data.personId = b.personId;
+  }
+  if ('userRef' in b) {
+    if (typeof b.userRef !== 'string') return { error: 'userRef must be a string' };
+    data.userRef = b.userRef;
+  }
+  if ('role' in b) {
+    if (typeof b.role !== 'string') return { error: 'role must be a string' };
+    data.role = b.role;
+  }
+  if ('displayName' in b) {
+    if (typeof b.displayName !== 'string') return { error: 'displayName must be a string' };
+    data.displayName = b.displayName;
+  }
+
+  return { data: data as unknown as ParticipantInput };
+}
+
+export function validateTalkingPointInput(body: unknown): SchemaValidationResult<TalkingPointInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('speakerRef' in b) {
+    if (typeof b.speakerRef !== 'string') return { error: 'speakerRef must be a string' };
+    data.speakerRef = b.speakerRef;
+  }
+  if ('timestampSecs' in b) {
+    if (typeof b.timestampSecs !== 'number' || !Number.isFinite(b.timestampSecs)) return { error: 'timestampSecs must be a number' };
+    data.timestampSecs = b.timestampSecs;
+  }
+  if (typeof b.content !== 'string' || !b.content.trim()) return { error: 'content is required and must be a non-empty string' };
+  data.content = b.content.trim();
+  if ('topicRef' in b) {
+    if (typeof b.topicRef !== 'string') return { error: 'topicRef must be a string' };
+    data.topicRef = b.topicRef;
+  }
+  if ('sortOrder' in b) {
+    if (typeof b.sortOrder !== 'number' || !Number.isFinite(b.sortOrder)) return { error: 'sortOrder must be a number' };
+    data.sortOrder = b.sortOrder;
+  }
+
+  return { data: data as unknown as TalkingPointInput };
 }

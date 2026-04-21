@@ -239,3 +239,65 @@ export function validateReviewEventUpdate(
 
   return { data };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface ReviewCyclePatch {
+  title?: string;
+  cycle_type?: string;
+  cadence?: string | null;
+  cadence_days?: number | null;
+  starts_at?: string | null;
+  ends_at?: string | null;
+  status?: string;
+  meta_json?: string | null;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateReviewCyclePatch(body: unknown): SchemaValidationResult<ReviewCyclePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('cycle_type' in b) {
+    if (typeof b.cycle_type !== 'string') return { error: 'cycle_type must be a string' };
+    data.cycle_type = b.cycle_type;
+  }
+  if ('cadence' in b) {
+    if (b.cadence !== null && typeof b.cadence !== 'string') return { error: 'cadence must be a string or null' };
+    data.cadence = b.cadence;
+  }
+  if ('cadence_days' in b) {
+    if (b.cadence_days !== null && (typeof b.cadence_days !== 'number' || !Number.isFinite(b.cadence_days))) return { error: 'cadence_days must be a number or null' };
+    data.cadence_days = b.cadence_days;
+  }
+  if ('starts_at' in b) {
+    if (b.starts_at !== null && typeof b.starts_at !== 'string') return { error: 'starts_at must be a string or null' };
+    data.starts_at = b.starts_at;
+  }
+  if ('ends_at' in b) {
+    if (b.ends_at !== null && typeof b.ends_at !== 'string') return { error: 'ends_at must be a string or null' };
+    data.ends_at = b.ends_at;
+  }
+  if ('status' in b) {
+    if (typeof b.status !== 'string') return { error: 'status must be a string' };
+    data.status = b.status;
+  }
+  if ('meta_json' in b) {
+    if (b.meta_json !== null && typeof b.meta_json !== 'string') return { error: 'meta_json must be a string or null' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as ReviewCyclePatch };
+}

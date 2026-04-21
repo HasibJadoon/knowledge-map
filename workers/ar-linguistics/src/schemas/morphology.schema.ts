@@ -271,3 +271,178 @@ export function validateArLingConjugationTemplateCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface MorphologyEntry {
+  id: string;           // AL:ULID
+  lemma_id: string;     // AL:ULID
+  form_ar: string;
+  stem_type: string | null;  // verb_form | noun_pattern | ...
+  pattern: string | null;    // فَعَلَ / فِعَال etc.
+  tags: string | null;       // JSON array of grammatical tags
+}
+
+export interface FormParadigm {
+  id: string;           // AL:ULID
+  paradigm_name: string;
+  category: string;     // verb | noun | adjective | ...
+  pattern: string;
+  example_ar: string | null;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateArLingMorphologyPatch(body: unknown): SchemaValidationResult<ArLingMorphologyPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('pattern' in b) {
+    if (typeof b.pattern !== 'string') return { error: 'pattern must be a string' };
+    data.pattern = b.pattern;
+  }
+  if ('gender' in b) {
+    if (typeof b.gender !== 'string') return { error: 'gender must be a string' };
+    data.gender = b.gender;
+  }
+  if ('number' in b) {
+    if (typeof b.number !== 'string') return { error: 'number must be a string' };
+    data.number = b.number;
+  }
+  if ('case_marker' in b) {
+    if (typeof b.case_marker !== 'string') return { error: 'case_marker must be a string' };
+    data.case_marker = b.case_marker;
+  }
+  if ('tense' in b) {
+    if (typeof b.tense !== 'string') return { error: 'tense must be a string' };
+    data.tense = b.tense;
+  }
+  if ('voice' in b) {
+    if (typeof b.voice !== 'string') return { error: 'voice must be a string' };
+    data.voice = b.voice;
+  }
+  if ('person' in b) {
+    if (typeof b.person !== 'string') return { error: 'person must be a string' };
+    data.person = b.person;
+  }
+  if ('definiteness' in b) {
+    if (typeof b.definiteness !== 'string') return { error: 'definiteness must be a string' };
+    data.definiteness = b.definiteness;
+  }
+  if ('derivation_type' in b) {
+    if (typeof b.derivation_type !== 'string') return { error: 'derivation_type must be a string' };
+    data.derivation_type = b.derivation_type;
+  }
+  if ('note_md' in b) {
+    if (typeof b.note_md !== 'string') return { error: 'note_md must be a string' };
+    data.note_md = b.note_md;
+  }
+
+  return { data: data as unknown as ArLingMorphologyPatch };
+}
+
+export function validateArLingFormParadigmPatch(body: unknown): SchemaValidationResult<ArLingFormParadigmPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('paradigm_name' in b) {
+    if (typeof b.paradigm_name !== 'string') return { error: 'paradigm_name must be a string' };
+    data.paradigm_name = b.paradigm_name;
+  }
+  if ('paradigm_type' in b) {
+    if (typeof b.paradigm_type !== 'string') return { error: 'paradigm_type must be a string' };
+    data.paradigm_type = b.paradigm_type;
+  }
+  if ('paradigm_json' in b) {
+    if (typeof b.paradigm_json !== 'string') return { error: 'paradigm_json must be a string' };
+    data.paradigm_json = b.paradigm_json;
+  }
+  if ('verb_form' in b) {
+    if (typeof b.verb_form !== 'string') return { error: 'verb_form must be a string' };
+    data.verb_form = b.verb_form;
+  }
+  if ('root_type' in b) {
+    if (typeof b.root_type !== 'string') return { error: 'root_type must be a string' };
+    data.root_type = b.root_type;
+  }
+  if ('note_md' in b) {
+    if (typeof b.note_md !== 'string') return { error: 'note_md must be a string' };
+    data.note_md = b.note_md;
+  }
+
+  return { data: data as unknown as ArLingFormParadigmPatch };
+}
+
+export function validateArLingInflectionRulePatch(body: unknown): SchemaValidationResult<ArLingInflectionRulePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('rule_name' in b) {
+    if (typeof b.rule_name !== 'string') return { error: 'rule_name must be a string' };
+    data.rule_name = b.rule_name;
+  }
+  if ('rule_type' in b) {
+    if (typeof b.rule_type !== 'string') return { error: 'rule_type must be a string' };
+    data.rule_type = b.rule_type;
+  }
+  if ('applies_to' in b) {
+    if (typeof b.applies_to !== 'string') return { error: 'applies_to must be a string' };
+    data.applies_to = b.applies_to;
+  }
+  if ('rule_description_md' in b) {
+    if (typeof b.rule_description_md !== 'string') return { error: 'rule_description_md must be a string' };
+    data.rule_description_md = b.rule_description_md;
+  }
+  if ('example_before' in b) {
+    if (typeof b.example_before !== 'string') return { error: 'example_before must be a string' };
+    data.example_before = b.example_before;
+  }
+  if ('example_after' in b) {
+    if (typeof b.example_after !== 'string') return { error: 'example_after must be a string' };
+    data.example_after = b.example_after;
+  }
+  if ('note_md' in b) {
+    if (typeof b.note_md !== 'string') return { error: 'note_md must be a string' };
+    data.note_md = b.note_md;
+  }
+
+  return { data: data as unknown as ArLingInflectionRulePatch };
+}
+
+export function validateArLingConjugationTemplatePatch(body: unknown): SchemaValidationResult<ArLingConjugationTemplatePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('person' in b) {
+    if (typeof b.person !== 'string') return { error: 'person must be a string' };
+    data.person = b.person;
+  }
+  if ('tense' in b) {
+    if (typeof b.tense !== 'string') return { error: 'tense must be a string' };
+    data.tense = b.tense;
+  }
+  if ('voice' in b) {
+    if (typeof b.voice !== 'string') return { error: 'voice must be a string' };
+    data.voice = b.voice;
+  }
+  if ('template_form' in b) {
+    if (typeof b.template_form !== 'string') return { error: 'template_form must be a string' };
+    data.template_form = b.template_form;
+  }
+  if ('note_md' in b) {
+    if (typeof b.note_md !== 'string') return { error: 'note_md must be a string' };
+    data.note_md = b.note_md;
+  }
+
+  return { data: data as unknown as ArLingConjugationTemplatePatch };
+}

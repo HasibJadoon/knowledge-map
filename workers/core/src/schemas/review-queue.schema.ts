@@ -1,6 +1,8 @@
 // ─── Review Queue schemas & types ─────────────────────────────────────────────
 
 // core_review_queue
+import type { PaginateOptions } from '../../../shared/src/types';
+
 export interface ReviewQueueItem {
   id: string;                                           // CORE:ULID
   workspace_id: string;                                 // CORE:ULID → core_workspaces
@@ -93,4 +95,21 @@ export function validateStatusUpdate(
   if (typeof b.note === 'string') data.note = b.note;
 
   return { data };
+}
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export type ReviewStatus =
+  | 'pending'
+  | 'in_review'
+  | 'approved'
+  | 'edited'
+  | 'rejected'
+  | 'deferred';
+
+export interface ReviewQueueListOptions extends PaginateOptions {
+  status?: ReviewStatus;
+  sourceModule?: string;
+  reviewerRef?: string;
+  priority?: number;
 }

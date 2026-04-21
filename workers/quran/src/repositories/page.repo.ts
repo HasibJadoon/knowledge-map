@@ -4,20 +4,27 @@
 //         qr_translations, qr_translation_sources
 
 import { query, queryOne } from '../../../shared/src/db';
+import {
+  QR_MAX_PAGE,
+  type QrPage,
+  type QrPageLayoutAyah,
+  type QrPageLayoutLine,
+  type QrPageLineKind,
+  type QrPageSurah,
+  type QrPageWord,
+} from '../schemas/page.schema';
 
 // ─── constants ─────────────────────────────────────────────────────────────────
 
 const BISMILLAH_ARABIC = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
 const BISMILLAH_CLEAN  = 'بسم الله الرحمن الرحيم';
-const MAX_PAGE         = 604;
 const ARABIC_DIGITS    = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
 function toArabicNum(n: number): string {
   return String(n).split('').map(d => ARABIC_DIGITS[+d] ?? d).join('');
 }
 
-type LineKind = 'ayah' | 'surah_name' | 'basmallah';
-function toLineKind(raw: string): LineKind {
+function toLineKind(raw: string): QrPageLineKind {
   if (raw === 'surah_name' || raw === 'basmallah') return raw;
   return 'ayah';
 }
@@ -32,29 +39,8 @@ interface PageAyah {
   page_number: number;
 }
 
-interface PageWord {
-  id: string;              // QR:ULID — used for layout line range filtering
-  surah: number;
-  ayah: number;
-  word_position: number;
-  text_uthmani: string;
-  text_clean: string | null;
-  lx_lemma_ref: string | null;
-  root_text: string | null;
-  pos_tag: string | null;
-  morphology_tag: string | null;
-}
-
-interface PageSurah {
-  id: number;
-  name_ar: string;
-  name_en: string;
-  name_transliteration: string;
-  revelation_type: string;
-  ayah_count: number;
-  juz_start: number | null;
-  page_start: number | null;
-}
+type PageWord = QrPageWord;
+type PageSurah = QrPageSurah;
 
 interface LayoutLineRow {
   line_number: number;
@@ -74,7 +60,7 @@ export class PageRepo {
    * Load a complete mushaf page with ayahs, words, surahs, and layout lines.
    * Returns null if the page number has no ayahs.
    */
-  async byPageNumber(pageNo: number): Promise<Record<string, unknown> | null> {
+  async byPageNumber(pageNo: number): Promise<QrPage | null> {
     // 1. Ayahs on this page — drives everything else
     const ayahs = await query<PageAyah>(
       this.db,
@@ -178,7 +164,7 @@ export class PageRepo {
     });
 
     // 6. Build layout lines
-    const layout = layoutRows
+    const layout: QrPageLayoutLine[] = layoutRows
       .map(line => {
         const kind = toLineKind(line.line_type);
         let text_arabic = '';
@@ -222,7 +208,7 @@ export class PageRepo {
       page: {
         number:     pageNo,
         prev_page:  pageNo > 1 ? pageNo - 1 : null,
-        next_page:  pageNo < MAX_PAGE ? pageNo + 1 : null,
+        next_page:  pageNo < QR_MAX_PAGE ? pageNo + 1 : null,
         ayah_count: ayahs.length,
         start_ref:  `${ayahs[0].surah}:${ayahs[0].ayah}`,
         end_ref:    `${ayahs[ayahs.length - 1].surah}:${ayahs[ayahs.length - 1].ayah}`,
@@ -296,7 +282,7 @@ export class PageRepo {
     lineWords: PageWord[],
     ayahByVerse: Map<string, PageAyah>,
     maxPosByAyah: Map<string, number>,
-  ) {
+  ): QrPageLayoutAyah[] {
     const grouped = new Map<string, PageWord[]>();
     for (const w of lineWords) {
       const k = `${w.surah}:${w.ayah}`;

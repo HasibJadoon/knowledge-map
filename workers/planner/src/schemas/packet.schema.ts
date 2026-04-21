@@ -221,3 +221,55 @@ export function validatePacketItemAdd(
 
   return { data };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface PacketItemCreate {
+  task_id?: string | null;
+  resource_ref?: string | null;
+  resource_type?: string | null;
+  resource_label?: string | null;
+  sort_order?: number;
+  is_required?: boolean;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validatePacketItemCreate(body: unknown): SchemaValidationResult<PacketItemCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('task_id' in b) {
+    if (b.task_id !== null && typeof b.task_id !== 'string') return { error: 'task_id must be a string or null' };
+    data.task_id = b.task_id;
+  }
+  if ('resource_ref' in b) {
+    if (b.resource_ref !== null && typeof b.resource_ref !== 'string') return { error: 'resource_ref must be a string or null' };
+    data.resource_ref = b.resource_ref;
+  }
+  if ('resource_type' in b) {
+    if (b.resource_type !== null && typeof b.resource_type !== 'string') return { error: 'resource_type must be a string or null' };
+    data.resource_type = b.resource_type;
+  }
+  if ('resource_label' in b) {
+    if (b.resource_label !== null && typeof b.resource_label !== 'string') return { error: 'resource_label must be a string or null' };
+    data.resource_label = b.resource_label;
+  }
+  if ('sort_order' in b) {
+    if (typeof b.sort_order !== 'number' || !Number.isFinite(b.sort_order)) return { error: 'sort_order must be a number' };
+    data.sort_order = b.sort_order;
+  }
+  if ('is_required' in b) {
+    if (typeof b.is_required !== 'boolean') return { error: 'is_required must be a boolean' };
+    data.is_required = b.is_required;
+  }
+
+  return { data: data as unknown as PacketItemCreate };
+}

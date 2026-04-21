@@ -1,6 +1,8 @@
 // ─── Activity & Notification schemas & types ──────────────────────────────────
 
 // core_activity_events
+import type { PaginateOptions } from '../../../shared/src/types';
+
 export interface ActivityEvent {
   id: string;                                           // CORE:ULID
   workspace_id: string | null;
@@ -100,4 +102,98 @@ export function validateNotificationCreate(
   if (typeof b.resource_ref === 'string') data.resource_ref = b.resource_ref;
 
   return { data };
+}
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface ActivityEventInput {
+  workspaceId?: string;
+  actorUserRef: string;
+  eventType: string;
+  resourceRef?: string;
+  resourceType?: string;
+  payloadJson?: string;
+}
+
+export interface NotificationInput {
+  userRef: string;
+  workspaceId?: string;
+  notifType: string;
+  title: string;
+  bodyMd?: string;
+  resourceRef?: string;
+}
+
+export interface ActivityListOptions extends PaginateOptions {
+  eventType?: string;
+  actorUserRef?: string;
+  resourceRef?: string;
+}
+
+export interface NotifListOptions extends PaginateOptions {
+  unreadOnly?: boolean;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateActivityEventInput(body: unknown): SchemaValidationResult<ActivityEventInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('workspaceId' in b) {
+    if (typeof b.workspaceId !== 'string') return { error: 'workspaceId must be a string' };
+    data.workspaceId = b.workspaceId;
+  }
+  if (typeof b.actorUserRef !== 'string' || !b.actorUserRef.trim()) return { error: 'actorUserRef is required and must be a non-empty string' };
+  data.actorUserRef = b.actorUserRef.trim();
+  if (typeof b.eventType !== 'string' || !b.eventType.trim()) return { error: 'eventType is required and must be a non-empty string' };
+  data.eventType = b.eventType.trim();
+  if ('resourceRef' in b) {
+    if (typeof b.resourceRef !== 'string') return { error: 'resourceRef must be a string' };
+    data.resourceRef = b.resourceRef;
+  }
+  if ('resourceType' in b) {
+    if (typeof b.resourceType !== 'string') return { error: 'resourceType must be a string' };
+    data.resourceType = b.resourceType;
+  }
+  if ('payloadJson' in b) {
+    if (typeof b.payloadJson !== 'string') return { error: 'payloadJson must be a string' };
+    data.payloadJson = b.payloadJson;
+  }
+
+  return { data: data as unknown as ActivityEventInput };
+}
+
+export function validateNotificationInput(body: unknown): SchemaValidationResult<NotificationInput> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.userRef !== 'string' || !b.userRef.trim()) return { error: 'userRef is required and must be a non-empty string' };
+  data.userRef = b.userRef.trim();
+  if ('workspaceId' in b) {
+    if (typeof b.workspaceId !== 'string') return { error: 'workspaceId must be a string' };
+    data.workspaceId = b.workspaceId;
+  }
+  if (typeof b.notifType !== 'string' || !b.notifType.trim()) return { error: 'notifType is required and must be a non-empty string' };
+  data.notifType = b.notifType.trim();
+  if (typeof b.title !== 'string' || !b.title.trim()) return { error: 'title is required and must be a non-empty string' };
+  data.title = b.title.trim();
+  if ('bodyMd' in b) {
+    if (typeof b.bodyMd !== 'string') return { error: 'bodyMd must be a string' };
+    data.bodyMd = b.bodyMd;
+  }
+  if ('resourceRef' in b) {
+    if (typeof b.resourceRef !== 'string') return { error: 'resourceRef must be a string' };
+    data.resourceRef = b.resourceRef;
+  }
+
+  return { data: data as unknown as NotificationInput };
 }

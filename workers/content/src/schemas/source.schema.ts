@@ -74,3 +74,60 @@ export function validateCmSourceCreate(
     },
   };
 }
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateCmSourcePatch(body: unknown): SchemaValidationResult<CmSourcePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('title_ar' in b) {
+    if (typeof b.title_ar !== 'string') return { error: 'title_ar must be a string' };
+    data.title_ar = b.title_ar;
+  }
+  if ('subtitle' in b) {
+    if (typeof b.subtitle !== 'string') return { error: 'subtitle must be a string' };
+    data.subtitle = b.subtitle;
+  }
+  if ('source_type' in b) {
+    if (typeof b.source_type !== 'string') return { error: 'source_type must be a string' };
+    data.source_type = b.source_type;
+  }
+  if ('language' in b) {
+    if (typeof b.language !== 'string') return { error: 'language must be a string' };
+    data.language = b.language;
+  }
+  if ('status' in b) {
+    if (typeof b.status !== 'string') return { error: 'status must be a string' };
+    data.status = b.status;
+  }
+  if ('policy_ref' in b) {
+    if (typeof b.policy_ref !== 'string') return { error: 'policy_ref must be a string' };
+    data.policy_ref = b.policy_ref;
+  }
+  if ('workspace_ref' in b) {
+    if (typeof b.workspace_ref !== 'string') return { error: 'workspace_ref must be a string' };
+    data.workspace_ref = b.workspace_ref;
+  }
+  if ('wv_source_ref' in b) {
+    if (typeof b.wv_source_ref !== 'string') return { error: 'wv_source_ref must be a string' };
+    data.wv_source_ref = b.wv_source_ref;
+  }
+  if ('meta_json' in b) {
+    if (typeof b.meta_json !== 'string') return { error: 'meta_json must be a string' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as CmSourcePatch };
+}

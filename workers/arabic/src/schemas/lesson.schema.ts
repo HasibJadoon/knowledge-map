@@ -96,3 +96,108 @@ export function validateArLessonCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface Lesson {
+  id: string;           // AR:ULID
+  container_id: string; // AR:ULID
+  title: string;
+  lesson_type: string;  // vocabulary | grammar | reading | exercise
+  sort_order: number;
+  status: string;       // draft | published | archived
+  created_at: string;
+}
+
+export interface LessonCreate {
+  container_id: string;
+  title: string;
+  lesson_type: string;
+  sort_order?: number;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateArLessonPatch(body: unknown): SchemaValidationResult<ArLessonPatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('unit_id' in b) {
+    if (b.unit_id !== null && typeof b.unit_id !== 'string') return { error: 'unit_id must be a string or null' };
+    data.unit_id = b.unit_id;
+  }
+  if ('title' in b) {
+    if (typeof b.title !== 'string') return { error: 'title must be a string' };
+    data.title = b.title;
+  }
+  if ('title_ar' in b) {
+    if (b.title_ar !== null && typeof b.title_ar !== 'string') return { error: 'title_ar must be a string or null' };
+    data.title_ar = b.title_ar;
+  }
+  if ('lesson_type' in b) {
+    data.lesson_type = b.lesson_type;
+  }
+  if ('level' in b) {
+    if (b.level !== null && typeof b.level !== 'string') return { error: 'level must be a string or null' };
+    data.level = b.level;
+  }
+  if ('skill_focus' in b) {
+    data.skill_focus = b.skill_focus;
+  }
+  if ('content_md' in b) {
+    if (typeof b.content_md !== 'string') return { error: 'content_md must be a string' };
+    data.content_md = b.content_md;
+  }
+  if ('vocab_ids_json' in b) {
+    if (b.vocab_ids_json !== null && typeof b.vocab_ids_json !== 'string') return { error: 'vocab_ids_json must be a string or null' };
+    data.vocab_ids_json = b.vocab_ids_json;
+  }
+  if ('grammar_ids_json' in b) {
+    if (b.grammar_ids_json !== null && typeof b.grammar_ids_json !== 'string') return { error: 'grammar_ids_json must be a string or null' };
+    data.grammar_ids_json = b.grammar_ids_json;
+  }
+  if ('qr_scope_ref' in b) {
+    if (b.qr_scope_ref !== null && typeof b.qr_scope_ref !== 'string') return { error: 'qr_scope_ref must be a string or null' };
+    data.qr_scope_ref = b.qr_scope_ref;
+  }
+  if ('estimated_mins' in b) {
+    if (b.estimated_mins !== null && (typeof b.estimated_mins !== 'number' || !Number.isFinite(b.estimated_mins))) return { error: 'estimated_mins must be a number or null' };
+    data.estimated_mins = b.estimated_mins;
+  }
+  if ('is_published' in b) {
+    if (typeof b.is_published !== 'boolean') return { error: 'is_published must be a boolean' };
+    data.is_published = b.is_published;
+  }
+  if ('meta_json' in b) {
+    if (b.meta_json !== null && typeof b.meta_json !== 'string') return { error: 'meta_json must be a string or null' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as ArLessonPatch };
+}
+
+export function validateLessonCreate(body: unknown): SchemaValidationResult<LessonCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.container_id !== 'string' || !b.container_id.trim()) return { error: 'container_id is required and must be a non-empty string' };
+  data.container_id = b.container_id.trim();
+  if (typeof b.title !== 'string' || !b.title.trim()) return { error: 'title is required and must be a non-empty string' };
+  data.title = b.title.trim();
+  if (typeof b.lesson_type !== 'string' || !b.lesson_type.trim()) return { error: 'lesson_type is required and must be a non-empty string' };
+  data.lesson_type = b.lesson_type.trim();
+  if ('sort_order' in b) {
+    if (typeof b.sort_order !== 'number' || !Number.isFinite(b.sort_order)) return { error: 'sort_order must be a number' };
+    data.sort_order = b.sort_order;
+  }
+
+  return { data: data as unknown as LessonCreate };
+}

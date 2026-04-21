@@ -159,3 +159,132 @@ export function validateArExerciseAttemptCreate(
     },
   };
 }
+
+// ─── Repository-compatible contracts ─────────────────────────────────────────
+
+export interface Exercise {
+  id: string;               // AR:ULID
+  lesson_id: string;        // AR:ULID
+  exercise_type: string;    // flashcard | fill-blank | mcq | translation | parsing
+  prompt: string;
+  answer: string | null;
+  options_json: string | null; // JSON array of MCQ choices
+  sort_order: number;
+  status: string;
+  created_at: string;
+}
+
+export interface ExerciseCreate {
+  lesson_id: string;
+  exercise_type: string;
+  prompt: string;
+  answer?: string | null;
+  options_json?: string | null;
+  sort_order?: number;
+}
+
+// ─── Additional validators ───────────────────────────────────────────────────
+
+type SchemaValidationResult<T> = { data: T } | { error: string };
+
+function isSchemaRecord(body: unknown): body is Record<string, unknown> {
+  return typeof body === 'object' && body !== null && !Array.isArray(body);
+}
+
+export function validateArExercisePatch(body: unknown): SchemaValidationResult<ArExercisePatch> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if ('lesson_id' in b) {
+    if (b.lesson_id !== null && typeof b.lesson_id !== 'string') return { error: 'lesson_id must be a string or null' };
+    data.lesson_id = b.lesson_id;
+  }
+  if ('unit_id' in b) {
+    if (b.unit_id !== null && typeof b.unit_id !== 'string') return { error: 'unit_id must be a string or null' };
+    data.unit_id = b.unit_id;
+  }
+  if ('exercise_type' in b) {
+    data.exercise_type = b.exercise_type;
+  }
+  if ('prompt_ar' in b) {
+    if (typeof b.prompt_ar !== 'string') return { error: 'prompt_ar must be a string' };
+    data.prompt_ar = b.prompt_ar;
+  }
+  if ('prompt_en' in b) {
+    if (b.prompt_en !== null && typeof b.prompt_en !== 'string') return { error: 'prompt_en must be a string or null' };
+    data.prompt_en = b.prompt_en;
+  }
+  if ('options_json' in b) {
+    if (b.options_json !== null && typeof b.options_json !== 'string') return { error: 'options_json must be a string or null' };
+    data.options_json = b.options_json;
+  }
+  if ('answer_json' in b) {
+    if (b.answer_json !== null && typeof b.answer_json !== 'string') return { error: 'answer_json must be a string or null' };
+    data.answer_json = b.answer_json;
+  }
+  if ('explanation_md' in b) {
+    if (b.explanation_md !== null && typeof b.explanation_md !== 'string') return { error: 'explanation_md must be a string or null' };
+    data.explanation_md = b.explanation_md;
+  }
+  if ('vocab_id' in b) {
+    if (b.vocab_id !== null && typeof b.vocab_id !== 'string') return { error: 'vocab_id must be a string or null' };
+    data.vocab_id = b.vocab_id;
+  }
+  if ('grammar_id' in b) {
+    if (b.grammar_id !== null && typeof b.grammar_id !== 'string') return { error: 'grammar_id must be a string or null' };
+    data.grammar_id = b.grammar_id;
+  }
+  if ('al_concept_ref' in b) {
+    if (b.al_concept_ref !== null && typeof b.al_concept_ref !== 'string') return { error: 'al_concept_ref must be a string or null' };
+    data.al_concept_ref = b.al_concept_ref;
+  }
+  if ('qr_scope_ref' in b) {
+    if (b.qr_scope_ref !== null && typeof b.qr_scope_ref !== 'string') return { error: 'qr_scope_ref must be a string or null' };
+    data.qr_scope_ref = b.qr_scope_ref;
+  }
+  if ('level' in b) {
+    if (b.level !== null && typeof b.level !== 'string') return { error: 'level must be a string or null' };
+    data.level = b.level;
+  }
+  if ('skill_focus' in b) {
+    if (b.skill_focus !== null && typeof b.skill_focus !== 'string') return { error: 'skill_focus must be a string or null' };
+    data.skill_focus = b.skill_focus;
+  }
+  if ('difficulty' in b) {
+    data.difficulty = b.difficulty;
+  }
+  if ('meta_json' in b) {
+    if (b.meta_json !== null && typeof b.meta_json !== 'string') return { error: 'meta_json must be a string or null' };
+    data.meta_json = b.meta_json;
+  }
+
+  return { data: data as unknown as ArExercisePatch };
+}
+
+export function validateExerciseCreate(body: unknown): SchemaValidationResult<ExerciseCreate> {
+  if (!isSchemaRecord(body)) return { error: 'Body must be an object' };
+  const b = body;
+  const data: Record<string, unknown> = {};
+
+  if (typeof b.lesson_id !== 'string' || !b.lesson_id.trim()) return { error: 'lesson_id is required and must be a non-empty string' };
+  data.lesson_id = b.lesson_id.trim();
+  if (typeof b.exercise_type !== 'string' || !b.exercise_type.trim()) return { error: 'exercise_type is required and must be a non-empty string' };
+  data.exercise_type = b.exercise_type.trim();
+  if (typeof b.prompt !== 'string' || !b.prompt.trim()) return { error: 'prompt is required and must be a non-empty string' };
+  data.prompt = b.prompt.trim();
+  if ('answer' in b) {
+    if (b.answer !== null && typeof b.answer !== 'string') return { error: 'answer must be a string or null' };
+    data.answer = b.answer;
+  }
+  if ('options_json' in b) {
+    if (b.options_json !== null && typeof b.options_json !== 'string') return { error: 'options_json must be a string or null' };
+    data.options_json = b.options_json;
+  }
+  if ('sort_order' in b) {
+    if (typeof b.sort_order !== 'number' || !Number.isFinite(b.sort_order)) return { error: 'sort_order must be a number' };
+    data.sort_order = b.sort_order;
+  }
+
+  return { data: data as unknown as ExerciseCreate };
+}
