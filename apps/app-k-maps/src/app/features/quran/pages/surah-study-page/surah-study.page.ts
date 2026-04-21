@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
-  IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
+  IonHeader, IonToolbar, IonTitle, IonButtons, IonButton,
   IonContent, IonIcon, IonSpinner,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
-  chevronForwardOutline, bookOutline, layersOutline,
+  arrowBackOutline, chevronForwardOutline, bookOutline, layersOutline,
   chatbubbleOutline, gitBranchOutline,
 } from 'ionicons/icons';
 import {
@@ -19,7 +19,7 @@ import {
   selector: 'app-surah-study-page',
   standalone: true,
   imports: [
-    IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
+    IonHeader, IonToolbar, IonTitle, IonButtons, IonButton,
     IonContent, IonIcon, IonSpinner,
   ],
   templateUrl: './surah-study.page.html',
@@ -38,7 +38,7 @@ export class SurahStudyPage implements OnInit {
   readonly error = signal<string | null>(null);
 
   constructor() {
-    addIcons({ chevronForwardOutline, bookOutline, layersOutline, chatbubbleOutline, gitBranchOutline });
+    addIcons({ arrowBackOutline, chevronForwardOutline, bookOutline, layersOutline, chatbubbleOutline, gitBranchOutline });
   }
 
   ngOnInit(): void {
@@ -59,6 +59,11 @@ export class SurahStudyPage implements OnInit {
 
   openUnit(unit: StudyUnitCardVm): void {
     this.router.navigate(['/quran/surah', this.surahId(), 'study', unit.order_index]);
+  }
+
+  back(): void {
+    const surahId = this.surahId();
+    this.router.navigateByUrl(surahId > 0 ? `/quran/${surahId}` : '/quran');
   }
 
   ayahRange(u: StudyUnitCardVm): string {

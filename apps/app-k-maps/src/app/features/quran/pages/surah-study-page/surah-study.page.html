@@ -1,7 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="'/quran/' + surahId()" text="" />
+      <ion-button class="study-back-button" fill="clear" (click)="back()" aria-label="Back">
+        <ion-icon name="arrow-back-outline" slot="icon-only" />
+      </ion-button>
     </ion-buttons>
     <ion-title>
       @if (surahMeta()) {

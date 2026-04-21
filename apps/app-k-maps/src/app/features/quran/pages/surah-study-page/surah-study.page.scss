@@ -5,7 +5,13 @@ ion-toolbar {
   --border-color: rgba(255,255,255,0.06);
 }
 
-ion-back-button { --color: #c9a84c; }
+.study-back-button {
+  --color: #ffffff;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  min-width: 44px;
+  min-height: 44px;
+}
 
 .title-ar {
   font-family: var(--km-font-arabic);
