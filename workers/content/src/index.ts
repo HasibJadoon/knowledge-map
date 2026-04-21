@@ -19,7 +19,7 @@ router.get('/health', async (_req, env) =>
   ok({ domain: 'content', db: 'DB_CM', db_ok: await dbHealth(env.DB_CM) }),
 );
 
-documentRoutes(router);   // GET/POST/PATCH /cm/documents
+documentRoutes(router);   // CM documents, blocks, links, versions
 noteRoutes(router);        // GET/POST/PATCH /cm/notes
 captureRoutes(router);     // GET/POST /cm/captures
 highlightRoutes(router);   // GET/POST/DELETE /cm/highlights
