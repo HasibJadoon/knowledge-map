@@ -6,6 +6,8 @@ compatibility_date = "2025-01-01"
 binding = "DB_AR"
 database_name = "km_arabic"
 database_id = "7ffa77c9-2d6c-46cb-a360-b198da502252"
+migrations_dir = "migrations"
+# Pedagogy tables only (ar_*). Linguistic truth lives in DB_AL via AL:ULID refs.
 
 [[services]]
 binding = "AR_LINGUISTICS"

@@ -6,6 +6,9 @@ compatibility_date = "2025-01-01"
 binding = "DB_AL"
 database_name = "km_arabic_linguistic"
 database_id = "192f4792-deb3-4f2e-9204-532cf484ecd2"
+migrations_dir = "migrations"
+# NOTE: All tables use single prefix ar_ling_* (no al_* prefix anywhere)
+# LX:... typed refs resolve to DB_AL for backward compat
 
 [[services]]
 binding = "CONTENT"

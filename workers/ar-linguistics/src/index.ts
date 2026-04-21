@@ -1,19 +1,37 @@
-import { dbHealth, json, notFound } from '../../shared/src/http';
+// ─── km-ar-linguistics-worker entry point ─────────────────────────────────────
+// Owns DB_AL (km_arabic_linguistic). Single prefix: ar_ling_*.
+// QR and AR call this worker for all linguistic truth (roots, lemmas, sarf,
+// nahw, balagha). Never binds DB_QR or DB_AR.
+
+import { Router } from '../../shared/src/router';
+import { dbHealth } from '../../shared/src/http';
+import { ok } from '../../shared/src/response';
 import type { ArLinguisticsEnv } from './env';
 
+import { rootRoutes } from './routes/roots';
+import { lemmaRoutes } from './routes/lemmas';
+import { morphologyRoutes } from './routes/morphology';
+import { nahwRoutes } from './routes/nahw';
+import { balaghaRoutes } from './routes/balagha';
+import { lexiconRoutes } from './routes/lexicon';
+import { expressionRoutes } from './routes/expressions';
+
+const router = new Router<ArLinguisticsEnv>();
+
+// Health
+router.get('/health', async (_req, env) =>
+  ok({ domain: 'ar-linguistics', db: 'DB_AL', db_ok: await dbHealth(env.DB_AL) }),
+);
+
+// Domain routes
+rootRoutes(router);
+lemmaRoutes(router);
+morphologyRoutes(router);
+nahwRoutes(router);
+balaghaRoutes(router);
+lexiconRoutes(router);
+expressionRoutes(router);
+
 export default {
-  async fetch(request: Request, env: ArLinguisticsEnv): Promise<Response> {
-    const url = new URL(request.url);
-
-    if (url.pathname === '/' || url.pathname === '/health') {
-      return json({
-        ok: true,
-        domain: 'ar-linguistics',
-        db: 'DB_AL',
-        db_ok: await dbHealth(env.DB_AL),
-      });
-    }
-
-    return notFound('ar-linguistics');
-  },
+  fetch: (request: Request, env: ArLinguisticsEnv) => router.handle(request, env),
 } satisfies ExportedHandler<ArLinguisticsEnv>;

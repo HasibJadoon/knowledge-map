@@ -6,6 +6,7 @@ compatibility_date = "2025-01-01"
 binding = "DB_WV"
 database_name = "km_worldview"
 database_id = "5640655e-0b0c-468d-b582-20b666f72d03"
+migrations_dir = "migrations"
 
 [[services]]
 binding = "CONTENT"

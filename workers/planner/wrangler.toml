@@ -6,6 +6,8 @@ compatibility_date = "2025-01-01"
 binding = "DB_PL"
 database_name = "km_planner"
 database_id = "6a4bd15a-5471-4f87-8b33-902262b9a2f8"
+migrations_dir = "migrations"
+# PL stores typed refs to QR/AR resources — never duplicates canonical content
 
 [[services]]
 binding = "QURAN"

@@ -6,6 +6,8 @@ compatibility_date = "2025-01-01"
 binding = "DB_CM"
 database_name = "km_content"
 database_id = "c59b9640-6e68-4068-8034-33a2fd66cd00"
+migrations_dir = "migrations"
+# CM does NOT manage its own ACL — uses CORE resource_grants via CORE Fetcher
 
 [[services]]
 binding = "CORE"

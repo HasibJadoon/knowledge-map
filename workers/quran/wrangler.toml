@@ -1,11 +1,12 @@
-name = "km-quran-worker"
-main = "src/index.ts"
+name            = "km-quran-worker"
+main            = "src/index.ts"
 compatibility_date = "2025-01-01"
 
 [[d1_databases]]
-binding = "DB_QR"
+binding       = "DB_QR"
 database_name = "km_quran"
-database_id = "8dbd5053-c9b8-4dd0-9e45-1d66d3a58fba"
+database_id   = "8dbd5053-c9b8-4dd0-9e45-1d66d3a58fba"
+migrations_dir = "migrations"
 
 [[services]]
 binding = "AR_LINGUISTICS"
@@ -18,3 +19,6 @@ service = "km-worldview-worker"
 [[services]]
 binding = "CONTENT"
 service = "km-content-worker"
+
+[vars]
+# JWT_SECRET is set as a secret via `wrangler secret put JWT_SECRET`
