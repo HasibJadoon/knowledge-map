@@ -4,7 +4,7 @@ import {
   inject, signal, ChangeDetectionStrategy,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SurahModulesApiService, WorldviewHubResponse } from '../../../../../shared/services/quran/surah-modules-api.service';
+import { QuranSurahService, WorldviewHubResponse } from '../../../../../shared/services/quran/quran-surah.service';
 import { QuranPageShellComponent } from '../../../shared/quran-page-shell.component';
 import { QuranGsapService } from '../../../../../shared/services/quran/quran-gsap.service';
 import { ActionIconTileComponent, ActionIconVm } from '../../../action-icon-tile/action-icon-tile.component';
@@ -36,7 +36,7 @@ const ACTIONS: ActionIconVm[] = [
 export class WorldviewHubComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private svc = inject(SurahModulesApiService);
+  private svc = inject(QuranSurahService);
   private gsapSvc = inject(QuranGsapService);
 
   @ViewChildren(ActionIconTileComponent, { read: ElementRef })

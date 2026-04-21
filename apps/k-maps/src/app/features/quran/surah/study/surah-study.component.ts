@@ -3,7 +3,7 @@ import {
   QueryList, ElementRef, inject, signal, ChangeDetectionStrategy,
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SurahModulesApiService, StudyUnitCardVm, StudySurahMeta } from '../../../../shared/services/quran/surah-modules-api.service';
+import { QuranSurahService, StudyUnitCardVm, StudySurahMeta } from '../../../../shared/services/quran/quran-surah.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
 import { QuranGsapService } from '../../../../shared/services/quran/quran-gsap.service';
 import { EmptyStateComponent } from '../../shared/empty-state/empty-state.component';
@@ -19,7 +19,7 @@ import { EmptyStateComponent } from '../../shared/empty-state/empty-state.compon
 export class SurahStudyComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private svc = inject(SurahModulesApiService);
+  private svc = inject(QuranSurahService);
   private gsapSvc = inject(QuranGsapService);
 
   @ViewChildren('cardEl') cardEls!: QueryList<ElementRef>;

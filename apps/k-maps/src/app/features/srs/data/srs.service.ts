@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { BackendApiService } from '../../../shared/services/backend-api.service';
-import { SrsCardVm } from '../../../shared/services/quran/surah-modules-api.service';
+import { SrsCardVm } from '../../../shared/services/quran/quran-surah.service';
 
 export type SrsQueueFilter = 'due' | 'upcoming' | 'all' | 'suspended';
 export type SrsRating = 'again' | 'hard' | 'good' | 'easy';

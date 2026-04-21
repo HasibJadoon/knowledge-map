@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgClass } from '@angular/common';
-import { SurahModulesApiService, SrsCardVm, ReviewItemVm } from '../../../../shared/services/quran/surah-modules-api.service';
+import { QuranSurahService, SrsCardVm, ReviewItemVm } from '../../../../shared/services/quran/quran-surah.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
 import { QuranGsapService } from '../../../../shared/services/quran/quran-gsap.service';
 
@@ -16,7 +16,7 @@ import { QuranGsapService } from '../../../../shared/services/quran/quran-gsap.s
 export class SurahReviewComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private svc = inject(SurahModulesApiService);
+  private svc = inject(QuranSurahService);
   private gsapSvc = inject(QuranGsapService);
 
   @ViewChildren('reviewEl') reviewEls!: QueryList<ElementRef>;

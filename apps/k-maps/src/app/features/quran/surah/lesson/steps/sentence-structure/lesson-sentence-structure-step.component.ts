@@ -5,7 +5,7 @@ import {
 
 import {
   StudyLessonResponse,
-} from '../../../../../../shared/services/quran/surah-modules-api.service';
+} from '../../../../../../shared/services/quran/quran-surah.service';
 import {
   SentenceStructureCanvasComponent,
   SsLessonMeta,

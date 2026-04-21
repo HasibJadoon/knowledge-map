@@ -538,7 +538,7 @@ interface WorkerSrsData {
 }
 
 @Injectable({ providedIn: 'root' })
-export class SurahModulesApiService {
+export class QuranSurahService {
   private readonly api = inject(BackendApiService);
 
   private legacySurahPath(surahId: number, ...segments: string[]): Array<string | number> {

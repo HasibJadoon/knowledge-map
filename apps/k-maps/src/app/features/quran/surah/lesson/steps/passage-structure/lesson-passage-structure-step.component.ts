@@ -3,7 +3,7 @@ import {
   ElementRef, ViewChild, inject, signal, computed, ChangeDetectionStrategy, NgZone,
 } from '@angular/core';
 import gsap from 'gsap';
-import { StudyLessonResponse } from '../../../../../../shared/services/quran/surah-modules-api.service';
+import { StudyLessonResponse } from '../../../../../../shared/services/quran/quran-surah.service';
 
 export interface PassageSection {
   key: string;
