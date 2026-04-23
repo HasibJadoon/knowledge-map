@@ -9,7 +9,7 @@ import type { WordOccurrence } from '../schemas/word.schema';
 const SELECT = `
   id, surah, ayah, word_position,
   text_uthmani, text_clean,
-  lx_lemma_ref, root_text, pos_tag, morphology_tag
+  lx_lemma_ref, root_text, pos_tag, morphology_tag, morphology_tag_json
 FROM qr_word_occurrences`;
 
 export class WordRepo {

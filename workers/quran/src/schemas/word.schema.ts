@@ -11,6 +11,7 @@ export interface WordOccurrence {
   root_text: string | null;
   pos_tag: string | null;        // part-of-speech
   morphology_tag: string | null;
+  morphology_tag_json: string | null;
 }
 
 export interface WordQuery {

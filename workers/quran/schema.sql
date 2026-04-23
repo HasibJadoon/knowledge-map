@@ -1248,6 +1248,7 @@ CREATE TABLE qr_word_occurrences (
   lemma             TEXT,
   pos               TEXT,
   morphology_tag    TEXT,
+  morphology_tag_json JSON CHECK (morphology_tag_json IS NULL OR json_valid(morphology_tag_json)),
   created_at        TEXT NOT NULL DEFAULT (datetime('now')),
   UNIQUE (surah, ayah, word_index),
   FOREIGN KEY (surah) REFERENCES qr_surahs(id)

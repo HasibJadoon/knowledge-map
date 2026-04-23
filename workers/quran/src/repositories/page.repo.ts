@@ -84,7 +84,7 @@ export class PageRepo {
         this.db,
         `SELECT w.id, w.surah, w.ayah, w.word_position,
                 w.text_uthmani, w.text_clean, w.lx_lemma_ref, w.root_text,
-                w.pos_tag, w.morphology_tag
+                w.pos_tag, w.morphology_tag, w.morphology_tag_json
          FROM qr_word_occurrences w
          JOIN qr_ayah a ON a.surah = w.surah AND a.ayah = w.ayah
          WHERE a.page_number = ?

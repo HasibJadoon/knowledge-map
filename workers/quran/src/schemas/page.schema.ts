@@ -28,6 +28,7 @@ export interface QrPageWord {
   root_text: string | null;
   pos_tag: string | null;
   morphology_tag: string | null;
+  morphology_tag_json: string | null;
 }
 
 export interface QrPageSurah {
