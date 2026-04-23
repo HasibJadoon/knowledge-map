@@ -1,0 +1,560 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Reaction Studio — design tokens (dark cinematic palette)
+   ───────────────────────────────────────────────────────────────────────────── */
+:host {
+  --rs-bg:        #0d0d0f;
+  --rs-surface:   #141416;
+  --rs-surface-2: #1a1a1e;
+  --rs-surface-3: #202026;
+  --rs-border:    #2a2a30;
+  --rs-hover:     rgba(255,255,255,0.04);
+  --rs-active-bg: rgba(201,168,76,0.08);
+  --rs-gold:      #c9a84c;
+  --rs-gold-dim:  rgba(201,168,76,0.35);
+  --rs-text:      #e8e6e0;
+  --rs-text-2:    #a8a49e;
+  --rs-text-3:    #5e5c58;
+
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--rs-bg);
+  color: var(--rs-text);
+  font-family: var(--km-font-body, 'Poppins', sans-serif);
+}
+
+/* ─── Layout root ─────────────────────────────────────────────────────────── */
+.rs {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ─── Top bar ─────────────────────────────────────────────────────────────── */
+.rs__topbar {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--rs-border);
+  background: var(--rs-surface);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.rs__back {
+  background: transparent;
+  border: 1px solid var(--rs-border);
+  color: var(--rs-text-2);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.rs__back:hover {
+  color: var(--rs-text);
+  border-color: var(--rs-text-3);
+}
+
+.rs__topbar-center {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.rs__badge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rs-gold);
+  background: rgba(201,168,76,0.1);
+  border: 1px solid var(--rs-gold-dim);
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.rs__title {
+  font-size: 14px;
+  color: var(--rs-text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rs__topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rs__icon-btn {
+  background: transparent;
+  border: 1px solid var(--rs-border);
+  color: var(--rs-text-3);
+  font-size: 11px;
+  width: 32px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.rs__icon-btn:hover {
+  color: var(--rs-text-2);
+  border-color: var(--rs-text-3);
+}
+
+/* ─── 3-column body ───────────────────────────────────────────────────────── */
+.rs__body {
+  display: grid;
+  grid-template-columns: 220px 1fr 300px;
+  grid-template-rows: 1fr;
+  flex: 1;
+  overflow: hidden;
+  transition: grid-template-columns 0.25s ease;
+}
+
+.rs--left-collapsed .rs__body {
+  grid-template-columns: 0px 1fr 300px;
+}
+
+/* ─── Left panel ──────────────────────────────────────────────────────────── */
+.rs__left {
+  background: var(--rs-surface);
+  border-right: 1px solid var(--rs-border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rs--left-collapsed .rs__left {
+  overflow: hidden;
+  width: 0;
+}
+
+/* scene-list fills the panel */
+.rs__left km-scene-list {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Center panel ────────────────────────────────────────────────────────── */
+.rs__center {
+  display: grid;
+  grid-template-rows: 2fr 1fr 1fr;
+  overflow: hidden;
+  background: var(--rs-bg);
+}
+
+.rs__player-wrap {
+  border-bottom: 1px solid var(--rs-border);
+  overflow: hidden;
+  background: #000;
+}
+
+.rs__player-wrap km-youtube-player {
+  display: block;
+  height: 100%;
+}
+
+.rs__camera-wrap {
+  border-bottom: 1px solid var(--rs-border);
+  overflow: hidden;
+}
+
+.rs__transcript-wrap {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rs__transcript-wrap km-transcript-panel {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Right panel ─────────────────────────────────────────────────────────── */
+.rs__right {
+  background: var(--rs-surface);
+  border-left: 1px solid var(--rs-border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rs__right km-vocab-panel {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SceneList styles (host shares the design token scope)
+   ───────────────────────────────────────────────────────────────────────────── */
+.rs__left :is(.scene-list) {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   YouTube wrapper
+   ───────────────────────────────────────────────────────────────────────────── */
+:host ::ng-deep .yt-wrapper {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+:host ::ng-deep .yt-inner {
+  width: 100%;
+  height: 100%;
+}
+:host ::ng-deep .yt-inner iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Camera placeholder
+   ───────────────────────────────────────────────────────────────────────────── */
+:host ::ng-deep .cam-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: var(--rs-surface-2);
+  gap: 6px;
+  color: var(--rs-text-3);
+  text-align: center;
+  padding: 12px;
+}
+:host ::ng-deep .cam-placeholder__icon {
+  font-size: 24px;
+  opacity: 0.4;
+}
+:host ::ng-deep .cam-placeholder__title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--rs-text-2);
+  letter-spacing: 0.04em;
+}
+:host ::ng-deep .cam-placeholder__sub {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--rs-text-3);
+}
+:host ::ng-deep .cam-placeholder__badge {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #c44b2a;
+  border: 1px solid rgba(196,75,42,0.4);
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-top: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Scene list (within host scope via ::ng-deep)
+   ───────────────────────────────────────────────────────────────────────────── */
+:host ::ng-deep .scene-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+:host ::ng-deep .scene-list__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px 8px;
+  border-bottom: 1px solid var(--rs-border);
+  flex-shrink: 0;
+}
+:host ::ng-deep .scene-list__icon {
+  font-size: 12px;
+  color: var(--rs-gold);
+}
+:host ::ng-deep .scene-list__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rs-text-2);
+  flex: 1;
+}
+:host ::ng-deep .scene-list__count {
+  font-size: 11px;
+  color: var(--rs-text-3);
+}
+:host ::ng-deep .scene-list__items {
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  overflow-y: auto;
+  flex: 1;
+}
+:host ::ng-deep .scene-list__items::-webkit-scrollbar { width: 4px; }
+:host ::ng-deep .scene-list__items::-webkit-scrollbar-track { background: transparent; }
+:host ::ng-deep .scene-list__items::-webkit-scrollbar-thumb {
+  background: var(--rs-border);
+  border-radius: 2px;
+}
+:host ::ng-deep .scene-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.12s, border-color 0.12s;
+}
+:host ::ng-deep .scene-item:hover {
+  background: var(--rs-hover);
+}
+:host ::ng-deep .scene-item--active {
+  background: var(--rs-active-bg);
+  border-left-color: var(--rs-gold);
+}
+:host ::ng-deep .scene-item__index {
+  font-size: 11px;
+  color: var(--rs-text-3);
+  font-variant-numeric: tabular-nums;
+  width: 16px;
+  text-align: right;
+  flex-shrink: 0;
+}
+:host ::ng-deep .scene-item__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  overflow: hidden;
+}
+:host ::ng-deep .scene-item__title {
+  font-size: 13px;
+  color: var(--rs-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--km-font-arabic, 'Amiri', serif);
+  line-height: 1.4;
+}
+:host ::ng-deep .scene-item--active .scene-item__title {
+  color: var(--rs-gold);
+}
+:host ::ng-deep .scene-item__time {
+  font-size: 10px;
+  color: var(--rs-text-3);
+  font-variant-numeric: tabular-nums;
+}
+:host ::ng-deep .scene-item__arrow {
+  font-size: 9px;
+  color: var(--rs-text-3);
+  flex-shrink: 0;
+}
+:host ::ng-deep .scene-item--active .scene-item__arrow {
+  color: var(--rs-gold);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Vocab panel (within host scope)
+   ───────────────────────────────────────────────────────────────────────────── */
+:host ::ng-deep .vp {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+:host ::ng-deep .vp__tabs {
+  display: flex;
+  border-bottom: 1px solid var(--rs-border);
+  flex-shrink: 0;
+}
+:host ::ng-deep .vp__tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 9px 4px;
+  font-size: 11px;
+  color: var(--rs-text-3);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+:host ::ng-deep .vp__tab:hover {
+  color: var(--rs-text-2);
+}
+:host ::ng-deep .vp__tab--active {
+  color: var(--rs-gold);
+  border-bottom-color: var(--rs-gold);
+}
+:host ::ng-deep .vp__badge {
+  font-size: 10px;
+  background: var(--rs-surface-3);
+  padding: 1px 5px;
+  border-radius: 8px;
+  color: var(--rs-text-3);
+}
+:host ::ng-deep .vp__tab--active .vp__badge {
+  background: rgba(201,168,76,0.12);
+  color: var(--rs-gold);
+}
+:host ::ng-deep .vp__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+:host ::ng-deep .vp__body::-webkit-scrollbar { width: 4px; }
+:host ::ng-deep .vp__body::-webkit-scrollbar-track { background: transparent; }
+:host ::ng-deep .vp__body::-webkit-scrollbar-thumb {
+  background: var(--rs-border);
+  border-radius: 2px;
+}
+:host ::ng-deep .vp__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px 16px;
+  color: var(--rs-text-3);
+  font-size: 13px;
+  text-align: center;
+}
+:host ::ng-deep .vp__empty-icon {
+  font-size: 22px;
+  opacity: 0.3;
+}
+
+/* Vocab card */
+:host ::ng-deep .vp__vocab-card {
+  background: var(--rs-surface-2);
+  border: 1px solid var(--rs-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+:host ::ng-deep .vp__vocab-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+:host ::ng-deep .vp__vocab-word {
+  font-family: var(--km-font-arabic, 'Amiri', serif);
+  font-size: 18px;
+  color: var(--rs-text);
+}
+:host ::ng-deep .vp__vocab-root {
+  font-family: var(--km-font-arabic, 'Amiri', serif);
+  font-size: 12px;
+  color: var(--rs-gold);
+  background: rgba(201,168,76,0.08);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+:host ::ng-deep .vp__vocab-meaning {
+  font-size: 12px;
+  color: var(--rs-text-2);
+}
+:host ::ng-deep .vp__vocab-example {
+  font-family: var(--km-font-arabic, 'Amiri', serif);
+  font-size: 13px;
+  color: var(--rs-text-3);
+  line-height: 1.6;
+  border-top: 1px solid var(--rs-border);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+
+/* Idiom card */
+:host ::ng-deep .vp__idiom-card {
+  background: var(--rs-surface-2);
+  border: 1px solid var(--rs-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+:host ::ng-deep .vp__idiom-phrase {
+  font-family: var(--km-font-arabic, 'Amiri', serif);
+  font-size: 15px;
+  color: var(--rs-text);
+  line-height: 1.6;
+}
+:host ::ng-deep .vp__idiom-meaning {
+  font-size: 12px;
+  color: var(--rs-text-2);
+}
+:host ::ng-deep .vp__idiom-ctx {
+  font-size: 10px;
+  color: var(--rs-text-3);
+  border: 1px solid var(--rs-border);
+  padding: 2px 6px;
+  border-radius: 3px;
+  align-self: flex-start;
+}
+
+/* Sentence card */
+:host ::ng-deep .vp__sentence-card {
+  background: var(--rs-surface-2);
+  border: 1px solid var(--rs-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+:host ::ng-deep .vp__sentence-ar {
+  font-family: var(--km-font-arabic, 'Amiri', serif);
+  font-size: 15px;
+  color: var(--rs-text);
+  line-height: 1.7;
+}
+:host ::ng-deep .vp__sentence-en {
+  font-size: 12px;
+  color: var(--rs-text-2);
+  font-style: italic;
+}
+:host ::ng-deep .vp__sentence-note {
+  font-size: 11px;
+  color: var(--rs-gold);
+  background: rgba(201,168,76,0.06);
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+/* Notes */
+:host ::ng-deep .vp__notes-body {
+  font-size: 13px;
+  color: var(--rs-text-2);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  background: var(--rs-surface-2);
+  border: 1px solid var(--rs-border);
+  border-radius: 6px;
+  padding: 12px;
+}

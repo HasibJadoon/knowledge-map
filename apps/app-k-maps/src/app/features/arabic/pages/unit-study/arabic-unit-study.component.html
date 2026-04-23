@@ -1,0 +1,59 @@
+<div class="aus">
+
+  <!-- ── Left rail: dynamic task menu ──────────────────── -->
+  <aside class="aus__rail" #railEl>
+    <div class="aus__rail-head">
+      <p class="aus__eyebrow">{{ unitTypeLabel() }}</p>
+      <h2 class="aus__unit-title">{{ displayName() }}</h2>
+    </div>
+
+    <nav class="aus__rail-nav" aria-label="Study tasks">
+      @for (task of subtasks(); track task.key) {
+        <button
+          class="aus__rail-item"
+          [class.aus__rail-item--active]="activeTask() === task.key"
+          [class.aus__rail-item--done]="task.status === 'done'"
+          type="button"
+          (click)="selectTask(task.key)"
+        >
+          <span class="aus__rail-order">{{ task.order_index }}</span>
+          <span class="aus__rail-label">{{ task.title }}</span>
+          @if (task.status === 'done') {
+            <span class="aus__rail-check" aria-label="Done">✓</span>
+          }
+        </button>
+      }
+    </nav>
+
+    <div class="aus__rail-foot">
+      <button
+        class="aus__push-btn"
+        type="button"
+        [disabled]="pushing()"
+        (click)="pushToWeeklyTask()"
+      >
+        {{ pushing() ? 'Pushing…' : '→ Push to Weekly Task' }}
+      </button>
+    </div>
+  </aside>
+
+  <!-- ── Content area ────────────────────────────────────── -->
+  <div class="aus__content" #contentEl>
+    <header class="aus__task-head">
+      <p class="aus__eyebrow">{{ unitTypeLabel() }}</p>
+      <h3 class="aus__task-title">
+        @for (task of subtasks(); track task.key) {
+          @if (task.key === activeTask()) { {{ task.title }} }
+        }
+      </h3>
+    </header>
+
+    <div class="aus__task-body">
+      <p class="aus__task-placeholder">
+        Task content for <strong>{{ activeTask() }}</strong> renders here.
+        Rail items are data-driven from <code>subtasks()</code> — no hardcoded tabs.
+      </p>
+    </div>
+  </div>
+
+</div>

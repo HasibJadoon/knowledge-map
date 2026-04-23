@@ -59,10 +59,6 @@ export class PlannerTabsPage implements OnInit {
     void this.router.navigate(['/home'], { replaceUrl: true });
   }
 
-  openSettings(): void {
-    void this.router.navigate(['/home']);
-  }
-
   onPlannerTabSelected(tabKey: string): void {
     if (!isPlannerTabKey(tabKey) || tabKey === this.activeTab()) {
       return;

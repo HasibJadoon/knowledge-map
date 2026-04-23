@@ -17,7 +17,7 @@ interface Tab {
 const TABS: Tab[] = [
   { path: '/',              icon: 'home-outline',     label: 'Home',      match: '/' },
   { path: '/quran',         icon: 'book-outline',     label: 'Quran',     match: '/quran' },
-  { path: '/arabic/lessons',icon: 'language-outline', label: 'Arabic',    match: '/arabic' },
+  { path: '/arabic',        icon: 'language-outline', label: 'Arabic',    match: '/arabic' },
   { path: '/worldview',     icon: 'globe-outline',    label: 'Worldview', match: '/worldview' },
   { path: '/planner',       icon: 'calendar-outline', label: 'Planner',   match: '/planner' },
 ];

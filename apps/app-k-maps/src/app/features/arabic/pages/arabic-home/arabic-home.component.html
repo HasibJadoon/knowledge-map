@@ -1,0 +1,26 @@
+<div class="arabic-home" #pageRef>
+  <km-back-button />
+  <div class="arabic-home__inner">
+
+    <!-- Navigation -->
+    <nav class="top-nav">
+      <button class="back-btn" (click)="back()">
+        <span class="back-btn__arrow">&#8592;</span>
+        <span class="back-btn__label">K-Maps</span>
+      </button>
+      <span class="breadcrumb">Arabic</span>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header" #headerRef>
+      <div class="page-header__ornament">&#10023;</div>
+      <div class="page-header__arabic-title">العربية</div>
+      <h1 class="page-header__title">Arabic</h1>
+      <p class="page-header__subtitle">Classical Arabic Mastery</p>
+    </header>
+
+    <!-- Arabic Menu Card -->
+    <km-arabic-menu-card #cardsRef></km-arabic-menu-card>
+
+  </div>
+</div>

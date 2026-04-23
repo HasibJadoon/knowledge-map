@@ -1,0 +1,223 @@
+<div
+  class="lesson-page"
+  [class.lesson-page--obs-overlay]="obsOverlayEnabled()"
+  [class.lesson-page--obs-top-right]="obsOverlayTopRight()"
+  [style.--km-accent-start]="activeStep().accentStart"
+  [style.--km-accent-end]="activeStep().accentEnd"
+  [style.--km-accent-strong]="activeStep().accentStrong">
+
+  @if (loading()) {
+    <div class="qstate">
+      <div class="qstate__spinner"></div>
+      <p>Loading passage...</p>
+    </div>
+  }
+
+  @if (!loading() && error()) {
+    <div class="qstate qstate--error">
+      <p>{{ error() }}</p>
+    </div>
+  }
+
+  @if (!loading() && !error() && unit()) {
+    <section
+      class="ceremony-scene"
+      #sceneEl
+      [class.ceremony-scene--open]="panelOpen()"
+      (wheel)="onSceneWheel($event)">
+      <div class="ceremony-scene__bg" aria-hidden="true">
+        <div class="ceremony-scene__wash"></div>
+        <div class="ceremony-scene__glow ceremony-scene__glow--a" #ambientEl></div>
+        <div class="ceremony-scene__glow ceremony-scene__glow--b" #ambientEl></div>
+        <div class="ceremony-scene__grain"></div>
+      </div>
+
+      <header class="scene-toolbar">
+        <button class="scene-toolbar__back" type="button" (click)="back()">
+          <span aria-hidden="true">&#8592;</span>
+          <span>Back</span>
+        </button>
+
+        <div class="scene-toolbar__meta">
+          <span>{{ surahName()?.englishName ?? ('Surah ' + surahId()) }}</span>
+          <span>Passage {{ passageNo() }}</span>
+          <span>{{ ayahRange() }}</span>
+          <span>{{ activeStep().title }}</span>
+        </div>
+
+        <button
+          class="scene-toolbar__push-btn"
+          type="button"
+          [disabled]="pushingToWeekly()"
+          (click)="pushToWeeklyTask()"
+          title="Push this unit to your weekly plan"
+        >
+          {{ pushingToWeekly() ? '…' : '→ Plan' }}
+        </button>
+      </header>
+
+      <div class="scene-rails" role="tablist" aria-label="Study task units">
+        @for (step of steps; track step.id; let i = $index) {
+          <button
+            #stripEl
+            class="study-rail"
+            type="button"
+            role="tab"
+            [class.study-rail--opened]="isOpened(i)"
+            [class.study-rail--frontier]="isFrontier(i)"
+            [class.study-rail--active]="isActive(i)"
+            [class.study-rail--future]="isFuture(i)"
+            [style.--strip-start]="step.accentStart"
+            [style.--strip-end]="step.accentEnd"
+            [style.--strip-strong]="step.accentStrong"
+            [attr.aria-selected]="isActive(i)"
+            [attr.aria-label]="stripAriaLabel(i)"
+            tabindex="0"
+            aria-controls="study-reveal-panel"
+            [disabled]="transitioning()"
+            (click)="activateStrip(i)"
+            (keydown)="onStripKeydown($event, i)">
+
+            <span class="study-rail__wash" aria-hidden="true"></span>
+            <span class="study-rail__index">{{ stepNumber(i) }}</span>
+            <span class="study-rail__title">{{ step.title }}</span>
+            <span class="study-rail__badge">{{ step.badge }}</span>
+            <span class="study-rail__subtitle">{{ step.subtitle }}</span>
+          </button>
+        }
+      </div>
+
+      <section
+        id="study-reveal-panel"
+        #panelEl
+        class="study-panel"
+        role="tabpanel"
+        [attr.aria-hidden]="!panelOpen()">
+        <div class="study-panel__surface" #panelSurfaceEl>
+          <div class="study-panel__inner" #panelInnerEl>
+            <div class="study-panel__workspace" #panelWorkspaceEl>
+              @if (stepLoading()) {
+                <div class="qstate qstate--panel">
+                  <div class="qstate__spinner"></div>
+                  <p>Loading {{ activeStep().title.toLowerCase() }}...</p>
+                </div>
+              } @else if (stepError()) {
+                <div class="qstate qstate--panel qstate--error">
+                  <p>{{ stepError() }}</p>
+                </div>
+              } @else {
+                @if (activeStepId(); as activeStepIdValue) {
+                  @switch (activeStepIdValue) {
+                    @case ('reading') {
+                      @if (lesson()) {
+                        <km-lesson-reading-step [lesson]="lesson()!" />
+                      }
+                    }
+                    @case ('morphology') {
+                      @if (lesson()) {
+                        <km-lesson-vocabulary-step [lesson]="lesson()!" />
+                      }
+                    }
+                    @case ('sentence-structure') {
+                      @if (lesson()) {
+                        <km-lesson-sentence-structure-step [lesson]="lesson()!" />
+                      }
+                    }
+                    @case ('expressions') {
+                      @if (lesson()) {
+                        <km-lesson-expressions-step [lesson]="lesson()!" />
+                      }
+                    }
+                    @case ('passage-structure') {
+                      @if (lesson()) {
+                        <km-lesson-passage-structure-step [lesson]="lesson()!" />
+                      }
+                    }
+                    @case ('worldview') {
+                      <section class="worldview-board">
+                        <header class="worldview-hero">
+                          <div class="worldview-hero__copy">
+                            <p class="worldview-hero__eyebrow">Worldview Layer</p>
+                            <h2 class="worldview-hero__title">From Passage To Orientation</h2>
+                            <p class="worldview-hero__text">{{ worldviewSummary().overview }}</p>
+
+                            <div class="worldview-hero__meta">
+                              <span>{{ surahName()?.englishName ?? ('Surah ' + surahId()) }}</span>
+                              <span>Passage {{ passageNo() }}</span>
+                              <span>{{ activeStep().subtitle }}</span>
+                            </div>
+                          </div>
+
+                          <aside class="worldview-index">
+                            <p class="worldview-index__label">Mapped Assets</p>
+                            <p class="worldview-index__value">{{ worldviewSummary().totalAssets }}</p>
+                            <p class="worldview-index__text">
+                              Nodes, sources, notes, and documents available for higher-order synthesis.
+                            </p>
+                          </aside>
+                        </header>
+
+                        <div class="worldview-board__layout">
+                          <section class="worldview-section worldview-section--metrics">
+                            <div class="worldview-section__head">
+                              <p class="worldview-section__eyebrow">Knowledge Surfaces</p>
+                              <h3 class="worldview-section__title">Study Inventory</h3>
+                            </div>
+
+                            <div class="worldview-board__counts">
+                              @for (card of worldviewSummary().cards; track card.label) {
+                                <article class="worldview-card" [class]="'worldview-card worldview-card--' + card.accent">
+                                  <p class="worldview-card__label">{{ card.label }}</p>
+                                  <p class="worldview-card__value">{{ card.value }}</p>
+                                  <p class="worldview-card__text">{{ card.description }}</p>
+                                </article>
+                              }
+                            </div>
+                          </section>
+
+                          <section class="worldview-section worldview-section--guide">
+                            <div class="worldview-section__head">
+                              <p class="worldview-section__eyebrow">Reading Posture</p>
+                              <h3 class="worldview-section__title">Interpretive Guide</h3>
+                            </div>
+
+                            <div class="worldview-guide">
+                              @for (guide of worldviewSummary().guides; track guide.label) {
+                                <article class="worldview-guide__item">
+                                  <p class="worldview-guide__label">{{ guide.label }}</p>
+                                  <h4 class="worldview-guide__title">{{ guide.title }}</h4>
+                                  <p class="worldview-guide__text">{{ guide.description }}</p>
+                                </article>
+                              }
+                            </div>
+                          </section>
+                        </div>
+
+                        <section class="worldview-section worldview-section--reflection">
+                          <div class="worldview-section__head">
+                            <p class="worldview-section__eyebrow">Reflection Prompts</p>
+                            <h3 class="worldview-section__title">Questions To Open The Layer</h3>
+                          </div>
+
+                          <div class="worldview-board__prompts">
+                            @for (prompt of worldviewSummary().prompts; track prompt; let i = $index) {
+                              <article class="worldview-prompt">
+                                <span class="worldview-prompt__count">{{ i + 1 }}</span>
+                                <p class="worldview-prompt__label">Prompt</p>
+                                <p class="worldview-prompt__text">{{ prompt }}</p>
+                              </article>
+                            }
+                          </div>
+                        </section>
+                      </section>
+                    }
+                  }
+                }
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  }
+</div>

@@ -1,0 +1,273 @@
+<div class="pss-wrap">
+
+  @if (ref) {
+    <div class="pss-outer-header">
+      <div>
+        <div class="pss-eyebrow">Passage Structure</div>
+        <div class="pss-ref">{{ ref }}</div>
+      </div>
+      <div class="pss-font-controls">
+        <button class="pss-font-btn" (click)="decreaseFontScale()" title="Decrease font size">A−</button>
+        <button class="pss-font-btn pss-font-btn--reset" (click)="resetFontScale()" title="Reset font size">A</button>
+        <button class="pss-font-btn" (click)="increaseFontScale()" title="Increase font size">A+</button>
+      </div>
+    </div>
+  }
+
+  @if (sections.length === 0) {
+    <div class="pss-empty">
+      <span class="pss-empty__icon">—</span>
+      <p>No passage structure analysis for this passage.</p>
+    </div>
+  }
+
+  @if (sections.length > 0) {
+
+    <div class="pss-scene"
+         [style.min-height.rem]="sceneMinHeightRem()"
+         [style.height]="sceneHeightStyle()"
+         (touchstart)="onSwipeStart($event)" (touchend)="onSwipeEnd($event)"
+         (mousedown)="onSwipeStart($event)" (mouseup)="onSwipeEnd($event)">
+      <div class="pss-sh pss-sh1"></div>
+      <div class="pss-sh pss-sh2"></div>
+      <div class="pss-sh pss-sh3"></div>
+
+      <div class="pss-card" #cardRef [style.font-size]="fontScale() + 'rem'">
+
+        <div class="pss-card-bar"
+             [style.background]="barGradient(currentSection()?.tone ?? 'secondary')"></div>
+
+        <div class="pss-card-body">
+
+          <div class="pss-card-head">
+            <span class="pss-badge tone-{{ currentSection()?.tone }}">{{ currentSection()?.badge }}</span>
+            <span class="pss-card-title">{{ currentSection()?.title }}</span>
+          </div>
+
+          <div class="pss-renderer-wrap">
+
+          <!-- ── Discourse ──────────────────────────────── -->
+          @if (currentSection()?.renderer === 'discourse') {
+            <div class="renderer-discourse">
+              @for (row of discourseRows(currentSection()?.data); track $index) {
+                @if (row.type === 'disc_row') {
+                  <div class="disc-row">
+                    <div class="disc-letter" [class.dl-a]="row.variant === 'a'" [class.dl-c]="row.variant === 'c'">{{ row.letter }}</div>
+                    <div class="disc-text">
+                      <h4>{{ row.h }}</h4>
+                      <p>{{ row.p }}</p>
+                    </div>
+                  </div>
+                }
+                @if (row.type === 'hinge') {
+                  <div class="disc-hinge">{{ row.arabic }}</div>
+                }
+                @if (row.type === 'direction') {
+                  <div class="disc-dir">
+                    <div class="disc-dir-label">{{ row.label }}</div>
+                    <div class="disc-dir-arabic">{{ row.arabic }}</div>
+                    <div class="disc-dir-eng">{{ row.eng }}</div>
+                  </div>
+                }
+              }
+            </div>
+          }
+
+          <!-- ── Chiasm ─────────────────────────────────── -->
+          @if (currentSection()?.renderer === 'chiasm') {
+            <div class="renderer-chiasm">
+              @for (level of chiasmLevels(currentSection()?.data); track level.label + level.ref) {
+                <div class="ch-row"
+                     [style.padding-left]="(level.indent * 1.5) + 'em'"
+                     [class.ch-row--hi]="chiasmHover() === level.variant"
+                     [class.ch-row--dim]="chiasmHover() !== null && chiasmHover() !== level.variant && level.variant !== 'x'"
+                     [class.var-a]="level.variant === 'a'"
+                     [class.var-b]="level.variant === 'b'"
+                     [class.var-c]="level.variant === 'c'"
+                     [class.var-x]="level.variant === 'x'"
+                     (mouseenter)="onChiasmEnter(level.variant)"
+                     (mouseleave)="onChiasmLeave()">
+                  <div class="ch-letter"
+                       [class.cl-a]="level.variant === 'a'"
+                       [class.cl-b]="level.variant === 'b'"
+                       [class.cl-c]="level.variant === 'c'">{{ level.label }}</div>
+                  <span class="ch-v">{{ level.ref }}</span>
+                  <span class="ch-t">{{ level.text }}</span>
+                </div>
+              }
+              @if (currentSection()?.data?.axis_note) {
+                <div class="ch-center">
+                  <div class="ch-center-label">Center Insight</div>
+                  <div class="ch-center-text">{{ currentSection()?.data?.axis_note }}</div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ── Conflict ───────────────────────────────── -->
+          @if (currentSection()?.renderer === 'conflict') {
+            <div class="renderer-conflict">
+              @for (level of conflictLevels(currentSection()?.data); track level.type) {
+                <div class="cf-level"
+                     [class.cf-human]="level.type === 'human'"
+                     [class.cf-meta]="level.type === 'meta'"
+                     [class.cf-interp]="level.type === 'interp'">
+                  <div class="cf-label">{{ level.label }}</div>
+                  <div class="cf-primary">{{ level.primary }}</div>
+                  @if (level.sub)    { <div class="cf-sub">{{ level.sub }}</div> }
+                  @if (level.arabic) { <div class="cf-arabic">{{ level.arabic }}</div> }
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ── Lexicon ────────────────────────────────── -->
+          @if (currentSection()?.renderer === 'lexicon') {
+            <div class="renderer-lexicon">
+              @for (field of lexiconFields(currentSection()?.data); track field.name; let last = $last) {
+                <div class="lx-field">
+                  <div class="lx-head">
+                    <span class="lx-field-label">{{ field.name }}</span>
+                    <span class="lx-field-desc">{{ field.desc }}</span>
+                  </div>
+                  <div class="lx-chips">
+                    @for (chip of field.chips; track chip) {
+                      <span class="lx-chip">{{ chip }}</span>
+                    }
+                  </div>
+                  @if (!last) { <div class="lx-divider"></div> }
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ── Purpose ────────────────────────────────── -->
+          @if (currentSection()?.renderer === 'purpose') {
+            <div class="renderer-purpose">
+              @for (row of purposeRows(currentSection()?.data); track row.label) {
+                <div class="pu-row">
+                  <div class="pu-label">{{ row.label }}</div>
+                  <div class="pu-copy">
+                    <div class="pu-h4">{{ row.h }}</div>
+                    <div class="pu-p">{{ row.p }}</div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ── Narrative Seed ─────────────────────────── -->
+          @if (currentSection()?.renderer === 'narrative_seed') {
+            <div class="renderer-narrative-seed">
+              <div class="sd-seed">
+                <div class="sd-section-label">{{ currentSection()?.data?.seed?.label }}</div>
+                <div class="sd-event-title">{{ currentSection()?.data?.seed?.title }}</div>
+              </div>
+              <div class="sd-blueprint">
+                <div class="sd-section-label">Blueprint Mapping</div>
+                <table class="bp-table">
+                  <thead><tr><th>Symbol</th><th>Meaning</th><th>Narrative Role</th></tr></thead>
+                  <tbody>
+                    @for (row of currentSection()?.data?.blueprint?.rows; track row.symbol) {
+                      <tr class="bp-row">
+                        <td>{{ row.symbol }}</td>
+                        <td>{{ row.meaning }}</td>
+                        <td>{{ row.role }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+              <div class="sd-flow">
+                <div class="sd-section-label">Narrative Flow</div>
+                <div class="flow-wrap">
+                  @for (node of flowNodes(currentSection()?.data); track node.text; let last = $last) {
+                    <span class="fl-node" [class.hi]="node.highlight">{{ node.text }}</span>
+                    @if (!last) { <span class="fl-arr">→</span> }
+                  }
+                </div>
+              </div>
+              <div class="sd-close">{{ currentSection()?.data?.close }}</div>
+            </div>
+          }
+
+          <!-- ── Symbol Maps ────────────────────────────── -->
+          @if (currentSection()?.renderer === 'symbol_maps') {
+            <div class="renderer-symbol-maps">
+              @for (group of symbolGroups(currentSection()?.data); track group.name) {
+                <div class="sm-group">
+                  <div class="sm-group-name">{{ group.name }}</div>
+                  @for (item of group.items; track item.label) {
+                    <div class="sm-item">
+                      <span class="sm-label">{{ item.label }}</span>
+                      <span class="sm-role">{{ item.role }}</span>
+                      <span class="sm-meaning">{{ item.meaning }}</span>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ── Legacy: keyvalue ───────────────────────── -->
+          @if (currentSection()?.renderer === 'keyvalue') {
+            <div class="renderer-kv">
+              @for (pair of kvPairs(currentSection()?.data); track pair.key) {
+                <div class="kv-row pss-anim-item">
+                  <span class="kv-key">{{ pair.key }}</span>
+                  <span class="kv-value">{{ pair.value }}</span>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ── Legacy: clusters ───────────────────────── -->
+          @if (currentSection()?.renderer === 'clusters') {
+            <div class="renderer-clusters">
+              @for (cluster of clusters(currentSection()?.data); track cluster.name) {
+                <div class="cluster pss-anim-item">
+                  <span class="cluster-name color-{{ cluster.color }}">{{ cluster.name }}</span>
+                  <div class="cluster-items">
+                    @for (item of cluster.items; track item) {
+                      <span class="cluster-item">{{ item }}</span>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- ── Legacy: timeline ───────────────────────── -->
+          @if (currentSection()?.renderer === 'timeline') {
+            <div class="renderer-timeline">
+              @for (step of timelineSteps(currentSection()?.data); track step.n; let last = $last) {
+                <div class="timeline-step pss-anim-item">
+                  <div class="timeline-node"><span class="timeline-n">{{ step.n }}</span></div>
+                  <div class="timeline-connector" [class.timeline-connector--last]="last"></div>
+                  <p class="timeline-text">{{ step.text }}</p>
+                </div>
+              }
+            </div>
+          }
+
+          </div><!-- /pss-renderer-wrap -->
+
+        </div>
+      </div>
+    </div>
+
+    <div class="pss-hint">{{ hintText() }}</div>
+
+    <div class="pss-controls">
+      <button class="pss-btn" (click)="goPrev($event)" [disabled]="currentIdx() === 0">← Prev</button>
+      <div class="pss-dots">
+        @for (s of sections; track s.key; let i = $index) {
+          <div class="pss-dot" [class.active]="i === currentIdx()"></div>
+        }
+      </div>
+      <button class="pss-btn" (click)="goNext($event)" [disabled]="currentIdx() === sections.length - 1">Next →</button>
+    </div>
+
+  }
+
+</div>

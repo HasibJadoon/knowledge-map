@@ -16,6 +16,7 @@
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, created, badRequest, paginated } from '../../../shared/src/response';
 import { parsePagination } from '../../../shared/src/validate';
+import { query } from '../../../shared/src/db';
 import type { WorldviewEnv } from '../env';
 import { SourceRepo } from '../repositories/source.repo';
 import { HighlightRepo } from '../repositories/highlight.repo';
@@ -164,8 +165,101 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
 
   // GET /worldview/units/:id/annotations
   router.get('/worldview/units/:id/annotations', async (_req, env, { id }) => {
-    const highlights = await new HighlightRepo(env.DB_WV).byUnit(id);
-    return ok({ unit_id: id, annotations: highlights });
+    const nodeScopeSql = `
+      SELECT n.id
+      FROM wv_nodes n
+      WHERE json_extract(n.data_json, '$.source_unit_id') = ?
+         OR json_extract(n.meta_json, '$.source_unit_id') = ?
+    `;
+
+    const [highlights, notes, wv, wv_node_edges, wv_evidence_links] = await Promise.all([
+      query(env.DB_WV, `
+        SELECT
+          id,
+          highlight_type AS note_kind,
+          note AS title,
+          text_excerpt AS body_md,
+          text_excerpt AS excerpt_text,
+          locator,
+          color,
+          created_at,
+          'highlight' AS source
+        FROM wv_highlights
+        WHERE source_unit_id = ?
+        ORDER BY created_at
+      `, [id]),
+      query(env.DB_WV, `
+        SELECT
+          id,
+          note_type AS note_kind,
+          title,
+          body_md,
+          json_extract(meta_json, '$.excerpt_text') AS excerpt_text,
+          json_extract(meta_json, '$.locator') AS locator,
+          created_at
+        FROM wv_notes
+        WHERE json_extract(meta_json, '$.source_unit_id') = ?
+        ORDER BY created_at
+      `, [id]),
+      query(env.DB_WV, `
+        SELECT
+          id,
+          node_type,
+          title,
+          COALESCE(json_extract(data_json, '$.text_plain'), summary, title) AS text_plain,
+          summary,
+          json_extract(data_json, '$.slug') AS slug,
+          data_json,
+          meta_json,
+          created_at
+        FROM wv_nodes
+        WHERE json_extract(data_json, '$.source_unit_id') = ?
+           OR json_extract(meta_json, '$.source_unit_id') = ?
+        ORDER BY created_at
+      `, [id, id]),
+      query(env.DB_WV, `
+        SELECT
+          e.id,
+          e.from_node_id,
+          e.to_node_id,
+          e.relation_type,
+          e.weight AS strength,
+          e.note,
+          e.meta_json,
+          e.created_at
+        FROM wv_node_edges e
+        WHERE e.from_node_id IN (${nodeScopeSql})
+           OR e.to_node_id IN (${nodeScopeSql})
+        ORDER BY e.created_at
+      `, [id, id, id, id]),
+      query(env.DB_WV, `
+        SELECT
+          id,
+          json_extract(meta_json, '$.source_type') AS source_type,
+          json_extract(meta_json, '$.source_ref_id') AS source_id,
+          json_extract(meta_json, '$.target_node_id') AS target_node_id,
+          json_extract(meta_json, '$.relation') AS relation,
+          excerpt AS evidence_text,
+          locator,
+          title AS note,
+          meta_json,
+          created_at
+        FROM wv_evidence_items
+        WHERE source_unit_id = ?
+           OR json_extract(meta_json, '$.source_unit_id') = ?
+        ORDER BY created_at
+      `, [id, id]),
+    ]);
+
+    return ok({
+      unit_id: id,
+      annotations: highlights,
+      highlights,
+      notes,
+      wv,
+      wv_node_edges,
+      wv_evidence_links,
+    });
   });
 
   // ── Source content (chunks) ───────────────────────────────────────────────

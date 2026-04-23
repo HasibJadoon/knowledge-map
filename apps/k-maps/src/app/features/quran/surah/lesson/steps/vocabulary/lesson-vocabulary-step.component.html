@@ -1,0 +1,65 @@
+<div class="vocab-tab">
+
+  @if (hasVocabularySplit()) {
+    <div class="vocab-toggle">
+      <button class="toggle-btn" [class.toggle-btn--active]="showNouns()" (click)="showNouns.set(true)">
+        Nouns <span class="badge">{{ nouns().length }}</span>
+      </button>
+      <button class="toggle-btn" [class.toggle-btn--active]="!showNouns()" (click)="showNouns.set(false)">
+        Verbs <span class="badge">{{ verbs().length }}</span>
+      </button>
+    </div>
+  } @else if (splitPending()) {
+    <div class="vocab-status">
+      Morphology data is still pending from the study API for this passage.
+    </div>
+  } @else {
+    <div class="vocab-status">
+      No morphology data is available for this passage.
+    </div>
+  }
+
+  @if (hasVocabularySplit() && showNouns()) {
+    <div class="word-grid">
+      @for (word of nouns(); track word.word_id) {
+        <div class="word-card">
+          <span class="word-card__ar">{{ word.word }}</span>
+          @if (word.translation) {
+            <span class="word-card__trans">{{ word.translation }}</span>
+          }
+          @if (word.root) {
+            <span class="word-card__root">Root: <span class="word-card__root-value">{{ word.root }}</span></span>
+          }
+          @if (word.gloss) {
+            <span class="word-card__gloss">{{ word.gloss }}</span>
+          }
+          <span class="word-card__ref">{{ lesson.surahId }}:{{ word.ayah }}</span>
+        </div>
+      }
+      @if (nouns().length === 0) {
+        <p class="empty">No nouns found for this passage.</p>
+      }
+    </div>
+  } @else if (hasVocabularySplit()) {
+    <div class="word-grid">
+      @for (word of verbs(); track word.word_id) {
+        <div class="word-card word-card--verb">
+          <span class="word-card__ar">{{ word.word }}</span>
+          @if (word.translation) {
+            <span class="word-card__trans">{{ word.translation }}</span>
+          }
+          @if (word.root) {
+            <span class="word-card__root">Root: <span class="word-card__root-value">{{ word.root }}</span></span>
+          }
+          @if (word.morphology?.verb_form) {
+            <span class="word-card__morph">{{ word.morphology!.verb_form }}</span>
+          }
+          <span class="word-card__ref">{{ lesson.surahId }}:{{ word.ayah }}</span>
+        </div>
+      }
+      @if (verbs().length === 0) {
+        <p class="empty">No verbs found for this passage.</p>
+      }
+    </div>
+  }
+</div>

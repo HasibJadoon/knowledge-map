@@ -1,0 +1,38 @@
+<div class="rt">
+
+  <div class="rt-controls">
+    <span class="rt-controls__info">
+      Passage · Ayah {{ orderedAyahs[0]?.ayah }}–{{ orderedAyahs[orderedAyahs.length - 1]?.ayah }}
+    </span>
+    <button
+      class="rt-tashkeel"
+      [class.rt-tashkeel--on]="showDiacritics()"
+      (click)="showDiacritics.set(!showDiacritics())"
+      [title]="showDiacritics() ? 'Hide tashkeel' : 'Show tashkeel'">
+      <span class="rt-tashkeel__icon" aria-hidden="true">
+        {{ showDiacritics() ? 'تَشْكِيل' : 'تشكيل' }}
+      </span>
+      <span class="rt-tashkeel__dot"></span>
+    </button>
+  </div>
+
+  @if (orderedAyahs.length > 0) {
+    <div class="rt-passage" #passageEl dir="rtl" lang="ar">
+      @for (ayah of orderedAyahs; track ayah.ayah) {
+        @if (hasWordTokens(ayah)) {
+          @for (word of wordTokens(ayah); track word.position) {
+            <span class="ar-word">{{ wordText(word) }}</span>
+          }
+        } @else {
+          @for (word of splitWords(ayah); track $index) {
+            <span class="ar-word">{{ word }}</span>
+          }
+        }
+        <span class="verse-marker" [attr.aria-label]="'Verse ' + ayah.ayah">{{ verseMark(ayah.ayah) }}</span>
+      }
+    </div>
+  } @else {
+    <p class="rt-empty">No ayahs found for this passage.</p>
+  }
+
+</div>

@@ -1,0 +1,54 @@
+<div class="sst">
+
+  @if (sentences.length) {
+
+    <div class="sst__stage" [class.sst__stage--with-nav]="sentences.length > 1">
+      <div class="sst__canvas-shell">
+        <div
+          class="sst__canvas"
+          [attr.id]="'sentence-structure-panel-' + activeIdx"
+          tabindex="0"
+          role="tabpanel"
+          [attr.aria-label]="'Sentence ' + (activeIdx + 1)"
+        >
+          <km-sentence-structure-canvas
+            [treeData]="current?.tree ?? null"
+            [termColors]="current?.term_colors ?? {}"
+            [lessonMeta]="currentMeta"
+          />
+        </div>
+      </div>
+
+      @if (sentences.length > 1) {
+        <aside class="sst__rail" aria-label="Sentence selector">
+          <div class="sst__rail-head">
+            <p class="sst__eyebrow">Sentence Reel</p>
+            <p class="sst__current">{{ activeIdx + 1 }} / {{ sentences.length }}</p>
+          </div>
+
+          <km-sentence-structure-nav3d
+            class="sst__side-nav"
+            [count]="sentences.length"
+            [activeIndex]="activeIdx"
+            (selectIndex)="select($event)"
+          />
+        </aside>
+      }
+    </div>
+
+
+  } @else if (hasTask) {
+
+    <div class="sst__empty">
+      <p>No tree data attached to this task yet.</p>
+    </div>
+
+  } @else {
+
+    <div class="sst__empty">
+      <p>No sentence structure task for this passage.</p>
+    </div>
+
+  }
+
+</div>

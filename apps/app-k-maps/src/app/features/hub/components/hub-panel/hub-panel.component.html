@@ -1,0 +1,372 @@
+
+    <div class="hp-overlay" [class.hp-overlay--open]="panel.isOpen()" (click)="panel.close()"></div>
+
+    <aside class="hp" [class.hp--open]="panel.isOpen()" role="dialog" [attr.aria-label]="panel.state().title">
+
+      <!-- Header -->
+      <div class="hp__header">
+        <div class="hp__title-row">
+          <span class="hp__mode-tag">{{ panel.state().mode | uppercase }}</span>
+          <h2 class="hp__title">{{ panel.state().title }}</h2>
+        </div>
+        <button class="hp__close" (click)="panel.close()" aria-label="Close panel">✕</button>
+      </div>
+
+      <!-- Body — dynamic form per mode -->
+      <div class="hp__body">
+
+        <!-- WORLDVIEW -->
+        @if (panel.mode() === 'wv-worldview') {
+          <form [formGroup]="wvWorldviewForm" (ngSubmit)="submit('wv-worldview')" class="hp__form">
+            <label class="hp__field">
+              <span>Name</span>
+              <input formControlName="name" placeholder="e.g. Islam" />
+            </label>
+            <label class="hp__field">
+              <span>Type</span>
+              <select formControlName="type">
+                <option value="religion">Religion</option>
+                <option value="philosophy">Philosophy</option>
+                <option value="ideology">Ideology</option>
+                <option value="branch">Branch / Sect</option>
+              </select>
+            </label>
+            <label class="hp__field">
+              <span>Description</span>
+              <textarea formControlName="description" rows="3" placeholder="Brief overview…"></textarea>
+            </label>
+            <label class="hp__field">
+              <span>Icon</span>
+              <input formControlName="icon" placeholder="Emoji or symbol" />
+            </label>
+            <div class="hp__actions">
+              <button type="submit" class="hp__btn hp__btn--primary" [disabled]="wvWorldviewForm.invalid">Save</button>
+              <button type="button" class="hp__btn" (click)="panel.close()">Cancel</button>
+            </div>
+          </form>
+        }
+
+        <!-- TOPIC -->
+        @if (panel.mode() === 'wv-topic') {
+          <form [formGroup]="wvTopicForm" (ngSubmit)="submit('wv-topic')" class="hp__form">
+            <label class="hp__field">
+              <span>Topic Name</span>
+              <input formControlName="name" placeholder="e.g. Creation of the Universe" />
+            </label>
+            <label class="hp__field">
+              <span>Description</span>
+              <textarea formControlName="description" rows="3" placeholder="What is this topic about?"></textarea>
+            </label>
+            <label class="hp__field">
+              <span>Tags (comma-separated)</span>
+              <input formControlName="tags" placeholder="theology, cosmology" />
+            </label>
+            <div class="hp__actions">
+              <button type="submit" class="hp__btn hp__btn--primary" [disabled]="wvTopicForm.invalid">Save</button>
+              <button type="button" class="hp__btn" (click)="panel.close()">Cancel</button>
+            </div>
+          </form>
+        }
+
+        <!-- SOURCE (wv_sources) -->
+        @if (panel.mode() === 'wv-source') {
+          <form [formGroup]="wvSourceForm" (ngSubmit)="submit('wv-source')" class="hp__form">
+            <label class="hp__field">
+              <span>Title</span>
+              <input formControlName="title" placeholder="Book or article title" />
+            </label>
+            <label class="hp__field">
+              <span>Author</span>
+              <input formControlName="author" placeholder="Author name" />
+            </label>
+            <label class="hp__field">
+              <span>Type</span>
+              <select formControlName="source_type">
+                <option value="book">Book</option>
+                <option value="article">Article</option>
+                <option value="podcast">Podcast</option>
+                <option value="video">Video</option>
+                <option value="paper">Academic Paper</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label class="hp__field">
+              <span>Publication Year</span>
+              <input formControlName="year" type="number" placeholder="e.g. 2023" />
+            </label>
+            <label class="hp__field">
+              <span>Language</span>
+              <select formControlName="language">
+                <option value="en">English</option>
+                <option value="ar">Arabic</option>
+                <option value="both">Both</option>
+              </select>
+            </label>
+            <div class="hp__actions">
+              <button type="submit" class="hp__btn hp__btn--primary" [disabled]="wvSourceForm.invalid">Save</button>
+              <button type="button" class="hp__btn" (click)="panel.close()">Cancel</button>
+            </div>
+          </form>
+        }
+
+        <!-- PERSON (wv_person) -->
+        @if (panel.mode() === 'wv-person') {
+          <form [formGroup]="wvPersonForm" (ngSubmit)="submit('wv-person')" class="hp__form">
+            <label class="hp__field">
+              <span>Full Name</span>
+              <input formControlName="name" placeholder="Name" />
+            </label>
+            <label class="hp__field">
+              <span>Nickname</span>
+              <input formControlName="nickname" placeholder="Optional nickname" />
+            </label>
+            <label class="hp__field">
+              <span>Relationship</span>
+              <select formControlName="relationship">
+                <option value="family">Family</option>
+                <option value="friend">Friend</option>
+                <option value="colleague">Colleague</option>
+                <option value="mentor">Mentor</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label class="hp__field">
+              <span>Family Role</span>
+              <input formControlName="family_role" placeholder="e.g. Father, Brother (if family)" />
+            </label>
+            <label class="hp__field">
+              <span>Visibility</span>
+              <select formControlName="visibility">
+                <option value="private">Private (Family — never shared)</option>
+                <option value="workspace">Workspace (Friends/Colleagues)</option>
+              </select>
+            </label>
+            <label class="hp__field">
+              <span>Bio</span>
+              <textarea formControlName="bio" rows="3" placeholder="Brief description…"></textarea>
+            </label>
+            <div class="hp__actions">
+              <button type="submit" class="hp__btn hp__btn--primary" [disabled]="wvPersonForm.invalid">Save</button>
+              <button type="button" class="hp__btn" (click)="panel.close()">Cancel</button>
+            </div>
+          </form>
+        }
+
+        <!-- BALAGHA -->
+        @if (panel.mode() === 'ar-balagha') {
+          <form [formGroup]="arBalaghaForm" (ngSubmit)="submit('ar-balagha')" class="hp__form">
+            <label class="hp__field">
+              <span>Term (Arabic)</span>
+              <input formControlName="term_ar" class="rtl" placeholder="الاستعارة" dir="rtl" />
+            </label>
+            <label class="hp__field">
+              <span>Term (English)</span>
+              <input formControlName="term_en" placeholder="Metaphor" />
+            </label>
+            <label class="hp__field">
+              <span>Branch</span>
+              <select formControlName="branch">
+                <option value="bayan">علم البيان — Bayan (Figures of Speech)</option>
+                <option value="maani">علم المعاني — Maani (Semantics)</option>
+                <option value="badi">علم البديع — Badi (Ornamentation)</option>
+              </select>
+            </label>
+            <label class="hp__field">
+              <span>Definition</span>
+              <textarea formControlName="definition" rows="4" placeholder="Explain the rhetorical device…"></textarea>
+            </label>
+            <label class="hp__field">
+              <span>Quran References (comma-separated Surah:Ayah)</span>
+              <input formControlName="quran_refs" placeholder="2:255, 36:40" />
+            </label>
+            <div class="hp__actions">
+              <button type="submit" class="hp__btn hp__btn--primary" [disabled]="arBalaghaForm.invalid">Save</button>
+              <button type="button" class="hp__btn" (click)="panel.close()">Cancel</button>
+            </div>
+          </form>
+        }
+
+        <!-- DOMAIN -->
+        @if (panel.mode() === 'ar-domain') {
+          <form [formGroup]="arDomainForm" (ngSubmit)="submit('ar-domain')" class="hp__form">
+            <label class="hp__field">
+              <span>Domain Name (English)</span>
+              <input formControlName="name" placeholder="e.g. home" />
+            </label>
+            <label class="hp__field">
+              <span>Domain Name (Arabic)</span>
+              <input formControlName="name_ar" class="rtl" dir="rtl" placeholder="البيت" />
+            </label>
+            <label class="hp__field">
+              <span>Description</span>
+              <textarea formControlName="description" rows="2" placeholder="Context description…"></textarea>
+            </label>
+            <label class="hp__field">
+              <span>Icon (emoji)</span>
+              <input formControlName="icon" placeholder="🏠" />
+            </label>
+            <div class="hp__actions">
+              <button type="submit" class="hp__btn hp__btn--primary" [disabled]="arDomainForm.invalid">Save</button>
+              <button type="button" class="hp__btn" (click)="panel.close()">Cancel</button>
+            </div>
+          </form>
+        }
+
+        <!-- PODCAST -->
+        @if (panel.mode() === 'wv-podcast') {
+          <form [formGroup]="wvPodcastForm" (ngSubmit)="submit('wv-podcast')" class="hp__form">
+            <label class="hp__field">
+              <span>Title</span>
+              <input formControlName="title" placeholder="Episode title" />
+            </label>
+            <label class="hp__field">
+              <span>Type</span>
+              <select formControlName="type">
+                <option value="solo">Solo</option>
+                <option value="interview">Interview</option>
+                <option value="panel">Panel Discussion</option>
+              </select>
+            </label>
+            <label class="hp__field">
+              <span>Description</span>
+              <textarea formControlName="description" rows="3" placeholder="What is this episode about?"></textarea>
+            </label>
+            <label class="hp__field">
+              <span>Status</span>
+              <select formControlName="status">
+                <option value="planning">Planning</option>
+                <option value="in_progress">In Progress</option>
+                <option value="recorded">Recorded</option>
+                <option value="published">Published</option>
+              </select>
+            </label>
+            <div class="hp__actions">
+              <button type="submit" class="hp__btn hp__btn--primary" [disabled]="wvPodcastForm.invalid">Save</button>
+              <button type="button" class="hp__btn" (click)="panel.close()">Cancel</button>
+            </div>
+          </form>
+        }
+
+        <!-- PLAN -->
+        @if (panel.mode() === 'wv-plan') {
+          <form [formGroup]="wvPlanForm" (ngSubmit)="submit('wv-plan')" class="hp__form">
+            <label class="hp__field">
+              <span>Plan Title</span>
+              <input formControlName="title" placeholder="e.g. Q2 Reading Plan" />
+            </label>
+            <label class="hp__field">
+              <span>Type</span>
+              <select formControlName="type">
+                <option value="reading">Reading</option>
+                <option value="research">Research</option>
+                <option value="memorisation">Memorisation</option>
+                <option value="mixed">Mixed</option>
+              </select>
+            </label>
+            <label class="hp__field">
+              <span>Start Date</span>
+              <input formControlName="start_date" type="date" />
+            </label>
+            <label class="hp__field">
+              <span>End Date</span>
+              <input formControlName="end_date" type="date" />
+            </label>
+            <label class="hp__field">
+              <span>Description</span>
+              <textarea formControlName="description" rows="3" placeholder="Goals and scope…"></textarea>
+            </label>
+            <div class="hp__actions">
+              <button type="submit" class="hp__btn hp__btn--primary" [disabled]="wvPlanForm.invalid">Save</button>
+              <button type="button" class="hp__btn" (click)="panel.close()">Cancel</button>
+            </div>
+          </form>
+        }
+
+        <!-- AR CONTAINER -->
+        @if (panel.mode() === 'ar-container') {
+          <form [formGroup]="arContainerForm" (ngSubmit)="submit('ar-container')" class="hp__form">
+            <label class="hp__field">
+              <span>Title</span>
+              <input formControlName="title" placeholder="Book or podcast title" />
+            </label>
+            <label class="hp__field">
+              <span>Type</span>
+              <select formControlName="type">
+                <option value="book">Book</option>
+                <option value="podcast">Podcast</option>
+                <option value="poetry">Poetry Collection</option>
+                <option value="article">Article Series</option>
+                <option value="course">Course</option>
+              </select>
+            </label>
+            <label class="hp__field">
+              <span>Level</span>
+              <select formControlName="level">
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+                <option value="classical">Classical</option>
+              </select>
+            </label>
+            <label class="hp__field">
+              <span>Author / Source</span>
+              <input formControlName="author" placeholder="Author name" />
+            </label>
+            <label class="hp__field">
+              <span>Description</span>
+              <textarea formControlName="description" rows="3" placeholder="Overview of this material…"></textarea>
+            </label>
+            <div class="hp__actions">
+              <button type="submit" class="hp__btn hp__btn--primary" [disabled]="arContainerForm.invalid">Save</button>
+              <button type="button" class="hp__btn" (click)="panel.close()">Cancel</button>
+            </div>
+          </form>
+        }
+
+        <!-- WORKSPACE -->
+        @if (panel.mode() === 'workspace') {
+          <form [formGroup]="workspaceForm" (ngSubmit)="submit('workspace')" class="hp__form">
+            <label class="hp__field">
+              <span>Workspace Name</span>
+              <input formControlName="name" placeholder="e.g. Quran Research Project" />
+            </label>
+            <label class="hp__field">
+              <span>Description</span>
+              <textarea formControlName="description" rows="3" placeholder="What is this workspace for?"></textarea>
+            </label>
+            <label class="hp__field">
+              <span>Type</span>
+              <select formControlName="type">
+                <option value="research">Research</option>
+                <option value="podcast">Podcast Production</option>
+                <option value="study">Study Group</option>
+                <option value="personal">Personal</option>
+              </select>
+            </label>
+            <div class="hp__actions">
+              <button type="submit" class="hp__btn hp__btn--primary" [disabled]="workspaceForm.invalid">Save</button>
+              <button type="button" class="hp__btn" (click)="panel.close()">Cancel</button>
+            </div>
+          </form>
+        }
+
+        <!-- GENERIC fallback -->
+        @if (!knownModes.includes(panel.mode())) {
+          <div class="hp__empty">
+            <span class="hp__empty-icon">⚙️</span>
+            <p>Form for <strong>{{ panel.mode() }}</strong> coming soon.</p>
+          </div>
+        }
+
+      </div>
+
+      <!-- Status bar -->
+      @if (saveStatus() !== 'idle') {
+        <div class="hp__status" [class.hp__status--ok]="saveStatus() === 'ok'" [class.hp__status--err]="saveStatus() === 'err'">
+          @if (saveStatus() === 'saving') { <span>Saving…</span> }
+          @if (saveStatus() === 'ok') { <span>✓ Saved</span> }
+          @if (saveStatus() === 'err') { <span>✕ Save failed</span> }
+        </div>
+      }
+    </aside>
+  

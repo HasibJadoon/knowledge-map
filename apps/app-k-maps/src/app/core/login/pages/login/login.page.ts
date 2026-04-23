@@ -36,7 +36,7 @@ export class LoginPage {
   ionViewWillEnter(): void {
     const token = localStorage.getItem(this.tokenKey);
     if (isTokenValid(token)) {
-      this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+      this.router.navigateByUrl('/home', { replaceUrl: true });
       return;
     }
 
@@ -63,7 +63,7 @@ export class LoginPage {
       next: (response) => {
         if (response.ok && response.token) {
           localStorage.setItem(this.tokenKey, response.token);
-          this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+          this.router.navigateByUrl('/home', { replaceUrl: true });
           return;
         }
 

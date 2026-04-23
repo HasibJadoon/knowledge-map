@@ -35,6 +35,7 @@ angular-compiler.db
 !database/schema.sql
 !database/migrations/
 !database/migrations/*.sql
+!workers/*/schema.sql
 
 # Env & secrets
 .env

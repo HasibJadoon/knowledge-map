@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ArabicLessonsPage } from './arabic-lessons.page';
+import { ArabicLessonsPage } from './pages/arabic-lessons/arabic-lessons.page';
 
 const routes: Routes = [
   {
@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: ':id/study',
     loadComponent: () =>
-      import('./ar-quran-study/ar-quran-study.page').then((m) => m.ArQuranStudyPage),
+      import('./pages/ar-quran-study/ar-quran-study.page').then((m) => m.ArQuranStudyPage),
   },
 ];
 

@@ -1,0 +1,143 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/worldview" text="Worldview"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Library</ion-title>
+    <ion-buttons slot="end">
+      @if (!loading()) {
+        <ion-badge class="wv-lib__count-badge" color="medium">{{ sources().length }}</ion-badge>
+      }
+      <ion-button fill="clear" size="small" routerLink="/home" routerDirection="root" aria-label="Dashboard">
+        <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      class="wv-lib__searchbar"
+      placeholder="Search sources, creators, traditions…"
+      [value]="searchQuery()"
+      (ionInput)="searchQuery.set($any($event.target).value)"
+      animated="true"
+      enterkeyhint="search"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="wv-lib">
+
+  <!-- Filter chips -->
+  @if (!loading() && sources().length > 0) {
+    <div class="wv-lib__filter-bar">
+      @for (type of sourceTypes(); track type) {
+        <button
+          class="wv-lib__chip"
+          [class.wv-lib__chip--active]="activeTypeFilter() === type"
+          (click)="activeTypeFilter.set(type)"
+        >
+          @if (type !== 'all') {
+            <span class="wv-lib__chip-icon">{{ typeIcon(type) }}</span>
+          }
+          {{ type === 'all' ? 'All' : typeLabel(type) }}
+        </button>
+      }
+      <button
+        class="wv-lib__group-btn"
+        [class.wv-lib__group-btn--on]="groupByType()"
+        (click)="groupByType.set(!groupByType())"
+        title="Group by type"
+      >⊞</button>
+    </div>
+  }
+
+  <!-- Loading skeletons -->
+  @if (loading()) {
+    <div class="wv-lib__grid">
+      @for (i of skeletons; track i) {
+        <div class="wv-lib__skel"></div>
+      }
+    </div>
+  }
+
+  <!-- Empty state -->
+  @else if (filteredSources().length === 0) {
+    <div class="wv-lib__empty">
+      <span class="wv-lib__empty-glyph">◎</span>
+      <p class="wv-lib__empty-text">No worldview sources found.</p>
+    </div>
+  }
+
+  <!-- Grouped -->
+  @else if (groupByType() && groupedSources()) {
+    @for (type of objectKeys(groupedSources()!); track type) {
+      <div class="wv-lib__type-section">
+        <div class="wv-lib__type-head">
+          <span>{{ typeIcon(type) }}</span>
+          <span class="wv-lib__type-label">{{ typeLabel(type) }}</span>
+          <span class="wv-lib__type-count">{{ groupedSources()![type].length }}</span>
+        </div>
+        <div class="wv-lib__grid" style="padding-top: 0; padding-bottom: 1rem;">
+          @for (source of groupedSources()![type]; track source.id) {
+            <ng-container *ngTemplateOutlet="sourceCard; context: { $implicit: source }"></ng-container>
+          }
+        </div>
+      </div>
+    }
+  }
+
+  <!-- Flat list -->
+  @else {
+    <div class="wv-lib__grid">
+      @for (source of filteredSources(); track source.id) {
+        <ng-container *ngTemplateOutlet="sourceCard; context: { $implicit: source }"></ng-container>
+      }
+    </div>
+  }
+
+</ion-content>
+
+<!-- Source card: horizontal row layout (Kindle / modern reading style) -->
+<ng-template #sourceCard let-source>
+  <a class="wv-lib__card" [routerLink]="['/worldview', 'library', source.id]">
+
+    <!-- Left: icon -->
+    <div class="wv-lib__card-icon">{{ typeIcon(source.source_type) }}</div>
+
+    <!-- Middle: badges + title + meta -->
+    <div class="wv-lib__card-body">
+      <div class="wv-lib__card-badges">
+        <span class="wv-lib__badge" [attr.data-color]="typeColor(source.source_type)">
+          {{ typeLabel(source.source_type) }}
+        </span>
+        @if (source.language) {
+          <span class="wv-lib__pill">{{ source.language | uppercase }}</span>
+        }
+      </div>
+
+      <div class="wv-lib__card-title">{{ source.title }}</div>
+
+      @if (source.creator) {
+        <div class="wv-lib__card-creator">{{ source.creator }}</div>
+      }
+      @if (sourcePeopleLine(source)) {
+        <div class="wv-lib__card-people">{{ sourcePeopleLine(source) }}</div>
+      }
+      @if (sourceMetaLine(source)) {
+        <div class="wv-lib__card-meta">{{ sourceMetaLine(source) }}</div>
+      }
+    </div>
+
+    <!-- Right: year / units / arrow -->
+    <div class="wv-lib__card-right">
+      @if (sourceYear(source)) {
+        <span class="wv-lib__card-year">{{ sourceYear(source) }}</span>
+      }
+      @if (source.unit_count) {
+        <span class="wv-lib__card-units">{{ source.unit_count }}u</span>
+      }
+      <span class="wv-lib__arrow">›</span>
+    </div>
+
+  </a>
+</ng-template>
