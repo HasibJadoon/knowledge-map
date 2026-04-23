@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild database/data/roots/tarteel.ai/roots-only.sql with the current ar_u_roots schema."""
+"""Rebuild the normalized roots SQL snapshot with the current ar_u_roots schema."""
 
 from __future__ import annotations
 
@@ -11,8 +11,8 @@ import sqlite3
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional, Tuple
 
-ROOTS_SQL = Path("database/data/roots/tarteel.ai/allroots.sql")
-TARGET_SQL = Path("database/data/roots/tarteel.ai/roots-only.sql")
+ROOTS_SQL = Path("database/ingestion/roots/sources/tarteel-ai/allroots.sql")
+TARGET_SQL = Path("database/ingestion/roots/outputs/roots-only.sql")
 
 
 def canonicalize(value: str) -> str:

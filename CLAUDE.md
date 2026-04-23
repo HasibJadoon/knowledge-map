@@ -53,7 +53,7 @@ knowledge-map/
 ├── apps/app-k-maps/         ← Ionic app
 ├── apps/k-maps/             ← Legacy app
 ├── functions/               ← Cloudflare Workers (all API routes)
-├── Database/migrations/     ← SQL migration files
+├── database/migrations/     ← SQL migration files
 ├── docs/                    ← Documentation + brainstorm specs
 ├── scripts/                 ← utility scripts
 ├── resources/               ← learning resources
@@ -302,7 +302,7 @@ gsap.fromTo(lines, { scaleX:0, opacity:0 },
 
 ```
 Phase 1: Database
-  [ ] Database/migrations/2026-03-22_wv_schema.sql  (all wv_* tables)
+  [ ] database/migrations/legacy/2026-03-22_wv_schema.sql  (all wv_* tables)
   [ ] Run migration on production D1
 
 Phase 2: Worker API
@@ -357,7 +357,7 @@ Migrations:  YYYY-MM-DD_description.sql
 - Main service: `apps/k-maps-v2/src/app/shared/services/k-maps.service.ts`
 - Fonts: `apps/k-maps-v2/src/scss/_fonts.scss`
 - CSS vars: `apps/k-maps-v2/src/scss/_variables.scss` (or similar)
-- Passage migration: `Database/migrations/2026-03-22_passage_indexes.sql`
+- Passage migration: `database/migrations/legacy/2026-03-22_passage_indexes.sql`
 - Quran worker: `functions/ar/quran/ayahs.ts`
 
 ---
@@ -396,7 +396,7 @@ tables, not a separate staging schema.
 ### 14.2 The Only Migration Required
 
 ```sql
--- File: Database/migrations/2026-04-17_pipeline_columns.sql
+-- File: database/migrations/legacy/2026-04-17_pipeline_columns.sql
 -- Adds embedding-pipeline tracking columns to ar_source_chunks
 
 ALTER TABLE ar_source_chunks ADD COLUMN is_embedded  INTEGER NOT NULL DEFAULT 0;
@@ -411,7 +411,7 @@ CREATE INDEX IF NOT EXISTS idx_asc_kind     ON ar_source_chunks(ar_u_source, chu
 Run with:
 ```bash
 wrangler d1 execute knowledgemap \
-  --file=Database/migrations/2026-04-17_pipeline_columns.sql \
+  --file=database/migrations/legacy/2026-04-17_pipeline_columns.sql \
   --remote
 ```
 
@@ -780,11 +780,11 @@ wrangler d1 create km_core
 
 # Deploy schema in run-order (AL first — no deps)
 wrangler d1 execute km_arabic_linguistic \
-  --file=Database/migrations/km-arabic-linguistic/001_al_schema.sql --remote
+  --file=database/migrations/km-arabic-linguistic/001_al_schema.sql --remote
 wrangler d1 execute km_core \
-  --file=Database/migrations/km-core/001_core_schema.sql --remote
+  --file=database/migrations/km-core/001_core_schema.sql --remote
 wrangler d1 execute km_quran \
-  --file=Database/migrations/km-quran/001_corpus_base.sql --remote
+  --file=database/migrations/km-quran/001_corpus_base.sql --remote
 # ...continue per run-order in §15.10
 ```
 
@@ -860,7 +860,7 @@ Based on final architecture docs (`km_quran_database_architecture_final_final_sc
 ### 15.9 Canonical Module Schemas (per-DB migration files)
 
 ```
-Database/migrations/
+database/migrations/
 ├── km-arabic-linguistic/        ← ALL ar_ling_* (single prefix)
 │   └── 001_al_schema.sql        ← 10 layers: roots→lemmas→sarf→nahw→balagha→lexicon→expressions→sources→disciplinary_trees→bridges
 ├── km-quran/                    ← FINALIZED — do not touch

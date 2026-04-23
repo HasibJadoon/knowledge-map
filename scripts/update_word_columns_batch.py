@@ -7,7 +7,7 @@ def main():
     parser.add_argument('--limit', type=int, default=200, help='number of rows to process per run')
     args = parser.parse_args()
     limit = args.limit
-    conn = sqlite3.connect('Database/d1.db')
+    conn = sqlite3.connect('database/d1.db')
     cur = conn.cursor()
     rows = cur.execute(
         """

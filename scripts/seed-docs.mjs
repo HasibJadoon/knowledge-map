@@ -10,7 +10,7 @@ const sanitizedTable = targetTable.replace(/_/g, '-');
 const outputPath = path.join(
   baseDir,
   'database',
-  'migrations',
+  'seeds',
   `seed-${sanitizedTable}.sql`
 );
 
@@ -141,5 +141,6 @@ const output = [
   ...statements,
   '',
 ].join('\n') + '\n';
+fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 fs.writeFileSync(outputPath, output, 'utf8');
 console.log(`Wrote ${statements.length} statements to ${outputPath}`);

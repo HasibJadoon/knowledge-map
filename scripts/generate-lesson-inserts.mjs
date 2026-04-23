@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const baseDir = process.cwd();
-const defaultInput = path.join(baseDir, 'database/data/quran/S12');
+const defaultInput = path.join(baseDir, 'database/data/quran/lessons/surah-012');
 const defaultOutput = path.join(baseDir, 'database/migrations/insert-quran-s12-lessons.sql');
 
 const inputDir = path.resolve(process.argv[2] ?? defaultInput);

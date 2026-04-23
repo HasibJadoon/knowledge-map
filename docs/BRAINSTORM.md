@@ -460,7 +460,7 @@ Create structured audio content (solo monologue, dialogue, or panel discussion) 
 ## 12. Database Schema (Complete)
 
 ### Migrations
-All new tables: `Database/migrations/2026-03-22_wv_schema.sql`
+All new tables: `database/migrations/legacy/2026-03-22_wv_schema.sql`
 
 ### Indexes (complete list for wv_*)
 ```sql
@@ -787,7 +787,7 @@ Family (visibility='private')     ←→   Workspace (visibility='workspace')
 
 ```
 ━━━ Phase 1: Database ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[ ] Database/migrations/2026-03-22_wv_schema.sql
+[ ] database/migrations/legacy/2026-03-22_wv_schema.sql
     All wv_* tables + all indexes
 [ ] wrangler d1 execute knowledgemap --file=... --remote
 [ ] Seed worldview rows (Islam/Christianity/Judaism + branches)

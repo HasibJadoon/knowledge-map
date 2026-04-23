@@ -81,7 +81,7 @@ def migrate(db_path: Path, dry_run: bool) -> None:
     if not cursor.execute(
         "SELECT name FROM sqlite_master WHERE type='table' AND name='roots'"
     ).fetchone():
-        raise SystemExit("Legacy roots table is missing; load database/data/roots/tarteel.ai/roots-only.sql first.")
+        raise SystemExit("Legacy roots table is missing; load database/ingestion/roots/outputs/roots-only.sql first.")
 
     rows = cursor.execute("SELECT * FROM roots").fetchall()
     if not rows:

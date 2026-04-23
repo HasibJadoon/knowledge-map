@@ -4,7 +4,7 @@ This repository uses the **ar_u_tokens** table as the canonical token layer.  Th
 
 ### 1. Download the required datasets
 
-1. Visit the [QUL morphology resource list](https://qul.tarteel.ai/resources/morphology) and sign in.  The **Word lemma** dataset (ID 75, word-by-word) is the primary source; grab its SQLite file and place it somewhere under this repo (for example, `database/data/qul/word-lemma.sqlite`).
+1. Visit the [QUL morphology resource list](https://qul.tarteel.ai/resources/morphology) and sign in.  The **Word lemma** dataset (ID 75, word-by-word) is the primary source; grab its SQLite file and place it somewhere under this repo (for example, `database/ingestion/morphology/sources/qul/word-lemma.sqlite`).
 2. Download the **Word root** dataset (ID 76, word-by-word).  The script only needs it to map each word location to its root; nothing is inserted from the root file itself.
 3. (Optional but strongly recommended) export a mapping of `word_location → part of speech` from the Word POS / Grammar tool.  The script accepts a CSV/JSON `--pos-file` where each row contains `word_location` and `pos`.  Use the QUL concordance/grammar UI or your own export to generate that file so POS labels can be canonicalized.
 
@@ -34,9 +34,9 @@ If the root is missing (e.g., the dataset does not cover the location), `root_no
 
 ```bash
 ./scripts/import-qul-word-lemmas.py \
-  --lemmas-db database/data/qul/word-lemma.sqlite \
-  --roots-db database/data/qul/word-root.sqlite \
-  [--pos-file database/data/qul/word-pos.csv] \
+  --lemmas-db database/ingestion/morphology/sources/qul/word-lemma.sqlite \
+  --roots-db database/ingestion/morphology/sources/qul/word-root.sqlite \
+  [--pos-file database/ingestion/morphology/sources/qul/word-pos.csv] \
   --target-db database/d1.db
 ```
 

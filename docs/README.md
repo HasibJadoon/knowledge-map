@@ -19,10 +19,10 @@ node scripts/seed-docs.mjs
 node scripts/seed-docs.mjs wiki_docs
 ```
 
-That script rewrites `database/migrations/seed-docs.sql` with `INSERT ... ON CONFLICT` statements that push every `docs/wiki/*.md` file into the `docs` table. After running the script, push the SQL to remote with:
+That script rewrites `database/seeds/seed-docs.sql` with `INSERT ... ON CONFLICT` statements that push every `docs/wiki/*.md` file into the `docs` table. After running the script, push the SQL to remote with:
 
 ```
-npx wrangler d1 execute DB --remote --file database/migrations/seed-docs.sql
+npx wrangler d1 execute DB --remote --file database/seeds/seed-docs.sql
 ```
 
-Repeat the script after every Markdown update before syncing the SQL file(s). The first command rewrites `database/migrations/seed-docs.sql`, the second rewrites `database/migrations/seed-wiki-docs.sql`.
+Repeat the script after every Markdown update before syncing the SQL file(s). The first command rewrites `database/seeds/seed-docs.sql`, the second rewrites `database/seeds/seed-wiki-docs.sql`.

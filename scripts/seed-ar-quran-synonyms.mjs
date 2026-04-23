@@ -6,7 +6,7 @@ const repoRoot = process.cwd();
 const dataRoot = path.join(repoRoot, "database", "data", "synonyms", "data-master");
 const synonymsMapPath = path.join(dataRoot, "synonyms", "synonyms_map.json");
 const wordsPath = path.join(dataRoot, "synonyms", "synonyms_words_ar.json");
-const outputPath = path.join(repoRoot, "database", "migrations", "seed-ar_quran_synonyms.sql");
+const outputPath = path.join(repoRoot, "database", "seeds", "seed-ar_quran_synonyms.sql");
 
 function readJson(p) {
   let text = fs.readFileSync(p, "utf8");
@@ -143,5 +143,6 @@ for (const topic of synonymsMap.topics || []) {
   }
 }
 
+fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 fs.writeFileSync(outputPath, lines.join("\n") + "\n");
 console.log(`Wrote ${outputPath}`);

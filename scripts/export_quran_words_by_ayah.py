@@ -51,7 +51,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--db",
         type=Path,
-        default=Path("Database/d1.db"),
+        default=Path("database/d1.db"),
         help="Path to the SQLite DB with quran_ayah_lemma_location + ar_u_tokens.",
     )
     parser.add_argument(
@@ -63,7 +63,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("database/migrations/seed-ar_quran_ayah_words.sql"),
+        default=Path("database/seeds/seed-ar_quran_ayah_words.sql"),
         help="Output SQL file with UPDATE statements.",
     )
     return parser.parse_args()

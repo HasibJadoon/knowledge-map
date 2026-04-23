@@ -244,7 +244,7 @@ wrangler d1 export knowledgemap --output=knowledgemap.db
 
 Create this file in your K-Maps repo:
 
-**`Database/migrations/2026-04-17_tafsir_graph_schema.sql`**
+**`database/migrations/2026-04-17_tafsir_graph_schema.sql`**
 
 ```sql
 -- ============================================================
@@ -431,7 +431,7 @@ CREATE TABLE IF NOT EXISTS ar_lexicon_chunks (
 ```bash
 cd /path/to/knowledge-map
 wrangler d1 execute knowledgemap \
-  --file=Database/migrations/2026-04-17_tafsir_graph_schema.sql \
+  --file=database/migrations/2026-04-17_tafsir_graph_schema.sql \
   --remote
 ```
 

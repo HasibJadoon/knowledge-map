@@ -30,11 +30,14 @@ angular-compiler.db
 # D1 exports/dumps
 *.sqlite
 *.db
-# track the canonical schema even though other SQL dumps stay ignored
+# Track curated migrations and worker schema snapshots; keep ad hoc SQL dumps ignored.
 *.sql
-!database/schema.sql
 !database/migrations/
 !database/migrations/*.sql
+!database/migrations/**/*.sql
+!database/seeds/
+!database/seeds/*.sql
+!database/seeds/**/*.sql
 !workers/*/schema.sql
 
 # Env & secrets

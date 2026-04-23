@@ -691,14 +691,14 @@ Target: each module in its own dedicated D1 database.
 ### Phase 1 (Done): QR Rename
 ```bash
 wrangler d1 execute knowledgemap \
-  --file=Database/migrations/2026-04-20_phase1_qr_rename.sql --remote
+  --file=database/migrations/legacy/2026-04-20_phase1_qr_rename.sql --remote
 # Renamed: 22 ar_quran_* → qr_* tables + 23 compat views
 ```
 
 ### Phase 2 (Done): LX → ar_ling_* Rename
 ```bash
 wrangler d1 execute knowledgemap \
-  --file=Database/migrations/2026-05-05_phase2_ling_rename.sql --remote
+  --file=database/migrations/legacy/2026-05-05_phase2_ling_rename.sql --remote
 # Renamed: 18 ar_u_* → ar_ling_* tables + 19 compat views
 ```
 
@@ -717,34 +717,34 @@ wrangler d1 create km_core
 ```bash
 # 1. AL first — backbone has no cross-DB deps
 wrangler d1 execute km_arabic_linguistic \
-  --file=Database/migrations/km-arabic-linguistic/001_al_schema.sql --remote
+  --file=database/migrations/km-arabic-linguistic/001_al_schema.sql --remote
 
 # 2. CORE second — identity substrate
 wrangler d1 execute km_core \
-  --file=Database/migrations/km-core/001_core_schema.sql --remote
+  --file=database/migrations/km-core/001_core_schema.sql --remote
 
 # 3. QR (references AL via typed refs)
-wrangler d1 execute km_quran --file=Database/migrations/km-quran/001_corpus_base.sql --remote
-wrangler d1 execute km_quran --file=Database/migrations/km-quran/002_surah_spine.sql --remote
-wrangler d1 execute km_quran --file=Database/migrations/km-quran/003_meaning_and_reasoning.sql --remote
-wrangler d1 execute km_quran --file=Database/migrations/km-quran/004_sentence_structure.sql --remote
-wrangler d1 execute km_quran --file=Database/migrations/km-quran/005_reception_and_projections.sql --remote
+wrangler d1 execute km_quran --file=database/migrations/km-quran/001_corpus_base.sql --remote
+wrangler d1 execute km_quran --file=database/migrations/km-quran/002_surah_spine.sql --remote
+wrangler d1 execute km_quran --file=database/migrations/km-quran/003_meaning_and_reasoning.sql --remote
+wrangler d1 execute km_quran --file=database/migrations/km-quran/004_sentence_structure.sql --remote
+wrangler d1 execute km_quran --file=database/migrations/km-quran/005_reception_and_projections.sql --remote
 
 # 4. AR (references AL, QR)
 wrangler d1 execute km_arabic \
-  --file=Database/migrations/km-arabic/001_ar_schema.sql --remote
+  --file=database/migrations/km-arabic/001_ar_schema.sql --remote
 
 # 5. WV (references QR, AL, CORE)
 wrangler d1 execute km_worldview \
-  --file=Database/migrations/km-worldview/001_wv_schema.sql --remote
+  --file=database/migrations/km-worldview/001_wv_schema.sql --remote
 
 # 6. CM (references QR, WV, AL, AR, CORE)
 wrangler d1 execute km_content \
-  --file=Database/migrations/km-content/001_cm_schema.sql --remote
+  --file=database/migrations/km-content/001_cm_schema.sql --remote
 
 # 7. PL (references all modules via typed refs)
 wrangler d1 execute km_planner \
-  --file=Database/migrations/km-planner/001_pl_schema.sql --remote
+  --file=database/migrations/km-planner/001_pl_schema.sql --remote
 ```
 
 ### Phase 5: Data Migration

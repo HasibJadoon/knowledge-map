@@ -1,6 +1,5 @@
-npx wrangler d1 execute DB \
-  --remote \
-  --file Database/schema.sql
+Worker schema snapshots live in workers/*/schema.sql.
+Apply service migrations from database/migrations/<service>/.
 
 
 npx wrangler pages deploy apps/k-maps/dist/k-maps/browser
@@ -13,7 +12,7 @@ npm run build
 
 Document Seed
 node scripts/seed-docs.mjs
-npx wrangler d1 execute DB --remote --file database/migrations/seed-docs.sql
+npx wrangler d1 execute DB --remote --file database/seeds/seed-docs.sql
 
 npm run start -w apps/k-map
 npm run build -w apps/k-map

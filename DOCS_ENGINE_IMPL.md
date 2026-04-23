@@ -11,7 +11,7 @@
 **Goal:** Tables exist in production D1. API routes return valid JSON.
 
 ### Step 1.1 — Run migration
-Create `Database/migrations/2026-04-14_km_documents.sql` with this exact content:
+Create `database/migrations/legacy/2026-04-14_km_documents.sql` with this exact content:
 
 ```sql
 -- km_documents: primary document table
@@ -169,7 +169,7 @@ END;
 
 Then run:
 ```bash
-wrangler d1 execute knowledgemap --file=Database/migrations/2026-04-14_km_documents.sql --remote
+wrangler d1 execute knowledgemap --file=database/migrations/legacy/2026-04-14_km_documents.sql --remote
 ```
 
 **Verify:** `wrangler d1 execute knowledgemap --command="SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'km_%';" --remote`
@@ -1017,7 +1017,7 @@ Override Tiptap Image extension upload handler to use `/api/docs/:id/media`.
 
 ```bash
 # Run migration
-wrangler d1 execute knowledgemap --file=Database/migrations/2026-04-14_km_documents.sql --remote
+wrangler d1 execute knowledgemap --file=database/migrations/legacy/2026-04-14_km_documents.sql --remote
 
 # Verify tables
 wrangler d1 execute knowledgemap --command="SELECT name FROM sqlite_master WHERE name LIKE 'km_%';" --remote

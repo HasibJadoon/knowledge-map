@@ -7,7 +7,7 @@ def main():
     parser.add_argument('--limit', type=int, default=2000, help='rows to process per chunk')
     args = parser.parse_args()
 
-    conn = sqlite3.connect('Database/d1.db')
+    conn = sqlite3.connect('database/d1.db')
     cur = conn.cursor()
 
     tokens = {}

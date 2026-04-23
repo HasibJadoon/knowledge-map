@@ -16,13 +16,15 @@ const rukuDb = path.join(metaDir, 'quran-metadata-ruku.sqlite');
 const themesDb = path.join(metaDir, 'ayah-themes.db');
 const matchingDb = path.join(metaDir, 'matching-ayah.db');
 
-const outQuranSql = path.join(__dirname, '..', 'database', 'migrations', 'seed-ar_quran_ayah.sql');
-const outSurahSql = path.join(__dirname, '..', 'database', 'migrations', 'seed-ar_quran_surahs.sql');
-const outMetaSql = path.join(__dirname, '..', 'database', 'migrations', 'seed-ar_quran_surah_ayah_meta.sql');
+const seedDir = path.join(__dirname, '..', 'database', 'seeds');
+const outQuranSql = path.join(seedDir, 'seed-ar_quran_ayah.sql');
+const outSurahSql = path.join(seedDir, 'seed-ar_quran_surahs.sql');
+const outMetaSql = path.join(seedDir, 'seed-ar_quran_surah_ayah_meta.sql');
 
 const tmpDir = path.join(os.tmpdir(), 'kmap-quran');
 fs.rmSync(tmpDir, { recursive: true, force: true });
 fs.mkdirSync(tmpDir, { recursive: true });
+fs.mkdirSync(seedDir, { recursive: true });
 const insertsDb = path.join(tmpDir, 'quran_inserts.db');
 
 const runSqlite = (dbPath, commands) => {

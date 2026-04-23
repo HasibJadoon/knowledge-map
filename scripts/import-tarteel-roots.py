@@ -154,7 +154,7 @@ def main() -> None:
     parser.add_argument(
         "--roots-sql",
         type=Path,
-        default=Path("database/data/roots/tarteel.ai/allroots.sql"),
+        default=Path("database/ingestion/roots/sources/tarteel-ai/allroots.sql"),
         help="Path to the tarteel.ai roots SQL dump",
     )
     parser.add_argument(

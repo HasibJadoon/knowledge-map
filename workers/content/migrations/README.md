@@ -16,4 +16,4 @@ wrangler d1 migrations list  km_content --remote
 |------|-----------|
 | 001_cm_schema.sql | cm_documents, cm_document_blocks, cm_notes, cm_captures, cm_highlights, cm_sources, cm_source_editions, cm_media, cm_publications |
 
-Source: `Database/migrations/km-content/001_cm_schema.sql`
+Source: `database/migrations/km-content/001_cm_schema.sql`

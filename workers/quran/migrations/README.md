@@ -19,7 +19,7 @@ wrangler d1 migrations list km_quran --remote
 
 ## Source
 
-Schema files originate from `Database/migrations/km-quran/` in the monorepo root.
+Schema files originate from `database/migrations/km-quran/` in the monorepo root.
 Copy new migration files here when promoting them to this worker.
 
 ## Migration order

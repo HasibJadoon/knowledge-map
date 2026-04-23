@@ -16,4 +16,4 @@ wrangler d1 migrations list  km_arabic_linguistic --remote
 |------|-------|------------|
 | 001_al_schema.sql | 1–10 | ar_ling_roots → ar_ling_lemmas → ar_ling_morphology → ar_ling_nahw_concepts → ar_ling_balagha_concepts → ar_ling_lexicon_entries → ar_ling_senses → ar_ling_expressions → ar_ling_sources → ar_ling_bridges |
 
-Source: `Database/migrations/km-arabic-linguistic/001_al_schema.sql`
+Source: `database/migrations/km-arabic-linguistic/001_al_schema.sql`

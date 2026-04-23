@@ -16,4 +16,4 @@ wrangler d1 migrations list  km_planner --remote
 |------|-----------|
 | 001_pl_schema.sql | pl_plans, pl_plan_scopes, pl_tasks, pl_task_resources, pl_lanes, pl_review_cycles, pl_review_packets, pl_review_packet_items |
 
-Source: `Database/migrations/km-planner/001_pl_schema.sql`
+Source: `database/migrations/km-planner/001_pl_schema.sql`

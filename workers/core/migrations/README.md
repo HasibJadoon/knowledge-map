@@ -19,4 +19,4 @@ wrangler secret put JWT_SECRET --name km-core-worker
 |------|-----------|
 | 001_core_schema.sql | core_users, core_workspaces, core_workspace_members, core_roles, core_role_grants, core_resource_policies, core_resource_grants, core_external_refs |
 
-Source: `Database/migrations/km-core/001_core_schema.sql`
+Source: `database/migrations/km-core/001_core_schema.sql`

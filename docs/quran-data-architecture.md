@@ -8,7 +8,7 @@ This document summarizes how the Quran dataset is stored, where it comes from, a
 -- `ar_quran_ayah` – the single source-of-truth for every verse. It stores Uthmani text plus simplified/normalized variants, derived counts, verse markers, and optional surah names for quick UI joins.
 -- `ar_quran_surah_ayah_meta` – the enrichment layer that keeps themes, keyword lists, and matching metadata linked by `surah_ayah`. JSON columns (`theme_json`, `matching_json`, `extra_json`) are validated per-row.
 
-All three tables can be regenerated from the raw sources listed below. The shell script `scripts/gen-quran-text-seed.js` loads those sources, enriches the base records with normalized text plus surah metadata, and writes out the `database/migrations/seed-*.sql` files that are applied to D1.
+All three tables can be regenerated from the raw sources listed below. The shell script `scripts/gen-quran-text-seed.js` loads those sources, enriches the base records with normalized text plus surah metadata, and writes out the `database/seeds/seed-*.sql` files that are applied to D1.
 
 ## Data sources
 
@@ -25,7 +25,7 @@ All three tables can be regenerated from the raw sources listed below. The shell
    - builds a temporary SQLite database by running the raw insert SQL,
    - reads the supplemental datasets listed above (e.g., metadata SQLite files, JSON partitions, theme/matching DBs),
    - normalizes/merges text variants and adds derived columns (normalized text, diacritics vs non-diacritics, verse_full, surah/ayah keys, `juz/hizb/ruku`, thematics/match maps),
-   - writes the `database/migrations/seed-ar_quran_surahs.sql`, `seed-ar_quran_ayah.sql`, and `seed-ar_quran_surah_ayah_meta.sql` files (without explicit SQL transactions so they can be applied to D1 via `wrangler d1 execute`).
+   - writes the `database/seeds/seed-ar_quran_surahs.sql`, `seed-ar_quran_ayah.sql`, and `seed-ar_quran_surah_ayah_meta.sql` files (without explicit SQL transactions so they can be applied to D1 via `wrangler d1 execute`).
 2. Apply `database/migrations/2026-02-02_refine_quran_tables.sql` to recreate the schema if needed.
 3. Run the three generated seed files against the D1 database (`npx wrangler d1 execute DB --remote --file ...`).
 
