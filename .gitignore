@@ -26,10 +26,10 @@ angular-compiler.db
 .wrangler/
 .worker/
 *.wrangler/state*/
-# functions/ is tracked (Cloudflare Pages Functions)
 # D1 exports/dumps
 *.sqlite
 *.db
+database/ingestion/morphology/sources/qac/*.txt
 # Track curated migrations and worker schema snapshots; keep ad hoc SQL dumps ignored.
 *.sql
 !database/migrations/
