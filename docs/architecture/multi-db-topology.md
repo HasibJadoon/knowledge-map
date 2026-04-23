@@ -140,7 +140,7 @@ migrated.
 ### Legacy Direct-DB Resolver Pattern
 
 ```typescript
-// functions/_shared/typed-ref.ts
+// workers/_shared/typed-ref.ts
 
 export function parseRef(ref: string): { module: string; id: string } {
   const colonIdx = ref.indexOf(':');
@@ -606,31 +606,31 @@ CORE is the identity and policy authority for the entire platform. No domain-spe
 Each Worker declares only the database bindings it actually needs:
 
 ```typescript
-// functions/qr/_middleware.ts
+// workers/qr/_middleware.ts
 // QR Workers: primary DB + AL for lexical lookups via AL: typed refs
 interface Env { DB_QR: D1Database; DB_AL: D1Database; }
 
-// functions/al/_middleware.ts
+// workers/al/_middleware.ts
 // AL Workers: self-contained — the backbone has no cross-DB deps
 interface Env { DB_AL: D1Database; }
 
-// functions/ar/_middleware.ts
+// workers/ar/_middleware.ts
 // AR Workers: learning layer + AL (grammar/vocab registries) + QR (Quran refs)
 interface Env { DB_AR: D1Database; DB_AL: D1Database; DB_QR: D1Database; }
 
-// functions/wv/_middleware.ts
+// workers/wv/_middleware.ts
 // WV Workers: worldview + CM (document cross-links)
 interface Env { DB_WV: D1Database; DB_CM: D1Database; }
 
-// functions/pl/_middleware.ts
+// workers/pl/_middleware.ts
 // PL Workers: planner + QR (passage/surah scope refs)
 interface Env { DB_PL: D1Database; DB_QR: D1Database; }
 
-// functions/core/_middleware.ts
+// workers/core/_middleware.ts
 // CORE Workers: identity + policy — self-contained
 interface Env { DB_CORE: D1Database; }
 
-// functions/cm/_middleware.ts
+// workers/cm/_middleware.ts
 // CM Workers: content + WV (node links) + QR (Quran embeds) + CORE (policy lookup)
 interface Env { DB_CM: D1Database; DB_WV: D1Database; DB_QR: D1Database; DB_CORE: D1Database; }
 ```

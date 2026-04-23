@@ -28,7 +28,7 @@ jobs:
       - name: Build app
         run: npm run build -w apps/k-maps
 
-      - name: Deploy app + functions to Cloudflare Pages
+      - name: Deploy app to Cloudflare Pages
         run: |
           for i in 1 2 3; do
             npx wrangler@4.66.0 pages deploy ${{ github.workspace }}/apps/k-maps/dist/k-maps/browser \

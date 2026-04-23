@@ -179,9 +179,9 @@ Expected: 7 rows (km_documents, km_document_versions, km_block_wv_links, km_bloc
 
 ### Step 1.2 — Scaffold Worker routes
 
-Create these files under `functions/docs/`:
+Create these files under `workers/docs/`:
 
-**`functions/docs/index.ts`** — GET list + POST create
+**`workers/docs/index.ts`** — GET list + POST create
 ```typescript
 import { nanoid } from 'nanoid';
 
@@ -250,7 +250,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 };
 ```
 
-**`functions/docs/[docId].ts`** — GET single + PATCH update + DELETE archive
+**`workers/docs/[docId].ts`** — GET single + PATCH update + DELETE archive
 ```typescript
 interface Env { DB: D1Database; }
 
@@ -293,7 +293,7 @@ export const onRequestDelete: PagesFunction<Env> = async ({ env, params }) => {
 };
 ```
 
-**`functions/docs/search.ts`** — Full-text search
+**`workers/docs/search.ts`** — Full-text search
 ```typescript
 interface Env { DB: D1Database; }
 
@@ -322,7 +322,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
 };
 ```
 
-**`functions/docs/versions.ts`** — GET versions list + POST create snapshot
+**`workers/docs/versions.ts`** — GET versions list + POST create snapshot
 ```typescript
 interface Env { DB: D1Database; }
 
@@ -351,7 +351,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
 };
 ```
 
-**`functions/docs/links/quran.ts`** — GET + POST + DELETE quran block links
+**`workers/docs/links/quran.ts`** — GET + POST + DELETE quran block links
 ```typescript
 interface Env { DB: D1Database; }
 
@@ -380,9 +380,9 @@ export const onRequestDelete: PagesFunction<Env> = async ({ request, env, params
 };
 ```
 
-**`functions/docs/links/wv.ts`** — same pattern for WV entity links (entity_type, entity_id, rel_type).
-**`functions/docs/links/arabic.ts`** — same pattern for Arabic entity links.
-**`functions/docs/links/source.ts`** — same pattern for source + source_unit_id links.
+**`workers/docs/links/wv.ts`** — same pattern for WV entity links (entity_type, entity_id, rel_type).
+**`workers/docs/links/arabic.ts`** — same pattern for Arabic entity links.
+**`workers/docs/links/source.ts`** — same pattern for source + source_unit_id links.
 
 Add `nanoid` to package.json if not already present:
 ```bash
@@ -1007,7 +1007,7 @@ binding = "ASSETS_BUCKET"
 bucket_name = "km-assets"
 ```
 
-Create `functions/docs/media/upload.ts` (Worker that accepts multipart/form-data, puts to R2, inserts into km_doc_media).
+Create `workers/docs/media/upload.ts` (Worker that accepts multipart/form-data, puts to R2, inserts into km_doc_media).
 
 Override Tiptap Image extension upload handler to use `/api/docs/:id/media`.
 
@@ -1047,6 +1047,6 @@ claude
 ```
 
 Then say:
-> "Read CLAUDE.md and DOCS_ENGINE_IMPL.md. Implement Phase 1 exactly as specified — create the migration SQL file, run it on production D1, then scaffold all the Worker files under functions/docs/. Do not skip any step."
+> "Read CLAUDE.md and DOCS_ENGINE_IMPL.md. Implement Phase 1 exactly as specified — create the migration SQL file, run it on production D1, then scaffold all the Worker files under workers/docs/. Do not skip any step."
 
 Work one phase at a time. Each phase has a verification step — only move forward when it passes.

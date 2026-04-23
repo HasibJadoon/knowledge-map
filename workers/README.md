@@ -5,7 +5,7 @@ Seven independent Cloudflare Workers — one per domain, one D1 database each.
 ## Architecture
 
 ```
-UI (Angular) / API Compatibility Layer (functions/)
+UI (Angular) / public backend Worker
          │
          │  service binding / HTTP
          ▼
@@ -138,11 +138,10 @@ wrangler d1 migrations apply km_content          --remote
 wrangler d1 migrations apply km_planner          --remote
 ```
 
-## Migration Flow (ongoing)
+## Public API Flow
 
-1. Keep the public route in `functions/`.
-2. Move the real implementation into the matching domain Worker.
-3. Make the compatibility route call the domain Worker via service binding.
-4. Verify the public response JSON stays compatible.
-5. Run acceptance checks.
-6. Repeat one domain at a time.
+1. Keep public API routing in `workers/backend`.
+2. Put domain logic in the matching domain Worker.
+3. Have the backend Worker call domain Workers through service bindings.
+4. Verify response JSON stays compatible with the apps.
+5. Run acceptance checks before deploying a domain change.

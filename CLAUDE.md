@@ -27,7 +27,7 @@ Core pillars:
 |---|---|
 | Frontend | Angular 17+ standalone components, signals |
 | Animations | GSAP (all transitions, stagger, morphs) |
-| Backend | Cloudflare Workers (TypeScript functions/) |
+| Backend | Cloudflare Workers (TypeScript workers/) |
 | Database | Cloudflare D1 (SQLite) — database: `knowledgemap` |
 | Styling | SCSS with BEM, CSS custom properties (--km-*) |
 | Fonts | Poppins (body), UthmanicHafs_V22 (Quran), AmiriQuran, QCFSurahHeader, SurahName |
@@ -52,7 +52,7 @@ knowledge-map/
 ├── apps/k-maps-v2/          ← MAIN APP (Angular, active development)
 ├── apps/app-k-maps/         ← Ionic app
 ├── apps/k-maps/             ← Legacy app
-├── functions/               ← Cloudflare Workers (all API routes)
+├── workers/               ← Cloudflare Workers (all API routes)
 ├── database/migrations/     ← SQL migration files
 ├── docs/                    ← Documentation + brainstorm specs
 ├── scripts/                 ← utility scripts
@@ -306,16 +306,16 @@ Phase 1: Database
   [ ] Run migration on production D1
 
 Phase 2: Worker API
-  [ ] functions/worldview/sources.ts     GET/POST /worldview/sources
-  [ ] functions/worldview/units.ts       GET/POST /worldview/units
-  [ ] functions/worldview/highlights.ts
-  [ ] functions/worldview/notes.ts
-  [ ] functions/worldview/distillations.ts
-  [ ] functions/worldview/brainstorm.ts
-  [ ] functions/worldview/comparison.ts
-  [ ] functions/worldview/people.ts
-  [ ] functions/workspace/*.ts
-  [ ] functions/planner/*.ts
+  [ ] workers/worldview/sources.ts     GET/POST /worldview/sources
+  [ ] workers/worldview/units.ts       GET/POST /worldview/units
+  [ ] workers/worldview/highlights.ts
+  [ ] workers/worldview/notes.ts
+  [ ] workers/worldview/distillations.ts
+  [ ] workers/worldview/brainstorm.ts
+  [ ] workers/worldview/comparison.ts
+  [ ] workers/worldview/people.ts
+  [ ] workers/workspace/*.ts
+  [ ] workers/planner/*.ts
 
 Phase 3: Hub Shell
   [ ] HubComponent (3-col layout)
@@ -358,7 +358,7 @@ Migrations:  YYYY-MM-DD_description.sql
 - Fonts: `apps/k-maps-v2/src/scss/_fonts.scss`
 - CSS vars: `apps/k-maps-v2/src/scss/_variables.scss` (or similar)
 - Passage migration: `database/migrations/legacy/2026-03-22_passage_indexes.sql`
-- Quran worker: `functions/ar/quran/ayahs.ts`
+- Quran worker: `workers/ar/quran/ayahs.ts`
 
 ---
 
@@ -677,7 +677,7 @@ QR:36           ← entire surah 36
 Validated at **service level** (Worker code), never at DB level.
 
 ```typescript
-// functions/_shared/typed-ref.ts
+// workers/_shared/typed-ref.ts
 export function parseRef(ref: string): { module: string; id: string } {
   const colonIdx = ref.indexOf(':');
   return { module: ref.slice(0, colonIdx), id: ref.slice(colonIdx + 1) };
@@ -745,13 +745,13 @@ database_id = "<core-db-uuid>"
 Each module's Workers declare ONLY the bindings they need:
 
 ```typescript
-// functions/qr/_middleware.ts  — DB_QR + DB_AL (lexical lookups via AL: typed refs)
-// functions/al/_middleware.ts  — DB_AL only
-// functions/ar/_middleware.ts  — DB_AR + DB_AL + DB_QR
-// functions/wv/_middleware.ts  — DB_WV + DB_CM + DB_CORE
-// functions/cm/_middleware.ts  — DB_CM + DB_CORE
-// functions/pl/_middleware.ts  — DB_PL + DB_QR (passage refs)
-// functions/core/_middleware.ts — DB_CORE only
+// workers/qr/_middleware.ts  — DB_QR + DB_AL (lexical lookups via AL: typed refs)
+// workers/al/_middleware.ts  — DB_AL only
+// workers/ar/_middleware.ts  — DB_AR + DB_AL + DB_QR
+// workers/wv/_middleware.ts  — DB_WV + DB_CM + DB_CORE
+// workers/cm/_middleware.ts  — DB_CM + DB_CORE
+// workers/pl/_middleware.ts  — DB_PL + DB_QR (passage refs)
+// workers/core/_middleware.ts — DB_CORE only
 ```
 
 ### 15.5 Migration Strategy (Single DB → 7 DBs)

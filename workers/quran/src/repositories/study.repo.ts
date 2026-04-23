@@ -1,5 +1,5 @@
 // ─── StudyRepo — Quran study grid and lesson data ──────────────────────────────
-// Ports legacy/functions/quran/_study.ts into the repository pattern.
+// Ports the previous Quran study implementation into the repository pattern.
 // All SQL targets the deployed qr_* D1 schema.
 //
 // Tables: qr_surah_study_passages, qr_surah_study_steps, qr_surah_study_tasks,

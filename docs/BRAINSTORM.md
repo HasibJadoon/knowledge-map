@@ -793,20 +793,20 @@ Family (visibility='private')     ←→   Workspace (visibility='workspace')
 [ ] Seed worldview rows (Islam/Christianity/Judaism + branches)
 
 ━━━ Phase 2: Worker API ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[ ] functions/worldview/sources.ts
-[ ] functions/worldview/units.ts
-[ ] functions/worldview/highlights.ts
-[ ] functions/worldview/notes.ts
-[ ] functions/worldview/distillations.ts
-[ ] functions/worldview/quran-links.ts
-[ ] functions/worldview/brainstorm.ts
-[ ] functions/worldview/comparison.ts
-[ ] functions/worldview/people.ts        ← privacy filter here
-[ ] functions/workspace/index.ts
-[ ] functions/workspace/members.ts       ← privacy filter here
-[ ] functions/workspace/activity.ts
-[ ] functions/planner/plans.ts
-[ ] functions/planner/sessions.ts
+[ ] workers/worldview/sources.ts
+[ ] workers/worldview/units.ts
+[ ] workers/worldview/highlights.ts
+[ ] workers/worldview/notes.ts
+[ ] workers/worldview/distillations.ts
+[ ] workers/worldview/quran-links.ts
+[ ] workers/worldview/brainstorm.ts
+[ ] workers/worldview/comparison.ts
+[ ] workers/worldview/people.ts        ← privacy filter here
+[ ] workers/workspace/index.ts
+[ ] workers/workspace/members.ts       ← privacy filter here
+[ ] workers/workspace/activity.ts
+[ ] workers/planner/plans.ts
+[ ] workers/planner/sessions.ts
 
 ━━━ Phase 3: Hub Shell ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [ ] HubComponent (3-col layout + child routing)
@@ -850,7 +850,7 @@ Family (visibility='private')     ←→   Workspace (visibility='workspace')
 | CSS classes | BEM `.block__element--modifier` |
 | CSS variables | `--km-variable-name` |
 | Migration files | `YYYY-MM-DD_description.sql` |
-| Worker functions | `functions/feature/entity.ts` |
+| Worker functions | `workers/feature/entity.ts` |
 
 ## Appendix: Arabic Font Notes
 

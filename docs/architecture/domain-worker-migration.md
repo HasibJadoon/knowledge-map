@@ -12,10 +12,10 @@ never by binding another domain's database.
 ## Target Shape
 
 ```
-UI / current Pages routes
+UI / public backend Worker
         |
         v
-API compatibility layer
+backend Worker
         |
         | service binding / HTTP
         v
@@ -25,9 +25,8 @@ domain Worker
 owned D1 database only
 ```
 
-The compatibility layer is allowed to preserve old route paths and old response
-JSON so Angular desktop and Ionic do not need broad UI rewrites during the
-migration.
+The backend Worker preserves public route paths and response JSON so Angular
+desktop and Ionic do not need broad UI rewrites during domain changes.
 
 ## Domain Ownership
 
@@ -46,8 +45,8 @@ binding: its own.
 
 ## Repository Shape
 
-The current `functions/` tree remains the public compatibility layer. New
-domain code should live beside it:
+The public API entrypoint is `workers/backend`. Domain code lives under
+`workers/`:
 
 ```
 workers/
