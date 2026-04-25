@@ -1,6 +1,6 @@
 // ─── NearSynonymRepo — all SQL for ar_ling_near_synonym_* ─────────────────────
 
-import { query, queryOne, paginate } from '../../../shared/src/db';
+import { query, queryOne, paginate, executeBatch } from '../../../shared/src/db';
 import type { PaginateOptions } from '../../../shared/src/types';
 import type {
   NearSynonymSet,
@@ -66,6 +66,75 @@ export class NearSynonymRepo {
     ]);
     if (!set) return null;
     return { ...set, members };
+  }
+
+  async patchSetDetail(
+    id: string,
+    patch: NearSynonymSetPatch,
+  ): Promise<NearSynonymSetDetail | null> {
+    const statements: Array<{ sql: string; params?: unknown[] }> = [];
+    const now = new Date().toISOString();
+
+    const setAssignments: string[] = ['updated_at = ?'];
+    const setValues: unknown[] = [now];
+    const setMap: [keyof NearSynonymSetPatch, string][] = [
+      ['set_name', 'set_name = ?'],
+      ['canonical_en', 'canonical_en = ?'],
+      ['canonical_ar', 'canonical_ar = ?'],
+      ['canonical_ur', 'canonical_ur = ?'],
+      ['description_md', 'description_md = ?'],
+      ['pos_hint', 'pos_hint = ?'],
+    ];
+
+    for (const [key, sql] of setMap) {
+      if (key in patch) {
+        setAssignments.push(sql);
+        setValues.push(cleanNullable(patch[key]));
+      }
+    }
+
+    if (setAssignments.length > 1) {
+      setValues.push(id);
+      statements.push({
+        sql: `UPDATE ar_ling_near_synonym_sets SET ${setAssignments.join(', ')} WHERE id = ?`,
+        params: setValues,
+      });
+    }
+
+    for (const member of patch.members ?? []) {
+      if (!member.id) continue;
+      const memberAssignments: string[] = [];
+      const memberValues: unknown[] = [];
+      const memberMap: [keyof NearSynonymMemberPatch, string][] = [
+        ['arabic_display', 'arabic_display = ?'],
+        ['basic_gloss', 'basic_gloss = ?'],
+        ['basic_gloss_ur', 'basic_gloss_ur = ?'],
+        ['nuance_note', 'nuance_note = ?'],
+        ['nuance_note_ur', 'nuance_note_ur = ?'],
+        ['contrast_note', 'contrast_note = ?'],
+        ['contrast_note_ur', 'contrast_note_ur = ?'],
+        ['usage_rule_ur', 'usage_rule_ur = ?'],
+        ['quran_usage_pattern_ur', 'quran_usage_pattern_ur = ?'],
+      ];
+
+      for (const [key, sql] of memberMap) {
+        if (key in member) {
+          memberAssignments.push(sql);
+          memberValues.push(cleanNullable(member[key]));
+        }
+      }
+
+      if (memberAssignments.length) {
+        memberValues.push(member.id, id);
+        statements.push({
+          sql: `UPDATE ar_ling_near_synonym_members SET ${memberAssignments.join(', ')} WHERE id = ? AND set_id = ?`,
+          params: memberValues,
+        });
+      }
+    }
+
+    if (statements.length) await executeBatch(this.db, statements);
+    return this.getSetDetail(id);
   }
 
   membersForSet(setId: string): Promise<NearSynonymMember[]> {
@@ -156,4 +225,33 @@ export class NearSynonymRepo {
       [lemmaId],
     );
   }
+}
+
+export interface NearSynonymMemberPatch {
+  id: string;
+  arabic_display?: string | null;
+  basic_gloss?: string | null;
+  basic_gloss_ur?: string | null;
+  nuance_note?: string | null;
+  nuance_note_ur?: string | null;
+  contrast_note?: string | null;
+  contrast_note_ur?: string | null;
+  usage_rule_ur?: string | null;
+  quran_usage_pattern_ur?: string | null;
+}
+
+export interface NearSynonymSetPatch {
+  set_name?: string | null;
+  canonical_en?: string | null;
+  canonical_ar?: string | null;
+  canonical_ur?: string | null;
+  description_md?: string | null;
+  pos_hint?: string | null;
+  members?: NearSynonymMemberPatch[];
+}
+
+function cleanNullable(value: unknown): string | null {
+  if (value === null || value === undefined) return null;
+  const text = String(value).trim();
+  return text.length ? text : null;
 }

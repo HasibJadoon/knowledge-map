@@ -85,6 +85,65 @@ export class QuranGsapService {
     };
   }
 
+  setupSynonymCardMotion(el: HTMLElement): () => void {
+    const chainEl = el.querySelector<HTMLElement>('.syn-card__chain');
+    const urEl = el.querySelector<HTMLElement>('.syn-card__ur');
+
+    const onEnter = () => {
+      if (prefersReducedMotion()) return;
+      const glow = getComputedStyle(el).getPropertyValue('--syn-glow').trim() || 'rgba(201,168,76,0.30)';
+      gsap.to(el, {
+        y: -4,
+        scale: 1.012,
+        boxShadow: `0 18px 40px rgba(0,0,0,0.32), 0 0 0 1px ${glow}`,
+        duration: 0.24,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
+      if (chainEl) {
+        gsap.to(chainEl, { x: -3, duration: 0.24, ease: 'power2.out', overwrite: 'auto' });
+      }
+      if (urEl) {
+        gsap.to(urEl, { opacity: 0.95, duration: 0.18, ease: 'power2.out', overwrite: 'auto' });
+      }
+    };
+
+    const onLeave = () => {
+      if (prefersReducedMotion()) return;
+      gsap.to(el, {
+        y: 0,
+        scale: 1,
+        boxShadow: 'none',
+        duration: 0.28,
+        ease: 'power2.inOut',
+        overwrite: 'auto',
+      });
+      if (chainEl) gsap.to(chainEl, { x: 0, duration: 0.28, ease: 'power2.inOut', overwrite: 'auto' });
+      if (urEl) gsap.to(urEl, { opacity: 0.78, duration: 0.24, ease: 'power2.inOut', overwrite: 'auto' });
+    };
+
+    const onDown = () => {
+      if (prefersReducedMotion()) return;
+      gsap.to(el, { scale: 0.992, duration: 0.08, ease: 'power2.in', overwrite: 'auto' });
+    };
+
+    const onUp = () => {
+      if (prefersReducedMotion()) return;
+      gsap.to(el, { scale: 1.012, duration: 0.16, ease: 'power2.out', overwrite: 'auto' });
+    };
+
+    el.addEventListener('mouseenter', onEnter);
+    el.addEventListener('mouseleave', onLeave);
+    el.addEventListener('mousedown', onDown);
+    el.addEventListener('mouseup', onUp);
+    return () => {
+      el.removeEventListener('mouseenter', onEnter);
+      el.removeEventListener('mouseleave', onLeave);
+      el.removeEventListener('mousedown', onDown);
+      el.removeEventListener('mouseup', onUp);
+    };
+  }
+
   /** Fade-up reveal for a page panel */
   revealPanel(el: HTMLElement, delay = 0): void {
     if (prefersReducedMotion()) { gsap.set(el, { opacity: 1 }); return; }

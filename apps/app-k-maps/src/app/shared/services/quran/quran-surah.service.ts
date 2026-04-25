@@ -997,6 +997,13 @@ export class QuranSurahService {
   getNearSynonymsBySurah(surahId: number): Observable<NearSynonymsBySurahVm> {
     return this.api.getData<NearSynonymsBySurahVm>('al', ['near-synonyms', 'by-surah', surahId]);
   }
+
+  updateNearSynonymSet(
+    setId: string,
+    payload: NearSynonymSetPatchVm,
+  ): Observable<NearSynonymSetVm> {
+    return this.api.patchData<NearSynonymSetVm>('al', ['near-synonyms', setId], payload);
+  }
 }
 
 // ── Near-synonym view models ──────────────────────────────────────────────────
@@ -1031,4 +1038,27 @@ export interface NearSynonymSetVm {
 export interface NearSynonymsBySurahVm {
   surah: number;
   sets: NearSynonymSetVm[];
+}
+
+export interface NearSynonymMemberPatchVm {
+  id: string;
+  arabic_display?: string | null;
+  basic_gloss?: string | null;
+  basic_gloss_ur?: string | null;
+  nuance_note?: string | null;
+  nuance_note_ur?: string | null;
+  contrast_note?: string | null;
+  contrast_note_ur?: string | null;
+  usage_rule_ur?: string | null;
+  quran_usage_pattern_ur?: string | null;
+}
+
+export interface NearSynonymSetPatchVm {
+  set_name?: string | null;
+  canonical_en?: string | null;
+  canonical_ar?: string | null;
+  canonical_ur?: string | null;
+  description_md?: string | null;
+  pos_hint?: string | null;
+  members?: NearSynonymMemberPatchVm[];
 }

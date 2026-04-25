@@ -106,6 +106,25 @@ export class BackendApiService {
       .pipe(map((response) => this.unwrap(response)));
   }
 
+  patchRaw<T>(
+    segments: BackendPathSegment[],
+    body: unknown,
+    options?: BackendRequestOptions,
+  ): Observable<T> {
+    return this.http.patch<T>(this.url(...segments), body, options);
+  }
+
+  patchData<T>(
+    module: BackendModule,
+    segments: BackendPathSegment[],
+    body: unknown,
+    options?: BackendRequestOptions,
+  ): Observable<T> {
+    return this.http
+      .patch<BackendApiResponse<T>>(this.moduleUrl(module, ...segments), body, options)
+      .pipe(map((response) => this.unwrap(response)));
+  }
+
   private unwrap<T>(response: BackendApiResponse<T>): T {
     if (response.ok && response.data !== undefined) return response.data;
     throw new Error(response.error?.message ?? 'Backend request failed');
