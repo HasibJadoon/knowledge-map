@@ -51,12 +51,22 @@ export const QURAN_ROUTES: Routes = [
     title: 'Notes — K-MAPS',
   },
   {
-    path: 'surah/:surahId/vocabulary',
+    path: 'surah/:surahId/linguistics',
     loadComponent: () =>
       import('./surah/vocabulary/surah-vocabulary.component').then(
         (m) => m.SurahVocabularyComponent
       ),
-    title: 'Arabic Linguistics — K-MAPS',
+    title: 'Linguistics — K-MAPS',
+  },
+  {
+    path: 'surah/:surahId/arabic',
+    redirectTo: 'surah/:surahId/linguistics',
+    pathMatch: 'full',
+  },
+  {
+    path: 'surah/:surahId/vocabulary',
+    redirectTo: 'surah/:surahId/linguistics',
+    pathMatch: 'full',
   },
   {
     path: 'surah/:surahId/near-synonyms',

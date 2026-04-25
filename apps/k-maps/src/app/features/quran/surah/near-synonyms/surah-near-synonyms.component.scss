@@ -338,6 +338,7 @@
     gap: .2rem;
     flex: 1;
     padding-top: .3rem;
+    min-width: 0;
   }
 
   &__gloss {
@@ -358,6 +359,16 @@
     opacity: .85;
     line-height: 1.4;
   }
+}
+
+.syn-member__gloss--ur,
+.syn-member__nuance--ur,
+.syn-member__contrast--ur {
+  font-family: var(--km-font-urdu);
+  text-align: right;
+  direction: rtl;
+  align-self: stretch;
+  unicode-bidi: plaintext;
 }
 
 @media (max-width: 560px) {

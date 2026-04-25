@@ -18,7 +18,7 @@ const ACTIONS: ActionIconVm[] = [
   { id: 'study',      label: 'Study',  svgPath: SVG.study,      ariaLabel: 'Study this surah',            color: '#E8C060' },
   { id: 'notes',      label: 'Notes',  svgPath: SVG.notes,      ariaLabel: 'Notes for this surah',        color: '#4DD9A8' },
   { id: 'worldview',  label: 'World',  svgPath: SVG.worldview,  ariaLabel: 'Worldview for this surah',    color: '#6BBAFF' },
-  { id: 'vocabulary', label: 'Vocab',  svgPath: SVG.vocabulary, ariaLabel: 'Vocabulary of this surah',    color: '#C084F5' },
+  { id: 'vocabulary', label: 'Ling',   svgPath: SVG.vocabulary, ariaLabel: 'Linguistics for this surah',  color: '#C084F5' },
   { id: 'review',     label: 'Review', svgPath: SVG.review,     ariaLabel: 'Review this surah',           color: '#FF9F6B' },
   { id: 'srs',        label: 'SRS',    svgPath: SVG.srs,        ariaLabel: 'Spaced repetition for surah', color: '#FF7BAC' },
 ];
@@ -63,7 +63,7 @@ export class SurahActionsComponent {
     const base = ['/quran', 'surah', String(this.surahId)];
     const suffix: Record<string, string> = {
       study: 'study', notes: 'notes', worldview: 'worldview',
-      vocabulary: 'vocabulary', review: 'review', srs: 'srs',
+      vocabulary: 'linguistics', review: 'review', srs: 'srs',
     };
     const seg = suffix[actionId];
     if (seg) this.router.navigate([...base, seg]);

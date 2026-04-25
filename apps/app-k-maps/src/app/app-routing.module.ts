@@ -79,8 +79,18 @@ const routes: Routes = [
     loadComponent: () => import('./features/quran/pages/surah-notes-page/quran-surah-notes.page').then(m => m.QuranSurahNotesPage),
   },
   {
-    path: 'quran/surah/:surahId/vocabulary',
+    path: 'quran/surah/:surahId/linguistics',
     loadComponent: () => import('./features/quran/pages/surah-vocabulary-page/surah-vocabulary.page').then(m => m.SurahVocabularyPage),
+  },
+  {
+    path: 'quran/surah/:surahId/arabic',
+    redirectTo: 'quran/surah/:surahId/linguistics',
+    pathMatch: 'full',
+  },
+  {
+    path: 'quran/surah/:surahId/vocabulary',
+    redirectTo: 'quran/surah/:surahId/linguistics',
+    pathMatch: 'full',
   },
   {
     path: 'quran/surah/:surahId/near-synonyms',

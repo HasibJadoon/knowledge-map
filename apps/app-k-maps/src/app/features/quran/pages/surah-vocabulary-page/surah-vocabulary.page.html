@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="'/quran/' + surahId()"></ion-back-button>
     </ion-buttons>
-    <ion-title>Arabic Linguistics</ion-title>
+    <ion-title>Linguistics</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,24 +12,24 @@
 
     <header class="lc-header">
       <p class="lc-header__eyebrow">Surah {{ surahId() }}</p>
-      <h1 class="lc-header__title">Arabic Linguistics</h1>
+      <h1 class="lc-header__title">Linguistics</h1>
       <p class="lc-header__sub">Grammatical, rhetorical &amp; interpretive sciences</p>
       <div class="lc-header__rule"></div>
     </header>
 
     <div class="lc-grid">
 
-      <!-- Iʿrāb -->
+      <!-- Near Synonyms -->
       <button class="lc__card lc__card--1" #lingCard (click)="goTo('near-synonyms')">
         <div class="lc__card-artwork">
-          <span class="lc__glyph">ع</span>
+          <span class="lc__glyph">ن</span>
           <div class="lc__shimmer"></div>
         </div>
         <div class="lc__bottom-glow"></div>
         <div class="lc__card-body">
-          <span class="lc__tag">Grammar</span>
-          <span class="lc__card-title">Iʿrāb</span>
-          <p class="lc__card-desc">Grammatical parsing &amp; case analysis</p>
+          <span class="lc__tag">Lexical</span>
+          <span class="lc__card-title">Near Synonyms</span>
+          <p class="lc__card-desc">Quranic synonym clusters for Surah {{ surahId() }}</p>
         </div>
       </button>
 
@@ -44,6 +44,20 @@
           <span class="lc__tag">Morphology</span>
           <span class="lc__card-title">Ṣarf</span>
           <p class="lc__card-desc">Word roots, forms &amp; patterns</p>
+        </div>
+      </button>
+
+      <!-- Iʿrāb -->
+      <button class="lc__card lc__card--6" #lingCard (click)="goTo('near-synonyms')">
+        <div class="lc__card-artwork">
+          <span class="lc__glyph">ع</span>
+          <div class="lc__shimmer"></div>
+        </div>
+        <div class="lc__bottom-glow"></div>
+        <div class="lc__card-body">
+          <span class="lc__tag">Grammar</span>
+          <span class="lc__card-title">Iʿrāb</span>
+          <p class="lc__card-desc">Grammatical parsing &amp; case analysis</p>
         </div>
       </button>
 

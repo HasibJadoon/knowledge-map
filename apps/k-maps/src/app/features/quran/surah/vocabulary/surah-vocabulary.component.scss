@@ -109,6 +109,15 @@
     .lc__tag { color: #F472B6; }
     .lc__card-title { color: rgba(244,114,182,.85); }
   }
+  &--6 {
+    --lc-accent: #C084F5;
+    &:hover { border-color: rgba(192,132,245,.45); box-shadow: 0 0 40px rgba(192,132,245,.15); }
+    .lc__bottom-glow { background: linear-gradient(90deg, transparent, rgba(192,132,245,.7), transparent); }
+    .lc__shimmer { background: radial-gradient(ellipse at 50% 30%, rgba(192,132,245,.1) 0%, transparent 70%); }
+    .lc__glyph { background: linear-gradient(180deg, #C084F5 0%, #7e22ce 100%); }
+    .lc__tag { color: #C084F5; }
+    .lc__card-title { color: rgba(192,132,245,.85); }
+  }
 }
 
 // ── Artwork / glyph ───────────────────────────────────────
