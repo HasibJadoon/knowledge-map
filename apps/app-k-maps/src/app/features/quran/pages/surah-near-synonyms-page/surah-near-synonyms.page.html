@@ -1,0 +1,143 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/quran/surah/' + surahId() + '/vocabulary'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Near Synonyms</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="syn-content">
+  <div class="syn-page">
+
+    <header class="mod-header">
+      <h1 class="mod-header__title">Near Synonyms</h1>
+      <p class="mod-header__sub">{{ sets().length }} semantic clusters · Surah {{ surahId() }}</p>
+    </header>
+
+    @if (!loading() && !error() && sets().length > 0) {
+      <section class="syn-toolbar" aria-label="Search near synonyms">
+        <ion-searchbar
+          class="syn-search"
+          [value]="searchQuery()"
+          (ionInput)="updateSearch($event.detail.value)"
+          placeholder="Search Arabic, English, or Urdu meanings"
+          inputmode="search"
+          debounce="120"
+        ></ion-searchbar>
+        <span class="syn-toolbar__count">
+          {{ filteredSets().length }} / {{ sets().length }}
+        </span>
+      </section>
+    }
+
+    @if (loading()) {
+      <div class="state-msg">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Loading synonyms…</p>
+      </div>
+    }
+    @if (!loading() && error()) {
+      <div class="state-msg state-msg--error"><p>{{ error() }}</p></div>
+    }
+    @if (!loading() && !error() && sets().length === 0) {
+      <div class="state-msg"><p>No near-synonym data found for this surah.</p></div>
+    }
+
+    @if (!loading() && !error() && sets().length > 0 && filteredSets().length === 0) {
+      <div class="state-msg"><p>No near-synonym cards match your search.</p></div>
+    }
+
+    @if (!loading() && !error() && filteredSets().length > 0) {
+      <div class="syn-list">
+        @for (set of filteredSets(); track set.id) {
+          <div class="syn-card" [attr.data-pos]="set.pos_hint || 'mixed'" [class.syn-card--open]="expanded() === set.id">
+
+            <!-- ── Collapsed header ── -->
+            <button class="syn-card__head" (click)="toggle(set.id)">
+              <div class="syn-card__concept">
+                <span class="syn-card__en">{{ set.canonical_en ?? set.set_name }}</span>
+                @if (set.pos_hint && set.pos_hint !== 'mixed') {
+                  <span class="syn-pos-chip" [attr.data-pos]="set.pos_hint">{{ set.pos_hint }}</span>
+                }
+              </div>
+              @if (set.canonical_ur) {
+                <div class="syn-card__ur" dir="rtl">{{ set.canonical_ur }}</div>
+              }
+              <!-- All member Arabic words as a chain -->
+              <div class="syn-card__chain" dir="rtl">
+                @for (m of set.members; track m.id; let last = $last) {
+                  <span class="syn-chain__word">{{ m.arabic_display ?? set.canonical_ar }}</span>
+                  @if (!last) { <span class="syn-chain__sep">·</span> }
+                }
+              </div>
+              <ion-icon
+                [name]="expanded() === set.id ? 'chevron-up-outline' : 'chevron-forward-outline'"
+                class="syn-chevron"
+              ></ion-icon>
+            </button>
+
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+
+  @if (selectedSet(); as set) {
+    <div class="syn-detail-shell" (click)="closePanel()">
+      <aside class="syn-detail-panel" #detailPanel (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-label="Near synonym detail">
+        <header class="syn-detail-head">
+          <div>
+            <h2>{{ set.canonical_en ?? set.set_name }}</h2>
+            @if (set.canonical_ur) {
+              <p dir="rtl">{{ set.canonical_ur }}</p>
+            }
+          </div>
+          <button class="syn-detail-close" type="button" (click)="closePanel()" aria-label="Close near synonym detail">×</button>
+        </header>
+
+        <div class="syn-detail-chain" dir="rtl">
+          @for (m of set.members; track m.id; let last = $last) {
+            <span>{{ m.arabic_display ?? set.canonical_ar }}</span>
+            @if (!last) { <span class="syn-chain__sep">·</span> }
+          }
+        </div>
+
+        @if (set.description_md && set.description_md !== 'TOdo') {
+          <p class="syn-desc">{{ set.description_md }}</p>
+        }
+
+        <div class="syn-members">
+          @for (m of set.members; track m.id) {
+            <div class="syn-member">
+              <div class="syn-member__arabic" dir="rtl">
+                {{ m.arabic_display ?? set.canonical_ar }}
+              </div>
+              <div class="syn-member__detail">
+                @if (m.basic_gloss) {
+                  <span class="syn-member__gloss">{{ m.basic_gloss }}</span>
+                }
+                @if (m.basic_gloss_ur) {
+                  <span class="syn-member__gloss syn-member__gloss--ur" dir="rtl">{{ m.basic_gloss_ur }}</span>
+                }
+                @if (m.nuance_note && m.nuance_note !== m.arabic_display) {
+                  <span class="syn-member__nuance">{{ m.nuance_note }}</span>
+                }
+                @if (m.nuance_note_ur && m.nuance_note_ur !== m.arabic_display) {
+                  <span class="syn-member__nuance syn-member__nuance--ur" dir="rtl">{{ m.nuance_note_ur }}</span>
+                }
+                @if (m.contrast_note) {
+                  <span class="syn-member__contrast">{{ m.contrast_note }}</span>
+                }
+                @if (m.contrast_note_ur) {
+                  <span class="syn-member__contrast syn-member__contrast--ur" dir="rtl">{{ m.contrast_note_ur }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </aside>
+    </div>
+  }
+</ion-content>

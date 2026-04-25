@@ -1,11 +1,16 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DocEditorService } from './doc-editor.service';
 
 @Injectable({ providedIn: 'root' })
 export class DocExtractService {
-  private http      = inject(HttpClient);
-  private editorSvc = inject(DocEditorService);
+  private http     = inject(HttpClient);
+  private injector = inject(Injector);
+
+  // Resolved lazily to break the DocEditorService ↔ DocExtractService cycle.
+  private get editorSvc(): DocEditorService {
+    return this.injector.get(DocEditorService);
+  }
 
   private get docId() { return this.editorSvc.docId(); }
 

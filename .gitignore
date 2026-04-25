@@ -39,6 +39,8 @@ database/ingestion/morphology/sources/qac/*.txt
 !database/seeds/*.sql
 !database/seeds/**/*.sql
 !workers/*/schema.sql
+!workers/*/migrations/
+!workers/*/migrations/*.sql
 
 # Env & secrets
 .env

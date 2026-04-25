@@ -7,10 +7,13 @@ import type { Passage, PassageCreate } from '../schemas/passage.schema';
 export class PassageRepo {
   constructor(private db: D1Database) {}
 
+  private static readonly COLS =
+    'id, surah, passage_index, ayah_from, ayah_to, theme, title_ar, title_en, discourse_role, note_md';
+
   bySurah(surahId: number): Promise<Passage[]> {
     return query<Passage>(
       this.db,
-      `SELECT id, surah, passage_index, ayah_from, ayah_to, theme, title
+      `SELECT ${PassageRepo.COLS}
        FROM qr_surah_passages
        WHERE surah = ?
        ORDER BY passage_index`,
@@ -22,7 +25,7 @@ export class PassageRepo {
   byAyah(surahId: number, ayahNum: number): Promise<Passage[]> {
     return query<Passage>(
       this.db,
-      `SELECT id, surah, passage_index, ayah_from, ayah_to, theme, title
+      `SELECT ${PassageRepo.COLS}
        FROM qr_surah_passages
        WHERE surah = ? AND ayah_from <= ? AND ayah_to >= ?
        ORDER BY passage_index`,
@@ -33,7 +36,7 @@ export class PassageRepo {
   findById(id: string): Promise<Passage | null> {
     return queryOne<Passage>(
       this.db,
-      `SELECT id, surah, passage_index, ayah_from, ayah_to, theme, title
+      `SELECT ${PassageRepo.COLS}
        FROM qr_surah_passages
        WHERE id = ?`,
       [id],
@@ -54,10 +57,11 @@ export class PassageRepo {
     await execute(
       this.db,
       `INSERT INTO qr_surah_passages
-         (id, surah, passage_index, ayah_from, ayah_to, theme, title)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+         (id, surah, passage_index, ayah_from, ayah_to, theme, title_ar, title_en, discourse_role, note_md)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [id, input.surah, passage_index, input.ayah_from, input.ayah_to,
-       input.theme ?? null, input.title ?? null],
+       input.theme ?? null, input.title_ar ?? null, input.title_en ?? null,
+       input.discourse_role ?? null, input.note_md ?? null],
     );
 
     return (await this.findById(id))!;

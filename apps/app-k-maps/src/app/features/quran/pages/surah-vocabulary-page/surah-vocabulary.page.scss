@@ -1,62 +1,154 @@
-.vocab-content { --background: var(--km-bg); }
-.vocab-page { padding: 16px 16px 40px; }
+.vocab-content { --background: var(--km-bg, #0a0a0a); }
+.vocab-page { padding: 20px 16px 48px; }
 
-.mod-header {
-  margin-bottom: 20px;
-  &__title { font-size: 22px; font-weight: 700; color: var(--km-text); margin: 0 0 4px; }
-  &__sub { font-size: 13px; color: var(--km-text-3); margin: 0; }
-}
+// ── Header ────────────────────────────────────────────────
+.lc-header {
+  text-align: center;
+  margin-bottom: 2rem;
 
-.state-msg {
-  display: flex; flex-direction: column; align-items: center; gap: 12px;
-  padding: 48px 16px; color: var(--km-text-2); text-align: center;
-  &--error { color: var(--ion-color-danger); }
-}
-
-.vocab-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px;
-}
-
-.vocab-card {
-  background: var(--km-surface);
-  border: 1px solid var(--km-border);
-  border-radius: 14px;
-  padding: 14px 12px;
-
-  &__arabic {
-    font-size: 24px;
-    font-family: var(--km-font-arabic);
-    color: var(--km-text);
+  &__eyebrow {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: var(--km-gold, #c9a84c); opacity: .7;
     margin-bottom: 4px;
-    line-height: 1.4;
   }
 
-  &__root {
-    font-size: 13px;
-    font-family: var(--km-font-arabic);
-    color: var(--km-gold, #c9a84c);
-    margin-bottom: 6px;
+  &__title {
+    font-family: var(--km-font-heading, serif);
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    font-weight: 700; letter-spacing: .08em;
+    background: linear-gradient(135deg, #e8c86a 0%, #c9a84c 55%, #a07830 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin: 0 0 6px;
   }
 
-  &__meaning {
-    font-size: 12px;
-    color: var(--km-text-2);
-    margin: 6px 0 0;
-    line-height: 1.4;
+  &__sub {
+    font-size: 12px; color: var(--km-text-2, rgba(255,255,255,.5));
+    margin-bottom: 14px;
+  }
+
+  &__rule {
+    width: 40px; height: 1px; margin: 0 auto;
+    background: linear-gradient(90deg, transparent, var(--km-gold, #c9a84c), transparent);
   }
 }
 
-.vocab-chip {
-  display: inline-block;
-  background: rgba(192,132,245,0.12);
-  border: 1px solid rgba(192,132,245,0.25);
-  color: #c084f5;
-  border-radius: 20px;
-  padding: 2px 8px;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+// ── Card grid ─────────────────────────────────────────────
+.lc-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+// ── Individual card ───────────────────────────────────────
+.lc__card {
+  position: relative;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  width: calc(50% - 6px);
+  min-height: 180px;
+  max-width: 180px;
+  padding: 0 10px 14px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  cursor: pointer; overflow: hidden; text-align: center;
+  transition: border-color .25s, box-shadow .25s;
+  will-change: transform;
+  transform-origin: center;
+
+  &:active {
+    .lc__card-artwork { opacity: .9; }
+    .lc__shimmer { opacity: 1; }
+    .lc__bottom-glow { opacity: 1; }
+  }
+
+  &--1 {
+    &:active { border-color: rgba(167,139,250,.45); }
+    .lc__bottom-glow { background: linear-gradient(90deg, transparent, rgba(167,139,250,.7), transparent); }
+    .lc__shimmer { background: radial-gradient(ellipse at 50% 30%, rgba(167,139,250,.12) 0%, transparent 70%); }
+    .lc__glyph { background: linear-gradient(180deg, #A78BFA 0%, #6d4fc4 100%); }
+    .lc__tag { color: #A78BFA; }
+    .lc__card-title { color: rgba(167,139,250,.9); }
+  }
+  &--2 {
+    &:active { border-color: rgba(52,211,153,.45); }
+    .lc__bottom-glow { background: linear-gradient(90deg, transparent, rgba(52,211,153,.7), transparent); }
+    .lc__shimmer { background: radial-gradient(ellipse at 50% 30%, rgba(52,211,153,.12) 0%, transparent 70%); }
+    .lc__glyph { background: linear-gradient(180deg, #34D399 0%, #1a7a5a 100%); }
+    .lc__tag { color: #34D399; }
+    .lc__card-title { color: rgba(52,211,153,.9); }
+  }
+  &--3 {
+    &:active { border-color: rgba(251,191,36,.45); }
+    .lc__bottom-glow { background: linear-gradient(90deg, transparent, rgba(251,191,36,.7), transparent); }
+    .lc__shimmer { background: radial-gradient(ellipse at 50% 30%, rgba(251,191,36,.12) 0%, transparent 70%); }
+    .lc__glyph { background: linear-gradient(180deg, #FBBF24 0%, #a07818 100%); }
+    .lc__tag { color: #FBBF24; }
+    .lc__card-title { color: rgba(251,191,36,.9); }
+  }
+  &--4 {
+    &:active { border-color: rgba(96,165,250,.45); }
+    .lc__bottom-glow { background: linear-gradient(90deg, transparent, rgba(96,165,250,.7), transparent); }
+    .lc__shimmer { background: radial-gradient(ellipse at 50% 30%, rgba(96,165,250,.12) 0%, transparent 70%); }
+    .lc__glyph { background: linear-gradient(180deg, #60A5FA 0%, #1e4fa0 100%); }
+    .lc__tag { color: #60A5FA; }
+    .lc__card-title { color: rgba(96,165,250,.9); }
+  }
+  &--5 {
+    &:active { border-color: rgba(244,114,182,.45); }
+    .lc__bottom-glow { background: linear-gradient(90deg, transparent, rgba(244,114,182,.7), transparent); }
+    .lc__shimmer { background: radial-gradient(ellipse at 50% 30%, rgba(244,114,182,.12) 0%, transparent 70%); }
+    .lc__glyph { background: linear-gradient(180deg, #F472B6 0%, #9c2060 100%); }
+    .lc__tag { color: #F472B6; }
+    .lc__card-title { color: rgba(244,114,182,.9); }
+  }
+}
+
+// ── Artwork / glyph ───────────────────────────────────────
+.lc__card-artwork {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 70px;
+  display: flex; align-items: center; justify-content: center;
+  opacity: .45; transition: opacity .25s;
+}
+
+.lc__glyph {
+  font-size: 3.2rem; line-height: 1;
+  font-family: var(--km-font-arabic, 'Amiri', serif);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(201,168,76,.2));
+}
+
+.lc__shimmer {
+  position: absolute; inset: 0;
+  opacity: 0; transition: opacity .3s; pointer-events: none;
+}
+
+.lc__bottom-glow {
+  position: absolute; bottom: 0; left: 12%; right: 12%;
+  height: 2px; opacity: .3; transition: opacity .25s; border-radius: 1px;
+}
+
+// ── Card body ─────────────────────────────────────────────
+.lc__card-body {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 2px; width: 100%;
+}
+
+.lc__tag {
+  font-size: 9px; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  opacity: .7;
+}
+
+.lc__card-title {
+  font-family: var(--km-font-heading, serif);
+  font-size: 13px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+
+.lc__card-desc {
+  font-size: 10px; color: var(--km-text-3, rgba(255,255,255,.35));
+  line-height: 1.4; margin: 3px 0 0;
 }

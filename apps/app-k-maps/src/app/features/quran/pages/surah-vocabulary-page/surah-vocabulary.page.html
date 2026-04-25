@@ -3,44 +3,93 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="'/quran/' + surahId()"></ion-back-button>
     </ion-buttons>
-    <ion-title>Vocabulary — Surah {{ surahId() }}</ion-title>
+    <ion-title>Arabic Linguistics</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="vocab-content">
   <div class="vocab-page">
 
-    <header class="mod-header">
-      <h1 class="mod-header__title">Vocabulary</h1>
-      <p class="mod-header__sub">{{ items().length }} word forms in Surah {{ surahId() }}</p>
+    <header class="lc-header">
+      <p class="lc-header__eyebrow">Surah {{ surahId() }}</p>
+      <h1 class="lc-header__title">Arabic Linguistics</h1>
+      <p class="lc-header__sub">Grammatical, rhetorical &amp; interpretive sciences</p>
+      <div class="lc-header__rule"></div>
     </header>
 
-    @if (loading()) {
-      <div class="state-msg"><ion-spinner name="crescent"></ion-spinner><p>Loading vocabulary…</p></div>
-    }
-    @if (!loading() && error()) {
-      <div class="state-msg state-msg--error"><p>{{ error() }}</p></div>
-    }
-    @if (!loading() && !error() && items().length === 0) {
-      <div class="state-msg"><p>No vocabulary data found.</p></div>
-    }
+    <div class="lc-grid">
 
-    @if (!loading() && !error() && items().length > 0) {
-      <div class="vocab-grid">
-        @for (item of items(); track item.lemma_id) {
-          <div class="vocab-card">
-            <div class="vocab-card__arabic" dir="rtl">{{ item.surface_ar || item.lemma_text || item.lemma_text_clean }}</div>
-            @if (item.root_norm) {
-              <div class="vocab-card__root" dir="rtl">{{ item.root_norm }}</div>
-            }
-            @if (item.pos) { <span class="vocab-chip">{{ item.pos }}</span> }
-            @if (primaryMeaning(item)) {
-              <p class="vocab-card__meaning">{{ primaryMeaning(item) }}</p>
-            }
-          </div>
-        }
-      </div>
-    }
+      <!-- Iʿrāb -->
+      <button class="lc__card lc__card--1" #lingCard (click)="goTo('near-synonyms')">
+        <div class="lc__card-artwork">
+          <span class="lc__glyph">ع</span>
+          <div class="lc__shimmer"></div>
+        </div>
+        <div class="lc__bottom-glow"></div>
+        <div class="lc__card-body">
+          <span class="lc__tag">Grammar</span>
+          <span class="lc__card-title">Iʿrāb</span>
+          <p class="lc__card-desc">Grammatical parsing &amp; case analysis</p>
+        </div>
+      </button>
+
+      <!-- Morphology -->
+      <button class="lc__card lc__card--2" #lingCard (click)="goTo('morphology')">
+        <div class="lc__card-artwork">
+          <span class="lc__glyph">ص</span>
+          <div class="lc__shimmer"></div>
+        </div>
+        <div class="lc__bottom-glow"></div>
+        <div class="lc__card-body">
+          <span class="lc__tag">Morphology</span>
+          <span class="lc__card-title">Ṣarf</span>
+          <p class="lc__card-desc">Word roots, forms &amp; patterns</p>
+        </div>
+      </button>
+
+      <!-- Balāgha -->
+      <button class="lc__card lc__card--3" #lingCard (click)="goTo('near-synonyms')">
+        <div class="lc__card-artwork">
+          <span class="lc__glyph">ب</span>
+          <div class="lc__shimmer"></div>
+        </div>
+        <div class="lc__bottom-glow"></div>
+        <div class="lc__card-body">
+          <span class="lc__tag">Rhetoric</span>
+          <span class="lc__card-title">Balāgha</span>
+          <p class="lc__card-desc">Eloquence &amp; stylistic devices</p>
+        </div>
+      </button>
+
+      <!-- Translation -->
+      <button class="lc__card lc__card--4" #lingCard (click)="goTo('near-synonyms')">
+        <div class="lc__card-artwork">
+          <span class="lc__glyph">ت</span>
+          <div class="lc__shimmer"></div>
+        </div>
+        <div class="lc__bottom-glow"></div>
+        <div class="lc__card-body">
+          <span class="lc__tag">Translation</span>
+          <span class="lc__card-title">Tarjama</span>
+          <p class="lc__card-desc">Nuances, word choices &amp; near-synonyms</p>
+        </div>
+      </button>
+
+      <!-- Tafsīr -->
+      <button class="lc__card lc__card--5" #lingCard (click)="goTo('near-synonyms')">
+        <div class="lc__card-artwork">
+          <span class="lc__glyph">ف</span>
+          <div class="lc__shimmer"></div>
+        </div>
+        <div class="lc__bottom-glow"></div>
+        <div class="lc__card-body">
+          <span class="lc__tag">Commentary</span>
+          <span class="lc__card-title">Tafsīr</span>
+          <p class="lc__card-desc">Classical &amp; thematic commentary</p>
+        </div>
+      </button>
+
+    </div>
 
   </div>
 </ion-content>

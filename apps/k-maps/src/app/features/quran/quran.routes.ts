@@ -56,7 +56,23 @@ export const QURAN_ROUTES: Routes = [
       import('./surah/vocabulary/surah-vocabulary.component').then(
         (m) => m.SurahVocabularyComponent
       ),
-    title: 'Vocabulary — K-MAPS',
+    title: 'Arabic Linguistics — K-MAPS',
+  },
+  {
+    path: 'surah/:surahId/near-synonyms',
+    loadComponent: () =>
+      import('./surah/near-synonyms/surah-near-synonyms.component').then(
+        (m) => m.SurahNearSynonymsComponent
+      ),
+    title: 'Near Synonyms — K-MAPS',
+  },
+  {
+    path: 'surah/:surahId/morphology',
+    loadComponent: () =>
+      import('./surah/morphology/surah-morphology.component').then(
+        (m) => m.SurahMorphologyComponent
+      ),
+    title: 'Morphology — K-MAPS',
   },
   {
     path: 'surah/:surahId/review',

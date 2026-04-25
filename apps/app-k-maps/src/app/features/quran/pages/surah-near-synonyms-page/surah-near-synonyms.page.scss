@@ -1,0 +1,245 @@
+.syn-content { --background: var(--km-bg); }
+.syn-page { padding: 16px 16px 56px; }
+
+.mod-header {
+  margin-bottom: 12px;
+  &__title { font-size: 22px; font-weight: 700; color: var(--km-text); margin: 0 0 4px; }
+  &__sub { font-size: 13px; color: var(--km-text-3); margin: 0; }
+}
+
+.syn-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 14px;
+  padding: 8px 0;
+  background: var(--km-bg);
+}
+
+.syn-search {
+  min-width: 0;
+  padding: 0;
+  --background: var(--km-surface);
+  --border-radius: 8px;
+  --box-shadow: none;
+  --color: var(--km-text);
+  --icon-color: var(--km-text-3);
+  --placeholder-color: var(--km-text-3);
+  border: 1px solid var(--km-border);
+  border-radius: 8px;
+}
+
+.syn-toolbar__count {
+  color: var(--km-text-3);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.state-msg {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 12px; padding: 48px 16px; color: var(--km-text-2); text-align: center;
+  &--error { color: var(--ion-color-danger); }
+}
+
+// ── Card list ────────────────────────────────────────────────
+.syn-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: 8px;
+  align-items: start;
+}
+
+.syn-card {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color .15s, transform .15s;
+
+  &:hover {
+    border-color: var(--km-border-gold);
+    transform: translateY(-1px);
+  }
+
+  &[data-pos='noun']     { border-left: 3px solid rgba(52, 211, 153, .5); }
+  &[data-pos='verb']     { border-left: 3px solid rgba(167, 139, 250, .5); }
+  &[data-pos='particle'] { border-left: 3px solid rgba(251, 191, 36, .35); }
+  &[data-pos='mixed']    { border-left: 3px solid rgba(201, 168, 76, .38); }
+
+  &--open { border-color: var(--km-border-gold); }
+}
+
+// ── Collapsed header ─────────────────────────────────────────
+.syn-card__head {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto auto;
+  gap: 3px 7px;
+  align-items: start;
+  min-height: 136px;
+  padding: 12px 10px 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.syn-card__concept {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.syn-card__en {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--km-text-2);
+  line-height: 1.3;
+}
+
+.syn-pos-chip {
+  font-size: 9px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid;
+  border-radius: 999px;
+  padding: 2px 6px;
+
+  &[data-pos='noun']     { color: rgba(52, 211, 153, .9);  border-color: rgba(52, 211, 153, .3); }
+  &[data-pos='verb']     { color: rgba(167, 139, 250, .9); border-color: rgba(167, 139, 250, .3); }
+  &[data-pos='particle'] { color: rgba(251, 191, 36, .8);  border-color: rgba(251, 191, 36, .25); }
+}
+
+// Urdu concept label
+.syn-card__ur {
+  font-family: var(--km-font-urdu);
+  font-size: 12px;
+  color: var(--km-gold, #c9a84c);
+  opacity: .75;
+  grid-column: 1;
+  grid-row: 2;
+  line-height: 1.65;
+}
+
+// Arabic word chain — all synonyms shown in collapsed state
+.syn-card__chain {
+  font-family: var(--km-font-arabic-ui);
+  font-size: 20px;
+  line-height: 1.8;
+  color: var(--km-text);
+  grid-column: 1;
+  grid-row: 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 0;
+  justify-content: flex-end;
+  direction: rtl;
+  align-self: end;
+  padding-top: 4px;
+}
+
+.syn-chain__word { color: var(--km-text); }
+
+.syn-chain__sep {
+  color: var(--km-gold, #c9a84c);
+  opacity: .5;
+  padding: 0 6px;
+}
+
+.syn-chevron {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  align-self: center;
+  font-size: 16px;
+  color: var(--km-text-3);
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+// ── Expanded body ─────────────────────────────────────────────
+.syn-card__body {
+  border-top: 1px solid var(--km-border);
+  padding: 10px;
+}
+
+.syn-desc {
+  font-size: 12px;
+  color: var(--km-text-2);
+  line-height: 1.6;
+  margin: 0 0 12px;
+  font-style: italic;
+}
+
+// ── Member rows ────────────────────────────────────────────────
+.syn-members {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.syn-member {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--km-bg);
+  border: 1px solid var(--km-border);
+  border-radius: 8px;
+  padding: 8px 9px;
+
+  &__arabic {
+    font-family: var(--km-font-arabic-ui);
+    font-size: 19px;
+    line-height: 1.7;
+    color: rgba(167, 139, 250, .95);
+    flex-shrink: 0;
+    min-width: 72px;
+    text-align: right;
+    direction: rtl;
+  }
+
+  &__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    padding-top: 4px;
+  }
+
+  &__gloss {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--km-text);
+  }
+
+  &__nuance {
+    font-size: 11px;
+    color: var(--km-text-2);
+    line-height: 1.45;
+  }
+
+  &__contrast {
+    font-size: 10px;
+    color: var(--km-gold, #c9a84c);
+    opacity: .85;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 560px) {
+  .syn-toolbar {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .syn-toolbar__count {
+    justify-self: end;
+  }
+}

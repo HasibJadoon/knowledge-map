@@ -83,6 +83,14 @@ const routes: Routes = [
     loadComponent: () => import('./features/quran/pages/surah-vocabulary-page/surah-vocabulary.page').then(m => m.SurahVocabularyPage),
   },
   {
+    path: 'quran/surah/:surahId/near-synonyms',
+    loadComponent: () => import('./features/quran/pages/surah-near-synonyms-page/surah-near-synonyms.page').then(m => m.SurahNearSynonymsPage),
+  },
+  {
+    path: 'quran/surah/:surahId/morphology',
+    loadComponent: () => import('./features/quran/pages/surah-morphology-page/surah-morphology.page').then(m => m.SurahMorphologyPage),
+  },
+  {
     path: 'quran/surah/:surahId/review',
     loadComponent: () => import('./features/quran/pages/surah-review-page/surah-review.page').then(m => m.SurahReviewPage),
   },

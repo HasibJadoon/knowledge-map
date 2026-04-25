@@ -1,0 +1,138 @@
+.mod-header {
+  margin-bottom: 1.5rem;
+  &__title {
+    font-family: var(--km-font-heading);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--km-gold);
+    letter-spacing: .08em;
+    margin: 0 0 .3rem;
+  }
+  &__sub { color: var(--km-text-3); font-size: .88rem; margin: 0; }
+}
+
+.qstate {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1rem; padding: 5rem 0; color: var(--km-text-3); font-size: .9rem;
+  &--error { color: rgba(255, 100, 100, .85); }
+  &__spinner {
+    width: 28px; height: 28px;
+    border: 2px solid var(--km-border);
+    border-top-color: var(--km-gold);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// ── Filter bar ──────────────────────────────────────────
+.morph-filters {
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.morph-filter {
+  background: transparent;
+  border: 1px solid var(--km-border);
+  border-radius: 20px;
+  color: var(--km-text-2);
+  font-family: var(--km-font-body);
+  font-size: .78rem;
+  letter-spacing: .05em;
+  padding: .35rem .85rem;
+  cursor: pointer;
+  transition: all .15s;
+
+  &:hover { border-color: var(--km-gold); color: var(--km-gold); }
+
+  &--active {
+    background: var(--km-gold-glow);
+    border-color: var(--km-gold);
+    color: var(--km-gold);
+  }
+}
+
+// ── Word card grid ──────────────────────────────────────
+.morph-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: .65rem;
+}
+
+.morph-card {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: 10px;
+  padding: .85rem .75rem .65rem;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  align-items: flex-end;
+  transition: border-color .15s;
+
+  &:hover { border-color: var(--km-border-gold); }
+
+  // Colour-code left border by POS
+  &[data-pos='noun']     { border-left: 3px solid rgba(52, 211, 153, .55); }  // emerald
+  &[data-pos='verb']     { border-left: 3px solid rgba(167, 139, 250, .55); } // violet
+  &[data-pos='particle'] { border-left: 3px solid rgba(251, 191, 36, .35); }  // amber
+
+  &__word {
+    font-family: var(--km-font-arabic-ui);
+    font-size: 1.45rem;
+    line-height: 1.8;
+    color: var(--km-text);
+    width: 100%;
+    text-align: right;
+  }
+
+  &__badges {
+    display: flex;
+    gap: .3rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  &__root {
+    font-family: var(--km-font-arabic-ui);
+    font-size: .82rem;
+    color: var(--km-gold);
+    opacity: .75;
+  }
+
+  &__lemma {
+    font-size: .7rem;
+    color: var(--km-text-3);
+    text-align: right;
+    width: 100%;
+  }
+
+  &__ref {
+    font-size: .62rem;
+    color: var(--km-text-3);
+    opacity: .5;
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: .25rem;
+  }
+}
+
+// ── POS badge colours ───────────────────────────────────
+.morph-badge {
+  font-size: .58rem;
+  padding: .12rem .45rem;
+  border-radius: 20px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  border: 1px solid;
+
+  &[data-pos='noun']     { color: rgba(52, 211, 153, .9);  border-color: rgba(52, 211, 153, .3); }
+  &[data-pos='verb']     { color: rgba(167, 139, 250, .9); border-color: rgba(167, 139, 250, .3); }
+  &[data-pos='particle'] { color: rgba(251, 191, 36, .8);  border-color: rgba(251, 191, 36, .25); }
+
+  &--dim {
+    color: var(--km-text-3);
+    border-color: var(--km-border);
+  }
+}

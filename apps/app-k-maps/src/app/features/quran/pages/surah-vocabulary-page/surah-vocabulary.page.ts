@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, OnInit, AfterViewInit, OnDestroy,
+  ViewChildren, QueryList, ElementRef,
+  inject, signal,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { QuranSurahService, VocabularyLemmaVm } from '../../../../shared/services/quran/quran-surah.service';
+import { QuranGsapService } from '../../../../shared/services/quran/quran-gsap.service';
 
 @Component({
   selector: 'app-surah-vocabulary-page',
@@ -11,35 +15,37 @@ import { QuranSurahService, VocabularyLemmaVm } from '../../../../shared/service
   styleUrl: './surah-vocabulary.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SurahVocabularyPage implements OnInit {
-  private readonly route = inject(ActivatedRoute);
+export class SurahVocabularyPage implements OnInit, AfterViewInit, OnDestroy {
+  private readonly route  = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly svc = inject(QuranSurahService);
+  private readonly gsap   = inject(QuranGsapService);
+
+  @ViewChildren('lingCard') cardEls!: QueryList<ElementRef>;
 
   readonly surahId = signal(0);
-  readonly items = signal<VocabularyLemmaVm[]>([]);
-  readonly loading = signal(true);
-  readonly error = signal<string | null>(null);
+
+  private cleanups: Array<() => void> = [];
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('surahId')) || 0;
     this.surahId.set(id);
-    this.svc.getSurahVocabulary(id).subscribe({
-      next: (res) => {
-        this.items.set(res.lexicon?.length ? res.lexicon : res.lemmas);
-        this.loading.set(false);
-      },
-      error: (e) => { this.error.set(e?.message ?? 'Failed'); this.loading.set(false); },
-    });
   }
 
-  primaryMeaning(item: VocabularyLemmaVm): string {
-    if (!item.meanings_json) return '';
-    try {
-      const m = JSON.parse(item.meanings_json);
-      if (Array.isArray(m)) return m[0] ?? '';
-      if (typeof m === 'string') return m;
-      return (m as Record<string, string>)['primary'] ?? (m as Record<string, string>)['en'] ?? '';
-    } catch { return ''; }
+  ngAfterViewInit(): void {
+    const els = this.cardEls.toArray().map(e => e.nativeElement as HTMLElement);
+    if (!els.length) return;
+    this.gsap.revealCards(els, 0.08);
+    for (const el of els) {
+      this.cleanups.push(this.gsap.setupIconHover(el));
+      this.cleanups.push(this.gsap.setupIconPress(el));
+    }
+  }
+
+  ngOnDestroy(): void {
+    for (const fn of this.cleanups) fn();
+  }
+
+  goTo(section: 'near-synonyms' | 'morphology'): void {
+    this.router.navigate(['/quran', 'surah', this.surahId(), section]);
   }
 }

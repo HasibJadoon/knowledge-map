@@ -95,6 +95,83 @@ export class QuranGsapService {
     );
   }
 
+  /** Slide-open detail panel inside a card. */
+  slideInDetailPanel(el: HTMLElement): void {
+    const items = Array.from(el.querySelectorAll<HTMLElement>('.syn-member'));
+    gsap.killTweensOf([el, ...items]);
+    if (prefersReducedMotion()) {
+      gsap.set(el, { height: 'auto', opacity: 1, y: 0, clearProps: 'overflow,transform' });
+      gsap.set(items, { opacity: 1, x: 0, clearProps: 'transform' });
+      return;
+    }
+
+    gsap.fromTo(
+      el,
+      { height: 0, opacity: 0, y: -8, overflow: 'hidden' },
+      {
+        height: 'auto',
+        opacity: 1,
+        y: 0,
+        duration: 0.34,
+        ease: 'power3.out',
+        clearProps: 'height,overflow,transform',
+      },
+    );
+
+    if (items.length) {
+      gsap.fromTo(
+        items,
+        { opacity: 0, x: -10 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.28,
+          delay: 0.08,
+          stagger: 0.035,
+          ease: 'power2.out',
+          clearProps: 'transform',
+        },
+      );
+    }
+  }
+
+  slideInSidePanel(el: HTMLElement): void {
+    const members = Array.from(el.querySelectorAll<HTMLElement>('.syn-member'));
+    gsap.killTweensOf([el, ...members]);
+    if (prefersReducedMotion()) {
+      gsap.set(el, { opacity: 1, x: 0, y: 0 });
+      gsap.set(members, { opacity: 1, y: 0 });
+      return;
+    }
+    gsap.fromTo(
+      el,
+      { opacity: 0, x: 34 },
+      { opacity: 1, x: 0, duration: 0.34, ease: 'expo.out', clearProps: 'transform' },
+    );
+    if (members.length) {
+      gsap.fromTo(
+        members,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.28, delay: 0.1, stagger: 0.035, ease: 'power2.out', clearProps: 'transform' },
+      );
+    }
+  }
+
+  slideOutSidePanel(el: HTMLElement, onComplete: () => void): void {
+    gsap.killTweensOf(el);
+    if (prefersReducedMotion()) {
+      onComplete();
+      return;
+    }
+    gsap.to(el, {
+      opacity: 0,
+      x: 28,
+      duration: 0.22,
+      ease: 'power2.in',
+      onComplete,
+    });
+  }
+
   /** Stagger-reveal card grid items (immediate, no scroll) */
   revealCards(elements: Element[], delay = 0): void {
     if (!elements.length) return;

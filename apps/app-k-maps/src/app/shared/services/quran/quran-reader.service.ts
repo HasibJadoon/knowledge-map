@@ -15,6 +15,16 @@ import {
 } from '../../models/quran/quran-reader.model';
 
 // ── Surah ayahs response (same shape as k-maps desktop) ──────────────────────
+export interface QuranAyahWord {
+  word_index: number;
+  text: string;
+  text_bare: string;
+  root: string | null;
+  lemma: string | null;
+  pos: string | null;
+  morphology_tag: string | null;
+}
+
 export interface QuranAyah {
   surah: number;
   ayah: number;
@@ -25,6 +35,7 @@ export interface QuranAyah {
   verse_mark?: string | null;
   translation?: string | null;
   page_number?: number | null;
+  words?: QuranAyahWord[];  // present when ?words=1
 }
 
 export interface AyahsSurah {
@@ -143,8 +154,11 @@ export class QuranReaderService {
     );
   }
 
-  getSurahAyahs(surah: number): Observable<AyahsResponse> {
-    const params = new HttpParams().set('surah', String(surah));
+  getSurahAyahs(surah: number, opts: { from?: number; to?: number; words?: boolean } = {}): Observable<AyahsResponse> {
+    let params = new HttpParams().set('surah', String(surah));
+    if (opts.from  !== undefined) params = params.set('from',  String(opts.from));
+    if (opts.to    !== undefined) params = params.set('to',    String(opts.to));
+    if (opts.words)               params = params.set('words', '1');
     return this.api.getData<QrAyah[]>('qr', ['ayahs'], { params }).pipe(
       map((ayahs) => ({
         ok: true,
@@ -159,6 +173,7 @@ export class QuranReaderService {
           verse_mark: ayah.verse_mark,
           translation: ayah.translation,
           page_number: ayah.page_number,
+          words: ayah.words,
         })),
       })),
       catchError((error: unknown) =>
@@ -349,6 +364,16 @@ interface QrMenuSurah {
   page_start: number | null;
 }
 
+interface QrAyahWord {
+  word_index: number;
+  text: string;
+  text_bare: string;
+  root: string | null;
+  lemma: string | null;
+  pos: string | null;
+  morphology_tag: string | null;
+}
+
 interface QrAyah {
   surah: number;
   ayah: number;
@@ -358,6 +383,7 @@ interface QrAyah {
   translation: string | null;
   verse_mark: string | null;
   page_number: number | null;
+  words?: QrAyahWord[];
 }
 
 interface QrPagePayload {

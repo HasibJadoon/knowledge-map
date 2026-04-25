@@ -7,7 +7,10 @@ export interface Passage {
   ayah_from: number;
   ayah_to: number;
   theme: string | null;
-  title: string | null;
+  title_ar: string | null;
+  title_en: string | null;
+  discourse_role: string | null;
+  note_md: string | null;
 }
 
 export interface PassageCreate {
@@ -15,7 +18,10 @@ export interface PassageCreate {
   ayah_from: number;
   ayah_to: number;
   theme?: string;
-  title?: string;
+  title_ar?: string;
+  title_en?: string;
+  discourse_role?: string;
+  note_md?: string;
 }
 
 export function validatePassageCreate(
@@ -36,8 +42,11 @@ export function validatePassageCreate(
       surah: b.surah,
       ayah_from: b.ayah_from,
       ayah_to: b.ayah_to,
-      theme: typeof b.theme === 'string' ? b.theme : undefined,
-      title: typeof b.title === 'string' ? b.title : undefined,
+      theme:          typeof b.theme          === 'string' ? b.theme          : undefined,
+      title_ar:       typeof b.title_ar       === 'string' ? b.title_ar       : undefined,
+      title_en:       typeof b.title_en       === 'string' ? b.title_en       : undefined,
+      discourse_role: typeof b.discourse_role === 'string' ? b.discourse_role : undefined,
+      note_md:        typeof b.note_md        === 'string' ? b.note_md        : undefined,
     },
   };
 }

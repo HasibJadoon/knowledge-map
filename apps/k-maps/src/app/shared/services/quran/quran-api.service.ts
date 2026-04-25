@@ -3,6 +3,7 @@ import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
   QrApiResponse,
+  QrAyah,
   QrMenuPayload,
   QrPassage,
   QrReaderPayload,
@@ -27,5 +28,14 @@ export class QuranApiService {
   getSurahPassages(surah: number): Observable<QrApiResponse<QrPassage[]>> {
     const params = new HttpParams().set('surah', String(surah));
     return this.api.getResponse<QrPassage[]>('qr', ['passages'], { params });
+  }
+
+  /** Ayah list — GET /qr/ayahs?surah=X[&from=F&to=T][&words=1] */
+  getSurahAyahs(surah: number, opts: { from?: number; to?: number; words?: boolean } = {}): Observable<QrAyah[]> {
+    let params = new HttpParams().set('surah', String(surah));
+    if (opts.from  !== undefined) params = params.set('from',  String(opts.from));
+    if (opts.to    !== undefined) params = params.set('to',    String(opts.to));
+    if (opts.words)               params = params.set('words', '1');
+    return this.api.getData<QrAyah[]>('qr', ['ayahs'], { params });
   }
 }

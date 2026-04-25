@@ -1,5 +1,15 @@
 // ─── Ayah schemas & types ─────────────────────────────────────────────────────
 
+export interface AyahWord {
+  word_index: number;
+  text: string;           // word_text (with diacritics)
+  text_bare: string;      // word_text_bare (no diacritics)
+  root: string | null;
+  lemma: string | null;
+  pos: string | null;     // N, PN, V, ADJ, P, CONJ, …
+  morphology_tag: string | null;
+}
+
 export interface Ayah {
   surah: number;
   ayah: number;
@@ -9,6 +19,7 @@ export interface Ayah {
   translation: string | null;
   verse_mark: string | null;      // Arabic-Indic digits only (no U+06DD)
   page_number: number | null;
+  words?: AyahWord[];             // populated when ?words=1
 }
 
 export interface AyahPatch {

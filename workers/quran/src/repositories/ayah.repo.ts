@@ -2,7 +2,7 @@
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
 import type { PaginateOptions } from '../../../shared/src/types';
-import type { Ayah, AyahPatch } from '../schemas/ayah.schema';
+import type { Ayah, AyahWord, AyahPatch } from '../schemas/ayah.schema';
 
 // Canonical column selection — always use text_uthmani_clean first.
 const SELECT = `
@@ -50,6 +50,34 @@ export class AyahRepo {
       `SELECT COUNT(*) AS count FROM qr_ayah WHERE text_bare LIKE ?`,
       [pattern],
       opts,
+    );
+  }
+
+  // ── Word helpers ─────────────────────────────────────────────────────────────
+
+  private static readonly WORD_SELECT = `
+    surah, ayah, word_index,
+    word_text AS text, word_text_bare AS text_bare,
+    root, lemma, pos, morphology_tag
+  FROM qr_word_occurrences`;
+
+  /** All words for a surah, ordered by ayah then word_index. */
+  wordsBySurah(surahId: number): Promise<AyahWord & { surah: number; ayah: number }[]> {
+    return query(
+      this.db,
+      `SELECT ${AyahRepo.WORD_SELECT}
+       WHERE surah = ? ORDER BY ayah, word_index`,
+      [surahId],
+    );
+  }
+
+  /** Words for an ayah range. */
+  wordsByRange(surahId: number, from: number, to: number): Promise<AyahWord & { surah: number; ayah: number }[]> {
+    return query(
+      this.db,
+      `SELECT ${AyahRepo.WORD_SELECT}
+       WHERE surah = ? AND ayah BETWEEN ? AND ? ORDER BY ayah, word_index`,
+      [surahId, from, to],
     );
   }
 

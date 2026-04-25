@@ -1,6 +1,9 @@
-import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component, OnInit, AfterViewInit, OnDestroy,
+  ViewChildren, QueryList, ElementRef,
+  inject, signal, ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { QuranSurahService, VocabularyLemmaVm } from '../../../../shared/services/quran/quran-surah.service';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
 import { QuranGsapService } from '../../../../shared/services/quran/quran-gsap.service';
 
@@ -12,49 +15,43 @@ import { QuranGsapService } from '../../../../shared/services/quran/quran-gsap.s
   templateUrl: './surah-vocabulary.component.html',
   styleUrl: './surah-vocabulary.component.scss',
 })
-export class SurahVocabularyComponent implements OnInit, AfterViewInit {
-  private route = inject(ActivatedRoute);
+export class SurahVocabularyComponent implements OnInit, AfterViewInit, OnDestroy {
+  private route  = inject(ActivatedRoute);
   private router = inject(Router);
-  private svc = inject(QuranSurahService);
-  private gsapSvc = inject(QuranGsapService);
+  private gsap   = inject(QuranGsapService);
 
-  @ViewChildren('vocabEl') vocabEls!: QueryList<ElementRef>;
+  @ViewChildren('lingCard') cardEls!: QueryList<ElementRef>;
 
   surahId = signal(0);
-  items = signal<VocabularyLemmaVm[]>([]);
-  loading = signal(true);
-  error = signal<string | null>(null);
 
-  ngAfterViewInit(): void {
-    this.vocabEls.changes.subscribe((list: QueryList<ElementRef>) => {
-      const els = list.toArray().map(e => e.nativeElement);
-      if (els.length) this.gsapSvc.revealOnScroll(els);
-    });
-  }
+  private cleanups: Array<() => void> = [];
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('surahId')) || 0;
     this.surahId.set(id);
-    this.svc.getSurahVocabulary(id).subscribe({
-      next: (res) => {
-        // prefer lexicon if available, fall back to lemmas
-        const vocab = res.lexicon?.length ? res.lexicon : res.lemmas;
-        this.items.set(vocab);
-        this.loading.set(false);
-      },
-      error: (e) => { this.error.set(e?.message ?? 'Failed'); this.loading.set(false); },
-    });
+  }
+
+  ngAfterViewInit(): void {
+    const els = this.cardEls.toArray().map(e => e.nativeElement as HTMLElement);
+    if (!els.length) return;
+
+    // Staggered reveal on load
+    this.gsap.revealCards(els, 0.08);
+
+    // Hover lift + press feedback on each card
+    for (const el of els) {
+      this.cleanups.push(this.gsap.setupIconHover(el));
+      this.cleanups.push(this.gsap.setupIconPress(el));
+    }
+  }
+
+  ngOnDestroy(): void {
+    for (const fn of this.cleanups) fn();
   }
 
   back(): void { this.router.navigate(['/quran']); }
 
-  primaryMeaning(item: VocabularyLemmaVm): string {
-    if (!item.meanings_json) return '';
-    try {
-      const m = JSON.parse(item.meanings_json);
-      if (Array.isArray(m)) return m[0] ?? '';
-      if (typeof m === 'string') return m;
-      return m['primary'] ?? m['en'] ?? '';
-    } catch { return ''; }
+  goTo(section: 'near-synonyms' | 'morphology'): void {
+    this.router.navigate(['/quran', 'surah', this.surahId(), section]);
   }
 }

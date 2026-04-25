@@ -991,4 +991,44 @@ export class QuranSurahService {
       body,
     );
   }
+
+  // ── Near synonyms by surah ───────────────────────────────────────────────────
+
+  getNearSynonymsBySurah(surahId: number): Observable<NearSynonymsBySurahVm> {
+    return this.api.getData<NearSynonymsBySurahVm>('al', ['near-synonyms', 'by-surah', surahId]);
+  }
+}
+
+// ── Near-synonym view models ──────────────────────────────────────────────────
+
+export interface NearSynonymMemberVm {
+  id: string;
+  arabic_display: string | null;
+  nuance_note: string | null;
+  nuance_note_ur: string | null;
+  basic_gloss: string | null;
+  basic_gloss_ur: string | null;
+  contrast_note: string | null;
+  contrast_note_ur: string | null;
+  usage_rule_ur: string | null;
+  quran_usage_pattern_ur: string | null;
+  confidence: string;
+  sort_order: number;
+}
+
+export interface NearSynonymSetVm {
+  id: string;
+  set_name: string;
+  canonical_ar: string | null;
+  canonical_en: string | null;
+  canonical_ur: string | null;
+  semantic_domain_id: string | null;
+  pos_hint: string | null;
+  description_md: string;
+  members: NearSynonymMemberVm[];
+}
+
+export interface NearSynonymsBySurahVm {
+  surah: number;
+  sets: NearSynonymSetVm[];
 }

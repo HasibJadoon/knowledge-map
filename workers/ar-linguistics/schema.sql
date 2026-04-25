@@ -339,21 +339,110 @@ CREATE TABLE ar_ling_nahw_relations (
   FOREIGN KEY (to_concept_id)   REFERENCES ar_ling_nahw_concepts(id)
 );
 
+CREATE TABLE ar_ling_near_synonym_sets (
+  id                TEXT PRIMARY KEY,
+  set_name          TEXT NOT NULL,
+  description_md    TEXT NOT NULL,
+  slug              TEXT,
+  canonical_en      TEXT,
+  canonical_ar      TEXT,
+  canonical_ur      TEXT,
+  semantic_domain_id TEXT,
+  pos_hint          TEXT DEFAULT 'mixed',
+  short_summary     TEXT,
+  source_status     TEXT DEFAULT 'manual',
+  confidence        TEXT DEFAULT 'needs_review',
+  review_status     TEXT DEFAULT 'draft',
+  updated_at        TEXT,
+  created_at        TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 CREATE TABLE ar_ling_near_synonym_members (
-  id              TEXT PRIMARY KEY,
-  set_id          TEXT NOT NULL,
-  lemma_id        TEXT NOT NULL,
-  nuance_note     TEXT NOT NULL,
+  id                  TEXT PRIMARY KEY,
+  set_id              TEXT NOT NULL,
+  lemma_id            TEXT NOT NULL,
+  nuance_note         TEXT NOT NULL,
+  arabic_display      TEXT,
+  arabic_bare         TEXT,
+  basic_gloss         TEXT,
+  basic_gloss_ur      TEXT,
+  contrast_note       TEXT,
+  contrast_note_ur    TEXT,
+  usage_rule          TEXT,
+  usage_rule_ur       TEXT,
+  quran_usage_pattern TEXT,
+  quran_usage_pattern_ur TEXT,
+  nuance_note_ur      TEXT,
+  source_status       TEXT DEFAULT 'manual',
+  claim_basis         TEXT DEFAULT 'direct_source',
+  confidence          TEXT DEFAULT 'needs_review',
+  sort_order          INTEGER DEFAULT 0,
   UNIQUE (set_id, lemma_id),
   FOREIGN KEY (set_id)   REFERENCES ar_ling_near_synonym_sets(id),
   FOREIGN KEY (lemma_id) REFERENCES ar_ling_lemmas(id)
 );
 
-CREATE TABLE ar_ling_near_synonym_sets (
-  id              TEXT PRIMARY KEY,
-  set_name        TEXT NOT NULL,
-  description_md  TEXT NOT NULL,
-  created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+CREATE TABLE ar_ling_near_synonym_set_sources (
+  id          TEXT PRIMARY KEY,
+  set_id      TEXT NOT NULL,
+  source_id   TEXT NOT NULL,
+  chunk_id    TEXT,
+  source_role TEXT NOT NULL DEFAULT 'evidence',
+  source_path TEXT,
+  source_url  TEXT,
+  note_md     TEXT,
+  confidence  TEXT NOT NULL DEFAULT 'needs_review',
+  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  UNIQUE (set_id, source_id, chunk_id)
+);
+
+CREATE TABLE ar_ling_near_synonym_member_sources (
+  id          TEXT PRIMARY KEY,
+  member_id   TEXT NOT NULL,
+  source_id   TEXT NOT NULL,
+  chunk_id    TEXT,
+  claim_type  TEXT NOT NULL DEFAULT 'nuance',
+  claim_text  TEXT NOT NULL,
+  claim_basis TEXT NOT NULL DEFAULT 'direct_source',
+  confidence  TEXT NOT NULL DEFAULT 'needs_review',
+  note_md     TEXT,
+  created_at  TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE ar_ling_near_synonym_evidence (
+  id                  TEXT PRIMARY KEY,
+  set_id              TEXT NOT NULL,
+  member_id           TEXT,
+  lemma_id            TEXT,
+  qr_ref              TEXT NOT NULL,
+  surah               INTEGER NOT NULL,
+  ayah                INTEGER NOT NULL,
+  word_index          INTEGER,
+  word_occurrence_ref TEXT,
+  arabic_quote        TEXT,
+  translation_quote   TEXT,
+  explanation_md      TEXT,
+  evidence_type       TEXT NOT NULL DEFAULT 'source_ref',
+  source_id           TEXT,
+  chunk_id            TEXT,
+  confidence          TEXT NOT NULL DEFAULT 'needs_review',
+  validation_status   TEXT NOT NULL DEFAULT 'pending',
+  note_md             TEXT,
+  created_at          TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE ar_ling_near_synonym_review_queue (
+  id           TEXT PRIMARY KEY,
+  set_id       TEXT,
+  member_id    TEXT,
+  evidence_id  TEXT,
+  issue_type   TEXT NOT NULL,
+  issue_detail TEXT NOT NULL,
+  source_id    TEXT,
+  chunk_id     TEXT,
+  status       TEXT NOT NULL DEFAULT 'open',
+  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at   TEXT
 );
 
 CREATE TABLE ar_ling_phrase_types (
@@ -665,9 +754,27 @@ CREATE INDEX idx_arl_nc_type   ON ar_ling_nahw_concepts(concept_type);
 
 CREATE INDEX idx_arl_nr_from ON ar_ling_nahw_relations(from_concept_id);
 
-CREATE INDEX idx_arl_nsm_lemma ON ar_ling_near_synonym_members(lemma_id);
+CREATE INDEX idx_arl_nsm_lemma         ON ar_ling_near_synonym_members(lemma_id);
 
-CREATE INDEX idx_arl_nsm_set   ON ar_ling_near_synonym_members(set_id);
+CREATE INDEX idx_arl_nsm_set           ON ar_ling_near_synonym_members(set_id);
+
+CREATE INDEX idx_arl_nss_slug          ON ar_ling_near_synonym_sets(slug);
+
+CREATE INDEX idx_arl_nss_domain        ON ar_ling_near_synonym_sets(semantic_domain_id);
+
+CREATE INDEX idx_arl_nsm_set_id        ON ar_ling_near_synonym_members(set_id);
+
+CREATE INDEX idx_arl_nsm_lemma_id      ON ar_ling_near_synonym_members(lemma_id);
+
+CREATE INDEX idx_arl_nsm_arabic_bare   ON ar_ling_near_synonym_members(arabic_bare);
+
+CREATE INDEX idx_arl_nse_set_id        ON ar_ling_near_synonym_evidence(set_id);
+
+CREATE INDEX idx_arl_nse_member_id     ON ar_ling_near_synonym_evidence(member_id);
+
+CREATE INDEX idx_arl_nse_surah_ayah    ON ar_ling_near_synonym_evidence(surah, ayah);
+
+CREATE INDEX idx_arl_nse_qr_ref        ON ar_ling_near_synonym_evidence(qr_ref);
 
 CREATE INDEX idx_arl_pc_type ON ar_ling_projection_cache(cache_type);
 

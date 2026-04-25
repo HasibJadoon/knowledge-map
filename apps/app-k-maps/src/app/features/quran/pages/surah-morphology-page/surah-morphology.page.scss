@@ -1,0 +1,116 @@
+.morph-content { --background: var(--km-bg); }
+.morph-page { padding: 16px 16px 48px; }
+
+.mod-header {
+  margin-bottom: 16px;
+  &__title { font-size: 22px; font-weight: 700; color: var(--km-text); margin: 0 0 4px; }
+  &__sub { font-size: 13px; color: var(--km-text-3); margin: 0; }
+}
+
+.state-msg {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 12px; padding: 48px 16px; color: var(--km-text-2); text-align: center;
+  &--error { color: var(--ion-color-danger); }
+}
+
+// ── Filter bar ──────────────────────────────────────────
+.morph-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.morph-filter {
+  background: transparent;
+  border: 1px solid var(--km-border);
+  border-radius: 20px;
+  color: var(--km-text-2);
+  font-size: 12px;
+  letter-spacing: .04em;
+  padding: 5px 13px;
+  cursor: pointer;
+  transition: all .15s;
+
+  &--active {
+    border-color: var(--km-gold, #c9a84c);
+    color: var(--km-gold, #c9a84c);
+    background: rgba(201, 168, 76, .08);
+  }
+}
+
+// ── Word card grid ──────────────────────────────────────
+.morph-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.morph-card {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: 12px;
+  padding: 12px 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+
+  &[data-pos='noun']     { border-left: 3px solid rgba(52, 211, 153, .5); }
+  &[data-pos='verb']     { border-left: 3px solid rgba(167, 139, 250, .5); }
+  &[data-pos='particle'] { border-left: 3px solid rgba(251, 191, 36, .35); }
+
+  &__word {
+    font-family: var(--km-font-arabic-ui);
+    font-size: 22px;
+    line-height: 1.7;
+    color: var(--km-text);
+    width: 100%;
+    text-align: right;
+  }
+
+  &__badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  &__root {
+    font-family: var(--km-font-arabic-ui);
+    font-size: 12px;
+    color: var(--km-gold, #c9a84c);
+    opacity: .8;
+  }
+
+  &__lemma {
+    font-size: 10px;
+    color: var(--km-text-3);
+    text-align: right;
+    width: 100%;
+  }
+
+  &__ref {
+    font-size: 9px;
+    color: var(--km-text-3);
+    opacity: .5;
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: 4px;
+  }
+}
+
+.morph-badge {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 20px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  border: 1px solid;
+
+  &[data-pos='noun']     { color: rgba(52, 211, 153, .9);  border-color: rgba(52, 211, 153, .3); }
+  &[data-pos='verb']     { color: rgba(167, 139, 250, .9); border-color: rgba(167, 139, 250, .3); }
+  &[data-pos='particle'] { color: rgba(251, 191, 36, .8);  border-color: rgba(251, 191, 36, .25); }
+
+  &--dim { color: var(--km-text-3); border-color: var(--km-border); }
+}

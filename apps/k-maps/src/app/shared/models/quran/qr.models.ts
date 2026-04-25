@@ -61,6 +61,30 @@ export interface QrReaderPayload {
   }>;
 }
 
+/** Word token returned when ?words=1 is passed to /qr/ayahs */
+export interface QrAyahWord {
+  word_index: number;
+  text: string;
+  text_bare: string;
+  root: string | null;
+  lemma: string | null;
+  pos: string | null;
+  morphology_tag: string | null;
+}
+
+/** Shape returned by GET /qr/ayahs?surah=X[&words=1] */
+export interface QrAyah {
+  surah: number;
+  ayah: number;
+  text_display: string;
+  text_uthmani_clean: string | null;
+  text_uthmani: string | null;
+  translation: string | null;
+  verse_mark: string | null;
+  page_number: number | null;
+  words?: QrAyahWord[];  // present only when ?words=1
+}
+
 export interface QrPassage {
   id: string;
   surah: number;
@@ -68,5 +92,8 @@ export interface QrPassage {
   ayah_from: number;
   ayah_to: number;
   theme: string | null;
-  title: string | null;
+  title_ar: string | null;
+  title_en: string | null;
+  discourse_role: string | null;
+  note_md: string | null;
 }

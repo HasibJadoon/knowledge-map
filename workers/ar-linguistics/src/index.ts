@@ -15,6 +15,7 @@ import { nahwRoutes } from './routes/nahw';
 import { balaghaRoutes } from './routes/balagha';
 import { lexiconRoutes } from './routes/lexicon';
 import { expressionRoutes } from './routes/expressions';
+import { nearSynonymRoutes } from './routes/near_synonyms';
 
 const router = new Router<ArLinguisticsEnv>();
 
@@ -31,6 +32,7 @@ nahwRoutes(router);
 balaghaRoutes(router);
 lexiconRoutes(router);
 expressionRoutes(router);
+nearSynonymRoutes(router);
 
 export default {
   fetch: (request: Request, env: ArLinguisticsEnv) => router.handle(request, env),

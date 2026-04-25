@@ -1,0 +1,61 @@
+<km-quran-page-shell breadcrumb="Surah {{ surahId() }}" title="Morphology" (goBack)="back()">
+
+  <header class="mod-header">
+    <h1 class="mod-header__title">Morphology</h1>
+    <p class="mod-header__sub">{{ visible().length }} words · Surah {{ surahId() }}</p>
+  </header>
+
+  @if (!loading() && !error()) {
+    <div class="morph-filters">
+      @for (f of filters; track f.id) {
+        <button
+          class="morph-filter"
+          [class.morph-filter--active]="filter() === f.id"
+          (click)="setFilter(f.id)"
+        >{{ f.label }}</button>
+      }
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="qstate"><div class="qstate__spinner"></div><p>Loading morphology…</p></div>
+  }
+  @if (!loading() && error()) {
+    <div class="qstate qstate--error"><p>{{ error() }}</p></div>
+  }
+  @if (!loading() && !error() && visible().length === 0) {
+    <div class="qstate"><p>No words found for this filter.</p></div>
+  }
+
+  @if (!loading() && !error() && visible().length > 0) {
+    <div class="morph-grid">
+      @for (w of visible(); track w.id ?? ($index + ':' + w.token_index)) {
+        <div class="morph-card" #wordCard [attr.data-pos]="w.pos">
+
+          <div class="morph-card__word" dir="rtl">
+            {{ w.text ?? w.word_diacritic ?? w.simple }}
+          </div>
+
+          <div class="morph-card__badges">
+            <span class="morph-badge" [attr.data-pos]="w.pos">{{ w.posLabel }}</span>
+            @if (w.caseOrTense) {
+              <span class="morph-badge morph-badge--dim">{{ w.caseOrTense }}</span>
+            }
+          </div>
+
+          @if (w.root) {
+            <div class="morph-card__root" dir="rtl" title="Root">{{ w.root }}</div>
+          }
+
+          @if (w.lemma_text) {
+            <div class="morph-card__lemma">{{ w.lemma_text }}</div>
+          }
+
+          <div class="morph-card__ref">{{ w.surah }}:{{ w.ayah }}</div>
+
+        </div>
+      }
+    </div>
+  }
+
+</km-quran-page-shell>

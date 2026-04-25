@@ -18,7 +18,7 @@ export const MODULE_MAP: Record<ModuleKey, ModuleConfig> = {
   wv:   { binding: 'WORLDVIEW',      publicGet: true  },
   worldview: { binding: 'WORLDVIEW', publicGet: true  },
   ar:   { binding: 'ARABIC',         publicGet: false },
-  al:   { binding: 'AR_LINGUISTICS', publicGet: false },
+  al:   { binding: 'AR_LINGUISTICS', publicGet: true  },
   cm:   { binding: 'CONTENT',        publicGet: false },
   pl:   { binding: 'PLANNER',        publicGet: false },
   core: { binding: 'CORE',           publicGet: true  }, // login / register are public

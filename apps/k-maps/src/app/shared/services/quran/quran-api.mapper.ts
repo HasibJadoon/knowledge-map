@@ -84,7 +84,7 @@ function qrPassageToTranslationPassage(passage: QrPassage): TranslationPassage {
     passage_index: passage.passage_index,
     page_pdf: null,
     page_book: null,
-    text: passage.title ?? passage.theme ?? `Ayahs ${passage.ayah_from}-${passage.ayah_to}`,
+    text: passage.title_en ?? passage.title_ar ?? passage.theme ?? `Ayahs ${passage.ayah_from}-${passage.ayah_to}`,
   };
 }
 

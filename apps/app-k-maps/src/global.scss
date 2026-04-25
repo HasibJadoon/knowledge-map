@@ -102,8 +102,13 @@
   --app-font-ar: "Uthmanic Hafs", "Scheherazade New", serif;
 
   // k-maps aliases — same names as desktop app
-  --km-font-arabic: "Uthmanic Hafs", "Noto Naskh Arabic", serif;
-  --km-font-arabic-amiri: "AmiriQuran", "Noto Naskh Arabic", serif;
+  // Quran-only fonts (Uthmanic PUA encoding — do NOT use for UI/lemma text)
+  --km-font-quran:        "Uthmanic Hafs", serif;
+  --km-font-arabic:       "Uthmanic Hafs", serif;   /* kept for backward-compat — Quran text only */
+  --km-font-arabic-amiri: "AmiriQuran", serif;
+  // General Arabic UI — Naskh style (near synonyms, vocabulary, morphology, lemmas)
+  --km-font-arabic-ui:    "Scheherazade New", serif;
+  --km-font-urdu:         "Noto Nastaliq Urdu", "Scheherazade New", serif;
   --km-font-body: "Poppins", "Helvetica Neue", Arial, sans-serif;
   --km-font-heading: "Poppins", "Helvetica Neue", Arial, sans-serif;
 }

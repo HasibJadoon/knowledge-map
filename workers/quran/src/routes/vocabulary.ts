@@ -32,13 +32,16 @@ type PosGroup = 'verbs' | 'nouns' | 'adjectives' | 'proper_nouns' | 'particles' 
 
 function normPos(tag: string | null): PosGroup {
   if (!tag) return 'other';
-  const t = tag.toLowerCase();
-  if (t === 'verb'        || t.startsWith('verb'))   return 'verbs';
-  if (t === 'noun'        || t.startsWith('noun'))   return 'nouns';
-  if (t === 'adj'         || t === 'adjective')      return 'adjectives';
-  if (t === 'proper_noun' || t === 'propn')          return 'proper_nouns';
-  if (t === 'particle' || t === 'prep' || t === 'conj' ||
-      t === 'det'      || t === 'pron' || t === 'adv') return 'particles';
+  const t = tag.toUpperCase();
+  // QAC short codes (dominant in qr_word_occurrences)
+  if (t === 'V'   || t === 'VERB')                        return 'verbs';
+  if (t === 'N'   || t === 'NOUN' || t === 'IMPN')        return 'nouns';
+  if (t === 'ADJ' || t === 'SUP')                         return 'adjectives';
+  if (t === 'PN'  || t === 'PROPN' || t === 'PROPER_NOUN') return 'proper_nouns';
+  // Particles: prepositions, pronouns, conjunctions, discourse markers, etc.
+  if (['P','REL','PRON','NEG','ACC','T','DEM','COND','CONJ','SUB','LOC',
+       'RES','INTG','CERT','PRO','RET','EXP','INC','EXL','AMD','INT',
+       'FUT','EXH','ANS','SUR','AVR','INL','PREP','DET','ADV'].includes(t)) return 'particles';
   return 'other';
 }
 
@@ -129,22 +132,23 @@ export function vocabularyRoutes(router: Router<QuranEnv>) {
 
       params.push(limit);
 
-      // GROUP BY lx_lemma_ref, root_text, pos_tag — one row per unique lemma.
-      // GROUP_CONCAT(DISTINCT text_uthmani, ',') gives up to 5 sample surface forms.
-      // SQLite doesn't support LIMIT inside GROUP_CONCAT, so we trim in app code.
+      // GROUP BY lemma, root, pos — one row per unique lemma.
+      // qr_word_occurrences columns: lemma, root, pos, word_text (not lx_lemma_ref etc.)
+      // Alias to the VocabLemmaRow field names so the rest of the handler stays unchanged.
+      // GROUP_CONCAT(DISTINCT word_text) gives up to ~5 sample surface forms (trimmed below).
       const rows = await query<VocabLemmaRow>(
         env.DB_QR,
         `SELECT
-           lx_lemma_ref,
-           root_text,
-           pos_tag,
-           COUNT(*) AS frequency,
-           GROUP_CONCAT(DISTINCT text_uthmani) AS sample_forms,
-           MIN(surah) AS first_surah,
-           MIN(ayah)  AS first_ayah
+           lemma            AS lx_lemma_ref,
+           root             AS root_text,
+           pos              AS pos_tag,
+           COUNT(*)         AS frequency,
+           GROUP_CONCAT(DISTINCT word_text) AS sample_forms,
+           MIN(surah)       AS first_surah,
+           MIN(ayah)        AS first_ayah
          FROM qr_word_occurrences
          WHERE ${conditions.join(' AND ')}
-         GROUP BY lx_lemma_ref, root_text, pos_tag
+         GROUP BY lemma, root, pos
          ORDER BY ${orderBy}
          LIMIT ?`,
         params,

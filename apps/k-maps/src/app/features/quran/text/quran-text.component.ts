@@ -10,7 +10,8 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import gsap from 'gsap';
 import { QuranAyah, AyahsSurah, TranslationPassage } from '../../../shared/models/quran/quran.models';
 import { mapQrPassagesToResponse, mapQrReaderToAyahsResponse } from '../../../shared/services/quran/quran-api.mapper';
@@ -147,7 +148,9 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
     this.error.set(null);
     forkJoin({
       reader: this.qrApi.getSurahReader(surah),
-      passages: this.qrApi.getSurahPassages(surah),
+      passages: this.qrApi.getSurahPassages(surah).pipe(
+        catchError(() => of({ ok: true, data: [] } as any))
+      ),
     }).subscribe({
       next: ({ reader, passages }) => {
         const res = mapQrReaderToAyahsResponse(reader, mapQrPassagesToResponse(passages.data));
