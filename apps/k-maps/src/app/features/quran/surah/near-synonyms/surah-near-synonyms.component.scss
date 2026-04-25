@@ -158,6 +158,8 @@
   grid-row: 2;
   line-height: 1.65;
   padding-top: .1rem;
+  text-align: right;
+  direction: rtl;
 }
 
 .syn-pos-chip {
@@ -186,7 +188,9 @@
   gap: 0;
   justify-content: flex-end;
   direction: rtl;
+  text-align: right;
   align-self: end;
+  width: 100%;
   max-height: 4.6rem;
   overflow: auto;
   scrollbar-width: thin;
@@ -264,6 +268,8 @@
     line-height: 1.7;
     margin: 0;
     opacity: .78;
+    text-align: right;
+    direction: rtl;
   }
 }
 
@@ -288,6 +294,7 @@
   font-size: 1.45rem;
   line-height: 1.9;
   margin-bottom: .9rem;
+  text-align: right;
 }
 
 .syn-desc {

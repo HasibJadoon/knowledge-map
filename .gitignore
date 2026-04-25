@@ -30,6 +30,7 @@ angular-compiler.db
 *.sqlite
 *.db
 database/ingestion/morphology/sources/qac/*.txt
+km_arabic_linguistic/ingestion/near_synonyms/sources/
 # Track curated migrations and worker schema snapshots; keep ad hoc SQL dumps ignored.
 *.sql
 !database/migrations/

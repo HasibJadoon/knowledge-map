@@ -58,6 +58,7 @@
   border: 1px solid var(--km-border);
   border-radius: 10px;
   overflow: hidden;
+  height: 136px;
   transition: border-color .15s, transform .15s;
 
   &:hover {
@@ -82,6 +83,7 @@
   gap: 3px 7px;
   align-items: start;
   min-height: 136px;
+  height: 100%;
   padding: 12px 10px 8px;
   background: transparent;
   border: none;
@@ -127,6 +129,8 @@
   grid-column: 1;
   grid-row: 2;
   line-height: 1.65;
+  text-align: right;
+  direction: rtl;
 }
 
 // Arabic word chain — all synonyms shown in collapsed state
@@ -142,8 +146,23 @@
   gap: 2px 0;
   justify-content: flex-end;
   direction: rtl;
+  text-align: right;
   align-self: end;
+  width: 100%;
+  max-height: 58px;
+  overflow: auto;
+  scrollbar-width: thin;
   padding-top: 4px;
+}
+
+.syn-card__chain::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.syn-card__chain::-webkit-scrollbar-thumb {
+  background: rgba(201, 168, 76, .35);
+  border-radius: 999px;
 }
 
 .syn-chain__word { color: var(--km-text); }
@@ -164,10 +183,77 @@
   margin-left: 4px;
 }
 
-// ── Expanded body ─────────────────────────────────────────────
-.syn-card__body {
-  border-top: 1px solid var(--km-border);
-  padding: 10px;
+// ── Detail side panel ─────────────────────────────────────────
+.syn-detail-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(0, 0, 0, .45);
+  backdrop-filter: blur(2px);
+}
+
+.syn-detail-panel {
+  width: min(92vw, 448px);
+  height: 100%;
+  overflow: auto;
+  background: var(--km-surface);
+  border-left: 1px solid var(--km-border-gold);
+  box-shadow: -18px 0 40px rgba(0, 0, 0, .35);
+  padding: 16px;
+}
+
+.syn-detail-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  border-bottom: 1px solid var(--km-border);
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+
+  h2 {
+    color: var(--km-text);
+    font-size: 16px;
+    line-height: 1.35;
+    margin: 0 0 4px;
+  }
+
+  p {
+    color: var(--km-gold, #c9a84c);
+    font-family: var(--km-font-urdu);
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0;
+    opacity: .78;
+    text-align: right;
+    direction: rtl;
+  }
+}
+
+.syn-detail-close {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--km-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--km-text-2);
+  cursor: pointer;
+  font-size: 19px;
+  line-height: 1;
+}
+
+.syn-detail-chain {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  color: var(--km-text);
+  font-family: var(--km-font-arabic-ui);
+  font-size: 23px;
+  line-height: 1.9;
+  margin-bottom: 14px;
+  text-align: right;
 }
 
 .syn-desc {

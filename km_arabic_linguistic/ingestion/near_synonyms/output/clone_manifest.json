@@ -1,0 +1,20 @@
+[
+  {
+    "key": "qdev",
+    "source_id": "SRC:QDEV:SYNONYMS",
+    "source_name": "qurandev/synonyms",
+    "repo_url": "https://github.com/qurandev/synonyms.git",
+    "branch": "gh-pages",
+    "repo_dir": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/km_arabic_linguistic/ingestion/near_synonyms/sources/qurandev-synonyms",
+    "git_rev": "dbc71c503a9cf97b79543e5275d31572d0c37406"
+  },
+  {
+    "key": "nqcm",
+    "source_id": "SRC:NQCM:SYNONYMS",
+    "source_name": "nqcm/synonyms-in-quran",
+    "repo_url": "https://github.com/nqcm/synonyms-in-quran.git",
+    "branch": "master",
+    "repo_dir": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/km_arabic_linguistic/ingestion/near_synonyms/sources/nqcm-synonyms-in-quran",
+    "git_rev": "5ae98cd0eb4515576d4eba5bb184bbf0e9f15403"
+  }
+]
