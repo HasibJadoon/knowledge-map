@@ -58,7 +58,7 @@
   border: 1px solid var(--km-border);
   border-radius: 10px;
   overflow: hidden;
-  height: 136px;
+  height: 148px;
   transition: border-color .15s, transform .15s;
 
   &:hover {
@@ -82,9 +82,9 @@
   grid-template-rows: auto auto auto;
   gap: 3px 7px;
   align-items: start;
-  min-height: 136px;
+  min-height: 148px;
   height: 100%;
-  padding: 12px 10px 8px;
+  padding: 12px 10px 9px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -97,6 +97,8 @@
   gap: 8px;
   grid-column: 1;
   grid-row: 1;
+  width: 100%;
+  min-width: 0;
 }
 
 .syn-card__en {
@@ -128,31 +130,39 @@
   opacity: .75;
   grid-column: 1;
   grid-row: 2;
+  justify-self: stretch;
   line-height: 1.65;
+  padding: 1px 6px 2px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, .08));
   text-align: right;
   direction: rtl;
+  unicode-bidi: isolate;
 }
 
 // Arabic word chain — all synonyms shown in collapsed state
 .syn-card__chain {
   font-family: var(--km-font-arabic-ui);
-  font-size: 20px;
+  font-size: 22px;
   line-height: 1.8;
   color: var(--km-text);
   grid-column: 1;
   grid-row: 3;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px 0;
-  justify-content: flex-end;
+  justify-self: stretch;
+  display: block;
   direction: rtl;
   text-align: right;
-  align-self: end;
+  unicode-bidi: isolate;
+  align-self: start;
   width: 100%;
-  max-height: 58px;
+  min-width: 0;
+  max-height: 72px;
   overflow: auto;
   scrollbar-width: thin;
-  padding-top: 4px;
+  padding: 4px 6px;
+  border-right: 2px solid rgba(52, 211, 153, .34);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .018);
 }
 
 .syn-card__chain::-webkit-scrollbar {
@@ -165,22 +175,21 @@
   border-radius: 999px;
 }
 
-.syn-chain__word { color: var(--km-text); }
+.syn-chain__word {
+  color: var(--km-text);
+  display: inline;
+  unicode-bidi: isolate;
+}
 
 .syn-chain__sep {
   color: var(--km-gold, #c9a84c);
   opacity: .5;
   padding: 0 6px;
+  display: inline;
 }
 
 .syn-chevron {
-  grid-column: 2;
-  grid-row: 1 / 4;
-  align-self: center;
-  font-size: 16px;
-  color: var(--km-text-3);
-  flex-shrink: 0;
-  margin-left: 4px;
+  display: none;
 }
 
 // ── Detail side panel ─────────────────────────────────────────
@@ -245,15 +254,15 @@
 }
 
 .syn-detail-chain {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  display: block;
+  direction: rtl;
   color: var(--km-text);
   font-family: var(--km-font-arabic-ui);
   font-size: 23px;
   line-height: 1.9;
   margin-bottom: 14px;
   text-align: right;
+  unicode-bidi: isolate;
 }
 
 .syn-desc {
@@ -273,6 +282,7 @@
 
 .syn-member {
   display: flex;
+  flex-direction: row-reverse;
   align-items: flex-start;
   gap: 8px;
   background: var(--km-bg);

@@ -96,7 +96,7 @@
   border: 1px solid var(--km-border);
   border-radius: 10px;
   overflow: hidden;
-  height: 10.25rem;
+  height: 11rem;
   transition: border-color .15s, transform .15s;
 
   &:hover {
@@ -118,11 +118,11 @@
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto auto auto;
-  gap: .2rem .65rem;
+  gap: .18rem .65rem;
   align-items: start;
-  min-height: 9.25rem;
+  min-height: 11rem;
   height: 100%;
-  padding: .85rem .75rem .65rem;
+  padding: .8rem .8rem .65rem;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -139,6 +139,8 @@
   grid-column: 1;
   grid-row: 1;
   flex-wrap: wrap;
+  width: 100%;
+  min-width: 0;
 }
 
 .syn-card__en {
@@ -156,10 +158,14 @@
   opacity: .72;
   grid-column: 1;
   grid-row: 2;
+  justify-self: stretch;
   line-height: 1.65;
-  padding-top: .1rem;
+  padding: .08rem .4rem .12rem;
+  border-radius: 6px;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, .08));
   text-align: right;
   direction: rtl;
+  unicode-bidi: isolate;
 }
 
 .syn-pos-chip {
@@ -179,22 +185,25 @@
 // All Arabic synonyms as one chain in collapsed view
 .syn-card__chain {
   font-family: var(--km-font-arabic-ui);
-  font-size: 1.35rem;
+  font-size: 1.42rem;
   line-height: 1.85;
   grid-column: 1;
   grid-row: 3;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  justify-content: flex-end;
+  justify-self: stretch;
+  display: block;
   direction: rtl;
   text-align: right;
-  align-self: end;
+  unicode-bidi: isolate;
+  align-self: start;
   width: 100%;
-  max-height: 4.6rem;
+  min-width: 0;
+  max-height: 5.25rem;
   overflow: auto;
   scrollbar-width: thin;
-  padding-top: .25rem;
+  padding: .24rem .4rem .24rem;
+  border-right: 2px solid rgba(52, 211, 153, .34);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .018);
 }
 
 .syn-card__chain::-webkit-scrollbar {
@@ -207,21 +216,21 @@
   border-radius: 999px;
 }
 
-.syn-chain__word { color: var(--km-text); }
+.syn-chain__word {
+  color: var(--km-text);
+  display: inline;
+  unicode-bidi: isolate;
+}
 
 .syn-chain__sep {
   color: var(--km-gold, #c9a84c);
   opacity: .5;
   padding: 0 .4rem;
+  display: inline;
 }
 
 .syn-card__chevron {
-  grid-column: 2;
-  grid-row: 1 / 4;
-  align-self: center;
-  font-size: .65rem;
-  color: var(--km-text-3);
-  flex-shrink: 0;
+  display: none;
 }
 
 // ── Expanded body ───────────────────────────────────────────────
@@ -286,15 +295,15 @@
 }
 
 .syn-detail-chain {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  display: block;
+  direction: rtl;
   color: var(--km-text);
   font-family: var(--km-font-arabic-ui);
   font-size: 1.45rem;
   line-height: 1.9;
   margin-bottom: .9rem;
   text-align: right;
+  unicode-bidi: isolate;
 }
 
 .syn-desc {
@@ -314,6 +323,7 @@
 
 .syn-member {
   display: flex;
+  flex-direction: row-reverse;
   align-items: flex-start;
   gap: .65rem;
   background: var(--km-bg);
