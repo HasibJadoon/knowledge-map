@@ -1,9 +1,0 @@
-{
-  "layer": "balagha",
-  "ayah_key": "12:61",
-  "result": {
-    "error": "Invalid JSON structure. The content appears to be a series of Arabic text segments with embedded JSON-like structures, but it is not properly formatted as a single JSON object. Please provide a valid JSON structure for processing.",
-    "claims": []
-  },
-  "n_chunks": 16
-}

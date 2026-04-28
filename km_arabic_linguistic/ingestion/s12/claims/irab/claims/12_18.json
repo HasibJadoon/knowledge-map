@@ -1,8 +1,0 @@
-{
-  "layer": "irab",
-  "ayah_key": "12:18",
-  "result": {
-    "error": "Invalid JSON structure. The input contains non-JSON content such as markdown and text."
-  },
-  "n_chunks": 16
-}

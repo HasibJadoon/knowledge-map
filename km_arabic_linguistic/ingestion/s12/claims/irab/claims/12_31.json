@@ -1,8 +1,0 @@
-{
-  "layer": "irab",
-  "ayah_key": "12:31",
-  "result": {
-    "error": "Invalid JSON structure. The provided text appears to be a series of Arabic Quranic verses with commentary, not a valid JSON object."
-  },
-  "n_chunks": 16
-}
