@@ -21,8 +21,8 @@ from pathlib import Path
 BASE      = Path(__file__).resolve().parents[2]        # ingestion/
 SAFI_DB   = BASE / "../Tafsirs/al-jadwal-fi-i-rab-al-quran.db"
 DARWISH_DB= BASE / "../Tafsirs/i-rab-al-quran-li-al-darwish.db"
-SPINE_DB  = BASE / "صرف/kmaps-sarf/data/raw/spine/spine.sqlite"
-CLAIMS_DIR= BASE / "اعراب/kmaps-irab/data/staging/claims"
+SPINE_DB  = BASE / "_pipeline/sarf/kmaps-sarf/data/raw/spine/spine.sqlite"
+CLAIMS_DIR= Path(__file__).resolve().parents[1] / "claims/irab"   # s12/claims/irab/
 SQL_OUT   = Path(__file__).resolve().parents[1] / "sql/s12_al_claims_irab.sql"
 
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434")

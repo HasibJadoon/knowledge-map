@@ -19,12 +19,12 @@ from collections import defaultdict
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 BASE   = Path(__file__).resolve().parents[2]           # ingestion/
-SPINE  = BASE / "صرف/kmaps-sarf/data/raw/spine/spine.sqlite"
+SPINE  = BASE / "_pipeline/sarf/kmaps-sarf/data/raw/spine/spine.sqlite"
 OUT    = Path(__file__).resolve().parents[1] / "sql"   # s12/sql/
 OUT.mkdir(exist_ok=True)
 
-CLAIMS_IRAB    = BASE / "اعراب/kmaps-irab/data/staging/claims"
-CLAIMS_BALAGHA = BASE / "بلاغة/kmaps-balagha/data/staging/claims"
+CLAIMS_IRAB    = Path(__file__).resolve().parents[1] / "claims/irab"
+CLAIMS_BALAGHA = Path(__file__).resolve().parents[1] / "claims/balagha"
 
 SURAH = 12
 

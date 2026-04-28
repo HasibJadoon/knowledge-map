@@ -17,10 +17,15 @@ from pathlib import Path
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 BASE = Path(__file__).resolve().parents[2]   # ingestion/
+S12  = Path(__file__).resolve().parents[1]   # s12/
 
 LAYER_DIRS = {
-    "irab":    BASE / "اعراب/kmaps-irab",
-    "balagha": BASE / "بلاغة/kmaps-balagha",
+    "irab":    BASE / "_pipeline/irab/kmaps-irab",
+    "balagha": BASE / "_pipeline/balagha/kmaps-balagha",
+}
+CLAIMS_DIRS = {
+    "irab":    S12 / "claims/irab",
+    "balagha": S12 / "claims/balagha",
 }
 LAYER_COLLECTIONS = {
     "irab":    "kmaps_irab_source_chunks",
@@ -30,14 +35,14 @@ QDRANT_PATHS = {
     "irab":    LAYER_DIRS["irab"]    / "data/data/qdrant_storage",
     "balagha": LAYER_DIRS["balagha"] / "data/data/qdrant_storage",
 }
-SPINE_DB = BASE / "صرف/kmaps-sarf/data/raw/spine/spine.sqlite"
+SPINE_DB = BASE / "_pipeline/sarf/kmaps-sarf/data/raw/spine/spine.sqlite"
 
 OLLAMA_URL  = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434")
 EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")
 LLM_MODEL   = os.getenv("OLLAMA_LLM_MODEL", "qwen3:latest")
 
 # ── Load .env ──────────────────────────────────────────────────────────────────
-env_file = BASE / "صرف/kmaps-sarf/.env"
+env_file = BASE / "_pipeline/sarf/kmaps-sarf/.env"
 if env_file.exists():
     for raw in env_file.read_text(encoding="utf-8-sig").splitlines():
         line = raw.strip()
@@ -255,7 +260,7 @@ def load_spine_ayah(surah: int, ayah: int) -> list[dict]:
 
 def get_gap_ayahs(layer: str) -> list[int]:
     """Return ayah numbers (1-111) that are missing or have 0 claims."""
-    claims_dir = LAYER_DIRS[layer] / "data/staging/claims"
+    claims_dir = CLAIMS_DIRS[layer]
     gap = []
     for i in range(1, 112):
         f = claims_dir / f"12_{i}.json"
@@ -271,7 +276,7 @@ def get_gap_ayahs(layer: str) -> list[int]:
     return gap
 
 def write_claim_file(layer: str, surah: int, ayah: int, result: dict, n_chunks: int):
-    claims_dir = LAYER_DIRS[layer] / "data/staging/claims"
+    claims_dir = CLAIMS_DIRS[layer]
     claims_dir.mkdir(parents=True, exist_ok=True)
     out = {"layer": layer, "ayah_key": f"{surah}:{ayah}",
            "result": result, "n_chunks": n_chunks}

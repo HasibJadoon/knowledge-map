@@ -1,0 +1,340 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 2,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 2,
+          "head_word_index": 2,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "و",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "استئنافية",
+          "irab_case": "",
+          "note_ar": "الواو استئنافية"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "قال",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل وفاعل",
+          "irab_case": "",
+          "note_ar": "قال الملك فعل وفاعل"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 3,
+      "word_end": 5,
+      "sentence_kind": "imperative",
+      "discourse_role": "command",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 3,
+          "word_end": 5,
+          "head_word_index": 3,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 3,
+          "word_ar": "ائْتُونِي",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل أمر",
+          "irab_case": "",
+          "note_ar": "ائتوا فعل أمر مبنيّ على حذف النون"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "بِهِ",
+          "relation_type": "object_direct",
+          "governor_word_index": 3,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "الباء حرف جرّ والهاء ضمير مفعول به"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 6,
+      "word_end": 8,
+      "sentence_kind": "conditional",
+      "discourse_role": "parenthetical",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "conditional_if",
+          "word_start": 6,
+          "word_end": 8,
+          "head_word_index": 6,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 6,
+          "word_ar": "فَلَمَّا",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": null,
+          "irab_position": "ظرف",
+          "irab_case": "مجرور",
+          "note_ar": "لمّا ظرف بمعنى حين متضمّن معنى الشرط"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "جَاءَهُ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "جاءه فعل ماض"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "قَالَ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "قال مثل جاء، والفاعل هو أي يوسف"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 9,
+      "word_end": 11,
+      "sentence_kind": "imperative",
+      "discourse_role": "command",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 9,
+          "word_end": 11,
+          "head_word_index": 9,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 9,
+          "word_ar": "ارْجِعْ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل أمر",
+          "irab_case": "",
+          "note_ar": "ارجع فعل أمر، والفاعل أنت"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "إِلَى",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 9,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "إلى جار ومجرور متعلّق ب (ارجع)"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "رَبِّكَ",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 10,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "الكاف مضاف إليه"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 12,
+      "word_end": 14,
+      "sentence_kind": "imperative",
+      "discourse_role": "command",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 12,
+          "word_end": 14,
+          "head_word_index": 12,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 12,
+          "word_ar": "فَاسْأَلْهُ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل أمر",
+          "irab_case": "",
+          "note_ar": "اسأله فعل أمر ومفعول به"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "مَا",
+          "relation_type": "subject",
+          "governor_word_index": 12,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "ما اسم استفهام مبنيّ في محلّ رفع مبتدأ"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "بَالُ",
+          "relation_type": "predicate",
+          "governor_word_index": 13,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "بال خبر مرفوع"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 15,
+      "word_end": 18,
+      "sentence_kind": "nominal",
+      "discourse_role": "explanatory",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 15,
+          "word_end": 18,
+          "head_word_index": 15,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 15,
+          "word_ar": "النِّسْوَةِ",
+          "relation_type": "object_direct",
+          "governor_word_index": 14,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "النسوة مضاف إليه مجرور"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "اللَّاتِي",
+          "relation_type": "appositive",
+          "governor_word_index": 15,
+          "irab_position": "اسم موصول",
+          "irab_case": "مجرور",
+          "note_ar": "اللاتي اسم موصول مبنيّ في محلّ جرّ نعت للنسوة"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "قَطَّعْنَ",
+          "relation_type": "predicate",
+          "governor_word_index": 16,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "قطّعن فعل ماض مبنيّ على السكون"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "أيديهنّ",
+          "relation_type": "object_direct",
+          "governor_word_index": 17,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "أيديهنّ مفعول به منصوب"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 19,
+      "word_end": 22,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 19,
+          "word_end": 22,
+          "head_word_index": 19,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 19,
+          "word_ar": "إِنَّ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "ظرف",
+          "irab_case": "مجرور",
+          "note_ar": "إنّ ظرف"
+        },
+        {
+          "word_index": 20,
+          "word_ar": "رَبِّكَ",
+          "relation_type": "object_direct",
+          "governor_word_index": 19,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "الكاف مضاف إليه"
+        },
+        {
+          "word_index": 21,
+          "word_ar": "بَالُ",
+          "relation_type": "predicate",
+          "governor_word_index": 20,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "بال خبر مرفوع"
+        },
+        {
+          "word_index": 22,
+          "word_ar": "بِكَ",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 21,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "بك جار ومجرور"
+        }
+      ]
+    }
+  ]
+}

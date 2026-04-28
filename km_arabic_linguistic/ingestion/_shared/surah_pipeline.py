@@ -41,9 +41,9 @@ BASE   = Path(__file__).resolve().parent.parent   # ingestion/
 SHARED = Path(__file__).resolve().parent          # ingestion/_shared/
 
 LAYER_DIRS = {
-    "sarf":    BASE / "صرف/kmaps-sarf",
-    "irab":    BASE / "اعراب/kmaps-irab",
-    "balagha": BASE / "بلاغة/kmaps-balagha",
+    "sarf":    BASE / "_pipeline/sarf/kmaps-sarf",
+    "irab":    BASE / "_pipeline/irab/kmaps-irab",
+    "balagha": BASE / "_pipeline/balagha/kmaps-balagha",
 }
 SPINE_DB = LAYER_DIRS["sarf"] / "data/raw/spine/spine.sqlite"
 WRANGLER_CONFIGS = {
@@ -161,7 +161,7 @@ def run_extraction(args):
     procs = []
 
     for layer in ["sarf", "irab", "balagha"]:
-        claims_dir = LAYER_DIRS[layer] / "data/staging/claims"
+        claims_dir = BASE / f"s{args.surah}/claims/{layer}"
         claims_dir.mkdir(parents=True, exist_ok=True)
         log_dir = Path.home() / "Library/Logs/kmaps-extract"
         log_dir.mkdir(parents=True, exist_ok=True)
@@ -269,8 +269,8 @@ def _norm_ct(ct: str, layer: str):
 def gen_sql(args) -> dict[str, Path]:
     step(3, "Generating seed SQL")
     surah = args.surah
-    out_dir = SHARED / f"s{surah}_sql"
-    out_dir.mkdir(exist_ok=True)
+    out_dir = BASE / f"s{surah}/sql"     # e.g. s12/sql/
+    out_dir.mkdir(parents=True, exist_ok=True)
     generated = {}
 
     # ── QR spine ──────────────────────────────────────────────────────────────
@@ -389,7 +389,7 @@ def gen_sql(args) -> dict[str, Path]:
     generated["al_roots_lemmas"] = p
 
     # ── AL taxonomy ────────────────────────────────────────────────────────────
-    tax_sql = SHARED / "s12_sql" / "s12_al_taxonomy.sql"  # reuse static taxonomy
+    tax_sql = BASE / "s12/sql/s12_al_taxonomy.sql"  # reuse static taxonomy from S12
     if tax_sql.exists():
         p = out_dir / f"s{surah}_al_taxonomy.sql"
         p.write_text(tax_sql.read_text(encoding="utf-8"), encoding="utf-8")
@@ -398,7 +398,7 @@ def gen_sql(args) -> dict[str, Path]:
 
     # ── AL claims ──────────────────────────────────────────────────────────────
     for layer in ["sarf", "irab", "balagha"]:
-        cd = LAYER_DIRS[layer] / "data/staging/claims"
+        cd = BASE / f"s{surah}/claims/{layer}"
         files = sorted(cd.glob(f"{surah}_*.json"))
         stmts = []
         run_id = sha1(f"AL:RUN:{layer.upper()}:", f"S{surah}", "pipeline")
@@ -472,10 +472,10 @@ def deploy(args, sql_files: dict[str, Path]):
 
     # AL sources + chunks first (must exist before claims FK)
     al_chunks_dirs = [
-        ("km_arabic_linguistic", BASE / "صرف/kmaps-sarf/data/staging/chunks", "tafsirs_sources.sql"),
-        ("km_arabic_linguistic", BASE / "صرف/kmaps-sarf/data/staging/chunks", "lexicons_sources.sql"),
-        ("km_arabic_linguistic", BASE / "اعراب/kmaps-irab/data/staging/chunks", "irab_sources.sql"),
-        ("km_arabic_linguistic", BASE / "بلاغة/kmaps-balagha/data/staging/chunks", "balagha_sources.sql"),
+        ("km_arabic_linguistic", BASE / "_pipeline/sarf/kmaps-sarf/data/staging/chunks", "tafsirs_sources.sql"),
+        ("km_arabic_linguistic", BASE / "_pipeline/sarf/kmaps-sarf/data/staging/chunks", "lexicons_sources.sql"),
+        ("km_arabic_linguistic", BASE / "_pipeline/irab/kmaps-irab/data/staging/chunks", "irab_sources.sql"),
+        ("km_arabic_linguistic", BASE / "_pipeline/balagha/kmaps-balagha/data/staging/chunks", "balagha_sources.sql"),
     ]
     for db, d, fname in al_chunks_dirs:
         p = d / fname

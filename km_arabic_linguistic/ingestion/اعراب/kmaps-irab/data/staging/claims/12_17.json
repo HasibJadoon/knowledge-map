@@ -1,8 +1,0 @@
-{
-  "layer": "irab",
-  "ayah_key": "12:17",
-  "result": {
-    "error": "Invalid JSON structure. The provided text appears to be a mix of Arabic script and JSON-like formatting, but it is not valid JSON. Please provide a properly formatted JSON object or clarify the request."
-  },
-  "n_chunks": 16
-}
