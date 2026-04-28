@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:35",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "إِنَّكَ لا تَهْدِي مَنْ أَحْبَبْتَ",
+        "claim_ar": "استخدام أداة التوكيد الـإِنَّ مع ضمير الخطاب «إِنَّكَ أَنْتَ» كأسلوب بلاغي للتأكيد على مخاطبة الله وتوكيد معنى التقبل والسمع والعلم.",
+        "claim_en": "Use of the emphatic particle 'inna' with the addressed pronoun ('inna-ka anta') as a rhetorical style (asloob hakim), emphasizing the addressee (God) and confirming the attributes/actions invoked (acceptance/hearing/knowledge).",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim_emphatic_inna_anta",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source chunk contains the particle 'إِنَّكَ' in a different verse/context; the mapping of that usage to this ayah (إِنَّكَ أَنْتَ) is interpretive and should be reviewed against philological commentaries.",
+        "quran_ref": "3:35",
+        "rhetorical_effect": "يزيد من قوة الطلب والدعاء بتأكيد العبودية والمعرفة الإلهية."
+      },
+      {
+        "word_index": 17,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "سَمِيعٌ عَلِيمٌ",
+        "claim_ar": "تزويج الصفات الإلهية «السَّمِيعُ العَلِيمُ» كتقابُل معبِّر يربط السماع بالعلم، فتعزز الصورة الإلهية الشاملة.",
+        "claim_en": "Pairing of divine attributes 'as-Sami' and 'al-`Alim' (the All-Hearing, the All-Knowing) as a rhetorical balancing (muqabalah), linking hearing and knowledge to portray comprehensive divine awareness.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah_pairing_of_attributes",
+        "root": "سمع",
+        "lemma": "سَمِيع",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "3:35",
+        "rhetorical_effect": "يؤكد ثقة المتكلمة بأن الله يسمع ويعلم نواياها، فيعطي طلبها أبعادًا روحية ومعنوية أقوى."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "آلَ عِمْرانَ",
+        "claim_ar": "افتتاح السرد بذكر نسب/أسرة («إِذْ قَالَتِ امْرَأَتُ عِمْرَانَ») كعلامة انتقال سردي تُدخل قصة آل عمران وموقف أم مريم، مما يؤطر السورة موضوعيًا.",
+        "claim_en": "Narrative movement: opening the narration by referring to the family/lineage ('the family of Imran') functions as a narrative marker that introduces the story of the family (Mary's mother) and frames the surah's subject matter.",
+        "device_branch": "other",
+        "device_subtype": "narrative_intro_family_reference",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk discusses 'آل عِمْران' and related genealogy in tafsir; mapping this to a formal 'surah_movement' device is interpretive and should be cross-checked with structural commentaries.",
+        "quran_ref": "3:35",
+        "rhetorical_effect": "ينقل القارئ فورًا إلى بؤرة قصةٍ أسرية ويهيئ خلفية تاريخية ودينية تجعل موقف المتكلمة ذا دلالةٍ خاصة."
+      }
+    ],
+    "warnings": [
+      "المقتطفات المصدرية المستخدمة مأخوذة من شُروحات وتفاسير قد تذكر المصطلحات أو كلمات مشابهة في سياقات آيات أخرى؛ لذلك بعض المطابقات بلاغيًا تظل تفسيرية وتتطلب مراجعة نصية ونقدية أعمق.",
+      "لم تُوجد في القطع المصدرية عبارات مطابقة حرفيًا لكل كلمات الآية (مثل «نَذَرْتُ لَكَ مَا فِي بَطْنِي مُحَرَّرًا» كاملاً)، فالمطالِب البلاغية اعتمدت على توافر مفردات أو تعليقات ذات صلة في القطع المتاحة."
+    ]
+  },
+  "n_chunks": 12
+}

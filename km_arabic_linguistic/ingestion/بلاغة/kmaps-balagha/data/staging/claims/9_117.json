@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:117",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No balaagha claims extracted: none of the provided source_chunks contain commentary or balagha quotes from the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) for this āyah.",
+      "Requirement not met: every claim must include source_quote_ar as an exact substring from one of the provided source_chunks. The supplied chunks are I'rab notes and do not contain the āyah text or the required balagha commentary substrings, so no valid claims could be produced. Please provide appropriate balagha/tafsir-chunks that include exact quoted lines to support claims."
+    ]
+  },
+  "n_chunks": 12
+}

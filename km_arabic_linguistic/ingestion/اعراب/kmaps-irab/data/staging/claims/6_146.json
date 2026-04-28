@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:146",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit إعراب (grammatical) claims for S6:A146 were found in the provided source chunks. The chunks do not contain text referring to words or grammatical analyses of this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

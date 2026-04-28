@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "24:25",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No إعراب claims could be extracted: none of the provided source_chunks contain the ayah text (سورة النور آية 25) or an explicit discussion of its grammar. Provide source chunks that include or comment on this specific verse to extract claims."
+    ]
+  },
+  "n_chunks": 12
+}

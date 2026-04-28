@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "10:9",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "(يَخِصِّمُونَ) : مِثْلُ قَوْلِهِ (يَهْدِي) وَقَدْ ذُكِرَ فِي يُونُسَ.",
+        "claim_ar": "ذكر المؤلف أن لفظ (يَهْدِي) مَثَل لفظ (يَخِصِّمُونَ) وأن لفظ (يَهْدِي) مذكور في سورة يُونُس (الآية المعالجة هنا).",
+        "claim_en": "The author notes that the word (يَهْدِي) is like the word (يَخِصِّمُونَ) and that (يَهْدِي) is mentioned in Sūrat Yūnus (the verse under consideration).",
+        "root": "هدي",
+        "lemma": "هَدَى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk only states a formal similarity between the two verb-forms and that يَهْدِي appears in Yūnus; it does not provide a detailed إعراب (syntactic role) or explanation of how يَهْدِيهِمْ functions within the verse."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain only a brief note equating the form يَهْدِي with يَخِصِّمُونَ and indicating that يَهْدِي appears in Yūnus. No explicit إعراب (e.g., مبتدأ/خبر/فاعل/مفعول به) or detailed syntactic analysis of يَهْدِيهِمْ or other words of the verse is given in the supplied excerpts.",
+      "Only one relevant substring was found in the chunks. If fuller إعراب claims are required, supply additional or different chunks that include the author's grammatical commentary on this specific verse."
+    ]
+  },
+  "n_chunks": 12
+}

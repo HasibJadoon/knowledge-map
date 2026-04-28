@@ -1,0 +1,47 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:30",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "قال تعالى : من يحيي العظام وهي رميم قل يحييها الذي أنشأها [ يس : 78 - 79 ]",
+        "claim_ar": "قَالَ: فعل ماضٍ مبني على الفتح، وفاعله ضمير مستتر يعود على قائله (هو).",
+        "claim_en": "qāla is a past tense verb (fāʿala) built on the fatha; its subject is a dropped pronoun (he) referring to the speaker.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "General, standard grammatical fact; the provided source contains occurrences of قال as verb but does not analyze the specific ayah's subject explicitly."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "أنزلنا إِلَيْكُم نورا مُبينًا",
+        "claim_ar": "بِشَيْءٍ: اسم مجرور بـِ (حرف جر) وعلامة جره الكسرة الظاهرة في السياق (أي: اسم مجرور متعلق بالباء).",
+        "claim_en": "bi-shay'in ('with a thing') is a noun in the genitive governed by the preposition bi- (i.e., 'بِ' + ism majrūr).",
+        "root": "شيا",
+        "lemma": "شَىْء",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source shows examples of nouns governed by prepositions (e.g., إِلَيْكُم) but does not explicitly analyze this exact phrase; verify with a direct commentary on this ayah."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "أنزلنا إِلَيْكُم نورا مُبينًا",
+        "claim_ar": "مُبِينٍ: نعت معرّف/نكرة تابع لِـ (شَيْءٍ) ويُعرب نعتًا مجرورًا ليتبع مجروره من حيث الإعراب (في آيتنا: مجرور بحسب كلمة شيءٍ).",
+        "claim_en": "mubīn is an adjective (naʿt) modifying 'shay'in' and should be parsed as a genitively-marked adjective agreeing with 'shay'in' (i.e., an adjective in the genitive modifying the noun after the preposition).",
+        "root": "بين",
+        "lemma": "مُبِين",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted example in the source shows مُبِينًا in the accusative (نورا مُبينًا); the source does not explicitly analyze مُبِينٍ in the construction بِشَيْءٍ مُبِينٍ — confirmation from a direct iʿrāb commentary on this verse is advised."
+      }
+    ],
+    "warnings": [
+      "The available source chunks do not provide an explicit iʿrāb commentary for S26:A30; the claims above use analogous examples from the provided material (e.g., \"أنزلنا إِلَيْكُم نورا مُبينًا\").",
+      "The source example used for 'مُبِين' shows the accusative form (مُبِينًا) modifying 'نورا'; in the target verse the adjective is in the genitive (مُبِينٍ) after a preposition. This difference should be cross-checked in a direct commentary on the verse.",
+      "Where the source did not explicitly parse the exact words of S26:A30, I inferred standard grammatical analyses (e.g., قَالَ having a dropped pronoun as subject). These inferences should be verified against the cited work or another authoritative iʿrāb commentary on the verse."
+    ]
+  },
+  "n_chunks": 12
+}

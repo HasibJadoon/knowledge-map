@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:35",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ) : يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛ تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ، وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "يُقْرَأ همزُ «أنّ/إنّ» بفتحة في الوقف والابتداء (قيْرَاة اعتيادية)، وعلى الكسر عند الاستئناف/الانقطاع.",
+        "claim_en": "The hamza of the particle (أنّ/إنّ) is read with a fatha (opening vowel) by default; however, it is read with a kasra (i) on al-istinaaf (resumption after a pause).",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "taqdir",
+        "source_quote_ar": "تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ",
+        "claim_ar": "تقديره (شرح معنوي) أن المراد: ذلك بأنّ الله لم يكن مغيرًا، وبأنّ الله سميع، أي أن وصف السميع يرد لدلالة عدم التغيير.",
+        "claim_en": "The indicated interpretation (taqdir) is: 'That is, because God is not a changer, and because God is Hearer,' i.e. the predicate 'Hearer' is given to signify that God does not change. (An explicative/interpretive sense provided by the commentator.)",
+        "root": "سمع",
+        "lemma": "سَمِيع",
+        "confidence": "medium",
+        "needs_review_reason": "This is an interpretive/taqdir statement by the commentator rather than an explicit syntactic elision; it may require contextual corroboration or alternative readings."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

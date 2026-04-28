@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:117",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ: فِي مَوْضِعِ نَصْبٍ بَدَلًا مِنْ «مَا» ؛ أَيْ: بِئْسَ شَيْئًا سَخِطَ اللَّهُ عَلَيْهِمْ. وَقِيلَ: هُوَ فِي مَوْضِعِ جَرٍّ بِلَامٍ مَحْذُوفَةٍ؛ أَيْ: لِأَنْ سَخِطَ.",
+        "claim_ar": "قِيلَ فِيمَا يَرِدُ مِنْ هَذَا النَّوْعِ: إنّ «مَا» تُعْرَبُ بِوَجْهِينِ مُتَنَازِعَيْنِ؛ فَإِمَّا أنْ تُعْدَّ بَدَلًا مَنْصُوبًا، وَإِمَّا أَنْ تَكُونَ مَجْرُورَةً بِاللامِ المَحْذُوفَةِ.",
+        "claim_en": "It is reported that in constructions like this some grammarians analyze the particle 'ما' in two conflicting ways: either as a accusative appositive (badal mansub) or as being in genitive governed by an omitted lām (i.e., 'li-' elided).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage states alternative analyses for 'ما' in similar contexts but does not explicitly discuss S11:117; applying these alternatives to this ayah is extrapolative and requires review."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا يَفْعَلُ اللَّهُ) : فِي «مَا» وَجْهَانِ: أَصَحُّهُمَا أَنَّهُمَا اسْتِفْهَامٌ فِي مَوْضِعِ نَصْبٍ بِيَفْعَلُ،",
+        "claim_ar": "المَالِكُ (أَوَلمُؤَلِّف): الصَّحِيحُ فِي هَذِهِ الْأَمْثِلَةِ أَنَّ «مَا» اسْتِفْهَامِيَّةٌ وَتَأْتِي فِي مَوْضِعِ نَصْبٍ، أَيْ كَـمَفْعُولٍ (مَوْضُوعٍ لِـيَفْعَلُ).",
+        "claim_en": "The author (or cited view) judges that the sounder opinion for such instances is that 'ما' is interrogative and occurs in an accusative position (i.e., functions as an object faction in constructions like 'ما يفعل الله').",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted discussion treats 'ما' in expressions like 'ما يفعل الله' and not specifically the formula 'ما كان ربك ...'; transferring the stated judgment to S11:117 should be reviewed for contextual fit."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain a focused iʿrāb discussion of Sūrah 11, āyah 117 itself. The claims above are drawn from general remarks in al-Tibyān about the particle «ما» in other constructions and represent extrapolations to the first word of the ayah; these extrapolations should be reviewed against direct commentary on S11:117.",
+      "Some fields (root) are null because the source chunks discuss the particle «ما» generally; verify root/lemma alignment if required by downstream processing."
+    ]
+  },
+  "n_chunks": 12
+}

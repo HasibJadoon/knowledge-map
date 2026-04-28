@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "41:40",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit إعراب/taqdir/taalluq claims for S41:A40 were found in the provided source chunks.",
+      "Provided chunks are general discussions ( ضبط الحركات ، الإطناب ، الحصر ، تقدير عام ) and do not contain exact quoted analyses or statements about the words or syntax of this specific ayah. Per instructions, source_quote_ar must be an exact substring of a provided chunk; therefore no verse-specific claims could be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,55 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:74",
+  "result": {
+    "claims": [
+      {
+        "word_index": 19,
+        "claim_type": "kinayah",
+        "source_quote_ar": "الطبع جار مجرى الكناية عن عنادهم ولجاجهم",
+        "claim_ar": "كناية في عبارة «نَطْبَعُ عَلَى قُلُوبِ الْمُعْتَدِينَ»؛ فـ\"الطبع\" كناية عن العناد واللجاج.",
+        "claim_en": "A kenāyah (metonymic/figurative expression) in the phrase \"نَطْبَعُ عَلَى قُلُوبِ الْمُعْتَدِينَ\" — 'the imprint' (طبع) stands as a kināyah for stubbornness and obstinacy.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "طبع",
+        "lemma": "طَبَعَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S10:A74",
+        "rhetorical_effect": "Portrays moral stubbornness as an ingrained 'imprint' on the hearts, making the opposition seem inherent and immutable."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "فما وقع فصل بين حالتيهم بعد بعثة الرسل وقبلها، كأن لم يبعث إليهم أحد",
+        "claim_ar": "تعليق التفسير يشير إلى غياب (أو عدم وقوع) فصل بين حالتيهم قبل بعثة الرسل وبعدها، أي استمرار حالهم كما لو لم تُبعَث إليهم رسل — تأثير بلاغي يؤكد ثبات عنادهم.",
+        "claim_en": "The commentary notes that 'no separation occurred between their states before and after the sending of messengers,' i.e. their condition continued as if no messengers had been sent — a rhetorical continuity (fasl/wasl) that emphasizes the persistence of their obstinacy.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "فصل",
+        "lemma": "فَصْل",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the commentator's use of the word فصل (separation) to the rhetorical device label 'fasl_wasl' is interpretive; the source states the observation but does not explicitly name the rhetorical figure.",
+        "quran_ref": "S10:A74",
+        "rhetorical_effect": "Creates a sense of uninterrupted moral condition in the people — their rejection is framed as continuous and ineradicable."
+      },
+      {
+        "word_index": 18,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "كَذَلِكَ نَطْبَعُ مثل ذلك الطبع المحكم نطبع عَلى قُلُوبِ الْمُعْتَدِينَ",
+        "claim_ar": "استخدام «كَذَلِكَ» كأداة تقرير/تلخيص تربط المثال السابق بالحكم العام «نَطْبَعُ...»؛ أسلوب حكيم يلخّص النتيجة ويعممها.",
+        "claim_en": "Use of the particle 'كَذَلِكَ' to sum up and link the preceding scenario to the general pronouncement 'نَطْبَعُ...' — a concise, wise-stylistic summarizing device (aslūb ḥākim) that generalizes the lesson.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim_summation",
+        "root": "ذَلِكَ",
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "Identifying the particle as 'asloob_hakim' (wise/style device) is interpretive; the source gives the phrase and exposition but does not explicitly label the particle as a named rhetorical figure.",
+        "quran_ref": "S10:A74",
+        "rhetorical_effect": "Condenses the example into a general doctrinal statement, enhancing memorability and imparting a moral lesson about persistent disbelief."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

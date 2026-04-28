@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "28:32",
+  "result": {
+    "claims": [
+      {
+        "word_index": 24,
+        "claim_type": "taqdir",
+        "source_quote_ar": "و (مَثَلًا) : مُفَسِّرُ «الْقَوْمُ» ؛ أَيْ: مِثْلَ الْقَوْمِ، لَا بُدَّ مِنْ هَذَا التَّقْدِيرِ؛",
+        "claim_ar": "حذف تقدير «مِثْلُ» فَأَقَامَ الْمُؤَلِّفُ «القَوْمَ» مَقَامَهُ (أي: التقديرُ مِثْلُ الْقَوْمِ).",
+        "claim_en": "An elided 'مِثْلُ' (\"like/for example\") is to be supplied; the noun \"القَوْمَ\" stands in its place — i.e. the implied reading is \"مثل القوم\" (the example of the people).",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted discussion in the source treats the omission of 'مَثَلًا' in a context involving «القَوْمُ» in another verse; applying this exact ellipsis to this ayah (where the word appears as \"قَوْمًا\") requires confirmation from a direct commentary on S28:32."
+      }
+    ],
+    "warnings": [
+      "Source chunks supplied contain limited or indirect discussion relevant to S28:32. Only one taqdir-type claim could be directly tied to an exact substring in the provided material (the discussion of omission of «مَثَلًا» with «القَوْمُ»).",
+      "No explicit iʿrāb (ما هي وظيفة كلامية مثل خبر/فاعل/مفعول به) or attachment (تعلّقِ جار ومجرور) statements for specific words of S28:32 were found verbatim in the supplied chunks; further excerpts from al-Tibyan specifically on S28:32 are needed to extract more claims with high confidence."
+    ]
+  },
+  "n_chunks": 12
+}

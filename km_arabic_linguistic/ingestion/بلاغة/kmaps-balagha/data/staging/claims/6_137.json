@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:137",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "وَلَوْ شَاءَ اللَّهُ",
+        "claim_ar": "عبارة «وَلَوْ شَاءَ اللَّهُ» تعمل كتنبيه إلى قدرة الله ومقابلة إرادة البشر، صيغة ترفُض نسب الفعل الكامل إلى قصدٍ بشري وتبيّن أن وقوع الأمر متوقف على مشيئة الرب.",
+        "claim_en": "The phrase 'And if Allah had willed' functions as a rhetorical alert to God's power and as a counterpoint to human will; it denies that the human action is ultimately decisive and indicates that the occurrence depends on Divine will (a concessive/counterfactual device).",
+        "device_branch": "maani",
+        "device_subtype": "concessive counterfactual (ولو شاءَ اللَّهُ)",
+        "root": "شيا",
+        "lemma": "شَآءَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided tafsir chunk contains the substring 'وَلَوْ شَاءَ اللَّهُ' and commentary, but the classification as 'ijab_inshaa' / 'concessive counterfactual' should be reviewed against other classical terminologies (some scholars treat such turns as iltifāt or qarīnah). Extraction is limited because most of the ayah text is not present verbatim in the supplied chunks."
+      }
+    ],
+    "warnings": [
+      "Most of the ayah text (e.g., زَيَّنَ ... قَتْلَ أَوْلَادِهِمْ، لِيُرْدُوهُمْ وَلِيَلْبِسُوا عَلَيْهِمْ دِينَهُمْ، فَذَرْهُمْ وَمَا يَفْتَرُونَ) does not appear verbatim in the provided source chunks. Only the fragment 'وَلَوْ شَاءَ اللَّهُ' was found and used as the basis for claims.",
+      "Because of limited overlap between the supplied tafsir chunks and the full ayah, many plausible rhetorical devices (e.g., metaphor in زَيَّنَ قَتْلَ أَوْلَادِهِمْ, repetition of لِـ/لِيـ, antithesis between human intent and divine will) could not be supported with exact source_quote_ar substrings and so were not extracted. Recommend providing tafsir/balagha chunks that explicitly quote or discuss the full ayah for fuller extraction.",
+      "The device classification (ijab_inshaa vs. iltifāt vs. other ma'ani terms) is moderately confident but should be reviewed by a specialist in classical Arabic rhetoric to align terminology with specific authorial usages in the requested sources (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, etc.)."
+    ]
+  },
+  "n_chunks": 12
+}

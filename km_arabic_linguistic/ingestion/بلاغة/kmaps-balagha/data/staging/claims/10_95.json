@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:95",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إفادة الحصر",
+        "claim_ar": "النهي «وَلَا تَكُونَنَّ مِنَ الَّذِينَ كَذَّبُوا بِآيَاتِ اللَّهِ» يفيد تقييد النهي بحصر المنع بمن فعل محدّد (من كذّب بآيات الله)، أي أن التحذير ليس عاماً بل مقصور على هذه الصفة.",
+        "claim_en": "The prohibition 'and do not be of those who denied the signs of Allah' conveys restriction: the warning is limited to those who possess the specified attribute (those who denied God's signs), not a wholly general prohibition.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "كذب",
+        "lemma": "كَذَّبَ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source chunk contains a general statement ('إفادة الحصر') about expressing restriction but does not comment on this specific verse; claim therefore plausible but should be confirmed with targeted commentary on this ayah.",
+        "quran_ref": "S10:A95",
+        "rhetorical_effect": "narrows the moral/ethical target of the admonition, focusing the listener's avoidance on a clearly identified blameworthy group"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "takrar",
+        "source_quote_ar": "وذكر الظاهر بصيغة زائدة مناسبة للمصدر",
+        "claim_ar": "تكرار حرف الجر «مِنَ» (مِنَ الَّذِينَ ... فَتَكُونَ مِنَ الْخَاسِرِينَ) يعمل تكراراً بلاغياً يؤكد الربط والتقابل بين الانتماء إلى فئة المنكرين والوقوع في الخسران.",
+        "claim_en": "The repetition of the preposition 'min' (mim) (min alladhina ... fa-takuna min al-khasireen) constitutes a rhetorical repetition that emphasizes the link/parallelism between belonging to the deniers and becoming among the losers.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "من",
+        "lemma": "مِن",
+        "confidence": "low",
+        "needs_review_reason": "The source fragment notes redundancy/explicit mention ('وذكر الظاهر بصيغة زائدة') in general rhetorical practice, but it is a generic remark and not a targeted analysis of the exact recurrence of «مِنَ» here; functional particles have limited 'root' status and the rhetorical import needs corroboration from focused tafsir/بلاغة on this verse.",
+        "quran_ref": "S10:A95",
+        "rhetorical_effect": "intensifies the psychological connection between the reproved action and its consequence, making the causal link more vivid"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "وفي هذا النوع البليغ نكتتان",
+        "claim_ar": "الفعل المنهي «تَكُونَنَّ» مستخدم مع نون التوكيد (نَّ) للدلالة على قوة التحذير والتشديد — أسلوب إنشائي يؤكد الأمر النهي ويزيد وقع النص على المخاطب.",
+        "claim_en": "The prohibitive verb 'takunanna' with the emphatic nun (نّ) functions as a performative construction that intensifies the prohibition — an injunctive/illocutionary device that heightens the admonitory force.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting quote ('وفي هذا النوع البليغ نكتتان') is a general observation about rhetorical niceties; a direct classical commentary on the emphatic nun in this specific verb in this verse would better substantiate the claim.",
+        "quran_ref": "S10:A95",
+        "rhetorical_effect": "increases urgency and moral pressure on the addressee to avoid the condemned behaviour"
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are general exegetical/rhetorical remarks (Zamakhshari, Darwish, Safi snippets) rather than the specific classical authors requested (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Claims therefore draw on general rhetorical observations in the supplied chunks and should be cross-checked against the requested authors' texts.",
+      "Several claims rely on general rhetorical principles (e.g. 'إفادة الحصر', 'وذكر الظاهر بصيغة زائدة') rather than verse-specific commentary; provenance is generic and these inferences should be reviewed by a specialist in classical balagha/tafsir for confirmation.",
+      "Functional words (prepositions, particles) assigned roots/lemmas for the JSON schema may not correspond to lexical roots used in traditional morphological analysis; verify these fields if strict morphological provenance is required."
+    ]
+  },
+  "n_chunks": 12
+}

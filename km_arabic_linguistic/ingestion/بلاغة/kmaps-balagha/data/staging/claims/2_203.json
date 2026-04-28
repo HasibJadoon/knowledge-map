@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:203",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب،",
+        "claim_ar": "الربط بين الترغيب والترهيب: البشارة مشفوعة بالإنذار في سياق الآية كوسيلة تحفيز للتقوى والتثبيط عن المعصية.",
+        "claim_en": "The Quranic rhetorical habit of pairing encouragement (targhib) with warning (tarhib); here the glad tidings are coupled with a warning to motivate piety and deter sin.",
+        "device_branch": "maani",
+        "device_subtype": "ترغيب_وترهيب",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A203",
+        "rhetorical_effect": "تحفيز السلوك المنتج للتقوى والتثبيط عن اقتراف المعاصي عبر المزج بين البشارة والإنذار."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "badi",
+        "source_quote_ar": "وكرر الأمر للتوكيد.",
+        "claim_ar": "تكرار جملة «فَلَا إِثْمَ عَلَيْهِ» مرتين (لمن تعجل ومن تأخر) لتحقيق التوكيد وطمأنة السامع بعدم وقوع إثم.",
+        "claim_en": "Repetition of the clause 'falaa ithman 'alayhi' twice (for the one who hastens and the one who delays) to emphasize and reassure that no sin is incurred.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "اثم",
+        "lemma": "إِثْم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A203",
+        "rhetorical_effect": "تكثيف الطمأنة والتأكيد على إزالة الذنب عن الفعْلين المتقابلين."
+      }
+    ],
+    "warnings": [
+      "المقاطع النصّية المقدّمة مأخوذة من تفسير الزمخشري ومصادر أخرى (الموجودة في الحقول) وليس من المؤلّفين المطلوبة تلقائياً (الجَرْجَانِيّ، السكاكي، البقِّيليّاني، السيوطي، وتفاسير البلاغة). استُخدمت المقتطفات المتاحة فقط لاستخلاص الدلالات البلاغية.",
+      "الخلاصات البلاغية المعنوية (مثل تصنيفها كـ «ترغيب_وترهيب») مبنية على العبارات العامة في الشروح المقتبسة؛ قد تحتاج لمراجعة مقيّدة إذا لزم تطابق تسميات الأجهزة البلاغية مع مصطلحات محدّدة لدى المصادر البلاغية المطلوبة."
+    ]
+  },
+  "n_chunks": 12
+}

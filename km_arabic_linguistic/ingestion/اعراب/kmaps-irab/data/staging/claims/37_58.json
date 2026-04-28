@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:58",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "((مَا) ) مَصْدَرِيَّةٌ",
+        "claim_ar": "حُكمُ كلمةِ مَا هنا أنها مَصْدَرِيَّة",
+        "claim_en": "The word مَا here is analyzed as a verbal noun (masdar/مصدرية).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَالزَّمَانُ مَحْذُوفٌ",
+        "claim_ar": "الزَّمَانُ مَحْذوفٌ بعد المَصْدَرِ؛ أي أن معنى مَا مَعرُوفٌ بوقتٍ محذوفٍ (الزمنُ محذوف)",
+        "claim_en": "An elided element (الزَّمَانُ, 'the time') is understood after the masdar; i.e., the time is omitted/understood in the construction.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ ((مَا) ) هُنَا نَكِرَةٌ مَوْصُوفَةٌ",
+        "claim_ar": "قِيلَ أيضًا إن مَا هنا تُقَرَأُ كَنَكِرَةٍ مَوْصُوفَةٍ (أي: اسم نكرة موصوف بمعنى الوقت) — تفسيرٌ بديل عَنِ القَوْلِ بِمَصْدَرِيَّتِهَا",
+        "claim_en": "An alternative opinion: مَا here is read as an indefinite described noun (نكرة موصوفة) meaning 'time', i.e., a differing grammatical classification from the masdar analysis.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source presents this as an alternative reading ('وَقِيلَ'); applicability to the specific prefixed form أَفَمَا in this ayah should be confirmed."
+      }
+    ],
+    "warnings": [
+      "The provided source discusses the particle مَا in the context of constructions like كُلَّمَا and offers general analyses (مصدرية vs نكرة موصوفة). It does not explicitly discuss the full prefixed form أَفَمَا نَحْنُ بِمَيِّتِينَ, so applying these notes to this specific verse (S37:58) requires caution.",
+      "No explicit comments in the provided chunks address the pronoun نَحْنُ or the preposition بِـ with مَيِّتِينَ; only remarks about مَا were found."
+    ]
+  },
+  "n_chunks": 5
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "5:107",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "taqdir",
+        "source_quote_ar": "قَوْلُهُ: «مِنَ الَّذِينَ أُوتُوا» وَهِيَ حَالٌ مُقَدَّرَةٌ",
+        "claim_ar": "مِنَ الَّذِينَ ... حَالٌ مُقَدَّرَةٌ (تقدير حال).",
+        "claim_en": "'مِنَ الَّذِينَ ...' is analyzed as a تقدير حال (an inferred/elliptical circumstantial accusative).",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source phrase is 'مِنَ الَّذِينَ أُوتُوا' while the ayah contains 'مِنَ الَّذِينَ اسْتَحَقَّا/اسْتَحَقَّ عَلَيْهِمُ ...'; mapping of the cited example to this specific construction should be checked."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "irab",
+        "source_quote_ar": "وَهُوَ مَفْعُولٌ بِهِ، وَلَيْسَ بِظَرْفٍ",
+        "claim_ar": "المقصود 'مِنَ الَّذِينَ ...' يَعْتَبَرُ مَفْعُولاً بِهِ لا ظرفًا.",
+        "claim_en": "The phrase is treated as a مَفْعُولٌ بِهِ (direct object) and not as a ظرف (adverbial).",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "low",
+        "needs_review_reason": "The cited statement in the source addresses a particular example; applying 'مفعولٌ به' analysis to the ayah's specific phrase requires verification because the source also presents alternative readings/analyses in context."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "irab",
+        "source_quote_ar": "(وَلِيًّا) وَ (نَصِيرًا) : مَنْصُوبَانِ عَلَى التَّمْيِيزِ. وَقِيلَ: عَلَى الْحَالِ.",
+        "claim_ar": "الأَوْلَيَانِ (من الجذر ولى) يُنْظَرُ إِلَيْهِمَا كَـمَنْصُوبَيْنِ عَلَى التَّمْيِيزِ، وقِيلَ: على الحال.",
+        "claim_en": "The words (exemplified by 'وليًا' and 'نصيرًا') are analyzed as منصوبان على التَّمْيِيز (accusative as tamyīz); an alternative view is that they are على الحال (circumstantial accusative).",
+        "root": "ولي",
+        "lemma": "أَوْلَيَٰن",
+        "confidence": "medium",
+        "needs_review_reason": "The source cites 'وليًا' whereas the ayah contains 'الْأَوْلَيَانِ'; correspondence of case/role should be checked in context (and whether the source's example is intended to parallel this exact word)."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain relevant grammatical statements but often use example phrases ('مِنَ الَّذِينَ أُوتُوا', 'وَلِيًّا') that are not textually identical to the ayah's wording ('مِنَ الَّذِينَ اسْتَحَقَّ...', 'الْأَوْلَيَانِ'). Mapping these analyses onto the ayah has been done heuristically; please verify each mapping in full context of al-Tibyān.",
+      "Some source statements present alternative analyses (e.g. 'مفعولٌ به' vs 'حال', 'منصوب على التمييز' vs 'على الحال'). These have been recorded (including a wajh/alternative), but they require review to choose the preferred reading for the ayah."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:114",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "أمر رسول اللَّه صلى اللَّه عليه وسلم بأن يخبر عن نفسه وعمن معه بالإيمان، فلذلك وحد الضمير في قُلْ وجمع في آمَنَّا",
+        "claim_ar": "الآية تُسجَّل ضمن نمط بلاغي يقوم على تحويل الضمائر/أشكال الفعل بين المفرد والمتكلّم/الجمع (الرسول/المؤمنين) إظهارًا للتفريق في مقام المخاطَب ومقام المُعلِن - أي إلتفات/تغيير في الابتداء في خطاب المتكلم والمخاطَب.",
+        "claim_en": "The commentary points out a stylistic shift (iltifat) realized by alternating pronoun/verb forms (singular for the Messenger, plural for the believers), marking a change of person/register between speaker and addressees.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "ويجوز أن يؤمر بأن يتكلم عن نفسه كما يتكلم الملوك إجلالا",
+        "claim_ar": "التعليق يبيّن أسلوبًا خاصًا (أسلوب الملوك) حيث يُؤمر المتكلّم أحيانًا أن يُخاطب عن نفسه بصيغة تفخيم وإجلال، أي توظيف صيغة المفرد/الاستعلاء لرفع قدر المخاطَب.",
+        "claim_en": "The commentary notes a royal/majestic usage (asloob of dignified speech) where the speaker may be commanded to speak of himself in a singular/majestic form — using elevated verb forms to show reverence.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The comment is general about style (kings' way of speaking) and is being applied to readings of this verse; confirm applicability to this specific ayah in verse-level rhetoric studies."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "لوجود المعنيين جميعا، لأن الوحى ينزل من فوق وينتهى إلى الرسل، فجاء تارة بأحد المعنيين، وأخرى بالآخر.",
+        "claim_ar": "الشرح يوضح سبب تبدّل أساليب البيان (حرف الاستعلاء مقابل حرف الانتهاء) بأن المعاني المتعددة موجودة معًا، فيأتي اللفظ أحيانًا لينسب المقام الأعلى (استعلاء) وأحيانًا لينسب المقام المنخفض/المخاطَب (انتهاء) — أي تأرجح بين فصل ووصل المعاني في التركيب البلاغي.",
+        "claim_en": "The commentary explains that alternating rhetorical particles/forms (exaltation vs. addressing) occurs because multiple intended senses coexist; the wording sometimes expresses the elevated perspective and sometimes the addressed perspective — a toggling of separation/connection of meanings (fasl/wasl).",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "This is an interpretive reading of Zamakhshari's general remark on alternation between modes of address; verifying the mapping to the specific grammatical forms in this ayah would be prudent."
+      }
+    ],
+    "warnings": [
+      "Only the provided source chunks were used (primarily AL:CHUNK:30daabb58b7cca0665e9bc51). Other chunks in the input do not explicitly discuss rhetorical devices for this ayah, so extractions are limited to what those chunks state.",
+      "Some claims (marked medium confidence) generalize a commentator's broader remarks to this specific ayah; specialist review is recommended to confirm applicability at the verse level.",
+      "No explicit mentions of devices such as tashbih, kinayah, jinas, tibaq, muqabalah, saj, takrar, etc., were found in the provided chunks for this ayah, so they were not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "20:113",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit إعراب/analytical claims for S20:A113 found in the provided source_chunks. The chunks do not contain grammatical claims or quotations that analyze the words of this ayah, so nothing extractable under the required schema."
+    ]
+  },
+  "n_chunks": 12
+}

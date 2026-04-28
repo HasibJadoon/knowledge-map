@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "50:28",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "هُوَ مُسْتَأْنَفٌ",
+        "claim_ar": "قَالَ هنا مُسْتَأْنَفٌ",
+        "claim_en": "The verb \"قَالَ\" here is resumptive (مستأنف), i.e. it functions as a resumptive/expletive introducing a reply or resumed speech.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks only comment generally that phrases beginning with قَالَ can be مستأنف; no other words of this specific ayah are discussed in the given chunks. No explicit comments in the supplied chunks about the grammar (إعراب) of لَا تَخْتَصِمُوا، لَدَيَّ، وَقَدْ قَدَّمْتُ، or بِالْوَعِيدِ were found."
+    ]
+  },
+  "n_chunks": 12
+}

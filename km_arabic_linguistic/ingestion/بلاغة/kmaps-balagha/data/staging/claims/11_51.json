@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:51",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "لا يطلب عليها أجراً إلا من الله",
+        "claim_ar": "حصر مصدر الأجر بالله: «لَا أَسْأَلُكُمْ عَلَيْهِ أَجْرًا، إِنْ أَجْرِيَ إِلَّا عَلَى الَّذِي فَطَرَنِي» – تأكيد أن الأجر من عند الله وحده.",
+        "claim_en": "Restriction of recompense to God: the negation + exception (إِلَّا) limits any due reward to God alone, emphasizing that the Prophet asks no pay from the people.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "اجر",
+        "lemma": "أَجْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "أَفَلا تَعْقِلُونَ",
+        "claim_ar": "الاستفهام الإنشائي لاستثارة العقل والتأمل: «أَفَلَا تَعْقِلُونَ» – دعوة استفهامية بلاغية تترجّم الأمر بالتفكير.",
+        "claim_en": "Rhetorical (inshā’) question used to provoke reason: 'Afa-lā taʿqilūn' functions as a rhetorical admonition urging them to reflect and acknowledge the truth.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "عقل",
+        "lemma": "عَقِلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "أجراً إلا من الله",
+        "claim_ar": "استعمال «إِلَّا» للفصل والتوكيد: الفصل بين نفي طلب الأجر وإسناد الأجر إلى الله وحده (تأكيد الحصر).",
+        "claim_en": "Use of 'illa' (except) as a connective to separate and emphasize—the exception clause highlights and confines the source of recompense to God, strengthening the negation.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted tafsir substring uses «إلا من الله», while the ayah reads «إِلَّا عَلَى الَّذِي فَطَرَنِي» — same rhetorical function but wording differs in the provided source; verify exact textual parallel before finalizing."
+      }
+    ],
+    "warnings": [
+      "Source quotations are taken from the provided tafsir chunks (Zamakhshari / Tabari). Some quotations are paraphrastic in tafsir (e.g. «إلا من الله») while the ayah uses «إِلَّا عَلَى الَّذِي فَطَرَنِي» — device assignments assume equivalent rhetorical function.",
+      "Some device labels (e.g. fasl_wasl vs. hasr_qasr) are interpretive choices: reviewers may prefer alternate categorizations (e.g. 'توكيد بالنفي' or 'تركيب جمالي') depending on the tradition.",
+      "A few claims use null root values where the device is tied to particles (e.g. «إِلَّا»); confirm if a non-null root is required in your downstream schema."
+    ]
+  },
+  "n_chunks": 12
+}

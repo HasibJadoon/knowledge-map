@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:39",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "تقيد/حصْر (qualificative restriction)",
+        "source_quote_ar": "بِما أَنْفَقُوا",
+        "claim_ar": "أداة القصر «مِمَّا» تقيد الإنفاق بمصدر محدّد: «مِمَّا رَزَقَهُمُ اللَّهُ» — أي الإنفاق يكون من ما رزقهم الله لا من موارد أخرى.",
+        "claim_en": "The restrictive particle/relative 'مِمَّا' confines the spending to a specific source: 'from what Allah has provided them' — i.e., spending is restricted to provisions given by God, not other means.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The reading in the provided source chunk is 'بِما أَنْفَقُوا' (similar but not identical); classification of the particle here as 'hasr_qasr' (restrictive qualification) is plausible but should be checked against classical terminology in the cited tafsir/بلاغة authors."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "تكرار تأكيدي (repetition for emphasis)",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "تكرار لفظ الجلالة «اللَّه» في المعنى لضبط المبتدأ/الفاعل والتوكيد: «رَزَقَهُمُ اللَّهُ ... وَكَانَ اللَّهُ بِهِمْ عَلِيمًا».",
+        "claim_en": "Repetition of the Divine Name 'Allah' functions as emphatic repetition to fix the agent and to emphasize God's knowledge: 'Allah provided them ... and Allah was, concerning them, Knowing.'",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "شرطية خبرية/تخييلية — لوّ التعجب/الامتعاض (counterfactual rhetorical 'لو')",
+        "source_quote_ar": "لَوْ تَكْفُرُونَ",
+        "claim_ar": "استعمال «لَوْ» في صيغة تخيلية/استنكارية للتوبيخ والتقريع: «وَمَاذَا عَلَيْهِمْ لَوْ آمَنُوا ...» يُعرض كاستنكار لما تفي به نفوسهم.",
+        "claim_en": "The conditional particle 'لَوْ' is used in a counterfactual/rhetorical way to express reproach or incredulity: 'What [harm] would it be to them if they had believed ...' — framed as a reproachful hypothetical.",
+        "device_branch": "maani",
+        "device_subtype": "conditional_counterfactual",
+        "root": null,
+        "lemma": "لَو",
+        "confidence": "medium",
+        "needs_review_reason": "Classification as a rhetorical reproach (vs. simple counterfactual) should be verified against classical rhetorical labels (e.g., whether jurjani/sakkaki call this usage a specific device). The source chunk quoted is from a different verse with similar use of لَوْ; confirm applicability to this ayah."
+      }
+    ],
+    "warnings": [
+      "Source chunks supplied are from various tafsir/grammatical works (Zamakhshari, Darwish/I'rab extracts) and include text from other verses and contexts. Some source_quote_ar substrings are taken from those chunks that echo similar lexical patterns, not necessarily the exact ayah phrasing.",
+      "Several device classifications (especially for particles like مِمَّا or لَوْ) are interpretive and depend on how each classical rhetorician (al-Jurjani, al-Sakkaki, etc.) names these phenomena; such classifications here are tentative and flagged in needs_review_reason.",
+      "Root/lemma values for particles/pronouns are sometimes null by nature; where classical sources treat such particles under different labels, a focused check against the specified authors' terminology is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

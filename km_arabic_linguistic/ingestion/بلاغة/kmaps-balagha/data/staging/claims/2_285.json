@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:285",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ",
+        "claim_ar": "العبارة «الذين يؤمنون/المؤمنون» فيها احتمال وصل أو اقتطاع؛ أي قراءة على نحو موصول بالمتقين أو مقتطعة كوقوف مُكمل، وهو تأثير بلاغي في ضبط الوقف ودرجة التوكيد في الثناء.",
+        "claim_en": "The phrase \"al-ladhina yu'minun / al-mu'minun\" admits either a connected (waṣl) reading or a detached (qut'ah) reading; i.e. it can be read as a relative clause attached to \"the righteous\" or as a detached clause that yields a complete stop. This rhetorical choice affects where the pause falls and the degree of emphasis in the praise.",
+        "device_branch": "maani",
+        "device_subtype": "pause_vs_connection",
+        "root": "امن",
+        "lemma": "مُؤْمِن",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A285",
+        "rhetorical_effect": "If read as موصول it produces a lighter, continuing description; if read مقتطع it produces a full stop and stronger emphasis on the described group (completeness/closure)."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are all from Zamakhshari (al-Kashshaf). Requested commentators (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the input; extraction limited to available chunks.",
+      "Only one explicit rhetorical observation could be grounded directly on the supplied chunks (the discussion of «الَّذِينَ يُؤْمِنُونَ»). Other likely devices in Sura 2:285 (e.g., repetition of آمَنَ, enumeration of divine entities, syntactic balance) were not supported by exact substrings in the provided chunks, so they were not extracted to respect the requirement that source_quote_ar be an exact substring of a provided chunk."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,49 @@
+{
+  "layer": "irab",
+  "ayah_key": "8:15",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وقال السكاكي : الأمران معطوفان على ( قل ) مقدرة قبل يا أيها وحذف القول كثير .",
+        "claim_ar": "قبل «يا أيها» تقدير فعل الأمر (مثل: «قل») محذوف؛ أي أن الأمرين المذكورين معطوفان على (قل) المقدرة.",
+        "claim_en": "There is an implied imperative (e.g. 'qul') before 'يا أيها'—the two imperatives are construed as conjoined to an omitted 'qul'.",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A15"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وأما الحروف فيزاد منها : إن ، وأن ، وإذ ، وإذا ، وإلى ، وأم ، والباء ،",
+        "claim_ar": "حرف «إذ(ا)» مذكور بين الحروف التي يجوز «زيادتها» أو دخولها في الكلام كحروف زيادة.",
+        "claim_en": "The particle 'idha' is listed among particles that may be added (ziyadah) in speech—i.e., it is one of the particles that can occur as an added particle.",
+        "root": null,
+        "lemma": "إِذَا",
+        "confidence": "medium",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A15"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قال ابن جني : كل حرف زيد في كلام العرب فهو قائم مقام إعادة الجملة مرة أخرى .",
+        "claim_ar": "حسب ابن جني: أي حرف زائد يُضاف إلى الكلام يعمل كقائم مقام لإعادة الجملة أو تكريرها/توكيدها.",
+        "claim_en": "Ibn Jinni states that any extra particle added in Arabic functions like a repetition of the sentence (i.e., it serves to restate/reinforce the clause).",
+        "root": null,
+        "lemma": "إِذَا",
+        "confidence": "medium",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A15"
+      }
+    ],
+    "warnings": [
+      "Extracted claims are limited to statements explicitly present in the provided chunks. Several likely syntactic analyses of other words in the verse (e.g., the case of الأَدْبَارَ, syntactic role of تُوَلُّوهُمُ, or إِذَا as conditional subordinator) are not asserted because no explicit discussion of those specific analyses appears in the supplied excerpts.",
+      "Some claims apply a general statement from the sources (about added particles or omitted verbs) to words in this ayah; please verify their direct applicability to the verse in your target commentary, as the source discussion is general rather than an explicit exegesis of S8:15."
+    ]
+  },
+  "n_chunks": 12
+}

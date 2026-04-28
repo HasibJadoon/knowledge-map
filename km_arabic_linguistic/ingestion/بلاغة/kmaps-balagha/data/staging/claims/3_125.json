@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:125",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "بَلى مَنْ أَوْفى بِعَهْدِهِ وَاتَّقى",
+        "claim_ar": "«بلى» حرف جواب وتصديق واستئناف، يستعمل لتأكيد ما بعده وإثباته",
+        "claim_en": "The particle 'bala' functions as an affirmative response/confirmation and a resumption, used to emphatically confirm what follows.",
+        "device_branch": "maani",
+        "device_subtype": "affirmative_response (جواب_وتصديق)",
+        "root": null,
+        "lemma": "بَلَىٰ",
+        "confidence": "high",
+        "needs_review_reason": "Based on the Darwish I'rab commentary excerpt; verify against specialized balagha sources (al-Jurjani, al-Sakkaki, etc.) if required for classical rhetorical labeling.",
+        "rhetorical_effect": "emphatic reassurance and affirmation; resumes the discourse and strengthens the subsequent conditional assurance"
+      }
+    ],
+    "warnings": [
+      "Source material provided contains general grammatical/interpretive excerpts (Darwish/Zamakhshari) but not the requested specific balagha treatises (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Claims are drawn only from the available chunks.",
+      "Only the usage of «بلى» could be directly supported by the provided chunks. Other potential rhetorical devices in this ayah (e.g., conditional deployment of إِنْ, numeric amplification with «بِخَمْسَةِ آلاَفٍ») are not attested in the supplied excerpts and therefore were not extracted.",
+      "If you want more devices (maani/bayan/badi) tied to classical rhetoric authorities, please provide the relevant balagha/tafsir-balagha passages from those authors."
+    ]
+  },
+  "n_chunks": 12
+}

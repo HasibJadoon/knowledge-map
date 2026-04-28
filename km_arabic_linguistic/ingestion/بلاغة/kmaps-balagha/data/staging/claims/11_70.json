@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:70",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "kinayah",
+        "source_quote_ar": "جعلوا كلامه هذياناً وتخليطاً،",
+        "claim_ar": "وصف كلام الرسول بأنه «هذياناً وتخليطاً» كناية عن الاستهزاء والتقليل من شأنه، وهو نفس نمط قول قوم نبيّ يُنكر كلامه ويصفه بالهذيان.",
+        "claim_en": "Describing the prophet's speech as “hazy/delirious” (هذياناً وتخليطاً) is a kinâyah (metonymic/metaphorical expression) expressing contempt and delegitimization of his message.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "هذى",
+        "lemma": "هذيان",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ولا يلتفتون إلى النصح.",
+        "claim_ar": "الردّ المفاجئ «لَا تَخَفْ» يمثل التوجّه إلى مخاطبة طمأنة مباشرة (التفات في النبرة والأسلوب) بعد وصف الموقف، أي انتقالٌ من السرد إلى مخاطبة طمأنة.",
+        "claim_en": "The sudden reply “Do not fear” functions as an iltifât (a rhetorical shift) — a change of tone/address from narrative/description to direct reassurance, which increases immediacy and interpersonal engagement.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "لَفَت",
+        "lemma": "لَفْت",
+        "confidence": "medium",
+        "needs_review_reason": "Inferred from Zamakhshari's remark about the addressees 'ولا يلتفتون إلى النصح' (their not attending to counsel) and applied to the sudden change of tone in the verse; the source comments on related behaviour rather than naming this verse's iltifat explicitly."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "وهو قوله إِنِّي لَكُمْ نَذِيرٌ مُبِينٌ",
+        "claim_ar": "استخدام صيغة «إِنِّي/إِنَّا» مع صفة حازمة مثل «نَذِيرٌ مُبِينٌ» مؤشر على الإيجاز والشدّة البلاغية؛ صياغة موجزة مفادها تثبيت الرسالة وبيانها بعبارة قليلة واضحة.",
+        "claim_en": "The use of the emphatic particle (e.g. إِنِّي/إِنَّا) with a succinct predicate like “a clear warner” signals ijaaz (conciseness/epigrammatic brevity) — a compressed, emphatic style that strengthens the claim's authority.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "نذر",
+        "lemma": "نَذِير",
+        "confidence": "medium",
+        "needs_review_reason": "The cited comment in al-Kashshaf discusses the formula إِنِّي لَكُمْ نَذِيرٌ مُبِينٌ and related effects; applying 'ijaaz' to the verse's phrasing is an interpretive step rather than a direct statement in the source about this specific ayah."
+      }
+    ],
+    "warnings": [
+      "Available source chunks are primarily from Zamakhshari (al-Kashshaf) and related grammar/iraab notes; the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha sections) are not present in the provided chunks.",
+      "Some claims are inferential: they draw on general remarks in the provided commentary (about similar phrases or rhetorical behaviour) rather than an explicit, verse-by-verse rhetorical taxonomy in the chunks. Such inferences are marked in needs_review_reason.",
+      "source_quote_ar entries are exact substrings from the provided chunks and are used as evidence for the rhetorical readings; however, the link between the quoted commentary and the specific rhetorical label (e.g., 'ijaaz', 'iltifat') may require further verification against additional balaghah sources."
+    ]
+  },
+  "n_chunks": 12
+}

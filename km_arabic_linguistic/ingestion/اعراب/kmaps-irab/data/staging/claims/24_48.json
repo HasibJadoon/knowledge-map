@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "24:48",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "حَالٌ مِنَ الضَّمِيرِ فِي «بَيْنَهُمْ» ، أَوْ مُسْتَأْنَفٌ.",
+        "claim_ar": "ضمير «هم» في «بَيْنَهُمْ» يحتمل أن يكون حالاً أو أن تكون «بَيْنَهُمْ» مستأنفة (مستقيمة).",
+        "claim_en": "The pronoun in «بَيْنَهُمْ» may function as a hal (circumstantial) or alternatively «بَيْنَهُمْ» may be an independent/resumptive phrase (musta'naf).",
+        "root": "بين",
+        "lemma": "بَيْن",
+        "confidence": "medium",
+        "needs_review_reason": "al-Tibyan's remark is a general note illustrated elsewhere; its direct applicability to S24:48 (where بَيْنَهُمْ follows liyaḥkum) should be confirmed in the specific ayah context."
+      }
+    ],
+    "warnings": [
+      "Only one relevant grammatical observation was found in the provided source chunks (regarding «بَيْنَهُمْ»). The chunks do not contain an explicit iʿrāb for other words of S24:48 (e.g., دُعُوا, لِيَحْكُمَ, مُعْرِضُونَ).",
+      "The cited source substring is a general statement from al-Tibyan and may refer to a different verse/context; verify applicability to the target ayah before accepting as definitive iʿrāb for S24:48."
+    ]
+  },
+  "n_chunks": 12
+}

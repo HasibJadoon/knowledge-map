@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:47",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إنّما",
+        "claim_ar": "حرف الاستثناء «إِلَّا» في «مَا زَادُوكُمْ إِلَّا خَبَالًا» يعبر عن الحصر/القصر، فيقصر النتيجة على ما بعدها (خبالاً).",
+        "claim_en": "The particle 'إلا' in 'مَا زَادُوكُمْ إِلَّا خَبَالًا' functions as exclusion/limitation (hasr/qasr) with 'ما', restricting the outcome to only 'khabaalan'.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A47",
+        "rhetorical_effect": "يبرز قصر أثر خروجهم على الضرر فقط، ويقوي حكم الاستنكاف عن النفع منهم."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "لَأَقْعُدَنَّ",
+        "claim_ar": "لام التوكيد الظاهرة في «لَأَوْضَعُوا» (لام العضد/التوكيد) تقوّي النية والتهديد في الفعل، فتدل على القطع واليقين في وقوع الفعل.",
+        "claim_en": "The prefixed 'lam' of emphasis in 'لَأَوْضَعُوا' (lam al-tawkid) strengthens the speaker's certainty/threat about the action, indicating determination that the action will occur.",
+        "device_branch": "maani",
+        "device_subtype": "lam_ta'kid",
+        "root": "وضع",
+        "lemma": "أَوْضَعُ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A47",
+        "rhetorical_effect": "يزيد ثِقَلَ التهديد واليقين، فيجعل التحذير من فعلهم أكثر حدة وواقعية."
+      }
+    ],
+    "warnings": [
+      "المقاطع النصية التي أُتيحَت هي شذرات من تفاسير/نصوص (مثلاً تفسير الزمخشري وملحوظات إعرابية)؛ لا تتضمن صريحة دائماً شروح بلاغية من الجرجاني أو السكاكي أو الباقلاني أو السuyuti أو أقسام 'تفسير البلاغة'. لذلك استخدمت اقتباسات سطحية من القطع المتوفرة كدليل نصّي، والادعاءات البلاغية مبنية على قراءة نص الآية مع الاستعانة بالتواتر العام للمصطلحات في المقاطع المتاحة.",
+      "إذا رغبت، أستطيع إعادة الفحص مقابل مصادر بلاغية محدّدة (الجرجاني، السكاكي، الباقلاني، السيوطي، أقسام بلاغية من التفاسير) عند تزويدها أو إتاحة مقاطعها نصيًا؛ ذلك سيزيد من دقة الاقتطاع والـ confidence."
+    ]
+  },
+  "n_chunks": 12
+}

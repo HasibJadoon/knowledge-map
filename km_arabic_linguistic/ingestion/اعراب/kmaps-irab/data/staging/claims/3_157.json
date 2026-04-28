@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:157",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "هُوَ ضَمِيرٌ لِلْأَمْرِ، وَ «أَوْ» قَدْ ذُكِرَ حُكْمُهَا فِي: (أَوْ كَصَيِّبٍ مِنَ السَّمَاءِ [الْبَقَرَةِ: ١٩] .",
+        "claim_ar": "حُكْمُ حرف العطف «أَوْ» مذكور ومُناقَش في التبيان (أي أن هناك بيانًا لقواعد استعمال «أَوْ»).",
+        "claim_en": "The grammatical ruling of the conjunction 'أَوْ' is mentioned and discussed in al-Tibyan (i.e., there is an explicit statement about the rules for using 'أَوْ').",
+        "root": null,
+        "lemma": "أَوْ",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the rule for «أَوْ» by citing another verse (أَوْ كَصَيِّبٍ ...) rather than this specific ayah; applying that rule to this ayah requires verification in context.",
+        "quran_ref": "S3:A157"
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks give an explicit إعراب (syntactic role) analysis for the words of S3:A157. Only a general rule about the conjunction «أَوْ» appears.",
+      "Other chunks refer to different verses or reading-variants and do not contain direct taʿrīb claims for the words of this ayah; any application to this ayah should be checked against fuller commentary."
+    ]
+  },
+  "n_chunks": 12
+}

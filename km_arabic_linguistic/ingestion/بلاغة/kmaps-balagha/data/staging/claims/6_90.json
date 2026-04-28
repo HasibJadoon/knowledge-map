@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:90",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "قُلْ",
+        "claim_ar": "فعل الإنشاء (أمر/أمر ببيان)؛ توجيهٌ للنبيِّ أن يصدِر القول بأداة إنشائية، يخلق خطابًا مباشرًا وسلسلة حجاجية.",
+        "claim_en": "The performative/imperative particle 'QuL' (command/act of enunciation): it directs the Prophet to utter the statement, creating a performative speech-act that frames a direct, persuasive address.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa (imperative/performative)",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the token 'قُلْ' (different verse commentary). No direct balagha discussion of this exact instance in the supplied chunks; claim infers common rhetorical role of 'قُلْ'."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إِلا",
+        "claim_ar": "أداة الحصر/الاستثناء: (إِنْ هُوَ إِلَّا ذِكْرَى) تقيد المقام وتحدد وظيفة الخبر بأنها مجرد ذكرى، فتشدِّد على عدم المطالبات المادية أو الأجور المترتبة.",
+        "claim_en": "The exclusion/limitation particle 'illa' (hasr/qasr): in 'innahu illa dhikra' it limits the role to 'only a reminder', thereby emphasizing it is not a worldly-service-for-pay — reinforcing moral/spiritual purpose.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr (exclusion/limitation particle)",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "The supplied chunk contains the particle 'إِلا' in another verse's commentary; the full phrase 'إِنْ هُوَ إِلَّا ذِكْرَى' does not appear in the provided chunks, so the claim is based on standard rhetorical function of 'إِلَّا' rather than a specific commentary excerpt here."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not include a direct tafsir-balagha discussion of S6:A90; extracted claims rely on exact tokens found in the chunks but the chunks address different verses. Claims should be reviewed against specialized balagha sources (al-Jurjani, al-Sakkaki, al-Suyuti, etc.) for this specific ayah.",
+      "Several rhetorical devices plausibly present in 6:90 (e.g., iltifāt, ijaaz/concision, emphasis in demonstrative أُولَئِكَ, or the imperative اقْتَدِهْ) could not be substantiated with exact substrings from the supplied chunks, so they were not asserted."
+    ]
+  },
+  "n_chunks": 12
+}

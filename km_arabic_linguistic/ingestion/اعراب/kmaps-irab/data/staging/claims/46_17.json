@@ -1,0 +1,43 @@
+{
+  "layer": "irab",
+  "ayah_key": "46:17",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قد : حرف مختص بالفعل المتصرف الخبري المثبت  ، المجرد من ناصب وجازم وحرف تنفيس ، ماضيا كان أو مضارعا . ولها معان :",
+        "claim_ar": "حرف (قد) مخصص للفعل المتصرف، ويُدخل على الماضي أو المضارع لتعديل معناه (تحقيق أو تقريب).",
+        "claim_en": "The particle قَد is a particle associated with a conjugated (mutasarrif) verbal sentence; it is introduced with past or present verbs to modify their meaning (either 'verification' or 'approximation').",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "ومنها : وجوب دخولها على الماضي الواقع حالا : إما ظاهرة ، نحو : وما لنا ألا نقاتل في سبيل الله وقد أخرجنا من ديارنا [ البقرة : 246 ]",
+        "claim_ar": "تركيب (وقد خَلَتِ) يجعل وقوع الخَلْوِ محققاً أو مقرباً من الحدوث (أي: يجعل قول \"خَلَتِ القُرُونُ\" أمراً واقعاً يُؤخذ به حقاً).",
+        "claim_en": "The construction (وَقَدْ خَلَتِ) renders the occurrence (خَلَتِ) as actual or proximate—i.e., it treats the statement 'the generations have passed' as a verifiable/real occurrence.",
+        "root": "خلو",
+        "lemma": "خَلَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وخالف في ذلك الكوفيون والأخفش ، وقالوا : لا تحتاج لذلك ، لكثرة وقوعه حالا بدون ( قد ) .",
+        "claim_ar": "اختلاف بين النحاة: البصريون يقولون بوجوب دخول (قد) على الماضي الواقع حالاً، بينما الكوفيين (ومذهب الأخفش) ينفون وجوب ذلك.",
+        "claim_en": "Grammatical disagreement: the Basran grammarians hold that قَد must be introduced on a past verb to indicate actuality, whereas the Kufan grammarians (and al-Akhfash's view) deny that requirement.",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

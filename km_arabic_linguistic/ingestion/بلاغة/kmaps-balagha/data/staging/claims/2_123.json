@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:123",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "وكرر الأمر للتوكيد.",
+        "claim_ar": "تكرار أحرف النفي والواوات (لَا ... وَلَا ... وَلَا ...) كتقنية بديعية للتوكيد والشدّة",
+        "claim_en": "Repetition of negation and coordinating wa- (lā ... wa lā ... wa lā ...) as a badi' device (takrar) to emphasize and intensify the prohibition.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The cited source chunk contains a general statement about repetition ('وكرر الأمر للتوكيد.') but does not quote the ayah itself; verify this application to S2:A123 with the original commentators (al-Jurjani, al-Sakkaki, etc.).",
+        "quran_ref": "S2:A123",
+        "rhetorical_effect": "heightens the force of the warning, producing stronger emotional impact (fear/seriousness) about the Day of Reckoning"
+      },
+      {
+        "word_index": 8,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وشَيْئاً مفعول به ويجوز أن يكون في موضع مصدر، أى قليلا من الجزاء",
+        "claim_ar": "استعمال شَيْئًا بعد النفي لتأكيد العدم وإظهار أن الجزاء ولو القليل لا يَجْزِي — تكريس الحصر والحرمان",
+        "claim_en": "Use of shay'an ('anything/a thing') after negation to stress total absence — even the smallest recompense will not avail; a ma'ni device of restriction (hasr/qasr).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "شيا",
+        "lemma": "شَىْء",
+        "confidence": "high",
+        "needs_review_reason": "The provided chunk explicitly explains the meaning of شَيْئًا in similar contexts, supporting the reading here; still verify with the intended classical rhetoricians for precise technical labeling.",
+        "quran_ref": "S2:A123",
+        "rhetorical_effect": "conveys absolute nullity of recompense, removing hope in any material mitigation and reinforcing the sternness of the warning"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "الواو عاطفة",
+        "claim_ar": "مقابلة وموازنة بين الجمل المُعطوفة باستخدام الواو (قَوْلٌ متتابع: لا تَجْزِي ... وَلَا يُقْبَلُ ... وَلَا تَنْفَعُهَا ...)، فتنشأ صيغة تراكمية للحكم والنتيجة",
+        "claim_en": "Parallelism/antithesis (muaqabalah) via coordination with the conjunction wa- (the successive clauses: 'no soul will avail ... nor will any reward be accepted ... nor will intercession benefit it ...'), creating a cumulative, balanced sequence.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The grammatical note ('الواو عاطفة') in the provided chunk supports coordination, but the specific rhetorical label 'muaqabalah' should be cross-checked against the targeted rhetoricians' terminology.",
+        "quran_ref": "S2:A123",
+        "rhetorical_effect": "gives a measured, rhythmic progression of negated outcomes, reinforcing inevitability and the totality of loss"
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks do not include direct excerpts quoting the full ayah S2:A123. Some source_quote_ar values are taken from commentary fragments that discuss similar linguistic phenomena rather than the ayah text itself.",
+      "Claims that map general editorial comments (e.g., about repetition or the grammatical role of واو) to this ayah should be verified against the specified classical rhetoricians (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) because the current chunks are from other commentaries (e.g., al-Kashshaf excerpts).",
+      "Labels such as 'muqabalah' and the assignment of devices should be reviewed with the original classical terminology and contexts; confidence values reflect this need for cross-checking."
+    ]
+  },
+  "n_chunks": 12
+}

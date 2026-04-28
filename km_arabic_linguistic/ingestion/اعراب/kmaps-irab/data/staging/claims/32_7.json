@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "32:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "هُوَ مُسْتَأْنَفٌ غَيْرُ مَعْطُوفٍ عَلَى «خَلَقَ»",
+        "claim_ar": "فعل (وَبَدَأَ) يُقرأ على أنه مستأنفٌ ولا يُعطف على «خَلَقَ».",
+        "claim_en": "The verb 'وَبَدَأَ' is read/analysed as a new (مستأنف) clause and is not coordinated (معطوف) with the preceding 'خَلَقَ'.",
+        "root": "بدا",
+        "lemma": "بَدَأَ",
+        "confidence": "medium",
+        "needs_review_reason": "النص المصوَّت في المصدر يتناول مثال «وَجَعَلَ فِيهَا» وليس «وَبَدَأَ» بالاسم؛ التطبيق على «وَبَدَأَ» هنا هو قياس من قِبل المحلل ويحتاج تأكيد من تعليق صريح على اللفظ نفسه."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "لِأَنَّهُ لَوْ كَانَ مَعْطُوفًا عَلَيْهِ لَكَانَ دَاخِلًا فِي الصِّلَةِ؛ وَلَا يَجُوزُ ذَلِكَ لِأَنَّهُ قَدْ فُصِلَ بَيْنَهُمَا بِقَوْلِهِ تَعَالَى: (وَتَجْعَلُونَ. . .) إِلَى آخَرِ الْآيَةِ؛ وَلَيْسَ مِنَ الصِّلَةِ فِي شَيْءٍ",
+        "claim_ar": "القاعدة المذكورة: لو كان الفعل معطوفًا لكان داخلًا في الصلة، والفرق هنا أنه مفصول بأمور تُعدُّ فصلاً واستئنافًا فلا يصح العطف.",
+        "claim_en": "Stated rule: if the verb were coordinated with the previous one it would fall within the same syntactic connection; because it is separated (i.e., there is an actual separation/استئناف) coordination is not permitted.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "المصدر المقتبس يذكر نصًا عن «وَجَعَلَ فِيهَا»؛ تم نقل الحكم بالقياس على «وَبَدَأَ» في هذه الآية. يرجى مراجعة تعليق العكبري على لفظ «وَبَدَأَ» مباشرة إن وُجد.",
+      "المقتطفات المتاحة من التبيان محدودة؛ لا توجد قطعة صريحة تعالج «أَحْسَنَ كُلَّ شَيْءٍ خَلَقَهُ وَبَدَأَ» كاملةً، لذلك استُخلصت نتائج من مثال داخل المصدر ويجب التحقق من السياق الكامل."
+    ]
+  },
+  "n_chunks": 12
+}

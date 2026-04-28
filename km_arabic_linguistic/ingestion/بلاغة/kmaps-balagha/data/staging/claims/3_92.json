@@ -1,0 +1,49 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:92",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "لَنْ تَنالُوا الْبِرَّ حَتَّى تُنْفِقُوا مِمَّا تُحِبُّونَ",
+        "claim_ar": "أسلوب تحذيري/إنشائي مقوّى بالإنكار والجملة العاطفية \"لَنْ... حَتَّى\" لتشديد الحثّ على الإنفاق وبناء شرط صارم يجعل الوصول إلى البرّ مرهونًا بالتضحية.",
+        "claim_en": "A hortatory/authoritative style reinforced by the negation-plus-until construction \"لَنْ... حَتَّى\" which intensifies exhortation to spend; the attainment of righteousness is framed as strictly conditional on sacrificial giving.",
+        "device_branch": "other",
+        "device_subtype": "admonitory_conditional_until",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "takrar",
+        "source_quote_ar": "حَتَّى تُنْفِقُوا مِمَّا تُحِبُّونَ",
+        "claim_ar": "تكرار فعل «تُنْفِقُوا» في موضعَي الجملة (المذكور في النص) لتكثيف التأكيد على الفعل المطلوب من السامعين/المؤمنين.",
+        "claim_en": "Repetition of the verb \"تُنْفِقُوا\" (to spend/give) strengthens emphasis on the required action of giving.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "نفق",
+        "lemma": "أَنفَقَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "مِمَّا تُحِبُّونَ",
+        "claim_ar": "تقييد الإنفاق بـ «مِمَّا تُحِبُّونَ» كأداة بلاغية لتشديد الاختبار: ليس مجرد الإنفاق، بل الإنفاق مما تحبّون (التفريط في المحبّات) مما يرفع وزنه الأخلاقي والعملي.",
+        "claim_en": "Restricting the required spending with \"مِمَّا تُحِبُّونَ\" (from what you love) functions rhetorically to intensify the test: not mere spending, but giving what one truly loves, heightening moral weight.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "حبب",
+        "lemma": "أَحْبَبَ",
+        "confidence": "medium",
+        "needs_review_reason": "Classification as hasr/ qasr (restrictive intensification) is context-sensitive; some commentators might describe this as ethical emphasis rather than the technical 'حصر/قصر'."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

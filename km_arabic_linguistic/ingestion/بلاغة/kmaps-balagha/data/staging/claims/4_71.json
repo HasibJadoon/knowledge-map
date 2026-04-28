@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:71",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "ثم في هذه الآية تأديب لمن يحدث بكل ما يسمع",
+        "claim_ar": "نبرة تأديبية أميرية موجَّهة للمؤمنين عبر صيغة النداء والأمر (يا أيها الذين آمنوا، خذوا... فانفروا...)",
+        "claim_en": "An admonitory, commanding style directed at the believers through the vocative and imperatives (O you who believe; take... march forth...).",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A71",
+        "rhetorical_effect": "Raises urgency and authority; frames the verse as direct counsel/command to the community."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "takrar",
+        "source_quote_ar": "ثم في هذه الآية تأديب لمن يحدث بكل ما يسمع",
+        "claim_ar": "تكرار فعل الانبعاث (فَانْفِرُوا ... أَوِ انْفِرُوا) كوسيلة لتوكيد الخيار والتشديد على الاستعجال والبدائل التكتيكية.",
+        "claim_en": "Repetition of the imperative (fanfirū ... aw infirū) functions to emphasize the alternative options and urgency—stylistic repetition (takrār).",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "نفر",
+        "lemma": "نَفَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk remarks on the verse's admonitory nature but does not explicitly discuss the textual repetition; the claim is inferred from the verse's wording.",
+        "quran_ref": "S4:A71",
+        "rhetorical_effect": "Emphasizes immediacy and choice; heightens exhortation by repeating the command in two syntactic positions."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "tibaq",
+        "source_quote_ar": "جمل توسطت بين البيان والمبين",
+        "claim_ar": "وجود مقابلة/تضاد بين الخيارين: الانفراد بثرْباتٍ (ثُبَاتٍ) مقابل الانصراف أو التجمع ككل (جَمِيعاً)، أي تقديم خيارين متقابلين تكتيكياً.",
+        "claim_en": "An antithesis between the two options: marching forth in detachments (thubāt) versus marching forth all together (jamīʿan); presenting two contrasting tactical choices.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "ثبي",
+        "lemma": "ثُبَات",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunk speaks of relations 'between statement and restorer' (بين البيان والمبين) but does not explicitly analyze this verse's internal contrast; the identification of tibāq is a semantic reading of the ayah.",
+        "quran_ref": "S4:A71",
+        "rhetorical_effect": "Frames action as a deliberated choice between two opposing modes of deployment, highlighting tactical flexibility."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are predominantly from al-Kashshaf/Safi; the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present among the supplied chunks.",
+      "Some claims (notably repetition and contrast) are inferred from the verse itself while the supplied chunks mention the verse generally (e.g., 'ثم في هذه الآية تأديب...') but do not explicitly analyze the specific rhetorical devices; confidence lowered accordingly."
+    ]
+  },
+  "n_chunks": 12
+}

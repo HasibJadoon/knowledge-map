@@ -1,0 +1,36 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:230",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "وضع الظاهر موضع المضمر (explicit-for-implicit)",
+        "source_quote_ar": "وضع الظاهر موضع المضمر زيادة في تقبيح أمرهم",
+        "claim_ar": "الآية توظف وضعَ الظاهرِ موضعَ المُضمرِ (ذكر العبارة الظاهرة بدلاً من الضمير المحذوف) لزيادة تقبيح الفعل وإبراز معناه.",
+        "claim_en": "The verse uses placing the explicit expression in place of the omitted/implicit (mentioning the explicit phrase instead of a suppressed pronoun) to intensify condemnation and make the meaning more conspicuous.",
+        "device_branch": "maani",
+        "device_subtype": "explicit-for-implicit (وضع الظاهر موضع المضمر)",
+        "root": "وضع",
+        "lemma": "وَضَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source explicitly states the technique but mapping it to the formal subtype list (which uses labels like itnaab/fasl_wasl) is approximate; verify preferred subtype label and the precise locus in this ayah."
+      },
+      {
+        "word_index": 0,
+        "claim_type": " juxtaposition of warning and encouragement (ترغيب مع ترهيب)",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار",
+        "claim_ar": "الأسلوب القرآني هنا يواكب سيرة الكتاب في مراعاة التوازن بين الترهيب والتبيين، فيذكر الحكم والحدّ مع توضيحها وتحذير مَن يخالفها.",
+        "claim_en": "This follows the Qur'anic habit of pairing encouragement and warning; the verse states the rule/penalty and immediately clarifies it (serving both as legal clarification and admonition).",
+        "device_branch": "asloob_hakim",
+        "device_subtype": "pairing warning-and-encouragement (ترغيب/ترهيب)",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source gives a general rhetorical principle; applying it to this specific legal verse is plausible but should be cross-checked with classical commentary that ties this verse explicitly to the pairing principle."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

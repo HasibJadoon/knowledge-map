@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:77",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "أن يتهكم بهم كما يقول الموصوف بالقوة الواثق من نفسه بالغلبة على من يقاويه",
+        "claim_ar": "الاستفهام الإنكاري بـ«أَوَلَا» — أسلوب تهكمي واستنكاري يهدف إلى الاستنكار والتحريض على التأمل والتصديق.",
+        "claim_en": "The negative rhetorical question (أَوَلَا) — a taunting/reproachful interrogative used to provoke reflection and demand assent (a hortatory/rhetorical question).",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim (rhetorical question / استفهام إنكاري)",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A77",
+        "rhetorical_effect": "chides the audience, prompts self-examination and acknowledgement of divine knowledge; creates moral pressure to accept the statement."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are commentary (Zamakhshari - al-Kashshaf). The requested author sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present among the chunks — claims are derived solely from the provided chunks.",
+      "The source_quote_ar is drawn from commentary discussing rhetorical function; the ayah text itself is not quoted verbatim in the provided chunks. The claim ties that commentary to the ayah's use of a negative rhetorical question."
+    ]
+  },
+  "n_chunks": 12
+}

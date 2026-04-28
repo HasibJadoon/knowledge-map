@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "58:10",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit إعراب/taalluq/taqdir/etc. claims for S58:A10 were found in the provided source chunks. The chunks discuss general topics (إعجاز القرآن، 'إيا', القراءة، النية، التنكيت، جواز العطف على الضمير المجرور) but do not contain any specific grammatical analysis or claims about the words of this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

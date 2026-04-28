@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "5:21",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (عَلَى أَدْبَارِكُمْ) : حَالٌ مِنَ الْفَاعِلِ فِي تَرْتَدُّوا.",
+        "claim_ar": "أَدْبَارِكُمْ حالٌ من الفاعل في فعل تَرْتَدُّوا",
+        "claim_en": "The phrase 'أَدْبَارِكُمْ' functions as a hal (circumstantial/adverbial) modifying the subject (fa'il) of the verb تَرْتَدُّوا.",
+        "root": "دبر",
+        "lemma": "دُبُر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A21"
+      },
+      {
+        "word_index": 12,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (عَلَى أَدْبَارِكُمْ) : حَالٌ مِنَ الْفَاعِلِ فِي تَرْتَدُّوا.",
+        "claim_ar": "ظرف/جار ومجرور «على أَدْبَارِكُمْ» متعلّق بفاعل فعل «تَرْتَدُّوا»",
+        "claim_en": "The prepositional phrase 'على أَدْبَارِكُمْ' (zarf / jar-majrur) is attached to the subject of the verb تَرْتَدُّوا.",
+        "root": "دبر",
+        "lemma": "دُبُر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A21"
+      },
+      {
+        "word_index": 13,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": " (فَتَنْقَلِبُوا) : يَجُوزُ أَنْ يَكُونَ مَجْزُومًا عَطْفًا عَلَى تَرْتَدُّوا، وَأَنْ يَكُونَ مَنْصُوبًا عَلَى جَوَابِ النَّهْيِ.",
+        "claim_ar": "فَتَنْقَلِبُوا يجوز أن تُعرب على وجهين: مجزومًا كعَطْفٍ على «تَرْتَدُّوا»، أو منصوبًا كـ(جَوَابِ النَّهيِ).",
+        "claim_en": "The verb فَتَنْقَلِبُوا may be analyzed in two ways: (1) jussive (majzūm) as an 'and' (ʿaṭf) conjoined to تَرْتَدُّوا; or (2) accusative (manṣūb) as the response/answer to the prohibition (jawāb al-nahy).",
+        "root": "قلب",
+        "lemma": "انقَلَبَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A21"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

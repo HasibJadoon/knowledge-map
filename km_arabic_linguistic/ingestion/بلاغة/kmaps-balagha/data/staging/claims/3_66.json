@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:66",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No provided source chunk contains commentary or exact quoted substrings for Sura 3:66; therefore no بلاغة claims could be extracted. Provide tafsir/بلاغة chunks (e.g., al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti or tafsir-balagha material) that discuss this specific verse if you want extracted claims."
+    ]
+  },
+  "n_chunks": 12
+}

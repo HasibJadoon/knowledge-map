@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:17",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No claims extracted: the provided source_chunks do not include the expected rhetorical/بلاغة works (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a 'tafsīr balāgha' section).",
+      "The available chunks are from Zamakhsharī, Safī (al-Jadwal), and a Darwīsh iʿrāb extract; they contain exegetical and grammatical notes but not the specific balāgha claims from the requested authors for S9:A17.",
+      "Please provide the relevant excerpts from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsīr-balagha source that comment on Surah 9:17, so accurate balagha claims (with exact source_quote_ar substrings) can be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

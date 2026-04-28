@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:21",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taqdim_takhir",
+        "source_quote_ar": "الفاعل مستتر تقديره هو",
+        "claim_ar": "تأخير بيان الفاعل: وجود ضمير متصل في الفعل (يُبَشِّرُهُمْ) ثم بيان الفاعل لاحقاً بـ«رَبُّهُمْ» كوسيلة بلاغية للتوكيد",
+        "claim_en": "Delay (takhir) of the explicit subject: the verb contains a suffixed pronoun (يُبَشِّرُهُمْ) and the subject is then stated explicitly as «رَبُّهُمْ», a rhetorical device that emphasizes the subject (divine agency).",
+        "device_branch": "maani",
+        "device_subtype": "taqdim_takhir",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunks are grammatical iʿrāb notes (not tafsīr/بلاغة); the identification of emphasis via postposed explicit subject is an inference from syntax and should be checked against classical rhetorical commentary."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "saj",
+        "source_quote_ar": "نظم الكلام إلى أسمى الحدود",
+        "claim_ar": "سجع/إيقاع بلاغي في نهاية العبارة: تآلف صوتي ونغمي (نَعِيمٌ مُّقِيمٌ) يعزز الإحكام اللفظي والوقعي",
+        "claim_en": "Saj (rhythmic/phonic harmony): the phonetic pairing at the end (نَعِيمٌ مُّقِيمٌ) creates a rhymed/sonorous effect that reinforces the verbal and emotive closure.",
+        "device_branch": "badi",
+        "device_subtype": "saj",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunks comment on verbal/structural neatness but do not present explicit badiʿ (saj) analysis for this ayah; confirm with dedicated balāgha sources."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الدقة في الترتيب",
+        "claim_ar": "تراكم وترتيب نعوت النعيم («بِرَحْمَةٍ مِنْهُ وَرِضْوَانٍ وَجَنَّاتٍ») كتدريجٍ وصنعة بلاغية لزيادة الأثر والبهجة",
+        "claim_en": "Stylistic/wise arrangement (asloob hakim): the accumulation and ordering of blessings (mercy, approval, gardens) forms a graded listing intended to increase emotive impact and delight.",
+        "device_branch": "other",
+        "device_subtype": "accumulation/ordering",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Claim based on general remark about careful ordering in the provided chunk; requires verification against tafsīr balāgha and rhetoricians (al-Jurjānī, al-Sakkākī, etc.)."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are iʿrāb (grammatical) notes (Darwish - I'rab). They do not include the requested classical balāgha/tafsīr (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsīr balāgha).",
+      "source_quote_ar values are exact substrings taken from the available chunks and are used here as minimal supporting evidence, but they do not constitute full rhetorical attestations; all claims should be reviewed against dedicated balāgha/tafsīr sources.",
+      "Some claims (e.g., saj, taqdim/takhir) are inferred from syntactic and phonetic shape of the verse rather than explicitly discussed in the provided chunks—marking them for review."
+    ]
+  },
+  "n_chunks": 12
+}

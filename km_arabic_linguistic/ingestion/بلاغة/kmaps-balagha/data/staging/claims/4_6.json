@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:6",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "حتى حرف غاية وجر",
+        "claim_ar": "حرف «حَتَّى» هنا يعمل كحرف حدّ وغاية، فيحصر مدة ولاية اليتامى إلى أن يبلغوا (يُستخدم لحصر الفترة الزمنية قبل الانتقال إلى حكم جديد).",
+        "claim_en": "The particle 'ḥattā' functions as a marker of limit/extent (a bound), restricting the period of guardianship over the orphans until the specified point (it delimits the temporal span before the ruling changes).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "حتى",
+        "lemma": "حَتَّىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted chunk is a grammatical note on the function of 'حتى'; mapping that grammatical function to the rhetorical category 'hasr_qasr' is an interpretive step that should be reviewed by a balagha specialist for precision."
+      },
+      {
+        "word_index": 29,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "والفاء رابطة لجواب إذا",
+        "claim_ar": "حرف الفاء في «فَإِذَا» يربط جوابًا بشرط «إِذَا»، وهو علامة انتقالية تبيّن الانتقال من حكم تمهيدي إلى إجراء أو حكم عملي في الآية.",
+        "claim_en": "The prefixed 'fa-' in 'fa-idhā' serves to link the answer to the conditional 'idhā'; it functions as a transitional connector marking the move from a preparatory clause to the operative ruling in the verse.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "ف",
+        "lemma": "فَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are primarily grammatical/tafsir excerpts rather than explicit classical balagha treatises (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti). Claims link grammatical observations to rhetorical categories; these mappings should be verified against dedicated balagha sources.",
+      "Only substrings actually present in the supplied chunks were used as source_quote_ar. Some rhetorical inferences (e.g., mapping 'حتى' to hasr/qasr) are interpretive and flagged above for review."
+    ]
+  },
+  "n_chunks": 12
+}

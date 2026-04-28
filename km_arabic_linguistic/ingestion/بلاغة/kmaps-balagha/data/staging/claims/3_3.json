@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:3",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "القرآن والتوراة والإنجيل",
+        "claim_ar": "سرد أسماء الكتب الثلاثة (القرآن والتوراة والإنجيل) في سياق واحد يكوّن مقابلة أو توازيًا نصّيًّا يبرز علاقة التأكيد والامتداد فيما بينها.",
+        "claim_en": "The listing of the three scriptures (the Qur'an, the Torah, and the Gospel) together forms a textual parallelism (muqabalah) that highlights their relation of confirmation and continuity.",
+        "device_branch": "badi",
+        "device_subtype": "muaqabalah (parallel enumeration)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The supplied chunk (al-Kashshaf excerpt) contains the exact phrase 'القرآن والتوراة والإنجيل' supporting the identification of parallel listing, but the commentary does not explicitly analyze this as a badi device; further confirmation from classical rhetorical sources (al-Jurjani, al-Sakkaki, etc.) is needed."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain only partial overlap with this ayah; many key words of the ayah (e.g., نَزَّلَ, مُصَدِّقًا) do not appear verbatim in the chunks, so several plausible rhetorical readings (repetition of نَزَّلَ/وَأَنزَلَ as takrār or muqābalah, the function of مُصَدِّقًا as emphatic confirmation) could not be substantiated with exact source substrings.",
+      "Only claims backed by exact substrings from the given chunks were extracted. To add or raise confidence for more devices (e.g., takrār, iltifāt, bayan-type explanation of مُصَدِّقًا), provide tafsir-balagha excerpts or classical rhetoric passages that explicitly mention those words or rhetorical analyses."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "19:27",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant اِعراب/قواعد found for S19:A27 in the provided source_chunks. None of the chunks contain commentary on this verse (they discuss other verses/words like «يُطَافُ», «هَلْ يَنْظُرُونَ» etc.). Provide source text/chunks that include al-Tibyan's remarks on S19:27 to extract claims."
+    ]
+  },
+  "n_chunks": 12
+}

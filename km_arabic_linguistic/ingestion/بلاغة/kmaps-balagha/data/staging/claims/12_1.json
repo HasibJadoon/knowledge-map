@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "badi:jinas",
+        "source_quote_ar": "التجانس بين لفظتي الأسف ويوسف مما يقع مطبوعاً غير متعمل فيملح ويبدع",
+        "claim_ar": "جناس/تجانس صوتي في تركيب الآية (تلاقي أحرف وصيغ متناسقة في «الْكِتَابِ الْمُبِينِ») يمنحها ملالَحَةً لفظية وإيقاعاً يُسهِم في الحفظ والوقوع على السمع.",
+        "claim_en": "Paronomasia / phonetic harmony (jinas): the consonantal/vocal correspondence in the phrase («الْكِتَابِ الْمُبِينِ») produces a phonetic polish and rhythmic effect that aids memorability and auditory impact.",
+        "device_branch": "badi",
+        "device_subtype": "jinas",
+        "root": "بين",
+        "lemma": "مُبِين",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary sentence explicitly discusses phonetic harmony (التجانس) with different lexical items (الأسف ويوسف). Applying that observation to this ayah is an analogy/inference rather than an explicit remark on this exact phrase in the provided chunks."
+      }
+    ],
+    "warnings": [
+      "No commentary chunk provided contains an explicit, direct analysis of the exact wording of S12:A1; the claim above is an inference by analogy from a commentator's general remark about phonetic harmony.",
+      "source_quote_ar entries are exact substrings taken from the provided chunks but in some cases refer to other verses/words; verify with fuller commentary context if available to raise confidence."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,85 @@
+{
+  "layer": "balagha",
+  "word_key": "1:2:2",
+  "result": {
+    "claims": [
+      {
+        "claim_type": "ijaaz",
+        "source_quote_ar": "فإن الله تعالى ذكره وتقدَّست أسماؤه أدّب نبيه محمدًا ﷺ بتعليمه تقديمَ ذكر أسمائه الحسنى أمام جميع أفعاله... والَباء من \"بسم الله\" مقتضية فعلا يكون لها جالبًا، ولا فعلَ معها ظاهرٌ، فأغنت سامعَ القائل \"بسم الله\" معرفتُه بمراد قائله، عن إظهار قائل ذلك مُرادَه قولا",
+        "claim_ar": "حذف الفعل بعد الباء في \"بسم الله\" وإحالة المعنى عليه؛ استعمال الإيجاز (حذف ظاهر الكلام) ليغني عن البيان المفصول.",
+        "claim_en": "The prepositional 'b' of \"Bismillah\" implies an action with the verb omitted; this is a concision (ijaaz/ellipsis) device whereby the overt verb is left out and the listener infers the intended meaning.",
+        "device_branch": "معاني",
+        "device_subtype": "ijaaz",
+        "root": "ب س م",
+        "lemma": "بِسْمِ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "taqdim_takhir",
+        "source_quote_ar": "إن الله تعالى ذكره وتقدَّست أسماؤه أدّب نبيه محمدًا ﷺ بتعليمه تقديمَ ذكر أسمائه الحسنى أمام جميع أفعاله، وجعل ما أدّبه به من ذلك وعلَّمه إياه، منه لجميع خلقه سُنَّةً يستَنُّون بها",
+        "claim_ar": "تقديم أسماء الله الحسنى في الافتتاح (\"بسم الله الرحمن الرحيم\") كإجراء بلاغي: التقديم لتشخيص مصدر الفعل وتهيئة المعنى قبل الدخول في الأفعال.",
+        "claim_en": "Presenting God's beautiful names at the opening (the Basmala) is a rhetorical presentation device (tqdm/takhir): the divine names are brought forward to mark and frame subsequent actions and speech.",
+        "device_branch": "معاني",
+        "device_subtype": "tqdim_takhir",
+        "root": "ذ ك ر",
+        "lemma": "تقديم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "يقول تعالى ذكره: سبحان الذي أسرى بعبده ليلا وآتى موسى الكتاب، وردّ الكلام إلى ﴿وآتَيْنا﴾ وقد ابتدأ بقوله أسرى... ثم الرجوع إلى الخطاب وأشباهه.",
+        "claim_ar": "استعمال تبديل السياق (ابتداء بذكر حدث ثم الرجوع إلى بيان آخر) — فصل ووصل سردي/خطابي لإيقاعٍ بلاغي في السرد.",
+        "claim_en": "The narration begins with one event (\"asra\") and then returns to the address/statement (\"wa-atayna\"): a connective/disjunctive narrative technique (fasl_wasl) that shifts the sequence for rhetorical effect.",
+        "device_branch": "معاني",
+        "device_subtype": "fasl_wasl",
+        "root": "أ س ر",
+        "lemma": "أُسْرِيَ",
+        "confidence": "medium",
+        "needs_review_reason": "interpretation depends on narrative-structural reading; could be labeled as 'surah_movement' instead."
+      },
+      {
+        "claim_type": "takrar",
+        "source_quote_ar": "وقد مضى البيانُ عن تأويل قوله ﴿الرحمن الرحيم﴾ ، في تأويل ﴿بسم الله الرحمن الرحيم﴾ ... ولم نَحْتَجْ إلى الإبانة عن وجه تكرير ذلك في هذا الموضع",
+        "claim_ar": "تكرار وصفَي الرحمانية (\"الرحمن الرحيم\") في مواضع متقاربة؛ الموضوع محلّ تأمل بلاغي حول أثر التكرار واحتمال عدّ المصطلحَ آيةً مكرّرة.",
+        "claim_en": "The recurrence of the phrase 'ar-Rahman ar-Raheem' (in the Basmala and again in the following verse) constitutes a rhetorical repetition (takrar); the commentator discusses its acceptability and interpretive implications.",
+        "device_branch": "بديع",
+        "device_subtype": "takrar",
+        "root": "ر ح م",
+        "lemma": "الرَّحْمَنِ الرَّحِيمِ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "﴿صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ﴾ ... صراط الذين أنعمت عليهم بطاعتك وعبادتك من ملائكتك وأنبيائك والصديقين والشهداء والصالحين",
+        "claim_ar": "الاستعمال التعريفي لجملة \"الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ\" لتحديد فئة مرجوة من الممهدين؛ توظيف التعريف والتنكير لتخصيص المعنى.",
+        "claim_en": "The definite relative clause 'alladhina an'amta 'alayhim' is used to specify the intended group (those favored); the commentator explicates how definite marking functions to limit and exemplify the referent.",
+        "device_branch": "معاني",
+        "device_subtype": "tarif_tankir",
+        "root": "ن ع م",
+        "lemma": "أَنْعَمْتَ",
+        "confidence": "medium",
+        "needs_review_reason": "the device assignment (tarif_tankir) is interpretive: could be described as exemplification/enumeration rather than strictly definiteness contrast."
+      },
+      {
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الزَّانِيَةُ وَالزَّانِي أى جلدهما. ويجوز أن يكون الخبر: فَاجْلِدُوا، وإنما دخلت الفاء لكون الألف واللام بمعنى الذي وتضمينه معنى الشرط",
+        "claim_ar": "قراءة الفاء في \"فاجلِدوا\" كأداة ربط/فصل ذات مدلول شرطي أو سببي؛ حذف خبر مخفوف (تقدير الخبر) لتعميم الحكم—أسلوب فصل ووصل بلاغي نحوي.",
+        "claim_en": "The prefix 'fa' in 'fajlidhu' is read as a connective that carries a conditional/causal sense; the commentator explains an omitted predicate (inferred) — a rhetorical-narrative linkage (fasl_wasl) that creates generalizing breadth.",
+        "device_branch": "معاني",
+        "device_subtype": "fasl_wasl",
+        "root": "ف ا ء / ج ل د",
+        "lemma": "فَاجْلِدُوا",
+        "confidence": "medium",
+        "needs_review_reason": "grammatical analysis in the source mixes syntactic and rhetorical claims; device labeling as 'fasl_wasl' is plausible but could be recoded as 'ijab_inshaa' or 'hasr_qasr'."
+      }
+    ],
+    "warnings": [
+      "Requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not among the provided source chunks. The chunks are from Tabari (Jami' al-Bayan) and Zamakhshari (al-Kashshaf). Claims are therefore extracted from these available sources; verify author provenance if specific-author evidence is required.",
+      "Some source discussions mix grammatical/syntactic commentary with rhetorical observations (especially in al-Kashshaf/Tabari). Where analysis is ambiguous between syntax and rhetoric, device assignment is given conservatively and flagged for review in 'needs_review_reason'."
+    ]
+  },
+  "n_chunks": 12
+}

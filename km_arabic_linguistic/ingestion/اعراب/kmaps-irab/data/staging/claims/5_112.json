@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "5:112",
+  "result": {
+    "claims": [
+      {
+        "word_index": 10,
+        "claim_type": "irab",
+        "source_quote_ar": "«أَنْ يُصِيبَكُمْ» : مَفْعُولُهُ الثَّانِي.",
+        "claim_ar": "الجملة التي تبدأ بـ «أَنْ» (مثل «أَنْ يُصِيبَكُمْ») تكون في هذا النمط مفعولًا ثانياً لِلفِعْلِ السابق.",
+        "claim_en": "The clause introduced by أَنْ (as in «أَنْ يُصِيبَكُمْ») functions as the second object (مفعول به ثانٍ) of the preceding verb.",
+        "root": null,
+        "lemma": "أَن",
+        "confidence": "medium",
+        "needs_review_reason": "The source states this analysis for a parallel construction cited («أَنْ يُصِيبَكُمْ»); application to the specific construction in S5:112 is plausible but inferred by analogy and should be checked against the immediate context of the ayah."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "وَقَدْ ذُكِرَ فِي الْمَائِدَةِ،",
+        "claim_ar": "ذُكِرَ هذا السياق/هذا التركيب في سورة المائدة (إشارةٍ دراسية إلى آية/موضوعٍ مذكور في المائدة).",
+        "claim_en": "The author notes that this (or a closely related) passage is mentioned in Surah al-Ma'idah — a cross-reference to the discussion in al-Ma'idah.",
+        "root": "ميد",
+        "lemma": "مَآئِدَة",
+        "confidence": "high",
+        "needs_review_reason": "Statement is an explicit cross-reference in the source; no further review needed for the note itself, though its relevance to a particular grammatical point in S5:112 should be verified."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain only a limited/indirect discussion relevant to S5:112. One claim is based on an explicit statement about an analogous construction; application to this specific ayah should be verified against fuller commentary of the same passage."
+    ]
+  },
+  "n_chunks": 12
+}

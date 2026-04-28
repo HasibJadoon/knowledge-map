@@ -1,0 +1,164 @@
+{
+  "sources": [
+    {
+      "id": "AL:SRC:0aea454a810ea5a39cd95d0f",
+      "url": "https://shamela.ws/book/21017",
+      "title_en": "al-Mu'jam al-Ishtiqaqi",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:783d429efab35fd2acd81215",
+      "url": "https://shamela.ws/book/1687",
+      "title_en": "Lisan al-Arab",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:f1a54cd960f590766e48e0ba",
+      "url": "https://shamela.ws/book/23636",
+      "title_en": "Raghib Mufradat",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:102cdbcadeea3eb6868ef26d",
+      "url": "https://shamela.ws/book/9856",
+      "title_en": "Basa'ir Dhawi al-Tamyiz",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:8bccfadd84460e497938e2f2",
+      "url": "https://lexicon.quranic-research.net",
+      "title_en": "Lexicon Quranic Research",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:63d39b0a229019c5c976b8d7",
+      "url": "https://arabiclexicon.hawramani.com",
+      "title_en": "Hawramani Arabic Lexicon",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:38a5e40f330ce2d7ca12dfb9",
+      "url": "https://deepblue.lib.umich.edu/handle/2027.42/94553",
+      "title_en": "Mustansir Mir PDF Landing",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:83d7564f3dbcc23e80786994",
+      "url": "http://deepblue.lib.umich.edu/bitstream/2027.42/94553/1/39015087418615.pdf",
+      "title_en": "Mustansir Mir PDF Direct",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:2b9fbf251750c150c57b4685",
+      "url": "https://press.princeton.edu/books/hardcover/9780691241313/key-terms-of-the-quran",
+      "title_en": "Key Terms of the Qur'an",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:2113adeccc432bc039f0da52",
+      "url": "https://shamela.ws/book/9776",
+      "title_en": "Ibn Ashur Tahrir wa Tanwir",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:84ca4fd44883b51813ae9ce5",
+      "url": "https://shamela.ws/book/23635",
+      "title_en": "al-Razi Mafatih al-Ghayb",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:702215eb3e2674cc0135808b",
+      "url": "https://shamela.ws/book/22835",
+      "title_en": "al-Alusi Ruh al-Ma'ani",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:3df0ac878dbbd0c9fc663cf6",
+      "url": "https://shamela.ws/book/7798",
+      "title_en": "al-Tabari Jami' al-Bayan",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:c31b94626b9c89d25c5e1d97",
+      "url": "https://shamela.ws/book/8473",
+      "title_en": "Ibn Kathir",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:06a8f769b077a1b8d37400f8",
+      "url": "https://shamela.ws/book/23627",
+      "title_en": "al-Kashshaf",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:98d8bc6babd1c495c4d59192",
+      "url": "https://shamela.ws/book/23591",
+      "title_en": "al-Bahr al-Muhit",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:23fdc623990c44e3007640e8",
+      "url": "https://shamela.ws/book/9057",
+      "title_en": "al-Durr al-Masun",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:0a59b0b5fa2cc4f76566b3ee",
+      "url": "https://shamela.ws/book/23632",
+      "title_en": "al-Muharrar al-Wajiz",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:543fa8db638950abd0d032cb",
+      "url": "https://shamela.ws/book/22916",
+      "title_en": "al-Jadwal Safi",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:df3448c0677dbf2831a9f96a",
+      "url": "https://shamela.ws/book/2163",
+      "title_en": "Darwish I'rab",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:d5d08c24c1a8083a73f9f894",
+      "url": "https://shamela.ws/book/22928",
+      "title_en": "al-Tibyan al-Ukbari",
+      "kind": "link"
+    },
+    {
+      "id": "AL:SRC:5f21f187e0728421ef933ee1",
+      "file": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/km_arabic_linguistic/ingestion/صرف/k_maps_sarf_MASTER_philosophy_v5.docx",
+      "title_en": "k maps sarf MASTER philosophy v5",
+      "kind": "docx"
+    },
+    {
+      "id": "AL:SRC:d3eef47bd24be0ce1e4b994d",
+      "file": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/km_arabic_linguistic/ingestion/صرف/k_maps_sarf_MASTER_technical_v5.docx",
+      "title_en": "k maps sarf MASTER technical v5",
+      "kind": "docx"
+    },
+    {
+      "id": "AL:SRC:65cf5c98917fd9b6f9c52b0e",
+      "file": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/km_arabic_linguistic/ingestion/صرف/Sinai-N-–-Key-terms-of-the-Quran-.pdf",
+      "title_en": "Key Terms of the Qur'an",
+      "kind": "pdf",
+      "pages": 822
+    },
+    {
+      "id": "AL:SRC:1880e8f49d6425969fcdb885",
+      "file": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/km_arabic_linguistic/ingestion/صرف/VERBAL-IDIOMS-of-QURAN.pdf",
+      "title_en": "Verbal Idioms of the Qur'an",
+      "kind": "pdf",
+      "pages": 379
+    },
+    {
+      "id": "AL:SRC:f9c44062e099745ae8180adb",
+      "file": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/km_arabic_linguistic/ingestion/صرف/Verbal-Idioms-Mushaf-Order-Version-2-PDF.pdf",
+      "title_en": "Verbal Idioms of the Qur'an - Mushaf Order",
+      "kind": "pdf",
+      "pages": 404
+    }
+  ],
+  "chunks": 2242
+}

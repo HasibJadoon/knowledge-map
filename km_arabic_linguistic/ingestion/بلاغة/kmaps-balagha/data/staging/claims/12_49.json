@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:49",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "وكرّر ذكرهم",
+        "claim_ar": "تكرار الأداة «فيه» في الجملةين يدل بلاغياً على التوكيد والتكرار في نِعْمَة العام الواحد (تكرارٍ يربط بين فائدتين متعاقبتين).",
+        "claim_en": "Repetition of the modifier «fīhi» (\"in it\") in the two clauses functions rhetorically as repetition/tokīd (emphasis), linking and stressing the two benefits occurring in the same year.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "ayah-level device spanning two occurrences of «فيه»; not anchored to a single lexical root in the token list.",
+        "quran_ref": "S12:A49",
+        "rhetorical_effect": "توكيد ونصب ترابط بين نتيجتين متواليتين لنفس العام (الاغاثة والعصر)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "mucabalah",
+        "source_quote_ar": "اللفظ الواحد",
+        "claim_ar": "استعمال لفظ واحد («فيه») ليشمل كلتا الجملتين يظهر توازياً ومقابلةً بين القصدين البلاغيين؛ اللفظ الواحد يجمع بين مدلوليْن مرتبطين.",
+        "claim_en": "The use of a single word («fīhi») to cover both clauses creates a parallelism/balancing (mukābala) — one lexical item binds the two related meanings together.",
+        "device_branch": "badi",
+        "device_subtype": "muqābalah (parallelism / single-word scope)",
+        "root": "ل-ف-ظ",
+        "lemma": "لفظ",
+        "confidence": "medium",
+        "needs_review_reason": "interpretive: relies on reading «فيه» as a single shared modifier for both predicates; supported by a Kashshāf discussion of using one word for multiple senses but requires confirmatory tafsir-specific citations.",
+        "quran_ref": "S12:A49",
+        "rhetorical_effect": "توحيد الحدثين تحت ظرفٍ واحدٍ لغوياً، مما يقوّي الانطباع بأنهما فاعلتان لنفس سبب الزمان والمناخ."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "مفعول أَجْمَعُوا",
+        "claim_ar": "استخدام المبني للمجهول «يُغَاثُ» يضع الناس موقف المتلقي المتأثر (مفعولية) ويؤكد أثر النعمة عليهم؛ الأسلوب البلاغي هنا تحويل الفعل إلى مبني للمجهول لبيان تأثر الناس.",
+        "claim_en": "The use of the passive voice «yughāthu» places the people as affected recipients (objecthood), emphasizing the impact of the relief; stylistically, the passive highlights the people's being acted upon.",
+        "device_branch": "other",
+        "device_subtype": "passive_voice (mabnī lil-majhūl) / asloob_hakim",
+        "root": "غيث",
+        "lemma": "يُغَاثُ",
+        "confidence": "medium",
+        "needs_review_reason": "the cited Kashshāf substring discusses making something a مفعول (passive-effect) generally; applying it to this ayah is plausible but interpretive and could use corroboration from a grammar/tafsir-balagha source.",
+        "quran_ref": "S12:A49",
+        "rhetorical_effect": "تبرير إبراز وضع الناس كمستفيدين ومنوِّعين للنعمة عبر تحول الفعل إلى مبني للمجهول."
+      }
+    ],
+    "warnings": [
+      "المقاطع المصدرية المقدَّمة كلها هي من الزمخشري (al-Kashshaf). لم تُزوَّد هنا مقاطع من الجرجاني أو السكّاكّي أو البقّيلاني أو السيوطي أو أقسام تفسير البلاغة المطلوبة؛ لذلك الاستشهادات البلاغية المستعملة محدودة بمقاطع الزمخشري فقط.",
+      "بعض التوصيفات البلاغية (مثل اعتبار «فيه» لفظًا واحدًا يغطي المعنيين، أو قراءة المبني للمجهول كأداة بلاغية) هي قراءات تأويلية وتحتاج تحققًا إضافيًا من تراجم بلاغية/تفسيرية أخرى لتثبيت الثقة العالية."
+    ]
+  },
+  "n_chunks": 12
+}

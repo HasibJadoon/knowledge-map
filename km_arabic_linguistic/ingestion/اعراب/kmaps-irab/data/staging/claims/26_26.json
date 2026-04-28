@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:26",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No claims extracted: none of the provided source_chunks contain the ayah text “قَالَ رَبُّكُمْ وَرَبُّ آبَائِكُمُ الْأَوَّلِينَ” or any discussion explicitly about its words or their إعراب.",
+      "Provide source material (chunks) that directly quote or discuss this specific ayah or its words to extract إعراب claims."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "تقديم_تأخير",
+        "source_quote_ar": "وإنما قدمت الشرطية الاولى",
+        "claim_ar": "تقديم الشرطية (المقدمة: وَإِنْ) لرفع الحدة والسبق في السياق البلاغي.",
+        "claim_en": "Preposing the conditional (the initial وَإِنْ) to increase force and foreground the conditional clause in the rhetorical sequence.",
+        "device_branch": "maani",
+        "device_subtype": "taqdim_takhir",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "medium",
+        "needs_review_reason": "source discusses the general rhetorical effect of preposing conditionals in another example; applying it to this specific ayah is plausible but inferential."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "التفات / سؤال إنشائي",
+        "source_quote_ar": "جمل توسطت بين البيان والمبين على سبيل الاعتراض",
+        "claim_ar": "تحويل إلى سؤال إنشائي وعبارة اعتراضية (أَتَأْخُذُونَهُ...) بغرض التأنيب والاعتراض على الفعل.",
+        "claim_en": "A shift into a rhetorical interrogative and parenthetical reproach (A-TA'KHUDUNAHU...) used to rebuke and object to the action.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "اخذ",
+        "lemma": "أَخَذَ",
+        "confidence": "medium",
+        "needs_review_reason": "the quoted source describes the use of parenthetical/interjective clauses for objection; mapping that general observation to this interrogative reproach in the ayah is interpretive."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "مقابلة / تكرار",
+        "source_quote_ar": "فَمِنْهُمَا تارة أموت فيها، وتارة أبتغى العيش",
+        "claim_ar": "تكرار الاسم/المصطلح (زَوْجٍ ... زَوْجٍ) كأسلوب مقابلة لتأكيد التبادل أو الاستبدال بين الزوجين.",
+        "claim_en": "Repetition/pairing of the noun (zawj ... zawj) functioning as muqabalah (parallelism) to emphasize the exchange/replacement relation.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "زوج",
+        "lemma": "زَوْج",
+        "confidence": "medium",
+        "needs_review_reason": "the source example shows parallel pairing in classical commentary; applying the concept to the repeated 'زَوْجٍ' here is plausible but not explicitly discussed in the provided chunks."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "طباق/توازي تأكيدي",
+        "source_quote_ar": "وَما الدَّهْرُ إلّا تَارَتَانِ فَمِنْهُمَا ... أَمُوتُ وَأُخْرَى أَبْتَغِى الْعَيْشَ",
+        "claim_ar": "تراكيب متقابلة/مزدوجة (بُهْتَانًا وَإِثْمًا مُبِينًا) لتعزيز الاتهام بتكثيف الوصف وإظهار الجلل.",
+        "claim_en": "Paired/parallel expressions (buhtanan wa-ithman mubin) form a reinforcing parallelism that intensifies the accusation and shows its gravity.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq / takrar (parallel pairing)",
+        "root": "بهت",
+        "lemma": "بُهْتَان",
+        "confidence": "low",
+        "needs_review_reason": "the provided source passage exemplifies paired contrasts/parallelism in other contexts; linking it to the specific double-accusation phrase in this ayah is interpretive and requires corroboration from a commentary that treats this ayah's phrasing directly."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks discuss rhetorical phenomena in general or exemplify them with other verses/poems; they do not all analyze S4:A20 directly. Claims map these general observations onto the ayah and therefore some are inferential.",
+      "Some source_quote_ar strings are taken from general commentary/examples in the chunks rather than an explicit gloss of this exact ayah; those claims are marked with needs_review and lower confidence.",
+      "No explicit discussions of devices like jinas, saj', or explicit kināyah for this ayah were found in the supplied chunks, so such devices were not asserted."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:44",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "قِيلَ لَهَا ادْخُلِي الصَّرْحَ",
+        "claim_ar": "التفات السرد إلى خطاب مباشر موجه إلى جماد/مخلوقات غير ناطقة (نداء الأرض والسماء)، أي تحويل الرواية إلى صيغة الأمر المباشر.",
+        "claim_en": "A shift to direct address (iltifat) addressed to inanimate/ non-speaking entities (the earth and the sky): the narrative turns into a direct imperative.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source quote is an analogous tafsir example (Tabari) showing the pattern 'قيل + أمر' from a different verse rather than the exact ayah text in the provided chunks; the device attribution is inferred from that parallel."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "وتكرارها مع النداء",
+        "claim_ar": "تكرار لفظة «وَقِيلَ» واستخدام التكرار مع النداء لتهويل الأمر وإبرازه، أي بديع (تكرار) يخدِم الغرض البلاغي.",
+        "claim_en": "Repetition (takrar) of the verb 'وَقِيلَ'—the repetition together with the vocative serves to intensify and dramatize the decree.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "بُعْداً دعاء بالهلاك",
+        "claim_ar": "اللفظ «بُعْدًا» أسلوب إنشائي/دعائي للدعاء بالهلاك على الظالمين؛ تعبير إنشائي يختصر الحكم والحكم بالهلاك.",
+        "claim_en": "The word 'بُعْدًا' functions as a performative exclamation/prayer for destruction (an insha'i utterance), expressing condemnation and final doom for the wrongdoers.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "بعد",
+        "lemma": "بُعْد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Not all provided tafsir chunks contain the exact ayah text; several claims are supported by analogous commentary passages (e.g., Tabari's 'قِيلَ لَهَا ادْخُلِي...') rather than a verbatim quote of S11:A44. Such parallels were used to justify the rhetorical readings.",
+      "Some rhetorical labels (e.g., 'iltifat') are inferred from analogous examples in the commentary rather than from an explicit statement in the chunk about this specific ayah; these inferences are marked with 'needs_review_reason'.",
+      "No direct chunk substring for the imperatives 'ابْلَعِي' / 'أَقْلِعِي' or other specific words of S11:A44 was available in the provided chunks, so devices tied to those individual word-forms were inferred at the ayah level or from parallel excerpts only."
+    ]
+  },
+  "n_chunks": 12
+}

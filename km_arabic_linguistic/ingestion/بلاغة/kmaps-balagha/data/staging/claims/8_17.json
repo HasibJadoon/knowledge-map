@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:17",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable بلاغة claims found that satisfy the requirement that source_quote_ar be an exact substring of one of the provided source_chunks and that explicitly link a rhetorical device to this ayah (S8:A17).",
+      "The provided source_chunks are excerpts from Zamakhshari and Tabari; they do not contain explicit balagha (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir-balagha) analyses for this specific verse with exact, citable substrings describing devices such as مقابلة/تكرار/التفات. Because the task requires source_quote_ar to match exactly a substring in the chunks, I cannot assert claims without risking incorrect attribution.",
+      "If you can provide explicit balagha/tafsir-balagha excerpts (from the requested authors or other commentaries) that discuss this ayah, or allow using the ayah text itself as source_quote_ar, I can extract and produce the requested structured claims."
+    ]
+  },
+  "n_chunks": 12
+}

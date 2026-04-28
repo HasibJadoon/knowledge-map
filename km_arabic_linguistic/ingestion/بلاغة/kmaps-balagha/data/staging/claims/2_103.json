@@ -1,0 +1,69 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:103",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "لو يعلم هؤلاء",
+        "claim_ar": "تكرار أداة الشرط «لو» كوسيلة بلاغية للتوكيد والتأسف (تكرارParticle لو لتشديد الحسرة على عدم الإيمان والتقوى).",
+        "claim_en": "Repetition of the conditional particle 'لو' as a rhetorical device to emphasize regret and reproach for their lack of faith and God‑consciousness.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "لو",
+        "lemma": "لَو",
+        "confidence": "medium",
+        "needs_review_reason": "الاستدلال مقتبس من تعليق في المصادر («لو يعلم هؤلاء») وليس اقتباساً مباشراً لعبارة الآية «لو كانوا يعلمون»، لذلك يلزم مراجعة أصولية للربط بين تعليق المفسّر ونمط التكرار في الآية.",
+        "rhetorical_effect": "يزيد من شدّة الندم والتوبيخ ويجعل الفكرة الافتراضية أكثر وضوحاً وتأثيراً."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "conditional_counterfactual",
+        "source_quote_ar": "لو تمنوا الموت",
+        "claim_ar": "أداة الشرط «لو» في صيغة التمني/الندم لبيان حالة افتراضية غير محقّقة: ‹لو آمنوا واتقوا› بمعنى تمني وقوع الفعل للنتيجة الأفضل.",
+        "claim_en": "The conditional particle 'لو' is used in a counterfactual/wishful sense to express regret and an unreal hypothetical: 'If only they had believed and feared (God)…'.",
+        "device_branch": "maani",
+        "device_subtype": "conditional_counterfactual",
+        "root": "لو",
+        "lemma": "لَو",
+        "confidence": "medium",
+        "needs_review_reason": "الاستشهاد يأتي من تعليق تتحدّث عن استعمال ‹لو› في مواضع أخرى («لو تمنوا الموت») لفهم روح الآية؛ يتطلب مراجعة مقارنة نصية بين أمثلة المفسّر وصيغة الآية الدقيقة.",
+        "rhetorical_effect": "يُثير الشعور بالأسف ويقوّي نبرة الخطاب التحذيرية والداعية إلى الوعي."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "من العقاب والثواب",
+        "claim_ar": "تقييد مصدر الجزاء بالله بالعبارة «مِنْ عِنْدِ اللَّهِ»: بيان حصر الثواب والعقاب في الله وهو تقييد بلاغي (قصر مصدر الثواب).",
+        "claim_en": "Restriction of the source of reward to God by «مِنْ عِنْدِ اللَّهِ»: a rhetorical qualification that confines recompense and punishment to God alone.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "من",
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "الاستدلال مأخوذ من شرح في المصدر الذي يذكر «من العقاب والثواب» كتعليق عام على حصر القدرة لله؛ يلزم تدقيق اتصال ذلك مباشرة بعبارة الآية «مِنْ عِنْدِ اللَّهِ خَيْرٌ».",
+        "rhetorical_effect": "يوضح حصرية الفضل والجزاء عند الله، فيضفي على الحُجّة مزيداً من الحسم والوضوح."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "mukabalah/tibaq",
+        "source_quote_ar": "ويعلمون شدّة عقابه",
+        "claim_ar": "تقابل/مقابلة بين ثواب الله وخسارتهم (تباين بين خير الجزاء عند الله وجهلهم أو اختياراتهم)، أي وضع المعنىين المتقابلين بجانب بعض لتقوية الدلالة.",
+        "claim_en": "Contrast (mukabalah/tibaq) between God's superior reward and their loss/ignorance — juxtaposing opposing notions to strengthen the point.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "خير",
+        "lemma": "خَيْر",
+        "confidence": "medium",
+        "needs_review_reason": "الاقتباس («ويعلمون شدّة عقابه») من شرح تفسيري يبيّن عاقبة عدم العلم؛ الربط البلاغي مع مقابل «مِنْ عِنْدِ اللَّهِ خَيْرٌ» في الآية يحتاج تحققًـــــا من حيث تطابق سياق المفسّر مع الوظيفة البلاغية المحددة.",
+        "rhetorical_effect": "يجعل الفكرة أخلاقية/تأديبية: يبرز خسارتهم مقابل ما كان بإمكانهم أن ينالوه من خير لو علموا."
+      }
+    ],
+    "warnings": [
+      "الاقتباسات المصدرية المرفوعة في source_quote_ar مأخوذة من شروح المفسّرين المتوفرة في source_chunks (زمخشري، الطبري) لكنها غالباً تعالج الموضوع العام أو أمثلة أخرى؛ ليست اقتباسات حرفية لعبارة الآية نفسها. لذلك لا بد من مراجعة نصّية مقارنة للقطع المصدرية مع نص الآية والتعليقات البلاغية المتخصّصة (الجورجانيّ، السكاكيّ، الباقلانيّ، السيوطيّ، ومراجع بلاغيّة) لتثبيت التصنيفات البلاغية بدقّة.",
+      "بعض التسميات الفرعيّة (مثل «conditional_counterfactual») صيغت لتوصيف الظاهرة البلاغية في الآية لكن قد لا تتطابق لفظياً مع مصطلحات المصادر المطلوبَة؛ أوصِي بمراجعة مرجعيّات البلاغة التقليدية لضبط المصطلح المدرج."
+    ]
+  },
+  "n_chunks": 12
+}

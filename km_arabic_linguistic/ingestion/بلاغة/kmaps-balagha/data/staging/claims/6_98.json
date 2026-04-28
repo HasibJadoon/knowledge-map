@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:98",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "التحقيق أنه لما أريد فصل كليهما بفاصلة تنبيها على استقلال كل واحدة منهما بالمقصود من الحجة، كره فصلهما بفاصلتين متساويتين في اللفظ، فعدل إلى فاصلة مخالقة تحسينا للنظم واتساقا في البلاغة.",
+        "claim_ar": "الفاصل الأسلوبي بين «مُسْتَقَرٌّ» و«مُسْتَوْدَعٌ» جاء بفاصلة مخالفة (وصل-فصل مغاير) لِتجنّب التكرار وتحقيق الاتساق النحوي والبلاغي، أي فصل ووصل مقصود (فصل/وصل).",
+        "claim_en": "A stylistic separation between “mustaqar” and “mustawdaʿ” is effected by a deliberate contrasting pause (a particular choice of pause/connection) to avoid repetition and to secure rhythmic and rhetorical coherence.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "قرر",
+        "lemma": "مُسْتَقَرّ",
+        "confidence": "high",
+        "needs_review_reason": "n/a",
+        "quran_ref": "S6:A98",
+        "rhetorical_effect": "avoids monotony, highlights independence of each term and draws attention to the two distinct loci/ideas (making the reader reflect on each)."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "فلكم مستقرّ في الرحم. ومستودع في الصلب، أو مستقرّ فوق الأرض ومستودع تحتها.",
+        "claim_ar": "تقديم ثنائية «مُسْتَقَرٌّ ومُسْتَوْدَعٌ» كأسلوب مقابلة/تضاد دالّ على اختلاف المواقع أو الأحوال (مقابلة لفظية تُبرز التباين بين حالتين).",
+        "claim_en": "The pairing “mustaqar and mustawdaʿ” functions as a muqabalah (antithetical juxtaposition), highlighting contrasting loci or states (an opposition that emphasizes difference between two conditions).",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "قرر",
+        "lemma": "مُسْتَقَرّ",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive assignment based on the commentator's suggested readings (several possible senses are given for the loci); requires review against broader tafsir/philological sources.",
+        "quran_ref": "S6:A98",
+        "rhetorical_effect": "emphasizes contrast between two abodes/conditions (e.g., womb vs. loins or earth vs. under-earth), underlining the encompassing nature of God’s creative act and prompting reflection on human origin."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are limited (mainly excerpts from al-Kashshaf and related tafsir fragments). Requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha sections) are not present in the input, so claims are drawn only from the available chunks and may not reflect those other authorities.",
+      "Some device assignments (e.g., muqabalah) are interpretive based on the commentator's explanatory variants; confidence is therefore set to medium and flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

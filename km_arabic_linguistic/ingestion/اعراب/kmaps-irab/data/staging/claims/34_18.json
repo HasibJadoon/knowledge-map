@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "34:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (فِي الْآخِرَةِ) : يَجُوزُ أَنْ يَكُونَ ظَرْفًا الْعَامِلُ فِيهِ «الْحَمْدُ» أَوِ الظَّرْفُ؛ وَأَنْ يَكُونَ حَالًا مِنَ (الْحَمْدُ) وَالْعَامِلُ فِيهِ الظَّرْفُ.",
+        "claim_ar": "لَيَالِيَ وَأَيَّامًا قد تكونان ظرفًا زمانًا لِفِعلِ «سِيرُوا» أو قد تُعربان حالًا متعلِّقًا بـ «سِيرُوا».",
+        "claim_en": "The phrase 'layaali wa ayyaman' (nights and days) may function as a temporal adverbial (ظرف) for the verb 'siru' or as a hal (circumstantial accusative) related to it.",
+        "root": "ليل",
+        "lemma": "لَيْل",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk gives a general principle (example with «في الآخرة») showing that a temporal expression can be analyzed either as ظرف or حال; applying that general rule to this specific phrase in the verse is inferential rather than explicitly treated in the provided source material."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not quote or analyze S34:18 directly; the extracted claim is an application of a general principle (from the chunk about «فِي الآخِرَةِ») to the phrase «لَيَالِيَ وَأَيَّامًا» in this ayah.",
+      "Only one relevant source chunk was found; other grammatical aspects of the verse (e.g. the status of «قُرَىً ظَاهِرَةً», the syntax of «قَدَّرْنَا فِيهَا السَّيْرَ سِيرُوا») are not discussed in the provided chunks and therefore no claims were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

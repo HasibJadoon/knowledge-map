@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:157",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No balagha/tafsir-balagha material from the requested authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or explicit 'tafsir balagha' sections) was provided in source_chunks. The supplied chunks are from Zamakhsharī and iʿrāb commentary (Darwish) and do not contain the required rhetorical analyses or explicit device labels/claims needed to extract reliable بلاغة claims.",
+      "Cannot fabricate source_quote_ar or claims. To extract بلاغة claims, please provide excerpts from the requested balagha/tafsir-balagha sources (or other sources that explicitly discuss rhetorical devices for this ayah)."
+    ]
+  },
+  "n_chunks": 12
+}

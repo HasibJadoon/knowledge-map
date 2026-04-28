@@ -1,0 +1,74 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "توكيد/حرف توكيد",
+        "source_quote_ar": "إِنَّ النَّاسَ قَدْ جَمَعُوا لَكُمْ",
+        "claim_ar": "حرف التأكيد «إِنَّ» مستعمل لتوكيد الخبر والإظهار بأنّ الله فعلاً اصطفى المذكورين.",
+        "claim_en": "The particle \"إِنَّ\" functions as an emphatic particle, stressing the statement that God indeed chose the figures named.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr / تأكيد (emphatic particle)",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A33",
+        "rhetorical_effect": "يمنح الجملة قوة وثبوتاً، ويشدّد على حقيقة الاصطفاء."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "اصطفاء (فعل اختياري بلاغي)",
+        "source_quote_ar": "صفوته وخالصته",
+        "claim_ar": "الفعل «اصطفى» يحمل دلالة الاصطفاء والانتخاب (الصفوة والخلوص)، أي اختيار خاص مميّز من قبل الله.",
+        "claim_en": "The verb \"اصطفى\" conveys the idea of selecting/choosing a purified, choicest group — an act of special divine selection.",
+        "device_branch": "maani",
+        "device_subtype": "selection / اصطفاء",
+        "root": "صفو",
+        "lemma": "اصْطَفَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "interpretation depends on semantic treatment of 'اصطفى' in classical tafsir; supporting quote is lexical (صفوة) from the provided chunk rather than the exact verse commentary.",
+        "quran_ref": "S3:A33",
+        "rhetorical_effect": "تبرِز منزلة هؤلاء المذكورين وخصوصيّتهم عند الله."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "إعلاء/تفضيل بوساطة حرف الجر «على»",
+        "source_quote_ar": "أُنْزِلَ عَلَى الَّذِينَ آمَنُوا",
+        "claim_ar": "حرف الجر «على» في «على العالمين» يعمل بلاغياً على بيان العلوّ والتفوق والافضلية، أي أنهم مفضلون على سائر العالمين.",
+        "claim_en": "The preposition \"على\" in \"على الْعَالَمِينَ\" functions rhetorically to denote elevation/superiority — indicating that these are preferred above the worlds.",
+        "device_branch": "maani",
+        "device_subtype": "superiority/elevation (على)",
+        "root": "علم",
+        "lemma": "عَٰلَمِين",
+        "confidence": "medium",
+        "needs_review_reason": "the supporting quote shows usage of «على» in tafsir text but not the exact phrase «على العالمين»; interpretation assumes common semantic value of «على» as expressing superiority.",
+        "quran_ref": "S3:A33",
+        "rhetorical_effect": "يرفع من قدر المذكورين ويمنحهم صفة التفضيل أمام الخلق."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "تكرار (بديع - تكرار) في «وآلَ»",
+        "source_quote_ar": "وكرّر قوله",
+        "claim_ar": "تكرار اللفظ «وآل» (وآل إبراهيم، وآل عمران) يعدّ تكراراً بلاغياً يقوّي تقسيم الجهات أو الأسر ويشدّد على شمول الاصطفاء لأسرٍ/أنسابٍ معيّنة.",
+        "claim_en": "The repeated formula \"وآل\" (as in \"وَآلَ إِبْرَاهِيمَ وَآلَ عِمْرَانَ\") is a rhetorical repetition (takrar) that reinforces the grouping (families/clans) and emphasizes the collective selection.",
+        "device_branch": "badi",
+        "device_subtype": "takrar (repetition)",
+        "root": "اول",
+        "lemma": "آل",
+        "confidence": "medium",
+        "needs_review_reason": "the provided supporting quote is a generic note on repetition from the tafsir chunks rather than an explicit commentary on the repeated «وآل» in this verse.",
+        "quran_ref": "S3:A33",
+        "rhetorical_effect": "يزيد من الوضوح والتأثير في إبراز مجموعات الناس المختارة ويُضْفِي انتظاماً وصوتية على السرد."
+      }
+    ],
+    "warnings": [
+      "المصادر المرفقة هي أجزاء من تفسير الزمخشري (al-Kashshaf) فقط؛ لم تُرفق نصوص من الجرجاني أو السكاكي أو الباقلاني أو السيوطي أو أقسام (تفسير بلاغي) المذكورة في مهمة المعالجة، لذلك بعض الاستخلاصات تعتمد على شواهد عامة موجودة في هذه الأجزاء وليس على تعليق مباشر ومفصّل لكل جهاز بلاغي عن الآية.",
+      "بعض الاقتباسات المرفوعة (source_quote_ar) هي شواهد عامة لكلمات أو ظواهر بلاغية في النصوص المتاحة (مثل «صفوته وخالصته»، «وكرّر قوله»، «أُنْزِلَ عَلَى الَّذِينَ آمَنُوا») وليست تعليقاً صريحاً مُفَصَّلًا على كل عنصر من عناصر آية (سورة آل عمران:33). لذلك وُسِّع تفسير دلالات هذه الشواهد لربطها بآية S3:A33؛ راجع المصادر التفسيرية الأخرى للتأكد والتوثيق التفصيلي.",
+      "بعض التعيينات (مثل تصنيف «اصطفاء» كـ subtype ضمن معاني أو تفسير «على» كتعبير عن التفوق) قد تحتاج مراجعة نصية من تراجم تفسيرية إضافية لتثبيت المصطلح البلاغي الدقيق المستخدم لدى كل مفسّر كلاسيكي."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,25 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:170",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "البلاغة: في هذه الآية الالتفات",
+        "claim_ar": "التفات ونداء ببداية الآية «يَا أَيُّهَا النَّاسُ» باعتبارها مخاطبة عامة تجرِى القلوب وتشدّ الانتباه.",
+        "claim_en": "Iltifat (shift of address / vocative) at the start: the vocative 'yā ayyuhā al-nās' addresses all people, shifting into direct address to draw attention and engage the audience.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only one provided source chunk (AL:CHUNK:6f11445e84e1599234d37b38) explicitly names the device 'الالتفات' (used here as source_quote_ar). The supplied chunks do not contain the ayah text itself, so the claim links the rhetorical label in the chunk to the ayah rather than quoting the ayah from the chunks. Verify alignment with the original tafsir/balagha sources if stricter source quoting is required."
+    ]
+  },
+  "n_chunks": 12
+}

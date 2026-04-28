@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:74",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "قَالُوا",
+        "claim_ar": "الاستفهام الإنكاري/التحدّي في الآية: «فَمَا جَزَاؤُهُ إِنْ كُنْتُمْ كَاذِبِينَ» يعمل كوسيلة بلاغيّة لمواجهة الادّعاء وكشف النفاق، أي استفهام إنكاري يوقِف المتكلّم على المقابلة والتقريع.",
+        "claim_en": "Rhetorical (ironical) question/challenge: the clause “فَمَا جَزَاؤُهُ إِنْ كُنْتُمْ كَاذِبِينَ” functions as a rhetorical/ironical interrogation that confronts the claim and exposes hypocrisy — an interrogative challenge.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains the substring 'قَالُوا' but does not explicitly analyze this specific ayah's rhetorical question; the assignment of ijab_inshaa (rhetorical/interrogative challenge) is an interpretation that should be checked against a dedicated balagha commentary for this verse."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "badi",
+        "source_quote_ar": "وَلَقَدْ قَالُوا",
+        "claim_ar": "تكرار فعل القول «قالوا» (مُقرونًا بأداة توكيد كـ «لقد») يُستخدم بلاغيّاً للتوكيد والسخرية من ادّعائهم؛ التكرار هنا يعزّز كشف النزاع بين القول والواقع.",
+        "claim_en": "Repetition (takrar) of the verb 'qaluu' (often with emphasis particle such as 'laqad') functions rhetorically to emphasize and deride their claim; the repetition strengthens the contrast between what was said and reality.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The Tabari chunk explicitly contains 'وَلَقَدْ قَالُوا...', which supports noticing repetition/emphatic mention of 'قالوا' in tafsir; however, a finer-grained balagha source explicitly labelling this as 'takrar' for this verse would increase confidence."
+      }
+    ],
+    "warnings": [
+      "Source chunks supplied are general tafsir excerpts and lexicographical notes; none is an explicit balagha (rhetoric) treatment specifically addressing S12:74. Claims are therefore interpretive and rely on extrapolating rhetorical readings from the available excerpts.",
+      "source_quote_ar values are exact substrings from the provided chunks but do not necessarily contain an explicit balagha label for the claimed device; verify with specialist balagha commentary if used for teaching or formal analysis."
+    ]
+  },
+  "n_chunks": 12
+}

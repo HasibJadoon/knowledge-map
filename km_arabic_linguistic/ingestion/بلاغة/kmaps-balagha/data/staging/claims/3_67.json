@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:67",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit بلاغة (rhetoric) analyses by al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a tafsir-balagha section are present in the provided source_chunks. The chunks are from Zamakhshari and Safi and do not contain clear, extractable balagha claims tied to Sura 3:67.",
+      "I could not find exact source_quote_ar substrings in the provided chunks that explicitly state rhetorical-device claims about this ayah (e.g., discussion of تَقديم/تأخير, استعارة, كناية, جناس, تورية, التزام بديعيّ، إلخ.). Because source_quote_ar must be an exact substring from a provided chunk, I am not able to create supported claims for this ayah from the given material."
+    ]
+  },
+  "n_chunks": 12
+}

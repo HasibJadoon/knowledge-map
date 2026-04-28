@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:280",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "المراد الصدقات المتطوّع بها",
+        "claim_ar": "تقييد معنى «تَصَدَّقُوا» بأنّ المراد هنا الصدقات المتطوّع بها — أي حصر المعنى في التطوع وعدم الإطلاق على كل صدقة",
+        "claim_en": "Restriction of the meaning of “تَصَدَّقُوا”: the intended meaning here is voluntary charity (not every kind of giving) — a semantic limitation.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "صدق",
+        "lemma": "تَصَدَّقَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A280",
+        "rhetorical_effect": "يوضح المقصود عملياً ويمنع التأويل الواسع، فيجعل النسق التشريعي والخلقي مقنناً وموجهاً نحو التطوع في هذا السياق."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فَهُوَ خَيْرٌ لَكُمْ",
+        "claim_ar": "انتقال في المخاطب/المقام: من ذكر حال (ذُو عُسْرَةٍ) بضمير أو وصف طرف ثالث إلى مخاطبة مباشرة أو توجيه عام («خَيْرٌ لَكُمْ»)، أي تحويل الموضوع من بيان الحكم على المدين إلى مخاطبة المستمعين/المؤمنين ونصحهم.",
+        "claim_en": "Iltifat (shift of address): the verse shifts from describing the debtor's condition (third-person) to addressing the audience with a moral exhortation ('it is better for you'), changing the focus and drawing attention.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "خبر/حكم (اجتهادي)",
+        "lemma": "انتقال المخاطبة",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling as 'iltifat' depends on whether one treats the clause as a genuine shift of grammatical person vs. a generalizing statement; verify with additional classical rhetoricians (al-Jurjani/al-Sakkaki) for terminological match.",
+        "quran_ref": "S2:A280",
+        "rhetorical_effect": "تشدّ انتباه السامع وتحوّل الحكم الفرعي إلى نصيحة أو تشجيع أخلاقي موجهة للمجتمع/المؤمنين."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "وَإِنْ تُخْفُوها وَتُؤْتُوهَا الْفُقَراءَ",
+        "claim_ar": "أسلوب الإنشاء والنصح: إدخال «أن/أَنَّ» والطرح بصيغة اسمية (مثال: «وَأَنْ تَصَدَّقُوا خَيْرٌ لَكُمْ») يعمل كصيغة نهي/أمر مخفف أو نصيحة مؤدّبة بدل أمر مباشر.",
+        "claim_en": "Ijab/Inshāʾ (use of declarative/nominal construction to convey exhortation): the clause structure (e.g., 'and that you give charity is better for you') functions as a softened injunction/advice rather than a blunt imperative.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "صدق",
+        "lemma": "تَصَدَّقَ",
+        "confidence": "medium",
+        "needs_review_reason": "The classification depends on whether classical commentators explicitly treat the nominal phrasing here as a performative exhortation; recommend checking Jurjani/Sakkaki terminology for 'ijab_inshaa' usage.",
+        "quran_ref": "S2:A280",
+        "rhetorical_effect": "يبني السلطة الأخلاقية بلطفٍ ويخفض حدة الأمر، فيحفّز على الإحسان طوعاً بدلاً من فرضه بأمر مباشر."
+      }
+    ],
+    "warnings": [
+      "المصادر المرفقة في input هي أجزاء من الشروح (مثلاً الزمخشري) ولا تشمل جميع المراجع المطلوبة في التعليمات (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). الاستخلاص هنا يعتمد على المقاطع المتاحة فقط.",
+      "الاقتباسات المستخدمة كـ source_quote_ar مأخوذة حرفياً من المقاطع المزودة، وقد لا تطابق كلمةً بكلمة صيغة الآية في النص القرآني؛ بعض استدلالات البلاغة هنا تفسيرية وتستدعي مراجعة شروح بلاغية إضافية لتثبيت التصنيف (موضح في حقول needs_review_reason)."
+    ]
+  },
+  "n_chunks": 12
+}

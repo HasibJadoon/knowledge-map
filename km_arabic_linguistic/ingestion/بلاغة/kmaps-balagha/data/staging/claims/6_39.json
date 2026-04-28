@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:39",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "kinayah",
+        "source_quote_ar": "وَكَذَّبْتُمْ بِهِ",
+        "claim_ar": "تكذيب الآيات هنا يعمل ككناية عن الإعراض والإنكار المتعمد لحقّ الله واستحقاق الجزاء",
+        "claim_en": "The denial of the signs (كَذَّبُوا بِآيَاتِنَا) functions as a kināyah (indirect expression) for wilful rejection and culpable refusal of God's truth.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "كذب",
+        "lemma": "كَذَّبَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote is from the supplied commentary chunk (Zamakhshari) but the quoted form (وَكَذَّبْتُمْ بِهِ) differs slightly in person/number from the ayah's wording (كَذَّبُوا بِآيَاتِنَا); the rhetorical reading is plausible but should be cross-checked against authors explicitly discussing kināyah here."
+      }
+    ],
+    "warnings": [
+      "Only one clear supporting substring for the ayah's rhetoric was found in the provided source chunks (the phrase «وَكَذَّبْتُمْ بِهِ»). Other obvious rhetorical features of this verse in classical balāgha (e.g., the metaphorical pairing «صُمٌّ وَبُكْمٌ فِي الظُّلُمَاتِ», the antithetical parallelism between divine misguidance and guidance «مَنْ يَشَأِ اللَّهُ يُضْلِلْهُ وَمَنْ يَشَأْ يَجْعَلْهُ عَلَىٰ صِرَاطٍ مُّسْتَقِيمٍ») could not be cited with exact source substrings because the provided chunks do not contain those exact phrases. ",
+      "Many plausible balāghī readings (tibāq/muqābalah, istiarah/majāz for «صُمٌّ وَبُكْمٌ فِي الظُّلُمَاتِ», and overall rhythmic parallelism) are likely for this ayah but were omitted because no exact matching substring in the supplied chunks could be used as the required source_quote_ar. If you supply tafsir-balagha excerpts (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī or explicit balāgha tafsīr) that contain verbatim references to the ayah, I can extract additional claims with higher confidence.",
+      "Claims here are conservative and limited to what can be tied exactly to the provided source text. Please provide additional source chunks (especially excerpts that quote the exact ayah wording or directly discuss its rhetorical devices) to expand and increase confidence of extracted claims."
+    ]
+  },
+  "n_chunks": 12
+}

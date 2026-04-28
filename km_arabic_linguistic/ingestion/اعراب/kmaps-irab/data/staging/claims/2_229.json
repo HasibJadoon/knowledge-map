@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:229",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "(أَنْ لَا يَكُونُوا) : مَفْعُولٌ لَهُ؛ أَيْ لِئَلَّا؛ أَوْ مَخَافَةَ أَنْ لَا.",
+        "claim_ar": "حالة أَنّ (حَبْر) بصيغة «أَنْ ...» تُعرب كمفعولٌ لَهُ (بمعنى لئلا أو مخافة أن لا).",
+        "claim_en": "The construction 'أن ...' (as in 'أَنْ لَا يَكُونُوا' in the source) functions as a mafuul lahu (object), i.e. expressing 'liallâ' or 'makhâfat an lâ' (fear that not).",
+        "root": null,
+        "lemma": "أَن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited example in the source is specifically 'أَنْ لَا يَكُونُوا' (with لا). In this ayah the construction is 'أَنْ تَأْخُذُوا' (without لا); the rule is being applied analogically from the source example to the ayah's 'أَنْ', so the mapping should be reviewed for exact syntactic fit."
+      }
+    ],
+    "warnings": [
+      "Only one explicit grammatical statement in the provided chunks relates to the ayah's constructions (the note on 'أَنْ لَا يَكُونُوا' as مفعولٌ لَهُ). The source example contains 'لا' while the ayah's 'أَنْ' instances do not exactly match; further verification from the commentary on Sura 2:229 specifically is recommended.",
+      "No explicit chunks discuss the specific words of S2:229 (e.g., إمساكٍ، تسريحٍ، يَحِلُّ، افْتَدَتْ). Extracted claim is a general rule-reference rather than a direct parsing of the ayah's words."
+    ]
+  },
+  "n_chunks": 12
+}

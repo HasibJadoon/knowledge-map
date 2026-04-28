@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:158",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "حذف جواب «أن» (ellipsis)",
+        "source_quote_ar": "وحذف جواب «أن» كما تقول: إن شئت أن تقوم بنا إلى فلان نزوره",
+        "claim_ar": "المعلّق يبيّن وجود حذف جواب «أن» في سياق الكلام، أي محو جواب المحذوفة لتكثيف العبارة وسلاستها.",
+        "claim_en": "The commentator notes the omission (ellipsis) of the answer 'أن' in the construction — a syntactic omission that compresses the expression and smooths the wording.",
+        "device_branch": "other",
+        "device_subtype": "حذف-جواب-أن",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "Direct gloss from the provided tafsir chunk; identification is explicit in source."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "تكرار (repetition)",
+        "source_quote_ar": "أَوْ سُلَّماً فِي السَّمَاءِ فَتَأْتِيَهُمْ منها بِآيَةٍ",
+        "claim_ar": "تكرار أفعال من جذر «أتى/تأتي» (أتى - تأتي) كوسيلة بلاغية لتوكيد الإمكان المتخيّل والحرص على إتيان الآية.",
+        "claim_en": "Repetition of the verbs from the root 'أتى/تأتي' (to come/bring) functions rhetorically to emphasize the imagined possibilities and the eagerness to present a sign.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "اتي",
+        "lemma": "أَتَى",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling the function of this recurrence as a badi/takrar device is plausible given the text, but classical sources may classify the rhetorical effect differently; review recommended."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "مبالغة فرضية/تصوير حماسي (hypothetical hyperbole)",
+        "source_quote_ar": "يعنى أنك لا تستطيع ذلك. والمراد بيان حرصه على إسلام قومه وتهالكه عليه، وأنه لو استطاع أن يأتيهم بآية من تحت الأرض أو من فوق السماء لأتى بها رجاء إيمانهم.",
+        "claim_ar": "استخدام شرط وهمي («لو استطاع ... لأتى بها») كمبالغة بلاغية لبيان شدة حرص النبي ﷺ على هداية قومه — تصوير لحالة مستحيلة لغايات تأثيرية.",
+        "claim_en": "Use of an impossible conditional ('if he could ... he would bring it') as a rhetorical hyperbole to show the Prophet's intense concern for his people's guidance — an imagined extreme deployed for effect.",
+        "device_branch": "maani",
+        "device_subtype": "itnaab",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Mapping this hyperbolic conditional to the specific ma'ani subtype 'itnaab' is interpretive; confirm with classical nomenclature."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from Zamakhshari, Safi (al-Jadwal), Darwish (I'rab) etc.; the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and a 'tafsir balagha' section) are not present in the input. Claims are therefore extracted from the available chunks only.",
+      "Some device assignments (e.g., labeling the hyperbolic conditional as 'itnaab' or assigning repetition to badi/takrar) are interpretive and flagged for review; classical authorities may use different terminology."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:34",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable بلاغة claims: none of the provided source_chunks contain the exact ayah text or a direct discussion of its rhetorical devices (particles like إِلَّا, وَمَا لَهُمْ أَلَّا, contrast between أَوْلِيَاؤُهُ إِلَّا الْمُتَّقُونَ, etc.). Per requirements, source_quote_ar must be an exact substring of one of the provided chunks; because that condition is not met for this ayah or its devices in the given chunks, no claims can be produced. If you provide source chunks (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir balagha excerpts) that discuss this verse or include relevant quoted phrases, I can extract and return the requested claims."
+    ]
+  },
+  "n_chunks": 12
+}

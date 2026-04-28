@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا أَغْنَى) : وَيَجُوزُ أَنْ تَكُونَ «مَا» نَافِيَةً، وَأَنْ تَكُونَ اسْتِفْهَامًا.",
+        "claim_ar": "يجوز أن تكون «مَا» هنا (في «مَا نَهَاكُمَا») «ما» نافية تُنفي ما بعدها، أو أن تكون «ما» استفهامية بحسب القراءة أو السياق.",
+        "claim_en": "The particle \"mā\" in \"mā nahākumā\" may be either a negation particle or an interrogative particle depending on reading or context.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage gives a general rule about the particle «ما» being either negating or interrogative. Determining which function applies in this specific ayah requires contextual syntactic judgment not provided in the chunk."
+      }
+    ],
+    "warnings": [
+      "Among the provided source chunks, only a general note about the particle «مَا» (chunk AL:CHUNK:fe07e8e2ba9644dcb3be58ec) matches text relevant to this ayah. No explicit iʿrāb claims for other words of S7:A20 are present in the given chunks, so no further parsing claims could be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

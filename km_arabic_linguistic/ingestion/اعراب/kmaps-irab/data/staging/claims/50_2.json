@@ -1,0 +1,58 @@
+{
+  "layer": "irab",
+  "ayah_key": "50:2",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "irab",
+        "source_quote_ar": "(هَذَا) : هُوَ مُبْتَدَأٌ،",
+        "claim_ar": "هَذَا: مُبْتَدَأ",
+        "claim_en": "'هَذَا' is the mubtada' (the grammatical subject/demonstrative subject).",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "irab",
+        "source_quote_ar": "هَذَا شَيْءٌ عَجِيبٌ",
+        "claim_ar": "شَيْءٌ: خَبَرُ هَذَا",
+        "claim_en": "'شَيْءٌ' functions as the khabar (predicate) of the mubtada' 'هَذَا'.",
+        "root": "شيا",
+        "lemma": "شَىْء",
+        "confidence": "medium",
+        "needs_review_reason": "The source presents the surface phrase but the explicit labeling of 'شَيْءٌ' as خبر in this exact verse is inferential (the detailed discussion in the source treats parallel examples)."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "irab",
+        "source_quote_ar": "هَذَا شَيْءٌ عَجِيبٌ",
+        "claim_ar": "عَجِيبٌ: نَعْتٌ لِشَيْءٍ (وَأَوْلَى أَنْ يَكُونَ صِفَةً لِشَيْءٍ)",
+        "claim_en": "'عَجِيبٌ' is an adjective (na't) qualifying 'شَيْءٌ' — i.e. a descriptive predicate modifying 'thing'.",
+        "root": "عجب",
+        "lemma": "عَجِيب",
+        "confidence": "medium",
+        "needs_review_reason": "The verse string supports an adjectival relation, but the source does not give an explicit morphological/rhetorical ruling for 'عَجِيبٌ' in this verse; the relation is the usual syntactic reading."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "فِي الْخَبَرِ وَجْهَانِ: أَحَدُهُمَا: (فَلْيَذُوقُوهُ) مِثْلُ قَوْلِكَ: زَيْدٌ اضْرِبْهُ. وَقَالَ قَوْمٌ: هَذَا ضَعِيفٌ مِنْ أَجْلِ الْفَاءِ؛ وَلَيْسَتْ فِي مَعْنَى الْجَوَابِ،",
+        "claim_ar": "وُجُودُ وَجْهِينِ فِي خَبَرِ «هَذَا»: إِمَّا أَنْ يَكُونَ خَبَرًا جُمْلِيًّا (فِعْلِيًّا) مِثْلَ «فَلْيَذُوقُوهُ»، وَإِمَّا أَنْ يَكُونَ بَدَلًا أَوْ خَبَرًا ثَانٍ.",
+        "claim_en": "There is a grammatical disagreement/alternate analyses for the predicate after 'هَذَا': one view treats the predicate as a verbal clause (e.g. an imperative clause as khabar), another view treats the following nominal as weak/badal or a second predicate. (The source records these two faces.)",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage discusses paradigmatic possibilities for constructions with هَذَا in examples; applying the full range of these alternate analyses to this specific verse requires careful mapping."
+      }
+    ],
+    "warnings": [
+      "The primary commentary passages used (especially the analysis of «هَذَا» and the two 'وجهان' for the خبر) are general discussions and examples; they are not always commentary explicitly tied to Sura 50:2. Some claims therefore rely on extrapolation from those general remarks to this verse.",
+      "The source text gives alternative analyses (وجهان) for constructions with هَذَا; where the source does not explicitly adjudicate for this exact verse, assertions are given with reduced confidence and a needs_review_reason explaining the inference.",
+      "No explicit discussion in the provided chunks labels 'عَجِيبٌ' as نعت for this verse; that claim is the standard syntactic reading but flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

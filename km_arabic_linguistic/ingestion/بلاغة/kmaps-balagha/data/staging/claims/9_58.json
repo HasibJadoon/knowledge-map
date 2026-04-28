@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:58",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "استئناف مسوق",
+        "claim_ar": "الآية جزء من استئناف مسوق لبيان قصةٍ ونموذجٍ للنفاق (ثعلبة بن حاطب)، أي أنها تُستعمل كسردٍ مستأنف يقدّم مثالاً توضيحياً للموقف الأخلاقي المذكور.",
+        "claim_en": "The verse functions as an \"estinaf masūq\" (a resumed narrative insertion) to present/illustrate the story and exemplify hypocrisy (Tha'laba b. Hatib). It is a deliberate narrative move to introduce an illustrative case.",
+        "device_branch": "other",
+        "device_subtype": "narrative_resumption",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "لَئِنْ آتانا مِنْ فَضْلِهِ",
+        "claim_ar": "الآية تستعمل مقابلة شرطية/تضادّية: حالٌ من الرِضا عند الإعطاء مقابل سخطٍ عند الامتناع (إن أعطوا... وإن لم يعطوا...)، وهو نمط مواجهة بلاغي يعتمد التوازي والتضاد.",
+        "claim_en": "The verse employs a contraposed conditional structure (إن... وإن لم...) creating a muqābalah/contrast: contentment when given vs. resentment when not given. This parallel-contrast is a rhetorical device using balanced clauses.",
+        "device_branch": "badi",
+        "device_subtype": "مقابلة",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source chunk shows the same pattern of giving/withholding and related syntax, but the original source is a grammatical/iʿrāb commentary rather than an explicit rhetoric treatise; labelling it 'مقابلة' is an inference from form/function and should be reviewed against classical balagha sources."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "other",
+        "source_quote_ar": "يَلْمِزُكَ) يعيبك في قسمة",
+        "claim_ar": "الفعل 'يَلْمِزُكَ' موضح لغوياً بأنه «يعيبك في قسمة [الصدقات]» — إشارة صريحة إلى أن الانتقاد موجّه للرسول بشأن توزيع الصدقات.",
+        "claim_en": "'yalmizuka' is glossed lexically as \"he faults/criticizes you concerning the division [of alms]\" — indicating a direct reproach addressed to the Prophet about distribution.",
+        "device_branch": "other",
+        "device_subtype": "lexical_gloss / direct_address",
+        "root": "لمز",
+        "lemma": "يَلْمِزُ",
+        "confidence": "medium",
+        "needs_review_reason": "This is a lexical/explanatory note from an iʿrāb source rather than a classical rhetorical label; treating it as a rhetorical 'direct address' or pragmatic device is an interpretive step that should be cross-checked with balagha-focused sources."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are primarily iʿrāb/grammatical commentaries (Darwish iʿrāb). Many classical balagha labels (al-Jurjānī, al-Sakkākī, etc.) are not present in these chunks, so some rhetorical device assignments are inferred from syntactic/semantic remarks rather than explicit balagha terminology.",
+      "Where a chunk gives lexical or syntactic explanation (e.g., glosses, 'استئناف مسوق'), I used those exact substrings as evidence. Claims that generalize these observations to classical balagha categories (e.g., 'مقابلة') are therefore of medium confidence and flagged for review.",
+      "If you require only claims directly attested with classical balagha terminology (Jurjani, Sakkaki, Baqillani, Suyuti, tafsir-balagha), provide source chunks from those works; otherwise please confirm that inferences from iʿrāb commentary are acceptable."
+    ]
+  },
+  "n_chunks": 12
+}

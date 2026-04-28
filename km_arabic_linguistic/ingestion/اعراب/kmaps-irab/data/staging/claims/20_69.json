@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "20:69",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "taalluq",
+        "source_quote_ar": "و (فِي كِتَابٍ) : صِفَةٌ أُخْرَى لِقُرْآنٍ، أَوْ حَالٌ مِنَ الضَّمِيرِ فِي كِرِيمٍ، أَوْ خَبَرُ مُبْتَدَأٍ مَحْذُوفٍ.",
+        "claim_ar": "الجار والمجرور «في يَمِينِكَ» يحتمل أن يكون صفة لما تدل عليه «ما» (نعت) أو حالًا، أي أن عَلاقة «في يَمِينِكَ» بسياق الجملة غير قطعية ويمكن قراءتها كصفة أو حال.",
+        "claim_en": "The prepositional phrase 'fii yamiinika' (in your right hand) may function either as an attribute (sifah / adjective) modifying the 'ma' ('what') or as a circumstantial adverbial (hal). In other words, the attachment of 'fii yamiinika' to the clause is ambiguous between being a modifier of 'ma' or a hal.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source discusses the example '(في كتاب)' and lists possible functions (صفة, حال, خبر مبتدأ محذوف). Applying that general statement to 'في يَمِينِكَ' is inferential rather than an explicit treatment of this exact phrase in the provided chunks."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks quote or analyse the exact verse (سورة طه:69). The claim above is inferred from a general discussion of constructions with 'في' (the chunk quoting '(فِي كِتَابٍ) ...')."
+    ]
+  },
+  "n_chunks": 12
+}

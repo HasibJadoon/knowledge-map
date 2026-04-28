@@ -1,0 +1,14 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:176",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable بلاغة claims produced: the provided source_chunks are Darwish - I'rab (grammatical/i'rāb commentary) and do not contain explicit بلاغى (rhetorical) treatments from the requested authors (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, or tafsīr‑balāgha sections).",
+      "The task requires each claim to include source_quote_ar that is an exact substring of one of the provided chunks. I could not find in the given chunks explicit rhetorical commentary or quoted substrings that directly support a بلاغة classification for S3:A176.",
+      "If you want extracted بلاغة claims for this ayah, please provide one or more of the following: (a) source chunks from the requested rhetorical/tafsīr‑balāgha works that discuss this ayah (so I can quote exact substrings), or (b) explicit excerpts from such treatises that point to devices (e.g., al-Jurjānī on iltifāt, al-Sakkākī on majāz, etc.).",
+      "Alternatively, I can produce proposed rhetorical readings of the ayah (with device labels and confidence levels) but these would lack the required source_quote_ar evidence and thus would be marked as 'needs_review' or shown separately if you approve."
+    ]
+  },
+  "n_chunks": 12
+}

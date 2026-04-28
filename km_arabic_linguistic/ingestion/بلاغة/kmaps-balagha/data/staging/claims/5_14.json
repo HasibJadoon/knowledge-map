@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:14",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "حذف المقول لأنّ الجواب دال عليه",
+        "claim_ar": "حذف المقول (الوقوف على حذف جزء من الكلام) كوسيلة بلاغية توكيدية واقتصادية في البيان؛ حذف المقول لأنّ الجواب دال عليه.",
+        "claim_en": "Ellipsis (حذف المقول) is used as a rhetorical device here: omitting an expressed clause because the answer is already indicated — a concise, emphatic style (ijaaz).",
+        "device_branch": "maani",
+        "device_subtype": "ellipsis (حذف)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A14",
+        "rhetorical_effect": "Economy of expression and increased force: makes the statement sharper and relies on the hearer's inference, enhancing impact."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "majaz",
+        "source_quote_ar": "غل اليد وبسطها مجاز عن البخل والجود",
+        "claim_ar": "استعمال المجاز (التصوير الحسي) لتحويل معانٍ معنوية إلى صور محسوسة، مثالًا: «غل اليد وبسطها مجاز عن البخل والجود».",
+        "claim_en": "Use of metaphor/metonymy (majaz): converting abstract meanings to sensory images — e.g. 'binding the hand and stretching it' as a metaphor for stinginess and generosity.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz (metaphorical imagery)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A14",
+        "rhetorical_effect": "Makes abstract moral qualities (like generosity/beggary) vivid and easily perceptible by appealing to sensory imagery."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "majaz",
+        "source_quote_ar": "تصوير الحقيقة المعنوية بصورة حسية",
+        "claim_ar": "التأكيد على أنّ وظيفة المجاز في القرآن/البيان هي تصوير الحقيقة المعنوية بصورة حسية لبلوغ الوضوح واليقظة المعنوية.",
+        "claim_en": "Emphasis that metaphor's role is to portray an immaterial truth in a sensory form, making the abstract clearer and more immediate.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz (sensory imagery)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A14",
+        "rhetorical_effect": "Transforms abstract theological/moral concepts into concrete images, aiding comprehension and emotional response."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari (al-Kashshaf). Requested scholar sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not included — extracted claims therefore come from the supplied chunks only.",
+      "All claims are given as ayah-level observations (word_index = 0) because the provided chunks contain general rhetorical commentary rather than explicit, word-level claims tied to individual words of S5:A14. If word-level devices are required, please supply commentary that targets specific words or provide the listed scholars' relevant excerpts.",
+      "Some fields (root, lemma) are null because the claims are ayah-level or conceptual; if lexical anchoring is needed, supply which word(s) should be considered primary for each claim."
+    ]
+  },
+  "n_chunks": 12
+}

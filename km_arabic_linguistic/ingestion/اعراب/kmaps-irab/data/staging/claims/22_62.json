@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "22:62",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taqdir",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (أَنْ يُؤْمِنُوا لَكُمْ) حَرْفُ الْجَرِّ مَحْذُوفٌ، أَيْ: فِي أَنْ يُؤْمِنُوا وَقَدْ تَقَدَّمَ ذِكْرُ مَوْضِعِ مِثْلِ هَذَا مِنَ الْإِعْرَابِ: (",
+        "claim_ar": "يورد المؤلف مثالاً يذكر فيه أن حرف الجر محذوف في أمثال «أنْ يُؤْمِنُوا لَكُمْ»، وهو تلميح إلى أن الحروف الجرّية في تراكيب مشابهة قد تُحذف أو تُقدَّر؛ وبناءً عليه يمكن اعتباره ملاحظة على حرف الباء في «بِأَنَّ» وأن وجوده أو حذفه يُنظر إليه كقضية تقديرية في بعض مواضع الإعراب.",
+        "claim_en": "The author gives an example stating that the preposition is omitted in constructions like “(أنْ يُؤْمِنُوا لَكُمْ)”, implying that prepositional particles in similar constructions may be omitted or be supplied by reconstruction. Accordingly, this can be read as a remark relevant to the باء of «بِأَنَّ», i.e. that the preposition may be considered omitted or supplied by taqdir in some grammatical analyses.",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage treats a different example; applying it to the باء of «بِأَنَّ» in this specific verse is an inference rather than an explicit statement in the provided chunk."
+      }
+    ],
+    "warnings": [
+      "Only a single relevant passage was found in the provided chunks; it addresses omission of a preposition in a different example. Any application of that observation to the باء of «بِأَنَّ» in S22:A62 is inferential and should be checked against the author’s direct commentary on this verse (if available).",
+      "No explicit statements in the supplied chunks about the syntactic roles (مبتدأ/خبر/فاعل/مفعول به etc.) for the words of S22:A62 were found; no irab claims were extracted for other words."
+    ]
+  },
+  "n_chunks": 12
+}

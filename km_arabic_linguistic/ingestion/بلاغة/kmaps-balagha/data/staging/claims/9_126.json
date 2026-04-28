@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:126",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No balagha (rhetorical) claims could be extracted: none of the provided source_chunks contain commentary by al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūtī, or a tafsīr-balagha section on S9:A126.",
+      "Cannot assert rhetorical devices without an exact source_quote_ar: source_quote_ar must be an exact substring of a provided chunk, and the chunks supplied do not quote or discuss the target verse or relevant balagha analyses. Provide relevant balagha/tafsir-balagha excerpts to extract claims."
+    ]
+  },
+  "n_chunks": 12
+}

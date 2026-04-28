@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "52:7",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No exact quotations matching words or phrasing of سورت 52 آية 7 (إِنَّ عَذَابَ رَبِّكَ لَوَاقِعٌ) were found in the provided source_chunks. The extraction procedure requires source_quote_ar to be an exact substring of a provided chunk; without such a match no claims can be reliably attributed to the cited source. If you can supply the chunk(s) from التبيان that contain this ayah or relevant commentary lines (exact Arabic substrings), I can extract and format the إعراب claims."
+    ]
+  },
+  "n_chunks": 12
+}

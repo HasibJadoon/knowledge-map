@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:60",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "وَقِيلَ: هُوَ لِعِيسَى، وَالْمَعْنَى أَنَّ الَّذِينَ اتَّبَعُوهُ ظَاهِرُونَ عَلَى الْيَهُودِ",
+        "claim_ar": "دلِيلُ كلمةِ «أُتْبِعُوا/اتَّبَعُوهُ» هنا على أن المقصودَ هم الذين اتبعوا عيسى، وأنّ تبعيّتهم أفضت إلى ظهْرِهم على اليهود وغيرهم من الكفّار في الحال الدنيوية.",
+        "claim_en": "The phrase (أُتْبِعُوا / اتَّبَعُوهُ) is interpreted to mean those who followed 'Isa (Jesus), and that their following made them dominant over the Jews and other disbelievers in this worldly life.",
+        "root": "تبع",
+        "lemma": "أَتْبَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source quotes the active form «اتَّبَعُوهُ» while the ayah word is in a passive pattern «أُتْبِعُوا»; mapping the interpretive meaning from the cited formulation to the exact vocalization/voice in the verse requires interpretation and verification."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "taalluq",
+        "source_quote_ar": "فَأَمَّا يَوْمُ الْقِيَامَةِ فَيَحْكُمُ بَيْنَهُمْ",
+        "claim_ar": "«يَوْمَ الْقِيَامَةِ» ظرفٌ زمانيّ مرتبطٌ بالفعل الحاكم المذكور في البيان (يَحْكُمُ/يُجَازِي)، أي أنّ الحكم والجزاءَ يقعان في يوم القيامة لا في هذه الدنيا.",
+        "claim_en": "«The Day of Resurrection» is a temporal adverb (zarf) attached to the governing verb mentioned in the commentary (يَحْكُمُ / يُجَازِي), indicating that the judging and recompense will occur on the Day of Resurrection, not in this world.",
+        "root": "يوم",
+        "lemma": "يَوْم",
+        "confidence": "medium",
+        "needs_review_reason": "The source states the judgment verb (يَحْكُمُ / يُجَازِي) in its exposition rather than quoting that exact verb form from the verse fragment; the grammatical attachment in the actual ayah should be checked against the full syntactic context."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

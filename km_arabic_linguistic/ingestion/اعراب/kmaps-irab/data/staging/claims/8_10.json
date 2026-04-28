@@ -1,0 +1,43 @@
+{
+  "layer": "irab",
+  "ayah_key": "8:10",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "أحدها : النفي والاستثناء سواء كان النفي بلا أو ما أو غيرهما .",
+        "claim_ar": "كلمة مَا هنا أداة نفي (نفيٍ جزئي/تقريري) وهي ما يُقام عليها حكم الاستثناء إذا تبعتها إلا، أي أن النفي (بـما) يهيئ محلًا للاستثناء.",
+        "claim_en": "The word مَا here is a negation particle (the negation that pairs with an exception). The negation by مَا sets up the context for the exception introduced by إِلَّا.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "الاستثناء بإلا أو غير ، نحو : لا إله إلا الله",
+        "claim_ar": "كلمة إِلَّا هنا أداة استثناء متفرغ تفيد الحصر؛ تعمل بعد النفي (مثل مَا) لتخرج المستثنى وتحدد المقادير في معنى الآية.",
+        "claim_en": "The particle إِلَّا here is an exception particle indicating restriction (exclusive exception). It operates after a negation (such as مَا) to single out the excepted item and produce the sense of limitation in the verse.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "ووجه إفادة الحصر أن الاستثناء المتفرغ لا بد أن يتوجه النفي فيه إلى مقدر وهو مستثنى منه ؛ لأن الاستثناء إخراج فيحتاج إلى مخرج منه ، والمراد التقدير المعنوي لا الصناعي ، ولا بد أن يكون عاما ;",
+        "claim_ar": "كلمة إِلَّا في الموضع الثاني (بعد وَمَا النَّصْرُ) تعمل استثناءً متفرغًا تفيد الحصر، وشرط صحة الحصر أن يكون النفي متوجِّهاً إلى مقدَّر عام يستثنى منه.",
+        "claim_en": "The second إِلَّا (after وَمَا النَّصْرُ) functions as an exclusive exception (a full/empty exception) indicating restriction; for such restriction to be valid, the preceding negation must be directed to an implied general antecedent from which the exception is made.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

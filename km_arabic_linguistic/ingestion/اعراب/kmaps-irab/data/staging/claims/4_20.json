@@ -1,0 +1,70 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَيَجُوزُ أَن يكون فِي مَوضِع نَصْبٍ بَدَلًا مِنْ أَزْوَاجٍ؛",
+        "claim_ar": "يُذكر أن لفظ 'اسْتِبْدَالَ' قد يكون منصوباً ويأخذ مقام البدل (بَدَلًا) من كلمةٍ كـ'أَزْوَاجٍ'.",
+        "claim_en": "The word 'استبدال' can occur in the accusative and function as a badal (substitute) from a word like 'أزواج'.",
+        "root": "بدل",
+        "lemma": "اسْتِبْدَال",
+        "confidence": "medium",
+        "needs_review_reason": "يتوقف التطبيق على كيفية ارتباط العبارة الإسمية بالسياق الإعرابي في الآية (هل هي بدل من اسم سابق أم مصدر منصوب متعلق بالفعل).",
+        "quran_ref": "S4:A20"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "يَتَعَدَّى إِلَى مَفْعُولَيْنِ، تَقُولُ أَحْضَرْتُ زَيْدًا الطَّعَامَ",
+        "claim_ar": "الفعل 'وَآتَيْتُمْ' فعل متعدٍ إلى مفعولين في النمط نفسه؛ الأول 'إِحْدَاهُنَّ' مفعول به أول، والثاني 'قِنْطَارًا' مفعول به ثانٍ (كمقدارٍ مُعطًى).",
+        "claim_en": "'وآتيتم' is a verb that takes two objects: the first object is 'إِحْدَاهُنَّ' (the first direct object) and the second is 'قِنطارًا' (the second direct object / the amount given).",
+        "root": "اتي",
+        "lemma": "آتَى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A20"
+      },
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "يَتَعَدَّى إِلَى مَفْعُولَيْنِ، تَقُولُ أَحْضَرْتُ زَيْدًا الطَّعَامَ",
+        "claim_ar": "'إِحْدَاهُنَّ' في 'وَآتَيْتُمْ إِحْدَاهُنَّ قِنطارًا' عبارة عن المفعول به الأول منصوب.",
+        "claim_en": "'إِحْدَاهُنَّ' in 'وآتَيْتُم إِحْدَاهُنَّ قِنطارًا' functions as the first object (direct object 1), in the accusative.",
+        "root": "احد",
+        "lemma": "إِحْدَى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A20"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "irab",
+        "source_quote_ar": "يَتَعَدَّى إِلَى مَفْعُولَيْنِ، تَقُولُ أَحْضَرْتُ زَيْدًا الطَّعَامَ",
+        "claim_ar": "'قِنطارًا' في العبارة هي المفعول به الثاني منصوب، أي مقدار ما أُعطي.",
+        "claim_en": "'قِنطارًا' in the phrase is the second object (accusative), denoting the amount given.",
+        "root": "قنطر",
+        "lemma": "قِنطَار",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A20"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "فَيَجُوزُ أَنْ تَكُونَ الْجُمْلَةُ بَدَلًا مِنَ الَّتِي قَبْلَهَا.",
+        "claim_ar": "يجوز أن تكون جملة مثل 'اسْتِبْدَالَ زَوْجٍ مَّكَانَ زَوْجٍ' جملةً بَدَلًا عن الجملة التي قبلها (أي تعمل بدلًا منها).",
+        "claim_en": "A clause like 'استبدال زوج مكان زوج' may function as a substitute clause (badal) for the preceding clause.",
+        "root": "بدل",
+        "lemma": "اسْتِبْدَال",
+        "confidence": "medium",
+        "needs_review_reason": "يتعيّن تحديد أيّة جملة يُقصد أن تكون محلّ البدل في سياق الآية لتأكيد هذا التطبيق.",
+        "quran_ref": "S4:A20"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

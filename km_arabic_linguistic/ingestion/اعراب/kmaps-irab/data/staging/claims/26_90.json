@@ -1,0 +1,37 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:90",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وأما الحروف فيزاد منها : إن ، وأن ، وإذ ، وإذا ، وإلى ، وأم ، والباء ، والفاء ، وفي ، والكاف ، واللام ، ولا ، وما ، ومن ، والواو ، وتقدمت في نوع الأدوات مشروحة .",
+        "claim_ar": "حرف (الواو) من الحروف التي يوردها النحاة كمضافات زائدة تدخل على الكلام، أي أنها قد تكون حرفًا زائدًا لا تغير المعنى الجوهري وتقوم مقام دخول الجملة أو ربطها.",
+        "claim_en": "The waw prefix is listed among particles that can be added (an extra letter/particle); such added particles may be merely adjunctive, linking or introducing the clause without changing its core meaning.",
+        "root": "و",
+        "lemma": "و",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general list of 'added particles' including waw, but does not discuss this specific occurrence in S26:90; applying the general rule to this instance is plausible but not explicit in the quoted text.",
+        "quran_ref": "S26:A90"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "كل حرف زيد في كلام العرب فهو قائم مقام إعادة الجملة مرة أخرى .",
+        "claim_ar": "الحروف الزائدة تُفهم بذاتها على أنها تقوم مقام 'إعادة الجملة' أو إعادة سياق الكلام، أي أن وجودها يأتي لإحكام الربط أو الإيقاع دون تغيير معنى الجملة الأساسية.",
+        "claim_en": "Added letters/particles in Arabic function as if they repeat or reintroduce the sentence; their presence secures linkage or prosodic effect without altering the sentence's basic meaning.",
+        "root": "ز ي د",
+        "lemma": "زيد",
+        "confidence": "medium",
+        "needs_review_reason": "The citation states a general principle about 'added letters' but does not analyze the morphology or syntax of this specific verse; further source-specific analysis would be needed to confirm application to this instance.",
+        "quran_ref": "S26:A90"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not explicitly analyze the words of S26:90; extracted claims are general grammatical rules (about added particles/واو) cited in the chunks and tentatively applied to word 1 (وَأُزْلِفَتِ).",
+      "No direct discussion in the supplied excerpts addresses the syntactic status (e.g., نائب الفاعل, مبتدأ/خبر) of الْجَنَّةُ or لِلْمُتَّقِينَ in this verse; therefore no specific إعراب claims for words 2 or 3 could be extracted from these chunks."
+    ]
+  },
+  "n_chunks": 12
+}

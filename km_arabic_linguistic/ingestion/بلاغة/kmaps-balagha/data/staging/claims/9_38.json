@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:38",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "هو أمر في معنى الخبر",
+        "claim_ar": "استخدام صيغة الأمر «انفروا» في موضع تقريري/خبري — أي أن الصيغة الأمرية تُقدَّم لكنها تُفهم بمعنى تقرير أو بيان أكثر منها إرغامًا أو فرضًا.",
+        "claim_en": "Use of the imperative «انفروا» in a declarative/explanatory sense — the imperative form is presented but understood as a statement/report rather than purely coercive or obligatory language.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "نفر",
+        "lemma": "نَفَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A38",
+        "rhetorical_effect": "يخفف من طابع الأمر الصريح ويحوّله إلى بيان يوجّه الهمة والتأمل بدل الإحساس بالإلزام الجامع."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "المراد به النهى",
+        "claim_ar": "النص جاء بصيغة خبرية أو صيغة قد تُقرأ كخبر، لكن المفسّر يوضّح أن المراد بها النهي/التنفير عن فعل ما — أي استعمال تركيب خبري للتعبير عن معنى النهي.",
+        "claim_en": "The expression appears in a declarative form, but the commentator explains that the intended meaning is prohibition/avoidance — i.e., a declarative construction used to convey the sense of prohibition.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "نهى",
+        "lemma": "نَهَى",
+        "confidence": "high",
+        "needs_review_reason": "The source discusses a parallel formulation (قوله وما كان المؤمنون لينفروا كاملةً); mapping that exact exegetical point to this ayah is plausible but relies on analogical reading.",
+        "quran_ref": "S9:A38",
+        "rhetorical_effect": "يمنح الآية طابع التحذير والتقريع عبر تركيب خبري بدل صيغة نهي مباشرة، ما يزيد وقع الموعظة وفَهم المقصود دون إظهار صيغة النهي الصريحة."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "naktah",
+        "source_quote_ar": "لنكتة فيه",
+        "claim_ar": "ذكرت المصادر أنّ في مثل هذا السياق \"نكتة\" بلاغية: أي لمسة بلاغية أو لفّة دقيقة تستعمل صيغة الأمر أو صيغة الخبر لترك أثر بلاغي خاص (نقطة لُطْفٍ أو لفتة بلاغية).",
+        "claim_en": "The commentators note a 'nuktah' (a concise rhetorical point): a subtle rhetorical turn where an imperative or declarative is used to create a particular rhetorical effect (a pointed nuance or witty/pithy turn).",
+        "device_branch": "other",
+        "device_subtype": "naktah",
+        "root": "نكت",
+        "lemma": "نُكْتَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source speaks generally about such 'nuktah' in similar constructions; applying it specifically to all readings of this verse is interpretive and may need corroboration from additional balagha-focused sources.",
+        "quran_ref": "S9:A38",
+        "rhetorical_effect": "تسليط ضوء بلاغي دقيق على طريقة التعبير (مثل تحويل الأمر إلى تقرير) ليزيد في وقع الكلام وجزمه."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari, Tabari and others; the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) are not present among the supplied chunks. Claims were extracted only from the available chunks.",
+      "Some claims generalize exegetical observations (e.g. 'المراد به النهى' or 'لنكتة فيه') from parallel discussions in the sources to this specific verse; these mappings are plausible but should be reviewed against additional balagha-focused commentaries if strict provenance is required."
+    ]
+  },
+  "n_chunks": 12
+}

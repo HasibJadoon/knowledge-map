@@ -1,0 +1,69 @@
+{
+  "layer": "irab",
+  "ayah_key": "39:73",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "الحاصل : أنه حيث أريد العدد أتي بصيغة الجمع الدالة على سعة العظمة والكثرة",
+        "claim_ar": "كلمة «زُمَرًا» هنا بصيغة الجمع المنصوبة دالة على التجمع والكثرة — أي تؤدي أثرًا دلاليًّا بإظهار أنهم يَدْخلون الجماعة على وجوه متتالية/مجموعات.",
+        "claim_en": "The plural زُمَرًا (accusative) functions to signal plurality/groups — a semantic effect of indicating they enter in numerous groups.",
+        "root": "زمر",
+        "lemma": "زُمَر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "فيبدأ بالإعراب",
+        "claim_ar": "«زُمَرًا» منصوب (حالة الحال المحتملة في قراءة التقليد النحوي) — أي منصوب بكونه حالًا يبين كيفية مجيئهم.",
+        "claim_en": "zumar-an is taken as accusative (likely functioning as ḥāl — circumstantial accusative) describing the manner in which they come.",
+        "root": "زمر",
+        "lemma": "زُمَر",
+        "confidence": "low",
+        "needs_review_reason": "لا يتضمن المقتطفات المرفقة تفسيرًا صريحًا لكون «زُمَرًا» حالًا؛ هذا استنتاج نحوي عام ويحتاج تحققًا من تعليق معجمي/نحوي خاص بالآية."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "taalluq",
+        "source_quote_ar": "حيث أريد الجهة أتي بصيغة الإفراد",
+        "claim_ar": "«الْجَنَّةِ» اسم مفرد مجرور متعلق بحرف الجر «إِلَى»؛ والصيغة المفردة هنا مقبولة لأن المقصود جهة/مقام (اتجاه الدخول إلى الجنّة).",
+        "claim_en": "al-jannah is a singular noun in the genitive governed by the preposition 'إِلَى' (i.e., majrūr to 'إِلَى'); the singular form is appropriate because the referent is a direction/place.",
+        "root": "جنن",
+        "lemma": "جَنَّة",
+        "confidence": "medium",
+        "needs_review_reason": "المقتطف يقدّم قاعدة عامة عن استعمال الإفراد عند الإشارة إلى جهة، لكن لا يعالج لفظ «الجنة» في هذه الآية تحديدًا؛ تطبيق القاعدة يحتاج مراجعة تفسير/إعراب مخصوص بالآية."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وأما الحروف فيزاد منها : إن ، وأن ، وإذ ، وإذا ، وإلى ، وأم ، والباء ،",
+        "claim_ar": "حرف «إِلَى» مذكور ضمن الحروف التي قد تُؤْخذ كـ«حروف زائدة» في تراكيب العرب، فلفت الانتباه إلى أن «إِلَى» من الأحرف التي يُنظر أحيانًا في زيادتها الوظيفية/الأسلوبيّة.",
+        "claim_en": "The particle 'إِلَى' is listed among particles that can be treated as 'added letters' (حروف زائدة) in Arabic constructions — i.e., it appears in the cited list of potentially 'added' particles.",
+        "root": null,
+        "lemma": "إِلَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "القائمة في المصدر عامة؛ لا تشرح هنا أيّية عمل «إِلَى» الخاصة بهذه الآية أو إن كانت تعتبر زيادة أسلوبية أم دلالية في السياق."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "فيبدأ بالإعراب",
+        "claim_ar": "«رَبَّهُمْ» مفعول به منصوب لِفِعل «اتَّقَوْا» (اتقوا ربهم = اتّقواَ مَنْ هم له من الخوف والتقوى)، فهو مرفوع على أنه مفعول به.",
+        "claim_en": "rabbahum is the object (maf'ūl bihi) of the verb اتَّقَوْا — i.e., it is accusative as the direct object of 'they feared/revered'.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "المقتطفات المرفقة لا تذكر بصورة صريحة علاقة «اتَّقَوْا» بـ «رَبَّهُمْ» في هذه الآية؛ الحكم هنا استنتاج نحوي قياسي ويستحسن تأكيده من إعراب تفصيلي أو تفسير نحوي مختص."
+      }
+    ],
+    "warnings": [
+      "المقتطفات المأخوذة من الإتقان عامة وقياسية (قواعد إعراب، قاعدة الإفراد والجمع، دخول الحروف الزائدة) ولا تتضمن إعرابًا مبيّنًا مخصصًا لآية سورة الزمر (39:73). لذلك بعض الادعاءات نحو وضع الإعراب (خاصة حال/تمييز) هي استنتاجات نحوية عامة وتحتاج تدقيقًا بمصدر إعرابي صريح أو تعليق مفسّر على الآية.",
+      "بعض المطالب (مثل كون «إِلَى» حرفًا زائداً أو وظيفة «زُمَرًا» حالًا) متعلقة بقراءات واجتهادات نحوية/أسلوبية وقد تختلف آراء النحاة والقراء؛ يوصى بمراجعة شروح العكبري/التبيان أو شروح نحوية تقليدية للحصول على حكم نهائي.",
+      "لم تُقدّم في المصادر المقتبسة مناقشة صريحة لعلاقات إعرابية مفردة لكل كلمة من الآية، لذلك وسمت بعض الإدخالات بـ needs_review مع سبب يشرح الحاجة للتحقق."
+    ]
+  },
+  "n_chunks": 12
+}

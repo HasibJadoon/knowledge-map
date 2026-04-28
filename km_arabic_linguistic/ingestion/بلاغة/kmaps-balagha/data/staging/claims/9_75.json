@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:75",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "takrar",
+        "source_quote_ar": "تكرار",
+        "claim_ar": "تكرار تأكيدي في الأسلوب يظهر في تكرار أدوات التوكيد والشدّة والنون في العبارتين «لَنَصَّدَّقَنَّ وَلَنَكُونَنَّ» لتعزيز العزم والنية.",
+        "claim_en": "Emphatic repetition (takrar): the verse employs emphatic repetition — e.g., the doubled emphatic pattern in «لَنَصَّدَّقَنَّ وَلَنَكُونَنَّ» — to strengthen resolve and intention.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "صدق",
+        "lemma": "تَصَدَّقَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains a general discussion of 'تكرار' (repetition) but does not quote this exact morphological pattern; attribution to the specific emphatic nun+shadda construction in these two verbs should be verified against the cited authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) or a tafsir passage that treats this verse directly.",
+        "quran_ref": "S9:75",
+        "rhetorical_effect": "يزيد من قوة العزم والإصرار في الوعد والتصميم على العمل الصالح؛ يعطي الانفعال الداخلي وضوحاً ووقاراً."
+      }
+    ],
+    "warnings": [
+      "None of the provided source_chunks contains the full ayah text exactly as in the input; the only directly matching substring used as evidence is the word «تكرار» found in chunk AL:CHUNK:877322795d66bdf07e2322c7. The claim therefore infers application of that discussed device to this ayah and should be checked against the original authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) for explicit commentary on this verse.",
+      "Only one tentative device (takrar) is extracted because the supplied chunks do not contain explicit quotations or discussion of the specific morphological/emphatic forms in this ayah. Additional source material (direct tafsir/balaghah comments on S9:75) is needed to add or raise confidence for further claims (e.g., muqabalah/parallelism, iltifat, ijaaz)."
+    ]
+  },
+  "n_chunks": 12
+}

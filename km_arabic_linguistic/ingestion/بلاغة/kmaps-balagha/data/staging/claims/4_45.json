@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:45",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "itnaab",
+        "source_quote_ar": "جمل توسطت بين البيان والمبين على سبيل الاعتراض",
+        "claim_ar": "تووسُّط جملة اعتراضية بين البيان والمبين («والله أعلم ...») على سبيل الاعتراض/التوضيح.",
+        "claim_en": "A parenthetical/objection insertion between the statement and its clarification (the phrase 'والله أعلم...' functions as an objection/aside).",
+        "device_branch": "maani",
+        "device_subtype": "itnaab",
+        "root": "عرض",
+        "lemma": "اعتراض",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "takrar",
+        "source_quote_ar": "(وَكَفى بِاللَّهِ) ، (وَكَفى بِاللَّهِ)",
+        "claim_ar": "تكرار عبارة «وَكَفَى بِاللَّهِ» مرتين للتوكيد والتشديد.",
+        "claim_en": "Repetition of the phrase 'وَكَفَى بِاللَّهِ' twice for emphasis and reinforcement.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "كفي",
+        "lemma": "كَفَى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "(وَكَفى بِاللَّهِ) ، (وَكَفى بِاللَّهِ)",
+        "claim_ar": "مقابلة/موازاة في تركيب «كَفَى بِاللَّهِ ...» مع اختلاف المتمم ('وليًا' مقابل 'نصيرًا')، مما يخلق إيقاعاً موازناً ويؤكد جوانب الحماية الإلهية.",
+        "claim_en": "Parallelism (muqabalah) in the repeated structure 'كَفَى بِاللَّهِ ...' with differing complements ('waliyyan' vs. 'nasīran'), creating balanced phrasing and reinforcing aspects of divine protection.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "كفي",
+        "lemma": "كَفَى",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk quoted shows the repeated phrase but does not explicitly display the differing complements ('وَلِيَّاً' / 'نَصِيراً'); the parallelism is inferred from the verse word list."
+      }
+    ],
+    "warnings": [
+      "Some lemmas in the provided word list were null or inconsistent (e.g. lemma for word_index 4 is null). Lemmas here have been supplied/normalized (e.g. 'كَفَى') where needed—please review if strict lemma sourcing is required.",
+      "One claim (muqabalah) depends on the differing complements ('وَلِيَّاً' vs 'نَصِيراً') which are present in the provided word list but not explicitly shown in the selected source chunk; the parallelism was inferred from the verse text/word list.",
+      "Source quotes are taken from Zamakhshari chunks included in the input. If other tafsir/بلاغة sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha sections) are required for each claim, provide their chunks so claims can be cross-verified."
+    ]
+  },
+  "n_chunks": 12
+}

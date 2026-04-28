@@ -1,0 +1,67 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:35",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "iltifat",
+        "source_quote_ar": "(يا أَيُّهَا الَّذِينَ آمَنُوا)",
+        "claim_ar": "انتقال الخطاب إلى المخاطَب بالنداء (يا آدَمُ) — إلتفاتة بلاغية تلفت الانتباه وتُفعِّل العلاقة بين المتكلّم والمخاطَب.",
+        "claim_en": "Shift of address to the addressee by a vocative (yā Ādam) — a rhetorical iltifāt that draws attention and intensifies the speaker-listener relation.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat_vocative",
+        "root": "اَدَم",
+        "lemma": "آدَم",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains a general discussion/example of the vocative 'يا' but not this specific ayah; verify with classical jurjani/sakkaki citations."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "mukabalah",
+        "source_quote_ar": "أُكُلُها دائِمٌ وَظِلُّها",
+        "claim_ar": "مقابلة بين الإذن بالتمتع («كلا مِنها رغدًا») والنهي («ولا تقربا هذه الشجرة») لإظهار التباين الأخلاقي ورفع حدة التنبيه والتحذير.",
+        "claim_en": "Contrast (muqābala) between permission to enjoy ('eat of it in abundance') and the prohibition ('do not approach this tree') — creating moral contrast and intensifying warning.",
+        "device_branch": "badi",
+        "device_subtype": "mukabalah_contrast",
+        "root": "أكل",
+        "lemma": "أَكَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "Claim draws on general rhetorical principle of contrast; the chosen source substring describes garden-fruit permanence rather than this ayah specifically — cross-check with tafsir-balagha remarks on permission vs prohibition in this verse."
+      },
+      {
+        "word_index": 16,
+        "claim_type": "mukabalah",
+        "source_quote_ar": "تَجْرِي مِنْ تَحْتِهَا الْأَنْهارُ",
+        "claim_ar": "التوازي في الصياغة والمثنى (أنتَ وزوجك، شِئْتُمَا، تَكُونَا) يبرز الشراكة والموازنة في المسئولية والنتيجة.",
+        "claim_en": "Parallelism/duality: the plural/dual forms (you and your spouse; shi'tumā; takūnā) emphasize shared responsibility and symmetrical outcome.",
+        "device_branch": "badi",
+        "device_subtype": "mukabalah_parallelism_duality",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "Inference based on form (dual pronouns) — needs confirmation from classical rhetoricians (al-Jurjānī, al-Sakkākī) who discuss effect of dual/parallelistic forms; source quote is a nearby tafsir phrase, not a direct treatment of the dual in this verse."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "وَلَقَدْ آتَيْنا مُوسَى الْكِتابَ",
+        "claim_ar": "استخدام صيغة الخبر الجماعية في فعل المتكلّم ('وقلنا') كإجراء بلاغي يعزز الجلالة والسطوة ويحول الفعل الإخباري إلى حكم/بيان إلهي مسوغ.",
+        "claim_en": "Use of plural divine speech ('wa- qulna') — a stylistic 'aslūb ḥakīm' that reinforces majesty/authority and frames the statement as a settled divine decree.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim_divine_plural",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source substring is an example of divine narration elsewhere; the specific rhetorical discussion (plural of majesty in 'وقلنا') should be checked against primary rhetoricians cited in the task."
+      }
+    ],
+    "warnings": [
+      "Source chunks supplied do not include explicit entries from the requested authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsir balāgha). Substrings quoted are drawn from the provided chunks (Zamakhsharī/Darwish chunks) and are sometimes general examples rather than direct commentary on Sūra 2:35.",
+      "Several claims are based on formal/structural reading (vocative, dual forms, contrast) and use nearby tafsir substrings as supporting evidence; these need verification against the classical rhetorical treatises requested.",
+      "Some lemma/root values (e.g., for 'يَاآدَمُ') were inferred where not supplied in the input; verify morphological fields against authoritative lexica if required.",
+      "If no direct quotations from the specified authors are available, please provide their tafsir/balāgha chunks so claims can be anchored to the requested sources. Otherwise mark claims as provisional."
+    ]
+  },
+  "n_chunks": 12
+}

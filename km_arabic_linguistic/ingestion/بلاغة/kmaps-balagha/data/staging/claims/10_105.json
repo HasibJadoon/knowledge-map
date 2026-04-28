@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:105",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable rhetorical claims found: none of the provided source_chunks contain the ayah text or commentary strings that match substrings of this verse (وَأَنْ أَقِمْ وَجْهَكَ لِلدِّينِ حَنِيفًا وَلَا تَكُونَنَّ مِنَ الْمُشْرِكِينَ).",
+      "Required commentators (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a tafsir-balagha chunk) were not provided in the source_chunks. To extract بلاغة claims, please supply commentary chunks from those authors or chunks that include exact Arabic substrings corresponding to the verse or their remarks on it."
+    ]
+  },
+  "n_chunks": 12
+}

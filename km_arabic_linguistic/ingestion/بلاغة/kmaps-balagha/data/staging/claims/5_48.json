@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:48",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "fasl_wasl (الفاء استئنافية)",
+        "source_quote_ar": "(فَإِنْ جاؤُكَ فَاحْكُمْ بَيْنَهُمْ أَوْ أَعْرِضْ عَنْهُمْ) الفاء استئنافية",
+        "claim_ar": "الفاء في كلمة «فَاحْكُمْ» فاء استئنافية؛ تربط وتستأنف الكلام لتقديم أمر قضائي وإبرازه بعد تمهيد سابق",
+        "claim_en": "The particle fa in 'fa‑hukm' functions as an istinaafiyya (resumptive 'fa') — it resumes/introduces a new statement, bringing forward the judicial injunction after the preceding context.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "حكم",
+        "lemma": "حَكَمَ",
+        "confidence": "high",
+        "needs_review_reason": "n/a",
+        "quran_ref": "S5:A48",
+        "rhetorical_effect": "Signals a resumptive shift to a decisive judicial command, emphasizing the practical instruction to judge by what God revealed."
+      }
+    ],
+    "warnings": [
+      "Most provided source chunks are grammatical/iʿrāb commentaries or general rhetorical remarks not specifically about S5:48; only the substring indicating 'الفاء استئنافية' directly matches this ayah's surface phrasing in the supplied chunks.",
+      "No explicit commentary snippets in the provided chunks addressed other listed rhetorical device categories (e.g., تجنيس، طباق، اطناب، تقدم/تأخير for this specific verse). Claims are therefore limited to what is directly supported by the supplied source excerpts."
+    ]
+  },
+  "n_chunks": 12
+}

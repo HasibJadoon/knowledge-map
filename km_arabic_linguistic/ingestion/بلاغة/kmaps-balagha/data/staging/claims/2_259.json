@@ -1,0 +1,42 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:259",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "tashbih",
+        "source_quote_ar": "لما جاء بحقيقة صفتهم عقبها بضرب المثل زيادة في الكشف وتتميما للبيان.",
+        "claim_ar": "الآية تَضْرِبُ مَثَلاً؛ تشبيهٌ (مثل الذي مرّ على قرية...) لشرح حالهم وتبكيتهم.",
+        "claim_en": "The verse employs a parable/simile (مثل) — 'like the one who passed by a town...' — to illustrate their condition and reproach them.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih (مثل / ضرب المثل)",
+        "root": "مثل",
+        "lemma": "مَثَل",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A259",
+        "rhetorical_effect": "يوضّح الحالة عبر إظهار الصورة التمثيلية، ويزيد التوبيخ والانتقاد لجهة المخاطَب."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "يمكن قراءة أسلوب الآية على أنه يحتوي على التفات/تحويل في السياق (من السرد الغائبي إلى كلام مباشر وسؤال)، أي تنقل خطابي.",
+        "claim_en": "The style of the verse can be read as showing iltifat (a shift) — a move from narrative/third-person description into direct speech and address — producing a sudden change of focus.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (الالتفات/التحويل الخطابي)",
+        "root": "لفت",
+        "lemma": "التفات",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted chunk gives a general statement about 'التفات' in style; applying it to this specific verse is an interpretive inference and should be double-checked with other tafsir/balagha sources.",
+        "quran_ref": "S2:A259"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from Zamakhshari (al-Kashshaf) only; the requested classical authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha sections) were not included—claims are therefore based solely on the supplied Zamakhshari excerpts.",
+      "Some stylistic claims (e.g., 'iltifat') apply a general commentary from the source to this verse and are inferential; please verify with additional balagha/tafsir sources if strict attribution is required."
+    ]
+  },
+  "n_chunks": 12
+}

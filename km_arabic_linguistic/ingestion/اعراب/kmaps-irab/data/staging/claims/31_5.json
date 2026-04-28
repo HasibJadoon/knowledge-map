@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "31:5",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "بِالرَّفْعِ عَلَى إِضْمَارِ مُبْتَدَأٍ؛ أَيْ هِيَ، أَوْ هُوَ.",
+        "claim_ar": "«هُمُ» مرفوع على إضمار مبتدأ (أي: هِيَ أو هُو).",
+        "claim_en": "The pronoun 'hum' is nominative (marfūʿ) by virtue of an implied (elided) mubtada' — i.e., it corresponds to an omitted 'hiya' or 'huwa'.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "هُدًى وَرَحْمَةً : هُمَا حَالَانِ مِنْ «آيَاتُ» وَالْعَامِلُ مَعْنَى الْإِشَارَةِ.",
+        "claim_ar": "«هُدًى» حالٌ (إحدى الحالين المذكورتين مع «رَحْمَةً»).",
+        "claim_en": "'huda' functions as a hal (circumstantial clause/adverbial); it is one of the two 'hal' mentioned (with 'rahmatan').",
+        "root": "هدي",
+        "lemma": "هُدًى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses «هُدًى وَرَحْمَةً» as two hal; it is not explicit that this commentary is for S31:5, so the applicability to this exact occurrence of «هُدًى» in the ayah should be verified."
+      }
+    ],
+    "warnings": [
+      "The available source chunks mention phrases like «هُدًى وَرَحْمَةً» and the raising of a pronoun on an implied mubtada; it is not always explicit that these comments refer specifically to S31:5. Mapping of those general remarks onto the exact words of this ayah may require verification in the full commentary context.",
+      "Some lemmas/roots in the provided word metadata are null (e.g., word 7). Where the source discusses pronoun behavior, the lemma/root are not applicable; this has been left as null."
+    ]
+  },
+  "n_chunks": 7
+}

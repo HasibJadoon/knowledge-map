@@ -1,0 +1,70 @@
+{
+  "layer": "balagha",
+  "word_key": "1:2:1",
+  "result": {
+    "claims": [
+      {
+        "claim_type": "معاني",
+        "source_quote_ar": "",
+        "claim_ar": "حرف التعريف في «الْحَمْدُ» يضفي عمومية وشمولاً على المقصود بالمدح؛ أي أن المدح هنا مُطلق وكامِل لا يختص بوجه واحد، بل لكل وجوه الحَمْد.",
+        "claim_en": "The definite article in «al‑hamd» grants the praise a sense of universality and comprehensiveness; the praise is absolute and complete, not restricted to a single aspect but encompassing all aspects of praise.",
+        "device_branch": "معاني",
+        "device_subtype": "tarif_tankir",
+        "root": "حمد",
+        "lemma": "حَمْد",
+        "confidence": "needs_review",
+        "needs_review_reason": "No primary-source quotes provided (al-Jurjānī, al-Sakkākī, etc. not supplied). Claim is a conventional classical interpretation but must be verified against the specified sources.",
+        "quran_ref": "1:2",
+        "rhetorical_effect": "Gives the opening word a totalizing, authoritative tone that frames the whole surat as praise-oriented."
+      },
+      {
+        "claim_type": "معاني",
+        "source_quote_ar": "",
+        "claim_ar": "الاقتصار على كلمة واحدة «الْحَمْدُ» في افتتاح الفاتحة دليل على الإيجاز البلاغي (الإِيجاز)؛ كلمة موجزة تحوي معانٍ كثيرة وتلخّص مقاصد المدح في كلمة واحدة.",
+        "claim_en": "The use of a single word «al‑hamd» to open the chapter demonstrates rhetorical concision (iʿjāz); a concise word encapsulates many meanings and summarizes the purposes of praise in one term.",
+        "device_branch": "معاني",
+        "device_subtype": "ijaaz",
+        "root": "حمد",
+        "lemma": "حَمْد",
+        "confidence": "needs_review",
+        "needs_review_reason": "No direct citations from the requested classical authors were provided; the observation is general and should be checked against their texts.",
+        "quran_ref": "1:2",
+        "rhetorical_effect": "Conveys density of meaning and an elevated, concentrated register right at the outset."
+      },
+      {
+        "claim_type": "أسلوب حكيم",
+        "source_quote_ar": "",
+        "claim_ar": "افتتاح السورة بلفظ «الْحَمْدُ» يعمل كقضيبٍ موضوعيٍّ يجمعُ المقاصد البلاغية للسورة؛ أي أنه تأسيس موضوعي (أسلوب حكيم) يوجّه القارئ أو السامع إلى إطار المدح والشكر كله من البداية.",
+        "claim_en": "Opening the surah with the term «al‑hamd» functions as an organizing theme (rhetorical wisdom/aslūb ḥakīm), setting the surah’s rhetorical framework toward praise and gratitude from the very beginning.",
+        "device_branch": "asloob_hakim",
+        "device_subtype": "theme_establishment",
+        "root": "حمد",
+        "lemma": "حَمْد",
+        "confidence": "needs_review",
+        "needs_review_reason": "Claim reflects common stylistic reading but lacks direct sourcing from the listed classical authorities in the provided input.",
+        "quran_ref": "1:2",
+        "rhetorical_effect": "Establishes a guiding interpretive lens for the following clauses; signals the reader to interpret subsequent phrases within the register of praise."
+      },
+      {
+        "claim_type": "معاني",
+        "source_quote_ar": "",
+        "claim_ar": "وضع «الْحَمْدُ» مبتدأً منصوباً للاسمية (الْحَمْدُ لِلَّهِ) يبرز وظيفة الكلمة كقيلولةٍ نحويةٍ وبلاغيةٍ تربط المدح بالممدوح مباشرةً (فاصل/واصل): فهي منفصلة في اللفظ لكنها متصلة بالمقام والمعنى.",
+        "claim_en": "Placing «al‑hamd» as the nominal subject (al‑hamd-u lillāh) highlights its function as a grammatical and rhetorical pivot (separation/joining—fasl/wasl): lexically distinct yet directly connected in meaning to the one praised.",
+        "device_branch": "معاني",
+        "device_subtype": "fasl_wasl",
+        "root": "حمد",
+        "lemma": "حَمْد",
+        "confidence": "needs_review",
+        "needs_review_reason": "No primary-source excerpts were provided; the structural reading is standard but should be verified against the specified authors.",
+        "quran_ref": "1:2",
+        "rhetorical_effect": "Highlights the syntactic prominence of praise and its immediate attribution to God, producing clarity and force in the statement."
+      }
+    ],
+    "warnings": [
+      "No source_chunks or direct quotations from al-Jurjānī, al-Sakkākī, al-Baqillānī, al‑Suyūṭī, or tafsir‑balāgha were provided. All claims above are based on general classical balāgha readings of the word «الْحَمْدُ» in Sūrat al‑Fātiḥah and must be checked against the named sources.",
+      "Field 'source_quote_ar' left empty for each claim; these should be filled with exact Arabic citations from the specified authors before final use.",
+      "Some device_subtype labels (e.g., 'theme_establishment') are descriptive conveniences where that exact subtype label may not match the taxonomy used in the original classical texts; confirm taxonomy alignment."
+    ]
+  },
+  "n_chunks": 0
+}

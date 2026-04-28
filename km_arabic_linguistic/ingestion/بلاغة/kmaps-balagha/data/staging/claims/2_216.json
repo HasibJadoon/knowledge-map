@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:216",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "maani",
+        "source_quote_ar": "كما كتبت الصلاة والزكاة",
+        "claim_ar": "المبني للمجهول «كُتِبَ» مستخدم للدلالة على التكليف والوجوب الشرعي (صيغة إنشائية تُظهر أنّ الفعل مُفروض وواجِب).",
+        "claim_en": "The passive verb 'كُتِبَ' is used to express prescription/obligation (an enunciative form that presents the action as ordained/required).",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "كتب",
+        "lemma": "كَتَبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "فَهِيَ كَالْحِجارَةِ",
+        "claim_ar": "طباق/مقابلة: توازن وتضاد بين «تَكْرَهُوا ... وَهُوَ خَيْرٌ» و«تُحِبُّوا ... وَهُوَ شَرٌّ»، أي توظيف التضادّ لإبراز حكمة التكليف وإظهار أن علمَ الله يجاوز أحكام الأحاسيس الفردية.",
+        "claim_en": "Tibaq / muqabalah (antithesis/contrast): the verse juxtaposes 'you may dislike something while it is good for you' and 'you may love something while it is bad for you' — using contrast to highlight the wisdom of the divine prescription and the limits of personal feeling.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains a simile ('فَهِيَ كَالْحِجارَةِ') and general rhetorical discussion but does not explicitly analyze this specific ayah's طباق; the device attribution is inferred from the verse rather than directly supported by the quoted chunk and should be checked against the requested authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsīr-balāgha)."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from al-Kashshaf (Zamakhsharī) only; the developer requested extraction from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī and tafsīr-balagha. Relevant quotations from those specific authors are not present in the input.",
+      "Some device attributions (especially ayah-level devices like طباق/مقابلة) are inferred from the verse itself; the supplied chunks do not always contain explicit commentary on those devices for this ayah. Such claims are marked with lower confidence and need verification against the target classical sources.",
+      "Source_quote_ar values are exact substrings from the provided chunks. If you can supply the requested authors' tafsir/بلاغة chunks for this ayah, I can replace inferred/low-confidence claims with citations and raise confidence levels."
+    ]
+  },
+  "n_chunks": 12
+}

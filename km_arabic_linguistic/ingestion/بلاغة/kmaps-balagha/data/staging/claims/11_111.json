@@ -1,0 +1,49 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:111",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الواو عاطفة وان واسمها وخبرها",
+        "claim_ar": "الواو في «وَإِنَّ» عملها عاطفة، تربط الجملة بما قبلها فتمنحها صفة الاستمرار والربط، أي أنها وسيلة وصل (وصل-فصل) بين سياقين.",
+        "claim_en": "The waw in 'Wa-innna' functions as a coordinating conjunction (continuation), linking this clause with the prior discourse and giving continuity.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "و",
+        "lemma": "وَ",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive claim based on grammatical commentary in the chunk; confirm rhetorical framing with a dedicated balagha source."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "فما تخفى عليه أعمالكم ولا يغفل عن مؤاخذتكم.",
+        "claim_ar": "ختام السياق بلفظ «خَبِيرٌ» وتركيز أن الله لا يغفل عن أعمال العباد يعمّل كأسلوب حكيم تحذيري-تذكيري؛ يؤكد علم الله الشامل وعدالته ويُغلق المضمار بإنذار وتثبيت للموقف البلاغي.",
+        "claim_en": "Ending the clause with the attribute 'Khabir' (well‑aware) and emphasizing that nothing of their deeds is hidden functions as a wise stylistic move (asloob hakim): it affirms God's comprehensive knowledge and serves as a warning/reminder, closing the argument decisively.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "خبر",
+        "lemma": "خَبِير",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "إن واسمها ومن أهلي خبرها",
+        "claim_ar": "تكرار أداة التوكيد «إنّ» (مبدوءة بـ«وَإِنَّ» ثم «إِنَّهُ») يُعدّ وسيلة بلاغية للتوكيد والتثبيت، إذ يعيد التأكيد على المحور المعنوي المتعلق بحساب الأعمال واطلاع الرب عليها.",
+        "claim_en": "The repetition of the emphatic particle 'inna' (first as 'Wa-innna' then as 'Innahu') functions as a rhetorical repetition (takrar) to reinforce and consolidate the message about God recompensing and being aware of deeds.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk is grammatical; labeling the recurrence as rhetorical (takrar) is interpretive and should be checked against classical balagha treatments."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

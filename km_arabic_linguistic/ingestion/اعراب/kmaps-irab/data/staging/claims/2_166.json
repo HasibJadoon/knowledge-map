@@ -1,0 +1,36 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:166",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يكون مِنْهُم رَافعا لمن لِأَنَّهُ قد وصف بِهِ رسلًا وَأَن يَكُونَ مُبْتَدَأً وَخَبَرًا، وَالْجُمْلَةُ نَعْتٌ لِرُسُلٍ، وَأَنْ يَكُونَ مُسْتَأْنَفًا.",
+        "claim_ar": "يجوز أن تُعْرَب جملة «مِنَ الَّذِينَ اتُّبِعُوا» بصيغٍ متعددة: أن تكون مَرْفُوعَةً (رَافِعًا)، أو مبتدأً وخبرًا، أو أن تكون جملةً نعتًا لِـ«رُسُلٍ»، أو أن تُؤخذ كمُستأنفة.",
+        "claim_en": "It is permissible to analyze the clause \"مِنَ الَّذِينَ اتُّبِعُوا\" in multiple ways: as a raised element, or as a subject and predicate (mubtada' and khabar), or as an adjectival clause (na't) modifying \"messengers\", or as a resumed (mustanfa) clause.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage discusses the analogous phrase «مِنْهُم مَنْ...» rather than the exact wording of this ayah; mapping those analyses onto «مِنَ الَّذِينَ اتُّبِعُوا» requires editorial judgment."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "وَالْجُمْلَةُ نَعْتٌ لِرُسُلٍ",
+        "claim_ar": "إحدى وجوه الإعراب أن تكون الجملة «مِنَ الَّذِينَ اتُّبِعُوا» نعتًا لِـ«رُسُلٍ» (أي صفةً لِمَنْ وصف بـ«رسل» في السياق المقارن).",
+        "claim_en": "One possible parsing is that the clause \"مِنَ الَّذِينَ اتُّبِعُوا\" functions as a na't (adjectival clause) modifying \"messengers\".",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source states this possibility in a parallel example (with «مِنْهُم») rather than this exact phrase; applicability to the present ayah should be confirmed with fuller context."
+      }
+    ],
+    "warnings": [
+      "The provided source quotations discuss the example «مِنْهُم مَنْ قَصَصْنَا...» and general possibilities for such clauses. They do not quote the exact phrasing of S2:166 («مِنَ الَّذِينَ اتُّبِعُوا»). The claims above project those general analyses onto the current verse; this mapping needs review.",
+      "Only one source chunk bore direct relevance. No explicit claims about other words in the ayah (e.g., اتَّبَعُوا, اتُّبِعُوا, الْأَسْبَابُ) were found in the supplied chunks."
+    ],
+    "quran_ref": "S2:A166"
+  },
+  "n_chunks": 12
+}

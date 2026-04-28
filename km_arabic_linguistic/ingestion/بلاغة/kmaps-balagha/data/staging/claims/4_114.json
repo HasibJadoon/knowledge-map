@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:114",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant بلاغة (rhetoric) commentary for S4:114 was found in the provided source_chunks.",
+      "The instruction requested extracting claims from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī and tafsir-balagha sections, but the supplied chunks are from Darwish (I'rab) and Zamakhsharī (al-Kashshaf); those requested sources are not present.",
+      "Because source_quote_ar must be an exact substring of a provided chunk, I cannot assert ayah-level rhetorical claims without matching commentary in the supplied chunks. Please provide the relevant بلاغة/tafsir excerpts for this ayah (or permit a direct independent analysis) and I will extract structured claims."
+    ]
+  },
+  "n_chunks": 12
+}

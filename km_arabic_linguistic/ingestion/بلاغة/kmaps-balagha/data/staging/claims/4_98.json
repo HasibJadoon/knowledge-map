@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:98",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No usable rhetorical commentary for S4:A98 was found in the provided source chunks.",
+      "The extraction rule requires source_quote_ar to be an exact substring of one of the provided source_chunks. None of the chunks contain the ayah text or explicit balagha commentary on S4:A98 (e.g., no occurrences of «إِلَّا الْمُسْتَضْعَفِينَ» or discussion of its devices).",
+      "Please provide tafsir/بلاغة excerpts (from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a dedicated tafsir balagha) that specifically comment on S4:A98, or include source chunks that contain exact quoted phrases from that verse, so claims can be extracted with proper source_quote_ar substrings."
+    ]
+  },
+  "n_chunks": 12
+}

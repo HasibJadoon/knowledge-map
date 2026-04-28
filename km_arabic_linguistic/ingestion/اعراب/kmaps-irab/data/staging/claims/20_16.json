@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "20:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَالْهَاءُ فِي «عَنْهُ» يَجُوزُ أَنْ تَعُودَ عَلَى الْمِيعَادِ وَعَلَى الْيَوْمِ، وَإِلَى أَيِّهِمَا أَعَدْتَهَا كَانَتِ الْجُمْلَةُ نَعْتًا لَهُ.",
+        "claim_ar": "الهاء في «عَنْهَا» (ضمير المتكئ في كلمة 'عَنْهَا') يجوز أن تعود على ما قبلها، وإلى أيّ منهما أُعِدَّت كانت الجملة نَعْتًا لذلك المضاف إليه.",
+        "claim_en": "The pronoun -ha in 'عَنْهَا' may refer back to the preceding nominal (e.g. a time expression); whichever antecedent it is taken to refer to, the clause functions as an adjective (na‘t) modifying that antecedent.",
+        "root": null,
+        "lemma": "عَن",
+        "confidence": "medium",
+        "needs_review_reason": "The source sentence cites «عَنْهُ» (masculine) while the verse uses «عَنْهَا» (feminine). The rule is general, but applying it to this feminine form assumes analogous behavior."
+      }
+    ],
+    "warnings": [
+      "Only one relevant grammatical claim found in the supplied chunks. The primary supporting chunk discusses «عَنْهُ» rather than the verse's «عَنْهَا», so the application to this ayah is by analogy.",
+      "No explicit iʿrāb (مبتدأ/خبر/فاعل/مفعولٌ به/etc.) or other syntactic analyses for the words of this verse were present in the provided chunks; only the pronoun-referral (الهاء) discussion was found."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:92",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَلَا الَّذِينَ يَمُوتُونَ) : فِي مَوْضِعِهِ وَجْهَانِ: أَحَدُهُمَا: هُوَ جَرٌّ عَطْفًا عَلَى الَّذِينَ يَعْمَلُونَ السَّيِّئَاتِ؛ أَيْ: وَلَا الَّذِينَ يَمُوتُونَ. وَالْوَجْهُ الثَّانِي: أَنْ يَكُونَ مُبْتَدَأً وَخَبَرُهُ «أُولَئِكَ أَعْتَدْنَا لَهُمْ\" . وَاللَّامُ لَامُ الِابْتِدَاءِ وَلَيْسَتْ لَا النَّافِيَةَ.",
+        "claim_ar": "في موضع «وَلَا الَّذِينَ يَمُوتُونَ» وَجْهَانِ الإِعْرَابِ: أَحَدُهُمَا أَنَّهُ جَرٌّ عَطْفًا، والوجهُ الثاني أَنَّهُ مُبْتَدَأٌ وَخَبَرُهُ «أُولَئِكَ أَعْتَدْنَا لَهُمْ».",
+        "claim_en": "Regarding the phrase “ولا الذين يموتون” there are two grammatical analyses: one that it is a genitive by conjunction (i.e. an attached phrase), and the other that it is a subject (mubtada') with its predicate omitted or supplied as «أُولَئِكَ أَعْتَدْنَا لَهُمْ».",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage treats the phrase «ولا الذين يموتون». Your verse begins with «ولا على الذين ...» — the source is a near/analogous example, so applicability to this exact wording should be checked."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَالْوَجْهُ الثَّانِي: أَنْ يَكُونَ مُبْتَدَأً وَخَبَرُهُ «أُولَئِكَ أَعْتَدْنَا لَهُمْ\" . وَاللَّامُ لَامُ الِابْتِدَاءِ وَلَيْسَتْ لَا النَّافِيَةَ.",
+        "claim_ar": "اللام في «ولا الذين يموتون» لامُ الِابْتِدَاءِ وليستْ لامَ النفي.",
+        "claim_en": "The lām in «ولا الذين يموتون» is the lām of initiation (lam al-ibtida'), not the negative particle 'la'.",
+        "root": null,
+        "lemma": "لَا",
+        "confidence": "medium",
+        "needs_review_reason": "The statement in the source concerns the particle in the cited phrase; whether the same analysis holds for the initial «وَلَا» in your verse (which is followed by a preposition «على») requires confirmation."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks discuss constructions such as «ولا الذين يموتون» and «والذين اتخذوا» in other verses. They do not quote or analyze the exact wording of your supplied verse (S9:A92). Claims were extracted from analogous examples; applicability to the exact sequence in your ayah should be reviewed.",
+      "No explicit iʿrāb statement was found in the chunks for the specific tokens «عَلَى» (word 2) or the internal syntax of the relative clause in your verse. If you want more precise parses for those words, provide source text that treats this exact ayah or request further review."
+    ]
+  },
+  "n_chunks": 12
+}

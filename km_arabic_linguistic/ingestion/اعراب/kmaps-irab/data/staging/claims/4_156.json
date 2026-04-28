@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:156",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No matching source_quote_ar found in the provided source_chunks for any words of this ayah; therefore no إعراب claims could be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

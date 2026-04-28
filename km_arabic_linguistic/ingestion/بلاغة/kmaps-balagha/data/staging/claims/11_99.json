@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:99",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "جعلت اللعنة تابعة لهم في الدارين",
+        "claim_ar": "عرض اللعنة بأنها تابعة لهم \"في الدارين\"، أي متتابعة في الدنيا والآخرة، لربط مصير المعنى عبر حقلين زمانيين وإظهار شمول العقاب.",
+        "claim_en": "The curse is presented as \"following them in both abodes (في الدارين)\", linking this-world and the Hereafter to emphasize an enduring, cross‑temporal punishment.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "لعن",
+        "lemma": "لَعْنَة",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the phrase 'في الدارين' to the specific ma'ani subtype 'fasl_wasl' is interpretive; another reader might label this as a different ma'ani technique (e.g., itnaab).",
+        "quran_ref": "S11:A99",
+        "rhetorical_effect": "links temporally separated spheres (worlds) to amplify the severity and permanence of the curse; encourages strong affective response and moral warning."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "takrar",
+        "source_quote_ar": "وتكرارها مع النداء على كفرهم والدعاء عليهم",
+        "claim_ar": "تكرار جذر «رفد» في التركيب «الرِّفْدُ الْمَرْفُودُ» كتكرار لفظي ودلالي لتوكيد الذمّ وقوة الحكم.",
+        "claim_en": "Repetition of the root 'رفد' in the phrase 'الرِّفْدُ الْمَرْفُودُ' (active noun + passive participle) functions as repetition, intensifying condemnation and rhetorical force.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "رفد",
+        "lemma": "رِّفْد",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A99",
+        "rhetorical_effect": "intensifies reproach and vividness of the punishment by morphological echo; creates emphatic, memorable phrasing."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "تهويل لأمرهم وتفظيع له",
+        "claim_ar": "الإيجاز في عبارة «بئس الرِّفْدُ الْمَرْفُودُ» يؤدي إلى تهويل وتفظيع الحالة؛ الصياغة الموجزة تضاعف وقع الحكم.",
+        "claim_en": "The concise phrasing ('بِئْسَ الرِّفْدُ الْمَرْفُودُ') operates as ijaaz (conciseness), magnifying and terrifying the described situation—brevity increases rhetorical impact.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "باس",
+        "lemma": "بِئْسَ",
+        "confidence": "medium",
+        "needs_review_reason": "Classifying this particular concision as 'ijaaz' is interpretive; some analysts might treat it as general emphatic style rather than the technical ijaaz device.",
+        "quran_ref": "S11:A99",
+        "rhetorical_effect": "heightens intensity and horror through compressed, forceful wording; leaves strong affective impression with minimal wording."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari and Darwish (i'rab/lexical notes); the developer prompt requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha materials. Claims are therefore supported only by the supplied chunks, not by the named classical rhetoricians.",
+      "Some device-label assignments (e.g., 'fasl_wasl' and 'ijaaz') are interpretive mappings from the textual comments; alternate balagha taxonomies might classify the same phenomena differently. Review recommended if strict adherence to a particular classical taxonomy is required."
+    ]
+  },
+  "n_chunks": 12
+}

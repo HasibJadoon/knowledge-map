@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:173",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب",
+        "claim_ar": "أسلوب قرآني يجمع بين الترهيب والتحذير ثم الترغيب والتخفيف؛ في الآية يظهر التحريم والترهيب (حرّم عليكم ...) وقبله/قِفاه تذييل يبرّح عن الرحمة والمغفرة (فإنّ الله غفور رحيم) كقصد إظهار التوازن بين الإنذار والرحمة.",
+        "claim_en": "A Quranic stylistic pattern that pairs warning/threat (tarhib) with encouragement/mitigation (targhib). In this ayah the prohibition and warning (\"forbidden to you...\") are balanced by mercy and forgiveness at the end (\"Indeed Allah is Forgiving, Merciful\"), showing deliberate juxtaposition of admonition and consolation.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim_pairing_targhib_tarhib",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 24,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "وسط العاطف كما يوسط بين الصفات",
+        "claim_ar": "مقابلة وتوازٍ بين الصفتين الإلهيتين «غفورٍ رحيمٍ»؛ العاطف (الوَاو) يوسُط بين النعوت ليؤسس توازناً بيانياً وتوكيداً في المعنى.",
+        "claim_en": "A parallelism (muqabalah) between the two divine attributes \"Ghafoor (Forgiving)\" and \"Raheem (Merciful)\". The coordinating waw places the epithets side-by-side, producing a balanced rhetorical pairing that reinforces and emphasizes God's mercy.",
+        "device_branch": "badi",
+        "device_subtype": "parallel_adjectives",
+        "root": "غفر",
+        "lemma": "غَفُور",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are limited (Zamakhshari excerpts) and do not include explicit quotations of the target ayah (S2:A173). Only claims directly supported by exact substrings in the given chunks are extracted.",
+      "Other plausible rhetorical devices in the ayah (e.g. restriction signaled by إِنَّمَا, repetition/jinas on غَيْر, exception formula) could not be claimed because the supplied chunks do not contain exact substrings referring to those forms. Review with additional tafsir/balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:52",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "استهزئوا فعل أمر يراد به التهديد",
+        "claim_ar": "افتتاح الآية بقولِ «قُلْ» بصيغة مَوْجِّهة/أمرية ـ مصحوبة باستفهام استنكاري ـ ليكون أسلوبًا تحذيريًا وتحدِّيًا للمستمعين.",
+        "claim_en": "The opening 'qul' with an interrogative functions as a pointed rhetorical challenge/threat; the imperative form is used to confront and warn the audience.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim: rhetorical_challenge",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source excerpt discusses the imperative/forceful sense in a similar 'قُلِ ...' construction ('قُلِ اسْتَهْزِؤُا ...') rather than this exact verse; the transfer to this ayah is interpretive and should be reviewed."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "majaz",
+        "source_quote_ar": "سيأتي بحث هذا المجاز المرسل",
+        "claim_ar": "توظيف عبارات مثل «مِنْ عِندِهِ» مقابل «بِأَيْدِينَا» ينسجم مع قراءة مجاز مرسل/استعارة مبدَّلة: تُشير الأولى إلى مصدر العقاب (الله) والثانية إلى وسيلة/قوى بشرية (أيدينا).",
+        "claim_en": "The phrasing 'min 'indihi' versus 'bi-ayadina' fits a majaz mursal (metonymic/metaphorical) reading: the first marks the source of punishment (God) while the second indicates human agency ('by our hands').",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "عذب",
+        "lemma": "عَذَاب",
+        "confidence": "medium",
+        "needs_review_reason": "The source notes the topic of 'majaz mursal' in general; applying it specifically to the pair 'min 'indihi' / 'bi-ayadina' is plausible but interpretive and would benefit from corroboration in tafsir/بلاغة texts."
+      },
+      {
+        "word_index": 20,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "إن واسمها وخبرها",
+        "claim_ar": "استعمال «إِنَّا» في «فَتَرَبَّصُوا إِنَّا مَعَكُمْ مُتَرَبِّصُونَ» للتوكيد والتأكيد على اليقين والقطع بأنهم فعلاً في حالة انتظار.",
+        "claim_en": "Use of 'inna' (indeed/indeed we) in 'fa-tarabbasu inna ma'akum mutarabbisun' functions as emphatic affirmation, asserting certainty about their state of waiting.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": "إِنَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily grammatical/commentary excerpts (Zamakhshari, Darwish i'rab) rather than the specific jurists requested (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Claims above rely on available excerpts and in some cases generalize from related comments; cross-checking with the requested rhetoricians' texts is recommended.",
+      "Some claims (e.g., linking 'min 'indihi' / 'bi-ayadina' to majaz mursal, and treating 'قُلْ' as the same force as the cited imperative example) are inferential because the exact ayah phrasing does not appear verbatim in the provided chunks. These items are marked with 'needs_review_reason' and should be verified against dedicated balagha/tafsir sources."
+    ]
+  },
+  "n_chunks": 12
+}

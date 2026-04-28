@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "word_key": "1:2:4",
+  "result": {
+    "claims": [
+      {
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الحمد والمدح أخوان، وهو الثناء والنداء على الجميل من نعمة وغيرها. ... وإنما جعله رأس الشكر لأنّ ذكر النعمة باللسان والثناء على موليها، أشيع لها وأدلّ على مكانها من الاعتقاد وآداب الجوارح لخفاء عمل القلب، وما في عمل الجوارح من الاحتمال، بخلاف عمل اللسان وهو النطق الذي يفصح عن كلّ خفى ويجلى كل مشتبه.",
+        "claim_ar": "الافتتاح بلفظ «الحمد» في مقدِّمة الفاتحة وظيفة بلاغية: إظهار الثناء العام على الله وتهيئة معنى الشكر؛ فـ«الحمد» هنا يمثِّل الثناء الجامع والمرتكز الذي يسبغ على الدعاء طابع الاعتراف والتمجيد قبل الدخول في شكر معلوم أو فعل جزئي.",
+        "claim_en": "Opening the surah with the word 'al‑hamd' serves a rhetorical function: it expresses general praise of God and frames gratitude. 'Al‑hamd' operates as comprehensive praise that foregrounds and legitimizes subsequent thanks and supplication.",
+        "device_branch": "asloob_hakim",
+        "device_subtype": "praise_vs_thank",
+        "root": "حمد",
+        "lemma": "حَمْد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "معاني",
+        "source_quote_ar": "وأطلق الانعام ليشمل كل إنعام ... وإنطلاق الإطلاق يفيد الشمول كقوله: إن إطلاق الاستعانة يتناول كل مستعان فيه، والتحقيق أن الإطلاق إنما يقتضى إبهاما وشيوعا، والنفس إلى المبهم أشوق منها إلى المقيد لتعلق الأمل مع الإبهام لكل نعمة تخطر بالبال",
+        "claim_ar": "وضع «الْعَالَمِينَ» بصيغة جمعٍ معرفٍ بعد «ربّ» يحمل دلالة شمولية وعمومية؛ أي أن الربوبية ممتدة إلى كلِّ أنواع العالمين، واللفظ الجامع يشيع معنى العموم والاطلاق في السياق البلاغي.",
+        "claim_en": "Using 'al‑'alamin' (the worlds) in the definite plural after 'Rabb' conveys inclusiveness and universality: God's lordship is presented as encompassing all kinds of worlds/creatures. The plural definite form rhetorically signals generality.",
+        "device_branch": "معاني",
+        "device_subtype": "tarif_tankir",
+        "root": "علم",
+        "lemma": "عَٰلَمِين",
+        "confidence": "medium",
+        "needs_review_reason": "This claim is an inference based on Zamakhshari's discussion of 'الإطلاق' and الشمول (e.g. in his note on إطلاق الانعام). the provided chunks do not explicitly analyze the specific word «الْعَالَمِينَ», so the application to this lexeme should be confirmed against tafsir text that treats «الْعَالَمِينَ» directly.",
+        "cross_layer_hint": "Compare the note on إطلاق (in the discussion of «أنعمت عليهم») — similar rhetorical force of generality/شمول may apply to «الْعَالَمِينَ»."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit, focused tafsir of the single lexeme «الْعَالَمِينَ». The second claim is inferentially drawn from a general discussion of 'الإطلاق' (in Zamakhshari) rather than a direct commentary on «الْعَالَمِينَ».",
+      "No material from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a dedicated tafsir-balagha section for this word was present in the inputs. For authoritative bilāgha attribution and higher confidence on devices for «الْعَالَمِينَ», consult those specific sources directly.",
+      "I did not extract morphology/grammar per instruction. If you want devices from بيان or بديع branches (e.g., isti'ara, takrar) for this verse, provide chunks where those commentators treat the phrase explicitly."
+    ]
+  },
+  "n_chunks": 12
+}

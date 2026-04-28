@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:95",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "والتعمد: أن يقتله",
+        "claim_ar": "اشتراط التعمد (مُتَعَمِّدًا) يخصّ الجزاء ويقيد الحكم بالتعمد لا بالخطأ، أي حصر العقاب في الفعل المتعمّد.",
+        "claim_en": "The stipulation 'mutamaddidan' (intentionality) restricts the penalty to deliberate action — a rhetorical restriction that confines the legal consequence to intentional killing, not accidental killing.",
+        "device_branch": "maani",
+        "device_subtype": "restriction_by_adjective",
+        "root": "عمد",
+        "lemma": "مُتَعَمِّد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 14,
+        "claim_type": "tashbih",
+        "source_quote_ar": "فَجَزاءٌ مِثْلُ ما قَتَلَ",
+        "claim_ar": "استعمال «مِثْلُ» لتشبيه الجزاء بما قُتل من النعم، أي الجزاء مماثل لِمَا قُتِلَ من النعم.",
+        "claim_en": "Use of 'mithlu' (مثل) frames the penalty as analogous to what was killed — a simile that equates the sanction to the value/thing killed.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih (simile/equation)",
+        "root": "مثل",
+        "lemma": "مِثْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "(لِيَذُوقَ وَبالَ أَمْرِهِ) (وَمَنْ عادَ فَيَنْتَقِمُ اللَّهُ مِنْهُ)",
+        "claim_ar": "مقابلة بين «لِيَذُوقَ وَبالَ أَمْرِهِ» و«فَيَنْتَقِمُ اللَّهُ» تُظهر التوازن البلاغي بين التهديد بالوَبَال ووعيد الانتقام، فتعملان كوسيلة إنذارية وزجرية.",
+        "claim_en": "An antithesis between 'so that he may taste the penalty of his affair' and 'God will take revenge on him' — a rhetorical contrast balancing warning and retribution, reinforcing deterrence.",
+        "device_branch": "badi",
+        "device_subtype": "contrast_antithesis",
+        "root": "نقم",
+        "lemma": "انْتِقَام",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretation relies on the commentator's juxtaposition in the provided chunk; other exegetical readings may nuance whether this is primarily juridical vs. rhetorical."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from Zamakhshari (al-Kashshaf). The user requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha sections — those specific sources were not supplied, so claims are drawn only from the available chunks.",
+      "Some items in the verse are legal/exegetical (ḥukm) and the commentator's explanation mixes jurisprudence with rhetorical observation; tagging them as rhetorical devices is interpretive and may require specialist review.",
+      "Only substrings that appeared verbatim in the provided chunks were used as source_quote_ar. If you provide the exact tafsir excerpts from the other requested authors, I can extract additional or alternative rhetorical claims and raise/lower confidence accordingly."
+    ]
+  },
+  "n_chunks": 12
+}

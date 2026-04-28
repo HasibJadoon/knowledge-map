@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:65",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (فِي الدَّرْكِ) : يُقْرَأُ بِفَتْحِ الرَّاءِ وَإِسْكَانِهَا، وَهُمَا لُغَتَانِ. وَ (مِنَ النَّارِ) : فِي مَوْضِعِ الْحَالِ مِنَ الدَّرْكِ، وَالْعَامِلُ فِيهِ مَعْنَى الِاسْتِقْرَارِ، وَيَجُوزُ أَنْ يَكُونَ حَالًا مِنَ الضَّمِيرِ فِي الْأَسْفَلِ.",
+        "claim_ar": "حرف الجر «في» في عبارة «في داركم» في موقع الحال/الظرف متعلِّق بالفعل «تَمَتَّعُوا»؛ يجوز أن يكون حالًا أو ظرفًا ويعمل فيه معنى الاستقرار.",
+        "claim_en": "The preposition 'fī' in 'fī dārikum' functions as a ḥāl/adverbial (circumstantial) related to the verb 'tamattaʿū' (enjoy yourselves); it may be analyzed as ḥāl or as an adverbial and carries the sense of established/continued state.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not discuss Sūrah 11:65 specifically; the extracted claim is based on an analogous discussion of constructions with «في» (e.g. «في الدرك») in the source rather than an explicit comment on this verse.",
+      "No explicit discussion of the syntactic status of the numeral phrase «ثَلَاثَةَ أَيَّامٍ» (e.g., تمييز/ظرف/عدد) appears in the provided chunks, so no claim about words 6–7 was extracted."
+    ]
+  },
+  "n_chunks": 12
+}

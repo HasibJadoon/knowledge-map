@@ -1,0 +1,49 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:85",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taalluq",
+        "source_quote_ar": "«إِلَى» هُنَا مَحْمُولَةٌ عَلَى الْمَعْنَى، وَمَعْنَى يَزِدْكُمْ: يُضِفْ. وَيَجُوزُ أَنْ يَكُونَ «إِلَى» صِفَةً لِقُوَّةٍ ; فَتَتَعَلَّقَ بِمَحْذُوفٍ ; أَيْ قُوَّةً مُضَافَةً إِلَى قُوَّتِكُمْ.",
+        "claim_ar": "حرف الجر «إِلَى» هنا محمول على المعنى وقد يتعلّق بمحذوف (مثل: قوّة) فتكون علاقة الإضافة إلى هذه المحذوفة.",
+        "claim_en": "The preposition 'إِلَى' here is carried on the sense (not a simple locative) and may relate to an omitted noun (e.g. 'قُوَّة'), functioning as an addition to that omitted item.",
+        "root": null,
+        "lemma": "إِلَى",
+        "confidence": "medium",
+        "needs_review_reason": "The source example is the phrase «إِلَى قُوَّتِكُمْ» (a different context); applying this analysis to وَإِلَى مَدْيَنَ is inferential and should be reviewed for this specific verse.",
+        "quran_ref": "S7:A85"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "«إِلَى» هُنَا مَحْمُولَةٌ عَلَى الْمَعْنَى، وَمَعْنَى يَزِدْكُمْ: يُضِفْ. وَيَجُوزُ أَنْ يَكُونَ «إِلَى» صِفَةً لِقُوَّةٍ ; فَتَتَعَلَّقَ بِمَحْذُوفٍ ; أَيْ قُوَّةً مُضَافَةً إِلَى قُوَّتِكُمْ.",
+        "claim_ar": "محذوف متعلق بـ«إِلَى»: قوّةٌ (أي: إلى قوّتكم)، فـ«إِلَى» تتعلّق بمحذوف اسمِي.",
+        "claim_en": "An elided noun (taqdīr) is implied for 'إِلَى', e.g. 'قُوَّة' — so 'إِلَى' relates to that omitted noun ('to your strength').",
+        "root": "قوي",
+        "lemma": "قُوَّة",
+        "confidence": "medium",
+        "needs_review_reason": "The source explicitly treats the phrase «إِلَى قُوَّتِكُمْ»; inferring the same elided noun for وَإِلَى in this verse is plausible but not explicitly stated in the source—needs confirmation.",
+        "quran_ref": "S7:A85"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "«إِلَى» هُنَا مَحْمُولَةٌ عَلَى الْمَعْنَى، وَمَعْنَى يَزِدْكُمْ: يُضِفْ.",
+        "claim_ar": "إضافة دلالية: «إِلَى» هنا تدل على الزيادة/الإضافة (يعني: يزيدكم/يضيف).",
+        "claim_en": "Semantic effect: 'إِلَى' here conveys the meaning of addition ('adds to you').",
+        "root": null,
+        "lemma": "إِلَى",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted remark is from an example phrase in the source; confirming the same semantic reading for وَإِلَى مَدْيَنَ in this verse requires contextual verification.",
+        "quran_ref": "S7:A85"
+      }
+    ],
+    "warnings": [
+      "The cited source-chunk discusses the phrase «إِلَى قُوَّتِكُمْ» as an example. Applying its analyses (mahmūlah 'on the meaning', elided 'قُوَّة', and the sense of addition) to the specific token وَإِلَى (وَإِلَى مَدْيَنَ) in S7:A85 is inferential. These claims are drawn by analogy from that example and should be reviewed in context of this verse.",
+      "No other grammatical claims for this verse were found in the provided chunks; do not assume additional i‘rāb analyses unless supported by other source text."
+    ]
+  },
+  "n_chunks": 12
+}

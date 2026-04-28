@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:43",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وقَلِيلًا نصب على الحال، وإنما قللهم في أعينهم تصديقاً لرؤية رسول الله ﷺ، وليعاينوا ما أخبرهم به فيزداد يقينهم ويجدّوا ويثبتوا.",
+        "claim_ar": "استخدام قَلِيلًا تدخّل على الحال لتقييد الرؤية بأنها حدثٌ قصير ومحدد (تقييد/حصر) بغرض تهدئة المؤمنين وزيادة التثبيت واليقين.",
+        "claim_en": "The adverb قَلِيلًا is used to limit/qualify the vision as brief/small — a rhetorical limitation that calms the believers and increases their conviction and steadiness.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "قلل",
+        "lemma": "قَلِيل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "tibaq",
+        "source_quote_ar": "قد قللهم في أعينهم قبل اللقاء، ثم كثرهم فيها بعده",
+        "claim_ar": "المقابلة بين قلة الظهور في المنام (قَلِيلًا) وكثرة المشاهدة عند المواجهة (كثيرًا) — تضادّ مقصود لعيَّنةِ أثر نفسي: تهوين المخاطر أولًا ثم مفاجأة العدو بكثرتهم لاحقًا.",
+        "claim_en": "An antithesis (tibaq) between the small appearance in the dream and the later many upon encounter — a deliberate opposition to achieve a psychological effect: downplaying the threat first then surprising the enemy with their actual numbers later.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "قلل / كثر",
+        "lemma": "قَلِيل / كَثِير",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "إِذْ يُرِيكُمُوهُمْ الضميران مفعولان. يعنى: وإذ يبصركم إياهم.",
+        "claim_ar": "الاستعمال البلاغي لصيغة الإخبار (إِذْ يُرِيكَهُمْ) مع تأكيد الضمائر يضفي إحساسًا بالواقعية والحضور الحسي للرؤيا، فيقوّي الدليل على الخبر ويزيد الإقناع.",
+        "claim_en": "The stylistic use of the reporting verb (إذ يُرِيكَهُمْ) with emphasized pronouns gives a sense of sensory presence of the vision, strengthening the evidentiary force of the report and increasing persuasion.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "راي",
+        "lemma": "أَرَى / يُرِي",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk comments on grammar (ضميران مفعولان) and the rhetorical reading is inferred from that grammatical note; requires review whether to label this as 'asloob_hakim' or a maani device like 'iltifat'."
+      }
+    ],
+    "warnings": [
+      "Claims derived only where the provided source chunks contain explicit commentary. I avoided extracting devices for phrases not present verbatim in the chunks.",
+      "One claim (asloob_hakim on يُرِيكَهُمْ) is an interpretive mapping from a grammatical gloss; its rhetorical classification is medium-confidence and flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

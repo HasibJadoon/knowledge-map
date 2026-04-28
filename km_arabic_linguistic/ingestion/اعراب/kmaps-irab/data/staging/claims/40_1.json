@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "40:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "حم (١)",
+        "claim_ar": "الآية مكونة من الحروف المقطعة \"حم\" (حرف/حروف منفصلة تسبق بقية الآيات).",
+        "claim_en": "The verse consists of the disjoined letters \"حم\" (a sequence of isolated letters that precede the following verses).",
+        "root": "",
+        "lemma": "حم",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk explicitly shows the token 'حم' but does not in the same substring label it 'حروف مقطعة'; that label is present elsewhere in the provided chunks, so the identification as muqatta'at is inferred."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَدْ تَقَدَّمَ ذِكْرُ الْحُرُوفِ الْمُقَطَّعَةِ وَالْكَلَامُ عَلَى ذَلِكَ.",
+        "claim_ar": "المؤلف يفيد أن ذكر الحروف المقطعة (مثل \"حم\") قد عُرض سابقًا في الدراسة، أي أن لهذه الحروف بحث مخصوص في المواضع السابقة.",
+        "claim_en": "The author indicates that the discussion of the disjoined letters (such as \"حم\") has already been treated earlier in the work, i.e. these letters receive a special treatment in prior sections.",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

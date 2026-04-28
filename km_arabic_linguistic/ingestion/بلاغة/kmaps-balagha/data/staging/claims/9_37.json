@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:37",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "هو أمر في معنى الخبر",
+        "claim_ar": "استخدام الأمر على معنى الخبر (أمر بمعنى خبر) — إيضاح أسلوبي مشابه في تفسير الآية الموضحة؛ أي أن صيغة الأمر تُفهم كإخبار لتأكيد النتيجة أو الحكم",
+        "claim_en": "Use of the imperative as a statement (imperative meaning a declarative) — the command is intended and understood as a report/statement to emphasize the ruling or result.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "امر",
+        "lemma": "أَمَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "other",
+        "source_quote_ar": "ونكتة فيه، وهي أنّ كثيرا كأنه يقول",
+        "claim_ar": "وجود «نكتة» بلاغية (نكته) — توظيف الآية لِـ«نكته» أو لمحة بلاغية تكشف سخرية/نقد منهجي (مثلاً كشف رياء من يغيّرون أحكام الشريعة لتتماشى مع أهوائهم).",
+        "claim_en": "Presence of a rhetorical 'nukta' (point/wit) — the verse contains a pointed rhetorical move that exposes the hypocrisy/irony of those who alter rulings to suit themselves.",
+        "device_branch": "other",
+        "device_subtype": "naktah",
+        "root": "نكت",
+        "lemma": "نُكْتَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "سواء أسأت أو أحسنت",
+        "claim_ar": "تجاور متقابلين/تضادّ (تِبَاق) — مقابلة لفظية لِفعلَي التحليل والتحريم (يُحِلُّونَهُ ... ويُحَرِّمُونَهُ) تشبه أمثلة التضادّ المذكورة في المصدر، فتُبرز التقلّب والنفاق.",
+        "claim_en": "Antithetical pairing (tibaq) — the juxtaposition of permit/forbid (they permit it one year and forbid it another) forms an antithesis that highlights inconsistency and hypocrisy, parallel to examples like “سواء أسأت أو أحسنت”.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "حلل",
+        "lemma": "أَحَلَّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives analogous examples of opposition (e.g., 'سواء أسأت أو أحسنت') but does not analyze this specific ayah in the excerpt; mapping the example to this ayah is interpretive and would benefit from corroboration in other tafsir/balagha sources."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are excerpts from al-Kashshaf (Zamakhshari). The task requested al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha sections; those authors/sections are not present in the input chunks, so claims rely only on the available excerpts.",
+      "Some device attributions (especially the antithesis/tibaq claim) are interpretive: the quoted source gives analogous stylistic material but does not explicitly analyze S9:A37 in the supplied excerpts. Such mappings should be reviewed against fuller tafsir/balagha treatments."
+    ]
+  },
+  "n_chunks": 12
+}

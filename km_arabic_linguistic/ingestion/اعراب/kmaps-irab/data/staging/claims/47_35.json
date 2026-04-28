@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "47:35",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "الْفَاءُ تَدُلُّ عَلَى تَعَلُّقِ الشَّرْطِ بِمَا قَبْلَهُ",
+        "claim_ar": "الْفَاءُ فِي «فَلَا» تَدُلُّ عَلَى تَعَلُّقِ جَوَابِ الشَّرْطِ بِمَا قَبْلَهُ",
+        "claim_en": "The conjunction fa in 'فَلَا' indicates that the answer of the conditional is connected/related to what precedes it.",
+        "root": null,
+        "lemma": "لَا",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage states the general rule about the fa; the source discussion concerns other verses and the application here is an inference rather than an explicit gloss on this exact ayah.",
+        "quran_ref": "S47:A35"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit iʿrāb (syntactic) commentary on the individual words of S47:A35. The extracted claim is a general rule (about the conjunction الفاء) found in the chunks and its application to 'فَلَا' in this ayah is inferred rather than directly commented on in the quoted text.",
+      "No explicit discussion in the provided chunks about the iʿrāb of verbs after لَن/لَا in this ayah was found, so no irab claims were extracted for those words."
+    ]
+  },
+  "n_chunks": 4
+}

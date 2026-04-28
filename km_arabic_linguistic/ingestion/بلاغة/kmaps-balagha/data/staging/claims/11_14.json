@@ -1,0 +1,44 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:14",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "أَن لا تَعْبُدُوا إِلَّا اللَّهَ",
+        "claim_ar": "حصر العبادة لِلَّهِ وحده بواسطة أداة الاستثناء «إِلَّا»؛ وظيفة بلاغية لتأكيد التوحيد ونفي الشريك.",
+        "claim_en": "Restriction/exclusion: the particle «إِلَّا» restricts worship to God alone, a rhetorical move that emphatically asserts tawhîd (oneness of God) and denies partners.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A14",
+        "rhetorical_effect": "يعزّز الحُجّة ضد الشرك ويجعل النفي عن العبادة صريحاً ومباشراً؛ زيادة في الوضوح والإقناع."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "أخصر وأعذب لفظا وأملأ بالفائدة",
+        "claim_ar": "ملاحظة بلاغية على الإيجاز: اختيار ألفاظ موجزة وحلوة جامعة للفائدة (الإيجاز في البيان).",
+        "claim_en": "Concision (ijaaz): noting the use of terse, sweet phrasing that conveys maximum benefit—an economy of expression that increases rhetorical impact.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "التعليق في المصدر يتعلّق ببيان أسلوبي عام (ذكرُ عدد نوح وما يتعلق به)؛ ربطه مباشرة بالآية محل المعالجة مستنتَج ولا مذكور نصًّا في الشطر المقتبس.",
+        "quran_ref": "S11:A14",
+        "rhetorical_effect": "يجعل العبارة محكمة ومؤثرة، ويعزّز سهولة الحفظ والاستيعاب والوقوف عند المعنى المقصود."
+      }
+    ],
+    "warnings": [
+      "المصادر المقدَّمة هي مقتطفات من الزمخشري (al-Kashshaf)، بينما طُلِبَت أقسام من الجرجاني، السكاكي، الباقلّاني، السيوطي وتفسير البلاغة. لا توجد مقتطفات من تلك المصادر ضمن 'source_chunks'.",
+      "بعض الاستخلاصات (لاسيما صفة الإيجاز) مستنبطة من ملاحظات أسلوبية عامة في المقتطفات ولا تذكر نصًّا صريحًا عن هذه الآية؛ يَستحسن مراجعة نصوص البلاغة المطلوبة أو إضافة مزيد من شواهد من التفاسير البلاغية لتثبيت الاستدلال.",
+      "جُمِعَت المطالع/الاقتباسات مباشرة من مقتطفات متاحة؛ تأكد من مطابقة الاقتباسات العربية المنقولة مع النصوص الأصلية عند الاستخدام الأكاديمي."
+    ]
+  },
+  "n_chunks": 12
+}

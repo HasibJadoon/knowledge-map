@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:99",
+  "result": {
+    "claims": [
+      {
+        "word_index": 20,
+        "claim_type": "prefix_سين (توكيد الوعد)",
+        "source_quote_ar": "السين مفيدة وجود الرحمة لا محالة، فهي تؤكد الوعد",
+        "claim_ar": "حرف السين الذي في فعل المستقبل (سَيُدْخِلُهُمُ) يعمل هنا على تأكيد الوعد واليقين بوقوعه؛ أي توكيد وجود الرحمة الإلهية.",
+        "claim_en": "The prefix s (sā-) in the future verb (sayudkhiluhum) functions to confirm the promise and indicate certainty — it reinforces the assurance of divine mercy.",
+        "device_branch": "other",
+        "device_subtype": "prefix_سين (assurance/emphatic future)",
+        "root": null,
+        "lemma": "سَيَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "rhetorical_effect": "Reinforces certainty of God's promise and increases persuasive force of the consolation (motivates trust and hope).",
+        "quran_ref": "S9:A99"
+      }
+    ],
+    "warnings": [
+      "Only devices for which a supporting substring existed in the provided source_chunks were extracted. Other rhetorical devices plausibly present in the verse (e.g., the demonstrative أَلَا, the pair قُرُبَاتٍ ... قُرْبَةٌ, or the emphatic إنَّ) were not claimed because none of the provided source chunks contained an explicit, relevant substring discussing them.",
+      "Some device assignments use device_branch 'other' because the provided device lists did not contain an exact matching subtype for the discussed feature (the prefix سـ). Review by a specialist in classical Arabic rhetoric is recommended if finer categorization (e.g., mapping to ma'ani subtypes) is required."
+    ]
+  },
+  "n_chunks": 12
+}

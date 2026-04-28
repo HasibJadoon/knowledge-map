@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:77",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يا قَوْمِ اعْبُدُوا اللَّهَ",
+        "claim_ar": "نداء بـ«يا» يُحَوِّلُ الخطابَ مباشرةً إلى المخاطَب (هنا: «يا صالح») لتكثيفِ التوجيه والتوبيخ.",
+        "claim_en": "Vocative with «يا» shifts the discourse directly to the addressee (here: “O Salih”), concentrating the address and reproach.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (نداء/تحويل الخطاب)",
+        "root": "صلح",
+        "lemma": "صَٰلِح",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "الواو عاطفة أو استئنافية،",
+        "claim_ar": "تكرار العطف بـ«واو» بين الأحداث (فَعَقَرُوا ... وَعَتَوْا ... وَقَالُوا ...) كأسلوب تسلسلي يوزع الأفعال ويشدُّ الانتباه إلى تتابع الفعل والعقوبة.",
+        "claim_en": "Repetition of the conjunction «wa» linking events (fa'qarū ... wa'ataw ... waqālū ...) functions as a sequential stylistic device that distributes actions and highlights the succession of acts and consequent blame.",
+        "device_branch": "badi",
+        "device_subtype": "takrar (تكرار/واو العطف)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "الهمزة للاستفهام الإنكاري،",
+        "claim_ar": "العبارة الشرطية/الاستفهامية «ائتِنَا بِمَا تَعِدُنَا إِنْ كُنْتَ مِنَ الْمُرْسَلِينَ» تُقرأ قراءَةً بلاغيةً كاستفهام إنكاري أو تحدٍّ يضع الشكوك في مصداقية المرسل.",
+        "claim_en": "The conditional/ interrogative phrase «Bring us what you promise if you are of the messengers» is rhetorically read as a challenging/denying interrogative that casts doubt on the messenger's authenticity.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa (استفهام إنكاري / تحدي بلاغي)",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source speaks of hamza-based rhetorical interrogation (همزة الاستفهام الإنكاري) in other contexts; mapping that discussion onto the conditional/if-clause «إن كنت» in this verse is interpretative and should be checked against specialized balagha discussions."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily i'rab/grammatical commentaries (Darwish) and contain illustrative examples rather than an explicit balagha treatment of S7:A77 by Jurjānī, Sakkākī, al-Baqillānī, al-Suyūṭī or dedicated tafsir-balagha. The source_quote_ar fields therefore point to grammatical/rhetorical examples in the chunks rather than direct citations of those classical balagha works.",
+      "Some claims adapt general grammatical/rhetorical observations (e.g., about «الواو» or vocative «يا» or «الهمزة للاستفهام الإنكاري») from the provided chunks to this ayah; these adaptations should be verified against primary balagha sources (al-Jurjānī, al-Sakkākī, etc.) for fuller corroboration.",
+      "The interrogation/conditional claim maps a hamza‑based discussion in the source to a verse that uses «إن»; this is interpretative and flagged in the claim's needs_review_reason."
+    ]
+  },
+  "n_chunks": 12
+}

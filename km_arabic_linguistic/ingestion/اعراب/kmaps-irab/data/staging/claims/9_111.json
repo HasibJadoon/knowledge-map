@@ -1,0 +1,49 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:111",
+  "result": {
+    "claims": [
+      {
+        "word_index": 35,
+        "claim_type": "irab",
+        "source_quote_ar": "هُوَ مُبْتَدَأٌ، وَيَقْبَلُ الْخَبَرُ",
+        "claim_ar": "«هُوَ» مَبْتَدَأٌ وَتَقْبَلُ الْجُمْلَةُ الْخَبَرَ (أي: «الْفَوْزُ» خبر له).",
+        "claim_en": "\"Huwa\" is a mubtada' (subject) and accepts a khabar (the sentence takes a predicate) — here \"al-fawzu\" functions as its khabar.",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A111"
+      },
+      {
+        "word_index": 36,
+        "claim_type": "irab",
+        "source_quote_ar": "هُوَ مُبْتَدَأٌ، وَيَقْبَلُ الْخَبَرُ",
+        "claim_ar": "«الْفَوْزُ» خَبَرُ «هُوَ» (إعراب: خبر مرفوع بعد مبتدأ محذوف أو ظاهر «هُوَ»).",
+        "claim_en": "\"al-fawzu\" is the khabar (predicate) of \"huwa\" — i.e., it functions as the predicate in the nominal sentence following the mubtada'.",
+        "root": "فوز",
+        "lemma": "فَوْز",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A111"
+      },
+      {
+        "word_index": 35,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَلَا يَجُوزُ أَنْ يَكُونَ «هُوَ» فَصْلًا؛ لِأَنَّ يَقْبَلُ لَيْسَ بِمَعْرِفَةٍ وَلَا قَرِيبٍ مِنْهَا.",
+        "claim_ar": "قاعدة: لا يجوز أن تكون «هُوَ» فَصْلًا بين المبتدأ وخبره في هذا القياس؛ لأن الفعل المذكور لا يدخل في حكم المعرفة أو القريب منه.",
+        "claim_en": "Rule cited: it is not permissible for \"huwa\" to act as a detached particle (fasl) separating subject and predicate in this construction, because the verb in question does not count as a definite or near-definite that would permit such detachment.",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A111"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not discuss most words of S9:111 directly; only a general comment about the construction with «هُوَ» is present and was used to justify the above claims.",
+      "source_quote_ar values are taken from general explanatory chunks in al-Tibyan (not verbatim commentary on S9:111) and applied to the ayah's final nominal sentence («وَذَلِكَ هُوَ الْفَوْزُ الْعَظِيمُ»). If you have specific al-Tibyan passages about other words in this ayah, provide them to extract more claims."
+    ]
+  },
+  "n_chunks": 12
+}

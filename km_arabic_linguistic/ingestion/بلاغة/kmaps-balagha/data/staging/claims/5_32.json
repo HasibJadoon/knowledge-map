@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:32",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "التعمد: أن يقتله وهو ذاكر لإحرامه",
+        "claim_ar": "تقييد الجزاء بشرط التعمد — الآية تشترط التعمد لقيام الجزاء على القتل.",
+        "claim_en": "Restriction (ḥaṣr/qasr): the verse conditions the prescribed penalty on intentionality — the punishment is stipulated for cases of deliberate (ta'mud) killing.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "عمد",
+        "lemma": "تَعَمُّد",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A32",
+        "rhetorical_effect": "يوضح الحدّ القانوني والأخلاقي للمسئولية ويشدّد على نية الفاعل كعامل مميّز في استحقاق الجزاء (focus on culpability/intent)."
+      }
+    ],
+    "warnings": [
+      "المصادر المضمّنة في الإدخال هي أقسام من تفسير الزمخشري فقط. طُلبت في المهمة أعمالُ الجرجاني والسكاكّي والبيقَلّيّاني والسيوطي وخواص البلاغة في التفاسير، لكنها غير مدرَجة هنا — لذلك الاستخلاص محدود بما ورد في المقتطفات المقدمة.",
+      "في هذه الآية توجد أساليب بلاغية واضحة أخرى (مثل التشبيه/الكناية في «فكَأَنَّمَا...»، التكرار/المقابلة بين القتل والإحياء) لكن لم أجد في المقتطفات المقدمة اقتباسات عربية صريحة تدعم استخراجها طبقاً لمتطلبات 'source_quote_ar' فَمَنَع ذلك إدراج دعاوى إضافية. يُنصح إضافة مقتطفات من الشروحات البلاغية للعلماء المطلوبين لتمكين استخراج أوسع وأدق."
+    ]
+  },
+  "n_chunks": 12
+}

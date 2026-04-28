@@ -1,0 +1,79 @@
+{
+  "layer": "irab",
+  "ayah_key": "57:3",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "وباب الضمير ؛ لأنه وضع للاستغناء به عن الظاهر اختصارا ، ولذا لا يعدل إلى المنفصل مع إمكان المتصل .",
+        "claim_ar": "الهاء/الضمير (هُوَ) ضمير مبني يستعمل للاستغناء عن الاسم الظاهر، ويعمل هنا كمبتدأ محذوف (أو محل مبتدأ).",
+        "claim_en": "The pronoun (huwa) is a bound pronoun used to replace an explicit noun for brevity; here it functions as the subject (mubtada').",
+        "root": null,
+        "lemma": "هو",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general rule about pronouns being used to replace explicit nouns; it does not analyze this specific verse, so the assignment of مبتدأ is inferred and should be checked against more specific exegesis/grammar sources."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "ومنها : باب العطف ؛ لأن حرفه وضع للإغناء عن إعادة العامل .",
+        "claim_ar": "الأَوَّلُ خبر مرفوع لـ 'هو'، وهو أول عناصر سلسلة العطف التي يليها (الآخِرُ والظاهِرُ والبَاطِنُ) فكلها معطوفات في مقام الخبر.",
+        "claim_en": "'al-awwal' is the predicate (khabar) in the nominative for 'huwa'; it is the first item in a coordinated series whose following items (al-akhir, al-zahir, al-batin) are conjoined to it as عطف.",
+        "root": "اول",
+        "lemma": "أَوَّل",
+        "confidence": "medium",
+        "needs_review_reason": "The source states the general function of عطف (coordination) to avoid repeating the governing element; applying it to this verse (identifying these nouns as خبر and معطوفات) is an inference rather than a verse-specific citation."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "ومنها : باب العطف ؛ لأن حرفه وضع للإغناء عن إعادة العامل .",
+        "claim_ar": "وَالْآخِرُ معطوف على الأَوَّلِ في مقام الخبر (معطوف خبر).",
+        "claim_en": "'wa-al-akhir' is conjoined (ma'tuf) to 'al-awwal' in the position of the predicate (khabar).",
+        "root": "اخر",
+        "lemma": "آخِر",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general principle about coordination; identifying this specific word as معطوف requires verse-specific validation."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "ومنها : باب العطف ؛ لأن حرفه وضع للإغناء عن إعادة العامل .",
+        "claim_ar": "وَالظَّاهِرُ معطوف على الأَوَّلِ (وهو في محل خبر لـ 'هو')، أي أنها عناصر معطوفة مجرّدة عن إعادة العامل.",
+        "claim_en": "'wa-al-zahir' is conjoined to the first noun and functions as part of the coordinated predicate for 'huwa'.",
+        "root": "ظهر",
+        "lemma": "ظَٰهِر",
+        "confidence": "medium",
+        "needs_review_reason": "General rule of coordination is cited; the application to this word as معطوف/خبر is inferred and needs verification from a focused grammatical commentary on the verse."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "ومنها : باب العطف ؛ لأن حرفه وضع للإغناء عن إعادة العامل .",
+        "claim_ar": "وَالْبَاطِنُ معطوف على الأَوَّلِ في مقام الخبر أيضاً؛ جميعها تشترك في خبرية 'هو'.",
+        "claim_en": "'wa-al-batin' is conjoined to the first noun as part of the coordinated predicate (khabar) of 'huwa'.",
+        "root": "بطن",
+        "lemma": "بَاطِن",
+        "confidence": "medium",
+        "needs_review_reason": "Coordination rule quoted is general; assigning this specific word the role of معطوف/خبر is an application that should be cross-checked with verse-specific analyses."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وباب النائب عن الفاعل ؛ لأنه دل على الفاعل بإعطائه حكمه ، وعلى المفعول بوضعه .",
+        "claim_ar": "قاعدة: الضمير قد يعمل نائبًا عن الفاعل (أو عن اسم ظاهر) إذ يدل على الفاعل بإعطائه حكمه وعلى المفعول بوضعه.",
+        "claim_en": "Rule: A pronoun can function as a substitute (nائب) for the agent; it indicates the agent by giving it its grammatical effect, and similarly for the object.",
+        "root": null,
+        "lemma": "هو",
+        "confidence": "high",
+        "needs_review_reason": "This is a general grammatical rule stated in the source; its relevance to the verse is high but applying it to a particular syntactic role in the verse still requires contextual confirmation."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are general grammatical discussions (on pronouns, coordination, ellipsis, etc.) and do not contain verse-specific parsing of S57:3. The claims above are inferred by applying those general rules to this ayah; they should be verified against a focused tafsir/grammar commentary that treats this specific verse.",
+      "No explicit statement in the supplied chunks identifies 'بِكُلِّ شَيْءٍ' or 'عَلیمٌ' roles; therefore claims about the attachment (تعلّق) of the prepositional phrase or the adjective are not extracted and should be reviewed with additional sources."
+    ]
+  },
+  "n_chunks": 12
+}

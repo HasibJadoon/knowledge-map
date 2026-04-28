@@ -1,0 +1,25 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:116",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "قالَ",
+        "claim_ar": "حرف القَول «قالَ» أسلوب حكمي يُستعمل لافتتاح الكلام المباشر وفصل السرد عن الخطاب؛ يعرض قول المتكلّم ويهيئ المستمع لوقوع فعل أو جواب.",
+        "claim_en": "The particle of speech 'قالَ' is a rhetorical/stylistic device (asloob_hakim) used to introduce direct speech and separate narration from direct address; it presents the speaker's utterance and prepares the listener for the ensuing action or response.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim (speech-introduction)",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only a limited match to the provided source chunks was found (the substring \"قالَ\" occurs in the chunks). Other obvious rhetorical readings of this ayah (e.g., repetition of أَلْقُوا … أَلْقَوْا as تكرار, or the figurative phrase سَحَرُوا أَعْيُنَ النَّاسِ as استعارة/مجاز) could not be substantiated with exact Arabic substrings from the supplied source chunks, so they were not extracted. If you provide tafsir-balagha / Jurjani / Sakkaki / Baqillani / Suyuti chunks that include those exact phrases, I can extract additional claims."
+    ]
+  },
+  "n_chunks": 12
+}

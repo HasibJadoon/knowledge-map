@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:63",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable rhetorical claims: none of the provided source_chunks contain the ayah text (سورة النساء آية 63) or commentary substrings (e.g. \"أُولَئِكَ الَّذِينَ يَعْلَمُ اللَّهُ مَا فِي قُلُوبِهِمْ\", \"فَأَعْرِضْ\", \"قَوْلًا بَلِيغًا\") required for source_quote_ar.",
+      "Requirement: each claim.source_quote_ar must be an exact substring of one of the provided source_chunks. Because no chunk includes the ayah or explicit balagha commentary on it, I cannot produce claims meeting the 'source_quote_ar' constraint.",
+      "If you provide source chunks from the requested rhetorical/tafsir authors that explicitly discuss S4:63 (or include the ayah text), I can extract and return structured balagha claims."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "word_key": "1:2:3",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "empty content"
+    ]
+  },
+  "n_chunks": 5
+}

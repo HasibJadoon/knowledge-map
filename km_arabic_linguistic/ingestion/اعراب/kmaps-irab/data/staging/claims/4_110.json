@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:110",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ تَكُونَ التَّامَّةَ، وَيَكُونُ «جَاثِمِينَ» حَالًا، وَأَنْ تَكُونَ النَّاقِصَةَ، وَجَاثِمِينَ الْخَبَرَ",
+        "claim_ar": "يجوز أن تكون الصفة المعرَضة بعد الفعل (كـ «غفورًا») حالاً على اسم سبقته (هنا: «اللَّهَ») أو أن تكون خبراً منصوباً؛ أي احتمالانٌ إعرابيان لِـ «غفورًا» في قوله تعالى «يَجِدِ اللَّهَ غَفُورًا رَحِيمًا».",
+        "claim_en": "It is permissible for a post-verbal adjective like ‘ghafūran’ to be analyzed either as a ḥāl (circumstantial accusative) referring to the preceding noun (here: 'Allāh') or as an accusative predicate (khabar). Thus 'ghafūran' in 'yajid Allāha ghafūran raḥīman' admits these two grammatical readings.",
+        "root": "غفر",
+        "lemma": "غَفُور",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage gives a general precedent (the alternation ofحال vs. خبر for participial/qualifying words) but does not discuss this specific verse; classical commentaries differ on the exact labeling here, so the application to S4:110 should be checked against primary tafsīr/i'rāb sources."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "أُحْضِرَتْ يَتَعَدَّى إِلَى مَفْعُولَيْنِ، تَقُولُ أَحْضَرْتُ زَيْدًا الطَّعَامَ، وَالْمَفْعُولُ الْأَوَّلُ الْأَنْفُسُ، وَهُوَ الْقَائِمُ مَقَامَ الْفَاعِلِ",
+        "claim_ar": "ثمة قاعدة بلاغية/نحوية تفيد جواز تعدي بعض الأفعال إلى مفعولين؛ المقطع المذكور مثال على ذلك. يستند ذلك إلى قاعدة عامة عن أفعال التعدي عند توزيع المفاعيل.",
+        "claim_en": "There is a grammatical rule that some verbs can take two objects (transitive to two accusatives); the quoted passage gives the example 'aḥḍartu Zaydan aṭ-ṭaʿāma'. This is a general reference about verbal transitivity applicable when analyzing verbs in the verse.",
+        "root": "عمل",
+        "lemma": "عَمِلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general rule (verbs taking two objects) but does not name or analyze the specific verb 'ya'mal' in the verse; applying the rule to particular verbs here requires checking whether the verb in question patterns like the example."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks discusses Sūrat al-Nisāʼ 4:110 explicitly; the claims above extrapolate from general grammatical statements in the chunks.",
+      "Some claims are general-rule applications (حال vs. خبر; تعدي الأفعال) and should be cross-checked with dedicated i'rāb commentary on this exact verse for definitive labeling."
+    ]
+  },
+  "n_chunks": 12
+}

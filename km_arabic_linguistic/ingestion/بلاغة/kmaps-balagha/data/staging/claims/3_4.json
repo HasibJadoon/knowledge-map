@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:4",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "maani",
+        "source_quote_ar": "و «من» في قوله وَما مِنْ إِلهٍ إِلَّا اللَّهُ بمنزلة البناء على الفتح في: (إِلهٍ إِلَّا اللَّهُ) في إفادة معنى الاستغراق",
+        "claim_ar": "حرف «مِنْ» قد يحمل دلالة استغراق/شمول في السياق البلاغي، أي توسيع المعنى وإشعار الشمول (مقارنة مثال الزمخشري: «ما مِنْ إِلَهٍ إِلَّا اللَّهُ»). في مطلع الآية («مِنْ قَبْلُ») يمكن قراءتها كإضفاء حسٍّ من الشمول الزمني/التاريخي (منذ أمد بعيد/من قبل).",
+        "claim_en": "The particle «مِنْ» can convey a sense of inclusion/exhaustiveness (istighraq) in rhetorical usage, broadening or generalizing the meaning (cf. Zamakhshari's example: “ما مِنْ إِلَهٍ إِلَّا اللَّهُ”). At the start of this verse («مِنْ قَبْلُ») it can thus be read as giving a sense of comprehensive temporal scope (‘from long before’).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary discusses «مِنْ» in a different collocation (ما مِنْ إِلَهٍ إِلَّا اللَّهُ). Applying the same semantic/pragmatic reading to «مِنْ قَبْلُ» is plausible but inferential and should be reviewed by a specialist."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "maani",
+        "source_quote_ar": "إِنَّ هذا الذي قص عليك من نبأ عيسى لَهُوَ الْقَصَصُ الْحَقُّ",
+        "claim_ar": "أداة «إِنَّ» تفتتح الجملة الخبرية وتعمل بلاغياً على التوكيد وتثبيت صدق الخبر؛ أي تضيف وقعاً تقريرياً لخبر تلاها (نبرة توكيدية في بداية الفقرة الخبرية).",
+        "claim_en": "The particle «إِنَّ» opens the nominal sentence and rhetorically provides emphasis/affirmation of the ensuing information; it gives a confirmatory force to the reported statement (a strong assertive opening).",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "low",
+        "needs_review_reason": "The source passage analyzes syntactic behavior of «إِنَّ» (grammatical possibilities). Inferring a primarily rhetorical function (emphatic/assertive force) from that grammatical discussion is interpretive and requires review by a balagha specialist."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are all from Zamakhshari (al-Kashshaf). The user requested extraction referencing al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha materials; those authors' texts were not present among the source_chunks, so claims only cite the available Zamakhshari passages.",
+      "Some claims generalize from examples in the commentary to the target ayah (e.g., reading «مِنْ» as istighrāq). Those inferential steps are marked under needs_review_reason and should be validated by a subject-matter expert.",
+      "One cited chunk treats particles in grammatical/syntactic terms rather than explicitly in rhetorical terms; where rhetorical interpretation is given, confidence is reduced and review is recommended to separate grammatical description from rhetorical effect."
+    ]
+  },
+  "n_chunks": 12
+}

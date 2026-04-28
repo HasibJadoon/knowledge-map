@@ -1,0 +1,49 @@
+{
+  "layer": "irab",
+  "ayah_key": "50:32",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (هَذَا) : هُوَ مُبْتَدَأٌ",
+        "claim_ar": "هَذَا: مُبْتَدَأ",
+        "claim_en": "The word 'هَذَا' is the mubtada (subject).",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S50:A32"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَفِي الْخَبَرِ وَجْهَانِ: أَحَدُهُمَا: (فَلْيَذُوقُوهُ) مِثْلُ قَوْلِكَ: زَيْدٌ اضْرِبْهُ.",
+        "claim_ar": "خبر هَذَا مُعرض لوجهين: أحدهما أن يكون جملة فعلية (مثال: «فَلْيَذُوقُوهُ»).",
+        "claim_en": "There are two possible analyses for the predicate (khabar) of 'هَذَا': one is that it may be a verbal clause (e.g., an imperative clause like 'فَلْيَذُوقُوهُ').",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S50:A32"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَأَنْ يَكُونَ خَبَرَ مُبْتَدَأٍ مَحْذُوفٍ؛ أَيْ هُوَ حَمِيمٌ",
+        "claim_ar": "يجوز تقديرُ خبرٍ محذوفٍ لـ «هَذَا» (تقديره «هو»)، أي: «هوَ حَمِيمٌ» كأحد الوجوه.",
+        "claim_en": "It is permissible to posit an elided predicate (taqdīr) for 'هَذَا' — i.e., an implied 'هو' — so the meaning would be 'هو حميم' as one possible reading.",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S50:A32"
+      }
+    ],
+    "warnings": [
+      "The provided source excerpts discuss general analyses of the demonstrative هذَا and give illustrative possibilities (e.g. «فَلْيَذُوقُوهُ», «حَمِيمٌ»). They do not explicitly analyze the specific sequence «مَا تُوعَدُونَ» in this verse; claims above reflect the source's remarks about هَذَا rather than a direct parsing of «مَا تُوعَدُونَ».",
+      "No explicit statements about the words مَا، تُوعَدُونَ، لِكُلِّ، أَوَّابٍ، حَفِيظٍ were found in the provided chunks, so no claims are made for those word indices."
+    ]
+  },
+  "n_chunks": 12
+}

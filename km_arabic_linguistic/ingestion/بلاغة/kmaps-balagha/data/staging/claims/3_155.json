@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:155",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وَإِنَّما تُوَفَّوْنَ أُجُورَكُمْ؟",
+        "claim_ar": "استعمال «إنما» هنا للحصر والتقييد، أي حصر الحكم في سببٍ معين (تقييد الكلام لتوضيح أو تحديد المقصود).",
+        "claim_en": "The particle 'innama' (إنما) is used for restriction/exclusion (hasr/qasr), limiting the scope of the statement to a specific cause or condition.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِنَّمَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari and Safi (al-Jadwal) rather than the listed classical rhetoricians (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha). Claims are therefore drawn only from the supplied chunks.",
+      "Only one clear rhetorical device (إنما → حصر/قصر) could be confidently extracted from the supplied chunks for this ayah. Other potential devices in the verse were not attested explicitly in the provided source texts, so they were not claimed.",
+      "If you want more/other classical-commentary-based devices (e.g., iltifat, fasl-wasl, ijaaz), please provide chunks from those specific authors or additional tafsir-balagha material that discuss S3:A155."
+    ]
+  },
+  "n_chunks": 12
+}

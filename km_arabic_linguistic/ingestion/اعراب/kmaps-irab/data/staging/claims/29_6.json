@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "29:6",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "«مَنْ» شَرْطٌ",
+        "claim_ar": "«مَنْ» أداة شرط (أداة جازمة/أداة شرط)",
+        "claim_en": "'man' is a conditional particle (a conditional tool introducing the protasis).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَالْجَوَابُ: «فَإِنَّ أَجَلَ اللَّهِ»",
+        "claim_ar": "«فَإِنَّمَا» (هنا على وزِنة «فَإِنَّ») فاتحة جواب شرط «مَنْ»، أي أنها مقدمة لجواب الشرط.",
+        "claim_en": "The particle 'fa-inna(mma)' opens the answer (jawab) to the conditional 'man' — it introduces the response to the conditional clause.",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain general grammatical notes (e.g. on «مَنْ» and on the jawab introduced by «فَإِنَّ») drawn from other contexts; confirm the author applies these same remarks specifically to S29:6."
+    ]
+  },
+  "n_chunks": 12
+}

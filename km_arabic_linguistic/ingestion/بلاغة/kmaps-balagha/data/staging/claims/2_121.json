@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:121",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ",
+        "claim_ar": "الآية تشتمل على اقتطاع/فصل في عبارة «الَّذِينَ يُؤْمِنُونَ»؛ كما يذكر الكسّافى احتمال كونها مقتطعة أو موصولة، وإذا كانت مقتطعة فهي وقف تامّ يقوّي المدح والتثمين لهم.",
+        "claim_en": "The verse employs a cut/detachment at the phrase 'الَّذِينَ يُؤْمِنُونَ'. al-Kashshaf (Zamakhshari) notes that this clause can be read as detached (muktaTaʿ) or connected; if taken as detached it yields a full pause, strengthening praise and commendation of those believers.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (اقتطاع/وقف)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only one provided source chunk (Zamakhsharī chunk) contained an exact substring of the verse ('الَّذِينَ يُؤْمِنُونَ'). Other chunks did not contain exact substrings of this ayah, limiting the number of directly sourceable claims.",
+      "There are likely additional rhetorical devices in this verse (e.g., antithesis between believers and disbelievers, repetition), but corresponding exact substrings were not found in the supplied source chunks; such claims were therefore not extracted to avoid inventing unsupported source_quote_ar references."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:14",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "وفي ذلِكُمْ للكفرة، على طريقة الالتفات.",
+        "claim_ar": "الالتفات: تحويل الخطاب إلى الكافرين باستخدام (ذَلِكُمْ) كلفتة خطابيّة لتحويل النداء والتنبيه إليهم.",
+        "claim_en": "Iltifat (shift of address): the phrase ذَلِكُمْ effects a rhetorical shift of address to the disbelievers, turning the addressee and making the admonition direct.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ذ ل ك",
+        "lemma": "ذَٰلِك",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فوضع الظاهر موضع الضمير",
+        "claim_ar": "استبدال الظاهر موضع الضمير: استعمال الظاهر (ذَلِكُمْ) بدلاً من ضمير مستتر أو متوقع لتكثيف الصورة وإبراز العذاب.",
+        "claim_en": "Replacement of a pronoun by a demonstrative: the overt demonstrative (ذَلِكُمْ) is used instead of a pronoun, thus foregrounding and intensifying the depiction of the punishment.",
+        "device_branch": "maani",
+        "device_subtype": "replacement_of_pronoun_by_demonstrative",
+        "root": "ذ ل ك",
+        "lemma": "ذَٰلِك",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "فَذُوقُوهُ",
+        "claim_ar": "أسلوب إنذاري/أمري: الفعل الأمري (ذُوقُوهُ) مسبوق بالفاء الاستئنافية للدعوة إلى تذوّق العقاب فوراً.",
+        "claim_en": "Asloob hakim (stylistic/authoritative mode): the imperative فَذُوقُوهُ, prefixed by the fa', functions as a warning/command calling for the immediate experience of punishment.",
+        "device_branch": "other",
+        "device_subtype": "imperative_with_prefixed-fa",
+        "root": "ذوق",
+        "lemma": "ذَاقُ",
+        "confidence": "medium",
+        "needs_review_reason": "The reading whether the ف is استئنافية (resume/commandive) or simply عاطفة affects nuance; tafsir leans to استئنافية but syntax admits debate."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "ذوقوا هذا العذاب العاجل مع الآجل الذي لكم في الآخرة",
+        "claim_ar": "مقابلة/تضاد زمناني: juxtaposition بين العذاب العاجل المشار إليه (هذا) والعذاب المؤجّل في الآخرة لتعظيم التهديد والتأكيد.",
+        "claim_en": "Muqabalah (contrast/juxtaposition): the text juxtaposes the immediate punishment ('this urgent punishment') with the deferred punishment in the Hereafter, thereby magnifying the threat and emphasis.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The tafsir passage states the semantic juxtaposition but does not explicitly name it 'مقابلة'; this mapping is an interpretive labeling."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks contain tafsir and grammatical commentary (Safi, Zamakhshari) but do not include the specific listed rhetoric authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir_balagha). Claims were drawn only from the available chunks.",
+      "Some labels (e.g., 'muqabalah' for the immediate-vs.-deferred punishment) are interpretive mappings from the commentators' semantic remarks rather than explicit rhetorical labels in the quoted texts; see needs_review_reason fields."
+    ]
+  },
+  "n_chunks": 12
+}

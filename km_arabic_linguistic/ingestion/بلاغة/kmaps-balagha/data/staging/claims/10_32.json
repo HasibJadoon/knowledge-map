@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:32",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No exact substring from the ayah was found in the provided source_chunks. source_quote_ar must be an exact substring of one of the chunks; unable to extract بلاغة claims without a matching source quote. Please provide source material (tafsir/بلاغة excerpts) that include exact quoted phrases from this ayah (e.g. «فَذَلِكُمُ اللَّهُ رَبُّكُمُ الْحَقُّ» or other contiguous substrings) so claims can be grounded in the sources."
+    ]
+  },
+  "n_chunks": 12
+}

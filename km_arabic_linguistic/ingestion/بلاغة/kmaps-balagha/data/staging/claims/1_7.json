@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "1:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "(غير) بدل من اسم الموصول (الذين) تبعه في الجر",
+        "claim_ar": "استعمال «غير» في مقام بدل/استثناء ليقصر المقصود على «الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ» ويستبعد «المغضوب عليهم» و«الضالين» (حصر/قصر المعنى).",
+        "claim_en": "Use of «غير» functioning as a substitute/exclusion to restrict the intended referent to “those upon whom You have bestowed favor,” excluding “those who incurred wrath” and “the misguided” (restriction/limitation).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "لأن (غير) عنده لا يكون إلا نكرة وإن أضيفت، والاضافة فيه لفظية و (الذين) معرفة",
+        "claim_ar": "تباين بين المعرفة «الَّذِينَ» والنكرة «غير» (أو تعامل «غير» كَنكرة بحسب المبرد) لبلوغ تفريقٍ بلاغي يحدد المقصود ويشدّد التباين بين المجموعة المنعمة والمستثناة.",
+        "claim_en": "Contrast of definiteness: the relative definite «الَّذِينَ» versus «غير» treated as indefinite (per al-Mubarrad), yielding a rhetorical distinction that sharpens and delimits the favored group compared with the excluded ones.",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "medium",
+        "needs_review_reason": "النص السيميائي في المصدر يشير إلى خلاف نحوي (بدل أم نعت)؛ التصنيف البلاغي يعتمد على قراءة نحوية متنازع عليها."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "المغضوب) مضاف إليه مجرور (عليهم) كالأول في محل رفع نائب فاعل للمغضوب، (الواو) عاطفة (لا) زائدة لتأكيد النفي (الضالّين) معطوف على (غير) مجرور مثله",
+        "claim_ar": "مقابلة/ترادف بين «المغضوب عليهم» و«الضالين» كوحدتين متقابلتين في العبارة، تُستخدم لبيان نوعين من الإنحراف المراد استبعادهما عن صراط المنعم عليهم.",
+        "claim_en": "Antithesis/paired opposition between “those who incurred wrath” and “the misguided” as two contrasted categories, used to delineate and exclude two types of deviation from the path of those favored.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "جذر/لِّمَّة غير مرتبطة بكلمة مفردة هنا (الجهاز البلاغي على مستوى الآية)؛ تتطلب مراجعة توصيف الجذر إذا لزم الربط بأحد المصطلحات المعنية."
+      }
+    ],
+    "warnings": [
+      "المصادر تتناول تصنيف «غير» بخلاف النحاة والبلاغيين (بدل أم نعت)، وبعض الخلاصات البلاغية تعتمد على قراءة نحوية متنازع عليها — راجع شروح النحاة والقراء لتأكيد التصنيف البلاغي.",
+      "ادعاءات المقابلة والتمييز الدلالي هنا مُستخلصة من شروح نحوية وبلاغية في القطع المقدمة؛ يفضل التحقق من سياق الشروح الكاملة لكل مؤلف عند استخدام التصنيفات البلاغية الدقيقة."
+    ]
+  },
+  "n_chunks": 12
+}

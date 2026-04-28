@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:127",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "maani:ijaaz",
+        "source_quote_ar": "البلاغة",
+        "claim_ar": "الإيجاز: اختصار الجزاء وبيان الحال والولي في جملة واحدة تقتصر على: «لهم دار السلام عند ربهم وهو وليهم بما كانوا يعملون» بحيث يجمع ثواب المكان (دار السلام) ومقام الربوبية (عند ربهم) والولاية (وهو وليهم) في عبارة موجزة.",
+        "claim_en": "Conciseness (ijāz): the reward, the locus ('abode of peace'), and God's guardianship are expressed compactly in a single concise phrase «لهم دار السلام عند ربهم وهو وليهم بما كانوا يعملون», packing multiple semantic points into a brief statement.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Inference based on surface structure of the ayah; provided source chunks do not offer an explicit ijāz reading for S6:127 (the quoted source substring is a general marker)."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "maani:iltifat",
+        "source_quote_ar": "وَهُوَ",
+        "claim_ar": "التفات وتوكيد بالضمير: البدء بـ«وهو وليهم» بعد ذكر «عند ربهم» يلفت الانتباه إلى صفة الله كولي ومحاطٍ بالرعاية، واستعمال «هو» هنا للتوكيد والالتفات.",
+        "claim_en": "Iltifat (shift/attentive turn): the phrase «وَهُوَ وَلِيُّهُمْ» following «عند ربهم» turns attention to God’s role as their guardian; the pronoun «huwa» functions to emphasize and foreground this attribute.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ولي",
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Claim is a pragmatic/rhetorical reading (the source chunk contains the word «وَهُوَ» but does not analyze this specific ayah); needs tafsir-balagha corroboration."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "badi:takrar",
+        "source_quote_ar": "وَهُمْ",
+        "claim_ar": "تكرار ضمائر الجماعة («هم» في لَهُمْ … رَبِّهِمْ … وَلِيُّهُمْ … كانوا) كوسيلة للتأكيد والتخصيص لإبراز تعلق المكافأة والولاية بهم.",
+        "claim_en": "Takrār (repetition): repetition of the plural pronoun «-hum» across the verse (e.g., لَهُمْ … رَبِّهِمْ … وَلِيُّهُمْ … كانوا) functions to emphasize and specify that the reward and guardianship pertain to them.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Surface-level rhetorical observation; provided source chunk contains the pronoun form («وَهُمْ») but does not directly comment on pronoun-repetition in this specific verse."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are general iʻrāb/commentary excerpts and do not contain explicit tafsīr-balagha analyses for S6:A127. Each claim above is an inferred rhetorical reading of the verse; the quoted source substrings are single-word matches from the provided chunks used as anchors, not explicit attestations of the stated devices for this specific ayah.",
+      "Please supply tafsir-balagha / al-Jurjani / al-Sakkaki / al-Baqillani / al-Suyuti excerpts that directly discuss S6:127 if you want higher-confidence, source-backed claims or additional device types (e.g., kināyah on «دار السلام», majāz, tashbīh)."
+    ]
+  },
+  "n_chunks": 12
+}

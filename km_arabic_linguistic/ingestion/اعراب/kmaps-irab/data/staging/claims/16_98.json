@@ -1,0 +1,27 @@
+{
+  "layer": "irab",
+  "ayah_key": "16:98",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "إِنْ قِيلَ: الْفَاءُ تَدُلُّ عَلَى التَّعْقِيبِ، وَكَوْنُهُ خَصِيمًا لَا يَكُونُ عُقَيْبَ خَلْقِهِ مِنْ نُطْفَةٍ ; فَجَوَابُهُ مِنْ وَجْهِيْنِ:",
+        "claim_ar": "الفاء في «فَإِذَا» تدلُّ على التعقيب (أي الترتيب والاتصال بين الجمل).",
+        "claim_en": "The conjunction fa in 'fa-idha' indicates ta'qib (sequencing/connection), i.e., it signals a sequential/connected relation between clauses.",
+        "root": null,
+        "lemma": "فَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "device_branch": "conjunction",
+        "device_subtype": "فا التعقيب",
+        "quran_ref": "S16:A98"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain only a discussion relevant to the initial conjunction 'فَ' (in chunk AL:CHUNK:feb29deac9ff608387937734). No explicit iʿrāb statements (مبتدأ، خبر، فاعل، مفعول به، etc.), تَعَلُّق، تَقْدِير، or variant readings for the other words of the verse are found in the supplied chunks.",
+      "If you want claims for other words (قَرَأْتَ، الْقُرْآنَ، اسْتَعِذْ، بِاللَّهِ، مِنَ الشَّيْطَانِ، الرَّجِيمِ), provide additional source chunks that discuss their iʿrāb or syntactic relations."
+    ]
+  },
+  "n_chunks": 12
+}

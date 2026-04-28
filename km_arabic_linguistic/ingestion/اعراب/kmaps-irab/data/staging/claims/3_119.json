@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:119",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ بَدَلًا مِنَ الَّذِينَ الْأُولَى، وَأَنْ يَكُونَ خَبَرَ مُبْتَدَأٍ مَحْذُوفٍ؛ أَيْ: هُمُ الَّذِينَ.",
+        "claim_ar": "يَجُوزُ إِعْرابُ «أُولَاءِ» في هذه البنية كَـبَدَلٍ (بَدَلٌ مِنَ الَّذِينَ الأُولَى) أو كَخَبَرِ مُبْتَدَأٍ مَحْذُوفٍ.",
+        "claim_en": "It is permissible to analyze «أُولَاءِ» either as a badal (substitute) corresponding to 'الَّذِينَ الأُولَى', or as the predicate (khabar) of an omitted subject (i.e., an omitted مبتدأ).",
+        "root": null,
+        "lemma": "أُولَآء",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "الَّذِينَ يَسْتَحِبُّونَ) : فِي مَوْضِ جَرِّ صِفَةٍ لِلْكَافِرِينَ، أَوْ فِي مَوْضِ نَصْبٍ بِإِضْمَارِ أَعْنِي، أَوْ فِي مَوْضِ رَفْعٍ بِإِضْمَارِ «هُمْ» .",
+        "claim_ar": "عبارة الفعل والموصول تُجْهَز بعدة أوجه: قد تُعرب كجَرّ صِفَةٍ، أو كجملة منصوبَة فيها إِضْمَارُ «أَعْنِي»، أو كمرفوعةٍ مع إِضمارِ «هُمْ» — وبالمقابلة يُمْكِنُ إعرابُ «تُحِبُّونَهُمْ» بوجهٍ من هذه الوجوه (وجود/إضمار «هم» أو إضمار آخر).",
+        "claim_en": "The relative clause (verb + relative) admits several analyses: it can be a genitive attributive (صفة مجرورة), an accusative clause with an implied 'أعني', or a nominative clause with an implied 'هم'. By analogy, the phrase 'تُحِبُّونَهُمْ' may be parsed according to one of these options (i.e., with an implicit pronoun or different syntactic attachment).",
+        "root": "حبب",
+        "lemma": "أَحْبَبْ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The cited passages in al-Tibyan discuss constructions with formulations like «الَّذِينَ يَسْتَحِبُّونَ» and «الَّذِينَ عَاهَدْتَ». They are being applied analogically to the current verse (S3:119, «هَاأَنْتُمْ أُولَاءِ تُحِبُّونَهُمْ»). The source quotes do not name this exact phrasing; mapping to the specific words of the ayah is interpretive and should be reviewed in context.",
+      "Some morphological/root information in the input words is missing (root=null for some items); claims using those entries carry that metadata gap."
+    ]
+  },
+  "n_chunks": 12
+}

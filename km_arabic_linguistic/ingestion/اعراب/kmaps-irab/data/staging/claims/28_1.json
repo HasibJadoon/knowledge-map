@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "28:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "(طسم) : مِثْلُ الم، وَقَدْ ذُكِرَ فِي أَوَّلِ الْبَقَرَةِ.",
+        "claim_ar": "اللفظ «طسم» معرَف بأنه من الحروف المقطعة، ومثل «الم»؛ أي أنه حروف مفصولة ببداية السورة لا تدخل في الإعراب الاعتيادي للنص.",
+        "claim_en": "'طسم' is identified as one of the muqatta'at (disconnected/mysterious letters), like 'الم'; i.e., detached letters at the start of the surah and not integrated into the ordinary syntactic parsing of the verse.",
+        "root": "ط س م",
+        "lemma": "طسم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

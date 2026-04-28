@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:69",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "tashbih",
+        "source_quote_ar": "استمتعتم وخضتم كما استمتعوا وخاضوا",
+        "claim_ar": "تشبيه: استعمال أداة التشبيه (كما/كـ) لتمثيل فعلكم بأفعال الذين من قبلكم",
+        "claim_en": "Simile (tashbih): the wording compares your conduct to that of those before you using comparison markers (كما / كـ), representing your enjoyment and involvement as the same pattern.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "root for the word 'كَالَّذِينَ' is not provided in input word data; the device identification is clear from commentary but root is missing.",
+        "quran_ref": "S9:A69",
+        "rhetorical_effect": "Links the addressees' behaviour to past peoples, sharpening the moral reproach by explicit comparison."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "takrar",
+        "source_quote_ar": "فَاسْتَمْتَعُوا بِخَلاقِهِمْ",
+        "claim_ar": "تكرار: إعادة فعل الاستمتاع (استمتعوا... استمتعتم...) لِتأكيد سلوك التلهّي والرضا بالدنيا",
+        "claim_en": "Repetition (takrar): the verb 'istamtaʿū/istamtaʿtum' is repeated (and paralleled) to emphasize heedless enjoyment and attachment to worldly goods.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "متع",
+        "lemma": "اسْتَمْتَعَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A69",
+        "rhetorical_effect": "Stresses the recurring, habitual nature of the condemned behaviour and strengthens the reproach."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "istiarah",
+        "source_quote_ar": "الخلاق: النصيب، وهو ما خلق للإنسان",
+        "claim_ar": "استعارة/مجاز: لفظ «خَلاق» مستخدم بمعنى النصيب/الجزاء الذي قُدّر للإنسان (مجاز له عن المال والولد)",
+        "claim_en": "Metonymy/figurative use (istiarah): 'khalaaq' is used to mean 'portion' or 'lot' allotted to a person (i.e., possessions/children), a figurative extension of 'خلق'.",
+        "device_branch": "bayan",
+        "device_subtype": "istiarah",
+        "root": "خلق",
+        "lemma": "خَلَٰق",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A69",
+        "rhetorical_effect": "Conveys worldly provisions concisely and lends a Quranic term a concrete worldly sense, making the reproach more pointed."
+      }
+    ],
+    "warnings": [
+      "Requested commentarial/tafsir-balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir_balagha) were not provided in the input. Claims here are extracted from the supplied chunks (Zamakhshari and Safi/al-Jadwal).",
+      "Root for word_index 1 ('كَالَّذِينَ') was not present in the provided words array; root left null and confidence lowered to 'medium' for that claim."
+    ]
+  },
+  "n_chunks": 12
+}

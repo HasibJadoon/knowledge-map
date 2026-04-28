@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:44",
+  "result": {
+    "claims": [
+      {
+        "word_index": 32,
+        "claim_type": "حصر/تقييد (hasr_qasr)",
+        "source_quote_ar": "وقَلِيلًا نصب على الحال",
+        "claim_ar": "استخدام قَلِيلًا منصوبة حالًا لتقليل قيمة الثمن وإظهار حقارة المقابل المادي مقابل آيات الله، أي تثبيت الانطباع التقليلي للثمن في الحال.",
+        "claim_en": "The word قَلِيلًا is used as a hal (circumstantial accusative) to downplay the value of the price, emphasizing the meanness of the material exchange compared to God's signs.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "قلل",
+        "lemma": "قَلِيل",
+        "confidence": "medium",
+        "needs_review_reason": "The identification depends on the tafsir's grammatical reading ('قَلِيلًا نصب على الحال'); reviewers should confirm the parsing and that the rhetorical reading (minimization) is primary rather than merely grammatical."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة / تضاد (muqabalah)",
+        "source_quote_ar": "قد قللهم في أعينهم قبل اللقاء، ثم كثرهم فيها بعده",
+        "claim_ar": "التعليق يؤكد تقنية بليغة في التضاد: تقليل شيء في التقديم ثم إظهاره عظيماً بعد الوقوع (تأثير مفاجئ)؛ في سياق الآية يظهر تباينًا بين التقليل الظاهر (قَلِيلًا، الاستهانة) والتبعات الحقيقية التي تُظهر الحقيقة وتُربك المخالفين.",
+        "claim_en": "The commentary highlights a rhetorical technique of contrast/antithesis: something is diminished in the audience's eyes first, then revealed as great after the event (a surprise effect). In the verse this maps to the contrast between the trivial monetary 'little price' and the true value/effects of the divine signs, producing psychological reversal.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Linking the tafsir's description of diminution/then-increase to this specific verse's rhetorical structure is interpretive; needs review for scope (whether the commentator refers to this verse or a parallel usage) and for alternative rhetorical labels."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are tafsir excerpts (mainly al-Kashshaf/Tabari) and do not include explicit extracts from the requested classical rhetoric authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or dedicated 'tafsir balagha' sections). Claims are therefore drawn only from the supplied chunks.",
+      "Some word lemmas were not present in the input data for every token; I filled lemma for word_index 32 but left lemma/root null where no clear source text mapping existed. Please review lemmas/roots for accuracy.",
+      "Interpretations (device assignment and rhetorical effect) are moderately confident but somewhat inferential from the commentary snippets; please review especially the mapping of tafsir commentary to the precise balagha categories."
+    ]
+  },
+  "n_chunks": 12
+}

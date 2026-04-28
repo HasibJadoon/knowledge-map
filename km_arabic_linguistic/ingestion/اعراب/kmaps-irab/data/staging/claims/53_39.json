@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "53:39",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "ليس   : فعل جامد ، ومن ثم ادعى قوم حرفيته ، ومعناه : نفي مضمون الجملة في الحال ونفي غيره بالقرينة .",
+        "claim_ar": "ليس فعل جامد (فعل جامد يستخدم للنفي وتأكيد معنى النفي في الجملة الاسمية).",
+        "claim_en": "'laysa' is a jamed (fixed) verb — a defective verb used to negate the propositional content of a nominal sentence (i.e., it behaves as a verb of negation rather than as a mere particle).",
+        "root": "ليس",
+        "lemma": "لَّيْسَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S53:A39"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "ومن ثم ادعى قوم حرفيته",
+        "claim_ar": "ذهب بعض النحاة إلى أن 'ليس' حرف (أي أنها ليست فعلاً بل حرف نفي).",
+        "claim_en": "Some grammarians claimed that 'laysa' is a particle (harf) rather than a verb — indicating a historical grammatical disagreement about its category.",
+        "root": "ليس",
+        "lemma": "لَّيْسَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source reports the existence of a dispute but does not detail which grammarians or their arguments; further investigation could identify schools (e.g., Basran/Kufan) or evidences.",
+        "quran_ref": "S53:A39"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

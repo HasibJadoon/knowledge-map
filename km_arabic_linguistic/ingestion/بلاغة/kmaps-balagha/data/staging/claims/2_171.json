@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:171",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain the ayah text or any exact substrings from it (e.g. phrases like \"صُمٌّ بُكْمٌ عُمْيٌ\" or other parts of S2:171). The extraction rules require source_quote_ar to be an exact substring of one of the supplied chunks, so no rhetoric claims can be produced from the given inputs.",
+      "Requested author sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present among the provided chunks; available chunks (mainly from Zamakhshari and others) do not quote the target ayah. Provide source material containing the ayah excerpts or the specified rhetorical commentaries to enable claim extraction."
+    ]
+  },
+  "n_chunks": 12
+}

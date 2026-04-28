@@ -1,0 +1,88 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:142",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "التفات (الانتقال) من الغيبة إلى الخطاب بين سياق النبأ ('سَيَقُولُ السُّفَهَاءُ...') والأمر المباشر ('قُلْ').",
+        "claim_en": "Iltifat (a shift) from third-person report to direct address: the move from reporting 'the foolish will say...' to the direct command 'Say...'.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "لفت",
+        "lemma": "التفات",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A142",
+        "rhetorical_effect": "يجذب الانتباه، يوجّه الحوار من سَلَفِ الكلام إلى مخاطبة مباشرة؛ يقوّي أثر الرد الإلزامي على الشبهات."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "والنَّاسِ للجنس",
+        "claim_ar": "استعمال اسم 'النَّاسِ' هنا للجنس (عامّ يشمل الناس كلّهم) وليس تخصيصاً لفئة بعينها.",
+        "claim_en": "The noun 'al-nās' is used generically (for the whole class), not as a specification of a particular subgroup.",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir",
+        "root": "ناس",
+        "lemma": "نَّاس",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A142",
+        "rhetorical_effect": "يوسّع نقد السفهاء ليشمل أقوال عامة متداولة بين الناس، فيجعل الشبهة ظاهرة لا خاصة."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "tibaq",
+        "source_quote_ar": "وسط العاطف كما يوسط بين الصفات",
+        "claim_ar": "توازي وتضاد: تركيب 'الْمَشْرِقُ وَالْمَغْرِبُ' يقيم ثنائيّة متقابلة (تِبَاق) لتأكيد شمول الهداية الإلهية لكل جهات الوجود.",
+        "claim_en": "Antithetical parallelism: the phrase 'al-mashriq wa-al-maghrib' forms a contrasting pair (tibaq) emphasizing the universality of God's guidance (east and west).",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "شرق",
+        "lemma": "مَشْرِق",
+        "confidence": "medium",
+        "needs_review_reason": "the supporting chunk discusses the rhetorical role of coordinating 'wa' and mid-positioning of modifiers; the direct tie to the specific pair 'المشرق والمغرب' is inferential and should be checked against other tafsir/بلاغة sources.",
+        "quran_ref": "S2:A142",
+        "rhetorical_effect": "يعطي شمولية وعمومية للحكمة الإلهية (لا تحديد جهة)، ويقوّي الدلالة بأنه لا توجد جهة خارج مجال هداية الله."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "فيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "فعل الإنشاء 'قُلْ' هنا عمل بلاغي إنشائي: ليس وصفاً بل أمراً يغيّر مستوى الخطاب من نقل تقرير إلى أداء فعل كلامي مباشر.",
+        "claim_en": "'Qul' functions as an illocutionary/performative verb: it is not mere description but a speech-act that shifts the discourse from reporting to direct injunction.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "قول",
+        "lemma": "قُلْ",
+        "confidence": "medium",
+        "needs_review_reason": "the chunk indicates a shift to address (التفات) supporting the performative reading, but explicit discussion of 'قُل' as إنشائي in these chunks is limited — cross-check with jurjani/sakkaki treatments recommended.",
+        "quran_ref": "S2:A142",
+        "rhetorical_effect": "يجعل الرد إلزامياً ومباشراً ويقوّي وقع الرد على التشكيك؛ يحوّل الكلام من تقرير عن قول جاهز إلى فعليّة بيان من الرسول."
+      },
+      {
+        "word_index": 20,
+        "claim_type": "majaz",
+        "source_quote_ar": "واستعار لليث للشجاع",
+        "claim_ar": "استعمال 'صِرَاطٍ مُسْتَقِيمٍ' يمكن قراءته كمجاز (استعارة) لطريق الهداية المعنوية، أي استعمال لفظ الطريق بمعنى حالة/منهجية باطنة.",
+        "claim_en": "The term 'sirat mustaqim' (a straight path) can be read as a metaphor (majaz) where 'path' denotes a moral/spiritual course rather than a literal road.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "صرط",
+        "lemma": "صِرَاط",
+        "confidence": "low",
+        "needs_review_reason": "the provided chunk contains the word 'واستعار' (metaphor) but does not discuss 'صِرَاطٍ' specifically; the claim is interpretive and requires corroboration from tafsir/بلاغة sources that treat 'صراط' as استعارة.",
+        "quran_ref": "S2:A142",
+        "rhetorical_effect": "يوفّر معنى توجيهي/طريقي للهداية بدلاً من معنى حرفي، مما يسهل فهم الهداية كممارسة ومنهج أخلاقي."
+      }
+    ],
+    "warnings": [
+      "المقاطع النصّية المقدّمة هي لِـZamakhshari (al-Kashshaf) فقط؛ لم تُقدَّم مقاطع من المؤلّفين المطلوبة (الجُرجانِي، السَّكَّاكي، البقِّيلانيّ، السُّيوطيّ، أو أقسام تفسير البلاغة). لذلك بعض الاستدلالات البلاغية هنا مُعتمدة على المقاطع المتاحة فقط ويفضل مراجعتها مقابل مصادر البلاغة المطلوبة.",
+      "بعض الادعاءات (confidence='medium' أو 'low') تقديرية واستنتاجية لأن الاقتباسات المتاحة تدعمها اشتقاقياً وليس نصاً صريحاً؛ راجع ملاحظات 'needs_review_reason' لكل مطالبة."
+    ]
+  },
+  "n_chunks": 12
+}

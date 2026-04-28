@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:15",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "معاني",
+        "source_quote_ar": "تَزْرَعُونَ خبر في معنى الأمر، كقوله: تُؤْمِنُونَ بِاللَّهِ وَرَسُولِهِ وَتُجاهِدُونَ",
+        "claim_ar": "تحويل صيغة الخبر إلى معنى الأمر (مبالغة في إيجاب المأمور به)؛ قراءة بلاغية تصف 'لَتُنَبِّئَنَّهُمْ' كتوكيدٍ يدلّ على وجوب الإخبار واليقين.",
+        "claim_en": "Turning a declarative form into the sense of a command (an emphatic prescriptive use); a rhetorical reading that treats 'لَتُنَبِّئَنَّهُمْ' as an emphatic expression indicating obligatory/certain informing.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "نبا",
+        "lemma": "نَبَّأَ",
+        "confidence": "high",
+        "needs_review_reason": "التسمية الدقيقة للمِنهج البلاغي (هل تصنف كـ'إيجاب إنشائي' أوَ 'لام توكيد') تتطلب تحققاً نصّياً إضافيّاً من تفاسير بلاغية مصنفة."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "معاني",
+        "source_quote_ar": "(الفاء) رابطة لجواب شرط مقدّر",
+        "claim_ar": "استعمال حروف الربط (الفاء/الواو) في الآية لبيان التتابع والصلة بين الجمل، أي وظيفة فصل ووصل دلالية تربط فعلهم بخاتمة الحكاية ('وَأَوْحَيْنَا ... وَهُمْ لَا يَشْعُرُونَ').",
+        "claim_en": "Use of connective particles (faa/waw) in the verse to indicate sequence and linkage between clauses—i.e., a rhetorical use of pause/continuity (fasl_wasl) connecting their action with the resulting divine intervention and their unawareness.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "التعميم من تعليق صرفي/نحوي (الذي يناقش وظيفة الفاء) إلى دلالة بلاغية على هذه الآية يحتاج تدقيقًا سياقياً بمراجع البلاغة."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "بيان",
+        "source_quote_ar": "مجاز مرسل علاقته المجاورة أو استعارة تصريحية",
+        "claim_ar": "إمكانية قراءة عبارة 'فِي غَيَابَتِ الْجُبِّ' كمجاز مرسل/استعارة (قراءة مكانية تدلّ على الإخفاء والاختفاء)، أي استعمال دلالي لا حرفي لموضع الحبس.",
+        "claim_en": "A possible reading of 'fī ghiyābat al-jubb' as a majāz mursal / metaphor (a locative image indicating concealment and hiding)—a semantic rather than strictly literal use of the pit imagery.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "جبب",
+        "lemma": "جُبّ",
+        "confidence": "low",
+        "needs_review_reason": "المطالبة بمجاز هنا نظرية وتهيُّئية: المصدر يشرح مفهوم 'مجاز مرسل' عموماً لكنه لا يذكر العبارة المحددة في الآية؛ يلزم مراجعة تفاسير بلاغية مباشرة للنص."
+      }
+    ],
+    "warnings": [
+      "المكتوب المزوَّد في الحُجَر (source_chunks) يعود في الغالب لِـZamakhshari وDarwish وSafi. لم تُزوَّد مقاطع مباشرة من الجورجاني، السكاّكي، الباقلاني، السيوطي أو من قسم 'تفسير بلاغة' كما طُلب؛ لذلك الاستدلال البلاغي هنا اقتُبس من المقاطع المتاحة فقط.",
+      "بعض الادعاءات البلاغية (خصوصاً قراءة المجاز لعبارة 'غَيَابَتِ الْجُبِّ') تقديرية وتتطلب تدقيقًا إضافيًا في مصادر البلاغة والتفسير المتخصصة."
+    ]
+  },
+  "n_chunks": 12
+}

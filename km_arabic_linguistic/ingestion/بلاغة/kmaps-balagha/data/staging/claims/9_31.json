@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:31",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "kinayah/majaz (metaphorical deification)",
+        "source_quote_ar": "أَحْبارَهُمْ",
+        "claim_ar": "توصيف العلماء بـ«أحبارهم» وذكرهم ضمن من اتُخذوا أربابًا يوحي بكنية/مجاز: تحويل لقب العلماء إلى مقام ربوبية (تأثيم التقديس الموجه للبشر بدلاً من الله).",
+        "claim_en": "The term 'aHbaraHum' (their ahbar/leaders) and its listing among those taken as 'lords' functions as kinayah/majaz — a figurative deification: the title for scholars is used to imply a lordly/divine status (criticizing the misplaced veneration of humans instead of God).",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah / majaz (metaphor/metonymy)",
+        "root": "حبر",
+        "lemma": "أَحْبار",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunk (I'rab entry) defines 'أحبار' but classical rhetorical commentaries (al-Jurjani, al-Sakkaki, etc.) are not in the sources; the move from lexical definition to calling this a metaphoric 'deification' is interpretive and should be checked against tafsir/بلاغة sources."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "kinayah/majaz (metaphorical deification)",
+        "source_quote_ar": "رُهْبانَهُمْ",
+        "claim_ar": "ذِكْرُ «رهبانهم» إلى جانب «أحبارهم» وكونهم ممن اتُّخذوا أربابًا يحمل طابعًا مجازيًا؛ أي تشبيه/تكييف للرهبان بمقام الربوبية (انتقاد تقديس الزهد البشري وتحويله إلى عبادة).",
+        "claim_en": "The phrase 'ruhbaanahum' (their monks) alongside 'ahbar' being taken as 'lords' carries a metaphorical/kinayah force: portraying monks as occupying a lordly/divine status (criticizing the sanctification of ascetics as objects of worship).",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah / majaz (metaphor/metonymy)",
+        "root": "رهب",
+        "lemma": "رُهْبَٰن",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk gives lexical notes on 'رهبان' but not rhetorical analysis; classifying the wording as deifying/metaphorical should be corroborated with classical balagha/tafsir sources."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "hasr/qasr (restriction/exceptive emphasis)",
+        "source_quote_ar": "فَماذا بَعْدَ الْحَقِّ إِلَّا الضَّلالُ",
+        "claim_ar": "بناء «ما ... إلا» في سياق الآية (مقابل: «وَمَا أُمِرُوا إِلَّا لِيَعْبُدُوا…») يعبر عن أسلوب التقييد/الحصر: تأكيد أن مقصد النواميس الدينية هو عبادة إله واحد، واستدراك أن المحصل خلاف ذلك (التعدد في العبادة) خروج عن المقصود.",
+        "claim_en": "The 'ma ... illa' construction functions as hasr/qasr (restrictive/exclusive device): it emphasizes that the command was restricted to worshipping one God — highlighting the exclusivity of the intended purpose and implying the deviation represented by taking others as lords.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr (exception/restriction)",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": "The illustrative substring is taken from the provided I'rab chunk (uses 'إِلَّا' in a comparable restrictive sense). Still, verifying the Qur'anic syntactic-pragmatic force with classical rhetoricians (al-Jurjani, al-Sakkaki, etc.) is advisable."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are from a Darwish I'rab commentary (lexical/grammatical notes), not the classical balagha authors requested (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Rhetorical attributions above are inferred from lexical material and the verse itself; they should be cross-checked against the specified classical sources.",
+      "source_quote_ar values are exact substrings from the supplied chunks, but those chunks do not contain explicit classical rhetorical analyses for this verse; some device assignments are interpretive and flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:69",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No exact source quote matching this ayah or balagha commentary on it was found in the provided source_chunks, so no claims could be extracted. (Per instructions, source_quote_ar must be an exact substring of one of the supplied chunks.)",
+      "All provided chunks are from Zamakhshari (al-Kashshaf) and do not contain the ayah text or explicit balagha remarks from the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a tafsir-balagha section).",
+      "To extract rhetoric claims, please provide source chunks that include exact Arabic quotations of the relevant balagha commentary (from the specified authors or an allowed tafsir-balagha), or permit use of other sources."
+    ]
+  },
+  "n_chunks": 12
+}

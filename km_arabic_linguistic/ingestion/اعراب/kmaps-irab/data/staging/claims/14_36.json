@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "14:36",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No grammatical claims in the provided source_chunks relate to S14:A36; none of the chunks contain or analyze this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

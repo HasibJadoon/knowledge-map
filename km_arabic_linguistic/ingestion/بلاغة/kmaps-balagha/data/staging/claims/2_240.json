@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:240",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No matching source_quote_ar found in the provided source_chunks. None of the chunks include an exact substring of the ayah (or commentary quoting its wording), so the requirement that source_quote_ar be an exact substring of a provided chunk cannot be satisfied.",
+      "Provide tafsir/balāgha excerpts (e.g., from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsīr-balāgha source) that explicitly quote or discuss Sūrah 2:240, or include a chunk that contains the ayah text, so rhetorical claims can be extracted with proper source_quote_ar."
+    ]
+  },
+  "n_chunks": 12
+}

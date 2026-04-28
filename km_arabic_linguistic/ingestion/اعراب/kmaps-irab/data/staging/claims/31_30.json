@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "31:30",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "وَبِالرَّفْعِ عَلَى إِضْمَارِ مُبْتَدَأٍ؛ أَيْ هِيَ، أَوْ هُوَ.",
+        "claim_ar": "هُوَ خبر «أَنَّ» مَرْفُوعٌ على إِضْمَارِ مُبْتَدَأٍ (أي: هي أو هو).",
+        "claim_en": "'huwa' is the predicate (khabar) of the clause introduced by 'anna', and it is construed as raised upon an implied subject (i.e., an omitted 'he' or 'she').",
+        "root": null,
+        "lemma": "هُوَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 14,
+        "claim_type": "irab",
+        "source_quote_ar": "وَبِالرَّفْعِ عَلَى إِضْمَارِ مُبْتَدَأٍ؛ أَيْ هِيَ، أَوْ هُوَ.",
+        "claim_ar": "هُوَ خبر «أَنَّ» مَرْفُوعٌ على إِضْمَارِ مُبْتَدَأٍ (أي: هي أو هو).",
+        "claim_en": "'huwa' is the predicate (khabar) of the clause introduced by 'anna', and it is construed as raised upon an implied subject (i.e., an omitted 'he' or 'she').",
+        "root": null,
+        "lemma": "هُوَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The cited passage gives a general rule: «بِالرَّفْعِ عَلَى إِضْمَارِ مُبْتَدَأٍ؛ أَيْ هِيَ، أَوْ هُوَ.» The application here assumes this rule applies to both occurrences of هُوَ in the ayah (word_index 4 and 14). Verify in the full commentary context whether the author specifically treated these occurrences or only offered the rule generally."
+    ]
+  },
+  "n_chunks": 7
+}

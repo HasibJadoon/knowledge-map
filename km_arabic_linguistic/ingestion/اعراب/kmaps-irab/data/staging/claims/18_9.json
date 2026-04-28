@@ -1,0 +1,58 @@
+{
+  "layer": "irab",
+  "ayah_key": "18:9",
+  "result": {
+    "claims": [
+      {
+        "word_index": 10,
+        "claim_type": "irab",
+        "source_quote_ar": "وَ «عَجَبًا» خَبَرُ كَانَ.",
+        "claim_ar": "«عَجَبًا» خَبَرُ كَانَ.",
+        "claim_en": "'عجَبًا' is the predicate (khabar) of the verb 'كَانَ' (i.e. خبر كان).",
+        "root": "عجب",
+        "lemma": "عَجَب",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S18:A9"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "irab",
+        "source_quote_ar": "وَ (مِنْ آيَاتِنَا) : حَالٌ مِنْهُ.",
+        "claim_ar": "«مِنْ آيَاتِنَا» حالٌ مِنْهُ (حال من كان).",
+        "claim_en": "'min āyātinā' functions as a ḥāl (circumstantial accusative) modifying 'كَانُوا'.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S18:A9"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَيَجُوزُ أَنْ يَكُونَا خَبَرَيْنِ.",
+        "claim_ar": "يَجُوزُ أَنْ يَكُونَا خَبَرَيْنِ (أي: «عَجَبًا» وَ«مِنْ آيَاتِنَا» خَبَرَانِ لِـ «كَانُوا»).",
+        "claim_en": "It is permissible to parse the two phrases as two predicates (two khabars) of 'كَانُوا' — i.e. both 'عجَبًا' and 'مِنْ آيَاتِنَا' as khabarayn.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S18:A9"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَيَجُوزُ أَنْ يَكُونَ «عَجَبًا» حَالًا مِنَ الضَّمِيرِ فِي الْجَارِّ.",
+        "claim_ar": "يَجُوزُ أَنْ يَكُونَ «عَجَبًا» حَالًا مِنَ الضَّمِيرِ فِي الْجَارِّ.",
+        "claim_en": "Alternatively, 'عجَبًا' may be read as a ḥāl (circumstantial) referring to the pronoun contained in the genitive (i.e. the pronoun of the prepositional phrase), rather than as predicate of 'كَانُوا'.",
+        "root": "عجب",
+        "lemma": "عَجَب",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S18:A9"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

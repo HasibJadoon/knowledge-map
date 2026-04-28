@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:162",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "mubaalah / muqabalah (pairing/contrast)",
+        "source_quote_ar": "هُمْ فِيها خالِدُونَ",
+        "claim_ar": "التضاد والتوازي بين إثبات الخلودِ في الآخرة (هُمْ فِيها خالِدُونَ) وبين نفي التخفيف أو التأجيل يُشكّل مقابلة بلاغية تكثّف الحكم وتُعزّز حتمية العقاب.",
+        "claim_en": "The contrast/parallelism between the affirmation of eternal dwelling ('they will abide therein') and the negation of mitigation/reprieve constitutes a muqabalah (pairing/contrast) that intensifies the ruling and reinforces the inevitability of punishment.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunk explicitly contains 'هُمْ فِيها خالِدُونَ' but does not quote the adjacent negative clauses from the ayah; the assertion of a paired contrast therefore requires connecting that phrase to the other (unquoted) clauses of the verse and should be reviewed against full commentary or text."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "emphasis of permanence (اثبات البقاء)",
+        "source_quote_ar": "هُمْ فِيها خالِدُونَ",
+        "claim_ar": "كلمة «خالِدون» تؤكّد البقاء الأبدي في الموضع المشار إليه (النار) وتعمل دليلاً لغوياً يستبعد إمكان التخفيف أو التأجيل على من وُصفوا بها.",
+        "claim_en": "The word 'خالِدون' (abiding) emphasizes eternal permanence in the described place (the Fire) and serves linguistically to exclude the possibility of mitigation or reprieve for those so described.",
+        "device_branch": "maani",
+        "device_subtype": "permanence_emphasis",
+        "root": "خلد",
+        "lemma": "خَٰلِد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The available source chunks include the phrase 'هُمْ فِيها خالِدُونَ' (AL:CHUNK:efe3eff34abc5edc6123081a) but do not include the full adjacent negative clauses ('لَا يُخَفَّفُ عَنْهُمُ الْعَذَابُ' / 'وَلَا هُمْ يُنْظَرُونَ') as exact substrings. Assertions about parallelism with those negatives therefore involve an inference from the verse context and should be cross-checked against chunks or commentaries that explicitly quote those clauses.",
+      "Device_subtype names include some custom labels (e.g. 'permanence_emphasis') where no exact matching subtype from the provided canonical lists fit well; please review and reconcile subtype taxonomy if strict conformity is required."
+    ]
+  },
+  "n_chunks": 12
+}

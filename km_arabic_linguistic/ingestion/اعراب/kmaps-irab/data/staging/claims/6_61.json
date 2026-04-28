@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:61",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَهُوَ اللَّهُ) : وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "«وَهُوَ» هنا مبتدأ (مبتدأ ضمير يُشير إلى الاسم التالي).",
+        "claim_en": "The pronoun 'wa-huwa' here functions as a mubtada (subject pronoun that points to the following noun).",
+        "root": null,
+        "lemma": "هو",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage exemplifies the construction with «وَهُوَ اللَّهُ» and is being applied analogically to «وَهُوَ الْقَاهِرُ» in this ayah; verify the author discusses this exact verse."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَهُوَ اللَّهُ) : وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "«الْقَاهِرُ» خبر «وَهُوَ» (خبر اسمي مرفوع).",
+        "claim_en": "The noun 'al-qāhir' is the khabar (predicate) of the mubtada 'wa-huwa' (a nominative nominal predicate).",
+        "root": "قهر",
+        "lemma": "قَاهِر",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives the explicit pattern with «اللَّهُ» as the predicate; the same pattern is being extended to «الْقَاهِرُ» in this verse—confirm the commentary treats this verse similarly."
+      }
+    ],
+    "warnings": [
+      "The available source chunk addresses the construction using the example «وَهُوَ اللَّهُ». The claims above apply that analysis analogically to «وَهُوَ الْقَاهِرُ» in S6:A61; verify the original commentary explicitly treats this verse or similar wording."
+    ]
+  },
+  "n_chunks": 12
+}

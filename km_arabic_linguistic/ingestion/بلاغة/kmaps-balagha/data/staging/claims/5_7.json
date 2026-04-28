@@ -1,0 +1,73 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "تعريض",
+        "source_quote_ar": "ولم يقل: النصارى، تعريضا بصلابة اليهود في الكفر والامتناع من الامتثال للأمر",
+        "claim_ar": "التعريض بصيغة (الَّذِينَ قالُوا إِنَّا نَصارَى) بدلاً من (النصارى) لتنبيه إلى صلابة اليهود ومقاومتهم للامتثال.",
+        "claim_en": "An implicit reproach (ta'ridh) by using the phrase 'those who said, \"We are Christians\"' rather than 'the Christians', hinting at the Jews' stubbornness and refusal to comply.",
+        "device_branch": "other",
+        "device_subtype": "تعريض",
+        "root": "عرض",
+        "lemma": "تعريض",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A7",
+        "rhetorical_effect": "يُقوّي الذمّ والتمييز بين الأقوال الفعلية والمحسوبة على الطائفة؛ يلفت الانتباه إلى عدم ثبات الالتزام."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "فَقابلوا ذلك بأن قالوا (فَاذْهَبْ أَنْتَ وَرَبُّكَ فَقاتِلا إِنَّا هاهُنا قاعِدُونَ) والنصارى قالوا (نَحْنُ أَنْصارُ اللَّهِ)",
+        "claim_ar": "مقابلة بين رد فعل اليهود التصلبي ورد فعل النصارى اللين، يظهر التباين في الطبع والسلوك.",
+        "claim_en": "A contrast (muqabalah) between the Jews' stiff, defiant reaction and the Christians' softer response, highlighting the difference in character and conduct.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "قابل",
+        "lemma": "مقابلة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A7",
+        "rhetorical_effect": "يبين التباين بين الأقوام لتقوية الحجة البلاغية حول اختلاف الثبات على العهد والاستجابة للأمر."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "تنبيه",
+        "source_quote_ar": "ذكر تنبيها على أنهم لم يثبتوا على الميثاق",
+        "claim_ar": "تنبيه بأن أهل الكتاب لم يثبتوا على الميثاق المذكور في الآية.",
+        "claim_en": "A warning/alert (tanbih) that the People of the Book did not remain true to the covenant mentioned in the verse.",
+        "device_branch": "other",
+        "device_subtype": "تنبيه",
+        "root": "نبه",
+        "lemma": "تنبيه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A7",
+        "rhetorical_effect": "توجيه انتباه القارئ إلى خضوع الكلام لقرار نقدي أخلاقي (عدم الثبات على العهد)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "إشارة",
+        "source_quote_ar": "أسند ذلك إلى قولهم، والاشارة به إلى قولهم (نَحْنُ أَنْصارُ اللَّهِ)",
+        "claim_ar": "إشارة إلى قول النصارى ('نحن أنصار الله') لبيان المفارقة بين قولهم وتركهم للميثاق.",
+        "claim_en": "An allusive pointing (ishara) to the Christians' statement ('We are supporters of God') to show the contrast between their words and the failure regarding the covenant.",
+        "device_branch": "other",
+        "device_subtype": "إشارة",
+        "root": "أشر",
+        "lemma": "إشارة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A7",
+        "rhetorical_effect": "يُستخدم لتسليط الضوء على التفاوت بين الأقوال والمواقف الفعلية، ويعزز المعنى التأملي لدى المخاطب."
+      }
+    ],
+    "warnings": [
+      "المصادر المقدمة كلها من تفسير الزمخشري (al-Kashshaf). لم تُزوَّد مقاطع من الجرجاني أو السكاكي أو الباقلاني أو السيوطي أو مقاطع تفسير بلاغي أخرى المذكورة في الطلب؛ الادعاءات هنا مستمدة من مقاطع الزمخشري فقط.",
+      "تم تصنيف بعض المصطلحات البلاغية ('تعريض', 'تنبيه', 'إشارة') تحت 'other' لأن قوائم الأنواع المطلوبة لم تضمن تسميات عربية دقيقة لهذه الوحدات البلاغية في الجدول المقدم."
+    ]
+  },
+  "n_chunks": 12
+}

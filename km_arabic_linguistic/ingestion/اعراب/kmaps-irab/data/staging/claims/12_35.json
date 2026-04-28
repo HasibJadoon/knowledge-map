@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:35",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "no relevant source content found"
+    ]
+  },
+  "n_chunks": 16
+}

@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:36",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "taqdir",
+        "source_quote_ar": "إذا دار الأمر بين كون المحذوف أولا أو ثانيا فكونه ثانيا أولى",
+        "claim_ar": "يحتمل حُدوث تقدير فعل أمر مستتر قبل «وَأَخَاهُ» يعود على الثانية (أي: عدم تكرار الفعل «أَرْجِهْ» صراحةً)، إذ ترجّح القاعدة كون المحذوف من الثاني.",
+        "claim_en": "It is plausible that an elided imperative verb is understood before «وَأَخَاهُ», i.e. the verb «أَرْجِهْ» is not repeated explicitly and governs both objects; the cited rule prefers the elided element to belong to the second item.",
+        "root": "اخو",
+        "lemma": "أَخ",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general rule about the preference for the deleted element to be second, but it does not discuss this specific verse; application to this construction is inferential and should be checked against classical tafsīr/ʿarabiyyīn analyses of the verse."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "إذا دار الأمر بين كون المحذوف أولا أو ثانيا فكونه ثانيا أولى",
+        "claim_ar": "قاعدة نحوية عامة: عند الاشتباه بين كون المحذوف تابعًا للأول أو للثاني، يُرجّح تعلق المحذوف بالثاني؛ تُستشهد هذه القاعدة عند تفسير حذف الفعل أو الاسم في تراكيب مماثلة.",
+        "claim_en": "General grammatical rule: when there is doubt whether the elided element attaches to the first or the second, it is preferable that the elided element attaches to the second; this rule is cited when explaining elision of a verb or noun in similar constructions.",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "The quoted chunk explicitly states this general rule; applying it to any particular verse still requires contextual confirmation."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not discuss S26:36 (قَالُوا أَرْجِهْ وَأَخَاهُ وَابْعَثْ فِي الْمَدَائِنِ حَاشِرِينَ) explicitly; extracted claims are inferential applications of a general rule found in the sources.",
+      "No direct source text in the chunks was found that treats the attachment of «فِي الْمَدَائِنِ» or the syntactic status of «حَاشِرِينَ» for this specific verse; such claims would need additional primary commentary (التفسير/الاعراب) to be made confidently."
+    ]
+  },
+  "n_chunks": 12
+}

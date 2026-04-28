@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "8:64",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وقد يصحب الجملة الخبرية",
+        "claim_ar": "نداء «يا أَيُّهَا النَّبِيُّ» يَتَصِلُ بِجُمْلَةٍ خَبَرِيَّةٍ تَلِي النِّداء، فالجملة «حَسْبُكَ اللَّهُ وَمَنِ اتَّبَعَكَ مِنَ الْمُؤْمِنِينَ» تعمل كجملة خبرية مصاحبة للنداء.",
+        "claim_en": "The vocative 'يا أَيُّهَا النَّبِيُّ' is followed by an accompanying declarative (khabari) sentence; here the clause 'حَسْبُكَ اللَّهُ وَمَنِ اتَّبَعَكَ مِنَ الْمُؤْمِنِينَ' functions as that declarative sentence attached to the vocative.",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A64"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "ومن أقسامه النداء : وهو طلب إقبال المدعو على الداعي",
+        "claim_ar": "قاعدة نحوية: النِّداء (مثل «يا أَيُّهَا») له وظيفة طلب إقبال المدعو على الداعي، أي لِلفتِ انتباهِ المخاطَبِ إلى كلامِ الداعي.",
+        "claim_en": "Grammatical rule cited: the vocative (al-nida') such as 'يا أَيُّهَا' serves to call for the addressee's attention (to invite the addressee to the speaker), i.e., to turn the addressee's attention toward the speaker's utterance.",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A64"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

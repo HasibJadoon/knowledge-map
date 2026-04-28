@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:97",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "وَهُوَ مُبْتَدَأٌ",
+        "claim_ar": "«وَهُوَ» مبتدأ",
+        "claim_en": "'wa huwa' functions as the mubtada (subject/predicate-topic).",
+        "root": null,
+        "lemma": "هُوَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "taalluq",
+        "source_quote_ar": "فِيهِ وَجْهَانِ",
+        "claim_ar": "حرف الجر «في» له وجهان (لذا التعلّق لحكم «في» قد يكون على مثالين)، ويدخل هنا كحرف جر متعلّق بـ «ظُلُمَاتِ» في هذه الآية",
+        "claim_en": "The preposition 'fī' has two possible senses/usages (two 'wujūh'); in this verse 'fī' is the preposition governing «ظُلُمَاتِ» (i.e., it attaches to the noun 'darkness').",
+        "root": null,
+        "lemma": "فِي",
+        "confidence": "medium",
+        "needs_review_reason": "Source notes that 'fī' has two wujūh (senses) using the example '(فِي السَّمَاوَاتِ) : فِيهِ وَجْهَانِ', but it does not explicitly analyze 'فِي ظُلُمَاتِ' in this chunk; the specific attachment in this ayah is inferred."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain only a few brief notes from al-Tibyan; many syntactic relations in S6:A97 (e.g., the object مفعول به «النُّجُومَ», the status of «لَكُمْ», the relative clause تابعة لـ «الَّذِي»، or the analysis of «قَدْ فَصَّلْنَا الْآيَاتِ لِقَوْمٍ يَعْلَمُونَ») are not explicitly discussed in the given excerpts. Claims are therefore limited to statements that exactly match substrings in the supplied chunks.",
+      "Source coverage is sparse and sometimes gives general points (e.g., about «فِي») using other examples; where a general point is applied to this verse the confidence is reduced and a review is advised."
+    ]
+  },
+  "n_chunks": 12
+}

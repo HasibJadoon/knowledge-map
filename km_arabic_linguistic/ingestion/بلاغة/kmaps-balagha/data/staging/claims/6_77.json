@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:77",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit rhetoric (بلاغة) claims could be extracted for S6:A77 from the provided source_chunks.",
+      "None of the supplied chunks contain direct commentary on the wording or rhetorical devices of سورَة الأنعام آية 77 (e.g. quotations like «فَلَمَّا رَأَى الْقَمَرَ...» or explicit balagha analysis referencing this verse).",
+      "To extract claims, please provide tafsir/بلاغة chunks (e.g., al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti or labelled tafsir balagha) that directly discuss this ayah or include the ayah text as a quoted substring."
+    ]
+  },
+  "n_chunks": 12
+}

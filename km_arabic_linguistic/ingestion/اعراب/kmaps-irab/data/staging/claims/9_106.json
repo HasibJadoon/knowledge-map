@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:106",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ بِالْوَاوِ، وَفِيهِ وَجْهَانِ: أَحَدُهُمَا: هُوَ مَعْطُوفٌ عَلَى «وَآخَرُونَ مُرْجَوْنَ» ؛ أَيْ: وَمِنْهُمُ الَّذِينَ اتَّخَذُوا.",
+        "claim_ar": "قِرَاءَةُ «وَالَّذِينَ اتَّخَذُوا» بِالْوَاوِ، وإِحْدَى وَجْهَيْ التَّأْوِيلِ أَنْ تُعْطَفَ عَلَى «وَآخَرُونَ مُرْجَوْنَ».",
+        "claim_en": "The phrase 'وَالَّذِينَ اتَّخَذُوا' is read with the waw; one interpretation among the readings is that it is conjoined to 'وَآخَرُونَ مُرْجَوْنَ'.",
+        "root": "اخر",
+        "lemma": "آخَر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A106"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "يُقْرَأُ بِالْوَاوِ، وَفِيهِ وَجْهَانِ",
+        "claim_ar": "فِيهِ وَجْهَانِ فِي التَّأْوِيلِ (اخْتِلَافٌ فِي الإِعْرَاب/الوَصْفِ)، أَحَدُهُمَا: جَعْلُهُ مَعْطُوفًا عَلَى «وَآخَرُونَ مُرْجَوْنَ».",
+        "claim_en": "There are two opinions in the interpretation (a grammatical disagreement); one of them makes it conjoined to 'وَآخَرُونَ مُرْجَوْنَ'.",
+        "root": "اخر",
+        "lemma": "آخَر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A106"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

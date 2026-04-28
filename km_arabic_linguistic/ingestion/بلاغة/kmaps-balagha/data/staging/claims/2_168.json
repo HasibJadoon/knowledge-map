@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:168",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat / نداء (vocative shift)",
+        "source_quote_ar": "النداء وجوابها",
+        "claim_ar": "افتتاح الآية بنداء عام «يا أيها الناس» كنوع من الالْتِفَاتِ البلاغيّ: مخاطبةٍ مباشرةٍ للجمهور تسبق البيان أو الأمر.",
+        "claim_en": "The verse opens with a general vocative address 'O people' — a rhetorical iltifat (shift) that directly addresses the audience before giving the instruction.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (نداء / مخاطبة عامة)",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source discusses 'النداء' in a general grammatical/rhetorical sense (source chunk contains 'النداء وجوابها') but does not analyze this specific verse; mapping the general discussion to this ayah should be reviewed against tafsir-balagha sources."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "asloob_hakim (توكيد باستخدام إنّ)",
+        "source_quote_ar": "(إنّ) حرف مشبّه بالفعل للتوكيد",
+        "claim_ar": "وجود «إِنَّهُ» بعد النهي لتوكيد التحذير: «إنَّهُ لَكُمْ عَدُوٌّ مُبِينٌ» يعزّز التأكيد والتنبيه على صفة العدوّ.",
+        "claim_en": "The particle 'inna' in 'inna hu' functions as an emphatic device — it reinforces the warning: 'Indeed, he is for you a clear enemy.'",
+        "device_branch": "other",
+        "device_subtype": "tawkeed_inna (توكيد بـإنّ)",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are limited and largely grammatical/exegetical; they do not include specialized tafsir-balagha entries (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) for this specific verse. Claims are drawn only where an exact substring in the supplied chunks supports them.",
+      "Other plausible rhetorical devices in the verse (e.g., pairing 'حلالًا طيبًا' for emphasis, or prohibition formulaic force in 'ولا تتبعوا') could not be claimed because the provided chunks do not contain matching source substrings; such items need further review with appropriate balagha tafsir sources."
+    ]
+  },
+  "n_chunks": 12
+}

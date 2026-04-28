@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:55",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "وضع الظاهر موضع المضمر",
+        "source_quote_ar": "وضع الظاهر موضع المضمر زيادة في تقبيح أمرهم",
+        "claim_ar": "الواضع يذكر الظاهر (المذكور صراحةً) بدلًا من الإشارة بالمضمر لزيادة تعظيم القَبح والذم في فعلهم.",
+        "claim_en": "The rhetorician places the overt noun in place of the implied pronoun to intensify the condemnation of their action (making the act more explicit to increase censure).",
+        "device_branch": "maani",
+        "device_subtype": "استبدال الضمير بالظاهر لشدّة التقريع/التقبيح",
+        "root": "وضع",
+        "lemma": "وَضَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary (chunk 88e0f3...) speaks generally of the device 'وضع الظاهر موضع المضمر' as a fine rhetorical move in 'هذه الآية' — mapping that general observation to this specific verse (S2:A55) is plausible but inferred; verify that the commentator intended this verse and that the explicit overt noun in the ayah (e.g., الصَّاعِقَةُ / جَهْرَةً) is the locus of the device."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "تشبيه/توضيح معجمي (شرح لفظ جَهْرَةً)",
+        "source_quote_ar": "كأنّ الذي يرى بالعين جاهر بالرؤية، والذي يرى بالقلب مخافت بها",
+        "claim_ar": "شرح معنوي بلاغي لكلمة «جَهْرَةً»: شُبّهت بالرؤية بالعين (جهر) مقابل رؤية القلب؛ لبيان معنى الجهر والعلانية في المطالبة برؤية الله.",
+        "claim_en": "A rhetorical lexical clarification: 'juhrah' (publicly/manifestly) is likened to seeing with the eye (manifest sight) as opposed to seeing with the heart (inner apprehension), highlighting the public/manifest nature of their demand to 'see God'.",
+        "device_branch": "bayan",
+        "device_subtype": "تشبيه توضيحي/بياني في شرح اللفظ",
+        "root": "جهر",
+        "lemma": "جَهْرَة",
+        "confidence": "high",
+        "needs_review_reason": "The source chunk (b68a912a...) explicitly makes this simile/analogy while explicating «جَهْرَةً» for the verse; low uncertainty but specialist review advised for finer classificatory labels."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari and related iʿrāb/tafsir fragments; the developer requested authorities (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) are not present in the supplied chunks. Claims are therefore limited to the material available in the given chunks.",
+      "Some attributions are inferential: the claim about 'وضع الظاهر موضع المضمر' is drawn from a general comment in the chunk that may refer to 'هذه الآية' but requires verification that the commentator meant S2:55 specifically and that the device is applied exactly as described. Recommend specialist review/confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

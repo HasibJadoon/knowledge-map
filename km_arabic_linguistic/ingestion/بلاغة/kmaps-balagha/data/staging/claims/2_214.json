@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:214",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "التفات (انتقال من غيبة إلى خطاب) — الآية تنتقل من سرد حالة السابقين إلى سؤال مباشر «متى نصر الله» ثم إلى تأكيد «ألا إن نصر الله قريب».",
+        "claim_en": "Iltifat (shift of address) — the verse shifts from third-person narration about former peoples to a direct rhetorical question ('When will God's help come?') and then to reassurance ('Indeed, God's help is near').",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A214",
+        "rhetorical_effect": "يزيد من الإلحاح الانفعالي والدعوة إلى التأمل، ويحوّل السرد من تأريخٍ عام إلى موقفٍ إنشائي مباشر يحرّك المستمع."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار",
+        "claim_ar": "أسلوب الجمع بين الترغيب والترهيب — الآية تعرض بلاء السابقين ومع ذلك تختم ببشارة قرب النصر لتشجيع الصبر والأمل.",
+        "claim_en": "Stylistic principle of pairing encouragement and warning (targhib with tarhib) — the Qur'anic pattern of coupling admonition with glad tidings; here hardships are depicted then followed by the promise of God's near help.",
+        "device_branch": "other",
+        "device_subtype": "ترغيب_وترهيب",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "الجزء المقتبس يذكر مبدأً أسلوبياً عاماً; ربطه تحديداً بآية البقرة 214 هو استنتاج تطبيقي يستحسن مراجعته مقارنة بتحليل المؤلفات البلاغية المطلوبة.",
+        "quran_ref": "S2:A214",
+        "rhetorical_effect": "يوازن بين التحذير والتحفيز: يثبّت الصبر بالوعود ويقلّل من اليأس أثناء الابتلاء."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tashbih",
+        "source_quote_ar": "فَهِيَ كَالْحِجارَةِ",
+        "claim_ar": "التشبيه/المثل — استعمال لفظ «مثل» لعرض حال الذين خلوا قبلهم كحالة مسقطة أو عبرة مُصوّرة، أي تمثيل قصّتهم لتكون عبرة للمخاطَب.",
+        "claim_en": "Simile/parable (tashbih) — the use of 'مثَل' (example/parable) to present the condition of former peoples as a vivid comparison (e.g. 'like stones'), making their experience an instructive image for the audience.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "المقطع المقتبس يوضّح مثالاً تشبيهيًا في تفسير قرآني عام (قوله «كالحجارة»). تطبيقه على آيةٍ البقرة 214 يستند إلى وجود «مَثَلُ» في نص الآية ولكن الاستدلال مشتق من مثالٍ في الشروح.",
+        "quran_ref": "S2:A214",
+        "rhetorical_effect": "يمنح الوصف قوة تصويرية تساعد السامع على استيعاب شدة الابتلاءات واعتبارها عبرة."
+      }
+    ],
+    "warnings": [
+      "المقاطع النصية المتاحة مأخوذة من شروح/فهرسات (Safi, Zamakhshari) المضمَّنة ضمن 'source_chunks'، وليس بالضرورة من المؤلفين المطلوبين (الجُرجاني، السكاكي، البقّيلاني، السيوطي، أو أقسام «تفسير البلاغة»). لذلك بعض الاستدلالات بلاغية استنتاجية من مقاطع عامة.",
+      "بعض الاستدلالات (خاصة تشبيه/ترغيب-ترهيب) مبنية على ملاحظات عامة في الشروح وليست تحليلاً نصياً صريحًا مخصَّصًا للآية 2:214 داخل المقاطع المزودة — يُنصح بمراجعة مصادر البلاغة المتخصصة المطلوبة لتثبيت الدقة."
+    ]
+  },
+  "n_chunks": 12
+}

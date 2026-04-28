@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:182",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "وَأَن يَكُونَ مُبْتَدَأً وَخَبَرًا",
+        "claim_ar": "يجوز أن يكون 'مَنْ' مبتدأً وخبرًا (أي جملة 'مَنْ ...' مبتدأ وخبر).",
+        "claim_en": "It is permissible that 'man' be the start of a nominal sentence (mubtada') with a khabar — i.e. the clause introduced by 'man ...' may function as a subject-predicate (mubtada' and khabar).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the sequence 'مِنْهُمْ مَنْ ...' while the ayah begins with 'فَمَنْ'; the analysis is being mapped to the ayah's 'فَمَنْ' (prefix فَ may affect syntax/context)."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يكون مِنْهُم رَافعا لمن",
+        "claim_ar": "وجه آخر: يجوز أن يكون 'مَنْ' رافعًا (أي مرفوعًا مرتبطًا بما قبلها) بحسب قراءة التحليل المذكور.",
+        "claim_en": "Alternative analysis: it is permissible that 'man' be a raiser (i.e., be raised/connected to a preceding element) according to the cited opinion.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited phrase treats 'مِنْهُمْ مَنْ ...' and the exact syntactic connection intended ('رافعًا لمن') depends on context; applying this to 'فَمَنْ' in the ayah requires checking the preceding text and the effect of the prefixed فَ."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "وَالْجُمْلَةُ نَعْتٌ لِرُسُلٍ",
+        "claim_ar": "ملاحظة دلالية/نحوية: الجملة (المشار إليها في المثال) تكون نعتًا لِـ'رسُل' — أي أنها في الواقع تبرز وصفًا للرسل.",
+        "claim_en": "Semantic/grammatical effect: the clause in question functions as an adjective (na't) modifying 'rasul' (messengers) — i.e. the clause describes the messengers.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source speaks about a different example phrase ('مِنْهُمْ مَنْ ...') and its being an adjective of 'rasul'; mapping this semantic relation onto the specific ayah (which begins with 'فَمَنْ') should be verified in context."
+      }
+    ],
+    "warnings": [
+      "The available source chunks do not directly discuss the exact ayah text provided; they treat the example phrase 'مِنْهُمْ مَنْ ...'. The extracted claims are based on mapping that discussion onto the ayah's initial 'فَمَنْ' and so need verification in full context.",
+      "No explicit statements in the provided chunks analyze the specific words of the supplied ayah (e.g., 'أَصْلَحَ', 'بَيْنَهُمْ', 'فَلَا إِثْمَ عَلَيْهِ'). Only general remarks about constructions like 'مِنْهُمْ مَنْ ...' were found."
+    ]
+  },
+  "n_chunks": 12
+}

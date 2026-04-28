@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:122",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contains the exact ayah phrase \"رَبِّ مُوسَى وَهَارُونَ\" or the individual words \"مُوسَى\" or \"هَارُونَ\" as exact substrings.",
+      "Only the substring \"رَبِّ\" appears inside chunk AL:CHUNK:72eeb5bd45996655f47b504f (in \"كَلِمَتُ رَبِّكَ\"), but that occurrence is embedded in a grammatical/iʿrāb commentary and does not provide explicit tafsīr‑balāgha or rhetorical analysis applicable to the full ayah.",
+      "Because source_quote_ar must be an exact substring of one of the provided chunks and there is no chunk treating this ayah or its full lexical items rhetorically, no reliable balāgha claims can be extracted. To proceed, please provide source chunks (e.g., Jurjānī, Sakkākī, al‑Baqillānī, al‑Suyūṭī, or tafsīr‑balāgha) that explicitly discuss this ayah or include the exact ayah words as substrings."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "16:122",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ ظَرْفًا لِرَحِيمٍ. وَأَنْ يَكُونَ مَفْعُولًا بِهِ",
+        "claim_ar": "الجملة الظرفية «في الدنيا» تتعلَّق بالفعل «آتَيْنَاهُ»؛ وقد تكون ظرفًا (ظرف حال/مكان) أو مفعولًا بهٍ تبعًا للقراءة الإعرابية.",
+        "claim_en": "'fi al-dunya' (the prepositional phrase) is attached to the verb 'aataynahu' and may function either as a zarf (adverbial of place/time) or as a direct object, i.e. there is an acceptable ambiguity in its ta'alluq.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S16:A122"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "حَالٌ مِنَ الْمَفْعُولِ.",
+        "claim_ar": "كَوْنُ «حَسَنَةً» منصوبة على أنها حالٌ من المفعول (أي حالة تصف ما أُعطي)، بمعنى أنها حالٌ من المفعول الذي هو محمول الضمير «هُ».",
+        "claim_en": "'hasanatan' is accusative as a ḥāl derived from the object — i.e. it describes the state/quality of what was given (the object represented by the pronoun -hu).",
+        "root": "حسن",
+        "lemma": "حَسَنَة",
+        "confidence": "medium",
+        "needs_review_reason": "al-Tibyan explicitly analyzes forms like «طَيِّبِينَ» as حالٍ من المفعول; applying the same analysis to «حَسَنَةً» is plausible but the provided excerpts do not state this word explicitly.",
+        "quran_ref": "S16:A122"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "الْكَافُ فِي مَوْضِعِ نَصْبٍ نَعْتًا لِمَصْدَرٍ مَحْذُوفٍ.",
+        "claim_ar": "وجه آخر محتمل: يجوز تأويل «حَسَنَةً» على أنها نعت منصوب لِمَصْدَرٍ محذوف (بموازاة أقوال تفسيرية تُعرض في أمثلة مماثلة).",
+        "claim_en": "An alternative (wajh) analysis: 'hasanatan' could be read as an accusative adjective (na't) qualifying an omitted verbal noun (masdar), by analogy with constructions discussed in the source.",
+        "root": "حسن",
+        "lemma": "حَسَنَة",
+        "confidence": "low",
+        "needs_review_reason": "The cited rule in the source discusses the case of the letter/kāf in another verse; extending that rule to read «حَسَنَةً» as a nâ‘it for an omitted masdar is analogical and not directly asserted for this verse in the provided excerpts—needs checking in fuller commentary.",
+        "quran_ref": "S16:A122"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

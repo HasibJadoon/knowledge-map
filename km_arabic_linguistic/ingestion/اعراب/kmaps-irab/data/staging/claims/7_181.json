@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:181",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مِنْ أَصْحَابِ الْقُبُورِ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِيَئِسَ؛ أَيْ يَئِسُوا مِنْ بَعْثِ أَصْحَابِ الْقُبُورِ؛ وَأَنْ يَكُونَ حَالًا؛ أَيْ كَائِنِينَ مِنْ أَصْحَابِ الْقُبُورِ.",
+        "claim_ar": "يُستدلّ من هذا الشرح على جواز أن تتعلق عبارة «مِنْ ...» بلفعل السابق أو أن تكون حالًا؛ وبالمقارنة، فتُسْتخلص إمكانية أن تكون «وَمِمَّنْ» في هذه الآية متعلقة بالفعل السابق (مَحْذُوفًا أو ظاهِرًا) أو تكون حالًا تدل على كون الموصوفين موجودين مِنْ هؤلاء.",
+        "claim_en": "The commentary on 'min ashab al-qubur' indicates that 'min' constructions may either attach to the preceding verb or function as a hal (circumstantial). By analogy, 'wa-mimman' in this verse can either be attached to the preceding verb (be governed by it) or serve as a circumstantial phrase describing the existence/status of those 'from whom'.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the specific example «مِنْ أَصْحَابِ الْقُبُورِ»; applying the same analysis to «وَمِمَّنْ خَلَقْنَا...» is analogical and should be checked against commentary that treats this exact verse."
+      }
+    ],
+    "warnings": [
+      "The provided source passage discusses the phrase «مِنْ أَصْحَابِ الْقُبُورِ», not the exact wording of S7:181. The taalluq claim for «وَمِمَّنْ» is inferred by analogy from that discussion and needs verification against a direct treatment of this ayah.",
+      "No explicit i'rab (e.g. مبتدأ/خبر/فاعل/مفعول به) for other words in the ayah was found in the supplied chunks; only the general behavior of «مِنْ ...» constructions was attested."
+    ]
+  },
+  "n_chunks": 12
+}

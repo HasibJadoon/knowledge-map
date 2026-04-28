@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:80",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "هِيَ هُنَا ظَرْفٌ، وَكَذَلِكَ كَلُّ مَوْضِعٍ كَانَ لَهَا جَوَابٌ.",
+        "claim_ar": "كَذَلِكَ ظرف (ظرفية) — أي كلمة ظرفية/حالٍ تُفيد التوصيف، ومحتمل أن تكون متعلقة بالفعل (نَجْزِي) في هذه الآية.",
+        "claim_en": "كَذَلِكَ functions as a zarf (adverb/circumstantial), i.e. an adverbial element; it is likely attached to the verb نَجْزِي in this verse.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage explicitly calls such items ظرف but does not discuss the specific governor in this verse; the attachment to نَجْزِي is an informed inference rather than an explicit statement in the provided chunk.",
+        "quran_ref": "S37:A80"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain an explicit statement identifying words like كُلَّمَا/كَذَلِكَ as ظرف (adverbial), but they do not discuss this specific verse (S37:80) in detail. Other expected syntactic claims for this verse (e.g. the status of إِنَّا or the object relation of الْمُحْسِنِينَ to نَجْزِي) are not supported by the given chunks, so no claims were extracted for them.",
+      "Only one supporting chunk was found that directly mentions وَكَذَلِكَ as ظرف; other words in the verse lack direct citation in the supplied material and therefore were not annotated here."
+    ]
+  },
+  "n_chunks": 5
+}

@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:11",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "الأمر في معنى الخبر",
+        "claim_ar": "الأفعال «تَابُوا... وَآتَوُوا» عرضت بصيغة خبرية مع أن في مدلولها معنى الإنشاء/الأمر (أي: الأمر في معنى الخبر).",
+        "claim_en": "The verbs 'تابوا... وآتوا' are presented as a piece of news (khabar) even though they carry an illocutionary force similar to a command — i.e., 'the command in the sense of news.'",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "توب",
+        "lemma": "تَابَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source chunk states the general rhetorical principle 'الأمر في معنى الخبر' with examples; it does not mention this ayah explicitly. Application to this ayah is inferential and should be checked against commentators who address these particular verbs here."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "iltifat",
+        "source_quote_ar": "الالتفات في قوله",
+        "claim_ar": "تحوّل أسلوبي/التفتة عند لفظ «فَإِخْوَانُكُمْ» — انتاقل في اللفظ أو في جهة الكلام يُمَيز بيان العلاقة بعد شروط السابقة.",
+        "claim_en": "A stylistic shift (iltifat) occurs at 'فَإِخْوَانُكُمْ' — a change in tone/direction of speech that highlights the relational/result clause after the preceding conditions.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "اخو",
+        "lemma": "أَخ",
+        "confidence": "low",
+        "needs_review_reason": "The source chunk mentions 'الالتفات' as a rhetorical phenomenon in a different verse/context. Applying it to the shift between the conditional clause and 'فَإِخْوَانُكُمْ' in this ayah is plausible but not directly evidenced by the provided chunks; needs confirmation from a commentator who treats this verse's shift explicitly."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not quote or analyze S9:A11 directly. Extracted claims are inferred from general rhetorical remarks in the chunks (e.g., 'الأمر في معنى الخبر', 'الالتفات في قوله').",
+      "Because the source material is indirect, the device attributions should be reviewed against primary commentaries that discuss this specific verse.",
+      "No exact source chunk contained the ayah text; source_quote_ar entries are substrings of the provided commentary chunks and are used to justify analogous rhetorical observations rather than direct citations about this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

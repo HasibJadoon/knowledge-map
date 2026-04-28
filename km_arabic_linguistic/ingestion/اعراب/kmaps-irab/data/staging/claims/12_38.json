@@ -1,0 +1,8 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:38",
+  "result": {
+    "error": "Invalid JSON structure. The input contains a mix of JSON and plain text, and the JSON is not properly formatted."
+  },
+  "n_chunks": 16
+}

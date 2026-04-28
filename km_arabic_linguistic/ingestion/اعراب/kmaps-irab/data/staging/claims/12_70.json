@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:70",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "فَيُرَادُ بِهَا الْإِبِلُ ; فَعَلَى هَذَا يَكُونُ الْمُضَافُ مَحْذُوفًا أَيْضًا ; أَيْ أَصْحَابَ الْعِيرِ ; وَقِيلَ: الْعِيرُ: الْقَافِلَةُ، وَهُمُ النَّاسُ الرَّاجِعُونَ مِنَ السَّفَرِ فَعَلَى هَذَا لَيْسَ فِيهِ حَذْفٌ.",
+        "claim_ar": "الْعِيرُ موضع اجتهاد: قد تُرادُ بها الإبل، فعلى هذا يكون المضاف محذوفًا (أي: «أصحاب العير»)، وقيل: «العير» تعني القافلة (الناس) فبذلك لا حَذْفَ.",
+        "claim_en": "The noun al-ʿīr is subject to differing analyses: it may mean 'the camels', in which case the possessed (the annexed noun) is omitted (i.e. 'the companions/owners of the caravan' are implied), or it may mean 'the caravan' (the people), in which case there is no omission.",
+        "root": "عير",
+        "lemma": "عِير",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

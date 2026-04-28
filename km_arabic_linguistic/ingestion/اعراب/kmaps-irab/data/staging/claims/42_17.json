@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "42:17",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "مع مراعاة إقامة الإعراب وتقويم اللفظ",
+        "claim_ar": "يجب مراعاة إقامة الإعراب عند القراءة؛ فتُحافظ كلمة «قريبٌ» على رفعها وعلامة رفعها الظاهرة (الضمة) تبعاً لإقامة الإعراب.",
+        "claim_en": "Recitation must preserve i'rab (case endings); the word 'قَرِيبٌ' should remain nominative with its visible nominative marker (ḍamma) in accordance with maintaining i'rab.",
+        "root": "قرب",
+        "lemma": "قَرِيب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وكذا يحترز من الفصل بين حروف الكلمة",
+        "claim_ar": "يجتنب الوقوف الذي يفصل حروف الكلمة (الفصل بين حروف الكلمة)، فلا يجوز تفصيل كلمة مثل «السَّاعَةَ» عند التلاوة بحيث يُفقدها إعرابها أو يقطع اتصال حروفها.",
+        "claim_en": "One must avoid pausing that splits the letters of a word; one should not divide a word like 'السَّاعَةَ' in recitation in a way that disrupts its i'rab or breaks its letters apart.",
+        "root": "سوع",
+        "lemma": "سَاعَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general warning against splitting words (with the example 'نستعين'); applying it specifically to 'السَّاعَةَ' is an inference rather than an explicit mention."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "ولا يجوز قراءة القرآن بالعجمية  مطلقا",
+        "claim_ar": "لا تجوز قراءة القرآن بغير العربية مطلقاً لأن ذلك يُذهب الإعجاز المقصود؛ إذ ينبغي قراءة كلمات القرآن (كـ «الكتاب») بالعربية للحفاظ على مدلولها وإعجازها.",
+        "claim_en": "Reciting the Qur'an in non-Arabic is not permitted absolutely, because that removes its intended inimitability; words of the Qur'an (e.g., 'الْكِتَابَ') should be recited in Arabic to preserve their meaning and inimitability.",
+        "root": "كتب",
+        "lemma": "كِتَاب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "المقتطفات المرفقة في المصادر هي أحاديث عامة عن علوم القرآن والأساليب القرائية، ولا تتضمن إعـراباً مفصلاً لسورة أو آية بعينها. المطالب المستخلصة هنا هي قواعد عامة مُوظَّفة على كلمات من الآية، وبعضها استنتاجي (مذكور في حقل needs_review_reason).",
+      "لم تُذكر في القطع المقدمة إعرابات صريحة لكل كلمة من الآية، فالادعاءات المقترحة هي تطبيقات للقواعد العامة الموجودة في النصوص المقتبسة."
+    ]
+  },
+  "n_chunks": 12
+}

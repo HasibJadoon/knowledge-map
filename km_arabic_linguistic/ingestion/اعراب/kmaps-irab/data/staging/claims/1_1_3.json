@@ -1,0 +1,40 @@
+{
+  "layer": "irab",
+  "word_key": "1:1:3",
+  "result": {
+    "claims": [
+      {
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "(تِلْكَ آيَاتُ الْكِتَابِ) : مِثْلُ: ذَلِكَ الْكِتَابُ.",
+        "claim_ar": "تِلْكَ آيَاتُ الْكِتَابِ : مِثْلُ ذَلِكَ الْكِتَابُ (أي أن التركيبة تُفهم بمثابة ذَلِكَ الْكِتَابُ).",
+        "claim_en": "The phrase 'تِلْكَ آيَاتُ الْكِتَابِ' is to be understood like 'ذَلِكَ الْكِتَابُ' (i.e. the construction functions equivalently to 'that Book').",
+        "root": "أ و ي",
+        "lemma": "آيَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "irab",
+        "source_quote_ar": "و (أَنْ لَا يَكُونُوا) : مَفْعُولٌ لَهُ؛ أَيْ لِئَلَّا؛ أَوْ مَخَافَةَ أَنْ لَا.",
+        "claim_ar": "أَنْ لَا يَكُونُوا : مَفْعُولٌ لَهُ (يعني في مقام لِئَلَّا أو مخافة أَنْ لَا).",
+        "claim_en": "The clause 'أَنْ لَا يَكُونُوا' functions as a مَفْعُولٌ لَهُ (an object/goal), that is, in the sense of 'in order that they not be' or 'for fear that they not'.",
+        "root": "كان",
+        "lemma": "يَكُونُوا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ: «وَلَا يُؤْمِنُونَ» مُسْتَأْنَفًا لِئَلَّا يُفْرَقَ بَيْنَ بَعْضِ الصِّلَةِ وَبَعْضٍ بِحَالِ الْمَوْصُولِ.",
+        "claim_ar": "«وَلَا يُؤْمِنُونَ» مُسْتَأْنَفٌ — أي جملة مُستأنفة لئلا يُفْرَقَ بين بعض الصلة وبعض في حالة الموصول.",
+        "claim_en": "The phrase 'وَلَا يُؤْمِنُونَ' is treated as مستأنفًا (a resumed clause), so that the connection between parts is not broken in the case of the relative/linking clause.",
+        "root": "أمن",
+        "lemma": "يُؤْمِنُونَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

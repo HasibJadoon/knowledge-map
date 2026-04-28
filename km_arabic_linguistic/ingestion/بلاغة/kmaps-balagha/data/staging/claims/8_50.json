@@ -1,0 +1,78 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:50",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "ولو الامتناعية تردّ الفعل المضارع ماضيا",
+        "claim_ar": "استخدام «لو» الامتناعية لِتحويل المضارع إلى معنى الماضي وكسب حدة تصويرية وتخييلية (توكيدي/تشكيلية).",
+        "claim_en": "Use of the prohibitive/contrary-to-fact 'لو' (lo) to render the present as past, producing a vivid, emphatic imagined scene.",
+        "device_branch": "other",
+        "device_subtype": "conditional_امتناعية (hyperbolic/imagined-past conditional)",
+        "root": null,
+        "lemma": "لَو",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "maani",
+        "source_quote_ar": "إِذْ نصب على الظرف.",
+        "claim_ar": "وظيفة «إذْ» كظرف زمان فتعطي الآية مكاناً زمنياً محدداً للحركة السردية وتزيد الإحساس بالمشهد.",
+        "claim_en": "The particle 'idh' is used as a temporal adverb, situating the action in time and heightening the immediacy of the scene.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl / circumstantial_adverb (temporal staging)",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the classical parsing comment to the schema: classified as a maani temporal/circumstantial device; reviewer may wish to reassign to a different maani subtype."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "badi",
+        "source_quote_ar": "يَضْرِبُونَ وُجُوهَهُمْ وَأَدْبارَهُمْ",
+        "claim_ar": "الموازنة والضدية في «وجوههم وأدبارهم» — تصوير متقابل لأجزاء الجسد (الأمام/الظهر) يعطي أثر تشديد العقوبة وشمولها.",
+        "claim_en": "Antithetical pairing in 'faces and backs' (wujūhahum wa adbārahum): a front/back antithesis that intensifies the sense of punishment and its totality.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq (antithesis/contrast)",
+        "root": "ضرب",
+        "lemma": "ضَرَبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "maani",
+        "source_quote_ar": "وَذُوقُوا معطوف على يَضْرِبُونَ على إرادة القول",
+        "claim_ar": "استخدام صيغة الأمر/التكليم المُنقولة «ذُوقُوا» كقول منظور — أي إيراد كلامٍ/توجيهٍ في سياق السرد (أداة خطابية لإظهار إهانة العقوبة).",
+        "claim_en": "The phrase 'ذوقوا' functions as a reported imperative — a quoted directive within the narration that rhetorically presents the punishment as both enacted and proclaimed.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa (reported utterance/imperative)",
+        "root": "ذوق",
+        "lemma": "ذَاقُ",
+        "confidence": "medium",
+        "needs_review_reason": "The schema's maani subtype 'ijab_inshaa' was used to capture reported imperatives; reviewer may prefer a bayan classification (reported speech) depending on taxonomy."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "والمفعول به محذوف",
+        "claim_ar": "حذف المفعول به (المرجوع إلى الكفرة/حالهم) كاقتصاد بلاغي يؤدي إلى إيجاز وتصوير أقوى للحال.",
+        "claim_en": "Ellipsis of the object (the object is omitted, referring to the disbelievers/their state) — a rhetorical ellipsis that yields concision and a stronger pictorial effect.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz (ellipsis/conciseness)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Whether to classify omission as 'ijaaz' (conciseness) or another maani subtype could be debated; label chosen as best fit for schema but may need adjustment."
+      }
+    ],
+    "warnings": [
+      "Only the provided source chunks (Darwish - I'rab and Zamakhshari - al-Kashshaf) were available. The user-requested sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha sections) were not present, so claims are based solely on the supplied chunks.",
+      "Some device mappings to the requested taxonomy required interpretation (e.g., reported imperative and ellipsis classified under maani subtypes). These mappings may need review if you prefer different branch assignments (bayan vs maani vs other)."
+    ]
+  },
+  "n_chunks": 12
+}

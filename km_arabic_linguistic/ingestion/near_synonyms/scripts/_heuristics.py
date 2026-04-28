@@ -33,6 +33,28 @@ DOMAIN_HINTS = [
     ("resurrection", "AFTERLIFE", "QIYAMAH"),
 ]
 
+URDU_ONLY_LETTERS_RE = re.compile(r"[\u0679\u0688\u0691\u067e\u0686\u0698\u06a9\u06af\u06ba\u06be\u06c1\u06c2\u06d2\u06cc]")
+ARABIC_LETTER_RE = re.compile(r"[\u0621-\u063a\u0641-\u064a\u0670]")
+LATIN_LETTER_RE = re.compile(r"[A-Za-z]")
+
+
+def is_usable_arabic_term(term: dict[str, Any]) -> bool:
+    display = clean_spaces(str(term.get("arabic_display") or ""))
+    if not display:
+        return False
+    if LATIN_LETTER_RE.search(display) or URDU_ONLY_LETTERS_RE.search(display):
+        return False
+    if not ARABIC_LETTER_RE.search(display):
+        return False
+    bare = arabic_bare(term.get("arabic_bare") or display)
+    bare_letters = re.sub(r"[^\u0621-\u063a\u0641-\u064a\u0670]+", "", bare)
+    if len(bare_letters) < 2:
+        return False
+    return not (
+        term.get("claim_basis") == "inferred_from_source"
+        and term.get("confidence") == "needs_review"
+    )
+
 
 def guess_domain_and_concept(title: str, text: str, metadata: dict[str, Any]) -> tuple[str, str]:
     if metadata.get("topic_id") and metadata.get("topic_en"):
@@ -123,7 +145,7 @@ def heuristics_from_chunk(chunk: dict[str, Any]) -> dict[str, Any]:
     term_candidates = metadata.get("structured_terms") or []
     for term in term_candidates:
         normalized = normalize_term_record(term, domain, concept)
-        if normalized["arabic_display"]:
+        if is_usable_arabic_term(normalized):
             terms.append(normalized)
     if not terms:
         for match in re.findall(r"[\u0600-\u06FF][\u0600-\u06FF\s\u064B-\u065F\u0670]{1,30}", raw_text):
@@ -153,7 +175,10 @@ def heuristics_from_chunk(chunk: dict[str, Any]) -> dict[str, Any]:
                 "claim_basis": "inferred_from_source",
                 "confidence": "needs_review",
             }
-            if maybe_term["arabic_bare"] not in {item["arabic_bare"] for item in terms}:
+            if (
+                is_usable_arabic_term(maybe_term)
+                and maybe_term["arabic_bare"] not in {item["arabic_bare"] for item in terms}
+            ):
                 terms.append(maybe_term)
             if len(terms) >= 8:
                 break

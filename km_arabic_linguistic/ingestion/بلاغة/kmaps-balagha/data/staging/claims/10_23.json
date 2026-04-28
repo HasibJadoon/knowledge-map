@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:23",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إِنَّما مَثَلُ الْحَياةِ الدُّنْيا كَماءٍ",
+        "claim_ar": "استخدام «إِنَّمَا» لحصر المعنى وتقييده، أي تقييد المعنى على ما بعدها لا عموم.",
+        "claim_en": "Use of «إِنَّمَا» to restrict/limit the meaning (exclusive restriction to what follows).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يا قَوْمِ إِنْ كانَ كَبُرَ عَلَيْكُمْ مَقامِي",
+        "claim_ar": "نداء مباشر (يا أيها الناس) يدخل فجأة في الخطاب موجهاً الكلام إلى المخاطَب؛ هذا انتقال من سرد/حكاية إلى مخاطبة مباشرة (التفات).",
+        "claim_en": "Direct vocative address (e.g., «يا أَيُّهَا النَّاسُ») effects an abrupt shift from narration to direct address (iltifat).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk gives an analogous example of vocative (يا قوم) rather than the exact phrase «يا أيها الناس» in this ayah; supports the general rhetorical function but is not a commentary on this exact wording."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "iltifat",
+        "source_quote_ar": "حتى إذا أَخَذَتِ الْأَرْضُ زُخْرُفَها وَازَّيَّنَتْ",
+        "claim_ar": "الاستخدام البلاغي لـ«إذا» ((إِذَا هُمْ يَبْغُونَ)) لبيان حدث مفاجئ أو تحول مفاجئ في الحال، وهو نمط بلاغي يُحدث لفتة وقطع في السرد.",
+        "claim_en": "The rhetorical use of «إِذَا» (e.g., «إِذَا هُمْ يَبْغُونَ») to mark a sudden event/shift in circumstance, creating a striking turn in the narrative (iltifat / suddenness formula).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": "إِذَا",
+        "confidence": "medium",
+        "needs_review_reason": "Source shows an instance of «إذا» marking a sudden change in another verse; applying it to the present ayah is plausible but based on analogy rather than a direct commentary on this verse."
+      },
+      {
+        "word_index": 19,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "ثُمَّ يُعِيدُهُ",
+        "claim_ar": "استخدام «ثُمَّ» للدلالة على تسلسل زمني واحتراز زمني بين متاع الدنيا والمرجع بعد ذلك، الربط بين الجزأين وإظهار الترتيب.",
+        "claim_en": "Use of «ثُمَّ» to indicate temporal sequencing/connection (pause-and-link), linking the transience of worldly enjoyment to the subsequent return to God.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "ثُمّ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk contains «ثُمَّ يُعِيدُهُ» as an example of sequencing; mapping that function to this ayah is natural but the cited chunk comments on a different verse."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily iʻrāb/grammatical commentaries (Darwish - I'rab) and not the specified classical balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Claims cite analogous examples from these chunks rather than direct balagha commentary on S10:A23.",
+      "Several claims rely on analogy (examples in the chunks) rather than explicit rhetorical commentary on the exact wording of this ayah — those claims are marked with 'needs_review_reason' and should be validated against classical balagha sources if strict attribution is required."
+    ]
+  },
+  "n_chunks": 12
+}

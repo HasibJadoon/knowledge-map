@@ -1,0 +1,57 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:252",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "(تِلْكَ آيَاتُ الْكِتَابِ)",
+        "claim_ar": "تِلْكَ: اسم إشارة متعلق بـ «آيَاتُ» (اسم الإشارة في التركيب الإيضاحي).",
+        "claim_en": "The demonstrative تِلْكَ is an ism-iashara (demonstrative) that is syntactically linked to 'آيَاتُ' (i.e., تِلْكَ governs/points to the following noun).",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary treats the phrase with الْكِتَابِ (تِلْكَ آيَاتُ الْكِتَابِ); mapping that statement to this ayah (تِلْكَ آيَاتُ اللَّهِ) is plausible but not explicitly given in the source chunk."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "(تِلْكَ آيَاتُ الْكِتَابِ)",
+        "claim_ar": "آيَاتُ: خبرُ تِلْكَ مرفوع (اسم إشارة وخبرها في تركيب مثل «ذَلِكَ الْكِتَابُ»).",
+        "claim_en": "'آيَاتُ' functions as the predicate (khabar) of the demonstrative تِلْكَ and thus is nominative, analogous to the construction «ذَلِكَ الْكِتَابُ».",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source example uses الْكِتَابِ rather than اللَّهِ; the applicabilty to آياتِ اللهِ is inferred from the stated equivalence."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "(تِلْكَ آيَاتُ الْكِتَابِ) : مِثْلُ: ذَلِكَ الْكِتَابُ.",
+        "claim_ar": "قاعدة ذَكَرَهَا المؤلّف: تركيب «تِلْكَ آيَاتُ ...» يعامل مثل تركيب «ذَلِكَ الْكِتَابُ» (إيضاح تماثل التركيبات الإشارية).",
+        "claim_en": "Rule/reference: the author states that the construction «تِلْكَ آيَاتُ ...» is like «ذَلِكَ الْكِتَابُ», i.e. demonstrative + noun constructions are treated analogously.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ مُبْتَدَأً وَخَبَرًا، وَالْجُمْلَةُ نَعْتٌ لِرُسُلٍ، وَأَنْ يَكُونَ مُسْتَأْنَفًا.",
+        "claim_ar": "اجتهادٌ نحوي/وجْهٌ: يجوز أن تُبنَى الجملة (مثل «نَتْلُوهَا عَلَيْكَ بِالْحَقِّ ...») مبتدأ وخبرًا، أو أن تُعتبر الجملة نعتًا لِـ«رُسُلٍ»، أو أن تُعدّ مستأنفة.",
+        "claim_en": "Alternative analyses (wajh): the clause may be analyzed as a complete subject-predicate (mubtada' and khabar), or as an adjective (na't) qualifying 'رسُل', or as a resumed (mustanfa) clause.",
+        "root": "تلو",
+        "lemma": "تَلَىٰ",
+        "confidence": "low",
+        "needs_review_reason": "The cited passage discusses the parallel case (e.g. «مِنْهُمْ مَنْ قَصَصْنَا») — applying these alternative analyses to this specific ayah is interpretive and needs verification against the exact discussant's intent for this verse."
+      }
+    ],
+    "warnings": [
+      "Some quoted commentary in the provided chunks addresses constructions in other verses (e.g. «تِلْكَ آيَاتُ الْكِتَابِ», «مِنْهُمْ مَنْ قَصَصْنَا») rather than this ayah verbatim (تِلْكَ آيَاتُ اللَّهِ ...). The extraction maps those general statements onto S2:A252 where plausible, but these mappings should be checked against the full original context to confirm they were intended for this exact verse.",
+      "No explicit discussion in the provided chunks about the iḍāfa «آيَاتُ اللَّهِ», the governance of بِالْحَقِّ, or the parsing of وَإِنَّكَ لَمِنَ الْمُرْسَلِينَ was found; any claims about those elements would require additional source text."
+    ]
+  },
+  "n_chunks": 12
+}

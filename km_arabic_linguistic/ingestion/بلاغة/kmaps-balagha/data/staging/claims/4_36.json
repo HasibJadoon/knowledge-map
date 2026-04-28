@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:36",
+  "result": {
+    "claims": [
+      {
+        "word_index": 23,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "مَا مَلَكَتْ أَيْمَانُكُمْ",
+        "claim_ar": "استثناء وتقييد نطاق التحريم بالعبارة «ما ملكت أيمانكم» لتحديد ما عدا المحصنات/السبايا.",
+        "claim_en": "An exclusion/restriction using the phrase \"ma malakat aymanukum\" that limits the scope of the prohibition, specifying an exception for what your right hands possess (i.e. captives/concubines).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr (استثناء/قصر)",
+        "root": "ملك",
+        "lemma": "مَلَكَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A36",
+        "rhetorical_effect": "Clarifies and narrows the general prohibition so the audience understands the precise legal-social boundary; prevents overgeneralization of the ban."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "لا تَقْرَبُوا",
+        "claim_ar": "الإيجاز والاقتصاد في صيغة النهي باستخدام حرف النهي «لا» + فعلٍ مختصر، وهو نمط بلاغي شائع في القرآن لتوكيد النهي باقتضاب.",
+        "claim_en": "Conciseness (ijaaz) in the prohibitive expression using the particle of negation \"la\" + brief verb, a Qur'anic rhetorical pattern that emphasizes prohibition through brevity.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz (اختزال/اقتصاد في العبارة)",
+        "root": null,
+        "lemma": "لَا",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk contains the analogous prohibitive formula \"لا تَقْرَبُوا\" rather than the exact verb \"تُشْرِكُوا\" from the ayah; the claim generalizes from an attested prohibitive pattern in the commentary and should be checked against explicit commentary on this specific verb in other sources.",
+        "quran_ref": "S4:A36",
+        "rhetorical_effect": "Heightens force of the prohibition by making it tersely expressed and easy to recall; creates an emphatic, concise command."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain only limited exact substrings matching this ayah. Some rhetorical readings are inferred from analogous phrasing in the chunks (e.g. general prohibitive formulae) rather than explicit commentary on each specific word of S4:A36.",
+      "Several candidate devices (e.g. coordination/repetition of 'و' in the long list, iltifat/shift from worship to social injunctions, or negative parallelism in the closing clause) could be present in the verse but were not extractable with exact-source substrings from the supplied chunks; consider providing additional tafsir/بلاغة chunks (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) that directly discuss those features for fuller annotation."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "29:4",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب claims found in the provided source chunks for S29:A4. None of the chunks contain the text of this ayah or discuss its syntax directly."
+    ]
+  },
+  "n_chunks": 12
+}

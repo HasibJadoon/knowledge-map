@@ -1,0 +1,78 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:23",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الواو استئنافية والكلام مستأنف مسوق للرد على من ارتابوا في القرآن تعنتا ولجاجا",
+        "claim_ar": "استئناف الكلام بهدف المداخلة والرد على المرتابين — أسلوب بلاغي حجِّي/قاضي (أسلوب حكيم) يفتتح الآية بردٍّ مباشر على من شكّكوا في القرآن.",
+        "claim_en": "Resumption of discourse directed to refute those who doubted the Qur'an — a judicial/persuasive rhetorical style (asloob hakim) opening the verse as a direct rebuttal.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "إِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "maani",
+        "source_quote_ar": "الفاء رابطة لجواب الشرط",
+        "claim_ar": "الفاء في «فَأْتُوا» تصل جواب الشرط بالطلب، فالإطار الشرطي يتحول إلى تحدٍّ واقعي؛ هذا يبرز البناء البلاغي للإنشاء والنتيجة.",
+        "claim_en": "The conjunction fa- in 'fa'too' links the response to the conditional, turning the conditional frame into a concrete challenge; this highlights the rhetorical linking of condition and consequence.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "اتي",
+        "lemma": "أَتَى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "maani",
+        "source_quote_ar": "أَتُوا فعل أمر",
+        "claim_ar": "الأمر «فَأْتُوا بِسُورَةٍ» و«وَادْعُوا شُهَدَاءَكُم» أسلوب إنشائي/طلبي (إِجَابُ الإنشـاء) يُستعمل كتحدٍ إيقاعي لإظهار عدم قدرة المُشككين.",
+        "claim_en": "The imperatives 'fa'too bisurah' and 'wad'oo shuhada'akum' are performative/illocutionary commands (ijab/inshaa) used as a rhetorical challenge to demonstrate the doubters' inability.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "دعو",
+        "lemma": "دَعَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "maani",
+        "source_quote_ar": "متعلقان بمحذوف صفة لسورة",
+        "claim_ar": "العبارة «مِنْ مِثْلِهِ» تقوم على اقتصار واشتراك مرئي — هنالك حذف وصف لـ «سورة»؛ هذا اختزال بلاغي (اعتضاض/اختصار) يجعل التحدّي موجزًا ومقتصرًا.",
+        "claim_en": "The phrase 'min mithlihi' depends on an omitted adjective for 'surah' — there is an ellipsis/conciseness where the description of 'surah' is omitted; this stylistic condensation makes the challenge terse and pointed.",
+        "device_branch": "maani",
+        "device_subtype": "itnaab",
+        "root": "مثل",
+        "lemma": "مِثْل",
+        "confidence": "medium",
+        "needs_review_reason": "The claim depends on syntactic analysis of the pronoun's reference; alternative parse (returning to 'القرآن') is possible and needs reviewer confirmation."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "مسوق للرد على من ارتابوا في القرآن تعنتا ولجاجا",
+        "claim_ar": "التحدّي «فَأْتُوا بِسُورَةٍ مِنْ مِثْلِهِ» يمثل دعوى إعجاز القرآن (إعجاز إنشائي) — آية تحدّية تهدف إلى إظهار استحالة الإتيان بمثل القرآن.",
+        "claim_en": "The challenge 'bring a surah like it' embodies the claim of the Qur'an's inimitability (ijaz, miraculous ineloquence) — a bold rhetorical move intended to show the impossibility of producing anything like the Qur'an.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source describes the verse as a rejoinder to doubters but does not use the lexical label 'إعجاز' explicitly; the ijaz interpretation is standard but should be cross-checked with classical jurjani/sakkaki treatments."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari and Darwish (i'rab) rather than the requested commentators (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha). Claims were extracted from the available chunks; please supply the specified commentators' texts for their particular formulations or for fuller corroboration.",
+      "Several interpretive claims (marked with confidence 'medium') depend on syntactic or contextual readings that admit alternate analyses; please review those with a specialist reader or additional classical sources."
+    ]
+  },
+  "n_chunks": 12
+}

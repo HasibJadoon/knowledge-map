@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:167",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "البلاغة: في عطف «الذين آمنوا» على «الذين كفروا» لف ونشر مشوّش",
+        "claim_ar": "مقابلة بين حالة الكافرين وحالة المؤمنين (عطف يدلُّ على المقابلة والتنظير)؛ في الآية بَدْء العبارة بعبارة «الذين كفروا» يضعهم في مقابل ضمني للمؤمنين، فتتقوى المعنى الأخلاقي والقسوة في الحكم.",
+        "claim_en": "Antithesis (muqābala) between the disbelievers and the believers: the syntactic placing of «الَّذِينَ كَفَرُوا» evokes an implicit contrast with the believers, strengthening the moral contrast and severity of the judgment.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk (Darwish i'rab) explicitly discusses the rhetorical effect of 'عطف «الذين آمنوا» على «الذين كفروا»', but that commentary is general; the chunk does not analyse S4:167 specifically, so applying it to this ayah is inferential."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "البلاغة: في عطف «الذين آمنوا» على «الذين كفروا» لف ونشر مشوّش",
+        "claim_ar": "أسلوب «لفّ ونشر» (توزيع وافتراق العناصر) ينتج إيقاعًا وصياغة متباعدة تُبرز مفردة العطف/المقابلة في النص القرآني؛ في هذه الآية تركيب الفواصل يساهم في تشتيت الموقف لدى المخاطَب وإبراز نتيجة التكفير والصدّ.",
+        "claim_en": "Fasl-wasl (pause/connect) manifested as 'lafw wa nashr' (bringing together then spreading apart): the arrangement/spacing of coordinated elements produces a dispersed rhythm that highlights the conjunction/contrast in the passage; in this verse the phrasal breaks help foreground the consequence of disbelief and obstruction.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "low",
+        "needs_review_reason": "The source uses the phrase 'لف ونشر مشوّش' in a general note about rhetorical arrangement; connecting that specifically to prosodic/pause effects in S4:167 is interpretive and would benefit from a tafsir explicitly on this verse."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari and a Darwish i'rab commentary; requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present among the provided chunks. Claims therefore rely on the available excerpts and are inferential rather than direct quotations from the requested classical balagha authors.",
+      "Source material contains a general remark about the rhetorical pairing of «الذين آمنوا» and «الذين كفروا». Applying that general observation to S4:167 (which contains «الَّذِينَ كَفَرُوا») is plausible but not directly corroborated in these chunks; treat the identifications as provisional.",
+      "No exact source chunk commentary was available for other listed devices (e.g., repetition, emphasis with إنَّ) for this ayah; therefore only devices that could be reasonably linked to the provided excerpts were extracted."
+    ]
+  },
+  "n_chunks": 12
+}

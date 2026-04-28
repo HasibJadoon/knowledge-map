@@ -1,0 +1,49 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:87",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "بَدَلٌ مِنْ وَاحِدٍ، أَوْ خَبَرُ مُبْتَدَأٍ مَحْذُوفٍ، أَيْ هُوَ رَبُّ.",
+        "claim_ar": "اسم «رَبّ» يمكن إعرابه بوجهين: بدل من واحد أو خبر لمبتدأ محذوف.",
+        "claim_en": "The noun 'rabb' can be analyzed in two ways: as a badal (substitute) from 'one' or as the predicate (khabar) of an omitted subject.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited statement in al-Tibyan discusses the phrase «رَبُّ السَّمَاوَاتِ…»; applying the same two alternative analyses to «بِرَبِّ الْعَالَمِينَ» requires checking the effect of the preposition «بِ».",
+        "quran_ref": "S37:A87"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "taqdir",
+        "source_quote_ar": "أَوْ عَلَى تَقْدِيرِ هِيَ الْكَوَاكِبُ.",
+        "claim_ar": "يجوز تقدير «هي» لبيان أن المضاف إليه يكون مرفوعًا أو خبرًا (مثال: «زِينَتُهَا الْكَوَاكِبُ» → تقدير «هي»).",
+        "claim_en": "It is possible to supply an implied 'hiya' ('it is') so that the second term is read as nominative/predicate (e.g., 'its adornment is the stars' with an implied 'it is').",
+        "root": "علم",
+        "lemma": "عَٰلَمِين",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted example in al-Tibyan concerns a different phrase («بِزِينَةٍ الْكَوَاكِبِ»); extending the permissibility of a تقدير («هي») to «بِرَبِّ الْعَالَمِينَ» is plausible but should be verified in context (presence of preposition may affect the reconstruction).",
+        "quran_ref": "S37:A87"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ بِالْإِضَافَةِ.",
+        "claim_ar": "قد تُقرأ العبارة بصيغة الإضافة (أي قراءة بدون حرف الباء)، كخيار قرائي يؤثر على الإعراب.",
+        "claim_en": "The phrase may be read as an idafa (i.e., read without the preposition 'bi-'), a lectal option that would affect the syntactic parsing.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source example (about «زِينَةِ الْكَوَاكِبِ») illustrates the general possibility of reading with idafa; whether that lectal choice applies to this specific ayah should be confirmed from qira'at and context.",
+        "quran_ref": "S37:A87"
+      }
+    ],
+    "warnings": [
+      "The extracted claims are based on general principles and examples cited in the provided al-Tibyan chunks (examples: «رَبُّ السَّمَاوَاتِ…», «بِزِينَةٍ الْكَوَاكِبِ»). Those examples are not the exact verse under study; applicability to S37:87 (which contains the preposition «بِ») should be verified against context, classical commentaries on this specific verse, and qira'at authorities.",
+      "Some claims propose alternative analyses (wajh/taqdir/qiraʾa) rather than definitives; they therefore have been given 'medium' confidence and flagged for review."
+    ]
+  },
+  "n_chunks": 5
+}

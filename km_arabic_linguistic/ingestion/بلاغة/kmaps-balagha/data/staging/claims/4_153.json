@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:153",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "other",
+        "source_quote_ar": "إِنَّا أَوْحَيْنا إِلَيْكَ جواب لأهل الكتاب عن سؤالهم",
+        "claim_ar": "الآية تعمل كرّدّ مباشر على سؤال أهل الكتاب — توظيف حكاية سابقة كمادة جدلية: حركة سيرية/انتقالية في سياق السورة (surah movement).",
+        "claim_en": "The verse functions as a direct reply to the People of the Book's question — it uses a prior historical episode as a rhetorical rejoinder: a narrative/historical movement within the surah.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement: historical-reply",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "bayan",
+        "source_quote_ar": "واحتجاج عليهم بأنّ شأنه في الوحى إليه كشأن سائر الأنبياء الذين سلفوا.",
+        "claim_ar": "الآية تحتجّ على أهل الكتاب بمقارنة حال وحي محمد بحال وحي الأنبياء السابقين — أسلوب قياسي/تشبيهي (احتجاج بالقياس).",
+        "claim_en": "The verse argues against the People of the Book by comparing the revelation to Muhammad with the revelation to earlier prophets — a rhetorical analogy/comparison (tashbih/argument by analogy).",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih (analogy/argument-by-precedent)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "maani",
+        "source_quote_ar": "فَقَدْ سَأَلُوا مُوسَى جواب لشرط مقدر",
+        "claim_ar": "استدعاء حادثة موسى كـ «جواب لشرط مقدر» — توظيف المثال الماضي للإجابة عن شرط أو اعتراض مضمر في سؤال الحاضر.",
+        "claim_en": "The reference to 'they asked Moses' is presented as a 'response to an implied/assumed condition' — using a past example to answer an implicit objection in the present question.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa / precedent-as-answer",
+        "root": "سال",
+        "lemma": "سَأَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the classical phrase «جواب لشرط مقدر» to the K-Map subtype 'ijab_inshaa' (response/answer-to-implied-condition) is interpretive and should be reviewed by a specialist to confirm the taxonomy label."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are exclusively from Zamakhshari (al-Kashshaf). No chunks from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or specialized 'tafsir balagha' sections were supplied; claims therefore reflect only the available commentary (possible coverage gap).",
+      "Some category mappings (classical commentary phrase → K-Map device_subtype) required interpretation; see needs_review_reason fields for items flagged as 'medium' confidence."
+    ]
+  },
+  "n_chunks": 12
+}

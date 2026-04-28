@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:6",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "توكيد (أداة إنَّ في ابتداء الآية)",
+        "source_quote_ar": "افتتح سبحانه بذكر الذين أخلصوا دينهم للَّه",
+        "claim_ar": "افتتاح الآية بأداة التوكيد «إِنَّ» للدلالة على التأكيد والتقرير حول حقيقة حال المكّذبين.",
+        "claim_en": "The verse opens with the emphatic particle 'إِنَّ', used to assert and emphasize the stated reality about the disbelievers.",
+        "device_branch": "maani",
+        "device_subtype": "emphasis_particle_إنَّ",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "المرجع المقتبس يذكر افتتاح السورة ووصف المجموعات (المؤمنين والكافرين) لكن لا يذكر صراحة بيان وظيفة إنَّ؛ تطابُق الدلالة مع تصنيفات البلاغة يحتاج مراجعة نصّية أوسع."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "بنية السورة / حركة السورة (ثنَاء وصف الكفار)",
+        "source_quote_ar": "ثم ثنى بالذين محضوا الكفر ظاهراً وباطناً",
+        "claim_ar": "الآية جزء من ثنائيات وصف حالة الكافرين؛ الكشاف يذكر أنها آية من اثنتين تصف حال الذين كفروا، أي أن التركيب البلاغي يعتمد على مقابلة ثنائية لبيان حالهم.",
+        "claim_en": "This verse participates in a paired (binary) description of the disbelievers; al-Kashshaf notes that the describe-the-disbelievers section is presented in two verses. The rhetorical structuring uses binary pairing to highlight the condition of the disbelievers.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement (binary pairing / ثنائيات)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "بديع — مقابلة/تكرار (السَّواء + أأَنْذَرْتَهُمْ أم لَمْ تُنْذِرْهُمْ)",
+        "source_quote_ar": "وصف حال الذين كفروا في آيتين،",
+        "claim_ar": "تركيبة «سَوَاءٌ ... أَأَنْذَرْتَهُمْ أَمْ لَمْ تُنْذِرْهُمْ» تعمل بمخاطبة افتراضية ومقابلة تكرارية (التثنية/التضاد الظاهري) لتوكيد لامبالاة الكافرين؛ أسلوب مقارن/مقابل يقوم على تكرار الفعل بنفيه وإثباته.",
+        "claim_en": "The phrase 'sawāʼ ... a-anhartahum am lam tunzirhum' uses a paired, repetitive/antithetical construction (affirmation + negation) to emphasize the indifference of the disbelievers. Rhetorically it is a juxtaposition/repetition (mucābala/takrār) that stresses invariance.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah / takrar (juxtaposition & repetition)",
+        "root": "سوي",
+        "lemma": "سَوَآء",
+        "confidence": "medium",
+        "needs_review_reason": "المرجع المقتبس يشير إلى أن حال الكافرين موصوفة في آيتين (دعم لتصنيف المقابلة الثنائية) لكن النصوص المصدرية المتاحة لا تذكر صراحة تسمية البلاغة (مقابلة/تكرار) لذلك التصنيف يحتاج تدقيقاً مقابل مصادر بلاغية متخصصة."
+      }
+    ],
+    "warnings": [
+      "الاستدلالات مأخوذة من شروح متاحة في source_chunks، لكن كثير منها تشرح بنية وتفسير الآية ولا تصف المسميات البلاغية الحديثة صراحة. بعض ربط الأجهزة البلاغية بتعابير الشروح تمّ استنتاجياً — راجع النصوص البلاغية النحوية/البلاغية المختصة للمطابقة الدقيقة.",
+      "بعض cla ims تشير إلى أجهزة (مثل توكيد إنَّ أو مقابلة/تكرار) حيث أن الاقتباسات المأخوذة من الشروح تدعم الفكرة العامة لكنها لا تذكر المصطلح البلاغي بنفسها؛ لذلك وسمت بعض العناصر بـ needs_review مع سبب موجز."
+    ]
+  },
+  "n_chunks": 12
+}

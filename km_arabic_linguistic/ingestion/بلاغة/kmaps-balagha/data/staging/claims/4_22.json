@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:22",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "iltifat",
+        "source_quote_ar": "[[استعملت (ما) هنا للعاقل أي زوجات الآباء، وهو أسلوب قرآني يضع العاقل مكان غير العاقل وبالعكس لسبب بلاغي ومعنى عميق (انظر الآية 3 من هذه السورة) .]]",
+        "claim_ar": "استعمال «ما» (أصلها لغير العاقل) للدلالة على عاقل (زوجات الآباء) - تبديل استعمال العاقل وغير العاقل لغاية بلاغية.",
+        "claim_en": "The relative particle «ما» (normally used for non‑humans) is used here for humans (the fathers' wives) — a Quranic stylistic move that places the animate where the inanimate would normally occur for rhetorical depth.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (وضع العاقل مكان غير العاقل)",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إلّا) أداة استثناء (ما) اسم موصول مبنيّ في محلّ نصب على الاستثناء المنقطع [[لأن النهي للمستقبل، وما سلف ماض.]]",
+        "claim_ar": "الاستثناء محصور في ما سلف (النكاح الماضي) لأن النهي موجّه للمستقبل—إلّا هنا تحدد الاستثناء على الماضي.",
+        "claim_en": "The exception introduced by «إلا» is confined to what has already passed (past marriages), because the prohibition applies to the future — i.e., the exception is restricted to the past.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr (تقييد الاستثناء بالماضى)",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 14,
+        "claim_type": "takrar",
+        "source_quote_ar": "(فاحشة) خبر كان منصوب (الواو) عاطفة (مقتا) معطوف على فاحشة منصوب مثله (الواو) عاطفة (ساء) فعل ماض والفاعل ضمير مستتر تقديره هو",
+        "claim_ar": "توازي المعطوفات واشتراكها في البناء (فاحشةً، مَقْتًا) مع ربط فعل ذمّ (سَاءَ) لتكثيف الذمّ والتأكيد.",
+        "claim_en": "Parallelism/accumulation in the coordinated condemnatory nouns (fahishah, maqt) with the following verb (sa'a) — a piling up of negative terms to intensify condemnation.",
+        "device_branch": "badi",
+        "device_subtype": "takrar / accumulation of coordinated terms",
+        "root": "فحش",
+        "lemma": "فَٰحِشَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source comments on the grammar and coordination but does not label a specific badiʿ term; classification as 'takrar/accumulation' is an interpretive choice and may be revised."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "[[قد يكون (ما) بمعنى النكاح، وقد يكون بمعنى الزوجات.]]",
+        "claim_ar": "غموض/سعة دلالية في «ما قد سلف» — إما قرائته بمعنى «النكاح» أو بمعنى «الزوجات»، مما يفتح قراءات بلاغية متعددة.",
+        "claim_en": "Deliberate ambiguity in «ما قد سلف» — it can mean either 'the marriage(s)' or 'the wives' — enabling multiple rhetorical readings.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz / lexical ambiguity (polysemy enabling condensed meaning)",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source notes the alternate readings but does not name a canonical rhetorical label; assigned to ijaaz/ambiguity tentatively."
+      }
+    ],
+    "warnings": [
+      "Some subtype assignments (e.g., labeling the use of «ما» as 'iltifat' and the coordinated negatives as 'takrar') are interpretive choices based on the provided glosses; reviewers may prefer alternative categorizations (e.g., tarif/tankir, muqabalah).",
+      "Source material is primarily grammatical-exegetical; explicit classical rhetorical labels are not always given, so a few claims are inferred from grammatical/semantic commentary (see needs_review_reason fields)."
+    ]
+  },
+  "n_chunks": 12
+}

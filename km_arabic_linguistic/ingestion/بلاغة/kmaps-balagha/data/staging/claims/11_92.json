@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:92",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يا قَوْمِ",
+        "claim_ar": "نداء المخاطبين بـ«يا قَوْمِ» كـانتقالٍ في الأسلوب يُلفتُ السامعين ويشدُّ انتباههم؛ أي فعل الانتباه/التفات (التِفاف الخطاب إلى المخاطب مباشرة).",
+        "claim_en": "The vocative 'ya qawm(i)' — a shift of address (iltifat) that calls and draws the listeners' attention directly.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (نداء/التفات)",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "tawkeed_bi_inna",
+        "source_quote_ar": "إِنَّهُمْ مُلاقُوا رَبِّهِمْ",
+        "claim_ar": "استخدام أداة التوكيد «إِنَّ» لتمهيد الخبر والتوكيد. في الآية قول «إِنَّ رَبِّي بِمَا تَعْمَلُونَ مُحِيطٌ» يحمل نفس وظيفة «إنَّ» في تكثيف اليقين والتثبيت.",
+        "claim_en": "Use of the emphatic particle 'inna' to foreground and confirm the predicate. In the verse 'inna rabbi bima ta' malun muhit' the 'inna' functions to stress certainty that the Lord is fully encompassing (aware) of their deeds.",
+        "device_branch": "maani",
+        "device_subtype": "tawkeed (إِنَّ)",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted substring is an analogous example from the provided iʿrāb/tafsīr chunk rather than an explicit commentary on S11:92; further tafsir-specific corroboration recommended."
+      }
+    ],
+    "warnings": [
+      "Source substrings used to justify claims come from the provided general tafsir/iʿrāb chunks (e.g. examples containing «يا قَوْمِ» and «إِنَّهُمْ ...»), not from an explicit rhetorical reading of S11:92 in those chunks. Some inferred device assignments (especially beyond the clear vocative) therefore need specialist review.",
+      "Several potentially relevant rhetorical devices (e.g., contrast between kin/people and God in «أَعَزُّ عَلَيْكُمْ مِنَ اللَّهِ», or the irony/kināyah in «أَرَهْطِي») could not be supported because the provided source chunks do not contain exact substrings referencing those words; no claims were made for them to respect the requirement that source_quote_ar be an exact substring of a provided chunk."
+    ]
+  },
+  "n_chunks": 12
+}

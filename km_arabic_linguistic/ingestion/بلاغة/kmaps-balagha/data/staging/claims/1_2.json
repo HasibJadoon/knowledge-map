@@ -1,0 +1,67 @@
+{
+  "layer": "balagha",
+  "ayah_key": "1:2",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "المراد به جميع الكائنات",
+        "claim_ar": "الْعَالَمِينَ بالصيغة المعرفة والجمع يدل على العمومية والشمول، أي المراد به جميع الكائنات.",
+        "claim_en": "The definite plural 'al-' in al-ʿālamīn conveys universality and inclusiveness — i.e., it intends all created beings.",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir",
+        "root": "علم",
+        "lemma": "عَٰلَمِين",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "rhetorical_effect": "يعطي شمولاً عاماً يغطي كافة الموجودات ويوسع مرجعية الربوبية"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "kinayah",
+        "source_quote_ar": "الحمد والمدح أخوان، وهو الثناء والنداء على الجميل",
+        "claim_ar": "الحمد هنا يستعمل في دلالة الثناء بالجميل، ويشمل معنى الشكر والتمجيد؛ لفظ «الحمد» يعمل ككناية عن المدح والثناء العام.",
+        "claim_en": "Here 'al-hamd' functions as praise (thana') and is used to indicate thanks and general commendation; the term operates as a kināya (indirect expression) for praise/thanks.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "حمد",
+        "lemma": "حَمْد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "الله علم لا يطلق إلا على المعبود بحقّ خاص",
+        "claim_ar": "اسم الجلالة «الله» مخصوص لا يطلق إلا على المعبود بحق، فعبرة «لِلَّهِ» في «الْحَمْدُ لِلَّهِ» تقيد الثناء وتحصره بالذات الإلهية الحقيقية.",
+        "claim_en": "The Divine Name 'Allah' is used exclusively for the true object of worship; thus the prepositional phrase 'li-llāh' in 'al-hamd li-llāh' restricts the praise specifically to the true God.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The source states the exclusivity of the divine name but does not explicitly state the rhetorical move of restricting 'al-hamd' to Allah; this inference is interpretive."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "والحمد باللسان وحده، فهو إحدى شعب الشكر",
+        "claim_ar": "افتتاح السورة بـ«الْحَمْدُ لِلَّهِ» أسلوبٌ حكيم يضع مدار الموضوع على الشكر والثناء، لأن الحمد لفظ يعبر عن شعب من شكر الله.",
+        "claim_en": "Opening the chapter with 'al-hamd lillāh' is a wise stylistic move that foregrounds praise and gratitude, since 'al-hamd' is described as one of the branches of thanks to God.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "حمد",
+        "lemma": "حَمْد",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source notes that 'al-hamd' is a branch of thanks but does not explicitly analyze the opening-position as a rhetorical strategy; this is an interpretive reading."
+      }
+    ],
+    "warnings": [
+      "Some claims are interpretive inferences connecting lexical/semantic notes in the sources to specific rhetorical device labels (e.g., linking exclusivity of the name 'الله' to hasr_qasr). The source chunks state lexical/semantic facts but do not always explicitly name the rhetorical device.",
+      "Source chunks provided are mainly i'rab and tafsir glosses (Darwish, Zamakhshari, Safi). They were used verbatim for source_quote_ar; where a claim required an interpretive step, confidence was lowered and needs_review_reason given.",
+      "Ensure reviewer checks that chosen device_subtype labels (e.g., 'tarif_tankir') match your project's taxonomy — some mappings here are interpretive (definiteness→universality mapped to tarif_tankir)."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "24:45",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مِنْ نَجْوَاهُمْ) : فِي مَوْضِ جَرٍّ صِفَةٌ لِكَثِيرٍ.",
+        "claim_ar": "حرف الجر «مِنْ» في «مِنْ مَاءٍ» جار ومجرور في موضع صفة (تبيان حال/مِنْبع) يعلّق بـ«كُلَّ دَابَّةٍ» للدلالة على أصل/منبع خلقِها.",
+        "claim_en": "The preposition مِنْ in «مِنْ مَاءٍ» functions as a genitive (jar wa majrur) in the position of a qualifying phrase (a descriptive genitive), attached to كُلَّ دَابَّةٍ to indicate origin/source of its creation.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses the construction «مِنْ نَجْوَاهُمْ» as a genitive/qualifying usage; the application to «مِنْ مَاءٍ» in this specific ayah is an extrapolation and should be reviewed against a direct commentary on S24:45."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not explicitly analyze S24:45 or the exact sequence «مِنْ مَاءٍ»; the above claim is extrapolated from a general remark on constructions of «مِنْ + noun» (see quoted chunk).",
+      "No explicit al-Tibyan quotation was provided that treats other words of the verse (e.g. يَخْلُقُ، مَا يَشَاءُ، فَمِنْهُمْ) for direct إعراب; further commentary source material is needed to extract additional confident claims."
+    ]
+  },
+  "n_chunks": 12
+}

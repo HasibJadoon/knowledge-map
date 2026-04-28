@@ -1,0 +1,43 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:8",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ: فِي مَوْضِعِ نَصْبٍ بَدَلًا مِنْ «مَا» ؛ أَيْ: بِئْسَ شَيْئًا سَخِطَ اللَّهُ عَلَيْهِمْ. وَقِيلَ: هُوَ فِي مَوْضِعِ جَرٍّ بِلَامٍ مَحْذُوفَةٍ؛ أَيْ: لِأَنْ سَخِطَ.",
+        "claim_ar": "فيما يتعلق بـ «مَا» (كلمة 9) ثمة اختلاف: قول أنَّها في موضع نصب بدلًا من «ما»، وقول آخر أنها في موضع جر بلام محذوفة (أي: لِـأَنْ).",
+        "claim_en": "Regarding the particle 'mā' (word 9) there is a disagreement: one view treats it as accusative (mansub) functioning as bad-exclamative (بدل) and another treats it as genitive (majrur) governed by a dropped lām (i.e. لِأَنْ).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 19,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا يَفْعَلُ اللَّهُ) : فِي «مَا» وَجْهَانِ: أَصَحُّهُمَا أَنَّهُمَا اسْتِفْهَامٌ فِي مَوْضِعِ نَصْبٍ بِيَفْعَلُ،",
+        "claim_ar": "«مَا» (كلمة 19) على أصحِّ وجهيها: استفهامية في موضع نصب (أي: ما الذي كان يصنعه الله/ما يفعل الله).",
+        "claim_en": "The particle 'mā' (word 19), according to the stronger opinion, is interrogative in the accusative position (i.e. an interrogative 'mā' used in a position of object/accusation).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "taalluq",
+        "source_quote_ar": "و «إِلَى» يَتَعَلَّقُ بِفِعْلٍ مَحْذُوفٍ؛ أَيْ: لَا يَنْتَسِبُونَ إِلَى هَؤُلَاءِ بِالْكُلِّيَّةِ،",
+        "claim_ar": "حرف الجر «إِلَى» (كلمة 5) متعلّق بفعل محذوف؛ أي أن «إِلَى أُمَّةٍ مَعْدُودَةٍ» تعود إلى فعل محذوف في العبارة.",
+        "claim_en": "The preposition 'ilā' (word 5) is attached (governed) by a deleted verb; i.e. the phrase 'ilā ummatin ma'dūdah' relates to an omitted verb in the sentence.",
+        "root": null,
+        "lemma": "إِلَىٰ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

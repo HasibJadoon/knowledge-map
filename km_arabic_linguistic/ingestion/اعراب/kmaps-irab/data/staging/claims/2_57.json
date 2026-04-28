@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:57",
+  "result": {
+    "claims": [
+      {
+        "word_index": 10,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَكِتَابٍ بِالْجَرِّ عَطْفًا عَلَى الْمَجْرُورِ",
+        "claim_ar": "الاسم «طَيِّبَاتِ» مجرور لِتعلُّقه بحرف الجر «مِن» الواقع قبلَه (مِن طَيِّبَاتِ)",
+        "claim_en": "The noun 'طَيِّبَاتِ' is genitive (majrur), governed by the preposition 'مِن' that precedes it ('مِن طَيِّبَاتِ').",
+        "root": "طيب",
+        "lemma": "طَيِّبَات",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses governance by a preposition using the example with بِ (bi). Applying that general rule to مِن is an inference; the provided chunks do not explicitly analyze this specific phrase in S2:57."
+      }
+    ],
+    "warnings": [
+      "No explicit discussion of S2:57 (بقرة:57) appears in the provided source chunks; the claim above is inferred from a general rule about prepositional governance rather than from a direct commentary on this verse in the supplied texts."
+    ]
+  },
+  "n_chunks": 12
+}

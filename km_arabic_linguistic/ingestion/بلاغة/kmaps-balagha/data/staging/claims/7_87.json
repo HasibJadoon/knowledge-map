@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:87",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "البلاغة:",
+        "claim_ar": "مقابلة بين جماعتين: «طائفةٌ منكم آمنت» و«طائفةٌ لم يؤمنوا»، أي توظيف التوازي والضد لإظهار التنافر والتمييز بين الموقفين.",
+        "claim_en": "Antithesis (muqābala) between two groups — \"a faction from you believed\" and \"a faction did not believe\" — using parallel structure and contrast to highlight their opposing stances.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "The provided source chunk contains a generic heading 'البلاغة:' but does not explicitly discuss this specific verse or the term 'مقابلة'; confirm with targeted tafsir/بلاغة sources if a precise classical attribution is required.",
+        "quran_ref": "S7:A87",
+        "rhetorical_effect": "يؤكد التباين الأخلاقي والسلوكي بين الفريقين، ويجعل الحكم الإلهي أمراً مفصلياً لحسم التناقض."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "التفات (التفات/التوجيه)",
+        "source_quote_ar": "الجملة الأمرية",
+        "claim_ar": "التفات: الانتقال من تقرير حالتين إلى صيغة أمر مخاطبة «فاصبروا»، أي تحول في الأسلوب يخاطب الفاعل مباشرة ويستدعي الصبر والانتظار.",
+        "claim_en": "Iltifāt (shift of address): the discourse moves from describing two groups to issuing a direct imperative \"faṣbirū\" (be patient), shifting the addressee and engaging them with a command to await God's judgment.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "صبر",
+        "lemma": "صَبَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A87",
+        "rhetorical_effect": "يزيد من توجيه النظر والسلوك (الصبر) نحو موقف عملي وانتظار حكم الله، ويحوّل البلاغة من وصفية إلى توجيهية."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "واو العطف/رابطة",
+        "source_quote_ar": "الواو عاطفة أو استئنافية",
+        "claim_ar": "واو الربط في «وَإِنْ» تعمل كرابطة تربط الصورة الشرطية بما قبلها أو تضعها في سياق عرضٍ واستئناف؛ أي استعمال حرف العطف/الاستئناف لربط الكلام وتخفيف النبرة.",
+        "claim_en": "The conjunction 'wa' in \"wa‑in\" functions as a linking particle (conjunctive/continuative), joining the conditional clause to the discourse and softening/continuing the narrative tone.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "medium",
+        "needs_review_reason": "The exact pragmatic function of the initial 'wa' with 'in' can be interpreted in several grammatical/rhetorical ways (coordination, resumptive wa, or stylistic cushioning); consult specialized works on particles for precise classification.",
+        "quran_ref": "S7:A87",
+        "rhetorical_effect": "يوفر تماساً بين الحديث السابق والسياق الشرطي هنا، فيخفف التناول ويجعل الحكم الشرطي جزءاً من سياق مستمر بدلاً من مقطوعٍ منفصل."
+      }
+    ],
+    "warnings": [
+      "المصادر المرفقة لا تقدم تفسيراً مفصلاً مخصصاً للآية 7:87؛ الاقتباسات المستعملة هي مقاطع عامة من شروحات وإعراب ولا تتناول جميع أجهزة البلاغة المشار إليها بدقة للسورة/الآية المعنية.",
+      "source_quote_ar في بعض المطالب هي مقتطفات عامة (مثل «البلاغة:»، «الجملة الأمرية»، «الواو عاطفة أو استئنافية») وليست تعليقاً صريحاً على هذه الآية؛ راجع تفاسير بلاغية متخصصة (الجرجاني، السكاكي، الباقلاني، السيوطي، متن تفاسير البلاغة) لتوثيق كلّ جهاز بدقة وتأمين الاقتباس المباشر المتعلق بالآية.",
+      "التصنيفات المقدمة (خصوصاً وظائف الجزيئات مثل واو الاستئناف أو تصنيفها كـ fasl_wasl) تحمل تبايناً تأويلياً في المصادر العربية الكلاسيكية؛ بعض المطالب تحتاج مراجعة مع موسوعات البلاغة لمعالجة فروق المصطلحات."
+    ]
+  },
+  "n_chunks": 12
+}

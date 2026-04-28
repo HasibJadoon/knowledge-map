@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:140",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "مَا لَكُمْ مِنْ إِلَهٍ غَيْرُهُ",
+        "claim_ar": "حصر العبادة بالله ونفي كل إله غيره؛ أسلوب الحصر/القصر (ما لكم من إله غيره) لتأكيد التوحيد",
+        "claim_en": "Restriction/exclusion: the phrase denies any god other than God, using restriction to reinforce tawhid (monotheism).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "اعْبُدُوا اللَّهَ",
+        "claim_ar": "النداء والأمر: استعمال فعل الأمر (اعبدوا) كأسلوب إنشائي للدعوة والتوكيد على الإيمان بالله وحده",
+        "claim_en": "Use of vocative + imperative: the imperative 'Worship God' functions as an ijab/inshāʾ stylistic device to urge and emphasize monotheistic worship.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "عبد",
+        "lemma": "اعْبُدُوا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted imperative appears in the tafsir passage (Tabari) as part of the narrative; mapping this injunction as the same ijab device for the target ayah is interpretive and should be reviewed."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "إخلاص التوحيد لله، وإفراده بالعبادة دون ما سواه",
+        "claim_ar": "تضاد/مقابلة بين توحيد الله وعبادة غيره: إبراز الإخلاص والفرادة لله مقابل ما سواه كأسلوب مقاربة/مقابلة بلاغية لتقوية الحجة",
+        "claim_en": "Contrast (muqābalah): the commentary frames exclusive devotion to God versus worship of others, using contrast to strengthen the argument for tawhid.",
+        "device_branch": "badi",
+        "device_subtype": "muaqabalah",
+        "root": "خلص",
+        "lemma": "إخلاص",
+        "confidence": "medium",
+        "needs_review_reason": "The source is tafsir exposition rather than an explicit label of rhetorical device; assigning 'muqabalah' is an interpretive reading of the commentary."
+      }
+    ],
+    "warnings": [
+      "Source chunks are tafsir/commentary extracts (mainly Tabari) rather than explicit stylistic treatises; some device attributions are inferential from the commentary's wording.",
+      "The exact Quranic wording of S7:A140 is not quoted verbatim in the provided chunks; related phrases from the tafsir (e.g., 'ما لكم من إله غيره', 'اعبدوا الله') were used as source quotes to support rhetorical readings—please verify alignment with the target ayah.",
+      "Some device assignments (especially contrast/muqabalah and ijab_inshaa) are interpretive and should be reviewed by a subject-matter expert for confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

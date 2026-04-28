@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:72",
+  "result": {
+    "claims": [
+      {
+        "word_index": 22,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (هُوَ يَقْبَلُ) : هُوَ مُبْتَدَأٌ، وَيَقْبَلُ الْخَبَرُ، وَلَا يَجُوزُ أَنْ يَكُونَ «هُوَ» فَصْلًا؛ لِأَنَّ يَقْبَلُ لَيْسَ بِمَعْرِفَةٍ وَلَا قَرِيبٍ مِنْهَا.",
+        "claim_ar": "«هُوَ» مُبْتَدَأٌ، ويقبل الخبر، ولا يجوز أن يكون فصلاً.",
+        "claim_en": "'huwa' is a mubtada' (subject); it accepts a khabar (predicate) and may not function as a separating/expletive 'fasil'.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A72"
+      },
+      {
+        "word_index": 23,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (هُوَ يَقْبَلُ) : هُوَ مُبْتَدَأٌ، وَيَقْبَلُ الْخَبَرُ، وَلَا يَجُوزُ أَنْ يَكُونَ «هُوَ» فَصْلًا؛ لِأَنَّ يَقْبَلُ لَيْسَ بِمَعْرِفَةٍ وَلَا قَرِيبٍ مِنْهَا.",
+        "claim_ar": "«الْفَوْزُ» خبر «هُوَ»؛ أي: «ذَلِكَ هُوَ الْفَوْزُ» — «الْفَوْزُ» في موقع الخبر.",
+        "claim_en": "'al-fawzu' is the predicate (khabar) of 'huwa' — in 'dhālika huwa al-fawzu' al-fawz occupies the position of the khabar.",
+        "root": "فوز",
+        "lemma": "فَوْز",
+        "confidence": "medium",
+        "needs_review_reason": "Inference from the general statement that «هُوَ يَقْبَلُ الْخَبَرَ» in the cited text; the chunk does not mention the specific noun «الْفَوْزُ», so assignment of this particular word as the khabar is inferred rather than explicitly stated.",
+        "quran_ref": "S9:A72"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

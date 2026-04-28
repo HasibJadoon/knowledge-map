@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:62",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable بلاغة claims: none of the provided source_chunks contain the ayah text or any exact substring of it (required for source_quote_ar). Cannot generate claims without matching source quotes from the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

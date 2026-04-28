@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:10",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "عطف بيان",
+        "source_quote_ar": "أَنْ كَذَّبُوا عطف بيان لها، وخبر كان محذوف",
+        "claim_ar": "عبارة «أَنْ كَذَّبُوا» تعمل كعطف بيان لتفسير السبب أو توضيح مقصود العبارة السابقة.",
+        "claim_en": "The phrase 'أَنْ كَذَّبُوا' functions as an explanatory apposition (ʿatf bayān), clarifying the reason or explicating the preceding statement.",
+        "device_branch": "bayan",
+        "device_subtype": "عطف بيان",
+        "root": "كذب",
+        "lemma": "كَذَّبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "استخدام 'أن' سببيًا",
+        "source_quote_ar": "أَنْ كَذَّبُوا بمعنى لأن كذبوا",
+        "claim_ar": "حرف «أن» هنا يُستعمل بمعنى سببي (أي: «لأن»)، فالصياغة تربط سبب العقاب بفعلة التكذيب.",
+        "claim_en": "The particle 'أن' is used causally here (i.e., with the sense of 'because'), linking the punishment to the act of denying.",
+        "device_branch": "other",
+        "device_subtype": "أن بمعنى 'لأن' (سببية)",
+        "root": "كذب",
+        "lemma": "كَذَّبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "حذف الخبر / إيجاز",
+        "source_quote_ar": "وخبر كان محذوف",
+        "claim_ar": "المعلِّم يشير إلى حذف الخبر (جَرَح إطنابي)؛ أي حذف جزء من الجملة الخبرية لإحداث إيجاز أو إبهام مقصود.",
+        "claim_en": "The commentator notes an omitted predicate (ellipsis); a deletion of a clause is used to produce concision or deliberate ambiguity.",
+        "device_branch": "maani",
+        "device_subtype": "حذف (إيجاز/إبهام)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "توضيح/تأويل لفظي",
+        "source_quote_ar": "وهي جهنم التي أعدّت للكافرين",
+        "claim_ar": "التعليق يوضح أن عبارة «الْجَحِيمِ» تشير إلى الجحيم (النار) المعدّة للكافرين، أي تفسير تصويري للمآل والعقاب.",
+        "claim_en": "The commentary clarifies that 'al-jahim' denotes the Hellfire prepared for the disbelievers — an interpretive specification of the punishment.",
+        "device_branch": "bayan",
+        "device_subtype": "تفسير/توضيح لاسم العقاب",
+        "root": "جحم",
+        "lemma": "جَحِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are from classical tafsir/grammar works (e.g., al-Kashshaf, Darwish iʿrāb) and not explicitly from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī or a dedicated 'tafsir balagha' section as requested in the developer prompt. Claims were extracted only from the chunks given.",
+      "Some device classifications (e.g., mapping traditional grammatical comments such as 'عطف بيان' or 'خبر محذوف' to the requested device taxonomy) involve interpretive decisions; review by a specialist in Arabic rhetoric is recommended if strict taxonomy alignment is required."
+    ]
+  },
+  "n_chunks": 12
+}

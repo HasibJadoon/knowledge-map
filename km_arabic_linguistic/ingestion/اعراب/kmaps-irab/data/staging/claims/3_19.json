@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:19",
+  "result": {
+    "claims": [
+      {
+        "word_index": 23,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ) : يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛ تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ، وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "همزة «إنّ/أَنّ» تُقْرَأ بِفَتْحِ الهَمْزَةِ، ويجوز قراءتها بِكَسْرٍ عند الاستئناف (الوقف/الاستئناف).",
+        "claim_en": "The hamza of particles like 'inna'/'anna' is read with a fatḥa (opening vowel); however it may be read with a kasra on pause/at resumption (istinaaf).",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses the example «وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ»; the reading rule is being applied by analogy to this ayah's particle «فَإِنَّ». Verify applicability to this exact context."
+      },
+      {
+        "word_index": 23,
+        "claim_type": "taqdir",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ) : يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛ تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ، وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "تَقْدِيرُ جملة مماثلة: (ذلك بِأَنَّ اللهَ ...) — أي أن هناك تقديراً يتضمن «ذلك بأنَّ...» في تفسير موقع الجملة.",
+        "claim_en": "An implied reconstruction (taqdir) given in the source is 'ذلك بأنَّ الله ...' — i.e., the meaning is supplied as 'that is because Allah ...'. The source supplies such a taqdir for a similar construction.",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The taqdir in the source is offered for a different verse («وأنّ الله سميع عليم»). Its direct applicability to the syntactic/semantic reconstruction of this ayah should be checked."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَقَدْ نَزَّلَ) : يُقْرَأُ عَلَى مَا لَمْ يُسَمَّ فاعِلُهُ، وَالْقَائِمُ مَقَامَ الْفَاعِلِ «أَنْ» وَمَا هُوَ تَمَامٌ لَهَا، وَأَنْ هِيَ الْمُخَفَّفَةُ مِنَ الثَّقِيلَة؛ أَيْ: أَنَّهُ إِذَا سَمِعْتُمْ آيَاتِ اللَّهِ.",
+        "claim_ar": "الفعل المبني للمجهول (مثل «أُوتُوا») يُقْرَأ ويُعْتَبَر هنا على ما لم يُسمَّ فاعلُهُ؛ أي تُترَك الفاعلُ مُغَيَّبًا ويقوم عنصر آخر مقامَ الفاعل في المعنى/القراءة.",
+        "claim_en": "Passive verbs (e.g., 'ūtu' — 'they were given') are treated as verbs whose agent is not named; the element present in the clause then functions in place of an explicit subject. (Rule cited from the source example.)",
+        "root": "اتي",
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The cited rule is illustrated in the source with the verb «وقد نزل»; its application to «أُوتُوا» in this ayah is plausible but should be confirmed in context."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are examples from al-Tibyan but mainly discuss other verses (e.g. «وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ», «وَقَدْ نَزَّلَ»). The claims above are drawn by analogy from those examples to S3:A19 (فَإِنَّ اللَّهَ ... , أُوتُوا). Verify each claim against direct commentary on S3:19 if available.",
+      "Several lemma/root fields were not present in the source examples (set to null where not given). Please review morphological fields if needed."
+    ]
+  },
+  "n_chunks": 12
+}

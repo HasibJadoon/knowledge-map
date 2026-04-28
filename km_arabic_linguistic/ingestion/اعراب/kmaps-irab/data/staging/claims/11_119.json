@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:119",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "«ذَلِكَ» فِي مَوْضِعٍ بَيْنَهُمَا؛ أَيْ: بَيْنَ الْإِيمَانِ وَالْكُفْرِ، أَوْ بَيْنَ الْمُسْلِمِينَ وَالْيَهُودِ",
+        "claim_ar": "كلمة «ذَلِكَ» (في «وَلِذَلِكَ») موضوعة في معنى «بينهما» أي بين حالتين/طائفتين — بين الإيمان والكفر أو بين المسلمين واليهود.",
+        "claim_en": "The word \"ذَلِكَ\" (in \"وَلِذَلِكَ\") is used in the sense of being placed \"between them\" — i.e. between two states/groups: between faith and disbelief or between Muslims and Jews.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage gives a Kufan opinion about the demonstrative \"ذَلِكَ\". It is necessary to confirm that this specific exegetical/grammatical reading is intended for the occurrence in S11:119 and not for a different, similar phrase; therefore moderate confidence."
+      }
+    ],
+    "warnings": [
+      "Only one relevant grammatical/semantic remark was found in the provided chunks that directly pertains to a word in this ayah (the commentary on «ذَلِكَ»).",
+      "Most source chunks supplied discuss other verses or different particles; no explicit izhar/irab assignment (مبتدأ/خبر/فاعل/مفعول به/etc.) or attachment (تعَلُّق) for the words of S11:119 was found in the provided text.",
+      "Several input words have null root values in the provided word list; where the source does not supply a root, the claim root is left null."
+    ]
+  },
+  "n_chunks": 12
+}

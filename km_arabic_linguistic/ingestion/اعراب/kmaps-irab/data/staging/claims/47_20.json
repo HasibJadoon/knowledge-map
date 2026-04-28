@@ -1,0 +1,45 @@
+{
+  "layer": "irab",
+  "ayah_key": "47:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَالْفَاءُ تَدُلُّ عَلَى تَعَلُّقِ الشَّرْطِ بِمَا قَبْلَهُ",
+        "claim_ar": "حرف الفاء في (فَإِذَا) يدل على تعلق جملة الشرط بما قبلها؛ أي أن شرط (إِذَا ...) متعلّق بما قبل الفاء.",
+        "claim_en": "The particle fa- in (fa-idhā) indicates that the conditional clause is attached to what precedes it; i.e., the condition (idhā ...) is syntactically linked to the preceding clause.",
+        "root": null,
+        "lemma": "إِذَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "taqdir",
+        "source_quote_ar": "تَقْدِيرُهُ: أَتَنْقَلِبُونَ عَلَى أَعْقَابِكُمْ إِنْ مَاتَ",
+        "claim_ar": "تقدير جواب الشرط دخول همزة الشرط على جواب الشرط، فالتقدير في جواب الشرط هنا يكون: «أَتَنْقَلِبُونَ عَلَى أَعْقَابِكُمْ إِنْ مَاتَ».",
+        "claim_en": "The implied (elliptical) verb in the answer is estimated as the hamza entering the answer; the estimated wording of the answer would be: 'A-tanqalibūna ʿalā aʿqābikum in māta' (Will you turn back on your heels if he dies?).",
+        "root": null,
+        "lemma": "إِذَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَالْمَعْنَى يَتِمُّ بِدُخُولِ الْهَمْزَةِ عَلَى جُمْلَةِ الشَّرْطِ وَالْجَوَابِ",
+        "claim_ar": "قاعدة: يكمل المعنى بدخول همزة الشرط على جملة الشرط والجواب باعتبارهما كشيء واحد، وبالتالي يحتاج جواب الشرط إلى دخول الهمزة لتمام المعنى.",
+        "claim_en": "Rule: The meaning is completed by the entrance of the hamza upon both the conditional sentence and its answer, treating them as a single unit; thus the answer requires the hamza to complete the sense.",
+        "root": null,
+        "lemma": "إِذَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The cited source passages discuss the behavior of an initial hamza in conditional constructions using examples like «أَفَإِنْ مَاتَ...». I have applied these general rules to the particle sequence in this ayah (فَإِذَا). Please verify that the examples in the source are intended to be generalized to this exact construction/reading in the ayah."
+    ]
+  },
+  "n_chunks": 4
+}

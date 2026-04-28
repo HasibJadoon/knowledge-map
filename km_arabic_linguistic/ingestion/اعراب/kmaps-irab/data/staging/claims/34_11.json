@@ -1,0 +1,37 @@
+{
+  "layer": "irab",
+  "ayah_key": "34:11",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(فِي الْآخِرَةِ) : يَجُوزُ أَنْ يَكُونَ ظَرْفًا الْعَامِلُ فِيهِ «الْحَمْدُ» أَوِ الظَّرْفُ؛ وَأَنْ يَكُونَ حَالًا مِنَ (الْحَمْدُ) وَالْعَامِلُ فِيهِ الظَّرْفُ.",
+        "claim_ar": "شَرطُ «في ...» في هذه الأمثلة أنه يجوز أن تعمل ظرفًا (حالًا ظرفيًّا يتعلّق بالفعل) أو أن تكون حالًا متعلّقة بما قبلها؛ بالتالي عبارة «في السَّرْدِ» في هذه الآية قد تُؤوَّل ظرفًا أو حالًا بحسب الإسناد.",
+        "claim_en": "The cited passage states that a 'في ...' phrase (example: 'في الآخرة') may function either as a zarf (adverbial of time/place attached to the verb) or as a hal (circumstantial) relating to what precedes. Accordingly, the phrase 'في al-sard' in this verse could be interpreted as either a zarf or a hal depending on attachment.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source example specifically discusses '(في الآخرة)'; applying this alternation to 'في السرد' in this ayah is an extrapolation and requires confirmation from the commentator's treatment of this exact verse.",
+        "quran_ref": "S34:A11"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَأُوتِيَتْ) : يَجُوزُ أَنْ يَكُونَ حَالًا، «وَقَدْ» مُقَدَّرَةٌ، وَأَنْ يَكُونَ مَعْطُوفًا؛",
+        "claim_ar": "في بعض مواضع التعليق المذكور يذكر المصنّف أنّ «وَقَدْ» قد تكون مُقدّرة؛ وبذلك يمكن افتراض أن «وَقَدِّرْ» في هذا الموضع قد تُحتمل فيه «قد» تقديرًا (مقدّرة) بحسب سياق القراءة أو الإعراب.",
+        "claim_en": "The commentary notes that 'وَقَدْ' can be understood as 'mutaqaddara' (an estimated/ellipted 'قد'). Thus one might posit that in 'وَقَدِّرْ' an implicit 'قد' could be considered, depending on the reading/analysis.",
+        "root": "قدر",
+        "lemma": "قَدَّرَ",
+        "confidence": "low",
+        "needs_review_reason": "The cited remark treats 'وَقَدْ' in a different illustrative context (discussion around 'وأُوتِيَتْ'); applying it to the imperative-form verb 'وَقَدِّرْ' in this ayah is tentative and needs verification against the full commentary for this verse.",
+        "quran_ref": "S34:A11"
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not contain an explicit iʿrāb discussion of the exact words of S34:A11; the extracted claims are based on analogous examples in the commentary (e.g. '(فِي الآخرةِ)' and discussion of 'وَقَدْ').",
+      "Applications of the cited general rules to the specific phrases in the ayah (e.g. 'في السَّرْدِ', 'وَقَدِّرْ') are therefore tentative and should be checked against any al-ʿIkbari entry that treats this verse directly."
+    ]
+  },
+  "n_chunks": 12
+}

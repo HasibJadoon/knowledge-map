@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:192",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "emphasis (إنّ)",
+        "source_quote_ar": "(إنّك) مثل إنّي (أنت) ضمير فصل",
+        "claim_ar": "حرف توكيد وفصل: «إنّك» تُستخدم لتوكيد الخبر وإبراز ثبوته في الكلام (توكيد تقريبي يميّز المسند إليه)",
+        "claim_en": "Particle of emphasis and separation: «innaka» is used to emphasize the predicate and foreground the affirmed reality (a reinforcing emphatic particle marking the subject).",
+        "device_branch": "maani",
+        "device_subtype": "emphasis_inna",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "من (تبيين/تعميم)",
+        "source_quote_ar": "و «من» في لِلَّذِينَ أَحْسَنُوا مِنْهُمْ للتبيين",
+        "claim_ar": "أداة نسبة/عموم تُبيّن العموم أو تُحدّد المقصود؛ هنا «مَنْ تُدْخِلِ النَّارَ» تعمّم الحكم على كل من يقع عليه الشرط.",
+        "claim_en": "The relative/indefinite particle «man» functions to generalize/specify; in «man tudkhil...» it generalizes the statement to anyone meeting the condition.",
+        "device_branch": "maani",
+        "device_subtype": "generalizing_relative_من",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "Labelled as 'generalizing' based on explanatory note in the source chunk; classification mapped to available maani types approximately."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "تنبيه (تحذير/وَصْف عقابي)",
+        "source_quote_ar": "فهذا تنبيه على أن الأمر كله للَّه وعلى وجوب التوكل عليه.",
+        "claim_ar": "الآية تعمل كتنبيه وتحذير: بيان أن الجزاء والعقاب بيد الله، ما يقتضي التوكل والاعتماد عليه.",
+        "claim_en": "The verse functions as a warning/alert: it notifies that judgment and punishment belong entirely to God, prompting reliance on Him.",
+        "device_branch": "maani",
+        "device_subtype": "tanbeeh_warning",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "ما (اسم موصول/مصدرية)",
+        "source_quote_ar": "(ما) اسم موصول مبنيّ في محلّ نصب مفعول به",
+        "claim_ar": "«مَا» هنا تعمل كاسم موصول/معطوف في سياقات تقريرية/تعريفية؛ في تركيبة النفي «وما للظالمين من أنصار» تفيد عدم وجود ناصر مطلقًا للظالمين.",
+        "claim_en": "The particle «ma» is treated as a relative/nominal particle in syntax; in the negation «wa ma lil-zalimina min ansarin» it conveys absolute nonexistence of supporters for the wrongdoers.",
+        "device_branch": "maani",
+        "device_subtype": "relative_pronoun_ما",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "Syntactic explanation taken from a grammatical commentary in the provided chunks; rhetorical labeling as 'absolute negation effect' is interpretive."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from Zamakhshari, Safi (al-Jadwal) and Darwish (I'rab). They are not the originally requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Claims are drawn only from the supplied chunks.",
+      "Some device_subtype labels (e.g., 'emphasis_inna', 'generalizing_relative_من') are pragmatic/interpretive mappings to the requested maani/bayan/badi taxonomy and may be approximations; see needs_review_reason fields where applicable.",
+      "source_quote_ar fields are exact substrings of the provided chunks and are intended to show the supporting textual evidence; classification still requires review if you need strict matching to the originally requested scholars' terminology."
+    ]
+  },
+  "n_chunks": 12
+}

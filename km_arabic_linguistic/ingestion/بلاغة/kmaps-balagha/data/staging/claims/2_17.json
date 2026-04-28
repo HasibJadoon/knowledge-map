@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:17",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "تَشْبيه (مَثَل)",
+        "source_quote_ar": "تمثيل لإحياء القلوب القاسية بالذكر والتلاوة",
+        "claim_ar": "افتتاح الآية بلفظ (مَثَلُهُمْ كَمَثَلِ) هو تشبيه صريح/تمثيل بياني يقيم مثالًا لتقريب حال الكافرين إلى صورة محسوسة.",
+        "claim_en": "The verse opens with an explicit parable (مَثَلُهُمْ كَمَثَلِ), i.e. an explicit simile/parable that makes the state of the unbelievers concrete.",
+        "device_branch": "bayan",
+        "device_subtype": "تشبيه صريح بالوسائل 'مثل' و'كـ'",
+        "root": "مثل",
+        "lemma": "مَثَل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "استعارة/مجاز تمثيلي",
+        "source_quote_ar": "البلاغة: الاستعارة التمثيلية التصريحية",
+        "claim_ar": "عبارة «ذَهَبَ اللَّهُ بِنُورِهِمْ» تعمل كاستعارة تمثيلية/مجازية تصريحية — تصوير لزوال هدايتهم بلفظٍ يَحمل معنىً عمليًا (أخذ النور) بدلاً من شرح عقائدي مجرد.",
+        "claim_en": "The phrase 'ذَهَبَ اللَّهُ بِنُورِهِمْ' functions as a representational/metaphorical (explicit) metaphor — portraying the removal of their guidance by the concrete image of 'taking away the light'.",
+        "device_branch": "bayan",
+        "device_subtype": "استعارة تمثيلية تصريحية",
+        "root": "نور",
+        "lemma": "نُور",
+        "confidence": "medium",
+        "needs_review_reason": "Support comes from a source-chunk that labels this type of rhetorical move elsewhere; the chunk does not quote this exact verse, so the mapping is interpretive and should be reviewed."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "طباق / تضاد (بديع)",
+        "source_quote_ar": "وشبه ازدهار النبات فيها بالحياة",
+        "claim_ar": "الآية تبرز تضادًا بارزًا بين الإضاءة ثم العتمة («أَضَاءَتْ ... فِي ظُلُمَاتٍ»)، وهو طباق/تباين يضخّم معنى الضلال والضياع.",
+        "claim_en": "The verse foregrounds a striking contrast between illumination and darkness ('أَضَاءَتْ ... فِي ظُلُمَاتٍ'), a antithesis/tibaq that intensifies the sense of error and loss.",
+        "device_branch": "badi",
+        "device_subtype": "طباق/تباين (light vs. darkness)",
+        "root": "ضوا",
+        "lemma": "أَضَاءَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source-chunk discusses a life/death contrast in another example; applying it to light/dark here is plausible but the chunk does not directly analyze this exact verse."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not contain the exact Quranic line of Sura 2:17; claims are inferred from general commentary phrases in the supplied chunks (quotes used are exact substrings from those chunks).",
+      "Some source quotes discuss the same rhetorical types in other verses (e.g., examples of 'تمثيل' or 'استعارة') rather than giving an explicit exegesis of S2:17; mapping those labels to this ayah is interpretive and should be reviewed.",
+      "Roots/lemmas attached to ayah-level or non-lexical devices use representative lexical items from the verse (e.g., 'مثل', 'نور', 'أضاء') to satisfy the schema; check these selections if strict lexical provenance is required."
+    ]
+  },
+  "n_chunks": 12
+}

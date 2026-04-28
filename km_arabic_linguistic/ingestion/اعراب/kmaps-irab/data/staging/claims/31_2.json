@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "31:2",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "هُمَا حَالَانِ مِنْ «آيَاتُ»",
+        "claim_ar": "«هُدًى وَرَحْمَةً» حالان متعلقان بـ«آيَاتُ».",
+        "claim_en": "'Hudan wa Rahmatan' are two ḥāl (circumstantial accusatives) that are attached to (modify) 'آيَاتُ'.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S31:A2"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "وَبِالرَّفْعِ عَلَى إِضْمَارِ مُبْتَدَأٍ؛ أَيْ هِيَ، أَوْ هُوَ.",
+        "claim_ar": "«آيَاتُ» مبتدأ مرفوع على إضمار مبتدأ (أي: هي أو هو).",
+        "claim_en": "'آيَاتُ' functions as the mubtada' (subject), being raised on an elided (implied) subject (i.e., 'hiya' or 'huwa').",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S31:A2"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَالْعَامِلُ مَعْنَى الْإِشَارَةِ.",
+        "claim_ar": "العامل في البناء هنا معنى الإشارة من «تِلْكَ» (أي: معنى الإشارة هو ما يوجِب إِضمار المبتدأ ورفعه).",
+        "claim_en": "The governing factor (عامل) here is the demonstrative sense ('meaning of pointing') of 'تِلْكَ' — this demonstrative meaning licenses the elided subject and the raising (case) of the following noun.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S31:A2"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 7
+}

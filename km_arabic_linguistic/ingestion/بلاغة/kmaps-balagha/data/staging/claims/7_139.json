@@ -1,0 +1,25 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:139",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "(الواو) عاطفة (عملوا)",
+        "claim_ar": "الواو في «وَبَاطِلٌ» واو عطف تربط جملة «بَاطِلٌ مَا كَانُوا يَعْمَلُونَ» بما قبلها دون قطعٍ تام، أي للربط والتعقيب.",
+        "claim_en": "The waw in «وَبَاطِلٌ» functions as a coordinating conjunction (waaw of coordination), linking the clause «بَاطِلٌ مَا كَانُوا يَعْمَلُونَ» to the preceding clause rather than indicating a full pause.",
+        "device_branch": "maani",
+        "device_subtype": "waaw_atf",
+        "root": "بطل",
+        "lemma": "بَاطِل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not include a direct commentary on this specific verse (S7:A139); only a general discussion of the conjunction واو was found and used to support the claim. Other plausible rhetorical readings of the verse (e.g., parallelism, repetition of ما, or emphasis by إِنَّ) are not supported by exact substrings in the supplied source chunks and therefore were not extracted. If you can provide tafsir/balagha excerpts that discuss this ayah specifically (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir balagha passages), I can extract additional claims."
+    ]
+  },
+  "n_chunks": 12
+}

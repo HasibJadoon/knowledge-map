@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:186",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No source chunk contains any exact substring quoting or discussing the words of S26:A186 or any explicit إعراب claim concerning that ayah; therefore no claims could be extracted.",
+      "Per instruction, source_quote_ar must be an exact substring of one of the provided source_chunks. The available chunks are general discussions (causes of revelation, أساليب بلاغية، إلخ.) and do not include the ayah text or its syntactic analysis, so no extrapolation was made."
+    ]
+  },
+  "n_chunks": 12
+}

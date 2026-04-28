@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:43",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No confident rhetoric claims could be extracted for S7:A43 from the provided source_chunks. The chunks are commentaries (Zamakhshari excerpts) that do not contain explicit, extractable statements about the specific rhetorical devices (from the requested taxonomy) operating in this ayah or do not quote the ayah phrasing in a way that supports a device identification.",
+      "To extract balagha claims reliably please provide tafsir-balagha / rhetoric excerpts (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī or a dedicated tafsir-balagha section) that explicitly discuss S7:A43 or that quote the exact phrases from this ayah while commenting on devices such as iltifāt, takrār, kināyah, istiʿāra, etc.",
+      "Alternatively, supply source chunks that include explicit keywords (e.g., \"التفات\", \"تكرار\", \"كناية\", \"استعارة\", \"إعجاز\") in proximity to quotations of this ayah so that a supported claim can be produced with an exact source_quote_ar substring."
+    ]
+  },
+  "n_chunks": 12
+}

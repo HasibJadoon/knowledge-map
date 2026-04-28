@@ -1,0 +1,47 @@
+{
+  "layer": "irab",
+  "ayah_key": "20:126",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَجُعِلَ الْفِعْلُ الَّذِي بَعْدَهُ مُفَسِّرًا لَهُ",
+        "claim_ar": "الاسم الإشارى (مثله ذَلِكَ/كَذَلِكَ) قد يقْدِرُ له فعل محذوف، والفعل الذي يليه يُجْعَلُ مُفَسِّرًا لِمَعْنَاهُ.",
+        "claim_en": "The demonstrative (like ذَلِكَ/كَذَلِكَ) can have an implied (elided) verb (taqdir); the verb that follows is often made to explicate its meaning.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The cited discussion in the source treats ذَلِكُمْ in a different example; applying the same taqdir-analysis to كَذَلِكَ in this ayah is plausible but not explicitly stated in the provided chunk."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "taalluq",
+        "source_quote_ar": "أَوْ حَالٌ مِنَ الضَّمِيرِ",
+        "claim_ar": "الْيَوْمَ قد يُحْسَبُ ظرفًا/حالًا متعلقًا بالفعل التالي (تُنْسَى)، أي أنه متعلق ببنية الفعل ولا يحتاج إلى جرّ أو نعت هنا.",
+        "claim_en": "Al-yawm can function as an adverbial/hal attached to the following verb (تُنْسَى), i.e. it is an adverbial circumstantial rather than a genitive modifier here.",
+        "root": "يوم",
+        "lemma": "يَوْم",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the possibility of phrases being read as حال/وصف في أمثلة أخرى; there is no explicit treatment of الْيَوْمَ in S20:126 in the provided text, so the attachment to تُنسَى is inferred."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "وَقُرِئَ النَّاسِي يُرِيدُ آدَمَ، وَهِيَ صِفَةٌ",
+        "claim_ar": "وردت قراءة صِفَوية لأشكالِ نَسِيَ (النَّاسِي) في مواضع أخرى، أي تُقرأ أحيانًا بصيغة صفة/اسمٍ فاعلٍ بدلاً من القراءة الفعلية.",
+        "claim_en": "There is an attested qira'at in other places reading a form of نَسِيَ as النَّاسِي (an adjectival/participial reading), i.e. a non-verbal/ descriptive reading of the root نَسِيَ.",
+        "root": "نسي",
+        "lemma": "نَسِىَ",
+        "confidence": "low",
+        "needs_review_reason": "The source quote refers to a different verse (Taha 115) and to a participial reading there; its relevance as an alternate reading or analysis for فَنَسِيتَهَا in S20:126 is uncertain and requires further verification."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks offer an explicit iʿrāb commentary on Sūrat Ṭā-Hā 20:126 itself. The extracted claims are drawn from related examples or general statements in the given excerpts and are therefore partly inferential.",
+      "Some source quotations concern other words/examples (e.g. ذَلِكُمْ, النَّاسِي, فِي كِتَابٍ) rather than the exact words of this ayah; applying those general remarks to the words of S20:126 should be verified against the full commentary for this ayah.",
+      "Confidence levels reflect that these are extrapolations from similar constructions in the provided chunks; consult the full al-Tibyan entry for this specific ayah to confirm or refine these claims."
+    ]
+  },
+  "n_chunks": 12
+}

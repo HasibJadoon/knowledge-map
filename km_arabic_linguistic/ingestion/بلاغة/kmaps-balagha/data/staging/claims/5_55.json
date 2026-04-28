@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:55",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "(إِنَّما وَلِيُّكُمُ اللَّهُ وَرَسُولُهُ وَالَّذِينَ آمَنُوا)",
+        "claim_ar": "استخدام أداة الحصر «إِنَّمَا» لتقييد الحُكم بالولاء على الله ورسوله والمؤمنين المذكورين فقط، أي تأكيد الحصر والتحديد.",
+        "claim_en": "Use of the restricting particle 'إِنَّمَا' to limit/qualify the predicate of guardianship (waliyy) to God, His Messenger, and the described believers only — an exclusive/limiting emphasis.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "وَهُمْ راكِعُونَ",
+        "claim_ar": "واو الحال تُدخِل جملة حالية (وهم راكعون) لتبيان حالة المؤمنين عند تَأدية الإنفاق، موضّحة للتزامن بين الصلاة والإيتاء.",
+        "claim_en": "The waaw introducing a circumstantial clause ('waaw al-hal') — 'and they are bowing' — indicates the simultaneous state of the believers when giving (zakah), highlighting simultaneity and vividness (they give while bowing).",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "lemma/root for the pronoun/particle not provided in input"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are primarily grammatical/exegetical (Darwish I'rab and Zamakhshari excerpts). Explicit balagha discussions from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a dedicated tafsir-balagha section were not present in the chunks supplied.",
+      "Some input word entries lack root/lemma information (e.g., word_index 12), so root/lemma fields are null where not available."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:111",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No eligible source excerpts from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī or a tafsīr-bilāgha section were provided — the supplied chunks are from az-Zamakhsharī and do not contain the target ayah text (or quotations of it). The task requires source_quote_ar to be an exact substring of one of the provided source chunks; because no provided chunk quotes or discusses S5:A111 wording, no claims can be extracted under the given constraints. If you supply relevant excerpts from the required authors (or any source chunk that contains the ayah text or explicit rhetorical commentary on it), I can extract and return rhetoric claims."
+    ]
+  },
+  "n_chunks": 12
+}

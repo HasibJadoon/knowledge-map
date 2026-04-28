@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:255",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "إِلَّا",
+        "claim_ar": "تكرار أدوات النفي والحصر (مثل: لَا ... وَلاَ ...، وإِلَّا) لتقوية النفي والحصر والتوكيد على استثناء واحدية الإلهية.",
+        "claim_en": "Repetition of negation/exclusivity particles (e.g. لَا ... وَلَا ..., وإِلَّا) to strengthen negation and exclusivity, thus emphasizing God's uniqueness.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 29,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "فِي الْأَرْضِ",
+        "claim_ar": "مقابلة/توازي بين «مَا بَيْنَ أَيْدِيهِمْ» و«وَمَا خَلْفَهُمْ» لبيان شمول علمه وإحاطته بكل ما أمامهم وما وراءهم.",
+        "claim_en": "Antithetical parallelism between “what is before them” and “what is behind them” to express the comprehensiveness of His knowledge and encompassing awareness.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "بين",
+        "lemma": "بَيْن",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains the substring 'فِي الْأَرْضِ' but does not contain the full contrasted phrase from the ayah; verify against fuller tafsir source for corroboration."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "التفات بلاغي: افتتاح بالاسم 'اللَّه' ثم الانتقال مباشرة إلى صفات ذاتية (الْحَيُّ الْقَيُّومُ) لرفع التأكيد والتنوع الأسلوبي.",
+        "claim_en": "Rhetorical shift (iltifat): beginning with the proper name 'Allah' and immediately attributing divine qualities (the Ever-Living, the Sustainer) to increase emphasis and stylistic variety.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the token 'اللَّه' but does not include explicit commentary in these chunks that labels this construction as iltifat; confirm with targeted balagha tafsir."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from Zamakhshari excerpts and do not comprehensively cover balagha commentaries requested (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha).",
+      "Several claims reference multi-word rhetorical structures of the ayah while the matched source_quote_ar is a single-word substring in the chunks; such matches should be reviewed against fuller tafsir texts to confirm the rhetorical reading.",
+      "If you can provide tafsir-balagha chunks from the specified authors (or ensure the chunks include the ayah text and their balagha commentary), I can produce more complete and higher-confidence claims."
+    ]
+  },
+  "n_chunks": 12
+}

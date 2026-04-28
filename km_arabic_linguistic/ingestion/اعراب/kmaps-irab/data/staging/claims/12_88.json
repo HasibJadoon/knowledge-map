@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:88",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "(مُزْجَاةٍ) : أَلِفُهَا مُنْقَلِبَةٌ عَنْ يَاءٍ، أَوْ عَنْ وَاوٍ، لِقَوْلِهِمْ زَجَا الْأَمْرُ يَزْجُو.",
+        "claim_ar": "ألف كلمة «مُزْجَاةٍ» مبدلة عن ياء أو عن واو (أي الأصل مع ياء أو واو ثم بدلت ألفاً).",
+        "claim_en": "The alif in «مُزْجَاةٍ» is a substitution for an original ya' or waw (i.e., the original form had ya/waw which was replaced by alif).",
+        "root": "زجو",
+        "lemma": "مُّزْجَىٰة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "(فَأَوْفِ لَنَا الْكَيْلَ) : أَيِ الْمَكِيلَ.",
+        "claim_ar": "«الْكَيْلَ» مقصود به «الْمَكِيلَ» (توضيح المعنى/المراد بالكلمة).",
+        "claim_en": "The phrase «فَأَوْفِ لَنَا الْكَيْلَ» clarifies that «الْكَيْلَ» means «الْمَكِيلَ» (i.e., the measured amount/measure).",
+        "root": "كيل",
+        "lemma": "كَيْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

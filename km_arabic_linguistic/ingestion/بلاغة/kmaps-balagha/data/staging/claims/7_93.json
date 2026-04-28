@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:93",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "التفات/نداء (iltifat)",
+        "source_quote_ar": "يا قَوْمِ",
+        "claim_ar": "نداء مخاطب بـ «يا قوم» لتوجيه الخطاب وإبراز مخاطبة النبي لجمهوره وجذب الانتباه إليه.",
+        "claim_en": "Vocative address 'يا قوم' — a direct address to the people that draws attention, personalizes the appeal, and foregrounds the speaker's relationship to the audience.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "فصل ووصل (فصل مقصود)",
+        "source_quote_ar": "حذف العاطف من «قال» خلافا للآية الأولى في قصة نوح، والسر في ذلك أن العاطف ينتظم الجمل حتى يصيرها كالجملة الواحدة، فاجتنب لإرادة استقلال كل واحدة منها في معناها.",
+        "claim_ar": "إرادة فصل الكلام أو تجنّب ربط الجمل بعاطف معين لإضفاء استقلالية كل جملة في المعنى وزيادة الوضوح والوقار في العرض.",
+        "claim_en": "Deliberate syntactic separation (avoiding linking conjunctions) to preserve the independence of clauses, thereby increasing clarity, emphasis, and the solemnity of each statement.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary discusses omission of conjunction/connector in a related narrative; further check is needed to confirm the same rhetorical move is being invoked specifically for S7:A93."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "استئناف/أسلوب خطابي (asloob_hakim)",
+        "source_quote_ar": "الواو استئنافية، والكلام مستأنف مسوق لبيان أحوال الأمم بصورة مجملة",
+        "claim_ar": "استخدام أسلوب الاستئناف (الواو الاستئنافية) واستئناف الكلام لعرض أحوال الأمم وتحويل السرد إلى تنبيه وعبرة عامة.",
+        "claim_en": "Use of resumptive style (the 'wa' of resumption) — restarting or resuming statements to present the states of nations as a concise admonition; a sermonic stylistic move that frames the narrative as warning.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim (استئناف)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source passage treats resumption in general exposition; confirming its direct application to the syntactic/stylistic pattern of this specific verse would be useful."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from Zamakhshari and Darwish (i'rab) commentaries; the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) are not present in the chunks. Claims are drawn only from the available chunks.",
+      "Some quoted source passages discuss stylistic phenomena in the commentary of other verses or narratives; their direct applicability to S7:A93 is inferred and should be verified against primary rhetorical treatments of this exact verse.",
+      "No explicit substrings in the provided chunks quoted the full ayah wording; claims therefore reference relevant phrases or general stylistic remarks present in the chunks rather than verse-specific balagha statements from the originally requested authors."
+    ]
+  },
+  "n_chunks": 12
+}

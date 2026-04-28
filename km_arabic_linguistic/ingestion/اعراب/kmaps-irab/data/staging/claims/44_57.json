@@ -1,0 +1,13 @@
+{
+  "layer": "irab",
+  "ayah_key": "44:57",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable إعراب claims found: none of the provided source_chunks contain an exact Arabic substring discussing or quoting the ayah (فَضْلًا مِن رَبِّكَ ذَلِكَ هُوَ الْفَوْزُ الْعَظِيمُ) or any explicit grammatical analysis of its words.",
+      "Requirement: each claim must include source_quote_ar that is an exact substring of one of the provided source_chunks. Because no such exact substring or relevant grammatical discussion is present in the chunks, no claims can be produced.",
+      "If you want claims extracted, please provide source material (chunks) that include the exact Arabic phrase from the given ayah or explicit grammatical commentary on its words."
+    ]
+  },
+  "n_chunks": 12
+}

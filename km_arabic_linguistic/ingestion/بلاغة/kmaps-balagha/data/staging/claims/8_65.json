@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:65",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "إِذا دَعاكُمْ وحد الضمير كما وحده فيما قبله",
+        "claim_ar": "توحيد الضمير في الخطاب (مخاطبة النبي والمخاطَب معاً) كوسيلة بلاغية للتوكيد والإيقاظ، وهو تحول في جهة المخاطبة (التنبيه إلى أن دعاء النبي ونداءُ المؤمنين موحدان للتوكيد).",
+        "claim_en": "Unification of the pronoun/address (addressing the Prophet together with the community) as a rhetorical shift (iltifat) to emphasize and rouse — the speech unifies the addressee for emphatic effect.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A65",
+        "rhetorical_effect": "تعزيز توكيد الأمر ورفع تأثير النداء على المخاطبين (يعظم أثر الأمر بكونه موجها للنبي ولمن يليه من المؤمنين)."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "وبالدعوة: البعث والتحريض.",
+        "claim_ar": "الصيغة الأمرية «حَرِّضِ» تعمل كلفظ إنشائي/تحريضي (استنهاض)، أي أنّ الفعل الأمر هنا يهدف إلى الحثّ المباشر وإثارة الاستعداد للقتال.",
+        "claim_en": "The imperative حَرِّضِ functions as an injunctive/performative (ijab/inshāʼ) — a direct exhortation intended to stimulate and mobilize for battle.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "حرض",
+        "lemma": "حَرِّضِ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A65",
+        "rhetorical_effect": "استنهاض الهمم وتحويل القول إلى فعل: الأمر المباشر يهدف إلى تحريك النفوس وإثارة الحماس والعمل."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "قد قللهم في أعينهم قبل اللقاء، ثم كثرهم فيها بعده",
+        "claim_ar": "المقابلة/التقابل العدديّ: تباين متعمد بين أخفّاء العدد في النفس («قِلّة») ثم إظهار الكثرة لدى العدو؛ استعمال التباين الرقمي (مئتان تغلب مئتين مقابل مائة تغلب ألفًا) لرفع المعنوية وخلق مَعْنًى بلاغيّ من التضاد العددي.",
+        "claim_en": "Antithetical juxtaposition (muqābala) using numeric contrast: deliberately placing small vs. large numbers (two hundred vs. one hundred defeating two hundred or a thousand) to create rhetorical contrast that boosts morale and produces striking effect.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "كثر",
+        "lemma": "كثْرَة / كثر",
+        "confidence": "medium",
+        "needs_review_reason": "الاستناد إلى تعليق التفسير في التشخيص البلاغي للتركيب العددي؛ المعنى البلاغي متفق عليه لكن تصنيف الجهاز (مقابلة/طباق) يمكن أن يتباين عند المذاهب البلاغية المختلفة.",
+        "quran_ref": "S8:A65",
+        "rhetorical_effect": "إبراز التباين العددي ليزيد من أثر الحثّ ويُظهِر قدرة المؤمنين ومعنوياتهم، كما يخيف الخصم بتبدّل القيَم الظاهرة (قِلّةٌ ظاهرة تتحول إلى قدرة فعلية)."
+      }
+    ],
+    "warnings": [
+      "المصادر المرفقة هي مقاطع من الزمخشري (الكشاف) فقط؛ لم تُزوَّد مقاطع من الجرجاني أو السكاكي أو البقّيلاني أو السيوطي أو أقسام تفسير البلاغة الأخرى المطلوبة في التعليمات. لذلك بعض الاستخلاصات البلاغية مبنية على شواهد الزمخشري وحده.",
+      "بعض التصنيفات البلاغية (خاصة تصنيف المقابلة/طباق) قد تحتاج مراجعة مقارنة بمآخذ الجرجاني والسكاكي والباقين؛ وضعت تقييمات الثقة (high/medium) حيث يتطلب التعليق مزيد تحقّق من مصادر البلاغة الأخرى."
+    ]
+  },
+  "n_chunks": 12
+}

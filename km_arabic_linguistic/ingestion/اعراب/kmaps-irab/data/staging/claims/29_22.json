@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "29:22",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain commentary or an exact quotation of the target ayah (S29:A22) or any grammatical statement that can be mapped to the words of that ayah. Cannot extract إعراب claims for this ayah from the given chunks.",
+      "Provided chunk ids: AL:CHUNK:9233d47435f0bdf437acdf3c, AL:CHUNK:d1aa9fed03cee2d535b1f058, AL:CHUNK:d1d5799eeb2e936af36b4e8e, AL:CHUNK:11d5124abe2e1fe0a679a543, AL:CHUNK:8387bd3ede6cc06bd4c5546f, AL:CHUNK:1a4b9c6c55b416cb39d609f9"
+    ]
+  },
+  "n_chunks": 12
+}

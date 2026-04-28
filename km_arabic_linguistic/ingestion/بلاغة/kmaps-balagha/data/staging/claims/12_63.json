@@ -1,0 +1,9 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:63",
+  "result": {
+    "error": "Invalid JSON structure. The content appears to be a series of text segments rather than a properly formatted JSON object.",
+    "claims": []
+  },
+  "n_chunks": 16
+}

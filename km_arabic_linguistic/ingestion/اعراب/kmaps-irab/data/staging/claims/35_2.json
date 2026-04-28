@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "35:2",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "«مَا» شَرْطِيَّةٌ فِي مَوْضِعِ نَصْبٍ بِيَفْتَحْ",
+        "claim_ar": "«مَا» في (مَا يَفْتَحِ اللَّهُ) شرطيّة وهي في موضع نصب (بِيَفْتَحْ).",
+        "claim_en": "'ma' in (مَا يَفْتَحِ اللَّهُ) is a conditional particle (شرطية) occupying the position of nasb (i.e. it functions as the conditional particle governing the verb 'yaf'tah').",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(مِنْ رَحْمَةٍ) : تَبْيِينٌ لِـ «مَا» .",
+        "claim_ar": "(مِنْ رَحْمَةٍ) تَبْيِينٌ لِـ «مَا»؛ أي أن (مِنْ رَحْمَةٍ) بيان لما يتعلق به حرف الشرط.",
+        "claim_en": "'min rahmah' is a clarification (tabyin) of the conditional 'ma' — i.e. (min rahmah) specifies/clarifies what the particle pertains to.",
+        "root": "رحم",
+        "lemma": "رَحْمَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 10
+}

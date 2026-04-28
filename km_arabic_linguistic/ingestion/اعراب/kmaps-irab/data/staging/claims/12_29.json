@@ -1,0 +1,99 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "يُوسُفُ",
+        "claim_ar": "يُوسُفُ مُنْتَهَى الْإِرَابِ بِالْفَتْحَةِ",
+        "claim_en": "Yusuf is the end of the irab with a fatha",
+        "root": "يُوسُف",
+        "lemma": "يُوسُف",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "أَعْرَضَ",
+        "claim_ar": "أَعْرَضَ مُنْتَهَى الْإِرَابِ بِالْفَتْحَةِ",
+        "claim_en": "A`radha is the end of the irab with a fatha",
+        "root": "عرض",
+        "lemma": "أَعْرَضَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "عَن",
+        "claim_ar": "عَن مُنْتَهَى الْإِرَابِ بِالْفَتْحَةِ",
+        "claim_en": "An is the end of the irab with a fatha",
+        "root": "",
+        "lemma": "عَن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word": "هَٰذَا",
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "هَٰذَا",
+        "claim_ar": "هَٰذَا مُنْتَهَى الْإِرَابِ بِالْفَتْحَةِ",
+        "claim_en": "Hatha is the end of the irab with a fatha",
+        "root": "",
+        "lemma": "هَٰذَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "اسْتَغْفَرَ",
+        "claim_ar": "اسْتَغْفَرَ مُنْتَهَى الْإِرَابِ بِالْفَتْحَةِ",
+        "claim_en": "Istaghfar is the end of the irab with a fatha",
+        "root": "غفر",
+        "lemma": "اسْتَغْفَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "ذَنب",
+        "claim_ar": "ذَنب مُنْتَهَى الْإِرَابِ بِالْفَتْحَةِ",
+        "claim_en": "Dhanb is the end of the irab with a fatha",
+        "root": "ذنب",
+        "lemma": "ذَنب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "إِنّ",
+        "claim_ar": "إِنّ مُنْتَهَى الْإِرَابِ بِالْفَتْحَةِ",
+        "claim_en": "Inn is the end of the irab with a fatha",
+        "root": "",
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "ذَنب",
+        "claim_ar": "ذَنب مُنْتَهَى الْإِرَابِ بِالْفَتْحَةِ",
+        "claim_en": "Dhanb is the end of the irab with a fatha",
+        "root": "ذنب",
+        "lemma": "ذَنب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "errors": []
+  },
+  "n_chunks": 16
+}

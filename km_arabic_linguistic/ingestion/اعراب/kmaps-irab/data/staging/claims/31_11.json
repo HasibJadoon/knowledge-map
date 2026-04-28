@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "31:11",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "وَبِالرَّفْعِ عَلَى إِضْمَارِ مُبْتَدَأٍ؛ أَيْ هِيَ، أَوْ هُوَ.",
+        "claim_ar": "كَلِمَةُ «خَلْقُ» مَرْفُوعَةٌ عَلَى إِضْمَارِ مُبْتَدَأٍ، أَيْ تَعْمَلُ خَبَرًا لِـ«هَذَا».",
+        "claim_en": "The word 'خَلْقُ' is nominative (marfū') as if on an omitted (iḍmār) subject; i.e., it functions as the predicate (khabar) of 'هَذَا'.",
+        "root": "خلق",
+        "lemma": "خَلَقَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk states the general rule 'الرفع على إضمار مبتدأ' but does not quote this exact verse; applying the rule to this specific occurrence (word 2) should be cross-checked with a direct iʿrāb statement on this āyah.",
+        "quran_ref": "S31:A11"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit, verse-specific iʿrāb statement for S31:11. The extracted claim is based on a general remark in the source about 'الرفع على إضمار مبتدأ' and its application to a demonstrative construction; please verify against a verse-specific commentary or additional iʿrāb evidence.",
+      "No explicit support in the chunks was found for the iʿrāb of other words in the verse (e.g., اللَّهِ as مضاف إليه, فَأَرُونِي as فعل أمر, or the syntactic role of following phrases); only the above general-rule substring could be used as a basis for a claim."
+    ]
+  },
+  "n_chunks": 7
+}

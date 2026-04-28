@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "38:16",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No إعراب (grammar/syntax) claims for ayah S38:A16 were found in the provided source chunks. None of the chunks contain the ayah text or substrings referring to its words, so no source_quote_ar could be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

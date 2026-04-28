@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:27",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "وَاللَّهُ يُرِيدُ أَنْ يَتُوبَ عَلَيْكُمْ",
+        "claim_ar": "مقابلة بين إرادة الله وإرادة أتباع الشهوات عبر تكرار الفعل «يُرِيدُ» لتوضيح التناقض بين المقاصد",
+        "claim_en": "Antithesis (muqābala) between God's will and the will of those who follow desires, realized by repeating the verb 'yurīdu' to highlight the contrast of purposes.",
+        "device_branch": "badi",
+        "device_subtype": "m uqābala",
+        "root": "رود",
+        "lemma": "أَرَادَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A27",
+        "rhetorical_effect": "يبين التنافر بين مصلحة الله وميل أتباع الشهوات، ويشدّ انتباه السامع إلى التفريق بين المقصدين"
+      },
+      {
+        "word_index": 12,
+        "claim_type": "مفعول مطلق (توكيد)",
+        "source_quote_ar": "أَنْ تَمِيلُوا مَيْلًا عَظِيمًا",
+        "claim_ar": "استخدام المفعول المطلق «مَيْلًا» مع صفة «عَظِيمًا» كأداة تشديد وتأكيد لمدى الانحراف المتوقع",
+        "claim_en": "Use of the absolute object (maf'ūl mutlaq) 'maylan' with the adjective 'ʿaẓīman' as an intensifying/emphatic device to stress the magnitude of the deviation.",
+        "device_branch": "maani",
+        "device_subtype": "itnaab",
+        "root": "ميل",
+        "lemma": "مَيْل",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A27",
+        "rhetorical_effect": "يضخم صورة الانحراف ويحوله إلى تحذير أعلى شدّة أمام المخاطبين"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "حركة سياقية/انتقال موضوعي",
+        "source_quote_ar": "كلام مستأنف مسوق لتتمة بيان ما سبق من أحكام.",
+        "claim_ar": "تحريك سياقي: الآية تعمل كاستئناف وتسريع لبيان متابعة الأحكام والتمييز بين مراد الله ومراد أتباع الشهوات في السياق العام للسورة",
+        "claim_en": "Surah movement / contextual transition: the verse functions as a resumption and continuation that distinguishes God's intention from that of those following desires within the broader legislative/discursive flow of the surah.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "تصنيف كحركة سورة يحتاج تحقق تحليلي أوسع لأن المصادر المقتبسة هي إعرابية وتعرض الحركة بشكل موجز",
+        "quran_ref": "S4:A27",
+        "rhetorical_effect": "يوفر سياقًا يؤطر الاستدراك والبيان، ويربط الحكم العام بفرق المقاصد بين الفاعلين"
+      }
+    ],
+    "warnings": [
+      "مصادر النص المرفقة هي في الغالب شروحات إعرابية (دارويش)؛ استنتاج بعض الفنون البلاغية (مثل «مقابلة» أو «حركة السورة») يعتمد على قراءة تفسيرية قد تحتاج تدقيقا بمصادر بلاغية مخصصة (الجرجاني، السقاكي، السيوطي، الباقلاني) إن وُجدت.",
+      "تعريفات الأصناف البلاغية هنا مبسطة لتوافق قائمة الأنواع المطلوبة. بعض التصنيفات (مثلاً اختيار 'itnaab' للمفعول المطلق) قابلة للنقاش بين الباحثين البلاغيين، فراجع مصادر البلاغة المتقدمة عند الحاجة.",
+      "حقول 'root' و'lemma' نقلت من بيانات الكلمات المرسلة؛ إذا تغيّرت تقسيمات كلمات المصدر قد يتطلب ذلك مراجعة مطابقة الاقتباسات العربية في 'source_quote_ar'."
+    ]
+  },
+  "n_chunks": 12
+}

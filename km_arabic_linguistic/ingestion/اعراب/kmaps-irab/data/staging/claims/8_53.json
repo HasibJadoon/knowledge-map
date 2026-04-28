@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "8:53",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "غير : اسم ملازم للإضافة والإبهام ، فلا تتعرف ما لم تقع بين صدين  ، ومن ثم جاز وصف المعرفة بها في قوله : غير المغضوب عليهم [ الفاتحة : 7 ] .",
+        "claim_ar": "الجذر «غير» (اسم) ملازم للإضافة والإبهام، ولا يتعرف إلا إذا وقع بين صدّين (ويمكن وصف المعرفة به كما في «غير المغضوب عليهم»).",
+        "claim_en": "The lexeme ghayr (as a noun) is habitually associated with annexation/addition and vagueness; it does not become definite unless it occurs between two definite elements (and it may be used to describe something definite, as in \"ghayr al-maghdub 'alayhim\").",
+        "root": "غير",
+        "lemma": "غير",
+        "confidence": "needs_review",
+        "needs_review_reason": "The cited passage discusses the noun 'غير'. In the ayah the form is the participle/verb 'مُغَيِّرًا' — applicability of the noun-rules to this verbal/participial form requires review."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "الأصل أن تكون وصفا للنكرة  ، نحو : فنعمل غير الذي كنا نعمل [ الأعراف : 53 ] .",
+        "claim_ar": "الأصل أن «غير» تكون وصفًا للنكرة (أي تصف نكرة)، كما في المثال «فنعمل غير الذي كنا نعمل».",
+        "claim_en": "By default, 'ghayr' functions as a descriptor of an indefinite (i.e., it describes an indefinite noun), as in the example \"fa na'mal ghayra alladhi kunna na'mal\".",
+        "root": "غير",
+        "lemma": "غير",
+        "confidence": "needs_review",
+        "needs_review_reason": "Source states a general syntactic-semantic behavior of the noun 'غير'. The verse uses a form derived from the same root (مُغَيِّرًا); whether the same analysis (description-of-indefinite) applies to the participle/verb in this context should be verified by a grammarian."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وتقع حالا إن صلح موضعها ( لا ) واستثناء إن صلح موضعها ( إلا ) فتعرب بإعراب الاسم التالي ( إلا ) في ذلك الكلام .",
+        "claim_ar": "«غير» قد تقع حالًا أو استثناءً، وإذا صلُح موضعها فإنها تعرب بحسب ما يُعرب به الاسم التالي لها.",
+        "claim_en": "Ghayr can occur as a circumstantial accusative (ḥāl) or as an exception (istaṯnā'), and when it suitably occupies such a position it is parsed according to the case of the following noun.",
+        "root": "غير",
+        "lemma": "غير",
+        "confidence": "needs_review",
+        "needs_review_reason": "The rule in the source concerns the particle/noun 'غير'. Applying it directly to the participial/verbal form in the verse (مُغَيِّرًا) is not explicit in the source and needs specialist verification."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks (al-Itqan excerpts) discuss the lemma/particle/noun «غير» and general rules about its syntax and meaning, but none of the chunks explicitly analyze the specific ayah S8:A53 or the exact morphological forms in it (e.g., the participle/verb مُغَيِّرًا or يُغَيِّرُوا).",
+      "The extracted claims are therefore generalizations about the root/lemma «غير» from the sources; their direct applicability to the participial/verbal occurrences in this verse is uncertain and flagged in each claim (needs_review). Recommend consulting a grammatical commentary that treats this specific verse/form to confirm or adjust these analyses."
+    ]
+  },
+  "n_chunks": 12
+}

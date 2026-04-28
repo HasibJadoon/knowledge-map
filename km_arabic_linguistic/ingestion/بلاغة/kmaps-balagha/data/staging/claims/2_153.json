@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:153",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain an exact substring of the ayah text (يَاأَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ), nor do they cite or quote this verse explicitly. The tool requires a source_quote_ar that is an exact substring of one of the given chunks to attribute a rhetorical claim. Please provide tafsir/بلاغة excerpts (from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir balagha) that discuss or quote this ayah so claims can be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

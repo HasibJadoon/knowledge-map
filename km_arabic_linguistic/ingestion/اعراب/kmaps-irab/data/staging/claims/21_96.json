@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:96",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "هُمْ: مُبْتَدَأٌ",
+        "claim_ar": "«هُمْ» ضمير مبتدأ",
+        "claim_en": "The pronoun «hum» functions as the mubtada (subject).",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted analysis in al-Tibyan is given for the phrase «وَهُمْ فِي غَفْلَةٍ» (a different verse). Applying the same status to «وَهُمْ» in this ayah is plausible but context-dependent; confirm with the specific verse commentary."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "taalluq",
+        "source_quote_ar": "و (مِنْ ذِكْرٍ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِيَأْتِيهِمْ",
+        "claim_ar": "حكم تعلق جار ومجرور مثل «مِنْ ...»: يجوز أن يتعلّق بالفعل (يتعلق بَيَأْتِيهِمْ)، ويجوز أن يكون صفۃً لاسم أو حالًا",
+        "claim_en": "A prepositional genitive phrase introduced by «min» (e.g. «min ...») may attach to a verb (i.e. be syntactically governed by the verb), or it may serve as an adjectival/attributive phrase or as a hal (circumstantial adverbial).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source example discusses «مِنْ ذِكْرٍ» specifically; the applicability to «مِنْ كُلِّ حَدَبٍ» in this ayah is an extrapolation and should be confirmed in the verse-specific commentary."
+      }
+    ],
+    "warnings": [
+      "The quoted passages in the provided source chunks come from discussions of other verses (e.g. «وَهُمْ فِي غَفْلَةٍ», «مَا يَأْتِيهِمْ مِنْ ذِكْرٍ»). The claims above are drawn from those discussions and mapped to words in S21:96 by analogy; verify verse-specific applicability in the original commentary for S21:96.",
+      "Some source quotes offer multiple syntactic possibilities (uses words like 'يجوز'). Such indeterminate analyses are recorded as possibilities (taalluq) with medium confidence rather than single definitive irāb assignments."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "53:13",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب claims or quotations for سُورَةُ النَّجْم (53) آيَة 13 found in the provided source chunks. Source_quote_ar must match an exact substring of a chunk; none of the chunks contain the ayah text or explicit grammatical comments on it."
+    ]
+  },
+  "n_chunks": 12
+}

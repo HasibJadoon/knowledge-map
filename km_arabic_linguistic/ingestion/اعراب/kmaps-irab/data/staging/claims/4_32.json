@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:32",
+  "result": {
+    "claims": [
+      {
+        "word_index": 20,
+        "claim_type": "taalluq",
+        "source_quote_ar": "«مِنْ» هَاهُنَا لِابْتِدَاءِ الْغَايَةِ؛ وَالْمَعْنَى: تَسَبَّبُوا",
+        "claim_ar": "حرف الجر «مِنْ» هاهنا لابتداء الغاية ومتبوعه (مَجرور) متعلق بالفعل «اسألوا»؛ أي للدلالة على الاستمداد أو التسبب من فضل الله.",
+        "claim_en": "The preposition مِنْ here denotes the initiation of the goal (ابتداء الغاية) and its genitive complement is attached to the verb اسألوا — indicating seeking/obtaining from Allah's bounty.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 21,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "«مِنْ» هَاهُنَا لِابْتِدَاءِ الْغَايَةِ؛ وَالْمَعْنَى: تَسَبَّبُوا",
+        "claim_ar": "اسم الجار والمجرور «مِنْ فَضْلِهِ» يعبّر عن مصدر/غاية الرجاء (الاستمداد من فضل الله)، أي المعنى العملي: اطلبوا تفضّل الله واستمسكوا بفضله.",
+        "claim_en": "The prepositional phrase مِنْ فَضْلِهِ expresses the source/goal of the request (seeking/deriving from Allah's bounty) — i.e. the practical meaning: ask for Allah's favour and obtain from His bounty.",
+        "root": "فضل",
+        "lemma": "فَضْل",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

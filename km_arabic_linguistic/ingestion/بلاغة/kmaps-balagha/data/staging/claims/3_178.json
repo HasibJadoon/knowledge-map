@@ -1,0 +1,56 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:178",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "نفي مؤكد (لا زائدة)",
+        "source_quote_ar": "وَلا زائدة لتوكيد النفي",
+        "claim_ar": "الـ«وَلَا» في مطلع الآية عبارة عن «لا» زائدة للتوكيد: تُشدِّد النفي وتمنع توهّم حالية أو جزئية الذكر لدى المكفرين (كما في تعليق القرّاء عند عبارة «ولا زائدة لتوكيد النفي»).",
+        "claim_en": "The initial 'wa-la' functions as an added 'la' for emphatic negation: it strengthens the negation and prevents the mistaken assumption of a partial/qualified mention by the disbelievers (as noted in the commentary phrase 'وَلا زائدة لتوكيد النفي').",
+        "device_branch": "maani",
+        "device_subtype": "tawkid_nafy",
+        "root": null,
+        "lemma": "لَا",
+        "confidence": "high",
+        "needs_review": false,
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "حصر/قصر بأداة «إِنَّمَا»",
+        "source_quote_ar": "وَإِنَّما",
+        "claim_ar": "استخدام «إِنَّمَا» للحصر والقصر: العبارة «إِنَّمَا نُمْلِي لَهُمْ…» تقصر ما يُعطى لهم على غرض محدّد (ليس نفعًا حقيقيًا بل سبب لزيادة الإثم)، أي أنها أداة حصر بلاغي (حصر معنى الإمهال وتأويله).",
+        "claim_en": "Use of 'innama' for restriction/limitation: 'innama numli lahum...' confines what is given to them to a specific purpose (not a true benefit but a cause of increased sin). It is a rhetorical device of limitation.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review": false,
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "أسلوب تحذيري/تنبيه (أسلوب حكيم)",
+        "source_quote_ar": "وَيُحَذِّرُكُمُ اللَّهُ نَفْسَهُ",
+        "claim_ar": "الآية تندرج في أسلوب تحذيري يذكر قدرة الله وتنبيهَه بنفسه على نتيجة الإمهال، وهو أسلوب بلاغي لتحريك الخوف والوعي عند السامع (مذكور في الشرح: «وَيُحَذِّرُكُمُ اللَّهُ نَفْسَهُ ليكون على بال منهم»).",
+        "claim_en": "The verse employs a warning/admonitory style that invokes God's own warning and power regarding the consequences of respite; this stylistic device activates fear and awareness in the hearer (as the commentary notes: 'وَيُحَذِّرُكُمُ اللَّهُ نَفْسَهُ...').",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review": true,
+        "needs_review_reason": "The quoted source passage discusses general warning-style rhetoric in related verses; the link to this specific wording (S3:178) is interpretive/indirect and may need corroboration from the requested balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha)."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are predominantly from al-Kashshaf (Zamakhshari) and Safi's al-Jadwal; the developer requested al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir-balagha sections. Relevant quotes/claims from those specified authors may be missing.",
+      "Some rhetorical attributions (especially broader style-level claims) are inferential from commentary excerpts rather than explicit, verbatim balagha labels in the provided chunks; those claims are marked needs_review where the link is indirect.",
+      "I only used exact substrings that appear in the provided chunks for source_quote_ar as required; several obvious rhetorical features of S3:178 (e.g., repetition of نُمْلِي لَهُمْ) could not be quoted because that exact phrase did not appear in the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

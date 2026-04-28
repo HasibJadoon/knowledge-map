@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:165",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No usable source_quote_ar found in the provided source_chunks that contains the ayah text or commentary explicitly referring to S4:A165. Cannot extract balagha claims.",
+      "Provided chunks (ids: AL:CHUNK:5edc0ca0a90a09b7d622823c, AL:CHUNK:345e1057922ace35587b2c76, AL:CHUNK:90248872d0d1cf6fd99b59bc, AL:CHUNK:dfac428c7be9a274fb62e2d6, AL:CHUNK:c17fd7fd5ad0938f54eba724, AL:CHUNK:c880067b361e4362e61bc2ac) do not contain exact substrings of the ayah or explicit rhetorical commentary on this verse required by the extraction rules."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,43 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:91",
+  "result": {
+    "claims": [
+      {
+        "word_index": 17,
+        "claim_type": "irab",
+        "source_quote_ar": "(الْحَقُّ) : بِالرَّفْعِ عَلَى هَذَا خَبَرُ مُبْتَدَأٍ مَحْذُوفٍ.",
+        "claim_ar": "«الْحَقُّ» مرفوعٌ وعلى قوله هذا هو خبر (مبنيًا أو مرفوعًا) لمبتدأ محذوف / خبر «الَّذِي أُنْزِلَ»",
+        "claim_en": "«al-Haqq» is nominative and, on this reading, functions as the predicate (khabar) — either the predicate of «wal-ladhī unzila» or the predicate of an omitted (elliptical) subject.",
+        "root": "حقق",
+        "lemma": "حَقّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "وَلَوْ قُرِئَ الْحَقُّ بِالْجَرِّ، لَجَازَ عَلَى أَنْ يَكُونَ صِفَةً لِرَبِّكَ.",
+        "claim_ar": "لو قُرئَ «الْحَقُّ» مجرورًا لجاز أن يكون صفةً لـ «رَبِّكَ» (أي تغيير في الإعراب بحسب القراءة).",
+        "claim_en": "If «al-Haqq» were read in the genitive, it could validly be taken as an adjective (sifah) modifying «rabbika» — i.e., the reading would change its grammatical role/case.",
+        "root": "حقق",
+        "lemma": "حَقّ",
+        "confidence": "medium",
+        "needs_review_reason": "This is presented as a hypothetical/alternate reading; acceptance depends on adopted qirāʾa."
+      },
+      {
+        "word_index": 17,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "فِيهِ وَجْهَانِ ; أَحَدُهُمَا: هُوَ فِي مَوْضِعِ رَفْعٍ، وَ «الْحَقُّ» : خَبَرُهُ.",
+        "claim_ar": "المؤلف يذكر وجهين في الإعراب: أحدهما أن التركيب في موضع رفع وأن «الْحَقُّ» هو خبر له (أي وجود وجه بديل في الإعراب).",
+        "claim_en": "The author gives two possible analyses (waǧhan); one is that the construction is in the nominative and that «al-Haqq» is its predicate — i.e., an alternative grammatical analysis is possible.",
+        "root": "حقق",
+        "lemma": "حَقّ",
+        "confidence": "medium",
+        "needs_review_reason": "Author explicitly lists multiple possible analyses; which to adopt requires adjudication among readings/grammatical principles."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

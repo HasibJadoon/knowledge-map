@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:138",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "جناس",
+        "source_quote_ar": "نزلت في رجل من المنافقين يقال له: بشر.",
+        "claim_ar": "جناس بين فعل الأمر «بَشِّرِ» واسم العلم «بشر» المشار إليه في الرواية، أي تلاعب لفظي بين معنى الفعل واسم الشخص.",
+        "claim_en": "Paronomasia (jinas) between the imperative verb 'بَشِّرِ' (give glad tidings) and the proper name 'Bishr' (a hypocrite mentioned in the report), a verbal play linking the verb and the name.",
+        "device_branch": "badi",
+        "device_subtype": "جناس",
+        "root": "بشر",
+        "lemma": "بُشِّرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A138",
+        "rhetorical_effect": "wordplay/irony: the same-form name and verb create a biting lexical pun that intensifies the reproach (the verb 'give glad tidings' applied to painful punishment is highlighted by the name-match)."
+      }
+    ],
+    "warnings": [
+      "Only a single clear rhetorical claim (جناس between the verb and the reported proper name) is directly supported by the provided source chunks. Other possible devices (e.g., irony by contrast between «بشِّر» and «عذاباً أليماً», or muqabalah/tibaq) are not explicitly discussed in the supplied excerpts and therefore were not asserted.",
+      "If you want more device extractions (e.g., iltifat, muqabalah, bayanic figures), provide additional commentary chunks from the requested authors that explicitly analyze those devices for this verse."
+    ]
+  },
+  "n_chunks": 12
+}

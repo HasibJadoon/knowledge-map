@@ -1,0 +1,55 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:9",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "majaz",
+        "source_quote_ar": "المجاز في التعبير عن المشارفة على الترك بالترك سر بديع",
+        "claim_ar": "استخدام الفعل الماضي تَرَكُوا للدلالة على المشارفة/القرب (التعبير عن المشارفة بالترك) هو مجاز بلاغي بديع.",
+        "claim_en": "The use of the past verb تَرَكُوا to denote imminence/near-leaving (expressing approaching abandonment by saying 'they left') is a figurative usage (majāz) — a rhetorically artful device.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz (figurative/transfered sense)",
+        "root": "ترك",
+        "lemma": "تَرَكَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A9",
+        "rhetorical_effect": "Evokes urgency/fear by portraying probable abandonment as if already occurred, pressuring guardians to act to protect orphans."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "أمروا بأن يخشوا ربهم",
+        "claim_ar": "أسلوب الأمر والنهي («وَلْيَخْشَ ... فَلْيَتَّقُوا») يبرِز الصِيغة النَصِيحة/الوعظية — أسلوب حكيم توجيهي مَعنوي.",
+        "claim_en": "The imperative phrasing (e.g. وَلْيَخْشَ ... فَلْيَتَّقُوا) functions as a didactic/admonitory style — a wise, prescriptive rhetorical mode (aslūb ḥakīm).",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "خشي",
+        "lemma": "خَشِىَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A9",
+        "rhetorical_effect": "Frames the addressees as morally responsible guardians, prompting internalization of duty through admonition."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "itnaab",
+        "source_quote_ar": "فيخافوا على من في حجورهم من اليتامى ويشفقوا عليهم",
+        "claim_ar": "النص يصوغ حالة الخوف والشفقة تصويرًا حاثًّا لِلأوصياء (دعوة للعطف والوقاية)؛ هذا توبيخ/تأنيب بلاغي يحثّ على الرحمة والاحتراس.",
+        "claim_en": "The depiction of fearing for and pitying the orphans ('فيخافوا ... ويشفقوا عليهم') functions as an admonitory reproach (itnāb), urging guardians emotionally to act with compassion and vigilance.",
+        "device_branch": "maani",
+        "device_subtype": "itnaab (admonition/reproach)",
+        "root": "خشي",
+        "lemma": "خَشِىَ",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping classical commentator phrasing about emotional admonition to the specific ma'ānī sub-type 'itnaab' may need reviewer confirmation; classical labels vary.",
+        "quran_ref": "S4:A9",
+        "rhetorical_effect": "Stimulates empathy and anticipatory concern, motivating caretakers to avoid neglect through emotional reproach."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,9 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:35",
+  "result": {
+    "error": "Invalid request. Please provide a valid query or instruction.",
+    "claims": []
+  },
+  "n_chunks": 16
+}

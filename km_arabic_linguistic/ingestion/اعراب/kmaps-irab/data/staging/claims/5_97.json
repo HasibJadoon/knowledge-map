@@ -1,0 +1,22 @@
+{
+  "layer": "irab",
+  "ayah_key": "5:97",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "(وَلَا الْقَلَائِدَ) : أَيْ: وَلَا ذَوَاتِ الْقَلَائِدِ؛ لِأَنَّهَا جَمْعُ قِلَادَةٍ، وَالْمُرَادُ تَحْرِيمُ الْمُقَلِّدَةِ لَا الْقِلَادَةُ.",
+        "claim_ar": "اسم «الْقَلَائِدَ» جمع قِلَادَةٍ ويُفْهَمُ به «ذَوَاتِ الْقَلَائِدِ»؛ والمُرادُ تحريمُ المُقَلِّدَةِ لا القِلَادَةَ.",
+        "claim_en": "'al-qalā'id' is the plural of 'qilādah' and should be understood as 'dhawātu al-qalā'id' (those possessing/wearing necklaces); the intended prohibition is against the wearing/adornment (المُقَلِّدَة) not against the necklaces themselves.",
+        "root": "قلد",
+        "lemma": "قَلَٰٓئِد",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A97"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

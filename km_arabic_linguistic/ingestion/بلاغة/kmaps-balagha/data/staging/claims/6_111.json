@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:111",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "فاصل بلاغي / فاصلة مخالفة",
+        "source_quote_ar": "فعدل إلى فاصلة مخالفة تحسينا للنظم واتساقا في البلاغة.",
+        "claim_ar": "المفسّر يلاحظ استعمال «فاصلة مخالفة» بين الجمل لتفصيل كلّ جزء من الحجة والحفاظ على اتساق النظم البلاغي.",
+        "claim_en": "The commentator notes the use of a 'contrasting comma' (fasil mukhalifah) to separate clauses in order to clarify each part of the argument and to preserve rhythmic/ stylistic coherence.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (فاصل / وقفة بلاغية)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "حذف (إِبْحَاث جوابي)",
+        "source_quote_ar": "وحذف جواب «أن» كما تقول: إن شئت أن تقوم بنا إلى فلان نزوره",
+        "claim_ar": "المفسّر يشير إلى حذف «جواب أن» كإيجاز بلاغي في تركيب الجملة.",
+        "claim_en": "The commentator points out the omission (ellipsis) of the answer 'أن' as a rhetorical concision in the sentence structure.",
+        "device_branch": "maani",
+        "device_subtype": "ellipsis (حذف جواب)",
+        "root": null,
+        "lemma": "أَنَّ/أَنْ",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping 'حذف جواب «أن»' to the provided maani-subtypes is approximate; the taxonomy given did not list 'حذف' explicitly, so this is classified under maani (conciseness/ellipsis)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "تخييل/تصوير تشبيهي (تقديم مثال كأنّي)",
+        "source_quote_ar": "كأنه قيل: لو استطعت النفوذ إلى ما تحت الأرض أو الرقى إلى السماء",
+        "claim_ar": "المفسّر يعرض تصوّراً تشبيهيّاً («كأنه قيل...») لتقريب معنى الإتيان بآية من تحت الأرض أو من فوق السماء، أي كتشبيه/تصوير تخيّلي لتوضيح مدى الحرص والامتناع.",
+        "claim_en": "The commentator gives an imaginative simile ('as if it were said...') to illustrate the idea of bringing a sign from below the earth or from the heavens — a figurative framing that clarifies the intensity of the hypothetical.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih / illustrative simile (استخدام كأنّ للتصوير)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Assigning 'كأنه قيل' to 'tashbih' (simile) is interpretive; it could be read as general imaginative framing rather than a strict simile—needs review against more granular taxonomy."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are mainly from al-Kashshaf (Zamakhshari). Other requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) were not present in the input; claims are thus drawn from the available chunks only.",
+      "Some device mappings (e.g., 'حذف' / ellipsis and 'كأنه قيل' classification) required interpretive assignment to the supplied device categories and so have been given medium confidence; please review if a different granularity or category scheme is required."
+    ]
+  },
+  "n_chunks": 12
+}

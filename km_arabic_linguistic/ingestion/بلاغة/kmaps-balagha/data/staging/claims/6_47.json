@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:47",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "تقرير المعنى / إيضاح الدلالة",
+        "source_quote_ar": "بَغْتَةً فجأة",
+        "claim_ar": "الظرف بَغْتَةً يفيد الفجاءة والانقضاض المفاجئ للعذاب، أي أنّ مجيئه مفاجئ لا تحضير فيه.",
+        "claim_en": "'بَغْتَةً' functions as an adverb signalling suddenness/abruptness of the punishment — its coming is abrupt and without prior warning.",
+        "device_branch": "maani",
+        "device_subtype": "gloss/explication",
+        "root": "بغت",
+        "lemma": "بَغْتَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A47",
+        "rhetorical_effect": "Emphasizes the sudden, unexpected nature of divine punishment to alarm and warn the hearer."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from Zamakhshari (al-Kashshaf) only; requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha sections) are not present in the inputs. Claims are therefore limited to what appears in the supplied chunks.",
+      "Only explicit substrings found in the chunks were used for source_quote_ar. Other plausible rhetorical devices in the verse (e.g., contrast between 'بغتةً' and 'جَهْرَةً', or the rhetorical question 'هَلْ يُهْلَكُ...') could not be confidently extracted because the supplied chunks did not contain exact commentary substrings for those items."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "34:50",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَبِالْجَرِّ صِفَةً لِرَبِّي، أَوْ بَدَلًا.",
+        "claim_ar": "يُجَوَّزُ أنْ تُحْمَلَ عبارةُ «عَالِمِ الْغَيْبِ» بِالْجَرِّ على أنْ تَكُونَ صِفَةً لِـ «رَبِّي» أَوْ بَدَلًا منه.",
+        "claim_en": "It is permissible to take the phrase 'عَالِمِ الْغَيْبِ' in the genitive as either a descriptive adjective (sifa) for 'my Lord' (رَبِّي) or as a substitute (badal) for it — i.e., the phrase may be attached to رَبِّي.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S34:A50"
+      }
+    ],
+    "warnings": [
+      "The cited passage in al-Tibyan discusses the phrase «عَالِمِ الْغَيْبِ». That exact phrase does not appear as a contiguous word-sequence in the provided tokenization of S34:50; the extraction maps the author’s remark about attachment to the word رَبِّي (word_index 13: «رَبِّي»). Verify that applying this commentary to this verse (إِلَيَّ رَبِّي in S34:50) is intended."
+    ]
+  },
+  "n_chunks": 12
+}

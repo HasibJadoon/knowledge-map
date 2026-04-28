@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:51",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "iltifat",
+        "source_quote_ar": "هو أمر في معنى الخبر",
+        "claim_ar": "التفات: الانتقال البلاغي من صيغة تقرير/توكيد قائلة («قُلْ لَنْ يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا») إلى خطاب مباشر موجه للمؤمنين بأمر («فَلْيَتَوَكَّلِ الْمُؤْمِنُونَ»)، أي تحويل السياق من إخبار إلى مخاطبة لتحريك التوكل الفعلي.",
+        "claim_en": "Iltifat (shift of address/style): the verse shifts from a declarative assurance about divine decree to a direct imperative addressed to the believers (\"فَلْيَتَوَكَّلِ الْمُؤْمِنُونَ\"), changing the illocutionary force from report to address to prompt practical reliance.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "وكل",
+        "lemma": "تَوَكَّلْ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited Zamakhshari passage states the phenomenon as \"الأمر في معنى الخبر\" and gives examples; it supports a shift/force-change analysis but does not explicitly name it 'التفات' for this exact verse, so the mapping is inferential."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "naktah",
+        "source_quote_ar": "لنكتة فيه",
+        "claim_ar": "نكتة بلاغية: استخدام الأمر بمعنى الخبر كأداة بلاغية لخلق 'نكْتَة' — نقطة تأثيرية/مؤثرة تبرز التناقض الظاهري بين الخطر المحتمل وقطع العجز بالإيمان والتوكل.",
+        "claim_en": "Naktah (rhetorical punch/point): the use of an imperative-as-report (as discussed by Zamakhshari) produces a rhetorical 'punch' that highlights and intensifies the assurance of divine decree and the consequent call to trust.",
+        "device_branch": "other",
+        "device_subtype": "naktah",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source explicitly uses the term 'نكتة' about similar constructions; applying it to this verse is plausible but inferred rather than directly stated for this exact ayah."
+      }
+    ],
+    "warnings": [
+      "Source material provided is from Zamakhshari only and does not systematically use the modern technical labels (e.g., 'التفات', 'نكتة') for every verse; some device identifications are inferential based on the cited commentary passages.",
+      "source_quote_ar entries are exact substrings from the supplied chunks and are used as supporting evidence; those chunks discuss analogous constructions (e.g., 'الأمر في معنى الخبر') rather than this verse word-for-word.",
+      "Claims with 'medium' confidence should be reviewed against other classical balagha authorities (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) for corroboration and for finer subtype labeling."
+    ]
+  },
+  "n_chunks": 12
+}

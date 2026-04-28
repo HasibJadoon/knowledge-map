@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "هم المؤمنون",
+        "claim_ar": "النداء بـ «يا أيها الذين آمنوا» تحويل الخطاب إلى مخاطَب مخصوص (التنبيه والاختصاص) — أي لفت الانتباه للمؤمنين.",
+        "claim_en": "The vocative 'يا أيها الذين آمنوا' effects an iltifat (shift) by addressing a specific group (the believers), directing and focusing the injunction.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting excerpt in the sources uses the phrase «هم المؤمنون» (commentary identification of the addressee) rather than the exact Qur'anic vocative; the claim links that commentary to the ayah's vocative."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "التجارة: طلب الثواب بالطاعة.",
+        "claim_ar": "أداة الاستثناء «إِلَّا» تقيّد النهي العام وتستثني حالة معينة (التجارة عن تراضٍ) — أي قصر المنع بذكر استثناء مفصّل.",
+        "claim_en": "The exception marker 'إِلَّا' restricts the general prohibition, exempting the specific case of mutually consenting trade; it is a hasr/qasr (restriction/exception) device.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "إِلَّا",
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": "Source commentary explicitly treats «التجارة» as the exempted case, giving direct support; the exact ayah phrasing is not quoted verbatim in the chunk but the commentator's gloss names the exception."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "أَشِدَّاءُ عَلَى الْكُفَّارِ رُحَماءُ بَيْنَهُمْ",
+        "claim_ar": "التوازي في النهيين («لَا تَأْكُلُوا…» و«وَلَا تَقْتُلُوا…») يؤدي وظيفة موازنـة/مقابلة بين محظورين مختلفين، وهو أسلوبِ مقاربة/مقابلة بلاغي يوضّح شمول الحظر.",
+        "claim_en": "The paired prohibitions ('Do not consume...' and 'Do not kill...') form a parallel/antithetical structure (muqābalah), balancing two distinct but morally related prohibitions to emphasize their seriousness.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "م ق ب ل",
+        "lemma": "مُقَابَلَة",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting excerpt shows a parallel adjectival structure from commentary on another passage; the claim generalizes this rhetorical parallelism to the present ayah — the source quote is analogous rather than the exact ayah text."
+      }
+    ],
+    "warnings": [
+      "Source quotations are taken from the provided tafsir chunks but do not always reproduce the ayah's exact wording; some quotes are commentator paraphrases or analogous examples.",
+      "Several claims extrapolate rhetorical features (e.g., parallelism) by analogy using commentator examples from related verses; these should be reviewed against the full tafsir context if precise textual corroboration is required.",
+      "Roots/lemmas for particles like «إِلَّا» and vocatives are given for identification, but traditional root morphology may be non-standard for such particles; confirm if a different convention is preferred."
+    ]
+  },
+  "n_chunks": 12
+}

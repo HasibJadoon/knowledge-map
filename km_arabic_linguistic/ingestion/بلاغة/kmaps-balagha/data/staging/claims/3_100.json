@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:100",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ويا حرف نداء وأهل الكتاب منادى مضاف",
+        "claim_ar": "حرف النداء «يا» مفتتحاً المخاطبة للمؤمنين؛ توجه مباشر ينقل الانتباه إلى المخاطَب ويهيئه للتحذير المتلو — قراءة بلاغية كنوع من الإلتفات والخطاب.",
+        "claim_en": "The particle 'يا' opens a direct address to the believers; this immediate vocative draws attention and prepares the addressee for the subsequent warning — a rhetorical shift/turn (iltifat) in address.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "Claim is taken from a grammatical/i'rab commentary excerpt (Darwish). Cross-check with classical balagha sources (al-Jurjani, al-Sakkaki, etc.) for finer theoretical classification."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "كلام مستأنف لإتمام قصة الجدل",
+        "claim_ar": "الآية تأتي بأسلوب استئنافي/مسوق: افتتاح مخاطبة ثم استئناف الكلام لبيان عاقبة الانقياد لأهل الكتاب، أي استخدام «الاستئناف المسوق» كحيلة بلاغية للتوكيد والتحذير.",
+        "claim_en": "The verse employs an 'istinaaf' (resumed/introductory discourse): it opens with a direct address and then resumes to state the consequence of following a party of the People of the Book. This resumption is a rhetorical technique to emphasize and warn.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting substring is from an i'rab commentary describing 'كلام مستأنف'; further confirmation from dedicated balagha (rhetoric) treatises is recommended to validate this rhetorical-linguistic reading."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are excerpts of Darwish - I'rab (grammatical commentary). Classical balagha sources named in the task (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present among the chunks; claims therefore rely on the available I'rab commentary and should be verified against the specified rhetorical treatises.",
+      "Some source_quote_ar substrings cite formulations (e.g., references to 'يا أَهْلَ الْكِتابِ') from examples in the commentary rather than this exact verse text; check contextual fit between the cited commentary example and S3:A100 when using these claims."
+    ]
+  },
+  "n_chunks": 12
+}

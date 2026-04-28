@@ -1,0 +1,48 @@
+{
+  "layer": "irab",
+  "ayah_key": "39:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "taalluq",
+        "source_quote_ar": "يخافون ربهم من فوقهم",
+        "claim_ar": "الجار والمجرور 'مِنْ فَوْقِهِمْ' متعلق بوصف موضع 'ظُلَلٌ' (ظرف مكان/جار ومجرور يبين موضع الظلال فوقهم)",
+        "claim_en": "'min fawqihim' (مِنْ فَوْقِهِمْ) is a prepositional phrase attached to and qualifying 'ظُلَلٌ' — i.e. a locative/zarfi phrase indicating the place of the shades above them.",
+        "root": "فوق",
+        "lemma": "فَوْق",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source discusses the phrase 'من فوقهم' in a different verse (النحل:50) and comments on its locative/expressive force; the attachment here is extrapolated to this ayah rather than cited explicitly for it.",
+        "quran_ref": "S39:A16"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "والخوف يكون من ضعف الخائف",
+        "claim_ar": "الفعل 'يُخَوِّفُ' يدل على إحداث الخوف (خوف يخلف ضعف الخائف)؛ أي أن ما يُخَوِّفُ به الله عباده يترك أثر الخوف الذي يظهر ضعف المُخَوَّف أمام عظمة المسبب.",
+        "claim_en": "The verb 'yukhawwifu' (يُخَوِّفُ) denotes causing 'khawf' (fear), which, per the source, typically implies the weakness of the one who fears; thus 'that which Allah causes fear with' produces fear showing the fearer's weakness before the powerful cause.",
+        "root": "خوف",
+        "lemma": "يُخَوِّفُ",
+        "confidence": "medium",
+        "needs_review_reason": "The source treats the semantic distinction between 'khawf' and 'khashyah' and general effects of 'fear'; it does not analyze this exact formulation in S39:16, so the semantic extrapolation to this ayah should be reviewed.",
+        "quran_ref": "S39:A16"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "أردفه بالفوقية الدالة على العظمة",
+        "claim_ar": "إسناد 'مِنْ فَوْقِهِمْ' يحمل دلالة فوقية/عظمة؛ أي أن ذكر الظلال 'من فوقهم' يؤكد عظمة الجهة المذكورة ويُبيّن تضاد القوة والضعف بين المسبِّب والمخوف.",
+        "claim_en": "The phrase 'min fawqihim' carries a connotation of exaltation/greatness; stating 'shades from above them' emphasizes the greatness/loftiness of the position (and the contrast between the powerful source and the weak recipients).",
+        "root": "فوق",
+        "lemma": "فَوْق",
+        "confidence": "medium",
+        "needs_review_reason": "The source makes this semantic observation regarding 'من فوقهم' in a different verse (النحل:50); applying it to the locative phrase in S39:16 is plausible but should be checked against direct commentary on this ayah.",
+        "quran_ref": "S39:A16"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not include an explicit, line-by-line iʿrāb of S39:16. Claims above are extrapolated from general discussions in the sources (not direct commentary on this exact verse). Review by a specialist or by consulting the part of the source that treats S39:16 directly is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

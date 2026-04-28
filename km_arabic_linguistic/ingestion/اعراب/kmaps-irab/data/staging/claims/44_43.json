@@ -1,0 +1,68 @@
+{
+  "layer": "irab",
+  "ayah_key": "44:43",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وإن لتوكيد الاسم",
+        "claim_ar": "إنَّ حرف توكيد يؤثر في الاسم بعده (يتعلق به ويوجهه)",
+        "claim_en": "The particle 'إِنَّ' functions as an emphatic particle directed at the following noun (the 'ism' of إنّ).",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage states that إنّ emphasizes the اسم but does not in the quoted substring explicitly say that it causes نصب; the usual grammatical inference (نصب اسم إنّ) was applied."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "وإن لتوكيد الاسم",
+        "claim_ar": "شَجَرَةَ: اسم إنّ منصوب (اسم متأثر بإنّ ويكون في حالة النصب).",
+        "claim_en": "The word 'شَجَرَةَ' is the ism (noun) of 'إِنَّ' and therefore is in the accusative (mansub).",
+        "root": "شجر",
+        "lemma": "شَجَرَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source passage indicates إنّ targets the اسم but the exact quoted substring does not explicitly state the grammatical case (نصب); the common grammatical rule was used to assert نصب."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "اسم مضاف له",
+        "claim_ar": "الزَّقُّومِ: اسم مضاف إليه مجرور (مجرور لحكم الإضافة إلى شَجَرَةَ).",
+        "claim_en": "The word 'الزقّوم' is the genitive (majrur) as the second term (mudaaf ilayh) in an idafa, governed by 'شَجَرَةَ'.",
+        "root": "زقم",
+        "lemma": "زَقُّوم",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage contains the phrase 'اسم مضاف له' in a different discussion; it supports identifying مضاف إليه but does not explicitly analyze this ayah, so the idafa inference is contextual."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "taalluq",
+        "source_quote_ar": "اسم مضاف له",
+        "claim_ar": "الزقّوم متعلق بــشَجَرَةَ باعتباره مضافًا إليه (جر ومجرور متعلقان باسم إنّ).",
+        "claim_en": "The noun 'الزقّوم' is attached (jar-majrur) to 'شَجَرَةَ' as its genitive complement (mudaaf ilayh) — i.e., it is in idafa relation to the preceding noun.",
+        "root": "زقم",
+        "lemma": "زَقُّوم",
+        "confidence": "medium",
+        "needs_review_reason": "Support comes from a general mention of 'اسم مضاف له' in the provided material rather than an explicit statement about this verse; the taalluq identification is a standard syntactic inference."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "فائدة : إذا اجتمعت إن واللام كان بمنزلة تكرير الجملة ثلاث مرات",
+        "claim_ar": "وجود إنّ (وحيث ترد للتوكيد) يضفي قوة تأكيدية على ما يليها؛ أي أن إدخال إنّ على العبارة يؤكد وقوع المقصود بشجاعة أو تأكيد الخبر عن وجود الشجرة.",
+        "claim_en": "The presence of 'إِنَّ' gives an emphatic/confirmatory force to what follows; using إنّ in the phrase produces strong emphasis on the referenced noun (here, the tree).",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited general statement about repetition/emphasis justifies a semantic-effect claim, but it is a general principle rather than an explicit commentary on this specific word in the verse."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit, verse-specific syntactic analysis of S44:A43. The claims above are inferred from general grammatical statements in the supplied excerpts (e.g., role of إنّ and the phrase 'اسم مضاف له').",
+      "Quoted substrings come from general discussions in al-Itqan and related excerpts; they support the grammatical inferences but do not directly mention the words شَجَرَةَ or الزَّقُّومِ in analysis. Review against direct tafsir/grammatical commentary on this verse is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

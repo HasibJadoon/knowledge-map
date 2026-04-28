@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "47:11",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَالْمَعْنَى يَتِمُّ بِدُخُولِ الْهَمْزَةِ عَلَى جُمْلَةِ الشَّرْطِ وَالْجَوَابِ",
+        "claim_ar": "دخول همزة أنّ يتمم المعنى حين تدخُل على الجملة (خصوصًا جملة الشرط والجواب).",
+        "claim_en": "The meaning is completed by the entry of the hamza; specifically, the hamza 'ʾan' completes the meaning when it enters a sentence (notably conditional and answer clauses).",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses the general role of hamzah (e.g. أنّ) in conditional/jawab contexts; applying this general rule to the particle بِأَنَّ in this specific ayah requires confirmation from an explicit statement about بِأَنَّ in the source."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَالْمَعْنَى يَتِمُّ بِدُخُولِ الْهَمْزَةِ عَلَى جُمْلَةِ الشَّرْطِ وَالْجَوَابِ",
+        "claim_ar": "دخول همزة أنّ يتمم المعنى حين تدخُل على الجملة (خصوصًا جملة الشرط والجواب).",
+        "claim_en": "The meaning is completed by the entry of the hamza; specifically, the hamza 'ʾan' completes the meaning when it enters a sentence (notably conditional and answer clauses).",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage treats the general function of hamzah/أنّ; whether the same explanatory point is intended for the وَأَنَّ in this verse should be verified in the source commentary on this exact phrase."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 4
+}

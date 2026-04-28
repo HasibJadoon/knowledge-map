@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:25",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الاستفهام للانكار والتوبيخ",
+        "claim_ar": "الاستفهام الإنكاري/التوبيخي في عبارة «أَعْجَبَتْكُمْ كَثْرَتُكُمْ...» لإدانة الاعتماد على كثرتهم وعدم انتفاعهم بها",
+        "claim_en": "Use of the interrogative for reproach/condemnation in 'أَعْجَبَتْكُمْ كَثْرَتُكُمْ...' to blame reliance on numerical superiority that proved useless.",
+        "device_branch": "other",
+        "device_subtype": "استفهام إنكاري (interrogative for reproach)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A25",
+        "rhetorical_effect": "creates reproachful tone, sharpens admonition and undermines the addressees' pride"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "takrar",
+        "source_quote_ar": "وتكريره هذا القول مراراً",
+        "claim_ar": "تكرار جذر ك-ث-ر في «مَوَاطِنَ كَثِيرَةٍ» و«كَثْرَتُكُمْ» كوسيلة بلاغية لتوكيد المعنى",
+        "claim_en": "Repetition of the root k‑th‑r in 'مَوَاطِنَ كَثِيرَةٍ' and 'كَثْرَتُكُمْ' as a rhetorical repetition to reinforce the idea of multitude.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "كثر",
+        "lemma": "كَثْرَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A25",
+        "rhetorical_effect": "intensifies the notion of multiplicity and thereby heightens the contrast with the subsequent ineffectiveness of that multiplicity"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tibaq",
+        "source_quote_ar": "كانُوا أَشَدَّ مِنْكُمْ قُوَّةً",
+        "claim_ar": "مقابلة/تباين بين نعمة النصرة في مَوَاطِنَ كَثِيرَةٍ ثم ضيق الأرض عليهم وولّيتهم؛ أي تباين بين النصر ثم الفشل والهزيمة",
+        "claim_en": "Antithesis/contrast (tibaq) between God's granting many victories and then the earth constricting and them turning away — a movement from triumph to failure.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source text shows comparative/contrastive phrasing elsewhere; linking it as explicit evidence for this ayah's antithesis is interpretive and may need a direct commentary on S9:25.",
+        "quran_ref": "S9:A25",
+        "rhetorical_effect": "produces striking reversal: what seemed like advantage becomes ineffective, amplifying the moral lesson about reliance on God rather than numbers"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are general lexicon and commentary excerpts; few chunks directly discuss S9:25. Claims tie ayah phenomena to related rhetorical observations in the chunks—some mappings are interpretive and flagged in 'needs_review_reason'.",
+      "Some claims (especially antithesis/tibaq) rely on thematic parallelism rather than an explicit, dedicated statement about this specific ayah in the supplied excerpts—please review against primary tafsir/بلاغة texts for confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "25:21",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ بَدَلًا مِنَ «الَّذِي» الْأُولَى، وَأَنْ يَكُونَ خَبَرَ مُبْتَدَأٍ مَحْذُوفٍ، وَأَنْ يَكُونَ فِي مَوْضِعِ نَصْبٍ عَلَى تَقْدِيرِ أَعْنِي.",
+        "claim_ar": "الجملة \"الَّذِي لَهُ\" يجوز أن تقرأ بعدة أوجه إعرابية: بدل من «الَّذِي» الأولى، أو خبر لمبتدأ محذوف، أو في موضع نصب على تقدير «أعني». وهذا يقدّم أجوبة إعرابية بديلة لاسم الموصول/عبارة قريبة منه في التركيب.",
+        "claim_en": "The phrase 'الَّذِي لَهُ' may have multiple grammatical analyses: it may be a substitute (badal) for the first 'الَّذِي', or the predicate (khabar) of an omitted subject (mubtada' mahduf), or be in an accusative position by way of an implied 'a'ni' (i.e., منصوب على تقدير أَعْنِي). This presents alternative parses for the relative expression/nearby construction.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the phrase «الَّذِي لَهُ» specifically; the ayah contains «الَّذِينَ». Applicability of these exact alternatives to this ayah (and to the plural form) needs confirmation from the text/context."
+      }
+    ],
+    "warnings": [
+      "Source material contains only a general note about the construction «الَّذِي لَهُ» (alternative analyses). There is no explicit, ayah-specific iʿrāb verdict in the provided chunks for S25:A21, so the extracted claim is an application of a general rule and should be reviewed.",
+      "Several provided chunks concern different lexical items/verses (e.g. «لَهُمْ عَذَابٌ», «فِي الْأَرْضِ», «ظُلْمًا») and do not bear directly on the grammar of this ayah; no other explicit iʿrāb claims could be found in the supplied excerpts."
+    ]
+  },
+  "n_chunks": 12
+}

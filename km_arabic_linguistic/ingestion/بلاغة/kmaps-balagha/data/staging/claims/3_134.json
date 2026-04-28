@@ -1,0 +1,29 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:134",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "(الواو) عاطفة",
+        "claim_ar": "تكرار الواو العاطفة في سلاسل الصفات (وَالسَّرَّاءِ وَالضَّرَّاءِ وَالْكَاظِمِينَ... إلخ) كوسيلة للتعداد والتوكيد.",
+        "claim_en": "Repetition of the conjunction 'wa' (و) in the series of attributes (e.g. وَالسَّرَّاءِ وَالضَّرَّاءِ وَالْكَاظِمِينَ...) serving enumeration and emphasis.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "و",
+        "lemma": "و",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunk explicitly discusses the grammatical/functional role of 'الواو' (as conjunction) but does not analyze this specific verse; additional commentary from classical balagha sources (al-Jurjani, al-Sakkaki, etc.) should be checked to confirm rhetorical intent and nuance.",
+        "quran_ref": "S3:A134",
+        "rhetorical_effect": "Creates a cumulative, emphatic listing of virtues; produces a steady, rhythmic flow that highlights constancy and variety of the praised qualities."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not include classical balagha (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) analyses for this specific verse; only general grammatical/tafsir fragments are present.",
+      "Most obvious rhetorical devices in the verse (e.g., tibaq/antithesis in السَّرَّاءِ وَالضَّرَّاءِ, muqabalah/parallelism among listed virtues, and the concise concluding clause وَاللَّهُ يُحِبُّ الْمُحْسِنِينَ as asloob hakim/ijaz) could not be substantiated with exact substrings from the provided chunks, so they were not claimed here.",
+      "Claims below 'medium' confidence or not present should be revisited once proper balagha/tafsir-balagha sources for this ayah are supplied."
+    ]
+  },
+  "n_chunks": 12
+}

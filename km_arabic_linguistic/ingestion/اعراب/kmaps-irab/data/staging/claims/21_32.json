@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:32",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable إعراب claims found: none of the provided source_chunks contain exact substrings from the target ayah (e.g. 'وَجَعَلْنَا السَّمَاءَ سَقْفًا مَّحْفُوظًا' or its component words).",
+      "Requirement: source_quote_ar must be an exact substring of one of the supplied source chunks. Please provide the relevant al-Tibyan (or similar) chunk(s) that discuss S21:32 or contain exact phrases from that ayah to extract claims."
+    ]
+  },
+  "n_chunks": 12
+}

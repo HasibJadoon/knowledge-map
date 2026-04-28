@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:31",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "maani",
+        "source_quote_ar": "لَوْ نَشاءُ لَقُلْنا مِثْلَ هذا",
+        "claim_ar": "الاستدلال الشرطي التهكمي: استخدامهم لِـ «لو نشاء لقلنا مثل هذا» كقالب افتراضي للتقليل من القرآن بادعاء القدرة على إنتاج مثله — وظيفة بلاغية سخرية وتبرير للنكران.",
+        "claim_en": "Ironical conditional claim: their use of “لو نشاء لقلنا مثل هذا” functions as a mocking conditional asserting (falsely) they could produce the same, thereby belittling the Qur'an and justifying denial.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "شيا",
+        "lemma": "شَآءَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "bayan",
+        "source_quote_ar": "تلك الأساطير",
+        "claim_ar": "تحقير بالكنية/الاستعارة: وصفهم للآيات بأنها «أساطير» — تشبيه استعاري/كنيهي يقصد به تحويل النص إلى حكايات متهكمة، وتخفيف قدره في ذهن السامع.",
+        "claim_en": "Dismissive kenaya/metaphor: calling the verses “asātīr” (tales) — an allegorical/metaphorical dismissal that reframes the revelation as mere fables, diminishing its authority for listeners.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "سطر",
+        "lemma": "أَسَاطِير",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling as 'kinayah' (كنية) vs 'majaz' (metaphor) can be debated; classification chosen because the term stands in for an implied meaning (fable/myth)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "other",
+        "source_quote_ar": "هذا أسلوب من الجحود بليغ",
+        "claim_ar": "أسلوب حَكيم/تقرير نقّادِي: التفسير يصف قولهم بأنه «أسلوب من الجحود بليغ» — تعليق بلاغي يبرز صفة الإنكار الجليّ في كلامهم ويُظهر موقف المفسّر من الأسلوب البلاغي للكفار.",
+        "claim_en": "asloob_hakim / critical remark: the commentator describes their phrase as “an eloquent style of denial” — a rhetorical-critical observation highlighting the overt denial in their language and the commentator’s evaluative stance.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim_style_of_denial",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Mapping a commentator's evaluative remark to the taxonomy (asloob_hakim) is interpretive; consider alternative branches (e.g., surah_movement or naktah) if policy requires stricter mapping."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari and a Darwish iʿrāb note; the developer prompt named other classical rhetoricians (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, tafsir-balagha). Claims here are drawn only from the supplied chunks.",
+      "Some device classifications (e.g., kinayah vs majaz, or classifying a commentator's evaluative sentence under asloob_hakim) are interpretive; those items are marked with moderate confidence and a needs_review_reason."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "takrar",
+        "source_quote_ar": "ما",
+        "claim_ar": "تكرار عبارة «بِأَسْمَائِهِمْ» لبيان التأكيد وتعظيم المراد عند العرض والتسمية",
+        "claim_en": "Repetition of the phrase “bi-asmā'ihim” (their names) — the doubling of the statement that Adam announced their names functions as emphasis and magnification of the act of naming.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "سمو",
+        "lemma": "اسْم",
+        "confidence": "low",
+        "needs_review_reason": "The provided source chunks do not contain the verse phrase «بِأَسْمَائِهِمْ» or explicit commentary on its repetition; this claim is inferred directly from the Qur'anic text rather than supported by the supplied chunks."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "قال",
+        "claim_ar": "التفات في المخاطبة: الانتقال من مخاطبة آدم («يَآ آدَمُ أَنْبِئْهُمْ…») إلى مخاطبة الجمع/الملائكة («أَلَمْ أَقُل لَّكُمْ…») لبيان التعجب والتوبيخ ولفت الانتباه",
+        "claim_en": "Iltifat (shift of address): the address shifts from Adam (\"O Adam, inform them…\") to the group/angels (\"Did I not tell you…\"), producing reproach, emphasis and rhetorical engagement through change of addressee.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "لفت",
+        "lemma": "الالتفات",
+        "confidence": "medium",
+        "needs_review_reason": "This observation is based on the verse's structure. The provided chunks include the lemma «قال/قالَ» but do not contain explicit commentary linking this specific iltifat to the ayah; needs verification against commentary sources."
+      },
+      {
+        "word_index": 17,
+        "claim_type": "mukabalah",
+        "source_quote_ar": "ما",
+        "claim_ar": "مقابلة/طباق بين «أَعْلَمُ غَيْبَ السَّمَاوَاتِ وَالْأَرْضِ» و«أَعْلَمُ مَا تُبْدُونَ وَمَا كُنتُمْ تَكْتُمُونَ»، تضادّ بين علم الغيب وعلم ما يظهر ويُكتم لبيان شمول علم الله",
+        "claim_en": "Muqābalah/antithesis between “I know the unseen of the heavens and the earth” and “I know what you reveal and what you conceal,” contrasting divine knowledge of the unseen with knowledge of what is shown and hidden, thereby emphasizing God's all-encompassing knowledge.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "medium",
+        "needs_review_reason": "Inferred from the ayah's parallel structure. The supplied chunks do not explicitly discuss this antithesis for this verse; confirm with targeted rhetorical tafsir sources."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are fragments from al-Kashshaf (Zamakhshari) and do not appear to contain the exact ayah text or explicit balagha commentary for Sura 2:33. source_quote_ar values are minimal substrings drawn from those chunks (e.g. «قال», «ما») because direct quotations of the relevant ayah-phrases or explicit rhetorical remarks were not present in the supplied chunks.",
+      "Claims above are primarily inferred from the Qur'anic text itself. They should be reviewed and validated against the requested authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, and tafsīr balaġa sources) or other established balagha commentaries. Confidence levels reflect this lack of explicit supporting quotes in the provided chunks."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,38 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:24",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "كيف دبرنا أمره",
+        "claim_ar": "استعمال صيغة الأمر «انظر» مع أداة الاستفهام «كيف» لاستثارة التأمّل والتعجب؛ أي دعوة القارئ إلى التفكّر في كيفية وقوع الحال المذكور.",
+        "claim_en": "Use of the imperative 'look' combined with the interrogative 'how' to prompt reflection and express emphatic wonder/condemnation — an exhortation for the reader to consider how the situation occurred.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa (imperative + interrogative for exhortation)",
+        "root": "نظر",
+        "lemma": "نَّظَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "rhetorical_effect": "invites immediate reflection and moral judgment; heightens attention to the following indictment"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "majaz",
+        "source_quote_ar": "افْتَرى عَلَى اللَّهِ كَذِباً",
+        "claim_ar": "الفعل «يَفْتَرُونَ» مرتبط بجذر «افتَرَى» ويشير إلى اختلاق الأكاذيب — قراءة تفسيرية تربطه بصيغة الافتراء كما في العبارة «افتَرى على الله كذباً»، أي نسبوا وزوّروا الادعاء على نحو مضرّ بأنفسهم.",
+        "claim_en": "The verb 'yaf'taroona' is linked to the root 'iftarā' (to fabricate/forge) and conveys the notion of inventing lies — analogous to the phrase 'he fabricated lies against God' (افترى على الله كذباً); it metaphorically ascribes the harmful falsehood to the claimants themselves.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz (metaphorical attribution / figurative expression)",
+        "root": "فري",
+        "lemma": "افْتَرَىٰ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "rhetorical_effect": "condemns the claimants by portraying the falsehood as self-inflicted, strengthening moral reproach"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

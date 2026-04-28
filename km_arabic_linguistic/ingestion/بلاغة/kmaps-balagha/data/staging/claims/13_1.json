@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "13:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "إعجاز",
+        "source_quote_ar": "ما ألف عليه من النظم المعجز الفائت لقوى البشر.",
+        "claim_ar": "إبراز إعجاز القرآن في النظم والبلاغة (اعتبار الآيات معجزًا للُغة البشر)",
+        "claim_en": "Emphasis on the inimitability (i'jaz) of the Qur'an — highlighting the miraculous, inimitable composition that surpasses human capacity.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "طباق / تضاد",
+        "source_quote_ar": "طباق الإيجاب والسلب.",
+        "claim_ar": "وجود طباق (تضاد) بين مُسمَّى الحقيقة «الْحَقُّ» وبين حال أكثر الناس «لَا يُؤْمِنُونَ» — أي إيجاب الحق مقابل سلب الإيمان.",
+        "claim_en": "Presence of antithesis (tibaq) between the affirmed Truth ('al- haqq') and the negated state of most people ('they do not believe') — affirmation vs. negation contrast.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "حقق",
+        "lemma": "حَقّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited phrase names the rhetorical figure generally; confirm the commentator was referring specifically to this ayah's polarity (affirmation vs. negation) rather than a different lexical example in the chunk."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from al-Kashshaf (Zamakhshari). The developer prompt requested al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha sections; those specific sources are not present in the provided chunks — rhetorical attributions may therefore be incomplete or not from the originally requested authors.",
+      "Only claims that could be directly supported by exact substrings found in the supplied chunks were extracted. Other plausible devices (e.g., the disjointed letters 'المر', the particle 'لَكِنَّ', demonstrative 'تِلْكَ') were not claimed because no exact supporting substring was present in the provided chunks."
+    ]
+  },
+  "n_chunks": 12
+}

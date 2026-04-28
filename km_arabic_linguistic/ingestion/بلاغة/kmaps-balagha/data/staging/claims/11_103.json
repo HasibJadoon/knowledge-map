@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:103",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "الثانية لتأكيد كفرهم بالآخرة",
+        "claim_ar": "تكرار لفظة «ذَلِكَ» في الآية كوسيلة بلاغية للتأكيد والتشديد على وصف ذلك اليوم.",
+        "claim_en": "Repetition of the word “ذَلِكَ” in the verse functions rhetorically as repetition (takrār) to emphasize and reinforce the description of that day.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "ذ ل ك",
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting quote (Zamakhshari) mentions repetition as a means of confirmation in a related context ('الثانية لتأكيد...') rather than explicitly citing this verse's identical repetition; the link is plausible but should be verified against other classical balagha discussions of this specific verse."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "السكوت عن ذكر الموصوف اكتفاء بصفاته",
+        "claim_ar": "توازٍ ومقابلة بين الجملتين «يَوْمٌ مَجْمُوعٌ لَهُ النَّاسُ» و«يَوْمٌ مَشْهُودٌ» لتراكم الصفات وتأكيد صورة اليوم من زوايا مختلفة.",
+        "claim_en": "Parallelism/juxtaposition between the clauses 'a day on which people will be gathered' and 'that is a witnessed day' accumulates attributes and reinforces the image of the Day from different perspectives (muqābalah / parallelism).",
+        "device_branch": "badi",
+        "device_subtype": "mucābalah",
+        "root": "ي و م",
+        "lemma": "يَوْم",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk (about 'السكوت عن ذكر الموصوف...') discusses the rhetorical effect of emphasizing a thing by its attributes; it supports a general stylistic reading of the verse but does not explicitly label the clause-pair as 'muqābalah' for this specific aya — further classical corroboration is advised."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "إنّ زيدا كالأسد.",
+        "claim_ar": "حرف «إِنَّ» في مطلع الآية مستعمل لبيان وتحقيق الكلام وتأكيده (حضور التوكيد والإثبات على ما بعدها: «فِي ذَٰلِكَ لَآيَةً»).",
+        "claim_en": "The particle 'إِنَّ' at the beginning of the verse is used to assert and emphatically establish the statement that follows (i.e., 'indeed/verily there is in that a sign').",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source material supplied in the chunks is mainly from Zamakhshari and a grammatical/tablature source (Safi). The developer requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and 'tafsir balagha' sections; those specific classical balagha sources are not present in the provided chunks. Claims are therefore supported by the available chunks but should be rechecked against the requested classical balagha authors for fuller validation.",
+      "Some claims (labeling as 'muqabalah' and the exact pragmatic function of repetition) are based on general stylistic remarks in the supplied chunks rather than explicit treatment of this particular verse; confidence is marked accordingly and further verification is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

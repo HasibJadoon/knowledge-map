@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:103",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "نصب على المدح",
+        "source_quote_ar": "وَالْمُقِيمِينَ نصب على المدح لبيان فضل الصلاة",
+        "claim_ar": "جاءت صيغة الأمر/المصدر (أَقِيمُوا / المقيمين) في موقع نصب على المدح لبيان فضل الصلاة ورفع قدرها",
+        "claim_en": "The verb/nominal notion of establishing (أَقِيمُوا / 'al-muqīmīn') is placed in the accusative (nassb) as an expression of praise, to highlight the virtue/importance of prayer.",
+        "device_branch": "maani",
+        "device_subtype": "asloob_hakim",
+        "root": "قوم",
+        "lemma": "أَقَامَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "rhetorical_effect": "Emphatic praise: elevates the prescription of establishing prayer, presenting it as praiseworthy and central duty."
+      },
+      {
+        "word_index": 18,
+        "claim_type": "تعميم/تحديد بالجمع المعرف",
+        "source_quote_ar": "الْمُؤْمِنُونَ يعنى المؤمنين منهم، أو المؤمنون من المهاجرين والأنصار.",
+        "claim_ar": "استخدام الجمع المعرفة «المؤمنين» للدلالة على العامة/الجماعة المقصودة (المؤمنون) وبيان أن المقصود هما المؤمنون منهم/من المهاجرين والأنصار",
+        "claim_en": "The definite plural 'al-mu'minīn' ('the believers') is used to denote the collective group intended (i.e., the believers), with explicative sense that it refers to believers among them (e.g., emigrants and helpers).",
+        "device_branch": "maani",
+        "device_subtype": "asloob_hakim",
+        "root": "امن",
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "lemma not provided in input words list"
+      }
+    ],
+    "warnings": [
+      "Claims are drawn only from the provided tafsir chunks (Zamakhshari/Tabari excerpts). Other classical balagha sources in the prompt (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) were not present in the supplied chunks, so additional devices discussed in those works may be missing.",
+      "source_quote_ar fields must match exact substrings from the supplied chunks; this constrained which rhetorical observations could be supported directly from the texts provided."
+    ]
+  },
+  "n_chunks": 12
+}

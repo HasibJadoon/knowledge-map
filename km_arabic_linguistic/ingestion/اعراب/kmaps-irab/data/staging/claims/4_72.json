@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:72",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(مِنْكُمْ) : مُتَعَلِّقٌ بِأَخَذْنَ، وَيَجُوزُ أَنْ يَكُونَ حَالًا مِنْ مِيثَاقٍ.",
+        "claim_ar": "مِنْكُمْ مُتَعَلِّقٌ بِـ«أَخَذْنَ»، وَيَجُوزُ أَنْ تَكُونَ حَالًا (حالٌ مِنْ مِيثَاقٍ).",
+        "claim_en": "'minkum' is syntactically attached (dependent) on the verb 'أَخَذْنَ', and it is permissible to analyze it as a hal (circumstantial accusative) derived from a covenant/pledge.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "needs_review",
+        "needs_review_reason": "The cited passage in al-Tibyan discusses (مِنْكُمْ) as related to the verb أَخَذْنَ (and possibly as حال). The current ayah (S4:A72) does not contain the verb أَخَذْنَ, so applying this attachment to this verse is uncertain and requires review of whether the same analysis is intended here."
+      }
+    ],
+    "warnings": [
+      "The only matching statement in the provided sources concerns the phrase “مِنْكُمْ” being متعلقًا بـ «أَخَذْنَ» (or possibly حالًا). That source example refers to a different context (a clause with أَخَذْنَ). It is unclear whether the author intended the same attachment for S4:A72; please verify with the full commentary on this specific verse.",
+      "No other explicit إعراب claims for the words of S4:A72 were found in the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

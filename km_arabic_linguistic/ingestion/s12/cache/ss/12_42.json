@@ -1,0 +1,188 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 18,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 18,
+          "head_word_index": 2,
+          "note_ar": "جملة 'قال' لا محل لها استئنافية."
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "و",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "استئنافية",
+          "irab_case": "",
+          "note_ar": "الواو استئنافية."
+        },
+        {
+          "word_index": 2,
+          "word_ar": "قال",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "قال فعل ماض، والفاعل هو أي يوسف."
+        },
+        {
+          "word_index": 3,
+          "word_ar": "للذي",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 2,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "اللام حرف جر، والذي اسم موصول مبني في محل جر متعلق بقال."
+        },
+        {
+          "word_index": 4,
+          "word_ar": "ظنّ",
+          "relation_type": "predicate",
+          "governor_word_index": 3,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "ظنّ فعل ماض، والفاعل هو أي يوسف."
+        },
+        {
+          "word_index": 5,
+          "word_ar": "أنّ",
+          "relation_type": "adverb",
+          "governor_word_index": 4,
+          "irab_position": "حرف مشبه بالفعل",
+          "irab_case": "",
+          "note_ar": "أنّ حرف مشبه بالفعل للتوكيد."
+        },
+        {
+          "word_index": 6,
+          "word_ar": "ه",
+          "relation_type": "object_direct",
+          "governor_word_index": 5,
+          "irab_position": "اسم أنّ",
+          "irab_case": "منصوب",
+          "note_ar": "الهاء ضمير في محل نصب اسم أنّ."
+        },
+        {
+          "word_index": 7,
+          "word_ar": "ناج",
+          "relation_type": "object_direct",
+          "governor_word_index": 5,
+          "irab_position": "خبر أنّ",
+          "irab_case": "مرفوع",
+          "note_ar": "ناج خبر أنّ مرفوع."
+        },
+        {
+          "word_index": 8,
+          "word_ar": "من",
+          "relation_type": "adverb",
+          "governor_word_index": 7,
+          "irab_position": "حرف جر",
+          "irab_case": "مجرور",
+          "note_ar": "من حرف جر."
+        },
+        {
+          "word_index": 9,
+          "word_ar": "هما",
+          "relation_type": "object_direct",
+          "governor_word_index": 8,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "هما ضمير في محل جر متعلق بحال من الضمير في ناج."
+        },
+        {
+          "word_index": 10,
+          "word_ar": "اذكرني",
+          "relation_type": "predicate",
+          "governor_word_index": 9,
+          "irab_position": "فعل أمر",
+          "irab_case": "",
+          "note_ar": "اذكرني فعل أمر، والفاعل أنت."
+        },
+        {
+          "word_index": 11,
+          "word_ar": "عند",
+          "relation_type": "adverb",
+          "governor_word_index": 10,
+          "irab_position": "ظرف منصوب",
+          "irab_case": "منصوب",
+          "note_ar": "عند ظرف منصوب متعلق باذكر."
+        },
+        {
+          "word_index": 12,
+          "word_ar": "ربّك",
+          "relation_type": "object_direct",
+          "governor_word_index": 11,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "ربّك مضاف إليه مجرور."
+        },
+        {
+          "word_index": 13,
+          "word_ar": "أنساه",
+          "relation_type": "predicate",
+          "governor_word_index": 12,
+          "irab_position": "فعل ماض",
+          "irab_case": "مبني على الفتح المقدر",
+          "note_ar": "أنساه فعل ماض مبني على الفتح المقدر."
+        },
+        {
+          "word_index": 14,
+          "word_ar": "الشّيطان",
+          "relation_type": "object_direct",
+          "governor_word_index": 13,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "الشيطان فاعل مرفوع."
+        },
+        {
+          "word_index": 15,
+          "word_ar": "ذكر",
+          "relation_type": "object_direct",
+          "governor_word_index": 13,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "ذكر مفعول به ثان منصوب."
+        },
+        {
+          "word_index": 16,
+          "word_ar": "ربّه",
+          "relation_type": "object_direct",
+          "governor_word_index": 15,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "ربّه مثل ربّك."
+        },
+        {
+          "word_index": 17,
+          "word_ar": "لبث",
+          "relation_type": "predicate",
+          "governor_word_index": 16,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "لبث مثل قال."
+        },
+        {
+          "word_index": 18,
+          "word_ar": "سنين",
+          "relation_type": "object_direct",
+          "governor_word_index": 17,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "سنين مضاف إليه مجرور."
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

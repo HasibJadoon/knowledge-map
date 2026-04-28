@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:134",
+  "result": {
+    "claims": [
+      {
+        "word_index": 10,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا أَغْنَى) : وَيَجُوزُ أَنْ تَكُونَ «مَا» نَافِيَةً، وَأَنْ تَكُونَ اسْتِفْهَامًا.",
+        "claim_ar": "تَجُوزُ أَنْ تَكُونَ «مَا» - مثل الموجودة في «بِمَا» - أداةً نَافِيَةً أو اسْتِفْهَامِيَّةً.",
+        "claim_en": "Al-Tibyan notes that the particle 'mā' (as in 'bimā') may function either as a negating particle or as an interrogative (question) particle.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses 'ما' in the phrase 'ما أغنى' (a general note on the particle 'ما'), not specifically the relative/ablative usage in 'بِمَا عَهِدَ'; applicability to this instance (بِمَا as relative/ablative) requires review."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks directly discuss the إعراب (syntactic role) of words in S7:A134. Only a general note on the particle «ما» was found; its applicability to the particle in this ayah (بِمَا) is uncertain and should be verified against a direct commentary on this verse.",
+      "No explicit claims about case endings, syntactic roles (مبتدأ/خبر/فاعل/مفعول به/etc.), تعلق (تعلّق), تقدير, or variant قراءات for the words of this ayah were present in the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,278 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 1,
+      "ayah_to": 1,
+      "word_start": 1,
+      "word_end": 1,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 1,
+          "head_word_index": 2,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "و",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "استئنافية",
+          "irab_case": "",
+          "note_ar": "الواو استئنافية"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "قال",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "قال فعل ماض"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "الّذِي",
+          "relation_type": "subject",
+          "governor_word_index": 2,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "الذي اسم موصول مبني في محل رفع فاعل"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "اشْتَرَاهُ",
+          "relation_type": "object",
+          "governor_word_index": 3,
+          "irab_position": "فاعل",
+          "irab_case": "",
+          "note_ar": "اشتراه فعل ماض والفاعل هو وهو العائد"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "مِنْ",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 4,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "من جار ومجرور متعلّق بحال من فاعل اشترى"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "مِصْرَ",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 5,
+          "irab_position": "مفعول",
+          "irab_case": "مجرور",
+          "note_ar": "مصر مجرور متعلّق بحال من فاعل اشترى"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "لِامْرَأَتِهِ",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 2,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "لامرأته جار ومجرور متعلّق بقال"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "أَكْرِمِي",
+          "relation_type": "predicate",
+          "governor_word_index": 7,
+          "irab_position": "فعل أمر",
+          "irab_case": "مرفوع",
+          "note_ar": "أكرمي فعل أمر مبني على حذف النون"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "مَثْوَاهُ",
+          "relation_type": "object_direct",
+          "governor_word_index": 8,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مثواه مفعول به منصوب"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "عَسَى",
+          "relation_type": "predicate",
+          "governor_word_index": 1,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "عسى فعل ماض تام مبني على الفتح المقدّر على الألف"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "أَنْ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 10,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "أن جار ومجرور متعلّق بعسى"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "يَنْفَعَنَا",
+          "relation_type": "object_direct",
+          "governor_word_index": 11,
+          "irab_position": "فاعل",
+          "irab_case": "",
+          "note_ar": "ينفعنا مضارع منصوب بأن الناصب"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "أو",
+          "relation_type": "coordinated",
+          "governor_word_index": 12,
+          "irab_position": "حرف عطف",
+          "irab_case": "",
+          "note_ar": "أو حرف عطف"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "نَتّخِذَهُ",
+          "relation_type": "object_direct",
+          "governor_word_index": 13,
+          "irab_position": "فاعل",
+          "irab_case": "",
+          "note_ar": "نتّخذه مضارع منصوب معطوف على ينفع"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "وَلَدَاً",
+          "relation_type": "object_indirect",
+          "governor_word_index": 14,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "ولدا مفعول به ثان منصوب"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "وَكَذَلِكَ",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 1,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "وكذا جار ومجرور متعلّق بمحذوف مفعول مطلق"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "مَكَّنّا",
+          "relation_type": "predicate",
+          "governor_word_index": 1,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "مكّنّا مثل أوحينا"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "لِيُوسُفَ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 17,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "ليوسف جار ومجرور متعلّق ب (مكّنّا)"
+        },
+        {
+          "word_index": 19,
+          "word_ar": "فِي",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 17,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "في جار ومجرور متعلّق ب (مكّنّا)"
+        },
+        {
+          "word_index": 20,
+          "word_ar": "مِصْرَ",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 19,
+          "irab_position": "مفعول",
+          "irab_case": "مجرور",
+          "note_ar": "مصر مجرور متعلّق ب (في)"
+        },
+        {
+          "word_index": 21,
+          "word_ar": "نَعْلَمَهُ",
+          "relation_type": "predicate",
+          "governor_word_index": 1,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "نعلمه فعل ماض متعلّق ب (أن)"
+        },
+        {
+          "word_index": 22,
+          "word_ar": "اللَّه",
+          "relation_type": "subject",
+          "governor_word_index": 21,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "اللّه مبتدأ"
+        },
+        {
+          "word_index": 23,
+          "word_ar": "غالِب",
+          "relation_type": "object_direct",
+          "governor_word_index": 22,
+          "irab_position": "فاعل",
+          "irab_case": "",
+          "note_ar": "غالب فاعل"
+        },
+        {
+          "word_index": 24,
+          "word_ar": "لكنّ",
+          "relation_type": "coordinated",
+          "governor_word_index": 21,
+          "irab_position": "حرف عطف",
+          "irab_case": "",
+          "note_ar": "لكنّ حرف عطف"
+        },
+        {
+          "word_index": 25,
+          "word_ar": "أكْثَر",
+          "relation_type": "object_direct",
+          "governor_word_index": 24,
+          "irab_position": "فاعل",
+          "irab_case": "",
+          "note_ar": "أكثر فاعل"
+        },
+        {
+          "word_index": 26,
+          "word_ar": "النَّاس",
+          "relation_type": "object_indirect",
+          "governor_word_index": 25,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "الناس مفعول به منصوب"
+        },
+        {
+          "word_index": 27,
+          "word_ar": "لا",
+          "relation_type": "negation",
+          "governor_word_index": 24,
+          "irab_position": "نفي",
+          "irab_case": "",
+          "note_ar": "لا نفي"
+        },
+        {
+          "word_index": 28,
+          "word_ar": "يَعْلَمُون",
+          "relation_type": "object_direct",
+          "governor_word_index": 27,
+          "irab_position": "فاعل",
+          "irab_case": "",
+          "note_ar": "يعلمون فاعل"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

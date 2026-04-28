@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:4",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "takrar",
+        "source_quote_ar": "الْمُؤْمِنِينَ",
+        "claim_ar": "توكيد بتكرار الإشارة إلى المعني: «أُولَئِكَ» إشارة إضمارية ثم الضمير «هُمُ» ثم الاسم «الْمُؤْمِنُونَ» — تكرار إشاري ولفظي يعزز التأكيد.",
+        "claim_en": "Emphatic repetition: the referent is reinforced by demonstrative 'أُولَئِكَ', the pronoun 'هُمُ', and then the noun 'الْمُؤْمِنُونَ' — a pronominal and verbal duplication that strengthens emphasis.",
+        "device_branch": "badi",
+        "device_subtype": "emphatic_repetition",
+        "root": "امن",
+        "lemma": "مؤمن",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunks contain the substring «الْمُؤْمِنِينَ» (in chunk 2) but do not show the full sequence «أُولَئِكَ هُمُ الْمُؤْمِنُونَ» or discuss this ayah directly; the identification of this device relies on the ayah text rather than explicit commentary in the chunks."
+      }
+    ],
+    "warnings": [
+      "Most provided source chunks do not contain explicit balagha (rhetoric) commentary on S8:A4; only the substring «الْمُؤْمِنِينَ» appears in the chunks. Claims therefore rely primarily on the ayah text itself.",
+      "Source_quote_ar values are taken from the available chunks where exact substrings exist; several ayah words (e.g., «أُولَئِكَ», «هُمُ», «حَقًّا», «دَرَجَاتٌ», «مَغْفِرَةٌ», «رِزْقٌ كَرِيمٌ») do not appear in the provided chunks, so devices specifically tied to those words could not be supported with chunk quotations and require additional source material for confirmation.",
+      "Only one claim extracted with medium confidence; further review recommended using the specified classical sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) for explicit discussion and corroboration."
+    ]
+  },
+  "n_chunks": 12
+}

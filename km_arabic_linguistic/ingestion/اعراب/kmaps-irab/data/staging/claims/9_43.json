@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:43",
+  "result": {
+    "claims": [
+      {
+        "word_index": 10,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "فِي مَوْضِعِهِ وَجْهَانِ: أَحَدُهُمَا: هُوَ جَرٌّ عَطْفًا عَلَى الَّذِينَ يَعْمَلُونَ السَّيِّئَاتِ؛ أَيْ: وَلَا الَّذِينَ يَمُوتُونَ. وَالْوَجْهُ الثَّانِي: أَنْ يَكُونَ مُبْتَدَأً وَخَبَرُهُ «أُولَئِكَ أَعْتَدْنَا لَهُمْ» . وَاللَّامُ لَامُ الِابْتِدَاءِ وَلَيْسَتْ لَا النَّافِيَة.",
+        "claim_ar": "في تركيب «الَّذِينَ ...» قد يكون فيه اختلاف إعرابي: أحد الوجوه أن يكون «الَّذِينَ» مجرورًا عطفًا، والوجه الآخر أن يكون مبتدأً وخبره محذوفًا.",
+        "claim_en": "In the construction 'al‑ladhina ...' there is a grammatical disagreement: one reading treats 'al‑ladhina' as in the genitive as a conjunct (jar 'atfan), and the other treats it as a mubtada' (subject) with its predicate omitted.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited discussion is about the construction in a different verse (comparison with «وَلَا الَّذِينَ ...»); applying the same twofold analysis to S9:43 requires contextual confirmation."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَثَلُ الَّذِينَ كَفَرُوا) : مُبْتَدَأٌ، وَالْخَبَرُ مَحْذُوفٌ ; أَيْ فِيمَا يُتْلَى عَلَيْكُمْ مَثَلُ الَّذِينَ.",
+        "claim_ar": "يجوز وجه إعرابي يقضي بأن عبارة «الَّذِينَ + فعل» تُعرب كمبتدأ والجملة الخبر محذوفة (على مثال «مَثَلُ الَّذِينَ كَفَرُوا»).",
+        "claim_en": "There is an alternative analysis whereby a phrase of the form 'al‑ladhina + verb' can be parsed as a mubtada' (subject) with the predicate omitted, analogous to 'Mathalu al‑ladhina kafaroo'.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source example concerns the specific construction with «مَثَلُ»; verifying the analogy to «يتَبَيَّنَ لَكَ الَّذِينَ صَدَقُوا» in S9:43 requires checking whether omission of خبر is parallel in function here."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

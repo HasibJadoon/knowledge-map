@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:236",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "ذكر الترغيب مع الترهيب",
+        "claim_ar": "الأسلوب القرآني هنا يجمع بين الترغيب والترهيب كطريقة بلاغية لربط الجزاء بالإنذار والتحفيز.",
+        "claim_en": "The Qur'anic style here pairs exhortation (glad tidings) with warning (threat) as a rhetorical means of linking reward/promise with admonition to stimulate action.",
+        "device_branch": "other",
+        "device_subtype": "ترغيب_وترهيب",
+        "root": "ذكر",
+        "lemma": "ترغيب/ترهيب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "ويشفع البشارة بالإنذار إرادة التنشيط",
+        "claim_ar": "إدخال البشارة مرافقةً للإنذار هنا ليس مجرّد وصف بل لغايةٍ بلاغية: إرادة التنشيط وحثّ المكلفين على الاقتداء والعمل.",
+        "claim_en": "The pairing of glad tidings with warning is intentionally used as a rhetorical device to stimulate and motivate people to act (eradicative incentive).",
+        "device_branch": "other",
+        "device_subtype": "بشارة_بإنذار",
+        "root": "شفع",
+        "lemma": "بشارة/إنذار",
+        "confidence": "medium",
+        "needs_review_reason": "The tafsir statement is general about the Qur'anic method; confirm this specific function is being applied to this verse (2:236)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "قفاه ببشارة عباده الذين جمعوا بين التصديق والأعمال الصالحة",
+        "claim_ar": "الناقِل يشير إلى خاتمة الأمر بالترغيب بعد ذكر الترهيب؛ أي أن المقسوم يُقفل ببشارة للعباد الصالحين كحركة بلاغية في السياق.",
+        "claim_en": "The commentator notes a closure move: after mentioning threat/punishment the passage is closed with glad tidings for those believers who combined faith and righteous deeds — a rhetorical closure/contrastive movement in the discourse.",
+        "device_branch": "other",
+        "device_subtype": "contrastive_closure",
+        "root": "قفا",
+        "lemma": "بشارة",
+        "confidence": "medium",
+        "needs_review_reason": "The tafsir describes general discursive 'closure' following a warning; verify this reading is intended specifically for the placement/sequence in S2:236."
+      }
+    ],
+    "warnings": [
+      "Source chunks supplied are tafsir excerpts discussing general rhetorical methods and some other verses; the explicit linkage of these tafsir observations to Q2:236 should be validated against direct commentary on this exact verse.",
+      "Many classical commentarial remarks are general (about the Qur'an's style) rather than verse-specific; claims extracted here reflect those general statements and so some claims are marked for review."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,54 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فيه التفات من الغيبة إلى الخطاب",
+        "claim_ar": "التفات (انتقال خطابي) في تركيب الآية من وصف حالٍ إلى توكيد خطابي/تنبيه («وَلَوْ شَاءَ اللَّهُ... إِنَّ اللَّهَ...») مما يوجّه الانتباه ويشد أثر الحكم.",
+        "claim_en": "Iltifat (attentional shift): the verse moves from describing the people's condition to a decisive emphatic statement about God's power, directing the addressee's attention and increasing force of the statement.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source chunk discusses the general phenomenon of shifting from third‑person description to direct address; mapping that general description onto this ayah's specific shift is plausible but inferential and should be checked by a specialist."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "istiarah",
+        "source_quote_ar": "قد استعير المثل استعارة الأسد للمقدام، للحال أو الصفة أو القصة",
+        "claim_ar": "استعارة/تشخيص: «الْبَرْقُ يَخْطَفُ أَبْصَارَهُمْ» تصوير البرق وكأنّه فاعل يَخْطَفُ الأبصار، وهو استخدام استعاري لتقوية التصوير الحسي.",
+        "claim_en": "Istiarah (metaphor/personification): 'the lightning almost snatches their sights' personifies lightning as an agent that seizes sight — a metaphorical depiction to intensify the sensory image.",
+        "device_branch": "bayan",
+        "device_subtype": "istiarah",
+        "root": "خطف",
+        "lemma": "خَطِفَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 18,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "لما جاء بحقيقة صفتهم عقبها بضرب المثل زيادة في الكشف وتتميما للبيان.",
+        "claim_ar": "مقابلة/موازنة بين الحواس («بِسَمْعِهِمْ وَأَبْصَارِهِمْ») لإظهار شمول الإزالة (لو شاء الله لذهب ببصرهم وسمعهم) وتقوية المدح أو التوبيخ عبر التأنّي في ذكر الجزئين.",
+        "claim_en": "Muqabalah (balanced pairing/parallelism): the pairing of 'their hearing and their sight' creates parallelism that emphasizes the completeness of the threatened removal of senses, reinforcing the rhetorical force.",
+        "device_branch": "badi",
+        "device_subtype": "muaqabalah",
+        "root": "سمع",
+        "lemma": "سَمْع",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk discusses the rhetorical use of parables and illustrative examples generally; applying that to identify muqabalah (pairing) here is reasonable but somewhat inferential and would benefit from targeted classical commentary confirming the identification."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are general exegetical discussions and do not all quote this ayah verbatim; some claims map general rhetorical observations in the sources to features of S2:A20 and therefore are inferential.",
+      "Certain identifications (particularly the iltifat and the labeling of the pairing as muqabalah) should be reviewed by a specialist in classical Arabic rhetoric to confirm terminology and alignment with the cited sources.",
+      "No explicit mention of this ayah's exact wording was found in the supplied chunks; ensure cross‑checking with primary balagha texts (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) when finalizing annotations."
+    ],
+    "quran_ref": "S2:A20"
+  },
+  "n_chunks": 12
+}

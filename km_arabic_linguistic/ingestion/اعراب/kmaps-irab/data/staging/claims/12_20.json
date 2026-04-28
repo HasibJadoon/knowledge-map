@@ -1,0 +1,109 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (تَفْتَأُ) : أَيْ لَا تَفْتَأُ، فَحُذِفَتْ «لَا» لِلْعِلْمِ بِهَا. وَ (تَذْكُرُ) : فِي مَوْضِعِ نَصْبِ خَبَرِ تَفْتَأُ.",
+        "claim_ar": "الْفَعْلُ مُنْصَبٌ فِي مَوْضِعِ نَصْبِ خَبَرِ تَفْتَأُ.",
+        "claim_en": "The verb is in the nominative case in the position of the predicate of 'تَفْتَأُ'.",
+        "root": "شَرَ",
+        "lemma": "شَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مُزْجَاةٍ) : أَلِفُهَا مُنْقَلِبَةٌ عَنْ يَاءٍ، أَوْ عَنْ وَاوٍ، لِقَوْلِهِمْ زَجَا الْأَمْرُ يَزْجُو.",
+        "claim_ar": "الْمُزْجَاةُ مُنْصَبَةٌ فِي مَوْضِعِ مَفْعُولِ الْفِعْلِ.",
+        "claim_en": "The 'مُزْجَاةٍ' is in the nominative case as the object of the verb.",
+        "root": "ثَمَن",
+        "lemma": "ثَمَن",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (بَخْسَ) : أَيْ لَا تَبْخُسْ، فَحُذِفَتْ «لَا» لِلْعِلْمِ بِهَا.",
+        "claim_ar": "الْفَعْلُ مُنْصَبٌ فِي مَوْضِعِ نَصْبِ خَبَرِ تَبْخُسْ.",
+        "claim_en": "The verb is in the nominative case in the position of the predicate of 'تَبْخُسْ'.",
+        "root": "بَخْس",
+        "lemma": "بَخْس",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (دَرَٰهِمَ) : أَيْ لَا تَبْخُسْ دَرَهْمَ، فَحُذِفَتْ «لَا» لِلْعِلْمِ بِهَا.",
+        "claim_ar": "الْمَفْعُولُ مُنْصَبٌ فِي مَوْضِعِ مَفْعُولِ الْفِعْلِ.",
+        "claim_en": "The object is in the nominative case as the object of the verb.",
+        "root": "دَرَ",
+        "lemma": "دَرَ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مُعَدُّدَةً) : أَيْ لَا تَعْدُدْ، فَحُذِفَتْ «لَا» لِلْعِلْمِ بِهَا.",
+        "claim_ar": "الْمَفْعُولُ مُنْصَبٌ فِي مَوْضِعِ مَفْعُولِ الْفِعْلِ.",
+        "claim_en": "The object is in the nominative case as the object of the verb.",
+        "root": "عَدَ",
+        "lemma": "عَدَ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (كَانَ) : أَيْ لَا تَكُنْ، فَحُذِفَتْ «لَا» لِلْعِلْمِ بِهَا.",
+        "claim_ar": "الْفَعْلُ مُنْصَبٌ فِي مَوْضِعِ نَصْبِ خَبَرِ تَكُنْ.",
+        "claim_en": "The verb is in the nominative case in the position of the predicate of 'تَكُنْ'.",
+        "root": "كَانَ",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (فِي) : أَيْ لَا تَكُنْ فِي، فَحُذِفَتْ «لَا» لِلْعِلْمِ بِهَا.",
+        "claim_ar": "الْمَفْعُولُ مُنْصَبٌ فِي مَوْضِعِ مَفْعُولِ الْفِعْلِ.",
+        "claim_en": "The object is in the nominative case as the object of the verb.",
+        "root": "فِي",
+        "lemma": "فِي",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (كُلَّ) : أَيْ لَا تَكُنْ كُلَّ، فَحُذِفَتْ «لَا» لِلْعِلْمِ بِهَا.",
+        "claim_ar": "الْمَفْعُولُ مُنْصَبٌ فِي مَوْضِعِ مَفْعُولِ الْفِعْلِ.",
+        "claim_en": "The object is in the nominative case as the object of the verb.",
+        "root": "كُلَ",
+        "lemma": "كُلَ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَفْعُولٍ) : أَيْ لَا تَكُنْ مَفْعُولٍ، فَحُذِفَتْ «لَا» لِلْعِلْمِ بِهَا.",
+        "claim_ar": "الْمَفْعُولُ مُنْصَبٌ فِي مَوْضِعِ مَفْعُولِ الْفِعْلِ.",
+        "claim_en": "The object is in the nominative case as the object of the verb.",
+        "root": "فَعَلَ",
+        "lemma": "فَعَلَ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      }
+    ],
+    "needs_review": false
+  },
+  "n_chunks": 16
+}

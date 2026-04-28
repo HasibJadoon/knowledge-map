@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:232",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ترغيب/ترهيب (تشجيع وتخويف متلازمان)",
+        "source_quote_ar": "أن يذكر الترغيب مع الترهيب",
+        "claim_ar": "الآية توظف الترغيب مضافًا إلى الترهيب (بشارة ووعيد)؛ الإشارة إلى «ذلك يُوعَظُ بِهِ...» تأتي كتشجيع/تعزيز بعد التشديد على الأحكام، وهو أسلوب ترغيب وترهيب بلاغي.",
+        "claim_en": "The verse pairs encouragement (targhib) with warning (tarhib); the admonition and the consolatory admonishment ('that is a reminder for...') functions as encouragement following the legal admonition — a rhetorical pairing of promise and warning.",
+        "device_branch": "maani",
+        "device_subtype": "targhib_with_tarhib",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "بديع - تكرار/توكيد",
+        "source_quote_ar": "تكرار الحروف بمثابة تكرار العمل.",
+        "claim_ar": "الآية تستعمل تكرار أداتين إشاريتين («ذَلِكَ» و«ذَٰلِكُمْ») لتوكيد الحكم والأثر الأخلاقي؛ هذه وظيفة بديعية (تكرار) لشدّ المعنى وللتأكيد.",
+        "claim_en": "The verse uses repetition — parallel demonstratives ('dhālika' / 'dhālikum') — to emphasize the ruling and its moral effect; this is a badiʿ (repetition) device serving emphasis.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source gives a general principle about repetition; linking that principle to the specific repetition in this ayah is an interpretive inference and should be cross-checked with a focused rhetorical commentary on 2:232."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "تحريك سورة / خاتمة مطمئنة (surah_movement)",
+        "source_quote_ar": "قفاه ببشارة عباده",
+        "claim_ar": "المعلّق في الشرح يشير إلى أن المؤلف يقف ختامًا ببشارةٍ بعد ذكر الترهيب؛ الآية تختتم بتذكير وتقويم (بشارة للمؤمنين بالتقى والنقاء)، وهو حركة نصّية تقوِّي الجانب التحفيزي بعد الجانب التأديبي.",
+        "claim_en": "The commentator notes that the passage is closed with glad tidings after warnings; the verse ends with a consolatory reminder (praise of what is purer for you), a textual movement that balances admonition with encouragement.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source states the general practice of closing warnings with glad tidings; applying this to the structural movement of 2:232 is plausible but should be verified against dedicated rhetorical analyses of the verse."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are general tafsir/grammatical excerpts (Zamakhshari, Darwish, Safi, etc.), not explicitly the requested al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti or a dedicated 'tafsir balagha' corpus. Claims above are drawn from the given chunks and sometimes infer application to S2:A232; where inference was required this is noted in needs_review_reason.",
+      "Some claims (especially those marked medium confidence) are based on applying a general rhetorical principle quoted in the source to this specific verse; please review them against specialized rhetorical-commentary for 2:232 if high-certainty attribution is needed."
+    ]
+  },
+  "n_chunks": 12
+}

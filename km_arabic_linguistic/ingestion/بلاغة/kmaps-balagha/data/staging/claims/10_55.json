@@ -1,0 +1,73 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:55",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إفادة الحصر",
+        "claim_ar": "جملةُ «إِنَّ لِلَّهِ مَا فِي السَّمَاوَاتِ وَالْأَرْضِ» تفيد الحصر والتملك الشامل لما في السماوات والأرض لله تعالى",
+        "claim_en": "The clause 'Indeed, to Allah belongs whatever is in the heavens and the earth' conveys restriction/total inclusion (hasr/qasr) — i.e. exclusive, comprehensive possession by God.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "حصر",
+        "lemma": "حصر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S10:A55",
+        "rhetorical_effect": "emphasises the totality and exclusivity of God's ownership to refute any rival claims"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ألا ترى كيف أسند إليهم الاعتداء ووصفهم به",
+        "claim_ar": "حرفُ النداء/التحذير «أَلَا» يستعمل لاستدعاء الانتباه والالتفات، أي تحويل مخاطبة السامع وجذب نظره إلى حقيقةٍ مهمة",
+        "claim_en": "The particle 'Ala' functions to call attention/alert (iltifat), shifting the addressee's focus to an important truth.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": "أَلَآ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S10:A55",
+        "rhetorical_effect": "grabs attention and frames the following assertions as weighty and certain"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "takrar",
+        "source_quote_ar": "وزيدت الواو لتوكيد الربط.",
+        "claim_ar": "تكرارُ «إِنَّ» (في بداية الجملة الأولى والثانية) وعموماً تكرارُ أدوات الاستهلال/التوكيد يعمل كجناس بلاغي يُقوّي الحضور التأكيدي للقول",
+        "claim_en": "Repetition: the recurrence of 'Inna' (at the start of both clauses) — repetition functions as a badi' device (takrar) to reinforce emphasis; repetition of lead-in particles strengthens certitude.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "كرر",
+        "lemma": "تكرار",
+        "confidence": "medium",
+        "needs_review_reason": "The source passage speaks of repeated conjunctions (e.g. addition of waw) as emphasis; mapping that general observation to the specific repeated particle 'إِنَّ' in this ayah is an inferential step.",
+        "quran_ref": "S10:A55",
+        "rhetorical_effect": "intensifies assertion and creates a rhythmic emphasis that underlines the truthfulness of the statements"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "فصل بين حالتيهم",
+        "claim_ar": "المقاطع المتتالية في الآية مرصوفة مع فاصلٍ معنوي بين حالتي التأكيد على ملك الله وبيان صدق وعده ثم إشارة إلى جهل أكثر الناس — أي توظيف فصل/وصل لمزيد من التدرج البلاغي",
+        "claim_en": "Separation/connection (fasl_wasl): the verse uses separated but connected clauses (asserting God's ownership, asserting the truth of God's promise, then noting people's ignorance); the rhetorical use of separation/connection shapes gradual emphasis.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "فصل",
+        "lemma": "فصل",
+        "confidence": "medium",
+        "needs_review_reason": "The commentator's discussion of 'فصل' concerns separation between states in another context; applying it to the clause-structure of this ayah is plausible but interpretive.",
+        "quran_ref": "S10:A55",
+        "rhetorical_effect": "structures the argument: affirmation → confirmation → diagnosis (ignorance), guiding the listener through logical steps"
+      }
+    ],
+    "warnings": [
+      "All source_quote_ar values are taken from the provided Zamakhshari chunks; most quoted commentary discusses rhetorical devices in other verses or in general terms. Mapping those general observations to the specific phrasing of S10:A55 therefore includes some inferential steps (not every source line cites this exact ayah).",
+      "For particles like 'أَلَا' and abstract devices such as 'إفادة الحصر' the declared 'root' may be null or lexical (particles do not have triliteral verbal roots); root values are provided where a lexical root is meaningful, otherwise null was used."
+    ]
+  },
+  "n_chunks": 12
+}

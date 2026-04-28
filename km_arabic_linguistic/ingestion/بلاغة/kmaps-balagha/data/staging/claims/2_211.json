@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:211",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "إِسْرَائِيلَ",
+        "claim_ar": "انتقال الخطاب من مخاطب مخصوص (بَنِي إِسْرَائِيلَ) إلى عموم/مبهم (وَمَنْ) — إلتفات بلاغي يوسّع الحكم من خاصة إلى عامة ويشدد التحذير.",
+        "claim_en": "A shift of address (iltifat): the verse begins addressing a specific addressee (Bani Isra'il) and then shifts to a general/indefinite subject ('and whoever...'), broadening the scope and strengthening the warning.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "ما أنعم به على آبائهم",
+        "claim_ar": "الربط الشرطي بين استبدال النِعْمَة والعقاب (وَمَنْ يُبَدِّلْ نِعْمَةَ اللَّهِ ... فَإِنَّ اللَّهَ شَدِيدُ الْعِقَابِ) يعمل كأسلوب فصل ووصل: بيان السبب والنتيجة كتحذير وعقاب محقّق.",
+        "claim_en": "Fasl-wasl (separation/connection): the conditional link between changing God's favor and the punitive result ('and whoever changes the favor of Allah ... then indeed Allah is severe in punishment') functions to connect cause and consequence as a stern warning.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunk discusses the favour given to their fathers ('ما أنعم به على آبائهم') but does not quote the exact conditional sentence; the conditional linkage is inferred from the ayah rather than an explicit chunk quotation."
+      }
+    ],
+    "warnings": [
+      "Only commentary chunks from Zamakhshari (al-Kashshaf) were provided; the requested classical sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the input, so claims are limited to available material.",
+      "For ayah-level claims I left 'root' and 'lemma' empty because the device applies to the whole verse rather than a single lexeme; please advise if a specific token-level root/lemma is required.",
+      "Some device assignments (e.g., fasl_wasl) rely on inference from the ayah while the provided chunk contains related vocabulary rather than the full conditional phrase; such cases are marked with confidence/needs_review_reason accordingly."
+    ]
+  },
+  "n_chunks": 12
+}

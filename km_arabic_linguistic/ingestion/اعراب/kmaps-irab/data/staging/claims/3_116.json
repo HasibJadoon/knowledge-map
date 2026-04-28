@@ -1,0 +1,36 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:116",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ بَدَلًا مِنَ الَّذِينَ الْأُولَى، وَأَنْ يَكُونَ خَبَرَ مُبْتَدَأٍ مَحْذُوفٍ.",
+        "claim_ar": "يَجُوزُ أَنْ يَكُونَ «الَّذِينَ» بدلًا من «الَّذِينَ» الأولى، أو أن يكون خبرَ مبتدأٍ محذوفٍ.",
+        "claim_en": "It is permissible that 'al-ladhina' functions as an appositional badal from the first 'al-ladhina', or that it is the predicate (khabar) of an omitted subject (mubtada' mahduf).",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage in al-Tibyan treats the phrase «الَّذِينَ عَاهَدْتَ» as an example. Applying these alternative analyses to the occurrence in S3:116 is plausible but not explicitly stated in the provided chunk; further verification against the full commentary on this specific verse is needed."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ بِالْيَاءِ وَالتَّاءِ، وَقَدْ ذُكِرَ مِثْلُ ذَلِكَ فِي الْأَنْفَالِ.",
+        "claim_ar": "يُقْرَأُ بَعْضُ عُرُوضِهَا بِالْيَاءِ وَالتَّاءِ (قراءةٌ وارِدَةٌ في مواضعٍ مُماثِلة).",
+        "claim_en": "A reading variant is reported in which it is pronounced/read with ya' and ta' (a variant attested in similar contexts).",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "low",
+        "needs_review_reason": "The source comment refers to a reading variant in the formula «لَا تَحْسَبَنَّ الَّذِينَ», not explicitly to S3:116; generalizing this variant to the verse at hand is tentative and requires corroboration."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain only marginally related remarks; none addresses S3:116 exhaustively.",
+      "Key grammatical points for this verse (e.g., the effect of إِنَّ on اَلَّذِينَ, the subjunctive caused by لَنْ on the verb تُغْنِيَ) are not discussed in the supplied excerpts—claims above are inferred from analogous examples in the chunks and need confirmation from fuller commentary.",
+      "Some source examples cite different specific phrases (e.g., «الَّذِينَ عَاهَدْتَ», «لَا تَحْسَبَنَّ الَّذِينَ»); applying their analyses to this exact occurrence involves extrapolation."
+    ]
+  },
+  "n_chunks": 12
+}

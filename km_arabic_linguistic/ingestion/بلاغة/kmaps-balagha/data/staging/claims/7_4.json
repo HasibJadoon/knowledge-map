@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:4",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "إيجاز (حذف)",
+        "source_quote_ar": "جواب قسم محذوف.",
+        "claim_ar": "إيجاز بلاغي عن طريق الحذف: الإشارة إلى جواب القسم محذوف لتكثيف المعنى وإيقاع قوة في الآية.",
+        "claim_en": "Rhetorical concision through ellipsis: the commentary notes that the answer to an oath is omitted, a concise device that heightens impact.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk (Zamakhshari) states 'جواب قسم محذوف' but does not explicitly demonstrate how this deletion maps onto the specific wording of S7:A4; further confirmation from other tafsir/balagha sources is recommended."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "التفات",
+        "source_quote_ar": "ولما في طريقة الالتفات من مزية البلاغة",
+        "claim_ar": "التفات بلاغي: الانتقال أو الالتفات في السّرد/الأسلوب الذي يُبرز جوانب المعنى، ويمكن قراءته في تركيب الآية عند الانتقال إلى قوله «أَوْ هُمْ قَائِلُونَ».",
+        "claim_en": "Iltifat (shift of address/style): the commentary highlights the rhetorical merit of 'iltifat' — a sudden shift in narration or style — which can be read here in the turn to ‘or while they were saying’ (أَوْ هُمْ قَائِلُونَ).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Zamakhshari mentions the virtue of iltifat generally; the link to this specific ayah's phrasing is interpretive and should be checked against other balagha commentaries."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are all from Zamakhshari (al-Kashshaf). Requested classical balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha sections) are not present; claims therefore derive solely from the supplied Zamakhshari chunks.",
+      "Root and lemma fields are null for ayah-level devices (word_index 0). If per-lemma anchoring is required, supply author/tafsir chunks that tie devices to specific words or provide explicit lexical commentary."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:244",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contains the ayah (S2:244) or any exact Arabic substring discussing its words. Cannot extract إعراب claims without an exact source_quote_ar from the given chunks.",
+      "If you want claims extracted, please provide source chunk(s) from التبيان (or similar works) that include the exact Arabic text or grammatical discussion for this specific ayah."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,56 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:253",
+  "result": {
+    "claims": [
+      {
+        "word_index": 37,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يكون مِنْهُم رَافعا لمن",
+        "claim_ar": "يجوز أن يكون «فَمِنْهُمْ» رافعاً (مرفوعاً) ارتباطًا بـ«مَنْ» — أي إمكان رفْع موضعه النحوي في التحليل.",
+        "claim_en": "It is possible that «فَمِنْهُمْ» is to be analyzed as raised (nominative) in relation to «مَنْ» — i.e. it may function as if lifted to a nominative position in the analysis.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The phrase 'رافعا' indicates an atypical analysis (a prepositional phrase being 'raised'); the exact syntactic status (how 'raising' is implemented) needs verification against fuller commentary or examples."
+      },
+      {
+        "word_index": 37,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "أَن يَكُونَ مُبْتَدَأً وَخَبَرًا",
+        "claim_ar": "يجوز أن تكون الجملة «مَنْ آمنَ…» جملةً اسميةً مكونةً من مبتدأ وخبر (أي تحليلها كـمبتدأٍ وخبرٍ).",
+        "claim_en": "The clause (e.g. «مَنْ آمَنَ…») may be analyzed as a nominal sentence consisting of a subject (mubtada') and predicate (khabar).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The author lists this as one possible analysis among others; it requires contextual confirmation which reading the broader commentary would provide."
+      },
+      {
+        "word_index": 37,
+        "claim_type": "irab",
+        "source_quote_ar": "وَالْجُمْلَةُ نَعْتٌ لِرُسُلٍ",
+        "claim_ar": "الجملة «فَمِنْهُمْ مَنْ آمَنَ…» نعتٌ لـ «الرُّسُلِ» (أي الجملة في مقام نعت يحدِّث عن الرسل).",
+        "claim_en": "The clause «فَمِنْهُمْ مَنْ آمَنَ…» functions as a na‘t (attributive clause) modifying «الرسُل» (i.e. it qualifies/describes the messengers).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "Although stated clearly in the source, the exact syntactic attachment (which word it modifies and how this interacts with sentence-level parsing) should be cross-checked with full commentary context."
+      },
+      {
+        "word_index": 37,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ مُسْتَأْنَفًا",
+        "claim_ar": "يجوز أن تكون الجملة مستأنفَةً — أي جملة مستقلة مستأنفة عن الجملة السابقة.",
+        "claim_en": "It is possible that the clause is a resumed (mustanfa') independent sentence (i.e. an independent sentence resumed after the preceding clause).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source lists this as an alternative; determining whether it is the preferred reading requires further context from the commentary."
+      }
+    ],
+    "warnings": [
+      "All extracted claims come from a single source-chunk that discusses the pattern «مِنْهُمْ مَنْ ...» (quoted as «مِنْهُمْ مَنْ قَصَصْنَا»). The author offers multiple alternative analyses rather than a single definitive ruling; treat each as a possible reading needing corroboration."
+    ]
+  },
+  "n_chunks": 12
+}

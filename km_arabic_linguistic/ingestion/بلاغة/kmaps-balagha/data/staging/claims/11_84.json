@@ -1,0 +1,78 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:84",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وغَيْرُهُ بالرفع: صفة على محل الجار والمجرور.",
+        "claim_ar": "حصر الألوهية بالله وحده في عبارة «مَا لَكُمْ مِنْ إِلَهٍ غَيْرُهُ» لإظهار عدم وجود إله سواه.",
+        "claim_en": "Exclusivizing the divinity to God alone in the phrase “you have no deity other than Him,” asserting there is no god besides Him.",
+        "device_branch": "maani",
+        "device_subtype": "hasr/qasr (exclusivity/limitation)",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "explanatory_apposition",
+        "source_quote_ar": "أَخاهُمْ واحداً منهم، وانتصابه للعطف على أرسلنا نوحا.",
+        "claim_ar": "استعمال «أَخَاهُمْ شُعَيْبًا» بصيغة تُبيّن أن شعيبًا واحد منهم (تفسير/توضيح بالكناية عن القرابة)، أي توكيد قربه منهم وكونه منهم.",
+        "claim_en": "Use of “their brother Shu‘ayb” to indicate he is one of them (an appositional clarification), stressing his closeness and belonging to the community.",
+        "device_branch": "other",
+        "device_subtype": "appositional clarification (bayanate tafsili)",
+        "root": "اخو",
+        "lemma": "أَخ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "الْعَذابَ عذاب الآخرة.",
+        "claim_ar": "تضاد/مقابلة بلاغية بين «إِنِّي أَرَاكُمْ بِخَيْرٍ» و «إِنِّي أَخَافُ عَلَيْكُمْ عَذَابَ يَوْمٍ مُحِيطٍ» — إظهار التناقض بين الرخاء الظاهر وخطر وقوع العذاب الشامل.",
+        "claim_en": "A rhetorical antithesis between “I see you in prosperity” and “I fear for you the punishment of an all‑encompassing day” — contrasting apparent well‑being with impending, encompassing punishment.",
+        "device_branch": "badi",
+        "device_subtype": "m uqābalah (antithesis/contrast)",
+        "root": "خوف",
+        "lemma": "خَافَ",
+        "confidence": "medium",
+        "needs_review_reason": "Support comes from the commentator's gloss identifying the punishment as the afterlife/encircling punishment; the explicit pairing as a rhetorical antithesis is inferential rather than directly named in the chunk."
+      },
+      {
+        "word_index": 26,
+        "claim_type": "majaz",
+        "source_quote_ar": "وصف اليوم بأليم من الإسناد المجازى لوقوع الألم فيه.",
+        "claim_ar": "وصف «اليوم» بصفات أليمة/محيطة يُعرض هنا كمجاز لوصف وقع الألم والعذاب — استخدام تصويري لِـ «يَوْمٍ مُحِيطٍ».",
+        "claim_en": "Figurative/metaphorical description: describing the day as painful/encompassing is a metaphorical ascription to convey the occurrence of pain and punishment — a figurative reading of “an encompassing day.”",
+        "device_branch": "bayan",
+        "device_subtype": "majaz (metaphor/metonymy)",
+        "root": "حوط",
+        "lemma": "مُحِيط",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk speaks of describing the day as painful by a figurative (majaz) attribution; mapping this specifically to the phrase «يَوْمٍ مُحِيطٍ» is plausible but relies on interpretive extension."
+      },
+      {
+        "word_index": 18,
+        "claim_type": "takrar",
+        "source_quote_ar": "أَى أرسلنا نوحاً بأنى لكم نذير.",
+        "claim_ar": "تكرار صيغة الإرشاد والاعتداد بـ «إِنِّي/أَنِّي» (أبْنِ كهذا) كوسيلة تأكيدية لِمَرْسِلِ النُّذُر (تأكيد الذات والسلطة النبوية).",
+        "claim_en": "Repetition/formulaic self‑assertion using “Inni/Anni” (I am) as an emphatic device asserting the messenger's authority and warning role.",
+        "device_branch": "badi",
+        "device_subtype": "takrar (repetition / emphatic formula)",
+        "root": "إنّ",
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk shows the formulaic use of »أَنِّي« in prophetic speech; applying it to the specific twin occurrences of «إِنِّي» in the verse is reasonable but the source example uses a slightly different orthography/wording (أَنّي)."
+      }
+    ],
+    "warnings": [
+      "Source material provided is limited to Zamakhshari (al‑Kashshaf) chunks. Claims are extracted/inflected from those chunks; coverage from al‑Jurjani, al‑Sakkaki, al‑Baqillani, al‑Suyuti and tafsir‑balagha is not present and therefore not represented.",
+      "Some claims (marked with medium confidence) involve interpretive extension from commentary quotations rather than explicit naming of the exact rhetorical label in the chunk; these should be reviewed against additional tafsir/balagha sources for confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

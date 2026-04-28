@@ -1,0 +1,81 @@
+{
+  "layer": "balagha",
+  "word_key": "1:2:3",
+  "result": {
+    "claims": [
+      {
+        "claim_type": "bayan",
+        "source_quote_ar": "البلاغة: في هذه الآية مواطن من البلاغة بالغة حدّ الإعجاز نلخصها فيما يلي: 1- المجاز المرسل في قوله تعالى: «وآتوا اليتامى أموالهم» لأن الله سبحانه لا يأمر بإعطاء اليتامى الصغار أموالهم، فهذا غير معقول بل الواقع أن الله يأمر بإعطاء الأموال م",
+        "claim_ar": "المجاز المرسل في «وآتوا اليتامى أموالهم» — الألفاظ تؤدي معنى عامًّا (التسليم/الحفظ/الوصاية) لا المعنى الحرفي القاصر (إعطاء الصغار أموالهم فورًا).",
+        "claim_en": "A transferred metaphor (مجاز مرسل) in “وآتوا اليتامى أموالهم”: the phrase uses literal wording but intends the general ruling (custody/handing to guardians or trustees), not the literal impossibility of handing property to infant owners.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz_mursal",
+        "root": "أتى",
+        "lemma": "آتوا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "An-Nisa 4:2",
+        "rhetorical_effect": "يعمّم الأمر بلغة موجزة، ويحوّل اللفظ الحرفي إلى توجيه تشريعي يختصر تفاصيل التنفيذ القضائي/الوصائي."
+      },
+      {
+        "claim_type": "bayan",
+        "source_quote_ar": "البلاغة: 1- التعبير بالضد: في قوله تعالى رُبَما يَوَدُّ الَّذِينَ كَفَرُوا لَوْ كانُوا مُسْلِمِينَ اختلف علماء البلاغة في المراد بهذا التعبير. ... والعرب تعبر عن المعنى بما يؤدي عكس مقصوده.",
+        "claim_ar": "التعبير بالضد في «رُبَما يودّ الذين كفروا لو...» — استعمال 'ربما' والعبارة التي تبدو متَّجهة للتقليل للدلالة على يقين أو مبالغة عكسية؛ بيانٌ باستخدام الضدّ لإيقاظ المعنى.",
+        "claim_en": "Expression by the opposite in “ربما يودّ الذين كفروا لَوْ...” — the particle 'rubama' and wording that appear to suggest diminution are used to indicate the opposite (intensification or near certainty); a rhetorical device of stating the contrary to awaken/heighten the intended meaning.",
+        "device_branch": "bayan",
+        "device_subtype": "تعبير_بالضد",
+        "root": "ربّ",
+        "lemma": "ربما",
+        "confidence": "medium",
+        "needs_review_reason": "The device label 'تعبير بالضد' is explicit in the source, but mapping to the limited subtype taxonomy (maani/bayan/badi lists) is approximate; verse reference was not supplied in the chunk.",
+        "rhetorical_effect": "يزيد من حدة التوبيخ والإيقاظ لدى السامع عبر استعمال صيغة تبدو مخففة لتعطي أثرًا معاكسًا (مبالغة/تأكيد)."
+      },
+      {
+        "claim_type": "naktah",
+        "source_quote_ar": "والنّكتة فيه هي أن هذا اللفظ لا يطلق عند العرب على كل كائن وموجود كالحجر والتراب وإنما يطلقونه على كل جملة متمايزة لأفرادها صفات تقربها من العاقل الذي جمعت جمعه وان لم تكن منه فيقال: عالم الإنسان، وعالم الحيوان وعالم النبات",
+        "claim_ar": "نُكتة لغوية على كلمة «العالمين»: أنها عند العرب لا تطلق على كل الموجودات الحيوية وغير الحيوية بل على مجموعات متمايزة أقرب إلى مفهوم العاقل.",
+        "claim_en": "A linguistic 'nuktah' concerning the word 'العالمين': among Arabs the term is not applied to every existent like stone or dust but to distinct collectives whose members have qualities approaching those of rational beings (e.g., 'the world of humans', 'the world of animals').",
+        "device_branch": "naktah",
+        "device_subtype": "لغوي",
+        "root": "ع ل م",
+        "lemma": "عالِم / العالمين",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "rhetorical_effect": "يوضح دقة الدلالة اللغوية لكلمة محورية في الآية، مما يضفي غنى معاني أوسع على لفظٍ ظاهرٍ."
+      },
+      {
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "البلاغة: 1- التفسير بعد الإبهام: في هذه الآية الكريمة حيث وضح بأن الطريق المستقيم بيانه وتفسيره: صراط المسلم",
+        "claim_ar": "أسلوب التفسير بعد الإبهام: تقديم لفظ إبهامي ثم تفسيره لاحقًا (مثال: 'الصراط' ثم تفسيره ببيان طريق المسلمين).",
+        "claim_en": "A stylistic wisdom (أسلوب حكيم): 'interpretation after ambiguity'—introducing an ambiguous term and then clarifying it subsequently (e.g., 'the path' followed by its elucidation as the path of the believers).",
+        "device_branch": "asloob_hakim",
+        "device_subtype": "تفسير_بعد_الإبهام",
+        "root": "ص ر ط",
+        "lemma": "صِراط",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping 'التفسير بعد الإبهام' to the prescribed device taxonomy is interpretive; the chunk signals the device but taxonomy placement (asloob_hakim vs. bayan) may be contested.",
+        "rhetorical_effect": "يبني توترًا دلاليًا ثم يفرّغه بتفسيرٍ محدّد، فتتضح الرسالة وتزداد فعالية التوجيه."
+      },
+      {
+        "claim_type": "bayan",
+        "source_quote_ar": "البلاغة: الكناية: في قوله تعالى «لَيْسَ لَهُمْ طَعامٌ إِلَّا مِنْ ضَرِيعٍ» . ففي الكلام مجاز أو كناية، أريد به طعام مكروه للإبل وغيرها من الحيوانات التي تلتذ رعي الشوك، فلا ينافي كونه زقوما أو غسلينا.",
+        "claim_ar": "كناية في «ليس لهم طعام إلا من ضريع» — استعمال 'ضريع' كناية عن طعام غير صالح أو مكروه، لا وصف حرفي بالطعام البشري المقبول.",
+        "claim_en": "A kenayah (metonymy) in “there is no food for them except from ḍarīʿ”: 'ḍarīʿ' is used as a figurative expression for poor/unfit food (emphasizing scarcity/unpleasantness), not a literal endorsement of that as human food.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "ض ر ع",
+        "lemma": "ضَرِيع",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "rhetorical_effect": "يستعمل رمزًا مألوفًا (طعام الإبل الشوكي) ليصوّر شحًّا ومطاولةً مُذمَّة في الطعام للمعنيّين."
+      }
+    ],
+    "warnings": [
+      "Requested source authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present in the provided chunks. Extraction is based on the supplied chunks (Darwish I'rab, Zamakhshari al-Kashshaf, Safi al-Jadwal).",
+      "Some device_subtype labels in the sources (e.g., 'التعبير بالضد', 'التفسير بعد الإبهام') do not map cleanly onto the limited subtype list in the prompt; I placed them under the closest branch but these mappings may need review by a subject expert.",
+      "Qur'anic verse references were not always explicit in the chunks; where clear (e.g., «وآتوا اليتامى أموالهم») a reference was added (An‑Nisa 4:2). Other verses were not assigned references to avoid errors.",
+      "Roots and lemmas were assigned to the lexical items central to each rhetorical claim (e.g., آتوا → root أتى). Some etymological assignments are approximate and might require lexicographical verification."
+    ]
+  },
+  "n_chunks": 12
+}

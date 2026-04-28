@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:59",
+  "result": {
+    "claims": [
+      {
+        "word_index": 17,
+        "claim_type": "استفهام إنكاري (همزة الاستفهام الإنكاري)",
+        "source_quote_ar": "(أَمْ يَقُولُونَ افْتَراهُ)",
+        "claim_ar": "الهمزة (أَمْ) هنا تستخدم استفهاماً إنكارياً لرفض الزعم وإظهار استنكاره؛ أي أسلوب استنكاري ترويجي للدحض.",
+        "claim_en": "The hamza interrogative 'أَمْ' functions as an accusatory/denying rhetorical question, rejecting the claim and highlighting its implausibility (rhetorical interrogation for repudiation).",
+        "device_branch": "maani",
+        "device_subtype": "استفهام إنكاري",
+        "root": null,
+        "lemma": "أَم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S10:A59",
+        "rhetorical_effect": "Expresses strong reproach and forces the hearer to reconsider the absurdity of the allegation (heightens the tone of refutation)."
+      },
+      {
+        "word_index": 20,
+        "claim_type": "اتهام بالافترا / نفي الافتراء",
+        "source_quote_ar": "(وَما كانَ هذَا الْقُرْآنُ أَنْ يُفْتَرى مِنْ دُونِ اللَّهِ)",
+        "claim_ar": "المفردة (تَفْتَرُونَ) تندرج في سياق نفي الاتهام بالافتراء على الله؛ أسلوب بلاغي يلتمس دحض تهمة كون الوحي مُفتَرى.",
+        "claim_en": "The verb 'تَفْتَرُونَ' is part of a rhetorical refutation of the accusation that the revelation is fabricated; it invokes the motif of 'افتراء' (fabrication) to deny and condemn the claim.",
+        "device_branch": "maani",
+        "device_subtype": "نفي/اتهام بالافترا",
+        "root": "فري",
+        "lemma": "افْتَرَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk cites the theme of 'افتراء' and its refutation in commentary on related verses; the exact lexical and contextual match to this specific ayah is inferred from that commentary rather than quoted verbatim from the same verse.",
+        "quran_ref": "S10:A59",
+        "rhetorical_effect": "Frames the opponents' claim as a serious falsehood (fabrication), thereby morally discrediting them and strengthening the Prophet's credibility."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are primarily iʿrāb/tafsir excerpts (Darwish, Zamakhshari, Safi) rather than the specific authors requested (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Claims were extracted only where an exact substring match to the provided chunks exists.",
+      "Several clear rhetorical features of the verse (e.g., repetition of قُلْ, the antithetical pairing حَرَامًا وَحَلَالًا, and tonal shift between clauses) are recognizable in the text but could not be supported with exact source_quote_ar substrings from the supplied chunks, so they are not included as claims. If you provide tafsir/balagha excerpts from the named authors (or chunks containing the exact phrases), additional devices (takrār, tibāq/muqābalah, iltifāt) can be added with higher confidence."
+    ]
+  },
+  "n_chunks": 12
+}

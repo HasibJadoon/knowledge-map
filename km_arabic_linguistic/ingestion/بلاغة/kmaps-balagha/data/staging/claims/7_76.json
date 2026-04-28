@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:76",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "الالتفات (iltifat)",
+        "source_quote_ar": "يقول تعالى ذكره: قال لهم حين وردوا عليه يوم القيامة",
+        "claim_ar": "الالتفات إلى الكلام المقول (الانتقال من السرد إلى الكلام المباشر) مؤشره فعل القَول «قَالَ» في بداية الكلام المقتَول.",
+        "claim_en": "Iltifat — a shift to direct speech: marked here by the verb 'قَالَ' introducing quoted speech, moving the discourse from narrator-report to direct utterance.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A76",
+        "rhetorical_effect": "يجعل كلام المبين (المتكلمين المتكبرين) أقرب إلى السامع/القارئ، فيزيد حضور الخصم وسخرية موقفه ويشدّ الانتباه إلى محتوى التوبيخ."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "فصل ووصل (separation/connection emphasis)",
+        "source_quote_ar": "وهذا خبر من الله جل ثناؤه عن قيله لهؤلاء المفترين عليه",
+        "claim_ar": "فصل بين «إِنَّا» وبين الخبر «كَافِرُونَ» عبر إدخال عبارة حالية/شِبْهِية «بِالَّذِي آمَنْتُمْ بِهِ» مما يوسّع المسافة بين المُعلَن ونِهيته ويشدّد المنافية والإنكار.",
+        "claim_en": "Fasl-wa-wasl (separation/connection): the insertion of the phrase 'بِالَّذِي آمَنْتُمْ بِهِ' between 'إِنَّا' and its predicate 'كَافِرُونَ' separates subject and predicate to heighten emphasis on denial and contrast.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "الاستدلال هنا استنتاجي: المصادر المرفقة تورد أن الآية خبر مُنقولة («خبر من الله ... عن قيله»)، لكنها لا تشرح صراحة تقنية الفصل بين ناصفة الخبر والمحمول. البُعد البلاغي مُشتق من بنية الآية نفسها rather than an explicit commentary in the provided chunks.",
+        "quran_ref": "S7:A76",
+        "rhetorical_effect": "الفصل يضخم أثر الإنكار والصدّ، ويجعل عبارة الرفض (كَافِرُونَ) تتلقّى تثبيتًا قويًا بعد توضيح المرجع («الَّذِي آمَنْتُمْ بِهِ»)."
+      }
+    ],
+    "warnings": [
+      "المقاطع المصدرية المرفقة هي من طبري والكسّاف والشرح العامّي، وليست مقاطع صريحة من أقسام البلاغة لِـالجُرجاني أو السكاكي أو الباقلاني أو السيوطي أو من \"تفسير البلاغة\" المخصص. لذلك بعض الاستنتاجات البلاغية هنا مُشتقة من بنية الآية نفسها وليس من تحليل بلاغي صريح في المصادر المرفوعة.",
+      "بعض الادعاءات البلاغية (خاصة المتعلقة بـ«فصل ووصل») مبنية استدلالياً على تركيبة الآية ولا توجد في النصوص المرفقة عبارة تحليلية صريحة تدعمها؛ بوصفها استنتاجية وضعت ثقة متوسطة وذكر سبب المراجعة."
+    ]
+  },
+  "n_chunks": 12
+}

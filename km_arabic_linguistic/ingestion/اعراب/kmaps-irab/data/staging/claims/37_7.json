@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "إِعْمَالُ الْمَصْدَرِ مُنَوَّنًا فِي الْمَفْعُولِ.",
+        "claim_ar": "الواجبُ في «وَحِفْظًا»: أنْ يكونَ مصدرًا منصوبًا مُنَوَّنًا يمكنُ إِعْمَالُهُ مَفْعُولًا (أي يُعدُّ مفعولًا) كما في قاعدَةِ «إِعْمَالُ الْمَصْدَرِ مُنَوَّنًا فِي الْمَفْعُولِ».",
+        "claim_en": "For the word 'وَحِفْظًا' the analysis (wajh) is that it is a tanwīn-ed verbal noun in the accusative which can be worked as a direct object (i.e., treated as a mufa'ūl) — following the rule 'treating the tanwīn-ed maṣdar as a mufa'ūl.'",
+        "root": "حفظ",
+        "lemma": "حِفْظ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted rule in the source discusses the construction of a tanwīn-ed maṣdar with a following genitive (as in زِينَةٍ الْكَوَاكِبِ) and states one possible wajh is treating the maṣdar as mfa'ūl. The source chunk does not mention this specific verse, and here the maṣdar is followed by a prepositional genitive 'مِنْ كُلِّ شَيْطَانٍ', so application to this exact phrasing should be reviewed."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not quote or discuss Sûrat Ṣâd (37):7 or the exact phrase «وَحِفْظًا مِنْ كُلِّ شَيْطَانٍ مَارِدٍ». The extracted claim is inferred by analogy from a general rule in the source (about tanwīn-ed maṣdar constructions) and therefore is tentative.",
+      "Because the phrase here is a maṣdar with a following prepositional genitive (مِنْ ...), confirm whether the general rule about a tanwīn-ed maṣdar being 'worked as mfa'ūl' is intended to apply in the presence of the preposition مِنْ in this context."
+    ]
+  },
+  "n_chunks": 5
+}

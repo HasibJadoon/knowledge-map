@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "8:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "أحدها : أنه نكر للتعظيم",
+        "claim_ar": "كلمة «إِحْدَى» هنا نكرة على وزن التنكيت/التعظيم، أي تذكر إحدى الطائفتين بالتنكيت للدلالة على الاختيار والتعظيم.",
+        "claim_en": "The word «إِحْدَى» here functions as an indefinite (نكرة) used as tanqīt / for exaltation — mentioning one of the two groups to indicate selection and emphatic elevation.",
+        "root": "احد",
+        "lemma": "إِحْدَى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses تنكير (أحد) in the context of Sūrat al-Ikhlāṣ; the application of that reading to S8:A7 is plausible but not explicitly discussed in the provided chunks, so applicability should be confirmed with a direct commentary on this verse."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "التنكيت : هو أن يقصد المتكلم إلى شيء بالذكر دون غيره",
+        "claim_ar": "قاعدة التنكيت: التنكيت هو قصد المتكلم لذكر شيء دون غيره؛ وبذلك ينسحب حكم التنكيت على «إِحْدَى» باعتبارها ذكرًا لإحدى الطائفتين دون الأخرى.",
+        "claim_en": "Rule: Tanqīt is when the speaker intends to mention one thing over others; therefore the tanqīt rule applies to «إِحْدَى» as it mentions one of the two groups rather than the other.",
+        "root": "ن־كـت (conceptual)",
+        "lemma": "التنكيت",
+        "confidence": "high",
+        "needs_review_reason": "The rule-definition is explicitly present in the source chunk; linking that rule to the specific word in this verse is reasonable but still requires verification from a commentary that treats this verse with the same rule."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not quote or comment directly on S8:A7; extracted claims rely on general discussions (e.g., تنكيت of «أحد») in the chunks and their application to this verse should be verified against a commentary that treats this specific ayah.",
+      "Some source excerpts pertain to other verses (e.g., Sūrat al-Ikhlāṣ). Confirm that the analytic points made there are intended to apply in the same way here before using the claims conclusively."
+    ]
+  },
+  "n_chunks": 12
+}

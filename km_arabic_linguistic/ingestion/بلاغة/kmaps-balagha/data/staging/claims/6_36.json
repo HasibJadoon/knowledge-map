@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:36",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إلا أداة حصر",
+        "claim_ar": "الإِنَّمَا تعمل وظيفة حصر وتقييد المعنى (أداة حصر/تحديد)",
+        "claim_en": "The particle إِنَّمَا functions as a particle of restriction/limitation (restrictive particle).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk explicitly discusses 'إلا' as an 'أداة حصر' (restrictive particle); the inference that إِنَّمَا plays a comparable restricting role is plausible but not quoted directly in the provided chunks. Recommend verifying with a dedicated balagha/tafsir source."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "الواو المسبوقة بـ «و» في «وَالْمَوْتَى» تعمل كواو استئنافية تربط الأجزاء وتدل على استئناف/تتابع الأحداث.",
+        "claim_en": "The conjunction waw in 'وَالْمَوْتَى' functions as a resuming/sequential conjunction (waw istinaf), linking clauses and indicating sequence/resumption.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "موت",
+        "lemma": "مَّيِّت",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الكلام مستأنف مسوق",
+        "claim_ar": "أسلوب الآية يظهر استئنافاً مسوقاً في السرد؛ استعمال أدوات الربط والمؤشرات النحوية ينسِّق الانتقال بين الجمل لتوضيح الترتيب والمعنى.",
+        "claim_en": "The style of the verse shows a resumed, purposeful discourse (speech resumed and led): the use of connective particles and syntactic markers coordinates clause transitions to clarify sequence and meaning.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The supporting chunk is a grammatical remark ('الكلام مستأنف مسوق') from i'rab commentary; a dedicated rhetorical/tafsir-balagha source should be consulted to elaborate rhetorical effects."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are grammatical Iʿrāb commentary (Darwish) rather than the requested classical balagha authors (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, tafsīr balāgha). Claims are therefore based on grammatical notes and some inferences; confirm with explicit balagha sources.",
+      "Some claims infer equivalence between particles (e.g., using a citation about 'إلا' as evidence for 'إِنَّمَا'). The exact particle ('إِنَّمَا') is not directly discussed in the provided chunks—such inferences need verification.",
+      "This extraction only used substrings actually present in the supplied chunks. If additional rhetorical devices are present in classical balagha tafsir of this verse, they are not captured here due to missing source material."
+    ]
+  },
+  "n_chunks": 12
+}

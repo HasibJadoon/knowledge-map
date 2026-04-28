@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "14:22",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No grammatical/إعراب claims referring to S14:A22 were found in the provided source_chunks. The chunks supplied contain general iʿrāb examples and notes (e.g. on حذف المخصوص, جعل حالًا، بدل الجرّ) but none explicitly analyze or quote words from this ayah, so no source_quote_ar could be matched to assert claims for specific word_index entries."
+    ]
+  },
+  "n_chunks": 12
+}

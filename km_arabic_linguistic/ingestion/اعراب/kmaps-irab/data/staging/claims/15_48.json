@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "15:48",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "taqdir",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (عَنِ الْقَرْيَةِ) : أَيْ عَنْ خَبَرِ الْقَرْيَةِ، وَهَذَا الْمَحْذُوفُ هُوَ النَّاصِبُ لِلظَّرْفِ الَّذِي هُوَ",
+        "claim_ar": "المحذوف هنا قد يكون الناصب للظرف، أي أن هناك ناصبًا محذوفًا يرفع أثره على الظرف «فيها» فتصير «فيها» متعلقةً بذلك الناصب المحذوف.",
+        "claim_en": "There is an omitted element (taqdīr) which is the particle that causes accusative (a 'nāṣib') governing the adverbial. In other words, an omitted nāṣib governs the adverb 'fīhā'.",
+        "root": null,
+        "lemma": "فى",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk states the general principle that a deleted element can be the nāṣib of a ظرف, but it does not explicitly apply this to this specific aya; the application to word 3 (فِيهَا) is inferred rather than directly stated in the provided excerpt."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain general grammatical statements but do not explicitly discuss S15:A48 or the exact words of this aya; the claim is an inference applying a general principle in the chunk to the adverbial (فِيهَا) of the aya.",
+      "Some source chunks are truncated and end mid-sentence; verify full context in al-Tibyān before using this taqdir claim as definitive."
+    ]
+  },
+  "n_chunks": 12
+}

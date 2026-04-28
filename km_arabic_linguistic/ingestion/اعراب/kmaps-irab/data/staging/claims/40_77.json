@@ -1,0 +1,47 @@
+{
+  "layer": "irab",
+  "ayah_key": "40:77",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "taalluq",
+        "source_quote_ar": "إِنَّا هُدْنَا إِلَيْكَ",
+        "claim_ar": "الفاء وما بعدها «فَإِلَيْنَا» جار ومجرور متعلق بالفعل «يُرْجَعُونَ» (ظرف جهة متعلق بالفعل).",
+        "claim_en": "The phrase 'fa-ilayna' (فَإِلَيْنَا) is a prepositional phrase (jar-majrur / adverb of place/direction) that is attached to the verb 'yurja'oon' (يُرْجَعُونَ) — i.e., it expresses direction/return and relates syntactically to that verb.",
+        "root": null,
+        "lemma": "إِلَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source substring is an example of a verb taking an 'إلى' phrase (from a different verse). The attachment here is extrapolated to S40:77 and should be checked against commentaries that treat this specific verse."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "irab",
+        "source_quote_ar": "اخْتِيَارٌ يَتَعَدَّى إِلَى مَفْعُولَيْنِ",
+        "claim_ar": "الفعل «نَعِدُ» فعل متعدٍ ويأخذ مفعولًا به ظاهراً، فضمير «هم» في «نَعِدُهُمْ» مفعول به.",
+        "claim_en": "The verb 'naʿidu' (نَعِدُ) is a transitive verb that takes a direct object; the attached pronoun '-hum' in 'naʿiduhum' functions as its object.",
+        "root": "وعد",
+        "lemma": "وَعَدَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source substring states a general rule about verbs taking objects (including two objects). Applying it to this specific verb in S40:77 is plausible but was inferred from a different example in the source and should be confirmed against the commentary on this verse."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَقَدْ حُذِفَ هَاهُنَا، وَالتَّقْدِيرُ: مِنْ قَوْمِهِ.",
+        "claim_ar": "في «فَاصْبِرْ» الفاعل ضمير مستتر تقديره «أنتَ» (أي: اصبر أنت).",
+        "claim_en": "In 'fa-asbir' (فَاصْبِرْ), the subject is a covert (elliptical) pronoun estimated as 'you' (أنت) — the imperative has an implied subject.",
+        "root": "صبر",
+        "lemma": "صَبَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source demonstrates the treatment of deleted elements and suggested تقدير in other contexts. The claim here generalizes that principle to the imperative in S40:77 and should be verified with the verse-specific iʿrāb in al-Tibyān or comparable commentary."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks is a verse-by-verse iʿrāb of S40:77; the extracted claims are extrapolated from general remarks or examples found in the supplied chunks.",
+      "Each claim therefore uses a source substring taken from commentary on other verses or general rules; these mappings to the specific words of S40:77 should be reviewed against the original al-Tibyān entry (or other verse-specific analyses) for S40:77.",
+      "No direct quotation of al-Tibyān analyzing the exact words of S40:77 was provided; if available, include the chunk that treats S40:77 to replace extrapolated claims with verse-specific evidence."
+    ]
+  },
+  "n_chunks": 5
+}

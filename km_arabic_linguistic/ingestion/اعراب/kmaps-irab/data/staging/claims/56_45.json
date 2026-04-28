@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "56:45",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَيكون التَّقْدِير كبر ذَلِك",
+        "claim_ar": "يُحتمل أن تكون كلمة «ذَلِكَ» عبارة عن مؤشر على تقدير محذوف (تَقْدِير)، كما في التعبير «تقدير: كبر ذلك»؛ أي أن «ذَلِكَ» مرتبطة بتقدير محذوف.",
+        "claim_en": "The word 'ذَلِكَ' may function as indicating an implied (taqdir) phrase — e.g., an estimated/elided construction like 'كبر ذلك' — so 'ذَلِكَ' is tied to an omitted clause.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted discussion in the source addresses a different verse/context but treats the use of ذَلِك as a possible تقدير; applicability to S56:A45 (قَبْلَ ذَلِكَ) should be verified against commentary specific to this ayah."
+      }
+    ],
+    "warnings": [
+      "Only one relevant substring was found in the provided chunks; it discusses ذَلِك as a possible تقدير in another verse. There is no explicit discussion in the provided chunks about the iʿrāb of قَبْلَ ذَلِكَ, كَانُوا, or مُتْرَفِينَ in S56:A45. Any further claims would require additional sources specific to this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

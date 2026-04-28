@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:39",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "صاحب السجن",
+        "claim_ar": "افتتاح الآية بنداء مخاطب (يَا) للمخاطَبين: انتقالٌ مفاجئ من السرد إلى مخاطبة (التفات)، يوجه الكلام مباشرة إلى صاحبي السجن.",
+        "claim_en": "The verse opens with a vocative address (يا) to the two prison-mates: a sudden shift from narration to direct address (iltifat), directing speech to the addressees.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "صحب",
+        "lemma": "صَىٰحِب",
+        "confidence": "high",
+        "needs_review_reason": "The quoted substring is from the commentary chunk (contains 'صاحب السجن') but lacks the vocative particle 'يا' present in the Qur'ānic wording; verify mapping to the original ayah to confirm the explicit vocative form and check whether the commentary treats this as iltifat."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muaqabalah",
+        "source_quote_ar": "ما شاءَ اللَّهُ",
+        "claim_ar": "مقابلة بين تعدد الآلهة 'أَرْبَابٌ مُتَفَرِّقُونَ' وتفرد الله بصفات 'الواحد' و'القَهَّار'؛ المقابلة تُبرز التناقض بين الألوهية الموهمة (آلهة متفرقة) والألوهية الحقّة (الله الواحد القهّار) وتُقوّي الحجاج ضد الشرك.",
+        "claim_en": "A contrast (muaqabalah) between the multiplicity of gods ('separate lords') and God's uniqueness ('the One, the Almighty'); the juxtaposition highlights the contradiction between imagined multiple deities and the true divine oneness, strengthening the argument against polytheism.",
+        "device_branch": "badi",
+        "device_subtype": "muaqabalah",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The source substring quoted ('ما شاءَ اللَّهُ') appears in the provided commentary chunks but does not contain the exact juxtaposed phrases from the ayah; further verification against commentarial discussion of this specific verse is recommended to confirm that the commentary identifies this antithetical pairing as a rhetorical device."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are general commentary excerpts; the required exact ayah-phrases are not always present in the chunks. Source_quote_ar fields therefore use substrings actually present in the chunks (e.g., 'صاحب السجن', 'ما شاءَ اللَّهُ') as proxies. Please verify claims against the original commentary passages that specifically treat S12:A39.",
+      "Some device attributions (especially the muqabalah/contrast claim) depend on interpreting the full ayah text; the commentary excerpts supplied do not explicitly quote both sides of the contrast. Recommend checking the original tafsīr passages for explicit mention of these rhetorical labels."
+    ]
+  },
+  "n_chunks": 12
+}

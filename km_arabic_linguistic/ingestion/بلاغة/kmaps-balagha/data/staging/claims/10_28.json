@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:28",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "صرف الكلام عن الخطاب إلى الغيبة",
+        "claim_ar": "صرف الكلام عن الخطاب إلى الغيبة (التبديل من المخاطب إلى الحديث عنه) لتحقيق المبالغة والتقبيح",
+        "claim_en": "A shift of speech from direct address to speaking about them in the third person (iltifat), used to amplify and elicit reproach/condemnation",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "صرف",
+        "lemma": "صَرَفَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S10:A28",
+        "rhetorical_effect": "creates emotional distance and intensifies blame by describing the addressees as if they are being observed and judged, provoking condemnation from listeners/readers"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "(الواو) استئنافيّة",
+        "claim_ar": "الواو هنا استئنافية في افتتاح الظرف (وَيَوْمَ) لتعريف الزمان والاستئناف في السرد",
+        "claim_en": "The conjunction waw functions as an 'isti'naaf' (resumptive/introductory waw) with the temporal adverb (يَوْمَ), marking the temporal setting and resumption of narrative",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "يوم",
+        "lemma": "يَوْم",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary labels the conjunction (الواو) rather than the noun itself; association to word_index 1 (يَوْمَ) may need verification",
+        "quran_ref": "S10:A28",
+        "rhetorical_effect": "frames the forthcoming scene in time, lending solemnity and continuity to the narrative moment"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

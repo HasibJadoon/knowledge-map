@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:204",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "والنَّاسِ للجنس",
+        "claim_ar": "التعريف في «النَّاسِ» هنا للاستعمال للجنس، أي للدلالة على عموم الناس وليس خصوصية فرد أو جماعة معينة.",
+        "claim_en": "The definite noun «al-nās» is used generically to denote the whole class (people) rather than a particular individual or small group.",
+        "device_branch": "maani",
+        "device_subtype": "generalizing_definite",
+        "root": "نوس",
+        "lemma": "نَّاس",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "وصفة القلوب بالقسوة",
+        "claim_ar": "مقابلة بين ظاهر القول («قَوْلُهُ») ومبتطنه في القلب؛ أي تضاد بين اللفظ الجذاب والواقع القاسي في القلب، فتُبرز الآية التناقض بين المظاهر والضمائر.",
+        "claim_en": "A contrast (muqābalah) between the outward utterance («his saying») and his inner state of heart; the verse highlights the contradiction between appealing speech and a hardened inner reality.",
+        "device_branch": "badi",
+        "device_subtype": "contrast_between_surface_and_inward",
+        "root": "قول",
+        "lemma": "قَوْل",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source passage discusses hardness of hearts (قسوة القلوب) but is not an explicit commentary on this specific ayah; the linkage is interpretive and should be checked against commentaries of the requested rhetorical authors."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "kinayah",
+        "source_quote_ar": "رضى اللَّه عنه",
+        "claim_ar": "الاستشهاد بـ«اللَّهَ» شاهداً على ما في القلب هنا يؤسس لتعبير كنايِي/بياني: جعل الشهادة الإلهية وسيلة تؤكد زيفَ ادّعاء المتكلّم أو تهويله، فتحمل دلالة بلاغية على مدعاة الرياء أو النفاق.",
+        "claim_en": "Invoking God as a witness to what is in the heart functions as a kināyah/figurative expression: assigning divine witness to one's inner state is used rhetorically to emphasize the pretense or hypocrisy of the speaker.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah_for_emphasis/irony",
+        "root": "شهد",
+        "lemma": "أَشْهَدَ",
+        "confidence": "low",
+        "needs_review_reason": "The available source chunk does not directly discuss this ayah's phrase «يُشْهِدُ اللَّهَ عَلَى مَا فِي قَلْبِهِ»; the quoted substring is only a general occurrence of «اللَّهَ». The interpretive reading (kināyah/irony) should be validated against targeted tafsir-balagha sources."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from al-Kashshaf (Zamakhshari); the task requested extraction from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī and tafsir-balagha sections. The available chunks do not come from those specified authors.",
+      "Several claims are supported by related excerpts in the supplied chunks (e.g., generality of «النَّاسِ», hardness of hearts) but the chunks do not contain explicit comments on the exact ayah phrasing. Where support is indirect, confidence has been reduced and review by a specialist is recommended.",
+      "Some device assignments (especially the kināyah reading of «يُشْهِدُ اللَّهَ عَلَى مَا فِي قَلْبِهِ») are interpretive and marked low confidence; please verify against primary rhetorical tafsir sources requested in the task."
+    ]
+  },
+  "n_chunks": 12
+}

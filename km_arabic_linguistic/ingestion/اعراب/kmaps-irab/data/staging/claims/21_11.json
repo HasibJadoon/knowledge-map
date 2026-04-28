@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:11",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَ (مِنْ ذِكْرٍ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِيَأْتِيهِمْ، وَأَنْ يَكُونَ صِفَةً لذكر وَأَن يتَعَلَّق بمحدث وَأَن يكون حَالا من الضَّمِير",
+        "claim_ar": "قِطْعَةُ «مِنْ قَرْيَةٍ» يجوز أن تتعلّق بما يَأْتي بعدَهَا (مثلاً بالخبر أو بالفعل)، أو أن تكون صِفَةً لِـ(ذكر)، أو أن تتعلّق بمحدث، أو أن تكون حالاً من الضمير.",
+        "claim_en": "The phrase 'مِنْ قَرْيَةٍ' may attach to what follows (e.g. to the verb or the following predicate), or function as a sifa (description) for a 'mention', or attach to a newly-introduced noun (muhdath), or serve as a hal (circumstantial) originating from a pronoun.",
+        "root": "قري",
+        "lemma": "قَرْيَة",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses the general syntactic possibilities of 'مِنْ + noun' (illustrated with 'مِنْ ذِكْرٍ'); it does not analyze this specific instance in S21:11, so applying these possibilities to «مِنْ قَرْيَةٍ» here is an extrapolation that requires checking the immediate syntactic context."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "taalluq",
+        "source_quote_ar": "«هَا» ضَمِيرُ الْقِصَّةِ، أَوِ الْفِعْلَةِ.",
+        "claim_ar": "الضمير «ها» في «بَعْدَهَا» قد يكون ضميرَ القِصَّةِ أو ضميرَ الفعل/الفعلة (أي ضمير إشارة إلى ما سُبِقَ من القَرْيَةِ المُهْلِكَةِ).",
+        "claim_en": "The pronoun 'ha' in 'ba'daha' can be the story/pronoun of the narrative (ضمير القصة) or the pronoun referring to the action/event; i.e. it may point back to the previously mentioned destroyed town.",
+        "root": "بعد",
+        "lemma": "بَعْد",
+        "confidence": "high",
+        "needs_review_reason": "The source explicitly states this reading for «ها», but determining the exact referent in this verse still depends on semantic/ referential context of the ayah."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ صِفَةً لذكر وَأَن يتَعَلَّق بمحدث وَأَن يكون حَالا من الضَّمِير",
+        "claim_ar": "في تحليل بديل: «ظَالِمَةً» يمكن تأويلها بأوجهٍ متعددة — خبرٌ لَـ«كانَ» منصوب، أو صِفَة/نعت لاسم محذوف، أو حالٌ يعود إلى ضميرٍ متصل.",
+        "claim_en": "Alternative analyses for 'ظَالِمَةً' include: (a) the accusative predicate (khabar) of 'kāna' (i.e. منصوب as khabar kāna), (b) an adjective/epithet (sifa/nath') for an omitted noun, or (c) a hal (circumstantial) referring back to a pronoun.",
+        "root": "ظلم",
+        "lemma": "ظَالِمَة",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage lists possibilities for interpretation/attachment (sifa, تعلق بمحدث, حال من الضمير) in a general context; it does not directly treat this word in S21:11, so the alternative analyses here require verification against the verse's specific syntax (presence of كان/ضمير محذوف، etc.)."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain a dedicated iʿrāb analysis of S21:11; the claims above extrapolate general remarks from al-Tibyan to the words of this ayah.",
+      "Some claims are general syntactic possibilities rather than definitive parses for the ayah; they should be reviewed against the full commentary text or additional sources that treat this verse explicitly."
+    ]
+  },
+  "n_chunks": 12
+}

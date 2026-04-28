@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:196",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit rhetorical device for S7:A196 could be reliably extracted from the provided source chunks. The chunks are from al-Kashshaf (Zamakhshari) and discuss varied rhetorical/grammatical points, but none contain an explicit commentary (with an exact quoted substring) that ties a labeled بلاغة device from the requested taxonomy to the wording of this ayah. To produce valid claims, please provide source chunks (from the specified authors/sections) that directly comment on this verse or on a clearly equivalent phrasing of its expressions."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:248",
+  "result": {
+    "claims": [
+      {
+        "word_index": 23,
+        "claim_type": "توكيد بواسطة إنَّ ... لَ (حرفا توكيد)",
+        "source_quote_ar": "(إنّ) حرف مشبّه بالفعل للتوكيد",
+        "claim_ar": "وجود أداة التوكيد \"إِنَّ ... لَ\" في سياق الجملة (إِنَّ فِي ذَلِكَ لَآيَةً) تعمل على تشديد المعنى والتأكيد على كون ما ذكر آية دالة للمستمعين.",
+        "claim_en": "The emphatic particles \"inna ... la\" (as in \"Inna fi dhalika la-ayah\") are used to strongly assert and stress the statement that 'indeed in that is surely a sign'—the particles function to intensify and certify the proposition.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are limited and mostly grammatical/exegetical excerpts (Zamakhshari & Safi). Other requested classical authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present in the input; additional claims based on those authors cannot be extracted.",
+      "Only the grammatical note on 'إِنَّ' in the supplied chunk was directly mappable to an ayah-level rhetorical device. Other potential devices in the ayah (e.g., semantic weight of 'سَكِينَة' or metaphorical aspects of 'التَّابُوتُ') are not supported by exact substrings in the provided source chunks and thus were not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

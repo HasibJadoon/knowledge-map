@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إِنَّما مَثَلُ الْحَياةِ الدُّنْيا",
+        "claim_ar": "حرف الاستثناء/التقييد «إِنَّمَا» في \"إِنَّمَا الْغَيْبُ لِلَّهِ\" مقام حصر وتقليص للمعنى إلى الله وحده (حصر العلم بالغيب بالله)",
+        "claim_en": "The particle 'إِنَّمَا' in \"Innamal-ghaybu lillah\" functions as restriction/exclusion, limiting the meaning to God alone (exclusive attribution of knowledge of the unseen).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "iltifat",
+        "source_quote_ar": "قُلْ هَلْ مِنْ شُرَكائِكُمْ مَنْ يَبْدَؤُا الْخَلْقَ",
+        "claim_ar": "التحويل إلى صيغة الخطاب/الفعل المباشر بأمر «قُلْ» بعد تقرير كلامهم (وَيَقُولُونَ...) يمثل التبديل الخطابي (التلطيف بالانتقال من سرد الغيبة إلى مخاطبة مباشرة) وهو إلتفات بلاغي يلفت الانتباه ويقوّي الردّ.",
+        "claim_en": "The switch to a direct speech imperative with 'قُلْ' after reporting their speech (وَيَقُولُونَ ...) is a rhetorical shift (iltifat): moving from third-person report to direct address/imperative to refute and draw attention to the response.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "Identification as 'iltifat' is inferred from the imperative 'قُلْ' and I'rab commentary; classical rhetorical sources could be checked to confirm labelling of this exact maneuver as 'iltifat'."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are general i'rab/commentary excerpts and do not include the full target ayah verbatim. source_quote_ar entries are taken from those chunks (examples containing the relevant particles/words) rather than from an explicit commentary line on S10:A20.",
+      "Some rhetorical readings (e.g., solidarity in \"إِنِّي مَعَكُمْ\" or repetition of the root نظر between verb and noun) could be plausible but lack an explicit supporting substring in the provided chunks; such claims were therefore not extracted. If more tafsir/balagha chunks are provided that quote this verse or discuss these devices, additional claims can be added."
+    ]
+  },
+  "n_chunks": 12
+}

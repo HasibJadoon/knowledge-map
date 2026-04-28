@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:91",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الفاء استئنافية",
+        "claim_ar": "استعمال الفاء في (فَإِنْ) فاء استئنافية تربط نتيجة الحكم الشرطي بما يسبقه وتعمل فاصلًا بلاغيًّا",
+        "claim_en": "The use of the particle fa- in (فَإِنْ) functions as a resumptive/intonation fa (fa istinaf), linking the conditional result to what precedes and serving as a rhetorical pause/connector.",
+        "device_branch": "maani",
+        "device_subtype": "fa_istinaf",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 31,
+        "claim_type": "majaz",
+        "source_quote_ar": "مجاز عقلى",
+        "claim_ar": "كلمة (سُلْطَانًا) في «جَعَلْنَا لَكُمْ عَلَيْهِمْ سُلْطَانًا مُبِينًا» قد تُقرأ كمجاز عقلي للدلالة على التمكين والقدرة على إنفاذ الحكم وليس بالضرورة سلطان مادي حرفي",
+        "claim_en": "The word (سُلْطَانًا) in «جَعَلْنَا لَكُمْ عَلَيْهِمْ سُلْطَانًا مُبِينًا» can be read as an 'aqli' metaphor (rational/metaphorical majaz) indicating empowerment and capacity to enforce authority, not necessarily a literal physical sultanate.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz_aqli",
+        "root": "سلط",
+        "lemma": "سُلْطَان",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk mentions 'مجاز عقلى' in a different example; applying it to this lexical item in S4:91 is interpretive and should be checked against tafsir specifically addressing this phrase."
+      },
+      {
+        "word_index": 22,
+        "claim_type": "kinayah",
+        "source_quote_ar": "كناية عن الدخول بها",
+        "claim_ar": "تعبير (أَيْدِيَهُمْ) يمكن قراءته ككناية عن الفعل أو العدوان (أي: أيديهم التي تبادر بالاعتداء) بدلاً من اللفظ الحرفي للأيدي فقط",
+        "claim_en": "The expression (أَيْدِيَهُمْ) may function as a kinayah (metonymy), referring to their aggressive actions/hands as a sign of aggression or initiative, rather than strictly the physical hands.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "يدي",
+        "lemma": "يَد",
+        "confidence": "medium",
+        "needs_review_reason": "The cited 'كناية' example in the source discusses marital/lexical kinayah; mapping that general concept to (أَيْدِيَهُمْ) in this verse is inferential and should be validated with a tafsir that treats this phrase as metonymy."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are general tafsir/exegesis passages and do not appear to directly comment on Sura 4:91. The claims above are inferential mappings from general rhetorical terminology found in the chunks (e.g., 'الفاء استئنافية', 'مجاز عقلى', 'كناية عن الدخول بها') onto expressions in S4:91. Verify against direct commentaries on S4:91 for higher certainty.",
+      "Source-quote substrings were taken exactly from the provided chunks, but those substrings occur in examples unrelated to this ayah; therefore the device identification for specific words in the ayah should be reviewed by a tafsir/بلاغة specialist."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:52",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "جناس",
+        "source_quote_ar": "التجانس بين لفظتي الأسف ويوسف",
+        "claim_ar": "وجود جناس صوتي/تجانس بين لفظتي «الأسف» و«يوسف» في سياق السورة، ما يضفي لحنية وعاطفة على السرد.",
+        "claim_en": "A phonetic paronomasia (jinas) / consonance between the words «الأسف» and «يوسف» within the surah, adding a musical and emotional effect to the narrative.",
+        "device_branch": "badi",
+        "device_subtype": "jinas",
+        "root": "جنس",
+        "lemma": "جناس",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary (al-Kashshaf) explicitly mentions this phonetic play, but it refers to a different verse/context within the Yusuf narrative (connection to S12:A52 is inferential). Confirm with the specific tafsir passages requested (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha).",
+        "quran_ref": "S12:A52",
+        "rhetorical_effect": "heightens emotional resonance and auditory patterning, linking Jacob's lament and Joseph's name."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "تشبيه / تصوير مجازي",
+        "source_quote_ar": "شبه الهم المعقول بمحسوس وبالغ في ذلك",
+        "claim_ar": "التشبيه والمجاز: تصوير الهمّ المعنوي كمَحسوس (كأن الأصابع تفتش عنه) كمبالغة بلاغية لتأكيد شدّة الحزن والهم في القصة.",
+        "claim_en": "Simile/metaphor: portraying an abstract sorrow as something tangible (e.g. 'the fingers searching for it')—a hyperbolic figurative device emphasizing the intensity of grief in the story.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "شبه",
+        "lemma": "تشبيه",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary excerpt explicitly describes the figurative comparison; application to the immediate ayah (S12:A52) is interpretive since the quoted passage discusses narrative representations across the Yusuf story. Verify alignment with targeted tafsir-balagha sources.",
+        "quran_ref": "S12:A52",
+        "rhetorical_effect": "concretizes inner feeling, evokes sympathy, and intensifies the emotional scene."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "أسلوب حكيم / حركة السرد",
+        "source_quote_ar": "فجعل يصيح",
+        "claim_ar": "أسلوب حكيم سردي: استعمال الصيحات والحوار (مثال: «فجعل يصيح») لرفع التوتر الدرامي وإظهار الحالة النفسية للشخصية في القصة.",
+        "claim_en": "Artful narrative style: use of cries and direct speech (e.g. 'then he began to cry out') to heighten dramatic tension and reveal a character's emotional state in the story.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim (narrative/dialogue)",
+        "root": "جعل",
+        "lemma": "جَعَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The phrase is present in the provided commentary describing narrative technique; its direct linkage to rhetorical functioning of the specific ayah S12:A52 should be verified with the requested tafsir authorities.",
+        "quran_ref": "S12:A52",
+        "rhetorical_effect": "increases immediacy and emotional engagement; dramatizes events through reported speech."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are all from Zamakhshari (al-Kashshaf). The user-requested sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha sections) were not supplied; claims are therefore drawn only from the available al-Kashshaf excerpts.",
+      "The quoted excerpts in the source_chunks discuss rhetorical features of the broader Yusuf narrative; their application to this specific ayah (S12:A52) is partly inferential. Please review the original tafsir passages from the requested authors to confirm and supplement these claims.",
+      "No exact commentary excerpt explicitly analyzing the exact wording of S12:A52 was available in the supplied chunks; extracted devices are surah-level or narrative-level and may require refinement."
+    ]
+  },
+  "n_chunks": 12
+}

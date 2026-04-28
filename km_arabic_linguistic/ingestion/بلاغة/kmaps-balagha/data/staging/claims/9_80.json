@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:80",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "استغفر له",
+        "claim_ar": "تكرار فعل الاستغفار (استغفر / تستغفر) في الآية لتوكيد النداء والحنحنة ومحاولة الإلحاح على المغفرة، مما يبرز إصرار المخاطِب على طلب الرحمة رغم نتيجة الإبطال الإلهي.",
+        "claim_en": "Repetition of the verb 'ask forgiveness' (استغفر / تستغفر) in the verse to reinforce the appeal and pleading, emphasizing the insistence on seeking mercy despite the subsequent divine nullification.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "غفر",
+        "lemma": "اسْتَغْفَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A80",
+        "rhetorical_effect": "Heightens emotional urgency and highlights the futility/tension between human supplication and divine decree."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "بعثت إليك لتستغفر لي لا لتوبخنى",
+        "claim_ar": "انقلاب/التفات في خطاب الآية: من صيغة الأمر/النداء لطلب الاستغفار إلى تقرير وعلة (أنهم كفروا) ثم إلى حكم إلهي بعدم الهداية. هذا التحول يلفت الانتباه إلى سبب الرفض الرباني ويؤكد جدية النتيجة.",
+        "claim_en": "A shift in discourse (iltifat): from an addressed exhortation/request to ask forgiveness to an explanatory clause (that they disbelieved) and then to the divine verdict of non-guidance. This shift draws attention to the reason for refusal and underscores the decisiveness of the outcome.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "غفر",
+        "lemma": "اسْتَغْفَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "Attributing 'iltifat' relies on rhetorical reading of the switch from imperative/appeal to declarative explanation; alternative analyses might label this as causal exposition rather than a grammatical rhetorical turn. The quoted source chunk illustrates usage of 'تستغفر' in related exegetical anecdotes but does not explicitly analyze the ayah's iltifat.",
+        "quran_ref": "S9:A80",
+        "rhetorical_effect": "Directs reader/listener from the act of pleading to the theological rationale, intensifying the moral and juridical force of the divine judgment."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not include a direct, full quotation of the target verse text; available chunks contain related exegetical anecdotes and mentions of 'استغفر' / 'تستغفر'. Claims here are tied to exact substrings found in those chunks, but some rhetorical attributions (especially iltifat) depend on interpretive reading and may require confirmation from primary rhetorical commentators (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) if more precise anchoring is desired.",
+      "No clear substrings were found in the provided chunks for phrases like 'فلن يغفر الله لهم' or the exact juxtaposition of 'استغفر لهم أو لا تستغفر لهم' as contiguous text; therefore claims avoid quoting those exact verbal sequences and rely on related occurrences ('استغفر له', 'تستغفر'). Review recommended to align claims with additional tafsir/balagha chunks that explicitly analyze this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "23:95",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَعْدَ اللَّهِ) : هُوَ مَصْدَرٌ مُؤَكَّدٌ؛ أَيْ وَعْدَ اللَّهُ وَعْدًا، وَدَلَّ مَا تَقَدَّمَ عَلَى الْفِعْلِ الْمَحْذُوفِ؛ لِأَنَّهُ وَعَدَ.",
+        "claim_ar": "المصدر المؤكّد (مثل «وعد») يدل على الفعل المحذوف؛ أي أن اسم المصدر يحمل دلالة وقوع الفعل المحذوف.",
+        "claim_en": "The reinforced verbal noun (e.g. 'waʿd') indicates an omitted verb; i.e., the noun-form of the verb signals the presence of the omitted verbal action.",
+        "root": "وعد",
+        "lemma": "وَعَدَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the noun pattern «وعد» (مَصدرٌ مؤكّد) and its indication of a deleted verb. In this ayah the attested surface form is the verb نَعِدُهُمْ; applying the source's statement to this verb-form (or to related noun usages in exegesis) requires verification."
+      }
+    ],
+    "warnings": [
+      "The provided source chunk discusses the noun «وَعْدَ» as a مصدر مؤكد (example: «وَعْدَ اللَّهِ»). The ayah here contains the verb-form نَعِدُهُمْ rather than the noun «وعد». The extraction above applies the general rule from the source to the lexical root/semantic field, but the source does not explicitly analyze the exact phrase in this ayah.",
+      "No explicit claims about the syntactic function (إعراب) of the words in S23:A95 were found in the provided chunks; only a general rule about the noun 'وعد' was available."
+    ]
+  },
+  "n_chunks": 12
+}

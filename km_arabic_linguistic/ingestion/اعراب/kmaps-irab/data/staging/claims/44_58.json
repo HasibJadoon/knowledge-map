@@ -1,0 +1,48 @@
+{
+  "layer": "irab",
+  "ayah_key": "44:58",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وباب الحصر ؛ سواء كان بإلا ، أو بإنما ، أو غيرهما من أدواته",
+        "claim_ar": "إنما أداة حصر (باب الحصر)",
+        "claim_en": "’Innama’ is a particle of restriction (a device of حصر).",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S44:A58"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وباب النائب عن الفاعل ؛ لأنه دل على الفاعل بإعطائه حكمه ، وعلى المفعول بوضعه .",
+        "claim_ar": "الهاء في «يَسَّرْنَاهُ» ضمير متصل يعمل نائباً عن المفعول (مفعول به مستغنى عنه بالضمير).",
+        "claim_en": "The attached pronoun -hu in «yassarnāhu» functions as a substitute (نائب) for the object (maf‘ūl bih), i.e. the object is represented by the attached pronoun.",
+        "root": "يسر",
+        "lemma": "يَسَّرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source states the general rule about attached pronouns as نائب; it does not analyze this specific verse directly, so application to this token should be reviewed.",
+        "quran_ref": "S44:A58"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وباب الضمير ؛ لأنه وضع للاستغناء به عن الظاهر اختصارا ، ولذا لا يعدل إلى المنفصل مع إمكان المتصل .",
+        "claim_ar": "الكاف في «بِلسَانِكَ» ضمير متصل يُستخدم للاستغناء عن المنفصل اختصاراً (ضمير متصل في محل جر مضاف إليه).",
+        "claim_en": "The suffix -ka in «bilsānika» is an attached pronoun used to replace an explicit separate pronoun (i.e. an enclitic pronoun), functioning here as the genitive possessor (in the position of a mūḍāf ilayh).",
+        "root": "لسن",
+        "lemma": "لِسَان",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives the general principle about attached pronouns being used for brevity; the precise syntactic label (مضاف إليه) is an application to this word and should be double-checked against detailed parsing of the phrase.",
+        "quran_ref": "S44:A58"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks from al-Itqan contain general grammatical rules (e.g., about إنما and attached pronouns) but do not quote or explicitly analyze Surat 44:58. Claims are inferred by applying those general rules to the verse; please verify with a direct grammatical commentary on this specific ayah if a definitive parse is required."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,43 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:161",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ مُبْتَدَأً وَخَبَرًا،",
+        "claim_ar": "أَخُوهُمْ مبتدأ",
+        "claim_en": "'أَخُوهُمْ' functions as the مبتدأ (subject) of a nominal sentence",
+        "root": "اخو",
+        "lemma": "أَخ",
+        "confidence": "high",
+        "needs_review_reason": "Standard nominal-sentence analysis; source explicitly allows such a reading."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ مُبْتَدَأً وَخَبَرًا،",
+        "claim_ar": "لُوطٌ خبر",
+        "claim_en": "'لُوطٌ' functions as the خبر (predicate) of that nominal sentence",
+        "root": "لوط",
+        "lemma": "لُوط",
+        "confidence": "high",
+        "needs_review_reason": "Standard pairing with the مبتدأ; source states the construction can be مبتدأ وخبر."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَأَنْ يَكُونَ مُسْتَأْنَفًا.",
+        "claim_ar": "الجملة الاسمية «أَخُوهُمْ لُوطٌ» قد تُعامل كمستأنفة بعد «قَالَ لَهُمْ»",
+        "claim_en": "The nominal clause 'أَخُوهُمْ لُوطٌ' can be treated as a resumed (مستأنف) clause following 'قَالَ لَهُمْ' rather than being syntactically bound to the verb",
+        "root": "اخو",
+        "lemma": "أَخ",
+        "confidence": "medium",
+        "needs_review_reason": "The source says this reading is permissible (يجوز), implying alternative analyses are possible; further commentary may treat it as attached or as direct speech."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

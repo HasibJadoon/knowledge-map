@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:145",
+  "result": {
+    "claims": [
+      {
+        "word_index": 18,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "جعل المتوقع الذي لا بدّ من نزوله بمنزلة الواقع.",
+        "claim_ar": "استعمال صيغة المستقبل في «سَأُرِيكُمْ» لتقريب العذاب المتوقع وإيجاد أثر الإنشاء الذي يجعله كواقع محقق.",
+        "claim_en": "Use of the future tense in 'سَأُرِيكُمْ' brings the expected punishment closer, functioning as an act of enunciation that renders the expected as if already real.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "راي",
+        "lemma": "أَرَى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "أو تعريف الخبر وإقحام الفصل،",
+        "claim_ar": "وجود فصل واضح بين بيان المحتوى («مَوْعِظَةً وَتَفْصِيلًا») والأوامر التطبيقية («فَخُذْهَا بِقُوَّةٍ ...»)، أي إيقاع فصل ووصْل لغوي لتبيان الانتقال من التعليل إلى الأمر.",
+        "claim_en": "There is a clear pause/segmentation between the explanatory content ('مَوْعِظَةً وَتَفْصِيلًا') and the applied commands ('فَخُذْهَا بِقُوَّةٍ ...'), using separation/connection to mark the shift from explanation to imperative.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the commentator's remark about 'اقحام الفصل' to this specific syntactic boundary is interpretive and may require corpus-level corroboration."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "نفصّلها تفصيلا",
+        "claim_ar": "وجود لفظ «تَفْصِيلًا» مؤشر على أسلوب بياني وتقريري (أسلوب تفصيلي/حكيم) يقصد به التوضيح والإطناب في بيان الأحكام والمواعظ.",
+        "claim_en": "The word 'تَفْصِيلًا' signals an explanatory/reporting style (a detailing/wise style) intended to clarify and elaborate the rulings and admonitions.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "فصل",
+        "lemma": "تَفْصِيل",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling 'تفصيلًا' as 'asloob_hakim' (wise/explanatory style) is a higher-level rhetorical classification that may need further validation against classical rhetorical taxonomies."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari (al-Kashshaf) and Safi (al-Jadwal). Requested commentators (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the input — analyses are therefore limited to the available chunks.",
+      "Some device mappings (e.g., labeling 'تَفْصِيلًا' as 'asloob_hakim' or mapping 'اقحام الفصل' to the precise syntactic break in the verse) are interpretive; check against additional tafsir/balagha sources for confirmation.",
+      "Only claims for which a supporting substring was found in the provided chunks were extracted. If you want further devices (e.g., takrār, jinas, tibāq) add source material from the requested commentators so exact-source quotes can be attached."
+    ]
+  },
+  "n_chunks": 12
+}

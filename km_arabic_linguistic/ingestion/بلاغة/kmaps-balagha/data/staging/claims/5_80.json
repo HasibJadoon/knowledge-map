@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:80",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "taqdim_takhir",
+        "source_quote_ar": "رفع على الابتداء وخبره محذوف",
+        "claim_ar": "القرآن يستخدم رَفْع مبتدأ مع حذف خبره (رفع على الابتداء وخبره محذوف) في ترتيب أجزاء الكلام هنا لِتَأْكِيدِ خصوصية المورد وإبراز نوعية التولِّي.",
+        "claim_en": "The text employs raising a noun to the position of the subject with its predicate omitted (the predicate is omitted after fronting), i.e. fronting/delay; this word-order and omission serve to emphasize and particularize the referent (those who turn to the disbelievers).",
+        "device_branch": "maani",
+        "device_subtype": "taqdim_takhir",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "بليغا مختصرا",
+        "claim_ar": "ثَبُوتُ بُرْعَمِ الإيجاز البلاغي: ترتيب الأصناف وتقديم بعضهم على بعض بما يحقق إيحاءً مركزاً وموجزاً (إعجاز بلاغي = بليغا مختصرا).",
+        "claim_en": "Concise eloquence (ijaaz): the compact arrangement and the fronting of a particular class among others produce a concentrated, potent expression — a compressed rhetorical effect.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The source phrase is about concise/compact wording in a parallel discussion; applying it to this ayah is an analogical inference rather than an explicit statement about these exact words."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "هذا من البث والحزن والشكوى إلى اللَّه والحسرة ورقة القلب",
+        "claim_ar": "أسلوب الشكوى والبث إلى الله/الحسرة: التعبير الذي يبيّن استياءً وَلَعنًا بلاغيًا («لَبِئْسَ مَا قَدَّمَتْ لَهُمْ أَنفُسُهُمْ ... أَنْ يَسْخَطَ اللَّهُ عَلَيْهِمْ») يُقرأ كنوع من الشكوى والتأسف البلاغي.",
+        "claim_en": "Stylistic mode of complaint/lamentation to God: the phrasing that pronounces divine displeasure and moral censure reads as a rhetorical lament/complaint, heightening reproach (cf. the commentary's characterization as 'complaint and sorrow directed to God').",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary treats complaint-language in a different narrative; linking that rhetorical category to this ayah is interpretive and not an explicit comment on these exact words."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari and Darwish (I'rab). The user requested extraction with reference to al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and 'tafsir balagha' sections; those specific authors/sections are not present in the input. Claims are therefore drawn only from the supplied chunks.",
+      "Some claims (notably the ijaaz and asloob_hakim items) are inferred by analogy from commentary passages discussing similar rhetorical operations in other verses; the source texts do not always comment on these exact words of S5:A80. These inferences are marked in needs_review_reason."
+    ]
+  },
+  "n_chunks": 12
+}

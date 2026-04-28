@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:96",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "شرط افتراضى (لو ... لَ)",
+        "source_quote_ar": "ومن قبيل شعب البلاغة.",
+        "claim_ar": "استعمال «لو» في بداية الجملة مع جواب مثبت بأداة التوكيد «لَ» أسلوب شرط افتراضى بلاغى يبرز ما كان سيجري من فتح وبركات لو تحقق الإيمان والتقوى ويقوّي الحسّ التأنيبي/الندمي.",
+        "claim_en": "Use of the counterfactual conditional 'لو' with the emphatic result 'لَ' — a rhetorical hypothetical that highlights what would have occurred (opening of blessings) had belief and piety occurred; it strengthens a reproachful/regretful tone.",
+        "device_branch": "maani",
+        "device_subtype": "counterfactual_conditional (لو...لَ)",
+        "root": null,
+        "lemma": "لَو",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains a general statement about rhetorical flourishes (\"ومن قبيل شعب البلاغة.\") rather than a focused discussion of this exact conditional; mapping this specific technique to the labeled maani subtypes from the task list is approximate and should be verified against specialized rhetoric sources (al-Jurjānī, al-Sakkākī, etc.).",
+        "quran_ref": "S7:A96",
+        "rhetorical_effect": "يُبرز الحسرة والتوبيخ؛ يجعل نتيجة الامتناع عن الإيمان محسوسة بالقول كما لو كانت مؤكدة"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة / تضاد بياني",
+        "source_quote_ar": "جعل المتوقع الذي لا بدّ من نزوله بمنزلة الواقع.",
+        "claim_ar": "وجود مقابلة بين الجزءَ الأول (الفتح والبركات المحتملة) والجزءَ الثانى (الكَذِبُ فَأَخَذْنَاهمُ) كمقابلة واضحة بين احتمالية النعمة ووقوع العقاب الفعلي لبيان حكمة الجزاء وصرامة الأمر.",
+        "claim_en": "A rhetorical antithesis (muqābala) between the first part (the potential opening of blessings) and the second part (their denial and God's taking them for what they earned), contrasting possible mercy with realized punishment to emphasize consequences.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah (antithesis/contrast)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source sentence speaks of presenting the expected as if real; using it to justify calling this verse an instance of muqabala is plausible but indirect. A direct commentary naming this precise antithesis in the verse from classical balagha works should be checked.",
+        "quran_ref": "S7:A96",
+        "rhetorical_effect": "يُظهِر العِقاب كبديل مضاد للرحمة الممكنة، فيشدّ أزر الإنذار والوعيد ويعظّم أثر التذكر"
+      }
+    ],
+    "warnings": [
+      "المقتطفات المتاحة من zamakhshari (al-Kashshaf) تتضمن ملاحظات بلاغية عامة لكنها لا تتناول بالضرورة هذه الآية تحديدًا؛ لذلك ربط الاقتباسات بالاستدلال البلاغي على الآية تمّ بقدر الإمكان لكن يحتاج مراجعة بمصادر بلاغية متخصصة (الجُرجاني، السكاكي، الباقلاني، السيوطي، وكتب التفسير البلاغي) لتأكيد تصنيفات الجهاز الفرعي.",
+      "بعض تسميات الأجهزة (مثل تصنيف 'لو...لَ' ضمن أنواع المعاني المذكورة بالقائمة) تمّت تقريبًا لملاءمة قائمة الأجهزة المطلوبة؛ يُنصح بمراجعة المصطلحات البلاغية الدقيقة في المصادر الكلاسيكية."
+    ]
+  },
+  "n_chunks": 12
+}

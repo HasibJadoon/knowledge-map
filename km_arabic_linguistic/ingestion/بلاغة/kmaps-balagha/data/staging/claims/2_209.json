@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:209",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "فإن قلت:",
+        "claim_ar": "الآية تستبقي اعتراضًا متخيّلًا للقارئ ثم تردّ عليه ببيان حكمة الله وعقابه، أي استعمال استباق الاعتراض (إيجاب/إنشاء) كوسيلة بلاغية.",
+        "claim_en": "The verse anticipates an imagined objection from the reader and answers it by asserting God's wisdom and might — i.e., the rhetorical device of anticipating an objection (ijab/inshaa).",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source_quote_ar is taken from the commentator's phrasing ('فإن قلت:') in the provided chunk rather than a verbatim citation of the verse; the linkage between the comment and this specific verse-level move should be verified."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "وهو الحكيم الذي لا يفعل إلا الخير",
+        "claim_ar": "الختام بصفاتٍ قصيرةٍ \"عزيزٌ حكيمٌ\" يُجْمِلُ طرفَيْ المعنى: القدرة والعِلم/الحكمة؛ صيغة ختامية تقوّي أثر التنبيه والتحذير في الآية (أسلوب حكيم: ترتيب الصفات لتثبيت اليقين والطمأنينة والإنذار في آنٍ واحد).",
+        "claim_en": "The verse ends with the terse pair of attributes 'ʿAziz, Hakim' (Mighty, Wise), encapsulating both power and wisdom; this is a concluding stylistic move (asloob hakim) that strengthens the admonition and reassurance simultaneously.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "حكم",
+        "lemma": "حَكِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are commentary excerpts (al-Kashshaf) and do not contain the full verse text verbatim. Some claims (especially the one based on 'فإن قلت:') rely on the commentator's phrasing rather than an explicit quoted phrase from the verse; please verify the connection in the original tafsir context.",
+      "Only a subset of rhetorical devices were identifiable with acceptable source substrings in the supplied chunks. Additional or different source material (other tafsir/بلاغة texts specifically addressing S2:A209) may yield more or stronger claims."
+    ]
+  },
+  "n_chunks": 12
+}

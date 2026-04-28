@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:72",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "وعد يستعمل في الخير والشر",
+        "claim_ar": "فعل الوعد (وَعَدَ) هنا بوصفه فعل إنشاء يخاطب المؤمنين بوعد ثوابٍ مستقبلي؛ استخدام وَعَدَ يفيد التعيين والتقرير الكلامي كفعل إنشائي.",
+        "claim_en": "The verb waʿada (he promised) functions as a speech-act of creation/commitment (ijāb/inshtāʾ): it issues a definitive promise to the believers, using a performative verb that establishes the promised outcome.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "وعد",
+        "lemma": "وَعَدَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "خَالِدِينَ فِيها هِيَ حَسْبُهُمْ",
+        "claim_ar": "الفصل والوصل الظاهران عبر جملة الحال followed by توكيدها بالضمير/الاسمية (هي) — أسلوب يفصل وصف البقاء (خَالِدِينَ فِيهَا) ثم يعود ليؤكده ويعينه (هي حسبهم)، مماثل لوقوفٍ بياني يفيد التشديد.",
+        "claim_en": "A separation-and-connection (faṣl-wa-waṣl) device: the clause of permanence (khālidīn fīhā) is presented, then the statement returns/clarifies with a demonstrative/nominal element ('hiya') — a rhetorical pause-and-resume that emphasizes the permanence.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "خلد",
+        "lemma": "خَٰلِد",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote illustrates the same syntactic/clarifying technique in commentary (on a similar construction); the exact wording in the ayah differs (other nouns/pronouns), so the application is inferred from analogous usage in the source."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "انظر إلى الدقة في الترتيب",
+        "claim_ar": "الترتيب المتدرج للعناصر (جَنَّاتٍ — جَرْيانِ الأنهار — خَالِدِينَ — مَسَاكِنَ طَيِّبَةٍ — رِضْوَانٌ) يظهر أسلوباً حكيمًا في السرد البلاغي: ترتيب من العام إلى الخاص ومن الوصف الخارجي إلى أثره النفسي/الروحي.",
+        "claim_en": "Eloquent/stylish arrangement (aslūb ḥākim): the orderly sequencing of blessings (gardens — running rivers — eternal dwelling — pure abodes — God’s pleasure) displays a deliberate rhetorical ordering from broader image to particular reward, enhancing persuasive and aesthetic effect.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim_tartib",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source remarks generally on precision of ordering in expression; applying it to this specific verse is an interpretive step (plausible but inferential)."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily i'rāb/grammatical commentary and general exegetical remarks; explicit classical-rhetoric labels (al-Jurjānī, al-Sakkākī, etc.) are not present in the supplied chunks. Several rhetorical attributions above are inferred from analogous grammatical/exegetical observations in the chunks.",
+      "Some claims (marked 'needs_review') rely on analogical use of constructions discussed in the sources rather than an explicit rhetorical taxonomy in those exact chunks; please review against dedicated balāgha treatises if strict classical attribution is required."
+    ]
+  },
+  "n_chunks": 12
+}

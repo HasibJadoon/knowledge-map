@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:57",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "اللام لتأكيد النفي.",
+        "claim_ar": "اللام في العبارة تُستعمل لتوكيد النفي",
+        "claim_en": "The particle (laam) is used to emphasize negation.",
+        "device_branch": "other",
+        "device_subtype": "توكيد_بواسطة_اللام",
+        "root": null,
+        "lemma": "اللام",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "لو صح وأمكن ولم يؤدّ إلى مفسدة لوجب",
+        "claim_ar": "حرف لو في العبارة يوظف لعرض حالة افتراضية تبيّن ما كان سيكون واجبًا لو أمكن وقوعه (بيان المصلحة الشرعية في حال الإمكان)، أي توكيد معنوي للاحتجاج والتخييل الشرطي",
+        "claim_en": "The conditional 'لو' is employed to present a counterfactual hypothetical — showing what would be obligatory if it were possible — a rhetorical hypothetical emphasizing the normative point (an argumentative/hypothetical emphasis).",
+        "device_branch": "maani",
+        "device_subtype": "conditional_counterfactual",
+        "root": "لو",
+        "lemma": "لَوْ",
+        "confidence": "medium",
+        "needs_review_reason": "Mapped the commentary about 'لو' to a maani device; the canonical subtype list did not include an explicit 'counterfactual conditional' label, so a custom subtype was used."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from Zamakhshari/Tabari commentary; requested primary authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the supplied chunks.",
+      "Some device_subtypes were not direct matches to the developer's canonical lists, so 'other' / a custom subtype ('conditional_counterfactual', 'توكيد_بواسطة_اللام') was used. Please review to align with your canonical subtype taxonomy if needed.",
+      "Claims reference commentary excerpts; direct mapping of those comments to the specific ayah-level rhetorical taxonomy may require reviewer confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

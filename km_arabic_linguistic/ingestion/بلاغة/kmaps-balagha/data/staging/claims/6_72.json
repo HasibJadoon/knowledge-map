@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:72",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "وَيَوْمَ نَحْشُرُهُمْ",
+        "claim_ar": "التَّحَوُّلُ فِي السَّلَكِ الخِطابيِّ من الأَمْرِ بِالْعَمَلِ إلى خَبَرٍ عَنِ اللَّهِ وَمَصِيرِ النَّاسِ (التفات)",
+        "claim_en": "A rhetorical shift (iltifat): the discourse moves from commanding action (establishing prayer, fearing God) to a statement about God and the eschatological gathering — a shift that arrests attention and converts practice into eschatological reminder.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains the phrase 'وَيَوْمَ نَحْشُرُهُمْ' (we will gather them) which parallels the ayah's eschatological clause, but the chunk is commentary on a related verse and does not quote the exact imperative phrase 'أَقِيمُوا الصَّلَاةَ'. Further verification against tafsir-balagha sources (al-Jurjani, al-Sakkaki, etc.) that explicitly identify this as iltifat is recommended."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "هو الذي",
+        "claim_ar": "أسلوب حَكِيم: توقيف القول بحرف توكيد/تعريف ثم ذكر صفة الله («وهو الذي إليه تحشرون») لتقوية الحُجَّة وتثبيت الخشية والرجاء.",
+        "claim_en": "Asloob hakim (wise/stylistic dispositive): the clause beginning with the demonstrative/pronoun ('هو الذي ...') functions to stop the discourse and attribute agency/sovereignty to God, strengthening the admonition and its eschatological certainty.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk includes the exact phrase 'هو الذي' in commentary (Zamakhshari) which matches the form used in the ayah; however, the chunk addresses related formulations (e.g., 'هو القادر') rather than this precise verse. Confirming this reading with the specified balagha authorities would raise confidence."
+      }
+    ],
+    "warnings": [
+      "None of the provided source_chunks quote the exact full phrase of this ayah (e.g., 'أَقِيمُوا الصَّلَاةَ' or 'وَهُوَ الَّذِي إِلَيْهِ تُحْشَرُونَ'). Claims were anchored to substrings present in the chunks ('وَيَوْمَ نَحْشُرُهُمْ' and 'هو الذي') which are thematically related but come from commentary on adjacent/related verses.",
+      "Because the available chunks are exegetical excerpts (Tabari, Zamakhshari, Safi) rather than the specified balagha treatises (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha), the rhetorical labels should be reviewed against those primary balagha sources for confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:10",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "وهذا أسلوب من الجحود بليغ",
+        "claim_ar": "توصيف أسلوبي: استعمال أسلوب شرطٍ استنكاري («إن كان هذا هو الحق») كـ«أسلوب من الجحود بليغ» للدلالة على السخرية والردّ البلاغي",
+        "claim_en": "Stylistic observation: the use of an ironic/conditional formula ('if this is the truth') is described as 'an eloquent style of denial' — an asloob (stylistic) device that conveys ironic rejection.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim_conditional_irony",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "naktah",
+        "source_quote_ar": "سيأتى مزيد بحث في هذه النكتة.",
+        "claim_ar": "الإشارة إلى نكتة بلاغية/نكتة نحوية في تقرير البيان (تنبيه القارئ إلى مفردة بلاغية تحتاج بحثًا إضافيًا)",
+        "claim_en": "Meta-rhetorical note: the commentator flags a 'nuktah' (point/witty rhetorical note) for further analysis — an explicit pointer to a rhetorical point in the verse/text.",
+        "device_branch": "other",
+        "device_subtype": "naktah_flag",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "إرادة الإبهام.",
+        "claim_ar": "وجود قصد بلاغي بالإبهام (إرادة الإبهام) في تركيب المعنى، أي توظيف الغموض المقصود لرفع أثرٍ بلاغي أو لترك احتمالَين في المعنى.",
+        "claim_en": "Semantic/pragmatic device: explicit statement of an intended ambiguity ('willing ambiguity') — the commentator identifies deliberate ambiguity used for rhetorical effect.",
+        "device_branch": "maani",
+        "device_subtype": "ambiguity (إرادة الإبهام)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "bayan",
+        "source_quote_ar": "البلاغة والبيان ولطائف المعاني وبليغات المواعظ والنصائح",
+        "claim_ar": "تأكيد على طراز البيان والبلاغة في النص: الآية/الموقف يتضمن لطائف المعاني وبليغات الموعظة — إشارة عامة إلى تَفَجُّر بيانٍ وسماتٍ معنوية رفيعة.",
+        "claim_en": "General rhetorical characterization: the commentator explicitly praises 'rhetoric, eloquence, subtleties of meanings and eloquent admonitions' — a general remark that the passage is rhetorically rich in bayan/ma'ani.",
+        "device_branch": "bayan",
+        "device_subtype": "general_bayan_maani_praise",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "the source phrase is a general praise of rhetoric (descriptive); mapping to a specific canonical device requires further contextual linking to the verse."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are all from Zamakhshari (al-Kashshaf). The user requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir-balagha sections; those authors/sources are not present here. Claims reflect only the supplied chunks.",
+      "Claims are based on explicit phrases and meta-commentary found in the supplied chunks rather than an exhaustive commentary-by-commentator mapping to the requested authors. Verify against the intended classical sources if that was required.",
+      "Some claims are general or meta-rhetorical (flags, praise, or methodological notes in the commentator) rather than direct identification of a classical canonical device in the verse; these have been marked with lower confidence where appropriate."
+    ]
+  },
+  "n_chunks": 12
+}

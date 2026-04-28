@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:13",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No usable rhetorical claims could be extracted because none of the provided source_chunks contain the ayah text (قَالَ فَاهْبِطْ مِنْهَا فَمَا يَكُونُ لَكَ أَنْ تَتَكَبَّرَ فِيهَا فَاخْرُجْ إِنَّكَ مِنَ الصَّاغِرِينَ) or quotations/substrings of it. The task requires each claim's source_quote_ar be an exact substring of one of the supplied chunks; that condition is not met.",
+      "Provided chunks (chunk_ids: AL:CHUNK:e93c91b1f30135e863684524, AL:CHUNK:79b30b7af072ce6be6e3ee37, AL:CHUNK:7d6aa0a5876d0d63fcf2a21b, AL:CHUNK:3e3f9e9589037c1f573cbc54, AL:CHUNK:0fdb4c3abe468d34bf5a44d1, AL:CHUNK:528c362c81e6425d69370430) contain grammatical and exegetical discussions but do not quote or analyze this ayah directly; therefore I cannot produce properly sourced balagha claims.",
+      "To proceed, please provide source chunks from the requested rhetorical/tafsir authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) that explicitly quote or discuss this specific ayah (or include exact substrings of the ayah)."
+    ]
+  },
+  "n_chunks": 12
+}

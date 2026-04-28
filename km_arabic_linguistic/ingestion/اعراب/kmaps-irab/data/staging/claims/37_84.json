@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:84",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable إعراب claims: none of the provided source_chunks contain an exact substring from the target ayah (\"إِذْ جَاءَ رَبَّهُ بِقَلْبٍ سَلِيمٍ\"). The extraction rules require source_quote_ar to be an exact substring of a provided chunk, so no claims could be produced."
+    ]
+  },
+  "n_chunks": 5
+}

@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:96",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "تَمَنَّوُا الْمَوْتَ",
+        "claim_ar": "مقابلة بين حرص النّاس على الحياة في نصّ الآية وتفسير المفسّرين بظاهرة تمنى الموت لدى المؤمنين؛ تُبرز التباين بين رغبتيْن متقابلتيْن (التمسّك بالحياة مقابل الاشتياق إلى الآخرة).",
+        "claim_en": "Antithesis between the Quranic depiction of people's eager clinging to life and the tafsir noting believers' wish for death; this contrast highlights two opposing desires (cling to life vs. longing for the hereafter).",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The supporting substring is taken from the tafsir chunk ('تَمَنَّوُا الْمَوْتَ') rather than the literal ayah text for the opposing pole (the ayah's phrase 'أحْرَصَ النَّاسِ عَلَى حَيَاةٍ' does not appear in the provided chunks). Cross-check with full tafsir/ayaht extants is advised."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "تكرار",
+        "source_quote_ar": "لو تمنوا الموت لغص كل إنسان بريقه",
+        "claim_ar": "تكرار موضوع التمنى بالموت في شروح المفسّرين (ظهور عبارات مثل «تَمَنَّوُا الْمَوْتَ» و«لو تمنوا الموت...») ليُشدَّد التباين البلاغي مع وصف الآية لحرص الناس على الحياة.",
+        "claim_en": "Repetition of the motif of wishing for death in the exegetical remarks (occurrence of phrases such as 'تَمَنَّوُا الْمَوْتَ' and 'لو تمنوا الموت...'), which intensifies the rhetorical contrast with the ayah's depiction of people's eagerness for life.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "This observation is based on recurring motif in the provided tafsir excerpt rather than repeated lexical items within the ayah text itself; verify against a wider set of commentaries and the canonical Quranic text."
+      }
+    ],
+    "warnings": [
+      "Many provided source chunks are grammatical/tafsir commentaries that refer to the theme but do not contain the exact ayah lexical strings (e.g. 'أَلْفَ سَنَةٍ', 'أَحْرَصَ النَّاسِ', 'يُعَمَّرُ') — claims therefore rely on interpretive commentary rather than verbatim matches to the ayah in the supplied chunks.",
+      "Only substrings actually present in the supplied chunks were used as source_quote_ar. Where the rhetorical claim depends on pairing a tafsir fragment with the ayah text, please review with the full tafsir/critical editions to confirm the linkage.",
+      "Some device assignments (e.g. labeling the contrast as 'مقابلة') are interpretive and marked with medium confidence; consult a specialist in classical Arabic بلاغة for higher-certainty classification or alternative device labels."
+    ]
+  },
+  "n_chunks": 12
+}

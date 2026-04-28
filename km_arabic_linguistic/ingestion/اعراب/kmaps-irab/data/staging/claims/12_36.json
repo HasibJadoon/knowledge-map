@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:36",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No JSON in response"
+    ]
+  },
+  "n_chunks": 16
+}

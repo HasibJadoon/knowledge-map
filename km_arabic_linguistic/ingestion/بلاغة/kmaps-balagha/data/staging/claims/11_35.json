@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:35",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contains an exact substring from the target ayah (S11:A35), therefore no rhetoric claims could be extracted that meet the requirement that source_quote_ar be an exact substring of a provided chunk."
+    ]
+  },
+  "n_chunks": 12
+}

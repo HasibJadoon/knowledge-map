@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "33:34",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No applicable إعراب claims found: none of the provided source_chunks contain any exact Arabic substring from the target ayah (S33:A34). Cannot extract claims because source_quote_ar must be an exact substring of a provided chunk. Please provide source text/chunks that include the relevant commentary for this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

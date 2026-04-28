@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:84",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "أمر رسول اللَّه صلى اللَّه عليه وسلم بأن يخبر عن نفسه وعمن معه بالإيمان، فلذلك وحد الضمير في قُلْ وجمع في آمَنَّا",
+        "claim_ar": "التِفات في الخطاب: توجيه أمر منفرد ثم توجيه مخاطبة للجماعة (وحد الضمير في الفعل المخاطب وجمع خطاب المؤمنين)، أي تحويل الانتباه من مخاطب مفرد إلى مخاطب جمع.",
+        "claim_en": "Iltifat (shift of address): the discourse shifts between singular command and addressing the group (the pronoun is singular in the imperative while the believers are then addressed collectively), i.e. a shift of attention from a single addressee to a plural audience.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat_person_shift",
+        "root": "قتل",
+        "lemma": "قَٰتَلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "فإن قلت: لم عدّى أنزل في هذه الآية بحرف الاستعلاء، وفيما تقدم من مثلها بحرف الانتهاء؟ قلت: لوجود المعنيين جميعا",
+        "claim_ar": "أسلوب حکيم/تفريق في طريقة الخطاب: التفريق بين حرف الاستعلاء وحرف الانتهاء لبيان نظرتين وصفّين مختلفين للوحى/الخطاب (استعلاء المتكلم مقابل انتهاء المخاطب)، مما يضفي فرقًا بلاغيًّا في مقام الأمر والنهي والتوجيه.",
+        "claim_en": "Aslub hakim (stylistic principle): the text distinguishes between the particle/voice of 'ista'la'' (elevating/verbal stance of the sender) and 'intiha'' (addressing stance), reflecting two semantic perspectives in the revelation/address and giving a rhetorical nuance to the command and its addressees.",
+        "device_branch": "other",
+        "device_subtype": "استعلاء_مقابل_انتهاء",
+        "root": "قال",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the general rhetorical contrast of 'حرف الاستعلاء' vs 'حرف الانتهاء' and applies it to the verse; confirm with other rhetorical commentaries (al-Jurjani, al-Sakkaki, etc.) for terminology alignment."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from al-Kashshaf (Zamakhshari). The task requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha sections; only the given chunks were used. Claims are therefore based solely on the supplied excerpts.",
+      "Only devices explicitly supported by the provided chunks were extracted. No substring in the chunks discussed repetition or sound devices in this specific ayah, so badi' devices (e.g., takrār) were not claimed despite being present in the verse text."
+    ]
+  },
+  "n_chunks": 12
+}

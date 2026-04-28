@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "20:109",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taalluq",
+        "source_quote_ar": "مِيعَادُ يَوْمٍ : هُوَ مَصْدَرٌ مُضَافٌ إِلَى الظَّرْفِ.",
+        "claim_ar": "يَوْمَئِذٍ ظرف زمان، وظرفه متعلق بالفعل «تَنْفَعُ».",
+        "claim_en": "Yawm-idh is an adverbial of time (zarf zaman), and it is attached to the verb 'تَنْفَعُ' (it modifies that verb).",
+        "root": "يوم",
+        "lemma": "يَوْمَئِذ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk discusses the construction of 'يَوْم' with a مصدر added to form a ظرف, but it does not mention the exact word 'يَوْمَئِذٍ' nor explicitly state its attachment to the verb in this ayah; the attachment to 'تَنْفَعُ' is an inference.",
+        "quran_ref": "S20:A109"
+      }
+    ],
+    "warnings": [
+      "Extraction is limited: none of the provided source chunks quote the target ayah or the exact word 'يَوْمَئِذٍ'. The claim above is an inference based on a general remark about 'يَوْم' and ظرف constructions in the provided chunk rather than an explicit statement about this ayah in the source."
+    ]
+  },
+  "n_chunks": 12
+}

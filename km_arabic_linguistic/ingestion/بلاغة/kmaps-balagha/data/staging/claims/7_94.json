@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:94",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "maani",
+        "source_quote_ar": "تَضَرُّعاً وَخُفْيَةً نصب على الحال",
+        "claim_ar": "فعل يَتَضَرَّعُونَ يدلُّ على معنى التضرع والذلّ والخشوع في الدعاء، كما بيّن النصّ: «تَضَرُّعاً وَخُفْيَةً نصب على الحال».",
+        "claim_en": "The verb yattaḍarraʿūn indicates humble supplication, meekness, and inner humility in prayer — as indicated by the phrase: \"تَضَرُّعاً وَخُفْيَةً نصب على الحال\".",
+        "device_branch": "maani",
+        "device_subtype": "تضرّع (humble-supplication)",
+        "root": "ضرع",
+        "lemma": "يَتَضَرَّعُ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "rhetorical_effect": "Highlights the intended response (humble, inward supplication) that God’s punishments are meant to elicit from the people; creates emotional appeal to remorse and humility."
+      }
+    ],
+    "warnings": [
+      "Only the Zamakhshari chunk (AL:CHUNK:d50a1cce523b86f639bbd695) contains an explicit discussion of 'تضرع' that maps directly to يَضَّرَّعُونَ; other potential rhetorical features of the verse (e.g., the 'ما ... إلا' restricting structure or the pairing 'بِالْبَأْسَاءِ وَالضَّرَّاءِ') are not discussed in the provided source chunks, so no claims were extracted for them.",
+      "Source quotations are taken from exegetical/commentarial chunks provided; the quoted phrase documents the semantic field (تضرع/خفيّة) but is not the verse itself."
+    ]
+  },
+  "n_chunks": 12
+}

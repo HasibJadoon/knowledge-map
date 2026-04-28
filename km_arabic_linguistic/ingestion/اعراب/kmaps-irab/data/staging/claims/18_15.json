@@ -1,0 +1,43 @@
+{
+  "layer": "irab",
+  "ayah_key": "18:15",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "(هَؤُلَاءِ) : مُبْتَدَأٌ",
+        "claim_ar": "هَؤُلَاءِ: مُبْتَدَأ",
+        "claim_en": "هَؤُلَاءِ is the mubtada' (subject).",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "(قَوْمُنَا) عَطْفُ بَيَانٍ",
+        "claim_ar": "قَوْمُنَا: عطف بيان (شرح لمبتدأ هَؤُلَاءِ).",
+        "claim_en": "قَوْمُنَا functions as 'ʿaṭf bayān' (an explanatory apposition) to the mubtada' هَؤُلَاءِ.",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "«اتَّخَذُوا» : الْخَبَرُ",
+        "claim_ar": "اتَّخَذُوا: الخبر (خبر المبتدأ هَؤُلَاءِ).",
+        "claim_en": "اتَّخَذُوا is the khabar (predicate) of the mubtada' هَؤُلَاءِ.",
+        "root": "اخذ",
+        "lemma": "اتَّخَذَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:274",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "(الواو) عاطفة (لا) زائدة لتأكيد النفي",
+        "claim_ar": "اللا الزائدة وتكرار النفي في «لا خوف عليهم ولا هم يحزنون» كوسيلة بلاغية للتوكيد ونفي الخوف والحزن.",
+        "claim_en": "The repeated negation particle 'la' in 'لا خوف عليهم ولا هم يحزنون' functions as a rhetorical repetition (takrār) to intensify the negation and deny fear and sorrow.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "لا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A274",
+        "rhetorical_effect": "توكيد النفي وطمأنة المؤمنين (emphatic negation; reassurance)"
+      }
+    ],
+    "warnings": [
+      "المصادر المقدَّمة تحتوي على تحليل نحوي وشرحي محدود للآية؛ لم أعثر في القطع المرفقة على نص صريح يناقش صيغ البلاغة الأخرى المتوقعة (مثل «سِرًّا وَعَلَانِيَةً» كتناقض/تِباق أو «أَجْرُهُمْ عِندَ رَبِّهِمْ» كتقديم وتأخير).",
+      "للحصول على استخراج بلاغي أكمل (تقديم/تأخير، تباق، تكرار إضافي، إلخ) يُستحسن تزويد مقاطع من المرجعَين المذكورين (الجُرجاني، السَّكاكي، البَقِيلاني، السُّيوطي) أو أقسام بصياغة البلاغة/تفسير البلاغة المتخصصة للآية."
+    ]
+  },
+  "n_chunks": 12
+}

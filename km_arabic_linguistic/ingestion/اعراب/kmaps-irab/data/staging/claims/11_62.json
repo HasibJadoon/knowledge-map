@@ -1,0 +1,13 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:62",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب (grammatical) claims for S11:A62 were found in the provided source_chunks. None of the chunks mention or analyze this verse or its words, so no claims could be extracted.",
+      "Provided chunks (IDs: AL:CHUNK:bdb302e3955438f6caade20d, AL:CHUNK:4af1994c4527259870a73153, AL:CHUNK:9b26e51e5f6ebf34eeee292a, AL:CHUNK:dd56eaba19b26c2464e2b5f4, AL:CHUNK:8af4570488bf99a94f928c0e, AL:CHUNK:7a5fbee5c70f999da9480a93) contain general commentary or analyses of other words/verses and do not contain exact substrings discussing words from this ayah.",
+      "If you want extraction of إعراب claims for this ayah, please provide source chunks from al-Tibyan (or similar works) that explicitly quote or analyze the verse (or include exact relevant passages)."
+    ]
+  },
+  "n_chunks": 12
+}

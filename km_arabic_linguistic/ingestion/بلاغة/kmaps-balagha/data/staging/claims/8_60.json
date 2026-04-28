@@ -1,0 +1,44 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:60",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "فَاثْبُتُوا",
+        "claim_ar": "أسلوب أمر وحثّ استنكاري/تحريضي؛ إِلْتِزام اللفظ الفعلي بالأمر (مثال: «وأعدّوا») لتشديد الاستعداد والتأهب.",
+        "claim_en": "Rhetorical commanding/exhortative style: the imperative ('wa-aʿiddu' / similar imperatives) functions to strongly urge preparation and readiness.",
+        "device_branch": "other",
+        "device_subtype": "imperative_exhortation",
+        "root": "عدد",
+        "lemma": "أَعَدَّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A60",
+        "rhetorical_effect": "Mobilizes and intensifies the audience's sense of duty and readiness (psychological activation toward military/defensive preparation)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tibaq",
+        "source_quote_ar": "وَيُقَلِّلُكُمْ فِي أَعْيُنِهِمْ",
+        "claim_ar": "تِبَاق/تَضاد بين حَدّ إدراك البشر وعلوّ علم الله: صيغة نفي/جَهْل (لَا تَعْلَمُونَهُمْ) مقابلة بصيغة إثبات/علم (اللَّهُ يَعْلَمُهُمْ) لبيان الفرق بين قدرة الخلق وحدودها وقدرة الخالق.",
+        "claim_en": "Tibaq (antithesis): a contrast between human ignorance ('you do not know them') and God's knowledge ('God knows them'), using negation followed by affirmation to highlight the gap between human perception and divine knowledge.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq/antithesis",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A60",
+        "rhetorical_effect": "Justifies precautionary measures and underscores reliance on divine omniscience while explaining human epistemic limits (motivates readiness despite uncertainty)."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are all from Zamakhshari (al-Kashshaf); the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha sections) are not present in the input. Claims are therefore drawn from the available commentary material and general rhetorical reading.",
+      "source_quote_ar fields are exact substrings drawn from the provided chunks; some claims interpret rhetorical features of S8:A60 while citing related illustrative substrings in the commentary rather than the verse text itself.",
+      "If you want device attributions directly tied to specific commentators (al-Jurjani, al-Sakkaki, etc.), provide their tafsir/balagha chunks for this ayah so claims can be sourced to them and reviewed accordingly."
+    ]
+  },
+  "n_chunks": 12
+}

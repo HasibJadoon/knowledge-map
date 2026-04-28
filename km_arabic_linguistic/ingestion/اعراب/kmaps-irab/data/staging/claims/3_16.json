@@ -1,0 +1,36 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (الَّذِينَ يَسْتَحِبُّونَ) : فِي مَوْضِ جَرِّ صِفَةٍ لِلْكَافِرِينَ، أَوْ فِي مَوْضِ نَصْبٍ بِإِضْمَارِ أَعْنِي، أَوْ فِي مَوْضِ رَفْعٍ بِإِضْمَارِ «هُمْ» .",
+        "claim_ar": "الاسم الموصول «الَّذِينَ» له وجوه إعرابية متعددة: يؤوّل في موضع جرّ صفة، أو في موضع نصب مع إضمار «أعني»، أو في موضع رفع مع إضمار «هم».",
+        "claim_en": "The relative pronoun 'الَّذِينَ' admits multiple grammatical analyses: it can be treated as in the genitive (as the genitive of an adjective), or as in the accusative with an implied pronoun 'أعني', or as in the nominative with an implied 'هم'.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source states general alternative analyses for «الَّذِينَ» but does not give a specific iʿrāb decision for this occurrence ('الَّذِينَ يَقُولُونَ...'). Applying these alternatives to the current ayah requires analyst judgment."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "(لَا تَحْسَبَنَّ الَّذِينَ) : يُقْرَأُ بِالْيَاءِ وَالتَّاءِ، وَقَدْ ذُكِرَ مِثْلُ ذَلِكَ فِي الْأَنْفَالِ.",
+        "claim_ar": "ثمة اختلاف قرائي في تركيب مماثل يذكر «يُقْرَأُ بِالْيَاءِ وَالتَّاءِ» (أي قراءة بلفظين للفعل السابق للموصول).",
+        "claim_en": "There is a recitational variant noted in a similar construction: it 'is read with ya' and ta'' (i.e., variants in the ending of the preceding verb in relation to the relative clause).",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "low",
+        "needs_review_reason": "The cited note concerns a different verse and a variation in the preceding verb's recitation; its direct relevance to the recitation/iʿrāb of this specific ayah ('الَّذِينَ يَقُولُونَ...') is not established in the source."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain a detailed iʿrāb (syntactic parsing) of the full ayah S3:A16. Extracted items are general remarks about the particle/relative «الَّذِينَ» and a remote note on a recitational variant; they are not explicit, definitive parses of the words in this verse.",
+      "No explicit claims about the iʿrāb of other words in the ayah (يَقُولُونَ، رَبَّنَا، إِنَّنَا، آمَنَّا، فَاغْفِرْ، لَنَا، ذُنُوبَنَا، وَقِنَا، عَذَابَ، النَّارِ) were found in the supplied chunks. Further source material is needed for their analysis.",
+      "Some source quotes reference constructions from other verses (e.g., «لا تحسبنَّ الذين») — caution is needed when projecting those remarks onto this specific ayah."
+    ]
+  },
+  "n_chunks": 12
+}

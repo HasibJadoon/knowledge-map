@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:119",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "وَهُوَ اسْمُ كَانَ، وَالْخَبَرُ: «لَكُمْ» .",
+        "claim_ar": "«لَكُمْ» خبر (خَبَر) لاسم كان/هو",
+        "claim_en": "'لَكُمْ' functions as the predicate (khabar) of the copular/ambient 'كان' or 'هو'.",
+        "root": null,
+        "lemma": null,
+        "confidence": "needs_review",
+        "needs_review_reason": "The cited lemma fragment states that «لَكُمْ» is the خبر in its original context, but the source chunk appears to be discussing a different lexical item/verse. It is unclear which occurrence of لَكُمْ in S6:119 (word_index 2 or 12) the author intended; mapping to word_index 2 here is tentative and needs verification against the full commentary context."
+      },
+      {
+        "word_index": 16,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (إِلَّا وَجْهَهُ) : اسْتِثْنَاءٌ مِنَ الْجِنْسِ؛ أَيْ إِلَّا إِيَّاهُ، أَوْمَا عُمِلَ لِوَجْهِهِ سُبْحَانَهُ.",
+        "claim_ar": "حرف الاستثناء «إِلَّا» هنا على معنى استثناء من الجنس (أي: إلا إياه أو ما عُمِل لوجهه).",
+        "claim_en": "The particle 'إِلَّا' here is analyzed as an exception 'min al-jins' (exception of the kind), i.e., 'except it/him' or 'what is done for His sake.'",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

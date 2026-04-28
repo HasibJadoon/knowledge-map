@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:80",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (إِلَّا وَجْهَهُ) : اسْتِثْنَاءٌ مِنَ الْجِنْسِ؛ أَيْ إِلَّا إِيَّاهُ، أَوْ مَا عُمِلَ لِوَجْهِهِ سُبْحَانَهُ.",
+        "claim_ar": "حرف استثناء يدل على الاستثناء (استثناء من الجنس/أي إياه)، أي أن «إِلَّا» هنا تعمل كحرف استثناء.",
+        "claim_en": "'إِلَّا' here functions as a particle of exception (an exception of kind — i.e. 'except it'), excluding what precedes it.",
+        "root": "إلا",
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk gives a general rule about إِلَّا (إِلَّا وَجْهَهُ) but does not explicitly analyze this particular verse; applying the general rule to this context should be verified against the verse-specific commentary."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain only a general note on the particle 'إِلَّا' relevant to this verse. No explicit iʿrāb discussion in the chunks was found for other words of S6:A80.",
+      "No chunk explicitly addresses the syntactic roles (مبتدأ، خبر، فاعل، مفعول به، etc.) for the words of this ayah; additional source material is needed to extract further claims with confidence."
+    ]
+  },
+  "n_chunks": 12
+}

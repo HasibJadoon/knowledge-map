@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:47",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "ما أُرِيدُ إِلَّا الْإِصْلاحَ",
+        "claim_ar": "استخدام أداة الحصر «إِلَّا» للتقييد كما في قوله تعالى «وَإِلَّا تَغْفِرْ لِي» (أي: لا أطلب منك إلا أن تغفر لي).",
+        "claim_en": "Use of the restrictive particle 'إِلَّا' (exclusion/restriction, hasr/qasr) as in 'and except that You forgive me' — limiting the request to this single thing.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "إلا",
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "جوابه محذوف",
+        "claim_ar": "اقتصار بلاغي (حذف/إيجاز): تعليق المفسر على أن \"جوابه محذوف\" يُشير إلى اقتصار البيان وحذف جواب سابق مما يخلق أثر بلاغي من الإيجاز والاعتماد على السياق.",
+        "claim_en": "Conciseness/ellipsis (ijaaz): the commentator's note 'جوابه محذوف' indicates a deliberate omission of an expected answer, producing a rhetorical brevity that relies on context.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "حذف",
+        "lemma": "حُذِفَ",
+        "confidence": "medium",
+        "needs_review_reason": "The comment refers to an omitted reply in the narrative/context; verify connection to this specific ayah and surrounding verses to confirm the rhetorical omission applies here."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari and Darwish (al-Kashshaf, I'rab), not from the specified authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha). Claims are extracted only where exact substrings exist in the given chunks.",
+      "Only substrings explicitly present in the supplied chunks were used as source_quote_ar. Other plausible rhetorical readings of S11:A47 may exist but could not be supported because matching substrings were not present in the provided source chunks.",
+      "The ijaaz claim relies on a commentator's note about omission; confirm by checking adjacent verses/commentary for the omitted material to ensure the rhetorical effect is indeed intended for this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

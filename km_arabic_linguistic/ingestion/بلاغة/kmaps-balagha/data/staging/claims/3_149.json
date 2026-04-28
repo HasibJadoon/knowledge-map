@@ -1,0 +1,74 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:149",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يا حرف نداء",
+        "claim_ar": "استعمال حرف النداء «يا» لالتفات المخاطبين (نداء المؤمنين وإلقاء الانتباه)",
+        "claim_en": "Use of the vocative particle «يا» to turn attention to the addressees (calling the believers; vocative attention/shift).",
+        "device_branch": "maani",
+        "device_subtype": "vocative (نداء)",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A149",
+        "rhetorical_effect": "directs attention to the audience, creates immediacy and moral pressure"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "الْمُؤْمِنُونَ الْكافِرِينَ",
+        "claim_ar": "مقابلة/تضاد بين المؤمنين والكافرين لإبراز التباين والتهديد بخسارة المؤمنين إن التحقوا بالكافرين",
+        "claim_en": "Antithesis (muqabalah) between the believers and the disbelievers to highlight contrast and the warning that believers who follow the disbelievers will suffer loss.",
+        "device_branch": "badi",
+        "device_subtype": "contrast / antithesis (مقابلة)",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A149",
+        "rhetorical_effect": "sharpens moral polarity; strengthens the warning by opposing two groups"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الفاء استئنافية",
+        "claim_ar": "استعمال حرف الفاء الاستئنافي (الفاء في «فَتَنْقَلِبُوا») لربط النتيجة بالشرط وإبرازهما: فاء ربط واستئناف تؤكد الجزاء",
+        "claim_en": "Use of the consecutive/resumptive particle «fa» (as in «fa-tanqalibū») to link the consequence to the condition and to foreground the resulting punishment — a connective that emphasizes the outcome.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (faٔ الاستئنافية)",
+        "root": "قلب",
+        "lemma": "انقلبَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A149",
+        "rhetorical_effect": "foregrounds the consequence; creates causal immediacy and emphasis"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "واعلم أنّ هذه الآية وردت منظومة من غير قصد",
+        "claim_ar": "ملاحظة بلاغية/عروضية: النص يرد منظوماً على بحر (ذكر المصدر أنّ الآية ظهرت منظومة، بيت كامل من مجزوء الرّمل)، أي وجود بعد إيقاعي/نظمي في صياغة الآية",
+        "claim_en": "Rhetorical/prosodic observation: the verse appears in a metrically patterned (organized) line — the source notes it appears as a full hemistich on the meter 'majzūʾ al-raml', indicating an incidental rhythmic/metrical shaping.",
+        "device_branch": "other",
+        "device_subtype": "prosodic_meter",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "the quoted source passage speaks generally about 'هذه الآية' being metrically organized; confirm that the source was referring specifically to this verse (S3:149) and not to another verse in the commentary.",
+        "quran_ref": "S3:A149",
+        "rhetorical_effect": "adds perceptible rhythmic cadence that can increase memorability and emphasis"
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are grammatical/iʿrāb notes (Darwish - I'rab); they are not the classical balagha authors named in the task (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha). Claims are therefore drawn from these iʿrāb chunks and may not reflect full classical rhetorical commentary.",
+      "Some quoted passages (e.g., the prosody note) are generic statements using the phrase «هذه الآية» in the source; please verify that the source passage indeed refers to Sūrah 3:149 specifically before using that claim as authoritative for this ayah.",
+      "I limited claims to devices listed in the instructions. Other plausible rhetorical readings (e.g., conditional warning force of «إن»; the repetition of «الذين» for emphasis) could be added but lacked direct, explicit support in the provided chunks and so were not asserted with high confidence."
+    ]
+  },
+  "n_chunks": 12
+}

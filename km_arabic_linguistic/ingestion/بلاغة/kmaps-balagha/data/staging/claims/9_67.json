@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:67",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "يتولى أمورا هي في ظاهرها مناكير",
+        "claim_ar": "طباق ومقابلة بين الأمر بالمنكر والنهي عن المعروف: اقتضاء التناقض لإبراز نفاقهم وسخريتهم الأخلاقية",
+        "claim_en": "Antithetical pairing (muqabalah/tibaq) in 'they command the wrong and forbid the right' — the contrast highlights their hypocrisy and moral inversion.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "امر",
+        "lemma": "أَمَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted substring is from a mufassir's commentary referencing 'mankir' rather than the ayah's exact wording; inference links commentary to the ayah's clear antithesis and should be checked against direct exegesis."
+      },
+      {
+        "word_index": 16,
+        "claim_type": "taqdim_takhir",
+        "source_quote_ar": "التقديم دليل على أن المقدّم هو الغرض المتعمد بالذكر",
+        "claim_ar": "تقديم بواسطة «إِنَّ» لتوكيد موضوع الحديث: إبراز «الْمُنَافِقِينَ» كمقصود البيان",
+        "claim_en": "Fronting (taqdim) via 'inna' to emphasize the topic: placing 'the hypocrites' in focus as the deliberate subject of the statement.",
+        "device_branch": "maani",
+        "device_subtype": "taqdim_takhir",
+        "root": null,
+        "lemma": "إِنَّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote treats general rhetorical function of fronting; applying it to this ayah is plausible but should be verified with direct commentary on this verse."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "istiarah",
+        "source_quote_ar": "القتر والإقتار والتقتير: التضييق الذي هو نقيض الإسراف.",
+        "claim_ar": "استعارة (استعارة مفهومية) في «وَيَقْبِضُونَ أَيْدِيَهُمْ»: قبض الأيدي يُستخدم مجازًا للدلالة على البخل والتقتير",
+        "claim_en": "Metaphorical use (istiarah/conceptual metaphor) in 'they withhold their hands': 'withholding hands' is used figuratively to denote stinginess/hoarding.",
+        "device_branch": "bayan",
+        "device_subtype": "istiarah",
+        "root": "قبض",
+        "lemma": "قَبَضَ",
+        "confidence": "high",
+        "needs_review_reason": "Quote provides lexical semantic field ('التقتير') supporting the metaphorical reading; still advisable to confirm with additional tafsir passages addressing this specific verbal image."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are general commentaries and lexicographic notes; some source_quote_ar excerpts are commentary on related concepts rather than the ayah's literal wording. Claims that generalize from commentary to the ayah are marked for review.",
+      "Not all rhetorical features of the ayah could be corroborated by exact substrings in the supplied chunks (e.g., repetition of نَسُوا ... فَنَسِيَهُمْ or the explicit masculine+feminine pair). Extraction was limited to devices for which supporting substrings exist in the provided sources; other plausible devices were omitted and may require additional sources."
+    ]
+  },
+  "n_chunks": 12
+}

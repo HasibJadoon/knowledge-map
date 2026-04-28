@@ -1,0 +1,27 @@
+{
+  "layer": "irab",
+  "ayah_key": "19:59",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "وَهُوَ مَعْطُوفٌ عَلَى (الصَّلَاةِ) .",
+        "claim_ar": "الصَّلَاةَ مَعْطُوفٌ",
+        "claim_en": "The word \"الصَّلَاةَ\" is (described as) a ma'ṭūf (a conjunct / the word to which another is conjoined).",
+        "root": "صلو",
+        "lemma": "صَلَوٰة",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage in al-Tibyan appears in a different discussion (about the word وَبَرًّا) and does not clearly identify which verse or preceding word is the head; applicability to S19:59 (where الصَّلَاةَ is the object of أَضَاعُوا) is therefore uncertain and should be checked against the full commentary context.",
+        "device_branch": null,
+        "device_subtype": null,
+        "quran_ref": "S19:A59"
+      }
+    ],
+    "warnings": [
+      "Most provided source chunks do not contain explicit commentary on S19:59; only one chunk contains the substring \"الصَّلَاةِ\" and a statement that something is \"مَعْطُوفٌ عَلَى (الصَّلَاةِ)\". The commentary context appears to address a different lexical item (وَبَرًّا), so the mapping of that statement onto this ayah is uncertain — review the original al-Tibyan location for S19:59 to confirm.",
+      "No explicit statements in the provided chunks identify typical iʿrāb roles (e.g., مبتدأ، خبر، فاعل، مفعول به) for other words of S19:59; therefore only one tentative claim was extracted."
+    ]
+  },
+  "n_chunks": 12
+}

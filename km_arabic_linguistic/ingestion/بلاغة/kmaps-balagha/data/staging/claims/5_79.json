@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:79",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "(كانوا لا يَتَنَاهَوْنَ)",
+        "claim_ar": "تكرار فعل 'كانوا' في مطالع الجمل لتأكيد الثبوت والاستمرارية في حال الذم",
+        "claim_en": "Repetition of the verb 'kānū' (they were) to emphasize the continued/constant state being condemned.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk shows the lexical occurrence '(كانوا لا يتناهون)' and notes the forms, but does not explicitly label this as rhetorical repetition; the identification as takrār is interpretive and should be reviewed.",
+        "quran_ref": "S5:A79",
+        "rhetorical_effect": "emphasis on continuity of blameworthy behaviour"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "takrar",
+        "source_quote_ar": "(كانوا يفعلون) مثل كانوا يعتدون",
+        "claim_ar": "تكرار صيغة الفعل 'يفعلون/فعلوا' لاستحضار الاستمرار في الفعل ولتعزيز قرار الذم في الجملة اللاحقة 'بئس ما كانوا يفعلون'.",
+        "claim_en": "Repetition of the verbal form 'yafʿalūn/faʿalū' to invoke continuity of the action and reinforce the condemnatory verdict in 'baisa mā kānū yafʿalūn'.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "فعل",
+        "lemma": "فَعَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source cites the phrase '(كانوا يفعلون)' and parallels it with an earlier verse, but does not explicitly present a rhetorical analysis naming 'repetition'; classification as takrār is interpretive.",
+        "quran_ref": "S5:A79",
+        "rhetorical_effect": "reinforces habituality of the condemned action and prepares for moral censure"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "(بئس) فعل ماض جامد لإنشاء الذم",
+        "claim_ar": "استخدام 'بئس' كفعل جامد لإنشاء الذم والتنديد — أسلوب بلاغي لإظهار الاستنكار والحكم الأخلاقي.",
+        "claim_en": "Use of 'baisa' as a fixed (stative) verb to effect condemnation — a rhetorical device expressing strong disapproval and moral judgment.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "باس",
+        "lemma": "بِئْسَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A79",
+        "rhetorical_effect": "explicit moral condemnation; frames the preceding clause as blameworthy and elicits negative judgment"
+      }
+    ],
+    "warnings": [
+      "Claims for 'takrar' (repetition) are interpretive: the provided chunks show the repeated lexical items but do not explicitly label them rhetorically; please review with fuller rhetorical commentary if available.",
+      "Only the al-Jadwal chunk explicitly discusses the function of 'بئس' as 'فعل ماض جامد لإنشاء الذم' — other inferences rely on the lexical/occurrence evidence in the chunks supplied."
+    ]
+  },
+  "n_chunks": 12
+}

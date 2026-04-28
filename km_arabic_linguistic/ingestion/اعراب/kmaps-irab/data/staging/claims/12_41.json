@@ -1,0 +1,8 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:41",
+  "result": {
+    "error": "Invalid request. Please provide a valid query or text to analyze."
+  },
+  "n_chunks": 16
+}

@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:86",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "tibaq",
+        "source_quote_ar": "الآخرة",
+        "claim_ar": "طباق/تضاد بين «الدُّنْيَا» و«الْآخِرَةِ» يبرز تناقض المنفعة والمصير ويؤكّد خسارة من ابتاع الأولى على حساب الثانية.",
+        "claim_en": "Tibaq (antithesis) between 'al-dunyā' and 'al-ākhira' highlighting the opposition of temporal worldly gain vs. eternal hereafter and emphasizing the loss of those who traded the latter for the former.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "دنو",
+        "lemma": "دُّنْيَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "mukabalah",
+        "source_quote_ar": "(الواو) عاطفة (لا) نافية مهملة",
+        "claim_ar": "مقابلة/توازي في النفي: «فَلَا يُخَفَّفُ ... وَلَا هُمْ يُنْصَرُونَ» — تكرار النفي بالواو يؤكد القطع وعدم الرجاء.",
+        "claim_en": "Muqābala (balanced antithesis) in negation: 'fa-lā yukhaffafu ... wa-lā hum yunsarūn' — the repeated negation introduced by wāw creates parallelism and strengthens the sense of definitive denial and hopelessness.",
+        "device_branch": "badi",
+        "device_subtype": "mukabalah",
+        "root": null,
+        "lemma": "لَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "majaz/istiarah",
+        "source_quote_ar": "الآخرة",
+        "claim_ar": "مجاز/استعارة: فعل «اشترَوْا» استعمال مجازي بمعنى «تفضيلوا/بدّلوا» — تفعيل صورة السوق والمقايضة لتصوير خسارة الآخرة مقابل نفع زماني محدود.",
+        "claim_en": "Majaz/isti‘āra (metaphor): the verb 'ishtaraw' ('they bought') is used metaphorically as 'they preferred/exchanged' — invoking the marketplace imagery of buying/selling to depict the grave loss of exchanging the Hereafter for temporal worldly life.",
+        "device_branch": "maani",
+        "device_subtype": "majaz",
+        "root": "شري",
+        "lemma": "اشْتَرَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "No chunk in the provided sources contains the exact verb «اشتروا» as a quoted substring; the metaforical reading is a semantic inference from the ayah rather than directly discussed in the supplied chunks. Please supply a source-chunk that treats «اشتَرَوْا» metaphorically for higher confidence."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks do not include the exact ayah text; some claims (especially the metaphorical reading of «اشتروا») rely on semantic inference rather than an explicit discussion in the supplied chunks.",
+      "Source quotes used are short substrings (e.g., «الآخرة», or grammatical note «(الواو) عاطفة (لا) نافية مهملة») drawn from the chunks; reviewers should verify that these chunks are intended to support the asserted rhetorical readings.",
+      "I avoided grammatical/morphological claims (e.g., parsing of «الَّذِينَ») per instructions; if you want grammatical observations as rhetorical devices (e.g., use of the relative pronoun for emphasis), indicate explicitly."
+    ]
+  },
+  "n_chunks": 12
+}

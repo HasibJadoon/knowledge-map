@@ -1,0 +1,47 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:118",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "مسألة : اختلف في جواز العطف على معمولي عاملين",
+        "claim_ar": "اختلاف النحاة في جواز العطف على معمولي عاملين — أي عطف عبارتين متعلقين بواحد من العوامل؛ تطبيقه على (بَيْنِي وَبَيْنَهُمْ) موضع خلاف: مشهور سيبويه المنع، وجوزه أخفش والكسائي والفراء والزجاج.",
+        "claim_en": "There is a grammatical disagreement about permitting conjunction (عطف) of two expressions that are each objects/affected by a single governor (معمولي عاملين). Applied to (بَيْنِي وَبَيْنَهُمْ), this is disputed: Sibawayh's school generally forbids it while others (al-Akhfash, al-Kisai, al-Farra', az-Zajjaj) allow it.",
+        "root": "بين",
+        "lemma": "بَيْن",
+        "confidence": "medium",
+        "needs_review_reason": "The source states a general dispute about conjoining two governed expressions but does not analyze this specific verse; mapping the general dispute onto these two prepositional phrases is an inference."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "مسألة : اختلف في جواز العطف على معمولي عاملين",
+        "claim_ar": "المسألة المذكورة في المصدر تنطبق على ثنائية (بَيْنِي وَبَيْنَهُمْ): ثمة اختلاف بين النحاة في جواز عطف عبارتين متعلقين بنفس العامل (القراءة/التحليل النحوي قد تعتبرهما معمولين لعامل واحد أو تعتبر العطف غير جائز).",
+        "claim_en": "The discussed issue applies to the pair (بَيْنِي وَبَيْنَهُمْ): grammarians disagree whether conjunction of two phrases governed by the same governor is permitted — some treat them as two objects of one governor, others forbid the construction.",
+        "root": "بين",
+        "lemma": "بَيْن",
+        "confidence": "medium",
+        "needs_review_reason": "Source gives the dispute in general terms and cites examples elsewhere; it does not give a targeted parsing of this ayah, so application to these exact words should be verified against commentators who treat this verse directly."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "مسألة : اختلف في جواز العطف على الضمير المجرور من غير إعادة الجار",
+        "claim_ar": "قواعد متعلقة بالعطف على الضمير المجرور من غير إعادة الجار: بعض النحاة يمنعون، والكوفيين وبعض القراءات تبيح ذلك. هذا يتعلق بشكل العطف إذا حُذِف تكرار الجار وليس حين يكرر (كما في هذه الآية حيث تكرر (بَيْن)).",
+        "claim_en": "Rule referenced: there is disagreement about conjoining to a genitive pronoun without repeating the governing preposition — some grammarians forbid it while others (including some Kufan grammarians and certain readings) permit it. This rule concerns omission of the repeated preposition; in this verse the preposition is repeated.",
+        "root": "بين",
+        "lemma": "بَيْن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited rule concerns omission of a repeated preposition; in the present verse the preposition is repeated, so the rule is related but not directly determinative for parsing here."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks discuss general grammatical disputes (e.g., جواز العطف على معمولي عاملين, العطف على الضمير المجرور) but do not contain an explicit, verse-specific إعراب for S26:A118. Claims are therefore inferred from general discussions rather than a direct exegesis of this ayah.",
+      "No explicit source quote was found that labels بَيْنِي or وَبَيْنَهُمْ with a specific grammatical case/role (e.g., مبتدأ/خبر/مجرور متعلق بالفعل) for this ayah; users should verify with commentators who treat this verse directly if a definitive irab is required."
+    ],
+    "quran_ref": "S26:A118"
+  },
+  "n_chunks": 12
+}

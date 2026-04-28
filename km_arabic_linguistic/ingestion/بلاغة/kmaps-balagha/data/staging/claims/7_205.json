@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:205",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "تَضَرُّعاً وَخُفْيَةً",
+        "claim_ar": "حصر الذكر في حال التضرع والخفية، أي تقييد الذكر بصيغة الخشوع الداخلي وعدم الجهر",
+        "claim_en": "Restriction (hasr/qasr): the remembrance is constrained to supplication and secrecy — i.e., it confines remembrance to inward reverence and not to loud public utterance.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "ضرع",
+        "lemma": "تَضَرُّع",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A205",
+        "rhetorical_effect": "Directs the worshipper to an inward, humble mode of remembrance and implicitly critiques ostentatious/loud devotion."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "tibaq",
+        "source_quote_ar": "الصراخ والصياح في الدعاء",
+        "claim_ar": "تباين/تضاد بين الخفيّ والجهر؛ الآية تضع مقابل الخفية (الخشوع الداخلي) ما يعارضها من الجهر، مما يؤكد التباين الأخلاقي والوظيفي بينهما",
+        "claim_en": "Antithetical pairing (tibaq): the verse contrasts secrecy (inner humility) with loudness; by juxtaposing inner reverence and loud vocalization it highlights the moral and functional opposition between them.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "جهر",
+        "lemma": "جَهْر",
+        "confidence": "medium",
+        "needs_review_reason": "Classification as 'tibaq' (pairing of opposites) is plausible here but could also be labeled as muqabalah or another contrast-term in other commentators; needs cross-check with Jurjani/Sakkaki/Baqillani treatments.",
+        "quran_ref": "S7:A205",
+        "rhetorical_effect": "By opposing hiddenness and loudness the wording pressures the reader/listener to prefer modest, inward devotion and to reject showy displays; it also strengthens admonitory tone."
+      }
+    ],
+    "warnings": [
+      "Source material provided is limited mainly to the Zamakhshari chunk that treats تَضَرُّعاً وَخُفْيَةً and critiques loud praying (الصراخ والصياح في الدعاء). Claims are based on that chunk; other classical rhetoricians named in the task (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present among the source_chunks, so mappings/classifications (e.g., tibaq vs muqabalah) should be cross-checked against those authors.",
+      "Some device assignments (especially between closely related contrast devices: tibaq vs muqabalah) are interpretive. See needs_review_reason on the relevant claim for details."
+    ]
+  },
+  "n_chunks": 12
+}

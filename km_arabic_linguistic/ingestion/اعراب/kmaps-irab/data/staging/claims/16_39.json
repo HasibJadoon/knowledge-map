@@ -1,0 +1,57 @@
+{
+  "layer": "irab",
+  "ayah_key": "16:39",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى:",
+        "claim_ar": "الفعل 'لِيُبَيِّنَ' فعل مضارع منصوب بعلامة النصب لام التعليل (لام الغاية)؛ بمعنى الغاية/المراد (ليبين لهم).",
+        "claim_en": "'لِيُبَيِّنَ' is a present-tense verb in the subjunctive (manṣūb) due to the prefixed lām of purpose/causal lām (lam al-taʿlīl/lam al-ghāya); it expresses purpose ('so that He may make clear').",
+        "root": "بين",
+        "lemma": "بَيَّنُ",
+        "confidence": "medium",
+        "needs_review_reason": "None of the provided source chunks explicitly discusses لام التعليل or the parsing of 'لِيُبَيِّنَ'; the claim is the standard grammatical analysis but is not directly cited in the given excerpts."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "وَبِيَعْلَمَ عَلَى قَوْلِ الْكُوفِيِّينَ.",
+        "claim_ar": "الفعل 'وَلِيَعْلَمَ' فعل مضارع منصوب بعلامة النصب لام التعليل (الواو حرف عطف + لام الغاية)؛ أي: 'وَ' عطف و'لِ' تعليل/غاية.",
+        "claim_en": "'وَلِيَعْلَمَ' is a present-tense verb in the subjunctive (manṣūb) owing to the lām of purpose (with the conjunction وَ as a prefixed coordinating wāw): the wāw is coordination and the lām indicates purpose ('and so that ... may know').",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunk records a Kufan reading (see next claim) but does not explicitly state the analysis 'lam al-taʿlīl' for this specific form; the irāb here follows standard grammar and should be double-checked against a direct statement in the source."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "«شَيْئًا» مَنْصُوبٌ بِالْمَصْدَرِ عَلَى قَوْلِ الْبَصْرِيِّينَ. وَبِيَعْلَمَ عَلَى قَوْلِ الْكُوفِيِّينَ.",
+        "claim_ar": "ثمة قراءة لدى الكوفيين تُسجل كـ 'وَيَعْلَمَ' / تظهر في النص المُشار إليه بصيغة 'وَبِيَعْلَمَ'؛ أي قراءة تختلف عن القراءة التي تضمن لام التعليل.",
+        "claim_en": "The commentary records a Kufan reading rendered as 'وَيَعْلَمَ' (appearing in the excerpt as 'وَبِيَعْلَمَ'), i.e. a variant reading that lacks or differs in the lām of purpose relative to other readings.",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "«شَيْئًا» مَنْصُوبٌ بِالْمَصْدَرِ عَلَى قَوْلِ الْبَصْرِيِّينَ. وَبِيَعْلَمَ عَلَى قَوْلِ الْكُوفِيِّينَ.",
+        "claim_ar": "المصدر يذكر خلافًا بين أهل البصرة وأهل الكوفة في قراءة/إعراب صياغات متقاربة: البصريون لقراءةٍ من حيث النصب بالمصدر، والكوفيون لقراءةٍ تُسجل بصيغة فعل (هنا: 'وَبِيَعْلَمَ').",
+        "claim_en": "The work records a grammatical/reading disagreement (ikhtilāf) attributed to the Basran and Kufan schools: the Basrans analyze/record one form (e.g. a masdar-nominative analysis) while the Kufans record a verb-form reading (here noted as 'وَبِيَعْلَمَ'). This indicates an attested variant that affects parsing.",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are excerpts that often discuss other verses or general grammatical issues; they do not explicitly analyze every word of S16:A39. Several claims above are standard grammatical inferences (lam of purpose → نصب) rather than direct quotes from the given chunks.",
+      "The substring 'وَبِيَعْلَمَ' in the source appears as part of a discussion of a reading variant; verify the exact vocalization/printing in the full commentary to confirm whether it corresponds precisely to the form in this ayah ('وَلِيَعْلَمَ')."
+    ]
+  },
+  "n_chunks": 12
+}

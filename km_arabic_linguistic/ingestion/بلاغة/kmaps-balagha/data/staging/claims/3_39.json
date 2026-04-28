@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:39",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No balagha claims extracted: the provided source_chunks do not contain commentary from the requested rhetorical authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsīr-balagha section).",
+      "Provided chunks are from Zamakhsharī (al-Kashshāf) and do not include explicit balagha (بلاغة) notes on Sūrah 3:39 nor the exact verse text in a way that supports identifying a rhetorical device with a source_quote_ar substring.",
+      "Per the extraction rules, each claim must cite source_quote_ar as an exact substring of a provided chunk. Because there is no relevant balagha commentary or exact verse quotation in the supplied chunks to support specific device claims, no claims can be produced. Please supply balagha commentaries (from the specified authors or tafsīr-balagha chunks) or chunks that include explicit rhetorical remarks about this āyah so extraction can proceed."
+    ]
+  },
+  "n_chunks": 12
+}

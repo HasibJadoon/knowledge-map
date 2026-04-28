@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:262",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار إرادة التنشيط، لاكتساب ما يزلف، والتثبيط عن اقتراف ما يتلف.",
+        "claim_ar": "الأسلوب القرآني هنا يجمع الترغيب مع الترهيب: بعد ذكر الإنذار تُقدم البشارة لتنشط القلوب على الإنفاق وتثبط عن المعاصي.",
+        "claim_en": "The Qur'anic style here pairs exhortation (targhib) with warning (tarhib): after threatening punishment the text follows with glad tidings to stimulate giving and deter sin.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "قفاه ببشارة عباده الذين جمعوا بين التصديق والأعمال الصالحة",
+        "claim_ar": "الموضعية النصية: السورة تقف الجزئية التي تذكر عقاب الكفار/المخالفين بقَفْلٍ يتمثل في تبشير أهل الإيمان الصادقين؛ أي انتقال من الترهيب إلى البشارة كحركة موضوعية في السورة.",
+        "claim_en": "Textual movement: the passage closes a section describing punishment/opposition by presenting glad tidings to the believers who combined faith with righteous deeds — a shift from warning to consolation as a movement within the surah.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Interpretation of 'قفاه' as a structural 'closure/movement' in the surah is supported by the tafsir passage but could be nuanced by wider context; verify with additional tafsir passages."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks contain explicit commentary about the pairing of targhib (encouragement) and tarhib (warning) and about the surah's movement, but do not quote the exact ayah text. Therefore word-level devices (e.g., repetition, muqabalah, tibaq) tied to specific lexical items in the verse cannot be confidently extracted from the given chunks.",
+      "No explicit discussion of بديع (jinas, tibaq, muqabalah, saj, takrar) or بيان (tashbih, isti‘arah, majaz, kinayah) devices for this ayah was found in the supplied chunks; claims about those devices would require additional source excerpts that explicitly comment on them.",
+      "Some rhetorical devices (e.g., finer معاني categories) are not directly named or exemplified in the provided excerpts; extraction was therefore limited to stylistic/schematic claims explicitly supported by the chunks."
+    ]
+  },
+  "n_chunks": 12
+}

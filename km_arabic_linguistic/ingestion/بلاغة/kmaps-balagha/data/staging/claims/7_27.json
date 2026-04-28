@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:27",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "tashbih",
+        "source_quote_ar": "البلاغة: في الآية التشبيه التمثيلي",
+        "claim_ar": "التشبيه التمثيلي في الآية (التجسيد التمثيلي لموقف إبليس وإغوائه لبني آدم).",
+        "claim_en": "The verse uses an illustrative simile (tashbih tamthili) — a representational comparison portraying Satan's deception and its effect on the children of Adam.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "شبه",
+        "lemma": "تشبيه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only one of the provided source chunks (Darwish - I'rab) explicitly contained a balagha statement ('البلاغة: في الآية التشبيه التمثيلي'). Other provided chunks are tafsir/grammatical material without explicit balagha labels from the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha).",
+      "Claims are limited to exact substrings found in the supplied chunks as required; additional balagha readings (e.g., iltifat in the vocative 'يا بني آدم', or ijaaz in concision) were not extracted because corresponding source-text quotes were not present in the provided chunks and thus would violate the 'source_quote_ar must be exact substring' rule."
+    ]
+  },
+  "n_chunks": 12
+}

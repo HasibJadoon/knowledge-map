@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "33:9",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَ (إِذْ) الْأُولَى: ظَرْفٌ لِنَبَإٍ",
+        "claim_ar": "الإِذْ ظرف لِنبأ (ظرف زمان يتعلّق بخبر)",
+        "claim_en": "The particle 'إِذْ' functions as a temporal adverb (ظرف) attached to a news clause (نبأ).",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

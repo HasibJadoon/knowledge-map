@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:30",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "taalluq",
+        "source_quote_ar": "و (مِنْ ذِكْرٍ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِيَأْتِيهِمْ، وَأَنْ يَكُونَ صِفَةً لذكر وَأَن يتَعَلَّق بمحدث وَأَن يكونَ حَالا من الضَّمِير",
+        "claim_ar": "يجوز أن تتعلق عبارة «مِنَ الْمَاءِ» بلفظ سابق (مثلاً: بواو الفاعل أو بالفعل السابق مثل «جَعَلْنَا») أو أن تكون صفةً لـ «كلّ شيءٍ» أو أن تُعرب حالاً (حَالًا من الضمير) حسب وجوه الإعراب المذْكورة.",
+        "claim_en": "The prepositional phrase \"min al-ma'i\" (من الماء) may be attached to a preceding word (e.g. to the verb like \"ja'alna\"), or be an adjectival qualifier of \"kulla shay'\", or function as a circumstantial (hal) from a pronoun — the quoted passage allows these possibilities for \"min + noun\" phrases.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage discusses the general behavior of constructions like «مِنْ ذِكْرٍ». Applying it to «مِنَ الْمَاءِ» in S21:30 is a generalization that needs verification against the specific syntactic relations in this verse and against other commentaries."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مِنْ صَوْتِكَ) : هُوَ صِفَةٌ لِمَحْذُوفٍ؛ أَيِ اكْسِرْ شَيْئًا مِنْ صَوْتِكَ. وَعَلَى قَوْلِ الْأَخْفَشِ تَكُونُ «مِنْ» زَائِدَةً.",
+        "claim_ar": "قاعدة من هذا المثال: عبارة «مِنْ + اسم» قد تُعرب صفةً لِمَحذوفٍ، وفي بعض الأقوال تكون «مِنْ» زائدة لا معنى إضافياً لها؛ لذلك جَائز أن تُنظر «مِنَ الْمَاءِ» في السورة على أحد هذين الوجهين بحسب القراءة أو القول النحوي.",
+        "claim_en": "From the cited example (\"min sawtika\"), a \"min + noun\" phrase can function as a description of an omitted (elliptical) noun, and according to some (e.g. Al-Akhfash) the \"min\" may be superfluous. Thus, \"min al-ma'i\" in the verse could be treated either as a descriptor of an omitted element or with a redundant \"min\", depending on grammatical opinion or reading.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "low",
+        "needs_review_reason": "The source example is specific to \"مِنْ صَوْتِكَ\" and mentions a particular grammatical opinion (الاخفش); projecting the same analysis onto «مِنَ الْمَاءِ» in S21:30 requires checking if the same elliptical or lectio-based reasoning is applicable here."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not mention S21:30 or the exact phrase «مِنَ الْمَاءِ» explicitly; the above claims are generalizations from examples in the commentary (e.g., «مِنْ ذِكْرٍ», «مِنْ صَوْتِكَ») and should be reviewed against direct commentary on this verse.",
+      "Some quoted passages record variant grammatical opinions (e.g. قول الأخفش). Applying these variants to the ayah requires checking manuscript/reading and the specific grammatical discussion for this verse; treat the low-confidence claim accordingly."
+    ]
+  },
+  "n_chunks": 12
+}

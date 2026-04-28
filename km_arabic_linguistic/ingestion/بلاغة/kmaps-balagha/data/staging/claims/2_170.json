@@ -1,0 +1,73 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:170",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "تمثيل / ضرب المثل (تشبيه عام)",
+        "source_quote_ar": "سيقت هذه الآية لبيان أنّ ما استنكره الجهلة والسفهاء وأهل العناد والمراء من الكفار واستغربوه من أن تكون المحقرات من الأشياء مضروبا بها المثل",
+        "claim_ar": "الآية استُعملت لبيان جواز ضرب المثل بالأشياء المحقرة؛ أي أنها وظيفة تمثيلية/تشبيهية لتقريب المعنى وكشفه",
+        "claim_en": "The verse is cited to show that it is permissible to use humble/insignificant things as the vehicle of a parable; i.e., the verse functions as a parabolic/simile device to clarify and reveal meaning.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A170",
+        "rhetorical_effect": "Legitimizes using small/lowly images to make a theological point; makes the unfamiliar comparison acceptable and explanatory."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة معيارية في التمثيل (قاعدَة التمثيل)",
+        "source_quote_ar": "فان كان المتمثل له عظيما كان المتمثل به مثله، وإن كان حقيرا كان المتمثل به كذلك",
+        "claim_ar": "الشرح يقدم قاعدة لعمل التمثيل: مقام المضروب به يجب أن ينسجم مع مقام المتمثل له - فإذا كان عظيمًا يُضرب بمثل عظيم، وإذا كان حقيرًا يُضرب بمثل حقير",
+        "claim_en": "The commentary states a rule for parable-making: the status of the vehicle should match the status of what is being compared — if the referent is great, the vehicle should be great; if lowly, the vehicle should be lowly.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A170",
+        "rhetorical_effect": "Explains why the Qur'anic choice of images (even humble ones) is rhetorically appropriate and effective."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "طباق / مقابلة (تضاد في الصور البلاغية)",
+        "source_quote_ar": "ألا ترى إلى الحق لما كان واضحاً جلياً أبلج، كيف تمثل له بالضياء والنور؟ وإلى الباطل لما كان بضد صفته، كيف تمثل له بالظلمة؟",
+        "claim_ar": "النص يبرز استخدام الطباق (التضاد) في التمثيل البلاغي: الحق يُمثل بالضياء والنور، والباطل يُمثل بالظلمة",
+        "claim_en": "The commentary highlights the use of antithesis in the parable: truth is represented by light/brightness, while falsehood is represented by darkness.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A170",
+        "rhetorical_effect": "Strengthens contrast between truth and falsehood by using vivid opposite images (light vs. darkness), which sharpens perception and persuasion."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "سياق بياني / حركة سياقية (بيان تأثير على المتلقي)",
+        "source_quote_ar": "ولبيان أنّ المؤمنين الذين عادتهم الإنصاف والعمل على العدل والتسوية والنظر في الأمور بناظر العقل، إذا سمعوا بمثل هذا التمثيل علموا أنه الحق",
+        "claim_ar": "التعليق يشير إلى أثر التمثيل البلاغي في قلوب السامعين العادلين: أن المؤمنين العقلاء حين يسمعون هذا التمثيل يعرفون أنه حقّ",
+        "claim_en": "The commentary points to the contextual/rhetorical movement: the parable persuades fair-minded believers — on hearing such a parable, they recognize the truth.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "Classification as 'surah_movement' is interpretive; the source describes effect on audience rather than explicitly naming a formal device.",
+        "quran_ref": "S2:A170",
+        "rhetorical_effect": "Describes the intended persuasive effect on just/rational listeners — confirmation and recognition of truth."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are only from al-Kashshaf (Zamakhshari). The requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha sections) are not present in the input; claims are therefore drawn only from the available Zamakhshari material.",
+      "All claims are grounded in explicit statements found in the supplied chunks; where device categorization (e.g., 'surah_movement') is interpretive, this is noted in needs_review_reason."
+    ]
+  },
+  "n_chunks": 12
+}

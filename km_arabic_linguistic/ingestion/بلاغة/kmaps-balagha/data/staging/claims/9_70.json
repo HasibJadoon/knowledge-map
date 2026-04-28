@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:70",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "الالتفات",
+        "claim_ar": "التفات الخطاب من نفي وقوع الظلم على الله إلى إثبات وقوع الظلم من جانبهم: «فَمَا كَانَ اللَّهُ لِيَظْلِمَهُمْ وَلَٰكِنْ كَانُوا أَنْفُسَهُمْ يَظْلِمُونَ» — أي تحويل الانتباه من الذات الإلهية إلى المسؤولية البشرية (التفات).",
+        "claim_en": "Iltifat (rhetorical shift): the discourse turns from negating that God would wrong them to asserting that they wronged themselves — shifting attention and emphasis from God to human responsibility.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": "التفات",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tibaq",
+        "source_quote_ar": "في مقابلة قوله",
+        "claim_ar": "مقابلة/تضاد بين صيغة النفي المتعلقة بالله («ما كان الله ليظلمهم») وصيغة الإثبات المتعلقة بهم («لكن كانوا أنفسهم يظلمون»)، فتؤدي المقابلة إلى إبراز العكس وتركز اللوم على أنفسهم.",
+        "claim_en": "Tibaq (antithesis/contrast): a contrast between the negation concerning God ('God would not wrong them') and the affirmation about the people ('but they wronged themselves'), which intensifies the reversal and assigns blame to the people.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": null,
+        "lemma": "مقابلة",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary fragment uses the term 'مقابلة' in a different illustrative context; mapping to this verse is inferred from the verse's contrastive structure and may need confirmation from a direct tafsir-balagha passage on this ayah."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are general commentary fragments; explicit, verse-specific balagha analyses by the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present among the chunks. Claims are drawn by applying rhetorical concepts found in the provided fragments to the verse.",
+      "source_quote_ar entries are exact substrings taken from the supplied chunks but may be isolated words/phrases (e.g., «الالتفات», «في مقابلة قوله») rather than full explicative sentences directly referring to S9:A70. Recommend verifying each claim against a dedicated balagha commentary on this specific verse."
+    ]
+  },
+  "n_chunks": 12
+}

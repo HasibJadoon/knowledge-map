@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "54:42",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "الثاني : إيجاز التقدير  ، وهو أن يقدر معنى زائدا على المنطوق",
+        "claim_ar": "قاعدة نحو: التعريف بالإيجاز من نوع \"إيجاز التقدير\"؛ وهو وصف عام لظاهرة نحوية/بلاغية يمكن تطبيقها على تراكيبٍ تحوي معنىً زائداً مُقدَّراً ولم يُنطَق به صراحة.",
+        "claim_en": "Rule: definition of 'ijaz al-taqdir' (concision by estimation) — a general grammatical/interpretive phenomenon where an additional meaning is inferred beyond the literal wording; this rule can apply to constructions that imply an extra, unspoken sense.",
+        "root": "اخذ",
+        "lemma": "أَخْذ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "taqdir",
+        "source_quote_ar": "الثاني : إيجاز التقدير  ، وهو أن يقدر معنى زائدا على المنطوق",
+        "claim_ar": "قد يكون مصدر «أَخْذَ» هنا مثالاً لإيجاز التقدير — أي يُقدَّر له معنى زائد عن المنطوق (تأكيد على نوع شِدَّة الأخذ أو تقدير فعل محذوف)، لكن هذا استنتاج عام من القاعدة ولا ورد صريح عن هذه الآية في المقتطف.",
+        "claim_en": "The noun 'أَخْذَ' (word 5) may function as an instance of 'ijaz al-taqdir' — that is, an inferred/additional meaning (e.g., emphasis on the severity or manner of the taking, or an omitted verbal element) is implied beyond the explicit wording. This is an application inferred from the general rule; the source does not discuss this verse explicitly.",
+        "root": "اخذ",
+        "lemma": "أَخْذ",
+        "confidence": "needs_review",
+        "needs_review_reason": "The quoted source gives a general definition of 'إيجاز التقدير' but does not mention this specific verse or analyze the construction «أَخْذَ عَزِيزٍ مُقْتَدِرٍ» directly; the application here is inferential and requires corroboration from a commentary that treats this ayah's syntax specifically."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not contain an explicit iʿrāb (syntactic) discussion of S54:A42 or the phrase «أَخْذَ عَزِيزٍ مُقْتَدِرٍ». Claims above apply a general rule from the excerpts (إيجاز التقدير) to the verse; this is inferential and should be verified against a commentary that treats this verse directly.",
+      "No direct quotes from the sources analyze the grammatical role (مبتدأ، خبر، فاعل، مفعول به، حال، تمييز، نعت، مجرور) of the words in this ayah were found in the provided chunks; therefore no explicit irab claims were extracted."
+    ]
+  },
+  "n_chunks": 12
+}

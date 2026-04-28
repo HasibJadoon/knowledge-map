@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:51",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "إِنَّ فِي ذَلِكَ لَرَحْمَةً",
+        "claim_ar": "الاسم الإشاري «ذَلِكَ» يعمل كأداة فصل ووصل: يستدِلُّ على ما قبل ويختمه/يلخّصه ليبيّن علة ما يقع (تلخيص/ربط السبب بالنتيجة).",
+        "claim_en": "The demonstrative \"ذَلِكَ\" functions as a device of separation-and-joining (fasl_wasl): it resumes and summarizes the preceding discourse and links the cause to its consequence.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source uses the phrase containing ذَلِكَ but does not explicitly analyse this verse; the identification of fasl_wasl is inferential rather than directly stated in the provided chunk.",
+        "quran_ref": "S8:A51",
+        "rhetorical_effect": "summarizes previous statement and draws the listener’s attention to the causal explanation (clarity and emphasis)."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "iltifat",
+        "source_quote_ar": "وهو من طريقة الالتفات",
+        "claim_ar": "الانتقال في البيان إلى عبارة توكيدية («وَأَنَّ اللَّهَ لَيْسَ بِظَلَّامٍ لِلْعَبِيدِ») يمكن قراءته كتغييرٍ في النبرة/المنحى البلاغي (التفات) نحو التأكيد والدفع عن الله صفة الظلم.",
+        "claim_en": "The shift in tone to the emphatic clause (\"and that Allah is not unjust to the servants\") can be read as an instance of iltifat (a stylistic turn), moving the discourse toward insistence and repudiation of the charge of injustice.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "low",
+        "needs_review_reason": "The provided chunk mentions 'الالتفات' in a different illustrative context; applying it to this verse is plausible but not explicitly supported by the quoted text—requires confirmation from a direct commentator on this verse.",
+        "quran_ref": "S8:A51",
+        "rhetorical_effect": "marks a shift from cause to emphatic denial, strengthening the doctrine of divine justice."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "يذكر أحدهما مع الآخر للتوكيد",
+        "claim_ar": "الجمع بين ذكر السبب («بِمَا قَدَّمَتْ أَيْدِيكُمْ») وذكر الحكم الإلهي («وَأَنَّ اللَّهَ لَيْسَ بِظَلَّامٍ») يمثل تكرارًا/توكيدًا بلاغيًا: ذكر عنصرين مرتبطين لتقوية الحجة والتأكيد.",
+        "claim_en": "The pairing of the stated cause (\"because of what your hands have sent before\") with the affirmation of divine justice (\"and that Allah is not unjust to the servants\") functions as repetition/confirmation (takrar): two related items are mentioned together to strengthen the argument.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source explicitly mentions the rhetorical practice of mentioning two related items for emphasis, but it discusses a different example; mapping that observation to this verse is reasonable yet should be checked against a commentator who treats this specific verse.",
+        "quran_ref": "S8:A51",
+        "rhetorical_effect": "reinforces the causal explanation and the exculpation of divine injustice—heightens persuasive force."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are from Zamakhshari, Tabari and Ibn Kathir; the developer requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha sources. The available chunks do not include those authors.",
+      "Source_quote_ar values are exact substrings taken from the supplied chunks, but those excerpts do not all explicitly analyse S8:A51; some inferences map general rhetorical remarks in the chunks onto this verse. Such mappings need verification against a direct rhetorical commentary on this specific ayah.",
+      "Some claims (marked with low or medium confidence) require review because the quoted passages discuss the rhetorical device in other contexts rather than providing an explicit, verse-level analysis for S8:A51."
+    ]
+  },
+  "n_chunks": 12
+}

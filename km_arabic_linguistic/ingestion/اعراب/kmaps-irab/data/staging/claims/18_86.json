@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "18:86",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant grammatical/إعراب claims for S18:A86 were found in the provided source_chunks. The supplied al-Tibyan excerpts do not contain explicit إعراب/تعلّق/تقدير claims for words of this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

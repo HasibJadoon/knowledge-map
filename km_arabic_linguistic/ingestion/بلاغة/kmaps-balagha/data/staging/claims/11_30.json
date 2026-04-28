@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:30",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "قوله يا أَرْضُ، وَيا سَماءُ",
+        "claim_ar": "النداء بـ«يا» في بداية الخطاب (يا قوم) كإلتفات مخاطبة لشدّ الانتباه والتوجّه إلى المخاطَب؛ أيّ انتقال في أسلوب الخطاب (الالتفات).",
+        "claim_en": "The vocative 'يا' (as in 'يا قوم') is used at the start of the address to draw attention — an iltifat (shift of address/attention).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "أَلَمْ تَرَ",
+        "claim_ar": "الاستفهام الإنشائي في «أفلا تذكرون» لاستدعاء التأمّل والتأنيب؛ صيغة سلبية استنكارية تهدف إلى الحثّ وبيان الاستغراب من غياب التذكر.",
+        "claim_en": "A rhetorical interrogative (negative interrogative) in 'أفلا تذكرون' used to prompt reflection and reproach — an ijāb/inshāʾ (interrogative used to assert/urge).",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "ذكر",
+        "lemma": "تَذَكَّرَ",
+        "confidence": "medium",
+        "needs_review_reason": "Labelled as ijab_inshaa by analogy to other Qur'anic negative interrogatives (e.g. أَلَمْ تَرَ); review with a specialist in classical Arabic rhetoric for precise subtype."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "التخصيص والإقبال عليهما بالخطاب",
+        "claim_ar": "وجود الواو في «ويا قوم» دال على ربط سياقي واستئناف/وصال مع السياق السابق مع الإقبال على مخاطبة مخصوصة؛ تداخل بين الوصل والفصل في أسلوب الخطاب.",
+        "claim_en": "The prefixed 'wa-' in 'ويا قوم' signals continuity with the prior discourse while at the same time initiating a direct address — a stylistic interplay of connection and pause (fasl-wasl).",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "Inference based on the pragmatic function of prefixed waw and noted commentary about 'التخصيص والإقبال'; consider checking the immediate textual context in preceding verse(s)."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are general exegetical/rhetorical discussions and do not quote this exact aya; source_quote_ar entries cite relevant substrings from those chunks by analogy rather than explicit commentary on S11:A30.",
+      "Some device assignments (especially ijab_inshaa vs. other interrogation subtypes, and fasl_wasl reading) are interpretive and marked with lower confidence — recommend review by a specialist in classical Arabic rhetoric or the specified authors' works."
+    ]
+  },
+  "n_chunks": 12
+}

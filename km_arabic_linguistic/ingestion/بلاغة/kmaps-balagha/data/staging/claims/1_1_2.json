@@ -1,0 +1,14 @@
+{
+  "layer": "balagha",
+  "word_key": "1:1:2",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No source_chunks were provided. I cannot extract rhetorical claims (بلاغة) attributed to al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or tafsīr-balagha without the quoted commentary or tafsīr text to cite.",
+      "Each claim must include an Arabic source_quote_ar. Do not provide only a spine pointer (surah/ayah/word). Please supply the relevant quoted passages from the listed commentators or tafsīr-balagha sections for the target word/phrase.",
+      "I will not invent scholar quotations or assert claims without source evidence. If you want plausible device suggestions inferred directly from the Quranic phrase (not from the named scholars), say so explicitly and I can produce hypothesis-level claims marked with lower confidence and 'needs_review'.",
+      "Reminder: I will not extract morphology/grammar. When you provide sources, highlight or include the exact Arabic commentary lines you want processed (for example, a short excerpt from al-Jurjānī on \"بسم الله\")."
+    ]
+  },
+  "n_chunks": 0
+}

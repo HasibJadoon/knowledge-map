@@ -1,0 +1,57 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:49",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَهُمْ فِي غَفْلَةٍ) : هُمْ: مُبْتَدَأٌ، وَ «مُعْرِضُونَ» الْخَبَرُ، وَ «فِي غَفْلَةٍ» : يَجُوزُ أَنْ يَكُونَ حَالًا مِنَ الضَّمِيرِ فِي مُعْرِضُونَ ; أَيْ أَعْرَضُوا غَافِلِينَ. وَيَجُوزُ أَنْ يَكُونَ خَبَرًا ثَانِيًا.",
+        "claim_ar": "هُمْ: مُبْتَدَأٌ",
+        "claim_en": "The pronoun 'hum' (هُمْ) functions as the subject (mubtada') of the nominal sentence.",
+        "root": null,
+        "lemma": "هُمْ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَهُمْ فِي غَفْلَةٍ) : هُمْ: مُبْتَدَأٌ، وَ «مُعْرِضُونَ» الْخَبَرُ، وَ «فِي غَفْلَةٍ» : يَجُوزُ أَنْ يَكُونَ حَالًا مِنَ الضَّمِيرِ فِي مُعْرِضُونَ ; أَيْ أَعْرَضُوا غَافِلِينَ. وَيَجُوزُ أَنْ يَكُونَ خَبَرًا ثَانِيًا.",
+        "claim_ar": "مُشْفِقُونَ: خَبَرٌ",
+        "claim_en": "The predicate 'mushfiqoon' (مُشْفِقُونَ) functions as the report/predicate (khabar) of the subject.",
+        "root": "شفق",
+        "lemma": "مُشْفِقُونَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَهُمْ فِي غَفْلَةٍ) : هُمْ: مُبْتَدَأٌ، وَ «مُعْرِضُونَ» الْخَبَرُ، وَ «فِي غَفْلَةٍ» : يَجُوزُ أَنْ يَكُونَ حَالًا مِنَ الضَّمِيرِ فِي مُعْرِضُونَ ; أَيْ أَعْرَضُوا غَافِلِينَ. وَيَجُوزُ أَنْ يَكُونَ خَبَرًا ثَانِيًا.",
+        "claim_ar": "مِنَ السَّاعَةِ: يجوز أن تكون حالًا مِنَ الضَّمِيرِ في مُشْفِقُونَ",
+        "claim_en": "The phrase 'min al-sa'ah' may function as a circumstantial adverbial (hal) attached to the pronoun within the predicate 'mushfiqoon'.",
+        "root": "سوع",
+        "lemma": "سَاعَة",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses the pattern with «فِي غَفْلَةٍ» and gives the option of being hal from the pronoun; applying that possibility to «مِنَ السَّاعَةِ» in this verse is by analogy and should be confirmed against the commentary explicitly treating this verse."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَهُمْ فِي غَفْلَةٍ) : هُمْ: مُبْتَدَأٌ، وَ «مُعْرِضُونَ» الْخَبَرُ، وَ «فِي غَفْلَةٍ» : يَجُوزُ أَنْ يَكُونَ حَالًا مِنَ الضَّمِيرِ فِي مُعْرِضُونَ ; أَيْ أَعْرَضُوا غَافِلِينَ. وَيَجُوزُ أَنْ يَكُونَ خَبَرًا ثَانِيًا.",
+        "claim_ar": "مِنَ السَّاعَةِ: ويجوز أن يكون خَبَرًا ثَانِيًا",
+        "claim_en": "Alternatively, 'min al-sa'ah' may serve as a second predicate (a separate khabar) of the pronoun.",
+        "root": "سوع",
+        "lemma": "سَاعَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives the parallel option for «فِي غَفْلَةٍ» to be a second predicate; mapping that option onto «مِنَ السَّاعَةِ» should be verified in commentaries that treat this specific phrase in the verse."
+      }
+    ],
+    "warnings": [
+      "The cited al-Tibyan passage discusses the construction with «وَهُمْ فِي غَفْلَةٍ» and gives two possible analyses (hal from the pronoun in the predicate, or a second khabar). It does not mention the exact phrase «مِنَ السَّاعَةِ» — the claims about «مِنَ السَّاعَةِ» are drawn by direct analogy from that discussion and should be verified against al-Tibyan's treatment of this particular verse or other commentators addressing «مِنَ السَّاعَةِ».",
+      "Some lemmas/roots (e.g., for the pronoun هُمْ) are not given in the source chunk and are supplied from the verse text; confirm lemma/root entries where null in the input."
+    ]
+  },
+  "n_chunks": 12
+}

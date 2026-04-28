@@ -1,0 +1,74 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:19",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "تشبيه",
+        "source_quote_ar": "وَعِمَارَةَ الْمَسَجِدِ الْحَرامِ",
+        "claim_ar": "استعمال تشبيه/مقارنة بـ «كَمَنْ» لمعادلة الأعمال الظاهرية (سقايَة الحاج وعمارة المسجد الحرام) بخصال الإيمان والجهاد؛ أي إبراز استهجان المساواة بين ظاهر العبادة وعمق الإيمان والعمل في سبيل الله.",
+        "claim_en": "Use of a simile/comparison introduced by 'كَمَنْ' equating outward acts (watering the pilgrim and rebuilding the Sacred Mosque) with inner qualities of faith and striving; this highlights the objection to equating mere outward acts with true faith and jihad.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "شبَه",
+        "lemma": "تَشْبِيه",
+        "confidence": "medium",
+        "needs_review_reason": "The provided tafsir chunk contains the phrase about 'عِمَارَةِ الْمَسْجِدِ' but does not explicitly reproduce the Qur'anic marker «كَمَنْ» in the quoted excerpt; the identification of explicit 'كَمَنْ' simile is therefore inferred from the ayah context rather than an exact phrase in the chunk.",
+        "quran_ref": "S9:A19",
+        "rhetorical_effect": "يعطي التشبيه قوة استنكارية ويجعل المقارنة لافتة للانتباه، فيُظهِر أن المساواة بين المظاهر والحقائق باطلة."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "كناية",
+        "source_quote_ar": "ولأن كل بقعة منه مسجد.",
+        "claim_ar": "كناية لفظية عن قوله «المسجد الحرام» بالجمع أو بالمساجد: استعمال لفظ 'مساجد' أو الإشارة إلى 'كل بقعة منه مسجد' ككناية عن المقام الفضيل والجزء المقصود من البيت.",
+        "claim_en": "A metonymy/kinayah: using 'mosques' (or the phrase 'every part of it is a mosque') to refer to the Sacred Mosque specifically — the plural or general term stands for the particular significance of the Haram.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "كنى",
+        "lemma": "كِناية",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A19",
+        "rhetorical_effect": "يوسّع مدلول اللفظ ليشمل مقام الكعبة كرمزٍ لكل المساجد، فيزيد عموم النص ودلالة الاحتقار لما يقارَن به."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "التفات/انتقال",
+        "source_quote_ar": "يَعْمُرُوا مَساجِدَ اللَّهِ",
+        "claim_ar": "التفات بياني: الانتقال من ذكر أفعالٍ ظاهرية وموضوعات اسمية (سِقَايَةُ الحاجِّ وعِمَارَةُ المسجِدِ) إلى جملٍ تبيّن الإيمان والعمل (آمَنَ... وَجَاهَدَ)، أي تحول التركيز من المظاهر إلى الثمرة الحقيقية للدين.",
+        "claim_en": "Iltifat (a rhetorical turn/shift): a shift from mentioning outward, nominal acts (watering the pilgrim, building the Mosque) to clauses denoting inner faith and active struggle (he believed... and strived); this change of focus draws attention to the contrast between appearance and real commitment.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "لفت",
+        "lemma": "الالتفات",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A19",
+        "rhetorical_effect": "يجذب انتباه السامع لنبش الفرق بين العبادة الظاهرية والصدق في الإيمان والعمل، مما يضخّم حسّ الاستنكار والتمييز."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة/طباق",
+        "source_quote_ar": "ما كانَ لِلْمُشْرِكِينَ ما صح لهم وما استقام أَنْ يَعْمُرُوا مَساجِدَ اللَّهِ",
+        "claim_ar": "مقابلة بين حال المشركين (لا يصلح لهم أن يعمروا مساجد الله) وبين حال المؤمنين الآمنين المجاهدين؛ استخدام المقابلة والتوازي لتأكيد عدم التساوي بين الطرفين.",
+        "claim_en": "Muqabalah/antithesis: a contrast between the state of the polytheists (it is not proper for them to rebuild God's mosques) and that of the believers who have faith and strive; the pairing underscores the incompatibility of the two situations.",
+        "device_branch": "badi",
+        "device_subtype": "muaqabala",
+        "root": "قابل",
+        "lemma": "مقابلة/مقابَلَة",
+        "confidence": "medium",
+        "needs_review_reason": "This inference is supported by the tafsir statement about the incompatibility of 'عمارة المساجد' مع الكفر in the chunk, but the exact Qur'anic negative-parallel phrasing used in the ayah is not fully quoted in the provided excerpt.",
+        "quran_ref": "S9:A19",
+        "rhetorical_effect": "يؤكّد التباين الأخلاقي والديني بين الطرفين ويقوّي حجة الرفض لقولهم بالمساواة."
+      }
+    ],
+    "warnings": [
+      "المقتطفات الموفّرة كلها من تفسير الزمخشري (الكشاف). لم تُقدَّم مقاطع من المصادر التي ذُكرت في المهمة (الجرجاني، السكاككي، البقّالي، السيوطي، أو تفاسير بلاغية أخرى). بعض الاستنتاجات البلاغية استُنبِطت انطلاقًا من تفسير الكشاف المتاح هنا وليس من مصادر متعددة مطلوبة.",
+      "بعض الادعاءات (خاصة تشخيص التشبيه المُعبَّر عنه بوساطة «كَمَنْ» أو نقيضاته) استُنبِطت من سياق التفسير وليس من اقتباس حرفي لكل عناصر البنية البلاغية في النص؛ لذلك وُسِّمت بعضها 'medium' أو بحاجة للمراجعة.",
+      "إذا أردت دقة أعلى أو تحقّقًا مقابل نصوص الجرجاني والسكاككي والبقّالي والسيوطي وتفاسير بلاغية أخرى، قدّم مقاطع إضافية من تلك المصادر أو أذن بجلبها لتمكين توثيق أو اقتباسات مباشرة."
+    ]
+  },
+  "n_chunks": 12
+}

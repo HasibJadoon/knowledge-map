@@ -1,0 +1,22 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:79",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "«هَا» ضَمِيرُ الْقِصَّةِ، أَوِ الْفِعْلَةِ.",
+        "claim_ar": "في «فَهَّمْنَاهَا»: «ها» ضَمِيرُ الْقِصَّةِ، أَوِ الضَمِيرِ الْمُشِيرِ إلى الْفِعْلَةِ.",
+        "claim_en": "In 'فَهَّمْنَاهَا', the pronoun 'ها' is either the pronoun of the story (ضمير القِصَّة) or the pronoun referring to the action/verb (الفعْلَة).",
+        "root": "فهم",
+        "lemma": "فَهَّمْ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S21:A79"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

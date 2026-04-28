@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "word_key": "1:1:4",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No source_chunks provided; cannot extract parsing claims. Spine metadata available for the word 'الرَّحِيمِ' (root: رحم), but there is no source text (التبيان للعكبري or similar) to quote exact substrings for irab claims. Please supply source_chunks containing the relevant passages."
+    ]
+  },
+  "n_chunks": 0
+}

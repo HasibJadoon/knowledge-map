@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:64",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "التنبيه والنداء/التفات (iltifat)",
+        "source_quote_ar": "(يا) أداة نداء",
+        "claim_ar": "الافتتاح بـ«يا أيها» نداء مخاطب مباشر يجذب الانتباه إلى المخاطب (التفات/نداء).",
+        "claim_en": "The opening with 'يا أيها' is a direct vocative that draws attention to the addressee (an instance of iltifat/vocative shift).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (نداء/التفات)",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "واو المعية/عطف (conjunction of accompaniment)",
+        "source_quote_ar": "والواو للمعية على الأول، والعطف على غيره",
+        "claim_ar": "الواو في «وَمَنِ اتَّبَعَكَ» تعمل واوَ المعية، مشيرة إلى مرافقة النصر من الله مع مرافقة المؤمنين (الاتحاد/المعاية بين عناصر النِّصْر).",
+        "claim_en": "The waw in 'وَمَنِ اتَّبَعَكَ' functions as the waw of accompaniment, indicating that God's sufficing accompanies (is joined with) the sufficing by the believers (a sense of union/accompaniment).",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (واو المعية / عطف للمعية)",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "الإيجاز (conciseness/nominal verb use)",
+        "source_quote_ar": "حسب: اسم فعل بمعنى يكفى. والكاف مفعوله.",
+        "claim_ar": "تركيب «حَسْبُكَ اللّهُ» يستخدم اسمًا فعليًا (حَسْبُ) بوجيز مُصغر للمعنى (يكفيك)، أي اقتصار بلاغي يعطي قوة واختصارًا في التعبير (إيجاز).",
+        "claim_en": "The construction 'حَسْبُكَ الله' uses the verbal noun 'حَسْبُ' as a verb equivalent ('[He] suffices you'), a concise/elided formulation that produces a strong, compact expression (an instance of ijaaz/conciseness).",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz (الإيجاز/by use of ism-fa‘l)",
+        "root": "حسب",
+        "lemma": "حَسْب",
+        "confidence": "medium",
+        "needs_review_reason": "The source describes the lexical/grammatical use of 'حَسْب' as ism-fi‘l; assigning it explicitly to the rhetorical category 'ijaaz' is an interpretive step and may need review."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from al-Kashshaf (Zamakhshari) and Safi (al-Jadwal); the developer prompt requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha. The available chunks do not include all those named authors, so claims are drawn from the supplied chunks only.",
+      "Lemma for word_index 5 in the input is given as 'مِن' though the surface token is 'وَمَنِ' (waw + man). Root is null in the input. The claim uses the provided lemma/root fields where available.",
+      "Device assignment for the use of 'حَسْبُ' as 'ijaaz' is interpretive: the source discusses the lexical/grammatical status (اسم فعل) rather than explicitly labeling it 'إعجاز'. This claim is marked with medium confidence and flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

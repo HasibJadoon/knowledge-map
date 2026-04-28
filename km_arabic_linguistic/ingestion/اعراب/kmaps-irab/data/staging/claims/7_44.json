@@ -1,0 +1,57 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:44",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "يَجُوزُ أَنْ يَتَعَلَّقَ بِيَئِسَ؛ أَيْ يَئِسُوا مِنْ بَعْثِ أَصْحَابِ الْقُبُورِ؛ وَأَنْ يَكُونَ حَالًا؛ أَيْ كَائِنِينَ مِنْ أَصْحَابِ الْقُبُورِ.",
+        "claim_ar": "قد تجوز تعلق عبارة «أصحاب (ـِ) ...» بالفعل «يئسَ/يئسُوا» أو أن تكون حالًا (أي: كائنين من أصحاب ...).",
+        "claim_en": "The phrase 'aṣḥāb ...' may be attached to the verb 'yaʾis/yaʾisū' (i.e. 'they despaired of the resurrection of ...') or it may function as a ḥāl (circumstantial clause: 'being among the companions of ...').",
+        "root": "صحب",
+        "lemma": "أَصْحَٰب",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted discussion in the source concerns the phrase «مِنْ أَصْحَابِ الْقُبُورِ» (a different collocation) — mapping this permissive attachment/ḥāl analysis to the word «أَصْحَابُ» in this ayah (أَصْحَابُ الْجَنَّةِ / أَصْحَابَ النَّارِ) requires checking the local syntactic context of the verse."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ حَالًا؛ أَيْ كَائِنِينَ مِنْ أَصْحَابِ الْقُبُورِ.",
+        "claim_ar": "إمكانية نصب «أصحاب...» على موقع الحال (أي: أن يكون مركبًا حالًا يبين هيئة وقوع الفعل).",
+        "claim_en": "Possible analysis that 'aṣḥāb ...' is a ḥāl (accusative circumstantial phrase describing the state/condition).",
+        "root": "صحب",
+        "lemma": "أَصْحَٰب",
+        "confidence": "medium",
+        "needs_review_reason": "Source treats a different phrase («أصحاب القبور»). Confirm whether the same ḥāl analysis is applicable to «أصحاب الجنة/النار» in this ayah."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا أَغْنَى) : وَيَجُوزُ أَنْ تَكُونَ «مَا» نَافِيَةً، وَأَنْ تَكُونَ اسْتِفْهَامًا.",
+        "claim_ar": "يجوز أن تكون «ما» حرفًا ناقضًا/نافياً أو أن تؤخذ استفهامية - هناك قراءات/وجوه مختلفة في تأويل «ما».",
+        "claim_en": "The particle 'mā' may be interpreted as a negating particle or as interrogative; there are alternative readings/analyses for the function of 'mā'.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source example is from a different phrase («ما أغنى»). In this ayah the occurrences of «ما» (word_index 9 and 15) function as relative/nominalizing 'mā' (i.e., 'what that which') — applicability of the negative/interrogative possibilities should be reviewed in the verse's specific syntactic-semantic context."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا أَغْنَى) : وَيَجُوزُ أَنْ تَكُونَ «مَا» نَافِيَةً، وَأَنْ تَكُونَ اسْتِفْهَامًا.",
+        "claim_ar": "إمكانية أن تُؤَوَّل «ما» بأوجه متعددة (نفي أو استفهام) — وجوه بديلة لتحليل «ما».",
+        "claim_en": "There are multiple possible interpretations of 'mā' (negation or interrogation) — an alternative analysis for the particle.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The cited discussion concerns a different context; in this ayah the «ما» likely acts as a relative/indefinite particle. The alternative negative/interrogative senses should be verified against the verse's syntax and semantics."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks discuss constructions from other verses (e.g., «مِنْ أَصْحَابِ الْقُبُورِ», «مَا أَغْنَى») rather than the exact phrases in S7:A44 (which contains «أَصْحَابُ الْجَنَّةِ» and «أَصْحَابَ النَّارِ», and uses «مَا» in relative/indefinite senses). Claims extracted are therefore permissive/analogical — they require review in the immediate syntactic context of the target ayah.",
+      "Source_quote_ar fields are exact substrings from the chunks, but mapping those general observations to specific words in this ayah may introduce interpretive uncertainty; verify with the verse context and full commentary passage before accepting analyses as definitive."
+    ]
+  },
+  "n_chunks": 12
+}

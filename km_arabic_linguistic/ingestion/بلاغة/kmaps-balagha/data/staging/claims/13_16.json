@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "13:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "taqdim_takhir",
+        "source_quote_ar": "سر تقديم الظرف في باب البلاغة",
+        "claim_ar": "تقديم الظرف (تقديم أو تأخير عناصر الجملة) كحيلة بلاغية لزيادة الدلالة والإيضاح في التوكيد والنبرة الإنشائية",
+        "claim_en": "Fronting (taqdim) / postponement (takhir) of circumstantial/adverbial elements as a rhetorical device to heighten emphasis and sharpen the illocutionary force.",
+        "device_branch": "maani",
+        "device_subtype": "taqdim_takhir",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary states the rhetorical principle (سر تقديم الظرف) but does not explicitly point to a specific displaced circumstantial in this ayah; application to S13:A16 is inferential and should be checked against close syntactic analysis and other commentaries."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "يجري مجرى التعجب",
+        "claim_ar": "استفهام إنشائي (تعجب واستنكار) في لفظة «أَفَاتَّخَذْتُمْ» يستخدم للاستنكار وإبراز عجز المُشْرِكين عن تبرير اتخاذ أولياء من دون الله",
+        "claim_en": "Rhetorical interrogative (istifham-insha') — a question posed not for information but as an exclamatory/condemnatory device (astonishment/denunciation) — as in 'أَفَاتَّخَذْتُمْ'.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "اخذ",
+        "lemma": "اتَّخَذَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk describes verses that 'run the course of astonishment' (يجري مجرى التعجب); mapping that descriptive comment onto this specific interrogative in S13:A16 is plausible but interpretive and should be corroborated with additional tafsir/بلاغة sources."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not quote S13:A16 verbatim; quoted substrings are general remarks from the supplied commentaries. Claims are therefore inferential and should be validated against commentaries that treat this specific ayah.",
+      "Some device assignments (e.g., treating expressions of 'تعجب' as 'ijab_inshaa') reflect interpretive mapping between classical commentators' terminology and the device taxonomy requested; these mappings may require specialist review.",
+      "Roots/lemmas are provided where the claim targets a specific word; ayah-level claims have null root/lemma. Verify morphological references if precise lemma/root distinctions are required."
+    ]
+  },
+  "n_chunks": 12
+}

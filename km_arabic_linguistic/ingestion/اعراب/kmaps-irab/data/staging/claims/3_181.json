@@ -1,0 +1,43 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:181",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛ تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ، وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "همزة «إِنَّ/أَنَّ» تُقرأ بفتح الهمزة، وعلى الاستئناف يجوز كسرها (قراءات مختلفة تؤثر على الوقف/الاستئناف).",
+        "claim_en": "The hamza in 'إِنَّ/أَنَّ' is read with a fatḥa; on pausing/at resumption it may be read with a kasra — a qirā'ah variant affecting pronunciation at pause/resumption.",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source example is given for a different formula ((وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ)); applying this reading-note to the 'إِنَّ' of S.3:181 is by analogy and should be checked against qirā'āt transmitted for this specific verse."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "taqdir",
+        "source_quote_ar": "تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ",
+        "claim_ar": "تقديرُ «إِنَّ»/المقام هنا يذكر بأنه يفيد تأكيدًا وبيانًا، مع تقدير تقريبي كـ «ذلك بأنّ الله لم يكن مُغيّرًا» (تقدير في نصّ المثال).",
+        "claim_en": "A proposed taqdīr (implied wording) for the construction: it supplies emphasis/explication — e.g. 'that is, that God did not change...'; the source gives a specific estimated wording for the example phrase.",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "low",
+        "needs_review_reason": "The stated تقدير is offered in the source for a different example phrase; whether the same implied wording/force applies identically to the 'إِنَّ' in S3:181 requires verification from commentary specific to this verse."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ بَدَلًا مِنَ الَّذِينَ الْأُولَى، وَأَنْ يَكُونَ خَبَرَ مُبْتَدَأٍ مَحْذُوفٍ؛ أَيْ: هُمُ الَّذِينَ. وَيَجُوزُ أَنْ يَكُونَ نَصْبًا عَلَى إِضْمَارِ أَعْنِي، وَ: مِنْهُمْ حَالٌ مِنَ الْعَائِدِ الْمَحْذُوفِ.",
+        "claim_ar": "في شأن «الَّذِينَ»: ثمة اختلافٍ في الإعراب — يجوز أن تكون بدلًا من «الذين الأولى» أو خبر مبتدأ محذوف، ويجوز أن تكون منصوبة على إضمار (مفعول به لفعل محذوف) أو أن تكون جزءًا من حال متعلّق بالعائد المحذوف.",
+        "claim_en": "Regarding 'الَّذِينَ': grammarians allow multiple analyses — it may be a badal (substitute) of an earlier 'those', or the predicate (khabar) of an omitted mubtada', or it may be accusative governed by an implied pronoun (i.e. governed by an omitted verb), or part of a hal (circumstantial) construction tied to an omitted antecedent.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source states general permissible analyses for a relative clause; determining which of these options is intended for the relative 'الَّذِينَ' in S3:181 should be checked against verse-specific commentary or classical i'rab opinions."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

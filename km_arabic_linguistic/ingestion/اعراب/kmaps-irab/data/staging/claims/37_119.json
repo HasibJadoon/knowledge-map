@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:119",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(فِيهِ) : أَيْ فِي ضَوْئِهِ",
+        "claim_ar": "حرف الجر «فِي» متعلّق بالاسم الذي بعده (هنا: الْآخِرِينَ) أي أنّ «فِي» تحكمه جراً/علاقة جرّية.",
+        "claim_en": "'fī' is a preposition attaching/governing the following noun (here: al-ākhirīn), i.e. it assigns a genitive relationship.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "(فِيهِ) : أَيْ فِي ضَوْئِهِ",
+        "claim_ar": "الْآخِرِينَ اسم مجرور لأنّه متعلق بحرف الجر «فِي».",
+        "claim_en": "al-ākhirīn is the noun governed by the preposition 'fī', therefore it is in the genitive (majrūr) case.",
+        "root": "اخر",
+        "lemma": "آخِر",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives an example of «فِيهِ = فِي ضَوْئِهِ» illustrating prepositional attachment, but it does not explicitly state the rule-word for this specific ayah; the genitive assignment is inferred from the example rather than an explicit statement about this verse."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit iʿrāb discussion of S37:119; the above claims are inferred from a general example in the text («(فِيهِ) : أَيْ فِي ضَوْئِهِ»). Verify against a passage of al-Tibyan that treats this specific verse or against other grammatical sources for confirmation."
+    ]
+  },
+  "n_chunks": 5
+}

@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:78",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إفادة الحصر",
+        "claim_ar": "إفادة الحصر في سياق الكلام — تقييد إسناد السحر إلى ما جئتم به محصوراً فيه",
+        "claim_en": "Indication of restriction (hasr): the wording confines the attribution of 'magic' to what they brought, limiting the scope.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "حصر",
+        "lemma": "حصر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الاستفهام على سبيل الاستهتار",
+        "claim_ar": "استفهامُ استهزاءٍ — سؤالٌ بلاغي يُستخدم للاستهزاء والتنقيص من الحقّ (أسلوب استهزاءي في ردّهم على موسى عليه السلام).",
+        "claim_en": "Rhetorical/questioning style of derision — the interrogative is used sarcastically to belittle the truth (their mocking question to Moses).",
+        "device_branch": "other",
+        "device_subtype": "استفهام_استهزائي",
+        "root": "سخر",
+        "lemma": "استهزاء",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the phrase to the standardized device list (asloob_hakim / 'rhetorical question of derision') is interpretive; cross-check with additional tafsir/balagha sources recommended."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari and Tabari; the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha sections) were not present in the given chunks. Claims are therefore based on the supplied excerpts only.",
+      "Some device mappings (e.g., labelling 'الاستفهام على سبيل الاستهتار' as a standardized subtype) are interpretive — please review against your canonical device taxonomy and additional sources if strict alignment is required."
+    ]
+  },
+  "n_chunks": 12
+}

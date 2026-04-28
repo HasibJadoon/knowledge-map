@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:105",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable بلاغة claims: the provided source_chunks (Darwish - I'rab excerpts) do not contain rhetorical commentary or quotes that pertain to S7:A105 (no occurrences of key strings from the verse such as \"حَقِيقٌ\", \"بَيِّنَةٍ\", \"أَرْسِلْ مَعِيَ بَنِي إِسْرَائِيلَ\" nor explicit بلاغي remarks about this aya).",
+      "Cannot fabricate source_quote_ar from classical balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) because their texts were not provided in source_chunks. To extract claims, please supply chunks from those commentators or any tafsir/balagha text that discusses S7:A105."
+    ]
+  },
+  "n_chunks": 12
+}

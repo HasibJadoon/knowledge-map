@@ -1,0 +1,168 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 14,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 1,
+          "head_word_index": 1,
+          "note_ar": ""
+        },
+        {
+          "clause_order": 2,
+          "clause_type": "relative",
+          "word_start": 2,
+          "word_end": 3,
+          "head_word_index": 1,
+          "note_ar": ""
+        },
+        {
+          "clause_order": 3,
+          "clause_type": "conditional_if",
+          "word_start": 4,
+          "word_end": 14,
+          "head_word_index": 15,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قال",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل",
+          "irab_case": "مرفوع",
+          "note_ar": "قال فعل ماض"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "قائل",
+          "relation_type": "subject",
+          "governor_word_index": 1,
+          "irab_position": "فاعل",
+          "ir,ab_case": "مرفوع",
+          "note_ar": "قائل فاعل مرفوع"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "من",
+          "relation_type": "preposition",
+          "governor_word_index": 2,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "من حرف جرّ"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "لا",
+          "relation_type": "negation",
+          "governor_word_index": 5,
+          "irab_position": "نافية",
+          "irab_case": "مجرور",
+          "note_ar": "لا ناهية جازمة"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "تقتلوا",
+          "relation_type": "predicate",
+          "governor_word_index": 4,
+          "irab_position": "فعل",
+          "irab_case": "مجزوم",
+          "note_ar": "تقتلوا مضارع مجزوم"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "يوسف",
+          "relation_type": "object_direct",
+          "governor_word_index": 5,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "يوسف مفعول به منصوب"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "و",
+          "relation_type": "coordinated",
+          "governor_word_index": 5,
+          "irab_position": "واو",
+          "irab_case": "مجرور",
+          "note_ar": "واو عاطفة"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "ألقوا",
+          "relation_type": "predicate",
+          "governor_word_index": 7,
+          "irab_position": "فعل",
+          "irab_case": "مجزوم",
+          "note_ar": "ألقوا فعل أمر مبنيّ على حذف النون"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "في",
+          "relation_type": "preposition",
+          "governor_word_index": 8,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "في جار ومجرور"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "غيابته",
+          "relation_type": "object_direct",
+          "governor_word_index": 9,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "غيابته مفعول به مجرور"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "الجبّ",
+          "relation_type": "object_direct",
+          "governor_word_index": 10,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "الجبّ مضاف إليه مجرور"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "يلتقطه",
+          "relation_type": "predicate",
+          "governor_word_index": 11,
+          "irab_position": "فعل",
+          "irab_case": "مجزوم",
+          "note_ar": "يلتقطه مضارع مجزوم"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "بعض",
+          "relation_type": "subject",
+          "governor_word_index": 12,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "بعض فاعل مرفوع"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "السيّارة",
+          "relation_type": "object_direct",
+          "governor_word_index": 13,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "السيّارة مضاف إليه مجرور"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,14 @@
+{
+  "layer": "balagha",
+  "word_key": "1:5:2",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit بلاغة (rhetoric) claims referring to the target word 'نَعْبُدُ' (or the immediate phrase «إياك نعبد») were found in the provided source chunks.",
+      "The supplied chunks are from Zamakhshari (al-Kashshaf), Darwish (I'rab) and Safi (al-Jadwal). They contain general discussion of الحَمْد, الشُّكْر, and بلاغة notes on other phrases (e.g. repetition of «الصراط») but do not analyze بلاغيّا the verb نَعْبُدُ or the syntactic/pragmatic function of «إياك» in the verse.",
+      "Requested author pool (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, and tafsīr balāgha sections) is not represented in the provided chunks. To extract device-level claims tied to those authorities (or to assert devices like iltifāt, tawqīf/takdīd, mubālaghah on «نَعْبُدُ»), please supply the relevant passages from those authors or from tafsīr balāgha that explicitly discuss «إِيَّاكَ نَعْبُدُ».",
+      "If you want general plausible rhetorical readings for «إِيَّاكَ نَعْبُدُ» (e.g. emphasis via fronting of إِيَّاكَ, parallelism with «إِيَّاكَ نَسْتَعِينُ», antithesis between worship and seeking help, repetition/takrār), indicate that you accept analyst-generated inferences not directly sourced from the provided texts."
+    ]
+  },
+  "n_chunks": 12
+}

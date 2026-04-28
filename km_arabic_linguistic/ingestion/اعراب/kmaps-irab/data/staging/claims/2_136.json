@@ -1,0 +1,49 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:136",
+  "result": {
+    "claims": [
+      {
+        "word_index": 28,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يكون مِنْهُم رَافعا لمن",
+        "claim_ar": "يجوز أن تكون (مِنْهُمْ) رافعةً (مَرْفُوعَةً) لعَنْصْرٍ في البناء الإعرابي (أي في علاقة رفع مع «مَنْ» في تركيب «مِنْهُمْ مَنْ ...»).",
+        "claim_en": "It is permissible that 'minhum' function in a raising relationship (be nominative/raised) relative to 'man' (as in the construction 'minhum man ...').",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "al-Tibyan discusses the construction 'مِنْهُمْ مَنْ ...' in general; verify applicability to the specific phrasing in S2:136 which has 'أَحَدٍ مِنْهُمْ' rather than 'مِنْهُمْ مَنْ'.",
+        "quran_ref": "S2:A136"
+      },
+      {
+        "word_index": 28,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَأَن يَكُونَ مُبْتَدَأً وَخَبَرًا",
+        "claim_ar": "يُقدم في التنظير أن عبارة (مِنْهُمْ) أو الجملة التابعة لها قد تُؤوَّل كمبتدأٍ وخبرٍ (أي أن التركيب كلّه يظهر في قراءة تجعلها مبتدأً وخبراً).",
+        "claim_en": "The analysis allows that the phrase (minhum) or the clause containing it can be interpreted as being a subject (mubtada') and predicate (khabar) — i.e., the construction may be read as a nominal sentence.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary treats the general pattern 'مِنْهُمْ مَنْ ...' and presents multiple possible analyses; check whether the same nominal-sentence reading fits the exact syntax of S2:136.",
+        "quran_ref": "S2:A136"
+      },
+      {
+        "word_index": 28,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَالْجُمْلَةُ نَعْتٌ لِرُسُلٍ",
+        "claim_ar": "يذكر المصنّف أن الجملة التابعة قد تقوم نعتًا لاسم سابق (أي: الجملة تكون نعتًا لِـ(رسُلٍ) في المثال المعروض).",
+        "claim_en": "The clause may function as an adjective (na‘t) modifying a preceding noun (for example, as a modifier of 'rusul' in the discussed construction).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited statement is a general point about clauses acting as نعت; verify whether the specific clause relationships in S2:136 instantiate this pattern.",
+        "quran_ref": "S2:A136"
+      }
+    ],
+    "warnings": [
+      "The provided source chunk(s) discuss the general construction 'مِنْهُمْ مَنْ ...' and present multiple possible syntactic analyses. They do not quote Sura 2:136 verbatim; applying these analyses to the exact wording of S2:136 (which contains 'أَحَدٍ مِنْهُمْ') requires verification.",
+      "All extracted claims are drawn from one chunk (AL:CHUNK:69c742ec0e6b182b6c305b9e) that treats alternative analyses; they should be cross-checked with fuller commentary on this specific verse and with other grammatical sources."
+    ]
+  },
+  "n_chunks": 12
+}

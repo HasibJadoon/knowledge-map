@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:191",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "الكلام مستأنف",
+        "claim_ar": "التَّحَوُّلُ البلاغيّ (الِالتِفاف): من وصف المؤمنين بضمير الغائبين إلى مخاطبة الربّ بصيغة الجمع «رَبَّنَا...» — انتقال مفاجئ في الصيغة يستدعي عاطفة واستدعاء القرب.",
+        "claim_en": "Rhetorical shift (iltifat): the text moves from describing the believers in the third person to addressing God directly in the first-person plural 'رَبَّنَا...', a sudden change of register that evokes emotional immediacy and intimacy.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The shift is clearly visible in the verse, but the provided source chunk only contains a general phrase ('الكلام مستأنف') rather than an explicit discussion of iltifat for this ayah; confirmation from a dedicated balagha source is recommended."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "tibaq / muqabalah (paired terms)",
+        "source_quote_ar": "الواو عاطفة",
+        "claim_ar": "تَصْرِيفٌ تَضَادّيّ/تَوازِنِيّ بين حالات البدن: «قِيَامًا وَقُعُودًا وَعَلَى جُنوبِهِمْ» — ترتيب متتابع للحالات يعطي شمولاً وكمالاً (قيام مقابل قعود/حركة مقابل سكون).",
+        "claim_en": "Paired/antithetical arrangement (tibaq/muqabalah): the succession 'standing, sitting, and on their sides' presents a balanced listing of bodily states (standing vs sitting), producing a sense of completeness and emphasis.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "قوم",
+        "lemma": "قَآئِم",
+        "confidence": "medium",
+        "needs_review_reason": "Support drawn from a general note on coordination ('الواو عاطفة') in source chunks rather than an explicit balagha commentary on this specific antithesis; specialist balagha reference would increase confidence."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "الواو عاطفة",
+        "claim_ar": "مُقابَلَةُ أفعالٍ متوازية لِلتَّوكيدِ: «يَذْكُرُونَ ... وَيَتَفَكَّرُونَ» — فعلان متوازيان مرتبطان بالواو يؤكّدان تعدُّد العبادات (ذكر وتأمل) وتشدّدان على عمق الإيمان.",
+        "claim_en": "Muqabalah (parallelism): the paired verbs 'they remember ... and they ponder' are placed in parallel (joined by the conjunction), reinforcing and emphasizing the two complementary acts of devotion and reflection.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The claim is based on standard rhetorical reading of parallel verbs; the provided source only has a general note on conjunction ('الواو عاطفة') not an explicit treatment of muqabalah for this verse — specialist confirmation is advised."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily i'rab/grammatical and general tafsir excerpts; they do not contain explicit, dedicated balagha comments on S3:191. Source_quote_ar entries therefore use general substrings present in the chunks (e.g., 'الكلام مستأنف', 'الواو عاطفة') as indirect support.",
+      "Claims are interpretable and commonly made in balagha readings of the verse, but confidence is set to medium because direct citations from classical balagha authorities (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) specific to these devices for this ayah were not present in the supplied chunks.",
+      "If you want higher-confidence attributions, provide explicit balagha/tafsir-balagha chunks that discuss iltifat, tibaq, and muqabalah for this verse; I can then update claims and raise confidence levels."
+    ]
+  },
+  "n_chunks": 12
+}

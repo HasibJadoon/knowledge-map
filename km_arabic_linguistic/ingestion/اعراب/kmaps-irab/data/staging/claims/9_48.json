@@ -1,0 +1,13 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:48",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No source chunk contains the exact text of S9:A48 (لَقَدِ ابْتَغَوُوا الْفِتْنَةَ مِنْ قَبْلُ ...).",
+      "None of the provided al-Tibyan chunks discuss the grammar (إعراب) of this specific ayah or give quotations/substrings from it that could be used as source_quote_ar for claims.",
+      "Checked chunk IDs: AL:CHUNK:62daf6420291b15a1dc00faf, AL:CHUNK:56f732f84f7555169113f63c, AL:CHUNK:7030c79530b57496f939915a, AL:CHUNK:fdf866739ae6d979b7907b0c, AL:CHUNK:a9c3b74da40c51e42afdb67a, AL:CHUNK:2d7ea431e02dc4c04fc32de6."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:171",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وتقع حالا إن صلح موضعها ( لا ) واستثناء إن صلح موضعها ( إلا ) فتعرب بإعراب الاسم التالي ( إلا ) في ذلك الكلام .",
+        "claim_ar": "أداة استثناء: 'إِلَّا' أداة استثناء تُعمل عملَ الاستثناء، وتعرب ما بعدها بحسب موقعه في الكلام.",
+        "claim_en": "Exception particle: 'إِلَّا' is an exception particle (istiṯnā') and the noun following it is parsed according to its syntactic position in the sentence.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "وتقع حالا إن صلح موضعها ( لا ) واستثناء إن صلح موضعها ( إلا ) فتعرب بإعراب الاسم التالي ( إلا ) في ذلك الكلام .",
+        "claim_ar": "اسم مستثنى تابع لـ'إِلَّا'؛ يُعرب بما يقتضيه محلُ الاستثناء من الكلام. في الصورة المكتوبة هنا يظهر على صورة منصوب (عَجُوزًا) كالمستثنى.",
+        "claim_en": "The word 'عَجُوزًا' functions as the noun of exception (mustathnā') governed by 'إِلَّا'; it is parsed according to the syntactic role required by the item from which it is excepted. In the form given here it appears in the accusative as the excepted noun.",
+        "root": "عجز",
+        "lemma": "عَجُوز",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source gives the general rule about 'إِلَّا' but does not discuss this specific verse or the governor from which 'عجوزًا' is excepted; the exact syntactic case depends on the preceding context which is not present in the chunks, though the surface form shows accusative."
+      }
+    ],
+    "warnings": [
+      "None of the supplied source chunks explicitly analyze the particular phrase 'إِلَّا عَجُوزًا فِي الْغَابِرِينَ' from S26:A171; the claims above are inferred from the general rule about 'إِلَّا' in AL:CHUNK:5f14e8f33acf31932a1eed12.",
+      "No source chunk in the input discusses the prepositional phrase 'فِي الْغَابِرِينَ'; therefore no taalluq or role for words 3–4 is asserted."
+    ]
+  },
+  "n_chunks": 12
+}

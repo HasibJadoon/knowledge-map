@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:24",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "ijaz",
+        "source_quote_ar": "بُرْهانَ",
+        "claim_ar": "اختزال لفظي مُوجز في كلمة «بُرْهانَ» للدلالة على البينة الحاسمة التي أراها يوسف فكانت سبباً في درء الفاحشة، أي إيجاز في التعبير لتقوية الحُجّة.",
+        "claim_en": "Concise use of the noun “burhān” (proof) to denote the decisive, conclusive proof that Joseph saw which prevented the sin — a compact phrasing that reinforces the force of the divine-proof argument.",
+        "device_branch": "maani",
+        "device_subtype": "ijaz",
+        "root": "برهن",
+        "lemma": "بُرْهَان",
+        "confidence": "needs_review",
+        "needs_review_reason": "The provided source chunks do not include classical balagha treatises (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsīr balāgha). The quoted substring 'بُرْهانَ' exists in the supplied chunks (Darwish i'rab), but the rhetorical interpretation is an inference not explicitly discussed in the available chunks; needs confirmation against primary balagha sources."
+      }
+    ],
+    "warnings": [
+      "None of the requested balagha authors (al-Jurjāni, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsir_balagha) are present among the provided source_chunks. Source chunks are primarily i'rab/commentary (Darwish, Zamakhsharī).",
+      "Many words of the ayah (e.g., هَمَّتْ, هَمَّ, لِنَصْرِفَ, السُّوءَ, الفَحْشَاءَ, الْمُخْلَصِينَ) do not appear in the supplied chunks, so claims about devices tied to those words could not be supported with exact source_quote_ar substrings and were therefore not produced.",
+      "The single claim returned is based on an inference tied to the substring 'بُرْهانَ' found in the supplied chunks; it requires review and verification against the intended classical balagha sources."
+    ]
+  },
+  "n_chunks": 12
+}

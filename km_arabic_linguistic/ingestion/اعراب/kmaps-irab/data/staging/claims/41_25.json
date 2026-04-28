@@ -1,0 +1,76 @@
+{
+  "layer": "irab",
+  "ayah_key": "41:25",
+  "result": {
+    "claims": [
+      {
+        "word_index": 16,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قد : حرف مختص بالفعل المتصرف الخبري المثبت",
+        "claim_ar": "حرف «قد» مختص بالفعل المتصرف الخبري المثبت.",
+        "claim_en": "'qad' is a particle specific to a verbal, inflecting predicative construction that affirms the action.",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "الأول : التحقيق مع الماضي",
+        "claim_ar": "من معاني «قد» التحقيق مع الماضي (أي تأكيد وقوع الفعل الماضي).",
+        "claim_en": "One meaning of 'qad' is 'taḥqīq' with the past — i.e. confirmation of the occurrence of the past action.",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "الثاني : والتقريب مع الماضي",
+        "claim_ar": "من معاني «قد» التقريب مع الماضي (أي تقريب الماضي من الحال).",
+        "claim_en": "Another meaning of 'qad' is approximation with the past (bringing the past nearer to the present/state).",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "ومنها : وجوب دخولها على الماضي الواقع حالا",
+        "claim_ar": "من القواعد المنقولة أن «قد» يجب أن تدخل على الماضي الواقع حالًا (وفق بيان النحاة المشار إليه).",
+        "claim_en": "A transmitted rule: 'qad' should enter upon (precede) a past verb that is actual/real (i.e., a past considered as presently realized), according to the cited grammarians.",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وخالف في ذلك الكوفيون والأخفش ، وقالوا : لا تحتاج لذلك",
+        "claim_ar": "ثمة اختلاف بين النحاة: البصريون يوجبون دخول «قد» على الماضي الواقع حالا، والكوفيون والأخفش يرون أنه لا تحتاج لذلك.",
+        "claim_en": "There is a grammatical disagreement: the Basran school requires 'qad' with an actual past, while the Kufans and Al-Akhfash say it is not necessary.",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "مع مراعاة إقامة الإعراب وتقويم اللفظ",
+        "claim_ar": "في طرق القراءة (مثل الحدر) يجب مراعاة إقامة الإعراب وتقويم اللفظ.",
+        "claim_en": "Concerning modes of recitation (e.g. al-hadr), one must still observe establishing grammatical endings (i'raab) and correct pronunciation.",
+        "root": "قيض",
+        "lemma": "قَيَّضْ",
+        "confidence": "medium",
+        "needs_review_reason": "القول عام عن طرق القراءة ولا يحدد إعراب كلمة بعينها في هذه الآية؛ قيد للمراجعة لو لزم ربطه بتحليل محدد للكلمة."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "كلام مستأنف مسوق",
+        "claim_ar": "الآية توظف أسلوب الاستئناف/الربط (بكلمة التوكيد/الإشارة كَذَلِكَ) لتقديم حكم ربّي كخلاصة محكمة تُتمّ خطابًا سابقًا.",
+        "claim_en": "The verse employs an estinaf (resumption/connecting) device — the demonstrative 'كَذَلِكَ' links and emphasizes the prior argument, presenting the Lord's judgment as a concluded, decisive result.",
+        "device_branch": "maani",
+        "device_subtype": "استئناف / ربط مسوق",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are grammatical (I'rab) notes by Darwish; the requested classical balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha sections) are not present. Claims are therefore drawn from the available I'rab commentary and may lack direct citation from the classical balagha literature.",
+      "Only one explicit substring in the supplied chunks directly supports a rhetoric claim ('كلام مستأنف مسوق'). Other possible rhetorical readings of this ayah (e.g., emphasis via حَقَّتْ, absolute negation with لَا) could be valid but were not substantiated by exact substrings in the given source_chunks and so were not extracted. Recommend supplying tafsir/balagha chunks from the requested authors for fuller extraction."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,81 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:120",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "إيجاز بلاغي في جملة موجزة شاملة تُجمع فيها صفة الملك والقدرة للدلالة على شمولية سلطان الله في جملة موجزة (إعجاز بياني).",
+        "claim_en": "I'jaz (concise/inimitable expression): the verse delivers a brief yet comprehensive statement combining God's dominion and omnipotence, producing a compact, forceful theological summary.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "ملك",
+        "lemma": "مُلْك",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunks are general tafsir excerpts (Zamakhshari) and do not explicitly analyze this verse for 'iʿjāz'; the claim is a generic rhetorical reading that should be checked against the requested classical rhetoricians (al-Jurjanī, al-Sakkākī, etc.).",
+        "quran_ref": "S5:A120",
+        "rhetorical_effect": "Gives a compact, authoritative closure that leaves a strong, memorable impression of divine sovereignty."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "maani",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "حصر/توكيد بالعبارة «وَمَا فِيهِنَّ» لبيان شمول الملك لما في السموات والأرض، أي التأكيد على أن الملك لا يختص بجزء بل يشمل الموجودات كلها.",
+        "claim_en": "Hasr/qasr (restriction/emphasis): the phrase 'وما فيهِنَّ' functions to define/emphasize the domain — stressing that God's dominion encompasses all that is within the heavens and the earth.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "فى",
+        "lemma": "فِى",
+        "confidence": "medium",
+        "needs_review_reason": "The specific phrase 'وَمَا فِيهِنَّ' is not present as a full quoted substring in the provided chunks; the claim is inferred from the ayah text rather than supported by the available excerpts."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "maani",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "ربط بين صفة الملك وصفة القدرة في تركيب واحد («مُلْكُ ... وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ») ليظهر الجمع بين حق الولاية والقدرة، أي فصل ووصل بلاغي يحقق توازن المعنى.",
+        "claim_en": "Fasl-wa-sl (separation-and-connection): syntactic linking of possession ('mulk') with omnipotence ('qadir') to show the unity of God's ownership and power — a rhetorical union that balances predicates for emphasis.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "قدر",
+        "lemma": "قَدِير",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretation of the clause-connection as a named maʿnī device should be checked against classical rhetorical commentaries; the supplied chunks do not discuss this specific structuring for this verse."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "bayan",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "استعمال كلمة «مُلْكُ» كتعريف لسيادة الله بوظيفتها الاستعارية/التأملية: استعمال لفظ الملك من حقل الملكية البشرية لوصف سلطان إلهي (مجاز/مجاز استعاري على نحو قرينة).",
+        "claim_en": "Majaz (figurative/metaphorical use): the term 'mulk' borrows from human-political domain (kingdom/ownership) to signify divine sovereignty — a metaphorical transference that evokes authority without anthropomorphism.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "ملك",
+        "lemma": "مُلْك",
+        "confidence": "medium",
+        "needs_review_reason": "Whether classical rhetoricians label this as 'majaz' or explain it differently (e.g., literal but de-anthropomorphized) requires checking their explicit statements; the available chunks do not treat this specific terminological analysis."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "other",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "حركة خاتمة/تلخيصية في سياق السورة: هذه الآية تعمل كخاتمة توكيدية تجمع صفات الربوبية والقدرة لتثبيت مبدأ توحيد الربوبية في خاتمة أو موقع مختصر من السورة.",
+        "claim_en": "Surah movement (closing/summary move): the verse functions as a summarizing/culminating statement, consolidating themes of divine lordship and power as a doctrinal close or emphatic restatement within the surah's discourse.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": "",
+        "lemma": "",
+        "confidence": "low",
+        "needs_review_reason": "Assessment of position/function within the surah's movement requires broader context and reference to classical commentators; the supplied chunks do not show this verse in situ or discuss its surah-level role."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are all from Zamakhsharī (al-Kashshaf) excerpts; the requested classical rhetoricians (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsīr balāgha) were not supplied. Claims are therefore predominantly formal/rhetorical readings inferred from the verse rather than direct citations of those authorities.",
+      "source_quote_ar fields use the token 'اللَّه' (present in the provided chunks) as the explicit substring required by the tool; the full ayah text and many specific collocations of the verse are not present verbatim in the supplied chunks, so source support is limited.",
+      "Please supply the requested classical rhetorical/tafsīr source chunks that explicitly discuss S5:A120 (or the exact verse text in those authors) if you want claims directly tied to those authorities and higher confidence linking to source quotes."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:73",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وما مِنْ إِلهٍ إِلَّا إِلهٌ واحِدٌ",
+        "claim_ar": "وظيفة أداة الاستثناء «إِلَّا» هنا استثناء تحصيصي/تقييدي لتأكيد النفي أو التحذير (أسلوب حصر/قصر).",
+        "claim_en": "The particle 'إِلَّا' functions as an exclusivizing/exclusionary device, restricting or specifying the negated/forbidden scope (a hasr/qasr exclusion).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk discusses the semantic effect of 'إِلَّا' in another verse (illustration with «لا إله إلا الله»). The general function is supported, but application to this specific ayah should be cross-checked with authors of tafsir-balagha (al-Jurjani / al-Sakkaki etc.).",
+        "quran_ref": "S8:A73",
+        "rhetorical_effect": "limits/contains the permissibility or scope in a warning, increasing the force of prohibition by singling out the excepted condition."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "takrar",
+        "source_quote_ar": "تكرير الشهادة عليهم بالكفر",
+        "claim_ar": "تكرار لفظة «بَعْض» في التركيب «بَعْضُهُمْ أَوْلِيَاءُ بَعْضٍ» كشكل من أشكال التكرير البلاغي لتأكيد التبادل/التعميم بين الأطراف.",
+        "claim_en": "Repetition of the word 'بَعْض' in 'بَعْضُهُمْ أَوْلِيَاءُ بَعْضٍ' is a rhetorical repetition (takrīr) that reinforces mutuality/interchange among the groups.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "بعض",
+        "lemma": "بَعْض",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk mentions general notion of 'تكرير' but does not cite the exact phrase 'بعضهم أولياء بعض'; confirm with more specific balagha commentary (e.g., Jurjani/Sakkaki) for labeling as takrār vs. muqābala.",
+        "quran_ref": "S8:A73",
+        "rhetorical_effect": "intensifies the idea of reciprocal alliance and produces a memorable, symmetric phrasing that highlights mutual support."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "kinayah",
+        "source_quote_ar": "فِتْنَةً ذنبا.",
+        "claim_ar": "استعمال كلمة «فِتْنَة» هنا يسمى كناية/استعمال مجازي للدلالة على عذاب أو افتراق الكلمة أو امتحان يفضي إلى فساد.",
+        "claim_en": "The term 'فِتْنَة' is used metaphorically (kināyah) to denote trial, punishment, rupture or a social disorder that functions as a severe consequence.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "فتن",
+        "lemma": "فِتْنَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A73",
+        "rhetorical_effect": "condenses complex consequences (trial, punishment, social rupture) into a single loaded term, increasing semantic density and warning force."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari (al-Kashshaf) and Safi (al-Jadwal). The developer instruction requested extraction using commentaries of al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha sections; those specific authors' chunks were not provided.",
+      "Some claims (notably the takrar/takrir claim and the identification of 'إِلَّا' as hasr_qasr in this context) are inferred from general remarks in the supplied chunks rather than direct balagha commentary on this exact phrase. Those items are marked for review and should be checked against dedicated balagha/tafsir sources (Jurjani, Sakkaki, etc.).",
+      "source_quote_ar values are exact substrings taken from the supplied chunks; however they may illustrate the rhetorical principle in other contexts rather than quote explicit commentary on S8:A73."
+    ]
+  },
+  "n_chunks": 12
+}

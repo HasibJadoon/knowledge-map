@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:43",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain exact substrings matching the words/phrases of this āyah (e.g. \"فَلَوْلَا إِذْ جَاءَهُمْ بَأْسُنَا تَضَرَّعُوا وَلَكِنْ قَسَتْ قُلُوبُهُمْ وَزَيَّنَ لَهُمُ الشَّيْطَانُ مَا كَانُوا يَعْمَلُونَ\"). Because the developer requirement mandates that source_quote_ar be an exact substring of one of the given chunks, no reliable rhetoric claims could be extracted from the supplied chunks. If you can provide source chunks (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir/balāgha materials) that include this āyah or explicit commentary on these phrases, I can re-run the extraction and produce claims."
+    ]
+  },
+  "n_chunks": 12
+}

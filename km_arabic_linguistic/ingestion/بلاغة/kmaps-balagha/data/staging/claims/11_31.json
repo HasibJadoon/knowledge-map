@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:31",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "البلاغة: فن التغاير",
+        "claim_ar": "تكرار أداة النفي (وَلَا) وعبارة «أَقُولُ» في العِيَاء البلاغي يخلق تغايراً ونسقاً تركيبياً يؤكد الإنكار والنفي، وهو شكل من التكرار البلاغي (تكرار للتوكيد والتدرّج النفيسي).",
+        "claim_en": "Repetition of the negative particle (وَلَا) and the phrase «أَقُولُ» forms a rhythmic pattern that creates variation (taghayur) and emphasizes denial — a rhetorical repetition used for emphasis and gradation.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The provided source (Safi) contains the phrase 'البلاغة: فن التغاير' but does not explicitly analyze this specific ayah; the identification of 'takrar' here is probable but should be checked against classical balagha commentaries (al-Jurjani, al-Sakkaki, etc.) for confirmation."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "majaz",
+        "source_quote_ar": "مجازى مثله",
+        "claim_ar": "توصيفات مثل «خَزَائِنُ اللَّهِ» تقرُب من المجاز (استعارة أو تصوير مجازي للمصادر الربّانية)، ويظهر في بعض التفاسير أن أوصاف العلوّ والملك والموارد الإلهية تُفهم مجازياً أو تصويرياً في سياقات بليغة.",
+        "claim_en": "Phrases like «خَزَائِنُ اللَّهِ» approach metaphorical expression (majaz — an implied or figurative description of divine resources). Classical tafsir sometimes treats such divine attributes/imagery as figurative in stylistic commentary.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "خزن",
+        "lemma": "خَزَآئِن",
+        "confidence": "medium",
+        "needs_review_reason": "Source (Zamakhshari) contains the word 'مجازى' but does not directly comment on this exact phrase in the ayah; the classification as majaz is plausible but should be verified with targeted balagha/tafsir-balagha citations."
+      },
+      {
+        "word_index": 24,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ما من رسول إلا واجه قومه بهذا القول",
+        "claim_ar": "التحول من النفي الذاتي («وَلَا أَقُولُ ...») إلى تقرير حاسم بكون «اللَّهُ أَعْلَمُ» يمثل التِفات (انقلاب خطاب أو تبدّل في الواجهة الخطابية) يبدّل نقطة الانطلاق من نفي ادعاء الرسول إلى إحالة المعرفة إلى الله تعالى، فتنقل القراءة وظيفياً من 'أنا' إلى 'العلم الإلهي'.",
+        "claim_en": "The shift from self-denying statements («I do not say...») to the decisive assertion «Allah knows best» constitutes an iltifat (shift in address/frame) — moving the rhetorical focus from the prophet's denial to the divine epistemic authority, changing the speakerly stance.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "علم",
+        "lemma": "أَعْلَم",
+        "confidence": "low",
+        "needs_review_reason": "The quoted source phrase discusses prophetic address in general but does not explicitly identify 'iltifat' in this verse; the diagnosis of an iltifat is interpretive and should be cross-checked with dedicated balagha sources (al-Jurjani, al-Sakkaki, etc.)."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from Zamakhshari and Safi (al-Jadwal). The requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha sections) were not present among the chunks. Source_quote_ar values are taken only from the supplied chunks; several claims are therefore inferential and flagged for review.",
+      "Some claims (especially the identification of 'iltifat' and classification of 'خزائن الله' as majaz) are interpretive and marked with lower confidence. Please verify against primary balagha commentaries (al-Jurjani, al-Sakkaki) or tafsir-balagha notes for stronger attribution and exact phrasing support.",
+      "No explicit classical balagha quotations about S11:31 were present in the chunks; the system used related phrases found in the supplied texts to anchor source_quote_ar. If you can provide the specified authors' balagha/tafsir excerpts for this ayah, I can produce more precise, higher-confidence claims."
+    ]
+  },
+  "n_chunks": 12
+}

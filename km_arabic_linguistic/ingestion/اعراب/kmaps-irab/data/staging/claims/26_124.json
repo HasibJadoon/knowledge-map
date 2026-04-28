@@ -1,0 +1,61 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:124",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "أَنْ يَكُونَ مُبْتَدَأً وَخَبَرًا",
+        "claim_ar": "يجوز أن يكون «أخوهم» مبتدأ في تركيب اسمي (أخوهم هودٌ).",
+        "claim_en": "It is permissible to analyze 'أخوهم' as the مبتدأ (subject) in the nominal clause 'أخوهم هودٌ'.",
+        "root": "اخو",
+        "lemma": "أَخ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage (al-Tibyan) states a general syntactic possibility for similar nominal constructions (e.g., «منهم من ...») rather than discussing this exact verse; application here is an informed inference.",
+        "quran_ref": "S26:A124"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "أَنْ يَكُونَ مُبْتَدَأً وَخَبَرًا",
+        "claim_ar": "يجوز أن يكون «هود» خبرًا لـ «أخوهم» (خبر المبتدأ).",
+        "claim_en": "'Hud' can be analyzed as the خبر (predicate) of 'أخوهم'.",
+        "root": "هود",
+        "lemma": "هُود",
+        "confidence": "medium",
+        "needs_review_reason": "Based on the same general statement in al-Tibyan about nominal clauses; the passage addresses a parallel construction, so direct application to this verse should be reviewed.",
+        "quran_ref": "S26:A124"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "وَالْجُمْلَةُ نَعْتٌ لِرُسُلٍ",
+        "claim_ar": "الجملة «أخوهم هود» تعمل نعتًا لِرُسُلٍ؛ أي تفيد وصف الرسل باعتبارهم مبلّغين إلى قومهم.",
+        "claim_en": "The clause 'their brother Hud' functions as a modifier (na't) describing the messengers; it conveys that the speaker is one of the messengers.",
+        "root": "اخو",
+        "lemma": "أَخ",
+        "confidence": "medium",
+        "needs_review_reason": "The source states this general interpretive role for similar clauses; mapping it to this verse is reasonable but not explicitly demonstrated there.",
+        "quran_ref": "S26:A124"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وإذ قد انتهى بنا القول",
+        "claim_ar": "«إذ» ظرف زمني متعلق بالفعل «قَالَ» في العبارة («إذ قال لهم ...»).",
+        "claim_en": "The particle 'إذ' is a temporal adverbial (zarf) attached to the verb 'قَالَ' in the clause 'إذ قال لهم ...'.",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "low",
+        "needs_review_reason": "The cited chunk only shows an instance of «وإذ...» in prose; it does not explicitly state the syntactic dependency. This analysis is plausible but relies on general usage rather than an explicit statement in the provided text.",
+        "quran_ref": "S26:A124"
+      }
+    ],
+    "warnings": [
+      "Most claims are inferred from general statements in the provided excerpts (not from an analysis of this exact verse in the sources). The al-Tibyan excerpt discusses a parallel construction (e.g., «منهم من...») and its syntactic possibilities; applying those possibilities to S26:A124 is an informed inference but should be reviewed by a specialist for this specific verse.",
+      "No explicit source excerpt discussing the function of «لهم», «ألا», or the exact syntactic link between parts of this ayah was provided; related claims were therefore not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

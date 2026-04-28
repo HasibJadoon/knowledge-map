@@ -1,0 +1,62 @@
+{
+  "layer": "balagha",
+  "word_key": "1:4:1",
+  "result": {
+    "claims": [
+      {
+        "claim_type": "بيان",
+        "source_quote_ar": "والثاني: أن الله وليكم الذي يتولى مصالحكم، وشفيعكم أى ناصركم على سبيل المجاز، لأن الشفيع ينصر المشفوع له، فهو كقوله تعالى وَما لَكُمْ مِنْ دُونِ اللَّهِ مِنْ وَلِيٍّ وَلا نَصِيرٍ",
+        "claim_ar": "هنا لفظ «شفيع» مستخدم بالمجاز ليعني «ناصر»؛ أي تحويل دلالة الكلمة الأصلية إلى معنى مدعوم بالمجاز.",
+        "claim_en": "The term 'شفیع' is used figuratively (majaz) to mean 'helper/nasِir' — a figurative substitution where 'intercessor' is read as 'helper'.",
+        "device_branch": "بيان",
+        "device_subtype": "majaz",
+        "root": "شفع",
+        "lemma": "شَفِيع",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "معاني",
+        "source_quote_ar": "ولم يقل: ماذا أحلّ لنا، حكاية لما قالوه لأنّ يسألونك بلفظ الغيبة",
+        "claim_ar": "السائلون استعملوا صيغة الغيبة («يسألونك بلفظ الغيبة»)؛ أي تحويل المخاطب إلى صيغة الغيبة عند النقل-reporting، وهو خطاب ينتج انقطاعًا/مسافة دلالية بين المخاطب والمتحدّث.",
+        "claim_en": "The question is reported in the third person ('they ask you' using the language of ghayba), i.e. a shift to third-person reporting — a rhetorical shift (iltifat) creating distancing/reporting effect.",
+        "device_branch": "معاني",
+        "device_subtype": "iltifat",
+        "root": "سأل",
+        "lemma": "سأل",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling as 'iltifat' (a shift of address) fits the described phenomenon, but could also be classified as reported speech or distancing; confirm mapping to K‑Map taxonomy."
+      },
+      {
+        "claim_type": "بيان",
+        "source_quote_ar": "شُبِّهَ الشيبُ بشواظِ النارِ في بياضه وإنارته وانتشاره ...",
+        "claim_ar": "تَشبيهُ الشيبِ بشواظِ النارِ لإظهار بياضه وامتداده؛ أي استعمال تشبيه محسوس لبيان صفة.",
+        "claim_en": "A simile (tashbih): grey hair is likened to the blazing flames of fire to illustrate its whiteness, brightness, and spread.",
+        "device_branch": "بيان",
+        "device_subtype": "tashbih",
+        "root": "شبه",
+        "lemma": "شبَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "بيان",
+        "source_quote_ar": "ثم أخرجه مخرج الاستعارة، ثم أسند الاشتعال إلى مكان الشعر ومنبته وهو الرأس.",
+        "claim_ar": "تحويل التشبيه إلى استعارة بإسقاط الفعل المشبَّه به على موضعه (اسناد الاشتعال إلى الرأس/الشعر)؛ أي حذف أداة التشبيه وتحويل الصورة إلى استعارة.",
+        "claim_en": "The simile is then turned into a metaphor (istiarah) by attributing the action of 'burning/igniting' to the place of hair/head itself — the explicit simile is omitted and the imagery made metaphorical.",
+        "device_branch": "بيان",
+        "device_subtype": "istiarah",
+        "root": "استعارة",
+        "lemma": "استعارة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are from Zamakhshari and a commentary (Safi - al-Jadwal); they are not the listed authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti). Verify author provenance before integrating into the target K‑Map dataset.",
+      "Some extracted observations concern verses/sentences other than the spine word (مَالِكِ — Sūrat al-Fātiḥah). Confirm whether non‑spine examples are acceptable for the intended K‑Map entries.",
+      "One claim (labelled 'iltifat') depends on rhetorical taxonomy mapping decisions (reported speech vs. iltifat). Recommend human review to confirm the correct category assignment for the K‑Map."
+    ]
+  },
+  "n_chunks": 12
+}

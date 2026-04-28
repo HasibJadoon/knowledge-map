@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:131",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable balagha claims could be produced for S2:A131 because none of the provided source_chunks contain explicit rhetorical commentary on this āyah nor contain the āyah text as an exact substring (required for source_quote_ar).",
+      "Required classical balagha sources (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsīr-balagha chunk for this āyah) were not present among the supplied chunks. The available chunks are general exegesis/iʿrāb excerpts (Zamakhsharī, Darwīsh iʿrāb) that do not include direct balagha notes tied to S2:A131.",
+      "Because the spec requires source_quote_ar to be an exact substring of a provided chunk, I cannot create claims quoting the āyah itself or unsupported balagha attributions without appropriate source text. Please provide source chunks containing balagha commentary on this āyah (or include the āyah in a chunk) so I can extract claims with proper source_quote_ar and confidence levels."
+    ]
+  },
+  "n_chunks": 12
+}

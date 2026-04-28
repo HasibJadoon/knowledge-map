@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:74",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "tashbih",
+        "source_quote_ar": "فما كان إيمانهم إلا ممتنعاً كالمحال",
+        "claim_ar": "تشبيه إيمانهم بالمحال باستخدام أداة التشبيه «كـ» (ممتنعاً كالمحال) للدلالة على استحالة إيمانهم.",
+        "claim_en": "A simile (tashbih) likening their belief to 'the impossible' using the particle \"كـ\" (mumtani'an kal-mahaal), emphasizing the impossibility of their believing.",
+        "device_branch": "bayan",
+        "device_subtype": "تشبيه صريح (أداة: كـ)",
+        "root": "محال",
+        "lemma": "مَحَال",
+        "confidence": "high",
+        "needs_review_reason": "The cited wording comes from the exegetical chunk rather than the exact ayah text; confirm mapping of the simile in tafsir to the ayah phrasing."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "ونحتوا البيوت من الجبال، وكانوا في سعة ورخاء من العيش، فعتوا على الله وأفسدوا في الأرض",
+        "claim_ar": "مقابلة بين صور اليسر والرخاء (بناء البيوت المحفورة ونحت الجبال) وبين العُتُوّ والفساد؛ juxtaposition يظهر التناقض الأخلاقي بين الرفاهية المادية والانحراف الأخلاقي.",
+        "claim_en": "A muqabalah (balanced/juxtaposed phrasing) that places the prosperity and architectural power (carving homes in mountains, living in ease) opposite their subsequent rebellion and corruption, highlighting moral contrast despite material wealth.",
+        "device_branch": "badi",
+        "device_subtype": "مقابلة/طباق بين اليسر والفساد (juxtaposition)",
+        "root": "نحت",
+        "lemma": "نَحَتَ",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling this passage as muqabalah (contrast) is an interpretive choice; another analyst might treat it as simple narrative description rather than explicit rhetorical contraposition."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are primarily from Zamakhshari and related tafsir fragments; the developer prompt asked for al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha sections. Relevant citations from those specific authors were not present in the input.",
+      "Some claims reference wording that appears in the supplied commentary chunks (tafsir) rather than the literal words of the ayah as given in the word list. Roots/lemmas for items quoted from the commentary (e.g., «مَحَال») were filled provisionally and should be verified.",
+      "Only devices explicitly supported by the available source chunks were extracted. Other rhetorical readings of the ayah (e.g., repetition of «اذكروا», imagery/conciseness of the verse) could be valid but lacked matching exact substrings in the provided source_chunks and so were not asserted here."
+    ]
+  },
+  "n_chunks": 12
+}

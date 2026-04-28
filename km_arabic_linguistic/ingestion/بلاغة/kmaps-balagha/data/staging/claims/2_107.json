@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:107",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "(أَلَمْ تَعْلَمْ)",
+        "claim_ar": "استفهام إنكاري (أسلوب إنشائي) للتوبيخ والتذكير—يسوق الآية بصيغة سؤال تذكيري لتثبيت الثقة بالله.",
+        "claim_en": "Rhetorical (negative) question as an enjoinder—a didactic interrogative used to admonish and remind, prompting trust in God.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A107",
+        "rhetorical_effect": "Shocks/listens the audience into assent; it rebukes doubt and strengthens reliance on God's wisdom (concise admonition)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "أراد أن يوصيهم بالثقة به فيما هو أصلح لهم",
+        "claim_ar": "أسلوب توجيهي/وَصَايَة يعرض المقصود البلاغي للآية: تثبيت الثقة بالله بسبب حكمته وملكه.",
+        "claim_en": "Didactic/authoritative style: the commentator explains that the verse aims to counsel them to trust God because of His wisdom and sovereignty.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim (توصية/نصيحة)",
+        "root": "وصى",
+        "lemma": "وَصَى",
+        "confidence": "medium",
+        "needs_review_reason": "Classification as 'asloob_hakim' follows exegesis phrasing rather than an explicit classical rhetorical label; mapping should be checked against Jurjani/Sakkaki terminology.",
+        "quran_ref": "S2:A107",
+        "rhetorical_effect": "Frames the verse as moral/religious counsel, steering the audience toward acceptance of divine decisions (reassurance and submission)."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "m uqābala (contrast)",
+        "source_quote_ar": "فهو يملك أموركم ويدبرها ويجريها على حسب ما يصلحكم",
+        "claim_ar": "مقابلة بين ملك الله وإدارته لأمور العباد وغياب وليّ أو نصير لهم من دون الله؛ التباين يعمّق فكرة الاستعلاء الإلهي والاستغناء عن غيره.",
+        "claim_en": "Contrast (muqabalah) between God's complete dominion/management of affairs and the absence of any protector/helper besides Him; the contrast emphasizes divine supremacy and human dependence.",
+        "device_branch": "badi",
+        "device_subtype": "m uqābala (m uqabalah / contrast)",
+        "root": "ملك",
+        "lemma": "مُلْك",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling as 'muqabalah' is interpretive (contrastive device); verify against classical definitions and whether commentator intended rhetorical contrast explicitly.",
+        "quran_ref": "S2:A107",
+        "rhetorical_effect": "Strengthens exclusivity of God's sovereignty and undercuts any claim to alternative guardianship—induces humility and reliance on God alone."
+      }
+    ],
+    "warnings": [
+      "The source chunks provided are exegetical (Zamakhshari/Safi) rather than direct extracts from classical rhetoricians (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti). Device labels here are mapped from the commentary and may require verification against the specific terminologies used by those rhetoricians.",
+      "Some device assignments (especially subtype naming) are interpretive when bridging tafsir language to the requested device taxonomy; please review 'device_subtype' mappings for conformity with your canonical list."
+    ]
+  },
+  "n_chunks": 12
+}

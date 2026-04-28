@@ -1,0 +1,36 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:111",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "irab",
+        "source_quote_ar": "(تِلْكَ) : يَجُوزُ أَنْ يَكُونَ مُبْتَدَأً، وَ «آيَاتُ الْكِتَابِ» : خَبَرُهُ.",
+        "claim_ar": "يجوز أن تكون «تِلْكَ» مبتدأً، واسم الإشارة «تِلْكَ» خبرها يكون الاسم التالي مرفوعًا كخبر (بمثال «تِلْكَ آيَاتُ الْكِتَابِ»). بالتطبيق على هذه الآية: «تِلْكَ» يجوز أن تكون مبتدأً و«أَمَانِيُّهُمْ» خبرها.",
+        "claim_en": "The demonstrative «تِلْكَ» may function as a mubtada' (subject), with the following noun phrase serving as its khabar (predicate). Applied to this verse: «تِلْكَ» can be the subject and «أَمَانِيُّهُمْ» its predicate.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The source explicitly treats the construction «تِلْكَ آيَاتُ الْكِتَابِ». Applying that analysis to «تِلْكَ أَمَانِيُّهُمْ» is inferential (not the exact phrase in the quoted passage) and should be checked against any direct commentary on S.2:111."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَ «آيَاتُ» بَدَلٌ، أَوْ عَطْفُ بَيَانٍ.",
+        "claim_ar": "المؤلف يورد احتمالاً وجهاً آخر: أن الاسم التالي قد يكون بدلًا أو عطف بيانٍ لما قبلَه. بالتطبيق على هذه الآية: «أَمَانِيُّهُمْ» قد تُفهم كبدل أو عطف بيانٍ عن «تِلْكَ»/«أُولَئِكَ».",
+        "claim_en": "The author gives an alternative reading: the following noun may be a badal (substitute/appositive) or an 'atf bayan' (explanatory conjunction) of the demonstrative. Applied here: «أَمَانِيُّهُمْ» could be read as a badal or explanatory apposition of «تِلْكَ/أُولَئِكَ».",
+        "root": "مني",
+        "lemma": "أُمْنِيَّت",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted sentence speaks of «آيَاتُ» being badal/‘atf-bayan; mapping that possibility to «أَمَانِيُّهُمْ» in S.2:111 is an extrapolation and should be verified against direct commentary on this verse."
+      }
+    ],
+    "warnings": [
+      "The quoted passages in the provided chunks discuss the construction «تِلْكَ آيَاتُ الْكِتَابِ» and related demonstrative + noun patterns. They do not explicitly quote or parse the exact phrase «تِلْكَ أَمَانِيُّهُمْ» / «أُولَئِكَ أَمَانِيُّهُمْ» from S.2:111; the claims above apply that analysis analogically to this verse. Verify against commentary that treats S.2:111 directly.",
+      "Only a subset of al-Tibyan chunks was provided; other relevant analyses in the work (or other transmitters) about this specific verse may exist and are not represented here."
+    ],
+    "quran_ref": "S2:A111"
+  },
+  "n_chunks": 12
+}

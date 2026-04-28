@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:195",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "الَّذِينَ اسْتَجابُوا",
+        "claim_ar": "فَاسْتَجَابَ لَهُمْ رَبُّهُمْ",
+        "claim_en": "The verb فَاسْتَجَابَ placed at the opening of the phrase draws attention to the immediacy and effectiveness of God's response — a rhetorical shift of focus (iltifāt) that moves the discourse from the supplicants to the divine reaction.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "جوب",
+        "lemma": "اسْتَجَابَ",
+        "confidence": "medium",
+        "needs_review_reason": "Verb‑first order is common in Arabic narrative; identifying it as iltifat depends on comparative context and on treating the verb as a deliberate rhetorical pivot rather than normal syntax."
+      },
+      {
+        "word_index": 25,
+        "claim_type": "m uqābalah",
+        "source_quote_ar": "وَيَقْتُلُونَ",
+        "claim_ar": "وَقَاتَلُوا وَقُتِلُوا",
+        "claim_en": "The pairing of active and passive verbs (قَاتَلُوا … قُتِلُوا) creates a balanced antithesis/reciprocal parallel (muqābalah/tibāq) that highlights both the actors' struggle and their sacrifice; the mirrored forms reinforce the moral and eschatological reward promised.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "قتل",
+        "lemma": "قَٰتَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling this pattern as muqabalah (balanced antithesis) is plausible, but the precise subtype (tibāq vs. muqābalah) may be debated among rhetoricians; the supporting source quote is a related verb form from the available commentary rather than the exact ayah phrasing."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are commentary excerpts (I'rab and al-Kashshaf) and do not include the full classical balagha treatises named (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, tafsīr‑balāgha). Claims above use only substrings that appear in the supplied chunks.",
+      "Some device assignments (e.g., iltifat, muqābalah) are interpretive and depend on broader rhetorical context; see 'needs_review_reason' for details.",
+      "In a few cases the source_quote_ar is a related form found in the commentary rather than the exact ayah substring — this limits direct textual corroboration and recommends expert review."
+    ]
+  },
+  "n_chunks": 12
+}

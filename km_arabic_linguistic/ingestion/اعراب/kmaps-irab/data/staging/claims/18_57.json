@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "18:57",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "«مَنْ» اسْتِفْهَامٌ فِي مَوْضِعِ مُبْتَدَأٍ",
+        "claim_ar": "«مَنْ» هنا استفهام في موضع مبتدأ",
+        "claim_en": "'مَنْ' is an interrogative in the position of a mubtada' (subject)",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "«يَضِلُّ» الْخَبَرُ",
+        "claim_ar": "الفعل الخبري التالي لمَنْ (أي: أَظْلَمُ) في مقام الخبر",
+        "claim_en": "The verb following the interrogative 'مَنْ' (here: 'أَظْلَمُ') functions as the predicate (khabar) of 'مَنْ'.",
+        "root": "ظلم",
+        "lemma": "أَظْلَم",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source gives the pattern using the verb «يَضِلُّ» as the explicit example; applying it to «أَظْلَمُ» is an analogical inference rather than an explicit quotation."
+      }
+    ],
+    "warnings": [
+      "Only one source chunk (al-Tibyan chunk_id f0ec4ac9...) directly discusses the syntactic pattern of «مَنْ» as an interrogative مبتدأ and the following verb as خبر. Other provided chunks do not contain explicit quotes about the words of S18:A57.",
+      "Some claims (notably the claim about أَظْلَمُ as خبر) are inferred by analogy from the example «يَضِلُّ» in the source rather than being an explicit mention of the exact word from the ayah. Review by a specialist is recommended if strict one-to-one source quotation is required."
+    ]
+  },
+  "n_chunks": 12
+}

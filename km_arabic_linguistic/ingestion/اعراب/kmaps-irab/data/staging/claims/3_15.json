@@ -1,0 +1,13 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:15",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extraction performed: none of the provided source_chunks contain text quoting or commenting on the requested ayah (S3:A15).",
+      "Per instructions, source_quote_ar must be an exact substring of one of the provided chunks; since no such substring related to this ayah was found, no claims could be extracted.",
+      "If you want claims from al-Tibyan on this specific ayah, please provide the chunk(s) that include the commentary or exact quoted phrases for this verse."
+    ]
+  },
+  "n_chunks": 12
+}

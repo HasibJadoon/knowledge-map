@@ -1,0 +1,8 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:19",
+  "result": {
+    "error": "Invalid JSON structure. The provided text is not valid JSON."
+  },
+  "n_chunks": 16
+}

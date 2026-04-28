@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "32:2",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "تَنْزِيلٌ مِنَ الرَّحْمَنِ الرَّحِيمِ",
+        "claim_ar": "تَنْزِيلٌ: مبتدأ في جملة اسمية \"تَنْزِيلٌ مِنَ الرَّحْمَنِ الرَّحِيمِ\"",
+        "claim_en": "\"تنزيل\" is a mubtada' (subject) in the nominal sentence \"تنزيلٌ من الرحمن الرحيم\".",
+        "root": "نزل",
+        "lemma": "تَنزِيل",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk presents \"تَنْزِيلٌ\" with tanwīn (indefinite) as an independent مبتدأ, whereas the target ayah has \"تَنْزِيلُ الْكِتَابِ\" in an idāfa construction; the syntactic relation may differ in the actual verse form."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taalluq",
+        "source_quote_ar": "تَنْزِيلٌ مِنَ الرَّحْمَنِ الرَّحِيمِ",
+        "claim_ar": "شبه الجملة \"مِنَ الرَّحْمَنِ الرَّحِيمِ\" تَتَعَلَّقُ بـ \"تَنْزِيلٌ\" كخبر (جرّ ومجرور متعلق بالمبتدأ).",
+        "claim_en": "The prepositional phrase \"من الرحمن الرحيم\" is attached to (depends on) \"تنزيل\" as its predicate (i.e., a genitive/prepositional phrase functioning as the خبر of the مبتدأ).",
+        "root": "نزل",
+        "lemma": "تَنزِيل",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary treats \"تنزيلٌ مِنَ...\" as a nominal phrase with a following جار ومجرور as its خبر; in the ayah form given (\"تنزيلُ الكتابِ ...\") the attachment relations may change (idāfa to كتاب), so the dependency should be rechecked against the exact verse text."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "كِتَابٌ فُصِّلَتْ آيَاتُهُ قُرْآنًا عَرَبِيًّا",
+        "claim_ar": "كِتَابٌ: مبتدأ في العبارة \"كِتَابٌ فُصِّلَتْ آيَاتُهُ قُرْآنًا عَرَبِيًّا\"",
+        "claim_en": "\"كتاب\" functions as a mubtada' (subject) in the phrase \"كتابٌ فُصِّلَتْ آياتهُ قرآنًا عربيًا.\"",
+        "root": "كتب",
+        "lemma": "كِتَٰب",
+        "confidence": "low",
+        "needs_review_reason": "The cited passage treats an independent indefinite \"كتابٌ\" as a مبتدأ. In the target ayah the word is \"الْكِتَابِ\" (definite and in genitive after \"تَنْزِيلُ\"), so its syntactic status (e.g., مضاف إليه in an idāfa) differs; the commentary's statement may not directly apply to the ayah form without reconciliation."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks primarily cite nearby verses (e.g., the trio \"حم تنزيلٌ مِنَ الرَّحْمَنِ الرَّحِيمِ كِتَابٌ ...\") rather than the exact surface form of S32:A2 (\"تَنْزِيلُ الْكِتَابِ لا رَيْبَ فِيهِ مِنْ رَبِّ الْعَالَمِينَ\"). Consequently, quoted analyses may treat words as independent (indefinite) where the ayah here has an idāfa or different inflection; please verify attachments and case endings against the exact verse text.",
+      "Source_quote_ar fields are exact substrings from the chunks; some grammatical claims are inferred from those substrings but may require comparison with the precise vocalization/case endings in the target ayah."
+    ]
+  },
+  "n_chunks": 12
+}

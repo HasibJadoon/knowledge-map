@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:9",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "majaz",
+        "source_quote_ar": "مجازى مثله، لأنّ الأليم في الحقيقة هو المعذب",
+        "claim_ar": "وصف الرَّحْمَةِ كأمرٍ يُؤْتَى ويُنْزَعُ (أَذَقْنَا ... ثُمَّ نَزَعْنَاهَا) صورة مجازية — استعلاء المعنى المجازي حيث تُعامل الرحمة كمادة محسوسة تُؤخَذ وتُردّ.",
+        "claim_en": "The term 'rahmah' (mercy) is presented metaphorically as something tasted and then withdrawn (أَذَقْنَا ... ثُمَّ نَزَعْنَاهَا), treating mercy as a tangible commodity that can be given and taken—a majaz (metaphorical) device.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "رحم",
+        "lemma": "رَحْمَة",
+        "confidence": "medium",
+        "needs_review_reason": "Inference: the quoted source mentions 'مجازي' in a Quranic-commentary context but does not discuss this specific verse; applying it to رَحْمَةٍ here is plausible but should be checked against specialized tafsir/balagha on this ayah."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "tibaq",
+        "source_quote_ar": "ونظيرهما قولك: نهارك صائم، وجدّ جدّه.",
+        "claim_ar": "التقابل/التوازي بين الوصفين «لَيَئُوسٌ» و«كَفُورٌ» يعمل كـتكرار موازي (تضاد/تأكيد) يجسّد صفة نفسية ثم صفة سلوكية، لتعميق الحكم على الإنسان.",
+        "claim_en": "The pairing of the adjectives 'layyūs' (despairing) and 'kafūr' (ingratitude) forms a parallel/antithetical pairing (tibaq), presenting an internal disposition and an external attitude in juxtaposition to intensify the moral judgment.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "ياس",
+        "lemma": "يَـُٔوس",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting quote illustrates parallel examples in commentary but does not explicitly analyze this exact adjective pairing; classification as tibaq is interpretive and should be validated by balagha-specific commentary on Hud 11:9."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "(الواو) عاطفة",
+        "claim_ar": "استخدام حروف الربط والشرط (مثلاً: وَلَئِنْ في بداية الجملة ووجود ثُمَّ في التراكيب المتوالية) لربط الجمل وإظهار التتابع والنتيجة — أي فصل ووصل معنوي بين الجزئين (إعطاء النعمة ثم نزعها).",
+        "claim_en": "Use of connective/conditional particles (e.g. وَلَئِنْ at the start and ثُمَّ indicating sequence) creates logical linking (fasl/wasl) between clauses — connecting the giving of mercy and its withdrawal to highlight consequence.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "وَلَئِنْ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted fragment '(الواو) عاطفة' shows grammatical commentary about conjunctions; applying this to the clause-structure of this ayah is reasonable but inferential — requires review by a stylistic tafsir to confirm the intended balagha label."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are general grammatical/tafsir excerpts (Zamakhshari, Darwish, Safi) and are not from the specific balagha authors requested (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha).",
+      "The quoted substrings are exact excerpts from the supplied chunks but mostly discuss rhetorical/grammatical phenomena in general or by analogy; they do not explicitly analyze S11:A9. The claims therefore are interpretive inferences that should be verified against specialized balagha/tafsir sources addressing this verse directly.",
+      "Some device assignments (e.g., tibaq vs. muqabalah, or labeling of majaz) involve judgment calls; please have a subject-matter expert review and, if possible, supply direct balagha citations for Hud 11:9."
+    ]
+  },
+  "n_chunks": 12
+}

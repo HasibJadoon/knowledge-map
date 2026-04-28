@@ -1,0 +1,29 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "توكيد (ذكر أحدهما مع الآخر)",
+        "source_quote_ar": "يذكر أحدهما مع الآخر للتوكيد",
+        "claim_ar": "إيراد «ذَلِكُمْ» مع «وَأَنَّ» لرفع حِدّة التوكيد والإِثبات",
+        "claim_en": "The pairing of «ذَلِكُمْ» with «وَأَنَّ» functions to heighten emphasis and affirmation.",
+        "device_branch": "maani",
+        "device_subtype": "توكيد بالتقارن/الاقتران (ذكر أحدهما مع الآخر)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The provided source (al-Kashshaf chunk) explicitly states the rhetorical practice 'يذكر أحدهما مع الآخر للتوكيد'. Mapping this description to the project's allowed maani subtypes required choosing an appropriate label ('توكيد') not listed verbatim in the brief; confirm that this maps to an accepted subtype (e.g., fasl_wasl or ijab_inshaa) if strict taxonomy is enforced.",
+        "quran_ref": "S8:A18",
+        "rhetorical_effect": "يقوّي حُجّة البيان ويؤكِّد سبب ما سبق (يزيد من ثِقَلِ الحكم والتأكيد على فاعلية الله في إضعاف كيد الكافرين)."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are all from Zamakhshari (al-Kashshaf). No excerpts from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or explicit 'tafsir balagha' sections were supplied—claims limited to available source material.",
+      "The project's allowed maani subtype list did not include the exact label 'توكيد' mentioned in the source; I chose a descriptive subtype ('توكيد بالتقارن/الاقتران'). Please confirm mapping to the canonical subtype taxonomy (e.g., fasl_wasl or ijab_inshaa) if strict conformity is required.",
+      "Only one clear, well-attested rhetorical claim was found in the provided chunks tied to this ayah; other plausible devices (e.g., concision, metaphor) lacked direct support in the supplied source snippets and were therefore not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

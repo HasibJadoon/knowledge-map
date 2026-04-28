@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:95",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "يَحْلِفُونَ بِاللَّهِ ما قالُوا",
+        "claim_ar": "جملة مستأنفة مسوقة لبيان ما صدر عنهم من الأعمال المنكرة الموجبة للأمر بجهادهم والغلظة عليهم",
+        "claim_en": "A resumed (استئنافية) sentence introduced here to present what they did; it serves to set out their objectionable acts that justify the injunction to fight them and to be stern with them.",
+        "device_branch": "other",
+        "device_subtype": "استئناف مسوقة",
+        "root": "حلف",
+        "lemma": "حَلَفْ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A95",
+        "rhetorical_effect": "Frames the following description as evidence of misconduct, foregrounding their hypocrisy and legitimizing the commanded response."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "وَمَأْواهُمْ جَهَنَّمُ وَبِئْسَ الْمَصِيرُ",
+        "claim_ar": "الواو هنا واو استئنافية، والجملة مستأنفة مسوقة لبيان مآل أمرهم",
+        "claim_en": "The conjunction waw here functions as a resumptionary 'waw' (واو استئناف); the resumed sentence presents the outcome (their abode is Hell), thereby emphasizing their doom.",
+        "device_branch": "maani",
+        "device_subtype": "واو استئنافية / استئناف",
+        "root": "اوي",
+        "lemma": "مَأْوَىٰ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A95",
+        "rhetorical_effect": "Creates an emphatic transition to the final judgment, intensifying condemnation and leaving a strong impression of punishment."
+      }
+    ],
+    "warnings": [
+      "Extraction limited to substrings actually present in the provided source_chunks. Other plausible devices in the verse (for example the repetition of 'عَنْهُمْ' or rhetorical force of the oath) could not be asserted because the exact phrasing was not found in the given chunks.",
+      "Some source commentary offers alternative grammatical readings (e.g., multiple explanations for the waw). I selected the commentator's stated conclusion (واو استئنافية) with high confidence; if other commentators are added, additional device readings might appear."
+    ]
+  },
+  "n_chunks": 12
+}

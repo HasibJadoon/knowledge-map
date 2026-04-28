@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "8:45",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "كثر في القرآن النداء ب ( يا أيها ) دون غيره",
+        "claim_ar": "النداء بـ«يا أيها» في بداية الآية أداة نداء قوية للتنبيه والتأكيد على المخاطَب.",
+        "claim_en": "The vocative formula 'يا أيها' at the start functions as a strong vocative/attention-calling formula, used for emphasis and intense admonition of the addressees.",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

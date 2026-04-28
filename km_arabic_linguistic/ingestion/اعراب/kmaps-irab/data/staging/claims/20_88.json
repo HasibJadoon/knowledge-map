@@ -1,0 +1,47 @@
+{
+  "layer": "irab",
+  "ayah_key": "20:88",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "وَقُرِئَ النَّاسِي يُرِيدُ آدَمَ، وَهِيَ صِفَةٌ غَلَبَتْ عَلَيْهِ كَالْعَبَّاسِ وَالْحَرْثِ",
+        "claim_ar": "وردت قراءة «النَّاسِي» بدلاً من «نَسِيَ» بحيث تُؤخذ صيغةً وصفيةً (صفة غالبة) لا فعلاً.",
+        "claim_en": "A reading is reported as «الناسي» instead of «نَسِيَ», taking a descriptive/adjectival form (a predominant adjective) rather than a verb.",
+        "root": "نسي",
+        "lemma": "النَّاسِي",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَلَكِنْ خَلَطَهُ فِي اللَّفْظِ عَلَى عَادَتِهِمْ فِي نَظَائِرِهِ؛ كَقَوْلِهِمْ: أَخْزَى اللَّهُ الْكَاذِبَ مِنِّي وَمِنْكَ.",
+        "claim_ar": "المؤلف يشير إلى عادةٍ لغويةٍ تتمثل في خلط اللفظ لدى الناس في نظائر الكلمات، مما يبيح قراءة بديلة مثل «النَّاسِي».",
+        "claim_en": "The author notes a linguistic habit of mixing forms in speech in such cases, which permits an alternative reading like «الناسي».",
+        "root": "نسي",
+        "lemma": "نَسِيَ",
+        "confidence": "medium",
+        "needs_review_reason": "Requires cross-check with variant-readings apparatus and other grammar sources to confirm that this general remark is intended to justify the specific reading for this verse."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "وَهِيَ صِفَةٌ غَلَبَتْ عَلَيْهِ كَالْعَبَّاسِ وَالْحَرْثِ وَدَلَّ عَلَيْهِ قَوْلُهُ (فَنَسِيَ وَلَمْ نَجِدْ لَهُ عَزْمًا)",
+        "claim_ar": "قراءة/تأويل الصيغة هنا تُظهر أن المعنى يحمل صفةً غالبةً تدلُّ على عدم العزم (أي: يدل قوله «فنسي» على عدم العزم).",
+        "claim_en": "This reading/interpretation shows a predominant descriptive sense that indicates lack of firm resolve (i.e., the phrase «فَنَسِيَ» implies absence of resolve).",
+        "root": "نسي",
+        "lemma": "نَسِيَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited exemplifying phrase comes from a different verse (طه:115) in the source; application to S20:A88 should be verified in context."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks discuss readings and usages (including a quotation from طه:115) that are not explicitly the same verse S20:88. Claims about S20:88 are inferred from those discussions; verify with the full entry for this specific verse.",
+      "Only the final verb (فَنَسِيَ) appears to be addressed in the supplied source chunks. No explicit irab (syntactic role) or taʿalluq claims for other words in the ayah are present in the given excerpts, so no such claims were extracted.",
+      "Some claims rest on a reported alternative reading («النَّاسِي») — consult a qiraʼat apparatus and other classical iʿrāb commentaries to confirm acceptance and implications of that reading for this verse."
+    ]
+  },
+  "n_chunks": 12
+}

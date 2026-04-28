@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:61",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "نزلت في رجل من المنافقين يقال له: بشر.",
+        "claim_ar": "ذكرت المصادر أن هذه الآية نزلت في رجل من المنافقين يقال له بشر، أي تخصيص الموقف بقصة خاصة.",
+        "claim_en": "Sources report that this verse was revealed concerning a specific hypocrite called Bishr — i.e., the verse is tied to a particular incident involving a named hypocrite.",
+        "device_branch": "other",
+        "device_subtype": "nuzul_specification",
+        "root": "نزل",
+        "lemma": "نزل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain limited explicit rhetorical (بلاغة) analysis for S4:61. Only a nuzul/revelation-context statement (specification that the verse was revealed concerning a particular hypocrite) was found verbatim in the chunks.",
+      "No direct substrings in the provided chunks contained the verse wording (e.g., «يَصُدُّونَ عَنْكَ صُدُودًا») or explicit classical comments on devices such as تكْرار، إلتفات، تشبيه, بيان, or بديع for this ayah, so other potential rhetorical readings could not be extracted with the required source-quote evidence."
+    ]
+  },
+  "n_chunks": 12
+}

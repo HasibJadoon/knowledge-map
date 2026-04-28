@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:65",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "ثلاث سنين",
+        "claim_ar": "حصر المدة بذكر العدد «ثَلَاثَة» يفيد التحديد والتقنين في الزمن ويعطى وقعًا بلاغيًا للتأكيد على قصر المهلة.",
+        "claim_en": "Limiting the period by the numeral 'three' effects rhetorical restriction and precision of time, giving an emphatic weight to the shortness of the term.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "ثلث",
+        "lemma": "ثَلَٰثَة",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting quote is from the provided tafsir chunk ('ثلاث سنين') rather than an explicit discussion of this ayah's phrase 'ثَلَاثَةَ أَيَّامٍ'; the connection is plausible but indirect and should be reviewed."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "iltifat",
+        "source_quote_ar": "قوله إِنِّي لَكُمْ نَذِيرٌ مُبِينٌ",
+        "claim_ar": "الانتقال من السرد إلى كلام مباشر بـ«فَقَالَ» يمثل التِفاتًا (انقلابًا في الأسلوب) يحول الانتباه من الرواية إلى القول ويوجه الخطاب مباشرة إلى المتلقّي.",
+        "claim_en": "The shift from narrative to direct speech with 'fa-qala' constitutes an iltifat (stylistic turn) that redirects attention from narration to direct address, engaging the audience.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote shows a discussion of reported/direct speech ('قوله ...') in the tafsir chunk, but it does not mention this ayah explicitly; the application to this verse is inferential and should be checked."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "ما جِئْتَنا بِبَيِّنَةٍ",
+        "claim_ar": "الجملة الختامية «ذَٰلِكَ وَعْدٌ غَيْرُ مَكْذُوبٍ» تعمل على الإيجاز والتأكيد، إذ تختزل تقريرًا قويًا بأن الوعد لا يُكذَّب.",
+        "claim_en": "The closing formula 'that is a pledge not to be denied' functions as concise, emphatic wording (ijaz), compactly asserting the irrevocability/truth of the promise.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "وعد",
+        "lemma": "وَعْد",
+        "confidence": "low",
+        "needs_review_reason": "The supporting tafsir quote ('ما جِئْتَنا بِبَيِّنَةٍ') illustrates a related theme (proof/assertion) but does not directly analyze this ayah's closing clause; the claim is interpretive and requires specialist verification."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are all from Zamakhshari (al-Kashshaf); the original request named other rhetoricians (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). The available quotations used as 'source_quote_ar' come from these supplied chunks only and may not reflect the analyses of the requested authors.",
+      "Some source_quote_ar substrings are related thematically but do not explicitly discuss this specific ayah; therefore the device assignments are inferential and should be reviewed by a human expert for confirmation.",
+      "If you can supply the exact al-Jurjani / al-Sakkaki / al-Baqillani / al-Suyuti / tafsir-balagha chunks for this ayah, I can re-extract claims with higher confidence and more direct source matches."
+    ]
+  },
+  "n_chunks": 12
+}

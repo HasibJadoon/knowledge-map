@@ -1,0 +1,25 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:19",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "في هذه الآية ضرب من البلاغة دقيق المسلك وهو وضع الظاهر موضع المضمر زيادة في تقبيح أمرهم",
+        "claim_ar": "وضع الظاهر موضع المضمر لزيادة في تقبيح أمرهم",
+        "claim_en": "Placing the explicit/visible expression (الظاهر) where the implicit (المضمر) would normally be expected, in order to increase the reprehensibility of their action.",
+        "device_branch": "other",
+        "device_subtype": "وضع الظاهر موضع المضمر",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A19",
+        "rhetorical_effect": "زيادة في تقبيح الفعل، تعزيز الإدانة والتقبيح من خلال إبراز الظاهر بدل الاقتصار على الإشارة الضمنية"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

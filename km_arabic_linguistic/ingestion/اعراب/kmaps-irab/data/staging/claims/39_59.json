@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "39:59",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contains an exact Arabic substring quoting or discussing سورت S39:آية 59 (بَلَى قَدْ جَاءَتْكَ آيَاتِي ...). No exact-match source_quote_ar was found to support extraction of إعراب claims for this ayah, so no claims were produced."
+    ]
+  },
+  "n_chunks": 12
+}

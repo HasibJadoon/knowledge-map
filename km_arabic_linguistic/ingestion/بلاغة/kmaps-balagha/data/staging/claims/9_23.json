@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:23",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "maani: ijab_inshaa",
+        "source_quote_ar": "هو أمر في معنى الخبر",
+        "claim_ar": "فعل النهي/الأمر «لَا تَتَّخِذُوا» يُوظَّف هنا كأمر في معنى الخبر (أمر يُعرض بصيغة الخبر لإيصال النتيجة والتحذير بفعالية بلاغية).",
+        "claim_en": "The prohibitive/imperative phrase 'لَا تَتَّخِذُوا' is used here as an 'imperative in the sense of a statement' (the command is presented like a declarative), a rhetorical move that frames prohibition as a factual/announced consequence to increase persuasive force.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "اخذ",
+        "lemma": "اتَّخَذَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A23",
+        "rhetorical_effect": "يصيغ النهي بأسلوب يقرره كحقيقة مؤكدة، فيشدّ من أثر التحذير ويحوّل الإرشاد إلى حكم واضح ومبلغاً عنه."
+      }
+    ],
+    "warnings": [
+      "تحليلنا استند إلى المقتطفات المزودة. المقتطفات تحتوي صراحة على عبارة تفسيرية واحدة ('هو أمر في معنى الخبر') فكان ذلك مصدر المطابقة الوحيد المباشر للآية. قد توجد أجهزة بلاغية إضافية في الآية (مثل مقابلة بين الكفر والإيمان، أو توكيد عبر الترتيب «آبَاءَكُمْ وَإِخْوَانَكُمْ») لكن لم أعثر على اقتباس مطابق حرفياً في المقاطع المزودة يدعم ادعاء بلاغي إضافي؛ لذلك لم تُدرج مزيد من الادعاءات دون مصدر نصي مطابق."
+    ]
+  },
+  "n_chunks": 12
+}

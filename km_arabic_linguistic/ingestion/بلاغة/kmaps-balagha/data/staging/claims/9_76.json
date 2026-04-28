@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:76",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "من فضل",
+        "claim_ar": "مقابلة بين عطية الله ('آتَاهُمْ مِن فَضْلِهِ') وبخلهم ('بَخِلُوا بِهِ') لإبراز التناقض والنفاق والجحود",
+        "claim_en": "Contrast (muqabalah) between God's giving ('He gave them of His bounty') and their stinginess ('they were miserly with it'), highlighting hypocrisy and ingratitude.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A76",
+        "rhetorical_effect": "يفضح النفاق والإنكار بنقض التوقع: أعطيتهم نعمة ثم يعاملونها بالبخل"
+      }
+    ],
+    "warnings": [
+      "لم تُدرَج في القطع المصدرية النصّ الكامل للآية؛ استُخدمت اقتباسات جزئية موجودة في القطع المقدمة (مثلاً «من فضل»).",
+      "المطالبة بالاستشهاد النصّي تطلبت اختيار مقتطفات موجودة في الشُّروح المتاحة بدل الاقتباس الحرفي للآية كاملة."
+    ]
+  },
+  "n_chunks": 12
+}

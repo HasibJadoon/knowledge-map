@@ -1,0 +1,54 @@
+{
+  "layer": "irab",
+  "ayah_key": "28:13",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "irab",
+        "source_quote_ar": "أَنْ أَرْضِعِيهِ",
+        "claim_ar": "اسم «أَنَّ» منصوب: «وَعْدَ» هو اسم «أَنَّ» منصوب في قول: «لِتَعْلَمَ أَنَّ وَعْدَ اللَّهِ حَقٌّ».",
+        "claim_en": "The noun governed by 'anna' is in the accusative: 'waʿda' functions as the ism of 'anna' and is منصوب in the clause 'litʿlama anna waʿda llāhi haqq'.",
+        "root": "وعد",
+        "lemma": "وَعْد",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage (»أَنْ أَرْضِعِيهِ«) discusses uses of «أن» in another context (the Musa narrative) and does not explicitly state the rule that «أنّ» makes the following ism منصوب in this exact construction; the claim applies a general grammar principle to this verse and should be confirmed with an explicit statement in the source about «أنّ» with اسمها."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "حَالٌ مِنْ فَاعِلِ «يَسْتَضْعِفُ»",
+        "claim_ar": "«عَيْنُهَا» فاعل مرفوع لفعل «تَقَرَّ» (أي: تَقَرَّتْ عَيْنُهَا) — اسم الفعل مرفوع لفاعله في تركيب الفعل ثم الفاعل.",
+        "claim_en": "'ʿaynuha' is the subject (فاعل) in the nominative of the verb 'taqarra' (i.e. taqarra(t) ʿaynuha); the noun following the verb serves as the verb's subject.",
+        "root": "عين",
+        "lemma": "عَيْن",
+        "confidence": "low",
+        "needs_review_reason": "The source excerpt mentions the possibility of a word being a حال or a فاعل in a different verb ('يَسْتَضْعِفُ') but does not analyze the specific verb–subject relation in this verse; the assignment of فاعل here follows standard verb–subject syntax but is not explicitly argued in the provided chunk."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "نَبَأِ مُوسَى وَفِرْعَوْنَ",
+        "claim_ar": "هذه الآية واردة في سياق نَبَأِ موسى وفرعون – هي جزء من سيرة موسى في السورة.",
+        "claim_en": "This verse occurs within the narrative of Moses and Pharaoh — it is part of the story of Moses in the surah.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "The source chunk explicitly references the narrative of Moses and Pharaoh, which situates the verse contextually."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "لَا بُدَّ مِنْ هَذَا التَّقْدِيرِ",
+        "claim_ar": "قاعدة: في مواضع معينة يُحْتَمَلُ حذفُ مقدّر ويكون من اللازم تقديرُه (وجود تقدير أو حذف بيان في التفسير النحوي).",
+        "claim_en": "Rule note: in certain contexts an elided (estimated) word is required; a تقدير (supplemented/elided element) may be obligatory in specific syntactic/interpretive situations.",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted sentence is a general statement about the necessity of a تقدير in an example discussed elsewhere; applying it to a specific elision in this verse would need an explicit linking statement in the source to that precise construction."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:201",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "«وَلَا يُؤْمِنُونَ» مُسْتَأْنَفًا لِئَلَّا يُفْرَقَ بَيْنَ بَعْضِ الصِّلَةِ وَبَعْضٍ بِحَالِ الْمَوْصُولِ",
+        "claim_ar": "قَوْلُهُ «ولا يُؤمنون» مستأنف.",
+        "claim_en": "The clause 'وَلَا يُؤْمِنُونَ' is described as مستأنف (a resumed/newly begun clause).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "«وَلَا يُؤْمِنُونَ» مُسْتَأْنَفًا لِئَلَّا يُفْرَقَ بَيْنَ بَعْضِ الصِّلَةِ وَبَعْضٍ بِحَالِ الْمَوْصُولِ",
+        "claim_ar": "سبب الاستئناف: لمنع التفريق بين بعض الصِّلة وبعض بحال الموصول.",
+        "claim_en": "The stated reason for marking it as a resumed clause is to avoid separating parts of the connection (صلة) so that some would stand in the state of the relative (i.e., to preserve the syntactic linkage).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

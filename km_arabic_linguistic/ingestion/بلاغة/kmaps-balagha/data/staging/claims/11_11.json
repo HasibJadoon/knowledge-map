@@ -1,0 +1,23 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:11",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "ما من رسول إلا واجه قومه بهذا القول",
+        "claim_ar": "حصر واستثناء بالبادئة «إِلَّا» لتخصيص الثواب والمغفرة بفئة مخصوصة (الذين صَبَرُوا وَعَمِلُوا الصَّالِحَاتِ).",
+        "claim_en": "Restriction by exception using the particle 'إِلَّا' to single out the recipients of forgiveness and the great reward (those who were patient and did righteous deeds).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

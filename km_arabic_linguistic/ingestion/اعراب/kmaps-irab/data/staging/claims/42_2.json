@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "42:2",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "كتبت فواتح السور على صورة الحروف أنفسها; لا على صورة النطق بها",
+        "claim_ar": "حروف الفواتح (مثل 'عسق') تُكتَب في المصحف على صورة الحروف نفسها لا على صورة نطقها؛ أي الاكتفاء بشهرتها لا بتمثيل النطق.",
+        "claim_en": "The initial disjoined letters (like 'عسق') are written in the mushaf as the letters themselves, not as their pronunciation; i.e., they are presented by their familiar letter-forms rather than by phonetic representation.",
+        "root": "ع س ق",
+        "lemma": "عسق",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "وقطعت حم عسق دون المص و كهيعص طردا للأولى بأخواتها الستة .",
+        "claim_ar": "المجموعة 'عسق' مذكورة كمجموعة من الحروف المقطعة وموضوعة مع 'حم' ومنفصلة عن مجموعات أخرى مثل 'المص' و'كهيعص'.",
+        "claim_en": "'عسق' is listed as one of the muqatta'at groups and is grouped with 'حم' and set apart from other groups such as 'المص' and 'كهيعص'.",
+        "root": "ع س ق",
+        "lemma": "عسق",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The source chunks discuss 'عسق' as part of the muqattaʿat (disjoined letters) and not in the context of syntax/إعراب within a typical grammatical sentence; therefore no irab/ta'alluq/taqdir claims are present.",
+      "Root and lemma (ع س ق / عسق) were inferred for the lexical entry; the source chunk does not explicitly state the root or lemma."
+    ]
+  },
+  "n_chunks": 12
+}

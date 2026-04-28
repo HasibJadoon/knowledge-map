@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:13",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "«وهو» مبتدأ في موقع الابتداء (هُوَ ضمير مبني في محل مبتدأ)",
+        "claim_en": "'wa huwa' functions as a mubtada' (the independent pronoun 'huwa' serves as the subject/predicate marker).",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk gives the explicit statement 'وهو مبتدأ' but the example in the source is '(وَهُوَ اللَّهُ)'; application to '(وَهُوَ السَّمِيعُ الْعَلِيمُ)' is an extrapolation that should be checked."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "«السَّمِيعُ» خبر لـ «هو» (أي: السميع هو الخبر بعد «هو»).",
+        "claim_en": "'al-Samīʿ' is the predicate (khabar) of the pronoun 'huwa' (i.e., the predicate following 'huwa').",
+        "root": "سمع",
+        "lemma": "سَمِيع",
+        "confidence": "medium",
+        "needs_review_reason": "The source states the pattern using '(وَهُوَ اللَّهُ)'; treating 'السميع' as the خبر follows the same pattern but is inferred rather than shown verbatim in the chunks."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ نَعْتًا لِمَاءٍ،",
+        "claim_ar": "«الْعَلِيمُ» يمكن قراءته نعتًا (صفة) لـ «السَّمِيعِ».",
+        "claim_en": "'al-ʿAlīm' can be analyzed as a naʿt (adjective) modifying 'al-Samīʿ'.",
+        "root": "علم",
+        "lemma": "عَلِيم",
+        "confidence": "low",
+        "needs_review_reason": "The provided chunk states generally that a following word may be a نعت, but does not discuss this specific phrase; the assignment of نعت to 'العليم' here is a plausible reading but not explicitly treated in the given excerpts and needs confirmation."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not quote the exact verse text 'وَهُوَ السَّمِيعُ الْعَلِيمُ'; the claims above are extrapolated from analogous examples in the excerpts (e.g. '(وَهُوَ اللَّهُ)'). Verify with fuller commentaries or the specific section treating this verse.",
+      "Some lemma/root values are null where the source examples concern pronouns or substitutional examples; confirm morphological entries if needed."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:252",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "(إنّ)",
+        "claim_ar": "استخدام إنَّ في «وَإِنَّكَ لَمِنَ الْمُرْسَلِينَ» كحرف مشبه بالفعل للتوكيد، لتقوية خبر الانتماء إلى المرسلين.",
+        "claim_en": "Use of 'inna' in 'wa-innaka lamin al-mursalīn' as a particle (ḥarf) resembling a verb used for emphasis, strengthening the statement that the addressee is among the messengers.",
+        "device_branch": "maani",
+        "device_subtype": "توكيد (حرف مشبه بالفعل)",
+        "root": null,
+        "lemma": "إنَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided contain limited explicit rhetorical commentary for this specific verse; only the particle 'إنّ' is directly attested in the chunks (Safi - al-Jadwal). Other plausible devices for S2:252 (e.g., demonstrative تِلْكَ, iltifat, or emphatic positioning) are not explicitly discussed in the supplied chunks, so no further claims were extracted.",
+      "source_quote_ar values are exact substrings taken from the provided source chunks. If you can supply additional tafsir/balagha chunks that discuss this ayah specifically, more devices (e.g., iltifat, fasl/wasl, demonstrative force) may be extracted and added."
+    ],
+    "quran_ref": "S2:A252"
+  },
+  "n_chunks": 12
+}

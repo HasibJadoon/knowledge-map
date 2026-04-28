@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:42",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable rhetorical claims: none of the provided source_chunks contain the ayah text (وَإِذْ قَالَتِ الْمَلَائِكَةُ يَامَرْيَمُ إِنَّ اللَّهَ اصْطَفَاكِ وَطَهَّرَكِ وَاصْطَفَاكِ عَلَى نِسَاءِ الْعَالَمِينَ) or exact substrings of its key words/phrases (e.g. «يَامَرْيَمُ», «اصْطَفَاكِ», «طَهَّرَكِ», «نِسَاءِ الْعَالَمِينَ») in the supplied chunks.",
+      "Requirement: source_quote_ar must be an exact substring of one of the provided source_chunks. Because no matching substrings were found, no claims could be generated.",
+      "The requested authorial sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) or tafsir excerpts relevant to this ayah were not present in the provided chunks. Please supply chunks that include those authors' analyses or any chunk that contains exact quotations of the ayah or rhetorical commentary mentioning the ayah's phrases so that claims can be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "(إِلَّا وَجْهَهُ) : اسْتِثْنَاءٌ مِنَ الْجِنْسِ؛ أَيْ إِلَّا إِيَّاهُ، أَوْ مَا عُمِلَ لِوَجْهِهِ سُبْحَانَهُ.",
+        "claim_ar": "حرفُ «إِلَّا» هنا يُفهم على وجه الاستثناء من الجنس (استثناءٌ من الجنس: أي إِلَّا إِيَّاهُ أو ما عُمِل لِوَجْهِهِ).",
+        "claim_en": "'إِلَّا' functions as an exception of kind (استثناء من الجنس) — i.e. 'except it alone' or 'except what was done for its sake'.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The cited passage in al-Tibyan gives the example '(إِلَّا وَجْهَهُ)'. Applying the stated rule (استثناءٌ منَ الجنس) to this verse's occurrence of 'إِلَّا' (in «إِنْ هِيَ إِلَّا حَيَاتُنَا الدُّنْيَا») is an extrapolation from that example; the source does not quote this exact phrase."
+    ]
+  },
+  "n_chunks": 12
+}

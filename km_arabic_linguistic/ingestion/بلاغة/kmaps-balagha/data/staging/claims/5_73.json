@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:73",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وَما مِنْ إِلهٍ إِلَّا إِلهٌ واحِدٌ",
+        "claim_ar": "استخدام تركيب «ما ... إلا» للحصر والتأكيد على استغراق التوحيد: لا إله قط إلا إله واحد.",
+        "claim_en": "The phrase 'ما من إله إلا إله واحد' employs the 'ما ... إلا' construction to restrict and emphatically assert exclusivity (there is no deity except the One God), reinforcing monotheism.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "اله",
+        "lemma": "إِلَٰه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A73",
+        "rhetorical_effect": "Strengthens the doctrinal assertion of tawhid by excluding any possible plurality of deity; creates categorical, unequivocal denial of partners to God."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "(لَقَدْ كَفَرَ الَّذِينَ قالُوا)",
+        "claim_ar": "تكرير الشهادة عليهم بالكفر في افتتاح الآية وذكرهم بصيغة التكرار لشدّة الإدانة.",
+        "claim_en": "Repetition of the accusation of their disbelief: the verse repeats and foregrounds the statement that 'those who said (so) have indeed disbelieved', intensifying the condemnation.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A73",
+        "rhetorical_effect": "Heightens moral/religious censure and rhetorical force by restating and emphasising their culpability."
+      },
+      {
+        "word_index": 20,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "لَيَمَسَّنَّ الَّذِينَ كَفَرُوا مِنْهُمْ عَذَابٌ أَلِيمٌ",
+        "claim_ar": "استخدام صيغة التأكيد «لَيَمَسَّنَّ» بصيغة مستقبلية مؤكَّدة (اللام المشدّدة والنون) للتوكيد على حتمية الوعيد وشدّته.",
+        "claim_en": "The emphatic predictive construction 'لَيَمَسَّنَّ' (with emphatic lam and doubled nun) is used to strongly assert/forecast that a painful punishment will surely befall those among them who disbelieve.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "مسس",
+        "lemma": "مَسَّ",
+        "confidence": "medium",
+        "needs_review_reason": "Labelled as 'ijab_inshaa' to capture emphatic predictive force; mapping of this Arabic rhetorical phenomenon to the exact subtype name should be reviewed by a specialist (could alternatively be labelled as a specific emphatic future construction).",
+        "quran_ref": "S5:A73",
+        "rhetorical_effect": "Conveys inevitability and severity of divine punishment, prompting fear and seriousness in the addressee."
+      }
+    ],
+    "warnings": [
+      "Some rhetorical facets of this verse present in the Arabic text (for example, potential wordplay/paronomasia in «ثَالِثُ ثَلَاثَةٍ») were not discussed in the provided source_chunks and thus were not extracted. If you want extraction of such devices, please provide source material (chunks) that explicitly quote or analyze those phrases.",
+      "The assignment of the subtype 'ijab_inshaa' to the emphatic form «لَيَمَسَّنَّ» is based on its predictive emphatic function in the provided commentary; however, the exact taxonomy label may need confirmation with the user's preferred mapping of Arabic rhetorical terms to the supplied subtype list."
+    ]
+  },
+  "n_chunks": 12
+}

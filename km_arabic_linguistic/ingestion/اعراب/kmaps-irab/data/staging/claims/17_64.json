@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "17:64",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant iʿrāb claims found: none of the provided source_chunks contain any exact substring matching the words of S17:A64 (e.g. 'وَاسْتَفْزِزْ', 'مَنِ', 'اسْتَطَعْتَ', etc.). Cannot extract إعراب claims without source_quote_ar present in the chunks. Please provide source material that includes the ayah or relevant commentary passages."
+    ]
+  },
+  "n_chunks": 5
+}

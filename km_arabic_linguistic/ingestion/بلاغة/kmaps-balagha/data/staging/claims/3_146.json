@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:146",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "التكرير",
+        "source_quote_ar": "البلاغة: (التكرير) في هذه الآية فن التكرير.",
+        "claim_ar": "التكرير في هذه الآية: تكرار أداة النفي «وَمَا» وعبارات النفي «وَمَا ضَعُفُوا وَمَا اسْتَكَانُوا» لشدِّ التأكيد على ثبات المؤمنين وصبرهم.",
+        "claim_en": "Repetition in this verse: repeating the negation particle “wa-ma” and the negative phrases “wa-ma da'afu wa-ma istakanu” to strongly emphasize the steadfastness and patience of the believers.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "كرر",
+        "lemma": "تَكْرِير",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A146",
+        "rhetorical_effect": "تعزيز معنى الثبات والمصابرة لدى المؤمنين؛ تكثيف التأكيد عبر التكرار ليقوى الأثر البلاغي."
+      }
+    ],
+    "warnings": [
+      "المقاطع المرفقة تأتي من مصادر (Zamakhshari, Darwish i'rab)؛ لم ترد هنا مقتطفات من الجرجاني، السكّاكي، البقليّاني، السيوطي أو أقسام تفسير البلاغة المطلوبة. الاستدلال مقتصر على المقتطفات المتاحة.",
+      "تم استخراج مطالبة واحدة فقط (التكرير) لأنّها مذكورة صراحةً في أحد مقاطع المصادر المرفقة. لو توافرت مقاطع أخرى من مؤلفات البلاغة المذكورة قد تظهر أجهزة إضافية أو تفسيرات تفصيلية تستدعي إضافة مطالبات أو تعديل الثقة."
+    ]
+  },
+  "n_chunks": 12
+}

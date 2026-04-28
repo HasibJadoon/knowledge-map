@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "36:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "إِنْ هَاهُنَا مُخَفَّفَةٌ مِنَ الثَّقِيلَةِ",
+        "claim_ar": "إِنْ هنا مخففة من الثقيلة، والتقدير محذوف بعدها (مثل: «إنه كُنْتُمْ ...») أي وجود تقدير محذوف يتعلق بـإِنْ",
+        "claim_en": "The particle 'إِنْ' here is in its 'mukhafafa' (lightened) form; an implied (elided) predicate (taqdir) is present (for example: 'إنه كُنتُم ...').",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited explanation in the source treats the example «وَإِنْ كُنْتُمْ» and states a general rule about إِنْ being 'مخففة' with an implied تقدير; the source does not quote this specific ayah, so applying the rule to this verse assumes the same usage."
+      }
+    ],
+    "warnings": [
+      "The quoted passage in the source discusses the particle إِنْ in the example «وَإِنْ كُنْتُمْ» (saying it is 'مخففة' and has a تقدير). The source does not explicitly analyze S36:29; the claim applies that general rule to the إِنْ of S36:29 and should be reviewed for direct applicability to this specific verse."
+    ]
+  },
+  "n_chunks": 12
+}

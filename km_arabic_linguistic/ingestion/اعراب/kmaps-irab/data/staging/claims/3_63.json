@@ -1,0 +1,58 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:63",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "taqdir",
+        "source_quote_ar": "تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ",
+        "claim_ar": "تقديره: «ذلك» قبل «إنّ» - أي تقدير العبارة «ذلك بأن الله...»",
+        "claim_en": "The clause is to be understood with an implied 'dhālika' ('that') before 'inna' (i.e., the meaning is 'that, because God did not change...').",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A63"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "(وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ)",
+        "claim_ar": "«اللَّهَ» اسم «إنّ» منصوب (اسمها منصوب).",
+        "claim_en": "The word 'اللَّهَ' is the ism (subject) of 'inna' and therefore in the accusative (mansūb).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A63"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "(وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ)",
+        "claim_ar": "«عَلِيمٌ» خبر «إنّ» مرفوع.",
+        "claim_en": "The word 'عَلِيمٌ' is the predicate (khabar) of 'inna' and thus is nominative (marfūʿ).",
+        "root": "علم",
+        "lemma": "عَلِيم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A63"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "همزة «أنّ/إنّ» يجوز قراءتها مكسورة على الاستئناف (اختلاف قراءات في ضبط الحركة عند الوقف/الاستئناف).",
+        "claim_en": "The hamza of 'an/inn' may be read with a kasra on pausing (on isti'naf) — a reading variant affecting the vocalization of the particle.",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "Reading-variant statement applies to forms of 'أنّ/إنّ' in the cited example; checking applicability to the exact orthography/pronunciation of this verse's 'فَإِنَّ' in different Qiraʾāt is recommended.",
+        "quran_ref": "S3:A63"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

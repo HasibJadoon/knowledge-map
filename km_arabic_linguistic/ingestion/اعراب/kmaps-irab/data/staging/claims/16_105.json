@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "16:105",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "الَّذِينَ يَفْتَرُونَ عَلَى اللَّهِ الْكَذِبَ",
+        "claim_ar": "الْكَذِبَ: مفعولٌ بهٍ منصوبٌ للفعل (يَفْتَرِي/يَفْتَرُونَ).",
+        "claim_en": "The noun 'الْكَذِبَ' functions as the accusative object (maf'ul bihi) of the verb (يَفْتَرِي / يَفْتَرُونَ).",
+        "root": "كذب",
+        "lemma": "كَذِب",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the phrase but does not explicitly state the case ending; the object analysis is inferred from the phrase «...يَفْتَرُونَ ... الْكَذِبَ». The verb form in the source (يَفْتَرُونَ) differs from the ayah's form (يَفْتَرِي), so the mapping is inferential."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "الَّذِينَ يَفْتَرُونَ عَلَى اللَّهِ الْكَذِبَ",
+        "claim_ar": "الَّذِينَ: فاعلٌ مرفوعٌ للفعل (يَفْتَرِي/يَفْتَرُونَ) في جملةٍ فعليةٍ (أي: خبرية الفعل مرتبط بالفاعل اللاحق).",
+        "claim_en": "The relative pronoun 'الَّذِينَ' functions as the subject (fa'il, nominative) of the verb (يَفْتَرِي / يَفْتَرُونَ) in a verbal clause.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source shows the sequence 'الَّذِينَ يَفْتَرُونَ ...' but does not provide an explicit i'rab statement; the analysis that الَّذِينَ is the subject is inferred. The source's verb form is plural (يَفْتَرُونَ) while the ayah has a different vocalization (يفترِي), so correspondence requires review."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "taalluq",
+        "source_quote_ar": "لِتَفْتَرُوا عَلَى اللَّهِ الْكَذِبَ",
+        "claim_ar": "«الْكَذِبَ» متعلّق بفعل «يَفْتَرِي/يَفْتَرُونَ»؛ أي أن الكذب جارٍ كمفعولٍ للفعل المذكور.",
+        "claim_en": "The noun 'الْكَذِبَ' is syntactically linked (attached) to the verb (يَفْتَرِي / يَفْتَرُونَ) as its object.",
+        "root": "كذب",
+        "lemma": "كَذِب",
+        "confidence": "medium",
+        "needs_review_reason": "Attachment is inferred from the verbal phrase in the source; the source does not explicitly frame this as a ta'alluq statement and the verb forms differ between source and target ayah."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit, spelled-out i‘rāb for this specific ayah; the claims above are inferred from occurrences of the phrase «يَفْتَرُونَ ... الْكَذِبَ» in the source. The source uses the plural verb form (يَفْتَرُونَ / لِتَفْتَرُوا) whereas the ayah instance is presented with a different vocalization (يَفْتَرِي); this difference may affect precise i‘rāb and should be reviewed.",
+      "No explicit discussion in the supplied chunks about إِنَّمَا, أُولَئِكَ هُمُ الْكَاذِبُونَ, or the full sentence-level analysis of the ayah was found; additional source material may change or refine these claims."
+    ]
+  },
+  "n_chunks": 12
+}

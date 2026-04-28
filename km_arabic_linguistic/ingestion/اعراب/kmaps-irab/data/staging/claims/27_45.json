@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "27:45",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No إعراب/تعليق/تقدير claims for S27:A45 found in the provided source chunks. The chunks supplied contain verses and grammatical notes on other passages (e.g. جَنَّتَانِ, بَلْدَةٌ, أُكُلٍ خَمْطٍ) but do not offer iʿrāb or related analyses referring to words of this āyah, so no extracted claims could be produced."
+    ]
+  },
+  "n_chunks": 6
+}

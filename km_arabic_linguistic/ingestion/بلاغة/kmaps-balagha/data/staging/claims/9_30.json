@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:30",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مُقابَلَة",
+        "source_quote_ar": "عُزَيْرٌ ابْنُ اللَّهِ مبتدأ وخبر، كقوله: المسيح ابن الله",
+        "claim_ar": "مقابلة بين قول اليهود وقول النصارى في تكرار نفس البنية «ابنُ الله» لبيان التماثل والازدواجية في الادعاء.",
+        "claim_en": "A rhetorical pairing/antithesis: the Jews' and Christians' statements mirror each other by repeating the structure 'son of God', highlighting the parallel/duplicated nature of the claim.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "بني",
+        "lemma": "ابْن",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A30",
+        "rhetorical_effect": "يُظهر التماثل والازدواج في ادعاءات أهل الكتاب، ويقوّي تصور القارئ بأن القول واحد متكرر عبر طوائف مختلفة، مما يسهِم في التقليل من خصوصية الادعاء."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "كنية / مجاز",
+        "source_quote_ar": "ذلِكَ قَوْلُهُمْ بِأَفْوَاهِهِمْ",
+        "claim_ar": "كنية (مجاز) بـِـ'أَفْوَاهِهِمْ' للإشارة إلى أقوالهم وكلامهم — أي تذكير بأن ما ينطقون به مجرد لفظٍ يجري من أفواههم لا مدعومٌ ببرهان.",
+        "claim_en": "Metonymy (kinayah): 'their mouths' stands for their speech/utterances — implying that their words are mere vocalizations without supporting proof.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "فوه",
+        "lemma": "فَم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A30",
+        "rhetorical_effect": "تقليل قيمة الكلام المزعوم وإظهار كونه لفظاً فارغاً بلا برهان، مما يولّد موقفاً نقدياً تجاه ادعاءاتهم."
+      }
+    ],
+    "warnings": [
+      "المقاطع النصية المصروفة في الإدخال مقتصرة على شروح (Zamakhshari وTabari) المقدَّمة في الحقول 'source_chunks'. لم تُقدّم مقتطفات من (الجَرْجَانِيّ، السَّكَّاكِيّ، البَقِيلْلَانِيّ، السُّيُوطِيّ، أو أقسام 'تفسير البلاغة') كما ذُكر في الإرشاد، لذا الادعاءات مبنيّة فقط على المقاطع المتاحة.",
+      "بعض كلمات الآية (مثل «يُضَاهِئُونَ») لا تظهر كنص مباشر داخل المقاطع المزودة، لذا لم تُستخرج عنها ادّعاءات بلاغية مستقلة — إن رغبت باستدلال أوسع يُرجى تزويد مقتطفات إضافية أو شروح أخرى تحتوي على العبارات المطلوبة."
+    ]
+  },
+  "n_chunks": 12
+}

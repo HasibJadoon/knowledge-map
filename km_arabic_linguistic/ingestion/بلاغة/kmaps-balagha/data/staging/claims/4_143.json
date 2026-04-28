@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:143",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No matching balagha claims found: none of the provided source_chunks contain the exact ayah text (سورة 4: آية 143) or commentary on that ayah required to extract device claims.",
+      "Provided source_chunks are from Zamakhshari (al-Kashshaf) and Safi (al-Jadwal) only; requested rhetoric sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha sections) are not present, so claims citing those authors cannot be produced.",
+      "The extraction requires that source_quote_ar be an exact substring of one of the provided chunks. Because no such substring matching this ayah or its rhetorical commentary appears, no claims can be generated. If you supply chunks containing the ayah or the specified authors' balagha commentary on this ayah, I can extract claims."
+    ]
+  },
+  "n_chunks": 12
+}

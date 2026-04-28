@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "36:47",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْله تَعَالَى {أَن تَقولُوا} يجوز أَن يكون فَاعل {كبر}",
+        "claim_ar": "يجوز أن تكون جملة 'أن' فاعلاً أو خبرًا، كما يذكر العكبري في مثال {أَن تَقولُوا}.",
+        "claim_en": "Al-Ikbari states that a clause introduced by 'أن' (for example '{أَن تَقولُوا}') may function either as the subject (فاعل) or as the predicate (خبر).",
+        "root": "طعم",
+        "lemma": "أَطْعَمَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage gives a general rule using the example {أَن تَقولُوا}; applying this rule to the clause beginning with 'أَنُطْعِمُ' in S36:47 is inferential and not explicitly discussed in the provided chunks."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ «وَعُبِدَ الطَّاغُوتُ» عَلَى أَنَّهُ فِعْلُ مَا لَمْ يُسَمَّ فَاعِلُهُ. وَالطَّاغُوتُ مَرْفُوعٌ",
+        "claim_ar": "العلّاقة القرائية قد تغيّر الإعراب؛ فمثال 'وعبد' يقرأ 'عُبِدَ الطاغوتُ' (فعل ما لم يُسمَّ فاعله) فيكون 'الطاغوت' مرفوعًا.",
+        "claim_en": "Variant readings can change the parsing; for example, 'وعبد' can be read as 'عُبِدَ الطاغوتُ' (a passive verb whose doer is unspecified), in which case 'الطاغوت' is nominative.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The passage illustrates how alternative readings affect i'rab in general; it does not explicitly address the verb 'قِيلَ' in this specific verse, so application to S36:47 is interpretive."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks discusses S36:47 explicitly; extracted claims are drawn from general grammatical remarks in the chunks and their applicability to this ayah is inferential.",
+      "Source_quote_ar values are exact substrings from the given chunks; verify surrounding context in the full work to confirm intended application to this verse."
+    ]
+  },
+  "n_chunks": 12
+}

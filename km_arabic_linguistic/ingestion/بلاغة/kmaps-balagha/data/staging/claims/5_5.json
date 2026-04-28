@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:5",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taqdim_takhir",
+        "source_quote_ar": "فإن قلت: تقديم الظرف في قوله وَمِنْها تَأْكُلُونَ مؤذن بالاختصاص، وقد يؤكل من غيرها.",
+        "claim_ar": "تقديم الظرف «الْيَوْمَ» في مبتدأ الحكم لتقريب التخصيص والتوكيد (تقديم ظرف وإن قصد تخصيصه).",
+        "claim_en": "The fronting (tadeem) of the adverb 'al-yawm' (today) — presenting the temporal adverb at the start to specify and emphasize the permissive ruling.",
+        "device_branch": "maani",
+        "device_subtype": "taqdim_takhir",
+        "root": "يوم",
+        "lemma": "يَوْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "وخلق الإنسان والأنعام، ثم قال خَلَقَها لَكُمْ",
+        "claim_ar": "مقابلة/تماثل بين الصيغتين «حِلٌّ لَكُمْ» و«حِلٌّ لَهُمْ» وبتكرار قُرْبِيَّة الحكم لتحقق التوازُن البلاغي بين طرفي الخطاب.",
+        "claim_en": "A mirrored parallelism (muqābala) between the clauses 'hilllun lakum' and 'hilllun lahum' — the symmetrical repetition balances the address and highlights reciprocity in permissibility.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "حلل",
+        "lemma": "حِلّ",
+        "confidence": "low",
+        "needs_review_reason": "The supplied source chunk discusses coordination/parallel mention of creatures but does not explicitly analyze muqabala for this verse; claim is a formal observation of parallelism but lacks a direct commentary citation in the provided chunks."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "takrar",
+        "source_quote_ar": "وتكريره هذا القول مراراً",
+        "claim_ar": "تكرار لفظة ومصطلح «وَالْمُحْصَنَاتُ» وعودتها في الجملة لرفع التأكيد وتنبيه السامع إلى الجانب الموضوعي (التحصين) في المسألة.",
+        "claim_en": "Repetition (takrār) of the term 'al-muḥṣanāt' — repeating the noun strengthens emphasis and draws attention to the legal/ethical status of the women described.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "حصن",
+        "lemma": "مُحْصَنَٰت",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source comments on repetition in other contexts ('وتكريره هذا القول مراراً') but does not cite this verse specifically; application to this verse is straightforward but would benefit from direct supporting commentary."
+      }
+    ],
+    "warnings": [
+      "Requested author commentaries (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present among the provided source_chunks. All source_quote_ar excerpts come from the given Zamakhshari (al-Kashshaf) chunks.",
+      "source_quote_ar fields quote substrings from the supplied chunks and may not include the verse text itself; some claims are interpretive applications of general rhetorical observations in those chunks to this ayah and therefore flagged with lower confidence where direct citation is lacking."
+    ]
+  },
+  "n_chunks": 12
+}

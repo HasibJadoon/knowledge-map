@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:46",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No balagha-related assertions could be extracted: none of the provided source_chunks contain quotations or balagha commentary (in the required authors/sections) that include substrings of this ayah (S3:A46).",
+      "To extract claims, please supply source chunks from the requested balagha commentators (e.g., al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī or tafsir-balagha sections) that explicitly discuss this verse or include exact Arabic substrings from it."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:130",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "kinayah",
+        "source_quote_ar": "بِالسِّنِينَ بسنى القحط.",
+        "claim_ar": "استعمال «بالسنين» ككنية أو استبدال للدلالة على سنوات القحط والشدة بالمجاز",
+        "claim_en": "Use of «bi-s-sinīn» (with the years) as a kināyah (metonymy) to signify years of drought and hardship rather than neutral chronological years.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah (metonymy)",
+        "root": "سنو",
+        "lemma": "سِنِين",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "7:130",
+        "rhetorical_effect": "Condenses a complex socio-environmental reality (drought, famine) into a short phrase, intensifying the sense of punishment and prompting reflection."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "لَعَلَّهُمْ يَذَّكَّرُونَ",
+        "claim_ar": "استعمال «لعل» للدلالة على رجاء/إمكان أن يتذكروا، مع دلالة اللام على معنى دعوى الاستحقاق كما ذُكر في التفسير",
+        "claim_en": "Use of «laʿalla» to express hope/possibility that they may remember; the commentary also notes the لام (lam) signals an asserted claim of deserving the reminder.",
+        "device_branch": "maani",
+        "device_subtype": "modal particle (hope/possibility)",
+        "root": null,
+        "lemma": "لَعَلّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "7:130",
+        "rhetorical_effect": "Frames the calamity as a potential moral lesson — the particle turns a factual report into a didactic exhortation, inviting self-reflection."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari and Safi (al-Jadwal). The request asked for extractions from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha sections; those authors/sections are not present in the supplied chunks. Extractions above are based only on the available chunks.",
+      "Only devices directly supported by exact substrings in the provided chunks were extracted. Other rhetorical readings may be possible but are not claimed here without supporting source text."
+    ]
+  },
+  "n_chunks": 12
+}

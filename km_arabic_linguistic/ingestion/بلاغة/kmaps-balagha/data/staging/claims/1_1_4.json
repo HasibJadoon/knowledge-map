@@ -1,0 +1,75 @@
+{
+  "layer": "balagha",
+  "word_key": "1:1:4",
+  "result": {
+    "claims": [
+      {
+        "claim_type": "بديع",
+        "source_quote_ar": "",
+        "claim_ar": "الترادف بين «الرحمن» و«الرحيم» يمثل جناسًا لفظيًا؛ فالكلمتان مشتقتان من جذر واحد (ر-ح-م) باختلاف الصيغة، مما يضفي موسيقى وتوافقًا لفظيًا.",
+        "claim_en": "The pair «al-Rahman» and «al-Raheem» constitutes a jinas (paronomasia); both words derive from the same root (r-ḥ-m) in different morphological patterns, producing phonetic harmony and wordplay.",
+        "device_branch": "بديع",
+        "device_subtype": "jinas",
+        "root": "رحم",
+        "lemma": "رَّحِيم",
+        "confidence": "high",
+        "needs_review_reason": "No source_chunks were provided; the observation is a general, well-attested rhetorical/lexical fact but should be checked against the specified authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsir-balagha) for specific formulations or claims."
+      },
+      {
+        "claim_type": "بديع",
+        "source_quote_ar": "",
+        "claim_ar": "تكرار الجذر نفسه في صيغتين («الرحمن» و«الرحيم») يعمل تكرارًا بلاغيًّا يضخّم ويؤكد صفة الرحمة من خلال تعدّد الصيغ الدلاليّة على أصل واحد.",
+        "claim_en": "The repetition of the same root in two morphological forms («al-Rahman» and «al-Raheem») functions as rhetorical repetition, amplifying and affirming the attribute of mercy by presenting multiple forms from a single root.",
+        "device_branch": "بديع",
+        "device_subtype": "takrar",
+        "root": "رحم",
+        "lemma": "رَّحِيم",
+        "confidence": "medium",
+        "needs_review_reason": "Inference made without source_chunks; common in tafsir/balagha discussions but must be verified for exact claims and wording in the cited authors."
+      },
+      {
+        "claim_type": "بديع",
+        "source_quote_ar": "",
+        "claim_ar": "التوازي البنيوي بين «الرحمن» و«الرحيم» (تطابق التعريف والصيغة النحوية مع اختلاف الصيغة الصرفية) يمثل مقابلة/مُقابَلة توازنية تُبرز تكاملًا أو تدرّجًا في مدلول الرحمة.",
+        "claim_en": "The structural parallelism between «al-Rahman» and «al-Raheem» (same definiteness and syntactic role with different morphological patterns) constitutes a balanced muqabalah (juxtaposition) that highlights a complementary or graduated meaning of mercy.",
+        "device_branch": "بديع",
+        "device_subtype": "muqabalah",
+        "root": "رحم",
+        "lemma": "رَّحِيم",
+        "confidence": "medium",
+        "needs_review_reason": "No source_chunks supplied; the interpretation aligns with standard rhetorical readings but should be cross-checked with the listed authorities for precise attributions."
+      },
+      {
+        "claim_type": "معاني",
+        "source_quote_ar": "",
+        "claim_ar": "ترتيب اللفظين بظهور «الرحمن» قبل «الرحيم» يحمل دلالة بلاغية محتملة: انتقال من صفة رحمة شاملة أو مطلقة إلى صفة رحمة مستمرة أو مخصصة — أي من العامّ إلى الخاصّ.",
+        "claim_en": "The ordering—«al-Rahman» before «al-Raheem»—carries a possible rhetorical meaning: a movement from an all-embracing/intensive mercy to a continuous or particularized mercy — i.e., from the general to the specific.",
+        "device_branch": "معاني",
+        "device_subtype": "taqdim_takhir",
+        "root": "رحم",
+        "lemma": "رَّحِيم",
+        "confidence": "medium",
+        "needs_review_reason": "Claim inferred from common tafsir/balagha motifs but no primary-source excerpts were provided; verify exact claims and formulations in the named authors."
+      },
+      {
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "",
+        "claim_ar": "ازدواجية «الرحمن الرحيم» تعمل كأسلوبِ حكمةٍ بلاغيّ: الجمع بين شمولية الرحمة واستمرارها لتأمين طمأنينة وتوازنٍ معنويّ في الافتتاحية القرآنية.",
+        "claim_en": "The doubleness «al-Rahman al-Raheem» functions as a rhetorical 'wise style': combining the universality and the constancy of mercy to provide reassurance and a moral balance in the Qur'anic opening.",
+        "device_branch": "asloob_hakim",
+        "device_subtype": "wisdom_pairing",
+        "root": "رحم",
+        "lemma": "رَّحِيم",
+        "confidence": "low",
+        "needs_review_reason": "Interpretive claim made without provided source material; attribution and nuance must be checked against al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, and tafsir-balagha sources."
+      }
+    ],
+    "warnings": [
+      "No source_chunks were provided in the input. The claims above are inferred from general, widely-discussed balāgha/tafsir observations about «الرحمن/الرحيم» rather than extracted verbatim from the named authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsir-balagha).",
+      "Each claim should be verified against primary quotations from the specified authors before being treated as an extraction from those works. Fields 'source_quote_ar' are left empty for this reason.",
+      "This extraction is limited to a single word token (word_index 4: «الرَّحِيمِ») within Sūra 1, āyah 1; broader contextual claims that require neighboring words/verses (e.g., the relation to «الرحمن») were inferred but need contextual source confirmation.",
+      "No morphology or grammar claims were included (per instructions). If you can supply source excerpts from the listed authors or tafsir-balagha passages, I can convert these inferred claims into sourced extractions and raise confidence levels."
+    ]
+  },
+  "n_chunks": 0
+}

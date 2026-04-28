@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "17:89",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(بِسِحْرٍ مِثْلِهِ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِلَنَأْتِيَنَّكَ، وَأَنْ يَكُونَ حَالًا مِنَ الْفَاعِلِينَ.",
+        "claim_ar": "يجوز أن يتعلَّق مصدر الشبه/العبارة الصغرى (مثل: «مِنْ كُلِّ مَثَلٍ») بالفعل «صَرَّفْنَا»، أو أن تُؤخذ حالًا من الفاعلين (أي حالًا من الذين صرفنا لهم الأمثال).",
+        "claim_en": "The prepositional phrase (e.g. 'مِنْ كُلِّ مَثَلٍ') may attach (ta'alluq) to the verb 'صَرَّفْنَا' or function as a hal (adverbial) from the doers.",
+        "root": "مثل",
+        "lemma": "مَثَل",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses an analogous construction («بِسِحْرٍ مِثْلِهِ») rather than this exact phrase; applying the same attachment possibilities to this ayah is an extrapolation that should be reviewed against explicit commentary on this verse.",
+        "quran_ref": "S17:A89"
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks discuss S17:89 (the exact verse) directly. The claim above is extrapolated from an analogous discussion in the provided chunk (about «بِسِحْرٍ مِثْلِهِ»). Review with direct commentary on S17:89 recommended."
+    ]
+  },
+  "n_chunks": 5
+}

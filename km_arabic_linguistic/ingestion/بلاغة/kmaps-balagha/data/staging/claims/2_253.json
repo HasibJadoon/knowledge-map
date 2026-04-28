@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:253",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار إرادة التنشيط، لاكتساب ما يزلف، والتثبيط عن اقتراف ما يتلف.",
+        "claim_ar": "الازدواج بين الترغيب والترهيب كأسلوب بلاغي لتحريك النفوس: تشجيع على العمل الصالح وتثبيط عن المعصية.",
+        "claim_en": "The rhetorical pairing of exhortation (targhib) with warning (tarhib) to motivate doing good and deter sin.",
+        "device_branch": "other",
+        "device_subtype": "ترغيب_ترهيب",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:253",
+        "rhetorical_effect": "يحرك القارئ بين الرجاء والخوف ليزيد تحصيل الطاعة وترويع المعصية"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فلما ذكر الكفار وأعمالهم وأوعدهم بالعقاب، قفاه ببشارة عباده الذين جمعوا بين التصديق والأعمال الصالحة من فعل الطاعات وترك المعاصي، وحموها من الإحباط بالكفر والكبائر بالثواب.",
+        "claim_ar": "التفات في الخطاب من تهديد الكفار إلى تبشير المؤمنين؛ تحويل النبرة من الإنذار إلى البشارة (التغيير المفاجئ في مخاطب/نبرة الخطاب).",
+        "claim_en": "A rhetorical shift (iltifat): after threatening the disbelievers, the address suddenly turns to giving glad tidings to the believers.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:253",
+        "rhetorical_effect": "يخفف من وقع التهديد على المؤمنين ويؤكد التمييز بين جماعتي السامعين (المؤمنين والكفار)، محفزاً للمؤمنين على المثابرة"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

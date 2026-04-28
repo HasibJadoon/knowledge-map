@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:107",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "هذِهِ ناقَةُ اللَّهِ لَكُمْ آيَةً",
+        "claim_ar": "وضع عبارة «آيةً» نصباً على الحال بعد اسم الإشارة (هذِهِ) لبيان الآية تبيانًا واضحًا؛ أي استعملت الجملة الحالة كتعليل/تفسير لما قبلها.",
+        "claim_en": "The clause «هذِهِ ناقَةُ اللَّهِ لَكُمْ آيَةً» uses «آية» as a circumstantial accusative (ḥāl) following the demonstrative to present/explain the sign; the clause functions as an explicative state that clarifies the preceding statement.",
+        "device_branch": "maani",
+        "device_subtype": "حال/شرح توضيحي (use of ḥāl to explicate)",
+        "root": null,
+        "lemma": "آيَة",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the grammatical term 'حال' to the prescribed maani subtype 'fasl_wasl' is interpretive; the source explicitly calls the phrase a حال, but the category label selection may need checking."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "إنما أضيفت إلى اسم الله تعظيما لها وتفخيما لشأنها",
+        "claim_ar": "الإضافة إلى اسم الله («ناقةُ الله») هنا مستعملة لتعظيم الناقة وتفخيم شأنها؛ أي تعظيم بإضافة الموصوف إلى اسم الله عزّ وجلّ.",
+        "claim_en": "The construction of adding the noun to the Name of God («naqat Allah» / 'the she-camel of God') is used to magnify and elevate the sign; the idāfah to Allah functions rhetorically as an enhancement/augmentation of status.",
+        "device_branch": "maani",
+        "device_subtype": "إضافة تعظيم/رفع مكانة (idāfah to Allah for magnification)",
+        "root": null,
+        "lemma": "ناقة",
+        "confidence": "high",
+        "needs_review_reason": "The source explicitly states this rhetorical effect; classification under the specific label 'tarif_tankir' is a best-fit choice and could be adjusted to a different maani subtype on review."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "آية ظاهرة",
+        "claim_ar": "وصف الآية بأنها «آية ظاهرة» يعمل كتعبيب وتقوية للحجة: صياغة تبيّن وضوح الدليل وتشدّ الانتباه إلى بَيِّنَةِ الحُجّة.",
+        "claim_en": "Describing the sign as «آية ظاهرة» ('a clear/manifest sign') functions as an emphatic formulation that strengthens and highlights the clarity of the proof/evidence.",
+        "device_branch": "maani",
+        "device_subtype": "توكيد/تقوية البيان (emphatic designation)",
+        "root": null,
+        "lemma": "آيَة",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling this descriptive emphasis under 'ijab_inshaa' is an interpretive assignment; other maani subtypes could be considered for this emphatic phrasing."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks contains the exact Quranic phrase 'فَأَلْقَى عَصَاهُ فَإِذَا هِيَ ثُعْبَانٌ مُّبِينٌ'. Claims above are drawn from the supplied tafsir/iʻrāb chunks (which discuss related vocabulary and rhetorical comments) rather than from the verse text itself.",
+      "Some mappings from the commentators' grammatical/tafsir observations to the requested balagha subtype labels required interpretive choices; those mappings are noted in 'needs_review_reason' where appropriate."
+    ]
+  },
+  "n_chunks": 12
+}

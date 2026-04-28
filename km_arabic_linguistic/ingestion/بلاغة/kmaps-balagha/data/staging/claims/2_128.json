@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:128",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "الإعراب:",
+        "claim_ar": "الآية بصيغة دعاء/طلب (أسلوب الإنشاء بالطلب): افتتاح بسؤال المولى وطلب الفعل 'وَاجْعَلْنَا' وطلبات لاحقة يجعلها نصاً دعوياً متسلسلاً.",
+        "claim_en": "The verse is composed as a supplication/request (an injunctive/performative style): it opens with addressing the Lord and imperative requests ('and make us'), forming a successive series of petitions.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "takrar",
+        "source_quote_ar": "البلاغة: في هذه الآية فن طريف",
+        "claim_ar": "تكرار لاحقة الملكية/الانتماء 'لَكَ' مرتين ('مُسْلِمَيْنِ لَكَ' ... 'أُمَّةً مُسْلِمَةً لَكَ') كأداة بلاغية لتأكيد الانتماء للخالق وإعادة التأكيد على المقصود.",
+        "claim_en": "Repetition of the possessive/relational particle 'لَكَ' twice ('Muslimayn to You' ... 'a Muslim community to You') functions rhetorically to stress belonging to the Creator and to reconfirm the intended relationship.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Provided source chunks are i'rab/grammatical notes and do not explicitly analyze this repetition for this ayah; verification against tafsir-balagha sources recommended."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "mucabalah",
+        "source_quote_ar": "(وَمِنْ ذُرِّيَّتِي)",
+        "claim_ar": "توازي وتدرج بين الطلب الفردي/الشخصي 'مُسْلِمَيْنِ لَكَ' والتمديد إلى المستوى الجماعي 'أُمَّةً مُسْلِمَةً لَكَ' — توازن أسلوبي يوسّع الدائرة من ذاتين إلى أمة.",
+        "claim_en": "A balance/parallelism and progression between the personal/dual request 'Muslimayn to You' and the expansion to the communal level 'a Muslim community to You' — a stylistic balancing that broadens the scope from two individuals to a whole community.",
+        "device_branch": "badi",
+        "device_subtype": "mucabalah",
+        "root": "سلم",
+        "lemma": "مُسْلِم",
+        "confidence": "medium",
+        "needs_review_reason": "The exact supporting commentary for this parallelism is not present in the supplied i'rab chunks (the quoted substring is from a different context); review with balagha/tafsir sources advised."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "iltifat",
+        "source_quote_ar": "البلاغة: في هذه الآية فن طريف",
+        "claim_ar": "الانتقال إلى الجزم والتوكيد الختامي بصيغة 'إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ' — تحول أسلوبي إلى التأكيد على صفات الربّ (التوب والرحمة) لتثبيت رجاء المتعلقين بالدعاء.",
+        "claim_en": "A stylistic shift toward emphatic affirmation in the closing formula 'Indeed You — the Oft-Returning, the Merciful' — a turn that asserts the divine attributes to secure the petitioners' hope in repentance and mercy.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The supplied chunks are grammatical notes with only a brief 'البلاغة' marker; the direct classical-balagha citation for this specific iltifat is not present and should be checked against tafsir-balagha works."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are primarily i'rab/grammatical notes (Darwish) and do not contain full classical balagha (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) analyses for this specific ayah. Source substrings used are minimal markers (e.g., 'البلاغة:', 'الإعراب:', specific parenthetical fragments).",
+      "Some claims (notably repetitions and the identification of iltifat/muqabalah) are inferred from the text of the ayah and general rhetorical practice; the supplied chunks do not explicitly make these balagha claims for S2:A128. Please review against dedicated tafsir-balagha references for confirmation.",
+      "Certain words (e.g., pronouns and particles) have null/missing root or lemma in the input; where roots/lemmas are null they are left as null in claims. Review of morphological data may improve claim metadata accuracy."
+    ]
+  },
+  "n_chunks": 12
+}

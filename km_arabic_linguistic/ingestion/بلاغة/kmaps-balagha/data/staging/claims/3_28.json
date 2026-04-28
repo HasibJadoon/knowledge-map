@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:28",
+  "result": {
+    "claims": [
+      {
+        "word_index": 17,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "واستثنى إبليس من الملائكة",
+        "claim_ar": "أداة الاستثناء «إِلَّا» تُستخدم لحصر الحكم واستثناء ما عدا العموم، أي قصر الحكم بالمؤمنين واستثناء الكافرين.",
+        "claim_en": "The particle 'إِلَّا' functions as an exception restricting the general statement — i.e., it confines the ruling to the believers and excepts the disbelievers.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "فإن قلت: الضلال والإضلال لم يكن غرضهم في اتخاذ الأنداد، فما معنى اللام؟ قلت: لما كان الضلال والإضلال نتيجة اتخاذ الأنداد، كما كان الإكرام في قولك: جئتك لتكرمنى، نتيجة المجيء، دخلته اللام وإن لم ي",
+        "claim_ar": "حرف اللام هنا يُفهم على أنه لام بيان/سبب-نتيجة تدخل للدلالة على أن النتيجة (الضلال/الإضلال) مترتبة على اتخاذ الأنداد — نمط استعمال مشابه للآيات التي تربط اتخاذ الأنداد بعاقبة سلبية.",
+        "claim_en": "The particle 'lām' is interpreted as a marker of result/causal relation (entering to indicate that the outcome — misguidance — follows from taking partners), a linkage of cause and effect.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "لَام",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "majaz",
+        "source_quote_ar": "كأنهم غيروا الشكر إلى الكفر وبدلوه تبديلا",
+        "claim_ar": "توظيف صورة مجازية (تحويل «الشكر» إلى «الكفر») لتغليل المعنى والتقريع؛ المجاز هنا يعبر عن تبديُل النعمة بالمكافأة السلبية (الكفر) بطريقة تصويرية قوية.",
+        "claim_en": "A metaphorical expression is used (portraying 'gratitude' turned into 'disbelief') to intensify reproach — the metaphor depicts the blessing being replaced by a negative counterpart (disbelief) vividly.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "بدل",
+        "lemma": "بَدَّلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk gives a figurative reading ('بدلوا الشكر إلى الكفر') as a general tafsir example; mapping this metaphor specifically to rhetorical effect in S3:28 is plausible but inferential and should be cross-checked with the verse commentary in full."
+      }
+    ],
+    "warnings": [
+      "Claims are extracted only from the provided source_chunks (mostly Zamakhshari excerpts). Other requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present in the chunks supplied, so coverage is partial.",
+      "Some claims (especially ayah-level metaphoric readings) are inferentially linked from the supplied tafsir excerpts to Sura 3:28; verify against full commentary context for precise alignment.",
+      "Roots/lemmas are given where clearly attested in the chunks; some items (particles like لام or إِلَّا) have no verbal root and are marked accordingly."
+    ]
+  },
+  "n_chunks": 12
+}

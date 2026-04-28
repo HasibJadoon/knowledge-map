@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "لِلَّهِ وَلِلرَّسُولِ",
+        "claim_ar": "تقييد الأنفال لله وللرسول",
+        "claim_en": "Restriction: the spoils (al‑anfal) are explicitly restricted to Allah and the Messenger.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "نفل",
+        "lemma": "أَنفَال",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted substring (لِلَّهِ وَلِلرَّسُولِ) appears in the provided commentary chunk and supports the sense of restriction, but the exact noun الأَنْفَالِ is not present in that chunk excerpt — the connection is inferred from the ayah text."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "iltifat",
+        "source_quote_ar": "إِذا دَعاكُمْ",
+        "claim_ar": "التفات في المخاطبة: من سؤالهم للنبي إلى أوامر موجهة للمؤمنين (قُلْ ثم فاتحة الأوامر)",
+        "claim_en": "Shift of address (iltifat): the discourse moves from others' question to the Prophet's command and then to imperatives addressed to the believers.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "دعا",
+        "lemma": "دعا",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk discusses addressing/responding (e.g. اِذا دَعاكُمْ) and is used to support the identification of an address-shift in the ayah; the inference that this is the rhetorical iltifat relies on mapping that commentary to the ayah's structure."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "وَاللَّهُ مَعَ الصَّابِرِينَ",
+        "claim_ar": "تكرار لفظ الجلالة للتوكيد (وظيفته التأكيد والقرينة على الطاعة والوعيد)",
+        "claim_en": "Repetition of the Divine Name (takrār) used for emphasis — reinforcing divine authority and the imperative to obey.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The provided commentaries contain occurrences of the divine name (e.g. وَاللَّهُ مَعَ الصَّابِرِينَ) but the comment fragments do not analyze the ayah's internal repetition explicitly; the identification of takrār is drawn from the ayah's triple occurrence of الله and needs corroboration from a direct rhetorical remark in the sources."
+      }
+    ],
+    "warnings": [
+      "Source chunks supplied are excerpts (mainly from Zamakhshari and Tabari). Some rhetorical inferences above map those excerpts onto the ayah but the chunks do not always quote the exact ayah words (e.g. الأَنْفَالِ is not present in the cited excerpt).",
+      "Several claims are inferred from commentary context rather than from explicit rhetorical labels in the provided chunks; please review full commentaries (al‑Jurjani, al‑Sakkaki, al‑Baqillani, al‑Suyuti, tafsir balagha) for confirmation and to add any devices explicitly named there.",
+      "If you want strictly source‑explicit claims (i.e., where the source chunk explicitly names the rhetorical device), provide fuller excerpts or permit marking inferred devices as 'needs_review'."
+    ]
+  },
+  "n_chunks": 12
+}

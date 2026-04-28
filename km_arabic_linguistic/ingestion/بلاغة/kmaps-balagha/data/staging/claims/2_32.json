@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:32",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit rhetorical (بلاغة) commentary for this specific ayah (قَالُوا سُبْحَانَكَ لَا عِلْمَ لَنَا إِلَّا مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ) was found in the provided source_chunks. The chunks given are general tafsir excerpts not addressing rhetorical devices of this verse, so no claims could be reliably extracted with the required source_quote_ar constraint. If you provide source chunks that discuss this ayah (or allow using the ayah text itself as source_quote_ar), I can extract and cite rhetorical claims."
+    ]
+  },
+  "n_chunks": 12
+}

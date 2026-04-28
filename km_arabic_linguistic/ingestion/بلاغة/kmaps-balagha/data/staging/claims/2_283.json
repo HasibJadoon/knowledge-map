@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:283",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار",
+        "claim_ar": "المقابلة بين الترغيب والترهيب وضمّ البشارة بالإنذار كأسلوب بلاغي مقصود لتحفيز المتلقي وترهيبه معاً (أسلوب تحريضي وتجريدي في السور)",
+        "claim_en": "The deliberate pairing of encouragement (targhib) with warning (tarhib), and coupling glad-tidings with admonition, as a rhetorical stylistic device to both motivate and deter the audience.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim: pairing targhib & tarhib",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "Source chunk is Zamakhshari (al-Kashshaf). The user requested extraction from other commentators (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha); verify whether this source is acceptable."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tashbih",
+        "source_quote_ar": "فان كان المتمثل له عظيما كان المتمثل به مثله، وإن كان حقيرا كان المتمثل به كذلك",
+        "claim_ar": "بيان مبدأ التشبيه التناسبي: أن صورة المثل تتبع صفة المتمثل له (تشبيه الكبير بالضياء والنور، والمفهوم الحقير بضدّ ذلك).",
+        "claim_en": "Statement of proportional simile (tashbih): the likeness used to illustrate something follows the status of the referent — great things are likened to light/brightness, lesser things to their opposites.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih (principle of proportional similitude)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Derived from Zamakhshari commentary excerpt; user requested specific classical rhetoricians — confirm whether this citation is acceptable for the K-Maps extraction."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "وهذا من أسرار القرآن ومعاجزة البديعة.",
+        "claim_ar": "الإشارة إلى إعجاز القرآن وخصوصية بديع أساليبه كحجة بلاغية (الدلالة على تفرد أسلوب القرآن).",
+        "claim_en": "An explicit reference to the Quran's inimitability (i'jaz) and the wondrous/badi' nature of its style, used rhetorically as proof of its uniqueness.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Source is Zamakhshari/I'rab commentary rather than the specific rhetoricians requested; please confirm source scope for final K-Map entries."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "فحسن عطفه بالواو",
+        "claim_ar": "التأكيد على استعمال واو العطف المتكرر كحيلة بديعية لربط الجمل وإبراز تزامن الأحداث/الأمور المذكورة.",
+        "claim_en": "Emphasis on the use of the conjunction 'waaw' (و) — a deliberate repetition — as a badi' device to link clauses and highlight the simultaneity or cohesion of the mentioned items.",
+        "device_branch": "badi",
+        "device_subtype": "takrar (repetition of conjunction)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Claim extracted from a Zamakhshari/I'rab passage; the user requested other commentators — verify acceptability and whether the repetition pertains specifically to this ayah context."
+      }
+    ],
+    "warnings": [
+      "None of the provided source_chunks are from the requested commentators (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a dedicated tafsir-balagha section). Claims above were extracted from the supplied Zamakhshari and Darwish (I'rab) chunks only.",
+      "Claims are drawn from general stylistic commentary found in the provided chunks; they may be thematic observations rather than explicit, ayah-specific device annotations by the requested rhetoricians. Please supply the specified commentators' excerpts if you need claims strictly sourced to them."
+    ]
+  },
+  "n_chunks": 12
+}

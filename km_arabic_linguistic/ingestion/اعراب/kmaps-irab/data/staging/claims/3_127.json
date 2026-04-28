@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:127",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَ «أَوْ» قَدْ ذُكِرَ حُكْمُهَا فِي:",
+        "claim_ar": "«أَوْ»: حرف، وحكمها مذكور (حكمها في مصادر التبيان مرتبط باستعمالها كأداة عطف/اختيار)",
+        "claim_en": "'أَوْ': the particle 'aw' — a particle whose ruling is discussed (noted in the source in connection with its use as a coordinating/disjunctive particle).",
+        "root": null,
+        "lemma": "أَو",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk only states that the ruling of «أَوْ» is mentioned (refers to an example) but does not give an explicit iʿrāb or precise syntactic effect for this specific occurrence in the ayah; applicability to this context should be verified."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain explicit إِعْرَاب statements for the words of Sūrat Āl ʿImrān (3:127) except a general note referring to the particle «أَوْ». No direct taʿliq/taqdīr/qirāʾah/irab for other words in the ayah was found in the supplied chunks.",
+      "Claims are limited to exact substrings present in the supplied chunks; if more detailed syntactic claims are required, supply relevant al-Tibyān chunks that treat this specific verse or additional authoritative commentaries."
+    ],
+    "quran_ref": "S3:A127"
+  },
+  "n_chunks": 12
+}

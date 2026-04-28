@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:30",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No reliable rhetoric claims could be extracted because the provided source chunks do not contain clear exact-substring matches needed to anchor claims to the required source_quote_ar fields. To meet the tool's constraint that source_quote_ar must be an exact substring of one of the provided chunks, I could not confidently link the verse's rhetorical features to the chunk texts. If you can provide source chunks that contain explicit discussion or quotations of the target verse (or include the exact verse text in the chunks), I can extract and annotate balāgha claims accordingly."
+    ]
+  },
+  "n_chunks": 12
+}

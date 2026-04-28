@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:151",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "تَضَرُّعاً وَخُفْيَةً",
+        "claim_ar": "دعاء بصيغة أمرية متضمّن تضرعاً وخفيةً في قول يوسف: «رَبِّ اغْفِرْ لِي...»، أي طلب بتضعّف وخشية.",
+        "claim_en": "A supplicatory imperative expressed with humility and secrecy in Yusuf's plea 'My Lord, forgive me...', i.e. a petition marked by humble entreaty.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "دعا",
+        "lemma": "دَعَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "الواو عاطفة",
+        "claim_ar": "التوازي والتراكم في الطلبات عبر ربط الواو العاطفة: «اغفر لي ولأخي وأدخلنا…»، حيث توالي الطلبات يضاعف الإلحاح البلاغي.",
+        "claim_en": "Parallelism/accumulation of petitions through the copulative waw: 'forgive me and my brother and admit us...', where the successive requests increase rhetorical urgency.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "عطف",
+        "lemma": "عطف",
+        "confidence": "medium",
+        "needs_review_reason": "Classifying simple coordination as 'm uqabalah' (مقابلة/مقابلة شبيهة بالموازنة) may be debatable; could be described simply as coordination/parallelism."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "القول في تأويل قوله:",
+        "claim_ar": "الانتقال إلى الكلام المباشر (افتتاح الصيغة بـ«قَالَ رَبِّ…»)، شكل من أشكال الالتفات البلاغي الذي يقوّي حضور المتكلّم في النص.",
+        "claim_en": "The shift to direct speech (opening with 'He said, My Lord...') is an iltifat — a rhetorical turn that strengthens the speaker's presence.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قال",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source quoted discusses 'قوله' and its interpretation but does not explicitly use the technical term 'iltifat'; the identification is an interpretive inference."
+      }
+    ],
+    "warnings": [
+      "Requested balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and a tafsir-balagha section) are not present among the provided source_chunks. Claims above are supported by the available chunks (e.g., Zamakhshari, Tabari, Darwish, Safi) and include some interpretive inferences.",
+      "Some device labels (e.g., classifying coordination as 'm uqabalah' or identifying 'iltifat') are interpretive and flagged in 'needs_review_reason' where appropriate."
+    ]
+  },
+  "n_chunks": 12
+}

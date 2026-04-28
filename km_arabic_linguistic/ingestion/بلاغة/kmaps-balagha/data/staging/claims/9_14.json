@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:14",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No eligible rhetorical claims extracted: none of the provided source_chunks contain the ayah text S9:A14 or explicit commentary on this ayah that can be used as a source_quote_ar substring.",
+      "Requirement: each claim.source_quote_ar must be an exact substring of one of the provided chunks. Because the chunks supplied (Zamakhshari excerpts) do not quote or comment on this specific ayah wording, I could not produce verifiable balagha claims. Please provide tafsir/balaghah excerpts (from the requested authors or other relevant sources) that explicitly address S9:A14 or include the ayah text."
+    ]
+  },
+  "n_chunks": 12
+}

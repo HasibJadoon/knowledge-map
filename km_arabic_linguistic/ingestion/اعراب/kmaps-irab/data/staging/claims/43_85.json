@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "43:85",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قاعدة : إذا وقعت الصفة بعد متضايفين أولهما عدد  جاز إجراؤهما على المضاف وعلى المضاف إليه ، فمن الأول : سبع سماوات طباقا [ الملك : 3 ] ، ومن الثاني : سبع بقرات سمان [ يوسف : 43 ] .",
+        "claim_ar": "قاعدة لغوية تفيد أنه إذا وقعت الصفة بعد متضايفين (اسمين متضافين/موصولين) يجوز أن تُجرى الصفة على كلا الاسمين أو على المضاف إليه فقط، كما في الأمثلة المذكورة.",
+        "claim_en": "A grammatical rule: if an adjective occurs after two 'mutadaafin' (paired nouns), the adjective may be taken as applying to either noun (or both) — it can be governed by the first or by the second — as shown in the given examples.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain a direct إعراب (case/role) analysis specific to the words of S43:85. Only a general grammatical rule about adjectives following two coordinated/paired nouns was found (quoted). No explicit claims about the case or syntactic role of مُلْكُ، السَّمَاوَاتِ، الْأَرْضِ, or other words in this ayah appear in the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

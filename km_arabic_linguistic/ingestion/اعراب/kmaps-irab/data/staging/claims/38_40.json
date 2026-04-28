@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "38:40",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "taalluq",
+        "source_quote_ar": "هُوَ ظَرْفٌ لِلشُّهَدَاءِ",
+        "claim_ar": "«عِنْدَنَا» ظرف",
+        "claim_en": "'عindana' functions as a zarf (an adverbial/circumstantial phrase).",
+        "root": "عند",
+        "lemma": "عِند",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source explicitly analyzes «عندَ رَبِّهِمْ» as ظرف; applying this analysis to «عندنا» is by analogy and should be confirmed in the specific commentary on this verse (the exact word form in the source is 'عندَ رَبِّهِمْ', not 'عندنا')."
+      }
+    ],
+    "warnings": [
+      "The available source chunk discusses «عندَ رَبِّهِمْ» (explicitly: 'هُوَ ظَرْفٌ لِلشُّهَدَاءِ'). The target ayah contains «عِنْدَنَا». The extraction above generalizes the source's analysis of 'عند' to 'عندنا'—please confirm that al-ʿAkbari (or the specific commentary chunk) treats this particular instance the same way.",
+      "Only one explicit grammatical claim about 'عند' as ظرف was found in the provided chunks. No explicit discussion in the provided chunks was found about the irab/role of «لَهُ», «لَزُلْفَى», «حُسْنَ»، or «مَآبٍ» in this ayah; further claims would require additional source material."
+    ]
+  },
+  "n_chunks": 12
+}

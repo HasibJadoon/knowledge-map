@@ -1,0 +1,76 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:22",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "فَلَمَّا دَخَلُوا عَلَيْهِ",
+        "claim_ar": "لَمّا مُنْفَتِلَةٌ مِنْ فَعَلَ، وَالْمَفْعُولُ مَحْذُوفٌ.",
+        "claim_en": "The word 'لَمّا' is a preposition with a feminine noun, and the object is omitted.",
+        "root": "",
+        "lemma": "لَمَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "حُكْم",
+        "claim_ar": "حُكْم مَفْعُولٌ مِنْ فَعَلَ، وَالْمُفَاعَلُ مَحْذُوفٌ.",
+        "claim_en": "The word 'حُكْم' is a noun in the genitive case, and the subject is omitted.",
+        "root": "ح ك م",
+        "lemma": "حُكْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "عِلْم",
+        "claim_ar": "عِلْم مَفْعُولٌ مِنْ فَعَلَ، وَالْمُفَاعَلُ مَحْذُوفٌ.",
+        "claim_en": "The word 'عِلْم' is a noun in the genitive case, and the subject is omitted.",
+        "root": "ع ل م",
+        "lemma": "عِلْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "ذَٰلِك",
+        "claim_ar": "ذَٰلِك مَفْعُولٌ مِنْ فَعَلَ، وَالْمُفَاعَلُ مَحْذُوفٌ.",
+        "claim_en": "The word 'ذَٰلِك' is a noun in the genitive case, and the subject is omitted.",
+        "root": "ذ ل ك",
+        "lemma": "ذَٰلِك",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "جَزَىٰ",
+        "claim_ar": "جَزَىٰ مَفْعُولٌ مِنْ فَعَلَ، وَالْمُفَاعَلُ مَحْذُوفٌ.",
+        "claim_en": "The word 'جَزَىٰ' is a verb in the past tense, and the object is omitted.",
+        "root": "ج ز ة",
+        "lemma": "جَزَىٰ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "irab",
+        "source_quote_ar": "مُحْسِن",
+        "claim_ar": "مُحْسِن مَفْعُولٌ مِنْ فَعَلَ، وَالْمُفَاعَلُ مَحْذُوفٌ.",
+        "claim_en": "The word 'مُحْسِن' is a noun in the genitive case, and the subject is omitted.",
+        "root": "ح س ن",
+        "lemma": "مُحْسِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 16
+}

@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:277",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار",
+        "claim_ar": "الآية تجري على أسلوب حكيم من جمع الترغيب بالترهيب؛ حيث يقترن البشارة بالإنذار لتنشيط المحسنين وتثبيط المفسدين.",
+        "claim_en": "The verse follows a wise rhetorical method of pairing encouragement (targhib) with warning (tarhib); the good news is coupled with admonition to motivate the righteous and deter the wrongdoers.",
+        "device_branch": "other",
+        "device_subtype": "targhib_tarheeb_pairing",
+        "root": "ذكر",
+        "lemma": "يذكر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A277",
+        "rhetorical_effect": "strengthens motivation for obedience while simultaneously deterring sin by combining promise and threat"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "itnaab",
+        "source_quote_ar": "البلاغة: في هذه الآية ضرب من البلاغة دقيق المسلك وهو وضع الظاهر موضع المضمر زيادة في تقبيح أمرهم",
+        "claim_ar": "الآية تستعمل وضع الظاهر موضع المضمر — أي إبراز ما قد يُكتفى بضميره — كإطناب لزيادة في تقبيح فعلهم.",
+        "claim_en": "The verse uses placing the explicit (ظاهر) in place of the implied (مضمر) — an expansion (itnaab) — to intensify the condemnation of their action.",
+        "device_branch": "maani",
+        "device_subtype": "explicit_for_implicit",
+        "root": "وضع",
+        "lemma": "وضع",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A277",
+        "rhetorical_effect": "increases vividness and moral disapproval by making the referent explicit rather than leaving it implicit"
+      }
+    ],
+    "warnings": [
+      "Source chunks are commentary extracts (Zamakhshari, Darwish i'rab, etc.) — some statements are aphoristic about rhetorical practice and may not be narrowly localized to only S2:277. Verify commentators' immediate context to ensure direct applicability to this ayah.",
+      "Classification of the technique 'وضع الظاهر موضع المضمر' is rendered here as 'itnaab' (إطناب/expansion). Alternative classifications may be possible; please review if a different maani subtype is preferred."
+    ]
+  },
+  "n_chunks": 12
+}

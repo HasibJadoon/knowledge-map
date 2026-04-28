@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:88",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "«مَنْ» فِي مَوْضِعِ نَصْبٍ",
+        "claim_ar": "حرف/اسم الاستفهام «مَنْ» في موضع نصب",
+        "claim_en": "The particle/relative 'مَنْ' is in a position of nasb (accusative).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "al-Tibyan's statement is an example taken from a different verse (الأنعام:117); applying the general rule to this specific occurrence (يَشَاءُ مَنْ) is inferential and should be checked against context-specific discussion."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit iʿrāb discussion of S6:A88; only a general statement about «مَنْ» (from a different verse) was found, so the claim is inferred rather than directly attested for this ayah.",
+      "No source text in the chunks addresses other words of the ayah (e.g., ذَلِكَ، هُدَى، يَهْدِي، بِهِ), so no claims were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

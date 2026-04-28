@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:60",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "saj",
+        "source_quote_ar": "البلاغة: في هذه الآية «التنزيل المنظوم»",
+        "claim_ar": "التنزيل المنظوم (سجع/إيقاع بلاغي) في صياغة الآية، مقاربة للوزن الشعري من غير قصد الشعر",
+        "claim_en": "The verse exhibits 'al-tanzil al-manẓūm' — a measured, poetic-like cadence (saj / rhymed prose), producing a poetic rhythm without intent to make it poetry.",
+        "device_branch": "badi",
+        "device_subtype": "saj",
+        "root": "نظم",
+        "lemma": "نَظْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "ثُمَّ حرف عطف للترتيب مع التراخي",
+        "claim_ar": "حرف «ثُمَّ» هنا وظيفته بلاغياً للدلالة على الترتيب مع معنى التراخي/التدرج في الوقوع",
+        "claim_en": "The conjunction 'thumma' functions rhetorically to indicate sequence with a sense of delay/loosened immediacy (ordering with relenting pace).",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "ث م م",
+        "lemma": "ثُمّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "istiarah",
+        "source_quote_ar": "جعل من جنس الساعة وسمى باسمها",
+        "claim_ar": "توظيف تصويري/استعارى: جعل الموت من جنسِ الساعة وسمّاه باسمها — أي نسب الموت إلى جنس القيامة واستعمل اسمها، كنوع من المجاز/الاستعارة",
+        "claim_en": "A figurative/metonymic move: death is treated as of the same kind as the Hour and is named by it — a rhetorical transfer/metaphor (majāz/isti'āra), linking death to the Resurrection to emphasize immediacy and identity of occurrence.",
+        "device_branch": "bayan",
+        "device_subtype": "istiarah",
+        "root": "جعل",
+        "lemma": "جَعَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive step: the commentary reads a figurative naming/metonymy — confidence moderate because it is a commentary-based rhetorical reading rather than an explicit label in the verse itself."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "كلام مستأنف مسوق لخطاب الكفرة.",
+        "claim_ar": "أسلوب استئنافي: الكلام مستأنف ومقدّم كخطاب موجّه إلى الكفرة (نبرة تأنيب/تبصير)",
+        "claim_en": "A sermonic/appointed style: the utterance is resumed and presented as an address to the disbelievers — a rhetorical register of admonition and reproach.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "سوق",
+        "lemma": "سَوْق",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling as 'asloob_hakim' is based on the grammatical/commentarial description of discourse function; may require cross-checking with other rhetorical categorizations."
+      }
+    ],
+    "warnings": [
+      "The particle «ثُمَّ» occurs multiple times in the verse (word_index 9, 15, 18). The claim for ثُمَّ is attached to the first occurrence (word_index 9); similar rhetorical effect applies to the later occurrences.",
+      "Some source chunks are commentary excerpts and occasionally truncated in the provided text (e.g., the 'التنزيل المنظوم' note is followed by a truncated quotation). Claims derived from commentary are marked with medium confidence where interpretation beyond an explicit label was required.",
+      "Claims labeled as metaphor/metonymy (istiarah/majaz) are drawn from the exegetical explanation in the Kashshaf chunk; the verse itself does not use the exact technical term, so this is an interpretive rhetorical reading."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:69",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وما نافية",
+        "claim_ar": "استخدام تركيب «ما ... من» للنفي الشامل والحصر (تنبيه بلاغي على خلوّ الحساب عن المتقين)",
+        "claim_en": "Use of the 'ma ... min' construction to express total negation/exclusion (rhetorical emphasis that those who fear God have no account against them).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary chunk notes 'وما نافية' (grammatical status). Interpreting this grammatical negation also as a rhetorical device (expressing full exclusion for emphasis) is plausible but relies on rhetorical reading beyond the purely grammatical tag; confirm with a balagha-specific commentary."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "افتتاح الجملة بـ«و» على نحو استئنافي لتقديم البيان وربطه بما قبلها (أسلوب تسوية وتوكيد في السياق البلاغي).",
+        "claim_en": "The initial 'wa' functions as an introductory/establishing waw (استئنافية) to present and link this statement to what precedes it, producing a reassuring/confirmatory rhetorical tone.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": null,
+        "lemma": "وَ",
+        "confidence": "high",
+        "needs_review_reason": "The source explicitly labels the waw as 'استئنافية' (grammatical/discursive). Treating this grammatical characterization as a rhetorical/stylistic device is reasonable, but verify context-specific pragmatic effect with additional balagha sources if needed."
+      }
+    ],
+    "warnings": [
+      "The available source chunks are grammatical/syntactic commentaries on various verses and sometimes on neighboring verses; some quoted substrings (e.g., 'وما نافية', 'الواو استئنافية') are grammatical labels. Mapping these grammatical observations to rhetorical device claims requires interpretive steps—please confirm whether you want strictly balagha-focused sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) rather than general i'rab notes.",
+      "No explicit balagha statements (from the provided chunks) labeling 'ذِكْرَى' as an ijaz (concise reminder) or other specific maani devices were found in the provided chunks. Additional balagha/tafsir-balagha excerpts would allow extraction of further devices (e.g., ijaaz, fasl_wasl, or the pragmatic force of 'لعل')."
+    ],
+    "quran_ref": "S6:A69"
+  },
+  "n_chunks": 12
+}

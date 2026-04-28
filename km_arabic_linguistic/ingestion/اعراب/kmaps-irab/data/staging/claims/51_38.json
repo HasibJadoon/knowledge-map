@@ -1,0 +1,13 @@
+{
+  "layer": "irab",
+  "ayah_key": "51:38",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contains an exact Arabic substring matching the ayah text (وَفِي مُوسَىٰ إِذْ أَرْسَلْنَاهُ إِلَىٰ فِرْعَوْنَ بِسُلْطَانٍ مُّبِينٍ).",
+      "Per task instructions, source_quote_ar must be an exact substring of one of the provided chunks; therefore no إعراب claims could be extracted from the given chunks.",
+      "Provided chunk IDs: AL:CHUNK:5330e21bf84e1d6f3ab48888, AL:CHUNK:8c0bab19b6c1628fe3db125b, AL:CHUNK:6bbba27995c26bc9a9332b4b, AL:CHUNK:0b84b6391156a1388ed48f93, AL:CHUNK:bd176a581d3d3d66f471251b, AL:CHUNK:b3a614dd465bcd93b4bac0fd."
+    ]
+  },
+  "n_chunks": 12
+}

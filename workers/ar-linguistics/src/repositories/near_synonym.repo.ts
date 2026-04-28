@@ -145,7 +145,7 @@ export class NearSynonymRepo {
          AND NOT (arabic_display IS NULL AND source_status = 'ai_assisted')
        ORDER BY sort_order, arabic_display`,
       [setId],
-    );
+    ).then(rows => rows.filter(isUsableNearSynonymMember));
   }
 
   evidenceForSet(setId: string): Promise<NearSynonymEvidence[]> {
@@ -180,7 +180,7 @@ export class NearSynonymRepo {
       surah,
       ayah,
       sets: sets
-        .filter((s): s is NearSynonymSetDetail => s !== null)
+        .filter((s): s is NearSynonymSetDetail => s !== null && s.members.length > 0)
         .map(s => ({
           ...s,
           evidence: evidence.filter(e => e.set_id === s.id),
@@ -254,4 +254,23 @@ function cleanNullable(value: unknown): string | null {
   if (value === null || value === undefined) return null;
   const text = String(value).trim();
   return text.length ? text : null;
+}
+
+const URDU_ONLY_LETTERS_RE = /[\u0679\u0688\u0691\u067e\u0686\u0698\u06a9\u06af\u06ba\u06be\u06c1\u06c2\u06d2\u06cc]/;
+const ARABIC_LETTER_RE = /[\u0621-\u063a\u0641-\u064a\u0670]/;
+const LATIN_LETTER_RE = /[A-Za-z]/;
+const ARABIC_DIACRITICS_RE = /[\u064b-\u065f\u0670\u06d6-\u06ed]/g;
+
+function isUsableNearSynonymMember(member: NearSynonymMember): boolean {
+  const display = member.arabic_display?.trim();
+  if (!display) return false;
+  if (LATIN_LETTER_RE.test(display) || URDU_ONLY_LETTERS_RE.test(display)) return false;
+  if (!ARABIC_LETTER_RE.test(display)) return false;
+
+  const bare = (member.arabic_bare || display)
+    .replace(ARABIC_DIACRITICS_RE, '')
+    .replace(/[^\u0621-\u063a\u0641-\u064a\u0670]+/g, '');
+  if (bare.length < 2) return false;
+
+  return !(member.claim_basis === 'inferred_from_source' && member.confidence === 'needs_review');
 }

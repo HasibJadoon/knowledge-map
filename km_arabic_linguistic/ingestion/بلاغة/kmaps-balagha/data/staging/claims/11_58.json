@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:58",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الواو عاطفة على ما تقدم والآية متصلة",
+        "claim_ar": "حرف العطف في بداية الآية («وَلَمَّا») يعمل وصلًا بالسياق السابق ويمنح السرد استمرارًا وسلاسة بدلاً من قطع تام.",
+        "claim_en": "The conjunction at the start of the verse (wa-lammā) functions to connect this sentence to the preceding context, giving continuity and smoothness to the narration rather than a full break.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "لَمَّا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source discusses the coordinating waw and continuity in a different verse; it supports the general rhetorical function but is not an explicit commentary on this specific ayah.",
+        "quran_ref": "S11:A58",
+        "rhetorical_effect": "creates narrative continuity and immediacy"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "mukabalah",
+        "source_quote_ar": "عَذَاباً شَدِيداً",
+        "claim_ar": "تباين واضح بين «بِرَحْمَةٍ مِّنَّا» و«مِنْ عَذَابٍ غَلِيظٍ» يبرز التناقض بين الرحمة الإلهية والعقاب الشديد، فتتسع دائرة المعنى بين النجاة والرّدع.",
+        "claim_en": "A clear contrast between 'by Our mercy' and 'from a severe punishment' (min 'adhāb ghaliẓ) highlights the opposition between divine mercy and harsh punishment, expanding the meaning between deliverance and deterrence.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "عذب",
+        "lemma": "عَذَاب",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting quote comes from a different verse in the provided chunks (showing the phrase 'عَذَاباً شَدِيداً'); it is analogous evidence rather than a direct tafsir citation on this ayah.",
+        "quran_ref": "S11:A58",
+        "rhetorical_effect": "emphasizes moral contrast (mercy vs. punishment) and heightens the significance of deliverance"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "جملة مستأنفة مسوقة",
+        "claim_ar": "الآية تعمل كجملة مستأنفة مسوقة تُختم بها حادثة وتُشرع في خاتمة السرد (وَلَمَّا جَاءَ أَمْرُنَا نَجَّيْنَا...)، فتضع وقفة سردية تؤكد نتيجة الفاصل الزمني (قدوم الأمر الإلهي) والنجاة المترتبة عليه.",
+        "claim_en": "The verse functions as a resumed, ordered sentence that concludes the incident and marks a narrative closure (when Our command came, We saved ...), creating a rhetorical pause that affirms the temporal turning point (the divine command) and the consequent deliverance.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source fragment addresses the notion of 'جملة مستأنفة مسوقة' in commentary on other verses; it supports the general narrative-function claim but is not an explicit citation about this specific ayah.",
+        "quran_ref": "S11:A58",
+        "rhetorical_effect": "marks narrative closure and emphasizes causal/result relation"
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks includes a direct, explicit commentary-quote on S11:58; the extracted source_quote_ar substrings are taken from the supplied chunks as analogous or general support (e.g., discussion of coordinating waw, the phrase 'عَذَاباً شَدِيداً', and the term 'جملة مستأنفة مسوقة').",
+      "Because the supporting substrings are not direct exegesis of this exact ayah, the confidence levels are set to 'medium' and the claims should be reviewed against primary balagha sources (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsir balagha) for explicit attestations tied to S11:58.",
+      "No reliable substring containing the verb نَجَّيْنَا or its immediate repetition was present in the provided chunks, so a claim about verbal repetition (تكرار) or exact lexical parallelism could not be evidenced from the supplied texts and was therefore omitted."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "13:37",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "إعجاز (ijaaz)",
+        "source_quote_ar": "بِسُورَةٍ مِثْلِهِ",
+        "claim_ar": "توكيد إعجاز القرآن بتحدٍّ بلاغيّ: «أْتُوا بِسورةٍ مثلِه» كحجة على عدم إمكان الافتراء",
+        "claim_en": "Asserting the Qur'an's inimitability by a rhetorical challenge: 'Bring a surah like it' — used as an argument against claims of fabrication.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "س و ر",
+        "lemma": "سورة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S13:A37",
+        "rhetorical_effect": "Strengthens the claim of divine origin by issuing a direct rhetorical challenge that highlights human inability to match the text's eloquence."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "توكيد على العربية والاستقامة (emphasis on Arabic eloquence)",
+        "source_quote_ar": "قُرْآناً عَرَبِيًّا غَيْرَ ذِي عِوَجٍ",
+        "claim_ar": "تأكيد على كون النص (القرآن) عربيّاً سليمَ الصياغة، لا اعوجاج فيه — أي بلاغة واستقامة في اللفظ والمعنى",
+        "claim_en": "Emphasis on the text's Arabicness and straightness (no 'crookedness') — asserting linguistic purity and stylistic perfection.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "ع ر ب",
+        "lemma": "عَرَبِيّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S13:A37",
+        "rhetorical_effect": "Highlights authenticity and aesthetic perfection of the wording, reinforcing the listener's recognition of its superior style."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "حيلة إنشائية تحذيرية (conditional/hypothetical for emphasis)",
+        "source_quote_ar": "وَلَوْ أَنَّ قُرْآناً",
+        "claim_ar": "استعمال صيغة شرطية تعظيمية (لو/لئن) لعمل تنديد وإنذار؛ صياغة افتراضية قوية تبيّن مدى تأثير وقوع الأمر لو حدث",
+        "claim_en": "Use of an emphatic hypothetical conditional (e.g., 'لو/لئن') as a rhetorical device for admonition/warning; a hypothetical construction used to intensify the point by imagining an extreme consequence.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "ل و (particle)",
+        "lemma": "لو / لئن (شرطية تعظيمية)",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping of 'وَلَئِنِ' (لأنّ/لئن) in this ayah to the examples using 'لو' in the commentary is interpretive; review recommended to confirm whether the commentary's 'لو' example is being read as the same rhetorical function as 'لئن'.",
+        "quran_ref": "S13:A37",
+        "rhetorical_effect": "Creates a vivid hypothetical to warn the addressee about following desires after receiving knowledge, thereby increasing the moral pressure of the statement."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from al-Kashshaf (Zamakhshari) and some quoted substrings mention 'قُرْآنًا' while the ayah text in the input uses 'حُكْمًا'. Claims link the commentary's language about the Qur'an to the ayah's formulation (حُكْمًا عَرَبِيًّا); this inferential step should be reviewed for precision.",
+      "The mapping of specific maani subtypes (e.g., ijab_inshaa for conditional particles) is partly interpretive based on the commentary examples; consider verifying with additional tafsir/balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) if stricter classification is required.",
+      "Only substrings present in the provided source_chunks were used as source_quote_ar. If other original commentaries were intended (Jurjani, Sakkaki, Baqillani, Suyuti), provide their chunks so claims can be corroborated or refined."
+    ]
+  },
+  "n_chunks": 12
+}

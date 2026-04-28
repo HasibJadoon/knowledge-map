@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:41",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contains an exact substring of the target ayah (examples to look for: \"وَقَالَ ارْكَبُوا\", \"بِسْمِ اللَّهِ\", \"مَجْرَاهَا\", \"مُرْسَاهَا\", \"إِنَّ رَبِّي لَغَفُورٌ رَحِيمٌ\"). The extraction rules require source_quote_ar to be an exact substring from a provided chunk; because those substrings do not appear in the chunks you supplied, I cannot produce grounded rhetoric claims for this ayah. Please supply tafsir/balagha chunks that include the ayah text or explicit commentary quoting these phrases so I can extract claims."
+    ]
+  },
+  "n_chunks": 12
+}

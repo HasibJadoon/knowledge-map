@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "جناس (تجانس لفظي)",
+        "source_quote_ar": "والتجانس بين لفظتي الأسف ويوسف",
+        "claim_ar": "تجانس لفظي (بديع/جناس) بين لفظتي «الأسف» و«يوسف»، يُضفى لذعاً وحلاوة لفظية على السرد ويسهم في لفت الانتباه إلى اسم يوسف.",
+        "claim_en": "Phonetic harmony (tajanus / paronomasia) between the words “al-asf” and “Yusuf”, adding a pleasing sonic quality to the narrative and drawing attention to the name Yusuf.",
+        "device_branch": "badi",
+        "device_subtype": "jinas (تجانس لفظي)",
+        "root": "يوسف",
+        "lemma": "يُوسُف",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement (تأطير/إحالة سياقية)",
+        "source_quote_ar": "الْقَرْيَةَ الَّتِي كُنَّا فِيها هي مصر",
+        "claim_ar": "تأطير سردي: تعليق التفسير على مكان السرد (مصر) كوسيلة لتحديد الإطار السردي لقصة يوسف وإخوته—يعمل كحركة إخبارية تضبط المشهد وتؤطر الآيات التالية.",
+        "claim_en": "Narrative framing: the commentary situates the story in a specific locale (“the town we were in is Egypt”), which frames the scene for the account of Joseph and his brothers—serving as a movement that orients subsequent verses.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": "ق ر ي",
+        "lemma": "قَرْيَة",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary phrase frames the broader narrative; the tie between this framing and the particular ayah (S12:7) is inferential rather than an explicit statement about the verse in the chunk."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are explanatory/commentarial and do not all quote the target verse (S12:7) verbatim. Some claims are drawn from commentators' remarks adjacent to the story rather than from an explicit, labeled discussion of this exact ayah.",
+      "Only one clear, explicit statement about a rhetorical device (the \"التجانس بين لفظتي الأسف ويوسف\") was found in the chunks; other proposed devices (e.g., narrative framing) are inferred from contextual commentary and thus assigned lower confidence.",
+      "If you want a more exhaustive extraction (more device types from the list), please provide additional commentary chunks (especially those that quote or discuss S12:7 directly, e.g., al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir-balagha excerpts addressing this verse)."
+    ]
+  },
+  "n_chunks": 12
+}

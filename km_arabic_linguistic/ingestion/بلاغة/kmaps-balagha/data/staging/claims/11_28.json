@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:28",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "جوابه محذوف، وإنما لم يثبت لأنّ إثباته في القصتين دلّ على مكانه، والمعنى ينادى عليه.",
+        "claim_ar": "حذف جواب سؤال «أَرَأَيْتُمْ» (إيجاز بلاغي)؛ أي اعتماد الحذف كوسيلة لإيجاز المعنى وإيهام السامع بوضوح الدلالة دون ذكر الجواب صراحة.",
+        "claim_en": "The answer to the interrogative 'أَرَأَيْتُمْ' is omitted (elliptical omission) — a rhetorical concision (ijaaz) that relies on the listener's inference of the missing reply.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz/حذف (ellipsis)",
+        "root": "حذف",
+        "lemma": "حذف",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "المعنى: أخبرونى إن كنت على حجة واضحة ويقين من ربى وكنت نبياً على الحقيقة، أيصح لي أن لا آمركم بترك عبادة الأوثان والكف عن المعاصي؟",
+        "claim_ar": "السؤال البلاغي «أَرَأَيْتُمْ...» عامل إنشائي يُستخدم لاستصدار تأييد أو لبيان عدم المشروعيّة في تجاوز أمر واضح؛ أي سؤال إنشائي يهدف إلى الحجاج والإقناع.",
+        "claim_en": "The rhetorical interrogative 'أَرَأَيْتُمْ...' functions as an injunctive/interrogative device (ijab/inshaa) — a persuasive rhetorical question that challenges the audience and seeks to make the point evident without assertion.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa (rhetorical question for persuasion)",
+        "root": "رأي",
+        "lemma": "رَءَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "ما أريد إلا أن أصلحكم بموعظتى ونصيحتي",
+        "claim_ar": "توكيد قصد الإصلاح بأسلوب نفي + إلا للدلالة على قصر الهدف على الإصلاح فقط (أسلوب بلاغي للحكمة والإنابة).",
+        "claim_en": "A hortatory/explanatory prophetic style: negation + 'except' (ما ... إلا) used to emphasize that the speaker's sole aim is reform — an authoritative/wise stylistic formulation (asloob_hakim).",
+        "device_branch": "other",
+        "device_subtype": "negation_except_for_emphasis (ما ... إلا)",
+        "root": "أراد",
+        "lemma": "أَرَادَ",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the quoted phrase to the label 'asloob_hakim' and the root/lemma choice for أريد requires review against preferred source conventions; the chunk contains this explanatory wording but the exact classification can vary among rhetoricians."
+      }
+    ],
+    "warnings": [
+      "Requested classical rhetoricians (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present among the provided source chunks. Claims above are drawn from the provided Zamakhshari / Darwish (I'rab) material only.",
+      "Source_quote_ar fields are exact substrings taken from the supplied chunks. If additional classical sources are provided, more devices (or alternative classifications) may be extractable.",
+      "Some device classifications (e.g., labeling omission as 'ijaaz' or treating the negation-except phrase as 'asloob_hakim') reflect one plausible mapping; scholarly opinions may differ — see needs_review_reason fields."
+    ]
+  },
+  "n_chunks": 12
+}

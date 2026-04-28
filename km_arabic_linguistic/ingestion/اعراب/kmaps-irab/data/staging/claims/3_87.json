@@ -1,0 +1,37 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:87",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ) : يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛ تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ، وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "حرف العطف/أداة النصب «أَنَّ» يُقبل قراءتان: تُقْرَأُ هَمْزَتُهَا بِفَتْحٍ، وعلى الاستئناف تقرأ بكسرٍ.",
+        "claim_en": "The particle 'أَنَّ' has reading variants: its hamza is read with a fatha; on pause (isti'naf) it may be read with a kasra.",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the reading of \"أَنَّ\" in a different verse (وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ); applying the same qira'ah observations to S3:87 is plausible but not explicitly stated in the chunk.",
+        "quran_ref": "S3:A87"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "taqdir",
+        "source_quote_ar": "تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ",
+        "claim_ar": "يُذكر في النص تقدير (تأويل) «أَنَّ» بحيث يكون معنى مُقدَّرًا/مرفوعًا بـ «ذَلِكَ بِأَنَّ...» (تقدير ذَلِكَ بِأَنَّ...).",
+        "claim_en": "The text gives an interpretive (taqdir) reading: 'its interpretation is (ذلك) by (that) with 'أَنَّ'...' — i.e., an implied explanatory/interpretive element is supplied (taqdir) with 'أَنَّ'.",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited taqdir is explicitly given for another verse in the chunk; whether the same specific implied structure is intended for S3:87 is inferred rather than directly attested in the provided chunk.",
+        "quran_ref": "S3:A87"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not discuss Sura 3:87 (أُولَئِكَ جَزَاؤُهُمْ أَنَّ عَلَيْهِمْ لَعْنَةَ...) explicitly; extracted claims are inferred from the discussion of the particle «أَنَّ» in other verses within the chunks.",
+      "Claims should be verified against al-Tibyan passages that treat S3:87 specifically; current confidence is medium because the source examples are from different contexts."
+    ]
+  },
+  "n_chunks": 12
+}

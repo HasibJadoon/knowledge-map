@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "33:55",
+  "result": {
+    "claims": [
+      {
+        "word_index": 28,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ «كُلِّ» بِالْإِضَافَةِ",
+        "claim_ar": "كلمة «كُلِّ» تُقرأ في حالة الإضافة (مُقترَنة بالمضاف إليه)",
+        "claim_en": "The word \"كُلِّ\" is to be read/treated as in the construct state (i.e. as in an idāfa)",
+        "root": "كلل",
+        "lemma": "كُلّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 28,
+        "claim_type": "taqdir",
+        "source_quote_ar": "أَحَدُهُمَا: أَنَّ مَفْعُولَ «احْمِلْ» : «اثْنَيْنِ» تَقْدِيرُهُ: احْمِلْ فِيهَا اثْنَيْنِ مِنْ كُلِّ زَوْجٍ",
+        "claim_ar": "تقدير مفعول محذوف مرتبط بقراءة «كُلِّ» بالإضافة: يُقدَّرُ مفعول «احمل» بـ «اثنين» (احمل فيها اثنين من كل زوج)",
+        "claim_en": "A supplied (elided) object is posited when reading \"كُلِّ\" in idāfa: the object of the verb (e.g. احْمِلْ) is estimated as \"اثْنَيْنِ\" — i.e. \"carry into it two from each pair\"",
+        "root": "كلل",
+        "lemma": "كُلّ",
+        "confidence": "medium",
+        "needs_review_reason": "The taqdīr links an elided object (اثْنَيْنِ) and a verb (احْمِلْ) not present in the current ayah's surface text; applicability to this ayah depends on contextual emendation/reading."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

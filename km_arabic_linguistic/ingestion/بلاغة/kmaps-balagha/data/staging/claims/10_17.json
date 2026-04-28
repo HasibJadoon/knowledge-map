@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:17",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "ما فائدة هذا السؤال؟ قلت: فائدته أن يجيبوا بما أجابوا به",
+        "claim_ar": "الاستفهام الإنشائي (سؤال بلاغي): قوله تعالى «فَمَن أَظْلَمُ...» قائم على استفهام إنشائي يقصد إثارة الإجابة والعيب والإذلال للمكذبين.",
+        "claim_en": "Rhetorical interrogative (ijab/inshāʾ): The opening question 'Who is more unjust...' functions as a rhetorical question intended to elicit an answer, shame the deniers, and intensify blame.",
+        "device_branch": "maani",
+        "device_subtype": "interrogative_rhetorical",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "jinas",
+        "source_quote_ar": "تكذيبهم",
+        "claim_ar": "جناس/تكرار جذري: وجود صيغ متقاربة من الجذر ك-ذ-ب («كَذِبًا» و«كَذَّبَ» في الآية، ومشتقاتها في الشروح) يخلق ترديداً صوتياً ودلالياً يؤكد ذمّ الفعل.",
+        "claim_en": "Paronomasia / repetition of root (jinas): The recurring forms derived from the root k-dh-b (e.g., 'كَذِبًا' and 'كَذَّبَ' in the verse, and related derivatives in the commentary) create a sonic and semantic echo that reinforces condemnation of the act.",
+        "device_branch": "badi",
+        "device_subtype": "jinas_sound-play",
+        "root": "كذب",
+        "lemma": "كَذِب",
+        "confidence": "medium",
+        "needs_review_reason": "Claim infers verse forms from commentarial occurrences (exact verse-forms not present verbatim in provided chunks)."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "السبب في إهلاكهم تكذيب الرسل",
+        "claim_ar": "مقابلة/موازنة بلاغية: الربط بين فعلَي الضرر (افترى على الله كذبًا) و(كذّب بآياته) عبر «أَوْ» يؤسس لمقابلة تُظهر جانبي الإثم وتضاعف الذمّ.",
+        "claim_en": "Parallelism / muqābalah: The pairing of two accusations (fabricating lies about God vs denying His signs) joined by 'or' creates a balanced parallelism that highlights both aspects of the crime and intensifies reproach.",
+        "device_branch": "badi",
+        "device_subtype": "parallelism_or",
+        "root": "كذب",
+        "lemma": "أَو",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretation depends on rhetorical reading of coordination; the exact coordinating forms are in the verse (not fully quoted in chunks), though commentary supports causal/parallel reading."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فائدته أن يجيبوا بما أجابوا به، حتى يبكت عبدتهم بتكذيبهم إياهم",
+        "claim_ar": "التفات بياني (انتقال من سؤال إلى تقرير): الانتقال بعد السؤال إلى التأكيد «إِنَّهُ لَا يُفْلِحُ الْمُجْرِمُونَ» يعمل كإجابة تقريرية حاسمة تُنهِي الجدل وتعلن حكمًا على المجرمين.",
+        "claim_en": "Rhetorical shift / iltifāt: The move from the interrogative to the emphatic declarative 'Indeed, the criminals will not prosper' functions as a deliberate shift that answers the rhetorical question decisively and pronounces condemnation.",
+        "device_branch": "maani",
+        "device_subtype": "shift_question_answer",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "Inferred from commentary describing function of the question and its effect; the exact phrase of the verse is not quoted in the chunks, though the analysis supports this shift."
+      }
+    ],
+    "warnings": [
+      "Source chunks are exegetical/commentarial excerpts (Zamakhshari, Safi) and do not always contain the exact verse word-forms verbatim; several claims are inferred from the commentary rather than being directly quoted from the ayah within the chunks.",
+      "Some device attributions (e.g., jinas vs. simple repetition, muqabalah reading of coordination) are interpretive and may require verification against broader classical rhetoric literature or other tafsir sources.",
+      "Source_quote_ar fields use exact substrings from the provided chunks to support the claims. Where verse-forms are not present in chunks, the commentary substrings were used as supporting evidence."
+    ]
+  },
+  "n_chunks": 12
+}

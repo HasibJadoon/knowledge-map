@@ -1,0 +1,43 @@
+{
+  "layer": "irab",
+  "ayah_key": "14:35",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taalluq",
+        "source_quote_ar": "«إِذْ» ظَرْفٌ لِحَدِيثٍ، أَوْ لِضَيْفٍ، أَوْ لِمُكْرَمِينَ؛ لَا لِأَتَاكَ.",
+        "claim_ar": "حرف (إِذْ) ظرف لحديثٍ (ظرف زمان/حادثة) ويتعلّق بقولِ إبراهيم (قَالَ).",
+        "claim_en": "The particle 'إِذْ' is a temporal/adverbial particle (zarf) introducing the narration; it attaches to the verb 'قَالَ' (the speech of Ibrahim).",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "(أَنْ نُرْسِلَ) : أَيْ مِنْ أَنْ نُرْسِلَ، فَهِيَ فِي مَوْضِعِ نَصْبٍ، أَوْ جَرٍّ عَلَى الْخِلَافِ بَيْنَ الْخَلِيلِ وَسِيبَوَيْهِ، وَقَدْ ذَكَرْتُ نَظَائِرَهُ.",
+        "claim_ar": "حرف (أَنْ) مع الفعل المضارع في مثل هذا السياق يكون في موضع نصب (ينصب الفعل المضارع: نَعْبُدَ).",
+        "claim_en": "The particle 'أَنْ' governing the following imperfect verb is in the position of nasb (it makes the present verb منصوب), i.e. it governs 'نَعْبُدَ'.",
+        "root": null,
+        "lemma": "أَن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "أَوْ جَرٍّ عَلَى الْخِلَافِ بَيْنَ الْخَلِيلِ وَسِيبَوَيْهِ",
+        "claim_ar": "مذكور اختلاف بين النحاة (الخليل وسيبويه) في أن (أَنْ) تُؤوَّل أحيانًا على الجر فيأخذها المعنى الجرّي في بعض الأمثلة.",
+        "claim_en": "The author notes a grammatical disagreement between al-Khalil and Sibawayh that in some cases 'أَنْ' may be treated as governing genitive (jarr) — i.e., there is a disagreement about its governance in certain examples.",
+        "root": null,
+        "lemma": "أَن",
+        "confidence": "medium",
+        "needs_review_reason": "The note records a theoretical disagreement; applicability to this specific instance in the verse may require checking classical parsers for whether this verse is cited among exceptions."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

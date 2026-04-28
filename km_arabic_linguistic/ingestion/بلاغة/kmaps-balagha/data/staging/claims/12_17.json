@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:17",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فخاطبها وخاطب أمتها",
+        "claim_ar": "الالتفات إلى مخاطبة الأب مباشرة بلفظ النداء «يَاأَبَانَا» ـ أي الانتقال من حكائيّة السرد إلى مخاطبة مباشرة لزيادة التأثير العاطفي.",
+        "claim_en": "Iltifat (sudden shift to direct address): the switch to directly addressing the father with the vocative 'O our father' — moving from reported narrative into direct speech to heighten immediacy and emotion.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ابو",
+        "lemma": "أَبٌ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary passage discusses examples of addressing in related narratives (e.g. Zuleikha) rather than quoting this exact verse; connection to this ayah is inferential."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "لَيُوسُفُ اللام للابتداء. وفيها تأكيد وتحقيق لمضمون الجملة.",
+        "claim_ar": "ابتداء بلام التأكيد على اسم يوسف («لَيُوسُفُ») كأسلوب بلاغي للتوكيد والتحقّق من المعنى الوارد في القول.",
+        "claim_en": "Stylistic device (asloob_hakim): beginning with the emphatic لَـ on the proper name 'Yusuf' ('Laiusuf') — a rhetorical use of the lām for initiation/emphasis, confirming and strengthening the statement.",
+        "device_branch": "other",
+        "device_subtype": "lam_for_initiation/emphasis",
+        "root": null,
+        "lemma": "يُوسُف",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "هذِهِ بِضاعَتُنا رُدَّتْ إِلَيْنا",
+        "claim_ar": "تتبع خطابي: استمرار كلام الإخوة وتقديم تبريرات متتابعة في السرد (حركةٍ سردية تربط أقوالهم بعضُها ببعض).",
+        "claim_en": "Surah movement / narrative continuity: the brothers' speech continues with sequential justifications — a rhetorical movement that links their statements together in the narrative flow.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary treats the brothers' speech in adjacent verses of the same passage; connecting that commentary to the specific rhetorical function in this ayah is interpretive and should be verified against fuller exegesis."
+      }
+    ],
+    "warnings": [
+      "Some source quotations come from commentary on adjacent or related verses in the Yusuf narrative rather than explicit commentary on S12:17; those links are inferential and should be reviewed.",
+      "One claim (iltifat) is supported by discussion of addressing in other narrative examples (e.g. Zuleikha) — confirm applicability to the vocative in this ayah.",
+      "No explicit mentions of devices such as isti'ara, tashbih, jinas, or takrar for this exact verse were found in the provided chunks; only the above devices are directly supportable from the supplied excerpts."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "14:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "الْمَصِيرُ فَاعِلُ بِئْسَ، وَالْمَخْصُوصُ بِالذَّمِّ مَحْذُوفٌ تَقْدِيرُهُ: وَبِئْسَ الْمَصِيرُ النَّارُ.",
+        "claim_ar": "القرار (في قوله: وَبِئْسَ الْقَرَارُ) فاعلٌ لِـبِئْسٍ.",
+        "claim_en": "The noun (al-qarrar) functions as the subject (فاعل) of the exclamatory particle/verb 'بئس'.",
+        "root": "قرر",
+        "lemma": "قَرَار",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary explicitly treats 'المصير' as فاعل in the formula 'وَبِئْسَ الْمَصِيرُ'. The ayah here reads 'الْقَرَارُ' — the claim is inferred by analogy from the commentator's example and should be checked against the original commentary on this exact wording."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "taqdir",
+        "source_quote_ar": "الْمَخْصُوصُ بِالذَّمِّ مَحْذُوفٌ تَقْدِيرُهُ: وَبِئْسَ الْمَصِيرُ النَّارُ.",
+        "claim_ar": "المخصوص بالذم محذوفٌ؛ تقديره (النار) — أي: وَبِئْسَ الْقَرَارُ النَّارُ.",
+        "claim_en": "The item specifically condemned is omitted (محذوف); the commentator supplies the elided noun 'النار' (i.e., 'وبئس ... النار').",
+        "root": "نار",
+        "lemma": "النَّارُ",
+        "confidence": "medium",
+        "needs_review_reason": "The source explicitly supplies 'النار' as the omitted specific for the phrase it discusses ('وَبِئْسَ الْمَصِيرُ'). Applying this supplied elision to the ayah's 'الْقَرَارُ' is an inference and should be confirmed against commentary on this exact wording."
+      }
+    ],
+    "warnings": [
+      "The cited source chunk discusses the phrase 'وَبِئْسَ الْمَصِيرُ' (al-maṣīr). The ayah under analysis reads 'وَبِئْسَ الْقَرَارُ' (al-qarār). The claims above are inferred by analogy from the commentator's remarks on 'المصير' and should be reviewed against the commentator's treatment (if any) of the exact word 'القرار'."
+    ],
+    "quran_ref": "S14:A29"
+  },
+  "n_chunks": 12
+}

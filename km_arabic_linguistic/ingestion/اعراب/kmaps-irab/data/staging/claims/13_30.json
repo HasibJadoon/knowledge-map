@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "13:30",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(مِنَ الصَّوَاعِقِ) : أَيْ مِنْ صَوْتِ الصَّوَاعِقِ.",
+        "claim_ar": "مِنْ حرف جر متعلّق بما بعده ويجُرُّه (أي يدخل على الاسم فيكون مجرورًا).",
+        "claim_en": "The preposition مِنْ is a preposition governing the following noun (i.e., it makes the following noun genitive).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "من قطع المصدر المرفق، فقط نص واحد ذُكِرَ فيه كلمة «مِنَ» بصراحة مما يسمح باستنتاج علاقة جر. لا توجد في القطع المقدمة عروض إعرابية صريحة لباقي كلمات الآية (مثل أَرْسَلْنَاكَ، أُمَّةٍ، لِتَتْلُوَ، أَوْحَيْنَا، يَكْفُرُونَ، بِالرَّحْمَنِ، قُلْ هُوَ رَبِّي، إلخ). لذلك لم تُستخرج دعاوى إضافية."
+    ]
+  },
+  "n_chunks": 12
+}

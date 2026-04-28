@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:177",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extraction performed: none of the provided source chunks contain the ayah text or any exact substring discussing this ayah, so no إعراب claims could be sourced. Provide relevant chunk(s) from التبيان that mention or analyze this specific verse to extract claims."
+    ]
+  },
+  "n_chunks": 5
+}

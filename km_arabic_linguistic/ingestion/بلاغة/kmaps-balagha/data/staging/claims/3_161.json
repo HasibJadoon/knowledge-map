@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:161",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "(ثم) حرف عطف",
+        "claim_ar": "ثُمَّ أداة عطف فاصل تُبيّن تتابع وقوع الأحداث: بعد الإحالة إلى وقوع الغل ويوم القيامة يأتي الفاصل الزمني ثمّ الوفاء بالجزاء، فتزداد اليقينية بارتباط السبب بالنتيجة.",
+        "claim_en": "The particle ثُمَّ functions as a connective marking sequential progression: after mentioning the wrongdoing and the Day of Resurrection, it introduces the subsequent act of recompense, reinforcing the inevitability and sequence of cause and effect.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "ثُمَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "أى يوم القيامة حين تجد كل نفس خيرها وشرها حاضرين، تتمنى لو أنّ بينها وبين ذلك اليوم",
+        "claim_ar": "تصوير سردي لحادثة يوم القيامة كحالة حاضرة أمام النفس؛ أسلوب حكاية يوقظ التوجس ويقوّي أثر الوعيد والجزاء في نفس السامع/القارئ.",
+        "claim_en": "A narrative/poetic presentation of the scene of the Day of Resurrection as if each soul finds its deeds present; this 'wise style' (أسلوب حكيم) paints a vivid scene that awakens awe and strengthens the impact of the warning about recompense.",
+        "device_branch": "other",
+        "device_subtype": "scene_vividness",
+        "root": "يوم",
+        "lemma": "يَوْم",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary in the provided chunk discusses the phrase يَوْمَ تَجِدُ and the vividness of that presentation; confirm direct application of that exact commentary to this verse's phrasing (يَوْمَ الْقِيَامَةِ ثُمَّ تُوَفَّى...)."
+      }
+    ],
+    "warnings": [
+      "No provided source chunk contains the lexical form غَلَّ / يَغْلُلْ or explicit commentary on that root; therefore devices that would rely on direct scholar commentary for the repetition of غَلَّ (e.g., تكرار، جناس مرتبط بالغلّ) could not be supported from the supplied chunks.",
+      "Only two substrings from the supplied chunks clearly map to rhetorical observations for this verse (the treatment of يَوْم... as a vivid scene and the role of ثُمَّ as a sequential particle). Other plausible devices (e.g., مقاربة/مقابلة between نبيٍّ and من يَغْلُلْ, or explicit تكثير/تكرار of particles) may be present in other classical commentaries but are not attested in the provided chunks — further source material is needed to extract additional claims with confidence."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:23",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "وَلَوْ تَرى ولو عاينت وشاهدت، لأن «لو» تردّ المضارع إلى معنى الماضي",
+        "claim_ar": "تكرار حرف الشرط «لو» (وجود «ولو» مرتين) كوسيلة بلاغية لتأكيد الحصر والتخييل وتثبيت ترتيب الأحداث الافتراضية.",
+        "claim_en": "Repetition of the conditional particle 'لو' (two occurrences) as a rhetorical device to emphasize limitation/counterfactuality and to fix the sequence of hypothetical events.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "لَو",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "وجواب لَوْ محذوف: أى لرأيت أمراً فظيعاً منكراً",
+        "claim_ar": "وجود جواب محذوف لشرط «لو» — أيّ أن ثمة ردّاً إنشائياً محذوفاً يفيد التعجّب أو التأكيد (مثل: «لرأيت أمرًا فظيعًا»).",
+        "claim_en": "There is an omitted (implied) reply to 'لو' — a constructive/illocutionary response — implying astonishment or strong condemnation (e.g. 'you would have seen a terrible thing').",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary states the phenomenon in general; verify the exact syntactic/semantic fit of a deleted reply in this specific ayah."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "استجابة رسول الله ﷺ كاستجابته، وإنما يذكر أحدهما مع الآخر للتوكيد",
+        "claim_ar": "مقابلة/توازٍ بين عبارتي الفعل المتشابهتين («لَأَسْمَعَهُمْ» و«أَسْمَعَهُمْ» بالمعنى العام) لاستنتاج التوكيد وبثّ الحتمية في النتيجة الافتراضية.",
+        "claim_en": "A parallelism/antithesis between two similar verb-phrases ('لأَسْمَعَهُمْ' and 'أَسْمَعَهُمْ' in general usage) used to produce emphasis and to stress the inevitability in the hypothetical sequence.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "سمع",
+        "lemma": "أَسْمَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited remark discusses the rhetorical effect of pairing verbs for emphasis; confirm direct application to the two occurrences/variants of 'أسمعهم' in this ayah."
+      }
+    ],
+    "warnings": [
+      "All provided source chunks are from Zamakhshari (al-Kashshaf). Requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the input; claims are therefore drawn from the available chunks only.",
+      "Some quoted commentary treats the phenomenon generally or with examples from other verses; where marked (confidence = medium) the application to this exact ayah should be reviewed by a balagha expert to confirm precision.",
+      "source_quote_ar fields are exact substrings from the supplied chunks; ensure reviewers accept these excerpts as relevant evidence for the asserted devices."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:83",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "الواو في «وَتِلْكَ» واو استئنافية تدخل لاستئناف الكلام وبثِّ التوكيد والانتقال إلى بيان الحجة.",
+        "claim_en": "The initial waw in «وَتِلْكَ» functions as a waw of resumption (waaw istinaaf), pausing the previous discourse and emphatically resuming to present the proof.",
+        "device_branch": "other",
+        "device_subtype": "waaw_istinaaf",
+        "root": "",
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source is an i'rab commentary noting 'الواو استئنافية' in another verse; applying it to this ayah is plausible but inferred rather than cited from a dedicated balagha source."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "maani",
+        "source_quote_ar": "اسم اشارة في محل رفع",
+        "claim_ar": "«تِلْكَ» اسم إشارة في موقع المبتدأ، فتعمل دلالته الإشارية على الإحالة إلى الحجة المذكورة سابقًا وتثبيتها أمام السامع.",
+        "claim_en": "«Tilk(a)» is a demonstrative pronoun (ism ishara) in the position of the subject (mubtada'), and its demonstrative function points back to and foregrounds the stated proof.",
+        "device_branch": "maani",
+        "device_subtype": "ism_ishara_as_mubtada",
+        "root": "ذَٰلِك",
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted phrase comes from grammatical/i'rab remarks; the rhetorical reading (demonstrative used for emphatic reference) is interpretive and should be cross-checked with specialized balagha sources."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الجملة مستأنفة مسوقة",
+        "claim_ar": "الآية تُقدَّم كجملة مستأنفة مسوقة: أسلوب الاستئناف هنا يتيح الإيجاز والتوكيد في عرض الحجة ورفع الدرجات.",
+        "claim_en": "The verse is presented as an independent resumed sentence (jumla mustanfa) used to foreground and concisely present the proof; this resumption lends emphasis to the claim and to the following apodosis about raising ranks.",
+        "device_branch": "other",
+        "device_subtype": "istinaaf_sentence",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting substring is from a syntactic commentary ('الجملة مستأنفة مسوقة'); treating this construction explicitly as a rhetorical device (for emphasis/conciseness) is plausible but requires confirmation from primary balagha treatises."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are grammatical/iʿrāb commentaries (Darwish - I'rab). They contain useful phrases (e.g., 'الواو استئنافية', 'اسم اشارة في محل رفع', 'الجملة مستأنفة مسوقة') but are not the requested classical balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha). Claims here are inferred from iʿrāb remarks rather than quoted from the specified balagha treatises.",
+      "Some claim mappings (e.g., demonstrative as rhetorical emphasis, sentence-level istināf as balagha device) are interpretive extensions of syntactic notes. These should be reviewed against explicit balagha discussions in the named classical sources for higher confidence."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,14 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:11",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No balagha (بلاغة) claims could be extracted for this ayah from the provided source_chunks.",
+      "The provided source_chunks are from al-Kashshaf (Zamakhshari) and discuss various verses/topics, but none contain commentary quoting or analyzing the exact phrasing of Sura 3:11 (e.g., substrings like «كَدَأْبِ», «آلِ فِرْعَوْنَ», or the full phrase «كَدَأْبِ آلِ فِرْعَوْنَ ...»).",
+      "Per instructions, source_quote_ar must be an exact substring of one of the provided chunks in order to make a claim. Because relevant substrings for this ayah and classical balagha comments on it are absent, no confident rhetorical-device claims can be produced.",
+      "If you provide tafsir/balagha excerpts (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or specific tafsir balagha passages) that explicitly discuss S3:A11 or include exact quoted substrings from the verse, I can extract specific claims (with source_quote_ar, device classification, confidence, and reasons)."
+    ]
+  },
+  "n_chunks": 12
+}

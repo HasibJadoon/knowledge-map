@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:13",
+  "result": {
+    "claims": [
+      {
+        "word_index": 20,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "فهذا تنبيه على أن الأمر كله للَّه وعلى وجوب التوكل عليه.",
+        "claim_ar": "تنبيه على أن الأمر كلّه لله وعلى وجوب التوكل عليه (أسلوب حكمى تحذيرى/تذكيرى مرتبط بعبارة التأييد الإلهى).",
+        "claim_en": "An admonition that the matter wholly belongs to God and that reliance (tawakkul) upon Him is obligatory (a hortatory/admonitory stylistic move connected to the divine-support clause).",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "ايد",
+        "lemma": "أَيَّدَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 20,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "وفيه ترغيب في الطاعة وفيما يستحقون به النصر من اللَّه تعالى وتحذير من المعصية ومما يستوجبون به العقوبة بالخذلان",
+        "claim_ar": "ترغيب في الطاعة (وعد بالنصر) وتحذير من المعصية (تهديد بالخذلان) — وظيفة بلاغية إقناعية تربط تأييد الله بالمطابقة السلوكية.",
+        "claim_en": "An inducement and deterrent: encouragement to obedience (promise of victory) and warning against sin (threat of abandonment) — a persuasive rhetorical function that ties divine support to moral conduct.",
+        "device_branch": "maani",
+        "device_subtype": "ترغيب_وترهيب",
+        "root": "ايد",
+        "lemma": "أَيَّدَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 23,
+        "claim_type": "istiarah",
+        "source_quote_ar": "استعار الإذن لتخليته الكفار",
+        "claim_ar": "ملاحظة تفسيرية على استعارة لفظة «الإذن» بمعنى ترك المصيبة/التخلي عن القوم — ضرب من البيان (استعارة) في شرح وقوع النصر أو الخذلان.",
+        "claim_en": "A exegetical note that the term 'permission' (الإذن) is used metaphorically to mean abandonment/letting be — a figure of speech (metaphor/istiarah) applied in explaining occurrences of support or withdrawal.",
+        "device_branch": "bayan",
+        "device_subtype": "istiarah",
+        "root": "شيا",
+        "lemma": "شَآءَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary passage explicitly discusses the occurrence at Uhud (أَصابَتْكُمْ يوم أحد) and the idiom «بإذن الله» there; mapping this metaphorical observation to the present ayah (which speaks of تأييد الله ومن يشاء) is interpretive and should be double-checked."
+      }
+    ],
+    "warnings": [
+      "Some source chunks discuss related historical incidents (e.g., the battle of Uhud) or nearby verses rather than a literal word-by-word commentary of Sūrah 3:13. Claims that generalize those remarks onto specific words of S3:13 may require review.",
+      "Source material provided is from al-Kashshāf (Zamakhsharī) / al-Jadwal (Safi) excerpts; ensure these commentaries are the intended tafsir-balagha authorities for extraction since original instruction named other scholars."
+    ]
+  },
+  "n_chunks": 12
+}

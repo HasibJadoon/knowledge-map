@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:90",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "maani: صيغة العَوْد (use_of_return-form)",
+        "source_quote_ar": "صيغة العود تستدعي رجوع العائد إلى حال كان عليها قبل",
+        "claim_ar": "استخدام صيغة العود في قوله: «لَئِنِ اتَّبَعْتُمْ شُعَيْبًا» يوحي بإمكانية الرجوع أو الانتقال إلى حالة سابقة/مغايرة (أو: يُستخدم للتعبير عن تحول متوقع)، مما يقوّي طابع التهديد والنتيجة الحتمية في جوابهم.",
+        "claim_en": "The use of the 'return-form' (صيغة العود) in «لَئِنِ اتَّبَعْتُمْ شُعَيْبًا» suggests a notion of returning or transition to a previous/different state (or is used to indicate an expected change). This strengthens the threatening/resultative force of their statement.",
+        "device_branch": "maani",
+        "device_subtype": "sighat_al-ʿaud (return-form)",
+        "root": "تبع",
+        "lemma": "اتَّبَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the classical discussion of \"صيغة العود\" to a standard K-map device label required creating a subtype name; verify that 'sighat_al-ʿaud' is the intended rhetorical category for this annotation and consider cross-checking with other commentaries."
+      }
+    ],
+    "warnings": [
+      "Only Zamakhshari's chunk (al-Kashshaf) among the provided sources directly comments on the verbal form (صيغة العود) for this verse. Other listed classical sources in the prompt (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) were not present in the provided chunks; further claims would require their text.",
+      "The device_subtype label 'sighat_al-ʿaud' is an ad-hoc mapping of the classical term \"صيغة العود\" to the requested device taxonomy; please review/confirm naming and placement under 'maani'."
+    ]
+  },
+  "n_chunks": 12
+}

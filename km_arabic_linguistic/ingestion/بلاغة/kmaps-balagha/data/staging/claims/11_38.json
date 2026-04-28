@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:38",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "iltifat",
+        "source_quote_ar": "من أعظم الآيات أن يواجه بهذا الكلام رجل واحد أمّة عطاشا إلى إراقة دمه.",
+        "claim_ar": "الالتفات إلى مخاطبة مباشرة ببدء الكلام بقوله «قَالَ» — انتقال السرد إلى الخطاب المباشر لبيان موقف نوح وتكثيف الحجاج.",
+        "claim_en": "Iltifat (shift to direct address): the narrative shifts into direct speech at قَالَ, moving from report to address to intensify Noah's argument and stance.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "وتكرارها مع النداء على كفرهم والدعاء عليهم",
+        "claim_ar": "تكرار فعل السخر (دوران جذر سخر في دلالات عدة: سَخِرُوا ... تَسْخَرُوا ... نَسْخَرُ ... تَسْخَرُونَ) لتأكيد الاحتقار والتهديد والردّ المضاد.",
+        "claim_en": "Takrar (repetition): repetition of the verb s-kh-r across the verse (mocked / you mock / we will mock / you mock) emphasizes derision and the promised retaliatory mockery.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "سخر",
+        "lemma": "سَخِرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided commentary chunk mentions 'وتكرارها' (the repetition) but does not reproduce the exact verse-word forms; verify the specific repeated lemmas against the Qur'anic text."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "mucābalah",
+        "source_quote_ar": "ما من رسول إلا واجه قومه بهذا القول،",
+        "claim_ar": "مقابلة/مراعاة (مقابلة لفظية): تركيب مقابل بين سلوكهم «تَسْخَرُونَ» ووعده «نَسْخَرُ»، ليخلق مراوحة مقابلة تُبرز الجزاء بالمثل والردّ الأسلوبي.",
+        "claim_en": "Muqabalah (antithetical mirroring): the verse mirrors their mockery ('you mock us') with his promised response ('we will mock you'), forming an antithetical parallel that highlights reciprocal retribution.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "سخر",
+        "lemma": "سَخِرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary notes that prophets confront their people with such sayings but the exact opposing word-forms are not quoted in the provided chunk; confirm alignment with the verse text."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are excerpted commentaries (mainly al-Kashshaf fragments and one grammatical note). Many claims about specific word-forms (e.g., سَخِرُوا / تَسْخَرُوا / نَسْخَرُ) are inferred from commentary rather than taken as verbatim quotes from those chunks. Verify claims against the Qur'anic line-by-line text when precision of the quoted lemma/form is required.",
+      "The available source chunks do not include all the requested classical authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). The extracted rhetorical readings are therefore based on the provided fragments; expanding sources could yield additional or refined device attributions.",
+      "Some device assignments (e.g., takrar vs. muqabalah) overlap in rhetorical effect; where confidence is 'medium' please review the passage in full tafsir/linguistic sources if a definitive categorization is needed."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:48",
+  "result": {
+    "claims": [
+      {
+        "word_index": 18,
+        "claim_type": "majaz",
+        "source_quote_ar": "فإن قلت: فإذا وصف به العذاب؟ قلت: مجازى مثله",
+        "claim_ar": "وصف العذاب بصفة «أَلِيمٌ» ويُعدّ هذا وصفاً مجازياً",
+        "claim_en": "The description of the punishment as “al-ʾalīm” (painful) is figurative (majaz).",
+        "device_branch": "bayan",
+        "device_subtype": "majaz (figurative description)",
+        "root": "الم",
+        "lemma": "أَلِيم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A48",
+        "rhetorical_effect": "Conveys severity of the punishment through figurative language; intensifies the image of suffering."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from Zamakhshari (al-Kashshaf) and Safi (al-Jadwal). They do not include the specific authors requested in the task header (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir-balagha sections). Claims were extracted only where an exact substring match existed in the given chunks.",
+      "Only one explicit rhetorical claim could be supported by an exact quotation in the supplied chunks (the figurative description of 'أَلِيم'). Other likely devices in the verse (e.g., iltifat/vocative, contrast between temporary enjoyment and later punishment, repetition) are not attested in the provided chunks and therefore were not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

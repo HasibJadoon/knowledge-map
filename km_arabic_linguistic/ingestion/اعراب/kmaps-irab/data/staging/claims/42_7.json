@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "42:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "فأما البليغ الذي قد أحاط بمذاهب العرب وغرائب الصنعة ، فإنه يعلم من نفسه ضرورة عجزه وعجز غيره عن الإتيان بمثله .",
+        "claim_ar": "نسبة 'قُرْآنًا عَرَبِيًّا' تفيد أن الإعجاز ظاهر للبليغ، وأن البليغ 'يعلم من نفسه ضرورة عجزه' عن الإتيان بمثله.",
+        "claim_en": "The qualification 'an Arabic Qur'an' signals that the miracle is manifest to an eloquent Arab (al-baleegh); as the source states, the eloquent person 'knows from himself the necessity of his inability' to produce its like.",
+        "root": "عرب",
+        "lemma": "عَرَبِيّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "تنظر إلى الغرض الذي سيقت له السورة",
+        "claim_ar": "الفعل (لِتُنْذِرَ) مع لِ يدل على الغاية/الغرض من الإرسال؛ ذلك متوافق مع القاعدة العامة: 'تنظر إلى الغرض الذي سيقت له السورة' عند بيان مناسبات الآيات.",
+        "claim_en": "The verb (li-tundhir) with the lām indicates purpose/goal of the sending; this accords with the general methodological rule: 'look to the purpose for which the surah was presented' when determining the occasions/reasons for verses.",
+        "root": "نذر",
+        "lemma": "أَنذَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source gives a general methodological rule about seeking the purpose of verses but does not explicitly analyze the grammatical function of لِ in this specific verse; the application to لِتُنْذِرَ is inferential."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are general discussions (on i'jaz, methodology, rhetoric) and do not contain explicit, word-by-word syntactic parsing of this specific ayah. Extracted claims are based on applying those general statements to words in the ayah.",
+      "No explicit statements in the supplied chunks about the syntactic roles (إعراب) of verbs/nouns in this ayah (e.g., 'قُرْآنًا' as مفعول به, 'إِلَيْكَ' as جار ومجرور متعلّقان، etc.). Such irab-level claims would require sources that directly analyze this verse."
+    ]
+  },
+  "n_chunks": 12
+}

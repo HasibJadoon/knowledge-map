@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:98",
+  "result": {
+    "claims": [
+      {
+        "word_index": 10,
+        "claim_type": "ظرف زمان",
+        "source_quote_ar": "لَمَّا ظرف لأهلكنا:",
+        "claim_ar": "استعمال «لَمَّا» كظرف زمان يربط وقوع كشف العذاب بتمام الإيمان (لَمَّا آمَنُوا)، فيؤكد تلازم تحقق العبرة مع تحقق الإيمان.",
+        "claim_en": "Use of «lammā» as a temporal adverb links the removal of punishment to the actualization of belief (lammā āmānū), emphasizing that the consequence follows the attainment of faith.",
+        "device_branch": "maani",
+        "device_subtype": "ظرف_زمان (لَمَّا)",
+        "root": null,
+        "lemma": "لَمَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "فصل بلاغي / فاصلة مخالفة",
+        "source_quote_ar": "فصل كليهما بفاصلة تنبيها على استقلال كل واحدة منهما بالمقصود من الحجة",
+        "claim_ar": "توظيف فواصل بلاغية (فاصلة مخالفة) بين الجمل في السورة يهدف إلى إبراز استقلال كل حكم أو بيان بالمعنى، مما يزيد من وضوح الحجج وفصل النتائج والأسباب في الآية.",
+        "claim_en": "Use of rhetorical pauses (a 'contrasting/purposeful pause') between clauses serves to highlight the independence of each statement or argument, enhancing clarity between cause and consequence in the verse.",
+        "device_branch": "maani",
+        "device_subtype": "فاصلة_مخالفة / فصل_بلاغي",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary discusses a general stylistic choice in punctuation/focus; mapping that general principle to this specific verse is interpretive and should be verified against classical tafsir for this exact ayah."
+      },
+      {
+        "word_index": 19,
+        "claim_type": "حرف استئناف (واو)",
+        "source_quote_ar": "(الواو) استئنافيّة",
+        "claim_ar": "الواو في «وَمَتَّعْنَاهُمْ» تُقرأ كواو استئنافية تربط جملة المتعة بذكر كشف العذاب السابق، فتشير إلى استئناف ذكر الجزاء بعد تقرير وقوعه أو رفعه.",
+        "claim_en": "The waaw in «wa-mattaʿnāhum» functions as an estinaf (resumptive) conjunction, linking the clause of enjoyment to the preceding mention of the removal of punishment, indicating a resumption or continuation of narrative consequence.",
+        "device_branch": "maani",
+        "device_subtype": "واو_استئنافية",
+        "root": "متع",
+        "lemma": "مَّتَّعْ",
+        "confidence": "medium",
+        "needs_review_reason": "The source remark about a waaw being 'estinafiyya' is from a grammatical commentary on another passage; applying it to this verse's waaw is plausible but should be cross-checked with specialized tafsir/philological sources for this ayah."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari (al-Kashshaf), Safi - al-Jadwal, and Darwish - I'rab. They are not the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a dedicated tafsir-balagha). Claims are therefore drawn from the available chunks and may not reflect those specific classical authors' readings.",
+      "Some quoted commentary passages address general rhetorical/grammatical principles or other verses. Mapping those general principles to this specific ayah (S10:A98) is interpretive; such mappings should be reviewed against dedicated tafsir-balagha or the requested authors for confirmation.",
+      "source_quote_ar fields are exact substrings from the provided chunks, but the chunks do not quote the ayah verbatim; verify contextual applicability before using these claims as definitive classical attributions."
+    ]
+  },
+  "n_chunks": 12
+}

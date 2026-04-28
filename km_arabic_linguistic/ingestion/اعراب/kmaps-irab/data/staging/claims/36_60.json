@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "36:60",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْله تَعَالَى {أَن تَقولُوا} يجوز أَن يكون فَاعل {كبر} أَو على تَقْدِير هُوَ وَيكون التَّقْدِير كبر ذَلِك وَأَن يكون بَدَلا و {مقتا} تَمْيِيز",
+        "claim_ar": "في بعض الآيات يجوز إعراب جملة «أَن + فعل» بأن تكون فاعلًا لخبر سابق أو تُؤوّل على تقدير «هو» أو تُؤخذ بدلًا؛ أي أن ثمة وجوه إعرابية مختلفة لجملة «أَن + فعل». (النص يذكر «أَن تَقولُوا» كمثال)",
+        "claim_en": "In some verses the clause 'أن + verb' may be parsed in different ways: as the subject (فاعل) of a preceding predicate, as construed by ellipsis on the basis of 'هو' (i.e. nominal extraposition), or as a substitute (بدل). The passage gives '{أَن تَقولُوا}' as an example.",
+        "root": null,
+        "lemma": "أَن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses the alternative analyses for «أَن تَقولُوا» in another verse; applying these alternative analyses to the clause «أَنْ لَا تَعْبُدُوا...» in S36:60 is an inference that needs contextual verification."
+      }
+    ],
+    "warnings": [
+      "No chunk explicitly treats S36:60 (أَلَمْ أَعْهَدْ ... أَنْ لَا تَعْبُدُوا الشَّيْطَانَ). Extracted claim is based on an analogous discussion in the provided source about the construction «أَن + فعل» (e.g., «أَن تَقولُوا»). Applicability to this specific ayah should be reviewed in context.",
+      "Only one relevant passage was found in the provided chunks. Other possible syntactic claims for this ayah (e.g., that the entire «أَنْ ... الشَّيْطَانَ» clause is مفعول به of أَعْهَدَ) are standard but were not attested explicitly in the given source chunks, so they were not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

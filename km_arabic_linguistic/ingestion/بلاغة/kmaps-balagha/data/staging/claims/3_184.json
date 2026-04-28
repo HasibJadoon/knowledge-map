@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:184",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "maani",
+        "source_quote_ar": "(الفاء) استئنافيّة (إن تولّوا)",
+        "claim_ar": "الفاء في «فَإِنْ» هنا فاء استئنافيّة تدل على التعقيب والربط بين الكلامين مع نوع من الفصل؛ أي أنها تستأنف بعد بيان سابق وتربط النتيجة بما قبلها.",
+        "claim_en": "The prefixed fa- in 'فَإِنْ' functions as an estināf (resumptive) fa, marking resumption/sequence and linking the current clause to the preceding discourse while indicating a slight pause.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (فاء استئنافيّة)",
+        "root": null,
+        "lemma": "فَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "maani",
+        "source_quote_ar": "إِنْ يَنْصُرْكُمُ اللَّهُ",
+        "claim_ar": "حرف الجزم/الشرط «إِنْ» في «فَإِنْ كَذَّبُوكَ» يعمل كأداة شرط تقريرية تفترِض إمكانية وقوع الأمر وتربط النتيجة بردّ أو استدراك؛ النص القرآني يستخدم «إِنْ» بنفس الدلالة في سياقات تقريرية وتنبيهيّة.",
+        "claim_en": "The particle 'إِنْ' in 'فَإِنْ كَذَّبُوكَ' is a conditional particle introducing a hypothetical/contingent situation and linking it to the resulting statement; the Qur'anic usage elsewhere (e.g. 'إِنْ يَنْصُرْكُمُ اللَّهُ') shows the same indicative/conditional function.",
+        "device_branch": "maani",
+        "device_subtype": "conditional_particle (إِنْ)",
+        "root": null,
+        "lemma": "إِنْ",
+        "confidence": "medium",
+        "needs_review_reason": "Support quotes illustrate the particle's conditional use in other verses/commentaries rather than analyzing this exact wording in the provided tafsir chunk; applicability to this ayah is inferred."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "maani",
+        "source_quote_ar": "وَلَقَدْ صَدَقَكُمُ اللَّهُ وَعْدَهُ",
+        "claim_ar": "أداة التوكيد «قَدْ» (مقترنة باللام في المثال) تُستخدم للتأكيد والتحقق من حصول الأمر؛ في صياغة مثل «قَد كُذِّبَ رُسُلٌ مِن قَبْلِكَ» تعمل على تأكيد وقوع التكذيب للمُرسَلين السابقين.",
+        "claim_en": "The particle 'قَدْ' serves as an emphatic/verificative particle confirming the actuality of the event; in a phrase like 'قَد كُذِّبَ رُسُلٌ مِن قَبْلِكَ' it emphasizes that the messengers before were indeed rejected.",
+        "device_branch": "maani",
+        "device_subtype": "emphasis_particle (قَدْ)",
+        "root": null,
+        "lemma": "قَدْ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting quotation shows 'وَلَقَدْ' used for emphasis in a different passage; application to this ayah is a principled inference rather than an explicit commentary on the exact wording in the provided chunks."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not include explicit passages from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a dedicated tafsir-balagha section as requested. Extractions above are based on the available chunks (Zamakhshari/Tabari/Darwish/Safi) and illustrate particle-function devices found there; some claims are therefore inferred rather than directly attested to this exact ayah within the provided material.",
+      "Source_quote_ar fields are exact substrings taken from the supplied chunks; where those substrings illustrate a grammatical/semantic function in other verses, the claim ties that function to the wording of S3:A184 by inference—see needs_review_reason fields for details."
+    ]
+  },
+  "n_chunks": 12
+}

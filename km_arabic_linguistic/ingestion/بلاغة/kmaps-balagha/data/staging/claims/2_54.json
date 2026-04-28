@@ -1,0 +1,74 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:54",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "iltifat (الالتفات)",
+        "source_quote_ar": "صرف الكلام عن الغيبة إلى الخطاب على طريقة الالتفات",
+        "claim_ar": "الالتفات من الغيبة إلى الخطاب بقول «يَا قَوْمِ» لتشديد الوبخ والتأنيب",
+        "claim_en": "A shift from discussing the people in third person to directly addressing them with 'yā qawmi' (iltifat), intensifying reproach and admonition.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A54",
+        "rhetorical_effect": "increases immediacy and emotional pressure on the addressees; makes the reproach more direct and effective"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "fasl_wasl (ترتيب/توظيف التسلسل)",
+        "source_quote_ar": "وَأَنِيبُوا إِلى رَبِّكُمْ وتوبوا إليه وَأَسْلِمُوا لَهُ وأخلصوا له العمل، وإنما ذكر الإنابة على أثر المغفرة لئلا يطمع طامع في حصولها بغير توبة",
+        "claim_ar": "ذكر التوبة (الإنابة) على أثر بيان المغفرة: ترتيب بلاغي يمنع الطمع في المغفرة بلا توبة فعلية",
+        "claim_en": "The text mentions repentance (turning back) after the assurance of forgiveness: a rhetorical ordering (fasl_wasl) designed to prevent people from presuming they will receive forgiveness without genuine repentance.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "توب",
+        "lemma": "تَابَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A54",
+        "rhetorical_effect": "clarifies conditions and restrains false hope; it guides moral behaviour by linking promise (forgiveness) to the necessary action (repentance)"
+      },
+      {
+        "word_index": 14,
+        "claim_type": "بيان/تفسير (explanatory apposition)",
+        "source_quote_ar": "وقوله تَقْتُلُونَ بيان لقوله ثُمَّ أَنْتُمْ هؤُلاءِ",
+        "claim_ar": "جملة «فَاقْتُلُوا أَنْفُسَكُمْ» عبارة بيانية تفسر وتوضح عبارة «ثُمَّ أَنْتُمْ هؤُلاءِ» وتبيّن مقصود الوصف",
+        "claim_en": "The command 'kill yourselves' functions as an explanatory clause clarifying the prior designation 'then you are those [guilty ones]'; it explicates the consequence/meaning of that designation.",
+        "device_branch": "bayan",
+        "device_subtype": "explanatory_apposition",
+        "root": "قتل",
+        "lemma": "قَتَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "Assigned to 'bayan' as an explicative device based on the commentary wording ('بيان'). Verify alignment with the target taxonomy which lists specific bayan subtypes (tashbih, istiʿārah, majaz, kināyah); this is a general explicative instance rather than a metaphor/simile.",
+        "quran_ref": "S2:A54",
+        "rhetorical_effect": "makes the implied accusation explicit and concrete, removing ambiguity about the moral status of the addressees"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ترغيب مع ترهيب (pairing of encouragement and warning)",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار",
+        "claim_ar": "الجمع بين الترغيب (البشارة بالمغفرة) والترهيب (التحذير والعقاب) في السياق البلاغي ليدفع إلى العمل الصحيح",
+        "claim_en": "The Quranic style often pairs encouragement (promise of forgiveness) with warning (threat of punishment); here the good news of forgiveness is coupled with stern admonition to spur true repentance and deter negligence.",
+        "device_branch": "maani",
+        "device_subtype": "targhib_terhib",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A54",
+        "rhetorical_effect": "motivates moral reform by balancing hope and fear; increases persuasive force of the exhortation"
+      }
+    ],
+    "warnings": [
+      "Source material provided is only from Zamakhshari (al-Kashshaf). Other requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not supplied; claims are therefore based solely on the given chunks.",
+      "Mapping some of Zamakhshari's commentary to the limited target taxonomy required interpretive choices (e.g., treating 'وقوله تَقْتُلُونَ بيان لقوله...' as a 'bayan' explanatory device and mapping 'ذكر الإنابة على أثر المغفرة' to 'fasl_wasl'). These mappings should be reviewed for conformity with your canonical device categories.",
+      "Some device_subtype labels (e.g., 'explanatory_apposition' or 'targhib_terhib') are descriptive choices to reflect the commentary verbatim; if you require only the exact subtype labels from a fixed ontology, please provide that ontology for precise mapping."
+    ]
+  },
+  "n_chunks": 12
+}

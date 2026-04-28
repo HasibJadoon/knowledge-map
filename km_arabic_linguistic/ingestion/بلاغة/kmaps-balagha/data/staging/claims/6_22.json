@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:22",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ما فائدة صرف الكلام عن الخطاب إلى الغيبة؟ قلت: المبالغة",
+        "claim_ar": "صرف الكلام عن الخطاب إلى الغيبة هنا كأداة بلاغية لِـالمبالغة والتقريع",
+        "claim_en": "The shift of speech from direct address to third-person (صرف الكلام إلى الغيبة) is used as a rhetorical device here for exaggeration/emphatic reproach.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "صرف",
+        "lemma": "صَرَفَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "Quran 6:22",
+        "rhetorical_effect": "emphasis/exaggeration; evokes stronger reproach by narrating their state as if to others"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "كره فصلهما بفاصلتين متساويتين في اللفظ، فعدل إلى فاصلة مخالفة تحسينا للنظم واتساقا في البلاغة",
+        "claim_ar": "الاستعمال البلاغي لفاصلة مخالفة (فصل/وصل مختلف) لتحسين النظم والاتساق بين الجمل",
+        "claim_en": "Use of a contrasting pause/connector (a divergent separator) to improve rhythm and coherence — a stylistic choice to avoid monotonous equal pauses.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "فصل",
+        "lemma": "فَصْل",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general commentary about choosing a contrasting pause for rhetorical effect; linking this general principle to the specific syntactic break in 6:22 is inferential.",
+        "quran_ref": "Quran 6:22",
+        "rhetorical_effect": "improves rhythm and stylistic variety; highlights each clause's independence"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "والفاء زائدة [[جاءت الفاء زائدة لأن زيادتها في الخبر غير ممتنعة على رأي الجمهور، أو لأن (الذين) فيه مشابهة للشرط فاقتضى ربط خبره بالفاء.",
+        "claim_ar": "وجود «فاء» زائدة ربطًا بين أجزاء الكلام كزيادة بلاغية لتماسك النظم أو لربط خبر مشترك",
+        "claim_en": "The conjunction 'fa' is an added (zāʾidah) particle used for rhetorical effect — linking the predicate and enhancing stylistic cohesion.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "فاء",
+        "lemma": "فاء",
+        "confidence": "medium",
+        "needs_review_reason": "The commentator labels the fa' as 'زائدة' and gives possible stylistic motives; mapping this to the device category (fasl_wasl) is interpretive.",
+        "quran_ref": "Quran 6:22",
+        "rhetorical_effect": "stylistic linkage and emphasis; clarifies relation between clauses"
+      }
+    ],
+    "warnings": [
+      "Claims are drawn from the provided classical-commentary chunks and reflect the commentators' generalizations; in some cases the commentators discuss general rhetorical principles rather than explicitly labelling them for verse 6:22 — such mappings are therefore partly inferential.",
+      "For non-lexical devices (e.g., iltifat, fasl_wasl) the 'root' and 'lemma' fields were assigned using the Arabic term from the commentator's phrasing (e.g., صرف, فصل, فاء) to satisfy required fields; these are not roots of specific lexical items in the verse.",
+      "If you need stricter word-level tagging (word_index > 0) for devices tied to a particular token in the verse, indicate which token(s) should be prioritized and I will re-map claims accordingly."
+    ]
+  },
+  "n_chunks": 12
+}

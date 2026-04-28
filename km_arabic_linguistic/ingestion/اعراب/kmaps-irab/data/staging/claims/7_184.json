@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:184",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَيَجُوزُ أَنْ تَكُونَ «مَا» نَافِيَةً، وَأَنْ تَكُونَ اسْتِفْهَامًا.",
+        "claim_ar": "قد تكون «مَا» في هذا الموضع نافيةً أو قد تُؤوَّلُ استفهامًا حسب قراءة المفسِّرين.",
+        "claim_en": "'mā' here may function either as a negating particle or as an interrogative particle; both analyses are offered.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "المصدر يذكر جوازَي التفسيرين (نفي أو استفهام) دون تخصيص للآية، فيحتاج تحديد الوظيفة القرآنية في هذا الموضع إلى مراعاة سياق الآية وقراءات المقرَّئين."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَقِيلَ: «إِلَّا» : بِمَعْنَى غَيْرِ، وَهِيَ صِفَةٌ لِمَنْ.",
+        "claim_ar": "يُذكر أن «إِلَّا» قد تُفهم بمعنى «غيرَ» وتعمل صفةً أو تخصيصًا لما قبلها (بمعنى: غيرُ ما ذُكر).",
+        "claim_en": "'illā' can be understood to mean 'other than' (ghayr) and function as a qualifier/attribute restricting what precedes it.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "النص يقدم هذا الوجه العام على سبيل القول؛ تحديد هل هي استثناء أو معنى تقييدي/توكيدي في هذه الآية يحتاج ضبطًا بناءً على تركيب «إِنْ هُوَ إِلَّا نَذِيرٌ مُّبِينٌ» وسياق الآية."
+      }
+    ],
+    "warnings": [
+      "المقاطع المرفقة لا تعرض إعرابًا تفصيليًا مخصوصًا لآية سَبِّقَت؛ الاستخراج هنا اقتصر على وجوهٍ عامة واردة في النَّصوص المقتبسة (حول «ما» و«إلا»). لتقرير إعراب محدد للآية يلزم نص التبيان المتناول لهذه الآية بالذات أو مراعاة سياق الآية والقراءات."
+    ]
+  },
+  "n_chunks": 12
+}

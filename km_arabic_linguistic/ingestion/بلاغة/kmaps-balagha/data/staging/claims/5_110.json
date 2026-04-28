@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:110",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable بلاغة claims were produced because none of the provided source_chunks contain exact substrings of the target āyah (S5:A110) or commentary quotations from the requested authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsīr-balāgha).",
+      "Requirement: each claim.source_quote_ar must be an exact substring of one of the provided source_chunks. I could not find any such exact substring matching the ayah text or explicit rhetorical commentary on this ayah in the supplied chunks (all chunks are from Zamakhsharī - al-Kashshāf and appear unrelated).",
+      "To extract بلاغة claims for this ayah, please provide source chunks that (a) include commentary excerpts from the specified rhetoricians (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or tafsīr-balāgha) and/or (b) contain exact quotations (in Arabic) that refer to phrases of S5:A110 so that source_quote_ar can be satisfied."
+    ]
+  },
+  "n_chunks": 12
+}

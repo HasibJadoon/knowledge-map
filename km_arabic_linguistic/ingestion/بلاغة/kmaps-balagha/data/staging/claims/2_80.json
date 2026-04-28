@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:80",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إِلَّا أَيَّاماً مَعْدُودَةً",
+        "claim_ar": "تقييد عدد أيام العقوبة بعبارة «إِلَّا أَيَّامًا مَعْدُودَةً» لإظهار التقليل والتقييد من جهة المقترحين.",
+        "claim_en": "Restriction of the duration of punishment by the phrase “except for a few numbered days,” which rhetorically minimizes and confines the punishment.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "يوم",
+        "lemma": "يَوْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب",
+        "claim_ar": "أسلوب القرآن في الجمع بين الترغيب والترهيب؛ هنا التذكير بالترهيب عقب ذكر أعمال الكفار وقبل المبشرات للمؤمنين كما يذكر الزمخشري.",
+        "claim_en": "The Quranic stylistic habit of pairing encouragement (targhib) with warning (tarhib); here the commentary notes that admonition/warning follows the description of the disbelievers and precedes glad tidings for the believers.",
+        "device_branch": "other",
+        "device_subtype": "asloob_targhib_tarhib",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tibaq",
+        "source_quote_ar": "(هُمْ فِيها خالِدُونَ)",
+        "claim_ar": "طباق تضادي بين تقييد مدة العذاب («إِلَّا أَيَّامًا مَعْدُودَةً») والبيان المقابل لبقاء أهل العصيان في النار («هُمْ فِيها خالِدُونَ») — تضاد يؤدي إلى نفي التهوين والاعتداد بتخمينهم.",
+        "claim_en": "Antithetical parallel (tibaq) between the restriction of the punishment's duration (“except for a few numbered days”) and the counter-assertion of the sinners' abiding in the Fire (“they will abide therein”), producing a rhetorical overturning of the minimising claim.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "خلد",
+        "lemma": "خالَدَ",
+        "confidence": "medium",
+        "needs_review_reason": "The claim infers an antithesis by linking the limited-days phrase and the later statement of eternal dwelling; both substrings appear in the commentary but are not contiguous in the provided chunk, so the rhetorical classification should be checked against full commentaries (and original verse context) for author's explicit labelling."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from al-Kashshaf (Zamakhshari); the developer prompt requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir-balagha — those sources were not supplied. Claims are drawn only from the given chunks.",
+      "Some rhetorical links (e.g., the tibaq claim) are inferred by relating separated substrings within the commentary; verify against fuller commentary context if strict source-attribution is required."
+    ]
+  },
+  "n_chunks": 12
+}

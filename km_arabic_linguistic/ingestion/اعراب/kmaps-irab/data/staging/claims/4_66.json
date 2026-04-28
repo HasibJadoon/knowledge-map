@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:66",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَيَجُوزُ أَنْ يَكُونَ الِاسْتِثْنَاءُ مُنْقَطِعًا.",
+        "claim_ar": "الاستثناء (بِإِلَّا) يجوز أن يكون منقطعًا.",
+        "claim_en": "The exception (with إِلَّا) may be 'munqaṭiʿ' (a discontinuous exception).",
+        "root": null,
+        "lemma": "اِسْتِثْناء",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk states a general rule about إِلَّا + مَا constructions being possibly 'منقطعًا', but the chunk does not analyze this specific verse; apply cautiously to S4:66 to determine whether the exception in the verse is indeed منقطع."
+      }
+    ],
+    "warnings": [
+      "Only one relevant grammatical rule was found in the provided source chunks (about exceptions with إِلَّا). The chunks do not contain an explicit iʿrāb analysis of S4:66, so no direct word-by-word parsing claims could be extracted.",
+      "Other expected syntactic claims for words in the verse (e.g., the role of قَلِيلٌ, the object relation of أَنْفُسَكُمْ to اقْتُلُوا, or the syntactic status of ما فَعَلُوهُ) are not supported by exact substrings in the supplied chunks and therefore were not asserted. These require further source material or specialist review."
+    ]
+  },
+  "n_chunks": 12
+}

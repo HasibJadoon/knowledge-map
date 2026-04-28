@@ -1,0 +1,25 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:63",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "إنّ الله",
+        "claim_ar": "تكرار أداة التوكيد «إِنّ» (فَإِنْ ... فَإِنَّ) في مطلع الآية لزيادة التأكيد والشدّة.",
+        "claim_en": "Repetition of the emphatic particle 'inna' (إِنّ) — as in فَإِنْ ... فَإِنَّ — at the opening of the verse, producing increased emphasis and intensity.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A63",
+        "rhetorical_effect": "intensifies the warning/assertion; sharpens attention to God's knowledge of the corrupters"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

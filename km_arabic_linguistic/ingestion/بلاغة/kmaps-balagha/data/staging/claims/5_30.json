@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:30",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "إِذْ قَرَّبا نصب بالنبإ، أى قصتهم وحديثهم في ذلك الوقت.",
+        "claim_ar": "إيجاز السرد: الحكاية تُختزل في عبارة موجزة تُجسِّد الحادثة دون تطويل.",
+        "claim_en": "Concise narration (ijaaz): the story of the two sons is compressed into a brief, concentrated report.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The tafsir chunk comments on the narration being presented as a brief report (إِذْ قَرَّبا ... أى قصتهم...) — the device label 'ijaaz' is an interpretive mapping rather than an explicit term in the chunk."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "وتوعده بالقتل",
+        "claim_ar": "ربط سببي متتابع بين الدافع والفعل: تهديد بالقتل ثم تنفيذ القتل، ما يبرز تسلسل السبب والنتيجة في السرد.",
+        "claim_en": "Fasl-wasl (sequential linkage): the narration links motive and action — the threat to kill is followed by the killing — highlighting cause-and-effect.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "قتل",
+        "lemma": "قَتَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk explicitly records 'وتوعده بالقتل', showing threat leading to killing; categorizing this as 'fasl_wasl' (stylistic sequence) is inferred rather than named in the source."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are all from al-Kashshaf (Zamakhshari). The user requested al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir balagha sections — those authors/texts were not provided, limiting the available attestations.",
+      "The device labels (e.g., 'ijaaz', 'fasl_wasl') are interpretive mappings based on the provided commentary excerpts. The chunks do not always use the exact device terminology, so the mapping should be reviewed by a specialist in classical balagha.",
+      "Roots/lemmas are left null for ayah-level (word_index 0) claims because the supportive substrings in the chunks discuss the narrative as a whole rather than a single lexical item."
+    ]
+  },
+  "n_chunks": 12
+}

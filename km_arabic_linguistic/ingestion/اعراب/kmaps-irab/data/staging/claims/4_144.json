@@ -1,0 +1,13 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:144",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable إعراب claims found: none of the provided source_chunks contain the ayah text (سورة النساء آية 144) or any grammatical commentary quoting that ayah.",
+      "Provided source_chunks (IDs: AL:CHUNK:5330e21bf84e1d6f3ab48888, AL:CHUNK:3e78cae69ec0844bc0b3fd0b, AL:CHUNK:4a2575cc3b2ed1639c361816, AL:CHUNK:8d03430bc6a3282d1620a9f4, AL:CHUNK:3f72f10c56e1812d92120832, AL:CHUNK:186ac4054f4de73fb51fe452) do not contain the ayah or an exact substring that could be used as source_quote_ar for any claim.",
+      "If you can provide source text (from التبيان or another commentary) that explicitly discusses this specific ayah or contains exact quoted substrings, I can extract إعراب claims accordingly."
+    ]
+  },
+  "n_chunks": 12
+}

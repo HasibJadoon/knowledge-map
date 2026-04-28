@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:79",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا يَفْعَلُ اللَّهُ) : فِي «مَا» وَجْهَانِ: أَصَحُّهُمَا أَنَّهُمَا اسْتِفْهَامٌ فِي مَوْضِعِ نَصْبٍ بِيَفْعَلُ،",
+        "claim_ar": "حكم «مَا»: أصحّ وجهيها أن تكونا استفهامًا في موضع نصبٍ على وزن «بِيفْعَلُ»",
+        "claim_en": "On the particle 'مَا': the stronger/view is that its two uses are interrogative in the position of accusative (nasb), as in the pattern 'bi-yaf'alu'.",
+        "root": null,
+        "lemma": "ما",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage gives a general rule about uses of «ما» (example: «ما يفعلُ اللّه»). It is not an explicit analysis of this specific ayah, which contains two instances of «ما» with potentially different roles (relative/nominal vs. interrogative); application to word 4 here requires verification against the ayah's context and other commentaries."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit iʿrāb analysis of S11:79; extracted claim is a general grammatical rule about «ما» from the author, not a direct parsing of this ayah.",
+      "This ayah contains two occurrences of «مَا» (word_index 4 and 12). The source quote is a general statement and does not specify which occurrence it refers to; assignment to word_index 4 is tentative and should be reviewed."
+    ]
+  },
+  "n_chunks": 12
+}

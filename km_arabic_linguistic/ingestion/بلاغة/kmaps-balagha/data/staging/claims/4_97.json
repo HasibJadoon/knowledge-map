@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:97",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contains the text or explicit rhetorical commentary for Sura 4:97 (the ayah you supplied). The task requires source_quote_ar to be an exact substring of a provided chunk; since no chunk includes this ayah or direct analysis of it, no rhetoric claims can be extracted reliably."
+    ]
+  },
+  "n_chunks": 12
+}

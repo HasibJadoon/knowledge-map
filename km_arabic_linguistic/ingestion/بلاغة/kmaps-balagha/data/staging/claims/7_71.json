@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:71",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No balagha claims extracted: the provided source_chunks do not contain commentary from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a tafsir-balagha section for this ayah (S7:A71).",
+      "The available chunks are grammatical (I'rab) notes (Darwish - I'rab) and do not offer the required rhetorical analysis or explicit balagha claims tied to this verse. Per instructions, each claim's source_quote_ar must be an exact substring of a provided chunk; no such supporting substrings for rhetorical devices were found.",
+      "To generate balagha claims for this ayah, please supply one or more source chunks from the requested rhetorical/tafsir-balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir balagha) that discuss S7:A71, or permit using external tafsir/balagha resources."
+    ]
+  },
+  "n_chunks": 12
+}

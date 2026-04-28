@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:4",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (ذَلِكَ لِيَعْلَمَ) : أَيِ الْأَمْرُ ذَلِكَ، وَاللَّامُ مُتَعَلِّقَةٌ بِمَحْذُوفٍ تَقْدِيرُهُ: أَظْهَرَ اللَّهُ ذَلِكَ لِيَعْلَمَ.",
+        "claim_ar": "اللام في «لِي» تُفهم كلامٌ مُتَعَلِّقٌ بمَحذوف؛ أي أن اللام تتعلق بمحذوف يقدَّر مثل تقدير المصدر في المثال: «أَظْهَرَ اللَّهُ ذَلِكَ لِيَعْلَمَ».",
+        "claim_en": "The lām in 'li' is treated as being attached to an omitted element (a governor); the source illustrates this with the estimated ellipsis: 'أَظْهَرَ اللَّهُ ذَلِكَ لِيَعْلَمَ'.",
+        "root": null,
+        "lemma": "لِ",
+        "confidence": "medium",
+        "needs_review_reason": "The source states the general rule and gives the example 'ذَٰلِكَ لِيَعْلَمَ', but it does not explicitly analyze the phrase 'لِي سَاجِدِينَ' in S12:4; applying the rule to this specific `لِي` requires confirmation from an explicit commentary on this verse."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (ذَلِكَ لِيَعْلَمَ) : أَيِ الْأَمْرُ ذَلِكَ، وَاللَّامُ مُتَعَلِّقَةٌ بِمَحْذُوفٍ تَقْدِيرُهُ: أَظْهَرَ اللَّهُ ذَلِكَ لِيَعْلَمَ.",
+        "claim_ar": "قاعدة مذكورة في التبيان: «اللامُ متعلقةٌ بمَحْذوفٍ» مع تقدير المثال المعطى «أَظْهَرَ اللَّهُ ذَلِكَ لِيَعْلَمَ».",
+        "claim_en": "Rule cited in al-Tibyan: 'the lām is attached to an omitted element', with the given estimated reading 'أَظْهَرَ اللَّهُ ذَلِكَ لِيَعْلَمَ'.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "Direct quotation of the source rule; however, the application of this rule to the specific 'لِي' of S12:4 is not demonstrated in the quoted passage."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not include an explicit iʿrāb discussion of the phrase «لِي سَاجِدِينَ» in S12:4. The extracted claims are based on a general rule in the source about a lām related to a deleted element (example: «ذَلِكَ لِيَعْلَمَ»); applying this rule to this ayah should be verified against a passage that treats this verse directly."
+    ]
+  },
+  "n_chunks": 12
+}

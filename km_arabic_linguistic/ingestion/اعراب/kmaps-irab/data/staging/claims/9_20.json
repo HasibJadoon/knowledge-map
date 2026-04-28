@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ بِالْوَاوِ، وَفِيهِ وَجْهَانِ: أَحَدُهُمَا: هُوَ مَعْطُوفٌ عَلَى «وَآخَرُونَ مُرْجَوْنَ» ؛ أَيْ: وَمِنْهُمُ الَّذِينَ اتَّخَذُوا",
+        "claim_ar": "يجوز قراءة اسم الموصول مَبْنِيّاً مُقدَّماً مع واو (يُقْرَأُ بِالْوَاوِ)، وله وجهان إعرابيان: أحدهما أن يكون معطوفاً على ما قبله.",
+        "claim_en": "The relative phrase may be read with an initial waw. There are two interpretive possibilities for its syntax; one is that it is conjoined (ma'toof) onto the preceding clause (i.e., read with waw as a coordinating conjunction).",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage in al-Tibyan discusses the phrase «وَالَّذِينَ اتَّخَذُوا». Applying this reading-note to the present verse (الَّذِينَ آمَنُوا...) requires verifying that the same vocalization/interpretation is intended here."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit, verse-specific i'rab discussion of S9:A20's exact phrase «الَّذِينَ آمَنُوا وَهَاجَرُوا وَجَاهَدُوا». The only directly matching excerpt discusses «وَالَّذِينَ اتَّخَذُوا», a related but different locus. Claims extracted are therefore general/analogical and should be reviewed against the full commentary for this verse.",
+      "No explicit taalluq (attachment), taqdir (ellipsis), ikhtilaf, or other i'rab claims for the other words of the ayah were found in the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

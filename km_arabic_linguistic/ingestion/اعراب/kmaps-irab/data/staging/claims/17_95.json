@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "17:95",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable إعراب claims found: none of the provided source_chunks contain the referenced ayah (S17:A95) or commentary that mentions its words. Therefore no claims meeting the requirement (source_quote_ar must be an exact substring of a provided chunk) could be produced."
+    ]
+  },
+  "n_chunks": 5
+}

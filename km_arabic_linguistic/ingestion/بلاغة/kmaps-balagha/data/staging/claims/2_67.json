@@ -1,0 +1,44 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:67",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "موسى عليه الصلاة والسلام رادّهم القول، وعرفهم أن رؤية ما لا يجوز عليه أن يكون في جهة محال",
+        "claim_ar": "تحولٌ في حركة السورة: ردّ موسى - عليه السلام - على قومه بالتصحيح والإنكار، أي انتقال السرد إلى مقام الجواب والبرهنة لردّ زعمهم.",
+        "claim_en": "Shift in the surah's movement: Moses (peace be upon him) rebuts his people, correcting and denying their claim — a narrative turn to direct rebuttal and correction.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement:response/rebuttal",
+        "root": "ردّ",
+        "lemma": "رَدَّ",
+        "confidence": "medium",
+        "needs_review_reason": "Labelled as 'surah_movement' (an extra-category device); mapping this commentator's notion of 'رَدّهم القول' to the requested device taxonomy should be reviewed and may need refinement or corroboration from the other tafsir-balagha sources.",
+        "quran_ref": "S2:A67",
+        "rhetorical_effect": "Emphasizes prophetic authority and corrective function; steers audience from doubt to recognition by direct refutation."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tashbih",
+        "source_quote_ar": "وهي مصدر من قولك: جهر بالقراءة وبالدعاء، كأنّ الذي يرى بالعين جاهر بالرؤية، والذي يرى بالقلب مخافت بها",
+        "claim_ar": "توظيف تشبيهي/مجازي للمصطلح «جهر/جهرة»: التشبيه بين الرؤية بالعين كـ«جهر» والرؤية بالقلب باعتبارها حالة أدقّ (مخافة)، لإيضاح فروق المعنى الدلالي.",
+        "claim_en": "A simile/metaphorical use of the term 'jahr/jahra': likening sight with the eye to 'manifest' (jahr) and inner sight (of the heart) to a subtler state (fear), clarifying semantic distinctions.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih (simile / figurative clarification)",
+        "root": "جهر",
+        "lemma": "جَهْرَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A67",
+        "rhetorical_effect": "Clarifies the critics' meaning and the conceptual difference between manifest (external) perception and inner (spiritual) perception; diminishes literalist readings by foregrounding metaphorical sense."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are from al-Tabari and al-Kashshaf (Zamakhshari). The requested commentators (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and explicit 'tafsir balagha' sections) are not present in the input chunks, so claims are limited to the available excerpts.",
+      "Some claims (e.g., 'surah_movement') are mapped to the requested device taxonomy as best-fit from the commentators' language; please review mappings against your canonical device categories.",
+      "Source quotations (source_quote_ar) are exact substrings taken only from the provided chunks; where commentators discuss the ayah indirectly, the quoted substrings may not include the ayah's words themselves."
+    ]
+  },
+  "n_chunks": 12
+}

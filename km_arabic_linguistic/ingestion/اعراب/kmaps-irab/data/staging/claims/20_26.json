@@ -1,0 +1,13 @@
+{
+  "layer": "irab",
+  "ayah_key": "20:26",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable إعراب claims found: none of the provided source chunks contain an exact Arabic substring matching the ayah or its individual words (وَيَسِّرْ, لِي, أَمْرِي).",
+      "Provided source_chunks (IDs: AL:CHUNK:89235ba76f3dd9e7461851fd, AL:CHUNK:e6909430e9b7fbd2328300a5, AL:CHUNK:43366b394c11700db2d6d10b, AL:CHUNK:01a35271a02e9fd518ce1c54, AL:CHUNK:5b0c8879b9e9bc3f89290741, AL:CHUNK:73b6efe81dd728b991d3ada8) do not contain the ayah text or explicit discussion of these words, so no claims with a valid source_quote_ar can be produced.",
+      "If you want claims for S20:A26, please provide source chunks from al-Tibyan (or other references) that include exact Arabic substrings quoting or analyzing وَيَسِّرْ لِي أَمْرِي or any of its words."
+    ]
+  },
+  "n_chunks": 12
+}

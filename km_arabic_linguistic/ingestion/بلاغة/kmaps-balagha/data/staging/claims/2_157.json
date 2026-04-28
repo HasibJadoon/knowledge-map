@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:157",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "بديع",
+        "source_quote_ar": "هذا من أسرار القرآن ومعاجزة البديعة.",
+        "claim_ar": "تكرار كلمة «أُولَئِكَ» (بداية الآية ونقطة إعادةها لاحقاً) كوسيلة بلاغية للتوكيد والتثبيت.",
+        "claim_en": "Repetition of the demonstrative «أُولَئِكَ» (at the start of the verse and its reprise later) as a rhetorical device for emphasis and reinforcement.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "",
+        "lemma": "أُولَٰٓئِك",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk mentions the Quran's 'badiʿa' generally but does not explicitly discuss this specific repetition in S2:A157; the identification is based on the verse text rather than an explicit commentary in the chunks."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "معاني",
+        "source_quote_ar": "هذا من أسرار القرآن ومعاجزة البديعة.",
+        "claim_ar": "ربط الاسمين «صَلَوَاتٌ من رَبِّهِمْ» و«رَحْمَةٌ» بحرف العطف «وَ» للدلالة على تتابع الفضل وترابطهما كنعمتين متلازمتين لا انفكاك بينهما.",
+        "claim_en": "Linking the two nouns «صَلَوَاتٌ من رَبِّهِمْ» and «رَحْمَةٌ» with the conjunction «وَ» to indicate continuity and the close relation of these two favors — presenting them as concomitant blessings.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive claim about semantics/cohesion; the supplied chunks do not analyse this specific lexical link in the verse, so the reading is inferred from the verse structure rather than supported by an explicit citation in the chunks."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are grammatical/iʿrāb notes (Darwish) and do not contain explicit classical balāgha analyses of S2:A157 by the specified rhetoricians (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, tafsir-balagha). Source_quote_ar fields therefore cite a general sentence present in the chunks rather than a direct statement about the verse; claims relying on rhetorical interpretation should be reviewed against primary balāgha sources.",
+      "Some fields (root/lemma) left empty where the source chunks did not supply a classical root or where the device is ayah-level; please verify roots/lemmas against a lexical database if required."
+    ]
+  },
+  "n_chunks": 12
+}

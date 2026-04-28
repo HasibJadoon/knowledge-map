@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "27:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "و (مَسَاكِنَ) : جَمْعُ مَسْكَنٍ بِالْفَتْحِ وَالْكَسْرِ؛ وَهَمَا الْمَنْزِلُ مَوْضِعُ السُّكُونِ؛ وَيَجُوزُ أَنْ يَكُونَ مَصْدَرًا؛ فَيَكُونَ الْوَاحِدُ مَفْتُوحًا مِثْلَ الْمَقْعَدِ وَالْمَطْلَعِ، وَالْمَكَانِ بِالْكَسْرِ.",
+        "claim_ar": "مَسَاكِنَ: جمع مَسْكَنٍ (يُجوز أن يُنْسَب بالفتح أو بالكسرة في المفرد)، وقد يَجوز أن يكون مصدرًا.",
+        "claim_en": "The word 'مَسَاكِنَ' is the plural of 'مَسْكَن' (the singular may occur with fatḥa or kasra); it is also permissible to read/understand it as a verbal noun (masdar).",
+        "root": "سكن",
+        "lemma": "مَسْكَن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 6
+}

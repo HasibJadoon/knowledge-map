@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:178",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "وفيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "التفات (انتقال) من الغيبة إلى الخطاب في النداء «يا أيها الذين آمنوا» — أي تحول المتكلم إلى مخاطبة مباشرة بما يلفت السامع ويشد انتباهه.",
+        "claim_en": "Iltifat (shift) from speaking about others to directly addressing them in the vocative 'O you who believe' — a switch that draws attention and engages the addressee.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A178",
+        "rhetorical_effect": "يشّد الانتباه ويحوّل الخطاب إلى مخاطبة مباشرة لبيان الحكم الشرعي والتشديد على أهميته."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "فإذا كان موصولا، كان الوقف على المتقين حسناً غير تامّ. وإذا كان مقتطعاً، كان وقفاً تاما.",
+        "claim_ar": "إمكانية قراءة عبارة التوكيد/الصِفة «الذين ...» موصولاً أو مقتطعاً لإحداث وقفة بلاغية: قراءة مقتطعة تمنح وقوفاً تامّاً، وقراءة موصولة تجعل التوقف غير تامّ — أي استخدام فصل/وصل بلاغي في بداية الخطاب.",
+        "claim_en": "Possibility of reading the relative clause 'those who ...' as attached or detached, producing a rhetorical stop (fasl) or connection (wasl): detached reading yields a full stop, attached reading yields an incomplete stop — a deliberate use of pause/connectivity.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "المصدر يناقش «الذين يؤمنون» (صيغة مضارعية) بينما الآية المراد تحليلها تقول «الذين آمنوا» (ماضية) — المفهوم البلاغي قابل للتطبيق لكن يحتاج تدقيق سياقي.",
+        "quran_ref": "S2:A178",
+        "rhetorical_effect": "يوفّر خيار الوقف أو الوصل درجات مختلفة من التركيز والتمحيص في توجيه الحكم، ويؤثر على قوة التوكيد والوقوف البلاغي."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار",
+        "claim_ar": "جمع الترغيب بالترهيب: الآية تجمع بين التخفيف والرحمة ('تخفيف... ورحمة') وبين التنبيه بالعقاب ('فمن اعتدى... فعذب أليم') — أسلوب قرآني تقليدي للترويض والتحفيز.",
+        "claim_en": "Pairing of targhib (encouragement/good tidings) with tarhib (warning): the verse balances mitigation/mercy ('a mitigation and mercy') with warning of punishment ('who transgresses... will have painful punishment') — a customary Qur'anic stylistic device.",
+        "device_branch": "other",
+        "device_subtype": "targhib_tarhib (pairing of glad-tiding and warning)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A178",
+        "rhetorical_effect": "يحفّز الامتثال بالوعد بالخير ويمنع التجاوز عبر التهديد بالعقاب، مما يُحكّم السلوك بوسيلة بلاغية متوازنة."
+      }
+    ],
+    "warnings": [
+      "المقتطفات المرفقة هي من تفسير الزمخشري (al-Kashshaf) فقط؛ لم تُزوَّد هنا شروحات من الجرجاني أو السكاكي أو البقِيلاني أو السيوطي أو أقسام تفسير البلاغة الأخرى التي ذُكرت في السؤال الأصلي.",
+      "بعض النصوص المأخوذة من الشروحات تتناول تراكيب مشابهة («الذين يؤمنون») بصيغة أو زمن مختلف عن صيغة الآية («الذين آمنوا»). الأفكار البلاغية قابلة للتطبيق لكن تحتاج تدقيقاً نصّياً وسياقياً من باحث متخصص.",
+      "لم تُوفّر في القطع المقتطفة شواهد صريحة على كل مظاهر البلاغة الممكنة في هذه الآية (مثل مُقابلة / تِباق في جملة «الحر بالحر والعبد بالعبد...»). لذلك لم أدرج ادعاءات عن أجهزة لم تُدعَم نصّياً في القطع المرفقة."
+    ]
+  },
+  "n_chunks": 12
+}

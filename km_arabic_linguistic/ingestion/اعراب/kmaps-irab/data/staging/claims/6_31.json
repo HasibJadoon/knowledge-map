@@ -1,0 +1,22 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:31",
+  "result": {
+    "claims": [
+      {
+        "word_index": 24,
+        "claim_type": "taqdir",
+        "source_quote_ar": "(سَاءَتْ) : أَيْ سَاءَتِ النَّارُ.",
+        "claim_ar": "تقدير مبتدأ محذوف مع الفعل «سَاءَ» وهو: النَّارُ (أي: سَاءَتِ النَّارُ).",
+        "claim_en": "The verb 'سَاءَ' has an elided (understood) subject: 'النَّارُ' (i.e., 'the fire was bad').",
+        "root": "سوا",
+        "lemma": "سَاءَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "6:31"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

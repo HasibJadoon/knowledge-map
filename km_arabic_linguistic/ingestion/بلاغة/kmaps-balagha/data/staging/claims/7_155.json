@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:155",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "وَاخْتَارَ مُوسى قَوْمَهُ أى من قومه، فحذف الجار وأوصل الفعل",
+        "claim_ar": "حذف الجار وإوصل الفعل في «واختارَ موسى قومَه» — أسلوب بلاغي في التخصيص بتقديم الفعل وربط المعنى دون ذكر حرف الجر.",
+        "claim_en": "Omission of the preposition (حذف الجار) in 'wa-ikhtara Musa qawmahu' — a stylistic device where the prepositional phrase ('من قومه') is implied rather than overtly introduced, yielding a concise, forceful expression.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim: omission_of_preposition",
+        "root": "خير",
+        "lemma": "اخْتَارَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "(فَأَخَذَتْهُمُ الرَّجْفَةُ فَأَصْبَحُوا فِي دارِهِمْ جاثِمِينَ) الفاء عاطفة",
+        "claim_ar": "استعمال الفاء العاطفة لربط الحدثين وإظهار التتابع والسببية (فَأَخَذَتْهُمُ الرَّجْفَةُ فَأَصْبَحُوا...)، مما يسرع السرد ويؤكد عاقبة الفعل.",
+        "claim_en": "Use of the conjunction fa (الفاء) as a linking particle (الفاء العاطفة) to connect events, showing sequence/causality ('then the quake took them, and then they awoke...'). This speeds the narrative and emphasizes consequence.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "اخذ",
+        "lemma": "أَخَذَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Requested classical balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not among the provided source chunks; claims are extracted only from the available chunks (Zamakhshari / Darwish i'rab fragments).",
+      "Several clear rhetorical features of the full ayah (e.g., the antonymic pairing «تُضِلُّ ... وَتَهْدِي» / parallelism, and the restricting sense of «إِنْ هِيَ إِلَّا فِتْنَتُكَ») could not be claimed here because the provided chunks did not contain explicit commentary or the exact substrings for those phrases. If you provide tafsir/balagha passages that include those lines, additional claims (e.g., tibaq/muqabalah for antithesis, hasr_qasr for exception) can be added.",
+      "All source_quote_ar values are exact substrings taken from the provided chunks; claims are limited to what those chunks explicitly state."
+    ]
+  },
+  "n_chunks": 12
+}

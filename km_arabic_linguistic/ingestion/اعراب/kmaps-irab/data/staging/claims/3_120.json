@@ -1,0 +1,76 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:120",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (فَإِمَّا تَثْقَفَنَّهُمْ) : إِذَا أُكِّدَتْ «إِنِ» الشَّرْطِيَّةُ بِـ «مَا» أُكِّدَ فِعْلُ الشَّرْطِ بِالنُّونِ لِيَتَنَاسَبَ الْمَعْنَى.",
+        "claim_ar": "قاعدة: إذا أُكَّدَتْ «إنَّ» الشرطية بـ«ما» أُكِّدَ فعل الشرط بالنون.",
+        "claim_en": "Rule: When the conditional particle 'إِن' is reinforced by 'ما', the verb of the condition is emphasized by nunation (addition of ن) to match the meaning.",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (فَإِمَّا تَثْقَفَنَّهُمْ) : إِذَا أُكِّدَتْ «إِنِ» الشَّرْطِيَّةُ بِـ «مَا» أُكِّدَ فِعْلُ الشَّرْطِ بِالنُّونِ لِيَتَنَاسَبَ الْمَعْنَى.",
+        "claim_ar": "قاعدة مطبقة على «وَإِن»: «إنَّ» الشرطية تُؤثر في فعل الشرط، وقد يُؤكَّد الفعل بالنون إذا أُضيفت «ما».",
+        "claim_en": "Applicable rule to 'وَإِن': the conditional particle affects the verb of the condition, and the verb may be emphasized with nunation if 'ما' is added.",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (فَإِمَّا تَثْقَفَنَّهُمْ) : إِذَا أُكِّدَتْ «إِنِ» الشَّرْطِيَّةُ بِـ «مَا» أُكِّدَ فِعْلُ الشَّرْطِ بِالنُّونِ لِيَتَنَاسَبَ الْمَعْنَى.",
+        "claim_ar": "نفس القاعدة تنطبق على «وَإِن» الأخرى: «إنَّ» الشرطية تؤثر في إعراب فعل الشرط وقد تُؤكَّد بالنون عند إضافة «ما».",
+        "claim_en": "Same rule applies to the other 'وَإِن': the conditional particle affects the condition verb's marking and may be reinforced with nunation when 'ما' is attached.",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ) : يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛ تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ، وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "«إِنَّ» هنا حرف توكيد ونصب يُنصِب الاسم الذي بعده (مثل «اللَّهَ») ويؤسس جملة اسمية: إنَّ + اسم + خبر.",
+        "claim_en": "The particle 'إِنَّ' here is a particle of emphasis/accusation that places the following noun into the accusative (as in 'اللَّهَ') and introduces a nominal sentence (إنَّ + subject + predicate).",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 18,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ) : يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛ تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ، وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "«اللَّهَ» اسم «إنَّ» منصوب بالفتحة في المثال المذكور؛ في آيتنا «اللَّهَ» مُنصوب بسبب «إِنَّ».",
+        "claim_en": "'اللَّهَ' is the noun governed by 'إِنَّ' and is thus in the accusative (manifested by the fat-ha in the cited example); in this verse 'اللَّهَ' is likewise منصوب due to 'إِنَّ'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 21,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ) : يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛ تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ، وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "«مُحِيطٌ» عمله كخبر لـ «إنَّ» في جملةٍ اسميةٍ (إنَّ اللَّهَ مُحِيطٌ بِما يَعْمَلُونَ)، أي أنه خبر مرفوع.",
+        "claim_en": "‘مُحِيطٌ’ functions as the predicate (khabar) of 'إِنَّ' in the nominal sentence (إنَّ اللَّهَ مُحِيطٌ بِمَا يَعْمَلُونَ) — i.e., it is the nominative predicate.",
+        "root": "حوط",
+        "lemma": "مُحِيط",
+        "confidence": "medium",
+        "needs_review_reason": "Inference by analogy to the cited example ('اللَّهَ سَمِيعٌ عَلِيمٌ'); the chunk shows a similar nominal predicate but does not quote this exact verb 'مُحِيطٌ'."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

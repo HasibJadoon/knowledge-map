@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:30",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No claims extracted: none of the provided source_chunks contain exact Arabic substring(s) from this ayah required for source_quote_ar. The tool requires source_quote_ar to be an exact substring of one of the given source chunks, but I could not find any matching fragments such as 'فَرِيقًا', 'هَدَى', 'الضَّلَالَةُ', 'الشَّيَاطِينَ', 'أَوْلِيَاءَ', or 'مُهْتَدُونَ' in the supplied chunks.",
+      "If you want extracted rhetorical claims, please provide source chunk(s) (commentary or balagha/tafsir excerpts) that explicitly contain exact quoted substrings from this ayah (or include the ayah text itself) so I can attach source_quote_ar exactly as required."
+    ]
+  },
+  "n_chunks": 12
+}

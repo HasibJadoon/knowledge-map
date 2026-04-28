@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:107",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الفاء استئنافية",
+        "claim_ar": "الفاء في «فِي» (بشكل «فَفِي») تعمل كحرف استئناف/وصل دال على العطف والترتّب، تربط نتيجية القول (وجودهم في رحمة الله) بما قبلها.",
+        "claim_en": "The initial fa- in «فَفِي» functions as a connective/sequence particle (fa of resumption), linking and sequencing the statement (their being in God's mercy) with the preceding context.",
+        "device_branch": "maani",
+        "device_subtype": "حرف استئناف (فاء)",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "والواو استئنافية",
+        "claim_ar": "الواو في «وَأَمَّا» تظهر كواو عطف/استئناف تمهيدية تفتح باب التّمييز أو التّباين بين ما قبلها وما بعدها.",
+        "claim_en": "The waw in «وَأَمَّا» functions as a coordinating/resumptive waw, introducing a distinction or contrast between what precedes and what follows.",
+        "device_branch": "maani",
+        "device_subtype": "حرف استئناف/عطف (واو)",
+        "root": null,
+        "lemma": "أَمَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "فيه ترغيب في الطاعة",
+        "claim_ar": "توظيف العبارة («وَأَمَّا الَّذِينَ ابْيَضَّتْ وُجُوهُهُمْ فَفِي رَحْمَةِ اللَّهِ هُمْ فِيهَا خَالِدُونَ») كمقابلة/مقابلة ثوابية: مقابل تصوير حالة الخزي والهلاك للمذمومين في الآية السابقة، هنا تصوير الثواب والخلود تنشيطًا للترغيب في الطاعة.",
+        "claim_en": "The verse functions as a muqabalah (antithetical pairing): contrasted with the previous portrayal of disgrace/punishment, this passage depicts reward and eternal dwelling in God's mercy, serving as encouragement to obedience.",
+        "device_branch": "badi",
+        "device_subtype": "مقابلة/تضاد ثوابي (ترغيب مقابل ترهيب)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The supporting commentary chunk speaks of 'ترغيب في الطاعة' in a general rhetorical sense; it is not an explicit gloss on this exact ayahtoken in the provided chunks, so the mapping to muqabalah here should be checked against tafsir texts specifically treating S3:107."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks do not include the requested classical rhetoric authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a tafsir-balagha chunk). Claims above are drawn from the available chunks (Darwish I'rab and al-Kashshaf excerpts).",
+      "The muqabalah/antithesis claim (ayah-level) is inferred from a general rhetorical remark in the commentary ('فيه ترغيب في الطاعة') rather than an explicit statement about S3:107 in the supplied chunks — recommend checking specialized tafsir-balagha or Jurjani/Sakkaki treatments for confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

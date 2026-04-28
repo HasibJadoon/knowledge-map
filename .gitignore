@@ -39,6 +39,8 @@ km_arabic_linguistic/ingestion/near_synonyms/sources/
 !database/seeds/
 !database/seeds/*.sql
 !database/seeds/**/*.sql
+# Chunked seed splits are generated; too large for git
+database/seeds/chunks/
 !workers/*/schema.sql
 !workers/*/migrations/
 !workers/*/migrations/*.sql
@@ -67,3 +69,6 @@ tmp/
 # Angular cache
 .angular/
 **/.angular/
+.env
+.env
+.env

@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:2",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "maani",
+        "source_quote_ar": "أَنْ لا تَعْبُدُوا بدل من إِنِّي لَكُمْ نَذِيرٌ أى أرسلناه بأن لا تعبدوا إِلَّا اللَّهَ",
+        "claim_ar": "قراءة عبارة «أن لا تَعْبُدُوا…» كبدل/محتوى من «إني لكم نذير» تُظهر اختزال الخبر في صيغة موجزة — دلالة على الإيجاز البلاغي (إيجاز ما يُقال بتقديم المراد وترك البيان المطوّل).",
+        "claim_en": "The clause 'أن لا تَعْبُدُوا…' is read as a substitute/content of 'inni lakum nadhir', showing that the warning's content is rendered in a compressed form — an instance of rhetorical concision (ijaz), where the message is presented compactly instead of being elaborated.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "عبد",
+        "lemma": "عَبَدَ",
+        "confidence": "medium",
+        "needs_review_reason": "The claim is based on Zamakhshari's exegetical reading that treats the clause as a badal/summary; other tafsir readings may analyze the syntax differently (e.g., as a separate clause or as explanation).",
+        "quran_ref": "S11:A2",
+        "rhetorical_effect": "يجعل التحذير مباشرًا ومختصرًا فيؤثر أسرع في السامع ويشد انتباهه إلى النهي والمرجع (الله) دون تطويل بياني."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "badi",
+        "source_quote_ar": "إِنِّي لَكُمْ نَذِيرٌ",
+        "claim_ar": "وجود اسمَي «نذير» و(في النص القرآني) «بشير» يشكّل مقابلة/توازنٍ بلاغي بين التحذير والبشارة، ما يوسّع دلالات الخبر ويوازن بين الخطر والأمل.",
+        "claim_en": "The presence of 'nadhir' (and in the verse the paired 'bashir') forms a rhetorical antithesis/balance between warning and glad tidings, expanding the communicative stance and balancing threat with promise.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "نذر",
+        "lemma": "نَذِير",
+        "confidence": "low",
+        "needs_review_reason": "The provided source chunk cites 'إِنِّي لَكُمْ نَذِيرٌ' but does not explicitly discuss the pairing with 'بشير' in the chunks given; the claim relies on the ayah wording (words list) and general rhetorical reading rather than an explicit statement in the supplied chunks.",
+        "quran_ref": "S11:A2",
+        "rhetorical_effect": "يخلق توتراً بلاغياً وتوازناً معطياً السامع أملًا وتحمّلاً معا — يزيد ثِقل الخطاب بوضع العاقبة الممكنة في ناحية الخطر والنعمة."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "maani",
+        "source_quote_ar": "أَنْ لا تَعْبُدُوا بدل من إِنِّي لَكُمْ نَذِيرٌ",
+        "claim_ar": "تحوّل الخطاب من صيغة الأمر/النهي المباشر («ألا تَعْبُدُوا…») إلى توكيد المتكلّم («إني لكم نذير») يمثل لفتة بلاغية (التفات) تُحوّل الانتباه من المخاطَب إلى موقف المرسل وجدّية تحذيره.",
+        "claim_en": "The shift from the prohibitive imperative ('alla ta'budu...') to the speaker's assertion ('inni lakum nadhir') constitutes an iltifat (rhetorical turn), redirecting attention from the addressee's duty to the speaker's authority and seriousness of the warning.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "نذر",
+        "lemma": "نَذِير",
+        "confidence": "medium",
+        "needs_review_reason": "This is an interpretive identification of a discourse shift based on the chunk that presents both clauses; alternative syntactic readings (e.g., treating clauses as appositive or explanatory) could change the classification.",
+        "quran_ref": "S11:A2",
+        "rhetorical_effect": "يعزّز مصداقية الرسالة بانتقال الخطاب إلى موقف المتكلّم الشخصي، فيزداد وقع التحذير على المستمع ويُبرز جدّيته."
+      }
+    ],
+    "warnings": [
+      "المصادر المطلوبة في التوجيه (الجُرجاني، السَّكَّاكِي، الباقِللاني، السُّيُّوتي، ومقاطع تفسير البلاغة الأخرى) لم تُوفَّر ضمن chunks المقدمة. ما ورد هنا مبني على المقتطفات المتاحة من الزمخشري ومقتطفات أخرى في data.",
+      "بعض المطابقات البلاغية (خصوصًا علاقة «نذير» بــ«بشير») استُنبِطت من نص الآية المُزوَّد في حقل الكلمات وليس من تحليل صريح في chunks المرفقة؛ لهذا وُضعت ثقة منخفضة/متوسطة وسبَب للمراجعة.",
+      "مصطلحات القِطع والتحويل النحوي (كـ«بدل» أو «تفسير») وردت في الشرح النحوي/القرائي بالـZamakhshari؛ تصنيفها كأجهزة بلاغية (مثل إيجاز/التفات) هنا تفسيري ويجب مراجعته مقابل شروح بلاغية مخصصة إذا دُوِّنت اشتراطات دقّة أعلى."
+    ]
+  },
+  "n_chunks": 12
+}

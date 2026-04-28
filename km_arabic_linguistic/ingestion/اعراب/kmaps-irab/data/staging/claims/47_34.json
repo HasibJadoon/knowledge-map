@@ -1,0 +1,37 @@
+{
+  "layer": "irab",
+  "ayah_key": "47:34",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَالْفَاءُ تَدُلُّ عَلَى تَعَلُّقِ الشَّرْطِ بِمَا قَبْلَهُ",
+        "claim_ar": "الفاء (في «فَلَن») تدل على تعلق جواب الشرط بما قبلها.",
+        "claim_en": "The particle fa' (as in 'fa-lan') indicates that the reply/answer of the conditional is attached to what precedes it.",
+        "root": null,
+        "lemma": "لَن",
+        "confidence": "high",
+        "needs_review_reason": "النص صريح في المصدر حول وظيفة الفاء؛ يطابق وجود الفاء في كلمة 'فَلَنْ' بالآية.",
+        "quran_ref": "S47:A34"
+      },
+      {
+        "word_index": 12,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَقَالَ يُونُسُ: الْهَمْزَةُ فِي مِثْلِ هَذَا حَقُّهَا أَنْ تَدْخُلَ عَلَى جَوَابِ الشَّرْطِ تَقْدِيرُهُ: أَتَنْقَلِبُونَ عَلَى أَعْقَابِكُمْ إِنْ مَاتَ",
+        "claim_ar": "تقدير دخول همزة الشرط في جواب الشرط يكون مثل: «أَتَنقَلِبُونَ عَلَى أَعْقَابِكُمْ إِنْ مَاتَ» (أي أن جوابه مُقدّر بهذا الشكل).",
+        "claim_en": "Yunus states that the hamzah in such constructions enters the answer of the conditional; the implied/understood formulation is: 'Are you to return on your heels if he dies' (أتَنقَلِبُونَ عَلَى أَعْقَابِكُمْ إِنْ مَاتَ).",
+        "root": null,
+        "lemma": "لَن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited taqdir example concerns conditional constructions with همزة/فاء (e.g., أَفَإِنْ مَاتَ). Its direct applicability to this specific verse (which contains «ثُمَّ مَاتُوا» rather than a conditional همزة) is uncertain and should be checked.",
+        "quran_ref": "S47:A34"
+      }
+    ],
+    "warnings": [
+      "المقاطع المأخوذة من التبيان تتناول أحكامًا عامة عن همزة و'فاء' الشرط في أمثلة أخرى (مثل «أفإن مات»)؛ ليست كل الملاحظات مُعلَّقة صراحة بهذه الآية ('إِنَّ ... ثُمَّ مَاتُوا ... فَلَنْ'). الرجاء مراجعة مدى انطباق كل حكم على سياق الآية المحدد.",
+      "بعض المقاطع في المصدر تتعامل مع قراءات أو أمثلة من سور وآيات أخرى؛ استخرجت فقط الاقتباسات المباشرة الصريحة المتعلقة بالقاعدة النحوية (خاصة حول الفاء ودخول الهمزة)."
+    ]
+  },
+  "n_chunks": 4
+}

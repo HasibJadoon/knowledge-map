@@ -1,0 +1,62 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:90",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "tibaq",
+        "source_quote_ar": "كفروا بعيسى والإنجيل بعد إيمانهم بموسى والتوراة",
+        "claim_ar": "التباين (طباق) بين الإيمان ثم الكفر: عرضُ الإيمان متبوعًا بازدياد الكفر لتأكيد التناقض والتدهور الأخلاقي/العقيدي.",
+        "claim_en": "Antithesis (tibaq) between belief and subsequent increase in disbelief: presenting their earlier faith followed by increased disbelief to emphasize the contradiction and moral/ideological deterioration.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq (antithesis)",
+        "root": "كفر",
+        "lemma": "كُفْر",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "gradation_sequence",
+        "source_quote_ar": "ثُمَّ ازْدادُوا كُفْراً",
+        "claim_ar": "الترتيب بواسطة ثُمَّ وازدياد: بيان تدرّج الحال (من إيمان إلى ازدياد كفر)؛ ثُمَّ يؤكّد التسلسل الزمني والاشتداد في الحالة.",
+        "claim_en": "Sequence/gradation indicated by thumma + 'azdadu': shows progression (from belief to increasing unbelief); 'thumma' emphasizes temporal sequence and escalation of the state.",
+        "device_branch": "other",
+        "device_subtype": "sequence/gradation (ازدياد)",
+        "root": "زيد",
+        "lemma": "ازْدَادُ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "kinayah",
+        "source_quote_ar": "جعلت عبارة عن الموت على الكفر",
+        "claim_ar": "الايحاء بالمعنى بالقول \"لَنْ تُقْبَلَ تَوْبَتُهُمْ\" على أنّها عبارةٌ مُستعملةٌ للدلالة على الموت وهو البقاء على الكفر (كناية/إيهام بالنتيجة الثابتة).",
+        "claim_en": "The phrase 'لَنْ تُقْبَلَ تَوْبَتُهُمْ' is employed to imply dying in disbelief — i.e. it functions as an idiomatic/metonymic expression indicating a permanent state (kinayah/allusion).",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah (metonymic allusion)",
+        "root": "قبل",
+        "lemma": "يَقْبَلُ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "قد أوذن بالفاء أنّ الكلام بنى على الشرط والجزاء",
+        "claim_ar": "حذف أو إضافة حرف الفاء في صياغة النفي (لَنْ تُقْبَلَ vs فَلَنْ يُقْبَلَ) يعكس علاقة سببية/شرطية أو يغيّر أسلوب العرض؛ وجود الفاء يوصل الكلام إلى نتيجةٍ مَسبَّبةٍ، وحذفها يجعل العبارة مبتدأ وخبرًا أقرب إلى الجزم.",
+        "claim_en": "The presence or absence of the prefixed 'fa-' (فـ) in the negation (لَنْ تُقْبَلَ vs فَلَنْ يُقْبَلَ) signals a difference in causal/conditional relation and discourse structure: the 'fa-' signals building on a condition and consequence, while its omission presents the clause as simple nominal assertion.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (connector فـ indicating causality/sequence)",
+        "root": null,
+        "lemma": "لَن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

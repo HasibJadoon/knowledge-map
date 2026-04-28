@@ -1,0 +1,68 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَأَنْ يَكُونَ صِفَةً لذكر",
+        "claim_ar": "يجوز أن تتعلق عبارة الجر «مِنْ دُونِهِ» كصفة لاسم (مثل «إِلَهٌ») أي أن تكون «مِنْ دُونِهِ» صفةً لـ«إِلَهٌ».",
+        "claim_en": "The prepositional phrase «مِنْ دُونِهِ» may be an attribute (صفة) of the noun (e.g. of «إِلَهٌ»).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source states a general possibility; which attachment actually applies in this specific ayah requires syntactic judgment in context."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "«فِي غَفْلَةٍ» : يَجُوزُ أَنْ يَكُونَ حَالًا مِنَ الضَّمِيرِ",
+        "claim_ar": "يجوز أخذ «مِنْ دُونِهِ» كحالٍ من الضمير في الخبر (وجه إعراب بديل: حال من ضمير ملاصق للخبر).",
+        "claim_en": "An alternative analysis: «مِنْ دُونِهِ» may function as a ḥāl (circumstantial) derived from a pronoun in the predicate (i.e. a possible alternative parsing).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives this as a possible parallel case; applying it here is interpretive and not explicitly stated for this exact phrase."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "taqdir",
+        "source_quote_ar": "هُوَ صِفَةٌ لِمَحْذُوفٍ",
+        "claim_ar": "قد تكون «مِنْ» في «مِنْ دُونِهِ» دالةً على صفة لاسم محذوف (أي: صفة لِمحذوف يتعين تقديره).",
+        "claim_en": "The preposition «مِنْ» can indicate an attribute attached to an omitted (elliptical) noun; thus «مِنْ دُونِهِ» may be a description whose head noun is elided (taqdīr required).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "This asserts an elided/understood noun — the identity of that elided element in this ayah must be verified contextually."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "وَعَلَى قَوْلِ الْأَخْفَشِ تَكُونُ «مِنْ» زَائِدَةً.",
+        "claim_ar": "في قراءة بعض القراء (ذَكَرَتِهَا العِبْرَة) قد تُعَتَبَرُ «مِنْ» زائدة (لا مدخول لها)، أي بحسب قول الأخفش تكون «مِنْ» زائدة.",
+        "claim_en": "According to the reading attributed to al-Akhfash, the particle «مِنْ» may be an added/extraneous element (zāʾida) with no syntactic import.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "This depends on specific qirāʾa (reading); verifying which reading applies to this transmission of the ayah is necessary."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "وَيَجُوزُ أَنْ يَكُونَ خَبَرًا ثَانِيًا.",
+        "claim_ar": "يجوز أن تكون عبارة «مِنْ دُونِهِ» خبرًا ثانيًا (أي خبرًا ملحَقًا بإنّ/بالخبر الأول)، فلا تكون مضافًا إلى «إِلَهٌ» بل خبرًا آخر.",
+        "claim_en": "It is permissible that «مِنْ دُونِهِ» functions as a second predicate (خبر ثانٍ), i.e. an additional predicate rather than an adjective attached to «إِلَهٌ».",
+        "root": "دون",
+        "lemma": "دُون",
+        "confidence": "medium",
+        "needs_review_reason": "The source treats this as a possible analysis in comparable constructions; determining whether this is the intended parse in this ayah needs contextual/syntactic confirmation."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not explicitly analyze the exact phrase «مِنْ دُونِهِ» from S21:29; the claims are drawn by analogy from general remarks in al-Tibyan about constructions like «مِنْ ...» and prepositional phrases (حالات: صفة، حال، خبر ثانٍ, ضبط في القراءات).",
+      "Multiple alternative analyses are attested as permissible in the source; which analysis applies in this ayah is not settled by the quoted excerpts and requires further contextual or scholarly specification."
+    ]
+  },
+  "n_chunks": 12
+}

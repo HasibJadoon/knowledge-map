@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:193",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "taalluq",
+        "source_quote_ar": "الْقَائِمُ مَقَامَ الْفَاعِلِ «أَنْ»",
+        "claim_ar": "أَنْ: الْقَائِمُ مَقَامَ الْفَاعِلِ «أَنْ» وَمَا هُوَ تَمَامٌ لَهَا؛ فَأَنْ في هذِهِ الْجُمْلَةِ تَقْلِبُ قَاعِدَةَ رَبْطِ جُمْلَةٍ تَابِعَةٍ بِالفِعْلِ (تَعَلُّق/تَبِعْ لِـ يُنَادِي).",
+        "claim_en": "The particle 'أَنْ' functions as 'qā'im maqām al-fā'il' (standing in the position of the subject) and completes it; in this sentence the 'أَنْ' clause is the clause falling under/related to the verb (i.e. it forms the complement/clause associated with يُنَادِي).",
+        "root": null,
+        "lemma": "أَن",
+        "confidence": "medium",
+        "needs_review_reason": "The source states the general rule ('الْقَائِمُ مَقَامَ الْفَاعِلِ «أَنْ»') in discussing another verse; applying it specifically to Sūrah 3:193 (يُنَادِي ... أَنْ آمِنُوا) is an inference from that general statement and should be checked against a targeted iʿrāb commentary for this ayah."
+      }
+    ],
+    "warnings": [
+      "Only one relevant statement was found in the provided chunks (about the particle «أَنْ»). The source passage discusses «أَنْ» in a different verse (headed «وَقَدْ نَزَّلَ»); applying it to S3:193 is inferential.",
+      "No explicit iʿrāb statements in the provided chunks were found for other words of the ayah (e.g. إِنَّنَا, مُنَادِيًا, يُنَادِي, آمِنُوا, etc.), so no claims were extracted for them.",
+      "If you want fuller coverage (subjects, objects, cases, ellipses, or variant readings) provide additional source chunks that treat this specific verse."
+    ]
+  },
+  "n_chunks": 12
+}

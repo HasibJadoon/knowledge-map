@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:122",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "(وَمَا كَانَ لَنَا أَنْ نَأْتِيَكُمْ)",
+        "claim_ar": "الْمُؤْمِنُونَ اسمُ كانٍ (مبتدأ كان)",
+        "claim_en": "Al‑Mu'minun (الْمُؤْمِنُونَ) functions as the ism (subject) of كان (i.e., the مبتدأ of كان).",
+        "root": "امن",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk gives the analysis for the parallel construction (وَمَا كَانَ لَنَا ...). This claim extrapolates that analysis to this verse's (وَمَا كَانَ الْمُؤْمِنُونَ ...) — verify that al‑Tibyan explicitly treats المؤمنون as اسم كان in the commentary on this exact verse."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "اسْمُ كَانَ، «وَلَنَا» الْخَبَرُ.",
+        "claim_ar": "قاعدة: في صيغة «وَمَا كَانَ ...» يكون ما بعدها اسماً لكان (اسم كان) وقد يكون عنصر مثل «لنا» هو الخبر.",
+        "claim_en": "Rule reference: In constructions like 'وَمَا كَانَ ...' the following noun serves as the ism of كان (اسم كان); elements such as 'لَنا' in the example can function as the predicate (خبر).",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The available al‑Tibyan chunks do not quote this exact verse; the claims above are inferred from the provided parallel example (وَمَا كَانَ لَنَا أَنْ نَأْتِيَكُمْ). Confirm with the specific commentary on S9:A122 to ensure no different local analysis (e.g., alternative assignment of the خبر) is given."
+    ]
+  },
+  "n_chunks": 12
+}

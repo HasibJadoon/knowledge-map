@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:172",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No claims extracted: none of the provided source_chunks contain the target āyah text (S4:A172) or the necessary quoted substrings from the requested balāgha/tafsir sources. The task requires source_quote_ar to be an exact substring of one of the provided chunks; because those chunks do not include the ayah or related balāgha commentary, I cannot produce valid claims that meet the specification.",
+      "To extract rhetoric claims, please provide source chunks that include (a) the ayah in Arabic or (b) balāgha/tafsir excerpts (from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or tafsīr balāgha) that discuss S4:A172. Alternatively, include source chunks that contain the exact Arabic words/phrases from the ayah so that source_quote_ar can be satisfied."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,44 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:91",
+  "result": {
+    "claims": [
+      {
+        "word_index": 16,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "(من) اسم استفهام مبني في محلّ جر متعلق بمحذوف خبر مقدم",
+        "claim_ar": "استخدام أداة الاستفهام «مَن» بصيغة إنشائية لاستدراكٍ وتحدٍّ لِمَنْ يدّعي أن الله لم يَنزِل على بشر",
+        "claim_en": "Use of the interrogative 'mān' as a constructive/rhetorical question that challenges the claim that God did not send revelation to any human.",
+        "device_branch": "maani",
+        "device_subtype": "interrogative_challenge",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source is a grammatical/exegetical note identifying '(من)' as an interrogative; the rhetorical reading (challenge/constructive interrogation) is an interpretive inference rather than an explicit label in the chunk.",
+        "quran_ref": "S6:A91",
+        "rhetorical_effect": "Turns an asserted denial into a pointed challenge that shifts burden of proof onto the claimants and provokes reflection."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "(قل) مثل السابق «1»",
+        "claim_ar": "الأمر «قُلْ» كأداة خطابية/توجيهية (أسلوب حكيم) تحوّل الخطاب إلى ردّ منهجي بسؤال إنشائي",
+        "claim_en": "The imperative 'qul' functions as a didactic/directive stylistic device (asloob hakim), prompting the Prophet to respond with a pointed rhetorical question.",
+        "device_branch": "other",
+        "device_subtype": "command_particle / didactic_directive",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk records the presence of 'قل' grammatically; labeling it here as 'asloob hakim' (stylistic/directive) is interpretive and should be cross-checked with rhetorical commentary.",
+        "quran_ref": "S6:A91",
+        "rhetorical_effect": "Frames the Prophet's speech as an authoritative prompt, directing attention and legitimizing the forthcoming rhetorical question."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily grammatical/exegetical and do not always contain explicit rhetorical labels; several rhetorical readings below are inferred from grammatical notes rather than being directly asserted in the chunks.",
+      "Several clear rhetorical features of the verse itself (for example the metaphorical reduction 'تَجْعَلُونَهُ قَرَاطِيسَ' and the antithetical pairing 'تُبْدُونَهَا وَتُخْفُونَ') are not discussed or quoted in the supplied chunks, so claims about those devices could not be extracted with the required source_quote_ar support. Recommend providing tafsir/balagha chunks that explicitly comment on those phrases if extraction of those devices is desired.",
+      "Roots/lemmas are taken from the supplied token data; where a token had no root in the input, the claim records root as null. Some claims rely on interpretive linkage between grammatical notes and rhetorical function and thus are marked for review."
+    ]
+  },
+  "n_chunks": 12
+}

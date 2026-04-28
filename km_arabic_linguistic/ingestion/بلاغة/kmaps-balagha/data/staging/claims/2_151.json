@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:151",
+  "result": {
+    "claims": [
+      {
+        "word_index": 10,
+        "claim_type": "takrar",
+        "source_quote_ar": "(وَعَمِلُوا الصَّالِحاتِ وَأَقامُوا الصَّلاةَ وَآتَوُا الزَّكاةَ) الجمل الثلاث معطوفة على الصلة",
+        "claim_ar": "تكرار البنية الفعلية (تتابع الأفعال الموصولَة بالواو) يظهر كوسيلة بلاغية للتأكيد — في الآية: تكرار فعل الإخبار عن وظيفة الرسول (يُعَلِّمُكُمْ) مرتين يعزز التأكيد على جانب التعليم.",
+        "claim_en": "Repetition of the verbal structure (a sequence of verbs joined by wāw) functions rhetorically to emphasize — in this verse: the verb indicating the Prophet's teaching role (yُعَلِّمُكُمْ) appears twice, reinforcing emphasis on the teaching function.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "علم",
+        "lemma": "عَلَّمَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk shows a parallel of three conjoined verbs as an illustrative example; the actual verse text is not present in the chunks, so the identification of repetition in this specific ayah is inferred from structural analogy rather than a direct citation of the verse."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "(وَعَمِلُوا الصَّالِحاتِ وَأَقامُوا الصَّلاةَ وَآتَوُا الزَّكاةَ) الجمل الثلاث معطوفة على الصلة",
+        "claim_ar": "أسلوب تعددي/توازي: تعدد الأفعال المتعاقبة الموصولة بـ«و» (يَتْلُو ... وَيُزَكِّيكُمْ وَيُعَلِّمُكُمْ) يعمل كأسلوب حكيم لتعداد وظائف الرسول وإظهار شمولها وتتابعها.",
+        "claim_en": "Enumerative / parallel stylistic device: the succession of verbs joined by 'wa' (yatlu ... wa yuzakkikum wa yu'allimukum) functions as an asloob hakim (wise/ordered style) to enumerate the Prophet's roles, showing their comprehensiveness and sequence.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Claim is based on a provided commentary fragment showing coordinated triplet clauses; the exact ayah wording is not present in the chunks, so the mapping of that rhetorical label to this verse should be reviewed against primary balagha sources."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks contain the exact text of Sura 2:151. The claims above are inferred from supplied commentary fragments (not direct quotations of this ayah) that discuss parallel/conjoined clauses; please verify against primary balagha commentaries (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) for authoritative attributions.",
+      "Device classification (e.g., labeling parallelism as 'asloob_hakim' or repetition as 'takrar') is moderately confident but should be reviewed: the supplied chunks illustrate related phenomena but do not explicitly analyze this specific verse.",
+      "No source chunk contained explicit mention of literal repetition of the exact verb 'يُعَلِّمُكُمْ'; the repetition claim is inferred from the verse word-list and the parallelism example in the commentary — please confirm with direct balagha quotations."
+    ]
+  },
+  "n_chunks": 12
+}

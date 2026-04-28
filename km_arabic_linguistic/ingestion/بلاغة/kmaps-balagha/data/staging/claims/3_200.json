@@ -1,0 +1,14 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:200",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable بلاغة claims were generated because none of the provided source_chunks contain exact Arabic substrings that directly discuss the wording or rhetorical features of this specific ayah (سورة 3:آية 200).",
+      "The developer instructions require that each claim's source_quote_ar be an exact substring of one of the provided source_chunks. The chunks given (Zamakhshari excerpt and several iʿrāb/commentary fragments) do not include the ayah text (يَا أَيُّهَا الَّذِينَ آمَنُوا اصْبِرُوا ... تُفْلِحُونَ) nor explicit balagha commentary on its lexical items, so no claim meeting the requirement can be supported.",
+      "To produce reliable claims, please provide one or more source chunks (from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha, or other authoritative rhetorical commentaries) that explicitly quote or analyse this ayah (or its lexical segments). Alternatively, permit the use of general-purpose tafsir/بلاغة references (not limited to the current chunks).",
+      "If you prefer, I can (a) attempt a best-effort extraction using general rhetorical knowledge about this ayah (without a source_quote_ar drawn from your chunks) — markable as low confidence and requiring review, or (b) wait for you to upload suitable source material that contains exact Arabic substrings for citation."
+    ]
+  },
+  "n_chunks": 12
+}

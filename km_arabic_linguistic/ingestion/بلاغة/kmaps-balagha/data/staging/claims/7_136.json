@@ -1,0 +1,41 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:136",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "maani",
+        "source_quote_ar": "(الفاء) فاء السببية",
+        "claim_ar": "استعمال الفاء السببية لربط الجزاء بوسيلته: «فَانْتَقَمْنَا» ثم تُتْبَع بفاء سببيّة «فَأَغْرَقْنَاهُمْ» للدلالة على التبعات المباشرة للعقاب الإلهي.",
+        "claim_en": "Use of the causal particle fa to link the punishment and its means: 'We took revenge' followed by the causal 'fa' in 'We drowned them', indicating direct consequence of the divine punishment.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "نقم",
+        "lemma": "انتَقَمْ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A136",
+        "rhetorical_effect": "يُبرز التتابع السببي والآنية في جزاء الكافرين، فيعطي الشعور بالاقتدار والفعل الحاسم من الله."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "الفاء عاطفة",
+        "claim_ar": "تكرار أحرف العطف (الفاء) في بداية أفعال متعاقبة يكوّن إيقاعاً وتكراراً بلاغيّاً (تكرار/توازي) بين «فَانْتَقَمْنَا» و«فَأَغْرَقْنَاهُمْ».",
+        "claim_en": "Repetition of the coordinating particle fa at the start of successive verbs forms a rhetorical repetition/parallelism between 'We took revenge' and 'We drowned them', creating rhythm and emphasis.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source notes the function of the particle (الفاء عاطفة) but does not explicitly frame this as a rhetorical 'repetition'—the rhetorical reading (takrar) is inferred from the verse's form."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily grammatical/tafsir excerpts (Iʿrab and Kashshāf), not explicit excerpts from the named rhetorical authorities (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsīr-balāgha). Claims rely on particle-function notes found in these chunks and a rhetorical reading applied to the verse.",
+      "Source-quote substrings were taken literally from the available chunks to support the claims about the particle الفاء; some rhetorical labels (e.g., 'takrar') are interpretive and flagged with medium confidence as noted."
+    ]
+  },
+  "n_chunks": 12
+}

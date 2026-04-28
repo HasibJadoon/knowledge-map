@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:15",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "istiarah",
+        "source_quote_ar": "اللقاء اسم للقتال غالب",
+        "claim_ar": "توظيف لفظة «اللقاء» مجازاً للدلالة على القتال، أي استعمال لقاء (القيام بالالتقاء) للاشارة إلى المعركة والقتال.",
+        "claim_en": "The term “al-liqaaʾ” (meeting) is used metaphorically to mean fighting — using 'meeting' to denote battle/encounter in combat.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz / istiarah",
+        "root": "لقي",
+        "lemma": "لَقُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وترك أن يصفها",
+        "claim_ar": "الاقتصار والاختصار بعدم وصف طائفة الكفار وتقديم الإشارة المجملة بدلاً من التفصيل، دلالة على الإيجاز والاختصار البلاغي.",
+        "claim_en": "The omission of any detailed description of the enemy-group (\"and he omitted describing it\") is a rhetorical brevity/conciseness (hasr/qasr), using omission instead of detailed depiction.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "Assigned root/lemma from the referenced group (الكفار) because the comment refers to omission about that group; verify attachment and whether another root would be preferable."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "وفيه إشعار بأنّ على العبد أن لا يفتر عن ذكر ربه",
+        "claim_ar": "الآية/الخطاب فيها إشارة إلى وجوب الاستمرار في ذكر الله وعدم الانقطاع عنه — قراءة بلاغية تعتبرها أمراً ونصيحة (إيجاب/إنشاء).",
+        "claim_en": "The commentary reads the passage as implying an injunction: the servant must not desist from remembering God — a rhetorical effect of exhortation/command (ijab/inshaa).",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary's exhortatory reading is generalized; confirm that this injunction is being derived from this specific verse rather than nearby verses or homiletic expansion."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari and Safi (al-Kashshaf, al-Jadwal etc.). The developer instruction requested extracts from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir_balagha sections; those specific authors/sections were not present in the supplied chunks.",
+      "Some claims are mapped to ayah-level (word_index 0) because the commentary speaks about the style or moral implication of the verse rather than a single lexical item; verify intended word assignment if a different anchoring is preferred."
+    ]
+  },
+  "n_chunks": 12
+}

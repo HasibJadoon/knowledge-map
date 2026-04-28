@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:21",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "والنَّاسِ للجنس",
+        "claim_ar": "استخدام لفظ «النَّاس» بالـ (ال) يدل على عموم الجنس (التعميم إلى جميع البشر)؛ الهمزة معرفة بالدلالة على العموم/النوع.",
+        "claim_en": "The word 'النَّاس' with the definite article (al-) functions as a generic/general reference to the human species (denoting all people).",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir",
+        "root": "نوس",
+        "lemma": "نَّاس",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يا محمد",
+        "claim_ar": "أسلوب النداء بـ«يا» (نحو «يا أيها الناس») كوسيلة لجذب الانتباه والخطاب العام؛ النمط ذاته مذكور في التفسير (مثال: «يا محمد») للدلالة على وظيفة النداء في القرآن.",
+        "claim_en": "The vocative particle 'يا' (as in 'يا أيها الناس') is used to attract attention and address the audience directly; the same vocative pattern appears in the commentary (example: 'يا محمد'), illustrating the function of the vocative.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source example is 'يا محمد' (Tabari) rather than the exact phrase 'يا أيها الناس' from the ayah; it supports the vocative pattern but is not a direct commentary on the exact wording of this ayah."
+      }
+    ],
+    "warnings": [
+      "Requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present among the provided source_chunks. Extraction used the available chunks (Tabari, Zamakhshari, Darwish i'rab).",
+      "Source coverage is limited and does not include explicit balagha sections for this ayah from the specified rhetoricians; some inferences (e.g., vocative function) are supported by analogous excerpts rather than direct commentary on this exact phrase.",
+      "Only claims supported by exact substrings from the provided chunks were included. Other likely rhetorical devices in the ayah (e.g., terseness, causal purposive phrase 'لعلكم تتقون', coordination for emphasis) were not claimed because the supplied chunks did not contain matching source quotes."
+    ]
+  },
+  "n_chunks": 12
+}

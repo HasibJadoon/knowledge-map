@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:97",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار",
+        "claim_ar": "الأسلوب الحكيم: الجمع بين الترغيب والترهيب — في هذه الآية تأتي البشارة (وَبُشْرَى) متممةً ومشَفَّعةً بالإنذار، تحثّ المؤمنين وتثبّتهم بعد ذكر وعيد المكذبين.",
+        "claim_en": "Asloob hakim (wise rhetorical style): the pairing of encouragement (targhib) with warning (tarhib). In this ayah the 'bushra' (good tidings) is presented together with warning, encouraging and consoling the believers after threats to the disbelievers.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "رغب",
+        "lemma": "ترغيب",
+        "confidence": "high",
+        "needs_review_reason": "Sources provided are limited to Zamakhshari's al-Kashshaf; the requested classical balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not supplied, so further confirmation/comparison with those authorities is advised."
+      }
+    ],
+    "warnings": [
+      "Only Zamakhshari (al-Kashshaf) chunks were provided. Other requested balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not included, limiting extraction and cross-checking of rhetorical claims.",
+      "Many obvious rhetorical features of S2:A97 (e.g., confirmatory phrasing, word-order emphasis, use of 'قُلْ' imperative) could not be extracted because the provided chunks do not contain direct commentary/substrings about those features. Claims are therefore limited to what is explicitly supported in the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

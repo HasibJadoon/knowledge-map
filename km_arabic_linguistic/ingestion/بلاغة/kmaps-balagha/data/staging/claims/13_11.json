@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "13:11",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "takrar",
+        "source_quote_ar": "التصريف البديع",
+        "claim_ar": "تكرار فعل «يُغَيِّرُ/يُغَيِّرُوا» (جذر: غيّر) كوسيلة بلاغية لتوكيد الحكم الشرطي والتأكيد على علاقة السببية بين تغيير النفوس وتغيير الحال.",
+        "claim_en": "Repetition (takrar) of the verb «yughayyiru / yughayyirū» (root: gh-y-r) functions rhetorically to emphasize the conditional causal relation between self-change and change of circumstances.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "غير",
+        "lemma": "يُغَيِّرُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "m uqābalah",
+        "source_quote_ar": "ومجيء النفي على هذا السنن المتلو بديع، لا تكنه بلاغنه وبراعته",
+        "claim_ar": "مقابلة بين القطعتين «مَا بِقَوْمٍ» و«مَا بِأَنْفُسِهِمْ» تُنشئ بنية مقابلة/تضادية تُبيّن أن تغيير الحال مشروط بتغيير الذات، أي أسلوب المقابلة.",
+        "claim_en": "A contraposition/parallelism between «mā bi-qawmin» and «mā bi-anfusihim» establishes an antithetical structure that clarifies that change of condition is conditioned on change of the self — an instance of muqābalah (contrast/parallelling).",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source phrase discusses artful negation/placement (badi‘) generally; mapping that commentary specifically to the verse's parallelism should be reviewed against primary rhetorical commentary."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "لا تخلو الآية من الفن المعروف عند علماء البيان باللف",
+        "claim_ar": "الآية تتضمن «اللف» البلاغي — أي تدوير أو تصريف لفظي يُوهم المعنى أو يحمله بصورة إجمالية مركَّزة، مما يزيد في إيجاز المعنى وبيانه البلاغي.",
+        "claim_en": "The verse employs the rhetorical device called 'al-liff' (a smart lexical/phrasing turn) — a concise, artful phrasing that conveys meaning in a compact, suggestive manner and enhances rhetorical impact.",
+        "device_branch": "other",
+        "device_subtype": "al-liff (لف)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary is generic (speaking of 'al-liff' in a verse); confirm the exact mechanism of 'لف' as applied to Q13:11 with more specialized sources (Jurjānī, Sakkākī, etc.)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "ومجيء النفي على هذا السنن المتلو بديع، لا تكنه بلاغنه وبراعته،",
+        "claim_ar": "الموضع البلاغي لمجيء النفي وترتيب الجملة (مثل وضع النفي والتوكيد) يُنظر إليه كتصرِيف بديع — أي تبديع في ترتيب الكلام يزداد به وقع البيان وقوته.",
+        "claim_en": "The placement of negation and the ordering of clauses is treated as an artful badi' arrangement ('taṣrīf badī‘' — artful arrangement), heightening the force and eloquence of the statement.",
+        "device_branch": "badi",
+        "device_subtype": "other_badi_arrangement",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source passage praises such badi‘ arrangements generally; verify the specific syntactic choices in this verse against classical badi‘ analyses (e.g., Jurjānī, al-Sakkākī)."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhsharī and related tafsir material; they are not the requested authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsir-balagha). Claims were tied to exact substrings from the supplied chunks, so please supply the intended authors' excerpts for direct quotations from those authorities.",
+      "Some claims map a general remark in the supplied commentary (e.g., about 'التصريف البديع' or 'اللف') onto features of Sūrah 13:11; those mappings are plausible but should be checked against focused statements in the classical rhetorical works named in the task for precise attribution.",
+      "Field 'source_quote_ar' values are exact substrings from the supplied chunks; however those chunks discuss rhetorical phenomena in general or other verses. If you need strictly verse-specific citations from the requested authors, provide their relevant passages."
+    ]
+  },
+  "n_chunks": 12
+}

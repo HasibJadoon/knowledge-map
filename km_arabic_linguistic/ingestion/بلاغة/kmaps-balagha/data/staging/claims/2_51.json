@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:51",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "هذا النداء والخطاب ليسا على ظاهرهما",
+        "claim_ar": "التفات وخطاب متغير: الانتقال في السرد من ذكر وعد الله لموسى إلى مخاطبة قوم بني إسرائيل (ثُمَّ اتَّخَذْتُمُ) — تغيير في نوع الخطاب يحقق لفت الانتباه والعتاب.",
+        "claim_en": "Iltifat (shift of address): the narrative moves from God recounting His promise to Moses to direct reproach of the Israelites (\"then you took the calf\") — a shift of address that draws attention and reproach.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (shift of address)",
+        "root": "ندو/خطاب",
+        "lemma": "نداء/خطاب",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source passage speaks generally about 'the call and the address' rather than explicitly labelling this verse as an iltifat; mapping the comment to this specific verse should be confirmed."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب",
+        "claim_ar": "أسلوب حكيم: الجمع بين الترغيب (وعد وتعريف بالخير) والترهيب (ذم وعقاب) ضمن سياق واحد — هنا: ذكر الوعد/الوصية ثم ذكر العقاب على اتخاذ العجل.",
+        "claim_en": "Asloob hakim (wise style): pairing encouragement (targhib) with warning (tarhib). In this verse the promise/warning structure contrasts the covenant and the later punishment for taking the calf.",
+        "device_branch": "other",
+        "device_subtype": "targhib_tarhib_pair",
+        "root": "عاد",
+        "lemma": "عادة",
+        "confidence": "high",
+        "needs_review_reason": "n/a"
+      },
+      {
+        "word_index": 8,
+        "claim_type": "explicitation_for_emphasis",
+        "source_quote_ar": "البلاغة: في هذه الآية ضرب من البلاغة دقيق المسلك وهو وضع الظاهر موضع المضمر زيادة في تقبيح أمرهم",
+        "claim_ar": "وضع الظاهر موضع المضمر: ذكر \"العجل\" صراحةً بدل الإشارة الضميرية أو تلميح خفي لشدّة التقريع والتقبيح، أي إبراز الفعل المحرم بشكل صريح لزيادة الذم.",
+        "claim_en": "Placing the explicit in place of the implicit: the calf (\"al-ʿijl\") is mentioned explicitly instead of using a pronoun or a vague reference, thereby increasing the sense of condemnation by making the offense explicit.",
+        "device_branch": "maani",
+        "device_subtype": "explicitation_for_emphasis (وضع الظاهر موضع المضمر)",
+        "root": "ظهر",
+        "lemma": "ظاهر",
+        "confidence": "high",
+        "needs_review_reason": "The source explicitly states this rhetorical move, but mapping this terminology to standard canonical device names may require harmonization."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided contain general commentary and rhetorical principles; not every quoted passage is an explicit, line-by-line analysis of Sura 2:51. Claims map those general remarks to this ayah and should be reviewed for contextual fit.",
+      "Device subtype labels (e.g., 'explicitation_for_emphasis') were created to reflect the exact rhetorical observations in the sources; please review and map them to your canonical taxonomy if stricter labels are required.",
+      "Roots/lemmas are approximate for ayah-level devices (some devices are discourse-level and not tied to a single lexical root)."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:133",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "افتتح سبحانه بذكر الذين أخلصوا دينهم للَّه وواطأت فيه قلوبهم ألسنتهم ووافق سرهم علنهم وفعلهم قولهم.",
+        "claim_ar": "افتتاح السورة بذكر الأتقياء ثم التنقل إلى طوائف أخرى يدل على حركة تركيبية في السورة (افتتاح وتقرير موقف تمهيدي).",
+        "claim_en": "The commentator notes the surah opens with the sincere (true believers), indicating a structural opening that frames the thematic movement of the surah.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "وقصة المنافقين عن آخرها معطوفة على قصة الذين كفروا كما تعطف الجملة على الجملة.",
+        "claim_ar": "التعاطف (العطف) بين قصة المنافقين وقصة الكفرة يُستعمل كأداة بلاغية للوصل والفصل، أي ربط المقاطع السردية مع إبقاءها متميزة في المعنى.",
+        "claim_en": "The commentary points out that the account of the hypocrites is conjoined to the account of the disbelievers 'as a clause is conjoined to a clause' — a rhetorical linking/separating (fasl wa wasl) that manages continuity and contrast between narratives.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "نعى عليهم فيها خبثهم ومكرهم، وفضحهم وسفههم، واستجهلهم واستهزأ بهم، وتهكم بفعلهم، وسجل بطغيانهم، وعمههم ودعاهم صما بكما عمياً، وضرب لهم الأمثال الشنيعة.",
+        "claim_ar": "السلوك البلاغي هنا تأثيث بالذم والتكثير من الصفات المهينة؛ أسلوب تحقيري يركّز على تجميع الأوصاف لشدّ التأثير على السامع/القارئ.",
+        "claim_en": "The commentator lists a sequence of condemnatory descriptions (malice, cunning, exposure, foolishness, mockery, derision, examples), a rhetorical method of piling up reproachful attributes to intensify moral condemnation — an instance of the 'wise/style' (aslub hakim) technique.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk gives a general description of rhetorical method; linking this specifically to the single ayah (S2:A133) requires cross-checking the commentator's local application to that verse."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from al-Zamakhshari (al-Kashshaf). The original task requested al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha sections; those authors' texts were not supplied.",
+      "None of the supplied chunks contains the exact ayah text; claims are drawn from general commentary excerpts in the chunks and may reflect surah-level or thematic remarks rather than devices tied to the exact wording of S2:A133. Please supply the requested authors' balagha/tafsir-balagha sections or chunks that cite the verse explicitly for more targeted claims."
+    ]
+  },
+  "n_chunks": 12
+}

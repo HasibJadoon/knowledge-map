@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:73",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ حَالًا مِنَ الضَّمِيرِ",
+        "claim_ar": "عَابِدِينَ: يجوز أن تُعرب حالًا من الضمير (حال من واو الجماعة في «كانوا»).",
+        "claim_en": "‘عābidīn’ (عَابِدِينَ) can be parsed as a ḥāl (circumstantial accusative) deriving from the pronoun (the waw of the plural subject in «كانوا»).",
+        "root": "عبد",
+        "lemma": "عَابِد",
+        "confidence": "medium",
+        "needs_review_reason": "The source states this as a permissive possibility (يَجُوزُ), not as a definitive ruling; classical grammarians also analyze this construction as خبر كان (the predicate of كان). Context and syntactic tests are needed to choose between analyses.",
+        "quran_ref": "S21:A73"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain a discussion that mentions Sūrah 21:73 explicitly; the claim is inferred from a general rule in al-Tibyān that 'يجوز أن يكون حالًا من الضمير'.",
+      "The source presents the analysis as a possibility (يجوزُ), so the claim is not definitive; other grammarians may prefer the analysis 'خبر كان'."
+    ]
+  },
+  "n_chunks": 12
+}

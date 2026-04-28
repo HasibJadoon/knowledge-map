@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:118",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat (نداء/تحول في الخطاب)",
+        "source_quote_ar": "وبدخول حرف النداء عليه",
+        "claim_ar": "افتتاح الآية بنداء مباشر «يَا أَيُّهَا الَّذِينَ آمَنُوا» كتحول خطابي يوجّه الخطاب مباشرة إلى المؤمنين ويهيئ لسلوك الأمر والنهي التالي.",
+        "claim_en": "The verse opens with a direct vocative “O you who believe”, a shift of address that directs speech to the believers and prepares for the ensuing prohibitory command.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting quotation is a general remark on the vocative particle from the provided commentary (al-Kashshaf). It does not cite this specific verse, so the link is plausible but indirect and should be checked against classical rhetoricians (e.g., al-Jurjānī) for formal classification."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "kinayah / metaphorical use",
+        "source_quote_ar": "اتَّخَذُوا أَحْبارَهُمْ وَرُهْبانَهُمْ أَرْباباً مِنْ دُونِ اللَّهِ وَالْمَسِيحَ ابْنَ مَرْيَمَ",
+        "claim_ar": "كلمة «بِطَانَةً» مجازية: تدل على اتخاذ جماعةٍ مقربة كأنهم أربابٌ أو أوثقُ الناس ثقةً، أي أنها كناية عن ملازمةٍ وتأثيرٍ داخليٍّ لا مجرد لقاءٍ سطحي.",
+        "claim_en": "The word 'biTānah' (بِطَانَةً) is used metaphorically: it denotes taking intimate supporters as if they were lords or trusted protectors — an indirect expression (kināyah) for close inward dependence rather than a literal covering.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "بطن",
+        "lemma": "بِطَانَة",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary passage discusses the verb اتَّخَذُوا and the idea of taking others as 'أرباب' (lords), which supports reading بطانة as a figurative designation for trusted allies. However, the link from that citation to the specific nuance of بطانة in this verse should be cross-checked with dedicated semantic commentary."
+      },
+      {
+        "word_index": 19,
+        "claim_type": "tibaq (تقابل/مقابلة ظاهر وباطن)",
+        "source_quote_ar": "الغل: الحقد الكامن في الصدر.",
+        "claim_ar": "تباين بياني بين ما يظهر في «أَفْوَاهِهِمْ» وما يُخْفَى في «صُدُورِهِمْ» — ظهور البغضاء في الكلام مقابل كون الحقد والضغينة أعظم في الصدور.",
+        "claim_en": "A rhetorical antithesis between what appears in 'their mouths' and what is hidden in 'their breasts' — the hatred shows in speech, but the malice concealed in the heart is greater.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "فوه",
+        "lemma": "أَفْوَاه",
+        "confidence": "medium",
+        "needs_review_reason": "The provided commentary line defines 'الغل' as hidden hatred in the chest and supports the inward/outward contrast, but it is not an explicit stylistic analysis of this verse. A direct rhetorical exegesis source (e.g., al-Jurjānī) would strengthen the claim."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are quotations from al-Kashshaf (Zamakhsharī). The task requested extraction from authors such as al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, and tafsīr-balāgha sections. The submitted chunks do not include those named rhetoricians; claims therefore rely on al-Kashshaf excerpts and some inferential linkage. Recommend reviewing classical balāgha sources (Jurjānī, Sakkākī, etc.) for direct corroboration.",
+      "Some claims (marked with medium confidence) use general commentary fragments as supporting evidence rather than explicit rhetorical analyses of this specific verse; these should be reviewed by a specialist to confirm precise device classification and wording."
+    ]
+  },
+  "n_chunks": 12
+}

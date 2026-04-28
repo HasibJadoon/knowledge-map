@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "20:90",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "وَجُعِلَ الْفِعْلُ الَّذِي بَعْدَهُ مُفَسِّرًا لَهُ، وَالْأَحْسَنُ أَنْ يَكُونَ التَّقْدِيرُ: بَاشِرُوا ذَلِكُمْ فَذُقُوهُ لِتَكُونَ الْفَاءُ عَاطِفَةً.",
+        "claim_ar": "الفعل الذي يلي جملة بيانية قد يفسرها أو يكون نتيجةً لها؛ بالتالي «فَاتَّبِعُونِي» يُقرأ أحيانًا كمفسّر أو كعاقبة لما قبلها (فإذا كان المعنى مُقدّرًا: «باشروا ثم اتبعوني/فاتبعوني نتيجتُها»).",
+        "claim_en": "A verb that follows a preceding statement can serve to explain or be the consequence of that statement; thus 'فاتبعوني' can be read as explaining or resulting from the preceding clause (i.e., as an instruction consequent on what was said).",
+        "root": "تبع",
+        "lemma": "اتَّبَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source example discusses demonstrative constructions (e.g., ذَلِكُمْ فَذُوقُوهُ). Applying this explanatory/consecutive reading to فاتبعوني in this verse is an analogy, not an explicit commentary on this exact verse."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَجُعِلَ الْفِعْلُ الَّذِي بَعْدَهُ مُفَسِّرًا لَهُ، وَالْأَحْسَنُ أَنْ يَكُونَ التَّقْدِيرُ: بَاشِرُوا ذَلِكُمْ فَذُقُوهُ لِتَكُونَ الْفَاءُ عَاطِفَةً.",
+        "claim_ar": "قد يكون تقديرُ الجملة أن الفاء في «فَاتَّبِعُونِي» فاء عاطفة تربطها بما قبلها (أي: «باشرُوا ما ذُكر ثم فاتَّبِعُونِي»)، أي أن الفعل بعد الفاء يوضح نتيجة أو تأكيدًا للجملة السابقة.",
+        "claim_en": "It is possible to supply an implied wording such that the 'fa' of 'فاتبعوني' functions as a coordinating/affective 'fa' linking to the previous clause (e.g., 'perform/then follow me'), so the following verb is the explicative consequence; the suggested taqdir in the model example is 'باشروا... فَذُوقُوهُ' with the fa as عاطفة.",
+        "root": "تبع",
+        "lemma": "اتَّبَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited discussion gives a preferred taqdir for the demonstrative example; extending the same tacit punctuation/taqdir to this verse is interpretive and requires checking against verse-specific commentaries."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "irab",
+        "source_quote_ar": "و (فِي كِتَابٍ) : صِفَةٌ أُخْرَى لِقُرْآنٍ، أَوْ حَالٌ مِنَ الضَّمِيرِ فِي كِرِيمٍ، أَوْ خَبَرُ مُبْتَدَأٍ مَحْذُوفٍ.",
+        "claim_ar": "من المحتمل أن تكون كلمة «الرَّحْمَنُ» في «وَإِنَّ رَبَّكُمُ الرَّحْمَنُ» إعرابيًا بعدة وجوه: صفة لِـ«ربكم» (نعت/بدل)، أو حال/تقرير، أو خبر لمبتدأ محذوف — أي أن موقعها الإعرابي محل خلاف أو يحتمل وجوهًا.",
+        "claim_en": "The word 'الرَّحْمَنُ' in 'وَإِنَّ رَبَّكُمُ الرَّحْمَنُ' can be grammatically analyzed in several ways: as an adjective/apposition to 'ربكم' (i.e., attributive), or as a circumstantial/state (حال) or as the predicate (khabar) of an omitted subject — indicating multiple possible i'rab assignments.",
+        "root": "رحم",
+        "lemma": "رَّحْمَٰن",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives general categories of ambiguity for predicate/adjectival phrases (example: «في كتاب»). Applying these categories to this specific phrase is plausible but not an explicit statement about this exact verse in the provided chunks."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit, verse-specific إعراب of S20:A90. The extracted claims are inferred by analogy from general discussions in the cited chunks (e.g., the construction ذَلِكُمْ فَذُوقُوهُ and notes on possible readings of nominal predicates).",
+      "Because the source examples concern different constructions, applying their analyses to words in this ayah requires verification against verse-specific commentary; therefore the claims are marked with 'needs_review'."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:60",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ترغيب_وترهيب",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار",
+        "claim_ar": "المقام البلاغي في الآية يجمع بين الترغيب والترهيب؛ أي إشراك البشارة بالإنذار لتنشيط القلوب والتثبيط عن المعاصي.",
+        "claim_en": "The rhetorical move in the verse pairs exhortation (glad tidings) with warning (threat); the promise is coupled with admonition to encourage the righteous and deter wrongdoing.",
+        "device_branch": "other",
+        "device_subtype": "ترغيب_وترهيب",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "أسلوب_حكيم",
+        "source_quote_ar": "هذا حضّ من الله تعالى ذكره نبيه محمدا ﷺ، على تبليغ رسالته",
+        "claim_ar": "الآية تعمل كحُضّ إلهي للرسول على تبليغ الرسالة، أي أسلوب تحريض وتوكيد لئلا يهاب المخاطِبون.",
+        "claim_en": "The verse functions as a divine exhortation to the Prophet to deliver the message—an encouraging, authoritative style urging perseverance and lack of fear of people.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "تكرار/ازدواج_الكلام",
+        "source_quote_ar": "ليزدوج الكلام.",
+        "claim_ar": "التعليق يشير إلى ازدواجية التعبير (مثال: «ساءه وناءه») كوسيلة بلاغية لزيادة التوكيد والتشديد.",
+        "claim_en": "The commentary notes a doubling of wording (e.g., 'sa'ahu wa-naw'ahu') as a rhetorical device used to increase emphasis and forcefulness.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The statement appears in the exegetical comment and is interpretive; mapping that observation onto the verse's own diction requires verification."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "ردّ_القول / iltifāt (ردّ على ادعاء)",
+        "source_quote_ar": "رادّهم القول",
+        "claim_ar": "التعليق يذكر أن موسى ردّ القول على قومه؛ أي وجود فعل بلاغي للردّ والردع في خطاب موسى.",
+        "claim_en": "The commentary records that Moses 'replied to them'—indicating a rhetorical act of rebuttal in Moses' speech toward his people.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The phrase is taken from the commentary; linking it to a specific grammatical/ stylistic shift (iltifat) in the verse should be checked against the verse's syntactic features."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari and Tabari; the developer prompt asked for al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha material. Claims were extracted only from the available chunks.",
+      "Most extracted claims are taken from exegetical commentary fragments rather than explicit lexical items in the verse text; where noted, interpretive links between the commentary and the verse should be reviewed."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,79 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:93",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "emphasis (laqad)",
+        "source_quote_ar": "وَلَقَدْ بَوَّأْنا بَنِي إِسْرائِيلَ مُبَوَّأَ صِدْقٍ",
+        "claim_ar": "الواو والقد (وَلَقَدْ) تدلان على تثبيت التقرير وتوكيد الفعل التاريخي",
+        "claim_en": "The particle combination wa-laqad (وَلَقَدْ) functions as an emphatic marker, strengthening the assertion about what God bestowed on the Children of Israel.",
+        "device_branch": "maani",
+        "device_subtype": "emphatic particle (وَلَقَدْ)",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk contains the phrase and syntactic comments but does not explicitly label وَلَقَدْ as a rhetorical device; the emphatic reading is standard but should be checked against target classical rhetorical taxonomy."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "فَمَا اخْتَلَفُوا حَتَّى جَاءَهُمُ الْعِلْمُ",
+        "claim_ar": "استخدام الفاء (فـ) مع ما النافية وحتى يبين رابط الفصل والوصل الزمني: نفى الاختلاف حتى مجيء العلم ثم الفصل بنفي لاحق",
+        "claim_en": "The sequence fa + ma (فَما ...) with hatta (حَتَّى) signals the connection and delimitation of time — negating difference until the arrival of knowledge — a connective/clefting rhetorical pattern (fasl_wasl).",
+        "device_branch": "maani",
+        "device_subtype": "fa + ma ... hatta (temporal delimitation / connective)",
+        "root": null,
+        "lemma": "مَا / حَتَّى",
+        "confidence": "high",
+        "needs_review_reason": "none"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "istiarah (metaphor/figurative naming)",
+        "source_quote_ar": "مُبَوَّأَ صِدْقٍ",
+        "claim_ar": "توظيف اسم المكان «مُبَوَّأَ صِدْقٍ» كإطلاق مدحٍ ومجازٍ للدلالة على منزلة محمودة ومقام الحق",
+        "claim_en": "The phrase 'mubawwa'a sidq' (مُبَوَّأَ صِدْقٍ) uses a place-name derived from a verb ('ism makān') figuratively to praise and elevate the status — a kind of metaphorical/figurative naming (istiarah/majāz).",
+        "device_branch": "bayan",
+        "device_subtype": "ism makān used figuratively / laudatory epithet",
+        "root": "بوا",
+        "lemma": "مُبَوَّأ",
+        "confidence": "high",
+        "needs_review_reason": "Source commentary explicitly explains «اسم مكان أي مكان صدق» supporting the figurative/epithet reading."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "emphasis (inna)",
+        "source_quote_ar": "إِنَّ رَبَّكَ يَقْضِي بَيْنَهُمْ يَوْمَ الْقِيَامَةِ",
+        "claim_ar": "أداة «إِنَّ» هنا للتوكيد والتقرير على حكم الله وعدله في الفصل بين الناس يوم القيامة",
+        "claim_en": "The particle 'inna' (إِنَّ) introduces and emphatically asserts the statement that follows, stressing that your Lord will judge between them on the Day of Resurrection.",
+        "device_branch": "maani",
+        "device_subtype": "emphatic particle (إِنَّ)",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": "Source chunk comments on «إن واسمها وجملة يقضي خبرها», supporting the emphatic explanatory function."
+      },
+      {
+        "word_index": 16,
+        "claim_type": "iltifat (shift)",
+        "source_quote_ar": "... جَاءَهُمُ الْعِلْمُ إِنَّ رَبَّكَ يَقْضِي بَيْنَهُمْ ...",
+        "claim_ar": "انتقال الخطاب من وصف تاريخي عن بني إسرائيل إلى تقريرٍ إلهيٍّ مخاطَبٍ («رَبَّكَ») وفعلٍ وقتيٍّ مستقبليٍّ يُشكل لفتة بلاغية (التفات) لتأكيد السلطة والحكم الإلهي",
+        "claim_en": "There is a rhetorical shift (iltifat) from the historical narration about the Israelites to a direct, emphatic assertion concerning 'your Lord' (رَبَّكَ) and His future judging — this redirects attention and heightens authority.",
+        "device_branch": "maani",
+        "device_subtype": "shift of address/tense (narration → divine verdict)",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk provides the contiguous phrases but does not explicitly name this change as 'iltifat'; the identification is interpretive (shift of addressee/tense) and should be reviewed against classical rhetoric sources."
+      }
+    ],
+    "warnings": [
+      "Requested classical rhetorical sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not provided in the input. Claims below are extracted from the available chunks (Darwish I'rab and Zamakhshari) only.",
+      "Some device labels (e.g., labelling وَلَقَدْ explicitly as a rhetorical device or tagging the clause shift as 'iltifat') are interpretive based on the available commentary; verify against the targeted classical rhetorical taxonomy.",
+      "Where confidence is 'medium', the source text either describes the grammatical function without naming a rhetorical category, or the rhetorical reading is inferred; those claims should be checked by a subject-matter reviewer."
+    ]
+  },
+  "n_chunks": 12
+}

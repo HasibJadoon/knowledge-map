@@ -1,0 +1,73 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:53",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الاستنباء",
+        "claim_ar": "استفهام إنكاري بلاغي بقوله «هَلْ» لأسلوب الاستنكار والتقريع؛ يفتتح الآية بنبرة استفهامية إنكارية لتوبيخ المُكذِّبين.",
+        "claim_en": "A rhetorical (asloob hakim) interrogative: the interrogative هَلْ functions as an ironic/reproachful question (استنباء), opening the verse with reproach toward the deniers.",
+        "device_branch": "other",
+        "device_subtype": "rhetorical_question (استنباء/استفهام إنكاري)",
+        "root": null,
+        "lemma": "هَل",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A53",
+        "rhetorical_effect": "Expresses reproach and incredulity, framing the listeners as mistaken and preparing the corrective reply."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إِلَّا صَيْحَةً واحِدَةً",
+        "claim_ar": "حصر واستثناء باستخدام «إِلَّا»: «إِلَّا تَأْوِيلَهُ» يقصر نظرهم على نتيجة واحدة فقط؛ أسلوب استثناء يضيق المقصود ويبرز حتمية التأويل.",
+        "claim_en": "Restriction/limitation by إِلَّا: 'إِلَّا تَأْوِيلَهُ' restricts what they are expecting to a single outcome — an excluding particle that narrows meaning and emphasizes the inevitability of the interpretation.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr (استثناء/حصر)",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A53",
+        "rhetorical_effect": "Focuses the hearer's expectation narrowly, heightening the abruptness of the actual outcome and the hearers' surprise/regret."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "iltifat",
+        "source_quote_ar": "كأنه قيل:",
+        "claim_ar": "التفات في السرد إلى كلام الناس: الانتقال إلى قول المباشرين «يَقُولُ الَّذِينَ نَسُوهُ...» — تغيير جهة الخطاب/السرد (التفات) لإحياء المشهد وتوضيح موقف المكذِّبين.",
+        "claim_en": "Iltifat (shift/turn) in discourse: the narration shifts into the direct words of the people ('yqūlū al-ladhīna...'), changing the narrative voice to animate the scene and illustrate the deniers' reaction.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (انتقال في السرد/تغيير الخطاب)",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A53",
+        "rhetorical_effect": "Makes the scene vivid and immediate by quoting the protagonists, increasing emotional impact and reader engagement."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "takrar",
+        "source_quote_ar": "فترادفوا أفواجا يأكل فوج فيخرج، ثم يدخل فوج",
+        "claim_ar": "تكرار لفظي/تكرار بنائي: لفظ «تَأْوِيلُهُ» مكرَّر (تَأْوِيلَهُ ... يَأْتِي تَأْوِيلُهُ) لتأكيد وقوع الأمر وحتمية التأويل.",
+        "claim_en": "Repetition (takrar): the word 'ta'wīluhu' is repeated (…ta'wīluhu … yati ta'wīluhu) to reinforce the certainty of the event and the inevitability of its fulfillment.",
+        "device_branch": "badi",
+        "device_subtype": "takrar (تكرار)",
+        "root": "اول",
+        "lemma": "تَأْوِيل",
+        "confidence": "medium",
+        "needs_review_reason": "Source example illustrates the rhetorical function of repetition but does not quote the exact ayah-word; linkage to this specific lexical item relies on the verse's textual observation rather than an explicit discussion in the provided chunk.",
+        "quran_ref": "S7:A53",
+        "rhetorical_effect": "Heightens emphasis and foreboding; repetition makes the promised event appear certain and unavoidable."
+      }
+    ],
+    "warnings": [
+      "Requested author sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present among the provided source_chunks; extractions used the available chunks (Zamakhshari - al-Kashshaf and Darwish - I'rab).",
+      "Some claims (e.g., the takrar claim for «تأْوِيلُهُ») rely on general rhetorical reasoning about repetition in the verse while the provided source chunks do not quote the exact ayah-word; the source_quote_ar chosen illustrates the rhetorical device in the chunk but is not the same lexical item as the verse. Such claims are marked with needs_review and explanation."
+    ]
+  },
+  "n_chunks": 12
+}

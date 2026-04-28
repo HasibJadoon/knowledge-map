@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:119",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الفاء عاطفة",
+        "claim_ar": "استعمال حرف الفاء في بداية الجملة يحقق الربط السببي/الترتيبي بين الأحداث (فـ: استهلال يربط سبق وقوع العذاب ونتيجته).",
+        "claim_en": "The use of the particle fa- (the initial فـ) functions as an emotive/connecting particle that links events sequentially/causally (marking that the calamity follows and is the result).",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted phrase appears in the provided iʿrāb chunk discussing conjunctive particles in a different verse/context; confirm that the same explanatory point is intended for S7:A119 in the original tafsīr sources."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "صاغرين",
+        "claim_ar": "الخاتمة بـ'صاغرين' بعد فعلين متوازين ('غُلِبُوا' و'انقَلَبُوا') تؤسس مقابلة/توازي بلاغي يركز على ذلِّهم وانهزامهم.",
+        "claim_en": "Ending with 'saghirīn' after two balanced verbs ('ghulibū' and 'inqalabū') creates a muqābalah (balanced parallelism) that emphasizes their humiliation and defeat.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "صغر",
+        "lemma": "صَٰغِرُون",
+        "confidence": "low",
+        "needs_review_reason": "The source chunk where 'صاغرين' appears is a lexical/iʿrāb note (gives gloss for خاسئين → صاغرين) rather than an explicit rhetorical analysis; the claim about muqābalah is an interpretation not explicitly argued in the provided chunks."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are chiefly iʿrāb/lexical excerpts; they do not contain a complete tafsīr section by al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī or an explicit 'tafsīr balāgha' discussion for S7:A119. Extracted claims are therefore based on limited textual evidence in the chunks.",
+      "Some source quotes are general remarks (e.g., 'الفاء عاطفة') taken from analyses of other verses/contexts. Please review these claims against the full tafsīr/balāgha sources to confirm applicability to S7:A119.",
+      "Where the chunk only provides a lexical gloss (e.g., 'صاغرين'), asserting a specific rhetorical device (muqābalah) is interpretive and should be validated with fuller commentary."
+    ]
+  },
+  "n_chunks": 12
+}

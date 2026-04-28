@@ -1,0 +1,45 @@
+{
+  "layer": "irab",
+  "ayah_key": "50:22",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "(هَذَا) : هُوَ مُبْتَدَأٌ،",
+        "claim_ar": "هَذَا: مبتدأ.",
+        "claim_en": "'hādhā' is a mubtada' (the nominal sentence's subject/start).",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَفِي الْخَبَرِ وَجْهَانِ: أَحَدُهُمَا: (فَلْيَذُوقُوهُ) مِثْلُ قَوْلِكَ: زَيْدٌ اضْرِبْهُ. وَقَالَ قَوْمٌ: هَذَا ضَعِيفٌ مِنْ أَجْلِ الْفَاءِ؛ وَلَيْسَتْ فِي مَعْنَى الْجَوَابِ،",
+        "claim_ar": "في خبرِ هَذَا وَجْهَانِ: أحدهما أن يُفهمَ الخبرُ إجابةً (كقولهِ «فَلْيَذُوقُوهُ»)؛ والثاني وجوهٌ أخرى (مثل أن يكون بدلًا أو خبرَ مبتدأٍ محذوفٍ أو خبرًا ثانياً).",
+        "claim_en": "There are two possible analyses (wujūh) for the predicate (khabar) of 'hādhā': one treats the following clause as an answer (e.g. 'faliyadhūqūhu'), and other analyses treat what follows as a substitute (badal), as the predicate of an omitted mubtada', or as a secondary predicate.",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ هَذَا فِي مَوْضِعِ نصب أَي فليذوقوا هَذَا، ثُمَّ اسْتَأْنَفَ فَقَالَ (حَمِيمٌ) أَيْ هُوَ حَمِيمٌ",
+        "claim_ar": "قِيلَ: هَذَا قد يأتي في موضعِ نصبٍ (مفعول به)، كما في «فَلْيَذُوقُوهُ هَذَا» — أي وجهٌ متفاوت في الإعراب.",
+        "claim_en": "It is said that 'hādhā' can appear in an accusative position (as an object), e.g. in 'faliyadhūqūhu hādhā' — indicating an alternative analysis/grammatical disagreement.",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source reports this as an alternative view in contexts like an answer; applying this specific analysis to S50:A22 may require checking the wider syntactic context in the verse."
+      }
+    ],
+    "warnings": [
+      "The quoted source discusses the word هَذَا and its analyses in general or in other verse-contexts (examples given); applying those analyses specifically to S50:A22 may require checking the surrounding context in the commentary. Claims are extracted only where the source text explicitly states the analysis."
+    ]
+  },
+  "n_chunks": 12
+}

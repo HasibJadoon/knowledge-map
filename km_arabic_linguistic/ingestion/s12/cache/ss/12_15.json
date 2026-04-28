@@ -1,0 +1,196 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 17,
+      "word_start": 1,
+      "word_end": 17,
+      "sentence_kind": "conditional",
+      "discourse_role": "main narrative",
+      "note_ar": "جملة 'فلما ذهبوا به...' تبدأ بظرف حين وشرط، وجملة 'أجمعوا أن يجعلوه...' تُعتبر حالاً معطوفة على الجملة السابقة",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "conditional_if",
+          "word_start": 1,
+          "word_end": 4,
+          "head_word_index": 2,
+          "note_ar": "ظرف حين (لمّا) مع الفاء، وفعل ماض (ذهبوا) مع ضمير مفعول به (به)"
+        },
+        {
+          "clause_order": 2,
+          "clause_type": "conditional_then",
+          "word_start": 5,
+          "word_end": 17,
+          "head_word_index": 12,
+          "note_ar": "جملة 'أجمعوا أن يجعلوه...' تُعتبر حالاً معطوفة على الجملة السابقة، وجملة 'أوحينا إليه' تبدأ بفعل ماض وفاعل"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "ف",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "عاطفة",
+          "irab_case": "",
+          "note_ar": "الفاء عاطفة"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "لمّا",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": null,
+          "irab_position": "ظرف",
+          "irab_case": "منصوب",
+          "note_ar": "لمّا ظرف بمعنى حين متضمّن معنى الشرط في محلّ نصب متعلّق بمضمون الجواب"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "ذهبوا",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "ir,ab_case": "",
+          "note_ar": "فعل ماض وفاعله"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "به",
+          "relation_type": "object_direct",
+          "governor_word_index": 3,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "الباء حرف جرّ و الهاء ضمير في محلّ جرّ متعلّق ب ذهبوا"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "واو",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "عاطفة",
+          "irab_case": "",
+          "note_ar": "الواو عاطفة"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "أجمعوا",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "أجمعوا مثل ذهبوا"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "أن",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 6,
+          "irab_position": "حرف مصدريّ",
+          "irab_case": "",
+          "note_ar": "أن حرف مصدريّ"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "يجعلوا",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "مضارع",
+          "irab_case": "منصوب",
+          "note_ar": "يجعلوا مضارع منصوب وعلامة النصب حذف النون"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "في",
+          "relation_type": "preposition",
+          "governor_word_index": 8,
+          "irab_position": "جارّ",
+          "irab_case": "مجرور",
+          "note_ar": "في جارّ ومجرور"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "غيابة",
+          "relation_type": "object_indirect",
+          "governor_word_index": 8,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "غيابة الجبّ جارّ ومجرور ومضاف إليه"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "الجبّ",
+          "relation_type": "object_indirect",
+          "governor_word_index": 10,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "الجبّ مضاف إليه"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "أوحينا",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "مبتدأ",
+          "note_ar": "أوحينا فعل ماض مبنيّ على السكون"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "إليه",
+          "relation_type": "object_direct",
+          "governor_word_index": 12,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "إليه مثل به متعلّق ب (أوحينا)"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "لتُنَبِّئَنَّهُمْ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "مضارع",
+          "irab_case": "مرفوع",
+          "note_ar": "تنبّئنّ مضارع مبنيّ على الفتح في محلّ رفع"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "بأمر",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 14,
+          "irab_position": "جارّ ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "بأمر جارّ ومجرور متعلّق ب (تنبّئنّ)"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "هم",
+          "relation_type": "object_direct",
+          "governor_word_index": 14,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "هم ضمير مفعول به والفاعل ضمير مستتر تقديره أنت"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "لا",
+          "relation_type": "negation",
+          "governor_word_index": null,
+          "irab_position": "نافية",
+          "irab_case": "",
+          "note_ar": "لا نافية"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "يشعرون",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "مضارع",
+          "irab_case": "مرفوع",
+          "note_ar": "يشعرون مضارع مرفوع"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:80",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَأَنْ يَكُونَ حَالًا؛ أَيْ كَائِنِينَ مِنْ أَصْحَابِ الْقُبُورِ.",
+        "claim_ar": "جملة الجرّ «مِنَ الْعَالَمِينَ» (المتعلقة بكلمةِ الْعَالَمِينَ) يجوز أن تكون حالًا أو متعلقَةً بما قبلها كما يقول في «مِنْ أَصْحَابِ الْقُبُورِ»",
+        "claim_en": "The prepositional phrase 'مِنَ الْعَالَمِينَ' (headed by الْعَالَمِينَ) may function as a hal (circumstantial accusative) or be attached to a preceding word, analogous to the treatment of «مِنْ أَصْحَابِ الْقُبُورِ» in the source.",
+        "root": "علم",
+        "lemma": "عَٰلَمِين",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the phrase «مِنْ أَصْحَابِ الْقُبُورِ» and states such prepositional phrases can be read as حال or متعلّق; applying this to «مِنَ الْعَالَمِينَ» is an inference (the source does not mention the exact phrase from this ayah)."
+      }
+    ],
+    "warnings": [
+      "Only one relevant excerpt was found in the provided chunks; it discusses «مِنْ أَصْحَابِ الْقُبُورِ». No direct commentary on the exact phrase «مِنَ الْعَالَمِينَ» or other words of S7:A80 was present in the supplied sources.",
+      "The extracted claim infers analogue between «مِنْ أَصْحَابِ الْقُبُورِ» and «مِنَ الْعَالَمِينَ» (prepositional phrases). This inference should be reviewed by a human reader; other valid analyses for the same phrase in S7:A80 may exist."
+    ],
+    "quran_ref": "S7:A80"
+  },
+  "n_chunks": 12
+}

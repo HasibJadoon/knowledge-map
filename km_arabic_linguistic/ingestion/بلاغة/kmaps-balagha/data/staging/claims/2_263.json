@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:263",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "tibaq",
+        "source_quote_ar": "فَهُوَ خَيْرٌ لَكُمْ",
+        "claim_ar": "تِبَاق/مقابلة بلاغية بين خير القول والمغفرة وشرّ الصدقة إذا تَبعَتها أذى؛ أي تفضيل الباطن الحسن (القول والمغفرة) على الظاهر الحسن إذا صاحبه ضرر.",
+        "claim_en": "Tibaq (antithesis): the verse contrasts 'a kind word and forgiveness' with 'charity followed by injury', preferring the former — an antithetical weighing of inward moral good over outward act that causes harm.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source substring indicates the comparative value ('فَهُوَ خَيْرٌ لَكُمْ') but does not explicitly name the device; the antithesis reading is interpretive and should be reviewed against classical rhetorical commentary."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "ثم ثنى",
+        "claim_ar": "مُقابَلة/ثنّى بلاغي: عرض زوجي (قَوْلٌ مَعْرُوفٌ وَمَغْفِرَةٌ) ثم مقارنة ذلك بوجه آخر (صَدَقَةٍ يَتْبَعُهَا أَذًى) لتقوية الحكم التأميري.",
+        "claim_en": "Muqabalah (pairing/juxtaposition): the verse lists a paired good (a kind word and forgiveness) and juxtaposes it with another (charity followed by injury), creating a balanced comparison that strengthens the moral preference.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the phrase 'ثم ثنى' describing the rhetorical act of pairing, but it is not commentary on this specific verse in the provided excerpt; confirm with targeted tafsir/balagha sources."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "افتتح سبحانه بذكر",
+        "claim_ar": "أسلوب حكيم/إيجاز بلاغي: تركيب موجز ومؤثر (ذكر موجز لعملين حسنين ثم مقارنة عملية ظاهرة) يوفّر بيانًا مباشرًا وقاطعًا لأفضلية خلقية معينة.",
+        "claim_en": "Asloob hakim (wise, concise style): the verse employs concise, balanced wording — naming paired internal virtues then contrasting them with an external act that may harm — producing a pointed, economy-of-expression admonition.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "",
+        "confidence": "low",
+        "needs_review_reason": "The supporting chunk ('افتتح سبحانه بذكر') speaks about rhetorical openings generally; applying 'asloob_hakim' to this particular ayah is plausible but needs confirmation from classical balagha-specific commentary."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are excerpts from al-Kashshaf (Zamakhshari). The requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the supplied chunks; claims are therefore supported by indirect/limited substrings from the available material.",
+      "Source substrings cited are sometimes general rhetorical remarks (e.g., 'ثم ثنى', 'افتتح سبحانه بذكر', 'فَهُوَ خَيْرٌ لَكُمْ') rather than explicit statements analyzing Sura 2:263. Consequently several claims are interpretive and marked with medium/low confidence and require review against primary balagha tafsir sources.",
+      "No word-level (non-ayah-level) device claims were made because the provided chunks did not contain explicit, attributable balagha comments tied to individual words of the ayah. If you want word-level devices, please supply balaghī tafsir excerpts (al-Jurjani, al-Sakkaki, etc.) that treat specific words of 2:263."
+    ]
+  },
+  "n_chunks": 12
+}

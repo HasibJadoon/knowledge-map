@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:82",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "taqdir",
+        "source_quote_ar": "فَعَلَى هَذَا يَكُونُ الْمُضَافُ مَحْذُوفًا أَيْضًا ; أَيْ أَصْحَابَ الْعِيرِ",
+        "claim_ar": "المضاف محذوف هنا، والتقدير: «أصحاب العير».",
+        "claim_en": "The possessor (المضاف) is elided here; the implied phrase is \"أصحابِ العِير\" (the owners/people of the caravan).",
+        "root": "عير",
+        "lemma": "عِير",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَقِيلَ: الْعِيرُ: الْقَافِلَةُ، وَهُمُ النَّاسُ الرَّاجِعُونَ مِنَ السَّفَرِ فَعَلَى هَذَا لَيْسَ فِيهِ حَذْفٌ.",
+        "claim_ar": "وجه آخر: «العير» بمعنى القافلة (الناس الراجعون من السفر)، وعلى هذا الوجه لا يوجد حذف.",
+        "claim_en": "An alternative analysis: 'al-ʿīr' means 'the caravan' (the people returning from travel); on this reading there is no ellipsis.",
+        "root": "عير",
+        "lemma": "عِير",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

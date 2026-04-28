@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:65",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable بلاغة claims found because none of the provided source_chunks contain the target ayah (وَلَا يَحْزُنْكَ قَوْلُهُمْ إِنَّ الْعِزَّةَ لِلَّهِ جَمِيعًا هُوَ السَّمِيعُ الْعَلِيمُ) or any exact quotations discussing it.",
+      "Requirement: each claim.source_quote_ar must be an exact substring of one of the provided source_chunks. The supplied chunks are from Zamakhshari (al-Kashshaf) and do not include the verse text nor quotations/remarks from the requested authorities (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha).",
+      "To extract بلاغة claims for this ayah, please provide source chunks that (a) contain exact Arabic excerpts discussing this specific verse, and/or (b) include the requested scholars' balagha analyses (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha)."
+    ]
+  },
+  "n_chunks": 12
+}

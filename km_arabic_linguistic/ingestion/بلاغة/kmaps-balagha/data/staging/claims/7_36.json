@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:36",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الواو استئنافية، والجملة مستأنفة لبيان نمط آخر من عصيانهم وافتئاتهم على الله.",
+        "claim_ar": "الواو في مستهل الآية واو استئنافية: تستأنف السرد وتعرض نمطا آخر من العصيان.",
+        "claim_en": "The initial waw functions as a resuming conjunction (waaw-istinaaf), resuming the narrative and presenting another pattern of their disobedience.",
+        "device_branch": "other",
+        "device_subtype": "waaw_istinaaf",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "Explicitly stated in the provided chunk as 'الواو استئنافية...'."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "الواو استئنافية، والجملة مستأنفة لبيان نمط آخر من عصيانهم وافتئاتهم على الله.",
+        "claim_ar": "الجملة مستأنفة ومسوقة: الآية تتابع السرد لتبيان نمط آخر من تجني الكافرين، أي حركة سردية/تقديم نماذج في السورة.",
+        "claim_en": "The clause is resumed and 'masooq' (brought forward) — the verse continues the sequence of examples to demonstrate another pattern of the wrongdoers; a narrative movement/resumption within the surah.",
+        "device_branch": "other",
+        "device_subtype": "resumption_sequence",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The chunk describes 'مسوق' and 'مستأنفة' (resumed/introduced) — labeling this as 'surah_movement' is interpretive and may require cross-check with classical rhetorical terminology."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are primarily i'rab/commentary excerpts (e.g., Darwish - I'rab). They do not include explicit excerpts from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a tafsir-balagha source; claims are therefore limited to devices directly supported by the provided chunks.",
+      "The full phrase of the ayah beyond the initial clause (e.g., «أُولَئِكَ أَصْحَابُ النَّارِ هُمْ فِيهَا خَالِدُونَ») did not appear verbatim in the supplied chunks, so devices that would rely on those words (e.g., demonstrative emphasis, repetition, antithesis) were not extracted for lack of a matching source_quote_ar substring.",
+      "Some device classifications (e.g., mapping 'مسوق' / 'مستأنفة' to 'surah_movement') are interpretive; please review against preferred classical terminology if strict alignment with a particular rhetorical taxonomy is required."
+    ]
+  },
+  "n_chunks": 12
+}

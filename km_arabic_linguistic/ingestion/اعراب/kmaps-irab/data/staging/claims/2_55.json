@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:55",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain the text of Sura 2:55 or any explicit إعراب discussion of that verse. No exact source_quote_ar substring is available to support extracted claims, so no إعراب claims can be produced."
+    ]
+  },
+  "n_chunks": 12
+}

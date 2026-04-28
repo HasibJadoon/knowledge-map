@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:49",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No balagha (rhetorical) claims could be extracted for S10:A49 because none of the provided source_chunks contain explicit rhetorical analysis or quoted substrings that pertain to this specific āyah or its stylistic devices. Checked chunks: AL:CHUNK:a86dc5ef99d7a44ce698b8b0, AL:CHUNK:c7c9741ac78d769e04b7c887, AL:CHUNK:d08066f544c47e269b8a8ac3, AL:CHUNK:1f3aae8c17d7a4ac2f1c2690, AL:CHUNK:e80aeba8bd3368f0d2f44fb0, AL:CHUNK:888db2514e580463448254a0. If you can provide tafsir-balagha excerpts (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a dedicated balagha commentary) or source chunks that explicitly discuss stylistic devices in this verse, I can extract detailed claims with source_quote_ar substrings."
+    ]
+  },
+  "n_chunks": 12
+}

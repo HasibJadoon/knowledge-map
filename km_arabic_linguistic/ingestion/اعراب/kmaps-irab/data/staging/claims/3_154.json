@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:154",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taqdir",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَقَدْ نَزَّلَ) : يُقْرَأُ عَلَى مَا لَمْ يُسَمَّ فَاعِلُهُ، وَالْقَائِمُ مَقَامَ الْفَاعِلِ «أَنْ» وَمَا هُوَ تَمَامٌ لَهَا، وَأَنْ هِيَ الْمُخَفَّفَةُ مِنَ الثَّقِيلَةِ؛ أَيْ: أَنَّهُ إِذَا سَمِعْتُمْ آيَاتِ اللَّهِ.",
+        "claim_ar": "يُقْرَأُ (نَزَّلَ / أَنْزَلَ) على ما لم يُسمَّ فاعله؛ أي أن الفاعل محذوف (تقدير فاعل)، والْـ«أَنْ» تقوم مقام الفاعل/مكمّلة له.",
+        "claim_en": "The verb (نَزَّلَ / أَنْزَلَ) is read as if its subject is not explicitly named — the subject is omitted (an implied/elliptical subject is required). The particle «أَنْ» occupies the position of the doer (functions to complete/stand in for the subject).",
+        "root": "نزل",
+        "lemma": "أَنزَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk discusses the sequence «وقد نَزَّلَ» specifically; applying this statement to the present ayah's verb أَنْزَلَ is an inferred generalization (the source does not quote this exact ayah). Verify with the full commentary for explicit application to this verse."
+      }
+    ],
+    "warnings": [
+      "Only one nearby iʿrāb/reading note in the provided chunks matches the verb نزل/أنزل; the source discusses «وَقَدْ نَزَّلَ» and not the exact wording of S3:154, so the claim is inferred rather than directly quoted for this verse.",
+      "No explicit comments in the supplied chunks address other syntactic roles (e.g., فاعل, مفعول به, حال) or attachments in this ayah; further source material may yield additional claims."
+    ]
+  },
+  "n_chunks": 12
+}

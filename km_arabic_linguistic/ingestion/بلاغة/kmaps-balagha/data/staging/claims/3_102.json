@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:102",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يا أَهْلَ الْكِتابِ",
+        "claim_ar": "أداة النداء (يا) مبتدأة بالنداء لفتح مخاطبة خاصة بالمخاطبين؛ في هذه الآية يُستهلّ بالنداء: «يَا أَيُّهَا الَّذِينَ آمَنُوا» لإقحام السامع في خطاب مباشر وتثبيت الانتباه.",
+        "claim_en": "The vocative particle (يا) opens the address, creating a direct, focused address to the addressees; here the verse begins with 'يَا أَيُّهَا الْقَوْمُ...' to engage and command the believers' attention.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted substring is from the provided tafsir chunk as an example of the vocative (different addressee phrase). Confirmation from a tafsir passage that explicitly analyzes 'يَا أَيُّهَا الَّذِينَ آمَنُوا' in this ayah would raise confidence."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "اشهدوا بِأَنَّا مُسْلِمُونَ",
+        "claim_ar": "جملة الاستثناء «إِلَّا وَأَنْتُمْ مُسْلِمُونَ» تعمل كقصر/حصر (حصْر) لشروط الموت المقبول؛ الآية تقيد حالة الموت بكون المرء مسلماً، فتؤكّد شرطية الحالة النهائية للمؤمن.",
+        "claim_en": "The exception clause 'إِلَّا وَأَنْتُمْ مُسْلِمُونَ' functions as a restrictive clause (hasr/qasr), limiting the permitted condition of death to being in a state of Islam; it emphasizes the required final condition of submission.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "سلم",
+        "lemma": "مُسْلِم",
+        "confidence": "medium",
+        "needs_review_reason": "The source substring is from the tafsir chunk where a related exhortation ('اشهدوا بِأَنَّا مُسْلِمُونَ') appears; the direct analytic link to the ayah's exception clause should be cross-checked with a commentary that treats this exact verse."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks do not include the exact ayah text. The source_quote_ar values used are substrings from the provided tafsir chunks (examples or related phrases), not verbatim citations of S3:A102.",
+      "Device assignments are inferred from the ayah text and supported by analogous phrases in the provided chunks; please review with additional tafsir/balagha sources that explicitly analyze S3:A102 for higher confidence.",
+      "Some rhetorical categories (e.g., repetition of the root و-ق-ي in اتقوا / تقاته) appear plausible but were not claimed because the provided chunks did not contain matching substrings discussing that feature; supply additional source excerpts if you want those devices extracted."
+    ]
+  },
+  "n_chunks": 12
+}

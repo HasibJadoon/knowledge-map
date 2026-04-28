@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:57",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "derivative_adjective_emphasis",
+        "source_quote_ar": "اللغة: (ظليل) : صفة لظل مشتقة منه لتأكيد مضمونه",
+        "claim_ar": "اشتقاق الصفة «ظليل» من «ظلّ» (ومرادفه في القرآن: «وظللنا/الظلال») وظيفة بلاغية للتوكيد والتشديد على معنى الظلّ والدوام، فالصيغة المشتقة تزيد في التأكيد المعنوي.",
+        "claim_en": "The derived adjective «ظليل» (from the root ظـلّ) functions rhetorically as an intensifier: the derivative form increases emphasis on the meaning of shade/continuous shelter. By extension the verb form وظللنا carries an intensified sense of providing lasting shade.",
+        "device_branch": "other",
+        "device_subtype": "derivative_adjective_emphasis",
+        "root": "ظلل",
+        "lemma": "ظَلَّلْ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source discusses the form «ظليل» explicitly; the ayah uses the verb «وَظَلَّلْنَا». The claim extrapolates from the cited discussion of the adjective to the verb in the ayah and should be checked by a reviewer."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muaqabalah",
+        "source_quote_ar": "البلاغة: في عطف «الذين آمنوا» على «الذين كفروا» لف ونشر مشوّش",
+        "claim_ar": "العطف والمقابلة بين فعل الله (التظليل، وأنزلنا المنّ) وبين نتيجةٍ سلبية لدى الناس (ظلمهم لأنفسهم) يخلق مقابلة بلاغية قوية: بيان إحسان الربّ مقابل ظُلم الناس لأنفسهم.",
+        "claim_en": "Antithesis (muqabalah): the rhetorical pairing of God's benevolent acts (shade, manna) with the people's wrongdoing (they wronged themselves) establishes a sharp contrast—emphasising divine grace versus human ingratitude. The structure (conjunction/coordination leading to contrast) heightens the moral lesson.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The cited source comments on the effect of coordination/contrast (in a different verse). Applying that general observation to this ayah is plausible but not directly documented in the provided chunks; reviewer should confirm the correspondence."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks do not include explicit excerpts from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti or a dedicated tafsir-balagha section as requested; the available chunks are from other commentators (e.g., Zamakhshari, Darwish).",
+      "Some claims extrapolate general balagha observations found in the supplied chunks to the present ayah (S2:A57) even when the chunk does not quote the exact ayah wording; such extrapolations are marked for review in 'needs_review_reason'.",
+      "source_quote_ar entries are exact substrings from the provided chunks, but those substrings do not always contain the exact lexical form used in the ayah (e.g., chunk discusses «ظليل» while the ayah uses «وظللنا»). Reviewers should verify applicability."
+    ]
+  },
+  "n_chunks": 12
+}

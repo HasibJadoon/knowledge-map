@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:145",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "تكرار",
+        "source_quote_ar": "ثم ثنى اللَّه سبحانه في شأنهم بتمثيل آخر",
+        "claim_ar": "تكرارِ أداةِ الشرط «وَلَئِنْ» في بداية الشرطين لتأكيد الموقف ولإضفاء شكلٍ موازٍ يُحسّن أثر التوكيد والتماثل بين الجزئين.",
+        "claim_en": "Repetition of the conditional particle «وَلَئِنْ» at the start of both conditional clauses to emphasize the stance and create parallel structure that enhances the force of the warning.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source discusses general 'ثنى' (doubling/parallelism). Mapping that general remark to the specific repetition of «وَلَئِنْ» in this verse is interpretive and should be reviewed for exact wording in classical balagha sources."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "ومما ثنى من التمثيل في التنزيل قوله: (وَما يَسْتَوِي الْأَعْمَى وَالْبَصِيرُ وَلَا الظُّلُماتُ وَلَا النُّورُ وَلَا الظِّلُّ وَلَا الْحَرُورُ، وَما يَسْتَوِي الْأَحْياءُ وَلَا الْأَمْواتُ)",
+        "claim_ar": "مقابلة وتوازي بين صورتين: (أُوتُوا الْكِتَابَ يَتَبَعُونَ/وَأَنْتَ اتَّبَعْتَ أَهْوَاءَهُمْ) — نمط موازن يُظهر التناقض والسلوك المختلف بين الفريقين عبر تركيب متماثل.",
+        "claim_en": "A balanced antithetical parallelism between the two patterns (those given the Scripture not following your qibla / and you following their desires) — a symmetrical structure that highlights the contrast between the parties' behavior.",
+        "device_branch": "bayan",
+        "device_subtype": "muqabalah",
+        "root": "تبع",
+        "lemma": "تَبِعَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "التفات",
+        "source_quote_ar": "فيه التفات من الغيبة إلى الخطاب",
+        "claim_ar": "التفات من الغيبة إلى الخطاب: الآية تنتقل من الحديث عن جماعةٍ ثالثة (أُوتُوا الْكِتَابَ) إلى مخاطبةٍ مباشرة للنبي «أَنْتَ» وقيامه بتحذيرٍ وتحميل مسئولية الاختيار.",
+        "claim_en": "Iltifat (shift of address) from speaking about a third party to direct address: the verse moves from discussing the People of the Book to directly addressing the Prophet «أَنْتَ», intensifying the reproach and moral responsibility.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from Zamakhshari and Tabari extracts; the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir-balagha sections) are not present among the chunks given. Claims were linked to rhetorical comments found in the supplied chunks and not to the originally requested authors.",
+      "Some mappings (e.g., treating the general discussion of 'ثنى' as direct support for the specific repetition of «وَلَئِنْ») are inferential. Review against primary balagha texts is advised."
+    ]
+  },
+  "n_chunks": 12
+}

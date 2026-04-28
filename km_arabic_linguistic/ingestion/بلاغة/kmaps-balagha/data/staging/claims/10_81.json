@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:81",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وأما القراءة الثانية ففيها- والله أعلم- إرشاد إلى أن قول موسى عليه السلام أولا أَتَقُولُونَ لِلْحَقِّ لَمَّا جاءَكُمْ أَسِحْرٌ هذا حكاية لقولهم، ويكون أَسِحْرٌ هذا هو الذي قالوه، ولا يناقض ذلك حكاية الله عنهم أنهم قالوا إِنَّ هذا لَسِحْرٌ مُبِينٌ وذلك إما لأنهم قالوا الأمرين جميعاً: ... وإفادة الحصر",
+        "claim_ar": "إفادة الحصر في «ما جئتم به السِّحْرُ»؛ أي أن موسى يَحصر ما جئتم به في كونه سحراً فقط",
+        "claim_en": "The construction implies restriction (hasr): in 'ما جئتم به السِّحْرُ' Moses confines what they brought exclusively to 'the magic'.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "جيا",
+        "lemma": "جَآءَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S10:A81",
+        "rhetorical_effect": "Negates expansion of their claim and deflates its pretension by restricting it categorically to 'magic'."
+      }
+    ],
+    "warnings": [
+      "Source material provided is limited to excerpts from Zamakhshari (al-Kashshaf). Other requested commentators (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) were not present in the input—claims are therefore drawn only from the available chunks.",
+      "Only devices explicitly supported by the provided chunks were extracted. Additional rhetorical readings (e.g., repetition/parallelism in the repeated «إِنَّ اللَّهَ») could be valid but are not claimed here because the supplied chunks do not discuss them explicitly."
+    ]
+  },
+  "n_chunks": 12
+}

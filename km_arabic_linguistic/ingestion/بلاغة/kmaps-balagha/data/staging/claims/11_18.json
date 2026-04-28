@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "takrar",
+        "source_quote_ar": "كذب",
+        "claim_ar": "تكرار لفظ الجذر «ك-ذ-ب» في قوله «كَذِبًا» و«كَذَبُوا» كوسيلة بلاغية لتأكيد افتراءهم وإثقال الذمّ عليهم.",
+        "claim_en": "Repetition of the root k-dh-b (كذب) in «كَذِبًا» and «كَذَبُوا» as a rhetorical device (takrar) to reinforce the charge of falsehood and intensify blame.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "كذب",
+        "lemma": "كَذِب",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A18",
+        "rhetorical_effect": "Intensifies condemnation of the liars by verbal repetition, making the accusation more forceful and memorable."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks do not include direct tafsir/بلاغة excerpts from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī or a dedicated tafsir-balagha for this ayah. Only one matching substring ('كذب') was found (in the Zamakhsharī chunk).",
+      "Because most of the canonical balagha sources requested were not present among the supplied chunks, many potential rhetorical readings of this ayah (e.g., repetition of the phrase «عَلَى رَبِّهِمْ», sajʿ, iltifāt, muqābalah, and contextual maʿānī) could not be verified against the provided texts and therefore were not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

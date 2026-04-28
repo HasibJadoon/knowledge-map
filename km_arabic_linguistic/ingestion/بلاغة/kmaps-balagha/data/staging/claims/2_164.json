@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:164",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "وتكرار الحروف بمثابة تكرار العمل.",
+        "claim_ar": "الآية توظف التكرار (لا سيما تكرار الحروف والواو الرابطة) لتكثيف الدلائل وإثقال المعنى.",
+        "claim_en": "The verse employs repetition (notably repetition of particles/letters and the linking 'wa') to accumulate evidence and intensify the meaning.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted chunk speaks about repetition in general; it does not cite this specific ayah directly, so application to S2:A164 is inferential."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "اقتران هذا السؤال بالواو",
+        "claim_ar": "الآية تستفيد من اقتران عناصرها بحرف الواو لربط المعاني وتراكم الدلائل بشكل متتابع.",
+        "claim_en": "The verse makes rhetorical use of the conjunction 'wa' to link its elements, creating cohesion and a cumulative sequence of signs.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk discusses the rhetorical effect of 'wa' in another exegetical context; extending this observation to the ayah is plausible but not explicitly documented in the provided chunk."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "taqdim_takhir",
+        "source_quote_ar": "وقع جوابه أولا بالمصرف لأنه الأهم",
+        "claim_ar": "الترتيب في السرد يعطى أولوية للعنصر الأهم (تقديم/وضع الأهم في موضع بارز) لما فيه من إبراز وتأثير بلاغي.",
+        "claim_en": "The ordering of elements gives priority to the most important item (fronting for emphasis), thereby enhancing rhetorical impact.",
+        "device_branch": "maani",
+        "device_subtype": "taqdim_takhir",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted remark concerns ordering/emphasis in a different commentary passage; applying it to S2:A164 is reasonable but not directly attested in the provided chunk."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "الجملة صفة ثانية",
+        "claim_ar": "تراكم الجمل الوصفية (صفة ثانية، صفة ثالثة...) يخلق حركة سردية تزداد فيها الصور وتتصاعد الدلائل المؤدية إلى خاتمة الآية ('آياتٍ لقوم يعقلون').",
+        "claim_en": "The sequence of descriptive clauses (second clause, third clause, etc.) produces a progressive narrative movement in which images and proofs accumulate toward the verse's concluding formula ('signs for people who reason').",
+        "device_branch": "other",
+        "device_subtype": "enumeration / surah_movement",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk analyses clause-sequencing in another tafsir passage; mapping the described pattern onto this ayah is inferential and should be verified with explicit tafsir-balagha sources."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not include the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a tafsir-balagha section). Claims were extracted from the available chunks (Darwish, Zamakhshari, etc.) and therefore some attributions are inferential.",
+      "Several claims rely on general statements in the source chunks about rhetorical techniques (e.g., repetition, use of الواو, ordering) rather than explicit, verse-specific statements for Sura 2:164. These inferences have been marked in needs_review_reason and should be checked against dedicated balagha/tafsir sources for this ayah.",
+      "No word-level claims tied to individual lexical items were made because the provided chunks did not contain exact, verse-specific balagha commentary mentioning those words. If you supply tafsir-balagha excerpts (al-Jurjani, al-Sakkaki, etc.) specifically treating S2:A164, more precise claims (with higher confidence) can be produced."
+    ]
+  },
+  "n_chunks": 12
+}

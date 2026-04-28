@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:59",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَمَا بَعْدَ الشَّرْطِ لَا يَعْمَلُ فِيمَا قَبْلَهُ.",
+        "claim_ar": "أداة الشرط «فَإِنْ»: وما بعد الشرط لا يعمل فيما قبله — أي أن فعل أو تركيب ما يلي «فَإِنْ» لا يؤثر في إعراب أو عمل ما قبلها.",
+        "claim_en": "The conditional particle 'fa-in' introduces a conditional clause; what comes after the condition does not operate on or affect what precedes it — i.e., the post-condition clause does not change the syntax or governance of the preceding clause.",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks treat Sûrat An-Nisâ' 4:59 specifically; the extraction above is a general grammatical rule (from al-Tibyan) applied to the conditional in this ayah.",
+      "Only one directly matching rule-reference was found in the supplied excerpts. Other syntactic claims (e.g., the governance of مِنكُمْ, the status of أُولِي الْأَمْرِ, or the parsing of رُدُّوهُ) could not be supported by the provided chunks and therefore were not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

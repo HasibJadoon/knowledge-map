@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:203",
+  "result": {
+    "claims": [
+      {
+        "word_index": 16,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ولما في طريقة الالتفات من مزية البلاغة",
+        "claim_ar": "التفات بلاغي باستخدام الاسم الإشارِي «هَذَا» لتحويل الانتباه إلى ما بعده («بَصَائِرُ ...») وتوكيد ما يُعرض من براهين.",
+        "claim_en": "An iltifat (shift of attention) effected by the demonstrative 'هَذَا' which redirects attention to the following statement ('بَصَائِرُ ...') and emphasizes the presented proofs.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "explanatory_bayan",
+        "source_quote_ar": "بيان للجملة قبلها",
+        "claim_ar": "جملة «هَذَا بَصَائِرُ مِن رَبِّكُمْ وَهُدًى وَرَحْمَةٌ» تعمل بياناً وتفسيراً للجملة السابقة (توضيح لمراد المتبع)، أي استعمال أسلوبي للتوضيح/البيان.",
+        "claim_en": "The phrase 'هَذَا بَصَائِرُ مِن رَبِّكُمْ وَهُدًى وَرَحْمَةٌ' functions as an explanatory bayān (clarifying statement) for what precedes — a stylistic move to elucidate the intended meaning.",
+        "device_branch": "other",
+        "device_subtype": "بيان (توضيح/تفسير)",
+        "root": "بصر",
+        "lemma": "بَصِيرَة",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary phrase is a general note about explanatory bayān; verify that the commentator intended this specific clause in the ayah as the instance."
+      }
+    ],
+    "warnings": [
+      "Requested classical rhetoric sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the provided source_chunks. Claims above are drawn from the available chunks (Zamakhshari and Darwish/i'rab).",
+      "Some claims use general commentary fragments (e.g. on الالتفات and بيان) from the provided chunk to justify the device identification; please review alignment with the specific verse commentary if required."
+    ]
+  },
+  "n_chunks": 12
+}

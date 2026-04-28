@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:93",
+  "result": {
+    "claims": [
+      {
+        "word_index": 18,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فلذلك وحد الضمير في قُلْ وجمع في آمَنَّا",
+        "claim_ar": "التبديل بين ضمائر المخاطب والمتكلم (تفرد الأمر: «قُلْ» ثم الجمع في سياق آخر «آمَنَّا») كإلتفات بلاغي يبيّن اختلاف المراتب ويشدّ النظر إلى المتكلّم والمرتكز على كلامه.",
+        "claim_en": "Shift (iltifat): the change between pronouns (singular command «قُلْ» versus plural «آمَنَّا») — a rhetorical turn that highlights difference of ranks and draws attention to the speaker and his message.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 18,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "أمر رسول اللَّه صلى اللَّه عليه وسلم بأن يخبر عن نفسه وعمن معه بالإيمان",
+        "claim_ar": "استعمال صيغة الأمر/الإخبار («قُلْ ... فَأْتُوا بِالتَّوْرَاةِ») كفعل إنشائي تحديِّي، أي توجيه للنبيّ أن يعلن موقفه ويطلب من أهل الكتاب إحضار الدليل (التوراة).",
+        "claim_en": "Imperative/performative (ijab/inshaa): using the command («قُلْ ... فَأْتُوا بِالتَّوْرَاةِ») as a performative challenge — directing the Prophet to state the case and summon the People of the Book to produce their book.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 18,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "لم عدّى أنزل في هذه الآية بحرف الاستعلاء، وفيما تقدم من مثلها بحرف الانتهاء؟",
+        "claim_ar": "تعليق أسلوبي: تبيان استعمال حرفي خطاب مختلفين (الاستعلاء مقابل الانتهاء) في آيات متشابهة للدلالة على اختلاف وجهتي الوحي والمخاطَب؛ أي انتقاء أسلوب مطابق للمراتب المعنوية.",
+        "claim_en": "Stylistic observation (asloob_hakim): noting the use of different particles/voices (tone of elevation vs. termination) in similar verses to reflect differences in the mode of revelation and the addressees — a deliberate stylistic choice.",
+        "device_branch": "other",
+        "device_subtype": "حرف_الاستعلاء_والانتهاء",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "root/lemma not applicable for an ayah-level stylistic observation; check tagging preferences."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are all from Zamakhshari (al-Kashshaf). The developer prompt requested analysis from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī and tafsir balagha sources; those specific sources were not supplied. Claims above are extracted only from the available chunks.",
+      "Some claims (esp. asloob_hakim) are ayah-level stylistic observations rather than word-level morphological facts; roots/lemmas may be inapplicable."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:60",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "istiarah",
+        "source_quote_ar": "الْمَلَأُ الأشراف والسادة.",
+        "claim_ar": "استعمال كلمة «الْمَلَأُ» استعارياً/كنيةً عن رؤساء القوم ووجوههم؛ أي استعمال مجازي بدلالة «الأشراف والسادة».",
+        "claim_en": "Use of «الْمَلَأُ» metonymically/figuratively for the leaders/nobles of the people (a metonymy/istiarah).",
+        "device_branch": "bayan",
+        "device_subtype": "استعارة/كنية (metonymy for leaders)",
+        "root": "ملا",
+        "lemma": "مَلَأ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "(قال) فعل ماض",
+        "claim_ar": "افتتاح الخطاب بصيغة تقريرية سردية («قَالَ الْمَلَأُ») كصيغة بلاغية تقرّب السامع من المشهد وتضع المَجْلِس/الطبقة الناطقة في موضع السلطة الكلامية (أسلوب حكيم/صيغة تقرير سردي).",
+        "claim_en": "The opening of the speech with the reporting formula «قَالَ الْمَلَأُ» functions as a rhetorical narrative formula (asloob hakim), which frames the scene and marks the speakers as authoritative interlocutors.",
+        "device_branch": "other",
+        "device_subtype": "narrative formula / reporting verb",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "لنأمرنك",
+        "claim_ar": "وظيفة «لَ» مع الفعل المبني للمضارع (كما في صور نحوية موازية لدى المفسرين) للتشديد والتأكيد في نبرة التهديد/الوعيد («إِنَّا لَنَرَاكَ» مقصود بها تكثيف التأكيد والتهديد).",
+        "claim_en": "The particle «لَ» with the imperfect (as attested in commentary examples) is used to intensify/emphasize the statement — here producing a strong, threatening emphasis in «إِنَّا لَنَرَاكَ».",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa (emphatic/performative construction with لَ)",
+        "root": "راي",
+        "lemma": "رَءَا",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source-quote is from a different commentary instance showing use of \"لَنـ\" (e.g. «لنأمرنك») rather than the exact ayah phrase; the generalization to this ayah seems plausible but should be checked against direct exegetical discussion of «إِنَّا لَنَرَاكَ»."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "فِي ضَلالٍ",
+        "claim_ar": "اختيار صورة الاسم «ضلالٍ» (الصيغة المعنوية) في مقابل صور أخرى ينبه لحدة الضلال وتنوعه؛ على الأقل ثمة وعي بلاغي لدى المفسرين في دقة اختيار المفردات (نكرة/مقارنة مع لفظات قريبة مثل «ضلالة»).",
+        "claim_en": "The lexical choice «ضلالٍ» (with its semantic range) is rhetorically significant — commentators note nuance in choosing this form rather than alternatives (e.g., «ضلالة»), signaling a deliberate semantic emphasis by choice of noun form (definiteness/indefiniteness nuance).",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir (nuance of definiteness/word-choice)",
+        "root": "ضلل",
+        "lemma": "ضَلَٰل",
+        "confidence": "medium",
+        "needs_review_reason": "The commentator discusses nuance between related words (ضلالة vs ضلال) in the surrounding commentary; applying this as a formal device to this collocation is interpretive and should be reviewed in light of fuller exegetical context."
+      }
+    ],
+    "warnings": [
+      "Some source-quotations are drawn from commentary passages that discuss related lexis or parallel constructions rather than a line-by-line rhetoric annotation of this exact ayah; those claims are therefore interpretive and marked with needs_review reasons.",
+      "No direct explicit label-by-label balagha statements (e.g., 'this is ijaaz' explicitly) were available in the provided chunks for every device; several device attributions rely on classical commentators' lexical and grammatical remarks (hence medium confidence).",
+      "If you want more rigorous/authoritative linking (e.g., only claims explicitly named by the listed authors as specific rhetorical devices for this ayah), provide additional source chunks that quote the exact phrase «إِنَّا لَنَرَاكَ فِي ضَلَالٍ مُبِينٍ» from those commentators."
+    ]
+  },
+  "n_chunks": 12
+}

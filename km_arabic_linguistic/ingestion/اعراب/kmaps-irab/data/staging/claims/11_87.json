@@ -1,0 +1,54 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:87",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا يَفْعَلُ اللَّهُ) : فِي «مَا» وَجْهَانِ: أَصَحُّهُمَا أَنَّهُمَا اسْتِفْهَامٌ فِي مَوْضِعِ نَصْبٍ بِيَفْعَلُ،",
+        "claim_ar": "«مَا» هنا حرف استفهام في موضع نصب (استفهام منصوب، على مثال «ما يفعل الله»).",
+        "claim_en": "The particle \"mā\" here is an interrogative particle in an accusative position (i.e., interrogative 'mā' in the position of nasb, as in 'mā yafʿalu Allāh').",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ: فِي مَوْضِعِ نَصْبٍ بَدَلًا مِنْ «مَا» ؛ أَيْ: بِئْسَ شَيْئًا سَخِطَ اللَّهُ عَلَيْهِمْ. وَقِيلَ: هُوَ فِي مَوْضِعِ جَرٍّ بِلَامٍ مَحْذُوفَةٍ؛ أَيْ: لِأَنْ سَخِطَ.",
+        "claim_ar": "اختلاف: قِيلَ إن «مَا» بدل في موضع نصب من كلمة محذوفة، وقِيلَ أيضًا إنها في موضع جر بلام محذوفة (تحليلان متعارضان حول حال إعراب «مَا»).",
+        "claim_en": "Disagreement: Some say the 'mā' is a substitute (badal) in an accusative position for an omitted word; others say it is in a genitive position governed by a deleted lam (i.e., a lam dropped). These are alternative analyses of the case/role of 'mā'.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا يَفْعَلُ اللَّهُ) : فِي «مَا» وَجْهَانِ: أَصَحُّهُمَا أَنَّهُمَا اسْتِفْهَامٌ فِي مَوْضِعِ نَصْبٍ بِيَفْعَلُ،",
+        "claim_ar": "«مَا» هنا (مثل «ما نشاء») حَرْفُ استفهامٍ يُتَوَضَّعُ على موضع نصب، أي استفهام منصوب.",
+        "claim_en": "The particle 'mā' here (as in 'mā nashāʾ') is an interrogative particle occupying an accusative position — i.e., an interrogative 'mā' analyzed as in the accusative (nasb).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ: فِي مَوْضِعِ نَصْبٍ بَدَلًا مِنْ «مَا» ؛ أَيْ: بِئْسَ شَيْئًا سَخِطَ اللَّهُ عَلَيْهِمْ. وَقِيلَ: هُوَ فِي مَوْضِعِ جَرٍّ بِلَامٍ مَحْذُوفَةٍ؛ أَيْ: لِأَنْ سَخِطَ.",
+        "claim_ar": "اختلاف في إعراب «مَا»: قِيلَ بدل منصوب، وقِيلَ جار بلام محذوفة (آراء مختلفة يُذكرها المصنِّف).",
+        "claim_en": "There is disagreement on the parsing of 'mā': some say it is a substitute (badal) in the accusative; others say it is governed (in genitive) by a dropped lam. The author records these differing grammatical opinions.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

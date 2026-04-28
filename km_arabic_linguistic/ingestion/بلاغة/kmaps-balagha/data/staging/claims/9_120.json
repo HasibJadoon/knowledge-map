@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:120",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit بلاغة (rhetoric) comments for S9:A120 were found in the provided source_chunks. The chunks supplied are general iʿrāb/tafsir excerpts and discuss other verses or general rhetorical points, but none contain an explicit rhetorical remark (with an exact matching substring) tied to this specific ayah that can be used as source_quote_ar. Cannot create claims without an exact source_quote_ar substring from the chunks."
+    ]
+  },
+  "n_chunks": 12
+}

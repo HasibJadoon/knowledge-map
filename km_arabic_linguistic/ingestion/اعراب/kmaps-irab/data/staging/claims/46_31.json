@@ -1,0 +1,57 @@
+{
+  "layer": "irab",
+  "ayah_key": "46:31",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "في ( يا ) من التأكيد والتنبيه ،",
+        "claim_ar": "حرف النداء «يا» في ياقومنـا يحمل وظيفة التأكيد والتنبيه.",
+        "claim_en": "The vocative particle «يا» in يَاقَوْمَنَا conveys emphasis and alerting (ta'kid and tanbih).",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "كثر في القرآن النداء ب ( يا أيها ) دون غيره  لأن فيه أوجها من التأكيد وأسبابا من المبالغة :",
+        "claim_ar": "أدوات النداء في القرآن تتقدم فيها صيغة (يا أيها) على غيرها لكونها أوجه في التأكيد والمبالغة؛ دخول (يا) هنا ينسجم مع كون ما يُنادى له أمر عظيم يتطلب تنبيهاً مؤكداً.",
+        "claim_en": "The Qur'an frequently uses the vocative form (يا أيها) over others because it is a foremost form of emphasis and intensification; the use of (يا) here accords with addressing a weighty matter requiring emphatic alerting.",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "وباب النائب عن الفاعل ؛ لأنه دل على الفاعل بإعطائه حكمه ، وعلى المفعول بوضعه .",
+        "claim_ar": "دَاعِيَ (داعي) في «أَجِيبُوا دَاعِيَ اللَّهِ» يعمل كمفعولٍ به لِفِعل الأمر (أَجِيبُوا).",
+        "claim_en": "دَاعِيَ (the caller) in «أجِيبُوا داعيَ اللَّهِ» functions as the object (maf'ul bihi) of the imperative verb (أجيبوا).",
+        "root": "دعو",
+        "lemma": "دَاعِى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage gives a general rule about devices (النائب/المفعول) but does not comment explicitly on this specific verse; the assignment of مفعول به follows standard syntactic expectation for an imperative with a following noun."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وباب الضمير ؛ لأنه وضع للاستغناء به عن الظاهر اختصارا ، ولذا لا يعدل إلى المنفصل مع إمكان المتصل .",
+        "claim_ar": "الضمير الملحق في لَكُمْ (كم) مثال على «باب الضمير» كوسيلة اختصارية للاستغناء عن البيان المطلق، فعمله نحوي كضمير متصل مبني في موضعه.",
+        "claim_en": "The attached pronoun in لَكُمْ (‑kum) exemplifies the 'chapter of pronouns' as a concise substitute for an explicit noun; syntactically it functions as a connected pronoun in its position.",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general principle about clitic pronouns being used for concision; it does not analyze this specific pronoun in the verse (لَكُمْ) but supports the general syntactic status of attached pronouns."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are general grammatical/expository passages (al-Itqan) rather than a line-by-line i'rab of S46:31. Claims tie general rules in the chunks to elements of the verse; where the source is general rather than verse-specific this is indicated in needs_review_reason.",
+      "No explicit substring in the provided chunks gives a direct, verse-specific i'rab for دَاعِيَ or بِهِ or other individual words; some claims rely on general grammatical rules in the chunks to infer the i'rab for the ayah."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:165",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَتَعَلَّقَ بِيَئِسَ؛ أَيْ يَئِسُوا مِنْ بَعْثِ أَصْحَابِ الْقُبُورِ؛ وَأَنْ يَكُونَ حَالًا؛ أَيْ كَائِنِينَ مِنْ أَصْحَابِ الْقُبُورِ.",
+        "claim_ar": "يُذكر جوازان في إعراب بَئِيسٍ: إمّا أن يتعلّق بكلمةٍ قبلية (يتبع تركيباً يئس/مصدر متعلق) أو أن يكون حالًا (ظرفاً حالاً من كونهم كائنين من أصحاب القبور).",
+        "claim_en": "Two permissible analyses are given for بَئِيسٍ: either it is attached (متعلق) to a preceding phrase (as part of a 'yais' construction / related predicate) or it functions as a hal (circumstantial adjective/state) describing 'being among the owners of the graves'.",
+        "root": "باس",
+        "lemma": "بَـِٔيس",
+        "confidence": "medium",
+        "needs_review_reason": "The cited commentary discusses the status of بَئِيسٍ in a different cited phrase (مِنْ أَصْحَابِ الْقُبُورِ); confirm applicability of the same two analyses to this verse's context."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا أَغْنَى) : وَيَجُوزُ أَنْ تَكُونَ «مَا» نَافِيَةً، وَأَنْ تَكُونَ اسْتِفْهَامًا.",
+        "claim_ar": "يُذكر جواز أن تكون «مَا» في تراكيب القرآن نافيةً أو استفهاميةً، أي أنّ «ما» قد تُعرب على أنها ما النافية أو ما الاستفهامية بحسب المقام.",
+        "claim_en": "It is permitted that the particle «مَا» be either negative (ma al-nafiyah) or interrogative (ma al-istifham) in Quranic constructions; thus «ما» may be analyzed as either negative or interrogative depending on context.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary example is given with the phrase (مَا أَغْنَى); verify whether this general observation about «مَا» is being applied to the «مَا» in this verse (مَا ذُكِّرُوا بِهِ) or is merely a general note."
+      }
+    ],
+    "warnings": [
+      "The extracted statements are general grammatical observations from al-Tibyan; in at least one case (بَئِيسٍ) the cited discussion explicitly treats a different cited phrase (مِنْ أَصْحَابِ الْقُبُورِ). Verify that the author intended the same options for the wording of S7:A165.",
+      "Some source chunks are general or illustrate other verses; confirm contextual applicability before using these claims as definitive analyses for this specific ayah."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "24:14",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَالثَّانِي: أَنَّ الْجَوَابَ مَحْذُوفٌ تَقْدِيرُهُ: لَأَضَلُّوكَ؛ ثُمَّ اسْتَأْنَفَ فَقَالَ لَهَمَّتْ؛ أَيْ: لَقَدْ هَمَّتْ تِلْكَ؛",
+        "claim_ar": "الجواب محذوف في السياق، والتقدير المذكور صريح: «لَأَضَلُّوكَ».",
+        "claim_en": "The reply/answer is omitted (mahdhuf); the explicit reconstructed wording (taqdir) is given as 'la-aḍallūka' (\"they would have led you astray\").",
+        "root": "ضلل",
+        "lemma": "أَضَلَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The cited source chunk explicitly treats the answer as omitted and supplies the تقدير «لَأَضَلُّوكَ», which is extracted above.",
+      "The input ayah_ref (S24:A14) does not match the verse citation in the source chunk ([النُّورِ: ١٠]). Verify that the provided word list corresponds to the same verse discussed in the source."
+    ]
+  },
+  "n_chunks": 12
+}

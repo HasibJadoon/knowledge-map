@@ -1,0 +1,57 @@
+{
+  "layer": "irab",
+  "ayah_key": "38:9",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(عِنْدَ رَبِّهِمْ) : هُوَ ظَرْفٌ لِلشُّهَدَاءِ",
+        "claim_ar": "«عندهم» ظرف متعلق بالاسم الذي قبله (مثل: الشُّهَدَاء) — أي ظرف له تعلق بالاسم المذكور.",
+        "claim_en": "'عندهم' functions as an adverbial circumstantial (ظرف) attached to a preceding noun (e.g. 'the martyrs').",
+        "root": "عند",
+        "lemma": "عِند",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "«عِنْدَ رَبِّهِمْ» : الْخَبَرُ",
+        "claim_ar": "«عندهم» يُمكن أن تكون الخبر (خبر مبتدأ سابق مثل: الشُّهَدَاء).",
+        "claim_en": "'عندhem' can function as the predicate (خبر) of a preceding subject (for example: 'the martyrs').",
+        "root": "عند",
+        "lemma": "عِند",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَيَجُوزُ أَنْ يَكُونَ «أُولَئِكَ» مُبْتَدَأً",
+        "claim_ar": "ثمّة وجوه في الإِعراب: يجوز أن يجري ترتيب آخر (مثل أن يكون «أولئك» مبتدأً، ويترتب على ذلك اختلاف تعلق «عند…»).",
+        "claim_en": "There is a permissible alternative parsing: e.g. 'أولئك' could be taken as the subject (مبتدأ), which yields a different attachment/role for 'عند…'.",
+        "root": "عند",
+        "lemma": "عِند",
+        "confidence": "medium",
+        "needs_review_reason": "The cited discussion exemplifies an alternative parse involving different preceding demonstratives (أولئك / هم) not literally present in this ayah; applicability to this ayah is by analogy and should be checked."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيل الْوَقْف على الشُّهَدَاء ثمَّ يَبْتَدِئ عِنْد رَبهم لَهُم",
+        "claim_ar": "ذهب بعضهم إلى وقف الكلام على الاسم السابق ثم ابتدئ «عند…» خبرًا له بعد الوقف — أي وجه وقف وابتداء بدلاً من اشتغال واحد.",
+        "claim_en": "Another view permits pausing at the preceding noun and then taking 'عند…' as a new predicate for it; i.e. a stop/start (وقف وابتداء) reading rather than a single attachment.",
+        "root": "عند",
+        "lemma": "عِند",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary treats the phrase 'عند ربهم' and a stop/continuation option; mapping this to the exact words of the ayah (عِندَهُمْ) requires checking contextual fit."
+      }
+    ],
+    "warnings": [
+      "The provided commentary discusses the phrase «عِنْدَ رَبِّهِمْ» (explicitly present in the source chunk) rather than the exact surface form in this ayah «عِنْدَهُمْ». The claims above are inferred by analogy from that discussion; verify applicability to this specific verse.",
+      "The available chunks do not discuss other words of the ayah (e.g., خَزَائِنُ، رَحْمَةِ، رَبِّكَ، الْعَزِيزِ، الْوَهَّابِ), so no claims were extracted for those words. Further authoritative commentary on this exact verse may contain additional relevant إعراب analyses."
+    ]
+  },
+  "n_chunks": 12
+}

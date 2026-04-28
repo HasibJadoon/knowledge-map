@@ -1,0 +1,42 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:190",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "inna_emphasis",
+        "source_quote_ar": "انّ",
+        "claim_ar": "البَدْءُ بـ «إِنَّ» كأداة توكيد لتشديد الخبر وإبراز الدلالة الوجودية في الجملة الاسمية",
+        "claim_en": "The opening particle 'Inna' functions as an emphatic particle, strengthening the statement and foregrounding the nominal clause's meaning.",
+        "device_branch": "other",
+        "device_subtype": "particle_inna_emphasis",
+        "root": "إن",
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "majaz",
+        "source_quote_ar": "آياتِ اللَّهِ",
+        "claim_ar": "استخدام لفظ «آيَاتٍ» بشكل مجازي/كنايَة للدّلالات والبراهين الإلهية في خلق السماوات والأرض",
+        "claim_en": "The word 'āyāt' ('signs') is used figuratively/metonymically to denote divine evidences and proofs present in creation.",
+        "device_branch": "bayan",
+        "device_subtype": "metonymy/majaz",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "distinction between majaz and kinayah can be fine-grained in classical sources; further source confirmation advised",
+        "quran_ref": "S3:A190",
+        "rhetorical_effect": "Invites reflection on creation as evidence of God; frames natural phenomena as proof, thus strengthening the argument from design."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not quote the verse text verbatim in full. Claims are anchored to exact substrings found in the chunks (e.g., «انّ», «آياتِ اللَّهِ»).",
+      "Other plausible rhetorical devices for this ayah (e.g., contrast/tibaq between «اللَّيْلِ» and «النَّهَارِ», restriction/حصر in «لِأُولِي الْأَلْبَابِ») could not be supported with exact-source substrings from the provided chunks and so were not extracted here.",
+      "Some device classifications (majaz vs. kinayah) are interpretive; see needs_review_reason for items flagged as medium confidence."
+    ]
+  },
+  "n_chunks": 12
+}

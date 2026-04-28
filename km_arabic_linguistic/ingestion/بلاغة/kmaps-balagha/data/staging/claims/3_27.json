@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:27",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "(تُولِجُ) تدخل، من أولج الشيء أدخله.",
+        "claim_ar": "تكرار الأفعال (تُولِجُ ... وتُولِجُ ... وتُخْرِجُ ... وتُخْرِجُ) كأسلوب بديعي لتوكيد الفعل الإلهي المستمر وقدرته على تبديل الأحوال.",
+        "claim_en": "Repetition of the verbs (تُولِجُ ... وتُولِجُ ... وتُخْرِجُ ... وتُخْرِجُ) — a badi' device (takrar) — used to emphasize the continual divine action and God's power to change states.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "ولج",
+        "lemma": "يُولِجُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "(تُولِجُ) تدخل، من أولج الشيء أدخله.",
+        "claim_ar": "مقابلة/تضاد بين الأزواج (اللَّيْلَ ↔ النَّهَارِ) و(الْحَيَّ ↔ الْمَيِّتَ) — أسلوب بديعي (مقابلة/تِبَاق) يُبرز قدرة الله على التبديل والتحول بين النقيضين.",
+        "claim_en": "Antithetical pairing (night ↔ day, the living ↔ the dead) — a badi' device (muqabalah / tibaq) — highlighting God's power to switch between opposites.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "ولج",
+        "lemma": "يُولِجُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "tibaq",
+        "source_quote_ar": "(تُولِجُ) تدخل، من أولج الشيء أدخله.",
+        "claim_ar": "تِبَاق/توازٍ بين (تُخْرِجُ الْحَيَّ مِنَ الْمَيِّتِ) و(تُخْرِجُ الْمَيِّتَ مِنَ الْحَيِّ) — ترتيب متوازٍ متقابل يُعطي صورة بلاغية قوية عن الإتيان بعكس الحال.",
+        "claim_en": "Tibaq / parallel contrast between 'bringing forth the living from the dead' and 'bringing forth the dead from the living' — a balanced parallelism producing a strong rhetorical image of reversing states.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "خرج",
+        "lemma": "أَخْرَجَ",
+        "confidence": "medium",
+        "needs_review_reason": "source chunk quoted does not explicitly contain the verb تُخْرِجُ; alignment between chunk material and this specific verb should be checked."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "(تُولِجُ) تدخل، من أولج الشيء أدخله.",
+        "claim_ar": "إيجاز بلاغي: استعمال تراكيب موازية وجمل قصيرة متعددة خلال الآية يحقق اختزالاً معنوياً (إعجاز بياني) يُعطي قوة في النقل ويزيد أثر المعنى.",
+        "claim_en": "Concise rhetorical compression (i'jaz): the use of parallel short clauses in the verse produces semantic concentration — a rhetorical brevity that intensifies the message.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "ayah-level claim (word_index=0) — no single root/lemma applies; ensure terminology (i'jaz) matches classical source intent."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are primarily lexicographic and i‘rāb commentaries (Darwish, Zamakhshari excerpts, Safi) and do not include explicit classical balagha treatises (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) requested in the task. Claims were therefore inferred from the verse structure and available lexical notes rather than direct balagha citations.",
+      "Some claims reuse the same source substring '(تُولِجُ) تدخل، من أولج الشيء أدخله.' because explicit substrings for other verbs (e.g., تُخْرِجُ) were not present in the supplied chunks. Please review source alignment and, if possible, provide balagha-specific source excerpts for higher-confidence attributions.",
+      "Ayah-level claim(s) use word_index = 0 and therefore have no single root/lemma; these fields are left empty and flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

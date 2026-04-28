@@ -1,0 +1,37 @@
+{
+  "layer": "irab",
+  "ayah_key": "34:53",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "«وَقَدْ» مُقَدَّرَةٌ",
+        "claim_ar": "«وَقَدْ» مُقدَّرةٌ (أي أن هنالك فعلًا محذوفًا مقدَّرًا بعدها)",
+        "claim_en": "'wa-qad' is muqaddarah — an elided/understood verb is present (i.e., a verb is omitted and understood)",
+        "root": "قد",
+        "lemma": "قَد",
+        "confidence": "medium",
+        "needs_review_reason": "المصدر يعرض هذه القراءة لكنه أيضاً يعطي قراءة بديلة (أن تكون «وَقَدْ» معطوفة)، لذلك يلزم تدقيق إضافي لاختيار القراءة المفضلة.",
+        "quran_ref": "S34:A53"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ مَعْطُوفًا",
+        "claim_ar": "يمكن أن تكون «وَقَدْ» معطوفة (تحليل بديل لعدم اعتبارها مقدَّرة)",
+        "claim_en": "'wa-qad' may be a coordinating conjunction (an alternative analysis to it being muqaddarah)",
+        "root": "قد",
+        "lemma": "قَد",
+        "confidence": "medium",
+        "needs_review_reason": "المصدر يعرض هذه الإمكانية كوجهٍ بديل؛ يتطلب الرجوع إلى سياق الآية وقراءات أُخرى لتحديد أيّ التحليلات أصلح.",
+        "quran_ref": "S34:A53"
+      }
+    ],
+    "warnings": [
+      "المعطيات المصدرية المقدمة تتضمن ملاحظة نحوية محدودة تتعلق بـ «وَقَدْ» فقط؛ لا توجد تفسيرات صريحة في القطع الأخرى عن بقية كلمات الآية (مثل حال 'بِالْغَيْبِ' أو تركيب 'مِنْ قَبْلُ').",
+      "مصدر العكبري يعرض احتمالين متنافسين («مقدَّرة» و«معطوفة») لذا بعض الادعاءات بحاجة لمراجعة مقارنة مع شروح/قراءات أخرى."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "34:22",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain explicit إِعْرَاب (grammatical) claims about the words of سُورَة 34 آيَة 22. One chunk (AL:CHUNK:4694c76f47ffe96bf19f03d6) only quotes the ayah text; the other chunks give general remarks on other phrases (e.g. عَالِمِ الْغَيْبِ, فِي الْآخِرَةِ) or unrelated notes. No extractable irab/taalluq/taqdir/qiraat_irab/ikhtilaf_irab/wajh_irab/semantic_effect/rule_reference claims are present in the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

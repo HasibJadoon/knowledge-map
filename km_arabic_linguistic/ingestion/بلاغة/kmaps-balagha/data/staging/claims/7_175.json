@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:175",
+  "result": {
+    "claims": [
+      {
+        "word_index": 10,
+        "claim_type": "majaz",
+        "source_quote_ar": "الشَّيْطانُ خبر ذلكم، بمعنى: إنما ذلك المثبط هو الشيطان.",
+        "claim_ar": "أُستعملت كلمة «الشَّيْطانُ» خبراً محدّداً للمثبط — تصوير الشيطان باعتباره سبب الضلال بمعنى مجازي (مجاز/استعارة معنوية).",
+        "claim_en": "The word 'الشَّيْطانُ' functions as the predicate identifying 'the demotivator' — portraying Satan as the cause of misguidance in a figurative/majaz sense.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "شطن",
+        "lemma": "شَيْطَٰن",
+        "confidence": "medium",
+        "needs_review_reason": "Some commentators might treat this as literal identification or kināyah rather than majaz; classification between majaz and kināyah is interpretive and may vary.",
+        "quran_ref": "S7:A175",
+        "rhetorical_effect": "Identifies and externalizes the cause of the person's deviation, strengthening the moral attribution of blame to Satan and making the cause more concrete for the listener/reader."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ويخوّف أولياءه: جملة مستأنفة بيان لشيطنته.",
+        "claim_ar": "وجود «جملة مستأنفة» حول لفظة «الشيطان»؛ لفظةُ الشيطان تُعرض كوقفة مستأنفة لإبرازها وتأكيد صلتها بالعمل (التفات/التوكيد).",
+        "claim_en": "The commentator notes a 'resumed clause' around the term 'الشَّيْطانُ'; presenting 'الشَّيْطانُ' as a resumed/interrupted clause serves to spotlight and emphasize the role of Satan (an instance of iltifat/turning for emphasis).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "شطن",
+        "lemma": "شَيْطَٰن",
+        "confidence": "medium",
+        "needs_review_reason": "The identification of this pattern as iltifat depends on reading/punctuation and could alternatively be read as simple apposition or syntactic completion; requires cross-check with other tafsir/grammatical analyses.",
+        "quran_ref": "S7:A175",
+        "rhetorical_effect": "Creates a sudden shift that draws attention to the agent of misguidance, increasing emphasis and emotional impact."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from Zamakhshari (al-Kashshaf). The developer instructions requested al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī and tafsir-balagha sections; those specific authors' chunks were not provided. Claims are therefore drawn only from the supplied Zamakhshari excerpts.",
+      "Some classifications (e.g., majaz vs. kināyah, or iltifat vs. simple apposition) are interpretive; confidence marked 'medium' where alternative readings are plausible. Review against additional tafsir/balāgha sources is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

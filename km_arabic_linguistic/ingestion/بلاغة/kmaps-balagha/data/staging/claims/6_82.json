@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:82",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "فَبِظُلْمٍ مِنَ الَّذِينَ",
+        "claim_ar": "حصر الأمان بمن تحقق شرط عدم إلباس الإيمان بظلم",
+        "claim_en": "Restriction (hasr/qasr): The security (al-amn) is confined to those who believed and did not mix their faith with injustice.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "ظلم",
+        "lemma": "ظُلْم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "6:82",
+        "rhetorical_effect": "يحدد نطاق الوعد الإلهي ويمنع التعميم؛ يؤكد أن النعمة مشروطة بعدم مضاهاة الإيمان بالظلم."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "فَبِظُلْمٍ مِنَ الَّذِينَ",
+        "claim_ar": "التنكير في «بِظُلْمٍ» مقابل تعريف «إيمانهم» ليؤكد عمومية الاستبعاد (أي: أي ظلم)",
+        "claim_en": "Definite vs. indefinite (ta'rif/tankir): The indefinite 'bi-ẓulm(in)' contrasted with the definite 'īmānahum' signals that the exclusion covers any injustice (i.e. any form of الظلم).",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir",
+        "root": "ظلم",
+        "lemma": "ظُلْم",
+        "confidence": "medium",
+        "needs_review_reason": "الاستدلال معتمد على حضور كلمة «بِظُلْمٍ» في الشروح المتاحة؛ الشروح المرفقة لا تعرض تحليل بلاغي صريح لهذا الوتر، لذا الاستنتاج يحتاج مراجعة بتفاسير بلاغية إضافية.",
+        "quran_ref": "6:82",
+        "rhetorical_effect": "يوسع نطاق الاستثناء ويجعل الحكم عاماً لكل أنواع الظلم، ويقوّي حدة النداء الأخلاقي."
+      }
+    ],
+    "warnings": [
+      "المقاطع النصية الواردة (source_chunks) لا تتضمن نص الآية كاملة أو شروحًا بلاغية صريحة لجميع عناصر الآية (مثل «آمَنُوا»، «إِيمَانَهُمْ»، «لَهُمُ الْأَمْنُ»، «مُهْتَدُونَ»). لذلك استُخدمت مقتطفات تتضمّن لفظَ «بِظُلْمٍ» في دعم الاستدلال البلاغي؛ بعض الاستخلاصات مبنية على استنتاج نصّي/بلاغي عام وقد تستلزم تدقيقًا بمراجع تفسيرية بلاغية أخرى.",
+      "لم يُستخرجتُ هنا أجهزة بلاغية محتملة أخرى (مثل اِلْتِفَات، مُقابَلَة/تِباق بين «لهم الأمن» و«وهم مهتدون») لعدم وجود اقتباسات مطابقة من المقاطع المرفقة تُثبت حضورها في شروح المصادر المقدمة. ينصح بمراجعة تفاسير السيوطيّ، السكاكِيّ، الجرجانيّ، والبحقيلانيّ الكاملَة للحصول على أدلة نصية مباشرة لهذه الأجهزة."
+    ]
+  },
+  "n_chunks": 12
+}

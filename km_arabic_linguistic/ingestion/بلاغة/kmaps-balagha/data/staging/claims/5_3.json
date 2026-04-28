@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:3",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "وهذا الاتحاد بين الشرط والجزاء ظاهر",
+        "claim_ar": "اتحاد الشرط والجزاء: عرض الطرفين (الاشتراط والجزاء/التأكيد) كجملة واحدةٍ موحِّدةٍ للتأكيد والتقوية في المقام، مما يعظم أثر النهي والتحذير في الآية.",
+        "claim_en": "Union of condition and consequence (fasl_wasl): the conditional clause and its resulting statement are presented as a single unified unit, intensifying the prohibition/warning in the verse.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source chunk states the general rhetorical principle (union of condition and consequence) in a different exegetical context; applying it to S5:A3 is inferential and should be reviewed against direct commentary on this specific verse."
+      }
+    ],
+    "warnings": [
+      "None of the provided source_chunks are from the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir balagha). Claims are drawn from the available chunks (e.g., Zamakhshari/Darwish) and may not reflect those authors' analyses.",
+      "The source quote used discusses a general rhetorical principle in another exegetical context. Its application to Sura 5:3 is inferential and should be verified with direct balagha commentary on this specific verse."
+    ]
+  },
+  "n_chunks": 12
+}

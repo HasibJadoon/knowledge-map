@@ -1,0 +1,617 @@
+member_id|set_en|set_ur|sort_order|gloss_ur|nuance_en|nuance_ur|topic_id|book_ref
+NSM:ACCOMPLISH:ACCOMPLISH_TO_COMPLETE:X4586B2B9|Accomplish , to complete|پورا کرنا -ہونا|6|پورا کرنا -ہونا|Accomplish , to complete||P24|Kailani — topic P24
+NSM:ACCOMPLISH:ACCOMPLISH_TO_COMPLETE:X96E8F981|Accomplish , to complete|پورا کرنا -ہونا|7|پورا کرنا -ہونا|Accomplish , to complete||P24|Kailani — topic P24
+NSM:ACTIONS:ACTIONS_IN_THE_NIGHT:X2919072D|Actions in the night|رات کے کام|7|رات کے کام|Actions in the night||R2|Kailani — topic R2
+NSM:ACTIONS:ACTIONS_RELATED_TO_THE_MORNING:X9F826A12|Actions related to the morning|صبح کرنا|1|صبح کرنا|Actions related to the morning||SA3|Kailani — topic SA3
+NSM:ADOLESCENCE:ADOLESCENCE_YOUTH:X56750292|Adolescence, youth|جوانی|1|جوانی|Adolescence, youth||J18|Kailani — topic J18
+NSM:ADOLESCENCE:ADOLESCENCE_YOUTH:XBE0FA08B|Adolescence, youth|جوانی|2|جوانی|Adolescence, youth||J18|Kailani — topic J18
+NSM:ALL:ALL_WHOLE_ENTIRE:XFFA8517F|All, whole, entire|سب سارے|1|سب سارے|All, whole, entire||S7|Kailani — topic S7
+NSM:ALL:ALL_WHOLE_ENTIRE:X047DEA93|All, whole, entire|سب سارے|2|سب سارے|All, whole, entire||S7|Kailani — topic S7
+NSM:ANGELS:ANGELS_OF_HELL_FIRE:X48E15B86|Angels of hell fire|دوزخ کے فرشتے|4|دوزخ کے فرشتے|Angels of hell fire||D23|Kailani — topic D23
+NSM:ANGER:ANGER_TEMPER:X84BE849B|Anger, temper|غصہ|5|غصہ|Anger, temper||GH5|Kailani — topic GH5
+NSM:APPROVAL:APPROVAL:X36A9D753|Approval|رضامندی [خوشنودی]|1|رضامندی [خوشنودی]|Approval||R11|Kailani — topic R11
+NSM:APPROVAL:APPROVAL:X6245B4D0|Approval|رضامندی [خوشنودی]|2|رضامندی [خوشنودی]|Approval||R11|Kailani — topic R11
+NSM:BACK:BACK_BEHIND:X70DB6F23|Back, behind|پیچھے|5|پیچھے|Back, behind||P47|Kailani — topic P47
+NSM:BACKBONE:BACKBONE_LOIN:X36AA5435|Backbone, loin|پیٹھ پشت|4|پیٹھ پشت|Backbone, loin||P45|Kailani — topic P45
+NSM:BEAUTIFUL:BEAUTIFUL:XCB22E4A9|Beautiful|خوبصورت|1|خوبصورت|Beautiful||KH15|Kailani — topic KH15
+NSM:BEAUTIFUL:BEAUTIFUL:XCB92A8B0|Beautiful|خوبصورت|2|خوبصورت|Beautiful||KH15|Kailani — topic KH15
+NSM:BEAUTIFUL:BEAUTIFUL:X56750292|Beautiful|خوبصورت|3|خوبصورت|Beautiful||KH15|Kailani — topic KH15
+NSM:BEHIND:BEHIND_LATTER:XEB376C36|Behind, latter|پچھلا|3|پچھلا|Behind, latter||P10|Kailani — topic P10
+NSM:BLACK:BLACK:XBE0FA08B|black|سیاہ سیاہی|1|سیاہ سیاہی|black||S26|Kailani — topic S26
+NSM:BLACK:BLACK:XA5F6B4EB|black|سیاہ سیاہی|2|سیاہ سیاہی|black||S26|Kailani — topic S26
+NSM:BODY:BODY:X51C9A584|Body|جسم|1|جسم|Body||J6|Kailani — topic J6
+NSM:BODY:BODY:XCB22E4A9|Body|جسم|2|جسم|Body||J6|Kailani — topic J6
+NSM:BOWL:BOWL:X5EE1AF47|Bowl|پیالہ|5|پیالہ|Bowl||P43|Kailani — topic P43
+NSM:BREACH:BREACH_OF_TRUST:X0C745B0E|Breach of trust|خیانت کرنا|1|خیانت کرنا|Breach of trust||KH20|Kailani — topic KH20
+NSM:BRING:BRING_TO_LIVE:XBE0FA08B|Bring to live|زندہ کرنا|1|زندہ کرنا|Bring to live||Z8|Kailani — topic Z8
+NSM:BRING:BRING_TO_LIVE:X86076BF8|Bring to live|زندہ کرنا|2|زندہ کرنا|Bring to live||Z8|Kailani — topic Z8
+NSM:BUCKET:BUCKET:X739F2223|Bucket|ڈول|3|ڈول|Bucket||DD5|Kailani — topic DD5
+NSM:BUNCH:BUNCH_OF_GRAPES_ETC_EAR_OF_CORN:XAA551F03|Bunch(of grapes etc), ear (of corn)|خوشے|1|خوشے|Bunch(of grapes etc), ear (of corn)||KH19|Kailani — topic KH19
+NSM:CAUSE:CAUSE_TO_BEND_STOOP:X84D816DC|Cause to bend, stoop|جھکانا|1|جھکانا|Cause to bend, stoop||J24|Kailani — topic J24
+NSM:CAUSE:CAUSE_TO_BEND_STOOP:XD6F7C01D|Cause to bend, stoop|جھکانا|2|جھکانا|Cause to bend, stoop||J24|Kailani — topic J24
+NSM:CAUSE:CAUSE_TO_BEND_STOOP:X36A9D753|Cause to bend, stoop|جھکانا|3|جھکانا|Cause to bend, stoop||J24|Kailani — topic J24
+NSM:CAUSE:CAUSE_TO_BEND_STOOP:XCB92A8B0|Cause to bend, stoop|جھکانا|4|جھکانا|Cause to bend, stoop||J24|Kailani — topic J24
+NSM:CAUSE:CAUSE_TO_LIBERATE:X6E6A73AD|Cause to liberate|چھڑانا|1|چھڑانا|Cause to liberate||CH27|Kailani — topic CH27
+NSM:CAUSE:CAUSE_TO_LIBERATE:XBE0FA08B|Cause to liberate|چھڑانا|2|چھڑانا|Cause to liberate||CH27|Kailani — topic CH27
+NSM:CAUSE:CAUSE_TO_LIBERATE:XFB7937A6|Cause to liberate|چھڑانا|3|چھڑانا|Cause to liberate||CH27|Kailani — topic CH27
+NSM:CAUSE:CAUSE_TO_RUN:X250AE7D0|Cause to run|ڈورانا|3|ڈورانا|Cause to run||D21|Kailani — topic D21
+NSM:CAUSE:CAUSE_TO_WALK_OR_MOVE:X4A4F1D74|Cause to walk or move|چلانا|7|چلانا|Cause to walk or move||CH13|Kailani — topic CH13
+NSM:CHAINS:CHAINS:X861183A4|Chains|زنجیریں|1|زنجیریں|Chains||Z7|Kailani — topic Z7
+NSM:CHAINS:CHAINS:XBE0FA08B|Chains|زنجیریں|2|زنجیریں|Chains||Z7|Kailani — topic Z7
+NSM:CHAINS:CHAINS:X402E8E88|Chains|زنجیریں|3|زنجیریں|Chains||Z7|Kailani — topic Z7
+NSM:CHIEF:CHIEF_LEADER:X861183A4|Chief , leader|سردار|1|سردار|Chief , leader||S13|Kailani — topic S13
+NSM:CHIEF:CHIEF_LEADER:X36A9D753|Chief , leader|سردار|2|سردار|Chief , leader||S13|Kailani — topic S13
+NSM:COLD:COLD_WINTER:X1F694036|Cold , winter|سردی|1|سردی|Cold , winter||S14|Kailani — topic S14
+NSM:COLD:COLD_WINTER:XCB92A8B0|Cold , winter|سردی|2|سردی|Cold , winter||S14|Kailani — topic S14
+NSM:COLD:COLD_WINTER:XA83185C0|Cold , winter|سردی|3|سردی|Cold , winter||S14|Kailani — topic S14
+NSM:COLOUR:COLOUR:XF5121FDB|Colour|رنگ|1|رنگ|Colour||R14|Kailani — topic R14
+NSM:CORRECT:CORRECT_SOUND:X6B18CB1B|Correct, sound|درست ٹھیک|3|درست ٹھیک|Correct, sound||D8|Kailani — topic D8
+NSM:COUPLE:COUPLE_PAIR:XA83185C0|Couple, pair|جوڑا|1|جوڑا|Couple, pair||J19|Kailani — topic J19
+NSM:COUPLE:COUPLE_PAIR:XF52961E8|Couple, pair|جوڑا|2|جوڑا|Couple, pair||J19|Kailani — topic J19
+NSM:CREATION:CREATION:XBE0FA08B|creation|خلقت مخلوق|1|خلقت مخلوق|creation||KH12|Kailani — topic KH12
+NSM:CREATURES:CREATURES:X6245B4D0|Creatures|چوپائے|1|چوپائے|Creatures||CH19|Kailani — topic CH19
+NSM:CREATURES:CREATURES:XCB22E4A9|Creatures|چوپائے|2|چوپائے|Creatures||CH19|Kailani — topic CH19
+NSM:CREATURES:CREATURES:XBE0FA08B|Creatures|چوپائے|3|چوپائے|Creatures||CH19|Kailani — topic CH19
+NSM:CREATURES:CREATURES:XB15AA8E2|Creatures|چوپائے|4|چوپائے|Creatures||CH19|Kailani — topic CH19
+NSM:CREATURES:CREATURES:XC5CEFF3B|Creatures|چوپائے|6|چوپائے|Creatures||CH19|Kailani — topic CH19
+NSM:CROOKED:CROOKED_TO_BE_BENT:X755A773E|Crooked, to be bent|ٹیڑھ  ٹیڑھا ہونا|7|ٹیڑھ  ٹیڑھا ہونا|Crooked, to be bent||TT7|Kailani — topic TT7
+NSM:DAY:DAY_AND_ITS_TIMES:X0AB40374|Day and its times|دن اور اسکے اوقات|5|دن اور اسکے اوقات|Day and its times||D16|Kailani — topic D16
+NSM:DEEP:DEEP_DEEPNESS:XCA84B0E6|Deep, deepness|گہرا - گہرائی|4|گہرا - گہرائی|Deep, deepness||GG19|Kailani — topic GG19
+NSM:DEEP:DEEP_DEEPNESS:X143E5E85|Deep, deepness|گہرا - گہرائی|5|گہرا - گہرائی|Deep, deepness||GG19|Kailani — topic GG19
+NSM:DIFFERENT:DIFFERENT_NAMES_FOR_THE_WORLD:X40F5B289|Different names for the world|دنیا کے مختلف نام|5|دنیا کے مختلف نام|Different names for the world||D17|Kailani — topic D17
+NSM:DIFFERENT:DIFFERENT_TYPES_OF_NATURAL_FLOWING_WATER:X4C8BA96F|Different types of natural flowing water|پانی کے رستے اور اسکے ذخیرے|7|پانی کے رستے اور اسکے ذخیرے|Different types of natural flowing water||P6|Kailani — topic P6
+NSM:DITCH:DITCH:XB9FC4823|Ditch|گڑھا|5|گڑھا|Ditch||GG9|Kailani — topic GG9
+NSM:DOUBT:DOUBT_SUSPICION:XC4957B6C|Doubt, suspicion|شک و شبہ|1|شک و شبہ|Doubt, suspicion||SH10|Kailani — topic SH10
+NSM:DREAM:DREAM:XBE0FA08B|dream|خواب|1|خواب|dream||KH13|Kailani — topic KH13
+NSM:DRY:DRY_DEHYDRATED:X68A74B81|dry/dehydrated|خشک ہونا|1|خشک ہونا|dry/dehydrated||KH10|Kailani — topic KH10
+NSM:DRY:DRY_DEHYDRATED:X517D3358|dry/dehydrated|خشک ہونا|2|خشک ہونا|dry/dehydrated||KH10|Kailani — topic KH10
+NSM:DRY:DRY_DEHYDRATED:X392FC612|dry/dehydrated|خشک ہونا|3|خشک ہونا|dry/dehydrated||KH10|Kailani — topic KH10
+NSM:EARTH:EARTH_AND_ITS_VARIETIES:XBE0FA08B|Earth and its varieties|زمین اور اسکی اقسام|1|زمین اور اسکی اقسام|Earth and its varieties||Z5|Kailani — topic Z5
+NSM:ELEGANCE:ELEGANCE_BEAUTY_ORNAMENTS:XA83185C0|Elegance, beauty, ornaments|زینت|1|زینت|Elegance, beauty, ornaments||Z10|Kailani — topic Z10
+NSM:ELEGANCE:ELEGANCE_BEAUTY_ORNAMENTS:X36A9D753|Elegance, beauty, ornaments|زینت|2|زینت|Elegance, beauty, ornaments||Z10|Kailani — topic Z10
+NSM:ELEGANCE:ELEGANCE_BEAUTY_ORNAMENTS:X51C9A584|Elegance, beauty, ornaments|زینت|3|زینت|Elegance, beauty, ornaments||Z10|Kailani — topic Z10
+NSM:ENSUE:ENSUE_TO_COME_AFTER:X235E0357|Ensue, to come after|پیچھے آنا|4|پیچھے آنا|Ensue, to come after||P48|Kailani — topic P48
+NSM:ENTER:ENTER_BY_FORCE:XF1221EAD|Enter by force|گھسنا|3|گھسنا|Enter by force||GG24|Kailani — topic GG24
+NSM:EXCEPT:EXCEPT:XB54C4604|except|سوائے|1|سوائے|except||S24|Kailani — topic S24
+NSM:EXILE:EXILE:X51C9A584|Exile|جلا وطنی|3|جلا وطنی|Exile||J9|Kailani — topic J9
+NSM:EXILE:EXILE:XE57C96BA|Exile|جلا وطنی|5|جلا وطنی|Exile||J9|Kailani — topic J9
+NSM:EXILE:EXILE:XBE0FA08B|Exile|جلا وطنی|7|جلا وطنی|Exile||J9|Kailani — topic J9
+NSM:FASTING:FASTING_PERSON:X1F694036|Fasting person|روزہ دار|1|روزہ دار|Fasting person||R16|Kailani — topic R16
+NSM:FASTING:FASTING_PERSON:X861183A4|Fasting person|روزہ دار|2|روزہ دار|Fasting person||R16|Kailani — topic R16
+NSM:FASTING:FASTING_PERSON:X278E1D74|Fasting person|روزہ دار|5|روزہ دار|Fasting person||R16|Kailani — topic R16
+NSM:FEET:FEET:X0F472584|Feet|پاوّں|3|پاوّں|Feet||P8|Kailani — topic P8
+NSM:FILTH:FILTH_IMPURITY:X2C56AB3B|Filth, impurity|گند گی نجاست|4|گند گی نجاست|Filth, impurity||GG16|Kailani — topic GG16
+NSM:FINISH:FINISH:X6EDAD681|finish|ختم ہونا|3|ختم ہونا|finish||KH3|Kailani — topic KH3
+NSM:FIRST:FIRST_AT_FIRST:XEE8F3703|First, at first|پہلا پہلی پہلے|4|پہلا پہلی پہلے|First, at first||P28|Kailani — topic P28
+NSM:FLAME:FLAME:X4CD6834C|Flame|شعلہ|1|شعلہ|Flame||SH9|Kailani — topic SH9
+NSM:FODDER:FODDER_GRAINS_FOOD_FOR_HERBIVORES:X988ADA1C|Fodder, grains – food for herbivores|چارہ|1|چارہ|Fodder, grains – food for herbivores||CH3|Kailani — topic CH3
+NSM:FODDER:FODDER_GRAINS_FOOD_FOR_HERBIVORES:XBE0FA08B|Fodder, grains – food for herbivores|چارہ|2|چارہ|Fodder, grains – food for herbivores||CH3|Kailani — topic CH3
+NSM:FODDER:FODDER_GRAINS_FOOD_FOR_HERBIVORES:XA0F49047|Fodder, grains – food for herbivores|چارہ|3|چارہ|Fodder, grains – food for herbivores||CH3|Kailani — topic CH3
+NSM:FODDER:FODDER_GRAINS_FOOD_FOR_HERBIVORES:X36A9D753|Fodder, grains – food for herbivores|چارہ|4|چارہ|Fodder, grains – food for herbivores||CH3|Kailani — topic CH3
+NSM:FODDER:FODDER_GRAINS_FOOD_FOR_HERBIVORES:X430CDA46|Fodder, grains – food for herbivores|چارہ|6|چارہ|Fodder, grains – food for herbivores||CH3|Kailani — topic CH3
+NSM:FOREHEAD:FOREHEAD:XCF817C79|Forehead|پیشانی|4|پیشانی|Forehead||P56|Kailani — topic P56
+NSM:FOUNTAIN:FOUNTAIN_SPRING:X6A5B53C8|Fountain, spring|چشمہ|1|چشمہ|Fountain, spring||CH10|Kailani — topic CH10
+NSM:FOUNTAIN:FOUNTAIN_SPRING:X77C2417F|Fountain, spring|چشمہ|8|چشمہ|Fountain, spring||CH10|Kailani — topic CH10
+NSM:FOUNTAIN:FOUNTAIN_SPRING:X56C5B6AA|Fountain, spring|چشمہ|10|چشمہ|Fountain, spring||CH10|Kailani — topic CH10
+NSM:FRESH:FRESH:XBE149060|fresh|تازہ|5|تازہ|fresh||T3|Kailani — topic T3
+NSM:FRUIT:FRUIT:XC3F3E2D0|Fruit|پھل|5|پھل|Fruit||P37|Kailani — topic P37
+NSM:GARMENTS:GARMENTS_CLOTHES:X0106D7D6|Garments, clothes|پوشاک|3|پوشاک|Garments, clothes||P25|Kailani — topic P25
+NSM:GLASS:GLASS:XACFDF640|glass|شیشہ|1|شیشہ|glass||SH15|Kailani — topic SH15
+NSM:GOODS:GOODS_PROVISIONS:XA0F49047|Goods, provisions|سامان|1|سامان|Goods, provisions||S4|Kailani — topic S4
+NSM:GOODS:GOODS_PROVISIONS:XBE0FA08B|Goods, provisions|سامان|2|سامان|Goods, provisions||S4|Kailani — topic S4
+NSM:GOODS:GOODS_PROVISIONS:X36A9D753|Goods, provisions|سامان|3|سامان|Goods, provisions||S4|Kailani — topic S4
+NSM:GOODS:GOODS_PROVISIONS:X51C9A584|Goods, provisions|سامان|4|سامان|Goods, provisions||S4|Kailani — topic S4
+NSM:GOODS:GOODS_PROVISIONS:XA83185C0|Goods, provisions|سامان|5|سامان|Goods, provisions||S4|Kailani — topic S4
+NSM:GOODS:GOODS_PROVISIONS:X56750292|Goods, provisions|سامان|6|سامان|Goods, provisions||S4|Kailani — topic S4
+NSM:GROUP:GROUP:X51C9A584|Group|جماعت|1|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUP:GROUP:X36A9D753|Group|جماعت|2|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUP:GROUP:X119C5451|Group|جماعت|3|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUP:GROUP:XA0F49047|Group|جماعت|4|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUP:GROUP:XA55DA129|Group|جماعت|5|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUP:GROUP:X6E6A73AD|Group|جماعت|6|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUP:GROUP:XA83185C0|Group|جماعت|7|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUP:GROUP:X56750292|Group|جماعت|8|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUP:GROUP:XE57C96BA|Group|جماعت|9|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUP:GROUP:X988ADA1C|Group|جماعت|10|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUP:GROUP:XBE0FA08B|Group|جماعت|11|جماعت|Group||J11|Kailani — topic J11
+NSM:GROUPS:GROUPS_OF_ANIMALS:X36A9D753|Groups of animals|جماعت جانوروں کی|1|جماعت جانوروں کی|Groups of animals||J12|Kailani — topic J12
+NSM:GROUPS:GROUPS_OF_ANIMALS:XD6F7C01D|Groups of animals|جماعت جانوروں کی|3|جماعت جانوروں کی|Groups of animals||J12|Kailani — topic J12
+NSM:GROUPS:GROUPS_OF_ANIMALS:XBE0FA08B|Groups of animals|جماعت جانوروں کی|4|جماعت جانوروں کی|Groups of animals||J12|Kailani — topic J12
+NSM:GROUPS:GROUPS_OF_ANIMALS:XA55DA129|Groups of animals|جماعت جانوروں کی|6|جماعت جانوروں کی|Groups of animals||J12|Kailani — topic J12
+NSM:GROUPS:GROUPS_OF_ANIMALS:X2BFCB180|Groups of animals|جماعت جانوروں کی|7|جماعت جانوروں کی|Groups of animals||J12|Kailani — topic J12
+NSM:GUARD:GUARD:X56750292|guard|چوکیدار|1|چوکیدار|guard||CH22|Kailani — topic CH22
+NSM:GUARD:GUARD:X36A9D753|guard|چوکیدار|2|چوکیدار|guard||CH22|Kailani — topic CH22
+NSM:GUARD:GUARD:X988ADA1C|guard|چوکیدار|3|چوکیدار|guard||CH22|Kailani — topic CH22
+NSM:GUARD:GUARD:X4CEA5F5D|guard|چوکیدار|4|چوکیدار|guard||CH22|Kailani — topic CH22
+NSM:HARD:HARD:XBE0FA08B|hard|سخت|1|سخت|hard||S10|Kailani — topic S10
+NSM:HARD:HARD:X36A9D753|hard|سخت|2|سخت|hard||S10|Kailani — topic S10
+NSM:HARD:HARD:XA0F49047|hard|سخت|3|سخت|hard||S10|Kailani — topic S10
+NSM:HARD:HARD:XC67F042D|hard|سخت|4|سخت|hard||S10|Kailani — topic S10
+NSM:HARD:HARD:XD6F7C01D|hard|سخت|5|سخت|hard||S10|Kailani — topic S10
+NSM:HARDNESS:HARDNESS:XC67F042D|hardness|سختی|1|سختی|hardness||S11|Kailani — topic S11
+NSM:HARDNESS:HARDNESS:XD6F7C01D|hardness|سختی|2|سختی|hardness||S11|Kailani — topic S11
+NSM:HARDNESS:HARDNESS:XFFA8517F|hardness|سختی|3|سختی|hardness||S11|Kailani — topic S11
+NSM:HARDSHIP:HARDSHIP:X5BDE3D5B|hardship|تنگی|6|تنگی|hardship||T22|Kailani — topic T22
+NSM:HEAT:HEAT_TO_HEAT_TO_BE_HOT:X3BDAD373|Heat, to heat, to be hot|گرمی – گرم کرنا- ہونا|7|گرمی – گرم کرنا- ہونا|Heat, to heat, to be hot||GG5|Kailani — topic GG5
+NSM:HEAT:HEAT_TO_HEAT_TO_BE_HOT:X0F2B79A4|Heat, to heat, to be hot|گرمی – گرم کرنا- ہونا|8|گرمی – گرم کرنا- ہونا|Heat, to heat, to be hot||GG5|Kailani — topic GG5
+NSM:HEAT:HEAT_TO_HEAT_TO_BE_HOT:X96E8F981|Heat, to heat, to be hot|گرمی – گرم کرنا- ہونا|9|گرمی – گرم کرنا- ہونا|Heat, to heat, to be hot||GG5|Kailani — topic GG5
+NSM:HELL:HELL_AND_ITS_VARIOUS_NAMES:X3EDEE331|Hell and its various names|دوزخ اور اسکے مختلف نام|9|دوزخ اور اسکے مختلف نام|Hell and its various names||D22|Kailani — topic D22
+NSM:HIDE:HIDE_DISAPPEAR:XD6F7C01D|hide, disappear|چھپنا [غائب ہونا]|1|چھپنا [غائب ہونا]|hide, disappear||CH23|Kailani — topic CH23
+NSM:HIDE:HIDE_DISAPPEAR:XBE0FA08B|hide, disappear|چھپنا [غائب ہونا]|2|چھپنا [غائب ہونا]|hide, disappear||CH23|Kailani — topic CH23
+NSM:HIDE:HIDE_DISAPPEAR:XA0F49047|hide, disappear|چھپنا [غائب ہونا]|3|چھپنا [غائب ہونا]|hide, disappear||CH23|Kailani — topic CH23
+NSM:HIDE:HIDE_DISAPPEAR:X6245B4D0|hide, disappear|چھپنا [غائب ہونا]|4|چھپنا [غائب ہونا]|hide, disappear||CH23|Kailani — topic CH23
+NSM:HIDE:HIDE_DISAPPEAR:XCB22E4A9|hide, disappear|چھپنا [غائب ہونا]|5|چھپنا [غائب ہونا]|hide, disappear||CH23|Kailani — topic CH23
+NSM:HIDE:HIDE_DISAPPEAR:X6A9B00BF|hide, disappear|چھپنا [غائب ہونا]|6|چھپنا [غائب ہونا]|hide, disappear||CH23|Kailani — topic CH23
+NSM:HIDE:HIDE_DISAPPEAR:X84D816DC|hide, disappear|چھپنا [غائب ہونا]|7|چھپنا [غائب ہونا]|hide, disappear||CH23|Kailani — topic CH23
+NSM:HIDE:HIDE_DISAPPEAR:X854A312A|hide, disappear|چھپنا [غائب ہونا]|8|چھپنا [غائب ہونا]|hide, disappear||CH23|Kailani — topic CH23
+NSM:HIDE:HIDE_DISAPPEAR:XA8A98C04|hide, disappear|چھپنا [غائب ہونا]|9|چھپنا [غائب ہونا]|hide, disappear||CH23|Kailani — topic CH23
+NSM:HIDE:HIDE_DISAPPEAR:X33F1DD4F|hide, disappear|چھپنا [غائب ہونا]|10|چھپنا [غائب ہونا]|hide, disappear||CH23|Kailani — topic CH23
+NSM:HILL:HILL_AND_TYPES:X1C2AEBC0|Hill and types|ٹیلہ اور اسکی اقسام|7|ٹیلہ اور اسکی اقسام|Hill and types||TT6|Kailani — topic TT6
+NSM:HORSE:HORSE:X4F6355DF|horse|گھوڑا|5|گھوڑا|horse||GG26|Kailani — topic GG26
+NSM:HOUSE:HOUSE:XA8A364D7|House|گھر|5|گھر|House||GG22|Kailani — topic GG22
+NSM:HUSBAND:HUSBAND:XCB22E4A9|husband|خاوند|1|خاوند|husband||KH1|Kailani — topic KH1
+NSM:INSPIRATION:INSPIRATION_IN_THE_HEART:XA78F0167|Inspiration in the heart|دل میں بات ڈالنا|6|دل میں بات ڈالنا|Inspiration in the heart||D14|Kailani — topic D14
+NSM:JINN:JINN:X51C9A584|Jinn|جن|1|جن|Jinn||J13|Kailani — topic J13
+NSM:JINN:JINN:X119C5451|Jinn|جن|2|جن|Jinn||J13|Kailani — topic J13
+NSM:JINN:JINN:X988ADA1C|Jinn|جن|3|جن|Jinn||J13|Kailani — topic J13
+NSM:JINN:JINN:X84D816DC|Jinn|جن|4|جن|Jinn||J13|Kailani — topic J13
+NSM:JINN:JINN:XA0F49047|Jinn|جن|5|جن|Jinn||J13|Kailani — topic J13
+NSM:KEYS:KEYS:X988ADA1C|Keys|چابی کنجی|1|چابی کنجی|Keys||CH1|Kailani — topic CH1
+NSM:KEYS:KEYS:XC67F042D|Keys|چابی کنجی|2|چابی کنجی|Keys||CH1|Kailani — topic CH1
+NSM:KEYS:KEYS:X6E6A73AD|Keys|چابی کنجی|3|چابی کنجی|Keys||CH1|Kailani — topic CH1
+NSM:KEYS:KEYS:XBF3CE655|Keys|چابی کنجی|4|چابی کنجی|Keys||CH1|Kailani — topic CH1
+NSM:LADDER:LADDER:X1914D415|ladder|سیڑھی|1|سیڑھی|ladder||S29|Kailani — topic S29
+NSM:LAMP:LAMP:X988ADA1C|Lamp|چراغ|1|چراغ|Lamp||CH7|Kailani — topic CH7
+NSM:LAMP:LAMP:X861183A4|Lamp|چراغ|2|چراغ|Lamp||CH7|Kailani — topic CH7
+NSM:LAMP:LAMP:X1F694036|Lamp|چراغ|3|چراغ|Lamp||CH7|Kailani — topic CH7
+NSM:LAMP:LAMP:X275B0381|Lamp|چراغ|4|چراغ|Lamp||CH7|Kailani — topic CH7
+NSM:LAP:LAP:XBEBBAF1B|Lap|گود|3|گود|Lap||GG18|Kailani — topic GG18
+NSM:LAYERED:LAYERED:X07121172|Layered|تہ بہ تہ|6|تہ بہ تہ|Layered||T26|Kailani — topic T26
+NSM:LESS:LESS:X93019CD9|Less|تھوڑا|6|تھوڑا|Less||T29|Kailani — topic T29
+NSM:LIE:LIE:X854A312A|lie|جھوٹ|1|جھوٹ|lie||J26|Kailani — topic J26
+NSM:LIE:LIE:XA83185C0|lie|جھوٹ|3|جھوٹ|lie||J26|Kailani — topic J26
+NSM:LIE:LIE:XBE0FA08B|lie|جھوٹ|4|جھوٹ|lie||J26|Kailani — topic J26
+NSM:LIE:LIE:X1F694036|lie|جھوٹ|5|جھوٹ|lie||J26|Kailani — topic J26
+NSM:LIE:LIE:X56750292|lie|جھوٹ|6|جھوٹ|lie||J26|Kailani — topic J26
+NSM:LIGHT:LIGHT_TO_ILLUMINATE:XBE0FA08B|Light, to illuminate|روشنی  روشن کرنا - ہونا|2|روشنی روشن کرنا - ہونا|Light, to illuminate||R15|Kailani — topic R15
+NSM:LIGHT:LIGHT_TO_ILLUMINATE:X93D2FD9E|Light, to illuminate|روشنی  روشن کرنا - ہونا|3|روشنی  روشن کرنا - ہونا|Light, to illuminate||R15|Kailani — topic R15
+NSM:LIGHT:LIGHT_TO_ILLUMINATE:X96E8F981|Light, to illuminate|روشنی  روشن کرنا - ہونا|4|روشنی  روشن کرنا - ہونا|Light, to illuminate||R15|Kailani — topic R15
+NSM:LUNATIC:LUNATIC_INSANITY:X1F6559B1|Lunatic , insanity|دیوانہ- دیوانگی|5|دیوانہ- دیوانگی|Lunatic , insanity||D36|Kailani — topic D36
+NSM:LUNATIC:LUNATIC_INSANITY:X25F6784F|Lunatic , insanity|دیوانہ- دیوانگی|6|دیوانہ- دیوانگی|Lunatic , insanity||D36|Kailani — topic D36
+NSM:MEANS:MEANS_MEDIUM:XC4DD1226|Means, medium|ذریعہ|3|ذریعہ|Means, medium||DH2|Kailani — topic DH2
+NSM:MOON:MOON:XC67F042D|Moon|چاند|1|چاند|Moon||CH4|Kailani — topic CH4
+NSM:MOON:MOON:XBE0FA08B|Moon|چاند|2|چاند|Moon||CH4|Kailani — topic CH4
+NSM:MOON:MOON:XA9376419|Moon|چاند|3|چاند|Moon||CH4|Kailani — topic CH4
+NSM:MOUNTAIN:MOUNTAIN:X4C2DEF17|Mountain|پہار|6|پہار|Mountain||P26|Kailani — topic P26
+NSM:NEAR:NEAR_CLOSE:X216B24EB|Near, close|پاس|5|پاس|Near, close||P1|Kailani — topic P1
+NSM:NECK:NECK:XF572A72C|Neck|گلا|7|گلا|Neck||GG11|Kailani — topic GG11
+NSM:NECK:NECK:X6A2B9703|Neck|گلا|8|گلا|Neck||GG11|Kailani — topic GG11
+NSM:NEWS:NEWS:X84D816DC|news|خبر|1|خبر|news||KH2|Kailani — topic KH2
+NSM:NEWS:NEWS:XCB92A8B0|news|خبر|2|خبر|news||KH2|Kailani — topic KH2
+NSM:ORDER:ORDER_TO_COMMAND:X0C534AD1|Order, to command|حکم حکم دینا|1|حکم حکم دینا|Order, to command||HA12|Kailani — topic HA12
+NSM:OTHER:OTHER_DERIVATIVES_OF_BEHIND:XA5C7BBA2|Other derivatives of behind|پیچھے کے دوسرے مشتقات|4|پیچھے کے دوسرے مشتقات|Other derivatives of behind||P53|Kailani — topic P53
+NSM:PARADISE:PARADISE_AND_ITS_DIFFERENT_NAMES:X51C9A584|Paradise and its different names|جنت اور اسکے مختلف نام|1|جنت اور اسکے مختلف نام|Paradise and its different names||J14|Kailani — topic J14
+NSM:PARADISE:PARADISE_AND_ITS_DIFFERENT_NAMES:X34DE8045|Paradise and its different names|جنت اور اسکے مختلف نام|2|جنت اور اسکے مختلف نام|Paradise and its different names||J14|Kailani — topic J14
+NSM:PART:PART_PORTION:X148C48AA|Part, portion|حصہ|1|حصہ|Part, portion||HA8|Kailani — topic HA8
+NSM:PASSAGE:PASSAGE_OF_TIME:XBFB63B7D|Passage of time|گردش ایام|4|گردش ایام|Passage of time||GG2|Kailani — topic GG2
+NSM:PATH:PATH_WAY:XD726E3BF|Path, way|راہ - راستہ|9|راہ - راستہ|Path, way||R3|Kailani — topic R3
+NSM:PATH:PATH_WAY:X269C0753|Path, way|راہ - راستہ|10|راہ - راستہ|Path, way||R3|Kailani — topic R3
+NSM:PERIOD:PERIOD_OF_TIME:XB15AA8E2|Period of time|زمانہ|1|زمانہ|Period of time||Z4|Kailani — topic Z4
+NSM:PERIOD:PERIOD_OF_TIME:XC67F042D|Period of time|زمانہ|2|زمانہ|Period of time||Z4|Kailani — topic Z4
+NSM:PERIOD:PERIOD_OF_TIME:X56750292|Period of time|زمانہ|3|زمانہ|Period of time||Z4|Kailani — topic Z4
+NSM:PERIOD:PERIOD_OF_TIME:X36A9D753|Period of time|زمانہ|4|زمانہ|Period of time||Z4|Kailani — topic Z4
+NSM:PERIOD:PERIOD_OF_TIME:X9C766B1E|Period of time|زمانہ|5|زمانہ|Period of time||Z4|Kailani — topic Z4
+NSM:PIECE:PIECE:XC8CE6D5E|Piece|ٹکڑا|11|ٹکڑا|Piece||TT1|Kailani — topic TT1
+NSM:PLACE:PLACE:XC989CD6D|Place|جگہ|4|جگہ|Place||J8|Kailani — topic J8
+NSM:PLANK:PLANK_OF_WOOD_A_BOARD:X68B7AFAA|Plank of wood, a board|تختہ|3|تختہ|Plank of wood, a board||T7|Kailani — topic T7
+NSM:PLOT:PLOT_TO_PLOT:X4D5677CF|Plot, to plot|تدبیر –تدبیر کرنا|6|تدبیر –تدبیر کرنا|Plot, to plot||T8|Kailani — topic T8
+NSM:POOR:POOR_DESTITUTE:X0C3D60B1|Poor, destitute|تنگدستی|8|تنگدستی|Poor, destitute||T21|Kailani — topic T21
+NSM:PRIVATE:PRIVATE_PART:XDD691F08|Private part|شرمگاہ|1|شرمگاہ|Private part||SH7|Kailani — topic SH7
+NSM:PROLONG:PROLONG_LENGTHEN:X676448A4|Prolong, lengthen|دراز ہونا - کرنا|4|دراز ہونا - کرنا|Prolong, lengthen||D5|Kailani — topic D5
+NSM:PROLONG:PROLONG_LENGTHEN:X84CCA38D|Prolong, lengthen|دراز ہونا - کرنا|5|دراز ہونا - کرنا|Prolong, lengthen||D5|Kailani — topic D5
+NSM:PROPHET:PROPHET:XB645CF15|Prophet|پیغمبر|4|پیغمبر|Prophet||P57|Kailani — topic P57
+NSM:PROTECTION:PROTECTION_SHELTER_REFUGE:X9C5A6139|Protection, shelter, refuge|پناہ – پناہ گاہ|8|پناہ – پناہ گاہ|Protection, shelter, refuge||P20|Kailani — topic P20
+NSM:PROTECTION:PROTECTION_SHELTER_REFUGE:X88FBB3AA|Protection, shelter, refuge|پناہ – پناہ گاہ|9|پناہ – پناہ گاہ|Protection, shelter, refuge||P20|Kailani — topic P20
+NSM:PROVEN:PROVEN:X56750292|proven|ثابت ہونا|1|ثابت ہونا|proven||TH1|Kailani — topic TH1
+NSM:PROVEN:PROVEN:X021211BE|proven|ثابت ہونا|2|ثابت ہونا|proven||TH1|Kailani — topic TH1
+NSM:PURE:PURE:X0584BCFA|Pure|پاک [ستھرا]|6|پاک [ستھرا]|Pure||P2|Kailani — topic P2
+NSM:PUSS:PUSS:XED30B750|Puss|پیپ|4|پیپ|Puss||P44|Kailani — topic P44
+NSM:RECKLESS:RECKLESS_AND_ARROGANT:XA55DA129|Reckless and arrogant|سرکشی کرنا|1|سرکشی کرنا|Reckless and arrogant||S15|Kailani — topic S15
+NSM:RECKLESS:RECKLESS_AND_ARROGANT:X988ADA1C|Reckless and arrogant|سرکشی کرنا|2|سرکشی کرنا|Reckless and arrogant||S15|Kailani — topic S15
+NSM:RECKLESS:RECKLESS_AND_ARROGANT:X06BAA722|Reckless and arrogant|سرکشی کرنا|3|سرکشی کرنا|Reckless and arrogant||S15|Kailani — topic S15
+NSM:RECOMPENSE:RECOMPENSE:XCB22E4A9|Recompense|بدلہ|2|بدلہ|Recompense||B29|Kailani — topic B29
+NSM:RELATIVE:RELATIVE:XBE0FA08B|Relative|رشتہ  دار|1|رشتہ دار|Relative||R10|Kailani — topic R10
+NSM:RELATIVE:RELATIVE:XCB92A8B0|Relative|رشتہ  دار|2|رشتہ دار|Relative||R10|Kailani — topic R10
+NSM:RELATIVE:RELATIVE:X1F694036|Relative|رشتہ  دار|3|رشتہ دار|Relative||R10|Kailani — topic R10
+NSM:RELATIVE:RELATIVE:XF6D84F36|Relative|رشتہ  دار|4|رشتہ  دار|Relative||R10|Kailani — topic R10
+NSM:RESPONSIBILITY:RESPONSIBILITY:XE0B9E8E3|responsibility|ذمہ داری|3|ذمہ داری|responsibility||DH6|Kailani — topic DH6
+NSM:RIGHT:RIGHT_OF_DOWRY:X37510B7A|Right of dowry|حق مہر|1|حق مہر|Right of dowry||HA11|Kailani — topic HA11
+NSM:RIPENING:RIPENING_OF_THE_FRUIT:X375B4FFD|Ripening of the fruit|پھل پکنا|3|پھل پکنا|Ripening of the fruit||P38|Kailani — topic P38
+NSM:ROOF:ROOF:X861183A4|roof|چھت|2|چھت|roof||CH25|Kailani — topic CH25
+NSM:ROOF:ROOF:X44C483CF|roof|چھت|3|چھت|roof||CH25|Kailani — topic CH25
+NSM:ROOT:ROOT:XBE0FA08B|root|جڑھ|1|جڑھ|root||J5|Kailani — topic J5
+NSM:ROOT:ROOT:XB15AA8E2|root|جڑھ|2|جڑھ|root||J5|Kailani — topic J5
+NSM:ROOT:ROOT:X62C3FB52|root|جڑھ|3|جڑھ|root||J5|Kailani — topic J5
+NSM:ROPE:ROPE:X56750292|Rope|رسسی|1|رسسی|Rope||R9|Kailani — topic R9
+NSM:ROPE:ROPE:X861183A4|Rope|رسسی|2|رسسی|Rope||R9|Kailani — topic R9
+NSM:SAND:SAND:X861183A4|Sand|ریت|1|ریت|Sand||R21|Kailani — topic R21
+NSM:SAND:SAND:XFFA8517F|Sand|ریت|2|ریت|Sand||R21|Kailani — topic R21
+NSM:SAND:SAND:XBE0FA08B|Sand|ریت|3|ریت|Sand||R21|Kailani — topic R21
+NSM:SCOWL:SCOWL_FROWN:X4CC5EE4E|Scowl, frown|تیوری چڑھانا|4|تیوری چڑھانا|Scowl, frown||T34|Kailani — topic T34
+NSM:SERVANT:SERVANT:XD6F7C01D|servant|خدمت گار|1|خدمت گار|servant||KH4|Kailani — topic KH4
+NSM:SERVANT:SERVANT:X6E6A73AD|servant|خدمت گار|2|خدمت گار|servant||KH4|Kailani — topic KH4
+NSM:SERVANT:SERVANT:X861183A4|servant|خدمت گار|3|خدمت گار|servant||KH4|Kailani — topic KH4
+NSM:SERVANT:SERVANT:X22291799|servant|خدمت گار|4|خدمت گار|servant||KH4|Kailani — topic KH4
+NSM:SETTING:SETTING_IE_SUN:X2DE4CEDF|Setting (ie sun)|ڈھلنا|3|ڈھلنا|Setting (ie sun)||DD8|Kailani — topic DD8
+NSM:SHEET:SHEET:X84D816DC|Sheet|چادر|1|چادر|Sheet||CH2|Kailani — topic CH2
+NSM:SHEET:SHEET:X51C9A584|Sheet|چادر|2|چادر|Sheet||CH2|Kailani — topic CH2
+NSM:SHEET:SHEET:X32D751B8|Sheet|چادر|3|چادر|Sheet||CH2|Kailani — topic CH2
+NSM:SHIELD:SHIELD:XDBA5BD87|Shield|ڈھال|3|ڈھال|Shield||DD6|Kailani — topic DD6
+NSM:SHINE:SHINE_FLASH_TO_SHINE_FLASH:X7E78667D|Shine/flash, to shine/flash|چمک چمکنا|6|چمک چمکنا|Shine/flash, to shine/flash||CH16|Kailani — topic CH16
+NSM:SIDE:SIDE_IN_SLEEPING:X9ECB4896|Side, (in sleeping)|پہلو [کروٹ]|4|پہلو [کروٹ]|Side, (in sleeping)||P29|Kailani — topic P29
+NSM:SIDE:SIDE_IN_SLEEPING:XBDF3765D|Side, (in sleeping)|پہلو [کروٹ]|5|پہلو [کروٹ]|Side, (in sleeping)||P29|Kailani — topic P29
+NSM:SIDE:SIDE_TOWARDS_OVER_THERE:X51C9A584|Side, towards, over there|جانب سمت|1|جانب سمت|Side, towards, over there||J3|Kailani — topic J3
+NSM:SIDE:SIDE_TOWARDS_OVER_THERE:XA55DA129|Side, towards, over there|جانب سمت|2|جانب سمت|Side, towards, over there||J3|Kailani — topic J3
+NSM:SIDE:SIDE_TOWARDS_OVER_THERE:X6245B4D0|Side, towards, over there|جانب سمت|3|جانب سمت|Side, towards, over there||J3|Kailani — topic J3
+NSM:SIN:SIN:XF7A18981|Sin|گناہ|9|گناہ|Sin||GG14|Kailani — topic GG14
+NSM:SINFUL:SINFUL:XAFB39B71|Sinful|گنہگار|6|گنہگار|Sinful||GG15|Kailani — topic GG15
+NSM:SINK:SINK_COLLAPSE_INTO_THE_EARTH:XB15AA8E2|Sink/collapse into the Earth|زمین بوس ہونا – کرنا|1|زمین بوس ہونا – کرنا|Sink/collapse into the Earth||Z6|Kailani — topic Z6
+NSM:SINK:SINK_COLLAPSE_INTO_THE_EARTH:X7A55C24D|Sink/collapse into the Earth|زمین بوس ہونا – کرنا|2|زمین بوس ہونا – کرنا|Sink/collapse into the Earth||Z6|Kailani — topic Z6
+NSM:SINK:SINK_COLLAPSE_INTO_THE_EARTH:X84CCA38D|Sink/collapse into the Earth|زمین بوس ہونا – کرنا|3|زمین بوس ہونا – کرنا|Sink/collapse into the Earth||Z6|Kailani — topic Z6
+NSM:SMOKE:SMOKE:X8B227A8D|Smoke|دھواں|4|دھواں|Smoke||D27|Kailani — topic D27
+NSM:SNAKE:SNAKE:X56750292|snake|سانپ|1|سانپ|snake||S6|Kailani — topic S6
+NSM:SNAKE:SNAKE:X51C9A584|snake|سانپ|2|سانپ|snake||S6|Kailani — topic S6
+NSM:SNAKE:SNAKE:XE57C96BA|snake|سانپ|3|سانپ|snake||S6|Kailani — topic S6
+NSM:SNAKE:SNAKE:X3CEB642A|snake|سانپ|4|سانپ|snake||S6|Kailani — topic S6
+NSM:SO:SO_THAT_SO_NOT:X57F75189|So that, so not|تاکہ – تاکہ نہ|6|تاکہ – تاکہ نہ|So that, so not||T4|Kailani — topic T4
+NSM:SO:SO_THAT_SO_NOT:XEFD045CB|So that, so not|تاکہ – تاکہ نہ|7|تاکہ – تاکہ نہ|So that, so not||T4|Kailani — topic T4
+NSM:SOME:SOME_FEW:XCAFB2A7D|Some, few|چند|1|چند|Some, few||CH17|Kailani — topic CH17
+NSM:SOME:SOME_FEW:XE1A0F2FA|Some, few|چند|9|چند|Some, few||CH17|Kailani — topic CH17
+NSM:SPLENDOR:SPLENDOR_ILLUMINED_RESPLENDENT:XA83185C0|Splendor, illumined, resplendent|رونق|1|رونق|Splendor, illumined, resplendent||R20|Kailani — topic R20
+NSM:SPLENDOR:SPLENDOR_ILLUMINED_RESPLENDENT:XCB92A8B0|Splendor, illumined, resplendent|رونق|2|رونق|Splendor, illumined, resplendent||R20|Kailani — topic R20
+NSM:SPLENDOR:SPLENDOR_ILLUMINED_RESPLENDENT:XCB22E4A9|Splendor, illumined, resplendent|رونق|3|رونق|Splendor, illumined, resplendent||R20|Kailani — topic R20
+NSM:SPLIT:SPLIT:X1A44C2B4|split|شگاف|1|شگاف|split||SH13|Kailani — topic SH13
+NSM:SPOILED:SPOILED_RUINED:X6E6A73AD|Spoiled, ruined|خرابی|1|خرابی|Spoiled, ruined||KH5|Kailani — topic KH5
+NSM:SPREAD:SPREAD_OF_DARKNESS:X7FD75F73|Spread of darkness|تاریکی چھانا|7|تاریکی چھانا|Spread of darkness||T2|Kailani — topic T2
+NSM:STONE:STONE:XD3B14D81|Stone|پتھر|5|پتھر|Stone||P9|Kailani — topic P9
+NSM:SUNSHINE:SUNSHINE:X4483C48F|Sunshine|دھوپ|5|دھوپ|Sunshine||D28|Kailani — topic D28
+NSM:SUPERINTENDENT:SUPERINTENDENT:X87033191|Superintendent|داروغہ|3|داروغہ|Superintendent||D2|Kailani — topic D2
+NSM:SURPLUS:SURPLUS:XA0F49047|surplus|زائد|1|زائد|surplus||Z1|Kailani — topic Z1
+NSM:SURPLUS:SURPLUS:XCB92A8B0|surplus|زائد|2|زائد|surplus||Z1|Kailani — topic Z1
+NSM:TENT:TENT_PAVILION:X72DE3C96|Tent, pavilion|خیمہ - سائبان|1|خیمہ - سائبان|Tent, pavilion||KH21|Kailani — topic KH21
+NSM:THE:THE_BURSTING_AND_FLOWING_OF_A_STREAM:X55B58F9D|The bursting and flowing of a stream|اور بہنا چشمہ کا پھوٹنا|1|اور بہنا چشمہ کا پھوٹنا|The bursting and flowing of a stream||CH11|Kailani — topic CH11
+NSM:THE:THE_BURSTING_AND_FLOWING_OF_A_STREAM:X7D16284D|The bursting and flowing of a stream|اور بہنا چشمہ کا پھوٹنا|6|اور بہنا چشمہ کا پھوٹنا|The bursting and flowing of a stream||CH11|Kailani — topic CH11
+NSM:THE:THE_BURSTING_AND_FLOWING_OF_A_STREAM:X68C1E8A8|The bursting and flowing of a stream|اور بہنا چشمہ کا پھوٹنا|7|اور بہنا چشمہ کا پھوٹنا|The bursting and flowing of a stream||CH11|Kailani — topic CH11
+NSM:THE:THE_OPPONENT_RIVAL_OF_PROPHETS:X191F6F54|The opponent, rival of prophets|پیغمبروں کے حریف|5|پیغمبروں کے حریف|The opponent, rival of prophets||P58|Kailani — topic P58
+NSM:THIRSTY:THIRSTY:X233258C6|Thirsty|پیاسا|5|پیاسا|Thirsty||P42|Kailani — topic P42
+NSM:TIME:TIME:X098777C2|Time|وقت|9|وقت|Time||GG23|Kailani — topic GG23
+NSM:TO:TO_ANSWER_REPLY:X36A9D753|To answer, reply|جواب دینا|1|جواب دینا|To answer, reply||J17|Kailani — topic J17
+NSM:TO:TO_ANSWER_REPLY:X843F3AF5|To answer, reply|جواب دینا|4|جواب دینا|To answer, reply||J17|Kailani — topic J17
+NSM:TO:TO_ASK:X3CD495DB|To ask|پوچھنا|4|پوچھنا|To ask||P22|Kailani — topic P22
+NSM:TO:TO_ASK_FOR_REFUGE_TO_GIVE_REFUGE:X29A1B4EA|To ask for refuge, to give refuge|پناہ مانگنا - دینا|3|پناہ مانگنا - دینا|To ask for refuge, to give refuge||P21|Kailani — topic P21
+NSM:TO:TO_ASK_FOR_REFUGE_TO_GIVE_REFUGE:X94A4411D|To ask for refuge, to give refuge|پناہ مانگنا - دینا|4|پناہ مانگنا - دینا|To ask for refuge, to give refuge||P21|Kailani — topic P21
+NSM:TO:TO_ASK_FOR_WATER:XFA1E886E|To ask for water|پانی مانگنا|3|پانی مانگنا|To ask for water||P7|Kailani — topic P7
+NSM:TO:TO_ATTACK:XDEDD8A71|To attack|حملہ کرنا|1|حملہ کرنا|To attack||HA13|Kailani — topic HA13
+NSM:TO:TO_ATTAIN_STATUS:X1B53A4EC|To attain status|رتبہ پانا|5|رتبہ پانا|To attain status||R6|Kailani — topic R6
+NSM:TO:TO_BECOME_MANIFEST_REVEALED:X9C874ED1|To become manifest, revealed|ظاہر ہونا|9|ظاہر ہونا|To become manifest, revealed||ZA1|Kailani — topic ZA1
+NSM:TO:TO_BECOME_OVERPOWERED_TO_BE_OVERPOWERED_TO_OVERPOWER:XEFE0F032|To become overpowered, to be overpowered, to overpower,|غالب آنا  ہونا کرنا|6|غالب آنا  ہونا کرنا|To become overpowered, to be overpowered, to overpower,||GH3|Kailani — topic GH3
+NSM:TO:TO_BEND_BOW_INCLINE_STOOP:X51C9A584|To bend, bow, incline, stoop|جھکنا مائل ہونا|1|جھکنا مائل ہونا|To bend, bow, incline, stoop||J23|Kailani — topic J23
+NSM:TO:TO_BEND_BOW_INCLINE_STOOP:X36A9D753|To bend, bow, incline, stoop|جھکنا مائل ہونا|2|جھکنا مائل ہونا|To bend, bow, incline, stoop||J23|Kailani — topic J23
+NSM:TO:TO_BEND_BOW_INCLINE_STOOP:X84D816DC|To bend, bow, incline, stoop|جھکنا مائل ہونا|3|جھکنا مائل ہونا|To bend, bow, incline, stoop||J23|Kailani — topic J23
+NSM:TO:TO_BEND_BOW_INCLINE_STOOP:X29B50A05|To bend, bow, incline, stoop|جھکنا مائل ہونا|4|جھکنا مائل ہونا|To bend, bow, incline, stoop||J23|Kailani — topic J23
+NSM:TO:TO_BEND_BOW_INCLINE_STOOP:XA0F49047|To bend, bow, incline, stoop|جھکنا مائل ہونا|5|جھکنا مائل ہونا|To bend, bow, incline, stoop||J23|Kailani — topic J23
+NSM:TO:TO_BEND_BOW_INCLINE_STOOP:XB15AA8E2|To bend, bow, incline, stoop|جھکنا مائل ہونا|6|جھکنا مائل ہونا|To bend, bow, incline, stoop||J23|Kailani — topic J23
+NSM:TO:TO_BEND_BOW_INCLINE_STOOP:X1F694036|To bend, bow, incline, stoop|جھکنا مائل ہونا|7|جھکنا مائل ہونا|To bend, bow, incline, stoop||J23|Kailani — topic J23
+NSM:TO:TO_BEND_BOW_INCLINE_STOOP:XC04C5B02|To bend, bow, incline, stoop|جھکنا مائل ہونا|8|جھکنا مائل ہونا|To bend, bow, incline, stoop||J23|Kailani — topic J23
+NSM:TO:TO_BE_ASTONISHED:XFAE908E7|To be astonished|حیران ہونا|1|حیران ہونا|To be astonished||HA14|Kailani — topic HA14
+NSM:TO:TO_BE_COOL_TO_COOL:X2581F358|To be cool , to cool|ٹھندا ہونا - کرنا|2|ٹھندا ہونا - کرنا|To be cool , to cool||TT3|Kailani — topic TT3
+NSM:TO:TO_BE_COOL_TO_COOL:X84CCA38D|To be cool , to cool|ٹھندا ہونا - کرنا|3|ٹھندا ہونا - کرنا|To be cool , to cool||TT3|Kailani — topic TT3
+NSM:TO:TO_BE_HAPPY_TO_MAKE_HAPPY_TO_LOOK_HAPPY:X36A9D753|To be happy, to make happy, to look happy|خوش ہونا – کرنا -لگنا|1|خوش ہونا – کرنا -لگنا|To be happy, to make happy, to look happy||KH17|Kailani — topic KH17
+NSM:TO:TO_BE_HAPPY_TO_MAKE_HAPPY_TO_LOOK_HAPPY:XCB22E4A9|To be happy, to make happy, to look happy|خوش ہونا – کرنا -لگنا|2|خوش ہونا – کرنا -لگنا|To be happy, to make happy, to look happy||KH17|Kailani — topic KH17
+NSM:TO:TO_BE_HAPPY_TO_MAKE_HAPPY_TO_LOOK_HAPPY:X56750292|To be happy, to make happy, to look happy|خوش ہونا – کرنا -لگنا|3|خوش ہونا – کرنا -لگنا|To be happy, to make happy, to look happy||KH17|Kailani — topic KH17
+NSM:TO:TO_BE_HAPPY_TO_MAKE_HAPPY_TO_LOOK_HAPPY:XBE0FA08B|To be happy, to make happy, to look happy|خوش ہونا – کرنا -لگنا|4|خوش ہونا – کرنا -لگنا|To be happy, to make happy, to look happy||KH17|Kailani — topic KH17
+NSM:TO:TO_BE_HAPPY_TO_MAKE_HAPPY_TO_LOOK_HAPPY:X6E6A73AD|To be happy, to make happy, to look happy|خوش ہونا – کرنا -لگنا|5|خوش ہونا – کرنا -لگنا|To be happy, to make happy, to look happy||KH17|Kailani — topic KH17
+NSM:TO:TO_BE_HAPPY_TO_MAKE_HAPPY_TO_LOOK_HAPPY:X8C836D45|To be happy, to make happy, to look happy|خوش ہونا – کرنا -لگنا|6|خوش ہونا – کرنا -لگنا|To be happy, to make happy, to look happy||KH17|Kailani — topic KH17
+NSM:TO:TO_BE_HAPPY_TO_MAKE_HAPPY_TO_LOOK_HAPPY:X84CCA38D|To be happy, to make happy, to look happy|خوش ہونا – کرنا -لگنا|7|خوش ہونا – کرنا -لگنا|To be happy, to make happy, to look happy||KH17|Kailani — topic KH17
+NSM:TO:TO_BE_HAPPY_TO_MAKE_HAPPY_TO_LOOK_HAPPY:X18F7BF32|To be happy, to make happy, to look happy|خوش ہونا – کرنا -لگنا|8|خوش ہونا – کرنا -لگنا|To be happy, to make happy, to look happy||KH17|Kailani — topic KH17
+NSM:TO:TO_BE_LAZY_PROCASTINATE:XFFA8517F|To be lazy, procastinate|سستی کرنا|1|سستی کرنا|To be lazy, procastinate||S18|Kailani — topic S18
+NSM:TO:TO_BE_LAZY_PROCASTINATE:X6245B4D0|To be lazy, procastinate|سستی کرنا|2|سستی کرنا|To be lazy, procastinate||S18|Kailani — topic S18
+NSM:TO:TO_BE_LAZY_PROCASTINATE:XBE0FA08B|To be lazy, procastinate|سستی کرنا|3|سستی کرنا|To be lazy, procastinate||S18|Kailani — topic S18
+NSM:TO:TO_BE_LAZY_PROCASTINATE:XF76F738E|To be lazy, procastinate|سستی کرنا|4|سستی کرنا|To be lazy, procastinate||S18|Kailani — topic S18
+NSM:TO:TO_BE_LIVE:X56750292|To be live|زندہ ہونا - رہنا|1|زندہ ہونا - رہنا|To be live||Z9|Kailani — topic Z9
+NSM:TO:TO_BE_LIVE:XBE0FA08B|To be live|زندہ ہونا - رہنا|2|زندہ ہونا - رہنا|To be live||Z9|Kailani — topic Z9
+NSM:TO:TO_BE_LIVE:XF5BD3872|To be live|زندہ ہونا - رہنا|3|زندہ ہونا - رہنا|To be live||Z9|Kailani — topic Z9
+NSM:TO:TO_BE_LIVE:XA998CEF2|To be live|زندہ ہونا - رہنا|4|زندہ ہونا - رہنا|To be live||Z9|Kailani — topic Z9
+NSM:TO:TO_BE_LOST:XB9DCBEC6|To be lost|گم ہونا|4|گم ہونا|To be lost||GG12|Kailani — topic GG12
+NSM:TO:TO_BE_NEGLECTFUL:XEB9F521E|To be neglectful|غافل ہونا – کرنا|5|غافل ہونا – کرنا|To be neglectful||GH2|Kailani — topic GH2
+NSM:TO:TO_BE_NEGLECTFUL:X84CCA38D|To be neglectful|غافل ہونا – کرنا|6|غافل ہونا – کرنا|To be neglectful||GH2|Kailani — topic GH2
+NSM:TO:TO_BE_OLD_ANCIENT:X634584D4|To be old/ancient|پرانا ہونا|4|پرانا ہونا|To be old/ancient||P12|Kailani — topic P12
+NSM:TO:TO_BE_PATIENT:X2322BC67|To be patient|صبر کرنا|1|صبر کرنا|To be patient||SA4|Kailani — topic SA4
+NSM:TO:TO_BE_SAD:X211EACA3|To be sad|غمگین ہونا|5|غمگین ہونا|To be sad||GH8|Kailani — topic GH8
+NSM:TO:TO_BE_STEADFAST:XE57C96BA|To be steadfast|ثابت قدم رہنا  رکھنا|1|ثابت قدم رہنا رکھنا|To be steadfast||TH2|Kailani — topic TH2
+NSM:TO:TO_BE_STEADFAST:XBE0FA08B|To be steadfast|ثابت قدم رہنا  رکھنا|2|ثابت قدم رہنا رکھنا|To be steadfast||TH2|Kailani — topic TH2
+NSM:TO:TO_BE_STEADFAST:X36A9D753|To be steadfast|ثابت قدم رہنا  رکھنا|3|ثابت قدم رہنا رکھنا|To be steadfast||TH2|Kailani — topic TH2
+NSM:TO:TO_BE_STEADFAST:X0458023B|To be steadfast|ثابت قدم رہنا  رکھنا|4|ثابت قدم رہنا  رکھنا|To be steadfast||TH2|Kailani — topic TH2
+NSM:TO:TO_BIND_FASTEN_SHACKLE:X6245B4D0|To bind, fasten, shackle|جکڑنا|1|جکڑنا|To bind, fasten, shackle||J7|Kailani — topic J7
+NSM:TO:TO_BIND_FASTEN_SHACKLE:XC67F042D|To bind, fasten, shackle|جکڑنا|2|جکڑنا|To bind, fasten, shackle||J7|Kailani — topic J7
+NSM:TO:TO_BIND_FASTEN_SHACKLE:X4995317A|To bind, fasten, shackle|جکڑنا|3|جکڑنا|To bind, fasten, shackle||J7|Kailani — topic J7
+NSM:TO:TO_BLOW:XDEF2FCEC|To blow|پھونک مارنا|5|پھونک مارنا|To blow||P39|Kailani — topic P39
+NSM:TO:TO_BREAK:XF04227E7|To break|ٹوٹنا|9|ٹوٹنا|To break||T24|Kailani — topic T24
+NSM:TO:TO_BREAK:X05B2F501|To break|ٹوٹنا|10|ٹوٹنا|To break||T24|Kailani — topic T24
+NSM:TO:TO_BRING_FOOD_NOURISHMENT:XC67F042D|To bring food/nourishment|خوراک لانا|1|خوراک لانا|To bring food/nourishment||KH16|Kailani — topic KH16
+NSM:TO:TO_BRING_FOOD_NOURISHMENT:X36A9D753|To bring food/nourishment|خوراک لانا|2|خوراک لانا|To bring food/nourishment||KH16|Kailani — topic KH16
+NSM:TO:TO_BRING_UP_NURTURE:XFF7DC1CB|To bring up/nurture|پرورش کرنا|6|پرورش کرنا|To bring up/nurture||P15|Kailani — topic P15
+NSM:TO:TO_BURST_EXPLODE:X3357C3E7|To Burst, explode|پھٹنا|6|پھٹنا|To Burst, explode||P33|Kailani — topic P33
+NSM:TO:TO_CHOOSE:X68A74B81|To choose|چن لینا|3|چن لینا|To choose||CH18|Kailani — topic CH18
+NSM:TO:TO_CHOOSE:X84D816DC|To choose|چن لینا|5|چن لینا|To choose||CH18|Kailani — topic CH18
+NSM:TO:TO_CHOOSE:X578EDDC7|To choose|چن لینا|6|چن لینا|To choose||CH18|Kailani — topic CH18
+NSM:TO:TO_CLEANSE_WIPE:X05A3F05A|To cleanse, wipe|صاف کرنا|1|صاف کرنا|To cleanse, wipe||SA1|Kailani — topic SA1
+NSM:TO:TO_CLIMB_ASCEND_RISE:X07DAB2BA|To climb, ascend, rise|چڑھنا|1|چڑھنا|To climb, ascend, rise||CH9|Kailani — topic CH9
+NSM:TO:TO_CLIMB_ASCEND_RISE:X0F12E4DC|To climb, ascend, rise|چڑھنا|3|چڑھنا|To climb, ascend, rise||CH9|Kailani — topic CH9
+NSM:TO:TO_CLIMB_ASCEND_RISE:XEAEB2489|To climb, ascend, rise|چڑھنا|6|چڑھنا|To climb, ascend, rise||CH9|Kailani — topic CH9
+NSM:TO:TO_COME_FORWARD_TO_GO_FORWARD:X27D24B59|To come forward, to go forward|آگے آنا بڑھنا|1|آگے آنا بڑھنا|To come forward, to go forward||A22|Kailani — topic A22
+NSM:TO:TO_CONCEAL:X854A312A|To conceal|چھپانا|1|چھپانا|To conceal||CH24|Kailani — topic CH24
+NSM:TO:TO_CONCEAL:X6245B4D0|To conceal|چھپانا|2|چھپانا|To conceal||CH24|Kailani — topic CH24
+NSM:TO:TO_CONCEAL:XBE0FA08B|To conceal|چھپانا|3|چھپانا|To conceal||CH24|Kailani — topic CH24
+NSM:TO:TO_CONCEAL:X2CF31940|To conceal|چھپانا|4|چھپانا|To conceal||CH24|Kailani — topic CH24
+NSM:TO:TO_CORRECT_RECTIFY:XF422A4A2|To correct, rectify|درست کرنا|3|درست کرنا|To correct, rectify||D9|Kailani — topic D9
+NSM:TO:TO_COUNT:X1659DD82|To count|گننا|4|گننا|To count||GG17|Kailani — topic GG17
+NSM:TO:TO_COVER:XF59A2646|To cover|اوڑھنا|8|اوڑھنا|To cover||AA45|Kailani — topic AA45
+NSM:TO:TO_COVER_VEIL:XA0658D47|To cover, veil|پردہ کرنا|3|پردہ کرنا|To cover, veil||P14|Kailani — topic P14
+NSM:TO:TO_CREATE:X74D0D39F|To create|پیدا کرنا|7|پیدا کرنا|To create||P54|Kailani — topic P54
+NSM:TO:TO_CURE_TO_BE_HEALTHY:X3721288C|To cure, to be healthy|تندرست کرنا -ہونا|4|تندرست کرنا -ہونا|To cure, to be healthy||T20|Kailani — topic T20
+NSM:TO:TO_CURE_TO_BE_HEALTHY:X96E8F981|To cure, to be healthy|تندرست کرنا -ہونا|5|تندرست کرنا -ہونا|To cure, to be healthy||T20|Kailani — topic T20
+NSM:TO:TO_DECEIVE:X2D7F160C|To deceive|دھوکہ دینا|7|دھوکہ دینا|To deceive||D29|Kailani — topic D29
+NSM:TO:TO_DELIVER:XCA4F66B3|To deliver|پہنچانا|5|پہنچانا|To deliver||P31|Kailani — topic P31
+NSM:TO:TO_DISCARD:X6C03F86B|To discard|پھینکنا|7|پھینکنا|To discard||P41|Kailani — topic P41
+NSM:TO:TO_DISGRACE:X15DFFE97|To disgrace|ذلیل کرنا|7|ذلیل کرنا|To disgrace||DH5|Kailani — topic DH5
+NSM:TO:TO_DISTANCE_TO_BE_DISTANCED:X0FB8079A|To distance, to be distanced|دور کرنا - ہونا|6|دور کرنا - ہونا|To distance, to be distanced||D19|Kailani — topic D19
+NSM:TO:TO_DISTANCE_TO_BE_DISTANCED:X96E8F981|To distance, to be distanced|دور کرنا - ہونا|7|دور کرنا - ہونا|To distance, to be distanced||D19|Kailani — topic D19
+NSM:TO:TO_DRAG:XFC876295|To drag|گھسیٹنا|4|گھسیٹنا|To drag||GG25|Kailani — topic GG25
+NSM:TO:TO_DRINK:XA721355C|To drink|پینا|4|پینا|To drink||P59|Kailani — topic P59
+NSM:TO:TO_DROWN_DIP:X2F2406C7|To drown, dip|ڈبونا|3|ڈبونا|To drown, dip||DD2|Kailani — topic DD2
+NSM:TO:TO_ENTER_TO_BE_ENTERED:X279FE18E|To enter, to be entered|داخل ہونا - کرنا|5|داخل ہونا - کرنا|To enter, to be entered||D1|Kailani — topic D1
+NSM:TO:TO_ENTER_TO_BE_ENTERED:X84CCA38D|To enter, to be entered|داخل ہونا - کرنا|6|داخل ہونا - کرنا|To enter, to be entered||D1|Kailani — topic D1
+NSM:TO:TO_ENTRUST:XBE0FA08B|To entrust|سپرد [حوالے] کرنا|1|سپرد [حوالے] کرنا|To entrust||S8|Kailani — topic S8
+NSM:TO:TO_ENTRUST:X6245B4D0|To entrust|سپرد [حوالے] کرنا|2|سپرد [حوالے] کرنا|To entrust||S8|Kailani — topic S8
+NSM:TO:TO_ENTRUST:X861183A4|To entrust|سپرد [حوالے] کرنا|3|سپرد [حوالے] کرنا|To entrust||S8|Kailani — topic S8
+NSM:TO:TO_ENTRUST:X6E6A73AD|To entrust|سپرد [حوالے] کرنا|4|سپرد [حوالے] کرنا|To entrust||S8|Kailani — topic S8
+NSM:TO:TO_ENTRUST:XDD9EAB70|To entrust|سپرد [حوالے] کرنا|5|سپرد [حوالے] کرنا|To entrust||S8|Kailani — topic S8
+NSM:TO:TO_ENTRUST:X9FB6B1B5|To entrust|سپرد [حوالے] کرنا|6|سپرد [حوالے] کرنا|To entrust||S8|Kailani — topic S8
+NSM:TO:TO_ENTRUST:X84CCA38D|To entrust|سپرد [حوالے] کرنا|7|سپرد [حوالے] کرنا|To entrust||S8|Kailani — topic S8
+NSM:TO:TO_ESTABLISH:XDEE5FC38|To establish|راہ ڈالنا –رائج کرنا|4|راہ ڈالنا –رائج کرنا|To establish||R4|Kailani — topic R4
+NSM:TO:TO_ESTABLISH:XC4917C53|To establish|راہ ڈالنا –رائج کرنا|5|راہ ڈالنا –رائج کرنا|To establish||R4|Kailani — topic R4
+NSM:TO:TO_EXCEED_BOUNDS_TRANSGRESS:X2A6B4D1E|To exceed bounds, transgress|حد سے بڑھنا – زیادتی کرنا|1|حد سے بڑھنا – زیادتی کرنا|To exceed bounds, transgress||HA5|Kailani — topic HA5
+NSM:TO:TO_EXCEED_BOUNDS_TRANSGRESS:X6742E598|To exceed bounds, transgress|حد سے بڑھنا – زیادتی کرنا|2|حد سے بڑھنا – زیادتی کرنا|To exceed bounds, transgress||HA5|Kailani — topic HA5
+NSM:TO:TO_FACE:XBE0FA08B|To face|رخ کرنا|1|رخ کرنا|To face||R7|Kailani — topic R7
+NSM:TO:TO_FACE:X6A9B00BF|To face|رخ کرنا|2|رخ کرنا|To face||R7|Kailani — topic R7
+NSM:TO:TO_FACE:XA0C4F3EF|To face|رخ کرنا|3|رخ کرنا|To face||R7|Kailani — topic R7
+NSM:TO:TO_FACE_APPEAR_IN_FRONT_OF:XBE0FA08B|To face, appear in front of|سامنے آنا|1|سامنے آنا|To face, appear in front of||S5|Kailani — topic S5
+NSM:TO:TO_FACE_APPEAR_IN_FRONT_OF:XCB22E4A9|To face, appear in front of|سامنے آنا|2|سامنے آنا|To face, appear in front of||S5|Kailani — topic S5
+NSM:TO:TO_FACE_APPEAR_IN_FRONT_OF:XE0715531|To face, appear in front of|سامنے آنا|3|سامنے آنا|To face, appear in front of||S5|Kailani — topic S5
+NSM:TO:TO_FALL_CAUSE_TO_FALL:X1F191B25|To fall, cause to fall|گرنا - گرانا|20|گرنا - گرانا|To fall, cause to fall||GG7|Kailani — topic GG7
+NSM:TO:TO_FALL_CAUSE_TO_FALL:X06AE7E15|To fall, cause to fall|گرنا - گرانا|21|گرنا - گرانا|To fall, cause to fall||GG7|Kailani — topic GG7
+NSM:TO:TO_FALL_SHORT:X9F231F21|To fall short|حد سے کم کرنا|1|حد سے کم کرنا|To fall short||HA6|Kailani — topic HA6
+NSM:TO:TO_FALSIFY_BELIE_REFUTE:XC5DCBBC2|To falsify, belie, refute|جھٹلانا|1|جھٹلانا|To falsify, belie, refute||J28|Kailani — topic J28
+NSM:TO:TO_FEAR:XA5A6FC94|To fear|ڈرنا|13|ڈرنا|To fear||DD3|Kailani — topic DD3
+NSM:TO:TO_FOLLOW:X4F3A36BD|To follow|پیچھا کرنا|4|پیچھا کرنا|To follow||P46|Kailani — topic P46
+NSM:TO:TO_FORCE:XBE0FA08B|To force|زبردستی کرنا|1|زبردستی کرنا|To force||Z2|Kailani — topic Z2
+NSM:TO:TO_FORCE:X51C9A584|To force|زبردستی کرنا|2|زبردستی کرنا|To force||Z2|Kailani — topic Z2
+NSM:TO:TO_FORCE:XC67F042D|To force|زبردستی کرنا|3|زبردستی کرنا|To force||Z2|Kailani — topic Z2
+NSM:TO:TO_FORCE:X861183A4|To force|زبردستی کرنا|4|زبردستی کرنا|To force||Z2|Kailani — topic Z2
+NSM:TO:TO_FORCE:X36A9D753|To force|زبردستی کرنا|5|زبردستی کرنا|To force||Z2|Kailani — topic Z2
+NSM:TO:TO_FORCE:XA4BB7946|To force|زبردستی کرنا|6|زبردستی کرنا|To force||Z2|Kailani — topic Z2
+NSM:TO:TO_FRIGHTEN:X1A9806C4|To frighten|ڈرانا|6|ڈرانا|To frighten||DD4|Kailani — topic DD4
+NSM:TO:TO_GIVE:X94A4411D|To give|دینا|11|دینا|To give||D34|Kailani — topic D34
+NSM:TO:TO_GIVE_BIRTH:X6245B4D0|To give birth|جننا|1|جننا|To give birth||J16|Kailani — topic J16
+NSM:TO:TO_GIVE_DIVINE_HELP:X73FE5FAF|To give Divine help|توفیق دینا-|3|توفیق دینا-|To give Divine help||T25|Kailani — topic T25
+NSM:TO:TO_GRASP_TO_ARREST:X4D813BC2|To grasp, to arrest|گرفت کرنا|4|گرفت کرنا|To grasp, to arrest||GG4|Kailani — topic GG4
+NSM:TO:TO_GRAZE:X36A9D753|To graze|چرانا|1|چرانا|To graze||CH8|Kailani — topic CH8
+NSM:TO:TO_GRAZE:XBE0FA08B|To graze|چرانا|2|چرانا|To graze||CH8|Kailani — topic CH8
+NSM:TO:TO_GRAZE:X6A2E6CA2|To graze|چرانا|3|چرانا|To graze||CH8|Kailani — topic CH8
+NSM:TO:TO_HASTEN_TO_HURRY:X861183A4|To hasten, to hurry|جلدی کرنا|1|جلدی کرنا|To hasten, to hurry||J10|Kailani — topic J10
+NSM:TO:TO_HASTEN_TO_HURRY:XA0F49047|To hasten, to hurry|جلدی کرنا|2|جلدی کرنا|To hasten, to hurry||J10|Kailani — topic J10
+NSM:TO:TO_HASTEN_TO_HURRY:XBE0FA08B|To hasten, to hurry|جلدی کرنا|3|جلدی کرنا|To hasten, to hurry||J10|Kailani — topic J10
+NSM:TO:TO_HASTEN_TO_HURRY:XCB22E4A9|To hasten, to hurry|جلدی کرنا|4|جلدی کرنا|To hasten, to hurry||J10|Kailani — topic J10
+NSM:TO:TO_HASTEN_TO_HURRY:X6E6A73AD|To hasten, to hurry|جلدی کرنا|5|جلدی کرنا|To hasten, to hurry||J10|Kailani — topic J10
+NSM:TO:TO_HASTEN_TO_HURRY:X6DDAA72E|To hasten, to hurry|جلدی کرنا|6|جلدی کرنا|To hasten, to hurry||J10|Kailani — topic J10
+NSM:TO:TO_HASTEN_TO_HURRY:X36A9D753|To hasten, to hurry|جلدی کرنا|7|جلدی کرنا|To hasten, to hurry||J10|Kailani — topic J10
+NSM:TO:TO_HASTEN_TO_HURRY:XABA275FF|To hasten, to hurry|جلدی کرنا|9|جلدی کرنا|To hasten, to hurry||J10|Kailani — topic J10
+NSM:TO:TO_HONOUR_RESPECT:X85999370|To honour, respect|تعظیم کرنا|3|تعظیم کرنا|To honour, respect||T16|Kailani — topic T16
+NSM:TO:TO_INCLINE:X36A9D753|To incline|رغبت کرنا|1|رغبت کرنا|To incline||R12|Kailani — topic R12
+NSM:TO:TO_INCLINE:X6A9B00BF|To incline|رغبت کرنا|2|رغبت کرنا|To incline||R12|Kailani — topic R12
+NSM:TO:TO_INCLINE:X8241DEEA|To incline|رغبت کرنا|3|رغبت کرنا|To incline||R12|Kailani — topic R12
+NSM:TO:TO_INDICATE:X6591D488|To indicate|اشارہ کرنا|4|اشارہ کرنا|To indicate||AA21|Kailani — topic AA21
+NSM:TO:TO_JOIN:X6245B4D0|To join|جوڑنا|1|جوڑنا|To join||J20|Kailani — topic J20
+NSM:TO:TO_JOIN:X84D816DC|To join|جوڑنا|2|جوڑنا|To join||J20|Kailani — topic J20
+NSM:TO:TO_JOIN:X36A9D753|To join|جوڑنا|3|جوڑنا|To join||J20|Kailani — topic J20
+NSM:TO:TO_JOIN:X6E6A73AD|To join|جوڑنا|4|جوڑنا|To join||J20|Kailani — topic J20
+NSM:TO:TO_JOIN:XC67F042D|To join|جوڑنا|5|جوڑنا|To join||J20|Kailani — topic J20
+NSM:TO:TO_JOIN:X6FCD4F0B|To join|جوڑنا|8|جوڑنا|To join||J20|Kailani — topic J20
+NSM:TO:TO_KNOW:XA0F49047|To know|جاننا|1|جاننا|To know||J2|Kailani — topic J2
+NSM:TO:TO_KNOW:XBE0FA08B|To know|جاننا|2|جاننا|To know||J2|Kailani — topic J2
+NSM:TO:TO_LEAN_AGAINST_SOMETHING:X479A2FAA|To lean against something|ٹیک لگانا|3|ٹیک لگانا|To lean against something||TT8|Kailani — topic TT8
+NSM:TO:TO_LEAVE:X6A9B00BF|To leave|چھوڑنا|1|چھوڑنا|To leave||CH26|Kailani — topic CH26
+NSM:TO:TO_LEAVE:X517D3358|To leave|چھوڑنا|2|چھوڑنا|To leave||CH26|Kailani — topic CH26
+NSM:TO:TO_LEAVE:XA0F49047|To leave|چھوڑنا|3|چھوڑنا|To leave||CH26|Kailani — topic CH26
+NSM:TO:TO_LEAVE:X84D816DC|To leave|چھوڑنا|4|چھوڑنا|To leave||CH26|Kailani — topic CH26
+NSM:TO:TO_LEAVE:XB15AA8E2|To leave|چھوڑنا|6|چھوڑنا|To leave||CH26|Kailani — topic CH26
+NSM:TO:TO_LEAVE:XD6F7C01D|To leave|چھوڑنا|7|چھوڑنا|To leave||CH26|Kailani — topic CH26
+NSM:TO:TO_LEAVE:X290829FE|To leave|چھوڑنا|8|چھوڑنا|To leave||CH26|Kailani — topic CH26
+NSM:TO:TO_LEAVE_BEHIND:X290829FE|To leave behind|چھوڑنا|3|چھوڑنا|To leave behind||P49|Kailani — topic P49
+NSM:TO:TO_LIBERATE_TO_FREE:XBE0FA08B|To liberate, to free|خلاصی چھٹکارا پانا|1|خلاصی چھٹکارا پانا|To liberate, to free||KH11|Kailani — topic KH11
+NSM:TO:TO_LIBERATE_TO_FREE:X8E336B82|To liberate, to free|خلاصی چھٹکارا پانا|2|خلاصی چھٹکارا پانا|To liberate, to free||KH11|Kailani — topic KH11
+NSM:TO:TO_LIE_FABRICATE:X854A312A|To lie, fabricate|جھوٹ بولنا یا بنانا|1|جھوٹ بولنا یا بنانا|To lie, fabricate||J27|Kailani — topic J27
+NSM:TO:TO_LIE_FABRICATE:X6A9B00BF|To lie, fabricate|جھوٹ بولنا یا بنانا|3|جھوٹ بولنا یا بنانا|To lie, fabricate||J27|Kailani — topic J27
+NSM:TO:TO_LIE_FABRICATE:X6797CCC6|To lie, fabricate|جھوٹ بولنا یا بنانا|4|جھوٹ بولنا یا بنانا|To lie, fabricate||J27|Kailani — topic J27
+NSM:TO:TO_LIKE:XB1781E20|To like,|پسند کرنا|5|پسند کرنا|To like,||P17|Kailani — topic P17
+NSM:TO:TO_LIKE_INTEND_DESIRE:X119C5451|To like, intend, desire|چاہنا|1|چاہنا|To like, intend, desire||CH5|Kailani — topic CH5
+NSM:TO:TO_LIKE_INTEND_DESIRE:XBE0FA08B|To like, intend, desire|چاہنا|2|چاہنا|To like, intend, desire||CH5|Kailani — topic CH5
+NSM:TO:TO_LIKE_INTEND_DESIRE:XCB22E4A9|To like, intend, desire|چاہنا|3|چاہنا|To like, intend, desire||CH5|Kailani — topic CH5
+NSM:TO:TO_LIKE_INTEND_DESIRE:X36A9D753|To like, intend, desire|چاہنا|4|چاہنا|To like, intend, desire||CH5|Kailani — topic CH5
+NSM:TO:TO_LIKE_INTEND_DESIRE:X988ADA1C|To like, intend, desire|چاہنا|6|چاہنا|To like, intend, desire||CH5|Kailani — topic CH5
+NSM:TO:TO_LIKE_INTEND_DESIRE:X35B46C8C|To like, intend, desire|چاہنا|7|چاہنا|To like, intend, desire||CH5|Kailani — topic CH5
+NSM:TO:TO_MARK_SCAR:X455F7161|To mark/scar|داغ دینا|4|داغ دینا|To mark/scar||D3|Kailani — topic D3
+NSM:TO:TO_NARROW_DOWN:XACBC9972|To narrow down,|تنگ کرنا- ہونا|6|تنگ کرنا- ہونا|To narrow down,||T23|Kailani — topic T23
+NSM:TO:TO_NARROW_DOWN:X96E8F981|To narrow down,|تنگ کرنا- ہونا|7|تنگ کرنا- ہونا|To narrow down,||T23|Kailani — topic T23
+NSM:TO:TO_OBTAIN:X7976C0E6|To obtain|پانا|5|پانا|To obtain||P4|Kailani — topic P4
+NSM:TO:TO_OBTAIN_HEAT:XDA38E96E|To obtain heat|گرمی حاصل کرنا|3|گرمی حاصل کرنا|To obtain heat||GG6|Kailani — topic GG6
+NSM:TO:TO_PASS_BY:X5725D145|To pass by|گزرنا|7|گزرنا|To pass by||GG10|Kailani — topic GG10
+NSM:TO:TO_PAWN:X50A3A2BF|To pawn|گروی رکھنا|3|گروی رکھنا|To pawn||GG8|Kailani — topic GG8
+NSM:TO:TO_PITCH_PLANT:XEDE5E860|To pitch/plant|گاڑنا|5|گاڑنا|To pitch/plant||GG1|Kailani — topic GG1
+NSM:TO:TO_PRAISE:XF27811D7|To praise|تعریف کرنا|3|تعریف کرنا|To praise||T15|Kailani — topic T15
+NSM:TO:TO_PRAY_FOR_TO:X75F864F7|To pray for/to|دعا دینا - کرنا|5|دعا دینا - کرنا|To pray for/to||D12|Kailani — topic D12
+NSM:TO:TO_PRAY_FOR_TO:X84CCA38D|To pray for/to|دعا دینا - کرنا|6|دعا دینا - کرنا|To pray for/to||D12|Kailani — topic D12
+NSM:TO:TO_PREPARE:X15497BAC|To prepare|تیار کرنا|5|تیار کرنا|To prepare||T30|Kailani — topic T30
+NSM:TO:TO_PRESENT:X1325267F|To present|پیش کرنا|3|پیش کرنا|To present||P55|Kailani — topic P55
+NSM:TO:TO_PROHIBIT_STOP:XCB92A8B0|To prohibit, stop|روکنا|1|روکنا|To prohibit, stop||R17|Kailani — topic R17
+NSM:TO:TO_PROHIBIT_STOP:XA0F49047|To prohibit, stop|روکنا|2|روکنا|To prohibit, stop||R17|Kailani — topic R17
+NSM:TO:TO_PROHIBIT_STOP:XBE0FA08B|To prohibit, stop|روکنا|3|روکنا|To prohibit, stop||R17|Kailani — topic R17
+NSM:TO:TO_PROHIBIT_STOP:X1F694036|To prohibit, stop|روکنا|4|روکنا|To prohibit, stop||R17|Kailani — topic R17
+NSM:TO:TO_PROHIBIT_STOP:X56750292|To prohibit, stop|روکنا|5|روکنا|To prohibit, stop||R17|Kailani — topic R17
+NSM:TO:TO_PROHIBIT_STOP:XFFA8517F|To prohibit, stop|روکنا|6|روکنا|To prohibit, stop||R17|Kailani — topic R17
+NSM:TO:TO_PROHIBIT_STOP:XE57C96BA|To prohibit, stop|روکنا|7|روکنا|To prohibit, stop||R17|Kailani — topic R17
+NSM:TO:TO_PROHIBIT_STOP:X29B50A05|To prohibit, stop|روکنا|8|روکنا|To prohibit, stop||R17|Kailani — topic R17
+NSM:TO:TO_PROTECT:X14A4A864|To protect|حفاظت کرنا|1|حفاظت کرنا|To protect||HA9|Kailani — topic HA9
+NSM:TO:TO_PURIFY_CLEANSE:XA9A1D65E|To purify, cleanse|پاک کرنا|6|پاک کرنا|To purify, cleanse||P3|Kailani — topic P3
+NSM:TO:TO_PURSUE_FOLLOW_CAUSE_TO:X77CF9D2D|To pursue, follow, cause to|پیچھے لگانا - لگنا|4|پیچھے لگانا - لگنا|To pursue, follow, cause to||P52|Kailani — topic P52
+NSM:TO:TO_PURSUE_FOLLOW_CAUSE_TO:X18F7BF32|To pursue, follow, cause to|پیچھے لگانا - لگنا|5|پیچھے لگانا - لگنا|To pursue, follow, cause to||P52|Kailani — topic P52
+NSM:TO:TO_PUT_BEHIND_CAUSE_TO_DELAY:X929A78B6|To put behind, cause to delay|پیچھے کرنا یا ڈالنا|5|پیچھے کرنا یا ڈالنا|To put behind, cause to delay||P51|Kailani — topic P51
+NSM:TO:TO_QUARREL:X119C5451|To quarrel|جھگڑنا|1|جھگڑنا|To quarrel||J25|Kailani — topic J25
+NSM:TO:TO_QUARREL:X6A9B00BF|To quarrel|جھگڑنا|2|جھگڑنا|To quarrel||J25|Kailani — topic J25
+NSM:TO:TO_QUARREL:X56750292|To quarrel|جھگڑنا|3|جھگڑنا|To quarrel||J25|Kailani — topic J25
+NSM:TO:TO_QUARREL:X51C9A584|To quarrel|جھگڑنا|4|جھگڑنا|To quarrel||J25|Kailani — topic J25
+NSM:TO:TO_QUARREL:X988ADA1C|To quarrel|جھگڑنا|5|جھگڑنا|To quarrel||J25|Kailani — topic J25
+NSM:TO:TO_QUARREL:X84D816DC|To quarrel|جھگڑنا|6|جھگڑنا|To quarrel||J25|Kailani — topic J25
+NSM:TO:TO_QUARREL:X6DDAA72E|To quarrel|جھگڑنا|7|جھگڑنا|To quarrel||J25|Kailani — topic J25
+NSM:TO:TO_QUARREL:XBE0FA08B|To quarrel|جھگڑنا|8|جھگڑنا|To quarrel||J25|Kailani — topic J25
+NSM:TO:TO_QUARREL:X1F92234E|To quarrel|جھگڑنا|10|جھگڑنا|To quarrel||J25|Kailani — topic J25
+NSM:TO:TO_RAISE_HEAD:XBE0FA08B|To raise head|سر اٹھانا|1|سر اٹھانا|To raise head||S12|Kailani — topic S12
+NSM:TO:TO_RAISE_HEAD:XCC4EDB40|To raise head|سر اٹھانا|2|سر اٹھانا|To raise head||S12|Kailani — topic S12
+NSM:TO:TO_REACH:XBA0392A9|To reach|پہنچنا|10|پہنچنا|To reach||P30|Kailani — topic P30
+NSM:TO:TO_RECOGNIZE:XE6C1052D|To recognize|پہچاننا|3|پہچاننا|To recognize||P27|Kailani — topic P27
+NSM:TO:TO_REFLECT:X09F4CDAF|To reflect|غور کرنا|6|غور کرنا|To reflect||GH9|Kailani — topic GH9
+NSM:TO:TO_REGRET:X0F59D6F2|To regret|پچھتانا|4|پچھتانا|To regret||P11|Kailani — topic P11
+NSM:TO:TO_REVEAL_MANIFEST:X9271EFB2|To reveal, manifest|ظاہر کرنا|6|ظاہر کرنا|To reveal, manifest||ZA2|Kailani — topic ZA2
+NSM:TO:TO_RIDE_TO_MOUNT:XF4761E86|To ride, to mount|سوار ہونا - کرنا|1|سوار ہونا - کرنا|To ride, to mount||S23|Kailani — topic S23
+NSM:TO:TO_RIDE_TO_MOUNT:X84CCA38D|To ride, to mount|سوار ہونا - کرنا|2|سوار ہونا - کرنا|To ride, to mount||S23|Kailani — topic S23
+NSM:TO:TO_RUIN_CORRUPT:X84D816DC|To ruin, corrupt|خراب کرنا- ہونا|1|خراب کرنا- ہونا|To ruin, corrupt||KH6|Kailani — topic KH6
+NSM:TO:TO_RUIN_CORRUPT:XBE0FA08B|To ruin, corrupt|خراب کرنا- ہونا|2|خراب کرنا- ہونا|To ruin, corrupt||KH6|Kailani — topic KH6
+NSM:TO:TO_RUIN_CORRUPT:X6E6A73AD|To ruin, corrupt|خراب کرنا- ہونا|3|خراب کرنا- ہونا|To ruin, corrupt||KH6|Kailani — topic KH6
+NSM:TO:TO_RUIN_CORRUPT:XA0F49047|To ruin, corrupt|خراب کرنا- ہونا|4|خراب کرنا- ہونا|To ruin, corrupt||KH6|Kailani — topic KH6
+NSM:TO:TO_RUIN_CORRUPT:XD9910D2B|To ruin, corrupt|خراب کرنا- ہونا|5|خراب کرنا- ہونا|To ruin, corrupt||KH6|Kailani — topic KH6
+NSM:TO:TO_RUIN_CORRUPT:X96E8F981|To ruin, corrupt|خراب کرنا- ہونا|6|خراب کرنا- ہونا|To ruin, corrupt||KH6|Kailani — topic KH6
+NSM:TO:TO_RUN:XAF9673C2|To run|ڈورنا|12|ڈورنا|To run||D20|Kailani — topic D20
+NSM:TO:TO_SATISFY_TO_BE_PLEASED:X26B11E46|To satisfy, to be pleased|راضی کرنا - ہونا|4|راضی کرنا - ہونا|To satisfy, to be pleased||R5|Kailani — topic R5
+NSM:TO:TO_SATISFY_TO_BE_PLEASED:X96E8F981|To satisfy, to be pleased|راضی کرنا - ہونا|5|راضی کرنا - ہونا|To satisfy, to be pleased||R5|Kailani — topic R5
+NSM:TO:TO_SCOLD:XA83185C0|To scold|جھڑکنا|1|جھڑکنا|To scold||J22|Kailani — topic J22
+NSM:TO:TO_SCOLD:XBE0FA08B|To scold|جھڑکنا|2|جھڑکنا|To scold||J22|Kailani — topic J22
+NSM:TO:TO_SCOLD:XCB92A8B0|To scold|جھڑکنا|3|جھڑکنا|To scold||J22|Kailani — topic J22
+NSM:TO:TO_SCREAM:X9CB766C1|To scream|چلانا چیخنا|6|چلانا چیخنا|To scream||CH14|Kailani — topic CH14
+NSM:TO:TO_SEARCH:X7B0BC7E4|To search|ڈھونڈنا|8|ڈھونڈنا|To search||DD9|Kailani — topic DD9
+NSM:TO:TO_SEIZE:X8F5BD20D|To seize|پکڑنا|10|پکڑنا|To seize||P19|Kailani — topic P19
+NSM:TO:TO_SHOUT_CALL_OUT:XD2398605|To shout, call out|پکارنا|6|پکارنا|To shout, call out||P18|Kailani — topic P18
+NSM:TO:TO_SLAUGHTER:X29B79242|To slaughter|ذبح کرنا|4|ذبح کرنا|To slaughter||DH1|Kailani — topic DH1
+NSM:TO:TO_SLIP_CAUSE_TO_SLIP_TO_SEDUCE:X4179398B|To slip, cause to slip, to seduce|پھسلنا  پھسلانا|6|پھسلنا  پھسلانا|To slip, cause to slip, to seduce||P36|Kailani — topic P36
+NSM:TO:TO_SPEND:XBE0FA08B|To spend|خرچ کرنا|1|خرچ کرنا|To spend||KH7|Kailani — topic KH7
+NSM:TO:TO_SPEND:XCB22E4A9|To spend|خرچ کرنا|2|خرچ کرنا|To spend||KH7|Kailani — topic KH7
+NSM:TO:TO_SPEND:X27EEF946|To spend|خرچ کرنا|3|خرچ کرنا|To spend||KH7|Kailani — topic KH7
+NSM:TO:TO_SPREAD:X984ABF74|To spread|بچھانا|12|بچھانا|To spread||B21|Kailani — topic B21
+NSM:TO:TO_SPY:X6A9B00BF|To spy|جاسوسی کرنا|1|جاسوسی کرنا|To spy||J1|Kailani — topic J1
+NSM:TO:TO_SPY:X861183A4|To spy|جاسوسی کرنا|2|جاسوسی کرنا|To spy||J1|Kailani — topic J1
+NSM:TO:TO_SPY:XB2192211|To spy|جاسوسی کرنا|3|جاسوسی کرنا|To spy||J1|Kailani — topic J1
+NSM:TO:TO_START:X0DAC3F98|To start|شروع کرنا|1|شروع کرنا|To start||SH6|Kailani — topic SH6
+NSM:TO:TO_STAY_BEHIND:XF8FD9F97|To stay behind|پیچھے رہنا|4|پیچھے رہنا|To stay behind||P50|Kailani — topic P50
+NSM:TO:TO_STAY_BE_QUIET:X861183A4|To stay/be quiet|چپ ہونا رہنا|1|چپ ہونا رہنا|To stay/be quiet||CH6|Kailani — topic CH6
+NSM:TO:TO_STAY_BE_QUIET:X1F694036|To stay/be quiet|چپ ہونا رہنا|2|چپ ہونا رہنا|To stay/be quiet||CH6|Kailani — topic CH6
+NSM:TO:TO_STAY_BE_QUIET:XBE0FA08B|To stay/be quiet|چپ ہونا رہنا|3|چپ ہونا رہنا|To stay/be quiet||CH6|Kailani — topic CH6
+NSM:TO:TO_STAY_BE_QUIET:X988ADA1C|To stay/be quiet|چپ ہونا رہنا|4|چپ ہونا رہنا|To stay/be quiet||CH6|Kailani — topic CH6
+NSM:TO:TO_STAY_BE_QUIET:XCB92A8B0|To stay/be quiet|چپ ہونا رہنا|5|چپ ہونا رہنا|To stay/be quiet||CH6|Kailani — topic CH6
+NSM:TO:TO_STAY_BE_QUIET:X0B0864C0|To stay/be quiet|چپ ہونا رہنا|6|چپ ہونا رہنا|To stay/be quiet||CH6|Kailani — topic CH6
+NSM:TO:TO_STAY_TO_RESIDE:X27DFCB2D|To stay, to reside|ٹھیرنا آباد ہونا|4|ٹھیرنا آباد ہونا|To stay, to reside||TT5|Kailani — topic TT5
+NSM:TO:TO_STAY_TO_STOP:X34269B7F|To stay, to stop|ٹھیرنا [رکنا]|7|ٹھیرنا [رکنا]|To stay, to stop||TT4|Kailani — topic TT4
+NSM:TO:TO_STEAL:X5AB9EB8A|To steal|چوری کرنا|1|چوری کرنا|To steal||CH21|Kailani — topic CH21
+NSM:TO:TO_STICK_CLING:X0EF05FDA|To stick , cling|چمٹنا|4|چمٹنا|To stick , cling||CH15|Kailani — topic CH15
+NSM:TO:TO_STOP:XBE0FA08B|To stop|رکنا|1|رکنا|To stop||R18|Kailani — topic R18
+NSM:TO:TO_STROLL_TO_WANDER:X31BF6154|To stroll, to wander|پھرنا|10|پھرنا|To stroll, to wander||P34|Kailani — topic P34
+NSM:TO:TO_SURROUND:X16FBB28A|To surround|گھیرنا|5|گھیرنا|To surround||GG27|Kailani — topic GG27
+NSM:TO:TO_TEACH_TO_READ:XF46907ED|To teach, to read|پڑھانا پڑھنا|7|پڑھانا پڑھنا|To teach, to read||P16|Kailani — topic P16
+NSM:TO:TO_TEAR_RIP:X2C3683BD|To tear, rip|پھاڑنا|10|پھاڑنا|To tear, rip||P32|Kailani — topic P32
+NSM:TO:TO_THINK_HAVE_THOUGHTS:X3E69AA9C|To think/have thoughts|گمان کرنا|4|گمان کرنا|To think/have thoughts||GG13|Kailani — topic GG13
+NSM:TO:TO_THROW_POUR_CAST_AWAY:X58F5658E|To throw, pour, cast away|ڈالنا|7|ڈالنا|To throw, pour, cast away||DD1|Kailani — topic DD1
+NSM:TO:TO_TRAMPLE:X56750292|To trample|روندنا|1|روندنا|To trample||R19|Kailani — topic R19
+NSM:TO:TO_TRAMPLE:X6245B4D0|To trample|روندنا|2|روندنا|To trample||R19|Kailani — topic R19
+NSM:TO:TO_TRAVEL:X861183A4|To travel|سفر کرنا|1|سفر کرنا|To travel||S19|Kailani — topic S19
+NSM:TO:TO_TRAVEL:XCB92A8B0|To travel|سفر کرنا|2|سفر کرنا|To travel||S19|Kailani — topic S19
+NSM:TO:TO_TRAVEL:X2AD012A5|To travel|سفر کرنا|3|سفر کرنا|To travel||S19|Kailani — topic S19
+NSM:TO:TO_TROUBLE_TO_ENDURE_HARDSHIP:X34088292|To trouble, to endure hardship|تکلیف دینا - اٹھانا|8|تکلیف دینا - اٹھانا|To trouble, to endure hardship||T19|Kailani — topic T19
+NSM:TO:TO_TROUBLE_TO_ENDURE_HARDSHIP:X85052AC6|To trouble, to endure hardship|تکلیف دینا - اٹھانا|9|تکلیف دینا - اٹھانا|To trouble, to endure hardship||T19|Kailani — topic T19
+NSM:TO:TO_TURN_OVER_TO_REFUTE:X99BD4CAA|To turn over, to refute|پھیرنا|7|پھیرنا|To turn over, to refute||P35|Kailani — topic P35
+NSM:TO:TO_UNDERTAKE_TRANSACTIONS:XCB22E4A9|To undertake transactions|خرید وفروخت کرنا|1|خرید وفروخت کرنا|To undertake transactions||KH8|Kailani — topic KH8
+NSM:TO:TO_UNDERTAKE_TRANSACTIONS:X6A9B00BF|To undertake transactions|خرید وفروخت کرنا|2|خرید وفروخت کرنا|To undertake transactions||KH8|Kailani — topic KH8
+NSM:TO:TO_UNDERTAKE_TRANSACTIONS:X119C5451|To undertake transactions|خرید وفروخت کرنا|3|خرید وفروخت کرنا|To undertake transactions||KH8|Kailani — topic KH8
+NSM:TO:TO_UNDERTAKE_TRANSACTIONS:XBE0FA08B|To undertake transactions|خرید وفروخت کرنا|4|خرید وفروخت کرنا|To undertake transactions||KH8|Kailani — topic KH8
+NSM:TO:TO_UNDERTAKE_TRANSACTIONS:X46C8A197|To undertake transactions|خرید وفروخت کرنا|5|خرید وفروخت کرنا|To undertake transactions||KH8|Kailani — topic KH8
+NSM:TO:TO_WALK_AND_TYPES_OF_WALKING:X79FCF9B2|To walk and types of walking|چلنا|13|چلنا|To walk and types of walking||CH12|Kailani — topic CH12
+NSM:TO:TO_WHISPER:X6A9B00BF|To whisper|سرگوشی کرنا|1|سرگوشی کرنا|To whisper||S16|Kailani — topic S16
+NSM:TO:TO_WHISPER:X23824C71|To whisper|سرگوشی کرنا|2|سرگوشی کرنا|To whisper||S16|Kailani — topic S16
+NSM:TOUCH:TOUCH:X988ADA1C|Touch|چھونا|1|چھونا|Touch||CH28|Kailani — topic CH28
+NSM:TOUCH:TOUCH:X6DDAA72E|Touch|چھونا|2|چھونا|Touch||CH28|Kailani — topic CH28
+NSM:TOUCH:TOUCH:XF4942435|Touch|چھونا|4|چھونا|Touch||CH28|Kailani — topic CH28
+NSM:TOWN:TOWN_CITY:XA1C25FF6|Town, city|شہر|2|شہر|Town, city||SH14|Kailani — topic SH14
+NSM:TREASURE:TREASURE:XC67F042D|treasure|خزانہ|1|خزانہ|treasure||KH9|Kailani — topic KH9
+NSM:TREASURE:TREASURE:X854A312A|treasure|خزانہ|2|خزانہ|treasure||KH9|Kailani — topic KH9
+NSM:TREASURE:TREASURE:X84D816DC|treasure|خزانہ|3|خزانہ|treasure||KH9|Kailani — topic KH9
+NSM:TREASURE:TREASURE:X2638006E|treasure|خزانہ|4|خزانہ|treasure||KH9|Kailani — topic KH9
+NSM:TREES:TREES_AND_SHRUBS:X6FF2E344|Trees and shrubs|درخت اور پودے|7|درخت اور پودے|Trees and shrubs||D7|Kailani — topic D7
+NSM:TRUTH:TRUTH:X1F694036|truth|سچ|1|سچ|truth||S9|Kailani — topic S9
+NSM:TRUTH:TRUTH:X56750292|truth|سچ|2|سچ|truth||S9|Kailani — topic S9
+NSM:TRUTH:TRUTH:X31D0BD1D|truth|سچ|3|سچ|truth||S9|Kailani — topic S9
+NSM:TUNNEL:TUNNEL:XCB92A8B0|tunnel|سرنگ|1|سرنگ|tunnel||S17|Kailani — topic S17
+NSM:TUNNEL:TUNNEL:X861183A4|tunnel|سرنگ|2|سرنگ|tunnel||S17|Kailani — topic S17
+NSM:TUNNEL:TUNNEL:XAF876DD0|tunnel|سرنگ|3|سرنگ|tunnel||S17|Kailani — topic S17
+NSM:VALLEY:VALLEY:X07DAB2BA|Valley|گھاٹی|3|گھاٹی|Valley||GG21|Kailani — topic GG21
+NSM:VEIL:VEIL:XEAA4E428|Veil|پردہ|10|پردہ|Veil||P13|Kailani — topic P13
+NSM:VERY:VERY_PERSISTENT:X5A18AD36|Very persistent|در پے ہونا|3|در پے ہونا|Very persistent||D6|Kailani — topic D6
+NSM:VIOLENTLY:VIOLENTLY_SMASHED_OR_BROKEN_INTO_MINUTE_PIECES:X517D3358|Violently smashed or broken into minute pieces|ریزہ ریزہ کرنا چورہ چورہ|1|ریزہ ریزہ کرنا چورہ چورہ|Violently smashed or broken into minute pieces||CH20|Kailani — topic CH20
+NSM:VIOLENTLY:VIOLENTLY_SMASHED_OR_BROKEN_INTO_MINUTE_PIECES:X56750292|Violently smashed or broken into minute pieces|ریزہ ریزہ کرنا چورہ چورہ|2|ریزہ ریزہ کرنا چورہ چورہ|Violently smashed or broken into minute pieces||CH20|Kailani — topic CH20
+NSM:VIOLENTLY:VIOLENTLY_SMASHED_OR_BROKEN_INTO_MINUTE_PIECES:X36A9D753|Violently smashed or broken into minute pieces|ریزہ ریزہ کرنا چورہ چورہ|3|ریزہ ریزہ کرنا چورہ چورہ|Violently smashed or broken into minute pieces||CH20|Kailani — topic CH20
+NSM:VIOLENTLY:VIOLENTLY_SMASHED_OR_BROKEN_INTO_MINUTE_PIECES:XCB22E4A9|Violently smashed or broken into minute pieces|ریزہ ریزہ کرنا چورہ چورہ|4|ریزہ ریزہ کرنا چورہ چورہ|Violently smashed or broken into minute pieces||CH20|Kailani — topic CH20
+NSM:VIOLENTLY:VIOLENTLY_SMASHED_OR_BROKEN_INTO_MINUTE_PIECES:XB15AA8E2|Violently smashed or broken into minute pieces|ریزہ ریزہ کرنا چورہ چورہ|5|ریزہ ریزہ کرنا چورہ چورہ|Violently smashed or broken into minute pieces||CH20|Kailani — topic CH20
+NSM:VIOLENTLY:VIOLENTLY_SMASHED_OR_BROKEN_INTO_MINUTE_PIECES:XDCED11D1|Violently smashed or broken into minute pieces|ریزہ ریزہ کرنا چورہ چورہ|6|ریزہ ریزہ کرنا چورہ چورہ|Violently smashed or broken into minute pieces||CH20|Kailani — topic CH20
+NSM:WAR:WAR_BATTLE:X56750292|War, battle|جنگ|1|جنگ|War, battle||J15|Kailani — topic J15
+NSM:WAR:WAR_BATTLE:XC67F042D|War, battle|جنگ|2|جنگ|War, battle||J15|Kailani — topic J15
+NSM:WAR:WAR_BATTLE:XA83185C0|War, battle|جنگ|3|جنگ|War, battle||J15|Kailani — topic J15
+NSM:WAR:WAR_BATTLE:XCB22E4A9|War, battle|جنگ|4|جنگ|War, battle||J15|Kailani — topic J15
+NSM:WAR:WAR_BATTLE:X51C9A584|War, battle|جنگ|5|جنگ|War, battle||J15|Kailani — topic J15
+NSM:WAR:WAR_BATTLE:XD6F7C01D|War, battle|جنگ|6|جنگ|War, battle||J15|Kailani — topic J15
+NSM:WAR:WAR_BATTLE:X988ADA1C|War, battle|جنگ|7|جنگ|War, battle||J15|Kailani — topic J15
+NSM:WAR:WAR_BATTLE:XBE0FA08B|War, battle|جنگ|8|جنگ|War, battle||J15|Kailani — topic J15
+NSM:WAR:WAR_BATTLE:XCAE6103B|War, battle|جنگ|14|جنگ|War, battle||J15|Kailani — topic J15
+NSM:WATER:WATER_AND_ITS_DIFFERENT_TYPES:XEF2AD874|Water and its different types|پانی اور اسکی اقسام|10|پانی اور اسکی اقسام|Water and its different types||P5|Kailani — topic P5
+NSM:WATERING:WATERING_PLACE:X16A7F42B|Watering place|گھاٹ|3|گھاٹ|Watering place||GG20|Kailani — topic GG20
+NSM:WHAT:WHAT:XB1D37F39|What|کیا|3|کیا|What||K44|Kailani — topic K44
+NSM:WHERE:WHERE_WHEREVER:X56750292|Where, wherever|جہاں-  جہاں کہیں|1|جہاں- جہاں کہیں|Where, wherever||J21|Kailani — topic J21
+NSM:WHERE:WHERE_WHEREVER:XBE0FA08B|Where, wherever|جہاں-  جہاں کہیں|2|جہاں- جہاں کہیں|Where, wherever||J21|Kailani — topic J21
+NSM:WHERE:WHERE_WHEREVER:X988ADA1C|Where, wherever|جہاں-  جہاں کہیں|3|جہاں- جہاں کہیں|Where, wherever||J21|Kailani — topic J21
+NSM:WHERE:WHERE_WHEREVER:X2EA19D92|Where, wherever|جہاں-  جہاں کہیں|4|جہاں-  جہاں کہیں|Where, wherever||J21|Kailani — topic J21
+NSM:WHERE:WHERE_WHEREVER:X7052BD4C|Where, wherever|جہاں-  جہاں کہیں|5|جہاں-  جہاں کہیں|Where, wherever||J21|Kailani — topic J21
+NSM:WHOLE:WHOLE_ENTIRE_ALL:XF1598E2F|Whole entire, (all)|پورا  [سارا سب]|5|پورا  [سارا سب]|Whole entire, (all)||P23|Kailani — topic P23
+NSM:WHY:WHY_WHY_NOT:XADD22987|Why, why not|کیوں – کیوں نہ|1|کیوں – کیوں نہ|Why, why not||K46|Kailani — topic K46
+NSM:WHY:WHY_WHY_NOT:X52960297|Why, why not|کیوں – کیوں نہ|2|کیوں – کیوں نہ|Why, why not||K46|Kailani — topic K46
+NSM:WISH:WISH_DESIRE_HOPE:XBE0FA08B|Wish/desire/hope|خواہش|2|خواہش|Wish/desire/hope||KH14|Kailani — topic KH14
+NSM:WISH:WISH_DESIRE_HOPE:X517D3358|Wish/desire/hope|خواہش|3|خواہش|Wish/desire/hope||KH14|Kailani — topic KH14
+NSM:WISH:WISH_DESIRE_HOPE:X119C5451|Wish/desire/hope|خواہش|4|خواہش|Wish/desire/hope||KH14|Kailani — topic KH14
+NSM:WISH:WISH_DESIRE_HOPE:X6245B4D0|Wish/desire/hope|خواہش|5|خواہش|Wish/desire/hope||KH14|Kailani — topic KH14
+NSM:WISH:WISH_DESIRE_HOPE:XDAE54124|Wish/desire/hope|خواہش|6|خواہش|Wish/desire/hope||KH14|Kailani — topic KH14
+NSM:WORTHLESS:WORTHLESS:XCB92A8B0|Worthless|ردی – نا کارہ|1|ردی – نا کارہ|Worthless||R8|Kailani — topic R8
+NSM:WORTHLESS:WORTHLESS:X84D816DC|Worthless|ردی – نا کارہ|2|ردی – نا کارہ|Worthless||R8|Kailani — topic R8
+NSM:WORTHLESS:WORTHLESS:XB15AA8E2|Worthless|ردی – نا کارہ|3|ردی – نا کارہ|Worthless||R8|Kailani — topic R8
+NSM:WORTHLESS:WORTHLESS:XCB22E4A9|Worthless|ردی – نا کارہ|4|ردی – نا کارہ|Worthless||R8|Kailani — topic R8
+NSM:WORTHLESS:WORTHLESS:XBE0FA08B|Worthless|ردی – نا کارہ|5|ردی – نا کارہ|Worthless||R8|Kailani — topic R8
+NSM:WORTHLESS:WORTHLESS:X988ADA1C|Worthless|ردی – نا کارہ|6|ردی – نا کارہ|Worthless||R8|Kailani — topic R8
+NSM:WORTHLESS:WORTHLESS:X26D808BE|Worthless|ردی – نا کارہ|8|ردی – نا کارہ|Worthless||R8|Kailani — topic R8
+NSM:WOUND:WOUND_GASH:XC67F042D|Wound , gash|زخم|1|زخم|Wound , gash||Z3|Kailani — topic Z3
+NSM:WOUND:WOUND_GASH:X51C9A584|Wound , gash|زخم|2|زخم|Wound , gash||Z3|Kailani — topic Z3
+NSM:YEAR:YEAR:XA0F49047|Year|سال|1|سال|Year||S3|Kailani — topic S3
+NSM:YEAR:YEAR:X861183A4|Year|سال|2|سال|Year||S3|Kailani — topic S3

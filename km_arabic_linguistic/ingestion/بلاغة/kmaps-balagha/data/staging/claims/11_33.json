@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "حصر/قصر (أداة)",
+        "source_quote_ar": "إِنَّمَا التَّوْبَةُ عَلَى اللَّهِ",
+        "claim_ar": "أداة الحصر «إِنَّمَا» تستعمل لتقييد الفعل لجهة واحدة (قصر الإتيان على الله)؛ في السياق القرآني تُخصِّص الفعل لله دون غيره.",
+        "claim_en": "The restricting particle 'innama' (إِنَّمَا) is used to confine the action to a single party (i.e., to attribute it exclusively to God). In the Qur'anic context it limits the agency to Allah alone.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A33",
+        "rhetorical_effect": "يُقوّي تخصيص الفعل لله ويمنح الجملة قوة نقضية وحصرًا واضحًا ضد الادعاء المعارض (تأكيد حصرية القدرة الإلهية)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "التفات (انقلاب المخاطَب/الموضوع)",
+        "source_quote_ar": "وانتصابه للعطف",
+        "claim_ar": "النص يُظهر تحويلًا في جهة الحديث: من ذكر عمل الله إلى مخاطبة القوم («أَنْتُمْ»)، وهو ما يوقع التفتّ (الانتقال الخطابي) الذي يكثف أثر النفي والتوبيخ.",
+        "claim_en": "The text exhibits a shift of address/topic: moving from stating an action of God to directly addressing the people ('you'), an iltifat (shift) that intensifies the reproach and negation.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source (commentary noting 'انتصابه للعطف') discusses conjunction/coordination and shifts in related verses; linking that general observation specifically to this verse is inferential and should be checked against the exact exegesis of this ayah.",
+        "quran_ref": "S11:A33",
+        "rhetorical_effect": "الالتفات يسهِم في جذب انتباه المخاطَب ويجعل التوبيخ مباشرًا وحادًّا أكثر من ذكر الأمر بصورة مجردة."
+      }
+    ],
+    "warnings": [
+      "المقاطع المصدرية المرفقة هي من تفسير الزمخشري (al-Kashshaf). الطلب الأصلي ذكر مصادر أخرى (الجرجاني، السكاكي، الباقلاني، السيوطي، وتفسير بلاغي) لكن لم تُزوّد مقاطع منها؛ الاستدلالات هنا مقتصرة على المقاطع المتاحة في المدخل.",
+      "بعض الاستنتاجات (خصوصًا قضية الالتفات) مبنية على ملاحظة عامة في الشروح حول العطف والتحويل الخطابي؛ لذا وُقِّمت بثقة متوسطة ويستحسن تحققها بمقاطع تفسيرية صريحة لنفس الآية من المصادر البلاغية المطلوبة."
+    ]
+  },
+  "n_chunks": 12
+}

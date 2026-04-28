@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:104",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "maani",
+        "source_quote_ar": "الواو عاطفة أو استئنافية",
+        "claim_ar": "واو العطف في «وَقَالَ» تعمل كأداة ربط/استئناف تربط الكلام بما قبله أو تستأنف السرد.",
+        "claim_en": "The conjunction waw in «وَقَالَ» functions as an emotive/connective particle (waaw 'atifa / resumptive), linking or resuming the discourse.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (واو عاطفة)",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "maani",
+        "source_quote_ar": "وجملة النداء في محل نصب مقول القول",
+        "claim_ar": "نداء مباشر بـ«يا» (يا فرعون) يحقق تحوّلًا في الأسلوب: من السرد إلى مخاطبة مباشرة (التفات/التخاطب).",
+        "claim_en": "Direct vocative with «ya» (ya Fir'awn) effects a shift in style from narration to direct address (iltifat / change of address).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (direct address / chuyển đổi المخاطبة)",
+        "root": null,
+        "lemma": "فِرْعَوْن",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted explanatory fragment treats the structure of an addressed utterance in a different reported speech example (قالَ: يا مُوسَى...), applied here analogically to وَقَالَ مُوسَى يَا فِرْعَوْنُ."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "other",
+        "source_quote_ar": "كلام مستأنف مسوق لتسلية موسى عليه السلام",
+        "claim_ar": "افتتاح الكلام بصيغة مستأنفة/مباشرة (كلام مستأنف مسوق) كأسلوب بلاغي لعرض القول وإبرازه.",
+        "claim_en": "Opening the utterance as resumed/direct speech (kalam mustanif masuq) is a rhetorical mode used to present and foreground the speech.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim (كلام مستأنف / resumed speech)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk discusses a similar pattern in a different verse (قال: يا موسى ...); applying the characterization to this ayah is plausible but based on analogy rather than a direct commentary on S7:A104 in the provided chunks."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are grammatical/i'rab commentaries (Darwish - I'rab). They include useful remarks (e.g. 'الواو عاطفة', 'جملة النداء...') but are not the classical balagha authors listed (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Claims are therefore drawn from i'rab-style commentary and sometimes applied analogically.",
+      "Some claims (especially the asloob_hakim / iltifat readings) are inferred by analogy from examples in the chunks (e.g. references to the pattern 'قال: يا مُوسَى...'). Verify against dedicated balagha/tafsir sources for authoritative attribution and finer nuance."
+    ]
+  },
+  "n_chunks": 12
+}

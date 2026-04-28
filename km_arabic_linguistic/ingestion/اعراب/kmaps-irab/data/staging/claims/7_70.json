@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:70",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "وَيَجُوزُ أَنْ تَكُونَ «مَا» نَافِيَةً، وَأَنْ تَكُونَ اسْتِفْهَامًا.",
+        "claim_ar": "قد تكون «مَا» هنا نَافِيَةً أو استفهامية (أَي: يجوز أن تُؤوّل نافية أو استفهامية).",
+        "claim_en": "The particle \"مَا\" can be either negative (nāfiya) or interrogative (istifhām).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The cited discussion in al-Tibyan treats the ambiguity of «مَا» via the example «مَا أَغْنَى», not this exact verse; it is plausible for the «مَا» in this ayah to be read either way but context may favour one interpretation. Verification against commentary on this specific verse or broader syntactic context is recommended."
+      }
+    ],
+    "warnings": [
+      "Only a general remark about the particle «مَا» (possibility of being نافية or استفهام) was found in the provided chunks. The source chunks do not contain explicit iʿrāb statements for the other words of this ayah.",
+      "The source example cited (مَا أَغْنَى) is not the same phrase as in this verse; applying the same ambiguity to this verse is plausible but should be confirmed from commentary that addresses this verse specifically."
+    ]
+  },
+  "n_chunks": 12
+}

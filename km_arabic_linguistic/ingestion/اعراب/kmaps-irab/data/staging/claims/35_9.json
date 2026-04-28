@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "35:9",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain the text of Sura 35:9 (the ayah words supplied). The extraction rules require source_quote_ar to be an exact substring of one of the given chunks, so no إعراب claims can be extracted.",
+      "Please provide the al-Tibyan (or other allowed source) chunk that contains the exact Arabic text for S35:9, or supply source material that includes explicit grammatical discussion of this ayah so claims can be extracted."
+    ]
+  },
+  "n_chunks": 10
+}

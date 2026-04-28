@@ -1,0 +1,47 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:36",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَ (مِنْ ذِكْرٍ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِيَأْتِيهِمْ، وَأَنْ يَكُونَ صِفَةً لذكر وَأَن يتَعَلَّق بمحدث وَأَن يكونَ حَالا من الضَّمِير فِي مُحدث",
+        "claim_ar": "يَجُوزُ أَن تَتَعَلَّقَ عبارةُ «بِذِكْرِ الرَّحْمَنِ» بِمَوضِعٍ مَعْنَوِيٍّ مُمَاثِلٍ لِـ «مِنْ ذِكْرٍ»، أَي: إِمْكَانُ اتِّصَالِها بِالفِعْلِ/المَعْنَى الَّذِي يَتَعَلَّق بِه (مِثْلَ «يَأْتِيهِمْ») أو أَنْ تَكُونَ صِفَةً لِـ«ذِكْرٍ» أَوْ أَنْ تَكُونَ حَالًا مِنَ الضَّمِيرِ.",
+        "claim_en": "The phrase analogous to «مِنْ ذِكْرٍ» can attach in multiple ways: it may relate to the verb/clause (as with «يأتيهم»), be an adjective (description) of 'dhikr', or serve as a hal (circumstantial clause) relating to a pronoun. By analogy, «بِذِكْرِ الرَّحْمَنِ» in this verse may attach to the preceding clause/verb, be a descriptor of 'dhikr', or function as a hal for a pronoun.",
+        "root": "ذكر",
+        "lemma": "ذِكْر",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary lists multiple possible attachments ('يجوز') without selecting one; contextual syntactic analysis of the ayah is needed to determine the intended attachment."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مُحْدَثٍ) : مَحْمُولٌ عَلَى لَفْظِ «ذِكْرٍ» ، وَلَوْ رُفِعَ عَلَى مَوْضِعِ «مِنْ ذِكْرٍ» جَازَ.",
+        "claim_ar": "التَّعْلِيقُ النَّحْوِيُّ: قِيلَ إِنَّ «مُحْدَثًا» مَحمولٌ عَلَى لَفْظِ «ذِكْرٍ»، وَيَجُوزُ رَفْعُهُ وَجَعْلُهُ فِي مَوْضِعِ «مِنْ ذِكْرٍ». هذِهِ قاعِدَةُ تَتَعَلَّقُ بِتَأْوِيلِ مَوَاضِعِ «ذِكْرٍ» وَمَا يَلْحِقُهَا.",
+        "claim_en": "Grammatical rule cited: the element 'muhdath' (new occurrence) is construed as governed by the word 'dhikr' (i.e., 'muhdath' is carried on the expression 'dhikr'), and it is permissible to raise it to the position of 'min dhikr'. This is a rule about possible syntactic assignments for constructions with 'dhikr'.",
+        "root": "ذكر",
+        "lemma": "ذِكْر",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary speaks of the term 'مُحْدَثٍ' which is not an explicit lexical item in this ayah; mapping this rule to the actual tokens here (بِذِكْرِ) requires careful contextual alignment."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَأَن يكونَ حَالا من الضَّمِير فِي مُحدث",
+        "claim_ar": "مِنَ المُجْوَزِ أَنْ تَكُونَ «بِذِكْرِ الرَّحْمَنِ» حَالًا مُتَعَلِّقًا بِضَمِيرِ «وَهُمْ» (أَوْ بِضمِيرٍ مُمَاثِلٍ) فِي الجُمْلَةِ.",
+        "claim_en": "It is permissible for the phrase to be a hal (circumstantial clause) relating to the pronoun (e.g., the 'hum' in the verse). Thus «بِذِكْرِ الرَّحْمَنِ» may function as a hal attached to the pronoun 'hum'.",
+        "root": null,
+        "lemma": "هُمْ",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary gives this as a possible analysis (exampled in other verses); confirming it for this specific pronoun in the ayah requires contextual syntactic judgment."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks discuss the construction of «مِنْ ذِكْرٍ» and the term «مُحْدَثٍ» in general and by example (including other verses). They present several permissible analyses ('يجوز') rather than endorsing a single definitive parse for this ayah—mapping those possibilities onto the exact tokens of S21:36 requires contextual determination.",
+      "Some tokens in the input (e.g., pronoun at word_index 13) had null lemma/root in the input metadata; I used the pronoun lemma 'هُمْ' where appropriate. Verify pronoun anchoring when reviewing claims.",
+      "The commentary examples cited (e.g., «لاهية هو حال من الضمير في ‹يلعبون›») refer to other verses; ensure analogical application to S21:36 is acceptable for your analysis."
+    ]
+  },
+  "n_chunks": 12
+}

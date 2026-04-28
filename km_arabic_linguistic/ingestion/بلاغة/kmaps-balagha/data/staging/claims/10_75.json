@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:75",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "ثُمَّ قِيلَ لَهُمْ أَيْنَ ما كُنْتُمْ تُشْرِكُونَ مِنْ دُونِ اللَّهِ",
+        "claim_ar": "حرف الثمّ (ثُمَّ) يعمل كإشارة إلى تسلسلٍ زمنيٍ وانتقالٍ بين حوادثٍ متتابعة، مؤدّياً إلى ربط بعث الرسل بما تلاه من نتائج في السرد القرآني.",
+        "claim_en": "The conjunction ثُمَّ functions as a marker of temporal sequence and transition between successive events, linking the sending of the messengers to the subsequent outcomes in the Qur'anic narrative.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "ثُمّ",
+        "confidence": "medium",
+        "needs_review_reason": "Source quote is from tafsir discussing the use of ثُمَّ in nearby contexts; direct commentary on this verse is inferential rather than an explicit statement about this exact token."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "contrast/irony",
+        "source_quote_ar": "فَجاؤُهُمْ بِالْبَيِّناتِ بالحجج الواضحة المثبتة لدعواهم فَما كانُوا لِيُؤْمِنُوا",
+        "claim_ar": "ذكر إرسال الرسل «بِآيَاتِنَا» مترافقاً مع ثبوت الحجج الواضحة يُبرز مفارقة بلاغية: مع وضوح الدلائل يظلّ القوم على تكبّرهم وكفرهم، وهو أسلوب إبراز تناقض الواقع لغايات توبين وإشهار ذمّهم.",
+        "claim_en": "The phrase (our) signs (بِآيَاتِنَا), coupled with the remark that the messengers came with clear proofs, creates a rhetorical contrast/irony: despite explicit evidence the people remain arrogant and unbelieving. This highlights the contradiction between the clarity of the proofs and the people's persistent rejection.",
+        "device_branch": "other",
+        "device_subtype": "irony_contrast",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are tafsir excerpts (Zamakhshari, Tabari). Some quoted passages are exegetical commentary referring to general patterns and nearby verses rather than literal repetitions of the exact Qur'anic phrase; claims therefore sometimes rely on interpretive remarks rather than explicit metatext from the listed classical rhetoricians (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti).",
+      "Device classification uses the requested schema (maani|bayan|badi|other). For some rhetorical observations the best matching subtype was not in the restricted list, so 'other' was used with a descriptive subtype (e.g., irony_contrast). If you require strict mapping only to the originally enumerated subtypes, please indicate and I will remap or flag uncertain items.",
+      "Confidence for the claim about ثُمَّ is 'medium' because the supporting source passage discusses the function of ثُمَّ/sequence in tafsir context rather than providing an explicit, isolated rhetorical label for this exact token in S10:A75."
+    ]
+  },
+  "n_chunks": 12
+}

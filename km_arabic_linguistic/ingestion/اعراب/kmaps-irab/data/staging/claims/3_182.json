@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:182",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛ تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ، وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "همزة «أَنَّ» تُقرأ مفتوحة (بِفَتْحِ الهَمْزَةِ) عموماً، وتُقرأ مكسورة (بِكَسْرِها) عند الاستئناف.",
+        "claim_en": "The hamza of 'أَنَّ' is generally read with a fatḥa (opening vowel); when read on resumption (al-isti'naf) it is read with a kasra.",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ",
+        "claim_ar": "تقدير «ذلك» في الموضع: «ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُنْ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ» (تقدير مجوَز موضح للمعنى).",
+        "claim_en": "The implied (taqdir) explanation of 'ذَلِكَ' is: 'that is because Allah did not change (their condition), and because Allah is All‑Hearing.'",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunk discusses the clause '(وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ)' and gives a taqdir and reading guidance in that context. The ayah under analysis here reads '(وَأَنَّ اللَّهَ لَيْسَ بِظَلَّامٍ لِّلْعَبِيدِ)'. Verify applicability of the cited taqdir/reading notes to this exact wording.",
+      "No explicit claims about syntactic roles (إعراب اسم أنَّ منصوب/خبرها مرفوع, etc.) for the words in this ayah are present in the provided chunks; only reading (qirāʼa) and a taqdīr statement were found."
+    ]
+  },
+  "n_chunks": 12
+}

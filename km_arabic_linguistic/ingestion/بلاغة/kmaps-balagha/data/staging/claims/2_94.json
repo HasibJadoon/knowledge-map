@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:94",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "خالِصَةً نصب على الحال من الدار الآخرة.",
+        "claim_ar": "حصر الدار الآخرة بأنها خالصة لكم دون الناس؛ صيغة تحدّد الانفراد بالحق في الفوز بالدار الآخرة",
+        "claim_en": "Restriction/limitation: the Hereafter is described as exclusively for you, excluding others (an explicit narrowing of scope).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "خلص",
+        "lemma": "خَالِصَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "فَتَمَنَّوُا الْمَوْتَ",
+        "claim_ar": "عرض التمني بالموت كدليلٍ على اليقين والاشتياق إلى الدار الآخرة، في أسلوب تقريرٍ حكيمٍ يبرز أثر التصديق في السلوك النفسي",
+        "claim_en": "Stylistic/wisdom device (asloob al-hakim): presenting the wish for death as evidence of certainty and yearning for the hereafter, using a wise/reporting tone to show the psychological effect of belief.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "مني",
+        "lemma": "يَتَمَنَّ",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling this phrasing as 'asloob_hakim' (wise/reportorial style) is interpretive; other sources may classify it under challenge or illustrative reporting."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "خاصة بكم، ليس لأحد سواكم فيها حق. يعنى إن صحّ قولكم",
+        "claim_ar": "الآية تُوظِّف صيغة شرطية وتحدّية («إن كنتّم صادقين») لاختبار صدق الادعاء وإظهار التناقض بين القول والواقع؛ هذه الصيغة البلاغية تُستخدم في الاختبار والاحتجاج",
+        "claim_en": "Ayah-level device — the conditional/challenge formula ('if you are truthful') functions as a rhetorical test/challenge, exposing the claim by prompting an action or consequence that would prove sincerity.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the challenge/conditional formula to 'ijab_inshaa' may require verification against classical definitions; alternative labels (challenge, tahqeeq) are possible."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from al-Zamakhshari (al-Kashshaf) only; the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha sections) were not supplied. Claims are therefore based solely on the available chunk(s).",
+      "Some device-label assignments (e.g., classifying the conditional/challenge as 'ijab_inshaa' or the wording as 'asloob_hakim') are interpretive. Please review against the target authors' terminology and definitions; I marked those items with 'needs_review_reason'."
+    ]
+  },
+  "n_chunks": 12
+}

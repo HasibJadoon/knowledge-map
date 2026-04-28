@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:65",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "taalluq",
+        "source_quote_ar": "«فِي غَفْلَةٍ» : يَجُوزُ أَنْ يَكُونَ حَالًا مِنَ الضَّمِيرِ فِي مُعْرِضُونَ ; أَيْ أَعْرَضُوا غَافِلِينَ. وَيَجُوزُ أَنْ يَكُونَ خَبَرًا ثَانِيًا.",
+        "claim_ar": "العبارة الجارّية «على رؤوسهم» (على + رؤوسهم) يمكن أن تتصل بالفعل 'نُكِسُوا' وتُفهم حالًا من الضمير أو يمكن أن تُؤوّل خبرًا ثانيًا، على مثال «في غفلةٍ» في المصدر المذكور.",
+        "claim_en": "The prepositional phrase 'على رؤوسهم' (on their heads) can attach to the verb 'نُكِسُوا' and be read as a ḥāl (circumstantial adverbial) from the pronoun, or it can be interpreted as a second predicate (secondary predicate), by analogy with the cited example \"في غفلةٍ\".",
+        "root": "راس",
+        "lemma": "رَأْس",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives the general possibility for prepositional phrases (example: «في غفلةٍ») to be either حال or خبر ثانٍ; applying it to «على رؤوسهم» is an analogical reading that depends on the wider syntactic and semantic context of the ayah."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَأَن يتَعَلَّق بمحدث وَأَن يكون حَالا من الضَّمِير فِي مُحدث قَوْله تَعَالَى {لاهية} هُوَ حَال من الضَّمِير فِي «يَلْعَبُونَ» وَيَجُوزُ أَن يَكُونَ حَالًا مِنَ الْوَاوِ فِي «اسْتَمَعُوهُ» .",
+        "claim_ar": "من الممكن أن تكون عبارة الجرّ والمجرور حالًا من الضمير المتصل بالفعل، أي أن «على رؤوسهم» تكون حالًا من ضمير «نُكِسُوا».",
+        "claim_en": "It is possible for a prepositional phrase to be a ḥāl (circumstantial) originating from the pronoun attached to the verb; i.e., 'على رؤوسهم' may be a ḥāl tied to the pronoun of 'نُكِسُوا'.",
+        "root": "نكس",
+        "lemma": "نُكِسُ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage states the general possibility of a prepositional phrase being a ḥāl from a pronoun; applying this to the specific verb here requires checking syntactic fit and sense in the full ayah."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

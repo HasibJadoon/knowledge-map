@@ -1,0 +1,42 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:124",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "وجود واو استئنافية في بداية الجملة تستأنف الحديث وتربطه بما قبلها",
+        "claim_en": "Use of the resumptive 'waw' (واو استئنافية) at the start of the clause to resume the discourse and connect it to prior context.",
+        "device_branch": "other",
+        "device_subtype": "waw_istinaf",
+        "root": null,
+        "lemma": "إِذَا",
+        "confidence": "medium",
+        "needs_review_reason": "Claim is based on i'rab commentary noting 'الواو استئنافية'; classical rhetorical sources (e.g., Jurjānī) not provided to corroborate rhetorical labeling."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الكلام مستأنف مسوق",
+        "claim_ar": "استئناف الكلام (استئناف/مسار) — الجملة وُصِفت بأنها «مستأنفة مسوقة»، أي أن العبارة مستأنفة لسبب بلاغي/وظيفي",
+        "claim_en": "Istinaf (resumption) — the clause is described as 'resumed and presented', indicating a rhetorical reinstatement or purposeful resumption of discourse.",
+        "device_branch": "other",
+        "device_subtype": "istinaf",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Source is grammatical (i'rab) commentary which labels the clause 'مستأنف مسوق'; further verification with dedicated rhetorical works recommended to refine classification and effect.",
+        "quran_ref": "S6:A124",
+        "rhetorical_effect": "Marks the clause as a resumed statement, increasing its discursive prominence and signaling a shift from prior context to a pointed response or example."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are grammatical (i'rab) commentaries (Darwish - I'rab). These identify syntactic features (e.g., 'الواو استئنافية', 'الكلام مستأنف مسوق') but are not classical rhetoric treatises (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī). Claims are therefore inferred from syntactic labels rather than explicit classical-balāgha analyses.",
+      "Only substrings actually present in the provided source chunks were used as source_quote_ar. If you want additional balāgha devices (maʿānī, bayān, badīʿ) extracted according to Jurjānī/Sakkākī/etc., please provide those rhetorical source chunks or allow use of those authors so claims can be corroborated and expanded.",
+      "Some rhetorical classifications (e.g., iltifāt, taqdīm/ta’khīr, i‘jāz) may apply but were not asserted because the provided chunks do not explicitly discuss them; further source material is needed for high-confidence claims."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,9 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:65",
+  "result": {
+    "error": "The input text appears to be a series of Arabic script and Arabic language content, possibly including Quranic verses or related commentary, but it is not properly formatted as a JSON object. The text contains no valid JSON structure, and it seems to be a mix of Arabic script and possibly some encoded or corrupted characters. To process this correctly, the text would need to be properly structured as JSON with key-value pairs.",
+    "claims": []
+  },
+  "n_chunks": 16
+}

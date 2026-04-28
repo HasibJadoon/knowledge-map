@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:166",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No claims extracted: none of the provided source_chunks contains the ayah text or exact substrings (e.g., «فَلَمَّا عَتَوْا عَنْ مَا نُهُوا عَنْهُ قُلْنَا لَهُمْ كُونُوا قِرَدَةً خَاسِئِينَ» or any exact word-strings from it).",
+      "Source_quote_ar must be an exact substring of a provided chunk; because the chunks do not include the verse or matching phrases, rhetorical claims cannot be reliably sourced from the given material. To extract balagha claims, please provide tafsir/بلاغة chunks that quote or analyze this ayah explicitly."
+    ]
+  },
+  "n_chunks": 12
+}

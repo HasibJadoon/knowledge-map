@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "فَإِنْ تَوَلَّوْا عن التوحيد فَقُولُوا اشْهَدُوا بِأَنَّا مُسْلِمُونَ",
+        "claim_ar": "الآية تستعمل صيغة إنشائية/أمرية («فَقُولُوا اشهدوا…») كحيلة بلاغية لإجبار الخصم على النطق والاعتراف بما يوجب الحجة عليه.",
+        "claim_en": "The verse employs an enunciative/imperative formula ('so say: \"bear witness...\"') as a rhetorical device to force the opponent to verbalize and thereby bind them with the argument.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa (imperative enunciation / performative utterance)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ويجوز أن يكون من باب التعريض، ومعناه: اشهدوا واعترفوا بأنكم كافرون",
+        "claim_ar": "هنا تعريض (تهكم/استفزاز): الصياغة تدعوهم للاعتراف بما يعيّرهم (كونهم كفارًا)، أي أنها تُستخدم كأسلوب استفزازي لفضح موقفهم.",
+        "claim_en": "This is ta'rid (indirect reproach/sarcasm): the formulation invites them to confess something that discredits them (being unbelievers); it functions as a provocative device to expose their stance.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (تعريض / provocative address)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari (al-Kashshaf). The developer instruction asked for al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha sections; those authors' chunks were not supplied, so claims are extracted only from the available Zamakhshari excerpts.",
+      "Some obvious rhetorical loci in the ayah (e.g., the restrictive 'فَإِنَّمَا عَلَيْكَ الْبَلَاغُ') were not supported with exact source substrings in the supplied chunks and therefore were not extracted. Only claims with exact matching source substrings were included (per requirement)."
+    ]
+  },
+  "n_chunks": 12
+}

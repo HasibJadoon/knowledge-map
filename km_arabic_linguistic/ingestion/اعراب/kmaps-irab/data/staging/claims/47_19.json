@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "47:19",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "الفَاءُ تَدُلُّ عَلَى تَعَلُّقِ الشَّرْطِ بِمَا قَبْلَهُ",
+        "claim_ar": "الفاء في كلمة «فَاعْلَمْ» فاءٌ تدل على تعلق الشرط بما قبلها (أي ارتباط فعل الأمر بخطورة/تعلق بما سبق من القصص أو الإنذار).",
+        "claim_en": "The prefixed fa in the word 'فَاعْلَمْ' is the fa that indicates the attachment of a conditional (i.e., it links the imperative to what precedes, showing relevance/connection).",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited rule is general (about فاء التعليق/الربط); confirming that this specific fa in this ayah is intended as that type requires checking broader commentary and context."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit discussion of S47:A19; only a general rule about the particle فاء was found and applied. Other grammatical claims for this ayah could not be substantiated from the given chunks."
+    ]
+  },
+  "n_chunks": 4
+}

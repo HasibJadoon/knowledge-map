@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:239",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "(اذْكُرُوا)",
+        "claim_ar": "أمر إنشائي موجَّه: لفظ الأمر «اذكروا» يحول الوضع الإخباري إلى مخاطبة فعلية تحثّ على الذكر.",
+        "claim_en": "Imperative (injunctive) device: the imperative ذْكُرُوا turns the utterance into a direct exhortation, urging remembrance of God.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are i'rab/commentary excerpts (Darwish - I'rab) and do not contain explicit balagha analyses from the classical balagha authorities named in the task (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha).",
+      "Only the substring “(اذْكُرُوا)” was found verbatim in the supplied chunks and could be used as a direct source_quote_ar. Other likely rhetorical readings of S2:A239 (e.g., contrast between خِفْتُمْ and أَمِنْتُمْ, pairing رِجَالاً/رُكْبَاناً, repetition/paronomasia of عَلَّمَكُمْ vs تَعْلَمُونَ) could not be supported with exact substrings from the given chunks, so they were not asserted as claims.",
+      "If you can supply balagha/tafsir-balagha source chunks (texts by al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir balagha) that quote or analyze this particular ayah, I can extract additional, better‑supported rhetorical claims."
+    ]
+  },
+  "n_chunks": 12
+}

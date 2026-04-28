@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:201",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "بديع - تكرار",
+        "source_quote_ar": "وكرر الأمر للتوكيد.",
+        "claim_ar": "تكرار كلمة «حَسَنَةً» (ظهورها مرتين) وسيلة بديعية للتوكيد وإضفاء توازنٍ لفظي بين مطلبي الدنيا والآخرة.",
+        "claim_en": "Repetition of the word 'hasanah' (it appears twice) as a badiʿ device for emphasis and to create a verbal balance between the requests for worldly and otherworldly good.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "حسن",
+        "lemma": "حَسَنَة",
+        "confidence": "medium",
+        "needs_review_reason": "المرجع يذكر التكرار كوسيلة عامة للتوكيد ولكنه لا يعرض هذه الآية بالاسم؛ لذلك التطبيق على الآية مفيد لكن يحتاج تأكيد من شرح بديع خاص بالآية.",
+        "quran_ref": "S2:A201",
+        "rhetorical_effect": "تعزيز المعنى (تأكيد الطلب) وخلق توازن وتوازي صوتي بين الجزئين."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "بديع - مقابلة",
+        "source_quote_ar": "النعيم والتخلص من الدار ذات الشوائب",
+        "claim_ar": "مقابلة وتوازن مفهومي بين «فِي الدُّنْيَا حَسَنَةً» و«فِي الْآخِرَةِ حَسَنَةً» تُبرز اضْطِلاعَ المصلحة الدنيوية مقابل المصلحة الأخروية (تضادّ/تكامل زماني).",
+        "claim_en": "A pairing (muqābalah) and conceptual balance between 'in this world a good' and 'in the Hereafter a good', highlighting the juxtaposition/compliment of temporal versus eternal benefit.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "التفسير المقتبس يتحدث عن الشوق إلى النعيم والدار الآخرة، لكنه لا يحلل صِيغَة المقابلة النحوية الصرفية في هذه الآية بالتحديد؛ يلزم استطراد نحو شروح بلاغية أو نظم نصي لتثبيت الصنف.",
+        "quran_ref": "S2:A201",
+        "rhetorical_effect": "إبراز توازن الأهداف وتقنين طلب المتوازن بين مادّي ومعنوي، وإعطاء الشرعية للتمني المتوازن."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "معاني - التِفات (الالتفات)",
+        "source_quote_ar": "فيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "التفات من السرد الغيبي إلى الكلام المباشر عند إدخال فعل القول «يَقُولُ رَبَّنَا آتِنَا...» — انتقال من الحديث عن الناس إلى نقل كلامهم توكيدًا لمعنى التضرع.",
+        "claim_en": "Shift (iltifāt) from indirect/third-person narration to direct speech when introducing 'they say: Our Lord, give us...', moving from speaking about people to conveying their direct supplication, emphasizing the immediacy of the plea.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "المصدر يعطي قاعدة واضحة عن الالتفات (من الغيبة إلى الخطاب) ويطبقها كمبدأ بلاغي؛ ربطها بهذه الآية مقبول لكن ذكر نماذج آية-بآية في شروح أخرى سيقوّي الدليل.",
+        "quran_ref": "S2:A201",
+        "rhetorical_effect": "يُحسّن اشتراك القارئ/المستمع في الطلب، ويحوّل المعنى من تقرير إلى تواصل وجداني مباشر."
+      }
+    ],
+    "warnings": [
+      "المصادر المرفقة محدودة: القطع المتاحة هي تعليقات وزمخشري وتحليل إعرابي (Darwish)، وليست جميع شروح البلاغة الكلاسيكية المطلوبة (الجَرْجَانِي، السَّكَّاكِي، البَقِلّانِي، السُّيُوطِي، و«تفسير بلاغي»)؛ لذلك الاستخلاص مستند إلى المقاطع المتوفرة فقط.",
+      "لا توجد في القطع المرفوعة استشهادات صريحة بالآية نصًّا في معظم الحالات؛ الاستدلال اعتمد على ملاحظات بلاغية عامة في الشروح، فجميع الاستنتاجات بحاجة إلى مراجعة/تعزيز باستخدام شروح بلاغية مباشرة للآية عند المصادر المطلوبة."
+    ]
+  },
+  "n_chunks": 12
+}

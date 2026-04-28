@@ -1,0 +1,13 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:70",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب/نحو claims found in the provided source_chunks for the ayah يَاأَهْلَ الْكِتَابِ لِمَ تَكْفُرُونَ بِآيَاتِ اللَّهِ وَأَنتُمْ تَشْهَدُونَ.",
+      "None of the provided source_chunks contain commentary fragments that directly mention or analyze any exact substring of this ayah (e.g. يَا أَهْلَ, الْكِتَابِ, تَكْفُرُونَ, بِآيَاتِ اللَّهِ, تَشْهَدُونَ).",
+      "Provide source text/chunks that explicitly discuss this specific ayah (or contain exact quotations from it) to enable extraction of إعراب claims. Without such a chunk, no claims can be extracted without inventing or inferring unsupported quotations."
+    ]
+  },
+  "n_chunks": 12
+}

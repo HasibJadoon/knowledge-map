@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:145",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "(قل) فعل أمر",
+        "claim_ar": "افتتاح بالقول بأمر القائل «قُلْ» لاستدعاء الكلام وإظهار موقف المتكلم وقطع الشكّ؛ أسلوب إنشائي يقدم بيان النفي كتصريح حكمي.",
+        "claim_en": "The imperative introductory 'قُلْ' is used to introduce the speaker's statement — an act of enunciation/creation (inshā’) that asserts the speaker's stance decisively and frames what follows as an authoritative reply.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A145",
+        "rhetorical_effect": "Frames the following prohibition as the Prophet’s clear, authoritative reply and distances the ruling from popular opinion."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "(إلا) حرف للحصر",
+        "claim_ar": "حرف استثناء وحصر (إِلَّا) يقيد العموم بالنَّصّ على الحالات المفصّلة؛ فيبيّن أن التحريم لا يشمل إلا الحالات المذكورة.",
+        "claim_en": "The particle 'إِلَّا' functions as restriction/exception, limiting the general prohibition to the specific cases enumerated.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A145",
+        "rhetorical_effect": "Narrows and clarifies the legal ruling, preventing overgeneralization and focusing attention on the listed exceptions."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are mainly exegetical/grammatical extracts (al-Kashshaf / al-Jadwal). Claims were limited to rhetorical observations that can be supported by exact substrings found in those chunks.",
+      "Other classical rhetoric sources requested in the task (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) were not present among the provided chunks; additional/richer rhetorical claims would require those texts."
+    ]
+  },
+  "n_chunks": 12
+}

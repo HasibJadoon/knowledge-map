@@ -1,0 +1,61 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:121",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "(وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ) : يُقْرَأُ بِفَتْحِ الْهَمْزَةِ",
+        "claim_ar": "تلاوة بفتح همزة «أَنَّ» قبل العبارة (أي قراءة «أَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ» بفتح الهمزة)",
+        "claim_en": "A reading variant: the phrase is read with a fatḥ (a-opening) on the hamza of 'أَنَّ' (i.e., read as 'أَنَّ اللَهَ سَمِيعٌ عَلِيمٌ').",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted note discusses the presence/readings of the particle 'أَنَّ' before 'اللَّهَ سَمِيعٌ عَلِيمٌ'. In the supplied ayah the surface form begins with 'وَاللَّهُ' — verify applicability of the comment to this exact phrasing or whether the author was addressing a different verse with 'أَنَّ'.",
+        "quran_ref": "S3:A121"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "ثمة قراءة بديلة تُكسر فيها همزة «أَنَّ» عند الاستئناف (يُقْرَأُ بِكَسْرِها على الِاستئناف).",
+        "claim_en": "An alternative reading: the hamza may be read with a kasr (i.e., pronounced with kasra) in the case of isti'naf (resumption).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The statement refers to variants of pronouncing the hamza of 'أَنَّ' in pause/resumption. Confirm whether this lectal note is intended for this exact occurrence or for a parallel phrase elsewhere.",
+        "quran_ref": "S3:A121"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "taqdir",
+        "source_quote_ar": "تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ",
+        "claim_ar": "تقدير المضْمَر/المفْهوم قبل الخبر: «ذَلِكَ» (أي: «ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا»).",
+        "claim_en": "An implied (understood) word is proposed: 'ذَلِكَ' — i.e. the clause is to be understood as 'that is because Allah was not a changer' (ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا).",
+        "root": "سمع",
+        "lemma": "سَمِيع",
+        "confidence": "high",
+        "needs_review_reason": "Taqdīr is explicitly stated in the source for this clause; still check how the implied element distributes syntactically across the full verse context.",
+        "quran_ref": "S3:A121"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا",
+        "claim_ar": "دلالة الخبر على سبب/حِكْمَة: الخبر يبيّن سببًا أو حالًا مفاده أن الله لم يكن مُغَيِّرًا.",
+        "claim_en": "Semantic effect: the predicate conveys a causal/explanatory sense — that is, it indicates that Allah did not (is not) a changer.",
+        "root": "سمع",
+        "lemma": "سَمِيع",
+        "confidence": "high",
+        "needs_review_reason": "The source states this explicative reading directly; verify how this semantic reading integrates with surrounding context in the verse.",
+        "quran_ref": "S3:A121"
+      }
+    ],
+    "warnings": [
+      "The cited chunk discusses the phrase with the particle 'أَنَّ' (وَأَنَّ اللَّهَ سَمِيعٌ عَلِيمٌ). The actual provided ayah begins with 'وَاللَّهُ سَمِيعٌ عَلِيمٌ'. Verify whether al-ʿAkbari's comments (on insertion/readings of 'أَنَّ' and its taqdīr) are intended for this exact wording or for a different occurrence of the phrase.",
+      "Only one source chunk contained relevant material; other chunks provided do not address the grammatical points of this ayah. Further corroboration from additional commentaries/editions may be useful for disputed reading/applicability."
+    ]
+  },
+  "n_chunks": 12
+}

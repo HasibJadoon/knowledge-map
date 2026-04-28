@@ -1,0 +1,44 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:237",
+  "result": {
+    "claims": [
+      {
+        "word_index": 16,
+        "claim_type": "takrar",
+        "source_quote_ar": "وكرر الأمر للتوكيد.",
+        "claim_ar": "تكرار فعل العفو (يَعْفُونَ، يَعْفُوَ، تَعْفُوا) في الآية: تكرار يضفي توكيدًا وتحفيزًا على فعل العفو والتسامح.",
+        "claim_en": "Repetition of the verb of forgiveness (yaʿfūn, yaʿfū, taʿfū) in the verse: the repetition adds emphasis and encouragement to forgive/renounce rights.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "عفو",
+        "lemma": "عَفَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A237",
+        "rhetorical_effect": "strengthens moral exhortation; turns a legal allowance into an emphasized ethical preference"
+      },
+      {
+        "word_index": 24,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "التفات في الخبر من تقرير حكم (وَفَرَضْتُمْ...) إلى خطاب ونصيحة موجهة (وَأَنْ تَعْفُوا أَقْرَبُ لِلتَّقْوَى)، أي تحول من البيان القضائي إلى الحثّ الأخلاقي.",
+        "claim_en": "Iltifat (shift): a turn from stating a legal ruling (\"you have prescribed...\") to an addressive exhortation (\"and that you forgo is nearer to piety\"); a shift from juristic statement to moral appeal.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "عفو",
+        "lemma": "عَفَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk gives a general description of 'التفات' but does not comment explicitly on this specific verse; the identification is inferential.",
+        "quran_ref": "S2:A237",
+        "rhetorical_effect": "shifts reader/listener attention from legal detail to ethical motivation, increasing persuasive force"
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not contain the literal words of Sura 2:237; the extracted claims are based on general rhetorical comments found in the supplied chunks rather than explicit exegetical notes on this ayah.",
+      "Some device attributions (especially iltifat) are inferential: the source quotes speak of the device in general, not of this verse specifically — such claims should be reviewed against dedicated tafsir/balagha commentary for this ayah.",
+      "Requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present among the supplied source_chunks; source_quote_ar values are taken from the available Zamakhshari/Safi chunks."
+    ]
+  },
+  "n_chunks": 12
+}

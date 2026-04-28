@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:2",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "و (صَفًّا) : مَصْدَرٌ مُؤَكِّدٌ، وَكَذَلِكَ «زَجْرًا» .",
+        "claim_ar": "زَجْرًا: مصدرٌ مُؤَكَّدٌ منصوب (مصدر مؤكَّد، مذكور كمصدر مؤكد في الكلام).",
+        "claim_en": "zajran: a 'masdar mu'akkad' (an emphatic/verbal noun); presented as a nominated masdar (i.e., an emphatic verbal noun).",
+        "root": "زجر",
+        "lemma": "زَجْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "الْوَاوُ لِلْقَسَمِ، وَجَوَابُ الْقَسَمِ: إِنَّ إِلَهَكُمْ.",
+        "claim_ar": "الآية تؤخذ في سياق قسم (الوصل مع آية الصافات): الواو في الآية السابقة للقسم، والعبارة تعمل كقسمٍ، وجوابه في موضع لاحق/مقترن.",
+        "claim_en": "The verse (in its context with the previous verse) functions as an oath: the waw in the preceding clause marks an oath, and the passage is read as a sworn statement (with its answer elsewhere).",
+        "root": "زجر",
+        "lemma": "زَجْر",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted remark explicitly refers to the waw in the preceding clause (وَالصَّافَّاتِ). Applicability of 'واو للقسم' to the current word فَالزَّاجِرَاتِ (word_index 1) depends on broader verse-level context and may need review."
+      }
+    ],
+    "warnings": [
+      "The source discusses both الآية الأولى (وَالصَّافَّاتِ صَفًّا) and الآية الثانية (فَالزَّاجِرَاتِ زَجْرًا). Some statements (e.g. 'الْوَاوُ لِلْقَسَمِ') refer to the waw in the previous verse (وَالصَّافَّاتِ) rather than exclusively to the words provided for this ayah. Claims based on such context are marked with lower confidence and a needs_review note."
+    ]
+  },
+  "n_chunks": 5
+}

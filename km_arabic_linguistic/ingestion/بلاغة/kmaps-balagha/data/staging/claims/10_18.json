@@ -1,0 +1,90 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "iltifat",
+        "source_quote_ar": "قل",
+        "claim_ar": "التفات بالقول إلى أمرٍ مباشِر: الانتقال إلى صيغة الأمر «قُلْ...» ليفجّر تحدّيًا واستنكارًا لقول المشركين.",
+        "claim_en": "Iltifat (shift): the Qur'an turns to a direct imperative 'قُل' to launch a pointed challenge and express astonished reproach of the polytheists' claim.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk (f330950f...) documents the word 'قل' grammatically but does not elaborate this specific rhetorical label; assignment relies on standard rhetorical reading rather than an explicit statement in the given chunk.",
+        "quran_ref": "S10:A18",
+        "rhetorical_effect": "sharpens the reproach, shifts addressee-attitude and foregrounds the challenge."
+      },
+      {
+        "word_index": 16,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "يستنبئون",
+        "claim_ar": "سؤال إنشائي استفهامي يدفع إلى الاستنكار: «أَتُنَبِّئُونَ اللَّهَ بِمَا لَا يَعْلَمُ...» يُطرح على نحوٍ يجعل جواب النفي ضمنيًا.",
+        "claim_en": "Rhetorical interrogation (ijab/inshā'): the question 'أَتُنَبِّئُونَ اللَّهَ...' is posed so as to express incredulity; the negative answer is implied rather than argued.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "نبا",
+        "lemma": "نَبَّأَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk (f330950f...) contains the related verb form 'يستنبئون' in a grammatical discussion; it does not explicitly label this rhetorical move, so the classification is an interpretive reading that should be reviewed against dedicated rhetoric commentary.",
+        "quran_ref": "S10:A18",
+        "rhetorical_effect": "puts the interlocutors on the defensive and exposes absurdity of their claim by framing the negative as self-evident."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "tibaq",
+        "source_quote_ar": "لا",
+        "claim_ar": "تناصٌ وتضادّ مبنيّان على الضدين «لا يَضُرُّهُمْ وَلَا يَنْفَعُهُمْ» — تركيب ذو مقابلة (تِبَاق) يؤكد عجز المعبودات المدعاة.",
+        "claim_en": "Tibaq (antithesis/contrast): the paired negatives 'لا يَضُرُّهُمْ وَلَا يَنْفَعُهُمْ' set up a direct opposition (harm vs. benefit) to emphasize the idols' impotence.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "ضرر",
+        "lemma": "ضَرَّ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunks do not contain the full quoted phrase from the ayah; the source_quote_ar is the minimal particle 'لا' found in the chunks (69ad7dea). The assignment of 'tibaq' rests on the ayah text itself rather than an explicit rhetorical discussion in the chunks, so review against specialized rhetoric sources is recommended.",
+        "quran_ref": "S10:A18",
+        "rhetorical_effect": "sharpens the argument by juxtaposition; the binary opposition makes the idols' impotence emphatic."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "(لا) نافية",
+        "claim_ar": "تكرار أسلوب النفي «لا ... ولا ...» لتكثيف النفي والتقليل من قدر المعبودات المزعومة.",
+        "claim_en": "Takrār (repetition): the double negation pattern 'لا ... ولا ...' multiplies and intensifies the negation, diminishing the supposed power of their idols.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "ما (أداة نفي)",
+        "lemma": "لا",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk (69ad7dea) discusses 'لا' as a negation particle but does not analyze this verse's rhetorical repetition specifically; claim extrapolates rhetorical function from the ayah structure and should be cross-checked with tafsir-balagha commentaries.",
+        "quran_ref": "S10:A18",
+        "rhetorical_effect": "adds emphasis and rhetorical force to the denial of any efficacy of the idols."
+      },
+      {
+        "word_index": 26,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "سبحان",
+        "claim_ar": "تنزيه وتعالي: «سُبْحَانَهُ وَتَعَالَى عَمَّا يُشْرِكُونَ» صياغة تنزيه تُبعد عن الله ما يُشركون به، تعظيم وتنزيه يقطع أي نسبٍ للمشاركة.",
+        "claim_en": "Tarf/tankir (affirmation/negation of attributes; glorification & negation of association): 'سُبْحَانَهُ وَتَعَالَى عَمَّا يُشْرِكُونَ' functions to glorify God and simultaneously negate the ascription of partners—a rhetorical act of purification (tanzīh).",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir",
+        "root": "سبح",
+        "lemma": "سُبْحَان",
+        "confidence": "high",
+        "needs_review_reason": "The chunk (69ad7dea and 61ad4fb) explicitly discuss 'سبحان' in grammatical/tafsir contexts; assigning the rhetorical label 'tarif_tankir' is consistent with tafsir practice but should be confirmed against primary balagha sources if needed.",
+        "quran_ref": "S10:A18",
+        "rhetorical_effect": "asserts God's transcendence and negates any basis for the polytheists' claim of intercession, closing the rhetorical space for their assertion."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from general tafsir/grammar (Zamakhshari, Safi/al-Jadwal, etc.), not from the specific rhetoricians named (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha). This limits direct attribution of rhetorical labels to those authors' explicit statements.",
+      "Several source_quote_ar values are short tokens (e.g., 'قل', 'لا', 'سبحان', 'يستنبئون') because the chunks do not contain longer verbatim strings from the ayah. The rhetorical classifications therefore rely on reading the ayah text in combination with small grammatical citations in the chunks—please review against full balagha commentaries.",
+      "Some device assignments (e.g., ijab_inshaa, tibaq) are interpretive and drawn from standard rhetorical readings of the verse rather than explicit declarations in the supplied chunks; mark these for expert review if strict source-evidence mapping is required.",
+      "No direct quotations from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or dedicated tafsir-balagha excerpts were found in the provided chunks; if claims must be strictly sourced to those authors, supply their texts or allow broader tafsir sources."
+    ]
+  },
+  "n_chunks": 12
+}

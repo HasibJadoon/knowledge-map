@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:176",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "إيجاب الإنشاء",
+        "source_quote_ar": "(إنّ) حرف مشبّه بالفعل للتوكيد",
+        "claim_ar": "إنَّ هنا حرف مشبه بالفعل يستعمل للتوكيد، فيثبت خبر نزول الكتاب بالحق.",
+        "claim_en": "The particle 'إنَّ' here is a verb-like particle used for emphasis, which serves to firmly assert the proposition that God revealed the Book in truth.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A176",
+        "rhetorical_effect": "توكيد وتثبيت خبر نزول الكتاب بالحق"
+      }
+    ],
+    "warnings": [
+      "The user requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha, but the provided source_chunks contain only Zamakhshari (al-Kashshaf) and Safi (al-Jadwal). Claims are thus limited to material present in the supplied chunks.",
+      "Only an explicit commentary on (إنّ) was found in the provided chunks; no other clear classical-rhetorical devices for this ayah could be supported by exact substrings from the supplied sources."
+    ]
+  },
+  "n_chunks": 12
+}

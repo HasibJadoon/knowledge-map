@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:86",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "يُقْرَأُ بِالْوَاوِ، وَفِيهِ وَجْهَانِ:",
+        "claim_ar": "حرف العطف واو في «وَجَاهِدُوا» واو عطف، و«جَاهِدُوا» معطوف على «آمِنُوا».",
+        "claim_en": "The conjunction waw in 'وَجَاهِدُوا' functions as a coordinating conjunction; 'jāhidū' is a conjunct (ma‘ṭūf) linked to the preceding command 'āminū'.",
+        "root": "جهد",
+        "lemma": "جَٰهَدَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage in al-Tibyan discusses the reading and syntactic effect of a waw in a different lexical example (وَالَّذِينَ اتَّخَذُوا); applying the same observation to وَجَاهِدُوا in this ayah is a plausible generalization but not explicitly treated in the provided chunk.",
+        "quran_ref": "S9:A86"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not include a direct, explicit iʿrāb commentary on the exact words of S9:A86. The claim above is an inferred application of al-Tibyan's discussion of the waw of conjunction (example: وَالَّذِينَ اتَّخَذُوا) to the waw in وَجَاهِدُوا. Review against a direct commentary on this specific ayah is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

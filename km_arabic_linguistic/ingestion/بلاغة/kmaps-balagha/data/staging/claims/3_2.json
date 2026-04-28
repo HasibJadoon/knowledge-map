@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:2",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "(إِلهٍ إِلَّا اللَّهُ)",
+        "claim_ar": "تركيب «إِلَهٍ ... إِلَّا» يفيد الحصر والاستغراق في توحيد الألوهية؛ أي أنه لا إله بحق إلا الله وحده.",
+        "claim_en": "The construction 'إِلَهٍ ... إِلَّا' conveys restriction/exhaustivity in the oneness of divinity — i.e. there is no true god except God alone.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "اله",
+        "lemma": "إِلَٰه",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source (al-Kashshaf) discusses the construction in the phrase «ما مِنْ إِلهٍ إِلَّا اللَّهُ» rather than the exact wording of this ayah («لَا إِلَهَ إِلَّا هُوَ»); the rhetorical reading is likely equivalent but should be corroborated with additional sources discussing this exact ayah."
+      }
+    ],
+    "warnings": [
+      "Only one provided source chunk (Zamakhshari al-Kashshaf) directly treats the 'إِلَهٍ ... إِلَّا' construction; other chunks do not discuss this ayah.",
+      "The source uses a slightly different syntactic frame («ما مِنْ إِلهٍ إِلَّا اللَّهُ») than the ayah's wording («لَا إِلَهَ إِلَّا هُوَ»). Verify equivalence across additional rhetoric/tafsir sources before finalizing K-Map entries."
+    ]
+  },
+  "n_chunks": 12
+}

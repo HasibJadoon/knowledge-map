@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:66",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "مَثَلُ الَّذِينَ كَفَرُوا",
+        "claim_ar": "في عبارة «مَثَلُ الَّذِينَ كَفَرُوا»: «مَثَلُ الَّذِينَ كَفَرُوا» مبتدأ، و«الَّذِينَ كَفَرُوا» جزء منها (خبر محذوف لاحقًا)",
+        "claim_en": "In the phrase \"مَثَلُ الَّذِينَ كَفَرُوا\": the whole expression functions as the mubtada' (subject); the relative clause \"الَّذِينَ كَفَرُوا\" is part of that subject (with the predicate omitted).",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited discussion treats the phrase «الَّذِينَ كَفَرُوا» (third-person plural) while the ayah word is كَفَرْتُمْ (second-person plural); the grammatical function may be analogous but the forms differ and require checking against the actual verse context."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "taqdir",
+        "source_quote_ar": "مُبْتَدَأٌ، وَالْخَبَرُ مَحْذوفٌ",
+        "claim_ar": "الخبر محذوف (لا بد من تقدير خبر للمبتدأ في هذا التركيب).",
+        "claim_en": "The predicate (khabar) is omitted — an implied predicate (taqdir) must be supplied for the mubtada' in this construction.",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source states the predicate is omitted for the example phrase; applying this to the current verse (which includes a finite verb with a pronoun) needs verification because the syntactic environments are not identical."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not quote S9:66 directly. Extracted claims are based on analogous examples in al-Tibyan (e.g. «مَثَلُ الَّذِينَ كَفَرُوا») and may not map exactly to the forms in the given ayah (e.g. كَفَرْتُمْ vs كَفَرُوا).",
+      "Word indices refer to the words of S9:66 as supplied, but the source excerpts address different lexical forms or different verses; therefore each claim is labeled with 'medium' confidence and should be reviewed against the full commentary for this specific ayah."
+    ]
+  },
+  "n_chunks": 12
+}

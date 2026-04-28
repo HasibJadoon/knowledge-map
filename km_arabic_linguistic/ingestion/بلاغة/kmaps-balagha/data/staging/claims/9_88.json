@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:88",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No usable rhetoric claims could be extracted: none of the provided source_chunks contain explicit balāgha (rhetorical) commentary or direct quotations that match substrings of this āyah in a way that supports assigning a device with a valid source_quote_ar. Because source_quote_ar must be an exact substring of one of the provided chunks, I could not generate grounded claims for this āyah from the given texts."
+    ]
+  },
+  "n_chunks": 12
+}

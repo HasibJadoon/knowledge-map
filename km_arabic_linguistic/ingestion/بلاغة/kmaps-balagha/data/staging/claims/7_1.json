@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "على سبيل التحدّى والتنبيه على الإعجاز",
+        "claim_ar": "الحرف «ص» موظف على سبيل التحدّي والتنبيه إلى إعجاز القرآن (إلْتِفاف الحرف كإشارة إلى إعجاز الكلام).",
+        "claim_en": "The letter “ṣād” is employed as a challenge/alert to the Qur'an's inimitability (i'jaz).",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "ع ج ز",
+        "lemma": "إعجاز",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "ثم أتبعه القسم محذوف الجواب لدلالة التحدّى عليه",
+        "claim_ar": "الحرف يتبع بقسم محذوف الجواب: أي أن الحرف يعمل كفعل إنشائي (قَسَم) يُستعمل للدلالة على التحدّي، مع حذف جواب القسم.",
+        "claim_en": "The letter is followed (in the text) by an implied oath whose answer is omitted: the letter functions as an enunciative/oath act used to indicate challenge, with the reply omitted.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "ق س م",
+        "lemma": "قسم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "* الإعراب: (الواو) واو القسم (القرآن) مجرور بالواو متعلّق بفعل محذوف تقديره أقسم.",
+        "claim_ar": "جملة قسمية مع فعل محذوف (تقدير: «أقسم»)؛ توظيف واو القسم هنا إنشائي ويؤشر إلى حذف جواب القسم في السياق البلاغي.",
+        "claim_en": "There is an oath-construction with an omitted verb (estimated as “I swear”); the waw of oath is an enunciative device and indicates the omission of the reply in the rhetorical context.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "ق س م",
+        "lemma": "قسم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "على أنها اسم للسورة",
+        "claim_ar": "يُحتمل أن يُفهم حرف «ص» اسمًا للسورة (تسمية) أي وظيفة اسمية بدلاً من كونه مجرد حرف متعرّض للتحدّي.",
+        "claim_en": "It is possible to understand the letter “ṣād” as the name of the surah (a nominal naming function) rather than merely a disconnected letter for challenge.",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir",
+        "root": "",
+        "lemma": "ص (حرف)",
+        "confidence": "medium",
+        "needs_review_reason": "Single-letter tokens are non-lexical; assigning root/lemma is uncertain and interpretation depends on exegetical choice."
+      }
+    ],
+    "warnings": [
+      "Several claims concern a single disjoined letter («ص»). Single-letter tokens are non-lexical; providing a lexical root/lemma is problematic—see needs_review_reason fields.",
+      "Mapping of some tafsīr observations to specific predefined device_subtypes (from the requested list) involved interpretive choice (e.g., treating an isolated letter followed by implied reply as 'ijab_inshaa'). Please review if different subtype terms are preferred.",
+      "All source_quote_ar values are taken exactly from the provided source chunks; claims are limited to what those chunks explicitly state or strongly imply."
+    ]
+  },
+  "n_chunks": 12
+}

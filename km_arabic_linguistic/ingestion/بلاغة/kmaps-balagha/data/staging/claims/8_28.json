@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:28",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No rhetoric claims extracted: none of the provided source_chunks contain exact substrings of the target ayah (وَاعْلَمُوا أَنَّمَا أَمْوَالُكُمْ وَأَوْلَادُكُمْ فِتْنَةٌ وَأَنَّ اللَّهَ عِندَهُ أَجْرٌ عَظِيمٌ) required for source_quote_ar. The extraction rules require source_quote_ar to be an exact substring of a provided chunk.",
+      "Please supply source chunks (from the listed authors: al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha) that include either the exact verse text or explicit quoted analysis phrases matching words/phrases of this ayah (e.g., 'أَنَّمَا', 'أَمْوَالُكُمْ', 'أَوْلَادُكُمْ', 'فِتْنَةٌ', 'أَجْرٌ عَظِيمٌ', 'وَاعْلَمُوا', 'وَأَنَّ اللَّهَ') so that claims can be anchored to source_quote_ar substrings."
+    ]
+  },
+  "n_chunks": 12
+}

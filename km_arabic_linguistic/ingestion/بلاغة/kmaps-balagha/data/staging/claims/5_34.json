@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:34",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "يغفر لهؤلاء إن تابوا",
+        "claim_ar": "حصر المغفرة بالمُتَوبين — تأكيد أن المغفرة مخصصة لأولئك الذين تابوا",
+        "claim_en": "Limitation/exclusion: the forgiveness is restricted to those who repent (the text specifies forgiveness for 'these' if they repent).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk uses the phrase «يغفر لهؤلاء إن تابوا» (which shows limitation) rather than quoting the particle «إِلَّا» explicitly; the inferential leap that this is the function of the exception particle should be checked against fuller tafsir contexts."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "tibaq",
+        "source_quote_ar": "وفيه تعجب من إصرارهم وَاللَّهُ غَفُورٌ رَحِيمٌ",
+        "claim_ar": "تباين بلاغي بين التهديد والإحسان الإلهي — وقوع عبارة الرحمة (اللَّهُ غَفُورٌ رَحِيمٌ) مباشرة بعد ذكر الوعيد، مما يبرز التناقض والتعجب من إصرارهم على الكفر.",
+        "claim_en": "Antithetical contrast (tibaq): the statement of divine mercy ('Allah is Forgiving, Merciful') follows a severe warning, producing a rhetorical contrast and emphasizing incredulity at persistence in disbelief.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "غفر",
+        "lemma": "غَفُور",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided contain a limited set of commentaries (not all listed classical authors appear in the chunks). Claims here are anchored to the available chunk(s) (Zamakhshari material present); they should be reviewed against the full set of requested sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) if comprehensive attribution is required.",
+      "Some inferences (e.g., mapping the particle «إِلَّا» to the specific quoted phrase «يغفر لهؤلاء إن تابوا») rely on paraphrase in the available chunk rather than an explicit mention of the exact particle; consider verifying with fuller tafsir text."
+    ]
+  },
+  "n_chunks": 12
+}

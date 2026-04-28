@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "39:58",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "قَوْله تَعَالَى {أَن تَقولُوا} يجوز أَن يكون فَاعل {كبر} أَو على تَقْدِير هُوَ وَيكون التَّقْدِير كبر ذَلِك وَأَن يكون بَدَلا",
+        "claim_ar": "يُعرض في المصنّف احتمالان لإعراب جملة الفعل (مثالًا في المصدر: {أَن تَقولُوا})؛ فتُجْوَز أن تكون فاعلًا لكِبَرٍ أو على تقدير «هو»، كما تُجْوَز أن تكون بَدَلًا. بالمقارنة، يجوز تطبيق هذه الوجوه الإعرابية كاحتمالات على كلمة (تَقُولَ) في هذه الآية.",
+        "claim_en": "The author presents alternative grammatical analyses for the verbal clause (example in the source: {أَن تَقولُوا}): it may be the subject (fa'il) of 'kabur' or understood as 'huwa' (i.e. on the estimation 'he'), and it may also be a substitute (badal). By analogy, these alternative readings may be applied as possible analyses for the verb (تَقُولَ) in this verse.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited example in the source is the clause with أَن (أَن تَقولُوا) from another verse; the aya's form here is أَو تَقُولَ (different particle, person/ending). Applicability of the exact analyses to this specific external form needs verification by a specialist."
+      }
+    ],
+    "warnings": [
+      "The available source chunks do not discuss S39:58 explicitly. The extracted claim is based on an analogous discussion in the source about the clause {أَن تَقولُوا}; applicability to the current ayah (which has أَو تَقُولَ) requires further checking.",
+      "No explicit statements in the provided chunks address the i'rab of words like حِينَ, الْعَذَابَ, لَوْ, أَنَّ, لِي, كَرَّةً, فَأَكُونَ, مِنَ, or الْمُحْسِنِينَ for this ayah. Only the quoted passage about {أَن تَقولُوا} was usable."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,44 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:138",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "وحذف العاطف من المقاولة",
+        "claim_ar": "التفات من السرد إلى القول المباشر (حوار): الانتقال من رواية الأحداث إلى مقولة القوم «قَالُوا …» — ما يطلقه البلاغيون على الالتفات/حوار مباشر (حذف العاطف في الانتقال)",
+        "claim_en": "Shift (iltifat) from narrative to direct speech: the text moves from describing the Israelites' movement to their direct utterance 'قَالُوا …' — a classic iltifat/hadith-to-speech turnover (omission of the coordinating particle noted in exegesis).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "لفت",
+        "lemma": "الالتفات",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A138",
+        "rhetorical_effect": "يجذب الانتباه إلى كلام المخاطبين ويمنح الكلام المباشر وضوحاً وحيوية؛ يقرّب السامع من موقف القوم ويشدّ الانتباه للتصعيد في الحوار."
+      },
+      {
+        "word_index": 17,
+        "claim_type": "tashbih",
+        "source_quote_ar": "كفاراً مثلنا",
+        "claim_ar": "استعمال صيغة المقارنة/التشبيه في طلبهم «اجعل لنا إلهاً كما لهم آلهة» — مخاطبون يَرْجُون تشبيه حالهم بغيرهم (كَمَا + مثال) ليبرروا الطلب.",
+        "claim_en": "Use of comparative/simile formulation: their request 'make for us a god as they have gods' employs comparison (كَمَا) to align themselves with others — a simile/comparative move.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "شبه",
+        "lemma": "تشبيه",
+        "confidence": "medium",
+        "needs_review_reason": "Supporting source is an analogous example of the rhetorical function of 'مثل/كما' in the provided commentary, not an explicit commentary on this exact verse; verify with more direct sources.",
+        "quran_ref": "S7:A138",
+        "rhetorical_effect": "يُخفّف وزن الرفض الأخلاقي بتقديم الطلب على صورة تقليد اجتماعي (هم مثلهم)، مما يبرّر الفعل لدى المتكلّمين ويضعه في إطار اعتياد ومألوف."
+      }
+    ],
+    "warnings": [
+      "المصادر المرفقة (مقاطع الزمخشري والطبري) لا تحتوي على تعليق صريح ومباشر على الآية رقم S7:A138 حول جميع خصائص البلاغة المطلوبة؛ بعض الاستخلاصات اعتمدت على أمثلة أو مناقشات عامة في المقاطع لتوضيح الجهاز البلاغي.",
+      "الادعاء المتعلق بالتشبيه (كَمَا) مستند إلى مثالٍ نظير في النصوص الموفرة («كفاراً مثلنا») وليس إلى تعليق صريح على العبارة نفسها في الآية؛ راجع شروح بلاغية إضافية للتاكد.",
+      "لم تُستخرج أجهزة بديعية إضافية (مثل تكرار لفظي دقيق أو جناس) لعدم وجود نصّ تفسيري صريح ضمن المقاطع المرفقة يدلّ عليها؛ إن أردت، أمدد بمصادر بلاغية أوسع لاستخراج مزيد من المطابقات."
+    ]
+  },
+  "n_chunks": 12
+}

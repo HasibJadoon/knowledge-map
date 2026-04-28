@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:75",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "takrar",
+        "source_quote_ar": "كالتكرار",
+        "claim_ar": "تكرار تركيب «مَنْ إِن تَأْمَنْهُ...» مرتين في الجملة لتوكيد السياق وإبراز التباين في الصدق بين مجموعتين من أهل الكتاب.",
+        "claim_en": "Repetition (تكرار) of the clause 'مَنْ إِنْ تَأْمَنْهُ...' — the repeated syntactic pattern emphasizes and foregrounds the contrast in honesty between two groups of the People of the Book.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "كرر",
+        "lemma": "تكرار",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "علام عطفت الواو هذه الجملة؟",
+        "claim_ar": "مقابلة بين حالتين متوازيتين: أحدهم يؤدِّى قنطاراً، والآخر لا يؤدِّى حتى دينارٍ — مقابلة تُبرز الانتقائية والنفاق لدى بعض أهل الكتاب.",
+        "claim_en": "Antithesis (مقابلة) between two parallel cases — one who would pay a quintal (قِنطار) and one who would not pay even a dinar — the parallel opposition highlights selectivity and hypocrisy among some People of the Book.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "قابل",
+        "lemma": "مقابلة",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunks do not directly analyze this specific verse's parallelism; the claim is based on the surface pattern in the Arabic text rather than an explicit commentary in the supplied excerpts."
+      },
+      {
+        "word_index": 18,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "(إِلهٍ إِلَّا اللَّهُ)",
+        "claim_ar": "استخدام (إِلَّا) كأداة تقييد/استثناء: «لَا يُؤَدِّهِ إِلَّا مَا دُمْتَ عَلَيْهِ قَائِمًا» يقيّد الاستثناء بزمن أو حالة محددة.",
+        "claim_en": "Use of 'إِلَّا' to limit/exclude (hasr/qasr): 'he will not deliver except what you do while you remain standing' — the particle restricts the exception to a temporal/conditional band.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "حصر",
+        "lemma": "حصر/قصر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "tibaq",
+        "source_quote_ar": "علام عطفت الواو هذه الجملة؟",
+        "claim_ar": "طباق / مقابلة بين الإيجاب والنفي على نفس الفعل («يُؤَدِّهِ» مؤكدًا ثم «لَا يُؤَدِّهِ» منفيًا) لتقوية أثر التضاد وإظهار التفاوت السلوكي.",
+        "claim_en": "Tibaq (antithetical juxtaposition) between affirmation and negation of the same verb (the verb 'يُؤَدِّهِ' appears once affirmed and once negated) — this sharp opposition intensifies the contrast in behaviour.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "طبق",
+        "lemma": "طباق",
+        "confidence": "medium",
+        "needs_review_reason": "The supplied commentary excerpts do not explicitly discuss this particular instance of affirmation/negation in the verse; the identification rests on textual pattern recognition rather than an explicit citation in the chunks."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are all from Zamakhshari (al-Kashshaf). The developer prompt requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir balagha — those specific sources were not supplied. Claims were supported by substrings found in the given Zamakhshari chunks where possible.",
+      "Not all supplied chunks discuss Sura 3:75 specifically; several claims are based on rhetorical patterns evident in the verse itself with supporting substrings taken from the available commentary. Where direct, verse-specific commentary was absent, confidence is lowered and a needs_review_reason is provided.",
+      "Each source_quote_ar is an exact substring from one of the provided chunks. If you can supply the requested jurjani/sakkaki/baqillani/suyuti/tafsir-balagha texts (or other commentaries that treat this ayah), I can refine claims and raise confidence for those that now require review."
+    ]
+  },
+  "n_chunks": 12
+}

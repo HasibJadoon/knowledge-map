@@ -1,0 +1,58 @@
+{
+  "layer": "irab",
+  "ayah_key": "18:21",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "مَوْضِعُ الْجُمْلَةِ نَصْبٌ بِـ «يَعْلَمُ» الْمُقَدَّرَةِ",
+        "claim_ar": "اسم «أَنَّ» (وَعْدَ) منصوب في محل مفعول به لـ «لِيَعْلَمُوا».",
+        "claim_en": "The noun 'waʿd' (وَعْدَ) is the ism of 'an' and is accusative (mansub) as the object of لِيَعْلَمُوا.",
+        "root": "وعد",
+        "lemma": "وَعْد",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S18:A21"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "irab",
+        "source_quote_ar": "مَوْضِعُ الْجُمْلَةِ نَصْبٌ بِـ «يَعْلَمُ» الْمُقَدَّرَةِ",
+        "claim_ar": "اسم «أَنَّ» (السَّاعَةَ) منصوب في محل مفعول به لـ «لِيَعْلَمُوا».",
+        "claim_en": "The noun 'as-saʿa' (السَّاعَةَ) is the ism of 'an' and is accusative (mansub) as the object of لِيَعْلَمُوا.",
+        "root": "سوع",
+        "lemma": "سَاعَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S18:A21"
+      },
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "وَ «يَضِلُّ» الْخَبَرُ",
+        "claim_ar": "«حَقٌّ» خبر «أَنَّ» مرفوع.",
+        "claim_en": "'Haqq' (حَقٌّ) is the predicate (khabar) of 'an' and is nominative (marfūʿ).",
+        "root": "حقق",
+        "lemma": "حَقّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage gives a parallel example (يَضِلُّ is the خبر); applying it to حَقٌّ is standard but the source example is from a different lexical item.",
+        "quran_ref": "S18:A21"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "taalluq",
+        "source_quote_ar": "مَوْضِعُ الْجُمْلَةِ نَصْبٌ بِـ «يَعْلَمُ» الْمُقَدَّرَةِ",
+        "claim_ar": "الجملة بعد «أَنَّ» متعلقة بالفعل «لِيَعْلَمُوا» (أي أنها مفعول به له).",
+        "claim_en": "The clause introduced by 'an' is syntactically attached to (is the object of) the verb لِيَعْلَمُوا.",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S18:A21"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

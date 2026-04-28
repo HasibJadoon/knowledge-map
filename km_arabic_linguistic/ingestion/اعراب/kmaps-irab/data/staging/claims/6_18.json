@@ -1,0 +1,68 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "(وَهُوَ اللَّهُ) : وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "وَهُوَ مبتدأ (في تركيب «وَهُوَ ...»)؛ أي: ضمير «هو» في محل رفع مبتدأ.",
+        "claim_en": "The particle/phrase 'wa huwa' functions as the mubtada' (subject); the pronoun 'huwa' is a nominative subject.",
+        "root": null,
+        "lemma": "هو",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "(وَهُوَ اللَّهُ) : وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "الْقَاهِرُ خبر للمبتدأ «وهو» (أي: «وَهُوَ الْقَاهِرُ» الخبر).",
+        "claim_en": "al-Qāhir is the predicate (khabar) of the mubtada' 'wa huwa' (i.e. 'wa huwa al-qāhir').",
+        "root": "قهر",
+        "lemma": "قَاهِر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "(وَهُوَ اللَّهُ) : وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "وَهُوَ (الموضع الثاني) مبتدأ أيضاً في الجملة الثانية من الآية.",
+        "claim_en": "The second 'wa huwa' (word 5) is likewise a mubtada' (subject) in the second clause of the verse.",
+        "root": null,
+        "lemma": "هو",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "(وَهُوَ اللَّهُ) : وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "الْحَكِيمُ خبر للمبتدأ «وهو» في الجملة الثانية (جزء من الخبر المركب).",
+        "claim_en": "al-Ḥakīm is the predicate (khabar) of the mubtada' 'wa huwa' in the second clause (part of a compound predicate).",
+        "root": "حكم",
+        "lemma": "حَكِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "(وَهُوَ اللَّهُ) : وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "الْخَبِيرُ إما أن يكون خبرًا مكملًا لِـ«الْحَكِيمُ» (خبر مشارك/موازي) أو نعتًا له؛ في هذا السياق يُعتبر أيضاً جزءاً من خبر الجملة.",
+        "claim_en": "al-Khabīr may function as an additional predicate completing the predicate phrase (a coordinated/pair predicate) or as an adjective (naʿt) qualifying al-Ḥakīm; here it is treated as part of the khabar of 'wa huwa'.",
+        "root": "خبر",
+        "lemma": "خَبِير",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source shows the general pattern «وَهُوَ ... الْخَبَرُ» but does not explicitly discuss whether a second noun is analysed as coordinated خبر or as نعت; classical grammars vary on such cases."
+      }
+    ],
+    "warnings": [
+      "Source chunks supplied give a general template for constructions of the form «وَهُوَ ...» (showing «وَهُوَ» as مبتدأ and the following noun as خبر) but do not discuss the phrase «فَوْقَ عِبَادِهِ». No claim about the syntactic attachment (تعلّق) of «فَوْقَ عِبَادِهِ» was extracted because the chunks do not contain an explicit comment on it.",
+      "The status of الْخَبِيرُ (word 7) as separate خبر vs نعت/modifier is potentially ambiguous; the source material here does not resolve that distinction for this instance and so that claim is marked for review."
+    ]
+  },
+  "n_chunks": 12
+}

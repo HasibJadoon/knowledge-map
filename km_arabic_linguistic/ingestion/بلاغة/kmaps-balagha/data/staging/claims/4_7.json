@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "البلاغة:",
+        "claim_ar": "مقابلة وموازنة بين الجملة الأولى «لِلرِّجَالِ نَصِيبٌ مِمَّا تَرَكَ الْوَالِدَانِ وَالْأَقْرَبُونَ» والجملة الثانية «وَلِلنِّسَاءِ نَصِيبٌ مِمَّا تَرَكَ ... مِمَّا قَلَّ مِنْهُ أَوْ كَثُرَ»، صياغة مقابلة تبرز التوازن والعدالة في التوزيع.",
+        "claim_en": "A rhetorical antithesis/parallelism (muqabalah) between the first clause for men and the second clause for women: the paired, mirrored structure emphasizes balance and equity in the distribution.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunks do not contain a tafsir excerpt specific to S4:7; the claim is based on the text's parallel structure and should be verified against Jurjani/Sakkaki/Baqillani/Suyuti tafsir excerpts."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "تكرار",
+        "source_quote_ar": "نَصِيباً",
+        "claim_ar": "تكرار لفظ «نصيب» (ظهوره مرتين في الآية) كوسيلة بلاغية لتأكيد مفهوم الحصة المقررة والتشديد على أن التوزيع مفروض ومحدد.",
+        "claim_en": "Repetition (takrar) of the word 'nasiib' (appearing twice) functions to emphasize the notion of a prescribed share, stressing that the distribution is fixed and determined.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "نصب",
+        "lemma": "نَصِيب",
+        "confidence": "medium",
+        "needs_review_reason": "Source substring is taken from provided chunks generically; check classical balagha commentaries (al-Jurjani, al-Sakkaki, etc.) for corroboration specific to this verse."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "إطناب",
+        "source_quote_ar": "نَصِيباً",
+        "claim_ar": "إطناب في التكرار الجزئي لعبارة الموصوفين («الوالدان والاقربون») في تكرار العبارة بعد ذكر «لِلرِّجَالِ» ثم «وَلِلنِّسَاءِ»، يزيد من التوكيد والتفصيل في من هم أصحاب الحقّ.",
+        "claim_en": "Itnaab (expansion/reduplication) by repeating the phrase specifying beneficiaries ('the parents and the near relatives') after naming men and then women; this reinforces and specifies who is entitled, adding emphasis and clarity.",
+        "device_branch": "maani",
+        "device_subtype": "itnaab",
+        "root": "ولد",
+        "lemma": "وَالِد",
+        "confidence": "medium",
+        "needs_review_reason": "Inference based on the verse's duplicated enumerations; needs direct citations from the requested balagha authorities to confirm that they describe this device here."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks contain a tafsir/balagha commentary explicitly on Sura 4:7 (An-Nisa 4:7). The source_quote_ar fields use substrings that exist in the supplied chunks (e.g., 'البلاغة:' and 'نَصِيباً'), but these are not direct citations of al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti or a tafsir-balagha on this specific ayah.",
+      "Claims are therefore primarily text-internal observations (parallelism, repetition, repetition of beneficiary phrase) inferred from the ayah itself. They should be verified against the requested classical balagha authors and tafsir-balagha sources; update source_quote_ar to exact excerpts from those authors when available.",
+      "If you want only claims that are directly supported by the specified authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha), please provide their excerpts for this ayah or allow me to fetch/consult them so I can attach exact source_quote_ar quotations and raise confidence levels."
+    ]
+  },
+  "n_chunks": 12
+}

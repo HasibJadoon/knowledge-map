@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:14",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant discussion or exact quotations for S37:A14 (وَإِذَا رَأَوْا آيَةً يَسْتَسْخِرُونَ) found in the provided source_chunks; no إعراب claims could be extracted."
+    ]
+  },
+  "n_chunks": 5
+}

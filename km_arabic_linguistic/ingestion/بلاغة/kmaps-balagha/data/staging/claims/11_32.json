@@ -1,0 +1,42 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:32",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "مَعاني",
+        "source_quote_ar": "كما قالت قريش لرسول الله ﷺ: لولا أُنزل عليه آية من ربه",
+        "claim_ar": "أسلوب طلب/أمر في «فَأْتِنَا بِمَا تَعِدُنَا» - طلب إحضار الحجة كوسيلة لتحدي مصداقية النبي.",
+        "claim_en": "Imperative/request in 'Bring to us what you promise' — an imperative-demand that functions as a challenge asking the prophet to supply proof of his claim.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "أتي",
+        "lemma": "أَتَى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A32",
+        "rhetorical_effect": "confronts and tests the prophet’s claim; rhetorically shifts the burden of proof onto the prophet, producing scepticism and mock-challenge."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "مَعاني",
+        "source_quote_ar": "ما من رسول إلا واجه قومه بهذا القول",
+        "claim_ar": "عتاب/تنبيه (إتْناب) في عبارة المشركين «قَدْ جَادَلْتَنَا»؛ صيغة تُستخدم للتوبيخ والتقليل من أثر دعوته، واستبعاد صدقيته.",
+        "claim_en": "An admonishing rebuke (itnaab) in the phrase 'You have argued with us' — a reproachful formulation used to dismiss and belittle the prophet's persistent call, implying disbelief in his truthfulness.",
+        "device_branch": "maani",
+        "device_subtype": "itnaab",
+        "root": "جدل",
+        "lemma": "جَٰدَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary is a general remark on prophetic encounters; it supports the identification of a rebuking rhetorical move but does not explicitly analyze the specific phrasing of this verse."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are all from Zamakhshari (al-Kashshaf). Other requested classical rhetoricians (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the input; claims therefore rely only on the available commentary.",
+      "No provided source chunk contains explicit commentary or exact quoted discussion of the words جَادَلْتَنَا / جِدَالَنَا or phonetic/wordplay on those items. Consequently devices that depend on direct commentary of repetition or phonetic wordplay (e.g., badi: takrar/jinas) could not be supported with a source_quote_ar and were not extracted.",
+      "Some claims (marked with medium confidence) are supported by general remarks in the commentary rather than explicit, line-by-line rhetorical analyses of this exact verse; verify with additional tafsir/balagha sources if precise attribution is required."
+    ]
+  },
+  "n_chunks": 12
+}

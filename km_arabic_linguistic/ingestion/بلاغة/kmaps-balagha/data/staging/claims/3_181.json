@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:181",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable balagha claims: none of the provided source_chunks contain exact substrings from S3:A181 or explicit balagha commentary on it. Per the requirement that source_quote_ar must be an exact substring of a provided chunk, no claims can be generated.",
+      "Please provide tafsir/balagha source chunks (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir-balagha) that include verbatim commentary or quotations of this ayah so that device claims can be extracted with valid source_quote_ar substrings."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:75",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "takrar",
+        "source_quote_ar": "(هاجروا، جاهدوا، آووا، نصروا) مثل آمنوا",
+        "claim_ar": "تكرار الأفعال المتتابعة (آمَنُوا، هَاجَرُوا، وَجَاهَدُوا) كأسلوب موازنةٍ وتكثيفٍ للتأكيد على صفة الجماعة والقيام بالأعمال الصالحة.",
+        "claim_en": "The succession of verbs (آمَنُوا, هَاجَرُوا, وَجَاهَدُوا) forms parallel repetition — a balancing/enumerative device that compresses and intensifies the description of the group's faith and deeds.",
+        "device_branch": "badi",
+        "device_subtype": "takrar (parallel verbs / enumerative repetition)",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "أُولَئِكَ اسم إشارة مبنيّ في محلّ رفع مبتدأ",
+        "claim_ar": "الفاء في «فَأُولَئِكَ» تعمل كأداة فصلٍ وربطٍ: تفصل النتيجة عن السياق السابق ثم تربطها به لتأكيد أن المراد من الأعمال الموصوفة هم «أُولَئِكَ» (أولئك منهم) وتقديم تمكينهم وخاصّيتهم.",
+        "claim_en": "The particle fa- in «fa-ulā'ika» functions to separate and then connect: it isolates the resulting statement and links it back to the preceding clause, emphasizing that the described actors are indeed 'those' (from you) and marking their special status.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (separation-and-connection emphasis)",
+        "root": "اول",
+        "lemma": "أُولِى",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive: labeling the fa- here as a rhetorical device of 'separation-and-connection' is interpretive and other commentators may treat it primarily as a grammatical connective."
+      },
+      {
+        "word_index": 18,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "(إنّ) حرف مشبّه بالفعل",
+        "claim_ar": "بداية الجملة بـ«إِنَّ اللَّهَ بِكُلِّ شَيْءٍ عَلِيمٌ» باستخدام «إنَّ» تؤدي دور توكيدٍ واختتامٍ مختصرٍ يختزل حكمًا عامًا في عبارة موجزة ذات قوة تقريرية.",
+        "claim_en": "Starting the clause with «Inna» in «Inna Allāha bikulli shay'in ʿalīm» serves an emphatic and concise closing: it compresses a general ruling into a brief, forceful declarative statement.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz (conciseness / compressed emphatic statement)",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling this effect as 'ijaaz' (conciseness) is a rhetorical reading based on the particle's emphatic force; commentators may prefer a grammatical description (tawkeed) rather than the rhetorical subtype chosen."
+      }
+    ],
+    "warnings": [
+      "The identification of some devices (e.g., labeling the fa- as 'fasl_wasl' or the use of 'إِنَّ' as 'ijaaz') is interpretive; alternative classifications are possible depending on the commentator's approach (grammatical vs. rhetorical).",
+      "Source quotes were taken from the supplied commentary chunks (mainly the al-Jadwal / Safi chunk). Some source fragments list forms or grammatical glosses rather than explicit rhetorical labels; the rhetorical readings above are inferred from those glosses and the ayah text."
+    ]
+  },
+  "n_chunks": 12
+}

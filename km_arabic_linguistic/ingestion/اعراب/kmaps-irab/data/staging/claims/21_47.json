@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:47",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "(مِثْقَالَ حَبَّةٍ) : قَدْ ذُكِرَ فِي الْأَنْبِيَاءِ.",
+        "claim_ar": "ذكر المؤلِّف أن عبارة «مِثْقَالَ حَبَّةٍ» وردت في أخبار الأنبياء.",
+        "claim_en": "The author notes that the phrase 'mīthqāl ḥabba(tin)' ('the weight of a seed') has been mentioned in the narratives of the prophets.",
+        "root": "ثقل",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:30",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الواو استئنافية أو حالية",
+        "claim_ar": "الواو في «وَلَوْ» تعمل كواو استئناف (أو حال)، مستأنفة الجملة لتقديم موقف تخيلي أو تمهيدي قبل البيان.",
+        "claim_en": "The initial waw in «وَلَوْ» functions as a waw of isti'naf (or a circumstantial waw), introducing a resumed/foregrounded clause to present a hypothetical/foregrounded scenario.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (واو الاستئناف)",
+        "root": null,
+        "lemma": "لَو",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الهمزة للاستفهام الإنكاري",
+        "claim_ar": "أَلَيْسَ هنا استفهام إنكاري/تحقيري؛ يُستخدم للتوكيد والإثبات البياني للحقّ، لا للحصول على معلومة جديدة.",
+        "claim_en": "The particle in «أَلَيْسَ» is a rhetorical (negating) interrogative used to affirm and emphasize the truth — a rhetorical question, not a genuine request for information.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim (استفهام إنكاري)",
+        "root": "ليس",
+        "lemma": "لَّيْسَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "الفاء تعليلية",
+        "claim_ar": "الفاء في «فَذُوقُوا» تعمل كفَاء تعليلية/عقدية تربط الجواب بالعقوبة كعاقبة للإنكار السابق، فتأتي صيغة أمر تُعبر عن النتيجة الجزائية.",
+        "claim_en": "The 'fa' in «فَذُوقُوا» functions as a causal/connecting 'fa', linking the preceding affirmation/response to the consequent imperative/threat — the order to taste the punishment as the resulting penalty.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa (أمر/إنشاء للحكم والتهديد)",
+        "root": "ذوق",
+        "lemma": "ذَاقُ",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretation (causal vs. sequential) depends on discourse analysis; source provided is i'raab commentary noting uses of فاء but not an explicit rhetorical treatise on this verse."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are primarily i'rāb (syntactic) commentaries (Darwish - I'rab). The exact rhetorical labels are inferred by mapping grammatical remarks in those chunks to rhetorical devices; classical rhetorical sources (al-Jurjānī, al-Sakkākī, etc.) were not present among the provided chunks for direct quotation.",
+      "Some rhetorical readings (e.g., whether الفاء is strictly تعليلية or merely ترتيبية) require fuller rhetorical commentary; confidence for such claims is reduced accordingly and marked in needs_review_reason where appropriate.",
+      "No exact source chunk contained explicit discussion of certain devices for this specific verse (e.g., oath-formulation «وَرَبِّنَا», dialogic staging). Only claims directly supported by exact substrings from the supplied chunks were extracted."
+    ]
+  },
+  "n_chunks": 12
+}

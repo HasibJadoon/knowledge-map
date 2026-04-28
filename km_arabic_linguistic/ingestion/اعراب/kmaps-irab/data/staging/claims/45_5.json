@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "45:5",
+  "result": {
+    "claims": [
+      {
+        "word_index": 18,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "مسألة : اختلف في جواز العطف على معمولي عاملين",
+        "claim_ar": "مسألة أشار فيها المصنف إلى النزاع النحوي حول جواز العطف على معمولي عاملين (جواز/منع).",
+        "claim_en": "The author cites the grammatical issue (a dispute) concerning the permissibility of conjunction ('عطف') on two governed objects (i.e. conjoining two dependents each governed by its own governor).",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S45:A5"
+      },
+      {
+        "word_index": 18,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "فالمشهور عن سيبويه المنع ، وبه قال المبرد وابن السراج وابن هشام . وجوزه الأخفش والكسائي والفراء والزجاج .",
+        "claim_ar": "ذكر المصنف أسماء النحاة المختلفين: المشهور عن سيبويه والمُتبوعين معه المنع من جواز العطف على معمولي عاملين، بينما جوزه أخفش والكسائي والفراء والزجاج.",
+        "claim_en": "The author records the grammatical disagreement: the well-known position attributed to Sibawayh (and followed by al-Mubarrad, Ibn al-Sarraj, Ibn Hisham) is prohibition of such conjunction, whereas al-Akhfash, al-Kisai, al-Farra', and al-Zajjaj permitted it.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S45:A5"
+      },
+      {
+        "word_index": 18,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وخرج عليه قوله تعالى : إن في السماوات والأرض لآيات للمؤمنين ... وما أنزل الله من السماء من رزق فأحيا به الأرض بعد موتها وتصريف الرياح آيات لقوم يعقلون [ الجاثية : 3 - 5 ] فيمن نصب ( آيات ) الأخيرة .",
+        "claim_ar": "المصنف يورد أن القائلين بجواز العطف استدلوا بآية الجاثية وأنهم ذهبوا إلى نصب كلمة (آيات) الأخيرة في الآية.",
+        "claim_en": "The author notes that those who permit the conjunction appealed to the Qur'anic passage (al-Jathiyah 3–5) and took the final word 'آيات' in that passage to be accusative (i.e. parsed as mansub) as evidence.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S45:A5"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,47 @@
+{
+  "layer": "irab",
+  "ayah_key": "40:54",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (هُدْنَا) : الْمَشْهُورُ ضَمُّ الْهَاءِ، وَهُوَ مِنْ هَادَ يَهُودُ إِذَا تَابَ، وَقُرِئَ بِكَسْرِهَا،",
+        "claim_ar": "هُنَاكَ قراءتان متعاكستان في حركة الهاء: المشهور ضَمُّها، وقُرئَتْ أيضاً بِكَسْرٍ.",
+        "claim_en": "There is a qirāʾah (reading) variant affecting the vowel on the letter hāʾ: the well-known reading has a dammah on the hāʾ, while it is also read with a kasrah.",
+        "root": "هدى",
+        "lemma": "هُدًى",
+        "confidence": "needs_review",
+        "needs_review_reason": "The cited passage discusses the form «هُدْنَا» (verb) while the target word in the ayah is «هُدًى» (noun); applicability of this reading-variant claim to the ayah form requires verification."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "الْمَشْهُورُ ضَمُّ الْهَاءِ، وَهُوَ مِنْ هَادَ يَهُودُ إِذَا تَابَ، وَقُرِئَ بِكَسْرِهَا،",
+        "claim_ar": "يوجد اختلاف في الإعراب/القراءة عند المحدثين: المشهور ضَمُّ الهاء مقابل قراءة بكسرها (اختلاف قرائي يؤثر على الحركة).",
+        "claim_en": "There is a disagreement in reading/inflection among transmitters: the common (famous) reading has the hāʾ with dammah, versus a transmitted reading with kasrah — a qirāʾī disagreement affecting the vowel.",
+        "root": "هدى",
+        "lemma": "هُدًى",
+        "confidence": "needs_review",
+        "needs_review_reason": "The source passage addresses a verb-form (هُدْنَا); mapping this reported disagreement onto the ayah's noun «هُدًى» needs confirmation from the text/edition under study."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "أَيْ: حَرَّكْنَا إِلَيْكَ نُفُوسَنَا.",
+        "claim_ar": "تفسير معنوي للقراءة/المعنى: «حَرَّكْنَا إِلَيْكَ نُفُوسَنَا» — أي حركة النفوس/القلوب نحو المخاطَب.",
+        "claim_en": "Semantic gloss offered: 'we moved/turned our souls toward you' — i.e., an expression of the movement/turning of souls/hearts toward the addressee.",
+        "root": "هدى",
+        "lemma": "هُدًى",
+        "confidence": "needs_review",
+        "needs_review_reason": "The explanatory gloss in the source refers to the verb-form context (هُدْنَا); its semantic relevance to the nominal phrase «هُدًى» in the provided ayah should be checked."
+      }
+    ],
+    "warnings": [
+      "The only relevant source material provided discusses the form «هُدْنَا» (verb) and its readings; the target ayah word1 is «هُدًى» (a noun). Applicability of the recorded readings/interpretations to the ayah's noun-form must be verified.",
+      "No explicit iʿrāb, taʿalluq, taqdīr, or other syntactic claims about the words وَذِكْرَى (word_index 2), لِأُولِي (3), or الْأَلْبَابِ (4) are present in the supplied chunks. Only the above remarks (on the ه-draw/reading and a gloss) were extractable.",
+      "Sarf (morphology) and balāgha (rhetorical) remarks were not to be extracted; if further grammatical claims are needed, additional or different source passages should be supplied."
+    ]
+  },
+  "n_chunks": 5
+}

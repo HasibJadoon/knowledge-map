@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "19:14",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَبَرًّا) : مَعْطُوفٌ عَلَى «مُبَارَكًا» وَيُقْرَأُ فِي الشَّاذِّ بِكَسْرِ الْبَاءِ وَالرَّاءِ، وَهُوَ مَعْطُوفٌ عَلَى (الصَّلَاةِ) .",
+        "claim_ar": "«وَبَرًّا» مَعْطُوفٌ عَلَى «مُبَارَكًا»",
+        "claim_en": "\"Wa-barran\" is conjoined (ma'tūf) to the word \"mubārakan\".",
+        "root": "برر",
+        "lemma": "بَرّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S19:A14"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَبَرًّا) : مَعْطُوفٌ عَلَى «مُبَارَكًا» وَيُقْرَأُ فِي الشَّاذِّ بِكَسْرِ الْبَاءِ وَالرَّاءِ، وَهُوَ مَعْطُوفٌ عَلَى (الصَّلَاةِ) .",
+        "claim_ar": "«وَبَرًّا» مَعْطُوفٌ عَلَى (الصَّلَاةِ)",
+        "claim_en": "\"Wa-barran\" is also conjoined (ma'tūf) to \"(as-ṣalāh)\".",
+        "root": "برر",
+        "lemma": "بَرّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S19:A14"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَبَرًّا) : مَعْطُوفٌ عَلَى «مُبَارَكًا» وَيُقْرَأُ فِي الشَّاذِّ بِكَسْرِ الْبَاءِ وَالرَّاءِ، وَهُوَ مَعْطُوفٌ عَلَى (الصَّلَاةِ) .",
+        "claim_ar": "فِي الشَّاذِّ يُقْرَأُ بِكَسْرِ الْبَاءِ وَالرَّاءِ",
+        "claim_en": "In a rare (shādh) reading the bāʼ and the rāʼ of \"wa-barran\" are read with kasra (i.e., an alternative vocalization/case).",
+        "root": "برر",
+        "lemma": "بَرّ",
+        "confidence": "medium",
+        "needs_review_reason": "Reading variant reported; verify with qirāʼāt manuscripts/editions for exact vocalization and orthography.",
+        "quran_ref": "S19:A14"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:176",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No إعراب (grammatical) claims for S7:A176 were found in the provided source_chunks.",
+      "Provided chunks discuss other verses/entries (e.g., أصحاب القبور, مدرار, ما أغنى, لَا مِسَاسَ) and contain no exact substrings referring to the wording or syntax of S7:176; therefore no source_quote_ar could be extracted for this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

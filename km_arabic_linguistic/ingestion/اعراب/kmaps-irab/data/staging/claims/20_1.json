@@ -1,0 +1,54 @@
+{
+  "layer": "irab",
+  "ayah_key": "20:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "وَقِيلَ: مَعْنَاهُ يَا رَجُلُ ; مُنَادًى.",
+        "claim_ar": "طَه: قراءة وُفّهت بمعنى منادى — أي أنه يُفهم كمنادى (نداء).",
+        "claim_en": "The token 'طه' is interpreted as a vocative (munada), i.e. read as a form of address 'O man'.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "وَقِيلَ: «طَا» فِعْلُ أَمْرٍ، وَأَصْلُهُ بِالْهَمْزِ",
+        "claim_ar": "الجزء «طَا» يُفسَّر كفعل أمر أصلي (أصله بالهمز).",
+        "claim_en": "The segment 'طا' is interpreted as an imperative verb (fi'l amr), originally with a hamza.",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "This is a morphological/lexical classification (fiʿl amr/origin with hamza); may be considered sarf (morphology) rather than pure syntactic i'rab and could need expert review."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "وَ «هَا» ضَمِيرُ الْأَرْضِ.",
+        "claim_ar": "الها في «طه» تُفسَّر على أنها ضمير يعود إلى الأرض (هاء الملك/الإشارة للأرض).",
+        "claim_en": "The 'ha' in 'طه' is interpreted as a pronoun referring to 'the earth'.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَيُقْرَأُ: طَهْ، وَفِي الْهَاءِ وَجْهَانِ ; أَحَدُهُمَا: أَنَّهَا بَدَلٌ مِنَ الْهَمْزَةِ، كَمَا أُبْدِلَتْ فِي أَرَقْتُ، فَقِيلَ: هَرَقْتُ. وَالثَّانِي: أَنَّهُ أَبْدَلَ مِنَ الْهَمْزَةِ أَلِفًا، ثُمَّ حَذَفَهَا لِلْبِنَاءِ، وَأَلْحَقَهَا هَاءَ السَّكْتِ.",
+        "claim_ar": "في قراءة «طهْ» ذُكِرَ وجهان في تفسير الهاء: إحداهما أن الهاء بدل من الهمزة، والثاني أن الهمزة أُبدلت ألفًا ثم حُذفت ولُحِقَت هاء السّكت — أي هناك وجهان تحليليان لوجود الهاء وصيغتها.",
+        "claim_en": "Regarding the reading 'طَهْ' there are two alternative analyses for the hāʼ: (1) the hāʼ is a substitute (badal) for an original hamza; (2) the hamza was replaced by an alif which was later dropped for morphological reasons and the silent hāʼ was appended. In other words, two alternative grammatical/phonological analyses are offered.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

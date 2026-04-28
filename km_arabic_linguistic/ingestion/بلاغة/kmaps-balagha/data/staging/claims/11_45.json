@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:45",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "على طريق الالتفات",
+        "claim_ar": "التفات من السرد إلى الكلام المباشر (انتقال السرد: «ونادى نوح ربه» إلى خطاب مباشر: «ربِّ...») — مثال واضح للتفات بلاغي.",
+        "claim_en": "Iltifat (shift/turn): a rhetorical shift from narrative to direct address (from 'and Noah called to his Lord' to the direct speech 'My Lord...'), a standard stylistic device.",
+        "device_branch": "maani",
+        "device_subtype": "التفات (نقل من السرد إلى المخاطبة)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "المعنى ينادى عليه",
+        "claim_ar": "نداء مباشر بصيغة المخاطبة (المنادى «رَبِّ») — توجيه واستدعاء لله بصيغة الاستغاثة/المناجاة.",
+        "claim_en": "Direct vocative/appeal: the vocative 'Rabbi' is a direct address to God (an act of calling/appeal), marking immediacy and emotional petition.",
+        "device_branch": "maani",
+        "device_subtype": "نداء/مخاطبة (vocative appeal)",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk gives a general remark about calling/being 'called upon' rather than an explicit sentence-level analysis of this exact vocal form; confirm with verse-specific commentary if needed."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "كلام مستأنف مسوق",
+        "claim_ar": "أسلوب الاستئناف والمسوق: إيراد الكلام المباشر بعد تمهيد سردي (السرد تمهيد للخطاب والنداء)، مما يعزز الحضور الخطابي للنبي نوح.",
+        "claim_en": "Stylistic device (asloob hakim): resumption/leading speech — the narrative prefaces and then delivers direct speech, strengthening the rhetorical presence of Noah's appeal.",
+        "device_branch": "other",
+        "device_subtype": "استئناف/مسوق",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are general exegetical/rhetorical excerpts (Zamakhshari, Darwish) and not all lines are verse-specific commentary for S11:45; some supporting quotations are general statements about rhetorical phenomena rather than explicit analyses of this exact ayah. Verify claims against verse-specific tafsir/بلاغة sources for higher certainty.",
+      "Some device mappings (e.g., labeling the vocative under 'ijab_inshaa') are interpretive choices to fit the allowed device-list; please review if a different mapping to the provided device taxonomy is preferred."
+    ]
+  },
+  "n_chunks": 12
+}

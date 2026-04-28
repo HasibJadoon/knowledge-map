@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:191",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable claims: none of the provided source_chunks contain the ayah text or any exact substring (source_quote_ar) needed to anchor a claim. Per the task requirement, source_quote_ar must be an exact substring of one of the given chunks.",
+      "Please supply source chunks (from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir balagha) that explicitly discuss or quote this verse (أَيُشْرِكُونَ مَا لَا يَخْلُقُ شَيْئًا وَهُمْ يُخْلَقُونَ), or include chunk text that contains exact relevant phrases, so that balagha claims can be extracted and source_quote_ar requirements satisfied."
+    ]
+  },
+  "n_chunks": 12
+}

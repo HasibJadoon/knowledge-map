@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:32",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "قُلْ إِنْ كُنْتُمْ تُحِبُّونَ اللَّهَ فَاتَّبِعُونِي",
+        "claim_ar": "فعل الأمر «قُلْ» وظيفته الخطابية اختبارية: يأمر بعمل (الاتباع) ليكون دليلاً عمليًا على صدق القول (حب الله). في سياق الآية (قُلْ أَطِيعُوا...) نفس أسلوب الابتداء بالأمر يستعمل لتحويل تصريح إلى اختبار عملي.",
+        "claim_en": "The imperative 'قُل' functions as a performative/illocutionary challenge: it commands action (following) to serve as a practical proof of a claimed state (love of God). In S3:32 the same imperative-opening makes obedience the test of the claim.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa (imperative as rhetorical illocution)",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "Inference drawn from Tabari's commentary on a similar verse (quoted). No direct balagha commentary on S3:32 present in the provided chunks; review advised."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "قُلْ إِنْ كُنْتُمْ تُحِبُّونَ اللَّهَ فَاتَّبِعُونِي",
+        "claim_ar": "نقلة أسلوبية: الانتقال من تصريح أو ادعاء (إِنْ كُنْتُمْ تُحِبُّونَ) إلى شرط وطلب عمل (فَاتَّبِعُونِي). في آية سورتنا يتحقق هذا الانتقال أيضاً بين الأمر والطرد/النتيجة (أطِيعُوا ... فَإِنْ تَوَلَّوْا ...).",
+        "claim_en": "A stylistic shift (iltifat): moving from an asserted claim to a conditional/imperative that requires action. The verse shifts the discourse from statement/claim to an actionable test (obey or be judged), creating a rhetorical turn.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (shift from claim to conditional/action)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Based on Tabari's analysis of a parallel verse; the provided chunks do not include an explicit balagha discussion of S3:32, so the labeling is inferential and should be checked against primary balagha sources."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "فجعل اتباع نبيه محمد ﷺ عَلَمًا لحبه، وعذاب من خالفه.",
+        "claim_ar": "مقابلة/تضاد بين حالتي الاتباع والتولّي: الاتباع علامة محبة ويُثاب، والتولّي يؤدي إلى موقف رافض ومذموم (لا يحب الله الكافرين). الآية تُبرز هذا التضاد إيضاحًا للعاقبة.",
+        "claim_en": "Antithesis (muqabalah) between obedience and turning away: following the Prophet is a sign and reward of love, while turning away yields blame/punishment. S3:32 contrasts obedience to God and His Messenger with the stance of those who turn away (who are not loved by God).",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah (antithesis/contrast)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The supporting quote is Tabari's interpretive remark about a parallel verse; direct balagha commentary on S3:32 from the requested rhetoricians is not in the provided chunks, so this identification is provisional."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Tabari and Zamakhshari; requested balagha authorities (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) are not present. Claims are inferred from the available Tafsir excerpts rather than from the specified balagha texts.",
+      "Several claims are based on analogy to a similar verse discussed in the supplied Tabari chunk (e.g. 'قُلْ إِنْ كُنتُمْ تُحِبُّونَ...'). Because the commentary cited addresses a different but related verse, these attributions should be reviewed against primary balagha sources for confirmation.",
+      "source_quote_ar fields were taken verbatim from the provided chunks; ensure any further use cites the original chunk IDs. If you can supply the requested balagha excerpts, more precise and higher-confidence claims can be produced."
+    ]
+  },
+  "n_chunks": 12
+}

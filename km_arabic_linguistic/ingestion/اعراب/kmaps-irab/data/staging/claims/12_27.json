@@ -1,0 +1,120 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:27",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "تَفْتَأُ",
+        "claim_ar": "الواو مُنْقَطَّعةٌ لِلْعِلْمِ بِلَا",
+        "claim_en": "The 'و' is elided due to knowledge of the negation 'لَا'.",
+        "root": "",
+        "lemma": "إِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "تَذْكُرُ",
+        "claim_ar": "الواو مُنْقَطَّعةٌ لِلْعِلْمِ بِلَا",
+        "claim_en": "The 'و' is elided due to knowledge of the negation 'لَا'.",
+        "root": "",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "مُزْجَاةٍ",
+        "claim_ar": "الألِفُ مُنْقَلِبَةٌ عَنْ يَاءٍ، أَوْ عَنْ وَاوٍ",
+        "claim_en": "The 'الِف' is replaced from 'يَاء' or 'وَاو' due to the verb 'زَجَا'.",
+        "root": "دبر",
+        "lemma": "دُبُر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "قُدَّ",
+        "claim_ar": "الواو مُنْقَطَّعةٌ لِلْعِلْمِ بِلَا",
+        "claim_en": "The 'و' is elided due to knowledge of the negation 'لَا'.",
+        "root": "قدد",
+        "lemma": "قُدَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "مِن",
+        "claim_ar": "الواو مُنْقَطَّعةٌ لِلْعِلْمِ بِلَا",
+        "claim_en": "The 'و' is elided due to knowledge of the negation 'لَا'.",
+        "root": "",
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "كُفِرَ",
+        "claim_ar": "يُقْرَأُ «كَفَرَ» عَلَى تَسْمِيَةِ الْفَاعِلِ؛ أَيِ الْكَافِرُ",
+        "claim_en": "The verb 'كَفَرَ' is read with the meaning of the agent, i.e., the disbeliever.",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "irab",
+        "source_quote_ar": "جَزَاءً",
+        "claim_ar": "وَ (جَزَاءً) : مَفْعُولٌ لَهُ، أَوْ بِتَقْدِيرِ جَازَيْنَاهُمْ",
+        "claim_en": "The word 'جَزَاءً' is a noun in the genitive case, or it is a derived form of 'جَازَى'.",
+        "root": "جذ",
+        "lemma": "جَزَى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "وَاحِدًا",
+        "claim_ar": "وَاحِدًا : حَالٌ مِنَ الْهَاءِ فِي «نَتَّبِعُهُ»",
+        "claim_en": "'وَاحِدًا' is a condition from the 'هَاء' in 'نَتَّبِعُهُ'.",
+        "root": "واحد",
+        "lemma": "وَاحِدًا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "irab",
+        "source_quote_ar": "مِنْ رَوْحِ اللَّهِ",
+        "claim_ar": "الْجُمْهُورُ عَلَى فَتْحِ الرَّاءِ، وَهُوَ مَصْدَرٌ بِمَعْنَى الرَّحْمَةِ",
+        "claim_en": "The majority reads 'رَوْح' with a fatha, and it is a noun meaning mercy.",
+        "root": "روح",
+        "lemma": "رَوْح",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "irab",
+        "source_quote_ar": "وَكَذَلِكَ",
+        "claim_ar": "الْكَافُ فِي مَوْضِعِ نَصْبِ نَعْتٍ لِمَصْدَرٍ مَحْذُوفٍ",
+        "claim_en": "The 'كَاف' is in the place of a noun describing a verb that is omitted.",
+        "root": "كذل",
+        "lemma": "كَذَلِكَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "needs_review": false
+  },
+  "n_chunks": 16
+}

@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:134",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit balāgha (rhetoric) claims could be extracted for S6:A134 from the provided source_chunks. None of the given chunks contain a discussion or exact quotations that relate rhetorical labels (e.g. ijāz, iltifāt, tashbīh, jinas, takrār, etc.) to this specific āyah or its exact wording, and the requirement that source_quote_ar be an exact substring of a provided chunk prevents asserting a claim without a matching citation.",
+      "To extract valid claims, please provide tafsīr/balāgha excerpts (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or tafsīr balāgha) that explicitly discuss Sūrah 6:134 or the exact phrase(s) of the āyah. Alternatively, include source chunks that contain the relevant balāgha technical terms tied to this āyah so that source_quote_ar can be an exact match."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:258",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "فالهمزة للاستفهام التعجبي",
+        "claim_ar": "الهمزة في «أَلَمْ تَرَ...» استعمال للاستفهام التعجبي لإثارة التعجب والتقريع.",
+        "claim_en": "The initial hamza in 'A-lam tara ...' functions as a rhetorical interrogative of wonder (a rhetorical question expressing astonishment/reproach).",
+        "device_branch": "maani",
+        "device_subtype": "استفهام تعجبي",
+        "root": null,
+        "lemma": "لَم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "كلام مستأنف مسوق للتعجب",
+        "claim_ar": "الآية مأخوذة كأسلوب مستأنف (فصل/وصل) مسوَّق للتعجب؛ أي افتتاح وتقديم حدثٍ بغرض التنبيه والإعجاب.",
+        "claim_en": "The verse uses a resumed/resumptive style (kalam musta'anif — a pause/resumption) driven to produce astonishment and emphasis.",
+        "device_branch": "maani",
+        "device_subtype": "استئناف / فصل ووصل للتنبيه",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "والخطاب للنبي صلى الله عليه وسلم، والمراد العموم.",
+        "claim_ar": "مخاطبة مخصوصة للنبي ﷺ مع جعل المقصود عموماً؛ أي تحويل خطاب المخصوص إلى معنى عام يخاطب الجميع.",
+        "claim_en": "The addressee is specifically the Prophet (peace be upon him) though the intended meaning is general — a shift that addresses a particular addressee while conveying a universal application.",
+        "device_branch": "maani",
+        "device_subtype": "مخاطبة مخصوصة لعموم المعنى (التفات إلى العَموم)",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are from a Darwish I'rab commentary; explicit balagha references are limited to the quoted phrases. Classical balagha authors named in the task (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present among the source_chunks, so claims are drawn only from the available chunks.",
+      "All claims are at the ayah level (word_index 0) because the available source excerpts comment on phrasing and address, not on a single lexical item in the token list."
+    ]
+  },
+  "n_chunks": 12
+}

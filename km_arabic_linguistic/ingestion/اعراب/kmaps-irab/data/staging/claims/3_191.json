@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:191",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (الَّذِينَ يَسْتَحِبُّونَ) : فِي مَوْضِعِ جَرِّ صِفَةٍ لِلْكَافِرِينَ، أَوْ فِي مَوْضِعِ نَصْبٍ بِإِضْمَارِ أَعْنِي، أَوْ فِي مَوْضِعِ رَفْعٍ بِإِضْمَارِ «هُمْ» .",
+        "claim_ar": "حيثية الإعراب لـ«الذين» متعددة: قد تُعرب مضافة بصيغة الجر (صفة) أو منصوبة بافتراض إضمار «أعني» أو مرفوعة بافتراض إضمار «هم». لذا في هذه البنية وجوه إعرابية متعددة لِـ«الذين».",
+        "claim_en": "The particle/relative pronoun \"alladhina\" admits multiple grammatical analyses: it can be construed as genitive (an adjectival/genitive relation), accusative with an implied pronoun 'a‘ni', or nominative with an implied pronoun 'hum'. Therefore, there are alternative iʿrāb analyses for \"alladhina\" in such contexts.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage states general alternative analyses for «الذين» in different contexts but does not explicitly apply one specific reading to Sura 3:191; further context from the commentary on this exact verse is needed to determine which face applies here.",
+        "quran_ref": "S3:A191"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit iʿrāb of the words of Sura 3:191; only a general note about possible analyses of «الذين» is present. Other words of the ayah have no supporting claims in the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

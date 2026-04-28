@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "27:62",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "irab",
+        "source_quote_ar": "وَ (قَلِيلٍ) : نَعْتٌ لِأُكُلٍ. وَيَجُوزُ أَنْ يَكُونَ نَعْتًا لِخَمْطٍ وَأَثْلٍ وَسِدْرٍ.",
+        "claim_ar": "قَلِيلًا: نَعْتٌ",
+        "claim_en": "The author (al-Tibyan) treats 'قَلِيلٍ' as a na't (adjective) — in his discussion it modifies 'أُكُلٍ'; by extension the same lexical item قَلِيلًا in the verse could be read as an adjective.",
+        "root": "قلل",
+        "lemma": "قَلِيل",
+        "confidence": "low",
+        "needs_review_reason": "The quoted passage discusses قَلِيلٍ in the context of the phrase 'أُكُلٍ خَمْطٍ' (different verse/context) and shows it in the genitive (قَلِيلٍ), whereas in S27:62 the word appears as قَلِيلًا and functions in a different syntactic environment ('قَلِيلًا مَا تَذَكَّرُونَ'). The mapping from that note to the ayah's syntax is uncertain and requires review."
+      }
+    ],
+    "warnings": [
+      "The supplied source chunks do not include an explicit discussion of S27:62. Only a passage about '(قَلِيلٍ) : نَعْتٌ لِأُكُلٍ' was found and matched to the ayah's word قَلِيلًا. Other words of the ayah are not addressed in the provided sources, so no further claims could be extracted.",
+      "The source example shows قَلِيلٍ in a different case and context; extracting it as proof for the ayah's syntax is tentative and needs grammatical review."
+    ]
+  },
+  "n_chunks": 6
+}

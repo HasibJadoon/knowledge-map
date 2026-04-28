@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:122",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "tashbih",
+        "source_quote_ar": "(الكاف) حرف جر وتشبيه",
+        "claim_ar": "تشبيه واضح: مقارنة بين من أُحيي وجُعل له نور يمشي به في الناس وبين مثاله في الظلمات القابِع غير الخارِج منها.",
+        "claim_en": "Simile (tashbih): comparing the one revived and given a light to walk among people with his counterpart who is in darkness and cannot get out.",
+        "device_branch": "bayan",
+        "device_subtype": "تشبيه (كاف التشبيه)",
+        "root": "مثل",
+        "lemma": "مَثَل",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A122",
+        "rhetorical_effect": "يُبرز التباين الحاد بين الهداية والضلال عبر صورة بصرية مؤثرة، فيقوّي الإقناع والاستدلال على الفرق بين المؤمن والكافر."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "(الهمزة) للاستفهام للاستخفاف",
+        "claim_ar": "أسلوب استفهامي إنكاري/استفهامي للتدليل والتعجيز: افتتاح الآية بأَوَمَنْ يسوّق الاستنكار ويقوّي الحُجّة.",
+        "claim_en": "Rhetorical interrogative (asloob_hakim): an interrogative of denial/exclamation (أَوَمَنْ ...) used to express reproach and strengthen the argument.",
+        "device_branch": "other",
+        "device_subtype": "استفهام إنكاري / استفهام للاستخفاف",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": "root not supplied for the interrogative particle in provided word data",
+        "quran_ref": "S6:A122",
+        "rhetorical_effect": "يستفز السامع ويشد انتباهه، ويعطي قوة تقريرية للحُجّة عبر ضبط النظرة على المفارقة بين الحالتين."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

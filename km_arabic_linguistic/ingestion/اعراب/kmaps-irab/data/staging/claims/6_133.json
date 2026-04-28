@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:133",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ نَعْتًا لِمَاءٍ، وَأَنْ يَكُونَ حَالًا",
+        "claim_ar": "قد يُؤخذ «ذُو الرَّحْمَةِ» نَعْتًا لـ«الْغَنِيِّ»، ويُؤخذ أيضاً حالًا بحسب قرائن السياق (وجهان في الإعراب).",
+        "claim_en": "«dhū al-raḥmah» can be analyzed either as a modifier (نعت) of «al-ghaniyy» or as a circumstantial clause (حال), depending on context.",
+        "root": null,
+        "lemma": "ذُو",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage gives a general allowance that a phrase may function as نعت or حال (example: يَشْوِي الْوُجُوهَ). Applying that general point to «ذُو الرَّحْمَةِ» in this specific ayah is analogical and should be confirmed against a direct treatment of this phrase in the source or other grammarian commentary."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "الجملة الاسمية «وَرَبُّكَ الْغَنِيُّ ذُو الرَّحْمَةِ» تُعرض كجملة اسمية، فيكون «وَرَبُّكَ» مبتدأً وصدقته (خبره) ما بعده (مثل: «الْغَنِيُّ ذُو الرَّحْمَةِ» كخبر).",
+        "claim_en": "The clause «warabbuka al-ghaniyy dhū al-raḥmah» functions as a nominal sentence: «warabbuka» as the subject (mubtadaʾ) and what follows serving as its predicate (khabar).",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "low",
+        "needs_review_reason": "The supporting excerpt discusses the pattern (هو ... مبتدأ وخبر) with an explicit example («وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ»). Applying that general statement to this specific ayah is plausible but not explicitly treated in the provided chunks; therefore the analysis requires verification against a direct discussion of this ayah in the source."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not explicitly analyze S6:133. Extracted claims are based on general grammatical remarks in the chunks (analogical application) rather than on explicit, ayah-specific commentary.",
+      "Some claims (especially the assignment of مبتدأ/خبر) are inferential and should be checked against the primary commentary on this verse or other classical sources for confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

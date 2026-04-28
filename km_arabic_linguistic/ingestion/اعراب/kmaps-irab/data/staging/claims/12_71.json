@@ -1,0 +1,15 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:71",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit إعراب/taqdir/تعليق claims in the provided source_chunks refer to the words of the target ayah (words given in the input).",
+      "Chunk AL:CHUNK:a303c0309c87638cfad2970d contains grammatical claims (e.g. about «تَفْتَأُ» and «تَذْكُرُ»: “أَيْ لَا تَفْتَأُ، فَحُذِفَتْ «لَا» لِلْعِلْمِ بِهَا. وَ (تَذْكُرُ) : فِي مَوْضِعِ نَصْبِ خَبَرِ تَفْتَأُ.”) but those lexemes are not among the provided words for this ayah.",
+      "Chunk AL:CHUNK:1f76dca2f7ce8652217d3bdf quotes a verse containing «دَخَلُوا عَلَيْهِ قَالُوا…» but it gives the verse quotation only and does not state an explicit إعراب claim for the specific words in your word list. Note also your word 3 is «عَلَيْهِمْ» while the quoted text has «عَلَيْهِ».",
+      "Other chunks (AL:CHUNK:40baac567a7152acf005ed06, AL:CHUNK:e1967dd521006a0fd46633ae, AL:CHUNK:51297436bb57ceedc62cebf7, AL:CHUNK:a4d5d951e5282d0eb2f617b4) contain lexical/reading notes (on مُزْجَاةٍ, يَا أَسَفَى/عَلَى, ذَلِكَ لِيَعْلَمَ, غَيَابَةِ الْجُبِّ) or a syntactic remark unrelated to the supplied word items, so they do not produce extractable claims for the words indexed in this task.",
+      "If you want claims extracted, please provide source chunks that explicitly discuss the grammar (إعراب/تعليق/تقدير/اقراءات خلاف) of these specific words (قَالُوا, وَأَقْبَلُوا, عَلَيْهِمْ, مَاذَا, تَفْقِدُونَ) or supply the exact chunk(s) from al-Tibyan that analyze this ayah and its words."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:14",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taqdim_takhir",
+        "source_quote_ar": "أوَلى غَيْرَ اللَّهِ همزة الاستفهام دون الفعل الذي هو أَتَّخِذُ لأنّ الإنكار في اتخاذ غير الله ولياً، لا في اتخاذ الولي، فكان أولى بالتقديم.",
+        "claim_ar": "تقديم عبارة «أَغَيْرَ اللَّهِ» قبل الفعل (أَتَّخِذُ) لبيان الإنكار والتوكيد على عدم اتخاذ غير الله وليّاً.",
+        "claim_en": "Fronting of 'أَغَيْرَ اللَّهِ' before the verb 'أَتَّخِذُ' to emphasize the reproach/negation of taking anyone other than God as a guardian.",
+        "device_branch": "maani",
+        "device_subtype": "taqdim_takhir",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "tibaq",
+        "source_quote_ar": "أى ابتدعتها وَهُوَ يُطْعِمُ وَلا يُطْعَمُ وهو يرزق ولا يرزق، كقوله ما أُرِيدُ مِنْهُمْ مِنْ رِزْقٍ وَما أُرِيدُ أَنْ يُطْعِمُونِ",
+        "claim_ar": "تضاد وتوازي في «يُطْعِمُ وَلَا يُطْعَمُ» ليُبرز استقلالية الله وكماله في الإعطاء وحرمة الانتفاع به.",
+        "claim_en": "Antithetical parallelism in 'يُطْعِمُ وَلَا يُطْعَمُ' (He gives and is not given to) to highlight God's self-sufficiency and that all benefits originate from Him, not that He benefits from creation.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "طعم",
+        "lemma": "أَطْعَمَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "rhetorical_effect": "Emphatic negation of dependence — paradoxical formula that strengthens the idea that God is the sole giver and not a recipient, increasing awe and theological contrast."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from Zamakhshari and Safi (al-Jadwal). The developer instruction requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and tafsir balagha — those specific authors' chunks are not present in the input.",
+      "Only claims directly supported by exact substrings in the provided source chunks were extracted. Other possible rhetorical readings (e.g., iltifat, takrar) were not asserted because matching source quotations were not available in the chunks given."
+    ]
+  },
+  "n_chunks": 12
+}

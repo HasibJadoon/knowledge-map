@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:69",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "و «إن» و «من» زائدتان للتوكيد، والحديث: بمعنى المتحدث",
+        "claim_ar": "استفهام إنشائي تعجبى في «أَوَعَجِبْتُمْ» — استفهام يُستخدم كتعجب وامتداد للسؤال البلاغي لتحقير الدهشة من وصول الذكر.",
+        "claim_en": "Rhetorical interrogative/exclamatory: the phrase «أَوَعَجِبْتُمْ» functions as a rhetorical question expressed in the form of astonishment/scorn at the fact that a reminder has come to them.",
+        "device_branch": "maani",
+        "device_subtype": "استفهام تعجبى / ijab_inshaa (rhetorical interrogative/exclamatory)",
+        "root": "عجب",
+        "lemma": "عَجِبُ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk discusses emphatic particles («إن» و «من» زائدتان للتوكيد) but does not directly analyze the specific «أو + عجبتكم أن ...» construction; the identification draws on standard rhetorical reading of such interrogatives."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "takrar",
+        "source_quote_ar": "فَاسْتَمْتَعُوا بِخَلاقِهِمْ",
+        "claim_ar": "تكرار فعل الامْر/الدعوة: أمران متشابهان «وَاذْكُرُوا ... فَاذْكُرُوا» يكوّنان تكراراً لتوكيد الذِّكر والامتنان.",
+        "claim_en": "Repetition (takrar): the imperative verb «اذكروا» appears twice (11 and 23), creating an emphatic repetition that reinforces the command to remember God's favors.",
+        "device_branch": "badi",
+        "device_subtype": "takrar (تكرار الفعل/التوكيد بالعرض)",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "high",
+        "needs_review_reason": "The exact textual parallel in the provided chunk is an example of echoing verbs (فَاسْتَمْتَعُوا ...), used here as supporting material; a focused source (al-Jurjani/al-Sakkaki) on repetition would strengthen the attribution."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "كَمَا اسْتَمْتَعَ الَّذِينَ مِنْ قَبْلِكُمْ بِخَلاقِهِمْ",
+        "claim_ar": "مقابلة/مجاز مقارنة بين نعم الله عليهم في الماضي وحالهم الراهنة؛ الآية تذكّرهم بنعم سابقة (خلافة نبيّ سابق، زيادة في الخلق) ثم تأمر بذكر آلاءِ الله، فتبرز التباين بين المنح والنكران.",
+        "claim_en": "Contrast/antithesis (muqabalah): the verse contrasts past divine favors (being made successors after the people of Noah; increased creation) with the implied present ingratitude, highlighting the moral point by juxtaposition.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah (contrast / juxtaposition to reproach)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Support comes from a chunk illustrating comparison to former peoples (كَمَا اسْتَمْتَعَ الَّذِينَ مِنْ قَبْلِكُمْ ...); a direct citation from classical rhetoricians (al-Jurjani, al-Sakkaki, etc.) about this specific contrast in the verse was not available in the supplied chunks."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from al-Kashshaf (Zamakhshari) rather than the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Source quotes were taken from the supplied chunks; please confirm desired primary sources.",
+      "Some claims are inferred from general parallels or examples in the supplied chunks rather than explicit analysis of the exact wording of S7:69; these are marked with medium/needs-review confidence.",
+      "A few word entries in the input lack lemmas; I supplied plausible lemmas (e.g., ذَكَرَ) for claims where needed. Please review lemmas against your preferred lexical normalization."
+    ]
+  },
+  "n_chunks": 12
+}

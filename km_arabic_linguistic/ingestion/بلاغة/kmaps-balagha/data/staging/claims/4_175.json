@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:175",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "البلاغة: في عطف «الذين آمنوا» على «الذين كفروا» لف ونشر مشوّش، وقد سبقت الاشارة إليه مع ما في الكلام من مقابلة وتنظير.",
+        "claim_ar": "عطف «الذين آمنوا» على «الذين كفروا» لإيجاد مقابلة بين حال المؤمنين وحال الكافرين وتبيان التباين بينهما.",
+        "claim_en": "Conjoining «those who believe» with «those who disbelieve» to create an antithesis between the states of believers and disbelievers, highlighting their contrast.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are from Zamakhshari and Darwish (I'rab); they do not include al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a dedicated tafsir-balagha section. Claims are extracted only from the supplied chunks.",
+      "Claim is ayah-level (word_index 0); no specific lexical root/lemma applies, so root and lemma are null."
+    ]
+  },
+  "n_chunks": 12
+}

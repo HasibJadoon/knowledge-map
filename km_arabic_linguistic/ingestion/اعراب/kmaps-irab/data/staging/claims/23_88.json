@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "23:88",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "(فَمَنْ ذَا الَّذِي)",
+        "claim_ar": "الموادُّ: «مَنْ» في تركيب «مَنْ ذَا الَّذِي» تُعمل أداة استفهام/تعجب في هذا التركيب، مثل «مَنْ ذَا الَّذِي يُقْرِضُ» كما ذكر المصدر.",
+        "claim_en": "The particle 'مَنْ' in the construction 'مَنْ ذَا الَّذِي' functions as the interrogative (in this idiomatic formula), as in 'مَنْ ذَا الَّذِي يُقْرِضُ', according to the source.",
+        "root": null,
+        "lemma": "مَنْ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk discusses the phrase 'فَمَنْ ذَا الَّذِي' but does not explicitly parse the exact occurrence in this ayah; input lemma for this word in the provided words list was inconsistent (given as 'مِن')."
+      }
+    ],
+    "warnings": [
+      "The supplied source chunks contain little direct commentary on S23:88; only one chunk mentions the formula 'فَمَنْ ذَا الَّذِي'. Other chunks address different words/verses and were not used.",
+      "The input words list gives lemma 'مِن' for word_index 2 though the particle in the ayah is 'مَنْ' — lemma/lexical metadata should be reviewed for accuracy before further automated extraction."
+    ]
+  },
+  "n_chunks": 12
+}

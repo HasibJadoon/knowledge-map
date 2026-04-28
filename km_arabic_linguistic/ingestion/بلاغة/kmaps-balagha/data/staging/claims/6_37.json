@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:37",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "وَلَوْ شاءَ اللَّهُ لَجَمَعَهُمْ عَلَى الْهُدَى بأن يأتيهم بآية ملجئة، ولكنه لا يفعل لخروجه عن الحكمة",
+        "claim_ar": "أمر القول «قُلْ إِنَّ اللَّهَ قَادِرٌ...» يقوم كإجابة إنشائية لادعاءهم «لَوْلَا نُنزِّلَ...»؛ يقرّ القدرة الإلهية ثم يستدرك بحكمة عدم الإتيان بالآية.",
+        "claim_en": "The commandive reply 'Say: Indeed Allah is Able...' functions as an enunciative answer to their demand 'Why is no sign sent?'; it affirms God's power and then qualifies (by wisdom) why a sign is not sent.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited tafsir passage explicates the theological point (God could have sent a sign but does not for wisdom) but does not explicitly label the phenomenon as 'إجابة إنشائية' — mapping commentary to this rhetorical label is interpretive."
+      },
+      {
+        "word_index": 16,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الواو عاطفة ولكن مخففة مهملة وتصديق معطوف على افتراء المؤولة",
+        "claim_ar": "أداة الاستدراك «وَلَكِنَّ» موضوعة كفاصلٍ وسطَي نقيضين؛ تُخفّف الوصل وتؤكد تصديق جواب النبي بعد افتراء المكذبين.",
+        "claim_en": "The concessive/contrastive particle 'wa-lakin(n)' acts as an intermediate connective between two opposing statements; it softens the transition and affirms the Prophet's reply after the challengers' allegation.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "لَٰكِنّ",
+        "confidence": "high",
+        "needs_review_reason": "The Darwish i'rab commentary explicitly comments on the pragmatic/stylistic role of 'ولكن', so the mapping to a 'pause/continuation' (fasl_wasl) reading is well supported."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "هُوَ الْقادِرُ هو الذي عرفتموه قادراً وهو الكامل القدرة",
+        "claim_ar": "توكيد اسم الجلالة وصفة «قَادِرٌ» موجز ومؤثّر هنا: الإيجاز في التعبير يضفى قوة على التأكيد بقدرة الله.",
+        "claim_en": "The terse affirmation 'Qadir' (capable) is compact and forceful here: concision in wording enhances the emphasis on God's power.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "قدر",
+        "lemma": "قَادِر",
+        "confidence": "medium",
+        "needs_review_reason": "The tafsir passage explains the meaning and force of 'القادر' but does not explicitly discuss 'إعجاز' as a rhetorical term; assigning 'ijaaz' relies on a stylistic reading of concision and emphasis."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are primarily tafsir/commentary excerpts (Darwish i'rab and Zamakhshari). They do not always use the modern rhetorical labels requested (e.g., 'ijab_inshaa', 'ijaaz'). Mapping commentary to the requested device taxonomy required interpretive linking and may need review by a specialist in classical Arabic rhetoric.",
+      "Some rhetorical-type assignments (notably 'ijab_inshaa' and 'ijaaz') are inferred from semantic/functional commentary rather than explicit naming in the sources; confidence is therefore not uniformly high.",
+      "No explicit extracts from al-Jurjānī, al-Sakkākī, al-Bāqillānī, or al-Suyūṭī were provided; claims are drawn only from the given chunks. If you can supply excerpts from those rhetoricians, mappings can be refined."
+    ]
+  },
+  "n_chunks": 12
+}

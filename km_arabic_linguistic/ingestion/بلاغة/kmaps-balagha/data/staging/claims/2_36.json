@@ -1,0 +1,56 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:36",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ترغيب_وترهيب",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب",
+        "claim_ar": "المقاربة بين الترغيب والترهيب في السرد القرآني — الآية تأتي في سياق يجمع بين بيان الجزاء والوعيد/التوبيخ لغايات التنشيط والتثبيط.",
+        "claim_en": "Pairing encouragement (targhib) with warning (tarhib) — the verse functions in the Qur'anic habit of coupling glad tidings and admonition to motivate and deter.",
+        "device_branch": "maani",
+        "device_subtype": "ترغيب_وترهيب",
+        "root": "رغب",
+        "lemma": "ترغيب",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A36",
+        "rhetorical_effect": "activates moral choice: encourages obedience (by implication of promise) while deterring transgression via warning"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "التفات (إلتفات من الغيبة إلى الخطاب)",
+        "source_quote_ar": "فيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "التفاتٍ من السرد الغيبي إلى مخاطبة مباشرة عند الانتقال إلى الأمر «اهْبِطُوا»، أي تحويل الخطاب إلى مخاطبة أوامر وتوجيهات واضحة للمخاطَبِين.",
+        "claim_en": "Iltifat (shift from third-person narration to direct address): the narrative shifts to direct imperative 'اهبطوا', changing from report about them to addressing them directly.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "هبط",
+        "lemma": "يَهْبِطُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "تخصيص/مخاطبة (خطاب مخاطب)",
+        "source_quote_ar": "سالمة لكم، خاصة بكم",
+        "claim_ar": "استخدام ضمير الخطاب «لكم» للتخصيص والطمأنة — «وَلَكُمْ فِي الْأَرْضِ مُسْتَقَرٌّ» يخصّ المخاطبين بوعد باستقرار ومأوى مؤقت.",
+        "claim_en": "Addressing/particularization: the phrase 'ولكم' directs and particularizes the promise (stability/abode) to the addressees, giving consolation and specification.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat / تخصيص",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "input lexeme/lemma for the word 'لَكُمْ' was not provided; connection to the chunk is interpretive (tafsir infers 'لكم' = specialization).",
+        "quran_ref": "S2:A36"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are primarily from Zamakhshari and related tafsir excerpts; the requested authorities (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the chunks. Claims are therefore drawn only from the supplied chunks.",
+      "Many obvious rhetorical features of the verse (e.g., parallelism in 'فأزلّهما... فأخرجهما', antithesis in 'بعضكم لبعض عدوّ') could not be directly supported with exact source substrings from the provided chunks, so they were omitted or treated conservatively.",
+      "Some claims (notably the one for «لَكُمْ») rely on interpretive mapping between the tafsir excerpt and the target word; lemma/root for that word were missing in the input and so are set to null and flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

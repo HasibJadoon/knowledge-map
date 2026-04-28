@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:31",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ بِالْوَاوِ",
+        "claim_ar": "يُقْرَأُ كَلِمَةُ (اتَّخَذُوا) بِوَاوِ العَطْفِ كقِرَاءةٍ تُضيف \"وَ\" (أي: «وَالَّذِينَ اتَّخَذُوا»).",
+        "claim_en": "The phrase is read with an initial waw (i.e. 'wa-'), so 'اتَّخَذُوا' can appear in recitation as 'وَالَّذِينَ اتَّخَذُوا'.",
+        "root": "اخذ",
+        "lemma": "اتَّخَذَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A31"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "أَحَدُهُمَا: هُوَ مَعْطُوفٌ عَلَى «وَآخَرُونَ مُرْجَوْنَ» ؛ أَيْ: وَمِنْهُمُ الَّذِينَ اتَّخَذُوا.",
+        "claim_ar": "من وُجُوهِ الإِعْرَابِ: أَنَّ (اتَّخَذُوا) مَعْطُوفَةٌ عَلَى «وَآخَرُونَ مُرْجَوْنَ»، أي: «وَمِنْهُمُ الَّذِينَ اتَّخَذُوا».",
+        "claim_en": "One of the two opinions is that (اتَّخَذُوا) is a conjunct (ma'tuf) attached to 'wa-akhareena murjawn' (i.e., 'and among them are those who took').",
+        "root": "اخذ",
+        "lemma": "اتَّخَذَ",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk reports two faces but only this face is detailed; the alternate face is not specified in the provided excerpt.",
+        "quran_ref": "S9:A31"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "44:54",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "ذكر قدامة من أنواع البديع الإشارة  ، وفسرها بالإتيان بكلام قليل ذي معان جمة . وهذا هو إيجاز القصر بعينه",
+        "claim_ar": "كَذَلِكَ اسم إشارة يعمل دلالة واختصاراً (إيجاز/تضمين) ويشير إلى ما سبق من المعنى في السورة.",
+        "claim_en": "The word 'كَذَلِكَ' is a demonstrative (اسم إشارة) that functions as a pointing device and a concise indicator (i.e. conveys concision/takwīn of meaning), referring back to what was mentioned earlier in the surah.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the rhetorical/semantic category 'الإشارة' generally but does not mention the specific word كَذَلِكَ in this ayah; application to this word is inferential."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "وباب الضمير ؛ لأنه وضع للاستغناء به عن الظاهر اختصارا ، ولذا لا يعدل إلى المنفصل مع إمكان المتصل .",
+        "claim_ar": "الضمير المتصل (هم) في «وَزَوَّجْنَاهُمْ» ضمير متصل بديل عن ظاهرٍ محذوف ويعمل مفعولاً به للفعل (مفعول به مُتصل).",
+        "claim_en": "The attached pronoun '-هم' in 'وَزَوَّجْنَاهُمْ' is a connected pronoun (ضمير متصل) that substitutes for an explicit noun and functions as the direct object of the verb.",
+        "root": "زوج",
+        "lemma": "زُوِّجَتْ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are general grammatical/rhetorical discussions (e.g. on الإشارة, الضمير) and do not analyze this specific verse word-by-word; claims are drawn by applying those general notes to the ayah.",
+      "No explicit statements about the words بِحُورٍ or عِينٍ (indices 3–4) were found in the supplied chunks, so no irab claim was extracted for them here. If you want analysis for those words, provide chunks that treat their syntactic role or allow broader-source inference."
+    ]
+  },
+  "n_chunks": 12
+}

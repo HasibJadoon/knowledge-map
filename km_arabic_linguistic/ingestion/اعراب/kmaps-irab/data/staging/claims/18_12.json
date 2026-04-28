@@ -1,0 +1,58 @@
+{
+  "layer": "irab",
+  "ayah_key": "18:12",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "وَالْوَجْهُ الثَّانِي: أَنَّ «مَنْ» اسْتِفْهَامٌ فِي مَوْضِعِ مُبْتَدَأٍ، وَ «يَضِلُّ» الْخَبَرُ، وَمَوْضِعُ الْجُمْلَةِ نَصْبٌ بِـ «يَعْلَمُ» الْمُقَدَّرَةِ، وَمِثْلُهُ: (لِنَعْلَمَ أَيُّ الْحِزْبَيْنِ أَحْصَى) .",
+        "claim_ar": "في مثال (لِنَعْلَمَ أَيُّ الْحِزْبَيْنِ أَحْصَى) أَيُّ في موضع المبتدأ.",
+        "claim_en": "'Ayy' (أَيُّ) functions as the mubtada' (the subject) in the clause.",
+        "root": "ايي",
+        "lemma": "أَىّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S18:A12"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "وَالْوَجْهُ الثَّانِي: أَنَّ «مَنْ» اسْتِفْهَامٌ فِي مَوْضِعِ مُبْتَدَأٍ، وَ «يَضِلُّ» الْخَبَرُ، وَمَوْضِعُ الْجُمْلَةِ نَصْبٌ بِـ «يَعْلَمُ» الْمُقَدَّرَةِ، وَمِثْلُهُ: (لِنَعْلَمَ أَيُّ الْحِزْبَيْنِ أَحْصَى) .",
+        "claim_ar": "أَحْصَى: خبر الجملة.",
+        "claim_en": "'Ahsaa' (أَحْصَى) is the khabar (predicate) of the clause.",
+        "root": "حصي",
+        "lemma": "أَحْصَىٰ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S18:A12"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَالْوَجْهُ الثَّانِي: أَنَّ «مَنْ» اسْتِفْهَامٌ فِي مَوْضِعِ مُبْتَدَأٍ، وَ «يَضِلُّ» الْخَبَرُ، وَمَوْضِعُ الْجُمْلَةِ نَصْبٌ بِـ «يَعْلَمُ» الْمُقَدَّرَةِ، وَمِثْلُهُ: (لِنَعْلَمَ أَيُّ الْحِزْبَيْنِ أَحْصَى) .",
+        "claim_ar": "موضع الجملة (أَيُّ الْحِزْبَيْنِ أَحْصَى) منصوب بسبب يَعْلَمُ المقدَّرة (مقدّر فيه فعل يعلمه).",
+        "claim_en": "The clause (أَيُّ الْحِزْبَيْنِ أَحْصَى) is in the accusative because of an implied/understood verb 'يَعْلَمُ' (i.e., an elided 'yA'lamu' is supplying the governance).",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S18:A12"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَالْوَجْهُ الثَّانِي: أَنَّ «مَنْ» اسْتِفْهَامٌ فِي مَوْضِعِ مُبْتَدَأٍ، وَ «يَضِلُّ» الْخَبَرُ، وَمَوْضِعُ الْجُمْلَةِ نَصْبٌ بِـ «يَعْلَمُ» الْمُقَدَّرَةِ، وَمِثْلُهُ: (لِنَعْلَمَ أَيُّ الْحِزْبَيْنِ أَحْصَى) .",
+        "claim_ar": "الجملة (أَيُّ الْحِزْبَيْنِ أَحْصَى) متممة/متعلقة بـ لِنَعْلَمَ (تقع في موقع مفعولية أو تابعة لفظية لِـ لِنَعْلَمَ).",
+        "claim_en": "The clause (أَيُّ الْحِزْبَيْنِ أَحْصَى) is syntactically attached to لِنَعْلَمَ (serving as its complement/object/that-clause in sense).",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source explicitly invokes an implied يَعْلَمُ as the governor for the accusative; whether attachment is directly to the overt لِنَعْلَمَ or to the implied يَعْلَمُ may need finer distinction.",
+        "quran_ref": "S18:A12"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

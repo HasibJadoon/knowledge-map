@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:65",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "قُلْ مَنْ كانَ فِي الضَّلالَةِ فَلْيَمْدُدْ لَهُ الرَّحمنُ مَدًّا",
+        "claim_ar": "فعل الأمر «قُلْ» مُستخدم هنا بمعنى الخبر — أي الأمر مأخذ بمعنى التقرير (الأمر في معنى الخبر)، فيُطلب من النبي أن يصرح بخبر/حقيقة بدلاً من أن يكون أمرًا فِعليًا بالقيام بفعل.",
+        "claim_en": "The imperative 'Qul' is used in the sense of a declarative/report (the command functioning as a statement): the Prophet is instructed to state/declare a truth rather than to perform an action.",
+        "device_branch": "maani",
+        "device_subtype": "amr_maana_khabar",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "Inference based on the commentary in the provided chunk that explicitly states 'الأمر في معنى الخبر'; the chunk addresses the phenomenon generally rather than quoting this specific verse text."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ثم التفت وقال",
+        "claim_ar": "التفات (تحويل جهة الخطاب): انتقال الأسلوب من تقرير كلام الآخرين إلى مخاطبة النبي مباشرة بكلمة «قُلْ»، أي تحول في المخاطب والنبرة البلاغية.",
+        "claim_en": "Iltifat (shift): a shift in address — the discourse moves from reporting others' speech to directly addressing the Prophet with 'Qul', changing the addressee and rhetorical tone.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk uses/mentions 'الالتفات' in a parallel discussion; the application to this specific verse is plausible but not explicitly demonstrated in the provided excerpt."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain the exact ayah text; claims are inferred from general rhetorical remarks in those chunks rather than from direct commentary on S9:A65.",
+      "The requested scholar set (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) is not represented in the supplied source_chunks—extractions rely on the available Kashshaf/i'rab excerpts only.",
+      "Other potential rhetorical devices in the verse (e.g., restriction with «إِنَّمَا», emphatic particles «لَـ»/«نَّ» forms, parallelism between «نَخُوضُ وَنَلْعَبُ») could not be asserted here because the supplied chunks did not include explicit discussion of those features."
+    ]
+  },
+  "n_chunks": 12
+}

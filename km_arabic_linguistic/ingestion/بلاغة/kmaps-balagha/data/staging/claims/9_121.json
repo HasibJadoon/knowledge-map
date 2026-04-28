@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:121",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "اللام لتأكيد النفي.",
+        "claim_ar": "اللام في «وَلَا» للتوكيد والتشديد على النفي، فتجعل النفي أقوى وتأثيره أكثر في سياق الآية.",
+        "claim_en": "The 'lam' in 'wa-lā' functions as an emphatic particle confirming and strengthening the negation, making the negative statement more forceful in the verse.",
+        "device_branch": "maani",
+        "device_subtype": "لام_التأكيد",
+        "root": null,
+        "lemma": "لَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "قصر لجنس الصدقات على الأصناف المعدودة",
+        "claim_ar": "حرف الاستثناء «إِلَّا» يعمل هنا كأداة قصر واستثناء، فيقصر ما قبله على الحالة المشروطة أو المستثناة.",
+        "claim_en": "The particle 'illa' here functions as an instrument of restriction/exception (hasr/qasr), limiting what precedes it to what is specified by the exception.",
+        "device_branch": "maani",
+        "device_subtype": "قصر/استثناء",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "Supporting source discusses 'إِنَّمَا' and the notion of قصر (restriction); inference applies to 'إِلَّا' by function but source does not quote this exact particle."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "الواو عاطفة",
+        "claim_ar": "تكرار «وَلَا» (و+لا) ثلاث مرات هو تكرار بلاغي (تكرار/توكيد) يخلق إيقاعًا ونبرة حاسمة في النفي والتبرئة من الفعل المذكور.",
+        "claim_en": "The repeated 'wa-lā' (wa + lā) three times constitutes rhetorical repetition (takrār/repetition) creating a rhythm and a decisive tone that intensifies the negation and absolution from the mentioned act.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Source substring refers to the coordinating waw ('الواو عاطفة') in general; the claim generalizes to the specific repeated pattern in the verse and would benefit from a source explicitly treating Qur'anic repetition."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "tibaq",
+        "source_quote_ar": "ما استقام لهم أن يجمعوا بين أمرين متنافيين",
+        "claim_ar": "التضاد بين «صَغِيرَةً» و«كَبِيرَةً» يُشكّل مقابلة/طباق لفظيًّا يبرز شمول النفي وعدم استثناء أي مقدار، سواء كان صغيرًا أم كبيرًا.",
+        "claim_en": "The antithesis between 'saghīrah' (small) and 'kabīrah' (large) constitutes a lexical contrast (tibāq) that highlights the comprehensiveness of the negation — no amount, small or large, is spent.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq/مقابلة",
+        "root": "صغر",
+        "lemma": "صَغِيرَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari (al‑Kashshaf) and a Darwish iʿrāb commentary; the user requested extraction according to al‑Jurjānī, al‑Sakkākī, al‑Baqillānī, al‑Suyūtī and tafsir‑balāgha sections. Those specific authors/sources are not present in the supplied chunks, so some attributions/use of source quotes are drawn from the available material and may not reflect the requested commentators.",
+      "Some mappings (e.g., applying قصر discussion of «إِنَّمَا» to the particle «إِلَّا», or using general notes on the waw to support repetition) are inferential. Such inferences are marked in needs_review_reason and should be checked against explicit passages from the targeted rhetoricians if precise attribution is required."
+    ]
+  },
+  "n_chunks": 12
+}

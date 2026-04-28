@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "5:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (جَزَاءً) : مَصْدَرٌ؛ أَيْ: يُجْزَوْنَ بِذَلِكَ جَزَاءً، أَوْ هُوَ مَفْعُولٌ لَهُ.",
+        "claim_ar": "جَزَاءً: مصدر، أو هو مفعولٌ له.",
+        "claim_en": "The word 'جَزَاء' is analysed as a masdar (verbal noun); alternatively it can be read as a maful lahu (مفعولٌ له) — i.e. 'they will be recompensed with that' or 'it is something they are recompensed with'.",
+        "root": "جزي",
+        "lemma": "جَزَآء",
+        "confidence": "medium",
+        "needs_review_reason": "The source presents two possible analyses (masdar vs. مفعولٌ له) and vocalizes the word as 'جَزَاءً' (accusative); further verification of the case/role in context recommended."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

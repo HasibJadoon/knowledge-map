@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:42",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "bayan",
+        "source_quote_ar": "إن من البيان لسحرا",
+        "claim_ar": "الآية تجسد قوة البيان وإيحاءه السحري: صياغة موجزة وجازمة تُحدث أثرًا بلاغيًا قويًا.",
+        "claim_en": "The verse exemplifies the power of bayan (rhetorical eloquence): a concise, forceful phrasing that produces a strong rhetorical effect (the 'magic' of eloquence).",
+        "device_branch": "bayan",
+        "device_subtype": "asloob_hakim",
+        "root": "بين",
+        "lemma": "بيان",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source phrase is a general remark about the power of eloquence; it does not analyze Sura 7:42 specifically. The linkage from the general maxim to this particular verse is interpretive and should be reviewed against direct commentary on this verse.",
+        "quran_ref": "S7:A42",
+        "rhetorical_effect": "conciseness and persuasive reassurance — the short, balanced clauses (e.g., 'لَا نُكَلِّفُ نَفْسًا إِلَّا وُسْعَهَا') give doctrinal comfort and rhetorical authority."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily from al-Kashshaf and a Darwish i'rab note; requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present among the supplied chunks.",
+      "The single claim links a general maxim about rhetorical power (source quote) to this ayah by interpretation; the source does not explicitly analyze S7:42. Verify with direct tafsir/balagha commentary on this verse for stronger support."
+    ]
+  },
+  "n_chunks": 12
+}

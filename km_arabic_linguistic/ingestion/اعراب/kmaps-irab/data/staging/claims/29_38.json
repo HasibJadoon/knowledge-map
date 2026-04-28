@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "29:38",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "الضَّمِيرُ يَرْجِعُ عَلَى السَّبِيلِ، وَهِيَ تُذَكَّرُ وَتُؤَنَّثُ.",
+        "claim_ar": "الضمير يرجع على «السَّبِيلِ» وهي تُذَكَّر وتؤنث؛ أي أنّ المرجع الضميري يُحسب على «السبيل» وتُعامل كلمة «السبيل» تأنيثًا في الكلام.",
+        "claim_en": "The pronoun is taken to refer back to 'al-sabeel', and 'al-sabeel' is treated as feminine and is referred to as feminine; i.e., the pronoun's antecedent is 'al-sabeel' and the word is treated as feminine in usage.",
+        "root": "سبل",
+        "lemma": "سَبِيل",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 14,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ: السَّبِيلُ بِمَعْنَى السُّبُلِ، فَأُنِّثَ عَلَى الْمَعْنَى.",
+        "claim_ar": "قِيلَ أن «السَّبِيلَ» هنا بمعنى «السُّبُلِ»، فأنُثِتَتْ على المعنى — أي هناك وجه لغوي يرى تأنيث الكلمة هنا لكونها تدل على جمع (السبل).",
+        "claim_en": "It was said that 'al-sabeel' here means 'al-subul' (the paths), and thus it is treated as feminine on the basis of meaning — i.e., an alternative grammatical view treats the word as feminine because it denotes multiple paths.",
+        "root": "سبل",
+        "lemma": "سَبِيل",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

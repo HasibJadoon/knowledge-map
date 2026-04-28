@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:125",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "مجاز",
+        "source_quote_ar": "وَاتَّخَذَ اللَّهُ إِبْراهِيمَ خَلِيلًا مجاز عن اصطفائه واختصاصه بكرامة تشبه كرامة الخليل عند خليله.",
+        "claim_ar": "قَوْلُه تعالى «اتَّخَذَ اللَّهُ إِبْرَاهِيمَ خَلِيلًا» مجاز عن الاصطفاء والخصوصية؛ أي استُخدم لفظُ الخُلَّة مجازاً لتعليل التكريم الإلهي لإبراهيم.",
+        "claim_en": "The phrase «اتَّخَذَ اللَّهُ إِبْرَاهِيمَ خَلِيلًا» is a majaz (metaphorical) expression for God's special selection and favor toward Abraham; 'khalil' is used metaphorically to denote this honor.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "اخذ",
+        "lemma": "اتَّخَذَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A125",
+        "rhetorical_effect": "بيان تفضيل إبراهيم وتعظيم منزلته عند الله عبر استعمال كلمة ذات حمولة معنوية قوية (خليل)"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "كنية/مجاز",
+        "source_quote_ar": "أَسْلَمَ وَجْهَهُ لِلَّهِ أخلص نفسه للَّه وجعلها سالمة له لا تعرف لها ربا ولا معبوداً سواه",
+        "claim_ar": "تعبير «أسلم وجهه لله» فيه استعمال لِـ«الوجه» عن الذات/النفس؛ أي الوجه مستعار كنايةً عن الإخلاص والتسليم القلبي الكامل لله.",
+        "claim_en": "The phrase «أَسْلَمَ وَجْهَهُ لِلَّهِ» uses 'face' as a figurative/metonymic expression for the person/self — a kinayah/majaz indicating wholehearted surrender and sincerity to God.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "سلم",
+        "lemma": "أَسْلَمَ",
+        "confidence": "medium",
+        "needs_review_reason": "المفاضلة بين تصنيفها كمجاز أم ككنية تعتمد على معرفة اصطلاحية دقيق: بعض الباحثين يسميها مجازاً (مجاز-مقابلة/مجاز)، وبعضهم يدرجها تحت الكناية؛ لذا علامة ثقة متوسطة وتحتاج مراجعة اصطلاحية.",
+        "quran_ref": "S4:A125",
+        "rhetorical_effect": "تكثيف مدلول الإخلاص والتسليم في عبارة موجزة وصورِيّة تسهل تصور المعنى العملي للدين القويم"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "جملة اعتراضية / أسلوب بلاغي",
+        "source_quote_ar": "فائدتها تأكيد وجوب اتباع ملته",
+        "claim_ar": "الجملة «واتخذَ اللهُ إبراهيمَ خليلاً» تُعرض هنا كجملة اعتراضية؛ وفائدتها البلاغية إذ يذكر الزمخشريُّ أنها لتأكيد وجوب اتباع ملَّته وإبرازه كنموذجٍ يُحتذى.",
+        "claim_en": "The clause «وَاتَّخَذَ اللَّهُ إِبْرَاهِيمَ خَلِيلًا» functions as a parenthetical insertion; Zamakhshari notes its rhetorical purpose is to reinforce the obligation to follow Abraham's millah (way).",
+        "device_branch": "other",
+        "device_subtype": "parenthetical_clause (جملة اعتراضية)",
+        "root": "اخذ",
+        "lemma": "اتَّخَذَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A125",
+        "rhetorical_effect": "تأكيد دعوة المتكلم لاتباع مِلَّةِ إبراهيم عبر مقاطعة سياق الكلام بجملةٍ تُبرز المثال وتحثّ على الاقتداء"
+      }
+    ],
+    "warnings": [
+      "المقاطع المصدرية المقدَّمة هي من الزمخشري (al-Kashshaf) فقط. لم تُزَدن مقاطع من: الجرجاني، السكاكي، البقّيلاني، السيوطي أو أقسام تفسير البلاغة الأخرى المطلوبة؛ لذلك المستخلصات هنا مبنية على تفسير الزمخشري فقط.",
+      "تصنيف بعض التراكيب البلاغية (مثلاً: هل «وجه» هنا ككنية أم كمجاز اصطلاحي) يعتمد على اصطلاحات بلاغية دقيقة وقد يختلف بين المفسرين؛ حُدِّدَت درجات الثقة وفق توضيحات الزمخشري وحيث وُجد لبس سُجِّل أدناه حاجة لمراجعة."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,54 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "maani",
+        "source_quote_ar": "وفيه إشعار بأنّ على العبد أن لا يفتر عن ذكر ربه",
+        "claim_ar": "صيغة الأمر (أَطِيعُوا) تعمل كإشعار بالوجوب والمواظبة على طاعة الله ورسوله، أي أنها لا تقتصر على مجرد الطلب بل تحمل دلالة الالتزام والاستمرارية.",
+        "claim_en": "The imperative form (أَطِيعُوا) functions as an indication of obligation and continuous adherence to obedience to God and His Messenger — it is more than a mere request, conveying a binding and ongoing command.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "طوع",
+        "lemma": "أَطَاعَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "maani",
+        "source_quote_ar": "وتنكير المبشر به لوقوعه وراء صفة الواصف وتعريف المعرّف",
+        "claim_ar": "استخدام التعريف في «الَّذِينَ آمَنُوا» بعد نداء «يا أيها» يحدد المخاطبين ويضفي تمييزًا ووضوحًا للمجمع عليهم من المؤمنين (توظيف التعريف والتنكير لأغراض بلاغية).",
+        "claim_en": "The use of the definite relative clause «الَّذِينَ آمَنُوا» after the vocative «يا أيها» defines and specifies the addressees, adding clarity and distinction to the group addressed — an employment of definiteness/indefiniteness for rhetorical effect.",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir",
+        "root": "",
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "root for the relative pronoun not provided in input; assignment based on contextual interpretation of definiteness."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "maani",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "الواو في «وَلَا تَوَلَّوْا عَنْهُ وَأَنْتُمْ تَسْمَعُونَ» تعمل رابطة أو استئنافية تربط النهي بالحالة (الحال المذكرة «وأنتُم تسمعون») لزيادة التوكيد وال immediacy في النهي وعدم التبرير.",
+        "claim_en": "The conjunction waw in «وَلَا تَوَلَّوْا عَنْهُ وَأَنْتُمْ تَسْمَعُونَ» functions as a linking/resumptive waw (waw isti'nafiyya), connecting the prohibition to the accompanying circumstance («while you are hearing») and thereby heightening emphasis and immediacy of the prohibition.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "",
+        "lemma": "لَا",
+        "confidence": "medium",
+        "needs_review_reason": "root for the particle/compound token not supplied in input; device labeling (fasl_wasl vs. 'waw isti'nafiyya') is inferred from the cited commentary."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks do not include the originally requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a dedicated tafsir-balagha); available chunks are from Zamakhshari, Darwish (I'rab), Safi (al-Jadwal) etc. Claims are therefore drawn from the supplied chunks only.",
+      "Some input tokens lack a supplied root (e.g., word_index 2 and 7). Roots were left empty and those claims marked for review; please provide lexical roots if precise root-based annotation is required.",
+      "Device assignment (especially distinctions like 'fasl_wasl' vs. 'waw isti'nafiyya') is based on interpretation of the cited commentary lines and may need review by a specialist for fine-grained labeling.",
+      "Only a small selection of rhetorical devices was asserted where directly supported by the provided source substrings; absence of a claim does not imply absence of other rhetorical phenomena in the verse."
+    ]
+  },
+  "n_chunks": 12
+}

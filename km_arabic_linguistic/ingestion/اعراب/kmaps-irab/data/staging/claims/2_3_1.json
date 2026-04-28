@@ -1,0 +1,90 @@
+{
+  "layer": "irab",
+  "word_key": "2:3:1",
+  "result": {
+    "claims": [
+      {
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "(مَا لَكُمْ كَيْفَ) : اسْتِفْهَامٌ بَعْدَ اسْتِفْهَامٍ.",
+        "claim_ar": "«مَا لَكُمْ كَيْفَ» تصنيفها استفهام بعد استفهام أي أنها استنكارية/استفهامية متعاقبة كتعبير عن التعجب أو التحسر.",
+        "claim_en": "\"(ما لكم كيف)\" is an interrogative following an interrogative — i.e., a stacked/question-after-question construction (an interrogative with the force of astonishment/reproach).",
+        "root": "ح ك م",
+        "lemma": "حَكَمَ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "irab",
+        "source_quote_ar": "(سُنَّةَ اللَّهِ) : هُوَ نَصْبٌ عَلَى الْمَصْدَرِ",
+        "claim_ar": "«سُنَّةَ اللَّهِ» اسم منصوب على المصدر (نصب على المصدر)، أي «سَنَنّا بِهِمْ سُنَّةَ اللَّهِ».",
+        "claim_en": "\"(سُنَّةَ الله)\" is accusative (منصوب) as a specification on the verbal-nominal source (i.e., منصوب على المصدر).",
+        "root": "س ن ن",
+        "lemma": "سُنَّة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "irab",
+        "source_quote_ar": "(مِنْ رَبِّكُمْ) : فِي مَوْضِعِ رَفْعٍ صِفَةٌ لِبَلَاءٍ",
+        "claim_ar": "«مِنْ رَبِّكُمْ» في موضع رفع: هي صفة (نعت/صفة) لاسم «بلاء» مرفوع.",
+        "claim_en": "\"(من ربكم)\" occurs in a nominative position as a descriptor (صفة) — i.e., it is an adjective/descriptor (nominative) of the noun \"بلاء\".",
+        "root": "ر ب ب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "taqdir",
+        "source_quote_ar": "فَيَتَعَلَّقُ بِمَحْذُوفٍ.",
+        "claim_ar": "الموصوف/العبارة «مِنْ رَبِّكُمْ» تتعلق بمحمول محذوف (هنالك كلمة محذوفة يتعلَّق بها التعبير).",
+        "claim_en": "The phrase \"... يتعلَّق بمَحذوف\" indicates that \"(من ربكم)\" is connected to an omitted (ellipted) element — a syntactic elision (taqdir) is required.",
+        "root": "ح ذ ف",
+        "lemma": "حَذَفَ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "irab",
+        "source_quote_ar": "(نَزَّلَ عَلَيْكَ) : هُوَ خَبَرٌ آخَرُ",
+        "claim_ar": "العبارة «نَزَّلَ عَلَيْكَ» تعمل خَبَرًا آخر (خبر مستقل) في السياق المذكور.",
+        "claim_en": "\"(نَزَّلَ عَلَيْكَ)\" functions as another predicate (an independent خبر) in the clause.",
+        "root": "ن ز ل",
+        "lemma": "نَزَّلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَجْهَ النَّهَارِ : وَجْهَ ظَرْفٌ لِآمِنُوا، بِدَلِيلِ قَوْلِهِ «وَاكْفُرُوا آخِرَهُ»",
+        "claim_ar": "«وَجْهَ النَّهَارِ» ظرف متعلق بالفعل «آمَنُوا» (ويجوز أن يكون ظرفًا لِأُنْزِلَ).",
+        "claim_en": "\"(وجه النهار)\" is an adverbial (zarf) related to the verb \"آمنوا\" (it may alternatively be a zarf for \"أُنزلَ\").",
+        "root": "و ج ه",
+        "lemma": "وَجْه",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "irab",
+        "source_quote_ar": "(يَحْلِفُونَ) : حَالٌ.",
+        "claim_ar": "«يَحْلِفُونَ» مُعطاة هنا كحال (ظرفية حالية).",
+        "claim_en": "\"(يَحْلِفُونَ)\" is analyzed here as a hal (circumstantial accusative / state).",
+        "root": "ح ل ف",
+        "lemma": "حَلَفَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "(أَفَلَا تَعْقِلُونَ) : اسْتِفْهَامٌ فِي مَعْنَى التَّوْبِيخِ، وَلَا مَوْضِعَ لَهُ.",
+        "claim_ar": "«أَفَلَا تَعْقِلُونَ» هو استفهام بمعنى التوبيخ ولا محل له في الإعراب (لا يتصرّف كمكون نحوي له موقع محدد).",
+        "claim_en": "\"(أفلا تعقلون)\" is an interrogative used in the sense of reproach (tawbikh) and has no syntactic position (i.e., it does not occupy a parse-place).",
+        "root": "ع ق ل",
+        "lemma": "عَقَلَ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:163",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit balagha (rhetorical) observations linking the text of S7:163 to the provided source chunks were found. The provided chunks (Zamakhshari excerpts and Safi - al-Jadwal) do not contain exact quotations of the verse nor explicit rhetorical labels (e.g., تكرار, مقابلة, لبقة, التقديم/التأخير, إلخ.) that can be cited as source_quote_ar. Per instructions, source_quote_ar must be an exact substring of one of the provided chunks, so no claims could be reliably extracted. If you provide tafsir-balagha excerpts (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti or other commentaries) that explicitly discuss this verse and include quotable phrases, I can extract and format the rhetorical claims."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:40",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "(بَنِي إِسْرَائِيلَ)",
+        "claim_ar": "نداء موجه لبني إسرائيل (نداء تذكيري وتنبيهي) يستدعي الانتباه ويهيئ السامعين للاستماع إلى الوصايا والوعيد.",
+        "claim_en": "A direct vocative address to 'Children of Israel' that seizes attention and prepares the audience for admonition and commands.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "بني",
+        "lemma": "بُنَىّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A40",
+        "rhetorical_effect": "جذب الانتباه، تخصيص الخطاب وجعله مباشراً"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "(اذْكُرُوا)",
+        "claim_ar": "فعل أمر (اذكروا) مقترن بضمير الملك في (نِعْمَتِيَ) ليشدّد الالتزام والشعور بالواجب تجاه نعمة المنعم.",
+        "claim_en": "The imperative 'اذْكُرُوا' (remember) is coupled with the possessive 'my favor' (نِعْمَتِيَ), intensifying obligation and awareness of the divine benefaction.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A40",
+        "rhetorical_effect": "إلزام ذهني وأخلاقي، تفعيل الشعور بالمسؤولية تجاه النعمة"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "وقد تقدمت هذه الجملة بنصها وإنما أعيدت للتوكيد وقرع العصا وتنبيه أذهانهم الكليلة عن سماع الخير",
+        "claim_ar": "تكرار أو إعادة نص العبارة كمؤثر بلاغي لإظهار التوكيد والتنبيه (التكرار هنا وسيلة لقرع العصا وتنبيه القلوب).",
+        "claim_en": "Repetition (reiteration) of the clause as a rhetorical device to emphasize and admonish — the repetition functions to strike and rouse the heedless minds.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "نعم",
+        "lemma": "نِعْمَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A40",
+        "rhetorical_effect": "تكثيف التذكير والتوكيد، استثارة القلوب للانتباه"
+      }
+    ],
+    "warnings": [
+      "المصادر المرفقة لا تحوي نص الآية بكاملها لفظاً (على سبيل المثال لم تُذكر صيغتي «أَوْفُوا بِعَهْدِي» و«فَارْهَبُونِ» كنصوص صريحة في الشقوط)، لذا القياسات البلاغية اقتصرت على مواضع وعبارات واردة حرفياً في الفقرات المرفقة.",
+      "تصنيف بعض الظواهر البلاغية (مثل تكرار الجذر 'وفى' في سياق المقابلة) قد يحتاج لمراجعة إذا توفرت قطع مصدرية إضافية تحوي النص الحرفي لتلك العبارات."
+    ]
+  },
+  "n_chunks": 12
+}

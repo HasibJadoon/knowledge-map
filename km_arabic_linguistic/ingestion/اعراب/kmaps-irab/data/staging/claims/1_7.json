@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "1:7",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No irab/taalluq/taqdir/etc. claims found in the provided source_chunks for the target ayah (S1:A7). The chunks supplied discuss other verses/topics (e.g. general discussion of الفاتحة and الصيام) and do not contain text or explicit grammatical claims about the words of صِرَاطَ الْـذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ."
+    ]
+  },
+  "n_chunks": 5
+}

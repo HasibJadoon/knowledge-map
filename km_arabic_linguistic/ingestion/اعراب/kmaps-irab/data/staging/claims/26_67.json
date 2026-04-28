@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:67",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "taqdir",
+        "source_quote_ar": "لَا بُدَّ مِنْ هَذَا التَّقْدِيرِ؛ لِأَنَّ الْمَخْصُوصَ بِالذَّمِّ مِنْ جِنْسِ فَاعِلِ بِئْسَ، وَالْفَاعِلُ الْمَثَلُ، وَالْقَوْمُ لَيْسَ مِنْ جِنْسِ الْمَثَلِ، فَلَزِمَ أَنْ يَكُونَ التَّقْدِيرُ: مَثَلُ الْقَوْمِ، فَحَذَفَهُ وَأَقَامَ الْقَوْمَ مَقَامَهُ.",
+        "claim_ar": "كلمة «ذَلِكَ» مقامةُ مقامِ لفظٍ محذوفٍ يبيّن المراد (تقدير مُقاربٌ مثل «مَثَلٌ/آيةٌ»)؛ الأصلُ المحذوف قد حُذِف وأُقيم مكانه ما يدل عليه.",
+        "claim_en": "The word “ذَلِكَ” is occupying the place of a deleted term that would make the sense explicit (a تقدير such as “مثل/آية”); the original word is omitted and what indicates it is put in its place.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses an analogous case (مثلاً / مَثَلُ الْقَوْمِ) rather than S26:67 explicitly; applying it to ذَلِكَ in this ayah is inferential and should be reviewed."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "taqdir",
+        "source_quote_ar": "تارة لا يقام شيء مقام المحذوف كما تقدم ، وتارة يقام ما يدل عليه",
+        "claim_ar": "كلمة «لَآيَةً» قد تكون مرتبطة بتقدير؛ أحيانًا يقام ما يدلُّ عليه المحذوف مقامَه، فَيُفهم أن لفظًا مبهمًا أو محذوفًا يُقدَّر لبيان المعنى.",
+        "claim_en": "The term “لَآيَةً” may be interpreted via a تقدير: sometimes what indicates a deleted word is put in its stead, so an implicit or omitted word is to be supplied to clarify the meaning.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source states the general principle (occasionally what indicates the deleted term is put in its place) but does not analyze this specific verse; the application here is analogical and needs verification."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks contains a direct, explicit iʿrāb or syntactic analysis of S26:67. The extracted claims are analogical inferences from general discussions (on حذف/تقدير and إقامة ما يدل عليه). They should be checked against a direct commentary on this verse.",
+      "No source quote in the chunks addresses the iʿrāb labels (e.g. اسم إنّ, خبر إنّ, خبر كان منصوب) for the exact words of this ayah; such traditional iʿrāb claims were not extracted because the required supporting substrings do not occur in the supplied material."
+    ]
+  },
+  "n_chunks": 12
+}

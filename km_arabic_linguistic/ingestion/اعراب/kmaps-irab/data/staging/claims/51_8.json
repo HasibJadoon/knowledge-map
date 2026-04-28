@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "51:8",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No explicit grammatical claims in the provided source chunks refer to the words of S51:8 (إِنَّكُمْ، لَفِي، قَوْلٍ، مُخْتَلِفٍ).",
+      "Source chunks contain general syntactic remarks (e.g. «وَأَنْ يَكُونَ مُبْتَدَأً وَخَبَرًا», «وَالْجُمْلَةُ نَعْتٌ لِرُسُلٍ») but do not mention or analyze the exact words or phrase of this āyah. Per instructions, source_quote_ar must be an exact substring tied to the claim; no such exact substring addressing these specific words was found, so no claims are extracted."
+    ]
+  },
+  "n_chunks": 12
+}

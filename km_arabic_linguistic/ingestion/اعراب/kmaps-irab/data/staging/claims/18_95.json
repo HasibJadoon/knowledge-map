@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "18:95",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "وَقِيلَ: هُوَ صِفَةٌ لِأَجْرٍ، وَالْعَائِدُ: الْهَاءُ فِي «فِيهِ» .",
+        "claim_ar": "الهاء في «فِيهِ» ضمير عائد (يُرجَع إلى ما قبله).",
+        "claim_en": "The pronoun -ha- in «fihi» is a returning/anaphoric pronoun (it refers back to a preceding noun).",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only one source-chunk (AL:CHUNK:8a7654ff67da5c5c16f3fd17) contains text directly relevant to a word in this ayah (the phrase about the هاء in «فيه»). The other provided chunks do not mention words of S18:A95, so additional claims cannot be extracted from them."
+    ]
+  },
+  "n_chunks": 12
+}

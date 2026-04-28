@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:25",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No matching rhetorical commentary for S10:A25 found in the provided source_chunks.",
+      "Required source_quote_ar must be an exact substring of a provided chunk. The chunks supplied (mainly excerpts from al-Kashshaf and other works) do not contain the verse وَاللَّهُ يَدْعُو إِلَى دَارِ السَّلَامِ… nor explicit balagha discussion of that verse by the requested authors (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, or tafsīr-balagha).",
+      "Cannot create claims without a source_quote_ar substring from the provided chunks; please supply relevant tafsir/balāgha excerpts (or chunks from the requested authors) that explicitly treat this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

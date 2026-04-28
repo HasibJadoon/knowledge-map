@@ -1,0 +1,143 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 13,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 13,
+          "head_word_index": 1,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قال",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "فعل",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل ماضٍ والفاعل هو (إنّي)"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "إنّي",
+          "relation_type": "subject",
+          "governor_word_index": 1,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "فاعل مرفوع"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "ليحزنُنِي",
+          "relation_type": "predicate",
+          "governor_word_index": 2,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر إنّي"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "أن",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 3,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "حرف مصدريّ"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "تذهبوا",
+          "relation_type": "object_direct",
+          "governor_word_index": 4,
+          "irab_position": "فاعل",
+          "irab_case": "منصوب",
+          "note_ar": "فاعل مضارع منصوب"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "به",
+          "relation_type": "object_indirect",
+          "governor_word_index": 5,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "مفعول به"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "وأخاف",
+          "relation_type": "coordinated",
+          "governor_word_index": 1,
+          "irab_position": "فعل",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل ماضٍ معطوف"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "أن",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 7,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "حرف مصدريّ"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "يأكله",
+          "relation_type": "object_direct",
+          "governor_word_index": 8,
+          "irab_position": "فاعل",
+          "irab_case": "منصوب",
+          "note_ar": "فاعل مضارع منصوب"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "الذئب",
+          "relation_type": "object_indirect",
+          "governor_word_index": 9,
+          "irab_position": "مفعول به",
+          "irab_case": "مرفوع",
+          "note_ar": "مفعول به"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "وأنتم",
+          "relation_type": "coordinated",
+          "governor_word_index": 1,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "فاعل معطوف"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "عنه",
+          "relation_type": "object_indirect",
+          "governor_word_index": 11,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "مفعول به"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "غافلون",
+          "relation_type": "predicate",
+          "governor_word_index": 11,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر المبتدأ"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

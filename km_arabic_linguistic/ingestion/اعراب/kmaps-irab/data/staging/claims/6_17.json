@@ -1,0 +1,43 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:17",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (إِلَّا وَجْهَهُ) : اسْتِثْنَاءٌ مِنَ الْجِنْسِ؛ أَيْ إِلَّا إِيَّاهُ، أَوْ مَا عُمِلَ لِوَجْهِهِ سُبْحَانَهُ.",
+        "claim_ar": "إِلَّا هنا عملها استثناء (استثناء من الجنس)، أي «إِلَّا إِيَّاهُ» أو ما عُمِل لوجهه.",
+        "claim_en": "'إِلَّا' here functions as an exception (استثناء من الجنس) — i.e. 'except Him' (إِلَّا إِيَّاهُ) or 'except what is done for His sake.'",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَهُوَ اللَّهُ) : وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ. وَ (فِي السَّمَاوَاتِ) : فِيهِ وَجْهَانِ:",
+        "claim_ar": "فَهُوَ: مبتدأ.",
+        "claim_en": "The pronoun 'فَهُوَ' functions as the subject (mubtada').",
+        "root": null,
+        "lemma": "هو",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَهُوَ اللَّهُ) : وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ. وَ (فِي السَّمَاوَاتِ) : فِيهِ وَجْهَانِ:",
+        "claim_ar": "قَدِيرٌ: خبر لهو (مرفوع).",
+        "claim_en": "'قَدِيرٌ' is the predicate (khabar) of 'هو' and is in the nominative.",
+        "root": "قدر",
+        "lemma": "قَدِير",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

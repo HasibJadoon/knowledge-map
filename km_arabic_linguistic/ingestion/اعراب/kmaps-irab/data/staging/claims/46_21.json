@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "46:21",
+  "result": {
+    "claims": [
+      {
+        "word_index": 21,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "الخوف من ناقة خوفاء ، أي : بها داء ، وهو نقص ، وليس بفوات ; ولذلك خصت الخشية بالله",
+        "claim_ar": "لفظ (أَخَافُ) يدل على الخوف بمعنى النقص والضعف عند الخائف (خوف)، وهو تمييز للدلالة على ضعف الخائف، ويختلف لفظ الخشية الذي خصّ بالله.",
+        "claim_en": "The verb (أَخَافُ) expresses 'khawf' (fear) in the sense of deficiency/weakness on the part of the one who fears; this distinguishes it from 'khashyah' which is specialized for God.",
+        "root": "خوف",
+        "lemma": "خَافَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the semantic distinction between خوف and خشية generally; applying it specifically to this verb in the ayah is plausible but should be checked against other grammatical/semantic sources for contextual nuance."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "المسجد معطوف على ضمير ( به ) وإن لم يعد الجار .",
+        "claim_ar": "ثمة قاعدة تصرح بجواز عطف اسم على ضمير مجرور من غير إعادة الجار (أي: يمكن عطف اسم على ضمير جار دون تكرار حرف الجر). في سياقات مماثلة يجب التأكد من ارتباط الجار بالواجب نحويًا في الآية قبل تطبيق القاعدة.",
+        "claim_en": "There is a rule permitting the conjunction (annexation) of a noun to a genitive pronoun without repeating the preposition (i.e., a noun may be conjoined to a pronoun governed by a preposition without reintroducing the preposition). For the ayah, one must verify the prepositional/governor relationship before applying this rule.",
+        "root": "عطف",
+        "lemma": "عطف",
+        "confidence": "medium",
+        "needs_review_reason": "The cited rule is general (about conjoining to a genitive pronoun without repeating the preposition); its direct applicability to specific segments of this ayah (e.g., relation of بِالْأَحْقَافِ to قَوْمَهُ or other phrases) requires checking the ayah's syntactic connections."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain general grammatical and semantic discussions but do not address the specific syntactic parsing (إعراب) of many individual words of this ayah. Claims here are limited to points directly supported by the quoted substrings.",
+      "Other standard syntactic analyses for this verse (e.g., whether عَذَابَ is مفعولٌ به and whether يَوْمٍ عَظِيمٍ is مضاف إليه + نعت or تمييز) were not found in the supplied chunks and so are not asserted — review additional grammatical sources is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

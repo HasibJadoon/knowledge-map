@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:25",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "يُقْرَأُ عَلَى مَا لَمْ يُسَمَّ فَاعِلُهُ",
+        "claim_ar": "وَوُفِّيَتْ: فعل ماضٍ مبني للمجهول؛ و«كُلُّ نَفْسٍ» نائبُ الفاعل مرفوعٌ (كُلُّ مرفوعة)، لأن الفعل مبني للمجهول والقائم مقام الفاعل ظاهر بعده.",
+        "claim_en": "The verb وُفِّيَتْ is a past passive (built for the passive); \"كُلُّ نَفْسٍ\" functions as the na'ib al-fa'il (subject substitute) in the nominative, since the verb is passive and the entity standing for the agent follows it.",
+        "root": "وفي",
+        "lemma": "وَفَّىٰٓ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk states the general rule about verbs read/used when their agent is not named (يُقْرَأُ عَلَى مَا لَمْ يُسَمَّ فَاعِلُهُ) but does not analyze this specific verse; the assignment of نائب الفاعل to \"كُلُّ نَفْسٍ\" is an application of that general rule and should be reviewed against the full commentary for this ayah."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

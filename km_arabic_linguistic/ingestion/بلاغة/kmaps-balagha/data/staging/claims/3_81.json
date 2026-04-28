@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:81",
+  "result": {
+    "claims": [
+      {
+        "word_index": 29,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فَقُولُوا اشْهَدُوا بِأَنَّا مُسْلِمُونَ",
+        "claim_ar": "تحول الخطاب إلى صيغة الشهادة والدعوة للاعتراف (انتقال من السرد إلى مخاطبة مباشرة تطلب الشهادة: «فَاشْهَدُوا وَأَنَا مَعَكُمْ»)، وهو إِلْتِفَاتٌ بلاغي يثير التأثير العاطفي والالتزام الشرعي.",
+        "claim_en": "A shift (iltifat) to a direct address calling for testimony and acknowledgement (e.g., 'So bear witness—and I am with you'), moving from narration into a direct exhortation, which heightens emotional force and juridical commitment.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "شهد",
+        "lemma": "شَهِدَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted support is taken from the provided tafsir chunk which discusses the exhortatory formula («اشهدوا ...») rather than reproducing the exact ayah phrase; verify with the primary tafsir texts (al-Jurjani, al-Sakkaki, etc.) for direct attribution and fuller justification.",
+        "quran_ref": "S3:A81",
+        "rhetorical_effect": "heightens immediacy and moral accountability by switching to direct address and calling for witnesses"
+      },
+      {
+        "word_index": 17,
+        "claim_type": "mucabalah",
+        "source_quote_ar": "وفيه ترغيب في الطاعة",
+        "claim_ar": "التوازي بين الجملتين «لَتُؤْمِنُنَّ بِهِ وَلَتَنْصُرُنَّهُ» يمثل مُقابَلة بلاغية (مساواة/توازي) تُقوّي التعهد والالتزام، وتعمل على التكرار الدلالي للمطالب الإيمانية والعملية.",
+        "claim_en": "The parallelism between 'you will surely believe in it and you will surely support it' constitutes a muqabalah (pairing/parallelism) that reinforces the covenantal commitment, repeating both belief and active support for rhetorical emphasis.",
+        "device_branch": "badi",
+        "device_subtype": "mucabalah",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "Support comes from a tafsir remark noting exhortation ('وفيه ترغيب في الطاعة') rather than an explicit theoretical discussion of muqabalah; confirm with specialized balagha commentary (al-Jurjani/al-Sakkaki) for exact device labeling.",
+        "quran_ref": "S3:A81",
+        "rhetorical_effect": "strengthens the promise by pairing inward conviction with outward action, producing emphatic, covenantal resonance"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "اعترف بأنى أنا الغالب وسلم لي الغلبة",
+        "claim_ar": "أسلوب قَضِيّ/تحدٍّ (أسلوب حكيم) في نغمة الآية: أخذ الميثاق ثم مطالبة الشهود والاعتراف يشي بأسلوبِ قِضاءٍ وادعاء سلطةٍ إلهية تفرض نفسها على المخاطَبِين.",
+        "claim_en": "A judicial/challenging style (asloob hakim): the covenant-taking and demand for witness/acknowledgement adopts a tone of decisive assertion of divine authority—like a verdict or formal covenant—pressuring the addressees to concede.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "اخذ",
+        "lemma": "أَخَذَ",
+        "confidence": "low",
+        "needs_review_reason": "The supporting quote is interpretive commentary from the provided chunk rather than explicit labeling of 'asloob hakim' by classical balagha authorities; requires cross-checking with primary rhetoric sources (al-Jurjani, al-Sakkaki, etc.) for confirmation.",
+        "quran_ref": "S3:A81",
+        "rhetorical_effect": "imposes moral-legal pressure, producing a sense of obligation and inevitable responsibility"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are limited (mainly Zamakhshari and an i'rab note); they do not directly reproduce the exact ayah text in full. Some source_quote_ar items quote related tafsir sentences rather than the ayah's exact wording—claims therefore rely on commentary excerpts and need verification against the named balagha authorities (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha).",
+      "Several device attributions (e.g., muqabalah vs. takrar, or labeling as 'asloob_hakim') would benefit from cross-checking classical rhetorical treatises for precise technical labels; confidence is set to 'medium' or 'low' where primary-device labeling is not explicit in provided chunks."
+    ]
+  },
+  "n_chunks": 12
+}

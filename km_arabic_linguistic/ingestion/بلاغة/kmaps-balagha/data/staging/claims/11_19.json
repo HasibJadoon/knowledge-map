@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:19",
+  "result": {
+    "claims": [
+      {
+        "word_index": 10,
+        "claim_type": "takrar",
+        "source_quote_ar": "هو من اللف والطباق.",
+        "claim_ar": "تكرار ضمير الغائب «هم» (توكيد بالتكرار) لتقوية الحكم على حالهم: «وَهُمْ ... هُمْ كَافِرُونَ».",
+        "claim_en": "Repetition of the third‑person plural pronoun \"hum\" (takrar) to strengthen and emphasize the judgment about them: \"wa hum ... hum kafirun\".",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "low",
+        "needs_review_reason": "The provided source chunk contains the general phrase 'هو من اللف والطباق.' but does not explicitly discuss this verse's specific repetition. Identification of takrar here is based on the verse text itself; the supplied commentary does not directly cite this device for the verse."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "majaz",
+        "source_quote_ar": "هو من اللف والطباق.",
+        "claim_ar": "استعمال كلمة «سَبِيلِ» مجازاً/كنيةً عن منهج العبادة والهداية — أي تحويل الصفة المكانية إلى معنى معنوي (ميلانهم إلى تحريف طريقة الله).",
+        "claim_en": "Use of the word 'sabil' (path) as a metaphor/metonymy for the way of worship and guidance — turning a spatial term into a moral/spiritual sense (their inclination to distort God's way).",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "سبل",
+        "lemma": "سَبِيل",
+        "confidence": "low",
+        "needs_review_reason": "The supplied chunks do not directly analyze the term «سَبِيلِ» in this verse as majaz; the claim is an interpretive reading of the verse wording. Needs confirmation from classical balagha/tafsir sources (al‑Jurjānī, al‑Sakkākī, etc.)."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from al‑Kashshāf (Zamakhsharī) only and do not contain direct, explicit balagha commentary on S11:A19; several device identifications above are inferred from the verse text rather than supported verbatim by the supplied chunks.",
+      "Requested authorities (al‑Jurjānī, al‑Sakkākī, al‑Baqillānī, al‑Suyūṭī, tafsir‑balagha sections) are not present among the provided source_chunks. Claims should be reviewed against those classical balagha tafsirs for validation.",
+      "Some lemma/root data for pronouns (e.g., «هم») were not provided in the input and are left null; please supply morphological lemmas/roots if needed for higher confidence."
+    ]
+  },
+  "n_chunks": 12
+}

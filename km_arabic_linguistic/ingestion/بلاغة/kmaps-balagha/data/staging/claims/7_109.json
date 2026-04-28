@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:109",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "لم حذف العاطف من قوله قالَ يا قَوْمِ ولم يقل «فقال»",
+        "claim_ar": "حذف العاطف في السرد (إسقاط «فـ» بين الجمل)، مما يجعل الكلام أقرب إلى مقتطف مباشر ويزيد الإحساس بالعجلة وال immediacy في القول",
+        "claim_en": "Omission of the coordinating conjunction (حذف العاطف) in the narrative—dropping the expected 'fa-'—which produces parataxis and makes the speech read as a direct, immediate utterance.",
+        "device_branch": "other",
+        "device_subtype": "حذف_العاطف",
+        "root": "حذف",
+        "lemma": "حَذْف",
+        "confidence": "high",
+        "needs_review_reason": "The chunk explicitly discusses the omission, but applying the label to this specific verse depends on treating the narrative move as answer-to-question context; check broader story-frame if needed.",
+        "quran_ref": "S7:A109",
+        "rhetorical_effect": "increases immediacy of the reported speech; compresses narrative flow and foregrounds the speakers' reaction"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "maani",
+        "source_quote_ar": "و «إن» و «من» زائدتان للتوكيد",
+        "claim_ar": "استعمال «إنَّ» (مصحوبة بزيادة «من» في مواطن أخرى) كأداة توكيد معنوية لشدّ النفي أو التصديق، أي وظيفة تأكيدية في المعنى",
+        "claim_en": "Use of the particle 'إنَّ' (and similarly 'من' in some contexts) as an emphatic particle—added for semantic emphasis.",
+        "device_branch": "other",
+        "device_subtype": "توكيد_بالإنّ",
+        "root": "إنّ",
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source explicitly states the emphatic role of \"إنّ\"; mapping this phenomenon to the limited target device-list required using an 'other' subtype (not one of the predefined maani subtypes).",
+        "quran_ref": "S7:A109",
+        "rhetorical_effect": "adds emphasis to the statement, strengthening the assertion that the speaker judges Moses to be a magician"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "maani",
+        "source_quote_ar": "لم وصف الملأ الَّذِينَ كَفَرُوا دون الملأ من قوم نوح؟",
+        "claim_ar": "تعيين الملأ بوصف ذمّي («الذين كفروا») لتمييز جماعة الملأ هذه وبيان موقفهم السلبي، أي وصف ذمِّي يبرز خصلة المدينة المقابِلة",
+        "claim_en": "Qualifying 'al-mala'' with a pejorative description ('those who disbelieved') to distinguish this elite group and mark them negatively—a darned/derogatory specification that clarifies the speaker-group's hostile stance.",
+        "device_branch": "other",
+        "device_subtype": "تعيين_بصفة_ذمّية",
+        "root": "ملا",
+        "lemma": "مَلَأ",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk remarks on the choice to describe 'الملأ' as 'الذين كفروا'; classifying this as a discrete rhetorical device (vs. simple explanatory detail) is interpretive and flagged for review.",
+        "quran_ref": "S7:A109",
+        "rhetorical_effect": "marks and isolates the hostile elite, shading their speech as representing antagonistic, unfaithful authority"
+      }
+    ],
+    "warnings": [
+      "The available source chunks discuss several stylistic points (omission of conjunction, emphatic particles, specifying/descriptive choices). Some mappings to the restricted device list required using 'other' as device_branch/subtype (e.g., توكيد بالإنّ, تعيين بصفة ذمّية) because the exact subtype names in the requested taxonomy did not include these labels.",
+      "Claims are tied to exact source substrings given in the chunks. Broader corroboration (other commentaries or the full surrounding commentary) may refine classification or change confidence levels, particularly for the characterization of the descriptive qualification of «الملأ»."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:78",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No claims extracted: none of the provided source_chunks contain exact substrings of the target ayah (Sura 3:78) required for source_quote_ar. The extractor requires an exact match from a chunk for each claim.",
+      "Please provide tafsir/balagha source chunks that include the exact ayah phrase(s) (e.g. «وَإِنَّ مِنْهُمْ لَفَرِيقًا يَلْوُونَ أَلْسِنَتَهُمْ بِالْكِتَابِ لِتَحْسَبُوهُ مِنَ الْكِتَابِ...» or relevant quoted commentary lines), or add sources that explicitly cite those phrases, so rhetorical devices can be pulled with exact source_quote_ar matches."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:5",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa (توكيد بحرف إنّ)",
+        "source_quote_ar": "جملة: «إنّا سنلقي ... »",
+        "claim_ar": "استخدام أداة التوكيد «إِنَّ» في ابتداء الآية لتقوية الخبر (توكيد علم الله ولفت الانتباه إلى أمرٍ موجبٍ لليقين).",
+        "claim_en": "Use of the emphatic particle 'إِنَّ' at the start of the verse to strengthen the statement (emphasizing God's knowledge and drawing attention to an assured fact).",
+        "device_branch": "maani",
+        "device_subtype": "توكيد بـ «إنَّ»",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains a discussion/example of sentences introduced by إنّ/إنا (e.g. «إنّا سنلقي...»), but does not explicitly analyze the particle in relation to this exact verse; the mapping is plausible but should be checked against juristic commentary that treats إنّ here as emphatic."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "tibaq (توازي/مقابلة)",
+        "source_quote_ar": "عَرْضِ السَّمَاءِ وَالْأَرْضِ",
+        "claim_ar": "توازي بين «الأرض» و«السماء» (ازدواج سمتين كبرى) لبيان الشمول الكلي لعلم الله - لا يخفى عليه شيء في ناحية ولا أخرى.",
+        "claim_en": "Parallelism between 'the earth' and 'the heaven' (pairing of the two principal realms) to indicate the totality of God's knowledge — nothing is hidden from Him in either domain.",
+        "device_branch": "badi",
+        "device_subtype": "طباق/توازي السماوات والأرض",
+        "root": "ارض",
+        "lemma": "أَرْض",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are excerpts (mostly from al-Kashshaf and one grammatical note). They do not include an explicit, verse-level balagha analysis of S3:A5; some claims are inferred from parallel examples in the chunks and should be reviewed against the primary juristic/tafsir balagha texts listed (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) for confirmation.",
+      "The mapping of the particle «إِنَّ» to the device label 'ijab_inshaa' / 'توكيد' is plausible but flagged as medium confidence because the provided chunks do not explicitly analyze this particle in the target verse."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,74 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:25",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إِلَّا نَفْسِي وَأَخِي",
+        "claim_ar": "أداة الاستثناء «إِلَّا» تحصر الملك في النفس والأخ؛ تعبير عن التقليل والالتجاء إلى الله بنوع من التواضع والتفويض.",
+        "claim_en": "The exclu­sive particle 'إِلَّا' limits Moses' authority to himself and his brother; it expresses minimization and an appeal to God with humility and reliance.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": "Classification as hasr/qasr is straightforward from the text, but cross-check with other rhetoricians may refine nuance (e.g., emphatic vs. genuine limitation).",
+        "quran_ref": "S5:A25",
+        "rhetorical_effect": "يوضّح محدودية قدرة موسى ويعظّم الحاجة إلى تدخل إلهي؛ يحدث تأثرًا عاطفيًا ورقةً في الطلب."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "فَافْرُقْ بَيْنَنَا وَبَيْنَ الْقَوْمِ الْفَاسِقِينَ",
+        "claim_ar": "تكرار شبهي لاسم المكان «بَيْنَ» في «بَيْنَنَا وَبَيْنَ» يؤدي إلى مقابلة بين طرفين (نحن/القوم) لبيان الفصل والتمييز بينهما.",
+        "claim_en": "Repetition of the locative 'بَيْنَ' in 'between us and between the people' creates a muqabalah (paired contrast) between two parties, emphasizing separation and distinction.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "بين",
+        "lemma": "بَيْن",
+        "confidence": "high",
+        "needs_review_reason": "Clear parallelism; nevertheless, some scholars might label it as tibaq or simple parallelism—cross-check recommended.",
+        "quran_ref": "S5:A25",
+        "rhetorical_effect": "يزيد من وضوح التمييز بين الطرفين ويشدّد مطلب الفصل عن الفاسقين."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "قالَ رَبِّ إِنِّي لا أَمْلِكُ",
+        "claim_ar": "نداء ومخاطبة مباشرة بالله («رَبِّ») ثم الشكوى «إِنِّي لا أَمْلِكُ» تُعدّ أسلوب إنشائي (دعائي/شكوى) للتوسّل والتقرب إلى الله.",
+        "claim_en": "The direct address 'رَبِّ' followed by the complaint 'إِنِّي لا أَمْلِكُ' functions as an injunctive/performative style (supplication/complaint), appealing to God directly.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling as 'ijab_inshaa' fits the supplicatory structure, though different rhetoricians may analyze it under 'iltifāt' (shift) or 'inshāʾ' nuances—recommend verification.",
+        "quran_ref": "S5:A25",
+        "rhetorical_effect": "يُظهر مشاعر الشكوى والاحتياج ويقرب المتكلّم إلى مخاطبة الربّ بصفة الحميمية والالتجاء."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "فَافْرُقْ بَيْنَنَا",
+        "claim_ar": "حرف الفاء في «فَافْرُقْ» يستخدم كأداة وصل دالّة على نتيجة أو عَلاقة سببية فورية بين حصر الاختصاص (لا أَمْلِكُ...) والطلب (افْرُقْ).",
+        "claim_en": "The conjunction 'فَ' in 'فَافْرُقْ' operates as a connective indicating immediate result or causal relation between the limitation of authority and the ensuing request to separate.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "فرق",
+        "lemma": "فَرَقْ",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretation of the 'فَ' as causal/sequential is standard, but its rhetorical classification may vary among sources; recommend cross-reference.",
+        "quran_ref": "S5:A25",
+        "rhetorical_effect": "يربط الكلام سببياً ويعطي الطلب طابع الاستعجال والنتيجة المترتبة عن قيد السلطة."
+      }
+    ],
+    "warnings": [
+      "Available source chunks are limited (mainly Zamakhshari's al-Kashshaf and assorted iʿrāb notes). Requested classical rhetoricians (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha sections) are not present in the provided chunks; assertions are therefore drawn from the available material and general rhetorical knowledge.",
+      "Some device labels (e.g., muqabalah vs. tibaq, ijab_inshaa vs. iltifat) can be assigned differently by different classical authors; cross-checking with the specific rhetoricians named would refine subtype assignments.",
+      "Source_quote_ar fields are exact substrings from the provided chunks; if additional commentary excerpts are supplied, more or different claims may be extractable."
+    ]
+  },
+  "n_chunks": 12
+}

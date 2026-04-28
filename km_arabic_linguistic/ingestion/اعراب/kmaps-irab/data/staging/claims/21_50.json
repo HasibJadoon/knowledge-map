@@ -1,0 +1,37 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:50",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ صِفَةً لذكر",
+        "claim_ar": "«مُبَارَكٌ» نعت (صفة) موصوفه «ذِكْرٌ».",
+        "claim_en": "The word «مُبَارَكٌ» functions as a naʿt (adjective) modifying «ذِكْرٌ».",
+        "root": "برك",
+        "lemma": "مُبَارَك",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S21:A50"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "مَحْمُولٌ عَلَى لَفْظِ «ذِكْرٍ»",
+        "claim_ar": "العبارة/المضاف المشار إليه (مذكور في الشرح كـ «مُحْدَثٍ») تُحمَل على لفظ «ذِكْرٍ» — أي أن «ذِكْرٍ» هو لفظ المحلِّ لِحمل المعنى المذكور في الشرح.",
+        "claim_en": "The glossed item (mentioned in the commentary as «مُحْدَثٍ») is carried on the lexeme «ذِكْرٍ» — i.e. «ذِكْرٍ» is the lexical host/governor for that carried element.",
+        "root": "ذكر",
+        "lemma": "ذِكْر",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses a parenthetical term («مُحْدَثٍ») being carried on «ذِكْرٍ», but that parenthetical word does not occur verbatim in the verse text; the commentator's referent and how it maps onto the verse should be verified.",
+        "quran_ref": "S21:A50"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks discuss possibilities (e.g. «مُحْدَثٍ» carried on «ذِكْرٍ», or readings of phrases like «مِنْ ذِكْرٍ») that are not literally present as words in the verse text. Claims that map those remarks to specific words in the ayah have been marked with lower confidence and need verification by a human reviewer.",
+      "No explicit statement in the supplied chunks labels «وَهَذَا» as مبتدأ and «ذِكْرٌ» as خبر, though that is the standard syntactic reading; I did not assert that as a high‑confidence claim because the exact substrings provided do not state it directly. If you want that claim included, indicate and I will add it with an appropriate confidence flag."
+    ]
+  },
+  "n_chunks": 12
+}

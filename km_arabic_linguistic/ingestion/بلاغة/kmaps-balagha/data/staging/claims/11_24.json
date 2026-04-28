@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:24",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No balaagha claims extracted: none of the provided source_chunks contain balagha commentary (from al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, or tafsir-balagha sections) specifically about Sura 11:24 or its wording. The supplied chunks are general tafsir/grammatical notes (e.g. on other verses) and do not quote or analyze the ayah text, so I cannot produce claims with source_quote_ar that is an exact substring of a provided chunk.",
+      "To extract valid balagha claims I need one or more source excerpts that explicitly discuss S11:A24 (or that contain the ayah together with rhetorical commentary). Please provide relevant balagha/tafsir excerpts (from the requested authors or tafsir-balagha sections) that mention this ayah so I can extract claims with exact source_quote_ar substrings."
+    ]
+  },
+  "n_chunks": 12
+}

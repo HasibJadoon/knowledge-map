@@ -1,0 +1,29 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:112",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "البلاغة: في هذه الآية ضرب من البلاغة دقيق المسلك وهو وضع الظاهر موضع المضمر زيادة في تقبيح أمرهم",
+        "claim_ar": "وضع الظاهر موضع المضمر لزيادة التقبيح والتأثير في ذمّهم",
+        "claim_en": "Using the explicit (the apparent formulation) instead of the omitted/pronominal form to increase the condemnation of the described act or people.",
+        "device_branch": "maani",
+        "device_subtype": "وضع_الظاهر_موضع_المضمر",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A112",
+        "rhetorical_effect": "يزيد من تقبيح الفعل في نفس السامع ويشدّد النفي والذمّ عبر إبراز الصيغة الظاهرة بدل الإحالة الضمنية"
+      }
+    ],
+    "warnings": [
+      "Only one source chunk (Darwish - I'rab) contains an explicit balāgha remark for this ayah; other listed classical authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsir balāgha) are not present among the provided chunks.",
+      "Device subtype used is the literal description from the source ('وضع_الظاهر_موضع_المضمر'). You may want to map this to a canonical rhetorical label if required.",
+      "Claim is at the ayah level (word_index 0); no word-level (per-token) balāgha annotations were present in the provided chunks."
+    ]
+  },
+  "n_chunks": 12
+}

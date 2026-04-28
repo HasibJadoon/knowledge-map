@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:25",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "كلام مستأنف مسوق",
+        "claim_ar": "الجملة قرينة على كونها كلاماً مستأنفاً مُسوَّقاً لبيان أو تقرير مما قبلها — أي أنها جزء من حركة سياقية تُستأنف لتقديم حجة أو تقرير.",
+        "claim_en": "The clause is marked as 'kalam mustanif masooq' (resumed / presented speech) — indicating it functions as a resumed segment in the discourse used to present evidence or to settle/confirm what preceded.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting phrase comes from i'rab commentary (syntax notes). Need corroboration from dedicated balagha/tafsir-balagha sources to confirm rhetorical framing and finer classification."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "الفاء حرف عطف للتعقيب",
+        "claim_ar": "حرف الفاء في «فَكَيْفَ إِذَا...» يعمل حرف عطف للتعقيب، رابطاً الكلام بما قبل ويهيئ للاستفهام التأملي/الاستنكاري؛ بالتالي الاستفهام هنا يعمل كأداة بلاغية لإثارة العجب والترهيب.",
+        "claim_en": "The initial fa- in 'Fa-kayfa' functions as a coordinating particle of continuation/retort ('fa' for follow-up), linking this clause to what preceded and preparing the rhetorical interrogative — the question serves to evoke wonder/awful consideration (a rhetorical interrogation).",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "كيف",
+        "lemma": "كَيْف",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted justification is from an i'rab note about the particle fa-. Classification as 'ijab_inshaa' (interrogative used for rhetorical effect) should be checked against classical balagha sources (al-Jurjani, al-Sakkaki, etc.) to confirm terminology and nuance."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are primarily i'rab (syntactic) commentary (Darwish - I'rab). They contain useful remarks about discourse markers but are not dedicated balagha/tafsir-balagha treatises (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Rhetorical classifications here are therefore tentative and should be verified against classical balagha/tafsir sources.",
+      "Some device assignments (e.g., labeling the interrogative as 'ijab_inshaa') are interpretive choices based on the syntactic notes available. Please review with specialized rhetorical sources if precise balagha terminology is required."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "23:109",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "«آمَنَ» خَبَرُ الْمُبْتَدَأِ الثَّانِي",
+        "claim_ar": "«آمَنَّا» خَبَرُ الْمُبْتَدَأِ الثَّانِي",
+        "claim_en": "The verb 'آمَنَ' (آمَنَّا) is the predicate (خبر) of the second mubtada' (i.e. it functions as the خبر of the second مبتدأ).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S23:A109"
+      }
+    ],
+    "warnings": [
+      "Only one explicit syntactic claim matching words of this ayah was found in the provided al-Tibyan chunks (the substring «آمَنَ» خَبَرُ الْمُبْتَدَأِ الثَّانِي). Other chunks largely discuss different verses or constructions; confirm that the cited commentary is intended to apply to S23:109 in your mapping."
+    ]
+  },
+  "n_chunks": 12
+}

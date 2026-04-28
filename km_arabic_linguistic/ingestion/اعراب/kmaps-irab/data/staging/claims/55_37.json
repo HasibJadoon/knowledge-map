@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "55:37",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب/قواعد claims for S55:37 found in the provided source_chunks. None of the chunks contain the text of the ayah or a discussion of it, so no extractable source_quote_ar substrings exist."
+    ]
+  },
+  "n_chunks": 12
+}

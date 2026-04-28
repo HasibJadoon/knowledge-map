@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:135",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إن صحّ قولكم لن يدخل الجنة إلا من كان هوداً.",
+        "claim_ar": "تصريحِ المخاطبين بحصر الهداية/الدخول إلى الجنّة بمن يكون 'هوداً' — بيان حصْرٍ (قصر)؛ أي اعتماد الهداية على الانتماء الديني الضيّق.",
+        "claim_en": "The addressees assert a restriction (hasr/qasr): guidance/paradise is limited only to those who are 'Jews' (i.e., they confine salvation to a narrow religious group).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "هود",
+        "lemma": "هُود",
+        "confidence": "medium",
+        "needs_review_reason": "The tafsir phrase in the provided chunk explicitly reports the claim of exclusivity, but the labeling of this as the rhetorical device 'حصر/قصر' is an interpretive mapping rather than an explicit term used in the chunk."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not contain the full ayah text or explicit classical balagha terminology for many devices; only the tafsir note containing the phrase 'إن صحّ قولكم لن يدخل الجنة إلا من كان هوداً.' could be used directly as source evidence.",
+      "Other plausible rhetorical devices in S2:A135 (e.g., the Qur'ānic corrective 'بَل' as a contrastive/rectifying device, or an iltifāt — shift of addressee/speaker) are not explicitly discussed in the supplied chunks; therefore they were not extracted. Provide tafsir/balagha notes from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsir-balagha source that treats this specific verse if you want those devices identified.",
+      "Confidence levels reflect that the source quotes support the semantic observation, but the rhetorical-device classification was inferred and should be reviewed by a specialist if being used for formal K-Map encoding."
+    ]
+  },
+  "n_chunks": 12
+}

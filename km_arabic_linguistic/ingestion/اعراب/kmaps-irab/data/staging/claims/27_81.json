@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "27:81",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No source chunk contains any substring of S27:81 (وَمَا أَنْتَ بِهَادِي العُمْيِ عَنْ ضَلَالَتِهِمْ إِن تُسْمِعُ إِلَّا مَنْ يُؤْمِنُ بِآيَاتِنَا فَهُمْ مُسْلِمُونَ).",
+      "Provided source_chunks discuss other verses/words (e.g., بَلْدَةٌ, جَنَّتَانِ, أُكُلٍ خَمْطٍ) and do not include the ayah text required for extracting إعراب claims; therefore no claims could be extracted."
+    ]
+  },
+  "n_chunks": 6
+}

@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:138",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "استعارة (استعارة تحقيقية تصريحية)",
+        "source_quote_ar": "البلاغة: الاستعارة التحقيقية التصريحية: في قوله تعالى صِبْغَةَ اللَّهِ حيث عبر بها عن التطهير بالإيمان لأنه ظهر أثره عليهم ظهور- الصبغ- على المصبوغ وتداخل في قلوبهم تداخله فيه وصار حلية لهم.",
+        "claim_ar": "كلمة «صِبْغَةَ اللَّهِ» استعارة تحقيقية تصريحية: شبّهت الإيمان بالصبغة ليبيّن تأثير الإيمان الظاهر والباطن على المتّبعين (تطهيرٌ وزينة).",
+        "claim_en": "The phrase “ṣibghat Allāh” is an explicit (tasrih) realizing metaphor: it likens faith to a dye to indicate faith's visible and inward effect on its adherents (purification and adornment).",
+        "device_branch": "bayan",
+        "device_subtype": "استعارة تحقيقية تصريحية",
+        "root": "صبغ",
+        "lemma": "صِبْغَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A138",
+        "rhetorical_effect": "Makes faith intelligible and vivid by comparing it to a visible dye — emphasizes both outward mark and inward transformation, enhancing persuasive force."
+      }
+    ],
+    "warnings": [
+      "Requested sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not all present in the provided source_chunks. Extraction is based on the available chunks (Safi - al-Jadwal, Darwish I'rab, Zamakhshari).",
+      "Only claims explicitly supported by the provided chunks were extracted. Other rhetorical readings (e.g., repetition, parallelism) were not asserted because they are not discussed in the supplied texts."
+    ]
+  },
+  "n_chunks": 12
+}

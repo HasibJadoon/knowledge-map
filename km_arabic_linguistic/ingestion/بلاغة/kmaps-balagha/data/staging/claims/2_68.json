@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:68",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "التفات (الِانْتِقَال) من الغيبة إلى الخطاب: الانتقال في السرد بين قول القوم ورده/نقله عن موسى ثم عن قوله سبحانه، أي تغيير المخاطَب والشخص الاتصالي داخل الآية.",
+        "claim_en": "Iltifat (rhetorical shift) from third-person/reference (ghaiba) to address (khitab): the verse shifts speakers and grammatical orientation (the people's address, Moses' report, then the quoted divine speech), producing a shift of address/person within the same passage.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "لفت",
+        "lemma": "التفات",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted support is a general comment about 'التفات' in the provided chunk (Zamakhshari); the application to this specific verse is clear but the source is not explicitly analyzing this exact turn in the verse, so confirmation from other rhetoric-focused sources is advised.",
+        "quran_ref": "S2:A68",
+        "rhetorical_effect": "يجذب انتباه المستمع إلى تغيّر مواقع المتكلّم وينشئ تباينًا نصّياً بين سؤال الجموع، تقرير موسى، ونصّ الخبر/القول الإلهي، مما يبرز الحيرة والوضوح التشريعي."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "tibaq",
+        "source_quote_ar": "والبكر: الفتية. والعوان النصف.",
+        "claim_ar": "طباق/مقابلة بين 'فَارِضٌ' و'بِكْرٌ' (كطراف متقابلين: المسنة مقابل الفتية) مع ذكر 'عَوَان' كوسيط بين النقيضين، ما يؤكد تحديد الصفة المطلوبة بدقة.",
+        "claim_en": "Tibaq (antithesis): contrast between 'fāriḍ' (old/aged) and 'bikr' (young) as opposing extremes, with 'ʿawān' marked as the intermediate — this contrast sharpens the specification of the required animal.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "فرض",
+        "lemma": "فَارِض",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A68",
+        "rhetorical_effect": "يوضّح التباين ويضيق المعنى المطلوب لبقرة الذبح عبر ضبط الصفات بنقائضها، فيُزيل الغموض لدى السامع."
+      }
+    ],
+    "warnings": [
+      "المقتطفات النصية المرفقة كلها من تفسير الزمخشري (al-Kashshaf). لم تُزوَّد هنا مقاطع من المصادر المطلوبة (الجُرجاني، السَّكَّاكي، الباقلاني، السيوطي، أو أقسام 'تفسير البلاغة'). لذلك الاستدلال بالبلاغة مقتصر على ما هو متاح من الزمخشري وقد يحتاج إلى تدقيق بمراجع البلاغة الأخرى.",
+      "بعض الاستنتاجات (خاصة 'التفات') استُنبِطت انطلاقًا من تعليق عام في أحد المقاطع وليس بتحليل صريح لنفس الآية؛ يُستحسن مراجعة شروح بلاغية متخصصة للتاكد."
+    ]
+  },
+  "n_chunks": 12
+}

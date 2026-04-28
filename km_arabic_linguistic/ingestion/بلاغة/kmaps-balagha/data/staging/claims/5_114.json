@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:114",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant rhetorical source chunks found. The task requires citations from classical balagha sources (al-Jurjānī, al-Sakkākī, al-Baṣīr/ al-Baqillānī, al-Suyūṭī, or a tafsīr-balagha). The provided source_chunks are mainly i'rāb and tafsīr-syntax material (Darwish, al-Kashshāf) and do not contain the required balagha discussions to support rhetoric claims with exact source_quote_ar substrings.",
+      "Because source_quote_ar must be an exact substring of one of the provided chunks, and the provided chunks lack the needed rhetorical commentary, I cannot produce reliable balagha claims for S5:A114 that meet the requirement. If you supply the relevant balagha source chunks (or allow use of the Qur'anic text itself as source_quote_ar), I will extract and annotate claims."
+    ]
+  },
+  "n_chunks": 12
+}

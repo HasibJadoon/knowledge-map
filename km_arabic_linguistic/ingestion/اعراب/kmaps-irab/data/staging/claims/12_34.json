@@ -1,0 +1,65 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:34",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "ikhtilaf",
+        "source_quote_ar": "وَتَوَلَّى عَنْهُمْ وَقَالَ يَا أَسَفَى عَلَى يُوسُفَ وَابْيَضَّتْ عَيْنَاهُ مِنَ الْحُزْنِ فَهُوَ كَظِيمٌ",
+        "claim_ar": "الاختلاف في إعراب كلمة 'كَظِيمٌ' بين بعض المفسرين",
+        "claim_en": "Disagreement among commentators regarding the grammatical case of the word 'كَظِيمٌ'",
+        "root": "كظم",
+        "lemma": "كَظِيم",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "irab",
+        "source_quote_ar": "وَتَوَلَّى عَنْهُمْ وَقَالَ يَا أَسَفَى عَلَى يُوسُفَ وَابْيَضَّتْ عَيْنَاهُ مِنَ الْحُزْنِ فَهُوَ كَظِيمٌ",
+        "claim_ar": "الكلمة 'عَيْنَاهُ' مفتوحة وتنصب على 'ابْيَضَّتْ'",
+        "claim_en": "The word 'عَيْنَاهُ' is open and is governed by 'ابْيَضَّتْ'",
+        "root": "عين",
+        "lemma": "عَيْن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "irab",
+        "source_quote_ar": "وَتَوَلَّى عَنْهُمْ وَقَالَ يَا أَسَفَى عَلَى يُوسُفَ وَابْيَضَّتْ عَيْنَاهُ مِنَ الْحُزْنِ فَهُوَ كَظِيمٌ",
+        "claim_ar": "الكلمة 'مِنَ الْحُزْنِ' مرفوعة بالظرفية",
+        "claim_en": "The word 'مِنَ الْحُزْنِ' is elevated in the adverbial case",
+        "root": "حزن",
+        "lemma": "حُزْن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَالَ تَعَالَى: (فَلَمَّا دَخَلُوا عَلَيْهِ قَالُوا يَا أَيُّهَا الْعَزِيزُ مَسَّنَا وَأَهْلَنَا الضُّرُّ وَجِئْنَا بِبِضَاعَةٍ مُزْجَاةٍ فَأَوْفِ لَنَا الْكَيْلَ وَتَصَدَّقْ عَلَيْنَا إِنَّ اللَّهَ يَجْزِي الْمُتَصَدِّقِينَ (٨٨) )",
+        "claim_ar": "الكلمة 'قَالَ' تُعدّ من أفعال الاسم، وتنصب على 'تَعَالَى'",
+        "claim_en": "The word 'قَالَ' is considered an action of the name, and it is governed by 'تَعَالَى'",
+        "root": "قال",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "قَالَ تَعَالَى: (فَلَمَّا دَخَلُوا عَلَيْهِ قَالُوا يَا أَيُّهَا الْعَزِيزُ مَسَّنَا وَأَهْلَنَا الضُّرُّ وَجِئْنَا بِبِضَاعَةٍ مُزْجَاةٍ فَأَوْفِ لَنَا الْكَيْلَ وَتَصَدَّقْ عَلَيْنَا إِنَّ اللَّهَ يَجْزِي الْمُتَصَدِّقِينَ (٨٨) )",
+        "claim_ar": "الكلمة 'الْعَزِيزُ' مرفوعة بالظرفية",
+        "claim_en": "The word 'الْعَزِيزُ' is elevated in the adverbial case",
+        "root": "عَز",
+        "lemma": "عَزِيز",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "needs_review": false
+  },
+  "n_chunks": 16
+}

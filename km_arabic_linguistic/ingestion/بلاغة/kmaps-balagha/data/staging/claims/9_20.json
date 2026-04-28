@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "badi",
+        "source_quote_ar": "(أولئك) مبتدأ",
+        "claim_ar": "توكيد مبتدأ بـ: إضافة ضمير توكيدي بعد الإشارة (أولئك ... هم) كوسيلة بلاغيّة للتأكيد والتعريف بالفائزين.",
+        "claim_en": "Emphatic apposition: the demonstrative 'أولئك' is followed by a reinforcing pronoun ('هم') — a rhetorical doubling that emphasizes and clarifies the referent (the successful ones).",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "أُولَٰٓئِك",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source is a grammatical gloss identifying 'أولئك' as a مبتدأ; the rhetorical reading (doubling/pronominal emphasis) is an interpretation inferred from syntax rather than explicitly discussed in the chunk. Review with tafsir-balagha sources recommended.",
+        "quran_ref": "S9:A20",
+        "rhetorical_effect": "زيادة التوكيد والإيضاح: يُبرز أنّ هؤلاء هم المنالون للدرجة والفوز."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "maani",
+        "source_quote_ar": "(الواو) عاطفة",
+        "claim_ar": "واو العطف المتكرّرة بين الأفعال (آمنوا، وهاجروا، وجاهدوا) تؤمِّن اتصال الأفعال وتراكمها الدلاليّ، فتُظهر تتابعاً واستمراريّةً في الخُصوصية والجهد.",
+        "claim_en": "The conjunctive waw (the coordinating 'and') functions to connect the verbs (they believed, emigrated, and struggled), creating continuity and cumulative force in the enumeration of deeds.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "هجر",
+        "lemma": "هَاجَرَ",
+        "confidence": "high",
+        "needs_review_reason": "The grammatical note explicitly marks the waw as conjunction (عاطفة); the rhetorical inference (cumulative/continuous force) is standard but would benefit from corroboration by a rhetoric-specific source.",
+        "quran_ref": "S9:A20",
+        "rhetorical_effect": "يعطي الإحساسِ بالترتيب والاتصال والتراكم العملي للأعمال المؤمنة، مما يقوّي وقع الفعل المعنويّ."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "maani",
+        "source_quote_ar": "(آمنوا) فعل ماض مبنيّ على الضمّ",
+        "claim_ar": "تعداد الأفعال الثلاثة (آمنوا، وهاجروا، وجاهدوا) عبارة عن ترادف وتعداد يعبّر عن كمال وشمول التضحيات؛ قراءة بلاغيّة: تتابع الفعل يدلّ على تدرّج التصرف العمليّ من الإيمان إلى الهجرة ثم الجهاد.",
+        "claim_en": "The triple verbs (they believed, emigrated, and struggled) form an enumeration that rhetorically signals completeness and progressive commitment — moving from faith to migration to struggle.",
+        "device_branch": "maani",
+        "device_subtype": "itnaab",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk gives grammatical identification of 'آمنوا'; the rhetorical reading (enumeration/progression) is plausible but not explicitly discussed in the quoted chunk — confirm with specialized balagha tafsir.",
+        "quran_ref": "S9:A20",
+        "rhetorical_effect": "يُبرز كمال الالتزام والتدرّج في الأفعال المؤثّرة على الدرجات عند الله."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are primarily grammatical commentaries; explicit balagha (rhetoric) claims are inferred from syntactic notes rather than quoted rhetorical analyses. Claims should be reviewed against dedicated balagha/tafsir-balagha sources (e.g., al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) for stronger support.",
+      "Some roots/lemmas are taken from the supplied word list when the chunk did not provide them; verify morphological fields if strict philological accuracy is required.",
+      "If you want additional device types (e.g., bayan devices like kinayah or badi devices like muqabalah) explored, provide source chunks from tafsir-balagha or explicit rhetorical commentaries for stronger evidential grounding."
+    ]
+  },
+  "n_chunks": 12
+}

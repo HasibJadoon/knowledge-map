@@ -1,0 +1,47 @@
+{
+  "layer": "irab",
+  "ayah_key": "46:26",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "الأول : الإنكار : والمعنى فيه على النفي وما بعده منفي",
+        "claim_ar": "حكم عام في أقسام الاستفهام: صيغة الاستفهام قد تُستخدم إنكاراً في القرآن بمعنى النفي، ويُحتج بهذه القاعدة على قراءات أو تأويلات في آياتٍ تحتوي على أدوات استفهام.",
+        "claim_en": "General grammatical rule (on interrogatives): the interrogative form can be used as an accusatory/denial (إنكار) in the Qur'an, meaning negation of what follows; this rule is applied when interpreting verses that use interrogative particles.",
+        "root": null,
+        "lemma": "إنكار (قواعد الاستفهام)",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted rule is explicit in the source, but its application to this specific ayah (فَمَا أَغْنَى ...) is an inference not explicitly stated in the provided chunks; verify with a tafsir that applies the rule to this verse."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "ما جاء في القرآن على لفظ الاستفهام فإنما يقع في خطاب الله على معنى أن المخاطب عنده علم ذلك الإثبات أو النفي حاصل",
+        "claim_ar": "أداة (ما) في قوله «فَمَا أَغْنَى عَنْهُمْ سَمْعُهُمْ…» تفهم في ضوء قاعدة الاستفهام القرآني: ليست استفهاماً مطلوباً للمعلومة بل تقع على معنى إنكاري/توكيدي للنفي (المخاطَب عنده العلم بحصول النفي أو الإثبات)، فيؤكد عدم نفع سمعهم وأبصارهم وأفئدتهم.",
+        "claim_en": "The particle (ma) in «فَمَا أَغْنَى عَنْهُمْ سَمْعُهُمْ…» is to be understood by the Quranic interrogative rule: it is not a genuine question seeking information but functions as an accusatory/emphatic negation (the addressee is assumed to know the fact), thereby emphasizing that their hearing/vision/hearts did not avail them.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "This semantic effect is an application of the cited general rule to the verse; the source gives the rule but does not explicitly analyze this particular construction in the provided excerpts—recommend checking specialized tafsir/grammar on this ayah for confirmation."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "فيبدأ بالإعراب",
+        "claim_ar": "مذكرة منهجية: على المفسر أن يبدأ بالإعراب عند تفسير الآية (تحليل تركيبها النحوي) قبل الانتقال إلى معانيها وبيانها.",
+        "claim_en": "Methodological note: the commentator should begin with i'rab (grammatical parsing) when interpreting a verse, before moving to semantic and stylistic analysis.",
+        "root": null,
+        "lemma": "إعراب (منهج التفسير)",
+        "confidence": "high",
+        "needs_review_reason": "Statement is explicitly given in the source as a methodological requirement; no further review needed for the methodological claim, though specific i'rab decisions for this ayah are not provided in the chunks."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are general methodological and grammatical discussions (from al-Suyuti) and do not contain a verse-specific i'rab of S46:26; claims here are general-rule citations and applications inferred to the ayah rather than explicit analyses of this verse in the provided texts.",
+      "Key syntactic assignments for individual words in this ayah (e.g., whether سَمْعُهُمْ is فاعل/مبتدأ or other relations) do not appear in the supplied chunks; such word-level i'rab requires direct citations from tafsir/grammar that analyze this specific verse.",
+      "Verify the application of the interrogative-as-denial rule to this verse against classical tafsir (e.g., al-Tabari, al-Baghawi, Ibn Kathir) or the cited work of Alkabbari if available, since the source here states the general rule but does not explicitly treat S46:26 in the excerpts supplied."
+    ]
+  },
+  "n_chunks": 12
+}

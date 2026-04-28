@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:101",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَ (مِنْ ذِكْرٍ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِيَأْتِيهِمْ، وَأَنْ يَكُونَ صِفَةً لذكر",
+        "claim_ar": "قد يتعلّق حرف الجر «مِنْ» وما بعده (مثل «مِنَّا») بالفعل أو يكون صفة لاسم بحسب ما ذكَر التبيان في شرح «مِنْ ذِكْرٍ».",
+        "claim_en": "The preposition «min» and its following noun (e.g. «minna») may attach (be syntactically linked) to the verb, or function as a descriptive phrase (sifa) for a noun, as al-Tibyan notes regarding «min dhikr».",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses «مِنْ ذِكْرٍ» generally; applying this set of possible attachments to «مِنَّا» in this specific ayah requires contextual confirmation of which attachment is intended."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(مِنْ صَوْتِكَ) : هُوَ صِفَةٌ لِمَحْذُوفٍ؛",
+        "claim_ar": "يذكر التبيان أن «مِنْ» قد تكون صفة لما هو محذوف (كما في «مِنْ صَوْتِكَ»)، وبذلك يمكن اعتبار «مِنَّا» صفة أو بيانًا لنوعٍ محذوفٍ في قراءة تفسيرية محتملة.",
+        "claim_en": "Al-Tibyan states that «min» can be a descriptive phrase for an omitted (elided) noun (as in «min sawtika»); thus «minna» could be read as a descriptive/qualifying phrase referring to an omitted element in some interpretive analyses.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited example concerns a different verse and construction; whether the same analysis applies to «مِنَّا» here depends on the specific syntactic choices for this ayah and so needs verification."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks contain an explicit iʿrāb analysis of this exact verse (S21:101). The extracted claims are generalizations drawn from the Tabyān discussion of constructions with «مِنْ» (e.g. «مِنْ ذِكْرٍ», «مِنْ صَوْتِكَ») and their possible syntactic roles; applying them to «مِنَّا» in this ayah requires contextual confirmation.",
+      "Roots for prepositions like «مِنْ» are not given in the source; lemma used is the preposition itself. Interpretive mapping from examples in the chunks to the specific words of the ayah has moderate uncertainty."
+    ]
+  },
+  "n_chunks": 12
+}

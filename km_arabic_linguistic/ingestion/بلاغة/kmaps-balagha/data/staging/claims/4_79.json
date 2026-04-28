@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:79",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "البلاغة: في عطف «الذين آمنوا» على «الذين كفروا» لف ونشر مشوّش، وقد سبقت الاشارة إليه مع ما في الكلام من مقابلة وتنظير.",
+        "claim_ar": "الآية تقوم على مقابلة بين نسب الحسن إلى اللَّه ونسب السَّيِّئة إلى النفس؛ أي تضاد أو مقابل لتوضيح سبب النعمة والبلاء.",
+        "claim_en": "The verse uses antithesis (muqabalah) — attributing the good to God and the bad to the self — creating a contrast that clarifies responsibility for outcomes.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": "مقابلة",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk mentions the rhetorical notion 'مقابلة وتنظير' in a different context (about عطف between groups); the application to S4:79 is an informed inference rather than a direct exegesis in the supplied chunks.",
+        "quran_ref": "S4:A79",
+        "rhetorical_effect": "يُبرز مسؤولية الإنسان في السوء وينسب فضل النعم إلى اللَّه بوضوحٍ موجز."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks contain a direct, explicit exegesis (نص تفصيلي) of Sura 4 Aya 79; extracted claim(s) are inferred from general rhetorical commentary present in the chunks.",
+      "The source quotations are generic statements about rhetorical figures (e.g., 'مقابلة وتنظير') rather than commentary specifically naming or illustrating these devices on this exact verse; confidence is therefore limited."
+    ]
+  },
+  "n_chunks": 12
+}

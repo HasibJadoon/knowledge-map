@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:208",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "irab",
+        "source_quote_ar": "الْمُبِينِ",
+        "claim_ar": "مُبِينٌ: نعتٌ لِعَدُوٍّ",
+        "claim_en": "The adjective 'mubīn' functions as a na't (adjectival modifier) qualifying 'adūww' (enemy).",
+        "root": "بين",
+        "lemma": "مُبِين",
+        "confidence": "needs_review",
+        "needs_review_reason": "The cited source chunk contains the word 'الْمُبِينِ' in the phrase 'تِلْكَ آيَاتُ الْكِتَابِ الْمُبِينِ' (a different verse/context). It does not explicitly analyze the word 'مُبِين' as a 'نعت' in Sūra al-Baqarah 2:208, nor does it discuss the specific syntactic relation in this ayah. The claim is an inference based on the occurrence of the same adjective in the source; verification against an explicit discussion of this verse in the source is needed.",
+        "quran_ref": "S2:A208"
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not include an explicit iʿrāb analysis of Sūra 2:208. The extracted claim is inferred from an occurrence of the word 'الْمُبِينِ' in a different context within the source and thus requires verification.",
+      "No explicit statements in the chunks about the syntactic relations of other words in the ayah (e.g., the effect of إِنَّ on 'عَدُوٌّ' or the status of كَافَّةً) were found; additional source material should be consulted for those analyses."
+    ]
+  },
+  "n_chunks": 12
+}

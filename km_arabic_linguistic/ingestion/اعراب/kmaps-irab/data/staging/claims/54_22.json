@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "54:22",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "لا توجد في القطع المزودة أيْ مقتطفاتٍ تحتوي إشارة صريحة إلى إعراب آية: «وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ». القطع تتناول موضوعات عامة عن الإيجاز والقصور والبديع (مثل «سورة يسيرة» و«سورة قصيرة وصغيرة») ولا تحتوي نصاً صريحاً أو تحليلًا نحويًا يعود مباشرة إلى كلمات هذه الآية يمكن اقتباسه كمصدر (المتطلب: source_quote_ar يجب أن يكون مقطعًا حرفيًا من إحدى القطع المقدمة).",
+      "No explicit grammatical (إعراب) claims about this specific verse were found in the provided source chunks. The chunks discuss brevity, types of إيْجاز, and rhetorical matters but do not provide quoted syntactic analyses or statements tied word-for-word to the verse that could be used as source_quote_ar."
+    ]
+  },
+  "n_chunks": 12
+}

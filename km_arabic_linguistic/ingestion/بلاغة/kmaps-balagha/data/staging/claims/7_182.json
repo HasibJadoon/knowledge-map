@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:182",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "maani",
+        "source_quote_ar": "سَنَسْتَدْرِجُهُمْ سنستدنيهم قليلا قليلا إلى ما يهلكهم ويضاعف عقابهم مِنْ حَيْثُ لَا يَعْلَمُونَ",
+        "claim_ar": "الفعل «سَنَسْتَدْرِجُهُمْ» قرين بتفسير الاستدراج: التدريج في الإيصال إلى الهلاك، أي مواصلة نعمة ظاهرة لتدريجهم في المعصية حتى يكون الجزاء أشد.",
+        "claim_en": "The verb 'sanastadrijuhum' is interpreted as 'istidraj' (gradual leading): God continues apparent favors so that they are led step by step into destruction and their punishment is increased.",
+        "device_branch": "maani",
+        "device_subtype": "istidraj (gradual leading)",
+        "root": "درج",
+        "lemma": "استدراج",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "وذلك أن يواتر الله نعمه عليهم مع انهماكهم في الغىّ، فكلما جدّد عليهم نعمة ازدادوا بطراً",
+        "claim_ar": "التفسير يبرز مفارقة بلاغية: مواترة النعم من الله تكون سببًا في ازدياد الكفر والطغيان — تناقض ظاهري بين معنى النعمة ونتيجتها، وهو أثر بلاغي من نوع المفارقة/السخرية الإلهية.",
+        "claim_en": "The exegesis highlights a rhetorical paradox: God's successive favors ('yu'aatir Allah ni'amahu') become the cause of increased ingratitude and arrogance — an ironic reversal where blessings appear as the means of ruin.",
+        "device_branch": "maani",
+        "device_subtype": "ironic reversal / istidraj as paradox",
+        "root": "درج",
+        "lemma": "استدراج",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the exegetical concept of ironic reversal to a canonical balagha subtype is interpretive; confirm preferred subtype label (e.g., iltifaat/istidraj/paradox)."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "maani",
+        "source_quote_ar": "مِنْ حَيْثُ لَا يَعْلَمُونَ",
+        "claim_ar": "العبارة «مِنْ حَيْثُ لَا يَعْلَمُونَ» تضيف عنصرًا من الخفاء والمفاجأة في أسلوب التقرير الإلهي — بيان أن الصدور عنهم سيكون من جهة لا يدرونها، مما يضفي وقعًا إنذاريًا مفاجئًا.",
+        "claim_en": "The phrase 'min haythu la ya'lamoon' (from where they do not know) introduces an element of hiddenness and surprise in the divine statement, creating a striking, admonitory effect emphasizing unexpectedness of the coming punishment.",
+        "device_branch": "maani",
+        "device_subtype": "surprise/hiddenness (ilm/ghayb effect)",
+        "root": "حيث",
+        "lemma": "حَيْث",
+        "confidence": "medium",
+        "needs_review_reason": "Classifying the rhetorical role of 'from where they do not know' under a standard balagha subtype is interpretive; consider alternative labels like iltifat or fasl_wasl."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "maani",
+        "source_quote_ar": "وَأُمْلِي لَهُمْ عطف على سَنَسْتَدْرِجُهُمْ",
+        "claim_ar": "النص التفسيري يربط «سَنَسْتَدْرِجُهُمْ» بفكرة الإمهال/الإطالة في الأمل (أملي لهم)، أي أسلوب إلهي للترك والابتداء بالرحمة الظاهرة قبل الجزاء — أسلوب تهديدي-وعظي يجمع بين الامتداد والزجر.",
+        "claim_en": "The commentary connects 'sanastadrijuhum' with the notion of granting respite ('wa umli lahum'), indicating a divine rhetorical technique of delay/respite — a threatening/disciplinary style that prolongs apparent favor prior to punishment.",
+        "device_branch": "maani",
+        "device_subtype": "respite/delay (prolongation as rhetorical device)",
+        "root": "درج",
+        "lemma": "استدراج",
+        "confidence": "medium",
+        "needs_review_reason": "The mapping of 'respite/delay' to an established balagha subtype (e.g., ijab_inshaa or asloob_hakim) should be checked against preferred taxonomy."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari and Darwish i'rab; the user requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha — those specific authors' texts were not included among the source_chunks.",
+      "Some device_subtype labels (e.g., 'istidraj', 'respite/delay', 'surprise/hiddenness') are interpretive and were mapped to the allowed branches (maani); please review subtype naming against your canonical taxonomy."
+    ]
+  },
+  "n_chunks": 12
+}

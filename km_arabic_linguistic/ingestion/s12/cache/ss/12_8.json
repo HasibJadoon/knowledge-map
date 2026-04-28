@@ -1,0 +1,161 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 1,
+      "ayah_to": 15,
+      "word_start": 1,
+      "word_end": 15,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 15,
+          "head_word_index": 2,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "إذ",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 2,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "اسم ظرفيّ في محلّ نصب مفعول به لفعل محذوف تقديره اذكر"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "قالوا",
+          "relation_type": "predicate",
+          "governor_word_index": 0,
+          "irab_position": "فعل ماض",
+          "ir": "",
+          "note_ar": "فعل ماض وفاعله (اللام) لام الابتداء"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "ليوسف",
+          "relation_type": "subject",
+          "governor_word_index": 2,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "مبتدأ مرفوع وامتنع من التنوين للعلميّة والعجمة"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "وأخوه",
+          "relation_type": "coordinated",
+          "governor_word_index": 3,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "معطوف على يوسف مرفوع وعلامة الرفع الواو"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "أحبّ",
+          "relation_type": "predicate",
+          "governor_word_index": 0,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر مرفوع"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "إلى",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 5,
+          "irab_position": "جارّ",
+          "irab_case": "مجرور",
+          "note_ar": "جارّ ومجرور متعلّق ب (أحبّ)"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "أبينا",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 6,
+          "irab_position": "مجرور",
+          "irab_case": "مجرور",
+          "note_ar": "مجرور متعلّق ب (أحبّ)"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "مننا",
+          "relation_type": "exception",
+          "governor_word_index": 5,
+          "irab_position": "جارّ",
+          "irab_case": "مجرور",
+          "note_ar": "حرف جرّ و (نا) ضمير في محلّ جرّ متعلّق ب. (أحبّ)"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "و",
+          "relation_type": "coordinated",
+          "governor_word_index": 0,
+          "irab_position": "واو الحال",
+          "irab_case": "",
+          "note_ar": "واو الحال"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "نحن",
+          "relation_type": "subject",
+          "governor_word_index": 9,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "ضمير مبتدأ"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "عصبة",
+          "relation_type": "predicate",
+          "governor_word_index": 9,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر مرفوع"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "إنّ",
+          "relation_type": "coordinated",
+          "governor_word_index": 0,
+          "irab_position": "حرف توكيد",
+          "irab_case": "منصوب",
+          "note_ar": "حرف توكيد ونصب"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "أبانا",
+          "relation_type": "object_direct",
+          "governor_word_index": 12,
+          "irab_position": "اسم إنّ",
+          "irab_case": "منصوب",
+          "note_ar": "اسم إنّ منصوب وعلامة النصب الألف"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "في",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 13,
+          "irab_position": "جارّ",
+          "irab_case": "مجرور",
+          "note_ar": "جارّ ومجرور متعلّق بخبر إنّ"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "ضلال",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 14,
+          "irab_position": "مجرور",
+          "irab_case": "مجرور",
+          "note_ar": "جارّ ومجرور متعلّق بخبر إنّ"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

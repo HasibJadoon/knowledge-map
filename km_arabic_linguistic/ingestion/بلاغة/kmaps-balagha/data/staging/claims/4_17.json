@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:17",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "يعنى إنما القبول والغفران واجب على اللَّه تعالى",
+        "claim_ar": "حصر القبول والغفران بالله باستخدام أداة الحصر «إِنَّمَا» في بداية الآية.",
+        "claim_en": "Use of the restrictive particle 'إِنَّمَا' to limit acceptance and forgiveness exclusively to God.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "majaz",
+        "source_quote_ar": "والزمخشري يجعل الاضافة مجازية من باب إسناد الفعل إلى سببه، فيجعل إضافة الفعل إلى الله تعالى من باب إضافة الشق إلى الحراث، لأنه السبب.",
+        "claim_ar": "إسناد التوبة إلى الله («التوبة على الله») هنا مجازي (مجاز إسندي): تُنسب نتيجة القبول إلى السبب (الله) لا بالمعنى الحرفي الفعلي بل باعتباره السبب القادر على القبول.",
+        "claim_en": "Metaphorical (majāz) attribution: assigning 'repentance being upon God' is a figurative attribution of the effect to its ultimate Cause (God), not a literal physical action.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "توب",
+        "lemma": "تَوْبَة",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive judgement based on Zamakhshari's comment; other commentators may treat the phrase differently (literal/semantic nuance)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "التَّوْبَةُ من تاب اللَّه عليه إذا قبل توبته وغفر له",
+        "claim_ar": "تكرار مفهوم التوبة بأشكال صرفية متعددة (التَّوْبَةُ، يَتُوبُونَ، يَتُوبُ اللَّهُ) لإبراز العلاقة بين توبة العبد وقبول الله.",
+        "claim_en": "Repetition of the concept of repentance in different morphological forms (التوبة, يَتُوبُونَ, يَتُوبُ اللَّهُ) to emphasize the link between human repentance and God's acceptance.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "توب",
+        "lemma": "تَوْبَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "فهو الذي خلق لعبده الطاعة وأثابه عليها، وخلق له التوبة وقبلها منه",
+        "claim_ar": "مقابلة/موازنة بين فعل العبد (التوبة) وفعل الله (القبول/الغفران)، مما يظهر تتابع الجزاء والردّ بين الطرفين.",
+        "claim_en": "Muqābala (contrastive parallelism): pairing the human action of repentance with God's accepting/forgiving action, highlighting reciprocity and response.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "توب",
+        "lemma": "تَوْبَة",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling as muqabalah depends on treating the verse's parallel clauses as deliberate antithetical/reciprocal structure; some readings emphasize doctrine rather than rhetorical pairing."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are excerpts from al-Kashshaf (Zamakhshari). The developer instruction requested extracts from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir balagha sections; those specific authors' excerpts were not provided. Claims here are grounded only in the supplied chunks.",
+      "Some rhetorical labels (e.g., 'majaz' vs. literal attribution) reflect interpretive choices in the cited commentary; alternative commentators may classify the same phrasing differently. Items marked 'medium' include brief review reasons."
+    ]
+  },
+  "n_chunks": 12
+}

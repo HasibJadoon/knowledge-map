@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:52",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No claims extracted: none of the provided source chunks contain the text or discussion of Sūra 2:52 (ثُمَّ عَفَوْنَا عَنْكُمْ مِن بَعْدِ ذَلِكَ لَعَلَّكُمْ تَشْكُرُونَ) or any explicit إعراب claims about its words. Source chunks appear to discuss other verses; therefore no exact source_quote_ar substrings matching this ayah were available."
+    ]
+  },
+  "n_chunks": 12
+}

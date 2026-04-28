@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "39:56",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "فيكتب عليه السكون نحو : فرطت [ الزمر : 56 ] .",
+        "claim_ar": "في المصحف يكتب الفعل فَرَّطْتُ عليه السكون، فيؤرشف ككتابة «فرطت» (أي تُكتب التاء ساكنة ظاهريًا).",
+        "claim_en": "In the mushaf the verb فَرَّطْتُ is written with a sukun on the final ت — written as «فرطت» (i.e., the final tāʼ appears orthographically sukunized).",
+        "root": "فرط",
+        "lemma": "فَرَّط",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S39:A56"
+      }
+    ],
+    "warnings": [
+      "المقتطفات المزودة تحتوي على ملاحظة ضبطية واحدة تتعلق بكتابة كلمة «فرطت» (آية الزمر:56) ولا تتضمن إعرابًا تفصيليًا أو مطالبات نحوية أخرى من النصوص المرجعية الموردة. قد تحتاج إلى مصادر إضافية (مثل التبيان للعكبري) للحصول على إعرابات أو آراء نحوية أخرى حول هذه الآية."
+    ]
+  },
+  "n_chunks": 12
+}

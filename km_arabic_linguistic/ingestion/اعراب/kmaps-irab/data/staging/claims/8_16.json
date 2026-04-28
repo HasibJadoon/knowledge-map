@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "8:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وتقع حالا إن صلح موضعها ( لا ) واستثناء إن صلح موضعها ( إلا ) فتعرب بإعراب الاسم التالي ( إلا ) في ذلك الكلام .",
+        "claim_ar": "إِلَّا حرف استثناء، ويُعرب ما بعده باعتباره المستثنى بحسب موقعه الإعرابي في الكلام.",
+        "claim_en": "The particle 'إِلَّا' is an exception particle; what follows it is parsed as the excepted noun according to its syntactic position.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage discusses the behavior of 'غير' when it functions like 'إلا' and gives the general rule for exception; the source does not analyze this specific ayah, so applying the rule to this instance requires confirmation from a commentary that treats this verse directly."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "و ( أو ) يفتتح الكلام معها على الجزم ، ثم يطرأ الإبهام أو غيره ، ولهذا لم يتكرر .",
+        "claim_ar": "أَوْ حرف عطف/تخيير ويَفتتح الكلام معها غالبًا بحالة الجزم ثم يَطرأ بعدها الإبهام أو ما شابهه، على عكس (إما) التي تُبنى عليها العبارة من البداية.",
+        "claim_en": "The conjunction 'أَوْ' typically opens the clause with a jussive/initial jussive construction and then ambiguity or similar contingency may follow; this contrasts with 'إما', which builds the sentence from the outset for its specific purpose.",
+        "root": null,
+        "lemma": "أَو",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general comparison between 'أو' and 'إما' rather than a verse-specific parsing; further confirmation is needed to determine the exact syntactic effect of 'أَوْ' in this ayah."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain a commentary or explicit iʿrāb analysis of S8:A16; extracted claims are general grammatical rules from the sources applied to words in this ayah and should be confirmed against a commentary that addresses this verse directly.",
+      "No explicit claims about the iʿrāb (syntactic function) of specific content words in the verse (e.g., مبتدأ/خبر/حال/مفعول به) were found in the supplied chunks; only general rules about particles (إِلَّا, أَو) were available."
+    ]
+  },
+  "n_chunks": 12
+}

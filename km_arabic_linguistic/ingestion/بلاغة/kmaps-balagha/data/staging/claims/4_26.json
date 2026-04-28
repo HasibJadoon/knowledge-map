@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:26",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "maani",
+        "source_quote_ar": "اللام زائدة ولكنها أعطيت حكم لام التعليل",
+        "claim_ar": "اللام الزائدة في «ليُبَيِّنَ» لام تعليل بيد أنها أيضاً تفيد تأكيد إرادة التبيين.",
+        "claim_en": "The extra lam in «li-yubayyin(a)» functions as a lām of causation/justification and also serves to emphasize the will to clarify.",
+        "device_branch": "maani",
+        "device_subtype": "lam_ta'lil (لام التعليل/لام زائدة للتوكيد)",
+        "root": "بين",
+        "lemma": "بَيَّنَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source explicitly describes the extra lam and its effect, but mapping this grammatical note to the provided maani subtypes is approximate and may need confirmation against category definitions."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "maani",
+        "source_quote_ar": "ويهديكم عطف على يبين",
+        "claim_ar": "العطف بين «ليُبَيِّنَ» و«ويَهْدِيَكُمْ» يوضح توازي الأفعال وربط مقاصد البيان والهداية.",
+        "claim_en": "The conjunction linking «li-yubayyin(a)» and «wa-yahdiyakum» shows parallelism between the actions, connecting the purpose of explanation with guidance.",
+        "device_branch": "maani",
+        "device_subtype": "عطف وتوازي الأفعال (coordination/parallelism)",
+        "root": "هدي",
+        "lemma": "هَدَى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "other",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "واو البدء في «واللَّهُ» واو استئنافية دالة على استئناف الكلام والانتقال إلى حكم/خلاصة.",
+        "claim_en": "The waw in «wa-Allah» is a resumptive (istinaaf) waw, indicating a resumption/continuation of discourse and introduction of a concluding statement.",
+        "device_branch": "other",
+        "device_subtype": "waaw_istinaaf (واو استئنافية)",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "badi",
+        "source_quote_ar": "(وَاللَّهُ عَلِيمٌ حَكِيمٌ)",
+        "claim_ar": "تراكيب «اللَّهُ عَلِيمٌ حَكِيمٌ» توازي صفتي العلم والحكمة في صيغة موجزة وموازية، مما يعزز التأكيد على صفتي الله.",
+        "claim_en": "The construction «Allah is All‑Knowing, All‑Wise» presents the two divine attributes in parallel, reinforcing and emphasizing both qualities.",
+        "device_branch": "badi",
+        "device_subtype": "m uqābalah / parallelism of attributes (مقابلة/توازي الصفات)",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives the phrase and grammatical parsing but does not explicitly label it as 'مقابلة'; treating it as badi (parallelism) is interpretive and should be reviewed."
+      }
+    ],
+    "warnings": [
+      "Some identified devices (e.g., the extra lām as a rhetorical device, and labeling the adjective pair as مقابلة) are inferred from grammatical remarks in the sources rather than explicit rhetorical labels; these mappings should be reviewed by a Qur'anic balagha specialist.",
+      "Device subtypes were chosen to align the source observations with the permitted maani/badi/bayan categories; confirm that the chosen subtype terminology matches your target taxonomy."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:42",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable rhetorical claims: none of the provided source_chunks contain the exact Arabic substrings of S10:A42 (e.g., «وَمِنْهُمْ مَنْ يَسْتَمِعُونَ», «أَفَأَنْتَ تُسْمِعُ الصُّمَّ», «لَا يَعْقِلُونَ») or commentary passages that directly discuss this ayah. The requirement that source_quote_ar be an exact substring of a provided chunk is therefore unmet.",
+      "Requested classical rhetoric sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present among the supplied source_chunks, so no claims from those authorities could be extracted. Provide relevant chunks that quote or comment on this ayah to enable extraction."
+    ]
+  },
+  "n_chunks": 12
+}

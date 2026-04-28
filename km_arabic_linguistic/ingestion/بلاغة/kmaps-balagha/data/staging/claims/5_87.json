@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:87",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "نداء/التوجه إلى المخاطَب (iltifat/vocative)",
+        "source_quote_ar": "يا أَيُّهَا الَّذِينَ آمَنُوا",
+        "claim_ar": "نداء المخاطبين بقوله «يا أيها الذين آمنوا» كوسيلة لالتفات الانتباه والتحويل إلى مخاطَب محدد (إلتفات/نداء).",
+        "claim_en": "Vocative address 'O you who believe' — a direct call that turns the addressee's attention to believers (iltifat/vocative).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "إعجاز/قوة البيان (conciseness & rhetorical force)",
+        "source_quote_ar": "إن من البيان لسحرا",
+        "claim_ar": "الإيجاز والبيان القوي في صياغة النهي والتحذير في الآية؛ أسلوب بلاغي يَحْمِلُ وقعًا شديدًا يُشبَّه في الأثر بـ«السحر» كما ورد توصيف البيان النبوي.",
+        "claim_en": "Conciseness and strong rhetorical force in the prohibition and warning of the verse (ijaz/force of eloquence); the power of such expression has been likened to 'magic' in traditional statements on eloquence.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Support comes from a general statement about the power of eloquence in the provided chunk, not a commentary explicitly analyzing this specific verse; link to this particular ayah's phrasing needs confirmation from tafsir/balagha sources."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not include the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir_balagha). Claims above are drawn only from the available chunks.",
+      "Coverage of rhetorical devices is limited by the supplied chunks. Many possible devices in S5:A87 (e.g., restriction/hasr, parallel negation, muqabalah) could not be supported with exact substrings from the provided sources and thus are not included; review with the specified balagha sources is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

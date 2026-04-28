@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:30",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No usable source quotes found: none of the provided source_chunks are from the required rhetorical commentators (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, or a tafsīr-bilāgha chunk).",
+      "No source_chunk contains an exact Arabic substring matching this ayah (S10:A30) or commentary on it. Per task rules, every claim requires source_quote_ar to be an exact substring of a provided chunk.",
+      "Cannot extract balāgha claims without matching source_quote_ar. Provide relevant commentary chunks (from the required authors or tafsīr-balagha) that cite or comment on this ayah to enable claim extraction."
+    ]
+  },
+  "n_chunks": 12
+}

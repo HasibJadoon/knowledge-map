@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "23:42",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "taqdir",
+        "source_quote_ar": "أَيْ مِنْ بَعْدِ خِذْلَانِهِ، فَحَذَفَ الْمُضَافَ",
+        "claim_ar": "حذف المضاف بعد «من بعد» — أي هناك مضاف محذوف يجب تقديره (مثل: «خذلانهم» أو «خذلانه»).",
+        "claim_en": "The possessed noun (al-muḍāf) after 'min baʿd' is omitted and must be supplied by interpretation (for example 'khidhlānihim' / 'their letting-down').",
+        "root": "بعد",
+        "lemma": "بَعْد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَيَجُوزُ أَنْ تَكُونَ الْهَاءُ ضَمِيرُ الْخِذْلَانِ أَيْ بَعْدَ الْخِذْلَانِ.",
+        "claim_ar": "جَوَازُ أن تكون الهاء في «بَعْدِهِ» ضميرَ «الخذلان» — أي قراءة بدلاً من «بَعْدِهِمْ» تُفهم «مِنْ بعد الخذلان».",
+        "claim_en": "It is permissible to analyze the pronoun -hā in 'baʿdih' as the pronoun of 'al-khidhlān' — i.e., to read it as 'min baʿd al-khidhlān' ('after the letting-down').",
+        "root": "بعد",
+        "lemma": "بَعْد",
+        "confidence": "medium",
+        "needs_review_reason": "The source presents this as a permissive alternative (a plausible reading), not an unequivocal ruling; the pronoun's referent and agreement should be checked against the manuscript/reading and wider context."
+      }
+    ],
+    "warnings": [
+      "The cited source-chunk uses the form «مِنْ بَعْدِهِ» / «بَعْدِ خِذْلَانِهِ», whereas the provided ayah word is «بَعْدِهِمْ» (word_index 4). The source's discussion still applies but there is a mismatch in person/number of the pronoun that should be noted.",
+      "Only one relevant chunk in the provided source material addresses this phrase; no explicit i'rab labels (e.g., 'مجرور') are given in the chunk — the extracted claims are limited to the elision (تقدير) and the alternative analysis of the pronoun."
+    ]
+  },
+  "n_chunks": 12
+}

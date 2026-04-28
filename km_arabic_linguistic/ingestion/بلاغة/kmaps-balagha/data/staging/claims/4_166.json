@@ -1,0 +1,41 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:166",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "takrar",
+        "source_quote_ar": "بِما أُنْزِ",
+        "claim_ar": "تكرار جذر نزل (أَنْزَلَ ... أَنْزَلَهُ) كتكرار لِغوي للتوكيد والتثبيت",
+        "claim_en": "Repetition (takrar) of the root نزل — the verb appears twice (أَنْزَلَ ... أَنْزَلَهُ), a lexical repetition that reinforces and confirms the fact of revelation.",
+        "device_branch": "badi",
+        "device_subtype": "takrar (lexical repetition)",
+        "root": "نزل",
+        "lemma": "أَنزَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source quote is a partial substring from the provided chunk (Zamakhsharī) rather than a dedicated rhetorical commentary by the requested authors; verification against the specified balagha tafsir sources is needed."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "mucābalah",
+        "source_quote_ar": "اتَّخَذَ اللَّهُ",
+        "claim_ar": "مقابلة وتوازي في تقديم الشاهدين: الله ثم الملائكة (اللَّهُ يَشْهَدُ ... وَالْمَلَائِكَةُ يَشْهَدُونَ) لزيادة الحُجَّة والوقار",
+        "claim_en": "Muqabalah (pairing/parallelism): the verse places Allah and then the angels as parallel witnesses (اللَّهُ يَشْهَدُ ... وَالْمَلَائِكَةُ يَشْهَدُونَ), a structural pairing that increases authority and emphasis.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah (pairing/parallelism)",
+        "root": "شهد",
+        "lemma": "شَهِدَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote used is from the provided Zamakhsharī chunk and illustrates the syntactic pattern of verbs with اللَّهُ, but the requested classical balagha authors' commentaries (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, tafsīr-balāgha) were not present in the input; claims should be cross-checked against those primary balagha sources."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from al-Kashshaf (Zamakhsharī) only; the task requested extractions grounded in al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī and tafsir-balagha sections. Relevant balagha commentaries from the requested authors were not supplied.",
+      "Some source_quote_ar values are partial substrings (e.g. \"بِما أُنْزِ\") taken from the available chunks because exact matching balagha citations were not present; these should be validated with full commentary texts.",
+      "Only a limited set of rhetorical devices could be supported from the provided chunks. Additional claims (e.g., repetition of يَشْهَدُ/يَشْهَدُونَ or ijaaz in كَفَى بِاللَّهِ شَهِيدًا) could be proposed but require direct supporting citations from the requested balagha sources.",
+      "Please supply the specific balagha/tafsir-balagha excerpts (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, tafsir-balagha) for S4:A166 to raise confidence levels and add/confirm further devices."
+    ]
+  },
+  "n_chunks": 12
+}

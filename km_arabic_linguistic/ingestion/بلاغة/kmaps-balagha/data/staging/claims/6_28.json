@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:28",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "كلام مستأنف",
+        "claim_ar": "افتتاح البيان بكلمة تصحيحية واستئنافية «بَلْ بَدَا لَهُمْ...» => انتقال في الخطاب (كلام مستأنف/التفات) لإظهار التفنيد والتصحيح.",
+        "claim_en": "Resumptive/attentional shift (iltifat): the verse opens with a corrective/resumptive turn «بَلْ بَدَا لَهُمْ…», marking a resumed/corrective statement and a shift in address.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": "بَل",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted support is a general iʿrāb phrase ('كلام مستأنف') from the available chunks, not a dedicated balāgha discussion of this specific verse; classical balagha sources named in the task were not supplied, so the assignment of 'iltifat' should be verified against those sources."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "مِنْ قَبْلُ",
+        "claim_ar": "مقابلة/تضاد بين الحالة الماضية المخفية «ما كانوا يُخْفُونَ مِن قَبْلُ» وبين بَدْوِه وظهور ما أخفوا.",
+        "claim_en": "Antithesis (muqabalah): the verse contrasts what they used to hide previously with its becoming evident — a rhetorical reversal between concealed past and revealed present.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "قبل",
+        "lemma": "قَبْل",
+        "confidence": "medium",
+        "needs_review_reason": "Support is the lexical occurrence 'مِنْ قَبْلُ' in the provided chunks; the chunk does not present an explicit rhetorical analysis of antithesis for this verse. Needs confirmation from primary balāgha commentaries (al-Jurjānī, al-Sakkākī, etc.)."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are largely iʿrāb/tafsir excerpts (Darwish, Zamakhshari) and do not include the requested classical balāgha authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsīr-balagha). Claims above are drawn by mapping rhetorical observations to short substrings found in the supplied chunks (these substrings are given in source_quote_ar) but the chunks do not offer explicit balāgha rulings for S6:A28.",
+      "Because of the mismatch between requested classical sources and the actual chunks, the device assignments are tentative and marked with 'needs_review_reason' — they should be verified against the specified balāgha authors' writings for authoritative attribution and fuller justification.",
+      "No exact quotations from the named balāgha authorities were available in the input; if you can provide their tafsīr/balāgha excerpts for this verse, I will extract and align claims with exact classical statements and increase confidence levels."
+    ]
+  },
+  "n_chunks": 12
+}

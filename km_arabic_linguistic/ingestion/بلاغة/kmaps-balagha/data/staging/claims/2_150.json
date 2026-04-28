@@ -1,0 +1,29 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:150",
+  "result": {
+    "claims": [
+      {
+        "word_index": 28,
+        "claim_type": "maani",
+        "source_quote_ar": "(نِعْمَتِي)",
+        "claim_ar": "جعل «نِعْمَتِي» محور العبارة (المعطوف عليه) لبيان تفضيل الله وإتمام نعمته على المُخاطَبِين؛ أي نصب لفظ الفضل على لفظ النعمة كمركز للدلالة على إرادة الإتمام.",
+        "claim_en": "The phrase «نِعْمَتِي» is placed as the focal (the noun to which the clause is apposed) to indicate God's favour and the completion of His blessing; the verb of preferring is syntactically tied to 'nî'matī' to express the intent to complete the favour.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "نعم",
+        "lemma": "نِعْمَة",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the commentator's syntactic note to a specific maʿnī subdevice (here rendered as 'ijab_inshāʾ' — expression of divine intent/commitment) is interpretive; original chunks are from al-Kashshaf (Zamakhshari) rather than the named balagha authors, so cross-check with Jurjani/Sakkaki/Baqillani/Suyuti sources is recommended.",
+        "quran_ref": "S2:A150",
+        "rhetorical_effect": "Emphasizes divine favour as an assured, completed gift and links the command to a theological promise, strengthening motivation toward guidance."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from Zamakhshari (al-Kashshaf); requested classical balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the input. Claims are therefore drawn only from the available chunks.",
+      "Only substrings actually present in the supplied chunks were used for source_quote_ar. Many obvious rhetorical features of the verse (repetition, parallelism, antithesis) could not be claimed because their exact word-strings did not appear verbatim in the provided chunks.",
+      "Some device classification (e.g., labeling the use of «نِعْمَتِي» as 'ijab_inshaa') is interpretive; please review against the target balagha taxonomy and the primary authors' texts for confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

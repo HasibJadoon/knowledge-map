@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:27",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "tashbih",
+        "source_quote_ar": "هذا من التشبيه المركب",
+        "claim_ar": "تشبيه باستخدام كَأَنَّمَا في: «كَأَنَّمَا أُغْشِيَتْ وُجُوهُهُمْ قِطَعًا مِنَ اللَّيْلِ مُظْلِمًا» — تصوير حال الوجوه بمقارنة حالها بقطع الليل المظلم.",
+        "claim_en": "A simile introduced by 'ka'annama' in «كَأَنَّمَا أُغْشِيَتْ وُجُوهُهُمْ قِطَعًا مِنَ اللَّيْلِ مُظْلِمًا», comparing their faces being covered to pieces of a dark night.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "كان",
+        "lemma": "كَأَنَّ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source chunk contains a general statement 'هذا من التشبيه المركب' (about a simile) but is not an exegesis of this specific verse; the identification of كَأَنَّمَا as a simile here is philologically straightforward but the exact rhetorical classification (simple vs. مركب) may need confirmation from a tafsir-balagha source directly treating Q10:27.",
+        "quran_ref": "S10:A27",
+        "rhetorical_effect": "creates a vivid visual simile that intensifies the image of shame and spiritual darkness over the wrongdoers' faces"
+      },
+      {
+        "word_index": 18,
+        "claim_type": "majaz",
+        "source_quote_ar": "على التمثيل بالعروس",
+        "claim_ar": "تصوير استعاري/تمثيلي في «أُغْشِيَتْ وُجُوهُهُمْ قِطَعًا مِنَ اللَّيْلِ مُظْلِمًا» — استعمال صورة «قطع من الليل» كاستعارة لتشظّي الظلام على الوجوه.",
+        "claim_en": "A figurative/imagistic use in «أُغْشِيَتْ وُجُوهُهُمْ قِطَعًا مِنَ اللَّيْلِ مُظْلِمًا», using the image 'pieces of night' as a metaphor for the dark covering of faces.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz (imagery/metaphor)",
+        "root": "قطع",
+        "lemma": "قِطَع",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk fragment 'على التمثيل بالعروس' attests to use of representational imagery in tafsir examples but does not comment specifically on this verse; labeling this phrase as metaphorical imagery is plausible but would benefit from a direct classical tafsir-balagha citation on Q10:27.",
+        "quran_ref": "S10:A27",
+        "rhetorical_effect": "conveys fragmentation and intense obscuration, enhancing the sense of humiliation and disorientation"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "واللام لتأكيد النفي",
+        "claim_ar": "نفي وتوكيد حَصْري في «مَا لَهُمْ مِنَ اللَّهِ مِنْ عَاصِمٍ» — تأكيد استحالة وجود ناصر أو عاصم لهم عند الله.",
+        "claim_en": "A negation/limitation (restriction) in «مَا لَهُمْ مِنَ اللَّهِ مِنْ عَاصِمٍ», emphasizing that there is no protector for them from God.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting chunk discusses the use of the particle lām for emphatic negation in a different context; applying this to the negation in this verse is reasonable, but confirmation from a source explicitly treating this construction in Q10:27 is recommended.",
+        "quran_ref": "S10:A27",
+        "rhetorical_effect": "emphatically removes hope or recourse, underscoring the utter abandonment and finality of the punishment"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are general tafsir/philological fragments (Zamakhshari, iʿrāb, etc.) and do not all discuss S10:A27 specifically. Each claim is derived by matching rhetorical terminology or descriptive phrases found in those chunks to features of the verse; direct classical balagha commentaries on Q10:27 were not supplied and would strengthen or revise these attributions.",
+      "Some device classifications (e.g., whether an image is best called تَشْبِيه مركب vs. استعارة vs. مجاز) can vary among commentators; confidence levels are set accordingly and several claims are recommended for review against dedicated tafsir-balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) if available."
+    ]
+  },
+  "n_chunks": 12
+}

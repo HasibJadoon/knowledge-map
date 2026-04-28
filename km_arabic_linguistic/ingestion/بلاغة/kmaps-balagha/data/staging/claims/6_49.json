@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:49",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "الاستعارة التصريحية التبعية",
+        "source_quote_ar": "يَمَسُّهُمُ الْعَذَابُ",
+        "claim_ar": "تشخيص/استعارة؛ جعل العذاب فاعلاً قادرًا على الملامسة، أي تشخيص العذاب وكأنه كائن حي يفعل المسّ بالناس.",
+        "claim_en": "Personification / explicit metaphor: the punishment is pictured as an agent that 'touches' people, i.e. the punishment is anthropomorphized as if it performs the action of touching.",
+        "device_branch": "bayan",
+        "device_subtype": "istiarah",
+        "root": "مسس",
+        "lemma": "مَسَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "صلة سببيّة/إيضاح السبب",
+        "source_quote_ar": "أي يمسهم العذاب بسبب فسقهم:",
+        "claim_ar": "العبارة «بِمَا كَانُوا يَفْسُقُونَ» تربط المسِّ بالعذاب بسببه؛ أي أنها تبيّن العلة والسبب لذلك.",
+        "claim_en": "Causal linking: the phrase 'bima kanu yafsuqoon' links the punishment touching them to its cause — their transgression.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source explicitly states causation, but mapping this causal link to the maani subtype 'fasl_wasl' is an interpretive assignment and may require confirmation."
+      }
+    ],
+    "warnings": [
+      "Only devices explicitly discussed in the provided source chunks were extracted. Other possible rhetorical readings of the verse (e.g., broader semantic or phonetic devices) are not included because they were not mentioned in the given excerpts.",
+      "The assignment of the causal connective 'بِمَا' to the maani subtype 'fasl_wasl' is interpretive; check with a specialist reference if a different maani label is preferred."
+    ]
+  },
+  "n_chunks": 12
+}

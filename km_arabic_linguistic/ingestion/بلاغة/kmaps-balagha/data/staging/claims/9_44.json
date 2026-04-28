@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:44",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "badi: emphasis",
+        "source_quote_ar": "لا زائدة لتأكيد النفي",
+        "claim_ar": "حرف النفي «لا» هنا زائدة للتأكيد، أي إضافة للتنكير والتوكيد في النفي",
+        "claim_en": "The negation particle 'lā' here is added for emphasis — an emphatic (augmentative) negation.",
+        "device_branch": "other",
+        "device_subtype": "emphasis_extra_laa",
+        "root": null,
+        "lemma": "لَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "maani: fasl_wasl (linking)",
+        "source_quote_ar": "الواو عاطفة",
+        "claim_ar": "الواو في «والله» تعمل كحرف عطف يربط الجملة بما قبلها، أي وظيفة وصل وبيان علاقة العطف بين الأقسام.",
+        "claim_en": "The conjunction 'waw' in 'wa-llāh' functions as a coordinating conjunction, linking the clause to what precedes — a connective/continuity device.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (waw al-ʿāṭifah)",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source is a grammatical comment labelling the waw 'عاطفة'; classify this as a rhetorical linking device but verify rhetorical intent in context."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "maani: ijaaz",
+        "source_quote_ar": "وهذه الآية في نفسها كافية لا حاجة إلى غيرها",
+        "claim_ar": "التعليق يشير إلى إيجاز الآية وكفايتها بذاتها في بيان معناه دون الحاجة إلى إضافات.",
+        "claim_en": "The commentary states the verse is self-sufficient and needs no other explanation — indicating concision (i'jaz) in the verse's expression.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz (conciseness)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The remark in the source is general; confirm it was made specifically about this verse and reflects a rhetorical (i‘jaz) reading rather than a general exegetical praise."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari and Safi (al-Jadwal); the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present among the chunks. Claims are drawn only from the available chunks.",
+      "Some source quotes are grammatical/exegetical remarks applied as rhetorical claims (e.g., labeling the waw 'عاطفة' or calling the verse 'كافية'). These have been mapped to rhetorical device types but should be reviewed for authorial rhetorical intent in the full commentary context."
+    ]
+  },
+  "n_chunks": 12
+}

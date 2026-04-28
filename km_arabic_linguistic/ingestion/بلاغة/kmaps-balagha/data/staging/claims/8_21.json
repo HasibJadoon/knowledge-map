@@ -1,0 +1,73 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:21",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "takrar",
+        "source_quote_ar": "سَمِعْنَا وَهُمْ لا يَسْمَعُونَ",
+        "claim_ar": "تكرار جذر س-م-ع (سَمِعْنَا ... يَسْمَعُونَ) لتأكيد التناقض بين الادعاء والحقيقة.",
+        "claim_en": "Repetition of the root s-m-ʿ (sāmīʿ) in 'سَمِعْنَا ... يَسْمَعُونَ' — a repetition (takrār) that intensifies the contrast between the claim and the reality.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "سمع",
+        "lemma": "سَمِعَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A21",
+        "rhetorical_effect": "المضاعفة الصوتية تدفع السامع إلى ملاحظة التفاوت بين الشكل (السمع الظاهري) والمضمون (عدم الانتباه أو القبول)، فتزيد من شدة النقد للأقوال الشكّاقة."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tibaq",
+        "source_quote_ar": "وَلا تَكُونُوا كَالَّذِينَ قَالُوا سَمِعْنَا وَهُمْ لا يَسْمَعُونَ",
+        "claim_ar": "تضاد/مقابلة بين القول 'سَمِعْنَا' والواقع 'وهم لا يَسْمَعُونَ'، أي تضاد ظاهر/باطن يبرز النفاق أو عدم الإخلاص.",
+        "claim_en": "Antithesis between the utterance 'We heard' and the reality 'while they do not hear' — a contrast (tibāq) that exposes hypocrisy or lack of inner reception.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "سمع",
+        "lemma": "سَمِعَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A21",
+        "rhetorical_effect": "التضاد يولّد صدمة دلالية: ما يقال مقابل ما يحدث فعلاً، فيقوى أثر التوبيخ والتأنيب."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يقول تعالى ذكره للمؤمنين بالله ورسوله من أصحاب نبي الله ﷺ: لا تكونوا، أيها المؤمنون، في مخالفة رسول الله ﷺ، كالمشركين",
+        "claim_ar": "التلفت أو الانتقال في المخاطبة: من توجيه الأمر للمؤمنين إلى ذكر مثال الغير (المشركين) كتأديب وتمثيل سلبي.",
+        "claim_en": "Iltifāt (a turn/shift in address): the text addresses the believers directly and then cites the example of others (the polytheists) — a rhetorical shift used to admonish by contrast.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "تقييمي: النص التفسيري يصف توجيه الحديث والتشبيه بالمثال؛ قد يحتاج تأكيد من مصادر بلاغية إضافية ما إذا وُضِعَ هذا التمثيل تحت تصنيف الإلتفات أو تحت وصف بلاغي آخر.",
+        "quran_ref": "S8:A21",
+        "rhetorical_effect": "التلفت يجعل التوبيخ أكثر مباشرة للمخاطَب (المؤمنين) ويستفيد من مثال سلبي خارجي لتقوية الحيلة التربوية والتحذير."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "kinayah",
+        "source_quote_ar": "قد سمعنا",
+        "claim_ar": "قَوْلُهم 'قد سمعنا' يعمل كناية عن إظهار الطاعة والشهادة الظاهرية بينما لا يقابلها قبول أو التّنفيذ.",
+        "claim_en": "The utterance 'قد سمعنا' functions as a kināyah (indirect expression) — outward profession of hearing/obedience while inwardly there is no acceptance or compliance.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "سمع",
+        "lemma": "سَمِعَ",
+        "confidence": "medium",
+        "needs_review_reason": "تصنيف كـ'كناية' يعتمد على تفسير المفسّر (التبيين بأن 'السمع' هنا مجاز عن القبول). قد يحتاج تأكيد بلاغي بأن التعبير هنا قد وُظِّف ككناية لا بوصف مباشر.",
+        "quran_ref": "S8:A21",
+        "rhetorical_effect": "تُظهِر الكناية النفاق الظاهري: عبارة قصيرة تُخفي معاني عميقة من التظاهر والرياء، ما يَزِد وقع التوبيخ."
+      }
+    ],
+    "warnings": [
+      "بعض التصنيفات (مثل فصل بين 'تِباق' و'مُقابلة' أو تمييز 'كناية' مقابل قراءة مباشرة) تعتمد على قراءة تفسيرية؛ قد يختلف الباحثون في تصنيف جهاز بلاغي واحد إلى فروع متقاربة.",
+      "المطالب البلاغية اعتمدت على مقاطع من الطبري المذكور في المصدر؛ قد يكون من المفيد مراجعة مصنفات البلاغة الأخرى (الجرجاني، السكّاكِي، الباقلاني، السيوطي، تفسير البلاغة) لتأكيد أو تعديل بعض التصنيفات التأويلية."
+    ]
+  },
+  "n_chunks": 12
+}

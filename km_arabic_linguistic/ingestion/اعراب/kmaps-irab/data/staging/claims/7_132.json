@@ -1,0 +1,37 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:132",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَيَجُوزُ أَنْ تَكُونَ «مَا» نَافِيَةً، وَأَنْ تَكُونَ اسْتِفْهَامًا.",
+        "claim_ar": "حرف «مَا» قد يكون نافية أو استفهامية؛ أي يَجُوزُ أن تُعرب «مَا» نافية أو استفهامية في أمثلة مثل هذه.",
+        "claim_en": "The particle \"ma\" can be either a negation (nâfiya) or an interrogative (istifhâm); it is permissible for \"ma\" to be analyzed as negating or as interrogative in examples of this type.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source states a general possibility but does not decide which function (negation vs. interrogation) applies to this specific occurrence in the ayah.",
+        "quran_ref": "S7:A132"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "قَالُوا يَا هود مَا جئتنا بِبَيِّنَة وَمَا نَحن بتاركي آلِهَتنَا عَن قَوْلك وَمَا نَحْن لَك بمؤمنين",
+        "claim_ar": "الْمؤَلِّف يقتبس العبارة «وَمَا نَحْن لَك بِمُؤْمِنِينَ» كنصٍّ موضّحٍ في مقاطع الكتاب.",
+        "claim_en": "The author quotes the phrase \"وَمَا نَحْن لَك بِمُؤْمِنِينَ\" as a cited example in the text.",
+        "root": null,
+        "lemma": "نَحْنُ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A132"
+      }
+    ],
+    "warnings": [
+      "The provided chunks contain only a quotation of the ayah and a general remark about the particle «ما». There is no explicit, specific إعراب (syntactic analysis) of the words of this ayah in the supplied text.",
+      "Any further syntactic claims (e.g., role of لَكَ or بِمُؤْمِنِينَ, or whether «ما» here is definitively نافية or استفهام) would require additional source material; treat the above rule-reference as a general possibility, not a definitive analysis for this occurrence."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,22 @@
+{
+  "layer": "irab",
+  "ayah_key": "34:8",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (فِي الْآخِرَةِ) : يَجُوزُ أَنْ يَكُونَ ظَرْفًا الْعَامِلُ فِيهِ «الْحَمْدُ» أَوِ الظَّرْفُ؛ وَأَنْ يَكُونَ حَالًا مِنَ (الْحَمْدُ) وَالْعَامِلُ فِيهِ الظَّرْفُ.",
+        "claim_ar": "يجوز أن تكون «بِالْآخِرَةِ» ظرفاً (زرفاً) عاملاً أو أن تكون حالاً",
+        "claim_en": "The phrase 'bi-l-ākhirah' may function as a zarf (adverbial) attached to the governor, or it may function as a ḥāl (circumstantial clause).",
+        "root": "اخر",
+        "lemma": "آخِر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S34:A8"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

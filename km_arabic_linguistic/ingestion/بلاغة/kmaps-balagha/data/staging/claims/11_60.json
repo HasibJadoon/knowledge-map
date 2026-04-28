@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:60",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "تكرار",
+        "source_quote_ar": "وأَلا وتكرارها مع النداء على كفرهم والدعاء عليهم، تهويل لأمرهم وتفظيع له",
+        "claim_ar": "تكرارُ لفظة «ألا» في سياق النداء والدعاء عليهم لتكثير التهديد والتفريع",
+        "claim_en": "Repetition of the particle «ألا» in the call and the curse upon them, used to amplify the threat and denunciation.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "أَلَآ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "فصل ووصل / استئناف",
+        "source_quote_ar": "ثم استأنف وصف أحوالهم فقال",
+        "claim_ar": "استئنافُ وصف أحوال عاد بعد الإشارة إلى آثارهم وقبورهم — أي فصل ثم وصل في السرد لتكثيف الموعظة",
+        "claim_en": "A resumption (pause-and-continue, fasl-wasl) of describing the condition of 'Aad after an initial pointing to their ruins — a structural pause and continuation used to intensify admonition.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive linkage between the commentary phrase and the verse's rhetorical structure; reviewer should confirm alignment with the verse-level segmentation."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "مجاز / تصوير",
+        "source_quote_ar": "جعلت اللعنة تابعة لهم في الدارين تكبهم على وجوههم في عذاب الله.",
+        "claim_ar": "تصويرُ اللعنة بأنها «تكبّهم على وجوههم» — تصوير مجازي لذلّهم وهوانهم في العذاب",
+        "claim_en": "A metaphorical depiction of the curse as 'casting them upon their faces' — a vivid metaphor conveying humiliation and severe punishment.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "لعن",
+        "lemma": "لَعْنَة",
+        "confidence": "medium",
+        "needs_review_reason": "Classification as 'majaz' follows the commentator's figurative reading; could be read as literal description of punishment in some tafsir traditions and therefore merits review."
+      }
+    ],
+    "warnings": [
+      "Some device classifications are interpretive (e.g., treating «تكبهم على وجوههم» as majaz/metaphor). Consult additional tafsir/balagha sources if strict categorization is required.",
+      "Particles like «ألا» have no conventional triliteral root in the provided lexicon chunk; root left null — verify with lexicon if a specific root/entry is preferred.",
+      "The 'فصل ووصل' claim links a commentary phrase ('ثم استأنف وصف أحوالهم فقال') to the verse-level rhetorical move; confirm verse segmentation and pause points if precise word-level anchoring is needed."
+    ]
+  },
+  "n_chunks": 12
+}

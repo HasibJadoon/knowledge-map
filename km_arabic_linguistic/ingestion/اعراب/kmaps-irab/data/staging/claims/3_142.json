@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:142",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "الْقَائِمُ مَقَامَ الْفَاعِل «أَنْ» وَمَا هُوَ تَمَامٌ لَهَا، وَأَنْ هِيَ الْمُخَفَّفَةُ مِنَ الثَّقِيلَةِ",
+        "claim_ar": "حُكمُ «أَنْ»: تقوم «أَنْ» مقامَ الفاعل إذا لم يُسمَّ فاعلُه، وهي المخففة من الثقيلة.",
+        "claim_en": "The particle 'أَنْ' can stand in the place of the subject (fa'il) when its subject is not mentioned; this 'أن' is the lightened form of the heavy 'أن'.",
+        "root": null,
+        "lemma": "أَن",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted discussion in the source concerns a different context (the formula around «وَقَدْ نَزَّلَ»). Applying this general rule to the specific construction «أَنْ تَدْخُلُوا» in this ayah should be verified in context."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ بِالْيَاءِ وَالتَّاءِ",
+        "claim_ar": "قولهُ «تَحْسَبَنَّ/تَحْسَبْتُمْ» يُقرأ في بعض النُّسخ بوجه ياءٍ أو تاءٍ (اختلاف في القراءة).",
+        "claim_en": "The verb (root: حسب) is reported in the sources as read with the ya or the ta (a reading/recitation variant).",
+        "root": "حسب",
+        "lemma": "حَسِبَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source passage explicitly treats the phrase «لَا تَحْسَبَنَّ الَّذِينَ» (a different syntactic context) rather than the exact form «حَسِبْتُمْ» found in this ayah; the applicability of the cited reading-variant to this ayah requires verification."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not directly treat the exact wording of S3:A142; extracted claims are drawn from general comments in those chunks and their applicability to this specific ayah should be verified.",
+      "Some entries concern reading/recitation variants or general syntactic rules in other verses (e.g., «وَقَدْ نَزَّلَ», «لَا تَحْسَبَنَّ الَّذِينَ»). Confirm whether the cited points are intended by the author for the present verse before using as definitive إعراب."
+    ]
+  },
+  "n_chunks": 12
+}

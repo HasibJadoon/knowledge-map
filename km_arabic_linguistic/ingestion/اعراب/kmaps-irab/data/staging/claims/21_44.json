@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:44",
+  "result": {
+    "claims": [
+      {
+        "word_index": 16,
+        "claim_type": "irab",
+        "source_quote_ar": "مِنْ ذِكْرٍ",
+        "claim_ar": "«أَطْرَافِهَا» اسم مجرور بمنصوب «مِنْ» (مجرور بـ«من»)",
+        "claim_en": "«aTraafihā» (their edges) is a noun in the genitive (majrūr) governed by the preposition «مِنْ».",
+        "root": "طرف",
+        "lemma": "طَرَف",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "taalluq",
+        "source_quote_ar": "يَجُوزُ أَنْ يَتَعَلَّقَ بِيَأْتِيهِمْ",
+        "claim_ar": "يجوز أن تتعلق «مِنْ أَطْرَافِهَا» بالفعل السابق (هنا: «نَنقُصُهَا») باعتبارها حالاً أو متعلقاً بالفعل (موقف شبيه بمثل «ما يَأْتِيهِمْ مِنْ ذِكْرٍ»).",
+        "claim_en": "The preposition phrase «مِنْ أَطْرَافِهَا» may be attached to the preceding verb (here: «نَنْقُصُهَا») as its complement/circumstantial phrase, analogous to constructions like «ما يَأْتِيهِمْ مِنْ ذِكْرٍ».",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source example involves the verb يَأْتِيهِمْ («ما يَأْتِيهِمْ مِنْ ذِكْرٍ»); mapping that allowance to this ayah (attachment to نَنْقُصُهَا) is analogical and should be checked against the broader commentary for this specific verse."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ صِفَةً لذكر وَأَن يتَعَلَّق بمحدث",
+        "claim_ar": "ثمة وجوه في الإعراب: قد تُعطى «مِنْ أَطْرَافِهَا» قراءة باعتبارها صفة/تبيين لاسمٍ محذوف أو أن تتعلق بمحدث/حال — أي أن ثمة اختلافاً في تعلق «مِنْ» وموضعها في الإعراب كما في المثال «مِنْ ذِكْرٍ».",
+        "claim_en": "There are alternative analyses: «مِنْ أَطْرَافِهَا» could be read as an adjective/specifier of an omitted noun or as attached to a preceding predicate/state (a circumstantial phrase). Thus, there is a possible disagreement/alternative (ikhtilāf) about the attachment of «مِنْ».",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited formulations come from discussion of «مِنْ ذِكْرٍ» in another verse; applying the same multiplicity of analyses to this verse requires checking the commentator's explicit treatment of this specific phrase in S21:44."
+      }
+    ],
+    "warnings": [
+      "The available source chunks discuss the construction «مِنْ ذِكْرٍ» and analogous patterns (e.g. «ما يَأْتِيهِمْ مِنْ ذِكْرٍ») rather than this ayah verbatim. The claims above map those examples onto S21:44 (particularly the phrase «مِنْ أَطْرَافِهَا»). Such analogical mapping is plausible but should be reviewed against the commentator's explicit remarks on this specific verse.",
+      "No explicit chunk in the provided pieces gives a direct, word-by-word iʿrāb of the words of S21:44. Extracted claims rely on analogous examples in the chunks; if more chunks specific to S21:44 are available, re-run extraction for higher confidence and fuller coverage."
+    ]
+  },
+  "n_chunks": 12
+}

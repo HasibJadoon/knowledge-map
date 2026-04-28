@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "51:48",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "نعم   : حرف جواب ، فيكون تصديقا للمخبر ووعدا للطالب وإعلاما للمستخبر ، وإبدال عينها حاء وكسرها ، وإتباع النون لها في الكسر ، لغات قرئ بها .",
+        "claim_ar": "فَنِعْمَ (نعم): كلمة 'نعم' هنا حرف جواب يدل على التصديق والتأكيد (تصديقا للمخبر ووعدا للطالب وإعلاما للمستخبر).",
+        "claim_en": "The particle 'nima' (نعم) here is a response/affirmation particle (ḥarf jawab), indicating confirmation of the informer and a promise/assurance to the seeker.",
+        "root": "نعم",
+        "lemma": "نِعْمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "نعم   : حرف جواب ، فيكون تصديقا للمخبر ووعدا للطالب وإعلاما للمستخبر ، وإبدال عينها حاء وكسرها ، وإتباع النون لها في الكسر ، لغات قرئ بها .",
+        "claim_ar": "قواعد قراءة/صياغة: يجوز إبدال عين 'نعم' حاء وكَسْرها، ويُتْبَع النون فيها في الكسر (صيغ قراءات للفظ 'نعم').",
+        "claim_en": "Reading/formal note: it is permissible to substitute the 'ayn of 'nima' with a ḥā' and to vocalize it with kasra, and to pronounce/attach the following nun with that kasra — i.e., there are permissible reading-variants/forms for 'نعم'.",
+        "root": "نعم",
+        "lemma": "نِعْمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

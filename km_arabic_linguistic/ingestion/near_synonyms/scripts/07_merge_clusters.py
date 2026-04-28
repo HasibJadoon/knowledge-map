@@ -15,7 +15,7 @@ from _common import (
     stable_token,
     write_json,
 )
-from _heuristics import cluster_similarity, review_id
+from _heuristics import cluster_similarity, is_usable_arabic_term, review_id
 
 
 CONFIDENCE_ORDER = {"needs_review": 0, "low": 1, "medium": 2, "high": 3}
@@ -223,6 +223,22 @@ def main() -> None:
         for item in group:
             source = item["source"]
             for term in item.get("terms", []):
+                if not is_usable_arabic_term(term):
+                    review_rows.append(
+                        {
+                            "id": review_id("NSRQ", set_id, source["chunk_id"], term.get("arabic_display"), "rejected_non_quranic_member"),
+                            "set_id": set_id,
+                            "member_id": None,
+                            "evidence_id": None,
+                            "issue_type": "rejected_non_quranic_member",
+                            "issue_detail": f"Rejected non-Quranic or unreviewed member candidate: {term.get('arabic_display')}",
+                            "source_id": source["source_id"],
+                            "chunk_id": source["chunk_id"],
+                            "status": "open",
+                            "updated_at": None,
+                        }
+                    )
+                    continue
                 bare = arabic_bare(term.get("arabic_bare") or term.get("arabic_display"))
                 if not bare:
                     continue

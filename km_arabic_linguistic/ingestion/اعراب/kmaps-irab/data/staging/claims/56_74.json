@@ -1,0 +1,36 @@
+{
+  "layer": "irab",
+  "ayah_key": "56:74",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "سبح اسم ربك الأعلى",
+        "claim_ar": "ورد في المشهد المقتبس عبارة «سبح اسم ربك الأعلى»، دالّة على قراءة تحذف حرف الباء قبل «اسم» فتظهر «اسم» بدون إِضافة بـٍ؛ وهذا يغيّر الإِعراب المحتمل لـ«اسم» عن كونها جار ومجرور («بِاسْمِ») إلى اسم ظاهر في تركيب مختلف.",
+        "claim_en": "The quoted phrase \"سبح اسم ربك الأعلى\" indicates a reported reading that omits the preposition ب before \"اسم\", so \"اسم\" appears without the prepositional ب. This changes the potential parsing of \"اسم\" from being a prepositional genitive (بِاسْمِ) to a bare noun in a different syntactic structure.",
+        "root": "سمو",
+        "lemma": "اسْم",
+        "confidence": "medium",
+        "needs_review_reason": "The source quotation is a hadith phrase matching a different formula (also attested for sūra al-A'la); it is not an explicit grammatical analysis of S56:74 in the provided chunks, so applicability to this ayah needs verification and comparison with Qurʾānic readings (qirā’āt) and manuscripts."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "سبح اسم ربك الأعلى",
+        "claim_ar": "المقتطف يورد صِيغة «الأعلى» بدل «العظيم» (كما في الآية محل المعالجة). هذا يشير إلى قراءَة لفظية بديلة في صفة الرب تَبدّل «العظيم» إلى «الأعلى»، وما ينتج عن ذلك من اختلاف معنوي ونحوي في الإِعْراب واتفاق النعت مع المعوَّض عنه.",
+        "claim_en": "The excerpt records the wording \"الأعلى\" instead of \"العظيم\" (the adjective in the current verse). This points to an alternative verbal reading that replaces \"al-ʿaẓīm\" with \"al-aʿlā\", which entails a lexical and potentially syntactic/semantic difference in how the adjective relates to its head.",
+        "root": "عظم",
+        "lemma": "عَظِيم",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted form uses the adjective «الأعلى», not «العظيم»; the source excerpt does not explicitly state this as a Qurʾānic qirāʾah for S56:74, and may refer to a different verse or oral formula. The applicability of this variant to the ayah requires checking qirāʾāt and manuscript evidence."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit iʿrāb (grammatical parsing) of S56:74; the only directly relevant quoted substring is the hadith phrase «سبح اسم ربك الأعلى».",
+      "The quoted phrase «سبح اسم ربك الأعلى» corresponds to a different wording (and a different adjective) than the target verse's wording («فَسَبِّحْ بِاسْمِ رَبِّكَ الْعَظِيمِ»). Claims above treat this as evidence of a reported lexical/reading variant, but whether it reflects a qirāʾah of S56:74 must be verified against qirāʾāt and manuscript tradition.",
+      "No explicit statements in the supplied chunks analyze the grammatical role (مبتدأ/خبر/فاعل/مفعول به/etc.) of the words in this specific ayah; thus no definitive iʿrāb claim could be extracted from these chunks."
+    ]
+  },
+  "n_chunks": 12
+}

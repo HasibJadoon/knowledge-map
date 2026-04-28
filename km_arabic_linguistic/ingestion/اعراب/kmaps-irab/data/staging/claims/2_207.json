@@ -1,0 +1,56 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:207",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "وَأَن يَكُونَ مُبْتَدَأً وَخَبَرًا",
+        "claim_ar": "يجوز أن تكون جملة «مَنْ يَشْرِي نَفْسَهُ...» مبتدأً وخبرًا",
+        "claim_en": "It is permissible to analyze the clause 'man yashri nafsahu...' as a mubtada' (subject) and khabar (predicate).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source example discusses «مِنْهُمْ مَنْ ...»; applying the same acceptability to «مِنَ النَّاسِ مَنْ ...» is a generalization that should be checked against the specific context of this āyah."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يكون مِنْهُم رَافعا لمن",
+        "claim_ar": "يجوز أن يكون «مِنَ النَّاسِ» رافعًا لِـ «مَنْ ...» (تحليل بديل يرفع الفصل الذي بعده)",
+        "claim_en": "It is permissible as an alternative analysis that the 'min' phrase ('min al-nas') functions to 'raise' (i.e., be construed as elevating/connecting) the following 'man' clause.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage treats «مِنْهُم مَنْ ...»; mapping that formulation onto «مِنَ النَّاسِ مَنْ ...» involves an interpretive step and should be reviewed for this specific verse."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "وَالْجُمْلَةُ نَعْتٌ لِرُسُلٍ",
+        "claim_ar": "يجوز أن تؤخذ الجملة «مَنْ يَشْرِي نَفْسَهُ...» نعتًا (صيغة وصفية للجملة التي قبلها في السياق المشابه)",
+        "claim_en": "The clause can be taken as a na't (adjectival/descriptive clause) modifying the preceding noun (in the cited discussion it modifies 'rasulīn').",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "Source explicitly says the clause is a na't for 'rusul' in its example; applying 'na't' reading to the present verse (where the preceding noun is 'al-nās') is a contextual generalization that needs verification."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ مُسْتَأْنَفًا.",
+        "claim_ar": "يجوز أن تكون الجملة «مَنْ يَشْرِي نَفْسَهُ...» مستأنفة (مستقلة مُستأنفًا عنها السياق السابق)",
+        "claim_en": "It is permissible to analyze the clause 'man yashri nafsahu...' as an independent resumed clause (musta'naf).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source treats this option in the context of a different example; confirm that treating the clause as musta'naf suits the syntactic relationship in this particular āyah."
+      }
+    ],
+    "warnings": [
+      "The cited source-chunk (al-Tibyan) discusses the formula «مِنْهُمْ مَنْ ...» and gives readings in the context of 'رُسُل' (messengers). Applying these same grammatical possibilities to Sura 2:207 (وَمِنَ النَّاسِ مَنْ يَشْرِي نَفْسَهُ...) is a generalization — the mappings above follow the author's permissive remarks but should be reviewed in the specific context of this āyah."
+    ]
+  },
+  "n_chunks": 12
+}

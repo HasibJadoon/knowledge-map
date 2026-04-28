@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:46",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "من أعظم الآيات أن يواجه بهذا الكلام رجل واحد أمّة",
+        "claim_ar": "مواجهة نبيٍّ واحدٍ أُمَّةً بكلامه؛ إيلتفات إلى مخاطَبٍ مفردٍ يواجه جمعًا من أجل شدِّ الأثر البلاغي.",
+        "claim_en": "A single prophet addressing an entire nation: an iltifat (a shift to direct address to a singular addressee confronting a collective), which heightens rhetorical impact.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "أين جواب أَرَأَيْتُمْ وما له لم يثبت كما أثبت في قصة نوح ولوط؟ قلت: جوابه محذوف",
+        "claim_ar": "وجود حذفِ جوابٍ أو مفردٍ محذوف في السرد (جواب محذوف) مما يدلّ على الإيجاز البلاغي (إعجاز/إيجاز) لزيادة الإيحاء والإحكام.",
+        "claim_en": "The commentator notes an omitted reply ('the answer is omitted')—an ellipsis—producing ijaaz (conciseness/compaction) that intensifies rhetorical effect.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وغَيْرُهُ بالرفع: صفة على محل الجار والمجرور.",
+        "claim_ar": "استعمال 'غير' في «غَيْرُ صَالِحٍ» كأداة حصر/استثناء ينفي الصلاح ويُبرز الضدّ بطريقة تحسم الحكم البلاغي.",
+        "claim_en": "Use of 'ghayr' in 'ghayr salih' functions as exclusion/restriction (hasr/qasr), negating righteousness and thereby stressing deviation from good.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "medium",
+        "needs_review_reason": "The source excerpt is primarily a grammatical/case note on 'غيرُهُ'; the rhetorical reading (exclusion/emphasis) is inferred from that grammatical comment and should be reviewed."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "أَسْمَعُ وَأَرَى ما يجرى بينكما وبينه",
+        "claim_ar": "ازدواج لفظي (أَسْمَعُ وَأَرَى) يُقدَّم كموازنة/توازي لتوكيد الحضور والشهادة، وهو نمط بديعي (مقابلة) في الخطاب النبوي.",
+        "claim_en": "The paired verbs 'I hear and I see' form a balanced pairing (muqabalah) that emphasizes witness and presence; a badi' device of parallel pairing used to reinforce the claim.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "سمع/رأى",
+        "lemma": "أَسْمَعُ/أَرَى",
+        "confidence": "medium",
+        "needs_review_reason": "The commentator cites these paired verbs as an illustrative pattern; the claim generalizes this badi' reading to the prophetic style in the context of the verse and should be reviewed for applicability to this exact ayah."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari (al-Kashshaf) and Tabari; the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and a separate 'tafsir balagha' set) are not present among the supplied chunks. Claims are therefore extracted only from the available excerpts.",
+      "Some source excerpts focus on grammatical or exegetical remarks rather than explicit rhetorical labelling. Where rhetorical devices are proposed, they are sometimes inferred from grammatical/exegetical comments — see 'needs_review_reason' on individual claims."
+    ]
+  },
+  "n_chunks": 12
+}

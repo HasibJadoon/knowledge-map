@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:150",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "حذف العاطف من «قال» خلافا للآية الأولى",
+        "claim_ar": "انتقال بلاغي من السرد الوصفي إلى الكلام المباشر (الرجوع إلى كلام موسى) عبر ابتدائِه بـ«قال» محذوف العاطف؛ هذا إلتفات (التفات) يجعل عبارة القول مستقلة ويشدّ انتباه السامع.",
+        "claim_en": "A rhetorical shift (iltifat): the narrative moves into direct speech introduced by 'قال' with the coordinating particle omitted; this produces a sudden shift that renders the speech independent and draws the listener's attention.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted support comes from an i'rab/tafsir chunk discussing omission of conjunction before «قال» in a related narrative; verify with dedicated balagha authorities (al-Jurjānī, al-Sakkākī, etc.) for classical treatment of this iltifat."
+      },
+      {
+        "word_index": 32,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "والفاء للعطف على مقدر",
+        "claim_ar": "توازٍ ومقابَلة بلاغيّ بين عبارتين سلبيتين متوازيَتين («فَلَا تُشْمِتْ بِيَ الْأَعْدَاءَ» و«وَلَا تَجْعَلْنِي مَعَ الْقَوْمِ الظَّالِمِينَ») يؤكد التمني والتبرؤ؛ الصياغة الثنائية تُعدّ مقابلة (مقابلة/توازي) وتقوّي التأثير العاطفي.",
+        "claim_en": "A parallelism/antithetical balancing (muqabalah): the two negative imperatives ('so do not let the enemies gloat over me' and 'nor place me with the wrongdoers') form a balanced, parallel structure that intensifies the plea and the distancing from wrongdoing.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "شمت",
+        "lemma": "تُشْمِتْ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting quote discusses the role of conjunctions in linking clauses; the chunk does not analyze this exact verse—confirm with specialized balagha tafsirs for explicit identification as muqabalah/takrār."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are mainly i'rab/tafsir excerpts (Zamakhshari, Darwish i'rab) rather than the specified classical balagha authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsir-balāgha section). Claims were drawn using available chunks; please supply the requested balagha sources for fuller, author-specific attributions.",
+      "Some device attributions (especially fine-grained badi/ma'ani distinctions) are interpretative here and should be reviewed against classical rhetoric treatises — I flagged each claim with a needs_review_reason."
+    ]
+  },
+  "n_chunks": 12
+}

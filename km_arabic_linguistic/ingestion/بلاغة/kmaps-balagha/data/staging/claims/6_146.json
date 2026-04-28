@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:146",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No balagha claims extracted: none of the provided source_chunks contain the ayah text or explicit commentary phrases that quote or discuss this specific verse (S6:A146).",
+      "The task requires each claim's source_quote_ar to be an exact substring of one of the provided source_chunks; because no chunk includes the verse words or a direct, relevant quoted phrase, I could not create claims that meet that requirement.",
+      "To extract balagha claims for this ayah, please provide tafsir/balagha source chunks that quote or analyze S6:146 (or include the verse text within the chunks)."
+    ]
+  },
+  "n_chunks": 12
+}

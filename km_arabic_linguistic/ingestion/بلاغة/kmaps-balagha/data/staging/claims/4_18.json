@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "التَّوْبَةُ من تاب اللَّه عليه",
+        "claim_ar": "استعمال التعريف في «التوبة» على سبيل الإطلاق والعموم ليعطي معنى قبول التوبة والغفران على نحو عام",
+        "claim_en": "Use of the definite noun «al-tawbah» ('the repentance') as a generalizing/absolute expression, conveying the acceptance of repentance and forgiveness in a broad sense.",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir",
+        "root": "توب",
+        "lemma": "تَوْبَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source (Zamakhshari) discusses the semantic/ theological force of the phrase and the author infers a rhetorical-generalizing effect (تعريف للإطلاق). The mapping to the specific maani subtype 'tarif_tankir' is interpretive rather than an explicit label in the chunk."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from al-Kashshaf (Zamakhshari); the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present in the input. Rhetorical claims are therefore drawn only from the supplied Zamakhshari excerpts.",
+      "The chunk cited discusses theological/semantic issues (إطلاق) rather than explicitly naming traditional balagha devices; mapping that discussion to the 'tarif_tankir' device is inferential and should be reviewed by a subject expert.",
+      "Only one clear claim could be substantiated from the provided chunks. If you supply additional tafsir/balagha source chunks (from the requested authors), more devices (e.g., iltifat, ijaaz, bayan types) may be extractable."
+    ]
+  },
+  "n_chunks": 12
+}

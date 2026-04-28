@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "36:44",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "taalluq",
+        "source_quote_ar": "و (حِينَ) : مَعْطُوفٌ عَلَى مَوْضِعِ «مِنْ قَبْلِ» .",
+        "claim_ar": "حِينٍ: معطوفٌ على موضع «مِن قبل».",
+        "claim_en": "The adverbial noun حِينٍ is analyzed as being معطوف (conjoined) onto the position/phrase «مِن قبل».",
+        "root": "حين",
+        "lemma": "حِين",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general analysis of حِين; verify that the proposed antecedent «مِن قبل» or its syntactic role exists in this specific verse/context before applying directly."
+      }
+    ],
+    "warnings": [
+      "The extracted claim comes from a general discussion in the source about the word «حِينَ» and does not explicitly treat S36:44. Confirm the applicability of the general analysis to this specific verse (the verse does not contain the phrase «مِن قبل» explicitly)."
+    ]
+  },
+  "n_chunks": 12
+}

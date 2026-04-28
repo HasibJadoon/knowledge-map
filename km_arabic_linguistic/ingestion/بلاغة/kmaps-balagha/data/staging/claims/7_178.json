@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:178",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain the target ayah text (سورة الأعراف آية 178) nor explicit rhetorical commentary on it by the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a tafsir-balagha section).",
+      "Per the task requirement, each claim must include source_quote_ar as an exact substring of one of the provided chunks. Because no chunk contains the ayah or relevant balagha commentary about this ayah, I cannot produce validated claims that meet the requirement.",
+      "If you want extracted balagha claims for this ayah, please provide source chunks that (a) contain the ayah text and/or (b) contain explicit rhetorical commentary on this ayah from the requested authors or tafsir-balagha; then I can extract claims with exact source_quote_ar substrings."
+    ]
+  },
+  "n_chunks": 12
+}

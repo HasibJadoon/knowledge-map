@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:111",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "إِنْ يَنْصُرْكُمُ اللَّهُ كما نصركم يوم بدر فلا أحد يغلبكم وَإِنْ يَخْذُلْكُمْ كما خذلكم يوم أحد",
+        "claim_ar": "مقابلة بين حالتين: نصرة اللَّه للمؤمنين وتركه لهم/خذلانه، لبيان أن النصر والخذل متعلّقان بمرضاة الله وأحكامه لا بقوة البشر.",
+        "claim_en": "A contrast (muqabalah) between two conditions — God's granting help and His withholding it — to show that victory or abandonment depend on God's will rather than merely human power.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "أسلوب حكيم",
+        "source_quote_ar": "فَمَنْ ذَا الَّذِي يَنْصُرُكُمْ فهذا تنبيه على أن الأمر كله للَّه وعلى وجوب التوكل عليه.",
+        "claim_ar": "أسلوب تذكيري/تنبيهي يهدف إلى ترسيخ التوحيد والتوكل على الله؛ التعبير بصيغة سؤال بلاغيّ يقرن بالبيان التفسيري \"هذا تنبيه\".",
+        "claim_en": "A wise stylistic admonition: a rhetorical question followed by an explicit admonition («this is a reminder») that reinforces tawhid (reliance on God) and the lesson that all affairs belong to God.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "حركة السورة / إشارة تاريخية",
+        "source_quote_ar": "أَصابَتْكُمْ مُصِيبَةٌ يريد: ما أصابهم يوم أحد",
+        "claim_ar": "إحالة إلى حادثة تاريخية (يوم أحد) كحاصل أمثلة واقعية لبيان حكمة الابتلاء ونتائج السلوك، وتوضيح سبب الخذلان أو النصر.",
+        "claim_en": "A surah-movement / historical reference: invoking the event of Uhud as a concrete example to illustrate the wisdom of trial and the consequences of actions (why God may withhold or grant help).",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from Safi (al-Jadwal) and Zamakhshari (al-Kashshaf). Al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and specific 'tafsir balagha' sections requested were not included among the source_chunks; claims are therefore drawn only from the available chunks.",
+      "Some claims generalize rhetorical observations from the supplied tafsir excerpts (which sometimes discuss closely related verses/events). Please verify the mapping of each rhetorical label against the specific authorities you intended (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) if authoritative attribution is required."
+    ]
+  },
+  "n_chunks": 12
+}

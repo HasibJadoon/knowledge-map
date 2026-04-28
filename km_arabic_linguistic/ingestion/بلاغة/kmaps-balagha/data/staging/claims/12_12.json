@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:12",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الفاء الفصيحة",
+        "claim_ar": "استخدام الفاء الفصيحة لربط الجملة وإضفاء ربطٍ مباشر ووظيفي بين الطلب والبيان التالي.",
+        "claim_en": "Use of the emphatic 'fa' (al-fa' al-fasiha) to link the clause, giving a direct, emphatic connection between the request and the following statement.",
+        "device_branch": "maani",
+        "device_subtype": "fa_al_fasihah",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S12:A12",
+        "rhetorical_effect": "creates immediacy and smooth linkage between speech turns; emphasizes continuity of the narrative/request"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "وَإِنَّا لَهُ لَحَافِظُونَ",
+        "claim_ar": "استعمال إنَّ مع خبر مُعزَّز بلام التوكيد (اللام المزحلقة) لتوكيد الضمان والاعتداد: «إِنَّا لَهُ لَحَافِظُونَ».",
+        "claim_en": "Use of 'inna' with a reinforced predicate (with the emphatic 'lam' — lam al-mazhalaq) to emphasize assurance and firm guarantee: 'inna lahu lahafizun'.",
+        "device_branch": "maani",
+        "device_subtype": "tawkeed_bi_inna",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S12:A12",
+        "rhetorical_effect": "conveys strong assurance and trustworthiness, intensifying the brothers' claim of guardianship"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "وأرسل فعل أمر",
+        "claim_ar": "استعمال صيغة الأمر (أرسل) كآلية بلاغية للطلب والتوسّل في إعادة الصغير مع المتكلم.",
+        "claim_en": "Use of the imperative form (arsil) as a rhetorical device for requesting/entreaty to send the youth with them.",
+        "device_branch": "other",
+        "device_subtype": "imperative_request",
+        "root": "رسل",
+        "lemma": "أَرْسَلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S12:A12",
+        "rhetorical_effect": "frames the speaker's stance as active/requesting, making the plea more direct and persuasive"
+      }
+    ],
+    "warnings": [
+      "Source chunks are primarily i'rab (grammatical) commentary; explicit classical balagha labels are limited. Some claims (e.g., linking of particles or emphasis) are drawn from grammatical-stylistic remarks rather than extended rhetorical discussion.",
+      "Several words of the supplied ayah (e.g., \"غَدًا يَرْتَعْ وَيَلْعَبْ\") do not appear in the provided source chunks, so no devices were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

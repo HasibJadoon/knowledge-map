@@ -1,0 +1,70 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:135",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ بَدَلًا مِنَ الَّذِينَ الْأُولَى",
+        "claim_ar": "يُجوز أن تكون «الَّذِينَ» بدلًا من «الَّذِينَ الأُولَى» (بدل).",
+        "claim_en": "It is permissible to analyze «الَّذِينَ» as a badal (substitute) for «الَّذِينَ الأُولَى».",
+        "root": null,
+        "lemma": "الَّذِي",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A135"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ خَبَرَ مُبْتَدَأٍ مَحْذُوفٍ",
+        "claim_ar": "يُجوز أن تكون «الَّذِينَ» خبر مبتدأ محذوف (أي: وهي استئنافية تفيد التعريف).",
+        "claim_en": "It is permissible to treat «الَّذِينَ» as the predicate (khabar) of an omitted (elliptical) subject (mubtada'), i.e., functioning as a resumed predicate.",
+        "root": null,
+        "lemma": "الَّذِي",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A135"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَيَجُوزُ أَنْ يَكُونَ نَصْبًا عَلَى إِضْمَارِ أَعْنِي",
+        "claim_ar": "يُجوز أن تكون «الَّذِينَ» منصوبة على إضمار «أعني» (أي: تكون مفعولًا مرئيًا لإضماري محذوف).",
+        "claim_en": "It is permissible to analyze «الَّذِينَ» as being in the accusative (mansub) governed by an implied/elliptical (iḍmār) 'a‘nī'.",
+        "root": null,
+        "lemma": "الَّذِي",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A135"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَ: مِنْهُمْ حَالٌ مِنَ الْعَائِدِ الْمَحْذُوفِ",
+        "claim_ar": "يَجُوز أن تكون «الَّذِينَ» مضافًا إليه أو في مقام حال من العائد المحذوف (أي: منْهُمْ حالٌ من العائد المحذوف).",
+        "claim_en": "It is also permissible that «الَّذِينَ» be (interpreted as) part of a circumstantial clause (ḥāl) returned to by an omitted antecedent (i.e., 'from them' as a state of the omitted referent).",
+        "root": null,
+        "lemma": "الَّذِي",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A135"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَ «أَوْ» قَدْ ذُكِرَ حُكْمُهَا",
+        "claim_ar": "ذكر المؤلف أن حكم «أَوْ» مذكور ومُبْتَغًى (قيد دراسة) في موارد سابقة، مما يشير إلى وجود قاعدة فقهية/نحوية لحكم «أَوْ».",
+        "claim_en": "The author notes that the ruling/principle concerning «أَوْ» has been mentioned (discussed) elsewhere, indicating there is a grammatical rule governing «أَوْ».",
+        "root": null,
+        "lemma": "أَو",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk only states that the ruling of «أَوْ» is mentioned elsewhere; it does not provide the specific rule or its application to this ayah here.",
+        "quran_ref": "S3:A135"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

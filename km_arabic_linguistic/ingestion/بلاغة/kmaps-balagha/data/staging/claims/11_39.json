@@ -1,0 +1,55 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:39",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "taqdim_takhir",
+        "source_quote_ar": "ويَوْمَ يَأْتِيهِمْ منصوب بخبر ليس، ويستدل به من يستجيز تقديم خبر ليس،",
+        "claim_ar": "تقديم إعلان عام ثم تأخير التعيين: لفظ التنبيه والوعيد العام «فَسَوْفَ تَعْلَمُونَ» يُذكر قبل توضيح من المقصود به في العبارة التابعة «مَنْ يَأْتِيهِ عَذَابٌ» (تأخير خبر التعيين بعد مقدّم التحذير).",
+        "claim_en": "Postponement (takhir): the general warning 'you will know' is stated first, then the specific who is identified by the relative clause 'who will be visited by a punishment' — the news is delayed to increase suspense and emphasis.",
+        "device_branch": "maani",
+        "device_subtype": "taqdim_takhir",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A39",
+        "rhetorical_effect": "خلق توتر وانتظار لدى المخاطَب لزيادة وقع الإنذار وتحقيق أثر التهديد"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "takrar",
+        "source_quote_ar": "الْعَذابَ عذاب الآخرة.",
+        "claim_ar": "تكرار لفظة «عذاب» لشدّة التأكيد على شدة الجزاء ووقعه.",
+        "claim_en": "Repetition (takrar): the word 'ʿadhāb' (punishment) is repeated, reinforcing and intensifying the notion of the torment.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "عذب",
+        "lemma": "عَذَاب",
+        "confidence": "medium",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A39",
+        "rhetorical_effect": "تكثيف المعنى وإبراز بيُّوتية العقاب وضرورته"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "mukabalah",
+        "source_quote_ar": "ويحيق بهم",
+        "claim_ar": "مقابلة/توازي بين الفعلين «يُخْزِيهِ» و«يَحِلُّ (عَلَيْهِ) ... عَذَابٌ مُّقِيمٌ» لبيان تتابع الجزاءات وتصاعدها: إذ يأتي الذل ثم النزول بعذاب مقيم.",
+        "claim_en": "Muqābalah (juxtaposition/parallelism): the pairing of the verbs 'he will humiliate him' and 'an abiding punishment will descend upon him' portrays a sequence and cumulative severity of consequences.",
+        "device_branch": "badi",
+        "device_subtype": "mukabalah",
+        "root": "خزي",
+        "lemma": "أَخْزَى/خَزَا (حسب المسجّل)",
+        "confidence": "medium",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A39",
+        "rhetorical_effect": "إظهار التوالي والاشتداد في العاقبة لتقوية وقع التحذير"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

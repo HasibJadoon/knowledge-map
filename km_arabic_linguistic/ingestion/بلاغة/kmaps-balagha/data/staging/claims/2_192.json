@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:192",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "لأنه جواب الشرط.",
+        "claim_ar": "الفاء في «فَإِنْ» تعمل كعلامة لجواب الشرط، فترتب الجملة بعد الشرط وتبيّن أنها جواب له.",
+        "claim_en": "The initial 'fa' in «فَإِنْ» functions to mark the answer/result of the conditional clause, linking and introducing the consequence of the condition.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "takrar",
+        "source_quote_ar": "فإن قلت:",
+        "claim_ar": "تكرار تركيب «فَإِنّ» (شرط ثم جواب يبدأان بـ «فَإِنّ») يوظف التكرار البلاغي للتوكيد وتقوية الانتقال من الشرط إلى نتيجة الطمأنة.",
+        "claim_en": "The repetition of the construction «فَإِنَّ» (once in the conditional position and again introducing the result) uses rhetorical repetition to emphasize and strengthen the transition from the condition to the reassuring conclusion.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains an instance of «فإن» but does not explicitly analyze repetition as a rhetorical device; the claim is inferential and should be checked against dedicated balagha commentary."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "جملة من فعل وفاعل مبتدأة",
+        "claim_ar": "اختتام الجملة بجملة خبرية موجزة «إِنَّ اللَّهَ غَفُورٌ رَحِيمٌ» يمثل أسلوباً حكيمًا مقتضبًا يُختم به جواب الشرط بطمأنة موجزة ومحكمة.",
+        "claim_en": "Concluding with the terse declarative sentence 'Indeed, Allah is Forgiving, Merciful' constitutes a concise, authoritative stylistic move that closes the conditional with a compact reassurance.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "غفر",
+        "lemma": "غَفُور",
+        "confidence": "medium",
+        "needs_review_reason": "Supporting chunk discusses sentence types (nominal/verbal) but not explicitly this stylistic interpretation; specialist balagha sources should confirm the characterization as 'asloob hakim'.",
+        "rhetorical_effect": "concise reassurance; authoritative closure to the conditional, softening the admonition with divine mercy"
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are primarily tafsir/iʻrāb excerpts (e.g., al-Kashshaf, Darwish iʻrāb) rather than the specific balagha treatises named in the task prompt (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha). Some inferences therefore rely on general commentary language rather than dedicated balagha analysis.",
+      "Some claims (marked with needs_review_reason) are inferential: while the chunks contain related language (occurrence of particles, sentence-type discussion), they do not always present explicit balagha labels for the exact rhetorical moves claimed. Please verify these with classical balagha sources if strict primary-source attribution is required."
+    ]
+  },
+  "n_chunks": 12
+}

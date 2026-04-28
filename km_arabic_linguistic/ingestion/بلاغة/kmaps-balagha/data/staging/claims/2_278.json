@@ -1,0 +1,75 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:278",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يا أَيُّهَا الَّذِينَ آمَنُوا",
+        "claim_ar": "نداء مباشر للمؤمنين (الالتفات إلى المخاطبين) لشدّ الانتباه وتهيئة السامع لتنفيذ الأمر",
+        "claim_en": "Direct vocative address ('O you who believe') — a shift/address that attracts attention and frames the ensuing command.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A278",
+        "rhetorical_effect": "يجذب الانتباه ويقوّي سلطة الأمر بتخصيصه للمؤمنين"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "اتَّقُوا اللَّهَ",
+        "claim_ar": "صيغة أمر قاطعة تأمر بالتقوى وتصوغ التوجيه الديني كسلوك ملزِم",
+        "claim_en": "Imperative command ('Fear God') — a forceful injunction presenting the duty as binding.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "وقي",
+        "lemma": "اتَّقَىٰ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A278",
+        "rhetorical_effect": "توليد واجب أخلاقي/سلوكي قوي لدى المخاطَب يهيئ لإطاعة الأمر اللاحق"
+      },
+      {
+        "word_index": 13,
+        "claim_type": "conditional_verification",
+        "source_quote_ar": "إِنْ كُنْتُمْ مُؤْمِنِينَ",
+        "claim_ar": "شرط تقرير/تحقّق: استخدام عبارة «إن كنتم مؤمنين» كتحدٍّ أو امتحان لصدق الإيمان ودفع إلى الانسجام بين القول والفعل",
+        "claim_en": "Conditional verification ('If you are believers') — a rhetorical challenge verifying the addressees' claim to faith and pressing them to act accordingly.",
+        "device_branch": "maani",
+        "device_subtype": "conditional_verification",
+        "root": "امن",
+        "lemma": "مُؤْمِن",
+        "confidence": "medium",
+        "needs_review_reason": "label 'conditional_verification' is an interpretive mapping (not one-to-one with the short canonical list); consider alternative classification (e.g., emphatic conditional, irony).",
+        "quran_ref": "S2:A278",
+        "rhetorical_effect": "يثير الإحراج الأخلاقي لدى المخاطَب، فيحفّزه على الإقرار بالأفعال المطابقة لإيمانه"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وَذَرُوا ما بَقِيَ مِنَ الرِّبا",
+        "claim_ar": "تقييد بالحصر: التعبير «ما بقي من الربا» يقيد النهي بما تبقّى من صور الربا ويبرز شمول الأمر وبقائه كمسألة قائمة يجب تركها",
+        "claim_en": "Restrictive phrasing ('leave what remains of usury') — using 'what remains' to delimit scope and emphasize that any remaining usury must be abandoned.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "وذر",
+        "lemma": "يَذَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "classification as 'hasr_qasr' (restriction) is interpretive; the phrase may alternatively be read as inclusiveness/emphasis rather than strict restriction.",
+        "quran_ref": "S2:A278",
+        "rhetorical_effect": "يؤكّد شمول النهي ويستهدف آثار الاستمرار في بقاء أمور الربا لدى المجتمع"
+      }
+    ],
+    "warnings": [
+      "Source chunks are iʿrāb (grammatical) commentaries rather than classical balāgha treatises (al-Jurjānī, al-Sakkākī, etc.). Some device labels above are interpretive mappings to the requested categories and may require cross-check with classical rhetorical sources.",
+      "Some device_subtype names (e.g., 'conditional_verification') are analytic conveniences not verbatim items from the short canonical list; please review if strict canonical terminology is required.",
+      "For claim 1 the provided root for the vocative token is 'ايي' as given in the input; this may reflect tokenization/annotation artifacts — verify with lexical sources if needed.",
+      "If you need mappings exclusively to the exact named devices from a particular author (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī), supply those authors' balāgha chunks so source_quote_ar and device labels can be aligned directly."
+    ]
+  },
+  "n_chunks": 12
+}

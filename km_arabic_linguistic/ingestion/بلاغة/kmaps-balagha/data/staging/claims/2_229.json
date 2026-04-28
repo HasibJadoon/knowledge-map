@@ -1,0 +1,41 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:229",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "ثم ثنى اللَّه سبحانه في شأنهم بتمثيل آخر ليكون كشفا لحالهم بعد كشف، وإيضاحا غب إيضاح.",
+        "claim_ar": "الآية تعرض أسلوب المقابلة (ثنْي/تمثيل) بين فروع الحكم والأحكام، بما يُظهر التباين والتوازي في الخيارات والنتائج (إمساكٌ أو تَسْريحٌ، وقيامُ حدودِ الله أو تعدّيها).",
+        "claim_en": "The verse uses muqabalah (pairing/juxtaposition, a form of 'thana'/representation) to present parallel and contrasting branches of rulings (holding vs. release; observing God's limits vs. transgressing them).",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah (مقابلة) / ثنْي وتمثيل",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk discusses 'ثنى' and 'التمثيل' in general but does not quote S2:229 explicitly; applying the generic principle to this specific ayah should be reviewed against tafsir excerpts that cite the verse directly.",
+        "rhetorical_effect": "يوضح التباين والخيارات المتاحة للمُكلَّف ويُقوّي أثر الحكم بتكرار البدائل والمقابلة بين نتائج الالتزام والمعصية."
+      },
+      {
+        "word_index": 36,
+        "claim_type": "takrar",
+        "source_quote_ar": "ومما ثنى من التمثيل في التنزيل قوله:",
+        "claim_ar": "تكرار لفظة «حُدُودَ اللَّهِ» في الآية يعمل كأداة توكيد وتحذير من تجاوز هذه الحدود.",
+        "claim_en": "The repetition of the phrase 'حُدُودَ اللَّهِ' functions as a device of emphasis and warning against transgressing God's limits.",
+        "device_branch": "badi",
+        "device_subtype": "takrar (تكرار لفظي للتوكيد)",
+        "root": "حدد",
+        "lemma": "حُدُود",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source chunk mentions general examples of 'ثنى' and repetition but does not include this verse text; confirm with tafsir/balagha commentary that links this exact repetition to emphatic effect in S2:229.",
+        "rhetorical_effect": "يُشدِّد التحذير من الاعتداء على الأحكام الإلهية ويمنح العبارة وقعًا تأديبيًا أقوى."
+      }
+    ],
+    "warnings": [
+      "لم يُدرَج نصّ الآية أو اقتباس مباشر لها في المقاطع المصدرية المرفقة. الاستدلالات أعلاه مبنية على مقتطفات نظرية عامة في المصادر المقدَّمة (ذكر الثني والتمثيل والتكرار)، وليست استشهادًا مباشراً بتفاسير تخصّ السورة/الآية.",
+      "ينبغي مراجعة هذه الاستخلاصات مقابل تفاسير بلاغية أو شروح (الجُرجانيّ، السكاكيّ، الباقلانيّ، السيوطيّ، أقسام تفسير البلاغة) التي تذكر S2:229 صراحةً للتأكيد ورفع درجة الثقة."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:57",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "أدخلت الفاء لإفادة معنى السببية",
+        "claim_ar": "استخدام الفاء في بداية الجملة (مثل: «فَشَرِّدْ») لربط حكم العمليّة السابقة بنتيجتها أو سبب الأمر؛ أي أنها تربط بين شرط أو واقعة ونتيجة تتبعها.",
+        "claim_en": "The use of the particle fa- at the start of a clause (e.g. \"fa-sharrid\") links the preceding circumstance to a resulting command or consequence — it signals causality/sequence between condition/event and the ensuing imperative.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (causal/sequence fa-)",
+        "root": "",
+        "lemma": "فـ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting quotation is taken from the provided commentary chunk (general discussion of the particle ف), not from the specific classical authors originally requested; the application to this specific ayah is an informed inference."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "والفاء الأولى جزائية والثانية للسببية",
+        "claim_ar": "الفاء المسبوقة بالفعل الأمر «فَشَرِّدْ» تؤدي وظيفة سبب/نتيجة (فالفاء هنا تربط وقوع الإمساك أو وقوع القتال بما يقتضيه من شتِّ الظهر والإسراع في التفريق)، مما يقوّي أثر الأمر ويبرّره.",
+        "claim_en": "The fa- prefixed to the imperative \"fa-sharrid\" functions as a causal/resultive connector (the fa- links the occurrence of combat/capture to the consequent directive to scatter the rear), strengthening and justifying the command.",
+        "device_branch": "maani",
+        "device_subtype": "fa as causal connector (resultive/imperative linkage)",
+        "root": "شرد",
+        "lemma": "شَرِّدْ",
+        "confidence": "medium",
+        "needs_review_reason": "Inference relies on a general remark about the particle ف in the provided chunk rather than a verse-specific classical exegesis; verification against the requested classical sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) is needed."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks do not include the specific classical authors requested (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Quotations used are from the supplied chunks (Safi / Darwish) and are general remarks about the particle ف.",
+      "Claims are inferred by mapping the general commentary on the particle ف to this ayah; please supply classical tafsir/balagha chunks for S8:A57 (or allow use of independent classical sources) if you require claims directly supported by those named authors."
+    ]
+  },
+  "n_chunks": 12
+}

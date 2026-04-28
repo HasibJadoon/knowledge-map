@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:67",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "tibaq / muqabalah (antithesis / contrast)",
+        "source_quote_ar": "وهو من باب التنازع.",
+        "claim_ar": "طِباق ومقابلة بين «بابٍ واحدٍ» و«أبوابٍ متفرِّقة»؛ تضادّ بين الواحد والجمع لتقوية النصيحة بالتشتُّت وعدم الانضواء في مدخل واحد.",
+        "claim_en": "Antithesis/contrast between 'one gate' and 'separate gates' — the opposition of singular vs. plural reinforces the admonition to disperse rather than use a single entry.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq / muqabalah",
+        "root": "بوب",
+        "lemma": "بَاب",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source substring (mentions 'التنازع') is indirect; the identification of tibaq/muqabalah is an interpretation of the ayah's semantic contrast and would benefit from corroboration with a focused rhetorical commentary."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "iltifat (shift in address / vocative)",
+        "source_quote_ar": "يا أبتاه",
+        "claim_ar": "التنبيه بالنداء «يا» وتحويل الخطاب إلى المنادى (هنا: «يا بنيّ») — تبديل أسلوب السرد إلى مخاطبة مباشرة لشدّ الانتباه وإثارة العاطفة.",
+        "claim_en": "Vocative shift using 'يا' (here: 'يا baniyya') — a shift from narration to direct address that captures attention and evokes emotion.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "بني",
+        "lemma": "بُنَىّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 24,
+        "claim_type": "mukabalah / parallelism",
+        "source_quote_ar": "وهذا الاتحاد بين الشرط والجزاء ظاهر",
+        "claim_ar": "مقابلة وتوازي بياني بين «عَلَيْهِ تَوَكَّلْتُ» (قوله الشخصيّ) و«فَلْيَتَوَكَّلِ الْمُتَوَكِّلُونَ» (دَعْوَةٌ للمخاطبين) — تكرار الفكرة بصيغٍ مختلفة لتأكيد التوكّل على الله.",
+        "claim_en": "Parallelism between 'I put my trust in Him' (personal statement) and 'let those who put their trust [do so]' (address to others) — the idea of reliance on God is repeated in different grammatical persons to strengthen the exhortation.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "وكل",
+        "lemma": "تَوَكَّلْ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited substring refers to a general rhetorical/grammatical phenomenon ('union between condition and result'); linking it to the ayah's parallelism is plausible but should be checked against a dedicated rhetorical treatment."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are from al-Kashshaf (Zamakhshari) only; the user requested extraction from several classical rhetoricians (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Relevant excerpts from those specific authors were not provided, so some claims are inferred from the available commentary.",
+      "Some source_quote_ar substrings are general remarks in the commentary rather than explicit rhetorical labels applied to this specific ayah; those inferences are marked with 'needs_review' and should be verified against targeted rhetorical analyses."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:114",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "عطف بيان",
+        "claim_ar": "مقابلة/تضاد بين «الْحَسَنَاتِ» و«السَّيِّئَاتِ» تُظهِر التّضادّ المعنويّ والتوازُن اللفظيّ في العبارة.",
+        "claim_en": "Antithesis (muqābalah) between “al-ḥasanāt” and “as-sayi’āt” showing conceptual contrast and verbal balance.",
+        "device_branch": "badi",
+        "device_subtype": "mukabalah",
+        "root": "حسن",
+        "lemma": "حَسَنَٰت",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "مجاز",
+        "source_quote_ar": "الإسناد المجازيّ",
+        "claim_ar": "توظيف فعليّ (يُذْهِبْنَ) على حالة معنوية (إزاحة السيئات) على نحو مجازيّ: حمل فعل ماديّ على معنى معنويّ (محو الذنوب بالحسنات).",
+        "claim_en": "Metaphorical predication: the verb “yudhhibna” (remove) is applied to an abstract state (removal of sins) — a figurative transfer of a concrete action to a moral effect.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "ذهب",
+        "lemma": "أَذْهَبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "طباق / توازن زمنى",
+        "source_quote_ar": "نعت تقدّم على المنعوت",
+        "claim_ar": "توازي وزمنيّ بين «طَرَفَيِ النَّهَارِ» و«زُلَفًا مِنَ اللَّيْلِ» ـ تكوين متوازي/مقابلة للحالة الزمنية يُبرز انتظام العبادة واستمرارها.",
+        "claim_en": "Temporal parallelism/antithesis between “the two ends of the day” and “near part of the night” — a paired temporal balance that highlights continuity and regularity of worship.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "طرف",
+        "lemma": "طَرَف",
+        "confidence": "medium",
+        "needs_review_reason": "labelled as tibaq/timely parallelism; some readers may prefer classifying as simple parallelism or ma‘nawi device rather than classical tibaq."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are grammatical/exegetical excerpts (from the supplied text) and do not contain direct, explicit balāgha analyses specific to S11:A114. The quoted substrings were taken verbatim from those chunks as evidence markers (e.g. grammatical/rhetorical terminology such as «عطف بيان» and «الإسناد المجازيّ»).",
+      "Some device assignments (especially the classification between tibāq / muqābalah / parallelism) can be interpreted differently by different scholars; one claim is marked medium confidence for that reason."
+    ]
+  },
+  "n_chunks": 12
+}

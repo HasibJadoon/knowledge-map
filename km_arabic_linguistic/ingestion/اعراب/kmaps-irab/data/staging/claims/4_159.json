@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:159",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No exact match or relevant iʿrāb discussion for S4:A159 found in the provided source_chunks. Cannot extract إعراب claims because source_quote_ar must be an exact substring of one of the chunks."
+    ]
+  },
+  "n_chunks": 12
+}

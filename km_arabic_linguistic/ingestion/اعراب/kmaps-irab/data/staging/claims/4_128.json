@@ -1,0 +1,58 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:128",
+  "result": {
+    "claims": [
+      {
+        "word_index": 18,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "أُحْضِرَتْ يَتَعَدَّى إِلَى مَفْعُولَيْنِ، تَقُولُ أَحْضَرْتُ زَيْدًا الطَّعَامَ، وَالْمَفْعُولُ الْأَوَّلُ الْأَنْفُسُ، وَهُوَ الْقَائِمُ مَقَامَ الْفَاعِلِ",
+        "claim_ar": "الفعل \"أُحْضِرَتْ\" يتعدى إلى مفعولين (يتعدى بثنائية المفعول في هذا التصرّف)",
+        "claim_en": "The verb \"أُحْضِرَتْ\" takes two objects (i.e., it is used transitively with two objects in this construction).",
+        "root": "حضر",
+        "lemma": "أَحْضَرَتْ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A128"
+      },
+      {
+        "word_index": 19,
+        "claim_type": "irab",
+        "source_quote_ar": "وَالْمَفْعُولُ الْأَوَّلُ الْأَنْفُسُ، وَهُوَ الْقَائِمُ مَقَامَ الْفَاعِلِ",
+        "claim_ar": "الْمَفْعُولُ الأَوَّلُ: \"الْأَنْفُسُ\"، وهو القائم مقام الفاعل (أي مفعول أول لكنه قائم مقام الفاعل).",
+        "claim_en": "The first object is \"al-anfus\" and it stands in the place of the subject (fa'il) — i.e., it is the first object but functions as the subject-equivalent.",
+        "root": "نفس",
+        "lemma": "نَفْس",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A128"
+      },
+      {
+        "word_index": 18,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَهَذَا الْفِعْلُ مَنْقُولٌ بِالْهَمْزَةِ مِنْ حَضَرَ، وَحَضَرَ يَتَعَدَّى إِلَى مَفْعُولٍ وَاحِدٍ",
+        "claim_ar": "فعل \"أُحْضِرَتْ\" منقول بالهمزة من \"حَضَرَ\"، وفي الأصل \"حَضَرَ\" يتعدى إلى مفعول واحد فقط.",
+        "claim_en": "\"Ahdhara/uhdira(t)\" (أُحْضِرَتْ) is formed with a hamza from the verb \"حَضَرَ\"; the original verb \"حَضَرَ\" takes only one object.",
+        "root": "حضر",
+        "lemma": "أَحْضَرَتْ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A128"
+      },
+      {
+        "word_index": 20,
+        "claim_type": "irab",
+        "source_quote_ar": "أُحْضِرَتِ الْأَنْفُسُ الشُّحَّ",
+        "claim_ar": "يُستفاد من السياق أن \"الشُّحَّ\" مفعول ثانٍ لِـ \"أُحْضِرَتْ\" (بما أن الفعل يتعدى إلى مفعولين والمفعول الأول ذُكر صراحةً).",
+        "claim_en": "From the context it is inferred that \"ash-shuHH\" is the second object of \"أُحْضِرَتْ\" (since the verb takes two objects and the first object is stated explicitly).",
+        "root": "شحح",
+        "lemma": "شُحّ",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk explicitly names the first object (الأنفس) and states the verb takes two objects; identification of الشحّ as the second object is inferred from the collocation in the verse rather than stated verbatim in the excerpt.",
+        "quran_ref": "S4:A128"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

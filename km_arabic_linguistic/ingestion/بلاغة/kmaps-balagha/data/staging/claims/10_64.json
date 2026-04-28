@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:64",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "فيها ازدراء للدنيا وتصغير لأمرها",
+        "claim_ar": "الآية فيها ازدراء للدنيا وتصغير لأمرها؛ تعظيم الآخرة بتقليل شأن الدنيا.",
+        "claim_en": "The verse expresses contempt and diminution of the worldly life; it exalts the hereafter by belittling the worldly life.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "دنو",
+        "lemma": "دُّنْيَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "kinayah",
+        "source_quote_ar": "كيف لا يصغرها وهي لا تزن عنده جناح بعوضة.",
+        "claim_ar": "الاستعارة/الكنية عن صغر الدنيا ومهانتها بذكر أنها «لا تزن جناح بعوضة» للدلالة على الضآلة أمام قدرة الله.",
+        "claim_en": "A figurative expression/metonymy that depicts the smallness of the worldly life by saying it 'does not weigh the wing of a mosquito,' indicating its insignificance before God's power.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "دنو",
+        "lemma": "دُّنْيَا",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "majaz",
+        "source_quote_ar": "وَإِنَّ الدَّارَ الْآخِرَةَ لَهِيَ الْحَيَوانُ أى ليس فيها إلا حياة مستمرة دائمة خالدة لا موت",
+        "claim_ar": "استعمال لفظ «الحيوان» بدل «الحياة» لمبالغة وتأكید معنى دوام الحياة وبقائها، أي اختيار مفردة أقوى للتأكيد البلاغي.",
+        "claim_en": "The use of the word 'al-haywan' instead of 'al-hayat' serves as figurative expression (majaz) to intensify and emphasize the sense of continuous, enduring life — a stronger lexical choice for rhetorical emphasis.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses lexical/morphological choice and claims 'مبالغة في معنى الحياة'; mapping that lexical choice to the rhetorical category 'majaz' is interpretive and may need review."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are primarily from Zamakhshari and Safi (al-Jadwal). The requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present among the chunks; claims are therefore extracted only from the available chunks.",
+      "Some rhetorical-category mappings (e.g., labeling the lexical choice 'الحيوان' as 'majaz') are interpretive based on the commentary; these mappings are given with medium confidence and flagged for review.",
+      "Claims only include substrings that exactly match the provided source chunks. If you can supply additional chunks from the requested rhetoricians, more or different claims (and higher-confidence mappings) can be produced."
+    ]
+  },
+  "n_chunks": 12
+}

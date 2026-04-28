@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:225",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain any exact substring of this ayah (e.g. لَا يُؤَاخِذُكُمُ, بِاللَّغْوِ, أَيْمَانِكُمْ, قُلُوبُكُمْ, اللَّهُ غَفُورٌ حَلِيمٌ). Because source_quote_ar must be an exact substring of a provided chunk, no rhetorical claims can be extracted from the given chunks."
+    ]
+  },
+  "n_chunks": 12
+}

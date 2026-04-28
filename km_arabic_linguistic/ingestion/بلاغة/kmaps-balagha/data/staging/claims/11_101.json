@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:101",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "وَما أُرِيدُ أَنْ أُخالِفَكُمْ إِلى ما أَنْهاكُمْ عَنْهُ",
+        "claim_ar": "مقابلة بيانية بين نفي وقوع الظلم عن النبي/الرسول (نفي بعبارة «وما ظَلَمْنَاهُمْ») ثم رجوع الحكم واثبات الظلم على المكلفين أنفسهم («ظَلَمُوا أَنْفُسَهُمْ») — تعمية وتبادل للذمة البيان لتأكيد المقابلة والانعكاس.",
+        "claim_en": "A badi (mubālaghah/muqābalah) contrast: the formula first negates that God/prophet wronged them and then attributes the wrongdoing to the people themselves (they wronged their own souls). This antithetical turn (denial followed by counter-assertion) emphasizes reversal of blame.",
+        "device_branch": "badi",
+        "device_subtype": "mucābala / antithesis (denial then affirmation)",
+        "root": "ظلم",
+        "lemma": "ظَلَمَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source quote is from a tafsir/ commentarial chunk illustrating a similar rhetorical pattern rather than a direct citation of this ayah; alignment of the example with this specific verse should be checked."
+      },
+      {
+        "word_index": 16,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "ما لكم من إله غيره",
+        "claim_ar": "استخدام أدوات الحصر/الاستثناء (ما ... غير) لتوكيد العدم والحرمان: هنا الآية تستخدم «مِنْ شَيْءٍ» و «غَيْرَ» لتأكيد أن آلهتهم لم تغن عنهم شيئاً بالكلية.",
+        "claim_en": "A maʿnī device of restriction/exclusion (hasr/qasr): the verse uses negative/exclusive particles (e.g. 'مِنْ شَيْءٍ' and 'غَيْرَ') to stress absolute lack — their gods availed them not at all.",
+        "device_branch": "maani",
+        "device_subtype": "restriction/exclusion (ما ... غير)",
+        "root": "شيا",
+        "lemma": "شَيْء",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote is a similar construction from the commentary corpus (same rhetorical particle pattern); confirm mapping of that exemplar to the exact phrasing in this aya (presence/role of 'ما' vs 'لمّا') if higher certainty needed."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "takrar",
+        "source_quote_ar": "لم ينشئكم منها إلا هو، ولم يستعمركم فيها غيره",
+        "claim_ar": "تكرار ذهني/بلاغي في التركيب أسهم في التوكيد: تكرار النفي والاستثناء والبنية «لم ... إلا / ولم ... غير» يقابل تكرار الفعل والجذر «ظلم» في الآيةَ (ظَلَمْنَاهُمْ ... ظَلَمُوا) لتقوية النفي ثم تحويل التهمة.",
+        "claim_en": "A badi device of repetition (takrār): repetition of the negative/exclusive syntactic pattern strengthens emphasis; similarly the root ظ-ل-م is repeated (ظَلَمْنَاهُمْ / ظَلَمُوا) to intensify the point.",
+        "device_branch": "badi",
+        "device_subtype": "takrār (repetition of structure / root)",
+        "root": "ظلم",
+        "lemma": "ظَلَمَ",
+        "confidence": "low",
+        "needs_review_reason": "The supporting quote is from the provided commentary (on similar morphological patterns like 'لم ... إلا' / 'غيره'); the specific mapping from that commentary example to the aya's internal repetition (roots, pronoun-suffixes) should be validated against the original classical rhetorical sources requested (al-Jurjānī, al-Sakkākī, etc.)."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are commentarial excerpts (Zamakhsharī, Darwish iʿrāb, Safī) — they are not explicitly the requested rhetoric authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsīr-balagha compilation). Rhetorical labels and evidencing examples here are drawn from the available chunks and may not reflect those exact classical authors' technical vocabulary or citations.",
+      "Some claims map ayah phenomena to exemplars in the commentary chunks (similar syntactic/rhetorical patterns) rather than to explicit, verbatim statements about this particular verse in the requested rhetorical works. Those mappings are marked with lower confidence and need review against the specified sources."
+    ],
+    "quran_ref": "S11:A101"
+  },
+  "n_chunks": 12
+}

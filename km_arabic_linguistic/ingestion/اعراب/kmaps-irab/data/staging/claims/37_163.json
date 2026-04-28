@@ -1,0 +1,47 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:163",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "(إِلَّا مَنْ خَطَفَ الْخَطْفَةَ فَأَتْبَعَهُ شِهَابٌ)",
+        "claim_ar": "حرف الاستثناء إِلَّا يفتتح هيئة استثنائية تضم «مَنْ» متبوعًا بجملة فعلية كما في مثال الآية المذكورة.",
+        "claim_en": "The particle إِلَّا (except) introduces an exception-clause headed by مَنْ followed by a verbal clause, as in the cited verse.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives an example construction with إِلَّا مَنْ + verb, but does not analyze the specific target verse; applying the same pattern to S37:A163 is an analogical inference that should be checked against the actual verse context."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "(إِلَّا مَنْ خَطَفَ الْخَطْفَةَ فَأَتْبَعَهُ شِهَابٌ)",
+        "claim_ar": "مَنْ في مثل هذا التركيب تعمل كاسم موصول مبني تتصرف فاعلاً للفعل اللاحق (هنا: فِي المثالِ خَطَفَ).",
+        "claim_en": "In this construction, مَنْ functions as a relative/indefinite pronoun built in form and serves as the subject (فاعل) of the following verb (in the example, خَطَفَ).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage shows مَنْ as فاعل in its example; whether مَنْ in S37:A163 occupies the same syntactic role depends on the clause structure of that specific verse and thus needs verification."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "أَيْ هُوَ رَبُّ.",
+        "claim_ar": "الهاء/هُوَ ضمير فصل/توكيد يمكن أن يأتي مبينًا أو مكرّرًا للمبتدأ أو الخبر (مثل: أَيْ هُوَ رَبُّ)، فيعمل كضمير مبني في محل رفع يوضح الخبر.",
+        "claim_en": "The pronoun هُوَ can act as a separating/emphatic pronoun that clarifies or repeats the subject/predicate (as in 'أَيْ هُوَ رَبُّ'), functioning as a built pronoun in the nominative position that makes the predicate explicit.",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source example shows هُوَ used to explicate a predicate; applying this function to the pronoun in the target verse is plausible but should be confirmed against the verse's full syntactic structure."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit analysis of the exact ayah S37:A163; extracted claims are analogical, derived from similar examples in the source (not direct commentary on this ayah).",
+      "Key lexical item(s) of the target ayah (e.g., صَالِ الْجَحِيمِ) are not discussed in the supplied chunks, so no direct irab claim was made for those words—their analysis requires additional sources or direct commentary on the verse.",
+      "Check morphological/lexical reading of the verse in the Qur'an (orthography/word-forms) before finalizing parsing, since mapping examples from other verses may not transfer straightforwardly."
+    ]
+  },
+  "n_chunks": 5
+}

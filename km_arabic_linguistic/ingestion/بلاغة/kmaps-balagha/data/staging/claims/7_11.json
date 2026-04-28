@@ -1,0 +1,74 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:11",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "ما منعك أن تسجد لما خلقت بيدي.",
+        "claim_ar": "الآية تتضمن أمرًا بالسجود (أسلوب إنشائي)؛ والسؤال «ما منعك أن تسجد...» يعرض الأمر ويؤكده كتوبيخ لاستنكاف إبليس.",
+        "claim_en": "The verse contains an imperative to prostrate (an insha'i/commanding style); the question 'What prevented you from prostrating...' presents and reinforces the order as a rebuke for Iblis's refusal.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "سجد",
+        "lemma": "سَجَدَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A11",
+        "rhetorical_effect": "Frames the act as a commanded duty and reproves refusal, strengthening the moral charge against the refuser."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "itnaab",
+        "source_quote_ar": "قد استأنف قصة أخبر فيها عن نفسه بالفضل على آدم",
+        "claim_ar": "التعليق التفسيري يصف استئناف إبليس لسرده لقصة فضله على آدم؛ هذا يبرز التتابع والانتقال السردي (تقسيم المراحل: خلق → تصوير → أمر بالسجود → رفض إبليس).",
+        "claim_en": "The commentary notes Iblis's resumption of recounting his superiority over Adam; this highlights a sequential/resumptive narrative technique (phases: creation → formation → command to prostrate → Iblis's refusal).",
+        "device_branch": "maani",
+        "device_subtype": "itnaab",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source uses the term 'استأنف قصة' (resumption). Mapping this commentator remark to the technical device label 'itnaab' (sequential pause/resumption) is plausible but requires review for terminological exactness.",
+        "quran_ref": "S7:A11",
+        "rhetorical_effect": "Creates a staged narrative progression that heightens the contrast between divine action and Iblis's obstinacy."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "أَنَا خَيْرٌ مِنْهُ",
+        "claim_ar": "الكلام المنسوب لإبليس «أنا خير منه» تعبير بلاغي عن الكبر والاحتقار، ويظهر علّة امتناعه عن السجود.",
+        "claim_en": "Iblis's statement 'I am better than him' is a rhetorical expression of arrogance and contempt, giving his motive for refusing to prostrate.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim_--_iblis_claim_of_superiority",
+        "root": null,
+        "lemma": "إِبْلِيس",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A11",
+        "rhetorical_effect": "Conveys arrogance and self-exaltation, justifying the portrayal of Iblis as rebellious and unrepentant."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "للتوبيخ، ولإظهار معاندته وكفره وكبره وافتخاره بأصله وازدرائه بأصل آدم",
+        "claim_ar": "المعلّق يوضح أن سؤال الله «ما منعك أن تسجد...» قصد به التوبيخ وإظهار عناد إبليس وكفره وكبريائه واحتقاره لآدم — أسلوب بلاغي للتوبيخ والإدانة.",
+        "claim_en": "The commentator explains that the question 'What prevented you from prostrating...' is meant as a rebuke, to expose Iblis's obstinacy, disbelief, pride, and contempt for Adam — a rhetorical mode of rebuke and censure.",
+        "device_branch": "other",
+        "device_subtype": "tawbeekh_rebuke",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A11",
+        "rhetorical_effect": "The rebuking question heightens moral condemnation and foreshadows the consequence of obstinacy."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are excerpts from Zamakhshari and an iʿrāb note; several classic authors requested in the task (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present in the source_chunks. Claims are therefore drawn only from the available excerpts.",
+      "Mapping commentator terminology (e.g., 'قد استأنف قصة') to technical K-Map device labels (e.g., 'itnaab') required interpretive judgment; such mappings are marked with 'medium' confidence and a needs_review_reason.",
+      "Some rhetorical readings (e.g., exception/إِلَّا إبليس) are inherent to the verse but not directly quoted in the provided chunks; only claims backed by exact substrings from the chunks were extracted."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,65 @@
+{
+  "layer": "irab",
+  "ayah_key": "36:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "(يس) : اسْمٌ لِلسُّورَةِ، كَهَابِيلَ،",
+        "claim_ar": "يس: اسم للسورة (اسم خاص لعنوان السورة).",
+        "claim_en": "'يس' is the name (title) of the surah (a proper name/title).",
+        "root": "يس",
+        "lemma": "يس",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَالتَّقْدِيرُ: اتْلُ يس.",
+        "claim_ar": "تقدير محذوف: «اتلْ يس» — أي مقدّر أن الفعل المحذوف هو 'اتل'.",
+        "claim_en": "An elided verb is estimated: the implied phrase is 'اتلْ يس' (i.e. the imperative 'اتل' is understood before 'يس').",
+        "root": "ت ل و",
+        "lemma": "اتل",
+        "confidence": "medium",
+        "needs_review_reason": "The elided verb is asserted by the commentary; the exact morphological/root representation of the elided form is conventional."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "الْجُمْهُورُ عَلَى إِسْكَانِ النُّونِ، وَقَدْ ذُكِرَ نَظِيرُهُ، وَمِنْهُمْ مَنْ يُظْهِرُ النُّونَ؛ لِأَنَّهُ حَقَّقَ بِذَلِكَ إِسْكَانَهَا، وَفَى الْغُنَّةِ مَا يُقَرِّبُهَا مِنَ الْحَرَكَةِ مِنْ أَجْلِ الْوَصْلِ الْمَحْضِ، وَفَى الْإِظْهَارِ تَقْرِيبٌ لِلْحِرَفِ مِنَ الْوَقْفِ عَلَيْهِ. وَمِنْهُمْ مَنْ يَكْسِرُ النُّونَ عَلَى أَصْلِ الْتِقَاءِ السَّاكِنَيْنِ، وَمِنْهُمْ مَنْ يَفْتَحُهَا كَمَا يَفْتَحُ أَيْنَ؛",
+        "claim_ar": "اختلاف قراءي/نطقي على حالة حرف النون في 'يس': الجمهور على إسكان النون، وبعض القراء يظهرون النون، وبعضهم يكسرونها، وبعضهم يفتحونها (كشبه قراءة مثل فتح أَيْن).",
+        "claim_en": "There are recitational/pronunciation variants for the final nun in 'يس': the majority prescribe iskān (sukūn), some reciters pronounce the nun (izhar), some read it with kasra, and some with fatha (similar to the opening of 'أين').",
+        "root": "يس",
+        "lemma": "يس",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary mixes recitational/pronunciation practice with grammatical labeling; distinguishing purely phonetic recitation variants from grammatical i'rāb may require further review."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ: الْفَتْحَةُ إِعْرَابٌ.",
+        "claim_ar": "قِيلَ إِنَّ الفتحة على نهاية 'يس' هي إِعْراب (بمعنى أنها علامة حالة إعرابية لدى قائلين).",
+        "claim_en": "Some hold that the fatha on the final letter of 'يس' is an i'rāb (a grammatical case ending) rather than merely a recitational/phonetic variant.",
+        "root": "يس",
+        "lemma": "يس",
+        "confidence": "medium",
+        "needs_review_reason": "This is a grammarian's claim about i'rāb; assessing it fully requires comparing grammatical schools and their terminologies."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "وَفَى الْغُنَّةِ مَا يُقَرِّبُهَا مِنَ الْحَرَكَةِ مِنْ أَجْلِ الْوَصْلِ الْمَحْضِ، وَفَى الْإِظْهَارِ تَقْرِيبٌ لِلْحِرَفِ مِنَ الْوَقْفِ عَلَيْهِ.",
+        "claim_ar": "القراءات الصوتية لها أثر دلالي/وظيفي نطقي: الغنة تقرّب اللفظ إلى الحركة لتسهيل الوصل، والإظهار يقرب الحرف من حال الوقف عليه.",
+        "claim_en": "The different pronunciations have phonetic/functional effects: nasalization (ghunna) makes the word closer to vocalic movement to facilitate connection in recitation, while clear articulation (izhar) approximates the letter to how it would be when stopping on it.",
+        "root": "يس",
+        "lemma": "يس",
+        "confidence": "medium",
+        "needs_review_reason": "This is a phonetic/functional interpretation cited by the commentary; not a purely syntactic i'rāb claim but relevant for recitation practice."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

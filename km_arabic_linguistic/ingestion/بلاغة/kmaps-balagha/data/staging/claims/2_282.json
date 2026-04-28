@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:282",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "يذكر الترغيب مع الترهيب",
+        "claim_ar": "الجمع بين الترغيب والترهيب في سياق الآية كأسلوبٍ حكيم يُحَفِّز الطاعة ويُرْهَبُ عن المعصية.",
+        "claim_en": "The pairing of encouragement (targhib) with warning (tarhib) is used as a wise rhetorical method to motivate obedience and deter sin.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "تواتر العطف بـ(و) بين الجمل يعكس ربطاً وانتقالاً بين فقرات حكمية وتعليمية (فاصل/واصل) في سياق التشريع.",
+        "claim_en": "The recurrent coordinating waw ('و') linking clauses reflects connection/segmentation (fasl/wasl) between juridical and instructional segments in the verse.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Inference from grammatical commentary ('الواو استئنافية'); mapping to rhetorical device should be checked against dedicated balagha commentary."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "takrar",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "تكرار صيغ الأمر والنهي (مثلاً: فَاكْتُبُوهُ، وَلْيَكْتُبْ، وَلْيُمْلِلِ، وَلَا يَبْخَسْ) كوسيلة للتوكيد والتحريض على التنفيذ.",
+        "claim_en": "Repetition of imperative and prohibitive forms (e.g., 'write it', 'let him write', 'let him dictate', 'do not diminish') functions as repetition (takrār) to emphasize and urge compliance.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "كتب",
+        "lemma": "كَتَبَ",
+        "confidence": "medium",
+        "needs_review_reason": "Evidence cited is a grammatical remark about conjunctions; explicit balagha commentary linking this repetition to rhetorical emphasis is not in the provided chunks."
+      },
+      {
+        "word_index": 82,
+        "claim_type": "tibaq",
+        "source_quote_ar": "عطف على ما تقدم",
+        "claim_ar": "المقابلة والتوازن (صَغِيرًا أَوْ كَبِيرًا) تُشكّل ثنائياً متقابلاً يوسّع الاشتراط ويؤكد الشمولية بالذكر الصغير والكبير.",
+        "claim_en": "The antithetical pairing 'small or large' forms a balanced opposition that broadens the stipulation and emphasizes inclusiveness.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq/muqabalah",
+        "root": "صغر",
+        "lemma": "صَغِير",
+        "confidence": "medium",
+        "needs_review_reason": "Support comes from a grammatical note about coordination ('عطف'); direct balagha treatment of this specific antithesis is not present in the supplied chunks and should be verified."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari and Darwish (iʻrāb) rather than the named balagha authorities (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Claims above are drawn from the available chunks and in some cases rely on grammatical commentary to infer rhetorical devices.",
+      "Several mappings (marked 'needs_review_reason') are medium-confidence because the supplied excerpts give grammatical/structural observations rather than explicit rhetorical (بلاغي) labelling; review against dedicated balagha/tafsir-balagha sources is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

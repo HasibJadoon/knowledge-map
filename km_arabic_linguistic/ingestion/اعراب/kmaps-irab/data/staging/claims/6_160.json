@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:160",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "«مَنْ» فِي مَوْضِعِ نَصْبٍ",
+        "claim_ar": "مَنْ: في موضعِ نصبٍ (أي أنها منصوبة في هذا الإنشاء)",
+        "claim_en": "The particle/relative 'مَنْ' is in a position of nasb (i.e., treated as منصوب in this construction).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "اسْتِثْنَاءٌ مِنَ الْجِنْسِ",
+        "claim_ar": "إِلَّا: استثناءٌ من الجنس (أي أنه استثناء يخصّ النوع/الجنس، «إلا مثلها» بمعنى لا يُجزَى إلا بما هو من جنسها ومثيلها).",
+        "claim_en": "The particle 'إِلَّا' functions as an exception of class (استثناء من الجنس), i.e., an exception restricting recompense to things of the same kind ('except that which is like it').",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

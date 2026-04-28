@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:31",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الفاء استئنافية",
+        "claim_ar": "الفاء في «فَبَعَثَ» فاء استئنافية تربط السرد بما قبلها وتستمر بالخبر، أي عمل وظيفي في الوصل والفصل السردي.",
+        "claim_en": "The initial fa- in «فَبَعَثَ» functions as a connective fa' (fāʾ istināfiyya), linking the narrative to what precedes and continuing the account — a connective/disjunctive device in the narration.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "بعث",
+        "lemma": "بَعَثَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "لما كان الحسد لأخيه على تقبل قربانه هو الذي حمله على توعده بالقتل",
+        "claim_ar": "الآية تسوق حادثة قابيل وهابيل كقصة تعليمية/حكيمة تقبيحاً للحسد، أي أنها أسلوب حكيم يُظهر سببَ الجريمة عبر مثال قصصي موجز.",
+        "claim_en": "The verse presents the Cain-and‑Abel episode as a didactic/wise anecdote condemning envy — a wise stylistic device that exposes the motive for the crime via a concise illustrative story.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling the narrative as 'أسلوب حكيم' is interpretive and based on the commentary's moral reading rather than an explicit technical term in the source."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "إن من البيان لسحرا",
+        "claim_ar": "إرسال غراب ليُرِيهُ كيف يُواري سَوْءَةَ أخيه مثال لبيان تظهريّ مقتضب: فعل واحد يبيّن درساً عمليّاً، مما يندرج تحت إعجاز البلاغة في الإيجاز والتأثير.",
+        "claim_en": "Sending the crow to 'show him how to hide his brother's corpse' is an instance of demonstrative, pointed exposition: a single action conveys a practical lesson — an aspect of rhetorical concision (ijaaz) and striking eloquence.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "راي",
+        "lemma": "أَرَى",
+        "confidence": "medium",
+        "needs_review_reason": "The source phrase cited is a general remark about eloquence; connecting it specifically to this verse's concise demonstrative action is interpretive and should be reviewed."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "naktah",
+        "source_quote_ar": "تقبيح الحسد",
+        "claim_ar": "القصّة تُعرض كنكتة ذات مغزى أخلاقي (نكتة/خلاصة): تُبرِز تقبيح الحسد وتبيّن كيف يقود إلى العنف، فتعمل كقصة موجزة ذات عبرة أخلاقية.",
+        "claim_en": "The story functions as a pointed anecdote (naktah) with moral import: it highlights the reprehensibility of envy and shows how it leads to violence, serving as a concise moral lesson.",
+        "device_branch": "other",
+        "device_subtype": "naktah",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary uses the moral judgment 'تقبيح الحسد'; calling the verse a 'naktah' (anecdote) is an interpretive labeling not explicitly named in the quoted text."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from general iʿrāb and tafsir (Darwish, Zamakhshari, etc.), not explicitly the requested authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī or a dedicated 'tafsir-balagha' section). Some inferred devices rely on these available chunks rather than the named classical rhetoricians.",
+      "Several claims are interpretive links between general remarks in the source chunks and the verse (marked with medium confidence). These should be reviewed by a specialist to confirm the exact rhetorical classifications and to ensure conformity with the targeted authors' terminologies.",
+      "Source_quote_ar fields are exact substrings from the provided chunks; however, in two cases the source gives a general aphorism or moral comment (e.g., 'إن من البيان لسحرا', 'تقبيح الحسد') rather than an explicit technical label for the device, so the assigned device_subtype is an interpretive mapping."
+    ]
+  },
+  "n_chunks": 12
+}

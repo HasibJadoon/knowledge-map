@@ -1,0 +1,55 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:117",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "takrar",
+        "source_quote_ar": "فائدة التكرير التنبيه",
+        "claim_ar": "تكرار لفظة «أَعْلَمُ» مرتين في الآية كتكرير بلاغي للتنبيه والتوكيد.",
+        "claim_en": "Repetition of the word 'أَعْلَمُ' twice in the verse as a rhetorical repetition (takrīr) for emphasis and alerting the listener.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "علم",
+        "lemma": "أَعْلَم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A117",
+        "rhetorical_effect": "شدّد المعنى وحول المقارنة إلى يقين عبر إعادة اللفظ نفسه"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "إن واسمها",
+        "claim_ar": "وجود أداة «إِنَّ» في مطلع الآية لتأكيد مرتبة الخبر (توكيد) وأن ما يليها لا محالة منسوب إلى الرب.",
+        "claim_en": "The particle 'إِنَّ' at the start of the verse functions as an emphatic/assertive particle, stressing the following statement attributing knowledge to the Lord.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": "mapping of traditional term 'ijab_inshaa' to modern taxonomy of emphasis particles should be double-checked",
+        "quran_ref": "S6:A117",
+        "rhetorical_effect": "يمنح الجملة طابع التأكيد والثبوت على صفة العلم للرب"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الواو استئنافية أو حالية",
+        "claim_ar": "الواو في «وَهُوَ أَعْلَمُ بِالْمُهْتَدِينَ» تربط الخبرين وتؤدي وظيفة وصل/فصل بلاغي؛ تُعطي استمرارية وتهشّماً في العرض (ربط خبرين مع إبقاء كلٍّ في مقصوده).",
+        "claim_en": "The conjunction 'و' in 'وهو أَعْلَمُ بِالْمُهْتَدِينَ' links the two predicates and serves a rhetorical join/pause function (fasl/wasl), providing continuity while maintaining the distinct sense of each clause.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "و",
+        "confidence": "medium",
+        "needs_review_reason": "grammatical function of the waw (استئنافية vs حالية vs عاطفة) is debated in sources; label chosen as fasl_wasl pending review",
+        "quran_ref": "S6:A117",
+        "rhetorical_effect": "يربط المعلومتين عن علم الله بالمضلّين والهُداة مع الحفاظ على تمييز كل منهما"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

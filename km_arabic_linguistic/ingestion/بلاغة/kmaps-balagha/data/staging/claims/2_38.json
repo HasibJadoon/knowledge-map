@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:38",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار",
+        "claim_ar": "الجمع بين الترغيب والترهيب: الآية تزاوج بين التوبيخ/الأمر بالهبوط (ترهيب/تنبيه) والبشارة بالهداية ونتيجتها (فَمَنْ تَبِعَ هُدَايَ فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ)، وهو أسلوب قرآني ثابت يُشير إليه الزمخشري.",
+        "claim_en": "Juxtaposition of exhortation and warning: the verse couples the rebuke/order to descend (a warning) with glad tidings about following guidance (\"whoever follows My guidance will have no fear nor will they grieve\"). This matches the Qur'anic habit of pairing encouragement (targhib) with warning (tarhib) noted by al-Zamakhshari.",
+        "device_branch": "other",
+        "device_subtype": "ترغيب_وترهيب",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source (Zamakhshari) states a general Qur'anic stylistic habit; applying it to this specific ayah is interpretive rather than an explicit statement about this verse in the provided chunk."
+      }
+    ],
+    "warnings": [
+      "Available source chunks are from Zamakhshari and Tabari only; Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, and explicit 'tafsir balagha' sections were not provided, so claims are drawn from the supplied material only.",
+      "The claim extrapolates a general remark about Qur'anic style in the provided chunk to this specific ayah; the source chunk does not explicitly analyze S2:38."
+    ]
+  },
+  "n_chunks": 12
+}

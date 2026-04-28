@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:196",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "ونظم الكلام على الوجهين: أنك إذا نويت الابتداء",
+        "claim_ar": "نظم الكلام على الوجهين (استئناف/تقرير أقسام الكلام) — الآية تسير في أقسام واضحة: أمر بإتمام الحج والعمرة، ثم حالة الاحصار والبدائل، ثم استئناف المتعة ومتابعة الأحكام والحث على التقوى مع إنذار بالعقاب.",
+        "claim_en": "Organization of speech on two faces (resumption / structuring of clauses) — the verse proceeds in clear sections: command to complete Hajj and 'umrah, then the case of being prevented and alternatives, then resumption regarding 'umrah and subsequent rulings with an exhortation to piety and warning of punishment.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "Applied a general Kashshaf comment about 'نظم الكلام على الوجهين' to this verse's macro-structure; acceptable but could be refined with a source that analyses this specific ayah's segmentation."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب، ويشفع البشارة بالإنذار",
+        "claim_ar": "مقابلة/زوج الترغيب بالترهيب — الآية تجمع بين توجيه العبادة والتسهيل أو الاستبدال عند العجز (ترغيب) ثم تختتم بالحث على التقوى وتحذير بعقاب الله (ترهيب).",
+        "claim_en": "Antithesis / pairing encouragement with warning — the verse combines instruction and concession (encouragement/positive guidance) and ends with exhortation to God-consciousness and a warning of God's severe punishment.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "Based on Zamakhshari's comment about the Qur'anic habit of pairing encouragement and warning; directly applicable to this verse but could be strengthened by more exegetical citations specific to S2:196."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "وضع الظاهر موضع المضمر",
+        "claim_ar": "وضع الظاهر موضع المضمر (استبدال الضمير بالظاهرة للزيادة في البيان) — يظهر في الآية صيغَةٌ واضحة بدل الضمير (ذكر الهدي صراحة وتحديد محله) مما يزيد في بيان الحكم والتشديد على موضعه.",
+        "claim_en": "Placing the explicit in place of the implied (using the explicit noun instead of a pronoun to increase clarity/emphasis) — the verse names al-hady (the sacrificial gift) and specifies its destination, using explicit mention to strengthen the ruling.",
+        "device_branch": "maani",
+        "device_subtype": "other_put_explicit_for_pronoun",
+        "root": "",
+        "lemma": "",
+        "confidence": "low",
+        "needs_review_reason": "The quoted remark (from an i'rab/بلاغة note) is general; mapping it to the specific phrasing of S2:196 is plausible but uncertain — requires closer textual/philological check whether this mechanism (explicit instead of pronoun) is intentionally operative here."
+      }
+    ],
+    "warnings": [
+      "Source chunks are general rhetorical/exegetical comments (Zamakhshari, i'rab note, Kashshaf excerpts) and not all are analyses of S2:196 specifically. Claims map those general observations onto this ayah and therefore some require closer verification with sources that treat S2:196 directly.",
+      "Some claims (marked with low/medium confidence) need review by a specialist in classical Arabic rhetoric or by checking additional commentaries (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) for explicit application to this verse.",
+      "No word-level device claims were made (all ayah-level) because the provided source chunks lacked exact substrings discussing specific words from this verse; if you want word-level attributions, provide source material that quotes or analyzes those words directly."
+    ]
+  },
+  "n_chunks": 12
+}

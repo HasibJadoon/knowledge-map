@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:168",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "إِنَّ اللَّهَ لا يَغْفِرُ أَنْ يُشْرَكَ بِهِ وَيَغْفِرُ ما دُونَ ذلِكَ لِمَنْ يَشاءُ",
+        "claim_ar": "مقابلة في النفي والإثبات: نفي مغفرة نوع من الذنوب وإثبات مغفرة أنواع أخرى؛ التقابل هذا يقوّي القطع والنفي ويظهر التمييز بين حالتين.",
+        "claim_en": "Antithesis (muqabalah): a juxtaposition of negation and affirmation—negating forgiveness for one category of sin while affirming forgiveness for others; this contrast strengthens the categorical negation and highlights the distinction between two cases.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted explanatory passage in the sources discusses a verse about shirk and contrasts denial/affirmation there; applying the same rhetorical pattern to 4:168 (negation of forgiveness/guidance) is inferential rather than directly cited."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وَما كانَ لِمُؤْمِنٍ",
+        "claim_ar": "استعمال صيغ النفي التنزيهية (ما كان/لم يكن) لنفي إمكانية أو لزوم وقوع أمرٍ ما على جهة الاحتمال أو الاستحقاق؛ في سياق الآية يمنع عن الكفار الظالمين احتمال حصول مغفرة أو هداية.",
+        "claim_en": "Restrictive-limiting negation (hasr_qasr): use of negation formulas like 'ma kana/lam yakun' to deny the possibility or propriety of something occurring; in the verse this construction excludes the possibility that Allah would forgive or guide those who disbelieve and do wrong.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source example uses 'ما كان' (ma kana) while the verse uses 'لم يكن' (lam yakun); the functions are closely related but the forms differ—requires review to confirm exact correspondence."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are from al-Kashshaf (Zamakhshari). The developer instruction named other commentators (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha); those were not present in the given chunks.",
+      "Some source quotations discuss a different verse (not S4:168) — claims extrapolate rhetorical patterns from those discussions to the target ayah; such inferences should be reviewed against direct commentary on S4:168."
+    ]
+  },
+  "n_chunks": 12
+}

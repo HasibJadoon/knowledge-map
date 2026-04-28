@@ -1,0 +1,54 @@
+{
+  "layer": "irab",
+  "ayah_key": "50:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "مَنْ قَالَ: (ق) قَسَمٌ؛",
+        "claim_ar": "قال بعضهم: (ق) قَسَمٌ (أي حرف قسم/قسَمٌ).",
+        "claim_en": "Some say that 'ق' is an oath (a particle of swearing).",
+        "root": "",
+        "lemma": "ق",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "جَعَلَ الْوَاوَ فِي (وَالْقُرْآنِ) عَاطِفَةً",
+        "claim_ar": "جعل الواو في (والقرآن) عاطفة، أي أن (القرآن) معطوف على (ق).",
+        "claim_en": "The waw in 'والقرآن' is a coordinating conjunction (عاطفة), i.e. 'القرآن' is conjoined/attached to 'ق'.",
+        "root": "قرا",
+        "lemma": "قُرْءَان",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَمَنْ قَالَ غَيْرَ ذَلِكَ كَانَتْ وَاوَ الْقَسَمِ",
+        "claim_ar": "رأي آخر: أن الواو في (والقرآن) هي واوُ القسم (واوُ القَسَمِ) لا عاطفة.",
+        "claim_en": "Another opinion holds that the waw is the waw of the oath (waaw al-qasam) rather than a coordinating conjunction.",
+        "root": "قرا",
+        "lemma": "قُرْءَان",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَجَوَابُ الْقَسَمِ مَحْذُوفٌ.",
+        "claim_ar": "جوابُ القسمِ محذوفٌ (يُقدَّر جواب للقسم).",
+        "claim_en": "The answer to the oath is omitted (an elided element is required to complete the oath's syntax).",
+        "root": "",
+        "lemma": "ق",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

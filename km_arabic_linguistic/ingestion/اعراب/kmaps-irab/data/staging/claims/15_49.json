@@ -1,0 +1,36 @@
+{
+  "layer": "irab",
+  "ayah_key": "15:49",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ مَفْعُولًا لَهُ، وَأَنْ يَكُونَ خَبَرَ مُبْتَدَأٍ مَحْذُوفٍ",
+        "claim_ar": "يَجُوزُ إعراب «عِبَادِي» مفعولًا لـِ«نَبِّئْ»؛ ومِن جهة أخرى يجوز أن تُفهم كخَبَرِ مُبْتَدأٍ مَحذوفٍ على مثالِ «ذِكْرَى» فى البيان.",
+        "claim_en": "It is possible to parse ‘عِبَادِي’ as the direct object (maf'ūl) of the verb 'نَبِّئْ'; alternatively, it can be understood as the predicate (khabar) of an omitted subject (mubtada' mahdhūf), analogous to the example discussed under «ذِكْرَى» in al-Tibyan.",
+        "root": "عبد",
+        "lemma": "عَبْد",
+        "confidence": "medium",
+        "needs_review_reason": "al-Tibyan's cited statement is a general allowance (the example of «ذِكْرَى»); application to this specific occurrence of «عِبَادِي» in S15:49 is plausible but not explicitly discussed in the provided chunk, so the mapping is inferential."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "مَوْضِعُ نَصْبٍ بِإِضْمَارِ أَعْنِي",
+        "claim_ar": "تَشيرُ العبارةُ إلى أنَّ ما يَظهر كاسمٍ أو جملةٍ قد يكون في «مَوضعِ نَصبٍ» نتيجة إضمار لفظٍ مثل «أَعْنِي»؛ وبذلك يمكن أن يُؤخذ «أَنِّي» في موضع نصب متعلق بنَبّأٍ (أي كمَصدَرٍ/مفعولٍ للفِعل) عن طريق الإضمار.",
+        "claim_en": "The passage indicates that an expression may occupy a position of accusative (nassb) by virtue of the ellipsis (idmar) of a word like 'أَعْنِي'; accordingly, 'أَنِّي' can be taken as in an accusative position (i.e., as an object/clause governed by 'نَبِّئْ') through such ellipsis.",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted rule is general and illustrated for a different example in the source; applying it to the clause introduced by «أَنِّي» in this ayah is plausible but not explicitly stated in the provided chunk, so the analysis requires confirmation against al-Tibyan's direct treatment of this verse."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit, verse-specific iʿrāb commentary for S15:49. The above claims are inferred by analogy from general remarks in al-Tibyan (quoted substrings).",
+      "Mappings from the general rules in the chunks to the particular words of the ayah (especially «أَنِّي») are plausible but not directly attested in the supplied excerpts—please verify against the full commentary for this verse.",
+      "No explicit chunk about the internal structure of «أَنَا الْغَفُورُ الرَّحِيمُ» was provided; any claim about the roles of «أَنَا», «الْغَفُورُ», «الرَّحِيمُ» would be inferential and thus needs review if required."
+    ]
+  },
+  "n_chunks": 12
+}

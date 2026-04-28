@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:151",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "وقل فعل أمر",
+        "claim_ar": "الفعل «قُلْ» فعل أمر يفتتح الخطاب ويستخدم لاستئناف الكلام الموجه إلى المخاطبين.",
+        "claim_en": "The verb «قُلْ» is an imperative that opens the address and functions to resume/direct speech to the addressees.",
+        "device_branch": "other",
+        "device_subtype": "imperative_intro",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "كلام مستأنف مسوق للرجوع إلى مخاطبتهم",
+        "claim_ar": "الافتتاح بـ«قُلْ تَعَالَوْا أَتْلُ...» نمط استئنافي مسوَّق يبیّن رجوعَ المخاطب إليه مباشرةً (عودة المخاطبة)، أي تحول الأسلوب إلى مخاطبة صريحة.",
+        "claim_en": "The opening «قُل تَعَالَوْا أَتْلُ...» is a resumptive (mustanfa) formula that signals a return to direct address (an explicit shift back to addressing the audience).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source speaks of a similar resumptive return-to-address in a different verse; applying it to this ayah is by analogy and should be verified against classical tafsirs focused specifically on S6:151."
+      },
+      {
+        "word_index": 31,
+        "claim_type": "takrar",
+        "source_quote_ar": "كرره مع قرب ذكره زيادة في التأكيد",
+        "claim_ar": "تكرار النفي/النهي («وَلَا تَقْتُلُوا ... وَلَا تَقْرَبُوا ...») يعمل كرَكْرَة بلاغية لزيادة التأكيد والتحذير.",
+        "claim_en": "Repetition of prohibitive particles/commands (e.g., the recurring «وَلَا تَقْتُلُوا», «وَلَا تَقْرَبُوا») functions as a rhetorical repetition to heighten emphasis and warning.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "قتل",
+        "lemma": "قَتَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source remark about repetition is given for a different prophetic utterance; mapping to the specific repeated negations in this ayah is plausible but should be cross-checked with verse-specific commentary."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "تتابع الجمل والأوامر المرتبطة بـ«و» يدلّ على ربطٍ واستئنافٍ بين بنود النهي؛ الواو هنا تعمل كأداة عطف/استئناف تربط أحكامًا متعددة.",
+        "claim_en": "The repeated conjunction «و» functions as an associative/resumptive conjunction linking the successive prohibitions and instructions; the waw acts as a connective/continuative device.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "و",
+        "lemma": "و",
+        "confidence": "low",
+        "needs_review_reason": "The source notes the function of the waw in other syntactic contexts; identifying each waw in this ayah as 'استئنافية' requires closer verse-level syntactic analysis."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are general grammatical/tafsir excerpts and sometimes discuss rhetorical features illustrated with other verses. Several claims above are inferred by analogy from those discussions to S6:151; please verify each claim against verse-specific tafsir/بلاغة sources.",
+      "Some device assignments (e.g., labeling particular 'و' as استئنافية or treating repetition strictly as بديع/تكرار) involve interpretive judgement that may vary among commentators; such cases are marked with lower confidence and a reasons for review.",
+      "Fields 'root' and 'lemma' are left null where no clear single-word root/lemma applies (e.g., iltifat or conjunction-level devices). If you prefer a different encoding for function words, indicate the desired convention."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:92",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛",
+        "claim_ar": "يُقْرأ همزة «إنّ/فإنّ» بفتح الهمزة",
+        "claim_en": "The hamza of 'إِنّ'/'فَإِنّ' is read with a fatḥa (a opening vowel)",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk treats the phrase «وأنّ الله سميعٌ عليمٌ» rather than the exact wording of this ayah («فَإِنَّ...»); extension of the reading note to this ayah is plausible but should be confirmed against commentary explicitly treating this specific occurrence.",
+        "quran_ref": "S3:A92"
+      },
+      {
+        "word_index": 12,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "تُقْرأ همزة «إنّ/فإنّ» بكسرها عند الاستئناف",
+        "claim_en": "The hamza of 'إِنّ'/'فَإِنّ' is read with a kasra (a kasrah) when read on resumption (istinaaf)",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source example is «وأنّ الله سميعٌ عليمٌ»; applying the rule to this ayah's «فَإِنَّ» is reasonable but should be verified with commentary explicitly addressing this occurrence.",
+        "quran_ref": "S3:A92"
+      },
+      {
+        "word_index": 12,
+        "claim_type": "taqdir",
+        "source_quote_ar": "تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ،",
+        "claim_ar": "تقدير «(فَ)إِنَّ اللَّهَ ... عَلِيمٌ»: ذلك بأن الله لم يكن مُغيِّرًا، وبأن الله سميع",
+        "claim_en": "Implied sense given by the commentator: (the statement) is because Allah does not change, and because Allah is All‑Hearing",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "low",
+        "needs_review_reason": "The quoted explanatory تقدير pertains to the phrase «وأنّ الله سميعٌ عليمٌ» in the source; mapping this interpretive taqdir to the slightly different formula in this ayah (which contains «فَإِنَّ اللَّهَ بِهِ عَلِيمٌ») requires further verification.",
+        "quran_ref": "S3:A92"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "43:56",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "عطف جملة ثواب المؤمنين على جملة ثواب الكافرين",
+        "claim_ar": "كلمة «وَمَثَلًا» معطوفة على «سَلَفًا» (واو عطف تربط المثل بالسبق)، أي أن «مَثَلًا» معطوف على «سَلَفًا».",
+        "claim_en": "The word 'وَمَثَلًا' is a conjunct (ma'tuf) coordinated with 'سَلَفًا' (the waw serves as the coordination linking 'example' to 'precedent').",
+        "root": "مثل",
+        "lemma": "مَثَل",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source discusses the general principle of 'العطف' (coordination) in sentence examples; it does not treat this specific verse. The claim is an extrapolation of that general discussion to this verse and should be verified against a source that treats this ayah or this construction explicitly."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not directly analyze S43:A56; only a general discussion of 'العطف' (coordination) appears. Claims are extrapolated from that general discussion and need confirmation from a source that treats this specific verse or construction.",
+      "No explicit discussion in the chunks about the syntactic function of 'سَلَفًا' (whether خبر لمفعول به, مفعول ثانٍ، etc.) or the attachment (تعلق) of 'لِلْآخِرِينَ'. Therefore such analyses were not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

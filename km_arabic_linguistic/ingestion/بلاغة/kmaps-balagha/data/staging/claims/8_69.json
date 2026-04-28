@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:69",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "الغنيمة",
+        "claim_ar": "التقييد بـمِمَّا غَنِمْتُمْ: كلمة مِمَّا تحصر الإباحة فيما أُخذ من الغنيمة لا في كل شيء، أي أسلوب القصر/الحصر على مصدر محدّد للزكاة أو المنفعة.",
+        "claim_en": "Restriction by مِمَّا غَنِمْتُمْ: the prepositional restriction confines permissibility to what was captured (the ghaneema), i.e. a rhetorical device of limitation/restriction to a specific source of spoils.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "غنم",
+        "lemma": "غَنِمْ",
+        "confidence": "high",
+        "needs_review_reason": "The claim links مِمَّا to the technical rhetorical category 'حصر' — likely but should be cross-checked with targeted tafsir-balagha sources for exact terminology."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "وَاتَّقُوا فِتْنَةً",
+        "claim_ar": "مقابلة بين الإباحة والتحذير: فصل فعل الأمر الخاص بالانتفاع (فَكُلُوا) مع مقابلة فعل الأمر بالتحذير (وَاتَّقُوا اللَّهَ)؛ ترتيب يقيم توازناً بلاغياً بين التمتع بالغنيمة والحذر من عاقبة التقصير.",
+        "claim_en": "Muqabalah (antithetic balance) between permission and warning: juxtaposing the permissive command to enjoy the spoils (فَكُلُوا) with the admonition to fear God (وَاتَّقُوا اللَّهَ) creates a rhetorical balance emphasizing both lawful enjoyment and moral caution.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "وقي",
+        "lemma": "اتَّقَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling this specific juxtaposition as 'مقابلة' is plausible but could be read as general balancing or as a pragmatic admonition; verify with classical definitions in the specified authors."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "tibaq",
+        "source_quote_ar": "طيب الشأن",
+        "claim_ar": "توكيد الوصف بزوجية الصفتين (حلالًا طيبًا): الجمع بين حكم الحِلّ (حلالاً) وصفة الجودة (طيّبًا) لتكثيف المعنى وإظهار أن ما هو مباح شرعًا مطلوب أخلاقيًا أيضًا — أسلوب تقوية بالسِّباق الوصفي.",
+        "claim_en": "Tibaq (paired adjectives) in 'حلالًا طَيِّبًا': pairing legal permissibility (halal) with moral/qualitative goodness (tayyib) intensifies meaning, showing that the permitted spoils are not merely lawful but wholesome.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "طيب",
+        "lemma": "طَيِّب",
+        "confidence": "medium",
+        "needs_review_reason": "Classifying 'حلالًا طيبًا' under 'تِباق' (contrast/paired terms) is interpretive; some sources might treat it under emphasis or specification — needs checking against targeted balagha commentaries."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "واعلموا أَنَّ اللَّهَ يَحُولُ",
+        "claim_ar": "استخدام أداة التوكيد (إِنَّ/أَنَّ) مع إثبات صفتين إلهيتين (غفورٍ رحيمٍ) لطمأنة القلوب: التأكيد اللغوي لصدق وعد الله ورحمته بعد الإباحة والتحذير.",
+        "claim_en": "Use of emphatic particle (إِنَّ/أَنَّ) with divine attributes (Ghafur Rahim) to reassure the audience: linguistic emphasis that affirms God's forgivingness and mercy after permitting spoils and issuing a warning, calming moral anxiety.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the function of 'إِنَّ' here to the listed subtype 'ijab_inshaa' is interpretive; classical sources may classify it as emphasis/tawkeed — verify against the named authors."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily from Zamakhshari and Darwish (iʿrāb) rather than the specific authors requested (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsir-balagha). Claims cite exact substrings from the supplied chunks; where mapping to the requested authors is required, further source material is needed.",
+      "Some device assignments (e.g., classifying 'حلالًا طَيِّبًا' as tibaq or the role of إِنَّ as 'ijab_inshaa') are interpretive and given medium confidence; please review against the classical definitions in the specified rhetorical treatises.",
+      "Source quotes used are exact substrings of the provided chunks but are general thematic references (e.g., 'الغنيمة', 'واعلموا أَنَّ') rather than direct quotations of this specific verse in the requested tafsirs; cross-checking with the named balagha authors is recommended for precision."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:78",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source chunks contain the text of S6:A78 or an explicit إعراب (grammatical) statement about any specific word in this ayah. The extraction requires an exact source substring supporting each claim; therefore no claims could be extracted from the given chunks."
+    ]
+  },
+  "n_chunks": 12
+}

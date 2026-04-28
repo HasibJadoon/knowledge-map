@@ -1,0 +1,43 @@
+{
+  "layer": "irab",
+  "ayah_key": "50:37",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَقِيلَ: هِيَ فِي الْمَعْنَى ظَرْفٌ؛ أَيْ ذِكْرُهُمْ فِي الدَّارِ الدُّنْيَا؛",
+        "claim_ar": "حرف الجر «في» هنا في المعنى ظرف (زمن/مكان) أي: «في ذلك» ظرف يبين موضع/زمان الذكر",
+        "claim_en": "The preposition «في» here is, in meaning, a zarf (adverbial: temporal/spatial). In other words, «في ذلك» functions as an adverbial specifying the place/time of the remembrance.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "فَهُوَ إِمَّا مَفْعُولٌ بِهِ عَلَى السَّعَةِ، مِثْلُ يَا سَارِقَ اللَّيْلَةِ، أَوْ عَلَى حَذْفِ حَرْفِ الْجَرِّ",
+        "claim_ar": "في ذلك من وجوه الإعراب: إما أن تُعرب مفعولاً به على السعة، أو أن يكون الوضع ناتجاً عن حذف حرف الجر (أي تحليلان متاحان)",
+        "claim_en": "There is a grammatical disagreement/alternative analyses: «في ذلك» may be parsed either as a direct object expressing extent (maf'ūl bihi 'alā al-sa'ah) or as a construction resulting from the omission of a preposition (i.e., two possible analyses).",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives alternative analyses but does not specify the governor or the exact effect on the case of the following noun in this verse; further context is needed to determine which analysis applies here."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَقِيلَ: يَجُوزُ أَنْ يَكُونَ فِي مَوْضِعِ رَفْعٍ بِالِابْتِدَاءِ، وَالْعَائِدُ عَلَيْهِ مِنَ الْخَبَرِ مَحْذُوفٌ",
+        "claim_ar": "يجوز أن يكون «لَذِكْرَى» في موضع رفع باعتبار الابتداء، بحيث يكون الخبر العائد عليه محذوفاً",
+        "claim_en": "It is permissible to analyze «لadhikrá» as being in the position of a nominative (raise) by way of treating the sentence as an independent beginning (ibtidā'), with the predicate that would return to it being omitted.",
+        "root": "ذكر",
+        "lemma": "ذِكْرَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The commentator allows this as an alternative (a possible wajh); determining whether «لذِكْرَى» functions as خبر إنّ or مبتدأ with an omitted خبر requires checking larger syntactic context and other commentarial positions."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

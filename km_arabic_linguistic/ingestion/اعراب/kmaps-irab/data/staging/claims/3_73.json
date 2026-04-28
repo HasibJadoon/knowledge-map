@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:73",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "irab",
+        "source_quote_ar": "وَيَجُوزُ أَنْ يَكُونَ مَنْصُوبًا مِثْلَ قَوْلِهِ: (يَاحَسْرَةً عَلَى الْعِبَادِ) .",
+        "claim_ar": "مِثْلَ يجوز أن يكون منصوبًا",
+        "claim_en": "The word 'mithla' (مِثْلَ) may be in the accusative (manṣūb).",
+        "root": "مثل",
+        "lemma": "مِثْل",
+        "confidence": "medium",
+        "needs_review_reason": "The source states a general possibility that مِثْلَ can be منصوب (giving an example), but it does not analyze this specific occurrence in S3:73 or specify whether here it functions as تمييز, مفعولٍ لأجله, or another accusative role."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain general statements and examples; only one chunk explicitly mentions مِثْلَ being possibly منصوب. There is no explicit, verse-specific parsing in the chunks for other words of S3:73, so additional claims would require further source material or manual grammatical analysis.",
+      "No direct source excerpt was found in the chunks that discusses the exact syntactic role of مِثْلَ مَا in this verse (e.g., whether it is تمييز or direct object). The extracted claim is therefore a general possibility rather than a definitive, verse-specific irāb."
+    ]
+  },
+  "n_chunks": 12
+}

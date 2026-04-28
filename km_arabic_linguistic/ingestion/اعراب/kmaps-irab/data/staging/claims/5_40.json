@@ -1,0 +1,13 @@
+{
+  "layer": "irab",
+  "ayah_key": "5:40",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable إعراب claims found: none of the provided source_chunks contain text that addresses or quotes Surat al-Ma'idah (5):40 or the words of the supplied ayah.",
+      "Per instructions, each claim must include source_quote_ar as an exact substring of a provided chunk. Because the chunks do not contain the ayah or any relevant grammatical discussion about it, no claims could be produced.",
+      "If you want claims extracted, provide source chunks from التبيان (or similar works) that explicitly discuss this specific ayah (or include exact quoted phrases from it)."
+    ]
+  },
+  "n_chunks": 12
+}

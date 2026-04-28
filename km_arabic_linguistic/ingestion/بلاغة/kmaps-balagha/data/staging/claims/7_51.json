@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:51",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "(الفاء) فاء السببية",
+        "claim_ar": "استخدام فاء السببية (الفاء) لربط السبب بالنتيجة في «فَالْيَوْمَ نَنْسَاهُمْ» — تربط نتيجة النسيان بما سبق من غرور الحياة الدُّنيا.",
+        "claim_en": "Use of the causal 'fa' (الفاء) to link cause and effect in 'فَالْيَوْمَ نَنْسَاهُمْ' — it ties the result (their being forgotten) to the preceding cause (deception by worldly life).",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "فَـ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary fragment discusses the causal 'fa' (الفاء) in a grammatical/rhetorical note (source chunk AL:CHUNK:0a7721a1c27b06bdb24d397b). Confirm that the commentator's observation applies to this specific ayah's initial 'فـ' (فَالْيَوْمَ).",
+        "quran_ref": "S7:A51",
+        "rhetorical_effect": "Creates a clear causal/temporal link and emphasizes the consequence (forgetting) as a direct outcome of the prior condition (being deceived by worldly life)."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not include a direct commentary excerpt that explicitly analyzes S7:A51; the claim above uses a general commentary phrase about the causal 'fa' present in AL:CHUNK:0a7721a1c27b06bdb24d397b. Verify applicability to this verse in the full commentary text.",
+      "Only one device was confidently linked to an exact substring in the provided chunks. Other rhetorical features in the verse (e.g., iltifat, emphasis by demonstrative هَذَا) were not supported by exact substrings in the supplied source chunks and were therefore not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

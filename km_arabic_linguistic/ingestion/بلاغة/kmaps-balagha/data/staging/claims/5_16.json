@@ -1,0 +1,74 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "istiarah",
+        "source_quote_ar": "لكشفه ظلمات الشرك والشك",
+        "claim_ar": "استعارة: تركيب الظُّلمات والنور يستخدمان مجازًا لبيان الضلال مقابل الهداية",
+        "claim_en": "Metaphor (isti'āra): 'darkness' and 'light' are used figuratively to denote misguidance versus guidance.",
+        "device_branch": "bayan",
+        "device_subtype": "istiarah",
+        "root": "نور/ظلم",
+        "lemma": "نُور / ظُلُمَات",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A16",
+        "rhetorical_effect": "يُبَيِّنُ التباين المفهومي بين الضلال والهداية ويقوّي صور المعنى الحسيّ لمقدار الهداية"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "هُدىً يهدى",
+        "claim_ar": "تكرار لفظ الجذر «هدى» في تركيب الآية (هَدىً — يَهْدِي — يَهْدِيهِم) لشدّة التوكيد على فعل الهداية الإلهية",
+        "claim_en": "Repetition (takrār): the root h-d-y appears repeatedly (huda — yahdī — yahdīhim), emphasizing the act of divine guidance.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "هدي",
+        "lemma": "هَدَى",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted chunk shows the lexeme in a related phrase but does not explicitly discuss the pair of verbs; support is inferential (repetition is visible in the verse itself but the chunk only contains one attestation).",
+        "quran_ref": "S5:A16",
+        "rhetorical_effect": "تعزيز فكرة الاستمرارية والقوة في فعل الهداية الإلهية"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "kinayah",
+        "source_quote_ar": "سُبُلَ السَّلَامِ طرق السلامة والنجاة",
+        "claim_ar": "كنية/استعارة مقصودة: «سبل السلام» تُستعمل عن طرق النجاة والسلامة (أي: وسائل الهداية والنجاة من العذاب)",
+        "claim_en": "Kenāyah/figurative expression: 'subul as-salām' ('paths of peace') stands for the means of safety and salvation (i.e., ways of guidance and deliverance).",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "سبل",
+        "lemma": "سَبِيل",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A16",
+        "rhetorical_effect": "يحوّل عبارة وصفية إلى دالّة شاملة على الهُدى والنجاة، مما يوسّع مدلول الجملة بشكل بلاغي"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "tibaq",
+        "source_quote_ar": "لكشفه ظلمات الشرك والشك",
+        "claim_ar": "طباق/تباين: استعمال «ظلمات» مقابل «نور» يشكّل طباقًا لعرض نقيضين (الضلال مقابل الهدى)، ما يعظّم التباين الدلالي",
+        "claim_en": "Antithesis (tibāq): the use of 'darkness' versus 'light' forms an antithesis (misguidance vs. guidance), heightening the semantic contrast.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "ظلم",
+        "lemma": "ظُلُمَات",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk provides the term 'ظلمات' in an explanatory context; the explicit juxtaposition with the ayah's 'النور' is inferential (the exact ayah phrase 'مِنَ الظُّلُمَاتِ إِلَى النُّورِ' is not present verbatim in the provided chunks).",
+        "quran_ref": "S5:A16",
+        "rhetorical_effect": "إبراز الفاصل بين حالتي الضلال والهداية بقوّة محسوسة تعزّز وقع الوعظ والإرشاد"
+      }
+    ],
+    "warnings": [
+      "الاستدلالات اعتمدت على مقتطفات شرحية من الزمخشري وابن كثير المرفقة؛ بعض الادعاءات البلاغية (خاصة التكرار والطباق) تستند أيضاً إلى قراءة نصية للآية نفسها بينما المقاطع المرفقة لا تضم النسخة الحرفية الكاملة للتركيبات المتقابلة.",
+      "بعض الاقتباسات تبيّن المعنى التفسيري أو التمثيلي للآية بدل أن تذكر المصطلح البلاغي صراحة؛ لذا تم تصنيف ثقة بعض الادعاءات كـ 'medium' مع توضيح سبب المراجعة.",
+      "لم تُستخدم مصادر بلاغية من الجرجاني أو السكاكي أو السيوطي بصيغ تشرح كل جهاز بلاغي هنا؛ إذا رغبتَ بمطالعة شروحات بلاغية محددة لتأكيد كل جهاز، أرفق مقاطع إضافية من تلك المؤلفات."
+    ]
+  },
+  "n_chunks": 12
+}

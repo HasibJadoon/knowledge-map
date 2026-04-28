@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:119",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "mubātalah / muqābalah (opposition/contrast)",
+        "source_quote_ar": "سَواءٍ بَيْنَنا وَبَيْنَكُمْ",
+        "claim_ar": "المقطع الآيِي يضم مقابلة بلاغية واضحة بين حالين متقابلين (تُحِبُّونَهُمْ / وَلَا يُحِبُّونَكُمْ)، فهي مُقابلة تؤكد التضادّ والافتراق في الموقف والعاطفة.",
+        "claim_en": "The verse contains a clear rhetorical opposition between two contrasted states (you love them / they do not love you); this muqabalah (antithesis) emphasizes the contrast and divergence of stance and feeling.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "source_quote_ar is drawn from the provided commentary chunk (Zamakhshari) rather than the requested jurists; the exact ayah phrase is not present in the chunks, so the claim should be checked against original tafsir sources."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "istiārah / kinayah (metaphor/figurative expression)",
+        "source_quote_ar": "الغل: الحقد الكامن في الصدر",
+        "claim_ar": "تعبير «عَضُّوا عَلَيْكُمُ الْأَنَامِلَ مِنَ الْغَيْظِ» صورة وصفية مجازية تؤدي معنى كتم الغيظ وضيق الصدر؛ هو استعارة/كنية تصوّر الغيظ بالعضّ كدلالة على الشدّة والانفعال.",
+        "claim_en": "The phrase 'they bite their fingertips from anger' is a vivid figurative expression (metaphor/kenāya) portraying suppressed rage and tightness of the chest; it uses the image of biting to signify intense anger/restraint.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah / isti'ara",
+        "root": "عضض",
+        "lemma": "عَضُّ",
+        "confidence": "medium",
+        "needs_review_reason": "the supporting source substring is a related commentary on the emotional term 'الغل' in the provided chunks rather than an explicit stylistic analysis of this exact phrase; verify with primary rhetorical tafsir (al-Jurjani, al-Sakkaki, etc.)."
+      },
+      {
+        "word_index": 21,
+        "claim_type": "iltifāt (shift of mood/addressee)",
+        "source_quote_ar": "هذا تنبيه على أن الأمر كله للَّه",
+        "claim_ar": "التحوّل من تقرير ما يقولون («آمَنَّا») إلى أمر نَبْهَة/تحدّ («قُلْ مُوتُوا بِغَيْظِكُمْ») يفيد إلتفات بلاغي: تحوّل في الأسلوب من تقرير إلى خطابٍ أمْرٍ وسخرية، فيقوّي المسْؤولية الإلهية ويفضي إلى التوكيد.",
+        "claim_en": "The shift from reporting their words ('We have believed') to the command/challenge ('Say: Die in your rage') amounts to an iltifāt (stylistic shift): a switch in mood and addressee from narration to imperative/mockery, heightening divine responsibility and emphatic rebuke.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "موت",
+        "lemma": "مَّاتَ",
+        "confidence": "low",
+        "needs_review_reason": "the provided chunks contain a general phrase about 'تنبيه' but not an explicit analysis of this iltifāt; classification should be confirmed against specialized rhetorical sources (al-Jurjani/al-Sakkaki) and by checking the verse text context."
+      },
+      {
+        "word_index": 27,
+        "claim_type": "tamkeen / tanbih (emphatic closure / assurance)",
+        "source_quote_ar": "هذا تنبيه على أن الأمر كله للَّه وعلى وجوب التوكل عليه",
+        "claim_ar": "خاتمة الآية «إِنَّ اللَّهَ عَلِيمٌ بِذَاتِ الصُّدُورِ» تعمل كتأكيد وخاتمة تقريرية تُقفل الدلالة وتذكّر بسعة علم الله بدقائق القلوب، أي تنبيه وتوكيد لطرف الحكم في الآية.",
+        "claim_en": "The verse's closing clause ('Indeed Allah is Knowing of what is in the breasts') functions as an emphatic closure/tanbih, finalizing the argument and reminding that God knows the inmost hearts — an assurance that consolidates the judgment made earlier in the verse.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl / tanbih",
+        "root": "صدر",
+        "lemma": "صَدْر",
+        "confidence": "medium",
+        "needs_review_reason": "the supporting citation is a general comment about 'تنبيه' in the provided chunk; a direct match to classical rhetorical analyses (al-Jurjani, etc.) is missing and should be reviewed."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from Zamakhshari and Tabari. The user requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir balagha sections; those specific sources are not present among the provided chunks.",
+      "source_quote_ar values are exact substrings taken from the available chunks, but those chunks do not contain the exact ayah text or direct classical-rhetorical analyses for every claimed device. Each claim therefore needs review against the requested rhetorical sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) and the full tafsir-balagha literature.",
+      "Some device assignments (especially 'iltifat' for the imperative shift) are interpretive and marked with lower confidence; please verify with primary rhetorical commentaries for authoritative classification."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:88",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "البلاغة: في الآية التفات",
+        "claim_ar": "التفات بلاغي: الانتقال من سؤال استنكاري مخاطب («أَتُرِيدُونَ أَنْ تَهْدُوا...») إلى حكم عامٍ متصلٍ بقدَرِ اللَّه («مَنْ أَضَلَّ اللَّهُ... فَلَنْ تَجِدَ لَهُ سَبِيلاً»)، مما يلفت انتباه السامع ويشدُّه إلى حتمية المآل.",
+        "claim_en": "Rhetorical iltifat (shift): the verse moves from a rhetorical question addressed to the addressees (\"Do you want to guide...?\") to a general decisive statement about God's having led astray (\"Whomsoever Allah has led astray... you will not find a way for him\"), creating a striking shift that draws attention to the inevitability of the outcome.",
+        "device_branch": "maani",
+        "device_subtype": "التفات",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The cited source-chunk mentions التفات in commentary on another verse; further confirmation is needed that the same rhetorical mechanism is intended here in classical tafsirs/Jurjani/Sakkaki."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "مقابلة وتنظير",
+        "claim_ar": "مقابلة (تضاد/مقابلة): مقابلة بين محاولة الهداية البشرية «تَهْدُوا» والتصريح الإلهي بأن من أضلّه الله لا يُمكن هداه («مَنْ أَضَلَّ اللَّهُ... فَلَنْ تَجِدَ لَهُ سَبِيلاً»). هذه المقابلة تبرز التباين بين السعي البشري وضعف أثره أمام حكمة ومشيئة الله.",
+        "claim_en": "Maqabalah (contrast/antithesis): a contrast between the human attempt to guide (\"to guide\") and the divine statement that whomever Allah has led astray cannot be guided (\"whomsoever Allah has led astray... you will not find a way for him\"). The antithesis emphasizes the difference between human effort and divine decree.",
+        "device_branch": "badi",
+        "device_subtype": "مقابلة",
+        "root": "هدي",
+        "lemma": "هَدَى",
+        "confidence": "medium",
+        "needs_review_reason": "The source-chunk uses the term مقابلة in a different exegetical example; confirm with dedicated balaagha treatments (al-Jurjani / al-Sakkaki) that this specific contrast is labeled مقالة/مقابلة there."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "takrar",
+        "source_quote_ar": "وَاللَّهُ عَلِيمٌ حَكِيمٌ",
+        "claim_ar": "تكرار اسم الجلالة/التوكيد بالذكر المتكرر: تكرار ذكر «اللَّهُ» في الجملة (أَرْكَسَهُمْ ... وَاللَّهُ أَرْكَسَهُمْ ... أَضَلَّ اللَّهُ ... يُضْلِلِ اللَّهُ) يعمل على تأكيد الفاعل الإلهي وحتمية فعل الجزاء.",
+        "claim_en": "Takrar (repetition): repetition of the Divine Name \"Allah\" throughout the verse (e.g. \"...and Allah caused them to fall back...\", \"whomsoever Allah has led astray...\", \"whom Allah causes to stray...\") reinforces the divine agency and the inevitability of the consequence.",
+        "device_branch": "badi",
+        "device_subtype": "تكرار (توكيد بالذكر)",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted chunk shows usage of divine name in tafsir examples but does not analyze this specific verse's repetitions; classical sources should be checked to confirm they treat these occurrences as deliberate rhetorical repetition (تكرار) rather than mere theological emphasis."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are excerpts from general tafsir/I'rab resources (Zamakhshari, Darwish I'rab) and do not include the requested classical balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a dedicated tafsir-balagha section). Source_quote_ar values are exact substrings from the supplied chunks but those chunks sometimes discuss rhetorical notions in other verses; therefore application of those remarks to S4:A88 should be confirmed against the targeted classical balagha works.",
+      "Some claims are assigned 'medium' confidence because the supporting chunks mention the rhetorical terms (e.g., التفات, مقابلة, تكرار) in different exegetical examples; direct statements about this specific verse in the canonical balagha treatises were not available in the provided chunks and should be reviewed."
+    ],
+    "quran_ref": "S4:A88"
+  },
+  "n_chunks": 12
+}

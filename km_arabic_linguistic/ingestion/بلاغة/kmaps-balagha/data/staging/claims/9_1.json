@@ -1,0 +1,36 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "(إِلَّا الَّذِينَ عاهَدْتُمْ مِنَ الْمُشْرِكِينَ)",
+        "claim_ar": "استثناء / تقييد: تقييد عموم المشركين في إعلان البراءة إلى فئة محددة «الذين عاهدتم من المشركين».",
+        "claim_en": "Exception/limitation: the general declaration of disavowal is limited to a specific group — “those whom you made treaties with among the polytheists.”",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "شرك",
+        "lemma": "مُشْرِك",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "«براءة من الله ورسوله»",
+        "claim_ar": "إيجاز وتوكيد في الابتداء باسم مفرد («بَرَاءَةٌ») يمثل إعلاناً موجزاً وحاسماً لقطع العهد.",
+        "claim_en": "Conciseness/emphatic brevity: opening with a single substantive («بَرَاءَةٌ») produces a concise, forceful proclamation of severance.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "برا",
+        "lemma": "بَرَآءَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk cites the phrase but does not explicitly label it as 'ijaz'; the assignment rests on rhetorical reading rather than explicit authorial labeling."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "10:7",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contains the exact text of S10:A7 (إِنَّ الَّذِينَ لَا يَرْجُونَ لِقَاءَنَا وَرَضُوا بِالْحَيَاةِ الدُّنْيَا وَاطْمَأَنُّوا بِهَا وَالَّذِينَ هُمْ عَنْ آيَاتِنَا غَافِلُونَ). Cannot extract إعراب claims without a matching source_quote_ar substring."
+    ]
+  },
+  "n_chunks": 12
+}

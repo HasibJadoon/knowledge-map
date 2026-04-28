@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:113",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "majaz",
+        "source_quote_ar": "الوصف ... الإسناد المجازى لوقوع الألم فيه.",
+        "claim_ar": "النَّارُ هنا تُستخدم إسنادًا مجازياً للدلالة على العذاب والعقاب، لا كإشارة محضة إلى عنصر فيزيائي فقط.",
+        "claim_en": "The term 'al-nār' (the Fire) is used as a metaphorical attribution (majāz) signifying punishment/torment rather than a purely physical element.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz (إسناد مجازي)",
+        "root": "نور",
+        "lemma": "نَار",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source chunk discusses 'الإسناد المجازى' in general; it does not quote this specific ayah. The identification of 'النار' as majāz here is plausible in classical exegesis but should be checked against verse-specific commentary."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "فوت آياته الحصر عَنْ قَوْلِكَ",
+        "claim_ar": "جملة «مِنْ دُونِ اللَّهِ مِنْ أَوْلِيَاءَ» تؤدي وظيفة الحصر/القصر، أي نفي وجود أولياء حقيقيين إلا الله.",
+        "claim_en": "The clause 'min dūni llāhi min awliyāʾ' functions as a restrictive/exclusive expression (hasr/qasr), excluding any true protectors or allies besides God.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr (حصر/قصر)",
+        "root": "دون",
+        "lemma": "دُون",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk mentions the rhetorical notion of 'الحصر' generally; the application to this exact phrase is reasonable but should be validated with ayah-specific commentary."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "فمن ثم تتكلم بكلام المجانين",
+        "claim_ar": "أداة العطف «ثُمَّ» تستعمل هنا لربط الفقرة بما بعدها مع إيقاع فاصلي/تتابعي يؤكد النتيجة المترتبة (ثُمَّ لَا تُنْصَرُونَ).",
+        "claim_en": "The conjunction 'thumma' serves as a connective/pause marker (fasl_wasl), linking the preceding warning to the consequent outcome and producing a sequential/emphatic effect.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl (pause/link via sequential conjunction)",
+        "root": null,
+        "lemma": "ثُمّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the sequence phrase 'فمن ثم ...' illustrating usage of ثم as sequential/connecting particle, but the inference about its rhetorical force in this specific ayah should be cross-checked with focused tafsīr/بلاغة commentary."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are general exegetical/rhetorical discussions and do not directly quote S11:113. The selected source excerpts illustrate general rhetorical concepts (e.g., 'الإسناد المجازى', 'الحصر', use of 'ثم') rather than explicit analysis of this ayah. Each claim should be reviewed against ayah-specific classical commentary for confirmation.",
+      "Some lemma/root entries are taken from the supplied word list (e.g., root for 'نار' given as 'نور'); please verify morphological roots against a lexicon if precise root analysis is required (this task focuses on rhetoric, not morphology)."
+    ]
+  },
+  "n_chunks": 12
+}

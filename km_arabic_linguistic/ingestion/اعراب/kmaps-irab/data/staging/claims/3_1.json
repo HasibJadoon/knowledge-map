@@ -1,0 +1,87 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَفِي مَوْضِعِ (الم) ثَلَاثَةُ أَوْجُهٍ:",
+        "claim_ar": "ثَلَاثَةُ أَوْجُهٍ فِي إِعْرَابِ «الم»: الجرّ على القسم، النصب (بوجهيه)، والرفع (مبتدأ)",
+        "claim_en": "The author states there are three possible syntactic analyses for «الم»: (1) as governed by an omitted oath-particle (جرّ على القسم), (2) accusative (with two sub-analyses), and (3) nominative as a مبتدأ (subject).",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "أَحَدُهَا: الْجَرُّ عَلَى الْقَسَمِ، وَحَرْفُ الْقَسَمِ مَحْذوفٌ، وَبَقِيَ عَمَلُهُ بَعْدَ الْحَذْفِ",
+        "claim_ar": "مُجَرَّر (بِحُكْمِ حَذْفِ حَرْفِ قَسَمٍ): «الم» في هذا الوجه مُجرَّة بحكم حرف قسم محذوف",
+        "claim_en": "One analysis: «الم» functions as if governed by an oath-particle (جرّ) whose particle is omitted but whose syntactic effect remains.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "وَبَقِيَ عَمَلُهُ بَعْدَ الْحَذْفِ",
+        "claim_ar": "بقاء عمل حرف القسم رغم حذف الحرف",
+        "claim_en": "Semantic effect: even though the oath-particle is deleted, its grammatical effect persists.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "وَالثَّانِي مَوْضِعُهَا نَصْبٌ وَفِيهِ وَجْهَانِ",
+        "claim_ar": "منصوب: قراءة تعتبر «الم» منصوبة",
+        "claim_en": "Second analysis: «الم» may be accusative (نصب). The author indicates there are two sub-ways to understand this accusative reading.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "هُوَ عَلَى تَقْدِيرِ حَذْفِ الْقَسَمِ كَمَا تَقُولُ اللَّهِ لَأَفْعَلَنَّ، وَالنَّاصِبُ فِعْلٌ مَحْذُوفٌ تَقْدِيرُهُ الْتَزَمْتُ اللَّهَ أَيِ الْيَمِينَ بِهِ",
+        "claim_ar": "تقدير حذف قسم أو فعل محذوف (التزمت الله) يجعل «الم» منصوبة",
+        "claim_en": "Taqdir: the accusative reading can be explained by an implied deletion — either an omitted oath-particle (as in 'لأفعلنَّ') or an omitted verb (estimated as 'التزمتُ الله') that yields the accusative.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَالثَّانِي هِيَ مَفْعُولٌ بِهَا تَقْدِيرُهُ: اتْلُ الم.",
+        "claim_ar": "تقدير مفعولٍ به: «اتلِ الم» (أي: اجعل «الم» مفعولاً به لأمرٍ محذوف)",
+        "claim_en": "Taqdir (second subreading): «الم» can be understood as an object with the implied imperative 'اتلُ الم' (i.e., an elided verb such as 'recite/play' taking «الم» as its object).",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "وَالْوَجْهُ الثَّالِثُ: مَوْضِعُهَا رَفْعٌ بِأَنَّهَا مُبْتَدَأٌ وَمَا بَعْدَهَا الْخَبَرُ",
+        "claim_ar": "مرفوع: «الم» مبتدأ وما بعدها خبر",
+        "claim_en": "Third analysis: «الم» is nominative as a mubtada' (subject), with what follows serving as the predicate (khabar).",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

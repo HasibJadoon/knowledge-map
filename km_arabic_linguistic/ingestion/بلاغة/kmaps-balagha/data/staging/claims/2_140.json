@@ -1,0 +1,70 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:140",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "أن يتهكم بهم",
+        "claim_ar": "انفعال الأسلوب بالتهكم والسخرية في المساءلة والإنكار (نبرة تهكمية في: «أَأَنْتُمْ أَعْلَمُ أَمِ اللَّهُ»).",
+        "claim_en": "Use of a taunting/sarcastic rhetorical style in the interrogation (tone of mockery in: 'Are you more knowing or Allah?').",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A140",
+        "rhetorical_effect": "يحط من قيمة مطالبة المخاطَب بمعرفته ويؤكد سخرية المتحدث من ادعاءهم؛ يضغط على موقفهم عاطفياً ويُظهر تهافت ادّعاءهم."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "particle_choice (إن vs إذا)",
+        "source_quote_ar": "«إذا» الذي للوجوب دون «إن» الذي للشك.",
+        "claim_ar": "اختيار أداة «إنَّ» (لا «إذا») في الصياغة ليُظهر الشك/التهكم في صحة ادعائهم، فالاختيار البلاغي للحرف يؤدي وظيفة سخرية وتمييز معنوي.",
+        "claim_en": "The choice of the particle 'إن' (rather than 'إِذَا') is used to convey doubt/sarcasm regarding their claim; the particle selection is a rhetorical move to mock/undermine the claim.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "classification as 'asloob_hakim' (rather than a ma'ani subtype like 'ijab_inshaa') is interpretive; the chunk explicitly discusses the particle-choice but mapping to a single ma'ani subtype is not unambiguous.",
+        "quran_ref": "S2:A140",
+        "rhetorical_effect": "يوفر طعناً لادعائهم عبر إبراز الشك بدل الجزم؛ يجعل العبارة تهكمية أكثر ويقلل من ثِقَة المستند المدَّعى."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "افتتح سبحانه بذكر الذين أخلصوا دينهم",
+        "claim_ar": "بناء سوروي يفتتح بذكر المخلصين، ثم يَثني بالمحفّظين للكفر، ثم يذكر الفريق الثالث (الذابون بين ذلك) — حركة متدرجة في العرض تهدف لتركيز انتقاد للمنافقين والمخالفين.",
+        "claim_en": "Surah-level movement: the Sura opens by mentioning the sincere (those who truly submit), then contrasts by mentioning those who embraced unbelief clearly, then a third group (those whose tongues say one thing and hearts another) — a graduated structure to foreground criticism of hypocrites/unbelief.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A140",
+        "rhetorical_effect": "يؤطر الموضوع بلاغياً: التمهيد بالمخلصين ثم التصعيد بالذمّ والتعرية للمنافقين؛ يساعد على زيارة نفسية متدرجة لدى القارئ/المخاطَب."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "هو بيان لتغير الصفة الموجب لتنزيلهم منزلة المغايرين لهم بالذات",
+        "claim_ar": "تحوير الصفة (ثمّ أنتم هؤلاء) لتبيان التمايز والاختلاف بين الجيل الحالي وأسلافهم — تغيير الصفة يؤدي إلى تشديد في الحكم وتقليل لشرعية الادعاء.",
+        "claim_en": "Use of a change of predicate/description (e.g. 'then you are these') to mark distinction and disassociation between the present group and their ancestors — the change of attribute effectually changes their status and intensifies condemnation.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A140",
+        "rhetorical_effect": "يفصل بين الجماعات ويضع الجيل الحالي في موضع اتهام واستبعاد؛ يمنح الحكم بلاغة أقوى عبر تحويل صفة إلى حكم بذاتية."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,58 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:42",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "taqdir",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مُحْدَثٍ) : مَحْمُولٌ عَلَى لَفْظِ «ذِكْرٍ» ، وَلَوْ رُفِعَ عَلَى مَوْضِعِ «مِنْ ذِكْرٍ» جَازَ.",
+        "claim_ar": "هناك لفظ محذوف موضعه (مُحْدَثٍ) محمول على لفظ «ذِكْرٍ» (أي يفهم تقديم/حمل المجهول على «ذِكْرِ»).",
+        "claim_en": "There is an implied/elliptical word (marked '(مُحْدَثٍ)') that is construed with the word «ذِكْرِ» (i.e. the elided item is carried on 'dhikr').",
+        "root": "حدث",
+        "lemma": "مُحْدَث",
+        "confidence": "medium",
+        "needs_review_reason": "The author explicitly supplies a parenthetical elided item; applicability to the present reading/placement in this specific ayah should be checked against the text."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "taalluq",
+        "source_quote_ar": "و (مِنْ ذِكْرٍ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِيَأْتِيهِمْ، وَأَنْ يَكُونَ صِفَةً لذكر وَأَن يتَعَلَّق بمحدث وَأَن يكونَ حَالا من الضَّمِير فِي مُحدث",
+        "claim_ar": "عبارة «مِنْ ذِكْرٍ» جائزة أن تتعلق بعدة مواضع: أن تتعلق بالفعل (يأْتِيهِمْ)، وأن تكون صفةً لـ «ذِكْر»، وأن تتعلق بالمُحْدَث، وأن تكون حالًا من الضمير في المُحْدَث.",
+        "claim_en": "The phrase «مِنْ ذِكْرٍ» may attach (ta'alluq) in several ways: it can relate to a following verb (e.g. 'yatiihim'), be an adjectival qualifier of 'dhikr', relate to the 'muhdath' (the newly-mentioned), or be a circumstantial 'hal' of the pronoun within that muhdath.",
+        "root": "ذكر",
+        "lemma": "ذِكْر",
+        "confidence": "medium",
+        "needs_review_reason": "The author lists multiple possible attachments; some of the example governors (e.g. يَأْتِيهِمْ) do not occur in this exact ayah, so determining which option applies here requires reviewer judgment."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "irab",
+        "source_quote_ar": "هُمْ: مُبْتَدَأٌ، وَ «مُعْرِضُونَ» الْخَبَرُ",
+        "claim_ar": "«هُمْ» مبتدأ.",
+        "claim_en": "The pronoun «هُمْ» functions as the subject (mubtada').",
+        "root": null,
+        "lemma": "هُمْ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "irab",
+        "source_quote_ar": "هُمْ: مُبْتَدَأٌ، وَ «مُعْرِضُونَ» الْخَبَرُ",
+        "claim_ar": "«مُعْرِضُونَ» خبر.",
+        "claim_en": "The participle «مُعْرِضُونَ» functions as the predicate (khabar).",
+        "root": "عرض",
+        "lemma": "مُّعْرِضُون",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Some quoted analyses in the source enumerate multiple possible attachments (ta'alluq) and even example governors (e.g. «يَأْتِيهِمْ») that do not literally occur in the present ayah; applying those options to this specific verse requires reviewer validation.",
+      "The source supplies a parenthetical elided item «(مُحْدَثٍ)» — this is an interpretive emendation/taqdir by the commentator and is not an explicit word of the ayah; inclusion here flags the commentator's ellipsis rather than orthography of the text."
+    ],
+    "quran_ref": "S21:A42"
+  },
+  "n_chunks": 12
+}

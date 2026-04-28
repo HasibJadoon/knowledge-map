@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:30",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain exact substrings from Sura 2:30 (the ayah text). Because each claim must include source_quote_ar as an exact substring from one of the provided chunks, no balagha claims could be extracted. Provide tafsir/بلاغة source chunks that quote or discuss this specific ayah to enable extraction."
+    ]
+  },
+  "n_chunks": 12
+}

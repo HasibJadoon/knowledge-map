@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:71",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "ثم ثنى اللَّه سبحانه في شأنهم بتمثيل آخر ليكون كشفا لحالهم بعد كشف، وإيضاحا غب إيضاح.",
+        "claim_ar": "مقابلة (ثنّى) في السرد: التعداد والتوازي في الصفات النفيية (لَا ذَلُولٌ ... وَلَا تَسْقِي ...) لخلق موازاة بيانية وتأكيد بالتنكير والتقابُّل.",
+        "claim_en": "Muqabalah (parallelism/doubling): the verse uses paired negative descriptions in parallel (e.g. لَا ذَلُولٌ ... وَلَا تَسْقِي ...) to create rhetorical balance and emphatic clarification.",
+        "device_branch": "badi",
+        "device_subtype": "مقابلة",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "إطناب",
+        "source_quote_ar": "وكما يجب على البليغ في مظانّ الإجمال والإيجاز أن يجمل ويوجز فكذلك الواجب عليه في موارد التفصيل والإشباع أن يفصل ويشبع.",
+        "claim_ar": "إطناب وتفصيل: الآية تعرض مواصفات البقرة بتدرج وتفصيل (التفصيل: ذَكْرُ صفات متعددة ثم الإتيان بالحكم)، مما يعد إطنابًا بيانيًا بغرض الإيضاح والتأكيد.",
+        "claim_en": "Itnaab (expansion/elaboration): the verse progressively details the cow's attributes, elaborating the description to clarify and intensify the depiction.",
+        "device_branch": "maani",
+        "device_subtype": "إطناب",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary states the general rhetorical principle of expanding where needed; mapping this general remark specifically to this verse is plausible but interpretive."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "تكرار",
+        "source_quote_ar": "ثم ثنى اللَّه سبحانه في شأنهم بتمثيل آخر ليكون كشفا لحالهم بعد كشف، وإيضاحا غب إيضاح.",
+        "claim_ar": "تكرار (تثنية/إعادة): تكرار التوكيد والإخبار في سلسلة الأقوال (مثل: إِنَّهُ يَقُولُ إِنَّهَا ...) يعمل تكرارًا بيانيًا للتأكيد والتقريب من السامع.",
+        "claim_en": "Takrar (repetition): the repeated emphatic constructions (e.g. إِنَّهُ ... إِنَّهَا ...) function as rhetorical repetition to strengthen emphasis and clarity.",
+        "device_branch": "badi",
+        "device_subtype": "تكرار",
+        "root": "إنّ",
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary uses 'ثنى' (doubling) as a justification; assigning this to the specific repeated particles in the verse is reasonable but requires review for strict technical labeling."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "التفات (الالتفات)",
+        "source_quote_ar": "ففيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "التفات: وجود لفتة بيانية من الغيبة إلى الخطاب/التوجه (انتقال في مستوى السرد أو القول) يظهر في صيغة التقرير ثم ردِّ القوم (قَالُوا الآن ...)، مما يثير الحضور الخطابي ويشدُّ الانتباه.",
+        "claim_en": "Iltifat (shift of address/turn): there is a rhetorical shift from narrated report to direct responsive speech (e.g. then the people's reply قَالُوا الآن ...), creating engagement and drawing attention.",
+        "device_branch": "maani",
+        "device_subtype": "التفات",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Claims are drawn from the provided commentaries and examples; some sources state general rhetorical principles (e.g., 'ثنى' or 'أن يفصل ويشبع') rather than giving an explicit, item-by-item labelling for this exact verse—those mappings are interpretive and flagged where confidence is not high.",
+      "For ayah-level devices the 'root' and 'lemma' fields are left empty—if you require lexical anchors for ayah-level claims, specify which primary word should be treated as the anchor."
+    ]
+  },
+  "n_chunks": 12
+}

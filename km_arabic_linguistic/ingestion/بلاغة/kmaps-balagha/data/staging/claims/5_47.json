@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:47",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "other",
+        "source_quote_ar": "(يحكم) مضارع مرفوع (الباء) حرف جرّ و (الهاء) ضمير في محلّ جرّ متعلّق ب (يحكم)",
+        "claim_ar": "فعل الأمر (وَلْيَحْكُمْ) يعمل هنا كأسلوب حكمي/توجيهي يوجّه أهل الإنجيل إلى إصدار الحكم، أي أسلوب الندب والتكليف بصفته توجيهاً تشريعيّاً.",
+        "claim_en": "The verb (وَلْيَحْكُمْ) functions as an authoritative imperative directing the People of the Gospel to judge — a rhetorical commanding style (asloob al-hakim).",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim_imperative",
+        "root": "حكم",
+        "lemma": "حَكَمَ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source chunk provides morphosyntactic gloss for (يحكم) but does not explicitly discuss its rhetorical force; the rhetorical reading (asloob hakim) is an interpretive step that needs corroboration from explicit rhetorical commentary."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "(يحكم) مضارع مرفوع",
+        "claim_ar": "تكرار جذر (حكم) في الجملتين (وليحكم ... ومن لم يحكم) يخلق تكراراً ومرآة تركيبية تؤكد المقارنة والجزاء؛ أي بديع (تَكْرَار/مقابلة).",
+        "claim_en": "The repetition of the root حكم in the two clauses (وَلْيَحْكُمْ ... وَمَنْ لَمْ يَحْكُمْ) produces repetition/parallelism (takrar/muqabalah), reinforcing the contrast and emphasis.",
+        "device_branch": "badi",
+        "device_subtype": "takrar / muqabalah (repetition & parallelism)",
+        "root": "حكم",
+        "lemma": "حَكَمَ",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk records the verb form but does not analyze the rhetorical repetition explicitly; the identification of takrar/muqabalah is based on the surface textual repetition and requires confirmation from rhetorical commentary."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "وفسقكم ثابت معلوم عندكم",
+        "claim_ar": "العلاقة التباينية بين من يحكمون بما أنزل الله (الالتزام) ومن لا يحكمون فيُوصَفُونَ بالفَسْقِ تؤسس تِبَاقاً بلاغياً (تضاداً/مقابلة) بين الحقّ والفسوق.",
+        "claim_en": "The verse sets up an opposition: those who judge by what God revealed versus those who do not, who are described as 'the fasiqoon' — a badiʿ device of tibaq (antithesis/contrast) that sharpens moral judgement.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq (antithesis)",
+        "root": "فسق",
+        "lemma": "فَاسِق",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted chunk uses the root (فسق) in commentary (different verse-context); mapping that commentary to the ayah's antithesis is plausible but needs verification from direct rhetorical treatment of this particular ayah."
+      }
+    ],
+    "warnings": [
+      "Requested primary rhetorical sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present among the provided source_chunks. Claims were extracted using the available chunks (Safi - al-Jadwal, Tabari, Zamakhshari) only.",
+      "Source substrings used are morphological or exegetical glosses rather than explicit classical rhetorical labels; several claims therefore involve interpretive steps (marked in needs_review_reason).",
+      "Some source excerpts cite or discuss related lexical roots (e.g., فسق) in other contextual discussions; mapping those comments to the specific rhetorical device in S5:A47 should be reviewed against full rhetorical commentary."
+    ]
+  },
+  "n_chunks": 12
+}

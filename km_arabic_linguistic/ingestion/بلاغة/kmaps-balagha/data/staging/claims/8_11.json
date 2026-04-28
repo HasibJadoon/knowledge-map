@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:11",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extracted claims because none of the provided source chunks contain exact substrings that directly discuss or quote phrases of S8:A11 needed to ground a balagha claim per the requirement that source_quote_ar be an exact substring of a provided chunk. Several chunks discuss other verses or general rhetorical topics (e.g. \"إِذا لَقِيتُمْ فِئَةً\", \"قَدْ سَمِعْنا لَوْ نَشاءُ لَقُلْنا مِثْلَ هذا\", etc.), but they do not quote or comment on the actual wording of this ayah (e.g., \"يُغَشِّيكُمُ النُّعَاسَ أَمَنَةً... يُنَزِّلُ عَلَيْكُم مِنَ السَّمَاءِ مَاءً...\"). Because the developer instructions require source_quote_ar to be an exact substring of a provided chunk, I cannot assert rhetoric claims for this ayah without a matching source substring. Please provide tafsir/balaghah chunks that quote or discuss this ayah (or permit use of the ayah text itself as a source_quote_ar) so I can extract and cite balagha claims."
+    ]
+  },
+  "n_chunks": 12
+}

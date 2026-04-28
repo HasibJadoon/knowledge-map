@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:40",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "وَمِنْهُمْ مَنْ",
+        "claim_ar": "تكرار العبارة «وَمِنْهُمْ مَنْ» لِمَبالغة التقسيم والتوكيد (تقسيم الناس إلى فئتين متقابلتين)",
+        "claim_en": "Repetition of the phrase «وَمِنْهُمْ مَنْ» to emphatically partition people (dividing them into two opposing groups).",
+        "device_branch": "badi",
+        "device_subtype": "takrar (repetition of phrase)",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muaqabalah",
+        "source_quote_ar": "وَمِنْهُمْ مَنْ",
+        "claim_ar": "مقابلة وتضاد بين قائلي الجملة: «مَنْ يُؤْمِنُ بِهِ» و«مَنْ لَا يُؤْمِنُ بِهِ» — توازن صيغي يُبرز التضاد بين الإيمان والكفر/الرفض",
+        "claim_en": "Antithesis/contrast (muaqabalah) between the two parallel clauses: \"those who believe in Him\" and \"those who do not believe in Him\" — a balanced syntactic pairing that highlights the opposition.",
+        "device_branch": "badi",
+        "device_subtype": "muaqabalah / antithesis (parallel contrasting clauses)",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunks do not contain the exact words «يُؤْمِنُ بِهِ» / «لَا يُؤْمِنُ بِهِ» as substrings; the contrast is inferred from the supplied word list rather than an exact chunk quote."
+      }
+    ],
+    "warnings": [
+      "None of the provided source_chunks contains the full ayah text. The only exact substring available in the chunks that matches the verse material is the repeated formula «وَمِنْهُمْ مَنْ», so quoted evidence uses that substring.",
+      "Claims about the specific verbs «يُؤْمِنُ» / «لَا يُؤْمِنُ» are inferred from the word list you supplied; please provide tafsir/بلاغة chunks that include those exact phrases (or a tafsir_balagha source) for higher-confidence grounding and for extracting devices like مؤثرات بلاغية إضافية (e.g., ijaaz, iltifat) if present."
+    ]
+  },
+  "n_chunks": 12
+}

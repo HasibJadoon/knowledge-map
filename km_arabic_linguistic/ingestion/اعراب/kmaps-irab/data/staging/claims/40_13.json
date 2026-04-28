@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "40:13",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "(تُضِلُّ بِهَا) : يَجُوزُ أَنْ يَكُونَ مُسْتَأْنَفًا، وَيَجُوزُ أَنْ يَكُونَ حَالًا",
+        "claim_ar": "يُجَاوَزُ أَنْ تَكُونَ الجُمْلَةُ الْمُسْتَثْنَى — هُنَا: «مَنْ يَنِيبُ» — مُسْتَأْنَفَةً أَوْ حَالًا.",
+        "claim_en": "The clause introduced by the exception (here: 'مَنْ يَنِيبُ') may be analyzed either as a resumed clause (مستأنف) or as a circumstantial clause (حال).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage in al-Tibyan discusses the permissibility of treating a following clause as مستأنف or حال in a different verse; applying it to S40:13 is inferential rather than an explicit iʿrāb of this exact verse.",
+        "quran_ref": "S40:A13"
+      }
+    ],
+    "warnings": [
+      "The provided al-Tibyan chunks do not contain an explicit, verse-specific iʿrāb discussion of S40:13. The claim above is inferred by analogy from a grammatical remark in the source (see source_quote_ar).",
+      "Only one inferential parsing claim could be extracted from the given chunks; no explicit statements in the chunks identify the roles of the specific words of S40:13 (e.g., هُوَ, الَّذِي, يُرِيكُمْ, آيَاتِهِ, يُنَزِّلُ, لَكُمْ, مِنَ, السَّمَاءِ, رِزْقًا, وَمَا, يَتَذَكَّرُ, إِلَّا, مَنْ, يُنِيبُ)."
+    ]
+  },
+  "n_chunks": 5
+}

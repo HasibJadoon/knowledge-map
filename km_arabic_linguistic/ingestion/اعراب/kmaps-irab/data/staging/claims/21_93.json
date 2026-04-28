@@ -1,0 +1,61 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:93",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "مُبْتَدَأٌ، وَ «مُعْرِضُونَ» الْخَبَرُ",
+        "claim_ar": "كُلٌّ: مبتدأ مرفوع، وخبره محذوف أو جملة اسمية/فعلية ظاهِرة مثل «راجِعُونَ»",
+        "claim_en": "kullun (كُلٌّ) functions as the subject (mubtada'). Its predicate (khabar) is expressed by 'راجعون' (i.e. kullun ... raji'una).",
+        "root": "كلل",
+        "lemma": "كُلّ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source gives an analogous pattern (هُمْ: مبتدأ والخبر) but does not mention this specific ayah or the word كُلّ explicitly; the application here is inferential and should be checked against direct commentary on this verse.",
+        "quran_ref": "S21:A93"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "مُبْتَدَأٌ، وَ «مُعْرِضُونَ» الْخَبَرُ",
+        "claim_ar": "رَاجِعُونَ: خبر مرفوع لـ «كُلٌّ» (خبر منطوق يدل على رجوع الجميع إلى الله)",
+        "claim_en": "raaji'oon (رَاجِعُونَ) is the predicate (khabar) in the nominal sentence with kullun as its subject, giving the meaning 'everyone will return (to Us)'.",
+        "root": "رجع",
+        "lemma": "رَٰجِعُون",
+        "confidence": "medium",
+        "needs_review_reason": "Source quoted illustrates the general 'subject — predicate' pattern but does not explicitly analyze this verb/adjective in this verse; the mapping is standard but should be verified against a direct i'rab of this ayah.",
+        "quran_ref": "S21:A93"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "taalluq",
+        "source_quote_ar": "يَجُوزُ أَنْ يَتَعَلَّقَ",
+        "claim_ar": "بَيْنَهُمْ: جار ومجرور يمكن أن يتعلّقَ بـ «أَمْرَهُمْ» (كونه تبيينًا لنوع أو تقسيم الأمر) أو أن يتعلّق بالفعل/الصفة كحال أو ظرف",
+        "claim_en": "baynahum (بَيْنَهُمْ): the prepositional phrase may attach to 'amruhum' (as specifying/dividing their affair) or attach to the verb/predicate (as an adverbial/circumstantial phrase).",
+        "root": "بين",
+        "lemma": "بَيْن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source discusses the permissibility of different attachments for prepositional phrases (example with «مِنْ ذِكْرٍ») but does not mention «بَيْنَهُمْ» in this verse; the claim is analogical and needs verification against specific commentary on this aya.",
+        "quran_ref": "S21:A93"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(ظَاهِرَةً) : حَالٌ، أَوْ صِفَةٌ.",
+        "claim_ar": "إِلَيْنَا: قد تُفهم ظرفًا (حالًا/ظرفًا) متعلقًا بـ «رَاجِعُونَ» أو تكون جار ومجرور متعلقًا بالخبر/الفعل (أي: كلٌّ إليْنا راجعون = حال/ظرف يبيّن وجه الرجوع)",
+        "claim_en": "ilayna (إِلَيْنَا): may be read as an adverbial/hal (circumstantial) modifying 'raaji'oon' or as a prepositional complement related to the predicate/action — specifying the direction/target of returning.",
+        "root": null,
+        "lemma": "إِلَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The source fragment notes that certain expressions can function as حال or وصفة, but it does not analyze 'إلينا' in this verse directly; this is an interpretive possibility that requires checking with direct exegesis.",
+        "quran_ref": "S21:A93"
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks contains a direct, explicit i'rāb of S21:A93 or the exact phraseology of this ayah. The extracted claims are analogical inferences based on similar discussions in the chunks (e.g. permissibility of different attachments of prepositional phrases, and general subject–predicate patterns).",
+      "Because the source quotes discuss other constructions (e.g. «مِنْ ذِكْرٍ», «وَهُمْ فِي غَفْلَةٍ») rather than this ayah verbatim, each claim above should be reviewed against commentaries that treat this specific verse to confirm the attachments and grammatical roles."
+    ]
+  },
+  "n_chunks": 12
+}

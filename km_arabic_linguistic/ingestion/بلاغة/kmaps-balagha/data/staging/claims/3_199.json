@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:199",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "tibaq",
+        "source_quote_ar": "لا يختلف فيها القرآن والتوراة والإنجيل.",
+        "claim_ar": "تطابق وتوازي بين ما أُنزلَ إليكم وما أُنزلَ إلى أهل الكتاب، عبر التكرار والتوازي في الصياغة (وَمَا أُنْزِلَ إِلَيْكُمْ وَمَا أُنْزِلَ إِلَيْهِمْ).",
+        "claim_en": "Parallelism (tibaq): the verse balances 'what was revealed to you' and 'what was revealed to them', creating a symmetric correspondence between the two revelations.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "نزل",
+        "lemma": "أُنْزِلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "هذا تنبيه على أن الأمر كله للَّه وعلى وجوب التوكل عليه.",
+        "claim_ar": "الآية تعمل كتنبيه وتذكير عملي: إبراز أن الأمر كله لِلَّه وأن التوكل عليه واجب (خاصة في سياق النصر والخذلان)، فالمقاطع الختامية تؤكد الحكم الإلهي والجزاء.",
+        "claim_en": "Asloob hakim (wise/authoritative style): the verse functions as an admonition/reminder that all affairs belong to God and that reliance upon Him is necessary; the closing clauses reinforce divine sovereignty and recompense.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "Inferred from exegetical commentary (Zamakhshari); alignment between commentary label 'تنبيه' and rhetorical taxonomy should be checked."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الواو استئنافية والجملة مستأنفة مسوقة للحديث عن نوع آخر من تلبيسات اليهود",
+        "claim_ar": "الواو في بداية الآية (وَإِنَّ) تعمل كواو استئنافية تستأنف الكلام وتُسَوِّق للحديث التالي، أي استعمال اتصال/فاصل بلاغي يوصِل الفكرة السابقة بالجملة الحالية.",
+        "claim_en": "Fasl/wasl (pause/connection): the initial waw (as in وَإِنَّ) functions as a resumptive conjunction (waw istinaafiyya), resuming and ushering the next statement and linking discourse segments.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Claims derive from the provided Zamakhshari and Darwish chunks; some inferences (especially about overall rhetorical function) are taken from commentary rather than direct lexical markers in the verse. Verify with original sources if stricter sourcing is required.",
+      "For particles (e.g., إِنَّ, واو الاستئناف) root is null/empty; confirm if a non-null root is required by downstream processing.",
+      "Only a subset of possible balagha devices was extracted because the provided source chunks emphasize certain rhetorical readings (parallelism, admonition, resumptive conjunction). Additional devices may be present in other commentaries (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) not included here."
+    ]
+  },
+  "n_chunks": 12
+}

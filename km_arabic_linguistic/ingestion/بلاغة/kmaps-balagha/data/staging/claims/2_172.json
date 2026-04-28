@@ -1,0 +1,78 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:172",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "(يا أَيُّهَا الَّذِينَ آمَنُوا)",
+        "claim_ar": "نداء مخاطب مباشر بـ«يا أيها» لتجديد العهد والتنبيه على المخاطَبين قبل الصياح بالأمر (الاستئناف)، أي تحويل الانتباه وإثارة القلوب.",
+        "claim_en": "Direct vocative address 'يا أيها الذين آمنوا' used to renew the covenant and draw attention to the addressees before issuing the command (a kind of rhetorical shift/attention-calling).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "معنى من الجارة هنا التبعيض أي كلوا بعضها",
+        "claim_ar": "حرف الجر «مِنْ» هنا للتبعيض (جزئية)، لا العموم؛ يقيّد الأمر بالجزء من الطيِّبات المتوفِّرة.",
+        "claim_en": "The preposition 'مِنْ' conveys partitivity (selection/portion), restricting the command to eat some of the good things rather than an absolute totality.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "taqdim_takhir",
+        "source_quote_ar": "(إِيَّاهُ) ضمير منفصل مفعول مقدم لتعبدون",
+        "claim_ar": "مقدمة الضمير «إِيَّاهُ» قبل الفعل لتقديم مفعولٍ مقصودٍ وتأكيديٍّ: «إن كنتم إياه تعبدون» → تأكيد موجه العبادة.",
+        "claim_en": "Fronting the object pronoun 'إِيَّاهُ' before the verb (preposing) to foreground and emphasize the intended object of worship: 'if you indeed worship Him'.",
+        "device_branch": "maani",
+        "device_subtype": "taqdim_takhir",
+        "root": null,
+        "lemma": "إِيَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "mukabalah",
+        "source_quote_ar": "(وَاشْكُرُوا لِلَّهِ) معطوف على كلوا",
+        "claim_ar": "التنسيق بين فعلي الأمر «كُلُوا» و«اشْكُرُوا»، أي توظيف التوازي/المقابلة في أسلوب الأمر والدعاء إلى فعلين مترابطين (أكل الطيبات ثم الشكر).",
+        "claim_en": "Coordination between the two imperatives 'كُلُوا' and 'اشْكُرُوا', using parallel imperative structure to link two related actions (eat good things, then give thanks).",
+        "device_branch": "badi",
+        "device_subtype": "mukabalah",
+        "root": "شكر",
+        "lemma": "شَكَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "Labelled as muqabalah (balance/parallelism) based on the commentary saying واشكروا is 'معطوف على كلوا'; classification among badi subtypes may need review."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "conditional_test",
+        "source_quote_ar": "(إِنْ) شرطية تجزم فعلين",
+        "claim_ar": "حرف الشرط «إِنْ» يطرح شرطًا يفحص صدق القائلين (اختبار للاسمية/العبادة): «إن كنتم إياه تعبدون» بمعنى: إن كنتم كذلك فليكن ثمرة ذلك الشكر.",
+        "claim_en": "The conditional particle 'إِنْ' frames a conditional test of sincerity ('if you indeed worship Him'), functioning rhetorically to challenge/verify the addressees' claim and to motivate the consequent exhortation.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "low",
+        "needs_review_reason": "Mapping the rhetorical role of the conditional to the predefined subtype 'ijab_inshaa' is uncertain; the chunk names it simply 'شرطية' — suggest review of subtype choice."
+      }
+    ],
+    "warnings": [
+      "Source chunks are primarily i'rab/commentary (Darwish - I'rab). Some device_subtype assignments (especially mapping to the provided subtype list) required interpretive choices and may need review by a balagha specialist.",
+      "The label 'ijab_inshaa' was applied to a conditional particle; this classification is tentative and flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

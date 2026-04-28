@@ -1,0 +1,55 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:111",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "istiarah",
+        "source_quote_ar": "يستعار الأكل للأخذ",
+        "claim_ar": "فعل «اشْتَرَى» استخدام استعاري (مجاز/استعارة): اشتُقّ بمعنى أخذ النفس والمال كنوع من التفاني والتخصيص لله، فلا المراد شراء بالمعنى التجاري الحرفي بل استعارة للدلالة على التخصيص والتفاني.",
+        "claim_en": "The verb \"اشترى\" is used metaphorically (istiarah/majaz): 'bought' stands for taking/dedication of selves and wealth to God — not a literal commercial purchase but a metaphor indicating dedication/sacrifice.",
+        "device_branch": "bayan",
+        "device_subtype": "istiarah",
+        "root": "شري",
+        "lemma": "اشْتَرَى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A111",
+        "rhetorical_effect": "Conveys a compact, powerful metaphor that frames believers' self-giving and spending as a solemn divine 'transaction', heightening the sense of committed sacrifice."
+      },
+      {
+        "word_index": 29,
+        "claim_type": "iltifat",
+        "source_quote_ar": "هو أمر في معنى الخبر",
+        "claim_ar": "الفعل «فاستبشروا» مأمور به على نحو الالتفات/الخطاب المباشر بعد سرد خبرى (إنَّ الله اشترى...)؛ أي تحويل الخطاب إلى مخاطبة مباشرة تدعو إلى الفرح والاطمئنان.",
+        "claim_en": "The verb \"فاستبشروا\" functions as an iltifat (shift/turn of address): after the report (\"Indeed Allah has bought...\"), the address shifts to a direct imperative/exhortation, inviting the listeners to rejoice and be reassured.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "بشر",
+        "lemma": "يَسْتَبْشِرُ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A111",
+        "rhetorical_effect": "Creates immediacy and emotional engagement by shifting from a doctrinal statement to a direct exhortation, turning information into practical consolation."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "في مقابلة قوله",
+        "claim_ar": "تواتر الأفعال «يُقَاتِلُونَ ... فَيَقْتُلُونَ وَيُقْتَلُونَ» يظهر مقابلة وتوازيًا بلاغيًا (مرايا فعلية وصيغ مبالغة/مضارع)، يقوّي موضوع التضحية والجهاد عبر تركيب متوازن.",
+        "claim_en": "The sequence \"يُقَاتِلُونَ ... فَيَقْتُلُونَ وَيُقْتَلُونَ\" exhibits muqabalah (balanced/paired structure): verbs are arranged in parallel/mirror fashion to reinforce the theme of sacrifice and combat.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "قتل",
+        "lemma": "قَٰتَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "Supported by the commentary's use of the term 'مقابلة' in general, but the specific commentary excerpt does not explicitly analyze these exact verbs; further source linkage would strengthen confidence.",
+        "quran_ref": "S9:A111",
+        "rhetorical_effect": "Emphasizes the reciprocity and totality of devotion (active fighting, being killed, and killing) by parallel verb forms, producing rhythmic and semantic reinforcement."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

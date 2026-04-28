@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "10:61",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "قُرْآنًا : فِيهِ وَجْهَانِ: أَحَدُهُمَا: أَنَّهُ تَوْطِئَةٌ لِلْحَالِ الَّتِي هِيَ «عَرَبِيًّا» وَالثَّانِي: أَنَّهُ حَالٌ، وَهُوَ مَصْدَرٌ فِي مَوْضِعِ الْمَفْعُولِ ; أَيْ مَجْمُوعًا أَوْ مُجْتَمَعًا،",
+        "claim_ar": "في كلمة «قُرْآنًا» عند المؤلف وجهان قرائيان/نحويان: أحدهما أنها توطئة للحال («عربياً»)؛ والثاني أنها حال ومصدر في موضع المفعول (أي بمعنى «مجموعًا» أو «مجتمعًا»).",
+        "claim_en": "For the word \"qur'ān\" the author gives two grammatical analyses: (1) that it is an introductory prelude to the circumstantial clause (the hal) \"Arabīyān\", and (2) that it is a hal — a masdar functioning in the position of a mufa'ul (object), i.e. meaning 'collectively' or 'in aggregate'.",
+        "root": "قرا",
+        "lemma": "قُرْءَان",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses «قُرْآنًا» in the accusative (قُرْآنًا), whereas in the provided ayah the form occurs after مِنْ as «قُرْآنٍ» (genitive). It is uncertain whether the same analyses apply without modification; verify applicability to this occurrence."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "أَنَّهُ تَوْطِئَةٌ لِلْحَالِ الَّتِي هِيَ «عَرَبِيًّا»",
+        "claim_ar": "وجه: قُرْآنًا توطئة للحال (أي مقدمة للحال «عربيًا»).",
+        "claim_en": "One interpretation: 'qur'ān' is a prelude/introduction to the hal (the circumstantial phrase) rendered as \"Arabīy(an)\".",
+        "root": "قرا",
+        "lemma": "قُرْءَان",
+        "confidence": "medium",
+        "needs_review_reason": "The source treats the word as قُرْآنًا (accusative); in the ayah it appears as مِنْ قُرْآنٍ (genitive). Confirm whether the 'prelude to the hal' analysis fits this syntactic context."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "أَنَّهُ حَالٌ، وَهُوَ مَصْدَرٌ فِي مَوْضِعِ الْمَفْعُولِ ; أَيْ مَجْمُوعًا أَوْ مُجْتَمَعًا،",
+        "claim_ar": "وجه آخر: قُرْآنًا حال، وهو مصدر منصوب في مقام المفعول بمعنى «مجموعًا» أو «مجتمعًا».",
+        "claim_en": "Alternative analysis: 'qur'ān' is a hal (circumstantial) and a masdar in the position of an object (mufa'ul), meaning 'together' or 'in aggregate'.",
+        "root": "قرا",
+        "lemma": "قُرْءَان",
+        "confidence": "medium",
+        "needs_review_reason": "The source presents this reading with the word in accusative (قُرْآنًا). The ayah's token is governed by مِنْ (قُرْآنٍ); verify whether the masdar-as-object reading is intended for this occurrence or for a different context/verse."
+      }
+    ],
+    "warnings": [
+      "The only directly relevant grammatical discussion in the provided chunks treats «قُرْآنًا» (accusative). In the supplied ayah-token the word appears as «مِنْ قُرْآنٍ» (genitive). Applicability of the cited analyses to this specific occurrence is uncertain and should be checked.",
+      "Other source chunks included in the input do not discuss this ayah or the word «قُرْآنٍ» and appear to be unrelated examples; only AL:CHUNK:283858e7453f4fae9e6f9337 contained relevant analysis."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "15:8",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ اسْتِفْهَامًا، فَتَكُونُ «مَا» فِي مَوْضِعِ نَصْبٍ، وَأَنْ يَكُونَ نَفْيًا؛ أَيْ مَا أَغْنَى عَنْهُمْ شَيْئًا.",
+        "claim_ar": "يجوز أن تُقرَأ «مَا» هنا استفهامًا (بمعنى الاستفهام وتكون في موضع نصب) أو تُؤوّل نفيًا",
+        "claim_en": "The particle 'مَا' (word 1) may be analyzed either as an interrogative 'ma' (in which case it would occupy an accusative/interrogative position) or as a negative particle.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ مَفْعُولًا لَهُ، وَأَنْ يَكُونَ خَبَرَ مُبْتَدَأٍ مَحْذُوفٍ؛ أَيِ الْإِنْذَارُ ذِكْرَى.",
+        "claim_ar": "الْمَلَائِكَةَ ظاهراً يمكن اعتباره مفعولًا للفعل (مفعول به لـ نُنَزِّلُ)",
+        "claim_en": "The noun 'الْمَلَائِكَةَ' (word 3) can be taken as the object (مفعول به) of the verb نُنَزِّلُ.",
+        "root": "ملك",
+        "lemma": "مَلَك",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage states the permissibility of treating a word as مفعولًا in a general example (ذِكْرَى); it does not state this specific ayah's parsing explicitly, so the application here is inferential and should be reviewed."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

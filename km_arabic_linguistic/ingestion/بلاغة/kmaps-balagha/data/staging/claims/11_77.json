@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:77",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "bayan",
+        "source_quote_ar": "قوله «وضيق ذرعه» في الصحاح: يقال ضقت بالأمر ذرعا، إذا لم تطقه ولم تقو عليه.",
+        "claim_ar": "استعمال «ذَرْعًا» هنا مجاز عن السعة والقدرة (الذُّرْع بمعنى الوسع/الطاقة)، أي كناية مجازية تُظهر عدم المقدرة على الاحتمال والمقاومة.",
+        "claim_en": "The use of «ذرعًا» is a metaphor/metonymy for span/capacity (i.e. 'capacity/ability'), conveying inability to endure or resist.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "ذرع",
+        "lemma": "ذَرْع",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A77",
+        "rhetorical_effect": "يجسّد عجز لوط عن مواجهة أمر قومه ويشدّد على ضيق الوسع والقدرة في مواجهة المكروه / Conveys Lot's inability to confront his people and emphasizes the lack of capacity to withstand the evil."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "maani",
+        "source_quote_ar": "(الواو) استئنافية",
+        "claim_ar": "حرف الواو في «وَضَاقَ» يعمل كواو استئنافية/رابطة، موصلاً الحدث بما سبقه ومؤكّداً لتتابع الحوادث وتصاعد الحالة.",
+        "claim_en": "The conjunction wāw in «وَضَاقَ» functions as a resumptive/sequence wāw (wa' isti'naf), linking this clause to the previous and marking sequence/escalation of events.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "ضيق",
+        "lemma": "ضَاقَ",
+        "confidence": "medium",
+        "needs_review_reason": "Inferred from a general grammatical note in the provided commentary that mentions '(الواو) استئنافية'; the source addresses the function of waw generally but does not give an extended balagha analysis specific to this exact occurrence in the verse.",
+        "quran_ref": "S11:A77",
+        "rhetorical_effect": "يساهم في إحساس التدرّج والتصاعد في السرد (من المساءة إلى ضيق الذرع ثم الحكم باليوم العصيب)، ما يفاقم الانطباع بالمأساة / Contributes to a sense of progression/escalation (from the ill-treatment to the tightening of capacity to the pronouncement of a dreadful day), heightening the tragic effect."
+      }
+    ],
+    "warnings": [
+      "بعض الاستدلالات مستنتَجة من ملاحظات نحوية/معجمية عامة في الشروحات المرفقة (مثل ملاحظة «(الواو) استئنافية»)، وليست جميعها تحليلاً بلاغيّاً صريحاً للآية عند العلماء البلاغيين. يوصى بمراجعة مصادر البلاغة الأصلية (الجرجاني، السكّاكّي، الباقلاني، السيوطي، وشروح البلاغة/التفسير البلاغي) إن توافرت لتثبيت أو تعديل الاستدلالات.",
+      "تم الاقتصار على المقاطع المرفقة كأساس للاقتباس؛ لذلك قد توجد عناصر بلاغية إضافية في شروح أخرى غير مضمنة هنا."
+    ]
+  },
+  "n_chunks": 12
+}

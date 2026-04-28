@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:97",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "None of the provided source_chunks contain the exact Arabic text (or an exact quoted substring) of this ayah or of a commentary phrase that matches the ayah. The requirement that source_quote_ar be an exact substring of one of the provided chunks cannot be satisfied, so no rhetorical claims were extracted.",
+      "Please provide source chunks (from the named authors) that include either the ayah text itself or explicit commentary sentences quoting or discussing this specific ayah so that source_quote_ar can be fulfilled."
+    ]
+  },
+  "n_chunks": 12
+}

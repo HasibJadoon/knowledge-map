@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:169",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "«إِلَّا مَا مَلَكَتْ يَمِينُكَ» يَجُوزُ أَنْ يَكُونَ فِي مَوْضِعِ نصب على الِاسْتِثْنَاء من النِّسَاء وَفِي مَوضِع رفع على الْبَدَل وَيجوز أَن يكون فِي مَوْضِع نَصْبٍ بَدَلًا مِنْ أَزْوَاجٍ؛ وَيَجُوزُ أَنْ يَكُونَ الِاسْتِثْنَاءُ مُنْقَطِعًا.",
+        "claim_ar": "أداة الاستثناء «إِلَّا» قد تكون منصوبة للاسترخاء (الاستثناء المنصوب)، وقد ترفع على سبيل البدل، وقد تأتي منصوبة بدلًا من 'أزواج'، ويمكن أن يكون الاستثناء منفصلاً (منقطعًا).",
+        "claim_en": "The particle 'إِلَّا' can appear in multiple syntactic uses: accusative as an exception (estithna' mansub), nominative as a badal (substitute), accusative as a badal from 'azwaj', and the exception may be discontinuous (munqata').",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَلْعُونِينَ) : هُوَ حَالٌ مِنَ الْفَاعِلِ فِي «يُجَاوِرُونَكَ» وَلَا يَجُوزُ أَنْ يَكُونَ حَالًا مِمَّا بَعْدَ «أَيْنَ» لِأَنَّهَا شَرْطٌ، وَمَا بَعْدَ الشَّرْطِ لَا يَعْمَلُ فِيمَا قَبْلَهُ.",
+        "claim_ar": "اسم على وزن جمع مذكرٍ سالِمٍ أو صيغة جمعٍ مثل «خَالِدِينَ» يجوز أن يُعرب حالة (حال) متعلقة بفاعل بحسب مثال «مَلْعُونِينَ» الذي عُرِبَ حالًا من الفاعل في المثال المذكور.",
+        "claim_en": "A plural participle form like 'خَالِدِينَ' can be analyzed as a hal (circumstantial accusative) related to the agent/subject, by analogy with the example 'مَلْعُونِينَ' which is treated as a hal from the agent in the cited passage.",
+        "root": "خلد",
+        "lemma": "خَالِد",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives the example of «مَلْعُونِينَ» as حال; applying that example to «خَالِدِينَ» in this verse is an analogy/inference—the source does not mention this ayah or the exact word «خَالِدِينَ»."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks quote or analyze Sura 4:169 or the exact phrase of this ayah directly; the extracted claims are drawn from general rules/examples in the supplied chunks and in one case by analogy.",
+      "Claims that apply an example from the sources to specific words in this ayah (e.g., treating «خَالِدِينَ» as حال by analogy with «مَلْعُونِينَ») should be reviewed by a specialist because the source does not explicitly analyze this verse."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "itnaab",
+        "source_quote_ar": "والتنوين في «إذ» عوض عن جملة",
+        "claim_ar": "التنوين في «إذ» يعمل كبديل لجملة كاملة (حذف وتكثيف المعنى)، أي أن «يَوْمَئِذٍ» تختصر عبارة أو جملة موضحة للحال.",
+        "claim_en": "The tanween in 'إذ' stands in place of a whole clause (ellipsis/substitution): 'yawmā-idh' compresses/represents an entire explanatory sentence.",
+        "device_branch": "maani",
+        "device_subtype": "ellipsis_substitution",
+        "root": "يوم",
+        "lemma": "يَوْمَئِذ",
+        "confidence": "medium",
+        "needs_review_reason": "The source is a grammatical/iʿrāb note; treating this grammatical ellipsis as a rhetorical device (itnaab) is interpretative and may require specialist confirmation."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "(وَذلِكَ الْفَوْزُ الْمُبِينُ)",
+        "claim_ar": "الاسم الإشاري «وذلك» يلخّص نتيجة ما قبله ويقدم خاتمة موجزة: تحويل بيان الشرط والنجاة إلى حكم جامع «الفوز المبين».",
+        "claim_en": "The demonstrative 'wa-dhalika' summarizes the preceding content and gives a concise conclusion: it converts the conditional statement of being spared into a general, conclusive judgment 'that is the clear success.'",
+        "device_branch": "maani",
+        "device_subtype": "resumptive_summary",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "Calling this device 'fasl_wasl' (separation/linking) is plausible but other labels (e.g., resumptive/summary or ijab_inshāʼ) might also fit; needs rhetorical-linguistic review."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ويصرف فعل الشرط وهو مبني للمجهول،",
+        "claim_ar": "جعل فعل الشرط مبنياً للمجهول («يُصْرَفْ») يحوّل الانتباه من الفاعل إلى فعل التصرّف الإلهي، مما يعزّز دلالة الرحمة الإلهية وتدخّلها.",
+        "claim_en": "Making the conditional verb passive ('yusraf') shifts attention away from an explicit agent to the divine action itself, thereby emphasizing divine mercy and intervention.",
+        "device_branch": "maani",
+        "device_subtype": "passive_emphasis",
+        "root": "صرف",
+        "lemma": "صَرَفَ",
+        "confidence": "high",
+        "needs_review_reason": "The iʿrāb explicitly notes the verb is passive; labeling this grammatical choice as the rhetorical device 'iltifat' / 'passive_emphasis' is interpretive and might be refined by a specialist."
+      }
+    ],
+    "warnings": [
+      "Claims are derived from grammatical/iʿrāb commentary in the provided chunks; mapping grammatical observations to rhetorical device labels is interpretative and may require specialist verification.",
+      "Some device_subtype labels (e.g., 'ellipsis_substitution', 'resumptive_summary', 'passive_emphasis') are descriptive tags not present verbatim in the source chunks and may need harmonization with your taxonomy.",
+      "Roots/lemmas: where the source or word list gives null root, lemma entry uses the lemma from the provided words; some roots are not specified in the sources."
+    ]
+  },
+  "n_chunks": 12
+}

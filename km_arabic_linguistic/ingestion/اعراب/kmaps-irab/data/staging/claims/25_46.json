@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "25:46",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (ظُلْمًا) : مَفْعُولُ جَاءُوا؛ أَيْ أَتَوْا ظُلْمًا وَيَجُوزُ أَنْ يَكُونَ مَصْدَرًا فِي مَوْضِعِ الْحَالِ",
+        "claim_ar": "قَبْضًا: منصوبة، وتجيز التبيان أن تؤخذ على أنها ظرف/حال أو مصدر في موضع الحال (على مثال «ظُلْمًا» المذكور).",
+        "claim_en": "qabd(an): accusative; al-Tibyān allows taking such an accusative as a circumstantial adverb (ḥāl/ظرف) or as a verbal noun used in the position of a ḥāl, by analogy with the example «ظُلْمًا».",
+        "root": "قبض",
+        "lemma": "قَبْض",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the word «ظُلْمًا» and the general possibility of an accusative acting as حال/مصدر في موضع الحال; the application to «قَبْضًا» is by analogy rather than an explicit mention of this verse."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (لَهُمْ عَذَابٌ) : ابْتِدَاءٌ وَخَبَرٌ فِي مَوْضِعِ خَبَرِ إِنَّ، وَيَجُوزُ أَنْ يَرْتَفِعَ الْعَذَابُ بِالظَّرْفِ.",
+        "claim_ar": "قاعدة: يجوز أن يرفَع الخبر أو يرتفع الحكم بالظرف. بمقتضى هذه القاعدة يمكن اعتبار «قَبْضًا» ظرفاً متعلقاً بالفعل (أو متعلقاً بخبر محذوف) في سياق الآية.",
+        "claim_en": "Rule: it is permissible that the predicate (or a predicative sense) be 'raised' by a circumstantial accusative (ẓarf). Under this rule, «قَبْضًا» can be considered a circumstantial accusative attached to the verb (or to an omitted predicate) in this verse.",
+        "root": "قبض",
+        "lemma": "قَبْض",
+        "confidence": "medium",
+        "needs_review_reason": "The cited rule is general and the source does not explicitly analyze this particular word in the verse; the claim applies the rule to the word by analogy."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (فِي الْأَرْضِ) : يَجُوزُ أَنْ يَكُونَ صِفَةً لِشَيْءٍ، وَأَنْ يَكُونَ مُتَعَلِّقًا بِيَخْفَى.",
+        "claim_ar": "يَسِيرًا: منصوبة نعتاً أو صفة لـ «قَبْضًا» (أي صفة مقرونة للمصدر/الظرف)، وذلك لإمكان كون عبارة مرفوعة أو منصوبة صفة لشيء بحسب التبيان.",
+        "claim_en": "yasyīran: accusative adjective (na‘t) modifying «qabd(an)» — i.e. a qualifying adjective for the accusative noun — since al-Tibyān allows that such expressions function as a 'quality' (صفة) of something.",
+        "root": "يسر",
+        "lemma": "يَسِير",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general statement about expressions functioning as صفة; it does not explicitly analyze «يَسِيرًا» in this verse, so the assignment as نعت is inferred."
+      }
+    ],
+    "warnings": [
+      "None of the provided chunks contain an explicit, verse-specific iʿrāb of S25:A46. The claims above apply general statements from al-Tibyān (given in the quoted substrings) by analogy to the words «قَبْضًا» and «يَسِيرًا».",
+      "Applications to this exact ayah should be reviewed: the source passages discuss similar words/phenomena (e.g. «ظُلْمًا», «فِي الْأَرْضِ», or the permissibility of رفع بالظرف) but do not explicitly treat this verse or these exact lexemes."
+    ]
+  },
+  "n_chunks": 12
+}

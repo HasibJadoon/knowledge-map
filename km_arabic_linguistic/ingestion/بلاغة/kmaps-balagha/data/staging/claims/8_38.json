@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:38",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "البلاغة: فن التغاير",
+        "claim_ar": "الآية تُبنى على مقابلة (تغاير) بين حالتين شرطيتين متقابلتين: توبة تكفر السابق («إِنْ يَنْتَهُوا يُغْفَرْ لَهُمْ مَا قَدْ سَلَفَ») وعودة تستوجب استمرار سنة السابقين («وَإِنْ يَعُودُوا فَقَدْ مَضَتْ سُنَّتُ الْأَوَّلِينَ»).",
+        "claim_en": "The verse employs antithesis/contrast (muqābala) between two conditional states: repentance leading to forgiveness of past deeds and relapse leading to the continuance of the former practice.",
+        "device_branch": "badi",
+        "device_subtype": "مقابلة",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The cited source chunk contains a general statement about 'التغاير' (contrast) in rhetoric (Safi). That discussion applies to a different verse in the chunk; the mapping to this specific ayah is interpretive and should be reviewed against classical commentaries explicitly addressing this ayah."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "هذا أسلوب من الجحود بليغ",
+        "claim_ar": "الآية تتخذ نبرة تأديبية/تحذيرية حازمة تُنفِق العتابَ والتهديد في جملة واحدة (تعليق العذاب بالحقيقة والإنذار بالعودة)، وهو ما يوازي ما وُصف في المصادر بـ«أسلوب الجحود البليغ».",
+        "claim_en": "The verse adopts a forceful, reproving tone—combining warning and conditional reprieve—which parallels the 'forceful denial' style described in the source (i.e., a powerful rhetorical stance of repudiation).",
+        "device_branch": "other",
+        "device_subtype": "أسلوب الجحود البليغ",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted phrase appears in Zamakhshari's discussion of a different Qur'anic utterance. Applying the same label to this ayah is plausible but not directly evidenced by the provided chunk and should be checked against commentaries that treat S8:38 specifically."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Zamakhshari, Safi (al-Jadwal), and Tabari — not from the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a tafsir-balagha selection).",
+      "The source excerpts cited discuss rhetorical features (e.g., 'التغاير', 'أسلوب من الجحود بليغ') in relation to other verses; the claims here are inferential when applied to S8:A38 and should be reviewed against primary balagha treatments of this specific ayah."
+    ]
+  },
+  "n_chunks": 12
+}

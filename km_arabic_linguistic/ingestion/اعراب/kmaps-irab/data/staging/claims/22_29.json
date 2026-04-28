@@ -1,0 +1,57 @@
+{
+  "layer": "irab",
+  "ayah_key": "22:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(لِيَشْهَدُوا) : يَجُوزُ أَنْ تَتَعَلَّقَ اللَّامُ بِأَذِّنْ، وَأَنْ تَتَعَلَّقَ بِيَأْتُوكَ. وَاللَّهُ أَعْلَمُ.",
+        "claim_ar": "اللام في «لْيَقْضُوا» قد تتعلق بالفعل الذي يليها أو بالفعل الذي قبلها على نحو ما جَوَّزَه في مثال «لِيَشْهَدُوا».",
+        "claim_en": "The lām in «لْيَقْضُوا» may attach (be syntactically governed) either by the verb that follows it or by a preceding verb, as permitted in the example given for «لِيَشْهَدُوا».",
+        "root": "قضي",
+        "lemma": "قَضَىٰٓ",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives the allowance using the example «لِيَشْهَدُوا» rather than this exact verse, so the claim is an extrapolation to «لْيَقْضُوا»."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(لِيَشْهَدُوا) : يَجُوزُ أَنْ تَتَعَلَّقَ اللَّامُ بِأَذِّنْ، وَأَنْ تَتَعَلَّقَ بِيَأْتُوكَ. وَاللَّهُ أَعْلَمُ.",
+        "claim_ar": "اللام في «وَلْيُوفُوا» جائز أن تتعلق بالفعل الذي يليها أو بالفعل الذي قبلها؛ القياس هنا من بيان جواز تعلق اللام في المثال «لِيَشْهَدُوا».",
+        "claim_en": "The lām in «وَلْيُوفُوا» may be attached to the verb that follows or to a preceding verb; this is inferred by analogy from the permissibility shown for «لِيَشْهَدُوا».",
+        "root": "وفي",
+        "lemma": "أَوْفَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited discussion concerns «لِيَشْهَدُوا» and is applied here by analogy to «وَلْيُوفُوا»."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(لِيَشْهَدُوا) : يَجُوزُ أَنْ تَتَعَلَّقَ اللَّامُ بِأَذِّنْ، وَأَنْ تَتَعَلَّقَ بِيَأْتُوكَ. وَاللَّهُ أَعْلَمُ.",
+        "claim_ar": "اللام في «وَلْيَطَّوَّفُوا» يجوز أن تتعلق بالفعل الذي يليها أو بالفعل الذي قبلها؛ ويُستدل لذلك من الإباحة المبيَّنة في مثال «لِيَشْهَدُوا».",
+        "claim_en": "The lām in «وَلْيَطَّوَّفُوا» may be governed by the following verb or by a preceding verb; this is inferred from the permissibility shown in the example «لِيَشْهَدُوا».",
+        "root": "طوف",
+        "lemma": "يَطَّوَّفَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source example addresses «لِيَشْهَدُوا», so applying it to this verb is an extrapolation."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (بِأَيْدِيكُمْ) : الْبَاءُ زَائِدَةٌ، يُقَالُ أَلْقَى يَدَهُ وَأَلْقَى بِيَدِهِ. وَقَالَ الْمُبَرِّدُ: لَيْسَتْ زَائِدَةً بَلْ هِيَ مُتَعَلِّقَةٌ بِالْفِعْلِ",
+        "claim_ar": "الجار والمجرور «بِالْبَيْتِ» في «وَلْيَطَّوَّفُوا بِالْبَيْتِ» قد تُفهم على وجهين: اعتبار الباء زائدة (لاعتبارها أسلوبية) أو اعتبارها متعلقة بالفعل (أي جار ومجرور متعلق بالفعل/ظرف للفعل)، خلافًا بين الآراء كما في مثال «بِأَيْدِيكُمْ».",
+        "claim_en": "The prepositional phrase «بِالْبَيْتِ» in «وَلْيَطَّوَّفُوا بِالْبَيْتِ» can be understood in two ways: the bāʾ (preposition) may be considered superfluous/stylistic, or it may be syntactically related to the verb (i.e., a prepositional complement/adjunct of the verb). This reflects differing opinions as shown in the discussion of «بِأَيْدِيكُمْ».",
+        "root": "بيت",
+        "lemma": "بَيْت",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses «بِأَيْدِيكُمْ»; the claim is generalized to «بِالْبَيْتِ» in this verse and records the attested disagreement."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks discuss analogous constructions (e.g. «لِيَشْهَدُوا» and «بِأَيْدِيكُمْ») but do not mention Sūrat al-Ḥajj 22:29 explicitly; the claims above are extrapolations from those examples.",
+      "No explicit iʿrāb (nominative/accusative/genitive functions) of individual nouns/adjectives in the exact verse text is given in the provided chunks, so such direct irab labels were not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

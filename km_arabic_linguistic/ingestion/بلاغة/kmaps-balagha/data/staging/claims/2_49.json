@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:49",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "maani: fasl_wasl (واو الاستئناف/ظرفية ربط السرد)",
+        "source_quote_ar": "(وَإِذا)",
+        "claim_ar": "الواو مع إدخال ظرف الزمان «إِذا» عملت عمل الاستئناف أو الربط في السرد: افتتاح بظرف يربط الحكاية السابقة بالحادثة المروية هنا.",
+        "claim_en": "The initial «وَإِذْ» functions as a resumptive/linking device (wa-waw of resumption / temporal adverb), linking and resuming the narrative frame for the reported event.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "other: explicit-for-implicit emphasis (وضع الظاهر موضع المضمر)",
+        "source_quote_ar": "وضع الظاهر موضع المضمر",
+        "claim_ar": "الآية تعرض الفعل الصريح (يُذَبِّحُونَ أَبْنَاءَكُمْ وَيَسْتَحْيُونَ نِسَاءَكُمْ) كـ«ظاهر» بدلاً من الإشارة الضمنية، زيادة في تقبيح فعلهم وإظهار بؤسهم وعنفهم.",
+        "claim_en": "The verse places explicit depiction of the act (\"they slaughter your sons and spare your women\") in place of a mere implicit reference — an emphatic technique that heightens the condemnation of the perpetrators.",
+        "device_branch": "other",
+        "device_subtype": "وضع الظاهر موضع المضمر (explicit-for-implicit emphasis)",
+        "root": "وضع",
+        "lemma": "وَضَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunk explicitly names the technique («وضع الظاهر موضع المضمر»), but mapping that phrasing to the prescribed device taxonomy (maani/bayan/badi) is uncertain; confirm preferred classification."
+      }
+    ],
+    "warnings": [
+      "Claims are derived only from the supplied source chunks. Several classical balagha authorities named in the task (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) were not present in the provided chunks, so some device mappings are provisional.",
+      "Some rhetorical-category mappings (e.g., the phrase «وضع الظاهر موضع المضمر») do not have an exact one-to-one label in the allowed device lists; such items are placed under 'other' with a descriptive subtype and flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:70",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "تكرار",
+        "source_quote_ar": "لَنا",
+        "claim_ar": "تكرار اللفظة «لَنَا» (ادعُ لَنَا ... يُبَيِّنْ لَنَا) لتأكيد التماس الطلب وتكثيف حس التذكير بالمصلحة الخاصة بالمتكلمين.",
+        "claim_en": "Repetition of the word “لَنَا” (ادعُ لَنَا ... يُبَيِّنْ لَنَا) to emphasize the petition and to intensify the sense of a personal, vested interest of the speakers.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review": false,
+        "needs_review_reason": "",
+        "rhetorical_effect": "يزيد الإلحاح والخصوصية في الطلب ويجعل موقف المخاطبين أكثر بروزاً وإلحاحاً."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "التّفات",
+        "source_quote_ar": "فَادْعُ",
+        "claim_ar": "التفات من صيغة الأمر المباشرة (ادعُ لَنَا رَبَّكَ) إلى كلام تقرير/تعليل عن موقفهم (إِنَّ الْبَقَرَ تَشَابَهَ عَلَيْنَا) — تحول في جهة الكلام (المخاطب → المتكلم/الراوي) يحقق تغييراً أسلوبياً لعرض الشك والاعتراض.",
+        "claim_en": "Iltifat (shift): a move from the direct imperative address (ادعُ لَنَا رَبَّكَ) to a reporting/assertive clause about the speakers' state (إِنَّ الْبَقَرَ تَشَابَهَ عَلَيْنَا). This change of address/person creates a stylistic turn that foregrounds their doubt/objection.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "دعو",
+        "lemma": "دَعَا",
+        "confidence": "medium",
+        "needs_review": true,
+        "needs_review_reason": "interpretation of iltifat depends on finer stylistic analysis and comparison with tafsir/balagha sources; provided chunks are i'rab notes, not explicit balagha commentary."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة/توازي",
+        "source_quote_ar": "إِنَّ",
+        "claim_ar": "تكرار «إِنَّ» وبناء جمل متوازية (إِنَّ الْبَقَرَ تَشَابَهَ عَلَيْنَا وَإِنَّا ...) لخلق مقابلة وتباين بين حالة الشك/الاستفهام وحالة التوكيد أو الرجاء (وَإِنَا إِنْ شَاءَ اللَّهُ لَمُهْتَدُونَ).",
+        "claim_en": "Parallelism/contrast: repetition of “إِنَّ” and parallel clause structure (إِنَّ الْبَقَرَ تَشَابَهَ عَلَيْنَا وَإِنَّا ...) to set up a contrast between doubt/confusion and affirmation/hope (وَإِنَا إِنْ شَاءَ اللَّهُ لَمُهْتَدُونَ).",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review": true,
+        "needs_review_reason": "claim rests on a structural reading (parallelism) that should be checked against classical balagha commentaries; source chunks are grammatical notes rather than rhetorical exegesis.",
+        "rhetorical_effect": "يبرز التناقض بين ارتباك المتكلمين وثقتهم المحتملة في الهداية، ويعطي للنص تناغماً وتوازناً بلاغياً."
+      }
+    ],
+    "warnings": [
+      "المقاطع المصدرية المرفقة هي ملاحظات إعرابية ولغوية (Darwish - I'rab)، وليست مقاطع من شروح البلاغة لِـالجُرجاني أو السَّكَكّاكِي أو الباقلاني أو السُّيوطي أو تفاسير البلاغة. لذلك استُخدمت خواص لغوية من تلك المقاطع كدليل نصّي، لكن الاستدلال البلاغي يتطلب الرجوع إلى مصادر البلاغة/التفسير الأصلية لإثبات أو تبرير هذه الادعاءات بشكل قاطع.",
+      "بعض الادعاءات (خاصة: إلتفات ومقابلة) مُقدَّرة على ضوء قراءة تركيبية عامة للنص؛ أوصى بمراجعة شروح البلاغة/التفسير المتخصصة لضبط التصنيف والدقة (حيث أن تصنيفات البلاغة قد تختلف بين الموازين التقليدية الحديثة).",
+      "حقلُ source_quote_ar لا يستشهد بنص التفسير البلاغي المطلوب (الجرجاني، السَّكّاكِي، الباقلاني، السُّيوطي، tafsir balagha). إن احتجت استخراج ادعاءات بدقة من تلك المصادر الخمسة، الرجاء توفير مقاطعها أو السماح باسترجاعها."
+    ]
+  },
+  "n_chunks": 12
+}

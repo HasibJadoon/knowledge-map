@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:119",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "مسألة : اختلف في جواز العطف على معمولي عاملين",
+        "claim_ar": "اختلف النحاة في جواز العطف على معمولي عاملين، وهذا الخلاف ينطبق على تأويل «وَمَنْ مَعَهُ» بعد «فَأَنْجَيْنَاهُ» — أي هل تُعطف «من معه» على مفعول الهاء أم لا.",
+        "claim_en": "Grammarians differ on the permissibility of coordinating two objects governed by a single governing verb; this dispute applies to the interpretation of 'وَمَنْ مَعَهُ' after 'فَأَنْجَيْنَاهُ' — i.e., whether 'who was with him' is conjoined with the object (the pronoun) or not.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source states the general debate about coordination of two objects but does not discuss this specific verse; applying it to this ayah is inferential and needs verification against commentaries that treat this verse explicitly."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "فالمشهور عن سيبويه المنع ، وبه قال المبرد وابن السراج وابن هشام . وجوزه الأخفش والكسائي والفراء والزجاج .",
+        "claim_ar": "قواعد النحاة المشهور (عن سيبويه وما تبعه) منعوا العطف على معمولي عاملين، بينما أذن به جماعة من القراءات والنحاة؛ هذا المرجع القاعدي له أثر في تحليل جملة «فَأَنْجَيْنَاهُ وَمَنْ مَعَهُ».",
+        "claim_en": "The established grammatical position (after Sibawayh and his followers) is to prohibit conjunction over two objects governed by one verb, while other scholars permit it; this grammatical rule bears on analyzing the phrase 'فَأَنْجَيْنَاهُ وَمَنْ مَعَهُ'.",
+        "root": "نجو",
+        "lemma": "أَنجَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited text gives the general rule and lists authorities for and against it, but it does not analyze the present verse specifically; further consultation of commentaries on this verse is needed to see which position is applied."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks contains the exact ayah text or an explicit discussion of S26:A119. The extracted claims are drawn from a general discussion in the sources about permissibility of 'عطف على معمولي عاملين' and are inferentially applied to this ayah; they should be reviewed against commentaries that treat this verse directly."
+    ]
+  },
+  "n_chunks": 12
+}

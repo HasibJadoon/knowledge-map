@@ -1,0 +1,91 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:160",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "إِنْ يَنْصُرْكُمُ اللَّهُ كما نصركم يوم بدر فلا أحد يغلبكم وَإِنْ يَخْذُلْكُمْ كما خذلكم يوم أحد",
+        "claim_ar": "مقابلة بلاغية بين حالتي النصر والخذلان لإبراز الاعتماد الكلّي على اللَّه",
+        "claim_en": "A rhetorical antithesis (mubāġalah) between Divine support and Divine abandonment to emphasize total reliance on God",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "فَمَنْ ذَا الَّذِي يَنْصُرُكُمْ",
+        "claim_ar": "استفهام بلاغي (سؤال استنكاري) يهيج الدهشة ويعظم معنى أنه لا ناصر بعد اللَّه",
+        "claim_en": "A rhetorical question (interrogation) that provokes wonder and magnifies the notion that none can help after God",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "Classification as ijab_inshaa (rhetorical interrogation) is interpretive; some traditions may label this as asloob_hakim or another interrogative device."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "tashbih",
+        "source_quote_ar": "كما نصركم يوم بدر فلا أحد يغلبكم",
+        "claim_ar": "تشبيه/استئناس بالموقف التاريخي (يوم بدر) لتقريب معنى النصر الإلهي وإثباته",
+        "claim_en": "A simile/allusion using the historical precedent of Badr to make the Divine victory concrete and persuasive",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "نصر",
+        "lemma": "نَصَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "فلا أحد يغلبكم",
+        "claim_ar": "نفي يقترن بالحصر لتوكيد عدم الغلبة على المؤمنين إذا نصرهم اللَّه",
+        "claim_en": "A negation that implies restriction/absoluteness (no one can overpower you) to strongly affirm security when God aids",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "غلب",
+        "lemma": "غَالِب",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling this exact construction as hasr_qasr (limitation/emphatic exclusivity) is interpretive; could be described simply as emphatic negation."
+      },
+      {
+        "word_index": 17,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "وَعَلَى اللَّهِ وليخص المؤمنون ربهم بالتوكل والتفويض إليه",
+        "claim_ar": "أسلوب توجيهي/حكمي يدعو المؤمنين إلى التوكل على اللَّه (أمر/نداء عملي)",
+        "claim_en": "An exhortative/imperative style urging the believers to place their trust in God (practical admonition)",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "وكل",
+        "lemma": "تَوَكَّلْ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "naktah",
+        "source_quote_ar": "فهذا تنبيه على أن الأمر كله للَّه وعلى وجوب التوكل عليه.",
+        "claim_ar": "نَكتَة بلاغية/تنبيهية في التفسير: الآية تعمل تنبيهاً يحصر الأمر كله في اللَّه ويحث على التوكل",
+        "claim_en": "A rhetorial 'punch' / admonition — the commentary explicitly notes the verse functions as an alert that all matters belong to God and thus exhorts reliance upon Him",
+        "device_branch": "other",
+        "device_subtype": "naktah",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Zamakhshari (al-Kashshaf) only; the request listed al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha—those authors' materials were not supplied, so claims reflect the available commentary.",
+      "Some device classifications (e.g., labeling the interrogative as ijab_inshaa or the negation as hasr_qasr) are interpretive; see needs_review_reason fields for details."
+    ]
+  },
+  "n_chunks": 12
+}

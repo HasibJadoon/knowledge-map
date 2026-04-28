@@ -1,0 +1,37 @@
+{
+  "layer": "irab",
+  "ayah_key": "2:278",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "taqdir",
+        "source_quote_ar": "(وَإِنْ وَجَدْنَا) : مُخَفَّفَةٌ مِنَ الثَّقِيلَةِ، وَاسْمُهَا مَحْذوفٌ؛ أَيْ: وَإِنَّا وَجَدْنَا.",
+        "claim_ar": "اسمُ «إِنْ» محذوف في الصيغة المخففة؛ فالمخففة من الثقيلة واسمها محذوف.",
+        "claim_en": "The particle 'إِنْ' in its 'mukhafafa' (light/contracted) form is considered derived from the 'heavy' إنّ, and its ism (the noun that would normally follow) is omitted (i.e., an elided noun is implied).",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage discusses the phrase «وَإِنْ وَجَدْنَا» specifically; the source states a general syntactic rule about 'إِنْ' being مخففة and having اسم محذوف. Applicability to the instance in S2:278 (إِنْ كُنْتُمْ) is plausible but not explicitly analyzed in the provided chunk and should be verified against a direct commentary on this verse.",
+        "quran_ref": "S2:A278"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقَالَ الْكُوفِيُّونَ: مِنَ الثَّقِيلَةِ «إِنْ» بِمَعْنَى «مَا»",
+        "claim_ar": "قالَ الكوفيّونَ: إنْ من الثقيلةِ وتُفهم بمعنى «ما».",
+        "claim_en": "According to the Kufan grammarians, this 'إِنْ' belongs to the 'heavy' (الثَّقِيلَة) class and is to be understood with the sense of 'مَا'.",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source records a Kufan position about the particle 'إِن'. It does not explicitly cite the reading or analysis for this exact occurrence in S2:278, so applying it to this verse requires confirmation.",
+        "quran_ref": "S2:A278"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain an explicit, verse-specific iʿrāb analysis of Sūrat al-Baqarah 2:278. Extracted claims are derived from general remarks about the particle «إِنْ» in the source and a reported Kufan view; their direct applicability to the instance «إِنْ كُنْتُمْ» in this verse should be checked against a chunk that discusses this verse explicitly.",
+      "Roots for the particle «إِنْ» are not lexical roots (hence set to null)."
+    ]
+  },
+  "n_chunks": 12
+}

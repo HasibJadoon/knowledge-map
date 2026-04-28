@@ -1,0 +1,50 @@
+{
+  "layer": "irab",
+  "ayah_key": "25:75",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "(لَهُمْ عَذَابٌ) : ابْتِدَاءٌ وَخَبَرٌ",
+        "claim_ar": "أُولَئِكَ: اسم إشارة في موقع المبتدأ",
+        "claim_en": "'Aulā'ika' is a demonstrative noun functioning as the mubtada' (subject).",
+        "root": null,
+        "lemma": "أُولَٰٓئِك",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk gives the general pattern of 'اسم + خبر' illustrated with (لهم عذاب). Applying that general pattern to this verse (أُولَئِكَ يُجْزَوْنَ...) is straightforward but is an analogical application rather than an explicit citation of this ayah.",
+        "quran_ref": "S25:A75"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "(لَهُمْ عَذَابٌ) : ابْتِدَاءٌ وَخَبَرٌ",
+        "claim_ar": "يُجْزَوْنَ: فعل مضارع مبني للمجهول في محل خبر للمبتدأ (أُولَئِكَ).",
+        "claim_en": "The verb 'yujzawna' is a present passive verb (built in the passive) functioning as the predicate (khabar) of the mubtada' 'أُولَئِكَ'.",
+        "root": "جزي",
+        "lemma": "جَزَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The source provides the general syntactic pattern (mubtada' and its predicate). The specific description as 'present passive in the position of khabar' is a standard analysis but is inferential from the general note rather than an explicit citation of this exact ayah.",
+        "quran_ref": "S25:A75"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَيَجُوزُ أَنْ يَرْتَفِعَ الْعَذَابُ بِالظَّرْفِ.",
+        "claim_ar": "فِيهَا: ظرف مكان متعلق بالفعل 'يُلَقَّوْنَ' (أي يجوز أن يرتفع متعلق الظرف ويعتد به في الحكم العروضي/الإعرابي).",
+        "claim_en": "The locative adverb 'fīhā' is an adverbial (zarf) attached to the verb 'yulqaūna' — the cited note says it is permissible for the noun (e.g. 'العذاب' in the example) to be affected/raised by an adverbial; by analogy 'fīhā' is attached to the verb here.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source sentence speaks generally about permissibility of an adverbial affecting/raising a noun (example: 'العذاب'). Applying this to 'فِيهَا' in this ayah is an analogy from that rule; the chunk does not mention this exact phrase.",
+        "quran_ref": "S25:A75"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not quote S25:75 directly; the extracted claims are inferred by analogy from general remarks in the chunks.",
+      "No source chunk explicitly discusses the words 'الْغُرْفَةَ' or 'بِمَا' in this ayah, so their syntactic status (e.g., whether الغرْفَةَ is نائب فاعل or مفعول له/به, or the role of بِمَا) is not asserted here and would require additional sources or direct commentary to resolve.",
+      "Confidence levels set to 'medium' where the source gives a general rule rather than an explicit comment on the exact tokens of this ayah; such cases should be reviewed against fuller commentary in al-Tibyan or other grammarian works."
+    ]
+  },
+  "n_chunks": 12
+}

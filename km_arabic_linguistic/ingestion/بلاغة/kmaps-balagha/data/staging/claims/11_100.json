@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:100",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ما من رسول إلا واجه قومه بهذا القول",
+        "claim_ar": "التفات وخاطبة إلى النبي بالمخاطب «عَلَيْكَ» — انقلاب في الأسلوب من السرد إلى المخاطبة",
+        "claim_en": "Iltifat (shift of style) / address to the Prophet with «عَلَيْكَ» — a change from narrative to direct address",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": "عَلَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source snippet discusses that a messenger 'faces his people with this statement' (general comment on addressing audiences). It supports the general phenomenon of shifting to direct address, but does not analyze this exact verse; confirm with a source that treats S11:100 specifically."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "أَلا وتكرارها مع النداء على كفرهم والدعاء عليهم، تهويل لأمرهم وتفظيع له، وبعث على الاعتبار بهم والحذر من مثل حالهم.",
+        "claim_ar": "تكرار وصيغ تكريرية في السرد القرآني (التأكيد بالرجوع إلى أخبار القرى) لإثارة الرهبة والاعتبار: «ذَٰلِكَ مِنْ أَنْبَاءِ الْقُرَى» يأتي كمقطع تكريري تأكيدي",
+        "claim_en": "Repetition (takrar): formulaic repetition of narrative elements (e.g., the lead-in 'That is among the news of the towns') functions to intensify and induce reflection/terror; a repetitive rhetorical pattern in the discourse.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source snippet explicitly discusses 'repetition with the call' as a rhetorical device, but the connection to this specific phrase in S11:100 ('ذَٰلِكَ مِنْ أَنْبَاءِ الْقُرَى') is inferential; recommend checking a tafsir/balagha text that treats this exact phrase."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "tibaq",
+        "source_quote_ar": "ولا يلتفتون إلى النصح. ولا تلين شكيمتهم للرشد.",
+        "claim_ar": "تضاد/مقابلة دلالية بين حالتين متعاكستين مماثلتين لِمَثَلِ «قَائِمٌ وَحَصِيدٌ» — تركيب يُبرز التباين بين البقاء والهلاك أو الثبات والزوال",
+        "claim_en": "Tibaq (antithesis): the pairing 'قَائِمٌ وَحَصِيدٌ' creates a semantic contrast (standing vs. harvested) that emphasizes the fate-opposed states (survival vs. destruction).",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "قوم",
+        "lemma": "قَآئِم",
+        "confidence": "low",
+        "needs_review_reason": "The selected source substring shows a general contrast in character/habit (not this verse's lexical pair). Direct explicit commentary on the specific lexical antithesis 'قائمٍ وحصيدٍ' is not present in the provided chunks; this claim is plausible but should be verified against a source that treats the exact wording of S11:100."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are primarily excerpts from al-Kashshaf and related commentaries; they are not the originally requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha). Claims here are tied to exact substrings from the supplied chunks, which are sometimes general remarks rather than verse-specific commentary.",
+      "Several claims are inferential: the supporting quotations discuss rhetorical phenomena in general (e.g., repetition, addressing) rather than analyzing S11:100 word-for-word. Those claims are marked with lower confidence and should be reviewed against dedicated balagha/tafsir sources that treat this ayah directly.",
+      "No direct substring in the provided chunks explicitly discusses the lexical pair «قَائِمٌ وَحَصِيدٌ». The tibaq (antithesis) claim is therefore tentative and needs confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "33:37",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "(إِذْ) الْأُولَى: ظَرْفٌ لِنَبَأٍ",
+        "claim_ar": "«إِذْ» (الأُولى) إعرابها ظرف لنبأ.",
+        "claim_en": "The particle 'إِذْ' (the first occurrence) is parsed as a circumstance (ظرف) of a report (نبأ).",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S33:A37"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "(إِذْ) الْأُولَى: ظَرْفٌ لِنَبَأٍ وَالثَّانِيَةُ بَدَلٌ مِنْهَا",
+        "claim_ar": "وجه آخر: الإِذْ الثانية تُعرب كبدل من الأولى (وجه بديل في الإِعْراب).",
+        "claim_en": "An alternative analysis: the second 'إِذْ' is a badal (substitute) from the first (i.e., an alternative syntactic explanation).",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S33:A37"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taalluq",
+        "source_quote_ar": "أَوْ ظَرْفٌ لِـ «تَسَوَّرُوا»",
+        "claim_ar": "إِذْ قد تتعلق بالفعل «تَسَوَّرُوا»، أي تكون ظرفًا متعلقًا بـ «تَسَوَّرُوا».",
+        "claim_en": "Another possible attachment: 'إِذْ' may be a circumstance (ظرف) attached to the verb 'تَسَوَّرُوا'.",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S33:A37"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

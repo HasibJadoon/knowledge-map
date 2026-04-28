@@ -1,0 +1,36 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:63",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "استفهام تقرير",
+        "source_quote_ar": "الاستفهام قبله ليس محضا، وإنما هو للتقرير",
+        "claim_ar": "الاستفهام القراري: استعمال صيغة استفهامية كوسيلة تقريرية لإثبات واقع أو تأكيده بدل طلب جواب.",
+        "claim_en": "Rhetorical interrogative (interrogative used as a declarative): using a question form to assert or affirm a fact rather than to request an answer.",
+        "device_branch": "maani",
+        "device_subtype": "استفهام تقرير",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "التفات (iltifat)",
+        "source_quote_ar": "وَإِذْ قَالَ مُوسَى لِقَوْمِهِ يَا قَوْمِ",
+        "claim_ar": "التفتة: استعمال وَإِذْ أو سياق سردي ينتقل إلى مخاطبة مباشرة (يا قوم)، أي الانتقال من السرد إلى النداء والمخاطبة.",
+        "claim_en": "Iltifat (shift of address): using a narrative introducer (wa-idh) then moving to direct address (e.g. \"ya qawma\"), i.e. shifting from third-person narration to direct second-person address.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat / انتقال إلى مخاطبة مباشرة",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "medium",
+        "needs_review_reason": "Inferred by analogy from the Tabari example (similar structure); the source gives the pattern but does not label it explicitly with the modern term."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

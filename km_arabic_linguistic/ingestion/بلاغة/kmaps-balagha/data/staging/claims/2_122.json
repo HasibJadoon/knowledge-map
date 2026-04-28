@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:122",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "﴿يَا بَنِي إِسْرَائِيلَ اذْكُرُوا نِعْمَتِيَ الَّتِي أَنْعَمْتُ عَلَيْكُمْ﴾",
+        "claim_ar": "افتتاح الآية بالمخاطبة \"يا بني إسرائيل\" كوسيلة بلاغية لجذب الانتباه وإحداث تحول خطابي من الحديث العام إلى توجيه مباشر إلى جماعة معينة.",
+        "claim_en": "The opening vocative 'O Children of Israel' is a rhetorical address that draws attention and effects a shift from general discourse to a direct exhortation to a specific audience.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "بني",
+        "lemma": "بُنَىّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the vocative phrase but does not explicitly label it as 'iltifat'; this is a standard rhetorical reading inferred from the text.",
+        "quran_ref": "S2:A122",
+        "rhetorical_effect": "directs attention, increases immediacy and moral responsibility of the addressees"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "takrar",
+        "source_quote_ar": "اذْكُرُوا نِعْمَتِيَ الَّتِي أَنْعَمْتُ عَلَيْكُمْ",
+        "claim_ar": "تكرار جذر النعمة (نِعْمَتِيَ ... أَنْعَمْتُ) كوسيلة تأكيد وتذكير بفضل الله، يعزّز توكيد الذكر والحثّ على الامتنان.",
+        "claim_en": "Repetition of the root نعم (n-i-‘-m) in \"ni'mati ... an'amtu\" functions as repetition for emphasis, reinforcing the exhortation to remember and be grateful for God's favors.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "نعم",
+        "lemma": "نِعْمَة",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary reproduces the phrase but does not explicitly analyze it as a rhetorical repetition; the device identification is an inference based on surface repetition of the root.",
+        "quran_ref": "S2:A122",
+        "rhetorical_effect": "emphasis on the favor and prompting of gratitude / moral memory"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "﴿وَأَنِّي فَضَّلْتُكُمْ عَلَى الْعَالَمِينَ (٤٧) ﴾",
+        "claim_ar": "استخدام لفظ العموم \"العالمين\" ثم تقييده من قِبل المفسِّر إلى معنى خصوصي (مخرج العموم)، أي: عمومية اللفظ مقصودة خصوصية المعنى.",
+        "claim_en": "The general term 'al‑'alamin' ('the worlds/people') is used but, as the commentator notes, is restricted to a specific referent — i.e., a general expression whose scope is intended specifically (specification of the general).",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "علم",
+        "lemma": "عَالَمِين",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A122",
+        "rhetorical_effect": "heightens perceived honor by using a grand general term while actually referring to a specific comparison, creating an impression of wide distinction then narrowing to the intended referent"
+      }
+    ],
+    "warnings": [
+      "Some device labels (e.g., 'iltifat', 'takrar') are inferred from the text and are not always named explicitly in the provided commentaries; please review with full commentary texts if strict attribution is required.",
+      "Lemma provided for 'يَابَنِي' in the input ('بُنَىّ') is unusual; confirm lemma/root mappings if morphological precision is needed."
+    ]
+  },
+  "n_chunks": 12
+}

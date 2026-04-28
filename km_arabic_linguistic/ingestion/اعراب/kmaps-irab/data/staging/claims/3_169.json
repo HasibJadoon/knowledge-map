@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:169",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (لَا تَحْسَبَنَّ الَّذِينَ) : يُقْرَأُ بِالْيَاءِ وَالتَّاءِ، وَقَدْ ذُكِرَ مِثْلُ ذَلِكَ فِي الْأَنْفَالِ.",
+        "claim_ar": "تُقْرَأُ «لَا تَحْسَبَنَّ» بِالْيَاءِ وَالتَّاءِ (قراءة واردة)",
+        "claim_en": "The phrase 'لا تحسبنَّ' is read with a ya' and a ta' (an attested reading variant).",
+        "root": "حسب",
+        "lemma": "حَسِبَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source states the phrase is read 'بِالْيَاءِ وَالتَّاءِ' but does not explicitly specify whether this refers to the particle 'لا' or the verb; the claim is assigned to the verb (word_index 2) based on the cited phrase."
+      }
+    ],
+    "warnings": [
+      "The source chunk indicates a reading variant for the phrase 'لَا تَحْسَبَنَّ الَّذِينَ' but is ambiguous about which specific word (the particle 'لَا' vs. the verb) the description targets; mapping was made to word_index 2 (تَحْسَبَنَّ).",
+      "Only one source chunk directly addresses this verse; other chunks in the provided sources are not relevant to extracting additional إعراب claims for this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

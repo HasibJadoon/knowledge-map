@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "24:26",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "irab",
+        "source_quote_ar": "لَهُمْ مَغْفِرَةٌ",
+        "claim_ar": "مَغْفِرَةٌ: جملة اسمية يجوز أن تكون مستأنفة، ويجوز أن تكون خبرًا بعد خبر.",
+        "claim_en": "The phrase 'لَهُمْ مَغْفِرَةٌ' may be a resumed (independent) nominal sentence, or it may function as a predicate (khabar) following a preceding predicate.",
+        "root": "غفر",
+        "lemma": "مَّغْفِرَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

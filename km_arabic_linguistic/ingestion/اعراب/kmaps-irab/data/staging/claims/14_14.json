@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "14:14",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مِنْ بَعْدِ ذَلِكَ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِافْتَرَى، وَأَنْ يَتَعَلَّقَ بِالْكَذِبِ.",
+        "claim_ar": "يجوز أن يتعلّق لفظ (مِنْ بَعْدِ ذَلِكَ) بما قبلها على معنى الافتِرَاء أو الكذب.",
+        "claim_en": "The phrase 'min baʿd dhalika' may be syntactically attached to (governed by) what precedes it, on the meaning of 'fabrication' (iftira) or 'lying' (kadhb).",
+        "root": "بعد",
+        "lemma": "بَعْد",
+        "confidence": "medium",
+        "needs_review_reason": "The cited remark treats the sequence 'مِنْ بَعْدِ ذَلِكَ' (without a pronominal suffix). In the target ayah the phrase appears as 'مِنْ بَعْدِهِمْ ذَلِكَ' (with -هُمْ), so applicability to this exact morphological configuration should be verified."
+      }
+    ],
+    "warnings": [
+      "Only one relevant commentary chunk was found (on the phrase 'مِنْ بَعْدِ ذَلِكَ'). That chunk discusses the phrase without the pronominal suffix '-هم' present in the ayah; mapping the commentary to the ayah's exact wording may require further review."
+    ]
+  },
+  "n_chunks": 12
+}

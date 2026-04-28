@@ -1,0 +1,251 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 18,
+      "word_start": 1,
+      "word_end": 4,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "جملة جاؤوا ... بدم كذب",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 4,
+          "head_word_index": 2,
+          "note_ar": "جملة جاؤوا على قميصه بدم كذب"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "و",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "عاطفة",
+          "irab_case": "",
+          "note_ar": "الواو عاطفة"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "جاؤوا",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "ir,ab_case": "",
+          "note_ar": "جاؤوا فعل ماض"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "على",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 2,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "على جار ومجرور متعلّق بمحذوف حال من دم"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "قميصه",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 3,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "قميصه مضاف إليه"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "بدم",
+          "relation_type": "object_direct",
+          "governor_word_index": 2,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "بدم جار ومجرور متعلّق بجاؤوا"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "كذب",
+          "relation_type": "adjective",
+          "governor_word_index": 5,
+          "irab_position": "نعت",
+          "irab_case": "مجرور",
+          "note_ar": "كذب نعت لدم مجرور وهو على حذف مضاف"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 18,
+      "word_start": 7,
+      "word_end": 11,
+      "sentence_kind": "declarative",
+      "discourse_role": "explanatory",
+      "note_ar": "جملة بل سوّلت لكم أنفسكم أمرًا",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 7,
+          "word_end": 11,
+          "head_word_index": 8,
+          "note_ar": "جملة بل سوّلت لكم أنفسكم أمرًا"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 7,
+          "word_ar": "بل",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "فاعل",
+          "irab_case": "",
+          "note_ar": "بل حرف إضراب"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "سوّلت",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "سوّلت فعل ماض"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "لكم",
+          "relation_type": "object_direct",
+          "governor_word_index": 8,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "لكم مفعول به"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "أنفسكم",
+          "relation_type": "object_direct",
+          "governor_word_index": 8,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "أنفسكم فاعل مرفوع"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "أمرا",
+          "relation_type": "object_direct",
+          "governor_word_index": 8,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "أمرا مفعول به"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 18,
+      "word_start": 12,
+      "word_end": 14,
+      "sentence_kind": "declarative",
+      "discourse_role": "explanatory",
+      "note_ar": "جملة صبر جميل",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 12,
+          "word_end": 14,
+          "head_word_index": 13,
+          "note_ar": "جملة صبر جميل"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 12,
+          "word_ar": "صبر",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "صبر خبر لمبتدأ محذوف وجوبا تقديره صبري"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "جميل",
+          "relation_type": "adjective",
+          "governor_word_index": 12,
+          "irab_position": "نعت",
+          "irab_case": "مرفوع",
+          "note_ar": "جميل نعت لصبر مرفوع"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 18,
+      "word_start": 14,
+      "word_end": 18,
+      "sentence_kind": "declarative",
+      "discourse_role": "divine address",
+      "note_ar": "جملة الله المستعان على ما تصفون",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 14,
+          "word_end": 18,
+          "head_word_index": 15,
+          "note_ar": "جملة الله المستعان على ما تصفون"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 14,
+          "word_ar": "الواو",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "عاطفة",
+          "irab_case": "",
+          "note_ar": "الواو عاطفة"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "اللَّه",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "اللَّه لفظ الجلالة مبتدأ مرفوع"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "المستعان",
+          "relation_type": "predicate",
+          "governor_word_index": 15,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "المستعان خبر المبتدأ مرفوع"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "على",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 16,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "على حرف جرّ"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "ما",
+          "relation_type": "object_direct",
+          "governor_word_index": 16,
+          "irab_position": "اسم موصول",
+          "irab_case": "مجرور",
+          "note_ar": "ما اسم موصول مبني في محل جرّ متعلّق بالمستعان"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

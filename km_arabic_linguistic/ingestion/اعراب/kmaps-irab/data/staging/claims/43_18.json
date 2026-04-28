@@ -1,0 +1,57 @@
+{
+  "layer": "irab",
+  "ayah_key": "43:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "غير : اسم ملازم للإضافة والإبهام ، فلا تتعرف ما لم تقع بين صدين  ، ومن ثم جاز وصف المعرفة بها في قوله : غير المغضوب عليهم [ الفاتحة : 7 ] .",
+        "claim_ar": "كلمة «غير» اسم ملازم للإضافة والإبهام (قاعدة لبيان طبيعة «غير» في القرآن).",
+        "claim_en": "\"ghayr\" is a noun that habitually accompanies an annexation and ambiguity (a grammatical classification of the particle/word).",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وتقع حالا إن صلح موضعها ( لا ) واستثناء إن صلح موضعها ( إلا ) فتعرب بإعراب الاسم التالي ( إلا ) في ذلك الكلام .",
+        "claim_ar": "«غير» قد تعرب حالاً إذا صلح موضعها موضع «لا»، وقد تعرب استثناءً إذا صلح موضعها موضع «إلا» (وفي حالة الاستثناء تُعرب بحسب الاسم التالي).",
+        "claim_en": "\"ghayr\" can be parsed as a hal (circumstantial) if it occupies the position of 'la', or as an exception (istithna') if it occupies the position of 'illa' — in the latter case it takes the case of the following noun.",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "الأول : أن تكون للنفي المجرد من غير إثبات معنى به ، نحو : مررت برجل غير قائم ، أي : لا قائم ، قال تعالى : ومن أضل ممن اتبع هواه بغير هدى [ القصص : 50 ] وهو في الخصام غير مبين [ الزخرف : 18 ] :",
+        "claim_ar": "في هذه الوظيفة (كما في قوله «وهو في الخصام غير مبين») «غير» تفيد نفي الصورة/النفي المجرد (أي: ليس مبيناً).",
+        "claim_en": "In this usage (as in 'wa-huwa fi al-khisam ghayru mubin') 'ghayr' expresses a sheer negation of the stated quality (i.e., 'not manifest').",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "irab",
+        "source_quote_ar": "وهو في الخصام غير مبين [ الزخرف : 18 ]",
+        "claim_ar": "في هذا المثال «غير» جزء من عبارة خبرية («غير مبين») تبيّن حال المبتدأ «هو»؛ مع احتمال قراءة تفصيلية أخرى، لذلك الإسناد هنا مستفاد من سياق المثال وليس تصريحاً صريحاً بالنحو في المصدر.",
+        "claim_en": "In this example 'ghayr' is part of the predicative phrase ('ghayr mubin') which functions as the predicate (khabar) describing the subject 'huwa'. This parse is inferred from the example rather than an explicit syntactic labelling in the source.",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage gives the usage/example but does not explicitly label the full clause-level parse (e.g., 'خبر' vs. other analyses); the assignment as خبر is therefore inferred and should be checked against other grammatical commentaries."
+      }
+    ],
+    "warnings": [
+      "The source passages are descriptive about the usages of «غير» and give the exact example «وهو في الخصام غير مبين», but they do not explicitly present a full syntactic parse (e.g., explicitly naming 'غير مبين' as خبر). One irab claim (خبر) is therefore an inference from the example and should be reviewed against other grammatical analyses.",
+      "All extracted claims are based on the al-Itqan excerpts provided. If additional commentaries (e.g., Kufan/Basran differences) or variant readings are needed, they are not present in the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

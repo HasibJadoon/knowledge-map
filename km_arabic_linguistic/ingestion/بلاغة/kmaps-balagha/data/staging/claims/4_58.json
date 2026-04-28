@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:58",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "وَكَفى بِاللَّهِ",
+        "claim_ar": "تكرار لفظ (إِنَّ اللَّهَ) في الآية للتوكيد والشدّة",
+        "claim_en": "Repetition of the phrase (إِنَّ اللَّهَ) across the verse functions as emphatic repetition (takrār) to strengthen and confirm the command and admonition.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": "n/a",
+        "quran_ref": "S4:A58",
+        "rhetorical_effect": "intensifies the authority and seriousness of the command; increases listener attention and assent"
+      },
+      {
+        "word_index": 24,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "صَبْرٌ جَمِيلٌ",
+        "claim_ar": "تزويج الصفتين في قولهِ: «سَمِيعًا بَصِيرًا» بمثابة مقابلة أو موازاة بلاغية تُبرز صفتَي الإحاطة الإلهية",
+        "claim_en": "The pairing of the two attributes 'سَمِيعًا بَصِيرًا' is a balanced juxtaposition (muqābala) — placing two parallel qualities together to highlight God's comprehensive knowledge (hearing and seeing).",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "سمع",
+        "lemma": "سَمِيع",
+        "confidence": "medium",
+        "needs_review_reason": "source example is an analogous instance of adjective pairing (صَبْرٌ جَمِيلٌ) from the supplied commentary rather than an explicit treatment of this exact Qur'anic phrase",
+        "quran_ref": "S4:A58",
+        "rhetorical_effect": "conveys completeness/totality of divine perception by giving two complementary senses in parallel"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "جمل توسطت بين البيان والمبين",
+        "claim_ar": "فصل ووصل بين الأجزاء الخبرية والأمرية في تركيب الآية (أمر أداء الأمانات، ثم حكم العدل) يعطي تدرّجاً منطقيّاً وحجةً متتابعة",
+        "claim_en": "The verse uses connective sequencing (fasl‑wasl) — linking the command to deliver trusts with the injunction to judge justly — producing a measured progression from duty to judicial conduct; the clauses are ordered and connected to build the moral argument.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "امر",
+        "lemma": "أَمَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "the quoted source phrase discusses interposition/connection of clauses generally; mapping to this specific clause-structure is interpretive and should be reviewed",
+        "quran_ref": "S4:A58",
+        "rhetorical_effect": "creates a logical chain (duty → justice → divine admonition) that strengthens the moral imperative and its authority"
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from al-Kashshaf (Zamakhshari) rather than the originally requested authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsīr‑balāgha). Claims cite exact substrings from the available chunks as analogues or illustrative examples.",
+      "Some device attributions (especially muqabalah and fasl_wasl) rely on analogous examples in the supplied commentary rather than explicit, word-for-word discussion of S4:A58 in those chunks—these should be reviewed by a specialist for precision.",
+      "Root/lemma fields use the primary word chosen for the claim. Where the claim is ayah-level (word_index 0) root/lemma are left null."
+    ]
+  },
+  "n_chunks": 12
+}

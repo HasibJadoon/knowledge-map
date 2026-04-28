@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:52",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "tashbih",
+        "source_quote_ar": "وهذا مثل يضرب",
+        "claim_ar": "تشبيه: أداة التشبيه «كَـ» في «كَدَأْبِ» تضع المشبه (المشركين) في مقام المشبه بهم (أهل فرعون)، فتقوّي الحجة بالاستعارة التاريخية والمقارنة.",
+        "claim_en": "Simile (tashbih): the simile particle «كَـ» in «كَدَأْبِ» places the disbelievers in the position of the compared (the people of Pharaoh), strengthening the argument by a historical comparison.",
+        "device_branch": "bayan",
+        "device_subtype": "تشبيه باستخدام كاف التشبيه (تقرِيب بالمثل التاريخي)",
+        "root": "داب",
+        "lemma": "دَأْب",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains a generic marker of simile ('وهذا مثل يضرب') but does not quote or analyze this specific verse; the link to the verse is an inference and should be reviewed against dedicated balagha commentary."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks do not include the specific balagha authors requested (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a 'tafsir balagha' chunk). Claims are inferred from the available chunks (e.g., Zamakhshari/Tabari fragments).",
+      "The source_quote_ar for the claim is an exact substring from a provided chunk but does not include the verse wording itself; the rhetorical mapping to the verse is therefore inferential and should be validated with the requested balagha sources."
+    ]
+  },
+  "n_chunks": 12
+}

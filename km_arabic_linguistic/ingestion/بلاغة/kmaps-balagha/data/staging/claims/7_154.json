@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:154",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "tashbih",
+        "source_quote_ar": "البلاغة: في الآية التشبيه التمثيلي",
+        "claim_ar": "التشبيه التمثيلي",
+        "claim_en": "representative/schematic simile (tashbih tamthili)",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": null,
+        "lemma": null,
+        "confidence": "needs_review",
+        "needs_review_reason": "The source chunk contains the phrase 'البلاغة: في الآية التشبيه التمثيلي' but the commentary appears in a general/other-verse context in the provided chunks; it is not explicit that this remark is about S7:A154. Verify that the commentator's note applies to this ayah."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الكلام مستأنف مسوق",
+        "claim_ar": "الجملة مستأنفة مسوقة ـ دلالة على وقف واستئناف/فصل ووصل في السرد",
+        "claim_en": "the sentence is resumed (al-kalam mustanif masuq) — indicates pause and resumption / fasl-wa-wasl in the discourse",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The quoted chunk uses the phrase 'الكلام مستأنف مسوق' (a grammatical/rhetorical observation). It appears applicable to structural pause/resumption in a passage, but the chunk does not explicitly cite this specific ayah; confirm the commentator intended this reading for S7:154."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily i'rab/grammatical notes (Darwish - I'rab). Few explicit balagha (rhetoric) statements are present; claims are anchored only to the exact quoted phrases in these chunks.",
+      "Some quoted phrases (e.g., 'البلاغة: في الآية التشبيه التمثيلي') occur in the chunks without an explicit link to S7:A154. Confirm applicability with the original balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) or the full commentaries."
+    ]
+  },
+  "n_chunks": 12
+}

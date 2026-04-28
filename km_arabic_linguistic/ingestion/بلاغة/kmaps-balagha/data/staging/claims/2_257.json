@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:257",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "وضع الظاهر موضع المضمر",
+        "source_quote_ar": "في هذه الآية ضرب من البلاغة دقيق المسلك وهو وضع الظاهر موضع المضمر زيادة في تقبيح أمرهم",
+        "claim_ar": "الآية تستخدم وضع الظاهر موضع المضمَر (ذكر الظاهر بدل المضمَر) لزيادة في تقبيح أمر الكافرين",
+        "claim_en": "The verse employs placing the explicit (the apparent/explicit expression) in place of the implicit (the omitted) to intensify the condemnation of the disbelievers.",
+        "device_branch": "maani",
+        "device_subtype": "placement_of_explicit_for_implicit",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk states 'في هذه الآية' but does not explicitly name Sura/ayah; confirm the commentator meant S2:257 rather than another verse."
+      }
+    ],
+    "warnings": [
+      "Most provided source chunks do not contain explicit commentary on Sura 2:257. Only one chunk contains the exact phrase 'في هذه الآية ضرب من البلاغة ... وضع الظاهر موضع المضمر' which has been used for the claim. Please supply classical balagha/tafsir excerpts (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) that explicitly reference S2:257 for more comprehensive and higher-confidence annotations.",
+      "No exact substrings were found in the provided chunks that directly quote the verse (اللَّهُ وَلِيُّ ... خَالِدُونَ) or other commentators explicitly discussing devices like antiphrasis, tibaq/muqabalah, sajʿ, or tashbih in relation to this ayah. Additional source material is needed to extract further devices with high confidence."
+    ]
+  },
+  "n_chunks": 12
+}

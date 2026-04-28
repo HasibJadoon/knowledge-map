@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "maani",
+        "source_quote_ar": "الفاء استئنافية",
+        "claim_ar": "الفاء في «فَاغْفِرْ» فاء استئنافية تربط الدعاء بما قبله وتدخل على كلامٍ مستأنف.",
+        "claim_en": "The particle fa- in «فāghfir» (and forgive) functions as a resumptive/sequence fa (الفاء استئنافية), linking the supplication to the preceding statement and marking a resumed utterance.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "فاء",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "maani",
+        "source_quote_ar": "إن واسمها ومتوفيك خبرها",
+        "claim_ar": "حرف «إِنَّ» في «إِنَّنَا آمَنَّا» أداة توكيد/تأكيد للخبر؛ إضافة تأكيدية على اعترافهم بالإيمان.",
+        "claim_en": "The particle 'inna' in «innā āmannā» is a particle of emphasis/assertion, reinforcing the statement of belief.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "أن",
+        "lemma": "إِنَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "maani",
+        "source_quote_ar": "الواو عاطفة ولا نافية",
+        "claim_ar": "الواو في «وَقِنَا» واو عاطفة (عطف) تربط طلب الوقاية بالدعاء العام السابق وتُظهر التراخى والترتيب في الطلبات.",
+        "claim_en": "The conjunction waw in «waqinā» is the coordinating waw (conjunctive), linking the plea for protection to the preceding request and showing sequencing of petitions.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "واو",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "maani",
+        "source_quote_ar": "كلام مستأنف مسوق",
+        "claim_ar": "النداء المباشر إلى الرب («رَبَّنَا») بعد وصفٍ أو إخبارٍ («إِنَّنَا آمَنَّا») يشتمل على الالتفات (الالتفات/الانقلاب في خطاب المتكلم) من الخبر إلى المخاطبة والدعاء.",
+        "claim_en": "The direct address to the Lord («rabbana») following the asserted statement («innā āmannā») involves an iltifāt (a rhetorical turn), shifting from declaration to direct supplication and address.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": "الالتفات",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk discusses 'كلام مستأنف مسوق' and vocative usages (e.g. examples with يا) but does not explicitly analyze a bare vocative like «رَبَّنَا»; the iltifat reading is inferential and should be reviewed against specialized balagha commentaries."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are primarily Zamakhshari (al-Kashshaf) and Darwish (I'rab) fragments. They do not include the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) or a dedicated tafsir-balagha section. Claims above cite only substrings present in the supplied chunks.",
+      "Some rhetorical attributions (especially the iltifat claim for «رَبَّنَا») are interpretive and inferred from general discussion in the provided chunks rather than explicit balagha treatment of this specific ayah; please review against specialised balagha commentaries if strict provenance to the named authors is required."
+    ]
+  },
+  "n_chunks": 12
+}

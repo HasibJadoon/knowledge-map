@@ -1,0 +1,37 @@
+{
+  "layer": "irab",
+  "ayah_key": "33:12",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "(إِذْ) الْأُولَى: ظَرْفٌ لِنَبَأٍ",
+        "claim_ar": "إِذْ في «وَإِذْ يَقُولُ...»: ظرف لنبأ (وظرف يذكر وقوع الخبر)",
+        "claim_en": "The particle 'إِذْ' in 'وَإِذْ يَقُولُ...' functions as an adverbial (zarf) introducing a reported event/news (ظرف لنبأ).",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S33:A12"
+      },
+      {
+        "word_index": 12,
+        "claim_type": "irab",
+        "source_quote_ar": "اسْتِثْنَاءٌ مِنْ غَيْرِ الْجِنْسِ فِي الْمَعْنَى",
+        "claim_ar": "إِلَّا: أداة استثناء — يذكرها المصنف كنوع من الاستثناء (استثناء من غير الجنس في المعنى)",
+        "claim_en": "The particle 'إِلَّا' acts as an exception particle (estithna'), described as 'exception from non‑class in meaning' (استثناء من غير الجنس في المعنى).",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted discussion in the source is about the phrase «إِلَّا مَنْ قَدْ آمَنَ»; applying the same characterization to «إِلَّا غُرُورًا» in this verse requires confirmation from a passage that treats this exact usage.",
+        "quran_ref": "S33:A12"
+      }
+    ],
+    "warnings": [
+      "Only two relevant syntactic remarks were found in the provided al-Tibyan chunks: one on (إِذْ) and a general note on إِلَّا. The source material does not provide explicit iʿrāb statements in these chunks for other words of this verse (e.g., مَرَضٌ, مَا, وَعَدَنَا, غُرُورًا).",
+      "The identification of إِلَّا as 'استثناء من غير الجنس' is drawn from a nearby example in the source (إِلَّا مَنْ قَدْ آمَنَ); its direct applicability to «إِلَّا غُرُورًا» is plausible but not explicitly confirmed in the supplied chunks, so it is marked with medium confidence."
+    ]
+  },
+  "n_chunks": 12
+}

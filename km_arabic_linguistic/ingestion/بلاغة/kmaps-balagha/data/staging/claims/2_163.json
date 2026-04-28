@@ -1,0 +1,67 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:163",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "takrar",
+        "source_quote_ar": "البلاغة: في هذه الآية فن طريف",
+        "claim_ar": "تكرار لفظة «إِلَه» (ظهور اللفظ مرتين) كوسيلة بلاغية لتأكيد معنى التوحيد وإبرازه.",
+        "claim_en": "Repetition of the word 'إِلَه' (the term appears twice) as a rhetorical device to reinforce and emphasize the meaning of monotheism.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "اله",
+        "lemma": "إِلَٰه",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunks do not contain an explicit classical balagha commentary on this specific ayah; the detection of repetition is text-internal and inferred rather than directly supported by the supplied chunks."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "mukabalah",
+        "source_quote_ar": "البلاغة: في هذه الآية فن طريف",
+        "claim_ar": "مقابلة/موازاة بيانية: تكرار المعنى بصيغتين متقابلتين («إِلَهٌ وَاحِدٌ» ثم «لَا إِلَهَ إِلَّا هُوَ») لتقوية الحجة والقطعية في إثبات التوحد الإلهي.",
+        "claim_en": "Antithetical parallelism: the meaning is restated in two complementary forms ('one God' and 'there is no god but He') to strengthen the argument and the definitiveness of divine unity.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "اله",
+        "lemma": "إِلَٰه",
+        "confidence": "medium",
+        "needs_review_reason": "Classification as 'mukabalah' is interpretive; classical sources should be checked to confirm they describe this verse under that specific badi subtype."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "البلاغة: في هذه الآية فن طريف",
+        "claim_ar": "الإيجاز البلاغي: بيان التوحيد في تركيبة قصيرة ومحكمة تفيض بمضمون دقيق دون إطالة.",
+        "claim_en": "Rhetorical concision (ijaaz): the statement of monotheism is given in a brief, tightly structured formula that conveys a dense theological meaning without prolixity.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "",
+        "lemma": "",
+        "confidence": "low",
+        "needs_review_reason": "Ijaaz attribution is interpretive and not directly supported by the supplied chunks; requires corroboration from classical balagha/tafsir sources."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "tibaq",
+        "source_quote_ar": "اللغة: (الرِّبا) الإرباء.",
+        "claim_ar": "تثنية أو توافق الاسمين «الرَّحْمَنُ الرَّحِيمُ»: توظيف اسمين من أصل واحد للتوكيد والتوسيع في الدلالة الرحمانية.",
+        "claim_en": "Pairing/juxtaposition of the two divine names 'ar-Rahman ar-Rahim': using two names from the same root to reinforce and expand the merciful aspect of God.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "رحم",
+        "lemma": "رَّحْمَٰن",
+        "confidence": "medium",
+        "needs_review_reason": "The chosen subtype ('tibaq') is a best-fit label among the provided categories; classical commentary should be consulted to confirm this classification and nuance."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks contain an explicit, cited balagha analysis of Sura 2:163. The source_quote_ar values above are exact substrings taken from the supplied chunks but do not constitute direct classical support for the specific claims about this ayah.",
+      "Several device classifications here are interpretive (especially 'ijaaz' and the exact subtype for the divine-name pairing) and should be verified against primary balagha/tafsir sources (e.g., al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) for authoritative labels and phrasing.",
+      "Where confidence is 'low' or 'medium', consult the original classical commentaries and rhetorical manuals to confirm terminology and examples before using these claims in final K-Maps."
+    ],
+    "quran_ref": "S2:A163"
+  },
+  "n_chunks": 12
+}

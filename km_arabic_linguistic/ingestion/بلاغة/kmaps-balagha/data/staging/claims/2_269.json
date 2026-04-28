@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:269",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "mubaalaghah/muqabalah",
+        "source_quote_ar": "ثم ثنى اللَّه سبحانه في شأنهم بتمثيل آخر",
+        "claim_ar": "ثُنائِيَّة وتوازي بلاغي (مقابلة) بين العبارتين لِتأكيد المعنى عبر التكرار الموازي",
+        "claim_en": "A paired/mirrored rhetorical structure (mukābalah) — the verse uses parallel clauses that mirror each other to reinforce the meaning.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "التفريق بين مقابلة ومجرد تكرار (takrar) قد يكون متداخلًا؛ يحتاج مراجعة سياقية أعمق."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "badi/takrar",
+        "source_quote_ar": "ثم ثنى اللَّه سبحانه في شأنهم بتمثيل آخر",
+        "claim_ar": "تكرار لفظي لـ «الْحِكْمَةَ» (تَكْرار) لإبرازها وتقوية الدلالة على أهميتها",
+        "claim_en": "Lexical repetition of «al-ḥikmah» (takrār) — repeating the same noun to highlight and strengthen its significance.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "حكم",
+        "lemma": "حِكْمَة",
+        "confidence": "high",
+        "needs_review_reason": "مؤسس على التكرار الظاهر بين الموضعين (كلمة رقم 2 و7)؛ مراجعة ليست ضرورية إلا للتمييز عن أشكال بديع أخرى."
+      },
+      {
+        "word_index": 16,
+        "claim_type": "maani/hasr_qasr",
+        "source_quote_ar": "وَتِلْكَ الْأَمْثالُ نَضْرِبُها لِلنَّاسِ وَما يَعْقِلُها إِلَّا الْعالِمُونَ",
+        "claim_ar": "صيغة «ما ... إلا» تعمل هنا على الحصر والتقييد (حصْر/قصر): لا يذكر ولا يتذكر إلا أهلُ الألباب",
+        "claim_en": "The formula «ma ... illa» (what ... except) functions as restriction/exclusion (hasr/qasr): only the people of understanding truly take heed.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "لبب",
+        "lemma": "أَلْبَاب",
+        "confidence": "high",
+        "needs_review_reason": "الاستدلال مستند إلى استعمال قرآني مشابه موضَّح في المصدر المقتبس؛ توقع ثقة عالية لكن قد تُحتاج شواهد تفسيرية إضافية."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "maani/ijaaz",
+        "source_quote_ar": "يجمل ويوجز",
+        "claim_ar": "اختزال ودلالة مُوجَزة (إعجاز بلاغي) في جملة قصيرة تَحمل معنى واسعًا ومركّزًا",
+        "claim_en": "Concise/dense expression (ijāz) — the short clauses pack broad, concentrated meaning, reflecting a rhetorical economy.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "الادعاء يعتمد على قاعدة بلاغية عامة في المصدر؛ ربطها بهذه الآية يبدو ملائمًا لكن قد يحتاج تدقيق أمثلة من المفسرين البلاغيين الأخرى."
+      }
+    ],
+    "warnings": [
+      "المقتطفات النصية المَزوَّدة هي من الزمخشري والطبري؛ لم تُزوَّد مقاطع من (الجُرجاني، السكاكِي، الباقلاني، السيوطي، أو قسم تفسير البلاغة) كما ورد في مواصفة المهمة الأصلية.",
+      "في بعض الحالات وُضعت جذور/لقيَم ناقصة لأن مدخل الكلمات المرسل يفتقد لِـlemma لبعض الأفعال (مثلاً لبعض صيغ الفعل). راجع بيانات الكلمة إذا كان مطلوبًا اتساق تام للـlemma.",
+      "بعض الادعاءات (خصوصًا التفريق بين «مقابلة» و«تكرار» وادّعاء الإعجاز) قد تتداخل؛ أُشير إليها كـneeds_review حيث يلزم استقصاء أقوال البلاغيين المحددين أو شواهد تفسيرية إضافية."
+    ]
+  },
+  "n_chunks": 12
+}

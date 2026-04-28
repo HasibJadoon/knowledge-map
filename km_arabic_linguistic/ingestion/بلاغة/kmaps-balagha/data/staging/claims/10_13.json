@@ -1,0 +1,74 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:13",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ما فائدة صرف الكلام عن الخطاب إلى الغيبة؟ قلت: المبالغة، كأنه يذكر لغيرهم حالهم ليعجبهم منها ويستدعى منهم الإنكار والتقبيح.",
+        "claim_ar": "تحويل الكلام من مخاطبة إلى غيبة (صرف الكلام عن الخطاب إلى الغيبة) كوسيلة بلاغية للمبالغة والاستثارة (التنفير والتقبيح لدى السامعين)",
+        "claim_en": "A shift from direct address to speaking in the third person (turning speech from address to absence) as a rhetorical device of exaggeration meant to provoke disapproval and condemnatory reaction.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S10:A13",
+        "rhetorical_effect": "distance and heightened reproach: speaking of past peoples in third person increases vividness and invites listeners' moral condemnation."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "waaw_as_hal",
+        "source_quote_ar": "الواو في وَجَاءَتْهُمْ للحال، أى ظلموا بالتكذيب",
+        "claim_ar": "واو العطف قبل «جاءتهم» مقصودة كحالة (واو الحال)، تشير إلى وقوع الظلم ثم وقوع البلاء—توظيف حال لشد أثر الحجة والتأكيد.",
+        "claim_en": "The conjunction-wa (waaw) before 'جاءتهم' functions as a hal (circumstantial waaw), linking the preceding state (their wrongdoing) as the circumstance in which the messengers came—used to intensify the causal relation and rhetorical force.",
+        "device_branch": "maani",
+        "device_subtype": "waaw_as_hāl (circumstantial waaw)",
+        "root": "جيا",
+        "lemma": "جَآءَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S10:A13",
+        "rhetorical_effect": "creates immediacy and causal clarity by presenting the coming of the messengers as the direct circumstance following their wrongdoing."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "negation_emphasis_with_lām",
+        "source_quote_ar": "وقوله: وَما كانُوا لِيُؤْمِنُوا يجوز أن يكون عطفاً على ظلموا، وأن يكون اعتراضاً واللام لتأكيد النفي",
+        "claim_ar": "جملة «وما كانوا ليُؤمنوا» تُقرأ بوظائف بلاغية: إمّا عطف على «ظلَموا» أو اعتراض، واللام هنا تعمل لتأكيد النفي (توكيد استبعاد الإيمان لديهم).",
+        "claim_en": "The phrase 'وما كانوا ليؤمنوا' can be read rhetorically either as conjoined with 'ظلموا' or as an objection; the prefixed lām functions as an emphatic marker strengthening the negation—i.e., it rhetorically certifies the impossibility of their belief.",
+        "device_branch": "maani",
+        "device_subtype": "negation_emphasis_with_lām",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "interpretation depends on exegetical choice (conjunction vs. objection); mapping the commentator's grammatical/semantic observation to a single canonical balagha label required judgement.",
+        "quran_ref": "S10:A13",
+        "rhetorical_effect": "emphatic negation that closes off hope of repentance for the addressees — strengthens the inevitability of the described outcome."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "demonstrative_summary",
+        "source_quote_ar": "كَذلِكَ مثل ذلك الجزاء يعنى الإهلاک",
+        "claim_ar": "القيادة ب«كَذَلِكَ» تُستخدم لتلخيص النتيجة (الجزاء) وربط الحالة السابقة بما يجوز من العقوبة؛ إيضاح قرينة المعنى: «كذا هو الجزاء (الإهلاك)».",
+        "claim_en": "The demonstrative 'كَذَلِكَ' is used to summarize and generalize the consequence (the punishment), explicitly linking the prior description to the resultant penalty (annihilation).",
+        "device_branch": "other",
+        "device_subtype": "demonstrative_summary (كَذَلِكَ)",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "mapped to 'other' because the commentator treats it as expository/summary device rather than naming a canonical maani/bayan/badi figure.",
+        "quran_ref": "S10:A13",
+        "rhetorical_effect": "provides closure and universality: converts a particular past example into a general principle of divine retribution."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from al-Kashshaf (Zamakhshari) and Safi (al-Jadwal). Requested author set (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) were not present; all claims are extracted only from the supplied chunks.",
+      "Some claim-to-device mappings are interpretive (commentator’s grammatical/semantic remarks were fitted into the prescribed device taxonomy). Such mappings are marked with 'needs_review_reason' where appropriate.",
+      "Roots/lemmas taken from the provided word list were used where available; some source commentary quotes refer to syntactic/semantic functions rather than single lexical items."
+    ]
+  },
+  "n_chunks": 12
+}

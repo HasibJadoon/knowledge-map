@@ -1,0 +1,78 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:152",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "يَا بَنِي إِسْرَائِيلَ اذْكُرُوا نِعْمَتِيَ الَّتِي أَنْعَمْتُ عَلَيْكُمْ",
+        "claim_ar": "أمر مباشر موجه إلى المخاطَب: صيغة الأمر \"اذكروا\" كنداء لوجوب الذكر (مقارنة بصيغة الأمر في الآيات المماثلة).",
+        "claim_en": "A direct imperative addressed to the addressees: the command form \"اذكروا\" functions as an injunction to remember (parallel to other Quranic imperatives).",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يَا بَنِي إِسْرَائِيلَ اذْكُرُوا نِعْمَتِيَ الَّتِي أَنْعَمْتُ عَلَيْكُمْ",
+        "claim_ar": "التفات بلاغي في الخطاب: الانتقال من صيغة الأمر المخاطبة (اذكروا) إلى تصريح المتكلّم بنعمه (نعمتِي) — تغيير في منظور الخطاب يلفت الانتباه.",
+        "claim_en": "A rhetorical shift (iltifat) in address: the move from the imperative addressed to listeners (اذكروا) to the speaker's statement of his favor (نعمتِي) — a change of viewpoint that draws attention.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "وَأَقِيمُوا الصَّلاةَ وَآتُوا الزَّكَاةَ",
+        "claim_ar": "تكرار صياغات الأمر الربّانية على نمط معجمي متسلسل (تكرار الأوامر والمتتابعات) كوسيلة تأكيد، مماثل لتكرار الأفعال المتتابعة في آيات أخرى.",
+        "claim_en": "Repetition of divine imperative formulations in successive sequence (repetition of commands and sequences) as a means of emphasis, analogous to repeated successive verbs in other verses.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Inference based on analogous Quranic patterns cited in sources rather than an explicit classical label attached to this exact verse in the provided chunks."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "tibaq",
+        "source_quote_ar": "وَأَنِّي فَضَّلْتُكُمْ عَلَى الْعَالَمِينَ (٤٧)",
+        "claim_ar": "طباق / تضاد بلاغي بين نعمة الفضل الإلهي (فضلتكم) وبين فعل الجحود (الكفر) في مقابل الشكر — إبراز التناقض بين الشكر والكفر.",
+        "claim_en": "Tibaq (antithesis) between divine favor (\"I have preferred you\") and the act of ingratitude (disbelief) versus gratitude — highlighting the contrast between thankfulness and unbelief.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote shows language of divine favor; linking that explicitly to the opposite notion (كفر) is interpretive and drawn across verses."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "لطائف الحكم",
+        "claim_ar": "إيجاز بلاغي: جملة موجزة تحمل وعدًا وتحذيرًا في تركيبة مختصرة للغاية، من جنس \"لطائف الحكم\" المذكورة في تفسيرٍ كلاسيكي على غرار إعجاز البيان القرآني.",
+        "claim_en": "Conciseness (ijaaz): a highly compressed utterance that conveys both promise and warning in very few words — of the kind described as subtle, weighty wisdom (\"لطائف الحكم\") in classical exegesis.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source uses a general phrase about subtle wisdom; applying it specifically as evidence of ijaaz for this verse is interpretive."
+      }
+    ],
+    "warnings": [
+      "Many claims here are inferred by analogy to examples and commentary present in the supplied chunks rather than by direct, explicit classical labels applied to Sūrah 2:152 in those chunks. Such inferential mapping should be reviewed against full classical discussions (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) if precise attribution is required.",
+      "Some device assignments (especially ayah-level rhetorical qualities like ijaaz or takrar) are interpretive and depend on broader rhetorical taxonomy; confidence for those is set to 'medium' and they may need review by a specialist in classical Arabic rhetoric."
+    ]
+  },
+  "n_chunks": 12
+}

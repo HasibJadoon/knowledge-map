@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:87",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "(رَضُوا بِأَنْ يَكُونُوا مَعَ الْخَوالِفِ) جملة مستأنفة أو حالية بتقدير قد",
+        "claim_ar": "الجملة «رَضُوا بِأَنْ يَكُونُوا مَعَ الْخَوَالِفِ» عرضت كمستأنفة/حال، أي فيها فصل واستئناف يبرز حالة الرضا قبل وقوع الطبع الإلهي.",
+        "claim_en": "The clause 'رَضُوا بِأَنْ يَكُونُوا مَعَ الْخَوَالِفِ' is presented as a resumptive/ circumstantial clause (مستأنفة/حال), producing a pause/resumption that emphasizes their complacency prior to God's sealing of their hearts.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A87",
+        "rhetorical_effect": "creates a pause that highlights the subject's willing alignment with the wrongdoers, intensifying the moral/psychological portrait before the divine act of sealing."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "(وَطَبَعَ اللَّهُ عَلى قُلُوبِهِمْ فَهُمْ لا يَعْلَمُونَ) الجملة معطوفة على ما تقدم",
+        "claim_ar": "الجملة «وَطَبَعَ اللَّهُ على قلوبهم» معطوفة على السابق بواسطة الواو؛ العطف يوصّل النتيجة/التتالي بين رضاهم ووقوع الطبع الإلهي.",
+        "claim_en": "The clause 'وَطَبَعَ اللَّهُ عَلَى قُلُوبِهِمْ' is conjoined to the preceding clause; the coordinating waw links their willing association with the wrongdoers to God's sealing as a consequent/continuing action.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "طبع",
+        "lemma": "طَبَعَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A87",
+        "rhetorical_effect": "the conjunction frames the divine sealing as the direct continuation/consequence of their prior disposition, underscoring moral inevitability."
+      }
+    ],
+    "warnings": [
+      "Requested author sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present among the provided source_chunks; extracted claims are based on the supplied Darwish (I'rab) and Zamakhshari chunks instead.",
+      "The Quranic word in the input is «وَطُبِعَ» whereas the cited source chunk uses the form «وَطَبَعَ»; the source_quote_ar fields match the provided chunks exactly (as required) but there is a vocalization/form difference between the chunk and the ayah text."
+    ]
+  },
+  "n_chunks": 12
+}

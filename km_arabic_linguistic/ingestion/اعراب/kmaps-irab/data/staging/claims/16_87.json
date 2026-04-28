@@ -1,0 +1,47 @@
+{
+  "layer": "irab",
+  "ayah_key": "16:87",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "مَنْصُوبٌ بِالْمَصْدَرِ عَلَى قَوْلِ الْبَصْرِيِّينَ.",
+        "claim_ar": "السَّلَمَ: منصوب — مفعول به محتمل للفعل «أَلْقَوْا».",
+        "claim_en": "al-salam is accusative — possibly the object (maf'ul bih) of the verb 'ألقوا'.",
+        "root": "سلم",
+        "lemma": "سَلَم",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage in al-Tibyan discusses نصب (using the substring shown) for a different example (شَيْئًا). Applying the general notion of نصب to السَّلَمَ in this verse is an extrapolation and should be verified against any explicit commentary on this verse."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "taalluq",
+        "source_quote_ar": "حَالٌ مِنَ الْمَفْعُولِ.",
+        "claim_ar": "يَوْمَئِذٍ: ظرف زمان قد يُفسَّر كحال متعلق بالمفعول أو متعلق بالفعل/المفعول وفق سياق الكلام.",
+        "claim_en": "yawmidh-in (يَوْمَئِذٍ) is a time adverb which may be interpreted as a hal (circumstantial accusative) attached to the object or to the verb/object depending on context.",
+        "root": "يوم",
+        "lemma": "يَوْمَئِذ",
+        "confidence": "low",
+        "needs_review_reason": "The source quote gives the general construction 'حال من المفعول' but does not discuss this verse specifically; applying that construction to يَوْمَئِذٍ here is tentative and requires verification."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "الَّذِينَ يَفْتَرُونَ عَلَى اللَّهِ الْكَذِبَ",
+        "claim_ar": "يَفْتَرُونَ: فعل مضارع مذكور أيضاً في موضع آخر بصيغة «الَّذِينَ يَفْتَرُونَ عَلَى اللَّهِ الْكَذِبَ».",
+        "claim_en": "yaf'taruna appears also elsewhere in the Qur'an in the formulation 'الَّذِينَ يَفْتَرُونَ عَلَى اللَّهِ الْكَذِبَ' — noted for reference; not an explicit syntactic analysis of this verse.",
+        "root": "فري",
+        "lemma": "افْتَرَىٰ",
+        "confidence": "high",
+        "needs_review_reason": "This is a cross-reference note: the source contains the quoted phrase, but it does not give an irab analysis specific to this verse, so syntactic conclusions for this verse should be checked against direct commentary."
+      }
+    ],
+    "warnings": [
+      "The provided al-Tibyan chunks do not contain an explicit, verse-specific iʿrāb discussion of S16:A87. The claims above are extrapolations from general remarks or from occurrences of the same words in other verses within the supplied chunks.",
+      "Each claim that applies a general rule (e.g., نصب, حال) to a specific word in this ayah should be verified against the full commentary on this ayah in al-Tibyan or other primary grammatical readings: the source substrings quoted are taken from different examples in the text.",
+      "If you can supply the exact al-Tibyan excerpt that treats this particular verse (S16:A87), I can extract more confident, verse-specific claims (or revise the above)."
+    ]
+  },
+  "n_chunks": 12
+}

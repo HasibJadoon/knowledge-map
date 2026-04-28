@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:106",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ففيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "التفات (انتقال) من الغيبة إلى الخطاب في الانتقال من بيان حكم عام حول النسخ إلى مخاطبة مباشرة (أَلَمْ تَعْلَمْ) لزيادة التوكيد والانتباه.",
+        "claim_en": "Iltifat (shift from third-person/general discourse to direct address): the verse moves from a general statement about abrogation to direct address (أَلَمْ تَعْلَمْ), increasing emphasis and engaging the hearer.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "لفت",
+        "lemma": "التفات",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source states the rhetorical principle ('turning from ghayba to khitab') generally; it is not explicitly discussing S2:106 in that excerpt, so application to this specific verse should be reviewed.",
+        "quran_ref": "S2:A106",
+        "rhetorical_effect": "heightens attention and moral responsibility by addressing the audience directly after a doctrinal statement"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl (explanatory remark)",
+        "source_quote_ar": "قوله تَقْتُلُونَ بيان لقوله",
+        "claim_ar": "جملة تأكيدية تالية تعمل كبيان وشرح لما قبلها — هنا التأكيد على قدرة الله يوضّح ويقوّي ما قيل عن النسخ والإتيان بخير أو مثلها.",
+        "claim_en": "Explanatory reinforcement (fasl/wasl): the following clause serves as an explicative clarification or reinforcement of what precedes it — here, the affirmation of God's power clarifies and strengthens the statement about abrogation and replacement.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "فصل",
+        "lemma": "فصل/بيان",
+        "confidence": "medium",
+        "needs_review_reason": "The source fragment uses the term 'بيان' for explanatory clauses; the excerpt does not cite S2:106 directly, so mapping this explanatory function onto the verse is inferential and should be checked.",
+        "quran_ref": "S2:A106",
+        "rhetorical_effect": "provides assurance and logical grounding (i.e., because God is capable, abrogation/replacement is under His control), reducing doubts and reinforcing trust"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muneqābah / contrast",
+        "source_quote_ar": "لتغير الصفة منزلة تغير الذات",
+        "claim_ar": "وجود مقابلة/تباين بين فعل النسخ والإتيان ببديل أفضل أو مثله يبرز تغيّر الحكم ويعطي وزناً لعملية الاستبدال؛ الآية تستخدم هذه المقابلة لتبيان حكمة الله وقدرته.",
+        "claim_en": "Contrast / muqabalah: the verse establishes a contrast between the abrogated verse and what replaces it (something better or like it), underscoring change of ruling and the wisdom/omnipotence behind that change.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "قابل",
+        "lemma": "مقابلة",
+        "confidence": "medium",
+        "needs_review_reason": "Source discusses how change of attribute/status signals a substantive change (contrast) in meaning; it is a general principle and not an explicit commentary on S2:106 in the provided excerpt, so verification is advised.",
+        "quran_ref": "S2:A106",
+        "rhetorical_effect": "frames abrogation as purposeful and positive (replacement by better or similar), reducing perceived arbitrariness and reassuring the listener"
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are excerpts that discuss rhetorical principles in general or other verses; they do not all explicitly comment on S2:106. Each claim applies a general principle from the sources to this verse — please review for precise textual alignment in the original commentaries.",
+      "Source_quote_ar values are exact substrings pulled from the provided chunks and support the rhetorical principles claimed; however, they are not direct quotations of exegesis on S2:106 in the supplied excerpts."
+    ]
+  },
+  "n_chunks": 12
+}

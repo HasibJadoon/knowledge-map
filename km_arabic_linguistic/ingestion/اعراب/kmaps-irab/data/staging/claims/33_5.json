@@ -1,0 +1,76 @@
+{
+  "layer": "irab",
+  "ayah_key": "33:5",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "irab",
+        "source_quote_ar": "(هُوَ أَقْسَطُ) : أَيْ دُعَاؤُكُمْ، فَأَضْمَرَ الْمَصْدَرَ لِدَلَالَةِ الْفِعْلِ عَلَيْهِ.",
+        "claim_ar": "أَقْسَطُ خبر لـ «هُوَ» (خبر مبتدأ وهو).",
+        "claim_en": "أَقْسَطُ functions as the predicate (khabar) of the pronoun هُوَ.",
+        "root": "قسط",
+        "lemma": "أَقْسَط",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "taqdir",
+        "source_quote_ar": "(هُوَ أَقْسَطُ) : أَيْ دُعَاؤُكُمْ، فَأَضْمَرَ الْمَصْدَرَ لِدَلَالَةِ الْفِعْلِ عَلَيْهِ.",
+        "claim_ar": "هنا أُضمِرَ المصدر (دعاؤكم) بعد «هو أقسط» للدلالة على الفعل (دعاؤكم/دعاؤهم)؛ أي وقوع الفعل مقدّر.",
+        "claim_en": "A verbal noun (the noun 'دُعَاؤُكُمْ' / 'your calling') is implied after 'هُوَ أَقْسَطُ' — the infinitive is concealed to indicate the verb/action (i.e., an implied verbal noun/verb).",
+        "root": "دعو",
+        "lemma": "دَعَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "(فَإِخْوَانُكُمْ) بِالرَّفْعِ؛ أَيْ فَهُمْ إِخْوَانُكُمْ. وَبِالنَّصْبِ؛ أَيْ فَادْعُوهُمْ إِخْوَانَكُمْ.",
+        "claim_ar": "فَإِخْوَانُكُمْ فيها وجهان: بالرفع خبر (أي: فَهُمْ إِخْوَانُكُمْ) أو بالنصب مفعول به/منادى بمعنى «فَادْعُوهُمْ إِخْوَانَكُمْ».",
+        "claim_en": "فَإِخْوَانُكُمْ admits two analyses: nominative (as predicate: 'they are your brothers') or accusative (as object/appeal: 'call them your brothers').",
+        "root": "اخو",
+        "lemma": "أَخ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 22,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "«مَا» فِي مَوْضِعِ جَرٍّ عَطْفًا عَلَى «مَا» الْأُولَى؛ وَيَجُوزُ أَنْ تَكُونَ فِي مَوْضِعِ رَفْعٍ عَلَى الِابْتِدَاءِ، وَالْخَبَرُ مَحْذُوفٌ؛ أَيْ تُؤَاخَذُونَ بِهِ.",
+        "claim_ar": "أَمْكَنَتَانِ لِـ«مَا»: أن تكون في موضع جر (عطفًا على «مَا» الأولى) أو أن تكون في موضع رفع مبتدأ مع خبر محذوف.",
+        "claim_en": "The particle/relative 'مَا' here has two possible syntactic positions: genitive (as an annexation/continuation to the first 'مَا') or nominative (as a subject/مبتدأ) with an omitted predicate (خبر محذوف).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "Two grammatical analyses are presented as alternatives; choice depends on syntactic preference (annexation vs. taking مَا as مبتدأ)."
+      },
+      {
+        "word_index": 22,
+        "claim_type": "taqdir",
+        "source_quote_ar": "«مَا» فِي مَوْضِعِ جَرٍّ عَطْفًا عَلَى «مَا» الْأُولَى؛ وَيَجُوزُ أَنْ تَكُونَ فِي مَوْضِعِ رَفْعٍ عَلَى الِابْتِدَاءِ، وَالْخَبَرُ مَحْذُوفٌ؛ أَيْ تُؤَاخَذُونَ بِهِ.",
+        "claim_ar": "في القراءة التي تجعَل «مَا» مبتدأً، الخبر محذوف (مقدّر) — أي: خبر محذوف يكتسب المعنى «تُؤَاخَذُونَ بِهِ».",
+        "claim_en": "In the analysis that treats 'مَا' as a subject (مبتدأ), its predicate (khabar) is omitted (taqdir); the implied meaning is 'you will be held to account by it.'",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The existence and identity of the omitted predicate is interpretive; grammatical tradition allows this ellipsis but exact formulation of the omitted خبر varies."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "(فَإِخْوَانُكُمْ) بِالرَّفْعِ؛ أَيْ فَهُمْ إِخْوَانُكُمْ. وَبِالنَّصْبِ؛ أَيْ فَادْعُوهُمْ إِخْوَانَكُمْ.",
+        "claim_ar": "تأثير دلالي: بالرفع يدل على ثبوت القرابة (هم إخوتكم) وبالنصب يدل على توجيه الخطاب بالدعاء لهم بأن تُنطقَ بهم كإخوانكم (أدعُوهُم إخوةً).",
+        "claim_en": "Semantic effect: the nominative reading conveys an established relationship ('they are your brothers'), whereas the accusative reading conveys an exhortation/invitation in speech ('call them your brothers').",
+        "root": "اخو",
+        "lemma": "أَخ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

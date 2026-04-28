@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "27:52",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "irab",
+        "source_quote_ar": "(آيَةٌ) : اسْمُ كَانَ.",
+        "claim_ar": "لَآيَةً: اسمُ كانَ",
+        "claim_en": "The noun 'āyah' is analyzed as the ism (subject) of the verb 'kāna' (i.e., اسم كان).",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "The cited line in al-Tibyan states 'آيَةٌ : اسمُ كانَ' in a different context; it is not explicit there that this applies to the form 'لَآيَةً' in S27:52 (construction with إِنَّ may alter the analysis).",
+        "quran_ref": "S27:A52"
+      }
+    ],
+    "warnings": [
+      "Only one exact-match substring in the provided chunks directly pertains to a grammatical label ('(آيَةٌ) : اسْمُ كَانَ.'). Other chunks discuss different words/verses or general rules not explicitly tied to the words of S27:52; therefore only the above claim was extracted.",
+      "The source passage appears to address 'آيَةٌ' in another verse/context. Applying that statement to 'لَآيَةً' in this specific ayah (which occurs in an إِنَّ construction) requires review by a specialist; the syntactic role may differ (e.g., اسم إنّ vs. اسم كان)."
+    ]
+  },
+  "n_chunks": 6
+}

@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:115",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No source chunks from the requested rhetoric authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir-balagha sections) were provided. Provided chunks are from Zamakhshari (al-Kashshaf); cannot extract claims from the specified sources. If you want extractions from Zamakhshari, or can supply chunks from the requested authors, please provide them."
+    ]
+  },
+  "n_chunks": 12
+}

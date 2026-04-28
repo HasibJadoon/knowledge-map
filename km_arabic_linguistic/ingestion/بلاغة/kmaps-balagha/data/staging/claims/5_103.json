@@ -1,0 +1,44 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:103",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "ظاهر الإعجاز",
+        "claim_ar": "الآية تظهِر إعجازاً بلاغياً في الإيجاز والتكثيف؛ سَلْسلة النفي (ما جعل ... ولا ... ولا ...) ثم التحوّل إلى تقرير الاتّهام تُقدم المعنى بقوة وباقتصاد لفظي.",
+        "claim_en": "The verse manifests rhetorical i'jaz (inimitability) through brevity and concentration: a string of negations (ma ja'ala ... wa la ... wa la ...) followed by the accusation, delivering the meaning powerfully and economically.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The provided source quote ('ظاهر الإعجاز') is a general statement about the Quran's inimitability from the supplied chunk (al-Kashshaf). It is not an explicit, verse‑specific commentary on S5:103, so the link is inferential and should be reviewed against more direct rhetorical commentary (e.g., al-Jurjani, al-Sakkaki).",
+        "quran_ref": "S5:A103",
+        "rhetorical_effect": "condenses and intensifies the denial of the supposed religious practices, making the refutation rhetorically striking and hard to dismiss."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "وجدير بالقرآن أن يجرى على أفصح الوجوه",
+        "claim_ar": "الآية تقوم بمقابلة بيانية: نفي نسبتِها إلى الله (ما جعل...) مقابل نسبتها إلى المكذبين (يفترون). هذه المقابلة تزيد التباين بين الحقيقة والادعاء وتؤكّد نفي التخصيص الإلهي.",
+        "claim_en": "The verse employs muqabalah (antithesis): denying that God instituted such rites (ma ja'ala...) contrasted with attributing those claims to the disbelievers (yaftaruna). This antithesis heightens the contrast between truth and falsehood and strengthens the denial of divine attribution.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The source phrase ('وجدير بالقرآن أن يجرى على أفصح الوجوه') is a general elogium of Quranic eloquence from the provided chunk (al-Kashshaf). The identification of muqabalah is based on the verse's clause-structure rather than an explicit statement in the chunk; verification against targeted rhetorical commentaries is recommended.",
+        "quran_ref": "S5:A103",
+        "rhetorical_effect": "creates a sharp contrast that delegitimizes the accusations by relocating their source from God to the inventiveness of the disbelievers."
+      }
+    ],
+    "warnings": [
+      "The supplied source_chunks are from Zamakhshari (al-Kashshaf). The developer request named other classical rhetoricians (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha), but those authors' chunks were not provided. Claims therefore rely on general remarks found in the provided chunks rather than explicit verse-level remarks by the requested rhetoricians.",
+      "Source quotes used are general statements about the Quran (e.g., 'ظاهر الإعجاز', 'وجدير بالقرآن أن يجرى على أفصح الوجوه') and do not contain verse-specific rhetorical analyses of S5:103. These inferential links should be reviewed and corroborated with direct classical commentaries on this verse.",
+      "No exact chunk substring matched some specific surface features of the verse (e.g., the repeated particle 'وَلَا' in the verse). If you can provide chunks from the requested rhetoricians or tafsir-balagha material that address this ayah directly, more precise, higher-confidence claims (with exact source_quote_ar) can be produced."
+    ]
+  },
+  "n_chunks": 12
+}

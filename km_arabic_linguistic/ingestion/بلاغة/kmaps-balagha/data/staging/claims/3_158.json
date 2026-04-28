@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:158",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No rhetorical claims could be extracted: none of the provided source_chunks contain a tafsir-balagha style commentary (from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or a tafsir-balagha section) that addresses the wording or rhetorical devices of S3:A158 (the exact verse text).",
+      "The supplied chunks are mainly excerpts from al-Kashshaf (Zamakhshari) and a grammatical note (Safi - al-Jadwal) and do not include the requested authors' balagha analyses for this ayah; therefore there are no exact substrings in the sources that identify devices for this verse.",
+      "If you want extracted claims, please provide source chunks that (a) contain the exact verse text and/or (b) include explicit balagha commentary (from the requested authors or a tafsir-balagha section) about this verse. Remember: each claim's source_quote_ar must be an exact substring of one of the provided chunks."
+    ]
+  },
+  "n_chunks": 12
+}

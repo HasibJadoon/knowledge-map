@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "kinayah (metonymy)",
+        "source_quote_ar": "اللقاء اسم للقتال غالب",
+        "claim_ar": "القراءة التفسيرية تُحوّل لفظ القِتَال (لِقِتَالٍ) إلى معنى اللقاء/المواجهة القتالية؛ استعمال مجازي/كنائي يربط لفظ القتال بمحض معنى اللقاء بالعدو.",
+        "claim_en": "The commentary states \"al-liqa' (meeting) is commonly the name for combat\", so the term قِتَال in the verse functions metonymically: it denotes the encounter/battle itself (a figurative/metonymic use).",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "قتل",
+        "lemma": "قِتَال",
+        "confidence": "medium",
+        "needs_review_reason": "The source phrase explicitly defines 'اللقاء' as denoting combat; applying this as a metonymic reading of the verse's لِقِتَالٍ is plausible but is an interpretive step that should be checked against the immediate tafsir context for this specific verse."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tibaq (parallel/antithetic parallelism)",
+        "source_quote_ar": "هذا أسلوب من الجحود بليغ",
+        "claim_ar": "الآية تستعمل استثناءً مزدوجاً متوازيًا («إِلَّا مُتَحَرِّفًا لِقِتَالٍ أَوْ مُتَحَيِّزًا إِلَى فِئَةٍ») كأسلوب بلاغي موازي/مقابِل لتحديد استثناءات الهروب وتكثيف الإدانة.",
+        "claim_en": "The verse uses dual, parallel exception clauses (\"except in turning away for fighting or in shifting to a faction\") forming a parallel/antithetical rhetorical structure (tibaq). Tabari characterizes similar phrasing as \"this is a forceful style of denial (جحود)\", indicating the strong rhetorical effect of such parallel clauses.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "حرف",
+        "lemma": "مُتَحَرِّف",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote comments on forceful rhetorical style in a different passage; mapping that characterization onto the verse's paired exceptions is a plausible rhetorical reading but should be verified with dedicated rhetorical commentary on this ayah."
+      }
+    ],
+    "warnings": [
+      "Only the provided source chunks (mainly Zamakhshari and Tabari fragments) were available. Some rhetorical attributions above rely on general remarks in those chunks rather than explicit, verse‑specific balagha analyses — please review against full tafsir/بلاغة sources (al‑Jurjani, al‑Sakkaki, al‑Baqillani, al‑Suyuti, tafsir‑balagha) for confirmation.",
+      "Some claims are interpretive bridges from the cited commentary to the ayah (marked with medium confidence). They should be checked by a specialist in classical Arabic rhetoric/tafsir to confirm the specific device labels (e.g., tibaq vs. muqabalah) and to locate more direct supporting citations."
+    ]
+  },
+  "n_chunks": 12
+}

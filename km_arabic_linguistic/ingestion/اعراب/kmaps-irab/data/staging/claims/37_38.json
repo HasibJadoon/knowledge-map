@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:38",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب / syntactic claims for S37:A38 found in the provided source chunks. None of the chunks contain the verse إِنَّكُمْ لَذَائِقُوا الْعَذَابِ الْأَلِيمِ or an explicit analysis of its words, so no claims could be extracted."
+    ]
+  },
+  "n_chunks": 5
+}

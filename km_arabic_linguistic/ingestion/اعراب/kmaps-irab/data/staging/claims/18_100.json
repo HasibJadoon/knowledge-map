@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "18:100",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب claims found in the provided source_chunks for S18:A100.",
+      "None of the source_chunk texts contain the ayah's words (وَعَرَضْنَا جَهَنَّمَ يَوْمَئِذٍ لِلْكَافِرِينَ عَرْضًا) or explicit reference to them, so no claims can be extracted with a valid source_quote_ar."
+    ]
+  },
+  "n_chunks": 12
+}

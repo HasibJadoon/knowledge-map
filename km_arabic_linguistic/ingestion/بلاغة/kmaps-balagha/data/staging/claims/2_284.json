@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:284",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "tibaq",
+        "source_quote_ar": "وَإِنْ تُخْفُوها",
+        "claim_ar": "تضاد بين إظهار ما في النفس وإخفائه — الآية تقرّ مقابلتين فعليتين (إبداء/إخفاء) ليظهر التباين الأخلاقي والوظيفي، وقد بيّن المفسّر أن الإخفاء مرغوب في مواضع.",
+        "claim_en": "An antithesis between revealing and hiding (what is within oneself) — the verse sets two opposing verbs (reveal/conceal) to highlight the moral/functional contrast; the commentator notes that concealment can be preferable in certain situations.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "خفي",
+        "lemma": "أُخْفِىَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source uses the variant pronoun form «تُخْفُوها» in the commentary (referring to 'الصدقات' in that context) while the ayah reads «تُخْفُوهُ»; ensure the rhetorical pairing (إبْدَاء/إخفاء) is being mapped correctly from the commentator's discussion to this ayah."
+      }
+    ],
+    "warnings": [
+      "Only one matching substring relevant to this ayah was found in the provided source chunks (AL:CHUNK:710337fd370677c35e5b3add). Other chunks appear to discuss different verses or topics.",
+      "The available source uses a pronoun variant («ها») in its discussion; verify applicability to the ayah form («هُ») and to the particular exegetical point (the chunk treats concealment of alms).",
+      "Requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present among the provided source_chunks — claims are therefore based on the available Zamakhshari/Safi chunks and may need review against the requested sources."
+    ]
+  },
+  "n_chunks": 12
+}

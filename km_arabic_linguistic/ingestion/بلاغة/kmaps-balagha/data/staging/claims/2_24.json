@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:24",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable balagha claims: the provided source_chunks do not contain commentary text or exact substrings that refer to the wording of Sura 2:24 (فَإِنْ لَمْ تَفْعَلُوا ...). Unable to produce source_quote_ar-linked claims for this ayah from the given chunks."
+    ]
+  },
+  "n_chunks": 12
+}

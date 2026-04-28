@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "24:12",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "أَنَّ الْجَوَابَ مَحْذُوفٌ تَقْدِيرُهُ: لَأَضَلُّوكَ",
+        "claim_ar": "الْجَوَابُ مَحْذُوفٌ تَقْدِيرُهُ: لَأَضَلُّوكَ (حذف جواب بعد لَوْلَا)",
+        "claim_en": "The answer (jawab) is omitted; its estimated wording is 'لأضَلّوك' (an omitted jawab after لَوْلَا).",
+        "root": null,
+        "lemma": "لَوْلَآ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage in al-Tibyan gives this elided-jawab analysis for a similar لَوْلَا construction (example cited from S24:10). Applying the same elision to S24:12 is an analogy made by the commentator and needs confirmation from the full commentary on this specific verse.",
+        "quran_ref": "S24:A12"
+      }
+    ],
+    "warnings": [
+      "The available source chunks do not include an explicit iʿrāb discussion targeted at S24:12; the extracted claim is based on an analogous statement in the source about a لَوْلَا construction (example given for S24:10). Mapping that statement onto S24:12 is inferential and should be verified against the relevant passage in al-Tibyan addressing S24:12 specifically."
+    ]
+  },
+  "n_chunks": 12
+}

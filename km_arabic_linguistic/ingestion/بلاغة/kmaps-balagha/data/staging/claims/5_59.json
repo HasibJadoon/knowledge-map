@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:59",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "استفهام إنشائي (تعجب/تحدٍ)",
+        "source_quote_ar": "قُلْ فَلِمَ يُعَذِّبُكُمْ بِذُنُوبِكُمْ",
+        "claim_ar": "الآية توظّف استفهامًا إنشائيًا لاستنكار ورفض ادعاءهم؛ صيغة السؤال هنا ليست لطلب تقرير معلومة بل للتعجب والتحدّي.",
+        "claim_en": "The verse employs a rhetorical (insha'i) question to express astonishment and challenge at their claim; the question is not for information but to reproach and confront.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "سأل",
+        "lemma": "سَأَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted tafsir substring is from a neighboring verse/context in the provided tafsir chunk rather than an explicit classical rhetoric source; connection to the target ayah is strong but not directly from the requested rhetoric authors."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "نداء/تعيين مخاطَب (التفات خطاب)",
+        "source_quote_ar": "وَقَالَتِ الْيَهُودُ وَالنَّصَارَى",
+        "claim_ar": "النداء موجه لِـ «أهل الكتاب» بتعيينهم، أي إلتفات بخطابٍ يميّز المخاطَب ويجعله موضع مساءلة مباشرة.",
+        "claim_en": "Direct vocative addressing of the 'People of the Book' — an iltifat (shift to direct address) that singles out the addressees and places them under immediate scrutiny.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "نادَى",
+        "lemma": "نادى",
+        "confidence": "medium",
+        "needs_review_reason": "The provided tafsir chunk names the groups (اليهود والنصارى) but does not contain the exact vocative «يا أهل الكتاب»; the rhetorical reading (direct address) is inferred from context."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "استثناء/حصر",
+        "source_quote_ar": "إِلَّا نَفْسِي وَأَخِي",
+        "claim_ar": "استخدام أداة الاستثناء «إِلَّا» لتحديد حصر أو استثناء، وهي وظيفة بلاغية لتقليب معنى العموم إلى حصر.",
+        "claim_en": "Use of the exception particle 'إلا' to convert an apparent generality into an exclusive exception — a rhetorical device of restriction/limitation.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": "Direct particle function is clear and the tafsir chunk contains the exact particle phrase, but the cited example is from a different narrative context in the tafsir."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "أمر توجيهي / إطار خطاب (قُلْ)",
+        "source_quote_ar": "أو اتل عليهم",
+        "claim_ar": "افتتاح الخطاب بكلمة أمرية مثل «قُلْ» يؤطّر الكلام كخطابٍ مباشر ويمنح المتكلّم سلطة التوجيه والحكم على الموقف البلاغي.",
+        "claim_en": "Opening the utterance with an imperative like 'Qul' frames the speech as a direct address and grants the speaker authoritative performative force — a stylistic framing device.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The support quote in the tafsir uses a related imperative ('اتل عليهم') rather than the exact particle 'قُلْ'; classical rhetoric treatises requested were not among provided chunks."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are tafsir excerpts (Zamakhshari, Tabari, Ibn Kathir) rather than the requested rhetoric treatises (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha). Claims were supported using available tafsir snippets.",
+      "Some source_quote_ar substrings are from adjacent or analogous verses/contexts within the tafsir material rather than verbatim excerpts of the target ayah; relevance is inferential in those cases—see needs_review_reason fields.",
+      "No explicit citations from the named classical rhetoricians were available in the provided chunks; for higher-confidence, add excerpts from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti or specialized tafsir-balagha sources."
+    ]
+  },
+  "n_chunks": 12
+}

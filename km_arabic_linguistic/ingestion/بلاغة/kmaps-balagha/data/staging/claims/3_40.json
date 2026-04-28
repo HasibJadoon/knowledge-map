@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:40",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "قَالَ لَهُ:\"كُن\" فَيَكُونُ",
+        "claim_ar": "إيجاز بياني في إبراز قدرة الخلق بكلمة واحدة «كُن فَيَكُونُ»، دلالة على فاعلية أمر الله وبساطته في إحداث الوجود.",
+        "claim_en": "Concise, powerful expression (ijaaz) of divine creative power in the formula \"Kun fayakūn\" — a single command effecting immediate creation, highlighting the force and brevity of God's word.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz",
+        "root": "كون",
+        "lemma": "كُن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "tashbih",
+        "source_quote_ar": "فكذلك خلقى عيسى",
+        "claim_ar": "استخدام «كَذَلِكَ» للدلالة على التشبيه/المقاربة بين حالتين: خلق عيسى وخلق آدم، أي تقديم تماثل بياني بين المعجزتين.",
+        "claim_en": "The particle 'كَذَلِكَ' signals an analogy/similarity — paralleling the creation of Jesus with that of Adam, thereby using analogy (tashbih) to emphasize the miraculous nature of both creations.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "ذل",
+        "lemma": "ذَٰلِك",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are from Tabari and Zamakhshari; classical balagha commentators requested (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha sections) are not present in the input. Claims are therefore drawn only from the available chunks and may miss formulations found in the requested balagha authors.",
+      "Some expected rhetorical features of Sura 3:40 (e.g., the exclamatory/astonishment nuance of «أَنَّى» or the repetition «قَالَ ... قَالَ») could not be sourced to the supplied chunks as exact substrings and so were not extracted. Review with full balagha commentaries or verse texts is recommended for completeness."
+    ]
+  },
+  "n_chunks": 12
+}

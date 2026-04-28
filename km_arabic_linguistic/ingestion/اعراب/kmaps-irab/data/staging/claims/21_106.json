@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "21:106",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَ «فِي غَفْلَةٍ» : يَجُوزُ أَنْ يَكُونَ حَالًا مِنَ الضَّمِيرِ فِي مُعْرِضُونَ ; أَيْ أَعْرَضُوا غَافِلِينَ. وَيَجُوزُ أَنْ يَكُونَ خَبَرًا ثَانِيًا.",
+        "claim_ar": "قد تكون «في هذا» حالًا من الضَّمِيرِ أو خبرًا ثانيًا (أي: قد تتعلَّق بضمير أو تؤتى كخبرٍ ثانٍ).",
+        "claim_en": "The phrase 'في هذا' may function as a ḥāl (circumstantial accusative) from the pronoun or as a second predicate (a second khabar).",
+        "root": null,
+        "lemma": "في",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the analogous phrase «في غفلةٍ» rather than the exact phrase «في هذا», so the application to this ayah is inferential and should be reviewed in context."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "و (مِنْ ذِكْرٍ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِيَأْتِيهِمْ، وَأَنْ يَكُونَ صِفَةً لذكر وَأَن يتَعَلَّق بمحدث وَأَن يكون حَالا من الضَّمِير",
+        "claim_ar": "الجار والمجرور (مثل «في هذا») قد يتعلَّق باللفظ الآتي، أو يكون صفةً لذكر، أو يكون حالًا من الضَّمِير — أي: له وجوه إعرابية متعددة بحسب السياق.",
+        "claim_en": "A prepositional phrase (e.g., 'في هذا') may be attached to the following expression, may serve as a descriptor (sifah) of a mentioned noun, or may be a ḥāl from a pronoun — i.e., it has multiple possible syntactic functions depending on context.",
+        "root": null,
+        "lemma": "من/في (حكم عام للجر والمجرور)",
+        "confidence": "medium",
+        "needs_review_reason": "The cited discussion treats the general syntactic possibilities for prepositional phrases using a different example («من ذكر») rather than this exact phrase; applying it to this ayah requires contextual confirmation."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain the exact wording of S21:106. Extracted claims are based on analogous discussions in the cited excerpts (e.g., «في غفلةٍ», «من ذكر»).",
+      "Claims about precise roles of words in this ayah (e.g., whether لَبَلاَغًا is خبرُ إنَّ or whether عابِدِينَ is نعت/حال) are not asserted because the supplied chunks do not explicitly analyze this specific verse; such determinations need direct textual support or further source material."
+    ]
+  },
+  "n_chunks": 12
+}

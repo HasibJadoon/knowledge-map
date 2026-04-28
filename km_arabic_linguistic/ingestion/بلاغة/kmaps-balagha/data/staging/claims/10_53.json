@@ -1,0 +1,65 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:53",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "واو عاطفة (ربط آيات)",
+        "source_quote_ar": "الواو عاطفة",
+        "claim_ar": "الواو في «وَيَسْتَنْبِئُونَكَ» واو عاطفة تربط هذه الآية بما قبلها وتُوظَّف للوصل والتعقيب البلاغي.",
+        "claim_en": "The initial waw in 'وَيَسْتَنْبِئُونَكَ' is the conjunctional waw (wāw ʿāṭifah) linking this verse to the preceding context, used rhetorically for connection/continuation.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "نبا",
+        "lemma": "يَسْتَنۢبِـُٔ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "استفهام إنكاري (دلالة إنكارية)",
+        "source_quote_ar": "الهمزة للاستفهام الانكاري",
+        "claim_ar": "الحرف الاستفهامي (الهمزة) في «أَحَقٌّ» يؤدّي وظيفة الاستفهام الإنكاري/التحدّي (نفس وظيفة الهمزات الاستفهامية المذكورة في الأمثلة)، أي استدعاء إنكار أو إنكار موازنة لتأكيد صدق المقولة.",
+        "claim_en": "The interrogative hamza in 'أَحَقٌّ' functions as a rhetorical/invocative interrogative (anankāri), i.e. a reproachful or challenging question used to emphasize the truth of the proposition.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "حقق",
+        "lemma": "حَقّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "أمر خطابي / صيغة جوابية (قُلْ)",
+        "source_quote_ar": "قل فعل أمر",
+        "claim_ar": "الفعل «قُلْ» هنا صيغة أمرية تُستخدم خطابيًا ليفسح للنبيِّ مجالًا للردِّ المباشر؛ وفق التفسير النحوي فهو فعل أمر يقدّم مقول القول.",
+        "claim_en": "The verb 'قُلْ' is an imperative used rhetorically as a performative/formulaic reply, giving the Prophet the space to state the answer directly; grammatically it is an imperative introducing the reported statement.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "أسلوب توكيد/إثبات (إنَّ)",
+        "source_quote_ar": "إن واسمها وخبرها",
+        "claim_ar": "أداة التوكيد «إِنَّ» في «إِنَّهُ لَحَقٌّ» تُستخدم لتأكيد ثبوت الخبر وإبرازه، وتُشير إلى تأكيد قطعي لقول الرسول «إنه لحق».",
+        "claim_en": "The particle 'إِنَّ' in 'إِنَّهُ لَحَقٌّ' functions as an emphatic particle asserting the certainty of the statement; it foregrounds and affirms the truth of the proposition.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim (tawkeed/affirmation)",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "classification placed under 'asloob_hakim' (stylistic affirmation) — could be re-classified under a more specific 'توكيد' subtype within معاني if desired."
+      }
+    ],
+    "warnings": [
+      "المصادر المرفقة هي أقسام إعرابية/نحوية (Darwish - I'rab). المستخدم طُلب ذكر مؤلفات البلاغة الكلاسيكية (الجُرجاني، السكاكي، البقّيلاني، السيوطي وتفاسير بلاغية)، لكنها غير موجودة ضمن المقاطع المرسلة؛ لذلك الاستدلال البلاغي هنا مقتصر على ما ورد في مقاطع الإعراب.",
+      "تصنيفات بعض الأجهزة البلاغية (مثل 'توكيد' عبر إنَّ) قد تحتاج مراجعة لاحقًا إذا أُضيفت مقاطع بلاغية/تفسيرية متخصصة من المؤلفين المطلوبين."
+    ]
+  },
+  "n_chunks": 12
+}

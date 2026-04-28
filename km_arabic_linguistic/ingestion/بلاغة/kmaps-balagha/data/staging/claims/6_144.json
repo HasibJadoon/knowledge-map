@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:144",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "وَمَنْ أَظْلَمُ مِمَّنِ افْتَرَى عَلَى اللَّهِ كَذِباً",
+        "claim_ar": "استفهام بلاغي توبيخي في «فَمَنْ أَظْلَمُ مِمَّنِ افْتَرَى عَلَى اللَّهِ كَذِباً» يُستخدم لتكثيف الإدانة وإبراز شناعة الفعل.",
+        "claim_en": "A rhetorical interrogative (a condemning question) in \"Who is more unjust than one who forges a lie against God?\" used to intensify the condemnation and highlight the heinousness of the act.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "فري",
+        "lemma": "افْتَرَىٰ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are limited (mainly Zamakhshari / Safi excerpts). Many expected tafsir sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha) were not present, so only devices directly supported by exact substrings in the supplied chunks were extracted.",
+      "Other salient rhetorical devices in this ayah (e.g., parallelism in «وَمِنَ الإِبِلِ اثْنَيْنِ وَمِنَ الْبَقَرِ اثْنَيْنِ», emphasis by إِنَّ, repetition, or contrasts) could not be asserted because the supplied chunks did not contain exact matching substrings to cite as source_quote_ar; such items need additional tafsir/balagha source text for reliable extraction."
+    ]
+  },
+  "n_chunks": 12
+}

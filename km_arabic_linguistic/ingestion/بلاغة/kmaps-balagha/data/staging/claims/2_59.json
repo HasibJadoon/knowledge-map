@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:59",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "وضع الظاهر موضع المضمر",
+        "claim_ar": "وضع الظاهر موضع المضمر لزيادة تقبيح أمرهم (إظهار الصفة صراحة بدل الإشارة إليها بالمضمَر)",
+        "claim_en": "The explicit (overt) expression is placed where an implicit (elliptical/pronominal) reference might have sufficed — a stylistic shift that intensifies the reprehensibility of their act (making the attribute explicit instead of implicit).",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "وضع",
+        "lemma": "وَضَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source describes 'putting the explicit in place of the implicit' — this is mapped to 'iltifat' (a shift) but classical labels vary; mapping should be reviewed against target taxonomy.",
+        "quran_ref": "S2:A59",
+        "rhetorical_effect": "increases moral reproach and vividness by making the offenders' action explicit"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "takrar",
+        "source_quote_ar": "ظَلَمُوا",
+        "claim_ar": "تكرار لفظي لعبارة «الذين ظلموا» (إعادة ذكر الصفة/الفاعل لتأكيد الحالة السلبية)",
+        "claim_en": "Lexical repetition (takrar) of the phrase 'الذين ظلموا' — repeating the descriptor/agent to reinforce their wrongdoing.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "ظلم",
+        "lemma": "ظَلَمَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A59",
+        "rhetorical_effect": "emphasis on culpability; reinforces the identification of those at fault"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "لتغير الصفة منزلة تغير الذات",
+        "claim_ar": "بيان أنّ تغيّر الصفة يستلزم تغيّر المنازلة/الذات — استخدام تغيير الصفة لتبيين تغاير المنزلة بينهم وبين السابقين",
+        "claim_en": "The commentary notes that a change of attribute implies a change of status/identity — the phrase uses alteration of attribute to mark their being different (and inferior) to the former group.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": "غير",
+        "lemma": "تَغَيُّر",
+        "confidence": "medium",
+        "needs_review_reason": "The source speaks of 'change of attribute leading to change of identity'; mapping this observation to the specific maani subtype 'fasl_wasl' (separation/joining) is interpretive and may be contested; please review against classical definitions.",
+        "quran_ref": "S2:A59",
+        "rhetorical_effect": "signals a categorical distancing: by changing the descriptive attribute the text marks them as a different (worse) group"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are primarily from Zamakhshari and a Darwish i'rab commentary; the requested author set (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) is not fully present. Extractions are limited to the supplied chunks.",
+      "Mapping of prose descriptions in the commentaries to the fixed device taxonomy (especially for 'وضع الظاهر موضع المضمر' and 'تغير الصفة منزلة تغير الذات') required interpretive choices; these mappings are flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

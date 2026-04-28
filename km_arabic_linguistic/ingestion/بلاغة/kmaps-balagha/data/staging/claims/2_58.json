@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:58",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "حِطَّةٌ فعلة من الحط كالجلسة والركبة، وهي خبر مبتدأ محذوف، أى مسألتنا حطة، وأمرك حطة. والأصل: النصب بمعنى: حط عنا ذنوبنا حطة. وإنما رفعت لتعطى معنى الثبات",
+        "claim_ar": "رفع اسم الخبر «حِطَّةٌ» بدلًا من نصب الأصلي مقصود بلاغيًا ليعطي معنى الثبات والديمومة بدلاً من الفعل المؤقت.",
+        "claim_en": "The noun حِطَّةٌ is raised (nominative) instead of the expected accusative; rhetorically this nominative raising conveys permanence/stability rather than a temporary injunction.",
+        "device_branch": "maani",
+        "device_subtype": "raising_for_emphasis (nominalization / omission of verb)",
+        "root": "حطط",
+        "lemma": "حِطَّة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A58",
+        "rhetorical_effect": "Gives the supplication a sense of lasting effect/stationing (not a fleeting or momentary plea)."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "itnaab",
+        "source_quote_ar": "أمروا بالسجود عند الانتهاء إلى الباب شكراً للَّه وتواضعاً.",
+        "claim_ar": "اختيار صيغة الحال المنصوبة «سُجَّدًا» بعد أمر الدخول يؤكد الكيفية والغاية (شكرًا وتواضعًا) ويعمل كنداء تأنيب/وصفي في الخطاب الإلهي.",
+        "claim_en": "The accusative manner-expression سُجَّدًا (sujjadan) after the command to enter emphasizes the manner/purpose (gratitude and humility). This functions rhetorically as an admonitory/descriptive specification of how to enter.",
+        "device_branch": "maani",
+        "device_subtype": "specification_of_manner / accusative-of-manner",
+        "root": "سجد",
+        "lemma": "سَاجِد",
+        "confidence": "medium",
+        "needs_review_reason": "Labeling as itnaab (a reproachful/admonitory tone) is interpretive; other analysts might classify this as specification of manner (fa'il/hal) rather than itnaab.",
+        "quran_ref": "S2:A58",
+        "rhetorical_effect": "Specifies the required attitude (gratitude/humility) on entry, turning a physical act into a moral/ethical posture."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "الْقَرْيَةَ بيت المقدس.",
+        "claim_ar": "توكيد التعريف في «هَذِهِ الْقَرْيَةَ» يشير إلى معرفة وتعيين محدد للمكان (بيت المقدس)، أي تأثير بلاغي بتحديد المعنى وإثبات المخصوصية.",
+        "claim_en": "The definite demonstrative phrase هَذِهِ الْقَرْيَةَ (this village/the city) with the following identification 'بيت المقدس' serves to define and single out the place; rhetorically it fixes specificity and recognition of the site.",
+        "device_branch": "maani",
+        "device_subtype": "definiteness_for_specification (tarīf/tankīr effect)",
+        "root": "قري",
+        "lemma": "قَرْيَة",
+        "confidence": "medium",
+        "needs_review_reason": "The claim rests on an exegetical identification in the chunk; other commentaries might emphasize different pragmatic effects (e.g., historical identification vs. rhetorical emphasis).",
+        "quran_ref": "S2:A58",
+        "rhetorical_effect": "Anchors the command in a known, concrete place, increasing the immediacy and authority of the instruction."
+      }
+    ],
+    "warnings": [
+      "Only Zamakhshari (al-Kashshaf) chunks were provided; requested sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) are not present. Claims are therefore drawn from the available Zamakhshari excerpts only.",
+      "Some device assignments (e.g., labeling سُجَّدًا as 'itnaab') are interpretive and flagged with medium confidence; different rhetorical taxonomies or other commentators may classify them differently. Review recommended for contested labels."
+    ]
+  },
+  "n_chunks": 12
+}

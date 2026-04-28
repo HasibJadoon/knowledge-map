@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:2",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الجملة مستأنفة مسوقة لبيان البينة.",
+        "claim_ar": "استئناف بياني / فصل ووصل: الآية تبدأ ببيان موجز (تنزيل الكتاب) ثم تفصل بعبارة تحض على عدم التردد والتبليغ، مما يبرِز وظيفة الفصل والوصل البلاغية في إخراج المقصد بسرعة وبوضوح.",
+        "claim_en": "Rhetorical resumption / break-and-connect: the verse begins with a succinct statement (the revealing of the Book) then moves to admonition (do not have any reluctance) and purpose (so that you may warn), highlighting a deliberate rhetorical pause and connection that foregrounds the message concisely and clearly.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Inference is based on a general grammatical/tafsir note in the provided chunk about 'الجملة مستأنفة مسوقة لبيان البينة.' The chunk is not an explicit rhetorical analysis of this specific aya; further corroboration from dedicated balagha sources (al-Jurjani, al-Sakkaki, etc.) is advisable."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "(قل) فعل أمر،",
+        "claim_ar": "أسلوب حكيم/إنشائي: الآية تحدد غايةً تبيّن حكمة التنزيل (لِتُنْذِرَ بِهِ)، أي توجيه بلاغي وإنشائي نحو مهمة التبليغ والتحذير.",
+        "claim_en": "Asloob hakim / rhetorical-stylistic device: the verse specifies a purpose that clarifies the wisdom of the revelation (so that you may warn with it), functioning as an instructive rhetorical move directing the addressee to the task of warning and reminding.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "نذر",
+        "lemma": "أَنذَرَ",
+        "confidence": "low",
+        "needs_review_reason": "The quoted chunk illustrates the imperative form '(قل) فعل أمر' from a grammatical commentary elsewhere. Applying the label 'أسلوب حكيم' to the purposive formula 'لِتُنذِرَ' in this aya is an interpretive step; a direct citation from classical balagha treatises on this exact aya is needed to raise confidence."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are primarily grammatical/tafsir excerpts; they do not contain explicit, dedicated balagha analyses (Jurjani/Sakkaki/Baqillani/Suyuti style) on this specific aya. Several claims are inferred from general grammatical remarks in the chunks rather than explicit rhetorical commentary on S7:A2.",
+      "Some device attributions (especially 'asloob_hakim' for the purposive phrase) are interpretive and flagged for review. Recommend checking classical balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) or tafsir-balagha sections directly for confirmation and more precise phrasing.",
+      "Source_quote_ar fields are exact substrings from the supplied chunks. Inference steps that connect those substrings to the aya's rhetorical features are noted in 'needs_review_reason'."
+    ]
+  },
+  "n_chunks": 12
+}

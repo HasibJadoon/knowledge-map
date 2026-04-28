@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:69",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "فَلَمَّا دَخَلُوا عَلى يُوسُفَ",
+        "claim_ar": "حرف الفاصلة الزمنيّة «فلما» يمثل وظيفة الفاصل والواصل في السرد؛ يفصل زمن المرحلة السابقة ويربط الدخول بحدث الاستقبال، أي أنّه علامة تتابع زمنية وتغيير مقطع سردي.",
+        "claim_en": "The temporal particle 'falamma' functions as both a separator and a linker in the narrative: it separates the previous episode and links the entering action to the reception scene, marking temporal succession and a shift in the narrative segment (fasl_wasl).",
+        "device_branch": "maani",
+        "device_subtype": "temporal_connector",
+        "root": null,
+        "lemma": "لَمَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "iltifat",
+        "source_quote_ar": "فلما لقيه قال يعقوب عليه السلام: السلام عليك يا مذهب الأحزان.",
+        "claim_ar": "الانتقال المفاجئ من وصف اللقاء إلى خطاب مباشر (التحية على لسان يعقوب) نمط مِن ألوان الالتفات (التغيير الخطابي) الذي يزوّد المشهد بوقوعٍ عاطفيّ ويكثّف أثر اللقاء.",
+        "claim_en": "The sudden shift from narrative description of the meeting to direct speech (Jacob's greeting) is an instance of iltifat (discourse shift). This change of register heightens the emotional impact of the reunion.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat_direct_address",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "فَلَمَّا دَخَلُوا عَلى يُوسُفَ قيل وجه يوسف إلى أبيه جهازاً ومائتي راحلة ليتجهز إليه بمن معه.",
+        "claim_ar": "التعقيب التفسيري في هذا الشطر من التفسير يبيّن حركةٍ سردية في السورة: الانتقال من حلقة البيع والإختبار إلى إعداد الاستقبال والمصالحة، أي أنّ ثمة تحركًا موضوعيًّا في مسار السورة نحو المصالحة واللمّ الشمل.",
+        "claim_en": "The exegetical remark highlights a narrative movement in the surah: a shift from the earlier episode of sale/testing to the preparation of a reception and reconciliation. This marks a thematic progression in the chapter toward reunion and resolution (surah_movement).",
+        "device_branch": "other",
+        "device_subtype": "narrative_transition",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "This is an interpretive observation about overall surah progression derived from the tafsir chunk; assigning it as a formal rhetorical device (surah_movement) may need review against stricter definitions."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from al-Kashshaf (Zamakhshari) and Tabari; the developer instruction named al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha — those specific authors' chunks were not supplied, so extractions were made only from the available chunks.",
+      "The source chunks do not contain the exact quoted clause 'قَالَ إِنِّي أَنَا أَخُوكَ فَلَا تَبْتَئِسْ بِمَا كَانُوا يَعْمَلُونَ' as a contiguous substring; some claims therefore rely on nearby commentary/reporting in the provided tafsir rather than that exact lexical sequence. Review recommended if strict matching to the literal ayah phrasing is required."
+    ]
+  },
+  "n_chunks": 12
+}

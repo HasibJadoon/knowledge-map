@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:64",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "الَّذِينَ كَذَّبُوا",
+        "claim_ar": "تكرار فعل الكذب (كَذَّبُوهُ ... الَّذِينَ كَذَّبُوا) لتوكيد وصف المكذبين وإبراز موقفهم",
+        "claim_en": "Repetition of the verb root ك ذ ب (they denied) — e.g. فَكَذَّبُوهُ ... الَّذِينَ كَذَّبُوا — used to emphasize and identify the deniers.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "كذب",
+        "lemma": "كَذَّبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "mucabalah",
+        "source_quote_ar": "فَأَخَذَتْهُمُ الرَّجْفَةُ فَأَصْبَحُوا",
+        "claim_ar": "مقابلة بين النجاة والغرق (أَنْجَيْنَاهُ ... أَغْرَقْنَا) لبيان الجزاء المتقابل للسلوك: نجاة المؤمنين مقابل عذاب المكذبين",
+        "claim_en": "Contrast (muqābalah) between salvation and drowning — 'We saved him and those with him' versus 'We drowned those who denied Our signs' — to show opposite outcomes as moral consequence.",
+        "device_branch": "badi",
+        "device_subtype": "mucabalah",
+        "root": "نجو",
+        "lemma": "أَنجَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "Supporting source passage discusses sequences of divine punishment/consequence generally but does not quote these specific verbs; the contrast reading is inferential."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "الفاء استئنافيّة",
+        "claim_ar": "استخدام حروف العطف والنسق السردي (الفاء و الواو) لربط المتواليات: فَكَذَّبُوهُ فَأَنْجَيْنَاهُ وَأَغْرَقْنَا ...",
+        "claim_en": "Use of conjunction particles (fa and wa) to sequence narrative events — linking denial, salvation, and drowning in a concise chain of events.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are mostly exegetical and grammatical; explicit classical labels for every identified rhetorical device in this specific verse are not always present in the chunks. Where direct commentary on the exact lexical items was absent, some claims (marked medium confidence) are interpretive and use related grammatical/exegetical passages as supporting evidence.",
+      "The source_quote_ar fields are exact substrings from the provided chunks and are intended as supporting evidence; they do not always quote the verse text itself."
+    ]
+  },
+  "n_chunks": 12
+}

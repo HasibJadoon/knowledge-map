@@ -1,0 +1,13 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:36",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No usable balāgha claims could be extracted for S8:A36 because none of the provided source_chunks contain the verse text (or an explicit balāgha commentary on that verse) as an exact substring. The extraction spec requires source_quote_ar to be an exact substring of one of the provided chunks; without that, I cannot cite the requested classical authors' statements or their exact quoted phrases.",
+      "Provided chunks are mostly excerpts from al-Kashshaf and other material that do not include explicit quoted phrases from S8:A36 or explicit balāgha statements by al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsīr-balagha section for this particular verse. To produce claims I need one or more of the following for this ayah: (a) a chunk that contains the exact ayah text as quoted in the commentary, or (b) a chunk containing an exact quoted substring in Arabic where a classical author discusses a rhetorical device in this ayah.",
+      "Please provide source chunks (exact Arabic quotations) from the requested balāgha commentators (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsīr-balagha) that mention S8:A36 or include exact quoted phrases from that verse. With those, I can produce structured claims meeting the requirements (including exact source_quote_ar substrings)."
+    ]
+  },
+  "n_chunks": 12
+}

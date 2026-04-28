@@ -1,0 +1,29 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وَلا نُكَذِّبَ بِآياتِ رَبِّنا",
+        "claim_ar": "قصر النفي بقوله «لا يُكَذِّبُونَكَ» ثم التقييد: إنما يجحدون آياتَ الله لا أنكرهم للنبي بوجهٍ واحد. أي تقييد المعنى وتوضيح المقصود من التكذيب.",
+        "claim_en": "Restrictive/qualifying structure: the negation 'they do not deny you' is followed by a qualification — 'but the wrongdoers deny the signs of God' — which restricts the meaning of 'deny' to denying God's signs rather than a direct personal accusation against the Prophet. The clause limits/qualifies the scope of the denial.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "كذب",
+        "lemma": "كَذَّبَ",
+        "confidence": "medium",
+        "needs_review_reason": "Claim maps a Kashshaf discussion phrase to the rhetorical notion of حصر/قصر; the source chunk contains the relevant phrase but does not explicitly label it as حصر—recommend checking other tafsir/balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) for confirmation and terminology alignment.",
+        "quran_ref": "S6:A33",
+        "rhetorical_effect": "Distinguishes between rejecting the messenger personally and rejecting the divine signs, highlighting hypocrisy and focusing moral blame on denial of God's revelations."
+      }
+    ],
+    "warnings": [
+      "Only Zamakhshari (al-Kashshaf) chunks were provided; other requested classical balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha compilations) were not supplied. Claims rely on the available chunk(s) and should be reviewed against the missing sources.",
+      "The mapping from the quoted commentary substring to the specific balagha label (حصر/قصر) is interpretive. Please verify the device_subtype and its classical terminology in the full tafsir/balagha sources.",
+      "No explicit mention of emphatic particles (إِنَّ / لَ) or other devices in the provided chunks for this ayah was found; additional devices may be present in other tafsir/بلاغة sources not provided here."
+    ]
+  },
+  "n_chunks": 12
+}

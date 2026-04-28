@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:84",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب/taalluq/taqdir claims for the words of S9:A84 were found in the provided source_chunks. The chunks supplied do not analyze the words of this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

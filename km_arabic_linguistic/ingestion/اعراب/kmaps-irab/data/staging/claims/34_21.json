@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "34:21",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (فِي الْآخِرَةِ) : يَجُوزُ أَنْ يَكُونَ ظَرْفًا الْعَامِلُ فِيهِ «الْحَمْدُ» أَوِ الظَّرْفُ؛ وَأَنْ يَكُونَ حَالًا مِنَ (الْحَمْدُ) وَالْعَامِلُ فِيهِ الظَّرْفُ.",
+        "claim_ar": "قَوْلُهُ: «فِي الْآخِرَةِ» — روايتان في الإعراب: يجوز أن تُعرب ظرفًا متعلقًا بـ «الْحَمْدُ»، أو تُعرب حالًا من «الْحَمْدُ» مع اعتبار الظرف هو العامل في الثانية.",
+        "claim_en": "The phrase 'fi al-akhirah' has two alternative analyses: it may be a zarf (adverbial accusative) governed by 'al‑hamd', or it may be a hal (circumstantial accusative) derived from 'al‑hamd' with the zarf serving as the governor in that analysis.",
+        "root": "اخر",
+        "lemma": "آخِر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "taalluq",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ ظَرْفًا الْعَامِلُ فِيهِ «الْحَمْدُ»",
+        "claim_ar": "«فِي الْآخِرَةِ» يجوز أن تتعلق بـ «الْحَمْدُ» كظرفٍ له (العامل فيه «الْحَمْدُ»).",
+        "claim_en": "'fi al-akhirah' may be an adverbial (zarf) attached to/governed by 'al‑hamd'.",
+        "root": "اخر",
+        "lemma": "آخِر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "irab",
+        "source_quote_ar": "وَأَنْ يَكُونَ حَالًا مِنَ (الْحَمْدُ) وَالْعَامِلُ فِيهِ الظَّرْفُ.",
+        "claim_ar": "«فِي الْآخِرَةِ» قد تُعرب حالًا من «الْحَمْدُ» (حال مُنْسَبَة إلى الْحَمْدِ)، ويُعتبر الظرف العامل في هذا الوجه.",
+        "claim_en": "'fi al-akhirah' can be parsed as a hal (circumstantial accusative) related to 'al‑hamd', with the zarf regarded as the governor in that reading.",
+        "root": "اخر",
+        "lemma": "آخِر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The cited discussion in the source uses the example of «الْحَمْدُ ... فِي الْآخِرَةِ» (from a different verse) to illustrate analyses of «فِي الْآخِرَةِ». The grammatical options are presented on that example; their applicability to the current ayah (S34:21) is inferred and should be reviewed in context of this ayah's actual governor.",
+      "Source chunks include comments on multiple verses; ensure each claim is applied to the correct occurrence of «فِي الْآخِرَةِ» in S34:21 when performing further analysis."
+    ]
+  },
+  "n_chunks": 12
+}

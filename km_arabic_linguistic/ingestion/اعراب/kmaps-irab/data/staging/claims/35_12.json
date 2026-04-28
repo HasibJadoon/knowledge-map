@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "35:12",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "«مَا» شَرْطِيَّةٌ فِي مَوْضِعِ نَصْبٍ",
+        "claim_ar": "حرف «ما» هنا من أقسام «ما» الشرطية (حرف شرط)",
+        "claim_en": "The particle 'ma' (ما) is of the conditional particles (ma shartiyya) — i.e. a conditional particle",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses (مَا يَفْتَحِ اللَّهُ). Applying the general rule to وَمَا يَسْتَوِي requires checking whether al-Ṭibyan treats this specific occurrence similarly in the commentary for S35:12 or elsewhere."
+      }
+    ],
+    "warnings": [
+      "Only a general rule about «مَا» (from the provided al-Tibyan chunk) was found in the supplied source chunks. There is no explicit iʿrāb analysis in the provided chunks that directly treats S35:12 or the words of this ayah.",
+      "Other words in the ayah (يَسْتَوِي، الْبَحْرَانِ، etc.) have no corresponding quotations in the supplied source chunks, so no irāb/taʿalluq/taqdīr claims could be extracted for them from these chunks. Further source material (al-Tibyan on S35:12 or other grammarians) is needed for a fuller mapping."
+    ]
+  },
+  "n_chunks": 10
+}

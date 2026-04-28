@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "42:53",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "من المهم معرفة التفاسير الواردة عن الصحابة  بحسب قراءة مخصوصة",
+        "claim_ar": "قد تؤدي قراءات مختلفة إلى إعراب أو تفسير مختلف للكلمات في الآية (القراءة تؤثر في الإعراب/المعنى).",
+        "claim_en": "Different vocalized readings can yield different grammatical analyses or interpretations of words in the verse (reading may affect iʿrāb/meaning).",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage is a general remark about the impact of variant readings on interpretation; it does not specify which word(s) in this ayah are affected or give a particular alternate reading for a specific word."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وأما الإعراب فلأنها صارت اسما والأسماء معربة إلا لموجب بناء .",
+        "claim_ar": "القواعد العامة: الأسماء معربة ما لم يقابلها سبب للبناء (بناء موجب). لذلك وجوب مراعاة الإعراب للأسماء في الآية ما لم يقتضِ دليل بناء.",
+        "claim_en": "General rule: nouns are ordinarily inflected (iʿrāb) unless there is a reason to make them morphologically fixed (bina'). Thus one should treat nouns in the verse as inflected unless there is evidence for an exceptional fixed form.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "The source gives a general grammatical rule about nouns; applying it to a particular word (e.g., صِرَاطِ) requires examining the specific syntactic context (idāfa, governance, or exceptional building)."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not discuss this specific ayah or its individual words directly. Extracted claims are general grammatical/reading principles from the sources and their applicability to particular words in S42:53 must be verified against explicit discussions of this verse.",
+      "Some required fields (root, lemma) are null because the source quotes are general statements rather than analyses tied to specific lexical roots; these claims therefore need further review to tie them to particular words/roots in the ayah."
+    ]
+  },
+  "n_chunks": 12
+}

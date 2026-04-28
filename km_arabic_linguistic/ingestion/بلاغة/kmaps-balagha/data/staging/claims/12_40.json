@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:40",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "على الاستفهام، بمعنى أى شيء نطلب وراء هذا؟",
+        "claim_ar": "افتتاح الآية بصيغة استفهامية («مَا تَعْبُدُونَ») كأسلوب بلاغي لاستثارة السامع وإثارة التأمل.",
+        "claim_en": "The verse opens with an interrogative 'ما' ('ما تَعْبُدُونَ'), a rhetorical question used to provoke the listener and stimulate reflection.",
+        "device_branch": "other",
+        "device_subtype": "interrogation (استفهام)",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S12:A40",
+        "rhetorical_effect": "focuses attention, invites reflection and self-examination in the addressees"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are from Zamakhshari (al-Kashshaf) only; the developer list requested al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha sections but those were not supplied. Claims are therefore limited to devices for which supporting source substrings appear in the given chunks.",
+      "Only one clear rhetorical-device substring (on the interrogative use of ما) was found verbatim in the supplied chunks; other likely devices in the verse (e.g., restriction with إِلَّا, parallelism/contrast) could not be sourced from the provided chunks and were therefore not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

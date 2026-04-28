@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (وَالَّذِينَ اتَّخَذُوا) : يُقْرَأُ بِالْوَاوِ، وَفِيهِ وَجْهَانِ: أَحَدُهُمَا: هُوَ مَعْطُوفٌ عَلَى «وَآخَرُونَ مُرْجَوْنَ» ؛ أَيْ: وَمِنْهُمُ الَّذِينَ اتَّخَذُوا.",
+        "claim_ar": "يجوز قراءة عبارة «والذين اتخذوا» بالواو، وفيها وجهان أحدهما: أن تكون معطوفة على «وَآخَرُونَ مُرْجَوْنَ» (أي: ومنهم الذين اتخذوا).",
+        "claim_en": "The phrase “والذين اتخذوا” may be read with the initial waw; there are two readings/senses. One is that it is conjunct (ma‘tūf) on “وَآخَرُونَ مُرْجَوْنَ”, i.e. “and among them are those who took...”.",
+        "root": "اتخذ",
+        "lemma": "اتَّخَذَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses «والذين اتخذوا» while the ayah contains the imperfect form «يَتَّخِذُوا» preceded by «وَلَمْ». Confirm whether the same reading/attachment (قراءة بالواو / كونها معطوفة) is intended to apply to this ayah's construction."
+      }
+    ],
+    "warnings": [
+      "The source chunk explicitly treats the phrase «والذين اتخذوا». The ayah here uses «يَتَّخِذُوا» (word 12) preceded by «وَلَمْ». Mapping the comment to this exact grammatical context requires confirmation.",
+      "Only one relevant source chunk contained an exact substring matching a concept related to this ayah; other provided chunks did not contain explicit syntactic claims for the words of this verse."
+    ]
+  },
+  "n_chunks": 12
+}

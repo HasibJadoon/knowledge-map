@@ -1,0 +1,36 @@
+{
+  "layer": "irab",
+  "ayah_key": "29:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "وَيَجُوزُ أَنْ يَكُونَ بِمَعْنَى قَبُحَ، فَتَكُونُ «مَا» مَصْدَرِيَّةً. أَوْ بِمَعْنَى الَّذِي، أَوْ نَكِرَةً مَوْصُوفَةً، وَهِيَ فَاعِلُ سَاءَ.",
+        "claim_ar": "كلمة «سِيءَ» يمكن أن تفهم على أوجه: بمعنى قبح (مصدرية)، أو بمعنى «الذي»، أو كثمرة نكرة موصوفة، وفي قراءة نحوية هي فاعل الفعل «ساءَ».",
+        "claim_en": "The word \"سِيءَ\" can be understood in several ways: as meaning 'badness' (verbal noun/masdar), or as 'the one which', or as an indefinite described noun; grammatically it may function as the subject (فاعل) of the verb \"ساءَ\".",
+        "root": "سوا",
+        "lemma": "سَآءَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the lemma/verb ساءَ in general; mapping its analyses exactly onto the surface form «سِيءَ» in this verse (case, determination, and syntactic relation with بِهِمْ) requires checking the original parsing provided for this ayah."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "و (أَنْ يَقُولُوا) : أَيْ بِأَنْ يَقُولُوا، أَوْ لِأَنْ يَقُولُوا. وَيَجُوزُ أَنْ يَكُونَ بَدَلًا مِنْ «أَنْ يُتْرَكُوا» وَإِذَا قُدِّرَتِ الْيَاءُ كَانَ حَالًا؛ وَيَجُوزُ أَنْ تُقَدَّرَ عَلَى هَذَا الْمَعْنَى.",
+        "claim_ar": "حرف «أَنْ» قد يعمل بصيغ متعددة (مثل «بأن» أو «لأن») وقد يُؤوَّل أو يُبدَل في تراكيب مشابهة؛ وفي بعض الحالات إذا قُدّرت ياء كانت حالًا. هذه قاعدة عامة في تحليل «أَنْ + فعل».",
+        "claim_en": "The particle \"أَنْ\" can function in various ways (e.g. as \"bi-'an\" or \"li-'an\") and may be reinterpreted or substitute in constructions; in some cases if an implied yā' is supplied it serves as a circumstantial clause (ḥāl). This is a general rule for analyzing \"أَنْ + verb\" constructions.",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage gives general usages of «أَنْ» illustrated with other examples; whether these specific senses are intended for the «أَنْ» of this ayah (أَنْ جَاءَتْ) should be verified from a verse-specific iʿrāb in the source."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are general discussions (on سَاءَ and on uses of أَنْ) rather than a verse-specific iʿrāb of S29:33. The mappings above apply those general remarks to the words in this ayah but should be reviewed against any direct sentence-level iʿrāb in the same source.",
+      "No explicit chunk in the provided input gives a word-by-word iʿrāb for this exact verse; claims were extracted only where a substring in a chunk was relevant. If you want verse-specific grammatical rulings (e.g., the role of بِهِمْ, the case of سِيءَ, or the syntactic status of أَنْ), provide the chunk(s) that treat this verse directly."
+    ],
+    "quran_ref": "S29:A33"
+  },
+  "n_chunks": 12
+}

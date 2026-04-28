@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:47",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "اسْتِثْنَاءٌ مِنَ الْجِنْسِ؛ أَيْ إِلَّا إِيَّاهُ",
+        "claim_ar": "حرف الاستثناء «إِلَّا» على معنى استثناءٍ من الجنس (أي: إِلَّا إِيَّاهُ).",
+        "claim_en": "The particle 'إِلَّا' functions as an exception of kind (استثناء من الجنس), i.e. 'except it/him'.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A47"
+      }
+    ],
+    "warnings": [
+      "The cited chunk discusses the phrase “إِلَّا وَجْهَهُ” in general; the claim applies that general rule to the occurrence of «إِلَّا» in this ayah (إِلَّا الْقَوْمُ الظَّالِمُونَ). The source does not analyze this exact ayah explicitly."
+    ]
+  },
+  "n_chunks": 12
+}

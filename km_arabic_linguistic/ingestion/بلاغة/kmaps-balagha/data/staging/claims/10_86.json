@@ -1,0 +1,44 @@
+{
+  "layer": "balagha",
+  "ayah_key": "10:86",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "واو استئنافية",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "الواو في «وَنَجِّنَا...» تعمل واو استئنافية تستأنف الكلام وتربط الطلب (الدعاء) بما سبق من السياق.",
+        "claim_en": "The initial waw in 'وَنَجِّنَا' functions as a waw of resumption (wa' istinaaf), resuming the discourse and linking the supplicatory petition to the preceding context.",
+        "device_branch": "other",
+        "device_subtype": "waaw_estinaaf",
+        "root": "نجو",
+        "lemma": "نَجَّىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunks are grammatical (i'rab) notes identifying 'الواو استئنافية', but classical balagha sources should be checked to confirm rhetorical intent and effect.",
+        "quran_ref": "S10:A86",
+        "rhetorical_effect": "links the supplication to the prior discourse, creating continuity and appeal to what preceded."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "واو عاطفة",
+        "source_quote_ar": "الواو عاطفة",
+        "claim_ar": "يمكن أيضاً تفسير الواو في «وَنَجِّنَا...» على أنها واو عاطفة (عاطفة/عاطف) تربط الطلب بالجملة السابقة بوظيفة ربط/استدراك.",
+        "claim_en": "Alternatively, the initial waw in 'وَنَجِّنَا' can be read as a coordinating waw (wa' of coordination/retort), connecting the petition to the previous clause as a coordinating or concessive particle.",
+        "device_branch": "other",
+        "device_subtype": "waaw_aatafa",
+        "root": "نجو",
+        "lemma": "نَجَّىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "Grammatical commentary in the supplied chunks labels the particle as 'الواو عاطفة' in parallel contexts; a dedicated balagha source should be consulted to prefer this reading over 'استئنافية'.",
+        "quran_ref": "S10:A86",
+        "rhetorical_effect": "gives the petition a coordinating/connecting tone, potentially signaling continuation or contrast with what precedes."
+      }
+    ],
+    "warnings": [
+      "The supplied source_chunks are primarily i'rab (grammatical) notes rather than explicit balagha treatises (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir-balagha). Claims above are therefore drawn from grammatical labels found in those chunks (e.g., 'الواو استئنافية', 'الواو عاطفة').",
+      "No explicit quotations from the requested classical balagha authors were present in the provided chunks for this specific ayah; further review against dedicated balagha/tafsir-balagha sources is recommended to expand or confirm devices (ma'ani, bayan, badi) beyond the conjunction analyses.",
+      "Only devices for the initial particle (the waw attached to 'نَجِّنَا') are claimed because the provided chunks do not contain clear, exact-substring evidence for other rhetorical devices in this ayah."
+    ]
+  },
+  "n_chunks": 12
+}

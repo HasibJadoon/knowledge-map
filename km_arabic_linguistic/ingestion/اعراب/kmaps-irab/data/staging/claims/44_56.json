@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "44:56",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وباب الحصر ؛ سواء كان بإلا ، أو بإنما ، أو غيرهما من أدواته ؛ لأن الجملة فيها نابت مناب جملتين .",
+        "claim_ar": "حكم أداتي: «إِلَّا» هنا تُعدُّ من أدوات الحصر؛ فوظيفتها تدخُّل استثنائي يجعل الجملة مقام نابتين/منابت جملتين.",
+        "claim_en": "Rule citation: The particle 'إِلَّا' is a particle of restriction (ḥaṣr); its function is to introduce an exception, effectively making the sentence act as two parallel/paired clauses.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "وباب الحصر ؛ سواء كان بإلا ، أو بإنما ، أو غيرهما من أدواته ؛ لأن الجملة فيها نابت مناب جملتين .",
+        "claim_ar": "تأثير دلالي في هذه الآية: «إِلَّا الْمَوْتَةَ الْأُولَى» تحصر وقوع (مذاق) الموت في النار بالموتة الأولى فقط — أي: لا يذوقون فيها الموت إلا الموتة الأولى.",
+        "claim_en": "Semantic effect: In this verse, 'إِلَّا الْمَوْتَةَ الْأُولَى' restricts the predication of 'tasting death' in the fire to only the 'first death' — i.e., they will not taste death there except the first death.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "Inference applies a general grammatical rule in the source to this specific verse; contextual/ exegetical corroboration recommended."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not discuss S44:56 specifically; the claims above apply a general rule about 'إِلَّا' (حصر) from the sources to this verse.",
+      "No explicit إعراب (syntactic labelling of subject/verb/objects) for the individual words of this ayah was found in the given chunks; only a general rule about 'إِلَّا' could be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

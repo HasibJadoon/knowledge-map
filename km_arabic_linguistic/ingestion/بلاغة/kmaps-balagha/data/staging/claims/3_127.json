@@ -1,0 +1,26 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:127",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "مِنَ الَّذِينَ كَفَرُوا",
+        "claim_ar": "استخدام «مِنَ الَّذِينَ كَفَرُوا» للحصر والتخصيص: الإشارة إلى جزء من الكفار (بعضهم) لا العموم.",
+        "claim_en": "Use of «مِنَ الَّذِينَ كَفَرُوا» as restriction/qualification: it designates some of the disbelievers (a subset), not all.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only the substring «مِنَ الَّذِينَ كَفَرُوا» from the provided source chunks exactly matches the ayah vocabulary; other potentially relevant phrases of the ayah (e.g. «لِيَقْطَعَ طَرَفًا», «أَوْ يَكْبِتَهُمْ», «فَيَنْقَلِبُوا خَائِبِينَ») do not appear verbatim in the supplied chunks, so additional rhetorical devices that depend on those phrases could not be supported with the given sources.",
+      "Some plausible devices (e.g. alternation/antithesis between the two outcomes, or the purposeful لِـ infinitive as a purposive/illative maʿnā) may exist in the ayah but are not claimed here because the exact substrings for those elements were not present in the provided source chunks; review with fuller tafsir/بلاغة sources is recommended."
+    ]
+  },
+  "n_chunks": 12
+}

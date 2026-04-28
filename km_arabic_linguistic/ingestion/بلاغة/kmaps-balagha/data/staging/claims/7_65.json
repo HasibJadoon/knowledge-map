@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:65",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "﴿قال يا قوم اعبدوا الله ما لكم من إله غيره﴾",
+        "claim_ar": "التفات السرد إلى المخاطبة المباشرة (الانتقال من رواية الخبر إلى كلام النبي المباشر): «قال يا قوم اعبدوا الله…»",
+        "claim_en": "Iltifat — a shift from narrative reporting into direct address: the narrator moves into the prophet's direct speech ('He said: O my people, worship Allah...'), increasing immediacy and engagement.",
+        "device_branch": "maani",
+        "device_subtype": "narrative_to_direct",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A65",
+        "rhetorical_effect": "الالتفات يخلق حضوراً وصدى أقوى للخطاب ويجعل التحذير والتوجيه أكثر مباشرة وتأثيراً على المخاطب."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "يا قوم اعبدوا الله",
+        "claim_ar": "نداء ومأمورية مباشرة باستخدام النداء «يا قوم» متبوعاً بالفعل الأمري «اعبدوا» لتكثيف الدعوة إلى العبادة.",
+        "claim_en": "Direct vocative plus imperative (ijab/inshāʾ): the vocative 'O my people' followed by the command 'Worship', intensifying exhortation and communal address.",
+        "device_branch": "maani",
+        "device_subtype": "vocative+imperative",
+        "root": "عبد",
+        "lemma": "عَبَدَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A65",
+        "rhetorical_effect": "النداء يوجّه الانتباه للجماعة، والفعل الأمر يضفي قوة ووضوحاً على الدعوة ويحفّز الاستجابة."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "ما لكم من إله غيره",
+        "claim_ar": "حصر ونفي الشريك في صيغة استفهامية تقريرية: «ما لكم من إله غيره» بمعنى: ما عندكم من إله سواه؟ أي استبعاد وجود إله بديل.",
+        "claim_en": "Hasr/qasr (restriction/exclusion) via rhetorical question: 'What deity do you have besides Him?' — excludes any other deity and emphasizes God's uniqueness.",
+        "device_branch": "maani",
+        "device_subtype": "exclusion_rhetorical_question",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A65",
+        "rhetorical_effect": "السؤال الإنكاري يفضح عدم مبرر الشرك ويقوّي الحجة المنطقية والوجدانية على توحيد العبادة."
+      }
+    ],
+    "warnings": [
+      "المصادر المرفقة تحتوي على اقتباس واضح لعبارات مثل «قال يا قوم اعبدوا الله ما لكم من إله غيره» (انظر تفسير الطبري)، لكن أجزاء من الآية كما وردت في بيانات الكلمة (مثل «أَفَلَا تَتَّقُونَ») لا تظهر في المقاطع المزودة. لذلك تم الاقتصار على استنتاجات بلاغية مدعومة بنصوصٍ موجودة في القطع المتاحة.",
+      "المطالبات تركز على الأجهزة البلاغية الظاهرة في الاقتباسات الموجودة بالمصادر المرفقة (الالتفات، النداء/الأمر، السؤال الإنكاري/حصر). إذا رغبتم بتوسيع الاستخلاص ليشمل عناصر أخرى من الآية (مثلاً «أَفَلَا تَتَّقُونَ») يرجى تزويد مقاطع مصادر تحتوي على تلك العبارات."
+    ]
+  },
+  "n_chunks": 12
+}

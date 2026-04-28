@@ -1,0 +1,36 @@
+{
+  "layer": "irab",
+  "ayah_key": "17:59",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(بِسِحْرٍ مِثْلِهِ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِلَنَأْتِيَنَّكَ، وَأَنْ يَكُونَ حَالًا مِنَ الْفَاعِلِينَ.",
+        "claim_ar": "يجوز أن يتعلّق ظرف الباء والمضاف (مثاله: بِالْآيَاتِ) بالفعل (نُرْسِلَ) وقد يُحْمَل على حال من الفاعلين.",
+        "claim_en": "It is permissible that the prepositional phrase (e.g. بِالْآيَاتِ) attaches to the verb (نُرْسِلَ) or alternatively functions as a hal (circumstantial) of the doers.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the construction (بِسِحْرٍ مِثْلِهِ) and permits attachment or hal; application to بِالْآيَاتِ in this ayah is inferred rather than explicitly treated."
+      },
+      {
+        "word_index": 19,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(بِسِحْرٍ مِثْلِهِ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِلَنَأْتِيَنَّكَ، وَأَنْ يَكُونَ حَالًا مِنَ الْفَاعِلِينَ.",
+        "claim_ar": "يجوز أن يتعلّق ظرف الباء والمضاف (مثاله: بِالْآيَاتِ) بالفعل (نُرْسِلُ) أو أن يكون حالًا من الفاعلين.",
+        "claim_en": "It is permissible that the prepositional phrase (e.g. بِالْآيَاتِ) attaches to the verb (نُرْسِلُ) or functions as a hal (circumstantial) modifying the doers.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "The al-Tibyan passage addresses a similar prepositional construction (بِسِحْرٍ مِثْلِهِ); extending that analysis to this ayah is an inference requiring confirmation from an explicit commentary on this verse."
+      }
+    ],
+    "warnings": [
+      "No chunk explicitly discusses the phrase بِالْآيَاتِ in S17:A59; the extracted taʿalluq claims are inferred from a discussion of the analogous construction (بِسِحْرٍ مِثْلِهِ) in the provided source.",
+      "Only taʿalluq-type analysis could be confidently mapped from the supplied chunks; other syntactic points in the verse (e.g. تَخْوِيفًا as حال/مفعولٍ لأجلِه) are not discussed in the provided excerpts."
+    ],
+    "quran_ref": "S17:A59"
+  },
+  "n_chunks": 5
+}

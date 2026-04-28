@@ -1,0 +1,73 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:63",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "ijaaz",
+        "source_quote_ar": "جوابه محذوف",
+        "claim_ar": "حذف جواب الاستفهام: جواب «أَرَأَيْتُمْ» محذوف لدلالته المكتفية وإيجاز المعنى.",
+        "claim_en": "Ellipsis of the expected answer: the answer to 'أَرَأَيْتُمْ' is omitted because the meaning is already clear, a concise (ijaaz) rhetorical move.",
+        "device_branch": "maani",
+        "device_subtype": "حذف الجواب (ellipsis)",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A63",
+        "rhetorical_effect": "يزيد الحدة والاختزال البلاغي؛ يدفع السامع لملء الفراغ الذهني وإدراك المغزى دون تصريح."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "iltifat",
+        "source_quote_ar": "ينادى عليه",
+        "claim_ar": "نداء مخاطب («يا قوم») ثم انتقال إلى الاستفهام، أي التِفات بلاغي لإشراك المخاطبين مباشرة وإشداد الانتباه.",
+        "claim_en": "Vocative shift (iltifat): the address 'يا قوم' followed by the interrogative shifts the discourse onto the addressees, drawing direct attention.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (نداء ثم انتقال)",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A63",
+        "rhetorical_effect": "يجعل الخطاب مباشراً وشخصياً، فيزيد الإدانة ويشدّ مراعاة السامع."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "أَرَأَيْتُمْ",
+        "claim_ar": "استفهام إنكاري («أَرَأَيْتُمْ») يستخدم للتوبيخ والاستدراك: إنه يسوقهم إلى التفكير في وضعهم ويظهر تناقض موقفهم.",
+        "claim_en": "Rhetorical/interrogative construction ('أَرَأَيْتُمْ') functioning as a negative/rhetorical question to shame and provoke reflection.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa (استفهام إنكاري)",
+        "root": "راي",
+        "lemma": "رَءَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A63",
+        "rhetorical_effect": "يؤثر عاطفياً ويضع المخاطَب في موقف دفاعي؛ يبرِز استحالة موقفهم عملياً."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "itnaab",
+        "source_quote_ar": "أيصح لي أن لا آمركم بترك عبادة الأوثان والكف عن المعاصي؟",
+        "claim_ar": "أسلوب تأنيب/عتاب في صيغة استفهامية: استدراك تأنيبي يوجّه لومًا ويُعرّض المخاطبين للذم.",
+        "claim_en": "Reproachful admonition (itnaab) in an interrogative form: a reproachful rhetorical question that censures the audience.",
+        "device_branch": "maani",
+        "device_subtype": "itnaab (عتاب/تأنيب)",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A63",
+        "rhetorical_effect": "يبني موقف النهي والنصح على لسان المخاطب، ويزيد الإحراج الأخلاقي للمستمعين."
+      }
+    ],
+    "warnings": [
+      "المقاطع النصية المرفقة هي من تفسير الزمخشري وقطع نحوية/إعرابية؛ لم تُقدَّم نصوص من جميع المصادر المذكورة (الجرجاني، السكاكي، البقلياني، السيوطي، أو أقسام خاصّة ببلاغة التفسير). الاستخلاص هنا يستند إلى المقاطع الموفّرة فقط.",
+      "بعض التصنيفات (مثل وضع 'جوابه محذوف' تحت صفة «ijaaz») تفسر الحذف كإيجاز بلاغي بالاستناد إلى النص المقدم؛ يمكن مراجعتها إذا توفر تعليق صريح من مصادر البلاغة المطلوبة يضع الحذف تحت تصنيف آخر."
+    ]
+  },
+  "n_chunks": 12
+}

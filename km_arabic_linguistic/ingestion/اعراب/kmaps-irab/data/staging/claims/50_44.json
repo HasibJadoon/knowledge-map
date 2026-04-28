@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "50:44",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable إعراب claims found: none of the provided source_chunks contain an exact substring from this ayah (S50:44). Cannot produce source_quote_ar-required claims without a matching quotation. Please provide source text/chunk that includes the verse text or the relevant passage from التبيان that discusses this specific آية."
+    ]
+  },
+  "n_chunks": 12
+}

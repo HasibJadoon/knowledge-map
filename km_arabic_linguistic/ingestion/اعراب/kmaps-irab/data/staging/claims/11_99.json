@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:99",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ: فِي مَوْضِعِ نَصْبٍ بَدَلًا مِنْ «مَا» ؛ أَيْ: بِئْسَ شَيْئًا سَخِطَ اللَّهُ عَلَيْهِمْ. وَقِيلَ: هُوَ فِي مَوْضِعِ جَرٍّ بِلَامٍ مَحْذُوفَةٍ؛ أَيْ: لِأَنْ سَخِطَ.",
+        "claim_ar": "اختلاف في إعراب «بِئْسَ»: قِيلَ إنها في موضع نصب بدلًا من «ما» (أي: «بِئْسَ شَيْئًا»)، وقيل إنها في موضع جر بلامٍ محذوفة (أي: «لِأَنْ سَخِطَ»).",
+        "claim_en": "There is a disagreement about the syntax of 'بِئْسَ': one view reads it as accusative (as a bad thing replacing 'ما', i.e. 'بِئْسَ شَيْئًا'), another reads it as genitive governed by an omitted lām (i.e. 'لِأَنْ سَخِطَ').",
+        "root": "باس",
+        "lemma": "بِئْسَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "وَقِيلَ: هُوَ لِعِيسَى، وَالْمَعْنَى أَنَّ الَّذِينَ اتَّبَعُوهُ ظَاهِرُونَ عَلَى الْيَهُودِ وَغَيْرِهِمْ مِنَ الْكُفَّارِ إِلَى قَبْلِ يَوْمِ الْقِيَامَةِ بِالْمُلْكِ وَالْغَلَبَةِ. فَأَمَّا يَوْمُ الْقِيَامَةِ فَيَحْكُمُ بَيْنَهُمْ فَيُجَازِي كُلًّا عَلَى عَمَلِهِ.",
+        "claim_ar": "تفسير يربط «أُتْبِعُوا» بعِيسَى: «قيل هو لِعِيسَى»؛ أي أن الذين اتبعوه كانوا ظاهرين على اليهود وغيرهم من الكفار إلى قبل يوم القيامة بالملك والغلبة، ثم يُحكَم بينهم يوم القيامة.",
+        "claim_en": "An interpretive claim linking 'أُتْبِعُوا' to Jesus: 'It is said: it is [of] Jesus,' meaning those who followed him were dominant over the Jews and other disbelievers until before the Day of Resurrection, when God will judge between them.",
+        "root": "تبع",
+        "lemma": "أَتْبَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive/tafsir statement rather than a strictly grammatical parsing; may need review if labelling as a grammatical claim."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,22 @@
+{
+  "layer": "irab",
+  "ayah_key": "32:9",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "(وَجَعَلَ فِيهَا) : هُوَ مُسْتَأْنَفٌ غَيْرُ مَعْطُوفٍ عَلَى «خَلَقَ»",
+        "claim_ar": "فعل «وَجَعَلَ» مستأنفٌ غير معطوفٍ على «خَلَقَ».",
+        "claim_en": "The verb 'wa-ja'ala' (وَجَعَلَ) is a resumed verb (مستأنف) and is not conjoined (معطوف) to 'khalaqa' (خَلَقَ).",
+        "root": "جعل",
+        "lemma": "جَعَلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S32:A9"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,70 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:89",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "عطف بيان",
+        "source_quote_ar": "أرسلنا نوحا. وهُوداً عطف بيان.",
+        "claim_ar": "عطف بيان في ذكر نوح (كمثال توضيحي من أمثلة الأقوام السابقة).",
+        "claim_en": "An explanatory conjunction (ʿatf bayān): mentioning Noah as one of the illustrative examples of past peoples.",
+        "device_branch": "other",
+        "device_subtype": "عطف_بيان",
+        "root": "نوح",
+        "lemma": "نُوح",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A89",
+        "rhetorical_effect": "Using a historical exemplar (Noah) to warn and persuade the addressed audience by appeal to precedent."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "عطف بيان",
+        "source_quote_ar": "أرسلنا نوحا. وهُوداً عطف بيان.",
+        "claim_ar": "عطف بيان في ذكر هود (كمثال توضيحي ضمن سلاسل الأقوام المنزلة لهم العقوبة).",
+        "claim_en": "An explanatory conjunction (ʿatf bayān): mentioning Hud as another illustrative example among previous peoples.",
+        "device_branch": "other",
+        "device_subtype": "عطف_بيان",
+        "root": "هود",
+        "lemma": "هُود",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A89",
+        "rhetorical_effect": "Reinforces warning by enumerating multiple historical examples, increasing the force of the admonition."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "أسلوب بلاغي: مخاطبة رجل واحد لأمة",
+        "source_quote_ar": "ومن أعظم الآيات أن يواجه بهذا الكلام رجل واحد أمّة عطاشا",
+        "claim_ar": "مخاطبة رجل واحد لأمة: إبراز أثر الخطاب الفردي القوي حين يواجه أمة بأسرها (أسلوب بلاغي لشدّ الانتباه والرهبة).",
+        "claim_en": "Rhetorical stylistic point: a single man addressing an entire people — highlighting the rhetorical impact of one speaker confronting a whole nation.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim (مخاطبة فرد لأمة)",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S11:A89",
+        "rhetorical_effect": "Creates dramatic force and moral authority by concentrating responsibility in the speaker and portraying the people's stubbornness in contrast."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "إيجاز / حذف جواب",
+        "source_quote_ar": "جوابه محذوف",
+        "claim_ar": "إيجاز: حذف جواب محذوف يُفهم من السياق (الاستدلال على أن جواب المخاطبين محذوف وهو قائم في القصص المماثلة).",
+        "claim_en": "Conciseness / ellipsis (ijāz): the commentator notes an omitted reply ('his answer is omitted'), i.e., a compressed expression where the full rejoinder is implied rather than stated.",
+        "device_branch": "maani",
+        "device_subtype": "ijaaz (حذف/إيجاز)",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The scholar explicitly notes an omitted reply in the commentary; linking this to the verse's terse phrasing is interpretive and may require cross-check with broader exegetical context.",
+        "quran_ref": "S11:A89",
+        "rhetorical_effect": "Brevity intensifies the admonition: leaving the reply implicit lets the reader infer the omitted material, strengthening the implied rebuke."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

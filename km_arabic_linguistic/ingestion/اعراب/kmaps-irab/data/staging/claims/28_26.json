@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "28:26",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "(لَهُوَ الْقَصَصُ) : مُبْتَدَأٌ وَخَبَرٌ فِي مَوْضِعِ خَبَرِ إِنَّ.",
+        "claim_ar": "ما بعد «إِنَّ» قد يكون جملة اسمية أو تركيباً يقوم مقام خبر «إِنَّ»؛ يجوز أن يكون الخبر جملة كاملة أو تركيبًا وقفيًا يُقام مقام خبرِ «إِنَّ».",
+        "claim_en": "The clause following 'إِنَّ' may function as its خبر; a full nominal sentence or construction can serve as the خبر of 'إِنَّ'.",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general rule about what can occupy the position of خبرِ إِنَّ (example: «لَهُوَ الْقَصَصُ»). Applying this general statement to S28:A26 (إِنَّ ...) is an inference rather than an explicit commentary on this verse."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "(لَهُوَ الْقَصَصُ) : مُبْتَدَأٌ وَخَبَرٌ فِي مَوْضِعِ خَبَرِ إِنَّ.",
+        "claim_ar": "خَيْرَ: اسم «إِنَّ» منصوب، والجملة التالية «مَنِ اسْتَأْجَرْتَ...» تقوم مقام خبر «إِنَّ».",
+        "claim_en": "khayra (خَيْرَ) functions as the ism (subject) of 'إِنَّ' in the accusative; the following clause 'مَنِ اسْتَأْجَرْتَ...' serves as the خبر of 'إِنَّ'.",
+        "root": "خير",
+        "lemma": "خَيْر",
+        "confidence": "medium",
+        "needs_review_reason": "The claim is inferred from the general rule that a nominal sentence/phrase can be in the position of خبرِ إِنَّ; the provided excerpt does not cite this specific verse or this exact construction."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(مِنْهُمْ) : يَتَعَلَّقُ بِـ «نُرِيَ» وَلَا يَتَعَلَّقُ بِـ «يَحْذَرُونَ» ؛ لِأَنَّ الصِّلَةَ لَا تَتَقَدَّمُ عَلَى الْمَوْصُولِ.",
+        "claim_ar": "صلة الموصول لا تتقدّم على الموصول؛ أي إنّ عبارة «مَنِ اسْتَأْجَرْتَ...» تتعلّق بـ«خَيْرَ» (لا تتعلق بما قبل الموصول).",
+        "claim_en": "The relative connection (صلة الموصول) does not precede the relative (الموصل); thus the clause 'مَنِ اسْتَأْجَرْتَ...' attaches to 'خَيْرَ' and not to a preceding element.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source excerpt discusses attachment of a following relative phrase (example: «مِنْهُمْ»). Applying this rule to the relative 'مَنِ' in S28:A26 is an inferred application, not an explicit commentary on this verse."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not explicitly discuss S28:26; the above claims are inferred from general grammatical remarks in the excerpts. Verify against the full commentary for this verse.",
+      "Some claims (especially about the exact syntactic role of the clause after 'إِنَّ') are projected from general rules and should be reviewed by a specialist for this specific verse's traditional iʿrāb treatments."
+    ]
+  },
+  "n_chunks": 12
+}

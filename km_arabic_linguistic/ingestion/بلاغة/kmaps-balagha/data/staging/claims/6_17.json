@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:17",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No rhetoric claims could be extracted: none of the provided source_chunks contain balagha (rhetorical) commentary or substrings matching the ayah text needed for source_quote_ar.",
+      "Source chunks are grammatical/commentarial excerpts (Safi - al-Jadwal, Zamakhshari - al-Kashshaf) that do not discuss rhetorical devices for S6:A17; to extract claims please provide source chunks from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir-balagha that reference this ayah or include relevant rhetorical commentary."
+    ]
+  },
+  "n_chunks": 12
+}

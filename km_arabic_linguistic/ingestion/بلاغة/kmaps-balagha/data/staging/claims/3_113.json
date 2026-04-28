@@ -1,0 +1,40 @@
+{
+  "layer": "balagha",
+  "ayah_key": "3:113",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يا أَهْلَ الْكِتابِ",
+        "claim_ar": "التفات الخطاب إلى أهل الكتاب (التوجه بالنداء) كوسيلة بلاغية لاستثارة المخاطَب وإثارة الحجاج.",
+        "claim_en": "Iltifat (shift of address): the discourse turns to directly addressing 'Ahl al-Kitab' (the People of the Book) as a rhetorical means to engage and challenge the addressee.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "خطب",
+        "lemma": "خاطَبَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted phrase appears in the Kashshāf commentary chunk as a Qur'anic address, but that exact vocative is not present in the isolated ayah tokens provided; confirm alignment with the ayah text and whether the mufassir is citing a preceding address or contextual remark."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "فَقُولُوا اشْهَدُوا بِأَنَّا مُسْلِمُونَ",
+        "claim_ar": "أسلوب تقريع وتوكيد بالحوار: أمر مخاطَب يلزم الاعتراف بالموقف (اشهدوا بأننا مسلمون) ليقوّي الحجة ويضع الخصم في موقف الاعتراف.",
+        "claim_en": "Asloob hakim (authoritative/wise style): the exhortation 'So say: Bear witness that we are Muslims' is used as a forceful, dialogic device to compel acknowledgement and strengthen the argument.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "شهد",
+        "lemma": "شَهِدَ",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary treats this as a performative exhortation (and even suggests 'تعريض'); classify whether this is best tagged as 'asloob_hakim' or as a speech-act subtype like 'ijab_inshaa' depending on the taxonomy the user expects."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are only from Zamakhsharī (al-Kashshaf). No excerpts were supplied from al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsīr-bilāgha section — claims are therefore limited to what appears in the given chunks.",
+      "Some quoted substrings in the commentary refer to surrounding context or variant readings and may not exactly match the isolated ayah tokens you supplied; verify that the commentator's citations correspond to this specific verse reading before finalizing annotations.",
+      "Classification of certain rhetorical labels (e.g., asloob_hakim vs. ijab_inshaa) was made based on the commentator's descriptive language; if you require strict one-to-one mapping to a different taxonomy, please indicate so for reclassification."
+    ]
+  },
+  "n_chunks": 12
+}

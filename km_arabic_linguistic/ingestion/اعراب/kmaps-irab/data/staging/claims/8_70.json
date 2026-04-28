@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "8:70",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "كثر في القرآن النداء ب ( يا أيها ) دون غيره  \nلأن فيه أوجها من التأكيد وأسبابا من المبالغة :",
+        "claim_ar": "نداء \"يا أيها\" في مقام النداء هنا يحمل دلالة التأكيد والمبالغة والتنبيه الشديد على المخاطَب.",
+        "claim_en": "\"Ya ayyuha\" in the vocative here conveys emphasis, strong exhortation and exaggeration — it is an emphatic/forceful vocative.",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A70"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "منها ما في ( يا ) من التأكيد والتنبيه ، وما في ها من التنبيه ، وما في التدرج من الإبهام في ( أي ) إلى التوضيح ، والمقام يناسب المبالغة والتأكيد",
+        "claim_ar": "التركيبة النحوية لـ \"يا أيها\": (يا) تؤدي التأكيد والتنبيه، و(ها) للتنبيه، و(أي) للتدرج من الإبهام إلى التوضيح — لذلك يلائم المقام المبالغة والتأكيد.",
+        "claim_en": "Grammatical explanation of the phrase \"ya ayyuha\": (ya) provides emphasis/alerting, (ha) indicates calling/alerting, and (ayy) provides gradation from vagueness toward clarification; thus the phrase suits a tone of exaggeration and emphasis.",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A70"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

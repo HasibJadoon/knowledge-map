@@ -1,0 +1,29 @@
+{
+  "layer": "balagha",
+  "ayah_key": "11:55",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "(من دون)",
+        "claim_ar": "عبارة «مِنْ دُونِهِ» تفيد الحصر والاستبعاد، أي تقييد الاعتماد بالله دون سواه وإقصاء غيره.",
+        "claim_en": "The phrase «min dūnihī» expresses exclusion/limitation (hasr/qasr), i.e. restricting reliance to God alone and excluding others.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "دون",
+        "lemma": "دُون",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source chunk is primarily a grammatical/exegetical gloss that contains the literal prepositional phrase '(من دون)'; a dedicated classical rhetoric citation linking this specific expression to the rhetorical category would strengthen confidence.",
+        "quran_ref": "S11:A55",
+        "rhetorical_effect": "Emphasizes exclusivity of reliance on God and negates legitimacy of other protectors or rivals, reinforcing the addressee's defiance."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks contain limited direct commentary on S11:55; most chunks are grammatical/exegetical or address other verses. Accordingly, only claims that could be directly tied to exact substrings in the supplied chunks were extracted.",
+      "No explicit classical-rhetorical discussions (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or tafsir-balagha) on the other words/phrases of this ayah were present among the source chunks; further claims would require additional primary rhetoric sources.",
+      "Some claims (including the one above) rely on grammatical/exegetical occurrences of the phrase in the provided chunks rather than an explicit rhetorical treatment; such cases are marked for review."
+    ]
+  },
+  "n_chunks": 12
+}

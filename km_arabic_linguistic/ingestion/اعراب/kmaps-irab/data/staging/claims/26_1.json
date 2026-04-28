@@ -1,0 +1,32 @@
+{
+  "layer": "irab",
+  "ayah_key": "26:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "(طسم) : مِثْلُ الم،",
+        "claim_ar": "الحروف المقطعة 'طسم' معاملة مثل 'الم' من حيث كونها حروفاً مقطعة غير معربة",
+        "claim_en": "The muqatta'at 'طسم' are treated like 'الم' — i.e., disconnected letters (muqatta'at), not subject to regular i'rab.",
+        "root": null,
+        "lemma": "طسم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "قَدْ تَقَدَّمَ ذِكْرُ الْحُرُوفِ الْمُقَطَّعَةِ",
+        "claim_ar": "المؤلف يشير إلى أن ذكر الحروف المقطعة قد سبق في موضع سابق من الكتاب، أي أن له شرحاً أو نقاشاً ساريَ الذكر",
+        "claim_en": "The author notes that the discussion of the muqatta'at has already been given earlier in the work (i.e., there is a prior discussion/explanation of these letters).",
+        "root": null,
+        "lemma": "حروف مقطعة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

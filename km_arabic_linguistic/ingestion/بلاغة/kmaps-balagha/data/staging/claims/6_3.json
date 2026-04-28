@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:3",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "saj",
+        "source_quote_ar": "البلاغة: في هذه الآية «التنزيل المنظوم»",
+        "claim_ar": "وجود تنزيل منظوم/إيقاع بلاغي (دلالة على سجع/إيقاع في الصياغة)",
+        "claim_en": "Presence of a rhythmic/poetic arrangement (noted as 'التنزيل المنظوم'), indicating a saj-like rhythmic effect in the phrasing.",
+        "device_branch": "badi",
+        "device_subtype": "saj",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "المرتكز على ملاحظة بلاغية موجزة في المصدر (عبارة مقتضبة «التنزيل المنظوم»)؛ يلزم تدقيق نصي أوسع في تفاسير البلاغة للتأكد من توصيفه كسجعٍ بالمفهوم التقليدي."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "takrar",
+        "source_quote_ar": "ويعلم ما",
+        "claim_ar": "تكرار الفعل «يَعْلَمُ» (يَعْلَمُ ... وَيَعْلَمُ) كوسيلة تأكيدية لتوسيع شمول علم الله.",
+        "claim_en": "Repetition of the verb 'yaʿlamu' (y-a-ʿlam ... wa-y-a-ʿlamu) functioning as emphatic repetition to stress the comprehensiveness of God's knowledge.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "medium",
+        "needs_review_reason": "المصدر الحاضر يتضمن عبارة «ويعلم ما» كمقتطف؛ الإسناد إلى تكرار كجهاز بلاغي مشتق مباشرة من نص الآية وليس من تحليل بلاغي مطوّل في القطع المقدّمة، فيحتاج تحقق من شواهد السلف في مصادر البلاغة."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "waw_istinaf",
+        "source_quote_ar": "الواو استئنافية",
+        "claim_ar": "الواو في «وَهُوَ» تعمل واوَ استئنافٍ/عطفٍ مستأنف مدخلاً لجملة مستأنفة تُعيد التأكيد أو الاستئناف في السرد.",
+        "claim_en": "The initial 'waw' in 'wa-huwa' functions as a waw-istinaf (resumptive/intonational waw), introducing a resumed clause that restates or emphasizes the discourse.",
+        "device_branch": "other",
+        "device_subtype": "waw_istinaf",
+        "root": "",
+        "lemma": "وَهُوَ",
+        "confidence": "medium",
+        "needs_review_reason": "الحجة مأخوذة من عبارة نحوية في المصادر («الواو استئنافية»). يلزم مراجعة قراءات شرحية/بلاغية إضافية لتحديد ما إذا كانت الواو هنا استئنافية بالمعنى البلاغي أم مجرد واو عطف نحوية."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "surah_movement",
+        "source_quote_ar": "كلام مستأنف مسوق",
+        "claim_ar": "الجملة تُعرض بصيغة 'مستأنفة مسوقة' — أي أنها مسوقة في سياق بياني لعرض حالة أو بيان خاص، مما يدل على حركة بلاغية في السورة نحو بيان أو توكيد.",
+        "claim_en": "The clause appears as a 'resumed and presented statement' (كلام مستأنف مسوق), indicating a rhetorical/surmotive movement in the surah where the statement is resumed and presented for clarification or emphasis.",
+        "device_branch": "other",
+        "device_subtype": "surah_movement",
+        "root": "",
+        "lemma": "",
+        "confidence": "high",
+        "needs_review_reason": "مستند إلى العبارة الصريحة في أحد شروح الإعراب («كلام مستأنف مسوق»). مع ذلك، لتفصيل أكثر (التأثير البنائي داخل السورة) يفضل الرجوع إلى تعليق سياقي أوسع في التفسير البلاغي."
+      }
+    ],
+    "warnings": [
+      "المقتطفات المصدرية المقدمة هي في غالبيتها شروح إعرابية ونصوص مقطوعة؛ كثير من الاستنتاجات البلاغية هنا مستنبطة من النص القرآني ذاته ومقتطفات صغيرة في المصادر، وليس من تحليل بلاغي مطوّل صريح في هذه القطع.",
+      "تحتاج بعض الادعاءات (خاصة تمييز السجع والتكرار كأجهزة بلاغية محددة) إلى مراجعة في مصادر البلاغة والتفسير التفصيلية (الجرجاني، السكاكي، السيوطي، الباقلاني، تفاسير البلاغة) للتثبيت، لأن القطع المتاحة محدودة وتقنيات التثبّت البلاغي تتطلب أمثلة وشروحات أوسع.",
+      "المطالَبة بمصدر_quote_ar مُلزمَة: كل اقتباس مصدري مستخدم هنا مأخوذ حرفياً من القطع المرفقة؛ إن كانت هناك حاجة لاقتباسات إضافية أو لشروح بلاغية أخرى، يرجى تزويد مقاطع من الجرجاني/السكاكي/الباقلاني/السيوطي أو تفاسير بلاغية محددة."
+    ]
+  },
+  "n_chunks": 12
+}

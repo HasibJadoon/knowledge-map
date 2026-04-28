@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "44:22",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "قوله تَعَالَى {أَن تَقولُوا} يجوز أَن يكون فَاعل {كبر} أَو على تَقْدِير هُوَ",
+        "claim_ar": "يجوز في أمثال تركيب {أَن تَقولُوا} أن تُعرب الجملة التي بعد \"أَنّ/أن\" على أنها فاعل لكلمة محكمة (مثلاً فاعل لكلمة «كبر») أو تُفهم على تقدير «هو» (أيّ أن الاسم/الجملة بعد «أنّ» معرّف بتقدير ضمير أو اسم محذوف).",
+        "claim_en": "In constructions like \"أَن تَقولُوا\", it is permissible to analyze the clause following 'أنّ/أن' either as the subject (فاعل) of a governing word (e.g. the subject of \"كبر\") or as understood with an implied 'هو' (i.e. the following noun/clause is to be supplied with an implied pronoun/implicit noun).",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited discussion in the source treats the example {أَن تَقولُوا} (a verb-clause after أَن), whereas the verse at hand has 'أَنَّ' followed by a demonstrative + noun (هؤلاء قوم مجرمون). Mapping the permissive analyses from the example to this specific nominal clause requires syntactic bridging and should be reviewed."
+      }
+    ],
+    "warnings": [
+      "Only one explicit irab-related discussion in the provided chunks matched the particle 'أَنّ'. Other chunks do not contain a direct analysis of the exact sequence in this ayah (فَدَعَا رَبَّهُ أَنَّ هَؤُلَاءِ قَوْمٌ مُجْرِمُونَ). Applying the cited example to this specific construction may require further corroboration from the text or additional sources."
+    ]
+  },
+  "n_chunks": 12
+}

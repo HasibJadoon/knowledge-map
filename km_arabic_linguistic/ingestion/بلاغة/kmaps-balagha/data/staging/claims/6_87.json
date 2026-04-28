@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:87",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "(الواو) عاطفة",
+        "claim_ar": "تكرار حرف العطف «واو» في سلسلة الأسماء والعبارات (وَمِنْ آَبَائِهِمْ وَذُرِّيَّاتِهِمْ وَإِخْوَانِهِمْ) يعمل تقوية وحصر تدريجي/تراكمي في السرد.",
+        "claim_en": "Repetition of the coordinating letter 'waw' in the series of nouns (and of phrases) (wamin aaba'ihim wa dhurriyyatihim wa ikhwanihim) produces cumulative emphasis and a gradual enrolling/aggregation in the narrative.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "واو",
+        "lemma": "و",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source substring is a grammatical label '(الواو) عاطفة' from the provided chunks; the rhetorical reading (emphasis by repetition) is an interpretive step that should be confirmed against dedicated balāgha commentary."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "(الواو) استئنافية",
+        "claim_ar": "مقابلة أو توازٍ بلاغي بين الفعلين «اجْتَبَيْنَاهُمْ وَهَدَيْنَاهُمْ»: تكرار الفعل المبني مع ضمير مفعول واحد يبرز فعليّة الله المتتالية في اختيار وهداية المقصودين.",
+        "claim_en": "A rhetorical parallelism between the two verbs 'We chose them (ijtabaynāhum)' and 'We guided them (wahadaynāhum)': the repeated verb-construction with the same object-pronoun foregrounds the successive divine acts of selection and guidance.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "جبي",
+        "lemma": "اجْتَبَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting substring '(الواو) استئنافية' is a grammatical tag in the provided chunk; the claim of parallelism is inferred from the verbal pair in the verse and should be cross-checked with classical balāgha sources for stronger evidential support."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are primarily grammatical/commentarial notes (Safi/al-Jadwal, Zamakhshari) and do not include explicit balāgha analyses of S6:A87. The source_quote_ar entries therefore cite grammatical labels that exist in the chunks; the rhetorical readings (takrar, muqabalah) are interpretive inferences and need confirmation from the specified balāgha authorities (al-Jurjānī, al-Sakkākī, al-Bāqillānī, al-Suyūṭī, tafsīr-balāgha) where available.",
+      "Some device assignments (e.g., classification as badi:takrar or badi:muqabalah) rely on standard rhetorical typology applied to the verse; confidence is marked 'medium' and claims should be reviewed by a specialist in Arabic balāgha with direct access to the named classical references."
+    ]
+  },
+  "n_chunks": 12
+}

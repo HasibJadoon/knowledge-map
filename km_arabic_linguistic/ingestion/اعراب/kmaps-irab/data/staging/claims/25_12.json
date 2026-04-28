@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "25:12",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "مَفْعُولُ جَاءُوا؛ أَيْ أَتَوْا ظُلْمًا وَيَجُوزُ أَنْ يَكُونَ مَصْدَرًا فِي مَوْضِعِ الْحَالِ",
+        "claim_ar": "التَغَيُّظَاً اسم منصوب على معنى الحال، ويجوز أن يُؤوّل مصدراً في موضع الحال، كما يجوز أن يعتبر مفعولاً (مفعول جَاءُوا).",
+        "claim_en": "“taġayyuzan” is an accusative noun functioning as a ḥāl (circumstantial accusative); it may alternatively be taken as a verbal noun (maṣdar) in the position of ḥāl, or considered a مفعول (object) as in 'they came X'.",
+        "root": "غيظ",
+        "lemma": "تَغَيُّظ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S25:A12"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "مَفْعُولُ جَاءُوا؛ أَيْ أَتَوْا ظُلْمًا وَيَجُوزُ أَنْ يَكُونَ مَصْدَرًا فِي مَوْضِعِ الْحَالِ",
+        "claim_ar": "الزَفِيرَاً اسم منصوب على معنى الحال، ويجوز أن يُؤوّل مصدراً في موضع الحال، أو يُحسَب مفعولاً على نحو مَثَلِ (جاءوا زَفِيراً).",
+        "claim_en": "“zafīran” is an accusative noun functioning as a ḥāl (circumstantial accusative); it may alternatively be read as a maṣdar in the position of ḥāl, or construed as a مفعول (object) as in 'they came zafīran'.",
+        "root": "زفر",
+        "lemma": "زَفِير",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S25:A12"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

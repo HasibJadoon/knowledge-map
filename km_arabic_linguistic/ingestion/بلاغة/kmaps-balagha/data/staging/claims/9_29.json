@@ -1,0 +1,52 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "فَاقْتُلُوا الْمُشْرِكِينَ",
+        "claim_ar": "أمر فعل بليغ وحازم («قاتلوا») ليؤكد الجزم والحسم في الحكم الشرعي والدعوي.",
+        "claim_en": "A forceful, authoritative imperative ('qatiluu') used to convey firmness and decisiveness in the legal/communal ruling.",
+        "device_branch": "other",
+        "device_subtype": "imperative_force",
+        "root": "قتل",
+        "lemma": "قَٰتَلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 0,
+        "claim_type": "mucābala / tibāq",
+        "source_quote_ar": "أَشِدَّاءُ عَلَى الْكُفَّارِ رُحَماءُ بَيْنَهُمْ",
+        "claim_ar": "توازي ومقابلة في صيغ الصفات (ضدّ-نقيض) لتقوية التمييز بين مواقف ومساميات المجموعات؛ في الآية يظهر تباين حاد بين موقف المؤمنين ومن لا يؤمنون.",
+        "claim_en": "Parallel antithetical phrasing (balanced opposites) that sharpens the contrast between groups or stances; in the ayah this functions to highlight the stark difference between believers and non‑believers.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah / tibaq (antithetical parallelism)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Evidence is an analogous example discussed in the supplied commentary (balanced epithets); direct commentary on 9:29's parallelism is inferred rather than quoted."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrār (repetition)",
+        "source_quote_ar": "وَلَعَنَهُمُ اللَّهُ وَلَهُمْ",
+        "claim_ar": "تكرار روابط/أدوات الربط والشرط (مثل الواو أو أدوات النفي في الآيات الموازية) كوسيلة لشدّ التأثير البلاغي وتراكم الحكم المعنوي.",
+        "claim_en": "Repetition of connective/negating particles (e.g., repeated conjunctions or negatives in parallel clauses) to intensify rhetorical impact and accumulate moral/legal emphasis.",
+        "device_branch": "badi",
+        "device_subtype": "takrar (epizeuxis/parallel repetition)",
+        "root": null,
+        "lemma": null,
+        "confidence": "low",
+        "needs_review_reason": "The supplied chunk contains repetition in another verse; the claim extrapolates the device to 9:29 and should be verified against direct commentaries on the exact wording of this ayah."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not include direct, explicit commentary quoting Surah 9:29 in full; the claims rely on analogous examples and nearby explanatory notes in the supplied commentary fragments.",
+      "Some claims (marked medium/low confidence) are inferred from examples in the supplied chunks rather than from explicit statements about this specific ayah; please review with additional tafsir/بلاغة sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) if strict source-parallel justification is required."
+    ]
+  },
+  "n_chunks": 12
+}

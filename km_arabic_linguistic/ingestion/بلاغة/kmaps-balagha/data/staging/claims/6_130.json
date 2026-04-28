@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:130",
+  "result": {
+    "claims": [
+      {
+        "word_index": 20,
+        "claim_type": "istiarah (personification)",
+        "source_quote_ar": "الحياة الدنيا",
+        "claim_ar": "غرّتهم الحياة الدنيا - استعارة وتشخيص: جعلت الحياةَ الدنيوية فاعلاً مغرّاً",
+        "claim_en": "Personification/metaphor: 'the life of this world deceived them' — attributes agency to 'al-hayat' (life), depicting the worldly life as actively misleading people.",
+        "device_branch": "bayan",
+        "device_subtype": "istiarah_personification",
+        "root": "حيي",
+        "lemma": "حَيَاة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A130",
+        "rhetorical_effect": "يزيد من وقع الوعظ بتصوير الانخداع كقوة خارجية؛ يخفف من المسؤولية الفردية ويبرز تأثير الملذات الدنيوية على القلوب."
+      }
+    ],
+    "warnings": [
+      "المجموعة المقدمة من شروحات (source_chunks) لم تتضمن اقتباسات نصية مطابقة لمعظم عبارات السورة؛ تمّ استخدام القطعة الوحيدة التي تحتوي على عبارة مطابقة ('الحياة الدنيا') لذا الاستخراج محدود.",
+      "تعيين بعض الأنواع البلاغية يحتاج لتقدير تأويلي وقد يستدعي مراجعة علماء البلاغة؛ إذا رغبت أستعرض مزيداً من أقسام الشروح (الجُرجاني، السكاكي، الباقلاني، السيوطي، تفسير البلاغة) لمحاولة استخراج اقتباسات مطابقة لبقية الأجهزة البلاغية."
+    ]
+  },
+  "n_chunks": 12
+}

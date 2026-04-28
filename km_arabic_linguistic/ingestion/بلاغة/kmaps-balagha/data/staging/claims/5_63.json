@@ -1,0 +1,55 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:63",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "kinayah",
+        "source_quote_ar": "اللغة: (السحت) بضم الحاء وسكونها: الحرام، وما خبث وقبح من المكاسب",
+        "claim_ar": "استخدام كلمة السُّحْتِ ككناية/استعارة عن الكسب الحرام والخبث؛ فاللفظ يُوظَّف دلالة على المال النجس محرّم المصدر.",
+        "claim_en": "The word 'السُّحْت' is used as a kenayah/metonymy for unlawful/impure gain; the term stands for illicit, morally tainted earnings.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah (metonymy)",
+        "root": "سحت",
+        "lemma": "سُّحْت",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A63",
+        "rhetorical_effect": "Condemns illicit gain succinctly by using a loaded lexical term that evokes impurity and moral blame."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "itnaab",
+        "source_quote_ar": "البلاغة: التعريض",
+        "claim_ar": "جملة «لَبِئْسَ مَا كَانُوا يَصْنَعُونَ» تعمل كتعريض/عِتاب لاذع على أفعالهم؛ أي عبارة إدانة واحتجاج على السلوك.",
+        "claim_en": "The phrase 'لَبِئْسَ مَا كَانُوا يَصْنَعُونَ' functions as an itnaab/reproachful rebuke — an indirect censure of their actions.",
+        "device_branch": "maani",
+        "device_subtype": "itnaab (reproach/indictment)",
+        "root": "باس",
+        "lemma": "بِئْسَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk discusses 'التعريض' (indirect reproach) in a different verse; mapping that general rhetorical label to this specific phrasing is plausible but should be checked against specialized tafsir-balagha for this ayah.",
+        "quran_ref": "S5:A63",
+        "rhetorical_effect": "Delivers moral condemnation and heightens the listener's sense of wrongdoing through sharp, concentrated reproach."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "الرّبانيّ: هو المتألّه المتعبد.",
+        "claim_ar": "تسمية «الرَّبَّانِيُّونَ» تعمل كتعريف تبييني يصورهم كطبقةٍ متزوِّدة بالورع والتقوى؛ التسمية تضيف ثقلا معنويًّا لشخصية النَّاس المشار إليهم.",
+        "claim_en": "The appellation 'الرَّبَّانِيُّونَ' functions as a defining epithet, portraying them as pious, devout figures; the naming adds moral weight/authority to the referents.",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir (definitional epithet / naming)",
+        "root": "ربب",
+        "lemma": "رَبَّٰنِيِّن",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A63",
+        "rhetorical_effect": "Establishes religious authority and expectation of moral corrective action by naming the group in lofty, pious terms."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

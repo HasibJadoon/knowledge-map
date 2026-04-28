@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "17:14",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب claims found for ayah S17:A14 in the provided source_chunks. The chunks supplied (from al-Tibyan) discuss other verses/phrases (e.g., بِي سِحْرٍ مِثْلِهِ, مَهْدًا, شَتَّى) and do not contain exact substrings or commentary on اقْرَأْ كِتَابَكَ كَفَى بِنَفْسِكَ الْيَوْمَ عَلَيْكَ حَسِيباً.",
+      "source_quote_ar requirement not met: none of the chunk texts include the ayah text or an exact quoted substring referring to its إعراب, so no claims can be extracted per instructions."
+    ]
+  },
+  "n_chunks": 5
+}

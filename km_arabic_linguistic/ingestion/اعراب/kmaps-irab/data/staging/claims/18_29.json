@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "18:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "irab",
+        "source_quote_ar": "«مَنْ» اسْتِفْهَامٌ فِي مَوْضِعِ مُبْتَدَأٍ",
+        "claim_ar": "«مَنْ» استِفْهَامٌ في موضعِ مبتدأٍ",
+        "claim_en": "The particle «مَنْ» is an interrogative functioning in the position of a mubtada' (subject).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source states this claim in a general discussion; it is not explicit whether it targets the first «مَنْ» (word_index 5) or also the second (word_index 8) in this ayah; applicability to this specific context is not fully certain."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَمَوْضِعُ الْجُمْلَةِ نَصْبٌ بِـ «يَعْلَمُ» الْمُقَدَّرَةِ",
+        "claim_ar": "موضعُ الجملةِ منصوبٌ بتقديرِ «يَعْلَمُ»",
+        "claim_en": "The clause is in the accusative ( منصوب ) due to an implied verb «يَعْلَمُ» (i.e., a تقدير 'يَعْلَمُ' is supplied).",
+        "root": "علم",
+        "lemma": "يَعْلَمُ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses an implied «يعلم» with the verb «يضِلّ» (which does not appear in this ayah); therefore, whether the same taqdir applies to the clauses of S18:29 requires verification."
+      }
+    ],
+    "warnings": [
+      "The provided source chunk discusses «يضِلّ» and an implied «يَعْلَمُ» in a different illustrative example; its application to S18:29 (which contains «فَمَنْ شَاءَ ... فَلْيُؤْمِنْ») is not explicitly stated and should be reviewed.",
+      "There are two occurrences of «مَنْ» in the ayah (word_index 5 and 8); the source gives a general rule but does not specify which occurrence(s) it intends. Confirm which instance(s) the claim targets."
+    ]
+  },
+  "n_chunks": 12
+}

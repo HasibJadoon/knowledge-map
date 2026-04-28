@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:141",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "وَهُوَ مُبْتَدَأٌ، وَاللَّهُ الْخَبَرُ.",
+        "claim_ar": "«وَهُوَ» مبتدأ",
+        "claim_en": "The pronoun 'wa-huwa' functions as a mubtada' (subject); the following element serves as its khabar (predicate).",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage treats the formula 'وَهُوَ' in the example 'وَهُوَ اللَّهُ'. In the target ayah the following phrase is a relative clause 'الَّذِي ...' rather than the proper name 'اللَّهُ', so the applicability of the exact analysis should be confirmed for the relative-clause case."
+      }
+    ],
+    "warnings": [
+      "Only one explicit syntactic claim was found in the supplied source chunks (treating the phrase 'وَهُوَ' as مبتدأ).",
+      "No explicit discussion in the provided chunks of the relative clause 'الَّذِي أَنْشَأَ ...' or of other words in the ayah, so additional source material is needed to extract further irab/taalluq/taqdir claims for this verse.",
+      "Lemma/root for word 1 ('وَهُوَ') was not provided in the input and thus left null in the claim."
+    ]
+  },
+  "n_chunks": 12
+}

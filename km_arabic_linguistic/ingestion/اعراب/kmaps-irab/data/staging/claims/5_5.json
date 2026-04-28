@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "5:5",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "taqdir",
+        "device_branch": null,
+        "device_subtype": null,
+        "quran_ref": "S5:A5",
+        "source_quote_ar": "قَوْلُهُ: «مِنَ الَّذِينَ أُوتُوا» وَهِيَ حَالٌ مُقَدَّرَةٌ",
+        "claim_ar": "«مِنَ الَّذِينَ أُوتُوا» حَالٌ مُقَدَّرَةٌ",
+        "claim_en": "The phrase 'مِنَ الَّذِينَ أُوتُوا' functions as an implied (estimated) ḥāl (circumstantial/adverbial) — a تقدير الحال.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

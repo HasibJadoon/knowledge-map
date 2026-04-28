@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:123",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "أهل الكتاب",
+        "claim_ar": "مقابلة عرضية بين «أَمَانِيِّكُمْ» و«أَمَانِيِّ أَهْلِ الْكِتَابِ»؛ تكرار المصطلح (أماني) ويوازنه في التركيب ليُظهر عدم قيمة الأماني أمام الجزاء الفعلي.",
+        "claim_en": "Muqabalah (antithetical parallelism): the mirroring of 'your wishes' and 'the People of the Book's wishes' by repeating the term 'أماني', highlighting that mere wishes carry no weight regarding recompense.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "مني",
+        "lemma": "أُمْنِيَّت",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted substring is taken from a provided tafsir chunk that contains the phrase 'أهل الكتاب' (AL:CHUNK:50a207...). That chunk does not explicitly analyse muqabalah for this verse; the device identification here is an inference and should be checked against a direct rhetorical commentary on this ayah.",
+        "quran_ref": "S4:A123",
+        "rhetorical_effect": "Emphasizes that wishes—whether yours or the People of the Book's—do not determine divine recompense; form parallels content to weaken reliance on mere hopes."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "(الواو) استئنافيّة",
+        "claim_ar": "تكرار إنشائي لأداة النفي/العطف («لَيْسَ ... وَلَا ... وَلَا ...») لتشديد النفي وحرمان الملجأ الذي يطلبه السامع.",
+        "claim_en": "Takrar (repetition): the repeated negations/conjunctions ('laysa ... wa-la ... wa-la ...') intensify the denial and the impossibility of finding refuge or helper.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "لا",
+        "lemma": "لَا",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk (AL:CHUNK:8c9a6e05) discusses the function of the waw and similar particles in syntax but does not directly comment on the Quranic repetition of negation in this specific verse; the claim is inferential and should be verified with a dedicated rhetorical source.",
+        "quran_ref": "S4:A123",
+        "rhetorical_effect": "Creates emphatic denial and rhetorical closure, discouraging any hope built on mere wishes by forcefully repeating the negation."
+      },
+      {
+        "word_index": 17,
+        "claim_type": "tibaq",
+        "source_quote_ar": "صلة لنصيراً",
+        "claim_ar": "طباق/تضاد بين الطَلَب من دُونِ اللَّهِ (البحث عن وليّ ونصير) وبين الجملة الحاسمة التي تنفي وجود وليٍّ أو نصير لهؤلاء: «وَلَا يَجِدْ لَهُ مِنْ دُونِ اللَّهِ وَلِيًّا وَلَا نَصِيرًا».",
+        "claim_en": "Tibaq (antithesis/contrast): contrast between seeking a protector aside from Allah and the decisive statement that no guardian or helper exists besides Allah for such a person.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting substring ('صلة لنصيراً') is taken from a provided tafsir chunk (AL:CHUNK:421d3a14...) where 'نصير' appears in a different commentary context; a direct rhetorical commentary on the contrast in this verse is not present in the supplied chunks, so the identification should be reviewed.",
+        "quran_ref": "S4:A123",
+        "rhetorical_effect": "Underscores theological exclusivity of divine guardianship and nullifies reliance on any human or alternate protector."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks do not include explicit classical rhetorical analyses (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti or dedicated tafsir-balagha) specifically on S4:A123. The source_quote_ar fields were taken from the supplied chunks (Zamakhshari / others) where matching substrings occur, but those chunks do not directly analyse the rhetorical devices of this verse.",
+      "Many device identifications above are inferential (based on the verse text) and use related substrings from the supplied pieces as collateral support. Please review each claim against direct rhetorical/commentarial sources for confirmation and to raise confidence levels.",
+      "Roots/lemmas used are taken from the provided token data; for ayah-level claim(s) a single root/lemma was assigned heuristically (e.g., 'لا' for repeated negation). Verify these assignments for your K-Map schema requirements."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:188",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "tibaq",
+        "source_quote_ar": "إمّا إخراجكم، وإمّا عودكم",
+        "claim_ar": "توازي ونفي مزدوج على نحو «لا ... ولا» في «لَا أَمْلِكُ لِنَفْسِي نَفْعاً وَلَا ضَرًّا» يؤدي طباقًا بين النفع والضرّ ليقوّي معنى العجز والنفي.",
+        "claim_en": "Parallel double negation «la ... wa la» in «I do not possess for myself benefit nor harm» produces a tibaq (antithesis/parallelism) between benefit and harm, strengthening the sense of incapacity and negation.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq (parallel_antithesis)",
+        "root": "ملك",
+        "lemma": "مَلَكَتْ",
+        "confidence": "medium",
+        "needs_review_reason": "Source quote shows a parallel structure (إمّا... وإمّا) as an example of rhetorical parallelism; mapping to «لا... ولا» in the ayah is inferential rather than directly cited in the chunks.",
+        "quran_ref": "7:188",
+        "rhetorical_effect": "يُشدّد حسّ العجز والنفي لدى المخاطَب عبر توازي طرفي النفي؛ يقوّي وضوح نفْي الملكية عن الرسول."
+      },
+      {
+        "word_index": 22,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "و \"إن\" و \"من\" زائدتان للتوكيد",
+        "claim_ar": "وظيفة «إِنَّ ... إِلَّا» في «إِنْ أَنَا إِلَّا نَذِيرٌ وَبَشِيرٌ» توكيد وتقييد: يقرّب المعنى إلى تخصيص دور الرسول ويؤكّد قصر الأمر على ما ذكر.",
+        "claim_en": "The use of «in(na) ... illa» in «I am only a warner and a bringer of glad tidings» functions as emphasis and restriction: it foregrounds and limits the Prophet's role to what is stated.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr (inna-illa emphasis/restriction)",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "high",
+        "needs_review_reason": "Chunk explicitly states that certain particles (here given as example 'إن' and 'من') can be added for emphasis; applying this to «إنَّ ... إلّا» in the ayah is well-attested but the chunk does not quote this specific ayah.",
+        "quran_ref": "7:188",
+        "rhetorical_effect": "يوضّح ويقَيِّد رسالة النبي، فيزيل توقعات القدرة الإلهية عنه ويؤكّد مهمته النبويّة فقط."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "iltifat",
+        "source_quote_ar": "وَيا آدَمُ وقلنا يا آدم.",
+        "claim_ar": "التّحول في نغمة الخطاب من تقرير العجز الشخصي إلى تحديد الوظيفة النبويّة («إِنَّا ... نَذِيرٌ وَبَشِيرٌ») يُشكّل التفتًّا بلاغيًّا (التفات) يغيّر منظور المتكلّم/المخاطَب ويبرز المقصود.",
+        "claim_en": "The shift in tone from stating personal inability to specifying the prophetic role («I am only a warner and a bringer of glad tidings») constitutes an iltifat (rhetorical turn), changing speaker-perspective and highlighting the intended role.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (shift_of_address/stance)",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk gives an example of shifting address in scripture; applying 'iltifat' label to the ayah's move from incapacity to role-definition is interpretive and should be cross-checked with classical commentators.",
+        "quran_ref": "7:188",
+        "rhetorical_effect": "يحوّل انتباه السامع من مسألة القدرة إلى وظيفة النبوة، فيقوّي وضوح الرسالة ويمنع سوء الفهم حول قدرة الرسول."
+      }
+    ],
+    "warnings": [
+      "الاقتباسات (source_quote_ar) مأخوذة من المقتطفات المتاحة في الطلب وليست شروحات نصّية مباشرة لهذه الآية؛ الربط البلاغي بين الاقتباسات والآية قد يكون استدلالياً/تأويلياً، فيستحسن مراجعة المصادر المذكورة (الزماخشري، الطبري...) للتحقق التفصيلي.",
+      "بعض التصنيفات البلاغية (مثل تطابق مثال في المقتطف مع بنية الآية) هي استنتاجية وليست نقلاً حرفياً عن تلك الشروح؛ احتجِز الدقة العالية عبر مراجعة نصوص البلاغة والشرح الأصلية عند الحاجة."
+    ]
+  },
+  "n_chunks": 12
+}

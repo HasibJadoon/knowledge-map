@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "34:19",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No applicable إعراب claims found in the provided source_chunks for S34:A19.",
+      "None of the source_chunks contain any exact substring discussing words or syntactic points of this ayah; therefore no source_quote_ar could be matched and no claims extracted."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:104",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "وَمَا بَعْدَ الشَّرْطِ لَا يَعْمَلُ فِيمَا قَبْلَهُ.",
+        "claim_ar": "قاعدة: ما بعد الشرط لا يعمل فيما قبله. ينطبق على حرف الشرط «إِنْ» في الآية: ما يلي «إِنْ» (جواب الشرط: «فَإِنَّهُمْ يَأْلَمُونَ...») لا يغير أو لا يعمل في ما قبلها.",
+        "claim_en": "Rule: What follows a conditional does not affect what precedes it. Applies to the conditional particle 'إِن' in this verse: the clause after 'إِن' (the apodosis: 'فَإِنَّهُمْ يَأْلَمُونَ...') does not govern or change the syntax of what comes before it.",
+        "root": null,
+        "lemma": "شرط",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "دلالة على أنه بلغ من حرصه أنه لو استطاع ذلك لفعله",
+        "claim_ar": "استعمال لَوْ الشرطية في تخييل حادث محال/مستحيل كوسيلة بلاغية لإظهار استحالة إقناع الكافرين حتى بآيات محسوسة؛ أي: تصوير افتراضي مُبالَغ فيه للدلالة على اليأس من جدوى إتيان المعجزة لإقناعهم.",
+        "claim_en": "Use of the conditional لَوْ to imagine an impossible/hypothetical event as a rhetorical means to show the futility of convincing the disbelievers even with tangible miracles; i.e. a vivid hypothetical to indicate that bringing a miracle would not succeed in making them believe.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "",
+        "lemma": "لَو",
+        "confidence": "medium",
+        "needs_review_reason": "Mapping the classical grammatical/semantic term of conditional لَوْ to the specific rhetorical subtype 'ijab_inshaa' may require checking against Jurjani/Sakkaki terminology; the supporting quote is interpretive (from Zamakhshari)."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "دلالة على أنه بلغ من حرصه أنه لو استطاع ذلك لفعله",
+        "claim_ar": "بيان حكم أسلوبي: المؤوّل (التفسير) يوضّح قصد البلاغة في الإفصاح عن مَرَضِ الحرص — الإتيان بصيغة افتراضية طويلة لبيان المبالغة في الحرص وحتمية الفشل في الإقناع.",
+        "claim_en": "Stylistic/wisdom device: the commentator explains the rhetorical intent—using an extended hypothetical to manifest the Prophet's extreme concern and to underline the inevitability of failure to persuade the disbelievers.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "This is an interpretive/metatextual claim based on the provided commentary (Zamakhshari); classification as 'asloob_hakim' vs a maani subtype should be reviewed with source-specific terminology."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are from Zamakhshari and Safi (al-Jadwal). The task requested extraction from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir-balagha sections; those specific authors/sections are not present among the supplied chunks.",
+      "Some classifications (e.g., labeling لَوْ as 'ijab_inshaa') are interpretive and dependent on mapping between classical rhetorical terminology and the short device taxonomy given here; confidence is set to 'medium' and these items should be reviewed against primary Jurjani/Sakkaki definitions if strict alignment is required."
+    ]
+  },
+  "n_chunks": 12
+}

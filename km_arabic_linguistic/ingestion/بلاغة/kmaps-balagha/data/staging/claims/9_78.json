@@ -1,0 +1,27 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:78",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "توكيد بالنفي",
+        "source_quote_ar": "اللام لتأكيد النفي.",
+        "claim_ar": "اللام في أَلَمْ تدخل لتأكيد النفي؛ أي تشدّد في نفي وقوع الفعل أو الحالة.",
+        "claim_en": "The lam in 'أَلَمْ' functions to emphasize the negation — it intensifies the denial of the event/state.",
+        "device_branch": "other",
+        "device_subtype": "لام_توكيد_النفي",
+        "root": null,
+        "lemma": "لَم",
+        "confidence": "medium",
+        "needs_review_reason": "The cited chunk (from al-Kashshaf) discusses the lam as emphasis in a different verse; application to this ayah is plausible but should be verified against the requested classical balagha authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) or tafsir-balagha sources.",
+        "rhetorical_effect": "شدّ تركيز السامع على النفي وبالخصوص إثارة الدهشة أو اللوم لعدم المعرفة أو الفعل."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks do not include explicit balagha commentary by the requested authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti) or a tafsir-balagha section for this specific ayah. Claims are extracted only when an exact supporting substring exists in the supplied chunks; here only a general note about the lam ('اللام لتأكيد النفي.') was available and used.",
+      "Other common rhetorical features of S9:78 (e.g., repetition of اللَّهَ, pairing سرّهم ونجوَاهُمْ, emphasis by اِثباتِ العلّامة) could be relevant, but no exact supporting substrings for those observations were found in the provided chunks — they therefore are not claimed here. Recommend providing classical balagha tafsir chunks explicitly for fuller extraction."
+    ]
+  },
+  "n_chunks": 12
+}

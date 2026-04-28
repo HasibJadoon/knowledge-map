@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إِنَّمَا الصَّدَقاتُ لِلْفُقَراءِ قصر",
+        "claim_ar": "حرف «إنما» يؤدي هنا معنى الحصر/القصر، أي تقييد المعنى بالمذكور دون غيره.",
+        "claim_en": "The particle 'innama' functions as a particle of restriction/limitation (حصر), confining the predicate to the specified class.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A18",
+        "rhetorical_effect": "يجعل الوصف حصراً للمذكور فيقوّي استبعاد غيره ويؤكّد خصوصية الفعل أو الصفة للمذكورين."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "kinayah",
+        "source_quote_ar": "لأنّ طريقته طريقة الكناية",
+        "claim_ar": "جمع \"مساجد\" هنا مستعمل ككناية: إما للدلالة على المسجد الحرام باعتباره صدر جنس المساجد، أو للدلالة على جنس المساجد عموماً.",
+        "claim_en": "The plural 'masajid' is used as a kenāyah (indirect reference/metonymy): either to indicate al‑Masjid al‑Haram as the head of the class or to indicate the genus 'mosques' generally.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "سجد",
+        "lemma": "مَسْجِد",
+        "confidence": "medium",
+        "needs_review_reason": "The commentator records two possible readings/meanings (specific = the Haram, or generic = the class of mosques), so interpretation needs review to choose which pragmatic reading fits the context.",
+        "quran_ref": "S9:A18",
+        "rhetorical_effect": "التكNاية توسّع أو تضيق مرمى الكلام: إمّا لتشمل كل المساجد أو لتشير خصوصاً إلى المسجد الحرام، فتؤثّر في مدى شمول الحكم."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "ما استقام لهم أن يجمعوا بين أمرين متنافيين: عمارة متعبدات الله، مع الكفر بالله وبعبادته.",
+        "claim_ar": "في الآية مقابلة بين فعل عبادي (عمارة مساجد الله) وحال الكفر — لا يمكن الجمع بينهما، وهي بيان للتنافي والتضادّ.",
+        "claim_en": "The commentary highlights an antithesis (muqābala): the incompatibility between devout acts (building/servicing God's mosques) and the state of disbelief — presenting them as mutually exclusive.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A18",
+        "rhetorical_effect": "يبرز التنافر الأخلاقي والديني بين العبادة ومذهب الكفر، فتعظم الحِكم الأخلاقية وتوضّح شروط أهل الصلاح."
+      }
+    ],
+    "warnings": [
+      "المستخدم طلب استخراج ادلة البلاغة من مؤلفات محددة (الجَرْجاني، السكاكي، البَقِيلاني، السّيوطي وـtaf­sir balaghaـ)، لكن المقاطع المزودة هي من الزمخشري - «الكشاف». الاستخراج أعلاه استند إلى مقاطع الزمخشري فقط.",
+      "بعض التقريرات (مثل معنى جمع «مساجد») في المصدر تعرض بدائل تأويلية؛ صنفتها كـ«بديع/كناية» مع ثبوت الحاجة لمراجعة اختيار القراءة الأنسب للسياق (مذكور في حقل needs_review_reason)."
+    ]
+  },
+  "n_chunks": 12
+}

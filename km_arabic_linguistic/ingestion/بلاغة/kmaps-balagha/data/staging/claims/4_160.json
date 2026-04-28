@@ -1,0 +1,70 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:160",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "takrar",
+        "source_quote_ar": "فَبِظُلْمٍ مِنَ الَّذِينَ هادُوا",
+        "claim_ar": "تكرار حرف الباء في «فَبِظُلْمٍ ... وَبِصَدِّهِمْ» تكثيف لسببَي التحريم والنتيجة، ويقوّي رابط السببية.",
+        "claim_en": "Repetition of the preposition bi- in 'fa-bi-dhulmin ... wa-bi-saddihim' intensifies the causal link and emphasizes the reasons leading to the prohibition.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "ظلم",
+        "lemma": "ظُلْم",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive claim based on exegetical phrasing; the verse shows two bi- phrases but the emphatic function is inferred from style rather than explicit grammar.",
+        "quran_ref": "S4:A160",
+        "rhetorical_effect": "strengthens perceived causality and cohesion between the two reasons given for the divine action"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "tibaq",
+        "source_quote_ar": "ما حرمنا عليهم الطيبات إلا لظلم عظيم",
+        "claim_ar": "تضاد بين الحكمين «حَرَّمْنَا ... الطيبات» و«أُحِلَّتْ لَهُمْ» في الإسناد التفسيري يبرز تبدّل الحكم والسياسة الإلهية بسبب ظلمهم.",
+        "claim_en": "A contrast (tibaq) between 'We made unlawful ... good things' and the prior state of those things being lawful highlights a reversal of legal status as a result of their wrongdoing.",
+        "device_branch": "badi",
+        "device_subtype": "tibaq",
+        "root": "حرم",
+        "lemma": "حَرَّمَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A160",
+        "rhetorical_effect": "foregrounds moral causation: wrongdoing produces legal and moral consequences"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "ما حرمنا عليهم الطيبات إلا لظلم عظيم ارتكبوه",
+        "claim_ar": "السياق التفسيري يستخدم أداة الاستثناء «إلا» لحصر سبب التحريم في «ظلم عظيم»، أي تقييد الحكم بشرط واحد مُبيّن.",
+        "claim_en": "The exegetical phrasing uses the exception 'illa' to confine the reason for the prohibition to a single, grave wrongdoing, thereby restricting the explanation.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "ظلم",
+        "lemma": "ظُلْم",
+        "confidence": "medium",
+        "needs_review_reason": "The explicit particle 'إلا' appears in the tafsir text rather than verbatim in the isolated verse wording; attribution relies on exegetical expansion.",
+        "quran_ref": "S4:A160",
+        "rhetorical_effect": "narrows the interpretive cause, directing the reader to a single decisive moral reason"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "kinayah",
+        "source_quote_ar": "بِصَدِّهِمْ عَنْ سَبِيلِ اللَّهِ كَثِيراً",
+        "claim_ar": "تعابير مثل «صَدّهم عن سبيل الله» تُقدَّم ككناية عن الإعاقة والفساد (كالرشوة والتحريف) لا كمعنى حرفي فقط.",
+        "claim_en": "Phrases like 'their blocking (sadd) of the way of God' function as a kenāyah (indirect expression) for obstruction and corrupt practices (e.g., bribery, distortion), not merely a literal blocking.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "صدد",
+        "lemma": "صَدّ",
+        "confidence": "medium",
+        "needs_review_reason": "Relies on the exegetical gloss which supplies the specific referent (bribery, distortion); the kenāyah reading is interpretive though well-attested in tafsir.",
+        "quran_ref": "S4:A160",
+        "rhetorical_effect": "casts the action as morally charged and concretely condemnable by using an indirect, loaded expression"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

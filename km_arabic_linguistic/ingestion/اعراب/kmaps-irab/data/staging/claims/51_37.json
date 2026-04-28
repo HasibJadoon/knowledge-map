@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "51:37",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "والخوف يكون من ضعف الخائف",
+        "claim_ar": "فعل يَخَافُونَ هنا يندرج تحت معنى «الخوف» كما يعرفه النحاة: الخوف هو ما يكون من ضعف الخائف، أي خوْف ناتج عن ضعف أو فزع الإنسان تجاه المخوف.",
+        "claim_en": "The verb يَخَافُونَ here falls under the meaning of 'khawf' (fear) as defined by grammarians: 'khawf' is the fear that arises from the weakness of the one who fears — a fear or alarm felt by humans toward what they fear.",
+        "root": "خوف",
+        "lemma": "خَافَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives a general semantic distinction for خوف; applying it to this specific occurrence in S51:37 is interpretive and should be cross-checked with other exegesis/i'rab sources."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "ولذلك خصت الخشية بالله في قوله تعالى : ويخشون ربهم ويخافون سوء الحساب [ الرعد : 21 ]",
+        "claim_ar": "الفرق بين «الخوف» و«الخشية»: الخشية أخص وأشد وتختص بالله تعالى، بينما الخوف أعم وأدلّ على خوف البشر من العذاب. لذلك قراءة أو استعمال يَخَافُونَ في قوله (يَخَافُونَ العذاب الأليم) يعبّر عن خوف البشر (لضعفهم) لا عن خشية مخصوصة لله تعالى.",
+        "claim_en": "The distinction between 'khawf' and 'khashyah': 'khashyah' is more specific and intense and is often restricted to God, whereas 'khawf' is broader and typically denotes human fear of punishment. Thus the use of يَخَافُونَ in 'they fear the painful punishment' expresses human fear (due to their weakness), not the specialized notion of khashyah reserved for God.",
+        "root": "خوف",
+        "lemma": "خَافَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage addresses general semantic distinctions (and examples from other verses); asserting that distinction as the intended sense in S51:37 is plausible but should be verified with dedicated tafsir/i'rab for this verse."
+      }
+    ],
+    "warnings": [
+      "لم أجد في المقاطع المزودة إيرادًا صريحًا لإعراب نحوي (مثل مبتدأ/خبر/فاعل/مفعول به) لكلمات الآية (وَتَرَكْنَا فِيهَا آيَةً لِلَّذِينَ يَخَافُونَ الْعَذَابَ الْأَلِيمَ). المقاطع تتضمن نقاشًا معجمياً/دلالياً عن (الخوف/الخشية) فقط، لذا أدرجت ادعاءات معنوية مرتبطة بكلمة «يَخَافُونَ».",
+      "الاستدلالات هنا عامة/دلالية مأخوذة من شرح الفروقات بين «الخوف» و«الخشية» في المصدر؛ أي إسنادها تحديدًا إلى هذه الآية يحتاج تدقيقًا إضافيًا من مصادر إعرابية أو تفسيرية أخرى."
+    ]
+  },
+  "n_chunks": 12
+}

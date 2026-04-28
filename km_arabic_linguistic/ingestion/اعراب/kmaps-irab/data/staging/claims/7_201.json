@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:201",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب/ta'alluq/taqdir claims found in the provided source chunks for this ayah (S7:A201). The source chunks do not contain the words or substrings of this verse or any explicit grammatical commentary on it."
+    ]
+  },
+  "n_chunks": 12
+}

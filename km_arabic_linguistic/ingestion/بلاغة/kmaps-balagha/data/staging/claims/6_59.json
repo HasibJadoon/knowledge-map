@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:59",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "وهو مبتدأ، وإلا أداة حصر،",
+        "claim_ar": "حرف الاستثناء «إِلَّا» هنا عامل حصر (قصر) يقيد خبر النفي ويستثني الله وحده من علم الغيب.",
+        "claim_en": "The particle 'إِلَّا' functions here as a restricting/exclusive particle (hasr/qasr), limiting the scope of the negation so that only God is excluded from the negation and thus alone knows the unseen.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "الواو استئنافية، والجملة مستأنفة مسوقة",
+        "claim_ar": "الواو الابتدائية (في «وَعِندَهُ») يمكن قراءتها كواو استئنافية تربط الكلام بما قبلها وتسوق الجملة المستأنفة لتأكيد المعنى واستمرارية البلاغة.",
+        "claim_en": "The initial waw (as in 'وَعِندَهُ') can be read as a resumptive 'waw' (waaw isti'nafiyya) that links and resumes the discourse; the sentence is thus presented as a resumed / introduced statement to emphasize and continue the argument.",
+        "device_branch": "other",
+        "device_subtype": "واو_استئنافية",
+        "root": "عند",
+        "lemma": "عِند",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunks are i'rāb (grammatical) comments noting 'واو استئنافية' in general; mapping this to a rhetorical/stylistic device (asloob_hakim / estinaaf) for this specific ayah is plausible but should be cross-checked with classical balāgha sources."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are grammatical (i'rāb) commentaries (Darwish - I'rab) rather than the requested classical balāgha treatises (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, tafsīr balāgha). Extractions above are based only on the exact substrings found in these grammatical chunks.",
+      "Some rhetorical categorizations (e.g., labeling the initial waw as a stylistic 'استئناف') required interpretive mapping from grammatical remarks to balāgha categories; these mappings should be reviewed against dedicated rhetorical sources for confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

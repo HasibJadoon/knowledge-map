@@ -1,0 +1,66 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:271",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة",
+        "source_quote_ar": "فَنِعِمَّا هِيَ فنعم شيئا إبداؤها. وقرئ بكسر النون وفتحها وَإِنْ تُخْفُوهَا وَتُؤْتُوهَا الْفُقَرَاءَ وتصيبوا بها مصارفها مع الإخفاء فَهُوَ خَيْرٌ لَكُمْ فالإخفاء خير لكم.",
+        "claim_ar": "تقديم مقابل بين إظهار الصدقات وإخفائها—المقابلة بين الجهر والإخفاء لإبراز تفضيل الإخفاء في حالات معينة.",
+        "claim_en": "An antithesis (muqabalah) is set up between revealing charity and concealing it — the contrast between publicizing and hiding donations emphasizes the (contextual) preference for concealment.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "بدو",
+        "lemma": "يُبْدِىَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "تكرار/توازي",
+        "source_quote_ar": "وَإِنْ تُخْفُوهَا وَتُؤْتُوهَا الْفُقَرَاءَ وتصيبوا بها مصارفها مع الإخفاء فَهُوَ خَيْرٌ لَكُمْ",
+        "claim_ar": "بنية شرطية مكررة وموازية (إِنْ ... وإِنْ ...) تعطي تأكيدًا موازياً لخياري الإظهار والإخفاء وتبرز النتيجة المشتركة.",
+        "claim_en": "A repeated/parallel conditional structure (repetition of the conditional idea and parallel verb patterns) gives emphasis and balances the two options (revealing vs concealing) while pointing to the shared outcome.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "خفي",
+        "lemma": "أُخْفِىَ",
+        "confidence": "medium",
+        "needs_review_reason": "Identification relies on reading the commentary's presentation of the two conditional alternatives; the exact Quranic surface repetition is assumed from tafsir rather than a single quoted contiguous Quranic phrase in the chunks."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "مجاز",
+        "source_quote_ar": "وَيُكَفِّرُ وقرئ بالنون مرفوعا عطفا على محل ما بعد الفاء، أو على أنه خبر مبتدإ محذوف، أى ونحن نكفر.",
+        "claim_ar": "الفعل «يُكَفِّرُ» مستخدم مجازًا بمعنى التكفير (التطهير) من الذنوب — نقل معنى الإزالة/التغطية ليعبر عن مغفرة الذنوب.",
+        "claim_en": "The verb 'yukaffiru' is used metaphorically (majaz) — 'to expiate/cover' sins, transferring literal sense of covering/removal to the moral action of atonement.",
+        "device_branch": "bayan",
+        "device_subtype": "majaz",
+        "root": "كفر",
+        "lemma": "كَفَّرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary discusses variant readings and syntactic roles; the metaphorical reading is standard but interpretation depends on exegesis nuances."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "إنشائية/تعجب",
+        "source_quote_ar": "فَنِعِمَّا هِيَ فنعم شيئا إبداؤها.",
+        "claim_ar": "أسلوب تعجّب/إنشاء (تعظيم): «فَنِعِمَّا هِيَ» كتعجب يُبرز الثناء على إظهار الصدقة في حاله الخاص الذي يناسبه.",
+        "claim_en": "An exclamatory (insha'i) expression of admiration: 'fa-ni'ma hiya' functions as a notable exclamation praising the act (here: showing charity in its fitting context).",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": "نعم",
+        "lemma": "نِعْمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Claims are drawn from the provided tafsir chunks; some rhetorical labels (e.g., takrar vs. parallelism) depend on interpretive judgment in the commentary rather than an isolated surface feature in a single quoted Quranic substring.",
+      "The commentary contains variant readings and syntactic explanations; where the tafsir discusses multiple readings, the rhetorical classification follows the exegetical reading cited, which may differ across recitations.",
+      "No explicit claims were extracted from the other provided source chunks (Safi, other Zamakhshari fragments) beyond the main chunk; verify additional sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha) if fuller rhetorical taxonomy is required."
+    ]
+  },
+  "n_chunks": 12
+}

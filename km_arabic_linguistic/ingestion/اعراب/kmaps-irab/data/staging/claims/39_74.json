@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "39:74",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "من المهم معرفة التفاسير الواردة عن الصحابة  بحسب قراءة مخصوصة ، وذلك أنه قد يرد عنهم تفسيران في الآية الواحدة مختلفان ، فيظن اختلافا وليس باختلاف ، وإنما كل تفسير على قراءة ، وقد تعرض السلف لذلك .",
+        "claim_ar": "ينبغي مراعاة القراءات المختلفة عند تفسير هذه الآية؛ فقد يؤدي اختلاف القراءة إلى اختلاف التفسير وأحياناً إلى اختلاف في الإعراب للكلمة (أو لمعناها)، لذا يجب الرجوع إلى قراءات السلف لنظر أثرها على إعراب «صَدَقَنَا» وما يتعلق بها.",
+        "claim_en": "One must consider different qira'at (readings) when interpreting this ayah; a variation in reading can lead to different interpretations and sometimes to different parsing of the word (or its meaning). Therefore, consult the early readings to see their effect on the i'rab of \"ṣadaqanā\" and related words.",
+        "root": "صدق",
+        "lemma": "صَدَقَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source states a general principle about reading-dependent interpretations but does not discuss this specific ayah or any specific qira'at for it; applying the principle here requires checking the actual variant readings and their grammatical effects."
+      }
+    ],
+    "warnings": [
+      "No explicit iʿrāb or syntactic claims about S39:A74 (وَقَالُوا الْحَمْدُ ...) were found in the provided source chunks. Only a general note on the importance of considering variant readings (qirāʾāt) is present; specific analyses (e.g., مبتدأ/خبر, فاعل/مفعول) for the words of this ayah are not in the supplied texts.",
+      "The claim above is a general study note drawn from the provided chunk; it indicates that readings may affect interpretation but does not provide any concrete reading variants or case-changing analyses for the ayah. Further primary-source evidence (works that treat this verse or list qirāʾāt for it) is needed to extract concrete iʿrāb claims."
+    ]
+  },
+  "n_chunks": 12
+}

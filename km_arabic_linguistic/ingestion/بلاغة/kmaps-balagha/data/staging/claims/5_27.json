@@ -1,0 +1,62 @@
+{
+  "layer": "balagha",
+  "ayah_key": "5:27",
+  "result": {
+    "claims": [
+      {
+        "word_index": 20,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إِنَّما يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ",
+        "claim_ar": "حرف الابتداء \"إِنَّمَا\" يدخل على الفعل \"يَتَقَبَّلُ\" لتقييد القبول بالله بالمُتَّقين، أي حصر التقبُّل بالذوق الإلهي للمُتَّقين.",
+        "claim_en": "The particle 'إِنَّمَا' restricts the predicate 'yattaqabbalu' so that God's acceptance is limited to the pious — it functions as a restricting/exclusive particle.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِنَّمَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "أو اتل عليهم وأنت محق صادق.",
+        "claim_ar": "التفات بياني: أمر مخاطَب (واتل عليهم) ثم انتقال إلى سرد النبأ (إذ...), أي انتقال من خطابٍ توجيهي إلى حكْيٍ سردي.",
+        "claim_en": "Iltifat (a stylistic shift): the addressive command 'watlu ʿalayhim' (recite to them) shifts into the narrative of the event (introduced by 'idh...'), marking a turn from direct instruction to storytelling.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "تلو",
+        "lemma": "تَلَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The source paraphrases the imperative and offers alternative readings; classification as 'iltifat' depends on reading the imperative + ensuing narrative as a stylistic shift rather than only an instruction."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "fasl_wasl",
+        "source_quote_ar": "إِذْ قَرَّبَا نصب بالنبإ",
+        "claim_ar": "حرف \"إِذْ\" هنا معطوف على فعل الماضي ويُحسب نصبًا بالنبأ؛ وظيفته بلاغيًا إدخال السرد وتحديد زمن وقوع الحادث (علامة تأطير/فاصل للسرد).",
+        "claim_en": "'Idh' functions as a narrative introducer (read as accusative for 'al-naba'), framing the story in time — a rhetorical marker that segments and contextualizes the account.",
+        "device_branch": "maani",
+        "device_subtype": "fasl_wasl",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "mukābalah",
+        "source_quote_ar": "قرّبا قربانا، فمن أيكما تقبل زوّجها، فقبل قربان هابيل",
+        "claim_ar": "مقابلة بلاغية: ثنائية الفعلين/النتيجتين (تقبُّل قربان أحدهما وعدم تقبّل الآخر) لإظهار التباين الذي يفضي إلى الحسد والقتل — إبراز السبب والنتيجة بالتصادم.",
+        "claim_en": "Muqābalah (antithesis/contrast): the paired presentation of the two offerings — one accepted and the other not — creates a clear contrast that motivates envy and the crime, highlighting cause and effect.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "قرب",
+        "lemma": "قَرَّبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

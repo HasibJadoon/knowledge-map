@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "39:75",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "فإنه في وصف الملائكة ، ولما ذكر قوتهم وشدة خلقهم عبر عنهم بالخوف ، لبيان أنهم وإن كانوا غلاظا شدادا فهم بين يديه تعالى ضعفاء",
+        "claim_ar": "نسبة الخوف أو وصف الملائكة بالخوف يكتسب دلالة معنوِيّة: تُبيّن ضعفهم وخشوعهم بين يدي الله تعالى رغم قوتهم وشدّتهم.",
+        "claim_en": "Attributing 'fear' to the angels carries a semantic effect: it indicates their weakness and humility before God despite their strength and severity.",
+        "root": "ملك",
+        "lemma": "مَلَك",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage is a general semantic observation about descriptions of angels (contrast between خوف and خشية); applying it to this specific ayah is inferential rather than an explicit iʿrāb statement about these words."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "مع مراعاة إقامة الإعراب وتقويم اللفظ",
+        "claim_ar": "عند القراءة والرواية يجب مراعاة إقامة الإعراب وتقويم اللفظ، وعدم التساهل في حذف الحركات أو اختلاسها ما يغيّر موقع الإعراب.",
+        "claim_en": "In recitation and transmission one must preserve the grammatical case-endings and properly articulate the words; one should not omit or elide vowels/movements so as to alter the iʿrāb.",
+        "root": "سبح",
+        "lemma": "سَبَّحَ",
+        "confidence": "high",
+        "needs_review_reason": "The source gives a general rule about recitation and maintaining iʿrāb; its application to this particular verb/ayah is prescriptive (reading practice) rather than an analytic iʿrāb determination."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain general comments (on semantics of 'خوف' vs 'خشية' and on recitation/keeping iʿrāb) but do not include an explicit, line-by-line إعراب (syntactic case assignment) of this specific āyah (S39:75).",
+      "Some extracted claims are inferential (applying general remarks to this āyah). Review by a specialist is recommended to confirm direct applicability and to extract explicit إعراب (مبتدأ، خبر، فاعل، مفعول به، حال، تمييز، نعت، مجرور) if present in additional sources."
+    ]
+  },
+  "n_chunks": 12
+}

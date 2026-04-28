@@ -1,0 +1,12 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:7",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No relevant إعراب (syntax) claims for S4:A7 were found in the provided source_chunks. None of the chunk texts contain exact substrings quoting or discussing words/phrases from this ayah, so per instructions no claims could be extracted (source_quote_ar must be an exact substring).",
+      "If you can provide chunks from al-Tibyan or other works that explicitly address the words/structures of this ayah (e.g. discussion of نَصِيبٌ, مِمَّا, تَرَكَ, or the syntactic role of parents/relatives here), I can extract and format the claims."
+    ]
+  },
+  "n_chunks": 12
+}

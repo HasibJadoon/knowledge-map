@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:276",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "badi",
+        "source_quote_ar": "الرِّبا",
+        "claim_ar": "جناس لفظي بين كلمةِ الرِّبَا وكلمةِ يُرْبِي (تشابه صوتي وجذري يوظَّف لمفارقة المعنى)",
+        "claim_en": "Paronomasia (jinas) between 'الرِّبَا' and 'يُرْبِي' — a phonetic/root similarity used to produce a verbal/semantic contrast.",
+        "device_branch": "badi",
+        "device_subtype": "jinas",
+        "root": "ربو",
+        "lemma": "رِّبَوٰا",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunks do not explicitly identify a jinas here; the claim is inferred from the visible lexical similarity between الرِّبَا and يُرْبِي and the verse wording."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "هذا من أسرار القرآن ومعاجزة البديعة.",
+        "claim_ar": "مقابلة/تِبَاق بين جملةِ الإمْحاقِ (يَمْحَقُ اللَّهُ الرِّبَا) وجملةِ النُّمُوِّ (وَيُرْبِي الصَّدَقَاتِ)؛ تضادٌّ معنويٌّ وصوريٌّ لتوضيح الجزاء والنتيجة.",
+        "claim_en": "Muqabalah/Tibaq (antithesis) between the clause of destruction (yamhaqu Allahu al-riba) and the clause of increase (wa yurbi al-sadaqat): a semantic and formal contrast that highlights loss versus growth.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "",
+        "lemma": "",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains a general remark about the Quran's rhetorical miracle but does not explicitly annotate this verse as 'مقابلة'; the antithesis is inferred from the verse text."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "badi",
+        "source_quote_ar": "البلاغة:",
+        "claim_ar": "تكرار لفظي/تركيبي (تَكرار) لاسمِ اللهِ في سياقٍٍ معيّن لرفعِ التأكيد والوشاية الإلهية",
+        "claim_en": "Repetition (takrar) — the recurrence of the divine name and parallel constructions in the passage creates emphasis and a rhetorical stamp of authority.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": "",
+        "lemma": "",
+        "confidence": "low",
+        "needs_review_reason": "The supplied chunks are i'rab/commentary fragments; they do not explicitly discuss repetition in this verse. The repetition claim is plausible but not directly evidenced in the provided excerpts."
+      }
+    ],
+    "warnings": [
+      "The provided source_chunks are Darwish i'rab/commentary excerpts, not the requested classical balagha sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Many balagha labels are not present in these chunks; several claims are inferred from the verse text rather than explicitly attested in the chunks.",
+      "source_quote_ar fields must be exact substrings of the provided chunks; where explicit balagha labels or the verse text were absent, general substrings (e.g., 'البلاغة:' or 'هذا من أسرار القرآن ومعاجزة البديعة.') were used to indicate the rhetorical reading but do not constitute direct evidence of a specific device in these excerpts.",
+      "Some claims (notably the jinas and the antithesis) are plausible rhetorical readings of S2:276 but should be reviewed against primary balagha sources or fuller tafsir-balagha commentary for confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "7:17",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(مِنْ أَصْحَابِ الْقُبُورِ) : يَجُوزُ أَنْ يَتَعَلَّقَ بِيَئِسَ؛ أَيْ يَئِسُوا مِنْ بَعْثِ أَصْحَابِ الْقُبُورِ؛ وَأَنْ يَكُونَ حَالًا؛",
+        "claim_ar": "عبارة جار ومجرور مبتدئة بـ«مِنْ» يجوز أن تتعلّق بالفعل (يَئِسَ) أي تكون في مقام مفعول أو متعلّق الفعل، ويجوز أن تكون حالًا (ظرفًا) تبيّن حال الموجودين.",
+        "claim_en": "A prepositional phrase beginning with 'min' may either attach to the verb (e.g. be governed by 'ya'sa', meaning 'they despaired of ...') or function as a hal (circumstantial adverbial) describing the state of those referred to.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses the specific phrase «مِنْ أَصْحَابِ الْقُبُورِ». Applying this two-way analysis to the 'min/ʿan' phrases in this ayah (e.g. «مِنْ بَيْنِ أَيْدِيهِمْ») is inferential and should be verified against the immediate context and the governor in the verse.",
+        "quran_ref": "S7:A17"
+      }
+    ],
+    "warnings": [
+      "The cited source passage discusses the phrase «مِنْ أَصْحَابِ الْقُبُورِ». The ayah under analysis contains different prepositional phrases (مِنْ بَيْنِ أَيْدِيهِمْ، وَمِنْ خَلْفِهِمْ، وَعَنْ أَيْمَانِهِمْ، وَعَنْ شَمَائِلِهِمْ). The claim projects the source's analysis onto these analogous prepositional phrases; this is an interpretive inference and should be checked against the verse's specific syntactic governor and context.",
+      "No explicit iʿrāb (مبتدأ/خبر/فاعل/مفعول به/etc.) rulings for the exact words of S7:17 were found in the provided chunks; only a general comment on the attachment possibilities of a «مِنْ ...» phrase is available."
+    ]
+  },
+  "n_chunks": 12
+}

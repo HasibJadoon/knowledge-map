@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "19:31",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "مَعْطُوفٌ عَلَى «مُبَارَكًا»",
+        "claim_ar": "«مُبَارَكَاً» معطوفٌ عليه (هنالك قراءة تضع «وَبَرًّا» معطوفة عليه).",
+        "claim_en": "The word 'مُبَارَكَاً' functions as the head of a coordination: the (attested/mentioned) word 'وَبَرًّا' is conjoined to it (i.e., 'وَبَرًّا' is maʿtūf ʿalā 'مُبَارَكَاً').",
+        "root": "برك",
+        "lemma": "مُبَارَك",
+        "confidence": "medium",
+        "needs_review_reason": "The source passage explicitly states the phrase but is discussing the variant 'وَبَرًّا' which does not appear in the provided tokenization of the ayah; assignment of the coordination-head relation to the token 'مُبَارَكَاً' depends on interpreting that commentary as referring to this word."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "وَيُقْرَأُ فِي الشَّاذِّ بِكَسْرِ الْبَاءِ وَالرَّاءِ",
+        "claim_ar": "قِرَاءةٌ شاذّة تذكر قراءةً لِـ«وَبَرًّا» بِكسر الباء والراء (ذكرها عند الحديث عن «مُبَارَكَاً» وما يعطف عليه).",
+        "claim_en": "A variant (anomalous) reading is reported: 'وَبَرًّا' is read with kasr on the letters bā' and rā' (this reading is mentioned in the discussion concerning 'مُبَارَكَاً' and its conjunction).",
+        "root": "برك",
+        "lemma": "مُبَارَك",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted phrase in the source refers to a reading-variant for 'وَبَرًّا' rather than the exact token 'مُبَارَكَاً' in the supplied word list; linking the qirāʼa note to the listed token assumes the commentary treats them as related forms."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "irab",
+        "source_quote_ar": "وَهُوَ مَعْطُوفٌ عَلَى (الصَّلَاةِ)",
+        "claim_ar": "وفقًا للنصّ المذكور، يُذكر أن ما يُعطف (المشار إليه) معطوفٌ على «الصَّلَاةِ» (تُذكر كمنصوب/معطوفٍ عليه في السِّياق).",
+        "claim_en": "The commentary states that the (conjoined) item is also conjoined to 'الصَّلَاةِ' (i.e., it is treated as maʿtūf on 'الصَّلَاةِ').",
+        "root": "برك",
+        "lemma": "مُبَارَك",
+        "confidence": "low",
+        "needs_review_reason": "The source phrase is terse and ambiguous about which lexical item is being described as 'معطوف على (الصلاة)'; it may refer to a variant form ('وَبَرًّا') or to a different syntactic locus — therefore this attachment requires review against fuller commentary context."
+      }
+    ],
+    "warnings": [
+      "The provided source-chunk(s) discuss the form «وَبَرًّا» (a lectal/variant form) which does not appear among the tokenized words supplied for this ayah; some claims here link that commentary to the token «مُبَارَكَاً» by inference — please verify against the full commentary text.",
+      "No source chunk in the input explicitly treats the governance/attachment of بِالصَّلَاةِ to أَوْصَانِي or other surrounding syntax; avoid assuming such taʿalluq relations unless supported by additional quoted text."
+    ]
+  },
+  "n_chunks": 12
+}

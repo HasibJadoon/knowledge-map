@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:40",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "يُقْرَأُ عَلَى مَا لَمْ يُسَمَّ فَاعِلُهُ، وَالْقَائِمُ مَقَامَ الْفَاعِلِ «أَنْ»",
+        "claim_ar": "يُقْرَأُ (وَقَدْ + فعل ماضٍ) على ما لم يُسمَّ فاعله، والـقائم مقام الفاعل (مثل «أَنْ»).",
+        "claim_en": "The construction (وَقَدْ + past verb) is read/understood as having an unnamed (unspecified) subject, with the standing element taking the position of the subject (similar to «أن»).",
+        "root": null,
+        "lemma": "قَدْ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage treats the example (وَقَدْ نَزَّلَ); the ayah uses (وَقَدْ بَلَغَنِي) where an overt nominative 'الْكِبَرُ' follows—confirmation is needed that the same rule is being applied here."
+      }
+    ],
+    "warnings": [
+      "The provided source chunk discusses the construction with the example (وَقَدْ نَزَّلَ). It does not mention S3:40 explicitly; the extracted rule is being generalized to (وَقَدْ بَلَغَنِي). Verify applicability given that in S3:40 the noun الْكِبَرُ appears overtly and functions as the subject."
+    ]
+  },
+  "n_chunks": 12
+}

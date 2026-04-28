@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:79",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "إِنَّمَا الصَّدَقاتُ لِلْفُقَراءِ",
+        "claim_ar": "قصر الصدقات على الفقراء (التقييد والحصر بالفاعل/المستحق)",
+        "claim_en": "Restriction ( حصر ) of the charity to the poor — the wording limits/excludes other groups.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "قصر",
+        "lemma": "قصر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A79",
+        "rhetorical_effect": "يوضّح استئثار الفقراء بحق الصدقات ويشدّد على خصوصية المستحقين؛ يخلق تمييزاً وتأكيداً عبر الحصر."
+      },
+      {
+        "word_index": 14,
+        "claim_type": "takrar",
+        "source_quote_ar": "لا سبيل عليهم: لا جناح عليهم. ولا طريق للعاتب عليهم",
+        "claim_ar": "تكرار النفي (لا) لشدِّ التأكيد والتوكيد على الإعفاء أو عدم اللوم عليهم",
+        "claim_en": "Repetition (takrar) of the negative particle 'la' to reinforce/confirm the absence of blame or restriction.",
+        "device_branch": "badi",
+        "device_subtype": "takrar",
+        "root": null,
+        "lemma": "لا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S9:A79",
+        "rhetorical_effect": "التكرار يقوّي الإعفاء ويؤكّد الاستثناء والرحمة في الحكم؛ يعمل تأثيرًا بلاغياً في تخفيف اللوم."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "والنصح لله ورسوله: الإيمان بهما، وطاعتهما في السر والعلن، وتوليهما، والحب والبغض فيهما",
+        "claim_ar": "أسلوب ناصح وتقريري (نصيحة/وعظ) موجه لتقويم السلوك الاجتماعي تجاه المؤمنين والمطوّعين",
+        "claim_en": "A didactic/admonitory style (asloob hakim): the commentator reads the verse as giving counsel — faith, obedience, loyalty, love and dislike in proper measure.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "نصح",
+        "lemma": "نصح",
+        "confidence": "medium",
+        "needs_review_reason": "The label 'asloob_hakim' is interpretive: the source chunk frames the verse as admonitory counsel, but mapping to a formal rhetorical subtype depends on annotation conventions.",
+        "quran_ref": "S9:A79",
+        "rhetorical_effect": "يمنح الآية طابعًا توجيهيًا وأخلاقيًا؛ يستفز الضمائر ويطالب بالسلوك الصحيح تجاه الفقراء والمطوعين."
+      }
+    ],
+    "warnings": [
+      "Source chunks are exegesis excerpts and do not always quote the exact Qur'anic phrasing; claims anchor to commentator wording found in the chunks.",
+      "Some rhetorical features of the verse (e.g., the particle 'إِلَّا جُهْدَهُمْ' as in-verse exception, or the double occurrence of 'مِنْهُمْ') are present in the verse but not always as exact contiguous substrings in the provided chunks; I selected substrings that occur in the chunks to support claims.",
+      "Device classification (especially for broad categories like 'asloob_hakim') required interpretive mapping from commentary language to the requested device taxonomy; these mappings are marked with 'medium' confidence when interpretive."
+    ]
+  },
+  "n_chunks": 12
+}

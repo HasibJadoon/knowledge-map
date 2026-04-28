@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "25:26",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَيَجُوزُ أَن يَرْتَفِعَ الْعَذَابُ بِالظَّرْفِ.",
+        "claim_ar": "الظرف (يَوْمَئِذٍ) يجوز أن يكون سببًا في رفع الخبر أو رفع اسمٍ متعلقٍ به؛ أي أن ظرف الزمان قد يَرْتَفِعُ به الخبر أو يؤثر في موقعه الإعرابي.",
+        "claim_en": "The adverb (yawmīdhin) may function to 'raise' the predicate (or a noun related to it); i.e., a temporal adverb can elevate the predicate or affect its syntactic/case position.",
+        "root": "يوم",
+        "lemma": "يَوْمَئِذ",
+        "confidence": "medium",
+        "needs_review_reason": "The source gives this as a general permissive rule using 'العذاب' as example; applying it to this specific verse (يَوْمَئِذٍ) is inferential and needs verification against fuller discussion in the commentary or other passages that treat this exact construction."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not quote S25:26 or discuss its specific words directly; the extracted claim is an application of a general statement in the commentary to the adverb يَوْمَئِذٍ in this verse.",
+      "No explicit statement in the chunks identifies the exact syntactic role of other words in the ayah (e.g., يَوْمًا مبتدأ كان، الْحَقُّ خبر); avoid treating these as established from these chunks alone.",
+      "If you need more claims (e.g., on the status of يَوْمًا as مبتدأ كان or عَلَى الْكَافِرِينَ as جار ومجرور متعلق بعسير), supply additional source text that treats those items directly so assertions can be extracted with high confidence."
+    ]
+  },
+  "n_chunks": 12
+}

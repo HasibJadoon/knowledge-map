@@ -1,0 +1,58 @@
+{
+  "layer": "balagha",
+  "ayah_key": "8:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "takrar",
+        "source_quote_ar": "وإنما يذكر أحدهما مع الآخر للتوكيد",
+        "claim_ar": "تكرار البَدْءِ «وما كان الله» في مطلع الجملتين كوسيلة بلاغية للتوكيد",
+        "claim_en": "Repetition: the opening phrase «وما كان الله» is repeated at the start of the two clauses to emphasize and reinforce the statement.",
+        "device_branch": "badi",
+        "device_subtype": "repetition_phrase",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S8:A33",
+        "rhetorical_effect": "يعزّز التوكيد ويضاعف حدة النفي عن وقوع العقاب في ظروف محددة"
+      },
+      {
+        "word_index": 0,
+        "claim_type": "muqabalah",
+        "source_quote_ar": "وإنما يذكر أحدهما مع الآخر للتوكيد",
+        "claim_ar": "مقابلة وموازاة بين الجملتين: ذكر أحدهما مع الآخر كفصل موازٍ لتوضيح الفرق بين شرط وجود النبي وبين استغفار المؤمنين",
+        "claim_en": "Muqabalah / parallelism: the two clauses are set in parallel (each beginning with the same formula) to present a contrasted but balanced relation between 'your being among them' and 'their seeking forgiveness'.",
+        "device_branch": "badi",
+        "device_subtype": "parallelism_contrast",
+        "root": "ذَكَرَ",
+        "lemma": "ذَكَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "Inference of contrast/parallelism is based on commentary wording about pairing for emphasis rather than an explicit technical label in the chunk.",
+        "quran_ref": "S8:A33",
+        "rhetorical_effect": "يوضّح التباين بين العاملين (وجود النبي وأعمال الناس) ويقوّي فهم سبب صرف العذاب"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "iltifat",
+        "source_quote_ar": "إِذا دَعاكُمْ وحد الضمير كما وحده فيما قبله، لأن استجابة رسول الله ﷺ كاستجابته،",
+        "claim_ar": "التفات وخاطبة مفاجِئة بضمير المخاطب («وأنتَ فيهم») داخل تركيب تأمري/نفي لفت الانتباه وخصّ المخاطَب",
+        "claim_en": "Iltifat (shift of address): the insertion of the second-person «أنتَ» in the middle of the clauses functions as an abrupt address to the Prophet, drawing attention and specifying the condition tied to his presence among them.",
+        "device_branch": "maani",
+        "device_subtype": "address_shift",
+        "root": null,
+        "lemma": "أَنْتَ",
+        "confidence": "medium",
+        "needs_review_reason": "The claim is inferred from commentary reference to unity/usage of pronouns; the chunk discusses 'وحد الضمير' but not this ayah verbatim, so identification of iltifat should be reviewed against other primary rhetorical sources.",
+        "quran_ref": "S8:A33",
+        "rhetorical_effect": "يشدّ الانتباه إلى أهمية وجود النبي بين المؤمنين كعامل مانع للعذاب، ويخصّص المعنى للمخاطَب"
+      }
+    ],
+    "warnings": [
+      "Source chunks supplied are commentary excerpts (Zamakhshari) and do not include the full ayah text verbatim; source_quote_ar entries therefore quote phrases from the commentary that the commentator uses when discussing related rhetorical features.",
+      "Some device identifications (especially iltifat and muqabalah) are inferred from the commentator's remarks about pronoun-unity and pairing for emphasis; these should be cross-checked with other rhetoric sources (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti or tafsir-balagha) for confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

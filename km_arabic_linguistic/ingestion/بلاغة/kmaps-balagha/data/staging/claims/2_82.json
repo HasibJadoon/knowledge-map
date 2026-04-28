@@ -1,0 +1,11 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:82",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No extractable rhetoric claims found for this ayah in the provided source_chunks. The chunks supplied are from Zamakhshari (al-Kashshaf) and a grammar iʿrāb note; they do not contain explicit balāgha (rhetorical) analyses from the requested authors (al-Jurjānī, al-Sakkākī, al-Baqillānī, al-Suyūṭī, or a tafsīr-balāgha section) nor do they include exact source substrings that discuss rhetorical devices for this verse. Per the task rules, every claim must include source_quote_ar as an exact substring of one of the provided chunks; because such substrings demonstrating rhetorical devices are absent, no claims could be generated. If you provide tafsīr/balāgha extracts (from the listed authors or a balāgha tafsīr) that discuss this verse, I can re-run the extraction."
+    ]
+  },
+  "n_chunks": 12
+}

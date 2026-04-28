@@ -1,0 +1,12 @@
+{
+  "layer": "balagha",
+  "ayah_key": "7:135",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No source chunk provided contains the ayah text or commentary substrings needed. Each claim requires source_quote_ar to be an exact substring of one of the provided source_chunks; none of the chunks include text or quoted analysis for S7:A135 (e.g., phrases like \"فَلَمَّا كَشَفْنَا\" or \"الرِّجْزَ\").",
+      "Please provide source chunks (from the requested balagha/tafsir authors or other commentaries) that include either the ayah text or explicit rhetorical commentary containing exact Arabic substrings from which to quote. Without such chunks I cannot produce verified claims that meet the source_quote_ar requirement."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,57 @@
+{
+  "layer": "irab",
+  "ayah_key": "16:13",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "irab",
+        "source_quote_ar": "مُخْتَلِفٌ أَلْوَانُهُ",
+        "claim_ar": "مُخْتَلِفًا: نعت منصوب يَصِفُ «مَا/الْمَوجود» المذكور قبله (صفة لاسم الموصول/الموضوع المفروض).",
+        "claim_en": "mukhtalifan: an accusative adjective (naʿt) describing the preceding substantive (the 'ما' / the created thing).",
+        "root": "خلف",
+        "lemma": "مُّخْتَلِف",
+        "confidence": "high",
+        "needs_review_reason": "الحكم مستدل به من المثال في المصدر («شرابٌ مختلف ألوانه»)، حيث يظهر «مُخْتَلِف» هناك كصفة للنَّاِسِبِ؛ استدلاله على هذه الآية متوافق لكنه استقرائي من المثال."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "taalluq",
+        "source_quote_ar": "مُخْتَلِفٌ أَلْوَانُهُ",
+        "claim_ar": "أَلْوَانُهُ: متعلق (تَوْضِيح/مضاف إليه تَصْرِيفِي) لما يختلف — متعلق بـ«مُخْتَلِف» (ما يَتَخَصَّص به الاختلاف).",
+        "claim_en": "alwanuhu: a complement attached to 'mukhtalif' (specifying what varies) — i.e. 'alwān' is syntactically linked to 'mukhtalif'.",
+        "root": "لون",
+        "lemma": "لَوْن",
+        "confidence": "medium",
+        "needs_review_reason": "المصدر يظهر العبارة «مُخْتَلِفٌ أَلْوَانُهُ» لكن لا يبين تفصيلاً نحويًا صريحًا إن كانت «أَلْوَانُهُ» مضافًا إليه أو مبتدأً متعلقًا؛ لذا التبعية مقترحة ومنطقية لكنها تحتاج مراجعة تفصيلية."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "إِنَّ فِي ذَلِكَ لَآيَةً لِقَوْمٍ يَتَفَكَّرُونَ",
+        "claim_ar": "الجملة تفيد أن اختلاف ألوان ما في الأرض علامة (آية) موجهة لقومٍ يتفكرون/يتذكرون — أي أن البنية النحوية تؤكد القيمة الدلالية كآية للتأمل.",
+        "claim_en": "The clause conveys that the variety of colours in what was produced on earth is a sign (āya) directed to people who reflect/remember — the syntactic construction emphasizes the semantic effect as a sign for reflection.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "المصدر يستخدم صيغة مع فعل مختلف («يتفكرون») بينما الآية هنا وردت بـ«يَتَذَكَّرُونَ»؛ الدلالة العامة مشتركة ولكن التطبيق الدقيق يستدعي تدقيق لفظي."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "شَيْئًا مَنْصُوبٌ بِالْمَصْدَرِ عَلَى قَوْلِ الْبَصْرِيِّينَ. وَبِيَعْلَمَ عَلَى قَوْلِ الْكُوفِيِّينَ.",
+        "claim_ar": "خلاف أصولي بين النحاة (البصريون والكوفية) في إعراب مَثَلِ «شَيْئًا/مَا» المضمَر عند الأفعال: البصريون يَجْعلونها منصوبة بمعنى المصدر، والكوفية يرفعونها (تحليل مغاير).",
+        "claim_en": "A classical grammatical disagreement (Basran vs Kufan) concerning the case/analysis of items like 'shayin/ma' as object after verbs: the Basrans treat it as accusative (explained via a verbal noun construction), while the Kufans analyze it differently (raising it).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "المصدر يذكر لفظ «شَيْئًا» صراحة، بينما الآية فيها «مَا»؛ الانتقال من المثال إلى اللفظ المختلف يستلزم تحقق إضافي من أقوال المعطّلين حول «مَا» تحديدًا في هذا البناء."
+      }
+    ],
+    "warnings": [
+      "المصادر المقتبَسة في النص لم تذكر الآية S16:A13 نصًا حرفيًا بل قدمت أمثلة قرآنية ومقارنات قريبة (مثل «شرابٌ مختلف ألوانه» وعبارة عن «آية لقومٍ يتفكرون»). بعض الاستدلالات هنا استقرائية من الأمثلة المذكورة وقد تحتاج مراجعة نصّية/لغوية أوسع عند الكتابات الأصلية للعكبري أو شروح أخرى.",
+      "انتباه: صيغة الفعل/اللفظ عند المصدر قد تختلف (مثال: «يتفكرون» في المصدر مقابل «يتذكرون» في الآية المطروحة)، فالتطابق الدلالي قد يكون سليماً بينما الإعرابي التفصيلي يحتاج تحققاً."
+    ]
+  },
+  "n_chunks": 12
+}

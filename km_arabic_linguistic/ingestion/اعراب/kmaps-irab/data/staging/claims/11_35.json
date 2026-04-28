@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:35",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ: فِي مَوْضِعِ نَصْبٍ بَدَلًا مِنْ «مَاة» ؛ أَيْ: بِئْسَ شَيْئًا سَخِطَ اللَّهُ عَلَيْهِمْ. وَقِيلَ: هُوَ فِي مَوْضِعِ جَرٍّ بِلَامٍ مَحْذُوفَةٍ؛ أَيْ: لِأَنْ سَخِطَ.",
+        "claim_ar": "في مواضع مثل «ما» قِيلَتْ آراء: أحدها أن «ما» في موضع نصب كبدل، وقِيلَ أيضاً إنه في موضع جر بلام محذوفة.",
+        "claim_en": "There is a scholarly disagreement: in some contexts 'ما' is analyzed as accusative (as badal), while others analyze it as genitive due to an omitted lām.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source states a general ikhtilāf about uses of «ما». Applying these alternative analyses to the specific token مِمَّا in this ayah is plausible but the source does not explicitly discuss this exact form."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (مَا يَفْعَلُ اللَّهُ) : فِي «مَا» وَجْهَانِ: أَصَحُّهُمَا أَنَّهُمَا اسْتِفْهَامٌ فِي مَوْضِعِ نَصْبٍ بِيَفْعَلُ،",
+        "claim_ar": "في «ما» وجهان، والأصح أنهما استيفهام في موضع نصب (أي تُعاملان كأداة استفهام منصوبة).",
+        "claim_en": "On the particle 'ما' there are two senses; the stronger view is that both are interrogative used in an accusative position (i.e. treated as accusative interrogatives).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted rule is general for «ما». Determining its direct syntactic effect on the prefixed form مِمَّا (مِن + مَا) in this ayah requires confirming whether the author applies the same rule to compounded forms; the source here is general rather than example-specific."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain explicit i'rāb analyses for most words of S11:A35; only general discussions about «ما»/مَا forms were found and have been mapped to the token مِمَّا (word 11).",
+      "Source substrings used are general statements about «ما»; their application to the exact form مِمَّا in this ayah is inferred and should be reviewed against fuller context in the original commentary."
+    ]
+  },
+  "n_chunks": 12
+}

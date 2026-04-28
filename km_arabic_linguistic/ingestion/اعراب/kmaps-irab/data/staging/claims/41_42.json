@@ -1,0 +1,13 @@
+{
+  "layer": "irab",
+  "ayah_key": "41:42",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "No applicable grammatical claims could be extracted because none of the provided source_chunks contain the ayah text or any grammatical commentary about S41:42. The extractor requires that source_quote_ar be an exact substring of a provided chunk; no such substring was found.",
+      "Provided chunk IDs: AL:CHUNK:f757e42c78466d06c03474ae, AL:CHUNK:c7a6e21e46ae16209fd8d897, AL:CHUNK:08d2d6c1e5fdf3309d697101, AL:CHUNK:9f0eab4989264ae43acb2798, AL:CHUNK:06c1fc8a8062a8f762c2ffcf, AL:CHUNK:e9db433a560eef7e20e78a65 — none contain the ayah text or relevant syntactic remarks.",
+      "To extract claims, please provide source chunks that include (exactly) either: the ayah in Arabic as quoted in the commentary, or explicit grammatical commentary (in Arabic) about this ayah. The value of source_quote_ar in each claim must match a substring of one of those chunks."
+    ]
+  },
+  "n_chunks": 12
+}

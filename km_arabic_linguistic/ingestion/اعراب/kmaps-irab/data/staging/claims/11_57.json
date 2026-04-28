@@ -1,0 +1,37 @@
+{
+  "layer": "irab",
+  "ayah_key": "11:57",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ: فِي مَوْضِعِ نَصْبٍ بَدَلًا مِنْ «مَا» ؛ أَيْ: بِئْسَ شَيْئًا سَخِطَ اللَّهُ عَلَيْهِمْ. وَقِيلَ: هُوَ فِي مَوْضِعِ جَرٍّ بِلَامٍ مَحْذُوفَةٍ؛ أَيْ: لِأَنْ سَخِطَ.",
+        "claim_ar": "اختلاف في إعراب «شَيْئًا»: قِيلَ إنه منصوب بَدَلٌ من «مَا»، وقِيلَ إنه في موضع جرٍ بلامٍ محذوفة (أي: لِأَنَّ سَخِطَ).",
+        "claim_en": "There is a grammatical disagreement about the word 'شَيْئًا': one view renders it accusative as a bad-thing 'بدل' (in place of 'ما'), while another view takes it as genitive governed by an omitted lām (i.e., with the sense 'لِأَنْ سَخِطَ').",
+        "root": "شيا",
+        "lemma": "شَىْء",
+        "confidence": "medium",
+        "needs_review_reason": "This is an explicit alternate analysis reported by the commentary; context of the verse should be reviewed to choose between the options.",
+        "quran_ref": "S11:A57"
+      },
+      {
+        "word_index": 8,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَ «إِلَى» يَتَعَلَّقُ بِفِعْلٍ مَحْذُوفٍ",
+        "claim_ar": "احتمال أن تتعلَّق «إِلَى» بفعل محذوف (أن «إِلَيْكُمْ» متعلقة بفعل محذوف في السياق).",
+        "claim_en": "The preposition 'إِلَى' may be attached to an omitted verb (i.e., 'إِلَيْكُمْ' could relate to an unexpressed verb in the context).",
+        "root": null,
+        "lemma": "إِلَىٰ",
+        "confidence": "low",
+        "needs_review_reason": "The quoted remark appears in commentary on a different passage; applying this general observation to this verse requires verification of contextual fit.",
+        "quran_ref": "S11:A57"
+      }
+    ],
+    "warnings": [
+      "Only a limited number of grammatical claims could be extracted from the provided chunks. Many syntactic aspects of the verse (e.g., role of إِنَّ, موقع رَبِّي as مبتدأ/خبر) are not discussed in the supplied excerpts.",
+      "The taʿalluq claim for إِلَيْكُمْ is extrapolated from a general remark in the commentary about «إِلَى» in another context; its application to this verse should be reviewed in full commentary context."
+    ]
+  },
+  "n_chunks": 12
+}

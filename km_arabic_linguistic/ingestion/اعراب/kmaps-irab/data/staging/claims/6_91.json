@@ -1,0 +1,22 @@
+{
+  "layer": "irab",
+  "ayah_key": "6:91",
+  "result": {
+    "claims": [
+      {
+        "word_index": 16,
+        "claim_type": "irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (أَعْلَمُ مَنْ جَاءَ) : «مَنْ» فِي مَوْضِعِ نَصْبٍ عَلَى مَا ذُكِرَ فِي قَوْلِهِ تَعَالَى: (أَعْلَمُ مَنْ يَضِلُّ عَنْ سَبِيلِهِ) [الْأَنْعَامِ: ١١٧] فِي الْأَنْعَامِ.",
+        "claim_ar": "«مَنْ» في موضع نصب؛ أي تُنصب على ما بعدها من الفعل (كما في: «أَعْلَمُ مَنْ جَاءَ»).",
+        "claim_en": "The word 'مَنْ' is in an accusative (mansub) position — it is used in a position of nasb referring to what follows (a verb), as in 'أَعْلَمُ مَنْ جَاءَ'. Thus in 'قُل مَنْ أَنْزَلَ ...' the 'مَنْ' is منصوب.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A91"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

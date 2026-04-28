@@ -1,0 +1,50 @@
+{
+  "layer": "balagha",
+  "word_key": "1:3:1",
+  "result": {
+    "claims": [
+      {
+        "claim_type": "مقابلة",
+        "source_quote_ar": "(الرَّحْمنِ) : صيغة فعلان في اللغة تدل على وصف فعليّ فيه معنى المبالغة للصفات الطارئة كعطشان وغرثان. (الرَّحِيمِ) صيغة فعيل تدل على وصف فعليّ فيه معنى المبالغة للصفات الدائمة الثابتة",
+        "claim_ar": "المقابلة البَيانية بين «الرحمن» (صيغة فعلان: مبالغة للصفات الطارئة) و«الرحيم» (صيغة فعيل: مبالغة للدائم الثابت) لتوزيع دلالي: إظهار شمول الرحمة في جوانبها المتبدّلة والمستمرة عبر ثنائية متكافئة.",
+        "claim_en": "A rhetorical muqabalah (balanced pairing) between \"ar-Raḥmān\" (the form fāʻlān, an intensive form for transient/accented attributes) and \"ar-Raḥīm\" (the form faʻīl, an intensive form for enduring/permanent attributes). The pairing creates a semantic distribution that highlights mercy as both encompassing in its manifestations and enduring in its permanence.",
+        "device_branch": "badi",
+        "device_subtype": "muqabalah",
+        "root": "رحم",
+        "lemma": "رَّحْمَٰن/رَّحِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "claim_type": "مبالغة صيغية (دلاليّة)",
+        "source_quote_ar": "(الرَّحْمنِ) : صيغة فعلان في اللغة تدل على وصف فعليّ فيه معنى المبالغة للصفات الطارئة",
+        "claim_ar": "اختيار صيغة «فعلان» في «الرحمن» يعمل كآلية بلاغية دلالية للمبالغة/التكثيف: يؤكد كثرة رحمة الله أو بروزها في صور معينة (طارئة أو متبدّلة).",
+        "claim_en": "The use of the morphological pattern fāʻlān in \"ar-Raḥmān\" functions as a semantic-rhetorical device of intensification: it emphasizes abundance/intensity of God's mercy, especially in its manifest or occurring aspects.",
+        "device_branch": "maani",
+        "device_subtype": "itnaab",
+        "root": "رحم",
+        "lemma": "رَّحْمَٰن",
+        "confidence": "medium",
+        "needs_review_reason": "Assignment of the traditional maani-subtype 'itnaab' to a morphological description is interpretive; consider checking alternate maani subtypes (e.g., ijaaz, tarif_tankir) used in your taxonomy."
+      },
+      {
+        "claim_type": "افتتاح بالمدح (أسلوب حكيم)",
+        "source_quote_ar": "الحمد والمدح أخوان، وهو الثناء والنداء على الجميل من نعمة وغيرها. ... والحمد نقيضه الذمّ، والشكر نقيضه الكفران",
+        "claim_ar": "افتتاح السورة بعبارة «الْحَمْدُ لِلَّهِ» وظيفة بلاغية حكيمة: تقديم الشكر والمدح كتأسيس لسياق الصفات الإلهية التالية («الرحمن الرحيم»)؛ فالحمد يهيئ السامع لتلقي بيان شمول الرحمة ووصفها.",
+        "claim_en": "Opening the chapter with \"al-ḥamdu lillāh\" (praise to God) is a rhetorical/aslūbīly wise move: it foregrounds praise and thanksgiving as the framing posture for the subsequent description of divine attributes (\"ar-Raḥmān ar-Raḥīm\"), preparing the hearer to receive the encompassing portrayal of mercy.",
+        "device_branch": "asloob_hakim",
+        "device_subtype": "opening_praise",
+        "root": "حمد",
+        "lemma": "حَمْد",
+        "confidence": "medium",
+        "needs_review_reason": "The claim synthesizes grammatical/semantic commentary into a rhetorical-purpose reading; source supports the general idea but the precise labeling ('opening_praise') is a pragmatic choice."
+      }
+    ],
+    "warnings": [
+      "The provided source material is primarily grammatical/lexical (iʿrāb, morphology). Mapping those grammatical observations to discrete rhetorical-device subtypes (from the supplied taxonomy) requires interpretive steps; some subtype assignments are therefore tentative and flagged above.",
+      "Spine metadata lists Surah 1 Ayah 3 for the token 'الرَّحْمَنِ' (this word appears in the Basmala / opening formula under varying verse-numbering conventions). Verify verse-numbering convention in your pipeline if strict quran_ref linking is required.",
+      "Some maʿānī-subtype choices (e.g., 'itnaab') were selected to best-fit the morphological/delative claim; please review these against your project's canonical mapping of maʿānī subtypes to morphological/semantic phenomena."
+    ]
+  },
+  "n_chunks": 12
+}

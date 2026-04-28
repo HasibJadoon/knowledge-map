@@ -1,0 +1,53 @@
+{
+  "layer": "balagha",
+  "ayah_key": "6:94",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "tashbih",
+        "source_quote_ar": "الأكنة على القلوب، والوقر في الآذان: مثل في نبوّ قلوبهم ومسامعهم عن قبوله",
+        "claim_ar": "التشبيه (تقديم «مثل») في وصف حالة النفوس: «الأكنة على القلوب، والوقر في الآذان» يُعرض كتشبيه لحجب القلوب والسمع عن قبول القرآن.",
+        "claim_en": "A simile (tashbih) is employed: \"al-akna on the hearts and al-waqr in the ears\" is presented as a simile describing the hearts' and ears' resistance to acceptance of the Qur'an.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "مثل",
+        "lemma": "مثل",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary (Zamakhshari) is about a reception-image in a tafsir passage; relation to S6:94 is not explicit in provided chunks and thus attribution to this specific ayah needs review."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "tashbih",
+        "source_quote_ar": "كأنهم مجبولون عليه",
+        "claim_ar": "التشبيه بـ «كأنهم مجبولون عليه» لتقريب المعنى: جعل حالة النفوس ثابتة وكأنها طبيعة مغروسة فيهم.",
+        "claim_en": "A simile using \"ka'annahum majbūlūn 'alayh\" (as if they were inherently predisposed) to stress the fixed, ingrained nature of that disposition.",
+        "device_branch": "bayan",
+        "device_subtype": "tashbih",
+        "root": "جبل",
+        "lemma": "مَجْبُول",
+        "confidence": "medium",
+        "needs_review_reason": "Commentary excerpt addresses the ascription of a permanent quality; confirming its direct application to S6:94 (the provided ayah) requires checking original context."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "فانظر كيف تكافحهم هذه الآية بالرد وتنادى عليهم بالخطإ",
+        "claim_ar": "أسلوب بلاغي استدلالي: المفسر يبرز أن الآية تعمل كحجة تدحض فريقا من المخالفين وتُظهر خطأهم — توظيف الجدال البلاغي كأثر خطابي.",
+        "claim_en": "A rhetorical-argumentative stylistic device: the commentator highlights that the verse functions to refute opponents and expose their error — using the verse as a dialectical/rebuttal device.",
+        "device_branch": "other",
+        "device_subtype": "asloob_hakim",
+        "root": "كافح",
+        "lemma": "تكافح",
+        "confidence": "medium",
+        "needs_review_reason": "This is a tafsir remark about argumentative force; mapping it to a strict classical balagha category is interpretive and should be reviewed for alignment with target taxonomy and the ayah's context."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are from Safi/Zamakhshari excerpts; the developer instruction requested specific authors (al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, tafsir balagha). Those authors' texts are not present in the chunks, so claims are extracted from available commentary only.",
+      "The commentary excerpts used appear to discuss reception and rhetorical effects in a different tafsir context; direct linkage to the supplied ayah reference (S6:94) is not explicit in the chunks and should be verified.",
+      "Source_quote_ar values are exact substrings from the provided chunks; however, confirm original-chapter context when integrating these claims into a K-Map tied specifically to S6:94."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:182",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "(رَبُّ السَّمَاوَاتِ) : بَدَلٌ مِنْ وَاحِدٍ، أَوْ خَبَرُ مُبْتَدَأٍ مَحْذُوفٍ، أَيْ هُوَ رَبُّ.",
+        "claim_ar": "رَبِّ: إمّا بدلٌ من واحدٍ، أو خبرُ مبتدأٍ محذوفٍ (أي: هو ربّ).",
+        "claim_en": "The noun 'rabb' is either a badal (substitute) from a single preceding term, or the predicate (khabar) of an omitted subject — i.e., 'it is Lord'.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses '(رَبُّ السَّمَاوَاتِ)' rather than '(رَبِّ الْعَالَمِينَ)'; applying this analysis to this specific verse requires verification (also the source does not specify which preceding word 'بدل' would replace, e.g., اللَّهِ or الحَمْدُ)."
+      }
+    ],
+    "warnings": [
+      "Source chunks do not quote the exact wording of S37:182; the extracted claim is based on an analogous discussion of '(رَبُّ السَّمَاوَاتِ)'. Verify that the same analysis is intended for '(رَبِّ الْعَالَمِينَ)'.",
+      "The source presents two alternative analyses (بدل or خبر مبتدأ محذوف) but does not settle on a single one; there may be additional grammatical opinions not included in the provided chunks."
+    ]
+  },
+  "n_chunks": 5
+}

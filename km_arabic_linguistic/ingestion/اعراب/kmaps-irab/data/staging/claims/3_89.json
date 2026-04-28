@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:89",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "qiraat_irab",
+        "source_quote_ar": "يُقْرَأُ بِفَتْحِ الْهَمْزَةِ؛ تَقْدِيرُهُ: ذَلِكَ بِأَنَّ اللَّهَ لَمْ يَكُ مُغَيِّرًا، وَبِأَنَّ اللَّهَ سَمِيعٌ، وَيُقْرَأُ بِكَسْرِهَا عَلَى الِاسْتِئْنَافِ.",
+        "claim_ar": "همزة (إن) تُقرأ بفتح الهمزة، وعلى الاستئناف تُقرأ بكسر الهمزة.",
+        "claim_en": "The hamza of 'إن' is read with a fatha; on resumption (al-isti'naaf) it is read with a kasra.",
+        "root": null,
+        "lemma": "إِنَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

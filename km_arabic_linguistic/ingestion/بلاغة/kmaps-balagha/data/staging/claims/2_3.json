@@ -1,0 +1,28 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:3",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "maani",
+        "source_quote_ar": "البلاغة: في هذه الآية ضرب من البلاغة دقيق المسلك وهو وضع الظاهر موضع المضمر زيادة في تقبيح أمرهم",
+        "claim_ar": "وضع الظاهر موضع المضمر لزيادة تقبيح أمر المخاطَب/الموصوف",
+        "claim_en": "Placement of an explicit (visible) expression where a hidden (elliptical) one would normally occur, employed to intensify the reproach or disapproval of the described people.",
+        "device_branch": "maani",
+        "device_subtype": "وضع_الظاهر_موضع_المضمر",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A3",
+        "rhetorical_effect": "Increases severity/condemnation by making the reference more explicit and therefore more emphatic."
+      }
+    ],
+    "warnings": [
+      "Only one explicit balagha remark relating to this ayah was found in the provided source chunks (Darwish I'rab). Other source chunks did not contain clear, extractable rhetorical claims tied to this ayah.",
+      "The identified device is cited at the ayah level (word_index 0) in the source. No single-word devices could be confidently extracted from the supplied chunks. Review additional tafsir/balagha sources if more granular (word-level) devices are required."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,55 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:14",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "iltifat",
+        "source_quote_ar": "قَالُوا",
+        "claim_ar": "التفاتٍ بلاغي من صيغة تقرير الغائب (قَالُوا) إلى توكيد المتكلم (إِنَّا) في الجملة اللاحقة، أي انتقال في الأشخاص والأسلوب لزيادة الحضور والخبرة في النفي/الإنكار.",
+        "claim_en": "A rhetorical shift (iltifat) from the reporting form (قَالُوا) to the speaker's emphatic self-reference (إِنَّا) in the following clause — a change of person/style that increases immediacy and asserts the speakers' stance in denying responsibility.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S12:A14",
+        "rhetorical_effect": "creates immediacy and a stronger denial by switching from a report of speech to an emphatic first‑person assertion"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "use_of_إِنَّ_for_emphasis",
+        "source_quote_ar": "إِنَّا قدمنا",
+        "claim_ar": "استعمال إنّ + ضمير (إِنَّا) لتوكيد المعنى والإصرار على بيان الحالة والنتيجة (إنا إذًا لخاسرون)، أي إنّ إنّ هنا تعمل وظيفة التأكيد والبيان القاطع.",
+        "claim_en": "Use of the particle إِنَّ with the pronoun (إِنَّا) to emphasize and assert the proposition and its consequence (\"indeed we would be losers\"). إِنَّ here functions as a forceful emphatic/augmentative particle.",
+        "device_branch": "maani",
+        "device_subtype": "ijab_inshaa",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "mapping the traditional grammatical role of إنّ to the K‑Map subtype 'ijab_inshaa' (emphatic/illative function) should be cross‑checked with other rhetorical sources.",
+        "quran_ref": "S12:A14",
+        "rhetorical_effect": "gives strong certitude to the consequence clause, intensifying the admission of loss if the asserted event occurred"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "kinayah (excuse/indirect attribution)",
+        "source_quote_ar": "(أكل) فعل ماض و (الهاء) ضمير مفعول به (الذئب) فاعل مرفوع",
+        "claim_ar": "تظهير سبب خارجي (الذئب) كوكيل على الفعل ليكون عذراً يبرئهم من التهمة؛ صيغة تُوظَّف بلاغياً ككنية عن المسؤولية المباشرة.",
+        "claim_en": "Presenting an external agent (the wolf) as the doer of the act functions as an indirect attribution/excuse (kinayah), rhetorically shifting blame away from the speakers themselves.",
+        "device_branch": "bayan",
+        "device_subtype": "kinayah",
+        "root": "ذاب",
+        "lemma": "ذِّئْب",
+        "confidence": "medium",
+        "needs_review_reason": "interpretation as kinayah (an excuse) is plausible in exegetical tradition but could be debated; consult additional tafsir notes for corroboration.",
+        "quran_ref": "S12:A14",
+        "rhetorical_effect": "deflects blame and solicits sympathy or acquittal by attributing the act to a wild animal rather than to human agency"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

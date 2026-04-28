@@ -1,0 +1,23 @@
+{
+  "layer": "irab",
+  "ayah_key": "4:114",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "rule_reference",
+        "source_quote_ar": "«إِلَّا مَا مَلَكَتْ يَمِينُكَ» يَجُوزُ أَنْ يَكُونَ فِي مَوْضِعِ نصب على الِاسْتِثْنَاء من النِّسَاء وَفِي مَوضِع رفع على الْبَدَل وَيجوز أَن يكون فِي مَوضِع نَصْبٍ بَدَلًا مِنْ أَزْوَاجٍ؛ وَيَجُوزُ أَنْ يَكُونَ الِاسْتِثْنَاءُ مُنْقَطِعًا.",
+        "claim_ar": "حرف الاستثناء «إِلَّا» يجوز أن يكون في موضع نصبٍ على الاستثناء، أو في موضع رفعٍ على البدل، ويجوز أن يكون منصوبًا بدلًا من أزواج، كما يجوز أن يكون الاستثناء منقطعًا.",
+        "claim_en": "The particle 'إِلَّا' (exception) may occur as an accusative-marked exception, or in a nominative position functioning as a substitute (badal), or be accusative as a substitution from 'azwaj'; the exception may also be discontinuous.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted passage gives a general rule about uses of 'إِلَّا' (illustrated with «إِلَّا مَا مَلَكَتْ يَمِينُكَ»). It does not comment specifically on S4:114, so applying it to this ayah is analogical and should be reviewed."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain no explicit syntactic commentary on S4:114; only a general rule about the particle 'إِلَّا' was found and extracted. Claims linking that rule to this ayah are inferential."
+    ]
+  },
+  "n_chunks": 12
+}

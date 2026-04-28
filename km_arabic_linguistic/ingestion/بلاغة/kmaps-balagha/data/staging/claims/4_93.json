@@ -1,0 +1,44 @@
+{
+  "layer": "balagha",
+  "ayah_key": "4:93",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "hasr_qasr",
+        "source_quote_ar": "أَنْ يَقْتُلَ مُؤْمِناً ابتداء غير قصاص إِلَّا خَطَأً",
+        "claim_ar": "الشرح يشير إلى وجود قيد استثنائي صريح («إِلَّا خَطَأً») يُقيّد الحكم العام بتحريم قتل المؤمن، أي أن النهي عن القتل عام ويُستثنى منه فقط حال الخطأ.",
+        "claim_en": "The commentary highlights an explicit restrictive exception ('except by mistake' / 'إِلَّا خَطَأً') that confines the general prohibition on killing a believer — the prohibition is absolute except for the case of error.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": "خ ط أ",
+        "lemma": "خَطَأ",
+        "confidence": "high",
+        "needs_review_reason": "The source text explicitly contains the phrase 'إِلَّا خَطَأً'; mapping this grammatical/semantic exclusion to the rhetorical category 'hasr_qasr' is straightforward but should be checked against the project's taxonomy definitions.",
+        "quran_ref": "S4:A93",
+        "rhetorical_effect": "يقوّي الحظر والتشديد على منع القتل بإظهار استثنائية ضيّقة جدا (الخطأ فقط)، مما يزيد من شدة النهي."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "tarif_tankir",
+        "source_quote_ar": "يتعين أن «من» نكرة موصوفة",
+        "claim_ar": "التعليق يقرأ أداة الشرط «مَن» هنا على أنها نكرة موصوفة، أي أنها تعمم الحكم على كل من يقع عليه الوصف؛ استعمال «مَن» بهذا المعنى يعمّم النهي على كلِّ من يقتل مؤمناً.",
+        "claim_en": "The commentary treats the conditional particle 'man' as an indefinite described noun (nākirah mawṣūfah), meaning it generalizes the ruling to every subject meeting the description; thus 'man' here universalizes the prohibition.",
+        "device_branch": "maani",
+        "device_subtype": "tarif_tankir",
+        "root": "م ن",
+        "lemma": "مَن",
+        "confidence": "medium",
+        "needs_review_reason": "Applying the general remark about the particle 'مَن' in the source to this specific verse is interpretive; confirm that the author intended this universalizing rhetorical force for this aya.",
+        "quran_ref": "S4:A93",
+        "rhetorical_effect": "يمنح الحكم عمومية واتساعاً، فيؤكد شمول النهي لكل من يقع تحت الوصف."
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks are all from al-Kashshaf (Zamakhshari). The developer requested al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti and tafsir balagha—those expected sources are not present. Findings are therefore limited to the supplied material.",
+      "Source coverage is limited: only a portion of commentary relevant to S4:A93 appears among the chunks (not all phrases of the aya appear in the chunks). Claims are thus drawn from available excerpts and involve some interpretive mapping to the requested rhetorical taxonomy.",
+      "Some mappings (e.g., labeling the particle 'مَن' as 'tarif_tankir' for rhetorical effect) are interpretive applications of the commentary and should be reviewed against the project's exact definitions for device subtypes."
+    ]
+  },
+  "n_chunks": 12
+}

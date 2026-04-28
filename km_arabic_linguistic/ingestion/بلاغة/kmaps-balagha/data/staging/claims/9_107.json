@@ -1,0 +1,39 @@
+{
+  "layer": "balagha",
+  "ayah_key": "9:107",
+  "result": {
+    "claims": [
+      {
+        "word_index": 19,
+        "claim_type": "معاني",
+        "source_quote_ar": "وإلا أداة حصر",
+        "claim_ar": "حرف الاستثناء «إِلَّا» هنا يعمل كأداة حصر يقيد قولهم «إِنْ أَرَدْنَا» بما يليه «الْحُسْنَى»، فيأتي نفي التعدّي على معنى الادّعاء العامّ.",
+        "claim_en": "The particle 'إِلَّا' functions here as a restricting particle (qasr), limiting the claim 'we intended' to what follows ('the good'), thus narrowing and qualifying their asserted intention.",
+        "device_branch": "maani",
+        "device_subtype": "hasr_qasr",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "بيان",
+        "source_quote_ar": "حصرهم أن يحال بينهم وبين المسجد الحرام كُلَّ مَرْصَدٍ",
+        "claim_ar": "كلمة «إِرْصَادًا» مأخوذة من «مرصد» بمعنى مكان التربص والانتظار؛ استعمالها هنا يحمل دلالة التربُّص والكمين (استخلاص معنوي بوساطة اسم المكان)، أي استخدام مجازي/مُحَال يُظهر قصدَ التربُّص والضرر.",
+        "claim_en": "'Irsaad' derives from 'marsad' (a place of ambush); its use here evokes ambush/surveillance — a figurative/metonymic use that conveys intended treachery or plotting.",
+        "device_branch": "bayan",
+        "device_subtype": "istiarah",
+        "root": "رصد",
+        "lemma": "إِرْصَاد",
+        "confidence": "medium",
+        "needs_review_reason": "Classifying this use as 'istiarah' (metaphor) vs. 'kinayah' (metonymy) depends on finer semantic judgement in classical rhetoric; reviewer may adjust subtype."
+      }
+    ],
+    "warnings": [
+      "Claims are limited to devices for which supporting quotations appear in the provided source chunks. Other rhetorical features in the ayah (e.g., irony between the oath and Divine witness, repetition/accumulation of masdars) may be present but lacked direct corroborating substrings in the supplied chunks.",
+      "The second claim’s subtype (istiarah vs. kinayah) is assigned with medium confidence; classical sources sometimes label such lexical transfers differently—please review against original juristic/tafsir definitions if a stricter taxonomy is required."
+    ]
+  },
+  "n_chunks": 12
+}

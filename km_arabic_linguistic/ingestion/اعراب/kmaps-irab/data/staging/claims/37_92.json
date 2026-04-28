@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "37:92",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "((مَا) ) مَصْدَرِيَّةٌ",
+        "claim_ar": "حرف «ما» مبتدأ/اسم مصدرية (تُعامل كمصدر هنا)",
+        "claim_en": "\"مَا\" is treated as masdariyya (a substantive derived from a verbal noun / treated as a masdar).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source states this analysis of «ما» in the context of a different passage (discussion after «كلما»). Applicability to S37:92 should be confirmed in context of this specific verse."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taqdir",
+        "source_quote_ar": "وَالزَّمَانُ مَحْذُوفٌ",
+        "claim_ar": "يقْتَضِي تحليلُ «ما» أنها مصدرية مع تقديرِ اسمٍ زمنيٍ محذوف (الزمن محذوف)، أي: «كل وقت إضاءة»",
+        "claim_en": "The analysis implies an elided time noun: the temporal noun (time) is omitted (i.e., 'every time of lighting' is supplied by ellipsis).",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The explicit statement in the source concerns a different verse's usage of «ما». Confirm whether the same ellipsis (temporal noun omitted) is intended for S37:92."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقِيلَ ((مَا) ) هُنَا نَكِرَةٌ مَوْصُوفَةٌ",
+        "claim_ar": "رأي آخر: «ما» هنا ليست مصدرية بل نكرة موصوفة (بمعنى الزمان) مع حذف العائد.",
+        "claim_en": "Alternative opinion: \"mā\" here is an indefinite described noun (nākirah mawṣūfah) meaning 'time', with the referent (the repeated clause/relative) omitted.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source presents this as an alternative reading for a different context. Verify whether this alternative is proposed for the wording of S37:92."
+      }
+    ],
+    "warnings": [
+      "The provided source excerpts do not quote or analyze S37:92 (مَا لَكُمْ لَا تَنْطِقُونَ) directly. Extracted claims are based on a general discussion of the particle «ما» in the source (occurring in a different verse/context). Apply these claims to S37:92 only after confirming contextual fit.",
+      "No source material in the chunks discusses the particles «لَكُمْ», «لَا», or the verb «تَنْطِقُونَ» for this ayah, so no claims were extracted for words 2–4."
+    ]
+  },
+  "n_chunks": 5
+}

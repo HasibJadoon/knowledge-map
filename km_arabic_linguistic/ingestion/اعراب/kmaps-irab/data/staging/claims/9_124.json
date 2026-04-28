@@ -1,0 +1,35 @@
+{
+  "layer": "irab",
+  "ayah_key": "9:124",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "وَقَالَ بَعْضُهُمْ: «مِنْ» لِلْبَدَلِ",
+        "claim_ar": "قَالَ بَعْضُ النُّحَاةِ: «مِنْ» لِلْبَدَلِ، وبذلك تُعْتَبَرُ «مِنْهُمْ» في مواضعٍ كمَعْنًى بَدَلٍ.",
+        "claim_en": "Some grammarians say that 'min' is used as a preposition introducing badal (substitute); thus in contexts like 'مِنْهُمْ' it may function as a badal.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "The cited remark in al-Tibyan is given as a general grammatical opinion (illustrated on a different verse); applying it to this specific occurrence (فَمِنْهُمْ مَنْ) requires checking the immediate syntactic environment of this ayah and whether the author intended this analysis here."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "irab",
+        "source_quote_ar": "مُبْتَدَأٌ، وَالْخَبَرُ مَحْذُوفٌ",
+        "claim_ar": "القَطْعَةُ «الَّذِينَ ...» تَصِيرُ مُبْتَدَأً، وَهُنا يُمْكِنُ عَرْضُهَا كَمُبْتَدَأٍ (خَبَرٌ مُحْذُوفٌ يُفْهَمُ مِنْ بَاقِي الْبَيَانِ).",
+        "claim_en": "The clause beginning with 'الَّذِينَ' functions as a subject (mubtada'), with its predicate understood/omitted (khabar mahduf) — the predicate is inferred from the surrounding statement.",
+        "root": null,
+        "lemma": "الَّذِي",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting citation in al-Tibyan states this analysis in a different example; verifying its direct applicability to 'فَأَمَّا الَّذِينَ آمَنُوا' in this ayah requires confirming the intended discourse role and whether the commentator treated the clause here as mubtada' with an implied predicate."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks are general examples from al-Tibyan discussing similar grammatical points but not all are explicit commentaries on S9:124. Claims below are extrapolations from those examples to the current ayah and should be checked against the specific commentary on this verse.",
+      "Only substrings actually present in the given chunks were used as source_quote_ar. Where the citation addresses a different verse, applicability to this ayah is marked for review."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,43 @@
+{
+  "layer": "balagha",
+  "ayah_key": "2:251",
+  "result": {
+    "claims": [
+      {
+        "word_index": 0,
+        "claim_type": "مقابلة (ترغيب مع ترهيب)",
+        "source_quote_ar": "من عادته عز وجل في كتابه أن يذكر الترغيب مع الترهيب،",
+        "claim_ar": "المؤلف يبرز موازنة بلاغية بين الترغيب (البشارة) والترهيب (الإنذار) داخل سياق الأَيَة؛ فذكر ثواب عباد الله الصالحين يقابل ذكر أعمال الكفار وعقابهم.",
+        "claim_en": "The commentator notes a rhetorical balancing between exhortation (good tidings) and warning (threat); the verse pairs news of reward for the righteous with warning about the disbelievers.",
+        "device_branch": "badi",
+        "device_subtype": "mukābalah (مقابلة)",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A251",
+        "rhetorical_effect": "Creates contrast to motivate the believers (hope) while warning the disbelievers (fear), intensifying moral persuasion."
+      },
+      {
+        "word_index": 0,
+        "claim_type": "التفات (إلتفات من الغيبة إلى الخطاب)",
+        "source_quote_ar": "وفيه التفات من الغيبة إلى الخطاب.",
+        "claim_ar": "المصدر يصف ظاهرة بلاغية وهي الالتفات من الحديث عن الغائب إلى مخاطبة السامع/المخاطَب، مما يجذب الانتباه ويقوّي أثر المقطع الختامي للأَيَة.",
+        "claim_en": "The source describes the rhetorical device of iltifat — a shift from speaking about the absent/third person to addressing the addressee — which draws attention and strengthens the impact of the verse's concluding clause.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (التفات)",
+        "root": "لفت",
+        "lemma": "التفات",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted discussion is a general note about iltifat in the commentary (on a different example); its direct application to S2:251 is inferred rather than explicitly stated in the provided chunks.",
+        "quran_ref": "S2:A251",
+        "rhetorical_effect": "Shifts the listener's focus and engages them directly, increasing immediacy and persuasive force."
+      }
+    ],
+    "warnings": [
+      "Provided source chunks are mainly from Zamakhshari (al-Kashshaf) and a grammatical excerpt (Safi); no chunks from al-Jurjani, al-Sakkaki, al-Baqillani, al-Suyuti, or an explicit 'tafsir balagha' section were supplied. Claims therefore reflect only the provided material.",
+      "Some quoted commentary discusses rhetorical devices in general or with examples from other verses; linking those general remarks to S2:251 is interpretive and noted in the 'needs_review_reason' where appropriate."
+    ]
+  },
+  "n_chunks": 12
+}

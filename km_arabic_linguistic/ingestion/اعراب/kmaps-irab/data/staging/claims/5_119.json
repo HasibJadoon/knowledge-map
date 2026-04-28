@@ -1,0 +1,21 @@
+{
+  "layer": "irab",
+  "ayah_key": "5:119",
+  "result": {
+    "claims": [
+      {
+        "word_index": 20,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (رَضُوا) : يَجُوزُ أَنْ يَكُونَ مُسْتَأْنَفًا، وَأَنْ يَكُونَ حَالًا، وَقَدْ مَعَهُ مُرَادَةٌ.",
+        "claim_ar": "فعل «رَضُوا» يجوز أن يكون مستأنفًا، ويجوز أن يكون حالًا، وقد معَه مرادة.",
+        "claim_en": "The verb 'رَضُوا' may be a resumed clause (مستأنف), or it may function as a circumstantial clause (حال); it may also carry an accompanying sense (مرادة).",
+        "root": "رضو",
+        "lemma": "رَضِيَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

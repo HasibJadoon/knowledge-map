@@ -1,0 +1,25 @@
+{
+  "layer": "irab",
+  "ayah_key": "40:74",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "(تُضِلُّ بِهَا) : يَجُوزُ أَنْ يَكُونَ مُسْتَأْنَفًا، وَيَجُوزُ أَنْ يَكُونَ حَالًا مِنَ الْكَافِ فِي فِتْنَتِكَ، إِذْ لَيْسَ هُنَا مَا يَصْلُحُ أَنْ يَعْمَلَ فِي الْحَالِ.",
+        "claim_ar": "يجوز أن تُحلّل «تُضِلُّ بِهَا» بطريقتين إعرابيتين: إما أن تكون جملةً مستأنفةً (مستأنفًا) أو أن تُعرب حالاً من «الكافِ» في عبارة «فتنتك».",
+        "claim_en": "The phrase 'تudillu biha' can be analyzed in two alternative syntactic ways: either as a resumed (independent) clause or as a hal (circumstantial) modifying the referent indicated by the kāf in 'fitnatika'.",
+        "root": "ضلل",
+        "lemma": "أَضَلَّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source example uses the 3rd-person feminine prefix form 'تُضِلُّ بِهَا' in a different passage; the aya in the input has 'يُضِلُّ'. Verify applicability of the same syntactic alternatives to the exact pronoun/phrase in this aya."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks discuss similar verbs/phrases in other contexts/verses; only one explicit syntactic alternative relevant to this root/verb was found.",
+      "The source example uses the form 'تُضِلُّ بِهَا' while the target aya uses 'يُضِلُّ'; confirm that the analysis transfers unchanged to the aya's exact phrasing.",
+      "No explicit claims in the chunks were found about the syntactic status of other words in the aya (e.g., 'الْكَافِرِينَ' as مفعول به); thus only the above alternative analysis was extracted."
+    ]
+  },
+  "n_chunks": 5
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "irab",
+  "ayah_key": "5:54",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "semantic_effect",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (فَسَوْفَ تَعْلَمُونَ مَنْ يَأْتِيهِ) : هُوَ مِثْلُ الَّذِي فِي قِصَّةِ نُوحٍ عَلَيْهِ السَّلَامُ.",
+        "claim_ar": "عبارة «فَسَوْفَ ...» هنا تستعمل للإشارة إلى حدث مقبل وتقديم مثال/مقاربة (كمثل قصة نوح)، أي أنها تعمل كمقدمة دلالية للتبشير بقدوم أمر لاحق.",
+        "claim_en": "The phrase beginning with 'فَسَوْفَ' functions to indicate an imminent event and serves as a semantic introduction/analogy (like the story of Noah), i.e. it prepares the listener/reader for the forthcoming action.",
+        "root": null,
+        "lemma": "سَوْف",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted example phrase differs in wording from the exact wording of S5:54 (the chunk uses «تَعْلَمُونَ مَنْ يَأْتِيهِ»), so applicability to the exact ayah wording should be confirmed."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "taalluq",
+        "source_quote_ar": "قَوْلُهُ تَعَالَى: (عَلَى أَدْبَارِكُمْ) : حَالٌ مِنَ الْفَاعِلِ فِي تَرْتَدُّوا.",
+        "claim_ar": "التعبير «على أدباركم» مذكور هنا كمثال على ظرف/جرّية يعمل حالاً مِنَ الفاعل بالنسبة للفعل «تَرْتَدُّوا». وبمقتضى ذلك، التركيـب المماثل في السياق (ظرف متعلق بفاعل الارتداد) يُنسب كحال إلى فاعل «يَرْتَدُّ».",
+        "claim_en": "The phrase 'على أدباركم' is cited as an example of a prepositional phrase functioning as a hal (circumstantial adverbial) of the subject/agent of the verb 'تَرْتَدُّوا'. By analogy, a similar prepositional phrase in this ayah would be attached as a hal to the agent of 'يَرْتَدُّ'.",
+        "root": "ردد",
+        "lemma": "ارْتَدَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "taqdir",
+        "source_quote_ar": "قَوْلُهُ: «مِنَ الَّذِينَ أُوتُوا» وَهِيَ حَالٌ مُقَدَّرَةٌ",
+        "claim_ar": "تراكيب على وزن «مِنَ الَّذِينَ ...» قد تُؤوّل على أنها حال مقدَّرَة (أي حال محذوفة)، فمثلاً «مِنَ الَّذِينَ أُوتُوا» تُعتبر حالًا مقدرة في هذا الشرح.",
+        "claim_en": "Constructions of the form 'مِنَ الَّذِينَ ...' can be interpreted as an implied (estimated) hal (circumstantial clause). For example, 'مِنَ الَّذِينَ أُوتُوا' is treated here as an estimated hal.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited fragment concerns the specific formula «مِنَ الَّذِينَ أُوتُوا» rather than the exact phrase in this ayah («يَا أَيُّهَا الَّذِينَ آمَنُوا»), so applying this analysis to the relative pronoun in S5:54 requires confirmation."
+      }
+    ],
+    "warnings": [
+      "The provided source chunks discuss grammatical points across different verses and sometimes use slightly different wordings or examples than the exact wording of S5:54. The extracted claims are drawn from those chunks by analogy; their direct applicability to the precise words/forms in S5:54 should be reviewed.",
+      "Some chunks state alternative readings or possibilities for other verbs/forms not present in the target ayah; such material was not extracted unless a clear analogue to a word in the ayah existed."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,65 @@
+{
+  "layer": "irab",
+  "ayah_key": "31:9",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "irab",
+        "source_quote_ar": "(خَالِدِينَ فِيهَا) : حَالٌ مِنَ الْجَنَّاتِ",
+        "claim_ar": "خَالِدِينَ فِيهَا: حالٌ مِنَ الْجَنَّاتِ",
+        "claim_en": "The phrase «خَالِدِينَ فِيهَا» is a ḥāl (circumstantial accusative) describing constancy in the Gardens.",
+        "root": "خلد",
+        "lemma": "خَٰلِد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "taalluq",
+        "source_quote_ar": "وَالْعَامِلُ مَا يَتَعَلَّقُ بِهِ «لَهُمْ»",
+        "claim_ar": "العامل (متعلّق الحال) ما يتعلّق به «لهم»",
+        "claim_en": "The governor (the element to which the ḥāl relates) is the phrase «لهم» — the hal relates to 'for them'.",
+        "root": "خلد",
+        "lemma": "خَٰلِد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَإِنْ شِئْتَ كَانَ حَالًا مِنَ الضَّمِيرِ فِي «لَهُمْ» وَهُوَ أَقْوَى.",
+        "claim_ar": "وجهٌ آخر: يمكن اعتبارها حالًا من الضمير المستضمن في «لهم» (والكاتب يرى هذا أقوى).",
+        "claim_en": "Alternate analysis: the ḥāl may be taken as coming from the pronoun contained in «لهم» (the author regards this reading as stronger).",
+        "root": "خلد",
+        "lemma": "خَٰلِد",
+        "confidence": "medium",
+        "needs_review_reason": "The author presents this as an alternative and indicates a preference; further comparison of precedent and syntactic implications is recommended."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "taalluq",
+        "source_quote_ar": "(خَالِدِينَ فِيهَا) : حَالٌ مِنَ الْجَنَّاتِ",
+        "claim_ar": "فِيهَا ظرف مكان يدخل في معنى الحال «خَالِدِينَ فِيهَا» ومتعلّق بـ «لهم»/الجنّات.",
+        "claim_en": "فِيهَا is a locative adverbial forming part of the hal «خَالِدِينَ فِيهَا», attached to the governor «لهم» (or to 'the Gardens').",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "dirasat_note",
+        "source_quote_ar": "(وَعْدَ اللَّهِ حَقًّا) : قَدْ ذُكِرَ فِي الرُّومِ.",
+        "claim_ar": "عبارة «وعد الله حقّا» مذكورة أيضاً في موضع سابق في سورة الروم (ملاحظة استقرائية/دراسية).",
+        "claim_en": "Note: the phrase «وَعْدَ اللَّهِ حَقًّا» is noted as having been mentioned previously in Surah Ar-Rum (cross-reference/study note).",
+        "root": "وعد",
+        "lemma": "وَعْد",
+        "confidence": "medium",
+        "needs_review_reason": "This is a cross-reference / exegetical note rather than a syntactic parsing claim; include for study but not a formal iʿrāb rule."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 7
+}

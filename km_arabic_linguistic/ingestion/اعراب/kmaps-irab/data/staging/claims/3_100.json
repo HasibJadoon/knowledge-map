@@ -1,0 +1,24 @@
+{
+  "layer": "irab",
+  "ayah_key": "3:100",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "ikhtilaf_irab",
+        "source_quote_ar": "يَجُوزُ أَنْ يَكُونَ بَدَلًا مِنَ الَّذِينَ الْأُولَى، وَأَنْ يَكُونَ خَبَرَ مُبْتَدَأٍ مَحْذُوفٍ؛ أَيْ: هُمُ الَّذِينَ. وَيَجُوزُ أَنْ يَكُونَ نَصْبًا عَلَى إِضْمَارِ أَعْنِي، وَ: مِنْهُمْ حَالٌ مِنَ الْعَائِدِ الْمَحْذُوفِ.",
+        "claim_ar": "الظَّاهرُ أن «الَّذِينَ» يجوز أن تُعطَى عليه قراءات ونُحِيّات مختلفة: أن تكون بدلًا من الذين السابقة، أو أن تكون خبرَ مبتدأٍ محذوفٍ (أي: هُمُ الَّذِينَ)، أو أن تكون منصوبةً على إضمارٍ مُقدَّرٍ، ومنها أن تكون حالًا مِنَ العائد المحذوف.",
+        "claim_en": "The particle/relative 'الَّذِينَ' can receive multiple syntactic analyses: it may be a badal (substitute) of a preceding 'those', or the predicate (khabar) of an omitted subject (i.e. meaning 'they are the ones'), or it may be accusative governed by an implied (ellipted) pronoun; it can also function as a circumstantial clause (haal) of an omitted returning group.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The cited passage discusses possible analyses for the phrase «الَّذِينَ عَاهَدْتَ», not explicitly for Sura 3:100; the options are general and must be checked against the specific syntactic and semantic context of this ayah (e.g. presence of prepositions, governors, or omitted elements).",
+        "quran_ref": "S3:A100"
+      }
+    ],
+    "warnings": [
+      "The available source chunk discusses the phrase «الَّذِينَ عَاهَدْتَ» and lists multiple possible syntactic roles for «الَّذِينَ». This is a general note about the relative pronoun's possible analyses and is not an explicit, ayah-specific parsing of Sura 3:100. Verify which of the listed analyses applies in the context of S3:100 (e.g. whether any ellipses or governors are present) before using this claim as definitive."
+    ]
+  },
+  "n_chunks": 12
+}

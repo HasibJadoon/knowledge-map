@@ -1,0 +1,34 @@
+{
+  "layer": "irab",
+  "ayah_key": "31:8",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "taalluq",
+        "source_quote_ar": "حَالٌ مِنَ الْجَنَّاتِ، وَالْعَامِلُ مَا يَتَعَلَّقُ بِهِ «لَهُمْ»",
+        "claim_ar": "«خَالِدِينَ فِيهَا» حالٌ مِنَ الْجَنَّاتِ، والعامل أو الحاكم الذي يتعلّق به الحال هو «لَهُمْ».",
+        "claim_en": "'Khālidīn fīhā' is a ḥāl (circumstantial clause) from (i.e. pertaining to) 'al-jannāt', and the governor (what the ḥāl attaches to) is 'lahum'.",
+        "root": "جنن",
+        "lemma": "جَنَّة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wajh_irab",
+        "source_quote_ar": "وَإِنْ شِئْتَ كَانَ حَالًا مِنَ الضَّمِيرِ فِي «لَهُمْ» وَهُوَ أَقْوَى.",
+        "claim_ar": "وجه آخر: يجوز أن تكون «خَالِدِينَ فِيهَا» حالًا مِنَ الضَّمِيرِ المُضمَرِ فِي «لَهُمْ»، وهذا الوجه أَقْوَى عند المُؤلِّف.",
+        "claim_en": "Alternative analysis: 'Khālidīn fīhā' may be treated as a ḥāl originating from the (understood) pronoun contained in 'lahum'; the author considers this stronger.",
+        "root": null,
+        "lemma": "لَهُمْ",
+        "confidence": "medium",
+        "needs_review_reason": "Alternative analysis offered by the author; consult other grammarians/editions for consensus."
+      }
+    ],
+    "warnings": [
+      "Source chunks discuss the phrase «خَالِدِينَ فِيهَا» which is not included in the provided words list for this ayah. Claims attach that phrase to words present in the list (word_index 7 = جَنَّاتُ and word_index 6 = لَهُمْ)."
+    ]
+  },
+  "n_chunks": 7
+}

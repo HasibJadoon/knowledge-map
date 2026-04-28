@@ -1,0 +1,59 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:97",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "iltifat",
+        "source_quote_ar": "يا أبتاه",
+        "claim_ar": "الالتفات بالنداء: الانتقال إلى مخاطبة الأب مباشرة بـ«يا» لخلق قربٍ عاطفي ونداءٍ مأساوي.",
+        "claim_en": "Vocative shift (iltifat): direct address to the father using «يا», creating emotional immediacy and a plaintive tone.",
+        "device_branch": "maani",
+        "device_subtype": "iltifat (نداء/تحويل الخطاب)",
+        "root": "ابو",
+        "lemma": "أَبٌ",
+        "confidence": "high",
+        "needs_review_reason": "N/A",
+        "quran_ref": "S12:A97",
+        "rhetorical_effect": "يعزّز الحميمية والشفقة؛ يحول السرد إلى لحظة انفعال مباشر ويقوّي الصِدق والندم في الطلب."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "ijab_inshaa",
+        "source_quote_ar": "ادع الشمس والقمر والأحد عشر كوكبا تؤنسك",
+        "claim_ar": "أمر/طلب إنشائي: الفعل المستعمل للدعاء أو الطلب (أمر) يبرز طابع الالتماس والابتهال في الطلب بمتوسّط قصصي مماثل داخل السرد.",
+        "claim_en": "Imperative/request (ijab_inshaa): use of an imperative form to express entreaty; parallels in the narrative (e.g. other imperatives) underline the petitionary force of 'اسْتَغْفِرْ'.",
+        "device_branch": "maani",
+        "device_subtype": "imperative/request (أمر/التوسل)",
+        "root": "غفر",
+        "lemma": "اسْتَغْفَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunks do not contain the exact verb «اسْتَغْفِرْ» as a citation; the supporting quote shows an analogous imperative in the narrative ('ادع...') rather than the same lexical item—so the linkage is inferential and should be checked.",
+        "quran_ref": "S12:A97",
+        "rhetorical_effect": "يؤكّد حالة التوسّل والطلب، ويجعل الطلب عنصراً إنشائياً قوياً في الخطاب."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "asloob_hakim",
+        "source_quote_ar": "قالوا لئن أكله الذئب ونحن عصبة إنَّا إذًا لخاسرون",
+        "claim_ar": "أسلوب جماعي/بلاغي في الخطاب: استخدام فعل الجماعة «قالوا» مع صيغة اعتذار/تبرير جماعي يبرز النزعة الجماعية وتحميل المسؤولية وتقاسم العاطفة.",
+        "claim_en": "Rhetorical/deviced group-speech style (asloob_hakim): the collective 'they said' with a justificatory phrase shows collective stance and shared responsibility/plea, intensifying the emotional and social dimension of the apology.",
+        "device_branch": "other",
+        "device_subtype": "collective_speech / justificatory plea",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "Labelled under 'other' since classical commentators present this as narrative speech-act rather than a single canonical balagha type from the provided list; mapping to a specific rhetorical subtype may require specialist review.",
+        "quran_ref": "S12:A97",
+        "rhetorical_effect": "يمنح الاعتذار طابعاً جماعياً ويخفف من مسؤولية كل فرد، كما يعمّق إحساس الندم والانتقام المحتمل."
+      }
+    ],
+    "warnings": [
+      "بعض المطالب البلاغية استُنتِجت استقرائياً من شواهد في شروحات المفسِّرين، لكن الاقتباسات المباشرة من المراجع لا تحتوي على كل الألفاظ القرآنية (مثلاً «اسْتَغْفِرْ» غير موجودة حرفياً في الشواهد المرفقة)، لذلك ربط بعض الاستنتاجات بالآية يحتاج مراجعة نصّية.",
+      "التسميات المعتمدة (مثل 'iltifat' أو 'ijab_inshaa') هي مطابقة تقريبية بين فئات البلاغة المطلوبة وقواعد الشروح؛ قد يلزم تدقيق تخصصي في حال رغبت بمطابقة دقيقة لمصطلحات كل مؤلِّف.",
+      "لم تُستخرج أقوال أو أجهزة بلاغية لا تدعمها اقتباساتٍ مباشرة من شُعَب المصادر المرفقة؛ تمّ الاقتصار على شواهد موجودة ضمن القطع المرسلة."
+    ]
+  },
+  "n_chunks": 12
+}
