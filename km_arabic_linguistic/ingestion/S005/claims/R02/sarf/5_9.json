@@ -1,0 +1,25 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:9",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "إِلَّا الَّذِينَ آمنوا",
+        "claim_ar": "آمَنُوا — من الجذر أمن؛ مصدر الدلالة: الإيمان/التصديق. الفعل هنا دالّ على جماعة المؤمنين (واو الجماعة) ويشير إلى حالة الإيمان التي تميّز هؤلاء الأشخاص في كلام الزمخشري (نقطة وصفية عن سلوكهم: الشكر والصبر عند المصيبة).",
+        "claim_en": "آمَنُوا — root 'أمن' meaning 'to believe / have faith / affirm'. Morphologically a past verb with the 3rd-person plural suffix (they). In context (per the quoted commentary) it indicates characteristic/habitual believers (their typical response is gratitude or patience).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk contains the phrase and a semantic commentary about believers' behavior but does not explicitly discuss verbal morphology (wazn/form). The root meaning is standard but the habitual/characteristic nuance is inferred from the commentary rather than from explicit morphological analysis in the source."
+      }
+    ],
+    "warnings": [
+      "Only one source chunk (AL:CHUNK:1ac1fbd859af584aa9b19958) contained an exact substring matching words in this ayah ('إِلَّا الَّذِينَ آمنوا').",
+      "No explicit morphological (sarf) analysis for other words of the ayah (وَعَدَ, اللَّهُ, وَعَمِلُوا, الصَّالِحَاتِ, مَغْفِرَةٌ, أَجْرٌ, عَظِيمٌ, etc.) was found in the provided source chunks, so no claims were made for them.",
+      "Claims above include a semantic/habitual nuance inferred from the commentary; please review if a stricter morphological-only extraction is required."
+    ]
+  },
+  "n_chunks": 12
+}

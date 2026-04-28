@@ -1,0 +1,49 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:277",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "آمَنُوا",
+        "claim_ar": "الجذر: ا م ن — المعنى الاشتقاقي: الأمن/الطمأنينة. في السياق القرآني يُستخدم غالبًا للدلالة على الإيمان (المعتقد والثقة بالله).",
+        "claim_en": "Root: امن (a-m-n). Core lexical meaning: safety/security/certitude. In Quranic usage it commonly denotes belief/faith (acceptance/trust in God).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A277"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "آمَنُوا",
+        "claim_ar": "فعل ثلاثي مجرد، صيغة الماضي (آمَنَ) مع لاحقة واو الجماعة للدلالة على جمع الفاعلين — أداء صرفي من الوزن القياسي للأفعال الثلاثية (فعلٍ أَفْعَلَ/فعلٌ ثلاثيُ سالم).",
+        "claim_en": "Form: triliteral (Form I) past tense (آمَنَ) with the plural suffix -وا indicating third-person plural; standard triliteral past conjugation (no weak radical behavior here).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A277"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ",
+        "claim_ar": "اسم موصول بصيغة الجمع المذكر (مشتق من الَّذِي + نونِ جمع)، أي صيغة معيارية للاسم الموصول الجمعي.",
+        "claim_en": "Relative pronoun 'alladhī' in its plural masculine form 'alladhīna' (derived from alladhī + plural suffix -na). Morphological pattern: relative pronoun with plural marker.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "Describing 'wazn/pattern' for pronouns is somewhat schematic — confirm that pronoun-pattern claims are acceptable under the annotation schema.",
+        "quran_ref": "S2:A277"
+      }
+    ],
+    "warnings": [
+      "Only words that appeared verbatim in the provided source chunks were annotated with source_quote_ar. Several ayah words (e.g., الصَّالِحَاتِ، الصَّلَاةَ، الزَّكَاةَ، يَحْزَنُونَ, etc.) did not occur as exact substrings in the chunks and so were not assigned source_quote_ar—claims for those words were therefore omitted.",
+      "Some claims (especially the pronoun 'الَّذِينَ') use a loose notion of 'pattern/wazn' because pronouns do not follow Arabic verbal/trilateral morphological weights in the same way; see needs_review_reason for details."
+    ]
+  },
+  "n_chunks": 12
+}

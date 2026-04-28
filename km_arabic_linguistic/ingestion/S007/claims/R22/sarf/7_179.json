@@ -1,0 +1,24 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:179",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَلَقَدْ",
+        "claim_ar": "حرف تحقيق/توكيد «قَد» مسبوق بواو العطف (الزخرفة الصورية: و + قد)؛ دلالة توكيدية تُشَدِّد وقوع الخبر (يُترجم غالبًا بـ «ولقد» أو «and certainly/and indeed»).",
+        "claim_en": "The particle 'qad' (قَد) here functions as an intensifier/affirmative particle; it is prefixed by the conjunction 'wa-' giving 'wa-qad' (وَلَقَدْ). Translation nuance: often rendered 'and certainly' or 'and indeed', emphasizing the factuality of the following statement.",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A179"
+      }
+    ],
+    "warnings": [
+      "Only the substring \"وَلَقَدْ\" was found verbatim in the provided source chunks, so claims are limited to that word. Other words of the ayah do not appear as exact substrings in the given chunks; no anchored source_quote_ar could be provided for them."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,38 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:21",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "النَّاسِ للجنس",
+        "claim_ar": "النَّاسُ: اسم عام للجنس، يعني البشر/الناس بوجه عام (دلالة جمعية/جنسية).",
+        "claim_en": "‘an-nās’ is a generic noun denoting people/humanity in general (a collective/generic reading).",
+        "root": "نوس",
+        "lemma": "نَّاس",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A21"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "لَعَلَّهُمْ يَتَفَكَّرُونَ",
+        "claim_ar": "لَعَلَّ: أداة تدل على الترجي أو احتمال تحقيق المقصود/غاية مبيَّنة (تفيد التوقُّع أو الغاية أكثر مما قد تُحتمله ترجمة واحدة لفظية).",
+        "claim_en": "The particle لَعَلَّ expresses a shade of hope/expectation or purpose/aim; this nuance (hope/expectation or purposive reading) can be lost or underspecified in a one-word translation.",
+        "root": null,
+        "lemma": "لَعَلّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A21"
+      }
+    ],
+    "warnings": [
+      "Most words in the ayah have no explicit morphology/sarf commentary in the provided source chunks. Only substrings matching commentary were found for word_index 2 (النَّاسُ) and word_index 10 (لَعَلَّكُمْ).",
+      "No direct supporting substring was found in the provided chunks for words with indices: 1, 3, 4, 5, 6, 7, 8, 9, 11. If morphological claims for these words are required, provide source material that discusses their roots/patterns/verb-forms or allow using external authoritative references.",
+      "Claims were restricted to morphology/sarf (root meaning, pattern/nuance). Grammatical i'rab or rhetorical (balāgha) observations were not extracted per instructions."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,36 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:4",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "ماذا يحاول",
+        "claim_ar": "«ماذا» أداة استفهام (مركبة: ما + ذا) تستعمل للسؤال عن الشيء؛ في بعض سياقاتها التفسيرية تتّخذ نبرة تحضيض أو استفهام تقريري تختلف عن ترجمة إنجليزية واحدة عامة.",
+        "claim_en": "\"mādhā\" is an interrogative particle (historically analysable as ما + ذا). It asks 'what' but can carry pragmatic/nuance (e.g. rebuke, emphasis) that is often lost in simple translations.",
+        "root": null,
+        "lemma": "مَاذَا",
+        "confidence": "medium",
+        "needs_review_reason": "Claim about internal composition (ما + ذا) and pragmatic nuance is based on tafsir phrasing rather than a dedicated lexical source; verify with classical lexica."
+      },
+      {
+        "word_index": 17,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَاللَّهُ هُوَ السَّمِيعُ الْعَلِيمُ",
+        "claim_ar": "«اللَّه» اسم علم من أصل الجذر (اله) ويشير إلى الإله/الربّ؛ اسم غير مزجي ويدلّ على صفة الربوبية (القدرة والسمع والعلم) كما توضح المصادر التفسيرية.",
+        "claim_en": "\"Allāh\" is a proper noun from the root (هـ-ا-ه) meaning 'the God / the Lord'. It is a theonym (proper name) denoting divinity/ Lordship; exegetical context stresses attributes (power, hearing, knowledge).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only a subset of words in this ayah had explicit, matchable substrings in the provided source chunks (found evidence for 'ماذا' and 'اللَّه').",
+      "The supplied source chunks are tafsir excerpts (exegetical prose), not a morphological/lexical dictionary; many morphological claims (wazn, verb-form flavours, etc.) could not be supported with exact source substrings from these chunks and were therefore omitted.",
+      "If you want systematic sarf claims for all tokens (wazn, verb forms, pattern assignments), provide lexicographic or morphological source material (e.g. Lisan, Taj al-ʿArus, Lane, or a tagged morphological database) or allow claims without a direct source_quote_ar."
+    ]
+  },
+  "n_chunks": 12
+}

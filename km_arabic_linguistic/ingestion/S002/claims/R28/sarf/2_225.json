@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:225",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم الجلالة «اللَّه» من الجذر اله (اله) بمعنى الإله، أي المعبود؛ اسم علم لأجل الذات الإلهية.",
+        "claim_en": "The divine name 'Allah' from the root اله (ilah) meaning 'god, the deity' — a proper name referring to the one God.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "القلوب",
+        "claim_ar": "الجذر قلب يدل على مركز العاطفة والعلم والحكم (القلب كمركز داخلي)؛ «قُلُوبُكُمْ» من قلب بمعنى القلوب/المشاعر.",
+        "claim_en": "Root 'قلب' denotes the 'heart' as the centre of feeling/intellect/judgment; 'qulubukum' is the plural possessive form meaning 'your hearts'.",
+        "root": "قلب",
+        "lemma": "قَلْب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "القلوب",
+        "claim_ar": "جمع تكسير «قُلُوب» على وزن فُعُول (قلب → قلوب): جمع داخلي غير مخاطب باللاحقة الرملية.",
+        "claim_en": "The plural 'qulub' is a broken plural of the pattern fu'ul (قلب → قلوب); an internal (irregular) plural formation rather than a suffixal plural.",
+        "root": "قلب",
+        "lemma": "قَلْب",
+        "confidence": "medium",
+        "needs_review_reason": "Classification as pattern 'fu'ul' is standard but broken-plural subtyping can vary in grammars; check against a detailed broken-plural list."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "يُؤْمِنُونَ",
+        "claim_ar": "الفعل المضارع المزمع بـ يـ بداية (يُفْعِلُ)، هنا يُؤَاخِذُ يظهر بادئة المضارع (يـ) مع حركة الضم الظاهرة في التصريف: تركيب المضارع + ضمير مفعول متصل (-كم).",
+        "claim_en": "The verb is in the imperfect/present paradigm with the prefix y- (يـ) marking 3rd-person; internal vocalization (يُفْعِلُ) reflects the imperfect pattern. In يُؤَاخِذُكُمْ the verb carries the imperfect prefix plus the attached object clitic -kum.",
+        "root": "اخذ",
+        "lemma": "يُؤَاخِذُ",
+        "confidence": "medium",
+        "needs_review_reason": "The exact derived-form analysis of أُؤاخِذ / يُؤَاخِذُ (which may involve hamza/waw alternations) needs verification — could be analyzed differently in some grammars (e.g., as a particular derived stem); wording here focuses on general imperfect marking rather than a precise form-number (I–X) classification."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not contain verb-specific tokens from this ayah (e.g., يُؤَاخِذُ, بِلَغْوِ, أَيْمَانِكُمْ, كَسَبَتْ, غَفُورٌ, حَلِيمٌ) as exact substrings; claims are therefore limited to items for which matching substrings exist in the chunks (e.g., «اللَّه», «القلوب», «يُؤْمِنُونَ» used as paradigmatic evidence).",
+      "Some morphological categorizations (notably the exact derived-form number for يُؤَاخِذُ) have been given with medium confidence and noted for review because the provided sources do not explicitly analyze this verb form."
+    ]
+  },
+  "n_chunks": 12
+}

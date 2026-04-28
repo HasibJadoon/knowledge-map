@@ -1,0 +1,45 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:95",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "ويمنونهم",
+        "claim_ar": "الفعل يَتَمَنَّى مشتق على وزن تَفَعَّل (وزن تمني/تمنَّى في الصورة المتعدية بالـتاء الاشتقاقية)، يدل على التمنّي/الرغبة. هنا الفعل مضارع متعدّ مع ضمير مفعول ملصق «ـه».",
+        "claim_en": "The verb يَتَمَنَّى is on the pattern تَفَعَّل (Form V, the tafaa''ala pattern), expressing 'to wish' or 'to desire'. In this verse it is a present form with an attached object pronoun -hu.",
+        "root": "مني",
+        "lemma": "يَتَمَنَّ",
+        "confidence": "medium",
+        "needs_review_reason": "The user-supplied root 'مني' / vocalization of the root letters may be presented differently in some analyses (م-ن-ى); check classical root notation and vowelization. Evidence quoted from chunk uses the cognate verb 'ويمنونهم'."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الله جلّ وعز",
+        "claim_ar": "اسم الجلالة «اللَّه» من جذر اله (اسم دال على الإله/الرب) ويستخدم هنا كاسم مخصوص للذات الإلهية.",
+        "claim_en": "The proper name 'Allah' derives from the root (اله) meaning 'deity/God'; it is the special divine name referring to God.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ظَلَمْتُمْ",
+        "claim_ar": "البناء «ظالمين» مشتق من جذر ظ-ل-م الدال على الظلم والعدوان؛ الصيغة الظالِم تبيّن الفاعل المسبب للظلم (اشتقاق ذاتي من معنى الجذر).",
+        "claim_en": "The stem ظالمين is derived from the root ظ-ل-م (to wrong, oppress). The form ظالم denotes the agent committing injustice; plural/derived morphology marks those who perpetrate wrongdoing.",
+        "root": "ظلم",
+        "lemma": "ظَالِم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only a subset of words in the ayah could be supported by exact substrings found in the provided source chunks. Claims were produced where a relevant exact substring occurred in the chunks (see source_quote_ar). Other words in the ayah did not appear exactly in the supplied chunks, so no claims were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

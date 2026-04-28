@@ -1,0 +1,68 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "أعمال الكفرة",
+        "claim_ar": "جذر الفعل عَمِلَ، دلالة عامة: القيام بفعل/صنع أمر؛ هنا لفظة 'أعمال' ترتبط بجذرِ عمل وتشير إلى الأفعال والاعمال التي يقوم بها الناس.",
+        "claim_en": "Root 'عَمِل' meaning 'to do, to work, to perform (actions)'; here the noun 'أعمال' (from the same root) refers to deeds/actions.",
+        "root": "عمل",
+        "lemma": "عَمِلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "أعمالهم",
+        "claim_ar": "الفعل يَعْمَلُونَ هو فعل مضارع يدل على الاستمرارية أو التكرار مع واو جماعة (ضمير الغائب جمع)، أي صيغة المضارع للغائبين الجمع.",
+        "claim_en": "The verb 'يَعْمَلُونَ' is an imperfect (present) verb indicating ongoing/habitual action, with the 3rd-person plural suffix '-ون' (they do/they work).",
+        "root": "عمل",
+        "lemma": "عَمِلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting citation is the noun 'أعمالهم' (from the same root) rather than an occurrence of the verb form itself in the provided sources; verb-form inference is based on morphological analogy."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "يَقُولُونَ",
+        "claim_ar": "جذر 'ق و ل' بمعنى 'القول، النطق، الإخبار'.",
+        "claim_en": "Root 'ق و ل' meaning 'to say, to speak, to tell'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "يَقُولُونَ",
+        "claim_ar": "قَالَ فعل ماضٍ مبني على الفتح، من فعل الوزن الأول (فعل) في صيغة الغائب المفرد؛ بالمقابل تُظهر الصورة المتصلة في المصدر 'يَقُولُونَ' صيغة المضارع للغائب الجمع.",
+        "claim_en": "'قَالَ' is a past (perfect) verb, 3rd-person singular, Form I (basic verb). The related present form 'يَقُولُونَ' (found in the source) shows the corresponding imperfect 3rd-person plural pattern.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 19,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الكفرة",
+        "claim_ar": "جذر 'كفر' دلالة على الإنكار أو الخروج عن الإيمان؛ 'كفّار/الكفرة' اسم يدل على جماعة المنكرين أو الجاحدين، ويشمل معنى النفي/الإنكار.",
+        "claim_en": "Root 'ك ف ر' meaning 'to disbelieve, to deny'; 'كفّار' (pl.) refers to disbelievers, i.e., those who deny/belittle belief.",
+        "root": "كفر",
+        "lemma": "كَافِر",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote contains the plural noun form 'الكفرة' (disbelievers); the claim about root meaning and plural sense is based on that attested nominal form rather than an explicit morphological discussion in the chunks."
+      }
+    ],
+    "warnings": [
+      "Input gives root 'سوا' for 'السَّيِّئَاتِ' (word_index 5), which appears incorrect; expected root for سيِّئَة is س-و-ء / س-ي-ء (commonly lemmatized سيئة). Please review word_index 5 root.",
+      "Some verb-form inferences (e.g., for يَعْمَلُونَ) are supported in the provided sources by related nominal forms ('أعمال','أعمالهم') rather than by occurrences of the exact verb form; these inferences should be reviewed if strict textual evidence is required."
+    ]
+  },
+  "n_chunks": 12
+}

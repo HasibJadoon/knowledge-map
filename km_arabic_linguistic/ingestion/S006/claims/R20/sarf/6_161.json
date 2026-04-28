@@ -1,0 +1,61 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:161",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قُلْ",
+        "claim_ar": "فعل أمر مفرد: صِيغة الأمر من الفعل الثلاثي المجرد فَعَلَ (قَالَ)، هنا الأمر «قُلْ» بمعنى «اُقُلْ»/«قُلْ» (قل: أَمِرَةٌ لِلقول).",
+        "claim_en": "Imperative verb (singular) — the imperative 'qul' derived from the triliteral verb ق-و-ل (lemma قَالَ), meaning 'Say'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A161"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "إِنِّي",
+        "claim_ar": "حرف توكيد «إنّ» متصل بضمير المتكلم «ـي»؛ «إِنَّنِي/إِنِّي» تحمل نفحة تأكيد وتأطير للجملة التي بعدها والتي قد لا تنتقل بحرفية في الترجمة إلى الإنجليزية.",
+        "claim_en": "The emphatic particle 'inna' with the attached 1st-person pronoun 'ni' — 'indeed I' / 'verily I'. The emphatic nuance of إِنَّنِي is often not fully captured by a single English word.",
+        "root": "",
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "Particle/intonation nuance is semantic and not derivational; 'root' is not applicable for particles.",
+        "quran_ref": "S6:A161"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "رَبِّي",
+        "claim_ar": "اسم «رَبّ» مضاف إلى ضمير المتكلم «ـي»: «رَبِّي» بمعنى «ربّي» — أي السيد، المالك، الرازق، المدبر.",
+        "claim_en": "Rabb + 1st-person suffix 'my' — 'my Lord' (Rabb meaning 'Lord, Master, Sustainer').",
+        "root": "ربّ",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A161"
+      },
+      {
+        "word_index": 16,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "مُشْرِكِينَ",
+        "claim_ar": "اسم فاعل على وزن مُفْعِل من الجذر ش-ر-ك (المشتق من الفعل أَشْرَكَ/اشتراك)، دالّ على فاعلية الفعل: «مُشْرِك» = من يشارك أو يشرك (الآخر مع الله).",
+        "claim_en": "Active participle on the pattern 'muf'il' (مُشْرِك) from the root ش‑ر‑ك (to associate partners) — 'those who associate partners' (polytheists).",
+        "root": "شرك",
+        "lemma": "مُشْرِك",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A161"
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks do not contain the full ayah text for S6:A161. Claims were created only for words (or forms) that appear as exact substrings in the supplied chunks (e.g., «قُلْ», «إِنِّي», «رَبِّي», «مُشْرِكِينَ»).",
+      "Many words from the ayah (e.g., هَدَانِي, صِرَاطٍ, مُسْتَقِيمٍ, دِينًا, قِيَمًا, مِلَّةَ, إِبْرَاهِيمَ, حَنِيفًا) were not found in the source chunks provided, so no morphology claims were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

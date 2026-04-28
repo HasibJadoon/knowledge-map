@@ -1,0 +1,70 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:102",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الوجود بمعنى العلم",
+        "claim_ar": "فعل وَجَدَ هنا بمعنى «الوجود بمعنى العلم» (أَي: العلم/الإحساس بوجود شيء)، وليس بالضرورة مجرد العثور الحسي.",
+        "claim_en": "The verb وَجَدَ here is explained as 'existence in the sense of knowledge' — i.e., 'to know/realize' (rather than merely physically find/encounter).",
+        "root": "وجد",
+        "lemma": "وَجَدَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A102"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الوجود بمعنى العلم",
+        "claim_ar": "تكرار وَجَدْنَا في الآية يحمل نفس الدلالة الصرفية والمعنوية: الوجود بمعنى العلم/الاحساس بوجود حال أو صفة لدى الأكثر.",
+        "claim_en": "The repeated وَجَدْنَا carries the same morphological/semantic sense: 'existence' in the sense of knowledge/awareness (we found/realized/was known to us).",
+        "root": "وجد",
+        "lemma": "وَجَدَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A102"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "لِأَكْثَرِهِمْ",
+        "claim_ar": "أَكْثَرُ على وزن أَفْعَلُ، هنا اسم كمية/تفضيل بمعنى «الغالب/الأكثر» (مع ضمير متصل هم).",
+        "claim_en": "أَكْثَرُ is on the pattern a-f'al (أَفْعَل), functioning as a noun of quantity/majority meaning 'the majority/most' (with the attached pronoun -هم).",
+        "root": "كثر",
+        "lemma": "أَكْثَر",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk shows the lexical item in context but does not explicitly state the morphological pattern; pattern assigned by standard morphological knowledge.",
+        "quran_ref": "S7:A102"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "من عهد يعنى أنّ أكثرهم نقض عهد الله",
+        "claim_ar": "عَهْدٌ هنا بمعنى «الميثاق/العهد» (عهد الله)، أي التزام أو ميثاق ديني/أخلاقي نقضه أكثرهم.",
+        "claim_en": "عَهْد (from عهد) here means 'covenant/pledge' (a covenant with God), i.e. a commitment or pact which most of them broke.",
+        "root": "عهد",
+        "lemma": "عَهْد",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A102"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "أكثرهم فاسقين، خارجين عن الطاعة مارقين",
+        "claim_ar": "فاسقون (من فسق) مصدرها الفِسق، هنا وصف بمعنى «خارجون عن الطاعة/العصاة/مرققون عن الحق».",
+        "claim_en": "فاسق (from فسق) here denotes 'transgressors' or 'those who break bounds/are outside obedience' (i.e. sinful/rebellious people).",
+        "root": "فسق",
+        "lemma": "فَاسِق",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A102"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

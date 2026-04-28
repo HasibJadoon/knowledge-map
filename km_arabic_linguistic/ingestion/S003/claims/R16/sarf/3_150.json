@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:150",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهُ",
+        "claim_ar": "اسم الله من الجذر (اله) بمعنى الإله/المعبود.",
+        "claim_en": "The name 'Allah' from the root اله, meaning the God/the deity (the one worshipped).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وليخص",
+        "claim_ar": "من الجذر و-ل-ي (ولى)؛ مَوْلَىٰ مشتق من ولي ويعني المتولي/الناصر/الولي (حامل ولاية أو نصرة).",
+        "claim_en": "Derived from the root و-ل-ي (w-l-y); mawla (مَوْلَىٰ) comes from wali and carries senses of protector/ally/one who takes charge or shows support.",
+        "root": "ولي",
+        "lemma": "مَوْلَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The exact morphological pattern of مَوْلَىٰ can vary in analysis (relationship/semantic range between 'protector', 'ally', 'master' differs by context); the cited substring (وليخص) shows the root letters but is indirect evidence."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "antonyms",
+        "source_quote_ar": "خيرها وشرها",
+        "claim_ar": "خَيْر (الجذر: خ-ي-ر) كمضاد لكلمة شَرّ؛ دلالة على «الخير» مقابل «الشر» في السياق المعنوي.",
+        "claim_en": "'khayr' (root خ-ي-ر) is semantically opposed to 'sharr' (evil); the pair 'خير ... وشر' marks the antonymic relation of 'good' vs 'evil'.",
+        "root": "خير",
+        "lemma": "خَيْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "نصركم",
+        "claim_ar": "من الجذر ن-ص-ر؛ ناصِر على وزن فاعل — دال على الفاعلية (الذي ينصر/يعين)، والنَّاصِرِينَ صيغة جمع.",
+        "claim_en": "Derived from the root ن-ص-ر; nāṣir is on the pattern فاعل (one who helps/assists), and an-nāṣirīn is the plural form meaning 'those who assist/support'.",
+        "root": "نصر",
+        "lemma": "نَاصِر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

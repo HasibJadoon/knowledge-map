@@ -1,0 +1,88 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 1,
+      "ayah_to": 1,
+      "word_start": 1,
+      "word_end": 6,
+      "sentence_kind": "conditional",
+      "discourse_role": "main narrative",
+      "note_ar": "جملة شرطية مقدّرة مع جوابها",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "conditional_if",
+          "word_start": 5,
+          "word_end": 6,
+          "head_word_index": 5,
+          "note_ar": "شرط مقدّر: 'كنتم كاذبين'"
+        },
+        {
+          "clause_order": 2,
+          "clause_type": "conditional_then",
+          "word_start": 1,
+          "word_end": 4,
+          "head_word_index": 2,
+          "note_ar": "جواب الشرط: 'ما جزاؤه'"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قالوا",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "فعل وفاعل",
+          "irab_case": "",
+          "note_ar": "فعل وفاعل"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "ما",
+          "relation_type": "subject",
+          "governor_word_index": 3,
+          "irab_position": "مبتدأ",
+          "ir,ab_case": "مرفوع",
+          "note_ar": "اسم استفهام مبنيّ في محلّ رفع مبتدأ"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "جزاؤه",
+          "relation_type": "predicate",
+          "governor_word_index": 2,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر مرفوع"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "إن",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 5,
+          "irab_position": "حرف شرط",
+          "irab_case": "",
+          "note_ar": "حرف شرط جازم"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "كنتم",
+          "relation_type": "subject",
+          "governor_word_index": 4,
+          "irab_position": "فعل الشرط",
+          "irab_case": "مجرور",
+          "note_ar": "فعل ماض ناقص مبنيّ على السكون في محلّ جزم فعل الشرط"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "كاذبين",
+          "relation_type": "predicate",
+          "governor_word_index": 5,
+          "irab_position": "خبر كان",
+          "irab_case": "منصوب",
+          "note_ar": "خبر كان منصوب وعلامة النصب الياء"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

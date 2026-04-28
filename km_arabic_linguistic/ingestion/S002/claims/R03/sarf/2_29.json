@@ -1,0 +1,65 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "خلقهم أحياء قادرين",
+        "claim_ar": "الفعل خَلَقَ: فعل ماضٍ ثلاثي مجرد (وزن فَعَلَ) من جذر خ ل ق، وزنه ومجرده يدل على فعل الخلق والإيجاد (إحداث الوجود). في سياق الآية يحمل دلالة الابتداع/الإيجاد المطلق.",
+        "claim_en": "The verb خَلَقَ is a basic triliteral past verb (Form I, fa'ala) from the root خ-ل-ق meaning 'to create' or 'bring into being'. In the verse it carries the primary sense of originating/creating.",
+        "root": "خلق",
+        "lemma": "خَلَقَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ثم خلق الأرض",
+        "claim_ar": "الاسم الأَرْضُ: مستمد من الجذر أ ر ض، دال على الأرض كاسم مكان ومسكن؛ يشير إلى الأرض كموطن ومقرّ للناس في السياق التفسيري.",
+        "claim_en": "The noun أَرْض (al-ard) derives from the root أ-ر-ض and denotes 'the earth' as the place/ground; in the tafsir it is treated as the habitat/settlement for humans.",
+        "root": "ارض",
+        "lemma": "أَرْض",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ثم خلق السماء",
+        "claim_ar": "الاسم السَّمَاءُ: من الجذر س م و (مذكور أحياناً بصيغة سمو)، دال على القبة السماوية/السماء؛ في المعنى القرآني يشير إلى البنية العلوية التي غطت الأرض.",
+        "claim_en": "The noun سَمَاء (as-samāʼ) comes from the root س-م-و (s-m-w) and denotes the sky/heaven (the vaulted canopy); in the verse it refers to the celestial structure above the earth.",
+        "root": "سمو",
+        "lemma": "سَمَآء",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "ما سوّاه عزّ وجل",
+        "claim_ar": "الفعل سَوَّى: وزن فعلّ (فَعَّل) من ثلاثي س و ي — صيغة فعّل (بشدّة على وسط الحرف) تدل على التأنّي والتعدية/التسوية، أي جعل الأشياء متساوية أو منظّمة. في الآية (فَسَوَّاهُنَّ) يحمل معنى 'جعلهن سبع سماوات' بمعنى رتبهن وسوّاهن.",
+        "claim_en": "The verb سَوَّى is on the Form II pattern (fa''ala) from the triliteral root س-و-ي, indicating making even/arranging/setting in order. In the verse (فَسَوَّاهُنَّ) it conveys causative/arranging meaning — 'He set them (the heavens) in order / made them seven heavens.'",
+        "root": "سوي",
+        "lemma": "سَوَّىٰ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 19,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "علم السحر",
+        "claim_ar": "الصِّفَة عَلِيمٌ: مشتقة من الجذر ع ل م (وزن فَعِيل) وتعبر عن العِلم الشامل. الترجمة البسيطة 'knowing' قد تفقد دلالة الشمول والإطلاق التي تحملها 'العَلِيمُ' عند صفات الله — لذلك تُرجَم عادة بـ'All‑Knowing' لإيصال شمول المعرفة الإلهية.",
+        "claim_en": "The adjective عَلِيم is derived from the root ʻ-l-m (pattern fa'il) and denotes comprehensive/absolute knowledge. A bare translation as 'knowing' can lose the sense of universality/absoluteness; it is often rendered 'All‑Knowing' to capture that nuance.",
+        "root": "علم",
+        "lemma": "عَلِيم",
+        "confidence": "medium",
+        "needs_review_reason": "The provided tafsir chunk uses the root 'علم' in a different context ('علم السحر'); direct exegetical discussion of the divine attribute عَلِيم in this verse is not in the supplied chunks, so confirm with a tafsir passage focused on this epithet."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:92",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "translation_loss_nuance",
+        "source_quote_ar": "أَنْ نَطْمِسَ",
+        "claim_ar": "أَنْ: حرف مصدري/أداة نصب ذات دلالة ربط/تعليل تُقدَّم على فعل مصدري أو مضارع، وغالباً يَترجَم بـ «أن/أنّ» أو «to/that» في اللغات الأوروبية؛ قد تضيع فائدته الدلالية في الترجمة الحرفية.",
+        "claim_en": "أَنْ: a subordinating particle (infinitival/that/to particle) that links and licenses the following verb; often translated as 'that' or 'to' and can carry subtle meanings that are lost or rendered differently in translation.",
+        "root": null,
+        "lemma": "أَن",
+        "confidence": "medium",
+        "needs_review_reason": "Claim uses a source substring containing the particle in a different lexical context; the precise syntactic/diachronic nuance can vary and may need review by a morphologist."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ",
+        "claim_ar": "مُؤْمِنٍ: اسم فاعل/فاعل على وزن مُفْعِل (مُؤْمِن) من الجذر أمن؛ يشير إلى الفاعلية (المؤمن: من آمن/آمَنَ) — الشكل العرضي يتأثر بحركة الهمزة في الصيغ المختلفة (مُؤْمِن/يُؤْمِنُ/إيمان).",
+        "claim_en": "مُؤْمِنٍ: the active participle (mufta'il pattern) on the pattern مُفْعِل (mūfiʿil) from the root أمن (to believe/be secure); denotes an agent (the believer). Orthographic/phonological behavior of the initial hamza affects related forms (e.g. يُؤْمِنُ, إيمان).",
+        "root": "امن",
+        "lemma": "مُؤْمِن",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk shows a related verbal form (يُؤْمِنُونَ, plural imperfect) rather than the exact nominal form; derivation and hamza behavior should be confirmed against a full lexical source."
+      },
+      {
+        "word_index": 56,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اللَّهِ: اللفظ المخصوص للإله الأعظم؛ جذر شكل تاريخي مقترن بـ (اله)، دلالة الاسم: الإله/الرب.",
+        "claim_en": "اللَّهِ: the proper noun for the One God; historically related to the root/name (اله) meaning deity/god — denotes the Supreme God.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only source chunks provided were searched; several ayah words do not appear exactly in the chunks. Some claims rely on related forms present in the commentary (e.g. يُؤْمِنُونَ for مُؤْمِنٍ). Verify claims against a lexical/sarf dictionary for final use.",
+      "Particles and modal nuances (e.g. أَنْ) may be treated variably in grammar sources; the translation/interpretive nuance here is given at a morphological/lexical level and not a full syntactic analysis."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:149",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قُلْ سَلامٌ عَلَيْكُمْ",
+        "claim_ar": "قُلْ: فعل أمر مبني على السكون مشتق من الفعل الثلاثي 'قَالَ' (الجذر: قول). على وزن الفعل الثلاثي المجرد (فَعَلَ) في صورته الأمرية.",
+        "claim_en": "قُلْ is an imperative (amr) built with sukun, derived from the triliteral verb قَالَ (root: قول). It is from the basic triliteral pattern (wazn fa'ala) in its imperative form.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قُلْ إِنَّ اللَّهَ قادِرٌ",
+        "claim_ar": "الجذر 'قول' دال على معنى القول والتكلم/الإخبار؛ أصل دلالي عام للفظات المشتقة منه.",
+        "claim_en": "The root 'قول' denotes saying/speaking/reporting; it is the general semantic basis for derivatives from this root.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only the verb 'قُلْ' had directly matching source substrings in the provided chunks. Other words from the ayah (فَلِلَّهِ، الْحُجَّةُ، الْبَالِغَةُ، فَلَوْ، شَاءَ، لَهَدَاكُمْ، أَجْمَعِينَ) did not appear as exact substrings in the supplied source_chunks, so no morphology claims were extracted for them.",
+      "Claims are limited to morphology (root meaning, wazn/pattern, verb-form flavour). No i'rab or balagha claims were made."
+    ]
+  },
+  "n_chunks": 12
+}

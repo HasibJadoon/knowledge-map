@@ -1,0 +1,32 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:161",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "والملائكة: جمع ملأك على الأصل، كالشمائل في جمع شمأل.",
+        "claim_ar": "الملائكة جمع ملأك على الأصل (جمع تكسير/شكل جمع أصلي)",
+        "claim_en": "The word 'الملائكة' is a broken plural; originally جمع ملأك (an original broken plural formation), analogous to شمائل from شمأل.",
+        "root": "ملك",
+        "lemma": "مَلَك",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "وإلحاق التاء لتأنيث الجمع.",
+        "claim_ar": "إلحاق التاء لتأنيث الجمع (الــة علامة تأنيث في هذا الجمع)",
+        "claim_en": "The addition of the final tāʾ (ـة) is used to mark the feminine in this plural formation (the tāʾ is a feminine marker attached to the plural).",
+        "root": "ملك",
+        "lemma": "مَلَك",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

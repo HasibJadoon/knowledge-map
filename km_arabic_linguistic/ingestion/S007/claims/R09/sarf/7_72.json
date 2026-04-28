@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:72",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "translation_loss_nuance",
+        "source_quote_ar": "بِرَحْمَةٍ",
+        "claim_ar": "الباء حرف جر يفيد السببية/الوسيلة أو العطاء: «بِرَحْمَةٍ مِنَّا» = بـِ + رَحْمَةٍ (وسيلة/عطاء)؛ أي «برحمة منا» (بِ هنا تحمل معنى السببية/الوسيلة/العطاء).",
+        "claim_en": "The preposition bi- here (بِرَحْمَةٍ) marks means/agency or manner: 'by/with mercy from Us.' The nuance 'by/with' can be lost or flattened in some translations.",
+        "root": "رحم",
+        "lemma": "رَحْمَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "وَالَّذِينَ كَذَّبُوا بِآياتِنا",
+        "claim_ar": "كَذَّبَ: فعل على وزن فعّل (صيغة II) من جذر كَذَبَ؛ صيغة تكثيف/تعمد/تأكيد النفي أو التكذيب (تُبيِّن الإصرار أو التكرار في فعل النفي/الرفض).",
+        "claim_en": "كَذَّبَ is Form II (fa‘‘ala) of the root كذب — an intensive/causative/iterative verbal pattern often expressing deliberate, repeated denial or declaring something false.",
+        "root": "كذب",
+        "lemma": "كَذَّبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "translation_loss_nuance",
+        "source_quote_ar": "وَالَّذِينَ كَذَّبُوا بِآياتِنا",
+        "claim_ar": "بِآياتِنا = الباء + آيات + نا (ضمير متصل): «بـِ» قد تدل على سببية/وسيلة أو ميدان؛ «آيات» جمع آية بمعنى العلامات/الآيات الإلهية؛ «نا» ضمير الملكية (نحن). الترجمة المختصرة \"Our signs\" قد تغفل أن الباء تضيف دلالة سببية/وسيلية («بـِ»/«بسبب/بواسطة»).",
+        "claim_en": "بِآياتِنَا = bi- + āyāt + -nā: 'by/with Our signs' (bi- conveys means/agency/relation). Translating simply as 'Our signs' can miss the prepositional nuance 'by/with/because of'.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "root given as 'ايي' appears to be an irregular transcription; verify root orthography/representation for آية."
+      }
+    ],
+    "warnings": [
+      "Only claims were created for words/phrases that appear verbatim in the provided source chunks. Several words in the verse (e.g., فَأَنْجَيْنَاهُ, وَقَطَعْنَا, دَابِرَ, مَعَهُ, وَمَا, كَانُوا, مُؤْمِنِينَ) did not have exact matching substrings in the provided chunks, so no claims were produced for them.",
+      "Some roots/lemmas provided in the input (e.g., root 'ايي' for آية) look nonstandard; such entries were marked needs_review where relevant."
+    ]
+  },
+  "n_chunks": 12
+}

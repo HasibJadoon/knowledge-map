@@ -1,0 +1,90 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:111",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اكْتَسَبُوا",
+        "claim_ar": "الجذر كسب: معنى أساسي 'اكتساب' — أخذ/نال/حصول على شيء",
+        "claim_en": "Root كسب: basic meaning 'to acquire, to gain, to earn'.",
+        "root": "كسب",
+        "lemma": "كَسَبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "اكْتَسَبُوا",
+        "claim_ar": "فعل ثلاثي مجرد من باب الفعل (باب I). شكل المضارع هنا (يَكْسِبْ) هو مضارع من الوزن الأصلي للفعل ثلاثي مجرد؛ في سياق شرطية «مَنْ» يظهر بصيغة مجزومة/مضارع مقصور على الصورة الجذرية",
+        "claim_en": "Form I (basic triliteral) verb. The verb appears as the imperfect/present (yaksib); in a conditional context (with مَنْ) it surfaces with jussive-style final form (يَكْسِبْ).",
+        "root": "كسب",
+        "lemma": "كَسَبَ",
+        "confidence": "medium",
+        "needs_review_reason": "Statement about jussive/mood borders into syntax (i'rāb); verify with syntactic annotation if disallowed."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "اكْتَسَبُوا",
+        "claim_ar": "الضمير المتصل «ـهُ» في يَكْسِبُهُ هو ضمير غائب مذكر مفرد يعود على الإثم؛ في الترجمة قد تفقد الصياغة العربية المختصرة هذه العلاقة الضميرية (يعني 'يَكْسِبُهُ' = 'earns/commits it' أو 'brings it upon himself').",
+        "claim_en": "The clitic -hu attached to the verb (yaksibuhu) is a 3rd-person masculine singular pronoun referring back to 'ithman' (the sin). In translation this compact clitic can lose the nuance of 'commits it' / 'brings it upon himself'.",
+        "root": "كسب",
+        "lemma": "كَسَبَ",
+        "confidence": "medium",
+        "needs_review_reason": "Coreference (pronoun -> إثم) is inferred from context; verify referent in annotation."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وكانوا",
+        "claim_ar": "الجذر كون/كَوْن: فعل يدل على الوجود/الكون. صيغة الماضي في المصدر المقتبس تُظهر نفس الجذر الدالّ على الحالة/الوجود.",
+        "claim_en": "Root كون (k-w-n): denotes being/existence. The cited past form 'wakanu' illustrates the same root meaning 'to be'.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم الجلالة «اللَّه» — اسم علم مفرد للدلالة على الإله؛ في التحليل الصرفي يعامل كاسم علم ثابت لا كاشتقاق صرفي إنتاجي",
+        "claim_en": "The word 'اللَّه' is the divine proper name (a fixed proper noun); in morphological terms it functions as a name rather than a productively derived lexical form.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Although traditionally listed with root اله, 'اللَّه' functions as a fixed divine name; check lexical treatment conventions in morphology guidelines."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root meaning",
+        "source_quote_ar": "علم",
+        "claim_ar": "الجذر علم: يدل على المعرفة. الصفة العَلِيم (عَلِيمًا) من الجذر تعني 'العالم' أو 'الذي له علم'.",
+        "claim_en": "Root علم: 'to know'. The adjective 'ʿAlīm' (ʿalīman) denotes 'All‑Knowing' / 'possessing knowledge'.",
+        "root": "علم",
+        "lemma": "عَلِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "حكمة",
+        "claim_ar": "الجذر حكم/حِكْم: يدلّ على الحكم والحكمة والتدبير. الصفة حَكِيمًا من الجذر تحمل معنى 'الحكيم' أي صاحب الحكمة والتدبير.",
+        "claim_en": "Root حكم (ḥ-k-m): 'to judge, to govern, to be wise'. The adjective 'Hakīm' (hakīman) means 'Wise' — possessing wisdom and deliberate judgment.",
+        "root": "حكم",
+        "lemma": "حَكِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks do not contain exact surface forms for some tokens in the verse (e.g., 'يَكْسِبُهُ', 'إِثْمًا', 'نَفْسِهِ'). Claims about these were supported by related lemma/forms (e.g., اكْتَسَبُوا) in the available chunks — verify against primary commentary lines if exact-form citations are required.",
+      "Some claims note verb mood/target (jussive for يَكْسِبْ) — this borders on syntactic (i'rāb) information; if i'rāb is out of scope, remove/flag these items."
+    ]
+  },
+  "n_chunks": 12
+}

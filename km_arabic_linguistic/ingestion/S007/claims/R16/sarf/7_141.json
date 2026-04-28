@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:141",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "أَنْجَيناهم",
+        "claim_ar": "جذر: ن-ج-و؛ الفعل أَنجى (أَفْعَلَ) بمعنى أَنْقَذَ/أَخْرَجَ من الخطر، هنا بمعنى إنقاذ قوم من بطش فرعون.",
+        "claim_en": "Root n-j-w (نجو). The verb أَنْجَى (pattern af'ala, Form IV) has the causative/rescue meaning 'to save, to rescue, to bring out of danger.' In this context it denotes God rescuing the people from Pharaoh's oppression.",
+        "root": "نجو",
+        "lemma": "أَنجَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "source quote uses أَنْجَيناهم (first-person plural past with pronoun هُمْ) while the ayah has أَنْجَيْنَاكُمْ (with pronoun كُمْ); confirm mapping of person/affix and vocalisation in this verse."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "يَسُومُهُمْ سُوءَ الْعَذَابِ",
+        "claim_ar": "جذر: س-و-م؛ الفعل سوم (وزن فعل ثلاثي مجرد) بمعنى يَفْرِض الجزية أو يُعَذِّب ويُسِيء القِيامَ على الناس (يعاملهم بسوء).",
+        "claim_en": "Root s-w-m (سوم). The verb سوم (Form I) carries the meaning 'to exact (tribute), to treat harshly/afflict' — here 'afflict/impose severe punishment or tribute.'",
+        "root": "سوم",
+        "lemma": "يَسُومُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "يَسُومُهُمْ سُوءَ الْعَذَابِ",
+        "claim_ar": "مضارع على وزن يَفْعُلُ (فعل ثلاثي مجرد) يحمل نَفَسَ الاستمرار/العادة هنا (يفرضون/يستمرون في الإيذاء).",
+        "claim_en": "Present imperfect verb on the pattern yaf'ulu (Form I, triliteral root). The imperfect here conveys ongoing or habitual action ('they impose/treat harshly repeatedly/continually').",
+        "root": "سوم",
+        "lemma": "يَسُومُ",
+        "confidence": "medium",
+        "needs_review_reason": "The durative/habitual nuance (vs. simple present) depends on broader syntactic/contextual interpretation; check classical commentary for aspect reading."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "idiom",
+        "source_quote_ar": "سُوءَ الْعَذَابِ",
+        "claim_ar": "سُوءُ العذابِ: مركب تعبيري يعني شِدّةَ العذاب وسوءَه (سوء بمعنى غاية السوء والشدة).",
+        "claim_en": "The collocation 'su'u al-'adhab' (سوء العذاب) is an idiomatic expression meaning 'severe/bad punishment' — i.e. the intensity or badness of the torment.",
+        "root": "سوا",
+        "lemma": "سُوٓء",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only claims supported by the provided source chunks were extracted. Several words of the ayah do not appear in the supplied chunks and therefore were not analyzed here.",
+      "Source quotations sometimes use different pronouns or vocalisation (e.g. أَنْجَيناهم vs. أَنْجَيْنَاكُمْ); users should verify person/affix alignment and orthographic vocalisation in the specific Qur'anic manuscript/reading they use."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,70 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:54",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ",
+        "claim_ar": "الَّذِينَ: اسم موصول جمع مذكر مبني على صيغة الّذي مع علامة الجمع «-ون»/«-ين» الدالة على الجمع.",
+        "claim_en": "al‑ladhīna: the plural relative pronoun formed from the pattern al‑ladhī with the plural ending (‑ūna/‑īna); a plural relative pronoun.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A54"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "آيات",
+        "claim_ar": "آيات: جمع آية (لِـآيَة)، من الجذر المعطى «ايي»؛ الآية بمعنى علامة أو دليل، وفي السياق القرآني دلالة/آية قرآنية.",
+        "claim_en": "ayāt: plural of āyah (sign/verse), root given as 'ايي'; denotes a sign or proof, and in Quranic context a verse/portent.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A54"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قُلْ",
+        "claim_ar": "قُلْ: فعل أمر (صيغة الأمر من قال/قول)؛ في النص ظاهر مع حرف العطف/الرابطة فـ- (فَقُلْ) الدال على الترتيب/الاستئناف.",
+        "claim_en": " qul: the imperative form (command) of qāla/ qawl; here appears with the prefixed conjunction fa‑ (fa‑ qul) marking sequence/continuation.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A54"
+      },
+      {
+        "word_index": 26,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "لَغَفُورٌ رَحِيمٌ",
+        "claim_ar": "غَفُورٌ: صفة على وزن فَعُول (مبالغة/موطد للدلالة على كثرة الغفران) من جذر غ-ف-ر، وتعني كثير الغفران.",
+        "claim_en": "ghafūr: adjective on the pattern fa'ūl (an intensive/exaggerated adjective) from root gh‑f‑r meaning to forgive; denotes abundant/constant forgiveness.",
+        "root": "غفر",
+        "lemma": "غَفُور",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A54"
+      },
+      {
+        "word_index": 27,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "لَغَفُورٌ رَحِيمٌ",
+        "claim_ar": "رَحِيمٌ: صفة على وزن فَعِيل من جذر ر-ح-م، تدل على الرحمة والرفق (صفة دالة على الرحمة الواسعة).",
+        "claim_en": "rahīm: adjective on the pattern fa'l (fa'īl) from root r‑ḥ‑m meaning mercy/compassion; denotes mercifulness/compassion.",
+        "root": "رحم",
+        "lemma": "رَّحِيم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A54"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

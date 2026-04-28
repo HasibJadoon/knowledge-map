@@ -1,0 +1,69 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:255",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم العلم «اللَّه» مرتبط جذريًا بجذر (اله) ويدل على الإله/الذات الإلهية.",
+        "claim_en": "The proper name 'Allah' is connected to the root 'اله' and denotes the Deity/God.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Etymology of the divine name is debated in classical sources; the provided commentary uses the name but does not give a definitive etymological analysis."
+      },
+      {
+        "word_index": 23,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "يشفع",
+        "claim_ar": "فعل مضارع ثلاثي مجرد من الجذر شفع بمعنى الشفاعة/الوساطة؛ صيغة المضارع في الآية (يَشْفَعُ) تعبر عن الفعل الدال على الشفاعة.",
+        "claim_en": "The verb is a Form I imperfect from root شفع meaning 'to intercede' or 'mediate'; the ayah's يَشْفَعُ is the present (imperfect) 3rd-person form.",
+        "root": "شفع",
+        "lemma": "يَشْفَعُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 27,
+        "claim_type": "root meaning",
+        "source_quote_ar": "يَعَلِّمُونَ",
+        "claim_ar": "الجذر علم يدل على «المعرفة/العلم»، ومنه أفعال متعددة مثل يعلم (يُحِيطُ بالمعرفة) ويعلّم (يُنقِلُ المعرفة).",
+        "claim_en": "The root 'علم' denotes 'knowledge'; derivatives include يعلم (to know) and يعلّم (to teach).",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "medium",
+        "needs_review_reason": "Support comes from a related derived form (يَعَلِّمُونَ) in the commentary rather than the exact ayah form (يَعْلَمُ)."
+      },
+      {
+        "word_index": 34,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "أَحَاطَ",
+        "claim_ar": "الفعل أَحَاطَ من الجذر حوط/حاط بمعنى «أحاط/حاط بــ»، والمضارع المُقابِل يُحِيطُ (يُحِيطُونَ) يدل على الإحاطة أو الشمول.",
+        "claim_en": "Verb 'أَحَاطَ' from root حوط/حاط meaning 'to encompass' or 'surround'; the imperfect يُحِيطُ (يُحِيطُونَ) expresses 'they encompass'/'they are aware of'.",
+        "root": "حوط",
+        "lemma": "أَحَاطَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 40,
+        "claim_type": "root meaning",
+        "source_quote_ar": "يَشاءُ",
+        "claim_ar": "الفعل شَاءَ من جذر ش-ي-ء دال على الإرادة والمشيئة؛ شَاءَ (الماضي) ويَشاءُ (المضارع) تعبران عن الإرادة.",
+        "claim_en": "The verb sha'a (to will) from root ش-ي-ء expresses volition/will; past شَاءَ and imperfect يَشاءُ denote 'he willed'/'he wills'.",
+        "root": "شيا",
+        "lemma": "شَآءَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Some source_quote_ar substrings are different word-forms from the exact ayah token (for example, 'يَعَلِّمُونَ' was used to support the ayah word 'يَعْلَمُ').",
+      "Etymology of the divine name 'اللَّه' is complex and contested; the commentary excerpts cite the name but do not provide a definitive root derivation.",
+      "Only morphology-related claims (root meanings, patterns, verb-form notes) were extracted; other semantic or rhetorical commentary in the chunks was intentionally excluded."
+    ]
+  },
+  "n_chunks": 12
+}

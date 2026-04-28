@@ -1,0 +1,36 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:16",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهَ",
+        "claim_ar": "جذر الكلمة: ه-ل-ه (اله)؛ الدلالة الاشتقاقية في حقل المعنى: المعبود/الإله. اللفظ هنا اسم علم خاص (اللَّه).",
+        "claim_en": "Root: ه-ل-ه (اله). Semantic field: 'divinity / the one worshipped'. The word here is the proper name 'Allāh'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The etymology/assignment of a triliteral root to the proper name اللَّه is historically debated; treating it as derived from ه-ل-ه (related to 'ilah') is conventional but not uncontroversial.",
+        "quran_ref": "S4:A16"
+      },
+      {
+        "word_index": 12,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "كانَ",
+        "claim_ar": "فعل 'كان' من الجذر ك-و-ن؛ فعل ماضٍ ناقص/ناسخ يُستعمل كفعل ارتباطي/يسهم في تشكيل الزمان والحال (وظيفة ناسخة).",
+        "claim_en": "The verb 'kana' from root k-w-n. It is a past defective/auxiliary (copular) verb used as a linking/auxiliary verb to mark aspect/tense or to form predication.",
+        "root": "كون",
+        "lemma": "كانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only exact substrings for 'اللَّهَ' and 'كانَ' were found in the provided source_chunks. Other words of the ayah (e.g., يَأْتِيَانِهَا, فَآذُوهُمَا, تَابَا, أَصْلَحَا, فَأَعْرِضُوا, تَوَّابَاً, رَحِيمَاً) did not occur as exact substrings in the given chunks, so no source-backed morphological claims were produced for them.",
+      "Etymological claim for 'اللَّهَ' is marked medium confidence because the origin/derivation of the proper name is subject to scholarly debate; please provide specialized lexical/etymological sources if a higher-confidence claim is required."
+    ]
+  },
+  "n_chunks": 12
+}

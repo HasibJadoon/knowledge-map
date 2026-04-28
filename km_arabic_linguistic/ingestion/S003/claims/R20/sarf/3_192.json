@@ -1,0 +1,37 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:192",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(رِبِّيُّونَ) ربانيون نسبة إلى الرب",
+        "claim_ar": "الجذر ر-ب-ب (ربّ) يدل على معنى «الرب/المولى/السيد»",
+        "claim_en": "Root r-b-b (ربّ) meaning 'the Lord / master'.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A192"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "اللغة: (رِبِّيُّونَ) ربانيون نسبة إلى الرب، وقد تقدم بحثها ووردت في اللغة بتثليث الراء والفتح هو القياس والضم والكسر من تغييرات النسب.",
+        "claim_ar": "الاسم «ربّ» يظهر بتضعيف الحرف الثاني (وزن فَعّل) ويستعمل كورِكَبة أصلية تُشتقُّ منها نسبة مثل «ربانيون».",
+        "claim_en": "Lemma 'ربّ' exhibits a doubled second radical (fa''l pattern) and is the base for a nisba derivation such as 'ربّانيون' (rabbanīyūn).",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A192"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided contain explicit discussion for رَبّ / رِبِّيُّونَ; most other words of the verse (تُدْخِلِ، النَّارَ، أَخْزَيْتَهُ، لِلظَّالِمِينَ، أَنْصَارٍ، إلخ.) do not appear as exact substrings in the supplied chunks, so no morphology claims were extracted for them.",
+      "All claims are limited to what is directly supported by the exact substrings in the provided source chunks."
+    ]
+  },
+  "n_chunks": 12
+}

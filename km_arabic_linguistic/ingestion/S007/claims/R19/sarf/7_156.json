@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:156",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "verb_form",
+        "source_quote_ar": "قالَ يا قَوْمِ اعْبُدُوا اللَّهَ",
+        "claim_ar": "قَالَ: فعل ماضٍ ثلاثي مجرد على وزن فَعَلَ (فَعَلَ - قَالَ)، وهو فعل متصرف من باب الفعل الثلاثي المجرد (الصيغة الأساسية/الفعل الأول).",
+        "claim_en": "قَالَ is a past (perfect) tense verb, triliteral basic (Form I) verb on the pattern fa'ala (قَالَ).",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "wazn",
+        "source_quote_ar": "قالَ يا قَوْمِ اعْبُدُوا اللَّهَ",
+        "claim_ar": "وزن الفعل: فَعَلَ (أبسط أوزان الفعل الثلاثي المجرد)، كما يظهر في كلمة قَالَ.",
+        "claim_en": "Wazn/pattern: fa'ala (فَعَلَ), the basic triliteral verb pattern as realized in قَالَ.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "قالَ يا قَوْمِ اعْبُدُوا اللَّهَ",
+        "claim_ar": "جذر «قول» (ق و ل): المعنى الأساسي «القول/التكلم/التلفُّظ»، وهو الجذر الدال على معنى النطق والبيان.",
+        "claim_en": "Root 'ق و ل' (q-w-l): basic meaning 'to say, to speak, to utter', denoting speech/utterance.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Most words of the ayah do not occur as exact substrings in the provided source_chunks. Claims were generated only for word_index 12 (قَالَ), because that exact substring appears in the sources.",
+      "No source_chunk contained exact substrings matching other ayah word_text forms (e.g., وَاكْتُبْ, لَنَا, هَذِهِ, الدُّنْيَا, حَسَنَةً, فَسَأَكْتُبُهَا, يَتَّقُونَ, يُؤْمِنُونَ, etc.), so morphology claims for those words could not be reliably sourced from the provided chunks. If you provide source text (tafsir/i'rab) that quotes these specific word forms, additional claims can be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

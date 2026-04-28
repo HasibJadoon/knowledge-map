@@ -1,0 +1,65 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:112",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللغة: ِجْهَةٌ) بضم الواو وكسرها وهي الجهة التي تتجه إليها",
+        "claim_ar": "اسم «وجه» بمعنى الجهة/الاتجاه (دلالة معجمية: الجهة التي يتجه إليها المرء).",
+        "claim_en": "The noun 'wajh' (وَجْه) here carries the lexical meaning 'side' / 'direction' (the side toward which one turns).",
+        "root": "وجه",
+        "lemma": "وَجْه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بِما أَنْزَلَ اللَّهُ",
+        "claim_ar": "اسم العلم «اللَّه» دال على الإله الواحد (اسم خاص لا يُصرف دلالياً كفعل مشتق).",
+        "claim_en": "The proper name 'Allāh' denotes the One God; it is a proper noun (not a derived verbal form).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مِنْ رَبِّكُمْ",
+        "claim_ar": "اسم «ربّ» بمعنى المالك/السيد/الرب (دلالة ألوهية/ربوبية في السياق الديني).",
+        "claim_en": "The noun 'rabb' (رَبّ) means 'Lord' / 'master' (owner, the one with authority); here it has the Lordship sense.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "Input root given as 'ربب' is nonstandard; classical root is usually represented as ربّ / ربّ (r-b-b or r-b). Verify canonical root form."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الْخَوْفِ",
+        "claim_ar": "اسم «خوف» بمعنى الشعور بالخشية أو الرعب/الفزع.",
+        "claim_en": "The noun 'khawf' (خَوْف) denotes fear, dread, or anxiety.",
+        "root": "خوف",
+        "lemma": "خَوْف",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 14,
+        "claim_type": "root meaning",
+        "source_quote_ar": "على كُلِّ شَيْءٍ",
+        "claim_ar": "حرف الجر «على» يحمل معنى الاستعلاء/العلاقة (مكانيّة أو مجازية) ويستخدم لتحديد علاقة (مثل: على شيءٍ/عليه).",
+        "claim_en": "The preposition 'ʿalā' (على) indicates an over/on relation (spatial or figurative) used to mark relation or reference (e.g., 'upon/with/regarding').",
+        "root": "عند",
+        "lemma": "عَلَى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

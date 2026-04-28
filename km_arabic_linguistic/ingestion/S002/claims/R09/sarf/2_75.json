@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:75",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ",
+        "claim_ar": "جذر الفعل: أ م ن. مجال دلالة الجذر الأصلي: الأمن/الاطمئنان، ومن مشتقاته الدلالية في السياق الديني: التصديق/الإيمان.",
+        "claim_en": "Root: أ م ن (amn). Core semantic field: security/safety/feeling secure; in religious/ethical derivations (e.g., آمَنَ/يُؤْمِنُ) it carries the sense of 'to believe' / 'to have trust'.",
+        "root": "امن",
+        "lemma": "أَمِنَ (يُؤْمِنُ)",
+        "confidence": "medium",
+        "needs_review_reason": "Initial-hamza verbs show phonological and semantic shifts across forms/contexts; exact nuance (security vs. belief) depends on lexicographic sources and context."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ",
+        "claim_ar": "وزن المضارع الظاهر: يُؤْمِنُونَ — فعل ثلاثي مجرد (باب فَعَلَ) في صيغة المضارع الم탠تة مع لاحقة واو الجماعة.",
+        "claim_en": "Wazn/pattern: the present-tense form يُؤْمِنُونَ — a Form I (triliteral, fa'ala) verb in the imperfect with the plural suffix -ون (y-...-ūna). Orthographic/pronunciation effects arise from the initial hamza.",
+        "root": "امن",
+        "lemma": "أَمِنَ",
+        "confidence": "medium",
+        "needs_review_reason": "Hamza-initial verbs have orthographic/pronunciation alternations that affect exact pattern labeling; classical-sources check recommended."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ",
+        "claim_ar": "فقدان دلالي محتمل عند ترجمة يَؤْمِنُونَ فقط بـ«يؤمنون/يصدقون»؛ الجذر يحمل بعد الأمان/الثقة الذي قد لا يظهر في ترجمة أحادية.",
+        "claim_en": "Translation nuance: rendering يُؤْمِنُونَ simply as 'they believe' or 'they accept' may lose the root's additional sense of 'security/trust' inherent in أمِنَ; the Arabic verb can connote both believing and being secure/trusting.",
+        "root": "امن",
+        "lemma": "أَمِنَ/يُؤْمِنُ",
+        "confidence": "medium",
+        "needs_review_reason": "Semantic overlap between 'security' and 'belief' is context-dependent; consult classical lexica (Lane, Lisan) for authoritative nuance."
+      }
+    ],
+    "warnings": [
+      "Source coverage limited: only AL:CHUNK:6485c430461722bc739f73da contains an exact substring matching the verse phrase (\"الَّذِينَ يُؤْمِنُونَ\"). Other words from the ayah do not appear verbatim in the provided chunks, so no sourced morphology claims were made for them.",
+      "Claims involving hamza-initial verb behavior and semantic nuance are marked medium confidence and flagged for review because orthographic/pronunciation alternations and historical semantic shifts require checking in classical morphological and lexical references."
+    ]
+  },
+  "n_chunks": 12
+}

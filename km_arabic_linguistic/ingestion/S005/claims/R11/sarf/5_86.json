@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:86",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "لَقَدْ كَفَرَ",
+        "claim_ar": "جذر ثلاثي: ك-ف-ر، المعنى الأساسي: الجحود وإنكار الحق/الكفر.",
+        "claim_en": "Triliteral root k-f-r; core meaning: denial/disbelief, to reject or deny the truth (kufr).",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A86"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "لَقَدْ كَفَرَ",
+        "claim_ar": "وزن الفعل: فَعَلَ — فعل ثلاثي مجرد في صيغة الماضي (بنية قياسية: فَعَلَ).",
+        "claim_en": "Pattern: fa'ala (فَعَلَ) — a triliteral simple (Form I) past-tense verb pattern.",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A86"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "كفروا",
+        "claim_ar": "صيغة ووزن الكلمة في الآية: كَفَرُوا = فعل ماضٍ ثلاثي + واو جماعة (دلالة على جمع الغائبين - هم).",
+        "claim_en": "Form/flavour: 'kafarū' = past triliteral verb with the plural suffix -ū (third-person plural).",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A86"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

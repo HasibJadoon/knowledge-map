@@ -1,0 +1,61 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:72",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قالوا",
+        "claim_ar": "قَالُوا: فعل ماضٍ ثلاثي مجرد على وزن فَعَلَ مع واو جماعة دلّت على فاعل الجمع (هم) — صِيغة الماضي الثلاثي مع ضمير الواو.",
+        "claim_en": "The verb قَالُوا is a past-tense verb from the root قول (q-w-l) on the pattern fa'ala, with the plural suffix -ū indicating 3rd-person masculine plural 'they said'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A72"
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "المسيح",
+        "claim_ar": "الْمَسِيحُ: اسم مشتق من الجذر «مسح»، دلالته التقليدية «الممسوح/الممسوح عليه» أي «الممسوح» بالمسح (بالتبليل أو بالدهن)؛ في النص الديني يُستخدم بمعنى «المسيح/الممسوح».",
+        "claim_en": "Al-Masīḥ is derived from the root مسح (to wipe/anoint). The lexical sense is 'the anointed' (one who is wiped/anointed).",
+        "root": "مسح",
+        "lemma": "مَسِيح",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A72"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "أَبْناءُ اللَّهِ",
+        "claim_ar": "ابْنُ: اسم على وزن فَعْل/فِعْل (ابن) وجمعه التكسير «أبناء» كما يُرى في «أَبْناءُ اللَّهِ» — جمعٌ غير سالم (تكسير).",
+        "claim_en": "'ابن' follows the basic fa‘l pattern; its broken plural is 'أبناء' (as in 'أبناءُ اللَّهِ'), i.e. a non-suffix (broken) plural formation.",
+        "root": "بني",
+        "lemma": "ابْن",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A72"
+      },
+      {
+        "word_index": 29,
+        "claim_type": "root meaning",
+        "source_quote_ar": "النَّارُ",
+        "claim_ar": "النَّارُ: اسم دالّ على «النار/العقاب بالنار». في مدخلات المصدر أعطي الجذر «نور»، لكن تعيين الجذر لهذا الاسم مختلف عند المصادر اللغوية (تُنسب أحيانا إلى ن-و-ر أو تُعامل كجذر ن-ر-ر) — يلزم تدقيق.",
+        "claim_en": "The noun 'النار' denotes 'fire' (often 'Hellfire'). The provided root is 'نور', but the root-assignment for نار is debated in lexica (sometimes linked to n-w-r or treated differently); verification with a lexicon is recommended.",
+        "root": "نور",
+        "lemma": null,
+        "confidence": "low",
+        "needs_review_reason": "The input root 'نور' for النَّارُ is uncertain/questionable; classical sources differ on the root of نار. Please confirm against a lexical authority.",
+        "quran_ref": "S5:A72"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided are limited and do not mention every word form in the aya; claims were produced only where the exact surface form appeared in a source chunk.",
+      "Some input root assignments appear inconsistent with standard lexica (e.g., 'النَّارُ' given root 'نور'); such cases are flagged in claim needs_review_reason and should be checked against a dictionary."
+    ]
+  },
+  "n_chunks": 12
+}

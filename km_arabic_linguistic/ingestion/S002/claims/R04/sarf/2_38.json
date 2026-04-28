@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:38",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قَالَهُ",
+        "claim_ar": "فعل ماضٍ من الجذر قول (قَالَ) مع ضمير متصل في الصيغة الدالّة على المتكلّم الجمع (نحن) — أي 'قُلْنَا' بمعنى «قالنا»",
+        "claim_en": "Past (perfect) verb from the root ق-و-ل (lemma قَالَ) with an attached first‑person plural pronoun 'we' (قُلْنَا = 'we said').",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains the root/form قَالَهُ which attests the root and past meaning, but it does not show the exact surface form قُلْنَا in the excerpts; the conjugation is inferred."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "جَمَعْناكُمْ",
+        "claim_ar": "اسم/مصدر مرتبط بالجذر جمع بمعنى الجمع والتجميع؛ في صيغة 'جَمِيع' تدلّ على الكلّ أو المجموعة.",
+        "claim_en": "Derived from the root ج-م-ع 'to gather/collect'; the noun جَمِيع indicates 'all' / 'the whole (collection)'.",
+        "root": "جمع",
+        "lemma": "جَمِيع",
+        "confidence": "medium",
+        "needs_review_reason": "The cited excerpt shows the root in a verbal form (جَمَعْناكُمْ) confirming the semantic field 'gather', but the specific nominal sense جَمِيع (meaning 'all') is inferred rather than explicitly glossed in the chunk."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مِنَ الْخَوْفِ",
+        "claim_ar": "اسم من الجذر خوف يدلّ على الخشية، الفزع، والرهبة — 'الخوف'.",
+        "claim_en": "Noun from the root خ-و-ف meaning 'fear, alarm, terror'.",
+        "root": "خوف",
+        "lemma": "خَوْف",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "يَحْسَبُونَ",
+        "claim_ar": "مضارع بصيغة الثلاثي الاقتصادي مع علامة جمع الغائب الذكور -ونَ (نمط يَفْعَلُونَ)؛ يوازيه في الصيغة يَحْزَنُونَ ليدلّ على 'هم' في المضارع.",
+        "claim_en": "Present (imperfect) verb in the pattern يَفْعَلُونَ (third‑person masculine plural suffix -ونَ). By analogy to the attested form يَحْسَبُونَ, يَحْزَنُونَ is the present plural 'they grieve/are sad'.",
+        "root": "حزن",
+        "lemma": "يَحْزُن",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk contains a different verb in the same paradigm (يَحْسَبُونَ) rather than the exact token يَحْزَنُونَ; the pattern is inferred by analogy from the attested paradigm."
+      }
+    ],
+    "warnings": [
+      "No direct supporting substring found in the provided source chunks for these words/forms, so morphology was not extracted for them: اهْبِطُوا (word 2), فَإِمَّا (5), يَأْتِيَنَّكُمْ (6), مِنِّي (7), هُدَىً (8), فَمَنْ (9), تَبِعَ (10), هُدَايَ (11), فَلَا (12), عَلَيْهِمْ (14), وَلَا (15), هُمْ (16).",
+      "Some claims are based on root/forms attested in the chunks by related lexemes (e.g., قَالَهُ for قُلْنَا, يَحْسَبُونَ for يَحْزَنُونَ). Where the exact surface form from the verse does not appear in the excerpts, confidence is reduced and the claim notes this for review."
+    ]
+  },
+  "n_chunks": 12
+}

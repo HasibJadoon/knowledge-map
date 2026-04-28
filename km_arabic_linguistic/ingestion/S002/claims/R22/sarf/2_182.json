@@ -1,0 +1,24 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:182",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "الفاء لتضمن «من» معنى الشرط.",
+        "claim_ar": "الفاء في «فَمَنْ» فاء الربط/الشرط: الفاء هنا تلحق أداة الاستفهام/الاسم «مَنْ» لتضمن معنى الشرط (تعمل كحرف ربط يقرن «من» بمعنى شرط).",
+        "claim_en": "The prefixed fa- in 'fa-man' (فَمَنْ) functions as a linking/conditional particle: it attaches to the interrogative/indefinite 'man' to convey a conditional/contingent meaning (the 'fa' here links and introduces the conditional sense of 'man').",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Most words in the ayah had no directly matching morphological explanation in the provided source chunks. Only the function of the prefixed فـ (word 1) was attested in the chunks.",
+      "No source-chunk substring matching the exact forms or lexical entries for the other words (خَافَ, مُوصٍ, جَنَفاً, إِثْمًا, أَصْلَحَ, بَيْنَهُمْ, إِثْمَ, عَلَيْهِ, إِنَّ, اللَّهَ, غَفُورٌ, رَحِيمٌ, etc.) was found in the provided chunks, so no claims were extracted for those words."
+    ]
+  },
+  "n_chunks": 12
+}

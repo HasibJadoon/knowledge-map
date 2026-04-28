@@ -1,0 +1,32 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:266",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "فَتَمَنَّوُا الْمَوْتَ",
+        "claim_ar": "الفعل أَيَوَدُّ (من جذر ودد، لَمعجم: وَدَّ) يحمل معنى التمني/الرغبة (كما في سياق التمني: «فَتَمَنَّوُا الْمَوْتَ»).",
+        "claim_en": "The verb أَيَوَدُّ (lemma وَدَّ, root ودد) carries the meaning 'to wish' / 'to desire' — as illustrated by the commentary's use of the verb تَمَنّى (they wished).",
+        "root": "ودد",
+        "lemma": "وَدَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "المراد الجنة",
+        "claim_ar": "الاسم جَنَّةٌ (lemma جَنَّة، جذر: جنن) مقصود به «الجنة» بمعنى دار النعيم في الآخرة (كما يوضّح التعليق: «المراد الجنة»).",
+        "claim_en": "The noun جَنَّةٌ (lemma جَنَّة, root جنن) denotes 'al-Jannah' (Paradise, the garden of bliss) — the commentary explicitly states 'the intended meaning is the Garden (al-Jannah)'.",
+        "root": "جنن",
+        "lemma": "جَنَّة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:93",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation_loss_nuance",
+        "source_quote_ar": "وَمَنْ قالَ",
+        "claim_ar": "أداة شرط جازمة/تعريفية «مَنْ» تستخدم للعموم؛ تُترجم عادة بـ«whoever/whosoever» لكن تفقد بالإنجليزية بعض دقة العموم والتعميم التصريفي في العربية.",
+        "claim_en": "The conditional/generalizing particle man (وَمَنْ) is usually translated as \"whoever/whosoever\"; English often loses the precise Arabic generalizing/conditional nuance.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "Particle interpretation borders between syntax and semantic nuance; translation-loss judgement is somewhat interpretive and context-dependent."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "افْتَرى عَلَى اللَّهِ",
+        "claim_ar": "اسم علم (اللَّه) عادةً يُنسب إلى الجذر الثلاثي «اله»؛ الدلالة الجذرية تجريديّة (اللاهية/الإله) لكن اسم الله في العربية اسم جامد خصوصي لا يتصرف كفعل.",
+        "claim_en": "The proper name Allah is conventionally associated with the triliteral root 'اله' (relating to deity/worship), but 'Allah' functions as an indeclinable, non-derivable proper name (a lexicalized form) rather than a regular derived noun.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The origin/analysis of the name 'Allah' and its root attribution is conventional and debated; morphological behavior is irregular compared with productive patterns."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "translation_loss_nuance",
+        "source_quote_ar": "تاب اللَّه عليه",
+        "claim_ar": "ظرف/اسم مجرور مركّب (حرف+ضمير) «عَلَيْهِ» — تركيب حركي يعني حرف جر + ضمير متصل؛ في الترجمة الإنجليزية قد تُبسط إلى \"upon him/against him\" مع فقدان بعض نغمة التأثير القرآني.",
+        "claim_en": "The preposition + clitic 'عَلَيْهِ' is a morphologically compact prepositional form (preposition + attached pronoun); translations as \"upon him/against him\" can lose some of the Arabic's nuance of relation/intensity.",
+        "root": null,
+        "lemma": "عَلَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "Assessment about translation loss is interpretive; the morphological description (preposition + clitic) is straightforward but its pragmatic nuance depends on context."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "لِيَذُوقُوا الْعَذَابَ",
+        "claim_ar": "اسم مفعول/مصدر جامد «عَذَاب» على وزن فعّال (فعّال/فَعّال) من الجذر ثلاثى «ع ذ ب»، يحمل معنى التكثيف/الاستمرارية (العقوبة الشديدة/الذوق بالعذاب).",
+        "claim_en": "The noun 'ʿadhab' is from root ʿ-dh-b (ع ذ ب) on the pattern 'fa‘‘āl' (فعّال), an intensive/verbal-noun pattern denoting punishment/pain; carries an intensive or enduring sense.",
+        "root": "عذب",
+        "lemma": "عَذَاب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,32 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:53",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "إِلَّا صَيْحَةً واحِدَةً",
+        "claim_ar": "أداة استثناء وتقييد (إِلَّا) تدل على الحصر/الاستثناء بمعنى 'باستثناء' أو 'فقط'، وهي تُضفي قيدًا قد يضيع في ترجمة مبسطة.",
+        "claim_en": "The particle إِلَّا is an exclusive/restrictive particle meaning 'except' / 'only'. It imposes a limiting/exclusive nuance that can be lost in a simple translation.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 27,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "غَيْرَ ناظِرِينَ",
+        "claim_ar": "كلمة غَيْرَ هنا تعمل كأداة تمييز/نفي بمعنى 'سوى/غير' لتبيان الاستثناء أو نفي الصفة؛ قد تُترجم 'other than' أو 'not', مع دقة دلالية قد تضيع بالترجمة.",
+        "claim_en": "The word غَيْرَ functions as a distinguishing/negating term meaning 'other than' / 'not'. It marks exclusion or negation and carries a nuance that may be lost in translation.",
+        "root": "غير",
+        "lemma": "غَيْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

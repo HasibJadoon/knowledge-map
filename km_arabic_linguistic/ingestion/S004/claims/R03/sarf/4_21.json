@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:21",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "أخذ حذره",
+        "claim_ar": "جذر «اخذ»: معنى أساسي «أَخَذَ» = أخذ، انتزع، استولى (المعنى العام 'أخذ/نَال/أَتَى')",
+        "claim_en": "Root 'اخذ' (أَخَذَ): basic meaning 'to take, seize, obtain'.",
+        "root": "اخذ",
+        "lemma": "أَخَذَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "verb_form",
+        "source_quote_ar": "أخذ حذره",
+        "claim_ar": "تَأْخُذُونَهُ: فعل مضارع من ثلاثي مجرد (جذر اخذ) على وزن يَفْعُلُ، مع تاء المضارعة للمتكلم/الفاعل الصيغي (تَـ) وسينتهـا نون الجماعة (ـونَ) للدلالة على جمع المخاطبين، ومع ضمير المفعول المتصل «ـهُ».",
+        "claim_en": "takhudhūnahu (تأخذونه): imperfect (present) of the triliteral root 'اخذ' on the yaf'ul (يَفْعُلُ) pattern, with the prefix tā- and the plural suffix -ūn (you plural), plus the attached object pronoun -hu.",
+        "root": "اخذ",
+        "lemma": "أَخَذَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "verb_form",
+        "source_quote_ar": "أخذ حذره",
+        "claim_ar": "وَأَخَذْنَ: واو العطف + فعل ماضٍ ثلاثي مجرد (أَخَذَ) ماضٍ، واللاحقة «ـنَ» هنا علامة جمع المؤنث الغائب (صيغة الماضي للمؤنث الجمع).",
+        "claim_en": "wa-aḫaḏna (وَأَخَذْنَ): conjunction waw + perfect (past) of the triliteral root 'أخذ' with the suffix -na indicating feminine plural in the past form.",
+        "root": "اخذ",
+        "lemma": "أَخَذَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "The provided source chunks contain explicit occurrences/discussion only for the root form 'أخذ' (e.g. the substring 'أخذ حذره' in AL:CHUNK:a4980162151e836d8e603873). Other words in the verse (بَعْضُكُمْ، أَفْضَى، مِيثَاقًا، غَلِيظًا، etc.) do not have explicit sarf commentary in the supplied chunks, so no claims were extracted for them.",
+      "The verb-form claims rely on standard Classical Arabic morphology applied to the word forms in the ayah; the quoted source substring shows the root occurrence but does not itself give a morphological analysis. If you need only claims directly attested in the commentator texts, please supply chunks that discuss those specific words/forms."
+    ]
+  },
+  "n_chunks": 12
+}

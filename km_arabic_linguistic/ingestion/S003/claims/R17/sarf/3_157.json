@@ -1,0 +1,74 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:157",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قُتِلَ",
+        "claim_ar": "فِعْلُ مَاضٍ مَجهولٌ على وزن فُعِلَ مع ضمير متصل في الشكل الأخير (قُتِلْتُمْ).",
+        "claim_en": "Past passive verb on the pattern fu'ila with an attached pronoun (as in قُتِلْتُمْ 'you were killed').",
+        "root": "قتل",
+        "lemma": "قَتَلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A157"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قُتِلَ",
+        "claim_ar": "الجذر: قتل — دالّ على الفعل 'قتل' (إزهاق الحياة أو إزالتها).",
+        "claim_en": "Root 'قتل' meaning 'to kill' (to take life).",
+        "root": "قتل",
+        "lemma": "قَتَلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A157"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ماتَ",
+        "claim_ar": "الجذر: موت (مَاتَ) — دالّ على الفعل 'مات' بمعنى الفقدان الحياتي/الموت.",
+        "claim_en": "Root 'موت' (from مَاتَ) meaning 'to die'.",
+        "root": "موت",
+        "lemma": "مَّاتَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A157"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "أَفَإِنْ",
+        "claim_ar": "حرف شرط مركب (لَـ + إِنْ = لَئِنْ) يحمل توكيداً أو تحصيناً للشرط قد لا تنقله الترجمة الحرفية البسيطة.",
+        "claim_en": "The compound conditional particle (lam + in = لَئِنْ) adds emphasis/fortification to the condition; this nuance is often lost in a literal translation.",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source discusses إِنْ/conditional sequencing (أَفَإِنْ) in rhetorical context rather than explicitly analysing the lam+in compound; the claim relies on standard grammatical interpretation.",
+        "quran_ref": "S3:A157"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهُ",
+        "claim_ar": "اسم علم «اللَّه» من الجذر (اله) دالّ على الإله/المعبود.",
+        "claim_en": "Proper name 'Allah' (from root اله) meaning 'the God' (the deity).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A157"
+      }
+    ],
+    "warnings": [
+      "Some source excerpts quote related or uninflected forms (e.g., quoted قُتِلَ and ماتَ) rather than the exact inflected surface forms in the ayah (قُتِلْتُمْ, مُتُّمْ). Claims that map those excerpts to the exact ayah forms should be checked for inflection-specific details.",
+      "The form مُتُّمْ in the input orthography is uncommon/ambiguous; the claim about root (موت / مَاتَ) is based on the obvious lexical relation but the precise morphological analysis of the printed form (passive/derived/orthographic) needs review against a vetted Qur'anic text.",
+      "The particle-lam + إِنْ nuance claim is supported by a source discussing conditional particles (أَفَإِنْ) in rhetorical context; a focused grammatical source that explicitly analyses the compound لَئِنْ would increase confidence."
+    ]
+  },
+  "n_chunks": 12
+}

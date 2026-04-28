@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:132",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "القول في تأويل قوله:",
+        "claim_ar": "الجذر: قول — المعنى: القول/الكلام، من الفعل قَالَ (الدلالة الأساسية للفعل 'قال')",
+        "claim_en": "Root 'قول' — meaning: saying/speech, from the verb قَالَ (basic meaning 'to say').",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وَقَالَتْ أُولاهُمْ لأُخْرَاهُمْ",
+        "claim_ar": "وزن الفعل: فعل ماضٍ (فعل من وزن فعل — قَالَ). في السياق الصيغة وَقَالُوا هي فعل ماضٍ مزيد إليه واو جماعة للدلالة على جمع مذكر غائب.",
+        "claim_en": "Verb form: past tense (Form I, e.g. قَالَ). In the verse the form وَقَالُوا is a past verb with the plural suffix -وا marking third-person masculine plural.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source substring shows قَالَتْ (feminine form); extrapolation to وَقَالُوا (masculine plural) is regular but the exact form does not appear in the source chunk."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ما أتوه وركبوا",
+        "claim_ar": "الجذر: أتى — المعنى الأساسي: جاء/أتى (مشتق في الآية: تَأْتِنَا = 'تأتي إلينا/تجلب لنا').",
+        "claim_en": "Root 'أتى' — basic meaning: to come/arrive (in the verse تَأْتِنَا = 'you bring/you come to us').",
+        "root": "أتي",
+        "lemma": "أَتَى",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote shows a different conjugation (أتوه, past) rather than the imperfect تَأْتِنَا; the root extraction is straightforward but the exact verbal form is extrapolated."
+      }
+    ],
+    "warnings": [
+      "Some source quotes show related forms (e.g., قَالَتْ, أتوه) rather than the exact surface forms in the ayah (وَقَالُوا, تَأْتِنَا). Claims extrapolate from those related forms to the target words — see needs_review_reason fields.",
+      "No source chunk contained explicit discussion of several words in the ayah (مَهْمَا، بِهِ، آيَةٍ، لِتَسْحَرَنَا، إلخ.), so no morphology claims were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

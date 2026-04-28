@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:172",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "idiom",
+        "source_quote_ar": "(يا أَيُّهَا الَّذِينَ آمَنُوا)",
+        "claim_ar": "يا أَيُّهَا: تركيب نداء اصطلاحي (يا + أَيُّهَا) يستخدم لاستدعاء المخاطبين بوقع خطابي مميز.",
+        "claim_en": "The phrase 'يا أَيُّهَا' is a fixed vocative construction (ya + ayyuhā) used to address/addressees emphatically.",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "medium",
+        "needs_review_reason": "The provided root 'ايي' is nonstandard for a vocative particle; particles typically lack a classical triliteral root — verify or drop the root."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn",
+        "source_quote_ar": "(يا أَيُّهَا الَّذِينَ آمَنُوا)",
+        "claim_ar": "الَّذِينَ: اسم موصول بصيغة جمع مذكر من صيغة 'الذي'، يستخدم للدلالة على الجمع المذكر ('الذين' = 'الَّذِينَ').",
+        "claim_en": "الَّذِينَ is the relative pronoun 'those who', the plural-masculine form of الذي.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "(يا أَيُّهَا الَّذِينَ آمَنُوا)",
+        "claim_ar": "آمَنُوا: فعل ماضٍ ثلاثي من الجذر أ‑م‑ن، صيغة الفعل الأول (فَعَلَ) بصيغة الماضي الجمع المذكّر (وا)، يدل على الدخول في حالة الإيمان/التصديق.",
+        "claim_en": "آمَنُوا is the perfect (past) of the Form I verb from root A-M-N meaning 'to believe'; 3rd-person plural suffix -ū; denotes entering/being in the state of belief.",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

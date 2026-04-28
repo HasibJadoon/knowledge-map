@@ -1,0 +1,76 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:80",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وَقُلْ رَبِّ",
+        "claim_ar": "فعل أمر من الجذر ق-و-ل (قَالَ)؛ صيغة الأمر المختصرة: قُلْ (أمر للمخاطَب).",
+        "claim_en": "Imperative verb derived from the triliteral root q-w-l (قَالَ); the form is the imperative 'qul' (\"say\").",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قالَ",
+        "claim_ar": "فعل ماضٍ من الجذر ق-و-ل (قَالَ)، هنا صيغة الماضي مع وا الجماعة (قالوا) دلالة على: هم قالوا.",
+        "claim_en": "Past (perfect) tense of the root q-w-l (قَالَ), here with the plural suffix -ū (قالوا) meaning 'they said'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 18,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "يقال:",
+        "claim_ar": "فعل مضارع من الجذر ق-و-ل (قَالَ) بصيغة المخاطَب الجمع: تَقُولُونَ (أنتم تقولون)؛ صيغة الفعل المضارع مع تـ الابتداء وواو الجماعة.",
+        "claim_en": "Present-tense verb from root q-w-l (قَالَ) in the 2nd-person plural form: 'taqulūna' = 'you (pl.) say'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk contains the related verb form 'يقال' rather than the exact inflected form 'تقولون'; the root/lemma identification is secure but the cited surface form differs."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الله",
+        "claim_ar": "اسم الجلالة من الجذر أَلْهَ/اله، يدل على المعبود الواحد (الـإله).",
+        "claim_en": "The divine proper name 'Allah', from the root related to 'deity' (اله), denotes the One God.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الله",
+        "claim_ar": "اسم الجلالة (اللَّه) من الجذر اله؛ دلالة على الرب المطلق المعبود.",
+        "claim_en": "The divine proper name 'Allah' (اللَّه), from the root 'اله', indicating the absolute Lord and object of worship.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 20,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الله",
+        "claim_ar": "اسم الجلالة من الجذر اله؛ استعمال معرف يدل على الإله المعبود.",
+        "claim_en": "The proper name 'Allah' from the root 'اله', used as the definite name for God.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

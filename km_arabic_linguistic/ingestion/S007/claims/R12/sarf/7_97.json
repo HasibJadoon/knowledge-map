@@ -1,0 +1,76 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:97",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "آمَنُوا",
+        "claim_ar": "أَفَأَمِنَ من الجذر أمن — يحمل معنى الأمن/الأمان وقد يتداخل مع معنى الإيمان/التصديق في صور متقاربة (آمَنَ)",
+        "claim_en": "From root أمن (amn). The verb conveys the sense of being secure/safe (to feel secure); note the related form آمَنَ can mean 'to believe', so there is a semantic overlap that affects translation.",
+        "root": "امن",
+        "lemma": "أَمِنَ",
+        "confidence": "medium",
+        "needs_review_reason": "The same root appears in forms meaning both 'to be secure' and 'to believe' (آمَنَ); context-dependent distinction requires review.",
+        "quran_ref": "S7:A97"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "أهل تلك القرى",
+        "claim_ar": "أَهْلُ من الجذر أهل — اسم بمعنى سكان/أهل المكان",
+        "claim_en": "From root اهل. 'Ahl' means the people/inhabitants (of a place); here denotes the inhabitants of the towns.",
+        "root": "اهل",
+        "lemma": "أَهْل",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A97"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wazn",
+        "source_quote_ar": "اللام في القرى: إشارة إلى القرى",
+        "claim_ar": "الْقُرَى (قُرًى) جمع تكسير من قَرْيَة — صيغة جمع غير صوتية (جمع تكسير) تدل على القرى/البلدات",
+        "claim_en": "al-qu'rā (قُرًى) is the broken plural of قَرْيَة (village/town).",
+        "root": "قري",
+        "lemma": "قَرْيَة",
+        "confidence": "medium",
+        "needs_review_reason": "The source discusses 'القرى' and its referential force but does not provide an explicit morphological paradigms list; broken-plural identification is standard but flagged for review.",
+        "quran_ref": "S7:A97"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "translation_nuance",
+        "source_quote_ar": "اللام في القرى: إشارة إلى القرى",
+        "claim_ar": "الـ التعريف هنا إشارة إلى قرى مخصوصة/التي دل عليها السياق — لها أثر في ترجمة النص ('القرى' = ‘the towns’/specific towns)",
+        "claim_en": "The definite article al- here (as discussed 'اللام في القرى') signals specific towns meant in the context; this affects translation (rendering as 'the towns'/'those towns' rather than a generic 'towns').",
+        "root": "قري",
+        "lemma": "قَرْيَة",
+        "confidence": "medium",
+        "needs_review_reason": "Determining whether 'ال' is generic or specific can be interpretive; source treats it as pointing to particular towns, but context-sensitive.",
+        "quran_ref": "S7:A97"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "verb_form",
+        "source_quote_ar": "فَأْتِ بِها",
+        "claim_ar": "يَأْتِيَ (مضارع من أَتَى) — فعل ثلاثي مجرد، المضارع يَأْتِي، مصدر أَتْيَة/أَتَى",
+        "claim_en": "From root أتى (أتَى). يَأْتِي is the present of the basic triliteral verb أتى (to come/bring); the source's imperative/example 'فَأْتِ بِها' illustrates the same root and verbal family.",
+        "root": "اتي",
+        "lemma": "أَتَى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A97"
+      }
+    ],
+    "warnings": [
+      "No supporting source-chunk substring found for word_index 4 (أَنْ) — no morphology claim extracted.",
+      "No supporting source-chunk substring found for word_index 6 (بَأْسُنَا) — no morphology claim extracted.",
+      "No supporting source-chunk substring found for word_index 7 (بَيَاتَاً) — no morphology claim extracted.",
+      "No supporting source-chunk substring found for word_index 8 (وَهُمْ) — no morphology claim extracted (pronoun; source chunks lack matching substring).",
+      "No supporting source-chunk substring found for word_index 9 (نَائِمُونَ) — no morphology claim extracted."
+    ]
+  },
+  "n_chunks": 12
+}

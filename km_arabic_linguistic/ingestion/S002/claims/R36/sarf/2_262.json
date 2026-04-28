@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:262",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "(الَّذِينَ)",
+        "claim_ar": "اسم موصول بصيغة الجمع المذكر من الضمير/الاسم الصرفي «الَّذِي»، يستخدم للإشارة إلى جمع مذكر غير معين.",
+        "claim_en": "The word is the relative pronoun in the masculine plural form derived from the base form 'الَّذِي' — used to refer to a non-specific masculine plural group.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "root meaning",
+        "source_quote_ar": "فَلَهُمْ أَجْرُهُمْ",
+        "claim_ar": "اسم «أَجْر» من الجذر أ ج ر، معنى الصرفي: الجزاء/الثواب؛ وزن الاسم «أَفْعَل» (أَجْر).",
+        "claim_en": "The noun 'أَجْر' derives from the root أ ج ر (ajr) meaning 'reward' or 'recompense'. The noun follows the af'al (أَفْعَل) pattern (as in 'أَجْر').",
+        "root": "اجر",
+        "lemma": "أَجْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Most words of the ayah do not appear verbatim in the provided source_chunks. Claims were produced only for words that are attested as exact substrings in the supplied chunks ((الَّذِينَ) and فَلَهُمْ أَجْرُهُمْ). Other morphological insights in the ayah could not be sourced to the given chunks and were therefore not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

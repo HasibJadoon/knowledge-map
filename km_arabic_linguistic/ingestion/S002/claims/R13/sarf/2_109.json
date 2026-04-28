@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:109",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "لو تمنوا الموت",
+        "claim_ar": "حرف لامعنى شرطى وصلبي (لَوْ) يُفيد التمني أو التخيل لحالة غير واقعية؛ في العربية يحمل دلالة التمني/الاستحالة الشرطية التي غالبًا تُفقد في الترجمة المباشرة إلى الإنجليزية إذا لم تُوضَّح كـ“counterfactual” أو “irrealis”.",
+        "claim_en": "The particle لَوْ expresses a counterfactual/hypothetical wish (irrealis). This nuance (counterfactual wish) is often lost or compressed in direct translations into English unless explicitly rendered as a counterfactual/hypothetical.",
+        "root": null,
+        "lemma": "لَو",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 26,
+        "claim_type": "root meaning",
+        "source_quote_ar": "رضى اللَّه عنه",
+        "claim_ar": "الاسم العلم «اللَّه» من الجذر الهـ (أ-ل-ه) بمعنى المعبود/المطلوب للعبادة؛ يدل على الذات الإلهية الخاصة ولا يُنسب هنا إلى معنى صرفي عام بل إلى اسم علم محدد.",
+        "claim_en": "The proper name 'اللَّه' derives from the root الهـ (a-l-h) meaning 'the one worshipped / deity'. It denotes the divine Being and functions as a proper name rather than a general derived nominal form.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 28,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "إن الذين",
+        "claim_ar": "حرف التوكيد «إِنَّ» المستخدم لِتَثْبِيتِ الجملة الاسمية (وَيَقعُ مَعَهُ نَصْبُ الخَبَر) وله دلالة تأكيدية غالبًا تُترجم بـ«indeed/ verily»، وقد تُفقد درجة التأكيد هذه في ترجمة مبسّطة.",
+        "claim_en": "The particle إِنَّ is an emphatic particle used to assert/firmly state a nominal sentence (it causes the predicate to be in the accusative). It carries an emphasising sense often translated as 'indeed' or 'verily', a nuance that can be weakened or lost in simple translations.",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

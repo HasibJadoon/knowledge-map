@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:76",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "قَالَ ادْخُلُوا",
+        "claim_ar": "فعل ثلاثي مجرد على وزن فَعَلَ (قَالَ) من الجذر قول — صيغة الماضي الدالّة على التكلّم/القول.",
+        "claim_en": "Trilateral simple past verb on the pattern فَعَلَ (fa'ala), from the root ق-و-ل (قول), meaning 'to say'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "من البغي وهو الكبر",
+        "claim_ar": "فعل مزيد بالاسم النحوي «استـ» على وزن استفعل (استكبار) مشتق من الجذر كبر ويدلّ على التّكبّر/الاستعلاء.",
+        "claim_en": "Derived verb with the prefix است‑ (form: استفعل) from the root ك‑ب‑ر; denotes arrogance/pride (as in 'استكبار').",
+        "root": "كبر",
+        "lemma": "اسْتَكْبَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source passage discusses the noun الكِبر (pride) rather than the exact verbal form اسْتَكْبَرُوا; mapping to the استفعل verb is an informed inference."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "يُؤْمِنُوا",
+        "claim_ar": "فعل ثلاثي على وزن أَفْعَلَ (آمَنَ) من الجذر أ-م-ن دالّ على الإيمان/التصديق؛ هنا الشكل المتصل في القرآن متغيّر صيغياً (آمَنتُم في الآية مقابل يُؤْمِنُوا في الشاهد).",
+        "claim_en": "Trilateral verb on the pattern أَفْعَلَ (e.g. آمنَ) from root أ‑م‑ن meaning 'to believe'. The cited source shows a related imperfect form (يُؤْمِنُوا); mapping to آمَنْتُمْ in the verse is inferred.",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source contains a related imperfect form (يُؤْمِنُوا) not the exact form آمَنتُمْ; the claim generalizes the root/pattern from that attested form."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "لهؤلاء الكفرة",
+        "claim_ar": "اسم فاعل على وزن فاعل (كافر) من الجذر ك‑ف‑ر يدلّ على الْكُفْر/الْكافِر؛ صيغة الجمع الظاهرة بالآية (كَافِرُونَ) هي جمع مذكر على واو ونون.",
+        "claim_en": "Active participle (pattern فاعل) from root ك‑ف‑ر meaning 'to disbelieve' — i.e. 'kāfir' (disbeliever). The plural form in the verse (كَافِرُونَ) is the masculine plural with -ūn.",
+        "root": "كفر",
+        "lemma": "كَٰفِرُون",
+        "confidence": "medium",
+        "needs_review_reason": "Source uses the related noun form الكفرة; direct attestation of كافرون in the provided chunks is not present, so pluralization/format is inferred."
+      }
+    ],
+    "warnings": [
+      "Several claims are inferred from related forms attested in the sources (e.g., الكبر → استكبار, يُؤْمِنُوا → آمَنْتُمْ, الكفرة → كافرون). The provided chunks do not contain the exact surface forms for every target word, so mapping to the ayah's specific word forms was partially inferential.",
+      "No source chunk explicitly discussed the relative particle الَّذِينَ or the particle إِنَّا in morphological terms; such function words were therefore not given separate morphology claims."
+    ]
+  },
+  "n_chunks": 12
+}

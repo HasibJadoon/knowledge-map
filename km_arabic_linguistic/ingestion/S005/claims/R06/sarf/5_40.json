@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:40",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم علم للذات الإلهية؛ يُنظر إليه تقليدياً باعتباره لفظاً خاصّاً بالإله (مربوطاً عند بعض النحاة/اللغويين بجذر «اله» كمصدر للدلالة على الإله أو العبادة).",
+        "claim_en": "Proper name for the Divine (God). Traditionally treated as a special proper noun; some grammarians/lexicographers relate it to the root 'اله' (associated with deity/worship) though this etymology is debated.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The etymology/root attribution of the divine name is contested in classical sources; the provided source chunks contain occurrences of 'اللَّه' but do not give a clear morphological etymology for the divine name, so the claim relies on general lexicographic convention and should be reviewed against dedicated lexical/etymological sources."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم الإِله بصفته لفظًا ثابتاً في العربية القرآنية؛ يُستخدم للدلالة على الذات الإلهية المطلقة. ترتيب الصيغة والاشتقاق التقليدي يُنسب عند بعض الأقدمين إلى «اله».",
+        "claim_en": "The Divine name used as a fixed proper noun in Qur'anic Arabic to denote the absolute God. Traditional treatments sometimes link its formation to the element 'اله', but that derivation is not unanimous.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Duplicate occurrence of the same divine name in the verse; etymological/derivational details remain debated and are not explicitly analyzed in the provided chunks, so this should be checked against specialist morphological/lexical discussion."
+      }
+    ],
+    "warnings": [
+      "Most words of S5:A40 do not appear with morphological discussion in the supplied source chunks. Claims are limited to tokens (e.g., 'اللَّه') that occur verbatim in the provided chunks. Other morphological claims (wazn, verb-form, root-meanings) could not be extracted from the supplied excerpts and would require additional lexical or grammatical sources.",
+      "The etymology/‘root’ of the divine name is a sensitive and debated topic; any claim about its root should be reviewed with specialized lexicographical/philological references."
+    ]
+  },
+  "n_chunks": 12
+}

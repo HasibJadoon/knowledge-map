@@ -1,0 +1,178 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 1,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 12,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 1,
+          "head_word_index": 1,
+          "note_ar": ""
+        },
+        {
+          "clause_order": 2,
+          "clause_type": "object_clause",
+          "word_start": 2,
+          "word_end": 12,
+          "head_word_index": 2,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قالوا",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "قالوا فعل ماض وفاعله"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "نفقد",
+          "relation_type": "predicate",
+          "governor_word_index": 1,
+          "irab_position": "فاعل",
+          "irab_case": "",
+          "note_ar": "نفقد مضارع مرفوع، والفاعل نحن"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "صواع",
+          "relation_type": "object_direct",
+          "governor_word_index": 2,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "صواع مفعول به منصوب"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "الملك",
+          "relation_type": "object_direct",
+          "governor_word_index": 3,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "الملك مضاف إليه مجرور"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "الواو",
+          "relation_type": "coordinated",
+          "governor_word_index": 4,
+          "irab_position": "عاطفة",
+          "irab_case": "",
+          "note_ar": "الواو عاطفة"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "اللام",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 7,
+          "irab_position": "حرف جرّ",
+          "irab_case": "",
+          "note_ar": "اللام حرف جرّ"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "من",
+          "relation_type": "object_direct",
+          "governor_word_index": 6,
+          "irab_position": "اسم موصول",
+          "irab_case": "مبنيّ في محلّ جرّ",
+          "note_ar": "من اسم موصول مبنيّ في محلّ جرّ متعلّق بخبر مقدّم"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "جاء",
+          "relation_type": "predicate",
+          "governor_word_index": 7,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "جاء فعل ماض، والفاعل هو وهو العائد"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "الباء",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 10,
+          "irab_position": "حرف جرّ",
+          "irab_case": "",
+          "note_ar": "الباء حرف جرّ"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "به",
+          "relation_type": "object_direct",
+          "governor_word_index": 9,
+          "irab_position": "مجرّ متعلّق",
+          "irab_case": "مجرّ",
+          "note_ar": "به مثل الأول متعلّق ب (زعيم)"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "حمل",
+          "relation_type": "subject",
+          "governor_word_index": 12,
+          "irab_position": "مبتدأ مؤخّر",
+          "irab_case": "مرفوع",
+          "note_ar": "حمل مبتدأ مؤخّر مرفوع"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "بعير",
+          "relation_type": "object_direct",
+          "governor_word_index": 11,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "بعير مضاف إليه مجرور"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "الواو",
+          "relation_type": "coordinated",
+          "governor_word_index": 14,
+          "irab_position": "استئنافيّة",
+          "irab_case": "",
+          "note_ar": "الواو استئنافيّة"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "أنا",
+          "relation_type": "subject",
+          "governor_word_index": 15,
+          "irab_position": "فاعل",
+          "irab_case": "",
+          "note_ar": "أنا فاعل"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "به",
+          "relation_type": "object_direct",
+          "governor_word_index": 14,
+          "irab_position": "مجرّ متعلّق",
+          "irab_case": "مجرّ",
+          "note_ar": "به مثل الأول متعلّق ب (زعيم)"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "زعيم",
+          "relation_type": "predicate",
+          "governor_word_index": 15,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "زعيم خبر"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

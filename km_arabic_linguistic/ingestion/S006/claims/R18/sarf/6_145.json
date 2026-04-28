@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:145",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "ما يُوحى إِلَيَّ",
+        "claim_ar": "أُوحِيَ: فعل مبنيّ للمجهول (صيغة المبنيّ للمجهول من الفعل أَوْحَى)، أي صيغة مبالغة في التبليغ كنقل الوحي إلى النبي، وهو ماضٍ مبني للمجهول.",
+        "claim_en": "أُوحِيَ is the past passive (perfect passive) of the verb أَوْحَى (Form IV); a passive-form verb conveying that revelation was conveyed to the addressee.",
+        "root": "وحي",
+        "lemma": "أَوْحَىٰٓ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "ما يُوحى إِلَيَّ",
+        "claim_ar": "وزن الفعل الأصلي أَوْحَى من وزن أَفْعَل (الصيغة الرابعة)، وشكل المبنيّ للمجهول في الماضي يظهر كأُفْعِلَ (أُوحِيَ).",
+        "claim_en": "The base verb أَوْحَى follows the Form IV pattern (أفعل). The passive past pattern appears as أُفْعِلَ, realized here as أُوحِيَ.",
+        "root": "وحي",
+        "lemma": "أَوْحَىٰٓ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ما يُوحى إِلَيَّ",
+        "claim_ar": "الجذر وحي/و-ح-ي مرتبط بميدان المعنى 'الوحي/الإيحاء/التقريع الإلهي'؛ الفعل أَوْحَى يحمل معنى الإيصال/التنزيل (الوحي).",
+        "claim_en": "The root و-ح-ي (w-ḥ-y) relates to the semantic field of revelation/inspiration; the verb أَوْحَى means 'to reveal' or 'to inspire' (convey revelation).",
+        "root": "وحي",
+        "lemma": "أَوْحَىٰٓ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted source string shows the verb form (يُوحى) in context but does not explicitly state a lexical gloss; the meaning is inferred from standard lexical knowledge rather than an explicit gloss in the provided chunk."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

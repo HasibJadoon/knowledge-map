@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:254",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الذين آمنوا",
+        "claim_ar": "آمَنُوا — من الجذر أمن: التصديق والإيمان (فعل ماضٍ جمع مذكر غائب)",
+        "claim_en": "'آمَنُوا' derives from the root أمن (ʼ-m-n) meaning 'to believe, to have faith'. Here it is the past verb (3rd person plural) expressing that those people held belief.",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "الصدقة",
+        "claim_ar": "أَنْفِقُوا — فعل أمر جمع من أَنفَقَ (أَفْعَلَ)؛ دلالته الإنفاق/الإنفاق في سبيل الله، غالبًا بمعنى الصدقة (يمكن أن يكون علنياً أو سراً كما في الشروح)",
+        "claim_en": "'Anfiqū' is the imperative plural of the Form IV verb أَنفَقَ (root ن-ف-ق), meaning 'spend' or 'expend'. In Qur'anic usage it often refers specifically to charitable spending (al-ṣadaqa), and can entail giving openly or secretly (as exegetical notes discuss).",
+        "root": "نفق",
+        "lemma": "أَنفَقَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 19,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الكفرة",
+        "claim_ar": "الْكَافِرُونَ — من الجذر كفر: المنكرون للإيمان أو الجاحدون له (جمع الكافر)",
+        "claim_en": "'Al-kāfirūn' derives from the root ك-ف-ر (k-f-r) meaning 'to disbelieve, to deny'. It designates those who reject or deny faith (the plural noun 'kāfirūn').",
+        "root": "كفر",
+        "lemma": "كَٰفِرُون",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,72 @@
+{
+  "layer": "sarf",
+  "ayah_key": "1:4",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "(مالك) اسم فاعل من ملك يملك على معنى الصفة المشبهة لدوام الملكية، باب ضرب وزنه فاعل جمعه ملّاك ومالكون.",
+        "claim_ar": "الكلمة على وزن اسم الفاعل (فاعل) مشتقّة من فعل «ملك»؛ جمعه ملّاك ومالكون.",
+        "claim_en": "Pattern: active-participle (fa'il) derived from the verb مالك/ملك ('to possess'); plural forms given as ملّاك and مالكون.",
+        "root": "ملك",
+        "lemma": "مَٰلِك",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S1:A4"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "(مالك) اسم فاعل من ملك يملك على معنى الصفة المشبهة لدوام الملكية، باب ضرب وزنه فاعل جمعه ملّاك ومالكون.",
+        "claim_ar": "اسم فاعل يعمل كصفة مشبهة تفيد دوام الملكية/الربوبية (أي دلالة على استمرار التملك/السّلطة).",
+        "claim_en": "The active-participle functions as an adjectival/qualificative noun (sifa mushabbaha) indicating continued/ongoing possession or sovereignty.",
+        "root": "ملك",
+        "lemma": "مَٰلِك",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S1:A4"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(يوم) اسم بمعنى الوقت المحدد من طلوع الشمس إلى غروبها أو غير المحدد. وهنا جاء بمعنى يوم القيامة. وجمعه أيّام، وجمع الجمع أياويم.",
+        "claim_ar": "اسم يدلّ على الوقت/اليوم؛ هنا مقصود به «يوم القيامة». جمعه أيّام.",
+        "claim_en": "Noun meaning 'day' (a defined span of time); in this context it specifically denotes the 'Day of Judgment'. Plural: ayyām.",
+        "root": "يوم",
+        "lemma": "يَوْم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S1:A4"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "(الدين) مصدر دان يدين باب ضرب بمعنى جزى وأطاع أو خضع، وزنه فعل بكسر الفاء وسكون العين، وثمّة مصدر آخر للفعل هو ديانة بكسر الدال.",
+        "claim_ar": "«دين» مصدر من الفعل دان/يدين على وزن فَعِل (فعل بكسر الفاء وسكون العين).",
+        "claim_en": "The word 'al-dīn' is a verbal noun (masdar) from دان/يدين, on the pattern fa'il (f'ila) — i.e., pattern 'فعل' with a kasra on the first root letter and a sukun on the middle root letter.",
+        "root": "دين",
+        "lemma": "دِين",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S1:A4"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(الدين) مصدر دان يدين باب ضرب بمعنى جزى وأطاع أو خضع، وزنه فعل بكسر الفاء وسكون العين، وثمّة مصدر آخر للفعل هو ديانة بكسر الدال. والدين معناه الجزاء أو الطاعة، وقد يكون بمعنى الملّة أو العادة.",
+        "claim_ar": "معنى الكلمة يشمل «الجزاء» أو «الطاعة/الخضوع» وقد تحمل أيضاً معانٍ مثل «الملّة» أو «العادة»؛ هنا مُقترنة بيوم الجزاء (يوم الجزاء/الدين).",
+        "claim_en": "Meaning ranges across 'recompense/penalty' and 'obedience/submission'; can also mean 'religion' or 'custom'. In this phrase it is associated with the Day of Recompense/Judgment.",
+        "root": "دين",
+        "lemma": "دِين",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S1:A4"
+      }
+    ],
+    "warnings": [
+      "المنظومة النصية تتضمّن قراءات متباينة (راجع: «ملك يوم الدين، ومالك، وملك بتخفيف اللام» في الزمخشري). الاستخلاص هنا يفترض قراءة «مَالِكِ» كما في المصحف الشائع."
+    ]
+  },
+  "n_chunks": 12
+}

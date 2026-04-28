@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:101",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "إِنْ خِفْتُمْ",
+        "claim_ar": "الجذر: خ و ف (خوف) بمعنى الخوف/الخشى (الخوف من شيء)",
+        "claim_en": "Root: خ-و-ف (kh-w-f) meaning 'to fear; to be afraid'",
+        "root": "خوف",
+        "lemma": "خَافَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A101"
+      },
+      {
+        "word_index": 13,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "إِنْ خِفْتُمْ",
+        "claim_ar": "خِفْتُمْ: فعل ماضٍ من وزن فعل (الفعل الثلاثي المجرد) من الجذر خَافَ، صيغة مخاطَب جمع المذكر (أنتم)",
+        "claim_en": "khiftum is a past-tense verb (Form I, pattern فعل) from the root خَافَ; 2nd-person plural (antum)",
+        "root": "خوف",
+        "lemma": "خَافَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A101"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:67",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "رَبِّ إِنِّي",
+        "claim_ar": "جذر رَبّ (المعطى في البيانات: رَبّ/ربب) يدل على الملكية/الربوبية؛ اللفظة رَبِّ هي صيغة الدلالة على المالك أو السيد (مِن جذر ر‑ب‑ب).",
+        "claim_en": "Root r-b-b (given as ربب) denotes lordship/ownership; the lemma رَبّ indicates 'Lord/master' (derived from the root r‑b‑b).",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "root meaning",
+        "source_quote_ar": "واللَّه",
+        "claim_ar": "اسم الجلالة «اللَّه» مرتبط بجذر اله (كما في البيانات) ويعبر عن الإله/المعبود، ويعمل كاسم علم مخصوص للدلالة على الربوبية الإلهية.",
+        "claim_en": "The divine name Allah is connected to the root 'اله' (as given) and denotes the God/deity; it functions as a proper noun indicating divine lordship.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 24,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الكفار",
+        "claim_ar": "اللفظة الكافِرون/الكفار (مُعطى اللفظ في البيانات: كَٰفِرُون) على وزن اسم الفاعل «فاعل» (فاعِل → كافِر) بصيغة جمع، تدل على فاعلية الفعل (الكفر) بصفة ثابتة.",
+        "claim_en": "The form (كَٰفِرُون / الكفار) follows the active-participle pattern (فاعل) — 'kafir' — pluralized to denote those who perform/hold the action of disbelief (from root k-f-r).",
+        "root": "كفر",
+        "lemma": "كَٰفِرُون",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided contain explicit occurrences or discussions for only a subset of the ayah's words. Claims are limited to words for which an exact substring match was found in the chunks (used substrings: «رَبِّ إِنِّي», «واللَّه», «الكفار»).",
+      "Many words of the ayah (e.g., بَلِّغْ، أُنْزِلَ، يَعْصِمُكَ، يَهْدِي) did not have matching substrings or explicit morphological discussion in the supplied source chunks; no claims were made for them."
+    ]
+  },
+  "n_chunks": 12
+}

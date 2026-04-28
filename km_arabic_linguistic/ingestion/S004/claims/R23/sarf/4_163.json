@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:163",
+  "result": {
+    "claims": [
+      {
+        "word_index": 23,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وَآتَيْنَا",
+        "claim_ar": "آتَيْنَا فعل ماضٍ بصيغة المتكلم الجمع (فَعَلْنَا) من الفعل آتَى/أَتَى، بمعنى «أَعْطَيْنَا/وَهَبْنَا». الحرف الواو هنا حرف عطف.",
+        "claim_en": "The verb 'آتَيْنَا' is the perfect (past) 1st-person plural (we- form) of the verb آتَى/أَتَى, meaning 'we gave/granted'. The initial وَ is the conjunction 'and'.",
+        "root": "اتي",
+        "lemma": "آتَى",
+        "confidence": "medium",
+        "needs_review_reason": "The precise classification of آتَى (relation to أتى/آتى and any Form‑IV labeling) and orthography of the root (أ-ت-ى vs. ا-ت-ي) should be cross-checked with a lexicon."
+      },
+      {
+        "word_index": 24,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "دَاوُودَ",
+        "claim_ar": "الاسم «دَاوُود» على وزن فَعُول (اسم علم)، مشتق تقليدياً من جذر د-و-د.",
+        "claim_en": "The name 'Dawud' (David) follows the noun pattern fa'ūl (فَعُول) and is conventionally derived from the root d-w-d.",
+        "root": "دود",
+        "lemma": "دَاوُود",
+        "confidence": "medium",
+        "needs_review_reason": "Proper-name morphological analysis can vary; verify root-letter assignment and semantic nuance in classical lexica."
+      },
+      {
+        "word_index": 25,
+        "claim_type": "root meaning",
+        "source_quote_ar": "زَبُورًا",
+        "claim_ar": "«زَبُور» اسم لكتاب مزمور/زبور (الصحف المزمورية)، مشتق عن الجذر ز-ب-ر",
+        "claim_en": "Zabur is a noun denoting the (Psalms) scripture; it is derived from the root z-b-r and functions as the name of that revealed book.",
+        "root": "زبر",
+        "lemma": "زَبُور",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:38",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قالَ",
+        "claim_ar": "الجذر: ق-و-ل (قَوْل) بمعنى «قال/تكلّم»؛ الفعل هنا مبني للدلالة على التلفظ.",
+        "claim_en": "Root: قول (q-w-l) meaning 'to say, to speak' — the verb قَالَ is the past-tense realization of this root.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "قالَ",
+        "claim_ar": "الوزن: فَعَلَ — فعل ماضٍ من باب الفعل (الوزن الصرفي القياسي للفعل الثلاثي اللازم).",
+        "claim_en": "Pattern (wazn): فَعَلَ — Form I past (basic three-letter past form) as realized in قَالَ.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Most words in the ayah did not appear as exact substrings in the provided source_chunks. Only the substring \"قالَ\" (word_index 5) was found and used as a source_quote_ar for morphological claims. No other words could be corroborated from the given chunks; include source material that contains those words (or their discussions) to extract additional morphology claims."
+    ]
+  },
+  "n_chunks": 12
+}

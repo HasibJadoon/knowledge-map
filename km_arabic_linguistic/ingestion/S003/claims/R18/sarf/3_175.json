@@ -1,0 +1,58 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:175",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مؤمنين",
+        "claim_ar": "الجذر: أ م ن — يدل على التصديق والإيمان. «مؤمنين» مشتق من هذا الجذر ويعني الذين يؤمنون/المصدقون.",
+        "claim_en": "Root 'أ م ن' (a-m-n): denotes believing/faith. 'muminīn' is derived from this root meaning 'those who believe'.",
+        "root": "امن",
+        "lemma": "مُؤْمِن",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A175"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "مؤمنين",
+        "claim_ar": "الوزن الصرفي للفرد «مُؤْمِن» هو «مُفْعِل» (اسم فاعل من الثلاثي المجرد «آمَن/أَمِنَ»). صيغة الجمع «مؤمنين» هي صيغة الجمع المنصوب/المجرور للمذكر.",
+        "claim_en": "Pattern: the singular 'mū'min' follows the active-participle pattern 'muf'il' (اسم فاعل) derived from the triliteral verb (āman/amina). The plural 'muminīn' is the accusative/genitive plural form.",
+        "root": "امن",
+        "lemma": "مُؤْمِن",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A175"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root meaning",
+        "source_quote_ar": "كان",
+        "claim_ar": "الجذر: ك و ن — يدلّ على الوجود/الحالة. «كنتم» صيغة الماضي من «كان» وتدلّ على كونكم/وجودكم في حالة في الماضي.",
+        "claim_en": "Root 'ك و ن' (k-w-n): denotes being/existence/state. 'kuntum' is the past form of 'kana' meaning 'you (pl.) were', indicating a past state.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A175"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "كان",
+        "claim_ar": "هي صيغة فعل ماضٍ تام من الفعل الثلاثي المجرد «كان»؛ «كُنْتُمْ» = فعل ماضٍ بصيغة المخاطَب جمع المذكر (الفاعل ضمير)، يدلّ تفسيرياً على حالة ماضية.",
+        "claim_en": "Verb form: a past (perfect) tense of the triliteral verb 'kana' (Form I). 'kuntum' is the 2nd-person plural past, indicating a past state/action.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A175"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

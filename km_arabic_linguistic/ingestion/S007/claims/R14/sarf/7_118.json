@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:118",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "«وما» وقعت موصولة بأين في خط المصحف، وكان حقها أن تفصل، لأنها موصولة بمعنى: أين الآلهة الذين تدعون",
+        "claim_ar": "حرف الموصول «ما» بمعنى «الذي/ما» (ما الموصول)، وهو موصول قد تُفقد دلالته في الترجمة إلى الإنجليزية إذا تُرجِم حرفياً.",
+        "claim_en": "The particle 'ma' here is the relative (mawsul) meaning 'that which/what' (relative pronoun). This nuance can be lost or rendered awkwardly in literal English translation.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "فما كانوا ليؤمنوا عند مجيء الرسل بالبينات",
+        "claim_ar": "الجذر: كون — معنى الجذر 'كان/وجود'، متحقق في لفظ 'كانوا' بمعنى 'كانوا موجودين/ماضٍ (هم)'.",
+        "claim_en": "Root 'k-w-n' (كون) meaning 'to be / to exist'. Realized here in 'kānū' ('they were'), carrying the basic 'be/exist' sense.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "Claim is inferred from occurrence in commentary rather than an explicit etymological explanation in the cited chunk."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "فما كانوا ليؤمنوا عند مجيء الرسل بالبينات",
+        "claim_ar": "شكل الفعل: فعل ماضٍ ثلاثي مجرد مع ضمير وا الجماعة (كانوا) يدل على الزمن الماضي بصيغة الرفع للشخص الجمع.",
+        "claim_en": "Verb form: past (perfect) of the triliteral verb 'kāna' with the plural suffix -ū (kānū), marking 3rd-person masculine plural past 'they were'.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "Form description drawn from surface occurrence; commentary snippet contains the word but not a detailed morphological exposition."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

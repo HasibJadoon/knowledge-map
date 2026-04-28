@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:60",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "رَبِّ إِنِّي",
+        "claim_ar": "اسم «رَبّ» من الجذر ربب/ربّ، دلالة على الربوبية، أي المَالِكُ/الرَّازِقُ/المَرْبِي؛ في «رَبِّكَ» المعنى هنا: ربُّك/مولاك.",
+        "claim_en": "The noun 'rabb' (in 'rabbika') derives from the root ر ب ب (ربب) and denotes lordship/ownership/sustenance — 'your Lord' or 'your Master/Sustainer'.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "ما أُنْزِلَ مِنْ قَبْلِكَ",
+        "claim_ar": "حرف الجر «مِن» هنا يحمل دلالة مصدرية/تبعيضية (من قبلك = من ما أُنزل قبل زمانك/مكانك)؛ في الترجمة الإنجليزية قد تُفقد دقة دلالة الأصل/الانتساب أو الجزئية.",
+        "claim_en": "The preposition 'min' (as in 'min qablika') carries a source/partitive nuance ('from/of what was revealed before you'); English translations can lose the precise sense of separation/source or partitivity.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only claims were extracted where an exact substring match was found in the provided source_chunks. Several words from the ayah had no exact-match substring in the chunks (word_index: 1 'الْحَقُّ', 4 'فَلَا', 5 'تَكُنْ', 6 'مِنَ', 7 'الْمُمْتَرِينَ'), so no morphology claims were made for them. Review source_chunks or provide chunks containing those exact word-forms if claims are required for them."
+    ]
+  },
+  "n_chunks": 12
+}

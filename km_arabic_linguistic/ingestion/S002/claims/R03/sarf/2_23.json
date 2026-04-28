@@ -1,0 +1,98 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:23",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "(وَإِنْ) الواو استئنافية والكلام مستأنف مسوق للرد على من ارتابوا في القرآن تعنتا ولجاجا وإن شرطية تجزم فعلين",
+        "claim_ar": "حرف شرط (إِنْ) يفيد الجزم على فعلين؛ في الترجمة الإنجليزية بـ'if' قد تُفقد آثار الجزم والتأثير الصرفي المصاحب للحالة الشرطية.",
+        "claim_en": "'إِنْ' is the conditional particle that triggers jussive effects on verbs; translating as 'if' can lose the Arabic jussive/grammatical force and its morphological consequences.",
+        "root": null,
+        "lemma": "إِن",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk explicitly treats إِنْ as شرطية and mentions جزم, but the exact scope of morpho-syntactic 'loss' in translation requires semantic/pragmatic corroboration beyond the given i'rab commentary."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(كُنْتُمْ) كان فعل ماض ناقص والتاء اسمها",
+        "claim_ar": "من الجذر كون: فعل ماضٍ ناقص (كان) بمعنى 'كان/وجد' - فعل ناقص يعمل عمل الاسم في الجملة الاسمية.",
+        "claim_en": "From root ك و ن (كون). The form كُنْتُمْ is past of كان (a defective/copular verb) meaning 'you were/you were in a state'.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "(كُنْتُمْ) كان فعل ماض ناقص والتاء اسمها",
+        "claim_ar": "صيغة فعل ماضٍ (الماضي من كان) - فعل ناقص/اسمي (وظيفته ربط الخبر بالاسم)، هنا الماضي مع ضمير متصل تمثله تاء المثنى/الجمع.",
+        "claim_en": "Past tense of the verb 'kana' (to be); a defective/copular past form with attached pronoun indicating 'you (pl)'.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(فِي رَيْبٍ)",
+        "claim_ar": "الجذر ريب: دالّ على الشكّ/الريبة، أي حالة عدم اليقين.",
+        "claim_en": "Root ر-ي-ب (rayb) meaning 'doubt, uncertainty, suspicion'.",
+        "root": "ريب",
+        "lemma": "رَيْب",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunk shows the word in context but does not explicitly gloss the lexical meaning; the gloss is a standard lexical sense but not quoted in the source chunk."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "(نَزَّلْنا) فعل ماض مبني على السكون ونا ضمير في محل رفع فاعل",
+        "claim_ar": "الفعل نَزَّلَ من الجذر نزل: وزن فَعَّلَ (الصيغة الثانية) يستعمل هنا بتعدية/تَكثيف معنى 'أنزلَ/أرسلَ'؛ في الماضي مع واو الجماعة (نا).",
+        "claim_en": "From root ن-ز-ل. نَزَّلَ is Form II (fa''ala) — intensive/causative sense 'to send down/descend repeatedly' — here in the past with suffix -na (we).",
+        "root": "نزل",
+        "lemma": "نَزَّلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk states the verb form is past with suffix -na but does not explicitly state the Form II (فَعَّلَ) pattern; pattern assignment is standard but not quoted verbatim in the chunk."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "(فَأْتُوا) الفاء رابطة لجواب الشرط لأن الجملة طلبية لا تصلح لتكون شرطا وأتوا فعل أمر مبني على حذف النون لأن مضارعه من الأفعال الخمسة والواو ضمير متصل في محل رفع فاعل والجملة في محل جزم جواب الشرط",
+        "claim_ar": "أْتُوا: فعل أمر صيغة الجمع (أَتَى) مضمحل النون (حذف نون المضارعة في صيغة الأمر للأفعال الخمسة)؛ هنا فعل طلبي (أمر) بالواو المتصلة كفاعل (ضمير واو الجماعة).",
+        "claim_en": "أْتُوا is the imperative plural of أَتَى (form I) with the usual deletion of the -n of the present in the five-verbs pattern; the attached waw marks the subject 'they/you(pl)'.",
+        "root": "اتي",
+        "lemma": "أَتَى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللغة: (السورة) الطائفة من القرآن التي أقلّها ثلاث آيات، ومن معانيها المرتبة الرفيعة",
+        "claim_ar": "السورة: اسم لطائفة مرتبة من القرآن (قسم/فصل من الكتاب)، وليست كلمة عامة للمقاطع النصية فقط بل مصطلح قرآني لنموذج محدد من التجزئة.",
+        "claim_en": "'sūrah' denotes a section/chapter of the Qur'ān (a discrete unit of verses), a technical term for a Qur'anic chapter rather than a generic 'passage'.",
+        "root": "سور",
+        "lemma": "سُورَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "(مِنْ مِثْلِهِ) متعلقان بحسب عودة الضمير",
+        "claim_ar": "مِثْلِهِ: دلالة مقارنة/similative ('من مثلِه' = 'من أمثالِه' أو 'شئ يشبهه'). في الترجمة الإنجليزية قد تُفهم على أنها 'exactly the same' بينما العربية تسمح قراءة التماثل أو المماثلة الجزئية.",
+        "claim_en": "مِثْلِهِ carries a similative/comparative meaning ('of the like of it'); English renderings may lose the nuance between 'exact replica' and 'the same in type/character'.",
+        "root": "مثل",
+        "lemma": "مِثْل",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk comments on pronominal reference and comparison but does not explicitly discuss translation nuance; the nuance is inferred from standard lexical sense."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

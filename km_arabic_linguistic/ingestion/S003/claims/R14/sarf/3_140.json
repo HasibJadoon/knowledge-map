@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:140",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اللَّهُ رَؤُفٌ",
+        "claim_ar": "اسم الجلالة «اللَّهُ» — اسم علم إلهي خاص؛ تاريخياً يربط التقليد هذا الاسم بالجذر «اله» (دلالة على الألوهية/العبادة)، لكنه يعمل كاسم علم فريد غير مدلول بمطابقة صرفية عادية.",
+        "claim_en": "The proper name 'Allah' — a unique divine proper noun. Traditionally linked to the root 'اله' (relating to deity/worship), but functions as an indivisible proper name rather than a regular derived noun.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Attributing the triliteral root «اله» to the divine name is a traditional etymological claim and sometimes treated differently in strict morphological analyses; the provided source is exegetical rather than a dedicated sarf discussion."
+      },
+      {
+        "word_index": 21,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "وَاللَّهُ رَؤُفٌ بِالْعِبادِ",
+        "claim_ar": "الواو العاطفة ملحوقة باسم الجلالة «اللَّهُ» — بنية تركيبية وَ + اللَّهُ؛ اسم الجلالة هنا نفس الكيان الصرفي/الاسمي المشار إليه أعلاه، مع النسبة التقليدية إلى الجذر «اله».",
+        "claim_en": "The conjunction 'wa-' prefixed to the divine name 'Allah' — morphological composition: وَ + اللَّهُ. The divine name is the same lexical item as above, traditionally associated with the root 'اله'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Same caveat as above: the source is exegetical and the traditional root attribution for the divine name is not a purely sarf-based analysis; verify with dedicated morphological references if strict sarf labeling is required."
+      }
+    ],
+    "warnings": [
+      "Only a small subset of the ayah's words appear as exact substrings in the provided source chunks. Claims were produced only for words with verifiable source substrings (here: instances of اللَّهُ / وَاللَّهُ).",
+      "Many morphological facts about other words in the verse (e.g., verb forms, patterns, roots like مَسَّ, نُدَاوِلُهَا, يُحِبُّ) could not be sourced from the supplied chunks; supply relevant sarf-focused sources or chunks containing the exact word strings to extract further claims."
+    ]
+  },
+  "n_chunks": 12
+}

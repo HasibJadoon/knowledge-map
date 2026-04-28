@@ -1,0 +1,49 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:120",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "الجذر: اله؛ اللفظ: اللَّه (اسم العلم الإلهي) — معناه: الإله، الخالق.",
+        "claim_en": "Root 'اله' (Allah); lemma 'اللَّه' — the proper name of God (the Divine, the Creator).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A120"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root",
+        "source_quote_ar": "أَلَا كُلُّ ذّ لُبٍ",
+        "claim_ar": "الجذر: ك ل ل (كلّ)؛ اللفظ: كُلّ — معنى لفظي: كل/كلّية (إجماليّة، تكرير الشمول).",
+        "claim_en": "Root 'كلل' (k-l-l); lemma 'كُلّ' meaning 'all' / 'every' — a noun expressing totality/universality.",
+        "root": "كلل",
+        "lemma": "كُلّ",
+        "confidence": "medium",
+        "needs_review_reason": "The exact vocalization/diacritics in the source chunk vary; verify the orthography (كُلّ vs. كُلِّ) in the ayah context.",
+        "quran_ref": "S5:A120"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root",
+        "source_quote_ar": "ما قدر أمرهم",
+        "claim_ar": "الجذر: ق د ر (قدر)؛ اللفظ: قَدِيرٌ على وزن فَعِيل — معنى مشتق: القادر، ذو القدرة (أي: قادر على كلّ شيء).",
+        "claim_en": "Root 'قدر' (q-d-r); lemma 'قَدِير' on the pattern 'fa'īl' — meaning 'able, powerful; omnipotent'.",
+        "root": "قدر",
+        "lemma": "قَدِير",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A120"
+      }
+    ],
+    "warnings": [
+      "The provided source chunks do not contain clear exact substrings for many words of the ayah (e.g., مُلْكُ، السَّمَاوَاتِ، الأَرْضِ، فِيهِنَّ، وَهُوَ، عَلَى، شَيْءٍ). Claims are therefore limited to words for which matching substrings were found in the chunks above.",
+      "Some source substrings include diacritics/orthographic variants (e.g., كُلُّ). Confirm vocalization when using these substrings for precise sarf/wazn claims."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:89",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "idioms",
+        "source_quote_ar": "وتفتروا الكذب",
+        "claim_ar": "العبارة في السياق (افترى على الله كذِبًا) تعمل كاصطلاح: افتَرَى/تفتروا مع إضافة على + اسم يدل على اختلاق أقوال كاذبة على الله — أي «اختلقوا/نسبوا إليه كلامًا كاذبًا».",
+        "claim_en": "The idiom (افترى على الله كذبًا) means 'to fabricate/ascribe false statements to God' — i.e., to invent and attribute lies to Allah.",
+        "root": "فري",
+        "lemma": "افْتَرَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "Input root given as 'فري' appears to be a nonstandard transcription; expected triliteral root ف-ت-ر. Verify root spelling and mapping to classical triliteral root."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "وتفتروا الكذب",
+        "claim_ar": "الفعل (افْتَرَى/تفترون) يظهر على وزن افتعل/افتَعَلَ (وزن الصيغة التي تتضمن حرف تضعيف أو امتداد داخلي: صيغة VIII في الأفعال الثلاثية)، وهو يضفي معنى اختلاق/افتعال الفعل على الجذر.",
+        "claim_en": "The verb (افتَرَى / تفترون) corresponds to the pattern iftaʿala (often called Form VIII), which commonly conveys an intensive/reflective or 'to perform / cause oneself to' nuance; here it yields the sense 'to fabricate/invent (a claim)'.",
+        "root": "فري",
+        "lemma": "افْتَرَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "Pattern identification is tentative because the input root transcription ('فري') is likely incorrect for the expected triliteral ف-ت-ر; confirm root and vocalization to finalise the form identification."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الكذب",
+        "claim_ar": "اسم (كذب) مصدر على وزن فَعْل يدل على الباطل والزور — اللفظ أو القول الكاذب.",
+        "claim_en": "The noun 'كذب' is a masdar/noun on the pattern faʿl (often 'kadhb') meaning 'falsehood, lie' — the act or content of lying.",
+        "root": "كذب",
+        "lemma": "كَذِب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "أَنْ تَقُولُوا عَلَى اللَّهِ",
+        "claim_ar": "اسم الجلالة 'اللَّه' مشتق من جذر الهـ (إله) ويعمل اسم علم؛ من الناحية الصرفية لا يجري عليه أوزان الأفعال الثلاثية الاعتيادية بنفس طريقة الأسماء المشتقة.",
+        "claim_en": "The divine name 'Allah' is derived from the root (إله) meaning 'deity'; as a proper name it functions differently from regular derived nouns and is treated as a lexicalized name rather than a regular morphological derivative.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Provided source_chunks contain explicit discussion/examples for only a subset of the ayah's vocabulary (notably the sequence 'أَنْ تَقُولُوا عَلَى اللَّهِ وأن تتقوّلوا عليه وتفتروا الكذب'). Many words in the ayah are not attested verbatim in the chunks, so morphology claims are limited to items that have matching substrings in the provided sources.",
+      "Several input root transcriptions (e.g. word 2 root 'فري') look nonstandard or inconsistent with expected triliteral roots (e.g. ف-ت-ر). Such entries were flagged in needs_review_reason where relevant."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,32 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:12",
+  "result": {
+    "claims": [
+      {
+        "word_index": 53,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وَقرئ يورث ويورّث بالتخفيف والتشديد على البناء للفاعل",
+        "claim_ar": "وردت قراءتان للفعل: يورث (بالتخفيف) ويورّث (بالتشديد)، أي وجود شكلين قرائيين/صرفيين للفعل يتعلقان ببنية الفاعل/الوزن القياسي.",
+        "claim_en": "The verb is attested in two recitations/forms: 'يورث' (without shaddah) and 'يُورِّث' (with shaddah), i.e. two morphological/recitational variants affecting the verb's surface form.",
+        "root": "ورث",
+        "lemma": "وَرِثَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 54,
+        "claim_type": "root meaning",
+        "source_quote_ar": "والكلالة في الأصل: مصدر بمعنى الكلال، وهو ذهاب القوّة من الإعياء.",
+        "claim_ar": "الكلالة اسم مصدر من أصل الكلالة؛ معناه الاصطلاحي هنا(في التفسير) 'الكَلَال' أي ذهاب القوة والضعف الناتج عن الإعياء.",
+        "claim_en": "The noun al-kalālah is originally a verbal noun meaning 'kalāl' — the loss of strength/exhaustion; this is the lexical sense used in the commentary.",
+        "root": "كلل",
+        "lemma": "كَلَٰلَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

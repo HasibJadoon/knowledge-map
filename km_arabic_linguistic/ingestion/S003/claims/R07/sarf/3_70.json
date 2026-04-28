@@ -1,0 +1,49 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:70",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "idioms",
+        "source_quote_ar": "أهل خيبر",
+        "claim_ar": "أَهْلَ: اسم جماعة يُستخدم بمعنى \"ناس/أهلُ\" (مثال: أهل خيبر = أهلُ خيبر).",
+        "claim_en": "'Ahl' is a collective noun meaning 'people/people of' (e.g. أهل خيبر = the people of Khaybar).",
+        "root": "اهل",
+        "lemma": "أَهْل",
+        "confidence": "medium",
+        "needs_review_reason": "The source shows an instance of أهل (أهل خيبر) but does not provide an explicit morphological definition; verify against lexicon or fuller commentary.",
+        "quran_ref": "S3:A70"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "كِتاباً مصدر مؤكد",
+        "claim_ar": "الْكِتَابِ (كِتاب) على وزن مصدر مؤكد، أي استخدام كاسم يدل على كتاب/قيد مكتوب (مصدر مؤكد) من جذر كتب.",
+        "claim_en": "The word 'kitāb' is discussed as an emphatic verbal noun (masdar mu'akkad) — a noun indicating a written record/decree — derived from the root k-t-b.",
+        "root": "كتب",
+        "lemma": "كِتَاب",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A70"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَذَكِّرْ بِهِ أى بالقرآن",
+        "claim_ar": "الباء في «بِآيَاتِ» تفيد التعلق/الاستناد إلى القرآن؛ في المصدر المفسر «بِهِ أى بالقرآن» يوضح أن المراد بـ«بِـ» هو القرآن/آياته.",
+        "claim_en": "The preposition bi- in 'bi-āyāt' indicates relation/attachment to the Qur'an; the commentary explicitly reads 'bi-hi i.e. by/with the Qur'an', clarifying that 'āyāt' here refers to Qur'anic verses.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A70"
+      }
+    ],
+    "warnings": [
+      "Source material contained direct commentary suitable for only three tokens (word indices 1, 2, 5). No explicit morphological comments were found in the provided chunks for the other words (3, 4, 6, 7, 8).",
+      "The quoted commentary for word_index 2 uses the form «كِتاباً» in the source chunk, while the ayah form is «الْكِتَابِ» — the claim links related forms but reviewers should confirm contextual applicability."
+    ]
+  },
+  "n_chunks": 12
+}

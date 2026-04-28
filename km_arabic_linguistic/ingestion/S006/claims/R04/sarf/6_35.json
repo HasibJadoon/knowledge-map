@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:35",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "كانوا",
+        "claim_ar": "الفعل كَانَ فعل ماضٍ ثلاثي من الجذر «كون» ويدل على الكينونة/الحال (مَعنًى وجودي: كان = كان موجودًا/كان حالًا).",
+        "claim_en": "The verb كَانَ is a triliteral past verb from the root كون meaning 'to be' / 'to exist' (denotes existence/state).",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "قادِرٌ",
+        "claim_ar": "الفعل اسْتَطَاعَ على وزن اِسْتَفْعَلَ (استفعال)؛ يحمل معنى الإمكان/القدرة (مقابل صفة 'قادر').",
+        "claim_en": "اسْتَطَعْتَ comes from the derived verb اِسْتَطَاعَ (pattern 'استفعل', i.e. 'to seek/attain ability') and conveys ability/capability (semantically corresponds to 'قادر').",
+        "root": "طوع",
+        "lemma": "اسْتَطَاعَ",
+        "confidence": "medium",
+        "needs_review_reason": "Support quoted is a semantically related adjective (قادرٌ) from the commentary rather than the exact verbal form; morphological label (استفعل) is standard but check against full root-letter vocalization in classical sources."
+      },
+      {
+        "word_index": 18,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "آيَةٌ",
+        "claim_ar": "الاسم 'آيَة' على وزن آيَة (اسم مؤنث دال على علامة/معجزة)؛ الجذر المنسوب في بيانات السرسريّة المعطاة: «ايي».",
+        "claim_en": "The noun آيَة (in بِآيَةٍ) follows the pattern 'آيَة' (a feminine noun meaning 'sign' or 'miracle'); (root as given in the input: 'ايي').",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "The root-letter representation for آية can be given differently in sources (often listed as أ-ي-ة); the commentary excerpt confirms the noun form but not full root diacritization—verify root convention."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

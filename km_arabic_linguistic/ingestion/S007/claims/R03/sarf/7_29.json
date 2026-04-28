@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قُلْ",
+        "claim_ar": "قُلْ: فعل أمر من الجذر ق و ل (من فعلٍ ثلاثي، الوزن الأساسي فَعَلَ/قَالَ)، صيغة الأمر للفعل الثلاثي (فعل الأمر لفعل مجرد).",
+        "claim_en": "قُلْ is the imperative (command) of the triliteral root q-w-l (from the basic verb pattern فَعَلَ / قَالَ). It is the Form I imperative meaning 'Say!'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "الأمر",
+        "claim_ar": "أَمَرَ: فعل ماضٍ على وزن أَفْعَلَ (الوزن الرابع/الأفعل)؛ دلالة سببية/إلزامية (أمر، جعل المرء يفعل).",
+        "claim_en": "أَمَرَ is a past tense verb on the Form IV (أَفْعَلَ) pattern, carrying a causative/command sense 'to command, to order'.",
+        "root": "امر",
+        "lemma": "أَمَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source quote is the noun 'الأمر' in the commentary chunk rather than the exact verb token from the verse; orthography/derivational relation is clear but the chunk does not show the exact verbal form."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "تَأَذَّنَ رَبُّكَ",
+        "claim_ar": "رَبِّي: من ربّ (جذر ر ب ب)؛ دلالة المبتدِع/المالك/الرعي — هنا مضاف إليه ضمير المتكلم «يـ» بمعنى «ربي» = \"ربي/سَيِّدي/مولاى».",
+        "claim_en": "رَبِّي derives from the root r-b-b (ربّ) meaning 'Lord, Master, Sustainer/caregiver'. The -ي is the 1st-person possessive suffix: 'my Lord'.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not contain exact substrings for many words of the verse (e.g. بِالْقِسْطِ، وَأَقِيمُوا، مَسْجِدٍ، وَادْعُوهُ، مُخْلِصِينَ، الدِّينَ، بَدَأَكُمْ، تَعُودُونَ). Claims were produced only where a relevant substring was present in the supplied chunks (words 1–3).",
+      "Some claims (e.g. word 2) cite a related noun form from the commentary ('الأمر') rather than the exact verbal inflection; see needs_review_reason for details."
+    ]
+  },
+  "n_chunks": 12
+}

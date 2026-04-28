@@ -1,0 +1,61 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:122",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "كان يكبر على النبي ﷺ",
+        "claim_ar": "الفعل كان: فعل ماضٍ من جذر «كون» يُستخدم هنا كفعل ناقص/معرض للحالة للدلالة على وقوع حالة أو صفة في الماضي (كان يكبر).",
+        "claim_en": "'kāna' is a past tense verb from the root ك و ن (k-w-n). Here it functions as a past/perfect verb (often copular/auxiliary) indicating a past state or continuous disposition (as in 'he used to show pride').",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A122"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "حتى تطلع لهم آية يؤمنون بها",
+        "claim_ar": "الفعل أَحْيَيْنَاهُ: من باب أفعل (أَحْيَا) على جذر ح ي ي، بمعنى أعاد إلى الحياة أو أحيا. في سياق الآية يمكن حمله أيضاً على معنى إظهار علامة/آية تدل على الحياة أو البعث.",
+        "claim_en": "'fa-aḥyaynāhu' is from the form IV verb pattern (أَفْعَلَ) of root ح ي ي (to live). It generally means 'we gave life to him / we revived him.' In context it can also carry the nuance of bringing about a manifest sign of revival (a meaning supported by the commentary's discussion of bringing an 'āyah' as a sign).",
+        "root": "حيي",
+        "lemma": "أَحْيَا",
+        "confidence": "medium",
+        "needs_review_reason": "The provided commentary chunk discusses bringing a sign/آية (supporting the contextual nuance) but does not quote the exact verb form أَحْيَيْنَاهُ; connection is inferential.",
+        "quran_ref": "S6:A122"
+      },
+      {
+        "word_index": 15,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ظُلُماتِ الْبَرِّ وَالْبَحْرِ مجاز عن مخاوفهما وأهوالهما.",
+        "claim_ar": "الظُّلُمَاتِ من جذر ظ ل م: جمع ظلمة، هنا ماكزِياً بمعنى الظلام أو العتمة، ويُستعمل مجازاً للدلالة على المخاوف والأهوال والشدائد.",
+        "claim_en": "'al-ẓulumāt' is from the root ظ ل م (ظلم) meaning 'darkness' (plural of ظلمة). In this context it is used metaphorically for frightful darknesses — fears, calamities, or terrors (e.g., dangers of land and sea) as the commentary states.",
+        "root": "ظلم",
+        "lemma": "ظُلُمَات",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A122"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "أَوْ سُلَّماً فِي السَّمَاءِ فَتَأْتِيَهُمْ",
+        "claim_ar": "أَوَمَنْ: مركب من أَوْ + مَنْ (أداة استفهام)، حيث أَوْ يضفي عنصر التخيير/التقابل ('أم/أو') داخل صيغة السؤال. في الترجمة قد تُفقد هذه دلالة التقابل الطفيف بين البدائل حين تُنقل ببساطة إلى 'هل/أم' بالإنجليزية.",
+        "claim_en": "'aw-man' is composed of the particle 'aw' (or) + the interrogative 'man' (who). The presence of 'aw' adds a contrastive/alternative nuance to the question ('or who...'), a subtlety that can be flattened in translation when rendered simply as 'Is he who...' without signaling the 'or/contrast' element.",
+        "root": null,
+        "lemma": "مِن (component: أَوْ + مَنْ)",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary chunk shows use of the particle أَوْ ('or') in context but does not cite the exact composite form أَوَمَنْ from the verse; the link is an interpretive/grammatical one.",
+        "quran_ref": "S6:A122"
+      }
+    ],
+    "warnings": [
+      "Source chunks did not contain exact substrings or direct commentary for many words in the ayah (e.g., نُورًا، يَمْشِي، زُيِّنَ، مَيْتًا، مَثَلُهُ، etc.). Only claims with either direct substrings in the provided chunks or clear contextual support were extracted.",
+      "Some claims (word_index 4 and 1) rely on contextual commentary rather than the exact word-form appearing in the source chunk; these are marked with lower confidence and a needs_review_reason."
+    ]
+  },
+  "n_chunks": 12
+}

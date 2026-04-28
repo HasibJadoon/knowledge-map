@@ -1,0 +1,76 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:152",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "verb_form",
+        "source_quote_ar": "سينالهم غضب",
+        "claim_ar": "سَيَنَالُهُمْ",
+        "claim_en": "Verb (imperfect) with future prefix 'سـ' + 3pl suffix: 'they will attain/receive/it will befall them' (i.e. they will suffer/be visited by)",
+        "root": "نيل",
+        "lemma": "يَنَالُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "غَضَبٌ مِنْ رَبِّهِمْ",
+        "claim_ar": "غَضَبٌ",
+        "claim_en": "Root meaning: 'anger/wrath' — here specifically punitive divine wrath",
+        "root": "غضب",
+        "lemma": "غَضَب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "غَضَبٌ مِنْ رَبِّهِمْ",
+        "claim_ar": "رَبِّهِمْ",
+        "claim_en": "Root meaning: 'rabb' = Lord / Master / Sustainer (here 'their Lord')",
+        "root": "ربّ",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "والذلة: خروجهم من ديارهم",
+        "claim_ar": "ذِلَّةٌ",
+        "claim_en": "Root meaning: 'humiliation/abasement' — here manifested as exile, subjugation and lowliness",
+        "root": "ذلل",
+        "lemma": "ذِلَّة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "idiom",
+        "source_quote_ar": "ذلة في الحياة الدنيا",
+        "claim_ar": "الحَيَاةِ الدُّنْيَا",
+        "claim_en": "Idiomatic collocation 'al-ḥayāh ad-dunyā' = 'this worldly life' (temporal, worldly existence contrasted with the afterlife); here 'humiliation in this life'",
+        "root": "حيي",
+        "lemma": "حَيَوٰة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "الْمُفْتَرِينَ المتكذبين على الله",
+        "claim_ar": "الْمُفْتَرِينَ",
+        "claim_en": "Those who fabricate lies / the slanderers (here: the ones who falsely accuse or lie about God)",
+        "root": "افترى (ف-ت-ر-ى) ",
+        "lemma": "مُفْتَرُون",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk clearly glosses the term as 'المتكذبين على الله' (fabricators/liars), but derivational root forms/orthography in sources vary; exact root extraction should be checked against lexical sources."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

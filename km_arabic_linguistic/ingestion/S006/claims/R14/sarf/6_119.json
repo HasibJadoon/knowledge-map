@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:119",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "فصلنا",
+        "claim_ar": "فَصَّلَ: فعل ماضٍ من الجذر فصل على وزن فَعَّلَ (صيغة المضعف/التكثيف) الدالة على التفصيل والتفريع.",
+        "claim_en": "FaSSala (فَصَّلَ) is a past verb from the root فصل on the Form II pattern (fa''ala), the intensive/causative pattern used here to indicate making something detailed or dividing into particulars.",
+        "root": "فصل",
+        "lemma": "فَصَّلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "ذكر",
+        "claim_ar": "ذُكِرَ: مبني للمجهول من الفعل ذكر (وزن فُعِلَ في صيغة المبني للمجهول للفعل الثلاثي)، دلالة: \"ذُكِرَ\" بمعنى \"ذُكر/جُعِل مذكوراً\".",
+        "claim_en": "Dhukira (ذُكِرَ) is the passive perfect (fu'ila) of dhakara (to mention); i.e. 'was mentioned' (passive form of the basic triliteral verb).",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains and discusses the root/lexeme \"ذكر\" but does not explicitly analyze the passive morphology (فُعِلَ) in this specific phrase, so the passive identification is inferred."
+      },
+      {
+        "word_index": 18,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بِضُرٍّ",
+        "claim_ar": "اضْطُرِرْتُمْ: مشتق من اضطرّ/اضطرَّ (مشتق وزنيّ يشتمل على أحرف الزيادة)، والجذر المتعلق هنا ضرّ/ضرر مع دلالة المعاناة/الضرّ، ومعنى الكلمة السياقي: 'أُكرهتم/اضطرِرتم'.",
+        "claim_en": "Idturirtum (اضْطُرِرْتُمْ) is derived from the verb اضطرّ/اضطرَّ (a derived form indicating compulsion). The related root is given as ضرر (harm/need), giving a sense of being forced or compelled — 'you were compelled/forced'.",
+        "root": "ضرر",
+        "lemma": "اضْطُرَّ",
+        "confidence": "low",
+        "needs_review_reason": "The cited chunk shows the noun phrase بِضُرٍّ (harm), but it does not analyze the derived verb اضْطُرَّ explicitly; the link between بِضُرٍّ and اضْطُرَّ (and the precise root letters/derivation) needs confirmation."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

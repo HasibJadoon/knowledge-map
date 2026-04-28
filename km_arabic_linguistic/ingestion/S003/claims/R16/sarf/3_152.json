@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:152",
+  "result": {
+    "claims": [
+      {
+        "word_index": 34,
+        "claim_type": "verb_form",
+        "source_quote_ar": "عفا الله فعل وفاعل",
+        "claim_ar": "فعل ماضٍ ثلاثي مجرد على وزن فَعَلَ (الصيغة الأساسية للفعل الثلاثي، هنا: عَفَا)",
+        "claim_en": "Past (perfect) verb, triliteral root on the basic Form I pattern (fa'ala); here: عَفَا (form I past).",
+        "root": "عفو",
+        "lemma": "عَفَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 34,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "(إِنَّ اللَّهَ غَفُورٌ حَلِيمٌ)",
+        "claim_ar": "جذر ع ف و (عفو) دال على المعنى «المغفرة، التجاوز عن الذنوب» (دائرة دلالية: العفو والمغفرة).",
+        "claim_en": "The root ع–ف–و (ʿ-f-w, related to عفو) denotes forgiveness/pardoning; semantic field: pardoning/absolution.",
+        "root": "عفو",
+        "lemma": "عَفَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 33,
+        "claim_type": "particle",
+        "source_quote_ar": "وقد حرف تحقيق",
+        "claim_ar": "حرف تحقيق: قَدْ يستخدم هنا كحرف تحقيق/تأكيد (في وَلَقَدْ الواو عاطفة/استئنافية مع قَدْ كحرف تحقيق).",
+        "claim_en": "Particle: قَد (qad) functions as a particle of verification/emphasis; in وَلَقَدْ the initial waw is conjunctive/introductory and قَد adds verification/emphasis.",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

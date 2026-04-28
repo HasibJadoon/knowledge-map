@@ -1,0 +1,328 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 68,
+      "ayah_to": 68,
+      "word_start": 1,
+      "word_end": 30,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 10,
+          "head_word_index": 2,
+          "note_ar": "جملة 'لمّا دخلوا' في محل جر مضاف إليه، و'ما كان يغني' في محل نصب حال من فاعل 'دخلوا'"
+        },
+        {
+          "clause_order": 2,
+          "clause_type": "object_clause",
+          "word_start": 11,
+          "word_end": 16,
+          "head_word_index": 15,
+          "note_ar": "'حاجة' منصوب على الاستثناء المنقطع، و'في نفس' جار ومجرور متعلق بنعت لحاجة"
+        },
+        {
+          "clause_order": 3,
+          "clause_type": "main",
+          "word_start": 17,
+          "word_end": 21,
+          "head_word_index": 20,
+          "note_ar": "'قضاهَا' فعل ماض، و'ها' ضمير مفعول به، والفاعل هو 'الواو' استئنافية"
+        },
+        {
+          "clause_order": 4,
+          "clause_type": "main",
+          "word_start": 22,
+          "word_end": 26,
+          "head_word_index": 23,
+          "note_ar": "'ذو علم' خبر 'إنّ'، و'علم' مضاف إليه مجرور"
+        },
+        {
+          "clause_order": 5,
+          "clause_type": "main",
+          "word_start": 27,
+          "word_end": 30,
+          "head_word_index": 28,
+          "note_ar": "'لا يعلمون' مضارع مرفوع، والواو فاعل"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "وَ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "عاطفة",
+          "irab_case": "",
+          "note_ar": "الواو عاطفة"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "لمّا",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": null,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "لمّا حرف جر"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "دَخَلُوا",
+          "relation_type": "predicate",
+          "governor_word_index": 2,
+          "irab_position": "فعل ماض",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل ماض مبني على السكون"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "مِنْ",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 3,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "حرف جر"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "حَيْثُ",
+          "relation_type": "appositive",
+          "governor_word_index": 4,
+          "irab_position": "اسم ظرفي",
+          "irab_case": "مجرور",
+          "note_ar": "اسم ظرفي مبني على الضم في محل جر"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "أَمَرَهُمْ",
+          "relation_type": "object_indirect",
+          "governor_word_index": 5,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به من 'حيث'"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "أَبُوهُمْ",
+          "relation_type": "subject",
+          "governor_word_index": 6,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "فاعل مرفوع"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "مَا",
+          "relation_type": "negation",
+          "governor_word_index": 7,
+          "irab_position": "نافية",
+          "irab_case": "",
+          "note_ar": "نافية"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "كَانَ",
+          "relation_type": "predicate",
+          "governor_word_index": 8,
+          "irab_position": "فعل ماض",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل ماض ناقص- ناسخ- واسمه ضمير مستتر"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "يُغْنِي",
+          "relation_type": "predicate",
+          "governor_word_index": 9,
+          "irab_position": "فعل مضارع",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل مضارع مرفوع"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "عَنْ",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 10,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "حرف جر"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "اللّه",
+          "relation_type": "object_indirect",
+          "governor_word_index": 11,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به من 'يغني'"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "مِنْ",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 12,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "حرف جر"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "شَيْءٍ",
+          "relation_type": "object_indirect",
+          "governor_word_index": 13,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به من 'من'"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "إِلّا",
+          "relation_type": "exception",
+          "governor_word_index": 14,
+          "irab_position": "أداة استثناء",
+          "irab_case": "",
+          "note_ar": "أداة استثناء"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "حَاجَةً",
+          "relation_type": "object_indirect",
+          "governor_word_index": 15,
+          "irab_position": "منصوب على الاستثناء المنقطع",
+          "irab_case": "منصوب",
+          "note_ar": "منصوب على الاستثناء المنقطع"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "فِي",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 16,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "حرف جر"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "نَفْسِ",
+          "relation_type": "object_indirect",
+          "governor_word_index": 17,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به من 'في'"
+        },
+        {
+          "word_index": 19,
+          "word_ar": "يَعْقُوبَ",
+          "relation_type": "object_indirect",
+          "governor_word_index": 18,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به من 'نفس'"
+        },
+        {
+          "word_index": 20,
+          "word_ar": "قَضَاهَا",
+          "relation_type": "predicate",
+          "governor_word_index": 19,
+          "irab_position": "فعل ماض",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل ماض مبني على السكون"
+        },
+        {
+          "word_index": 21,
+          "word_ar": "هَا",
+          "relation_type": "object_indirect",
+          "governor_word_index": 20,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به من 'قضى'"
+        },
+        {
+          "word_index": 22,
+          "word_ar": "ذُو",
+          "relation_type": "subject",
+          "governor_word_index": 21,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "فاعل مرفوع"
+        },
+        {
+          "word_index": 23,
+          "word_ar": "عِلْمٍ",
+          "relation_type": "object_indirect",
+          "governor_word_index": 22,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به من 'ذو'"
+        },
+        {
+          "word_index": 24,
+          "word_ar": "إِنَّ",
+          "relation_type": "coordinated",
+          "governor_word_index": 23,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "إِنَّ جار ومجرور"
+        },
+        {
+          "word_index": 25,
+          "word_ar": "كَانَ",
+          "relation_type": "predicate",
+          "governor_word_index": 24,
+          "irab_position": "فعل ماض",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل ماض مبني على السكون"
+        },
+        {
+          "word_index": 26,
+          "word_ar": "يَعْلَمُونَ",
+          "relation_type": "predicate",
+          "governor_word_index": 25,
+          "irab_position": "فعل مضارع",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل مضارع مبني على السكون"
+        },
+        {
+          "word_index": 27,
+          "word_ar": "لَا",
+          "relation_type": "negation",
+          "governor_word_index": 26,
+          "irab_position": "نافية",
+          "irab_case": "",
+          "note_ar": "لَا نافية"
+        },
+        {
+          "word_index": 28,
+          "word_ar": "يَعْلَمُونَ",
+          "relation_type": "predicate",
+          "governor_word_index": 27,
+          "irab_position": "فعل مضارع",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل مضارع مبني على السكون"
+        },
+        {
+          "word_index": 29,
+          "word_ar": "وَ",
+          "relation_type": "coordinated",
+          "governor_word_index": 28,
+          "irab_position": "عاطفة",
+          "irab_case": "",
+          "note_ar": "الواو عاطفة"
+        },
+        {
+          "word_index": 30,
+          "word_ar": "يَعْلَمُونَ",
+          "relation_type": "predicate",
+          "governor_word_index": 29,
+          "irab_position": "فعل مضارع",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل مضارع مبني على السكون"
+        }
+      ]
+    }
+  ],
+  "syntax_relations": []
+}

@@ -1,0 +1,22 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:81",
+  "result": {
+    "claims": [
+      {
+        "word_index": 12,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "نزل بمعنى أنزل. وقرئ أن ينزل بالتشديد والتخفيف.",
+        "claim_ar": "الفعل يَنزِّلْ من الجذر ن-ز-ل على وزن فَعَّل (نَزَّّلَ) — صيغة مزيدة بالشدّة (الوزن الثاني) تدل على التعدية/التكثيف. ثمة قراءة أيضاً بدون تشديد.",
+        "claim_en": "The verb يَنزِّلْ derives from the root n-z-l and is on the Form II (fa''ala) pattern نَزَّّلَ (geminated), an intensive/causative pattern meaning 'to send down'. The commentary records readings both with and without gemination.",
+        "root": "نزل",
+        "lemma": "نَزَّلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A81"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

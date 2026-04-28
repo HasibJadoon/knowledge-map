@@ -1,0 +1,61 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:66",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "خاصموك",
+        "claim_ar": "معنى الجذر: الخصام والجدال — أي خاصمه وجادله.",
+        "claim_en": "Root meaning: to dispute / argue with someone; to contend or quarrel (as evidenced by 'خاصمه وجادله').",
+        "root": "حجج",
+        "lemma": "حَآجَّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A66"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "حاجّه",
+        "claim_ar": "وزن الفعل الظاهر في المصادر: احتمال كونه على وزن فاعَلَ (صرف III) دالاً على المجاورة/المشاركة في الجدال؛ ثمة صور صرفية متقاربة مذكورة أيضاً.",
+        "claim_en": "Verb-form / flavour: likely attested on the fāʿala (Form III) pattern indicating reciprocal/participatory arguing; lexicographic sources show closely related derived forms.",
+        "root": "حجج",
+        "lemma": "حَآجَّ",
+        "confidence": "medium",
+        "needs_review_reason": "Ambiguity due to doubled radical and variant orthographic/derivative listings in lexica; requires confirmation from authoritative classical sarf sources.",
+        "quran_ref": "S3:A66"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "حَاجُّوكَ",
+        "claim_ar": "معنى الجذر/الفعل: الخصام والجدال (خاصموك)، أي محاورتك ومخاصمتك.",
+        "claim_en": "Root meaning: to dispute/argue with (as in 'they argued with you'); implying contention or debate.",
+        "root": "حجج",
+        "lemma": "حَآجَّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A66"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "محاجّة",
+        "claim_ar": "وزن المصدر «محاجّة» على نمط مِفاعلة يدل على العمل المتبادل أو الاستمراريّة في الجدال.",
+        "claim_en": "Wazn/pattern: the masdar 'محاجّة' (mifāʿalah pattern) is attested, indicating reciprocal/ongoing action (arguing/debating).",
+        "root": "حجج",
+        "lemma": "حَآجَّ",
+        "confidence": "medium",
+        "needs_review_reason": "Masdar pattern suggests mifāʿalah but confirmation against full lexicographic entries for this root/form is advised.",
+        "quran_ref": "S3:A66"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided contain explicit lexical discussion only for the root حجج. No matching source substring was found in the provided chunks for the words with root 'علم' (words 7, 14, 16, 19) or for 'ليس' (word 11), so no morphological claims were extracted for those items from the given sources.",
+      "Some verb-form claims are marked medium confidence due to orthographic / derivational ambiguity (doubled radical and multiple attested derivative patterns); please review against a dedicated classical sarf lexicon if precise pattern labeling is required."
+    ]
+  },
+  "n_chunks": 12
+}

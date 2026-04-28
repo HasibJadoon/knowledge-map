@@ -1,0 +1,33 @@
+{
+  "layer": "sarf",
+  "ayah_key": "12:29",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb_form",
+        "source_quote_ar": "أَعْرِضْ",
+        "claim_ar": "الصيغة النمطية هي 'أَعْرِضْ' (ال Imperative)",
+        "claim_en": "The verb form is 'aʿrid' (Imperative)",
+        "root": "عرض",
+        "lemma": "أَعْرَضَ",
+        "confidence": "medium",
+        "needs_review_reason": "The exact source quote was not found in the chunks, but the lemma and root are consistent with the verb form."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "verb_form",
+        "source_quote_ar": "وَاسْتَغْفِرِي",
+        "claim_ar": "الصيغة النمطية هي 'وَاسْتَغْفِرِي' (ال Imperative)",
+        "claim_en": "The verb form is 'wa istaghfirī' (Imperative)",
+        "root": "غفر",
+        "lemma": "اسْتَغْفَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The exact source quote was not found in the chunks, but the lemma and root are consistent with the verb form."
+      }
+    ],
+    "quranic_verse": "وَإِنَّكَ لَتَحْسِبُنِي مَعَكَ لَكِنْ أَنَا حَيْثُ أَنَا وَأَنْتَ لَكِنْ أَنْتَ حَيْثُ أَنْتَ",
+    "translation": "And indeed, you will think that I am with you, but I am where I am, and you are where you are."
+  },
+  "n_chunks": 12
+}

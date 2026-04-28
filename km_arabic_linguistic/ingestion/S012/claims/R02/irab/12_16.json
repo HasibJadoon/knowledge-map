@@ -1,0 +1,95 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:16",
+  "source": "Safi",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "word_ar": "و",
+        "claim_type": "governance",
+        "source_quote_ar": "الواو استئنافيّة",
+        "claim_ar": "الواو استئنافية",
+        "claim_en": "The 'و' is a conjunction (استئنافية).",
+        "root": "",
+        "lemma": "",
+        "irab_position": "",
+        "irab_case": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "word_ar": "جاؤوا",
+        "claim_type": "irab",
+        "source_quote_ar": "(جاؤوا) فعل ماض وفاعله",
+        "claim_ar": "جاؤوا فعل ماض وفاعله",
+        "claim_en": "جاؤوا is a past tense verb and its subject.",
+        "root": "ج-آ-و",
+        "lemma": "جاء",
+        "irab_position": "فاعل",
+        "ir": "",
+        "irab_case": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "word_ar": "أباهم",
+        "claim_type": "irab",
+        "source_quote_ar": "(أباهم) مفعول به منصوب",
+        "claim_ar": "أباهم مفعول به منصوب",
+        "claim_en": "أباهم is the object (مفعول به) and is in the nominative case.",
+        "root": "أ-ب-ا",
+        "lemma": "أب",
+        "irab_position": "مفعول به",
+        "irab_case": "منصوب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "word_ar": "عِشَاءً",
+        "claim_type": "irab",
+        "source_quote_ar": "(عشاء) ظرف زمان منصوب متعلّق ب (جاؤوا)",
+        "claim_ar": "عِشَاءً ظرف زمان منصوب متعلّق ب (جاؤوا)",
+        "claim_en": "عِشَاءً is a temporal adverb (ظرف زمان) in the nominative case and connected to (جاؤوا).",
+        "root": "ع-ش-ا",
+        "lemma": "عشاء",
+        "irab_position": "ظرف زمان",
+        "irab_case": "منصوب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "word_ar": "يَبْكُونَ",
+        "claim_type": "irab",
+        "source_quote_ar": "(يبكون) مضارع مرفوع",
+        "claim_ar": "يَبْكُونَ مضارع مرفوع",
+        "claim_en": "يَبْكُونَ is a verb in the present tense and is in the nominative case.",
+        "root": "ب-ك-ن",
+        "lemma": "يبك",
+        "irab_position": "فاعل",
+        "irab_case": "مرفوع",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "word_ar": "الواو",
+        "claim_type": "irab",
+        "source_quote_ar": "والواو فاعل",
+        "claim_ar": "الواو فاعل",
+        "claim_en": "The 'الواو' is the subject (فاعل).",
+        "root": "",
+        "lemma": "",
+        "irab_position": "فاعل",
+        "irab_case": "مرفوع",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  }
+}

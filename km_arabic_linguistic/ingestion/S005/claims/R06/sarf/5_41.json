@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:41",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "idioms",
+        "source_quote_ar": "يا أَيُّهَا",
+        "claim_ar": "أداة نداء صِيغَة «يا أَيُّهَا» كإيجاد نداء خطابي (أداة نداء مخصصة للمخاطبة الخطابية)",
+        "claim_en": "Vocative idiom 'ya ayyuhā' — a formulaic vocative particle used to call attention in address.",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قالُوا",
+        "claim_ar": "فعل تام (ماضٍ) ثلاثي مجرد من اللَّفظ القياسي «قَالَ» مع علامة واو الجماعة: صيغة الماضي للغائبين الجمع.",
+        "claim_en": "Perfect (past) verb from the root ق-و-ل, base lemma قَالَ, with the plural 3rd-person suffix -وا (they said).",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "آمَنُوا",
+        "claim_ar": "فعل تام من جذر أمن بصيغة الجماعة/الماضي؛ في الآية الشكل هو «آمَنَّا» بصيغة المتكلم جمع، لكن المصدر النصي المتاح يظهر صيغة آمنوا (جمع غائب).",
+        "claim_en": "Perfect (past) verb from root أ-م-ن meaning 'to believe'. In the verse the form is آمَنَّا (1st-person plural 'we believed'); the provided source chunk shows آمَنُوا (3rd-person plural) as an attested form of the same root/pattern.",
+        "root": "امن",
+        "lemma": "آمَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "source_quote_ar gives a different person-number (آمَنُوا) than the ayah word (آمَنَّا); source supports the root/pattern but not exact inflection."
+      },
+      {
+        "word_index": 40,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وَاحْذَرُوا",
+        "claim_ar": "صيغة أمر للجمع من الجذر ح-ذ-ر (اِحْذَرُوا)، نمط الأمر اِفْعَلُوا مع علامة واو الجماعة للأمر.",
+        "claim_en": "Imperative plural 'iḥdharū' (take heed) from root ح-ذ-ر; pattern اِفْعَلُوا (imperative plural with suffix -ū).",
+        "root": "حذر",
+        "lemma": "يَحْذَرُ",
+        "confidence": "medium",
+        "needs_review_reason": "source chunk presents the form with a prefixed conjunction (وَاحْذَرُوا) while the ayah uses the particle فَ; the verb form/imperative pattern itself is supported but supporting quote differs by preceding particle."
+      }
+    ],
+    "warnings": [
+      "Some source quotes show different person/particles than the exact word in the ayah (e.g., source has 'آمَنُوا' while the ayah word is 'آمَنَّا'; source has 'وَاحْذَرُوا' while the ayah has 'فَاحْذَرُوا'). These quotes support root/pattern identification but not the exact inflection/initial particle—see needs_review_reason fields.",
+      "Claims are limited to morphological items for which an exact substring was found in the provided source chunks. Other morphological facts present in the input (e.g., many lemmas/roots) lacked direct supporting substrings in the given chunks and were therefore not extracted."
+    ]
+  },
+  "n_chunks": 12
+}

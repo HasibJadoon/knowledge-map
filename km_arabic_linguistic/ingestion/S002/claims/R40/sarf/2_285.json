@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:285",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "آمنوا بألسنتهم",
+        "claim_ar": "الفعل «آمَنَ» من الجذر أمن؛ جوهر المعنى اللغوي هو الاطمئنان/الأمان، وقد امتدّ في الاستخدام القرآني إلى معنى الاعتقاد/الإيمان (الثقة والقبول). يُستخدم أحيانًا لتمييز الإيمان اللساني عن الإيمان القلبي كما في التعبير «آمنوا بألسنتهم».",
+        "claim_en": "The verb 'آمَنَ' (root امن) has a core lexical field of 'security/safety' which is extended in Qur'anic usage to 'believe/assent.' It can also appear in contrasts between lip-professed belief and heartfelt conviction (see the phrase 'آمنوا بألسنتهم' = 'they believed with their tongues').",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "The semantic extension from 'safety' to 'belief' is well-attested but partly interpretive; nuance about heart-vs-lip distinction depends on exegesis."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "بِمَا أُنْزِلَ إِلَيْكَ",
+        "claim_ar": "«أُنْزِلَ» فعل مبني للمجهول من الفعل أَنْزَلَ (الجذر نزل)، يحمل صيغة الماضي المبني للمجهول بمعنى «أُنزِلَ/أُوحِيَ» — أي: ما نُزِّل إليك (أو ما أُوحيَ).",
+        "claim_en": "The form 'أُنْزِلَ' is the passive (perfect) form of أَنْزَلَ (root نزل), meaning 'was sent down/revealed' (i.e., what was revealed to you).",
+        "root": "نزل",
+        "lemma": "أَنزَلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ",
+        "claim_ar": "«المُؤْمِنُونَ» اسم فاعل/صفة من الفعل أَمَنَ (الجذر أمن)، على وزن اسم الفاعل (مُفْعِل/مُفْعِلُونَ) في الصورة الجمعية، دالّ على الفاعلية أو ثبوت صفة الإيمان.",
+        "claim_en": "Al-mu'minūn ('the believers') is the active participle/agent noun derived from the verb أَمَنَ (root امن), in the mu- pattern (muf'il, plural muf'ilūn), denoting those who hold or practice belief.",
+        "root": "امن",
+        "lemma": "مُؤْمِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "مَنْ آمَنَ",
+        "claim_ar": "الفعل «آمَنَ» هنا فعل ماضٍ تام (صيغة الفعل الماضي) من الجذر أمن، يُظهر وقوع فعل الإيمان باعتباره حدثًا مكتملًا (أَمَنَ = اعتقد/آمن).",
+        "claim_en": "The verb 'آمَنَ' in 'مَنْ آمَنَ' is a perfect (past) tense verb from the root امن, indicating the occurrence/completion of the act of believing ('believed').",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

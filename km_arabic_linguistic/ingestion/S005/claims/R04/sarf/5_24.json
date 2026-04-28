@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:24",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قالُوا",
+        "claim_ar": "جذر الكلمة: ق-و-ل؛ دالّ على معنى الكلام والقول والإخبار.",
+        "claim_en": "Root 'قول' (q-w-l) denotes speech/saying; semantic field: to say/utter/report.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "قالُوا",
+        "claim_ar": "الوزن الصرفي للفعل الثلاثي المجرد: فَعَلَ. صيغة الجمع للماضِي: فَعَلُوا (فعل + واو الجماعة).",
+        "claim_en": "Pattern: triliteral basic pattern fa'ala (فَعَلَ). The plural past 3rd-person form is fa'alū (فَعَلُوا) — pattern = فعل + -ū suffix.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قالُوا",
+        "claim_ar": "فعل ماضٍ مجرد (الصيغة الأولى) مع علامة جمع الغائبين واو الجماعة؛ دلالته زمنية: حدث ماضٍ مقرون بفاعلين جمع.",
+        "claim_en": "Perfect (past) Form I verb (basic triliteral) with the 3rd-person plural suffix -ū, indicating a past action performed by a plural subject.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only substrings found in the provided source_chunks were used as source_quote_ar. The source chunks contained the exact substring 'قالُوا' (used above); most other words from the ayah do not appear verbatim in the supplied chunks, so no claims were extracted for them.",
+      "Some input lemma/root fields in the provided 'words' list appear inconsistent with standard analyses for the ayah; claims above rely on the attested source substring and standard morphology for 'قالوا'."
+    ]
+  },
+  "n_chunks": 12
+}

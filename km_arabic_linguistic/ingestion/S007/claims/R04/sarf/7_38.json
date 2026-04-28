@@ -1,0 +1,36 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:38",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "ادْخُلُوا",
+        "claim_ar": "فعل أمر من الثلاثي المجرد (دخل) بصيغة مخاطبة جمع؛ صيغة الأمر هنا ادْخُلُوا وعلامة الجمع الواو.",
+        "claim_en": "Imperative verb (2nd-person plural) derived from the triliteral root دخل (lemma دَخَلَ). It is the Form I imperative with the plural suffix -وا: 'enter (you all)'.",
+        "root": "دخل",
+        "lemma": "دَخَلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "النار",
+        "claim_ar": "اسم على وزن فَعْل (نار) — اسم ثلاثي مجرد دال على النار/الحرارة.",
+        "claim_en": "Noun 'nār' on the basic pattern fʿl (فَعْل), a triliteral simple noun meaning 'fire'. The provided root in the input is 'نور' (as given); the source chunk uses the lexical item 'النار' in context but does not explicitly discuss its root/pattern.",
+        "root": "نور",
+        "lemma": "نَار",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the lexical item but does not give an explicit morphological analysis; the input root 'نور' for نَار should be verified (possible mismatch)."
+      }
+    ],
+    "warnings": [
+      "Only a small subset of words in the ayah had exact-match substrings or explicit morphological remarks in the supplied source chunks; many ayah words lacked explicit sarf discussion in the provided excerpts.",
+      "Source chunks vary in diacritics and orthography; substring matching was performed against the chunks as given, which may miss forms that are vowelled differently in the input list.",
+      "Some input root assignments appear questionable (e.g., root 'نور' assigned to نَار). These were used as provided but should be reviewed for accuracy."
+    ]
+  },
+  "n_chunks": 12
+}

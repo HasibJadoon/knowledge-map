@@ -1,0 +1,151 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 62,
+      "ayah_to": 62,
+      "word_start": 1,
+      "word_end": 14,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 14,
+          "head_word_index": 2,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "و",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "استئنافية",
+          "irab_case": "",
+          "note_ar": "الواو استئنافية"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "قال",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "قال فعل ماض، والفاعل هو (لفتيانه)"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "لِ",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 2,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "اللّفظ (لِ) جار ومجرور متعلق ب (قال)"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "فتيانِهِ",
+          "relation_type": "subject",
+          "governor_word_index": 2,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "الفاعل هو (لفتيانه)"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "اجْعَلُوا",
+          "relation_type": "predicate",
+          "governor_word_index": 3,
+          "irab_position": "فعل أمر",
+          "irab_case": "",
+          "note_ar": "اجعلوا فعل أمر مبني على حذف النون"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "بِ",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 5,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "الواو فاعل (بضاعتهم) مفعول به منصوب"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "بضاعَتَهُمْ",
+          "relation_type": "object_direct",
+          "governor_word_index": 5,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "بضاعتهم مفعول به منصوب"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "فِي",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 5,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "في رحالهم جار ومجرور متعلق ب (اجعلوا)"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "رِحَالِهِمْ",
+          "relation_type": "object_direct",
+          "governor_word_index": 8,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "رحالهم مفعول به منصوب"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "لَعَلَّهُمْ",
+          "relation_type": "subject",
+          "governor_word_index": 11,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "لعلهم حرف مشبه بالفعل للترجي- ناسخ-"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "يَعْرِفُونَهَا",
+          "relation_type": "predicate",
+          "governor_word_index": 10,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "يعرفونها مضارع مرفوع"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "إذَا",
+          "relation_type": "adverbial_time",
+          "governor_word_index": 13,
+          "irab_position": "ظرف للزمن المستقبل",
+          "irab_case": "منصوب",
+          "note_ar": "إذا ظرف للزمن المستقبل متضمن معنى الشرط"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "انْقَلَبُوا",
+          "relation_type": "predicate",
+          "governor_word_index": 12,
+          "irab_position": "فعل",
+          "irab_case": "منصوب",
+          "note_ar": "انقلبوا فعل مبني على حذف النون"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "إِلَى",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 13,
+          "irab_position": "جار ومجرور",
+          "irNone": "جار ومجرور متعلق ب (انقلبوا)"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

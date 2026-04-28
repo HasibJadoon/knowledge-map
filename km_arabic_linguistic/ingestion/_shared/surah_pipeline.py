@@ -45,7 +45,7 @@ LAYER_DIRS = {
     "irab":    BASE / "_pipeline/irab/kmaps-irab",
     "balagha": BASE / "_pipeline/balagha/kmaps-balagha",
 }
-SPINE_DB = LAYER_DIRS["sarf"] / "data/raw/spine/spine.sqlite"
+SPINE_DB = BASE / "spine.sqlite"
 WRANGLER_CONFIGS = {
     "km_arabic_linguistic": str(BASE.parent.parent / "workers/ar-linguistics/wrangler.toml"),
     "km_quran":             str(BASE.parent.parent / "workers/quran/wrangler.toml"),
@@ -161,7 +161,7 @@ def run_extraction(args):
     procs = []
 
     for layer in ["sarf", "irab", "balagha"]:
-        claims_dir = BASE / f"s{args.surah}/claims/{layer}"
+        claims_dir = BASE / f"S{args.surah:03d}/claims/{layer}"
         claims_dir.mkdir(parents=True, exist_ok=True)
         log_dir = Path.home() / "Library/Logs/kmaps-extract"
         log_dir.mkdir(parents=True, exist_ok=True)
@@ -269,7 +269,7 @@ def _norm_ct(ct: str, layer: str):
 def gen_sql(args) -> dict[str, Path]:
     step(3, "Generating seed SQL")
     surah = args.surah
-    out_dir = BASE / f"s{surah}/sql"     # e.g. s12/sql/
+    out_dir = BASE / f"S{surah:03d}/sql"     # e.g. S012/sql/
     out_dir.mkdir(parents=True, exist_ok=True)
     generated = {}
 
@@ -337,7 +337,7 @@ def gen_sql(args) -> dict[str, Path]:
             f"(id,lemma_id,surah,ayah,word_index,word_occurrence_id) "
             f"VALUES ({sv(sha1('QR:LO:',lid,wid))},{sv(lid)},{surah},{w['ayah']},{w['word_index']},{sv(wid)});"
         )
-    p = out_dir / f"s{surah}_qr_spine.sql"
+    p = out_dir / f"s{surah:03d}_qr_spine.sql"
     p.write_text("\n".join(stmts), encoding="utf-8")
     ok(f"s{surah}_qr_spine.sql  ({len(stmts)} stmts)")
     generated["qr_spine"] = p
@@ -383,22 +383,22 @@ def gen_sql(args) -> dict[str, Path]:
                 f"INSERT OR IGNORE INTO ar_ling_lemma_root_links (id,lemma_id,root_id,link_type) "
                 f"VALUES ({sv(sha1('AL:LRL:',lid,rid))},{sv(lid)},{sv(rid)},'primary');"
             )
-    p = out_dir / f"s{surah}_al_roots_lemmas.sql"
+    p = out_dir / f"s{surah:03d}_al_roots_lemmas.sql"
     p.write_text("\n".join(stmts), encoding="utf-8")
     ok(f"s{surah}_al_roots_lemmas.sql  ({len(stmts)} stmts)")
     generated["al_roots_lemmas"] = p
 
     # ── AL taxonomy ────────────────────────────────────────────────────────────
-    tax_sql = BASE / "s12/sql/s12_al_taxonomy.sql"  # reuse static taxonomy from S12
+    tax_sql = BASE / "S012/sql/s012_al_taxonomy.sql"  # reuse static taxonomy from S012
     if tax_sql.exists():
-        p = out_dir / f"s{surah}_al_taxonomy.sql"
+        p = out_dir / f"s{surah:03d}_al_taxonomy.sql"
         p.write_text(tax_sql.read_text(encoding="utf-8"), encoding="utf-8")
         ok(f"s{surah}_al_taxonomy.sql  (copied from static)")
         generated["al_taxonomy"] = p
 
     # ── AL claims ──────────────────────────────────────────────────────────────
     for layer in ["sarf", "irab", "balagha"]:
-        cd = BASE / f"s{surah}/claims/{layer}"
+        cd = BASE / f"S{surah:03d}/claims/{layer}"
         files = sorted(cd.glob(f"{surah}_*.json"))
         stmts = []
         run_id = sha1(f"AL:RUN:{layer.upper()}:", f"S{surah}", "pipeline")
@@ -431,7 +431,7 @@ def gen_sql(args) -> dict[str, Path]:
                     f"confidence=excluded.confidence;"
                 )
                 n_ok += 1
-        p = out_dir / f"s{surah}_al_claims_{layer}.sql"
+        p = out_dir / f"s{surah:03d}_al_claims_{layer}.sql"
         p.write_text("\n".join(stmts), encoding="utf-8")
         ok(f"s{surah}_al_claims_{layer}.sql  ({n_ok} claims, {n_drop} dropped)")
         generated[f"al_claims_{layer}"] = p

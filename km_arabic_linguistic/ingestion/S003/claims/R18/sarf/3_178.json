@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:178",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation_loss_nuance",
+        "source_quote_ar": "وَلا ذَاكِرَ اللَّهَ إلّا قَلِيلَا",
+        "claim_ar": "حرف نفي «لَا» زائد للتوكيد والنفي (نفي عامّ مُؤكَّد)؛ يفيد نفيًا مطلقًا أو توكيدًا على عدم وقوع الفعل.",
+        "claim_en": "The negative particle lāmā (لَا) here functions as a general/ emphatic negation; it conveys strong negation/emphatic denial — a nuance often not fully captured by a single-word literal translation.",
+        "root": null,
+        "lemma": "لَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "وَلا يَتَّخِذَ بَعْضُنا بَعْضاً أَرْباباً مِنْ دُونِ اللَّهِ",
+        "claim_ar": "فعل مضارع على وزن يَفْعَلُ (يَحْسَبَنَّ) مع نون التوكيد/التأكيد (النون المشدَّدة) في نهاية الفعل؛ دالّ على تقدير/تأكيد معنوي (توكيد قَوِيّ)، والجذر حسب.",
+        "claim_en": "Imperfect verb (pattern yaf'alu) with an emphatic -nna (nun of emphasis) suffix in يَحْسَبَنَّ; indicates a strongly asserted/peremptory statement. Root: ح س ب; lemma: حَسِبَ.",
+        "root": "حسب",
+        "lemma": "حَسِبَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk shows a comparable imperfect verb form (يَتَّخِذَ) but does not contain the exact token يَحْسَبَنَّ; the analysis of the emphatic -نَّ is standard but not directly cited in the provided chunks."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "translation_loss_nuance",
+        "source_quote_ar": "إِنَّمَا تُوَفَّوْنَ أُجُورَكُمْ",
+        "claim_ar": "أداة حصرٍ وتقييد: «إِنَّمَا» تفيد الحصر والخصوصية (أي: «فقط/ما إلّا»)، وهي تضيف تقييدًا لمعنى الجملة قد يُضعف عند الترجمة الحرفية.",
+        "claim_en": "The particle 'innama' functions as a restrictive particle meaning 'only'/'merely', adding a nuance of limitation or exclusivity that can be lost in literal translations.",
+        "root": null,
+        "lemma": "إِنَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not contain exact occurrences for some ayah tokens (e.g., يَحْسَبَنَّ). For such items, claims reference chunks that illustrate equivalent morphological patterns (imperfect verbs with prefixes or emphatic particles) rather than the exact token. These claims therefore have lowered confidence and are flagged in needs_review_reason.",
+      "Only morphology-type claims were extracted (root meaning, verb-form flavour, and translation nuance). I did not extract i'rab, rhetorical (balagha) readings, or syntactic role information as requested."
+    ]
+  },
+  "n_chunks": 12
+}

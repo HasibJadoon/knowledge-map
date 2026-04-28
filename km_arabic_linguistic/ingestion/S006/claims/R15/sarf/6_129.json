@@ -1,0 +1,61 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:129",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "ومثل ذلك التفصيل",
+        "claim_ar": "وَكَذَلِكَ — اسم إشارة/حرف توصيفي بمعنى «هكذا»/«وكذلك»، يعمل رابطاً توضيحياً بين ما قبله وما بعده.",
+        "claim_en": "وَكَذَلِكَ (from ذَٰلِك) is a demonstrative/linking expression meaning 'thus' or 'and likewise', used to summarize or draw a parallel.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "Claim based on commentary substring using ذَٰلِك in the phrase; verify if labeling as 'wazn/pattern' is preferred over 'translation_loss' or 'idiom'.",
+        "quran_ref": "S6:A129"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "الظَّالِمُونَ",
+        "claim_ar": "الظَّالِمِينَ — جمع «ظالم»، من الجذر ظلم: المعنى الصرفي «فاعل ظلم/جَوْر» أي من يرتكب الظلم أو التجاوز.",
+        "claim_en": "الظَّالِمِينَ is the plural of ظَالِم (root: ظلم), meaning 'wrongdoers' or 'those who commit injustice/oppression'.",
+        "root": "ظلم",
+        "lemma": "ظَالِم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A129"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "كان يكتب",
+        "claim_ar": "كَانُوا — من فعل «كان» (جذر: كون). في السياق الصرفي «كان» فعل ناقص ماضٍ يُستخدم كفعل مساعد/دال على الحالة أو الاستمرارية في الماضي.",
+        "claim_en": "كَانُوا is from the verb kāna (root: كون). Morphologically it is a past/formative (preterite) verb often functioning as a copula or auxiliary indicating past state/continuous aspect.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "Labelled here as auxiliary/verb-flavour; review whether to analyse as lexical verb in specific context.",
+        "quran_ref": "S6:A129"
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "ما كسبتم",
+        "claim_ar": "يَكْسِبُونَ — من جذر كسب: الصرفي «يكسب» يعني يَحْصُل/يَكْتَسِب (غالباً: اكتساب أعمال/ذنوب أو مكاسب فعلية)، دلالة على اكتساب نتيجة بفعل.",
+        "claim_en": "يَكْسِبُونَ is from the root كسب (kasaba), meaning 'to earn' or 'to acquire'. In this Quranic context it often denotes acquiring deeds (here: sins) by one's actions.",
+        "root": "كسب",
+        "lemma": "كَسَبَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A129"
+      }
+    ],
+    "warnings": [
+      "No exact source-chunk substrings were found in the provided chunks for these words in this ayah: word_index 2 (نُوَلِّي), 3 (بَعْضَ), 5 (بَعْضَاً), 6 (بِمَا). Claims were therefore not made for these items.",
+      "Some claims use related forms found in the commentary (e.g. «الظَّالِمُونَ», «ما كسبتم», «كان يكتب», «ومثل ذلك التفصيل») rather than the exact orthographic forms in the ayah; these were the only exact substrings available in the provided source chunks."
+    ]
+  },
+  "n_chunks": 12
+}

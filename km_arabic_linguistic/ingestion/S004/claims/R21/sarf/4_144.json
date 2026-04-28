@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:144",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "idioms",
+        "source_quote_ar": "يا أَيُّهَا",
+        "claim_ar": "حرف نداء مع أَيُّهَا: تركيب ندائي مُستخدم للاستدعاء العام أو الخطاب الرسمي للمخاطبين (نداء مخاطبين جماعة).",
+        "claim_en": "The vocative particle 'يا' combined with 'أَيُّهَا' — a vocative construction used to address a group emphatically (formal/public address).",
+        "root": null,
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A144"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ",
+        "claim_ar": "اسم موصول على صيغة الجمع (أداة وصل للجمع المذكر)، مشتق من الضمير/أصل الموصول «الَّذِى».",
+        "claim_en": "Relative pronoun in the plural masculine form (derived from the basic relative lemma 'الَّذِى').",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A144"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "آمَنُوا",
+        "claim_ar": "فعل ماضٍ ثلاثي مجرد على وزن أَفْعَلَ (الفعل: آمَنَ من الجذر أمن) بصيغة الجمع الغائب/الماضِي (ـوا)؛ دلالة جذرية: الإيمان/التصديق.",
+        "claim_en": "Past tense triliteral verb on the pattern a-fa'ala (آمَنَ) from root أمن meaning 'to believe'; here in the 3rd-person plural past form (ـوا).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A144"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:59",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قُلْ",
+        "claim_ar": "قُلْ: فعل أمر ثلاثي مجرد من الجذر قول/قولَ (ق-و-ل)، صيغة أمر موجهة للنبي ﷺ ليخاطب المقصودين («قل» بمعنى: قل لهم).",
+        "claim_en": "'Qul' is the imperative verb from the triliteral root ق-و-ل (lemma قَالَ). It is an imperative form directing the speaker (the Prophet) to say/declare (i.e., 'Say...').",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "idioms",
+        "source_quote_ar": "يا أهل الكتاب",
+        "claim_ar": "يا أهلَ: أداة نداء (يا) + أهل (اسم)، تركيب منادى شائع: 'يا أهل الكتاب' — نداء موجه إلى جماعة محددة (أهل الكتاب) لخطاب خاص.",
+        "claim_en": "The vocative 'yā' + 'ahl' forms a common idiomatic address: 'yā ahl al-kitāb' ('O People of the Book'), used to directly address that community.",
+        "root": "اهل",
+        "lemma": "أَهْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "يا أهل الكتاب",
+        "claim_ar": "الكِتَابُ: من جذر كتب؛ وزن كِتَابٌ، دلالة أصلية: ما يُكْتَب أو ما هو مكتوب. في التركيب 'أهل الكتاب' المقصود به 'أصحاب الكتب/الرسالات' (اليهود والنصارى).",
+        "claim_en": "'al-kitāb' derives from the root ك-ت-ب (wazn k-itāb) meaning 'that which is written' / 'book'. In the construct 'ahl al-kitāb' it denotes 'people of the Scripture' (i.e., the communities with revealed books).",
+        "root": "كتب",
+        "lemma": "كِتَٰب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root meaning",
+        "source_quote_ar": "أبناء الله وأحباؤه",
+        "claim_ar": "اللَّهُ: اسم علم خاص مستعمل للدلالة على الإله، جذر مادّي يُكتب 'اله' بالتحليل الجذري لكن 'الله' معاملة اسم علم لا تُعرض على أوزان صرفية عادية هنا؛ في 'بِاللَّهِ' حروف الجر + اسم الله للدلالة على الإيمان بـالله.",
+        "claim_en": "The noun 'Allāh' is a proper name referring to God. While historically analyzable to the root اله, in usage it functions as a proper noun rather than a regular derivational noun; 'bi‑Allāh' is preposition bi + Allāh meaning 'in/by God' or 'with God' (here: belief in God).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The morphological status of 'الله' as derived from the root اله vs. a fixed proper name can be treated differently in different grammatical/traditional analyses; commentary excerpt used rather than explicit morphological rule."
+      }
+    ],
+    "warnings": [
+      "Many lexical items of this ayah (e.g., تَنْقِمُونَ, آمَنَّا, أُنْزِلَ, فَاسِقُونَ) did not appear as exact substrings in the provided source_chunks, so claims were produced only for words with matching evidence in the supplied excerpts.",
+      "Source-based claims rely on commentary excerpts rather than a dedicated morphological dictionary; review recommended for finer-grained sarf details (e.g., precise person/number/voice markings or wazn derivations for verbs not attested in the chunks)."
+    ]
+  },
+  "n_chunks": 12
+}

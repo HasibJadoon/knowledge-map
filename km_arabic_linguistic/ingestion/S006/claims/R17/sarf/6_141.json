@@ -1,0 +1,24 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:141",
+  "result": {
+    "claims": [
+      {
+        "word_index": 24,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَيَوْمَ نَحْشُرُهُمْ جَمِيعاً",
+        "claim_ar": "جذر كلمة «يَوْمَ» هو «يَوْم» والمعنى الاشتقاقي: يوم/زمن (اسم يبيّن زمن الحدوث).",
+        "claim_en": "Root of يَوْمَ is y-w-m (يَوْم). Lexical meaning: 'day' / 'time' (a noun indicating a point or span of time).",
+        "root": "يوم",
+        "lemma": "يَوْم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A141"
+      }
+    ],
+    "warnings": [
+      "Only source-chunk matches were found for the word يَوْمَ (word_index 24). Other ayah words did not appear verbatim in the provided source chunks, so no additional morphology claims could be sourced to the chunks. Review if more source material should be provided to support further claims."
+    ]
+  },
+  "n_chunks": 12
+}

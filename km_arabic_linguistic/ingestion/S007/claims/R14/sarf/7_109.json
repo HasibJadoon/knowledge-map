@@ -1,0 +1,61 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:109",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb_form",
+        "source_quote_ar": "قوله",
+        "claim_ar": "فعل ماضٍ ثلاثي مجرد على وزن فَعَلَ (صيغة الماضي من القول، فعل منقول عن القائل)",
+        "claim_en": "Past tense, triliteral basic (Form I) verb on the pattern fa'ala — the past of 'to say' (qāla).",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A109"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الْقَوْمُ",
+        "claim_ar": "جذر: ق و م — دلالة على جماعة/طائفة من الناس (القوم = مجموعة من الناس).",
+        "claim_en": "Root ق-و-م denotes a people / group / community (qawm = a group of people).",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A109"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "translation_loss",
+        "source_quote_ar": "«من»",
+        "claim_ar": "حرف جر (مِنْ) يدل على الانتماء/الابتداء أو الجزئية؛ صياغته العربية قد تُترجم بعدة حلول ('from','of','among') مما يسبب فقدانًا من دقة علاقتها بالمضاف في الترجمة.",
+        "claim_en": "Preposition مِنْ indicating origin/partitivity/association. It can be translated variously ('from', 'of', 'among'), and some of its relational nuance may be lost in translation.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "Nuance of مِنْ depends on syntactic relation with the following noun (partitive/origin/association); check context in the full verse.",
+        "quran_ref": "S7:A109"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "translation_loss",
+        "source_quote_ar": "«إن»",
+        "claim_ar": "أداة توكيد (إِنَّ) تُدخل نصبًا على الخبر وتمنح التأكيد؛ تُترجم عادة بـ'indeed/verily'، لكن قوة التوكيد وتأثيرها الأسلوبي قد تُضعف أو تُفقد في الترجمة.",
+        "claim_en": "The particle إِنَّ is an emphatic particle that assigns accusative to the predicate and adds emphasis (often translated 'indeed' or 'verily'); its emphatic force can be attenuated or lost in translation.",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The emphatic effect of إِنَّ varies with discourse context and may need review against broader syntactic/pragmatic context.",
+        "quran_ref": "S7:A109"
+      }
+    ],
+    "warnings": [
+      "Source coverage limited: exact substrings for several words of the verse were not found in the provided source chunks, so no morphology claims were extracted for those words. Missing/uncharted word indices: 2 (الْمَلَأُ), 5 (فِرْعَوْنَ), 7 (هَذَا), 8 (لَسَاحِرٌ), 9 (عَلِيمٌ).",
+      "Some claims (particles مِنْ, إِنَّ) are marked medium confidence because their precise semantic force depends on the full syntactic and discourse context of the ayah; please review in-context."
+    ]
+  },
+  "n_chunks": 12
+}

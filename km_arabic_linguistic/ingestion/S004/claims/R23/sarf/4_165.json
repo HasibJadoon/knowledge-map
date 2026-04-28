@@ -1,0 +1,69 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:165",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "root meaning",
+        "source_quote_ar": "عَزِيزاً",
+        "claim_ar": "صفة مشتقة من الجذر «عزز» بمعنى القوي العزيز، أي ذو عزّ ومنعة وثبات.",
+        "claim_en": "Derived from root ʿ‑z‑z (عزز). 'ʿAzīz' denotes 'mighty, strong, honored, enduring' — an attributive adjective indicating power/dominance.",
+        "root": "عزز",
+        "lemma": "عَزِيز",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "root meaning",
+        "source_quote_ar": "حَكِيماً",
+        "claim_ar": "صفة مشتقة من الجذر «حكم» بمعنى العاقل العادل الرشيد؛ أي الحكيم الذي يتصرف بالعدل والحكمة.",
+        "claim_en": "Derived from root ḥ‑k‑m (حكم). 'Ḥakīm' means 'wise, judicious, just' — an attributive adjective indicating wisdom and just governance.",
+        "root": "حكم",
+        "lemma": "حَكِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الرسول",
+        "claim_ar": "مشتق من الجذر «رسل» ويشير إلى المرسل إليه/المرسل؛ أي المبعوث أو الرسول: الشخص المرسل برسالة.",
+        "claim_en": "From root r‑s‑l (رسل) meaning 'to send'. 'Rasūl' is an agent noun referring to 'one who is sent' — a messenger/messengerhood.",
+        "root": "رسل",
+        "lemma": "رَسُول",
+        "confidence": "medium",
+        "needs_review_reason": "The exact derivational pathway (which verbal form yields this noun) and whether to analyse it as an active participle or a derived noun can be discussed further."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الرسول",
+        "claim_ar": "جمع كلمة «رسول» في الآية على صورة «رُسُل» (جمع تكسير على وزن فُعُل).",
+        "claim_en": "The plural of 'rasūl' appears as 'rusul' (broken plural, pattern fu'ul).",
+        "root": "رسل",
+        "lemma": "رَسُول",
+        "confidence": "medium",
+        "needs_review_reason": "Assignment of the exact broken-plural pattern is standard but some dialectal/historical variations exist; source chunk gives lemma but does not explicitly analyse the plural pattern."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم الجلالة للدلالة على الإله؛ لفظ خاص أصول اشتقاقه موضوع نقاش بين النحاة والمقارنة اللغوية.",
+        "claim_en": "'Allāh' — the proper name/title for God in Arabic. Historically related to the lexical field of 'ilah' but its exact derivational morphology is debated.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The morphological origin/derivation of the divine name is debated; treating it as a proper noun is safest for many analyses."
+      }
+    ],
+    "warnings": [
+      "Only a subset of words in the ayah had direct supporting substrings in the provided source chunks. Claims were produced only where a relevant substring appears in the chunks.",
+      "No explicit morphological discussion in the provided chunks was found for these words, so no claims were made for them: word indices 2 (مُبَشِّرِينَ), 3 (وَمُنْذِرِينَ), 4 (لِئَلَّا), 5 (يَكُونَ), 6 (لِلنَّاسِ), 7 (عَلَى), 8 (اللَّهِ in that exact form with case ending), 9 (حُجَّةٌ), 10 (بَعْدَ), 12 (وَكَانَ).",
+      "Some claims (marked medium confidence) rely on general lexical/morphological knowledge rather than an explicit morphological exposition in the supplied commentary chunks; they are flagged for review."
+    ]
+  },
+  "n_chunks": 12
+}

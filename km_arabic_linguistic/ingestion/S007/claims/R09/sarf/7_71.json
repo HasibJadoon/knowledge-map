@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:71",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "إِذْ قالَ لِقَوْمِهِ",
+        "claim_ar": "فعل ماضٍ على وزن فَعَلَ (قَالَ)، وهو فعل تام من جذر ق و ل يدل على قول حدث في الماضي.",
+        "claim_en": "Past-tense (perfect) verb on the pattern فَعَلَ (قَالَ); triliteral root ق-و-ل indicating a past act of saying.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "translation_loss_nuance",
+        "source_quote_ar": "قَدْ جاءَتْكُمْ بَيِّنَةٌ مِنْ رَبِّكُمْ",
+        "claim_ar": "الحرف «قَدْ» هنا يعمل كحرف تحقيق/توكيد على وقوع الحدث (أو للدلالة على اقترانه)، وغالبًا لا يقابله في الإنجليزية بكلمة واحدة مما يسبّب خسارة نغمية أو درجات التأكيد في الترجمة.",
+        "claim_en": "The particle قَدْ here functions as a particle of verification/emphasis indicating the occurrence (or closeness) of the event; it often has no single-word equivalent in English, causing subtle loss of emphasis in translation.",
+        "root": "",
+        "lemma": "قَد",
+        "confidence": "medium",
+        "needs_review_reason": "«قَدْ» له استعمالات متعددة (تحقيق، ترجيح)، والتحديد الدقيق يحتاج ضبطًا حسب السياق التداولي."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قَدْ جاءَتْكُمْ بَيِّنَةٌ مِنْ رَبِّكُمْ",
+        "claim_ar": "جذر «رَبّ» (مذكور في «رَبِّكُمْ») من حروف ر ب ب، دال على الربوبية، المربّي، والولاية - أي المنزلة العليا أو السيد.",
+        "claim_en": "Root of رَبّ (as in رَبِّكُمْ) is ر‑ب‑ب, denoting lordship/guardianship (the one who nurtures/has authority).",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "translation_loss_nuance",
+        "source_quote_ar": "قالَ يا قَوْمِ اعْبُدُوا اللَّهَ",
+        "claim_ar": "الاسم «اللَّه» اسم علم إلهي؛ في الترجمة غالبًا يُنقل بـ'God' لكن ذلك قد يطمس بعدًا من خصوصية الصيغة العربية والاشتقاق اللغوي لدى بعض القرّاء.",
+        "claim_en": "The name اللَّه is a proper divine name; usually rendered as 'God' in translation, but this can obscure certain linguistic/semantic specificities of the Arabic form.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "تأثير الاختيار الترجماتي (Allah vs God) يعتمد على منهج المترجم والجمهور المستهدف."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

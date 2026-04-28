@@ -9,7 +9,7 @@ Prerequisites:
   1. Surah folder must exist: scaffold first with:
      python3 _shared/scaffold_surah.py --surah N
   2. Tafsir DBs must be present in ../Tafsirs/
-  3. Spine SQLite must exist at _pipeline/sarf/kmaps-sarf/data/raw/spine/spine.sqlite
+  3. Spine SQLite must exist at spine.sqlite
   4. Ruku DB at ../quran-metadata-ruku.sqlite
 
 Output:
@@ -31,7 +31,7 @@ from pathlib import Path
 BASE    = Path(__file__).resolve().parents[1]   # ingestion/
 RUKU_DB = BASE / "../quran-metadata-ruku.sqlite"
 TAFSIRS = BASE / "../Tafsirs"
-SPINE_DB = BASE / "_pipeline/sarf/kmaps-sarf/data/raw/spine/spine.sqlite"
+SPINE_DB = BASE / "spine.sqlite"
 
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434")
 LLM_MODEL  = os.getenv("OLLAMA_LLM_MODEL", "qwen3:latest")

@@ -1,0 +1,56 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:24",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "وقال",
+        "claim_ar": "الجذر: ق-و-ل (قول)؛ معنى الجذر: النطق/القول، إبلاغ الكلام.",
+        "claim_en": "Root: q-w-l (قول) — meaning 'to say, speak, utter'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "وقال",
+        "claim_ar": "وزن الفعل: فَعَلَ — فعل ثلاثي مجرد (الصيغة الأساسية للفعل 'قال').",
+        "claim_en": "Pattern: fa'ala — basic triliteral past (Form I) used for 'to say'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "الْأَرْضِ",
+        "claim_ar": "الجذر: أ-ر-ض (أرض)؛ معنى الجذر: الأرض، البقعة الأرضية/البرّ أو الكوكب.",
+        "claim_en": "Root: ʾ-r-ḍ (أرض) — meaning 'earth, land, ground (or the planet)'.",
+        "root": "ارض",
+        "lemma": "أَرْض",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الْأَرْضِ",
+        "claim_ar": "الاسم على وزن أَفْعَل (أَرْض) — اسم ثلاثي مجرد دلالة على موضع/مكان.",
+        "claim_en": "Pattern: 'afʻal' (أَفْعَل) — a triliteral noun pattern (denoting place/land in this case).",
+        "root": "ارض",
+        "lemma": "أَرْض",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only words for which an exact substring was found in the provided source chunks were annotated. No attested substring in the chunks matched these words: word indices [2,3,4,5,6,7,9,10,11,12]. If commentary substrings for those words are available, provide them to enable more morphology claims."
+    ]
+  },
+  "n_chunks": 12
+}

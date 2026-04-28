@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:81",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "آتَيْتُكَ",
+        "claim_ar": "لَامُ التوكيد على الفعل المضارع + فعل مضارع مخاطب جمع: لَتَأْتُونَ من الجذر أتى (أ ت ي)، واللام هنا للتوكيد",
+        "claim_en": "The verb is an imperfect (present) with the emphatic lam (لَ) + 2nd-person plural suffix: لَتَأْتُونَ from the root أتى (a-tā). The initial لَ functions as an emphasizer.",
+        "root": "اتی",
+        "lemma": "أَتَى",
+        "confidence": "medium",
+        "needs_review_reason": "Evidence taken from a related lemma form ('آتَيْتُكَ') in the commentary chunk rather than the exact ayah form; verify vocalization and that the لَ here is indeed emphatic (not e.g. part of a different construction) in the ayah's context."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "رجالا",
+        "claim_ar": "جمع تكسير 'رِجَال' على وزن 'فعال' من جذر ر ج ل (دلالة: رجال/الرجال بمعنى الذكور/الناس)",
+        "claim_en": "The noun رِجَال is a broken (irregular) plural on the pattern 'فعال' derived from the root ر-ج-ل (man/person).",
+        "root": "رجل",
+        "lemma": "رِجَال",
+        "confidence": "high",
+        "needs_review_reason": "none"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root meaning",
+        "source_quote_ar": "يا قَوْمِ",
+        "claim_ar": "الجذر قوم يدل على معنى 'قَوْم، أَهْل، جَمَاعَة' أي مجموعة من الناس أو قبيلة",
+        "claim_en": "The root قوم (q-w-m) carries the meaning 'people, a group/tribe'; قَوْم denotes a community or group of people.",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": "none"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "وَلا تُسْرِفُوا",
+        "claim_ar": "اسم فاعل/صفة على وزن مُفْعِل (مُسْرِف) وجمعه مُسْرِفُونَ؛ من الجذر س ر ف ويدل على المُتجاوز للحد أو المُبْذِر",
+        "claim_en": "The word is (based on) the active participle pattern 'muf'il' (مُسْرِف) with plural مُسْرِفُونَ; from the root س-ر-ف meaning 'to exceed limits, be wasteful'.",
+        "root": "سرف",
+        "lemma": "مُسْرِف",
+        "confidence": "medium",
+        "needs_review_reason": "The source substring is an imperative form ('ولا تُسْرِفُوا') from commentary; morphological labeling as active participle for the ayah word (مُسْرِفُونَ) is standard but should be double-checked against vocalization and syntactic role in the ayah."
+      }
+    ],
+    "warnings": [
+      "No matching exact substrings found in the provided source chunks for these ayah words: word_index 1 (إِنَّكُمْ), 4 (شَهْوَةً), 5 (مِن), 6 (دُونِ), 7 (النِّسَاءِ), 8 (بَلْ), 9 (أَنْتُمْ). Claims were produced only where a supporting substring was present in the source chunks.",
+      "Some claims rely on related forms found in the commentary chunks (e.g., 'آتَيْتُكَ', 'ولا تُسْرِفُوا') rather than the exact ayah word-form; these are marked with lower confidence and need review."
+    ]
+  },
+  "n_chunks": 12
+}

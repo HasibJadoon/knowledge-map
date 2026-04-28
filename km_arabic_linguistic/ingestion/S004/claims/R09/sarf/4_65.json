@@ -1,0 +1,37 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:65",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "آمَنُوا",
+        "claim_ar": "الجذر: أ-م-ن؛ دالّ على الإيمان/التصديق والأمان. في السياق القرآني غالبًا معنى الإيمان أي التصديق بالله أو رسله.",
+        "claim_en": "Root: أ‑م‑ن (ʾ‑m‑n) meaning 'to believe; to have faith; to be secure.' In Qur'anic usage this root most often denotes 'to believe' (to have faith in God).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A65"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "آمَنُوا",
+        "claim_ar": "الفعل من باب أول (فعل) ثلاثي مجرد: الآمرة/الماضي آمنَ / آمَنَ، وصيغته في المضارع الجمع يظهر كـ يُؤْمِنُونَ (مضارع الغائب للمثنى/الجمع ببادئة ياء وواو الجماعة).",
+        "claim_en": "Pattern: triliteral Form I (the basic/ground verb). Base past is آمنَ/آمَنَ; the present plural form appears as يُؤْمِنُونَ — the third-person masculine plural imperfect of a Form I verb.",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A65"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided contain an exact attestation for the past plural form 'آمَنُوا' (used above) but do not contain the exact ayah form 'يُؤْمِنُونَ' as a substring. The claims above use the attested substring as supporting evidence for the same root/pattern.",
+      "Many words in the ayah (e.g., يُحَكِّمُوكَ, قَضَيْتَ, تُسَلِّمُوا) do not have matching exact substrings in the provided source_chunks; no independent source_quote_ar could be supplied for claims about those words. Claims are therefore limited to items for which a supporting substring was present."
+    ]
+  },
+  "n_chunks": 12
+}

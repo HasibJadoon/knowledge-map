@@ -1,0 +1,188 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 1,
+      "ayah_to": 18,
+      "word_start": 1,
+      "word_end": 18,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 18,
+          "head_word_index": 1,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قال",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "قال فعل ماض"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "بل",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 1,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "حرف إضراب"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "سوّلَتْ",
+          "relation_type": "predicate",
+          "governor_word_index": 1,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "فعل ماض"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "لكُمْ",
+          "relation_type": "object_indirect",
+          "governor_word_index": 3,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به منصوب"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "أنفسُكُمْ",
+          "relation_type": "object_direct",
+          "governor_word_index": 3,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "فاعل مرفوع"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "أمراً",
+          "relation_type": "object_direct",
+          "governor_word_index": 3,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به منصوب"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "صبرٌ",
+          "relation_type": "subject",
+          "governor_word_index": 8,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "مبتدأ مرفوع"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "جميلٌ",
+          "relation_type": "adjective",
+          "governor_word_index": 7,
+          "irab_position": "نعت",
+          "irab_case": "مرفوع",
+          "note_ar": "نعت لصبر مرفوع"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "عسى",
+          "relation_type": "subject",
+          "governor_word_index": 10,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "فعل ماض جامد ناقص"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "اللّهُ",
+          "relation_type": "subject",
+          "governor_word_index": 9,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "اسم عسى مرفوع"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "أن",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 9,
+          "irab_position": "حال",
+          "irab_case": "منصوب",
+          "note_ar": "مصدر مؤوّل في محل نصب خبر عسى"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "يأتِيَنِي",
+          "relation_type": "object_direct",
+          "governor_word_index": 11,
+          "irab_position": "فعل",
+          "irab_case": "منصوب",
+          "note_ar": "فعل منصوب"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "بِهِمْ",
+          "relation_type": "object_indirect",
+          "governor_word_index": 12,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به منصوب"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "جَمِيعَاً",
+          "relation_type": "adverb",
+          "governor_word_index": 13,
+          "irab_position": "حال",
+          "irab_case": "منصوب",
+          "note_ar": "حال منصوبة من الضمير المجرور في (بهم)"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "إِنَّهُ",
+          "relation_type": "subject",
+          "governor_word_index": 16,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "مبتدأ مرفوع"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "هُوَ",
+          "relation_type": "predicate",
+          "governor_word_index": 15,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر مرفوع"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "الْعَلِيمُ",
+          "relation_type": "adjective",
+          "governor_word_index": 16,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر مرفوع"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "الْحَكِيمُ",
+          "relation_type": "adjective",
+          "governor_word_index": 16,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر مرفوع"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

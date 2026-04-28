@@ -1,0 +1,21 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "idioms",
+        "source_quote_ar": "وَذَهَبَ الجُرْجانِيُّ في النَظْمِ إلى أنَّ أحْسَنَ الأقْوالِ هُنا أنْ يَكُونَ \"الم\" إشارَةً إلى حُرُوفِ المُعْجَمِ",
+        "claim_ar": "\"الم\" من الحروف المقطعة (حروف مُقَطَّعَة)؛ عند الجُرْجَانِيّ يُحتَمَل أن تكون إشارةً إلى حُرُوفِ المعجم (أي: هذه الحروف كأنها \"كتابُكَ\").",
+        "claim_en": "\"Alif-Lam-Mim\" is one of the muqaṭṭaʿāt (disjoined letters). Al-Jurjani's view (reported by Ibn ʿAtiyya) considers it possibly as an indication to the letters of the alphabet (i.e., 'these letters are your book').",
+        "root": null,
+        "lemma": "الم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

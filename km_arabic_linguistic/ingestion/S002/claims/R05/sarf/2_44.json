@@ -1,0 +1,47 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:44",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "النَّاسَ",
+        "claim_ar": "الاسم «النَّاسَ» من الجذر المصرّح به (نوس) ويعني الناس/الجماعة (جمع عام)، دلالة دلالية: «الناس» بمعنى أهل/الجماعة.",
+        "claim_en": "The noun 'النَّاسَ' (lemma 'نَّاس', root given as 'نوس') means 'the people' — a general/collective plural referring to persons or the community.",
+        "root": "نوس",
+        "lemma": "نَّاس",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the word occurrence but does not present an explicit morphological analysis; the collective/plural reading is inferred from the lexical form."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn",
+        "source_quote_ar": "النَّاسَ",
+        "claim_ar": "الوزن الظاهري للاسم «ناس» يُنسب عادة إلى صيغة جمع عام/وزن شبيه بـ «فَعَال» (أي دلالة جمعية/جماعية)، لكن تصنيفه الصرفي التفصيلي يحتاج تدقيقاً.",
+        "claim_en": "The surface pattern of 'ناس' is commonly treated as a collective/general plural (often associated with a pattern like 'fa'āl'); the precise morphological classification needs verification.",
+        "root": "نوس",
+        "lemma": "نَّاس",
+        "confidence": "low",
+        "needs_review_reason": "The source chunk only shows the word; the specific assignment to a wazn/pattern is an inference and should be checked against classical morphology sources."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root_meaning_with_suffix",
+        "source_quote_ar": "(أنفس)",
+        "claim_ar": "الأساس «أنفس» من الجذر ن ف س بمعنى الذات/النفوس. في الآية الشكل الكامل «أَنْفُسَكُمْ» يتضمّن لاحقة ضمير الملكية/الخطاب «كم» كمرفق نحوي صرفي (ضمير متصل) أي «أنفسكم» = «yourselves».",
+        "claim_en": "The base 'أنفس' (root ن ف س, lemma 'نَفْس') denotes 'selves/the self'. In the verse the full form 'أَنْفُسَكُمْ' includes the enclitic possessive/2nd-person-plural pronoun '-كم', yielding 'yourselves'.",
+        "root": "نفس",
+        "lemma": "نَفْس",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains '(أنفس)' but does not discuss the attached pronoun; the identification of the suffix '-كم' is based on the word form in the verse rather than explicit analysis in the provided source."
+      }
+    ],
+    "warnings": [
+      "Only a subset of the verse's words appear as exact substrings in the provided source chunks; claims are therefore limited to those occurrences and some morphological details are inferred rather than explicitly supported by the chunks.",
+      "The provided root for word_index 2 is 'نوس' (as given in input). This differs from the more commonly cited consonantal root representation (ن و س); verify the root-labeling conventions used in your data source.",
+      "Several words of the verse (e.g., أَتَأْمُرُونَ, تَتْلُونَ, الْكِتَابَ, تَعْقِلُونَ) did not occur verbatim in the provided chunks, so no direct-source-backed morphological claims were made for them. If you want claims for those, provide source chunks that contain them or allow inference without an explicit source_quote_ar match."
+    ]
+  },
+  "n_chunks": 12
+}

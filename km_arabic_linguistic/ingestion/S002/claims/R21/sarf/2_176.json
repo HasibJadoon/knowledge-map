@@ -1,0 +1,58 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:176",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "تنزيلا لعلمهم",
+        "claim_ar": "الفعل نَزَّلَ من باب فَعَّلَ (باب II)؛ مصدره التَّنْزيل/تنزيلا والمصطلح الصرفي يضعه في وزن تَفْعِيل/تَنْزِيل كاشتقاق من نزل.",
+        "claim_en": "The verb نَزَّلَ is Form II (fa''ala pattern); its masdar is تنزيل/تنزيلا, placing it in the تَفْعِيل derivational pattern from root ن-ز-ل.",
+        "root": "نزل",
+        "lemma": "نَزَّلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "تنزيلا لعلمهم",
+        "claim_ar": "جذر ن-ز-ل: معناه الأصلي 'النزول'، وفي السياق القرآني يدل على 'إنزال' شيء (هنا: الوحي/الكتاب) أي 'أرسله/أنزله'.",
+        "claim_en": "Root ن-ز-ل means 'to descend'; in Qur'anic contexts it commonly means 'to send down' (e.g., revelation, the Book).",
+        "root": "نزل",
+        "lemma": "نَزَّلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "كَلامَ اللَّهِ",
+        "claim_ar": "اللَّه اسم الجلالة، يعني 'الإله/الرب'؛ يُعامل كاسم علم لا يُصاغ عادة كجذر ثلاثي عادي في صرف الكلام اليومي.",
+        "claim_en": "The word اللَّه is the divine name meaning 'God' or 'the God'; it is treated as a proper name and not normally analyzed as a regular triliteral root in productive morphology.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Etymology of the name 'Allah' is debated in scholarship; treating 'اله' as its root is conventional but not unanamous."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "(أَنْ يُؤْمِنُوا)",
+        "claim_ar": "أَنَّ (هنا مع باء الانقلاب: بِأَنَّ) تعمل كحرف ناسخ/مصدرية يربط الجملة الاسمية أو الفعلية بمعنى 'أنّ/لأنّ'؛ في الترجمة قد تُفقد دقة دلالة 'بِـ' المسبوقة (العلاقة السببية أو الأسلوبية).",
+        "claim_en": "The particle أَنَّ (in compounds like بِأَنَّ) introduces a content/clausal complement ('that'/'because that'); the nuance added by the prefixed bi- (e.g., causal or connective shade) can be lost in literal translation.",
+        "root": null,
+        "lemma": "أَنّ",
+        "confidence": "medium",
+        "needs_review_reason": "Source excerpt shows أَنْ but not the full prefixed form بِأَنَّ; the precise pragmatic shade of the prefixed bi- in this verse should be checked in context."
+      }
+    ],
+    "warnings": [
+      "Only a subset of the ayah's words appear (in matching forms) in the provided source chunks; claims are therefore limited to items with direct substrings in the chunks.",
+      "Etymology/analysis of the divine name 'اللَّه' is contested among scholars; the assignment of root 'اله' reflects a conventional but debated stance.",
+      "The source material shows related forms (e.g., تنزيلا, أَنْ) rather than the exact orthographic tokens of every target word (e.g., بِأَنَّ); where the prefixal form is inferred, the nuance should be re-checked in full exegetical context."
+    ]
+  },
+  "n_chunks": 12
+}

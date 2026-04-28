@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:17",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "ثُمَّ",
+        "claim_ar": "ثُمَّ أداة عطف وتراخي/ترتيب زمني، تدل على تتابع حدثين أو تأخير طفيف بينهما؛ قد تُفقد هذه دقة الترتيب في الترجمة البسيطة إلى «then».",
+        "claim_en": "ثُمَّ is a conjunctive particle indicating sequence or a slight delay between events ('then'); this sequential nuance can be diminished in a simple English rendering.",
+        "root": null,
+        "lemma": "ثُمّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بين",
+        "claim_ar": "بَيْن: اسم ظرف/حرف جر بمعنى موضع فاصل أو وسط، من جذر ب ي ن الذي يحمل مَرَكِز المعنى 'فصل/تمييز/فرق'.",
+        "claim_en": "bayn ('between') is a relational noun/preposition meaning a separating place or middle; from the root b-y-n which carries the sense 'to separate / distinguish'.",
+        "root": "بين",
+        "lemma": "بَيْن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks supplied contain only a subset of lemma/word-forms from this ayah. Only claims for words with exact-match substrings in the provided chunks were extracted (see source_quote_ar).",
+      "No explicit morphological (sarf) discussion for most words in the provided chunks, so claims are limited to items that could be supported by the chunks."
+    ]
+  },
+  "n_chunks": 12
+}

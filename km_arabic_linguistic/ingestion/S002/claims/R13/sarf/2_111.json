@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:111",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "المراد الجنة، أى سالمة لكم، خاصة بكم، ليس لأحد سواكم فيها حق.",
+        "claim_ar": "الْجَنَّةَ هنا مرادفةُ لِمَعنىٍ محدَّد: «الجنة» بمعنى دار نَعِيمٍ سالِمَةٍ خاصةٍ لهم — تأكيد دلالي يضيف نبرة حصرية لا تُنقل دائماً بكلمة واحدة في الترجمة الحرفية.",
+        "claim_en": "The word al-jannah here is glossed as a specifically 'safe/preserved Paradise for you', a nuance of exclusivity (a semantic/translation nuance that may be lost in a literal rendering).",
+        "root": "جنن",
+        "lemma": "جَنَّة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "يقال: هاد يهود. وتهوّد إذا دخل في اليهودية، وهو هائد، والجمع هود.",
+        "claim_ar": "هُودَاً: مصطلح مرتبط بجذر/مشتق من (هاد / تهوّد) ويُستعمَل للدلالة على مَنْ دخل في اليهودية؛ النص يذكر صيغ الفعل والمشتقات والجمع (الجمع: هود).",
+        "claim_en": "Hooda (هُودًا) is connected to the verbal root/forms (هاد, تهوَّد) meaning to become Jewish; the passage notes the derivative forms and gives the plural 'هود'.",
+        "root": "هود",
+        "lemma": "هُود",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "وَالنَّصارى وهو جمع نصران. يقال: رجل نصران، وامرأة نصرانة، قال: نصرانة لم تحنف.",
+        "claim_ar": "نَصَارَى: صيغة جمع تشير إلى مَنْ هم على ملة النصرانية؛ المقطع يوضح أن جمعهم مرتبط بالصِيغَة «نصران»/«نصرانة».",
+        "claim_en": "naSaraa (نصارى) is presented as the plural referring to those of the Christian community; the passage indicates the singular/plural relations (natraan / nasraana).",
+        "root": "نصر",
+        "lemma": "نَصْرَانِيّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "والياء في نصرانىّ للمبالغة كالتي في أحمرىّ.",
+        "claim_ar": "في صِيغة نصرانىّ: الياء هنا وظيفة اشتقاقية/مبالغة (نَصْرَانِيّ ـ> نصرانيّ بمعنى مؤكَّد أو مبالغ فيه)، مثل حالة الياء في أحمرىّ.",
+        "claim_en": "In the adjective pattern 'naSraniyy' (نصرانيّ) the yā' functions as an intensifying/expressive element (a morphological marker of augmentation/emphasis), similar to its use in 'aHmarī'.",
+        "root": "نصر",
+        "lemma": "نَصْرَانِيّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

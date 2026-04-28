@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:32",
+  "source": "Safi",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "JSON parse failed"
+    ]
+  }
+}

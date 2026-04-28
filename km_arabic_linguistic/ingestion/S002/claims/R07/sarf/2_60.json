@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:60",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَإِذْ",
+        "claim_ar": "حرف إِذْ الزمني/الذكرى (الظرفية) بمعنى «حينَ/عندما»، يحمل في السرد القرآني دلالة استرجاع حادثة ماضية؛ هذه دلالة زمنية/نَسْبيّة قد تُفقد أو تُضعَّف في بعض الترجمات.",
+        "claim_en": "The particle 'إذ' is a temporal/recall particle meaning 'when' (referring back to a past event). It carries a narrative/temporal nuance that translators can under-render or lose.",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قُلْنا",
+        "claim_ar": "الفعل الماضي «قُلْنَا» (من الجذر قول/قال، والفظ الظاهري للقوْل) بصيغة المتكلم الجمع، والـفـ في بدايته عاملة عطف سببي/ترتيبي (فـ=ثم/فَ)، دلالة الفعل هنا: «قلنا/أمرنا».",
+        "claim_en": "The verb قُلْنَا is a past tense 1st-person-plural form derived from the root ق-و-ل (lemma قَالَ). The prefixed فـ is a coordinating 'then/so', so the phrase conveys 'and then we said' / 'so we said/commanded'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 23,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهِ",
+        "claim_ar": "اسم الجلالة «اللَّه» من الجذر اله- (دلالة على الإله/الربّ)، شكل معرف لا يُترجم دوماً حرفياً في بعض الترجمات (غالباً يُترك كـ «Allah» للحفاظ على الدلالة الخاصة).",
+        "claim_en": "The divine name 'اللَّه' comes from the root اله- (denoting deity/God). As a definite proper name it is often left untranslated (rendered as 'Allah') to preserve its specific referent.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks contain exact substrings for only a few words of this ayah (examples: \"وَإِذْ\", \"قُلْنا\", \"اللَّهِ\"). Many words in the ayah have no exact-match substring in the provided chunks and so no source-supported morphology claims were made for them.",
+      "No source-supported claims were produced for word indices: [2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26,27,28]. If you can provide source chunks that contain those exact word-forms (or contiguous substrings including them), additional morphology claims (roots, أوزان، صِيَغ الأفعال، إلخ.) can be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

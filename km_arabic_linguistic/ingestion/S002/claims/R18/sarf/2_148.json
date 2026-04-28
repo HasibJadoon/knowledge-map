@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:148",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "التنوين في: (كلّ) عوض من المضاف إليه، أى كل ما في السموات والأرض.",
+        "claim_ar": "التنوين في «كلّ» هنا يعمل عوضاً عن المضاف إليه (وظيفة إسناد معنى «كلّ ما»)، أي أنها قراءة دلالية/صرفية للبناء «كلّ» بمعنى «كل ما».",
+        "claim_en": "Zamakhshari notes that the tanwīn on «كلّ» functions as a substitute for a genitive annex — i.e. it conveys the sense of 'all of / all that'.",
+        "root": "كلل",
+        "lemma": "كُلّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "root meaning",
+        "source_quote_ar": "التنوين في: (كلّ) عوض من المضاف إليه، أى كل ما في السموات والأرض.",
+        "claim_ar": "«كُلّ» جذرها «كلل» ويعني الشمول/العموم (كلّ ما)، وزمرة التعليق الزمخشري توضح أنها تُقرأ بمعنى «كل ما في السماوات والأرض».",
+        "claim_en": "The word «كُلّ» (root: k-l-l) denotes totality/ universality ('all, every'); Zamakhshari explicates it as 'all that is in the heavens and the earth'.",
+        "root": "كلل",
+        "lemma": "كُلّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "البرّ سعة الخير والمعروف.",
+        "claim_ar": "جذر «خير» (خ-ي-ر) يدلّ على الخير والسعة والمعروف؛ السياق الزمخشري يربط «البرّ» بسعة الخير والمعروف، مما يوضح دلالة الاسم «الخيرات» كجمع لما يعبر عن الخير.",
+        "claim_en": "The root kh-y-r (خير) denotes 'goodness', 'bounty' or 'that which is good'; Zamakhshari links 'al-birr' with the abundance of goodness/what is good, supporting the reading of «الْخَيْرَاتِ» as plural of good things/deeds.",
+        "root": "خير",
+        "lemma": "خَيْرَٰت",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root meaning",
+        "source_quote_ar": "عِنْدَ اللَّهِ خَالِصَةً",
+        "claim_ar": "اسم «اللَّه» مأخوذ من أصل «اله» بمعنى الإله/الذات الإلهية؛ في سياقات التفسير يُستخدم كاسم الذات الإلهية الخالصة.",
+        "claim_en": "The name 'Allah' derives from the root 'ilah' (اله) meaning 'deity'/'god'; in exegesis it functions as the proper name of the Divine Being (the one God).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,84 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:65",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "يا أَهْلَ الْكِتابِ",
+        "claim_ar": "جذر «أهل» يدل على معاني: قوم/أهل/سكان (أي مجموعة الناس أو ذوو شأن).",
+        "claim_en": "Root 'أهل' carries the meaning 'people, family, inhabitants' (i.e., a group of people/household).",
+        "root": "اهل",
+        "lemma": "أَهْل",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A65"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "يا أَهْلَ الْكِتابِ",
+        "claim_ar": "جذر «كتب» في اسم «كِتَاب» يدل على الكتابة/المكتوب؛ «كِتَاب» اسم من الجذر بمعنى الكتاب/الكتاب السماوي.",
+        "claim_en": "Root 'كتب' in the noun 'كِتَاب' denotes writing/that which is written; 'kitāb' = 'book' (here: the revealed scripture).",
+        "root": "كتب",
+        "lemma": "كِتَٰب",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A65"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "لِمَ تُحَاجُّونَ",
+        "claim_ar": "الفعل «تُحَاجُّونَ» من جذر «حجج» دال على المجادلة/الاحتجاج؛ صيغة مضارع مخاطب جمع مع شدة دالة على حدة أو تكثيف الفعل.",
+        "claim_en": "The verb 'تُحَاجُّونَ' (from root 'حجج') denotes arguing/debating; present tense, 2nd person plural, with gemination indicating intensive/forceful action.",
+        "root": "حجج",
+        "lemma": "حَآجَّ",
+        "confidence": "medium",
+        "needs_review_reason": "The precise traditional form-number assignment (Form II vs. Form III classification and exact template) for حاجّ/حاجَّ varies between sources; classification as an 'intensive/reciprocal' pattern is somewhat uncertain and should be checked against authoritative sarf references.",
+        "quran_ref": "S3:A65"
+      },
+      {
+        "word_index": 8,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "وَما أُنْزِلَتِ التَّوْراةُ",
+        "claim_ar": "الفعل «أُنْزِلَتِ» صيغة ماضٍ مبني للمجهول (أُنفعل/أُفْعِلَتْ) دالّة على حصول التنزيل على المفعول (التوراة).",
+        "claim_en": "The verb 'أُنْزِلَتِ' is a passive perfect ('was revealed') indicating the action was done to the subject (the Torah).",
+        "root": "نزل",
+        "lemma": "أَنزَلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A65"
+      },
+      {
+        "word_index": 13,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "مِنْ بَعْدِهِ",
+        "claim_ar": "جذر «بعد» يدل على المعنى الزماني/المكاني «بعد/لاحقاً»؛ «بَعْدِهِ» هنا ظرف/اسم يتعلق بالزمن (بعده/من بعده).",
+        "claim_en": "Root 'بعد' denotes temporal/spatial relation 'after' (here 'after him/it' — indicating posteriority).",
+        "root": "بعد",
+        "lemma": "بَعْد",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A65"
+      },
+      {
+        "word_index": 15,
+        "claim_type": "wazn",
+        "source_quote_ar": "أَفَلا تَعْقِلُونَ",
+        "claim_ar": "الفعل «تَعْقِلُونَ» من جذر «عقل» على وزن المضارع «تَفْعِلُونَ» (فعل ثلاثي مجرد، صيغة المضارع مخاطب جمع) دال على التدبر/العقل.",
+        "claim_en": "The verb 'تَعْقِلُونَ' (root 'عقل') follows the present-pattern 'تaf‘ilūn' (Form I), 2nd person plural, meaning 'do you not reason/reflect?'.",
+        "root": "عقل",
+        "lemma": "عَقَلُ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A65"
+      }
+    ],
+    "warnings": [
+      "Classification of the verbal template for حاجَّ / تُحَاجُّونَ is ambiguous in some traditional sources (Form II vs. Form III and exact template); the form-number assignment and finer template labeling should be checked against an authoritative sarf reference."
+    ]
+  },
+  "n_chunks": 12
+}

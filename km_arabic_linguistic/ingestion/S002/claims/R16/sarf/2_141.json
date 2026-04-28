@@ -1,0 +1,36 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:141",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "ما تَتْلُوا",
+        "claim_ar": "حرف «مَا» هنا أداة موصولية/استفهامية بمعنى «ما الذي» أو «ما» التبعية (مَا التبعيّة)، وقد لا تُنقل دقّتها النحوية في بعض الترجمات.",
+        "claim_en": "'mā' in this construction functions as a relative/introducing particle ('what' / 'that which' as in مَا تَتْلُوا). Its specific subordinating/relativizing nuance ('what/that which...') can be lost or underspecified in translations.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted substring is from Zamakhshari (context: «ما تَتْلُوا ...»). The ayah's 'مَا' has the same surface form, but the exact syntactic role in this ayah vs. the cited example should be reviewed for full semantic alignment."
+      },
+      {
+        "word_index": 15,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وعمل به",
+        "claim_ar": "الفعل «عمل» (من الجذر ع-م-ل) هنا يظهر في صيغة المصدر/الماضي في السياق المقتبس؛ مقابل لفظ الآية «يَعْمَلُونَ» الذي هو فعل مضارع ثلاثي مجرد (وزن فَعَلَ) مع واو جماعة دالّة على جمع مذكر غائب.",
+        "claim_en": "The verb derives from root 'ع-م-ل' (ʿ-m-l). In the cited discourse the lexeme appears as «عمل»; in the ayah the word «يَعْمَلُونَ» is the Form I imperfect (basic verb pattern فَعَلَ) in the imperfect/plural-masculine (with -ون suffix). This notes the basic (unaugmented) verb pattern and plural marking — a morphological detail sometimes simplified in translation.",
+        "root": "عمل",
+        "lemma": "عَمِلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source substring is from Zamakhshari (context: «...وعمل به...»). The morphological description maps the cited lexeme to the ayah form (يَعْمَلُونَ), but the source does not explicitly discuss the ayah's verb-form suffix (-ون), so confirmation is recommended."
+      }
+    ],
+    "warnings": [
+      "Only a subset of words in the supplied ayah had matching substrings in the provided source chunks. Many words (e.g., تِلْكَ, أُمَّةٌ, خَلَتْ, كَسَبَتْ, كَسَبْتُمْ, تُسْأَلُونَ, عَمَّا, كَانُوا) did not have explicit morphological discussion or exact-string matches in the chunks — no claims were made for them for lack of direct source support.",
+      "Claims produced rely on analogous occurrences in the provided Zamakhshari chunks rather than explicit commentary on this specific ayah; please review for contextual/semantic alignment.",
+      "If you want comprehensive morphology claims for every word in S2:A141, provide source chunks that contain direct commentary or string occurrences of those specific words/forms."
+    ]
+  },
+  "n_chunks": 12
+}

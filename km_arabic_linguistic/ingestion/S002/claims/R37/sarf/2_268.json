@@ -1,0 +1,37 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:268",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "الْفُقَراءَ",
+        "claim_ar": "جذر فقر: اسم مصدر/اسم حالة بمعنى الحاجة والافتقار؛ وزن الفَقْر فَعْل (اسم حالة/مصدر يُعبِّر عن حال النقص).",
+        "claim_en": "Root 'فقر' — a noun/source meaning poverty/need; the stem فَقْر follows the faʿl pattern (a noun/state or maṣdar indicating lack).",
+        "root": "فقر",
+        "lemma": "فَقْر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A268"
+      }
+    ],
+    "warnings": [
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 1 (الشَّيْطَانُ).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 2 (يَعِدُكُمُ).",
+      "Produced a claim for word_index 3 (الْفَقْرَ) using the substring 'الْفُقَراءَ' found in the provided chunks (supports the root فقر).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 4 (وَيَأْمُرُكُمْ).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 5 (بِالْفَحْشَاءِ).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 6 (وَاللَّهُ).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 7 (يَعِدُكُمْ).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 8 (مَغْفِرَةً).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 9 (مِنْهُ).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 10 (وَفَضْلَاً).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 11 (وَاللَّهُ).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 12 (وَاسِعٌ).",
+      "Could not find an exact substring in the provided source chunks that matches or explicitly discusses these words, so no independent source-backed morphological claim was produced for word_index 13 (عَلِيمٌ).",
+      "If you would like claims for the other words, please provide source chunks that explicitly contain those words/lemmas or discuss their morphology (roots, أوزان, or verb-forms); otherwise I can produce claims based only on the supplied word list but they would lack a direct source_quote_ar and thus be marked lower confidence."
+    ]
+  },
+  "n_chunks": 12
+}

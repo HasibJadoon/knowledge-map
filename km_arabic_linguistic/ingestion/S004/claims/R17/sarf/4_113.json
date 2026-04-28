@@ -1,0 +1,67 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:113",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "في فضل الرجال",
+        "claim_ar": "اسم فَضْل من الجذر ف-ض-ل بمعنى الفضيلة/الفضل والتميز بين الناس",
+        "claim_en": "The noun فَضْل (root: ف-ض-ل) denotes 'merit, preference, superiority' (advantage/virtue).",
+        "root": "فضل",
+        "lemma": "فَضْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "في فضل الرجال",
+        "claim_ar": "اسم من وزن فَعْل (مثل: فَضْل) — اسم مصدر/مسمى يعبر عن معنى مجرد (الفضل، الإحسان، الأفضلية)",
+        "claim_en": "Wazn/pattern: the noun فَضْل follows the pattern faʿl (فَعْل), a nominal pattern often expressing an abstract noun / quality (e.g., 'merit').",
+        "root": "فضل",
+        "lemma": "فَضْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 19,
+        "claim_type": "verb_form",
+        "source_quote_ar": "فنزلت.",
+        "claim_ar": "الفعل أَنْزَلَ على وزن أَفْعَلَ (وزن صيغ الإحداث/الإسباغ: صيغة المبْلِغ/المسببة)، من الجذر ن-ز-ل",
+        "claim_en": "Verb form: أَنْزَلَ is Form IV (afʿala) derived from root ن-ز-ل — a causative/transitive pattern ('caused to descend, revealed').",
+        "root": "نزل",
+        "lemma": "أَنزَلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 24,
+        "claim_type": "verb_form",
+        "source_quote_ar": "والعلماء",
+        "claim_ar": "الفعل عَلَّمَ على وزن فَعَّل (الوزن الثاني) — صيغة مسبّبة/مزّيدة من الجذر ع-ل-م (مَرْفِع بمعنى تعلّم/علّم)",
+        "claim_en": "Verb form: عَلَّمَ is Form II (fa‘‘ala) from root ع-ل-م — a causative/intensive form (to teach, make know).",
+        "root": "علم",
+        "lemma": "عَلَّمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 28,
+        "claim_type": "verb_form",
+        "source_quote_ar": "والعلماء",
+        "claim_ar": "تَعْلَمُ فعل مضارع من الجذر ع-ل-م على وزن تَفْعَلُ (صيغة المضارع للفعل الثلاثي المجرد، هنا مخاطب/مخاطبة بحسب الضمير)، مصدر الفعل: عَلِمَ",
+        "claim_en": "Verb form: تَعْلَمُ is the imperfect (present) of the root ع-ل-م on the pattern ta- + faʿal (second/third-person conjugation marker) — basic Form I verb meaning 'you know'.",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Quoted source substrings are taken from the provided tafsir/commentary chunks; in some cases the chunk shows related forms (e.g., علم, فضل, نزل) rather than the exact orthographic form in the ayah. Consult dedicated lexica if stricter lexical evidence is required."
+    ]
+  },
+  "n_chunks": 12
+}

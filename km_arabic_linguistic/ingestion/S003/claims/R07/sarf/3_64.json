@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:64",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قُلْ",
+        "claim_ar": "فعل أمر ثلاثي مجرد من الجذر ق-و-ل (الوزن: فعل)؛ صيغة الأمر هنا من الفعل القال/قَوْل وتدل على التكليف اللفظي (أمر/نداء).",
+        "claim_en": "Imperative verb (basic triliteral Form I) from the root q-w-l (ق-و-ل, lemma قَالَ) meaning 'to say'. The form is the command/call 'Say'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهُ",
+        "claim_ar": "اسم علم مشتق من الجذر اله؛ دال على الإله الواحد. لا يتصرف بصيغ الاشتقاق الاعتيادية للأسماء الثلاثية بل يعمل كعلم مخصوص.",
+        "claim_en": "The proper name 'Allah', from the root هـ-ل (اله) meaning 'the God/Deity'. It is a theonym (proper name) and does not behave like an ordinary derivational triliteral noun.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 25,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "اللَّهُ",
+        "claim_ar": "اسم «اللَّه» عند ترجمته إلى «God» قد يفقد دلالات خصوصية التوحيد والوظيفة الإلهية الخاصة بالاسم في العربية؛ الاسم هنا علم لا نكرة ويتحمل حمولة لاهوتية ثقافية خاصة.",
+        "claim_en": "Translating 'اللَّه' as 'God' can lose nuances: 'اللَّه' is a specific theonym carrying connotations of absolute unity and theological specificity in Arabic that the generic English 'God' may not fully convey.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive/translation nuance — theological and translational judgment may vary and may require reviewer confirmation."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

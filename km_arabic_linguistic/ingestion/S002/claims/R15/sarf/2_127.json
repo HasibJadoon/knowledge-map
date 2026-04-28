@@ -1,0 +1,21 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:127",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(وَإِذْ) الواو عاطفة، وإذ: ظرف لما مضى من الزّمن",
+        "claim_ar": "كلمة \"إِذْ\" هنا ظرف لما مضى من الزمان (ظرف زمني يدل على زمان وقوع شيء سابق).",
+        "claim_en": "The particle 'idh' functions as a temporal adverb indicating a time in the past (it marks a past reference point).",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

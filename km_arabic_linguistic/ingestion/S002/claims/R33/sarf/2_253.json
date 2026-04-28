@@ -1,0 +1,37 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:253",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "فَضَّلْتُكُمْ",
+        "claim_ar": "وزن الفعل: فَعَّلَ (صيغة \"فَضَّلَ\")، صيغة مبالغة/تفضيل من الجذر فضل: دالّة على التفضيل/التقديم",
+        "claim_en": "Pattern: fَع'ʿala (فَعَّلَ) — the verb is Form II (intensive/causative) from root فضل, meaning 'to prefer, to favor, to give precedence'.",
+        "root": "فضل",
+        "lemma": "فَضَّلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A253"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بِكَلِماتٍ",
+        "claim_ar": "الجذر: ك ل م — المعنى العام: كلام/تكليم، والفعل كَلَّمَ (وزن فَعَّلَ) يُستخدم بمعنى خاطَبَ/تكلّمَ مع",
+        "claim_en": "Root: K-L-M (كلم) — general meaning 'speech/words'. The verb كَلَّمَ is Form II (fَع'ʿala) and carries the sense 'to address, to speak to/communicate with'.",
+        "root": "كلم",
+        "lemma": "كَلَّمَ",
+        "confidence": "medium",
+        "needs_review_reason": "Supporting source substring is the noun بِكَلِماتٍ (words) rather than the verb form; confirm verb-form-specific usages and semantic nuance (e.g., direct divine speech vs. addressed communication).",
+        "quran_ref": "S2:A253"
+      }
+    ],
+    "warnings": [
+      "Only exact-matching source substrings were found for a small subset of words. Claims were created for word_index 3 (فَضَّلْنَا) using the chunk substring \"فَضَّلْتُكُمْ\" and for word_index 9 (كَلَّمَ) using the chunk substring \"بِكَلِماتٍ\".",
+      "No exact substring matches in the provided source chunks were found for the other words in the ayah (e.g., تِلْكَ, الرُّسُلُ, بَعْضَهُمْ, آتَيْنَا, أَيَّدْنَاهُ, بِرُوحِ, الْقُدُسِ, اقْتَتَلَ, اخْتَلَفُوا, etc.), so no morphology claims could be sourced for them here. Supply additional/commentary chunks that mention those specific forms if claims are desired for them."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:45",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "البغاة",
+        "claim_ar": "جذر ب غ ي في «وَيَبْغُونَهَا» (من فعل بَغَىٰ) يحمل معنى الطلب والسعي غالبًا بمعنى الميل إلى الباطل/الظلم (يبغونها: يبتغونها على نحوٍ معوج).",
+        "claim_en": "Root b‑gh‑y (بَغَىٰ): in وَيَبْغُونَهَا the verb conveys 'to seek/strive (with a wrongful or transgressive sense)' — 'they seek it wrongly'.",
+        "root": "بغي",
+        "lemma": "بَغَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting source substring is the noun 'البغاة' (from the same root) rather than the exact verb form 'يَبْغُونَ' from the ayah, so the evidence is indirect."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الكافرين",
+        "claim_ar": "وزن «كَافِرُونَ» هو صيغة الفاعل (فَاعِل/فاعلون) من الجذر ك ف ر، أي اسم فاعل يدل على أصحاب فعل الكفر (حال/صفة فاعلية: الكافرون = الذين يكفرون).",
+        "claim_en": "Pattern: kāfirūn is the fāʿil (active-participle) pattern from root k‑f‑r, denoting the doers/possessors of disbelief — 'those who disbelieve'.",
+        "root": "كفر",
+        "lemma": "كَٰفِرُون",
+        "confidence": "medium",
+        "needs_review_reason": "The source substring is the definite/inflected form 'الكافرين' (different case/ending) rather than the exact triple-dotted vocalization 'كَافِرُونَ' in the ayah; still supports the lemma/pattern but is not an exact-form match."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اذْكُرُوا اللَّهَ",
+        "claim_ar": "جذر اله (ا ل ه) في «اللَّهِ» يدل على معنى الإلوهية/الربوبية؛ في القرآن كلمة «اللَّه» هنا تعمل كاسم علم للذات الإلهية.",
+        "claim_en": "Root al‑h (اله): denotes 'divinity/deity'; here اللَّه functions as the proper name of God (the Divine).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "Source substring matches the divine name in the commentary ('اذْكُرُوا اللَّهَ'), though vocalic ending differs (َ vsِ ) from the ayah; the identification of lemma/root is secure."
+      }
+    ],
+    "warnings": [
+      "Only a subset of ayah words had matching substrings in the provided source chunks. Several source quotations are different inflectional forms (e.g. 'البغاة' vs the ayah's verb form 'يَبْغُونَ'; 'الكافرين' vs 'كَافِرُونَ'; 'اللَّهَ' vs 'اللَّهِ'), so evidential support is indirect for those claims.",
+      "No source chunk contained exact occurrences of many ayah words (e.g. يَصُدُّونَ, سَبِيلِ, عِوَجًا, بِالْآخِرَةِ), therefore no morphology claims were made for them."
+    ]
+  },
+  "n_chunks": 12
+}

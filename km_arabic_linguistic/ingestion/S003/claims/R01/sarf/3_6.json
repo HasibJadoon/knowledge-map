@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:6",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "كَيْفَ اسم استفهام معناه الجحد والنفي",
+        "claim_ar": "كَيْفَ: اسم استفهام بمعنى الجحد والنفي (استفهام إنكاري)",
+        "claim_en": "The interrogative 'kayfa' here functions as a rhetorical/interrogative of denial (meaningful as negation: 'how could... / how is it possible that...'), a nuance that can be difficult to render exactly in some translations.",
+        "root": "كيف",
+        "lemma": "كَيْف",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "ولا نافية للجنس",
+        "claim_ar": "لَا: حرف نفي للجنس (نفي وجودي/جنسى)",
+        "claim_en": "The particle 'lā' functions as a negation of the whole class (existential/general negation: 'there is no ...'), a nuance often rendered as 'there is no' in translation (e.g., 'there is no deity').",
+        "root": null,
+        "lemma": "لَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source material only provided explicit morphological commentary for كَيْفَ and لَا. No direct source substrings found for other words in this ayah (e.g., يُصَوِّرُكُمْ, يَشَاءُ, الأَرْحَامِ, العَزِيزُ, الحَكِيمُ), so no morphology claims were made for them."
+    ]
+  },
+  "n_chunks": 12
+}

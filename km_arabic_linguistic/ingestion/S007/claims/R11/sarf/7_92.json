@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:92",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "المتكذبين",
+        "claim_ar": "كَذَّبَ: فعل من وزن فعَّل (الصيغة الثانية) من جذر ك ذ ب، وهو صيغة تضعيف/تشديد تعني الإنكار أو النفي القاطع (كَذَّبَ = أنكر/صرّح بالإنكار). هنا كذَّبوا: جمع ماضي لفعَّل.",
+        "claim_en": "كَذَّبَ is form II (fa''ala, pattern فعَّل) from the root K-Dh-B (ك-ذ-ب). Form II is intensive/causative compared with the base meaning 'to lie'; كذَّبَ conveys strong denial/declaring false. كذَّبُوا = 'they denied' / 'they rejected (strongly)'.",
+        "root": "كذب",
+        "lemma": "كَذَّبَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A92"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "كونوا",
+        "claim_ar": "كَانَ (جذر كون): فعل تام من الجذر ك و ن. 'كانوا' صورة الماضي للجذر كون، وهو فعل معتمد في العربية لصياغة معنى الوجود/الافتقار إلى تغيّر الحالة.",
+        "claim_en": "'Kāna' (root K-W-N, كون) is the past-tense verb from the root meaning 'to be/come into being'. 'Kānū' is the plural past form. (Morphologically: form I basic verb from root كون.)",
+        "root": "كون",
+        "lemma": "كان",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A92"
+      },
+      {
+        "word_index": 13,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الْخَاسِرِينَ",
+        "claim_ar": "الْخَاسِرِينَ: جمع مذكر من اسم فاعل على وزن فاعل من الجذر خ س ر (خسر). دالّة الكلمة: 'الخاسرون' أي الذين أصابهم خسارة.",
+        "claim_en": "الْخَاسِرِينَ is the plural of the active participle on the pattern fāʿil (خابir) from the root Kha-Sa-R (خ-س-ر). It denotes 'those who lose' / 'the losers'.",
+        "root": "خسر",
+        "lemma": "خَاسِر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A92"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

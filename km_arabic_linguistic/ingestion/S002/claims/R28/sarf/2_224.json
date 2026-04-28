@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:224",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "البرّ سعة الخير والمعروف.",
+        "claim_ar": "جذر «برّ» (ب-ر-ر) يدلّ على «البرّ» بمعنى سَعَة الخير والمعروف؛ الفعل «تَبَرُّوا» مُشتَقّ من هذا الجذر ويحمِل دلالات القيام بالخير/الإحسان.",
+        "claim_en": "The root 'برّ' (b-r-r) denotes 'al-birr' meaning abundant goodness/kindness/virtue; the verb تَبَرُّوا is derived from this root and carries the sense of performing acts of goodness or showing piety/virtue (derived reflexive/intentional nuance).",
+        "root": "برر",
+        "lemma": "تَبَرُّ",
+        "confidence": "medium",
+        "needs_review_reason": "Verb form/wazn (the assignment to pattern تَفَعَّل / Form V and the precise nuance) is inferred from the lexical note; verify with classical lexica and diacritic evidence.",
+        "quran_ref": "S2:A224"
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "إِلهٌ واحِدٌ",
+        "claim_ar": "«اللَّه» من جذر «اله» ويدلّ على معنى الإله الواحد — النفي عن الشريك وإثبات الألوهية.",
+        "claim_en": "The lemma 'اللَّه' (root 'اله') denotes the one God; the excerpt 'إِلهٌ واحِدٌ' confirms the monotheistic/indivisible sense (no partner).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A224"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,48 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:25",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مطبوع على قلبه",
+        "claim_ar": "الجذر «قلب» بمعنى مركز المشاعر/القلب",
+        "claim_en": "Root 'ق-l-b' meaning 'heart' (the organ/centre of feelings)",
+        "root": "قلب",
+        "lemma": "قَلْب",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A25"
+      },
+      {
+        "word_index": 17,
+        "claim_type": "root meaning",
+        "source_quote_ar": "آيَةٌ نزل",
+        "claim_ar": "الجذر «ءَايَة» (مُستخرج في الصيغة «آية») بمعنى علامة أو آية من الوحي",
+        "claim_en": "Root (given as 'ايي') for 'āyah' — 'āyah' = sign/verse, a mark or revealed sign",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A25"
+      },
+      {
+        "word_index": 19,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ بِالْآخِرَةِ",
+        "claim_ar": "الجذر «امن» بمعنى الإيمان/التصديق",
+        "claim_en": "Root 'a-m-n' meaning 'to believe / to have faith'",
+        "root": "امن",
+        "lemma": "آمَنَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A25"
+      }
+    ],
+    "warnings": [
+      "Only words explicitly attested in the provided commentary chunks were given morphology claims. Several words from the ayah (for example: أَكِنَّةً, يَسْتَمِعُ, يَفْقَهُوهُ, وَقْرَاً) do not appear in the source chunks, so no morphology claims were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

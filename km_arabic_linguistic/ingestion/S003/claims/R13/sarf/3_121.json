@@ -1,0 +1,175 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:121",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "غَدَوْتَ",
+        "claim_ar": "غَدَوْتَ — جذر: غ د و — معنى الجذر: الانطلاق في الصباح/الذهاب صباحاً",
+        "claim_en": "غَدو (root غ-d-w): meaning 'to set out in the morning; to go in the morning'.",
+        "root": "غدو",
+        "lemma": "غَدَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "غَدَوْتَ",
+        "claim_ar": "غَدَوْتَ — فعل ماضٍ بصيغة مخاطب/غائب مع ضمير الفاعل «-تَ»؛ الفعل من الأفعال الناقصة (حرف العلة في آخر الجذر و)",
+        "claim_en": "غadawta: past tense with 2nd-person singular suffix -ta. Morphologically the verb is defective (final radical is a weak letter wāw).",
+        "root": "غدو",
+        "lemma": "غَدَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "أَهْلِكَ",
+        "claim_ar": "أَهْلِكَ — جذر: أ ه ل — معنى: الأهل/الأسرة أو قوم ذو علاقة (أهل البيت/المنزل)",
+        "claim_en": "Ahl (root أ-h-l): meaning 'family, household, people related/people of'.",
+        "root": "اهل",
+        "lemma": "أَهْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "تُبَوِّئُ",
+        "claim_ar": "تُبَوِّئُ — من فعل بَوَّأَ على وزن فَعَّلَ (وزن فعّال/فَعَّلَ)، وصيغته هنا المضارع بالعلامة التوكيدية/الفاعل المتصل (تـ)",
+        "claim_en": "tubawwi'u is from the verb bawwa'a on the pattern fa''ala (Form II, فَعَّلَ). The present form shows the ت- prefix; Form II carries intensive/causative/denominative force (here 'to assign/place/allocate').",
+        "root": "بوا",
+        "lemma": "بَوَّأَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "تُبَوِّئُ",
+        "claim_ar": "تُبَوِّئُ — جذر: ب و أ — معنى الجذر/الفعل: وضع/أَجَلَّ/أمنح مواضع أو مقاعد (تخصيص مواضع للمعنى الظاهر في الآية)",
+        "claim_en": "Root b-w-ʼ: meaning 'to place, allocate, provide a place/seat'.",
+        "root": "بوا",
+        "lemma": "بَوَّأَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الْمُؤْمِنِينَ",
+        "claim_ar": "الْمُؤْمِنِينَ — اسم مفعول/اسم فاعل مُؤْمِن على وزن مُفْعِل (اسم فاعل من الفعل أَمَنَ/آمَنَ، صيغة دلالة على الفاعلية/المصداقية: 'المؤمن')",
+        "claim_en": "al-mu'minīn: the noun مُؤْمِن is the active/adjectival form (ism fā‘il) derived from the verb (form IV) āmana — 'one who believes' / 'believer'.",
+        "root": "امن",
+        "lemma": "مُؤْمِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الْمُؤْمِنِينَ",
+        "claim_ar": "الْمُؤْمِنِينَ — جذر: أ م ن — معنى الجذر: الأمن/الإيمان/التيقن، ومنه 'المؤمن' أي صاحب الإيمان",
+        "claim_en": "Root ʼ-m-n: semantic field 'to believe/feel secure/faith'; from it مُؤْمِن 'believer'.",
+        "root": "امن",
+        "lemma": "مُؤْمِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "مَقَاعِدَ",
+        "claim_ar": "مَقَاعِدَ — جمع مَقْعَد على وزن مَفْعَل/مَقْعَد (اسم مكان/مصدر مكان للفعل قَعَدَ)، يدل على مواضع الجلوس/المقاعد",
+        "claim_en": "maqāʿid: plural of مَقْعَد (pattern mafaʿal) — an ism makān/denoting place derived from q-ʿ-d 'to sit', meaning 'seats/positions'.",
+        "root": "قعد",
+        "lemma": "مَقْعَد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مَقَاعِدَ",
+        "claim_ar": "مَقَاعِدَ — جذر: ق ع د — معنى الجذر: الجلوس/المقعد/المقام",
+        "claim_en": "Root q-ʿ-d: meaning 'to sit'; مَقْعَد (and its plural مَقَاعِد) denotes a seat/place of sitting or a position.",
+        "root": "قعد",
+        "lemma": "مَقْعَد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "لِلْقِتَالِ",
+        "claim_ar": "الْقِتَالِ — مصدر/اسم فعل على وزن فِعَال يدل على كثرة/intensity من القتل أو القتال (قِتَال: قَتْل/قتال بمعنى القتال)",
+        "claim_en": "al-qitāl: noun on the pattern fiʿāl (verbal noun) indicating intensive action — 'fighting/combat'.",
+        "root": "قتل",
+        "lemma": "قِتَال",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "لِلْقِتَالِ",
+        "claim_ar": "قِتَال — جذر: ق ت ل — معنى الجذر: القتل/القتال",
+        "claim_en": "Root q-t-l: meaning 'to kill/ fight'; قِتَال denotes 'fighting/combat'.",
+        "root": "قتل",
+        "lemma": "قِتَال",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "سَمِيعٌ",
+        "claim_ar": "سَمِيعٌ — صفة على وزن فَعِيل (اسم فاعل/صفة مشتقة من س م ع)، دالة على القدرة على السماع/السمع",
+        "claim_en": "samīʿ: adjective on the pattern faʿīl (derivative of s-m-ʿ), meaning 'All-Hearing' / 'hearing'.",
+        "root": "سمع",
+        "lemma": "سَمِيع",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root meaning",
+        "source_quote_ar": "سَمِيعٌ",
+        "claim_ar": "سَمِيعٌ — جذر: س م ع — معنى الجذر: السمع/الإدراك بالسمع",
+        "claim_en": "Root s-m-ʿ: meaning 'to hear'; سَمِيع is 'hearing' / 'All-Hearing'.",
+        "root": "سمع",
+        "lemma": "سَمِيع",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "عَلِيمٌ",
+        "claim_ar": "عَلِيمٌ — صفة على وزن فَعِيل (مشتق من ع ل م)، دالة على العلم/المعرفة",
+        "claim_en": "ʿAlīm: adjective on the pattern faʿīl (from ʿ-l-m), meaning 'All-Knowing' / 'knowledgeable'.",
+        "root": "علم",
+        "lemma": "عَلِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "عَلِيمٌ",
+        "claim_ar": "عَلِيمٌ — جذر: ع ل م — معنى الجذر: العلم/المعرفة",
+        "claim_en": "Root ʿ-l-m: meaning 'to know'; عَلِيم denotes 'knowing' / 'All-Knowing'.",
+        "root": "علم",
+        "lemma": "عَلِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

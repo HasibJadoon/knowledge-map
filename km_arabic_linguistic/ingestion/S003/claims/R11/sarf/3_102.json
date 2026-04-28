@@ -1,0 +1,36 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:102",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهُ",
+        "claim_ar": "اسم علم (اسم الجلالة) يدل على الإله الواحد؛ ليس اسمًا صرفيًا مألوفًا يمكن وضعه في وزن قياسي عادي كالأسماء المشتقة.",
+        "claim_en": "Proper name 'Allah' (the Divine Name); denotes the One God. It functions as a proper noun rather than a regular derivational stem.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A102"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الْحَقُّ",
+        "claim_ar": "اسم 'حَقّ' من وزن فعّ (تضعيف الحرفين الثاني والثالث) من الجذر ح-ق-ق، دال على الحقّ والحقّية.",
+        "claim_en": "Noun 'haqq' on the pattern fa‘‘ (gemination of the second and third radical) from root ح-ق-ق; meaning 'truth' / 'right'.",
+        "root": "حقق",
+        "lemma": "حَقّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A102"
+      }
+    ],
+    "warnings": [
+      "Provided source chunks only contained exact substrings for some tokens (e.g. 'اللَّهُ', 'الْحَقُّ'). Other words from the ayah (e.g. آمَنُوا، اتَّقُوا، تَمُوتُنَّ، مُسْلِمُونَ) did not have matching exact substrings in the given chunks, so no source-linked morphology claims were produced for them."
+    ]
+  },
+  "n_chunks": 12
+}

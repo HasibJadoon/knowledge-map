@@ -1,0 +1,37 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:51",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "(فَإِنَّ اللَّهَ يُحِبُّ الْمُتَّقِينَ)",
+        "claim_ar": "حرف توكيد «إِنَّ» يحمل شحنة تأكيدية غالباً لا تُنقل حرفياً في الترجمة، فقد تُترجم كـ «indeed/verily» أو تحذف صيغته التأكيدية في صِيَغٍ أخرى.",
+        "claim_en": "The particle 'إِنَّ' is an emphatic/focusing particle ('indeed, verily') whose emphatic force is often not rendered literally in translation; translators may render it as 'indeed' or omit/absorb its emphasis in other phrasing.",
+        "root": null,
+        "lemma": "إِنّ",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the particle in context but does not explicitly discuss translation-loss; the claim is a general morphological/semantic observation and should be reviewed for context-specific nuance.",
+        "quran_ref": "S3:A51"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(فَإِنَّ اللَّهَ يُحِبُّ الْمُتَّقِينَ)",
+        "claim_ar": "اسم علم «اللَّه» مرتبط بالجذر المذكور «اله» ويدل على الإله الواحد؛ اسم ذاتي ثابت لا يتصرف على وزن فعلي.",
+        "claim_en": "The proper name 'اللَّه' is associated with the root 'اله' and denotes the singular God; it is a proper noun (name of a deity) rather than a derived verbal form.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "Standard etymological/morphological statement; the cited source chunk contains the word but does not elaborate on root derivation explicitly, so confirm against dedicated lexical sources if needed.",
+        "quran_ref": "S3:A51"
+      }
+    ],
+    "warnings": [
+      "Only words for which an exact substring occurred in the provided source chunks were given claims. No exact-substring evidence was found in the provided chunks for word_indices: 3, 4, 5, 6, 7, 8 (رَبِّي, وَرَبُّكُمْ, فَاعْبُدُوهُ, هَذَا, صِرَاطٌ, مُسْتَقِيمٌ).",
+      "Some claims are general morphological/semantic observations (e.g., translation-loss for إِنَّ) inferred from context rather than explicitly stated in the cited chunk; they are marked with medium/need-review notes."
+    ]
+  },
+  "n_chunks": 12
+}

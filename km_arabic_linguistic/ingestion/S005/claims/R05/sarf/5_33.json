@@ -1,0 +1,37 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 18,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مِنْ تَحْتِ أَرْجُلِهِمْ",
+        "claim_ar": "جذر «رجل» دالّ على معنى القدم/الساق (أي الأعضاء التي يُمشى بها)",
+        "claim_en": "The root 'رجل' (rajl) denotes 'foot/leg' — the limbs used for walking.",
+        "root": "رجل",
+        "lemma": "رِجْل",
+        "confidence": "high",
+        "needs_review_reason": "Source chunk contains the genitive form «أَرْجُلِهِمْ» while the ayah has «وَأَرْجُلُهُمْ» (different case ending). The lexical root/meaning is unchanged but reviewers should note the case-ending mismatch between the ayah token and the quoted source substring.",
+        "quran_ref": "S5:A33"
+      },
+      {
+        "word_index": 32,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بيان حالهم في الآخرة",
+        "claim_ar": "جذر «أخر» دالّ على معنى الآخِر/المَابِعَد، هنا دلالة على الحياة الآخرة/ما بعد الدُّنيا",
+        "claim_en": "The root 'اخر' (ʾ-kh-r) carries the sense of 'other/last/after', here indicating the afterlife (the world to come).",
+        "root": "اخر",
+        "lemma": "آخِر",
+        "confidence": "high",
+        "needs_review_reason": "The quoted source phrase includes the preposition «في» before «الآخرة»; the root-to-meaning claim is lexical and not dependent on the preposition, but confirm scope (temporal/locative nuance) if required.",
+        "quran_ref": "S5:A33"
+      }
+    ],
+    "warnings": [
+      "Only a subset of words in the ayah had exact or reliable substring matches inside the provided source chunks. Claims are therefore limited to items for which a matching source substring was found (words 18 and 32).",
+      "Some quoted substrings show different case endings or accompanying words (e.g., the source has «أَرْجُلِهِمْ» while the ayah token is «وَأَرْجُلُهُمْ»). That does not change the lexical root but should be checked if case/grammatical form is relevant to downstream use."
+    ]
+  },
+  "n_chunks": 12
+}

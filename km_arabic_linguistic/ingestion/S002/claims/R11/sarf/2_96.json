@@ -1,0 +1,25 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:96",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "idioms",
+        "source_quote_ar": "النَّاسِ للجنس",
+        "claim_ar": "النَّاسِ هنا للمفرد العامل كاسم جنس (الناس للجنس = الناس عامة)",
+        "claim_en": "The noun 'النَّاسِ' is used generically (a collective/class sense) to mean people in general, not a specific subgroup.",
+        "root": "نوس",
+        "lemma": "نَّاس",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only one morphology claim could be extracted because the provided source chunks contain explicit discussion for only a few verse-words (the substring 'النَّاسِ للجنس' is present).",
+      "Many verse words (e.g., يُعَمَّرُ, مُزَحْزِحِهِ, أَحَدُهُمْ) did not have exact matching substrings in the provided source chunks, so no source-anchored morphology claims were produced for them.",
+      "The supplied root form for 'النَّاسِ' is given as 'نوس' — please verify canonical root transcription/segmentation (standard analyses often represent the root as ن-و-س or ن-س-و)."
+    ]
+  },
+  "n_chunks": 12
+}

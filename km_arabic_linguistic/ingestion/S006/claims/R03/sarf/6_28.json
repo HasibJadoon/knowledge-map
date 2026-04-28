@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:28",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مِنْ قَبْلُ",
+        "claim_ar": "قَبْلُ: اسم يدل على التقديم والسبق (من الجذر قبل)، بمعنى «قبل»/«سابقاً» في دلالة زمانية.",
+        "claim_en": "qabl: a noun from the root قبل meaning 'before / precedence', indicating prior time ('before', 'previously').",
+        "root": "قبل",
+        "lemma": "قَبْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "عاد كلامه",
+        "claim_ar": "لَعَادُوا: فعل (عادوا) من جذر عود/عاد بمعنى الرجوع؛ هنا مسبوقة بلام التوكيد (لام تأكيد على وقوع الفعل) قبل صيغة الماضي، ثم واو الجماعة للدلالة على جمع الغائبين.",
+        "claim_en": "laʿādū: from the verb عاد (root عود/عاد) 'to return'. Morphologically this is the past form عادوا (they returned) with the prefixed emphatic Lām (لَ) before the verb and the plural waw (واو الجماعة).",
+        "root": "عود",
+        "lemma": "عَادَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk shows the root form عاد in a different context (عاد كلامه) but does not quote the exact inflected form لَعَادُوا; the presence of lam-al-tawkīd (لَ) in this ayah form is inferred from the lemma and provided word form."
+      },
+      {
+        "word_index": 16,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "كَذِباً",
+        "claim_ar": "لَكَاذِبُونَ: اسم فاعل على وزن فاعل (كَاذِب) من جذر كَذَبَ، وصيغته هنا جمع مذكر سالم/جمع بالواو والنون (ـون) للدلالة على جمع المذكر («كَاذِبُونَ» = الكذّابون/الآثمون بالكذب).",
+        "claim_en": "lakaadhibūn: an active participle (pattern fāʿil, كاذِب) from the root k-dh-b (كَذَبَ). In the ayah it appears in the masculine plural form with the -ūn suffix (كَاذِبُونَ), 'liars'.",
+        "root": "كذب",
+        "lemma": "كَٰذِب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks do not contain explicit quotations or morphological discussion for several words of the ayah (e.g., بَلْ, بَدَا, يُخْفُونَ, كَانُوا, نُهُوا, عَنْهُ). Only claims supported by exact substrings in the provided chunks were extracted.",
+      "For لَعَادُوا the source demonstrates the root (عاد) in a different context; the identification of the prefixed لَ (lam of emphasis) is based on the given word form rather than an explicit discussion in the supplied chunks."
+    ]
+  },
+  "n_chunks": 12
+}

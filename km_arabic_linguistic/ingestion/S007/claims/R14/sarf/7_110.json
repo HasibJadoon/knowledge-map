@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:110",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "أُخْرِجَتْ لِلنَّاسِ",
+        "claim_ar": "فعل من باب أَفْعَلَ (صيغة رباعية: أَخْرَجَ) — صِيغته المضارعية على وزن يُفْعِلُ (يُخْرِجَ)، أي فعل سببي/أَفْعَلَ من الجذر خ-ر-ج.",
+        "claim_en": "Verb of the Form IV pattern (Afa'ala, causative/causative‑type). The imperfect is on the pattern يُفْعِلُ (يُخْرِجَ), derived from root kh‑r‑j (خرج).",
+        "root": "خرج",
+        "lemma": "أَخْرَجَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk shows the passive past (أُخْرِجَتْ); extrapolation to the present active (يُخْرِجَ) and the explicit pattern labelling is standard but inferred rather than quoted directly."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "تَأْمُرُونَ بِالْمَعْرُوفِ",
+        "claim_ar": "وزن الفعل في المضارع: تَفْعُلُونَ (فعل ثلاثي صحيح من الجذر أ م ر)، أي صيغة المضارع على وزن تَفْعُلُونَ.",
+        "claim_en": "Present tense pattern: تَفْعُلُونَ (from triliteral root a‑m‑r). The verb appears on the present pattern تَفْعُلُونَ.",
+        "root": "امر",
+        "lemma": "أَمَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "فَذَرُوها تَأْكُلْ فِي أَرْضِ اللَّهِ",
+        "claim_ar": "الجذر أ-ر-ض دالّ على معنى الأرض/البقعة/الموطن (أَرْض: أرض، مكان/تراب).",
+        "claim_en": "Root a‑r‑d denotes 'earth/land/ground' (place, soil, homeland).",
+        "root": "ارض",
+        "lemma": "أَرْض",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk contains the noun أَرْضِ in context but does not give an explicit lexical definition; the meaning is standard lexical knowledge."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "حَقِيقٌ عَلى أَنْ لا أَقُولَ",
+        "claim_ar": "حرف 'أَنْ' هنا يظهر كمؤشر للجملة المصدرية/الاسمية الذي قد تُترجَمُهُ الإنجليزية بـ 'that' أو تُحذف لترجمة أكثر طبيعية — تأثيره غالبًا نحوي/وظيفي أكثر من كونه ترجمة لفظية واحدة.",
+        "claim_en": "The particle 'أن' functions as a clause-introducing particle (often rendered 'that' in English but frequently omitted in translation). Its contribution is grammatical and may be untranslatable as a single English word.",
+        "root": null,
+        "lemma": "أَن",
+        "confidence": "medium",
+        "needs_review_reason": "The source shows 'أَنْ' in context, but the observation about translation behavior is a usage/nuance claim rather than an explicit statement in the quoted chunk."
+      }
+    ],
+    "warnings": [
+      "Input root for word_index 1 is given as 'رود' with lemma 'أَرَادَ' — this root looks irregular for lemma أَرَادَ (expected root أ‑ر‑د or ر‑و‑د is doubtful). Consider verifying the supplied root data for word 1.",
+      "Claims are limited to items for which an exact substring from the provided source chunks could be cited; other words in the ayah were not claimed due to lack of directly matching source substrings."
+    ]
+  },
+  "n_chunks": 12
+}

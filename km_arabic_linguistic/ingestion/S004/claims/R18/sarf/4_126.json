@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:126",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "(وَكانَ اللَّهُ عَلى ذلِكَ قَدِيراً)",
+        "claim_ar": "جذر الفعل 'كان' هو ك و ن (كون) — معنى الجذر: الكينونة/الوجود.",
+        "claim_en": "The root of the verb 'kana' is K-W-N (كون), meaning 'to be' / 'to exist'.",
+        "root": "كون",
+        "lemma": "كان",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "(وَكانَ اللَّهُ عَلى ذلِكَ قَدِيراً)",
+        "claim_ar": "الفعل 'كان' صيغة فعل ماضٍ ناقص/ناسخ يستعمل كفعلٍ للدلالة على الحالة أو النسبة الزمنية.",
+        "claim_en": "The verb 'kana' is a past (perfect) defective / copular (nasikh) verb used as an auxiliary to indicate state or temporal relation.",
+        "root": "كون",
+        "lemma": "كان",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only the verb 'كان' (word_index 8) is explicitly discussed morphologically in the provided source chunks. Other words of the ayah do not have clear morphology commentary in the supplied excerpts, so no additional sarf claims were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

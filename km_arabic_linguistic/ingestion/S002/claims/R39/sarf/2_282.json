@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:282",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "التصديق والأعمال الصالحة",
+        "claim_ar": "جذر «أمن»: معنى مرتبط بـالتصديق والإيمان (الشعور بالأمان/الإيمان بما يُصدَّق).",
+        "claim_en": "Root 'أمن' (amn): meaning related to believing/faith (to accept/acknowledge truth; to feel secure).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source chunk contains the phrase 'التصديق والأعمال الصالحة' which supports the semantic field of 'belief', but it does not present a lexical entry for the verb آمنَ; thus the mapping of root → precise lexical senses should be double-checked against a lexical source."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "يدل على الاجتماع والتكاثر والانضمام",
+        "claim_ar": "وزن الفعل تَدَايَنَ: صيغة تَفَاعَلَ (وزن تَفَاعَلَ) — دالة عادة على التبادل أو العمل المتبادل (صيغة مُتبادلة/تعاونية).",
+        "claim_en": "Pattern: tafa''ala (Form VI). Verbal pattern تَدَايَنَ is a reciprocal/mutual form indicating exchange/reciprocal action.",
+        "root": "دين",
+        "lemma": "تَدَايَن",
+        "confidence": "medium",
+        "needs_review_reason": "The source quote speaks of notions of 'assembly/aggregation' but does not explicitly state the morphological label 'تَفَاعَل'; the assignment of Form VI should be verified in a dedicated morphological reference."
+      },
+      {
+        "word_index": 10,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "فعل متعدّ",
+        "claim_ar": "الفعل فَاكْتُبُوهُ: أمر للجمع (أمر + واو الجماعة) مع ضمير مفعول متصل - والفعل من الأفعال المتعدّية (كتب) أي يأخذ مفعولاً.",
+        "claim_en": "Verb flavour: fa-ktubūhu is an imperative (plural) with attached object pronoun; the verb كتب is transitive (takes an object).",
+        "root": "كتب",
+        "lemma": "كَتَبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "اللغة:",
+        "claim_ar": "كَاتِبٌ على وزن اسم الفاعل (فاعل) من جذر كتب — اسم يدل على الفاعل (الكاتب/الكاتِب).",
+        "claim_en": "Pattern: active participle (ism al-fa'il) 'kātib' from root k-t-b — denotes the doer (writer, scribe).",
+        "root": "كتب",
+        "lemma": "كَاتِب",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk header 'اللغة:' is generic; the identification as ism‑fa'il is standard but should be confirmed against a morphological dictionary for this lexeme in classical usage."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

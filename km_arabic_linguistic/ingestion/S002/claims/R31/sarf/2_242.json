@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:242",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "بَيَّنَّا",
+        "claim_ar": "يُبَيِّنُ فعْلٌ من وزن الفعل المضعف (الوزن الثاني: فَعَّلَ / يُفَعِّلُ)، أي صيغة مزيدة بالشدّة (تأكيد/تبسيط المعنى إلى الإظهار/الإيضاح).",
+        "claim_en": "يُبَيِّنُ is derived from the root ب-ي-ن on the Form II pattern (fa''ala / yufa''ilu, i.e. the doubled/causative/intensive pattern), conveying an intensive/causative sense 'to make clear / to explain'.",
+        "root": "بين",
+        "lemma": "بَيَّنُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قَدْ بَيَّنَّا الْآياتِ",
+        "claim_ar": "جذر ب-ي-ن يدور مدلوله حول الإبانة والبيان والتمييز (أظهر، أَوْضَحَ، بينَ).",
+        "claim_en": "The root ب-ي-ن carries the sense of showing, making clear, distinguishing (to show/clarify).",
+        "root": "بين",
+        "lemma": "بَيَّنُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الآياتِ",
+        "claim_ar": "آيَة: اسم مفرد (ءَايَة). آيات: جمع مؤنث سالم/جمع مؤنث لفظي (صيغة الجمع بإضافة -ات) للدلالة على 'الآيات/العلامات'.",
+        "claim_en": "آيات (from ءَايَة) is the regular feminine plural (added -ات), meaning 'signs' or 'verses'.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "صفوة اللَّه",
+        "claim_ar": "اللَّه: اسم الجلالة، مرتبط بجذر «اله/إله» ودلالته الربوبية والصفات الإلهية (الخالق والمالك).",
+        "claim_en": "اللَّه is the proper Name of God, connected to the semantic field of the root (إله / الله) denoting divinity — Creator/Lord. (Proper name with theological/ontological implication beyond a generic 'god'.)",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

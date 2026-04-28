@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:116",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn",
+        "source_quote_ar": "قالوا",
+        "claim_ar": "فعل ماضٍ من الجذر ق و ل على وزن فَعَلَ (قَالَ)؛ صيغة أساسية (فعل ثلاثي مجرد)، يُفهم منه معنى النطق/القول («هم قالوا»).",
+        "claim_en": "Perfect (past) verb from the root q-w-l on the basic Form I pattern فَعَلَ (qāla) — a simple triliteral verb meaning 'to say'; here 'they said'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم الجلالة «اللَّه» من جذر اله (المعنى المعجمي: المعبود، الإلوهية) — اسم خاص للدلالة على الإله الواحد.",
+        "claim_en": "The divine name Allah, from the root related to 'deity' (alāha/ʾilāh), denoting the one God; a proper noun with the semantic field of divinity.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only claims are provided where an exact substring in the supplied source chunks could be cited as source_quote_ar (e.g. 'قالوا', 'اللَّه'). Many words in the ayah (e.g. اتَّخَذَ، وَلَدَاً، سُبْحَانَهُ، السَّمَاوَاتِ، الْأَرْضِ، كُلٌّ، قَانِتُونَ) did not have an unambiguous matching substring in the provided chunks for citation; additional source material or different chunks are needed to extract reliable morphological claims for those words.",
+      "This extraction focuses only on morphology (roots, pattern/wazn, basic verb-form classification, and lexical meaning). It does not attempt i'rab or balagha; if you want verb form numbers (e.g. Form VIII) or finer derivational analysis for specific verbs, provide chunks that explicitly discuss those forms or permit citation of the ayah text itself."
+    ]
+  },
+  "n_chunks": 12
+}

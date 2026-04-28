@@ -1,0 +1,68 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:45",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قوم",
+        "claim_ar": "الكلمة من الجذر «قوم» دلالة على جماعة/قَوْم (اسم يدل على مجموعة من الناس؛ جمع معنوي).",
+        "claim_en": "Derived from the root q-w-m (قوم) meaning 'a people; a group' — a collective/communal noun.",
+        "root": "قوم",
+        "lemma": "قَوْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ يَخافُونَ",
+        "claim_ar": "«الذين» اسم موصول على وزن الَّذِي مع نون للجمع (صيغة الموصول للجمع)، أي صيغة جمع الموصول عن الذي.",
+        "claim_en": "The relative pronoun 'alladhina' is the plural form of 'alladhi' — a relative pronoun pattern formed by the base 'alladhi' plus the plural marker.",
+        "root": "",
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "ظُلُماتِ",
+        "claim_ar": "الجذر «ظلم» يظهر اشتراكًا دلاليًّا (ظلم = ظلم/ظلمة)؛ من الاشتقاقات «ظلمة» تعني العتمة، وهذه التعددية الدلالية قد تُفقد في ترجمة حرفية لكلمة «ظلم».",
+        "claim_en": "The root ẓ-l-m shows semantic extension (e.g. ظلم = injustice, but derived form ظلمة = darkness). This polysemy can be lost in literal translations that render only 'wrong' or only 'darkness'.",
+        "root": "ظلم",
+        "lemma": "ظَلَمَ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "«اللَّه» اسم علم مشتق من جذر «اله»/«إله» دال على الذات الإلهية والربوبية (اسم علم تمييزي للذات الإلهية).",
+        "claim_en": "The word 'Allah' derives from the lexical field of 'ilah' (deity) and denotes the divine Being/lordship; it is a proper noun identifying the Godhead.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "يَدْعُونَ رَبَّهُمْ",
+        "claim_ar": "«رَبّ» دال على الربوبية والربّ (الرب، المالك، السيد). (ملاحظة: الحقل الجذري الممرّر «ربب» يبدو غير اعتيادي ويحتاج تدقيقًا).",
+        "claim_en": "The noun 'rabb' denotes lordship/ownership/mastery (lord, master). (Note: the provided root 'ربب' appears unusual and should be reviewed; expected root usually represented as ر-ب-ب).",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "needs_review",
+        "needs_review_reason": "Provided root 'ربب' appears to be a typographical/annotation error; the canonical root is typically represented as ر-ب-ب (ربّ)."
+      }
+    ],
+    "warnings": [
+      "No exact substring in the provided source chunks was found for these words, so no morphology claims were extracted for them: 1 (فَقُطِعَ), 2 (دَابِرُ), 6 (وَالْحَمْدُ), 9 (الْعَالَمِينَ).",
+      "The input root for word_index 8 was given as 'ربب', which appears irregular; a review is recommended (see claim needs_review_reason)."
+    ]
+  },
+  "n_chunks": 12
+}

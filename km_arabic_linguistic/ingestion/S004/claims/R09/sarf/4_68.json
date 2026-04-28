@@ -1,0 +1,37 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:68",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "لا استقام",
+        "claim_ar": "الجذر «قوم» يدل على معنى القيام والاعتداء أو الاستقامة؛ من صيغته «استقام» يُستدل على معاني الاعتدال والثبات والقيام على وجه مستقيم.",
+        "claim_en": "Root 'ق و م' conveys the idea of standing/being upright; the form 'استقام' implies uprightness, steadiness, or being on a straight/upright course.",
+        "root": "قوم",
+        "lemma": "مُّسْتَقِيم",
+        "confidence": "medium",
+        "needs_review_reason": "The provided chunk contains 'استقام' (related form) but does not explicitly contain the lemma 'مستقيم'; the root-meaning inference is based on morphological relation rather than an explicit statement in the chunk.",
+        "quran_ref": "S4:A68"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "لا استقام",
+        "claim_ar": "الاسم «مستقيم» على وزن «مُسْتَفْعِل» (باب الاستفعال)؛ الوزن يدل على صفة مُستخرجة من فعل استفعال تدل على الاستمرارية أو اتصاف بالقيام/الاعتدال.",
+        "claim_en": "The noun 'mustaquim' follows the pattern 'mustaفْعِل' (the 'istaf'āl' derivational pattern). This pattern yields an adjectival/nominal form indicating the quality of being upright/straight.",
+        "root": "قوم",
+        "lemma": "مُّسْتَقِيم",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk shows the related verb form 'استقام' but does not explicitly state the pattern for 'مستقيم'; the pattern assignment is standard morphological derivation inferred from the attested form.",
+        "quran_ref": "S4:A68"
+      }
+    ],
+    "warnings": [
+      "No exact substring matching the lemmas or forms for words 1 (وَلَهَدَيْنَاهُمْ / هَدَى) and 2 (صِرَاطًا / صِرَٰط) was found in the provided source chunks; therefore no morphology claims were extracted for those words.",
+      "Claims for word 3 are inferred from the related attested form 'استقام' present in a chunk; reviewers should verify against a source that explicitly cites the lemma «مستقيم» if strict citation is required."
+    ]
+  },
+  "n_chunks": 12
+}

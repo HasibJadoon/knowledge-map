@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:44",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "على كُلِّ شَيْءٍ",
+        "claim_ar": "كُلّ: اسم عام دال على العموم/الجميع (دلالة كلية)، من الجذر ك-ل-ل، يعبّر عن التعميم والشمول.",
+        "claim_en": "kull (كُلّ): a noun denoting totality/everything (generalizing/collective meaning), from the root k-l-l, expressing generality/totality.",
+        "root": "كلّ",
+        "lemma": "كُلّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root meaning",
+        "source_quote_ar": "على كُلِّ شَيْءٍ",
+        "claim_ar": "شَيْء: اسم مشتق/اسم مبهم من الجذر ش-ي-ء، يدل على أمر أو موجود غير محدد (الكلية أو الجزئية بحسب السياق).",
+        "claim_en": "shay' (شَيْء): a noun/indefinite noun from the root sh-y-ʾ, meaning 'thing' or 'matter' — a nonspecific entity (can indicate general or particular depending on context).",
+        "root": "ش-ي-ء",
+        "lemma": "شَىْء",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "أَنْ يُؤْتِيَنِ",
+        "claim_ar": "أُوتُوا: ماضٍ مبني للمجهول (جمع مذكر) من فعل أَتَى/أُوتِيَ بمعنى «أُعْطُوا/أُوتُوا» — فعلٍ من الجذر أ-ت-ى/أ-ت-ي يدلّ على الإيتاء، هنا بصيغة المبني للمجهول.",
+        "claim_en": "ʾutū (أُوتُوا): past tense passive (3rd person masculine plural) of the verb from the root ʾ-t-y (to give/bring), meaning 'they were given' — the passive perfect form.",
+        "root": "أ-ت-ي",
+        "lemma": "أَتَى / أُوتِيَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source substring is an imperfect active form (أَنْ يُؤْتِيَنِ) showing the same root; the exact surface passive form (أُوتُوا) does not appear in the chunks, so the mapping is inferred."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "ذكر",
+        "claim_ar": "ذُكِّرُوا: ماضٍ مبني للمجهول بصيغة (فُعِّلُوا) من فعل ذَكَرَ — أي 'هُم أُذْكِرُوا/ذُكِّرُوا' بمعنى 'تم تذكيرهم' أو 'ذكروا له' بحسب السياق.",
+        "claim_en": "dhukkirū (ذُكِّرُوا): past passive formation (pattern fُعِّلُوا) of dh-k-r (to mention/remember), meaning 'they were reminded' or 'they were mentioned' — passive perfect plural.",
+        "root": "ذ-ك-ر",
+        "lemma": "ذُكِّرَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source chunk contains the root/lemma 'ذكر' but does not include the exact passive surface form ذُكِّرُوا; the passive reading is inferred from the ayah's form."
+      }
+    ],
+    "warnings": [
+      "Only claims for words with exact or clearly related substrings in the provided source chunks were extracted. Several ayah words (e.g., فَتَحْنَا, أَبْوَابَ, بَغْتَةً, أَخَذْنَاهُمْ, فَرِحُوا, نَسُوا) did not have matching substrings in the chunks, so no sourced morphology claims were made for them.",
+      "Some claims (marked medium confidence) are inferred by relation to root forms or related paradigm occurrences in the commentary chunks rather than from an exact match of the ayah surface form in the chunks; these have needs_review_reason notes."
+    ]
+  },
+  "n_chunks": 12
+}

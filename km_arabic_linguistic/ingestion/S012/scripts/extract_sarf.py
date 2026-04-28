@@ -32,7 +32,7 @@ BASE       = Path(__file__).resolve().parents[2]       # ingestion/
 SURAH_DIR  = Path(__file__).resolve().parents[1]       # S012/
 SAFI_DB    = BASE / "../Tafsirs/al-jadwal-fi-i-rab-al-quran.db"
 DARWISH_DB = BASE / "../Tafsirs/i-rab-al-quran-li-al-darwish.db"
-SPINE_DB   = BASE / "_pipeline/sarf/kmaps-sarf/data/raw/spine/spine.sqlite"
+SPINE_DB   = BASE / "spine.sqlite"
 RUKU_DB    = BASE / "../quran-metadata-ruku.sqlite"
 SQL_OUT    = SURAH_DIR / "sql/s12_al_claims_sarf.sql"
 

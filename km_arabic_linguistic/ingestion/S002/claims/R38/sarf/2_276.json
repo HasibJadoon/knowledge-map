@@ -1,0 +1,21 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:276",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "كَحُبِّ اللَّهِ",
+        "claim_ar": "جذر: ح ب ب؛ معنى الجذر: المحبة والميل والعاطفة",
+        "claim_en": "Root: ḥ-b-b (ح-ب-ب); meaning: 'love', affection, strong liking",
+        "root": "ح ب ب",
+        "lemma": "أَحَبَّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,48 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:113",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ بِالْآخِرَةِ",
+        "claim_ar": "«الَّذِينَ» اسم موصول يقدّم جملة وصفية: غالبًا تُترجم إلى «those who / who»، لكن الترجمة الإنجليزية قد تُفقد دقة نطاق العموم/التخصيص والدلالة الأنشائية التي يحملها العربي.",
+        "claim_en": "The relative pronoun 'الَّذِينَ' (as in 'الَّذِينَ يُؤْمِنُونَ بِالْآخِرَةِ') is usually rendered 'those who' or 'who' in English; this can lose Arabic nuance about scope/definiteness and the clause-marking function that the Arabic form conveys.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "Translation-nuance claims are interpretive and may require a reviewer to confirm the specific nuance and whether it applies in this context.",
+        "quran_ref": "S6:A113"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "يُؤْمِنُونَ",
+        "claim_ar": "وزن الفعل: يُؤْمِنُونَ → على وزن يُفْعِلُونَ (صيغة المضارع جمع مذكر غائب من الفعل الثلاثي المجرد أَمِنَ).",
+        "claim_en": "Pattern: يُؤْمِنُونَ follows the template يُفْعِلُونَ — 3rd-person masculine plural imperfect (active) of the triliteral root أ م ن (from the verb أَمِنَ).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A113"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بِالْآخِرَةِ",
+        "claim_ar": "الجذر: أخر — دلالة جذرية على ما يلي/ما بعد؛ «الآخرة» دلالة على الآتي بعد الدنيا (الآخرة/العالم الآخر).",
+        "claim_en": "Root 'اخر' — basic meaning 'last/other/that which comes after'; in 'الآخرة' it denotes the afterlife/the hereafter (what comes after this world).",
+        "root": "اخر",
+        "lemma": "آخِر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A113"
+      }
+    ],
+    "warnings": [
+      "Only a subset of words in the provided ayah had exact matching substrings in the supplied source chunks. No exact source substring was found in the chunks for word indices: 1, 2, 3, 5, 8, 9, 10, 11, 12 — could not extract morphology claims for those words."
+    ]
+  },
+  "n_chunks": 12
+}

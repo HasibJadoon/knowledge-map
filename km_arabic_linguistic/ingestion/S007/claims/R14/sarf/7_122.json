@@ -1,0 +1,36 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:122",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "كَلِمَتُ رَبِّكَ",
+        "claim_ar": "الاسم «رَبّ» من الجذر ثلاثي ر ب ب، ويعني المالك/المدبّر/الراعي بالمعنى اللغوي العام للربِّ.",
+        "claim_en": "The noun 'Rabb' derives from the triliteral root r-b-b and denotes 'lord/owner/caretaker' in the general lexical sense.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A122"
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "رَبِّكَ",
+        "claim_ar": "صورته الصرفية تظهر على وزنٍ فيه تشديد (مظهر فَعّ) نتيجة ازدواج الحرفين الأخيرين في الجذر (ر ب ب)، فيُعرض كَـ«رَبّ» (اسم ثلاثي ذو تشديد).",
+        "claim_en": "Morphologically it appears on a geminated pattern (fa'') because of the doubled consonant in the root (r-b-b), hence the surface form 'Rabb' (a triliteral noun with gemination).",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "Assignment to the exact traditional Arabic wazn (fa'' vs. other analyses) can vary in descriptions because the root contains repeated radicals; consult classical sarf sources for precise prosodic labeling.",
+        "quran_ref": "S7:A122"
+      }
+    ],
+    "warnings": [
+      "No morphology claims could be extracted from the provided source chunks for word_index 2 (مُوسَى) and word_index 3 (وَهَارُونَ)."
+    ]
+  },
+  "n_chunks": 12
+}

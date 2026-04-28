@@ -1,0 +1,70 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:32",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "تفضيل اللَّه بعضهم",
+        "claim_ar": "الجذر: ف-ض-ل؛ معنى الجذر هنا: أَعطَى تَفْضِيلًا أو فَضْلًا — أي فضّل بعض الناس على بعض (منح تفضيل/أفضلية).",
+        "claim_en": "Root f-ḍ-l (فضل): meaning 'to prefer, to grant superiority or favor' — to give preference/advantage to some over others.",
+        "root": "فضل",
+        "lemma": "فَضَّلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A32"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "تفضيل اللَّه بعضهم",
+        "claim_ar": "وزن الفعل: فَعَّلَ (شكلته فَضَّلَ) والمصدر التفعيل (تفضيل) موجود في النص؛ يدل على صيغة تكثيف/تعدية (شكل صيغتيّ: إفادة التفضيل/التسبُّب).",
+        "claim_en": "Pattern: Form II (فَعَّلَ) — the verb faddala (فَضَّلَ) corresponds to the verbal-noun pattern تَفْعِيل (تفضيل), indicating an intensive/causative or comparative sense 'to make preferred' or 'to favor'.",
+        "root": "فضل",
+        "lemma": "فَضَّلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A32"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بَعْضَهُمْ",
+        "claim_ar": "الجذر: ب-ع-ض؛ «بَعْض» تدلّ على جزء/قِسم من كلّ، أي بعضُكم = قسم منكم/بعضُ أفرادكم.",
+        "claim_en": "Root b-ʿ-ḍ (بعض): meaning 'part, portion, some (of a group)' — e.g. 'some of you'.",
+        "root": "بعض",
+        "lemma": "بَعْض",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A32"
+      },
+      {
+        "word_index": 13,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "بِما كَسَبُوا",
+        "claim_ar": "الفعل (اِكْتَسَبَ) على وزن اِفْتَعَلَ (الوجه الثامن) من الجذر ك-س-ب؛ يشتمل دلالة اكتساب/تحصيل الشيء لنفس الفاعل (نغْرِيس دالّة انعكاسية/مكتسبة).",
+        "claim_en": "The verb iktasaba (اِكْتَسَبَ) is Form VIII (افتعل) from root k-s-b; it carries the nuance of acquiring/earning for oneself (a reflexive/intentional acquisition flavor).",
+        "root": "كسب",
+        "lemma": "اكْتَسَبَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A32"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "بسبب تفضيل اللَّه بعضهم",
+        "claim_ar": "حرف الباء في «بِهِ» هنا يحمل إحالة إلى ما أَمْدَهُم اللَّهُ به من فضل/مِنّة — أي «بما أعطاهُم اللَّهُ»؛ في الترجمة قد تُفقد دلالة الملكية/الواسطة إذا تُرجِمَت ببساطة كـ 'because' دون توضيح أن الفضل 'من عند الله'.",
+        "claim_en": "The preposition بِهِ (bi-hi) points back to what Allah has bestowed (His favor/advantage). In translation this nuance ('the favor given by God') can be lost if rendered simply as 'because' without marking that the advantage is from Allah.",
+        "root": null,
+        "lemma": null,
+        "confidence": "medium",
+        "needs_review_reason": "interpretive/translation nuance; depends on translator choices and context",
+        "quran_ref": "S4:A32"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

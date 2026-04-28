@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:39",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم الجلالة «اللَّه»؛ معناه الإله/الرب، موصول بالدلالة الإلهية، ويستعمل كاسم خاص للذات الإلهية. يُستَعاد إلى الجذر الاقتراحي «اله» بمعنى الإله.",
+        "claim_en": "The divine name 'Allah' (اللَّه). Meaning: the God/the Lord; used as the proper name for the Divine Being. It is etymologically related to the root 'اله' (ilah) meaning 'deity'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم الجلالة «اللَّه»؛ معناه الإله/الرب، موصول بالدلالة الإلهية، ويستعمل كاسم خاص للذات الإلهية. يُستَعاد إلى الجذر الاقتراحي «اله» بمعنى الإله.",
+        "claim_en": "The divine name 'Allah' (اللَّه). Meaning: the God/the Lord; used as the proper name for the Divine Being. It is etymologically related to the root 'اله' (ilah) meaning 'deity'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Could not find an exact matching substring in the provided source_chunks for these ayah words, so no morphology claims were extracted for them: indices 1 (فَمَنْ), 2 (تَابَ), 3 (مِنْ), 4 (بَعْدِ), 5 (ظُلْمِهِ), 6 (وَأَصْلَحَ), 7 (فَإِنَّ), 9 (يَتُوبُ), 10 (عَلَيْهِ), 11 (إِنَّ), 13 (غَفُورٌ), 14 (رَحِيمٌ). If you provide source_chunks that include these exact words (or Qurʼanic text chunks containing the ayah), I can extract additional morphology claims (wazn, verb-form flavour, root-meanings, etc.)."
+    ]
+  },
+  "n_chunks": 12
+}

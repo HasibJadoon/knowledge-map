@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:56",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "آمَنُوا",
+        "claim_ar": "جذر: أمن — معنى الفعل: التصديق والإيمان",
+        "claim_en": "Root 'امن' — meaning: to believe, to have faith (the verb expresses affirmation/belief).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "آمَنُوا",
+        "claim_ar": "الوزن الصرفي: فعل ثلاثي مجرد (الوزن القياسي: فَعَلَ) بصيغة الماضي «آمَنَ» مع همزة في البداية، والصيغة في الآية «آمَنُوا» صورة جمع الماضى 3م",
+        "claim_en": "Pattern: triliteral Form I (basic verb, pattern fa'ala) — lemma 'آمَنَ' (initial hamza) in past; in the verse the form is 'آمَنُوا' (3rd person masculine plural past).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهَ",
+        "claim_ar": "جذر: اله — معنى الجذر: الإله، الإله الموحد / الخالق",
+        "claim_en": "Root 'اله' — meaning: god, deity (the Divine).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهَ",
+        "claim_ar": "جذر: اله — معنى الجذر: الإله، الإله الموحد / الخالق (مقابل أسماء أخرى مثل 'إله' العام)",
+        "claim_en": "Root 'اله' — meaning: god, deity (same root used for the divine name Allah).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

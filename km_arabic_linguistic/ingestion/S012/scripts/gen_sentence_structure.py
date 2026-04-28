@@ -23,7 +23,7 @@ from pathlib import Path
 # ── Paths ──────────────────────────────────────────────────────────────────────
 BASE       = Path(__file__).resolve().parents[2]       # ingestion/
 SAFI_DB    = BASE / "../Tafsirs/al-jadwal-fi-i-rab-al-quran.db"
-SPINE_DB   = BASE / "_pipeline/sarf/kmaps-sarf/data/raw/spine/spine.sqlite"
+SPINE_DB   = BASE / "spine.sqlite"
 OUT_DIR    = Path(__file__).resolve().parents[1] / "sql"
 OUT_SQL    = OUT_DIR / "s12_qr_sentence_structure.sql"
 CACHE_DIR  = Path(__file__).resolve().parents[1] / "cache/ss"

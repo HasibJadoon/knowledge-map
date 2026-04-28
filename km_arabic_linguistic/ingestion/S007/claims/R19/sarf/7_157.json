@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:157",
+  "result": {
+    "claims": [
+      {
+        "word_index": 20,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "وقيل: الطيب.",
+        "claim_ar": "الطَّيِّبَاتِ من الجذر ط ي ب، دالّة على الخير والحُسن؛ «الطيِّبات» جمع طَيِّبَة بمعنى الأشياء الطيبة/الحلال.",
+        "claim_en": "Root ط-ي-ب: denotes goodness/pleasantness; 'al-tayyibât' is the plural of طَيِّبَة meaning 'good/wholesome things' (often with the sense of lawful/good provisions).",
+        "root": "طيب",
+        "lemma": "طَيِّبَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "antonyms",
+        "source_quote_ar": "وَيَنْهَى عَنِ الْفَحْشاءِ وَالْمُنْكَرِ",
+        "claim_ar": "الْمُنْكَرِ من الجذر ن ك ر، دالّ على المكروه والمنكر؛ وهو الضدّ المفهومي لـ«المعروف» (أيّ ما يُعترَف به كخيرٍ/مقبول).",
+        "claim_en": "Root ن-ك-ر: denotes what is objectionable/denied; 'al-munkar' = that which is reprehensible. Conceptually it is the antonym of 'al-maʿrūf' (that which is known/recognized as good).",
+        "root": "نكر",
+        "lemma": "مُنكَر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "عِنْدَ كُلِّ مَسْجِدٍ",
+        "claim_ar": "عِنْدَهُمْ من لفظ «عند» للدلالة على التواجد أو الملكية/الحيازة أو المصاحبة (عندهم = في حوزتهم/معهم).",
+        "claim_en": "The preposition/lexeme 'ʿind' indicates location/possession/association; 'ʿindahum' = 'with them' / 'in their possession'.",
+        "root": "عند",
+        "lemma": "عِند",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "في كتابكم",
+        "claim_ar": "مَكْتُوبَاً على وزن مَفْعُول، اسم مفعول من جذر ك ت ب يُفيد معنى «المكتوب/المسجَّل» (مادّة دالّة على المفعول الحاصل من فعل الكتابة).",
+        "claim_en": "Maktūban is the ism maf'ūl (passive participle) pattern مَفْعُول from root ك-ت-ب, meaning 'written' or 'recorded'. (Claim based on lexical relation to كتاب; direct textual morphological commentary not present in provided chunk.)",
+        "root": "كتب",
+        "lemma": "مَكْتُوب",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains the related lexeme 'كتابكم' but does not explicitly state the ism maf'ūl analysis for مَكْتُوبَاً; linking is therefore inferential and should be reviewed."
+      }
+    ],
+    "warnings": [
+      "Only a subset of words had direct supporting substrings in the provided source chunks; many ayah words lacked explicit discussion in these chunks, so claims were limited to items with textual support.",
+      "Some claims (e.g., for مَكْتُوبَاً) are inferential because the chunks contain related forms (e.g., كتابكم) but no explicit morphological gloss; these are marked with lower confidence and a needs_review_reason."
+    ]
+  },
+  "n_chunks": 12
+}

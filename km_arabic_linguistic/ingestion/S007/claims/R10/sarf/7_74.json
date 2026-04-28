@@ -1,0 +1,23 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:74",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مِنْ بَعْدِهِ",
+        "claim_ar": "جذر «بعد» بمعنى زماني: «بعد/من بعد»",
+        "claim_en": "Root 'بعد' meaning 'after' (temporal sense, 'after/afterwards')",
+        "root": "بعد",
+        "lemma": "بَعْد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only one morphology claim could be supported by the supplied source_chunks: the exact substring 'مِنْ بَعْدِهِ' (word_index 6). Other words in the ayah did not appear as exact substrings in the provided source_chunks, so no additional evidence-backed morphological claims were extracted."
+    ]
+  },
+  "n_chunks": 12
+}

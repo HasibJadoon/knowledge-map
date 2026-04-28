@@ -1,0 +1,36 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:174",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "idioms",
+        "source_quote_ar": "يا أَيُّهَا",
+        "claim_ar": "تركيب نداء شائع: حرف النداء «يا» متبوع بـ«أَيُّهَا» النّداء المخصوص؛ تركيب صرفي ودلالي يستخدم للتّخاطب العام أو المخصوص، حيث «أَيُّهَا» شكل مشتق من أداة الاستفهام/النداء.",
+        "claim_en": "Vocative idiom: the particle يا followed by أَيُّهَا, a conventional vocative formula used to address people/group. Morphologically this is the vocative particle + the special vocative form أَيُّهَا.",
+        "root": "ايي",
+        "lemma": "أَيُّهَا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A174"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "جَاءَكُمْ",
+        "claim_ar": "فعل ماضٍ من وزن الثلاثي المجرد (فَعَلَ) — جَاءَ — مع ضمير متصل «كُمْ» ملحق بالفعل كمتمّم صرفي (ضمير مخاطَب جمع).",
+        "claim_en": "Past tense verb of the basic triliteral pattern (fa'ala): جَاءَ (came), with the attached pronominal clitic كُمْ (2nd-person plural). Morphologically this is a perfect/past verb + pronominal suffix.",
+        "root": "جيا",
+        "lemma": "جَآءَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A174"
+      }
+    ],
+    "warnings": [
+      "Source chunks did not contain exact substrings matching several other words of the ayah (e.g., بُرْهَانٌ, رَبِّكُمْ, أَنْزَلْنَا, نُورًا, مُبِينًا). Only claims for words whose exact substrings were present in the provided chunks were extracted."
+    ]
+  },
+  "n_chunks": 12
+}

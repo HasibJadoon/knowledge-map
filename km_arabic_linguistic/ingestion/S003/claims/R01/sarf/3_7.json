@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "أُوتُوا الْكِتابَ",
+        "claim_ar": "جذر الْكِتَابِ: ك-ت-ب (كتب). معنى الجذر العام: الكتابة/التأليف؛ والاسم كِتَابٌ مشتقّ من هذا الجذر ويعني مصنّفاً/مكتوباً (كتاب).",
+        "claim_en": "Root of الْكِتَابِ is k-t-b (كتب), meaning 'to write/compose'. The noun كِتَاب is derived from this root and means 'book' or written composition.",
+        "root": "كتب",
+        "lemma": "كِتَٰب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "أُوتُوا الْكِتابَ",
+        "claim_ar": "كِتَابٌ على وزنٍ اسميّ تقليدي (كِتَاب / فِعَال) كاسم دالّ على منتوج الفعل (ما يُكتب).",
+        "claim_en": "Lemma كِتَاب follows a basic nominal pattern (kitaab / fi'āl) as a noun denoting the product/result of the verbal root k-t-b (i.e. 'book').",
+        "root": "كتب",
+        "lemma": "كِتَٰب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "بِآياتِنا",
+        "claim_ar": "آيَاتٌ جمع آيَة بإضافة العلامة النحوية/الصرفية -ات (جمع مؤنث سَلِم على شكل آيَة → آيَات).",
+        "claim_en": "آيَاتٌ is the plural of آيَة formed by the suffix -āt (the regular feminine plural), i.e. آيَة → آيَات.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source-chunk coverage is limited for many words in this ayah. Only claims for words that appear as exact substrings in the provided source chunks were extracted (e.g., الْكِتَابَ, بِآياتِنا).",
+      "Some input roots (e.g., word 7 root given as \"ايي\") are non-standard/ambiguous in typical triliteral notation; these entries may need manual review for consistency."
+    ]
+  },
+  "n_chunks": 12
+}

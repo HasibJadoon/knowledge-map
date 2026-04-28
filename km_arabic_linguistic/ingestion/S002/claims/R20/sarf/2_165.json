@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:165",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "النَّاسِ",
+        "claim_ar": "اسم «النَّاسِ» للجنس: يعني «الناس/البشر» (اسم عام للجنس).",
+        "claim_en": "The noun 'al-nās' denotes people in the generic sense ('people' / 'mankind').",
+        "root": "نوس",
+        "lemma": "نَّاس",
+        "confidence": "medium",
+        "needs_review_reason": "The lexical/derivational status of نَاس (root representation 'نوس') is not fully discussed in the chunks; verify classical root representation (e.g., whether treated as root ن‑و‑س or as a different morphological formation)."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الذين آمنوا",
+        "claim_ar": "فعل «آمَنُوا» من الجذر أ م ن — معنى الفعل: آمنوا = صدقوا/آخذوا بالإيمان.",
+        "claim_en": "The verb 'āmānū' derives from the root أ‑م‑ن (ʾ‑m‑n) meaning 'to believe, to have faith.'",
+        "root": "امن",
+        "lemma": "آمَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 20,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(ظَلَمُوا)",
+        "claim_ar": "فعل «ظَلَمُوا» من الجذر ظ ل م — معنى الفعل: ظلموا = ارتكبوا ظلماً/أساءوا.",
+        "claim_en": "The verb 'ẓalamū' comes from the root ظ‑ل‑م meaning 'to do wrong/be unjust' (to oppress).",
+        "root": "ظلم",
+        "lemma": "ظَلَمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 23,
+        "claim_type": "root meaning",
+        "source_quote_ar": "العذاب",
+        "claim_ar": "اسم «العذاب» من الجذر ع ذ ب — معنى: العذاب = العقاب/العذاب (العقوبة المؤلمة).",
+        "claim_en": "The noun 'al‑ʿadhāb' is from root ع‑ذ‑ب and means 'punishment, torment' (severe chastisement).",
+        "root": "عذب",
+        "lemma": "عَذَاب",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk mentions the term but does not fully analyze the derivational pattern; verify derivation and semantic nuances in classical lexica."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:91",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "نزل بمعنى أنزل.",
+        "claim_ar": "الفعل نزل هنا بمعنى أَنزَلَ (أي: 'أرسل/أنزل' بمعنى التسبب في النزول).",
+        "claim_en": "The verb نزل here is used in the sense of أَنزَلَ — 'to send down' or 'cause to descend' (causative), not merely the intransitive 'to descend'.",
+        "root": "نزل",
+        "lemma": "أَنزَلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وقرئ أن ينزل بالتشديد والتخفيف.",
+        "claim_ar": "وردت قراءة بديلة بصيغة 'ينزل' مع احتمال التشديد أو التخفيف — تنويع قرائي/ضبطي للفعل.",
+        "claim_en": "There is an alternative reading attested as 'ينزل' with or without shaddah (different vocalization/reading), indicating a variant verb form/pronunciation.",
+        "root": "نزل",
+        "lemma": "نَزَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "Variant reading reported in the commentary; verify against Qur'anic recitation traditions/manuscripts."
+      },
+      {
+        "word_index": 17,
+        "claim_type": "root meaning",
+        "source_quote_ar": "نزل بمعنى أنزل.",
+        "claim_ar": "الفعل نزل هنا بمعنى أَنزَلَ (أي: 'أرسل/أنزل' بمعنى التسبب في النزول).",
+        "claim_en": "The verb نزل here is used in the sense of أَنزَلَ — 'to send down' or 'cause to descend' (causative), not merely the intransitive 'to descend'.",
+        "root": "نزل",
+        "lemma": "أَنزَلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وقرئ أن ينزل بالتشديد والتخفيف.",
+        "claim_ar": "وردت قراءة بديلة بصيغة 'ينزل' مع احتمال التشديد أو التخفيف — تنويع قرائي/ضبطي للفعل.",
+        "claim_en": "There is an alternative reading attested as 'ينزل' with or without shaddah (different vocalization/reading), indicating a variant verb form/pronunciation.",
+        "root": "نزل",
+        "lemma": "نَزَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "Variant reading reported in the commentary; verify against Qur'anic recitation traditions/manuscripts."
+      }
+    ],
+    "warnings": [
+      "Claims are drawn only from the provided Kashshaf chunks. The commentary discusses variant readings (نُزِّلَ / ينزل) and the semantic relation between نزل and أَنزَلَ; verify these reading/lemma assignments against the specific Qur'anic text/recension if needed.",
+      "No explicit sarf/pattern (وزن) labels were given in the source chunks for these occurrences; claims focus on meaning and reading variants only."
+    ]
+  },
+  "n_chunks": 12
+}

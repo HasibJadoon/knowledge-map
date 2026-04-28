@@ -1,0 +1,68 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:19",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "المبين وهو الدين والشرائع",
+        "claim_ar": "جذر «د-ي-ن» يدل على معنى الدين والشرائع؛ هنا «الدين» بمعنى المعتقدات والشرع/التشريع.",
+        "claim_en": "The root d-y-n (دين) denotes 'religion' / 'ordinances'; here الدِّين is used in the sense of religion and its laws.",
+        "root": "د-ي-ن",
+        "lemma": "دِين",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "idioms",
+        "source_quote_ar": "هم عند الله بمنزلة",
+        "claim_ar": "العبارة «عند الله» تعمل كإشارة اصطلاحية للدلالة على مقام أو حكم إلهي (في سبيل الله/في نظر الله).",
+        "claim_en": "The idiom 'عند الله' means 'in God's estimation/position' or 'in the sight/status of God.'",
+        "root": "عند",
+        "lemma": "عِند",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "هم عند الله بمنزلة",
+        "claim_ar": "اسم «اللَّه» هنا جزء من العبارة «عند الله» الدالة على موقع/حكم إلهي؛ لا اشتقاق صرفي مطلوب لاسم الذات الإلهية في هذا السياق.",
+        "claim_en": "The noun 'اللَّه' here functions within the idiom 'عند الله' indicating status/judgment by God; not a morphological derivation point in this context.",
+        "root": "اللَّه",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "root meaning",
+        "source_quote_ar": "فَقَدْ جاءَكُمْ",
+        "claim_ar": "الفعل «جاء» من الجذر ج-أ-ء بمعنى «أتى/وصل»؛ هنا معنى ورود الخبر/الوحي (جاءهم العلم/النبأ).",
+        "claim_en": "The verb جَاءَ derives from root j-ʾ-ʾ (ج-أ-ء) meaning 'to come/arrive'; here it denotes that the knowledge/news 'came to them'.",
+        "root": "ج-أ-ء",
+        "lemma": "جَآءَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 21,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ومن الآيات الخبر",
+        "claim_ar": "اسم «آية/آيات» من شاكلة الدلالة والعلامة؛ هنا «آيات» بمعنى علامات/آيات (أو آيات قرآنية/دلائل).",
+        "claim_en": "The noun آية (root letters conventionally represented as أ-ي-ة) means 'sign' or 'verse'; here آيات = 'signs/verses' or 'evidences'.",
+        "root": "أ-ي-ة",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "orthography and root-convention for آية can be represented differently in sources (hamza-initial), consult lexica for exact root notation"
+      }
+    ],
+    "warnings": [
+      "Claims are drawn from the provided Zamakhsharī tafsīr chunks (explanatory context). Some words in the ayah are not discussed explicitly in the given chunks, so no claims were made for them.",
+      "The orthography/representation of certain roots (e.g., ج-أ-ء, أ-ي-ة) varies across traditions; see needs_review_reason fields for items marked medium confidence."
+    ]
+  },
+  "n_chunks": 12
+}

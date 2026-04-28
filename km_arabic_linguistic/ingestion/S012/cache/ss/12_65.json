@@ -1,0 +1,286 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 1,
+      "ayah_to": 25,
+      "word_start": 1,
+      "word_end": 25,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 25,
+          "head_word_index": 2,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "و",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "عاطفة"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "لمّا",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "مثل لمّا رجعوا"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "فَتَحُوا",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "مبنيّ للمجهول",
+          "note_ar": "جملة: «فتحوا ... » في محلّ جرّ مضاف إليه"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "مَتَاعَهُمْ",
+          "relation_type": "object_direct",
+          "governor_word_index": 3,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به منصوب و (هم) ضمير مضاف إليه"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "وَجَدُوا",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "جملة: «وجدوا ... » لا محلّ لها جواب شرط مقدّر"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "بِضَاعَتَهُمْ",
+          "relation_type": "object_direct",
+          "governor_word_index": 5,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مثل متاعهم"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "رُدَّتْ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "مبنيّ للمجهول",
+          "note_ar": "فعل ماض مبنيّ للمجهول ... و (التاء) للتأنيث، ونائب الفاعل ضمير مستتر تقديره هي"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "إِلَيْهِمْ",
+          "relation_type": "object_direct",
+          "governor_word_index": 7,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "(إلى) حرف جرّ و (هم) ضمير في محلّ جرّ متعلّق ب (ردّت)"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "قَالُوا",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "جملة: «قالوا ... » لا محلّ لها استئناف بيانيّ"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "يَاأَبَانَا",
+          "relation_type": "vocative",
+          "governor_word_index": 9,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "في محلّ نصب مقول القول"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "مَا",
+          "relation_type": "subject",
+          "governor_word_index": 12,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "اسم استفهام [[أجاز أبو البقاء جعلها نافية و (نبغي) بمعنى نظلم أو نعتدي ...]] مبنيّ في محلّ نصب مفعول به عامله (نبغي)"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "نَبْغِي",
+          "relation_type": "predicate",
+          "governor_word_index": 11,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "فعل مضارع مرفوع وعلامة الرفع الضمّة المقدّرة على الياء والفاعل نحن"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "هَذِهِ",
+          "relation_type": "object_direct",
+          "governor_word_index": 12,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "(ها) حرف تنبيه (ذه) اسم إشارة مبنيّ في محلّ رفع مبتدأ (بضاعتنا) بدل مرفوع- أو عطف بيان-"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "بِضَاعَتُنَا",
+          "relation_type": "appositive",
+          "governor_word_index": 13,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "بدل مرفوع- أو عطف بيان- و (نا) مضاف إليه"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "رُدَّتْ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "جملة: «ردّت إلينا ... » في محلّ رفع خبر المبتدأ (هذه)"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "وَنَمِيرُ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "جملة: «نمير أهلنا ... » لا محلّ لها معطوفة على جملة هذه بضاعتنا"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "أَهْلَنَا",
+          "relation_type": "object_direct",
+          "governor_word_index": 16,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مثل متاعهم"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "وَنَحْفَظُ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "جملة: «نحفظ أخانا ... » لا محلّ لها معطوفة على جملة هذه بضاعتنا"
+        },
+        {
+          "word_index": 19,
+          "word_ar": "أَخَانَا",
+          "relation_type": "object_direct",
+          "governor_word_index": 18,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مثل نمير أهلنا"
+        },
+        {
+          "word_index": 20,
+          "word_ar": "وَنَزْدَادُ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "جملة: «نزداد ... » لا محلّ لها معطوفة على جملة هذه بضاعتنا"
+        },
+        {
+          "word_index": 21,
+          "word_ar": "كَيْلَ",
+          "relation_type": "object_direct",
+          "governor_word_index": 20,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مثل نمير"
+        },
+        {
+          "word_index": 22,
+          "word_ar": "بَعِيرٍ",
+          "relation_type": "object_direct",
+          "governor_word_index": 21,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مثل نمير"
+        },
+        {
+          "word_index": 23,
+          "word_ar": "وَنَمِيرُ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "جملة: «نمير أهلنا ... » لا محلّ لها معطوفة على جملة هذه بضاعتنا"
+        },
+        {
+          "word_index": 24,
+          "word_ar": "أَهْلَنَا",
+          "relation_type": "object_direct",
+          "governor_word_index": 23,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مثل متاعهم"
+        },
+        {
+          "word_index": 25,
+          "word_ar": "وَنَحْفَظُ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "جملة: «نحفظ أخانا ... » لا محلّ لها معطوفة على جملة هذه بضاعتنا"
+        },
+        {
+          "word_index": 26,
+          "word_ar": "أَخَانَا",
+          "relation_type": "object_direct",
+          "governor_word_index": 25,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مثل نمير أهلنا"
+        },
+        {
+          "word_index": 27,
+          "word_ar": "وَنَزْدَادُ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "جملة: «نزداد ... » لا محلّ لها معطوفة على جملة هذه بضاعتنا"
+        },
+        {
+          "word_index": 28,
+          "word_ar": "كَيْلَ",
+          "relation_type": "object_direct",
+          "governor_word_index": 27,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مثل نمير"
+        },
+        {
+          "word_index": 29,
+          "word_ar": "بَعِيرٍ",
+          "relation_type": "object_direct",
+          "governor_word_index": 28,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مثل نمير"
+        }
+      ]
+    }
+  ]
+}

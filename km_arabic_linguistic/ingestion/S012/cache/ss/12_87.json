@@ -1,0 +1,352 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 1,
+      "ayah_to": 20,
+      "word_start": 1,
+      "word_end": 2,
+      "sentence_kind": "imperative",
+      "discourse_role": "divine address",
+      "note_ar": "نداء من الله تعالى",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 2,
+          "head_word_index": 2,
+          "note_ar": "فعل أمر مبني على حذف النون"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "يَابَنِيَّ",
+          "relation_type": "vocative",
+          "governor_word_index": null,
+          "irab_position": "مبتدأ",
+          "irab_case": "منصوب",
+          "note_ar": "أداة نداء، منادى مضاف منصوب"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "اذْهَبُوا",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل",
+          "irab_case": "مجزوم",
+          "note_ar": "فعل أمر مبني على حذف النون"
+        }
+      ]
+    },
+    {
+      "ayah_from": 1,
+      "ayah_to": 20,
+      "word_start": 3,
+      "word_end": 4,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "توصيل لفعل النداء",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 3,
+          "word_end": 4,
+          "head_word_index": 3,
+          "note_ar": "فعل مبني على الفاء"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 3,
+          "word_ar": "فَتَحَسَّسُوا",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل",
+          "irab_case": "مجزوم",
+          "note_ar": "فعل مبني على الفاء"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "مِنْ",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 3,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور متعلّق ب (تحسّسوا)"
+        }
+      ]
+    },
+    {
+      "ayah_from": 1,
+      "ayah_to": 20,
+      "word_start": 5,
+      "word_end": 6,
+      "sentence_kind": "nominal",
+      "discourse_role": "main narrative",
+      "note_ar": "مفعول به لفعل تحسّسوا",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 5,
+          "word_end": 6,
+          "head_word_index": 5,
+          "note_ar": "جار ومجرور"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 5,
+          "word_ar": "يُوسُفَ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 3,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور متعلّق ب (تحسّسوا)"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "وَأَخِيهِ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 5,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور معطوف على يوسف"
+        }
+      ]
+    },
+    {
+      "ayah_from": 1,
+      "ayah_to": 20,
+      "word_start": 7,
+      "word_end": 8,
+      "sentence_kind": "imperative",
+      "discourse_role": "divine address",
+      "note_ar": "نهي من الله تعالى",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 7,
+          "word_end": 8,
+          "head_word_index": 7,
+          "note_ar": "فعل ناهي مبني على حذف النون"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 7,
+          "word_ar": "وَلَا",
+          "relation_type": "coordinated",
+          "governor_word_index": 2,
+          "irab_position": "نافية",
+          "irab_case": "مجرور",
+          "note_ar": "نافية جازمة"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "تَيْأَسُوا",
+          "relation_type": "predicate",
+          "governor_word_index": 7,
+          "irab_position": "فعل",
+          "irab_case": "مجزوم",
+          "note_ar": "مضارع مجزوم"
+        }
+      ]
+    },
+    {
+      "ayah_from": 1,
+      "ayah_to": 20,
+      "word_start": 9,
+      "word_end": 11,
+      "sentence_kind": "nominal",
+      "discourse_role": "main narrative",
+      "note_ar": "مفعول به لفعل تيئسوا",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 9,
+          "word_end": 11,
+          "head_word_index": 9,
+          "note_ar": "جار ومجرور"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 9,
+          "word_ar": "مِنْ",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 8,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور متعلّق ب (تيئسوا)"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "رَوْحِ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 9,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور مضاف إليه"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "اللَّهِ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 10,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور مضاف إليه"
+        }
+      ]
+    },
+    {
+      "ayah_from": 1,
+      "ayah_to": 20,
+      "word_start": 12,
+      "word_end": 14,
+      "sentence_kind": "conditional",
+      "discourse_role": "explanatory",
+      "note_ar": "تعليل لفعل لا تيئسوا",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 12,
+          "word_end": 14,
+          "head_word_index": 12,
+          "note_ar": "جملة تعليلية"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 12,
+          "word_ar": "إِنَّهُ",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "حرف مشبّه بالفعل- ناسخ-"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "لَا",
+          "relation_type": "coordinated",
+          "governor_word_index": 12,
+          "irab_position": "نافية",
+          "irab_case": "مجرور",
+          "note_ar": "نافية جازمة"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "يَيْأَسُ",
+          "relation_type": "predicate",
+          "governor_word_index": 13,
+          "irab_position": "فعل",
+          "irab_case": "مرفوع",
+          "note_ar": "مضارع مرفوع"
+        }
+      ]
+    },
+    {
+      "ayah_from": 1,
+      "ayah_to": 20,
+      "word_start": 15,
+      "word_end": 17,
+      "sentence_kind": "nominal",
+      "discourse_role": "main narrative",
+      "note_ar": "مفعول به لفعل ييئس",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 15,
+          "word_end": 17,
+          "head_word_index": 15,
+          "note_ar": "جار ومجرور"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 15,
+          "word_ar": "مِنْ",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 14,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور متعلّق ب (ييئس)"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "رَوْحِ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 15,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور مضاف إليه"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "اللَّهِ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 16,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور مضاف إليه"
+        }
+      ]
+    },
+    {
+      "ayah_from": 1,
+      "ayah_to": 20,
+      "word_start": 18,
+      "word_end": 20,
+      "sentence_kind": "nominal",
+      "discourse_role": "main narrative",
+      "note_ar": "مفعول به لفعل ييئس",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 18,
+          "word_end": 20,
+          "head_word_index": 18,
+          "note_ar": "جار ومجرور"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 18,
+          "word_ar": "وَلَا",
+          "relation_type": "coordinated",
+          "governor_word_index": 17,
+          "irab_position": "نافية",
+          "irab_case": "مجرور",
+          "note_ar": "نافية جازمة"
+        },
+        {
+          "word_index": 19,
+          "word_ar": "إِلَى",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 18,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور متعلّق ب (ييئس)"
+        },
+        {
+          "word_index": 20,
+          "word_ar": "الْعَبْدِ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 19,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور مضاف إليه"
+        }
+      ]
+    }
+  ]
+}

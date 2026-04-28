@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:142",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "قوله جل ثناؤه",
+        "claim_ar": "الجذر ق-و-ل دال على القول/الكلام؛ سَيَقُولُ مشتق من هذا الجذر دال على الفعل المتعلق بالقول.",
+        "claim_en": "The root ق-و-ل denotes speech/saying; سَيَقُولُ is derived from this root and denotes the action of saying.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "قوله جل ثناؤه",
+        "claim_ar": "الجذر ق-و-ل دال على القول/الكلام؛ قُلْ أمر مشتق من هذا الجذر ومركز على الفعل الدال على النطق بالقول.",
+        "claim_en": "The root ق-و-ل denotes speech/saying; قُلْ (imperative) is derived from this root and centers on the verbal act of uttering words.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only general discussion of the root/word 'قوله' is present in the provided sources (source chunk contains 'قوله جل ثناؤه'). The sources do not explicitly discuss other sarf aspects (e.g., prefix سَ as future particle, imperative morphology, wazn/pattern labels) for the specific forms in this ayah, so no additional morphology claims were extracted.",
+      "Several words in the ayah (e.g., يَهْدِي, يَشَاءُ, صِرَاطٍ, مُسْتَقِيمٍ, المشرِق/المغرب) do not have supporting substrings in the supplied source chunks; therefore no claims were made about their patterns or nuances."
+    ]
+  },
+  "n_chunks": 12
+}

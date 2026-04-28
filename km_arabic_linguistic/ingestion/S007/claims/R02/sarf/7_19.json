@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:19",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root",
+        "source_quote_ar": "آدم طيناً",
+        "claim_ar": "اسم علم «آدم» — من جذر أ د م (اسم الإنسان الأوّل)",
+        "claim_en": "Proper name 'Adam' (آدم). Associated root letters أ د م, denoting the first human/person.",
+        "root": "أ د م",
+        "lemma": "آدَم",
+        "confidence": "medium",
+        "needs_review_reason": "The commentary mentions the name (آدم طيناً) but does not give an explicit lexical/root analysis; the root assignment is inferred from standard lexicography."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root",
+        "source_quote_ar": "بين الجنة والنار",
+        "claim_ar": "اسم «الجنة» — مرتبط بجذر ج ن ن (الجَنَّة)؛ دلالة على دار النعيم/الحيز المغطّى",
+        "claim_en": "Noun 'al-Jannah' (الجَنَّة, paradise). Associated root ج ن ن (conventionally related to covering/hiding); meaning 'garden/paradise'.",
+        "root": "ج ن ن",
+        "lemma": "جَنَّة",
+        "confidence": "low",
+        "needs_review_reason": "The source uses the word 'الجنة' but does not analyze its root in the quoted passage; the root and semantic linkage are inferred from general morphological knowledge and should be verified against explicit lexicographic evidence."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root",
+        "source_quote_ar": "وَكُلُوا وَاشْرَبُوا وَلا تُسْرِفُوا",
+        "claim_ar": "فعل من جذر أ ك ل — الأصل أَكَلَ؛ يظهر في مصادر التعليق أيضاً بصيغة الأمر «كُلُوا»",
+        "claim_en": "Verb derived from root أ ك ل (to eat); lemma أَكَلَ. The commentary cites the imperative plural form 'كُلُوا', showing the root in an imperative/command context.",
+        "root": "أ ك ل",
+        "lemma": "أَكَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary shows the imperative plural 'كُلُوا' rather than the dual form found in the ayah ('كُلا'); the mapping between the cited form and the ayah's form is inferred and should be double-checked."
+      },
+      {
+        "word_index": 16,
+        "claim_type": "root",
+        "source_quote_ar": "ظلما لأنفسهما",
+        "claim_ar": "مشتق من جذر ظ ل م — الظلم: البغي/الظلم (ظَلَمَ/ظَالِم)",
+        "claim_en": "Derived from the root ظ ل م (to wrong; injustice). The commentary uses 'ظلما' ('wrongly'), confirming the core meaning 'to wrong/commit injustice'.",
+        "root": "ظ ل م",
+        "lemma": "ظَالِم",
+        "confidence": "high",
+        "needs_review_reason": "The source explicitly uses the form 'ظلما' in context, supporting the root meaning; review not required for basic root-meaning claim but helpful for fuller lexical nuances."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided contain explicit occurrences or discussion for only a subset of the ayah's words (e.g., آدم, الجنة, forms of أكل, ظلما). No direct quoted analysis was present in the chunks for many words (اسكن، زَوْجُكَ، هَذِهِ، الشَّجَرَةَ، تَقْرَبَا, etc.), so morphology claims for those words were not extracted.",
+      "Several claims (e.g., roots for آدم and الجنة, and the relation between كُلُوا quoted in commentary and the ayah's كُلا) are inferred from general morphological knowledge rather than explicit root analyses in the provided chunks; such inferences are marked with lower confidence or a needs_review reason."
+    ]
+  },
+  "n_chunks": 12
+}

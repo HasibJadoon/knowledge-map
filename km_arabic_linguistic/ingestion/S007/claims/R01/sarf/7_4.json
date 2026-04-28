@@ -1,0 +1,45 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:4",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قَرْيَةٍ",
+        "claim_ar": "الجذر: ق-ر-ي. اللفظة قَرْيَةٍ منسوبة إلى جذر «قري» ومعناها: بلدة/قرية، أي موضع سكَنٍ أو تجمع سكاني.",
+        "claim_en": "Root: q-r-y. The word 'qaryah' is derived from the root q-r-y and means 'village' or 'settlement' (a inhabited place).",
+        "root": "قري",
+        "lemma": "قَرْيَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بَأْسُنا",
+        "claim_ar": "الجذر: ب-ا-س (بأس). اللفظة بَأْسُنَا من «بَأْس» دلالة على قوة/عذاب/بأس، هنا بمعنى عذابٍ أو قوة عقاب الله.",
+        "claim_en": "Root: b-ʾ-s (ba's). 'ba'sunā' from 'ba's' denotes force/affliction/penalty; here it conveys the idea of a punishment or severe force (God's punishment).",
+        "root": "باس",
+        "lemma": "بَأْس",
+        "confidence": "medium",
+        "needs_review_reason": "The source uses the term in context but does not give an explicit morphological breakdown; confirm vocalization and semantic nuance across lexica."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "idioms",
+        "source_quote_ar": "أَنْ يَأْتِيَهُمْ بَأْسُنا بَياتاً",
+        "claim_ar": "البيات هنا اصطلاحياً بمعنى الكمين أو الغيلة (الاضطرار إلى البقاء ليلاً كمكيدة/تسلل). الجذر: ب-ي-ت (بيت)؛ المعنى المعجمي الأصل: البقاء ليلاً، وفي السياق تأخذ دلالة اصطلاحية: البيات = كمين/غيلة.",
+        "claim_en": "Here 'bayātan' is used idiomatically to mean an ambush or lying-in-wait (night-attack). Root: b-y-t (bayt) whose literal sense is 'night-staying' or 'to stay at night', but contextually used as an idiom for ambush/treachery.",
+        "root": "بيت",
+        "lemma": "بَيَٰت",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source coverage limited: no exact-match source substrings found for words at indices 1 (وَكَمْ), 2 (مِنْ), 4 (أَهْلَكْنَاهَا), 5 (فَجَاءَهَا), 8 (أَوْ), 9 (هُمْ), 10 (قَائِلُونَ); therefore no morphology claims were extracted for those words from the provided chunks."
+    ]
+  },
+  "n_chunks": 12
+}

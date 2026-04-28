@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:1",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قوله عزّ وجلّ: ﴿الم﴾",
+        "claim_ar": "الحروف المقطعة مثل «الم» ليست كلمة مشتقة من جذر صرفي أو وزن قابل للصرف؛ هي حروف متفرقة لا تُعطى جذرًا ثلاثيًا وصيغة صرفية بالطريقة المعتادة.",
+        "claim_en": "The disjoined letters (e.g. 'Alif-Lam-Meem') are not a word derived from a verbal/root morphology; they do not have a clear triliteral root or a regular wazn (pattern) as ordinary Arabic words do.",
+        "root": null,
+        "lemma": "الم",
+        "confidence": "medium",
+        "needs_review_reason": "Based on exegetical statement; some linguistic/tafsir traditions attempt alternative analyses or assign meanings to the muqaṭṭaʿāt."
+      },
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَذَهَبَ الجُرْجانِيُّ في النَظْمِ إلى أنَّ أحْسَنَ الأقْوالِ هُنا أنْ يَكُونَ \"الم\" إشارَةً إلى حُرُوفِ المُعْجَمِ كَأنَّهُ يَقُولُ: هَذِهِ الحُرُوفُ كِتابُكَ أو نَحْوُ هَذا،",
+        "claim_ar": "تأويل الجرجاني بأن «الم» إشارة إلى حروف المعجم يعني أن الترجمة الحرفية التي تكتفي بكتابة الحروف قد تُفقد احتمالًا دلاليًا (إشارياً/حرفياً) يتجاوز مجرد نقل الحروف باسمها.",
+        "claim_en": "Al-Jurjani's interpretation that 'Alif-Lam-Meem' points to the letters of the alphabet implies that literal translations rendering only the isolated letters may lose a possible referential/indicative nuance (an indication to the alphabet or 'these letters') that the original may carry.",
+        "root": null,
+        "lemma": "الم",
+        "confidence": "medium",
+        "needs_review_reason": "Interpretive/tafsir-based claim; other exegetical positions exist about the function and sense of the muqaṭṭaʿāt."
+      }
+    ],
+    "warnings": [
+      "The provided source material is exegetical (tafsir). Claims above are morphological-classification and translation-nuance inferences drawn from tafsir statements rather than from explicit derivational morphology.",
+      "There is no conventional Arabic root/wazn for the muqaṭṭaʿāt; scholarly opinions differ, so claims are marked medium confidence and may require review against other linguistic or classical tafsir sources."
+    ]
+  },
+  "n_chunks": 12
+}

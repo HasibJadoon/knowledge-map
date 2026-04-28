@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:102",
+  "result": {
+    "claims": [
+      {
+        "word_index": 55,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "خُذُوا حِذْرَكُمْ",
+        "claim_ar": "خُذُوا — فعل أمر جمع من جذر أَخَذَ، مستخدم هنا كأمر بمعنى «اتخذوا/كونوا على حذر»",
+        "claim_en": "Imperative plural of أَخَذَ (take); used idiomatically as a command meaning 'take/observe (your) caution' or 'be on your guard'.",
+        "root": "اخذ",
+        "lemma": "أَخَذَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A102"
+      },
+      {
+        "word_index": 56,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الحذر والحذر بمعنى، كالإثر والأثر، يقال: أخذ حذره، إذا تيقظ واحترز من المخوف",
+        "claim_ar": "حِذْر — الحذر: التيقظ والاحترز من المخوف؛ في عبارة «أخذ حذره» بمعنى أصبح متيقظًا وحاذر نفسه",
+        "claim_en": "The noun حِذْر denotes vigilance/being on guard. The phrase 'أخذ حذره' means 'he became alert / guarded himself against danger.'",
+        "root": "حذر",
+        "lemma": "حِذْر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A102"
+      },
+      {
+        "word_index": 26,
+        "claim_type": "idioms",
+        "source_quote_ar": "خُذُوا حِذْرَكُمْ",
+        "claim_ar": "خذوا حذرهم/خذوا حذركم — اصطلاح بمعنى «تحرّزوا، احترسوا، كونوا على حذر»",
+        "claim_en": "The collocation 'خذوا حذرَكم' (literally 'take your caution') is an idiom meaning 'be vigilant/keep watch; take precautions.'",
+        "root": "حذر",
+        "lemma": "حِذْر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A102"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

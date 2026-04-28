@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:39",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "نادى",
+        "claim_ar": "الفعل في الآية «فَنَادَتْهُ» مبني على جذر ن و د، والوزن الأساسي الظاهر في المصدر «نَادَى» يطابق وزن فَاعَل/فَاعَلَ (صِيغَة اشتراك/الصيغة الثالثة في الترتيب التقليدي)، هنا مجرد ماضٍ مع ضمير متصل (فا-نادى-هُ).",
+        "claim_en": "The verb in the ayah (فَنَادَتْهُ) derives from the root ن و د. The base lemma نَادَى corresponds to the pattern fāʿala (often treated as Form III), i.e. a causative/reciprocal 'call' pattern; in the ayah it appears as a past verb with a clitic pronoun.",
+        "root": "ندو",
+        "lemma": "نَادَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The final-weak nature of this root (waw) makes exact pattern assignment (Form III vs. an irregular Form I realization) somewhat uncertain; source shows base token 'نادى' but not the prefixed/fa- or suffixed forms in the ayah."
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "يحيى",
+        "claim_ar": "الاسم «يَحْيَى» من الجذر ح ي ي، معناه المرتبط بالحيَاة — الأصل الدلالي: «يَحْيَى» = ‹يَحيا/الحيّ› أي ذو حياة أو سيعيش.",
+        "claim_en": "The proper name Yaḥyā (يَحْيَى) comes from the root ḥ-y-y meaning 'to live'. The name denotes 'the living' / 'he will live'.",
+        "root": "حيي",
+        "lemma": "يَحْيَىٰ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 18,
+        "claim_type": "root meaning",
+        "source_quote_ar": "نبىٌّ مرسل",
+        "claim_ar": "اسم «نَبِيّ» من الجذر ن ب أ، دلالته الأساسية «المنبئ/المُبلّغ/الآتي بالنبأ»؛ في المصدر المعطى تم وصفه بـ«مرسل» (أي النبي المرسل).",
+        "claim_en": "The noun nabiyy (نَبِيّ) derives from the root n-b-ʾ meaning 'to bring news/announce'; semantically 'prophet' = 'one who conveys the message'. The commentary cites 'نبىٌّ مرسل' confirming the prophetic/ messenger sense.",
+        "root": "نبا",
+        "lemma": "نَّبِىّ",
+        "confidence": "medium",
+        "needs_review_reason": "The exact morphological nuance (pattern vocalization and emphatic doubling) can vary in transmission; the source confirms the prophetic sense but not full morphological parsing of the nisba/formation."
+      },
+      {
+        "word_index": 20,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الصَّالِحاتِ",
+        "claim_ar": "اسم «صَالِح» من الجذر ص ل ح، دلالته الأساسية «صالح/صالحة» بمعنى صالحِ العمل أو الفاعل الصالح؛ صيغة الجمع في الآية «الصَّالِحِينَ» تعود إلى هذا الجذر والدلالة.",
+        "claim_en": "The adjective/active participle ṣāliḥ (صَالِح) stems from the root ṣ-l-ḥ meaning 'good, righteous'. The plural in the ayah (الصَّالِحِينَ) carries this 'righteous/virtuous' meaning. The commentary contains the cognate form 'الصَّالِحاتِ'.",
+        "root": "صلح",
+        "lemma": "صَٰلِح",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only a subset of words from the ayah could be matched to exact Arabic substrings in the provided commentary chunks. Many words in the input lacked a direct attested substring in the supplied source chunks, so no claims were extracted for them.",
+      "Some pattern assignments (especially for weak-final roots like ن-و-د) are given with medium confidence because the commentary excerpts show related lemmas but do not fully parse the exact inflected form in the ayah; review against fuller lexicographic sources is recommended if higher certainty is required."
+    ]
+  },
+  "n_chunks": 12
+}

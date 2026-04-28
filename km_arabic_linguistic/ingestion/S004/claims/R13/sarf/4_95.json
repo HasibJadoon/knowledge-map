@@ -1,0 +1,24 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:95",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "وقرئ: سوّى، وسووى.",
+        "claim_ar": "الفعل اسْتَوَى على وزن اِسْتَفْعَل (صيغة X) من الجذر س و ي.",
+        "claim_en": "The verb اسْتَوَى is on the pattern 'istafʻal' (Form X) from the root s-w-y, meaning roughly 'to become level / to be established equal'.",
+        "root": "سوي",
+        "lemma": "اسْتَوَىٰٓ",
+        "confidence": "high",
+        "needs_review_reason": "none",
+        "quran_ref": "S4:A95"
+      }
+    ],
+    "warnings": [
+      "No source chunk contained an explicit morphological commentary or an exact matching substring for the other words in this ayah. Affected words (word_index: word_text): 1: لَا, 3: الْقَاعِدُونَ, 4: مِنَ, 5: الْمُؤْمِنِينَ, 6: غَيْرُ, 7: أُولِي, 8: الضَّرَرِ, 9: وَالْمُجَاهِدُونَ, 10: فِي, 11: سَبِيلِ, 12: اللَّهِ, 13: بِأَمْوَالِهِمْ, 14: وَأَنْفُسِهِمْ, 15: فَضَّلَ, 16: اللَّهُ, 17: الْمُجَاهِدِينَ, 18: بِأَمْوَالِهِمْ, 19: وَأَنْفُسِهِمْ, 20: عَلَى, 21: الْقَاعِدِينَ, 22: دَرَجَةً, 23: وَكُلَّاً, 24: وَعَدَ, 25: اللَّهُ, 26: الْحُسْنَى, 27: وَفَضَّلَ, 28: اللَّهُ, 29: الْمُجَاهِدِينَ, 30: عَلَى, 31: الْقَاعِدِينَ, 32: أَجْرَاً, 33: عَظِيمَاً."
+    ]
+  },
+  "n_chunks": 12
+}

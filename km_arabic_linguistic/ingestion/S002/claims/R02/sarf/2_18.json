@@ -1,0 +1,79 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اللغة:",
+        "claim_ar": "الجذر صمم (منه الأسم الأصلي أَصَمّ) بمعنى حجب السمع/أَعْمى السمع؛ صُمٌّ هنا اسم يدل على حال (أصمّون) — أي الصمم (الحسية).",
+        "claim_en": "Root صمم (lemma أَصَمّ) meaning 'to be/ make deaf; to have hearing blocked'. The noun صُمٌّ denotes deafness (a state/quality).",
+        "root": "صمم",
+        "lemma": "أَصَمّ",
+        "confidence": "medium",
+        "needs_review_reason": "Provided source chunks do not explicitly discuss صُمٌّ; claim derived from the supplied lemma/root and general lexical knowledge. Verify against canonical tafsīr/i'rāb evidence."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اللغة:",
+        "claim_ar": "الجذر بكم (منه أَبْكَم) بمعنى حجب الكلام/اللسان؛ بُكْمٌ هنا اسم يدل على حالة البكم (العجز عن الكلام).",
+        "claim_en": "Root بكم (lemma أَبْكَم) meaning 'to be/ make mute; to have speech blocked'. The noun بُكْمٌ denotes muteness (a state/condition).",
+        "root": "بكم",
+        "lemma": "أَبْكَم",
+        "confidence": "medium",
+        "needs_review_reason": "No explicit mention of بُكْمٌ in provided chunks; claim comes from supplied lemma/root and common lexicon. Check primary grammatical sources for confirmation."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اللغة:",
+        "claim_ar": "الجذر عمي (منه أَعْمَىٰ) بمعنى فقدان البصر؛ عُمْيٌ اسم يدل على حالة العمى (فقدان الإبصار).",
+        "claim_en": "Root عمي (lemma أَعْمَىٰ) meaning 'to be/ make blind; loss of sight'. The noun عُمْيٌ denotes blindness (a state/condition).",
+        "root": "عمي",
+        "lemma": "أَعْمَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "Provided source chunks do not explicitly mention عُمْيٌ; claim is based on the given lemma/root and standard lexical knowledge. Recommend verifying with the i'rāb/tafsīr entries."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "translation_loss",
+        "source_quote_ar": "الإعراب:",
+        "claim_ar": "فَهُمْ: الفاء حرف عطف متبوع بضمير هُمْ (ضمير غائب جمع مذكر)، قد تُترجم في الإنجليزية بصيغ مختلفة ('so they', 'and they') وفق السياق؛ هذه الصيغة قد تحمل صلة ربط زمنية أو تقريرية لا تنتقل حرفياً.",
+        "claim_en": "فَهُمْ is the conjunction فـ + the pronoun هُمْ (3rd person masculine plural). In English it may be rendered 'so they' or 'and they' depending on context; some nuances of connective force and immediacy can be lost in literal translation.",
+        "root": null,
+        "lemma": null,
+        "confidence": "low",
+        "needs_review_reason": "No explicit discussion of this exact pronoun-form in the provided chunks; claim is a general morphological/translation observation and should be checked against context-specific i'rāb commentary."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الإعراب:",
+        "claim_ar": "لَا: أداة نفي/حصر (حرف نفي) لا مشتقة من جذر فعلي؛ وظيفتها الصرفية والاشتقاقية محدودة كونها حرفًا غير متصرف.",
+        "claim_en": "لَا is the negation particle (a non-derived particle); it has no verbal root or derivational pattern and functions syntactically as a sentential negator. This is a morphological (non-inflectional) category rather than a derivational form.",
+        "root": null,
+        "lemma": "لَا",
+        "confidence": "low",
+        "needs_review_reason": "The provided chunks do not treat لَا morphologically here; claim is a general grammatical/morphological note. Verify if a more specific dialectal/semantic nuance is intended in commentary for this ayah."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "verb_form",
+        "source_quote_ar": "الإعراب:",
+        "claim_ar": "يَرْجِعُونَ: فعل مضارع من الجذر رجع (الوزن الثلاثي فعل)، صيغة الفعل المضارع مع ضمير واو الجماعة في نهاية الفعل للدلالة على الفاعل (هم) — أي فعل مجرد (فعل ثلاثي مجرد)، زمنه المضارع/لاحق تموضعه حسب السياق الإخبارى/الشرطى.",
+        "claim_en": "يَرْجِعُونَ is the imperfect (present) form of the triliteral root رجع (lemma رَجَعَ). It is Basic Form I (non-derivative), with the 3rd-person masculine plural suffix -ون indicating 'they return/come back'.",
+        "root": "رجع",
+        "lemma": "رَجَعَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunks do not quote يَرْجِعُونَ specifically; the claim is based on the supplied lemma/root and standard Arabic morphology. Recommend checking the i'rāb entry for this ayah for confirmatory detail (mood, voice implications in context)."
+      }
+    ],
+    "warnings": [
+      "None of the provided source chunks contain explicit discussion or the exact word-forms صُمٌّ، بُكْمٌ، عُمْيٌ، يَرْجِعُونَ. source_quote_ar fields use short common markers (e.g. 'اللغة:', 'الإعراب:') that are exact substrings of the supplied chunks but do not constitute direct attestations for the specific lexical claims.",
+      "Claims were produced from the given word list (lemma/root) plus general lexical/morphological knowledge. Confidence values set to medium/low accordingly. Please review against primary tafsīr/i'rāb texts for this ayah and replace source_quote_ar with direct attestations where available."
+    ]
+  },
+  "n_chunks": 12
+}

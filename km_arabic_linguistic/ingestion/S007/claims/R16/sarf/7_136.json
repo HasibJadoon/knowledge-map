@@ -1,0 +1,56 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:136",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الَّذِينَ كَذَّبُوا شُعَيْباً",
+        "claim_ar": "الجذر ك-ذ-ب: المعنى الأساسي 'الإنكار/التكذيب' (رفض القول أو وصفه بالكذب).",
+        "claim_en": "Root كذب (k-dh-b): basic meaning 'to deny, to reject, to declare false; to call (something) a lie.'",
+        "root": "كذب",
+        "lemma": "كَذَّبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "الَّذِينَ كَذَّبُوا شُعَيْباً",
+        "claim_ar": "الفعل كَذَّبَ على وزن فعَّل (باب II): وزن تكثيف/تعدية دال على إنكار شديد أو تحميل جهة التكذيب.",
+        "claim_en": "The verb كَذَّبَ is Form II (fa''ala) — an intensive/causative pattern conveying emphatic denial or rejection (to strongly deny or to brand as false).",
+        "root": "كذب",
+        "lemma": "كَذَّبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الَّذِينَ كَذَّبُوا شُعَيْباً كانُوا هُمُ الْخاسِرِينَ",
+        "claim_ar": "الجذر ك-و-ن: المعنى الأساسي 'كان/يكون' للدلالة على الوجود أو الحالة (فعل وجود/حالة).",
+        "claim_en": "Root كون (k-w-n): basic meaning 'to be, to exist' — the verb كانَ functions as the prototypical 'to be' (existential/copular) verb.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "الَّذِينَ كَذَّبُوا شُعَيْباً كانُوا هُمُ الْخاسِرِينَ",
+        "claim_ar": "الفعل كانَ: فعل مجرد من باب الفعل الأول (فعل ثلاثي أصولي) لكنه فعل معتل/شاذ في تصرفه ويعمل كفعل ناقص/مساعد للتعبير عن الحالة الماضية.",
+        "claim_en": "The verb كانَ is a Form I (basic) verb but behaves as an irregular/defective verb functioning as a past copula/auxiliary expressing state in the past.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only the provided source chunks contained exact substrings for words 7 (كَذَّبُوا) and 9 (كانُوا). Other words in the ayah did not appear as exact substrings in the chunks, so no morphology claims were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

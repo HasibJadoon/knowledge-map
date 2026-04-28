@@ -1,0 +1,58 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "صفوته وخالصته.",
+        "claim_ar": "اصطفى: من جذر ص ف و، دلالة على الاختيار والاصطفاء (الصفوة والخلاصة).",
+        "claim_en": "اصطفى (root صفو): denotes selection/choosing, related to the notion of 'ṣafwah' (the chosen/elite).",
+        "root": "صفو",
+        "lemma": "اصْطَفَىٰ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A33"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "صفوته وخالصته.",
+        "claim_ar": "اصطفى: وزن استفعل (اِسْتَفْعَلَ) — صيغة استفعاليّة دالّة على الطلب/الابتداء والاختيار (اصطفى = اختار أو ابتع).",
+        "claim_en": "Wazn: اِسْتَفْعَلَ (istif'ala) — the derived verb pattern expressing seeking/causative/requestive sense; here conveys 'to choose/select'.",
+        "root": "صفو",
+        "lemma": "اصْطَفَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "Pattern attribution is standard for اصطفى but the provided source chunks do not explicitly state the wazn; claim is based on morphological analysis rather than an explicit quoted explanation.",
+        "quran_ref": "S3:A33"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "من قرأ سورة آل عمران",
+        "claim_ar": "آل: لاحقة تدلّ على أهل/بيت/أسرة (آلِ فلان = أهل/نسلُ فلان).",
+        "claim_en": "آل: a particle/nominal element meaning 'family/household/people of' (e.g. 'Aal Ibrahim' = the family/people of Abraham).",
+        "root": "اول",
+        "lemma": "آل",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk shows the collocation 'آل عمران' illustrating usage, but does not give a formal root-history; assessment relies on conventional lexical sense.",
+        "quran_ref": "S3:A33"
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "علم",
+        "claim_ar": "الْعَالَمِينَ: من جذر ع ل م، دلالة على الناس أو الخلق/الوجود (العالمين = أهل العالمين/الخلق).",
+        "claim_en": "الْعَالَمِينَ (root علم): denotes 'the worlds' or 'the people/creatures', derived from the root related to knowledge/that which is known (here lexicalized as 'the worlds/creatures').",
+        "root": "علم",
+        "lemma": "عَٰلَمِين",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the root token but does not offer a focused morphological exposition for الْعَالَمِينَ; interpretation is standard lexicosemantic analysis.",
+        "quran_ref": "S3:A33"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

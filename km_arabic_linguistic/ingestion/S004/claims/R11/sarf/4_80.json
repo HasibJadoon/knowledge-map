@@ -1,0 +1,65 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:80",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "مَنْ يُطِعِ الرَّسُولَ فَقَدْ أَطاعَ اللَّهَ",
+        "claim_ar": "الفعل يُطِعِ (من أصل أَطَاعَ) مضارع يدل على استمرار الامتثال/الطاعة؛ صورتُه المتوقعة على وزن يَفْعِلُ مع تغيير بسبب علة في الجذر (حرف و/ي متوسط).",
+        "claim_en": "The verb يُطِعِ is the imperfect (present) form of أَطَاعَ; its pattern approximates يَفْعِلُ but shows vowel alternation caused by a weak medial radical, and it conveys ongoing/continuous obedience.",
+        "root": "طوع",
+        "lemma": "أَطَاعَ",
+        "confidence": "medium",
+        "needs_review_reason": "uncertainty about the precise triliteral orthography and the effect of a weak medial radical on the exact vocalic pattern; check classical lexica for the root-vowel alternation (طوع/طاع/أطاع)."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "مَنْ يُطِعِ الرَّسُولَ فَقَدْ أَطاعَ اللَّهَ",
+        "claim_ar": "الفعل أَطَاعَ يظهر على قالب أَفْعَلَ (أَفْعَلَ/أفْعَلَ)، ويعطي معنى الامتثال والطاعة في السياق القرآني.",
+        "claim_en": "The verb أَطَاعَ appears on the pattern 'أفعل' (commonly treated as Form IV), expressing the act of obeying/complying in this Quranic context.",
+        "root": "طوع",
+        "lemma": "أَطَاعَ",
+        "confidence": "medium",
+        "needs_review_reason": "classification as Form IV vs inherited Form I-with-prosthetic-alif can vary in traditional descriptions; verify with a classical morphology source."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وَمَنْ تَوَلَّى عن الطاعة",
+        "claim_ar": "الفعل تَوَلَّى على وزن تَفَعَّلَ (صيغة المزيدة بالتاء)، ويمنح الفعل صبغة انعكاسية/تكثيفية؛ هنا يقرأ بمعنى 'أعرض/انصرف' (الابتعاد عن الطاعة).",
+        "claim_en": "تَوَلَّى is Form V (تَفَعَّلَ) from the root و-ل-ي (ولي); the Form V reflexive/intensive nuance yields the sense 'turn away' / 'withdraw' (here: abandon obedience).",
+        "root": "ولي",
+        "lemma": "تَوَلَّىٰ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "فَما أَرْسَلْنَاكَ إلا نذيرا",
+        "claim_ar": "الفعل أَرْسَلْنَاكَ فعل ماضٍ على وزن أَفْعَلَ (أَرسَلَ) مع ضمير الفاعل/الضمير الجمعي الظاهر في الصيغة المركبة '-نَا' وضمير المفعول المستأنَس '-كَ' ملحقًا بالفعل.",
+        "claim_en": "أَرْسَلْنَاكَ is the past verb 'we sent you' on the pattern 'أفعل' (Form IV 'to send'), formed as أرسلنا + the object suffix -ka ('you').",
+        "root": "رسل",
+        "lemma": "أَرْسَلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root meaning",
+        "source_quote_ar": "لا حفيظا",
+        "claim_ar": "اسم حَفِيظٍ من جذر حَفِظَ، على وزن فَعِيل، ويدل على الحافظ/الراعي (حارس أو مُتَوَكِّل على الحفظ). في الآية يُستخدم في النفي التبايني: 'ليس حفيظاً' أي ليس وكيلاً يحفظ أو يحفظ عن الناس أعمالهم نيابةً عنهم.",
+        "claim_en": "The noun حفيظ (from root حفظ) on the pattern فَعِيل means 'guardian/keeper/preserver'; in the verse it appears in negative contrast ('not a guardian'), opposing the role of a protecting keeper.",
+        "root": "حفظ",
+        "lemma": "حَفِيظ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

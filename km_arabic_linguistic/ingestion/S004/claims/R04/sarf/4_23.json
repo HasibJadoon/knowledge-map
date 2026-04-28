@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:23",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "تحريمها",
+        "claim_ar": "جذر «حرم» بمعنى: النهْى/جعل الشيء حرامًا؛ هنا الفعل في آية التحريم (حُرِّمَتْ) يحمل معنى الحظر/التكفير.",
+        "claim_en": "Root 'حرم' means 'to forbid, to make (something) forbidden/untouchable'. In the verse it appears in the passive ('حُرِّمَتْ') expressing that something has been made forbidden.",
+        "root": "حرم",
+        "lemma": "حَرَّمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "تحريمها",
+        "claim_ar": "وزن الفعل لمعنى التحريم: فَعَّلَ (حَرَّمَ)؛ صيغة الماضي المبني للمجهول من فَعَّلَ هي فُعِّلَ (حُرِّمَتْ).",
+        "claim_en": "Lemma 'حarram' is form II (pattern fāʻʻala / فَعَّلَ). The past passive of this pattern is fُa''ila (فُعِّلَ) — here realized as 'حُرِّمَتْ' in the verse.",
+        "root": "حرم",
+        "lemma": "حَرَّمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 43,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اجْمَعُوا",
+        "claim_ar": "جذر «جمع» بمعنى: التَّجْمِيع/الالتقاء (جمع الشيء أو الناس). الفعل الثلاثي المجرد: فَعَلَ (جَمَعَ).",
+        "claim_en": "Root 'جمع' means 'to gather, collect, bring together'. The basic lemma is Form I (fa'ala) 'جَمَعَ'.",
+        "root": "جمع",
+        "lemma": "جَمَعَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "source_quote_ar 'تحريمها' is a noun/masdar form found in the commentary chunk, not the exact inflected verb form 'حُرِّمَتْ' as in the ayah; used here to support root and pattern claims.",
+      "source_quote_ar 'اجْمَعُوا' (imperative) appears in the provided commentary chunk; the ayah word is 'تَجْمَعُوا' (imperfect). The quoted form differs in prefix/ mood but shares the same root/lemma."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:162",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "فَاتَّبِعُوا مِلَّةَ إِبْراهِيمَ",
+        "claim_ar": "الفعل اتَّبَعَ (من الجذر ت ب ع) على وزن اِفْتَعَلَ — صيغة افتعال/افتعال (الوزن الثامن) للدلالة على التبعية/الأخذ بالاقتداء (دالة اشتقاقية من الثلاثي).",
+        "claim_en": "The verb اتَّبَعَ (root ت ب ع) is in the Form VIII (افتعل / اِفْتَعَلَ) — a derived pattern indicating following/taking as model (a reflexive/derivative verbal flavor).",
+        "root": "تبع",
+        "lemma": "اتَّبَعَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مِنَ الْآياتِ",
+        "claim_ar": "حرف جر «مِنْ» — حرف يدل على الانتماء/المنبع أو التبعيض/التجزئة بحسب السياق.",
+        "claim_en": "Preposition 'min' — a preposition expressing origin/source or partitive/selection depending on context.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم علم للذات الإلهية «اللَّه» — اسم إلهي (اللاهوتي) مُعتمد لغوياً؛ التقليد الصرفي يربطه بالواحدية (جذر تقليدي «اله») لكن كَلمَةُ «اللَّه» معجمياً معاملة خاصة.",
+        "claim_en": "Proper name 'Allah' — the divine/theonym; conventionally associated with the root 'اله' in traditional lexica, but the word is lexicalized and treated as a special divine name rather than a regular triliteral derivation.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Theonymic/root analysis of \"اللَّه\" is exceptional and debated in lexicography; treating it as derived from 'اله' is a conventional (not strictly morphological) assignment."
+      }
+    ],
+    "warnings": [
+      "Many words in the ayah have no exact matching substring in the provided source_chunks; therefore no source-anchored morphological claim was produced for them. Missing (by word_index): 1 (أَفَمَنِ), 3 (رِضْوَانَ), 5 (كَمَنْ), 6 (بَاءَ), 7 (سَخَطٍ), 9 (اللَّهِ — second occurrence), 10 (وَمَأْوَاهُ), 11 (جَهَنَّمُ), 12 (وَبِئْسَ), 13 (الْمَصِيرُ).",
+      "Each claim's source_quote_ar must be an exact substring of one of the provided chunks; where no suitable substring was present, no claim was generated for that word."
+    ]
+  },
+  "n_chunks": 12
+}

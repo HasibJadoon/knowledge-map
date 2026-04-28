@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:164",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وقل فعل أمر وفاعله ضمير مستتر تقديره أنت",
+        "claim_ar": "قُلْ: فعل أمر من الجذر قول (قَالَ). فاعله ضمير مستتر تقديره «أنت».",
+        "claim_en": "قُلْ is an imperative (amr) derived from the root قول (qāla). Its subject is a dropped/implicit pronoun (you).",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A164"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(شَيْءٍ) الشيء: ما يصحّ أن يعلم ويخبر عنه،",
+        "claim_ar": "الشيء: لفظ يدل على ما يصحّ أن يُعْلَم ويُخْبَرَ عنه (المعنى الدلالي للجذر ش-ي-ء في هذا السياق).",
+        "claim_en": "al-shay' (thing) denotes that which can be known and reported; this is the semantic meaning of the root ش-ي-ء in context.",
+        "root": "شيا",
+        "lemma": "شَىْء",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A164"
+      },
+      {
+        "word_index": 19,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الأوزار: جمع وزر بكسر الواو، وهو الحمل الثقيل، والوزر في الأصل: الثقل",
+        "claim_ar": "الوزر/أوزار: من معانيها الحمل الثقيل أو الثقل؛ أصل الكلمة يدلّ على الثقل، وجمعها أَوْزار.",
+        "claim_en": "wazr (burden) / awzār (pl.) denotes a heavy load or weight; the original sense of the word is 'heaviness' or 'burden'.",
+        "root": "وزر",
+        "lemma": "وِزْر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A164"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

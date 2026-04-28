@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:33",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "كل",
+        "claim_ar": "جذر الكلمة من الثلاثي كلّ/كلل بمعنى العموم والشمول (الدلالة على الكلّية/العموم).",
+        "claim_en": "Root from the triliteral root كلّ/كلل meaning 'all, every, totality' (marks universality/collectivity).",
+        "root": "كلل",
+        "lemma": "كُلّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "كُلَّما",
+        "claim_ar": "الصيغة على وزن الاسم الجامع 'كُلّ' (جذر كلّ/كلل)؛ الشدّة على اللام تدلّ على تضاعف الحرف في الصيغة الصرفية وتُنتج دلالة عمومية/تّجميعية.",
+        "claim_en": "Pattern: the universal noun 'kull' formed from the triliteral root كلّ/كلل; the geminated lam (shadda) is the morphological doubling that yields the collective/universal sense.",
+        "root": "كلل",
+        "lemma": "كُلّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وكان",
+        "claim_ar": "فعل ماضٍ ثلاثي مجرد من الجذر كون (يعني 'كان' بمعنى الوجود/التمكن/الحال في الماضي) — فعل شائع كفعل دال على الوجود أو الاستمرارية في النصوص الكلاسيكية.",
+        "claim_en": "Verb flavour: a past-tense triliteral verb from the root كون (to be), meaning 'was' — commonly used as the copular/existential verb in classical Arabic.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "medium",
+        "needs_review_reason": "lemma was not provided in the input for this word and has been inferred as 'كَانَ'."
+      }
+    ],
+    "warnings": [
+      "Source chunks contained exact substrings for only a few items (e.g. 'كل', 'كُلَّما', 'وكان'). Most words from the ayah had no matching exact substring in the provided chunks, so no morphology claims were extracted for them.",
+      "I avoided i'rab (case/role) and balagha (rhetoric) claims as requested; claims are limited to root meanings, pattern, and verb flavour."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:51",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "نَحْشُرُهُمْ",
+        "claim_ar": "صيغة فعل مضارع مبني للمجهول (معنى: يُحشَرون) بصيغة الجمع الغائب",
+        "claim_en": "Present-passive verb (third-person plural) of the root حشر — meaning 'to be gathered / to be resurrected' (passive voice: 'they will be gathered').",
+        "root": "حشر",
+        "lemma": "حَشَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The quoted commentary uses the active form نَحْشُرُهُمْ; the ayah has the passive-like يُحْشَرُوا. Verify voice/inflectional differences and final vowel orthography in the manuscript used."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "على رَبِّهِمْ",
+        "claim_ar": "اسم (رَبّ) بمعنى السيد/الرازق؛ هنا مضاف + ضمير (رَبِّهِمْ) بمعنى 'ربُّهم'.",
+        "claim_en": "Noun 'rabb' (Lord, Sustainer). In this form it is in construct with a pronoun: 'their Lord'.",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only source substrings matching the provided chunks were used. Several words in the ayah did not have exact matching forms in the supplied source chunks, so no morphology claims were extracted for them.",
+      "Some claims reference commentary forms (e.g., نَحْشُرُهُمْ) that differ in voice/inflection from the ayah form (يُحْشَرُوا); these require verification against a primary Qur'anic text."
+    ]
+  },
+  "n_chunks": 12
+}

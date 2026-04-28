@@ -1,0 +1,69 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:64",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مِنْ بَعْدِ ذلِكَ",
+        "claim_ar": "الجذر: ب-ع-د (بَعْد). الدلالة الصرفية تدل على الترتيب/التبعية الزمَنِيّة (المعنى: 'بعد ذلك').",
+        "claim_en": "Root: b-ʿ-d (ba‘d). Morphological/root meaning indicates order/temporal succession — 'after that'.",
+        "root": "بعد",
+        "lemma": "بَعْد",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the phrase 'مِنْ بَعْدِ ذلِكَ' but does not give an explicit morphological exposition of the root; the meaning is inferred from usage in the commentary."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "مِنْ بَعْدِ ذلِكَ",
+        "claim_ar": "الضمير الإشارى ذٰلِكَ هنا يشكل تركيبًا مع 'مِنْ بَعْدِ' ليؤسس دلالة زمنية متتابعة ('بعد ذلك')؛ في الترجمة قد تُفقد نبرة التتابع أو التأكيد القرابى/البُعديّ.",
+        "claim_en": "The demonstrative 'ذَٰلِكَ' combines with 'مِنْ بَعْدِ' to create a sequential temporal meaning ('after that'); translations can lose the nuance of sequence or the distal/emphatic flavour.",
+        "root": null,
+        "lemma": "ذَٰلِك",
+        "confidence": "medium",
+        "needs_review_reason": "Claim is based on the cited phrase's usage; the commentary contains the phrase but does not analyze the demonstrative's pragmatic nuance explicitly."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "النعمة في العفو عنكم.",
+        "claim_ar": "كلمة فَضْل (فَضْلُ اللَّهِ) في هذا السياق تقترن بمعنى 'نعمة' أو 'أَنعُمَة'؛ عند الترجمة قد تُختزل إلى 'grace' أو 'favor' فتفقد فروقًا دلالية (فضل مقابل إحسان/رحمة).",
+        "claim_en": "The word 'faḍl' (as in 'the bounty/favor of God') here is close in sense to 'ni‘mah' (blessing/grace); translations rendering it simply as 'grace' or 'favor' can lose finer semantic distinctions between faḍl, iḥsān, and raḥmah.",
+        "root": "فضل",
+        "lemma": "فَضْل",
+        "confidence": "medium",
+        "needs_review_reason": "The source uses the word 'النعمة' (ni‘mah) in commentary; equating فضل with نعمة is interpretive and should be checked against lexica or fuller commentary."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "فَاللَّهُ خَيْرٌ حَافِظاً",
+        "claim_ar": "الاسم 'اللَّه' هو اسم علم إلهي (لا يُعامل كصرف ثلاثي عادي)؛ من الناحية الصرفية يُعامل كلفظ خاص بدلًا من تصريف فعلي جذري.",
+        "claim_en": "The name 'Allah' is a proper divine name and is not treated as a regular triliteral derived verb; morphologically it functions as a proper noun rather than a derivable root-based noun in the usual triliteral patterns.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root meaning",
+        "source_quote_ar": "أَرْحَمُ الرَّاحِمِينَ",
+        "claim_ar": "الجذر ر-ح-م (رَحِم) يدل على الرحمة/الشفقة؛ 'رَحْمَة' وشُكلاتها الصرفية تشير إلى معنى العطف والشفقة (كافٍ لشرح 'وَرَحْمَتُهُ').",
+        "claim_en": "Root r-ḥ-m (raḥim) denotes mercy/compassion; the noun 'raḥmah' and its morphological forms express compassion/mercifulness, which is the semantic base for 'wa-raḥmatuhu' ('and His mercy').",
+        "root": "رحم",
+        "lemma": "رَحْمَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks supplied do not cover every word of the ayah; claims are limited to items for which an exact supporting substring appears in the given chunks.",
+      "Several words in the ayah (e.g. تَوَلَّيْتُمْ, لَكُنْتُمْ, الْخَاسِرِينَ) lack explicit morphological discussion in the provided chunks; no unsupported morphological claims were produced for them.",
+      "Some claims (marked medium confidence) are inferential: they derive semantic/morphological nuance from context phrases in the commentary rather than from explicit, dedicated sarf analysis in the chunks — please review against fuller lexicographic sources if needed."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,58 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:179",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "كان",
+        "claim_ar": "فعل ماضٍ من الجذر «كون»، يعمل غالبًا كفعل ناقص/ربط (أداة تقرير زمانية أو حالية بحسب السياق).",
+        "claim_en": "Past-tense verb from the root كون (k-w-n); functions as an auxiliary/copular verb ('to be') rather than a fully lexical action in many contexts.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A179"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَاللَّهُ شَدِيدُ الْعِقَابِ",
+        "claim_ar": "اسم علم (لفظ الجلالة) مبتني على الجذر «اله»، دال على الذات الإلهية: الـمعبود، الرب.",
+        "claim_en": "The proper name 'Allah' (the Divine Name), built on the root اله, meaning 'the God / the deity / the Lord'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A179"
+      },
+      {
+        "word_index": 17,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بِآياتِ اللَّهِ",
+        "claim_ar": "لفظ الجلالة «اللَّه» (من الجذر اله) يشير إلى الذات الإلهية (المعبود)، اسم علم لا يتصرف بصيغ الاشتقاق الاعتيادية للمتصرفات الإسمية.",
+        "claim_en": "The Divine Name 'Allah' (from the root اله) denotes the God/the deity; it is a proper name (name of God) and does not behave like regular derivational nouns.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A179"
+      },
+      {
+        "word_index": 22,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَاللَّهُ شَدِيدُ الْعِقَابِ",
+        "claim_ar": "اللفظ «اللَّهَ/اللَّهُ» نفس اسم الجلالة من الجذر «اله»، يحمل معنى الإله والربوبية، ويعمل كاسم علم ثابت.",
+        "claim_en": "The term 'Allah' (اللَّهَ/اللَّهُ) is the Divine Name from the root اله, carrying the sense of God/Lord; it functions as a stable proper name.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A179"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:281",
+  "result": {
+    "claims": [
+      {
+        "word_index": 11,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "ما اسم موصول",
+        "claim_ar": "ما في «مَا كَسَبَتْ» هنا اسم موصول (ما التي/ما الذي)، وهذا الاستخدام قد يختلط في الترجمة مع «ما» النافية إذا لم يُنتبه للسياق.",
+        "claim_en": "The 'mā' in 'mā kasabat' is a relative pronoun ('what/that which'). This use can be confused with the negating 'mā' in English translations, so a subtle translation nuance may be lost.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(كُلُّ أُناسٍ)",
+        "claim_ar": "كُلّ هنا أداة تعميم/تخصيص بمعنى «كل واحد/كل نفس»، تُستخدم ككمّية كلية (تعميمية).",
+        "claim_en": "The particle 'kull' functions as a universal/distributive quantifier meaning 'every/all' (each one).",
+        "root": "كلل",
+        "lemma": "كُلّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "root meaning",
+        "source_quote_ar": "(ظَلَمُوا)",
+        "claim_ar": "الجذر 'ظلم' يدل على فعل الظلم/الاعتداء. في الآية الشكل «يُظْلَمُونَ» يحمل المعنى المبني للمجهول (يتعرّضون للظلم).",
+        "claim_en": "The root 'ẓlm' denotes wrongdoing/oppression. In the verse the form 'yuzlamūn' conveys the passive sense ('they are wronged').",
+        "root": "ظلم",
+        "lemma": "ظَلَمَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source substring shows the active past form (ظَلَمُوا); the passive-present reading (يُظْلَمُونَ) is an inference from the root/form in the verse and is not explicitly analysed in the provided chunk."
+      }
+    ],
+    "warnings": [
+      "Only a subset of words in the ayah had direct, relevant morphological remarks in the supplied source chunks. Claims are limited to items with exact matching substrings in the sources.",
+      "Some claims (e.g., passive reading for يُظْلَمُونَ) are inferred from the verse form and root because the provided chunks discuss related forms rather than that exact morphological point; such inferences are marked for review."
+    ]
+  },
+  "n_chunks": 12
+}

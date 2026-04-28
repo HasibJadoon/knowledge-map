@@ -1,0 +1,23 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:146",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "الَّذِينَ",
+        "claim_ar": "الَّذِينَ: اسم موصول للجمع المذكر — يدل على الجمع والذكر، وهذه دلالة نحوية/صرفية قد تُفقد أو لا تُنْقَل بدقة في الترجمة.",
+        "claim_en": "The relative pronoun 'الَّذِينَ' is a plural-masculine relative pronoun; its plurality and gender (plural masculine) may be lost or not explicitly rendered in translations.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only claims for words whose exact substring appeared in the provided source_chunks were extracted. Most ayah words did not appear as exact substrings in the supplied chunks, so no morphology claims could be sourced for them from these chunks."
+    ]
+  },
+  "n_chunks": 12
+}

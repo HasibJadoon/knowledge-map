@@ -1,0 +1,60 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:8",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ربانيون نسبة إلى الرب",
+        "claim_ar": "جذر ر ب ب / ربّ يدل على معنى «الرب/المالك/السيد»؛ كلمة رَبَّنَا هي اسم الربّ مع ضمير المتكلم الجمع -نا للدلالة على «ربُّنا».",
+        "claim_en": "The root ر‑ب‑ب (rabba / rabb) denotes 'the Lord/owner/master'; رَبَّنَا is the noun 'our Lord' with the attached possessive pronoun -نا ('our').",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A8"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الزلل هو الانحراف عن الحق",
+        "claim_ar": "جذر ز ي غ (زيغ) يتعلق بمفهوم الانحراف والزلل؛ فعل تُزِغْ في هذه الآية يحمل دلالة الانحراف (تحريف القلوب عن الصراط).",
+        "claim_en": "Root ز‑ي‑غ (z-y-gh) is associated with deviation; تُزِغْ in the verse conveys the notion of turning/being led away (deviation of the hearts).",
+        "root": "زيغ",
+        "lemma": "أَزَاغَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A8"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "الزلل هو الانحراف عن الحق",
+        "claim_ar": "اللامة الصرفية: لِمَصْدَرِ اللِّفْظِ «أَزَاغَ» صيغته سببية (وزن أَفْعَلَ)؛ في الآية تُزِغْ يعطى شعوراً سببياً/تمكينيًا (لا تَجعَل قلوبَنا تنحرف)، وقد يحدث فقدٌ في ترجمة الصوت السببي/التحويلي بين العربية واللغات الأخرى.",
+        "claim_en": "Form nuance: the lemma أَزَاغَ is Form IV (causative, pattern af'ala). In the verse تُزِغْ carries a causative/enablement nuance ('do not let/make our hearts deviate'), a subtlety that can be lost in translation between languages.",
+        "root": "زيغ",
+        "lemma": "أَزَاغَ",
+        "confidence": "medium",
+        "needs_review_reason": "Surface form vs. underlying derived pattern (Form I vs. Form IV causative) can be ambiguous in Qur'anic usage; further classical-morphological check recommended.",
+        "quran_ref": "S3:A8"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قوة القلب",
+        "claim_ar": "جذر ق ل ب (قلب) يدل على القلب كمركز للعزم/المشاعر/الثبات (مجازيا: مركز الميل والدوران)؛ قُلُوبَنَا جمع قلب مع ضمير الملكية -نا «قلوبنا».",
+        "claim_en": "Root ق‑ل‑ب (qalb) denotes 'heart' as the seat of resolve/emotion/steadfastness (and figuratively 'turning/center'); قُلُوبَنَا is the plural 'our hearts' with the possessive -نا.",
+        "root": "قلب",
+        "lemma": "قَلْب",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A8"
+      }
+    ],
+    "warnings": [
+      "Claims were produced only where the provided source chunks contained an exact matching substring to cite. Several words in the ayah (e.g., هَدَيْتَنَا, وَهَبْ, الْوَهَّابُ) had no explicit lemma/derivation discussion in the supplied chunks, so no sourced morphology claims were made for them. Review with additional lexicographic/commentary sources to cover remaining words."
+    ]
+  },
+  "n_chunks": 12
+}

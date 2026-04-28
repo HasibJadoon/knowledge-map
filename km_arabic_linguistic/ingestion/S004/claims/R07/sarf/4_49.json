@@ -1,0 +1,24 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:49",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ظُلْمٍ",
+        "claim_ar": "جذر «ظلم» بمعنى الظلم، الإيذاء أو الاعتداء على الحقوق",
+        "claim_en": "Root 'ظ-ل-م' meaning injustice/wrongdoing — to wrong or oppress; the semantic field of ظلم (injustice, oppression).",
+        "root": "ظلم",
+        "lemma": "ظَلَمَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A49"
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not contain exact occurrences or lexical discussion for most words in the ayah (e.g. يُزَكِّونَ, يُزَكِّي, فَتِيلًا). Only the root/lemma related to 'ظلم' could be substantiated from the chunks (substring 'ظُلْمٍ'). Other morphological claims were not extracted because no matching source_quote_ar substrings were available in the provided chunks."
+    ]
+  },
+  "n_chunks": 12
+}

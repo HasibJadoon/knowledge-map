@@ -1,0 +1,40 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:283",
+  "result": {
+    "claims": [
+      {
+        "word_index": 19,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اللَّهِ",
+        "claim_ar": "اسم الجلالة «اللَّه» مشتق من الجذر اله، دالّ على الإله الواحد.",
+        "claim_en": "The divine name 'Allah' (اللَّه) is derived from the root 'اله' meaning 'deity/god'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A283"
+      },
+      {
+        "word_index": 29,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "(وَاللَّهُ)",
+        "claim_ar": "الواو عاطفة ملصقة بلفظ الجلالة «اللَّه»؛ الاسم نفسه من الجذر اله ويعمل هنا كاسم إلهي معرف.",
+        "claim_en": "The prefixed conjunction 'wa-' attached to the divine name 'Allah' (وَاللَّهُ). The name is from the root 'اله' (divine/god).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "device_branch": "prefix",
+        "device_subtype": "conjunction و",
+        "quran_ref": "S2:A283"
+      }
+    ],
+    "warnings": [
+      "Only a subset of the verse's words had exact matching substrings in the provided source chunks. Claims were therefore created only where a chunk contained an exact substring (e.g. 'اللَّهِ', '(وَاللَّهُ)').",
+      "Many words in the ayah (e.g., كاتِبًا، رِهَانٌ، مَقْبُوضَةٌ، تَكْتُمُوا، آثِمٌ, etc.) had no exact-form match in the source chunks provided, so no morphology claims were extracted for them.",
+      "Diacritic/case differences between the ayah word_text and chunk substrings (e.g. اللَّهَ vs اللَّهِ) may affect substring matching; where only a differing-case form appeared in the chunks, it was used as the source_quote_ar."
+    ]
+  },
+  "n_chunks": 12
+}

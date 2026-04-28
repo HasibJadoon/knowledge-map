@@ -1,0 +1,134 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 12,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 12,
+          "head_word_index": 2,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "ذَلِكَ",
+          "relation_type": "object_indirect",
+          "governor_word_index": 2,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "اسم إشارة مبنيّ في محلّ نصب مفعول به لفعل محذوف تقديره قلت"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "يَعْلَمَ",
+          "relation_type": "predicate",
+          "governor_word_index": 0,
+          "irab_position": "فعل",
+          "irab_case": "منصوب",
+          "note_ar": "مضارع منصوب بأن مضمرة بعد لام التعليل"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "أَنِّي",
+          "relation_type": "object_direct",
+          "governor_word_index": 2,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "المصدر المؤوّل (أن يعلم) في محلّ جرّ متعلّق بالفعل المقدّر"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "لَمْ",
+          "relation_type": "adverb",
+          "governor_word_index": 6,
+          "irab_position": "نفي",
+          "irab_case": "مجزوم",
+          "note_ar": "حرف نفي وجزم وقلب"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "أَخُنْهُ",
+          "relation_type": "predicate",
+          "governor_word_index": 4,
+          "irab_position": "فعل",
+          "irab_case": "مجزوم",
+          "note_ar": "مضارع مجزوم"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "بِالْغَيْبِ",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 5,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "جارّ ومجرور حال من فاعل أخنه أو من مفعوله"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "أَنَّ",
+          "relation_type": "coordinated",
+          "governor_word_index": 3,
+          "irab_position": "حرف",
+          "irab_case": "",
+          "note_ar": "المصدر المؤوّل (أنّى لم أخنه) في محلّ نصب سدّ مسدّ مفعولي يعلم"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "اللّهَ",
+          "relation_type": "subject",
+          "governor_word_index": 10,
+          "irab_position": "اسم",
+          "irab_case": "منصوب",
+          "note_ar": "الله لفظ الجلالة اسم أنّ منصوب"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "لَا",
+          "relation_type": "adverb",
+          "governor_word_index": 10,
+          "irab_position": "نفي",
+          "irab_case": "",
+          "note_ar": "نافية"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "يَهْدِي",
+          "relation_type": "predicate",
+          "governor_word_index": 9,
+          "irab_position": "فعل",
+          "irab_case": "مرفوع",
+          "note_ar": "مضارع مرفوع وعلامة الرفع الضمّة المقدّرة على الياء"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "كَيْدَ",
+          "relation_type": "object_direct",
+          "governor_word_index": 10,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "الفاعل هو (كيد) مفعول به منصوب"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "الخَائِنِينَ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 11,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "مضاف إليه مجرور وعلامة الجرّ الياء"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

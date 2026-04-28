@@ -1,0 +1,90 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وَاذْكُرُوا",
+        "claim_ar": "فعل أمر موجه للجماعة (صيغة الأمر مع واو الجماعة) من الجذر ذَكَرَ",
+        "claim_en": "Imperative addressed to a plural addressee ('remember' / 'mention'), formed from the root ذَكَرَ (with plural/waw marker).",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وهي نعمة الإسلام",
+        "claim_ar": "«نعمة» اسم يدل على الفضل/النعمة؛ هنا محدَّدة بـ«نعمة الإسلام» أي فضل الهداية والإسلام",
+        "claim_en": "The noun 'ni'mah' denotes a blessing/favor; in this context it specifically refers to the blessing of Islam (نعمة الإسلام).",
+        "root": "نعم",
+        "lemma": "نِعْمَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "نِعْمَةَ اللَّهِ",
+        "claim_ar": "اسم الجلالة «اللَّه» (اسم الإله)؛ تقليدياً تربط بالأصل الثلاثي الهـ/ـلـ/ـه",
+        "claim_en": "The proper name 'Allah' (the God); conventionally linked in traditional morphology to the triliteral root اله.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Etymology/derivation of the divine name 'Allah' is treated differently across sources; attribution to root اله is conventional but debated."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "وَمِيثَاقَهُ",
+        "claim_ar": "مِيثَاق على وزن مِفْعَال (اسم يدل على العقد/الرباط/الميثاق) مشتق من جذر وثق",
+        "claim_en": "'mīthāq' is on the pattern mifa'al (مِفْعَال), denoting a covenant/compact derived from the root وثق.",
+        "root": "وثق",
+        "lemma": "مِّيثَٰق",
+        "confidence": "medium",
+        "needs_review_reason": "Assignment to the exact nominal pattern (مِفْعَال) is standard but some analyses treat related forms differently (derivation vs. denominal formation)."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وَاثَقَكُمْ بِهِ",
+        "claim_ar": "فعل على وزن (فاعَلَ) — صيغة III (مُفاعَلَة/فاعلة) من الجذر وثق، بمعنى عاقدكم/وثقكم به",
+        "claim_en": "Verb is Form III (فاعَلَ) 'wāthaqa' (واثَقَ), meaning 'he contracted/pledged you by it' — the Form III (reciprocal/associative) flavor of root وثق.",
+        "root": "وثق",
+        "lemma": "وَاثَقَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "idioms",
+        "source_quote_ar": "سمعنا وأطعنا",
+        "claim_ar": "«سمعنا وأطعنا» عبارة بايعية/التزامية تُستخدم للتعبير عن القبول بالسمع والطاعة (صيغة تعهد وولاء)",
+        "claim_en": "The phrase 'sami'na wa aṭa'nā' functions as a pledge formula: 'we hear and we obey,' expressing acceptance and commitment (often used in pledge/oath contexts).",
+        "root": "سمع",
+        "lemma": "سَمِعَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "سمعنا وأطعنا",
+        "claim_ar": "أَطَعْنَا: فعل ماضٍ متصل بضمير المتكلم الجمع «نا» — من الجذر (طاع/طوع) والاسم المقترن أَطَاعَ",
+        "claim_en": "Perfect (past) verb with 1st-person plural suffix '-nā' meaning 'we obeyed', from the root طاع (lemma أَطَاعَ).",
+        "root": "طوع",
+        "lemma": "أَطَاعَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Claims were produced only for words/phrases that appear as exact substrings in the provided source chunks. Several words in the ayah (e.g. word_index 6, 8, 9, 10, 13–19) did not have matching source substrings in the chunks and therefore no morphology claims were extracted for them.",
+      "Etymological note: the derivation of the divine name 'اللَّه' (claim for word_index 3) is conventionally cited as from root اله but is debated in scholarship; see needs_review_reason for details."
+    ]
+  },
+  "n_chunks": 12
+}

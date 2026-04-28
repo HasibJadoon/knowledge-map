@@ -1,0 +1,87 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:258",
+  "result": {
+    "claims": [
+      {
+        "word_index": 14,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "قَالَ",
+        "claim_ar": "فعل ماضٍ ثلاثي مجرد على وزن فَعَلَ؛ جذر: ق و ل؛ لَمَا (الوزن) يدل على وقوع الفعل في الماضي.",
+        "claim_en": "Past-tense verb (fi‘l māḍī), triliteral basic form on the pattern faʿala; root: q-w-l (قول). The pattern indicates a simple past action.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 20,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "قَالَ",
+        "claim_ar": "فعل ماضٍ ثلاثي مجرد على وزن فَعَلَ؛ جذر: ق و ل.",
+        "claim_en": "Past-tense verb, triliteral basic form on the pattern faʿala; root: q-w-l (قول).",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 24,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "قَالَ",
+        "claim_ar": "فعل ماضٍ ثلاثي مجرد على وزن فَعَلَ؛ جذر: ق و ل.",
+        "claim_en": "Past-tense verb, triliteral basic form on the pattern faʿala; root: q-w-l (قول).",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اللَّهُ",
+        "claim_ar": "اسم عَلَم «اللَّه» دال على الإله/الخالق؛ في التقليد الصرفي يُعطى الجذر التقليدي (اله).",
+        "claim_en": "The proper name 'Allah' meaning God/the Creator; in traditional morphological description the associated root is given as 'اله'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 27,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اللَّهُ",
+        "claim_ar": "اسم عَلَم «اللَّه» دال على الإله/الخالق؛ جذر تقليدي: اله.",
+        "claim_en": "The proper name 'Allah' meaning God/the Creator; traditional root: 'اله'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 39,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "وَاللَّهُ",
+        "claim_ar": "اسم عَلَم «اللَّه» (هنا مرفوع مع الواو العاطفة في المصدر) دال على الإله؛ جذر تقليدي: اله.",
+        "claim_en": "The proper name 'Allah' (here appearing with the coordinating waw) meaning God; traditional root: 'اله'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 38,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "يَكْفُرُونَ",
+        "claim_ar": "جذر: ك ف ر؛ دال على الكفر/إنكار الإيمان أو الجحود (المعنى الصرفي الأساسي لخرج الجذر).",
+        "claim_en": "Root: k-f-r meaning disbelief/denial (the basic lexical sense of the root is to disbelieve/deny).",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

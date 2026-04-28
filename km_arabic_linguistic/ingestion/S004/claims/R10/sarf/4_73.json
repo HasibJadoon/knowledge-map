@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:73",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مِنْ فَضْلِهِ",
+        "claim_ar": "اسم فَضْلٌ (على وزن فَعْل) من جذر فضل، دال على النِعْمَةِ/الفَضلِ الإِلهيّ (بَينَ القسمات الإلهية من العطاء).",
+        "claim_en": "Noun فَضْل (pattern fa'l) from the root فضل meaning 'favor/bounty' — here denotes divine grace or bestowed bounty.",
+        "root": "فضل",
+        "lemma": "فَضْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَاللَّهُ أَعْلَمُ",
+        "claim_ar": "اسم العلم \"اللَّه\" من الجذر اله، دال على المعبود/الإله (اسم إلهي خاص).",
+        "claim_en": "The proper name 'Allah' from the root اله, denoting the God/the one worshipped (a special divine proper name).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "لَيَجْمَعَنَّكُمْ",
+        "claim_ar": "صيغة مضارِع مؤكَّدة مسبوقة بـ\"لَ\" ومقوّاة بـ\"نَّ\" النون المشدّدة (نمَط لَـيَفْعَلَنَّ). معنى الصيغة: تأكيد/ترجيح وقوع الفعل. مثال تقريبي: لَيَقُولَنَّ = لَ + يَقُول + نَّ.",
+        "claim_en": "Present-tense verb form with the prefixed 'لَ' (emphatic/assurance particle) and suffixed emphatic 'نَّ' (pattern l-a-yaF'alanna). The construction gives strong emphasis/assurance that the action will occur. Analogy example in source: لَيَجْمَعَنَّكُمْ; hence لَيَقُولَنَّ follows the same flavour.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source example uses a different verb (لَيَجْمَعَنَّكُمْ) as an analogy to the morphological pattern; confirm direct commentary on لَيَقُولَنَّ in primary exegesis if needed."
+      },
+      {
+        "word_index": 13,
+        "claim_type": "idioms",
+        "source_quote_ar": "ليت اللَّه كتب علينا الجهاد",
+        "claim_ar": "أداة تمني/ندم \"لَيْت\" تفيد التأسّف والتمنّي، وفي تركيب مثل \"يا لَيْتَنِي\" تدل على تمني حدوث حالة أو الانتماء (ندم/حسرة على عدم الوقوع فيها).",
+        "claim_en": "The particle لَيْت expresses wish/regret. In a phrase like 'يا ليتني' it conveys 'I wish / would that I had been...' — a wishful/Regretful idiom.",
+        "root": null,
+        "lemma": "لَيْت",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

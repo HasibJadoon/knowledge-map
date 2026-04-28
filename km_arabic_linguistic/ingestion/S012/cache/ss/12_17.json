@@ -1,0 +1,209 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 2,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 2,
+          "head_word_index": 1,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قالوا",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "قالوا مرّ إعرابها"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "يا",
+          "relation_type": "vocative",
+          "governor_word_index": 1,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "يا أبانا لا محلّ لها اعتراضيّة"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 3,
+      "word_end": 18,
+      "sentence_kind": "conditional",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 3,
+          "word_end": 18,
+          "head_word_index": 17,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 3,
+          "word_ar": "إنّ",
+          "relation_type": "adjective",
+          "governor_word_index": 2,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "إنّ حرف مشبّه بالفعل- ناسخ- و (نا) ضمير في محلّ نصب اسم إنّ"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "نا",
+          "relation_type": "object_direct",
+          "governor_word_index": 3,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "نا ضمير في محلّ نصب اسم إنّ"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "ذهبنا",
+          "relation_type": "predicate",
+          "governor_word_index": 3,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "ذهبنا مثل أوحينا «3»"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "نستبق",
+          "relation_type": "adverbial_manner",
+          "governor_word_index": 5,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "نستبق مضارع مرفوع، والفاعل نحن"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "و",
+          "relation_type": "coordinated",
+          "governor_word_index": 5,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "الواو عاطفة"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "تركنا",
+          "relation_type": "predicate",
+          "governor_word_index": 3,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "تركنا مثل أوحينا «4»"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "يوسف",
+          "relation_type": "object_direct",
+          "governor_word_index": 8,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "يوسف مفعول به منصوب"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "عند",
+          "relation_type": "adverbial_place",
+          "governor_word_index": 8,
+          "irab_position": "ظرف",
+          "irab_case": "منصوب",
+          "note_ar": "عند ظرف منصوب متعلّق ب (تركنا)"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "متاعنا",
+          "relation_type": "object_direct",
+          "governor_word_index": 10,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "متاعنا مضاف إليه مجرور"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "ف",
+          "relation_type": "coordinated",
+          "governor_word_index": 11,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "الفاء عاطفة"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "أكل",
+          "relation_type": "predicate",
+          "governor_word_index": 11,
+          "irab_position": "فعل ماض",
+          "irab_case": "منصوب",
+          "note_ar": "أكل فعل ماض و (الهاء) ضمير مفعول به"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "الهاء",
+          "relation_type": "object_direct",
+          "governor_word_index": 13,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "الهاء ضمير مفعول به"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "الذئب",
+          "relation_type": "subject",
+          "governor_word_index": 13,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "الذئب فاعل مرفوع"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "و",
+          "relation_type": "coordinated",
+          "governor_word_index": 15,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "الواو استئنافيّة"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "ما",
+          "relation_type": "adjective",
+          "governor_word_index": 16,
+          "irab_position": "نافية",
+          "irab_case": "منصوب",
+          "note_ar": "ما نافية عاملة عمل ليس"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "أنت",
+          "relation_type": "object_direct",
+          "governor_word_index": 17,
+          "irab_position": "اسم",
+          "irab_case": "منصوب",
+          "note_ar": "أنت ضمير منفصل مبنيّ في محلّ رفع اسم ما"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

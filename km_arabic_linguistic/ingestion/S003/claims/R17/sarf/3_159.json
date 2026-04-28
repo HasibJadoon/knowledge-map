@@ -1,0 +1,45 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:159",
+  "result": {
+    "claims": [
+      {
+        "word_index": 15,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَلَقَدْ عَفَا اللَّهُ عَنْهُمْ",
+        "claim_ar": "الجذر: عفو — معنى الفعل/الاسم متعلق بالعفو والمسامحة (العفو عن الذنب).",
+        "claim_en": "Root 'عفو' — meaning to pardon/forgive; the verbal/nominal field relates to pardoning or granting pardon for sin.",
+        "root": "عفو",
+        "lemma": "عَفَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 17,
+        "claim_type": "root meaning",
+        "source_quote_ar": "إِنَّ اللَّهَ غَفُورٌ حَلِيمٌ",
+        "claim_ar": "الجذر: غفر — دلالة على مغفرة/ستر الذنوب؛ الاسم 'غفور' يدل على صفة الغفران والستر.",
+        "claim_en": "Root 'غفر' — denotes forgiveness/covering of sins; the adjective 'غفور' expresses the attribute of being forgiving.",
+        "root": "غفر",
+        "lemma": "اسْتَغْفَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "إِنَّ اللَّهَ غَفُورٌ حَلِيمٌ",
+        "claim_ar": "الجذر: اله — اسم العلم 'اللَّه' مشتق من جذر يدل على الألوهية/المعبود، دلالة الاسم على الإله المعبود.",
+        "claim_en": "Root 'اله' — the proper name 'اللَّه' is derived from the root referring to deity/divinity; denotes the God (the object of worship).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "No supporting source substring found in provided chunks for the following word_index values (so no morphology claims were extracted for them): 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30. If you want claims for these, provide source material that contains the exact Arabic word forms or relevant morphological discussion."
+    ]
+  },
+  "n_chunks": 12
+}

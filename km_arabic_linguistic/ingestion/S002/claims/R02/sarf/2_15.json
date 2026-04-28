@@ -1,0 +1,24 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:15",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهُ",
+        "claim_ar": "اسم الله من الجذر «اله» معناه الإِلٰهُ، المعبود، أي ذات يُعبد",
+        "claim_en": "The proper name 'Allah' derives from the root 'اله' meaning 'deity' or 'the one worshipped'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only the token 'اللَّهُ' (word_index 1) could be directly supported with an exact substring from the provided source chunks. The other words in the ayah (indices: 2, 3, 4, 5, 6, 7) have no exact-matching substrings or explicit sarf commentary in the supplied source_chunks, so no morphology claims were extracted for them.",
+      "If you want claims for the other words (e.g. verb pattern for يَسْتَهْزِئُ, causative/derived form for يَمُدُّهُمْ, pattern/wazn for طُغْيَانِهِمْ, verbal nuance for يَعْمَهُونَ), please provide source chunks that contain those exact words or explicit morphological commentary about them."
+    ]
+  },
+  "n_chunks": 12
+}

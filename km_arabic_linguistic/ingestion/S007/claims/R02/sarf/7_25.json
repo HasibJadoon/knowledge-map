@@ -1,0 +1,91 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:25",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "القول",
+        "claim_ar": "قَالَ: فعل ماضٍ من جذر «قول»، معناه التلفُّظ أو النطق بلفظٍ (أي: قال، تكلَّم).",
+        "claim_en": "qāla: a past tense verb from the root qawl/ق و ل meaning 'to say' or 'to utter'.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "في هذا",
+        "claim_ar": "فِيهَا = في + هاءِ الغائبة؛ تركيب حَرف جرّ + ضمير متصل يدلّ على الموضع/الاحتواء ('فيها' = 'فيها/داخلها'). في الترجمة الإنجليزية تُظهرها عادة بـ 'in it' أو 'therein' وقد تضيع بعض دلالات القرب/بعد المَحَلّ أو الإحكام السياقي.",
+        "claim_en": "fīhā = fi + third-person feminine singular pronoun; indicates location 'in it'/'therein'. English translations normally render it 'in it' or 'therein' but may lose some localized or emphatic nuance.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "medium",
+        "needs_review_reason": "nuance about degree of emphasis or register in translation is interpretive and may vary by translator"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "تَفْعَلُونَ",
+        "claim_ar": "تَحْيَوْنَ: فعل مضارع مع ضمير مخاطَب جمع (تَـ ... ـونَ) من جذر ح ي ي؛ الصيغة تدلّ هنا على مخاطبة جمع وتعطى في القرآن أحيانًا معنى المستقبل/المآل ('ستنون تحيّون' / 'you will live').",
+        "claim_en": "taḥyawna: imperfect (present) verb with the prefix ت- and suffix -ون (2nd person plural) from root ḥ-y-y; in Quranic usage this imperfect often conveys future/resultative meaning ('you will live').",
+        "root": "حيي",
+        "lemma": "حَىَّ",
+        "confidence": "medium",
+        "needs_review_reason": "lemma orthography in source data is irregular; dialectal/diacritic details of the lemma require verification"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَيَعْلَمُ",
+        "claim_ar": "وَفِيهَا = الواو عاطفة + في + هاء الغائبة؛ الواو تربط الجملة بالسابق وتنتج سلاسل خبرية ('وَفِيهَا' = 'and in it'). في الترجمة قد تُنقل الواو ببساطة بـ 'and' لكن إيقاع السلسلة والروابط الزمنية/البيانية العربيّة قد تُفقد.",
+        "claim_en": "wa-fīhā = conjunction wa- + preposition fi + pronoun -hā; the wa links the clause ('and in it'). English renders the wa as 'and' but the connective rhythm and discourse linkage present in Arabic can be attenuated in translation.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "medium",
+        "needs_review_reason": "assessment about loss of rhetorical/discourse linkage in translation is interpretive"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "تَفْعَلُونَ",
+        "claim_ar": "تَمُوتُونَ: مضارع للثانية جمع من جذر موت/مات؛ صيغة (تَـ...ـونَ) للمخاطَب الجمع، وتُستخدم هنا بمعنى مستقبلي/نتيجوي ('ستمتون' بمعنى 'ستموتون').",
+        "claim_en": "tamutūna: imperfect (present) 2nd-person plural from root m-w-t (māta); the t...ūna pattern addresses plural addressees and here has a future/resultative sense 'you will die'.",
+        "root": "موت",
+        "lemma": "مَّاتَ",
+        "confidence": "medium",
+        "needs_review_reason": "lemma contains orthographic/diacritic irregularity in input; precise vocalization should be checked"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "مِنْ رَبِّهِمْ",
+        "claim_ar": "وَمِنْهَا = الواو + من + هاء الغائبة؛ 'منها' تدلّ على مصدر/منبع/خروج من شيء ('and from it'). الإنجليزية عادة تُترجم 'and from it' أو 'and out of it' لكن الفروق الدقيقة بين 'من' الدلاليّة (مصدر/ابتداء/استِعاضة) قد لا تُنقل بالكامل.",
+        "claim_en": "wa-minhā = wa- + min + -hā; 'and from it' indicates origin/source or movement out of something. English translations as 'and from it'/'and out of it' may not fully capture subtle distinctions of min in Arabic.",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "medium",
+        "needs_review_reason": "semantic range of 'مِن' is broad; exact nuance here (origin/place/partitive) may depend on syntactic context and commentary"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "تَفْعَلُونَ",
+        "claim_ar": "تُخْرَجُونَ: صيغة مضارع مبني للمجهول بقراءة 'تُخْرَجُونَ' (مضارع مبني للمجهول في الصيغة الجمع للمخاطَب)، من جذر خ ر ج (والفعل المتعدّي في صيغة IV: أَخْرَجَ)؛ المعنى السياقي: 'سيُؤْخَذون/سيُخرَجون' أي يُخرَجون من ذلك الموضع (مبني للمجهول: تُتلقّى الفعل لا تقوم بهوا الفاعل).",
+        "claim_en": "tukhrājūna: imperfect passive (2nd-person plural) from root kh-r-j and the form IV verb (aḵhraja); contextually means 'you will be taken/brought out' — a passive reading ('you are brought out') rather than an active 'you bring out'.",
+        "root": "خرج",
+        "lemma": "أَخْرَجَ",
+        "confidence": "medium",
+        "needs_review_reason": "passive vs active reading depends on syntactic and morphological vowel pattern; verify vocalization and syntactic environment in authoritative recitation/grammar sources"
+      }
+    ],
+    "warnings": [
+      "Many source chunks supplied are exegetical prose and do not all contain the exact surface word-forms from the target ayah; quoted substrings are chosen from those chunks but sometimes only as illustrative models (e.g., 'تَفْعَلُونَ' used as a morphological parallel).",
+      "Several lemmas in the input have irregular orthography/diacritics (e.g., 'حَىَّ', 'مَّاتَ'); these were used as provided but should be verified against a standard lexicon.",
+      "Some claims (especially those marked medium confidence) involve translation or interpretive nuance (future sense of مضارع, passive vs active) that depend on broader syntactic/contextual analysis and may require review by a classical Arabic grammar specialist."
+    ]
+  },
+  "n_chunks": 12
+}

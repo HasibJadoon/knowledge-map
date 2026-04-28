@@ -1,0 +1,45 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:114",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ذكر اللَّه",
+        "claim_ar": "الجذر: ذ-ك-ر. الفعل المُشار إليه يُذْكَرَ مشتق من ذَكَرَ ويعني «يُذكر/يُتَذَكَّر» (أي: يُنسب الذِّكر أو تُحْضَرْ ذكره).",
+        "claim_en": "Root: ذ-ك-ر (dh-k-r) meaning 'to mention / to remember'. يُذْكَرَ is the passive imperfect/masdar-derived sense of ذَكَرَ meaning 'to be mentioned' or 'to be remembered'.",
+        "root": "ذكر",
+        "lemma": "ذَكَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "المساجد",
+        "claim_ar": "المفرد: مَسْجِد (وزن مَفْعَل، اسم مكان من السَّجَدَة/السُّجود). جمع: مَسَاجِد (وزن مَفاعِل). الجذر: س-ج-د.",
+        "claim_en": "Lemma 'مَسْجِد' is a place-noun on the pattern m-f-3-l (مَفْعَل), derived from root س-ج-د 'to prostrate'; the plural 'مَسَاجِد' follows the pattern 'مَفاعِل'.",
+        "root": "سجد",
+        "lemma": "مَسْجِد",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains the surface word 'المساجد' but does not supply an explicit morphological analysis; the pattern assignment is standard Arabic morphology but not directly documented in the supplied excerpts."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ذكر اللَّه",
+        "claim_ar": "اللَّه: اسم علم إلهي. يُربط تقليدياً بجذر (اله) دال على الإلهية/العبادة؛ هنا يعمل كاسم علم مفرد غير منصرف، ويشير إلى الذات الإلهية.",
+        "claim_en": "The name 'اللَّه' is a divine proper name traditionally linked to the root 'اله' (related to 'deity'). As used here it is the proper name of God; translating it simply as 'God' can lose certain Arabic-specific lexical and theological connotations tied to the name.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk shows the usage 'ذكر اللَّه' but does not provide etymological analysis; the claim about root/nuance is based on general lexical knowledge rather than explicit commentary in the provided excerpts."
+      }
+    ],
+    "warnings": [
+      "Some claims (pattern for مَسْجِد and etymological note for اللَّه) are based on general Arabic morphological knowledge; the provided source chunks contain the surface words but do not include explicit morphological analyses for those items. Verify against dedicated sarf/tafsir references if strict source-only evidence is required."
+    ]
+  },
+  "n_chunks": 12
+}

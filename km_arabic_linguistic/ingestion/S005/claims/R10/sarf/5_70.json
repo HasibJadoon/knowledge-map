@@ -1,0 +1,24 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:70",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "لَقَدْ كَفَرَ",
+        "claim_ar": "لَقَدْ: حرف تحقيق وتأكيد (مركب من لام و«قد») يفيد تثبيت وقوع الفعل؛ يضيف قوة تأكيدية قد تُفقد في الترجمة المختصرة.",
+        "claim_en": "The particle la-qad (لَقَدْ) is a verification/emphatic particle (la + qad) that affirms the occurrence of an event; it provides stronger emphasis than a plain 'indeed' and this emphatic nuance can be lost or weakened in some English translations.",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A70"
+      }
+    ],
+    "warnings": [
+      "Only the particle لَقَدْ (word_index 1) was found verbatim in the provided source chunks and could be grounded to a source_quote_ar. Other words in the ayah did not have exact-substring matches in the given chunks, so no morphology claims were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

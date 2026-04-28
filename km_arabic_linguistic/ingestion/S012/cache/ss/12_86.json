@@ -1,0 +1,143 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 13,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 13,
+          "head_word_index": 1,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قال",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "فعل",
+          "irab_case": "مرفوع",
+          "note_ar": "قال فعل ماض، والفاعل هو أي يعقوب"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "إنّما",
+          "relation_type": "coordinated",
+          "governor_word_index": 1,
+          "irab_position": "كافّة",
+          "ir": "",
+          "note_ar": "إنّما كافّة ومكفوفة"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "أشكو",
+          "relation_type": "predicate",
+          "governor_word_index": 1,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "أشكو مضارع مرفوع، وعلامة الرفع الضمّة المقدّرة على الواو"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "بثّي",
+          "relation_type": "object_direct",
+          "governor_word_index": 3,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "بثّي مفعول به منصوب وعلامة النصب الفتحة المقدّرة على ما قبل الياء"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "حزني",
+          "relation_type": "object_direct",
+          "governor_word_index": 3,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "حزني مثل بثّي ومعطوف عليه"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "إلى",
+          "relation_type": "preposition",
+          "governor_word_index": 3,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "إلى الله جارّ ومجرور متعلّق ب (أشكو)"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "اللّه",
+          "relation_type": "object_direct",
+          "governor_word_index": 6,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "اللّه مجرور متعلق ب (إلى)"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "أعلم",
+          "relation_type": "coordinated",
+          "governor_word_index": 1,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "أعلم مثل أشكو، والحركة ظاهرة"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "من",
+          "relation_type": "preposition",
+          "governor_word_index": 8,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "من الله جار ومجرور متعلّق ب (أعلم)"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "اللّه",
+          "relation_type": "object_direct",
+          "governor_word_index": 9,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "اللّه مجرور متعلق ب (من)"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "ما",
+          "relation_type": "object_direct",
+          "governor_word_index": 8,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "ما اسم موصول [[أو نكرة موصوفة ... والجملة بعدها في محلّ نصب نعت.]] مبنيّ في محلّ نصب مفعول به"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "لا",
+          "relation_type": "negation",
+          "governor_word_index": 11,
+          "irab_position": "حرف نفي",
+          "irab_case": "",
+          "note_ar": "لا حرف نفي"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "تعلمون",
+          "relation_type": "object_direct",
+          "governor_word_index": 11,
+          "irab_position": "مفعول به",
+          "irab_case": "مرفوع",
+          "note_ar": "تعلمون مضارع مرفوع.. و (الواو) فاعل"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

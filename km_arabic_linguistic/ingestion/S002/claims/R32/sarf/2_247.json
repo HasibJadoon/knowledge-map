@@ -1,0 +1,65 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:247",
+  "result": {
+    "claims": [
+      {
+        "word_index": 29,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اصْطَفَاهُ",
+        "claim_ar": "اصطفى: فعل من جذر ص ف و بمعنى اختار واصطفى (اختيار تخصيصي)",
+        "claim_en": "The verb اصطفى (root صفو, lemma اصْطَفَىٰ) means 'to choose / to select / to single out (a preferential choosing).'",
+        "root": "صفو",
+        "lemma": "اصْطَفَىٰ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 31,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَزَادَهُ",
+        "claim_ar": "زاد: فعل من جذر ز ي د بمعنى أضافَ أو منحَ زيادةً (أعطاه زيادةً أو زيادةً في النعمة)",
+        "claim_en": "The verb زاد (as in زَادَهُ, root زيد, lemma زَادَ) means 'to increase / to give more / to add (an increase bestowed).'",
+        "root": "زيد",
+        "lemma": "زَادَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 32,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "بَسْطَةً",
+        "claim_ar": "بَسْطَةٌ: اسم من وزن فَعْلَة (فَعْلَةٌ) مشتق من جذر ب س ط للدلالة على السعة/الوسع أو الاتساع/الزيادة في العطاء",
+        "claim_en": "The noun بَسْطَة (from root بسط) is on the pattern fa'lah (فَعْلَة) and conveys extent/expanse or largesse — a sense of breadth/ample provision.",
+        "root": "بسط",
+        "lemma": "بَسْطَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 34,
+        "claim_type": "root meaning",
+        "source_quote_ar": "فِي الْعِلْمِ",
+        "claim_ar": "عِلْم: اسم من جذر ع ل م يدل على المعرفة أو العلم بمختلف معانيه (مقدار العلم أو المدارك المعرفية)",
+        "claim_en": "The noun عِلْم (root علم, lemma عِلْم) means 'knowledge' — the state or content of knowing / learning / science.",
+        "root": "علم",
+        "lemma": "عِلْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 35,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَالْجِسْمِ",
+        "claim_ar": "جِسْم: اسم من جذر ج س م يدل على البدن أو الجسم المادي (الهيئة الجسمية أو البنية البدنية)",
+        "claim_en": "The noun جِسْم (root جسم, lemma جِسْم) means 'body' — the physical body or corporeal frame.",
+        "root": "جسم",
+        "lemma": "جِسْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

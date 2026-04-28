@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:117",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "كَلِمَةُ رَبِّكَ",
+        "claim_ar": "جذر كلمة «رَبّ» ر-ب-ب: يدلّ على المولى/المالك/السيد (المعنى الأساسي «الربّ/المالك»).",
+        "claim_en": "The root of رَبّ is ر-ب-ب, meaning master/owner/lord; the basic sense is 'Lord' or 'master' as applied in رَبِّكَ ('your Lord').",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "السبيل",
+        "claim_ar": "«سَبِيل» على وزن فَعِيل (اسم مصدر/اسم مكان مَجازيّ من الجذر س-ب-ل)؛ المفهوم: طريق/منهج. في الآية ظاهرًا مضافًا مع ضمير (سَبِيلِهِ).",
+        "claim_en": "The noun سَبِيل is on the pattern fa'īl (فَعِيل), derived from root س-ب-ل, meaning 'path/way/method'. In the verse it appears in a genitive construct with a pronominal suffix (سَبِيلِهِ).",
+        "root": "سبل",
+        "lemma": "سَبِيل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only claims for words for which an exact substring was present in the supplied source chunks were produced. Several ayah words (e.g., أَعْلَمُ, يَضِلُّ, بِالْمُهْتَدِينَ) do not appear explicitly in the provided chunks, so no sourced sarf claims were generated for them. Review recommended if sourced support for those words is required.",
+      "Claims are limited to morphology (root meaning, pattern). The supplied source chunks are largely syntactic/exegetical; where the chunk discusses a term semantically rather than its morphology, the claim links the morphological observation to the available substring but may need corroboration from a dedicated sarf source."
+    ]
+  },
+  "n_chunks": 12
+}

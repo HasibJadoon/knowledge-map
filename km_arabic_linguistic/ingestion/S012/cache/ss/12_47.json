@@ -1,0 +1,152 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 14,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 14,
+          "head_word_index": 1,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قال",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "قال: فعل ماض، والفاعل هو أي يوسف"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "تزرعون",
+          "relation_type": "predicate",
+          "governor_word_index": 1,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "تزرعون: مضارع مرفوع وعلامة الرفع ثبوت النون"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "سبع",
+          "relation_type": "adverbial_time",
+          "governor_word_index": 2,
+          "irab_position": "ظرف زمان",
+          "irab_case": "منصوب",
+          "note_ar": "سبع: ظرف زمان منصوب ناب عن الظرف الأصليّ متعلّق ب (تزرعون)"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "سنين",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 3,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "سنين: مضاف إليه مجرور وعلامة الجرّ الياء"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "دأبا",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 2,
+          "irab_position": "مفعول مطلق",
+          "irab_case": "منصوب",
+          "note_ar": "دأبا: مفعول مطلق لفعل محذوف منصوب [[أو مصدر في موضع الحال أي دائبين، أو ذوي دأب.]]"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "ف",
+          "relation_type": "coordinated",
+          "governor_word_index": 5,
+          "irab_position": "عاطفة",
+          "irab_case": "",
+          "note_ar": "الفاء: عاطفة"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "ما",
+          "relation_type": "object_direct",
+          "governor_word_index": 6,
+          "irab_position": "اسم شرط",
+          "irab_case": "منصوب",
+          "note_ar": "ما: اسم شرط جازم مبنيّ في محلّ نصب مفعول به"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "حصدتم",
+          "relation_type": "object_direct",
+          "governor_word_index": 7,
+          "irab_position": "فعل ماض",
+          "irab_case": "منصوب",
+          "note_ar": "حصدتم: فعل ماض مبنيّ على السكون"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "ف",
+          "relation_type": "coordinated",
+          "governor_word_index": 8,
+          "irab_position": "رابطة",
+          "irab_case": "",
+          "note_ar": "الفاء: رابطة لجواب الشرط"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "ذروه",
+          "relation_type": "predicate",
+          "governor_word_index": 9,
+          "irab_position": "فعل أمر",
+          "irab_case": "منصوب",
+          "note_ar": "ذروه: فعل أمر مبنيّ على حذف النون"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "في",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 10,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "في: جارّ ومجرور متعلّق ب (ذروة)"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "سنبلة",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 11,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "سنبلة: مضاف إليه مجرور"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "إلا",
+          "relation_type": "exception",
+          "governor_word_index": 10,
+          "irab_position": "أداة استثناء",
+          "irab_case": "",
+          "note_ar": "إلا: أداة استثناء"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "قليلا",
+          "relation_type": "object_direct",
+          "governor_word_index": 13,
+          "irab_position": "منصوب على الاستثناء",
+          "irab_case": "منصوب",
+          "note_ar": "قليلا: منصوب على الاستثناء من الهاء في (ذروة)"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

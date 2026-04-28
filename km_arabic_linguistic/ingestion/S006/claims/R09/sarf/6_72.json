@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:72",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "إقامة",
+        "claim_ar": "أَقِيمُوا فعل أمر جمع من الفعل الرباعي أَقَامَ (وزن أَفْعَلَ)، بمعنى «أقيموا/أقيموا الشيءَ» أي: ثبتوه أو أقاموه.",
+        "claim_en": "أَقِيمُوا is an imperative plural of the Form IV verb أَقَامَ (pattern أَفْعَلَ), meaning 'establish' or 'make stand'.",
+        "root": "قوم",
+        "lemma": "أَقَامَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains the noun 'إقامة' (masdar) rather than the imperative form 'أَقِيمُوا'; derivational link is assumed but the exact verbal form is not quoted in the sources."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "إقامة",
+        "claim_ar": "الوزن الصرفي: الفعل الرباعي على وزن أَفْعَلَ (أَقَامَ)؛ المصدر المذكور في المصدر 'إقامة' يدل على هذا الوزن.",
+        "claim_en": "Morphological pattern: Form IV (أَفْعَلَ). The noun 'إقامة' (masdar) in the source reflects this Form IV derivation from the root قوم.",
+        "root": "قوم",
+        "lemma": "أَقَامَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source supplies the masdar 'إقامة' rather than an explicit statement of the verb's morphological pattern; pattern assignment is based on standard Arabic derivation."
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "إقامة",
+        "claim_ar": "جذر 'قوم' له معنى أساسي متعلق بـ«القيام، الإقامة، التثبيت»، كما يظهر من اسم المصدر 'إقامة'.",
+        "claim_en": "Root 'قوم' carries the basic sense of 'standing/establishing/setting up', as indicated by the masdar 'إقامة'.",
+        "root": "قوم",
+        "lemma": "أَقَامَ",
+        "confidence": "medium",
+        "needs_review_reason": "Evidence comes from an attested masdar in the commentary rather than an explicit lexical gloss; lexical confirmation from a dedicated lexicon would raise confidence."
+      }
+    ],
+    "warnings": [
+      "Source chunks contained an exact match only for the substring 'إقامة'. Other words from the ayah (وَأَنْ, الصَّلَاةَ, وَاتَّقُوهُ, وَهُوَ, الَّذِي, إِلَيْهِ, تُحْشَرُونَ) had no exact matching substrings in the provided source_chunks, so no morphology claims were extracted for them.",
+      "Claims for أَقِيمُوا rely on the noun 'إقامة' in the commentary; this supports derivational relations but does not quote the exact verbal form or an explicit morphological statement."
+    ]
+  },
+  "n_chunks": 12
+}

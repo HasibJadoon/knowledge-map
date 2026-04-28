@@ -1,0 +1,32 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:63",
+  "result": {
+    "claims": [
+      {
+        "word_index": 8,
+        "claim_type": "idioms",
+        "source_quote_ar": "سَمَّاعُونَ لِلْكَذِبِ أَكَّالُونَ لِلسُّحْتِ",
+        "claim_ar": "«أَكْلِهِمُ السُّحْتَ» جزء من تركيب أكّالون للسحت، أي: أكل الكسب الحرام/آكِلُو السحت",
+        "claim_en": "'Their eating of al-suh't' is part of the idiom 'akkālūn li-s-suḥt' — 'devourers/eaters of unlawful gain' (i.e. those who take bribes or illicit earnings).",
+        "root": "اكل",
+        "lemma": "أَكْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "لِلسُّحْتِ كل ما لا يحل كسبه",
+        "claim_ar": "السُّحْت: كل ما لا يحل كسبه — الكسب الحرام (مثل الرشوة)، ما يترتب عليه العار",
+        "claim_en": "Al-suḥt (السُّحْت): anything not legitimately earned — unlawful/forbidden gain (e.g., bribes); that which brings shame.",
+        "root": "سحت",
+        "lemma": "سُّحْت",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

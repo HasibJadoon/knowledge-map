@@ -1,0 +1,58 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:94",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "فَمَنْ ذَا الَّذِي",
+        "claim_ar": "حرف الشرط فَ مَعْ مَنْ (فَمَنِ) تركيب شرطى: الفاء حرف عطف/تمهيد ومَنْ أداة شرطية، بالمعنى «فمن» = «فَ» + «مَنْ».",
+        "claim_en": "The particle فَمَنِ is the conjunction of fa- + man, forming a conditional meaning 'so whoever' (fa- as linker/introductory particle + man as indefinite conditional).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "تعريض بكذبهم",
+        "claim_ar": "الفعل افْتَرَىٰ يحمل دلالة الافتراء/اختلاق الكذب؛ يستخدم بمدلول اتهامي (افترى على الله كذبًا = اختلق الكذب).",
+        "claim_en": "The verb افْتَرَىٰ carries the sense 'to fabricate/invent (a lie)'; it has an accusatory/forgerive flavour (e.g. 'to attribute/forge falsehood against').",
+        "root": "فري",
+        "lemma": "افْتَرَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided root 'فري' is inconsistent with standard descriptions (commonly associated root would be ف-ت-ر or related); verify canonical root and exact verbal pattern (form) before finalizing."
+      },
+      {
+        "word_index": 4,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "صَدَقَ اللَّهُ",
+        "claim_ar": "اسم العلم 'اللَّه' (اللَّهُ) يدل على الذات الإلهية الخاصة؛ ترجمة لفظية مثل 'God' قد لا تنقل بالكامل مدلولات التوحيد والخصوصية الدلالية للاسم.",
+        "claim_en": "The proper name اللَّه denotes the specific divine Being; an English rendering like 'God' may not fully carry the theological/monotheistic nuance embedded in the Arabic name.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "This is a usage/translation nuance rather than a strictly derivational morphological claim; check whether this fits the allowed sarf extraction scope and verify the supplied root 'اله'."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "root meaning",
+        "source_quote_ar": "تعريض بكذبهم",
+        "claim_ar": "الاسم الْكَذِبَ من جذر ك-ذ-ب دلالته 'الكذب/الافتراء' — ما يُختلق على الناس أو يُقال خلاف الحقيقة.",
+        "claim_en": "The noun الْكَذِبَ comes from the root k-ð-b (ك-ذ-ب) and means 'falsehood / fabrication' (that which is invented or said against the truth).",
+        "root": "كذب",
+        "lemma": "كَذِب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Some supplied root values (e.g., word 2 root 'فري', word 4 root 'اله') appear inconsistent with standard lexica; please verify canonical roots/patterns.",
+      "Source evidence in the provided chunks is commentary (al-Kashshaf) rather than the verse text itself; some claims (notably translation nuances) depend on interpretive commentary rather than explicit morphological description—flag for review if strict sarf-only evidence is required.",
+      "No exact supporting chunk substring was available for certain words (e.g., الظَّالِمُونَ); only claims supported by explicit substrings from the provided source chunks were extracted."
+    ]
+  },
+  "n_chunks": 12
+}

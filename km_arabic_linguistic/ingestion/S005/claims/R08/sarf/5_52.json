@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:52",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "رأوا",
+        "claim_ar": "جذر الكلمة: رءي/رأى ـ المعنى الأساسي 'رأى/أبصر'. كلمة الفعل في الآية 'فَتَرَى' مشتقة من نفس الجذر (فعل مضارع من رأى) وتُظهر معنى الرؤية/الإدراك.",
+        "claim_en": "Root: r-'-y (رأى) meaning 'to see, perceive'. The verb in the ayah 'فَتَرَى' is an imperfect form derived from this root, carrying the sense 'you/one sees/observes'.",
+        "root": "راي",
+        "lemma": "رَءَا",
+        "confidence": "medium",
+        "needs_review_reason": "The source substring 'رأوا' is a past-plural form found in the chunk; it is a different tense/person than the ayah's 'فَتَرَى' (imperfect). Evidence supports the root but uses a different morphological form."
+      },
+      {
+        "word_index": 28,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ندموا",
+        "claim_ar": "جذر الكلمة: ندم ـ المعنى الأساسي 'الندم/الأسف'. صِيغة الآية 'نَادِمِينَ' تحمل معنى الندم (اسم فاعل/صفة من الجذر ندم).",
+        "claim_en": "Root: n-d-m (ندم) meaning 'to regret'. The form in the ayah 'نَادِمِينَ' is an active participle/descriptor derived from this root, meaning 'regretting' or 'feeling regret'.",
+        "root": "ندم",
+        "lemma": "نَٰدِمِين",
+        "confidence": "medium",
+        "needs_review_reason": "The source substring 'ندموا' is a past-plural verb found in the chunk; it differs in form from the ayah's participle 'نَادِمِينَ', so the root-meaning link is clear but the exact lemma/form should be double-checked."
+      }
+    ],
+    "warnings": [
+      "Evidence in the provided source chunks is limited to different morphological forms of the same roots (e.g., 'رأوا' vs 'فَتَرَى', 'ندموا' vs 'نَادِمِينَ'). Many words of the ayah do not appear verbatim in the chunks, so claims are based on root-level matches and have reduced confidence."
+    ]
+  },
+  "n_chunks": 12
+}

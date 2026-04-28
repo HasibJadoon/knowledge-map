@@ -1,0 +1,161 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 15,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 15,
+          "head_word_index": 2,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "و",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": ""
+        },
+        {
+          "word_index": 2,
+          "word_ar": "أُبَرِّئُ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "مضارع",
+          "ir": "",
+          "note_ar": "مضارع مرفوع، والفاعل ضمير مستتر تقديره أنا"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "نَفْسِي",
+          "relation_type": "object_direct",
+          "governor_word_index": 2,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به منصوب وعلامة النصب الفتحة المقدّرة على ما قبل الياء"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "إِنَّ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": ""
+        },
+        {
+          "word_index": 5,
+          "word_ar": "النّفْسَ",
+          "relation_type": "subject",
+          "governor_word_index": 4,
+          "irab_position": "مبتدأ",
+          "irab_case": "منصوب",
+          "note_ar": "اسم إنّ منصوب"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "اللام",
+          "relation_type": "coordinated",
+          "governor_word_index": 4,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": ""
+        },
+        {
+          "word_index": 7,
+          "word_ar": "أمّارَةٌ",
+          "relation_type": "predicate",
+          "governor_word_index": 4,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر إنّ مرفوع"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "بِالسُّوءِ",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 7,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "جارّ ومجرور متعلّق بأمّارة"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "إِلَّا",
+          "relation_type": "adverb",
+          "governor_word_index": 7,
+          "irab_position": "أداة استثناء",
+          "irab_case": "",
+          "note_ar": ""
+        },
+        {
+          "word_index": 10,
+          "word_ar": "ما",
+          "relation_type": "object_direct",
+          "governor_word_index": 9,
+          "irab_position": "اسم موصول",
+          "irab_case": "منصوب",
+          "note_ar": "اسم موصول في محلّ نصب على الاستثناء المتّصل"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "رَحِمَ",
+          "relation_type": "predicate",
+          "governor_word_index": 10,
+          "irab_position": "فعل ماض",
+          "irab_case": "منصوب",
+          "note_ar": "فعل ماض"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "رَبِّي",
+          "relation_type": "subject",
+          "governor_word_index": 11,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "فاعل مرفوع وعلامة الرفع الضمّة المقدّرة على ما قبل الياء"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "إِنَّ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": ""
+        },
+        {
+          "word_index": 14,
+          "word_ar": "غَفُورٌ",
+          "relation_type": "predicate",
+          "governor_word_index": 13,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر إنّ مرفوع"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "رَحِيمٌ",
+          "relation_type": "predicate",
+          "governor_word_index": 13,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر ثان مرفوع"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

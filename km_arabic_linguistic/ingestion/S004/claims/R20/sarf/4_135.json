@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:135",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَبِالْوالِدَيْنِ إِحْساناً",
+        "claim_ar": "جذر «ولد» دالّ على معنى الأب والأم؛ «الوالدين» مثنى مضاف يدل على الوالدين (الأب والأم).",
+        "claim_en": "The root 'ولد' denotes parenthood (father/mother); 'الوالدين' is a dual noun (construct) meaning 'the two parents'.",
+        "root": "ولد",
+        "lemma": "وَالِد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 14,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَبِذِي الْقُرْبى",
+        "claim_ar": "جذر «قرب» دالّ على معنى القرابة؛ «الأقربين» مشتقّ من صيغ المقارنة/التفضيل النسبيّة للدلالة على ذوي القرابة (الأقرباء).",
+        "claim_en": "The root 'قرب' indicates kinship/near-relationship; 'al-aqrabīn' is derived to indicate nearer ones/relatives (those of closer kin).",
+        "root": "قرب",
+        "lemma": "أَقْرَب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 20,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه عزّ وجلَّ",
+        "claim_ar": "جذر مقترن بالشكل «اله» دالّ على الإله؛ «اللَّه» اسم الجلالة المستخدم للدلالة على الإله الواحد في العربية القرآنية.",
+        "claim_en": "The underlying root (alef‑lam‑ha) denotes deity; 'Allah' is the divine proper name used to denote the one God in Qur'anic Arabic.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "الَّذِينَ يَبْخَلُونَ",
+        "claim_ar": "أداة الوصل الجمع «الَّذِينَ» تحمل تحديدًا نحويًا ووظيفة نحوية لا تنقلها دائمًا الترجمة الإنجليزية الحرفية «those who»؛ هنا تُستخدم لربط وصف الفاعلين (اليبخلون).",
+        "claim_en": "The plural relative particle 'alladhīna' carries a grammatical definiteness/function that 'those who' in English does not always convey; here it links and defines the set of actors ('who stingily give').",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source shows usage in context but does not explicitly analyze translation equivalence; the nuance is inferred from usage in the commentary."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided cover some lexical items (e.g., والوالدين، ذي القربى، اللَّه، الَّذِينَ) but do not discuss many other words from S4:A135. No direct source evidence was available in the supplied chunks for items such as بِالْقِسْطِ, قَوَّامِينَ, تَتَّبِعُوا, تَعْدِلُوا, تَلْوُوا, تُعْرِضُوا, etc.; claims for those were therefore not made.",
+      "All claims are limited to morphology/lexical sense as requested; i'rab and balagha were intentionally not addressed."
+    ]
+  },
+  "n_chunks": 12
+}

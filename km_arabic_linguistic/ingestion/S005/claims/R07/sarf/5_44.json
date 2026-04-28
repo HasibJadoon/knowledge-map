@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:44",
+  "result": {
+    "claims": [
+      {
+        "word_index": 10,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ",
+        "claim_ar": "اسم موصول جمع مذكر على صيغة «الَّذِينَ»، يتألف من «الَّذِي» مع علامة جمع «-ين».",
+        "claim_en": "Relative pronoun (masculine plural), formed from 'الَّذِي' with the plural suffix '-ين'.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 26,
+        "claim_type": "root meaning",
+        "source_quote_ar": "النَّاسَ",
+        "claim_ar": "اسم جامع يدل على الناس (جَمْع عام)، والجذر المعطى «نوس» مدرج هنا كما ورد في المدخل.",
+        "claim_en": "Noun (collective/plural) meaning 'people'. The provided root is 'نوس'.",
+        "root": "نوس",
+        "lemma": "نَّاس",
+        "confidence": "needs_review",
+        "needs_review_reason": "The provided root 'نوس' is non-standard for نَاس; verify the correct lexical root (commonly rendered as ن-و-ع / ن-س-و /alyzed as 'ن-و-س' is suspicious) against authoritative lexica."
+      }
+    ],
+    "warnings": [
+      "Only words that occur exactly (as substrings) in the provided source_chunks were analyzed: extracted matches: «الَّذِينَ» and «النَّاسَ». Other ayah words did not have exact substring matches in the supplied sources, so no morphology claims were made for them."
+    ]
+  },
+  "n_chunks": 12
+}

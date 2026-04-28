@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:7",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "للرجال",
+        "claim_ar": "رِجَال: جمع تكسير من رَجُل على وزن فِعَال",
+        "claim_en": "rijāl: a broken plural (collective plural) of rajuul/rajul 'man', following the broken-plural pattern fīʿāl (فِعَال).",
+        "root": "رجل",
+        "lemma": "رِجَال",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "للرجال",
+        "claim_ar": "الجذر ر-ج-ل يدل دلالاتٍ بما يتعلق بـ«ذكر/رجل»",
+        "claim_en": "The root ر-ج-ل denotes the semantic field related to 'male / man'.",
+        "root": "رجل",
+        "lemma": "رِجَال",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "النِّساءِ",
+        "claim_ar": "نِسَاء: جمع تكسير من امْرَأَة على وزن فِعَال",
+        "claim_en": "nisāʾ: a broken plural of imraʾa(t) 'woman', on the broken-plural pattern fīʿāl (فِعَال).",
+        "root": "نسو",
+        "lemma": "نِسَآء",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "النِّساءِ",
+        "claim_ar": "الجذر ن-س-و (كما ورد في بيانات الإدخال) مرتبط بكلمة نِسَاء ودلالتها الأساسية: «نساء/أنوثة»",
+        "claim_en": "The root n-s-w (as given in the input) underlies nisāʾ 'women' and conveys the basic sense of 'women/femininity'.",
+        "root": "نسو",
+        "lemma": "نِسَآء",
+        "confidence": "medium",
+        "needs_review_reason": "the canonical root for اِمرَأَة/نِسَاء is often represented with hamza (ن-س-ء); input gives ن-س-و — verify orthographic/root analysis."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

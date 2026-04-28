@@ -1,0 +1,120 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:26",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "ويريد الله فعل مضارع وفاعل وليبين",
+        "claim_ar": "فعل مضارع (يُرِيدُ) بمعنى الإرادة/القصد",
+        "claim_en": "Imperfect (present) verb (yurīdu) expressing volition/intention; active voice with explicit subject (Allah).",
+        "root": "رود",
+        "lemma": "أَرَادَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "والله مبتدأ وعليم خبر أول",
+        "claim_ar": "اسم الله: مشتق من الجذر «اله» بمعنى الإله/الرب",
+        "claim_en": "The proper name Allah (God); related to the root 'اله' denoting deity/God.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The etymological relation of the proper name الله to the triliteral root اله is traditional but treated differently in some philological analyses."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وليبين: اللام زائدة ولكنها أعطيت حكم لام التعليل",
+        "claim_ar": "الفعل لِيُبَيِّنَ: مسبوق بـ«اللام» (li-) التي أعطيت حكم لام التعليل/الابتداء بالغاية، والفعل مضارع منصوب للـأن/لام التعليل في دلالة المقصود",
+        "claim_en": "The verb li-yubayyin(a) is prefixed by the particle li- (لام) given the force of a purpose/causal lam; the verb appears in the subjunctive (to express intended purpose).",
+        "root": "بين",
+        "lemma": "بَيَّنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "وليبين: اللام زائدة ولكنها أعطيت حكم لام التعليل",
+        "claim_ar": "وزن الفعل «بَيَّنَ»: صيغة فعّـ (الوزن الفعّال/فَعَّلَ) — صيغة مضعفة في الوسط (الوزن الثاني).",
+        "claim_en": "Pattern/wazn: b ayy a n (bayyana) is Form II (فَعَّلَ) — a doubled/middle-letter intensified pattern.",
+        "root": "بين",
+        "lemma": "بَيَّنَ",
+        "confidence": "medium",
+        "needs_review_reason": "Pattern identification is standard (Form II), but orthographic/morphophonemic descriptions vary by terminology; review if specific labeling conventions differ."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "ويهديكم عطف على يبين والكاف مفعول به",
+        "claim_ar": "الواو عاطفة + فعل مضارع «يَهْدِيَ» مع الضمير المتصل «كم» كَـمفعول به",
+        "claim_en": "Prefixed conjunction waw (and) + imperfect verb yahdī with attached object pronoun -kum (you) serving as its object.",
+        "root": "هدي",
+        "lemma": "هَدَى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "وسنن مفعول به ثان",
+        "claim_ar": "«سُنَنَ» جمع «سُنَّة» — جمع (سُنَن) يدل على الجمع عن «سُنَّة»",
+        "claim_en": "sunan is the plural of sunna (سُنَّة); here it functions as a plural noun (the plural form 'sunan').",
+        "root": "سنن",
+        "lemma": "سُنَّة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ومن قبلكم جار ومجرور متعلقان بمحذوف صلة الموصول",
+        "claim_ar": "«قَبْلِكُمْ»: من الجذر «قبل» بمعنى من السابقين/من الذين كانوا قبلكم",
+        "claim_en": "qablikum is from the root q-b-l meaning 'before' or 'previous'; here 'from those before you / those of earlier times'.",
+        "root": "قبل",
+        "lemma": "قَبْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "ويتوب عطف على «يبين»",
+        "claim_ar": "واو عاطفة + فعل مضارع «يَتُوبَ» (على ما يظهر هنا معناه أن يتوب الله عليهم) متعلق بمعنى العطف على يبين/ويهدي",
+        "claim_en": "Waw conjunction + imperfect verb yatūba (to repent/turn in God's mercy); here it is coordinated with the preceding verbs (yubayyin, yahdī) — imperfect verb with subjunctive/indicative force as per coordination.",
+        "root": "توب",
+        "lemma": "تَابَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "والله مبتدأ وعليم خبر أول وحكيم خبر ثان",
+        "claim_ar": "«عَلِيمٌ» وزن صِفة «فَعِيل» مشتق من الجذر «علم» بمعنى العليم/العارف",
+        "claim_en": "ʿAlīm is in the adjective pattern faʿīl (فعيل), derived from the root ʿ-l-m meaning 'knowing' — an intensive adjective 'All-Knowing'.",
+        "root": "علم",
+        "lemma": "عَلِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 14,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "والله مبتدأ وعليم خبر أول وحكيم خبر ثان",
+        "claim_ar": "«حَكِيمٌ» وزن صِفة «فَعِيل» مشتق من الجذر «حكم» بمعنى الحكيم/الحكامة",
+        "claim_en": "Ḥakīm is the adjective in the faʿīl (فعيل) pattern from the root ḥ-k-m meaning 'wise' or 'One who gives judgment' — 'All-Wise'.",
+        "root": "حكم",
+        "lemma": "حَكِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

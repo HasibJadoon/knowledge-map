@@ -1,0 +1,38 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:172",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ مِنْ قَبْلِهِمْ",
+        "claim_ar": "الَّذِينَ: اسم موصول بصيغة الجمع المذکر (صيغة جمع مذكر من الَّذِي)، مشتق من الَّذِي ويستخدم للموصول في الجمع.",
+        "claim_en": "al-ladhīna: the relative pronoun in the plural-masculine form derived from al-ladhī; used as the plural relative pronoun.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the phrase but discusses syntax (i'rab); explicit sarf-oriented description (wazn derivation) is inferred rather than stated in the chunk, so verify with a dedicated morphology source.",
+        "quran_ref": "S3:A172"
+      },
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بَلى مَنْ أَوْفى بِعَهْدِهِ وَاتَّقى",
+        "claim_ar": "الجذر و-ق-ي يدل على معنى التَّقوى والخوف والحذر من الله؛ الفعل اتَّقى (من أصل وقي) يحمل دلالة التقوى واتِّقاء (الخوف/الوقاية)، وهنا الفعل اتَّقَوْا (انطباق مع الصورة الزمنية والضميرية في الآية).",
+        "claim_en": "Root w-q-y conveys the sense of piety/fearing/guarding (against wrongdoing). The verb attaqā (from root w-q-y) denotes being conscious/pious/fearing God; in the verse the verb appears as واتقوا (attaqaw) with the same root meaning.",
+        "root": "وقي",
+        "lemma": "اتَّقَىٰ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A172"
+      }
+    ],
+    "warnings": [
+      "Only limited source-chunk evidence matched the words of this ayah. Several words in the ayah (e.g., اسْتَجَابُوا, أَصَابَهُمُ, الْقَرْحُ, أَحْسَنُوا, أَجْرٌ, عَظِيمٌ) do not appear in the provided source chunks, so no sarf claims were extracted for them.",
+      "For word 1 the source chunk contains the phrase in a syntactic discussion; the plural-masculine characterization is inferred (sarf claim) rather than explicitly explained in the chunk—recommend verifying with a dedicated morphology reference.",
+      "For word 13 the provided chunk shows the lemma/form اتَّقى in prose. The ayah form is واتَّقَوْا (past + 3rd-person plural suffix); the source quotation is the base verb اتَّقى — the morphological relation is clear but the exact surface form in the chunk differs (no plural suffix in that exact substring)."
+    ]
+  },
+  "n_chunks": 12
+}

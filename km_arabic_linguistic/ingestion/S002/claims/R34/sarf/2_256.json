@@ -1,0 +1,34 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:256",
+  "result": {
+    "claims": [
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مَنْ آمَنَ",
+        "claim_ar": "الجذر: أ م ن — دلالة الجذر: التصديق والإيمان",
+        "claim_en": "Root: أ م ن (amn) — denotes 'to believe, to have faith'.",
+        "root": "امن",
+        "lemma": "آمَنَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A256"
+      },
+      {
+        "word_index": 13,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ",
+        "claim_ar": "وزن الفعل: أَفْعَلَ (مثال: آمَنَ)، والمصدر المرتبط: إِيمَان",
+        "claim_en": "Pattern: Form IV (أَفْعَلَ) — the verb 'آمَنَ' (present 'يُؤْمِنُ'); related noun: 'īmān' (faith).",
+        "root": "امن",
+        "lemma": "آمَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source shows occurrences (الَّذِينَ يُؤْمِنُونَ) and related noun (الإيمان) but does not explicitly name the morphological pattern; the pattern is inferred from the verb form.",
+        "quran_ref": "S2:A256"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

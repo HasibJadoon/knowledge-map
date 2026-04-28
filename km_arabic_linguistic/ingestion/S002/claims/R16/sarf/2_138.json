@@ -1,0 +1,76 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:138",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "(صبغة) مصدر هيئة من صبغ الثلاثي، وزنه فعلة بكسر الفاء وسكون العين.",
+        "claim_ar": "وزن صِبْغَة: فعلة (مصدر هيئة من صبغ).",
+        "claim_en": "Wazn/pattern: 'فعلة' — a verbal-noun (masdar-hay'ah) pattern from the triliteral root صبغ.",
+        "root": "صبغ",
+        "lemma": "صِبْغَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "المراد بها هنا الدين وسمّي صبغة لظهور أثره على معتنقه.",
+        "claim_ar": "المعنى المقصود هنا: صبغة = الدين/الإيمان (سميَتْ صبغة لظهور أثره على معتنقِه).",
+        "claim_en": "Meaning in context: 'صِبْغَة' denotes 'religion/faith' — called 'dye' because of the visible effect it leaves on the adherent.",
+        "root": "صبغ",
+        "lemma": "صِبْغَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "(صبغة) مصدر هيئة من صبغ الثلاثي، وزنه فعلة بكسر الفاء وسكون العين.",
+        "claim_ar": "وزن صِبْغَة (المذكورة هنا مرفوع/منصوب/مرفقة بالحركات): فعلة (مصدر هيئة من صبغ).",
+        "claim_en": "Wazn/pattern (for this occurrence of صِبْغَة): 'فعلة' — the verbal-noun (masdar-hay'ah) pattern from the root صبغ.",
+        "root": "صبغ",
+        "lemma": "صِبْغَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "المراد بها هنا الدين وسمّي صبغة لظهور أثره على معتنقه.",
+        "claim_ar": "المعنى السياقي: صبغة = الدين/الإيمان (دلالة دلالية أكثر منها حرفية).",
+        "claim_en": "Contextual meaning: 'صِبْغَة' = 'religion/faith' (a semantic reading rather than literal 'dye').",
+        "root": "صبغ",
+        "lemma": "صِبْغَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "(أحسن) ، اسم تفضيل من حسن الثلاثيّ وزنه أفعل.",
+        "claim_ar": "أحسن: اسم تفضيل من حسن، وزنه أفعل.",
+        "claim_en": "Form: 'أحسن' is an ism tafḍīl (elative/ comparative) from the triliteral root حسن, pattern 'أفعل'.",
+        "root": "حسن",
+        "lemma": "أَحْسَن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "(عابدون) ، جمع عابد، اسم فاعل من عبد الثلاثيّ وزنه فاعل.",
+        "claim_ar": "عَابِدُونَ: جمع عابد، اسم فاعل من عبد، وزنه فاعل.",
+        "claim_en": "Pattern: 'عَابِدُونَ' is the plural of 'عابد' — an active-participle (ism fā‘il) from the triliteral root عبد, pattern 'فاعل'.",
+        "root": "عبد",
+        "lemma": "عَابِد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

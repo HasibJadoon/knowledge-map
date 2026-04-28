@@ -57,7 +57,7 @@ QDRANT_PATHS = {
     "irab":    LAYER_DIRS["irab"]    / "data/data/qdrant_storage",
     "balagha": LAYER_DIRS["balagha"] / "data/data/qdrant_storage",
 }
-SPINE_DB = BASE / "_pipeline/sarf/kmaps-sarf/data/raw/spine/spine.sqlite"
+SPINE_DB = BASE / "spine.sqlite"
 
 OLLAMA_URL  = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434")
 EMBED_MODEL = os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text")

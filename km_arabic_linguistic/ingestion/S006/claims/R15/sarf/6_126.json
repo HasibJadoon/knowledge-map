@@ -1,0 +1,45 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:126",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَهَذا",
+        "claim_ar": "«وَهَذا» اسم إشارة (هَٰذَا) يدل على التعيين/القرب: التأكيد التأشيري قد يضيع في ترجمة مختصرة إلى \"this\" بالإنجليزية.",
+        "claim_en": "\"وَهَذا\" is the demonstrative (hādhā) indicating identification/near deixis; the emphatic deixis can be lost in a terse translation like \"this.\"",
+        "root": null,
+        "lemma": "هَٰذَا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "فصلنا",
+        "claim_ar": "الفعل «فَصَّلْنَا» على وزن فعلّ (فَعَّلَ) — صيغة مثبّطة/مكثِّفة/تفسيرية (الوزن الثاني) تدل على التكرار أو التعميق: «فصلّنا» بمعنى «وضحنا بالتفصيل/فرقنا وبيّنا».",
+        "claim_en": "The verb «فَصَّلْنَا» is on the Form II pattern (fa''ala) — an intensive/causative flavour indicating emphasis/iteration: 'we made (it) detailed / we explained in detail.'",
+        "root": "فصل",
+        "lemma": "فَصَّلَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "آيات",
+        "claim_ar": "«الْآيَاتِ» (مفردها آية) تحمل دلالة لغوية على «العلامات/الدلالات/الآيات» وليس مجرد تقسيم نصي؛ ترجمتها كـ \"verses\" قد تفقد بُعدَها المعنوي كـ \"signs/proofs.\"",
+        "claim_en": "The noun «الْآيَاتِ» (sing. āyah) carries the sense 'signs/indications/proofs' — translating it simply as 'verses' can lose the semantic nuance of 'signs/proofs.'",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only exact substrings found for 'وَهَذا', 'فصلنا', and 'آيات' in the provided source_chunks. Other words in the ayah lacked exact matching substrings in the supplied chunks, so no morphology claims were extracted for them."
+    ]
+  },
+  "n_chunks": 12
+}

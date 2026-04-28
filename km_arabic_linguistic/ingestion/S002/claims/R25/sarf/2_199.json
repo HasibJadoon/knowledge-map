@@ -1,0 +1,68 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:199",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "idiom",
+        "source_quote_ar": "ثُمَّ أَنْتُمْ هؤُلاءِ",
+        "claim_ar": "ثُمَّ ظرف/أداة تعقيب تدل على الترتيب والتغيير الزمني/الحالِي (ثمّ بعد ذلك/ثمّ إذ تغيرت الصفة).",
+        "claim_en": "ثُمَّ is a sequential particle 'then', marking a subsequent action or a change of state/description.",
+        "root": null,
+        "lemma": "ثُمّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الرَّحْمَنُ الرَّحِيمُ",
+        "claim_ar": "رَحِيمٌ على وزن فعيل (فَعِيل)، وهو وزنٍ دالّ على ثبوت الصفة واستمراريتها أو كثرتها في ذات الموصوف.",
+        "claim_en": "rāḥīm is on the pattern fa'īl (فعيل), a pattern that often denotes a stable or continuous attribute (here: enduring/ habitual mercy).",
+        "root": "رحم",
+        "lemma": "رَّحِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بِرَحْمَتِهِ",
+        "claim_ar": "جذر (ر-ح-م) دالّ على الرحمة والشفقة والرأفة؛ الاشتقاقات تدلّ على الفعل بالرحمة أو الانتفاع بها.",
+        "claim_en": "The root r-ḥ-m denotes mercy/compassion; derived forms express merciful action or the quality of being merciful.",
+        "root": "رحم",
+        "lemma": "رَحِيم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قال محمود رحمه اللَّه:",
+        "claim_ar": "اللَّه اسم ذات إلهية (من حيث الدلالة على الإله الواحد)؛ يُعامل في الصرف كاسم علم خاص للدلالة على المعبود.",
+        "claim_en": "Allāh is the proper name denoting the (one) God; morphologically treated as a proper noun referring to the divine entity.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قال محمود رحمه اللَّه:",
+        "claim_ar": "اللَّه (تكرار اللفظة في الآية) نفس الاعتبار الصرفي والدلالي: اسم علم للدلالة على الإله الواحد.",
+        "claim_en": "The repeated occurrence of 'Allāh' in the verse carries the same morphological/semantic status: a proper name for the one God.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "لم تُعثر المقتطفات المصدرية المُقدَّمة على عروض صرفية/شرح مباشر لكلمات الآية: أَفِيضُوا (كلمة/جذر في النص: فيض)، حَيْثُ، أَفَاضَ، النَّاسُ، وَاسْتَغْفِرُوا، إِنَّ، غَفُورٌ. لذلك لم تُستخلَص مطالب صرفية موثقة لهذه الكلمات من نفس المقتطفات.",
+      "المطالب المقدَّمة مقتصرة على الأشكال والجذور التي وُجدت نصوصاً عنها صراحة في المقاطع المزودة (ثُمَّ، اللَّه، رَحِيمٌ، صيغتان لـاللَّه). للمطالب الأخرى يلزم إضافة مصادر بها نصوص تذكر الكلمة صراحة."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,68 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:12",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم العلم لله، يُرْجَعُ في بعض المصادر إلى الجذر (اله) بمعنى الإله أو المعبود.",
+        "claim_en": "The proper name 'Allah' (the Divine Name). Traditionally associated with the root 'اله' conveying the notion of deity/worshipped one.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Attribution of a triliteral root (اله) to the divine name is traditional but philologically debated; semantic derivation is not uniformly agreed."
+      },
+      {
+        "word_index": 25,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم الجلالة 'اللَّه'، مورّد في المصادر بصيغة الجذر (اله) للدلالة على المعبود.",
+        "claim_en": "The name of God 'Allah'. Often linked to the root 'اله' indicating 'deity' or 'object of worship'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Same note: deriving a concrete triliteral root for the divine name is traditional but contested; review recommended for theological/philological precision."
+      },
+      {
+        "word_index": 18,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الصلاة",
+        "claim_ar": "اسم من الجذر ص ل و، على وزن (فِعْلَة/صَلَاة) ويشير إلى فعل العبادة المنسوب للصلاة.",
+        "claim_en": "The noun 'as-salaah' from root s-l-w (صلو). Pattern corresponds to the noun form 'fi'lah' (صَلَاة) meaning the ritual prayer/worship act.",
+        "root": "صلو",
+        "lemma": "صَلَوٰة",
+        "confidence": "high",
+        "needs_review_reason": "None; standard morphological analysis of the noun 'صلاة'."
+      },
+      {
+        "word_index": 42,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "فَقَدْ",
+        "claim_ar": "حرف مركب (فَ + قَدْ) يُستخدم للدلالة على النتيجة أو الاثبات: 'فَقَدْ' يحمل مدلول النتيجة/التحقّق الذي قد لا يظهر في ترجمة بسيطة.",
+        "claim_en": "The particle 'fa-qad' (فَقَدْ = fa + qad) marks consequence/realization; it conveys a nuance of result/confirmation that may be lost in simple translations.",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "high",
+        "needs_review_reason": "None; standard functional nuance of قَدْ combined with فَ."
+      },
+      {
+        "word_index": 38,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "كفر",
+        "claim_ar": "فعل من الجذر ك ف ر، على وزن الفعل الثلاثي المجرد (فَعَلَ)؛ دالّ على إنكار/كفر (الحمولة الدلالية الأساسية للفعل الأولي).",
+        "claim_en": "Verb from root k-f-r in basic triliteral Form I (fa'ala). Basic semantic flavor: to disbelieve/deny. (Form I carries the core meaning.)",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "high",
+        "needs_review_reason": "None; standard identification as Form I verb with core meaning 'to disbelieve/deny'."
+      }
+    ],
+    "warnings": [
+      "The attribution of a triliteral root (اله) to the divine name 'اللَّه' is traditional but philologically debated; treat those claims as medium confidence.",
+      "Source substrings were taken from the provided commentary chunks; not every ayah word had an exact matching substring in the chunks, so claims are only given where a chunk contained a matching substring."
+    ]
+  },
+  "n_chunks": 12
+}

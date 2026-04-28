@@ -1,0 +1,170 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 16,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 16,
+          "head_word_index": 1,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قال",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "قال فعل ماض، والفاعل هو أي يوسف"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "ربّ",
+          "relation_type": "subject",
+          "governor_word_index": 1,
+          "irab_position": "فاعل",
+          "irab_case": "منصوب",
+          "note_ar": "ربّ منادى مضاف منصوب وعلامة النصب الفتحة المقدّرة على ما قبل الياء المحذوفة للتخفيف"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "السِّجْنُ",
+          "relation_type": "subject",
+          "governor_word_index": 1,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "السجن مبتدأ مرفوع"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "أَحَبُّ",
+          "relation_type": "predicate",
+          "governor_word_index": 3,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "أحبّ خبر مرفوع"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "إِلَيَّ",
+          "relation_type": "adjective",
+          "governor_word_index": 4,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "إلى ضمير في محل جر متعلّق بأحبّ"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "مِمَّا",
+          "relation_type": "adjective",
+          "governor_word_index": 4,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "من حرف جر، وما اسم موصول مبني في محل جر متعلّق بأحبّ"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "يَدْعُونَنِي",
+          "relation_type": "object",
+          "governor_word_index": 4,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "يدعونني مفعول به منصوب"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "إِلَيْهِ",
+          "relation_type": "adjective",
+          "governor_word_index": 7,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "إليه مثل إليّ متعلّق بيدعون"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "وَإِلَّا",
+          "relation_type": "adverb",
+          "governor_word_index": 1,
+          "irab_position": "عطف",
+          "irab_case": "",
+          "note_ar": "الواو عاطفة"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "تَصْرِفْ",
+          "relation_type": "predicate",
+          "governor_word_index": 1,
+          "irab_position": "فعل",
+          "irab_case": "مجزوم",
+          "note_ar": "تصرف مضارع مجزوم"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "عَنِّي",
+          "relation_type": "object",
+          "governor_word_index": 10,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "عنّي مثل إليّ متعلّق بتصرف"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "كَيْدَهُنَّ",
+          "relation_type": "object",
+          "governor_word_index": 10,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "كيدهنّ مفعول به منصوب"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "أَصْبُ",
+          "relation_type": "predicate",
+          "governor_word_index": 1,
+          "irab_position": "فعل",
+          "irab_case": "مجزوم",
+          "note_ar": "أصب مضارع مجزوم جواب الشرط"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "إِلَيْهِنَّ",
+          "relation_type": "object",
+          "governor_word_index": 13,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "إليهنّ مثل إليّ متعلّق بأصب"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "وَأَكُنْ",
+          "relation_type": "coordinated",
+          "governor_word_index": 13,
+          "irab_position": "فعل",
+          "irab_case": "مجزوم",
+          "note_ar": "أكن مضارع ناقص مجزوم معطوف على أصب"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "مِنَ",
+          "relation_type": "preposition",
+          "governor_word_index": 15,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "من الجاهلين جار ومجرور متعلّق بمحذوف خبر أكن"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

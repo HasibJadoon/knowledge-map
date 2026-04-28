@@ -1,0 +1,43 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:45",
+  "result": {
+    "claims": [
+      {
+        "word_index": 25,
+        "claim_type": "verb_form",
+        "source_quote_ar": "حكم",
+        "claim_ar": "فعل مضارع (يَحْكُمْ) من الجذر حَكَمَ، باب مجرد (فعل) بمعنى «يحكم/يفصل في»",
+        "claim_en": "Present (imperfect) verb y- (يَحْكُمْ) from the root حَكَمَ (ḥ-k-m). Form I (basic) meaning 'to judge, to rule/decide'.",
+        "root": "حكم",
+        "lemma": "حَكَمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 28,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم علم معطوف على الجذر 'اله' ومعنى الاسم: الإله/ربّ الكون (اللَّه)",
+        "claim_en": "Proper name 'Allah' with underlying root 'اله' meaning 'God/Deity, the Lord'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 31,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "ظالِمَةٌ",
+        "claim_ar": "من الجذر ظلم؛ وزن فاعل ظَالِم (جمع: ظَالِمُونَ)، معنى الكلمة: «المعتدون/الظالمون»",
+        "claim_en": "Derived from root ظ-ل-م (ẓ-l-m). Active-participant pattern ظَالِم (plural ظَالِمُونَ) meaning 'one who wrongs; oppressor'.",
+        "root": "ظلم",
+        "lemma": "ظَالِم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:135",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وَمَنْ يَفْعَلْ ذلِكَ",
+        "claim_ar": "الفعل من جذر فعل؛ صيغة الفعل في الآية (فَعَلُوا) هي الفعل الماضي (فَعَلَ) مع وا جماعة دلالة على جمع الغائب (فَعَلُوا).",
+        "claim_en": "Root فعل (faʿala). The form in the verse (فَعَلُوا) is the perfect (past) verb فَعَلَ with the plural suffix -وا marking 3rd-person masculine plural.",
+        "root": "فعل",
+        "lemma": "فَعَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "the quoted source substring shows the imperfect form يَفْعَلْ rather than the perfect فَعَلُوا; the past-form claim is an inference from the shared root and regular paradigms."
+      },
+      {
+        "word_index": 23,
+        "claim_type": "root meaning",
+        "source_quote_ar": "يَعْلَمُ ما فِي السَّماواتِ وَما فِي الْأَرْضِ",
+        "claim_ar": "الجذر علم يدل على معنى «المعرفة/العلْم»؛ الفعل المضارع يَعْلَمُونَ مشتق منه ويدل على حالة المعرفة أو العلم.",
+        "claim_en": "Root علم (ʿ-l-m) denotes 'knowledge/knowing'; the imperfect verb يَعْلَمُونَ is derived from this root and denotes the state or action of knowing.",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "اللَّهُ عَلى كُلِّ شَيْءٍ قَدِيرٌ",
+        "claim_ar": "اللَّه اسم علم خاص بالذات الإلهية؛ عند الترجمة يفقد أحياناً بعدُ الدلالة التوحيدية والخصوصية التي يحملها الأصل العربي (لا يقرأ كـ'إله' عام).",
+        "claim_en": "اللَّه is a proper name for the Divine Being; in translation it can lose some of its specific monotheistic/name nuance (it is not merely the common noun 'a god' but the specific Name).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only claims for words backed by exact substrings in the provided source chunks were extracted. Many words in the verse had no matching substring in the chunks, so no morphology claims were made for them (e.g., فَاسْتَغْفَرُوا, ذَكَرُوا, فَاحِشَةً, ذُنُوبِهِمْ, يُصِرُّوا, أَنْفُسَهُمْ, etc.).",
+      "One claim (word_index 3) is inferred across verb aspects: the source quote shows imperfect يَفْعَلْ while the ayah has perfect فَعَلُوا; the temporal/aspect inference was made from root/paradigm and is marked for review."
+    ]
+  },
+  "n_chunks": 12
+}

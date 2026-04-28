@@ -1,0 +1,74 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:123",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "اليوم",
+        "claim_ar": "اسم من جذر ي-و-م بمعنى «يومٌ/حَيَاةٌ زمنية»؛ هنا ـبِوَزْنٍ اِسْمِيٍّ بسيط (اسم مفرد نكرة منصوب: يَوْمًا)",
+        "claim_en": "Noun from the root ي-و-م meaning 'day' (a temporal period). Morphologically a simple noun (singular indefinite, yawm-an, accusative adverbial/hatf).",
+        "root": "يوم",
+        "lemma": "يَوْم",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A123"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "قبل",
+        "claim_ar": "الجذر ق-ب-ل: من معانيه القبول والاستقبال؛ في المركب يُستخدم بمعنى «يُقْبَلُ» = «يُتَقَبَّلُ/يُؤخَذُ» (إخبار عن قبول عمل أو صدقة).",
+        "claim_en": "Root ق-ب-ل carries meanings of 'to accept/receive'. In this context (يُقْبَلُ) it means 'is accepted (from it)', i.e. 'to be taken/accepted'.",
+        "root": "قبل",
+        "lemma": "يَقْبَلُ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A123"
+      },
+      {
+        "word_index": 10,
+        "claim_type": "verb_form",
+        "source_quote_ar": "قبل",
+        "claim_ar": "فعل مضارع مبني للمجهول (يُقْبَلُ) من الوزن الصرفي للفعل المجرد (الفعل I) للدلالة على التحوّل: «يُقبل» = «يُتَقَبَّل»، أي صيغة مبالغة مرفوعة مبنية للمجهول هنا.",
+        "claim_en": "Present (imperfect) passive verb (مجهول) يُقْبَلُ — the passive of Form I verb from root ق-ب-ل, meaning 'is accepted/received'.",
+        "root": "قبل",
+        "lemma": "يَقْبَلُ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A123"
+      },
+      {
+        "word_index": 18,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "نصروا",
+        "claim_ar": "الجذر ن-ص-ر: معناه النصر/المساعدة/التأييد. الكلمة من نفس الجذر تشير إلى الفعل المتعلق بمساعدة أو نصرٍ لشخص أو جماعة.",
+        "claim_en": "Root ن-ص-ر denotes 'help/victory/assistance'. Words from this root relate to aiding or granting victory/support.",
+        "root": "نصر",
+        "lemma": "نَصَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A123"
+      },
+      {
+        "word_index": 18,
+        "claim_type": "verb_form",
+        "source_quote_ar": "نصروا",
+        "claim_ar": "يُنصَرُونَ: مضارع مبني للمجهول (يُنْصَرُ) بصيغة الجمع للمذكر (ـونَ)؛ صيغة الفعل المجرد (الفعل I) في مبني للمجهول للدلالة على التعرّض للنصرة (يُنصرونَ = يُعطون نصرًا/يُمكَّنون).",
+        "claim_en": "يُنصَرُونَ is an imperfect (present) passive verb (Form I passive) with plural masculine ending -ونَ: 'they are helped / they are given victory'.",
+        "root": "نصر",
+        "lemma": "نَصَرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A123"
+      }
+    ],
+    "warnings": [
+      "No usable exact substring matching the remaining ayah words' lemmas/roots (words 1,3,4,5,6,7,8,9,11,12,13,14,15,16,17) was found in the provided source_chunks; therefore no morphology claims were extracted for those words.",
+      "The source_quote_ar fields are short substrings taken from the provided commentary chunks that contain the cited root/word-form; in some cases the chunk does not comment on the exact morphological point named here but contains the same root/word as a nearest-match evidence snippet.",
+      "Only morphology items (root meaning and verb-form identification) were extracted per instructions; i'rab, semantics beyond root/shape, and rhetorical notes were intentionally omitted."
+    ]
+  },
+  "n_chunks": 12
+}

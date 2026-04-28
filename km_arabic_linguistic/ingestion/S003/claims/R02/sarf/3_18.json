@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:18",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّه",
+        "claim_ar": "اسم الجلالة من الجذر «اله» دال على الإله الواحد.",
+        "claim_en": "The divine name Allāh, from the root 'اله', meaning the one God (the deity).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "(إِلهٍ إِلَّا اللَّهُ)",
+        "claim_ar": "تركيب «إِلَهٍ ... إِلَّا» يفيد حصرًا واستغراقًا (لا إله حقًا سوى الله) — فهْـمُ الحصر قد يُفقد في بعض الترجمات البسيطة.",
+        "claim_en": "The construction 'إِلهٍ ... إِلَّا' conveys exclusivity/exhaustiveness (i.e., 'no true deity except Allah'); this force of exhaustive negation can be lost or weakened in some translations.",
+        "root": "اله",
+        "lemma": "إِلَٰه",
+        "confidence": "medium",
+        "needs_review_reason": "Source discusses the specific construction with مَن/مِنْ in a slightly different context; applying its note on exhaustion to the 'لَا ... إِلَّا' formula is an informed inference."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "(إِلهٍ إِلَّا اللَّهُ)",
+        "claim_ar": "«إِلَّا» هنا أداة استثناء تقييدي/حصرية تفيد إثبات الاستثناء بعد النفي (أي: لا إله إلا هو).",
+        "claim_en": "The particle 'إِلَّا' functions as an exception marker indicating exclusive affirmation after negation (i.e., 'there is no god except Him').",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الملائكة",
+        "claim_ar": "«مَلَائِكَة» جمع تكسير للسِّيغة المفردة مَلَك (من الجذر «ملك») — يتكوّن الجمع بتغيّر حركات داخلية وإدخال همزة، أي جمع غير قياسي (جمع تكسير).",
+        "claim_en": "The noun 'مَلَائِكَة' is a broken plural (collective irregular plural) of the singular 'مَلَك' (root m-l-k). The plural is formed via internal vowel alternation and insertion of a hamza — i.e., it is a non-regular (broken) plural.",
+        "root": "ملك",
+        "lemma": "مَلَك",
+        "confidence": "medium",
+        "needs_review_reason": "I avoid asserting a single exact broken-plural template label (e.g., مَفَاعِيل) because broken-plural classification can vary by analysis; the chunk attests the lemma/usage but not an explicit template name."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,21 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:107",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "رَحْمَةً",
+        "claim_ar": "الجذر رحم: معنى الكلمة هنا الرَّحمة/الشفقة ونطاقها يشمل الرحمة كنعمة ورحمة من الله",
+        "claim_en": "Root 'رحم' (from lemma رَحْمَة): meaning 'mercy/compassion'; semantic range includes mercy as a blessing from God.",
+        "root": "رحم",
+        "lemma": "رَحْمَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

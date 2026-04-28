@@ -1,0 +1,69 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:20",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ",
+        "claim_ar": "الَّذِينَ: اسم موصول جمع مذكر — صيغة الجمع من «الَّذِي» وتستخدم للإشارة إلى الأشخاص.",
+        "claim_en": "Relative pronoun 'alladhina' — the masculine plural form of 'alladhi', used to refer to people (plural relative pronoun).",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الكتاب",
+        "claim_ar": "الجذر: ك ت ب — «كتاب» اسم على وزنٍ يدل على المُؤَلَّف المكتوب، والجذر يدل على فعل الكتابة.",
+        "claim_en": "Root 'k-t-b' — noun 'kitab' (book), derived from the writing root; denotes a written work.",
+        "root": "كتب",
+        "lemma": "كِتَاب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "يُؤْمِنُونَ",
+        "claim_ar": "الجذر: ء م ن — معنى الفعل: الإيمان، التصديق.",
+        "claim_en": "Root 'ء-m-n' (amn) — meaning: to believe, to have faith, to accept as true.",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "يُؤْمِنُونَ",
+        "claim_ar": "وزن المضارع الجمعي: يُفْعِلُونَ — هنا الشكل المضارعي الثلاثي المجرد للفعل (صيغة الفعل المجرد، المضارع الغائب جمع مذكر).",
+        "claim_en": "Imperfect (present) plural pattern 'yu- -uuna' — here the Form I imperfect third-person masculine plural of a triliteral verb (يُؤْمِنُونَ corresponds to the يُفْعِلُونَ pattern for Form I).",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "يُؤْمِنُونَ",
+        "claim_ar": "طبيعة الفعل: فعل حالة نفسية / معنوي (يدل على حالة الإيمان والتصديق أكثر منه فعلاً ماديًا تَحْرِيكِيًا).",
+        "claim_en": "Stative/psychological verb — expresses a mental state (belief/faith) rather than a physical/causative action; typically intransitive in sense.",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "Classification as 'stative/psychological' is a semantic-label choice and may be debated by some analysts."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not contain exact substrings for many words of the verse. Claims were only made where a matching substring appeared in the chunks.",
+      "No reliable source substring found in the provided chunks for words with indices: 2, 4, 5, 6, 7, 8, 9, 10, 11, 12. (Words 1, 3, and 13 had matching substrings in the chunks.)",
+      "Some source substrings in the chunks may differ in diacriticization or immediately adjacent particles (e.g. 'وَالَّذِينَ يُؤْمِنُونَ' was used for locating 'الَّذِينَ'). If you require claims for all words, please provide source chunks that include those exact word-forms as substrings."
+    ]
+  },
+  "n_chunks": 12
+}

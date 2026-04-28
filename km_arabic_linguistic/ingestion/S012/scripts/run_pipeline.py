@@ -32,7 +32,7 @@ from pathlib import Path
 BASE       = Path(__file__).resolve().parents[2]       # ingestion/
 SURAH_DIR  = Path(__file__).resolve().parents[1]       # S012/
 RUKU_DB    = BASE / "../quran-metadata-ruku.sqlite"
-SPINE_DB   = BASE / "_pipeline/sarf/kmaps-sarf/data/raw/spine/spine.sqlite"
+SPINE_DB   = BASE / "spine.sqlite"
 TAFSIRS    = BASE / "../Tafsirs"
 
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://127.0.0.1:11434")

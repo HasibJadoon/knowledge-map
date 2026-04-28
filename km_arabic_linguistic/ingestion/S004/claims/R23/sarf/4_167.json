@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:167",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهِ",
+        "claim_ar": "اسم علم لله من أصل (اله) بمعنى الإله، يُستخدم للتفخيم والتنفير عن استخدام اسم مشتق عادي.",
+        "claim_en": "Proper name of God (Allah). Derived from the root اله meaning 'deity/God'; here functions as the divine proper name.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "ومن يكسب",
+        "claim_ar": "فعل ماضٍ مجرد على وزن فعل (فَعَلَ) محفوف بعلامة واو جماعة: صيغة تامة تفيد وقوع الفعل بالنسبة لفاعل جمع مذكر (كَفَرُوا = فعل ماضٍ + واو الجماعة).",
+        "claim_en": "Perfect (past) basic verb on the fa'ala (فَعَلَ) pattern with the 3rd-person masculine plural suffix -وا (e.g. كَفَرُوا = 'they disbelieved').",
+        "root": "كفر",
+        "lemma": "كَفَرَ",
+        "confidence": "medium",
+        "needs_review_reason": "The cited source substring discusses a different verb (يكسب); the verb-form inference is based on standard Arabic morphology and the surface form كَفَرُوا in the ayah. Recommend checking a sarf dictionary or canonical Tajwīd/reading notes for corroboration."
+      }
+    ],
+    "warnings": [
+      "Many words from the ayah (e.g., صَدُّوا, سَبِيلِ, ضَلُّوا, ضَلَالًا, بَعِيدًا) do not appear explicitly in the provided source chunks, so no direct chunk quote could be given for claims about them. Claims above are limited to items for which a matching substring was found or for which a high-confidence general morphological inference could be made.",
+      "Some claims (notably the verb-form claim for كَفَرُوا) are inferred from general Arabic morphology and the word form in the input rather than from an explicit analysis in the provided Zamakhshari chunks; those claims are marked with reduced confidence and a needs_review_reason."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,37 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:89",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "إِلَّا",
+        "claim_ar": "حرف استثناء/حصر؛ يفيد الاستبعاد أو الحصر، وقد يحمل نغمة تأكيدية في بعض السياقات (قريب من «سوى/فقط» في الدلالة السياقية).",
+        "claim_en": "Exception particle ('illa') expressing exclusion or restriction. It can also carry an emphatic/exclusive nuance (close to 'except' / 'only'), a nuance sometimes lost in simple translations.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A89"
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ",
+        "claim_ar": "اسم موصول (الَّذِي) بصيغة جمع مذكر: «الَّذِينَ»؛ يعمل كأداة وصل أو كصفة للعائد (أي: الذين/أولئك الذين).",
+        "claim_en": "Relative pronoun 'alladhina' — the plural masculine form of 'alladhi'. Function: relative determiner meaning 'those who'.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A89"
+      }
+    ],
+    "warnings": [
+      "Only words that appear as exact substrings in the provided source chunks were claimed. Many ayah words (e.g., تَابُوا, أَصْلَحُوا, بَعْدِ, ذَلِكَ, اللَّهَ, غَفُورٌ, رَحِيمٌ) do not occur verbatim in the given chunks, so no morphology claims were made for them.",
+      "source_quote_ar values are required to match exactly a substring from the provided chunks; this limited which words could be analyzed with a cited source."
+    ]
+  },
+  "n_chunks": 12
+}

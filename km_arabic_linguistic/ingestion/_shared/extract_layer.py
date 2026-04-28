@@ -34,9 +34,9 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parents[1]   # ingestion/
 
 LAYER_DIRS = {
-    "sarf":    BASE / "صرف/kmaps-sarf",
-    "irab":    BASE / "اعراب/kmaps-irab",
-    "balagha": BASE / "بلاغة/kmaps-balagha",
+    "sarf":    BASE / "_pipeline/sarf/kmaps-sarf",
+    "irab":    BASE / "_pipeline/irab/kmaps-irab",
+    "balagha": BASE / "_pipeline/balagha/kmaps-balagha",
 }
 LAYER_COLLECTIONS = {
     "sarf":    "kmaps_sarf_source_chunks",
@@ -45,7 +45,7 @@ LAYER_COLLECTIONS = {
 }
 
 # spine.sqlite lives in sarf folder (shared across layers)
-SPINE_DB = LAYER_DIRS["sarf"] / "data/raw/spine/spine.sqlite"
+SPINE_DB = BASE / "spine.sqlite"
 
 # Qdrant: each layer keeps its collection in its own qdrant_storage
 # (sarf → data/qdrant_storage, irab/balagha → data/data/qdrant_storage)

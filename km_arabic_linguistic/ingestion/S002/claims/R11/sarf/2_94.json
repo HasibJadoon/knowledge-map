@@ -1,0 +1,36 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:94",
+  "result": {
+    "claims": [
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "إيمانا خالصا",
+        "claim_ar": "خَالِصَةً: صفة مشتقة من الجذر خ-ل-ص (خلص) بمعنى «نقي/خالص، غير مخلوط». الشكل الصرفي هنا (خَالِصَة) هو مؤنث صفة على وزن فاعل/فاعلة المشتق من الخَلَص/الخُلُص الدالّ على التنقية/الإخلاص.",
+        "claim_en": "خَالِصَةً: adjective derived from root خ-ل-ص (khlṣ) meaning 'pure/unsullied, sincere'. The form خَالِصَة is the feminine adjectival/participial pattern (faːʿila) denoting purity/earnestness.",
+        "root": "خلص",
+        "lemma": "خَالِصَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A94"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "في الآخرة",
+        "claim_ar": "الْآخِرَةُ (جذر: أ-خ-ر): دلالة على الزمن/المكان البعدي/الآخرة (الدار الآتية بعد الحياة الدنيا). عند النقل إلى لغات أخرى يجب المحافظة على الدلالة الدينية/الاسكاتولوجية (\"the Hereafter\"/\"the afterlife\") لأن مجرد «later» قد يفقد دلالة المكان/الجزاء الأخروي.",
+        "claim_en": "الْآخِرَةُ (root: أ-خ-ر): denotes the subsequent time/place of existence (the Hereafter/afterlife). When translating, render as 'the Hereafter' or 'the afterlife' to preserve the eschatological sense; a neutral rendering like 'later' risks losing that theological nuance.",
+        "root": "اخر",
+        "lemma": "آخِر",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A94"
+      }
+    ],
+    "warnings": [
+      "Only claims extracted where the provided source chunks contained an explicit discussion or attestation (substrings used as source_quote_ar). Many words in the verse lack a corresponding substring in the supplied chunks, so no morphological claims were made for them. Words without supporting chunk substrings: (1) قُلْ, (2) إِنْ (first), (3) كَانَتْ, (4) لَكُمُ, (5) الدَّارُ, (7) عِنْدَ, (8) اللَّهِ, (10) مِنْ, (11) دُونِ, (12) النَّاسِ, (13) فَتَمَنَّوُا, (14) الْمَوْتَ, (15) إِنْ (second), (16) كُنْتُمْ, (17) صَادِقِينَ. If you provide source-chunk substrings (or other authoritative lexical references) that mention these words, additional morphology claims can be extracted."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,32 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:26",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قال",
+        "claim_ar": "فعل ماضٍ ثلاثي مجرد على وزن فَعَلَ، فعل تام دال على وقوع الحدث (قَالَ).",
+        "claim_en": "Perfect (past) triliteral verb on the basic pattern fa'ala (قَالَ), denoting a completed action; root: قول.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "حُرُمٌ محرمون، جمع حرام",
+        "claim_ar": "اسم مفعول صناعي على وزن مُفَعَّل/مُفَعَّلَة (المؤنّث مُحَرَّمَة) من فعل حَرَّمَ (وزن فعّل)، بمعنى 'ممنوع/محظور'.",
+        "claim_en": "Passive participle (ism maf'ul) on the pattern mufa‘‘al (feminine مُحَرَّمَة) derived from the form II verb حَرَّمَ (to make forbidden); meaning 'forbidden/prohibited'.",
+        "root": "حرم",
+        "lemma": "مُحَرَّمَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

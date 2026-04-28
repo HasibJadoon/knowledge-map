@@ -1,0 +1,65 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:110",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قُلُوبِكُمْ",
+        "claim_ar": "الجذر قلب دال على معنى 'القلب' (مركز العاطفة والإدراك).",
+        "claim_en": "Root 'قلب' meaning 'heart' — the center of feeling/understanding.",
+        "root": "قلب",
+        "lemma": "قَلَّبُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قُلُوبِكُمْ",
+        "claim_ar": "الفعل قَلَّبَ (وزنه فَعَّلَ) هو صيغة مزيدة (الوزن الثانى) دالة على التسبب أو الإحداث (أي: إحداث 'قَلب' أو تحويل الحال).",
+        "claim_en": "The verb qallaaba (قَلَّبَ) is Form II (fa''ala), an augmented triliteral pattern that typically conveys causative/intensive meaning — 'to cause to turn/transform'.",
+        "root": "قلب",
+        "lemma": "قَلَّبُ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided commentary chunks include the root (قُلُوبِكُمْ) but do not explicitly discuss the verbal form/weight; the Form II identification is standard morphological knowledge not directly argued in the supplied excerpts."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "أَبْصارَكُمْ",
+        "claim_ar": "الجذر بصر دال على 'البصر' (القدرة على رؤية/الرؤية الحسية).",
+        "claim_en": "Root 'بصر' meaning 'sight' (the faculty of seeing).",
+        "root": "بصر",
+        "lemma": "بَصَر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَذَكِّرْ بِهِ أى بالقرآن",
+        "claim_ar": "الهِمزة المركبة 'بِهِ' هنا تركيب الباء مع ضمير يعود إلى القرآن — أي: 'بِهِ' = 'بالقرآن'. (يجدر ملاحظة أن ترجمة حرفية 'with it' قد تخفي الإحالة المحددة إلى القرآن).",
+        "claim_en": "The preposition+pronoun 'bihi' here refers specifically to the Qur'an — i.e. 'bihi' = 'regarding the Qur'an'. A literal 'with it' translation can obscure this specific reference.",
+        "root": null,
+        "lemma": "بِهِ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root meaning",
+        "source_quote_ar": "معنى «ذرهم» اعرض عنهم",
+        "claim_ar": "الجذر وذر/الفعل يَذَرُ هنا بمعنى 'أعرض عنهم' — اتركهم ولا تبالِ بتكذيبهم. (دلالة دلالية/صرفية على معنى 'الترك/التغاضي').",
+        "claim_en": "The root/waza of ذر (yadharu) here means 'turn away from them' or 'leave them' — i.e. ignore them and do not be concerned with their denial.",
+        "root": "وذر",
+        "lemma": "يَذَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,32 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:118",
+  "result": {
+    "claims": [
+      {
+        "word_index": 27,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الآياتِ",
+        "claim_ar": "الْآيَاتِ: جمع آية؛ اسم يدل على العلامات/البينات/الآيات.",
+        "claim_en": "The word 'الآيات' is the plural of 'آية' (root: ا-و-ي), meaning 'signs', 'evidences', or 'verses'.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 27,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "مِنَ الْآياتِ",
+        "claim_ar": "مِنَ الْآياتِ — قد تُفهم هنا كـ«خبر/دلائل» وليس حصراً كآياتٍ قرآنية؛ السياق يذكر (مِنَ الْآياتِ خبر) أي أن «الآيات» تحمل معنى الدلالة أو الخبر.",
+        "claim_en": "Nuance: 'الآيات' here can function as 'signs/evidences' or even 'news' (khabar) in context, not only as Quranic verses — a potential translation-loss if rendered only as 'verses'.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

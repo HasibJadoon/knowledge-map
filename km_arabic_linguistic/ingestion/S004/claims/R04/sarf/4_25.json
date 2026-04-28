@@ -1,0 +1,25 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:25",
+  "result": {
+    "claims": [
+      {
+        "word_index": 39,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الْفَواحِشَ",
+        "claim_ar": "بِفَاحِشَةٍ",
+        "claim_en": "The root ف-ح-ش (f-ḥ-sh) denotes obscene/indecent acts; فَاحِشَة here refers to a grave immoral/indecent sexual act (an act of licentiousness).",
+        "root": "فحش",
+        "lemma": "فَاحِشَة",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S4:A25"
+      }
+    ],
+    "warnings": [
+      "Only one clear morphological support was found in the provided source chunks (the substring 'الْفَواحِشَ' in AL:CHUNK:5edc0ca0a90a09b7d622823c). Many ayah words (e.g. مُحْصَنَاتٍ, أُجُورَهُنَّ, فَانْكِحُوهُنَّ, etc.) do not appear as exact substrings in the supplied chunks, so additional morphology claims could not be substantiated from these sources.",
+      "Source_quote_ar values are exact substrings taken from the provided chunks; in some cases the chunk form (e.g. الْفَواحِشَ) is a different inflection/derivative of the ayah word (بِفَاحِشَةٍ) but was used because it is the exact available substring in the sources."
+    ]
+  },
+  "n_chunks": 12
+}

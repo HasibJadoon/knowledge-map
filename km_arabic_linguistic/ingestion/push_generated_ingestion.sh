@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 TAFSIR_OUT="$ROOT_DIR/km_arabic_linguistic/ingestion/tafsir/output"
-SARF_OUT="$ROOT_DIR/km_arabic_linguistic/ingestion/صرف/output"
+SARF_OUT="$ROOT_DIR/km_arabic_linguistic/ingestion/_pipeline/sarf/output"
 
 if [[ -z "${CLOUDFLARE_API_TOKEN:-}" ]]; then
   echo "CLOUDFLARE_API_TOKEN is required for remote D1 writes." >&2

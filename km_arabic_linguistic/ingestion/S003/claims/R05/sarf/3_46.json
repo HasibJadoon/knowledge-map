@@ -1,0 +1,36 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:46",
+  "result": {
+    "claims": [
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الْباقِياتُ الصَّالِحاتُ",
+        "claim_ar": "من الجذر ص ل ح: الصَّالِحِينَ جمع اسم فَاعِل يدل على أهل الخير والاستقامة",
+        "claim_en": "From the root ص ل ح: الصَّالِحِينَ is the plural of the active-participle-derived adjective meaning 'the righteous' or 'those who do good'.",
+        "root": "صلح",
+        "lemma": "صَٰلِح",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الْباقِياتُ الصَّالِحاتُ",
+        "claim_ar": "اسم فاعل على وزن فَاعِل (صَالِح)؛ الصِّيغَة تَدلُّ على الفاعلية أو الثبات في الصِّفة",
+        "claim_en": "Pattern: active-participle pattern fāʿil (فَاعِل) as in صَالِح; the form denotes someone possessing the quality (righteous), and the plural denotes those possessing it.",
+        "root": "صلح",
+        "lemma": "صَٰلِح",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Source chunks provided contain an explicit discussion of \"الْباقِياتُ الصَّالِحاتُ\" (used above) but do not contain exact substrings for other ayah words such as \"وَيُكَلِّمُ\", \"النَّاسَ\", \"الْمَهْدِ\", or \"وَكَهْلَاً\". Therefore no grounded morphological claims were extracted for those words.",
+      "The supplied word metadata includes a suspicious root for word_index 2 (\"نوس\") which does not match the expected root of 'النَّاسَ' (should be ن-و-س is unlikely). No claim was made about that item due to lack of supporting source evidence in the chunks.",
+      "Only morphology-related claims (root meaning and pattern) were extracted. No i'rāb or balāgha claims were produced, per instructions."
+    ]
+  },
+  "n_chunks": 12
+}

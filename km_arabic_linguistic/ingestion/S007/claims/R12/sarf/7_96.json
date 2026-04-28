@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:96",
+  "result": {
+    "claims": [
+      {
+        "word_index": 3,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "أهل العربية",
+        "claim_ar": "أَهْل: اسم جمع يدل على أهل/ناس أو سكان موضع (أهلِ الـقَرْيَةِ = سكانها)",
+        "claim_en": "The lemma أَهْل (from root اهل) means 'people' or 'people of a place' (e.g., the inhabitants of a village).",
+        "root": "اهل",
+        "lemma": "أَهْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "translation_nuance",
+        "source_quote_ar": "حَقَّتْ عَلَيْهِمْ كَلِمَتُ رَبِّكَ",
+        "claim_ar": "عَلَيْهِمْ = عَلَى (حرف جر) + ضمير هم؛ دلالة تركيبية بأن الحكم/القول مَطْبُوق/مَحْكوم عَلَيْهِمْ («علىهم» بمعنى مطبق عليهم).",
+        "claim_en": "عَلَيْهِمْ is the preposition عَلَى plus the clitic pronoun -هم, meaning 'upon them' or 'applied to them' (i.e., the decree/statement is established/applies to them).",
+        "root": null,
+        "lemma": "عَلَىٰ",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "translation_nuance",
+        "source_quote_ar": "الطَّيِّباتِ مِنَ الرِّزْقِ",
+        "claim_ar": "مِنَ: حرف جر يدل على الانتماء/المصدر أو الجزئية ('من' بمعنى 'من بين/من ضمن/من مصدر').",
+        "claim_en": "مِنَ is the preposition 'min' indicating source/partitive ('from', 'of', denoting part of or origin).",
+        "root": null,
+        "lemma": "مِن",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "translation_nuance",
+        "source_quote_ar": "على ما فعل ويقول له",
+        "claim_ar": "بِمَا = بِـ (حرف) + ما (اسم موصول/مستعمل للقرينة)؛ ما هنا تعمل كاسم موصول/موصولية/أداة تعليقية كما في «على ما فعل»",
+        "claim_en": "بِمَا is بِ (preposition) + ما (the relative/indeed particle); ما here functions as a relative/nominal particle as in the phrase 'على ما فعل' ('concerning what he did' / 'for what he did').",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only words for which an exact substring match was found in the provided source chunks were extracted. Many lemmas/roots in the verse do not have a directly matching substring in the supplied chunks, so no claim was produced for them.",
+      "Claims are limited to morphology/lexical nuance (root meaning and prepositional/particle nuances) as found in the supplied commentary excerpts; syntactic i'rāb or rhetorical (balāgha) notes were intentionally not included."
+    ]
+  },
+  "n_chunks": 12
+}

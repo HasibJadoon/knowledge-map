@@ -1,0 +1,58 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:223",
+  "result": {
+    "claims": [
+      {
+        "word_index": 16,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "إن الذين آمنوا",
+        "claim_ar": "جذر الكلمة: أ م ن - معناه الأساسي «الإيمان/التصديق والاطمئنان»",
+        "claim_en": "Root 'أ م ن' (amn) meaning core sense 'to believe, have faith / to be secure/assured'.",
+        "root": "امن",
+        "lemma": "مُؤْمِن",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A223"
+      },
+      {
+        "word_index": 16,
+        "claim_type": "wazn",
+        "source_quote_ar": "إن الذين آمنوا",
+        "claim_ar": "الوزن الاشتقاقي: اسم الفاعل على وزن مُفْعِل → (مُؤْمِن) مشتق من الفعل الثلاثي أمن",
+        "claim_en": "Derivational pattern: active participle pattern (muf'il) → 'mu'min' formed from the triliteral verb 'amna'.",
+        "root": "امن",
+        "lemma": "مُؤْمِن",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A223"
+      },
+      {
+        "word_index": 15,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "وَبَشِّرِ",
+        "claim_ar": "جذر الكلمة: ب ش ر - المعنى الأساسي «يبشّر/يُخْبِر بالبشرى» أي «يُعلن البشرى أو يَنعِم بخبر سار»",
+        "claim_en": "Root 'ب ش ر' (b-sh-r) meaning 'to give good news / to announce glad tidings'.",
+        "root": "بشر",
+        "lemma": "بُشِّرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A223"
+      },
+      {
+        "word_index": 15,
+        "claim_type": "verb_form",
+        "source_quote_ar": "وَبَشِّرِ",
+        "claim_ar": "الصيغة الصرفية: فعل أمر (أمر موجه بالمباشرة) من الفعل الثلاثي بشر — صيغة أمْر «بَشِّر» بمعنى «أعط البشرى/بَشِّرْ»",
+        "claim_en": "Morphological form: imperative (amr) of the triliteral verb 'bashara' — 'bashshir' = 'give glad tidings'.",
+        "root": "بشر",
+        "lemma": "بُشِّرَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S2:A223"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

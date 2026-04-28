@@ -1,0 +1,76 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:153",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "verb_form",
+        "source_quote_ar": "وَاسْتَعِينُوا على حوائجكم إلى اللَّهِ بِالصَّبْرِ وَالصَّلَاةِ",
+        "claim_ar": "الفعل «اسْتَعِينُوا» فعل أمر بصيغة الجمع مأخوذ من وزن الاستفعال (استفعل) — صيغة العَوْن/الطلب (استعان)، أي: «اطلبوا العون».",
+        "claim_en": "The verb 'اسْتَعِينُوا' is an imperative plural derived from the Form X pattern (istif'al / استفعال), expressing requesting/ seeking help (from the root ع و ن).",
+        "root": "عون",
+        "lemma": "اسْتَعِينُ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn",
+        "source_quote_ar": "وَاسْتَعِينُوا على حوائجكم إلى اللَّهِ بِالصَّبْرِ وَالصَّلَاةِ",
+        "claim_ar": "«صَبْر» مصدر (اسم) من الجذر ص ب ر، مصدر يدل على الاحتمال والتحمل؛ هنا مستعمل كأداة (بِـ) في سياق «استعينوا بِالصَّبْرِ» أي: استعانوا بالصبر.",
+        "claim_en": "The noun 'صَبْر' is a verbal noun (masdar) from the root ص ب ر meaning 'patience, endurance'; here it functions as the means/instrument (with the preposition bi-) for seeking help ('استعينوا').",
+        "root": "صبر",
+        "lemma": "صَبْر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn",
+        "source_quote_ar": "وَاسْتَعِينُوا على حوائجكم إلى اللَّهِ بِالصَّبْرِ وَالصَّلَاةِ",
+        "claim_ar": "«صَلَاة» اسم من الجذر ص ل و (ص ل و/ص ل ي) ويدل على العبادة المخصوصة بالوقوف والدعاء والركوع... هنا مقترنة بالصبر كمكوّنين لأداة الاستعانة: «استعينوا بالصبر والصلاة».",
+        "claim_en": "The noun 'صَلَاة' (from root ص ل و / lemma صَلَوٰة) denotes the ritual prayer; here it is paired with 'صَبْر' as the means by which one seeks help (i.e., 'seek help by patience and prayer').",
+        "root": "صلو",
+        "lemma": "صَلَوٰة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "آمَنَّا بِاللَّهِ",
+        "claim_ar": "الجذر أمن — «آمَنَ/آمَنُوا» دال على الإيمان والشعور بالأمان/اليقين. هنا المعنى الأساسي: التصديق/الإيمان.",
+        "claim_en": "Root أمن (ʼ-m-n): verbs like 'آمَنَ/آمَنُوا' denote belief/faith and a sense of security/certainty; the basic meaning is 'to believe'.",
+        "root": "امن",
+        "lemma": "ءَامَنَ",
+        "confidence": "medium",
+        "needs_review_reason": "the cited source form is \"آمَنَّا\" (first‑person plural) while the ayah word is \"آمَنُوا\" (third‑person plural); root/meaning correspondence is straightforward but the exact inflection in the source differs."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "إلى اللَّهِ بِالصَّبْرِ وَالصَّلَاةِ",
+        "claim_ar": "اسم الجلالة «اللَّه» من جذر اله/إله، يُشير إلى الإله الواحد. (ملاحظة صرفية: لفظ الجلالة معاملة اسمية خاصة لا يُعامل كبنية صرفية ثلاثية معتادة.)",
+        "claim_en": "The Divine Name 'اللَّه' (root historically from اله / 'ilāh') denotes the one God. Morphologically it is the proper noun of divinity; orthographically and functionally it is treated as a special lexical item rather than a regular triliteral derivation in usage.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "wazn",
+        "source_quote_ar": "أن تصلوا صابرين على تكاليف الصلاة",
+        "claim_ar": "«صَابِر» اسم فاعل (وزن فاعل) من الجذر ص ب ر؛ صيغة المشارِكة المستمرة: «صابِرِين/الصَّابِرِينَ» بمعنى المكافحين المحتسبين. في الآية المعنى مفرد بالجمع المعرّف «الصَّابِرِينَ» أي ذوو الصبر.",
+        "claim_en": "The adjective/active participle 'صابِر' (pattern fā'il) from root ص b r denotes 'one who is patient/enduring'; the plural 'الصَّابِرِينَ' (the patient ones) refers to those who persevere. The participial form conveys continuous endurance.",
+        "root": "صبر",
+        "lemma": "صَابِر",
+        "confidence": "medium",
+        "needs_review_reason": "the source chunk contains the indefinite participle form «صابرين» (without definite article) while the ayah uses the definite plural «الصَّابِرِينَ»; lemma/root correspondence is clear but the exact form in the source differs."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

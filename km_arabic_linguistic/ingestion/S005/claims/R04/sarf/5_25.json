@@ -1,0 +1,56 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:25",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "وقالَ",
+        "claim_ar": "وزن الفعل ثلاثي مجرد على وزن فَعَلَ (قَالَ)",
+        "claim_en": "The verb is a basic triliteral past tense on the pattern fa'ala (e.g., qāla).",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "وقالَ",
+        "claim_ar": "فعل ماضٍ ثلاثي مجرد — صيغة الماضي البسيط (قَالَ)",
+        "claim_en": "Simple past (perfect) tense of a triliteral verb (qāla).",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "رَبِّي",
+        "claim_ar": "جذر الربّ: ر-ب-ب، معنى اللفظ: السيد/الربّ (المولى)",
+        "claim_en": "Root r-b-b meaning 'Lord, master' (rab).",
+        "root": "ربب",
+        "lemma": "رَبّ",
+        "confidence": "medium",
+        "needs_review_reason": "Input gives root as 'ربب' (spelled with repeated b). Verify orthography/canonical root indexing (commonly represented as ر ب ب)."
+      }
+    ],
+    "warnings": [
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 3 (إِنِّي).",
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 4 (لَا).",
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 5 (أَمْلِكُ).",
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 6 (إِلَّا).",
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 7 (نَفْسِي).",
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 8 (وَأَخِي).",
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 9 (فَافْرُقْ).",
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 10 (بَيْنَنَا).",
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 11 (وَبَيْنَ).",
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 12 (الْقَوْمِ).",
+      "No reliable exact-source substrings found in the provided chunks to support independent morphology claims for word_index 13 (الْفَاسِقِينَ).",
+      "Where claims could not be supported by an exact substring in the provided source_chunks, no morphology claim was extracted. If you can provide source chunks that explicitly include these word-forms (or their canonical lemma/pattern discussion), I can produce additional claims."
+    ]
+  },
+  "n_chunks": 12
+}

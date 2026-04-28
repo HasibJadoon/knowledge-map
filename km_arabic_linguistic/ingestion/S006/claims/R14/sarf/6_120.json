@@ -1,0 +1,54 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:120",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ومعنى «ذرهم» اعرض عنهم",
+        "claim_ar": "ذَرَّ: معنى الجذر هنا 'اعرض عن'، أي اتركهم ولامبالاة بتكذيبهم.",
+        "claim_en": "Root ذ-ر-أ (ذَرَّ) meaning 'to leave/abandon; to turn away/ignore'. The phrase «ذرهم» is idiomatically 'leave them alone / disregard them'.",
+        "root": "وذر",
+        "lemma": "يَذَرَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "ما كسبتم من الآثام فيه",
+        "claim_ar": "يَكْسِبُونَ: مضارع من الفعل الثلاثي المجرد كَسَبَ على وزْن يَفْعَلُونَ، يدل هنا على اكتساب/الحصول (في هذا السياق: اكتساب الآثام/ارتكابها) بصيغة مستمرة أو اعتيادية.",
+        "claim_en": "Imperfect (present) verb of Form I (root ك-س-ب, lemma كَسَبَ) in the pattern يَفْعَلُونَ. Conveys habitual/ongoing action 'they acquire/earn/commit' (here: commit sins).",
+        "root": "كسب",
+        "lemma": "كَسَبَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ما كسبتم من الآثام فيه",
+        "claim_ar": "إِثْم: اسم من الجذر اثم يدل على الذنب/الخطيئة والوقوع في المعصية.",
+        "claim_en": "Root اثم (lemma إِثْم) meaning 'sin, guilt, sinful deed'.",
+        "root": "اثم",
+        "lemma": "إِثْم",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root meaning",
+        "source_quote_ar": "كان يكبر على النبي",
+        "claim_ar": "كان: فعل ناقص من الجذر كَوْن/كون بمعنى 'كان/كانَ له وضع/حدث'، يُستخدم للدلالة على وجود حالة أو استمرارها في الماضي.",
+        "claim_en": "Verb 'kana' (root ك و ن, lemma كَانَ) meaning 'to be' (copular/auxiliary), used here to indicate a past/existing state.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,68 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:211",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "verb_form_flavour",
+        "source_quote_ar": "آتَتْ أُكُلَها",
+        "claim_ar": "الفعل آتَى (جذر: أ ت ي) على معنى الإتيان/العطاء/الإنتاج؛ هنا يظهر بصيغة الماضي (آَتَتْ) بمعنى 'أثمرت/أعطت ثمراً'. في الآية الأصلية (آتَيْنَاهُمْ) الفعل مع ضمير المتكلم وجمع الغائبين يفيد 'أعطيناهم'.",
+        "claim_en": "The verb آتَى (root أ ت ي) denotes 'to give/bring forth/produce'. The chunk shows the 3fs past form (آتَتْ) meaning 'it produced'; in the ayah the form آتَيْنَاهُمْ is 1pl perfect 'we gave them'.",
+        "root": "اتي",
+        "lemma": "آتَى",
+        "confidence": "medium",
+        "needs_review_reason": "Evidence substring shows a different inflection (آتَتْ, 3fs past) than the ayah form (آتَيْنَاهُمْ, 1pl perfect); meaning extrapolated across inflections."
+      },
+      {
+        "word_index": 7,
+        "claim_type": "translation_nuance",
+        "source_quote_ar": "بهذه الآية",
+        "claim_ar": "آية: اسم يدل على 'علامة/برهان/معجزة'؛ في السياق يظهر كمطلب دليل (أي: آية كدليل على الصدق/النبوة).",
+        "claim_en": "The noun 'آية' means 'sign/mark/miracle' — in the context it functions as a requested proof or sign of truth (a demonstrative evidence).",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "النعم",
+        "claim_ar": "نِعْمَة: من الجذر ن ع م، تدل على 'فضل/نعمة/نعيم' — هنا سياق الكلام عن النعم كأصول وفروع تُنسب إلى المولي.",
+        "claim_en": "'niʿmah' from root ن-ع-م meaning 'blessing/favour/benefit'; the chunk treats 'النعم' as the blessings attributed to the Lord.",
+        "root": "نعم",
+        "lemma": "نِعْمَة",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "translation_nuance",
+        "source_quote_ar": "ما تَتْلُوا الشَّياطِينُ",
+        "claim_ar": "حرف ما: متعدد الوظائف؛ هنا يظهر مقترناً بالفعل (ما تَتْلُوا) ليعمل كأداة ربط/تعليق على ما يتلوه الشياطين. الصياغة في المقاطع الأخرى (مثلاً 'وما كَفَرَ') تبين أن 'ما' يمكن أن تقوم بوظائف نحوية ودلالية مختلفة (نفي/تعقيب/ربط).",
+        "claim_en": "The particle 'ما' is multifunctional. In the substring it appears before a verb (ما تَتْلُوا) functioning as a linking/relative/commentary particle; other occurrences (e.g. 'وما كَفَرَ') show it can serve different semantic/syntactic roles.",
+        "root": null,
+        "lemma": "مَا",
+        "confidence": "medium",
+        "needs_review_reason": "The particle 'ما' has multiple grammatical/semantic uses; the chunk shows one use but the ayah's function should be verified in its syntactic context."
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "رضى اللَّه عنه",
+        "claim_ar": "اللَّه: اسم علم مفرد من أصل 'إله' (الجذر: اله)، يستخدم هنا كاسم الإله تعالى.",
+        "claim_en": "The proper name 'اللَّه' (root إله / اله) denotes the divine name; used here as the proper noun 'Allah'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Some source substrings use different inflections than the ayah word (e.g., source shows آتَتْ while the ayah has آتَيْنَاهُمْ); claims extrapolate lemma/meaning across inflectional forms and should be checked against the full ayah context.",
+      "The particle 'مَا' is polyfunctional; the chunk illustrates one usage but its precise function in the ayah requires syntactic confirmation."
+    ]
+  },
+  "n_chunks": 12
+}

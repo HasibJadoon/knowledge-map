@@ -13,9 +13,9 @@
 set -e
 
 ING_BASE="/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/km_arabic_linguistic/ingestion"
-SARF_DIR="$ING_BASE/صرف/kmaps-sarf"
-IRAB_DIR="$ING_BASE/اعراب/kmaps-irab"
-BAL_DIR="$ING_BASE/بلاغة/kmaps-balagha"
+SARF_DIR="$ING_BASE/_pipeline/sarf/kmaps-sarf"
+IRAB_DIR="$ING_BASE/_pipeline/irab/kmaps-irab"
+BAL_DIR="$ING_BASE/_pipeline/balagha/kmaps-balagha"
 SHARED="$ING_BASE/_shared"
 
 WORKERS=${1:-5}

@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:107",
+  "result": {
+    "claims": [
+      {
+        "word_index": 6,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "آية ظاهرة",
+        "claim_ar": "مُبِينٌ من الجذر بين: صفة تدل على الوضوح والظاهر؛ مرادف لِـ\"ظاهر/واضح\" كما في تركيب «آية ظاهرة».",
+        "claim_en": "mubīn from the root b-y-n: an adjective denoting clarity/manifestness; synonymous with 'clear/manifest' as in the phrase \"āyah ẓāhirah\" (a clear sign).",
+        "root": "بين",
+        "lemma": "مُّبِين",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk uses the synonym «آية ظاهرة» rather than the exact word «مُبِينٌ», so the semantic link is indirect; also the vocalization/pattern of مُبِين needs confirmation against classical morphology sources."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn",
+        "source_quote_ar": "آية ظاهرة",
+        "claim_ar": "مُبِينٌ على وزن صِفَة مشتقّة من الجذر بين (مُفْعِل/مُبَيِّن – التشكيل الدقيق قد يختلف بين القراءة/الاشتقاق)، وظيفة الكلمة صفة مشبهة للدلالة على الإظهار والبيان.",
+        "claim_en": "wazn/pattern: mubīn is an adjectival pattern derived from the root b-y-n (roughly on the pattern 'muf'il' / related to 'mubayyin'); exact vocalic pattern (mubīn vs mubayyin) and derivational history should be checked in classical sources.",
+        "root": "بين",
+        "lemma": "مُّبِين",
+        "confidence": "medium",
+        "needs_review_reason": "The chunk cited gives a synonymous phrase rather than explicit morphological labeling; there is potential ambiguity between patterns (e.g. مُبِين vs مُبَيِّن) in classical prosody/etymology that requires specialist verification."
+      }
+    ],
+    "warnings": [
+      "Most provided source chunks do not contain the exact lexemes of this ayah (e.g. فَأَلْقَى, عَصَاهُ, ثُعْبَانٌ). Only an indirect synonym related to مُبِينٌ (\"آية ظاهرة\") appears in the chunks; therefore claims are limited and partly inferential.",
+      "Claims with 'medium' confidence require verification against lexical/etymological sources because the available excerpts do not directly address the words' full morphological derivation or vocalization."
+    ]
+  },
+  "n_chunks": 12
+}

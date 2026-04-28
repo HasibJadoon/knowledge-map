@@ -1,0 +1,68 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:146",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "لا إِلهَ إِلَّا هُوَ",
+        "claim_ar": "أداة استثناء / تقييد: «إِلَّا» تدلّ على الاستثناء والإخراج من عموم ما قبلها؛ قد تواجهها لغات أخرى بصعوبة ترجمة دقيقة بكلمة واحدة.",
+        "claim_en": "Exception particle 'illā' marking exclusion/restriction ('except'); may create translation nuance because some languages lack a single-word equivalent.",
+        "root": null,
+        "lemma": "إِلَّا",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "الَّذِينَ أُوتُوا نَصِيباً مِنَ الْكِتابِ",
+        "claim_ar": "اسم موصول جمع مذكر «الَّذِينَ» مشتق من الأصل «الَّذِي» بصيغة الجمع («-ين» دالة على جمع مذكر)، أي صيغة الموصول الجمعي.",
+        "claim_en": "Relative pronoun plural masculine 'al-ladhīna' derived from 'al-ladhī' with the plural suffix '-īna', i.e., the plural masculine relative pronoun.",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَمَنْ يَلْعَنِ اللَّهُ فَلَنْ تَجِدَ لَهُ نَصِيراً",
+        "claim_ar": "اسم علم «اللَّه» من جذر (اله) بمعنى الإله/الرب؛ اسم ذاتي معترف به في العربية، لا صرف له كمصدر فعلي.",
+        "claim_en": "Proper name 'Allāh' from root 'ه-ل-ه' (not a productive verbal root in this usage) meaning 'the God/Deity'; a proper noun rather than a regular derived noun.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَمَنْ يَلْعَنِ اللَّهُ فَلَنْ تَجِدَ لَهُ نَصِيراً",
+        "claim_ar": "اسم علم «اللَّه» من نفس الجذر (اله) الدال على الإله؛ هنا مظهَر بصيغة الجر (لِـ + اللَّهِ) لكنه اسم علم واحد لا يتصرف كفعل.",
+        "claim_en": "Proper name 'Allāh' (same root 'اله') appearing in genitive context (l- + Allāh); retains the same root-meaning 'the God'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 15,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَمَنْ يَلْعَنِ اللَّهُ فَلَنْ تَجِدَ لَهُ نَصِيراً",
+        "claim_ar": "اسم العلم «اللَّه» (جذر: اله) كما سبق؛ هنا في موقع فعلي بالمقارنة مع تراكيب أخرى في القرآن لكن المعنى الصرفي ثابت: الإله/الرب.",
+        "claim_en": "Proper name 'Allāh' (root 'اله') as above; morphological status as a proper noun is stable across syntactic positions.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "مصادر القطع المرفقة لا تحتوي على مناقشة صرفية أو ذكر صريح لمعظم أفعال وآلفات الآية (مثل تَابُوا، أَصْلَحُوا، اعْتَصَمُوا، أَخْلَصُوا، دِينَهُمْ، سَوْفَ، يُؤْتِ، أَجْرًا، عَظِيمًا). لذلك الاستخلاص مقتصر على الجهات المذكورة حرفياً في القطع الموفرة (مثل «إِلَّا»، «الَّذِينَ»، «اللَّهُ»).",
+      "ادعاءات صرفية أخرى (أوزان الأفعال، صيغها، جذورها التفصيلية) لم تُدرج لغياب اقتباسات مطابقة في سورس-القطع؛ راجع مصادر صرفية/تعريفية إضافية إن رغبت في استنتاجات أوسع."
+    ]
+  },
+  "n_chunks": 12
+}

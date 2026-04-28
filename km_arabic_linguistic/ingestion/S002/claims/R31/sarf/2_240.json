@@ -1,0 +1,23 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:240",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الَّذِينَ يُؤْمِنُونَ",
+        "claim_ar": "الَّذِينَ: اسم موصول (جمع) من الَّذِي، يُستخدم للدلالة على الجمع (أى: «الذين» بمعنى «أولئك الذين»).",
+        "claim_en": "al-ladhīna: a relative pronoun — the plural form of al-ladhī (\"those who\").",
+        "root": null,
+        "lemma": "الَّذِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Most words in the provided ayah do not appear as exact substrings in the supplied source_chunks, so only claims supported by exact substring matches were extracted (here, the chunk containing «الَّذِينَ يُؤْمِنُونَ»). If you can provide source chunks that include the other specific word-forms (e.g. يُتَوَفَّوْنَ, يذرون, إخراجٍ, مَعْرُوفٍ, جُنَاحَ, إلخ.), additional morphology claims (wazn/pattern, verb-form details, root-meanings) can be produced."
+    ]
+  },
+  "n_chunks": 12
+}

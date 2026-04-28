@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:61",
+  "result": {
+    "claims": [
+      {
+        "word_index": 24,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "(أَتُحَاجُّونَنا) الهمزة للاستفهام الانكاري",
+        "claim_ar": "في «أَتَسْتَبْدِلُونَ» همزة ابتدائية للاستفهام الإنكاري/التقريري (أداة استفهام متضمنة تعجب أو توبيخ).",
+        "claim_en": "The initial hamza (أَ-) in 'أَتَسْتَبْدِلُونَ' functions as an interrogative particle marking an incredulous/rhetorical question (used to reproach or emphasize), not a simple yes/no question.",
+        "root": "بدل",
+        "lemma": "يَسْتَبْدِلْ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 9,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "(قُلْ) فعل أمر وفاعله أنت",
+        "claim_ar": "«فَادْعُ» فعل أمر (صيغة أمر مخاطب مفرد) من الجذر دعا/دعو، أي ادعُ لَنا.",
+        "claim_en": "'فَادْعُ' is an imperative verb (command) addressed to the addressee (singular/plural generic imperative formation from the root د-ع-و, lemma دَعَا).",
+        "root": "دعو",
+        "lemma": "دَعَا",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source substring discusses the imperative particle with the example «قُلْ» rather than «ادعُ» specifically; the claim generalizes the imperative analysis by analogy to the attested example."
+      }
+    ],
+    "warnings": [
+      "Source chunks contain few exact occurrences of the ayah's surface forms. Several claims are supported by commentary examples of analogous forms (e.g. «قُلْ», «أَتُحَاجُّونَنا») rather than the exact ayah word-forms. These supports are morpho-syntactic analogies; please review if a direct citation for each specific word-form is required.",
+      "Only morphological (sarf) claims were extracted. No i'rab or balagha claims were included, per instructions."
+    ]
+  },
+  "n_chunks": 12
+}

@@ -1,0 +1,32 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:98",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "verb_form",
+        "source_quote_ar": "(كانَ النَّاسُ أُمَّةً) كان واسمها وخبرها",
+        "claim_ar": "فعل ماضٍ من الجذر «كون» على وزن فعل؛ صيغة فعل ناسخ تدلّ على الوجود/الحال في الماضي (كَانَ بمعنى «كانَ/كانَ وجودًا»).",
+        "claim_en": "Past-tense verb from the root كون (k-w-n), on the basic pattern 'faʿala' (فعل). A copular/auxiliary past verb (kāna) indicating existence/state in the past.",
+        "root": "كون",
+        "lemma": "كَانَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 10,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "(اللَّهُ) فاعل (النَّبِيِّينَ) مفعول به",
+        "claim_ar": "لفظ الجلالة «اللَّه» اسم علم مشتق من الجذر «اله» يدلّ على الذات الإلهية؛ حالة صرفية كاسم علم معرف بديهيًا في القرآن.",
+        "claim_en": "The Divine Name 'Allah' is a proper noun derived from the root اله (h-w-h/ʾ-l-h); it denotes the Divine Being and functions as a definite proper name (lemma: اللَّه).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

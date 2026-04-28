@@ -1,0 +1,35 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:89",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "وَجِئْنا",
+        "claim_ar": "الفعل جَاءَ من الجذر «جاء» (ج-اء) دال على القدوم/المجيء؛ وزنه الثلاثي المجرد (فَعَلَ). صورة المصدر/الصياغات المناظرة مثل «وَجِئْنا» تظهر نفس الجذر وتدل على نفس المعنى الأساسي.",
+        "claim_en": "The verb جاء (root جاء / j-ā-ʾ) denotes 'to come/arrive'; it is a basic triliteral (fa'ala) pattern. Related conjugations such as «وَجِئْنا» illustrate the same root and core meaning.",
+        "root": "جاء",
+        "lemma": "جَآءَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مِنْ قَبْلُ",
+        "claim_ar": "القَبْلُ من اسم الزمان/الظرف من الجذر «قبل» ويعنى التقديم أو السابقية؛ في العبارة «مِنْ قَبْلُ» يعمل ظرفًا زمانيًا للدلالة على وقوع أمرٍ ما سابقًا.",
+        "claim_en": "The noun qabl (root قبل) functions as a temporal noun/adverb meaning 'before' or 'previously'. In the phrase «مِنْ قَبْلُ» it is used adverbially to indicate prior occurrence.",
+        "root": "قبل",
+        "lemma": "قَبْل",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "Only two words in this ayah (word_index 2 and 12) had exact-matching substrings in the provided source chunks that could support morphology claims. Other words in the ayah did not appear as exact substrings in the supplied chunks, so no source-backed morphology claims were extracted for them.",
+      "Claims are limited to morphology (root meaning, pattern-level comments). I avoided i'rab or rhetorical (balagha) claims per instructions."
+    ]
+  },
+  "n_chunks": 12
+}

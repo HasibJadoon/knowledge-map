@@ -1,0 +1,82 @@
+{
+  "layer": "sarf",
+  "ayah_key": "7:10",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَلَقَدْ",
+        "claim_ar": "الحرفان «وَ» و«قَدْ» هنا يعملان كأداة تحقيق وتأكيد (تعطي معنى «وإنه/وبالحق»)، وهي دقة نحوية/دلالية قد لا تنتقل كاملة في الترجمة الحرفية.",
+        "claim_en": "The particle 'qad' with prefixed 'wa-' functions as an emphatic/confirmative particle ('and indeed'), a nuance that literal translations often underrepresent.",
+        "root": null,
+        "lemma": "قَد",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains the phrase but does not provide an explicit morphological analysis of the particle; verify with dedicated grammar/tafsir sources.",
+        "quran_ref": "S7:A10"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "ما في الأرض",
+        "claim_ar": "حرف الجر «في» يدل على الحيز/المكان ('في')، ويدل هنا على العلاقة المكانية بين ما وُضِع في الأرض وما يترتب عليه؛ هذه الدقة المكانية قد تُفقد في ترجمة فضفاضة.",
+        "claim_en": "'fī' is a preposition indicating location/containment ('in'); it establishes the locative relation which translations sometimes render less precisely.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A10"
+      },
+      {
+        "word_index": 4,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ما في الأرض",
+        "claim_ar": "جذر الكلمة «أ ر ض» (أرض) دال على الأرض/التراب/البلاد كمكان مادي.",
+        "claim_en": "Root 'ʾ-r-ḍ' (ʾ-r-d) meaning 'earth, land, ground'.",
+        "root": "ارض",
+        "lemma": "أَرْض",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A10"
+      },
+      {
+        "word_index": 5,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "جعل ما في الأرض منزلا",
+        "claim_ar": "الفعل «جَعَلْنَا» من الجذر «ج ع ل» ويعطي معنى «جعل/أَصْبَحَ/أَوْقَعَ/أَفْرَضَ»، هنا صيغة الماضي مع ضمير المتكلم (نحن)، ويحمل دلالة سببية/تعيينية (causative/assignative).",
+        "claim_en": "'jaʿalnā' (root j-ʿ-l) meaning 'we made/appointed/caused'; here perfect 1st-person plural, carrying a causative/assignative sense.",
+        "root": "جعل",
+        "lemma": "جَعَلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A10"
+      },
+      {
+        "word_index": 6,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَلَكُمْ فِيها جَمالٌ",
+        "claim_ar": "الضمير/العبارة «لَكُمْ» تشير إلى الملاءمة/الانتفاع (لكم = لكم/في مصلحتكم)، وهو بعد دلالي للمصلحة أو التخصيص قد يختصره المترجم.",
+        "claim_en": "'lakum' (for you) indicates benefit/possession/entitlement; translations may render it simply as existence and thereby lose the beneficiary nuance.",
+        "root": null,
+        "lemma": null,
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A10"
+      },
+      {
+        "word_index": 7,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَلَكُمْ فِيها جَمالٌ",
+        "claim_ar": "«فِيهَا» تركيب من حرف الجر «في» + ضمير «ها» (راجع إلى الأرض)، أي «فيها/بها» ويحدد المكان الذي يقع فيه الجَمال؛ الضمير المرجعي والدقة المكانية قد تضيع في بعض الترجمات.",
+        "claim_en": "'fīhā' = 'in it' (preposition 'fī' + pronoun suffix '-hā' referring to 'the earth'), specifying the locative relation; the referential pronoun and locative precision can be lost in some translations.",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S7:A10"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

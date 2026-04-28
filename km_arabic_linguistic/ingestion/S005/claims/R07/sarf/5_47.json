@@ -1,0 +1,65 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:47",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "أهل الجنة",
+        "claim_ar": "أَهْلُ: اسم يدل على الانتماء أو الصِلة (أَهْلُ X = ناس/أتباع/منسوبون إلى X)؛ في «أَهْلَ الإِنْجيلِ» يَحمل دلالة 'ناس/أتباع ما يتعلق بالإنجيل' أكثر من دلالة نسبٍ أو جنسٍ بحتة.",
+        "claim_en": "'Ahl' denotes belonging/association (Ahl X = the people/folks associated with X); in 'Ahl al-Injil' it implies the people associated with the Gospel (followers/people of it), not necessarily lineage.",
+        "root": "اهل",
+        "lemma": "أَهْل",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "بالله",
+        "claim_ar": "اللَّهُ: اسم علم من الجذر «اله» يدل على الإله الواحد؛ اسمه الخاص للدلالة على الربّ المحدّد.",
+        "claim_en": "Allah is the proper name derived from the root 'اله', denoting the One God (the proper name for the Divine).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "root meaning",
+        "source_quote_ar": "نِعْمَةَ اللَّهِ",
+        "claim_ar": "اللَّهُ: اسم العلم من الجذر «اله»، يُستخدم هنا كاسم الإله، لا مشتقٍ صرفيّ؛ يدلّ على الذات الإلهية.",
+        "claim_en": "Allah is the proper name from the root 'اله'; used here as the divine proper name (not a derived verbal noun).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "فيه",
+        "claim_ar": "فِيهِ = في + ـه: حرف جرّ «في» مُلزَم بضمير متصل في محلِّه (الضمير ـهُ، غائب مذكر مفرد)، أي حرف جرّ مضاف إليه ضمير متعلق بالمكان/الموضوع.",
+        "claim_en": "fīhi = fī (preposition) + -hi (3ms attached pronoun). Morphologically it is the preposition 'fī' with a 3rd-person masculine singular pronominal suffix (meaning 'in it' / 'in him').",
+        "root": null,
+        "lemma": "فِى",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "فسقوا",
+        "claim_ar": "الْفَاسِقُونَ: اسم فَاعِل من الجذر «فسق» على وزن «فَاعِل» (فاسق)، وجمعه هنا بصيغة الجمع المذكر السالم «-ون» (فاسقون).",
+        "claim_en": "al-fāsiqūn: active-participle (ism fāʿil) from the root 'فسق' on the pattern fāʿil (fāsiq); plural formed here with the masculine plural suffix -ūn (fāsiqūn).",
+        "root": "فسق",
+        "lemma": "فَاسِق",
+        "confidence": "medium",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

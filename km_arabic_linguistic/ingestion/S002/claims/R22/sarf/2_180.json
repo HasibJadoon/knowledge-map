@@ -1,0 +1,57 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:180",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb_form",
+        "source_quote_ar": "وهو فعل ماض تام",
+        "claim_ar": "فعل ماضٍ مبنيّ للمجهول، وزن فُعِلَ",
+        "claim_en": "A past tense verb in the passive voice (pattern fُʿilَ).",
+        "root": "كتب",
+        "lemma": "كَتَبَ",
+        "confidence": "medium",
+        "needs_review_reason": "Source quote attests to past-tense verbs (فعل ماضٍ) but does not explicitly discuss the passive (مبنيّ للمجهول) or the exact pattern فُعِلَ; passive reading is inferred from the vocalization كُتِبَ."
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "إماتتهم",
+        "claim_ar": "من الجذر م و ت: المَوْتُ (اسم معنوي: الموت/الإماتة)، ومشتقات مثل إماتَ تعني «أَتْلفَ/أَجعَلَهُ مَيِّتًا/أَميتَه» (التأكيد على معنى الموت/الإماتة).",
+        "claim_en": "Root m-w-t (موت) meaning 'death'; the noun الموت means 'death' and related verb/nouns (e.g., إماتَ) convey 'to cause to die' or 'to put to death'.",
+        "root": "موت",
+        "lemma": "مَوْت",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "المتقين",
+        "claim_ar": "من الجذر و ق ي: المتَّقُونَ بمعنى «الورعون/الخائفون من الله»، صفة تدلّ على التقوى وورع القلب.",
+        "claim_en": "Root w-q-y (وقي) meaning 'to guard/be wary' → المتقين: 'the God‑fearing / the pious'.",
+        "root": "وقي",
+        "lemma": "مُتَّقِين",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 16,
+        "claim_type": "wazn",
+        "source_quote_ar": "المتقين",
+        "claim_ar": "وزن اشتقاق الاسم: مُتَفَعِّل (اسم فاعل من صيغة افتَعَل/اتَّقى) — صيغة الصفة المُشَبَّهَة: مُتَّقٍ (جمع: مُتَّقِينَ).",
+        "claim_en": "Wazn/pattern: the form is related to the pattern مُتَفَعِّل (active participle pattern) as in derived verb اتقى → مُتَّقٍ, plural مُتَّقِينَ.",
+        "root": "وقي",
+        "lemma": "مُتَّقِين",
+        "confidence": "medium",
+        "needs_review_reason": "Assignment of the precise derivational pattern (whether from اتَّقى form VIII or another stem) is inferred; source chunk provides the occurrence 'المتقين' but does not analyze the exact wazn derivationally."
+      }
+    ],
+    "warnings": [
+      "Source chunks provided do not directly discuss many words of this ayah; selected source_quote_ar entries are exact substrings found in the chunks but often only indicate occurrence or general grammatical comments. Several morphological inferences (passive for كُتِبَ, exact wazn for مُتَّقِينَ) are drawn by internal analysis and flagged for review.",
+      "No source chunk contained explicit discussion of words like الوصية, الوالدين, الأقربين, خيرًا, أحدكم, حضر etc.; therefore no claims were extracted for those words."
+    ]
+  },
+  "n_chunks": 12
+}

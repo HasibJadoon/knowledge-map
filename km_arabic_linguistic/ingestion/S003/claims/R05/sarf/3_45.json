@@ -1,0 +1,45 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:45",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "وَإِذْ يَسْتَمِعُونَ",
+        "claim_ar": "«إِذْ» أداة ظرفية للزمان/الاسترجاع تُستخدم لتمهيد خبر أو سرد؛ في الترجمة قد تُسقط نغمته الزمنية والسردية فتُترجم ببساطة بــ\"عندما/حين\" دون دلالة السرد أو التعقيب الموجودة بالعربية.",
+        "claim_en": "The particle \"idh\" is a temporal/ narrative particle used to introduce a preceding event or narrative. In translation its narrative/temporal nuance is often lost and rendered simply as \"when\" or \"while,\" missing some Arabic aspectual/speech nuances.",
+        "root": null,
+        "lemma": "إِذ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "قوله عَلى",
+        "claim_ar": "الفعل/الاسم مشتق من الجذر ق-و-ل: دلالة الجذر الأساسية هي النطق والقول والتكلم؛ لذلك «قَالَتِ» مشتقة من قول بمعنى نطقت أو قالت.",
+        "claim_en": "Derived from the root q-w-l (قول), whose basic meaning is to speak/say. Thus قَالَتِ (she said) is derived from this root meaning 'to say/speak.'",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اذكروا اللَّهَ كَثِيراً",
+        "claim_ar": "«اللَّهَ» اسم العلم الإلهي؛ في المصادر التقليدية يُشار إليه بجذر تقريبي «اله» لكن كاسم مخصوص لا يُعامل كساق ثلاثيٍ عادي للاشتقاق، لذا وصف الجذر نظري ومحل نزاع تصريفياً.",
+        "claim_en": "The word \"Allah\" is the proper name of God. Traditional works may cite a notional root 'اله', but as a special divine name it is not treated like a regular triliteral root for derivation; the root assignment is therefore theoretical and sometimes debated.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "The morphological status/root of the divine name \"Allah\" is treated differently across sources; root assignment is not settled as a standard derivational root."
+      }
+    ],
+    "warnings": [
+      "Source coverage limited: exact substrings for many words of S3:A45 were not found in the provided source chunks, so morphology claims were produced only for items with verifiable substrings in the sources (word indices 1, 2, 6). Other words (e.g., يُبَشِّرُكِ, الْمَسِيحُ, عِيسَى, اسْمُهُ, وَجِيهَاً, الدُّنْيَا, الْمُقَرَّبِينَ, etc.) lacked exact-match evidence in the supplied chunks and were omitted."
+    ]
+  },
+  "n_chunks": 12
+}

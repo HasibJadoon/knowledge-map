@@ -1,0 +1,32 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:105",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "تَخْتَلِفُونَ",
+        "claim_ar": "الفعل اخْتَلَفَ على وزن افتعل (افتعل) — صيغة دخل عليها همزة الاختلاف/الافتعال دلالة على وقوع الاختلاف بين الأطراف.",
+        "claim_en": "The verb اخْتَلَفَ is on the pattern افتعل (form VIII), meaning 'to differ / disagree among themselves.'",
+        "root": "خلف",
+        "lemma": "اخْتَلَفَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "مِنْ بَعْدِهِ",
+        "claim_ar": "الاسم بَعْد من الجذر بعد: يدل على البعد/التراخي الزمني أو المسافة؛ هنا دلالة ظرفية زمنية (بعد).",
+        "claim_en": "The noun بَعْد derives from the root بعد meaning 'to be distant'; as a noun it means 'after' (temporal/sequence or distance).",
+        "root": "بعد",
+        "lemma": "بَعْد",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

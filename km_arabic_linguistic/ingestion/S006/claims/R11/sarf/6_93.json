@@ -1,0 +1,58 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:93",
+  "result": {
+    "claims": [
+      {
+        "word_index": 21,
+        "claim_type": "root meaning",
+        "source_quote_ar": "نزل بمعنى أنزل.",
+        "claim_ar": "الفعل نزل هنا بمعنى أَنزَلَ (أي: أرسل نزولاً)",
+        "claim_en": "The verb نزل here is used in the sense of 'to send down', equivalent to أَنزَلَ.",
+        "root": "نزل",
+        "lemma": "أَنزَلَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A93"
+      },
+      {
+        "word_index": 18,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "أَنْ يُنَزِّلَ",
+        "claim_ar": "الفعل أَنزَلَ يظهر بصيغة الأزمنة والصور المركبة (يُنَزِّلَ)، وهو من وزن أفعل (أَنزَلَ) — هنا فعل متعدٍ بصيغة المضارع/المضارع المنصوب في السياق القرآني؛ وَسَبِيقُه في الآية يظهر بصيغة مستقبلية سَأُنْزِلُ.",
+        "claim_en": "The verb أَنزَلَ is Form IV (أفعل, causative 'to send down'); it appears in related present/subjunctive forms such as يُنَزِّلَ in the commentary. The actual word سَأُنْزِلُ is the first-person future of this Form IV verb (prefix سَ- for future + imperfect stem أُنْزِلُ).",
+        "root": "نزل",
+        "lemma": "أَنزَلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The source shows related forms (أَنْ يُنَزِّلَ) but does not explicitly parse the exact inflection 'سَأُنْزِلُ'; morphological description is inferred from the attested forms.",
+        "quran_ref": "S6:A93"
+      },
+      {
+        "word_index": 30,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الْمَلائِكَةُ ملائكة الموت، أو العذاب",
+        "claim_ar": "الملائكة: جمع ملك (مَلَك) — هنا تشرحها باعتبارها ملائكة الموت أو ملائكة العذاب.",
+        "claim_en": "الْمَلائِكَةُ (from root ملك, lemma مَلَك) means 'angels'; the commentary explicitly glosses them as the angels of death or of punishment.",
+        "root": "ملك",
+        "lemma": "مَلَك",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S6:A93"
+      },
+      {
+        "word_index": 48,
+        "claim_type": "root meaning",
+        "source_quote_ar": "آيات القيامة والهلاك الكلى",
+        "claim_ar": "الآية/الآيات: علامة أو معجزة/دلالة، هنا تُستخدم للدلالة على 'آيات القيامة' (آيات حدوث الهلاك الكلّي) أو علامات الساعة.",
+        "claim_en": "The noun آية (plural آيات) denotes a sign or miracle; the commentary uses it for the signs of the Resurrection/the catastrophic signs of the Hour.",
+        "root": "ايي",
+        "lemma": "ءَايَة",
+        "confidence": "medium",
+        "needs_review_reason": "Root representation in the provided word data ('ايي') is nonstandard; lemma provided as 'ءَايَة'. The semantic claim is supported by the commentary but the exact root orthography may need review.",
+        "quran_ref": "S6:A93"
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}

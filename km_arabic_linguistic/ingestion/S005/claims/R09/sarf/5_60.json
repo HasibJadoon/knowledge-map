@@ -1,0 +1,49 @@
+{
+  "layer": "sarf",
+  "ayah_key": "5:60",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "قُلْنا",
+        "claim_ar": "قُلْ: فعل أمر من الجذر قول/قال (فعل ثلاثي مجرد، صيغة الأمر للمخاطب)",
+        "claim_en": "Qul: an imperative verb derived from the root ق-و-ل (qāla). It's a triliteral Form I verb used here as the second-person imperative.",
+        "root": "قول",
+        "lemma": "قَالَ",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A60"
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "الله لعفو غفور",
+        "claim_ar": "اللَّه: اسم ذاتي من الجذر اله، دالّ على الإله الواحد (اسم علم)، مستخدم للدلالة على الله تعالى.",
+        "claim_en": "Allah: a proper-name derived from the root أ-ل-ه (to be a deity), meaning 'the God' (the one deity).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A60"
+      },
+      {
+        "word_index": 12,
+        "claim_type": "root meaning",
+        "source_quote_ar": "أَبْناءُ اللَّهِ",
+        "claim_ar": "اللَّه: اسم علم من الجذر اله (الدلالة على الإله الواحد)، هنا مذكور كاسم ذاتي لله تعالى.",
+        "claim_en": "Allah: the proper name of God, from the root أ-ل-ه (to be a deity), denoting the one God.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S5:A60"
+      }
+    ],
+    "warnings": [
+      "No supporting source substring found in the provided chunks for the following word indices; therefore no morphology claims were extracted for them: 2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27.",
+      "Claims were only made where an exact substring from the provided source_chunks could be cited (source_quote_ar). Other morphological facts about the remaining words may be valid but lack a directly matching source substring in the provided chunks and thus were omitted or left for review."
+    ]
+  },
+  "n_chunks": 12
+}

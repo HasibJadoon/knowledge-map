@@ -1,0 +1,36 @@
+{
+  "layer": "sarf",
+  "ayah_key": "4:132",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "root meaning",
+        "source_quote_ar": "لِلَّهِ",
+        "claim_ar": "اسم العلم «اللَّه» موصوف هنا بالانتماء إلى الجذر «اله» بمعنى المعبود/الإله.",
+        "claim_en": "The proper name 'Allāh' is treated here as derived from the root 'اله' meaning 'deity' or 'object of worship'.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Attribution of the root 'اله' to the name 'اللَّه' follows the commentary used but is lexicographically debated; verify against classical lexica."
+      },
+      {
+        "word_index": 9,
+        "claim_type": "root meaning",
+        "source_quote_ar": "اللَّهُ",
+        "claim_ar": "في «بِاللَّهِ» العنصر الاسمي «اللَّه» هو نفس اسم العلم المنسوب إلى الجذر «اله»؛ الباء في الشكل «بِاللَّهِ» هي بادئة جرّية ملحقة اسميًا (ملاحظة صرفية على التصغير/الملحق).",
+        "claim_en": "In 'bi‑Allāh' the noun element 'Allāh' is the same proper name traced to root 'اله'; the prefix bi‑ is a prepositional/clitic prefix attached to the noun (a morphological affix).",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "medium",
+        "needs_review_reason": "Describing the prefixed bi- as a morphological clitic (rather than treating the structure purely syntactically) is an analysis choice; also the root assignment to 'اله' should be cross-checked."
+      }
+    ],
+    "warnings": [
+      "Most provided source chunks do not contain exact occurrences or discussions of the other ayah wordforms (e.g. 'مَا', 'فِي', 'السَّمَاوَاتِ', 'الْأَرْضِ', 'وَكَفَى', 'وَكِيلًا'), so no morphology claims were extracted for those words.",
+      "The source_quote_ar values used are substrings that show the name form (e.g. 'لِلَّهِ', 'اللَّهُ') rather than the ayah tokens with identical clitics ('وَلِلَّهِ', 'بِاللَّهِ'); please confirm that using these substrings as supporting evidence is acceptable for your K‑Map workflow.",
+      "Claims were limited to root‑meaning type due to available commentary material in the supplied chunks. Other sarf categories (wazn/pattern, verb‑form flavour, idiom, etc.) could not be supported from the provided sources and would need additional lexical citations."
+    ]
+  },
+  "n_chunks": 12
+}

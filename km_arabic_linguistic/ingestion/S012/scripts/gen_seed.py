@@ -19,7 +19,7 @@ from collections import defaultdict
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 BASE   = Path(__file__).resolve().parents[2]           # ingestion/
-SPINE  = BASE / "_pipeline/sarf/kmaps-sarf/data/raw/spine/spine.sqlite"
+SPINE  = BASE / "spine.sqlite"
 OUT    = Path(__file__).resolve().parents[1] / "sql"   # s12/sql/
 OUT.mkdir(exist_ok=True)
 

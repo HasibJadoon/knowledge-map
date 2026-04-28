@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:86",
+  "result": {
+    "claims": [
+      {
+        "word_index": 5,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "عَلى كُلِّ شَيْءٍ قَدِيرٌ",
+        "claim_ar": "كُلّ: من الجذر ك-ل-ل، اسم عامّ جامع بمعنى «الكل/كل شيء». في الآية الظاهرة صيغة منصوبة (كُلَّاً) تفيد العموم.",
+        "claim_en": "kull (كُلّ): from root k-l-l, a general noun meaning 'all/everything'. In the verse it appears as a (contextual) accusative form (kullan) conveying generality.",
+        "root": "كلل",
+        "lemma": "كُلّ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "translation_nuance",
+        "source_quote_ar": "قادِرٌ عَلى أَنْ يُنَزِّلَ آيَةً",
+        "claim_ar": "عَلَىٰ: حرف جر شائع ترجمته «على/فوق»، لكنه يتسع أيضاً لمعانٍ مثل «فيما يخصّ/بخصوص» أو «بسبب/بهدف» حسب السياق؛ هنا يدل على التعلّق/القدرة (قادر على...).",
+        "claim_en": "ʿalā (عَلَىٰ): a preposition typically translated 'on/upon', but contextually can mean 'over', 'concerning', or 'with respect to'. Here it marks the relation of capability (qādir ʿalā...).",
+        "root": null,
+        "lemma": "عَلَىٰ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "claim_type": "root_meaning",
+        "source_quote_ar": "وَهُوَ السَّمِيعُ الْعَلِيمُ يسمع كل مسموع ويعلم كل معلوم",
+        "claim_ar": "الْعَالَمِينَ: مشتقّ من الجذر ع-ل-م. الشكل الدلالي يرتبط بجذر «علم» (المعرفة)، وفي الاستخدام القرآني «العالمين» يُقصد به عادة «السماوات والأرض ومن فيهن» أو «جميع المخلوقات/العباد».",
+        "claim_en": "al-ʿālamīn (الْعَالَمِينَ): derived from root ʿ-l-m (to know). Semantically linked to the root's notion of knowledge; in Qur'anic usage 'al-ʿālamīn' commonly denotes 'the worlds' — i.e. the heavens and the earth and all beings/creatures.",
+        "root": "علم",
+        "lemma": "عَٰلَمِين",
+        "confidence": "medium",
+        "needs_review_reason": "The supporting chunk shows the adjective الْعَلِيمُ (al-ʿalīm, 'the All‑Knowing'); confirm mapping from adjective form to the noun-plural/collective عَالَمِين and the intended semantic extension in this verse."
+      }
+    ],
+    "warnings": [
+      "No matching source substring found in the provided chunks for words at indices: 1 (وَإِسْمَاعِيلَ), 2 (وَالْيَسَعَ), 3 (وَيُونُسَ), 4 (وَلُوطَاً), 6 (فَضَّلْنَا). Claims for these words could not be supported by the supplied source_chunks and were therefore not extracted.",
+      "Check the lemma/root given for word 5 (كُلّ listed with root «كلل»); some lexica treat the root as ك‑ل‑ل vs ك‑ل, please verify consistency if high precision is required."
+    ]
+  },
+  "n_chunks": 12
+}

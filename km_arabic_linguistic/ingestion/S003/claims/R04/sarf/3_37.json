@@ -1,0 +1,62 @@
+{
+  "layer": "sarf",
+  "ayah_key": "3:37",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "من قبله",
+        "claim_ar": "وزن الفعل: تَقَبَّلَ — تَفَعَّلَ (الصيغة الخامسة)، وهو وزن مزيد يدل هنا على الاشتغال بالفعل أو تقبّل الفعل/المفعول.",
+        "claim_en": "Pattern: تَفَعَّلَ (Form V). The verb تَقَبَّلَ is on the Form-V pattern (fa‘‘ala with initial ت), often with intensive/reflexive nuance meaning 'to receive/accept'.",
+        "root": "قبل",
+        "lemma": "تَقَبَّلَ",
+        "confidence": "medium",
+        "needs_review_reason": "The provided source chunk contains the substring 'من قبله' (related root letters) but does not explicitly analyze تَقَبَّلَ or discuss the Form V pattern for this verb; pattern assignment should be verified against a morphological source that cites تَقَبَّلَ explicitly.",
+        "quran_ref": "S3:A37"
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "من قبله",
+        "claim_ar": "الجذر: ق-ب-ل — معنى الاسم قَبُولٍ: القبول/الاستجابة أو أنْ يُتَمّ القَبْل (مصدر فعل القَبِلَ)، دلالة اسمية على 'الاستقبال/القبول'.",
+        "claim_en": "Root: ق-ب-ل (q-b-l). The noun قَبُول denotes 'acceptance'/'receiving' (a deverbal noun from قَبِلَ).",
+        "root": "قبل",
+        "lemma": "قَبُول",
+        "confidence": "medium",
+        "needs_review_reason": "The source chunk contains 'من قبله' (same root letters) but does not comment on the noun قَبُول specifically; semantic gloss should be checked against a lexical source for قَبُول.",
+        "quran_ref": "S3:A37"
+      },
+      {
+        "word_index": 16,
+        "claim_type": "root meaning",
+        "source_quote_ar": "عند الله",
+        "claim_ar": "الجذر: ع-ن-د — معنى 'عند' في السياق الكلاسيكي: ظرف موضع/مِلْكِيّة أو بيان أن الشيء في حوزة/بيد الشخص المذكور (مثال: عند الله = بيد الله/لدى الله).",
+        "claim_en": "Root: ع-ن-د (ʿ-n-d). 'عند' denotes location/possession/agency; in the phrase 'عند الله' it means 'with God' or 'in God's possession/authority'.",
+        "root": "عند",
+        "lemma": "عِند",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A37"
+      },
+      {
+        "word_index": 29,
+        "claim_type": "root meaning",
+        "source_quote_ar": "عند الله",
+        "claim_ar": "الجذر التقليدي: أ-ل-ه (اله) — دلالة الاسم «اللَّه»: الاسم الإلهي (المعبود)، والجذر اللغوي مرتبط بالجذل/الإلهام والعبادة في الاشتقاق التقليدي.",
+        "claim_en": "Traditional root: أ-ل-ه (ʾ-l-h). The name 'Allah' denotes the Divine (the deity); etymologically related to the root for 'worship/being a deity' in classical derivational accounts.",
+        "root": "اله",
+        "lemma": "اللَّه",
+        "confidence": "high",
+        "needs_review_reason": "",
+        "quran_ref": "S3:A37"
+      }
+    ],
+    "warnings": [
+      "Some claims cite source substrings that contain the same root letters but do not explicitly analyze the exact word-form from the aya (e.g., 'من قبله' used for تَقَبَّلَ / قَبُول). Such uses lower evidential strength; verify against a dedicated morphological/lexical treatment of the exact lemma.",
+      "No explicit discussion of the exact verb forms تَقَبَّلَ or أَنۢبَتَ in the provided chunks; claims about their patterns or nuanced verb-flavour should be checked with a specialized sarf reference.",
+      "I only extracted claims where a matching substring existed in the provided source chunks; other morphological facts present in the aya (e.g., يَرْزُقُ, كُلَّمَا, نَبَاتاً) were not claimed because the supplied chunks did not contain explicit matching substrings or analyses. Consider supplying authoritative morphology/lexicon chunks for fuller extraction."
+    ]
+  },
+  "n_chunks": 12
+}

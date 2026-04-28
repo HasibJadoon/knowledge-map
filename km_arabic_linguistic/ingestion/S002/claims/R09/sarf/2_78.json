@@ -1,0 +1,46 @@
+{
+  "layer": "sarf",
+  "ayah_key": "2:78",
+  "result": {
+    "claims": [
+      {
+        "word_index": 4,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "ويعلمونها الناس",
+        "claim_ar": "فعل مضارع من الجذر «ع ل م» على وزن يَفْعَلُونَ (صيغة الغائبين جمع). في السياق الوارد بالمصدر يُستخدم بمعنى «يعلمون (الناس)» أي يعلّمون، وليس فقط بمعنى المعرفة الذاتية.",
+        "claim_en": "Present (imperfect) verb from the root ع-ل-م on the pattern يَفْعَلُونَ (3rd-person plural). In the cited source it is used with the sense 'they teach (the people)', not merely 'they know', so the verb can have an active teaching/causative flavor in context.",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "claim_type": "translation loss nuance",
+        "source_quote_ar": "ويعلمونها الناس",
+        "claim_ar": "ترجمة «يَعْلَمُونَ» قد تغفل التمايز بين «يعلمون» بمعنى المعرفة الذاتية و«يعلمون» بمعنى يُعلّمون. المثال المقتبس يبيّن معنى التعليمِ (يُعلّمون الناس).",
+        "claim_en": "The verb 'يَعْلَمُونَ' can be rendered as 'they know' or 'they teach'. The quoted usage ('ويعلمونها الناس') demonstrates the 'they teach' reading, a nuance that can be lost if translated only as 'they know'.",
+        "root": "علم",
+        "lemma": "عَلِمَ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "كتاب اللَّه",
+        "claim_ar": "اسم على وزن «كِتَاب» (وزن فِعَال/كِتَاب) من الجذر «ك ت ب»، دالّ على المادة المكتوبة/الكتابة (كتاب).",
+        "claim_en": "Noun on the pattern 'kitaab' (fi'al/kitaab) from the root ك-ت-ب, meaning 'book' or 'written text'.",
+        "root": "كتب",
+        "lemma": "كِتَاب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": [
+      "No exact-substring source was found in the provided chunks for these ayah words: word_index 2 (أُمِّيُّونَ), 3 (لَا), 6 (إِلَّا), 7 (أَمَانِيَّ), 8 (وَإِنْ), 9 (هُمْ), 10 (إِلَّا), 11 (يَظُنُّونَ). Therefore no morphology claims were extracted for them. If you can provide source chunks containing these exact word-forms (or matching substrings), additional claims can be produced.",
+      "Some lemmas/roots in the input (e.g., root given as \"امم\" for أُمِّيُّونَ) may be ambiguous in classical Arabic analysis; claims for tokens without supporting source substrings were omitted to avoid unsupported assertions."
+    ]
+  },
+  "n_chunks": 12
+}

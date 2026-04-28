@@ -1,0 +1,98 @@
+{
+  "layer": "sarf",
+  "ayah_key": "6:32",
+  "result": {
+    "claims": [
+      {
+        "word_index": 2,
+        "claim_type": "root meaning",
+        "source_quote_ar": "حياتُنَا الدُّنْيا",
+        "claim_ar": "جذر حياتنا: ح ي ي → دالّة على العيش؛ لَفظة الحَيَاةُ (حَيَاة) اسم مشتق بمعنى المَعِيشَة/الوجود الحي",
+        "claim_en": "Root ح-ي-ي (ḥ-y-y) → denotes 'to live'. The noun حَيَاة (hayāh) is a derivative meaning 'life' / 'living'.",
+        "root": "حيي",
+        "lemma": "حَيَوٰة",
+        "confidence": "medium",
+        "needs_review_reason": "pattern identification (فِعَالَة) is standard but diacritics/orthography in sources vary; confirm exact morphological label."
+      },
+      {
+        "word_index": 3,
+        "claim_type": "root meaning",
+        "source_quote_ar": "حياتُنَا الدُّنْيا",
+        "claim_ar": "جذر الدُّنْيا: د ن و/د ن ي → دالّة على القرب/الدنية؛ الدُّنْيا اسم يدلّ على العالم الدنيا باعتبار قربها وزوالها",
+        "claim_en": "Root د-ن-و / د-ن-ي → semantic field 'near/low'. الدُّنْيا (al-dunyā) is the noun 'this lower world' (the worldly life), i.e., the nearer/temporal sphere.",
+        "root": "دنو",
+        "lemma": "دُّنْيَا",
+        "confidence": "medium",
+        "needs_review_reason": "traditional pattern often cited as فُعَيْلَة; minor uncertainty about representing the precise morphological template."
+      },
+      {
+        "word_index": 5,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "لَعِباً وَلَهْواً",
+        "claim_ar": "لَعِبٌ: اسم من الجذر ل ع ب، يدل على اللعب/المرح؛ شكل الاسم هنا (لَعِب) يعمل كمصدر/اسم حالة، ويدلّ على التفاهة أو التسلية في السياق",
+        "claim_en": "لَعِب (root ل-ع-ب) is a noun derived from the root meaning 'play, sport'. It functions like a masdar/nominal and here conveys 'play/amusement' (often trivializing worldly activities).",
+        "root": "لعب",
+        "lemma": "لَعِب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "لَعِباً وَلَهْواً",
+        "claim_ar": "لَهْوٌ: اسم من الجذر ل ه و، يدل على اللهو/الانشغال بما ليس بمهمّ؛ مكمل لمعنى لَعِب (تفريغ عن الجديّ)",
+        "claim_en": "لَهْو (root ل-ه-و) is a noun meaning 'amusement, diversion'. It complements لَعِب to indicate frivolity or diversion from serious matters.",
+        "root": "لهو",
+        "lemma": "لَهْو",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "claim_type": "root meaning",
+        "source_quote_ar": "ولدار الآخرة",
+        "claim_ar": "دَار: من الجذر د و ر/د و ر (مذكور في المصادر كدور)؛ اسم يدلّ على المسكن/المقام (الدار هنا: مقر وموطن الآخرة)",
+        "claim_en": "دَار (root د-و-ر given as دور) is a noun 'dwelling/abode'. In the phrase دار الآخرة it denotes the abode/eternal dwelling (the afterlife).",
+        "root": "دور",
+        "lemma": "دَار",
+        "confidence": "medium",
+        "needs_review_reason": "variant romanization/spelling of root (دور vs. دار) and classical analyses differ on triliteral representation; confirm canonical root letters."
+      },
+      {
+        "word_index": 8,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "ولدار الآخرة",
+        "claim_ar": "آخِرَةٌ: مشتقّ من الجذر أ خ ر بمعنى آخر/من بعد؛ صيغة الآخِرَة تأخذ وزنًا اسميًا يدلّ على ما يكون بعد (القيامة/ما بعد الدنيا)",
+        "claim_en": "آخِرَة (root أ-خ-ر) is a derived noun meaning 'the Hereafter/that which is after'. The form marks it as the temporal/ontological 'latter/after' (afterlife).",
+        "root": "اخر",
+        "lemma": "آخِر",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 11,
+        "claim_type": "verb form flavour",
+        "source_quote_ar": "لِلَّذِينَ يَتَّقُونَ",
+        "claim_ar": "اتَّقَى/يَتَّقُونَ: وزن اتَّفعل (صيغة VIII/افتعل) من الجذر و ق ي؛ صيغة الدلالة انعكاسية/توكيدية تتعلق بالتقوى والخوف من الله/الورع",
+        "claim_en": "اتَّقَى / يَتَّقُونَ (root و-ق-ي) is Form VIII (افتعل) in the sense of reflexive/assumptive meaning 'to have/observe taqwa (fear/reverence)'. The imperfect يَتَّقُونَ is the present stem used here.",
+        "root": "وقي",
+        "lemma": "اتَّقَىٰ",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 13,
+        "claim_type": "wazn/pattern",
+        "source_quote_ar": "تعقلون",
+        "claim_ar": "عَقِلَ/يَعْقِلُونَ: فعل ثلاثي مجرد (الوزن المضارع يَفْعِلُ/فعل شكل الفعل الأوّل) من الجذر ع ق ل؛ يعني 'يعقلون' أي يعقلوا/يفهموا ويدركوا بالعقل",
+        "claim_en": "عَقَلَ / يَعْقِلُونَ (root ع-ق-ل) is Form I (basic triliteral) verb meaning 'to reason/understand'. The present form يَعْقِلُونَ (here تَعْقِلُونَ in vocative/2pl form in the ayah) indicates 'do you not reason?'.",
+        "root": "عقل",
+        "lemma": "عَقَلُ",
+        "confidence": "high",
+        "needs_review_reason": "the quoted chunk shows the form without diacritics and mentions orthographic readings (تاء/ياء); verify pronominal/personal marking for exact address (2pl vs 3pl) in context."
+      }
+    ],
+    "warnings": []
+  },
+  "n_chunks": 12
+}
