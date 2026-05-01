@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:thahabi_al_khalil_kitab_al_ayn:1604:1:1",
+    "raw_page_id": "raw:thahabi_al_khalil_kitab_al_ayn:1604:1",
+    "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+    "book_id": "2149",
+    "page_no": 1604,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "باب الثلاثي الصحيح من القاف",
+    "text_ar": "باب الثلاثي الصحيح من القاف\nقال الخليل: القاف والكافُ لا يأتَلفِان، والجيم لا تأتلف معهما في شيء من الحروف إلا في أحرف معربة قد بينتها في أول الباب الثاني من القاف. ولا تأتلف مع القاف والجيم إلا جِلَّق، ومع السين إلا جَوْسَق. وجِلَّقُ اسم موضع.",
+    "text_norm": "باب الثلاثي الصحيح من القاف\nقال الخليل: القاف والكافُ لا يأتَلفِان، والجيم لا تأتلف معهما في شيء من الحروف إلا في أحرف معربة قد بينتها في أول الباب الثاني من القاف. ولا تأتلف مع القاف والجيم إلا جِلَّق، ومع السين إلا جَوْسَق. وجِلَّقُ اسم موضع.",
+    "source_url": "https://thahabi.org/book/2149/read/1604",
+    "locator_json": {
+      "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+      "book_id": "2149",
+      "page_no": 1604,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://thahabi.org/book/2149/read/1604",
+      "local_key": "thahabi/book_2149/page_1604_001",
+      "raw_html_path": "raw_html/page_1604_001.html",
+      "clean_text_path": "clean_text/page_1604_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 251,
+    "token_count": 45,
+    "review_status": "pending"
+  }
+]

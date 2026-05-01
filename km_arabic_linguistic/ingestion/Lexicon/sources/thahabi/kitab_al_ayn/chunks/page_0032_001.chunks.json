@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:thahabi_al_khalil_kitab_al_ayn:32:1:1",
+    "raw_page_id": "raw:thahabi_al_khalil_kitab_al_ayn:32:1",
+    "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+    "book_id": "2149",
+    "page_no": 32,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "page:32",
+    "text_ar": "ظهر الورقة الاخيرة من نسخة \" ط \" ملاحظة: لم نستطع تصوير نموذجين من النسخة \" ص \" لاسباب طباعية.",
+    "text_norm": "ظهر الورقة الاخيرة من نسخة \" ط \" ملاحظة: لم نستطع تصوير نموذجين من النسخة \" ص \" لاسباب طباعية.",
+    "source_url": "https://thahabi.org/book/2149/read/32",
+    "locator_json": {
+      "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+      "book_id": "2149",
+      "page_no": 32,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://thahabi.org/book/2149/read/32",
+      "local_key": "thahabi/book_2149/page_0032_001",
+      "raw_html_path": "raw_html/page_0032_001.html",
+      "clean_text_path": "clean_text/page_0032_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 101,
+    "token_count": 20,
+    "review_status": "pending"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:thahabi_al_khalil_kitab_al_ayn:462:1:1",
+    "raw_page_id": "raw:thahabi_al_khalil_kitab_al_ayn:462:1",
+    "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+    "book_id": "2149",
+    "page_no": 462,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "page:462",
+    "text_ar": "وَرَعِثَتِ العَنْز تَرْعَثُ رَعَثاً إذا ابيضّت أطرافُ رَعْثَتِها. أي: زَنَمَتها.\nرثع: رجل رَثِعٌ، وقوم رَثِعون، وقد رَثِعَ رَثَعاً، وهو الطّمع والحرص.",
+    "text_norm": "وَرَعِثَتِ العَنْز تَرْعَثُ رَعَثاً إذا ابيضّت أطرافُ رَعْثَتِها. أي: زَنَمَتها.\nرثع: رجل رَثِعٌ، وقوم رَثِعون، وقد رَثِعَ رَثَعاً، وهو الطّمع والحرص.",
+    "source_url": "https://thahabi.org/book/2149/read/462",
+    "locator_json": {
+      "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+      "book_id": "2149",
+      "page_no": 462,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://thahabi.org/book/2149/read/462",
+      "local_key": "thahabi/book_2149/page_0462_001",
+      "raw_html_path": "raw_html/page_0462_001.html",
+      "clean_text_path": "clean_text/page_0462_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 157,
+    "token_count": 21,
+    "review_status": "pending"
+  }
+]

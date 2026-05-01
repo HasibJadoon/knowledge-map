@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:thahabi_al_khalil_kitab_al_ayn:469:1:1",
+    "raw_page_id": "raw:thahabi_al_khalil_kitab_al_ayn:469:1",
+    "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+    "book_id": "2149",
+    "page_no": 469,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "page:469",
+    "text_ar": "أي: قوّية ضخمة شديدة. والعَثَمْثَمُ: الطويل من الإبل في غِلَظٍ، ويُجمع على عَثَمْثَمات، ويوصف به الأسد والبغل لشدّة وَطْئهما.\nثعم: الثَّعْمُ: النّزع والجرّ. ثَعَمْتُه: نزعته. وتَثَعَّمَتْ فلاناً أرضُ بني فلانٍ إذا أعجبتْهُ وجَرَّتْه إليها ونَزَعَتْهُ.",
+    "text_norm": "أي: قوّية ضخمة شديدة. والعَثَمْثَمُ: الطويل من الإبل في غِلَظٍ، ويُجمع على عَثَمْثَمات، ويوصف به الأسد والبغل لشدّة وَطْئهما.\nثعم: الثَّعْمُ: النّزع والجرّ. ثَعَمْتُه: نزعته. وتَثَعَّمَتْ فلاناً أرضُ بني فلانٍ إذا أعجبتْهُ وجَرَّتْه إليها ونَزَعَتْهُ.",
+    "source_url": "https://thahabi.org/book/2149/read/469",
+    "locator_json": {
+      "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+      "book_id": "2149",
+      "page_no": 469,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://thahabi.org/book/2149/read/469",
+      "local_key": "thahabi/book_2149/page_0469_001",
+      "raw_html_path": "raw_html/page_0469_001.html",
+      "clean_text_path": "clean_text/page_0469_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 258,
+    "token_count": 35,
+    "review_status": "pending"
+  }
+]

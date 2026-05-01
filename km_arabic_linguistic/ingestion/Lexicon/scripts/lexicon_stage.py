@@ -21,6 +21,7 @@ from zipfile import ZipFile
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_PATH = ROOT / "schemas" / "stage_schema.sql"
 USER_AGENT = "KMapsResearchBot/0.1; personal research; polite page archiving"
+THAHABI_GRAPHQL_URL = "https://api.thahabi.org/query"
 
 
 class MainTextParser(HTMLParser):
@@ -84,7 +85,7 @@ def sha256_text(text: str) -> str:
 
 
 def ensure_source_dirs(source_dir: Path) -> None:
-    for name in ("raw_html", "raw_text", "clean_text", "chunks", "logs", "exports"):
+    for name in ("raw_html", "raw_text", "clean_text", "chunks", "logs", "exports", "raw_json", "raw_zip"):
         (source_dir / name).mkdir(parents=True, exist_ok=True)
 
 
@@ -107,6 +108,27 @@ def fetch_url(url: str) -> str:
     with urllib.request.urlopen(req, timeout=30) as res:
         charset = res.headers.get_content_charset() or "utf-8"
         return res.read().decode(charset, errors="replace")
+
+
+def post_json(url: str, payload: dict[str, object], referer: str | None = None) -> dict[str, object]:
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    }
+    if referer:
+        headers["Origin"] = "https://thahabi.org"
+        headers["Referer"] = referer
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+        headers=headers,
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=120) as res:
+        charset = res.headers.get_content_charset() or "utf-8"
+        body = res.read().decode(charset, errors="replace")
+    return json.loads(body)
 
 
 def parse_next_ziydia_page(raw_html: str, book_id: str) -> tuple[int, int] | None:
@@ -500,6 +522,550 @@ def extract_word_html_segments(html_text: str) -> list[dict[str, object]]:
         segments.append({"segment_type": "body", "footnote_no": None, "heading": "body", "text_ar": body_text})
     segments.extend(footnotes)
     return segments
+
+
+def extract_ketabonline_segments(content_html: str) -> list[dict[str, object]]:
+    footer_match = re.search(
+        r'<div\s+class=["\']g-page-footer["\'][^>]*>',
+        content_html,
+        flags=re.IGNORECASE,
+    )
+    if footer_match:
+        body_html = content_html[: footer_match.start()]
+        footnote_html = content_html[footer_match.end() :]
+    else:
+        body_html = content_html
+        footnote_html = ""
+
+    body_text = strip_html(body_html)
+    footnote_text = strip_html(footnote_html)
+    segments: list[dict[str, object]] = []
+    if body_text:
+        segments.append({"segment_type": "body", "footnote_no": None, "heading": "body", "text_ar": body_text})
+    if footnote_text:
+        current: dict[str, object] | None = None
+        for line in [line.strip() for line in footnote_text.splitlines() if line.strip()]:
+            note_match = re.match(r"^\(?([0-9٠-٩۰-۹]+)\)?\s*(.*)$", line, flags=re.DOTALL)
+            if note_match:
+                current = {
+                    "segment_type": "footnote",
+                    "footnote_no": note_match.group(1),
+                    "heading": f"footnote:{note_match.group(1)}",
+                    "text_ar": normalize_arabic_text(note_match.group(2)),
+                }
+                segments.append(current)
+            elif current:
+                current["text_ar"] = normalize_arabic_text(f"{current['text_ar']}\n{line}")
+            else:
+                current = {
+                    "segment_type": "footnote",
+                    "footnote_no": None,
+                    "heading": "footnote",
+                    "text_ar": line,
+                }
+                segments.append(current)
+    return segments
+
+
+def stage_web_page(
+    source_dir: Path,
+    source_slug: str,
+    source_type: str,
+    book_id: str,
+    page_no: int,
+    part_no: int,
+    source_url: str,
+    local_key: str,
+    raw_html: str,
+    raw_text: str,
+    segments: list[dict[str, object]],
+    max_chars: int,
+    file_key: str | None = None,
+    fetch_status: str = "fetched",
+) -> None:
+    init_db(source_dir)
+    key = file_key or page_key(page_no, part_no)
+    html_path = source_dir / "raw_html" / f"{key}.html"
+    raw_text_path = source_dir / "raw_text" / f"{key}.raw.txt"
+    clean_text_path = source_dir / "clean_text" / f"{key}.clean.txt"
+    chunks_path = source_dir / "chunks" / f"{key}.chunks.json"
+
+    body_segments = [s for s in segments if s["segment_type"] == "body"]
+    footnote_segments = [s for s in segments if s["segment_type"] == "footnote"]
+    body_text = normalize_arabic_text("\n\n".join(str(s["text_ar"]) for s in body_segments))
+    tagged_parts = ["[BODY]\n" + body_text] if body_text else []
+    if footnote_segments:
+        tagged_parts.append(
+            "[FOOTNOTES]\n"
+            + "\n\n".join(
+                f"[FOOTNOTE {item.get('footnote_no') or '?'}]\n{item['text_ar']}" for item in footnote_segments
+            )
+        )
+    clean_text = normalize_arabic_text("\n\n".join(tagged_parts))
+
+    html_path.write_text(raw_html.rstrip() + "\n", encoding="utf-8")
+    raw_text_path.write_text(raw_text.rstrip() + "\n", encoding="utf-8")
+    clean_text_path.write_text(clean_text + "\n", encoding="utf-8")
+
+    raw_page_id = f"raw:{source_slug}:{page_no}:{part_no}"
+    con = sqlite3.connect(source_dir / "stage.sqlite")
+    con.execute(
+        """
+        INSERT OR REPLACE INTO raw_pages (
+          id, source_slug, source_type, book_id, page_no, part_no, url, local_key,
+          raw_html_path, raw_text_path, clean_text_path, html_sha256, text_sha256,
+          fetch_status, clean_status, fetched_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'cleaned', ?)
+        """,
+        (
+            raw_page_id,
+            source_slug,
+            source_type,
+            book_id,
+            page_no,
+            part_no,
+            source_url,
+            local_key,
+            str(html_path.relative_to(source_dir)),
+            str(raw_text_path.relative_to(source_dir)),
+            str(clean_text_path.relative_to(source_dir)),
+            sha256_text(raw_html),
+            sha256_text(clean_text),
+            fetch_status,
+            utc_now(),
+        ),
+    )
+    con.execute("DELETE FROM clean_chunks WHERE raw_page_id = ?", (raw_page_id,))
+    con.execute("DELETE FROM page_segments WHERE raw_page_id = ?", (raw_page_id,))
+
+    staged_chunks = chunk_segments(segments, max_chars=max_chars)
+    segment_cursor = 0
+    for segment_index, segment in enumerate(segments, start=1):
+        segment_text = normalize_arabic_text(str(segment["text_ar"]))
+        if not segment_text:
+            continue
+        segment_start = clean_text.find(segment_text, segment_cursor)
+        segment_end = segment_start + len(segment_text)
+        segment_cursor = segment_end
+        segment_locator = {
+            "source_slug": source_slug,
+            "book_id": book_id,
+            "page_no": page_no,
+            "part_no": part_no,
+            "segment_index": segment_index,
+            "segment_type": segment["segment_type"],
+            "footnote_no": segment.get("footnote_no"),
+            "source_url": source_url,
+            "local_key": local_key,
+            "raw_html_path": str(html_path.relative_to(source_dir)),
+            "clean_text_path": str(clean_text_path.relative_to(source_dir)),
+        }
+        con.execute(
+            """
+            INSERT INTO page_segments (
+              id, raw_page_id, source_slug, book_id, page_no, part_no, segment_index,
+              segment_type, footnote_no, heading, text_ar, locator_json, char_start, char_end
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                f"segment:{source_slug}:{page_no}:{part_no}:{segment_index}",
+                raw_page_id,
+                source_slug,
+                book_id,
+                page_no,
+                part_no,
+                segment_index,
+                segment["segment_type"],
+                segment.get("footnote_no"),
+                segment.get("heading"),
+                segment_text,
+                json.dumps(segment_locator, ensure_ascii=False),
+                segment_start,
+                segment_end,
+            ),
+        )
+
+    chunk_rows: list[dict[str, object]] = []
+    cursor = 0
+    for index, chunk in enumerate(staged_chunks, start=1):
+        chunk_text_ar = str(chunk["text_ar"])
+        start = clean_text.find(chunk_text_ar, cursor)
+        end = start + len(chunk_text_ar)
+        cursor = end
+        locator = {
+            "source_slug": source_slug,
+            "book_id": book_id,
+            "page_no": page_no,
+            "part_no": part_no,
+            "chunk_index": index,
+            "segment_type": chunk["segment_type"],
+            "footnote_no": chunk.get("footnote_no"),
+            "segment_part": chunk.get("segment_part"),
+            "source_url": source_url,
+            "local_key": local_key,
+            "raw_html_path": str(html_path.relative_to(source_dir)),
+            "clean_text_path": str(clean_text_path.relative_to(source_dir)),
+        }
+        row = {
+            "id": f"chunk:{source_slug}:{page_no}:{part_no}:{index}",
+            "raw_page_id": raw_page_id,
+            "source_slug": source_slug,
+            "book_id": book_id,
+            "page_no": page_no,
+            "part_no": part_no,
+            "chunk_index": index,
+            "heading": chunk.get("heading"),
+            "text_ar": chunk_text_ar,
+            "text_norm": normalize_arabic_text(chunk_text_ar),
+            "source_url": source_url,
+            "locator_json": locator,
+            "char_start": start,
+            "char_end": end,
+            "token_count": len(chunk_text_ar.split()),
+            "review_status": "pending",
+        }
+        chunk_rows.append(row)
+        con.execute(
+            """
+            INSERT INTO clean_chunks (
+              id, raw_page_id, source_slug, book_id, page_no, part_no, chunk_index,
+              heading, text_ar, text_norm, source_url, locator_json, char_start,
+              char_end, token_count
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                row["id"],
+                row["raw_page_id"],
+                row["source_slug"],
+                row["book_id"],
+                row["page_no"],
+                row["part_no"],
+                row["chunk_index"],
+                row["heading"],
+                row["text_ar"],
+                row["text_norm"],
+                row["source_url"],
+                json.dumps(locator, ensure_ascii=False),
+                row["char_start"],
+                row["char_end"],
+                row["token_count"],
+            ),
+        )
+    con.commit()
+    con.close()
+    write_chunks_json(chunks_path, chunk_rows)
+
+
+def ingest_ketabonline_data(
+    source_dir: Path,
+    book_id: str,
+    book_url: str,
+    data_url: str | None,
+    source_slug: str,
+    max_chars: int,
+) -> None:
+    ensure_source_dirs(source_dir)
+    init_db(source_dir)
+    raw_book_html_path = source_dir / "raw_html" / "book.html"
+    if not raw_book_html_path.exists():
+        raw_book_html_path.write_text(fetch_url(book_url), encoding="utf-8")
+    book_html = raw_book_html_path.read_text(encoding="utf-8", errors="replace")
+    if data_url is None:
+        match = re.search(
+            r'https:(?:\\u002F|\\/|/){2}s2\.ketabonline\.com(?:\\u002F|\\/|/)books'
+            + rf'(?:\\u002F|\\/|/){re.escape(book_id)}'
+            + rf'(?:\\u002F|\\/|/){re.escape(book_id)}\.data\.zip\?[^",}}<]+',
+            book_html,
+        )
+        if not match:
+            raise RuntimeError("could not find KetabOnline data ZIP URL in book page")
+        data_url = match.group(0).replace("\\u002F", "/").replace("\\/", "/")
+
+    zip_path = source_dir / "raw_zip" / f"{book_id}.data.zip"
+    if not zip_path.exists():
+        print(f"downloading {data_url}")
+        req = urllib.request.Request(data_url, headers={"User-Agent": USER_AGENT})
+        with urllib.request.urlopen(req, timeout=120) as res:
+            zip_path.write_bytes(res.read())
+    else:
+        print(f"using cached {zip_path}")
+
+    with ZipFile(zip_path) as archive:
+        json_name = next(name for name in archive.namelist() if name.endswith(".data.json"))
+        data = json.loads(archive.read(json_name).decode("utf-8"))
+    raw_json_path = source_dir / "raw_json" / f"{book_id}.data.json"
+    raw_json_path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    manifest = {
+        "source_slug": source_slug,
+        "book_id": book_id,
+        "title": data.get("title"),
+        "author": (data.get("authors") or [{}])[0].get("name"),
+        "source": data.get("source"),
+        "book_url": book_url,
+        "data_url": data_url,
+        "pages_count": data.get("pages_count"),
+        "index_count": data.get("index_count"),
+        "raw_book_html_path": str(raw_book_html_path.relative_to(source_dir)),
+        "raw_data_zip_path": str(zip_path.relative_to(source_dir)),
+        "raw_data_json_path": str(raw_json_path.relative_to(source_dir)),
+        "fetched_at": utc_now(),
+    }
+    (source_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    pages = data.get("pages") or []
+    for ordinal, page in enumerate(pages, start=1):
+        page_no = int(page["id"])
+        printed_page = page.get("page")
+        part_no = int((page.get("part") or {}).get("name") or 1)
+        source_url = f"https://ketabonline.com/ar/books/{book_id}/read?page={page_no}&part={part_no}"
+        if page.get("index"):
+            source_url += f"&index={page['index']}"
+        file_key = f"page_{page_no:04d}_{part_no:03d}"
+        raw_html = str(page.get("content") or "")
+        segments = extract_ketabonline_segments(raw_html)
+        raw_text = strip_html(raw_html)
+        heading = f"printed_page:{printed_page}" if printed_page else None
+        if heading:
+            for segment in segments:
+                if segment.get("segment_type") == "body" and segment.get("heading") == "body":
+                    segment["heading"] = heading
+        stage_web_page(
+            source_dir=source_dir,
+            source_slug=source_slug,
+            source_type="ketabonline_data_page",
+            book_id=book_id,
+            page_no=page_no,
+            part_no=part_no,
+            source_url=source_url,
+            local_key=f"ketabonline/book_{book_id}/{file_key}",
+            raw_html=raw_html,
+            raw_text=raw_text,
+            segments=segments,
+            max_chars=max_chars,
+            file_key=file_key,
+        )
+        if ordinal % 100 == 0:
+            print(f"staged {ordinal}/{len(pages)} pages")
+    print(f"staged {len(pages)} KetabOnline pages for book {book_id}")
+
+
+def extract_thahabi_book_metadata(raw_html: str, book_id: str) -> dict[str, object]:
+    match = re.search(
+        r'<script\s+id=["\']__NEXT_DATA__["\']\s+type=["\']application/json["\']>(.*?)</script>',
+        raw_html,
+        flags=re.DOTALL,
+    )
+    if not match:
+        raise RuntimeError("could not find Thahabi __NEXT_DATA__ metadata")
+    data = json.loads(html.unescape(match.group(1)))
+    apollo = data["props"]["pageProps"]["__APOLLO_STATE__"]
+    book = dict(apollo[f"Book:{book_id}"])
+    author_ref = book.get("author", {}).get("__ref") if isinstance(book.get("author"), dict) else None
+    category_ref = book.get("category", {}).get("__ref") if isinstance(book.get("category"), dict) else None
+    if author_ref and author_ref in apollo:
+        book["author"] = apollo[author_ref]
+    if category_ref and category_ref in apollo:
+        book["category"] = apollo[category_ref]
+    return book
+
+
+def thahabi_pages_query(book_id: str, offset: int, limit: int, referer: str) -> dict[str, object]:
+    return post_json(
+        THAHABI_GRAPHQL_URL,
+        {
+            "operationName": "PAGES",
+            "variables": {"bookId": int(book_id), "offset": offset, "limit": limit},
+            "query": (
+                "query PAGES($bookId: Int!, $offset: Int!, $limit: Int!) { "
+                "Pages(bookId: $bookId, offset: $offset, limit: $limit) { content number bookId } }"
+            ),
+        },
+        referer=referer,
+    )
+
+
+def thahabi_sections_query(book_id: str, offset: int, limit: int, referer: str) -> dict[str, object]:
+    return post_json(
+        THAHABI_GRAPHQL_URL,
+        {
+            "operationName": "SECTION",
+            "variables": {"bookId": int(book_id), "offset": offset, "limit": limit, "number": 0},
+            "query": (
+                "query SECTION($limit: Int, $offset: Int, $number: Int, $bookId: Int!) { "
+                "Sections(bookId: $bookId, offset: $offset, pageNumber: $number, limit: $limit) "
+                "{ PageNumber title Sub } _SectionsMeta(bookId: $bookId) { count } }"
+            ),
+        },
+        referer=referer,
+    )
+
+
+def fetch_all_thahabi_sections(
+    source_dir: Path,
+    book_id: str,
+    referer: str,
+    batch_size: int,
+    delay: float,
+) -> list[dict[str, object]]:
+    sections: list[dict[str, object]] = []
+    offset = 0
+    total: int | None = None
+    while total is None or offset < total:
+        response = thahabi_sections_query(book_id, offset, batch_size, referer)
+        if "errors" in response:
+            raise RuntimeError(json.dumps(response["errors"], ensure_ascii=False))
+        data = response["data"]
+        batch = data.get("Sections") or []
+        sections.extend(batch)
+        total = int(data.get("_SectionsMeta", {}).get("count") or len(sections))
+        (source_dir / "raw_json" / f"sections_{offset:06d}.json").write_text(
+            json.dumps(response, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        if not batch:
+            break
+        offset += len(batch)
+        if delay:
+            time.sleep(delay)
+    return sections
+
+
+def heading_for_page(sections_by_page: dict[int, list[dict[str, object]]], page_no: int) -> str | None:
+    sections = sections_by_page.get(page_no) or []
+    if not sections:
+        return None
+    titles = [str(item.get("title", "")).strip() for item in sections if str(item.get("title", "")).strip()]
+    return " / ".join(titles) if titles else None
+
+
+def extract_thahabi_segments(content: str, heading: str) -> list[dict[str, object]]:
+    text = normalize_arabic_text(content.replace("\r", "\n"))
+    footnote_split = re.split(r"\n_+\n", text, maxsplit=1)
+    body_text = normalize_arabic_text(footnote_split[0])
+    footnote_text = normalize_arabic_text(footnote_split[1]) if len(footnote_split) > 1 else ""
+    segments: list[dict[str, object]] = []
+    if body_text:
+        segments.append({"segment_type": "body", "footnote_no": None, "heading": heading, "text_ar": body_text})
+    if footnote_text:
+        current: dict[str, object] | None = None
+        for line in [line.strip() for line in footnote_text.splitlines() if line.strip()]:
+            note_match = re.match(r"^\(([0-9٠-٩۰-۹]+)\)\s*(.*)$", line, flags=re.DOTALL)
+            if note_match:
+                current = {
+                    "segment_type": "footnote",
+                    "footnote_no": note_match.group(1),
+                    "heading": f"footnote:{note_match.group(1)}",
+                    "text_ar": normalize_arabic_text(note_match.group(2)),
+                }
+                segments.append(current)
+            elif current:
+                current["text_ar"] = normalize_arabic_text(f"{current['text_ar']}\n{line}")
+            else:
+                current = {
+                    "segment_type": "footnote",
+                    "footnote_no": None,
+                    "heading": "footnote",
+                    "text_ar": line,
+                }
+                segments.append(current)
+    return segments
+
+
+def ingest_thahabi_book(
+    source_dir: Path,
+    book_id: str,
+    book_url: str,
+    source_slug: str,
+    max_chars: int,
+    batch_size: int,
+    delay: float,
+    max_pages: int | None,
+) -> None:
+    ensure_source_dirs(source_dir)
+    init_db(source_dir)
+    book_html_path = source_dir / "raw_html" / "book.html"
+    if not book_html_path.exists():
+        book_html_path.write_text(fetch_url(book_url), encoding="utf-8")
+    raw_html = book_html_path.read_text(encoding="utf-8", errors="replace")
+    metadata = extract_thahabi_book_metadata(raw_html, book_id)
+    pages_count = int(metadata.get("pages") or 0)
+    if max_pages:
+        pages_count = min(pages_count, max_pages)
+
+    sections = fetch_all_thahabi_sections(source_dir, book_id, book_url, batch_size, delay)
+    sections_by_page: dict[int, list[dict[str, object]]] = {}
+    for section in sections:
+        try:
+            page_number = int(section["PageNumber"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        sections_by_page.setdefault(page_number, []).append(section)
+
+    manifest = {
+        "source_slug": source_slug,
+        "book_id": book_id,
+        "title": metadata.get("title"),
+        "author": (metadata.get("author") or {}).get("name") if isinstance(metadata.get("author"), dict) else None,
+        "category": (metadata.get("category") or {}).get("name") if isinstance(metadata.get("category"), dict) else None,
+        "book_url": book_url,
+        "graphql_url": THAHABI_GRAPHQL_URL,
+        "pages_count": metadata.get("pages"),
+        "ingested_pages_count": pages_count,
+        "words": metadata.get("words"),
+        "sections_count": len(sections),
+        "raw_book_html_path": str(book_html_path.relative_to(source_dir)),
+        "fetched_at": utc_now(),
+    }
+    (source_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (source_dir / "raw_json" / "book_metadata.json").write_text(
+        json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (source_dir / "raw_json" / "sections.json").write_text(
+        json.dumps(sections, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+    fetched = 0
+    for offset in range(1, pages_count + 1, batch_size):
+        limit = min(batch_size, pages_count - offset + 1)
+        response = thahabi_pages_query(book_id, offset, limit, book_url)
+        if "errors" in response:
+            raise RuntimeError(json.dumps(response["errors"], ensure_ascii=False))
+        (source_dir / "raw_json" / f"pages_{offset:06d}.json").write_text(
+            json.dumps(response, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        pages = response.get("data", {}).get("Pages") or []
+        if not pages:
+            break
+        for page in pages:
+            page_no = int(page["number"])
+            content = normalize_arabic_text(str(page.get("content") or "").replace("\r", "\n"))
+            heading = heading_for_page(sections_by_page, page_no) or f"page:{page_no}"
+            segments = extract_thahabi_segments(content, heading)
+            page_json = json.dumps(page, ensure_ascii=False, indent=2)
+            stage_web_page(
+                source_dir=source_dir,
+                source_slug=source_slug,
+                source_type="thahabi_graphql_page",
+                book_id=book_id,
+                page_no=page_no,
+                part_no=1,
+                source_url=f"{book_url}/read/{page_no}",
+                local_key=f"thahabi/book_{book_id}/page_{page_no:04d}_001",
+                raw_html=page_json,
+                raw_text=content,
+                segments=segments,
+                max_chars=max_chars,
+                file_key=f"page_{page_no:04d}_001",
+            )
+            fetched += 1
+        print(f"staged {fetched}/{pages_count} pages")
+        if delay:
+            time.sleep(delay)
+    print(f"staged {fetched} Thahabi pages for book {book_id}")
 
 
 def ingest_saaid_zip(source_dir: Path, url: str, source_slug: str, book_id: str, max_chars: int) -> None:
@@ -956,6 +1522,24 @@ def parse_args() -> argparse.Namespace:
     saaid.add_argument("--source-dir", type=Path, default=ROOT / "sources" / "saaid" / "maqayis_al_lugha")
     saaid.add_argument("--max-chars", type=int, default=1800)
 
+    ketab = sub.add_parser("ingest-ketabonline-data")
+    ketab.add_argument("--book-id", required=True)
+    ketab.add_argument("--book-url")
+    ketab.add_argument("--data-url")
+    ketab.add_argument("--source-slug")
+    ketab.add_argument("--source-dir", type=Path)
+    ketab.add_argument("--max-chars", type=int, default=1800)
+
+    thahabi = sub.add_parser("ingest-thahabi-book")
+    thahabi.add_argument("--book-id", required=True)
+    thahabi.add_argument("--book-url")
+    thahabi.add_argument("--source-slug")
+    thahabi.add_argument("--source-dir", type=Path)
+    thahabi.add_argument("--max-chars", type=int, default=1800)
+    thahabi.add_argument("--batch-size", type=int, default=100)
+    thahabi.add_argument("--delay", type=float, default=0.2)
+    thahabi.add_argument("--max-pages", type=int)
+
     rep = sub.add_parser("reprocess-ziydia")
     rep.add_argument("--book-id", default="766")
     rep.add_argument("--source-dir", type=Path)
@@ -998,6 +1582,27 @@ def main() -> int:
         return 0
     if args.command == "ingest-saaid-zip":
         ingest_saaid_zip(args.source_dir, args.url, args.source_slug, args.book_id, args.max_chars)
+        return 0
+    if args.command == "ingest-ketabonline-data":
+        source_slug = args.source_slug or f"ketabonline_book_{args.book_id}"
+        source_dir = args.source_dir or ROOT / "sources" / "ketabonline" / f"book_{args.book_id}"
+        book_url = args.book_url or f"https://ketabonline.com/ar/books/{args.book_id}"
+        ingest_ketabonline_data(source_dir, args.book_id, book_url, args.data_url, source_slug, args.max_chars)
+        return 0
+    if args.command == "ingest-thahabi-book":
+        source_slug = args.source_slug or f"thahabi_book_{args.book_id}"
+        source_dir = args.source_dir or ROOT / "sources" / "thahabi" / f"book_{args.book_id}"
+        book_url = args.book_url or f"https://thahabi.org/book/{args.book_id}"
+        ingest_thahabi_book(
+            source_dir=source_dir,
+            book_id=args.book_id,
+            book_url=book_url,
+            source_slug=source_slug,
+            max_chars=args.max_chars,
+            batch_size=args.batch_size,
+            delay=args.delay,
+            max_pages=args.max_pages,
+        )
         return 0
     if args.command == "reprocess-ziydia":
         source_dir = args.source_dir or ROOT / "sources" / "ziydia" / f"book_{args.book_id}"

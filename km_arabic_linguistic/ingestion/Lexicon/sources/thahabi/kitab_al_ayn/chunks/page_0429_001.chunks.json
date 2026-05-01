@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:thahabi_al_khalil_kitab_al_ayn:429:1:1",
+    "raw_page_id": "raw:thahabi_al_khalil_kitab_al_ayn:429:1",
+    "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+    "book_id": "2149",
+    "page_no": 429,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "باب العين والتاء والفاء معهما ع ف ت يستعمل فقط",
+    "text_ar": "باب العين والتاء والفاء معهما ع ف ت يستعمل فقط\nعفت: العفت في الكلام كاللّكْنَةَ. عَفَتَ الكلامَ يَعْفِتُهُ عَفْتاً. وهو أن يكسرَهُ، وهي عربيّةٌ كعربيّةِ الأعجميّ أو الحبشيّ أو السّنديّ ونحوه إذا تكلّف العربيّة. وقال ابن القِرِّيَّةِ: لا يَعرِفُ العربيةَ هؤلاء الجراجمة الطمطمانيّون الذين يلفتونها لفتاً ويعفتونها عفتاً.",
+    "text_norm": "باب العين والتاء والفاء معهما ع ف ت يستعمل فقط\nعفت: العفت في الكلام كاللّكْنَةَ. عَفَتَ الكلامَ يَعْفِتُهُ عَفْتاً. وهو أن يكسرَهُ، وهي عربيّةٌ كعربيّةِ الأعجميّ أو الحبشيّ أو السّنديّ ونحوه إذا تكلّف العربيّة. وقال ابن القِرِّيَّةِ: لا يَعرِفُ العربيةَ هؤلاء الجراجمة الطمطمانيّون الذين يلفتونها لفتاً ويعفتونها عفتاً.",
+    "source_url": "https://thahabi.org/book/2149/read/429",
+    "locator_json": {
+      "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+      "book_id": "2149",
+      "page_no": 429,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://thahabi.org/book/2149/read/429",
+      "local_key": "thahabi/book_2149/page_0429_001",
+      "raw_html_path": "raw_html/page_0429_001.html",
+      "clean_text_path": "clean_text/page_0429_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 326,
+    "token_count": 48,
+    "review_status": "pending"
+  }
+]

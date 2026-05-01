@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:thahabi_al_khalil_kitab_al_ayn:374:1:1",
+    "raw_page_id": "raw:thahabi_al_khalil_kitab_al_ayn:374:1",
+    "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+    "book_id": "2149",
+    "page_no": 374,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "page:374",
+    "text_ar": "ويقال: يَعْفِطُ في كلامه عَفْطاً، ويعفِت كلامه عفتاً، وهو عفّاتٌ عفّاط، ولا يقال على وجه النسبة: الأعفطي. والعفطة: ريح الجوف المصوّت. قال موسى: العافط كلام الرّاعي للإبل، والنفيط للشاء ضائنها وماعزها.",
+    "text_norm": "ويقال: يَعْفِطُ في كلامه عَفْطاً، ويعفِت كلامه عفتاً، وهو عفّاتٌ عفّاط، ولا يقال على وجه النسبة: الأعفطي. والعفطة: ريح الجوف المصوّت. قال موسى: العافط كلام الرّاعي للإبل، والنفيط للشاء ضائنها وماعزها.",
+    "source_url": "https://thahabi.org/book/2149/read/374",
+    "locator_json": {
+      "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+      "book_id": "2149",
+      "page_no": 374,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://thahabi.org/book/2149/read/374",
+      "local_key": "thahabi/book_2149/page_0374_001",
+      "raw_html_path": "raw_html/page_0374_001.html",
+      "clean_text_path": "clean_text/page_0374_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 207,
+    "token_count": 31,
+    "review_status": "pending"
+  }
+]

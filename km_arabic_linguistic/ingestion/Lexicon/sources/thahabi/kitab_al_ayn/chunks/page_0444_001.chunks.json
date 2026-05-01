@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:thahabi_al_khalil_kitab_al_ayn:444:1:1",
+    "raw_page_id": "raw:thahabi_al_khalil_kitab_al_ayn:444:1",
+    "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+    "book_id": "2149",
+    "page_no": 444,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "باب العين والظاء والفاء معهما يستعمل من وجوهها ف ظ ع فقط",
+    "text_ar": "باب العين والظاء والفاء معهما يستعمل من وجوهها ف ظ ع فقط\nفظع: فَظُعَ الأمر يَفْظُعُ فَظاعةً. وأَفْظَعَ إفْظاعاً. وأمرٌ فظيع، أي: عظيم. وأفظعني هذا الأمرُ وفَظِعْتُ به: واستفظعته رأيتُه فظيعاً. وأفْظَعْتُه أيضاً.",
+    "text_norm": "باب العين والظاء والفاء معهما يستعمل من وجوهها ف ظ ع فقط\nفظع: فَظُعَ الأمر يَفْظُعُ فَظاعةً. وأَفْظَعَ إفْظاعاً. وأمرٌ فظيع، أي: عظيم. وأفظعني هذا الأمرُ وفَظِعْتُ به: واستفظعته رأيتُه فظيعاً. وأفْظَعْتُه أيضاً.",
+    "source_url": "https://thahabi.org/book/2149/read/444",
+    "locator_json": {
+      "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+      "book_id": "2149",
+      "page_no": 444,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://thahabi.org/book/2149/read/444",
+      "local_key": "thahabi/book_2149/page_0444_001",
+      "raw_html_path": "raw_html/page_0444_001.html",
+      "clean_text_path": "clean_text/page_0444_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 218,
+    "token_count": 33,
+    "review_status": "pending"
+  }
+]

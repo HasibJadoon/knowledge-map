@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:ketabonline_al_raghib_mufradat:879:1:1",
+    "raw_page_id": "raw:ketabonline_al_raghib_mufradat:879:1",
+    "source_slug": "ketabonline_al_raghib_mufradat",
+    "book_id": "3069",
+    "page_no": 879,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "printed_page:897",
+    "text_ar": "الفهارس الفنيّة",
+    "text_norm": "الفهارس الفنيّة",
+    "source_url": "https://ketabonline.com/ar/books/3069/read?page=879&part=1&index=5779311",
+    "locator_json": {
+      "source_slug": "ketabonline_al_raghib_mufradat",
+      "book_id": "3069",
+      "page_no": 879,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://ketabonline.com/ar/books/3069/read?page=879&part=1&index=5779311",
+      "local_key": "ketabonline/book_3069/page_0879_001",
+      "raw_html_path": "raw_html/page_0879_001.html",
+      "clean_text_path": "clean_text/page_0879_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 22,
+    "token_count": 2,
+    "review_status": "pending"
+  }
+]
