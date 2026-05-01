@@ -1,0 +1,233 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 121,
+      "ayah_to": 121,
+      "word_start": 1,
+      "word_end": 22,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "جملة قسم مقدّر مع إعراب لام القسم",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 22,
+          "head_word_index": 2,
+          "note_ar": "جملة قسم مقدّر مع إعراب لام القسم"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "لَقَدْ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "اللام",
+          "irab_case": "مرفوع",
+          "note_ar": "لام القسم لقسم مقدّر"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "كَانَ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل",
+          "irab_case": "مرفوع",
+          "note_ar": "ما كان حديثاً يُفْتَرَى"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "فِي",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 2,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور متعلّق بخبر مقدّم ل (كان)"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "قَصَصِهِمْ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 3,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور متعلّق بخبر مقدّم ل (كان)"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "عِبْرَةٌ",
+          "relation_type": "subject",
+          "governor_word_index": 2,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "اسم كان مرفوع"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "لِأُولِي",
+          "relation_type": "adjective",
+          "governor_word_index": 5,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور نعت لعبرة"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "الْأَلْبَابِ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 6,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "مضاف إليه مجرور"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "مَا",
+          "relation_type": "negation",
+          "governor_word_index": 9,
+          "irab_position": "نافية",
+          "irab_case": "",
+          "note_ar": "نافية"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "كَانَ",
+          "relation_type": "predicate",
+          "governor_word_index": 8,
+          "irab_position": "فعل",
+          "irab_case": "مرفوع",
+          "note_ar": "مثل الأول، واسمه ضمير مستتر تقديره هو أي القرآن"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "حَدِيثَاً",
+          "relation_type": "object_direct",
+          "governor_word_index": 9,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "خبر منصوب"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "يُفْتَرَى",
+          "relation_type": "adjective",
+          "governor_word_index": 10,
+          "irab_position": "فاعل",
+          "irab_case": "منصوب",
+          "note_ar": "مضارع مبنيّ للمجهول، ونائب الفاعل ضمير مستتر تقديره هو"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "وَلَكِنْ",
+          "relation_type": "coordinated",
+          "governor_word_index": 11,
+          "irab_position": "عاطفة",
+          "irab_case": "",
+          "note_ar": "حرف للاستدراك مهمل"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "تَصْدِيقَ",
+          "relation_type": "object_direct",
+          "governor_word_index": 12,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "معطوف على حديثاً منصوب"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "الّذِي",
+          "relation_type": "appositive",
+          "governor_word_index": 13,
+          "irab_position": "اسم موصول",
+          "irab_case": "مبنيّ في محلّ جرّ مضاف إليه",
+          "note_ar": "اسم موصول مبنيّ في محلّ جرّ مضاف إليه"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "بَيْنَ",
+          "relation_type": "adverbial_place",
+          "governor_word_index": 14,
+          "irab_position": "ظرف مكان",
+          "irab_case": "منصوب",
+          "note_ar": "ظرف مكان منصوب متعلّق بمحذوف صلة الموصول"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "يَدَيْهِ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 15,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "مضاف إليه مجرور وعلامة الجرّ الياء"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "وَتَفْصِيلَ",
+          "relation_type": "object_direct",
+          "governor_word_index": 13,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "معطوف على تصديق منصوب"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "كُلِّ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 17,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "مضاف إليه مجرور"
+        },
+        {
+          "word_index": 19,
+          "word_ar": "شَيْءٍ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 18,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "مضاف إليه مجرور"
+        },
+        {
+          "word_index": 20,
+          "word_ar": "وَهُدَىً",
+          "relation_type": "object_direct",
+          "governor_word_index": 17,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "اسمان معطوفان على تصديق بحر في العطف منصوبان"
+        },
+        {
+          "word_index": 21,
+          "word_ar": "وَرَحْمَةً",
+          "relation_type": "object_direct",
+          "governor_word_index": 17,
+          "irab_position": "خبر",
+          "irab_case": "منصوب",
+          "note_ar": "اسمان معطوفان على تصديق بحر في العطف منصوبان"
+        },
+        {
+          "word_index": 22,
+          "word_ar": "لِقَوْمٍ",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 21,
+          "irab_position": "جار ومجرور",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور متعلّق برحمة"
+        },
+        {
+          "word_index": 23,
+          "word_ar": "يُؤْمِنُونَ",
+          "relation_type": "object_direct",
+          "governor_word_index": 22,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "مضارع مرفوع"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

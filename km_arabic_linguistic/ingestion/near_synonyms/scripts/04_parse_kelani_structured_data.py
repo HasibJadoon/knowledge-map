@@ -7,10 +7,10 @@ from _common import (
     KELANI_EDITION_ID,
     KELANI_SOURCE_ID,
     chunk_id,
-    load_raw_chunks,
+    dedup_chunks_by_checksum,
     read_json,
-    save_raw_chunks,
     sha256_text,
+    upsert_raw_chunks,
     write_json,
 )
 
@@ -113,17 +113,17 @@ def main() -> None:
             }
         )
 
-    retained = [
-        chunk
-        for chunk in load_raw_chunks()
-        if not (
-            chunk.get("source_id") == KELANI_SOURCE_ID
-            and chunk.get("metadata", {}).get("ingestion_stage") == "04_parse_kelani_structured_data"
-        )
-    ]
-    save_raw_chunks(retained + raw_chunks)
+    # Deduplicate within this batch before persisting — topics with identical
+    # rendered text share a canonical record; source_refs tracks all paths.
+    deduped = dedup_chunks_by_checksum(raw_chunks)
+    n_dupes = len(raw_chunks) - len(deduped)
+    if n_dupes:
+        print(f"  Deduplicated {n_dupes} duplicate topic chunk(s) — references merged")
+
+    # Upsert: idempotent, no filter-and-replace needed.
+    upsert_raw_chunks(deduped)
     write_json(EXTRACTED_DIR / "kelani_structured_topics.json", parsed_topics)
-    print(f"Parsed {len(parsed_topics)} Kelani structured topics")
+    print(f"Parsed {len(parsed_topics)} Kelani structured topics ({len(deduped)} unique chunks upserted)")
 
 
 if __name__ == "__main__":

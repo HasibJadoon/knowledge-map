@@ -8,15 +8,15 @@ from _common import (
     SOURCE_CONFIGS,
     blob_url,
     chunk_id,
+    dedup_chunks_by_checksum,
     find_title_from_html,
     first_heading_from_markdown,
-    load_raw_chunks,
     markdown_to_text,
     published_url,
     read_text_lossy,
-    save_raw_chunks,
     sha256_file,
     strip_html,
+    upsert_raw_chunks,
     write_json,
 )
 
@@ -93,19 +93,19 @@ def collect_nqcm() -> list[dict]:
 
 
 def main() -> None:
-    existing = [
-        chunk
-        for chunk in load_raw_chunks()
-        if not (
-            chunk["source_id"] in {SOURCE_CONFIGS["qdev"].source_id, SOURCE_CONFIGS["nqcm"].source_id}
-            and chunk.get("metadata", {}).get("ingestion_stage") == "02_collect_source_chunks"
-        )
-    ]
     chunks = collect_qdev() + collect_nqcm()
-    payload = existing + chunks
-    save_raw_chunks(payload)
-    write_json(OUTPUT_DIR / "source_catalog.json", payload)
-    print(f"Wrote {len(chunks)} generic source chunks to {OUTPUT_DIR / 'raw_chunks.json'}")
+
+    # Deduplicate within this batch: files with identical content share a
+    # canonical chunk; source_refs in metadata records all file paths.
+    deduped = dedup_chunks_by_checksum(chunks)
+    n_dupes = len(chunks) - len(deduped)
+    if n_dupes:
+        print(f"  Deduplicated {n_dupes} duplicate source file(s) — references merged")
+
+    # Upsert into the store: idempotent across re-runs, no filter-and-replace.
+    all_chunks = upsert_raw_chunks(deduped)
+    write_json(OUTPUT_DIR / "source_catalog.json", all_chunks)
+    print(f"Upserted {len(deduped)} unique source chunks ({len(chunks)} total collected) to {OUTPUT_DIR / 'raw_chunks.json'}")
 
 
 if __name__ == "__main__":

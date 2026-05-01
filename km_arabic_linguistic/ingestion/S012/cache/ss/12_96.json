@@ -1,0 +1,239 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 1,
+      "ayah_to": 20,
+      "word_start": 1,
+      "word_end": 20,
+      "sentence_kind": "conditional",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "conditional_if",
+          "word_start": 1,
+          "word_end": 6,
+          "head_word_index": 3,
+          "note_ar": "جملة 'جاء البشير' في محل جر مضاف إليه."
+        },
+        {
+          "clause_order": 2,
+          "clause_type": "conditional_then",
+          "word_start": 7,
+          "word_end": 12,
+          "head_word_index": 8,
+          "note_ar": "جملة 'ألقاه ...' لا محل لها جواب شرط غير جازم."
+        },
+        {
+          "clause_order": 3,
+          "clause_type": "adverbial_manner",
+          "word_start": 13,
+          "word_end": 13,
+          "head_word_index": 8,
+          "note_ar": "جملة 'ارتدّ بصيرًا' لا محل لها معطوفة على جملة 'ألقاه'."
+        },
+        {
+          "clause_order": 4,
+          "clause_type": "declarative",
+          "word_start": 14,
+          "word_end": 20,
+          "head_word_index": 15,
+          "note_ar": "جملة 'قال ...' لا محل لها استئناف بياني."
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "فَ",
+          "relation_type": "coordinated",
+          "governor_word_index": null,
+          "irab_position": "",
+          "irab_case": "",
+          "note_ar": "عاطفة"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "لَمَّا",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 8,
+          "irab_position": "ظرف",
+          "irab_case": "",
+          "note_ar": "ظرف متعلّق ب (ألقاه)"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "أَنْ",
+          "relation_type": "specification_tamyiz",
+          "governor_word_index": 2,
+          "irab_position": "ظرف",
+          "irab_case": "",
+          "note_ar": "حرف زائد"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "جَاءَ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "فعل ماض"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "الْبَشِيرُ",
+          "relation_type": "subject",
+          "governor_word_index": 4,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "فاعل مرفوع"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "أَلْقَاهُ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "مبني على الفتح المقدّر على الألف",
+          "note_ar": "فعل ماض مبنيّ على الفتح المقدّر على الألف"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "عَلَى",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 6,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور متعلّق ب (ألقاه)"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "وَجْهِهِ",
+          "relation_type": "complement_jar_majrur",
+          "governor_word_index": 7,
+          "irab_position": "مجرور",
+          "irab_case": "مجرور",
+          "note_ar": "مضاف إليه"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "فَارْتَدَّ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "مثل جاء"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "بَصِيرَاً",
+          "relation_type": "adjective",
+          "governor_word_index": 9,
+          "irab_position": "حال",
+          "irab_case": "منصوب",
+          "note_ar": "حال منصوبة"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "قَالَ",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "مثل جاء"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "أَلَمْ",
+          "relation_type": "adverb",
+          "governor_word_index": 11,
+          "irab_position": "الهمزة",
+          "irab_case": "للاستفهام",
+          "note_ar": "الهمزة للاستفهام"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "أَقُلْ",
+          "relation_type": "predicate",
+          "governor_word_index": 11,
+          "irab_position": "فعل مضارع",
+          "irab_case": "مجزوم",
+          "note_ar": "مضارع مجزوم"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "لَكُمْ",
+          "relation_type": "object_indirect",
+          "governor_word_index": 13,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "مفعول به"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "إِنِّي",
+          "relation_type": "subject",
+          "governor_word_index": 11,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "كالسابق"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "أَعْلَمُ",
+          "relation_type": "predicate",
+          "governor_word_index": 15,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "خبر إنّ"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "مِنَ",
+          "relation_type": "preposition",
+          "governor_word_index": 16,
+          "irab_position": "جار",
+          "irab_case": "جار",
+          "note_ar": "جار"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "اللّهِ",
+          "relation_type": "object_direct",
+          "governor_word_index": 17,
+          "irab_position": "مفعول به",
+          "irab_case": "مرفوع",
+          "note_ar": "مفعول به"
+        },
+        {
+          "word_index": 19,
+          "word_ar": "مَا",
+          "relation_type": "complement_zarf",
+          "governor_word_index": 16,
+          "irab_position": "اسم",
+          "irab_case": "مرفوع",
+          "note_ar": "اسم"
+        },
+        {
+          "word_index": 20,
+          "word_ar": "لَا",
+          "relation_type": "negation",
+          "governor_word_index": 19,
+          "irab_position": "اللام",
+          "irab_case": "اللام",
+          "note_ar": "اللام"
+        },
+        {
+          "word_index": 21,
+          "word_ar": "تَعْلَمُونَ",
+          "relation_type": "object_direct",
+          "governor_word_index": 19,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,122 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:44",
+  "source": "Safi",
+  "result": {
+    "claims": [
+      {
+        "word_index": 1,
+        "word_ar": "قالوا",
+        "claim_type": "irab",
+        "source_quote_ar": "قالوا فعل ماض وفاعله",
+        "claim_ar": "قالوا فعل ماض وفاعله",
+        "claim_en": "قالوا is a past tense verb and its subject",
+        "root": "قَلَّ",
+        "lemma": "قال",
+        "irab_position": "فاعل",
+        "irab_case": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 2,
+        "word_ar": "أضغاث",
+        "claim_type": "irab",
+        "source_quote_ar": "أضغاث خبر لمبتدأ محذوف تقديره هي أو هذه أو تلك",
+        "claim_ar": "أضغاث خبر لمبتدأ محذوف تقديره هي أو هذه أو تلك",
+        "claim_en": "أضغاث is the news of an omitted subject, which is estimated to be 'she' or 'these' or 'those'",
+        "root": "ضَغَث",
+        "lemma": "ضَغَث",
+        "irab_position": "خبر",
+        "irab_case": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 3,
+        "word_ar": "أحلام",
+        "claim_type": "irab",
+        "source_quote_ar": "أحلام مضاف إليه مجرور",
+        "claim_ar": "أحلام مضاف إليه مجرور",
+        "claim_en": "أحلام is a noun added to, and is in the genitive case",
+        "root": "حَلَم",
+        "lemma": "حلم",
+        "irab_position": "مفعول به",
+        "irab_case": "مجرور",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 4,
+        "word_ar": "و",
+        "claim_type": "irab",
+        "source_quote_ar": "الواو عاطفة",
+        "claim_ar": "الواو عاطفة",
+        "claim_en": "The 'و' is a conjunction",
+        "root": "",
+        "lemma": "",
+        "irab_position": "",
+        "irab_case": "",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 5,
+        "word_ar": "نَحْنُ",
+        "claim_type": "irab",
+        "source_quote_ar": "نحن ضمير منفصل مبنيّ في محلّ رفع اسم ما",
+        "claim_ar": "نحن ضمير منفصل مبنيّ في محلّ رفع اسم ما",
+        "claim_en": "نحن is a separate pronoun, in the nominative case as the name of 'ما'",
+        "root": "",
+        "lemma": "",
+        "irab_position": "مبتدأ",
+        "irab_case": "مرفوع",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 6,
+        "word_ar": "بتأويل",
+        "claim_type": "irab",
+        "source_quote_ar": "بتأويل جارّ ومجرور متعلّق بعالمين",
+        "claim_ar": "بتأويل جارّ ومجرور متعلّق بعالمين",
+        "claim_en": "بتأويل is in the genitive case and is connected to 'عالمين'",
+        "root": "تَوَيَّل",
+        "lemma": "تأويل",
+        "irab_position": "جار ومجرور",
+        "irab_case": "مجرور",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 7,
+        "word_ar": "الْأَحْلَامِ",
+        "claim_type": "irab",
+        "source_quote_ar": "الأحلام مضاف إليه مجرور",
+        "claim_ar": "الأحلام مضاف إليه مجرور",
+        "claim_en": "الأحلام is a noun added to, and is in the genitive case",
+        "root": "حَلَم",
+        "lemma": "حلم",
+        "irab_position": "مفعول به",
+        "irab_case": "مجرور",
+        "confidence": "high",
+        "needs_review_reason": ""
+      },
+      {
+        "word_index": 8,
+        "word_ar": "بِعَالِمِينَ",
+        "claim_type": "irab",
+        "source_quote_ar": "عالمين مجرور لفظا منصوب محلّا خبر ما",
+        "claim_ar": "عالمين مجرور لفظا منصوب محلّا خبر ما",
+        "claim_en": "عالمين is in the genitive case by form but is in the nominative case as the news of 'ما'",
+        "root": "عَلَم",
+        "lemma": "عالم",
+        "irab_position": "خبر",
+        "irab_case": "منصوب",
+        "confidence": "high",
+        "needs_review_reason": ""
+      }
+    ],
+    "warnings": []
+  }
+}

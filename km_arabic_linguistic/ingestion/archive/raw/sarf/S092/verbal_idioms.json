@@ -1,0 +1,29 @@
+{
+  "surah": 92,
+  "count": 2,
+  "source": "Verbal-Idioms-Mushaf-Order-Version-2-PDF.pdf",
+  "idioms": [
+    {
+      "surah": 92,
+      "ayah": 11,
+      "vi_page": 252,
+      "qr_ref": "92:11",
+      "arabic": "َوَماَيغنيَعنَالحدثانَلَ ْيت\n                                                                       َ ُ أغنىَعن َه | بَغَيََ | ْبت َغىى",
+      "meaning_en": "\"And [saying the word] 'Alas!' is of no avail against misfortune.\"",
+      "raw_block": "92 11 252 ْ ْ ْ َوَماَيغنيَعنَالحدثانَلَ ْيت َ ُ أغنىَعن َه َ َ ُ َ َ \"And [saying the word] 'Alas!' is of no avail against misfortune.\" َ )بَغَيََ( ا ْبت َغىىas a verb with an object To seek the pleasure [literally: face] of God َ",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 92,
+      "ayah": 20,
+      "vi_page": 56,
+      "qr_ref": "92:20",
+      "arabic": "ْبت ََغىىََوجه ى\n                                                               َ َاّلل | شَرَح | َشرح",
+      "meaning_en": null,
+      "raw_block": "92 20 56 ْ Masdar َ ا ْبت ََغىىََوجه ى َ َاّلل َ َ َ َ ) شَرَح ( َشرحas verb with an object (Of God) to set somebody’s mind at ease [with regard to something]/make somebody َ َ content [in something], removing one’s doubts/apprehensions ْ",
+      "ruku_num": 1,
+      "n_rukus": 1
+    }
+  ]
+}

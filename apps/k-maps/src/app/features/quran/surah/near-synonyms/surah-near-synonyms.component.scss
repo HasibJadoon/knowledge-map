@@ -191,11 +191,13 @@
   background: transparent;
   text-align: right;
   direction: rtl;
-  unicode-bidi: isolate;
+  unicode-bidi: plaintext;
   white-space: normal;
   overflow: visible;
   text-overflow: clip;
   overflow-wrap: anywhere;
+  word-break: normal;
+  min-width: 0;
 }
 
 .syn-pos-chip {
@@ -220,7 +222,9 @@
   grid-row: 2;
   grid-column: 1 / -1;
   justify-self: stretch;
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   direction: rtl;
   text-align: right;
   unicode-bidi: isolate;
@@ -228,10 +232,12 @@
   width: 100%;
   min-width: 0;
   max-height: 7.5rem;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   padding: 0;
   background: transparent;
+  overflow-wrap: anywhere;
 }
 
 .syn-card__chain::-webkit-scrollbar {
@@ -309,6 +315,9 @@
     opacity: .78;
     text-align: right;
     direction: rtl;
+    unicode-bidi: plaintext;
+    overflow-wrap: anywhere;
+    min-width: 0;
   }
 }
 
@@ -353,7 +362,9 @@
 }
 
 .syn-detail-chain {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   direction: rtl;
   color: color-mix(in srgb, var(--km-gold) 20%, #f8f0df);
   font-family: var(--km-font-arabic-ui);
@@ -362,6 +373,8 @@
   margin-bottom: .9rem;
   text-align: right;
   unicode-bidi: isolate;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .syn-edit {
@@ -494,6 +507,13 @@
   direction: rtl;
   align-self: stretch;
   unicode-bidi: plaintext;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.syn-member__arabic {
+  unicode-bidi: plaintext;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 560px) {

@@ -1,0 +1,11 @@
+{
+  "layer": "irab",
+  "ayah_key": "12:58",
+  "source": "Safi",
+  "result": {
+    "claims": [],
+    "warnings": [
+      "LLM error: timed out"
+    ]
+  }
+}

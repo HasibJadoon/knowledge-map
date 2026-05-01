@@ -1,0 +1,18 @@
+{
+  "layer": "balagha",
+  "ayah_key": "12:3",
+  "source_type": "direct",
+  "sources": [
+    "Kashshaf",
+    "Alusi",
+    "Tahrir",
+    "Razi",
+    "Bahr_Muhit"
+  ],
+  "result": {
+    "claims": [],
+    "warnings": [
+      "JSON parse failed (done_reason=length)"
+    ]
+  }
+}

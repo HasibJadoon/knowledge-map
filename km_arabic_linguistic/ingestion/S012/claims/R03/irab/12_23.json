@@ -3,6 +3,6 @@
   "ayah_key": "12:23",
   "source": "Safi",
   "result": {
-    "error": "Invalid JSON structure. The content appears to be a mix of text and JSON, but it's not properly formatted as a JSON object."
+    "error": "Invalid request"
   }
 }

@@ -1,0 +1,51 @@
+{
+  "surah": 101,
+  "count": 4,
+  "source": "Verbal-Idioms-Mushaf-Order-Version-2-PDF.pdf",
+  "idioms": [
+    {
+      "surah": 101,
+      "ayah": 3,
+      "vi_page": 121,
+      "qr_ref": "101:3",
+      "arabic": "َاك    َ  َماَأَد َر | اَه | َُ | ََ ماَيدر ْي | َك َذا | َاّلل\n                                                                                                                                                                                          َ لَ َع َل",
+      "meaning_en": null,
+      "raw_block": "101 3 121 of an explication, but ii is in the form of a comment: َاك َ َماَأَد َرis, in all the verses it occurs in, regularly followed by a و َ اَه مconstruction, which paves the way for an explication of َُ َ the subject under discussion, thus suggesting that the gap in the listener's knowledge ْ ََ ماَيدر ْي, on the other hand, is in all cases followed by a َك َذا needs to be filled; ك ى َ ُ َاّلل َ لَ َع َل َ َ construction, implying that it is not necessary to fill the gap in the listener's",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 101,
+      "ayah": 6,
+      "vi_page": 71,
+      "qr_ref": "101:6",
+      "arabic": "َف | خَفَف",
+      "meaning_en": "See 7:8 Page 401 of 404 ( )as a verb",
+      "raw_block": "101 6 71 َ deeds) See 7:8 Page 401 of 404 َف َ (َ )خَفَفas a verb َ خ",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 101,
+      "ayah": 8,
+      "vi_page": 111,
+      "qr_ref": "101:8",
+      "arabic": "َف | دَرَيَ | أَدر ىى | اَهَماك\n                                                                    َ ر د َ أَام | َُ",
+      "meaning_en": "Compare the construction in 69:3 (referred to as i) and 33:63 (referred to as ii): i and ii are usually considered interchangeable, but the Quranic usage suggests that there is some difference between the two. First, i indicates the momentous or prodigious nature of something, but that is not necessarily the case with ii. Second, i implies that the listener either lacks all knowledge about the thing in question or is unaware of its true significance, whereas ii implies that the listener may have formed some idea of what is being talked about, but could be grossly mistaken in his estimation. Third, i takes the form",
+      "raw_block": "101 8 111 And he whose scales are light [= whose bad deeds outweigh his good deeds] َف َ خ َ ْ َ )دَرَيَ( أَدر ىىas a verb with an object And what, do you think, is that? [literally: what would inform you as to what it is?] َ ْ Compare the construction in 69:3 (referred to as i) and 33:63 (referred to as ii): َ و َ اَهَماك َ ر د َ أَام i and ii are usually considered interchangeable, but the Quranic usage suggests that there َُ َ َ َ is some difference between the two. First, i indicates the mom",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 101,
+      "ayah": 10,
+      "vi_page": 121,
+      "qr_ref": "101:10",
+      "arabic": "َاك    َ  َماَأَد َر | اَه | َُ | ََ ماَيدر ْي | َك َذا | َاّلل\n                                                                                                                                                                                        َ لَ َع َل",
+      "meaning_en": "Compare the construction in 69:3 (referred to as i) and 33:63 (referred to as ii): i and ii are usually considered interchangeable, but the Quranic usage suggests that there is some difference between the two. First, i indicates the momentous or prodigious nature of something, but that is not necessarily the case with ii. Second, i implies that the listener either lacks all knowledge about the thing in question or is unaware of its true significance, whereas ii implies that the listener may have formed some idea of what is being talked about, but could be grossly mistaken in his estimation. Third, i takes the form",
+      "raw_block": "101 10 121 of an explication, but ii is in the form of a comment: َاك َ َماَأَد َرis, in all the verses it occurs in, regularly followed by a و َ اَه مconstruction, which paves the way for an explication of َُ َ the subject under discussion, thus suggesting that the gap in the listener's knowledge ْ ََ ماَيدر ْي, on the other hand, is in all cases followed by a َك َذا needs to be filled; ك ى َ ُ َاّلل َ لَ َع َل َ َ construction, implying that it is not necessary to fill the gap in the listener'",
+      "ruku_num": 1,
+      "n_rukus": 1
+    }
+  ]
+}

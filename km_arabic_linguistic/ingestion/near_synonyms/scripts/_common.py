@@ -660,6 +660,53 @@ def upsert_raw_chunks(incoming: Iterable[dict[str, Any]]) -> list[dict[str, Any]
     return list(existing.values())
 
 
+def dedup_chunks_by_checksum(chunks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Deduplicate a list of chunks by content checksum.
+
+    When two or more chunks share the same checksum (identical content), only
+    the first one is kept as the canonical record.  All duplicate source paths
+    are collected into ``metadata["source_refs"]`` on the canonical chunk so no
+    provenance information is lost.  This keeps the ingestion store clean while
+    preserving every location where the duplicated content appeared.
+
+    Args:
+        chunks: List of chunk dicts, each containing at least ``"id"``,
+                ``"checksum"``, ``"source_path"``, and ``"metadata"``.
+
+    Returns:
+        Deduplicated list (order of first occurrence preserved).
+    """
+    seen: dict[str, dict[str, Any]] = {}  # checksum → canonical chunk
+    for chunk in chunks:
+        cs = chunk.get("checksum") or chunk["id"]
+        if cs not in seen:
+            # First occurrence — make it canonical; seed source_refs
+            canonical = dict(chunk)
+            meta = dict(canonical.get("metadata") or {})
+            meta.setdefault("source_refs", [canonical.get("source_path", "")])
+            canonical["metadata"] = meta
+            seen[cs] = canonical
+        else:
+            # Duplicate content — merge provenance into the canonical chunk
+            canonical = seen[cs]
+            ref = chunk.get("source_path", "")
+            refs: list[str] = canonical["metadata"].setdefault("source_refs", [])
+            if ref and ref not in refs:
+                refs.append(ref)
+            # Also carry forward any page-range info when present
+            chunk_meta = chunk.get("metadata") or {}
+            if "page_start" in chunk_meta:
+                dup_ranges: list[dict] = canonical["metadata"].setdefault("duplicate_page_ranges", [])
+                dup_ranges.append(
+                    {
+                        "source_path": chunk.get("source_path", ""),
+                        "page_start": chunk_meta["page_start"],
+                        "page_end": chunk_meta["page_end"],
+                    }
+                )
+    return list(seen.values())
+
+
 def split_text_sections(title: str, text: str, source_path: str, *, min_len: int = 900) -> list[dict[str, Any]]:
     sections: list[dict[str, Any]] = []
     current_title = title

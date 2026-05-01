@@ -1,0 +1,40 @@
+{
+  "surah": 111,
+  "count": 3,
+  "source": "Verbal-Idioms-Mushaf-Order-Version-2-PDF.pdf",
+  "idioms": [
+    {
+      "surah": 111,
+      "ayah": 1,
+      "vi_page": 25,
+      "qr_ref": "111:1",
+      "arabic": "َت | غَنَي | أغنى | عنه",
+      "meaning_en": "Abu Lahab as its subject; the meaning is that, besides losing his power, Abu Lahab himself will be destroyed. The second use of the verb is not idiomatic, however. His power is broken To be of use/available to somebody, stand somebody in good stead",
+      "raw_block": "111 1 25 ُ َ prediction is as good as come true. The verb ب َ َ َتoccurs a second time in the verse, with Abu Lahab as its subject; the meaning is that, besides losing his power, Abu Lahab himself will be destroyed. The second use of the verb is not idiomatic, however. His power is broken ْ To be of use/available to somebody, stand somebody in good stead )غَنَي( أغنىas a verb with a preposition ( )عنه َ",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 111,
+      "ayah": 2,
+      "vi_page": 252,
+      "qr_ref": "111:2",
+      "arabic": "َوَماَيغنيَعنَالحدثانَلَ ْيت\n                                                                 َ ُ أغنىَعن َه | كَسَب | َكسب | َكسب | َك َس َب َه",
+      "meaning_en": "\"And [saying the word] 'Alas!' is of no avail against misfortune.\"",
+      "raw_block": "111 2 252 ْ ْ ْ َوَماَيغنيَعنَالحدثانَلَ ْيت َ ُ أغنىَعن َه َ َ ُ َ َ \"And [saying the word] 'Alas!' is of no avail against misfortune.\" َ )كَسَب( َكسبas a verb with an object To do something, perform a deed/an action َ َ َ َكسبin the sense of “to earn [wealth, etc.]” occurs only in a few verses: in 2:221 (not ُ َك َس َب َهlisted); probably in 2:79 – but not to the figurative meaning; and possibly in 31:34 and َ َ 45:10. Object",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 111,
+      "ayah": 2,
+      "vi_page": 302,
+      "qr_ref": "111:2",
+      "arabic": "ما | ما | ْص َدر َية | َاَكسب  وَم | ال\n                                                                                                                                                    َُ | ماَأَغنَىَعنهَُم",
+      "meaning_en": "Page 403 of 404 actions. The verse is saying that neither his wealth (",
+      "raw_block": "111 2 302 A number of verses, in which ماis used and the verb has no stated object (e.g. 2:225), may understo od be categorized as a simple verb construction if the ماis taken to be م ْص َدر َيةrather than as َ a relative pronoun. َاَكسب وَمrefers to htose actions which were to Abu Lahab’s mind good and homorable َ َ َ َ َ Page 403 of 404 ْ ْ actions. The verse is saying that neither his wealth ( ال َُ ) ماَأَغنَىَعنهَُمnor those of his َ َ َ actions which outwardly appeared to be good or which ",
+      "ruku_num": 1,
+      "n_rukus": 1
+    }
+  ]
+}

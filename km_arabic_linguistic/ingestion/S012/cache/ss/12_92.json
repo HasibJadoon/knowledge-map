@@ -1,0 +1,125 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 1,
+      "ayah_to": 11,
+      "word_start": 1,
+      "word_end": 11,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 11,
+          "head_word_index": 1,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قال",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "قال فعل ماض والفاعل هو (لا) نافية للجنس"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "لا",
+          "relation_type": "subject",
+          "governor_word_index": 1,
+          "irab_position": "نافية للجنس",
+          "irab_case": "",
+          "note_ar": "لا نافية للجنس"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "تثريب",
+          "relation_type": "predicate",
+          "governor_word_index": 2,
+          "irab_position": "اسم لا مبنيّ على الفتح",
+          "irab_case": "منصوب",
+          "note_ar": "تثريب اسم لا مبنيّ على الفتح في محلّ نصب"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "عليكم",
+          "relation_type": "object_direct",
+          "governor_word_index": 2,
+          "irab_position": "متعلّق بخبر لا",
+          "irab_case": "منصوب",
+          "note_ar": "عليكم مثل علينا «1» متعلّق بخبر لا"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "اليوم",
+          "relation_type": "adverb",
+          "governor_word_index": 2,
+          "irab_position": "ظرف زمان منصوب",
+          "irab_case": "منصوب",
+          "note_ar": "اليوم ظرف زمان منصوب متعلّق بخبر لا"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "يغفر",
+          "relation_type": "predicate",
+          "governor_word_index": null,
+          "irab_position": "مضارع مرفوع",
+          "irab_case": "مرفوع",
+          "note_ar": "يغفر مضارع مرفوع"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "الله",
+          "relation_type": "subject",
+          "governor_word_index": 6,
+          "irab_position": "فاعل مرفوع",
+          "irab_case": "مرفوع",
+          "note_ar": "الله لفظ الجلالة فاعل مرفوع"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "لكم",
+          "relation_type": "object_direct",
+          "governor_word_index": 6,
+          "irab_position": "متعلّق ب (يغفر)",
+          "irab_case": "منصوب",
+          "note_ar": "لكم مثل علينا «3» متعلّق ب (يغفر)"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "الواو",
+          "relation_type": "coordinated",
+          "governor_word_index": 6,
+          "irab_position": "عاطفة",
+          "irab_case": "",
+          "note_ar": "الواو عاطفة"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "أرحم",
+          "relation_type": "predicate",
+          "governor_word_index": 9,
+          "irab_position": "خبر المبتدأ مرفوع",
+          "irab_case": "مرفوع",
+          "note_ar": "أرحم خبر المبتدأ مرفوع"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "الراحمين",
+          "relation_type": "object_direct",
+          "governor_word_index": 10,
+          "irab_position": "مضاف إليه مجرور",
+          "irab_case": "مجرور",
+          "note_ar": "الراحمين مضاف إليه مجرور وعلامة الجرّ الياء"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

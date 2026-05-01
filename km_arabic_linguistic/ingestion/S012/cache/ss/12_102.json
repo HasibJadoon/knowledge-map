@@ -1,0 +1,244 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 5,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "الجملة الإشارة إلى قصة يوسف",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 5,
+          "head_word_index": 1,
+          "note_ar": "جملة إشارة مبنية في محل رفع مبتدأ"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "ذَلِكَ",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "اسم إشارة مبنيّ في محلّ رفع مبتدأ"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "مِنْ",
+          "relation_type": "preposition",
+          "governor_word_index": 1,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور متعلّق بخبر المبتدأ"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "أَنْبَاءِ",
+          "relation_type": "object",
+          "governor_word_index": 2,
+          "irab_position": "خبر",
+          "irab_case": "مجرور",
+          "note_ar": "خبر المبتدأ"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "الْغَيْبِ",
+          "relation_type": "object",
+          "governor_word_index": 2,
+          "irab_position": "مضاف إليه",
+          "irab_case": "مجرور",
+          "note_ar": "مضاف إليه مجرور"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "نُوحِيهِ",
+          "relation_type": "object",
+          "governor_word_index": 2,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "مضارع مرفوع"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 6,
+      "word_end": 10,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "الجملة توضح عدم وجود المتكلم عند القوم",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 6,
+          "word_end": 10,
+          "head_word_index": 7,
+          "note_ar": "جملة توضح عدم وجود المتكلم عند القوم"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 6,
+          "word_ar": "إِلَيْكَ",
+          "relation_type": "object",
+          "governor_word_index": 5,
+          "irab_position": "مفعول به",
+          "irab_case": "مجرور",
+          "note_ar": "مفعول به"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "وَمَا",
+          "relation_type": "negation",
+          "governor_word_index": null,
+          "irab_position": "نفي",
+          "irab_case": "",
+          "note_ar": "حرف نفي"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "كُنْتَ",
+          "relation_type": "verb",
+          "governor_word_index": 7,
+          "irab_position": "فعل",
+          "irab_case": "مبني على السكون",
+          "note_ar": "فعل ماض ناقص مبنيّ على السكون"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "لَدَيْهِمْ",
+          "relation_type": "object",
+          "governor_word_index": 8,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "ظرف مكان مبنيّ على السكون في محلّ نصب متعلّق بخبر كنت"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "إذ",
+          "relation_type": "time",
+          "governor_word_index": 9,
+          "irab_position": "ظرف",
+          "irab_case": "منصوب",
+          "note_ar": "ظرف للزمن الماضي في محلّ نصب متعلّق بالخبر المحذوف"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 11,
+      "word_end": 14,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "الجملة توضح تجمع القوم على أمرهم",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 11,
+          "word_end": 14,
+          "head_word_index": 11,
+          "note_ar": "جملة توضح تجمع القوم على أمرهم"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 11,
+          "word_ar": "إذ",
+          "relation_type": "time",
+          "governor_word_index": null,
+          "irab_position": "ظرف",
+          "irab_case": "منصوب",
+          "note_ar": "ظرف للزمن الماضي في محلّ نصب متعلّق بالخبر المحذوف"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "أَجْمَعُوا",
+          "relation_type": "verb",
+          "governor_word_index": 11,
+          "irab_position": "فعل",
+          "irab_case": "منصوب",
+          "note_ar": "فعل ماض وفاعله"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "أَمْرَهُمْ",
+          "relation_type": "object",
+          "governor_word_index": 12,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "مفعول به منصوب"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "وَهُمْ",
+          "relation_type": "subject",
+          "governor_word_index": 12,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "ضمير مضاف إليه"
+        }
+      ]
+    },
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 15,
+      "word_end": 17,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "الجملة توضح تخطيط القوم",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 15,
+          "word_end": 17,
+          "head_word_index": 15,
+          "note_ar": "جملة توضح تخطيط القوم"
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 15,
+          "word_ar": "وَهُمْ",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "ضمير مضاف إليه مرفوع"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "يَخْطَطُونَ",
+          "relation_type": "verb",
+          "governor_word_index": 15,
+          "irab_position": "فعل",
+          "irab_case": "منصوب",
+          "note_ar": "فعل ماض مبني على السكون"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "فِي",
+          "relation_type": "preposition",
+          "governor_word_index": 16,
+          "irab_position": "جار",
+          "irab_case": "مجرور",
+          "note_ar": "جار ومجرور"
+        }
+      ]
+    }
+  ],
+  "warnings": [
+    "الجملة الأخيرة (وَهُمْ يَخْطَطُونَ فِي) قد تُعتبر جملة مُستأنفة أو مُستقبلة، وقد لا تُعتبر جملة منفصلة بوضوح."
+  ]
+}

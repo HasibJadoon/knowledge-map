@@ -13,9 +13,9 @@ from _common import (
     KELANI_PDF_PATH,
     KELANI_SOURCE_ID,
     chunk_id,
-    load_raw_chunks,
-    save_raw_chunks,
+    dedup_chunks_by_checksum,
     sha256_text,
+    upsert_raw_chunks,
 )
 
 
@@ -60,15 +60,6 @@ def main() -> None:
         end_page = total_pages
     if start_page < 1 or start_page > end_page:
         raise ValueError(f"Invalid page range: {start_page}-{end_page}")
-
-    existing = [
-        chunk
-        for chunk in load_raw_chunks()
-        if not (
-            chunk.get("source_id") == KELANI_SOURCE_ID
-            and chunk.get("metadata", {}).get("ingestion_stage") == "06_extract_kelani_pdf_ocr"
-        )
-    ]
 
     chunks = []
     page_buffer: list[tuple[int, str]] = []
@@ -118,8 +109,20 @@ def main() -> None:
         seq += 1
         page_buffer = []
 
-    save_raw_chunks(existing + chunks)
-    print(f"OCR chunked {len(chunks)} Kelani PDF chunks from pages {start_page}-{end_page}")
+    # Deduplicate within this batch: PDF pages with identical OCR content get
+    # merged into one canonical chunk; duplicate page ranges are recorded in
+    # metadata["source_refs"] / metadata["duplicate_page_ranges"] instead of
+    # being stored as separate records.
+    deduped = dedup_chunks_by_checksum(chunks)
+    n_dupes = len(chunks) - len(deduped)
+    if n_dupes:
+        print(f"  Deduplicated {n_dupes} duplicate PDF page chunk(s) — references merged into canonical records")
+
+    # Upsert into the store: existing records with the same id are updated in
+    # place; new records are appended.  This replaces the old filter-and-append
+    # pattern and makes re-runs fully idempotent.
+    upsert_raw_chunks(deduped)
+    print(f"OCR chunked {len(deduped)} unique Kelani PDF chunks from pages {start_page}-{end_page} ({len(chunks)} total scanned)")
 
 
 if __name__ == "__main__":

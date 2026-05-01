@@ -1,0 +1,224 @@
+{
+  "sentences": [
+    {
+      "ayah_from": 12,
+      "ayah_to": 12,
+      "word_start": 1,
+      "word_end": 22,
+      "sentence_kind": "declarative",
+      "discourse_role": "main narrative",
+      "note_ar": "",
+      "clauses": [
+        {
+          "clause_order": 1,
+          "clause_type": "main",
+          "word_start": 1,
+          "word_end": 22,
+          "head_word_index": 1,
+          "note_ar": ""
+        }
+      ],
+      "syntax_relations": [
+        {
+          "word_index": 1,
+          "word_ar": "قالوا",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "فعل ماض وفاعله (الهمزة) للاستفهام التقريريّ- أو الاستخباريّ-"
+        },
+        {
+          "word_index": 2,
+          "word_ar": "أَإِنَّكَ",
+          "relation_type": "predicate",
+          "governor_word_index": 1,
+          "irab_position": "حروف مشبّه بالفعل",
+          "irab_case": "",
+          "note_ar": "حرف مشبّه بالفعل و (الكاف) ضمير في محلّ نصب اسم إنّ"
+        },
+        {
+          "word_index": 3,
+          "word_ar": "لَأَنْتَ",
+          "relation_type": "subject",
+          "governor_word_index": 2,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "(اللام) لام الابتداء (أنت) ضمير منفصل في محلّ رفع مبتدأ"
+        },
+        {
+          "word_index": 4,
+          "word_ar": "يُوسُفُ",
+          "relation_type": "predicate",
+          "governor_word_index": 3,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "(يوسف) خبر مرفوع، ومنع من التنوين للعلميّة العجمة"
+        },
+        {
+          "word_index": 5,
+          "word_ar": "قَالَ",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "فعل ماض، والفاعل هو (أنا يوسف) مثل أنت يوسف"
+        },
+        {
+          "word_index": 6,
+          "word_ar": "أَنَا",
+          "relation_type": "subject",
+          "governor_word_index": 5,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "(أنا) في محلّ نصب مقول القول"
+        },
+        {
+          "word_index": 7,
+          "word_ar": "يُوسُفُ",
+          "relation_type": "predicate",
+          "governor_word_index": 6,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "(يوسف) في محلّ نصب مقول القول"
+        },
+        {
+          "word_index": 8,
+          "word_ar": "وَهَذَا",
+          "relation_type": "subject",
+          "governor_word_index": null,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "(ها) حرف تنبيه (ذا) اسم إشارة مبنيّ في محلّ رفع مبتدأ"
+        },
+        {
+          "word_index": 9,
+          "word_ar": "أَخِي",
+          "relation_type": "predicate",
+          "governor_word_index": 8,
+          "irab_position": "خبر",
+          "irab_case": "مرفوع",
+          "note_ar": "(أخي) خبر مرفوع، وعلامة الرفع الضمّة المقدّرة على ما قبل الياء"
+        },
+        {
+          "word_index": 10,
+          "word_ar": "قَدْ",
+          "relation_type": "circumstantial_hal",
+          "governor_word_index": 11,
+          "irab_position": "حرف تحقيق",
+          "irab_case": "",
+          "note_ar": "(قد) حرف تحقيق"
+        },
+        {
+          "word_index": 11,
+          "word_ar": "مَنَّ",
+          "relation_type": "verb",
+          "governor_word_index": 12,
+          "irab_position": "فعل ماض",
+          "irab_case": "",
+          "note_ar": "(منّ) فعل ماض"
+        },
+        {
+          "word_index": 12,
+          "word_ar": "اللّهُ",
+          "relation_type": "subject",
+          "governor_word_index": 11,
+          "irab_position": "فاعل",
+          "irab_case": "مرفوع",
+          "note_ar": "(الله) لفظ الجلالة فاعل مرفوع"
+        },
+        {
+          "word_index": 13,
+          "word_ar": "عَلَيْنَا",
+          "relation_type": "object_direct",
+          "governor_word_index": 11,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "(على) حرف جرّ و (نا) ضمير في محلّ جرّ متعلّق ب (منّ)"
+        },
+        {
+          "word_index": 14,
+          "word_ar": "إِنَّهُ",
+          "relation_type": "subject",
+          "governor_word_index": 15,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "(إنّه) مرّ إعرابه"
+        },
+        {
+          "word_index": 15,
+          "word_ar": "مَنْ",
+          "relation_type": "subject",
+          "governor_word_index": 14,
+          "irab_position": "مبتدأ",
+          "irab_case": "مرفوع",
+          "note_ar": "(من) اسم شرط جازم مبنيّ في محلّ رفع مبتدأ"
+        },
+        {
+          "word_index": 16,
+          "word_ar": "يَتَّقِ",
+          "relation_type": "verb",
+          "governor_word_index": 15,
+          "irab_position": "فعل مضارع",
+          "irab_case": "مجزوم",
+          "note_ar": "(يتّق) مضارع مجزوم فعل الشرط وعلامة الجزم حذف حرف العلّة"
+        },
+        {
+          "word_index": 17,
+          "word_ar": "وَيَصْبِرْ",
+          "relation_type": "object_direct",
+          "governor_word_index": 16,
+          "irab_position": "فعل مضارع",
+          "irab_case": "مجزوم",
+          "note_ar": "(يصبر) مثل يتّق معطوف عليه"
+        },
+        {
+          "word_index": 18,
+          "word_ar": "فَإِنَّ",
+          "relation_type": "adverbial_time",
+          "governor_word_index": 19,
+          "irab_position": "رابطة",
+          "irab_case": "",
+          "note_ar": "(الفاء) رابطة لجواب الشرط"
+        },
+        {
+          "word_index": 19,
+          "word_ar": "اللّهَ",
+          "relation_type": "subject",
+          "governor_word_index": 18,
+          "irab_position": "مبتدأ",
+          "irab_case": "منصوب",
+          "note_ar": "(الله) لفظ الجلالة اسم إنّ منصوب"
+        },
+        {
+          "word_index": 20,
+          "word_ar": "لَا",
+          "relation_type": "adverb",
+          "governor_word_index": 21,
+          "irab_position": "نافية",
+          "irab_case": "",
+          "note_ar": "(لا) نافية"
+        },
+        {
+          "word_index": 21,
+          "word_ar": "يُضِيعُ",
+          "relation_type": "verb",
+          "governor_word_index": 20,
+          "irab_position": "فعل مضارع",
+          "irab_case": "مرفوع",
+          "note_ar": "(يضيع) مضارع مرفوع والفاعل هو (أجر)"
+        },
+        {
+          "word_index": 22,
+          "word_ar": "الْمُحْسِنِينَ",
+          "relation_type": "object_direct",
+          "governor_word_index": 21,
+          "irab_position": "مفعول به",
+          "irab_case": "منصوب",
+          "note_ar": "(المحسنين) مضاف إليه مجرور وعلامة الجرّ الياء"
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}
