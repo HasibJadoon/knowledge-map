@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:ketabonline_al_jawhari_al_sihah:374:1:1",
+    "raw_page_id": "raw:ketabonline_al_jawhari_al_sihah:374:1",
+    "source_slug": "ketabonline_al_jawhari_al_sihah",
+    "book_id": "3011",
+    "page_no": 374,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "printed_page:193",
+    "text_ar": "قال ابن برى: الصواب أنه للبيد لا كما زعم الجوهرى. والركاء بالفتح: موضع. ومعنى دعدع: ملا. يصف ماءين التقيا من السيل فملآ اسرة الركاء كما ملا ساقى الاعاجم قدح الغرب خمرا. وأما بيت الاعشى الذى وقع فيه الغرب بمعنى الفضة فهو: إذا انكب أزهر بين السقاة * تراموا به غربا أو نضارا لسان العرب وتاج العروس.",
+    "text_norm": "قال ابن برى: الصواب أنه للبيد لا كما زعم الجوهرى. والركاء بالفتح: موضع. ومعنى دعدع: ملا. يصف ماءين التقيا من السيل فملآ اسرة الركاء كما ملا ساقى الاعاجم قدح الغرب خمرا. وأما بيت الاعشى الذى وقع فيه الغرب بمعنى الفضة فهو: إذا انكب أزهر بين السقاة * تراموا به غربا أو نضارا لسان العرب وتاج العروس.",
+    "source_url": "https://ketabonline.com/ar/books/3011/read?page=374&part=1&index=944028",
+    "locator_json": {
+      "source_slug": "ketabonline_al_jawhari_al_sihah",
+      "book_id": "3011",
+      "page_no": 374,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://ketabonline.com/ar/books/3011/read?page=374&part=1&index=944028",
+      "local_key": "ketabonline/book_3011/page_0374_001",
+      "raw_html_path": "raw_html/page_0374_001.html",
+      "clean_text_path": "clean_text/page_0374_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 302,
+    "token_count": 56,
+    "review_status": "pending"
+  }
+]

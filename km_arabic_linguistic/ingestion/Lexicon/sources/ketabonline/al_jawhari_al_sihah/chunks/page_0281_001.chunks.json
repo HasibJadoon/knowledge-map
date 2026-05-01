@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:ketabonline_al_jawhari_al_sihah:281:1:1",
+    "raw_page_id": "raw:ketabonline_al_jawhari_al_sihah:281:1",
+    "source_slug": "ketabonline_al_jawhari_al_sihah",
+    "book_id": "3011",
+    "page_no": 281,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "printed_page:147",
+    "text_ar": "ترجو الاعادي أن ألين لها * هذا تخيل صاحب الحلم\n(١)\nالورد ضبطت في اللسان بالفتح وقال: ومن خفض الورد جعله من نعته. قال ابن برى: هذا تصحيف بيع فيه الجوهرى ابن السكيت، وإنما هو اللجن بالنون، من قصيدة نونية. وقبله: من نسوة شمس لا مكره عنف * ولا فواحش في سر ولا علن",
+    "text_norm": "ترجو الاعادي أن ألين لها * هذا تخيل صاحب الحلم\n(١)\nالورد ضبطت في اللسان بالفتح وقال: ومن خفض الورد جعله من نعته. قال ابن برى: هذا تصحيف بيع فيه الجوهرى ابن السكيت، وإنما هو اللجن بالنون، من قصيدة نونية. وقبله: من نسوة شمس لا مكره عنف * ولا فواحش في سر ولا علن",
+    "source_url": "https://ketabonline.com/ar/books/3011/read?page=281&part=1&index=944028",
+    "locator_json": {
+      "source_slug": "ketabonline_al_jawhari_al_sihah",
+      "book_id": "3011",
+      "page_no": 281,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://ketabonline.com/ar/books/3011/read?page=281&part=1&index=944028",
+      "local_key": "ketabonline/book_3011/page_0281_001",
+      "raw_html_path": "raw_html/page_0281_001.html",
+      "clean_text_path": "clean_text/page_0281_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 266,
+    "token_count": 54,
+    "review_status": "pending"
+  }
+]

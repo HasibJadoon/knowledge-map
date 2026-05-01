@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:ketabonline_al_jawhari_al_sihah:2321:3:1",
+    "raw_page_id": "raw:ketabonline_al_jawhari_al_sihah:2321:3",
+    "source_slug": "ketabonline_al_jawhari_al_sihah",
+    "book_id": "3011",
+    "page_no": 2321,
+    "part_no": 3,
+    "chunk_index": 1,
+    "heading": "printed_page:1171",
+    "text_ar": "باب الظاء:\nفصل الباء:\n[بهظ]\nبَهَظَهُ الحِمْلُ يَبْهَظُهُ بَهْظاً، أي أثقله وعجز عنه، فهو مَبْهوظٌ. وهذا أمرٌ باهِظٌ، أي شاق.\nفصل الجيم\n[جحظ]\nجَحَظَتْ عينهُ تَجْحَظُ جُحوظاً: عظمتْ مُقْلَتُها ونتأتْ، والرجلُ جاحِظٌ وجحظم، والميم زائدة. والجاحظ: لقب عمرو بن بحر. والجاحظتان: حدقتا العين.\n[جحمظ]\nجَحْمَظْتُ الرجلَ، إذا صفَّدتَه وأوثقته.\n[جظظ]\nالجظُّ: الرجُلُ الضخم، وفي الحديث:\n\"أهل النارِ كلُّ جَظٍّ مستكبر\"\n.\n[جعظ]\nالجعظ: الضخم. والجنعاظ والجنعاظة: العسر الاخلاق. قال الراجز:",
+    "text_norm": "باب الظاء:\nفصل الباء:\n[بهظ]\nبَهَظَهُ الحِمْلُ يَبْهَظُهُ بَهْظاً، أي أثقله وعجز عنه، فهو مَبْهوظٌ. وهذا أمرٌ باهِظٌ، أي شاق.\nفصل الجيم\n[جحظ]\nجَحَظَتْ عينهُ تَجْحَظُ جُحوظاً: عظمتْ مُقْلَتُها ونتأتْ، والرجلُ جاحِظٌ وجحظم، والميم زائدة. والجاحظ: لقب عمرو بن بحر. والجاحظتان: حدقتا العين.\n[جحمظ]\nجَحْمَظْتُ الرجلَ، إذا صفَّدتَه وأوثقته.\n[جظظ]\nالجظُّ: الرجُلُ الضخم، وفي الحديث:\n\"أهل النارِ كلُّ جَظٍّ مستكبر\"\n.\n[جعظ]\nالجعظ: الضخم. والجنعاظ والجنعاظة: العسر الاخلاق. قال الراجز:",
+    "source_url": "https://ketabonline.com/ar/books/3011/read?page=2321&part=3&index=947083",
+    "locator_json": {
+      "source_slug": "ketabonline_al_jawhari_al_sihah",
+      "book_id": "3011",
+      "page_no": 2321,
+      "part_no": 3,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://ketabonline.com/ar/books/3011/read?page=2321&part=3&index=947083",
+      "local_key": "ketabonline/book_3011/page_2321_003",
+      "raw_html_path": "raw_html/page_2321_003.html",
+      "clean_text_path": "clean_text/page_2321_003.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 481,
+    "token_count": 70,
+    "review_status": "pending"
+  }
+]

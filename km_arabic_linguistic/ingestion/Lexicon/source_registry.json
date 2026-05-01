@@ -59,7 +59,10 @@
           "slug": "al_jawhari_al_sihah",
           "name": "الصحاح — الجوهري",
           "priority": "start_here",
-          "ingestion_mode": "web_pages_or_shamela_jsonl",
+          "ingestion_mode": "ketabonline_data_zip_or_shamela_jsonl",
+          "active_local_source": "sources/ketabonline/al_jawhari_al_sihah",
+          "active_source_slug": "ketabonline_al_jawhari_al_sihah",
+          "active_book_id": "3011",
           "why": "Earlier concise authority."
         },
         {

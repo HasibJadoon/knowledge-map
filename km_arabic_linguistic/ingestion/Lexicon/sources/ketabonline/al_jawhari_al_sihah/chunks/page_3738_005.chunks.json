@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:ketabonline_al_jawhari_al_sihah:3738:5:1",
+    "raw_page_id": "raw:ketabonline_al_jawhari_al_sihah:3738:5",
+    "source_slug": "ketabonline_al_jawhari_al_sihah",
+    "book_id": "3011",
+    "page_no": 3738,
+    "part_no": 5,
+    "chunk_index": 1,
+    "heading": "printed_page:1886",
+    "text_ar": "(*)\n[جرثم]\nالجرثومة: الاصل. وجرثومة النمل: قريته. وتجرثم الشئ واجرنثم. إذا اجتمع.\n[جرجم]\nالجراجمة: قوم من العجم بالجزيرة. ويقال: الجراجمة: نبط الشأم. وتجرجم الوحشيّ في وجاره: تقبّض وسكن.\n[جردم]\nالجَرْدَمَةُ في الطعام مثل الجَرْدَبَة. وجَرْدَمَ، إذا أكثَرَ من الكلام.\n[جرسم]\nالجرسام: البرسام.\n[جرشم]\nجَرْشَمَ وجَرْشَبَ بمعنىً، أي اندملَ بعد المرض والهزال. وجَرْشَم مثل برشم، أي أحدَّ النظرَ. وجَرْشَمَ: كرَّهَ وجهه.\n[جرضم]\nالجرضم والجراضم: الاكول.\n[جرهم]\nجرهم: حى من اليمن، وهم أصهار إسماعيل\nعليه السلام",
+    "text_norm": "(*)\n[جرثم]\nالجرثومة: الاصل. وجرثومة النمل: قريته. وتجرثم الشئ واجرنثم. إذا اجتمع.\n[جرجم]\nالجراجمة: قوم من العجم بالجزيرة. ويقال: الجراجمة: نبط الشأم. وتجرجم الوحشيّ في وجاره: تقبّض وسكن.\n[جردم]\nالجَرْدَمَةُ في الطعام مثل الجَرْدَبَة. وجَرْدَمَ، إذا أكثَرَ من الكلام.\n[جرسم]\nالجرسام: البرسام.\n[جرشم]\nجَرْشَمَ وجَرْشَبَ بمعنىً، أي اندملَ بعد المرض والهزال. وجَرْشَم مثل برشم، أي أحدَّ النظرَ. وجَرْشَمَ: كرَّهَ وجهه.\n[جرضم]\nالجرضم والجراضم: الاكول.\n[جرهم]\nجرهم: حى من اليمن، وهم أصهار إسماعيل\nعليه السلام",
+    "source_url": "https://ketabonline.com/ar/books/3011/read?page=3738&part=5&index=948708",
+    "locator_json": {
+      "source_slug": "ketabonline_al_jawhari_al_sihah",
+      "book_id": "3011",
+      "page_no": 3738,
+      "part_no": 5,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://ketabonline.com/ar/books/3011/read?page=3738&part=5&index=948708",
+      "local_key": "ketabonline/book_3011/page_3738_005",
+      "raw_html_path": "raw_html/page_3738_005.html",
+      "clean_text_path": "clean_text/page_3738_005.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 509,
+    "token_count": 74,
+    "review_status": "pending"
+  }
+]

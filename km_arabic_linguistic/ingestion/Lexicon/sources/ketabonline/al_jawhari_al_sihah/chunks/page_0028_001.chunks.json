@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:ketabonline_al_jawhari_al_sihah:28:1:1",
+    "raw_page_id": "raw:ketabonline_al_jawhari_al_sihah:28:1",
+    "source_slug": "ketabonline_al_jawhari_al_sihah",
+    "book_id": "3011",
+    "page_no": 28,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "printed_page:9",
+    "text_ar": "عمل الجوهري وعمل البندنيجي، وظنهما من حزب واحد، وهو من الجهل الذي لا يقع فيه أهل البصر بالمعجمات وتأسيسها. ولو سبق إلي بحث العلامة السامرائي لاستشهدت به، ولذكرته في بحثي المنشور في مقدمات\n\"الصحاح\"\nولكني لم أطلع عليه إلا بأخرة، وهو جدير بإعادة نشره خاتمة لبحثي لانه شاهد صدق على أن عمل الجوهري غير عمل البندنيجي، ولان العلامة السامرائي حكم عدل وشاهد صدق. وها نحن أولاء ننشر بحث الدكتور السامرائي، فلعل الدكتور خليل العطية المختدع بزعمات حمد الجاسر وغيره يعودون إلى الحق.\nأحمد عبد الغفور عطار مكة المكرمة",
+    "text_norm": "عمل الجوهري وعمل البندنيجي، وظنهما من حزب واحد، وهو من الجهل الذي لا يقع فيه أهل البصر بالمعجمات وتأسيسها. ولو سبق إلي بحث العلامة السامرائي لاستشهدت به، ولذكرته في بحثي المنشور في مقدمات\n\"الصحاح\"\nولكني لم أطلع عليه إلا بأخرة، وهو جدير بإعادة نشره خاتمة لبحثي لانه شاهد صدق على أن عمل الجوهري غير عمل البندنيجي، ولان العلامة السامرائي حكم عدل وشاهد صدق. وها نحن أولاء ننشر بحث الدكتور السامرائي، فلعل الدكتور خليل العطية المختدع بزعمات حمد الجاسر وغيره يعودون إلى الحق.\nأحمد عبد الغفور عطار مكة المكرمة",
+    "source_url": "https://ketabonline.com/ar/books/3011/read?page=28&part=1&index=943814",
+    "locator_json": {
+      "source_slug": "ketabonline_al_jawhari_al_sihah",
+      "book_id": "3011",
+      "page_no": 28,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://ketabonline.com/ar/books/3011/read?page=28&part=1&index=943814",
+      "local_key": "ketabonline/book_3011/page_0028_001",
+      "raw_html_path": "raw_html/page_0028_001.html",
+      "clean_text_path": "clean_text/page_0028_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 509,
+    "token_count": 88,
+    "review_status": "pending"
+  }
+]

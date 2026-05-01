@@ -1,0 +1,33 @@
+[
+  {
+    "id": "chunk:ketabonline_al_jawhari_al_sihah:194:1:1",
+    "raw_page_id": "raw:ketabonline_al_jawhari_al_sihah:194:1",
+    "source_slug": "ketabonline_al_jawhari_al_sihah",
+    "book_id": "3011",
+    "page_no": 194,
+    "part_no": 1,
+    "chunk_index": 1,
+    "heading": "printed_page:105",
+    "text_ar": "= الوليد رثى بهذا الشعر عثمان بن عفان رضى الله عنه، وقاتله كنانه بن بشر التجيبى. وأما قاتل على رضى الله عنه فهو التجوبى. ورأيت في حاشية ما مثاله: أنشد أبو عبيد البكري\nرحمه الله\nفي كتابه فصل المقال، في شرح كتاب الامثال: هذا البيت الذى هو ألا إن الخ. لنائلة بنت الفرافصة بن الاحوص الكلبية، زوج عثمان رضى الله عنه، ترثيه، وبعده: ومالى لا أبكى وتبكى قرابتي * وقد حجبت عنا فضول أبى عمرو والرواية في البيت:\n\"قتيل التجيبى\"\n. والثلاثة: رسول الله\nصلى الله عليه وسلم،\nوأبو بكر، وعمر رضى الله عنهما.",
+    "text_norm": "= الوليد رثى بهذا الشعر عثمان بن عفان رضى الله عنه، وقاتله كنانه بن بشر التجيبى. وأما قاتل على رضى الله عنه فهو التجوبى. ورأيت في حاشية ما مثاله: أنشد أبو عبيد البكري\nرحمه الله\nفي كتابه فصل المقال، في شرح كتاب الامثال: هذا البيت الذى هو ألا إن الخ. لنائلة بنت الفرافصة بن الاحوص الكلبية، زوج عثمان رضى الله عنه، ترثيه، وبعده: ومالى لا أبكى وتبكى قرابتي * وقد حجبت عنا فضول أبى عمرو والرواية في البيت:\n\"قتيل التجيبى\"\n. والثلاثة: رسول الله\nصلى الله عليه وسلم،\nوأبو بكر، وعمر رضى الله عنهما.",
+    "source_url": "https://ketabonline.com/ar/books/3011/read?page=194&part=1&index=944028",
+    "locator_json": {
+      "source_slug": "ketabonline_al_jawhari_al_sihah",
+      "book_id": "3011",
+      "page_no": 194,
+      "part_no": 1,
+      "chunk_index": 1,
+      "segment_type": "body",
+      "footnote_no": null,
+      "segment_part": 1,
+      "source_url": "https://ketabonline.com/ar/books/3011/read?page=194&part=1&index=944028",
+      "local_key": "ketabonline/book_3011/page_0194_001",
+      "raw_html_path": "raw_html/page_0194_001.html",
+      "clean_text_path": "clean_text/page_0194_001.clean.txt"
+    },
+    "char_start": 7,
+    "char_end": 495,
+    "token_count": 94,
+    "review_status": "pending"
+  }
+]
