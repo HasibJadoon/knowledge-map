@@ -1,0 +1,84 @@
+{
+  "surah": 80,
+  "count": 7,
+  "source": "Verbal-Idioms-Mushaf-Order-Version-2-PDF.pdf",
+  "idioms": [
+    {
+      "surah": 80,
+      "ayah": 3,
+      "vi_page": 121,
+      "qr_ref": "80:3",
+      "arabic": "اَه | َُ | كََ ماَيدر ْي | َك َذا           ى\n                                                                                                                                                                                     َ ُ َاّلل\n                                                                                                                                                                                          َ لَ َع َل | غَنَي | ْس َتغنى",
+      "meaning_en": "See 33:63 (of a human being) to think that one is sufficient to oneself, becomplacent/self-satisfied",
+      "raw_block": "80 3 121 in, regularly followed by a و َ اَه مconstruction, which paves the way for an explication of َُ َ the subject under discussion, thus suggesting that the gap in the listener's knowledge ْ needs to be filled; كََ ماَيدر ْي, on the other hand, is in all cases followed by a َك َذا ى َ ُ َاّلل َ لَ َع َل َ َ construction, implying that it is not necessary to fill the gap in the listener's knowledge, though he should be warned of the error in the view he has formed of something. This analysis",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 80,
+      "ayah": 14,
+      "vi_page": 149,
+      "qr_ref": "80:14",
+      "arabic": "رَفَع | رفَع | رفَع َه | قَتَل | َقت َل",
+      "meaning_en": "Page 388 of 404 Participl e",
+      "raw_block": "80 14 149 َ ) رَفَع ( رفَعas a verb with an object To raise somebody/something in status Passive َ َ Page 388 of 404 Participl َ ُ رفَع َه e َ َ َ )قَتَل)َ َقت َلas a verb with an object May he perish/come to ruin! َ",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 80,
+      "ayah": 17,
+      "vi_page": 265,
+      "qr_ref": "80:17",
+      "arabic": "قتلَف | َلنُ | كَفَر | أَك َفر",
+      "meaning_en": "See 17:29 How ungrateful he [man] is! () as a verb",
+      "raw_block": "80 17 265 ٌ قتلَفSee 17:29 َلنُ َ ُ ْ How ungrateful he [man] is! َ (كَفَر) أَك َفرas a verb َ",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 80,
+      "ayah": 17,
+      "vi_page": 305,
+      "qr_ref": "80:17",
+      "arabic": "ماَأَفع | جب\n                                                                                     َل                                           عالَالتع\n                                                                                                                                           ْ\n                                                                                                                                             أَف\n                                                                   َ ماَأَك َفر َه | يَسَر | َي َ َْس",
+      "meaning_en": null,
+      "raw_block": "80 17 305 ْ ْ َ َ ماَأَفعis one of the two patterns of جب َل عالَالتع ْ أَف َ ماَأَك َفر َه ُ َ ُ َ َ ُ َ َ )يَسَر(َي َ َْسas a verb with an object To make a path/course smooth [for somebody] َ",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 80,
+      "ayah": 20,
+      "vi_page": 373,
+      "qr_ref": "80:20",
+      "arabic": "ََالسب ْي َل\n                                                                         َ ْس | غَنَي | أغنى",
+      "meaning_en": null,
+      "raw_block": "80 20 373 Then He smoothed the path [of life for man] ََالسب ْي َل َ ْس ي ْ َ َ َ )غَنَي( أغنىas a verb with an object To make something indifferent [to something by causing him to become engrossed in something else]",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 80,
+      "ayah": 37,
+      "vi_page": 252,
+      "qr_ref": "80:37",
+      "arabic": "أغناه | سَفَر | َأ َ ْس َف َر | ْس َفرَوج ُه َ ُه | ْسفرَو\n                                                                                                                                                              جهيَانَهَُاَ َو ُلَالقرا",
+      "meaning_en": "Every man on that day will be in a state that will [so engross him as to] render him indifferent [to others]",
+      "raw_block": "80 37 252 ْ َ أغناهEvery man on that day will be in a state that will [so engross him as to] render him indifferent [to others] )سَفَر)َأ َ ْس َف َرas a verb (Of somebody’s face) to brighten up َ ْ [“ أ َ ْس َفرَوج ُه َ ُهAsk the benighted guest] whether [or not upon his arrival] my face beams ْ ي ْسفرَو جهيَانَهَُاَ َو ُلَالقرا Active َ ُ ُ",
+      "ruku_num": 1,
+      "n_rukus": 1
+    },
+    {
+      "surah": 80,
+      "ayah": 38,
+      "vi_page": 169,
+      "qr_ref": "80:38",
+      "arabic": "عَطَلَ | َعط ََل",
+      "meaning_en": "See 3:106, 107",
+      "raw_block": "80 38 169 participl َ َ with pleasure, e this pleasure being only the initial act of hospitality [on my part].” See 3:106, 107 َ )عَطَلَ(َعط ََلas a verb with an object To let camels go untended َ Ten-month pregnant she-camels are precious to their owners, but the panic of the Last",
+      "ruku_num": 1,
+      "n_rukus": 1
+    }
+  ]
+}
