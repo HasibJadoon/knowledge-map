@@ -6,6 +6,7 @@ export const PARSER_VERSION_DAAS = 'qul-daas-irab-html-v1';
 export const PARSER_VERSION_MUYASSAR = 'qul-muyassar-irab-html-v1';
 export const PARSER_VERSION_DARWISH = 'qul-darwish-irab-h3-v1';
 export const PARSER_VERSION_DEP_GRAPHS = 'qul-dep-graphs-svg-v1';
+export const PARSER_VERSION_TIBYAN = 'openiti-shamela-tibyan-v1';
 
 const SECTION_MAP = [
   [/الإعراب/, 'irab'],
@@ -241,6 +242,67 @@ export function extractIrabEntriesFromSection(section) {
     }
   }
 
+  return entries;
+}
+
+// ─── Tibyan (OpenITI/Shamela) entry extractor ──────────────────────────────
+// Tibyan uses "قوله تعالى: (TOKEN)" pattern — colon precedes the target token.
+// The standard targetMarkers only matches after sentence-end punctuation or start-of-line,
+// so this variant also matches after colons and semicolons (؛ / :).
+export function extractTibyanIrabEntries(section) {
+  if (section.section_kind !== 'irab') return [];
+  const entries = [];
+  const paragraphs = String(section.raw_text ?? '')
+    .split(/\n+/)
+    .map((t) => normalizeWhitespace(t))
+    .filter(Boolean);
+
+  for (const paragraph of paragraphs) {
+    const markers = [];
+    // Match (TOKEN) after start-of-line, sentence punctuation, or colon/semicolon
+    const parenthesized = /(^|[.،؛:]\s*)\(([^()[\]\n]{1,80})\)\s*/gu;
+    for (const match of paragraph.matchAll(parenthesized)) {
+      markers.push({
+        index: match.index + match[1].length,
+        target: normalizeWhitespace(match[2]),
+        markerLength: match[0].length - match[1].length,
+        entryKind: 'token_or_phrase',
+      });
+    }
+
+    markers.sort((a, b) => a.index - b.index);
+
+    for (let i = 0; i < markers.length; i++) {
+      const marker = markers[i];
+      const next = markers[i + 1];
+      const sourceQuote = normalizeWhitespace(paragraph.slice(marker.index, next?.index ?? paragraph.length));
+      if (!sourceQuote) continue;
+      // Skip if target is just a number (ayah citation, not a token)
+      if (/^\d+$/.test(marker.target.trim())) continue;
+      const irabText = sourceQuote;
+      const [caseAr, caseRef] = caseFromText(irabText) ?? [null, null];
+      const [mahalAr, mahalRef] = mahalFromText(irabText) ?? [null, null];
+      entries.push({
+        entry_order: entries.length,
+        entry_kind: marker.entryKind,
+        target_text_ar: marker.target,
+        target_text_bare: normalizeBareArabic(marker.target),
+        target_text_match_key: normalizeMatchKey(marker.target),
+        source_quote_ar: sourceQuote,
+        source_quote_hash: sha256(sourceQuote),
+        irab_text_ar: irabText,
+        grammar_role_ar: roleFromText(irabText),
+        grammar_role_norm: normalizeMatchKey(roleFromText(irabText) ?? ''),
+        grammar_case_ar: caseAr,
+        case_concept_ref: caseRef,
+        mahal_ar: mahalAr,
+        mahal_concept_ref: mahalRef,
+        raw_annotation_ar: null,
+        inline_note_ar: null,
+        alternative_json: null,
+      });
+    }
+  }
   return entries;
 }
 
