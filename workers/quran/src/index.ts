@@ -19,6 +19,8 @@ import { menuRoutes } from './routes/menu';
 import { readerRoutes } from './routes/reader';
 import { vocabularyRoutes } from './routes/vocabulary';
 import { worldviewRoutes } from './routes/worldview';
+import { tafsirRoutes } from './routes/tafsir';
+import { depGraphRoutes } from './routes/dep-graphs';
 
 const router = new Router<QuranEnv>();
 
@@ -40,6 +42,8 @@ translationRoutes(router);   // GET /qr/translation-sources, /qr/translations
 studyRoutes(router);         // GET /qr/study/surahs/:id — grid, passages, lesson, vocab, expressions
 pageRoutes(router);          // GET /qr/pages/:page, /qr/surahs/:id/pages
 srsRoutes(router);           // GET /qr/srs?filter=due|upcoming|all|suspended
+tafsirRoutes(router);        // GET /qr/tafsir?surah=&ayah= — entries + by-ids batch
+depGraphRoutes(router);      // GET /qr/irab/dep-graph/:surah/:ayah — SVG from R2; /meta — D1 metadata
 
 export default {
   fetch: (request: Request, env: QuranEnv) => router.handle(request, env),

@@ -7,14 +7,57 @@
 // ── ar_ling_lexicon_entries ───────────────────────────────────────────────────
 
 export interface ArLingLexiconEntry {
-  id: string;                       // AL:ULID
-  lemma_id: string;                 // FK → ar_ling_lemmas.id
+  id: string;
+  lemma_id: string;
   entry_text: string;
   definition_ar: string | null;
   definition_en: string;
-  definition_source: string | null; // e.g. 'Lisan al-Arab', 'Mufradat'
+  definition_source: string | null;
   usage_register: string;
-  // 'classical'|'quranic'|'modern'|'poetic'|'archaic'|'colloquial'
+  root_id: string | null;
+  source_id: string | null;
+  source_slug: string | null;
+  source_chunk_id: string | null;
+  entry_kind: string | null;
+  heading_norm: string | null;
+  source_entry_seq: number | null;
+  page_no: number | null;
+  volume_no: number | null;
+  tokens_approx: number | null;
+  title_ar: string | null;
+  title_en: string | null;
+  display_heading_ar: string | null;
+  display_heading_en: string | null;
+  heading_key: string | null;
+  lemma_text: string | null;
+  root_text: string | null;
+  transliteration: string | null;
+  pos_tag: string | null;
+  gloss_ar: string | null;
+  gloss_en: string | null;
+  summary_ar: string | null;
+  summary_en: string | null;
+  source_url: string | null;
+  is_embedded: number;
+  qdrant_id: string | null;
+  embed_model: string | null;
+  meta_json: string | null;
+  semantic_field: string | null;
+  related_lemmas: string | null;
+  sense_json: string | null;
+  morphology_json: string | null;
+  examples_json: string | null;
+  citations_json: string | null;
+  ui_json: string | null;
+  ai_json: string | null;
+  cleaner_json: string | null;
+  status: string;
+  quality_score: number | null;
+  ai_fill_state: string;
+  ai_model: string | null;
+  ai_filled_at: string | null;
+  reviewed_at: string | null;
+  sort_key: string | null;
   note_md: string | null;
   created_at: string;
   updated_at: string;

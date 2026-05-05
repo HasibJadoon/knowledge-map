@@ -9,6 +9,10 @@ database_name = "km_quran"
 database_id   = "8dbd5053-c9b8-4dd0-9e45-1d66d3a58fba"
 migrations_dir = "migrations"
 
+[[r2_buckets]]
+binding     = "DEP_GRAPHS_BUCKET"
+bucket_name = "km-quran-dep-graphs"
+
 [[services]]
 binding = "AR_LINGUISTICS"
 service = "km-ar-linguistics-worker"

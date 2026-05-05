@@ -260,13 +260,77 @@ CREATE TABLE ar_ling_lexicon_entries (
   definition_en   TEXT NOT NULL,
   definition_source TEXT,
   usage_register  TEXT NOT NULL DEFAULT 'classical',
+  root_id         TEXT,
+  source_id       TEXT,
+  source_slug     TEXT,
+  source_chunk_id TEXT,
+  entry_kind      TEXT,
+  heading_norm    TEXT,
+  source_entry_seq INTEGER,
+  page_no         INTEGER,
+  volume_no       INTEGER,
+  tokens_approx   INTEGER,
+  title_ar        TEXT,
+  title_en        TEXT,
+  display_heading_ar TEXT,
+  display_heading_en TEXT,
+  heading_key     TEXT,
+  lemma_text      TEXT,
+  root_text       TEXT,
+  transliteration TEXT,
+  pos_tag         TEXT,
+  gloss_ar        TEXT,
+  gloss_en        TEXT,
+  summary_ar      TEXT,
+  summary_en      TEXT,
+  source_url      TEXT,
+  is_embedded     INTEGER NOT NULL DEFAULT 0,
+  qdrant_id       TEXT,
+  embed_model     TEXT,
+  meta_json       JSON CHECK (meta_json IS NULL OR json_valid(meta_json)),
+  semantic_field  TEXT,
+  related_lemmas  JSON CHECK (related_lemmas IS NULL OR json_valid(related_lemmas)),
+  sense_json      JSON CHECK (sense_json IS NULL OR json_valid(sense_json)),
+  morphology_json JSON CHECK (morphology_json IS NULL OR json_valid(morphology_json)),
+  examples_json   JSON CHECK (examples_json IS NULL OR json_valid(examples_json)),
+  citations_json  JSON CHECK (citations_json IS NULL OR json_valid(citations_json)),
+  ui_json         JSON CHECK (ui_json IS NULL OR json_valid(ui_json)),
+  ai_json         JSON CHECK (ai_json IS NULL OR json_valid(ai_json)),
+  cleaner_json    JSON CHECK (cleaner_json IS NULL OR json_valid(cleaner_json)),
+  status          TEXT NOT NULL DEFAULT 'raw_promoted',
+  quality_score   REAL,
+  ai_fill_state   TEXT NOT NULL DEFAULT 'pending',
+  ai_model        TEXT,
+  ai_filled_at    TEXT,
+  reviewed_at     TEXT,
+  sort_key        TEXT,
   note_md         TEXT,
   created_at      TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  FOREIGN KEY (lemma_id) REFERENCES ar_ling_lemmas(id)
+  FOREIGN KEY (lemma_id) REFERENCES ar_ling_lemmas(id),
+  FOREIGN KEY (root_id) REFERENCES ar_ling_roots(id),
+  FOREIGN KEY (source_id) REFERENCES ar_ling_sources(id),
+  FOREIGN KEY (source_chunk_id) REFERENCES ar_ling_source_chunks(id)
 );
 
-CREATE VIRTUAL TABLE ar_ling_lexicon_entries_fts USING fts5(entry_text, definition_ar, definition_en);
+CREATE VIRTUAL TABLE ar_ling_lexicon_entries_fts USING fts5(
+  entry_text,
+  heading_norm,
+  title_ar,
+  title_en,
+  display_heading_ar,
+  display_heading_en,
+  gloss_ar,
+  gloss_en,
+  summary_ar,
+  summary_en,
+  definition_ar,
+  definition_en,
+  definition_source,
+  source_slug,
+  content='ar_ling_lexicon_entries',
+  content_rowid='rowid'
+);
 
 CREATE TABLE ar_ling_lexicon_evidence (
   id              TEXT PRIMARY KEY,
@@ -326,6 +390,8 @@ CREATE TABLE ar_ling_nahw_concepts (
   created_at      TEXT NOT NULL DEFAULT (datetime('now')),
   FOREIGN KEY (parent_id) REFERENCES ar_ling_nahw_concepts(id)
 );
+
+-- Core i'rab labels are seeded from seeds/ar_ling/nahw_irab_core_seed.sql.
 
 CREATE VIRTUAL TABLE ar_ling_nahw_concepts_fts USING fts5(concept_name_ar, concept_name_en, definition_ar, definition_en);
 
@@ -722,6 +788,32 @@ CREATE INDEX idx_arl_le_lemma ON ar_ling_lexicon_entries(lemma_id);
 
 CREATE INDEX idx_arl_le_reg   ON ar_ling_lexicon_entries(usage_register);
 
+CREATE INDEX idx_arl_le_root ON ar_ling_lexicon_entries(root_id);
+
+CREATE INDEX idx_arl_le_source ON ar_ling_lexicon_entries(source_id);
+
+CREATE INDEX idx_arl_le_source_slug ON ar_ling_lexicon_entries(source_slug);
+
+CREATE UNIQUE INDEX ux_arl_le_source_chunk
+  ON ar_ling_lexicon_entries(source_chunk_id)
+  WHERE source_chunk_id IS NOT NULL;
+
+CREATE INDEX idx_arl_le_heading ON ar_ling_lexicon_entries(heading_norm);
+
+CREATE INDEX idx_arl_le_heading_key ON ar_ling_lexicon_entries(heading_key);
+
+CREATE INDEX idx_arl_le_heading_source ON ar_ling_lexicon_entries(heading_norm, source_slug);
+
+CREATE INDEX idx_arl_le_status ON ar_ling_lexicon_entries(status);
+
+CREATE INDEX idx_arl_le_ai_fill_state ON ar_ling_lexicon_entries(ai_fill_state);
+
+CREATE INDEX idx_arl_le_sort_key ON ar_ling_lexicon_entries(sort_key);
+
+CREATE INDEX idx_arl_le_embedded ON ar_ling_lexicon_entries(is_embedded);
+
+CREATE INDEX idx_arl_le_qdrant ON ar_ling_lexicon_entries(qdrant_id);
+
 CREATE INDEX idx_arl_lem_pos  ON ar_ling_lemmas(part_of_speech);
 
 CREATE INDEX idx_arl_lem_qrn  ON ar_ling_lemmas(is_quran_word);
@@ -1019,4 +1111,3 @@ CREATE TABLE IF NOT EXISTS ar_ling_sarf_context_activations (
 );
 CREATE INDEX IF NOT EXISTS idx_asca_root ON ar_ling_sarf_context_activations(root_text);
 CREATE INDEX IF NOT EXISTS idx_asca_surah ON ar_ling_sarf_context_activations(surah, ayah);
-

@@ -11,6 +11,9 @@ export interface QuranEnv {
   WORLDVIEW?: Fetcher;      // worldview node lookups
   CONTENT?: Fetcher;        // source / document metadata
 
+  // R2 buckets
+  DEP_GRAPHS_BUCKET: R2Bucket;
+
   // Secrets
   JWT_SECRET?: string;
 }

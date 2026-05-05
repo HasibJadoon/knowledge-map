@@ -40,6 +40,81 @@ export default {
       return withCors(err('not_found', 'Not found', 404), origin, co);
     }
 
+    // ── Composite: GET /api/quran/:surah/:ayah/sources ────────────────────────
+    // Fan-out to AR_LINGUISTICS + QURAN workers and return a merged source bundle.
+    // No auth required — public study endpoint.
+    // Optional query param: kinds (comma-sep chunk_kinds to include from DB_AL)
+    const sourcesMatch = request.method === 'GET' &&
+      url.pathname.match(/^\/api\/quran\/(\d+)\/(\d+)\/sources$/);
+
+    if (sourcesMatch) {
+      const surah = sourcesMatch[1];
+      const ayah  = sourcesMatch[2];
+      const kinds = url.searchParams.get('kinds') ?? '';
+
+      const internalHeaders = new Headers({
+        'X-KM-Internal':        '1',
+        'X-KM-Internal-Secret': env.INTERNAL_SECRET ?? '',
+      });
+
+      const alReq = new Request(
+        `http://internal.k-maps.local/al/source-rag/bundle?surah=${surah}&ayah=${ayah}${kinds ? `&kinds=${encodeURIComponent(kinds)}` : ''}`,
+        { headers: internalHeaders },
+      );
+      const qrTafsirReq = new Request(
+        `http://internal.k-maps.local/qr/tafsir?surah=${surah}&ayah=${ayah}&per_page=50`,
+        { headers: internalHeaders },
+      );
+      const qrTransReq = new Request(
+        `http://internal.k-maps.local/qr/translations?surah=${surah}&ayah=${ayah}`,
+        { headers: internalHeaders },
+      );
+
+      try {
+        const [alRes, tafsirRes, transRes] = await Promise.all([
+          (env.AR_LINGUISTICS as Fetcher).fetch(alReq),
+          (env.QURAN as Fetcher).fetch(qrTafsirReq),
+          (env.QURAN as Fetcher).fetch(qrTransReq),
+        ]);
+
+        type AlBundle  = { data?: { al_chunks?: unknown[]; al_chunks_count?: number } };
+        type TafsirRes = { data?: { rows?: unknown[]; total?: number } };
+        type TransRes  = { data?: unknown[] };
+
+        const [alData, tafsirData, transData] = await Promise.all([
+          alRes.json<AlBundle>(),
+          tafsirRes.json<TafsirRes>(),
+          transRes.json<TransRes>(),
+        ]);
+
+        return withCors(
+          json({
+            ok: true,
+            data: {
+              surah:        parseInt(surah),
+              ayah:         parseInt(ayah),
+              // Lexicon / irab / balagha / near-synonym chunks (full text, DB_AL)
+              al_chunks:    alData?.data?.al_chunks  ?? [],
+              // Classical tafsir entries with scholar + work metadata (DB_QR)
+              tafsir:       tafsirData?.data?.rows   ?? [],
+              // English translations (DB_QR)
+              translations: transData?.data          ?? [],
+            },
+          }),
+          origin, co,
+        );
+      } catch (e) {
+        console.error('[backend] /sources composite error:', e);
+        return withCors(
+          json(
+            { ok: false, error: { code: 'service_error', message: 'Failed to build source bundle' } },
+            { status: 502 },
+          ),
+          origin, co,
+        );
+      }
+    }
+
     // ── Identify module: /api/qr/... → 'qr' ───────────────────────────────────
     // pathname.slice(5) strips the leading '/api/' → 'qr/menu'
     const remainder  = url.pathname.slice(5);          // 'qr/menu'

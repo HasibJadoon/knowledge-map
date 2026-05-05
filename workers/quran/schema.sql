@@ -95,6 +95,132 @@ CREATE TABLE qr_ayah (
   FOREIGN KEY (surah) REFERENCES qr_surahs(id)
 );
 
+CREATE TABLE qr_irab_book_entries (
+  id TEXT PRIMARY KEY,
+  source_id TEXT,
+  source_slug TEXT NOT NULL,
+  source_title TEXT,
+  ayah_key TEXT NOT NULL,
+  group_ayah_key TEXT,
+  from_ayah TEXT,
+  to_ayah TEXT,
+  ayah_keys TEXT,
+  surah INTEGER,
+  ayah_from INTEGER,
+  ayah_to INTEGER,
+  entry_html TEXT,
+  irab_text TEXT,
+  source_chunk_id TEXT,
+  entry_order INTEGER,
+  source_quote_ar TEXT,
+  source_quote_hash TEXT NOT NULL DEFAULT '',
+  irab_text_ar TEXT,
+  target_text_ar TEXT,
+  target_text_bare TEXT,
+  target_text_match_key TEXT,
+  grammar_role_ar TEXT,
+  grammar_role_norm TEXT,
+  grammar_case_ar TEXT,
+  mahal_ar TEXT,
+  grammar_concept_ref TEXT,
+  syntax_relation_ref TEXT,
+  case_concept_ref TEXT,
+  mahal_concept_ref TEXT,
+  alternative_json TEXT,
+  inline_note_ar TEXT,
+  raw_annotation_ar TEXT,
+  word_occurrence_id TEXT,
+  word_link_status TEXT DEFAULT 'pending',
+  word_link_note TEXT,
+  promotion_candidate_json TEXT,
+  al_mapping_status TEXT DEFAULT 'pending',
+  al_mapping_confidence REAL,
+  al_mapping_note TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  UNIQUE(source_slug, ayah_key)
+);
+
+CREATE TABLE qr_irab_sources (
+  id TEXT PRIMARY KEY,
+  source_slug TEXT NOT NULL UNIQUE,
+  source_title_ar TEXT,
+  source_title_en TEXT,
+  source_kind TEXT NOT NULL DEFAULT 'irab_book',
+  source_version TEXT,
+  source_downloaded_at TEXT,
+  source_file_hash TEXT,
+  source_file_size INTEGER,
+  note_md TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE qr_irab_source_chunks (
+  id TEXT PRIMARY KEY,
+  extraction_run_id TEXT,
+  source_id TEXT,
+  source_slug TEXT NOT NULL,
+  source_record_id TEXT,
+  ayah_key TEXT,
+  group_ayah_key TEXT,
+  from_ayah TEXT,
+  to_ayah TEXT,
+  ayah_keys TEXT,
+  surah INTEGER,
+  ayah_from INTEGER,
+  ayah_to INTEGER,
+  section_kind TEXT NOT NULL,
+  section_order INTEGER NOT NULL DEFAULT 0,
+  content_format TEXT NOT NULL DEFAULT 'text',
+  raw_html TEXT,
+  raw_text TEXT,
+  clean_text TEXT,
+  source_record_json TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  UNIQUE(source_slug, source_record_id, section_kind, section_order)
+);
+
+CREATE TABLE qr_irab_extraction_runs (
+  id TEXT PRIMARY KEY,
+  source_slug TEXT NOT NULL,
+  resource_id INTEGER,
+  input_path TEXT,
+  parser_version TEXT,
+  started_at TEXT,
+  finished_at TEXT,
+  status TEXT,
+  records_read INTEGER DEFAULT 0,
+  chunks_created INTEGER DEFAULT 0,
+  entries_created INTEGER DEFAULT 0,
+  entries_linked INTEGER DEFAULT 0,
+  entries_unmapped INTEGER DEFAULT 0,
+  error_message TEXT
+);
+
+CREATE TABLE qr_irab_import_errors (
+  id TEXT PRIMARY KEY,
+  extraction_run_id TEXT,
+  source_slug TEXT,
+  surah INTEGER,
+  ayah_from INTEGER,
+  ayah_to INTEGER,
+  source_chunk_id TEXT,
+  error_type TEXT,
+  error_message TEXT,
+  raw_fragment TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_qr_irab_source_chunks_source ON qr_irab_source_chunks(source_slug);
+CREATE INDEX idx_qr_irab_source_chunks_section ON qr_irab_source_chunks(section_kind);
+CREATE INDEX idx_qr_irab_source_chunks_ayah ON qr_irab_source_chunks(surah, ayah_from, ayah_to);
+CREATE UNIQUE INDEX ux_qr_irab_entry_dedupe ON qr_irab_book_entries(source_slug, source_chunk_id, entry_order, target_text_bare, source_quote_hash);
+CREATE INDEX idx_qr_irab_book_entries_chunk ON qr_irab_book_entries(source_chunk_id);
+CREATE INDEX idx_qr_irab_book_entries_mapping ON qr_irab_book_entries(al_mapping_status);
+CREATE INDEX idx_qr_irab_book_entries_word_link ON qr_irab_book_entries(word_link_status);
+
 CREATE TABLE qr_civilizational_claims (
   id                   TEXT PRIMARY KEY,
   surah                INTEGER,
@@ -1390,6 +1516,14 @@ CREATE INDEX idx_qrseg_word  ON qr_ss_occ_segment(word_occurrence_id);
 CREATE INDEX idx_qrsen_surah ON qr_ss_occ_sentence(surah, ayah_from);
 
 CREATE INDEX idx_qrsgl_scope ON qr_ss_scope_grammar_link(scope_type, scope_id);
+
+CREATE INDEX idx_qr_irab_source ON qr_irab_book_entries(source_slug);
+
+CREATE INDEX idx_qr_irab_ayah ON qr_irab_book_entries(surah, ayah_from, ayah_to);
+
+CREATE INDEX idx_qr_irab_concept ON qr_irab_book_entries(grammar_concept_ref);
+
+CREATE INDEX idx_qr_irab_status ON qr_irab_book_entries(al_mapping_status);
 
 CREATE INDEX idx_qrsmc_surah ON qr_surah_motif_clusters(surah);
 

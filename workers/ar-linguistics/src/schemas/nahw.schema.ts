@@ -6,7 +6,7 @@
 // ── ar_ling_nahw_concepts ─────────────────────────────────────────────────────
 
 export interface ArLingNahwConcept {
-  id: string;                        // AL:ULID
+  id: string;                        // typed ref, e.g. AL:nahw:mubtada
   parent_id: string | null;          // self-ref for hierarchy
   concept_name_ar: string;
   concept_name_en: string;
@@ -15,7 +15,7 @@ export interface ArLingNahwConcept {
   definition_ar: string | null;
   definition_en: string | null;
   example_ar: string | null;
-  irab_label: string | null;         // e.g. 'مرفوع'|'منصوب'|'مجرور'|'مجزوم'
+  irab_label: string | null;         // e.g. 'مبتدأ'|'خبر'|'فاعل'
   discipline_unit_id: string | null; // FK → ar_ling_discipline_units.id
   source_ref: string | null;         // AL:<ar_ling_sources.id>
   note_md: string | null;
