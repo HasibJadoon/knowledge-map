@@ -13,13 +13,12 @@ import { FormsModule } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
 import gsap from 'gsap';
 import { QuranStateService } from '../../../shared/services/quran/quran-state.service';
-import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 import { SurahActionsComponent } from '../surah-actions/surah-actions.component';
 
 @Component({
   selector: 'km-quran-surahs',
   standalone: true,
-  imports: [FormsModule, TitleCasePipe, SurahActionsComponent, BackButtonComponent],
+  imports: [FormsModule, TitleCasePipe, SurahActionsComponent],
   templateUrl: './quran-surahs.component.html',
   styleUrl: './quran-surahs.component.scss',
 })
@@ -75,7 +74,4 @@ export class QuranSurahsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/quran', 'sura', surahNumber]);
   }
 
-  back(): void {
-    this.router.navigate(['/quran']);
-  }
 }
