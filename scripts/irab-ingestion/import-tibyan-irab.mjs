@@ -125,7 +125,7 @@ function parseOpenITI(text, filterSurah) {
   const lines = text.split('\n');
   const sections = [];
   let pastHeader = false;
-  let currentSurah = null;
+  let currentSurah = 1; // Al-Fatiha sections appear before the first ### | SurahName marker
   let currentSection = null;
 
   for (const rawLine of lines) {
