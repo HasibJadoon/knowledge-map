@@ -74,4 +74,7 @@ export class QuranSurahsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/quran', 'sura', surahNumber]);
   }
 
+  back(): void {
+    this.router.navigate(['/quran']);
+  }
 }

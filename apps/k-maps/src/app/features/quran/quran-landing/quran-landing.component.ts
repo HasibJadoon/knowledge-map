@@ -47,4 +47,7 @@ export class QuranLandingComponent implements AfterViewInit {
     this.router.navigateByUrl(route);
   }
 
+  back(): void {
+    this.router.navigate(['/home']);
+  }
 }
