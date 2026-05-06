@@ -1,13 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonContent } from '@ionic/angular/standalone';
 import gsap from 'gsap';
-import { BackButtonComponent } from '../../../shared/components/back-button/back-button.component';
 
 interface QuranModuleCard {
   id: string;
@@ -17,13 +11,14 @@ interface QuranModuleCard {
 }
 
 @Component({
-  selector: 'km-quran-landing',
+  selector: 'app-quran-landing-page',
   standalone: true,
-  imports: [BackButtonComponent],
-  templateUrl: './quran-landing.component.html',
-  styleUrl: './quran-landing.component.scss',
+  imports: [IonContent],
+  templateUrl: './quran-landing.page.html',
+  styleUrl: './quran-landing.page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuranLandingComponent implements AfterViewInit {
+export class QuranLandingPage implements AfterViewInit {
   private readonly router = inject(Router);
 
   @ViewChild('cardsRow') cardsRow!: ElementRef<HTMLElement>;
@@ -46,9 +41,5 @@ export class QuranLandingComponent implements AfterViewInit {
 
   navigate(route: string): void {
     this.router.navigateByUrl(route);
-  }
-
-  back(): void {
-    this.router.navigate(['/home']);
   }
 }

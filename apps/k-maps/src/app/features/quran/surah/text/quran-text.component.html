@@ -71,7 +71,7 @@
         @for (p of passages(); track p.passage_index) {
           <a
             class="passage-chip"
-            [routerLink]="['/quran', surahId(), 'passage', p.passage_index]"
+            [routerLink]="['/quran', 'sura', surahId(), 'passage', p.passage_index]"
           >
             {{ p.ayah_from }}–{{ p.ayah_to }}
           </a>

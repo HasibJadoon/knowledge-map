@@ -34,7 +34,7 @@ export class QuranJuzTabComponent {
       return ['/quran', 'page', String(surah.start_page)];
     }
 
-    return ['/quran', 'surah', String(surah.surah)];
+    return ['/quran', 'sura', String(surah.surah)];
   }
 
   buildJuzLink(juz: QuranBrowseJuz): string[] | null {

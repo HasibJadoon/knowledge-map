@@ -259,7 +259,7 @@ export class PassageStudyPage implements OnInit {
 
   readonly expressions = computed<StudyExpressionVm[]>(() => this.lesson()?.expressions ?? []);
   readonly unit        = computed(() => this.lesson()?.unit ?? null);
-  readonly backHref    = computed(() => `/quran/surah/${this.surahId()}/study`);
+  readonly backHref    = computed(() => `/quran/sura/${this.surahId()}/study`);
 
   readonly ayahRange = computed(() => {
     const u = this.unit();
@@ -565,7 +565,7 @@ export class PassageStudyPage implements OnInit {
   // ── Nav ───────────────────────────────────────────────────────────────────
 
   goWorldview(): void {
-    this.router.navigate(['/quran/surah', this.surahId(), 'worldview']);
+    this.router.navigate(['/quran/sura', this.surahId(), 'worldview']);
   }
 
   // ── Misc ─────────────────────────────────────────────────────────────────

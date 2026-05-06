@@ -52,7 +52,7 @@ export class SurahStudyComponent implements OnInit, AfterViewInit {
   }
 
   openUnit(unit: StudyUnitCardVm): void {
-    this.router.navigate(['/quran', 'surah', this.surahId(), 'study', unit.order_index]);
+    this.router.navigate(['/quran', 'sura', this.surahId(), 'study', unit.order_index]);
   }
 
   back(): void { this.router.navigate(['/quran']); }

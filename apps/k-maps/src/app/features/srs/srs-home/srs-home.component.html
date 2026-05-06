@@ -1,6 +1,4 @@
 <div class="srs" #page [style.--srs-accent]="selectedDeck().accent">
-  <km-home-plane-button />
-
   @if (currentScreen() !== 'decks') {
     <div class="srs-screen-nav" aria-label="SRS navigation">
       <button class="srs-screen-nav__icon" type="button" (click)="setScreen('decks')" aria-label="Back to decks">

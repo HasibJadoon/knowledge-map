@@ -1,15 +1,5 @@
-<div class="quran-landing">
-  <km-back-button />
-
-  <div class="quran-landing__inner">
-    <nav class="top-nav">
-      <button class="back-btn" (click)="back()" type="button">
-        <span class="back-btn__arrow">&#8592;</span>
-        <span class="back-btn__label">Home</span>
-      </button>
-      <span class="breadcrumb">Quran</span>
-    </nav>
-
+<ion-content [fullscreen]="true" class="quran-landing-content">
+  <div class="quran-landing">
     <header class="page-header">
       <div class="page-header__ornament">بسم الله الرحمن الرحيم</div>
       <h1 class="page-header__title">Quran</h1>
@@ -35,4 +25,4 @@
       }
     </main>
   </div>
-</div>
+</ion-content>

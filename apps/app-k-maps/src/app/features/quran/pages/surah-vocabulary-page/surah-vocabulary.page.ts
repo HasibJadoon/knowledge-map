@@ -46,6 +46,6 @@ export class SurahVocabularyPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goTo(section: 'near-synonyms' | 'morphology'): void {
-    this.router.navigate(['/quran', 'surah', this.surahId(), section]);
+    this.router.navigate(['/quran', 'sura', this.surahId(), section]);
   }
 }

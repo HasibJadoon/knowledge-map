@@ -26,7 +26,7 @@ import { QuranReaderService, QuranSurahListItem } from '../../../../shared/servi
 import { SurahActionsComponent } from '../../components/surah-actions/surah-actions.component';
 
 @Component({
-  selector: 'app-quran-browse-page',
+  selector: 'app-quran-surahs-page',
   standalone: true,
   imports: [
     TitleCasePipe,
@@ -35,11 +35,11 @@ import { SurahActionsComponent } from '../../components/surah-actions/surah-acti
     IonTabBar, IonTabButton,
     SurahActionsComponent,
   ],
-  templateUrl: './quran-browse.page.html',
-  styleUrl: './quran-browse.page.scss',
+  templateUrl: './quran-surahs.page.html',
+  styleUrl: './quran-surahs.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuranBrowsePage implements OnInit, AfterViewInit {
+export class QuranSurahsPage implements OnInit, AfterViewInit {
   private readonly router = inject(Router);
   private readonly quranReader = inject(QuranReaderService);
 

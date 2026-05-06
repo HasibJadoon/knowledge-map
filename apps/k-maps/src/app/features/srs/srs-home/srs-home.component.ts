@@ -15,7 +15,6 @@ import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import * as d3 from 'd3';
 import gsap from 'gsap';
-import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
 import { QuranApiService } from '../../../shared/services/quran/quran-api.service';
 import { mapQrMenuSurahToListItem } from '../../../shared/services/quran/quran-api.mapper';
 import { QuranSurahListItemDto } from '../../../shared/models/quran/quran.models';
@@ -63,7 +62,7 @@ const EMPTY_SUMMARY: SrsSummary = {
 @Component({
   selector: 'km-srs-home',
   standalone: true,
-  imports: [NgClass, HomePlaneButtonComponent],
+  imports: [NgClass],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './srs-home.component.html',
   styleUrl: './srs-home.component.scss',
@@ -221,7 +220,7 @@ export class SrsHomeComponent implements AfterViewInit, OnDestroy {
     if (!item.surah_id) {
       return;
     }
-    void this.router.navigate(['/quran', 'surah', item.surah_id, 'srs']);
+    void this.router.navigate(['/quran', 'sura', item.surah_id, 'srs']);
   }
 
   setFilter(filter: SrsQueueFilter): void {

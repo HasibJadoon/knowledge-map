@@ -34,13 +34,13 @@ export class QuranSurahTabComponent {
       return ['/quran', 'page', String(surah.start_page)];
     }
 
-    return ['/quran', 'surah', String(surah.surah)];
+    return ['/quran', 'sura', String(surah.surah)];
   }
 
   openSurahNotes(event: Event, surah: QuranBrowseSurah): void {
     event.preventDefault();
     event.stopPropagation();
 
-    void this.router.navigate(['/quran', 'surah', String(surah.surah), 'notes']);
+    void this.router.navigate(['/quran', 'sura', String(surah.surah), 'notes']);
   }
 }

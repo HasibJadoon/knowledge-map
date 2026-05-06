@@ -1,0 +1,150 @@
+.quran-landing-content {
+  --background: radial-gradient(ellipse 78% 54% at 50% 28%, rgba(18,16,10,0.88) 0%, rgba(6,6,6,0.98) 58%, #000 100%);
+}
+
+.quran-landing {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding:
+    max(env(safe-area-inset-top), 2.5rem)
+    1.25rem
+    max(env(safe-area-inset-bottom), 2rem);
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  &__ornament {
+    font-family: var(--km-font-arabic);
+    font-size: 1.2rem;
+    color: #c9a84c;
+    opacity: 0.65;
+    direction: rtl;
+    margin-bottom: 0.75rem;
+  }
+
+  &__title {
+    font-family: var(--ion-font-family);
+    font-size: clamp(2rem, 10vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    background: linear-gradient(180deg, #e8c96a 0%, #c9a84c 40%, #8a6e2a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(201,168,76,0.35));
+    margin: 0 0 0.35rem;
+  }
+
+  &__subtitle {
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+    margin: 0;
+  }
+}
+
+.quran-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.6rem, 3vw, 0.9rem);
+  width: 100%;
+  max-width: 310px;
+}
+
+.km-module-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  aspect-ratio: 1 / 1.15;
+  padding: 0 0.3rem 0.85rem;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1.3rem;
+  cursor: pointer;
+  overflow: hidden;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+
+  &:active,
+  &:hover {
+    border-color: rgba(201,168,76,0.4);
+    box-shadow: 0 0 28px rgba(201,168,76,0.16), inset 0 0 1px rgba(201,168,76,0.4);
+    transform: translateY(-3px);
+
+    .km-module-card__artwork { opacity: 0.9; }
+    .km-module-card__shimmer { opacity: 1; }
+    .km-module-card__bottom-glow { opacity: 1; }
+    .km-module-card__label { color: #e8c96a; }
+  }
+}
+
+.km-module-card__artwork {
+  position: absolute;
+  inset: 0 0 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.km-module-card__glyph {
+  font-size: clamp(2.2rem, 9vw, 3.5rem);
+  line-height: 1;
+  background: linear-gradient(180deg, #c9a84c 0%, #6b5520 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 12px rgba(201,168,76,0.3));
+}
+
+.km-module-card--surahs .km-module-card__glyph {
+  font-family: 'Uthmanic Hafs', 'Scheherazade New', serif;
+}
+
+.km-module-card__shimmer {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.km-module-card__bottom-glow {
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+  opacity: 0.35;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+}
+
+.km-module-card__label {
+  position: relative;
+  z-index: 2;
+  font-family: var(--ion-font-family);
+  font-size: clamp(0.52rem, 2vw, 0.62rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  transition: color 0.3s;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+}

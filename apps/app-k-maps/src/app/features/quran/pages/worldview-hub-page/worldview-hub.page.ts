@@ -45,6 +45,6 @@ export class WorldviewHubPage implements OnInit {
   }
 
   navigate(id: string): void {
-    this.router.navigate(['/quran', 'surah', this.surahId(), 'worldview', id]);
+    this.router.navigate(['/quran', 'sura', this.surahId(), 'worldview', id]);
   }
 }
