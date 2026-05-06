@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
+import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
 
 interface QuranModuleCard {
   id: string;
@@ -18,7 +19,7 @@ interface QuranModuleCard {
 @Component({
   selector: 'km-quran-landing',
   standalone: true,
-  imports: [],
+  imports: [HomePlaneButtonComponent],
   templateUrl: './quran-landing.component.html',
   styleUrl: './quran-landing.component.scss',
 })

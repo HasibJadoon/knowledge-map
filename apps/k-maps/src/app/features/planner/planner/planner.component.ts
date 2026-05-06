@@ -19,6 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import gsap from 'gsap';
 import { environment } from '../../../../environments/environment';
+import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
 import { PlannerCalendarComponent } from '../calendar/calendar.component';
 import { CaptureWorkspaceComponent } from '../capture-workspace/capture-workspace.component';
 import { CaptureEditorComponent } from '../capture-editor/capture-editor.component';
@@ -340,6 +341,7 @@ const CAPTURE_DOMAINS: CaptureDomainOption[] = [
   standalone: true,
   imports: [
     FormsModule,
+    HomePlaneButtonComponent,
     PlannerStripMenuComponent,
     CaptureWorkspaceComponent,
     CaptureEditorComponent,
