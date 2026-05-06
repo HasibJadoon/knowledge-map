@@ -153,27 +153,34 @@
 .page-break {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
-  margin: 2rem 0;
+  gap: 1.05rem;
+  width: min(44rem, 78vw);
+  margin: 2.5rem auto 2.35rem;
   opacity: 0; // GSAP animates this in
 
   &__line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(
-      to var(--line-dir, right),
-      transparent,
-      rgba(201, 168, 76, 0.35) 40%,
-      rgba(201, 168, 76, 0.35)
-    );
+    background:
+      linear-gradient(
+        to var(--line-dir, right),
+        transparent,
+        rgba(201, 168, 76, 0.12) 18%,
+        rgba(201, 168, 76, 0.42) 72%,
+        rgba(232, 201, 106, 0.62)
+      ),
+      radial-gradient(circle at var(--spark-x, 100%) 50%, rgba(232, 201, 106, 0.38), transparent 46%);
+    box-shadow: 0 0 12px rgba(201, 168, 76, 0.08);
     transform-origin: center;
   }
 
   &__line:first-child {
     --line-dir: right;
+    --spark-x: 100%;
   }
   &__line:last-child {
     --line-dir: left;
+    --spark-x: 0%;
   }
 
   &__num {
@@ -183,8 +190,9 @@
     width: 2.2rem;
     height: 2.2rem;
     border-radius: 50%;
-    border: 1px solid rgba(201, 168, 76, 0.5);
-    box-shadow: 0 0 12px rgba(201, 168, 76, 0.12), inset 0 0 8px rgba(201, 168, 76, 0.04);
+    background: radial-gradient(circle, rgba(201, 168, 76, 0.08), rgba(0, 0, 0, 0.26) 68%, transparent);
+    border: 1px solid rgba(201, 168, 76, 0.42);
+    box-shadow: 0 0 18px rgba(201, 168, 76, 0.16), inset 0 0 10px rgba(201, 168, 76, 0.05);
     font-family: var(--km-font-heading);
     font-size: 0.65rem;
     letter-spacing: 0.06em;
