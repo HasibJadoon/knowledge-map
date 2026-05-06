@@ -117,13 +117,37 @@ export function readerRoutes(router: Router<QuranEnv>) {
       // Three queries fly simultaneously: surah row, ayah count, translation source.
       const sourceSQL = sourceParam
         ? env.DB_QR.prepare(
-            `SELECT id, slug, language, author, title, is_default
-             FROM qr_translation_sources WHERE id = ?`,
+            `SELECT id,
+                    source_code AS slug,
+                    language,
+                    translator_name AS author,
+                    COALESCE(edition, translator_name) AS title,
+                    is_default
+             FROM qr_translation_sources
+             WHERE id = ?`,
           ).bind(sourceParam).first<TranslationSourceRow>()
         : env.DB_QR.prepare(
             `SELECT id, slug, language, author, title, is_default
-             FROM qr_translation_sources WHERE is_default = 1 LIMIT 1`,
-          ).first<TranslationSourceRow>();
+             FROM (
+               SELECT s.id,
+                      s.source_code AS slug,
+                      s.language,
+                      s.translator_name AS author,
+                      COALESCE(s.edition, s.translator_name) AS title,
+                      s.is_default,
+                      CASE WHEN s.is_default = 1 THEN 0 ELSE 1 END AS default_rank,
+                      CASE WHEN s.language = 'en' THEN 0 ELSE 1 END AS language_rank
+               FROM qr_translation_sources s
+               WHERE EXISTS (
+                 SELECT 1
+                 FROM qr_translations t
+                 WHERE t.source_id = s.id AND t.surah = ?
+                 LIMIT 1
+               )
+             )
+             ORDER BY default_rank, language_rank, author
+             LIMIT 1`,
+          ).bind(surahId).first<TranslationSourceRow>();
 
       const [surahRow, countRow, sourceRow] = await Promise.all([
         env.DB_QR
@@ -183,7 +207,7 @@ export function readerRoutes(router: Router<QuranEnv>) {
         sourceRow
           ? env.DB_QR
               .prepare(
-                `SELECT ayah, text
+                `SELECT ayah, translation_text AS text
                  FROM qr_translations
                  WHERE source_id = ? AND surah = ? AND ayah BETWEEN ? AND ?
                  ORDER BY ayah`,
