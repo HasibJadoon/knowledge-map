@@ -42,6 +42,8 @@ const routes: Routes = [
     path: 'quran/surahs',
     loadComponent: () => import('./features/quran/pages/quran-surahs-page/quran-surahs.page').then(m => m.QuranSurahsPage),
   },
+  { path: 'quran/sura/al-quran', redirectTo: 'quran/al-quran', pathMatch: 'full' },
+  { path: 'quran/surah/al-quran', redirectTo: 'quran/al-quran', pathMatch: 'full' },
   {
     path: 'quran/sura/:surahId/worldview/nodes',
     loadComponent: () => import('./features/quran/pages/worldview-nodes-page/worldview-nodes.page').then(m => m.WorldviewNodesPage),
@@ -110,7 +112,13 @@ const routes: Routes = [
   },
   {
     path: 'quran/sura/:surahId',
-    loadComponent: () => import('./features/quran/pages/text-page/quran-text.page').then(m => m.QuranTextPage),
+    loadComponent: () => import('./features/quran/al-quran/shell/quran-researcher-shell.component').then(m => m.QuranResearcherShellComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/quran/al-quran/reader/al-quran.component').then(m => m.AlQuranComponent),
+      },
+    ],
   },
   { path: 'quran/surah/:surahId/worldview/nodes', redirectTo: 'quran/sura/:surahId/worldview/nodes', pathMatch: 'full' },
   { path: 'quran/surah/:surahId/worldview/sources', redirectTo: 'quran/sura/:surahId/worldview/sources', pathMatch: 'full' },
