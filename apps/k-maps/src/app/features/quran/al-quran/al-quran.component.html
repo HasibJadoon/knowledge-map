@@ -74,11 +74,6 @@
             [attr.id]="'quran-page-' + page.page.number"
             [style.--mushaf-font]="mushafFont(page.page.number)"
           >
-            <header class="mushaf-page__meta">
-              <span>{{ page.page.start_ref }} - {{ page.page.end_ref }}</span>
-              <strong>Page {{ page.page.number }}</strong>
-            </header>
-
             <div class="mushaf-page__lines" dir="rtl">
               @for (line of page.layout_lines; track trackLine($index, line)) {
                 @switch (line.line_type) {
@@ -109,6 +104,12 @@
                 }
               }
             </div>
+
+            <footer class="mushaf-page__footer" aria-label="Page number">
+              <span class="mushaf-page__divider"></span>
+              <span class="mushaf-page__number">{{ page.page.number }}</span>
+              <span class="mushaf-page__divider"></span>
+            </footer>
           </article>
         }
 

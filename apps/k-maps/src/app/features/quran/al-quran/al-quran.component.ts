@@ -1,4 +1,5 @@
 import {
+  ElementRef,
   ChangeDetectionStrategy,
   Component,
   OnInit,
@@ -8,6 +9,7 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import gsap from 'gsap';
 import { QrPageLayoutAyah, QrPagePayload, QrPageWord } from '../../../shared/models/quran/qr.models';
 import { QuranApiService } from '../../../shared/services/quran/quran-api.service';
 import { QuranStateService } from '../../../shared/services/quran/quran-state.service';
@@ -30,6 +32,7 @@ export class AlQuranComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly qrApi = inject(QuranApiService);
+  private readonly host = inject(ElementRef<HTMLElement>);
   private readonly loadedPageFonts = new Set<number>();
   readonly quranState = inject(QuranStateService);
 
@@ -92,6 +95,7 @@ export class AlQuranComponent implements OnInit {
     try {
       const loaded = await this.fetchPages(pageNumbers);
       this.pages.set([...loaded, ...this.pages()]);
+      this.animateLoadedPages();
     } catch (err) {
       this.error.set(this.errorMessage(err, 'Failed to load previous pages'));
     } finally {
@@ -111,6 +115,7 @@ export class AlQuranComponent implements OnInit {
     try {
       const loaded = await this.fetchPages(pageNumbers);
       this.pages.set([...this.pages(), ...loaded]);
+      this.animateLoadedPages();
     } catch (err) {
       this.error.set(this.errorMessage(err, 'Failed to load more pages'));
     } finally {
@@ -164,6 +169,7 @@ export class AlQuranComponent implements OnInit {
     const to = Math.min(LAST_PAGE, startPage + PAGE_BATCH_SIZE - 1);
     const loaded = await this.fetchPages(this.range(startPage, to));
     this.pages.set(loaded);
+    this.animateLoadedPages(true);
   }
 
   private async resolveInitialPage(): Promise<number> {
@@ -236,6 +242,52 @@ export class AlQuranComponent implements OnInit {
 }`;
       doc.head.appendChild(style);
     }
+  }
+
+  private animateLoadedPages(reset = false): void {
+    requestAnimationFrame(() => {
+      const root = this.host.nativeElement as HTMLElement;
+      if (reset) {
+        root.querySelectorAll<HTMLElement>('.mushaf-page.is-animated').forEach((el: HTMLElement) => {
+          el.classList.remove('is-animated');
+        });
+      }
+
+      const pages = Array.from(
+        root.querySelectorAll<HTMLElement>('.mushaf-page:not(.is-animated)'),
+      );
+      for (const page of pages) {
+        page.classList.add('is-animated');
+        const lines = Array.from(page.querySelectorAll<HTMLElement>('.mushaf-line'));
+        const footer = page.querySelector<HTMLElement>('.mushaf-page__footer');
+
+        gsap.fromTo(
+          page,
+          { autoAlpha: 0, y: 18 },
+          { autoAlpha: 1, y: 0, duration: 0.42, ease: 'power3.out' },
+        );
+        gsap.fromTo(
+          lines,
+          { autoAlpha: 0, y: 12, filter: 'blur(5px)' },
+          {
+            autoAlpha: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 0.52,
+            ease: 'power3.out',
+            stagger: 0.026,
+            delay: 0.08,
+          },
+        );
+        if (footer) {
+          gsap.fromTo(
+            footer,
+            { autoAlpha: 0, scaleX: 0.82 },
+            { autoAlpha: 1, scaleX: 1, duration: 0.38, ease: 'power2.out', delay: 0.34 },
+          );
+        }
+      }
+    });
   }
 
   private range(from: number, to: number): number[] {
