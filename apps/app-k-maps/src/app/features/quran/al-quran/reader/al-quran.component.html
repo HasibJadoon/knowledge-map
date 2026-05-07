@@ -4,16 +4,23 @@
       <div class="reader-controls" aria-label="Quran navigation">
         <label class="reader-control">
           <span>Surah</span>
-          <select (change)="goToSurah($any($event.target).value)">
+          <select [value]="activeSurah()" (change)="goToSurah($any($event.target).value)">
             @for (surah of surahs(); track surah.surah) {
-              <option
-                [value]="surah.surah"
-                [selected]="surah.surah === pages()[0]?.verses?.[0]?.surah"
-              >
+              <option [value]="surah.surah">
                 {{ surah.surah }}. {{ surah.name_en || surah.meta.name_simple }}
               </option>
             }
           </select>
+        </label>
+
+        <label class="reader-control reader-control--verse">
+          <span>Ayah</span>
+          <input
+            type="number"
+            min="1"
+            [value]="activeVerse()"
+            (change)="goToVerse($any($event.target).value)"
+          />
         </label>
 
         <label class="reader-control reader-control--page">

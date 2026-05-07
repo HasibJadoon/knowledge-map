@@ -7,6 +7,7 @@ import {
   OnInit,
   ViewChild,
   computed,
+  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -21,6 +22,7 @@ import {
   QuranPageWord,
 } from '../../../../shared/models/quran/quran-reader.model';
 import { QuranReaderService } from '../../../../shared/services/quran/quran-reader.service';
+import { QuranResearchSearchService } from '../quran-research-search.service';
 
 const FIRST_PAGE = 1;
 const LAST_PAGE = 604;
@@ -40,6 +42,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly quranReader = inject(QuranReaderService);
+  private readonly researchSearch = inject(QuranResearchSearchService, { optional: true });
   private readonly host: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly loadedPageFonts = new Set<number>();
   private readonly scrollListenerCleanups: Array<() => void> = [];
@@ -65,6 +68,8 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly loadingMore = signal(false);
   readonly error = signal<string | null>(null);
   readonly activeStartPage = signal(FIRST_PAGE);
+  readonly activeSurah = signal(FIRST_PAGE);
+  readonly activeVerse = signal(FIRST_PAGE);
 
   readonly firstLoadedPage = computed(() => this.pages()[0]?.page.number ?? null);
   readonly lastLoadedPage = computed(() => this.pages()[this.pages().length - 1]?.page.number ?? null);
@@ -75,6 +80,21 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     const last = this.lastLoadedPage();
     return first && last ? `${first}-${last}` : '';
   });
+
+  constructor() {
+    const search = this.researchSearch;
+    if (!search) return;
+
+    effect((onCleanup) => {
+      const query = search.searchTerm().trim();
+      if (!query) return;
+
+      const timer = setTimeout(() => {
+        void this.handleHeaderSearch(query);
+      }, 420);
+      onCleanup(() => clearTimeout(timer));
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     await this.loadInitialPages();
@@ -169,12 +189,19 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   async goToSurah(raw: string): Promise<void> {
     const surah = this.clampSurah(Number(raw));
     const page = await this.resolveSurahStartPage(surah);
+    this.activeSurah.set(surah);
+    this.activeVerse.set(FIRST_PAGE);
     await this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { surah, page: null, startingVerse: null },
       queryParamsHandling: 'merge',
     });
-    await this.loadFromPage(page);
+    await this.loadFromPage(page, { surah, verse: FIRST_PAGE });
+  }
+
+  async goToVerse(raw: string): Promise<void> {
+    const verse = this.clampVerse(Number(raw));
+    await this.goToAyah(this.activeSurah(), verse);
   }
 
   private async loadInitialPages(): Promise<void> {
@@ -198,12 +225,18 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     this.surahs.set(menu.surahs);
   }
 
-  private async loadFromPage(page: number): Promise<void> {
+  private async loadFromPage(page: number, activeRef?: { surah: number; verse: number }): Promise<void> {
     const startPage = this.clampPage(page);
     this.activeStartPage.set(startPage);
     const to = Math.min(LAST_PAGE, startPage + PAGE_BATCH_SIZE - 1);
     const loaded = await this.fetchPages(this.range(startPage, to));
     this.pages.set(loaded);
+    if (activeRef) {
+      this.activeSurah.set(activeRef.surah);
+      this.activeVerse.set(activeRef.verse);
+    } else {
+      this.syncActiveReferenceFromPages(loaded);
+    }
     this.animateLoadedPages(true);
     this.scheduleScrollCheck();
   }
@@ -236,6 +269,84 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     return this.resolveSurahStartPage(surah);
+  }
+
+  private async goToAyah(surah: number, ayah: number): Promise<void> {
+    const clampedSurah = this.clampSurah(surah);
+    const clampedAyah = this.clampVerse(ayah);
+    const page = await this.resolveAyahPage(clampedSurah, clampedAyah);
+    this.activeSurah.set(clampedSurah);
+    this.activeVerse.set(clampedAyah);
+    await this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { surah: clampedSurah, startingVerse: clampedAyah, page: null },
+      queryParamsHandling: 'merge',
+    });
+    await this.loadFromPage(page, { surah: clampedSurah, verse: clampedAyah });
+  }
+
+  private async handleHeaderSearch(query: string): Promise<void> {
+    if (this.loading()) return;
+
+    const ref = this.parseAyahReference(query);
+    if (ref) {
+      await this.goToAyah(ref.surah, ref.ayah);
+      return;
+    }
+
+    const surah = this.matchSurah(query);
+    if (surah) {
+      await this.goToSurah(String(surah.surah));
+      return;
+    }
+
+    if (query.length < 2) return;
+
+    try {
+      const result = await firstValueFrom(this.quranReader.searchAyahs(query, 1, 1));
+      const match = result.results[0];
+      if (match) await this.goToAyah(match.surah, match.ayah);
+    } catch {
+      // Search is a navigation helper; keep the current page if no lookup succeeds.
+    }
+  }
+
+  private parseAyahReference(query: string): { surah: number; ayah: number } | null {
+    const normalized = query.trim();
+    const match = normalized.match(/^(\d{1,3})\s*[:./,\-\s]\s*(\d{1,3})$/);
+    if (!match) return null;
+    const surah = this.clampSurah(Number(match[1]));
+    const ayah = this.clampVerse(Number(match[2]));
+    return { surah, ayah };
+  }
+
+  private matchSurah(query: string): QuranBrowseSurah | null {
+    const normalized = this.normalizeSearch(query);
+    if (!normalized) return null;
+
+    return this.surahs().find((surah) => {
+      const number = String(surah.surah);
+      return number === normalized
+        || this.normalizeSearch(surah.name_en ?? '') === normalized
+        || this.normalizeSearch(surah.meta.name_simple ?? '') === normalized
+        || surah.name_ar.includes(query.trim());
+    }) ?? null;
+  }
+
+  private normalizeSearch(value: string): string {
+    return value
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/['’`-]/g, '')
+      .trim()
+      .toLowerCase();
+  }
+
+  private syncActiveReferenceFromPages(pages: QuranPageResponse[]): void {
+    const firstVerse = pages[0]?.verses[0];
+    if (!firstVerse) return;
+    this.activeSurah.set(firstVerse.surah);
+    this.activeVerse.set(firstVerse.ayah);
   }
 
   private async resolveSurahStartPage(surah: number): Promise<number> {
@@ -416,6 +527,11 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private clampSurah(value: number): number {
     if (!Number.isFinite(value)) return FIRST_PAGE;
     return Math.max(1, Math.min(114, Math.trunc(value)));
+  }
+
+  private clampVerse(value: number): number {
+    if (!Number.isFinite(value)) return FIRST_PAGE;
+    return Math.max(FIRST_PAGE, Math.trunc(value));
   }
 
   private errorMessage(err: unknown, fallback: string): string {

@@ -62,6 +62,15 @@ export interface AyahsResponse {
   verses?: QuranAyah[];
 }
 
+export interface AyahSearchResponse {
+  ok: boolean;
+  total: number;
+  page: number;
+  per_page: number;
+  has_more: boolean;
+  results: QuranAyah[];
+}
+
 // ── /quran/surahs response ────────────────────────────────────────────────────
 export interface QuranSurahListItem {
   id: string;
@@ -200,6 +209,42 @@ export class QuranReaderService {
       })),
       catchError((error: unknown) =>
         throwError(() => new Error(this.toErrorMessage(error, 'Unable to load ayahs.')))
+      )
+    );
+  }
+
+  searchAyahs(query: string, page = 1, perPage = 8): Observable<AyahSearchResponse> {
+    const params = new HttpParams()
+      .set('q', query)
+      .set('page', String(page))
+      .set('per_page', String(perPage));
+
+    return this.api.getRaw<{
+      ok: true;
+      data: QrAyah[];
+      meta: { total: number; page: number; per_page: number; has_more: boolean };
+    }>(['qr', 'ayahs', 'search'], { params }).pipe(
+      map((response) => ({
+        ok: true,
+        total: response.meta.total,
+        page: response.meta.page,
+        per_page: response.meta.per_page,
+        has_more: response.meta.has_more,
+        results: response.data.map((ayah) => ({
+          surah: ayah.surah,
+          ayah: ayah.ayah,
+          text: ayah.text_display,
+          text_uthmani: ayah.text_uthmani,
+          text_uthmani_clean: ayah.text_uthmani_clean,
+          text_bare: null,
+          verse_mark: ayah.verse_mark,
+          translation: ayah.translation,
+          page_number: ayah.page_number,
+          words: ayah.words,
+        })),
+      })),
+      catchError((error: unknown) =>
+        throwError(() => new Error(this.toErrorMessage(error, 'Unable to search ayahs.')))
       )
     );
   }
