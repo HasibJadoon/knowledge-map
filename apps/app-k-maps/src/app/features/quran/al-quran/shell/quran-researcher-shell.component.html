@@ -11,24 +11,36 @@
     </ion-title>
   </ion-toolbar>
 
-  <ion-toolbar class="qrs-tabs-toolbar">
-    <nav class="qrs-tabs" aria-label="Quran researcher tabs">
-      @for (tab of tabs; track tab.id) {
-        <a
-          class="qrs-tab"
-          [routerLink]="['/quran', tab.routePath]"
-          routerLinkActive="qrs-tab--active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <span class="qrs-tab__icon" aria-hidden="true">{{ tab.icon }}</span>
-          <span class="qrs-tab__arabic">{{ tab.labelAr }}</span>
-          <span class="qrs-tab__label">{{ tab.label }}</span>
-        </a>
-      }
-    </nav>
+  <ion-toolbar class="qrs-search-toolbar">
+    <ion-searchbar
+      class="qrs-searchbar"
+      mode="ios"
+      inputmode="search"
+      placeholder="بحث"
+      [debounce]="120"
+      [value]="search.searchTerm()"
+      (ionInput)="setSearch($event.detail.value)"
+    />
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="qrs-content" [fullscreen]="true">
   <router-outlet />
 </ion-content>
+
+<ion-footer class="qrs-footer">
+  <ion-tab-bar class="qrs-tab-bar" slot="bottom">
+    @for (tab of tabs; track tab.id) {
+      <ion-tab-button
+        class="qrs-tab"
+        [routerLink]="['/quran', tab.routePath]"
+        routerLinkActive="qrs-tab--active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [attr.aria-label]="tab.labelAr"
+      >
+        <span class="qrs-tab__icon" aria-hidden="true">{{ tab.icon }}</span>
+        <ion-label class="qrs-tab__arabic" lang="ar" dir="rtl">{{ tab.labelAr }}</ion-label>
+      </ion-tab-button>
+    }
+  </ion-tab-bar>
+</ion-footer>

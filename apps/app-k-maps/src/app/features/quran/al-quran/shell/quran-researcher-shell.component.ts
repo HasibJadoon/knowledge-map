@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { QuranResearchSearchService } from '../quran-research-search.service';
 
 interface ResearchTab {
   id: string;
   labelAr: string;
-  label: string;
   icon: string;
   routePath: string;
 }
@@ -18,19 +18,25 @@ interface ResearchTab {
   templateUrl: './quran-researcher-shell.component.html',
   styleUrl: './quran-researcher-shell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [QuranResearchSearchService],
 })
 export class QuranResearcherShellComponent {
   private readonly router = inject(Router);
+  readonly search = inject(QuranResearchSearchService);
 
   readonly tabs: ResearchTab[] = [
-    { id: 'al-quran', labelAr: 'القرآن', label: 'Quran', icon: '▤', routePath: 'al-quran' },
-    { id: 'tafseer', labelAr: 'تفسير', label: 'Tafseer', icon: '◫', routePath: 'tafseer' },
-    { id: 'uloom', labelAr: 'علوم', label: 'Sciences', icon: '⧉', routePath: 'uloom' },
-    { id: 'lexicon', labelAr: 'معاجم', label: 'Lexicon', icon: 'ع', routePath: 'lexicon' },
-    { id: 'notes', labelAr: 'ملاحظات', label: 'Notes', icon: '✎', routePath: 'notes' },
+    { id: 'al-quran', labelAr: 'القرآن', icon: '▤', routePath: 'al-quran' },
+    { id: 'tafseer', labelAr: 'تفسير', icon: '◫', routePath: 'tafseer' },
+    { id: 'uloom', labelAr: 'علوم', icon: '⧉', routePath: 'uloom' },
+    { id: 'lexicon', labelAr: 'معاجم', icon: 'ع', routePath: 'lexicon' },
+    { id: 'notes', labelAr: 'ملاحظات', icon: '✎', routePath: 'notes' },
   ];
 
   goHome(): void {
     this.router.navigateByUrl('/home');
+  }
+
+  setSearch(value: string | null | undefined): void {
+    this.search.setSearch(value);
   }
 }

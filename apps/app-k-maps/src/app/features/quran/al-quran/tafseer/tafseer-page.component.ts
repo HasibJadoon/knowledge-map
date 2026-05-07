@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { QuranResearchSearchService } from '../quran-research-search.service';
 
 interface TafseerSource {
   title: string;
@@ -24,16 +25,12 @@ const TAFSEER_SOURCES: TafseerSource[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TafseerPageComponent {
-  readonly searchTerm = signal('');
+  private readonly search = inject(QuranResearchSearchService);
   readonly sources = computed(() => {
-    const q = this.searchTerm().trim().toLowerCase();
+    const q = this.search.searchTerm().trim().toLowerCase();
     if (!q) return TAFSEER_SOURCES;
     return TAFSEER_SOURCES.filter((source) =>
       `${source.title} ${source.scholar} ${source.description}`.toLowerCase().includes(q),
     );
   });
-
-  setSearch(value: string): void {
-    this.searchTerm.set(value);
-  }
 }
