@@ -5,7 +5,7 @@ export const QURAN_ROUTES: Routes = [
     path: '',
     pathMatch: 'full',
     loadComponent: () =>
-      import('./quran-landing/quran-landing.component').then((m) => m.QuranLandingComponent),
+      import('./quran-research/quran-landing/quran-landing.component').then((m) => m.QuranLandingComponent),
     title: 'Quran — K-MAPS',
   },
   { path: 'al-quran/:surahId', redirectTo: 'al-quran', pathMatch: 'full' },
@@ -123,13 +123,13 @@ export const QURAN_ROUTES: Routes = [
   {
     path: 'lessons/:lessonId/study',
     loadComponent: () =>
-      import('./lessons/study/lesson-study.component').then((m) => m.LessonStudyComponent),
+      import('./sura/lessons/study/lesson-study.component').then((m) => m.LessonStudyComponent),
     title: 'Study — K-MAPS',
   },
   {
     path: 'lessons/:lessonId/edit',
     loadComponent: () =>
-      import('./lessons/edit/lesson-edit.component').then((m) => m.LessonEditComponent),
+      import('./sura/lessons/edit/lesson-edit.component').then((m) => m.LessonEditComponent),
     title: 'Edit Lesson — K-MAPS',
   },
   {
@@ -142,7 +142,7 @@ export const QURAN_ROUTES: Routes = [
       {
         path: 'al-quran',
         loadComponent: () =>
-          import('./al-quran/al-quran.component').then((m) => m.AlQuranComponent),
+          import('./quran-research/al-quran/al-quran.component').then((m) => m.AlQuranComponent),
         title: 'Al-Quran — K-MAPS',
       },
       {

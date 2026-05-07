@@ -20,10 +20,10 @@ import {
   LessonFullDetail,
   LessonTask,
   TaskType,
-} from '../../../../shared/services/quran/quran-lesson-api.service';
-import { QuranAyah } from '../../../../shared/models/quran/quran.models';
-import { mapQrPassagesToResponse, mapQrReaderToAyahsResponse } from '../../../../shared/services/quran/quran-api.mapper';
-import { QuranApiService } from '../../../../shared/services/quran/quran-api.service';
+} from '../../../../../shared/services/quran/quran-lesson-api.service';
+import { QuranAyah } from '../../../../../shared/models/quran/quran.models';
+import { mapQrPassagesToResponse, mapQrReaderToAyahsResponse } from '../../../../../shared/services/quran/quran-api.mapper';
+import { QuranApiService } from '../../../../../shared/services/quran/quran-api.service';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 

@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
-import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
+import { HomePlaneButtonComponent } from '../../../../shared/components/home-plane-button/home-plane-button.component';
 
 type QuranLandingCardId = 'quran' | 'surahs';
 

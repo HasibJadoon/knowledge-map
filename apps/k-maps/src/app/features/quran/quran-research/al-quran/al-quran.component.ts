@@ -10,9 +10,9 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
-import { QrPageLayoutAyah, QrPagePayload, QrPageWord } from '../../../shared/models/quran/qr.models';
-import { QuranApiService } from '../../../shared/services/quran/quran-api.service';
-import { QuranStateService } from '../../../shared/services/quran/quran-state.service';
+import { QrPageLayoutAyah, QrPagePayload, QrPageWord } from '../../../../shared/models/quran/qr.models';
+import { QuranApiService } from '../../../../shared/services/quran/quran-api.service';
+import { QuranStateService } from '../../../../shared/services/quran/quran-state.service';
 
 const FIRST_PAGE = 1;
 const LAST_PAGE = 604;
