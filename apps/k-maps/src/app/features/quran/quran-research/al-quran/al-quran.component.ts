@@ -1,8 +1,11 @@
 import {
+  AfterViewInit,
   ElementRef,
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   OnInit,
+  ViewChild,
   computed,
   inject,
   signal,
@@ -18,6 +21,7 @@ const FIRST_PAGE = 1;
 const LAST_PAGE = 604;
 const PAGE_BATCH_SIZE = 4;
 const MUSHAF_LAYOUT = 'qpc-v2-15-lines';
+const AUTO_LOAD_THRESHOLD_PX = 900;
 
 @Component({
   selector: 'km-al-quran',
@@ -27,13 +31,29 @@ const MUSHAF_LAYOUT = 'qpc-v2-15-lines';
   styleUrl: './al-quran.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AlQuranComponent implements OnInit {
+export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly qrApi = inject(QuranApiService);
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly loadedPageFonts = new Set<number>();
+  private readonly scrollListenerCleanups: Array<() => void> = [];
+  private scrollCheckFrame = 0;
+  private loadPreviousSentinel?: ElementRef<HTMLElement>;
+  private loadMoreSentinel?: ElementRef<HTMLElement>;
   readonly quranState = inject(QuranStateService);
+
+  @ViewChild('loadPreviousSentinel')
+  set loadPreviousSentinelRef(element: ElementRef<HTMLElement> | undefined) {
+    this.loadPreviousSentinel = element;
+    this.scheduleScrollCheck();
+  }
+
+  @ViewChild('loadMoreSentinel')
+  set loadMoreSentinelRef(element: ElementRef<HTMLElement> | undefined) {
+    this.loadMoreSentinel = element;
+    this.scheduleScrollCheck();
+  }
 
   readonly pages = signal<QrPagePayload[]>([]);
   readonly loading = signal(true);
@@ -54,6 +74,16 @@ export class AlQuranComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.quranState.load();
     await this.loadInitialPages();
+  }
+
+  ngAfterViewInit(): void {
+    this.setupScrollListeners();
+    this.scheduleScrollCheck();
+  }
+
+  ngOnDestroy(): void {
+    for (const cleanup of this.scrollListenerCleanups) cleanup();
+    if (this.scrollCheckFrame) cancelAnimationFrame(this.scrollCheckFrame);
   }
 
   trackPage(_index: number, page: QrPagePayload): number {
@@ -77,9 +107,7 @@ export class AlQuranComponent implements OnInit {
   }
 
   onScroll(event: Event): void {
-    const el = event.target as HTMLElement;
-    const remaining = el.scrollHeight - el.scrollTop - el.clientHeight;
-    if (remaining < 900) void this.loadNextPages();
+    this.checkElementScrollPosition(event.target as HTMLElement);
   }
 
   async loadPreviousPages(): Promise<void> {
@@ -99,6 +127,7 @@ export class AlQuranComponent implements OnInit {
       this.error.set(this.errorMessage(err, 'Failed to load previous pages'));
     } finally {
       this.loadingMore.set(false);
+      this.scheduleScrollCheck();
     }
   }
 
@@ -119,6 +148,7 @@ export class AlQuranComponent implements OnInit {
       this.error.set(this.errorMessage(err, 'Failed to load more pages'));
     } finally {
       this.loadingMore.set(false);
+      this.scheduleScrollCheck();
     }
   }
 
@@ -287,6 +317,98 @@ export class AlQuranComponent implements OnInit {
         }
       }
     });
+  }
+
+  private setupScrollListeners(): void {
+    const root = this.host.nativeElement as HTMLElement;
+    const targets = new Set<EventTarget>();
+    const readerScroller = root.querySelector<HTMLElement>('.al-quran-page');
+    const shellScroller = root.closest<HTMLElement>('.qrs-page');
+    const doc = globalThis.document;
+
+    if (readerScroller) targets.add(readerScroller);
+    if (shellScroller) targets.add(shellScroller);
+    if (globalThis.window) targets.add(globalThis.window);
+
+    const listener = () => this.scheduleScrollCheck();
+    for (const target of targets) {
+      target.addEventListener('scroll', listener, { passive: true });
+      this.scrollListenerCleanups.push(() => target.removeEventListener('scroll', listener));
+    }
+
+    if (doc) {
+      doc.addEventListener('scroll', listener, { capture: true, passive: true });
+      this.scrollListenerCleanups.push(() => doc.removeEventListener('scroll', listener, { capture: true }));
+    }
+  }
+
+  private scheduleScrollCheck(): void {
+    if (this.scrollCheckFrame) return;
+    this.scrollCheckFrame = requestAnimationFrame(() => {
+      this.scrollCheckFrame = 0;
+      this.checkCurrentScrollPosition();
+    });
+  }
+
+  private checkCurrentScrollPosition(): void {
+    const root = this.host.nativeElement as HTMLElement;
+    const readerScroller = root.querySelector<HTMLElement>('.al-quran-page');
+    const shellScroller = root.closest<HTMLElement>('.qrs-page');
+
+    this.checkSentinelPositions();
+    if (readerScroller) this.checkElementScrollPosition(readerScroller);
+    if (shellScroller && shellScroller !== readerScroller) this.checkElementScrollPosition(shellScroller);
+    this.checkWindowScrollPosition();
+  }
+
+  private checkSentinelPositions(): void {
+    if (this.loading() || this.loadingMore()) return;
+
+    const viewportHeight = globalThis.window?.innerHeight ?? globalThis.document?.documentElement.clientHeight ?? 0;
+    const nextSentinel = this.loadMoreSentinel?.nativeElement;
+    if (nextSentinel && nextSentinel.getBoundingClientRect().top < viewportHeight + AUTO_LOAD_THRESHOLD_PX) {
+      void this.loadNextPages();
+      return;
+    }
+
+    const previousSentinel = this.loadPreviousSentinel?.nativeElement;
+    if (previousSentinel && previousSentinel.getBoundingClientRect().bottom > -AUTO_LOAD_THRESHOLD_PX) {
+      void this.loadPreviousPages();
+    }
+  }
+
+  private checkElementScrollPosition(el: HTMLElement): void {
+    if (this.loading() || this.loadingMore()) return;
+    if (el.scrollHeight <= el.clientHeight + 1) return;
+
+    const remainingBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+    if (remainingBottom < AUTO_LOAD_THRESHOLD_PX) {
+      void this.loadNextPages();
+      return;
+    }
+
+    if (el.scrollTop < AUTO_LOAD_THRESHOLD_PX) void this.loadPreviousPages();
+  }
+
+  private checkWindowScrollPosition(): void {
+    if (this.loading() || this.loadingMore()) return;
+    const doc = globalThis.document?.documentElement;
+    const body = globalThis.document?.body;
+    const viewportHeight = globalThis.window?.innerHeight ?? doc?.clientHeight ?? 0;
+
+    if (doc && doc.scrollHeight > viewportHeight + 1) {
+      const scrollTop = globalThis.window?.scrollY ?? doc.scrollTop;
+      const remainingBottom = doc.scrollHeight - scrollTop - viewportHeight;
+      if (remainingBottom < AUTO_LOAD_THRESHOLD_PX) {
+        void this.loadNextPages();
+        return;
+      }
+      if (scrollTop < AUTO_LOAD_THRESHOLD_PX) void this.loadPreviousPages();
+    }
+
+    if (body && body.scrollHeight > body.clientHeight + 1) {
+      this.checkElementScrollPosition(body);
+    }
   }
 
   private range(from: number, to: number): number[] {

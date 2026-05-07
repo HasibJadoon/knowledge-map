@@ -209,25 +209,6 @@
   line-height: 1;
 }
 
-.load-pages-btn {
-  align-self: center;
-  background: transparent;
-  border: 1px solid var(--km-border-gold);
-  border-radius: 6px;
-  color: var(--km-gold);
-  font-family: var(--km-font-body);
-  font-size: 0.76rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.55rem 1rem;
-  cursor: pointer;
-
-  &:disabled {
-    cursor: progress;
-    opacity: 0.55;
-  }
-}
-
 .reader-end {
   color: var(--km-text-3);
   font-size: 0.7rem;
@@ -235,6 +216,11 @@
   text-align: center;
   text-transform: uppercase;
   padding: 1.5rem 0 0.2rem;
+}
+
+.load-page-sentinel {
+  width: 100%;
+  height: 1px;
 }
 
 .state-message {

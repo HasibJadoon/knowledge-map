@@ -45,9 +45,7 @@
     @if (!loading() && !error()) {
       <main class="mushaf-reader">
         @if (hasPreviousPages()) {
-          <button class="load-pages-btn" type="button" (click)="loadPreviousPages()" [disabled]="loadingMore()">
-            Load previous pages
-          </button>
+          <div class="load-page-sentinel" #loadPreviousSentinel aria-hidden="true"></div>
         }
 
         @for (page of pages(); track trackPage($index, page)) {
@@ -99,6 +97,10 @@
           <div class="state-message state-message--inline">
             <div class="state-message__spinner"></div>
           </div>
+        }
+
+        @if (hasMorePages()) {
+          <div class="load-page-sentinel" #loadMoreSentinel aria-hidden="true"></div>
         }
 
         @if (!hasMorePages()) {
