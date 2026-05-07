@@ -72,7 +72,7 @@ export class SurahActionsComponent {
   readonly actions = ACTIONS;
 
   navigate(actionId: string): void {
-    const base = ['/quran', 'sura', String(this.surahId)];
+    const base = ['/quran', 'surahs', String(this.surahId)];
     const suffix: Record<string, string> = {
       study: 'study', notes: 'notes', worldview: 'worldview',
       vocabulary: 'linguistics', review: 'review', srs: 'srs',

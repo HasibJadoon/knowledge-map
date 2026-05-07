@@ -58,7 +58,7 @@ export class QuranPassageComponent implements OnInit {
   prevPassage(): void {
     const idx = this.passageIndex() - 1;
     if (idx >= 1) {
-      this.router.navigate(['/quran', 'sura', this.surahId(), 'passage', idx]);
+      this.router.navigate(['/quran', 'surahs', this.surahId(), 'passage', idx]);
     }
   }
 
@@ -66,11 +66,11 @@ export class QuranPassageComponent implements OnInit {
     const all = this.allPassages();
     const idx = this.passageIndex() + 1;
     if (!all.length || idx <= all[all.length - 1]!.passage_index) {
-      this.router.navigate(['/quran', 'sura', this.surahId(), 'passage', idx]);
+      this.router.navigate(['/quran', 'surahs', this.surahId(), 'passage', idx]);
     }
   }
 
   backToSurah(): void {
-    this.router.navigate(['/quran', 'sura', this.surahId()]);
+    this.router.navigate(['/quran', 'surahs', this.surahId()]);
   }
 }

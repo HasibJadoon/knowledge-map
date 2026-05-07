@@ -17,20 +17,21 @@
     </header>
 
     <main class="quran-cards" #cardsRow>
-      @for (mod of modules; track mod.id) {
+      @for (card of cards; track card.id) {
         <button
           class="km-module-card"
-          [class]="'km-module-card--' + mod.id"
-          (click)="navigate(mod.route)"
-          [attr.aria-label]="'Open ' + mod.label"
+          [class.km-module-card--quran]="card.id === 'quran'"
+          [class.km-module-card--surahs]="card.id === 'surahs'"
+          (click)="navigate(card.route)"
+          [attr.aria-label]="'Open ' + card.label"
           type="button"
         >
           <div class="km-module-card__artwork">
-            <span class="km-module-card__glyph">{{ mod.glyph }}</span>
+            <span class="km-module-card__glyph">{{ card.glyph }}</span>
             <div class="km-module-card__shimmer"></div>
           </div>
           <div class="km-module-card__bottom-glow"></div>
-          <span class="km-module-card__label">{{ mod.label }}</span>
+          <span class="km-module-card__label">{{ card.label }}</span>
         </button>
       }
     </main>

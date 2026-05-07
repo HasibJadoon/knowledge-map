@@ -46,6 +46,6 @@ export class WorldviewNodesComponent implements OnInit, AfterViewInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/quran/sura', this.surahId(), 'worldview']);
+    this.router.navigate(['/quran/surahs', this.surahId(), 'worldview']);
   }
 }

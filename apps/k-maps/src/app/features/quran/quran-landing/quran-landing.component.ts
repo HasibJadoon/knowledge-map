@@ -9,8 +9,10 @@ import { Router } from '@angular/router';
 import gsap from 'gsap';
 import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
 
-interface QuranModuleCard {
-  id: string;
+type QuranLandingCardId = 'quran' | 'surahs';
+
+interface QuranLandingCard {
+  id: QuranLandingCardId;
   label: string;
   route: string;
   glyph: string;
@@ -28,14 +30,24 @@ export class QuranLandingComponent implements AfterViewInit {
 
   @ViewChild('cardsRow') cardsRow!: ElementRef<HTMLElement>;
 
-  readonly modules: QuranModuleCard[] = [
-    { id: 'quran', label: 'Quran', route: '/quran/sura/1', glyph: '☽' },
-    { id: 'surahs', label: 'Surahs', route: '/quran/surahs', glyph: '١١٤' },
+  readonly cards: QuranLandingCard[] = [
+    {
+      id: 'quran',
+      label: 'Quran',
+      route: '/quran/al-quran',
+      glyph: '☽',
+    },
+    {
+      id: 'surahs',
+      label: 'Surahs',
+      route: '/quran/surahs',
+      glyph: '١١٤',
+    },
   ];
 
   ngAfterViewInit(): void {
-    const cards = this.cardsRow?.nativeElement?.querySelectorAll('.km-module-card');
-    if (!cards?.length) return;
+    const cards = this.cardsRow.nativeElement.querySelectorAll('.km-module-card');
+    if (!cards.length) return;
 
     gsap.fromTo(
       cards,

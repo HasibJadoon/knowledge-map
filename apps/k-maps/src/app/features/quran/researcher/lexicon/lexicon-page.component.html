@@ -1,0 +1,99 @@
+<div class="rp-page" dir="rtl">
+
+  <!-- Filter Bar -->
+  <div class="rp-filter">
+    <label class="rp-filter__search" aria-label="ابحث في المعاجم">
+      <span class="rp-filter__search-icon" aria-hidden="true">⌕</span>
+      <input
+        class="rp-filter__search-input"
+        type="search"
+        placeholder="ابحث في المعاجم..."
+        [value]="searchTerm()"
+        (input)="setSearch($any($event.target).value)"
+        dir="rtl"
+      />
+    </label>
+
+    <button class="rp-filter__dropdown" type="button" aria-haspopup="true">
+      <span>كل المعاجم</span>
+      <span class="rp-filter__chevron" aria-hidden="true">▾</span>
+    </button>
+
+    <button class="rp-filter__dropdown" type="button" aria-haspopup="true">
+      <span>ترتيب حسب الشهرة</span>
+      <span class="rp-filter__chevron" aria-hidden="true">▾</span>
+    </button>
+
+    <button class="rp-filter__btn" type="button">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <line x1="1" y1="3.5" x2="13" y2="3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="3" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="5" y1="10.5" x2="9" y2="10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+      <span>فلتر</span>
+    </button>
+
+    <div class="rp-filter__views" role="group" aria-label="طريقة العرض">
+      <button class="rp-filter__view-btn rp-filter__view-btn--active" type="button" title="شبكة">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <rect x="1" y="1" width="5" height="5" stroke="currentColor" stroke-width="1.3" fill="none"/>
+          <rect x="8" y="1" width="5" height="5" stroke="currentColor" stroke-width="1.3" fill="none"/>
+          <rect x="1" y="8" width="5" height="5" stroke="currentColor" stroke-width="1.3" fill="none"/>
+          <rect x="8" y="8" width="5" height="5" stroke="currentColor" stroke-width="1.3" fill="none"/>
+        </svg>
+      </button>
+      <button class="rp-filter__view-btn" type="button" title="قائمة">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <line x1="1" y1="3" x2="13" y2="3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="1" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="1" y1="11" x2="13" y2="11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Card Grid -->
+  <div class="rp-grid" #grid>
+    @for (source of filteredSources(); track source.title) {
+      <article class="source-card">
+
+        <div class="source-card__body">
+          <div class="source-card__icon-wrap" aria-hidden="true">
+            <span class="source-card__icon">{{ source.icon }}</span>
+          </div>
+          <div class="source-card__info">
+            <h2 class="source-card__title">{{ source.title }}</h2>
+            <p class="source-card__scholar">{{ source.scholar }}</p>
+            <p class="source-card__desc">{{ source.description }}</p>
+          </div>
+        </div>
+
+        <div class="source-card__footer">
+          <span class="source-card__count">
+            <span class="source-card__count-gem" aria-hidden="true">≋</span>
+            {{ source.entryCount }}
+          </span>
+          <div class="source-card__actions">
+            <button class="source-card__bookmark" type="button" title="حفظ في المفضلة">
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true">
+                <path d="M1 1h10v12l-5-3-5 3V1z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="source-card__open-btn" type="button">
+              <span class="source-card__open-arrow" aria-hidden="true">‹</span>
+              <span>عرض المعجم</span>
+            </button>
+          </div>
+        </div>
+
+      </article>
+    }
+
+    @if (!filteredSources().length) {
+      <div class="rp-empty" role="status">
+        <span>لا توجد نتائج مطابقة</span>
+      </div>
+    }
+  </div>
+
+</div>

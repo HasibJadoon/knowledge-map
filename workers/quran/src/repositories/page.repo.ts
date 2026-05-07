@@ -44,11 +44,16 @@ type PageSurah = QrPageSurah;
 
 interface LayoutLineRow {
   line_number: number;
-  line_type: string;
-  is_centered: number;
-  first_word_id: string | null;
-  last_word_id: string | null;
-  surah_number: number | null;
+  line_type?: string | null;
+  is_centered?: number | null;
+  first_word_id?: string | null;
+  last_word_id?: string | null;
+  surah_number?: number | null;
+  surah?: number | null;
+  ayah_from?: number | null;
+  ayah_to?: number | null;
+  word_from_index?: number | null;
+  word_to_index?: number | null;
 }
 
 // ─── PageRepo ───────────────────────────────────────────────────────────────────
@@ -82,9 +87,17 @@ export class PageRepo {
     const [words, surahs, layoutRows, defaultSrc] = await Promise.all([
       query<PageWord>(
         this.db,
-        `SELECT w.id, w.surah, w.ayah, w.word_position,
-                w.text_uthmani, w.text_clean, w.lx_lemma_ref, w.root_text,
-                w.pos_tag, w.morphology_tag, w.morphology_tag_json
+        `SELECT w.id,
+                w.surah,
+                w.ayah,
+                w.word_index AS word_position,
+                w.word_text AS text_uthmani,
+                w.word_text_bare AS text_clean,
+                w.lemma AS lx_lemma_ref,
+                w.root AS root_text,
+                w.pos AS pos_tag,
+                w.morphology_tag,
+                w.morphology_tag_json
          FROM qr_word_occurrences w
          JOIN qr_ayah a ON a.surah = w.surah AND a.ayah = w.ayah
          WHERE a.page_number = ?
@@ -102,7 +115,17 @@ export class PageRepo {
       ).catch(() => []),
       query<LayoutLineRow>(
         this.db,
-        `SELECT line_number, line_type, is_centered, first_word_id, last_word_id, surah_number
+        `SELECT line_number,
+                'ayah' AS line_type,
+                0 AS is_centered,
+                NULL AS first_word_id,
+                NULL AS last_word_id,
+                surah AS surah_number,
+                surah,
+                ayah_from,
+                ayah_to,
+                word_from_index,
+                word_to_index
          FROM qr_page_layout_lines
          WHERE page_number = ?
          ORDER BY line_number`,
@@ -145,9 +168,9 @@ export class PageRepo {
       if ((maxPosByAyah.get(k) ?? 0) < w.word_position) maxPosByAyah.set(k, w.word_position);
     }
 
-    const transByVerse  = new Map(translations.map(t => [`${t.surah}:${t.ayah}`, t.text]));
-    const ayahByVerse   = new Map(ayahs.map(a => [`${a.surah}:${a.ayah}`, a]));
-    const surahById     = new Map(surahs.map(s => [s.id, s]));
+    const transByVerse  = new Map<string, string>(translations.map(t => [`${t.surah}:${t.ayah}`, t.text]));
+    const ayahByVerse   = new Map<string, PageAyah>(ayahs.map(a => [`${a.surah}:${a.ayah}`, a]));
+    const surahById     = new Map<number, PageSurah>(surahs.map(s => [s.id, s]));
 
     // 5. Build ayah response objects
     const ayahObjs = ayahs.map(a => {
@@ -166,7 +189,7 @@ export class PageRepo {
     // 6. Build layout lines
     const layout: QrPageLayoutLine[] = layoutRows
       .map(line => {
-        const kind = toLineKind(line.line_type);
+        const kind = line.line_type ? toLineKind(line.line_type) : 'ayah';
         let text_arabic = '';
         let text_clean: string | null = null;
         let lineWords: PageWord[] = [];
@@ -184,6 +207,15 @@ export class PageRepo {
           // timestamp monotonically — lexicographic >= / <= is correct.
           lineWords   = words.filter(
             w => w.id >= line.first_word_id! && w.id <= line.last_word_id!,
+          );
+          [text_arabic, text_clean] = this._lineText(lineWords, ayahByVerse, maxPosByAyah);
+        } else if (line.surah && line.ayah_from && line.ayah_to) {
+          lineWords = words.filter(w =>
+            w.surah === line.surah &&
+            w.ayah >= line.ayah_from! &&
+            w.ayah <= line.ayah_to! &&
+            (line.word_from_index == null || w.word_position >= line.word_from_index) &&
+            (line.word_to_index == null || w.word_position <= line.word_to_index)
           );
           [text_arabic, text_clean] = this._lineText(lineWords, ayahByVerse, maxPosByAyah);
         }

@@ -61,6 +61,69 @@ export interface QrReaderPayload {
   }>;
 }
 
+export type QrPageLineKind = 'ayah' | 'surah_name' | 'basmallah';
+
+export interface QrPageWord {
+  id: string;
+  surah: number;
+  ayah: number;
+  word_position: number;
+  text_uthmani: string;
+  text_clean: string | null;
+  lx_lemma_ref: string | null;
+  root_text: string | null;
+  pos_tag: string | null;
+  morphology_tag: string | null;
+  morphology_tag_json: string | null;
+}
+
+export interface QrPageLayoutAyah {
+  surah: number;
+  ayah: number;
+  verse_key: string;
+  marker: string | null;
+  words: QrPageWord[];
+}
+
+export interface QrPageLayoutLine {
+  line_number: number;
+  line_type: QrPageLineKind;
+  is_centered: boolean;
+  surah_number: number | null;
+  first_token_id?: number | null;
+  last_token_id?: number | null;
+  text_arabic: string;
+  text_clean: string | null;
+  ayahs: QrPageLayoutAyah[];
+}
+
+export interface QrPagePayload {
+  page: {
+    number: number;
+    prev_page: number | null;
+    next_page: number | null;
+    ayah_count: number;
+    start_ref: string;
+    end_ref: string;
+  };
+  layout?: {
+    key: string;
+    source: string;
+    lines_per_page: number;
+  };
+  surahs: QrReaderPayload['surah'][];
+  ayahs: Array<{
+    surah: number;
+    ayah: number;
+    verse_key: string;
+    text_arabic: string;
+    verse_mark: string | null;
+    translation: string | null;
+    words: QrPageWord[];
+  }>;
+  layout_lines: QrPageLayoutLine[];
+}
+
 /** Word token returned when ?words=1 is passed to /qr/ayahs */
 export interface QrAyahWord {
   word_index: number;

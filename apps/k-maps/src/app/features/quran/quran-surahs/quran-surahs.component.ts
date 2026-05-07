@@ -72,7 +72,7 @@ export class QuranSurahsComponent implements OnInit, AfterViewInit {
   setViewMode(mode: 'grid' | 'list'): void { this.viewMode.set(mode); }
 
   navigateToSurah(surahNumber: number): void {
-    this.router.navigate(['/quran', 'sura', surahNumber]);
+    this.router.navigate(['/quran', 'surahs', surahNumber]);
   }
 
   back(): void {

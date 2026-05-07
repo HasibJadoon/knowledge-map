@@ -1,0 +1,127 @@
+<div class="al-quran-page" (scroll)="onScroll($event)">
+  <km-home-plane-button />
+
+  <div class="al-quran-page__inner">
+    <nav class="top-nav">
+      <button class="back-btn" (click)="back()" type="button">
+        <span>&#8592;</span>
+        <span>Quran</span>
+      </button>
+      <span class="breadcrumb">Quran / Al-Quran</span>
+
+      @if (!loading() && !error()) {
+        <div class="reader-controls" aria-label="Quran navigation">
+          <label class="reader-control">
+            <span>Surah</span>
+            <select (change)="goToSurah($any($event.target).value)">
+              @for (surah of quranState.surahs(); track surah.surahNumber) {
+                <option
+                  [value]="surah.surahNumber"
+                  [selected]="surah.surahNumber === pages()[0]?.ayahs?.[0]?.surah"
+                >
+                  {{ surah.surahNumber }}. {{ surah.englishName }}
+                </option>
+              }
+            </select>
+          </label>
+
+          <label class="reader-control reader-control--page">
+            <span>Page</span>
+            <input
+              type="number"
+              min="1"
+              max="604"
+              [value]="activeStartPage()"
+              (change)="goToPage($any($event.target).value)"
+            />
+          </label>
+        </div>
+      }
+    </nav>
+
+    <header class="page-header">
+      <div class="page-header__ornament">بسم الله الرحمن الرحيم</div>
+      <h1 class="page-header__title">Al-Quran</h1>
+      @if (loadedRangeLabel()) {
+        <p class="page-header__subtitle">Pages {{ loadedRangeLabel() }}</p>
+      }
+    </header>
+
+    @if (loading()) {
+      <div class="state-message">
+        <div class="state-message__spinner"></div>
+        <p>Loading Al-Quran...</p>
+      </div>
+    }
+
+    @if (!loading() && error()) {
+      <div class="state-message state-message--error">
+        <p>{{ error() }}</p>
+      </div>
+    }
+
+    @if (!loading() && !error()) {
+      <main class="mushaf-reader">
+        @if (hasPreviousPages()) {
+          <button class="load-pages-btn" type="button" (click)="loadPreviousPages()" [disabled]="loadingMore()">
+            Load previous pages
+          </button>
+        }
+
+        @for (page of pages(); track trackPage($index, page)) {
+          <article
+            class="mushaf-page"
+            [attr.id]="'quran-page-' + page.page.number"
+            [style.--mushaf-font]="mushafFont(page.page.number)"
+          >
+            <header class="mushaf-page__meta">
+              <span>{{ page.page.start_ref }} - {{ page.page.end_ref }}</span>
+              <strong>Page {{ page.page.number }}</strong>
+            </header>
+
+            <div class="mushaf-page__lines" dir="rtl">
+              @for (line of page.layout_lines; track trackLine($index, line)) {
+                @switch (line.line_type) {
+                  @case ('surah_name') {
+                    <div class="mushaf-line mushaf-line--surah" [class.mushaf-line--centered]="line.is_centered">
+                      {{ line.text_arabic }}
+                    </div>
+                  }
+                  @case ('basmallah') {
+                    <div class="mushaf-line mushaf-line--basmallah" [class.mushaf-line--centered]="line.is_centered">
+                      {{ line.text_arabic }}
+                    </div>
+                  }
+                  @default {
+                    <div class="mushaf-line mushaf-line--ayah" [class.mushaf-line--centered]="line.is_centered">
+                      @for (ayah of line.ayahs; track trackAyah($index, ayah)) {
+                        <span class="ayah-segment" [attr.data-ref]="ayah.verse_key">
+                          @for (word of ayah.words; track trackWord($index, word)) {
+                            <span class="quran-word">{{ word.text_uthmani }}</span>
+                          }
+                          @if (ayah.marker) {
+                            <span class="verse-marker" [attr.aria-label]="'Verse ' + ayah.ayah">{{ ayah.marker }}</span>
+                          }
+                        </span>
+                      }
+                    </div>
+                  }
+                }
+              }
+            </div>
+          </article>
+        }
+
+        @if (loadingMore()) {
+          <div class="state-message state-message--inline">
+            <div class="state-message__spinner"></div>
+          </div>
+        }
+
+        @if (!hasMorePages()) {
+          <div class="reader-end">Complete</div>
+        }
+      </main>
+    }
+  </div>
+</div>

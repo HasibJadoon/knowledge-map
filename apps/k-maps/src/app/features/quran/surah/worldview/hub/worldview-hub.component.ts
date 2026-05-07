@@ -69,10 +69,10 @@ export class WorldviewHubComponent implements OnInit, AfterViewInit {
   }
 
   navigate(id: string): void {
-    this.router.navigate(['/quran/sura', this.surahId(), id]);
+    this.router.navigate(['/quran/surahs', this.surahId(), id]);
   }
 
   goBack(): void {
-    this.router.navigate(['/quran/sura', this.surahId()]);
+    this.router.navigate(['/quran/surahs', this.surahId()]);
   }
 }

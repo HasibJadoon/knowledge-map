@@ -5,6 +5,7 @@ import {
   QrApiResponse,
   QrAyah,
   QrMenuPayload,
+  QrPagePayload,
   QrPassage,
   QrReaderPayload,
 } from '../../models/quran/qr.models';
@@ -23,6 +24,15 @@ export class QuranApiService {
       .set('page', '1')
       .set('limit', String(pageSize));
     return this.api.getResponse<QrReaderPayload>('qr', ['surahs', surah, 'reader'], { params });
+  }
+
+  getPage(page: number): Observable<QrApiResponse<QrPagePayload>> {
+    return this.api.getResponse<QrPagePayload>('qr', ['pages', page]);
+  }
+
+  getMushafPage(page: number, layout = 'qpc-v2-15-lines'): Observable<QrApiResponse<QrPagePayload>> {
+    const params = new HttpParams().set('layout', layout);
+    return this.api.getResponse<QrPagePayload>('qr', ['mushaf', 'pages', page], { params });
   }
 
   getSurahPassages(surah: number): Observable<QrApiResponse<QrPassage[]>> {

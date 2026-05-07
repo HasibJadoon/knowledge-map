@@ -243,6 +243,6 @@ export class QuranTextComponent implements OnInit, AfterViewInit {
   }
 
   back(): void {
-    this.router.navigate(['/quran']);
+    this.router.navigate(['/quran', 'surahs']);
   }
 }

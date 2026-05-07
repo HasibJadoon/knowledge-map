@@ -49,9 +49,9 @@ export class SurahVocabularyComponent implements OnInit, AfterViewInit, OnDestro
     for (const fn of this.cleanups) fn();
   }
 
-  back(): void { this.router.navigate(['/quran']); }
+  back(): void { this.router.navigate(['/quran', 'surahs', this.surahId()]); }
 
   goTo(section: 'near-synonyms' | 'morphology'): void {
-    this.router.navigate(['/quran', 'sura', this.surahId(), section]);
+    this.router.navigate(['/quran', 'surahs', this.surahId(), section]);
   }
 }

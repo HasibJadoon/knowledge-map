@@ -1,0 +1,320 @@
+// ═══════════════════════════════════════════════════════════
+// QURAN RESEARCHER SHELL — Header Container + Page Container
+// ═══════════════════════════════════════════════════════════
+
+.qrs-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: #050505;
+  color: var(--km-text);
+  font-family: var(--km-font-body);
+}
+
+// ─── HEADER CONTAINER ────────────────────────────────────────────
+
+.qrs-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(180deg, #0c0b09 0%, #090806 100%);
+  box-shadow: 0 2px 0 rgba(201, 168, 76, 0.12), 0 6px 32px rgba(0, 0, 0, 0.7);
+}
+
+// ─── ROW 1: Top bar ──────────────────────────────────────────────
+
+.qrs-header__top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.72rem 1.4rem;
+}
+
+.qrs-header__start {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.qrs-header__center {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrs-header__end {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+// Grid / icon button
+.qrs-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  color: var(--km-text-2);
+  background: transparent;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+  transition:
+    color var(--km-duration-fast) var(--km-ease),
+    border-color var(--km-duration-fast) var(--km-ease),
+    background var(--km-duration-fast) var(--km-ease);
+
+  &:hover {
+    color: var(--km-gold);
+    border-color: var(--km-border-gold);
+    background: rgba(201, 168, 76, 0.06);
+  }
+}
+
+// Search field
+.qrs-search {
+  display: flex;
+  align-items: center;
+  height: 2.25rem;
+  max-width: 24rem;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  cursor: text;
+  transition: border-color var(--km-duration-fast) var(--km-ease);
+
+  &:focus-within {
+    border-color: rgba(201, 168, 76, 0.42);
+    box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.07);
+  }
+}
+
+.qrs-search__icon {
+  padding: 0 0.55rem 0 0.72rem;
+  color: var(--km-text-2);
+  font-size: 1.08rem;
+  flex-shrink: 0;
+}
+
+.qrs-search__input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--km-text);
+  font-family: var(--km-font-body);
+  font-size: 0.82rem;
+
+  &::placeholder {
+    color: var(--km-text-3);
+    font-family: var(--km-font-arabic-ui);
+    font-size: 0.84rem;
+  }
+}
+
+.qrs-search__kbd {
+  padding: 0.1rem 0.38rem;
+  margin: 0 0.45rem;
+  color: var(--km-text-3);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: var(--km-font-body);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+// Logo
+.qrs-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.qrs-logo__deco {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+}
+
+.qrs-logo__deco-line {
+  display: block;
+  width: 36px;
+  height: 1px;
+
+  &--left {
+    background: linear-gradient(90deg, transparent, var(--km-gold-dim));
+  }
+
+  &--right {
+    background: linear-gradient(90deg, var(--km-gold-dim), transparent);
+  }
+}
+
+.qrs-logo__deco-gem {
+  color: var(--km-gold);
+  font-size: 0.52rem;
+  line-height: 1;
+}
+
+.qrs-logo__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+}
+
+.qrs-logo__name {
+  color: var(--km-gold-bright);
+  font-family: var(--km-font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  text-shadow: 0 0 28px rgba(232, 201, 106, 0.25);
+}
+
+.qrs-logo__subtitle {
+  color: var(--km-gold-dim);
+  font-family: var(--km-font-heading);
+  font-size: 0.54rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+// Action button (bookmark)
+.qrs-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.38rem 0.72rem;
+  color: var(--km-text-2);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--km-font-arabic-ui);
+  font-size: 0.78rem;
+  transition:
+    color var(--km-duration-fast) var(--km-ease),
+    border-color var(--km-duration-fast) var(--km-ease),
+    background var(--km-duration-fast) var(--km-ease);
+
+  &:hover {
+    color: var(--km-gold);
+    border-color: var(--km-border-gold);
+    background: rgba(201, 168, 76, 0.06);
+  }
+}
+
+.qrs-action-btn__svg {
+  flex-shrink: 0;
+}
+
+.qrs-action-btn__label {
+  white-space: nowrap;
+}
+
+// ─── SEPARATOR ───────────────────────────────────────────────────
+
+.qrs-header__sep {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201, 168, 76, 0.2) 20%,
+    rgba(201, 168, 76, 0.28) 50%,
+    rgba(201, 168, 76, 0.2) 80%,
+    transparent 100%
+  );
+
+  &--thick {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(201, 168, 76, 0.14) 15%,
+      rgba(201, 168, 76, 0.22) 50%,
+      rgba(201, 168, 76, 0.14) 85%,
+      transparent 100%
+    );
+    box-shadow: 0 3px 18px rgba(0, 0, 0, 0.55), 0 6px 32px rgba(0, 0, 0, 0.35);
+  }
+}
+
+// ─── ROW 2: Section Tabs ─────────────────────────────────────────
+
+.qrs-tabs {
+  display: flex;
+  align-items: stretch;
+  padding: 0 1rem;
+}
+
+.qrs-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.48rem;
+  padding: 0.72rem 1.15rem;
+  color: var(--km-text-2);
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  font-family: var(--km-font-arabic-ui);
+  font-size: 0.88rem;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    color var(--km-duration-fast) var(--km-ease),
+    border-color var(--km-duration-fast) var(--km-ease);
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  &--active {
+    color: var(--km-gold-bright);
+    border-bottom-color: var(--km-gold);
+
+    .qrs-tab__icon,
+    .qrs-tab__svg {
+      color: var(--km-gold);
+    }
+  }
+
+  &--external {
+    // القرآن tab — no routerLinkActive; default muted style
+  }
+}
+
+.qrs-tab__icon {
+  font-family: var(--km-font-arabic-ui);
+  font-size: 0.84rem;
+  color: var(--km-text-3);
+  transition: color var(--km-duration-fast) var(--km-ease);
+}
+
+.qrs-tab__svg {
+  color: var(--km-text-3);
+  flex-shrink: 0;
+  transition: color var(--km-duration-fast) var(--km-ease);
+}
+
+.qrs-tab__label {
+  font-family: var(--km-font-arabic-ui);
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+// ─── PAGE CONTAINER ──────────────────────────────────────────────
+
+.qrs-page {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

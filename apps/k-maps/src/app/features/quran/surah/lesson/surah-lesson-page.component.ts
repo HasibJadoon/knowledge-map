@@ -607,7 +607,7 @@ export class SurahLessonPageComponent
       this.location.back();
       return;
     }
-    this.router.navigate(['/quran', 'sura', this.surahId(), 'study']);
+    this.router.navigate(['/quran', 'surahs', this.surahId(), 'study']);
   }
 
   ayahRange(): string {
@@ -1500,7 +1500,7 @@ export class SurahLessonPageComponent
     const passageNo = this.passageNo();
     const unitId = `quran_s${surahId}_p${passageNo}`;
     const displayName = `Surah ${surahId} — Passage ${passageNo}`;
-    const uri = `/quran/sura/${surahId}/study/${passageNo}`;
+    const uri = `/quran/surahs/${surahId}/study/${passageNo}`;
 
     this.weeklyTaskService.pushToWeeklyTask({
       workspace_id: 1, // TODO: replace with auth workspace context
