@@ -1,0 +1,87 @@
+<ion-header class="qrs-header" [translucent]="false">
+  <ion-toolbar class="qrs-toolbar">
+    <ion-buttons slot="start">
+      <ion-button aria-label="Home" (click)="goHome()">
+        <span class="qrs-grid-icon" aria-hidden="true">▦</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <span class="qrs-title">K-MAPS</span>
+      <span class="qrs-subtitle">Quran Researcher</span>
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar class="qrs-search-toolbar">
+    <ion-searchbar
+      class="qrs-searchbar"
+      mode="ios"
+      inputmode="search"
+      placeholder="بحث"
+      [debounce]="120"
+      [value]="search.searchTerm()"
+      (ionInput)="setSearch($event.detail.value)"
+    />
+  </ion-toolbar>
+
+  @if (readerHeader.visible() && currentTab() === 'al-quran') {
+    <ion-toolbar class="qrs-reader-toolbar">
+      <div class="qrs-reader-controls" aria-label="Quran navigation" dir="rtl">
+        <label class="qrs-reader-control">
+          <span>سورة</span>
+          <select
+            [disabled]="readerHeader.disabled()"
+            [value]="readerHeader.activeSurah()"
+            (change)="readerHeader.goToSurah($any($event.target).value)"
+          >
+            @for (surah of readerHeader.surahs(); track surah.surah) {
+              <option [value]="surah.surah">
+                {{ surah.surah }}. {{ surah.name_ar }}
+              </option>
+            }
+          </select>
+        </label>
+
+        <label class="qrs-reader-control">
+          <span>آية</span>
+          <input
+            type="number"
+            min="1"
+            [disabled]="readerHeader.disabled()"
+            [value]="readerHeader.activeVerse()"
+            (change)="readerHeader.goToVerse($any($event.target).value)"
+          />
+        </label>
+
+        <label class="qrs-reader-control">
+          <span>صفحة</span>
+          <input
+            type="number"
+            min="1"
+            max="604"
+            [disabled]="readerHeader.disabled()"
+            [value]="readerHeader.activePage()"
+            (change)="readerHeader.goToPage($any($event.target).value)"
+          />
+        </label>
+      </div>
+    </ion-toolbar>
+  }
+</ion-header>
+
+<ion-tabs class="qrs-tabs-shell">
+  <ion-router-outlet class="qrs-content" />
+
+  <ion-tab-bar class="qrs-tab-bar" slot="bottom" dir="rtl">
+    @for (tab of tabs; track tab.id) {
+      <ion-tab-button
+        class="qrs-tab"
+        [tab]="tab.id"
+        [attr.href]="'/quran/' + tab.routePath"
+        [class.qrs-tab--active]="currentTab() === tab.id"
+        [attr.aria-label]="tab.labelAr"
+      >
+        <ion-label class="qrs-tab__arabic" lang="ar" dir="rtl">{{ tab.labelAr }}</ion-label>
+      </ion-tab-button>
+    }
+  </ion-tab-bar>
+</ion-tabs>

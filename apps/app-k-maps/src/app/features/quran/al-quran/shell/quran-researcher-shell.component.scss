@@ -1,0 +1,200 @@
+:host {
+  display: block;
+  height: 100%;
+  background: #050505;
+  color: var(--ion-text-color, #f5f1e7);
+}
+
+.qrs-header {
+  background: #070706;
+  box-shadow: 0 1px 0 rgba(201, 168, 76, 0.24), 0 10px 28px rgba(0, 0, 0, 0.42);
+}
+
+.qrs-toolbar,
+.qrs-search-toolbar {
+  --background: #090806;
+  --color: #f5f1e7;
+  --border-color: rgba(201, 168, 76, 0.18);
+}
+
+.qrs-search-toolbar {
+  --min-height: 3.55rem;
+  padding: 0 0.35rem 0.35rem;
+}
+
+.qrs-reader-toolbar {
+  --background: #050505;
+  --border-color: rgba(201, 168, 76, 0.2);
+  --min-height: 3.25rem;
+  padding: 0 0.5rem 0.45rem;
+}
+
+.qrs-searchbar {
+  --background: rgba(255, 255, 255, 0.055);
+  --border-radius: 8px;
+  --box-shadow: inset 0 0 0 1px rgba(232, 201, 106, 0.22);
+  --cancel-button-color: #e8c96a;
+  --clear-button-color: rgba(245, 241, 231, 0.62);
+  --color: #f5f1e7;
+  --icon-color: #e8c96a;
+  --placeholder-color: rgba(245, 241, 231, 0.54);
+  direction: rtl;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.qrs-title,
+.qrs-subtitle {
+  display: block;
+  text-align: center;
+  line-height: 1;
+}
+
+.qrs-title {
+  color: #e8c96a;
+  font-family: var(--km-font-display, serif);
+  font-size: 1.02rem;
+  letter-spacing: 0.18em;
+}
+
+.qrs-subtitle {
+  margin-top: 0.18rem;
+  color: rgba(232, 201, 106, 0.68);
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.qrs-grid-icon {
+  color: #d9bd62;
+  font-size: 1.15rem;
+}
+
+.qrs-reader-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 5.6rem 5.6rem;
+  gap: 0.55rem;
+  width: min(100%, 980px);
+  margin: 0 auto;
+}
+
+.qrs-reader-control {
+  min-width: 0;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.62rem;
+  background: #0d0c0a;
+  border: 1px solid rgba(201, 168, 76, 0.28);
+  border-radius: 8px;
+  color: rgba(247, 245, 238, 0.58);
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 0.8rem;
+
+  select,
+  input {
+    min-width: 0;
+    flex: 1 1 auto;
+    height: 100%;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: #f7f5ee;
+    font: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    text-align: right;
+  }
+
+  select {
+    padding: 0;
+  }
+
+  input {
+    padding: 0;
+    text-align: center;
+  }
+
+  &:focus-within {
+    color: #d9bd62;
+    border-color: rgba(217, 189, 98, 0.72);
+    box-shadow: 0 0 0 2px rgba(217, 189, 98, 0.08);
+  }
+}
+
+.qrs-tabs-shell {
+  background: #050505;
+}
+
+.qrs-content {
+  --background: #050505;
+}
+
+.qrs-footer {
+  background: #070706;
+  border-top: 1px solid rgba(201, 168, 76, 0.24);
+}
+
+.qrs-tab-bar {
+  --background: #090806;
+  --border: 0;
+  height: calc(3.75rem + var(--ion-safe-area-bottom, 0px));
+  padding: 0.35rem 0.25rem max(0.35rem, var(--ion-safe-area-bottom, 0px));
+  border-top: 1px solid rgba(201, 168, 76, 0.18);
+}
+
+.qrs-tab {
+  --background: transparent;
+  --background-focused: transparent;
+  --background-focused-opacity: 0;
+  --color: rgba(245, 241, 231, 0.58);
+  --color-selected: #e8c96a;
+  min-width: 0;
+  min-height: 2.55rem;
+  margin: 0 0.1rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: rgba(245, 241, 231, 0.58);
+  overflow: hidden;
+}
+
+.qrs-tab--active {
+  color: #e8c96a;
+  border-color: rgba(232, 201, 106, 0.54);
+  background: rgba(232, 201, 106, 0.08);
+}
+
+.qrs-tab__arabic {
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 0.9rem;
+  line-height: 1.1;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+@media (min-width: 760px) {
+  .qrs-reader-controls {
+    grid-template-columns: minmax(14rem, 18rem) 6.5rem 6.5rem;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .qrs-reader-controls {
+    grid-template-columns: minmax(0, 1fr) 4.7rem 4.7rem;
+    gap: 0.42rem;
+  }
+
+  .qrs-reader-control {
+    height: 34px;
+    gap: 0.32rem;
+    padding: 0 0.48rem;
+    font-size: 0.7rem;
+  }
+
+  .qrs-reader-control select,
+  .qrs-reader-control input {
+    font-size: 0.78rem;
+  }
+}

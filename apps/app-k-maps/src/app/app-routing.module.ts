@@ -130,11 +130,43 @@ const routes: Routes = [
   { path: 'quran/surah/:surahId/review', redirectTo: 'quran/sura/:surahId/review', pathMatch: 'full' },
   { path: 'quran/surah/:surahId/srs', redirectTo: 'quran/sura/:surahId/srs', pathMatch: 'full' },
   { path: 'quran/surah/:surahId', redirectTo: 'quran/sura/:surahId', pathMatch: 'full' },
-  { path: 'quran/:surahId/passage/:passageIndex', redirectTo: 'quran/sura/:surahId/passage/:passageIndex', pathMatch: 'full' },
-  { path: 'quran/:surahId', redirectTo: 'quran/sura/:surahId', pathMatch: 'full' },
   {
     path: 'quran',
-    loadComponent: () => import('./features/quran/pages/quran-landing-page/quran-landing.page').then(m => m.QuranLandingPage),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () => import('./features/quran/pages/quran-landing-page/quran-landing.page').then(m => m.QuranLandingPage),
+      },
+      {
+        path: '',
+        loadComponent: () => import('./features/quran/al-quran/shell/quran-researcher-shell.component').then(m => m.QuranResearcherShellComponent),
+        children: [
+          {
+            path: 'al-quran',
+            loadComponent: () => import('./features/quran/al-quran/reader/al-quran.component').then(m => m.AlQuranComponent),
+          },
+          {
+            path: 'tafseer',
+            loadComponent: () => import('./features/quran/al-quran/tafseer/tafseer-page.component').then(m => m.TafseerPageComponent),
+          },
+          {
+            path: 'uloom',
+            loadComponent: () => import('./features/quran/al-quran/uloom/uloom-page.component').then(m => m.UloomPageComponent),
+          },
+          {
+            path: 'lexicon',
+            loadComponent: () => import('./features/quran/al-quran/lexicon/lexicon-page.component').then(m => m.LexiconPageComponent),
+          },
+          {
+            path: 'notes',
+            loadComponent: () => import('./features/quran/al-quran/notes/notes-page.component').then(m => m.NotesPageComponent),
+          },
+        ],
+      },
+      { path: ':surahId/passage/:passageIndex', redirectTo: '/quran/sura/:surahId/passage/:passageIndex', pathMatch: 'full' },
+      { path: ':surahId', redirectTo: '/quran/sura/:surahId', pathMatch: 'full' },
+    ],
   },
   // ── Planner ──────────────────────────────────────────────────────────────────
   {
