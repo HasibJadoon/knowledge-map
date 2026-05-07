@@ -287,3 +287,140 @@
     font-size: clamp(1.2rem, 2.2vw, 1.9rem);
   }
 }
+
+@media (max-width: 900px) {
+  .al-quran-page {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0.45rem 0.45rem 0.55rem;
+  }
+
+  .al-quran-page__inner {
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .reader-controls {
+    position: relative;
+    flex: 0 0 auto;
+    grid-template-columns: minmax(0, 1fr) 4.35rem 4.35rem;
+    gap: 0.42rem;
+    padding: 0.15rem 0 0.5rem;
+    background: transparent;
+  }
+
+  .reader-control {
+    font-size: 0.58rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .reader-control select,
+  .reader-control input {
+    height: 34px;
+    border-radius: 7px;
+    font-size: 0.73rem;
+  }
+
+  .mushaf-reader {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    align-items: stretch;
+    justify-items: initial;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    user-select: none;
+  }
+
+  .mushaf-reader::-webkit-scrollbar {
+    display: none;
+  }
+
+  .load-page-sentinel,
+  .reader-end {
+    display: none;
+  }
+
+  .mushaf-page {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-height: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    justify-content: center;
+    padding: 0.15rem 0.05rem 0.35rem;
+  }
+
+  .mushaf-page__lines {
+    flex: 0 1 auto;
+    max-height: 100%;
+    justify-content: center;
+  }
+
+  .mushaf-line {
+    max-width: 100%;
+  }
+
+  .mushaf-line--ayah {
+    font-size: 0.92rem;
+    line-height: 1.9;
+  }
+
+  .mushaf-line--surah {
+    font-size: 1.62rem;
+    min-height: 3.25rem;
+    margin-bottom: 0.16rem;
+  }
+
+  .mushaf-line--basmallah {
+    font-size: 0.92rem;
+    line-height: 1.46;
+    margin-bottom: 0.08rem;
+  }
+
+  .mushaf-page__footer {
+    width: min(68%, 340px);
+    margin-top: 0.42rem;
+  }
+
+  .mushaf-page__number {
+    min-width: 1.72rem;
+    height: 1.72rem;
+    font-size: 0.72rem;
+  }
+
+  .state-message--inline {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .reader-controls {
+    grid-template-columns: minmax(0, 1fr) 3.85rem 3.85rem;
+  }
+
+  .mushaf-line--ayah {
+    font-size: 0.82rem;
+    line-height: 1.92;
+  }
+
+  .mushaf-line--surah {
+    font-size: 1.42rem;
+  }
+
+  .mushaf-line--basmallah {
+    font-size: 0.84rem;
+  }
+}

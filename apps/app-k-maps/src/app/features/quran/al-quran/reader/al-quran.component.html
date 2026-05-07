@@ -1,45 +1,9 @@
 <div class="al-quran-page" (scroll)="onScroll($event)">
   <div class="al-quran-page__inner">
-    @if (!loading() && !error()) {
-      <div class="reader-controls" aria-label="Quran navigation">
-        <label class="reader-control">
-          <span>Surah</span>
-          <select [value]="activeSurah()" (change)="goToSurah($any($event.target).value)">
-            @for (surah of surahs(); track surah.surah) {
-              <option [value]="surah.surah">
-                {{ surah.surah }}. {{ surah.name_en || surah.meta.name_simple }}
-              </option>
-            }
-          </select>
-        </label>
-
-        <label class="reader-control reader-control--verse">
-          <span>Ayah</span>
-          <input
-            type="number"
-            min="1"
-            [value]="activeVerse()"
-            (change)="goToVerse($any($event.target).value)"
-          />
-        </label>
-
-        <label class="reader-control reader-control--page">
-          <span>Page</span>
-          <input
-            type="number"
-            min="1"
-            max="604"
-            [value]="activeStartPage()"
-            (change)="goToPage($any($event.target).value)"
-          />
-        </label>
-      </div>
-    }
-
     @if (loading()) {
       <div class="state-message">
         <div class="state-message__spinner"></div>
-        <p>Loading Al-Quran...</p>
+        <p>جاري تحميل القرآن...</p>
       </div>
     }
 
@@ -50,7 +14,11 @@
     }
 
     @if (!loading() && !error()) {
-      <main class="mushaf-reader">
+      <main
+        #mushafReader
+        class="mushaf-reader"
+        (scroll)="onReaderScroll($event)"
+      >
         @if (hasPreviousPages()) {
           <div class="load-page-sentinel" #loadPreviousSentinel aria-hidden="true"></div>
         }
@@ -58,6 +26,7 @@
         @for (page of pages(); track trackPage($index, page)) {
           <article
             class="mushaf-page"
+            [class.mushaf-page--active]="page.page.number === activePage()"
             [attr.id]="'quran-page-' + page.page.number"
             [style.--mushaf-font]="mushafFont(page.page.number)"
           >
@@ -111,7 +80,7 @@
         }
 
         @if (!hasMorePages()) {
-          <div class="reader-end">Complete</div>
+          <div class="reader-end">تم</div>
         }
       </main>
     }

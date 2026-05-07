@@ -43,56 +43,6 @@ const routes: Routes = [
     loadComponent: () => import('./features/quran/quran-surahs/quran-surahs.component').then(m => m.QuranSurahsComponent),
   },
   {
-    path: 'quran/al-quran',
-    loadComponent: () => import('./features/quran/al-quran/shell/quran-researcher-shell.component').then(m => m.QuranResearcherShellComponent),
-    children: [
-      {
-        path: '',
-        loadComponent: () => import('./features/quran/al-quran/reader/al-quran.component').then(m => m.AlQuranComponent),
-      },
-    ],
-  },
-  {
-    path: 'quran/tafseer',
-    loadComponent: () => import('./features/quran/al-quran/shell/quran-researcher-shell.component').then(m => m.QuranResearcherShellComponent),
-    children: [
-      {
-        path: '',
-        loadComponent: () => import('./features/quran/al-quran/tafseer/tafseer-page.component').then(m => m.TafseerPageComponent),
-      },
-    ],
-  },
-  {
-    path: 'quran/uloom',
-    loadComponent: () => import('./features/quran/al-quran/shell/quran-researcher-shell.component').then(m => m.QuranResearcherShellComponent),
-    children: [
-      {
-        path: '',
-        loadComponent: () => import('./features/quran/al-quran/uloom/uloom-page.component').then(m => m.UloomPageComponent),
-      },
-    ],
-  },
-  {
-    path: 'quran/lexicon',
-    loadComponent: () => import('./features/quran/al-quran/shell/quran-researcher-shell.component').then(m => m.QuranResearcherShellComponent),
-    children: [
-      {
-        path: '',
-        loadComponent: () => import('./features/quran/al-quran/lexicon/lexicon-page.component').then(m => m.LexiconPageComponent),
-      },
-    ],
-  },
-  {
-    path: 'quran/notes',
-    loadComponent: () => import('./features/quran/al-quran/shell/quran-researcher-shell.component').then(m => m.QuranResearcherShellComponent),
-    children: [
-      {
-        path: '',
-        loadComponent: () => import('./features/quran/al-quran/notes/notes-page.component').then(m => m.NotesPageComponent),
-      },
-    ],
-  },
-  {
     path: 'quran/sura/:surahId/worldview/nodes',
     loadComponent: () => import('./features/quran/quran-surahs/surah/worldview/nodes/worldview-nodes.component').then(m => m.WorldviewNodesComponent),
   },
@@ -180,11 +130,43 @@ const routes: Routes = [
   { path: 'quran/surah/:surahId/review', redirectTo: 'quran/sura/:surahId/review', pathMatch: 'full' },
   { path: 'quran/surah/:surahId/srs', redirectTo: 'quran/sura/:surahId/srs', pathMatch: 'full' },
   { path: 'quran/surah/:surahId', redirectTo: 'quran/sura/:surahId', pathMatch: 'full' },
-  { path: 'quran/:surahId/passage/:passageIndex', redirectTo: 'quran/sura/:surahId/passage/:passageIndex', pathMatch: 'full' },
-  { path: 'quran/:surahId', redirectTo: 'quran/sura/:surahId', pathMatch: 'full' },
   {
     path: 'quran',
-    loadComponent: () => import('./features/quran/quran-landing/quran-landing.component').then(m => m.QuranLandingComponent),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () => import('./features/quran/quran-landing/quran-landing.component').then(m => m.QuranLandingComponent),
+      },
+      {
+        path: '',
+        loadComponent: () => import('./features/quran/al-quran/shell/quran-researcher-shell.component').then(m => m.QuranResearcherShellComponent),
+        children: [
+          {
+            path: 'al-quran',
+            loadComponent: () => import('./features/quran/al-quran/reader/al-quran.component').then(m => m.AlQuranComponent),
+          },
+          {
+            path: 'tafseer',
+            loadComponent: () => import('./features/quran/al-quran/tafseer/tafseer-page.component').then(m => m.TafseerPageComponent),
+          },
+          {
+            path: 'uloom',
+            loadComponent: () => import('./features/quran/al-quran/uloom/uloom-page.component').then(m => m.UloomPageComponent),
+          },
+          {
+            path: 'lexicon',
+            loadComponent: () => import('./features/quran/al-quran/lexicon/lexicon-page.component').then(m => m.LexiconPageComponent),
+          },
+          {
+            path: 'notes',
+            loadComponent: () => import('./features/quran/al-quran/notes/notes-page.component').then(m => m.NotesPageComponent),
+          },
+        ],
+      },
+      { path: ':surahId/passage/:passageIndex', redirectTo: '/quran/sura/:surahId/passage/:passageIndex', pathMatch: 'full' },
+      { path: ':surahId', redirectTo: '/quran/sura/:surahId', pathMatch: 'full' },
+    ],
   },
   // ── Planner ──────────────────────────────────────────────────────────────────
   {

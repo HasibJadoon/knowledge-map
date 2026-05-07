@@ -1,36 +1,47 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject, signal } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { QuranResearchSearchService } from '../quran-research-search.service';
+import { QuranReaderHeaderService } from '../reader/quran-reader-header.service';
 
 interface ResearchTab {
   id: string;
   labelAr: string;
-  icon: string;
   routePath: string;
 }
 
 @Component({
   selector: 'app-quran-researcher-shell',
   standalone: true,
-  imports: [IonicModule, RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [IonicModule],
   templateUrl: './quran-researcher-shell.component.html',
   styleUrl: './quran-researcher-shell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [QuranResearchSearchService],
+  providers: [QuranResearchSearchService, QuranReaderHeaderService],
 })
-export class QuranResearcherShellComponent {
+export class QuranResearcherShellComponent implements OnDestroy {
   private readonly router = inject(Router);
+  private readonly routerEventsSub: Subscription;
+
   readonly search = inject(QuranResearchSearchService);
+  readonly readerHeader = inject(QuranReaderHeaderService);
+  readonly currentTab = signal('al-quran');
 
   readonly tabs: ResearchTab[] = [
-    { id: 'al-quran', labelAr: 'القرآن', icon: '▤', routePath: 'al-quran' },
-    { id: 'tafseer', labelAr: 'تفسير', icon: '◫', routePath: 'tafseer' },
-    { id: 'uloom', labelAr: 'علوم', icon: '⧉', routePath: 'uloom' },
-    { id: 'lexicon', labelAr: 'معاجم', icon: 'ع', routePath: 'lexicon' },
-    { id: 'notes', labelAr: 'ملاحظات', icon: '✎', routePath: 'notes' },
+    { id: 'al-quran', labelAr: 'قرآن', routePath: 'al-quran' },
+    { id: 'tafseer', labelAr: 'تفسير', routePath: 'tafseer' },
+    { id: 'uloom', labelAr: 'علوم', routePath: 'uloom' },
+    { id: 'lexicon', labelAr: 'معجم', routePath: 'lexicon' },
+    { id: 'notes', labelAr: 'حواشي', routePath: 'notes' },
   ];
+
+  constructor() {
+    this.syncCurrentTab(this.router.url);
+    this.routerEventsSub = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) this.syncCurrentTab(event.urlAfterRedirects);
+    });
+  }
 
   goHome(): void {
     this.router.navigateByUrl('/home');
@@ -38,5 +49,14 @@ export class QuranResearcherShellComponent {
 
   setSearch(value: string | null | undefined): void {
     this.search.setSearch(value);
+  }
+
+  ngOnDestroy(): void {
+    this.routerEventsSub.unsubscribe();
+  }
+
+  private syncCurrentTab(url: string): void {
+    const match = this.tabs.find((tab) => url.includes(`/quran/${tab.routePath}`));
+    this.currentTab.set(match?.id ?? 'al-quran');
   }
 }
