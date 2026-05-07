@@ -1,6 +1,11 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
 .al-quran-page {
   width: 100%;
-  height: 100dvh;
+  height: 100%;
   overflow-y: auto;
   background:
     radial-gradient(ellipse 72% 42% at 50% 0%, rgba(201, 168, 76, 0.08), transparent 62%),
@@ -15,49 +20,11 @@
   }
 }
 
-.top-nav {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2.25rem;
-}
-
-.back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: transparent;
-  border: 1px solid var(--km-border);
-  border-radius: 6px;
-  color: var(--km-text-2);
-  font-family: var(--km-font-body);
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 0.45rem 0.9rem;
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
-
-  &:hover {
-    border-color: var(--km-border-gold);
-    color: var(--km-gold);
-  }
-}
-
-.breadcrumb {
-  font-family: var(--km-font-heading);
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--km-gold);
-  opacity: 0.7;
-}
-
 .reader-controls {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  margin-left: auto;
+  margin-bottom: 1.8rem;
 }
 
 .reader-control {
@@ -98,38 +65,6 @@
     input {
       border-color: var(--km-border-gold);
     }
-  }
-}
-
-.page-header {
-  text-align: center;
-  margin-bottom: 2rem;
-
-  &__ornament {
-    font-family: var(--km-font-arabic);
-    font-size: 1.35rem;
-    color: var(--km-gold);
-    opacity: 0.58;
-    margin-bottom: 0.65rem;
-    direction: rtl;
-  }
-
-  &__title {
-    font-family: var(--km-font-heading);
-    font-size: clamp(2rem, 4vw, 3.4rem);
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    color: var(--km-gold);
-    margin: 0 0 0.45rem;
-    text-shadow: 0 0 40px rgba(201, 168, 76, 0.2);
-  }
-
-  &__subtitle {
-    color: var(--km-text-3);
-    font-size: 0.72rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin: 0;
   }
 }
 

@@ -1,51 +1,33 @@
 <div class="al-quran-page" (scroll)="onScroll($event)">
-  <km-home-plane-button />
-
   <div class="al-quran-page__inner">
-    <nav class="top-nav">
-      <button class="back-btn" (click)="back()" type="button">
-        <span>&#8592;</span>
-        <span>Quran</span>
-      </button>
-      <span class="breadcrumb">Quran / Al-Quran</span>
+    @if (!loading() && !error()) {
+      <div class="reader-controls" aria-label="Quran navigation">
+        <label class="reader-control">
+          <span>Surah</span>
+          <select (change)="goToSurah($any($event.target).value)">
+            @for (surah of quranState.surahs(); track surah.surahNumber) {
+              <option
+                [value]="surah.surahNumber"
+                [selected]="surah.surahNumber === pages()[0]?.ayahs?.[0]?.surah"
+              >
+                {{ surah.surahNumber }}. {{ surah.englishName }}
+              </option>
+            }
+          </select>
+        </label>
 
-      @if (!loading() && !error()) {
-        <div class="reader-controls" aria-label="Quran navigation">
-          <label class="reader-control">
-            <span>Surah</span>
-            <select (change)="goToSurah($any($event.target).value)">
-              @for (surah of quranState.surahs(); track surah.surahNumber) {
-                <option
-                  [value]="surah.surahNumber"
-                  [selected]="surah.surahNumber === pages()[0]?.ayahs?.[0]?.surah"
-                >
-                  {{ surah.surahNumber }}. {{ surah.englishName }}
-                </option>
-              }
-            </select>
-          </label>
-
-          <label class="reader-control reader-control--page">
-            <span>Page</span>
-            <input
-              type="number"
-              min="1"
-              max="604"
-              [value]="activeStartPage()"
-              (change)="goToPage($any($event.target).value)"
-            />
-          </label>
-        </div>
-      }
-    </nav>
-
-    <header class="page-header">
-      <div class="page-header__ornament">بسم الله الرحمن الرحيم</div>
-      <h1 class="page-header__title">Al-Quran</h1>
-      @if (loadedRangeLabel()) {
-        <p class="page-header__subtitle">Pages {{ loadedRangeLabel() }}</p>
-      }
-    </header>
+        <label class="reader-control reader-control--page">
+          <span>Page</span>
+          <input
+            type="number"
+            min="1"
+            max="604"
+            [value]="activeStartPage()"
+            (change)="goToPage($any($event.target).value)"
+          />
+        </label>
+      </div>
+    }
 
     @if (loading()) {
       <div class="state-message">

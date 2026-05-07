@@ -32,10 +32,6 @@ export class QuranResearcherShellComponent {
     this.router.navigateByUrl('/home');
   }
 
-  navigateToAlQuran(): void {
-    this.router.navigateByUrl('/quran/al-quran');
-  }
-
   onRouteActivate(): void {
     const el = this.pageSlot?.nativeElement;
     if (!el) return;

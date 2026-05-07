@@ -13,7 +13,6 @@ import gsap from 'gsap';
 import { QrPageLayoutAyah, QrPagePayload, QrPageWord } from '../../../shared/models/quran/qr.models';
 import { QuranApiService } from '../../../shared/services/quran/quran-api.service';
 import { QuranStateService } from '../../../shared/services/quran/quran-state.service';
-import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
 
 const FIRST_PAGE = 1;
 const LAST_PAGE = 604;
@@ -23,7 +22,7 @@ const MUSHAF_LAYOUT = 'qpc-v2-15-lines';
 @Component({
   selector: 'km-al-quran',
   standalone: true,
-  imports: [HomePlaneButtonComponent],
+  imports: [],
   templateUrl: './al-quran.component.html',
   styleUrl: './al-quran.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

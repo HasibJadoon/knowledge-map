@@ -72,11 +72,11 @@
     <!-- Row 2: Section Tabs -->
     <nav class="qrs-tabs" dir="rtl" aria-label="أقسام باحث القرآن">
 
-      <!-- القرآن tab — navigates outside the shell to the full Quran reader -->
-      <button
-        class="qrs-tab qrs-tab--external"
-        type="button"
-        (click)="navigateToAlQuran()"
+      <a
+        class="qrs-tab"
+        routerLink="al-quran"
+        routerLinkActive="qrs-tab--active"
+        [routerLinkActiveOptions]="{ exact: true }"
       >
         <svg class="qrs-tab__svg" width="15" height="16" viewBox="0 0 15 16" fill="none" aria-hidden="true">
           <rect x="1.5" y="1" width="12" height="14" rx="1" stroke="currentColor" stroke-width="1.4" fill="none"/>
@@ -85,7 +85,7 @@
           <line x1="4.5" y1="11" x2="8.5" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
         </svg>
         <span class="qrs-tab__label">القرآن</span>
-      </button>
+      </a>
 
       @for (tab of tabs; track tab.id) {
         <a

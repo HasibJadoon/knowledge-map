@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import gsap from 'gsap';
-import { HomePlaneButtonComponent } from '../../../shared/components/home-plane-button/home-plane-button.component';
+import { HomePlaneButtonComponent } from '../../../../shared/components/home-plane-button/home-plane-button.component';
 
 type QuranResearchId = 'lexicon' | 'tafseer' | 'iraab';
 

@@ -8,46 +8,35 @@ export const QURAN_ROUTES: Routes = [
       import('./quran-landing/quran-landing.component').then((m) => m.QuranLandingComponent),
     title: 'Quran — K-MAPS',
   },
-  {
-    path: 'al-quran/:surahId',
-    loadComponent: () =>
-      import('./al-quran/al-quran.component').then((m) => m.AlQuranComponent),
-    title: 'Al-Quran — K-MAPS',
-  },
-  {
-    path: 'al-quran',
-    loadComponent: () =>
-      import('./al-quran/al-quran.component').then((m) => m.AlQuranComponent),
-    title: 'Al-Quran — K-MAPS',
-  },
+  { path: 'al-quran/:surahId', redirectTo: 'al-quran', pathMatch: 'full' },
   {
     path: 'surahs',
     loadComponent: () =>
-      import('./quran-surahs/quran-surahs.component').then((m) => m.QuranSurahsComponent),
+      import('./sura/quran-surahs/quran-surahs.component').then((m) => m.QuranSurahsComponent),
     title: 'Surahs — K-MAPS',
   },
   {
     path: 'surahs/:surahId/study/:passageNo',
     loadComponent: () =>
-      import('./surah/study/detail/surah-study-detail.component').then((m) => m.SurahStudyDetailComponent),
+      import('./sura/study/detail/surah-study-detail.component').then((m) => m.SurahStudyDetailComponent),
     title: 'Study — K-MAPS',
   },
   {
     path: 'surahs/:surahId/study',
     loadComponent: () =>
-      import('./surah/study/surah-study.component').then((m) => m.SurahStudyComponent),
+      import('./sura/study/surah-study.component').then((m) => m.SurahStudyComponent),
     title: 'Study — K-MAPS',
   },
   {
     path: 'surahs/:surahId/notes',
     loadComponent: () =>
-      import('./surah/notes/surah-notes.component').then((m) => m.SurahNotesComponent),
+      import('./sura/notes/surah-notes.component').then((m) => m.SurahNotesComponent),
     title: 'Notes — K-MAPS',
   },
   {
     path: 'surahs/:surahId/linguistics',
     loadComponent: () =>
-      import('./surah/vocabulary/surah-vocabulary.component').then((m) => m.SurahVocabularyComponent),
+      import('./sura/vocabulary/surah-vocabulary.component').then((m) => m.SurahVocabularyComponent),
     title: 'Linguistics — K-MAPS',
   },
   { path: 'surahs/:surahId/arabic', redirectTo: 'surahs/:surahId/linguistics', pathMatch: 'full' },
@@ -55,79 +44,79 @@ export const QURAN_ROUTES: Routes = [
   {
     path: 'surahs/:surahId/near-synonyms',
     loadComponent: () =>
-      import('./surah/near-synonyms/surah-near-synonyms.component').then((m) => m.SurahNearSynonymsComponent),
+      import('./sura/near-synonyms/surah-near-synonyms.component').then((m) => m.SurahNearSynonymsComponent),
     title: 'Near Synonyms — K-MAPS',
   },
   {
     path: 'surahs/:surahId/morphology',
     loadComponent: () =>
-      import('./surah/morphology/surah-morphology.component').then((m) => m.SurahMorphologyComponent),
+      import('./sura/morphology/surah-morphology.component').then((m) => m.SurahMorphologyComponent),
     title: 'Morphology — K-MAPS',
   },
   {
     path: 'surahs/:surahId/review',
     loadComponent: () =>
-      import('./surah/review/surah-review.component').then((m) => m.SurahReviewComponent),
+      import('./sura/review/surah-review.component').then((m) => m.SurahReviewComponent),
     title: 'Review — K-MAPS',
   },
   {
     path: 'surahs/:surahId/srs',
     loadComponent: () =>
-      import('./surah/srs/surah-srs.component').then((m) => m.SurahSrsComponent),
+      import('./sura/srs/surah-srs.component').then((m) => m.SurahSrsComponent),
     title: 'SRS — K-MAPS',
   },
   {
     path: 'surahs/:surahId/worldview/nodes',
     loadComponent: () =>
-      import('./surah/worldview/nodes/worldview-nodes.component').then((m) => m.WorldviewNodesComponent),
+      import('./sura/worldview/nodes/worldview-nodes.component').then((m) => m.WorldviewNodesComponent),
     title: 'Worldview Nodes — K-MAPS',
   },
   {
     path: 'surahs/:surahId/worldview/sources',
     loadComponent: () =>
-      import('./surah/worldview/sources/worldview-sources.component').then((m) => m.WorldviewSourcesComponent),
+      import('./sura/worldview/sources/worldview-sources.component').then((m) => m.WorldviewSourcesComponent),
     title: 'Sources — K-MAPS',
   },
   {
     path: 'surahs/:surahId/worldview/podcasts',
     loadComponent: () =>
-      import('./surah/worldview/podcasts/worldview-podcasts.component').then((m) => m.WorldviewPodcastsComponent),
+      import('./sura/worldview/podcasts/worldview-podcasts.component').then((m) => m.WorldviewPodcastsComponent),
     title: 'Podcasts — K-MAPS',
   },
   {
     path: 'surahs/:surahId/worldview/documents',
     loadComponent: () =>
-      import('./surah/worldview/documents/worldview-documents.component').then((m) => m.WorldviewDocumentsComponent),
+      import('./sura/worldview/documents/worldview-documents.component').then((m) => m.WorldviewDocumentsComponent),
     title: 'Documents — K-MAPS',
   },
   {
     path: 'surahs/:surahId/worldview/notes',
     loadComponent: () =>
-      import('./surah/worldview/notes/worldview-notes.component').then((m) => m.WorldviewNotesComponent),
+      import('./sura/worldview/notes/worldview-notes.component').then((m) => m.WorldviewNotesComponent),
     title: 'Worldview Notes — K-MAPS',
   },
   {
     path: 'surahs/:surahId/worldview/links',
     loadComponent: () =>
-      import('./surah/worldview/links/worldview-links.component').then((m) => m.WorldviewLinksComponent),
+      import('./sura/worldview/links/worldview-links.component').then((m) => m.WorldviewLinksComponent),
     title: 'Links — K-MAPS',
   },
   {
     path: 'surahs/:surahId/worldview',
     loadComponent: () =>
-      import('./surah/worldview/hub/worldview-hub.component').then((m) => m.WorldviewHubComponent),
+      import('./sura/worldview/hub/worldview-hub.component').then((m) => m.WorldviewHubComponent),
     title: 'Worldview — K-MAPS',
   },
   {
     path: 'surahs/:surahId/passage/:passageIndex',
     loadComponent: () =>
-      import('./surah/passage/quran-passage.component').then((m) => m.QuranPassageComponent),
+      import('./sura/passage/quran-passage.component').then((m) => m.QuranPassageComponent),
     title: 'Passage — K-MAPS',
   },
   {
     path: 'surahs/:surahId',
     loadComponent: () =>
-      import('./surah/text/quran-text.component').then((m) => m.QuranTextComponent),
+      import('./sura/text/quran-text.component').then((m) => m.QuranTextComponent),
     title: 'Quran — K-MAPS',
   },
   { path: 'browser', redirectTo: 'lexicon', pathMatch: 'full' },
@@ -146,32 +135,38 @@ export const QURAN_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./quran-researcher-shell/quran-researcher-shell.component').then(
+      import('./quran-research/quran-researcher-shell/quran-researcher-shell.component').then(
         (m) => m.QuranResearcherShellComponent,
       ),
     children: [
       {
+        path: 'al-quran',
+        loadComponent: () =>
+          import('./al-quran/al-quran.component').then((m) => m.AlQuranComponent),
+        title: 'Al-Quran — K-MAPS',
+      },
+      {
         path: 'lexicon',
         loadComponent: () =>
-          import('./researcher/lexicon/lexicon-page.component').then((m) => m.LexiconPageComponent),
+          import('./quran-research/researcher/lexicon/lexicon-page.component').then((m) => m.LexiconPageComponent),
         title: 'Lexicon — K-MAPS',
       },
       {
         path: 'tafseer',
         loadComponent: () =>
-          import('./researcher/tafseer/tafseer-page.component').then((m) => m.TafseerPageComponent),
+          import('./quran-research/researcher/tafseer/tafseer-page.component').then((m) => m.TafseerPageComponent),
         title: 'Tafseer — K-MAPS',
       },
       {
         path: 'uloom',
         loadComponent: () =>
-          import('./researcher/uloom/uloom-page.component').then((m) => m.UloomPageComponent),
+          import('./quran-research/researcher/uloom/uloom-page.component').then((m) => m.UloomPageComponent),
         title: 'Sciences — K-MAPS',
       },
       {
         path: 'notes',
         loadComponent: () =>
-          import('./researcher/notes/notes-page.component').then((m) => m.NotesPageComponent),
+          import('./quran-research/researcher/notes/notes-page.component').then((m) => m.NotesPageComponent),
         title: 'Notes — K-MAPS',
       },
       { path: 'iraab', redirectTo: 'uloom', pathMatch: 'full' },
