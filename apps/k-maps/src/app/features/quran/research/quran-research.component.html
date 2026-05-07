@@ -1,0 +1,63 @@
+<div class="research-page">
+  <km-home-plane-button />
+
+  <div class="research-page__inner">
+    <nav class="top-nav">
+      <button class="back-btn" (click)="back()" type="button">
+        <span class="back-btn__arrow">&#8592;</span>
+        <span class="back-btn__label">Quran</span>
+      </button>
+      <span class="breadcrumb">Quran / {{ selected().label }}</span>
+    </nav>
+
+    <section [class]="'research-shell research-shell--' + selected().accent">
+      <aside class="research-nav" #nav aria-label="Quran research sections">
+        @for (section of sections; track section.id) {
+          <button
+            type="button"
+            class="research-nav__item"
+            [class.research-nav__item--active]="section.id === selectedId()"
+            (click)="selectSection(section)"
+          >
+            <span class="research-nav__glyph">{{ section.glyph }}</span>
+            <span class="research-nav__label">{{ section.label }}</span>
+            <span class="research-nav__arabic" lang="ar" dir="rtl">{{ section.labelAr }}</span>
+          </button>
+        }
+      </aside>
+
+      <main class="research-panel" #panel>
+        <div class="research-panel__header">
+          <h1>
+            <span>{{ selected().title }}</span>
+            <span class="research-panel__arabic" lang="ar" dir="rtl">{{ selected().titleAr }}</span>
+          </h1>
+        </div>
+
+        <label class="search-box">
+          <span class="search-box__icon">⌕</span>
+          <input
+            type="search"
+            [placeholder]="selected().searchPlaceholder"
+            [value]="searchTerm()"
+            (input)="setSearch($any($event.target).value)"
+          />
+        </label>
+
+        <div class="source-grid">
+          @for (source of filteredSources(); track source.title) {
+            <article class="source-row">
+              <div class="source-row__category" lang="ar" dir="rtl">{{ source.category }}</div>
+              <div class="source-row__main">
+                <h2>{{ source.title }}</h2>
+                <p>{{ source.subtitle }}</p>
+                <span>{{ source.meta }}</span>
+              </div>
+              <div class="source-row__tag">{{ source.tag }}</div>
+            </article>
+          }
+        </div>
+      </main>
+    </section>
+  </div>
+</div>

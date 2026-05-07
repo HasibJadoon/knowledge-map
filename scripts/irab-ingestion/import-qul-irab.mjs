@@ -33,6 +33,7 @@ function args() {
     dryRun: !process.argv.includes('--apply'),
     apply: process.argv.includes('--apply'),
     forceReparse: process.argv.includes('--force-reparse'),
+    skipChunks: process.argv.includes('--skip-chunks'),
     skipEmbeddings: process.argv.includes('--skip-embeddings'),
   };
   for (let index = 2; index < process.argv.length; index += 1) {
@@ -173,7 +174,7 @@ function buildModel(config, rows, concepts) {
           raw_html: section.raw_html,
           raw_text: section.raw_text,
           clean_text: section.clean_text,
-          source_record_json: JSON.stringify(row),
+          source_record_json: null,
         };
         chunks.push(chunk);
 
@@ -392,7 +393,13 @@ function main() {
     `);
 
     for (const batch of batched(statementsForSource(config, hash, stats.size), 10)) d1(QR_DB, QR_CWD, batch);
-    for (const batch of batched(model.chunks.map((chunk) => insertChunkStatement(chunk, runId)), 5)) d1(QR_DB, QR_CWD, batch);
+    if (!config.skipChunks) {
+      console.log(`[chunks] inserting ${model.chunks.length} chunks one-by-one …`);
+      for (const batch of batched(model.chunks.map((chunk) => insertChunkStatement(chunk, runId)), 1)) d1(QR_DB, QR_CWD, batch);
+    } else {
+      console.log(`[chunks] --skip-chunks: skipping chunk insertion (${model.chunks.length} chunks already in D1)`);
+    }
+    console.log(`[entries] inserting ${model.entries.length} entries …`);
     for (const batch of batched(model.entries.map(insertEntryStatement), 30)) d1(QR_DB, QR_CWD, batch);
     for (const batch of batched(model.errors.map((error) => insertErrorStatement(error, runId)), 40)) d1(QR_DB, QR_CWD, batch);
 
