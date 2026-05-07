@@ -84,6 +84,7 @@ export interface SurahListResponse {
 export class QuranReaderService {
   private readonly api = inject(BackendApiService);
   private readonly pageCache = new Map<number, Observable<QuranPageResponse>>();
+  private readonly mushafPageCache = new Map<string, Observable<QuranPageResponse>>();
 
   private menuRequest$: Observable<QuranMenuResponse> | null = null;
 
@@ -118,6 +119,27 @@ export class QuranReaderService {
     );
 
     this.pageCache.set(pageNumber, request$);
+    return request$;
+  }
+
+  getMushafPage(pageNumber: number, layout = 'qpc-v2-15-lines'): Observable<QuranPageResponse> {
+    const cacheKey = `${layout}:${pageNumber}`;
+    const cached = this.mushafPageCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const params = new HttpParams().set('layout', layout);
+    const request$ = this.api.getData<QrPagePayload>('qr', ['mushaf', 'pages', pageNumber], { params }).pipe(
+      map((payload) => this.normalizePage(payload)),
+      catchError((error: unknown) => {
+        this.mushafPageCache.delete(cacheKey);
+        return throwError(() => new Error(this.toErrorMessage(error, 'Unable to load Quran mushaf page.')));
+      }),
+      shareReplay({ bufferSize: 1, refCount: false })
+    );
+
+    this.mushafPageCache.set(cacheKey, request$);
     return request$;
   }
 

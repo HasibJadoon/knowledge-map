@@ -1,0 +1,109 @@
+.research-page {
+  min-height: 100%;
+  padding: 1rem;
+  background:
+    radial-gradient(ellipse 92% 36% at 50% 0%, rgba(201, 168, 76, 0.11), transparent 66%),
+    #050505;
+  color: #f5f1e7;
+}
+
+.research-hero {
+  padding: 0.75rem 0 1rem;
+
+  h1 {
+    margin: 0;
+    color: #f3d77a;
+    font-family: var(--km-font-heading, serif);
+    font-size: clamp(1.75rem, 9vw, 2.5rem);
+    letter-spacing: 0;
+  }
+
+  p {
+    margin: 0.55rem 0 0;
+    color: rgba(245, 241, 231, 0.68);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+}
+
+.research-hero__eyebrow {
+  color: rgba(232, 201, 106, 0.72) !important;
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 0.85rem !important;
+}
+
+.research-search {
+  height: 2.55rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0.4rem 0 1rem;
+  padding: 0 0.85rem;
+  border: 1px solid rgba(232, 201, 106, 0.22);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #e8c96a;
+
+  input {
+    min-width: 0;
+    flex: 1;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #f5f1e7;
+    font: inherit;
+  }
+}
+
+.source-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.source-card {
+  display: grid;
+  grid-template-columns: 2.45rem 1fr;
+  gap: 0.85rem;
+  padding: 0.95rem;
+  border: 1px solid rgba(232, 201, 106, 0.14);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
+
+  h2 {
+    margin: 0;
+    color: #f3d77a;
+    font-family: var(--km-font-arabic-ui, serif);
+    font-size: 1.05rem;
+    letter-spacing: 0;
+  }
+
+  p {
+    margin: 0.35rem 0 0;
+    color: rgba(245, 241, 231, 0.7);
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  span {
+    display: inline-block;
+    margin-top: 0.55rem;
+    color: rgba(232, 201, 106, 0.75);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+.source-card__icon {
+  width: 2.45rem;
+  height: 2.45rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(232, 201, 106, 0.34);
+  border-radius: 50%;
+  color: #e8c96a;
+}
+
+.source-card__scholar {
+  color: rgba(245, 241, 231, 0.52) !important;
+}

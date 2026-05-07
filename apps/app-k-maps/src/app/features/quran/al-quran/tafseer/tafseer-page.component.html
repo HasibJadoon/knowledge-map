@@ -1,0 +1,25 @@
+<section class="research-page">
+  <header class="research-hero">
+    <p class="research-hero__eyebrow">تفسير</p>
+    <h1>Tafseer</h1>
+    <p>Reference tafseer collections arranged for quick mobile lookup.</p>
+  </header>
+
+  <label class="research-search" aria-label="Search tafseer sources">
+    <span aria-hidden="true">⌕</span>
+    <input type="search" placeholder="Search tafseer..." [value]="searchTerm()" (input)="setSearch($any($event.target).value)" />
+  </label>
+
+  <div class="source-list">
+    @for (source of sources(); track source.title) {
+      <article class="source-card">
+        <div class="source-card__icon" aria-hidden="true">{{ source.icon }}</div>
+        <div>
+          <h2>{{ source.title }}</h2>
+          <p class="source-card__scholar">{{ source.scholar }}</p>
+          <p>{{ source.description }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</section>

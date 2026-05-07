@@ -1,0 +1,26 @@
+<section class="research-page">
+  <header class="research-hero">
+    <p class="research-hero__eyebrow">معاجم</p>
+    <h1>Lexicon</h1>
+    <p>Mobile access to Quranic vocabulary sources, roots, and lexical references.</p>
+  </header>
+
+  <label class="research-search" aria-label="Search lexicon sources">
+    <span aria-hidden="true">⌕</span>
+    <input type="search" placeholder="Search lexicon..." [value]="searchTerm()" (input)="setSearch($any($event.target).value)" />
+  </label>
+
+  <div class="source-list">
+    @for (source of sources(); track source.title) {
+      <article class="source-card">
+        <div class="source-card__icon" aria-hidden="true">{{ source.icon }}</div>
+        <div>
+          <h2>{{ source.title }}</h2>
+          <p class="source-card__scholar">{{ source.scholar }}</p>
+          <p>{{ source.description }}</p>
+          <span>{{ source.entryCount }}</span>
+        </div>
+      </article>
+    }
+  </div>
+</section>
