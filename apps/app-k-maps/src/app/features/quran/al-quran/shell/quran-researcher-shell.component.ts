@@ -27,8 +27,7 @@ export class QuranResearcherShellComponent implements OnDestroy {
   readonly search = inject(QuranResearchSearchService);
   readonly readerHeader = inject(QuranReaderHeaderService);
   readonly currentTab = signal('al-quran');
-  readonly searchOpen = signal(false);
-  readonly navOpen = signal(false);
+  readonly panelOpen = signal(false);
 
   readonly tabs: ResearchTab[] = [
     { id: 'al-quran', labelAr: 'قرآن',  href: '/quran/al-quran' },
@@ -49,24 +48,16 @@ export class QuranResearcherShellComponent implements OnDestroy {
     this.router.navigateByUrl('/home');
   }
 
-  toggleSearch(): void {
-    this.searchOpen.set(!this.searchOpen());
+  togglePanel(): void {
+    this.panelOpen.set(!this.panelOpen());
   }
 
-  toggleNav(): void {
-    this.navOpen.update((v) => !v);
-  }
-
-  closeSearch(): void {
-    this.searchOpen.set(false);
+  closePanel(): void {
+    this.panelOpen.set(false);
     this.search.setSearch('');
   }
 
-  closeNav(): void {
-    this.navOpen.set(false);
-  }
-
-  onSearchModalPresent(): void {
+  onPanelPresent(): void {
     setTimeout(() => {
       const sb: any = document.querySelector('.qrs-modal-searchbar');
       sb?.setFocus?.();
@@ -92,8 +83,6 @@ export class QuranResearcherShellComponent implements OnDestroy {
     const path = url.split('?')[0];
     // Match longest href first so '/quran/al-quran/tafseer' beats '/quran/al-quran'
     const match = this.tabs.slice().reverse().find((tab) => path.startsWith(tab.href));
-    const newTab = match?.id ?? 'al-quran';
-    if (newTab !== 'al-quran') this.navOpen.set(false);
-    this.currentTab.set(newTab);
+    this.currentTab.set(match?.id ?? 'al-quran');
   }
 }

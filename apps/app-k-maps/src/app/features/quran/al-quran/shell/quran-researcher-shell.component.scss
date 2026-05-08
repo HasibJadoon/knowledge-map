@@ -32,7 +32,6 @@
   font-size: 1.22rem;
 }
 
-
 .qrs-searchbar {
   --background: rgba(255, 255, 255, 0.055);
   --border-radius: 8px;
@@ -65,13 +64,6 @@
   border-radius: 0;
   background: transparent;
   box-shadow: none;
-}
-
-.qrs-searchbar--focused::part(search-icon) {
-  width: 0;
-  min-width: 0;
-  margin-inline: 0;
-  opacity: 0;
 }
 
 .qrs-searchbar::part(input) {
@@ -239,15 +231,13 @@
   white-space: nowrap;
 }
 
-// ── Bottom sheet modals ───────────────────────────────────────────────────────
-.qrs-search-modal,
-.qrs-nav-modal {
+// ── Combined search + navigation panel modal ──────────────────────────────────
+.qrs-panel-modal {
   --background: #0a0908;
   --ion-backdrop-opacity: 0.42;
 }
 
-.qrs-search-modal::part(handle),
-.qrs-nav-modal::part(handle) {
+.qrs-panel-modal::part(handle) {
   background: rgba(201, 168, 76, 0.38);
   width: 2.4rem;
   height: 3px;
@@ -256,16 +246,16 @@
 
 .qrs-modal-body {
   background: #0a0908;
-  padding: 0.65rem 1rem 1.2rem;
+  padding: 0.5rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.qrs-modal-body--search {
-  padding-top: 0.5rem;
-  padding-bottom: 0.85rem;
-}
-
-.qrs-modal-body--nav {
-  padding-top: 0.75rem;
+.qrs-modal-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.28), transparent);
+  margin: 0 -0.25rem;
 }
 
 @media (min-width: 760px) {
@@ -300,7 +290,6 @@
     --qrs-tabbar-height: calc(2.4rem + var(--ion-safe-area-bottom, 0px));
   }
 
-  // Collapse main toolbar
   .qrs-toolbar {
     --min-height: 2rem;
   }
@@ -330,10 +319,13 @@
     font-size: 0.72rem;
   }
 
-  // Slim tab bar
+  // Account for camera notch / Dynamic Island on the sides in landscape
   .qrs-tab-bar {
     height: var(--qrs-tabbar-height);
-    padding: 0.04rem 0.12rem max(0.04rem, var(--ion-safe-area-bottom, 0px));
+    padding-top: 0.04rem;
+    padding-bottom: max(0.04rem, var(--ion-safe-area-bottom, 0px));
+    padding-left: max(0.12rem, var(--ion-safe-area-left, 0px));
+    padding-right: max(0.12rem, var(--ion-safe-area-right, 0px));
   }
 
   .qrs-tab {

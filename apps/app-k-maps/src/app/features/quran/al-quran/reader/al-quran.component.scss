@@ -340,8 +340,17 @@
 // In landscape, vw-based font sizes already produce larger text (wider viewport).
 // Hide the inline reader controls — navigation lives in the shell bottom sheet.
 @media (orientation: landscape) and (max-height: 520px) {
+  // Respect camera notch / Dynamic Island safe areas on the sides
   .al-quran-page {
-    padding: 0.3rem 0.75rem 1.5rem;
+    padding-top: 0.3rem;
+    padding-bottom: 1.5rem;
+    padding-left: max(0.75rem, var(--ion-safe-area-left, 0px));
+    padding-right: max(0.75rem, var(--ion-safe-area-right, 0px));
+  }
+
+  .al-quran-page__inner {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .reader-controls {

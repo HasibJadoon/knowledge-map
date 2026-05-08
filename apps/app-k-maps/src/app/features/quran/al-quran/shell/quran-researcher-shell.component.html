@@ -14,38 +14,28 @@
     <ion-buttons slot="end">
       <ion-button
         class="qrs-icon-btn"
-        aria-label="Search"
-        (click)="toggleSearch()"
+        aria-label="Search and navigate"
+        (click)="togglePanel()"
       >
         <ion-icon name="search-outline" slot="icon-only" />
       </ion-button>
-
-      @if (readerHeader.visible() && currentTab() === 'al-quran') {
-        <ion-button
-          class="qrs-icon-btn"
-          aria-label="Navigate"
-          (click)="toggleNav()"
-        >
-          <ion-icon name="options-outline" slot="icon-only" />
-        </ion-button>
-      }
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<!-- Search bottom sheet -->
+<!-- Combined search + navigation bottom sheet -->
 <ion-modal
-  class="qrs-search-modal"
-  [isOpen]="searchOpen()"
-  [breakpoints]="[0, 0.3]"
-  [initialBreakpoint]="0.3"
+  class="qrs-panel-modal"
+  [isOpen]="panelOpen()"
+  [breakpoints]="[0, 0.42]"
+  [initialBreakpoint]="0.42"
   [handle]="true"
   [backdropDismiss]="true"
-  (ionModalDidDismiss)="closeSearch()"
-  (ionModalDidPresent)="onSearchModalPresent()"
+  (ionModalDidDismiss)="closePanel()"
+  (ionModalDidPresent)="onPanelPresent()"
 >
   <ng-template>
-    <div class="qrs-modal-body qrs-modal-body--search">
+    <div class="qrs-modal-body">
       <ion-searchbar
         class="qrs-searchbar qrs-modal-searchbar"
         mode="md"
@@ -55,61 +45,49 @@
         [value]="search.searchTerm()"
         (ionInput)="setSearch($event.detail.value)"
       />
-    </div>
-  </ng-template>
-</ion-modal>
 
-<!-- Navigation bottom sheet -->
-<ion-modal
-  class="qrs-nav-modal"
-  [isOpen]="navOpen()"
-  [breakpoints]="[0, 0.3]"
-  [initialBreakpoint]="0.3"
-  [handle]="true"
-  [backdropDismiss]="true"
-  (ionModalDidDismiss)="closeNav()"
->
-  <ng-template>
-    <div class="qrs-modal-body qrs-modal-body--nav">
-      <div class="qrs-reader-controls" aria-label="Quran navigation" dir="rtl">
-        <label class="qrs-reader-control">
-          <span>سورة</span>
-          <select
-            [disabled]="readerHeader.disabled()"
-            [value]="readerHeader.activeSurah()"
-            (change)="readerHeader.goToSurah($any($event.target).value)"
-          >
-            @for (surah of readerHeader.surahs(); track surah.surah) {
-              <option [value]="surah.surah">
-                {{ surah.surah }}. {{ surah.name_ar }}
-              </option>
-            }
-          </select>
-        </label>
+      @if (readerHeader.visible() && currentTab() === 'al-quran') {
+        <div class="qrs-modal-divider"></div>
+        <div class="qrs-reader-controls" aria-label="Quran navigation" dir="rtl">
+          <label class="qrs-reader-control">
+            <span>سورة</span>
+            <select
+              [disabled]="readerHeader.disabled()"
+              [value]="readerHeader.activeSurah()"
+              (change)="readerHeader.goToSurah($any($event.target).value)"
+            >
+              @for (surah of readerHeader.surahs(); track surah.surah) {
+                <option [value]="surah.surah">
+                  {{ surah.surah }}. {{ surah.name_ar }}
+                </option>
+              }
+            </select>
+          </label>
 
-        <label class="qrs-reader-control">
-          <span>آية</span>
-          <input
-            type="number"
-            min="1"
-            [disabled]="readerHeader.disabled()"
-            [value]="readerHeader.activeVerse()"
-            (change)="readerHeader.goToVerse($any($event.target).value)"
-          />
-        </label>
+          <label class="qrs-reader-control">
+            <span>آية</span>
+            <input
+              type="number"
+              min="1"
+              [disabled]="readerHeader.disabled()"
+              [value]="readerHeader.activeVerse()"
+              (change)="readerHeader.goToVerse($any($event.target).value)"
+            />
+          </label>
 
-        <label class="qrs-reader-control">
-          <span>صفحة</span>
-          <input
-            type="number"
-            min="1"
-            max="604"
-            [disabled]="readerHeader.disabled()"
-            [value]="readerHeader.activePage()"
-            (change)="readerHeader.goToPage($any($event.target).value)"
-          />
-        </label>
-      </div>
+          <label class="qrs-reader-control">
+            <span>صفحة</span>
+            <input
+              type="number"
+              min="1"
+              max="604"
+              [disabled]="readerHeader.disabled()"
+              [value]="readerHeader.activePage()"
+              (change)="readerHeader.goToPage($any($event.target).value)"
+            />
+          </label>
+        </div>
+      }
     </div>
   </ng-template>
 </ion-modal>
