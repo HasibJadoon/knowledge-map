@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -12,8 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GestureController, IonicModule, IonContent } from '@ionic/angular';
-import type { Gesture, GestureDetail } from '@ionic/angular';
+import { IonicModule, IonContent } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
 import {
@@ -31,11 +29,8 @@ const FIRST_PAGE = 1;
 const LAST_PAGE = 604;
 const PAGE_BATCH_SIZE = 4;
 const MUSHAF_LAYOUT = 'qpc-v2-15-lines';
-const AUTO_LOAD_THRESHOLD_PX = 900;
-const MOBILE_PAGED_QUERY = '(max-width: 900px)';
-const SWIPE_MIN_DISTANCE_PX = 42;
-const SWIPE_MAX_VERTICAL_DRIFT_PX = 72;
-const WHEEL_SWIPE_COOLDOWN_MS = 420;
+const SWIPE_MIN_DISTANCE_PX = 48;
+const SWIPE_MAX_VERTICAL_DRIFT_PX = 80;
 
 @Component({
   selector: 'app-al-quran',
@@ -45,58 +40,23 @@ const WHEEL_SWIPE_COOLDOWN_MS = 420;
   styleUrl: './al-quran.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AlQuranComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly quranReader = inject(QuranReaderService);
   private readonly researchSearch = inject(QuranResearchSearchService, { optional: true });
   private readonly readerHeader = inject(QuranReaderHeaderService, { optional: true });
-  private readonly gestureCtrl = inject(GestureController);
   private readonly host: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly loadedPageFonts = new Set<number>();
-  private readonly scrollListenerCleanups: Array<() => void> = [];
-  private scrollCheckFrame = 0;
-  private readerScrollFrame = 0;
-  private lastSwipeAt = 0;
-  private lastWheelSwipeAt = 0;
-  private gestureStartScrollLeft = 0;
-  private fallbackSwipeStartX: number | null = null;
-  private fallbackSwipeStartY: number | null = null;
-  private fallbackSwipeStartScrollLeft = 0;
-  private loadPreviousSentinel?: ElementRef<HTMLElement>;
-  private loadMoreSentinel?: ElementRef<HTMLElement>;
+  private swipeStartX: number | null = null;
+  private swipeStartY: number | null = null;
   private readerContent?: IonContent;
-  private mushafReaderEl?: HTMLElement;
-  private swipeGesture?: Gesture;
-  private viewReady = false;
-
-  @ViewChild('loadPreviousSentinel')
-  set loadPreviousSentinelRef(element: ElementRef<HTMLElement> | undefined) {
-    this.loadPreviousSentinel = element;
-    this.scheduleScrollCheck();
-  }
-
-  @ViewChild('loadMoreSentinel')
-  set loadMoreSentinelRef(element: ElementRef<HTMLElement> | undefined) {
-    this.loadMoreSentinel = element;
-    this.scheduleScrollCheck();
-  }
 
   @ViewChild('readerContent')
   set readerContentRef(content: IonContent | undefined) {
     this.readerContent = content;
-    this.scheduleScrollCheck();
   }
 
-  @ViewChild('mushafReader')
-  set mushafReaderRef(element: ElementRef<HTMLElement> | undefined) {
-    this.swipeGesture?.destroy();
-    this.swipeGesture = undefined;
-    this.mushafReaderEl = element?.nativeElement;
-    this.setupSwipeGesture();
-  }
-
-  readonly mobilePaged = signal(this.getMobilePagedMatches());
   readonly surahs = signal<QuranBrowseSurah[]>([]);
   readonly pages = signal<QuranPageResponse[]>([]);
   readonly loading = signal(true);
@@ -107,17 +67,11 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly activeSurah = signal(FIRST_PAGE);
   readonly activeVerse = signal(FIRST_PAGE);
 
-  readonly firstLoadedPage = computed(() => this.pages()[0]?.page.number ?? null);
-  readonly lastLoadedPage = computed(() => this.pages()[this.pages().length - 1]?.page.number ?? null);
-  readonly hasPreviousPages = computed(() => (this.firstLoadedPage() ?? FIRST_PAGE) > FIRST_PAGE);
-  readonly hasMorePages = computed(() => (this.lastLoadedPage() ?? 0) < LAST_PAGE);
-  readonly canGoPreviousPage = computed(() => this.activePage() > FIRST_PAGE && !this.loading() && !this.loadingMore());
-  readonly canGoNextPage = computed(() => this.activePage() < LAST_PAGE && !this.loading() && !this.loadingMore());
-  readonly loadedRangeLabel = computed(() => {
-    const first = this.firstLoadedPage();
-    const last = this.lastLoadedPage();
-    return first && last ? `${first}-${last}` : '';
-  });
+  readonly activePageData = computed(() =>
+    this.pages().find((p) => p.page.number === this.activePage()) ?? null,
+  );
+  readonly canGoPrevious = computed(() => this.activePage() > FIRST_PAGE && !this.loading() && !this.loadingMore());
+  readonly canGoNext = computed(() => this.activePage() < LAST_PAGE && !this.loading() && !this.loadingMore());
 
   constructor() {
     const readerHeader = this.readerHeader;
@@ -157,24 +111,8 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     await this.loadInitialPages();
   }
 
-  ngAfterViewInit(): void {
-    this.viewReady = true;
-    this.setupMobilePagedListener();
-    this.setupScrollListeners();
-    this.setupSwipeGesture();
-    this.scheduleScrollCheck();
-  }
-
   ngOnDestroy(): void {
-    for (const cleanup of this.scrollListenerCleanups) cleanup();
-    this.swipeGesture?.destroy();
-    if (this.scrollCheckFrame) cancelAnimationFrame(this.scrollCheckFrame);
-    if (this.readerScrollFrame) cancelAnimationFrame(this.readerScrollFrame);
     this.readerHeader?.clearHandlers();
-  }
-
-  trackPage(_index: number, page: QuranPageResponse): number {
-    return page.page.number;
   }
 
   trackLine(_index: number, line: QuranLayoutLine): number {
@@ -193,213 +131,30 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     return `'QPCV2Page${page}', var(--km-font-arabic), 'UthmanicHafs', 'AmiriQuran', serif`;
   }
 
-  onIonScroll(): void {
-    if (this.isMobilePaged()) return;
-    this.scheduleScrollCheck();
-  }
-
-  onReaderScroll(event: Event): void {
-    if (!this.isMobilePaged()) return;
-
-    const scroller = event.currentTarget as HTMLElement | null;
-    if (!scroller || this.readerScrollFrame) return;
-
-    this.readerScrollFrame = requestAnimationFrame(() => {
-      this.readerScrollFrame = 0;
-      this.syncActivePageFromReaderScroll(scroller);
-    });
-  }
-
-  onWheel(event: Event): void {
-    this.handleWheelSwipe(event as WheelEvent);
-  }
-
-  onPointerSwipeStart(event: Event): void {
-    const e = event as PointerEvent;
-    if (e.pointerType === 'mouse' && e.button !== 0) return;
-    this.startSwipeFallback(e.clientX, e.clientY);
-  }
-
-  onPointerSwipeEnd(event: Event): void {
-    const e = event as PointerEvent;
-    this.finishSwipeFallback(e.clientX, e.clientY);
-  }
-
   onTouchSwipeStart(event: Event): void {
     const touch = (event as TouchEvent).changedTouches.item(0);
-    if (touch) this.startSwipeFallback(touch.clientX, touch.clientY);
+    if (!touch) return;
+    this.swipeStartX = touch.clientX;
+    this.swipeStartY = touch.clientY;
   }
 
   onTouchSwipeEnd(event: Event): void {
     const touch = (event as TouchEvent).changedTouches.item(0);
-    if (touch) this.finishSwipeFallback(touch.clientX, touch.clientY);
-  }
+    if (!touch || this.swipeStartX === null || this.swipeStartY === null) return;
 
-  cancelSwipeFallback(): void {
-    this.fallbackSwipeStartX = null;
-    this.fallbackSwipeStartY = null;
-  }
+    const deltaX = touch.clientX - this.swipeStartX;
+    const deltaY = touch.clientY - this.swipeStartY;
+    this.swipeStartX = null;
+    this.swipeStartY = null;
 
-  private handleWheelSwipe(event: WheelEvent): void {
-    if (!this.isMobilePaged()) return;
-    if (Math.abs(event.deltaX) < SWIPE_MIN_DISTANCE_PX || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
-
-    const now = Date.now();
-    if (now - this.lastWheelSwipeAt < WHEEL_SWIPE_COOLDOWN_MS) return;
-    this.lastWheelSwipeAt = now;
-    this.handleSwipeDelta(-event.deltaX, 0);
-  }
-
-  private handleSwipeDelta(deltaX: number, deltaY: number): void {
-    if (!this.isMobilePaged()) return;
     if (Math.abs(deltaX) < SWIPE_MIN_DISTANCE_PX || Math.abs(deltaY) > SWIPE_MAX_VERTICAL_DRIFT_PX) return;
-    const now = Date.now();
-    if (now - this.lastSwipeAt < WHEEL_SWIPE_COOLDOWN_MS) return;
-    this.lastSwipeAt = now;
-    if (deltaX > 0) {
-      void this.goToNextPage();
-    } else {
-      void this.goToPreviousPage();
-    }
+
+    void this.navigateByPage(deltaX > 0 ? 1 : -1);
   }
 
-  private startSwipeFallback(clientX: number, clientY: number): void {
-    if (!this.isMobilePaged()) return;
-    this.fallbackSwipeStartX = clientX;
-    this.fallbackSwipeStartY = clientY;
-    this.fallbackSwipeStartScrollLeft = this.mushafReaderEl?.scrollLeft ?? 0;
-  }
-
-  private finishSwipeFallback(clientX: number, clientY: number): void {
-    if (!this.isMobilePaged() || this.fallbackSwipeStartX === null || this.fallbackSwipeStartY === null) return;
-
-    const deltaX = clientX - this.fallbackSwipeStartX;
-    const deltaY = clientY - this.fallbackSwipeStartY;
-    this.cancelSwipeFallback();
-
-    const scroller = this.mushafReaderEl;
-    if (scroller && Math.abs(scroller.scrollLeft - this.fallbackSwipeStartScrollLeft) > 12) {
-      this.syncActivePageFromReaderScroll(scroller);
-      return;
-    }
-
-    this.handleSwipeDelta(deltaX, deltaY);
-  }
-
-  private setupSwipeGesture(): void {
-    if (!this.viewReady || !this.mushafReaderEl || this.swipeGesture) return;
-
-    this.swipeGesture = this.gestureCtrl.create({
-      el: this.mushafReaderEl,
-      gestureName: 'quran-page-swipe',
-      direction: 'x',
-      disableScroll: true,
-      gesturePriority: 50,
-      maxAngle: 40,
-      threshold: 12,
-      canStart: () => this.isMobilePaged() && !this.loading(),
-      onStart: () => {
-        this.gestureStartScrollLeft = this.mushafReaderEl?.scrollLeft ?? 0;
-      },
-      onEnd: (detail) => this.finishNativeSwipe(detail),
-    }, true);
-    this.swipeGesture.enable(true);
-  }
-
-  private finishNativeSwipe(detail: GestureDetail): void {
-    const scroller = this.mushafReaderEl;
-    if (scroller && Math.abs(scroller.scrollLeft - this.gestureStartScrollLeft) > 12) {
-      this.syncActivePageFromReaderScroll(scroller);
-      return;
-    }
-
-    this.handleSwipeDelta(detail.deltaX, detail.deltaY);
-  }
-
-  private syncActivePageFromReaderScroll(scroller: HTMLElement): void {
-    const pages = this.pages();
-    if (!pages.length || scroller.clientWidth <= 0) return;
-
-    const index = Math.max(0, Math.min(pages.length - 1, Math.round(scroller.scrollLeft / scroller.clientWidth)));
-    const page = pages[index];
-    if (!page || page.page.number === this.activePage()) return;
-
-    this.activePage.set(page.page.number);
-    this.activeStartPage.set(page.page.number);
-    this.syncActiveReferenceFromPage(page);
-
-    if (index >= pages.length - 2) void this.loadNextPages();
-    if (index <= 1) void this.loadPreviousPages();
-  }
-
-  private scrollActivePageIntoView(): void {
-    requestAnimationFrame(() => {
-      const root = this.host.nativeElement;
-      const page = root.querySelector<HTMLElement>('.mushaf-page--active');
-      if (!page) return;
-
-      const scroller = this.mushafReaderEl;
-      if (this.isMobilePaged() && scroller) {
-        scroller.scrollTo({ left: page.offsetLeft, behavior: 'smooth' });
-        return;
-      }
-
-      page.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-    });
-  }
-
-  async loadPreviousPages(): Promise<void> {
-    if (this.loadingMore() || !this.hasPreviousPages()) return;
-    this.loadingMore.set(true);
-    this.error.set(null);
-
-    const first = this.firstLoadedPage() ?? FIRST_PAGE;
-    const from = Math.max(FIRST_PAGE, first - PAGE_BATCH_SIZE);
-    const pageNumbers = this.range(from, first - 1);
-    const pagedScroller = this.isMobilePaged() ? this.mushafReaderEl : undefined;
-    const pagedScrollLeft = pagedScroller?.scrollLeft ?? 0;
-
-    try {
-      const loaded = await this.fetchPages(pageNumbers);
-      this.pages.set([...loaded, ...this.pages()]);
-      this.preservePagedScrollAfterPrepend(pagedScroller, pagedScrollLeft, loaded.length);
-      this.animateLoadedPages();
-    } catch (err) {
-      this.error.set(this.errorMessage(err, 'Failed to load previous pages'));
-    } finally {
-      this.loadingMore.set(false);
-      this.scheduleScrollCheck();
-    }
-  }
-
-  private preservePagedScrollAfterPrepend(scroller: HTMLElement | undefined, previousScrollLeft: number, prependedCount: number): void {
-    if (!scroller || prependedCount <= 0) return;
-
-    requestAnimationFrame(() => {
-      scroller.scrollLeft = previousScrollLeft + (prependedCount * scroller.clientWidth);
-      this.syncActivePageFromReaderScroll(scroller);
-    });
-  }
-
-  async loadNextPages(): Promise<void> {
-    if (this.loadingMore() || !this.hasMorePages()) return;
-    this.loadingMore.set(true);
-    this.error.set(null);
-
-    const last = this.lastLoadedPage() ?? 0;
-    const to = Math.min(LAST_PAGE, last + PAGE_BATCH_SIZE);
-    const pageNumbers = this.range(last + 1, to);
-
-    try {
-      const loaded = await this.fetchPages(pageNumbers);
-      this.pages.set([...this.pages(), ...loaded]);
-      this.animateLoadedPages();
-    } catch (err) {
-      this.error.set(this.errorMessage(err, 'Failed to load more pages'));
-    } finally {
-      this.loadingMore.set(false);
-      this.scheduleScrollCheck();
-    }
+  onSwipeCancel(): void {
+    this.swipeStartX = null;
+    this.swipeStartY = null;
   }
 
   async goToPage(raw: string): Promise<void> {
@@ -430,12 +185,39 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     await this.goToAyah(this.activeSurah(), verse);
   }
 
-  async goToPreviousPage(): Promise<void> {
-    await this.goToPagedPage(this.activePage() - 1, 'previous');
-  }
+  private async navigateByPage(delta: number): Promise<void> {
+    if (this.loading() || this.loadingMore()) return;
+    const target = this.clampPage(this.activePage() + delta);
+    if (target === this.activePage()) return;
 
-  async goToNextPage(): Promise<void> {
-    await this.goToPagedPage(this.activePage() + 1, 'next');
+    this.activePage.set(target);
+    this.activeStartPage.set(target);
+    void this.readerContent?.scrollToTop(0);
+
+    await this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: target },
+      queryParamsHandling: 'merge',
+    });
+
+    if (!this.pages().some((p) => p.page.number === target)) {
+      this.loadingMore.set(true);
+      try {
+        const loaded = await this.fetchPages([target]);
+        this.pages.update((current) => this.mergeIntoCache(current, loaded));
+      } catch (err) {
+        this.error.set(this.errorMessage(err, 'Failed to load page'));
+        return;
+      } finally {
+        this.loadingMore.set(false);
+      }
+    }
+
+    this.animateLoadedPages();
+    const page = this.pages().find((p) => p.page.number === target);
+    if (page) this.syncActiveReferenceFromPage(page);
+
+    void this.preloadPages(target);
   }
 
   private async loadInitialPages(): Promise<void> {
@@ -473,46 +255,27 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
       this.syncActiveReferenceFromPages(loaded);
     }
     this.animateLoadedPages(true);
-    this.scheduleScrollCheck();
+    void this.readerContent?.scrollToTop(0);
   }
 
-  private async goToPagedPage(page: number, direction: 'next' | 'previous'): Promise<void> {
-    if (this.loading() || this.loadingMore()) return;
+  private async preloadPages(aroundPage: number): Promise<void> {
+    if (this.loadingMore()) return;
+    const toLoad = this.range(aroundPage + 1, Math.min(LAST_PAGE, aroundPage + PAGE_BATCH_SIZE))
+      .filter((p) => !this.pages().some((cached) => cached.page.number === p));
+    if (!toLoad.length) return;
 
-    const targetPage = this.clampPage(page);
-    const currentPage = this.activePage();
-    if (targetPage === currentPage) return;
-
-    const previousPage = currentPage;
-    this.error.set(null);
-    this.activePage.set(targetPage);
-    this.activeStartPage.set(targetPage);
-
-    let pagePayload = this.pages().find((entry) => entry.page.number === targetPage) ?? null;
-    if (!pagePayload) {
-      this.loadingMore.set(true);
-      try {
-        const loaded = await this.fetchPages([targetPage]);
-        pagePayload = loaded[0] ?? null;
-        this.pages.set(this.mergePages(this.pages(), loaded));
-      } catch (err) {
-        this.activePage.set(previousPage);
-        this.activeStartPage.set(previousPage);
-        this.error.set(this.errorMessage(err, 'Failed to load page'));
-        return;
-      } finally {
-        this.loadingMore.set(false);
-      }
+    try {
+      const loaded = await this.fetchPages(toLoad);
+      this.pages.update((current) => this.mergeIntoCache(current, loaded));
+    } catch {
+      // Preload failure is silent — next navigate will fetch on demand.
     }
+  }
 
-    if (pagePayload) this.syncActiveReferenceFromPage(pagePayload);
-    await this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { page: targetPage, surah: null, startingVerse: null },
-      queryParamsHandling: 'merge',
-    });
-    this.scrollActivePageIntoView();
-    this.animateActivePage(direction);
+  private mergeIntoCache(current: QuranPageResponse[], incoming: QuranPageResponse[]): QuranPageResponse[] {
+    const map = new Map(current.map((p) => [p.page.number, p]));
+    for (const p of incoming) map.set(p.page.number, p);
+    return Array.from(map.values()).sort((a, b) => a.page.number - b.page.number);
   }
 
   private async resolveInitialPage(): Promise<number> {
@@ -598,20 +361,24 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     const normalized = this.normalizeSearch(query);
     if (!normalized) return null;
 
-    return this.surahs().find((surah) => {
-      const number = String(surah.surah);
-      return number === normalized
-        || this.normalizeSearch(surah.name_en ?? '') === normalized
-        || this.normalizeSearch(surah.meta.name_simple ?? '') === normalized
-        || surah.name_ar.includes(query.trim());
-    }) ?? null;
+    return (
+      this.surahs().find((surah) => {
+        const number = String(surah.surah);
+        return (
+          number === normalized ||
+          this.normalizeSearch(surah.name_en ?? '') === normalized ||
+          this.normalizeSearch(surah.meta.name_simple ?? '') === normalized ||
+          surah.name_ar.includes(query.trim())
+        );
+      }) ?? null
+    );
   }
 
   private normalizeSearch(value: string): string {
     return value
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/['’`-]/g, '')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/[''`-]/g, '')
       .trim()
       .toLowerCase();
   }
@@ -631,8 +398,9 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private async resolveSurahStartPage(surah: number): Promise<number> {
-    const page = this.surahs().find((item) => item.surah === surah)?.start_page
-      ?? await firstValueFrom(this.quranReader.resolveSurahStartPage(surah));
+    const page =
+      this.surahs().find((item) => item.surah === surah)?.start_page ??
+      (await firstValueFrom(this.quranReader.resolveSurahStartPage(surah)));
     return page ?? FIRST_PAGE;
   }
 
@@ -664,7 +432,8 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2');
+  src: url('/assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2'),
+       url('https://static-cdn.tarteel.ai/qul/fonts/quran_fonts/v2/woff2/p${page}.woff2?v=3.1') format('woff2');
 }`;
       doc.head.appendChild(style);
     }
@@ -710,143 +479,10 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private animateActivePage(direction: 'next' | 'previous'): void {
-    requestAnimationFrame(() => {
-      const root = this.host.nativeElement;
-      const page = root.querySelector<HTMLElement>('.mushaf-page--active');
-      if (!page) return;
-      gsap.killTweensOf(page);
-      gsap.fromTo(
-        page,
-        { autoAlpha: 0, x: direction === 'next' ? -28 : 28 },
-        { autoAlpha: 1, x: 0, duration: 0.24, ease: 'power2.out', clearProps: 'transform' },
-      );
-    });
-  }
-
-  private setupScrollListeners(): void {
-    const root = this.host.nativeElement;
-    const targets = new Set<EventTarget>();
-    const shellScroller = root.closest<HTMLElement>('.qrs-content');
-    const doc = globalThis.document;
-
-    if (shellScroller) targets.add(shellScroller);
-    if (globalThis.window) targets.add(globalThis.window);
-
-    const listener = () => this.scheduleScrollCheck();
-    for (const target of targets) {
-      target.addEventListener('scroll', listener, { passive: true });
-      this.scrollListenerCleanups.push(() => target.removeEventListener('scroll', listener));
-    }
-
-    if (doc) {
-      doc.addEventListener('scroll', listener, { capture: true, passive: true });
-      this.scrollListenerCleanups.push(() => doc.removeEventListener('scroll', listener, { capture: true }));
-    }
-  }
-
-  private setupMobilePagedListener(): void {
-    const query = globalThis.matchMedia?.(MOBILE_PAGED_QUERY);
-    if (!query) return;
-
-    this.mobilePaged.set(query.matches);
-    const listener = (event: MediaQueryListEvent) => {
-      this.mobilePaged.set(event.matches);
-      if (event.matches) {
-        this.scrollActivePageIntoView();
-        return;
-      }
-      this.scheduleScrollCheck();
-    };
-
-    query.addEventListener('change', listener);
-    this.scrollListenerCleanups.push(() => query.removeEventListener('change', listener));
-  }
-
-  private scheduleScrollCheck(): void {
-    if (this.scrollCheckFrame) return;
-    this.scrollCheckFrame = requestAnimationFrame(() => {
-      this.scrollCheckFrame = 0;
-      this.checkCurrentScrollPosition();
-    });
-  }
-
-  private checkCurrentScrollPosition(): void {
-    if (this.isMobilePaged()) return;
-
-    this.checkSentinelPositions();
-    void this.checkIonContentScrollPosition();
-    this.checkWindowScrollPosition();
-  }
-
-  private async checkIonContentScrollPosition(): Promise<void> {
-    const scrollEl = await this.readerContent?.getScrollElement();
-    if (scrollEl) this.checkElementScrollPosition(scrollEl);
-  }
-
-  private checkSentinelPositions(): void {
-    if (this.loading() || this.loadingMore()) return;
-
-    const viewportHeight = globalThis.window?.innerHeight ?? globalThis.document?.documentElement.clientHeight ?? 0;
-    const nextSentinel = this.loadMoreSentinel?.nativeElement;
-    if (nextSentinel && nextSentinel.getBoundingClientRect().top < viewportHeight + AUTO_LOAD_THRESHOLD_PX) {
-      void this.loadNextPages();
-      return;
-    }
-
-    const previousSentinel = this.loadPreviousSentinel?.nativeElement;
-    if (previousSentinel && previousSentinel.getBoundingClientRect().bottom > -AUTO_LOAD_THRESHOLD_PX) {
-      void this.loadPreviousPages();
-    }
-  }
-
-  private checkElementScrollPosition(el: HTMLElement): void {
-    if (this.loading() || this.loadingMore()) return;
-    if (el.scrollHeight <= el.clientHeight + 1) return;
-
-    const remainingBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
-    if (remainingBottom < AUTO_LOAD_THRESHOLD_PX) {
-      void this.loadNextPages();
-      return;
-    }
-
-    if (el.scrollTop < AUTO_LOAD_THRESHOLD_PX) void this.loadPreviousPages();
-  }
-
-  private checkWindowScrollPosition(): void {
-    if (this.loading() || this.loadingMore()) return;
-    const doc = globalThis.document?.documentElement;
-    const viewportHeight = globalThis.window?.innerHeight ?? doc?.clientHeight ?? 0;
-    if (!doc || doc.scrollHeight <= viewportHeight + 1) return;
-
-    const scrollTop = globalThis.window?.scrollY ?? doc.scrollTop;
-    const remainingBottom = doc.scrollHeight - scrollTop - viewportHeight;
-    if (remainingBottom < AUTO_LOAD_THRESHOLD_PX) {
-      void this.loadNextPages();
-      return;
-    }
-    if (scrollTop < AUTO_LOAD_THRESHOLD_PX) void this.loadPreviousPages();
-  }
-
   private range(from: number, to: number): number[] {
     const out: number[] = [];
     for (let page = from; page <= to; page++) out.push(page);
     return out;
-  }
-
-  private mergePages(current: QuranPageResponse[], incoming: QuranPageResponse[]): QuranPageResponse[] {
-    const pages = new Map<number, QuranPageResponse>();
-    for (const page of current) pages.set(page.page.number, page);
-    for (const page of incoming) pages.set(page.page.number, page);
-    return Array.from(pages.values()).sort((a, b) => a.page.number - b.page.number);
-  }
-
-  private isMobilePaged(): boolean {
-    return this.mobilePaged();
-  }
-
-  private getMobilePagedMatches(): boolean {
-    return globalThis.matchMedia?.(MOBILE_PAGED_QUERY).matches ?? false;
   }
 
   private clampPage(value: number): number {

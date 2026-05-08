@@ -2,12 +2,15 @@
   #readerContent
   class="al-quran-content"
   [fullscreen]="false"
-  [scrollEvents]="true"
   [scrollX]="false"
-  [scrollY]="!mobilePaged()"
-  (ionScroll)="onIonScroll()"
+  [scrollY]="true"
 >
-  <div class="al-quran-page" (wheel.passive)="onWheel($event)">
+  <div
+    class="al-quran-page"
+    (touchstart.passive)="onTouchSwipeStart($event)"
+    (touchend.passive)="onTouchSwipeEnd($event)"
+    (touchcancel.passive)="onSwipeCancel()"
+  >
     <div class="al-quran-page__inner">
       @if (loading()) {
         <div class="state-message">
@@ -23,25 +26,16 @@
       }
 
       @if (!loading() && !error()) {
-        <main
-          #mushafReader
-          class="mushaf-reader"
-          (scroll.passive)="onReaderScroll($event)"
-          (pointerdown.passive)="onPointerSwipeStart($event)"
-          (pointerup.passive)="onPointerSwipeEnd($event)"
-          (pointercancel.passive)="cancelSwipeFallback()"
-          (touchstart.passive)="onTouchSwipeStart($event)"
-          (touchend.passive)="onTouchSwipeEnd($event)"
-          (touchcancel.passive)="cancelSwipeFallback()"
-        >
-          @if (hasPreviousPages()) {
-            <div class="load-page-sentinel" #loadPreviousSentinel aria-hidden="true"></div>
-          }
+        @if (loadingMore()) {
+          <div class="state-message state-message--inline">
+            <div class="state-message__spinner"></div>
+          </div>
+        }
 
-          @for (page of pages(); track trackPage($index, page)) {
+        @if (!loadingMore() && activePageData(); as page) {
+          <main class="mushaf-reader">
             <article
               class="mushaf-page"
-              [class.mushaf-page--active]="page.page.number === activePage()"
               [attr.id]="'quran-page-' + page.page.number"
               [style.--mushaf-font]="mushafFont(page.page.number)"
             >
@@ -82,22 +76,8 @@
                 <span class="mushaf-page__divider"></span>
               </footer>
             </article>
-          }
-
-          @if (loadingMore()) {
-            <div class="state-message state-message--inline">
-              <div class="state-message__spinner"></div>
-            </div>
-          }
-
-          @if (hasMorePages()) {
-            <div class="load-page-sentinel" #loadMoreSentinel aria-hidden="true"></div>
-          }
-
-          @if (!hasMorePages()) {
-            <div class="reader-end">تم</div>
-          }
-        </main>
+          </main>
+        }
       }
     </div>
   </div>
