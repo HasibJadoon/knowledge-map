@@ -2,12 +2,15 @@
   #readerContent
   class="al-quran-content"
   [fullscreen]="false"
-  [scrollEvents]="true"
   [scrollX]="false"
   [scrollY]="true"
-  (ionScroll)="onIonScroll()"
 >
-  <div class="al-quran-page">
+  <div
+    class="al-quran-page"
+    (touchstart.passive)="onTouchSwipeStart($event)"
+    (touchend.passive)="onTouchSwipeEnd($event)"
+    (touchcancel.passive)="onSwipeCancel()"
+  >
     <div class="al-quran-page__inner">
       @if (loading()) {
         <div class="state-message">
@@ -23,17 +26,14 @@
       }
 
       @if (!loading() && !error()) {
-        @if (hasPreviousPages()) {
-          <div class="load-page-sentinel" #loadPreviousSentinel aria-hidden="true"></div>
+        @if (loadingMore()) {
+          <div class="state-message state-message--inline">
+            <div class="state-message__spinner"></div>
+          </div>
         }
 
-        <main
-          class="mushaf-reader"
-          (touchstart.passive)="onTouchSwipeStart($event)"
-          (touchend.passive)="onTouchSwipeEnd($event)"
-          (touchcancel.passive)="onSwipeCancel()"
-        >
-          @for (page of pages(); track trackPage($index, page)) {
+        @if (!loadingMore() && activePageData(); as page) {
+          <main class="mushaf-reader">
             <article
               class="mushaf-page"
               [attr.id]="'quran-page-' + page.page.number"
@@ -76,21 +76,7 @@
                 <span class="mushaf-page__divider"></span>
               </footer>
             </article>
-          }
-        </main>
-
-        @if (loadingMore()) {
-          <div class="state-message state-message--inline">
-            <div class="state-message__spinner"></div>
-          </div>
-        }
-
-        @if (hasMorePages()) {
-          <div class="load-page-sentinel" #loadMoreSentinel aria-hidden="true"></div>
-        }
-
-        @if (!hasMorePages()) {
-          <div class="reader-end">تم</div>
+          </main>
         }
       }
     </div>
