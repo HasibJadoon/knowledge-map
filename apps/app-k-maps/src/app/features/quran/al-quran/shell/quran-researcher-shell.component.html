@@ -1,32 +1,56 @@
 <ion-header class="qrs-header" [translucent]="false">
   <ion-toolbar class="qrs-toolbar">
     <ion-buttons slot="start">
-      <ion-button aria-label="Home" (click)="goHome()">
+      <ion-button class="qrs-icon-btn" aria-label="Home" (click)="goHome()">
         <span class="qrs-grid-icon" aria-hidden="true">▦</span>
       </ion-button>
     </ion-buttons>
+
     <ion-title>
       <span class="qrs-title">K-MAPS</span>
       <span class="qrs-subtitle">Quran Researcher</span>
     </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button
+        class="qrs-icon-btn"
+        [attr.aria-label]="searchOpen() ? 'Close search' : 'Search'"
+        (click)="toggleSearch()"
+      >
+        <ion-icon [name]="searchOpen() ? 'close-outline' : 'search-outline'" slot="icon-only" />
+      </ion-button>
+
+      @if (readerHeader.visible() && currentTab() === 'al-quran') {
+        <ion-button
+          class="qrs-icon-btn"
+          [attr.aria-label]="navOpen() ? 'Close navigation' : 'Navigate'"
+          (click)="toggleNav()"
+        >
+          <ion-icon [name]="navOpen() ? 'chevron-up-outline' : 'options-outline'" slot="icon-only" />
+        </ion-button>
+      }
+    </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar class="qrs-search-toolbar">
-    <ion-searchbar
-      class="qrs-searchbar"
-      [class.qrs-searchbar--focused]="searchFocused()"
-      mode="md"
-      inputmode="search"
-      [placeholder]="searchFocused() ? '' : 'بحث'"
-      [debounce]="120"
-      [value]="search.searchTerm()"
-      (ionInput)="setSearch($event.detail.value)"
-      (ionFocus)="setSearchFocused(true)"
-      (ionBlur)="setSearchFocused(false)"
-    />
-  </ion-toolbar>
+  @if (searchOpen()) {
+    <ion-toolbar class="qrs-search-toolbar">
+      <ion-searchbar
+        #searchbarRef
+        class="qrs-searchbar"
+        [class.qrs-searchbar--focused]="searchFocused()"
+        mode="md"
+        inputmode="search"
+        [placeholder]="searchFocused() ? '' : 'بحث'"
+        [debounce]="120"
+        [value]="search.searchTerm()"
+        (ionInput)="setSearch($event.detail.value)"
+        (ionFocus)="setSearchFocused(true)"
+        (ionBlur)="setSearchFocused(false)"
+      />
+    </ion-toolbar>
+  }
 
-  @if (readerHeader.visible() && currentTab() === 'al-quran') {
+  @if (navOpen() && readerHeader.visible() && currentTab() === 'al-quran') {
     <ion-toolbar class="qrs-reader-toolbar">
       <div class="qrs-reader-controls" aria-label="Quran navigation" dir="rtl">
         <label class="qrs-reader-control">

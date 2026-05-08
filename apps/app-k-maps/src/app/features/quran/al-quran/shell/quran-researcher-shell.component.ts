@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, ViewChild, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonSearchbar } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { QuranResearchSearchService } from '../quran-research-search.service';
 import { QuranReaderHeaderService } from '../reader/quran-reader-header.service';
@@ -24,10 +24,14 @@ export class QuranResearcherShellComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly routerEventsSub: Subscription;
 
+  @ViewChild('searchbarRef') searchbarRef?: IonSearchbar;
+
   readonly search = inject(QuranResearchSearchService);
   readonly readerHeader = inject(QuranReaderHeaderService);
   readonly currentTab = signal('al-quran');
   readonly searchFocused = signal(false);
+  readonly searchOpen = signal(false);
+  readonly navOpen = signal(false);
 
   readonly tabs: ResearchTab[] = [
     { id: 'al-quran', labelAr: 'قرآن',  href: '/quran/al-quran' },
@@ -46,6 +50,20 @@ export class QuranResearcherShellComponent implements OnDestroy {
 
   goHome(): void {
     this.router.navigateByUrl('/home');
+  }
+
+  toggleSearch(): void {
+    const opening = !this.searchOpen();
+    this.searchOpen.set(opening);
+    if (!opening) {
+      this.search.setSearch('');
+    } else {
+      setTimeout(() => void this.searchbarRef?.setFocus(), 80);
+    }
+  }
+
+  toggleNav(): void {
+    this.navOpen.update((v) => !v);
   }
 
   setSearch(value: string | null | undefined): void {

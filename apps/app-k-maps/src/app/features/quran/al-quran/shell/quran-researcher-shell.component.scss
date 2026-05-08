@@ -25,6 +25,17 @@
   --min-height: 2.85rem;
 }
 
+.qrs-icon-btn {
+  --color: #d9bd62;
+  --padding-start: 0.45rem;
+  --padding-end: 0.45rem;
+  font-size: 1.18rem;
+}
+
+.qrs-icon-btn ion-icon {
+  font-size: 1.22rem;
+}
+
 .qrs-search-toolbar {
   --min-height: 2.95rem;
   padding: 0 0.45rem 0.18rem;
