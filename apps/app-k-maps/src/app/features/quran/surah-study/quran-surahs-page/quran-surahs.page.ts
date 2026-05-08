@@ -138,6 +138,6 @@ export class QuranSurahsPage implements OnInit, AfterViewInit {
   }
 
   navigateToSurah(surahId: number): void {
-    this.router.navigate(['/quran', 'sura', surahId]);
+    this.router.navigate(['/quran', surahId]);
   }
 }
