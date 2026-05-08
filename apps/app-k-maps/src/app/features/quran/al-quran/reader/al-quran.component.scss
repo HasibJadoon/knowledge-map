@@ -217,7 +217,10 @@
   font-size: 0.92em;
   color: #c9a84c;
   vertical-align: middle;
-  margin: 0 0.16em;
+  // Negative right margin absorbs the space character added by quran-word::after
+  // so the marker sits flush against the preceding word
+  margin-right: -0.28em;
+  margin-left: 0.14em;
   user-select: none;
   letter-spacing: 0;
   line-height: 1;
@@ -305,11 +308,11 @@
   }
 
   .al-quran-page {
-    padding: 0.55rem 0.65rem 3rem;
+    // Extra right padding: RTL text starts from the right; diacritics on the
+    // first character of each line need breathing room or they get clipped.
+    padding: 0.55rem 1.1rem 3rem 0.55rem;
   }
 
-  // Remove inner mushaf-page side padding on mobile — every pixel of width
-  // helps QPC V2 typeset lines (which can be very wide) fit without clipping
   .mushaf-page {
     padding-inline: 0;
   }
