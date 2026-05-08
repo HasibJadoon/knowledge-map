@@ -27,7 +27,12 @@
           <div class="load-page-sentinel" #loadPreviousSentinel aria-hidden="true"></div>
         }
 
-        <main class="mushaf-reader">
+        <main
+          class="mushaf-reader"
+          (touchstart.passive)="onTouchSwipeStart($event)"
+          (touchend.passive)="onTouchSwipeEnd($event)"
+          (touchcancel.passive)="onSwipeCancel()"
+        >
           @for (page of pages(); track trackPage($index, page)) {
             <article
               class="mushaf-page"

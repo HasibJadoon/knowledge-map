@@ -31,6 +31,8 @@ const LAST_PAGE = 604;
 const PAGE_BATCH_SIZE = 4;
 const MUSHAF_LAYOUT = 'qpc-v2-15-lines';
 const AUTO_LOAD_THRESHOLD_PX = 900;
+const SWIPE_MIN_DISTANCE_PX = 48;
+const SWIPE_MAX_VERTICAL_DRIFT_PX = 80;
 
 @Component({
   selector: 'app-al-quran',
@@ -50,6 +52,8 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly loadedPageFonts = new Set<number>();
   private readonly scrollListenerCleanups: Array<() => void> = [];
   private scrollCheckFrame = 0;
+  private swipeStartX: number | null = null;
+  private swipeStartY: number | null = null;
   private loadPreviousSentinel?: ElementRef<HTMLElement>;
   private loadMoreSentinel?: ElementRef<HTMLElement>;
   private readerContent?: IonContent;
@@ -163,6 +167,45 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onIonScroll(): void {
     this.scheduleScrollCheck();
+  }
+
+  onTouchSwipeStart(event: Event): void {
+    const touch = (event as TouchEvent).changedTouches.item(0);
+    if (!touch) return;
+    this.swipeStartX = touch.clientX;
+    this.swipeStartY = touch.clientY;
+  }
+
+  onTouchSwipeEnd(event: Event): void {
+    const touch = (event as TouchEvent).changedTouches.item(0);
+    if (!touch || this.swipeStartX === null || this.swipeStartY === null) return;
+
+    const deltaX = touch.clientX - this.swipeStartX;
+    const deltaY = touch.clientY - this.swipeStartY;
+    this.swipeStartX = null;
+    this.swipeStartY = null;
+
+    if (Math.abs(deltaX) < SWIPE_MIN_DISTANCE_PX || Math.abs(deltaY) > SWIPE_MAX_VERTICAL_DRIFT_PX) return;
+
+    void this.navigateByPage(deltaX > 0 ? 1 : -1);
+  }
+
+  onSwipeCancel(): void {
+    this.swipeStartX = null;
+    this.swipeStartY = null;
+  }
+
+  private async navigateByPage(delta: number): Promise<void> {
+    if (this.loading() || this.loadingMore()) return;
+    const target = this.clampPage(this.activePage() + delta);
+    if (target === this.activePage()) return;
+    this.activePage.set(target);
+    await this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: target },
+      queryParamsHandling: 'merge',
+    });
+    await this.loadFromPage(target);
   }
 
   async loadPreviousPages(): Promise<void> {
