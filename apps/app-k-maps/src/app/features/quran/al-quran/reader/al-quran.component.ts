@@ -664,7 +664,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2');
+  src: url('/assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2');
 }`;
       doc.head.appendChild(style);
     }
