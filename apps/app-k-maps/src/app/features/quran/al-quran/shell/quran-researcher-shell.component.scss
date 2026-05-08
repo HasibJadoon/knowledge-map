@@ -14,14 +14,10 @@
   box-shadow: 0 1px 0 rgba(201, 168, 76, 0.24), 0 10px 28px rgba(0, 0, 0, 0.42);
 }
 
-.qrs-toolbar,
-.qrs-search-toolbar {
+.qrs-toolbar {
   --background: #090806;
   --color: #f5f1e7;
   --border-color: rgba(201, 168, 76, 0.18);
-}
-
-.qrs-toolbar {
   --min-height: 2.85rem;
 }
 
@@ -36,17 +32,6 @@
   font-size: 1.22rem;
 }
 
-.qrs-search-toolbar {
-  --min-height: 2.95rem;
-  padding: 0 0.45rem 0.18rem;
-}
-
-.qrs-reader-toolbar {
-  --background: #050505;
-  --border-color: rgba(201, 168, 76, 0.2);
-  --min-height: 2.72rem;
-  padding: 0.1rem 0.45rem 0.28rem;
-}
 
 .qrs-searchbar {
   --background: rgba(255, 255, 255, 0.055);
@@ -254,6 +239,35 @@
   white-space: nowrap;
 }
 
+// ── Bottom sheet modals ───────────────────────────────────────────────────────
+.qrs-search-modal,
+.qrs-nav-modal {
+  --background: #0a0908;
+  --ion-backdrop-opacity: 0.42;
+}
+
+.qrs-search-modal::part(handle),
+.qrs-nav-modal::part(handle) {
+  background: rgba(201, 168, 76, 0.38);
+  width: 2.4rem;
+  height: 3px;
+  margin-top: 0.55rem;
+}
+
+.qrs-modal-body {
+  background: #0a0908;
+  padding: 0.65rem 1rem 1.2rem;
+}
+
+.qrs-modal-body--search {
+  padding-top: 0.5rem;
+  padding-bottom: 0.85rem;
+}
+
+.qrs-modal-body--nav {
+  padding-top: 0.75rem;
+}
+
 @media (min-width: 760px) {
   .qrs-reader-controls {
     grid-template-columns: minmax(14rem, 18rem) 6.5rem 6.5rem;
@@ -297,18 +311,6 @@
 
   .qrs-subtitle {
     display: none;
-  }
-
-  // Hide search bar in landscape to reclaim vertical space;
-  // user can still navigate via the reader controls
-  .qrs-search-toolbar {
-    display: none;
-  }
-
-  // Compact reader controls row
-  .qrs-reader-toolbar {
-    --min-height: 2.2rem;
-    padding: 0.05rem 0.36rem 0.15rem;
   }
 
   .qrs-reader-controls {

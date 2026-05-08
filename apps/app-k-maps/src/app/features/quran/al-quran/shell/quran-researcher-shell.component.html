@@ -14,44 +14,63 @@
     <ion-buttons slot="end">
       <ion-button
         class="qrs-icon-btn"
-        [attr.aria-label]="searchOpen() ? 'Close search' : 'Search'"
+        aria-label="Search"
         (click)="toggleSearch()"
       >
-        <ion-icon [name]="searchOpen() ? 'close-outline' : 'search-outline'" slot="icon-only" />
+        <ion-icon name="search-outline" slot="icon-only" />
       </ion-button>
 
       @if (readerHeader.visible() && currentTab() === 'al-quran') {
         <ion-button
           class="qrs-icon-btn"
-          [attr.aria-label]="navOpen() ? 'Close navigation' : 'Navigate'"
+          aria-label="Navigate"
           (click)="toggleNav()"
         >
-          <ion-icon [name]="navOpen() ? 'chevron-up-outline' : 'options-outline'" slot="icon-only" />
+          <ion-icon name="options-outline" slot="icon-only" />
         </ion-button>
       }
     </ion-buttons>
   </ion-toolbar>
+</ion-header>
 
-  @if (searchOpen()) {
-    <ion-toolbar class="qrs-search-toolbar">
+<!-- Search bottom sheet -->
+<ion-modal
+  class="qrs-search-modal"
+  [isOpen]="searchOpen()"
+  [breakpoints]="[0, 0.3]"
+  [initialBreakpoint]="0.3"
+  [handle]="true"
+  [backdropDismiss]="true"
+  (ionModalDidDismiss)="closeSearch()"
+  (ionModalDidPresent)="onSearchModalPresent()"
+>
+  <ng-template>
+    <div class="qrs-modal-body qrs-modal-body--search">
       <ion-searchbar
-        #searchbarRef
-        class="qrs-searchbar"
-        [class.qrs-searchbar--focused]="searchFocused()"
+        class="qrs-searchbar qrs-modal-searchbar"
         mode="md"
         inputmode="search"
-        [placeholder]="searchFocused() ? '' : 'بحث'"
+        placeholder="بحث"
         [debounce]="120"
         [value]="search.searchTerm()"
         (ionInput)="setSearch($event.detail.value)"
-        (ionFocus)="setSearchFocused(true)"
-        (ionBlur)="setSearchFocused(false)"
       />
-    </ion-toolbar>
-  }
+    </div>
+  </ng-template>
+</ion-modal>
 
-  @if (navOpen() && readerHeader.visible() && currentTab() === 'al-quran') {
-    <ion-toolbar class="qrs-reader-toolbar">
+<!-- Navigation bottom sheet -->
+<ion-modal
+  class="qrs-nav-modal"
+  [isOpen]="navOpen()"
+  [breakpoints]="[0, 0.3]"
+  [initialBreakpoint]="0.3"
+  [handle]="true"
+  [backdropDismiss]="true"
+  (ionModalDidDismiss)="closeNav()"
+>
+  <ng-template>
+    <div class="qrs-modal-body qrs-modal-body--nav">
       <div class="qrs-reader-controls" aria-label="Quran navigation" dir="rtl">
         <label class="qrs-reader-control">
           <span>سورة</span>
@@ -91,9 +110,9 @@
           />
         </label>
       </div>
-    </ion-toolbar>
-  }
-</ion-header>
+    </div>
+  </ng-template>
+</ion-modal>
 
 <ion-tabs class="qrs-tabs-shell">
   <ion-router-outlet class="qrs-content" />

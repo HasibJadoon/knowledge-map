@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, ViewChild, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { IonicModule, IonSearchbar } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { QuranResearchSearchService } from '../quran-research-search.service';
 import { QuranReaderHeaderService } from '../reader/quran-reader-header.service';
@@ -24,12 +24,9 @@ export class QuranResearcherShellComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly routerEventsSub: Subscription;
 
-  @ViewChild('searchbarRef') searchbarRef?: IonSearchbar;
-
   readonly search = inject(QuranResearchSearchService);
   readonly readerHeader = inject(QuranReaderHeaderService);
   readonly currentTab = signal('al-quran');
-  readonly searchFocused = signal(false);
   readonly searchOpen = signal(false);
   readonly navOpen = signal(false);
 
@@ -53,25 +50,31 @@ export class QuranResearcherShellComponent implements OnDestroy {
   }
 
   toggleSearch(): void {
-    const opening = !this.searchOpen();
-    this.searchOpen.set(opening);
-    if (!opening) {
-      this.search.setSearch('');
-    } else {
-      setTimeout(() => void this.searchbarRef?.setFocus(), 80);
-    }
+    this.searchOpen.set(!this.searchOpen());
   }
 
   toggleNav(): void {
     this.navOpen.update((v) => !v);
   }
 
-  setSearch(value: string | null | undefined): void {
-    this.search.setSearch(value);
+  closeSearch(): void {
+    this.searchOpen.set(false);
+    this.search.setSearch('');
   }
 
-  setSearchFocused(focused: boolean): void {
-    this.searchFocused.set(focused);
+  closeNav(): void {
+    this.navOpen.set(false);
+  }
+
+  onSearchModalPresent(): void {
+    setTimeout(() => {
+      const sb: any = document.querySelector('.qrs-modal-searchbar');
+      sb?.setFocus?.();
+    }, 100);
+  }
+
+  setSearch(value: string | null | undefined): void {
+    this.search.setSearch(value);
   }
 
   openTab(tab: ResearchTab, event?: Event): void {
@@ -89,6 +92,8 @@ export class QuranResearcherShellComponent implements OnDestroy {
     const path = url.split('?')[0];
     // Match longest href first so '/quran/al-quran/tafseer' beats '/quran/al-quran'
     const match = this.tabs.slice().reverse().find((tab) => path.startsWith(tab.href));
-    this.currentTab.set(match?.id ?? 'al-quran');
+    const newTab = match?.id ?? 'al-quran';
+    if (newTab !== 'al-quran') this.navOpen.set(false);
+    this.currentTab.set(newTab);
   }
 }
