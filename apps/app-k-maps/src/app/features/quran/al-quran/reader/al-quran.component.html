@@ -1,4 +1,20 @@
-<div class="al-quran-page" (scroll)="onScroll($event)">
+<div
+  #readerPage
+  class="al-quran-page"
+  (scroll)="onScroll($event)"
+  (pointerdown)="onPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="onPointerUp($event)"
+  (pointercancel)="cancelSwipe()"
+  (mousedown)="onMouseDown($event)"
+  (mousemove)="onMouseMove($event)"
+  (mouseup)="onMouseUp($event)"
+  (touchstart)="onTouchStart($event)"
+  (touchmove)="onTouchMove($event)"
+  (touchend)="onTouchEnd($event)"
+  (touchcancel)="cancelSwipe()"
+  (wheel)="onWheel($event)"
+>
   <div class="al-quran-page__inner">
     @if (loading()) {
       <div class="state-message">

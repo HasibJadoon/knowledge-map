@@ -294,6 +294,7 @@
     min-height: 0;
     overflow: hidden;
     padding: 0.45rem 0.45rem 0.55rem;
+    touch-action: none;
   }
 
   .al-quran-page__inner {
@@ -338,7 +339,7 @@
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
+    touch-action: none;
     user-select: none;
   }
 

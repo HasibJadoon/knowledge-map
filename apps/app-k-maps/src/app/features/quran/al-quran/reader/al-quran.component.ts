@@ -12,6 +12,8 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GestureController } from '@ionic/angular';
+import type { Gesture } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
 import {
@@ -49,6 +51,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly quranReader = inject(QuranReaderService);
   private readonly researchSearch = inject(QuranResearchSearchService, { optional: true });
   private readonly readerHeader = inject(QuranReaderHeaderService, { optional: true });
+  private readonly gestureCtrl = inject(GestureController);
   private readonly host: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly loadedPageFonts = new Set<number>();
   private readonly scrollListenerCleanups: Array<() => void> = [];
@@ -58,9 +61,13 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private pointerStartX: number | null = null;
   private pointerStartY: number | null = null;
   private swipeHandled = false;
+  private lastSwipeAt = 0;
   private lastWheelSwipeAt = 0;
   private loadPreviousSentinel?: ElementRef<HTMLElement>;
   private loadMoreSentinel?: ElementRef<HTMLElement>;
+  private readerPageEl?: HTMLElement;
+  private swipeGesture?: Gesture;
+  private viewReady = false;
 
   @ViewChild('loadPreviousSentinel')
   set loadPreviousSentinelRef(element: ElementRef<HTMLElement> | undefined) {
@@ -74,11 +81,15 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scheduleScrollCheck();
   }
 
-  @ViewChild('mushafReader')
-  set mushafReaderRef(element: ElementRef<HTMLElement> | undefined) {
+  @ViewChild('readerPage')
+  set readerPageRef(element: ElementRef<HTMLElement> | undefined) {
+    this.swipeGesture?.destroy();
+    this.swipeGesture = undefined;
     this.clearSwipeListeners();
-    if (!element) return;
-    this.setupSwipeListeners(element.nativeElement);
+    this.readerPageEl = element?.nativeElement;
+    if (!this.readerPageEl) return;
+    this.setupSwipeListeners(this.readerPageEl);
+    this.setupSwipeGesture();
   }
 
   readonly surahs = signal<QuranBrowseSurah[]>([]);
@@ -142,12 +153,15 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.viewReady = true;
     this.setupScrollListeners();
+    this.setupSwipeGesture();
     this.scheduleScrollCheck();
   }
 
   ngOnDestroy(): void {
     for (const cleanup of this.scrollListenerCleanups) cleanup();
+    this.swipeGesture?.destroy();
     this.clearSwipeListeners();
     if (this.scrollCheckFrame) cancelAnimationFrame(this.scrollCheckFrame);
     if (this.readerScrollFrame) cancelAnimationFrame(this.readerScrollFrame);
@@ -235,6 +249,16 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moveSwipe(touch.clientX, touch.clientY);
   }
 
+  onWheel(event: WheelEvent): void {
+    this.handleWheelSwipe(event);
+  }
+
+  cancelSwipe(): void {
+    this.pointerStartX = null;
+    this.pointerStartY = null;
+    this.swipeHandled = false;
+  }
+
   private startSwipe(clientX: number, clientY: number): void {
     if (!this.isMobilePaged()) return;
     this.pointerStartX = clientX;
@@ -278,11 +302,31 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private handleSwipeDelta(deltaX: number, deltaY: number): void {
     if (!this.isMobilePaged()) return;
     if (Math.abs(deltaX) < SWIPE_MIN_DISTANCE_PX || Math.abs(deltaY) > SWIPE_MAX_VERTICAL_DRIFT_PX) return;
+    const now = Date.now();
+    if (now - this.lastSwipeAt < WHEEL_SWIPE_COOLDOWN_MS) return;
+    this.lastSwipeAt = now;
     if (deltaX < 0) {
       void this.goToNextPage();
     } else {
       void this.goToPreviousPage();
     }
+  }
+
+  private setupSwipeGesture(): void {
+    if (!this.viewReady || !this.readerPageEl || this.swipeGesture) return;
+
+    this.swipeGesture = this.gestureCtrl.create({
+      el: this.readerPageEl,
+      gestureName: 'quran-page-swipe',
+      direction: 'x',
+      disableScroll: true,
+      gesturePriority: 50,
+      maxAngle: 40,
+      threshold: 12,
+      canStart: () => this.isMobilePaged(),
+      onEnd: (detail) => this.handleSwipeDelta(detail.deltaX, detail.deltaY),
+    }, true);
+    this.swipeGesture.enable(true);
   }
 
   private setupSwipeListeners(el: HTMLElement): void {
@@ -532,7 +576,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     const pageParam = Number(query.get('page'));
     if (Number.isFinite(pageParam) && pageParam > 0) return this.clampPage(pageParam);
 
-    const routeSurah = this.route.snapshot.paramMap.get('surahId');
+    const routeSurah = this.route.snapshot.paramMap.get('surahId') ?? this.route.parent?.snapshot.paramMap.get('surahId');
     const surahParam = Number(query.get('surah') ?? query.get('sura') ?? query.get('chapter') ?? routeSurah);
     const verseParam = Number(query.get('startingVerse') ?? query.get('ayah') ?? query.get('verse'));
     const surah = this.clampSurah(surahParam || FIRST_PAGE);

@@ -51,6 +51,13 @@ export class QuranResearcherShellComponent implements OnDestroy {
     this.search.setSearch(value);
   }
 
+  openTab(routePath: string, event?: Event): void {
+    event?.preventDefault();
+    event?.stopPropagation();
+    this.currentTab.set(this.tabs.find((tab) => tab.routePath === routePath)?.id ?? 'al-quran');
+    void this.router.navigateByUrl(`/quran/${routePath}`);
+  }
+
   ngOnDestroy(): void {
     this.routerEventsSub.unsubscribe();
   }
