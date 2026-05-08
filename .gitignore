@@ -53,6 +53,10 @@ database/seeds/chunks/
 .env.*
 .dev.vars
 
+# Local font assets (large binary directories, served from local dev only)
+apps/k-maps/src/assets/fonts/QPC V2 Font.woff2/
+apps/app-k-maps/src/assets/fonts/QPC V2 Font.woff2/
+
 # Editors/OS
 .DS_Store
 Thumbs.db
