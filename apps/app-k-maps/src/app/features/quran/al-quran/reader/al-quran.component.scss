@@ -305,34 +305,40 @@
   }
 
   .al-quran-page {
-    padding: 0.55rem 0.75rem 3rem;
+    padding: 0.55rem 0.65rem 3rem;
+  }
+
+  // Remove inner mushaf-page side padding on mobile — every pixel of width
+  // helps QPC V2 typeset lines (which can be very wide) fit without clipping
+  .mushaf-page {
+    padding-inline: 0;
   }
 
   .mushaf-line--ayah {
-    font-size: clamp(1.1rem, 6.2vw, 2rem);
+    font-size: clamp(1.0rem, 5.5vw, 1.8rem);
     line-height: 2.1;
   }
 
   .mushaf-line--surah {
-    font-size: clamp(1.9rem, 8.5vw, 3rem);
+    font-size: clamp(1.7rem, 7.8vw, 2.8rem);
   }
 
   .mushaf-line--basmallah {
-    font-size: clamp(1.1rem, 5.2vw, 1.8rem);
+    font-size: clamp(1.0rem, 4.8vw, 1.6rem);
   }
 }
 
 @media (max-width: 380px) {
   .mushaf-line--ayah {
-    font-size: clamp(1.0rem, 5.8vw, 1.8rem);
+    font-size: clamp(0.95rem, 5.2vw, 1.6rem);
   }
 
   .mushaf-line--surah {
-    font-size: clamp(1.7rem, 8vw, 2.6rem);
+    font-size: clamp(1.5rem, 7.5vw, 2.4rem);
   }
 
   .mushaf-line--basmallah {
-    font-size: clamp(1.0rem, 4.8vw, 1.5rem);
+    font-size: clamp(0.9rem, 4.5vw, 1.4rem);
   }
 }
 
