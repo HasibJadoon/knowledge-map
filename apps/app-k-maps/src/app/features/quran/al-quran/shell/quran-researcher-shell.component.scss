@@ -268,3 +268,72 @@
     font-size: 0.78rem;
   }
 }
+
+// ── Landscape / horizontal mode ───────────────────────────────────────────────
+@media (orientation: landscape) and (max-height: 520px) {
+  :host {
+    --qrs-tabbar-height: calc(2.4rem + var(--ion-safe-area-bottom, 0px));
+  }
+
+  // Collapse main toolbar
+  .qrs-toolbar {
+    --min-height: 2rem;
+  }
+
+  .qrs-title {
+    font-size: 0.78rem;
+  }
+
+  .qrs-subtitle {
+    display: none;
+  }
+
+  // Hide search bar in landscape to reclaim vertical space;
+  // user can still navigate via the reader controls
+  .qrs-search-toolbar {
+    display: none;
+  }
+
+  // Compact reader controls row
+  .qrs-reader-toolbar {
+    --min-height: 2.2rem;
+    padding: 0.05rem 0.36rem 0.15rem;
+  }
+
+  .qrs-reader-controls {
+    grid-template-columns: minmax(0, 1fr) 4.7rem 4.7rem;
+    gap: 0.32rem;
+  }
+
+  .qrs-reader-control {
+    height: 28px;
+    gap: 0.28rem;
+    padding: 0 0.42rem;
+    font-size: 0.64rem;
+  }
+
+  .qrs-reader-control select,
+  .qrs-reader-control input {
+    font-size: 0.72rem;
+  }
+
+  // Slim tab bar
+  .qrs-tab-bar {
+    height: var(--qrs-tabbar-height);
+    padding: 0.04rem 0.12rem max(0.04rem, var(--ion-safe-area-bottom, 0px));
+  }
+
+  .qrs-tab {
+    min-height: 2.1rem;
+  }
+
+  .qrs-tab::part(native) {
+    min-height: 2.1rem;
+  }
+
+  .qrs-tab__arabic {
+    font-size: 0.72rem;
+    min-height: 1.2rem;
+    padding: 0.02rem 0.04rem 0.08rem;
+  }
+}

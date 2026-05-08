@@ -444,3 +444,63 @@
     font-size: 0.72rem;
   }
 }
+
+// ── Landscape / horizontal mode ───────────────────────────────────────────────
+// Phones in landscape: width > 520px but height ≤ 520px.
+// The mushaf-reader already switches to horizontal paging at max-width: 900px,
+// so in landscape it stays in paged mode. We only need to tighten font sizes
+// and remove the unused reader-controls row (navigation is in the shell header).
+@media (orientation: landscape) and (max-height: 520px) {
+  .al-quran-page {
+    padding: 0.1rem 0.3rem 0.2rem;
+    touch-action: pan-x;
+  }
+
+  // Hide the in-page reader controls; the shell header has them
+  .reader-controls {
+    display: none;
+  }
+
+  .mushaf-reader {
+    // Ensure the horizontal scroller fills the remaining height
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .mushaf-page {
+    padding: 0.04rem 0.04rem 0.1rem;
+  }
+
+  .mushaf-page__lines {
+    justify-content: space-evenly;
+  }
+
+  // Tighter font sizes for limited vertical space in landscape
+  .mushaf-line--ayah {
+    font-size: clamp(0.58rem, 3.8vh, 0.78rem);
+    line-height: 1.58;
+  }
+
+  .mushaf-line--surah {
+    font-size: clamp(1rem, 6.5vh, 1.3rem);
+    min-height: 2rem;
+    margin-bottom: 0.05rem;
+  }
+
+  .mushaf-line--basmallah {
+    font-size: clamp(0.6rem, 3.5vh, 0.76rem);
+    line-height: 1.3;
+    margin-bottom: 0.05rem;
+  }
+
+  .mushaf-page__footer {
+    width: min(72%, 320px);
+    margin-top: 0.15rem;
+  }
+
+  .mushaf-page__number {
+    min-width: 1.25rem;
+    height: 1.25rem;
+    font-size: 0.58rem;
+  }
+}

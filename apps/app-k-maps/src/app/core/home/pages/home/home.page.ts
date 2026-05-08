@@ -184,6 +184,9 @@ export class HomePage implements AfterViewInit, OnDestroy, ViewWillLeave, ViewWi
 
   // ── Ionic page lifecycle — pause/resume the WebGL loop on navigate ──────
   ionViewWillLeave(): void {
+    // Blur any focused element before Ionic sets aria-hidden on this page,
+    // which would otherwise violate the aria-hidden-on-focused-descendant rule.
+    (document.activeElement as HTMLElement | null)?.blur();
     this.destroyFlame(); // stop rAF loop before leaving the page
   }
 

@@ -210,26 +210,28 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  onWheel(event: WheelEvent): void {
-    this.handleWheelSwipe(event);
+  onWheel(event: Event): void {
+    this.handleWheelSwipe(event as WheelEvent);
   }
 
-  onPointerSwipeStart(event: PointerEvent): void {
-    if (event.pointerType === 'mouse' && event.button !== 0) return;
-    this.startSwipeFallback(event.clientX, event.clientY);
+  onPointerSwipeStart(event: Event): void {
+    const e = event as PointerEvent;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    this.startSwipeFallback(e.clientX, e.clientY);
   }
 
-  onPointerSwipeEnd(event: PointerEvent): void {
-    this.finishSwipeFallback(event.clientX, event.clientY);
+  onPointerSwipeEnd(event: Event): void {
+    const e = event as PointerEvent;
+    this.finishSwipeFallback(e.clientX, e.clientY);
   }
 
-  onTouchSwipeStart(event: TouchEvent): void {
-    const touch = event.changedTouches.item(0);
+  onTouchSwipeStart(event: Event): void {
+    const touch = (event as TouchEvent).changedTouches.item(0);
     if (touch) this.startSwipeFallback(touch.clientX, touch.clientY);
   }
 
-  onTouchSwipeEnd(event: TouchEvent): void {
-    const touch = event.changedTouches.item(0);
+  onTouchSwipeEnd(event: Event): void {
+    const touch = (event as TouchEvent).changedTouches.item(0);
     if (touch) this.finishSwipeFallback(touch.clientX, touch.clientY);
   }
 
@@ -662,7 +664,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('https://static-cdn.tarteel.ai/qul/fonts/quran_fonts/v2/woff2/p${page}.woff2?v=3.1') format('woff2');
+  src: url('assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2');
 }`;
       doc.head.appendChild(style);
     }

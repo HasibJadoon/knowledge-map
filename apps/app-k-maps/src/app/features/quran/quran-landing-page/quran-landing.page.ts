@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonContent } from '@ionic/angular/standalone';
+import { ViewWillLeave } from '@ionic/angular';
 import gsap from 'gsap';
 
 interface QuranModuleCard {
@@ -18,7 +19,7 @@ interface QuranModuleCard {
   styleUrl: './quran-landing.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuranLandingPage implements AfterViewInit {
+export class QuranLandingPage implements AfterViewInit, ViewWillLeave {
   private readonly router = inject(Router);
 
   @ViewChild('cardsRow') cardsRow!: ElementRef<HTMLElement>;
@@ -37,6 +38,10 @@ export class QuranLandingPage implements AfterViewInit {
       { opacity: 0, y: 18, scale: 0.96 },
       { opacity: 1, y: 0, scale: 1, duration: 0.45, stagger: 0.08, ease: 'power3.out' },
     );
+  }
+
+  ionViewWillLeave(): void {
+    (document.activeElement as HTMLElement | null)?.blur();
   }
 
   navigate(route: string): void {

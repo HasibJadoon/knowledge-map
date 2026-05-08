@@ -79,10 +79,10 @@
       <ion-tab-button
         class="qrs-tab"
         [tab]="tab.id"
-        [href]="'/quran/' + tab.routePath"
+        [href]="tab.href"
         [class.qrs-tab--active]="currentTab() === tab.id"
         [attr.aria-label]="tab.labelAr"
-        (click)="openTab(tab.routePath, $event)"
+        (click)="openTab(tab, $event)"
       >
         <ion-label class="qrs-tab__arabic" lang="ar" dir="rtl">{{ tab.labelAr }}</ion-label>
       </ion-tab-button>

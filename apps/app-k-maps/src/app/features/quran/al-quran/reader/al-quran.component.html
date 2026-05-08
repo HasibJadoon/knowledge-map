@@ -7,7 +7,7 @@
   [scrollY]="!mobilePaged()"
   (ionScroll)="onIonScroll()"
 >
-  <div class="al-quran-page" (wheel)="onWheel($event)">
+  <div class="al-quran-page" (wheel.passive)="onWheel($event)">
     <div class="al-quran-page__inner">
       @if (loading()) {
         <div class="state-message">
@@ -26,13 +26,13 @@
         <main
           #mushafReader
           class="mushaf-reader"
-          (scroll)="onReaderScroll($event)"
-          (pointerdown)="onPointerSwipeStart($event)"
-          (pointerup)="onPointerSwipeEnd($event)"
-          (pointercancel)="cancelSwipeFallback()"
-          (touchstart)="onTouchSwipeStart($event)"
-          (touchend)="onTouchSwipeEnd($event)"
-          (touchcancel)="cancelSwipeFallback()"
+          (scroll.passive)="onReaderScroll($event)"
+          (pointerdown.passive)="onPointerSwipeStart($event)"
+          (pointerup.passive)="onPointerSwipeEnd($event)"
+          (pointercancel.passive)="cancelSwipeFallback()"
+          (touchstart.passive)="onTouchSwipeStart($event)"
+          (touchend.passive)="onTouchSwipeEnd($event)"
+          (touchcancel.passive)="cancelSwipeFallback()"
         >
           @if (hasPreviousPages()) {
             <div class="load-page-sentinel" #loadPreviousSentinel aria-hidden="true"></div>

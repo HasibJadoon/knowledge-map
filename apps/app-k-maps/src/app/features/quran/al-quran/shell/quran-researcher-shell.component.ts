@@ -8,7 +8,7 @@ import { QuranReaderHeaderService } from '../reader/quran-reader-header.service'
 interface ResearchTab {
   id: string;
   labelAr: string;
-  routePath: string;
+  href: string;
 }
 
 @Component({
@@ -30,11 +30,11 @@ export class QuranResearcherShellComponent implements OnDestroy {
   readonly searchFocused = signal(false);
 
   readonly tabs: ResearchTab[] = [
-    { id: 'al-quran', labelAr: 'قرآن', routePath: 'al-quran' },
-    { id: 'tafseer', labelAr: 'تفسير', routePath: 'tafseer' },
-    { id: 'uloom', labelAr: 'علوم', routePath: 'uloom' },
-    { id: 'lexicon', labelAr: 'معجم', routePath: 'lexicon' },
-    { id: 'notes', labelAr: 'حواشي', routePath: 'notes' },
+    { id: 'al-quran', labelAr: 'قرآن',  href: '/quran/al-quran' },
+    { id: 'tafseer',  labelAr: 'تفسير', href: '/quran/al-quran/tafseer' },
+    { id: 'uloom',    labelAr: 'علوم',  href: '/quran/al-quran/uloom' },
+    { id: 'lexicon',  labelAr: 'معجم',  href: '/quran/al-quran/lexicon' },
+    { id: 'notes',    labelAr: 'حواشي', href: '/quran/al-quran/notes' },
   ];
 
   constructor() {
@@ -56,11 +56,11 @@ export class QuranResearcherShellComponent implements OnDestroy {
     this.searchFocused.set(focused);
   }
 
-  openTab(routePath: string, event?: Event): void {
+  openTab(tab: ResearchTab, event?: Event): void {
     event?.preventDefault();
     event?.stopPropagation();
-    this.currentTab.set(this.tabs.find((tab) => tab.routePath === routePath)?.id ?? 'al-quran');
-    void this.router.navigateByUrl(`/quran/${routePath}`);
+    this.currentTab.set(tab.id);
+    void this.router.navigateByUrl(tab.href);
   }
 
   ngOnDestroy(): void {
@@ -68,7 +68,9 @@ export class QuranResearcherShellComponent implements OnDestroy {
   }
 
   private syncCurrentTab(url: string): void {
-    const match = this.tabs.find((tab) => url.includes(`/quran/${tab.routePath}`));
+    const path = url.split('?')[0];
+    // Match longest href first so '/quran/al-quran/tafseer' beats '/quran/al-quran'
+    const match = this.tabs.slice().reverse().find((tab) => path.startsWith(tab.href));
     this.currentTab.set(match?.id ?? 'al-quran');
   }
 }

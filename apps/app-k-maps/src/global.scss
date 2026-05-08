@@ -102,9 +102,9 @@
   --app-font-ar: "Uthmanic Hafs", "Scheherazade New", serif;
 
   // k-maps aliases — same names as desktop app
-  // Quran-only fonts (Uthmanic PUA encoding — do NOT use for UI/lemma text)
+  // Quran-only fonts (QPC V2 per-page fonts loaded dynamically at runtime)
   --km-font-quran:        "Uthmanic Hafs", serif;
-  --km-font-arabic:       "Uthmanic Hafs", serif;   /* kept for backward-compat — Quran text only */
+  --km-font-arabic:       "Uthmanic Hafs", serif;
   --km-font-arabic-amiri: "AmiriQuran", serif;
   // General Arabic UI — Naskh style (near synonyms, vocabulary, morphology, lemmas)
   --km-font-arabic-ui:    "Scheherazade New", serif;
