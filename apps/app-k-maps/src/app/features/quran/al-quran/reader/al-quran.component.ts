@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -11,7 +12,8 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonicModule, IonContent } from '@ionic/angular';
+import { GestureController, IonicModule, IonContent } from '@ionic/angular';
+import type { Gesture } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
 import {
@@ -40,16 +42,16 @@ const SWIPE_MAX_VERTICAL_DRIFT_PX = 80;
   styleUrl: './al-quran.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AlQuranComponent implements OnInit, OnDestroy {
+export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly quranReader = inject(QuranReaderService);
   private readonly researchSearch = inject(QuranResearchSearchService, { optional: true });
   private readonly readerHeader = inject(QuranReaderHeaderService, { optional: true });
+  private readonly gestureCtrl = inject(GestureController);
   private readonly host: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly loadedPageFonts = new Set<number>();
-  private swipeStartX: number | null = null;
-  private swipeStartY: number | null = null;
+  private swipeGesture?: Gesture;
   private readerContent?: IonContent;
 
   @ViewChild('readerContent')
@@ -111,7 +113,12 @@ export class AlQuranComponent implements OnInit, OnDestroy {
     await this.loadInitialPages();
   }
 
+  ngAfterViewInit(): void {
+    this.setupSwipeGesture();
+  }
+
   ngOnDestroy(): void {
+    this.swipeGesture?.destroy();
     this.readerHeader?.clearHandlers();
   }
 
@@ -129,32 +136,6 @@ export class AlQuranComponent implements OnInit, OnDestroy {
 
   mushafFont(page: number): string {
     return `'QPCV2Page${page}', var(--km-font-arabic), 'UthmanicHafs', 'AmiriQuran', serif`;
-  }
-
-  onTouchSwipeStart(event: Event): void {
-    const touch = (event as TouchEvent).changedTouches.item(0);
-    if (!touch) return;
-    this.swipeStartX = touch.clientX;
-    this.swipeStartY = touch.clientY;
-  }
-
-  onTouchSwipeEnd(event: Event): void {
-    const touch = (event as TouchEvent).changedTouches.item(0);
-    if (!touch || this.swipeStartX === null || this.swipeStartY === null) return;
-
-    const deltaX = touch.clientX - this.swipeStartX;
-    const deltaY = touch.clientY - this.swipeStartY;
-    this.swipeStartX = null;
-    this.swipeStartY = null;
-
-    if (Math.abs(deltaX) < SWIPE_MIN_DISTANCE_PX || Math.abs(deltaY) > SWIPE_MAX_VERTICAL_DRIFT_PX) return;
-
-    void this.navigateByPage(deltaX > 0 ? 1 : -1);
-  }
-
-  onSwipeCancel(): void {
-    this.swipeStartX = null;
-    this.swipeStartY = null;
   }
 
   async goToPage(raw: string): Promise<void> {
@@ -183,6 +164,28 @@ export class AlQuranComponent implements OnInit, OnDestroy {
   async goToVerse(raw: string): Promise<void> {
     const verse = this.clampVerse(Number(raw));
     await this.goToAyah(this.activeSurah(), verse);
+  }
+
+  private setupSwipeGesture(): void {
+    this.swipeGesture = this.gestureCtrl.create(
+      {
+        el: this.host.nativeElement as HTMLElement,
+        gestureName: 'quran-page-swipe',
+        direction: 'x',
+        disableScroll: false,
+        gesturePriority: 30,
+        threshold: 10,
+        maxAngle: 35,
+        canStart: () => !this.loading() && !this.loadingMore(),
+        onEnd: (detail) => {
+          if (Math.abs(detail.deltaX) < SWIPE_MIN_DISTANCE_PX) return;
+          if (Math.abs(detail.deltaY) > SWIPE_MAX_VERTICAL_DRIFT_PX) return;
+          void this.navigateByPage(detail.deltaX > 0 ? 1 : -1);
+        },
+      },
+      true,
+    );
+    this.swipeGesture.enable(true);
   }
 
   private async navigateByPage(delta: number): Promise<void> {

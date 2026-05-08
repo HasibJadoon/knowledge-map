@@ -5,12 +5,7 @@
   [scrollX]="false"
   [scrollY]="true"
 >
-  <div
-    class="al-quran-page"
-    (touchstart.passive)="onTouchSwipeStart($event)"
-    (touchend.passive)="onTouchSwipeEnd($event)"
-    (touchcancel.passive)="onSwipeCancel()"
-  >
+  <div class="al-quran-page">
     <div class="al-quran-page__inner">
       @if (loading()) {
         <div class="state-message">
