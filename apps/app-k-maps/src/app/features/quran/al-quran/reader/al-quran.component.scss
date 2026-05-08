@@ -308,9 +308,7 @@
   }
 
   .al-quran-page {
-    // Symmetric safe margins: RTL text diacritics extend beyond the advance
-    // width on both sides; equal padding prevents edge clipping.
-    padding: 0.55rem 1.1rem 3rem 1rem;
+    padding: 0.55rem 0.65rem 3rem;
   }
 
   .mushaf-page {
@@ -318,30 +316,30 @@
   }
 
   .mushaf-line--ayah {
-    font-size: clamp(0.82rem, 3.4vw, 1.25rem);
+    font-size: clamp(0.9rem, 3.8vw, 1.4rem);
     line-height: 2.1;
   }
 
   .mushaf-line--surah {
-    font-size: clamp(1.2rem, 5.5vw, 2rem);
+    font-size: clamp(1.3rem, 6vw, 2.2rem);
   }
 
   .mushaf-line--basmallah {
-    font-size: clamp(0.82rem, 3.2vw, 1.2rem);
+    font-size: clamp(0.9rem, 3.6vw, 1.3rem);
   }
 }
 
 @media (max-width: 380px) {
   .mushaf-line--ayah {
-    font-size: clamp(0.78rem, 3.2vw, 1.15rem);
+    font-size: clamp(0.84rem, 3.6vw, 1.28rem);
   }
 
   .mushaf-line--surah {
-    font-size: clamp(1.1rem, 5.2vw, 1.8rem);
+    font-size: clamp(1.2rem, 5.8vw, 2rem);
   }
 
   .mushaf-line--basmallah {
-    font-size: clamp(0.78rem, 3vw, 1.1rem);
+    font-size: clamp(0.84rem, 3.4vw, 1.2rem);
   }
 }
 
