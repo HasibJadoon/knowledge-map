@@ -68,3 +68,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Local font assets (large binary directories served from local dev server only)
+src/assets/fonts/QPC V2 Font.woff2/
