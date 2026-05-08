@@ -458,7 +458,8 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2');
+  src: url('/assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2'),
+       url('https://static-cdn.tarteel.ai/qul/fonts/quran_fonts/v2/woff2/p${page}.woff2?v=3.1') format('woff2');
 }`;
       doc.head.appendChild(style);
     }
