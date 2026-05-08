@@ -24,7 +24,7 @@ export class QuranLandingPage implements AfterViewInit {
   @ViewChild('cardsRow') cardsRow!: ElementRef<HTMLElement>;
 
   readonly modules: QuranModuleCard[] = [
-    { id: 'quran', label: 'Quran', route: '/quran/sura/1', glyph: '☽' },
+    { id: 'quran', label: 'Quran', route: '/quran/al-quran', glyph: '☽' },
     { id: 'surahs', label: 'Surahs', route: '/quran/surahs', glyph: '١١٤' },
   ];
 

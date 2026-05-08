@@ -27,6 +27,7 @@ export class QuranResearcherShellComponent implements OnDestroy {
   readonly search = inject(QuranResearchSearchService);
   readonly readerHeader = inject(QuranReaderHeaderService);
   readonly currentTab = signal('al-quran');
+  readonly searchFocused = signal(false);
 
   readonly tabs: ResearchTab[] = [
     { id: 'al-quran', labelAr: 'قرآن', routePath: 'al-quran' },
@@ -49,6 +50,10 @@ export class QuranResearcherShellComponent implements OnDestroy {
 
   setSearch(value: string | null | undefined): void {
     this.search.setSearch(value);
+  }
+
+  setSearchFocused(focused: boolean): void {
+    this.searchFocused.set(focused);
   }
 
   openTab(routePath: string, event?: Event): void {

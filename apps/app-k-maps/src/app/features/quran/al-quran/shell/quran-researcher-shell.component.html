@@ -14,12 +14,15 @@
   <ion-toolbar class="qrs-search-toolbar">
     <ion-searchbar
       class="qrs-searchbar"
-      mode="ios"
+      [class.qrs-searchbar--focused]="searchFocused()"
+      mode="md"
       inputmode="search"
-      placeholder="بحث"
+      [placeholder]="searchFocused() ? '' : 'بحث'"
       [debounce]="120"
       [value]="search.searchTerm()"
       (ionInput)="setSearch($event.detail.value)"
+      (ionFocus)="setSearchFocused(true)"
+      (ionBlur)="setSearchFocused(false)"
     />
   </ion-toolbar>
 

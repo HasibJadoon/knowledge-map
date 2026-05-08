@@ -1,6 +1,24 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.research-content {
+  --background: #050505;
+  --padding-bottom: 1rem;
+  --padding-end: 0;
+  --padding-start: 0;
+  --padding-top: 0;
+  height: 100%;
+}
+
+.research-content::part(scroll) {
+  overscroll-behavior-y: contain;
+}
+
 .research-page {
   min-height: 100%;
-  padding: 0.85rem 0.85rem 1.25rem;
+  padding: 0.85rem 0.85rem calc(1.25rem + var(--ion-safe-area-bottom, 0px));
   background:
     radial-gradient(ellipse 92% 36% at 50% 0%, rgba(201, 168, 76, 0.11), transparent 66%),
     #050505;

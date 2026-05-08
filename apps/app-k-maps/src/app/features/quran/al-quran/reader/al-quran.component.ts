@@ -12,8 +12,8 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GestureController } from '@ionic/angular';
-import type { Gesture } from '@ionic/angular';
+import { GestureController, IonicModule, IonContent } from '@ionic/angular';
+import type { Gesture, GestureDetail } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
 import {
@@ -40,7 +40,7 @@ const WHEEL_SWIPE_COOLDOWN_MS = 420;
 @Component({
   selector: 'app-al-quran',
   standalone: true,
-  imports: [],
+  imports: [IonicModule],
   templateUrl: './al-quran.component.html',
   styleUrl: './al-quran.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,17 +55,18 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly host: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly loadedPageFonts = new Set<number>();
   private readonly scrollListenerCleanups: Array<() => void> = [];
-  private readonly swipeListenerCleanups: Array<() => void> = [];
   private scrollCheckFrame = 0;
   private readerScrollFrame = 0;
-  private pointerStartX: number | null = null;
-  private pointerStartY: number | null = null;
-  private swipeHandled = false;
   private lastSwipeAt = 0;
   private lastWheelSwipeAt = 0;
+  private gestureStartScrollLeft = 0;
+  private fallbackSwipeStartX: number | null = null;
+  private fallbackSwipeStartY: number | null = null;
+  private fallbackSwipeStartScrollLeft = 0;
   private loadPreviousSentinel?: ElementRef<HTMLElement>;
   private loadMoreSentinel?: ElementRef<HTMLElement>;
-  private readerPageEl?: HTMLElement;
+  private readerContent?: IonContent;
+  private mushafReaderEl?: HTMLElement;
   private swipeGesture?: Gesture;
   private viewReady = false;
 
@@ -81,17 +82,21 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scheduleScrollCheck();
   }
 
-  @ViewChild('readerPage')
-  set readerPageRef(element: ElementRef<HTMLElement> | undefined) {
+  @ViewChild('readerContent')
+  set readerContentRef(content: IonContent | undefined) {
+    this.readerContent = content;
+    this.scheduleScrollCheck();
+  }
+
+  @ViewChild('mushafReader')
+  set mushafReaderRef(element: ElementRef<HTMLElement> | undefined) {
     this.swipeGesture?.destroy();
     this.swipeGesture = undefined;
-    this.clearSwipeListeners();
-    this.readerPageEl = element?.nativeElement;
-    if (!this.readerPageEl) return;
-    this.setupSwipeListeners(this.readerPageEl);
+    this.mushafReaderEl = element?.nativeElement;
     this.setupSwipeGesture();
   }
 
+  readonly mobilePaged = signal(this.getMobilePagedMatches());
   readonly surahs = signal<QuranBrowseSurah[]>([]);
   readonly pages = signal<QuranPageResponse[]>([]);
   readonly loading = signal(true);
@@ -154,6 +159,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.viewReady = true;
+    this.setupMobilePagedListener();
     this.setupScrollListeners();
     this.setupSwipeGesture();
     this.scheduleScrollCheck();
@@ -162,7 +168,6 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     for (const cleanup of this.scrollListenerCleanups) cleanup();
     this.swipeGesture?.destroy();
-    this.clearSwipeListeners();
     if (this.scrollCheckFrame) cancelAnimationFrame(this.scrollCheckFrame);
     if (this.readerScrollFrame) cancelAnimationFrame(this.readerScrollFrame);
     this.readerHeader?.clearHandlers();
@@ -188,9 +193,9 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     return `'QPCV2Page${page}', var(--km-font-arabic), 'UthmanicHafs', 'AmiriQuran', serif`;
   }
 
-  onScroll(event: Event): void {
+  onIonScroll(): void {
     if (this.isMobilePaged()) return;
-    this.checkElementScrollPosition(event.target as HTMLElement);
+    this.scheduleScrollCheck();
   }
 
   onReaderScroll(event: Event): void {
@@ -205,88 +210,32 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  onPointerDown(event: PointerEvent): void {
-    if (event.pointerType === 'mouse' && event.button !== 0) return;
-    this.startSwipe(event.clientX, event.clientY);
-  }
-
-  onPointerUp(event: PointerEvent): void {
-    this.finishSwipe(event.clientX, event.clientY);
-  }
-
-  onPointerMove(event: PointerEvent): void {
-    this.moveSwipe(event.clientX, event.clientY);
-  }
-
-  onMouseDown(event: MouseEvent): void {
-    if (event.button !== 0) return;
-    this.startSwipe(event.clientX, event.clientY);
-  }
-
-  onMouseUp(event: MouseEvent): void {
-    this.finishSwipe(event.clientX, event.clientY);
-  }
-
-  onMouseMove(event: MouseEvent): void {
-    this.moveSwipe(event.clientX, event.clientY);
-  }
-
-  onTouchStart(event: TouchEvent): void {
-    const touch = event.changedTouches.item(0);
-    if (!touch) return;
-    this.startSwipe(touch.clientX, touch.clientY);
-  }
-
-  onTouchEnd(event: TouchEvent): void {
-    const touch = event.changedTouches.item(0);
-    if (!touch) return;
-    this.finishSwipe(touch.clientX, touch.clientY);
-  }
-
-  onTouchMove(event: TouchEvent): void {
-    const touch = event.changedTouches.item(0);
-    if (!touch) return;
-    this.moveSwipe(touch.clientX, touch.clientY);
-  }
-
   onWheel(event: WheelEvent): void {
     this.handleWheelSwipe(event);
   }
 
-  cancelSwipe(): void {
-    this.pointerStartX = null;
-    this.pointerStartY = null;
-    this.swipeHandled = false;
+  onPointerSwipeStart(event: PointerEvent): void {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    this.startSwipeFallback(event.clientX, event.clientY);
   }
 
-  private startSwipe(clientX: number, clientY: number): void {
-    if (!this.isMobilePaged()) return;
-    this.pointerStartX = clientX;
-    this.pointerStartY = clientY;
-    this.swipeHandled = false;
+  onPointerSwipeEnd(event: PointerEvent): void {
+    this.finishSwipeFallback(event.clientX, event.clientY);
   }
 
-  private finishSwipe(clientX: number, clientY: number): void {
-    if (!this.isMobilePaged() || this.pointerStartX === null || this.pointerStartY === null) return;
-
-    const deltaX = clientX - this.pointerStartX;
-    const deltaY = clientY - this.pointerStartY;
-    this.pointerStartX = null;
-    this.pointerStartY = null;
-
-    if (!this.swipeHandled) this.handleSwipeDelta(deltaX, deltaY);
-    this.swipeHandled = false;
+  onTouchSwipeStart(event: TouchEvent): void {
+    const touch = event.changedTouches.item(0);
+    if (touch) this.startSwipeFallback(touch.clientX, touch.clientY);
   }
 
-  private moveSwipe(clientX: number, clientY: number): void {
-    if (!this.isMobilePaged() || this.swipeHandled || this.pointerStartX === null || this.pointerStartY === null) return;
+  onTouchSwipeEnd(event: TouchEvent): void {
+    const touch = event.changedTouches.item(0);
+    if (touch) this.finishSwipeFallback(touch.clientX, touch.clientY);
+  }
 
-    const deltaX = clientX - this.pointerStartX;
-    const deltaY = clientY - this.pointerStartY;
-    if (Math.abs(deltaX) < SWIPE_MIN_DISTANCE_PX || Math.abs(deltaY) > SWIPE_MAX_VERTICAL_DRIFT_PX) return;
-
-    this.swipeHandled = true;
-    this.handleSwipeDelta(deltaX, deltaY);
+  cancelSwipeFallback(): void {
+    this.fallbackSwipeStartX = null;
+    this.fallbackSwipeStartY = null;
   }
 
   private handleWheelSwipe(event: WheelEvent): void {
@@ -305,91 +254,64 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     const now = Date.now();
     if (now - this.lastSwipeAt < WHEEL_SWIPE_COOLDOWN_MS) return;
     this.lastSwipeAt = now;
-    if (deltaX < 0) {
+    if (deltaX > 0) {
       void this.goToNextPage();
     } else {
       void this.goToPreviousPage();
     }
   }
 
+  private startSwipeFallback(clientX: number, clientY: number): void {
+    if (!this.isMobilePaged()) return;
+    this.fallbackSwipeStartX = clientX;
+    this.fallbackSwipeStartY = clientY;
+    this.fallbackSwipeStartScrollLeft = this.mushafReaderEl?.scrollLeft ?? 0;
+  }
+
+  private finishSwipeFallback(clientX: number, clientY: number): void {
+    if (!this.isMobilePaged() || this.fallbackSwipeStartX === null || this.fallbackSwipeStartY === null) return;
+
+    const deltaX = clientX - this.fallbackSwipeStartX;
+    const deltaY = clientY - this.fallbackSwipeStartY;
+    this.cancelSwipeFallback();
+
+    const scroller = this.mushafReaderEl;
+    if (scroller && Math.abs(scroller.scrollLeft - this.fallbackSwipeStartScrollLeft) > 12) {
+      this.syncActivePageFromReaderScroll(scroller);
+      return;
+    }
+
+    this.handleSwipeDelta(deltaX, deltaY);
+  }
+
   private setupSwipeGesture(): void {
-    if (!this.viewReady || !this.readerPageEl || this.swipeGesture) return;
+    if (!this.viewReady || !this.mushafReaderEl || this.swipeGesture) return;
 
     this.swipeGesture = this.gestureCtrl.create({
-      el: this.readerPageEl,
+      el: this.mushafReaderEl,
       gestureName: 'quran-page-swipe',
       direction: 'x',
       disableScroll: true,
       gesturePriority: 50,
       maxAngle: 40,
       threshold: 12,
-      canStart: () => this.isMobilePaged(),
-      onEnd: (detail) => this.handleSwipeDelta(detail.deltaX, detail.deltaY),
+      canStart: () => this.isMobilePaged() && !this.loading(),
+      onStart: () => {
+        this.gestureStartScrollLeft = this.mushafReaderEl?.scrollLeft ?? 0;
+      },
+      onEnd: (detail) => this.finishNativeSwipe(detail),
     }, true);
     this.swipeGesture.enable(true);
   }
 
-  private setupSwipeListeners(el: HTMLElement): void {
-    const doc = globalThis.document;
-    const win = globalThis.window;
-
-    const onPointerDown = ((event: PointerEvent) => this.onPointerDown(event)) as EventListener;
-    const onPointerUp = ((event: PointerEvent) => this.onPointerUp(event)) as EventListener;
-    const onPointerMove = ((event: PointerEvent) => this.onPointerMove(event)) as EventListener;
-    const onMouseDown = ((event: MouseEvent) => this.onMouseDown(event)) as EventListener;
-    const onMouseUp = ((event: MouseEvent) => this.onMouseUp(event)) as EventListener;
-    const onMouseMove = ((event: MouseEvent) => this.onMouseMove(event)) as EventListener;
-    const onTouchStart = ((event: TouchEvent) => this.onTouchStart(event)) as EventListener;
-    const onTouchEnd = ((event: TouchEvent) => this.onTouchEnd(event)) as EventListener;
-    const onTouchMove = ((event: TouchEvent) => this.onTouchMove(event)) as EventListener;
-    const onWheel = ((event: WheelEvent) => this.handleWheelSwipe(event)) as EventListener;
-
-    el.addEventListener('pointerdown', onPointerDown, { capture: true, passive: true });
-    el.addEventListener('pointermove', onPointerMove, { capture: true, passive: true });
-    el.addEventListener('mousedown', onMouseDown, { capture: true, passive: true });
-    el.addEventListener('mousemove', onMouseMove, { capture: true, passive: true });
-    el.addEventListener('touchstart', onTouchStart, { capture: true, passive: true });
-    el.addEventListener('touchmove', onTouchMove, { capture: true, passive: true });
-    el.addEventListener('touchend', onTouchEnd, { capture: true, passive: true });
-    el.addEventListener('wheel', onWheel, { capture: true, passive: true });
-
-    this.swipeListenerCleanups.push(
-      () => el.removeEventListener('pointerdown', onPointerDown, { capture: true }),
-      () => el.removeEventListener('pointermove', onPointerMove, { capture: true }),
-      () => el.removeEventListener('mousedown', onMouseDown, { capture: true }),
-      () => el.removeEventListener('mousemove', onMouseMove, { capture: true }),
-      () => el.removeEventListener('touchstart', onTouchStart, { capture: true }),
-      () => el.removeEventListener('touchmove', onTouchMove, { capture: true }),
-      () => el.removeEventListener('touchend', onTouchEnd, { capture: true }),
-      () => el.removeEventListener('wheel', onWheel, { capture: true }),
-    );
-
-    const endTargets: Array<Window | Document> = [];
-    if (win) endTargets.push(win);
-    if (doc) endTargets.push(doc);
-
-    for (const target of endTargets) {
-      target.addEventListener('pointerup', onPointerUp, { capture: true, passive: true });
-      target.addEventListener('pointermove', onPointerMove, { capture: true, passive: true });
-      target.addEventListener('mouseup', onMouseUp, { capture: true, passive: true });
-      target.addEventListener('mousemove', onMouseMove, { capture: true, passive: true });
-      target.addEventListener('touchend', onTouchEnd, { capture: true, passive: true });
-      target.addEventListener('touchmove', onTouchMove, { capture: true, passive: true });
-      this.swipeListenerCleanups.push(
-        () => target.removeEventListener('pointerup', onPointerUp, { capture: true }),
-        () => target.removeEventListener('pointermove', onPointerMove, { capture: true }),
-        () => target.removeEventListener('mouseup', onMouseUp, { capture: true }),
-        () => target.removeEventListener('mousemove', onMouseMove, { capture: true }),
-        () => target.removeEventListener('touchend', onTouchEnd, { capture: true }),
-        () => target.removeEventListener('touchmove', onTouchMove, { capture: true }),
-      );
+  private finishNativeSwipe(detail: GestureDetail): void {
+    const scroller = this.mushafReaderEl;
+    if (scroller && Math.abs(scroller.scrollLeft - this.gestureStartScrollLeft) > 12) {
+      this.syncActivePageFromReaderScroll(scroller);
+      return;
     }
-  }
 
-  private clearSwipeListeners(): void {
-    while (this.swipeListenerCleanups.length) {
-      this.swipeListenerCleanups.pop()?.();
-    }
+    this.handleSwipeDelta(detail.deltaX, detail.deltaY);
   }
 
   private syncActivePageFromReaderScroll(scroller: HTMLElement): void {
@@ -412,7 +334,15 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     requestAnimationFrame(() => {
       const root = this.host.nativeElement;
       const page = root.querySelector<HTMLElement>('.mushaf-page--active');
-      page?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      if (!page) return;
+
+      const scroller = this.mushafReaderEl;
+      if (this.isMobilePaged() && scroller) {
+        scroller.scrollTo({ left: page.offsetLeft, behavior: 'smooth' });
+        return;
+      }
+
+      page.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     });
   }
 
@@ -424,10 +354,13 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     const first = this.firstLoadedPage() ?? FIRST_PAGE;
     const from = Math.max(FIRST_PAGE, first - PAGE_BATCH_SIZE);
     const pageNumbers = this.range(from, first - 1);
+    const pagedScroller = this.isMobilePaged() ? this.mushafReaderEl : undefined;
+    const pagedScrollLeft = pagedScroller?.scrollLeft ?? 0;
 
     try {
       const loaded = await this.fetchPages(pageNumbers);
       this.pages.set([...loaded, ...this.pages()]);
+      this.preservePagedScrollAfterPrepend(pagedScroller, pagedScrollLeft, loaded.length);
       this.animateLoadedPages();
     } catch (err) {
       this.error.set(this.errorMessage(err, 'Failed to load previous pages'));
@@ -435,6 +368,15 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loadingMore.set(false);
       this.scheduleScrollCheck();
     }
+  }
+
+  private preservePagedScrollAfterPrepend(scroller: HTMLElement | undefined, previousScrollLeft: number, prependedCount: number): void {
+    if (!scroller || prependedCount <= 0) return;
+
+    requestAnimationFrame(() => {
+      scroller.scrollLeft = previousScrollLeft + (prependedCount * scroller.clientWidth);
+      this.syncActivePageFromReaderScroll(scroller);
+    });
   }
 
   async loadNextPages(): Promise<void> {
@@ -783,11 +725,9 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private setupScrollListeners(): void {
     const root = this.host.nativeElement;
     const targets = new Set<EventTarget>();
-    const readerScroller = root.querySelector<HTMLElement>('.al-quran-page');
     const shellScroller = root.closest<HTMLElement>('.qrs-content');
     const doc = globalThis.document;
 
-    if (readerScroller) targets.add(readerScroller);
     if (shellScroller) targets.add(shellScroller);
     if (globalThis.window) targets.add(globalThis.window);
 
@@ -803,6 +743,24 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  private setupMobilePagedListener(): void {
+    const query = globalThis.matchMedia?.(MOBILE_PAGED_QUERY);
+    if (!query) return;
+
+    this.mobilePaged.set(query.matches);
+    const listener = (event: MediaQueryListEvent) => {
+      this.mobilePaged.set(event.matches);
+      if (event.matches) {
+        this.scrollActivePageIntoView();
+        return;
+      }
+      this.scheduleScrollCheck();
+    };
+
+    query.addEventListener('change', listener);
+    this.scrollListenerCleanups.push(() => query.removeEventListener('change', listener));
+  }
+
   private scheduleScrollCheck(): void {
     if (this.scrollCheckFrame) return;
     this.scrollCheckFrame = requestAnimationFrame(() => {
@@ -814,12 +772,14 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private checkCurrentScrollPosition(): void {
     if (this.isMobilePaged()) return;
 
-    const root = this.host.nativeElement;
-    const readerScroller = root.querySelector<HTMLElement>('.al-quran-page');
-
     this.checkSentinelPositions();
-    if (readerScroller) this.checkElementScrollPosition(readerScroller);
+    void this.checkIonContentScrollPosition();
     this.checkWindowScrollPosition();
+  }
+
+  private async checkIonContentScrollPosition(): Promise<void> {
+    const scrollEl = await this.readerContent?.getScrollElement();
+    if (scrollEl) this.checkElementScrollPosition(scrollEl);
   }
 
   private checkSentinelPositions(): void {
@@ -880,6 +840,10 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private isMobilePaged(): boolean {
+    return this.mobilePaged();
+  }
+
+  private getMobilePagedMatches(): boolean {
     return globalThis.matchMedia?.(MOBILE_PAGED_QUERY).matches ?? false;
   }
 
