@@ -364,21 +364,23 @@
     display: none;
   }
 
+  // Constrain page width so justified words don't spread across the full landscape viewport
+  .mushaf-page {
+    width: min(100%, 560px);
+    padding-block: 0.2rem 0.5rem;
+  }
+
   .mushaf-line--ayah {
-    font-size: clamp(1.05rem, 4.8vh, 1.65rem);
-    line-height: 1.85;
+    font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+    line-height: 1.9;
   }
 
   .mushaf-line--surah {
-    font-size: clamp(1.4rem, 6.5vh, 2.2rem);
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem);
   }
 
   .mushaf-line--basmallah {
-    font-size: clamp(0.95rem, 4.2vh, 1.4rem);
-  }
-
-  .mushaf-page {
-    padding-block: 0.2rem 0.5rem;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
   }
 
   .mushaf-page__footer {
