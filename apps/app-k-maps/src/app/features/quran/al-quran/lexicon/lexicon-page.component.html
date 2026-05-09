@@ -1,99 +1,87 @@
 <ion-content class="research-content" [fullscreen]="false">
   <section class="research-page lx-page" dir="rtl">
 
-    <!-- ── Mode toggle ──────────────────────────────────────────────── -->
-    <div class="lx-mode-row">
-      <button class="lx-mode-btn" [class.lx-mode-btn--active]="searchMode() === 'root'"
-        (click)="setMode('root')">بحث بالجذر</button>
-      <button class="lx-mode-btn" [class.lx-mode-btn--active]="searchMode() === 'text'"
-        (click)="setMode('text')">بحث بالنص</button>
-    </div>
-
-    <!-- ── Occurrence detail ─────────────────────────────────────────── -->
-    @if (selectedLemma(); as lemma) {
-      <div class="lx-occ-panel">
-        <div class="lx-occ-header">
-          <button class="rp-back-btn" (click)="clearLemma()">
+    <!-- ── Single source detail ───────────────────────────────────────── -->
+    @if (selectedSource(); as src) {
+      <div class="lx-source-detail">
+        <div class="lx-source-detail__header">
+          <button class="rp-back-btn" (click)="clearSourceEntry()">
             <ion-icon name="chevron-forward-outline"></ion-icon>
             <span>العودة</span>
           </button>
-          <span class="lx-lemma-big">{{ lemma.lemma_text }}</span>
-          <span class="lx-root-label">جذر: {{ lemma.root }}</span>
-          <span class="rp-badge rp-badge--count">{{ lemma.total_occurrences }} موضع</span>
+          <span class="lx-source-detail__title">{{ src.title_ar }}</span>
+          <span class="lx-source-detail__author">{{ src.author }}</span>
         </div>
-
-        @if (occLoading()) {
-          <div class="rp-loading">جارٍ تحميل المواضع…</div>
-        } @else {
-          <div class="lx-occ-list">
-            @for (occ of occurrences(); track occ.id) {
-              <div class="lx-occ-item">
-                <span class="lx-occ-key">{{ verseKey(occ) }}</span>
-                @if (occ.ayah_text) {
-                  <span class="lx-occ-text">{{ occ.ayah_text }}</span>
-                }
-              </div>
+        @for (entry of src.entries; track entry.id) {
+          <div class="lx-dict-entry">
+            @if (volPage(entry)) {
+              <span class="lx-dict-entry__ref">{{ volPage(entry) }}</span>
             }
+            <p class="lx-dict-entry__text">{{ entry.text_ar }}</p>
           </div>
         }
       </div>
 
-    <!-- ── Lemma list (after root) ───────────────────────────────────── -->
-    } @else if (selectedRoot()) {
-      <div>
-        <div class="lx-section-header">
-          <button class="rp-back-btn" (click)="clearRoot()">
-            <ion-icon name="chevron-forward-outline"></ion-icon>
-            <span>العودة</span>
-          </button>
-          <span class="lx-root-badge">{{ selectedRoot() }}</span>
-          <span class="lx-hint">اختر لفظاً لعرض مواضعه</span>
-        </div>
-        @if (searching()) {
-          <div class="rp-loading">جارٍ التحميل…</div>
-        } @else {
-          <div class="source-list">
-            @for (lemma of lemmas(); track lemma.id) {
-              <article class="source-card lx-lemma-card" (click)="selectLemma(lemma)">
-                <span class="lx-lemma-card__text">{{ lemma.lemma_text }}</span>
-                <span class="lx-lemma-card__count">{{ lemma.total_occurrences }} ×</span>
-              </article>
-            }
-            @if (!lemmas().length) { <div class="rp-empty">لا توجد ألفاظ</div> }
-          </div>
+    <!-- ── Root search results ────────────────────────────────────────── -->
+    } @else if (rootResult(); as result) {
+      <div class="lx-root-header">
+        <button class="rp-back-btn" (click)="setSearch('')">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+          <span>العودة</span>
+        </button>
+        <span class="lx-root-hero">{{ result.root.text_ar }}</span>
+        @if (result.root.meaning_ar) {
+          <span class="lx-root-meaning">{{ result.root.meaning_ar }}</span>
+        }
+        @if (result.root.frequency_quran) {
+          <span class="rp-badge rp-badge--count">{{ result.root.frequency_quran }} × في القرآن</span>
         }
       </div>
 
-    <!-- ── Root results ──────────────────────────────────────────────── -->
-    } @else if (roots().length) {
-      <div>
-        <p class="lx-hint">اختر جذراً لعرض ألفاظه</p>
-        <div class="source-list">
-          @for (root of roots(); track root.root) {
-            <article class="source-card lx-root-card" (click)="selectRoot(root.root)">
-              <span class="lx-root-card__root">{{ root.root }}</span>
-              <span class="lx-root-card__meta">{{ root.lemma_count }} لفظ · {{ root.total_occurrences }} موضع</span>
-            </article>
+      @if (!result.sources.length) {
+        <div class="rp-empty">لا توجد نتائج لهذا الجذر في المعاجم المتاحة</div>
+      } @else {
+        <div class="lx-dict-results">
+          @for (src of result.sources; track src.slug) {
+            <div class="lx-dict-result-card">
+              <button class="lx-dict-result-card__header" (click)="toggleExpand(src.slug)">
+                <div class="lx-dict-result-card__meta">
+                  <span class="lx-dict-result-card__name">{{ src.title_ar }}</span>
+                  <span class="lx-dict-result-card__author">{{ src.author }}</span>
+                </div>
+                <span class="lx-dict-result-card__toggle">{{ isExpanded(src.slug) ? '▴' : '▾' }}</span>
+              </button>
+
+              @if (isExpanded(src.slug)) {
+                <div class="lx-dict-result-card__body">
+                  @for (entry of src.entries; track entry.id) {
+                    <div class="lx-dict-entry">
+                      @if (volPage(entry)) {
+                        <span class="lx-dict-entry__ref">{{ volPage(entry) }}</span>
+                      }
+                      <p class="lx-dict-entry__text">{{ entry.text_ar }}</p>
+                    </div>
+                  }
+                  @if (src.entry_count > src.entries.length) {
+                    <button class="lx-show-more" (click)="selectSourceEntry(src)">
+                      عرض جميع المقاطع ({{ src.entry_count }}) ›
+                    </button>
+                  }
+                </div>
+              }
+            </div>
           }
         </div>
-      </div>
+      }
 
-    <!-- ── Direct lemma results (text mode) ─────────────────────────── -->
-    } @else if (lemmas().length) {
-      <div class="source-list">
-        @for (lemma of lemmas(); track lemma.id) {
-          <article class="source-card lx-lemma-card" (click)="selectLemma(lemma)">
-            <span class="lx-lemma-card__text">{{ lemma.lemma_text }}</span>
-            <span class="lx-lemma-card__root">{{ lemma.root }}</span>
-            <span class="lx-lemma-card__count">{{ lemma.total_occurrences }} ×</span>
-          </article>
-        }
-      </div>
+    <!-- ── Searching ───────────────────────────────────────────────────── -->
+    } @else if (searching()) {
+      <div class="rp-loading">جارٍ البحث في المعاجم…</div>
 
-    <!-- ── Idle state ────────────────────────────────────────────────── -->
-    } @else if (!searchTerm().trim()) {
-      <div class="lx-idle" dir="rtl">
-        <p class="lx-idle__text">ابحث بالجذر الثلاثي لعرض جميع أشكال اللفظ في القرآن</p>
+    <!-- ── Idle — dictionary catalog ─────────────────────────────────── -->
+    } @else {
+      <div class="lx-idle-header" dir="rtl">
+        <p class="lx-idle__hint">اكتب جذراً للبحث في المعاجم الكلاسيكية</p>
         <div class="lx-quick-roots">
           @for (root of quickRoots; track root) {
             <button class="lx-quick-chip" (click)="tryRoot(root)">{{ root }}</button>
@@ -101,11 +89,19 @@
         </div>
       </div>
 
-    } @else if (searching()) {
-      <div class="rp-loading">جارٍ البحث…</div>
-
-    } @else {
-      <div class="rp-empty">لا توجد نتائج لـ «{{ searchTerm() }}»</div>
+      @if (sourcesLoading()) {
+        <div class="rp-loading">جارٍ تحميل المعاجم…</div>
+      } @else {
+        <div class="lx-catalog">
+          @for (src of sources(); track src.slug) {
+            <article class="lx-dict-card" (click)="tryRoot(searchTerm() || 'كتب')">
+              <h3 class="lx-dict-card__title">{{ src.title_ar }}</h3>
+              <p class="lx-dict-card__author">{{ src.author }}</p>
+              <span class="lx-dict-card__count">{{ src.roots | number }} جذر</span>
+            </article>
+          }
+        </div>
+      }
     }
 
   </section>
