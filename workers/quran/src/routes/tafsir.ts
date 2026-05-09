@@ -10,6 +10,61 @@ import { TafsirRepo } from '../repositories/tafsir.repo';
 
 export function tafsirRoutes(router: Router<QuranEnv>) {
 
+  // GET /qr/scholars — list all scholars with entry counts and works
+  router.get('/qr/scholars', async (_req, env) => {
+    const { results: scholars } = await env.DB_QR
+      .prepare(`
+        SELECT sp.id, sp.name_ar, sp.name_en, sp.kunya, sp.laqab,
+               sp.birth_year_hijri, sp.death_year_hijri,
+               sp.birth_year_ce, sp.death_year_ce,
+               sp.era, sp.madhab, sp.specialization,
+               COUNT(te.id) AS entry_count
+        FROM qr_scholar_profiles sp
+        LEFT JOIN qr_tafsir_entries te ON te.scholar_id = sp.id
+        GROUP BY sp.id
+        ORDER BY entry_count DESC
+      `)
+      .all<{
+        id: string; name_ar: string; name_en: string | null;
+        kunya: string | null; laqab: string | null;
+        birth_year_hijri: number | null; death_year_hijri: number | null;
+        birth_year_ce: number | null; death_year_ce: number | null;
+        era: string | null; madhab: string | null; specialization: string | null;
+        entry_count: number;
+      }>();
+    return ok({ scholars });
+  });
+
+  // GET /qr/works?work_type=tafsir|irab — list works joined with scholar info and entry counts
+  router.get('/qr/works', async (req, env) => {
+    const url = new URL(req.url);
+    const workType = url.searchParams.get('work_type');
+
+    const typeClause = workType ? `WHERE sw.work_type = ?` : '';
+    const params: unknown[] = workType ? [workType] : [];
+
+    const { results: works } = await env.DB_QR
+      .prepare(`
+        SELECT sw.id, sw.scholar_id, sw.title_ar, sw.title_en, sw.work_type,
+               sw.composition_year_hijri, sw.composition_year_ce,
+               sw.volumes, sw.is_complete, sw.print_edition, sw.summary,
+               sp.name_ar AS scholar_name_ar, sp.name_en AS scholar_name_en,
+               sp.era, sp.madhab, sp.specialization,
+               sp.birth_year_hijri, sp.death_year_hijri,
+               sp.birth_year_ce, sp.death_year_ce,
+               COUNT(te.id) AS entry_count
+        FROM qr_scholar_works sw
+        LEFT JOIN qr_scholar_profiles sp ON sp.id = sw.scholar_id
+        LEFT JOIN qr_tafsir_entries te ON te.work_id = sw.id
+        ${typeClause}
+        GROUP BY sw.id
+        ORDER BY entry_count DESC
+      `)
+      .bind(...params)
+      .all();
+    return ok({ works });
+  });
+
   // GET /qr/tafsir?surah=78&ayah=1[&work_id=QR:WORK:...]
   // Returns tafsir entries overlapping the given ayah, joined with scholar + work names.
   router.get('/qr/tafsir', async (req, env) => {

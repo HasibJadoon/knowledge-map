@@ -1,96 +1,138 @@
 <div class="rp-page" dir="rtl">
 
-  <!-- Filter Bar -->
-  <div class="rp-filter">
-    <label class="rp-filter__search" aria-label="ابحث في علوم القرآن">
-      <span class="rp-filter__search-icon" aria-hidden="true">⌕</span>
-      <input
-        class="rp-filter__search-input"
-        type="search"
-        placeholder="ابحث في علوم القرآن..."
-        [value]="searchTerm()"
-        (input)="setSearch($any($event.target).value)"
-        dir="rtl"
-      />
-    </label>
+  <!-- ── Source Detail Panel ──────────────────────────────────────────── -->
+  @if (selectedSource(); as src) {
+    <div class="rp-detail">
 
-    <button class="rp-filter__dropdown" type="button">
-      <span>كل الأقسام</span>
-      <span class="rp-filter__chevron" aria-hidden="true">▾</span>
-    </button>
+      <div class="rp-detail__header">
+        <button class="rp-detail__back" (click)="closeSource()" type="button">
+          <span aria-hidden="true">›</span>
+          <span>العودة</span>
+        </button>
+        <div class="rp-detail__meta">
+          <h1 class="rp-detail__title">{{ src.source_title_ar }}</h1>
+          @if (src.source_title_en) {
+            <p class="rp-detail__scholar">{{ src.source_title_en }}</p>
+          }
+          <div class="rp-detail__badges">
+            <span class="rp-badge rp-badge--count">{{ src.entry_count | number }} إعراب</span>
+          </div>
+        </div>
 
-    <button class="rp-filter__dropdown" type="button">
-      <span>ترتيب حسب الشهرة</span>
-      <span class="rp-filter__chevron" aria-hidden="true">▾</span>
-    </button>
+        <!-- Surah selector -->
+        <div class="rp-detail__surah-bar" dir="ltr">
+          <label class="rp-detail__surah-label" dir="rtl">السورة:</label>
+          <div class="rp-detail__surah-scroll">
+            @for (s of surahs; track s) {
+              <button
+                class="rp-detail__surah-btn"
+                [class.rp-detail__surah-btn--active]="selectedSurah() === s"
+                (click)="setSurah(s)"
+                type="button"
+              >{{ s }}</button>
+            }
+          </div>
+        </div>
+      </div>
 
-    <button class="rp-filter__btn" type="button">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <line x1="1" y1="3.5" x2="13" y2="3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        <line x1="3" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        <line x1="5" y1="10.5" x2="9" y2="10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-      </svg>
-      <span>فلتر</span>
-    </button>
+      <!-- Grouped entries by ayah -->
+      <div class="rp-detail__entries" dir="rtl">
+        @if (entriesLoading()) {
+          <div class="rp-loading">جارٍ التحميل…</div>
+        } @else if (!groupedEntries().length) {
+          <div class="rp-empty">لا توجد بيانات إعراب لهذه السورة في هذا المصدر</div>
+        } @else {
+          @for (group of groupedEntries(); track group.key) {
+            <section class="rp-irab-group">
+              <h3 class="rp-irab-group__ayah">آية {{ group.key }}</h3>
+              @for (entry of group.items; track entry.id) {
+                <div class="rp-irab-entry">
+                  @if (entry.target_text_ar) {
+                    <span class="rp-irab-entry__word">{{ entry.target_text_ar }}</span>
+                  }
+                  <div class="rp-irab-entry__analysis">
+                    @if (entry.grammar_role_ar) {
+                      <span class="rp-irab-tag rp-irab-tag--role">{{ entry.grammar_role_ar }}</span>
+                    }
+                    @if (entry.grammar_case_ar) {
+                      <span class="rp-irab-tag rp-irab-tag--case">{{ entry.grammar_case_ar }}</span>
+                    }
+                    @if (entry.mahal_ar) {
+                      <span class="rp-irab-tag rp-irab-tag--mahal">{{ entry.mahal_ar }}</span>
+                    }
+                    <p class="rp-irab-entry__text">{{ entry.irab_text_ar }}</p>
+                  </div>
+                </div>
+              }
+            </section>
+          }
+        }
+      </div>
 
-    <div class="rp-filter__views" role="group">
-      <button class="rp-filter__view-btn rp-filter__view-btn--active" type="button">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <rect x="1" y="1" width="5" height="5" stroke="currentColor" stroke-width="1.3" fill="none"/>
-          <rect x="8" y="1" width="5" height="5" stroke="currentColor" stroke-width="1.3" fill="none"/>
-          <rect x="1" y="8" width="5" height="5" stroke="currentColor" stroke-width="1.3" fill="none"/>
-          <rect x="8" y="8" width="5" height="5" stroke="currentColor" stroke-width="1.3" fill="none"/>
-        </svg>
-      </button>
-      <button class="rp-filter__view-btn" type="button">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <line x1="1" y1="3" x2="13" y2="3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-          <line x1="1" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-          <line x1="1" y1="11" x2="13" y2="11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        </svg>
-      </button>
     </div>
-  </div>
 
-  <!-- Card Grid -->
-  <div class="rp-grid" #grid>
-    @for (source of filteredSources(); track source.title) {
-      <article class="source-card">
+  <!-- ── Sources Catalog ───────────────────────────────────────────────── -->
+  } @else {
 
-        <div class="source-card__body">
-          <div class="source-card__icon-wrap" aria-hidden="true">
-            <span class="source-card__icon">{{ source.icon }}</span>
-          </div>
-          <div class="source-card__info">
-            <h2 class="source-card__title">{{ source.title }}</h2>
-            <p class="source-card__desc">{{ source.description }}</p>
-          </div>
-        </div>
+    <div class="rp-filter">
+      <label class="rp-filter__search" aria-label="ابحث في كتب الإعراب">
+        <span class="rp-filter__search-icon" aria-hidden="true">⌕</span>
+        <input
+          class="rp-filter__search-input"
+          type="search"
+          placeholder="ابحث في كتب الإعراب…"
+          [value]="searchTerm()"
+          (input)="setSearch($any($event.target).value)"
+          dir="rtl"
+        />
+      </label>
+    </div>
 
-        <div class="source-card__footer">
-          <span class="source-card__count">
-            <span class="source-card__count-gem" aria-hidden="true">≋</span>
-            {{ source.topicCount }}
-          </span>
-          <div class="source-card__actions">
-            <button class="source-card__bookmark" type="button" title="حفظ">
-              <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true">
-                <path d="M1 1h10v12l-5-3-5 3V1z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <button class="source-card__open-btn" type="button">
-              <span class="source-card__open-arrow" aria-hidden="true">‹</span>
-              <span>عرض المواضيع</span>
-            </button>
-          </div>
-        </div>
+    @if (loading()) {
+      <div class="rp-loading">جارٍ تحميل مصادر الإعراب…</div>
+    } @else {
+      <div class="rp-grid" #grid>
+        @for (src of filteredSources(); track src.id) {
+          <article class="source-card" (click)="selectSource(src)" role="button" tabindex="0"
+            (keydown.enter)="selectSource(src)" (keydown.space)="selectSource(src)">
 
-      </article>
+            <div class="source-card__body">
+              <div class="source-card__icon-wrap" aria-hidden="true">
+                <span class="source-card__icon">⊤</span>
+              </div>
+              <div class="source-card__info">
+                <h2 class="source-card__title">{{ src.source_title_ar }}</h2>
+                @if (src.source_title_en) {
+                  <p class="source-card__subtitle">{{ src.source_title_en }}</p>
+                }
+                @if (src.note_md) {
+                  <p class="source-card__desc">{{ src.note_md }}</p>
+                }
+              </div>
+            </div>
+
+            <div class="source-card__footer">
+              <span class="source-card__count">
+                <span class="source-card__count-gem" aria-hidden="true">≋</span>
+                {{ src.entry_count | number }} إعراب
+              </span>
+              <div class="source-card__actions">
+                <button class="source-card__open-btn" type="button" (click)="selectSource(src)">
+                  <span class="source-card__open-arrow" aria-hidden="true">‹</span>
+                  <span>تصفح الإعراب</span>
+                </button>
+              </div>
+            </div>
+
+          </article>
+        }
+
+        @if (!filteredSources().length) {
+          <div class="rp-empty" role="status">لا توجد نتائج مطابقة</div>
+        }
+      </div>
     }
 
-    @if (!filteredSources().length) {
-      <div class="rp-empty" role="status">لا توجد نتائج مطابقة</div>
-    }
-  </div>
+  }
 
 </div>

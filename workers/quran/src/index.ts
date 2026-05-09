@@ -20,6 +20,8 @@ import { readerRoutes } from './routes/reader';
 import { vocabularyRoutes } from './routes/vocabulary';
 import { worldviewRoutes } from './routes/worldview';
 import { tafsirRoutes } from './routes/tafsir';
+import { irabRoutes } from './routes/irab';
+import { lexiconRoutes } from './routes/lexicon';
 import { depGraphRoutes } from './routes/dep-graphs';
 import { mushafRoutes } from './routes/mushaf';
 
@@ -44,7 +46,9 @@ studyRoutes(router);         // GET /qr/study/surahs/:id — grid, passages, les
 pageRoutes(router);          // GET /qr/pages/:page, /qr/surahs/:id/pages
 mushafRoutes(router);        // GET /qr/mushaf/pages/:page — Quran.com-style Mushaf layout
 srsRoutes(router);           // GET /qr/srs?filter=due|upcoming|all|suspended
-tafsirRoutes(router);        // GET /qr/tafsir?surah=&ayah= — entries + by-ids batch
+tafsirRoutes(router);        // GET /qr/tafsir, /qr/scholars, /qr/works
+irabRoutes(router);          // GET /qr/irab/book-sources, /qr/irab/book-entries
+lexiconRoutes(router);       // GET /qr/lexicon/lemmas, /qr/lexicon/roots
 depGraphRoutes(router);      // GET /qr/irab/dep-graph/:surah/:ayah — SVG from R2; /meta — D1 metadata
 
 export default {

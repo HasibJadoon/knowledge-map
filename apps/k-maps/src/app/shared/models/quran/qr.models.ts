@@ -148,6 +148,127 @@ export interface QrAyah {
   words?: QrAyahWord[];  // present only when ?words=1
 }
 
+// ─── Research: Tafsir ─────────────────────────────────────────────────────────
+
+export interface QrScholarWork {
+  id: string;
+  scholar_id: string;
+  title_ar: string;
+  title_en: string | null;
+  work_type: string;
+  composition_year_hijri: number | null;
+  composition_year_ce: number | null;
+  volumes: number | null;
+  is_complete: number;
+  print_edition: string | null;
+  summary: string | null;
+  scholar_name_ar: string;
+  scholar_name_en: string | null;
+  era: string | null;
+  madhab: string | null;
+  specialization: string | null;
+  birth_year_hijri: number | null;
+  death_year_hijri: number | null;
+  birth_year_ce: number | null;
+  death_year_ce: number | null;
+  entry_count: number;
+}
+
+export interface QrScholar {
+  id: string;
+  name_ar: string;
+  name_en: string | null;
+  kunya: string | null;
+  laqab: string | null;
+  era: string | null;
+  madhab: string | null;
+  specialization: string | null;
+  birth_year_hijri: number | null;
+  death_year_hijri: number | null;
+  birth_year_ce: number | null;
+  death_year_ce: number | null;
+  entry_count: number;
+}
+
+export interface QrTafsirEntry {
+  id: string;
+  surah: number;
+  ayah_from: number;
+  ayah_to: number;
+  entry_type: string;
+  scholar_id: string | null;
+  work_id: string | null;
+  content_ar: string;
+  content_en: string | null;
+  source_page: string | null;
+  scholar: { name_ar: string; name_en: string | null } | null;
+  work: { title_ar: string; title_en: string | null; work_type: string } | null;
+}
+
+// ─── Research: Iraab ─────────────────────────────────────────────────────────
+
+export interface QrIrabSource {
+  id: string;
+  source_slug: string;
+  source_title_ar: string;
+  source_title_en: string | null;
+  source_kind: string;
+  note_md: string | null;
+  entry_count: number;
+}
+
+export interface QrIrabEntry {
+  id: string;
+  source_slug: string;
+  source_title: string;
+  ayah_key: string;
+  surah: number;
+  ayah_from: number;
+  ayah_to: number;
+  irab_text_ar: string;
+  source_quote_ar: string | null;
+  target_text_ar: string | null;
+  target_text_bare: string | null;
+  grammar_role_ar: string | null;
+  grammar_role_norm: string | null;
+  grammar_case_ar: string | null;
+  mahal_ar: string | null;
+  grammar_concept_ref: string | null;
+  entry_order: number;
+}
+
+// ─── Research: Lexicon ────────────────────────────────────────────────────────
+
+export interface QrLemma {
+  id: string;
+  lemma_text: string;
+  root: string;
+  total_occurrences: number;
+  lx_lemma_ref: string | null;
+}
+
+export interface QrLemmaOccurrence {
+  id: string;
+  surah: number;
+  ayah: number;
+  word_index: number;
+  ayah_text: string | null;
+}
+
+export interface QrRoot {
+  root: string;
+  lemma_count: number;
+  total_occurrences: number;
+}
+
+export interface QrPaginated<T> {
+  rows: T[];
+  total: number;
+  page: number;
+  per_page: number;
+  has_more?: boolean;
+}
+
 export interface QrPassage {
   id: string;
   surah: number;

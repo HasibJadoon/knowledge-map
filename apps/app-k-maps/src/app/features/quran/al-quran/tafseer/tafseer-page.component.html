@@ -1,16 +1,84 @@
 <ion-content class="research-content" [fullscreen]="false">
-  <section class="research-page">
-    <div class="source-list">
-      @for (source of sources(); track source.title) {
-        <article class="source-card">
-          <div class="source-card__icon" aria-hidden="true">{{ source.icon }}</div>
-          <div>
-            <h2>{{ source.title }}</h2>
-            <p class="source-card__scholar">{{ source.scholar }}</p>
-            <p>{{ source.description }}</p>
-          </div>
-        </article>
+
+  <!-- ── Work Detail ──────────────────────────────────────────────────── -->
+  @if (selectedWork(); as work) {
+    <section class="research-page" dir="rtl">
+
+      <div class="rp-detail-header">
+        <button class="rp-back-btn" (click)="closeWork()" fill="clear">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+          <span>العودة</span>
+        </button>
+        <h2 class="rp-detail-title">{{ work.title_ar }}</h2>
+        <p class="rp-detail-scholar">{{ work.scholar_name_ar }}</p>
+        <div class="rp-badges">
+          @if (work.volumes) { <span class="rp-badge">{{ work.volumes }} جزء</span> }
+          @if (work.era)     { <span class="rp-badge">{{ work.era }}</span> }
+          @if (deathYear(work)) { <span class="rp-badge rp-badge--muted">{{ deathYear(work) }}</span> }
+          <span class="rp-badge rp-badge--count">{{ work.entry_count }} مقطع</span>
+        </div>
+      </div>
+
+      <!-- Surah picker -->
+      <div class="rp-surah-row">
+        @for (s of surahs; track s) {
+          <button class="rp-surah-chip"
+            [class.rp-surah-chip--active]="selectedSurah() === s"
+            (click)="setSurah(s)">{{ s }}</button>
+        }
+      </div>
+
+      <!-- Entries -->
+      @if (entriesLoading()) {
+        <div class="rp-loading">جارٍ التحميل…</div>
+      } @else if (!entries().length) {
+        <div class="rp-empty">لا توجد مقاطع لهذه السورة في هذا التفسير</div>
+      } @else {
+        <div class="rp-entries">
+          @for (entry of entries(); track entry.id) {
+            <article class="rp-entry">
+              <span class="rp-entry__ref">{{ entry.surah }}:{{ entry.ayah_from }}@if (entry.ayah_to !== entry.ayah_from){–{{ entry.ayah_to }}}</span>
+              <p class="rp-entry__text">{{ entry.content_ar }}</p>
+            </article>
+          }
+        </div>
       }
-    </div>
-  </section>
+
+    </section>
+
+  <!-- ── Works List ──────────────────────────────────────────────────── -->
+  } @else {
+    <section class="research-page" dir="rtl">
+
+      @if (loading()) {
+        <div class="rp-loading">جارٍ تحميل التفاسير…</div>
+      } @else {
+        <div class="source-list">
+          @for (work of filteredWorks(); track work.id) {
+            <article class="source-card" (click)="selectWork(work)">
+              <div class="source-card__icon" aria-hidden="true">◫</div>
+              <div class="source-card__body">
+                <h2>{{ work.title_ar }}</h2>
+                <p class="source-card__scholar">{{ work.scholar_name_ar }}</p>
+                @if (work.title_en) { <p class="source-card__sub">{{ work.title_en }}</p> }
+                <div class="rp-badges">
+                  @if (work.era) { <span class="rp-badge">{{ work.era }}</span> }
+                  @if (work.madhab && madhabLabel[work.madhab]) {
+                    <span class="rp-badge rp-badge--muted">{{ madhabLabel[work.madhab] }}</span>
+                  }
+                  @if (deathYear(work)) { <span class="rp-badge rp-badge--muted">{{ deathYear(work) }}</span> }
+                  <span class="rp-badge rp-badge--count">{{ work.entry_count }} مقطع</span>
+                </div>
+              </div>
+            </article>
+          }
+          @if (!filteredWorks().length && !loading()) {
+            <div class="rp-empty">لا توجد نتائج مطابقة</div>
+          }
+        </div>
+      }
+
+    </section>
+  }
+
 </ion-content>

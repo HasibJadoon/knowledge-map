@@ -1,16 +1,89 @@
 <ion-content class="research-content" [fullscreen]="false">
-  <section class="research-page">
-    <div class="source-list">
-      @for (source of sources(); track source.title) {
-        <article class="source-card">
-          <div class="source-card__icon" aria-hidden="true">{{ source.icon }}</div>
-          <div>
-            <h2>{{ source.title }}</h2>
-            <p>{{ source.description }}</p>
-            <span>{{ source.topicCount }}</span>
-          </div>
-        </article>
+
+  <!-- ── Source Detail ─────────────────────────────────────────────── -->
+  @if (selectedSource(); as src) {
+    <section class="research-page" dir="rtl">
+
+      <div class="rp-detail-header">
+        <button class="rp-back-btn" (click)="closeSource()">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+          <span>العودة</span>
+        </button>
+        <h2 class="rp-detail-title">{{ src.source_title_ar }}</h2>
+        @if (src.source_title_en) { <p class="rp-detail-scholar">{{ src.source_title_en }}</p> }
+        <span class="rp-badge rp-badge--count">{{ src.entry_count }} إعراب</span>
+      </div>
+
+      <!-- Surah picker -->
+      <div class="rp-surah-row">
+        @for (s of surahs; track s) {
+          <button class="rp-surah-chip"
+            [class.rp-surah-chip--active]="selectedSurah() === s"
+            (click)="setSurah(s)">{{ s }}</button>
+        }
+      </div>
+
+      <!-- Grouped irab entries -->
+      @if (entriesLoading()) {
+        <div class="rp-loading">جارٍ التحميل…</div>
+      } @else if (!groupedEntries().length) {
+        <div class="rp-empty">لا توجد بيانات إعراب لهذه السورة</div>
+      } @else {
+        <div class="rp-entries">
+          @for (group of groupedEntries(); track group.key) {
+            <div class="rp-irab-group">
+              <h3 class="rp-irab-group__key">آية {{ group.key }}</h3>
+              @for (entry of group.items; track entry.id) {
+                <div class="rp-irab-entry">
+                  @if (entry.target_text_ar) {
+                    <span class="rp-irab-word">{{ entry.target_text_ar }}</span>
+                  }
+                  <div class="rp-irab-tags">
+                    @if (entry.grammar_role_ar) {
+                      <span class="rp-irab-tag rp-irab-tag--role">{{ entry.grammar_role_ar }}</span>
+                    }
+                    @if (entry.grammar_case_ar) {
+                      <span class="rp-irab-tag rp-irab-tag--case">{{ entry.grammar_case_ar }}</span>
+                    }
+                    @if (entry.mahal_ar) {
+                      <span class="rp-irab-tag rp-irab-tag--mahal">{{ entry.mahal_ar }}</span>
+                    }
+                  </div>
+                  <p class="rp-irab-text">{{ entry.irab_text_ar }}</p>
+                </div>
+              }
+            </div>
+          }
+        </div>
       }
-    </div>
-  </section>
+
+    </section>
+
+  <!-- ── Sources List ──────────────────────────────────────────────── -->
+  } @else {
+    <section class="research-page" dir="rtl">
+
+      @if (loading()) {
+        <div class="rp-loading">جارٍ تحميل مصادر الإعراب…</div>
+      } @else {
+        <div class="source-list">
+          @for (src of filteredSources(); track src.id) {
+            <article class="source-card" (click)="selectSource(src)">
+              <div class="source-card__icon" aria-hidden="true">⊤</div>
+              <div class="source-card__body">
+                <h2>{{ src.source_title_ar }}</h2>
+                @if (src.source_title_en) { <p class="source-card__sub">{{ src.source_title_en }}</p> }
+                <span class="rp-badge rp-badge--count">{{ src.entry_count }} إعراب</span>
+              </div>
+            </article>
+          }
+          @if (!filteredSources().length && !loading()) {
+            <div class="rp-empty">لا توجد نتائج مطابقة</div>
+          }
+        </div>
+      }
+
+    </section>
+  }
+
 </ion-content>
