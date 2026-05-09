@@ -160,7 +160,7 @@
   unicode-bidi: plaintext;
   white-space: nowrap;
   max-width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .mushaf-line--ayah {
@@ -316,30 +316,30 @@
   }
 
   .mushaf-line--ayah {
-    font-size: clamp(0.9rem, 3.8vw, 1.4rem);
-    line-height: 2.1;
+    font-size: clamp(1.1rem, 5.2vw, 1.75rem);
+    line-height: 2.0;
   }
 
   .mushaf-line--surah {
-    font-size: clamp(1.3rem, 6vw, 2.2rem);
+    font-size: clamp(1.5rem, 7.2vw, 2.4rem);
   }
 
   .mushaf-line--basmallah {
-    font-size: clamp(0.9rem, 3.6vw, 1.3rem);
+    font-size: clamp(1rem, 4.6vw, 1.5rem);
   }
 }
 
 @media (max-width: 380px) {
   .mushaf-line--ayah {
-    font-size: clamp(0.84rem, 3.6vw, 1.28rem);
+    font-size: clamp(1rem, 4.8vw, 1.55rem);
   }
 
   .mushaf-line--surah {
-    font-size: clamp(1.2rem, 5.8vw, 2rem);
+    font-size: clamp(1.35rem, 6.8vw, 2.1rem);
   }
 
   .mushaf-line--basmallah {
-    font-size: clamp(0.84rem, 3.4vw, 1.2rem);
+    font-size: clamp(0.95rem, 4.4vw, 1.35rem);
   }
 }
 
@@ -365,7 +365,16 @@
   }
 
   .mushaf-line--ayah {
+    font-size: clamp(1.05rem, 4.8vh, 1.65rem);
     line-height: 1.85;
+  }
+
+  .mushaf-line--surah {
+    font-size: clamp(1.4rem, 6.5vh, 2.2rem);
+  }
+
+  .mushaf-line--basmallah {
+    font-size: clamp(0.95rem, 4.2vh, 1.4rem);
   }
 
   .mushaf-page {
