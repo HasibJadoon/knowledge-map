@@ -76,6 +76,7 @@ export class UloomPageComponent implements OnInit {
   setSurah(s: number): void { this.selectedSurah.set(s); this.currentAyahIdx.set(0); }
   prevAyah(): void { if (this.currentAyahIdx() > 0) this.currentAyahIdx.update(i => i - 1); }
   nextAyah(): void { if (this.currentAyahIdx() < this.ayahGroups().length - 1) this.currentAyahIdx.update(i => i + 1); }
+  goToAyahNum(ayah: number): void { const i = this.ayahGroups().findIndex(g => g.ayah === ayah); if (i >= 0) this.currentAyahIdx.set(i); }
 
   readonly surahs = Array.from({ length: 114 }, (_, i) => i + 1);
 }

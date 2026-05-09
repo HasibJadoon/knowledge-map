@@ -81,6 +81,7 @@ export class TafseerPageComponent implements OnInit {
   setSurah(s: number): void { this.selectedSurah.set(s); this.currentAyahIdx.set(0); }
   prevAyah(): void { if (this.currentAyahIdx() > 0) this.currentAyahIdx.update(i => i - 1); }
   nextAyah(): void { if (this.currentAyahIdx() < this.ayahGroups().length - 1) this.currentAyahIdx.update(i => i + 1); }
+  goToAyahNum(ayah: number): void { const i = this.ayahGroups().findIndex(g => g.ayah === ayah); if (i >= 0) this.currentAyahIdx.set(i); }
 
   deathYear(w: QrScholarWork): string {
     if (w.death_year_hijri) return `ت ${w.death_year_hijri} هـ`;

@@ -191,47 +191,6 @@
 
 // ── Surah picker strip ────────────────────────────────────────────────────────
 
-.rp-surah-row {
-  display: flex;
-  flex-direction: row;
-  gap: 0.3rem;
-  padding: 0.55rem 0.95rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  border-bottom: 1px solid rgba(201, 168, 76, 0.10);
-
-  &::-webkit-scrollbar { display: none; }
-}
-
-.rp-surah-chip {
-  flex: 0 0 auto;
-  width: 2rem;
-  height: 2rem;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(201, 168, 76, 0.16);
-  border-radius: 6px;
-  background: rgba(255,255,255,0.04);
-  color: rgba(245, 241, 231, 0.58);
-  font-size: 0.72rem;
-  font-family: inherit;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.12s, background 0.12s, color 0.12s;
-
-  &.rp-surah-chip--active {
-    border-color: rgba(232, 201, 106, 0.72);
-    background: rgba(232, 201, 106, 0.14);
-    color: #e8c96a;
-    font-weight: 600;
-  }
-
-  &:active {
-    background: rgba(232, 201, 106, 0.10);
-  }
-}
 
 // ── Verse-by-verse navigation ─────────────────────────────────────────────────
 
@@ -272,22 +231,37 @@
   }
 }
 
-.rp-verse-nav__indicator {
+.rp-verse-nav__selectors {
   flex: 1;
-  text-align: center;
-  color: rgba(232, 201, 106, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.rp-verse-nav__sel {
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(201, 168, 76, 0.08);
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 8px;
+  color: rgba(232, 201, 106, 0.9);
   font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.28rem 0.55rem;
+  cursor: pointer;
+  direction: rtl;
+  text-align: center;
+
+  &:focus { outline: none; border-color: rgba(201, 168, 76, 0.5); }
+  &:disabled { opacity: 0.35; cursor: not-allowed; }
 }
 
 .rp-verse-nav__total {
-  display: inline-block;
-  margin-right: 0.5rem;
   color: rgba(245, 241, 231, 0.36);
-  font-family: inherit;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   direction: ltr;
+  white-space: nowrap;
 }
 
 // ── Verse text (Uthmani) ──────────────────────────────────────────────────────

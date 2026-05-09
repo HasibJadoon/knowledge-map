@@ -19,13 +19,23 @@
         </div>
       </div>
 
-      <!-- Surah picker -->
-      <div class="rp-surah-row">
-        @for (s of surahs; track s) {
-          <button class="rp-surah-chip"
-            [class.rp-surah-chip--active]="selectedSurah() === s"
-            (click)="setSurah(s)">{{ s }}</button>
-        }
+      <!-- Verse navigation (surah + ayah selectors) -->
+      <div class="rp-verse-nav">
+        <button class="rp-verse-nav__btn" (click)="prevAyah()" [disabled]="currentAyahIdx() === 0">›</button>
+        <div class="rp-verse-nav__selectors">
+          <select class="rp-verse-nav__sel" (change)="setSurah(+$any($event.target).value)">
+            @for (s of surahs; track s) {
+              <option [value]="s" [selected]="selectedSurah() === s">سورة {{ s }}</option>
+            }
+          </select>
+          <select class="rp-verse-nav__sel" (change)="goToAyahNum(+$any($event.target).value)" [disabled]="!ayahGroups().length">
+            @for (g of ayahGroups(); track g.ayah) {
+              <option [value]="g.ayah" [selected]="currentGroup()?.ayah === g.ayah">آية {{ g.ayah }}</option>
+            }
+          </select>
+          <span class="rp-verse-nav__total">{{ currentAyahIdx() + 1 }} / {{ ayahGroups().length }}</span>
+        </div>
+        <button class="rp-verse-nav__btn" (click)="nextAyah()" [disabled]="currentAyahIdx() >= ayahGroups().length - 1">‹</button>
       </div>
 
       <!-- Verse-by-verse content -->
@@ -36,15 +46,6 @@
         <div class="rp-empty">لا توجد مقاطع لهذه السورة في هذا التفسير</div>
 
       } @else {
-        <!-- Ayah navigation -->
-        <div class="rp-verse-nav">
-          <button class="rp-verse-nav__btn" (click)="prevAyah()" [disabled]="currentAyahIdx() === 0">›</button>
-          <span class="rp-verse-nav__indicator">
-            آية {{ currentGroup()?.ayah }}
-            <span class="rp-verse-nav__total">{{ currentAyahIdx() + 1 }} / {{ ayahGroups().length }}</span>
-          </span>
-          <button class="rp-verse-nav__btn" (click)="nextAyah()" [disabled]="currentAyahIdx() >= ayahGroups().length - 1">‹</button>
-        </div>
 
         @if (currentGroup(); as group) {
           <!-- Ayah text (Uthmani) -->
