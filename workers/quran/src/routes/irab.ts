@@ -33,58 +33,62 @@ export function irabRoutes(router: Router<QuranEnv>) {
     return ok({ sources: results });
   });
 
-  // GET /qr/irab/book-entries?surah=X[&ayah=Y][&source_slug=S]
-  // Returns irab entries for a surah (and optionally a specific ayah / source).
+  // GET /qr/irab/book-entries?surah=X[&ayah=Y][&source_slug=S][&limit=N][&page=N]
+  // Returns irab entries for a surah, joined with qr_ayah.text_uthmani for verse-by-verse display.
   router.get('/qr/irab/book-entries', async (req, env) => {
-    const url    = new URL(req.url);
-    const surah  = parseInt(url.searchParams.get('surah') ?? '');
-    const ayah   = parseInt(url.searchParams.get('ayah')  ?? '');
-    const slug   = url.searchParams.get('source_slug');
+    const url   = new URL(req.url);
+    const surah = parseInt(url.searchParams.get('surah') ?? '');
+    const ayah  = parseInt(url.searchParams.get('ayah')  ?? '');
+    const slug  = url.searchParams.get('source_slug');
 
     if (isNaN(surah)) return badRequest('surah param required');
 
-    const where: string[] = ['surah = ?'];
+    const where: string[] = ['e.surah = ?'];
     const params: unknown[] = [surah];
 
     if (!isNaN(ayah)) {
-      where.push('ayah_from <= ? AND ayah_to >= ?');
+      where.push('e.ayah_from <= ? AND e.ayah_to >= ?');
       params.push(ayah, ayah);
     }
     if (slug) {
-      where.push('source_slug = ?');
+      where.push('e.source_slug = ?');
       params.push(slug);
     }
 
-    const pagination = parsePagination(url, { defaultPerPage: 100, maxPerPage: 500 });
+    const limit  = Math.min(1000, Math.max(1, parseInt(url.searchParams.get('limit') ?? '500', 10) || 500));
+    const page   = Math.max(1, parseInt(url.searchParams.get('page') ?? '1', 10) || 1);
+    const offset = (page - 1) * limit;
+
     const whereClause = `WHERE ${where.join(' AND ')}`;
-    const countSql = `SELECT COUNT(*) AS count FROM qr_irab_book_entries ${whereClause}`;
+    const countSql = `SELECT COUNT(*) AS count FROM qr_irab_book_entries e ${whereClause}`;
     const dataSql  = `
-      SELECT id, source_slug, source_title, ayah_key,
-             surah, ayah_from, ayah_to,
-             irab_text_ar, source_quote_ar,
-             target_text_ar, target_text_bare,
-             grammar_role_ar, grammar_role_norm,
-             grammar_case_ar, mahal_ar,
-             grammar_concept_ref, case_concept_ref, mahal_concept_ref,
-             entry_order
-      FROM qr_irab_book_entries
+      SELECT e.id, e.source_slug, e.source_title, e.ayah_key,
+             e.surah, e.ayah_from, e.ayah_to,
+             e.irab_text_ar, e.source_quote_ar,
+             e.target_text_ar, e.target_text_bare,
+             e.grammar_role_ar, e.grammar_role_norm,
+             e.grammar_case_ar, e.mahal_ar,
+             e.grammar_concept_ref, e.case_concept_ref, e.mahal_concept_ref,
+             e.entry_order,
+             a.text_uthmani AS ayah_text
+      FROM qr_irab_book_entries e
+      LEFT JOIN qr_ayah a ON a.surah = e.surah AND a.ayah = e.ayah_from
       ${whereClause}
-      ORDER BY surah, ayah_from, entry_order, id
+      ORDER BY e.surah, e.ayah_from, e.entry_order, e.id
       LIMIT ? OFFSET ?
     `;
 
-    const offset = (pagination.page - 1) * pagination.per_page;
     const [countRes, dataRes] = await Promise.all([
       env.DB_QR.prepare(countSql).bind(...params).first<{ count: number }>(),
-      env.DB_QR.prepare(dataSql).bind(...params, pagination.per_page, offset).all(),
+      env.DB_QR.prepare(dataSql).bind(...params, limit, offset).all(),
     ]);
 
     const total = countRes?.count ?? 0;
     return ok({
       rows: dataRes.results,
       total,
-      page: pagination.page,
-      per_page: pagination.per_page,
+      page,
+      per_page: limit,
       has_more: offset + dataRes.results.length < total,
     });
   });

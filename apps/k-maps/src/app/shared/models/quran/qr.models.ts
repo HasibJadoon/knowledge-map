@@ -203,6 +203,7 @@ export interface QrTafsirEntry {
   source_page: string | null;
   scholar: { name_ar: string; name_en: string | null } | null;
   work: { title_ar: string; title_en: string | null; work_type: string } | null;
+  ayah_text: string | null;
 }
 
 // ─── Research: Iraab ─────────────────────────────────────────────────────────
@@ -235,6 +236,7 @@ export interface QrIrabEntry {
   mahal_ar: string | null;
   grammar_concept_ref: string | null;
   entry_order: number;
+  ayah_text: string | null;
 }
 
 // ─── Research: Lexicon ────────────────────────────────────────────────────────

@@ -34,7 +34,7 @@ export class QuranResearchApiService {
     ayah?: number,
     workId?: string,
     page = 1,
-    limit = 50,
+    limit = 300,
   ): Observable<QrPaginated<QrTafsirEntry>> {
     let params = new HttpParams().set('surah', String(surah)).set('page', String(page)).set('limit', String(limit));
     if (ayah !== undefined) params = params.set('ayah', String(ayah));
@@ -53,7 +53,7 @@ export class QuranResearchApiService {
     ayah?: number,
     sourceSlug?: string,
     page = 1,
-    limit = 100,
+    limit = 500,
   ): Observable<QrPaginated<QrIrabEntry>> {
     let params = new HttpParams().set('surah', String(surah)).set('page', String(page)).set('limit', String(limit));
     if (ayah !== undefined) params = params.set('ayah', String(ayah));

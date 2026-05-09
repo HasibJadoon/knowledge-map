@@ -4,6 +4,12 @@ import { IonicModule } from '@ionic/angular';
 import { QuranResearchApiService, QrIrabSource, QrIrabEntry } from '../../../../shared/services/quran-research-api.service';
 import { QuranResearchSearchService } from '../quran-research-search.service';
 
+interface AyahGroup {
+  ayah: number;
+  text: string | null;
+  entries: QrIrabEntry[];
+}
+
 @Component({
   selector: 'app-uloom-page',
   standalone: true,
@@ -22,6 +28,7 @@ export class UloomPageComponent implements OnInit {
   readonly selectedSurah  = signal(1);
   readonly entries        = signal<QrIrabEntry[]>([]);
   readonly entriesLoading = signal(false);
+  readonly currentAyahIdx = signal(0);
 
   readonly filteredSources = computed(() => {
     const q = this.search.searchTerm().trim().toLowerCase();
@@ -31,15 +38,17 @@ export class UloomPageComponent implements OnInit {
     );
   });
 
-  readonly groupedEntries = computed(() => {
-    const map = new Map<string, QrIrabEntry[]>();
+  readonly ayahGroups = computed<AyahGroup[]>(() => {
+    const map = new Map<number, AyahGroup>();
     for (const e of this.entries()) {
-      const key = e.ayah_key;
-      if (!map.has(key)) map.set(key, []);
-      map.get(key)!.push(e);
+      const n = e.ayah_from;
+      if (!map.has(n)) map.set(n, { ayah: n, text: e.ayah_text ?? null, entries: [] });
+      map.get(n)!.entries.push(e);
     }
-    return [...map.entries()].map(([key, items]) => ({ key, items }));
+    return [...map.values()].sort((a, b) => a.ayah - b.ayah);
   });
+
+  readonly currentGroup = computed(() => this.ayahGroups()[this.currentAyahIdx()] ?? null);
 
   constructor() {
     effect(() => {
@@ -47,6 +56,7 @@ export class UloomPageComponent implements OnInit {
       const surah = this.selectedSurah();
       if (!src) return;
       this.entriesLoading.set(true);
+      this.currentAyahIdx.set(0);
       this.api.getIrabEntries(surah, src.source_slug).subscribe({
         next: res => { this.entries.set(res.rows); this.entriesLoading.set(false); },
         error: () => this.entriesLoading.set(false),
@@ -61,9 +71,11 @@ export class UloomPageComponent implements OnInit {
     });
   }
 
-  selectSource(s: QrIrabSource): void { this.selectedSource.set(s); this.entries.set([]); }
-  closeSource(): void { this.selectedSource.set(null); this.entries.set([]); }
-  setSurah(s: number): void { this.selectedSurah.set(s); }
+  selectSource(s: QrIrabSource): void { this.selectedSource.set(s); this.entries.set([]); this.currentAyahIdx.set(0); }
+  closeSource(): void { this.selectedSource.set(null); this.entries.set([]); this.currentAyahIdx.set(0); }
+  setSurah(s: number): void { this.selectedSurah.set(s); this.currentAyahIdx.set(0); }
+  prevAyah(): void { if (this.currentAyahIdx() > 0) this.currentAyahIdx.update(i => i - 1); }
+  nextAyah(): void { if (this.currentAyahIdx() < this.ayahGroups().length - 1) this.currentAyahIdx.update(i => i + 1); }
 
   readonly surahs = Array.from({ length: 114 }, (_, i) => i + 1);
 }

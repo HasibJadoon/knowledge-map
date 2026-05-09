@@ -270,3 +270,68 @@
   font-family: var(--km-font-arabic-ui);
   font-size: 0.9rem;
 }
+
+// ── Verse-by-verse navigation ─────────────────────────────────────────────────
+
+.rp-verse-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+  background: rgba(201, 168, 76, 0.03);
+}
+
+.rp-verse-nav__btn {
+  flex: 0 0 auto;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(201, 168, 76, 0.24);
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.05);
+  color: rgba(232, 201, 106, 0.8);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s;
+
+  &:disabled { opacity: 0.28; cursor: not-allowed; }
+  &:not(:disabled):hover {
+    border-color: rgba(232, 201, 106, 0.5);
+    background: rgba(232, 201, 106, 0.10);
+  }
+}
+
+.rp-verse-nav__indicator {
+  flex: 1;
+  text-align: center;
+  color: rgba(232, 201, 106, 0.85);
+  font-family: var(--km-font-arabic-ui);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.rp-verse-nav__total {
+  display: inline-block;
+  margin-right: 0.45rem;
+  color: rgba(245, 241, 231, 0.38);
+  font-size: 0.74rem;
+  direction: ltr;
+}
+
+.rp-verse-text {
+  padding: 1.2rem 1.6rem 1rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+  background: rgba(201, 168, 76, 0.03);
+  color: #f5f0de;
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.55rem;
+  line-height: 2.2;
+  text-align: center;
+  word-break: break-word;
+  white-space: normal;
+  direction: rtl;
+}

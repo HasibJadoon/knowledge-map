@@ -65,67 +65,94 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
     return ok({ works });
   });
 
-  // GET /qr/tafsir?surah=78&ayah=1[&work_id=QR:WORK:...]
-  // Returns tafsir entries overlapping the given ayah, joined with scholar + work names.
+  // GET /qr/tafsir?surah=X[&ayah=Y][&work_id=Z][&limit=N][&page=N]
+  // Returns tafsir entries joined with qr_ayah.text_uthmani for verse-by-verse display.
   router.get('/qr/tafsir', async (req, env) => {
-    const url   = new URL(req.url);
-    const surah = parseInt(url.searchParams.get('surah') ?? '');
-    const ayah  = parseInt(url.searchParams.get('ayah')  ?? '');
+    const url    = new URL(req.url);
+    const surah  = parseInt(url.searchParams.get('surah') ?? '');
+    const ayah   = parseInt(url.searchParams.get('ayah')  ?? '');
     const workId = url.searchParams.get('work_id');
 
     if (isNaN(surah)) return badRequest('surah param required');
 
-    const repo = new TafsirRepo(env.DB_QR);
-    const pagination = parsePagination(url, { defaultPerPage: 50, maxPerPage: 200 });
+    const where: string[] = ['te.surah = ?'];
+    const params: unknown[] = [surah];
 
-    const result = await repo.entries(
-      surah,
-      isNaN(ayah) ? undefined : ayah,
-      undefined,  // scholarId filter not used here
-      pagination,
-    );
+    if (!isNaN(ayah)) {
+      where.push('te.ayah_from <= ? AND te.ayah_to >= ?');
+      params.push(ayah, ayah);
+    }
+    if (workId) {
+      where.push('te.work_id = ?');
+      params.push(workId);
+    }
 
-    // If work_id filter provided, filter in-place (repo doesn't support it natively)
-    const entries = workId
-      ? { ...result, rows: result.rows.filter((e: { work_id: string | null }) => e.work_id === workId) }
-      : result;
+    const limit  = Math.min(1000, Math.max(1, parseInt(url.searchParams.get('limit') ?? '200', 10) || 200));
+    const page   = Math.max(1, parseInt(url.searchParams.get('page') ?? '1', 10) || 1);
+    const offset = (page - 1) * limit;
 
-    // Enrich with scholar + work metadata in a single batch query
-    const scholarIds = [...new Set(entries.rows.map((e: { scholar_id: string | null }) => e.scholar_id).filter(Boolean))] as string[];
-    const workIds    = [...new Set(entries.rows.map((e: { work_id: string | null }) => e.work_id).filter(Boolean))] as string[];
+    const whereClause = `WHERE ${where.join(' AND ')}`;
+
+    const [countRes, dataRes] = await Promise.all([
+      env.DB_QR
+        .prepare(`SELECT COUNT(*) AS count FROM qr_tafsir_entries te ${whereClause}`)
+        .bind(...params)
+        .first<{ count: number }>(),
+      env.DB_QR
+        .prepare(`
+          SELECT te.id, te.surah, te.ayah_from, te.ayah_to, te.entry_type,
+                 te.scholar_id, te.work_id, te.content_ar, te.content_en,
+                 te.source_page,
+                 a.text_uthmani AS ayah_text
+          FROM qr_tafsir_entries te
+          LEFT JOIN qr_ayah a ON a.surah = te.surah AND a.ayah = te.ayah_from
+          ${whereClause}
+          ORDER BY te.surah, te.ayah_from, te.created_at
+          LIMIT ? OFFSET ?
+        `)
+        .bind(...params, limit, offset)
+        .all<{
+          id: string; surah: number; ayah_from: number; ayah_to: number;
+          entry_type: string; scholar_id: string | null; work_id: string | null;
+          content_ar: string; content_en: string | null; source_page: string | null;
+          ayah_text: string | null;
+        }>(),
+    ]);
+
+    const total = countRes?.count ?? 0;
+    const rows  = dataRes.results;
+
+    // Batch-fetch scholar and work metadata
+    const scholarIds = [...new Set(rows.map(e => e.scholar_id).filter(Boolean))] as string[];
+    const workIds    = [...new Set(rows.map(e => e.work_id).filter(Boolean))] as string[];
 
     let scholars: Record<string, { name_ar: string; name_en: string | null }> = {};
     let works:    Record<string, { title_ar: string; title_en: string | null; work_type: string }> = {};
 
-    if (scholarIds.length) {
-      const ph = scholarIds.map(() => '?').join(',');
-      const rows = await env.DB_QR
-        .prepare(`SELECT id, name_ar, name_en FROM qr_scholar_profiles WHERE id IN (${ph})`)
-        .bind(...scholarIds)
-        .all<{ id: string; name_ar: string; name_en: string | null }>();
-      rows.results.forEach(r => { scholars[r.id] = { name_ar: r.name_ar, name_en: r.name_en }; });
-    }
+    await Promise.all([
+      scholarIds.length
+        ? env.DB_QR
+            .prepare(`SELECT id, name_ar, name_en FROM qr_scholar_profiles WHERE id IN (${scholarIds.map(() => '?').join(',')})`)
+            .bind(...scholarIds)
+            .all<{ id: string; name_ar: string; name_en: string | null }>()
+            .then(r => r.results.forEach(s => { scholars[s.id] = { name_ar: s.name_ar, name_en: s.name_en }; }))
+        : Promise.resolve(),
+      workIds.length
+        ? env.DB_QR
+            .prepare(`SELECT id, title_ar, title_en, work_type FROM qr_scholar_works WHERE id IN (${workIds.map(() => '?').join(',')})`)
+            .bind(...workIds)
+            .all<{ id: string; title_ar: string; title_en: string | null; work_type: string }>()
+            .then(r => r.results.forEach(w => { works[w.id] = { title_ar: w.title_ar, title_en: w.title_en, work_type: w.work_type }; }))
+        : Promise.resolve(),
+    ]);
 
-    if (workIds.length) {
-      const ph = workIds.map(() => '?').join(',');
-      const rows = await env.DB_QR
-        .prepare(`SELECT id, title_ar, title_en, work_type FROM qr_scholar_works WHERE id IN (${ph})`)
-        .bind(...workIds)
-        .all<{ id: string; title_ar: string; title_en: string | null; work_type: string }>();
-      rows.results.forEach(r => { works[r.id] = { title_ar: r.title_ar, title_en: r.title_en, work_type: r.work_type }; });
-    }
-
-    const enriched = entries.rows.map((e: {
-      scholar_id: string | null;
-      work_id: string | null;
-      [key: string]: unknown;
-    }) => ({
+    const enriched = rows.map(e => ({
       ...e,
       scholar: e.scholar_id ? (scholars[e.scholar_id] ?? null) : null,
       work:    e.work_id    ? (works[e.work_id]       ?? null) : null,
     }));
 
-    return ok({ ...entries, rows: enriched });
+    return ok({ rows: enriched, total, page, per_page: limit, has_more: offset + rows.length < total });
   });
 
   // GET /qr/tafsir/by-ids?ids=id1,id2,...

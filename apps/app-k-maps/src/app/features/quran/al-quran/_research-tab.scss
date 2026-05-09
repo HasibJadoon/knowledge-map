@@ -1,3 +1,8 @@
+// ─── Shared Research Tab Styles ───────────────────────────────────────────────
+// Used by tafseer, uloom, and lexicon pages.
+
+// ── Host & content shell ──────────────────────────────────────────────────────
+
 :host {
   display: block;
   height: 100%;
@@ -5,7 +10,7 @@
 
 .research-content {
   --background: #050505;
-  --padding-bottom: 1rem;
+  --padding-bottom: 0;
   --padding-end: 0;
   --padding-start: 0;
   --padding-top: 0;
@@ -16,64 +21,633 @@
   overscroll-behavior-y: contain;
 }
 
+// ── Page wrapper ──────────────────────────────────────────────────────────────
+
 .research-page {
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
-  padding: 0.85rem 0.85rem calc(1.25rem + var(--ion-safe-area-bottom, 0px));
   background:
-    radial-gradient(ellipse 92% 36% at 50% 0%, rgba(201, 168, 76, 0.11), transparent 66%),
+    radial-gradient(ellipse 92% 36% at 50% 0%, rgba(201, 168, 76, 0.10), transparent 64%),
     #050505;
   color: #f5f1e7;
 }
 
+// ── Source catalog list ───────────────────────────────────────────────────────
+
 .source-list {
-  display: grid;
-  gap: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.85rem;
+  padding-bottom: calc(1.5rem + var(--ion-safe-area-bottom, 0px));
 }
 
 .source-card {
-  display: grid;
-  grid-template-columns: 2.45rem 1fr;
+  display: flex;
+  align-items: flex-start;
   gap: 0.85rem;
-  padding: 0.95rem;
+  padding: 0.9rem 0.95rem;
   border: 1px solid rgba(232, 201, 106, 0.14);
-  border-radius: 8px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025));
+  border-radius: 10px;
+  background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:active {
+    border-color: rgba(232, 201, 106, 0.38);
+    background: linear-gradient(160deg, rgba(232,201,106,0.08), rgba(255,255,255,0.02));
+  }
 
   h2 {
-    margin: 0;
+    margin: 0 0 0.2rem;
     color: #f3d77a;
-    font-family: var(--km-font-arabic-ui, serif);
-    font-size: 1.05rem;
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 1.08rem;
+    font-weight: 500;
+    line-height: 1.4;
     letter-spacing: 0;
+    white-space: normal;
+    word-break: break-word;
   }
 
   p {
-    margin: 0.35rem 0 0;
-    color: rgba(245, 241, 231, 0.7);
-    font-size: 0.84rem;
-    line-height: 1.5;
-  }
-
-  span {
-    display: inline-block;
-    margin-top: 0.55rem;
-    color: rgba(232, 201, 106, 0.75);
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    margin: 0.15rem 0 0;
+    color: rgba(245, 241, 231, 0.62);
+    font-size: 0.8rem;
+    line-height: 1.45;
   }
 }
 
 .source-card__icon {
-  width: 2.45rem;
-  height: 2.45rem;
+  flex: 0 0 2.3rem;
+  width: 2.3rem;
+  height: 2.3rem;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(232, 201, 106, 0.34);
+  border: 1px solid rgba(232, 201, 106, 0.3);
   border-radius: 50%;
   color: #e8c96a;
+  font-size: 1.05rem;
+}
+
+.source-card__body {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .source-card__scholar {
-  color: rgba(245, 241, 231, 0.52) !important;
+  color: rgba(245, 241, 231, 0.48) !important;
+  font-size: 0.78rem !important;
+}
+
+.source-card__sub {
+  color: rgba(245, 241, 231, 0.44);
+  font-size: 0.76rem;
+  margin-top: 0.15rem;
+}
+
+// ── Badges ────────────────────────────────────────────────────────────────────
+
+.rp-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.rp-badge {
+  display: inline-block;
+  padding: 0.18rem 0.52rem;
+  border: 1px solid rgba(232, 201, 106, 0.22);
+  border-radius: 20px;
+  background: rgba(232, 201, 106, 0.07);
+  color: rgba(232, 201, 106, 0.82);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+
+  &.rp-badge--muted {
+    border-color: rgba(245, 241, 231, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(245, 241, 231, 0.48);
+  }
+
+  &.rp-badge--count {
+    border-color: rgba(232, 201, 106, 0.38);
+    background: rgba(232, 201, 106, 0.10);
+    color: #e8c96a;
+    font-weight: 500;
+  }
+}
+
+// ── Detail view ───────────────────────────────────────────────────────────────
+
+.rp-detail-header {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.75rem 0.95rem 0;
+  background: rgba(0,0,0,0.32);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.14);
+  backdrop-filter: blur(8px);
+}
+
+.rp-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.28rem 0;
+  background: transparent;
+  border: 0;
+  color: rgba(232, 201, 106, 0.78);
+  font-size: 0.8rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  ion-icon {
+    font-size: 1rem;
+  }
+}
+
+.rp-detail-title {
+  margin: 0;
+  color: #f3d77a;
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.22rem;
+  font-weight: 500;
+  line-height: 1.4;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.rp-detail-scholar {
+  margin: 0;
+  color: rgba(245, 241, 231, 0.52);
+  font-size: 0.82rem;
+}
+
+// ── Surah picker strip ────────────────────────────────────────────────────────
+
+.rp-surah-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.3rem;
+  padding: 0.55rem 0.95rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.10);
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.rp-surah-chip {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(201, 168, 76, 0.16);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  color: rgba(245, 241, 231, 0.58);
+  font-size: 0.72rem;
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+
+  &.rp-surah-chip--active {
+    border-color: rgba(232, 201, 106, 0.72);
+    background: rgba(232, 201, 106, 0.14);
+    color: #e8c96a;
+    font-weight: 600;
+  }
+
+  &:active {
+    background: rgba(232, 201, 106, 0.10);
+  }
+}
+
+// ── Verse-by-verse navigation ─────────────────────────────────────────────────
+
+.rp-verse-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0.95rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.10);
+  background: rgba(0,0,0,0.22);
+}
+
+.rp-verse-nav__btn {
+  flex: 0 0 auto;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.06);
+  color: rgba(232, 201, 106, 0.8);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.12s, background 0.12s;
+
+  &:disabled {
+    opacity: 0.28;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):active {
+    border-color: rgba(232, 201, 106, 0.56);
+    background: rgba(232, 201, 106, 0.13);
+  }
+}
+
+.rp-verse-nav__indicator {
+  flex: 1;
+  text-align: center;
+  color: rgba(232, 201, 106, 0.82);
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.rp-verse-nav__total {
+  display: inline-block;
+  margin-right: 0.5rem;
+  color: rgba(245, 241, 231, 0.36);
+  font-family: inherit;
+  font-size: 0.74rem;
+  direction: ltr;
+}
+
+// ── Verse text (Uthmani) ──────────────────────────────────────────────────────
+
+.rp-verse-text {
+  padding: 1.1rem 1.2rem 0.9rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+  background: rgba(201, 168, 76, 0.035);
+  color: #f5f0de;
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.45rem;
+  line-height: 2.2;
+  text-align: center;
+  word-break: break-word;
+  white-space: normal;
+  letter-spacing: 0.01em;
+}
+
+// ── Entries area ──────────────────────────────────────────────────────────────
+
+.rp-entries {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0.6rem 0.95rem calc(2rem + var(--ion-safe-area-bottom, 0px));
+  overflow-y: auto;
+}
+
+// Tafsir entry
+.rp-entry {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+
+  &:last-child { border-bottom: 0; }
+}
+
+.rp-entry__ref {
+  display: inline-block;
+  margin-bottom: 0.45rem;
+  padding: 0.12rem 0.45rem;
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 4px;
+  background: rgba(201, 168, 76, 0.07);
+  color: rgba(232, 201, 106, 0.8);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  direction: ltr;
+}
+
+.rp-entry__text {
+  margin: 0;
+  color: #f0ead6;
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.1rem;
+  line-height: 1.95;
+  word-break: break-word;
+  white-space: normal;
+  text-align: right;
+}
+
+// ── Iraab entries ─────────────────────────────────────────────────────────────
+
+.rp-irab-group {
+  padding: 0.6rem 0 0.2rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+
+  &:last-child { border-bottom: 0; }
+}
+
+.rp-irab-group__key {
+  margin: 0 0 0.55rem;
+  color: rgba(232, 201, 106, 0.72);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  direction: ltr;
+  font-weight: 500;
+}
+
+.rp-irab-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+
+  &:first-of-type { border-top: 0; }
+}
+
+.rp-irab-word {
+  color: #f3d77a;
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.15rem;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.rp-irab-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.rp-irab-tag {
+  display: inline-block;
+  padding: 0.14rem 0.44rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  white-space: nowrap;
+
+  &.rp-irab-tag--role {
+    background: rgba(120, 180, 255, 0.10);
+    border: 1px solid rgba(120, 180, 255, 0.22);
+    color: rgba(160, 210, 255, 0.85);
+  }
+
+  &.rp-irab-tag--case {
+    background: rgba(180, 255, 160, 0.08);
+    border: 1px solid rgba(140, 220, 120, 0.22);
+    color: rgba(160, 230, 140, 0.82);
+  }
+
+  &.rp-irab-tag--mahal {
+    background: rgba(255, 200, 120, 0.08);
+    border: 1px solid rgba(232, 180, 80, 0.22);
+    color: rgba(232, 200, 120, 0.78);
+  }
+}
+
+.rp-irab-text {
+  margin: 0;
+  color: rgba(245, 241, 231, 0.75);
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 0.96rem;
+  line-height: 1.75;
+  word-break: break-word;
+  white-space: normal;
+  text-align: right;
+}
+
+// ── Lexicon page ──────────────────────────────────────────────────────────────
+
+.lx-page {
+  padding: 0;
+}
+
+.lx-mode-row {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 0.95rem 0;
+}
+
+.lx-mode-btn {
+  flex: 1;
+  padding: 0.42rem 0.6rem;
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  color: rgba(245, 241, 231, 0.55);
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 0.84rem;
+  cursor: pointer;
+  transition: all 0.14s;
+
+  &.lx-mode-btn--active {
+    border-color: rgba(232, 201, 106, 0.6);
+    background: rgba(232, 201, 106, 0.11);
+    color: #e8c96a;
+    font-weight: 500;
+  }
+}
+
+.lx-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.6rem 0.95rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.10);
+}
+
+.lx-root-badge {
+  padding: 0.18rem 0.65rem;
+  border: 1px solid rgba(232, 201, 106, 0.48);
+  border-radius: 20px;
+  background: rgba(232, 201, 106, 0.10);
+  color: #e8c96a;
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.lx-hint {
+  color: rgba(245, 241, 231, 0.4);
+  font-size: 0.76rem;
+  flex: 1;
+}
+
+.lx-root-card, .lx-lemma-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.95rem;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.07);
+  color: #f5f1e7;
+  width: 100%;
+  cursor: pointer;
+  text-align: right;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active { background: rgba(232, 201, 106, 0.06); }
+}
+
+.lx-root-card__root {
+  flex: 1;
+  color: #f3d77a;
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 1.12rem;
+  font-weight: 600;
+}
+
+.lx-root-card__meta {
+  color: rgba(245, 241, 231, 0.42);
+  font-size: 0.74rem;
+}
+
+.lx-lemma-card__text {
+  flex: 1;
+  color: #f5f1e7;
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 1.05rem;
+}
+
+.lx-lemma-card__root {
+  color: rgba(232, 201, 106, 0.55);
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 0.82rem;
+}
+
+.lx-lemma-card__count {
+  color: rgba(232, 201, 106, 0.72);
+  font-size: 0.78rem;
+  min-width: 2.5rem;
+  text-align: left;
+}
+
+// Occurrence panel
+.lx-occ-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.lx-occ-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.95rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.14);
+  background: rgba(0,0,0,0.28);
+}
+
+.lx-lemma-big {
+  color: #f3d77a;
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.lx-root-label {
+  color: rgba(245, 241, 231, 0.45);
+  font-size: 0.78rem;
+}
+
+.lx-occ-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.lx-occ-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.6rem 0.95rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.06);
+}
+
+.lx-occ-key {
+  flex: 0 0 auto;
+  min-width: 3.2rem;
+  color: rgba(232, 201, 106, 0.72);
+  font-size: 0.74rem;
+  font-family: monospace;
+  direction: ltr;
+  text-align: left;
+}
+
+.lx-occ-text {
+  flex: 1;
+  color: rgba(245, 241, 231, 0.75);
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 0.94rem;
+  line-height: 1.6;
+  word-break: break-word;
+  text-align: right;
+  direction: rtl;
+}
+
+// Idle/quick roots
+.lx-idle {
+  padding: 2rem 1.1rem;
+  text-align: center;
+}
+
+.lx-idle__text {
+  color: rgba(245, 241, 231, 0.42);
+  font-size: 0.84rem;
+  margin: 0 0 1.2rem;
+  line-height: 1.6;
+}
+
+.lx-quick-roots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: center;
+}
+
+.lx-quick-chip {
+  padding: 0.38rem 0.75rem;
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 20px;
+  background: rgba(201, 168, 76, 0.06);
+  color: rgba(232, 201, 106, 0.72);
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  &:active {
+    background: rgba(201, 168, 76, 0.14);
+    color: #e8c96a;
+  }
+}
+
+// ── Loading & empty ───────────────────────────────────────────────────────────
+
+.rp-loading {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: rgba(232, 201, 106, 0.52);
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+}
+
+.rp-empty {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: rgba(245, 241, 231, 0.28);
+  font-size: 0.84rem;
 }

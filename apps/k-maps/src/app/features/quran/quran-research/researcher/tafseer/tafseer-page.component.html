@@ -41,26 +41,39 @@
         </div>
       </div>
 
-      <!-- Entries -->
+      <!-- Verse-by-verse entries -->
       <div class="rp-detail__entries" dir="rtl">
         @if (entriesLoading()) {
           <div class="rp-loading">جارٍ التحميل…</div>
-        } @else if (!entries().length) {
+        } @else if (!ayahGroups().length) {
           <div class="rp-empty">لا توجد مقاطع لهذه السورة في هذا التفسير</div>
         } @else {
-          @for (entry of entries(); track entry.id) {
-            <article class="rp-entry">
-              <div class="rp-entry__range">
-                {{ entry.surah }}:{{ entry.ayah_from }}
-                @if (entry.ayah_to !== entry.ayah_from) {
-                  — {{ entry.ayah_to }}
+          <!-- Ayah navigation -->
+          <div class="rp-verse-nav">
+            <button class="rp-verse-nav__btn" (click)="prevAyah()" [disabled]="currentAyahIdx() === 0" type="button">›</button>
+            <span class="rp-verse-nav__indicator">
+              آية {{ currentGroup()?.ayah }}
+              <span class="rp-verse-nav__total">{{ currentAyahIdx() + 1 }} / {{ ayahGroups().length }}</span>
+            </span>
+            <button class="rp-verse-nav__btn" (click)="nextAyah()" [disabled]="currentAyahIdx() >= ayahGroups().length - 1" type="button">‹</button>
+          </div>
+
+          @if (currentGroup(); as group) {
+            @if (group.text) {
+              <div class="rp-verse-text" dir="rtl">{{ group.text }}</div>
+            }
+            @for (entry of group.entries; track entry.id) {
+              <article class="rp-entry">
+                <div class="rp-entry__range">
+                  {{ entry.surah }}:{{ entry.ayah_from }}
+                  @if (entry.ayah_to !== entry.ayah_from) { — {{ entry.ayah_to }} }
+                </div>
+                <p class="rp-entry__text">{{ entry.content_ar }}</p>
+                @if (entry.source_page) {
+                  <span class="rp-entry__page">ص {{ entry.source_page }}</span>
                 }
-              </div>
-              <p class="rp-entry__text">{{ entry.content_ar }}</p>
-              @if (entry.source_page) {
-                <span class="rp-entry__page">ص {{ entry.source_page }}</span>
-              }
-            </article>
+              </article>
+            }
           }
         }
       </div>

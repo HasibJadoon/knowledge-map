@@ -35,36 +35,46 @@
         </div>
       </div>
 
-      <!-- Grouped entries by ayah -->
+      <!-- Verse-by-verse irab entries -->
       <div class="rp-detail__entries" dir="rtl">
         @if (entriesLoading()) {
           <div class="rp-loading">جارٍ التحميل…</div>
-        } @else if (!groupedEntries().length) {
+        } @else if (!ayahGroups().length) {
           <div class="rp-empty">لا توجد بيانات إعراب لهذه السورة في هذا المصدر</div>
         } @else {
-          @for (group of groupedEntries(); track group.key) {
-            <section class="rp-irab-group">
-              <h3 class="rp-irab-group__ayah">آية {{ group.key }}</h3>
-              @for (entry of group.items; track entry.id) {
-                <div class="rp-irab-entry">
-                  @if (entry.target_text_ar) {
-                    <span class="rp-irab-entry__word">{{ entry.target_text_ar }}</span>
+          <!-- Ayah navigation -->
+          <div class="rp-verse-nav">
+            <button class="rp-verse-nav__btn" (click)="prevAyah()" [disabled]="currentAyahIdx() === 0" type="button">›</button>
+            <span class="rp-verse-nav__indicator">
+              آية {{ currentGroup()?.ayah }}
+              <span class="rp-verse-nav__total">{{ currentAyahIdx() + 1 }} / {{ ayahGroups().length }}</span>
+            </span>
+            <button class="rp-verse-nav__btn" (click)="nextAyah()" [disabled]="currentAyahIdx() >= ayahGroups().length - 1" type="button">‹</button>
+          </div>
+
+          @if (currentGroup(); as group) {
+            @if (group.text) {
+              <div class="rp-verse-text" dir="rtl">{{ group.text }}</div>
+            }
+            @for (entry of group.entries; track entry.id) {
+              <div class="rp-irab-entry">
+                @if (entry.target_text_ar) {
+                  <span class="rp-irab-entry__word">{{ entry.target_text_ar }}</span>
+                }
+                <div class="rp-irab-entry__analysis">
+                  @if (entry.grammar_role_ar) {
+                    <span class="rp-irab-tag rp-irab-tag--role">{{ entry.grammar_role_ar }}</span>
                   }
-                  <div class="rp-irab-entry__analysis">
-                    @if (entry.grammar_role_ar) {
-                      <span class="rp-irab-tag rp-irab-tag--role">{{ entry.grammar_role_ar }}</span>
-                    }
-                    @if (entry.grammar_case_ar) {
-                      <span class="rp-irab-tag rp-irab-tag--case">{{ entry.grammar_case_ar }}</span>
-                    }
-                    @if (entry.mahal_ar) {
-                      <span class="rp-irab-tag rp-irab-tag--mahal">{{ entry.mahal_ar }}</span>
-                    }
-                    <p class="rp-irab-entry__text">{{ entry.irab_text_ar }}</p>
-                  </div>
+                  @if (entry.grammar_case_ar) {
+                    <span class="rp-irab-tag rp-irab-tag--case">{{ entry.grammar_case_ar }}</span>
+                  }
+                  @if (entry.mahal_ar) {
+                    <span class="rp-irab-tag rp-irab-tag--mahal">{{ entry.mahal_ar }}</span>
+                  }
+                  <p class="rp-irab-entry__text">{{ entry.irab_text_ar }}</p>
                 </div>
-              }
-            </section>
+              </div>
+            }
           }
         }
       </div>

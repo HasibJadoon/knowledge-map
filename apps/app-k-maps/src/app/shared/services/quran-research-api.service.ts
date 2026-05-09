@@ -33,6 +33,7 @@ export interface QrTafsirEntry {
   source_page: string | null;
   scholar: { name_ar: string; name_en: string | null } | null;
   work: { title_ar: string; title_en: string | null } | null;
+  ayah_text: string | null;
 }
 
 export interface QrIrabSource {
@@ -54,6 +55,7 @@ export interface QrIrabEntry {
   grammar_case_ar: string | null;
   mahal_ar: string | null;
   entry_order: number;
+  ayah_text: string | null;
 }
 
 export interface QrLemma {
@@ -97,7 +99,7 @@ export class QuranResearchApiService {
     return this.api.getData('qr', ['works'], params ? { params } : undefined);
   }
 
-  getTafsirEntries(surah: number, workId?: string, page = 1, limit = 50): Observable<QrPaginated<QrTafsirEntry>> {
+  getTafsirEntries(surah: number, workId?: string, page = 1, limit = 300): Observable<QrPaginated<QrTafsirEntry>> {
     let params = new HttpParams().set('surah', String(surah)).set('page', String(page)).set('limit', String(limit));
     if (workId) params = params.set('work_id', workId);
     return this.api.getData('qr', ['tafsir'], { params });
@@ -109,7 +111,7 @@ export class QuranResearchApiService {
     return this.api.getData('qr', ['irab', 'book-sources']);
   }
 
-  getIrabEntries(surah: number, sourceSlug?: string, page = 1, limit = 150): Observable<QrPaginated<QrIrabEntry>> {
+  getIrabEntries(surah: number, sourceSlug?: string, page = 1, limit = 500): Observable<QrPaginated<QrIrabEntry>> {
     let params = new HttpParams().set('surah', String(surah)).set('page', String(page)).set('limit', String(limit));
     if (sourceSlug) params = params.set('source_slug', sourceSlug);
     return this.api.getData('qr', ['irab', 'book-entries'], { params });
