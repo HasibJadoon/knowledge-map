@@ -31,7 +31,6 @@
 .al-quran-page__inner {
   width: min(100%, 980px);
   margin: 0 auto;
-  overflow: hidden;
 }
 
 .reader-controls {
@@ -100,8 +99,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  padding: 0.45rem 0.15rem 0.75rem;
+  padding: 0.45rem 0.5rem 0.75rem;
 }
 
 .mushaf-page__lines {
@@ -109,7 +107,6 @@
   flex-direction: column;
   gap: 0;
   width: 100%;
-  overflow: hidden;
 }
 
 .mushaf-page__footer {
