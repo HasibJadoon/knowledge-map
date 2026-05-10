@@ -21,6 +21,9 @@ import { LexiconRepo } from '../repositories/lexicon.repo';
 
 // ── display metadata for each source slug ────────────────────────────────────
 const SOURCE_META: Record<string, { title_ar: string; title_en: string; author: string; period: string }> = {
+  // Lane: new clean import (src_lane_lexicon / lane_lexicon)
+  'lane_lexicon':                         { title_ar: 'معجم لين العربي الإنجليزي', title_en: "Lane's Arabic-English Lexicon", author: 'Edward William Lane', period: '19th century' },
+  // Lane: legacy slug (lane_quranic_research_perseus) — kept for backward compat until removed
   'lane_quranic_research_perseus':        { title_ar: 'معجم لين',       title_en: "Lane's Arabic-English Lexicon", author: 'Edward William Lane',   period: '19th century' },
   'ketabonline_ibn_manzur_lisan_al_arab': { title_ar: 'لسان العرب',      title_en: 'Lisan al-Arab',                 author: 'ابن منظور',              period: 'classical'    },
   'ketabonline_al_zabidi_taj_al_arus':    { title_ar: 'تاج العروس',      title_en: 'Taj al-Arus',                   author: 'الزبيدي',                period: 'classical'    },
@@ -33,9 +36,10 @@ const SOURCE_META: Record<string, { title_ar: string; title_en: string; author: 
   'qomra_jamharat_al_lugha':              { title_ar: 'جمهرة اللغة',     title_en: 'Jamharat al-Lugha',             author: 'ابن دريد',               period: 'classical'    },
 };
 
-// Raghib first — most Quran-focused; Lane second for English readers
+// Raghib first — most Quran-focused; Lane (clean) second for English readers
 const SOURCE_ORDER = [
   'ketabonline_al_raghib_mufradat',
+  'lane_lexicon',
   'lane_quranic_research_perseus',
   'ketabonline_al_jawhari_al_sihah',
   'ketabonline_ibn_manzur_lisan_al_arab',
@@ -68,16 +72,19 @@ function normArabic(t: string): string {
     .trim();
 }
 
+const BILINGUAL_SLUGS = new Set(['lane_lexicon', 'lane_quranic_research_perseus']);
+
 interface DictEntry {
   id: string; source_slug: string; heading_norm: string | null; root_id: string | null;
   text_ar: string; text_en: string | null; page_no: number | null; volume_no: number | null;
-  chunk_seq: number; source_url: string | null;
+  chunk_seq: number; source_url: string | null; is_bilingual: boolean;
 }
 
 function toEntry(r: Record<string, unknown>): DictEntry {
+  const slug = (r.source_slug as string) ?? '';
   return {
     id:           r.id as string,
-    source_slug:  (r.source_slug as string) ?? '',
+    source_slug:  slug,
     heading_norm: r.heading_norm as string | null,
     root_id:      r.root_id as string | null,
     text_ar:      r.text_ar as string,
@@ -86,6 +93,7 @@ function toEntry(r: Record<string, unknown>): DictEntry {
     volume_no:    r.volume_no as number | null,
     chunk_seq:    (r.chunk_seq as number) ?? 0,
     source_url:   extractUrl(r.meta_json as string | null),
+    is_bilingual: BILINGUAL_SLUGS.has(slug),
   };
 }
 
@@ -103,7 +111,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
                COUNT(DISTINCT heading_norm)                         AS roots,
                SUM(CASE WHEN is_embedded = 1 THEN 1 ELSE 0 END)    AS embedded
         FROM   ar_ling_source_chunks
-        WHERE  chunk_kind IN ('lexical_entry', 'lexical_word_entry')
+        WHERE  chunk_kind IN ('lexical_entry', 'lexical_word_entry', 'lexicon_entry', 'root_entry')
           AND  source_slug IS NOT NULL
         GROUP BY source_slug
         ORDER BY total DESC
@@ -141,7 +149,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
         SELECT id, source_slug, heading_norm, root_id,
                text_ar, text_en, page_no, volume_no, chunk_seq, meta_json
         FROM   ar_ling_source_chunks
-        WHERE  chunk_kind = 'lexical_entry'
+        WHERE  chunk_kind IN ('lexical_entry', 'lexical_word_entry', 'lexicon_entry', 'root_entry')
           AND  heading_norm = ?
           ${ph}
         ORDER BY source_slug, chunk_seq
@@ -270,7 +278,8 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
         SELECT id, source_slug, heading_norm, root_id,
                text_ar, text_en, page_no, volume_no, chunk_seq, meta_json
         FROM   ar_ling_source_chunks
-        WHERE  chunk_kind IN ('lexical_entry', 'lexical_word_entry') AND heading_norm = ? ${ph}
+        WHERE  chunk_kind IN ('lexical_entry', 'lexical_word_entry', 'lexicon_entry', 'root_entry')
+          AND  heading_norm = ? ${ph}
         LIMIT ?
       `).bind(qNorm, ...slugFilter, limit).all<Record<string, unknown>>(),
 
@@ -278,13 +287,13 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
         SELECT id, source_slug, heading_norm, root_id,
                text_ar, text_en, page_no, volume_no, chunk_seq, meta_json
         FROM   ar_ling_source_chunks
-        WHERE  chunk_kind IN ('lexical_entry', 'lexical_word_entry')
+        WHERE  chunk_kind IN ('lexical_entry', 'lexical_word_entry', 'lexicon_entry', 'root_entry')
           AND  heading_norm != ?
-          AND  (text_ar LIKE ? OR heading_norm LIKE ?)
+          AND  (text_ar LIKE ? OR text_en LIKE ? OR heading_norm LIKE ?)
           ${ph}
         ORDER BY source_slug, chunk_seq
         LIMIT ?
-      `).bind(qNorm, `%${query}%`, `%${qNorm}%`, ...slugFilter, limit).all<Record<string, unknown>>(),
+      `).bind(qNorm, `%${query}%`, `%${query}%`, `%${qNorm}%`, ...slugFilter, limit).all<Record<string, unknown>>(),
     ]);
 
     return ok({
@@ -293,6 +302,210 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
       root_matches:    exactRes.results.map(toEntry),
       content_matches: contentRes.results.map(toEntry),
       total:           exactRes.results.length + contentRes.results.length,
+    });
+  });
+
+  // ── /al/lexicon/entries/* — structured lexicon entries, UI-ready ─────────────
+  //
+  // Reads ar_ling_lexicon_entries + cleaner_json (cleanup pipeline v2).
+  // Returns a flat, display-ready shape — no internal fields.
+  //
+  //   GET /al/lexicon/entries/root/:rootText   ?source=<slug>  ?limit=
+  //   GET /al/lexicon/entries/search           ?q=  ?source=   ?limit=
+  //   GET /al/lexicon/entries/:id
+
+  interface CitationChip { abbr: string; label: string; label_ar: string; author: string }
+
+  interface LexEntry {
+    id:           string;
+    heading_ar:   string | null;  // from heading display block
+    page_label:   string | null;  // "Lane p. 2139" — from page_ref block
+    page:         number | null;
+    type:         string;          // definition | cross_ref | grammar_note | stub
+    definition:   string | null;   // definition_clean — display-ready
+    has_gaps:     boolean;         // true → [◌] placeholders in definition
+    arabic_forms: string[];        // related Arabic forms from arabic_form block
+    ref_sources:  CitationChip[];  // citation chips for display
+  }
+
+  function toUiEntry(row: Record<string, unknown>): LexEntry {
+    let cj: Record<string, unknown> = {};
+    try { cj = JSON.parse(row.cleaner_json as string ?? '{}') as Record<string, unknown>; } catch { /* */ }
+
+    const details = (cj.citation_details as Array<Record<string, string>> | undefined) ?? [];
+    const ref_sources: CitationChip[] = details.map(d => ({
+      abbr:     d.abbr     ?? '',
+      label:    d.name_en  ?? d.abbr ?? '',
+      label_ar: d.name_ar  ?? '',
+      author:   d.author   ?? '',
+    }));
+
+    // arabic_forms_raw comes from the arabic_form display block, dot-separated
+    const arabic_forms = ((row.arabic_forms_raw as string) ?? '')
+      .split('·').map((f: string) => f.trim()).filter(Boolean);
+
+    return {
+      id:           row.id              as string,
+      heading_ar:   (row.heading_ar     ?? row.display_heading_ar) as string | null,
+      page_label:   row.page_label      as string | null,
+      page:         row.page_no         as number | null,
+      type:         (cj.entry_type      as string) ?? 'definition',
+      definition:   (cj.definition_clean as string) ?? null,
+      has_gaps:     !!(cj.has_stripped_arabic),
+      arabic_forms,
+      ref_sources,
+    };
+  }
+
+  // GET /al/lexicon/entries/root/:rootText
+  // Returns all structured entries for a root, grouped by lexicon source.
+  // ?source=lane_lexicon  — filter to one lexicon (optional)
+  // ?limit=50             — max entries per source (default 50, max 200)
+  router.get('/al/lexicon/entries/root/:rootText', async (req, env, params) => {
+    const rootRaw = decodeURIComponent((params as Record<string, string>).rootText ?? '');
+    if (!rootRaw) return badRequest('rootText required');
+
+    const url    = new URL(req.url);
+    const source = url.searchParams.get('source') ?? '';
+    const limit  = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
+
+    const sourceCond = source ? 'AND e.source_slug = ?' : '';
+    const binds: unknown[] = source
+      ? [rootRaw, rootRaw, source, limit]
+      : [rootRaw, rootRaw, limit];
+
+    const { results } = await env.DB_AL
+      .prepare(`
+        SELECT e.id, e.source_slug, e.page_no, e.cleaner_json,
+               MAX(CASE WHEN b.block_type = 'heading'     THEN b.text_ar END) AS heading_ar,
+               MAX(CASE WHEN b.block_type = 'arabic_form' THEN b.text_ar END) AS arabic_forms_raw,
+               MAX(CASE WHEN b.block_type = 'page_ref'    THEN b.text_en END) AS page_label
+        FROM   ar_ling_lexicon_entries e
+        LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
+        LEFT JOIN ar_ling_lemmas l ON l.id = e.lemma_id
+        LEFT JOIN ar_ling_roots  r ON r.id = e.root_id
+        WHERE  (r.root_text = ? OR l.lemma_text = ?)
+          ${sourceCond}
+        GROUP BY e.id
+        ORDER BY e.page_no ASC, e.source_entry_seq ASC
+        LIMIT ?
+      `)
+      .bind(...binds)
+      .all<Record<string, unknown>>();
+
+    if (!results.length) return notFound(`No entries for root: ${rootRaw}`);
+
+    // Group by source, preserve canonical order
+    const bySlug: Record<string, LexEntry[]> = {};
+    for (const row of results) {
+      const slug = (row.source_slug as string) ?? 'unknown';
+      (bySlug[slug] ??= []).push(toUiEntry(row));
+    }
+
+    const ordered = [
+      ...SOURCE_ORDER.filter(s => bySlug[s]),
+      ...Object.keys(bySlug).filter(s => !SOURCE_ORDER.includes(s)),
+    ];
+
+    const lexicons = ordered.map(slug => {
+      const m = srcMeta(slug);
+      return {
+        slug,
+        title:    m.title_en,
+        title_ar: m.title_ar,
+        author:   m.author,
+        period:   m.period,
+        count:    bySlug[slug].length,
+        entries:  bySlug[slug],
+      };
+    });
+
+    return ok({
+      root:         rootRaw,
+      source:       source || null,
+      total:        results.length,
+      lexicons,
+    });
+  });
+
+  // GET /al/lexicon/entries/search?q=&source=&limit=
+  // Searches heading_ar and definition_clean.
+  // Results are flat (not grouped) — suitable for search results list.
+  router.get('/al/lexicon/entries/search', async (req, env) => {
+    const url    = new URL(req.url);
+    const q      = (url.searchParams.get('q') ?? '').trim();
+    if (!q) return badRequest('q param required');
+
+    const source = url.searchParams.get('source') ?? '';
+    const limit  = Math.min(parseInt(url.searchParams.get('limit') || '30'), 100);
+
+    const sourceCond = source ? 'AND e.source_slug = ?' : '';
+    const pattern    = `%${q}%`;
+    const binds: unknown[] = source
+      ? [q, pattern, pattern, source, limit]
+      : [q, pattern, pattern, limit];
+
+    const { results } = await env.DB_AL
+      .prepare(`
+        SELECT e.id, e.source_slug, e.page_no, e.cleaner_json,
+               MAX(CASE WHEN b.block_type = 'heading'     THEN b.text_ar END) AS heading_ar,
+               MAX(CASE WHEN b.block_type = 'arabic_form' THEN b.text_ar END) AS arabic_forms_raw,
+               MAX(CASE WHEN b.block_type = 'page_ref'    THEN b.text_en END) AS page_label
+        FROM   ar_ling_lexicon_entries e
+        LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
+        WHERE  (e.display_heading_ar = ?
+             OR json_extract(e.cleaner_json, '$.definition_clean') LIKE ?
+             OR e.definition_en LIKE ?)
+          ${sourceCond}
+        GROUP BY e.id
+        ORDER BY e.page_no ASC
+        LIMIT ?
+      `)
+      .bind(...binds)
+      .all<Record<string, unknown>>();
+
+    return ok({
+      q,
+      source:  source || null,
+      total:   results.length,
+      entries: results.map(row => ({
+        ...toUiEntry(row),
+        lexicon: srcMeta(row.source_slug as string),
+      })),
+    });
+  });
+
+  // GET /al/lexicon/entries/:id
+  // Single structured entry — full display payload including original text for drawer/detail view.
+  router.get('/al/lexicon/entries/:id', async (_req, env, { id }) => {
+    const row = await env.DB_AL
+      .prepare(`
+        SELECT e.id, e.source_slug, e.page_no, e.cleaner_json, e.meta_json,
+               r.root_text,
+               MAX(CASE WHEN b.block_type = 'heading'     THEN b.text_ar END) AS heading_ar,
+               MAX(CASE WHEN b.block_type = 'arabic_form' THEN b.text_ar END) AS arabic_forms_raw,
+               MAX(CASE WHEN b.block_type = 'page_ref'    THEN b.text_en END) AS page_label
+        FROM   ar_ling_lexicon_entries e
+        LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
+        LEFT JOIN ar_ling_lemmas l ON l.id = e.lemma_id
+        LEFT JOIN ar_ling_roots  r ON r.id = e.root_id
+        WHERE  e.id = ?
+        GROUP BY e.id
+      `)
+      .bind(id)
+      .first<Record<string, unknown>>();
+
+    if (!row) return notFound(`Entry not found: ${id}`);
+
+    let mj: Record<string, unknown> = {};
+    try { mj = JSON.parse(row.meta_json as string ?? '{}') as Record<string, unknown>; } catch { /* */ }
+
+    return ok({
+      ...toUiEntry(row),
+      root:     row.root_text ?? null,
+      lexicon:  srcMeta(row.source_slug as string),
+      // Scholarly layer — shown in detail drawer only
+      definition_scholarly: (mj.definition_original as string) ?? null,
     });
   });
 

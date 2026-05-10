@@ -600,6 +600,116 @@
   text-align: right;
 }
 
+// ─── LANE LEXICON — rich bilingual entries ────────────────────────────────────
+
+.lx-lane-card {
+  margin-bottom: 0.5rem;
+}
+
+.lx-lane-subtitle {
+  direction: ltr;
+  text-align: right;
+}
+
+.lx-lane-entries {
+  padding: 0;
+}
+
+.lx-lane-entry {
+  padding: 0.85rem 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+
+  &:last-child { border-bottom: 0; }
+}
+
+.lx-lane-entry__top {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.45rem;
+}
+
+.lx-entry-heading {
+  color: #f3d77a;
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.18rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.lx-entry-page {
+  padding: 0.1rem 0.42rem;
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  background: rgba(201, 168, 76, 0.05);
+  color: rgba(232, 201, 106, 0.55);
+  font-size: 0.7rem;
+  direction: ltr;
+}
+
+.lx-gaps-flag {
+  color: rgba(232, 201, 106, 0.3);
+  font-size: 0.78rem;
+  cursor: default;
+}
+
+.lx-entry-def {
+  margin: 0 0 0.55rem;
+  color: rgba(245, 241, 231, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.78;
+  word-break: break-word;
+  direction: ltr;
+  text-align: left;
+}
+
+.lx-entry-gap {
+  color: rgba(232, 201, 106, 0.38);
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1em;
+}
+
+.lx-entry-forms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.28rem;
+  margin-bottom: 0.4rem;
+}
+
+.lx-entry-form-chip {
+  padding: 0.12rem 0.48rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(245, 241, 231, 0.72);
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 0.88rem;
+}
+
+.lx-entry-refs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.22rem;
+}
+
+.lx-entry-ref-chip {
+  display: inline-block;
+  padding: 0.08rem 0.4rem;
+  border: 1px solid rgba(201, 168, 76, 0.16);
+  background: rgba(201, 168, 76, 0.04);
+  color: rgba(232, 201, 106, 0.5);
+  font-size: 0.68rem;
+  font-style: italic;
+  cursor: default;
+  transition: color 0.12s, border-color 0.12s;
+
+  &:hover {
+    color: rgba(232, 201, 106, 0.82);
+    border-color: rgba(201, 168, 76, 0.34);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 .lx-show-all {
   margin-top: 0.7rem;
   padding: 0.38rem 0.75rem;

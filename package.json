@@ -8,7 +8,15 @@
     "dev:api": "wrangler dev --config workers/backend/wrangler.toml --port 8788",
     "deploy:pages": "npm run build -w apps/k-maps && npx wrangler pages deploy apps/k-maps/dist/k-maps/browser --project-name k-maps --branch main",
     "deploy:ionic": "npm run build -w apps/app-k-maps && npx wrangler pages deploy apps/app-k-maps/www --project-name app-k-maps --branch main",
-    "deploy:all": "npm run deploy:pages && npm run deploy:ionic"
+    "deploy:all": "npm run deploy:pages && npm run deploy:ionic",
+    "lane:download":    "tsx scripts/lane/download-lane-source.ts",
+    "lane:inspect":     "tsx scripts/lane/inspect-lane.ts",
+    "lane:migrate":     "tsx scripts/lane/apply-lane-support-migration.ts",
+    "lane:clean-old":   "tsx scripts/lane/remove-existing-lane.ts",
+    "lane:import":      "tsx scripts/lane/import-lane.ts",
+    "lane:verify":      "tsx scripts/lane/verify-lane-rendering.ts",
+    "lane:fts-rebuild": "tsx scripts/lane/rebuild-lane-fts.ts",
+    "lane:cleanup":     "tsx scripts/lane/cleanup-lane-definitions.ts"
   },
   "dependencies": {
     "@tiptap/core": "^3.22.1",
@@ -22,7 +30,11 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260120.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "adm-zip": "^0.5.16",
+    "better-sqlite3": "^11.9.1",
     "pdfjs-dist": "^5.4.624",
+    "tsx": "^4.19.4",
     "typescript": "^5.9.3",
     "wrangler": "^4.42.2"
   }

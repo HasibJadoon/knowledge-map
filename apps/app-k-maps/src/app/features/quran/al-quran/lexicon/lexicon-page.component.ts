@@ -1,10 +1,20 @@
-import { ChangeDetectionStrategy, Component, inject, signal, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { debounceTime, distinctUntilChanged, Subject, switchMap, of } from 'rxjs';
+import { forkJoin, debounceTime, distinctUntilChanged, Subject, switchMap, of, catchError, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AlDictionaryApiService, AlDictSource, AlRootResult, AlRootSourceResult } from '../../../../shared/services/al-dictionary-api.service';
+import {
+  AlDictionaryApiService,
+  AlDictSource, AlRootSourceResult, LexEntry,
+} from '../../../../shared/services/al-dictionary-api.service';
 import { QuranResearchSearchService } from '../quran-research-search.service';
+
+interface DefPart { text: string; isGap: boolean }
+interface DisplayEntry extends LexEntry { defParts: DefPart[] }
+interface LaneDisplay { title_ar: string; title: string; author: string; count: number; entries: DisplayEntry[] }
+interface RootMeta { text_ar: string; meaning_ar: string | null; frequency_quran: number | null }
+
+const LANE_SLUGS = new Set(['lane_lexicon', 'lane_quranic_research_perseus']);
 
 @Component({
   selector: 'app-lexicon-page',
@@ -18,16 +28,18 @@ export class LexiconPageComponent {
   private readonly api    = inject(AlDictionaryApiService);
   private readonly search = inject(QuranResearchSearchService);
 
-  readonly sources        = signal<AlDictSource[]>([]);
-  readonly sourcesLoading = signal(true);
-  readonly searching      = signal(false);
-  readonly rootResult     = signal<AlRootResult | null>(null);
-  readonly selectedSource = signal<AlRootSourceResult | null>(null);
-  readonly expandedSlugs  = signal<Set<string>>(new Set());
-
-  private readonly search$ = new Subject<string>();
+  readonly sources          = signal<AlDictSource[]>([]);
+  readonly sourcesLoading   = signal(true);
+  readonly searching        = signal(false);
+  readonly rootMeta         = signal<RootMeta | null>(null);
+  readonly laneResult       = signal<LaneDisplay | null>(null);
+  readonly classicalSources = signal<AlRootSourceResult[]>([]);
+  readonly selectedSource   = signal<AlRootSourceResult | null>(null);
+  readonly expandedSlugs    = signal<Set<string>>(new Set());
 
   readonly quickRoots = ['كتب', 'علم', 'قرأ', 'رحم', 'حمد', 'أمن', 'نزل', 'خلق', 'فتح', 'وحي'];
+
+  private readonly search$ = new Subject<string>();
 
   constructor() {
     this.api.getSources().subscribe({
@@ -39,25 +51,53 @@ export class LexiconPageComponent {
       debounceTime(350),
       distinctUntilChanged(),
       switchMap(q => {
-        const trimmed = q.trim();
-        if (!trimmed) {
-          this.rootResult.set(null);
+        const t = q.trim();
+        if (!t) {
+          this.rootMeta.set(null);
+          this.laneResult.set(null);
+          this.classicalSources.set([]);
           this.selectedSource.set(null);
           this.searching.set(false);
           return of(null);
         }
         this.searching.set(true);
-        return this.api.getRootEntries(trimmed);
+        return forkJoin({
+          structured: this.api.getStructuredRootEntries(t).pipe(catchError(() => of(null))),
+          dict:       this.api.getRootEntries(t, 20).pipe(catchError(() => of(null))),
+        }).pipe(map(res => ({ ...res, q: t })));
       }),
       takeUntilDestroyed(),
     ).subscribe(res => {
       this.searching.set(false);
-      this.rootResult.set(res);
+      if (!res) return;
+
+      const { structured, dict, q } = res;
+
+      if (dict) {
+        this.rootMeta.set({ text_ar: dict.root.text_ar, meaning_ar: dict.root.meaning_ar, frequency_quran: dict.root.frequency_quran });
+      } else if (structured) {
+        this.rootMeta.set({ text_ar: structured.root, meaning_ar: null, frequency_quran: null });
+      } else {
+        this.rootMeta.set({ text_ar: q, meaning_ar: null, frequency_quran: null });
+      }
+
+      const laneLex = structured?.lexicons.find(l => l.slug === 'lane_lexicon') ?? null;
+      this.laneResult.set(laneLex ? {
+        title_ar: laneLex.title_ar,
+        title:    laneLex.title,
+        author:   laneLex.author,
+        count:    laneLex.count,
+        entries:  laneLex.entries.map(e => ({ ...e, defParts: this.splitDef(e.definition) })),
+      } : null);
+
+      const classical = dict?.sources.filter(s => !LANE_SLUGS.has(s.slug)) ?? [];
+      this.classicalSources.set(classical);
       this.selectedSource.set(null);
-      if (res) {
-        // Auto-expand first source
-        const first = res.sources[0];
-        if (first) this.expandedSlugs.set(new Set([first.slug]));
+
+      if (laneLex) {
+        this.expandedSlugs.set(new Set(['lane_lexicon']));
+      } else if (classical[0]) {
+        this.expandedSlugs.set(new Set([classical[0].slug]));
       }
     });
   }
@@ -77,17 +117,31 @@ export class LexiconPageComponent {
   toggleExpand(slug: string): void {
     this.expandedSlugs.update(set => {
       const next = new Set(set);
-      if (next.has(slug)) next.delete(slug);
-      else next.add(slug);
+      if (next.has(slug)) next.delete(slug); else next.add(slug);
       return next;
     });
   }
 
   isExpanded(slug: string): boolean { return this.expandedSlugs().has(slug); }
 
-  volPage(entry: { volume_no: number | null; page_no: number | null }): string {
+  volPage(entry: { volume_no?: number | null; page_no?: number | null }): string {
     if (entry.volume_no && entry.page_no) return `ج${entry.volume_no} ص${entry.page_no}`;
     if (entry.page_no) return `ص${entry.page_no}`;
     return '';
+  }
+
+  hasArabic(text: string | null | undefined): boolean {
+    return !!text && /[؀-ۿ]/.test(text);
+  }
+
+  private splitDef(text: string | null): DefPart[] {
+    if (!text) return [];
+    const parts = text.split('[◌]');
+    return parts.flatMap((part, i) => {
+      const segs: DefPart[] = [];
+      if (part) segs.push({ text: part, isGap: false });
+      if (i < parts.length - 1) segs.push({ text: '◌', isGap: true });
+      return segs;
+    });
   }
 }

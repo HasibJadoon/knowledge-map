@@ -17,7 +17,6 @@
         <span class="lx-spinner" aria-hidden="true">⟳</span>
       }
     </label>
-
     <div class="lx-quick-chips">
       @for (root of quickRoots; track root) {
         <button class="lx-quick-chip" (click)="tryRoot(root)" type="button">{{ root }}</button>
@@ -25,7 +24,7 @@
     </div>
   </div>
 
-  <!-- ── Source detail (all entries for one dictionary) ─────────────────── -->
+  <!-- ── Classical source detail (all entries for one dictionary) ────────── -->
   @if (selectedSource(); as src) {
     <div class="lx-source-detail">
       <div class="lx-source-detail__header">
@@ -42,35 +41,110 @@
             @if (volPage(entry)) {
               <span class="lx-dict-entry__ref">{{ volPage(entry) }}</span>
             }
-            <p class="lx-dict-entry__text">{{ entry.text_ar }}</p>
+            @if (entry.text_ar && hasArabic(entry.text_ar)) {
+              <p class="lx-dict-entry__text" dir="rtl" lang="ar">{{ entry.text_ar }}</p>
+            }
           </div>
         }
       </div>
     </div>
 
   <!-- ── Root results ────────────────────────────────────────────────────── -->
-  } @else if (rootResult(); as result) {
+  } @else if (rootMeta()) {
     <div class="lx-root-panel">
       <div class="lx-root-panel__header">
         <button class="rp-detail__back" (click)="clearSearch()" type="button">
           <span aria-hidden="true">›</span>
           <span>العودة</span>
         </button>
-        <span class="lx-root-hero">{{ result.root.text_ar }}</span>
-        @if (result.root.meaning_ar) {
-          <span class="lx-root-meaning">{{ result.root.meaning_ar }}</span>
+        @if (rootMeta(); as meta) {
+          <span class="lx-root-hero">{{ meta.text_ar }}</span>
+          @if (meta.meaning_ar) {
+            <span class="lx-root-meaning">{{ meta.meaning_ar }}</span>
+          }
+          @if (meta.frequency_quran) {
+            <span class="rp-badge rp-badge--count">{{ meta.frequency_quran }} × في القرآن</span>
+          }
         }
-        @if (result.root.frequency_quran) {
-          <span class="rp-badge rp-badge--count">{{ result.root.frequency_quran }} × في القرآن</span>
-        }
-        <span class="rp-badge rp-badge--muted">{{ result.source_count }} معجم</span>
       </div>
 
-      @if (!result.sources.length) {
+      @if (!laneResult() && !classicalSources().length && !searching()) {
         <div class="rp-empty">لا توجد نتائج لهذا الجذر في المعاجم المتاحة</div>
-      } @else {
+      }
+
+      <!-- ── Lane's Lexicon — structured, rich display ──────────────────── -->
+      @if (laneResult(); as lane) {
+        <div class="lx-dict-result-card lx-lane-card" [class.lx-dict-result-card--open]="isExpanded('lane_lexicon')">
+          <button class="lx-dict-result-card__header" (click)="toggleExpand('lane_lexicon')" type="button">
+            <div class="lx-dict-result-card__meta">
+              <span class="lx-dict-result-card__name">{{ lane.title_ar }}</span>
+              <span class="lx-dict-result-card__author lx-lane-subtitle">{{ lane.title }} · {{ lane.author }}</span>
+            </div>
+            <span class="lx-dict-result-card__count rp-badge rp-badge--count">{{ lane.count }}</span>
+            <span class="lx-dict-result-card__toggle">{{ isExpanded('lane_lexicon') ? '▴' : '▾' }}</span>
+          </button>
+
+          @if (isExpanded('lane_lexicon')) {
+            <div class="lx-dict-result-card__body lx-lane-entries">
+              @for (entry of lane.entries; track entry.id) {
+                <div class="lx-lane-entry">
+
+                  <div class="lx-lane-entry__top">
+                    @if (entry.heading_ar) {
+                      <span class="lx-entry-heading" dir="rtl" lang="ar">{{ entry.heading_ar }}</span>
+                    }
+                    @if (entry.page_label) {
+                      <span class="lx-entry-page">{{ entry.page_label }}</span>
+                    }
+                    @if (entry.type !== 'definition') {
+                      <span class="rp-badge rp-badge--muted">{{ entry.type }}</span>
+                    }
+                    @if (entry.has_gaps) {
+                      <span class="lx-gaps-flag" title="Arabic text rendered as placeholders">◌</span>
+                    }
+                  </div>
+
+                  @if (entry.defParts.length) {
+                    <p class="lx-entry-def" dir="ltr">
+                      @for (seg of entry.defParts; track $index) {
+                        @if (seg.isGap) {
+                          <span class="lx-entry-gap">{{ seg.text }}</span>
+                        } @else {
+                          {{ seg.text }}
+                        }
+                      }
+                    </p>
+                  }
+
+                  @if (entry.arabic_forms.length) {
+                    <div class="lx-entry-forms">
+                      @for (form of entry.arabic_forms; track form) {
+                        <span class="lx-entry-form-chip" dir="rtl" lang="ar">{{ form }}</span>
+                      }
+                    </div>
+                  }
+
+                  @if (entry.ref_sources.length) {
+                    <div class="lx-entry-refs">
+                      @for (ref of entry.ref_sources; track ref.abbr) {
+                        <span class="lx-entry-ref-chip" [title]="ref.label + (ref.author ? ' (' + ref.author + ')' : '')">
+                          {{ ref.abbr }}
+                        </span>
+                      }
+                    </div>
+                  }
+
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      <!-- ── Classical Arabic sources ───────────────────────────────────── -->
+      @if (classicalSources().length) {
         <div class="lx-dict-results">
-          @for (src of result.sources; track src.slug) {
+          @for (src of classicalSources(); track src.slug) {
             <div class="lx-dict-result-card" [class.lx-dict-result-card--open]="isExpanded(src.slug)">
               <button class="lx-dict-result-card__header" (click)="toggleExpand(src.slug)" type="button">
                 <div class="lx-dict-result-card__meta">
@@ -88,7 +162,9 @@
                       @if (volPage(entry)) {
                         <span class="lx-dict-entry__ref">{{ volPage(entry) }}</span>
                       }
-                      <p class="lx-dict-entry__text">{{ entry.text_ar }}</p>
+                      @if (entry.text_ar && hasArabic(entry.text_ar)) {
+                        <p class="lx-dict-entry__text" dir="rtl" lang="ar">{{ entry.text_ar }}</p>
+                      }
                     </div>
                   }
                   @if (src.entry_count > src.entries.length) {
@@ -102,9 +178,14 @@
           }
         </div>
       }
+
     </div>
 
-  <!-- ── Catalog (idle) ──────────────────────────────────────────────────── -->
+  <!-- ── Searching (no previous result) ────────────────────────────────── -->
+  } @else if (searching()) {
+    <div class="rp-loading">جارٍ البحث في المعاجم…</div>
+
+  <!-- ── Catalog (idle) ─────────────────────────────────────────────────── -->
   } @else if (sourcesLoading()) {
     <div class="rp-loading">جارٍ تحميل المعاجم…</div>
 
