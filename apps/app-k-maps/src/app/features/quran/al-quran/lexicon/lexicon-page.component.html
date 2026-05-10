@@ -173,10 +173,17 @@
       } @else {
         <div class="lx-catalog">
           @for (src of sources(); track src.slug) {
-            <article class="lx-dict-card" (click)="tryRoot(searchTerm() || 'كتب')">
+            <article
+              class="lx-dict-card"
+              [class.lx-dict-card--lane]="src.slug === 'lane_lexicon'"
+              (click)="cardClick(src)"
+            >
               <h3 class="lx-dict-card__title">{{ src.title_ar }}</h3>
               <p class="lx-dict-card__author">{{ src.author }}</p>
               <span class="lx-dict-card__count">{{ src.roots | number }} جذر</span>
+              @if (src.slug === 'lane_lexicon') {
+                <span class="lx-dict-card__lane-hint">معجم لين ←</span>
+              }
             </article>
           }
         </div>

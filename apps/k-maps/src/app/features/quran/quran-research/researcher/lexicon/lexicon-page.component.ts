@@ -10,6 +10,7 @@ import {
   AlDictionaryApiService,
   AlDictSource, AlRootSourceResult, LexEntry,
 } from '../../../../../shared/services/al-dictionary-api.service';
+import { LaneTableComponent } from './lane-table/lane-table.component';
 
 interface DefPart { text: string; isGap: boolean }
 interface DisplayEntry extends LexEntry { defParts: DefPart[] }
@@ -21,7 +22,7 @@ const LANE_SLUGS = new Set(['lane_lexicon', 'lane_quranic_research_perseus']);
 @Component({
   selector: 'km-lexicon-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LaneTableComponent],
   templateUrl: './lexicon-page.component.html',
   styleUrl: './lexicon-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +41,7 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
   readonly classicalSources = signal<AlRootSourceResult[]>([]);
   readonly selectedSource   = signal<AlRootSourceResult | null>(null);
   readonly expandedSlugs    = signal<Set<string>>(new Set());
+  readonly laneTableMode    = signal(false);
 
   readonly quickRoots = ['كتب', 'علم', 'قرأ', 'رحم', 'حمد', 'أمن', 'نزل', 'خلق', 'فتح', 'وحي'];
 
@@ -117,6 +119,17 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
   selectSource(src: AlRootSourceResult): void { this.selectedSource.set(src); }
   clearSource(): void { this.selectedSource.set(null); }
 
+  openLaneTable(): void  { this.laneTableMode.set(true); }
+  closeLaneTable(): void { this.laneTableMode.set(false); }
+
+  cardClick(src: AlDictSource): void {
+    if (src.slug === 'lane_lexicon') {
+      this.openLaneTable();
+    } else {
+      this.tryRoot(this.searchTerm() || 'كتب');
+    }
+  }
+
   toggleExpand(slug: string): void {
     this.expandedSlugs.update(set => {
       const next = new Set(set);
@@ -137,13 +150,22 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
     return !!text && /[؀-ۿ]/.test(text);
   }
 
+  entryHasGaps(entry: DisplayEntry): boolean {
+    return entry.has_gaps ||
+      (!!entry.definition && (
+        entry.definition.includes('[◌]') ||
+        entry.definition.includes('[form missing]')
+      ));
+  }
+
   private splitDef(text: string | null): DefPart[] {
     if (!text) return [];
-    const parts = text.split('[◌]');
+    // Handle both legacy [◌] (still in DB until fix script runs) and [form missing]
+    const parts = text.split(/\[◌\]|\[form missing\]/);
     return parts.flatMap((part, i) => {
       const segs: DefPart[] = [];
       if (part) segs.push({ text: part, isGap: false });
-      if (i < parts.length - 1) segs.push({ text: '◌', isGap: true });
+      if (i < parts.length - 1) segs.push({ text: 'form missing', isGap: true });
       return segs;
     });
   }

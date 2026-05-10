@@ -344,18 +344,67 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
     const arabic_forms = ((row.arabic_forms_raw as string) ?? '')
       .split('·').map((f: string) => f.trim()).filter(Boolean);
 
+    const defClean = (cj.definition_clean as string) ?? null;
     return {
       id:           row.id              as string,
       heading_ar:   (row.heading_ar     ?? row.display_heading_ar) as string | null,
       page_label:   row.page_label      as string | null,
       page:         row.page_no         as number | null,
       type:         (cj.entry_type      as string) ?? 'definition',
-      definition:   (cj.definition_clean as string) ?? null,
-      has_gaps:     !!(cj.has_stripped_arabic),
+      definition:   defClean,
+      has_gaps:     !!(cj.has_stripped_arabic) ||
+                    (!!defClean && (defClean.includes('[◌]') || defClean.includes('[form missing]'))),
       arabic_forms,
       ref_sources,
     };
   }
+
+  // GET /al/lexicon/entries/lane/:rootText
+  // Returns raw LaneGroupedRow shape for the Lane table/clean UI.
+  // Runs the canonical grouped SQL: one row per entry, all block pivots.
+  // ?limit=100
+  router.get('/al/lexicon/entries/lane/:rootText', async (req, env, params) => {
+    const rootRaw = decodeURIComponent((params as Record<string, string>).rootText ?? '');
+    if (!rootRaw) return badRequest('rootText required');
+
+    const url   = new URL(req.url);
+    const limit = Math.min(parseInt(url.searchParams.get('limit') || '100'), 300);
+
+    const { results } = await env.DB_AL
+      .prepare(`
+        SELECT
+          e.id              AS entry_id,
+          e.display_heading_ar,
+          e.lemma_text,
+          e.heading_norm,
+          e.page_no,
+          e.source_entry_seq,
+          e.definition_en,
+          e.status,
+          e.ui_json,
+          e.cleaner_json,
+          MAX(CASE WHEN b.block_type = 'heading'         THEN b.text_ar  END) AS heading_block_ar,
+          MAX(CASE WHEN b.block_type = 'definition'      THEN b.text_en  END) AS definition_block_en,
+          MAX(CASE WHEN b.block_type = 'arabic_form'     THEN b.text_ar  END) AS arabic_forms_text,
+          MAX(CASE WHEN b.block_type = 'page_ref'        THEN b.text_en  END) AS page_label,
+          MAX(CASE WHEN b.block_type = 'raw_collapsible' THEN b.text_en  END) AS raw_label,
+          COUNT(b.id)                                                          AS block_count
+        FROM  ar_ling_lexicon_entries e
+        JOIN  ar_ling_roots r ON r.id = e.root_id
+        LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
+        WHERE r.root_text = ?
+          AND e.source_slug = 'lane_lexicon'
+        GROUP BY
+          e.id, e.display_heading_ar, e.lemma_text, e.heading_norm,
+          e.page_no, e.source_entry_seq, e.definition_en, e.status, e.ui_json, e.cleaner_json
+        ORDER BY e.page_no ASC, e.source_entry_seq ASC
+        LIMIT ?
+      `)
+      .bind(rootRaw, limit)
+      .all<Record<string, unknown>>();
+
+    return ok({ root: rootRaw, total: results.length, entries: results });
+  });
 
   // GET /al/lexicon/entries/root/:rootText
   // Returns all structured entries for a root, grouped by lexicon source.

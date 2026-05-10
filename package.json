@@ -16,7 +16,8 @@
     "lane:import":      "tsx scripts/lane/import-lane.ts",
     "lane:verify":      "tsx scripts/lane/verify-lane-rendering.ts",
     "lane:fts-rebuild": "tsx scripts/lane/rebuild-lane-fts.ts",
-    "lane:cleanup":     "tsx scripts/lane/cleanup-lane-definitions.ts"
+    "lane:cleanup":     "tsx scripts/lane/cleanup-lane-definitions.ts",
+    "lane:fix-placeholders": "tsx scripts/lane/fix-lane-placeholders.ts"
   },
   "dependencies": {
     "@tiptap/core": "^3.22.1",

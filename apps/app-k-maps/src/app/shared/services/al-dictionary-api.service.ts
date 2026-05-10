@@ -86,6 +86,31 @@ export interface LexRootResult {
   lexicons: LexLexicon[];
 }
 
+// ─── Types — Lane grouped rows (/al/lexicon/entries/lane/*) ──────────────────
+
+export interface LaneGroupedRow {
+  entry_id:          string;
+  root_text:         string;
+  heading_block_ar:  string | null;
+  display_heading_ar:string | null;
+  lemma_text:        string | null;
+  page_label:        string | null;
+  page_no:           number | null;
+  definition_block_en: string | null;
+  definition_en:     string | null;
+  arabic_forms_text: string | null;
+  cleaner_json:      string | null;
+  ui_json:           string | null;
+  raw_label:         string | null;
+  block_count:       number | null;
+}
+
+export interface LaneTableResult {
+  root:    string;
+  total:   number;
+  entries: LaneGroupedRow[];
+}
+
 // ─── Service ─────────────────────────────────────────────────────────────────
 
 @Injectable({ providedIn: 'root' })
@@ -104,5 +129,10 @@ export class AlDictionaryApiService {
   getStructuredRootEntries(root: string, limit = 50): Observable<LexRootResult> {
     const params = new HttpParams().set('limit', String(limit));
     return this.api.getData<LexRootResult>('al', ['lexicon', 'entries', 'root', root], { params });
+  }
+
+  getLaneTableEntries(root: string, limit = 100): Observable<LaneTableResult> {
+    const params = new HttpParams().set('limit', String(limit));
+    return this.api.getData<LaneTableResult>('al', ['lexicon', 'entries', 'lane', root], { params });
   }
 }

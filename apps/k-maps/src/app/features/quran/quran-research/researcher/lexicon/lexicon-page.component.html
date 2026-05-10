@@ -1,5 +1,10 @@
 <div class="rp-page lx-page" dir="rtl">
 
+  <!-- ── Lane table mode ───────────────────────────────────────────────── -->
+  @if (laneTableMode()) {
+    <km-lane-table (closed)="closeLaneTable()" />
+  } @else {
+
   <!-- ── Search bar ─────────────────────────────────────────────────────── -->
   <div class="lx-search-bar">
     <label class="lx-search-label" aria-label="ابحث بجذر عربي">
@@ -99,16 +104,22 @@
                     @if (entry.type !== 'definition') {
                       <span class="rp-badge rp-badge--muted">{{ entry.type }}</span>
                     }
-                    @if (entry.has_gaps) {
-                      <span class="lx-gaps-flag" title="Arabic text rendered as placeholders">◌</span>
+                    @if (entryHasGaps(entry)) {
+                      <span class="lx-gaps-flag" title="صيغ ناقصة: لم تتحول جميع الصيغ العربية من مصدر لين">صيغ ناقصة</span>
                     }
                   </div>
+
+                  @if (entryHasGaps(entry)) {
+                    <div class="lx-missing-forms-notice">
+                      هذا المدخل يحتاج مراجعة: توجد صيغ ناقصة من تحويل لين.
+                    </div>
+                  }
 
                   @if (entry.defParts.length) {
                     <p class="lx-entry-def" dir="ltr">
                       @for (seg of entry.defParts; track $index) {
                         @if (seg.isGap) {
-                          <span class="lx-entry-gap">{{ seg.text }}</span>
+                          <span class="lx-entry-gap" title="صيغة ناقصة: لم تتحول هذه الصيغة من مصدر لين">{{ seg.text }}</span>
                         } @else {
                           {{ seg.text }}
                         }
@@ -192,15 +203,23 @@
   } @else {
     <div class="lx-catalog" #catalog>
       @for (src of sources(); track src.slug) {
-        <article class="lx-dict-card" (click)="tryRoot(searchTerm() || 'كتب')"
+        <article
+          class="lx-dict-card"
+          [class.lx-dict-card--lane]="src.slug === 'lane_lexicon'"
+          (click)="cardClick(src)"
           role="button" tabindex="0"
-          (keydown.enter)="tryRoot(searchTerm() || 'كتب')">
+          (keydown.enter)="cardClick(src)">
           <h2 class="lx-dict-card__title">{{ src.title_ar }}</h2>
           <p class="lx-dict-card__author">{{ src.author }}</p>
           <span class="lx-dict-card__count">{{ src.roots | number }} جذر</span>
+          @if (src.slug === 'lane_lexicon') {
+            <span class="lx-dict-card__lane-hint">عرض الجدول ←</span>
+          }
         </article>
       }
     </div>
   }
+
+  } <!-- end @else laneTableMode -->
 
 </div>

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { forkJoin, debounceTime, distinctUntilChanged, Subject, switchMap, of, catchError, map } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -27,6 +28,7 @@ const LANE_SLUGS = new Set(['lane_lexicon', 'lane_quranic_research_perseus']);
 export class LexiconPageComponent {
   private readonly api    = inject(AlDictionaryApiService);
   private readonly search = inject(QuranResearchSearchService);
+  private readonly router = inject(Router);
 
   readonly sources          = signal<AlDictSource[]>([]);
   readonly sourcesLoading   = signal(true);
@@ -111,6 +113,14 @@ export class LexiconPageComponent {
 
   tryRoot(root: string): void { this.setSearch(root); }
 
+  cardClick(src: AlDictSource): void {
+    if (src.slug === 'lane_lexicon') {
+      void this.router.navigate(['/quran/al-quran/lane-lexicon']);
+    } else {
+      this.tryRoot(this.searchTerm() || 'كتب');
+    }
+  }
+
   selectSourceEntry(src: AlRootSourceResult): void { this.selectedSource.set(src); }
   clearSourceEntry(): void { this.selectedSource.set(null); }
 
@@ -136,12 +146,12 @@ export class LexiconPageComponent {
 
   private splitDef(text: string | null): DefPart[] {
     if (!text) return [];
-    const parts = text.split('[◌]');
-    return parts.flatMap((part, i) => {
-      const segs: DefPart[] = [];
-      if (part) segs.push({ text: part, isGap: false });
-      if (i < parts.length - 1) segs.push({ text: '◌', isGap: true });
-      return segs;
+    const parts = text.split(/\[◌\]|\[form missing\]/);
+    const result: DefPart[] = [];
+    parts.forEach((part, i) => {
+      if (part) result.push({ text: part, isGap: false });
+      if (i < parts.length - 1) result.push({ text: 'form missing', isGap: true });
     });
+    return result;
   }
 }

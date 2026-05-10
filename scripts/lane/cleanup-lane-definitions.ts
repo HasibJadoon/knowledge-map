@@ -306,6 +306,10 @@ function buildDefinitionClean(text: string): string {
     .replace(/^[\s,;.:—–\-]+/, '')
     .trim();
 
+  // Step 6: replace all remaining [◌] with [form missing] — display layer must
+  // never show the dotted-circle placeholder; that stays only in definition_en.
+  t = t.replace(/\[◌\]/g, '[form missing]');
+
   return t;
 }
 
@@ -373,7 +377,7 @@ function buildUpdateSql(row: LaneEntryRow): string | null {
   cleaner.entry_type          = entryType;
   cleaner.has_stripped_arabic = brokenPatterns.length > 0 &&
     brokenPatterns.some(p => ['empty_parens','orphan_aor','orphan_and','orphan_or','orphan_as_also','orphan_syn','orphan_like','orphan_inf_n'].includes(p));
-  cleaner.cleanup_version     = '2.0';
+  cleaner.cleanup_version     = '3.0';
 
   return (
     `UPDATE ar_ling_lexicon_entries ` +

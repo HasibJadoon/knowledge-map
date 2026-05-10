@@ -460,6 +460,24 @@
   font-size: 0.8rem;
 }
 
+.lx-dict-card--lane {
+  border-color: rgba(201, 168, 76, 0.26);
+  background: linear-gradient(155deg, rgba(201,168,76,0.06), rgba(255,255,255,0.018));
+
+  &:hover {
+    border-color: rgba(232, 201, 106, 0.5);
+    background: linear-gradient(155deg, rgba(232,201,106,0.10), rgba(255,255,255,0.03));
+  }
+}
+
+.lx-dict-card__lane-hint {
+  margin-top: 0.3rem;
+  display: inline-block;
+  color: rgba(232, 201, 106, 0.5);
+  font-size: 0.7rem;
+  direction: ltr;
+}
+
 .lx-dict-card__count {
   margin-top: 0.4rem;
   display: inline-block;
@@ -648,8 +666,14 @@
 }
 
 .lx-gaps-flag {
-  color: rgba(232, 201, 106, 0.3);
-  font-size: 0.78rem;
+  display: inline-block;
+  padding: 0.1rem 0.42rem;
+  border: 1px solid rgba(245, 158, 11, 0.32);
+  border-radius: 20px;
+  background: rgba(245, 158, 11, 0.08);
+  color: rgba(245, 158, 11, 0.72);
+  font-family: var(--km-font-arabic-ui);
+  font-size: 0.68rem;
   cursor: default;
 }
 
@@ -664,9 +688,33 @@
 }
 
 .lx-entry-gap {
-  color: rgba(232, 201, 106, 0.38);
-  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
-  font-size: 1em;
+  display: inline-block;
+  padding: 0.04rem 0.36rem;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  border-radius: 3px;
+  background: rgba(245, 158, 11, 0.07);
+  color: rgba(245, 158, 11, 0.65);
+  font-family: var(--km-font-mono, 'SF Mono', 'Consolas', monospace);
+  font-size: 0.78em;
+  vertical-align: middle;
+  cursor: default;
+}
+
+.lx-missing-forms-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba(245, 158, 11, 0.22);
+  border-radius: 3px;
+  background: rgba(245, 158, 11, 0.06);
+  color: rgba(245, 158, 11, 0.72);
+  font-family: var(--km-font-arabic-ui);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  direction: rtl;
+  text-align: right;
 }
 
 .lx-entry-forms {

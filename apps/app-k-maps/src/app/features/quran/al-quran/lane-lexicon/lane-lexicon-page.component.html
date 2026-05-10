@@ -1,0 +1,164 @@
+<ion-content class="ll-content" [fullscreen]="false">
+  <div class="ll-page" dir="rtl">
+
+    <!-- ── Header ────────────────────────────────────────────────────────── -->
+    <div class="ll-header">
+      <button class="ll-back" (click)="goBack()" type="button">
+        <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+        <span>المعاجم</span>
+      </button>
+      <div class="ll-header-title">
+        <span class="ll-header-name">معجم لين العربي الإنجليزي</span>
+        <span class="ll-header-sub">Lane's Arabic-English Lexicon</span>
+      </div>
+      @if (totalCount() > 0) {
+        <span class="ll-badge">{{ totalCount() }}</span>
+      }
+    </div>
+
+    <!-- ── Search ─────────────────────────────────────────────────────────── -->
+    <div class="ll-search-bar">
+      <label class="ll-search-label" aria-label="ابحث بجذر">
+        <ion-icon name="search-outline" class="ll-search-icon" aria-hidden="true"></ion-icon>
+        <input
+          class="ll-search-input"
+          type="search"
+          placeholder="ابحث بجذر… مثل: علم، كتب"
+          [value]="searchTerm()"
+          (input)="setSearch($any($event.target).value)"
+          dir="rtl"
+          autocomplete="off"
+        />
+        @if (loading()) {
+          <span class="ll-spinner" aria-hidden="true">⟳</span>
+        }
+      </label>
+      <div class="ll-quick-chips">
+        @for (root of quickRoots; track root) {
+          <button class="ll-chip" (click)="tryRoot(root)" type="button">{{ root }}</button>
+        }
+      </div>
+    </div>
+
+    <!-- ── Error ──────────────────────────────────────────────────────────── -->
+    @if (error()) {
+      <div class="ll-error">{{ error() }}</div>
+    }
+
+    <!-- ── Idle hint ──────────────────────────────────────────────────────── -->
+    @if (!loading() && !error() && entries().length === 0 && !searchTerm()) {
+      <div class="ll-idle">
+        <p class="ll-idle__text">اكتب جذراً للبحث في معجم لين العربي</p>
+      </div>
+    }
+
+    <!-- ── Empty ──────────────────────────────────────────────────────────── -->
+    @if (!loading() && !error() && entries().length === 0 && searchTerm()) {
+      <div class="ll-empty">لا توجد نتائج للجذر «{{ searchTerm() }}»</div>
+    }
+
+    <!-- ── Entry cards ────────────────────────────────────────────────────── -->
+    <div class="ll-list">
+      @for (entry of entries(); track entry.id) {
+        <button
+          class="ll-card"
+          [class.ll-card--needs-review]="entry.status === 'needs_review'"
+          [class.ll-card--broken]="entry.status === 'broken'"
+          (click)="openEntry(entry)"
+          type="button"
+        >
+          <div class="ll-card__top">
+            <span class="ll-card__heading" dir="rtl" lang="ar">{{ entry.headingAr }}</span>
+            <div class="ll-card__meta">
+              @if (entry.pageLabel) {
+                <span class="ll-card__page">{{ entry.pageLabel }}</span>
+              }
+              <span [class]="statusClass(entry.status)">{{ entry.statusLabel }}</span>
+            </div>
+          </div>
+
+          @if (entry.definitionPreview) {
+            <p class="ll-card__def" dir="ltr">{{ entry.definitionPreview }}</p>
+          }
+
+          @if (entry.forms.length) {
+            <div class="ll-card__forms">
+              @for (form of entry.forms; track form) {
+                <span class="ll-form-chip" dir="rtl" lang="ar">{{ form }}</span>
+              }
+            </div>
+          }
+        </button>
+      }
+    </div>
+
+  </div>
+</ion-content>
+
+<!-- ── Detail modal ───────────────────────────────────────────────────────── -->
+<ion-modal
+  [isOpen]="!!selectedEntry()"
+  [breakpoints]="[0, 0.6, 0.95]"
+  [initialBreakpoint]="0.95"
+  [handle]="true"
+  [backdropDismiss]="true"
+  (ionModalDidDismiss)="closeEntry()"
+>
+  <ng-template>
+    @if (selectedEntry(); as entry) {
+      <ion-header>
+        <ion-toolbar class="ll-modal-toolbar">
+          <ion-buttons slot="end">
+            <ion-button (click)="closeEntry()" aria-label="إغلاق">
+              <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-title dir="rtl">
+            <span class="ll-modal-heading" lang="ar">{{ entry.headingAr }}</span>
+            @if (entry.pageLabel) {
+              <span class="ll-modal-page">{{ entry.pageLabel }}</span>
+            }
+          </ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ll-modal-content">
+        <div class="ll-modal-body" dir="rtl">
+
+          <!-- Status + warnings -->
+          <div class="ll-modal-section">
+            <span [class]="statusClass(entry.status)">{{ entry.statusLabel }}</span>
+            @for (w of entry.warnings; track w) {
+              <span class="ll-warning-chip">{{ warningLabel(w) }}</span>
+            }
+          </div>
+
+          <!-- Source -->
+          <div class="ll-modal-section ll-modal-source">
+            <span class="ll-modal-source__name">معجم لين العربي الإنجليزي</span>
+            <span class="ll-modal-source__author">Edward William Lane · القرن التاسع عشر</span>
+          </div>
+
+          <!-- Definition -->
+          <div class="ll-modal-section">
+            <div class="ll-modal-label">التعريف</div>
+            <p class="ll-modal-def" dir="ltr">{{ entry.definitionFull }}</p>
+          </div>
+
+          <!-- Forms -->
+          @if (entry.forms.length) {
+            <div class="ll-modal-section">
+              <div class="ll-modal-label">الصيغ</div>
+              <div class="ll-modal-forms">
+                @for (form of entry.forms; track form) {
+                  <span class="ll-form-chip" dir="rtl" lang="ar">{{ form }}</span>
+                }
+              </div>
+            </div>
+          }
+
+        </div>
+      </ion-content>
+    }
+  </ng-template>
+</ion-modal>

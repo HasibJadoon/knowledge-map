@@ -43,6 +43,11 @@ export const QURAN_ROUTES: Routes = [
         loadComponent: () =>
           import('./al-quran/notes/notes-page.component').then(m => m.NotesPageComponent),
       },
+      {
+        path: 'lane-lexicon',
+        loadComponent: () =>
+          import('./al-quran/lane-lexicon/lane-lexicon-page.component').then(m => m.LaneLexiconPageComponent),
+      },
     ],
   },
 
