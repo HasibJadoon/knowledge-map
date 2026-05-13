@@ -9,26 +9,8 @@ import type { Router } from '../../../shared/src/router';
 import { ok, badRequest } from '../../../shared/src/response';
 import type { ArLinguisticsEnv } from '../env';
 
-// ── Source metadata for known scholarship sources. Adding new sources
-//    here surfaces them in the catalog with proper titles & authors.
-const SCHOLARSHIP_META: Record<string, {
-  title_ar: string;
-  title_en: string;
-  author:   string;
-  year:     number | null;
-  genre:    string;
-  url:      string | null;
-}> = {
-  'SRC:ALJ:2026:EXCQRN': {
-    title_ar: 'الحفر في القرآن',
-    title_en: 'Excavating the Quran: Towards an Archaeological Hermeneutic',
-    author:   'Ahmad Al-Jallad',
-    year:     2026,
-    genre:    'qur_anic_hermeneutic',
-    url:      null,
-  },
-};
-
+// Genre → bilingual label. Adding a new genre here surfaces its label in
+// the UI; the genre values themselves come from `ar_ling_sources.genre`.
 const GENRE_LABELS: Record<string, { ar: string; en: string }> = {
   qur_anic_hermeneutic: { ar: 'تأويل قرآني',           en: "Qur'ānic Hermeneutic"        },
   epigraphic:           { ar: 'نقوش',                    en: 'Epigraphic'                  },
@@ -72,17 +54,66 @@ interface ScholarshipNote {
   section_label:string | null;
 }
 
-function srcMeta(id: string): {
+interface SourceRow {
+  id:           string;
+  title_ar:     string | null;
+  title_en:     string | null;
+  author_name:  string | null;
+  period_label: string | null;
+  source_type:  string | null;
+  genre:        string | null;
+  note_md:      string | null;
+}
+
+/** Extract a 4-digit year from `period_label` (e.g. "contemporary-2026"
+ *  → 2026). Returns null when not present. */
+function yearFrom(period: string | null): number | null {
+  if (!period) return null;
+  const m = period.match(/\b(1\d{3}|20\d{2}|21\d{2})\b/);
+  return m ? parseInt(m[1], 10) : null;
+}
+
+/** Lift a URL out of `note_md` if one is mentioned. */
+function urlFrom(note: string | null): string | null {
+  if (!note) return null;
+  const m = note.match(/https?:\/\/\S+/);
+  return m ? m[0].replace(/[.,);]+$/, '') : null;
+}
+
+function srcMetaFromRow(row: SourceRow | null | undefined): {
   title_ar: string; title_en: string; author: string;
   year: number | null; genre: string; url: string | null;
 } {
-  return SCHOLARSHIP_META[id] ?? {
-    title_ar: id, title_en: id, author: '', year: null, genre: 'general', url: null,
+  if (!row) {
+    return { title_ar: '', title_en: '', author: '', year: null, genre: 'general', url: null };
+  }
+  return {
+    title_ar: row.title_ar ?? '',
+    title_en: row.title_en ?? '',
+    author:   row.author_name ?? '',
+    year:     yearFrom(row.period_label),
+    genre:    row.genre ?? 'general',
+    url:      urlFrom(row.note_md),
   };
 }
 
 function genreLabel(genre: string) {
   return GENRE_LABELS[genre] ?? { ar: genre, en: genre };
+}
+
+/** Pre-fetch the `ar_ling_sources` rows the request needs in one round-trip. */
+async function fetchSourceRows(env: ArLinguisticsEnv, ids: string[]): Promise<Map<string, SourceRow>> {
+  if (ids.length === 0) return new Map();
+  // De-duplicate; SQLite IN with bound params.
+  const uniq = [...new Set(ids)];
+  const placeholders = uniq.map(() => '?').join(',');
+  const rows = (await env.DB_AL.prepare(
+    `SELECT id, title_ar, title_en, author_name, period_label,
+            source_type, genre, note_md
+     FROM ar_ling_sources
+     WHERE id IN (${placeholders})`,
+  ).bind(...uniq).all<SourceRow>()).results ?? [];
+  return new Map(rows.map(r => [r.id, r]));
 }
 
 export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
@@ -100,8 +131,10 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
        ORDER BY count DESC`,
     ).all<{ source_id: string; source_slug: string | null; count: number }>()).results ?? [];
 
+    const sourceMeta = await fetchSourceRows(env, rows.map(r => r.source_id));
+
     const sources: ScholarshipSource[] = rows.map(r => {
-      const m = srcMeta(r.source_id);
+      const m = srcMetaFromRow(sourceMeta.get(r.source_id));
       return {
         id:          r.source_id,
         slug:        r.source_slug,
@@ -151,7 +184,8 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
     if (rows.length === 0) return ok({ slug, root_norm, source: null, notes: [], total: 0 });
 
     const sourceId = rows[0].source_id as string;
-    const m = srcMeta(sourceId);
+    const sourceMeta = await fetchSourceRows(env, [sourceId]);
+    const m = srcMetaFromRow(sourceMeta.get(sourceId));
     const source: ScholarshipSource = {
       id:          sourceId,
       slug,
@@ -199,8 +233,10 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
     const counts = new Map<string, number>();
     for (const r of rows) counts.set(r.source_id, (counts.get(r.source_id) ?? 0) + 1);
 
+    const sourceMeta = await fetchSourceRows(env, rows.map(r => r.source_id));
+
     const notes: ScholarshipNote[] = rows.map(r => {
-      const meta = srcMeta(r.source_id);
+      const meta = srcMetaFromRow(sourceMeta.get(r.source_id));
       const source: ScholarshipSource = {
         id:          r.source_id,
         slug:        r.source_slug ?? null,

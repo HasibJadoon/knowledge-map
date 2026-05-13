@@ -109,7 +109,20 @@
               }
 
               @if (n.body_plain || n.body_md) {
-                <p class="note__body" dir="ltr">{{ n.body_plain || n.body_md }}</p>
+                <p class="note__body" dir="ltr">
+                  @for (seg of bodySegments(n.body_plain || n.body_md); track $index) {
+                    @switch (seg.kind) {
+                      @case ('qref') {
+                        <a class="note__qref" (click)="openAyah(seg.surah!, seg.ayah!)"
+                           [title]="'Q ' + seg.surah + ':' + seg.ayah">
+                          <span class="note__qref-mark" aria-hidden="true">۝</span>
+                          <span class="note__qref-ref">{{ seg.surah }}:{{ seg.ayah }}</span>
+                        </a>
+                      }
+                      @default { <span>{{ seg.value }}</span> }
+                    }
+                  }
+                </p>
               } @else {
                 <p class="note__body note__body--empty"><em>No body text recorded.</em></p>
               }

@@ -153,6 +153,46 @@ export class ScholarshipShellComponent {
   toggleMeta()      { this.showMeta.update(v => !v); }
   changeFont(d: number) { this.fontSize.set(Math.max(0, Math.min(2, this.fontSize() + d))); }
 
+  // ── Body segmentation: split prose into text + clickable Q s:a refs
+  //
+  // Academic bodies frequently cite Qur'an verses inline as "Q 93:3" or
+  // "Q. 2:255" — same surface area as the Lane reader's inline quran
+  // tokens. The shell parses these into segments so the template can
+  // render the `Q s:a` form as a clickable pill that opens the mushaf.
+  bodySegments(text: string | null | undefined): {
+    kind: 'text' | 'qref';
+    value: string;
+    surah?: number;
+    ayah?: number;
+  }[] {
+    if (!text) return [];
+    // Match `Q [optional .] [optional space] surah[: or -]ayah`. Tolerates
+    // both ASCII and U+002D / U+2013 hyphen, optional dot after Q.
+    const RX = /\bQ\.?\s*(\d{1,3})\s*[:\-–]\s*(\d{1,3})\b/g;
+    const out: { kind: 'text' | 'qref'; value: string; surah?: number; ayah?: number }[] = [];
+    let cur = 0;
+    let m: RegExpExecArray | null;
+    while ((m = RX.exec(text)) != null) {
+      const surah = parseInt(m[1], 10);
+      const ayah  = parseInt(m[2], 10);
+      if (!Number.isFinite(surah) || surah < 1 || surah > 114) continue;
+      if (!Number.isFinite(ayah)  || ayah  < 1)                 continue;
+      if (m.index > cur) out.push({ kind: 'text', value: text.slice(cur, m.index) });
+      out.push({ kind: 'qref', value: m[0], surah, ayah });
+      cur = m.index + m[0].length;
+    }
+    if (cur < text.length) out.push({ kind: 'text', value: text.slice(cur) });
+    return out;
+  }
+
+  // Open the ayah in the mushaf reader (matches Lane shell behavior).
+  openAyah(surah: number, ayah: number) {
+    if (!surah || !ayah) return;
+    this.router.navigate(['/quran/al-quran'], {
+      queryParams: { surah, startingVerse: ayah },
+    });
+  }
+
   // ── Copy: full entry as bilingual text
   copyEntry() {
     const v = this.view();
