@@ -232,7 +232,18 @@ export class LexiconPageComponent implements OnInit {
   // ── Navigation ──────────────────────────────────────────────────────
   /** Card 1: open the full library catalog (all 11 sources). */
   openBooks(): void {
+    this.blurFocus();
     this.router.navigate(['/quran/al-quran/lexicon/books']);
+  }
+
+  /** Blur the currently-focused element BEFORE Ionic adds aria-hidden
+   *  to the outgoing page. Without this, Ionic logs an accessibility
+   *  warning because the focused button stays inside the now-hidden
+   *  page. (See WAI-ARIA aria-hidden rules — focus must not live
+   *  inside an aria-hidden subtree.) */
+  private blurFocus(): void {
+    const active = document.activeElement as HTMLElement | null;
+    if (active && typeof active.blur === 'function') active.blur();
   }
   /** Hit card: open the matching source for the entered root. Lane has a
    *  rich mobile page; other sources fall through to the same Lane-style

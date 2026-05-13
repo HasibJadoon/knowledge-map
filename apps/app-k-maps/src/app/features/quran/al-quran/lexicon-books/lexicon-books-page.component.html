@@ -23,14 +23,17 @@
                     [attr.data-genre]="b.genre"
                     type="button"
                     (click)="openBook(b)">
+              <!-- Decorative layers (home-card visual language) -->
+              <span class="lxb-card__shimmer" aria-hidden="true"></span>
+              <span class="lxb-card__bottom-glow" aria-hidden="true"></span>
+
               @if (b.kind === 'scholarship') {
                 <span class="lxb-card__badge">أكاديمي · {{ b.genre_ar || 'Academic' }}</span>
               }
-              <h2 class="lxb-card__title">{{ b.title_ar }}</h2>
-              <p class="lxb-card__author">{{ b.author }}{{ b.year ? ' · ' + b.year : '' }}</p>
-              @if (b.period) {
-                <p class="lxb-card__period">{{ b.period }}</p>
-              }
+              <div class="lxb-card__head">
+                <h2 class="lxb-card__title">{{ b.title_ar }}</h2>
+                <p class="lxb-card__author">{{ b.author }}{{ b.year ? ' · ' + b.year : '' }}</p>
+              </div>
               <p class="lxb-card__stats">
                 @if (b.kind === 'scholarship') {
                   {{ b.roots | number }} قراءة
