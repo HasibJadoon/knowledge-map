@@ -17,7 +17,13 @@
     "lane:verify":      "tsx scripts/lane/verify-lane-rendering.ts",
     "lane:fts-rebuild": "tsx scripts/lane/rebuild-lane-fts.ts",
     "lane:cleanup":     "tsx scripts/lane/cleanup-lane-definitions.ts",
-    "lane:fix-placeholders": "tsx scripts/lane/fix-lane-placeholders.ts"
+    "lane:fix-placeholders": "tsx scripts/lane/fix-lane-placeholders.ts",
+    "lane:quality-index": "tsx scripts/lane/rebuild-lane-quality-index.ts",
+    "lane:quality-index:bulk": "tsx scripts/lane/rebuild-lane-quality-index-bulk.ts",
+    "lane:parse-source": "tsx scripts/lane/parse-lane-source-page.ts",
+    "lane:import-root":  "tsx scripts/lane/importLaneFromSqlite.ts",
+    "lane:migrate-legacy": "tsx scripts/lane/migrateLegacyEntriesToRootEntries.ts",
+    "lane:link-qr":      "tsx scripts/lane/linkQuranicResearchHtml.ts"
   },
   "dependencies": {
     "@tiptap/core": "^3.22.1",

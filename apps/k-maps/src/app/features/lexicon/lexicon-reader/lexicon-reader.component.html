@@ -1,0 +1,90 @@
+<article class="mfp" dir="rtl">
+  @for (sec of view().sections; track sec.id) {
+    @if (view().sections.length > 1 && sec.heading_ar) {
+      <h2 class="mfp__section-heading">
+        <span class="mfp__section-seq">{{ sec.seq }}</span>
+        <span class="mfp__section-title">{{ sec.heading_ar }}</span>
+        @if (sec.page_no) { <span class="mfp__section-page">ص {{ sec.page_no }}</span> }
+      </h2>
+    }
+
+    @for (p of sec.paragraphs; track $index; let pIdx = $index) {
+      @switch (p.kind) {
+
+        @case ('prose') {
+          <p class="mfp__p mfp__p--prose"
+             [class.mfp__p--lede]="$first && pIdx === 0">
+            <ng-container *ngTemplateOutlet="tokens; context: { $implicit: p.tokens }"></ng-container>
+          </p>
+        }
+
+        @case ('quran') {
+          <aside class="mfp__quran" aria-label="آية قرآنية">
+            <span class="mfp__kind-chip mfp__kind-chip--quran">
+              @if (p.surah && p.ayah) {﴿ {{ p.surah }}:{{ p.ayah }} ﴾} @else {آية}
+            </span>
+            <p class="mfp__quran-text"
+               [class.mfp__quran-text--unresolved]="!p.surah"
+               (click)="p.surah && p.ayah && openAyahEvent.emit({ surah: p.surah, ayah: p.ayah })">
+              {{ p.verse_text }}
+            </p>
+          </aside>
+        }
+
+        @case ('hadith') {
+          <aside class="mfp__hadith" aria-label="حديث شريف">
+            <span class="mfp__kind-chip mfp__kind-chip--hadith">حديث</span>
+            <p class="mfp__hadith-text">
+              <ng-container *ngTemplateOutlet="tokens; context: { $implicit: p.tokens }"></ng-container>
+            </p>
+          </aside>
+        }
+
+        @case ('poetry') {
+          <aside class="mfp__poetry" aria-label="بيت شعر">
+            @if (p.cue) { <span class="mfp__poetry-cue">{{ p.cue }}</span> }
+            @for (v of p.verses; track $index) {
+              <div class="mfp__poetry-verse">{{ v }}</div>
+            }
+            @if (p.attribution) { <span class="mfp__poetry-attribution">— {{ p.attribution }}</span> }
+          </aside>
+        }
+      }
+    }
+  }
+</article>
+
+<ng-template #tokens let-toks>
+  @for (t of toks; track $index) {
+    @switch (t.kind) {
+      @case ('text') { <span>{{ t.value }}</span> }
+      @case ('br')   { <br /> }
+
+      @case ('quran') {
+        <a class="mfp-qref"
+           [class.mfp-qref--unresolved]="!t.surah"
+           [title]="t.raw"
+           (click)="onQuranClick(t)">
+          <span class="mfp-qref__bracket">﴿</span>
+          <span class="mfp-qref__surah">{{ t.surah }}</span>
+          <span class="mfp-qref__ayah">{{ t.ayah }}</span>
+          <span class="mfp-qref__bracket">﴾</span>
+        </a>
+      }
+
+      @case ('footnote') {
+        <sup class="mfp-fn"
+             [class.mfp-fn--has-text]="t.has_text"
+             [attr.data-fn-num]="t.num"
+             [title]="fnTooltip(t)"
+             (click)="onFootnoteClick(t)">{{ t.num }}</sup>
+      }
+
+      @case ('authority') {
+        <span class="mfp-auth"
+              [title]="t.name"
+              (click)="onAuthorityClick(t)">{{ t.label }}</span>
+      }
+    }
+  }
+</ng-template>

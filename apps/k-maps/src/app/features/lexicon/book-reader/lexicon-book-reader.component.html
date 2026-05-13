@@ -1,0 +1,606 @@
+<!-- Per-lexicon shell dispatch. Each source can have its own component
+     owning the full reader experience (toolbar, rails, body) so changes
+     don't leak across lexicons. The generic template below remains for
+     sources that haven't been migrated to a dedicated shell yet. -->
+@if (isMufradat()) {
+  <km-mufradat-shell />
+} @else if (isLane()) {
+  <!-- Lane: bilingual XML scholar format, verb-form sections, scholarly sigla -->
+  <km-lane-shell />
+} @else if (isClassicalLexicon()) {
+  <!-- Single shell for Lisan + al-Sihah + al-Khalil + Maqayis + Ubab + Taj +
+       Misbah + Jamharat + Qamus. Composer adapts per source via SOURCE_CONFIGS. -->
+  <km-lexicon-shell />
+} @else {
+
+<section class="reader" [class.dark]="darkMode()" [class.rail-expanded]="rightRailExpanded()" [class]="fontSizeClass()" dir="rtl">
+
+  <!-- ── Toolbar ─────────────────────────────────────────────────────── -->
+  <header class="reader__toolbar">
+    <a class="back" [routerLink]="['/lexicon/books']" aria-label="رجوع للمكتبة">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M10 6 16 12 10 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>الكتب</span>
+    </a>
+
+    @if (displayMeta(); as m) {
+      <div class="reader__title-block">
+        <div class="reader__source">
+          <h1>{{ m.title_ar }}</h1>
+        </div>
+        <p class="reader__author">{{ m.author }} · {{ m.period }}</p>
+      </div>
+    } @else {
+      <div class="reader__title-block"><h1 class="muted">…</h1></div>
+    }
+
+    <div class="reader__controls">
+      <button class="ctrl" (click)="prevRoot()" title="الجذر السابق (→)" aria-label="prev">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M10 6 16 12 10 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <span class="reader__current">
+        @if (currentRoot()) { <span class="ar-display">{{ currentRoot() }}</span> }
+      </span>
+      <button class="ctrl" (click)="nextRoot()" title="الجذر التالي (←)" aria-label="next">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M14 6 8 12 14 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+
+      <span class="sep"></span>
+      <button class="ctrl" (click)="changeFont(-1)" title="تصغير الخط (-)">A-</button>
+      <button class="ctrl" (click)="changeFont(+1)" title="تكبير الخط (+)">A+</button>
+      <button class="ctrl" (click)="toggleDark()" [class.active]="darkMode()" title="الوضع الداكن (d)">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" fill="currentColor"/></svg>
+      </button>
+      <button class="ctrl" (click)="toggleLeftRail()" [class.active]="showLeftRail()" title="فهرس الجذور ([)">⊞</button>
+      <button class="ctrl" (click)="toggleRightRail()" [class.active]="showRightRail()" title="هامش الروابط (])">⊟</button>
+    </div>
+  </header>
+
+  <div class="reader__body">
+
+    <!-- ── Left rail : root index ────────────────────────────────── -->
+    <aside class="rail rail--left" [class.collapsed]="!showLeftRail()" aria-label="فهرس الجذور">
+      <button
+        class="rail__edge-toggle rail__edge-toggle--left"
+        type="button"
+        (click)="toggleLeftRail()"
+        [attr.aria-label]="showLeftRail() ? 'إخفاء الفهرس' : 'إظهار الفهرس'"
+        [title]="(showLeftRail() ? 'إخفاء' : 'إظهار') + ' فهرس الجذور ([)'"
+      >
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <path [attr.d]="showLeftRail() ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="rail__head">
+        <div class="rail__panel-title">
+          <span class="rail__panel-title-dot" aria-hidden="true"></span>
+          <h3>فهرس الجذور</h3>
+          <span class="rail__panel-title-count">{{ rootList().length | number }}</span>
+        </div>
+        <input
+          class="rail__search"
+          type="search"
+          [ngModel]="rootSearch()"
+          (ngModelChange)="rootSearch.set($event)"
+          placeholder="ابحث في الفهرس…"
+          dir="rtl"
+        />
+      </div>
+      <div class="rail__scroll">
+        @if (rootListLoading()) {
+          <p class="rail__muted">…</p>
+        } @else {
+          @for (entry of rootsByLetter(); track entry[0]) {
+            <details class="rail__letter" [open]="entry[0] === currentRoot()[0]">
+              <summary>
+                <span class="rail__letter-ar">{{ entry[0] }}</span>
+                <span class="rail__letter-n">{{ entry[1].length }}</span>
+              </summary>
+              <ul class="rail__roots">
+                @for (r of entry[1]; track r.id) {
+                  <li>
+                    <button
+                      class="rail__root"
+                      [class.active]="r.root_norm === currentRoot()"
+                      (click)="goToRoot(r.root_norm)"
+                    >
+                      <span class="rail__root-ar">{{ r.root_text || r.root_norm }}</span>
+                      @if (r.page_start) {
+                        <span class="rail__root-page">ص {{ r.page_start }}</span>
+                      }
+                    </button>
+                  </li>
+                }
+              </ul>
+            </details>
+          }
+        }
+      </div>
+    </aside>
+
+    <!-- ── Content : the reading area ───────────────────────────── -->
+    <main #content class="content" tabindex="0">
+      @if (loading()) {
+        <div class="loading">
+          <div class="skel skel--heading"></div>
+          <div class="skel skel--line"></div>
+          <div class="skel skel--line"></div>
+          <div class="skel skel--line short"></div>
+        </div>
+      } @else if (error()) {
+        <p class="error">⚠ {{ error() }}</p>
+      } @else if (isMufradat() && mufradatView(); as mv) {
+
+        <!-- ── Mufradat (al-Raghib) — per-source rich reader ─────────── -->
+        <div class="entry-head">
+          @if (mv.canonical) {
+            <div class="canonical">
+              <span class="canonical__label">جذر</span>
+              <span class="canonical__letters">{{ mv.canonical.root_letters }}</span>
+              @if (mv.canonical.frequency_quran != null) {
+                <span class="canonical__freq" title="ورد في القرآن">
+                  ﴿ {{ mv.canonical.frequency_quran }} ﴾
+                </span>
+              }
+            </div>
+          }
+          <h2 class="entry-head__title">{{ mv.entry.root_text }}</h2>
+          <div class="entry-head__meta">
+            @if (mv.entry.volume_no) { <span>المجلد {{ mv.entry.volume_no }}</span> }
+            @if (mv.entry.page_start) {
+              <span>الصفحات {{ mv.entry.page_start }} – {{ mv.entry.page_end }}</span>
+            }
+            <span class="dot">·</span>
+            <span>{{ mv.stats.paragraphs }} فقرة</span>
+            @if (mv.stats.quran_citations > 0) {
+              <span class="dot">·</span>
+              <span class="badge badge--quran">{{ mv.stats.quran_citations }} استشهاد قرآني</span>
+            }
+            @if (mv.stats.footnote_markers > 0) {
+              <span class="dot">·</span>
+              <span>{{ mv.stats.footnote_markers }} حاشية</span>
+            }
+          </div>
+        </div>
+
+        <km-mufradat-reader
+          [view]="mv"
+          (openAyahEvent)="openAyah($event.surah, $event.ayah)"
+          (openFootnoteEvent)="openFootnoteInPanel($event)"
+        />
+
+        <footer class="entry-foot">
+          <p class="entry-foot__attribution">
+            {{ mv.meta.title_ar }} — {{ mv.meta.author }}
+          </p>
+          @if (mv.entry.source_url) {
+            <a class="entry-foot__url" [href]="mv.entry.source_url" target="_blank" rel="noopener">
+              المصدر الأصلي ↗
+            </a>
+          }
+        </footer>
+
+      } @else if (entry(); as e) {
+
+        <!-- Drop-cap header card -->
+        <div class="entry-head">
+          @if (e.canonical) {
+            <div class="canonical">
+              <span class="canonical__label">جذر</span>
+              <span class="canonical__letters">{{ e.canonical.root_letters }}</span>
+              @if (e.canonical.frequency_quran != null) {
+                <span class="canonical__freq" title="ورد في القرآن">
+                  ﴿ {{ e.canonical.frequency_quran }} ﴾
+                </span>
+              }
+            </div>
+          }
+          <h2 class="entry-head__title">{{ e.entry.root_text }}</h2>
+          <div class="entry-head__meta">
+            @if (e.entry.volume_no) { <span>المجلد {{ e.entry.volume_no }}</span> }
+            @if (e.entry.page_start) { <span>الصفحات {{ e.entry.page_start }} – {{ e.entry.page_end }}</span> }
+            <span class="dot">·</span>
+            <span>{{ e.stats.sections }} قسمًا · {{ e.stats.blocks }} كتلة</span>
+            @if (e.stats.quran_refs > 0) {
+              <span class="dot">·</span>
+              <span class="badge badge--quran">{{ e.stats.quran_refs }} استشهاد قرآني</span>
+            }
+          </div>
+        </div>
+
+        <!-- Reader prose — one paragraph per server-split sentence, with
+             inline ﴿Sura:Ayah﴾ pills and [N] footnote marks parsed from
+             the source text. Block-level fragmentation is hidden. -->
+        <article class="prose" [class.prose--first]="true">
+          @for (sec of renderableSections(); track sec.section.id; let secIdx = $index) {
+            @if (sec.section && (e.sections.length > 1 || sec.section.heading_ar)) {
+              <h2 class="prose__section-heading">
+                <span class="prose__section-seq">{{ sec.section.section_seq }}</span>
+                <span class="prose__section-title">{{ sec.section.heading_ar || sec.section.heading_norm }}</span>
+                @if (sec.section.page_no) {
+                  <span class="prose__section-page">ص {{ sec.section.page_no }}</span>
+                }
+              </h2>
+            }
+            @for (para of sec.paragraphs; track $index; let pIdx = $index) {
+              <p class="prose__p" [class.prose__p--lede]="secIdx === 0 && pIdx === 0">
+                @for (seg of inlineSegments(para); track $index) {
+                  @switch (seg.kind) {
+                    @case ('text')  { <span>{{ seg.value }}</span> }
+                    @case ('br')    { <br /> }
+                    @case ('qref')  {
+                      <a class="qref-pill" [title]="seg.value"
+                         (click)="seg.ayah ? openAyah(+seg.surah! || 0, seg.ayah!) : null">
+                        <span class="qref-pill__bracket qref-pill__bracket--open">﴿</span>
+                        <span class="qref-pill__surah">{{ seg.surah }}</span>
+                        <span class="qref-pill__ayah">{{ seg.ayah }}</span>
+                        <span class="qref-pill__bracket qref-pill__bracket--close">﴾</span>
+                      </a>
+                    }
+                    @case ('fn')    {
+                      <sup class="fn-mark"
+                           [class.fn-mark--has-text]="!!footnoteText(seg.fn!)"
+                           [title]="footnoteText(seg.fn!) || ('حاشية ' + seg.fn)">{{ seg.fn }}</sup>
+                    }
+                  }
+                }
+              </p>
+            }
+          }
+        </article>
+
+        <!-- Footer source attribution -->
+        <footer class="entry-foot">
+          <p class="entry-foot__attribution">
+            {{ e.meta.title_ar }} — {{ e.meta.author }}
+          </p>
+          @if (e.entry.source_url) {
+            <a class="entry-foot__url" [href]="e.entry.source_url" target="_blank" rel="noopener">
+              المصدر الأصلي ↗
+            </a>
+          }
+        </footer>
+      } @else {
+        <p class="muted">اختر جذرًا من الفهرس لبدء القراءة.</p>
+      }
+    </main>
+
+    <!-- ── Right rail : links / backlinks / notes ──────────────── -->
+    <aside class="rail rail--right" [class.collapsed]="!showRightRail()" aria-label="الروابط والملاحظات">
+      <button
+        class="rail__edge-toggle rail__edge-toggle--right"
+        type="button"
+        (click)="toggleRightRail()"
+        [attr.aria-label]="showRightRail() ? 'إخفاء الهامش' : 'إظهار الهامش'"
+        [title]="(showRightRail() ? 'إخفاء' : 'إظهار') + ' هامش الروابط (])'"
+      >
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <path [attr.d]="showRightRail() ? 'M9 6l6 6-6 6' : 'M15 6l-6 6 6 6'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="rail__scroll rail__scroll--right">
+      @if (isMufradat() && mufradatView(); as mv) {
+        <details class="rail__panel rail__panel--quran" open>
+          <summary class="rail__h">
+            <span class="rail__h-dot" aria-hidden="true"></span>
+            <span>الاستشهادات القرآنية</span>
+            <span class="rail__h-count">{{ mv.quran_citations.length }}</span>
+            <ng-container *ngTemplateOutlet="expandBtnTpl"></ng-container>
+            <svg class="rail__h-chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          @if (mv.quran_citations.length > 0) {
+            <ul class="qref-list">
+              @for (q of mv.quran_citations; track $index) {
+                <li>
+                  <button class="qref"
+                          [class.qref--unresolved]="!q.surah_num"
+                          [disabled]="!q.surah_num"
+                          (click)="q.surah_num && openAyah(q.surah_num, q.ayah)"
+                          [title]="q.raw">
+                    <span class="qref__ref">
+                      ﴿{{ q.surah }}
+                      :{{ q.ayah }}@if (q.ayah_to) {–{{ q.ayah_to }}}﴾
+                    </span>
+                    @if (q.count > 1) {
+                      <span class="qref__count">× {{ q.count }}</span>
+                    }
+                  </button>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="rail__muted">لا يوجد</p>
+          }
+        </details>
+      } @else if (entry(); as e) {
+        <details class="rail__panel rail__panel--quran" open>
+          <summary class="rail__h">
+            <span class="rail__h-dot" aria-hidden="true"></span>
+            <span>الاستشهادات القرآنية</span>
+            <span class="rail__h-count">{{ e.quran_refs.length }}</span>
+            <ng-container *ngTemplateOutlet="expandBtnTpl"></ng-container>
+            <svg class="rail__h-chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          @if (e.quran_refs.length > 0) {
+            <ul class="qref-list">
+              @for (q of e.quran_refs; track q.id) {
+                <li>
+                  <button class="qref" (click)="openAyah(q.surah, q.ayah)" [title]="q.context_snippet || ''">
+                    <span class="qref__ref">﴿{{ q.surah }} : {{ q.ayah }}﴾</span>
+                    @if (q.context_snippet) {
+                      <span class="qref__snip">{{ q.context_snippet }}</span>
+                    }
+                  </button>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="rail__muted">لا يوجد</p>
+          }
+        </details>
+
+        <details class="rail__panel rail__panel--tags" [open]="authorityTags().length > 0">
+          <summary class="rail__h">
+            <span class="rail__h-dot" aria-hidden="true"></span>
+            <span>العلامات</span>
+            <span class="rail__h-count">{{ authorityTags().length }}</span>
+            <svg class="rail__h-chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          @if (authorityTags().length > 0) {
+            <div class="tag-grid">
+              <h4>السلطات</h4>
+              <ul>
+                @for (t of authorityTags(); track t) {
+                  <li><span class="chip chip--authority">{{ t }}</span></li>
+                }
+              </ul>
+            </div>
+          } @else {
+            <p class="rail__muted">لا توجد علامات</p>
+          }
+        </details>
+
+        @if (e.sources_of_entry.length > 0) {
+          <details class="rail__panel rail__panel--sources">
+            <summary class="rail__h">
+              <span class="rail__h-dot" aria-hidden="true"></span>
+              <span>مصادر هذه المادة</span>
+              <span class="rail__h-count">{{ e.sources_of_entry.length }}</span>
+              <svg class="rail__h-chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            <ul class="src-list">
+              @for (s of e.sources_of_entry; track s.id) {
+                <li>
+                  <span class="src-kind">{{ s.source_kind }}</span>
+                  @if (s.source_native_id) {
+                    <span class="src-id">#{{ s.source_native_id }}</span>
+                  }
+                </li>
+              }
+            </ul>
+          </details>
+        }
+
+      }
+
+      <!-- Shared notes panel — works for both Mufradat view and generic entry -->
+      @if (hasContent()) {
+        <details class="rail__panel rail__panel--notes" [open]="footnoteEntries().length > 0">
+          <summary class="rail__h">
+            <span class="rail__h-dot" aria-hidden="true"></span>
+            <span>الحواشي</span>
+            <span class="rail__h-count">{{ footnoteEntries().length }}</span>
+            <ng-container *ngTemplateOutlet="expandBtnTpl"></ng-container>
+            <svg class="rail__h-chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          @if (footnoteEntries().length > 0) {
+            <ol class="fn-list">
+              @for (fn of footnoteEntries(); track $index) {
+                <li class="fn-list__item"
+                    [class.fn-list__item--bare]="!fn.text"
+                    [attr.data-fn-num]="fn.num"
+                    [attr.data-fn-page]="fn.printed_page">
+                  <span class="fn-list__num">{{ fn.num }}</span>
+                  <span class="fn-list__text">
+                    @if (fn.printed_page) {
+                      <span class="fn-list__page">ص {{ fn.printed_page }}</span>
+                    }
+                    @if (fn.text) { {{ fn.text }} }
+                    @else { <em class="fn-list__missing">(لا يوجد نص للحاشية في هذا المصدر)</em> }
+                  </span>
+                </li>
+              }
+            </ol>
+          } @else {
+            <p class="rail__muted">لا توجد حواشٍ في هذه المادة.</p>
+          }
+        </details>
+      }
+      </div>
+    </aside>
+  </div>
+</section>
+
+} <!-- end @else (non-Mufradat shells) -->
+
+
+<!-- ── Block renderer template (recursive) ─────────────────────────── -->
+<ng-template #blockTpl let-node let-depth="depth">
+  <ng-container [ngSwitch]="node.block.block_type">
+
+    <!-- root_header — suppressed in body (entry-head already shows the root) -->
+    <span *ngSwitchCase="'root_header'" [id]="'b-' + node.block.block_path" hidden></span>
+
+    <!-- entry_header -->
+    <h2 *ngSwitchCase="'entry_header'" class="bl bl--entry-header" [id]="'b-' + node.block.block_path">
+      <span class="bl-num">{{ node.block.title_ar }}</span>
+      <a class="bl-anchor" [href]="'#b-' + node.block.block_path" aria-label="رابط دائم">#</a>
+    </h2>
+
+    <!-- chapter_header -->
+    <div *ngSwitchCase="'chapter_header'" class="bl bl--chapter">
+      <svg viewBox="0 0 24 6" class="bl--chapter__rule" aria-hidden="true">
+        <path d="M0 3h10M12 1c1 0 2 1 2 2s-1 2-2 2-2-1-2-2 1-2 2-2zm12 0v4" stroke="currentColor" stroke-width="1" fill="none"/>
+      </svg>
+      <span class="bl--chapter__text">{{ node.block.text_plain }}</span>
+    </div>
+
+    <!-- definition (or fallback) — inline pills keep refs glued to prose -->
+    <p *ngSwitchCase="'definition'" class="bl bl--definition">
+      <ng-container *ngFor="let seg of inlineSegments(node.block.text_plain); let i = index">
+        <ng-container [ngSwitch]="seg.kind">
+          <span *ngSwitchCase="'text'">{{ seg.value }}</span>
+          <br  *ngSwitchCase="'br'" />
+          <a   *ngSwitchCase="'qref'"
+               class="qref-pill"
+               [title]="seg.value"
+               (click)="seg.ayah ? openAyah(+seg.surah! || 0, seg.ayah!) : null">
+            <span class="qref-pill__txt">{{ seg.surah }}<span class="qref-pill__sep">·</span>{{ seg.ayah }}</span>
+          </a>
+          <sup *ngSwitchCase="'fn'" class="fn-mark" [title]="'حاشية ' + seg.fn">{{ seg.fn }}</sup>
+        </ng-container>
+      </ng-container>
+    </p>
+
+    <!-- quran_quote — inline pills inside the quoted text -->
+    <aside *ngSwitchCase="'quran_quote'" class="bl bl--quran" role="note">
+      <svg viewBox="0 0 24 24" width="20" height="20" class="bl--quran__icon" aria-hidden="true">
+        <path d="M4 4h16v16H4z" fill="none" stroke="currentColor" stroke-width="2"/>
+        <path d="M9 8l-2 2 2 2M15 8l2 2-2 2" stroke="currentColor" stroke-width="2" fill="none"/>
+      </svg>
+      <p class="bl--quran__text">
+        <ng-container *ngFor="let seg of inlineSegments(node.block.text_plain); let i = index">
+          <ng-container [ngSwitch]="seg.kind">
+            <span *ngSwitchCase="'text'">{{ seg.value }}</span>
+            <br  *ngSwitchCase="'br'" />
+            <a   *ngSwitchCase="'qref'"
+                 class="qref-pill qref-pill--in-quote"
+                 [title]="seg.value"
+                 (click)="seg.ayah ? openAyah(+seg.surah! || 0, seg.ayah!) : null">
+              <span class="qref-pill__txt">{{ seg.surah }}<span class="qref-pill__sep">·</span>{{ seg.ayah }}</span>
+            </a>
+            <sup *ngSwitchCase="'fn'" class="fn-mark" [title]="'حاشية ' + seg.fn">{{ seg.fn }}</sup>
+          </ng-container>
+        </ng-container>
+      </p>
+      @if (node.quranRefs?.length > 0) {
+        <div class="bl--quran__refs">
+          @for (q of node.quranRefs; track q.id) {
+            <button class="qchip" (click)="openAyah(q.surah, q.ayah)">
+              ﴿ {{ q.surah }} : {{ q.ayah }} ﴾
+            </button>
+          }
+        </div>
+      }
+    </aside>
+
+    <!-- hadith_quote -->
+    <aside *ngSwitchCase="'hadith_quote'" class="bl bl--hadith" role="note">
+      <span class="bl-label">
+        <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
+          <path d="M4 12c8 0 8-8 16-8M4 12c8 0 8 8 16 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        حديث
+      </span>
+      <p class="bl--hadith__text">
+        <ng-container *ngFor="let seg of inlineSegments(node.block.text_plain); let i = index">
+          <ng-container [ngSwitch]="seg.kind">
+            <span *ngSwitchCase="'text'">{{ seg.value }}</span>
+            <br  *ngSwitchCase="'br'" />
+            <a   *ngSwitchCase="'qref'" class="qref-pill" [title]="seg.value"
+                 (click)="seg.ayah ? openAyah(+seg.surah! || 0, seg.ayah!) : null">
+              <span class="qref-pill__txt">{{ seg.surah }}<span class="qref-pill__sep">·</span>{{ seg.ayah }}</span>
+            </a>
+            <sup *ngSwitchCase="'fn'" class="fn-mark" [title]="'حاشية ' + seg.fn">{{ seg.fn }}</sup>
+          </ng-container>
+        </ng-container>
+      </p>
+    </aside>
+
+    <!-- poetry_quote -->
+    <aside *ngSwitchCase="'poetry_quote'" class="bl bl--poetry" role="note">
+      <span class="bl-label">
+        <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
+          <path d="M9 6c-3 4-3 8 0 12M15 6c3 4 3 8 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        شعر
+      </span>
+      <p class="bl--poetry__text">
+        <ng-container *ngFor="let seg of inlineSegments(node.block.text_plain); let i = index">
+          <ng-container [ngSwitch]="seg.kind">
+            <span *ngSwitchCase="'text'">{{ seg.value }}</span>
+            <br  *ngSwitchCase="'br'" />
+            <a   *ngSwitchCase="'qref'" class="qref-pill" [title]="seg.value"
+                 (click)="seg.ayah ? openAyah(+seg.surah! || 0, seg.ayah!) : null">
+              <span class="qref-pill__txt">{{ seg.surah }}<span class="qref-pill__sep">·</span>{{ seg.ayah }}</span>
+            </a>
+            <sup *ngSwitchCase="'fn'" class="fn-mark" [title]="'حاشية ' + seg.fn">{{ seg.fn }}</sup>
+          </ng-container>
+        </ng-container>
+      </p>
+    </aside>
+
+    <!-- footnote (rendered inline above; this is a hidden anchor for direct linking) -->
+    <span *ngSwitchCase="'footnote'" class="bl bl--footnote-anchor" [id]="'fn-' + node.block.block_path" hidden></span>
+
+    <!-- cross_ref -->
+    <p *ngSwitchCase="'cross_ref'" class="bl bl--cross-ref">
+      <span class="bl-label">
+        <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
+          <path d="M10 4l-6 6 6 6M14 20l6-6-6-6M5 10h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        انظر
+      </span>
+      <span>{{ node.block.text_plain }}</span>
+    </p>
+
+    <!-- default fallback (still gets inline pills) -->
+    <p *ngSwitchDefault class="bl bl--default" [attr.data-type]="node.block.block_type">
+      <ng-container *ngFor="let seg of inlineSegments(node.block.text_plain); let i = index">
+        <ng-container [ngSwitch]="seg.kind">
+          <span *ngSwitchCase="'text'">{{ seg.value }}</span>
+          <br  *ngSwitchCase="'br'" />
+          <a   *ngSwitchCase="'qref'" class="qref-pill" [title]="seg.value"
+               (click)="seg.ayah ? openAyah(+seg.surah! || 0, seg.ayah!) : null">
+            <span class="qref-pill__txt">{{ seg.surah }}<span class="qref-pill__sep">·</span>{{ seg.ayah }}</span>
+          </a>
+          <sup *ngSwitchCase="'fn'" class="fn-mark" [title]="'حاشية ' + seg.fn">{{ seg.fn }}</sup>
+        </ng-container>
+      </ng-container>
+    </p>
+  </ng-container>
+
+  <!-- Recurse into children (excluding footnotes; those render inline) -->
+  @for (child of node.children; track child.block.id) {
+    @if (child.block.block_type !== 'footnote') {
+      <ng-container *ngTemplateOutlet="blockTpl; context: { $implicit: child, depth: depth + 1 }"></ng-container>
+    }
+  }
+</ng-template>
+
+<!-- ── Shared expand/collapse button for any right-rail panel summary ─── -->
+<ng-template #expandBtnTpl>
+  <button
+    type="button"
+    class="rail__h-expand"
+    (click)="toggleRightRailExpanded($event)"
+    [attr.aria-pressed]="rightRailExpanded()"
+    [title]="rightRailExpanded() ? 'تصغير العمود' : 'توسيع العمود للقراءة'">
+    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+      @if (rightRailExpanded()) {
+        <path d="M9 4 4 4 4 9 M15 4 20 4 20 9 M9 20 4 20 4 15 M15 20 20 20 20 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      } @else {
+        <path d="M4 9 4 4 9 4 M20 9 20 4 15 4 M4 15 4 20 9 20 M20 15 20 20 15 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      }
+    </svg>
+  </button>
+</ng-template>

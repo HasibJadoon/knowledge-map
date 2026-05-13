@@ -41,6 +41,11 @@ export class AlQuranComponent implements OnInit {
   readonly error = signal<string | null>(null);
   readonly activeStartPage = signal(FIRST_PAGE);
 
+  // When the route includes ?surah=X&startingVerse=Y, focus that verse after
+  // pages render: scroll into view + apply a transient highlight class. Set
+  // once during initial resolve, consumed after the first paint.
+  private pendingFocusVerseKey: string | null = null;
+
   readonly firstLoadedPage = computed(() => this.pages()[0]?.page.number ?? null);
   readonly lastLoadedPage = computed(() => this.pages()[this.pages().length - 1]?.page.number ?? null);
   readonly hasPreviousPages = computed(() => (this.firstLoadedPage() ?? FIRST_PAGE) > FIRST_PAGE);
@@ -169,6 +174,28 @@ export class AlQuranComponent implements OnInit {
     const loaded = await this.fetchPages(this.range(startPage, to));
     this.pages.set(loaded);
     this.animateLoadedPages(true);
+    this.flushPendingVerseFocus();
+  }
+
+  private flushPendingVerseFocus(): void {
+    const verseKey = this.pendingFocusVerseKey;
+    if (!verseKey) return;
+    this.pendingFocusVerseKey = null;
+    // Wait for the @for tracking to commit the new DOM before lookup.
+    setTimeout(() => this.focusVerse(verseKey), 80);
+  }
+
+  private focusVerse(verseKey: string): void {
+    const root = this.host?.nativeElement as HTMLElement | undefined;
+    if (!root) return;
+    const escaped = verseKey.replace(/"/g, '\\"');
+    const target = root.querySelector<HTMLElement>(`.ayah-segment[data-ref="${escaped}"]`);
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    target.classList.add('ayah-segment--focused');
+    // Highlight is purely transient — fades on its own via CSS animation,
+    // but we strip the class so re-navigating to the same verse re-triggers.
+    setTimeout(() => target.classList.remove('ayah-segment--focused'), 3200);
   }
 
   private async resolveInitialPage(): Promise<number> {
@@ -183,6 +210,9 @@ export class AlQuranComponent implements OnInit {
     const verse = Number.isFinite(verseParam) && verseParam > 0 ? verseParam : FIRST_PAGE;
 
     if (surah > FIRST_PAGE || verse > FIRST_PAGE) {
+      // Remember the target so we can scroll to + highlight it once the
+      // mushaf pages render.
+      this.pendingFocusVerseKey = `${surah}:${verse}`;
       return this.resolveAyahPage(surah, verse);
     }
 

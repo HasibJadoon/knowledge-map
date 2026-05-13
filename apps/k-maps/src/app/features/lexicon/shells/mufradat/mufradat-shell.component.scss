@@ -1,0 +1,1402 @@
+// ── Design tokens (manuscript / parchment aesthetic) ─────────────────────────
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  // Panel-layout vars — GSAP writes here. Children read via CSS calc().
+  // Defaults match the initial signal values in the TS layer.
+  --w-index:     300px;
+  --w-citations: 340px;
+
+  // Light mode (parchment)
+  --bg:          #f7f4ee;
+  --paper:       #fefcf7;
+  --paper-2:     #f3ece0;
+  --ink:         #2a261e;
+  --ink-soft:    #6c6356;
+  --ink-faint:   #a89e8a;
+  --rule:        #d9cfb8;
+  --accent:      #8a6a2e;       // antique gold
+  --accent-2:    #4a5a3a;       // olive
+  --accent-3:    #6e3e1a;       // saddle
+  --quran:       #4a7c3a;       // verse green
+  --quran-bg:    #f0f5e8;
+  --hadith:      #2f5d8a;
+  --hadith-bg:   #ebf2f8;
+  --poetry:      #7a5a3a;
+  --poetry-bg:   #faf3e6;
+  --shadow:      0 1px 2px rgba(0,0,0,.04), 0 8px 24px -8px rgba(60,40,10,.16);
+  --shadow-hover:0 4px 8px rgba(0,0,0,.05), 0 14px 30px -8px rgba(60,40,10,.22);
+
+  font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', Georgia, serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+:host.dark {
+  --bg:        #1a1814;
+  --paper:     #23211c;
+  --paper-2:   #2d2a23;
+  --paper-3:   #36322a;
+  --ink:       #efe6cf;
+  --ink-soft:  #b8ad93;
+  --ink-faint: #7b7263;
+  --rule:      #45403a;
+  --rule-soft: #353129;
+  --accent:    #e6b94a;       // brighter gold
+  --accent-2:  #b6c98a;       // emerald-olive
+  --accent-3:  #f29a4e;       // sunset orange
+  --accent-4:  #c89cec;       // violet
+  --accent-5:  #7fcad9;       // teal-blue
+  --accent-6:  #ee7a99;       // rose
+  --quran:     #a9d28a;
+  --quran-bg:  rgba(169,210,138,.10);
+  --hadith:    #92bee1;
+  --hadith-bg: rgba(146,190,225,.10);
+  --poetry:    #f0c688;
+  --poetry-bg: rgba(240,198,136,.08);
+  --note:      #f29a4e;
+  --note-bg:   rgba(242,154,78,.10);
+  --tag:       #c89cec;
+  --tag-bg:    rgba(200,156,236,.10);
+  --src:       #7fcad9;
+  --src-bg:    rgba(127,202,217,.10);
+  --shadow:    0 1px 2px rgba(0,0,0,.4), 0 8px 24px -8px rgba(0,0,0,.55);
+}
+
+// Font sizes — five-step scale (xs→xl). The body class is set from the
+// `fontSize` signal in the TS layer. We change BOTH:
+//   • `--fs-base`/`--fs-lead` — read by the reader's prose blocks
+//   • `font-size` on :host — sets the inherited base, so any em-relative
+//     metric inside the component (including the reader child's `em`-
+//     sized inline tokens) scales together with the body text.
+// The reader uses `rem` for some fixed metadata sizes (page chips,
+// counts) — those intentionally stay constant for readability of
+// surrounding chrome while body prose scales.
+:host       { --fs-base: 1.10rem; --fs-lead: 1.90rem; font-size: 16px; }
+:host.fs-xs { --fs-base: 0.78rem; --fs-lead: 1.42rem; font-size: 12.5px; }
+:host.fs-sm { --fs-base: 0.94rem; --fs-lead: 1.68rem; font-size: 14.5px; }
+:host.fs-md { --fs-base: 1.10rem; --fs-lead: 1.90rem; font-size: 16px; }
+:host.fs-lg { --fs-base: 1.32rem; --fs-lead: 2.15rem; font-size: 19px; }
+:host.fs-xl { --fs-base: 1.58rem; --fs-lead: 2.50rem; font-size: 22px; }
+
+// ── Layout primitives ──────────────────────────────────────────────────
+//
+// Two CSS custom properties drive the entire panel layout:
+//   --w-index      width of the root-index rail (RTL: right side)
+//   --w-citations  width of the Quran/footnotes rail (RTL: left side)
+//
+// GSAP (from the TS layer) is the SOLE animator of these vars. There is
+// no `transition` on width / inset / opacity for animated properties —
+// CSS and GSAP must NOT compete on the same property or the motion gets
+// janky. Drag-resize uses `gsap.set` (instant) on the same vars, so the
+// resizer tracks the cursor with no animation queue.
+//
+// Everything that depends on rail width — content padding, toggle pos,
+// resizer pos — reads from these vars, so a single tween moves the
+// entire UI in lockstep.
+.reader {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+// Body : absolute-positioned playground. Content sits inset:0 and
+// reserves space for each rail via padding-inline-start/end. Rails sit
+// at the inline-start / inline-end edges with width driven by the vars.
+.reader__body {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.content {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  outline: none;
+  padding-inline-start: var(--w-index);
+  padding-inline-end:   var(--w-citations);
+  // Body prose scales with the A+/A- toolbar buttons. Any descendant
+  // using `em` (or unitless) sizing picks this up automatically.
+  font-size: var(--fs-base);
+  line-height: var(--fs-lead);
+}
+
+.rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  // Visible overflow so the edge toggle (positioned just outside the
+  // rail with a negative inset) doesn't get clipped. Internal scrolling
+  // is contained by `.rail__scroll` below.
+  overflow: visible;
+
+  &--index {
+    inset-inline-start: 0;
+    width: var(--w-index);
+    border-inline-end: 1px solid var(--rule);
+  }
+  &--citations {
+    inset-inline-end: 0;
+    width: var(--w-citations);
+    border-inline-start: 1px solid var(--rule);
+  }
+
+  &.collapsed {
+    pointer-events: none;
+    border-color: transparent;
+  }
+}
+
+// ── Toggle/expand transitions ─────────────────────────────────────────
+// The TS layer adds `.anim-index` / `.anim-citations` to the host for
+// the duration of an animated transition, then removes them. Drag-resize
+// never sets these classes, so resize stays pixel-perfect with no easing.
+// We transition `width` on the rail, `padding-inline-{start,end}` on the
+// content, and the toggle/resizer `inset` so everything moves together.
+$panel-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+:host.anim-index .rail--index,
+:host.anim-citations .rail--citations { transition: width 480ms #{$panel-ease}; }
+
+:host.anim-index .content     { transition: padding-inline-start 480ms #{$panel-ease}; }
+:host.anim-citations .content { transition: padding-inline-end   480ms #{$panel-ease}; }
+
+:host.anim-index .rail-toggle--index,
+:host.anim-index .rail-resizer--index { transition: inset-inline-start 480ms #{$panel-ease}; }
+
+:host.anim-citations .rail-toggle--citations,
+:host.anim-citations .rail-resizer--citations { transition: inset-inline-end 480ms #{$panel-ease}; }
+
+// Citations expanded mode — the rail's width var is tweened to 100vw
+// directly from TS, so no CSS class is needed for sizing. This class
+// only carries any typography hints we want to apply at full width.
+.reader.citations-expanded .rail--citations .rail__panel--notes .fn-list       { font-size: 1.02rem; line-height: 1.9; }
+.reader.citations-expanded .rail--citations .rail__panel--notes .fn-list__item { padding: 14px 12px; }
+.reader.citations-expanded .rail--citations .rail__panel--quran  .qref         { padding: 12px 14px; }
+.reader.citations-expanded .rail--citations .rail__panel--quran  .qref__ref    { font-size: 1.08rem; }
+
+// Reading mode = typography enlargement ONLY. Width stays where the user
+// last left it (drag-resize result or default) so the prose column never
+// reflows when toggling this on. No layout shift, no anchor jump.
+.reader.rail-expanded .rail__panel--notes .fn-list       { font-size: 1.02rem; line-height: 1.9; }
+.reader.rail-expanded .rail__panel--notes .fn-list__item { padding: 14px 12px; }
+.reader.rail-expanded .rail__panel--notes .fn-list__text { font-size: 1rem; }
+.reader.rail-expanded .rail__panel--quran .qref          { padding: 12px 14px; }
+.reader.rail-expanded .rail__panel--quran .qref__ref     { font-size: 1.08rem; }
+.reader.rail-expanded .rail__panel--quran .qref__snip    { font-size: 0.95rem; line-height: 1.75; }
+
+// ── Dock splitter (drag-resize handle, dockview-style) ────────────────
+// Position uses `calc(var(--w-*) - 4px)` so the 8px wide handle is
+// centered on the rail's inner edge. Tracks rail animation and drag
+// without any extra wiring.
+//
+// Visual model:
+//   • At rest    — a 1px hairline running the full height + grip dots
+//   • On hover   — the hairline thickens to 2px and tints accent gold;
+//                  the dots brighten + scale up; the full 8px hit area
+//                  picks up a soft fill so the splitter "highlights"
+//   • While drag — accent-locked, dots flash gold; cursor stays as
+//                  col-resize across the whole window via pointer-cap
+.rail-resizer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: col-resize;
+  user-select: none;
+  z-index: 3;
+  transition: background 0.18s ease;
+
+  &--index     { inset-inline-start: calc(var(--w-index)     - 4px); }
+  &--citations { inset-inline-end:   calc(var(--w-citations) - 4px); }
+
+  // Hairline that runs the full height of the splitter — the dock
+  // divider line itself. Sits centered behind the grip dots.
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-50%);
+    background: var(--rule);
+    transition: width 0.18s ease, background 0.18s ease;
+  }
+
+  &:hover, &.dragging {
+    background: rgba(230, 185, 74, 0.10);
+    &::before {
+      width: 2px;
+      background: var(--accent);
+    }
+    .rail-resizer__grip {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.08);
+      span { background: var(--accent); }
+    }
+  }
+
+  // Dockview-style grip: a column of 6 small dots centered on the rail's
+  // inner edge. Visible at rest (so the affordance is discoverable),
+  // brightens + scales slightly on hover, recolors to accent on drag.
+  &__grip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    width: 8px;
+    padding: 6px 0;
+    border-radius: 6px;
+    opacity: 0.75;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+
+    span {
+      display: block;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--ink-soft);
+      transition: background 0.15s, transform 0.15s;
+    }
+  }
+}
+
+// ── Edge toggles (absolute, ride the rail's inner edge, clamp to 0) ───
+// `max(0px, calc(var(...) - 11px))` keeps the toggle on the rail's inner
+// edge while the rail is open, then snaps it to the viewport edge (fully
+// visible) when the rail is collapsed. No `position: fixed` swap, no
+// separate collapsed-state coords.
+.rail-toggle {
+  position: absolute;
+  top: 16px;
+  width: 22px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink-soft);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 20;
+  padding: 0;
+  appearance: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  &:hover { background: var(--accent); color: #1a1814; border-color: var(--accent); }
+
+  &--index     { inset-inline-start: max(0px, calc(var(--w-index)     - 11px)); }
+  &--citations { inset-inline-end:   max(0px, calc(var(--w-citations) - 11px)); }
+}
+
+// ── Toolbar ────────────────────────────────────────────────────────────
+.reader__toolbar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 20px;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  z-index: 10;
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: background .15s;
+    &:hover { background: rgba(138,106,46,.08); }
+  }
+  .reader__title-block {
+    text-align: center;
+    h1 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .muted { color: var(--ink-faint); }
+  }
+  .reader__source {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .reader__author {
+    margin: 2px 0 0;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .reader__controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .reader__current {
+    min-width: 70px;
+    text-align: center;
+    .ar-display {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+  }
+  .ctrl {
+    appearance: none;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--ink-soft);
+    padding: 6px 10px;
+    height: 34px;
+    border-radius: 8px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.85rem;
+    transition: background .15s, color .15s, border-color .15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    &:hover { background: rgba(138,106,46,.08); color: var(--ink); }
+    &.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  }
+  .sep { width: 1px; height: 18px; background: var(--rule); margin: 0 4px; }
+}
+
+// ── Origin badges (book provenance) ──────────────────────────────────
+.origin-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  &[data-origin='thahabi']     { color: #8a3a4a; }
+  &[data-origin='ketabonline'] { color: #4a5a3a; }
+  &[data-origin='saaid']       { color: #4a6a8a; }
+  &[data-origin='qomra']       { color: #6e4a8a; }
+  &[data-origin='lane']        { color: #8a6a2e; }
+}
+
+// ── Rail internals ────────────────────────────────────────────────────
+// The outer rail box (position, width, borders, background) is set in
+// the layout primitives block at the top of this file. The rules here
+// style the inner sections: panel title, head, scroll container,
+// accordion panels, root buttons.
+.rail {
+  // `min-height: 0` lets the inner scroll container actually shrink to
+  // the rail's height instead of expanding past it.
+  min-height: 0;
+
+  // Inner scroll container — the only thing that clips horizontally,
+  // since the rail itself uses `overflow: visible` (so edge toggles can
+  // bleed out). The rail__head sits above it as a fixed band.
+  > .rail__scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  // Rail panel title (left rail header)
+  &__panel-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    h3 {
+      margin: 0;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+    }
+  }
+  &__panel-title-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+  &__panel-title-count {
+    margin-inline-start: auto;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--rule-soft, var(--paper-2));
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  &__head {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+  &__search {
+    width: 100%;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: var(--bg);
+    padding: 7px 10px;
+    font: inherit;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s;
+    &:focus { border-color: var(--accent); }
+  }
+  &__scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0 24px;
+    // `scroll-behavior: smooth` is intentionally NOT set here: combined
+    // with grid-template-columns transitions on the parent, it can stall
+    // scrollTop assignment in WebKit. The component handles its own
+    // smooth-scrolling on focus.
+  }
+  &__muted  { padding: 16px; color: var(--ink-soft); }
+  // Each panel is now a <details> accordion with a color-coded dot
+  &__panel  {
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+    transition: background .18s;
+
+    --panel-accent: var(--accent);          // overridden per panel below
+
+    &[open] { background: linear-gradient(180deg, rgba(255,255,255,.012) 0%, transparent 60%); }
+
+    // Color the dot + chevron per panel kind
+    &--quran   { --panel-accent: var(--quran); }
+    &--tags    { --panel-accent: var(--tag); }
+    &--sources { --panel-accent: var(--src); }
+    &--notes   { --panel-accent: var(--note); }
+  }
+
+  &__h {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    user-select: none;
+    transition: background .15s;
+
+    &::-webkit-details-marker { display: none; }
+    &:hover { background: rgba(255,255,255,.02); }
+  }
+
+  &__h-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--panel-accent);
+    box-shadow: 0 0 8px var(--panel-accent);
+  }
+
+  &__h-count {
+    margin-inline-start: auto;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--rule-soft, var(--paper-2));
+    padding: 2px 8px;
+    border-radius: 999px;
+    min-width: 22px;
+    text-align: center;
+  }
+
+  &__h-chev {
+    color: var(--ink-faint);
+    transition: transform .2s ease;
+  }
+
+  &__h-expand {
+    appearance: none;
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    color: var(--ink-soft);
+    padding: 3px 5px;
+    margin-inline-end: 4px;
+    cursor: pointer;
+    display: inline-grid;
+    place-items: center;
+    transition: background .15s, color .15s, border-color .15s;
+
+    &:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(230,185,74,.08);
+    }
+    &[aria-pressed='true'] {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(230,185,74,.12);
+    }
+  }
+  &__panel[open] > &__h > &__h-chev { transform: rotate(180deg); color: var(--panel-accent); }
+
+  // Body padding inside an open panel
+  &__panel > *:not(summary) {
+    padding-inline: 16px;
+    padding-bottom: 14px;
+    padding-top: 0;
+  }
+
+  // Letter section in root index
+  &__letter {
+    margin: 0;
+    border-bottom: 1px dashed var(--rule);
+    &[open] summary { color: var(--accent); }
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.1rem;
+      font-weight: 700;
+      transition: background .15s;
+      &::-webkit-details-marker { display: none; }
+      &:hover { background: rgba(138,106,46,.06); }
+    }
+    &-ar { font-size: 1.25rem; }
+    &-n  { font-size: 0.7rem; color: var(--ink-faint); font-weight: 400; }
+  }
+  &__roots {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0 12px 0;
+  }
+  &__root {
+    appearance: none;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: right;
+    padding: 6px 22px 6px 14px;
+    font: inherit;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-right: 3px solid transparent;
+    transition: background .12s, border-color .12s, color .12s;
+    &:hover { background: rgba(138,106,46,.06); }
+    &.active {
+      background: rgba(138,106,46,.12);
+      border-right-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    &-ar { font-size: 1.05rem; }
+    &-page { font-size: 0.72rem; color: var(--ink-faint); }
+  }
+}
+
+// Right rail bits
+.qref-list { list-style: none; margin: 0; padding: 0; }
+.qref {
+  appearance: none;
+  background: var(--quran-bg);
+  border: 1px solid var(--rule);
+  border-right: 3px solid var(--quran);
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-align: right;
+  width: 100%;
+  margin-bottom: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font: inherit;
+  transition: border-color .15s, background .18s, transform .12s;
+  &:hover {
+    border-color: var(--quran);
+    background: rgba(169,210,138,.18);
+    transform: translateX(-2px);
+  }
+  &__ref {
+    color: var(--quran);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+  }
+  &__snip {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+.tag-grid {
+  h4 {
+    margin: 0 0 6px;
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  ul { list-style: none; margin: 0 0 10px; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+}
+.chip {
+  display: inline-block;
+  font-size: 0.78rem;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--paper-2);
+  color: var(--ink-soft);
+  border: 1px solid var(--rule);
+  font-weight: 600;
+  &--authority {
+    color: var(--accent-3);
+    border-color: var(--accent-3);
+    background: var(--note-bg);
+  }
+}
+.src-list { list-style: none; margin: 0; padding: 0; font-size: 0.85rem; }
+.src-list li {
+  display: flex; gap: 8px; padding: 6px 10px;
+  background: var(--src-bg);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  margin-bottom: 4px;
+  word-break: break-all;
+}
+.src-kind { color: var(--src); font-weight: 700; }
+.src-id { color: var(--ink-soft); font-size: 0.82rem; }
+
+// ── Content reading area ─────────────────────────────────────────────
+// The base `.content` rule lives in the layout primitives block at the
+// top of this file (position: absolute, padding-inline-{start,end}
+// reserves the rail tracks). Here we only add the reading padding and
+// reflow behaviour — the prose fills the available width with a max
+// reading measure that keeps lines comfortable even when both panels
+// are docked open. Removing the old `max-width: 720px` + `margin-inline:
+// auto` makes the content visibly reflow when a rail is resized,
+// matching the dockview "panel docked to the middle" feel.
+.content {
+  padding-block: 48px 140px;
+  // Horizontal breathing room scales with available space rather than
+  // a fixed 720px column, so the prose actually changes as the rails
+  // resize. The inner reading measure is enforced on the prose block
+  // below.
+  > * {
+    padding-inline: clamp(16px, 3vw, 48px);
+  }
+  // Inner reader fills the full available panel width — like a docked
+  // content panel. Resizing or collapsing a rail visibly reflows the
+  // prose. We keep a small inset via `padding-inline` (above) so text
+  // isn't flush with the rails/edges, but there's no hard column cap.
+  km-mufradat-reader,
+  .entry-head,
+  .entry-foot {
+    max-width: 100%;
+    margin-inline: 0;
+  }
+}
+
+// ── Modern Reader prose ───────────────────────────────────────────────
+// One continuous article — paragraphs separated by air, not boxes.
+// Citations and footnotes ride inline; nothing breaks the reading flow.
+.prose {
+  font-size: var(--fs-base);
+  line-height: calc(var(--fs-lead) * 1.05);
+  color: var(--ink);
+  font-feature-settings: 'kern', 'liga', 'calt';
+
+  &__section-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 2.2em 0 0.9em;
+    padding-bottom: 0.4em;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    line-height: 1.35;
+
+    &:first-child { margin-top: 0; }
+  }
+  &__section-seq {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.78rem;
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 1px 8px;
+    border-radius: 999px;
+    min-width: 22px;
+    text-align: center;
+  }
+  &__section-title { flex: 1; }
+  &__section-page {
+    color: var(--ink-faint);
+    font-size: 0.78rem;
+    font-weight: 400;
+  }
+
+  &__p {
+    margin: 0 0 1.05em;
+    text-align: start;
+    text-indent: 0;
+    hyphens: none;
+    word-spacing: 0.02em;
+    color: var(--ink);
+
+    // Keep inline citation pills + footnote marks tight against words so a
+    // ﴿Sura:Ayah﴾ never wraps onto its own line.
+    span { unicode-bidi: plaintext; }
+
+    &--lede {
+      // Modern editorial opener: subtle lift on the first line, no drop cap
+      // (Arabic doesn't take to single-glyph drop caps gracefully).
+      font-size: calc(var(--fs-base) * 1.06);
+      line-height: calc(var(--fs-lead) * 1.05);
+      color: var(--ink);
+    }
+  }
+}
+
+.entry-head {
+  text-align: center;
+  padding: 20px 20px 32px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+
+  &::after {
+    content: '۞';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg);
+    color: var(--accent);
+    font-size: 1.25rem;
+    padding: 0 12px;
+    opacity: 0.7;
+  }
+
+  &__title {
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    margin: 14px 0 8px;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--accent);
+  }
+  &__meta {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    .dot { color: var(--ink-faint); }
+    .badge {
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+      &--quran { background: var(--quran-bg); color: var(--quran); }
+    }
+  }
+}
+.canonical {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--paper-2);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  &__label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  &__letters { color: var(--accent); font-weight: 700; font-size: 1.05rem; }
+  &__freq { color: var(--quran); font-weight: 600; }
+}
+
+// ── Sections (the new continuous-prose renderer) ──────────────────────
+.section {
+  margin: 0 0 2.4em;
+  & + .section { border-top: 1px dashed var(--rule); padding-top: 1.4em; }
+
+  &__heading {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 0 0.6em;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  &__seq {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: var(--paper-2);
+    padding: 2px 9px;
+    border-radius: 999px;
+    min-width: 22px;
+    text-align: center;
+  }
+  &__title { flex: 1; }
+  &__page {
+    color: var(--ink-faint);
+    font-size: 0.78rem;
+    font-weight: 400;
+  }
+
+  &__body {
+    margin: 0;
+    font-size: var(--fs-base);
+    line-height: var(--fs-lead);
+    text-align: justify;
+    hyphens: auto;
+    color: var(--ink);
+    // Keep inline elements (qref pills, footnote marks) tight against the
+    // surrounding words so a reference doesn't wrap to its own line.
+    word-spacing: 0;
+    span { unicode-bidi: plaintext; }
+  }
+}
+
+// ── Inline Quran-ref pill ──────────────────────────────────────
+// Designed as a Mushaf-style citation marker: ornate ayah-brackets ﴿﴾ frame
+// the surah name and ayah number, vertically stacked for a coin-like badge.
+// ── Inline Quran-ref — typeset citation style, NO box ──────────
+// Reads like a classical scholar's marginalia: subtle muted-green text,
+// ornate Mushaf brackets, no border or background. Hover adds a quiet
+// underline so it's still clickable.
+.qref-pill {
+  display: inline;
+  margin: 0 2px;
+  padding: 1px 2px;
+  background: transparent;
+  color: var(--quran);
+  border: none;
+  border-radius: 4px;
+  font-size: 0.84em;
+  font-weight: 600;
+  line-height: inherit;
+  vertical-align: baseline;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  unicode-bidi: isolate;
+  transition: background .15s, color .15s;
+
+  &:hover {
+    background: var(--quran-bg);
+    .qref-pill__surah { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--quran); }
+  }
+
+  &__bracket {
+    color: var(--quran);
+    opacity: 0.65;
+    font-size: 1em;
+    margin: 0 1px;
+  }
+  &__surah {
+    color: var(--quran);
+    font-weight: 600;
+  }
+  &__ayah {
+    color: var(--quran);
+    font-weight: 600;
+    margin-inline-start: 3px;
+    font-variant-numeric: tabular-nums;
+    &::before { content: ':'; opacity: 0.55; margin-inline-end: 2px; }
+  }
+}
+
+// ── Inline footnote — small superscript citation, no box ───────
+.fn-mark {
+  display: inline;
+  margin: 0 1px;
+  padding: 0 2px;
+  font-size: 0.68em;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink-faint);
+  background: transparent;
+  border-radius: 3px;
+  vertical-align: super;
+  cursor: help;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+  transition: color .15s, background .15s;
+  &::before { content: '['; opacity: 0.55; margin-inline-end: 1px; }
+  &::after  { content: ']'; opacity: 0.55; margin-inline-start: 1px; }
+  &:hover { color: var(--accent-3); background: rgba(242,154,78,.10); }
+
+  // When backing text exists, mark it a touch more prominent so the reader
+  // knows there is something to read on hover.
+  &--has-text {
+    color: var(--accent);
+    cursor: pointer;
+    &::before, &::after { opacity: 0.75; }
+    &:hover { color: var(--accent-3); background: rgba(230,185,74,.12); }
+  }
+}
+
+// ── Footnote list (right rail) ────────────────────────────────────────
+.fn-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: fn;
+  font-size: 0.9rem;
+  line-height: 1.7;
+
+  &__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    padding: 8px 10px;
+    border-bottom: 1px dashed var(--rule);
+    color: var(--ink);
+    scroll-margin-block: 80px;
+    border-radius: 6px;
+    transition: background .6s ease, box-shadow .6s ease;
+
+    &:last-child { border-bottom: none; }
+    &--bare { color: var(--ink-soft); }
+    &--focused {
+      background: rgba(230, 185, 74, 0.14);
+      box-shadow: 0 0 0 2px rgba(230, 185, 74, 0.45);
+      animation: fn-pulse 1.0s ease-in-out 2;
+    }
+  }
+  &__page {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    background: var(--paper-2, rgba(255,255,255,.04));
+    padding: 1px 6px;
+    border-radius: 999px;
+    margin-inline-end: 6px;
+    vertical-align: middle;
+    font-variant-numeric: tabular-nums;
+  }
+  &__num {
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    min-width: 1.4em;
+    text-align: end;
+    &::before { content: '['; opacity: 0.55; }
+    &::after  { content: ']'; opacity: 0.55; }
+  }
+  &__text { word-break: break-word; }
+  &__missing {
+    color: var(--ink-faint);
+    font-style: normal;
+    font-size: 0.82rem;
+  }
+}
+
+@keyframes fn-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(230, 185, 74, 0.45); }
+  50%      { box-shadow: 0 0 0 4px rgba(230, 185, 74, 0.65); }
+}
+
+// ── Blocks (the heart of the reader) ──────────────────────────────────
+.bl {
+  font-size: var(--fs-base);
+  line-height: var(--fs-lead);
+  margin: 0 0 1.1em;
+}
+
+// root_header
+.bl--root-header {
+  text-align: center;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin: 1.5em 0 0.6em;
+  color: var(--accent);
+
+  .initial-cap {
+    display: inline-block;
+    background: var(--paper-2);
+    color: var(--accent-3);
+    border-radius: 12px;
+    padding: 0 12px;
+    margin-left: 8px;
+  }
+}
+
+// entry_header
+.bl--entry-header {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 1.6em 0 0.7em;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--rule);
+  color: var(--ink);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+
+  .bl-num { flex: 1; }
+  .bl-anchor {
+    color: var(--ink-faint);
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity .15s, color .15s;
+  }
+  &:hover .bl-anchor { opacity: 1; color: var(--accent); }
+}
+
+// chapter_header — small all-caps gold rule
+.bl--chapter {
+  text-align: center;
+  margin: 2em 0 1.5em;
+  padding: 8px;
+  color: var(--accent);
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  position: relative;
+
+  &__rule {
+    display: block;
+    width: 100px;
+    height: auto;
+    margin: 0 auto 6px;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+  &__text { font-weight: 700; }
+}
+
+// definition — flowing prose, primary block
+.bl--definition {
+  text-align: justify;
+  hyphens: auto;
+  text-indent: 1.2em;
+  color: var(--ink);
+
+  // First definition after an entry_header drops the indent so it sits
+  // cleanly under the heading.
+  .bl--entry-header + & { text-indent: 0; }
+}
+
+.bl--default {
+  text-align: justify;
+  color: var(--ink-soft);
+  font-style: italic;
+  padding: 8px 12px;
+  border-right: 2px solid var(--rule);
+  margin: 1em 0;
+}
+
+// ── Universal label chip used inside every callout block ─────────
+%bl-label-base {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+
+// quran_quote — verse green
+.bl--quran {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(169,210,138,.10) 0%, rgba(169,210,138,.04) 100%);
+  border: 1px solid rgba(169,210,138,.20);
+  border-right: 3px solid var(--quran);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 1.4em 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+
+  &__icon {
+    color: var(--quran);
+    background: rgba(169,210,138,.12);
+    border-radius: 50%;
+    padding: 6px;
+    box-shadow: 0 0 0 1px rgba(169,210,138,.25);
+  }
+  &__text {
+    margin: 0;
+    font-size: calc(var(--fs-base) * 1.06);
+    line-height: 1.9;
+    color: var(--ink);
+    font-weight: 500;
+    grid-column: 2;
+  }
+  &__refs {
+    grid-column: 2;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+.qchip {
+  appearance: none;
+  background: rgba(169,210,138,.08);
+  color: var(--quran);
+  border: 1px solid var(--quran);
+  padding: 3px 12px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  &:hover { background: var(--quran); color: #1a1814; }
+}
+
+// hadith_quote — sky blue
+.bl--hadith {
+  background:
+    linear-gradient(180deg, rgba(146,190,225,.10) 0%, rgba(146,190,225,.04) 100%);
+  border: 1px solid rgba(146,190,225,.22);
+  border-right: 3px solid var(--hadith);
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin: 1.4em 0;
+  position: relative;
+
+  .bl-label {
+    @extend %bl-label-base;
+    color: var(--hadith);
+    background: rgba(146,190,225,.14);
+    border: 1px solid rgba(146,190,225,.30);
+  }
+  &__text { margin: 0; line-height: 1.85; color: var(--ink); }
+}
+
+// poetry_quote — desert amber
+.bl--poetry {
+  background:
+    linear-gradient(180deg, rgba(240,198,136,.08) 0%, rgba(240,198,136,.03) 100%);
+  border: 1px solid rgba(240,198,136,.22);
+  border-right: 3px solid var(--poetry);
+  border-radius: 12px;
+  padding: 16px 22px;
+  margin: 1.5em 0;
+  text-align: center;
+  font-style: italic;
+  position: relative;
+
+  &::before, &::after {
+    content: '✦';
+    position: absolute;
+    color: var(--poetry);
+    opacity: 0.45;
+    font-size: 0.85rem;
+  }
+  &::before { top: 8px; right: 12px; }
+  &::after  { bottom: 8px; left: 12px; }
+
+  .bl-label {
+    @extend %bl-label-base;
+    color: var(--poetry);
+    background: rgba(240,198,136,.14);
+    border: 1px solid rgba(240,198,136,.30);
+    margin-bottom: 12px;
+  }
+  &__text {
+    margin: 0;
+    line-height: 2;
+    font-size: calc(var(--fs-base) * 1.02);
+    color: var(--ink);
+    white-space: pre-wrap;
+  }
+}
+
+// cross_ref — accent gold
+.bl--cross-ref {
+  background: rgba(230,185,74,.06);
+  border: 1px solid rgba(230,185,74,.22);
+  border-right: 3px solid var(--accent);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 1em 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--ink);
+  .bl-label {
+    @extend %bl-label-base;
+    color: var(--accent);
+    background: rgba(230,185,74,.14);
+    border: 1px solid rgba(230,185,74,.30);
+    margin-bottom: 0;
+  }
+}
+
+// inline footnote ref
+.footnote-ref {
+  appearance: none;
+  background: var(--paper-2);
+  color: var(--accent);
+  border: 1px solid var(--rule);
+  font: inherit;
+  font-size: 0.72em;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  vertical-align: super;
+  margin: 0 2px;
+  transition: background .12s, border-color .12s;
+  &:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  &.open  { background: var(--accent); color: #fff; border-color: var(--accent); }
+}
+.footnote-popover {
+  display: block;
+  background: var(--paper);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 8px 0 8px 24px;
+  box-shadow: var(--shadow);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    right: 30px;
+    width: 12px;
+    height: 12px;
+    background: var(--paper);
+    border-top: 1px solid var(--accent);
+    border-right: 1px solid var(--accent);
+    transform: rotate(-45deg);
+  }
+  &__num {
+    color: var(--accent);
+    font-weight: 700;
+    margin-left: 6px;
+  }
+}
+
+// ── Footer ────────────────────────────────────────────────────────────
+.entry-foot {
+  margin-top: 60px;
+  padding: 24px 0 0;
+  border-top: 1px dashed var(--rule);
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+
+  &__attribution { margin: 0 0 4px; }
+  &__url { color: var(--accent); text-decoration: none; &:hover { text-decoration: underline; } }
+}
+
+// ── Loading + error states ────────────────────────────────────────────
+.loading { padding-top: 60px; }
+.skel {
+  height: 16px;
+  background: linear-gradient(90deg, var(--paper) 0%, var(--paper-2) 50%, var(--paper) 100%);
+  background-size: 200% 100%;
+  border-radius: 8px;
+  margin: 10px 0;
+  animation: shimmer 1.4s linear infinite;
+  &--heading { height: 60px; max-width: 50%; margin: 0 auto 24px; }
+  &--line { height: 18px; }
+  &--line.short { width: 60%; }
+}
+@keyframes shimmer { 0% { background-position: 100% 0 } 100% { background-position: -100% 0 } }
+.muted { color: var(--ink-soft); text-align: center; padding: 60px 20px; }
+.error {
+  color: #b94a4a;
+  background: rgba(185,74,74,.08);
+  border: 1px solid #b94a4a;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 40px auto;
+  text-align: center;
+  max-width: 600px;
+}
+
+// ── Responsive ────────────────────────────────────────────────────────
+@media (max-width: 880px) {
+  // On mobile the rails overlay the content instead of reserving inline
+  // space, so the reader gets the full width even when a rail is open.
+  // The same `--w-{side}` vars still drive rail width — only the layout
+  // primitives change, not the animation pipeline.
+  :host { --w-index: min(85vw, 320px); --w-citations: min(85vw, 320px); }
+  .content {
+    padding-inline-start: 0;
+    padding-inline-end:   0;
+  }
+  .rail {
+    z-index: 50;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+  .reader__toolbar {
+    padding: 10px 12px;
+    gap: 12px;
+    .reader__title-block { display: none; }
+    .reader__controls .sep { display: none; }
+  }
+}
+
+// ── Reduced motion ────────────────────────────────────────────────────
+// GSAP honours `gsap.matchMedia` if registered, but it's lighter to also
+// shorten any CSS-side transitions in this mode so the toolbar buttons
+// don't jiggle.
+@media (prefers-reduced-motion: reduce) {
+  .reader__toolbar .ctrl,
+  .reader__toolbar .back,
+  .rail-toggle,
+  .rail-resizer { transition: none; }
+}

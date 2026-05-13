@@ -1,0 +1,297 @@
+// ── Mufradat reader — typography is reader-first, callouts are restrained ──
+// Inherits CSS variables (--ink, --quran, etc.) from the parent reader host.
+
+:host {
+  display: block;
+  font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', Georgia, serif;
+}
+
+.mfp {
+  font-size: var(--fs-base, 1.06rem);
+  line-height: calc(var(--fs-lead, 1.85rem) * 1.05);
+  color: var(--ink);
+
+  &__section-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 2.2em 0 0.9em;
+    padding-bottom: 0.4em;
+    border-bottom: 1px solid var(--rule);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+
+    &:first-child { margin-top: 0; }
+  }
+  &__section-seq {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.78rem;
+    border: 1px solid var(--rule);
+    padding: 1px 8px;
+    border-radius: 999px;
+    min-width: 22px;
+    text-align: center;
+  }
+  &__section-title { flex: 1; }
+  &__section-page {
+    color: var(--ink-faint);
+    font-size: 0.78rem;
+    font-weight: 400;
+  }
+
+  // ── Prose paragraph ─────────────────────────────────────────────────────
+  &__p {
+    margin: 0 0 1.05em;
+    text-align: start;
+    text-indent: 0;
+    word-spacing: 0.02em;
+
+    span { unicode-bidi: plaintext; }
+
+    &--prose { color: var(--ink); }
+
+    &--lede {
+      font-size: calc(var(--fs-base, 1.06rem) * 1.06);
+      line-height: calc(var(--fs-lead, 1.85rem) * 1.06);
+    }
+  }
+
+  // ── Poetry — centered couplet on its own line ──────────────────────────
+  &__poetry {
+    margin: 1.6em 0;
+    padding: 12px 18px;
+    border-right: 2px solid var(--poetry, #f0c688);
+    background: linear-gradient(180deg, rgba(240,198,136,.05) 0%, transparent 100%);
+    text-align: center;
+    font-style: italic;
+    line-height: 2;
+    color: var(--ink);
+
+    &::before, &::after {
+      content: '✦';
+      display: inline-block;
+      color: var(--poetry, #f0c688);
+      opacity: 0.4;
+      font-size: 0.85em;
+      margin: 0 8px;
+    }
+  }
+  &__poetry-cue {
+    display: block;
+    color: var(--poetry, #f0c688);
+    font-style: normal;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  &__poetry-verse {
+    margin: 4px 0;
+    font-size: calc(var(--fs-base, 1.06rem) * 1.04);
+  }
+  &__poetry-attribution {
+    display: block;
+    color: var(--ink-faint);
+    font-style: normal;
+    font-size: 0.82rem;
+    margin-top: 6px;
+  }
+
+  // ── Hadith — soft blue marginal note ───────────────────────────────────
+  &__hadith {
+    margin: 1.4em 0;
+    padding: 12px 16px;
+    border-right: 2px solid var(--hadith, #92bee1);
+    background: linear-gradient(180deg, rgba(146,190,225,.06) 0%, transparent 100%);
+    border-radius: 6px;
+  }
+  &__hadith-text {
+    margin: 0;
+    line-height: 1.85;
+    color: var(--ink);
+  }
+
+  // ── Qira'a variant — distinctive accent ────────────────────────────────
+  &__qira {
+    margin: 1.2em 0;
+    padding: 10px 14px;
+    border-right: 2px dashed var(--accent, #e6b94a);
+    border-radius: 6px;
+    background: rgba(230,185,74,.04);
+  }
+  &__qira-text {
+    margin: 0;
+    color: var(--ink);
+  }
+
+  // ── Editorial bracket — al-Raghib's own marginalia ──────────────────────
+  &__editorial {
+    margin: 1.2em 0;
+    padding: 10px 18px;
+    border-right: 2px solid var(--accent-2, #b6c98a);
+    border-radius: 6px;
+    background: rgba(182,201,138,.04);
+
+    // Render visual brackets so the reader recognizes the editorial aside.
+    position: relative;
+    &::before { content: '['; }
+    &::after  { content: ']'; }
+    &::before, &::after {
+      color: var(--accent-2, #b6c98a);
+      opacity: 0.55;
+      font-weight: 700;
+      margin: 0 4px;
+    }
+  }
+  &__editorial-text {
+    margin: 0;
+    display: inline;
+    color: var(--ink-soft);
+    font-size: calc(var(--fs-base, 1.06rem) * 0.95);
+    line-height: 1.75;
+  }
+
+  // ── Kind chip — small label above hadith / qira blocks ─────────────────
+  &__kind-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 2px 9px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+
+    &--hadith {
+      color: var(--hadith, #92bee1);
+      background: rgba(146,190,225,.10);
+      border: 1px solid rgba(146,190,225,.30);
+    }
+    &--qira {
+      color: var(--accent, #e6b94a);
+      background: rgba(230,185,74,.10);
+      border: 1px solid rgba(230,185,74,.30);
+    }
+  }
+}
+
+// ── Inline tokens ────────────────────────────────────────────────────────
+.mfp-qref {
+  display: inline;
+  margin: 0 2px;
+  padding: 1px 2px;
+  color: var(--quran, #4a7c3a);
+  font-size: 0.84em;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s;
+  unicode-bidi: isolate;
+
+  &:hover {
+    background: var(--quran-bg, rgba(169,210,138,.10));
+    .mfp-qref__surah {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: var(--quran, #4a7c3a);
+    }
+  }
+  &--unresolved {
+    color: var(--ink-soft);
+    cursor: help;
+    .mfp-qref__bracket { color: var(--ink-faint); }
+  }
+  &__bracket {
+    opacity: 0.7;
+    font-size: 1em;
+    margin: 0 1px;
+  }
+  &__surah  { font-weight: 600; }
+  &__ayah   {
+    font-weight: 600;
+    margin-inline-start: 3px;
+    font-variant-numeric: tabular-nums;
+    &::before { content: ':'; opacity: 0.55; margin-inline-end: 2px; }
+  }
+}
+
+.mfp-fn {
+  display: inline;
+  margin: 0 1px;
+  padding: 0 2px;
+  font-size: 0.68em;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink-faint);
+  border-radius: 3px;
+  vertical-align: super;
+  cursor: help;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+  transition: color .15s, background .15s;
+  &::before { content: '['; opacity: 0.55; margin-inline-end: 1px; }
+  &::after  { content: ']'; opacity: 0.55; margin-inline-start: 1px; }
+  &:hover { color: var(--accent-3, #f29a4e); background: rgba(242,154,78,.10); }
+
+  &--has-text {
+    color: var(--accent, #e6b94a);
+    cursor: pointer;
+    &::before, &::after { opacity: 0.75; }
+    &:hover { color: var(--accent-3, #f29a4e); background: rgba(230,185,74,.12); }
+  }
+}
+
+.mfp-paren {
+  display: inline-block;
+  padding: 0 4px;
+  margin: 0 1px;
+  background: rgba(200,156,236,.08);
+  color: var(--ink);
+  border-radius: 3px;
+  font-style: italic;
+  font-size: 0.95em;
+  unicode-bidi: isolate;
+}
+
+// ── Lisan-specific additions ────────────────────────────────────────────
+// Quran-quote callout (block-level): green sidebar + reading-emphasis text
+.mfp__quran {
+  background: linear-gradient(180deg, rgba(169, 210, 138, .10) 0%, rgba(169, 210, 138, .04) 100%);
+  border: 1px solid rgba(169, 210, 138, .25);
+  border-right: 3px solid var(--quran, #4a7c3a);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 1.4em 0;
+
+  &-text {
+    margin: 0;
+    line-height: 1.95;
+    font-size: calc(var(--fs-base, 1.06rem) * 1.06);
+    color: var(--ink);
+    font-weight: 500;
+    cursor: pointer;
+    transition: color .15s;
+    &--unresolved { cursor: default; }
+    &:hover:not(.mfp__quran-text--unresolved) { color: var(--quran, #4a7c3a); }
+  }
+}
+
+// Inline authority pill (e.g., الأزهري, ابن الأثير)
+.mfp-auth {
+  display: inline;
+  color: var(--accent-3, #6e3e1a);
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 1px dotted var(--accent-3, #6e3e1a);
+  text-decoration: none;
+  transition: color .15s, background .15s;
+  padding: 0 1px;
+  &:hover {
+    color: var(--accent, #8a6a2e);
+    background: rgba(138, 106, 46, .08);
+  }
+}

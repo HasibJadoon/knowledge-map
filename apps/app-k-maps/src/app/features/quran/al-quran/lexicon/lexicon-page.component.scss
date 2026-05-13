@@ -1,1 +1,324 @@
+// Shared research-tab chrome (header, etc.) is still inherited.
 @use '../research-tab';
+
+// ═══════════════════════════════════════════════════════════
+// MOBILE LEXICON HUB — mirrors the desktop /quran/lexicon page.
+// Two-card hub (Books · Root search) + tafsir-style lit-up grid.
+// ═══════════════════════════════════════════════════════════
+
+:host {
+  --ink:        #f5f1e7;
+  --ink-soft:   rgba(245, 241, 231, 0.62);
+  --ink-faint:  rgba(245, 241, 231, 0.36);
+  --gold:       #e8c96a;
+  --gold-soft:  rgba(232, 201, 106, 0.72);
+  --gold-line:  rgba(232, 201, 106, 0.22);
+  --gold-tint:  rgba(232, 201, 106, 0.10);
+  --quran:      #a9d28a;
+  --rule:       rgba(255, 255, 255, 0.07);
+  --card-bg:    linear-gradient(155deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
+}
+
+.lx-content {
+  --background: #050505;
+}
+
+.lx-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.95rem 0.95rem calc(2rem + var(--ion-safe-area-bottom, 0px));
+}
+
+// ─── Two-card hub ──────────────────────────────────────────────────────
+
+.lx-hub-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+}
+
+.lx-hub-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.95rem 0.95rem 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--card-bg);
+  color: var(--ink);
+  text-align: right;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.18s, background 0.18s, transform 0.18s;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    border-radius: 14px 14px 0 0;
+    background: linear-gradient(90deg, var(--gold), rgba(232, 201, 106, 0));
+    opacity: 0.55;
+  }
+
+  &--books {
+    appearance: none;
+    cursor: pointer;
+    border-color: var(--gold-line);
+    &:active { transform: translateY(0); border-color: var(--gold); background: linear-gradient(155deg, rgba(232,201,106,0.10), rgba(255,255,255,0.018)); }
+  }
+
+  &__icon {
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    border-radius: 9px;
+    background: var(--gold-tint);
+    color: var(--gold);
+    font-size: 1.1rem;
+    margin-bottom: 0.15rem;
+  }
+  &__title {
+    margin: 0;
+    color: var(--gold);
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  &__sub {
+    margin: 0 0 0.4rem;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  &__cta {
+    margin-top: 0.35rem;
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    align-self: flex-start;
+    color: var(--gold);
+    font-size: 0.84rem;
+    font-weight: 600;
+    ion-icon { font-size: 1rem; opacity: 0.7; }
+  }
+}
+
+// ─── Search input + quick chips ────────────────────────────────────────
+
+.lx-search-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0,0,0,0.32);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+
+  &:focus-within {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(232, 201, 106, 0.16);
+  }
+}
+.lx-search-icon {
+  color: var(--gold-soft);
+  font-size: 1.05rem;
+}
+.lx-search-input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 1.02rem;
+  color: var(--ink);
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  &::placeholder { color: var(--ink-faint); }
+}
+.lx-spinner {
+  display: inline-block;
+  color: var(--gold-soft);
+  font-size: 1rem;
+  animation: lx-spin 1s linear infinite;
+}
+@keyframes lx-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.lx-clear {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: var(--ink-faint);
+  padding: 0;
+  display: grid; place-items: center;
+  ion-icon { font-size: 1.2rem; }
+  &:active { color: var(--gold); }
+}
+
+.lx-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+}
+.lx-quick-chip {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.22rem 0.7rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--km-font-arabic-ui, serif);
+  transition: background 0.14s, border-color 0.14s, color 0.14s;
+  &:active { background: var(--gold-tint); border-color: var(--gold-line); color: var(--gold); }
+}
+
+// ─── Results header (root meta) ────────────────────────────────────────
+
+.lx-results-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding: 0.7rem 0.2rem 0.3rem;
+  border-bottom: 1px solid var(--rule);
+}
+.lx-results-root {
+  color: var(--gold);
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.lx-results-meaning {
+  flex: 1 1 auto;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+.lx-results-quran {
+  padding: 0.16rem 0.55rem;
+  border: 1px solid rgba(169, 210, 138, 0.30);
+  border-radius: 999px;
+  background: rgba(169, 210, 138, 0.08);
+  color: var(--quran);
+  font-size: 0.74rem;
+}
+.lx-results-stat {
+  color: var(--ink-faint);
+  font-size: 0.76rem;
+}
+
+// ─── Hit cards (the "lit-up" lexicons) ─────────────────────────────────
+
+.lx-catalog {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+  @media (min-width: 640px)  { grid-template-columns: 1fr 1fr; }
+}
+
+.lx-hit-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.85rem 0.85rem 0.75rem;
+  border: 1px solid var(--gold-line);
+  border-radius: 12px;
+  background: linear-gradient(155deg, rgba(232,201,106,0.08), rgba(255,255,255,0.015));
+  color: var(--ink);
+  text-align: right;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.16s, border-color 0.16s, background 0.16s;
+
+  &:active {
+    border-color: var(--gold);
+    background: linear-gradient(155deg, rgba(232,201,106,0.14), rgba(255,255,255,0.02));
+  }
+  &--lane {
+    border-color: rgba(169, 210, 138, 0.30);
+    background: linear-gradient(155deg, rgba(169,210,138,0.08), rgba(255,255,255,0.015));
+    &:active { border-color: var(--quran); background: linear-gradient(155deg, rgba(169,210,138,0.14), rgba(255,255,255,0.02)); }
+  }
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  &__title {
+    margin: 0;
+    color: var(--gold);
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  &--lane &__title { color: var(--quran); }
+  &__count {
+    flex: 0 0 auto;
+    padding: 0.10rem 0.5rem;
+    border: 1px solid var(--gold-line);
+    border-radius: 999px;
+    background: var(--gold-tint);
+    color: var(--gold);
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
+  }
+  &--lane &__count { border-color: rgba(169,210,138,0.30); background: rgba(169,210,138,0.10); color: var(--quran); }
+
+  &__author {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.74rem;
+    line-height: 1.4;
+  }
+
+  &__chips {
+    list-style: none;
+    margin: 0.2rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+  &__chip {
+    padding: 0.12rem 0.5rem;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.25);
+    color: var(--ink);
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+
+  &__cta {
+    margin-top: 0.3rem;
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    color: var(--gold-soft);
+    font-size: 0.78rem;
+    font-weight: 600;
+    align-self: flex-start;
+    ion-icon { font-size: 0.95rem; opacity: 0.7; }
+  }
+  &--lane &__cta { color: var(--quran); }
+}
+
+// ─── Empty state ───────────────────────────────────────────────────────
+
+.lx-empty {
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+  font-family: var(--km-font-arabic-ui, serif);
+  border: 1px dashed var(--rule);
+  border-radius: 12px;
+}

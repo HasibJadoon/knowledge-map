@@ -1143,6 +1143,92 @@ CREATE INDEX IF NOT EXISTS idx_arl_sdb_chunk  ON ar_ling_source_lexicon_display_
 CREATE INDEX IF NOT EXISTS idx_arl_sdb_entry  ON ar_ling_source_lexicon_display_blocks(lexicon_entry_id);
 CREATE INDEX IF NOT EXISTS idx_arl_sdb_type   ON ar_ling_source_lexicon_display_blocks(block_type);
 
+CREATE TABLE IF NOT EXISTS ar_ling_lane_source_pages (
+  id              TEXT PRIMARY KEY,
+  root_text       TEXT NOT NULL,
+  root_norm       TEXT NOT NULL,
+  source_url      TEXT NOT NULL UNIQUE,
+  source_path     TEXT,
+  title_ar        TEXT,
+  prev_root_text  TEXT,
+  next_root_text  TEXT,
+  page_refs_json  TEXT CHECK (page_refs_json IS NULL OR json_valid(page_refs_json)),
+  html_sha256     TEXT,
+  fetched_at      TEXT,
+  parsed_at       TEXT,
+  parser_version  TEXT,
+  parse_status    TEXT NOT NULL DEFAULT 'pending',
+  issue_json      TEXT CHECK (issue_json IS NULL OR json_valid(issue_json)),
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_source_pages_root ON ar_ling_lane_source_pages(root_text);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_source_pages_norm ON ar_ling_lane_source_pages(root_norm);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_source_pages_status ON ar_ling_lane_source_pages(parse_status);
+
+CREATE TABLE IF NOT EXISTS ar_ling_lane_quality_index (
+  lexicon_entry_id           TEXT PRIMARY KEY,
+  root_text                  TEXT NOT NULL,
+  heading_norm               TEXT,
+  display_heading_ar         TEXT,
+  page_no                    INTEGER,
+  source_entry_seq           INTEGER,
+  has_empty_aor              INTEGER NOT NULL DEFAULT 0,
+  has_empty_infinitive       INTEGER NOT NULL DEFAULT 0,
+  has_empty_synonym          INTEGER NOT NULL DEFAULT 0,
+  has_circle_placeholder     INTEGER NOT NULL DEFAULT 0,
+  has_form_missing           INTEGER NOT NULL DEFAULT 0,
+  has_duplicate_and          INTEGER NOT NULL DEFAULT 0,
+  has_bare_cross_ref         INTEGER NOT NULL DEFAULT 0,
+  has_orphan_syn             INTEGER NOT NULL DEFAULT 0,
+  has_quran_marker           INTEGER NOT NULL DEFAULT 0,
+  has_arabic_form_block      INTEGER NOT NULL DEFAULT 0,
+  entry_type                 TEXT,
+  broken_patterns_json       TEXT CHECK (broken_patterns_json IS NULL OR json_valid(broken_patterns_json)),
+  repair_priority            INTEGER NOT NULL DEFAULT 0,
+  issue_count                INTEGER NOT NULL DEFAULT 0,
+  suggested_patch_types_json TEXT CHECK (suggested_patch_types_json IS NULL OR json_valid(suggested_patch_types_json)),
+  last_scanned_at            TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (lexicon_entry_id) REFERENCES ar_ling_lexicon_entries(id)
+);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_quality_root ON ar_ling_lane_quality_index(root_text);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_quality_priority ON ar_ling_lane_quality_index(repair_priority DESC, page_no, source_entry_seq);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_quality_page ON ar_ling_lane_quality_index(page_no, source_entry_seq);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_quality_aor ON ar_ling_lane_quality_index(has_empty_aor);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_quality_inf ON ar_ling_lane_quality_index(has_empty_infinitive);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_quality_syn ON ar_ling_lane_quality_index(has_empty_synonym);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_quality_missing ON ar_ling_lane_quality_index(has_form_missing);
+
+CREATE TABLE IF NOT EXISTS ar_ling_lane_patch_log (
+  id                TEXT PRIMARY KEY,
+  lexicon_entry_id  TEXT,
+  source_chunk_id   TEXT,
+  display_block_id  TEXT,
+  root_text         TEXT NOT NULL,
+  heading_norm      TEXT,
+  source_slug       TEXT NOT NULL DEFAULT 'lane_lexicon',
+  patch_type        TEXT NOT NULL,
+  field_path        TEXT,
+  old_value         TEXT,
+  new_value         TEXT NOT NULL,
+  evidence_url      TEXT,
+  evidence_note     TEXT,
+  confidence        REAL NOT NULL DEFAULT 0.90,
+  status            TEXT NOT NULL DEFAULT 'pending',
+  reviewed_by       TEXT,
+  reviewed_at       TEXT,
+  applied_at        TEXT,
+  ai_model          TEXT,
+  created_at        TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (lexicon_entry_id) REFERENCES ar_ling_lexicon_entries(id),
+  FOREIGN KEY (source_chunk_id) REFERENCES ar_ling_source_chunks(id),
+  FOREIGN KEY (display_block_id) REFERENCES ar_ling_source_lexicon_display_blocks(id)
+);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_patch_entry ON ar_ling_lane_patch_log(lexicon_entry_id);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_patch_root ON ar_ling_lane_patch_log(root_text);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_patch_status ON ar_ling_lane_patch_log(status);
+CREATE INDEX IF NOT EXISTS idx_arl_lane_patch_type ON ar_ling_lane_patch_log(patch_type);
+
 -- Iraab display blocks — إعراب syntactic-analysis entries (0012)
 CREATE TABLE IF NOT EXISTS ar_ling_source_iraab_display_blocks (
   id                TEXT PRIMARY KEY,
@@ -1194,3 +1280,107 @@ CREATE INDEX IF NOT EXISTS idx_arl_tdb_source ON ar_ling_source_tafsir_display_b
 CREATE INDEX IF NOT EXISTS idx_arl_tdb_chunk  ON ar_ling_source_tafsir_display_blocks(source_chunk_id, block_seq);
 CREATE INDEX IF NOT EXISTS idx_arl_tdb_entry  ON ar_ling_source_tafsir_display_blocks(tafsir_entry_id);
 CREATE INDEX IF NOT EXISTS idx_arl_tdb_type   ON ar_ling_source_tafsir_display_blocks(block_type);
+
+-- ============================================================
+-- 0014: Lexicon root-entry model (added 2026-05-11)
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS ar_ling_lexicon_root_entries (
+  id                  TEXT PRIMARY KEY,
+  source_id           TEXT NOT NULL,
+  source_slug         TEXT NOT NULL,
+  root_id             TEXT,
+  root_text           TEXT NOT NULL,
+  root_norm           TEXT NOT NULL,
+  entry_text_ar       TEXT,
+  entry_text_en       TEXT,
+  raw_text            TEXT NOT NULL,
+  source_chunk_id     TEXT,
+  page_start          INTEGER,
+  page_end            INTEGER,
+  volume_no           INTEGER,
+  source_url          TEXT,
+  source_path         TEXT,
+  source_native_id    TEXT,
+  source_native_key   TEXT,
+  parser_version      TEXT,
+  raw_hash            TEXT,
+  import_batch_id     TEXT,
+  status              TEXT NOT NULL DEFAULT 'raw',
+  created_at          TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at          TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (root_id)         REFERENCES ar_ling_roots(id),
+  FOREIGN KEY (source_id)       REFERENCES ar_ling_sources(id),
+  FOREIGN KEY (source_chunk_id) REFERENCES ar_ling_source_chunks(id),
+  UNIQUE(source_slug, root_norm)
+);
+
+CREATE INDEX IF NOT EXISTS idx_alre_root_norm     ON ar_ling_lexicon_root_entries(root_norm);
+CREATE INDEX IF NOT EXISTS idx_alre_source_slug   ON ar_ling_lexicon_root_entries(source_slug);
+CREATE INDEX IF NOT EXISTS idx_alre_source_root   ON ar_ling_lexicon_root_entries(source_slug, root_norm);
+CREATE INDEX IF NOT EXISTS idx_alre_status        ON ar_ling_lexicon_root_entries(status);
+CREATE INDEX IF NOT EXISTS idx_alre_import_batch  ON ar_ling_lexicon_root_entries(import_batch_id);
+
+CREATE TABLE IF NOT EXISTS ar_ling_lexicon_entry_sections (
+  id                        TEXT PRIMARY KEY,
+  root_entry_id             TEXT NOT NULL,
+  source_slug               TEXT NOT NULL,
+  root_text                 TEXT NOT NULL,
+  root_norm                 TEXT NOT NULL,
+  section_seq               INTEGER NOT NULL,
+  heading_ar                TEXT,
+  heading_norm              TEXT,
+  heading_bare              TEXT,
+  section_type              TEXT NOT NULL DEFAULT 'definition',
+  text_ar                   TEXT,
+  text_en                   TEXT,
+  raw_xml                   TEXT,
+  perseus_xml               TEXT,
+  page_no                   INTEGER,
+  volume_no                 INTEGER,
+  source_native_section_id  TEXT,
+  lane_node_id              TEXT,
+  lane_node_num             INTEGER,
+  lane_itype                TEXT,
+  has_gaps                  INTEGER NOT NULL DEFAULT 0,
+  parser_notes_json         TEXT CHECK (parser_notes_json IS NULL OR json_valid(parser_notes_json)),
+  created_at                TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at                TEXT,
+  FOREIGN KEY (root_entry_id) REFERENCES ar_ling_lexicon_root_entries(id),
+  UNIQUE(root_entry_id, section_seq)
+);
+
+CREATE INDEX IF NOT EXISTS idx_ales_root_entry  ON ar_ling_lexicon_entry_sections(root_entry_id);
+CREATE INDEX IF NOT EXISTS idx_ales_root_norm   ON ar_ling_lexicon_entry_sections(root_norm);
+CREATE INDEX IF NOT EXISTS idx_ales_source_root ON ar_ling_lexicon_entry_sections(source_slug, root_norm);
+CREATE INDEX IF NOT EXISTS idx_ales_heading_norm ON ar_ling_lexicon_entry_sections(heading_norm);
+CREATE INDEX IF NOT EXISTS idx_ales_page        ON ar_ling_lexicon_entry_sections(page_no);
+
+CREATE TABLE IF NOT EXISTS ar_ling_lexicon_root_entry_sources (
+  id                TEXT PRIMARY KEY,
+  root_entry_id     TEXT NOT NULL,
+  source_kind       TEXT NOT NULL,
+  source_slug       TEXT NOT NULL,
+  source_native_id  TEXT,
+  source_url        TEXT,
+  source_path       TEXT,
+  checksum          TEXT,
+  note_md           TEXT,
+  created_at        TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (root_entry_id) REFERENCES ar_ling_lexicon_root_entries(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_alres_root_entry ON ar_ling_lexicon_root_entry_sources(root_entry_id);
+CREATE INDEX IF NOT EXISTS idx_alres_kind       ON ar_ling_lexicon_root_entry_sources(source_kind);
+CREATE INDEX IF NOT EXISTS idx_alres_slug       ON ar_ling_lexicon_root_entry_sources(source_slug);
+
+CREATE VIRTUAL TABLE IF NOT EXISTS ar_ling_lexicon_root_entries_fts USING fts5(
+  root_text, root_norm, source_slug, entry_text_ar, entry_text_en, raw_text,
+  content='ar_ling_lexicon_root_entries', content_rowid='rowid'
+);
+
+CREATE VIRTUAL TABLE IF NOT EXISTS ar_ling_lexicon_entry_sections_fts USING fts5(
+  root_text, root_norm, heading_ar, heading_norm, heading_bare,
+  section_type, text_ar, text_en,
+  content='ar_ling_lexicon_entry_sections', content_rowid='rowid'
+);

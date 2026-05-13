@@ -1,0 +1,293 @@
+:host {
+  display: block;
+  // Dark/manuscript palette — matches the book reader so navigating between
+  // views feels seamless. (No light mode here; toggle lives in the reader.)
+  --lex-bg:        #1c1b18;
+  --lex-paper:     #25231e;
+  --lex-paper-2:   #2a281f;
+  --lex-ink:       #e9e0c8;
+  --lex-ink-soft:  #a89f87;
+  --lex-ink-faint: #6c6356;
+  --lex-accent:    #c8a04a;       // antique gold
+  --lex-accent-2:  #97a87a;       // olive
+  --lex-accent-3:  #d68a4a;       // saddle highlight
+  --lex-rule:      #3a362c;
+  --lex-shadow:    0 1px 2px rgba(0,0,0,.4), 0 8px 24px -8px rgba(0,0,0,.5);
+  background: var(--lex-bg);
+  min-height: 100vh;
+  font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', Georgia, serif;
+}
+
+.lex-home {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+  color: var(--lex-ink);
+
+  &__head {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  &__title {
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 700;
+    margin: 0 0 8px;
+    letter-spacing: 0.02em;
+  }
+  &__subtitle {
+    margin: 0;
+    color: var(--lex-ink-soft);
+    font-size: 1.1rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+
+    @media (min-width: 820px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__stats {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &__n {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--lex-accent);
+      }
+      &__label {
+        color: var(--lex-ink-soft);
+        font-size: 0.95rem;
+      }
+    }
+  }
+}
+
+.lex-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--lex-paper);
+  border: 1px solid var(--lex-rule);
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  box-shadow: var(--lex-shadow);
+  text-decoration: none;
+  color: inherit;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--lex-accent), var(--lex-accent-2));
+    opacity: 0.85;
+  }
+
+  &--books:hover,
+  &--books:focus-visible {
+    transform: translateY(-2px);
+    border-color: var(--lex-accent);
+    box-shadow: 0 4px 8px rgba(0,0,0,.05), 0 14px 30px -8px rgba(60,40,10,.25);
+  }
+
+  &__icon {
+    color: var(--lex-accent);
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(200,160,74, 0.12);
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    margin: 0 0 4px;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  &__sub {
+    margin: 0 0 18px;
+    color: var(--lex-ink-soft);
+    font-size: 1rem;
+  }
+
+  &__body {
+    flex: 1;
+  }
+
+  &__books {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 16px;
+  }
+  &__book {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+    padding: 6px 0;
+    border-top: 1px dashed var(--lex-rule);
+    &-title {
+      font-weight: 600;
+      font-size: 0.98rem;
+    }
+    &-meta {
+      color: var(--lex-ink-soft);
+      font-size: 0.82rem;
+    }
+  }
+  &__more {
+    margin: 12px 0 0;
+    font-size: 0.9rem;
+    color: var(--lex-ink-soft);
+  }
+
+  &__skeleton {
+    color: var(--lex-ink-soft);
+    opacity: 0.5;
+    padding: 24px 0;
+    text-align: center;
+  }
+
+  &__cta {
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--lex-accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+    align-self: flex-start;
+  }
+}
+
+// ── Search-card-specific bits ─────────────────────────────────────
+.lex-search {
+  margin-top: 4px;
+
+  &__modes {
+    display: inline-flex;
+    border: 1px solid var(--lex-rule);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 12px;
+
+    button {
+      appearance: none;
+      background: transparent;
+      border: none;
+      padding: 7px 18px;
+      font: inherit;
+      color: var(--lex-ink-soft);
+      cursor: pointer;
+      transition: background .15s, color .15s;
+
+      &.active {
+        background: var(--lex-accent);
+        color: #fff;
+      }
+      &:not(.active):hover {
+        background: rgba(200,160,74, 0.12);
+      }
+    }
+  }
+
+  &__input {
+    display: flex;
+    align-items: center;
+    background: var(--lex-paper-2);
+    border: 1px solid var(--lex-rule);
+    border-radius: 12px;
+    padding: 4px 4px 4px 12px;
+    transition: border-color .15s, box-shadow .15s;
+
+    &:focus-within {
+      border-color: var(--lex-accent);
+      box-shadow: 0 0 0 3px rgba(200,160,74, 0.22);
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font: inherit;
+      font-size: 1.1rem;
+      padding: 10px 8px;
+      color: var(--lex-ink);
+      &::placeholder {
+        color: var(--lex-ink-soft);
+        opacity: 0.55;
+      }
+    }
+  }
+
+  &__go {
+    appearance: none;
+    border: none;
+    background: var(--lex-accent);
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background .15s;
+    &:hover { background: #b08838; }
+  }
+}
+
+.lex-quick {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  &__label {
+    color: var(--lex-ink-soft);
+    font-size: 0.9rem;
+  }
+  &__chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    button {
+      appearance: none;
+      background: transparent;
+      border: 1px solid var(--lex-rule);
+      border-radius: 999px;
+      padding: 5px 13px;
+      font: inherit;
+      font-size: 1.05rem;
+      color: var(--lex-ink);
+      cursor: pointer;
+      transition: background .15s, border-color .15s;
+      &:hover {
+        background: rgba(200,160,74, 0.12);
+        border-color: var(--lex-accent);
+      }
+    }
+  }
+}

@@ -1,0 +1,260 @@
+<section class="reader"
+         [class.dark]="darkMode()"
+         [class.citations-expanded]="citationsExpanded()"
+         [class]="fontSizeClass()"
+         dir="ltr">
+
+  <!-- Toolbar -->
+  <header class="reader__toolbar">
+    <a class="back" [routerLink]="['/lexicon/books']" aria-label="back">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M10 6 16 12 10 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Books</span>
+    </a>
+
+    @if (view()?.meta; as m) {
+      <div class="reader__title-block">
+        <div class="reader__source"><h1>{{ m.title_en }}</h1></div>
+        <p class="reader__author">{{ m.author }} · {{ m.period }}</p>
+      </div>
+    } @else {
+      <div class="reader__title-block"><h1 class="muted">…</h1></div>
+    }
+
+    <div class="reader__controls">
+      <button class="ctrl" (click)="prevRoot()" title="Previous root">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M14 6 8 12 14 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <span class="reader__current">
+        @if (currentRoot()) { <span class="ar-display" dir="rtl">{{ currentRoot() }}</span> }
+      </span>
+      <button class="ctrl" (click)="nextRoot()" title="Next root">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M10 6 16 12 10 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <span class="sep"></span>
+      <button class="ctrl" (click)="changeFont(-1)" title="Smaller">A-</button>
+      <button class="ctrl" (click)="changeFont(+1)" title="Larger">A+</button>
+      <button class="ctrl" (click)="toggleDark()" [class.active]="darkMode()" title="Dark mode">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" fill="currentColor"/></svg>
+      </button>
+      <button class="ctrl ctrl--copy" (click)="copyRoot()"
+              [class.copied]="copyState() === 'copied'"
+              [class.failed]="copyState() === 'failed'"
+              [title]="copyState() === 'copied' ? 'Copied!' : 'Copy entry text'">
+        @if (copyState() === 'copied') {
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        } @else {
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <rect x="8" y="3" width="11" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M5 7v12a2 2 0 0 0 2 2h9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+        }
+      </button>
+      <button class="ctrl" (click)="toggleIndex()"     [class.active]="showIndex()"     title="Root index">⊞</button>
+      <button class="ctrl" (click)="toggleCitations()" [class.active]="showCitations()" title="Side panel">⊟</button>
+    </div>
+  </header>
+
+  <div class="reader__body">
+
+    <main #content class="content" tabindex="0">
+      @if (loading()) {
+        <div class="loading">
+          <div class="skel skel--heading"></div>
+          <div class="skel skel--line"></div>
+          <div class="skel skel--line"></div>
+        </div>
+      } @else if (error()) {
+        <p class="error">⚠ {{ error() }}</p>
+      } @else if (view(); as v) {
+        <div class="entry-head">
+          <h2 class="entry-head__title" dir="rtl">{{ v.entry.root_text }}</h2>
+          <div class="entry-head__meta">
+            @if (v.entry.page_start) {
+              <span>Vol. {{ v.entry.volume_no }} · pp. {{ v.entry.page_start }}–{{ v.entry.page_end }}</span>
+            }
+            <span class="dot">·</span>
+            <span>{{ v.stats.forms }} forms · {{ v.stats.senses }} senses</span>
+            @if (v.stats.quran_citations) {
+              <span class="dot">·</span>
+              <span class="badge badge--quran">{{ v.stats.quran_citations }} Qur'ān ref{{ v.stats.quran_citations !== 1 ? 's' : '' }}</span>
+            }
+            @if (v.stats.authorities) {
+              <span class="dot">·</span>
+              <span>{{ v.stats.authority_total }} authority cites ({{ v.stats.authorities }} sources)</span>
+            }
+          </div>
+        </div>
+
+        <km-lane-reader
+          [view]="v"
+          (openAyahEvent)="openAyah($event.surah, $event.ayah)"
+          (openCrossRefEvent)="openCrossRef($event.target)"
+        />
+      } @else {
+        <p class="muted">Pick a root from the index.</p>
+      }
+    </main>
+
+    <!-- Index rail (root list) -->
+    <aside #indexRail class="rail rail--index"
+           [class.collapsed]="!showIndex()" aria-label="Root index">
+      <div class="rail__head">
+        <div class="rail__panel-title">
+          <span class="rail__panel-title-dot" aria-hidden="true"></span>
+          <h3>Roots</h3>
+          <span class="rail__panel-title-count">{{ rootList().length | number }}</span>
+        </div>
+        <input class="rail__search" type="search"
+               [ngModel]="rootSearch()" (ngModelChange)="rootSearch.set($event)"
+               placeholder="Search roots…" />
+      </div>
+      <div class="rail__scroll">
+        @if (rootListLoading()) { <p class="rail__muted">…</p> }
+        @else {
+          @for (entry of rootsByLetter(); track entry[0]) {
+            <details class="rail__letter" [open]="entry[0] === currentRoot()[0]">
+              <summary>
+                <span class="rail__letter-ar" dir="rtl">{{ entry[0] }}</span>
+                <span class="rail__letter-n">{{ entry[1].length }}</span>
+              </summary>
+              <ul class="rail__roots">
+                @for (r of entry[1]; track r.id) {
+                  <li>
+                    <button class="rail__root"
+                            [class.active]="r.root_norm === currentRoot()"
+                            (click)="goToRoot(r.root_norm)">
+                      <span class="rail__root-ar" dir="rtl">{{ r.root_text || r.root_norm }}</span>
+                      @if (r.page_start) {
+                        <span class="rail__root-page">p. {{ r.page_start }}</span>
+                      }
+                    </button>
+                  </li>
+                }
+              </ul>
+            </details>
+          }
+        }
+      </div>
+    </aside>
+
+    <!-- Citations rail (Authorities, Quran, Cross-refs) -->
+    <aside #citationsRail class="rail rail--citations"
+           [class.collapsed]="!showCitations()" aria-label="Citations">
+      <div class="rail__scroll rail__scroll--citations">
+        @if (view(); as v) {
+
+          <!-- Authorities panel — top scholars cited in this entry -->
+          <details class="rail__panel rail__panel--auth" open>
+            <summary class="rail__h">
+              <span class="rail__h-dot" aria-hidden="true"></span>
+              <span>Authorities</span>
+              <span class="rail__h-count">{{ v.authorities.length }}</span>
+              <svg class="rail__h-chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            @if (v.authorities.length) {
+              <ul class="auth-list">
+                @for (a of v.authorities; track a.code) {
+                  <li class="auth-list__item" [attr.data-auth-code]="a.code">
+                    <span class="auth-list__code">{{ a.code }}</span>
+                    <span class="auth-list__name">
+                      <strong>{{ a.name_en }}</strong>
+                      <span class="auth-list__name-ar" dir="rtl">{{ a.name_ar }}</span>
+                    </span>
+                    <span class="auth-list__count">× {{ a.count }}</span>
+                  </li>
+                }
+              </ul>
+            } @else { <p class="rail__muted">None.</p> }
+          </details>
+
+          <!-- Qur'ān citations -->
+          <details class="rail__panel rail__panel--quran"
+                   [open]="v.quran_citations.length > 0">
+            <summary class="rail__h">
+              <span class="rail__h-dot" aria-hidden="true"></span>
+              <span>Qur'ān citations</span>
+              <span class="rail__h-count">{{ v.quran_citations.length }}</span>
+              <svg class="rail__h-chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            @if (v.quran_citations.length) {
+              <ul class="qref-list">
+                @for (q of v.quran_citations; track $index) {
+                  <li>
+                    <button class="qref" (click)="openAyah(q.surah, q.ayah)"
+                            [title]="q.context_snippet || q.raw">
+                      <span class="qref__ref">{{ q.surah }}<span class="qref__sep">:</span>{{ q.ayah }}</span>
+                      @if (q.count > 1) { <span class="qref__count">× {{ q.count }}</span> }
+                    </button>
+                  </li>
+                }
+              </ul>
+            } @else { <p class="rail__muted">None.</p> }
+          </details>
+
+          <!-- Cross-references to other roots -->
+          <details class="rail__panel rail__panel--xrefs"
+                   [open]="v.cross_refs.length > 0">
+            <summary class="rail__h">
+              <span class="rail__h-dot" aria-hidden="true"></span>
+              <span>Cross-references</span>
+              <span class="rail__h-count">{{ v.cross_refs.length }}</span>
+              <svg class="rail__h-chev" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
+            @if (v.cross_refs.length) {
+              <ul class="xref-list">
+                @for (x of v.cross_refs; track x.target) {
+                  <li class="xref-list__item">
+                    <button class="xref" (click)="openCrossRef(x.target)">
+                      <span class="xref__target" dir="rtl">{{ x.target }}</span>
+                      <span class="xref__count">× {{ x.count }}</span>
+                    </button>
+                  </li>
+                }
+              </ul>
+            } @else { <p class="rail__muted">None.</p> }
+          </details>
+        }
+      </div>
+    </aside>
+
+    <!-- Resizers + edge toggles -->
+    @if (showIndex()) {
+      <button class="rail-resizer rail-resizer--index" type="button"
+              (pointerdown)="startResize('index', $event)">
+        <span class="rail-resizer__grip" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </span>
+      </button>
+    }
+    @if (showCitations() && !citationsExpanded()) {
+      <button class="rail-resizer rail-resizer--citations" type="button"
+              (pointerdown)="startResize('citations', $event)">
+        <span class="rail-resizer__grip" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </span>
+      </button>
+    }
+    <button class="rail-toggle rail-toggle--index" type="button" (click)="toggleIndex()">
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+        <path [attr.d]="showIndex() ? 'M9 6l6 6-6 6' : 'M15 6l-6 6 6 6'"
+              fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="rail-toggle rail-toggle--citations" type="button" (click)="toggleCitations()">
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+        <path [attr.d]="showCitations() ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6'"
+              fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</section>

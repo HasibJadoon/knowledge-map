@@ -1,21 +1,31 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, ElementRef, ViewChild,
+  inject, signal, OnInit, computed,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { forkJoin, debounceTime, distinctUntilChanged, Subject, switchMap, of, catchError, map } from 'rxjs';
+import {
+  forkJoin, debounceTime, distinctUntilChanged, Subject, switchMap, of, catchError, map,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  AlDictionaryApiService,
-  AlDictSource, AlRootSourceResult, LexEntry,
+  AlDictionaryApiService, AlDictSource,
 } from '../../../../shared/services/al-dictionary-api.service';
 import { QuranResearchSearchService } from '../quran-research-search.service';
 
-interface DefPart { text: string; isGap: boolean }
-interface DisplayEntry extends LexEntry { defParts: DefPart[] }
-interface LaneDisplay { title_ar: string; title: string; author: string; count: number; entries: DisplayEntry[] }
-interface RootMeta { text_ar: string; meaning_ar: string | null; frequency_quran: number | null }
+interface RootMeta {
+  text_ar: string;
+  meaning_ar: string | null;
+  frequency_quran: number | null;
+}
 
-const LANE_SLUGS = new Set(['lane_lexicon', 'lane_quranic_research_perseus']);
+/** Per-source hit summary computed from the search response. Drives the
+ *  tafsir.app-style lit-up state and the matched-word chips on each card. */
+interface SourceHit {
+  count:   number;
+  samples: string[];
+}
 
 @Component({
   selector: 'app-lexicon-page',
@@ -25,40 +35,45 @@ const LANE_SLUGS = new Set(['lane_lexicon', 'lane_quranic_research_perseus']);
   styleUrl: './lexicon-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LexiconPageComponent {
-  private readonly api    = inject(AlDictionaryApiService);
-  private readonly search = inject(QuranResearchSearchService);
-  private readonly router = inject(Router);
+export class LexiconPageComponent implements OnInit {
+  @ViewChild('searchInput') searchInputRef?: ElementRef<HTMLInputElement>;
 
-  readonly sources          = signal<AlDictSource[]>([]);
-  readonly sourcesLoading   = signal(true);
-  readonly searching        = signal(false);
-  readonly rootMeta         = signal<RootMeta | null>(null);
-  readonly laneResult       = signal<LaneDisplay | null>(null);
-  readonly classicalSources = signal<AlRootSourceResult[]>([]);
-  readonly selectedSource   = signal<AlRootSourceResult | null>(null);
-  readonly expandedSlugs    = signal<Set<string>>(new Set());
+  private readonly api          = inject(AlDictionaryApiService);
+  private readonly router       = inject(Router);
+  private readonly searchSvc    = inject(QuranResearchSearchService);
 
-  readonly quickRoots = ['كتب', 'علم', 'قرأ', 'رحم', 'حمد', 'أمن', 'نزل', 'خلق', 'فتح', 'وحي'];
+  readonly sources        = signal<AlDictSource[]>([]);
+  readonly sourcesLoading = signal(true);
+  readonly searching      = signal(false);
+  readonly rootMeta       = signal<RootMeta | null>(null);
+  readonly hitsBySlug     = signal<Map<string, SourceHit>>(new Map());
+
+  readonly quickRoots = ['كتب', 'علم', 'قرأ', 'رحم', 'حمد', 'أمن', 'نزل', 'خلق'];
+
+  // The shared QuranResearch search term — kept in sync via two-way binding.
+  get searchTerm() { return this.searchSvc.searchTerm; }
+
+  // Sources with hits, ordered by hit count desc so the richest dictionaries
+  // surface first in the lit-up grid.
+  readonly hitSources = computed(() => {
+    const hits = this.hitsBySlug();
+    if (hits.size === 0) return [];
+    return this.sources()
+      .filter(s => hits.has(s.slug) && (hits.get(s.slug)?.count ?? 0) > 0)
+      .sort((a, b) => (hits.get(b.slug)!.count) - (hits.get(a.slug)!.count));
+  });
 
   private readonly search$ = new Subject<string>();
 
   constructor() {
-    this.api.getSources().subscribe({
-      next: res => { this.sources.set(res.sources); this.sourcesLoading.set(false); },
-      error: () => this.sourcesLoading.set(false),
-    });
-
     this.search$.pipe(
-      debounceTime(350),
+      debounceTime(320),
       distinctUntilChanged(),
       switchMap(q => {
         const t = q.trim();
         if (!t) {
           this.rootMeta.set(null);
-          this.laneResult.set(null);
-          this.classicalSources.set([]);
-          this.selectedSource.set(null);
+          this.hitsBySlug.set(new Map());
           this.searching.set(false);
           return of(null);
         }
@@ -71,87 +86,112 @@ export class LexiconPageComponent {
       takeUntilDestroyed(),
     ).subscribe(res => {
       this.searching.set(false);
-      if (!res) return;
+      if (!res) { this.hitsBySlug.set(new Map()); return; }
 
       const { structured, dict, q } = res;
 
       if (dict) {
-        this.rootMeta.set({ text_ar: dict.root.text_ar, meaning_ar: dict.root.meaning_ar, frequency_quran: dict.root.frequency_quran });
+        this.rootMeta.set({
+          text_ar: dict.root.text_ar,
+          meaning_ar: dict.root.meaning_ar,
+          frequency_quran: dict.root.frequency_quran,
+        });
       } else if (structured) {
         this.rootMeta.set({ text_ar: structured.root, meaning_ar: null, frequency_quran: null });
       } else {
         this.rootMeta.set({ text_ar: q, meaning_ar: null, frequency_quran: null });
       }
 
-      const laneLex = structured?.lexicons.find(l => l.slug === 'lane_lexicon') ?? null;
-      this.laneResult.set(laneLex ? {
-        title_ar: laneLex.title_ar,
-        title:    laneLex.title,
-        author:   laneLex.author,
-        count:    laneLex.count,
-        entries:  laneLex.entries.map(e => ({ ...e, defParts: this.splitDef(e.definition) })),
-      } : null);
+      // Build per-source hit map for inline card decoration.
+      // Prefer structured headings; fall back to dict text_ar tokens.
+      const hits = new Map<string, SourceHit>();
+      const CAP = 6;
 
-      const classical = dict?.sources.filter(s => !LANE_SLUGS.has(s.slug)) ?? [];
-      this.classicalSources.set(classical);
-      this.selectedSource.set(null);
-
-      if (laneLex) {
-        this.expandedSlugs.set(new Set(['lane_lexicon']));
-      } else if (classical[0]) {
-        this.expandedSlugs.set(new Set([classical[0].slug]));
+      for (const lex of structured?.lexicons ?? []) {
+        const samples: string[] = [];
+        for (const e of lex.entries) {
+          const head = (e.heading_ar ?? '').trim();
+          if (head && !samples.includes(head)) samples.push(head);
+          for (const f of e.arabic_forms ?? []) {
+            if (samples.length >= CAP) break;
+            const fc = f.trim();
+            if (fc && !samples.includes(fc)) samples.push(fc);
+          }
+          if (samples.length >= CAP) break;
+        }
+        hits.set(lex.slug, { count: lex.count ?? lex.entries.length, samples });
       }
+      for (const src of dict?.sources ?? []) {
+        if (hits.has(src.slug)) continue;
+        const samples: string[] = [];
+        for (const e of src.entries) {
+          const head = (e.heading_norm ?? '').trim();
+          if (head && !samples.includes(head)) {
+            samples.push(head);
+          } else if (e.text_ar) {
+            const tok = e.text_ar.trim().split(/[\s،,;:.]+/)
+              .find(w => /[؀-ۿ]/.test(w) && w.length <= 16);
+            if (tok && !samples.includes(tok)) samples.push(tok);
+          }
+          if (samples.length >= CAP) break;
+        }
+        hits.set(src.slug, { count: src.entry_count, samples });
+      }
+
+      this.hitsBySlug.set(hits);
     });
   }
 
-  get searchTerm() { return this.search.searchTerm; }
+  ngOnInit(): void {
+    this.api.getSources().subscribe({
+      next: res => { this.sources.set(res.sources); this.sourcesLoading.set(false); },
+      error: () => this.sourcesLoading.set(false),
+    });
+    // Pick up any pre-existing search term (shared across tabs).
+    const initial = this.searchSvc.searchTerm();
+    if (initial) this.search$.next(initial);
+  }
 
+  // ── Search controls ─────────────────────────────────────────────────
   setSearch(value: string): void {
-    this.search.setSearch(value);
+    this.searchSvc.setSearch(value);
     this.search$.next(value);
   }
+  tryRoot(root: string): void {
+    this.setSearch(root);
+    queueMicrotask(() => this.searchInputRef?.nativeElement.focus());
+  }
+  clearSearch(): void { this.setSearch(''); }
 
-  tryRoot(root: string): void { this.setSearch(root); }
-
-  cardClick(src: AlDictSource): void {
-    if (src.slug === 'lane_lexicon') {
-      void this.router.navigate(['/quran/al-quran/lane-lexicon']);
-    } else {
-      this.tryRoot(this.searchTerm() || 'كتب');
+  // ── Navigation ──────────────────────────────────────────────────────
+  /** Card 1: open the books catalog (mobile mirror of /lexicon/books). */
+  openBooks(): void {
+    this.router.navigate(['/quran/al-quran/lane-lexicon']);
+  }
+  /** Hit card: open the matching source for the entered root. Lane has a
+   *  rich mobile page; other sources fall through to the same Lane-style
+   *  page (TODO: add per-source mobile readers). */
+  openSourceAtRoot(src: AlDictSource): void {
+    const root = this.searchTerm().trim();
+    if (src.slug === 'lane_lexicon' || src.slug === 'lane_quranic_research_perseus') {
+      this.router.navigate(['/quran/al-quran/lane-lexicon'], {
+        queryParams: root ? { root } : undefined,
+      });
+      return;
     }
-  }
-
-  selectSourceEntry(src: AlRootSourceResult): void { this.selectedSource.set(src); }
-  clearSourceEntry(): void { this.selectedSource.set(null); }
-
-  toggleExpand(slug: string): void {
-    this.expandedSlugs.update(set => {
-      const next = new Set(set);
-      if (next.has(slug)) next.delete(slug); else next.add(slug);
-      return next;
+    // For other sources we don't have a dedicated mobile reader yet —
+    // route to the Lane page with the same root so the user lands on a
+    // working reader. (Future: per-source mobile readers.)
+    this.router.navigate(['/quran/al-quran/lane-lexicon'], {
+      queryParams: root ? { root, source: src.slug } : { source: src.slug },
     });
   }
 
-  isExpanded(slug: string): boolean { return this.expandedSlugs().has(slug); }
-
-  volPage(entry: { volume_no?: number | null; page_no?: number | null }): string {
-    if (entry.volume_no && entry.page_no) return `ج${entry.volume_no} ص${entry.page_no}`;
-    if (entry.page_no) return `ص${entry.page_no}`;
-    return '';
+  // ── Template helpers ────────────────────────────────────────────────
+  hit(slug: string): SourceHit | null {
+    return this.hitsBySlug().get(slug) ?? null;
   }
-
-  hasArabic(text: string | null | undefined): boolean {
-    return !!text && /[؀-ۿ]/.test(text);
-  }
-
-  private splitDef(text: string | null): DefPart[] {
-    if (!text) return [];
-    const parts = text.split(/\[◌\]|\[form missing\]/);
-    const result: DefPart[] = [];
-    parts.forEach((part, i) => {
-      if (part) result.push({ text: part, isGap: false });
-      if (i < parts.length - 1) result.push({ text: 'form missing', isGap: true });
-    });
-    return result;
+  hasResults(): boolean {
+    return this.hitsBySlug().size > 0 && this.hitSources().length > 0;
   }
 }

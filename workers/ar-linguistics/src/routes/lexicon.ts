@@ -97,7 +97,351 @@ function toEntry(r: Record<string, unknown>): DictEntry {
   };
 }
 
+interface LaneQualityScanRow {
+  id: string;
+  root_text: string | null;
+  heading_norm: string | null;
+  display_heading_ar: string | null;
+  page_no: number | null;
+  source_entry_seq: number | null;
+  definition_en: string | null;
+  cleaner_json: string | null;
+  has_arabic_form_block: number;
+}
+
+interface LaneQualityRow {
+  lexicon_entry_id: string;
+  root_text: string;
+  heading_norm: string | null;
+  display_heading_ar: string | null;
+  page_no: number | null;
+  source_entry_seq: number | null;
+  has_empty_aor: number;
+  has_empty_infinitive: number;
+  has_empty_synonym: number;
+  has_circle_placeholder: number;
+  has_form_missing: number;
+  has_duplicate_and: number;
+  has_bare_cross_ref: number;
+  has_orphan_syn: number;
+  has_quran_marker: number;
+  has_arabic_form_block: number;
+  entry_type: string | null;
+  broken_patterns_json: string;
+  repair_priority: number;
+  issue_count: number;
+  suggested_patch_types_json: string;
+}
+
+function safeParseObject(value: string | null): Record<string, unknown> {
+  if (!value) return {};
+  try { return JSON.parse(value) as Record<string, unknown>; } catch { return {}; }
+}
+
+function asStringArray(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((x): x is string => typeof x === 'string') : [];
+}
+
+function hasLaneQuranMarker(text: string): boolean {
+  return /\b(?:Kur|Qur|Ḳur)\b|Ḳur,|Kur,|Qur,|lxxviii|lxvi|xxviii|xliii|xii|xv\.|xxxviii|xxii/i.test(text);
+}
+
+function scanLaneQuality(row: LaneQualityScanRow): LaneQualityRow {
+  const def = row.definition_en ?? '';
+  const cleaner = safeParseObject(row.cleaner_json);
+  const defClean = typeof cleaner.definition_clean === 'string' ? cleaner.definition_clean : '';
+  const brokenPatterns = asStringArray(cleaner.broken_patterns);
+
+  const hasEmptyAor = /aor\.\s*,/.test(def) || /aor\.\s*\[form missing\]/i.test(defClean);
+  const hasEmptyInf = /inf\. n\.\s*,/.test(def) || /inf\. n\.\s*\[form missing\]/i.test(defClean);
+  const hasEmptySyn = /syn\.\s*:/.test(def) || /syn\.\s*\[form missing\]/i.test(defClean);
+  const hasCircle = def.includes('[◌]');
+  const hasFormMissing = defClean.includes('[form missing]');
+  const hasDuplicateAnd = /\band\s+and\b/i.test(def) || /\band\s+and\b/i.test(defClean);
+  const hasBareCrossRef = brokenPatterns.includes('bare_cross_ref') || /see\s+\[related entry\]/i.test(defClean);
+  const hasOrphanSyn = brokenPatterns.includes('orphan_syn') || /syn\.\s*\[form missing\]/i.test(defClean);
+  const hasQuran = hasLaneQuranMarker(def) || hasLaneQuranMarker(defClean);
+
+  const suggested = new Set<string>();
+  if (hasEmptyAor || hasEmptyInf || hasFormMissing || hasCircle) suggested.add('missing_form');
+  if (hasEmptySyn || hasOrphanSyn || hasBareCrossRef) suggested.add('cross_reference');
+  if (hasQuran) suggested.add('quran_ref');
+  if (hasDuplicateAnd || hasCircle) suggested.add('parser_noise');
+
+  const issueCount = [
+    hasEmptyAor,
+    hasEmptyInf,
+    hasEmptySyn,
+    hasCircle,
+    hasFormMissing,
+    hasDuplicateAnd,
+    hasBareCrossRef,
+    hasOrphanSyn,
+    hasQuran,
+    row.has_arabic_form_block ? false : true,
+  ].filter(Boolean).length;
+
+  const repairPriority =
+    (hasFormMissing ? 40 : 0) +
+    (hasCircle ? 35 : 0) +
+    (hasEmptyAor ? 20 : 0) +
+    (hasEmptyInf ? 20 : 0) +
+    (hasEmptySyn ? 12 : 0) +
+    (hasBareCrossRef ? 10 : 0) +
+    (hasQuran ? 8 : 0) +
+    (hasDuplicateAnd ? 5 : 0) +
+    (row.has_arabic_form_block ? 0 : 4);
+
+  return {
+    lexicon_entry_id: row.id,
+    root_text: row.root_text ?? '',
+    heading_norm: row.heading_norm,
+    display_heading_ar: row.display_heading_ar,
+    page_no: row.page_no,
+    source_entry_seq: row.source_entry_seq,
+    has_empty_aor: hasEmptyAor ? 1 : 0,
+    has_empty_infinitive: hasEmptyInf ? 1 : 0,
+    has_empty_synonym: hasEmptySyn ? 1 : 0,
+    has_circle_placeholder: hasCircle ? 1 : 0,
+    has_form_missing: hasFormMissing ? 1 : 0,
+    has_duplicate_and: hasDuplicateAnd ? 1 : 0,
+    has_bare_cross_ref: hasBareCrossRef ? 1 : 0,
+    has_orphan_syn: hasOrphanSyn ? 1 : 0,
+    has_quran_marker: hasQuran ? 1 : 0,
+    has_arabic_form_block: row.has_arabic_form_block ? 1 : 0,
+    entry_type: typeof cleaner.entry_type === 'string' ? cleaner.entry_type : null,
+    broken_patterns_json: JSON.stringify(brokenPatterns),
+    repair_priority: repairPriority,
+    issue_count: issueCount,
+    suggested_patch_types_json: JSON.stringify([...suggested]),
+  };
+}
+
+const LANE_PROBLEM_COLUMNS: Record<string, string> = {
+  empty_aor: 'has_empty_aor',
+  empty_infinitive: 'has_empty_infinitive',
+  empty_synonym: 'has_empty_synonym',
+  circle_placeholder: 'has_circle_placeholder',
+  form_missing: 'has_form_missing',
+  duplicate_and: 'has_duplicate_and',
+  bare_cross_ref: 'has_bare_cross_ref',
+  orphan_syn: 'has_orphan_syn',
+  quran_marker: 'has_quran_marker',
+  missing_arabic_form_block: 'has_arabic_form_block',
+};
+
+async function rebuildLaneQualityForRoot(
+  env: ArLinguisticsEnv,
+  rootText: string,
+  limit: number,
+): Promise<{ scanned: number; indexed: number; with_issues: number }> {
+  const { results } = await env.DB_AL
+    .prepare(`
+      SELECT e.id,
+             e.root_text,
+             e.heading_norm,
+             e.display_heading_ar,
+             e.page_no,
+             e.source_entry_seq,
+             e.definition_en,
+             e.cleaner_json,
+             EXISTS (
+               SELECT 1
+               FROM ar_ling_source_lexicon_display_blocks b
+               WHERE b.lexicon_entry_id = e.id
+                 AND b.block_type = 'arabic_form'
+             ) AS has_arabic_form_block
+      FROM ar_ling_lexicon_entries e
+      WHERE e.source_slug = 'lane_lexicon'
+        AND e.root_text = ?
+      ORDER BY e.page_no ASC, e.source_entry_seq ASC
+      LIMIT ?
+    `)
+    .bind(rootText, limit)
+    .all<LaneQualityScanRow>();
+
+  if (!results.length) return { scanned: 0, indexed: 0, with_issues: 0 };
+
+  const statements = results.map(row => {
+    const q = scanLaneQuality(row);
+    return env.DB_AL.prepare(`
+      INSERT OR REPLACE INTO ar_ling_lane_quality_index (
+        lexicon_entry_id,
+        root_text,
+        heading_norm,
+        display_heading_ar,
+        page_no,
+        source_entry_seq,
+        has_empty_aor,
+        has_empty_infinitive,
+        has_empty_synonym,
+        has_circle_placeholder,
+        has_form_missing,
+        has_duplicate_and,
+        has_bare_cross_ref,
+        has_orphan_syn,
+        has_quran_marker,
+        has_arabic_form_block,
+        entry_type,
+        broken_patterns_json,
+        repair_priority,
+        issue_count,
+        suggested_patch_types_json,
+        last_scanned_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, json(?), ?, ?, json(?), datetime('now'))
+    `).bind(
+      q.lexicon_entry_id,
+      q.root_text,
+      q.heading_norm,
+      q.display_heading_ar,
+      q.page_no,
+      q.source_entry_seq,
+      q.has_empty_aor,
+      q.has_empty_infinitive,
+      q.has_empty_synonym,
+      q.has_circle_placeholder,
+      q.has_form_missing,
+      q.has_duplicate_and,
+      q.has_bare_cross_ref,
+      q.has_orphan_syn,
+      q.has_quran_marker,
+      q.has_arabic_form_block,
+      q.entry_type,
+      q.broken_patterns_json,
+      q.repair_priority,
+      q.issue_count,
+      q.suggested_patch_types_json,
+    );
+  });
+
+  await env.DB_AL.batch(statements);
+
+  return {
+    scanned: results.length,
+    indexed: statements.length,
+    with_issues: results.map(scanLaneQuality).filter(q => q.issue_count > 0).length,
+  };
+}
+
 export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
+
+  // ── /al/lexicon/lane/* — Lane repair inspection/admin ─────────────────────
+
+  router.get('/al/lexicon/lane/health', async (_req, env) => {
+    const [entries, quality, patches] = await Promise.all([
+      env.DB_AL.prepare(`
+        SELECT COUNT(*) AS entries,
+               COUNT(DISTINCT root_text) AS roots,
+               SUM(CASE WHEN morphology_json IS NOT NULL THEN 1 ELSE 0 END) AS morphology_json,
+               SUM(CASE WHEN sense_json IS NOT NULL THEN 1 ELSE 0 END) AS sense_json,
+               SUM(CASE WHEN examples_json IS NOT NULL THEN 1 ELSE 0 END) AS examples_json,
+               SUM(CASE WHEN citations_json IS NOT NULL THEN 1 ELSE 0 END) AS citations_json
+        FROM ar_ling_lexicon_entries
+        WHERE source_slug = 'lane_lexicon'
+      `).first<Record<string, unknown>>(),
+      env.DB_AL.prepare(`
+        SELECT COUNT(*) AS indexed,
+               SUM(CASE WHEN issue_count > 0 THEN 1 ELSE 0 END) AS with_issues,
+               SUM(has_empty_aor) AS empty_aor,
+               SUM(has_empty_infinitive) AS empty_infinitive,
+               SUM(has_empty_synonym) AS empty_synonym,
+               SUM(has_circle_placeholder) AS circle_placeholder,
+               SUM(has_form_missing) AS form_missing,
+               SUM(has_duplicate_and) AS duplicate_and,
+               SUM(has_bare_cross_ref) AS bare_cross_ref,
+               SUM(has_quran_marker) AS quran_marker,
+               MAX(last_scanned_at) AS last_scanned_at
+        FROM ar_ling_lane_quality_index
+      `).first<Record<string, unknown>>(),
+      env.DB_AL.prepare(`
+        SELECT COUNT(*) AS total,
+               SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending,
+               SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) AS approved,
+               SUM(CASE WHEN status = 'applied' THEN 1 ELSE 0 END) AS applied,
+               SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) AS rejected
+        FROM ar_ling_lane_patch_log
+      `).first<Record<string, unknown>>(),
+    ]);
+
+    return ok({ entries, quality, patches });
+  });
+
+  router.get('/al/lexicon/lane/problems', async (req, env) => {
+    const url = new URL(req.url);
+    const limit = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
+    const offset = Math.max(parseInt(url.searchParams.get('offset') || '0'), 0);
+    const root = url.searchParams.get('root')?.trim() ?? '';
+    const problem = url.searchParams.get('problem')?.trim() ?? '';
+
+    const where: string[] = ['q.issue_count > 0'];
+    const binds: unknown[] = [];
+    if (root) {
+      where.push('q.root_text = ?');
+      binds.push(root);
+    }
+    if (problem) {
+      const column = LANE_PROBLEM_COLUMNS[problem];
+      if (!column) return badRequest(`Unknown Lane problem: ${problem}`);
+      where.push(problem === 'missing_arabic_form_block' ? `q.${column} = 0` : `q.${column} = 1`);
+    }
+
+    const { results } = await env.DB_AL
+      .prepare(`
+        SELECT q.*,
+               e.status,
+               e.ai_fill_state,
+               substr(e.definition_en, 1, 360) AS definition_preview
+        FROM ar_ling_lane_quality_index q
+        JOIN ar_ling_lexicon_entries e ON e.id = q.lexicon_entry_id
+        WHERE ${where.join(' AND ')}
+        ORDER BY q.repair_priority DESC, q.page_no ASC, q.source_entry_seq ASC
+        LIMIT ? OFFSET ?
+      `)
+      .bind(...binds, limit, offset)
+      .all<Record<string, unknown>>();
+
+    return ok({ total: results.length, limit, offset, entries: results });
+  });
+
+  router.get('/al/lexicon/lane/problems/:rootText', async (req, env, params) => {
+    const rootText = decodeURIComponent((params as Record<string, string>).rootText ?? '');
+    if (!rootText) return badRequest('rootText required');
+
+    const url = new URL(req.url);
+    const limit = Math.min(parseInt(url.searchParams.get('limit') || '100'), 300);
+
+    const { results } = await env.DB_AL
+      .prepare(`
+        SELECT q.*,
+               e.status,
+               e.ai_fill_state,
+               substr(e.definition_en, 1, 420) AS definition_preview
+        FROM ar_ling_lane_quality_index q
+        JOIN ar_ling_lexicon_entries e ON e.id = q.lexicon_entry_id
+        WHERE q.root_text = ?
+          AND q.issue_count > 0
+        ORDER BY q.repair_priority DESC, q.page_no ASC, q.source_entry_seq ASC
+        LIMIT ?
+      `)
+      .bind(rootText, limit)
+      .all<Record<string, unknown>>();
+
+    return ok({ root: rootText, total: results.length, entries: results });
+  });
+
+  router.post('/al/lexicon/lane/quality/rebuild', async (req, env) => {
+    const url = new URL(req.url);
+    let body: Record<string, unknown> = {};
+    try { body = await req.json<Record<string, unknown>>(); } catch { /* optional body */ }
+
+    const rootText = String(body.rootText ?? url.searchParams.get('root') ?? '').trim();
+    if (!rootText) return badRequest('rootText is required. Full rebuilds must use npm run lane:quality-index.');
+
+    const limitRaw = Number(body.limit ?? url.searchParams.get('limit') ?? 300);
+    const limit = Math.min(Number.isFinite(limitRaw) ? limitRaw : 300, 500);
+    const result = await rebuildLaneQualityForRoot(env, rootText, limit);
+    return ok({ root: rootText, ...result });
+  });
 
   // ── /al/lexicon/dict/* — classical source-chunk dictionary ─────────────────
 

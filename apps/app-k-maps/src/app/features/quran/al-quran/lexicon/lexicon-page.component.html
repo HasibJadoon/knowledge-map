@@ -1,192 +1,108 @@
-<ion-content class="research-content" [fullscreen]="false">
-  <section class="research-page lx-page" dir="rtl">
+<ion-content class="lx-content" [fullscreen]="false">
+  <section class="lx-page" dir="rtl">
 
-    <!-- ── Classical source detail (all entries for one dictionary) ─────── -->
-    @if (selectedSource(); as src) {
-      <div class="lx-source-detail">
-        <div class="lx-source-detail__header">
-          <button class="rp-back-btn" (click)="clearSourceEntry()">
-            <ion-icon name="chevron-forward-outline"></ion-icon>
-            <span>العودة</span>
-          </button>
-          <span class="lx-source-detail__title">{{ src.title_ar }}</span>
-          <span class="lx-source-detail__author">{{ src.author }}</span>
-        </div>
-        @for (entry of src.entries; track entry.id) {
-          <div class="lx-dict-entry">
-            @if (volPage(entry)) {
-              <span class="lx-dict-entry__ref">{{ volPage(entry) }}</span>
-            }
-            @if (entry.text_ar && hasArabic(entry.text_ar)) {
-              <p class="lx-dict-entry__text" dir="rtl" lang="ar">{{ entry.text_ar }}</p>
-            }
-          </div>
+    <!-- ── Two-card hub: Books (catalog) + Root search ──────────────────── -->
+    <div class="lx-hub-grid">
+
+      <!-- Card 1 — open the books catalog -->
+      <button class="lx-hub-card lx-hub-card--books" type="button" (click)="openBooks()">
+        <span class="lx-hub-card__icon" aria-hidden="true">
+          <ion-icon name="library-outline"></ion-icon>
+        </span>
+        <h2 class="lx-hub-card__title">المكتبة</h2>
+        <p class="lx-hub-card__sub">تصفّح المعاجم الكلاسيكية</p>
+        @if (!sourcesLoading()) {
+          <span class="lx-hub-card__cta">
+            <span>{{ sources().length }} معجمًا</span>
+            <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
+          </span>
         }
-      </div>
+      </button>
 
-    <!-- ── Root results ─────────────────────────────────────────────────── -->
-    } @else if (rootMeta()) {
+      <!-- Card 2 — root search -->
+      <div class="lx-hub-card lx-hub-card--search">
+        <span class="lx-hub-card__icon" aria-hidden="true">
+          <ion-icon name="search-outline"></ion-icon>
+        </span>
+        <h2 class="lx-hub-card__title">البحث بالجذر</h2>
+        <p class="lx-hub-card__sub">اكتب جذرًا لإضاءة المعاجم التي تحتوي على مدخل</p>
 
-      <div class="lx-root-header">
-        <button class="rp-back-btn" (click)="setSearch('')">
-          <ion-icon name="chevron-forward-outline"></ion-icon>
-          <span>العودة</span>
-        </button>
-        @if (rootMeta(); as meta) {
-          <span class="lx-root-hero">{{ meta.text_ar }}</span>
-          @if (meta.meaning_ar) {
-            <span class="lx-root-meaning">{{ meta.meaning_ar }}</span>
+        <label class="lx-search-label" aria-label="ابحث بجذر">
+          <ion-icon class="lx-search-icon" name="search-outline" aria-hidden="true"></ion-icon>
+          <input
+            #searchInput
+            class="lx-search-input"
+            type="search"
+            placeholder="مثل: كتب، علم، بحث"
+            [value]="searchTerm()"
+            (input)="setSearch($any($event.target).value)"
+            dir="rtl"
+            autocomplete="off"
+          />
+          @if (searching()) {
+            <span class="lx-spinner" aria-hidden="true">⟳</span>
+          } @else if (searchTerm()) {
+            <button class="lx-clear" type="button" (click)="clearSearch()" aria-label="مسح">
+              <ion-icon name="close-circle"></ion-icon>
+            </button>
           }
-          @if (meta.frequency_quran) {
-            <span class="rp-badge rp-badge--count">{{ meta.frequency_quran }} × في القرآن</span>
-          }
-        }
-      </div>
+        </label>
 
-      @if (!laneResult() && !classicalSources().length && !searching()) {
-        <div class="rp-empty">لا توجد نتائج لهذا الجذر في المعاجم المتاحة</div>
-      }
-
-      <!-- ── Lane's Lexicon — rich bilingual display ─────────────────────── -->
-      @if (laneResult(); as lane) {
-        <div class="lx-dict-result-card lx-lane-card">
-          <button class="lx-dict-result-card__header" (click)="toggleExpand('lane_lexicon')">
-            <div class="lx-dict-result-card__meta">
-              <span class="lx-dict-result-card__name">{{ lane.title_ar }}</span>
-              <span class="lx-dict-result-card__author lx-lane-subtitle">{{ lane.title }} · {{ lane.author }}</span>
-            </div>
-            <span class="rp-badge rp-badge--count">{{ lane.count }}</span>
-            <span class="lx-dict-result-card__toggle">{{ isExpanded('lane_lexicon') ? '▴' : '▾' }}</span>
-          </button>
-
-          @if (isExpanded('lane_lexicon')) {
-            <div class="lx-dict-result-card__body lx-lane-entries">
-              @for (entry of lane.entries; track entry.id) {
-                <div class="lx-lane-entry">
-
-                  <div class="lx-lane-entry__top">
-                    @if (entry.heading_ar) {
-                      <span class="lx-entry-heading" dir="rtl" lang="ar">{{ entry.heading_ar }}</span>
-                    }
-                    @if (entry.page_label) {
-                      <span class="lx-entry-page">{{ entry.page_label }}</span>
-                    }
-                    @if (entry.type !== 'definition') {
-                      <span class="rp-badge rp-badge--muted">{{ entry.type }}</span>
-                    }
-                    @if (entry.has_gaps) {
-                      <span class="lx-gaps-flag" title="Arabic text rendered as placeholders">◌</span>
-                    }
-                  </div>
-
-                  @if (entry.defParts.length) {
-                    <p class="lx-entry-def" dir="ltr">
-                      @for (seg of entry.defParts; track $index) {
-                        @if (seg.isGap) {
-                          <span class="lx-entry-gap">{{ seg.text }}</span>
-                        } @else {
-                          {{ seg.text }}
-                        }
-                      }
-                    </p>
-                  }
-
-                  @if (entry.arabic_forms.length) {
-                    <div class="lx-entry-forms">
-                      @for (form of entry.arabic_forms; track form) {
-                        <span class="lx-entry-form-chip" dir="rtl" lang="ar">{{ form }}</span>
-                      }
-                    </div>
-                  }
-
-                  @if (entry.ref_sources.length) {
-                    <div class="lx-entry-refs">
-                      @for (ref of entry.ref_sources; track ref.abbr) {
-                        <span class="lx-entry-ref-chip" [title]="ref.label + (ref.author ? ' (' + ref.author + ')' : '')">
-                          {{ ref.abbr }}
-                        </span>
-                      }
-                    </div>
-                  }
-
-                </div>
-              }
-            </div>
-          }
-        </div>
-      }
-
-      <!-- ── Classical Arabic sources ──────────────────────────────────── -->
-      @if (classicalSources().length) {
-        <div class="lx-dict-results">
-          @for (src of classicalSources(); track src.slug) {
-            <div class="lx-dict-result-card">
-              <button class="lx-dict-result-card__header" (click)="toggleExpand(src.slug)">
-                <div class="lx-dict-result-card__meta">
-                  <span class="lx-dict-result-card__name">{{ src.title_ar }}</span>
-                  <span class="lx-dict-result-card__author">{{ src.author }}</span>
-                </div>
-                <span class="lx-dict-result-card__toggle">{{ isExpanded(src.slug) ? '▴' : '▾' }}</span>
-              </button>
-
-              @if (isExpanded(src.slug)) {
-                <div class="lx-dict-result-card__body">
-                  @for (entry of src.entries; track entry.id) {
-                    <div class="lx-dict-entry">
-                      @if (volPage(entry)) {
-                        <span class="lx-dict-entry__ref">{{ volPage(entry) }}</span>
-                      }
-                      @if (entry.text_ar && hasArabic(entry.text_ar)) {
-                        <p class="lx-dict-entry__text" dir="rtl" lang="ar">{{ entry.text_ar }}</p>
-                      }
-                    </div>
-                  }
-                  @if (src.entry_count > src.entries.length) {
-                    <button class="lx-show-more" (click)="selectSourceEntry(src)">
-                      عرض جميع المقاطع ({{ src.entry_count }}) ›
-                    </button>
-                  }
-                </div>
-              }
-            </div>
-          }
-        </div>
-      }
-
-    <!-- ── Searching ──────────────────────────────────────────────────── -->
-    } @else if (searching()) {
-      <div class="rp-loading">جارٍ البحث في المعاجم…</div>
-
-    <!-- ── Idle — dictionary catalog ─────────────────────────────────── -->
-    } @else {
-      <div class="lx-idle-header" dir="rtl">
-        <p class="lx-idle__hint">اكتب جذراً للبحث في المعاجم الكلاسيكية</p>
-        <div class="lx-quick-roots">
+        <div class="lx-quick">
           @for (root of quickRoots; track root) {
-            <button class="lx-quick-chip" (click)="tryRoot(root)">{{ root }}</button>
+            <button class="lx-quick-chip" type="button" (click)="tryRoot(root)">{{ root }}</button>
           }
         </div>
       </div>
+    </div>
 
-      @if (sourcesLoading()) {
-        <div class="rp-loading">جارٍ تحميل المعاجم…</div>
-      } @else {
+    <!-- ── Results: lit-up source cards (only those with hits) ──────────── -->
+    @if (rootMeta(); as meta) {
+      <header class="lx-results-head">
+        <span class="lx-results-root">{{ meta.text_ar }}</span>
+        @if (meta.meaning_ar) {
+          <span class="lx-results-meaning">{{ meta.meaning_ar }}</span>
+        }
+        @if (meta.frequency_quran) {
+          <span class="lx-results-quran">{{ meta.frequency_quran }} × في القرآن</span>
+        }
+        <span class="lx-results-stat">{{ hitSources().length }} / {{ sources().length }} معاجم</span>
+      </header>
+
+      @if (hasResults()) {
         <div class="lx-catalog">
-          @for (src of sources(); track src.slug) {
-            <article
-              class="lx-dict-card"
-              [class.lx-dict-card--lane]="src.slug === 'lane_lexicon'"
-              (click)="cardClick(src)"
-            >
-              <h3 class="lx-dict-card__title">{{ src.title_ar }}</h3>
-              <p class="lx-dict-card__author">{{ src.author }}</p>
-              <span class="lx-dict-card__count">{{ src.roots | number }} جذر</span>
-              @if (src.slug === 'lane_lexicon') {
-                <span class="lx-dict-card__lane-hint">معجم لين ←</span>
-              }
-            </article>
+          @for (src of hitSources(); track src.slug) {
+            @if (hit(src.slug); as h) {
+              <button
+                class="lx-hit-card"
+                [class.lx-hit-card--lane]="src.slug === 'lane_lexicon'"
+                (click)="openSourceAtRoot(src)"
+                type="button"
+              >
+                <header class="lx-hit-card__head">
+                  <h3 class="lx-hit-card__title">{{ src.title_ar }}</h3>
+                  <span class="lx-hit-card__count" aria-label="عدد المدخلات">{{ h.count }}</span>
+                </header>
+                <p class="lx-hit-card__author">{{ src.author }} · {{ src.period }}</p>
+
+                @if (h.samples.length) {
+                  <ul class="lx-hit-card__chips">
+                    @for (s of h.samples; track s) {
+                      <li class="lx-hit-card__chip" dir="rtl" lang="ar">{{ s }}</li>
+                    }
+                  </ul>
+                }
+
+                <span class="lx-hit-card__cta">
+                  <span>افتح المعجم</span>
+                  <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
+                </span>
+              </button>
+            }
           }
         </div>
+      } @else if (!searching()) {
+        <p class="lx-empty">لا توجد نتائج لهذا الجذر في المعاجم المتاحة</p>
       }
     }
 

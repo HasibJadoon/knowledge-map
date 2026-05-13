@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-05-12T08:24:48+00:00",
+  "source_slug": "lane_lexicon",
+  "import_batch_id": "2026_05_lane_root_level",
+  "parser_version": "lane_root_stage_v1",
+  "stage_db": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/km_arabic_linguistic/ingestion/Lexicon/sources/lane/stage.sqlite",
+  "out_dir": "/Users/abdulhasibahmedjadoon/Documents/LLM/knowledge-map/workers/ar-linguistics/migrations/manual/imports/lane_2026_05",
+  "counts": {
+    "lane_root": 5076,
+    "lane_section": 47919,
+    "lane_book_page": 4936,
+    "lane_block": 103203,
+    "lane_block_link": 55726,
+    "lane_block_tag": 83745,
+    "lane_quran_ref": 2526,
+    "lane_root_entry_source": 10085
+  }
+}

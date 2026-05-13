@@ -1,49 +1,65 @@
 import {
   ChangeDetectionStrategy, Component, ElementRef, ViewChild,
-  inject, signal, OnInit, AfterViewInit,
+  inject, signal, OnInit, AfterViewInit, computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { forkJoin, debounceTime, distinctUntilChanged, Subject, switchMap, of, catchError, map } from 'rxjs';
+import { Router } from '@angular/router';
+import {
+  forkJoin, debounceTime, distinctUntilChanged, Subject, switchMap, of, catchError, map,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import gsap from 'gsap';
 import {
   AlDictionaryApiService,
-  AlDictSource, AlRootSourceResult, LexEntry,
+  AlDictSource,
 } from '../../../../../shared/services/al-dictionary-api.service';
-import { LaneTableComponent } from './lane-table/lane-table.component';
 
-interface DefPart { text: string; isGap: boolean }
-interface DisplayEntry extends LexEntry { defParts: DefPart[] }
-interface LaneDisplay { title_ar: string; title: string; author: string; count: number; entries: DisplayEntry[] }
-interface RootMeta { text_ar: string; meaning_ar: string | null; frequency_quran: number | null }
+interface RootMeta {
+  text_ar: string;
+  meaning_ar: string | null;
+  frequency_quran: number | null;
+}
 
-const LANE_SLUGS = new Set(['lane_lexicon', 'lane_quranic_research_perseus']);
+/** Per-source hit summary computed from the search response. Drives the
+ *  tafsir.app-style lit-up state and the matched-word chips on each card. */
+interface SourceHit {
+  count:   number;     // total entry rows for this root in this source
+  samples: string[];   // up to ~6 matched headings/forms for chip display
+}
 
 @Component({
   selector: 'km-lexicon-page',
   standalone: true,
-  imports: [CommonModule, LaneTableComponent],
+  imports: [CommonModule],
   templateUrl: './lexicon-page.component.html',
   styleUrl: './lexicon-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LexiconPageComponent implements OnInit, AfterViewInit {
-  @ViewChild('catalog') catalogRef?: ElementRef<HTMLElement>;
+  @ViewChild('catalog')   catalogRef?:   ElementRef<HTMLElement>;
+  @ViewChild('searchInput') searchInputRef?: ElementRef<HTMLInputElement>;
 
-  private readonly api = inject(AlDictionaryApiService);
+  private readonly api    = inject(AlDictionaryApiService);
+  private readonly router = inject(Router);
 
-  readonly sources          = signal<AlDictSource[]>([]);
-  readonly sourcesLoading   = signal(true);
-  readonly searchTerm       = signal('');
-  readonly searching        = signal(false);
-  readonly rootMeta         = signal<RootMeta | null>(null);
-  readonly laneResult       = signal<LaneDisplay | null>(null);
-  readonly classicalSources = signal<AlRootSourceResult[]>([]);
-  readonly selectedSource   = signal<AlRootSourceResult | null>(null);
-  readonly expandedSlugs    = signal<Set<string>>(new Set());
-  readonly laneTableMode    = signal(false);
+  readonly sources        = signal<AlDictSource[]>([]);
+  readonly sourcesLoading = signal(true);
+  readonly searchTerm     = signal('');
+  readonly searching      = signal(false);
+  readonly rootMeta       = signal<RootMeta | null>(null);
+  readonly hitsBySlug     = signal<Map<string, SourceHit>>(new Map());
 
-  readonly quickRoots = ['كتب', 'علم', 'قرأ', 'رحم', 'حمد', 'أمن', 'نزل', 'خلق', 'فتح', 'وحي'];
+  readonly quickRoots = ['كتب', 'علم', 'قرأ', 'رحم', 'حمد', 'أمن', 'نزل', 'خلق'];
+
+  // Sources that have hits for the current root, in roots-descending order
+  // so the richest dictionaries surface first.
+  readonly hitSources = computed(() => {
+    const hits = this.hitsBySlug();
+    if (hits.size === 0) return [];
+    return this.sources()
+      .filter(s => hits.has(s.slug) && (hits.get(s.slug)?.count ?? 0) > 0)
+      .sort((a, b) => (hits.get(b.slug)!.count) - (hits.get(a.slug)!.count));
+  });
 
   private readonly search$ = new Subject<string>();
 
@@ -55,9 +71,7 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
         const t = q.trim();
         if (!t) {
           this.rootMeta.set(null);
-          this.laneResult.set(null);
-          this.classicalSources.set([]);
-          this.selectedSource.set(null);
+          this.hitsBySlug.set(new Map());
           this.searching.set(false);
           return of(null);
         }
@@ -70,36 +84,65 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
       takeUntilDestroyed(),
     ).subscribe(res => {
       this.searching.set(false);
-      if (!res) return;
+      if (!res) { this.hitsBySlug.set(new Map()); return; }
 
       const { structured, dict, q } = res;
 
+      // Root metadata block (showed above the result grid).
       if (dict) {
-        this.rootMeta.set({ text_ar: dict.root.text_ar, meaning_ar: dict.root.meaning_ar, frequency_quran: dict.root.frequency_quran });
+        this.rootMeta.set({
+          text_ar: dict.root.text_ar,
+          meaning_ar: dict.root.meaning_ar,
+          frequency_quran: dict.root.frequency_quran,
+        });
       } else if (structured) {
         this.rootMeta.set({ text_ar: structured.root, meaning_ar: null, frequency_quran: null });
       } else {
         this.rootMeta.set({ text_ar: q, meaning_ar: null, frequency_quran: null });
       }
 
-      const laneLex = structured?.lexicons.find(l => l.slug === 'lane_lexicon') ?? null;
-      this.laneResult.set(laneLex ? {
-        title_ar: laneLex.title_ar,
-        title:    laneLex.title,
-        author:   laneLex.author,
-        count:    laneLex.count,
-        entries:  laneLex.entries.map(e => ({ ...e, defParts: this.splitDef(e.definition) })),
-      } : null);
+      // Build per-source hit map for inline card decoration.
+      // Structured response covers Lane + a few v2-aware sources with rich
+      // heading metadata; the dict response covers the rest with text_ar
+      // chunks. Merge: prefer structured headings when present.
+      const hits = new Map<string, SourceHit>();
+      const SAMPLE_CAP = 6;
 
-      const classical = dict?.sources.filter(s => !LANE_SLUGS.has(s.slug)) ?? [];
-      this.classicalSources.set(classical);
-      this.selectedSource.set(null);
-
-      if (laneLex) {
-        this.expandedSlugs.set(new Set(['lane_lexicon']));
-      } else if (classical[0]) {
-        this.expandedSlugs.set(new Set([classical[0].slug]));
+      for (const lex of structured?.lexicons ?? []) {
+        const samples: string[] = [];
+        for (const e of lex.entries) {
+          const head = (e.heading_ar ?? '').trim();
+          if (head && !samples.includes(head)) samples.push(head);
+          for (const f of e.arabic_forms ?? []) {
+            if (samples.length >= SAMPLE_CAP) break;
+            const fc = f.trim();
+            if (fc && !samples.includes(fc)) samples.push(fc);
+          }
+          if (samples.length >= SAMPLE_CAP) break;
+        }
+        hits.set(lex.slug, { count: lex.count ?? lex.entries.length, samples });
       }
+
+      for (const src of dict?.sources ?? []) {
+        if (hits.has(src.slug)) continue; // structured wins
+        const samples: string[] = [];
+        for (const e of src.entries) {
+          const head = (e.heading_norm ?? '').trim();
+          if (head && !samples.includes(head)) {
+            samples.push(head);
+          } else if (e.text_ar) {
+            // Lift first short Arabic token from the chunk so we always
+            // have a visible chip even when heading_norm is null.
+            const tok = e.text_ar.trim().split(/[\s،,;:.]+/)
+              .find(w => /[؀-ۿ]/.test(w) && w.length <= 16);
+            if (tok && !samples.includes(tok)) samples.push(tok);
+          }
+          if (samples.length >= SAMPLE_CAP) break;
+        }
+        hits.set(src.slug, { count: src.entry_count, samples });
+      }
+
+      this.hitsBySlug.set(hits);
     });
   }
 
@@ -112,72 +155,51 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void { this.animateCatalog(); }
 
-  setSearch(value: string): void { this.searchTerm.set(value); this.search$.next(value); }
-  tryRoot(root: string): void { this.setSearch(root); }
+  // ── Search controls ─────────────────────────────────────────────────
+  setSearch(value: string): void {
+    this.searchTerm.set(value);
+    this.search$.next(value);
+  }
+  tryRoot(root: string): void {
+    this.searchTerm.set(root);
+    this.search$.next(root);
+    queueMicrotask(() => this.searchInputRef?.nativeElement.focus());
+  }
   clearSearch(): void { this.setSearch(''); }
-
-  selectSource(src: AlRootSourceResult): void { this.selectedSource.set(src); }
-  clearSource(): void { this.selectedSource.set(null); }
-
-  openLaneTable(): void  { this.laneTableMode.set(true); }
-  closeLaneTable(): void { this.laneTableMode.set(false); }
-
-  cardClick(src: AlDictSource): void {
-    if (src.slug === 'lane_lexicon') {
-      this.openLaneTable();
-    } else {
-      this.tryRoot(this.searchTerm() || 'كتب');
-    }
+  focusSearch(): void {
+    queueMicrotask(() => this.searchInputRef?.nativeElement.focus());
   }
 
-  toggleExpand(slug: string): void {
-    this.expandedSlugs.update(set => {
-      const next = new Set(set);
-      if (next.has(slug)) next.delete(slug); else next.add(slug);
-      return next;
+  // ── Navigation ──────────────────────────────────────────────────────
+  // Card "View Books" → go to the rich catalog
+  openBooks(): void {
+    this.router.navigate(['/lexicon/books']);
+  }
+  // Source card (with hits) → open that book at the current root
+  openSourceAtRoot(src: AlDictSource): void {
+    const root = this.searchTerm().trim();
+    this.router.navigate(['/lexicon/books', src.slug], {
+      queryParams: root ? { root } : undefined,
     });
   }
 
-  isExpanded(slug: string): boolean { return this.expandedSlugs().has(slug); }
-
-  volPage(entry: { volume_no?: number | null; page_no?: number | null }): string {
-    if (entry.volume_no && entry.page_no) return `ج${entry.volume_no} ص${entry.page_no}`;
-    if (entry.page_no) return `ص${entry.page_no}`;
-    return '';
+  // ── Template helpers ────────────────────────────────────────────────
+  hit(slug: string): SourceHit | null {
+    return this.hitsBySlug().get(slug) ?? null;
   }
-
-  hasArabic(text: string | null | undefined): boolean {
-    return !!text && /[؀-ۿ]/.test(text);
-  }
-
-  entryHasGaps(entry: DisplayEntry): boolean {
-    return entry.has_gaps ||
-      (!!entry.definition && (
-        entry.definition.includes('[◌]') ||
-        entry.definition.includes('[form missing]')
-      ));
-  }
-
-  private splitDef(text: string | null): DefPart[] {
-    if (!text) return [];
-    // Handle both legacy [◌] (still in DB until fix script runs) and [form missing]
-    const parts = text.split(/\[◌\]|\[form missing\]/);
-    return parts.flatMap((part, i) => {
-      const segs: DefPart[] = [];
-      if (part) segs.push({ text: part, isGap: false });
-      if (i < parts.length - 1) segs.push({ text: 'form missing', isGap: true });
-      return segs;
-    });
+  hasResults(): boolean {
+    return this.hitsBySlug().size > 0 && this.hitSources().length > 0;
   }
 
   private animateCatalog(): void {
     const cards = Array.from(
-      this.catalogRef?.nativeElement.querySelectorAll<HTMLElement>('.lx-dict-card') ?? [],
+      this.catalogRef?.nativeElement.querySelectorAll<HTMLElement>('.lx-hit-card') ?? [],
     );
     if (!cards.length) return;
-    gsap.fromTo(cards,
-      { opacity: 0, y: 18 },
-      { opacity: 1, y: 0, duration: 0.3, stagger: 0.04, ease: 'power3.out', clearProps: 'transform' },
+    gsap.fromTo(
+      cards,
+      { opacity: 0, y: 14 },
+      { opacity: 1, y: 0, duration: 0.28, stagger: 0.035, ease: 'power3.out', clearProps: 'transform' },
     );
   }
 }

@@ -1,0 +1,67 @@
+<!--
+  Lane reader — bilingual XML scholar format. Each verb form gets its
+  own card; senses inside each form are stacked with a small "A / A1 /
+  B" label gutter. The body of each sense is a token stream rendered in
+  mixed direction (English LTR runs naturally between Arabic RTL spans
+  thanks to Unicode bidi).
+-->
+<article class="lane" dir="ltr">
+  @for (form of view().forms; track trackForm($index, form)) {
+    <section class="lane__form">
+      <!-- The form heading is RTL-aligned: medallion + Arabic headword
+           pair sits on the right (the natural reading position for an
+           Arabic word), page number floats to the left. -->
+      <header class="lane__form-head" dir="rtl">
+        @if (form.form_label_ar) {
+          <span class="lane__form-headword">{{ form.form_label_ar }}</span>
+        }
+        <span class="lane__form-numeral">{{ formNumeral(form.form_num) || '✦' }}</span>
+        @if (form.page_no) {
+          <span class="lane__form-page" dir="ltr">p. {{ form.page_no }}</span>
+        }
+      </header>
+
+      @for (sense of form.senses; track trackSense($index, sense)) {
+        <article class="lane__sense" [class.lane__sense--diss]="sense.kind === 'dissociation'"
+                                     [class.lane__sense--sig]="sense.kind === 'signification'">
+          @if (sense.label) {
+            <span class="lane__sense-label" [attr.data-kind]="sense.kind">
+              {{ sense.label }}
+            </span>
+          }
+          <p class="lane__sense-body">
+            <ng-container *ngTemplateOutlet="toks; context: { $implicit: sense.tokens }"></ng-container>
+          </p>
+        </article>
+      }
+    </section>
+  }
+</article>
+
+<ng-template #toks let-arr>
+  @for (t of arr; track $index) {
+    @switch (t.kind) {
+      @case ('text')       { <span>{{ t.value }}</span> }
+      @case ('br')         { <br /> }
+      @case ('arabic')     { <span class="lane-form" dir="rtl">{{ t.value }}</span> }
+      @case ('headword')   { <strong class="lane-headword" dir="rtl">{{ t.value }}</strong> }
+      @case ('figurative') { <span class="lane-fig" title="figurative meaning">‡</span> }
+      @case ('cross_ref')  {
+        <a class="lane-xref" (click)="onCrossRefClick(t)" [title]="'see entry: ' + t.target">
+          {{ t.target }}<span class="lane-xref__arrow">↓</span>
+        </a>
+      }
+      @case ('siglum') {
+        <span class="lane-sig" (click)="onSiglumClick(t)" [title]="sigTitle(t)">
+          ({{ t.raw }})
+        </span>
+      }
+      @case ('quran') {
+        <a class="lane-qref" (click)="onQuranClick(t)" [title]="t.raw">
+          <span class="lane-qref__mark" aria-hidden="true">۝</span>
+          <span class="lane-qref__ref">{{ t.surah }}:{{ t.ayah }}</span>
+        </a>
+      }
+    }
+  }
+</ng-template>

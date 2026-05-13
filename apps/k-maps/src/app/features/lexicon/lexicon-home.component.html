@@ -1,0 +1,128 @@
+<section class="lex-home" dir="rtl">
+  <header class="lex-home__head">
+    <h1 class="lex-home__title">المعجم العربي</h1>
+    <p class="lex-home__subtitle">عشرة معاجم كلاسيكية في مكتبة واحدة</p>
+  </header>
+
+  <div class="lex-home__grid">
+    <!-- ── Card 1 : Books ─────────────────────────────────────────── -->
+    <a
+      class="lex-card lex-card--books"
+      [routerLink]="['/lexicon/books']"
+      aria-label="استعراض المعاجم"
+    >
+      <div class="lex-card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="32" height="32">
+          <path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4Z" fill="currentColor" opacity=".85"/>
+          <path d="M14 4h6v14h-6a2 2 0 0 0-2 2V6a2 2 0 0 1 2-2Z" fill="currentColor"/>
+        </svg>
+      </div>
+
+      <div class="lex-card__body">
+        <h2 class="lex-card__title">الكتب</h2>
+        <p class="lex-card__sub">تصفّح المعاجم كأنّها كتب على رف مكتبة</p>
+
+        @if (!sourcesLoading()) {
+          <ul class="lex-card__books">
+            @for (b of featuredBooks(); track b.slug) {
+              <li class="lex-card__book">
+                <span class="lex-card__book-title">{{ b.title_ar }}</span>
+                <span class="lex-card__book-meta">{{ b.author }}</span>
+              </li>
+            }
+          </ul>
+          @if (sources().length > 6) {
+            <p class="lex-card__more">+ {{ sources().length - 6 }} كتب أخرى</p>
+          }
+        } @else {
+          <div class="lex-card__skeleton">…</div>
+        }
+      </div>
+
+      <div class="lex-card__cta">
+        <span>افتح المكتبة</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path d="M14 6 8 12l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- ── Card 2 : Search ────────────────────────────────────────── -->
+    <div class="lex-card lex-card--search">
+      <div class="lex-card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="32" height="32">
+          <circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="m20 20-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="lex-card__body">
+        <h2 class="lex-card__title">البحث</h2>
+        <p class="lex-card__sub">ابحث عن جذر ثلاثيّ أو عن كلمة في النصّ</p>
+
+        <form class="lex-search" (ngSubmit)="submit()" role="search">
+          <div class="lex-search__modes" role="tablist" aria-label="نوع البحث">
+            <button
+              type="button"
+              role="tab"
+              [attr.aria-selected]="searchMode() === 'root'"
+              [class.active]="searchMode() === 'root'"
+              (click)="setMode('root')"
+            >جذر</button>
+            <button
+              type="button"
+              role="tab"
+              [attr.aria-selected]="searchMode() === 'word'"
+              [class.active]="searchMode() === 'word'"
+              (click)="setMode('word')"
+            >كلمة</button>
+          </div>
+
+          <label class="lex-search__input">
+            <input
+              #searchInput
+              type="search"
+              [ngModel]="query()"
+              (ngModelChange)="query.set($event)"
+              name="q"
+              [placeholder]="searchMode() === 'root' ? 'مثال: كتب' : 'مثال: علم'"
+              autocomplete="off"
+              inputmode="search"
+              dir="rtl"
+            />
+            <button type="submit" class="lex-search__go" aria-label="ابحث">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                <circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="m20 20-4.5-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </label>
+        </form>
+
+        <div class="lex-quick">
+          <span class="lex-quick__label">جذور سريعة:</span>
+          <ul class="lex-quick__chips">
+            @for (r of quickRoots; track r) {
+              <li>
+                <button type="button" (click)="quickPick(r)">{{ r }}</button>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (!sourcesLoading()) {
+    <footer class="lex-home__stats">
+      <span class="stat">
+        <span class="stat__n">{{ sources().length }}</span>
+        <span class="stat__label">معجمًا</span>
+      </span>
+      <span class="stat">
+        <span class="stat__n">{{ totalRoots() | number }}</span>
+        <span class="stat__label">جذرًا متاحًا</span>
+      </span>
+    </footer>
+  }
+</section>
