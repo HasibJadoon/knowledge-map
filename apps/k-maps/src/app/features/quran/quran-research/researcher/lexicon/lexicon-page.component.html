@@ -109,5 +109,56 @@
     } @else if (!searching()) {
       <p class="lx-empty">لا توجد نتائج لهذا الجذر في المعاجم المتاحة</p>
     }
+
+    <!-- ── Academic readings (epigraphic / archaeological / etc.) ──── -->
+    @if (scholarship().length) {
+      <section class="lx-scholarship">
+        <header class="lx-scholarship__head">
+          <h3 class="lx-scholarship__title">قراءات أكاديمية</h3>
+          <span class="lx-scholarship__sub" dir="ltr">Academic readings</span>
+          <span class="lx-scholarship__count">{{ scholarship().length }}</span>
+        </header>
+
+        <ul class="lx-scholarship__list">
+          @for (n of scholarship(); track n.id) {
+            <li class="lx-note" [attr.data-genre]="n.source.genre">
+              <header class="lx-note__head">
+                <span class="lx-note__genre" [attr.data-genre]="n.source.genre"
+                      [title]="n.reading_label.en">
+                  {{ n.reading_label.ar }}
+                </span>
+                <span class="lx-note__source">
+                  <span class="lx-note__author">{{ n.source.author }}</span>
+                  @if (n.source.year) {
+                    <span class="lx-note__year">({{ n.source.year }})</span>
+                  }
+                </span>
+                @if (n.page_no || n.page_range) {
+                  <span class="lx-note__page">ص {{ n.page_range || n.page_no }}</span>
+                }
+              </header>
+
+              <p class="lx-note__source-title">
+                <span dir="rtl">{{ n.source.title_ar || n.source.title_en }}</span>
+                @if (n.source.title_ar && n.source.title_en) {
+                  <span class="lx-note__source-title-en" dir="ltr">{{ n.source.title_en }}</span>
+                }
+              </p>
+
+              @if (n.body_md || n.body_plain) {
+                <p class="lx-note__body" dir="ltr">{{ n.body_md || n.body_plain }}</p>
+              }
+
+              @if (n.title_en || n.title_ar) {
+                <p class="lx-note__subtitle">
+                  @if (n.title_ar) { <span dir="rtl">{{ n.title_ar }}</span> }
+                  @if (n.title_en) { <span dir="ltr">{{ n.title_en }}</span> }
+                </p>
+              }
+            </li>
+          }
+        </ul>
+      </section>
+    }
   }
 </div>

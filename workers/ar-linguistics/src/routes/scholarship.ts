@@ -1,0 +1,174 @@
+// ─── /al/scholarship/* — academic notes on Arabic roots & vocabulary ────────
+//
+// Distinct from the classical lexicon corpus (Lane, Lisan, Sihah, …).
+// Holds modern academic readings: epigraphic, comparative-Semitic,
+// archaeological, philological, etc. Backed by `ar_ling_root_scholarship`
+// and `ar_ling_vocab_scholarship` (see migration 0015).
+
+import type { Router } from '../../../shared/src/router';
+import { ok, badRequest } from '../../../shared/src/response';
+import type { ArLinguisticsEnv } from '../env';
+
+// ── Source metadata for known scholarship sources. Adding new sources
+//    here surfaces them in the catalog with proper titles & authors.
+const SCHOLARSHIP_META: Record<string, {
+  title_ar: string;
+  title_en: string;
+  author:   string;
+  year:     number | null;
+  genre:    string;
+  url:      string | null;
+}> = {
+  'SRC:ALJ:2026:EXCQRN': {
+    title_ar: 'الحفر في القرآن',
+    title_en: 'Excavating the Quran: Towards an Archaeological Hermeneutic',
+    author:   'Ahmad Al-Jallad',
+    year:     2026,
+    genre:    'qur_anic_hermeneutic',
+    url:      null,
+  },
+};
+
+const GENRE_LABELS: Record<string, { ar: string; en: string }> = {
+  qur_anic_hermeneutic: { ar: 'تأويل قرآني',           en: "Qur'ānic Hermeneutic"        },
+  epigraphic:           { ar: 'نقوش',                    en: 'Epigraphic'                  },
+  archaeological:       { ar: 'أركيولوجي',               en: 'Archaeological'              },
+  comparative_semitic:  { ar: 'مقارن (سامي)',            en: 'Comparative Semitic'         },
+  philological:         { ar: 'فقه اللغة',               en: 'Philological'                },
+  historical_phonology: { ar: 'صوتيات تاريخية',          en: 'Historical Phonology'        },
+  etymological:         { ar: 'اشتقاقي',                 en: 'Etymological'                },
+  general:              { ar: 'عام',                     en: 'General'                     },
+};
+
+// Response types ────────────────────────────────────────────────────────────
+
+interface ScholarshipSource {
+  id:       string;
+  title_ar: string;
+  title_en: string;
+  author:   string;
+  year:     number | null;
+  genre:    string;
+  genre_label: { ar: string; en: string };
+  url:      string | null;
+  count:    number;        // entries for this source
+}
+
+interface ScholarshipNote {
+  id:           string;
+  source_id:    string;
+  source:       ScholarshipSource;
+  root_norm:    string;
+  root_text:    string | null;
+  reading_kind: string;
+  reading_label:{ ar: string; en: string };
+  title_en:     string | null;
+  title_ar:     string | null;
+  body_md:      string | null;
+  body_plain:   string | null;
+  page_no:      number | null;
+  page_range:   string | null;
+  section_label:string | null;
+}
+
+function srcMeta(id: string): {
+  title_ar: string; title_en: string; author: string;
+  year: number | null; genre: string; url: string | null;
+} {
+  return SCHOLARSHIP_META[id] ?? {
+    title_ar: id, title_en: id, author: '', year: null, genre: 'general', url: null,
+  };
+}
+
+function genreLabel(genre: string) {
+  return GENRE_LABELS[genre] ?? { ar: genre, en: genre };
+}
+
+export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
+
+  // ── GET /al/scholarship/sources ─────────────────────────────────────
+  // List all academic sources with at least one root-note. Used by UI
+  // to render a separate "Academic readings" catalog.
+  router.get('/al/scholarship/sources', async (_req, env) => {
+    const rows = (await env.DB_AL.prepare(
+      `SELECT source_id, COUNT(*) AS count
+       FROM ar_ling_root_scholarship
+       GROUP BY source_id
+       ORDER BY count DESC`,
+    ).all<{ source_id: string; count: number }>()).results ?? [];
+
+    const sources: ScholarshipSource[] = rows.map(r => {
+      const m = srcMeta(r.source_id);
+      return {
+        id:          r.source_id,
+        ...m,
+        genre_label: genreLabel(m.genre),
+        count:       Number(r.count),
+      };
+    });
+
+    return ok({ sources, total: sources.length });
+  });
+
+  // ── GET /al/scholarship/root/:root_norm ─────────────────────────────
+  // All academic notes for a given root, with source metadata expanded.
+  router.get('/al/scholarship/root/:root_norm', async (_req, env, params) => {
+    const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
+    if (!root_norm) return badRequest('root_norm required');
+
+    const rows = (await env.DB_AL.prepare(
+      `SELECT id, source_id, source_slug, root_norm, root_text,
+              reading_kind, title_en, title_ar,
+              body_md, body_plain, page_no, page_range, section_label
+       FROM ar_ling_root_scholarship
+       WHERE root_norm = ?
+       ORDER BY source_id, page_no`,
+    ).bind(root_norm).all<any>()).results ?? [];
+
+    // Pre-compute per-source counts so each note can carry its source row.
+    const counts = new Map<string, number>();
+    for (const r of rows) counts.set(r.source_id, (counts.get(r.source_id) ?? 0) + 1);
+
+    const notes: ScholarshipNote[] = rows.map(r => {
+      const meta = srcMeta(r.source_id);
+      const source: ScholarshipSource = {
+        id:          r.source_id,
+        ...meta,
+        genre_label: genreLabel(meta.genre),
+        count:       counts.get(r.source_id) ?? 0,
+      };
+      return {
+        id:            r.id,
+        source_id:     r.source_id,
+        source,
+        root_norm:     r.root_norm,
+        root_text:     r.root_text ?? null,
+        reading_kind:  r.reading_kind ?? 'general',
+        reading_label: genreLabel(r.reading_kind ?? 'general'),
+        title_en:      r.title_en ?? null,
+        title_ar:      r.title_ar ?? null,
+        body_md:       r.body_md ?? null,
+        body_plain:    r.body_plain ?? null,
+        page_no:       r.page_no ?? null,
+        page_range:    r.page_range ?? null,
+        section_label: r.section_label ?? null,
+      };
+    });
+
+    return ok({ root_norm, notes, total: notes.length });
+  });
+
+  // ── GET /al/scholarship/has/:root_norm ──────────────────────────────
+  // Lightweight existence check — used by the hub to decide whether to
+  // render the "Academic readings" section at all.
+  router.get('/al/scholarship/has/:root_norm', async (_req, env, params) => {
+    const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
+    if (!root_norm) return badRequest('root_norm required');
+
+    const row = await env.DB_AL.prepare(
+      `SELECT COUNT(*) AS n FROM ar_ling_root_scholarship WHERE root_norm = ?`,
+    ).bind(root_norm).first<{ n: number }>();
+
+    return ok({ root_norm, count: Number(row?.n ?? 0) });
+  });
+}

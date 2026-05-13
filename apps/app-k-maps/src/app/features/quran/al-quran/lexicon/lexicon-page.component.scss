@@ -310,6 +310,135 @@
   &--lane &__cta { color: var(--quran); }
 }
 
+// ─── Academic readings (scholarship) section ──────────────────────────
+
+.lx-scholarship {
+  margin-top: 0.8rem;
+  padding: 0.85rem 0.85rem 0.75rem;
+  border: 1px solid rgba(214, 138, 74, 0.20);
+  border-radius: 12px;
+  background:
+    linear-gradient(155deg, rgba(214,138,74,0.06), rgba(255,255,255,0.01));
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px dashed rgba(214, 138, 74, 0.22);
+  }
+  &__title {
+    margin: 0;
+    color: #d68a4a;
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+  &__sub {
+    color: var(--ink-faint);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  &__count {
+    margin-inline-start: auto;
+    padding: 0.10rem 0.5rem;
+    border: 1px solid rgba(214,138,74, 0.30);
+    border-radius: 999px;
+    background: rgba(214,138,74, 0.10);
+    color: #d68a4a;
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
+  }
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+}
+
+.lx-note {
+  padding: 0.75rem 0.8rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.22);
+  color: var(--ink);
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.25rem;
+  }
+  &__genre {
+    padding: 0.08rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.70rem;
+    font-weight: 600;
+    border: 1px solid currentColor;
+    color: #d68a4a;
+    background: rgba(214,138,74, 0.08);
+    font-family: var(--km-font-arabic-ui, serif);
+
+    &[data-genre='epigraphic']           { color: #b6c98a; background: rgba(182,201,138, 0.10); }
+    &[data-genre='archaeological']       { color: #d68a4a; background: rgba(214,138,74, 0.10); }
+    &[data-genre='comparative_semitic']  { color: #92bee1; background: rgba(146,190,225, 0.10); }
+    &[data-genre='philological']         { color: #c8a04a; background: rgba(200,160,74, 0.10); }
+    &[data-genre='historical_phonology'] { color: #a89f87; background: rgba(168,159,135, 0.10); }
+    &[data-genre='qur_anic_hermeneutic'] { color: #a9d28a; background: rgba(169,210,138, 0.10); }
+  }
+  &__source {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+  }
+  &__author { font-weight: 600; color: var(--ink); }
+  &__year   { color: var(--ink-faint); font-size: 0.74rem; }
+  &__page   {
+    margin-inline-start: auto;
+    color: var(--ink-faint);
+    font-size: 0.72rem;
+    font-family: var(--km-font-arabic-ui, serif);
+  }
+
+  &__source-title {
+    margin: 0.12rem 0 0.3rem;
+    color: var(--gold-soft);
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  &__source-title-en {
+    color: var(--ink-faint);
+    font-size: 0.72rem;
+    margin-inline-start: 0.4rem;
+    font-style: italic;
+  }
+  &__body {
+    margin: 0 0 0.25rem;
+    color: var(--ink);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    text-align: justify;
+  }
+  &__subtitle {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+}
+
 // ─── Empty state ───────────────────────────────────────────────────────
 
 .lx-empty {

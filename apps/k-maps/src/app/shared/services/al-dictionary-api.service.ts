@@ -214,6 +214,19 @@ export class AlDictionaryApiService {
     if (opts.limit) p = p.set('limit', String(opts.limit));
     return this.api.getData<LexV2SearchResult>('al', ['lex', 'v2', 'search'], { params: p });
   }
+
+  // ── Academic scholarship (Al-Jallad, epigraphic, comparative-Semitic) ──
+  // Lives in `ar_ling_root_scholarship` — distinct from the classical
+  // lexicon corpus. Surfaced on the hub as an "Academic readings"
+  // section, beside the classical lit-up cards.
+  getScholarshipSources(): Observable<{ sources: ScholarshipSource[]; total: number }> {
+    return this.api.getData('al', ['scholarship', 'sources']);
+  }
+  getRootScholarship(root_norm: string): Observable<RootScholarshipResult> {
+    return this.api.getData<RootScholarshipResult>(
+      'al', ['scholarship', 'root', root_norm],
+    );
+  }
 }
 
 // ─── v2 result types ─────────────────────────────────────────────────────────
@@ -619,4 +632,41 @@ export interface LaneReadView {
     quran_citations: number;
     cross_refs: number;
   };
+}
+
+// ─── Scholarship — academic notes on roots (Al-Jallad et al.) ────────────────
+
+export interface ScholarshipSource {
+  id:          string;
+  title_ar:    string;
+  title_en:    string;
+  author:      string;
+  year:        number | null;
+  genre:       string;                         // qur_anic_hermeneutic | epigraphic | …
+  genre_label: { ar: string; en: string };
+  url:         string | null;
+  count:       number;
+}
+
+export interface ScholarshipNote {
+  id:            string;
+  source_id:     string;
+  source:        ScholarshipSource;
+  root_norm:     string;
+  root_text:     string | null;
+  reading_kind:  string;
+  reading_label: { ar: string; en: string };
+  title_en:      string | null;
+  title_ar:      string | null;
+  body_md:       string | null;
+  body_plain:    string | null;
+  page_no:       number | null;
+  page_range:    string | null;
+  section_label: string | null;
+}
+
+export interface RootScholarshipResult {
+  root_norm: string;
+  notes:     ScholarshipNote[];
+  total:     number;
 }

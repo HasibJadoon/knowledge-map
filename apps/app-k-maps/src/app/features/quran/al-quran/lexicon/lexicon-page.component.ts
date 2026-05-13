@@ -10,7 +10,7 @@ import {
 } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  AlDictionaryApiService, AlDictSource,
+  AlDictionaryApiService, AlDictSource, ScholarshipNote,
 } from '../../../../shared/services/al-dictionary-api.service';
 import { QuranResearchSearchService } from '../quran-research-search.service';
 
@@ -47,6 +47,7 @@ export class LexiconPageComponent implements OnInit {
   readonly searching      = signal(false);
   readonly rootMeta       = signal<RootMeta | null>(null);
   readonly hitsBySlug     = signal<Map<string, SourceHit>>(new Map());
+  readonly scholarship    = signal<ScholarshipNote[]>([]);
 
   readonly quickRoots = ['كتب', 'علم', 'قرأ', 'رحم', 'حمد', 'أمن', 'نزل', 'خلق'];
 
@@ -74,21 +75,30 @@ export class LexiconPageComponent implements OnInit {
         if (!t) {
           this.rootMeta.set(null);
           this.hitsBySlug.set(new Map());
+          this.scholarship.set([]);
           this.searching.set(false);
           return of(null);
         }
         this.searching.set(true);
         return forkJoin({
-          structured: this.api.getStructuredRootEntries(t).pipe(catchError(() => of(null))),
-          dict:       this.api.getRootEntries(t, 20).pipe(catchError(() => of(null))),
+          structured:  this.api.getStructuredRootEntries(t).pipe(catchError(() => of(null))),
+          dict:        this.api.getRootEntries(t, 20).pipe(catchError(() => of(null))),
+          scholarship: this.api.getRootScholarship(t).pipe(
+            catchError(() => of({ root_norm: t, notes: [], total: 0 })),
+          ),
         }).pipe(map(res => ({ ...res, q: t })));
       }),
       takeUntilDestroyed(),
     ).subscribe(res => {
       this.searching.set(false);
-      if (!res) { this.hitsBySlug.set(new Map()); return; }
+      if (!res) {
+        this.hitsBySlug.set(new Map());
+        this.scholarship.set([]);
+        return;
+      }
 
-      const { structured, dict, q } = res;
+      const { structured, dict, scholarship, q } = res;
+      this.scholarship.set(scholarship?.notes ?? []);
 
       if (dict) {
         this.rootMeta.set({

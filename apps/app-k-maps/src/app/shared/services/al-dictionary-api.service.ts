@@ -135,4 +135,50 @@ export class AlDictionaryApiService {
     const params = new HttpParams().set('limit', String(limit));
     return this.api.getData<LaneTableResult>('al', ['lexicon', 'entries', 'lane', root], { params });
   }
+
+  // ── Academic scholarship on roots (Al-Jallad et al.) ──────────────────
+  // Separate from the classical lexicon corpus; surfaced as a distinct
+  // "Academic readings" section on the lexicon hub.
+  getRootScholarship(root: string): Observable<RootScholarshipResult> {
+    return this.api.getData<RootScholarshipResult>(
+      'al', ['scholarship', 'root', root],
+    );
+  }
+}
+
+// ─── Scholarship types ───────────────────────────────────────────────────────
+
+export interface ScholarshipSource {
+  id:          string;
+  title_ar:    string;
+  title_en:    string;
+  author:      string;
+  year:        number | null;
+  genre:       string;
+  genre_label: { ar: string; en: string };
+  url:         string | null;
+  count:       number;
+}
+
+export interface ScholarshipNote {
+  id:            string;
+  source_id:     string;
+  source:        ScholarshipSource;
+  root_norm:     string;
+  root_text:     string | null;
+  reading_kind:  string;
+  reading_label: { ar: string; en: string };
+  title_en:      string | null;
+  title_ar:      string | null;
+  body_md:       string | null;
+  body_plain:    string | null;
+  page_no:       number | null;
+  page_range:    string | null;
+  section_label: string | null;
+}
+
+export interface RootScholarshipResult {
+  root_norm: string;
+  notes:     ScholarshipNote[];
+  total:     number;
 }
