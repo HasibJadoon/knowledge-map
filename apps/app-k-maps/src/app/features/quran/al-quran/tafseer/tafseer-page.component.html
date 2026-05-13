@@ -30,7 +30,7 @@
           </select>
           <select class="rp-verse-nav__sel" (change)="goToAyahNum(+$any($event.target).value)" [disabled]="!ayahGroups().length">
             @for (g of ayahGroups(); track g.ayah) {
-              <option [value]="g.ayah" [selected]="currentGroup()?.ayah === g.ayah">آية {{ g.ayah }}</option>
+              <option [value]="g.ayah" [selected]="currentGroup().ayah === g.ayah">آية {{ g.ayah }}</option>
             }
           </select>
           <span class="rp-verse-nav__total">{{ currentAyahIdx() + 1 }} / {{ ayahGroups().length }}</span>

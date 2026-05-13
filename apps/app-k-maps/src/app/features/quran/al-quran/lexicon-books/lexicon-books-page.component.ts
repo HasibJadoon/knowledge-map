@@ -14,6 +14,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AlDictionaryApiService, AlDictSource, ScholarshipSource,
 } from '../../../../shared/services/al-dictionary-api.service';
+import { BookSourceModalComponent } from '../book-source-modal/book-source-modal.component';
 
 interface BookCard {
   kind:     'lexicon' | 'scholarship';
@@ -28,10 +29,12 @@ interface BookCard {
   year?:    number | null;
 }
 
+type Filter = 'all' | 'lexicon' | 'scholarship';
+
 @Component({
   selector: 'app-lexicon-books-page',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, BookSourceModalComponent],
   templateUrl: './lexicon-books-page.component.html',
   styleUrl: './lexicon-books-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,9 +45,19 @@ export class LexiconBooksPageComponent {
 
   readonly books = signal<BookCard[]>([]);
   readonly loading = signal(true);
+  readonly filter = signal<Filter>('all');
+
+  // Tapped card lives here while the modal is open; null closes the modal.
+  readonly openedBook = signal<BookCard | null>(null);
 
   readonly lexiconCount     = computed(() => this.books().filter(b => b.kind === 'lexicon').length);
   readonly scholarshipCount = computed(() => this.books().filter(b => b.kind === 'scholarship').length);
+
+  readonly filteredBooks = computed(() => {
+    const f = this.filter();
+    if (f === 'all') return this.books();
+    return this.books().filter(b => b.kind === f);
+  });
 
   constructor() {
     forkJoin({
@@ -87,19 +100,31 @@ export class LexiconBooksPageComponent {
     });
   }
 
-  goBack(): void { this.router.navigate(['/quran/al-quran/lexicon']); }
+  goBack(): void {
+    // Blur the active element first so Ionic doesn't aria-hide a focused
+    // descendant when transitioning back to the hub.
+    const active = document.activeElement as HTMLElement | null;
+    active?.blur?.();
+    this.router.navigate(['/quran/al-quran/lexicon']);
+  }
 
-  /** Open a source. Lane → existing rich mobile page. Other classical
-   *  and scholarship sources currently fall through to the same Lane
-   *  page with `?source=<slug>` so the slug is preserved end-to-end
-   *  for future per-source mobile shells. */
+  /** Set the active filter tab. */
+  setFilter(f: Filter): void { this.filter.set(f); }
+
+  /** Open a source. Lane has a dedicated rich mobile page; everything
+   *  else opens in the in-page Ionic modal (BookSourceModal) so the
+   *  reader stays on this catalog screen and can hop between sources
+   *  without losing context. */
   openBook(b: BookCard): void {
+    const active = document.activeElement as HTMLElement | null;
+    active?.blur?.();
+
     if (b.slug === 'lane_lexicon' || b.slug === 'lane_quranic_research_perseus') {
       this.router.navigate(['/quran/al-quran/lane-lexicon']);
       return;
     }
-    this.router.navigate(['/quran/al-quran/lane-lexicon'], {
-      queryParams: { source: b.slug },
-    });
+    this.openedBook.set(b);
   }
+
+  closeBook(): void { this.openedBook.set(null); }
 }

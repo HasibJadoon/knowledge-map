@@ -53,6 +53,27 @@
   p  { margin: 0.2rem 0 0; color: var(--ink-soft); font-size: 0.82rem; }
 }
 
+.lxb-filter {
+  margin: 0.35rem 0 0;
+  --background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 2px;
+  width: 100%;
+  max-width: 360px;
+  ion-segment-button {
+    --color:          var(--ink-soft);
+    --color-checked:  var(--gold);
+    --indicator-color: rgba(232, 201, 106, 0.12);
+    --indicator-height: 100%;
+    --indicator-border-radius: 999px;
+    text-transform: none;
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 0.88rem;
+    min-height: 32px;
+  }
+}
+
 .lxb-muted { color: var(--ink-faint); text-align: center; padding: 1.4rem; }
 
 .lxb-list {

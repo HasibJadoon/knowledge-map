@@ -10,13 +10,20 @@
         <h1>المكتبة</h1>
         <p>{{ books().length }} مصدرًا · {{ lexiconCount() }} معجمًا · {{ scholarshipCount() }} قراءة أكاديمية</p>
       </div>
+
+      <!-- Filter tabs: All / Lexicons / Academic -->
+      <ion-segment class="lxb-filter" [value]="filter()" (ionChange)="setFilter($any($event.detail.value))" mode="md" dir="rtl">
+        <ion-segment-button value="all"><ion-label>الكل</ion-label></ion-segment-button>
+        <ion-segment-button value="lexicon"><ion-label>المعاجم</ion-label></ion-segment-button>
+        <ion-segment-button value="scholarship"><ion-label>أكاديمي</ion-label></ion-segment-button>
+      </ion-segment>
     </header>
 
     @if (loading()) {
       <p class="lxb-muted">…</p>
     } @else {
       <ul class="lxb-list">
-        @for (b of books(); track b.slug) {
+        @for (b of filteredBooks(); track b.slug) {
           <li>
             <button class="lxb-card"
                     [class.lxb-card--academic]="b.kind === 'scholarship'"
@@ -48,4 +55,9 @@
     }
 
   </section>
+
+  <!-- Source modal — opens when a card is tapped. Tabs (Roots / Content
+       / Source) mirror the desktop shell rails inside a phone-friendly
+       sheet that slides up to 96% height. -->
+  <app-book-source-modal [book]="openedBook()" (closed)="closeBook()" />
 </ion-content>

@@ -148,6 +148,16 @@ export class AlDictionaryApiService {
   getScholarshipSources(): Observable<{ sources: ScholarshipSource[]; total: number }> {
     return this.api.getData('al', ['scholarship', 'sources']);
   }
+  /** Root index for one academic source — drives the modal's Roots tab. */
+  getScholarshipRoots(slug: string): Observable<{ slug: string; rows: ScholarshipRootRow[]; total: number }> {
+    return this.api.getData('al', ['scholarship', 'roots', slug]);
+  }
+  /** All notes for a (source, root) pair — drives the modal's Content tab. */
+  getScholarshipBySource(slug: string, root_norm: string): Observable<ScholarshipShellView> {
+    return this.api.getData<ScholarshipShellView>(
+      'al', ['scholarship', 'by-source', slug, root_norm],
+    );
+  }
 }
 
 // ─── Scholarship types ───────────────────────────────────────────────────────
@@ -184,6 +194,21 @@ export interface ScholarshipNote {
 
 export interface RootScholarshipResult {
   root_norm: string;
+  notes:     ScholarshipNote[];
+  total:     number;
+}
+
+export interface ScholarshipRootRow {
+  root_norm: string;
+  root_text: string | null;
+  page_no:   number | null;
+  n:         number;
+}
+
+export interface ScholarshipShellView {
+  slug:      string;
+  root_norm: string;
+  source:    ScholarshipSource | null;
   notes:     ScholarshipNote[];
   total:     number;
 }
