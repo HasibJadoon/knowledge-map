@@ -42,8 +42,16 @@ export class LexiconPageComponent implements OnInit {
   private readonly router       = inject(Router);
   private readonly searchSvc    = inject(QuranResearchSearchService);
 
-  readonly sources        = signal<AlDictSource[]>([]);
-  readonly sourcesLoading = signal(true);
+  readonly sources               = signal<AlDictSource[]>([]);
+  readonly scholarshipSourceCount = signal(0);
+  readonly sourcesLoading         = signal(true);
+
+  // Books-card label: include scholarship sources in the total so it
+  // matches what the books-listing actually shows (10 lexicons + 1
+  // academic = 11 today).
+  readonly totalSourceCount = computed(
+    () => this.sources().length + this.scholarshipSourceCount(),
+  );
   readonly searching      = signal(false);
   readonly rootMeta       = signal<RootMeta | null>(null);
   readonly hitsBySlug     = signal<Map<string, SourceHit>>(new Map());
@@ -199,6 +207,12 @@ export class LexiconPageComponent implements OnInit {
       next: res => { this.sources.set(res.sources); this.sourcesLoading.set(false); },
       error: () => this.sourcesLoading.set(false),
     });
+    // Count academic sources separately so the Books card label can
+    // surface the total (11 = 10 lexicons + 1 academic today).
+    this.api.getScholarshipSources().subscribe({
+      next: res => this.scholarshipSourceCount.set(res.sources.length),
+      error: () => {},
+    });
     // Pick up any pre-existing search term (shared across tabs).
     const initial = this.searchSvc.searchTerm();
     if (initial) this.search$.next(initial);
@@ -216,9 +230,9 @@ export class LexiconPageComponent implements OnInit {
   clearSearch(): void { this.setSearch(''); }
 
   // ── Navigation ──────────────────────────────────────────────────────
-  /** Card 1: open the books catalog (mobile mirror of /lexicon/books). */
+  /** Card 1: open the full library catalog (all 11 sources). */
   openBooks(): void {
-    this.router.navigate(['/quran/al-quran/lane-lexicon']);
+    this.router.navigate(['/quran/al-quran/lexicon/books']);
   }
   /** Hit card: open the matching source for the entered root. Lane has a
    *  rich mobile page; other sources fall through to the same Lane-style

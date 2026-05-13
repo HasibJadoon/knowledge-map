@@ -10,10 +10,10 @@
           <ion-icon name="library-outline"></ion-icon>
         </span>
         <h2 class="lx-hub-card__title">المكتبة</h2>
-        <p class="lx-hub-card__sub">تصفّح المعاجم الكلاسيكية</p>
+        <p class="lx-hub-card__sub">تصفّح المعاجم والقراءات الأكاديمية</p>
         @if (!sourcesLoading()) {
           <span class="lx-hub-card__cta">
-            <span>{{ sources().length }} معجمًا</span>
+            <span>{{ totalSourceCount() }} مصدرًا</span>
             <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
           </span>
         }

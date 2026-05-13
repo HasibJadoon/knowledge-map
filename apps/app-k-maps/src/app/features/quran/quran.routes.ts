@@ -39,6 +39,12 @@ export const QURAN_ROUTES: Routes = [
           import('./al-quran/lexicon/lexicon-page.component').then(m => m.LexiconPageComponent),
       },
       {
+        // Full library catalog (all 11 sources). Mirrors desktop /lexicon/books.
+        path: 'lexicon/books',
+        loadComponent: () =>
+          import('./al-quran/lexicon-books/lexicon-books-page.component').then(m => m.LexiconBooksPageComponent),
+      },
+      {
         path: 'notes',
         loadComponent: () =>
           import('./al-quran/notes/notes-page.component').then(m => m.NotesPageComponent),

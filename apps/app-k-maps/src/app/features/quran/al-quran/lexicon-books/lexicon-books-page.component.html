@@ -1,0 +1,48 @@
+<ion-content class="lxb-content" [fullscreen]="false">
+  <section class="lxb-page" dir="rtl">
+
+    <header class="lxb-head">
+      <button class="lxb-back" type="button" (click)="goBack()">
+        <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
+        <span>الرجوع</span>
+      </button>
+      <div class="lxb-head__title">
+        <h1>المكتبة</h1>
+        <p>{{ books().length }} مصدرًا · {{ lexiconCount() }} معجمًا · {{ scholarshipCount() }} قراءة أكاديمية</p>
+      </div>
+    </header>
+
+    @if (loading()) {
+      <p class="lxb-muted">…</p>
+    } @else {
+      <ul class="lxb-list">
+        @for (b of books(); track b.slug) {
+          <li>
+            <button class="lxb-card"
+                    [class.lxb-card--academic]="b.kind === 'scholarship'"
+                    [attr.data-genre]="b.genre"
+                    type="button"
+                    (click)="openBook(b)">
+              @if (b.kind === 'scholarship') {
+                <span class="lxb-card__badge">أكاديمي · {{ b.genre_ar || 'Academic' }}</span>
+              }
+              <h2 class="lxb-card__title">{{ b.title_ar }}</h2>
+              <p class="lxb-card__author">{{ b.author }}{{ b.year ? ' · ' + b.year : '' }}</p>
+              @if (b.period) {
+                <p class="lxb-card__period">{{ b.period }}</p>
+              }
+              <p class="lxb-card__stats">
+                @if (b.kind === 'scholarship') {
+                  {{ b.roots | number }} قراءة
+                } @else {
+                  {{ b.roots | number }} جذرًا
+                }
+              </p>
+            </button>
+          </li>
+        }
+      </ul>
+    }
+
+  </section>
+</ion-content>

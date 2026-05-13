@@ -144,12 +144,17 @@ export class AlDictionaryApiService {
       'al', ['scholarship', 'root', root],
     );
   }
+  /** Catalog of academic sources (for the mobile books-listing). */
+  getScholarshipSources(): Observable<{ sources: ScholarshipSource[]; total: number }> {
+    return this.api.getData('al', ['scholarship', 'sources']);
+  }
 }
 
 // ─── Scholarship types ───────────────────────────────────────────────────────
 
 export interface ScholarshipSource {
   id:          string;
+  slug:        string | null;          // url-safe slug for routing
   title_ar:    string;
   title_en:    string;
   author:      string;

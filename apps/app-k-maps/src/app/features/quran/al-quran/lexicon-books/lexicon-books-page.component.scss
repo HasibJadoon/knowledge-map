@@ -1,0 +1,122 @@
+// Mobile books library — single-column-friendly grid that flexes to 2-col
+// on tablet widths. Mirrors the desktop /lexicon/books palette but with
+// Ionic content background + safe-area padding.
+
+:host {
+  --ink:        #f5f1e7;
+  --ink-soft:   rgba(245, 241, 231, 0.62);
+  --ink-faint:  rgba(245, 241, 231, 0.36);
+  --gold:       #e8c96a;
+  --rule:       rgba(255, 255, 255, 0.07);
+}
+
+.lxb-content { --background: #050505; }
+
+.lxb-page {
+  padding: 0.85rem 0.85rem calc(2rem + var(--ion-safe-area-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.lxb-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.lxb-back {
+  align-self: flex-start;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--gold);
+  font: inherit;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  &:active { opacity: 0.7; }
+}
+.lxb-head__title {
+  h1 { margin: 0; font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif); font-size: 1.7rem; font-weight: 700; color: var(--ink); }
+  p  { margin: 0.2rem 0 0; color: var(--ink-soft); font-size: 0.82rem; }
+}
+
+.lxb-muted { color: var(--ink-faint); text-align: center; padding: 1.4rem; }
+
+.lxb-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+  @media (min-width: 600px) { grid-template-columns: 1fr 1fr; }
+}
+
+.lxb-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.95rem 0.95rem 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: linear-gradient(155deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  color: var(--ink);
+  text-align: right;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s, border-color 0.15s, background 0.15s;
+  appearance: none;
+  font: inherit;
+
+  &:active {
+    border-color: var(--gold);
+    background: linear-gradient(155deg, rgba(232,201,106,0.10), rgba(255,255,255,0.018));
+  }
+
+  &__title {
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+  &__author { margin: 0; color: var(--ink-soft); font-size: 0.82rem; }
+  &__period { margin: 0; color: var(--ink-faint); font-size: 0.72rem; }
+  &__stats  { margin: 0.2rem 0 0; color: var(--gold); font-weight: 600; font-size: 0.82rem; }
+
+  // Academic / scholarship variant — sepia accent so the kind of source
+  // is recognizable. Mirrors the desktop card styling.
+  &--academic {
+    border-color: rgba(214, 138, 74, 0.32);
+    background: linear-gradient(155deg, rgba(214,138,74,0.08), rgba(255,255,255,0.012));
+    &:active {
+      border-color: #d68a4a;
+      background: linear-gradient(155deg, rgba(214,138,74,0.16), rgba(255,255,255,0.02));
+    }
+    .lxb-card__title { color: #d68a4a; }
+    .lxb-card__stats { color: #d68a4a; }
+
+    &[data-genre='epigraphic']           { border-color: rgba(182,201,138, 0.40); .lxb-card__title { color: #b6c98a; } .lxb-card__stats { color: #b6c98a; } }
+    &[data-genre='qur_anic_hermeneutic'] { border-color: rgba(169,210,138, 0.40); .lxb-card__title { color: #a9d28a; } .lxb-card__stats { color: #a9d28a; } }
+    &[data-genre='comparative_semitic']  { border-color: rgba(146,190,225, 0.40); .lxb-card__title { color: #92bee1; } .lxb-card__stats { color: #92bee1; } }
+  }
+
+  &__badge {
+    position: absolute;
+    top: 0.55rem;
+    inset-inline-start: 0.55rem;
+    padding: 0.1rem 0.45rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    border-radius: 999px;
+    background: rgba(214,138,74, 0.14);
+    color: #d68a4a;
+    border: 1px solid rgba(214,138,74, 0.30);
+    letter-spacing: 0.02em;
+  }
+}
