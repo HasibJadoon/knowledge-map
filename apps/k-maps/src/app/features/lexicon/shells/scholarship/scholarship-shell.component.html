@@ -1,0 +1,209 @@
+<section class="reader" dir="ltr">
+
+  <!-- Toolbar -->
+  <header class="reader__toolbar">
+    <a class="back" [routerLink]="['/lexicon/books']" aria-label="back">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M10 6 16 12 10 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Books</span>
+    </a>
+
+    @if (view()?.source; as s) {
+      <div class="reader__title-block">
+        <h1 class="reader__title">{{ s.title_ar || s.title_en }}</h1>
+        <p class="reader__author">{{ s.author }} @if (s.year) { · {{ s.year }} } · <span class="reader__genre">{{ s.genre_label.en }}</span></p>
+      </div>
+    } @else {
+      <div class="reader__title-block"><h1 class="reader__title muted">…</h1></div>
+    }
+
+    <div class="reader__controls">
+      <button class="ctrl" (click)="prevRoot()" title="Previous root">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M14 6 8 12 14 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <span class="reader__current">
+        @if (currentRoot()) { <span class="ar-display" dir="rtl">{{ currentRoot() }}</span> }
+      </span>
+      <button class="ctrl" (click)="nextRoot()" title="Next root">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M10 6 16 12 10 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      </button>
+      <span class="sep"></span>
+      <button class="ctrl" (click)="changeFont(-1)" title="Smaller">A-</button>
+      <button class="ctrl" (click)="changeFont(+1)" title="Larger">A+</button>
+      <button class="ctrl" (click)="toggleDark()" [class.active]="darkMode()" title="Dark mode">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" fill="currentColor"/></svg>
+      </button>
+      <button class="ctrl ctrl--copy" (click)="copyEntry()"
+              [class.copied]="copyState() === 'copied'"
+              [class.failed]="copyState() === 'failed'"
+              [title]="copyState() === 'copied' ? 'Copied!' : 'Copy entry text'">
+        @if (copyState() === 'copied') {
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        } @else {
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+            <rect x="8" y="3" width="11" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M5 7v12a2 2 0 0 0 2 2h9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+        }
+      </button>
+      <button class="ctrl" (click)="toggleIndex()" [class.active]="showIndex()" title="Root index">⊞</button>
+      <button class="ctrl" (click)="toggleMeta()"  [class.active]="showMeta()"  title="Source info">⊟</button>
+    </div>
+  </header>
+
+  <div class="reader__body">
+
+    <!-- Main content -->
+    <main #content class="content" tabindex="0">
+      @if (loading()) {
+        <div class="loading">
+          <div class="skel skel--heading"></div>
+          <div class="skel skel--line"></div>
+          <div class="skel skel--line"></div>
+        </div>
+      } @else if (error()) {
+        <p class="error">⚠ {{ error() }}</p>
+      } @else if (view(); as v) {
+
+        <header class="entry-head">
+          <h2 class="entry-head__title" dir="rtl">{{ v.notes[0]?.root_text || v.root_norm }}</h2>
+          @if (v.source) {
+            <div class="entry-head__meta">
+              <span>{{ v.source.author }}</span>
+              @if (v.source.year) { <span class="dot">·</span><span>{{ v.source.year }}</span> }
+              <span class="dot">·</span>
+              <span class="badge" [attr.data-genre]="v.source.genre">{{ v.source.genre_label.ar }}</span>
+              @if (v.notes.length > 1) {
+                <span class="dot">·</span>
+                <span>{{ v.notes.length }} قراءات</span>
+              }
+            </div>
+          }
+        </header>
+
+        @if (!v.notes.length) {
+          <p class="muted">لا توجد قراءة لهذا الجذر في هذا المصدر.</p>
+        }
+
+        <article class="scholarship-notes">
+          @for (n of v.notes; track n.id; let i = $index) {
+            <section class="note" [attr.data-genre]="n.source.genre">
+              <header class="note__head">
+                <span class="note__kind" [attr.data-kind]="n.reading_kind">
+                  {{ n.reading_label.ar }}
+                </span>
+                @if (n.page_no || n.page_range) {
+                  <span class="note__page">ص {{ n.page_range || n.page_no }}</span>
+                }
+                @if (n.section_label) {
+                  <span class="note__section">{{ n.section_label }}</span>
+                }
+              </header>
+
+              @if (n.title_ar || n.title_en) {
+                <h3 class="note__title">
+                  @if (n.title_ar) { <span dir="rtl">{{ n.title_ar }}</span> }
+                  @if (n.title_en) { <span dir="ltr" class="note__title-en">{{ n.title_en }}</span> }
+                </h3>
+              }
+
+              @if (n.body_plain || n.body_md) {
+                <p class="note__body" dir="ltr">{{ n.body_plain || n.body_md }}</p>
+              } @else {
+                <p class="note__body note__body--empty"><em>No body text recorded.</em></p>
+              }
+            </section>
+          }
+        </article>
+      } @else {
+        <p class="muted">Pick a root from the index.</p>
+      }
+    </main>
+
+    <!-- Left rail: roots in this source -->
+    <aside #indexRail class="rail rail--index" [class.collapsed]="!showIndex()" aria-label="Roots in this source">
+      <div class="rail__head">
+        <div class="rail__panel-title">
+          <span class="rail__panel-title-dot" aria-hidden="true"></span>
+          <h3>الجذور</h3>
+          <span class="rail__panel-title-count">{{ rootList().length }}</span>
+        </div>
+        <input class="rail__search" type="search"
+               [ngModel]="rootSearch()" (ngModelChange)="rootSearch.set($event)"
+               placeholder="Search roots…" />
+      </div>
+      <div class="rail__scroll">
+        @if (rootListLoading()) { <p class="rail__muted">…</p> }
+        @else if (filteredRoots().length) {
+          <ul class="rail__roots">
+            @for (r of filteredRoots(); track r.root_norm) {
+              <li>
+                <button class="rail__root" [class.active]="r.root_norm === currentRoot()"
+                        (click)="goToRoot(r.root_norm)">
+                  <span class="rail__root-ar" dir="rtl">{{ r.root_text || r.root_norm }}</span>
+                  @if (r.page_no) {
+                    <span class="rail__root-page">p. {{ r.page_no }}</span>
+                  }
+                </button>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="rail__muted">No matches.</p>
+        }
+      </div>
+    </aside>
+
+    <!-- Right rail: source metadata -->
+    <aside #metaRail class="rail rail--meta" [class.collapsed]="!showMeta()" aria-label="Source info">
+      <div class="rail__scroll rail__scroll--meta">
+        @if (view()?.source; as s) {
+          <details class="rail__panel" open>
+            <summary class="rail__h">
+              <span class="rail__h-dot" aria-hidden="true"></span>
+              <span>المصدر / Source</span>
+            </summary>
+            <dl class="meta-list">
+              <div class="meta-list__row">
+                <dt>العنوان</dt>
+                <dd><span dir="rtl">{{ s.title_ar }}</span></dd>
+              </div>
+              <div class="meta-list__row">
+                <dt>Title</dt>
+                <dd><span dir="ltr">{{ s.title_en }}</span></dd>
+              </div>
+              <div class="meta-list__row">
+                <dt>المؤلف</dt>
+                <dd>{{ s.author }}</dd>
+              </div>
+              @if (s.year) {
+                <div class="meta-list__row">
+                  <dt>السنة</dt>
+                  <dd>{{ s.year }}</dd>
+                </div>
+              }
+              <div class="meta-list__row">
+                <dt>النوع</dt>
+                <dd>
+                  <span class="badge" [attr.data-genre]="s.genre">{{ s.genre_label.ar }}</span>
+                  <span class="meta-en"> · {{ s.genre_label.en }}</span>
+                </dd>
+              </div>
+              @if (s.url) {
+                <div class="meta-list__row">
+                  <dt>الرابط</dt>
+                  <dd><a [href]="s.url" target="_blank" rel="noopener">link</a></dd>
+                </div>
+              }
+              <div class="meta-list__row">
+                <dt>عدد الجذور</dt>
+                <dd>{{ s.count }}</dd>
+              </div>
+            </dl>
+          </details>
+        }
+      </div>
+    </aside>
+  </div>
+</section>

@@ -367,83 +367,33 @@
   }
 }
 
-.lx-note {
-  padding: 0.85rem 0.9rem 0.8rem;
-  border: 1px solid var(--rule);
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.22);
-  color: var(--ink);
-
-  &__head {
-    display: flex;
-    align-items: baseline;
-    gap: 0.55rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.3rem;
+// Academic-readings card variant. Inherits .lx-hit-card geometry; just
+// switches the accent palette from gold → saddle so the kind of source
+// is visually distinguished.
+.lx-hit-card--academic {
+  border-color: rgba(214, 138, 74, 0.30);
+  background: linear-gradient(155deg, rgba(214,138,74,0.10), rgba(255,255,255,0.015));
+  &:hover {
+    border-color: #d68a4a;
+    background: linear-gradient(155deg, rgba(214,138,74,0.18), rgba(255,255,255,0.02));
   }
-  &__genre {
-    padding: 0.10rem 0.55rem;
-    border-radius: 6px;
-    font-size: 0.74rem;
-    font-weight: 600;
-    border: 1px solid currentColor;
+  .lx-hit-card__title { color: #d68a4a; }
+  .lx-hit-card__count {
+    border-color: rgba(214,138,74, 0.40);
+    background: rgba(214,138,74, 0.12);
     color: #d68a4a;
-    background: rgba(214,138,74, 0.08);
-    font-family: 'Amiri', serif;
-
-    // Per-genre tinting — keep the saddle palette but shift hue for variety.
-    &[data-genre='epigraphic']           { color: #b6c98a; background: rgba(182,201,138, 0.10); }
-    &[data-genre='archaeological']       { color: #d68a4a; background: rgba(214,138,74, 0.10); }
-    &[data-genre='comparative_semitic']  { color: #92bee1; background: rgba(146,190,225, 0.10); }
-    &[data-genre='philological']         { color: #c8a04a; background: rgba(200,160,74, 0.10); }
-    &[data-genre='historical_phonology'] { color: #a89f87; background: rgba(168,159,135, 0.10); }
-    &[data-genre='qur_anic_hermeneutic'] { color: #a9d28a; background: rgba(169,210,138, 0.10); }
   }
-  &__source {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.35rem;
-    color: var(--ink-soft);
-    font-size: 0.84rem;
-  }
-  &__author { font-weight: 600; color: var(--ink); }
-  &__year   { color: var(--ink-faint); font-size: 0.78rem; }
-  &__page   {
-    margin-inline-start: auto;
-    color: var(--ink-faint);
-    font-size: 0.78rem;
-    font-family: 'Amiri', serif;
+  .lx-hit-card__cta { color: #d68a4a; }
+  .lx-hit-card__genre {
+    color: #d68a4a;
+    font-weight: 600;
   }
 
-  &__source-title {
-    margin: 0.15rem 0 0.35rem;
-    color: var(--gold-soft);
-    font-family: 'Amiri', 'Scheherazade New', serif;
-    font-size: 0.95rem;
-    line-height: 1.45;
-  }
-  &__source-title-en {
-    color: var(--ink-faint);
-    font-size: 0.78rem;
-    margin-inline-start: 0.45rem;
-    font-style: italic;
-  }
-  &__body {
-    margin: 0 0 0.3rem;
-    color: var(--ink);
-    font-size: 0.95rem;
-    line-height: 1.7;
-    text-align: justify;
-  }
-  &__subtitle {
-    margin: 0;
-    color: var(--ink-soft);
-    font-size: 0.85rem;
-    line-height: 1.45;
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
+  // Per-genre subtle border tint
+  &[data-genre='epigraphic']           { border-color: rgba(182,201,138, 0.40); .lx-hit-card__title { color: #b6c98a; } }
+  &[data-genre='archaeological']       { border-color: rgba(214,138,74,  0.40); }
+  &[data-genre='comparative_semitic']  { border-color: rgba(146,190,225, 0.40); .lx-hit-card__title { color: #92bee1; } }
+  &[data-genre='qur_anic_hermeneutic'] { border-color: rgba(169,210,138, 0.40); .lx-hit-card__title { color: #a9d28a; } }
 }
 
 // ─── Empty state ───────────────────────────────────────────────────────

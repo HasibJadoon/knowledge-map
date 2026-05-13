@@ -44,6 +44,7 @@ const GENRE_LABELS: Record<string, { ar: string; en: string }> = {
 
 interface ScholarshipSource {
   id:       string;
+  slug:     string | null;             // url-safe slug for routing
   title_ar: string;
   title_en: string;
   author:   string;
@@ -91,16 +92,19 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
   // to render a separate "Academic readings" catalog.
   router.get('/al/scholarship/sources', async (_req, env) => {
     const rows = (await env.DB_AL.prepare(
-      `SELECT source_id, COUNT(*) AS count
+      `SELECT source_id,
+              MAX(source_slug) AS source_slug,
+              COUNT(*)          AS count
        FROM ar_ling_root_scholarship
        GROUP BY source_id
        ORDER BY count DESC`,
-    ).all<{ source_id: string; count: number }>()).results ?? [];
+    ).all<{ source_id: string; source_slug: string | null; count: number }>()).results ?? [];
 
     const sources: ScholarshipSource[] = rows.map(r => {
       const m = srcMeta(r.source_id);
       return {
         id:          r.source_id,
+        slug:        r.source_slug,
         ...m,
         genre_label: genreLabel(m.genre),
         count:       Number(r.count),
@@ -108,6 +112,72 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
     });
 
     return ok({ sources, total: sources.length });
+  });
+
+  // ── GET /al/scholarship/roots/:slug ─────────────────────────────────
+  // Root index for a single scholarship source — used by the shell's
+  // left-rail to let the reader navigate all roots in that source.
+  router.get('/al/scholarship/roots/:slug', async (_req, env, params) => {
+    const slug = decodeURIComponent(params.slug ?? '').trim();
+    if (!slug) return badRequest('slug required');
+
+    const rows = (await env.DB_AL.prepare(
+      `SELECT root_norm, root_text, page_no, COUNT(*) AS n
+       FROM ar_ling_root_scholarship
+       WHERE source_slug = ?
+       GROUP BY root_norm
+       ORDER BY page_no, root_norm`,
+    ).bind(slug).all<{ root_norm: string; root_text: string | null; page_no: number | null; n: number }>()).results ?? [];
+
+    return ok({ slug, rows, total: rows.length });
+  });
+
+  // ── GET /al/scholarship/by-source/:slug/:root_norm ──────────────────
+  // All notes for a (source, root) pair — the shell's main panel.
+  router.get('/al/scholarship/by-source/:slug/:root_norm', async (_req, env, params) => {
+    const slug = decodeURIComponent(params.slug ?? '').trim();
+    const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
+    if (!slug || !root_norm) return badRequest('slug and root_norm required');
+
+    const rows = (await env.DB_AL.prepare(
+      `SELECT id, source_id, source_slug, root_norm, root_text,
+              reading_kind, title_en, title_ar,
+              body_md, body_plain, page_no, page_range, section_label
+       FROM ar_ling_root_scholarship
+       WHERE source_slug = ? AND root_norm = ?
+       ORDER BY page_no`,
+    ).bind(slug, root_norm).all<any>()).results ?? [];
+
+    if (rows.length === 0) return ok({ slug, root_norm, source: null, notes: [], total: 0 });
+
+    const sourceId = rows[0].source_id as string;
+    const m = srcMeta(sourceId);
+    const source: ScholarshipSource = {
+      id:          sourceId,
+      slug,
+      ...m,
+      genre_label: genreLabel(m.genre),
+      count:       rows.length,
+    };
+
+    const notes: ScholarshipNote[] = rows.map(r => ({
+      id:            r.id,
+      source_id:     r.source_id,
+      source,
+      root_norm:     r.root_norm,
+      root_text:     r.root_text ?? null,
+      reading_kind:  r.reading_kind ?? 'general',
+      reading_label: genreLabel(r.reading_kind ?? 'general'),
+      title_en:      r.title_en ?? null,
+      title_ar:      r.title_ar ?? null,
+      body_md:       r.body_md ?? null,
+      body_plain:    r.body_plain ?? null,
+      page_no:       r.page_no ?? null,
+      page_range:    r.page_range ?? null,
+      section_label: r.section_label ?? null,
+    }));
+
+    return ok({ slug, root_norm, source, notes, total: notes.length });
   });
 
   // ── GET /al/scholarship/root/:root_norm ─────────────────────────────
@@ -133,6 +203,7 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
       const meta = srcMeta(r.source_id);
       const source: ScholarshipSource = {
         id:          r.source_id,
+        slug:        r.source_slug ?? null,
         ...meta,
         genre_label: genreLabel(meta.genre),
         count:       counts.get(r.source_id) ?? 0,

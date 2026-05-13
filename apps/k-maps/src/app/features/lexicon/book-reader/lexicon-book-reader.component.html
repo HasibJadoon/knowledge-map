@@ -7,6 +7,10 @@
 } @else if (isLane()) {
   <!-- Lane: bilingual XML scholar format, verb-form sections, scholarly sigla -->
   <km-lane-shell />
+} @else if (isScholarship()) {
+  <!-- Academic articles: epigraphic / archaeological / comparative-Semitic
+       readings (Al-Jallad, etc.). Distinct table family, sepia accent. -->
+  <km-scholarship-shell />
 } @else if (isClassicalLexicon()) {
   <!-- Single shell for Lisan + al-Sihah + al-Khalil + Maqayis + Ubab + Taj +
        Misbah + Jamharat + Qamus. Composer adapts per source via SOURCE_CONFIGS. -->

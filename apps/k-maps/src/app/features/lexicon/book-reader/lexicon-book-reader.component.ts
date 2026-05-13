@@ -22,6 +22,9 @@ import {
 import {
   LaneShellComponent, LANE_SLUG,
 } from '../shells/lane/lane-shell.component';
+import {
+  ScholarshipShellComponent,
+} from '../shells/scholarship/scholarship-shell.component';
 
 // All slugs served by the classical-lexicon composer (back-end at
 // /al/lex/v2/read/<slug>/...). The Lisan shell renders the 5-panel UI
@@ -50,7 +53,7 @@ interface BlockNode {
 @Component({
   selector: 'km-lexicon-book-reader',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, MufradatReaderComponent, MufradatShellComponent, LexiconShellComponent, LaneShellComponent],
+  imports: [CommonModule, FormsModule, RouterLink, MufradatReaderComponent, MufradatShellComponent, LexiconShellComponent, LaneShellComponent, ScholarshipShellComponent],
   templateUrl: './lexicon-book-reader.component.html',
   styleUrl: './lexicon-book-reader.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -82,8 +85,18 @@ export class LexiconBookReaderComponent {
   // Adding a slug here automatically lights up the rich 5-panel reader
   // (Qur'ān · Footnotes · Hadith · Poetry · Authorities) for that source.
   readonly isClassicalLexicon = computed(() => CLASSICAL_LEXICON_SLUGS.has(this.slug()));
-  readonly isLane     = computed(() => this.slug() === LANE_SLUG);
-  readonly isLisan    = computed(() => this.slug() === LISAN_SLUG);
+  readonly isLane        = computed(() => this.slug() === LANE_SLUG);
+  readonly isLisan       = computed(() => this.slug() === LISAN_SLUG);
+  // Anything that isn't one of the known lexicon shells falls through to
+  // the academic / scholarship reader. This lets the system auto-handle
+  // ANY new academic source (Al-Jallad today, any future scholar)
+  // without code changes — just add rows to `ar_ling_root_scholarship`.
+  readonly isScholarship = computed(() =>
+    !!this.slug() &&
+    !this.isLane()  &&
+    !this.isMufradat() &&
+    !this.isClassicalLexicon(),
+  );
 
   // ── Unified display signals ─────────────────────────────────────────
   // Each per-source view (currently Mufradat; Lisan + others to follow)

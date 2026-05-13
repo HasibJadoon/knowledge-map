@@ -361,82 +361,27 @@
   }
 }
 
-.lx-note {
-  padding: 0.75rem 0.8rem 0.7rem;
-  border: 1px solid var(--rule);
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.22);
-  color: var(--ink);
-
-  &__head {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.25rem;
+// Academic-readings card variant — sepia accent so the kind of source
+// is recognized vs the gold lexicon cards above.
+.lx-hit-card--academic {
+  border-color: rgba(214, 138, 74, 0.30);
+  background: linear-gradient(155deg, rgba(214,138,74,0.10), rgba(255,255,255,0.015));
+  &:active {
+    border-color: #d68a4a;
+    background: linear-gradient(155deg, rgba(214,138,74,0.18), rgba(255,255,255,0.02));
   }
-  &__genre {
-    padding: 0.08rem 0.5rem;
-    border-radius: 6px;
-    font-size: 0.70rem;
-    font-weight: 600;
-    border: 1px solid currentColor;
+  .lx-hit-card__title { color: #d68a4a; }
+  .lx-hit-card__count {
+    border-color: rgba(214,138,74, 0.40);
+    background: rgba(214,138,74, 0.12);
     color: #d68a4a;
-    background: rgba(214,138,74, 0.08);
-    font-family: var(--km-font-arabic-ui, serif);
+  }
+  .lx-hit-card__cta   { color: #d68a4a; }
+  .lx-hit-card__genre { color: #d68a4a; font-weight: 600; }
 
-    &[data-genre='epigraphic']           { color: #b6c98a; background: rgba(182,201,138, 0.10); }
-    &[data-genre='archaeological']       { color: #d68a4a; background: rgba(214,138,74, 0.10); }
-    &[data-genre='comparative_semitic']  { color: #92bee1; background: rgba(146,190,225, 0.10); }
-    &[data-genre='philological']         { color: #c8a04a; background: rgba(200,160,74, 0.10); }
-    &[data-genre='historical_phonology'] { color: #a89f87; background: rgba(168,159,135, 0.10); }
-    &[data-genre='qur_anic_hermeneutic'] { color: #a9d28a; background: rgba(169,210,138, 0.10); }
-  }
-  &__source {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.3rem;
-    color: var(--ink-soft);
-    font-size: 0.78rem;
-  }
-  &__author { font-weight: 600; color: var(--ink); }
-  &__year   { color: var(--ink-faint); font-size: 0.74rem; }
-  &__page   {
-    margin-inline-start: auto;
-    color: var(--ink-faint);
-    font-size: 0.72rem;
-    font-family: var(--km-font-arabic-ui, serif);
-  }
-
-  &__source-title {
-    margin: 0.12rem 0 0.3rem;
-    color: var(--gold-soft);
-    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
-  &__source-title-en {
-    color: var(--ink-faint);
-    font-size: 0.72rem;
-    margin-inline-start: 0.4rem;
-    font-style: italic;
-  }
-  &__body {
-    margin: 0 0 0.25rem;
-    color: var(--ink);
-    font-size: 0.9rem;
-    line-height: 1.65;
-    text-align: justify;
-  }
-  &__subtitle {
-    margin: 0;
-    color: var(--ink-soft);
-    font-size: 0.8rem;
-    line-height: 1.4;
-    display: flex;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-  }
+  &[data-genre='epigraphic']           { border-color: rgba(182,201,138, 0.40); .lx-hit-card__title { color: #b6c98a; } }
+  &[data-genre='qur_anic_hermeneutic'] { border-color: rgba(169,210,138, 0.40); .lx-hit-card__title { color: #a9d28a; } }
+  &[data-genre='comparative_semitic']  { border-color: rgba(146,190,225, 0.40); .lx-hit-card__title { color: #92bee1; } }
 }
 
 // ─── Empty state ───────────────────────────────────────────────────────

@@ -52,6 +52,51 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
   // Separate stream from the classical lexicon hits.
   readonly scholarship    = signal<ScholarshipNote[]>([]);
 
+  // Academic readings rendered as one card per source (mirroring the
+  // lit-up lexicon cards). One root may have notes in multiple academic
+  // sources; we aggregate them here.
+  readonly scholarshipCards = computed(() => {
+    const notes = this.scholarship();
+    if (!notes.length) return [];
+    const bySource = new Map<string, {
+      source_slug: string;
+      source_id:   string;
+      title_ar:    string;
+      title_en:    string;
+      author:      string;
+      year:        number | null;
+      genre:       string;
+      genre_label: { ar: string; en: string };
+      url:         string | null;
+      notes:       ScholarshipNote[];
+      // Sample chips: lift the first short Arabic forms / root_text from notes.
+      samples:     string[];
+    }>();
+    for (const n of notes) {
+      const key = n.source.id;
+      if (!bySource.has(key)) {
+        bySource.set(key, {
+          source_slug: '', // filled below
+          source_id:   n.source_id,
+          title_ar:    n.source.title_ar,
+          title_en:    n.source.title_en,
+          author:      n.source.author,
+          year:        n.source.year,
+          genre:       n.source.genre,
+          genre_label: n.source.genre_label,
+          url:         n.source.url,
+          notes:       [],
+          samples:     [],
+        });
+      }
+      const card = bySource.get(key)!;
+      card.notes.push(n);
+      const sample = (n.root_text ?? n.root_norm ?? '').trim();
+      if (sample && !card.samples.includes(sample)) card.samples.push(sample);
+    }
+    return [...bySource.values()];
+  });
+
   readonly quickRoots = ['كتب', 'علم', 'قرأ', 'رحم', 'حمد', 'أمن', 'نزل', 'خلق'];
 
   // Sources that have hits for the current root, in roots-descending order
@@ -201,6 +246,15 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
   }
   hasResults(): boolean {
     return this.hitsBySlug().size > 0 && this.hitSources().length > 0;
+  }
+  // Click on an academic-readings card → open its dedicated shell at
+  // the current root. Backed by `/lexicon/books/:slug` (the slug lookup
+  // in the book-reader dispatches scholarship slugs to a separate shell).
+  openScholarshipAtRoot(sourceSlug: string): void {
+    const root = this.searchTerm().trim();
+    this.router.navigate(['/lexicon/books', sourceSlug], {
+      queryParams: root ? { root } : undefined,
+    });
   }
 
   private animateCatalog(): void {

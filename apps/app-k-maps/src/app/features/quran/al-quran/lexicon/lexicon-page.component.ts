@@ -49,6 +49,48 @@ export class LexiconPageComponent implements OnInit {
   readonly hitsBySlug     = signal<Map<string, SourceHit>>(new Map());
   readonly scholarship    = signal<ScholarshipNote[]>([]);
 
+  // Group scholarship notes by source for card-per-source rendering.
+  readonly scholarshipCards = computed(() => {
+    const notes = this.scholarship();
+    if (!notes.length) return [];
+    const bySource = new Map<string, {
+      source_slug: string | null;
+      source_id:   string;
+      title_ar:    string;
+      title_en:    string;
+      author:      string;
+      year:        number | null;
+      genre:       string;
+      genre_label: { ar: string; en: string };
+      url:         string | null;
+      notes:       ScholarshipNote[];
+      samples:     string[];
+    }>();
+    for (const n of notes) {
+      const key = n.source.id;
+      if (!bySource.has(key)) {
+        bySource.set(key, {
+          source_slug: n.source.slug ?? null,
+          source_id:   n.source_id,
+          title_ar:    n.source.title_ar,
+          title_en:    n.source.title_en,
+          author:      n.source.author,
+          year:        n.source.year,
+          genre:       n.source.genre,
+          genre_label: n.source.genre_label,
+          url:         n.source.url,
+          notes:       [],
+          samples:     [],
+        });
+      }
+      const card = bySource.get(key)!;
+      card.notes.push(n);
+      const sample = (n.root_text ?? n.root_norm ?? '').trim();
+      if (sample && !card.samples.includes(sample)) card.samples.push(sample);
+    }
+    return [...bySource.values()];
+  });
+
   readonly quickRoots = ['كتب', 'علم', 'قرأ', 'رحم', 'حمد', 'أمن', 'نزل', 'خلق'];
 
   // The shared QuranResearch search term — kept in sync via two-way binding.
@@ -194,6 +236,16 @@ export class LexiconPageComponent implements OnInit {
     // working reader. (Future: per-source mobile readers.)
     this.router.navigate(['/quran/al-quran/lane-lexicon'], {
       queryParams: root ? { root, source: src.slug } : { source: src.slug },
+    });
+  }
+  /** Academic-source card tapped — same legacy fallback for now (mobile
+   *  app doesn't have a dedicated scholarship reader yet; the desktop
+   *  /lexicon/books/{slug}?root=… route covers the rich view). */
+  openScholarshipAtRoot(slug: string | null): void {
+    if (!slug) return;
+    const root = this.searchTerm().trim();
+    this.router.navigate(['/quran/al-quran/lane-lexicon'], {
+      queryParams: root ? { root, source: slug } : { source: slug },
     });
   }
 

@@ -227,6 +227,16 @@ export class AlDictionaryApiService {
       'al', ['scholarship', 'root', root_norm],
     );
   }
+  /** Root index for a scholarship source (left-rail of the shell). */
+  getScholarshipRoots(slug: string): Observable<{ slug: string; rows: ScholarshipRootRow[]; total: number }> {
+    return this.api.getData('al', ['scholarship', 'roots', slug]);
+  }
+  /** All notes for a (source, root) pair (main panel of the shell). */
+  getScholarshipBySource(slug: string, root_norm: string): Observable<ScholarshipShellView> {
+    return this.api.getData<ScholarshipShellView>(
+      'al', ['scholarship', 'by-source', slug, root_norm],
+    );
+  }
 }
 
 // ─── v2 result types ─────────────────────────────────────────────────────────
@@ -638,6 +648,7 @@ export interface LaneReadView {
 
 export interface ScholarshipSource {
   id:          string;
+  slug:        string | null;                  // url-safe slug for routing
   title_ar:    string;
   title_en:    string;
   author:      string;
@@ -667,6 +678,21 @@ export interface ScholarshipNote {
 
 export interface RootScholarshipResult {
   root_norm: string;
+  notes:     ScholarshipNote[];
+  total:     number;
+}
+
+export interface ScholarshipRootRow {
+  root_norm: string;
+  root_text: string | null;
+  page_no:   number | null;
+  n:         number;
+}
+
+export interface ScholarshipShellView {
+  slug:      string;
+  root_norm: string;
+  source:    ScholarshipSource | null;
   notes:     ScholarshipNote[];
   total:     number;
 }
