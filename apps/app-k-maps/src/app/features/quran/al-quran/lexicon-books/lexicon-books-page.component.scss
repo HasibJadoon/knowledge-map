@@ -184,17 +184,18 @@
     &[data-genre='comparative_semitic']  { .lxb-card__title { color: #92bee1; } .lxb-card__stats { color: #92bee1; filter: drop-shadow(0 0 6px rgba(146,190,225,0.30)); } .lxb-card__bottom-glow { background: linear-gradient(90deg, transparent, #92bee1, transparent); } }
   }
 
+  // Genre badge sits inline above the title — was absolutely positioned
+  // before, which caused it to overlap the headline at narrow widths.
   &__badge {
-    position: absolute;
-    top: 0.55rem;
-    inset-inline-start: 0.55rem;
-    padding: 0.12rem 0.5rem;
+    align-self: flex-start;          // hug the start edge in RTL/LTR
+    padding: 0.14rem 0.55rem;
+    margin-bottom: 0.45rem;
     font-size: 0.66rem;
     font-weight: 600;
     border-radius: 999px;
-    background: rgba(214,138,74, 0.16);
+    background: rgba(214, 138, 74, 0.16);
     color: var(--saddle);
-    border: 1px solid rgba(214,138,74, 0.40);
+    border: 1px solid rgba(214, 138, 74, 0.40);
     letter-spacing: 0.02em;
     z-index: 2;
   }
