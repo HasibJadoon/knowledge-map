@@ -45,6 +45,14 @@ export const QURAN_ROUTES: Routes = [
           import('./al-quran/lexicon-books/lexicon-books-page.component').then(m => m.LexiconBooksPageComponent),
       },
       {
+        // Unified rich reader. Dispatches per source kind (Lane / Classical
+        // lexicon / Mufradat / Scholarship). Mirrors desktop's
+        // /lexicon/books/:slug shell pattern using Ionic primitives.
+        path: 'lexicon/read/:slug',
+        loadComponent: () =>
+          import('./al-quran/lexicon-reader/lexicon-reader-page.component').then(m => m.LexiconReaderPageComponent),
+      },
+      {
         path: 'notes',
         loadComponent: () =>
           import('./al-quran/notes/notes-page.component').then(m => m.NotesPageComponent),

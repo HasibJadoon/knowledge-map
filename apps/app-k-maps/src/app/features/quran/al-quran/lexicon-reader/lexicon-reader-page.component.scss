@@ -1,0 +1,538 @@
+// ─── Unified mobile lexicon reader — production-grade aesthetics ──────────
+
+:host {
+  // Palette mirrors the catalog so navigating between pages feels seamless.
+  --ink:        #f5f1e7;
+  --ink-soft:   rgba(245, 241, 231, 0.62);
+  --ink-faint:  rgba(245, 241, 231, 0.36);
+  --gold:       #e8c96a;
+  --gold-soft:  rgba(232, 201, 106, 0.72);
+  --gold-line:  rgba(201, 168, 76, 0.40);
+  --gold-tint:  rgba(232, 201, 106, 0.10);
+  --saddle:     #d68a4a;
+  --quran:      #a9d28a;
+  --rule:       rgba(255, 255, 255, 0.07);
+  --bg-radial:  radial-gradient(ellipse 78% 54% at 50% 28%, rgba(18,16,10,0.92) 0%, rgba(6,6,6,0.98) 58%, #000 100%);
+}
+
+// ── Header (two stacked toolbars: title row + segment tabs) ─────────────
+.rdr-header {
+  ion-toolbar:last-of-type {
+    --border-style: solid;
+    --border-color: var(--rule);
+    --border-width: 0 0 1px 0;
+  }
+}
+.rdr-toolbar {
+  --background: #0a0908;
+  --color:      var(--ink);
+  --min-height: 52px;
+  ion-button { --color: var(--gold); }
+}
+.rdr-toolbar__title {
+  --padding-start: 0;
+  --padding-end:   0;
+  text-align: center;
+  line-height: 1.15;
+}
+.rdr-toolbar__name {
+  display: block;
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gold);
+  // Two-line clamp on long bilingual titles ("تنقيب القرآن: نحو …")
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.rdr-toolbar__author {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+  font-weight: 400;
+  margin-top: 1px;
+}
+.rdr-tabs-bar {
+  --background: #0a0908;
+  --min-height: 44px;
+  --padding-start: 12px;
+  --padding-end:   12px;
+  ion-segment {
+    --background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 2px;
+  }
+  ion-segment-button {
+    --color:           var(--ink-soft);
+    --color-checked:   var(--gold);
+    --indicator-color: rgba(232, 201, 106, 0.14);
+    --indicator-height: 100%;
+    --indicator-border-radius: 999px;
+    text-transform: none;
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 0.9rem;
+    min-height: 30px;
+  }
+}
+
+// ── Content background ─────────────────────────────────────────────────
+.rdr-content {
+  --background: var(--bg-radial);
+  --color:      var(--ink);
+}
+
+// ── Common pane container ──────────────────────────────────────────────
+.rdr-pane {
+  padding: 1rem 1rem calc(2rem + var(--ion-safe-area-bottom, 0px));
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+// ── Loading skeleton ───────────────────────────────────────────────────
+.rdr-skel {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: stretch;
+
+  > * {
+    background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.07) 50%, rgba(255,255,255,0.03) 100%);
+    background-size: 200% 100%;
+    animation: rdr-shimmer 1.6s ease-in-out infinite;
+    border-radius: 6px;
+  }
+  &__heading { height: 36px; max-width: 50%; margin: 0 auto 12px; }
+  &__line    { height: 14px; }
+  &__line--short { max-width: 60%; }
+}
+@keyframes rdr-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.rdr-error { --background: rgba(220, 100, 100, 0.06); }
+.rdr-muted {
+  color: var(--ink-faint);
+  text-align: center;
+  padding: 1.4rem;
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 0.92rem;
+}
+
+// ── Entry head (the active root) ───────────────────────────────────────
+.rdr-entry-head {
+  text-align: center;
+  padding-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--rule);
+
+  &__title {
+    margin: 0 0 0.45rem;
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    line-height: 1.15;
+  }
+  &__stats {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    font-family: var(--km-font-arabic-ui, serif);
+  }
+}
+
+// ── Quran reference chip (shared across kinds) ─────────────────────────
+.rdr-qref {
+  display: inline-flex;
+  align-items: baseline;
+  color: var(--quran);
+  font-weight: 600;
+  padding: 0 6px;
+  margin: 0 2px;
+  border: 1px solid rgba(169, 210, 138, 0.32);
+  border-radius: 4px;
+  background: transparent;
+  font-family: 'EB Garamond', 'Times New Roman', serif;
+  font-size: 0.88em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  transition: background 0.15s, border-color 0.15s;
+  &:active {
+    background: rgba(169, 210, 138, 0.10);
+    border-color: rgba(169, 210, 138, 0.55);
+  }
+  &__ref { padding: 0; }
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// LANE — bilingual token stream
+// ────────────────────────────────────────────────────────────────────────
+.rdr-lane {
+  font-family: 'Source Serif Pro', 'Amiri', 'Scheherazade New', Georgia, serif;
+  font-size: 1.02rem;
+  line-height: 1.78;
+  color: var(--ink);
+
+  &__form {
+    margin-bottom: 2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px dashed var(--rule);
+    &:last-child { border-bottom: 0; }
+  }
+  &__form-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 0.8em;
+    padding-bottom: 0.4em;
+    border-bottom: 1px solid var(--rule);
+  }
+  &__form-num {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: #1a1814;
+    font-weight: 700;
+    font-size: 0.8rem;
+    font-family: 'Times New Roman', serif;
+  }
+  &__form-headword {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--gold);
+    font-family: 'Amiri', 'Scheherazade New', serif;
+  }
+  &__form-page {
+    margin-inline-start: auto;
+    color: var(--ink-faint);
+    font-size: 0.72rem;
+    font-style: italic;
+  }
+
+  &__sense {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    margin-bottom: 0.9rem;
+    &[data-kind='dissociation'] { border-inline-start: 2px solid rgba(214, 138, 74, 0.25); padding-inline-start: 8px; }
+    &[data-kind='signification']{ border-inline-start: 2px solid rgba(169, 210, 138, 0.25); padding-inline-start: 8px; }
+  }
+  &__sense-label {
+    grid-column: 1;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--gold);
+    background: rgba(232, 201, 106, 0.10);
+    border-radius: 6px;
+    text-align: center;
+    padding: 2px 0;
+    font-family: 'Times New Roman', serif;
+    align-self: start;
+    &[data-kind='signification'] { color: var(--quran); background: rgba(169, 210, 138, 0.10); }
+  }
+  &__sense-body {
+    grid-column: 2;
+    margin: 0;
+    text-align: justify;
+    hyphens: auto;
+    unicode-bidi: plaintext;
+  }
+}
+.rdr-lane-arabic   { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.06em; font-weight: 600; padding: 0 2px; }
+.rdr-lane-headword { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.14em; font-weight: 800; padding: 0 2px; }
+.rdr-lane-sig {
+  color: var(--ink-soft);
+  font-style: italic;
+  font-size: 0.92em;
+  font-weight: 500;
+}
+.rdr-lane-fig { color: var(--saddle); font-weight: 700; margin: 0 2px; }
+.rdr-lane-xref {
+  color: var(--gold);
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 1px solid var(--gold);
+  text-decoration: none;
+  padding: 0 1px;
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// CLASSICAL / MUFRADAT — section + paragraph rhythm
+// ────────────────────────────────────────────────────────────────────────
+.rdr-classical, .rdr-mufradat {
+  font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', serif;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--ink);
+}
+.rdr-section {
+  margin-bottom: 1.6rem;
+  &:last-child { margin-bottom: 0; }
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  &__title {
+    margin: 0;
+    color: var(--gold);
+    font-size: 1.15rem;
+    font-weight: 700;
+    flex: 1;
+  }
+  &__page {
+    color: var(--ink-faint);
+    font-size: 0.74rem;
+    font-family: 'Amiri', serif;
+  }
+  &__p {
+    margin: 0 0 0.85em;
+    text-align: justify;
+    hyphens: auto;
+    word-spacing: 0.02em;
+  }
+}
+
+// Mufradat block kinds
+.rdr-mufradat-paren {
+  background: rgba(200, 156, 236, 0.08);
+  color: var(--ink);
+  border-radius: 3px;
+  padding: 0 4px;
+  margin: 0 1px;
+  font-style: italic;
+}
+.rdr-mufradat-poetry {
+  margin: 1.4em 0;
+  padding: 12px 18px;
+  border-inline-end: 2px solid #f0c688;
+  background: linear-gradient(180deg, rgba(240, 198, 136, 0.05), transparent);
+  text-align: center;
+  font-style: italic;
+  line-height: 2;
+  &__cue   { display: block; color: #f0c688; font-style: normal; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
+  &__verse { display: block; margin: 4px 0; }
+  &__attr  { display: block; color: var(--ink-faint); font-style: normal; font-size: 0.82rem; margin-top: 6px; }
+}
+.rdr-mufradat-hadith {
+  margin: 1.4em 0;
+  padding: 12px 16px;
+  border-inline-end: 2px solid #92bee1;
+  background: linear-gradient(180deg, rgba(146, 190, 225, 0.06), transparent);
+  border-radius: 6px;
+  &__cue { display: inline-block; color: #92bee1; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; padding: 2px 9px; border-radius: 999px; border: 1px solid rgba(146, 190, 225, 0.30); }
+}
+.rdr-mufradat-qira {
+  margin: 1.2em 0;
+  padding: 10px 14px;
+  border-inline-end: 2px dashed var(--gold);
+  border-radius: 6px;
+  background: rgba(232, 201, 106, 0.04);
+  &__reader { color: var(--gold); font-weight: 600; margin-inline-end: 6px; }
+}
+.rdr-mufradat-editorial {
+  margin: 1.2em 0;
+  padding: 10px 18px;
+  border-inline-end: 2px solid rgba(182, 201, 138, 0.40);
+  background: rgba(182, 201, 138, 0.04);
+  color: var(--ink-soft);
+  font-size: 0.96em;
+  &::before { content: '['; color: rgba(182, 201, 138, 0.6); font-weight: 700; margin-inline-end: 4px; }
+  &::after  { content: ']'; color: rgba(182, 201, 138, 0.6); font-weight: 700; margin-inline-start: 4px; }
+}
+.rdr-fn {
+  display: inline-block;
+  font-size: 0.65em;
+  font-weight: 700;
+  color: var(--ink-faint);
+  padding: 0 2px;
+  vertical-align: super;
+  font-variant-numeric: tabular-nums;
+  &::before { content: '['; opacity: 0.55; }
+  &::after  { content: ']'; opacity: 0.55; }
+  &--has-text { color: var(--gold); cursor: help; }
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// SCHOLARSHIP — note cards
+// ────────────────────────────────────────────────────────────────────────
+.rdr-scholarship {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+
+  &__head {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.3rem;
+  }
+}
+.rdr-note {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  &__head {
+    display: flex; align-items: baseline; gap: 0.55rem; flex-wrap: wrap;
+    margin-bottom: 0.4rem;
+  }
+  &__kind {
+    padding: 0.10rem 0.55rem;
+    border-radius: 6px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    border: 1px solid currentColor;
+    color: var(--saddle);
+    background: rgba(214, 138, 74, 0.08);
+    font-family: 'Amiri', serif;
+    &[data-kind='qur_anic_hermeneutic'] { color: var(--quran); background: rgba(169,210,138,0.10); }
+    &[data-kind='epigraphic']           { color: #b6c98a;       background: rgba(182,201,138,0.10); }
+    &[data-kind='comparative_semitic']  { color: #92bee1;       background: rgba(146,190,225,0.10); }
+  }
+  &__page {
+    margin-inline-start: auto;
+    color: var(--ink-faint);
+    font-size: 0.76rem;
+    font-family: 'Amiri', serif;
+  }
+  &__body {
+    margin: 0;
+    font-size: 0.96rem;
+    line-height: 1.75;
+    color: var(--ink);
+    text-align: justify;
+  }
+}
+
+// Genre badge (shared with header)
+.rdr-genre-badge {
+  padding: 0.16rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--saddle);
+  background: rgba(214, 138, 74, 0.10);
+  border: 1px solid rgba(214, 138, 74, 0.30);
+  font-family: 'Amiri', serif;
+  &[data-genre='qur_anic_hermeneutic'] { color: var(--quran); background: rgba(169,210,138,0.10); border-color: rgba(169,210,138,0.30); }
+  &[data-genre='epigraphic']           { color: #b6c98a; background: rgba(182,201,138,0.10); border-color: rgba(182,201,138,0.30); }
+  &[data-genre='comparative_semitic']  { color: #92bee1; background: rgba(146,190,225,0.10); border-color: rgba(146,190,225,0.30); }
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// ROOTS pane (accordion-grouped letter index)
+// ────────────────────────────────────────────────────────────────────────
+.rdr-pane--roots {
+  padding: 0.6rem 0.4rem calc(2rem + var(--ion-safe-area-bottom, 0px));
+}
+.rdr-search {
+  --background: rgba(255, 255, 255, 0.03);
+  --color:      var(--ink);
+  --placeholder-color: var(--ink-faint);
+  --icon-color: var(--gold-soft);
+  --border-radius: 12px;
+  margin-bottom: 0.4rem;
+}
+
+ion-accordion {
+  --background:        rgba(255, 255, 255, 0.02);
+  --color:             var(--ink);
+  border-bottom: 1px solid var(--rule);
+
+  ion-item {
+    --background: transparent;
+    --color: var(--gold);
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  }
+  .rdr-letter {
+    display: flex; align-items: center; justify-content: space-between;
+    &__char  { font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+    &__count { color: var(--ink-faint); font-size: 0.78rem; padding: 2px 8px; border: 1px solid var(--rule); border-radius: 999px; }
+  }
+}
+.rdr-roots {
+  padding: 6px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rdr-root {
+  appearance: none;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--ink);
+  font: inherit;
+  text-align: right;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  &:active { background: rgba(232, 201, 106, 0.10); color: var(--gold); }
+  &.active { background: rgba(232, 201, 106, 0.18); color: var(--gold); border-color: var(--gold-line); font-weight: 700; }
+  &__ar    { flex: 1; font-family: 'Amiri', 'Scheherazade New', serif; font-size: 1.05rem; }
+  &__page  { color: var(--ink-faint); font-size: 0.74rem; font-variant-numeric: tabular-nums; }
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// SOURCE pane (metadata card)
+// ────────────────────────────────────────────────────────────────────────
+.rdr-source-card {
+  --background: rgba(255, 255, 255, 0.03);
+  --color:      var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  margin: 0;
+  &[data-genre='qur_anic_hermeneutic'] { border-color: rgba(169, 210, 138, 0.30); }
+  &[data-genre='epigraphic']           { border-color: rgba(182, 201, 138, 0.30); }
+  &__title {
+    color: var(--gold);
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  &__subtitle {
+    color: var(--ink-soft);
+    font-size: 0.84rem;
+    font-style: italic;
+  }
+}
+.rdr-meta {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.rdr-meta__row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 0.6rem;
+  align-items: baseline;
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed var(--rule);
+  &:last-child { border-bottom: 0; }
+  dt { color: var(--ink-soft); font-size: 0.78rem; }
+  dd { margin: 0; color: var(--ink); font-size: 0.94rem; line-height: 1.5; }
+}

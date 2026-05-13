@@ -28,49 +28,62 @@
   gap: 0.9rem;
 }
 
-.lxb-head {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+// ── Ionic-native header — handles safe-area / status-bar automatically.
+.lxb-header {
+  // Hairline under the whole header stack
+  ion-toolbar:last-of-type {
+    --border-style: solid;
+    --border-color: var(--rule);
+    --border-width: 0 0 1px 0;
+  }
 }
-.lxb-back {
-  align-self: flex-start;
-  appearance: none;
-  background: transparent;
-  border: 0;
+.lxb-toolbar {
+  --background: #0b0a08;
+  --color:      var(--ink);
+  --min-height: 48px;
+  ion-button { --color: var(--gold); }
+}
+.lxb-toolbar__title {
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.35rem;
+  font-weight: 700;
   color: var(--gold);
-  font: inherit;
-  font-size: 0.92rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  &:active { opacity: 0.7; }
+  --padding-start: 0;
+  --padding-end:   0;
 }
-.lxb-head__title {
-  h1 { margin: 0; font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif); font-size: 1.7rem; font-weight: 700; color: var(--ink); }
-  p  { margin: 0.2rem 0 0; color: var(--ink-soft); font-size: 0.82rem; }
+.lxb-toolbar-sub {
+  --background: #0b0a08;
+  --min-height: 28px;
 }
-
+.lxb-toolbar__counts {
+  margin: 0;
+  padding: 0 14px 4px;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  text-align: right;
+}
+.lxb-toolbar-tabs {
+  --background: #0b0a08;
+  --min-height: 44px;
+  --padding-start: 10px;
+  --padding-end:   10px;
+}
 .lxb-filter {
-  margin: 0.35rem 0 0;
   --background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--rule);
   border-radius: 999px;
   padding: 2px;
-  width: 100%;
-  max-width: 360px;
+  max-width: 100%;
   ion-segment-button {
     --color:          var(--ink-soft);
     --color-checked:  var(--gold);
-    --indicator-color: rgba(232, 201, 106, 0.12);
+    --indicator-color: rgba(232, 201, 106, 0.14);
     --indicator-height: 100%;
     --indicator-border-radius: 999px;
     text-transform: none;
     font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
     font-size: 0.88rem;
-    min-height: 32px;
+    min-height: 30px;
   }
 }
 

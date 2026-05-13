@@ -1,23 +1,31 @@
+<!-- Native Ionic header — handles iOS safe-area + status-bar padding
+     automatically so the title is never clipped. -->
+<ion-header class="lxb-header">
+  <ion-toolbar class="lxb-toolbar" dir="rtl">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" aria-label="الرجوع">
+        <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="lxb-toolbar__title">المكتبة</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="lxb-toolbar-sub" dir="rtl">
+    <p class="lxb-toolbar__counts">
+      {{ books().length }} مصدرًا · {{ lexiconCount() }} معجمًا · {{ scholarshipCount() }} قراءة أكاديمية
+    </p>
+  </ion-toolbar>
+  <ion-toolbar class="lxb-toolbar-tabs" dir="rtl">
+    <!-- Filter tabs: All / Lexicons / Academic -->
+    <ion-segment class="lxb-filter" [value]="filter()" (ionChange)="setFilter($any($event.detail.value))" mode="md">
+      <ion-segment-button value="all"><ion-label>الكل</ion-label></ion-segment-button>
+      <ion-segment-button value="lexicon"><ion-label>المعاجم</ion-label></ion-segment-button>
+      <ion-segment-button value="scholarship"><ion-label>أكاديمي</ion-label></ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="lxb-content" [fullscreen]="false">
   <section class="lxb-page" dir="rtl">
-
-    <header class="lxb-head">
-      <button class="lxb-back" type="button" (click)="goBack()">
-        <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
-        <span>الرجوع</span>
-      </button>
-      <div class="lxb-head__title">
-        <h1>المكتبة</h1>
-        <p>{{ books().length }} مصدرًا · {{ lexiconCount() }} معجمًا · {{ scholarshipCount() }} قراءة أكاديمية</p>
-      </div>
-
-      <!-- Filter tabs: All / Lexicons / Academic -->
-      <ion-segment class="lxb-filter" [value]="filter()" (ionChange)="setFilter($any($event.detail.value))" mode="md" dir="rtl">
-        <ion-segment-button value="all"><ion-label>الكل</ion-label></ion-segment-button>
-        <ion-segment-button value="lexicon"><ion-label>المعاجم</ion-label></ion-segment-button>
-        <ion-segment-button value="scholarship"><ion-label>أكاديمي</ion-label></ion-segment-button>
-      </ion-segment>
-    </header>
 
     @if (loading()) {
       <p class="lxb-muted">…</p>
@@ -55,9 +63,4 @@
     }
 
   </section>
-
-  <!-- Source modal — opens when a card is tapped. Tabs (Roots / Content
-       / Source) mirror the desktop shell rails inside a phone-friendly
-       sheet that slides up to 96% height. -->
-  <app-book-source-modal [book]="openedBook()" (closed)="closeBook()" />
 </ion-content>

@@ -245,32 +245,23 @@ export class LexiconPageComponent implements OnInit {
     const active = document.activeElement as HTMLElement | null;
     if (active && typeof active.blur === 'function') active.blur();
   }
-  /** Hit card: open the matching source for the entered root. Lane has a
-   *  rich mobile page; other sources fall through to the same Lane-style
-   *  page (TODO: add per-source mobile readers). */
+  /** Hit card: open the matching source in the unified reader. The
+   *  reader dispatches by source kind, so Lane / Classical / Mufradat /
+   *  Scholarship all land in the right view automatically. */
   openSourceAtRoot(src: AlDictSource): void {
+    this.blurFocus();
     const root = this.searchTerm().trim();
-    if (src.slug === 'lane_lexicon' || src.slug === 'lane_quranic_research_perseus') {
-      this.router.navigate(['/quran/al-quran/lane-lexicon'], {
-        queryParams: root ? { root } : undefined,
-      });
-      return;
-    }
-    // For other sources we don't have a dedicated mobile reader yet —
-    // route to the Lane page with the same root so the user lands on a
-    // working reader. (Future: per-source mobile readers.)
-    this.router.navigate(['/quran/al-quran/lane-lexicon'], {
-      queryParams: root ? { root, source: src.slug } : { source: src.slug },
+    this.router.navigate(['/quran/al-quran/lexicon/read', src.slug], {
+      queryParams: root ? { root } : undefined,
     });
   }
-  /** Academic-source card tapped — same legacy fallback for now (mobile
-   *  app doesn't have a dedicated scholarship reader yet; the desktop
-   *  /lexicon/books/{slug}?root=… route covers the rich view). */
+  /** Academic-source card tapped — same unified reader, scholarship branch. */
   openScholarshipAtRoot(slug: string | null): void {
     if (!slug) return;
+    this.blurFocus();
     const root = this.searchTerm().trim();
-    this.router.navigate(['/quran/al-quran/lane-lexicon'], {
-      queryParams: root ? { root, source: slug } : { source: slug },
+    this.router.navigate(['/quran/al-quran/lexicon/read', slug], {
+      queryParams: root ? { root } : undefined,
     });
   }
 

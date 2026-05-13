@@ -14,7 +14,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AlDictionaryApiService, AlDictSource, ScholarshipSource,
 } from '../../../../shared/services/al-dictionary-api.service';
-import { BookSourceModalComponent } from '../book-source-modal/book-source-modal.component';
 
 interface BookCard {
   kind:     'lexicon' | 'scholarship';
@@ -34,7 +33,7 @@ type Filter = 'all' | 'lexicon' | 'scholarship';
 @Component({
   selector: 'app-lexicon-books-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, BookSourceModalComponent],
+  imports: [CommonModule, IonicModule],
   templateUrl: './lexicon-books-page.component.html',
   styleUrl: './lexicon-books-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,9 +45,6 @@ export class LexiconBooksPageComponent {
   readonly books = signal<BookCard[]>([]);
   readonly loading = signal(true);
   readonly filter = signal<Filter>('all');
-
-  // Tapped card lives here while the modal is open; null closes the modal.
-  readonly openedBook = signal<BookCard | null>(null);
 
   readonly lexiconCount     = computed(() => this.books().filter(b => b.kind === 'lexicon').length);
   readonly scholarshipCount = computed(() => this.books().filter(b => b.kind === 'scholarship').length);
@@ -111,20 +107,12 @@ export class LexiconBooksPageComponent {
   /** Set the active filter tab. */
   setFilter(f: Filter): void { this.filter.set(f); }
 
-  /** Open a source. Lane has a dedicated rich mobile page; everything
-   *  else opens in the in-page Ionic modal (BookSourceModal) so the
-   *  reader stays on this catalog screen and can hop between sources
-   *  without losing context. */
+  /** Open a source in the unified rich reader. The reader dispatches by
+   *  source kind (Lane / Classical / Mufradat / Scholarship) and loads
+   *  the appropriate composer endpoint. */
   openBook(b: BookCard): void {
     const active = document.activeElement as HTMLElement | null;
     active?.blur?.();
-
-    if (b.slug === 'lane_lexicon' || b.slug === 'lane_quranic_research_perseus') {
-      this.router.navigate(['/quran/al-quran/lane-lexicon']);
-      return;
-    }
-    this.openedBook.set(b);
+    this.router.navigate(['/quran/al-quran/lexicon/read', b.slug]);
   }
-
-  closeBook(): void { this.openedBook.set(null); }
 }

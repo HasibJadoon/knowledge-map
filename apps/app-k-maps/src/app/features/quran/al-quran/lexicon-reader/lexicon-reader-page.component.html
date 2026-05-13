@@ -1,0 +1,359 @@
+<!-- ── Header ─────────────────────────────────────────────────────────── -->
+<ion-header class="rdr-header">
+  <ion-toolbar class="rdr-toolbar" dir="rtl">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" aria-label="الرجوع">
+        <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    @if (meta(); as m) {
+      <ion-title class="rdr-toolbar__title">
+        <span class="rdr-toolbar__name">{{ m.title_ar || m.title_en }}</span>
+        @if (m.author) {
+          <span class="rdr-toolbar__author">
+            {{ m.author }}@if (m.year) { · {{ m.year }} }@else if (m.period) { · {{ m.period }} }
+          </span>
+        }
+      </ion-title>
+    }
+    <ion-buttons slot="end">
+      <ion-button (click)="prevRoot()" aria-label="السابق" [disabled]="currentRootIndex() <= 0">
+        <ion-icon name="chevron-down-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button (click)="nextRoot()" aria-label="التالي" [disabled]="currentRootIndex() >= rootList().length - 1">
+        <ion-icon name="chevron-up-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="rdr-tabs-bar" dir="rtl">
+    <ion-segment [value]="tab()" (ionChange)="setTab($any($event.detail.value))" mode="md">
+      <ion-segment-button value="content"><ion-label>المحتوى</ion-label></ion-segment-button>
+      <ion-segment-button value="roots"><ion-label>الجذور</ion-label></ion-segment-button>
+      <ion-segment-button value="source"><ion-label>المصدر</ion-label></ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<!-- ── Content ───────────────────────────────────────────────────────── -->
+<ion-content class="rdr-content" [fullscreen]="false">
+
+  @if (loading()) {
+    <div class="rdr-skel" dir="rtl">
+      <div class="rdr-skel__heading"></div>
+      <div class="rdr-skel__line"></div>
+      <div class="rdr-skel__line"></div>
+      <div class="rdr-skel__line rdr-skel__line--short"></div>
+    </div>
+  } @else if (error()) {
+    <ion-card class="rdr-error" dir="rtl">
+      <ion-card-content>
+        <p>⚠ {{ error() }}</p>
+        <ion-button fill="outline" size="small" (click)="selectRoot(currentRoot())">إعادة المحاولة</ion-button>
+      </ion-card-content>
+    </ion-card>
+  }
+
+  <!-- ── Tab: المحتوى ─────────────────────────────────────────────── -->
+  @if (tab() === 'content' && !loading() && !error()) {
+    <section #content class="rdr-pane rdr-pane--content" dir="rtl">
+
+      <!-- Entry head -->
+      <header class="rdr-entry-head">
+        @switch (kind()) {
+          @case ('lane')      { <h2 class="rdr-entry-head__title" dir="rtl">{{ laneView()?.entry?.root_text }}</h2> }
+          @case ('classical') { <h2 class="rdr-entry-head__title" dir="rtl">{{ classicalView()?.entry?.root_text }}</h2> }
+          @case ('mufradat')  { <h2 class="rdr-entry-head__title" dir="rtl">{{ mufradatView()?.entry?.root_text }}</h2> }
+          @case ('scholarship'){ <h2 class="rdr-entry-head__title" dir="rtl">{{ scholarshipView()?.notes?.[0]?.root_text || scholarshipView()?.root_norm }}</h2> }
+        }
+        <p class="rdr-entry-head__stats">{{ statsLine() }}</p>
+      </header>
+
+      <!-- ── Lane render ───────────────────────────────────────────── -->
+      @if (kind() === 'lane' && laneView(); as lv) {
+        <article class="rdr-lane" dir="ltr">
+          @for (form of lv.forms; track form.section_id) {
+            <section class="rdr-lane__form">
+              <header class="rdr-lane__form-head" dir="rtl">
+                @if (form.form_label_ar) {
+                  <span class="rdr-lane__form-headword">{{ form.form_label_ar }}</span>
+                }
+                @if (form.form_num) {
+                  <span class="rdr-lane__form-num">{{ form.form_num }}</span>
+                }
+                @if (form.page_no) {
+                  <span class="rdr-lane__form-page" dir="ltr">p. {{ form.page_no }}</span>
+                }
+              </header>
+              @for (sense of form.senses; track $index) {
+                <div class="rdr-lane__sense" [attr.data-kind]="sense.kind">
+                  @if (sense.label) {
+                    <span class="rdr-lane__sense-label" [attr.data-kind]="sense.kind">{{ sense.label }}</span>
+                  }
+                  <p class="rdr-lane__sense-body">
+                    @for (t of sense.tokens; track $index) {
+                      @switch (t.kind) {
+                        @case ('text')       { <span>{{ t.value }}</span> }
+                        @case ('br')         { <br /> }
+                        @case ('arabic')     { <span class="rdr-lane-arabic" dir="rtl">{{ t.value }}</span> }
+                        @case ('headword')   { <strong class="rdr-lane-headword" dir="rtl">{{ t.value }}</strong> }
+                        @case ('figurative') { <span class="rdr-lane-fig" title="figurative">‡</span> }
+                        @case ('cross_ref')  { <a class="rdr-lane-xref" (click)="selectRoot(t.target)">{{ t.target }}</a> }
+                        @case ('siglum')     { <span class="rdr-lane-sig" [title]="t.name_en">({{ t.raw }})</span> }
+                        @case ('quran')      {
+                          <a class="rdr-qref" (click)="openAyah(t.surah, t.ayah)" [title]="t.raw">
+                            <span class="rdr-qref__ref">{{ t.surah }}:{{ t.ayah }}</span>
+                          </a>
+                        }
+                      }
+                    }
+                  </p>
+                </div>
+              }
+            </section>
+          }
+        </article>
+      }
+
+      <!-- ── Classical (V2) render ─────────────────────────────────── -->
+      @if (kind() === 'classical' && classicalView(); as cv) {
+        <article class="rdr-classical" dir="rtl">
+          @for (s of cv.sections; track s.id) {
+            <section class="rdr-section">
+              @if (s.heading_ar) {
+                <header class="rdr-section__head">
+                  <h3 class="rdr-section__title" dir="rtl">{{ s.heading_ar }}</h3>
+                  @if (s.page_no) {
+                    <span class="rdr-section__page">ص {{ s.page_no }}</span>
+                  }
+                </header>
+              }
+              @if (s.body?.paragraphs?.length) {
+                @for (p of s.body!.paragraphs; track $index) {
+                  <p class="rdr-section__p" dir="rtl">
+                    @for (seg of bodySegments(p); track $index) {
+                      @switch (seg.kind) {
+                        @case ('qref') {
+                          <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">{{ seg.surah }}:{{ seg.ayah }}</a>
+                        }
+                        @default { <span>{{ seg.value }}</span> }
+                      }
+                    }
+                  </p>
+                }
+              } @else if (s.text_ar) {
+                <p class="rdr-section__p" dir="rtl">{{ s.text_ar }}</p>
+              }
+            </section>
+          }
+        </article>
+      }
+
+      <!-- ── Mufradat render ──────────────────────────────────────── -->
+      @if (kind() === 'mufradat' && mufradatView(); as mv) {
+        <article class="rdr-mufradat" dir="rtl">
+          @for (s of mv.sections; track s.id) {
+            <section class="rdr-section">
+              @if (s.heading_ar) {
+                <header class="rdr-section__head">
+                  <h3 class="rdr-section__title" dir="rtl">{{ s.heading_ar }}</h3>
+                  @if (s.page_no) {
+                    <span class="rdr-section__page">ص {{ s.page_no }}</span>
+                  }
+                </header>
+              }
+              @for (p of s.paragraphs; track $index) {
+                @switch (p.kind) {
+                  @case ('prose') {
+                    <p class="rdr-section__p" dir="rtl">
+                      @for (t of p.tokens; track $index) {
+                        @switch (t.kind) {
+                          @case ('text')        { <span>{{ t.value }}</span> }
+                          @case ('br')          { <br /> }
+                          @case ('paren_quote') { <span class="rdr-mufradat-paren">({{ t.value }})</span> }
+                          @case ('quran')       {
+                            <a class="rdr-qref" (click)="openAyah(t.surah_num ?? 0, t.ayah)" [title]="t.raw">
+                              <span class="rdr-qref__ref">{{ t.surah }} {{ t.ayah }}</span>
+                            </a>
+                          }
+                          @case ('footnote')    {
+                            <sup class="rdr-fn" [class.rdr-fn--has-text]="t.has_text" [title]="t.text || ''">{{ t.num }}</sup>
+                          }
+                        }
+                      }
+                    </p>
+                  }
+                  @case ('poetry') {
+                    <blockquote class="rdr-mufradat-poetry" dir="rtl">
+                      @if (p.cue) { <span class="rdr-mufradat-poetry__cue">{{ p.cue }}</span> }
+                      @for (v of p.verses; track $index) {
+                        <span class="rdr-mufradat-poetry__verse">{{ v }}</span>
+                      }
+                      @if (p.attribution) { <cite class="rdr-mufradat-poetry__attr">— {{ p.attribution }}</cite> }
+                    </blockquote>
+                  }
+                  @case ('hadith') {
+                    <blockquote class="rdr-mufradat-hadith" dir="rtl">
+                      @if (p.cue) { <span class="rdr-mufradat-hadith__cue">{{ p.cue }}</span> }
+                      @for (t of p.tokens; track $index) {
+                        @switch (t.kind) {
+                          @case ('text') { <span>{{ t.value }}</span> }
+                          @case ('br')   { <br /> }
+                          @default { <span>{{ $any(t).value || '' }}</span> }
+                        }
+                      }
+                    </blockquote>
+                  }
+                  @case ('qira_variant') {
+                    <p class="rdr-mufradat-qira" dir="rtl">
+                      @if (p.reader) { <span class="rdr-mufradat-qira__reader">قراءة {{ p.reader }}</span> }
+                      @for (t of p.tokens; track $index) {
+                        @switch (t.kind) {
+                          @case ('text') { <span>{{ t.value }}</span> }
+                          @default { <span>{{ $any(t).value || '' }}</span> }
+                        }
+                      }
+                    </p>
+                  }
+                  @case ('editorial') {
+                    <p class="rdr-mufradat-editorial" dir="rtl">
+                      @for (t of p.tokens; track $index) {
+                        @switch (t.kind) {
+                          @case ('text') { <span>{{ t.value }}</span> }
+                          @default { <span>{{ $any(t).value || '' }}</span> }
+                        }
+                      }
+                    </p>
+                  }
+                }
+              }
+            </section>
+          }
+        </article>
+      }
+
+      <!-- ── Scholarship render ───────────────────────────────────── -->
+      @if (kind() === 'scholarship' && scholarshipView(); as sv) {
+        <article class="rdr-scholarship" dir="rtl">
+          @if (sv.source) {
+            <header class="rdr-scholarship__head">
+              <span class="rdr-genre-badge" [attr.data-genre]="sv.source.genre">{{ sv.source.genre_label.ar }}</span>
+            </header>
+          }
+          @for (n of sv.notes; track n.id) {
+            <article class="rdr-note" [attr.data-genre]="n.source.genre">
+              <header class="rdr-note__head">
+                <span class="rdr-note__kind" [attr.data-kind]="n.reading_kind">{{ n.reading_label.ar }}</span>
+                @if (n.page_no || n.page_range) {
+                  <span class="rdr-note__page">ص {{ n.page_range || n.page_no }}</span>
+                }
+              </header>
+              @if (n.body_plain || n.body_md) {
+                <p class="rdr-note__body" dir="ltr">
+                  @for (seg of bodySegments(n.body_plain || n.body_md); track $index) {
+                    @switch (seg.kind) {
+                      @case ('qref') {
+                        <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">{{ seg.surah }}:{{ seg.ayah }}</a>
+                      }
+                      @default { <span>{{ seg.value }}</span> }
+                    }
+                  }
+                </p>
+              }
+            </article>
+          }
+        </article>
+      }
+    </section>
+  }
+
+  <!-- ── Tab: الجذور ─────────────────────────────────────────────── -->
+  @if (tab() === 'roots') {
+    <section class="rdr-pane rdr-pane--roots" dir="rtl">
+      <ion-searchbar
+        class="rdr-search"
+        [value]="rootSearch()"
+        (ionInput)="rootSearch.set($any($event.detail.value) ?? '')"
+        placeholder="ابحث عن جذر…"
+        mode="md"
+      ></ion-searchbar>
+
+      @if (rootsLoading()) {
+        <p class="rdr-muted">جارٍ التحميل…</p>
+      } @else if (filteredRoots().length === 0) {
+        <p class="rdr-muted">لا توجد جذور.</p>
+      } @else {
+        <ion-accordion-group [multiple]="false" [value]="(currentRoot()[0]) || ''">
+          @for (entry of rootsByLetter(); track entry[0]) {
+            <ion-accordion [value]="entry[0]">
+              <ion-item slot="header">
+                <ion-label class="rdr-letter">
+                  <span class="rdr-letter__char" dir="rtl">{{ entry[0] }}</span>
+                  <span class="rdr-letter__count">{{ entry[1].length }}</span>
+                </ion-label>
+              </ion-item>
+              <div slot="content" class="rdr-roots">
+                @for (r of entry[1]; track r.root_norm) {
+                  <button class="rdr-root"
+                          [class.active]="r.root_norm === currentRoot()"
+                          (click)="selectRoot(r.root_norm)" type="button">
+                    <span class="rdr-root__ar" dir="rtl">{{ r.root_text || r.root_norm }}</span>
+                    @if (r.page_no) {
+                      <span class="rdr-root__page">ص {{ r.page_no }}</span>
+                    }
+                  </button>
+                }
+              </div>
+            </ion-accordion>
+          }
+        </ion-accordion-group>
+      }
+    </section>
+  }
+
+  <!-- ── Tab: المصدر ─────────────────────────────────────────────── -->
+  @if (tab() === 'source' && meta(); as m) {
+    <section class="rdr-pane rdr-pane--source" dir="rtl">
+      <ion-card class="rdr-source-card" [attr.data-genre]="m.genre">
+        <ion-card-header>
+          <ion-card-title class="rdr-source-card__title">{{ m.title_ar }}</ion-card-title>
+          @if (m.title_en && m.title_en !== m.title_ar) {
+            <ion-card-subtitle class="rdr-source-card__subtitle" dir="ltr">{{ m.title_en }}</ion-card-subtitle>
+          }
+        </ion-card-header>
+        <ion-card-content>
+          <dl class="rdr-meta">
+            <div class="rdr-meta__row">
+              <dt>المؤلف</dt>
+              <dd>{{ m.author }}</dd>
+            </div>
+            @if (m.year) {
+              <div class="rdr-meta__row">
+                <dt>السنة</dt>
+                <dd>{{ m.year }}</dd>
+              </div>
+            } @else if (m.period) {
+              <div class="rdr-meta__row">
+                <dt>العصر</dt>
+                <dd>{{ m.period }}</dd>
+              </div>
+            }
+            @if (m.genre_ar) {
+              <div class="rdr-meta__row">
+                <dt>النوع</dt>
+                <dd>
+                  <span class="rdr-genre-badge" [attr.data-genre]="m.genre">{{ m.genre_ar }}</span>
+                </dd>
+              </div>
+            }
+            <div class="rdr-meta__row">
+              <dt>عدد الجذور</dt>
+              <dd>{{ rootList().length | number }}</dd>
+            </div>
+          </dl>
+        </ion-card-content>
+      </ion-card>
+    </section>
+  }
+
+</ion-content>
