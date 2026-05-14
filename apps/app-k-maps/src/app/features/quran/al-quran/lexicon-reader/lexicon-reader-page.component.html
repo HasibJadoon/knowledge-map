@@ -17,61 +17,172 @@
       </ion-title>
     }
     <ion-buttons slot="end">
-      <ion-button (click)="prevRoot()" aria-label="السابق" [disabled]="currentRootIndex() <= 0">
-        <ion-icon name="chevron-down-outline" slot="icon-only"></ion-icon>
-      </ion-button>
-      <ion-button (click)="nextRoot()" aria-label="التالي" [disabled]="currentRootIndex() >= rootList().length - 1">
-        <ion-icon name="chevron-up-outline" slot="icon-only"></ion-icon>
+      <ion-button (click)="openRootsPicker($event)" aria-label="فهرس الجذور">
+        <ion-icon name="library-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar class="rdr-tabs-bar" dir="rtl">
-    <ion-segment [value]="tab()" (ionChange)="setTab($any($event.detail.value))" mode="md">
-      <ion-segment-button value="content"><ion-label>المحتوى</ion-label></ion-segment-button>
-      <ion-segment-button value="roots"><ion-label>الجذور</ion-label></ion-segment-button>
-      <ion-segment-button value="source"><ion-label>المصدر</ion-label></ion-segment-button>
-    </ion-segment>
+  <ion-toolbar class="rdr-search-bar" dir="rtl">
+    <ion-searchbar
+      class="rdr-search"
+      [value]="rootSearch()"
+      (ionInput)="rootSearch.set($any($event.detail.value) ?? '')"
+      (ionClear)="clearSearch()"
+      placeholder="ابحث عن كلمة أو جذر…"
+      mode="md"
+      [debounce]="120"
+    ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
+
+<!-- ── Roots picker (full alphabetical index) ──────────────────────────── -->
+<ion-popover
+  class="rdr-roots-popover"
+  [isOpen]="rootsPickerOpen()"
+  [event]="rootsPickerEvent"
+  (didDismiss)="closeRootsPicker()"
+  alignment="end"
+  side="bottom"
+  size="auto"
+>
+  <ng-template>
+    <div class="rdr-picker" dir="rtl">
+      <header class="rdr-picker__head">
+        <span class="rdr-picker__title">فهرس الجذور</span>
+        <span class="rdr-picker__count">{{ rootList().length | number }} جذرًا</span>
+      </header>
+      @if (rootsLoading()) {
+        <p class="rdr-muted">جارٍ التحميل…</p>
+      } @else if (rootList().length === 0) {
+        <p class="rdr-muted">لا توجد جذور.</p>
+      } @else {
+        <ion-accordion-group class="rdr-picker__group" [multiple]="false" [value]="(currentRoot()[0]) || ''">
+          @for (entry of rootsByLetter(); track entry[0]) {
+            <ion-accordion [value]="entry[0]">
+              <ion-item slot="header">
+                <ion-label class="rdr-letter">
+                  <span class="rdr-letter__char" dir="rtl">{{ entry[0] }}</span>
+                  <span class="rdr-letter__count">{{ entry[1].length }}</span>
+                </ion-label>
+              </ion-item>
+              <div slot="content" class="rdr-roots">
+                @for (r of entry[1]; track r.root_norm) {
+                  <button class="rdr-root"
+                          [class.active]="r.root_norm === currentRoot()"
+                          (click)="selectRoot(r.root_norm)" type="button">
+                    <span class="rdr-root__ar rdr-selectable" dir="rtl">{{ r.root_text || r.root_norm }}</span>
+                    @if (r.page_no) {
+                      <span class="rdr-root__page">ص {{ r.page_no }}</span>
+                    }
+                    <button class="rdr-root__copy" type="button"
+                            (click)="copyRoot($event, r)"
+                            aria-label="نسخ الجذر">
+                      <ion-icon name="copy-outline"></ion-icon>
+                    </button>
+                  </button>
+                }
+              </div>
+            </ion-accordion>
+          }
+        </ion-accordion-group>
+      }
+    </div>
+  </ng-template>
+</ion-popover>
 
 <!-- ── Content ───────────────────────────────────────────────────────── -->
 <ion-content class="rdr-content" [fullscreen]="false">
 
-  @if (loading()) {
-    <div class="rdr-skel" dir="rtl">
-      <div class="rdr-skel__heading"></div>
-      <div class="rdr-skel__line"></div>
-      <div class="rdr-skel__line"></div>
-      <div class="rdr-skel__line rdr-skel__line--short"></div>
-    </div>
-  } @else if (error()) {
-    <ion-card class="rdr-error" dir="rtl">
-      <ion-card-content>
-        <p>⚠ {{ error() }}</p>
-        <ion-button fill="outline" size="small" (click)="selectRoot(currentRoot())">إعادة المحاولة</ion-button>
-      </ion-card-content>
-    </ion-card>
-  }
+  <!-- Live search results overlay — shown when the user is typing. -->
+  @if (rootSearch().trim()) {
+    <section class="rdr-pane rdr-pane--search" dir="rtl">
+      <header class="rdr-search-head">
+        <span class="rdr-search-head__label">نتائج البحث</span>
+        <span class="rdr-search-head__count">
+          {{ searchResultsTotal() | number }} نتيجة
+        </span>
+      </header>
+      @if (searchResultsTotal() === 0) {
+        <p class="rdr-muted">لا توجد جذور مطابقة.</p>
+      } @else {
+        <ul class="rdr-search-list">
+          @for (r of searchResults(); track r.root_norm) {
+            <li class="rdr-search-row">
+              <button class="rdr-search-row__main"
+                      type="button"
+                      (click)="selectRoot(r.root_norm)">
+                <span class="rdr-search-row__ar rdr-selectable" dir="rtl">{{ r.root_text || r.root_norm }}</span>
+                @if (r.page_no) {
+                  <span class="rdr-search-row__page">ص {{ r.page_no }}</span>
+                }
+              </button>
+              <button class="rdr-search-row__copy"
+                      type="button"
+                      (click)="copyRoot($event, r)"
+                      aria-label="نسخ الجذر">
+                <ion-icon name="copy-outline"></ion-icon>
+              </button>
+            </li>
+          }
+        </ul>
+        @if (searchResultsTotal() > searchResults().length) {
+          <p class="rdr-muted rdr-muted--small">
+            تظهر أول {{ searchResults().length }} نتيجة فقط — تابع الكتابة لتضييق البحث.
+          </p>
+        }
+      }
+    </section>
+  } @else {
 
-  <!-- ── Tab: المحتوى ─────────────────────────────────────────────── -->
-  @if (tab() === 'content' && !loading() && !error()) {
+    @if (loading()) {
+      <div class="rdr-skel" dir="rtl">
+        <div class="rdr-skel__heading"></div>
+        <div class="rdr-skel__line"></div>
+        <div class="rdr-skel__line"></div>
+        <div class="rdr-skel__line rdr-skel__line--short"></div>
+      </div>
+    } @else if (error()) {
+      <ion-card class="rdr-error" dir="rtl">
+        <ion-card-content>
+          <p>⚠ {{ error() }}</p>
+          <ion-button fill="outline" size="small" (click)="selectRoot(currentRoot())">إعادة المحاولة</ion-button>
+        </ion-card-content>
+      </ion-card>
+    } @else {
+
     <section #content class="rdr-pane rdr-pane--content" dir="rtl">
 
       <!-- Entry head -->
       <header class="rdr-entry-head">
-        @switch (kind()) {
-          @case ('lane')      { <h2 class="rdr-entry-head__title" dir="rtl">{{ laneView()?.entry?.root_text }}</h2> }
-          @case ('classical') { <h2 class="rdr-entry-head__title" dir="rtl">{{ classicalView()?.entry?.root_text }}</h2> }
-          @case ('mufradat')  { <h2 class="rdr-entry-head__title" dir="rtl">{{ mufradatView()?.entry?.root_text }}</h2> }
-          @case ('scholarship'){ <h2 class="rdr-entry-head__title" dir="rtl">{{ scholarshipView()?.notes?.[0]?.root_text || scholarshipView()?.root_norm }}</h2> }
-        }
+        <div class="rdr-entry-head__row">
+          @switch (kind()) {
+            @case ('lane')      { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ laneView()?.entry?.root_text }}</h2> }
+            @case ('classical') { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ classicalView()?.entry?.root_text }}</h2> }
+            @case ('mufradat')  { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ mufradatView()?.entry?.root_text }}</h2> }
+            @case ('scholarship'){ <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ scholarshipView()?.notes?.[0]?.root_text || scholarshipView()?.root_norm }}</h2> }
+          }
+          <button class="rdr-entry-head__copy"
+                  type="button"
+                  (click)="copyRoot($event, { root_norm: currentRoot(), root_text: laneView()?.entry?.root_text ?? classicalView()?.entry?.root_text ?? mufradatView()?.entry?.root_text ?? null })"
+                  aria-label="نسخ الجذر">
+            <ion-icon name="copy-outline"></ion-icon>
+          </button>
+        </div>
         <p class="rdr-entry-head__stats">{{ statsLine() }}</p>
+        <div class="rdr-entry-head__nav">
+          <ion-button fill="clear" size="small" (click)="prevRoot()" [disabled]="currentRootIndex() <= 0" aria-label="السابق">
+            <ion-icon name="chevron-down-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" (click)="nextRoot()" [disabled]="currentRootIndex() >= rootList().length - 1" aria-label="التالي">
+            <ion-icon name="chevron-up-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
       </header>
 
       <!-- ── Lane render ───────────────────────────────────────────── -->
       @if (kind() === 'lane' && laneView(); as lv) {
-        <article class="rdr-lane" dir="ltr">
+        <article class="rdr-lane rdr-selectable" dir="ltr">
           @for (form of lv.forms; track form.section_id) {
             <section class="rdr-lane__form">
               <header class="rdr-lane__form-head" dir="rtl">
@@ -117,7 +228,7 @@
 
       <!-- ── Classical (V2) render ─────────────────────────────────── -->
       @if (kind() === 'classical' && classicalView(); as cv) {
-        <article class="rdr-classical" dir="rtl">
+        <article class="rdr-classical rdr-selectable" dir="rtl">
           @for (s of cv.sections; track s.id) {
             <section class="rdr-section">
               @if (s.heading_ar) {
@@ -151,7 +262,7 @@
 
       <!-- ── Mufradat render ──────────────────────────────────────── -->
       @if (kind() === 'mufradat' && mufradatView(); as mv) {
-        <article class="rdr-mufradat" dir="rtl">
+        <article class="rdr-mufradat rdr-selectable" dir="rtl">
           @for (s of mv.sections; track s.id) {
             <section class="rdr-section">
               @if (s.heading_ar) {
@@ -234,7 +345,7 @@
 
       <!-- ── Scholarship render ───────────────────────────────────── -->
       @if (kind() === 'scholarship' && scholarshipView(); as sv) {
-        <article class="rdr-scholarship" dir="rtl">
+        <article class="rdr-scholarship rdr-selectable" dir="rtl">
           @if (sv.source) {
             <header class="rdr-scholarship__head">
               <span class="rdr-genre-badge" [attr.data-genre]="sv.source.genre">{{ sv.source.genre_label.ar }}</span>
@@ -265,95 +376,8 @@
         </article>
       }
     </section>
-  }
 
-  <!-- ── Tab: الجذور ─────────────────────────────────────────────── -->
-  @if (tab() === 'roots') {
-    <section class="rdr-pane rdr-pane--roots" dir="rtl">
-      <ion-searchbar
-        class="rdr-search"
-        [value]="rootSearch()"
-        (ionInput)="rootSearch.set($any($event.detail.value) ?? '')"
-        placeholder="ابحث عن جذر…"
-        mode="md"
-      ></ion-searchbar>
-
-      @if (rootsLoading()) {
-        <p class="rdr-muted">جارٍ التحميل…</p>
-      } @else if (filteredRoots().length === 0) {
-        <p class="rdr-muted">لا توجد جذور.</p>
-      } @else {
-        <ion-accordion-group [multiple]="false" [value]="(currentRoot()[0]) || ''">
-          @for (entry of rootsByLetter(); track entry[0]) {
-            <ion-accordion [value]="entry[0]">
-              <ion-item slot="header">
-                <ion-label class="rdr-letter">
-                  <span class="rdr-letter__char" dir="rtl">{{ entry[0] }}</span>
-                  <span class="rdr-letter__count">{{ entry[1].length }}</span>
-                </ion-label>
-              </ion-item>
-              <div slot="content" class="rdr-roots">
-                @for (r of entry[1]; track r.root_norm) {
-                  <button class="rdr-root"
-                          [class.active]="r.root_norm === currentRoot()"
-                          (click)="selectRoot(r.root_norm)" type="button">
-                    <span class="rdr-root__ar" dir="rtl">{{ r.root_text || r.root_norm }}</span>
-                    @if (r.page_no) {
-                      <span class="rdr-root__page">ص {{ r.page_no }}</span>
-                    }
-                  </button>
-                }
-              </div>
-            </ion-accordion>
-          }
-        </ion-accordion-group>
-      }
-    </section>
-  }
-
-  <!-- ── Tab: المصدر ─────────────────────────────────────────────── -->
-  @if (tab() === 'source' && meta(); as m) {
-    <section class="rdr-pane rdr-pane--source" dir="rtl">
-      <ion-card class="rdr-source-card" [attr.data-genre]="m.genre">
-        <ion-card-header>
-          <ion-card-title class="rdr-source-card__title">{{ m.title_ar }}</ion-card-title>
-          @if (m.title_en && m.title_en !== m.title_ar) {
-            <ion-card-subtitle class="rdr-source-card__subtitle" dir="ltr">{{ m.title_en }}</ion-card-subtitle>
-          }
-        </ion-card-header>
-        <ion-card-content>
-          <dl class="rdr-meta">
-            <div class="rdr-meta__row">
-              <dt>المؤلف</dt>
-              <dd>{{ m.author }}</dd>
-            </div>
-            @if (m.year) {
-              <div class="rdr-meta__row">
-                <dt>السنة</dt>
-                <dd>{{ m.year }}</dd>
-              </div>
-            } @else if (m.period) {
-              <div class="rdr-meta__row">
-                <dt>العصر</dt>
-                <dd>{{ m.period }}</dd>
-              </div>
-            }
-            @if (m.genre_ar) {
-              <div class="rdr-meta__row">
-                <dt>النوع</dt>
-                <dd>
-                  <span class="rdr-genre-badge" [attr.data-genre]="m.genre">{{ m.genre_ar }}</span>
-                </dd>
-              </div>
-            }
-            <div class="rdr-meta__row">
-              <dt>عدد الجذور</dt>
-              <dd>{{ rootList().length | number }}</dd>
-            </div>
-          </dl>
-        </ion-card-content>
-      </ion-card>
-    </section>
+    }
   }
 
 </ion-content>

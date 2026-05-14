@@ -6,16 +6,17 @@
 //   • Mufradat al-Raghib    (ketabonline_al_raghib_*) → getMufradatRead
 //   • Academic scholarship  (aljallad_… and future)   → getScholarshipBySource
 //
-// Layout mirrors the desktop reader shells, but uses Ionic primitives:
-// double ion-toolbar header (title row + segmented tabs), ion-content,
-// ion-list for the root index, ion-fab for quick prev/next.
+// Layout: a single header toolbar (back arrow · book title · roots-picker icon)
+// with an always-visible Ionic searchbar underneath for word/root lookup
+// inside the open source. The full alphabetical roots index is reached via
+// the title-bar icon (ion-popover). Entry text is selectable for copy.
 
 import {
   ChangeDetectionStrategy, Component, DestroyRef, ElementRef, ViewChild,
-  computed, effect, inject, signal,
+  computed, inject, signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -29,7 +30,6 @@ import {
 } from '../../../../shared/services/al-dictionary-api.service';
 
 export type SourceKind = 'lane' | 'classical' | 'mufradat' | 'scholarship';
-type ReaderTab = 'content' | 'roots' | 'source';
 
 const CLASSICAL_LEXICON_SLUGS = new Set<string>([
   'ketabonline_ibn_manzur_lisan_al_arab',
@@ -83,12 +83,16 @@ export class LexiconReaderPageComponent {
   private readonly route      = inject(ActivatedRoute);
   private readonly router     = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly toastCtrl  = inject(ToastController);
 
   // ── Routing state
   readonly slug        = signal<string>('');
   readonly currentRoot = signal<string>('');
-  readonly tab         = signal<ReaderTab>('content');
   readonly rootSearch  = signal<string>('');
+
+  // ── Roots-picker popover state
+  readonly rootsPickerOpen = signal(false);
+  rootsPickerEvent: Event | null = null;
 
   // ── Loading / error
   readonly loading = signal(false);
@@ -140,7 +144,7 @@ export class LexiconReaderPageComponent {
       period: '', year: null, genre_ar: null, genre: null };
   });
 
-  // Unified root list for the Roots tab (display shape).
+  // Unified root list for the index (display shape).
   readonly rootList = computed<{ root_norm: string; root_text: string | null; page_no: number | null }[]>(() => {
     if (this.kind() === 'scholarship') {
       return this.scholarshipRoots().map(r => ({
@@ -161,11 +165,20 @@ export class LexiconReaderPageComponent {
     );
   });
 
+  // Trimmed result set for the inline search dropdown — keeps the DOM small
+  // when scanning through Lane's 37 K roots.
+  readonly searchResults = computed(() =>
+    this.rootSearch().trim() ? this.filteredRoots().slice(0, 80) : [],
+  );
+  readonly searchResultsTotal = computed(() =>
+    this.rootSearch().trim() ? this.filteredRoots().length : 0,
+  );
+
   // Grouped by letter for the index (small alphabetical accordion). Roots
   // are sorted by root_norm so each letter has a contiguous block.
   readonly rootsByLetter = computed(() => {
     const out = new Map<string, { root_norm: string; root_text: string | null; page_no: number | null }[]>();
-    for (const r of this.filteredRoots()) {
+    for (const r of this.rootList()) {
       const letter = (r.root_norm ?? '?')[0] ?? '?';
       const arr = out.get(letter) ?? [];
       arr.push(r);
@@ -186,13 +199,11 @@ export class LexiconReaderPageComponent {
       .subscribe(([params, query]) => {
         const slug = (params.get('slug') ?? '').trim();
         const root = (query.get('root') ?? '').trim();
-        const tab  = (query.get('tab') as ReaderTab | null) ?? 'content';
 
         if (!slug) return;
 
         const slugChanged = slug !== this.slug();
         this.slug.set(slug);
-        this.tab.set(tab);
 
         if (slugChanged) {
           // Reset all per-kind payloads and re-fetch roots for this source.
@@ -202,15 +213,13 @@ export class LexiconReaderPageComponent {
           this.scholarshipView.set(null);
           this.v2Roots.set([]);
           this.scholarshipRoots.set([]);
+          this.rootSearch.set('');
           this.loadRoots(slug);
         }
 
         if (root) {
           this.currentRoot.set(root);
           this.loadEntry(slug, root);
-        } else if (!this.currentRoot()) {
-          // No root in URL — pick the first root once the roots list lands.
-          // The roots-load callback will call selectRoot on the first row.
         }
       });
   }
@@ -278,21 +287,12 @@ export class LexiconReaderPageComponent {
   selectRoot(root_norm: string, replaceUrl = false): void {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { root: root_norm, tab: 'content' },
+      queryParams: { root: root_norm },
       queryParamsHandling: 'merge',
       replaceUrl,
     });
-    this.tab.set('content');
-  }
-
-  setTab(t: ReaderTab): void {
-    this.tab.set(t);
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { tab: t },
-      queryParamsHandling: 'merge',
-      replaceUrl: true,
-    });
+    this.rootSearch.set('');
+    this.rootsPickerOpen.set(false);
   }
 
   prevRoot(): void {
@@ -317,6 +317,38 @@ export class LexiconReaderPageComponent {
     this.router.navigate(['/quran/al-quran'], {
       queryParams: { surah, startingVerse: ayah },
     });
+  }
+
+  // ── Roots picker
+  openRootsPicker(ev: Event): void {
+    this.rootsPickerEvent = ev;
+    this.rootsPickerOpen.set(true);
+  }
+  closeRootsPicker(): void {
+    this.rootsPickerOpen.set(false);
+  }
+
+  // Copy a root's text (Arabic glyphs preferred) to the clipboard.
+  async copyRoot(ev: Event, root: { root_norm: string; root_text: string | null }): Promise<void> {
+    ev.stopPropagation();
+    const text = (root.root_text ?? root.root_norm).trim();
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      const t = await this.toastCtrl.create({
+        message: `تم نسخ «${text}»`,
+        duration: 1200,
+        position: 'bottom',
+        cssClass: 'rdr-toast',
+      });
+      await t.present();
+    } catch {
+      // Clipboard API may be unavailable (e.g. insecure contexts). Fail silently.
+    }
+  }
+
+  clearSearch(): void {
+    this.rootSearch.set('');
   }
 
   // ── Body segmentation for inline "Q s:a" references (Mufradat / V2 /
