@@ -496,16 +496,32 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
 
       const style = doc.createElement('style');
       style.id = styleId;
+      // `font-display: block` makes the browser wait up to 3s for the QPC
+      // font instead of `swap`-falling through to Hafs/Amiri. QPC pages use
+      // Private Use Area codepoints with NO fallback equivalent — without
+      // block we get a FOUT where verse markers render but word glyphs are
+      // blank (the .notdef rectangle in PUA falls through every fallback).
       style.textContent = `
 @font-face {
   font-family: 'QPCV2Page${page}';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
   src: url('/assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2'),
        url('https://static-cdn.tarteel.ai/qul/fonts/quran_fonts/v2/woff2/p${page}.woff2?v=3.1') format('woff2');
 }`;
       doc.head.appendChild(style);
+
+      // Declaring @font-face alone doesn't trigger a fetch — that only
+      // happens lazily on first glyph use. Force the network request now
+      // so by the time the page is painted (or swiped into view) the font
+      // is already in the FontFaceSet. Failures are silent; the fallback
+      // chain in `mushafFont()` still tries Hafs/Amiri.
+      if (doc.fonts?.load) {
+        // Sample char is irrelevant for PUA fonts — the load is keyed by
+        // the family name. Use 'ا' since every Quran page contains it.
+        void doc.fonts.load(`16px "QPCV2Page${page}"`, 'ا').catch(() => undefined);
+      }
     }
   }
 

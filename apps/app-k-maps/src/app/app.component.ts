@@ -222,12 +222,17 @@ export class AppComponent {
       if (document.getElementById(styleId)) return;
       const style = document.createElement('style');
       style.id = styleId;
+      // `font-display: block` — QPC pages use Private Use Area codepoints
+      // that have no fallback glyph. With `swap`, the browser tries Hafs/
+      // Amiri while QPC loads, finds no glyph, and renders the .notdef
+      // box → the user sees a blank page with only verse markers. `block`
+      // delays paint for up to 3s waiting for the real font.
       style.textContent = `
 @font-face {
   font-family: 'QPCV2Page${page}';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
   src: url('/assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2'),
        url('https://static-cdn.tarteel.ai/qul/fonts/quran_fonts/v2/woff2/p${page}.woff2?v=3.1') format('woff2');
 }`;
