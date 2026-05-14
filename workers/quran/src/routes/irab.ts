@@ -38,7 +38,8 @@ export function irabRoutes(router: Router<QuranEnv>) {
 
   // GET /qr/irab/book-entries?surah=X[&ayah=Y][&source_slug=S][&limit=N][&page=N]
   // Returns irab entries for a surah, joined with qr_ayah.text_uthmani for verse-by-verse display.
-  router.get('/qr/irab/book-entries', async (req, env) => {
+  // Edge-cached per query string — entries only change on ingest.
+  router.get('/qr/irab/book-entries', (req, env) => cached(req, async () => {
     const url   = new URL(req.url);
     const surah = parseInt(url.searchParams.get('surah') ?? '');
     const ayah  = parseInt(url.searchParams.get('ayah')  ?? '');
@@ -94,5 +95,5 @@ export function irabRoutes(router: Router<QuranEnv>) {
       per_page: limit,
       has_more: offset + dataRes.results.length < total,
     });
-  });
+  }));
 }

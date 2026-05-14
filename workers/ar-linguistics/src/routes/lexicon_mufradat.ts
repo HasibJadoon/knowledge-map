@@ -25,6 +25,7 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, badRequest } from '../../../shared/src/response';
+import { cached } from '../../../shared/src/cache';
 import type { ArLinguisticsEnv } from '../env';
 import { normalizeSurahName } from '../data/surah_names';
 
@@ -104,9 +105,10 @@ interface MufradatReadView {
 // ── Public route ─────────────────────────────────────────────────────────────
 
 export function lexiconMufradatRoutes(router: Router<ArLinguisticsEnv>) {
+  // Edge-cached per (root) — Mufradat entries are immutable post-ingest.
   router.get(
     `/al/lex/v2/read/${SOURCE_SLUG}/:root_norm`,
-    async (_req, env, params) => {
+    (req, env, params) => cached(req, async () => {
       const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
       if (!root_norm) return badRequest('root_norm required');
 
@@ -144,7 +146,7 @@ export function lexiconMufradatRoutes(router: Router<ArLinguisticsEnv>) {
 
       const view = composeView(entry, sectionsRaw, blocks, canonical);
       return ok(view);
-    },
+    }),
   );
 }
 

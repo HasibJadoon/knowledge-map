@@ -185,7 +185,10 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
   }));
 
   // ── GET /al/lex/v2/roots?source=&prefix=&page=&limit= ────────────────────
-  router.get('/al/lex/v2/roots', async (req, env) => {
+  // Edge-cached per (source, prefix, page, limit) query — the root index
+  // for big lexicons (Lisan ~9K rows) is requested every time the user
+  // opens a book and only changes on ingest.
+  router.get('/al/lex/v2/roots', (req, env) => cached(req, async () => {
     const url = new URL(req.url);
     const source = url.searchParams.get('source');
     const prefix = (url.searchParams.get('prefix') ?? '').trim();
@@ -215,10 +218,10 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
     ).bind(...binds, limit, offset).all()).results ?? [];
 
     return ok({ rows, total, page, limit, has_more: offset + rows.length < total });
-  });
+  }));
 
   // ── GET /al/lex/v2/roots/:root_norm — multi-source compare ───────────────
-  router.get('/al/lex/v2/roots/:root_norm', async (_req, env, params) => {
+  router.get('/al/lex/v2/roots/:root_norm', (req, env, params) => cached(req, async () => {
     const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
     if (!root_norm) return badRequest('root_norm required');
 
@@ -264,10 +267,13 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
         };
       }),
     });
-  });
+  }));
 
   // ── GET /al/lex/v2/entry/:source_slug/:root_norm — full block tree ────────
-  router.get('/al/lex/v2/entry/:source_slug/:root_norm', async (_req, env, params) => {
+  // This is the heaviest read in the system — a full entry can be 100s of KB
+  // of blocks + sections + refs + links + tags + footnotes. Edge-cached per
+  // (slug, root) so navigating between roots and re-opening books is instant.
+  router.get('/al/lex/v2/entry/:source_slug/:root_norm', (req, env, params) => cached(req, async () => {
     const slug = params.source_slug ?? '';
     const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
     if (!slug || !root_norm) return badRequest('slug + root_norm required');
@@ -386,7 +392,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
         footnotes: footnotes.length,
       },
     });
-  });
+  }));
 
   // ── GET /al/lex/v2/search?q=&mode=root|word|fts&sources=&limit= ─────────
   router.get('/al/lex/v2/search', async (req, env) => {

@@ -70,7 +70,8 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
 
   // GET /qr/tafsir?surah=X[&ayah=Y][&work_id=Z][&limit=N][&page=N]
   // Returns tafsir entries joined with qr_ayah.text_uthmani for verse-by-verse display.
-  router.get('/qr/tafsir', async (req, env) => {
+  // Edge-cached per query string — entries only change on ingest.
+  router.get('/qr/tafsir', (req, env) => cached(req, async () => {
     const url    = new URL(req.url);
     const surah  = parseInt(url.searchParams.get('surah') ?? '');
     const ayah   = parseInt(url.searchParams.get('ayah')  ?? '');
@@ -156,7 +157,7 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
     }));
 
     return ok({ rows: enriched, total, page, per_page: limit, has_more: offset + rows.length < total });
-  });
+  }));
 
   // GET /qr/tafsir/by-ids?ids=id1,id2,...
   // Batch-fetch specific qr_tafsir_entries rows by ID.

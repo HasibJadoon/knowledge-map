@@ -20,6 +20,7 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, badRequest } from '../../../shared/src/response';
+import { cached } from '../../../shared/src/cache';
 import type { ArLinguisticsEnv } from '../env';
 
 const SOURCE_SLUG = 'lane_lexicon';
@@ -139,9 +140,10 @@ interface LaneReadView {
 // ── Public route ─────────────────────────────────────────────────────────────
 
 export function lexiconLaneRoutes(router: Router<ArLinguisticsEnv>) {
+  // Edge-cached per (root) — Lane entries are immutable post-ingest.
   router.get(
     `/al/lex/v2/read/${SOURCE_SLUG}/:root_norm`,
-    async (_req, env, params) => {
+    (req, env, params) => cached(req, async () => {
       const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
       if (!root_norm) return badRequest('root_norm required');
 
@@ -208,7 +210,7 @@ export function lexiconLaneRoutes(router: Router<ArLinguisticsEnv>) {
       const view = composeView(entry, sectionsRaw, blocks, quranRefs,
                                authorityLinks, rootLinks, canonical);
       return ok(view);
-    },
+    }),
   );
 }
 

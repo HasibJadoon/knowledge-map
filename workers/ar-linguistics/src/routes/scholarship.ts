@@ -152,7 +152,7 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
   // ── GET /al/scholarship/roots/:slug ─────────────────────────────────
   // Root index for a single scholarship source — used by the shell's
   // left-rail to let the reader navigate all roots in that source.
-  router.get('/al/scholarship/roots/:slug', async (_req, env, params) => {
+  router.get('/al/scholarship/roots/:slug', (req, env, params) => cached(req, async () => {
     const slug = decodeURIComponent(params.slug ?? '').trim();
     if (!slug) return badRequest('slug required');
 
@@ -165,11 +165,11 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
     ).bind(slug).all<{ root_norm: string; root_text: string | null; page_no: number | null; n: number }>()).results ?? [];
 
     return ok({ slug, rows, total: rows.length });
-  });
+  }));
 
   // ── GET /al/scholarship/by-source/:slug/:root_norm ──────────────────
   // All notes for a (source, root) pair — the shell's main panel.
-  router.get('/al/scholarship/by-source/:slug/:root_norm', async (_req, env, params) => {
+  router.get('/al/scholarship/by-source/:slug/:root_norm', (req, env, params) => cached(req, async () => {
     const slug = decodeURIComponent(params.slug ?? '').trim();
     const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
     if (!slug || !root_norm) return badRequest('slug and root_norm required');
@@ -214,7 +214,7 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
     }));
 
     return ok({ slug, root_norm, source, notes, total: notes.length });
-  });
+  }));
 
   // ── GET /al/scholarship/root/:root_norm ─────────────────────────────
   // All academic notes for a given root, with source metadata expanded.
