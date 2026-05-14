@@ -30,10 +30,20 @@ jobs:
 
       - name: Deploy app to Cloudflare Pages
         run: |
+          # Cloudflare's Pages API rejects commit messages that contain
+          # certain Unicode glyphs even though they're valid UTF-8 (box-
+          # drawing chars `─`, certain dashes, etc.). Wrangler auto-attaches
+          # the git commit message and the rejection fails the whole deploy.
+          # Sanitize: strip everything outside basic ASCII + Latin-1.
+          SAFE_MSG=$(git log -1 --pretty=%s | LC_ALL=C tr -d -c '\11\12\15\40-\176' | head -c 240)
+          [ -z "$SAFE_MSG" ] && SAFE_MSG="Deploy $(git rev-parse --short HEAD)"
+          echo "Sanitized commit message: $SAFE_MSG"
           for i in 1 2 3; do
             npx wrangler@4.66.0 pages deploy ${{ github.workspace }}/apps/k-maps/dist/k-maps/browser \
               --project-name k-maps \
-              --branch main && exit 0
+              --branch main \
+              --commit-message "$SAFE_MSG" \
+              --commit-hash "$(git rev-parse HEAD)" && exit 0
             echo "Deploy attempt $i failed. Retrying in 15s..."
             sleep 15
           done

@@ -27,8 +27,18 @@ jobs:
 
       - name: Deploy to Cloudflare Pages
         run: |
+          # Sanitize commit message — Cloudflare's API rejects some valid
+          # UTF-8 glyphs (box-drawing chars, certain dashes) with
+          # "Invalid commit message" errors. Restrict to ASCII printables.
+          SAFE_MSG=$(git log -1 --pretty=%s | LC_ALL=C tr -d -c '\11\12\15\40-\176' | head -c 240)
+          [ -z "$SAFE_MSG" ] && SAFE_MSG="Deploy $(git rev-parse --short HEAD)"
+          echo "Sanitized commit message: $SAFE_MSG"
           for i in 1 2 3; do
-            npx wrangler@4.66.0 pages deploy apps/app-k-maps/www --project-name app-k-maps --branch main && exit 0
+            npx wrangler@4.66.0 pages deploy apps/app-k-maps/www \
+              --project-name app-k-maps \
+              --branch main \
+              --commit-message "$SAFE_MSG" \
+              --commit-hash "$(git rev-parse HEAD)" && exit 0
             echo "Deploy attempt $i failed. Retrying in 15s..."
             sleep 15
           done
