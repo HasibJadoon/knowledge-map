@@ -1,9 +1,9 @@
 <!-- ── Header ─────────────────────────────────────────────────────────── -->
 <ion-header class="rdr-header">
   <ion-toolbar class="rdr-toolbar" dir="rtl">
-    <ion-buttons slot="start">
+    <ion-buttons slot="end">
       <ion-button (click)="goBack()" aria-label="الرجوع">
-        <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+        <ion-icon name="chevron-back-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
     @if (meta(); as m) {
@@ -16,7 +16,7 @@
         }
       </ion-title>
     }
-    <ion-buttons slot="end">
+    <ion-buttons slot="start">
       <ion-button (click)="openRootsPicker($event)" aria-label="فهرس الجذور">
         <ion-icon name="library-outline" slot="icon-only"></ion-icon>
       </ion-button>
