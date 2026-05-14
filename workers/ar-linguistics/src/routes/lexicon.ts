@@ -450,7 +450,17 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
   // Excludes article-genre sources (e.g. Al-Jallad's archaeological
   // hermeneutic notes), which live in `ar_ling_root_scholarship` and are
   // surfaced via `/al/scholarship/*` instead.
-  router.get('/al/lexicon/dict/sources', async (_req, env) => {
+  //
+  // Heavy aggregate (full scan + COUNT DISTINCT over millions of chunk
+  // rows) that previously took 600-800ms per cold call. The data only
+  // changes on ingest, so the response is edge-cached for 10 minutes
+  // via the Workers Cache API. Cache key = full request URL.
+  router.get('/al/lexicon/dict/sources', async (req, env) => {
+    const cache = (caches as unknown as { default: Cache }).default;
+    const cacheKey = new Request(req.url, { method: 'GET' });
+    const hit = await cache.match(cacheKey);
+    if (hit) return hit;
+
     const { results } = await env.DB_AL
       .prepare(`
         SELECT c.source_slug,
@@ -475,7 +485,16 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
       roots:    r.roots,
       embedded: r.embedded,
     }));
-    return ok({ sources, total: sources.length });
+    const response = ok({ sources, total: sources.length }, {
+      headers: {
+        // Browser cache 1 min; Cloudflare edge cache 10 min.
+        'Cache-Control': 'public, max-age=60, s-maxage=600',
+      },
+    });
+    // Clone before putting — once consumed, the original body would be
+    // unreadable for the actual client.
+    await cache.put(cacheKey, response.clone());
+    return response;
   });
 
   // GET /al/lexicon/dict/root/:rootText
