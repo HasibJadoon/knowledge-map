@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, ElementRef, ViewChild,
+  ChangeDetectionStrategy, Component, DestroyRef, ElementRef, ViewChild,
   inject, signal, OnInit, computed, effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -45,6 +45,7 @@ export class LexiconPageComponent implements OnInit {
   private readonly route        = inject(ActivatedRoute);
   private readonly searchSvc    = inject(QuranResearchSearchService);
   private readonly readingState = inject(ReadingStateService);
+  private readonly destroyRef   = inject(DestroyRef);
 
   readonly lastReadLexicon = computed(() => {
     const last = this.readingState.last()['lexicon'];
@@ -254,14 +255,17 @@ export class LexiconPageComponent implements OnInit {
 
     // A word-tap in the Quran reader navigates here with ?root=X — pick
     // up that param and pre-fill the search so the user sees relevant
-    // matches immediately.
-    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe(params => {
-      const root = (params.get('root') ?? '').trim();
-      if (root && root !== this.searchSvc.searchTerm()) {
-        this.setSearch(root);
-        queueMicrotask(() => this.searchInputRef?.nativeElement.focus());
-      }
-    });
+    // matches immediately. Pass DestroyRef explicitly so it can be
+    // called outside an injection context (ngOnInit isn't one).
+    this.route.queryParamMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(params => {
+        const root = (params.get('root') ?? '').trim();
+        if (root && root !== this.searchSvc.searchTerm()) {
+          this.setSearch(root);
+          queueMicrotask(() => this.searchInputRef?.nativeElement.focus());
+        }
+      });
   }
 
 
