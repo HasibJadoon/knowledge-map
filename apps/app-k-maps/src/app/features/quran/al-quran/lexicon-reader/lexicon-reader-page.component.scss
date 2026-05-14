@@ -19,19 +19,22 @@
   --ion-toolbar-color:      var(--ink);
   --ion-background-color:   #000;
 
-  // Lexicon font stack — browser picks per-glyph from this list:
-  //   1. Uthmanic Hafs    — primary Arabic letters (matches Quran reader).
-  //   2. Noto Naskh Arabic — covers classical Arabic letterforms HAFS lacks
-  //                          AND the geometric-symbol markers (◉ ◌ ⊙)
-  //                          used as separators in classical lexicon
-  //                          source text. Self-hosted in two unicode-range
-  //                          subsets (Arabic + Symbols), see global.scss.
-  //   3. Scheherazade / Amiri / sans-serif — final fallbacks.
+  // Lexicon font stack — Noto Naskh Arabic FIRST.
+  //
+  // Why not Uthmanic Hafs: Hafs is a Quran-only font. It contains no
+  // glyphs for Arabic punctuation (U+060C comma, U+061B semicolon, U+061F
+  // question mark) because the Quran uses verse markers (۝) instead.
+  // Classical lexicons like al-Qamus al-Muhit are comma-heavy, so every
+  // comma rendered as a broken-glyph dotted circle. Hafs is reserved for
+  // the Quran reader where it belongs.
+  //
+  // Noto Naskh Arabic is a proper general-purpose Naskh: full Arabic +
+  // punctuation + geometric symbols (self-hosted in two unicode-range
+  // subsets — Arabic + Symbols — see global.scss).
   --rdr-font-arabic:
-    'Uthmanic Hafs',
     'Noto Naskh Arabic',
-    'Scheherazade New',
     'Amiri',
+    'Scheherazade New',
     sans-serif;
 
   // Override the app-wide UI variable so every element that reads
