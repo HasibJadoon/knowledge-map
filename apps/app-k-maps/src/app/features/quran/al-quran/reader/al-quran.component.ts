@@ -61,6 +61,34 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly toastCtrl = inject(ToastController);
   private readonly loadedPageFonts = new Set<number>();
 
+  /**
+   * Per-page font-readiness. The page template gates real-text rendering
+   * on this signal — when a page's font isn't yet in the FontFaceSet we
+   * paint a skeleton instead of broken text. A hard 5-second fallback
+   * forces the page visible even if the font load stalled so users
+   * never get stuck on a permanent skeleton.
+   */
+  readonly fontReadyPages = signal<ReadonlySet<number>>(new Set());
+
+  /** Test helper for the template — `@if (isPageFontReady(N))`. */
+  isPageFontReady(page: number): boolean {
+    return this.fontReadyPages().has(page);
+  }
+
+  /** Skeleton placeholder data — 15 lines per mushaf page is canonical. */
+  readonly skeletonLines = Array.from({ length: 15 }, (_, i) => i);
+
+  /** Per-line width for the skeleton bars. Mimics justified-Arabic line
+   *  variation: most lines fill, every few "ayah-end" lines are slightly
+   *  shorter so the eye gets the right rhythm during the wait. */
+  skeletonWidthFor(i: number): string {
+    // Slight variation around 92-100%
+    const widths = ['100%', '98%', '96%', '100%', '94%', '100%',
+                    '99%', '100%', '92%', '100%', '97%', '100%',
+                    '95%', '100%', '88%'];
+    return widths[i % widths.length] ?? '100%';
+  }
+
   /** Forward scroll events to the shared immersive service so the shell's
    *  tab bar hides on scroll-down and reappears on scroll-up. */
   onContentScroll(ev: CustomEvent<{ scrollTop: number }>): void {
@@ -288,6 +316,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     if (page) this.syncActiveReferenceFromPage(page);
 
     void this.preloadPages(target);
+    this.prefetchNeighbours(target);
   }
 
   private async loadInitialPages(): Promise<void> {
@@ -326,6 +355,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.animateLoadedPages(true);
     void this.readerContent?.scrollToTop(0);
+    this.prefetchNeighbours(startPage);
   }
 
   private async preloadPages(aroundPage: number): Promise<void> {
@@ -492,16 +522,17 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loadedPageFonts.add(page);
 
       const styleId = `qpc-v2-page-font-${page}`;
-      if (doc.getElementById(styleId)) continue;
-
-      const style = doc.createElement('style');
-      style.id = styleId;
-      // `font-display: block` makes the browser wait up to 3s for the QPC
-      // font instead of `swap`-falling through to Hafs/Amiri. QPC pages use
-      // Private Use Area codepoints with NO fallback equivalent — without
-      // block we get a FOUT where verse markers render but word glyphs are
-      // blank (the .notdef rectangle in PUA falls through every fallback).
-      style.textContent = `
+      if (!doc.getElementById(styleId)) {
+        const style = doc.createElement('style');
+        style.id = styleId;
+        // `font-display: block` makes the browser wait up to 3s for the QPC
+        // font instead of `swap`-falling through to Hafs/Amiri. QPC pages
+        // use Private Use Area codepoints with NO fallback equivalent —
+        // without block we get a FOUT where verse markers render but word
+        // glyphs are blank. Combined with the Layer-1 readiness signal
+        // below, the user actually sees a skeleton during the wait so
+        // there's no "broken page" window.
+        style.textContent = `
 @font-face {
   font-family: 'QPCV2Page${page}';
   font-style: normal;
@@ -510,19 +541,75 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   src: url('/assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2'),
        url('https://static-cdn.tarteel.ai/qul/fonts/quran_fonts/v2/woff2/p${page}.woff2?v=3.1') format('woff2');
 }`;
-      doc.head.appendChild(style);
+        doc.head.appendChild(style);
+      }
 
-      // Declaring @font-face alone doesn't trigger a fetch — that only
-      // happens lazily on first glyph use. Force the network request now
-      // so by the time the page is painted (or swiped into view) the font
-      // is already in the FontFaceSet. Failures are silent; the fallback
-      // chain in `mushafFont()` still tries Hafs/Amiri.
+      // Eager-fetch via FontFaceSet and flip the per-page readiness signal
+      // when the font finishes loading. The template gates real-text
+      // rendering on this signal — until it's true we paint a skeleton.
+      // Race with a 5-second timeout so a stalled fetch can't trap the
+      // page on the skeleton forever (the user can still read fallback
+      // glyphs from Hafs at the cost of cosmetics).
       if (doc.fonts?.load) {
-        // Sample char is irrelevant for PUA fonts — the load is keyed by
-        // the family name. Use 'ا' since every Quran page contains it.
-        void doc.fonts.load(`16px "QPCV2Page${page}"`, 'ا').catch(() => undefined);
+        const fontLoad = doc.fonts.load(`16px "QPCV2Page${page}"`, 'ا');
+        const timeout = new Promise<void>(r => setTimeout(r, 5000));
+        Promise.race([fontLoad.then(() => undefined), timeout]).then(() => {
+          this.fontReadyPages.update(set => {
+            if (set.has(page)) return set;
+            const next = new Set(set);
+            next.add(page);
+            return next;
+          });
+        }).catch(() => undefined);
+      } else {
+        // No FontFaceSet API support — best-effort flip immediately so
+        // the page still paints (with whatever fallback the browser picks).
+        this.fontReadyPages.update(set => {
+          const next = new Set(set);
+          next.add(page);
+          return next;
+        });
       }
     }
+  }
+
+  /**
+   * Layer 3: predictive prefetch. After landing on page N, schedule a
+   * background fetch of pages N±3 via the service worker (if available)
+   * or via plain font-load fallback. Forward direction is the common
+   * swipe direction so we bias slightly toward N+1..N+3.
+   */
+  private prefetchNeighbours(page: number): void {
+    const targets: number[] = [];
+    for (let d = 1; d <= 3; d++) {
+      if (page + d <= LAST_PAGE)  targets.push(page + d);
+      if (page - d >= FIRST_PAGE) targets.push(page - d);
+    }
+    if (!targets.length) return;
+
+    const fn = (cb: () => void) => {
+      const ric = (window as unknown as { requestIdleCallback?: (cb: () => void) => void })
+        .requestIdleCallback;
+      if (typeof ric === 'function') ric(cb);
+      else setTimeout(cb, 800);
+    };
+
+    fn(() => {
+      // Inject @font-face declarations so the font becomes resolvable in
+      // CSS the moment the user swipes onto the page. This also kicks the
+      // browser into requesting the woff2 (where the service worker — if
+      // active — intercepts and serves from cache).
+      this.ensureQpcFonts(targets);
+
+      // Belt-and-braces: also explicitly post a SW prefetch message so
+      // the cache is warmed even if the browser hasn't issued the font
+      // network request yet (idle FontFaceSet behavior is implementation-
+      // defined).
+      try {
+        const sw = navigator.serviceWorker?.controller;
+        if (sw) sw.postMessage({ type: 'prefetch-pages', pages: targets });
+      } catch { /* SW unavailable — fine */ }
+    });
   }
 
   /** Cached once, so we don't re-query for every page-batch animation. */

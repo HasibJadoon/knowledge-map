@@ -66,6 +66,8 @@ export class AppComponent {
     this.applyFontSettings();
     this.applyLanguage();
     this.preloadArabicFonts();
+    this.registerMushafServiceWorker();
+    this.warmCommonMushafPages();
     addIcons({
       homeOutline,
       bookOutline,
@@ -202,6 +204,75 @@ export class AppComponent {
     // means by the time the user opens the قرآن tab, the font is
     // already cached and the first paint is instant.
     this.preloadFirstMushafPage();
+  }
+
+  /**
+   * Register the mushaf service worker so QPC font files (and mushaf page
+   * payloads) are cached permanently on-device. After first visit to any
+   * page, its assets are available offline and load instantly. The Quran
+   * is immutable so the cache never goes stale.
+   */
+  private registerMushafServiceWorker(): void {
+    if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) return;
+    // Defer registration until the page is idle so we don't compete with
+    // the initial paint. The Quran reader has a hard-timeout fallback
+    // (~5s) for pages whose font isn't ready, so a few seconds of SW
+    // startup latency is harmless.
+    const reg = () => {
+      navigator.serviceWorker.register('/mushaf-sw.js', { scope: '/' })
+        .catch(err => console.warn('[mushaf-sw] registration failed', err));
+    };
+    if (document.readyState === 'complete') {
+      this.runWhenIdle(reg);
+    } else {
+      window.addEventListener('load', () => this.runWhenIdle(reg), { once: true });
+    }
+  }
+
+  /**
+   * Layer 4: bulk-warm a small set of pages that users hit frequently:
+   * page 1-3 (Fatiha + start of Baqarah), the last 3 pages (final juz —
+   * common in memorization), and last-read ±3 (the most likely next read).
+   *
+   * Total payload is ~25 × 80 KB ≈ 2 MB on first ever boot. After that,
+   * the service worker has them all cached and this is a no-op.
+   */
+  private warmCommonMushafPages(): void {
+    if (typeof navigator === 'undefined') return;
+    this.runWhenIdle(async () => {
+      // Wait for the SW to be controlling the page before posting.
+      const ready = await navigator.serviceWorker?.ready.catch(() => null);
+      if (!ready?.active) return;
+      const pages = new Set<number>();
+      // Fatiha + start of Baqarah
+      [1, 2, 3].forEach(p => pages.add(p));
+      // Final juz — common in memorization (juz 30 ≈ pages 582-604)
+      for (let p = 582; p <= 604; p++) pages.add(p);
+      // Last-read ±3, if any
+      try {
+        const stored = localStorage.getItem('kmaps.reading.last.v1');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          const lastQuran = parsed?.['al-quran'];
+          if (lastQuran && typeof lastQuran.page === 'number') {
+            for (let d = -3; d <= 3; d++) {
+              const p = lastQuran.page + d;
+              if (p >= 1 && p <= 604) pages.add(p);
+            }
+          }
+        }
+      } catch { /* localStorage may throw in private mode */ }
+
+      ready.active.postMessage({ type: 'prefetch-pages', pages: [...pages] });
+    });
+  }
+
+  /** Schedule callback for browser idle time, falling back to setTimeout. */
+  private runWhenIdle(fn: () => void): void {
+    const ric = (window as unknown as { requestIdleCallback?: (cb: () => void) => void })
+      .requestIdleCallback;
+    if (typeof ric === 'function') ric(fn);
+    else setTimeout(fn, 1500);
   }
 
   private preloadFirstMushafPage(): void {

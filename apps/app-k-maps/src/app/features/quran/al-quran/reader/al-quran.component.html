@@ -33,43 +33,57 @@
           <main class="mushaf-reader">
             <article
               class="mushaf-page"
+              [class.mushaf-page--font-loading]="!isPageFontReady(page.page.number)"
               [attr.id]="'quran-page-' + page.page.number"
               [style.--mushaf-font]="mushafFont(page.page.number)"
             >
-              <div class="mushaf-page__lines" dir="rtl">
-                @for (line of page.layout_lines; track trackLine($index, line)) {
-                  @switch (line.line_type) {
-                    @case ('surah_name') {
-                      <div class="mushaf-line mushaf-line--surah" [class.mushaf-line--centered]="line.is_centered">
-                        {{ line.text }}
-                      </div>
-                    }
-                    @case ('basmallah') {
-                      <div class="mushaf-line mushaf-line--basmallah" [class.mushaf-line--centered]="line.is_centered">
-                        {{ line.text }}
-                      </div>
-                    }
-                    @default {
-                      <div class="mushaf-line mushaf-line--ayah" [class.mushaf-line--centered]="line.is_centered">
-                        @for (ayah of line.ayahs; track trackAyah($index, ayah)) {
-                          <span class="ayah-segment" [attr.data-ref]="ayah.verse_key">
-                            @for (word of ayah.words; track trackWord($index, word)) {
-                              <span class="quran-word"
-                                    role="button"
-                                    tabindex="0"
-                                    [attr.aria-label]="word.text + ' — ' + word.surah + ':' + word.ayah"
-                                    (click)="openWordPopover($event, word)">{{ word.text }}</span>
-                            }
-                            @if (ayah.marker) {
-                              <span class="verse-marker" [attr.aria-label]="'Verse ' + ayah.ayah">{{ ayah.marker }}</span>
-                            }
-                          </span>
-                        }
-                      </div>
+              @if (isPageFontReady(page.page.number)) {
+                <div class="mushaf-page__lines" dir="rtl">
+                  @for (line of page.layout_lines; track trackLine($index, line)) {
+                    @switch (line.line_type) {
+                      @case ('surah_name') {
+                        <div class="mushaf-line mushaf-line--surah" [class.mushaf-line--centered]="line.is_centered">
+                          {{ line.text }}
+                        </div>
+                      }
+                      @case ('basmallah') {
+                        <div class="mushaf-line mushaf-line--basmallah" [class.mushaf-line--centered]="line.is_centered">
+                          {{ line.text }}
+                        </div>
+                      }
+                      @default {
+                        <div class="mushaf-line mushaf-line--ayah" [class.mushaf-line--centered]="line.is_centered">
+                          @for (ayah of line.ayahs; track trackAyah($index, ayah)) {
+                            <span class="ayah-segment" [attr.data-ref]="ayah.verse_key">
+                              @for (word of ayah.words; track trackWord($index, word)) {
+                                <span class="quran-word"
+                                      role="button"
+                                      tabindex="0"
+                                      [attr.aria-label]="word.text + ' — ' + word.surah + ':' + word.ayah"
+                                      (click)="openWordPopover($event, word)">{{ word.text }}</span>
+                              }
+                              @if (ayah.marker) {
+                                <span class="verse-marker" [attr.aria-label]="'Verse ' + ayah.ayah">{{ ayah.marker }}</span>
+                              }
+                            </span>
+                          }
+                        </div>
+                      }
                     }
                   }
-                }
-              </div>
+                </div>
+              } @else {
+                <!-- Skeleton: same vertical rhythm as the real page so the
+                     swap is layout-stable. 15 lines covers every mushaf
+                     page. The per-line width variation matches the
+                     justified-Arabic rivers users expect to see. -->
+                <div class="mushaf-page__lines mushaf-page__lines--skeleton" dir="rtl" aria-hidden="true">
+                  @for (i of skeletonLines; track i) {
+                    <div class="mushaf-line mushaf-line--skel"
+                         [style.--skel-width]="skeletonWidthFor(i)"></div>
+                  }
+                </div>
+              }
 
               <footer class="mushaf-page__footer" aria-label="Page number">
                 <span class="mushaf-page__divider"></span>

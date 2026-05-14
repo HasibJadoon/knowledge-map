@@ -166,6 +166,55 @@
   overflow: visible;
 }
 
+// ── Skeleton placeholder ─────────────────────────────────────────────
+// Rendered when a page's QPC font isn't yet loaded. Subtle gold-tinted
+// shimmer bars in the same vertical rhythm as the real mushaf so the
+// swap from skeleton → real text is layout-stable (no flash, no jump).
+.mushaf-page__lines--skeleton {
+  // Match the mushaf reading rhythm so when the real text fades in
+  // there's no perceptible reflow.
+  padding-block: 0.3rem;
+}
+
+.mushaf-line--skel {
+  width: var(--skel-width, 100%);
+  height: 1.4em;             // matches mushaf line-height visually
+  margin: 0 auto 0.55rem;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    rgba(201, 168, 76, 0.06) 0%,
+    rgba(201, 168, 76, 0.18) 50%,
+    rgba(201, 168, 76, 0.06) 100%,
+  );
+  background-size: 200% 100%;
+  animation: mushaf-skel-shimmer 1.6s ease-in-out infinite;
+  opacity: 0.85;
+}
+
+@keyframes mushaf-skel-shimmer {
+  0%   { background-position:  100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+// Smooth swap: when the page exits font-loading state, fade the real
+// lines in over 220ms so the transition reads as intentional polish.
+.mushaf-page {
+  &.mushaf-page--font-loading .mushaf-page__lines--skeleton { opacity: 1; }
+  &:not(.mushaf-page--font-loading) .mushaf-page__lines {
+    animation: mushaf-text-fade-in 0.22s ease-out;
+  }
+}
+@keyframes mushaf-text-fade-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mushaf-line--skel { animation: none; }
+  .mushaf-page:not(.mushaf-page--font-loading) .mushaf-page__lines { animation: none; }
+}
+
 .mushaf-line--ayah {
   font-size: clamp(0.98rem, 3.8vw, 1.55rem);
   line-height: 1.82;

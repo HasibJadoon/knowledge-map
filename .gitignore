@@ -71,6 +71,8 @@ Thumbs.db
 *.log
 logs/
 *.js
+# Allow checked-in JS files that ship as static assets (service workers etc.)
+!apps/app-k-maps/src/mushaf-sw.js
 tmp/
 
 # Angular cache
