@@ -91,7 +91,7 @@
         <p class="qrs-search-empty">لا توجد نتائج.</p>
       }
 
-      @if (readerHeader.visible() && currentTab() === 'al-quran') {
+      @if (readerHeader.visible() && currentTab() === 'reader') {
         <div class="qrs-modal-divider"></div>
         <div class="qrs-reader-controls" aria-label="Quran navigation" dir="rtl">
           <ion-item class="qrs-reader-control" lines="none">
@@ -154,9 +154,9 @@
       <ion-tab-button
         class="qrs-tab"
         [tab]="tab.id"
-        [href]="tab.href"
         layout="icon-top"
         [attr.aria-label]="tab.labelAr"
+        (click)="onTabClick(tab, $event)"
       >
         <ion-icon [name]="tab.icon" aria-hidden="true" />
         <ion-label class="qrs-tab__arabic" lang="ar" dir="rtl">{{ tab.labelAr }}</ion-label>

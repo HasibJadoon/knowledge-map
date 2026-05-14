@@ -1,4 +1,29 @@
-import { Routes } from '@angular/router';
+import type { Routes, UrlMatcher, UrlSegment } from '@angular/router';
+
+// ── Legacy numeric-surah matchers (hoisted so the routes table can ref them) ──
+// The Quran-routes used to end with `{ path: ':surahId', redirectTo:
+// 'sura/:surahId' }` to support `/quran/{number}` shortcuts. Bare `:surahId`
+// also matches non-numeric segments like `al-quran`, which sent the tab-bar's
+// "go to قرآن" navigation into a redirect → catch-all → /home loop. Restrict
+// the match to 1-3 digit numeric strings (Quran has 114 surahs).
+const isNumericSurah = (s: UrlSegment): boolean =>
+  /^[1-9]\d{0,2}$/.test(s.path);
+
+const legacySurahIdMatcher: UrlMatcher = (segments) => {
+  if (segments.length !== 1) return null;
+  if (!isNumericSurah(segments[0])) return null;
+  return { consumed: segments, posParams: { surahId: segments[0] } };
+};
+
+const legacySurahIdPassageMatcher: UrlMatcher = (segments) => {
+  if (segments.length !== 3) return null;
+  if (!isNumericSurah(segments[0])) return null;
+  if (segments[1].path !== 'passage') return null;
+  return {
+    consumed: segments,
+    posParams: { surahId: segments[0], passageIndex: segments[2] },
+  };
+};
 
 export const QURAN_ROUTES: Routes = [
   // Landing
@@ -17,9 +42,14 @@ export const QURAN_ROUTES: Routes = [
         m => m.QuranResearcherShellComponent,
       ),
     children: [
+      // Reader gets a real `reader` child path so the tab-button
+      // `tab="reader"` matches a concrete segment. With an empty-path
+      // child IonicRouteStrategy + lazy loadComponent can't traverse
+      // back to the parent reliably and the router falls through to
+      // the app-level catch-all (`/home`).
+      { path: '', pathMatch: 'full', redirectTo: 'reader' },
       {
-        path: '',
-        pathMatch: 'full',
+        path: 'reader',
         loadComponent: () =>
           import('./al-quran/reader/al-quran.component').then(m => m.AlQuranComponent),
       },
@@ -202,6 +232,11 @@ export const QURAN_ROUTES: Routes = [
   { path: 'surah/:surahId/review', redirectTo: 'sura/:surahId/review', pathMatch: 'full' },
   { path: 'surah/:surahId/srs', redirectTo: 'sura/:surahId/srs', pathMatch: 'full' },
   { path: 'surah/:surahId', redirectTo: 'sura/:surahId', pathMatch: 'full' },
-  { path: ':surahId/passage/:passageIndex', redirectTo: 'sura/:surahId/passage/:passageIndex', pathMatch: 'full' },
-  { path: ':surahId', redirectTo: 'sura/:surahId', pathMatch: 'full' },
+  // Legacy `/quran/{number}` and `/quran/{number}/passage/{N}` shortcuts.
+  // Custom matchers reject non-numeric segments so they don't catch
+  // `al-quran` (the researcher shell). See `isNumericSurah` above.
+  { matcher: legacySurahIdPassageMatcher,
+    redirectTo: 'sura/:surahId/passage/:passageIndex', pathMatch: 'full' },
+  { matcher: legacySurahIdMatcher,
+    redirectTo: 'sura/:surahId', pathMatch: 'full' },
 ];

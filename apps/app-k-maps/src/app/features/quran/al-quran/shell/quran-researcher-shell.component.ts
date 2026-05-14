@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { QuranResearchSearchService, SearchPreview, SearchTab } from '../quran-research-search.service';
 import { QuranReaderHeaderService } from '../reader/quran-reader-header.service';
@@ -26,23 +26,26 @@ interface ResearchTab {
 })
 export class QuranResearcherShellComponent implements OnDestroy {
   private readonly router = inject(Router);
+  private readonly navCtrl = inject(NavController);
   private readonly routerEventsSub: Subscription;
 
   readonly search = inject(QuranResearchSearchService);
   readonly readerHeader = inject(QuranReaderHeaderService);
   readonly immersive = inject(ImmersiveService);
-  readonly currentTab = signal('al-quran');
+  readonly currentTab = signal('reader');
   readonly panelOpen = signal(false);
   // Pages that own a full-bleed header (book name + back arrow) hide the
   // shared K-MAPS title bar so we don't render two stacked headers.
   readonly hideShellHeader = signal(false);
 
+  // `id` matches both Ionic's `tab` attribute AND the child route path,
+  // so IonicRouteStrategy can correctly map the URL ↔ tab state.
   readonly tabs: ResearchTab[] = [
-    { id: 'al-quran', labelAr: 'قرآن',  href: '/quran/al-quran',          icon: 'book-outline' },
-    { id: 'tafseer',  labelAr: 'تفسير', href: '/quran/al-quran/tafseer',  icon: 'reader-outline' },
-    { id: 'uloom',    labelAr: 'علوم',  href: '/quran/al-quran/uloom',    icon: 'school-outline' },
-    { id: 'lexicon',  labelAr: 'معجم',  href: '/quran/al-quran/lexicon',  icon: 'library-outline' },
-    { id: 'notes',    labelAr: 'حواشي', href: '/quran/al-quran/notes',    icon: 'bookmark-outline' },
+    { id: 'reader',  labelAr: 'قرآن',  href: '/quran/al-quran/reader',   icon: 'book-outline' },
+    { id: 'tafseer', labelAr: 'تفسير', href: '/quran/al-quran/tafseer',  icon: 'reader-outline' },
+    { id: 'uloom',   labelAr: 'علوم',  href: '/quran/al-quran/uloom',    icon: 'school-outline' },
+    { id: 'lexicon', labelAr: 'معجم',  href: '/quran/al-quran/lexicon',  icon: 'library-outline' },
+    { id: 'notes',   labelAr: 'حواشي', href: '/quran/al-quran/notes',    icon: 'bookmark-outline' },
   ];
 
   constructor() {
@@ -125,6 +128,30 @@ export class QuranResearcherShellComponent implements OnDestroy {
     }
   }
 
+  /** Tab-button click handler. We can't rely on Ionic's automatic
+   *  routing via `[href]` because the Quran reader's child route uses
+   *  `path: ''` (so `tab="al-quran"` doesn't match a child segment) —
+   *  Ionic falls back to anchor navigation, which trips the app-level
+   *  catch-all `{ path: '**', redirectTo: 'home' }` and lands the user
+   *  on /home instead of the requested tab. Explicit router.navigateByUrl
+   *  bypasses that. */
+  onTabClick(tab: ResearchTab, event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.currentTab() === tab.id && this.router.url.startsWith(tab.href)) {
+      // Already on this tab — pop to its root (back out of a deep page
+      // like the lexicon reader to the catalog) instead of being a no-op.
+      void this.navCtrl.navigateRoot(tab.href, { animated: false });
+      return;
+    }
+    this.currentTab.set(tab.id);
+    void hapticTick();
+    // NavController keeps the IonicRouteStrategy in sync when switching
+    // tabs; plain `router.navigateByUrl` from inside an already-mounted
+    // shell can fall through to the app-level wildcard (`/home`).
+    void this.navCtrl.navigateRoot(tab.href, { animated: false });
+  }
+
   ngOnDestroy(): void {
     this.routerEventsSub.unsubscribe();
   }
@@ -133,7 +160,7 @@ export class QuranResearcherShellComponent implements OnDestroy {
     const path = url.split('?')[0];
     // Match longest href first so '/quran/al-quran/tafseer' beats '/quran/al-quran'
     const match = this.tabs.slice().reverse().find((tab) => path.startsWith(tab.href));
-    this.currentTab.set(match?.id ?? 'al-quran');
+    this.currentTab.set(match?.id ?? 'reader');
     // The lexicon reader and the library list both show their own toolbar —
     // hide the shared K-MAPS header to avoid stacking two.
     this.hideShellHeader.set(/\/lexicon\/(?:read\/|books)/.test(path));
