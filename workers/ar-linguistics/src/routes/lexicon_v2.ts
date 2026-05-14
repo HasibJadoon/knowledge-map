@@ -297,23 +297,35 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
        ORDER BY block_seq`
     ).bind(slug, root_norm).all()).results ?? [];
 
-    const block_ids = blocks.map((b: any) => b.id);
-    const links = block_ids.length
+    // D1 caps bound parameters at ~100 per prepared statement. For dense
+    // root entries (e.g. Lisan al-Arab's index for the letter `ا`, which
+    // can have thousands of blocks) the old IN-list approach blew past
+    // that limit and crashed the handler — surfacing as a 500. Use a
+    // correlated subquery that re-derives the block set from
+    // (source_slug, root_norm) so we bind only those two params again.
+    const links = blocks.length
       ? (await env.DB_AL.prepare(
           `SELECT id, from_block_id, link_kind, to_root_norm, to_surah,
                   to_ayah, to_ayah_to, to_block_id, to_url, label, weight,
                   position_offset
            FROM ar_ling_lexicon_block_links
-           WHERE source_slug = ? AND from_block_id IN (${block_ids.map(() => '?').join(',')})`
-        ).bind(slug, ...block_ids).all()).results ?? []
+           WHERE source_slug = ?
+             AND from_block_id IN (
+               SELECT id FROM ar_ling_lexicon_blocks
+               WHERE source_slug = ? AND root_norm = ?
+             )`
+        ).bind(slug, slug, root_norm).all()).results ?? []
       : [];
 
-    const tags = block_ids.length
+    const tags = blocks.length
       ? (await env.DB_AL.prepare(
           `SELECT block_id, tag, source, weight
            FROM ar_ling_lexicon_block_tags
-           WHERE block_id IN (${block_ids.map(() => '?').join(',')})`
-        ).bind(...block_ids).all()).results ?? []
+           WHERE block_id IN (
+             SELECT id FROM ar_ling_lexicon_blocks
+             WHERE source_slug = ? AND root_norm = ?
+           )`
+        ).bind(slug, root_norm).all()).results ?? []
       : [];
 
     const quran_refs = (await env.DB_AL.prepare(
