@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, inject, signal } from '@
 import { NavigationEnd, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { QuranResearchSearchService } from '../quran-research-search.service';
+import { QuranResearchSearchService, SearchPreview, SearchTab } from '../quran-research-search.service';
 import { QuranReaderHeaderService } from '../reader/quran-reader-header.service';
 import { ImmersiveService } from '../immersive.service';
 import { hapticTick } from '../../../../shared/utils/haptics.util';
@@ -63,6 +63,43 @@ export class QuranResearcherShellComponent implements OnDestroy {
   closePanel(): void {
     this.panelOpen.set(false);
     this.search.setSearch('');
+    this.search.clearMatches();
+  }
+
+  /** Icon for a tab pill in the cross-tab results panel. */
+  tabIconFor(tab: SearchTab): string {
+    switch (tab) {
+      case 'tafseer': return 'reader-outline';
+      case 'uloom':   return 'school-outline';
+      case 'lexicon': return 'library-outline';
+    }
+  }
+
+  /** Resume directly into a result without leaving the modal context.
+   *  Closes the panel, then runs the hit's stored resume callback (which
+   *  was registered by the source tab's broadcast effect). */
+  openHit(tab: SearchTab, hit: SearchPreview): void {
+    void hapticTick();
+    // Switch to the tab first if we're not already there.
+    if (this.currentTab() !== tab) {
+      const t = this.tabs.find(x => x.id === tab);
+      if (t) void this.router.navigateByUrl(t.href);
+    }
+    // Run the resume callback after navigation settles so the target
+    // tab's component is alive.
+    queueMicrotask(() => {
+      try { hit.resume(); } catch { /* swallow */ }
+      this.panelOpen.set(false);
+    });
+  }
+
+  /** "View all N results" → just switch to the tab; the tab will already
+   *  have the filter applied because the search term is shared. */
+  jumpToTab(tab: SearchTab): void {
+    void hapticTick();
+    const t = this.tabs.find(x => x.id === tab);
+    if (t) void this.router.navigateByUrl(t.href);
+    this.panelOpen.set(false);
   }
 
   onPanelPresent(): void {

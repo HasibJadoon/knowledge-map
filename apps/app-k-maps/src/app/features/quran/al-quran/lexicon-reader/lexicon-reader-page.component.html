@@ -12,6 +12,12 @@
       </ion-title>
     }
     <ion-buttons slot="start">
+      <ion-button (click)="toggleBookmark()"
+                  [attr.aria-label]="isBookmarked() ? 'إزالة الإشارة' : 'إضافة إشارة'">
+        <ion-icon [name]="isBookmarked() ? 'bookmark' : 'bookmark-outline'"
+                  slot="icon-only"
+                  [class.rdr-bookmark--active]="isBookmarked()"></ion-icon>
+      </ion-button>
       <ion-button (click)="openRootsPicker($event)" aria-label="فهرس الجذور">
         <ion-icon name="library-outline" slot="icon-only"></ion-icon>
       </ion-button>

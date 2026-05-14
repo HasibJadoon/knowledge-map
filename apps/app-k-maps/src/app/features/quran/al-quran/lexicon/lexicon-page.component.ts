@@ -1,10 +1,10 @@
 import {
   ChangeDetectionStrategy, Component, ElementRef, ViewChild,
-  inject, signal, OnInit, computed,
+  inject, signal, OnInit, computed, effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   forkJoin, debounceTime, distinctUntilChanged, Subject, switchMap, of, catchError, map,
 } from 'rxjs';
@@ -13,6 +13,8 @@ import {
   AlDictionaryApiService, AlDictSource, ScholarshipNote,
 } from '../../../../shared/services/al-dictionary-api.service';
 import { QuranResearchSearchService } from '../quran-research-search.service';
+import { ReadingStateService } from '../reading-state.service';
+import { ContinueReadingCardComponent } from '../components/continue-reading-card/continue-reading-card.component';
 
 interface RootMeta {
   text_ar: string;
@@ -30,7 +32,7 @@ interface SourceHit {
 @Component({
   selector: 'app-lexicon-page',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, ContinueReadingCardComponent],
   templateUrl: './lexicon-page.component.html',
   styleUrl: './lexicon-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,7 +42,22 @@ export class LexiconPageComponent implements OnInit {
 
   private readonly api          = inject(AlDictionaryApiService);
   private readonly router       = inject(Router);
+  private readonly route        = inject(ActivatedRoute);
   private readonly searchSvc    = inject(QuranResearchSearchService);
+  private readonly readingState = inject(ReadingStateService);
+
+  readonly lastReadLexicon = computed(() => {
+    const last = this.readingState.last()['lexicon'];
+    return last && last.kind === 'lexicon' ? last : null;
+  });
+
+  resumeLastLexicon(): void {
+    const last = this.lastReadLexicon();
+    if (!last) return;
+    this.router.navigate(['/quran/al-quran/lexicon/read', last.slug], {
+      queryParams: { root: last.root },
+    });
+  }
 
   readonly sources               = signal<AlDictSource[]>([]);
   readonly scholarshipSourceCount = signal(0);
@@ -200,6 +217,24 @@ export class LexiconPageComponent implements OnInit {
 
       this.hitsBySlug.set(hits);
     });
+
+    // Broadcast lexicon match summary to the shell's cross-tab search panel.
+    effect(() => {
+      const term = this.searchSvc.searchTerm().trim();
+      if (!term) { this.searchSvc.setMatch('lexicon', null); return; }
+      const hits = this.hitSources();
+      this.searchSvc.setMatch('lexicon', {
+        tab: 'lexicon',
+        label: 'معجم',
+        count: hits.length,
+        hits: hits.slice(0, 5).map(src => ({
+          id: src.slug,
+          title: src.title_ar,
+          subtitle: src.author ?? null,
+          resume: () => this.openSourceAtRoot(src),
+        })),
+      });
+    });
   }
 
   ngOnInit(): void {
@@ -216,7 +251,19 @@ export class LexiconPageComponent implements OnInit {
     // Pick up any pre-existing search term (shared across tabs).
     const initial = this.searchSvc.searchTerm();
     if (initial) this.search$.next(initial);
+
+    // A word-tap in the Quran reader navigates here with ?root=X — pick
+    // up that param and pre-fill the search so the user sees relevant
+    // matches immediately.
+    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe(params => {
+      const root = (params.get('root') ?? '').trim();
+      if (root && root !== this.searchSvc.searchTerm()) {
+        this.setSearch(root);
+        queueMicrotask(() => this.searchInputRef?.nativeElement.focus());
+      }
+    });
   }
+
 
   // ── Search controls ─────────────────────────────────────────────────
   setSearch(value: string): void {

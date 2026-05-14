@@ -12,7 +12,7 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GestureController, IonicModule, IonContent } from '@ionic/angular';
+import { GestureController, IonicModule, IonContent, PopoverController, ToastController } from '@ionic/angular';
 import type { Gesture } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
@@ -28,6 +28,9 @@ import { QuranResearchSearchService } from '../quran-research-search.service';
 import { QuranReaderHeaderService } from './quran-reader-header.service';
 import { hapticTick } from '../../../../shared/utils/haptics.util';
 import { ImmersiveService } from '../immersive.service';
+import { ReadingStateService } from '../reading-state.service';
+import { WordPopoverComponent } from '../components/word-popover/word-popover.component';
+import { hapticTap } from '../../../../shared/utils/haptics.util';
 
 const FIRST_PAGE = 1;
 const LAST_PAGE = 604;
@@ -53,6 +56,9 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly gestureCtrl = inject(GestureController);
   private readonly host: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly immersive = inject(ImmersiveService);
+  private readonly readingState = inject(ReadingStateService);
+  private readonly popoverCtrl = inject(PopoverController);
+  private readonly toastCtrl = inject(ToastController);
   private readonly loadedPageFonts = new Set<number>();
 
   /** Forward scroll events to the shared immersive service so the shell's
@@ -104,6 +110,16 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
 
+    // Persist last-read position on every page/surah/ayah change. The
+    // landing page reads this to show "Continue reading" cards.
+    effect(() => {
+      if (this.loading() || this.error()) return;
+      const page = this.activePage();
+      const surah = this.activeSurah() || null;
+      const ayah  = this.activeVerse() || null;
+      if (page) this.readingState.setLastAlQuran(page, surah, ayah);
+    });
+
     const search = this.researchSearch;
     if (!search) return;
 
@@ -142,6 +158,44 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
 
   trackWord(_index: number, word: QuranPageWord): string {
     return `${word.surah}:${word.ayah}:${word.position}`;
+  }
+
+  /** Tapping a Quran word opens a morphology popover anchored to the
+   *  glyph. The data (root / lemma / translation) is already present on
+   *  the word from the page payload — no extra fetch needed. */
+  async openWordPopover(event: Event, word: QuranPageWord): Promise<void> {
+    event?.stopPropagation();
+    void hapticTap();
+    const popover = await this.popoverCtrl.create({
+      component: WordPopoverComponent,
+      componentProps: {
+        word,
+        onOpenRoot: (root: string) => {
+          void this.router.navigate(['/quran/al-quran/lexicon'], {
+            queryParams: { root },
+          });
+        },
+        onOpenTafsir: (surah: number, ayah: number) => {
+          void this.router.navigate(['/quran/al-quran/tafseer'], {
+            queryParams: { surah, ayah },
+          });
+        },
+        onCopied: async () => {
+          const t = await this.toastCtrl.create({
+            message: 'تم النسخ',
+            duration: 1200,
+            position: 'top',
+          });
+          await t.present();
+        },
+      },
+      event,
+      reference: 'event',
+      showBackdrop: false,
+      dismissOnSelect: false,
+      cssClass: 'qrs-word-popover',
+    });
+    await popover.present();
   }
 
   mushafFont(page: number): string {

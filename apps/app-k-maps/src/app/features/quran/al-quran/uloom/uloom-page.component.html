@@ -145,6 +145,14 @@
         </div>
       } @else {
         <div class="source-list">
+          @if (lastReadUloom(); as lr) {
+            <km-continue-reading-card
+              icon="school-outline"
+              [headline]="lr.sourceTitleAr"
+              [subtitle]="'سورة ' + lr.surah + ' · آية ' + lr.ayah"
+              [target]="lr"
+              (resume)="resumeLast()" />
+          }
           @for (src of filteredSources(); track src.id) {
             <article class="source-card" (click)="selectSource(src)">
               <div class="source-card__icon" aria-hidden="true">

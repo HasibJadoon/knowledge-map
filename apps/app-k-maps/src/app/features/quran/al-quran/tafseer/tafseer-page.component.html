@@ -140,6 +140,14 @@
         </div>
       } @else {
         <div class="source-list">
+          @if (lastReadTafseer(); as lr) {
+            <km-continue-reading-card
+              icon="reader-outline"
+              [headline]="lr.workTitleAr"
+              [subtitle]="'سورة ' + lr.surah + ' · آية ' + lr.ayah"
+              [target]="lr"
+              (resume)="resumeLast()" />
+          }
           @for (work of filteredWorks(); track work.id) {
             <article class="source-card" (click)="selectWork(work)">
               <div class="source-card__icon" aria-hidden="true">

@@ -54,7 +54,11 @@
                         @for (ayah of line.ayahs; track trackAyah($index, ayah)) {
                           <span class="ayah-segment" [attr.data-ref]="ayah.verse_key">
                             @for (word of ayah.words; track trackWord($index, word)) {
-                              <span class="quran-word">{{ word.text }}</span>
+                              <span class="quran-word"
+                                    role="button"
+                                    tabindex="0"
+                                    [attr.aria-label]="word.text + ' — ' + word.surah + ':' + word.ayah"
+                                    (click)="openWordPopover($event, word)">{{ word.text }}</span>
                             }
                             @if (ayah.marker) {
                               <span class="verse-marker" [attr.aria-label]="'Verse ' + ayah.ayah">{{ ayah.marker }}</span>

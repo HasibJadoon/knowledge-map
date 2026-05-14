@@ -32,6 +32,7 @@ import { BackendApiService } from '../../../../shared/services/backend-api.servi
 import { VerseDisplayComponent } from '../../../../shared/components/verse-display/verse-display.component';
 import { hapticTick, hapticTap } from '../../../../shared/utils/haptics.util';
 import { ImmersiveService } from '../immersive.service';
+import { ReadingStateService } from '../reading-state.service';
 
 interface AyahPreview {
   surah:        number;
@@ -99,6 +100,7 @@ export class LexiconReaderPageComponent implements OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly toastCtrl  = inject(ToastController);
   private readonly immersive  = inject(ImmersiveService);
+  private readonly readingState = inject(ReadingStateService);
 
   /** Drive immersive-mode (auto-hide tab bar) from page scroll. */
   onContentScroll(ev: CustomEvent<{ scrollTop: number }>): void {
@@ -291,6 +293,9 @@ export class LexiconReaderPageComponent implements OnDestroy {
     const finish = () => {
       this.loading.set(false);
       queueMicrotask(() => this.contentRef?.nativeElement.scrollTo({ top: 0 }));
+      // Persist last-read for the lexicon tab whenever an entry resolves.
+      const m = this.meta();
+      this.readingState.setLastLexicon(slug, m?.title_ar ?? null, root_norm);
     };
 
     if (kind === 'lane') {
@@ -343,6 +348,32 @@ export class LexiconReaderPageComponent implements OnDestroy {
     const active = document.activeElement as HTMLElement | null;
     active?.blur?.();
     this.router.navigate(['/quran/al-quran/lexicon/books']);
+  }
+
+  /** Reactive: is the current entry (slug + root) bookmarked? */
+  readonly isBookmarked = computed(() => {
+    const slug = this.slug();
+    const root = this.currentRoot();
+    if (!slug || !root) return false;
+    return this.readingState.bookmarks().some(b =>
+      b.target.kind === 'lexicon' && b.target.slug === slug && b.target.root === root,
+    );
+  });
+
+  toggleBookmark(): void {
+    const slug = this.slug();
+    const root = this.currentRoot();
+    if (!slug || !root) return;
+    const m = this.meta();
+    const label = (m?.title_ar ? m.title_ar + ' · ' : '') + 'جذر ' + root;
+    void hapticTick();
+    this.readingState.toggleBookmark(label, {
+      kind: 'lexicon',
+      slug,
+      bookTitleAr: m?.title_ar ?? null,
+      root,
+      updatedAt: Date.now(),
+    });
   }
 
   // Open the ayah in an inline preview modal. Guards against re-opening

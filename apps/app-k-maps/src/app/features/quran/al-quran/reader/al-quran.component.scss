@@ -210,8 +210,35 @@
   content: ' ';
 }
 
+.quran-word {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 4px;
+  padding: 0 1px;
+  transition: background 0.12s, color 0.12s;
+}
 .quran-word:active {
   color: #d9bd62;
+  background: rgba(217, 189, 98, 0.15);
+}
+@media (hover: hover) {
+  .quran-word:hover {
+    background: rgba(217, 189, 98, 0.08);
+  }
+}
+
+// Word-tap popover — gold-on-black tone matching the shell
+.qrs-word-popover {
+  --background: #0b0a08;
+  --backdrop-opacity: 0.32;
+  --width: min(20rem, 92vw);
+  --offset-y: 6px;
+  &::part(arrow)::after { background: #0b0a08; }
+  &::part(content) {
+    border: 1px solid rgba(232, 201, 106, 0.32);
+    border-radius: 12px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+  }
 }
 
 .verse-marker {

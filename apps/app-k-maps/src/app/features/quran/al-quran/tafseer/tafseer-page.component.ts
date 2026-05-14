@@ -10,6 +10,8 @@ import { QuranResearchSearchService } from '../quran-research-search.service';
 import { QrefPillComponent } from '../../../../shared/components/qref-pill/qref-pill.component';
 import { VerseDisplayComponent } from '../../../../shared/components/verse-display/verse-display.component';
 import { bodySegments, ProseSegment } from '../../../../shared/utils/body-segments.util';
+import { ReadingStateService } from '../reading-state.service';
+import { ContinueReadingCardComponent } from '../components/continue-reading-card/continue-reading-card.component';
 
 interface AyahGroup {
   ayah: number;
@@ -28,17 +30,18 @@ interface AyahPreview {
 @Component({
   selector: 'app-tafseer-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, QrefPillComponent, VerseDisplayComponent],
+  imports: [CommonModule, IonicModule, QrefPillComponent, VerseDisplayComponent, ContinueReadingCardComponent],
   templateUrl: './tafseer-page.component.html',
   styleUrl: './tafseer-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TafseerPageComponent implements OnInit {
-  private readonly api        = inject(QuranResearchApiService);
-  private readonly backend    = inject(BackendApiService);
-  private readonly search     = inject(QuranResearchSearchService);
-  private readonly router     = inject(Router);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly api          = inject(QuranResearchApiService);
+  private readonly backend      = inject(BackendApiService);
+  private readonly search       = inject(QuranResearchSearchService);
+  private readonly router       = inject(Router);
+  private readonly destroyRef   = inject(DestroyRef);
+  private readonly readingState = inject(ReadingStateService);
 
   readonly works          = signal<QrScholarWork[]>([]);
   readonly loading        = signal(true);
@@ -85,12 +88,64 @@ export class TafseerPageComponent implements OnInit {
         error: () => this.entriesLoading.set(false),
       });
     });
+
+    // Persist last-read tafsir position whenever the user navigates to a
+    // verse inside a work. Stays out of the load effect so it fires on
+    // user-driven changes only, not on initial fetch.
+    effect(() => {
+      const work = this.selectedWork();
+      const grp  = this.currentGroup();
+      if (!work || !grp) return;
+      this.readingState.setLastTafseer(work.id, work.title_ar, this.selectedSurah(), grp.ayah);
+    });
+
+    // Broadcast cross-tab match count + previews to the shell's search
+    // modal. Reads the shared search term + our own filtered list.
+    effect(() => {
+      const term = this.search.searchTerm().trim();
+      if (!term) { this.search.setMatch('tafseer', null); return; }
+      const matches = this.filteredWorks();
+      this.search.setMatch('tafseer', {
+        tab: 'tafseer',
+        label: 'تفسير',
+        count: matches.length,
+        hits: matches.slice(0, 5).map(w => ({
+          id: w.id,
+          title: w.title_ar,
+          subtitle: w.scholar_name_ar,
+          resume: () => this.selectWork(w),
+        })),
+      });
+    });
   }
 
   ngOnInit(): void {
     this.api.getWorks('tafsir').subscribe({
       next: res => { this.works.set(res.works); this.loading.set(false); },
       error: () => this.loading.set(false),
+    });
+  }
+
+  /** Expose `last-read` state to the template for the continue-reading card. */
+  readonly lastReadTafseer = computed(() => {
+    const last = this.readingState.last()['tafseer'];
+    return last && last.kind === 'tafseer' ? last : null;
+  });
+
+  /** Resume from a stored last-read tafseer position. Finds the work in
+   *  the loaded list and jumps to its verse. No-op if the work isn't in
+   *  the catalog (e.g., the source was removed). */
+  resumeLast(): void {
+    const last = this.lastReadTafseer();
+    if (!last) return;
+    const work = this.works().find(w => w.id === last.workId);
+    if (!work) return;
+    this.selectedWork.set(work);
+    this.selectedSurah.set(last.surah);
+    // Set the ayah after entries load; effect will populate ayahGroups.
+    queueMicrotask(() => {
+      const i = this.ayahGroups().findIndex(g => g.ayah === last.ayah);
+      if (i >= 0) this.currentAyahIdx.set(i);
     });
   }
 

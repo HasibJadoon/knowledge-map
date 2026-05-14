@@ -56,6 +56,10 @@
   --min-height: 52px;
   ion-button { --color: var(--gold); }
 }
+.rdr-bookmark--active {
+  color: var(--gold);
+  filter: drop-shadow(0 0 4px rgba(232, 201, 106, 0.45));
+}
 // Ionicons' `chevron-back` auto-flips for RTL → ends up pointing right.
 // The reader toolbar is `dir="rtl"`, so undo the flip to keep the back
 // chevron pointing left like a standard Western back button.

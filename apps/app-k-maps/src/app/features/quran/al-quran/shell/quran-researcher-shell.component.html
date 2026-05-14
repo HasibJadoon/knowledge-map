@@ -48,6 +48,49 @@
         (ionInput)="setSearch($event.detail.value)"
       />
 
+      <!-- ── Cross-tab search results panel ────────────────────────── -->
+      @if (search.searchTerm().trim() && search.summary().length > 0) {
+        <div class="qrs-search-results" dir="rtl">
+          <header class="qrs-search-results__head">
+            <span class="qrs-search-results__count">{{ search.totalMatches() }}</span>
+            <span class="qrs-search-results__label">نتيجة في المختبر</span>
+          </header>
+          @for (group of search.summary(); track group.tab) {
+            <section class="qrs-search-group" [attr.data-tab]="group.tab">
+              <header class="qrs-search-group__head">
+                <ion-icon [name]="tabIconFor(group.tab)" aria-hidden="true" />
+                <span class="qrs-search-group__name">{{ group.label }}</span>
+                <span class="qrs-search-group__count">{{ group.count }}</span>
+              </header>
+              <ul class="qrs-search-hits">
+                @for (hit of group.hits; track hit.id) {
+                  <li>
+                    <button class="qrs-search-hit" type="button"
+                            (click)="openHit(group.tab, hit)">
+                      <span class="qrs-search-hit__title">{{ hit.title }}</span>
+                      @if (hit.subtitle) {
+                        <span class="qrs-search-hit__sub">{{ hit.subtitle }}</span>
+                      }
+                    </button>
+                  </li>
+                }
+                @if (group.count > group.hits.length) {
+                  <li>
+                    <button class="qrs-search-hit qrs-search-hit--more"
+                            type="button"
+                            (click)="jumpToTab(group.tab)">
+                      عرض كل النتائج ({{ group.count }})
+                    </button>
+                  </li>
+                }
+              </ul>
+            </section>
+          }
+        </div>
+      } @else if (search.searchTerm().trim()) {
+        <p class="qrs-search-empty">لا توجد نتائج.</p>
+      }
+
       @if (readerHeader.visible() && currentTab() === 'al-quran') {
         <div class="qrs-modal-divider"></div>
         <div class="qrs-reader-controls" aria-label="Quran navigation" dir="rtl">

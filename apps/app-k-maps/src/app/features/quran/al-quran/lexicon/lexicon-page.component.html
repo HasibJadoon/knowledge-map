@@ -1,6 +1,16 @@
 <ion-content class="lx-content" [fullscreen]="false">
   <section class="lx-page" dir="rtl">
 
+    <!-- ── Continue reading (when last-read lexicon entry exists) ───────── -->
+    @if (lastReadLexicon(); as lr) {
+      <km-continue-reading-card
+        icon="library-outline"
+        [headline]="lr.bookTitleAr || lr.slug"
+        [subtitle]="'جذر ' + lr.root"
+        [target]="lr"
+        (resume)="resumeLastLexicon()" />
+    }
+
     <!-- ── Two-card hub: Books (catalog) + Root search ──────────────────── -->
     <div class="lx-hub-grid">
 

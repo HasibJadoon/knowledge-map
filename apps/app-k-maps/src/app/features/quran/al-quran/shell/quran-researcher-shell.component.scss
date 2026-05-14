@@ -314,6 +314,132 @@
   margin: 0 -0.25rem;
 }
 
+// ── Cross-tab search results panel ────────────────────────────────────
+.qrs-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.3rem 0 0.5rem;
+  max-height: 42vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.qrs-search-results__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0 0.15rem 0.25rem;
+}
+.qrs-search-results__count {
+  font-family: 'EB Garamond', 'Times New Roman', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e8c96a;
+}
+.qrs-search-results__label {
+  color: rgba(245, 241, 231, 0.55);
+  font-family: var(--km-font-arabic-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.qrs-search-group {
+  border: 1px solid rgba(232, 201, 106, 0.16);
+  border-radius: 12px;
+  background: linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  overflow: hidden;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.7rem 0.45rem;
+    border-bottom: 1px solid rgba(232, 201, 106, 0.10);
+    background: rgba(232, 201, 106, 0.04);
+    ion-icon { color: #e8c96a; font-size: 1rem; }
+  }
+  &__name {
+    font-family: var(--km-font-arabic-ui);
+    color: #f3d77a;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  &__count {
+    margin-inline-start: auto;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.78rem;
+    color: rgba(232, 201, 106, 0.7);
+    background: rgba(232, 201, 106, 0.10);
+    border: 1px solid rgba(232, 201, 106, 0.24);
+    padding: 0 8px;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Color the tab pill subtly by domain
+  &[data-tab='tafseer'] .qrs-search-group__head { background: rgba(146, 190, 225, 0.06); }
+  &[data-tab='tafseer'] .qrs-search-group__head ion-icon { color: #92bee1; }
+  &[data-tab='uloom']   .qrs-search-group__head { background: rgba(214, 138, 74, 0.06); }
+  &[data-tab='uloom']   .qrs-search-group__head ion-icon { color: #d68a4a; }
+  &[data-tab='lexicon'] .qrs-search-group__head { background: rgba(169, 210, 138, 0.06); }
+  &[data-tab='lexicon'] .qrs-search-group__head ion-icon { color: #a9d28a; }
+}
+
+.qrs-search-hits {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0;
+}
+.qrs-search-hit {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  width: 100%;
+  text-align: start;
+  padding: 0.55rem 0.85rem;
+  color: #f5f1e7;
+  font-family: var(--km-font-arabic-ui);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  transition: background 0.12s;
+  &:active { background: rgba(232, 201, 106, 0.07); }
+
+  &__title {
+    color: #f3d77a;
+    font-size: 0.92rem;
+    font-weight: 500;
+    line-height: 1.35;
+    word-break: break-word;
+  }
+  &__sub {
+    color: rgba(245, 241, 231, 0.5);
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  &--more {
+    text-align: center;
+    color: rgba(232, 201, 106, 0.85);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    padding: 0.6rem 0.85rem;
+    border-top: 1px dashed rgba(232, 201, 106, 0.18);
+    &:active { background: rgba(232, 201, 106, 0.10); }
+  }
+}
+
+.qrs-search-empty {
+  margin: 0.5rem 0;
+  text-align: center;
+  color: rgba(245, 241, 231, 0.42);
+  font-family: var(--km-font-arabic-ui);
+  font-size: 0.86rem;
+}
+
 @media (min-width: 760px) {
   .qrs-reader-controls {
     grid-template-columns: minmax(14rem, 18rem) 6.5rem 6.5rem;

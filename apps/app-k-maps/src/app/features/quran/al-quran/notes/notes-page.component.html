@@ -23,6 +23,11 @@
       <header class="notes-head">
         <h2 class="notes-head__title">الحواشي</h2>
         <span class="notes-head__count">{{ notes.recent().length }}</span>
+        @if (!notes.online()) {
+          <span class="notes-head__offline" title="غير متصل — تبقى الحواشي محفوظة على هذا الجهاز">
+            <ion-icon name="cloud-offline-outline" /> غير متصل
+          </span>
+        }
       </header>
 
       <ion-list class="notes-list" lines="none">
@@ -39,6 +44,11 @@
                     <span class="notes-item__anchor">
                       <ion-icon name="link-outline" />
                       {{ a }}
+                    </span>
+                  }
+                  @if (syncIconFor(n); as si) {
+                    <span class="notes-item__sync" [attr.data-sync]="n.sync" [title]="si.label">
+                      <ion-icon [name]="si.icon" />
                     </span>
                   }
                   <span class="notes-item__when">{{ formatWhen(n.updatedAt) }}</span>

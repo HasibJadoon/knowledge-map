@@ -37,6 +37,18 @@ export class NotesPageComponent {
     }
   }
 
+  /** Sync icon + tooltip for the row badge. Returns null for the default
+   *  'synced' case so the row stays clean once everything is in sync. */
+  syncIconFor(n: ResearchNote): { icon: string; label: string } | null {
+    switch (n.sync ?? 'local') {
+      case 'syncing': return { icon: 'sync-outline', label: 'جارٍ المزامنة' };
+      case 'local':   return { icon: 'cloud-offline-outline', label: 'محفوظ محليًا' };
+      case 'error':   return { icon: 'alert-circle-outline', label: 'تعذّرت المزامنة' };
+      case 'synced':
+      default:        return null;
+    }
+  }
+
   /** Human-readable summary of where the note was captured from. */
   anchorLabel(n: ResearchNote): string | null {
     const a = n.anchor;
