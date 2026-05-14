@@ -7,6 +7,7 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, badRequest } from '../../../shared/src/response';
+import { cached } from '../../../shared/src/cache';
 import type { ArLinguisticsEnv } from '../env';
 
 // Genre → bilingual label. Adding a new genre here surfaces its label in
@@ -121,7 +122,8 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
   // ── GET /al/scholarship/sources ─────────────────────────────────────
   // List all academic sources with at least one root-note. Used by UI
   // to render a separate "Academic readings" catalog.
-  router.get('/al/scholarship/sources', async (_req, env) => {
+  // Edge-cached — counts only change on ingest.
+  router.get('/al/scholarship/sources', (req, env) => cached(req, async () => {
     const rows = (await env.DB_AL.prepare(
       `SELECT source_id,
               MAX(source_slug) AS source_slug,
@@ -145,7 +147,7 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
     });
 
     return ok({ sources, total: sources.length });
-  });
+  }));
 
   // ── GET /al/scholarship/roots/:slug ─────────────────────────────────
   // Root index for a single scholarship source — used by the shell's

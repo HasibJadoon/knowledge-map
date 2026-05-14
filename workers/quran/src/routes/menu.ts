@@ -7,6 +7,7 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, internalError } from '../../../shared/src/response';
+import { cached } from '../../../shared/src/cache';
 import { query, queryOne } from '../../../shared/src/db';
 import type { QuranEnv } from '../env';
 
@@ -54,7 +55,9 @@ export function menuRoutes(router: Router<QuranEnv>) {
    *
    * Response is safe to cache aggressively on the client (Quran text never changes).
    */
-  router.get('/qr/menu', async (_req, env) => {
+  // The Quran is immutable; cache aggressively. Use a 30-minute edge TTL
+  // since this is the most frequently called endpoint in the shell.
+  router.get('/qr/menu', (req, env) => cached(req, async () => {
     try {
       const [surahs, stats] = await Promise.all([
         query<SurahMenuRow>(
@@ -117,5 +120,5 @@ export function menuRoutes(router: Router<QuranEnv>) {
       console.error('[qr/menu]', err);
       return internalError('Failed to load Quran menu');
     }
-  });
+  }, { browser: 300, edge: 1800 }));
 }

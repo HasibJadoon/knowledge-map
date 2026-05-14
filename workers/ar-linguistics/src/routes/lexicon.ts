@@ -15,6 +15,7 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, badRequest, paginated } from '../../../shared/src/response';
+import { cached } from '../../../shared/src/cache';
 import { parsePagination } from '../../../shared/src/validate';
 import type { ArLinguisticsEnv } from '../env';
 import { LexiconRepo } from '../repositories/lexicon.repo';
@@ -455,12 +456,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
   // rows) that previously took 600-800ms per cold call. The data only
   // changes on ingest, so the response is edge-cached for 10 minutes
   // via the Workers Cache API. Cache key = full request URL.
-  router.get('/al/lexicon/dict/sources', async (req, env) => {
-    const cache = (caches as unknown as { default: Cache }).default;
-    const cacheKey = new Request(req.url, { method: 'GET' });
-    const hit = await cache.match(cacheKey);
-    if (hit) return hit;
-
+  router.get('/al/lexicon/dict/sources', (req, env) => cached(req, async () => {
     const { results } = await env.DB_AL
       .prepare(`
         SELECT c.source_slug,
@@ -485,17 +481,8 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
       roots:    r.roots,
       embedded: r.embedded,
     }));
-    const response = ok({ sources, total: sources.length }, {
-      headers: {
-        // Browser cache 1 min; Cloudflare edge cache 10 min.
-        'Cache-Control': 'public, max-age=60, s-maxage=600',
-      },
-    });
-    // Clone before putting — once consumed, the original body would be
-    // unreadable for the actual client.
-    await cache.put(cacheKey, response.clone());
-    return response;
-  });
+    return ok({ sources, total: sources.length });
+  }));
 
   // GET /al/lexicon/dict/root/:rootText
   // All lexicon entries for an Arabic root, grouped by source.

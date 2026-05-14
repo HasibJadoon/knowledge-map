@@ -3,13 +3,16 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, badRequest } from '../../../shared/src/response';
+import { cached } from '../../../shared/src/cache';
 import { parsePagination } from '../../../shared/src/validate';
 import type { QuranEnv } from '../env';
 
 export function irabRoutes(router: Router<QuranEnv>) {
 
   // GET /qr/irab/book-sources — all irab source books with entry counts
-  router.get('/qr/irab/book-sources', async (_req, env) => {
+  // Edge-cached: entry-count aggregate over qr_irab_book_entries is the
+  // long pole here (>1.5s cold). Source list changes only on ingest.
+  router.get('/qr/irab/book-sources', (req, env) => cached(req, async () => {
     const { results } = await env.DB_QR
       .prepare(`
         SELECT s.id, s.source_slug, s.source_title_ar, s.source_title_en,
@@ -31,7 +34,7 @@ export function irabRoutes(router: Router<QuranEnv>) {
         entry_count: number;
       }>();
     return ok({ sources: results });
-  });
+  }));
 
   // GET /qr/irab/book-entries?surah=X[&ayah=Y][&source_slug=S][&limit=N][&page=N]
   // Returns irab entries for a surah, joined with qr_ayah.text_uthmani for verse-by-verse display.

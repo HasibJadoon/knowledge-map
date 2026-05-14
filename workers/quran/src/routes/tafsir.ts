@@ -4,6 +4,7 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, badRequest } from '../../../shared/src/response';
+import { cached } from '../../../shared/src/cache';
 import { parsePagination } from '../../../shared/src/validate';
 import type { QuranEnv } from '../env';
 import { TafsirRepo } from '../repositories/tafsir.repo';
@@ -36,7 +37,9 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
   });
 
   // GET /qr/works?work_type=tafsir|irab — list works joined with scholar info and entry counts
-  router.get('/qr/works', async (req, env) => {
+  // Edge-cached: entry-count aggregate over qr_tafsir_entries (>1M rows) is
+  // the long pole. Works + scholar metadata only change on ingestion.
+  router.get('/qr/works', (req, env) => cached(req, async () => {
     const url = new URL(req.url);
     const workType = url.searchParams.get('work_type');
 
@@ -63,7 +66,7 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
       .bind(...params)
       .all();
     return ok({ works });
-  });
+  }));
 
   // GET /qr/tafsir?surah=X[&ayah=Y][&work_id=Z][&limit=N][&page=N]
   // Returns tafsir entries joined with qr_ayah.text_uthmani for verse-by-verse display.

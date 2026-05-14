@@ -20,6 +20,7 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, badRequest } from '../../../shared/src/response';
+import { cached } from '../../../shared/src/cache';
 import type { ArLinguisticsEnv } from '../env';
 
 // ── Per-source display metadata ───────────────────────────────────────────────
@@ -163,7 +164,8 @@ const SOURCE_ORDER = [
 export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
 
   // ── GET /al/lex/v2/sources ──────────────────────────────────────────────
-  router.get('/al/lex/v2/sources', async (_req, env) => {
+  // Edge-cached: source list + per-source root counts only change on ingest.
+  router.get('/al/lex/v2/sources', (req, env) => cached(req, async () => {
     const rows = (await env.DB_AL.prepare(
       `SELECT source_slug, COUNT(*) AS roots
        FROM ar_ling_lexicon_root_entries
@@ -180,7 +182,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
       }));
 
     return ok({ sources, total: sources.length });
-  });
+  }));
 
   // ── GET /al/lex/v2/roots?source=&prefix=&page=&limit= ────────────────────
   router.get('/al/lex/v2/roots', async (req, env) => {
